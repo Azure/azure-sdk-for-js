@@ -1,0 +1,5 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
+export { createKeyVault, } from "./keyVaultContext.js";
+export { recoverDeletedCertificate, purgeDeletedCertificate, getDeletedCertificate, getDeletedCertificates, restoreCertificate, backupCertificate, mergeCertificate, deleteCertificateOperation, getCertificateOperation, updateCertificateOperation, getCertificate, updateCertificate, updateCertificatePolicy, getCertificatePolicy, getCertificateVersions, importCertificate, createCertificate, deleteCertificateIssuer, getCertificateIssuer, updateCertificateIssuer, setCertificateIssuer, getCertificateIssuers, deleteCertificateContacts, getCertificateContacts, setCertificateContacts, deleteCertificate, getCertificates, } from "./operations.js";
+//# sourceMappingURL=index.js.map

@@ -1,0 +1,1 @@
+{"version":3,"file":"ChangeFeedRetentionTimeSpan.d.ts","sourceRoot":"","sources":["../../../../src/client/ChangeFeed/ChangeFeedRetentionTimeSpan.ts"],"names":[],"mappings":"AAQA,qBAAa,2BAA2B;IACtC,OAAO,CAAC,kBAAkB,CAAS;IAgBnC;;OAEG;IACH,MAAM,CAAC,WAAW,CAAC,OAAO,EAAE,MAAM,GAAG,2BAA2B;CASjE"}

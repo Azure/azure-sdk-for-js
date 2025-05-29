@@ -1,0 +1,1 @@
+{"version":3,"file":"PartitionMetric.d.ts","sourceRoot":"","sources":["../../../src/bulk/PartitionMetric.ts"],"names":[],"mappings":"AAKA;;GAEG;AACH,qBAAa,eAAe;IAC1B,uBAAuB,EAAE,MAAM,CAAC;IAChC,aAAa,EAAE,MAAM,CAAC;IACtB,iBAAiB,EAAE,MAAM,CAAC;IAC1B,OAAO,CAAC,SAAS,CAAsB;;IASvC,GAAG,CAAC,WAAW,EAAE,MAAM,EAAE,aAAa,EAAE,MAAM,EAAE,cAAc,EAAE,MAAM,GAAG,IAAI;CAY9E"}

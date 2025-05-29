@@ -1,0 +1,11 @@
+import type { OperationOptions } from "@azure/core-client";
+import type { DTDL } from "./psuedoDtdl.js";
+/**
+ * Base Interface for Fetchers, which fetch models from endpoints.
+ *
+ * @internal
+ */
+export interface Fetcher {
+    fetch(path: string, options?: OperationOptions): Promise<DTDL | DTDL[]>;
+}
+//# sourceMappingURL=fetcherAbstract.d.ts.map

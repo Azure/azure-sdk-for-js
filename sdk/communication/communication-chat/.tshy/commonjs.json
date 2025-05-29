@@ -1,0 +1,18 @@
+{
+  "extends": "./build.json",
+  "include": [
+    "../src/**/*.ts",
+    "../src/**/*.cts",
+    "../src/**/*.tsx",
+    "../src/**/*.json"
+  ],
+  "exclude": [
+    "../src/**/*.mts",
+    "../src/package.json",
+    "../src/signaling/signalingClient-browser.mts",
+    "../src/signaling/signalingClient-react-native.mts"
+  ],
+  "compilerOptions": {
+    "outDir": "../.tshy-build/commonjs"
+  }
+}

@@ -1,0 +1,34 @@
+import type { PagedAsyncIterableIterator } from "@azure/core-paging";
+import type { ManagedPrivateEndpoint, ManagedPrivateEndpointsListOptionalParams, ManagedPrivateEndpointsGetOptionalParams, ManagedPrivateEndpointsGetResponse, ManagedPrivateEndpointsCreateOptionalParams, ManagedPrivateEndpointsCreateResponse, ManagedPrivateEndpointsDeleteOptionalParams } from "../models/index.js";
+/** Interface representing a ManagedPrivateEndpoints. */
+export interface ManagedPrivateEndpoints {
+    /**
+     * List Managed Private Endpoints
+     * @param managedVirtualNetworkName - Managed virtual network name
+     * @param options - The options parameters.
+     */
+    list(managedVirtualNetworkName: string, options?: ManagedPrivateEndpointsListOptionalParams): PagedAsyncIterableIterator<ManagedPrivateEndpoint>;
+    /**
+     * Get Managed Private Endpoints
+     * @param managedVirtualNetworkName - Managed virtual network name
+     * @param managedPrivateEndpointName - Managed private endpoint name
+     * @param options - The options parameters.
+     */
+    get(managedVirtualNetworkName: string, managedPrivateEndpointName: string, options?: ManagedPrivateEndpointsGetOptionalParams): Promise<ManagedPrivateEndpointsGetResponse>;
+    /**
+     * Create Managed Private Endpoints
+     * @param managedVirtualNetworkName - Managed virtual network name
+     * @param managedPrivateEndpointName - Managed private endpoint name
+     * @param managedPrivateEndpoint - Managed private endpoint properties.
+     * @param options - The options parameters.
+     */
+    create(managedVirtualNetworkName: string, managedPrivateEndpointName: string, managedPrivateEndpoint: ManagedPrivateEndpoint, options?: ManagedPrivateEndpointsCreateOptionalParams): Promise<ManagedPrivateEndpointsCreateResponse>;
+    /**
+     * Delete Managed Private Endpoints
+     * @param managedVirtualNetworkName - Managed virtual network name
+     * @param managedPrivateEndpointName - Managed private endpoint name
+     * @param options - The options parameters.
+     */
+    delete(managedVirtualNetworkName: string, managedPrivateEndpointName: string, options?: ManagedPrivateEndpointsDeleteOptionalParams): Promise<void>;
+}
+//# sourceMappingURL=managedPrivateEndpoints.d.ts.map

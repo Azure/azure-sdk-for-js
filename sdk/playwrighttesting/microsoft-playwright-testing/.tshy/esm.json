@@ -1,0 +1,16 @@
+{
+  "extends": "./build.json",
+  "include": [
+    "../src/**/*.ts",
+    "../src/**/*.mts",
+    "../src/**/*.tsx",
+    "../src/**/*.json"
+  ],
+  "exclude": [
+    "../src/package.json",
+    "../src/core/playwrightServiceUtils-cjs.cts"
+  ],
+  "compilerOptions": {
+    "outDir": "../.tshy-build/esm"
+  }
+}

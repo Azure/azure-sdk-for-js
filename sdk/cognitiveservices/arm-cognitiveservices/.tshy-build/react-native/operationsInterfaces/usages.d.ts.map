@@ -1,0 +1,1 @@
+{"version":3,"file":"usages.d.ts","sourceRoot":"","sources":["../../../src/operationsInterfaces/usages.ts"],"names":[],"mappings":"AAQA,OAAO,EAAE,0BAA0B,EAAE,MAAM,oBAAoB,CAAC;AAChE,OAAO,EAAE,KAAK,EAAE,wBAAwB,EAAE,MAAM,oBAAoB,CAAC;AAGrE,uCAAuC;AACvC,MAAM,WAAW,MAAM;IACrB;;;;OAIG;IACH,IAAI,CACF,QAAQ,EAAE,MAAM,EAChB,OAAO,CAAC,EAAE,wBAAwB,GACjC,0BAA0B,CAAC,KAAK,CAAC,CAAC;CACtC"}

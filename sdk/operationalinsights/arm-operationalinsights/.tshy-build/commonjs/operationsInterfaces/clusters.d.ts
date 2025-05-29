@@ -1,0 +1,71 @@
+import { PagedAsyncIterableIterator } from "@azure/core-paging";
+import { PollerLike, PollOperationState } from "@azure/core-lro";
+import { Cluster, ClustersListByResourceGroupOptionalParams, ClustersListOptionalParams, ClustersCreateOrUpdateOptionalParams, ClustersCreateOrUpdateResponse, ClustersDeleteOptionalParams, ClustersGetOptionalParams, ClustersGetResponse, ClusterPatch, ClustersUpdateOptionalParams, ClustersUpdateResponse } from "../models/index.js";
+/** Interface representing a Clusters. */
+export interface Clusters {
+    /**
+     * Gets Log Analytics clusters in a resource group.
+     * @param resourceGroupName The name of the resource group. The name is case insensitive.
+     * @param options The options parameters.
+     */
+    listByResourceGroup(resourceGroupName: string, options?: ClustersListByResourceGroupOptionalParams): PagedAsyncIterableIterator<Cluster>;
+    /**
+     * Gets the Log Analytics clusters in a subscription.
+     * @param options The options parameters.
+     */
+    list(options?: ClustersListOptionalParams): PagedAsyncIterableIterator<Cluster>;
+    /**
+     * Create or update a Log Analytics cluster.
+     * @param resourceGroupName The name of the resource group. The name is case insensitive.
+     * @param clusterName The name of the Log Analytics cluster.
+     * @param parameters The parameters required to create or update a Log Analytics cluster.
+     * @param options The options parameters.
+     */
+    beginCreateOrUpdate(resourceGroupName: string, clusterName: string, parameters: Cluster, options?: ClustersCreateOrUpdateOptionalParams): Promise<PollerLike<PollOperationState<ClustersCreateOrUpdateResponse>, ClustersCreateOrUpdateResponse>>;
+    /**
+     * Create or update a Log Analytics cluster.
+     * @param resourceGroupName The name of the resource group. The name is case insensitive.
+     * @param clusterName The name of the Log Analytics cluster.
+     * @param parameters The parameters required to create or update a Log Analytics cluster.
+     * @param options The options parameters.
+     */
+    beginCreateOrUpdateAndWait(resourceGroupName: string, clusterName: string, parameters: Cluster, options?: ClustersCreateOrUpdateOptionalParams): Promise<ClustersCreateOrUpdateResponse>;
+    /**
+     * Deletes a cluster instance.
+     * @param resourceGroupName The name of the resource group. The name is case insensitive.
+     * @param clusterName Name of the Log Analytics Cluster.
+     * @param options The options parameters.
+     */
+    beginDelete(resourceGroupName: string, clusterName: string, options?: ClustersDeleteOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
+    /**
+     * Deletes a cluster instance.
+     * @param resourceGroupName The name of the resource group. The name is case insensitive.
+     * @param clusterName Name of the Log Analytics Cluster.
+     * @param options The options parameters.
+     */
+    beginDeleteAndWait(resourceGroupName: string, clusterName: string, options?: ClustersDeleteOptionalParams): Promise<void>;
+    /**
+     * Gets a Log Analytics cluster instance.
+     * @param resourceGroupName The name of the resource group. The name is case insensitive.
+     * @param clusterName Name of the Log Analytics Cluster.
+     * @param options The options parameters.
+     */
+    get(resourceGroupName: string, clusterName: string, options?: ClustersGetOptionalParams): Promise<ClustersGetResponse>;
+    /**
+     * Updates a Log Analytics cluster.
+     * @param resourceGroupName The name of the resource group. The name is case insensitive.
+     * @param clusterName Name of the Log Analytics Cluster.
+     * @param parameters The parameters required to patch a Log Analytics cluster.
+     * @param options The options parameters.
+     */
+    beginUpdate(resourceGroupName: string, clusterName: string, parameters: ClusterPatch, options?: ClustersUpdateOptionalParams): Promise<PollerLike<PollOperationState<ClustersUpdateResponse>, ClustersUpdateResponse>>;
+    /**
+     * Updates a Log Analytics cluster.
+     * @param resourceGroupName The name of the resource group. The name is case insensitive.
+     * @param clusterName Name of the Log Analytics Cluster.
+     * @param parameters The parameters required to patch a Log Analytics cluster.
+     * @param options The options parameters.
+     */
+    beginUpdateAndWait(resourceGroupName: string, clusterName: string, parameters: ClusterPatch, options?: ClustersUpdateOptionalParams): Promise<ClustersUpdateResponse>;
+}
+//# sourceMappingURL=clusters.d.ts.map

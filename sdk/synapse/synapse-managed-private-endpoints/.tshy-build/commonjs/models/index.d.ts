@@ -1,0 +1,99 @@
+import type * as coreClient from "@azure/core-client";
+/** Managed private endpoint */
+export interface ManagedPrivateEndpoint {
+    /**
+     * Fully qualified resource Id for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
+     * NOTE: This property will not be serialized. It can only be populated by the server.
+     */
+    readonly id?: string;
+    /**
+     * The name of the resource
+     * NOTE: This property will not be serialized. It can only be populated by the server.
+     */
+    readonly name?: string;
+    /**
+     * The type of the resource. Ex- Microsoft.Compute/virtualMachines or Microsoft.Storage/storageAccounts.
+     * NOTE: This property will not be serialized. It can only be populated by the server.
+     */
+    readonly type?: string;
+    /** Managed private endpoint properties */
+    properties?: ManagedPrivateEndpointProperties;
+}
+/** Properties of a managed private endpoint */
+export interface ManagedPrivateEndpointProperties {
+    /** The name of managed private endpoint */
+    name?: string;
+    /** The ARM resource ID of the resource to which the managed private endpoint is created */
+    privateLinkResourceId?: string;
+    /** The groupId to which the managed private endpoint is created */
+    groupId?: string;
+    /**
+     * The managed private endpoint provisioning state
+     * NOTE: This property will not be serialized. It can only be populated by the server.
+     */
+    readonly provisioningState?: string;
+    /** The managed private endpoint connection state */
+    connectionState?: ManagedPrivateEndpointConnectionState;
+    /**
+     * Denotes whether the managed private endpoint is reserved
+     * NOTE: This property will not be serialized. It can only be populated by the server.
+     */
+    readonly isReserved?: boolean;
+    /** List of fully qualified domain names */
+    fqdns?: string[];
+    /** Denotes whether the managed private endpoint is compliant */
+    isCompliant?: boolean;
+}
+/** The connection state of a managed private endpoint */
+export interface ManagedPrivateEndpointConnectionState {
+    /**
+     * The approval status
+     * NOTE: This property will not be serialized. It can only be populated by the server.
+     */
+    readonly status?: string;
+    /** The managed private endpoint description */
+    description?: string;
+    /** The actions required on the managed private endpoint */
+    actionsRequired?: string;
+}
+/** A list of managed private endpoints */
+export interface ManagedPrivateEndpointListResponse {
+    /** List of managed private endpoints */
+    value?: ManagedPrivateEndpoint[];
+    /**
+     * The link to the next page of results, if any remaining results exist.
+     * NOTE: This property will not be serialized. It can only be populated by the server.
+     */
+    readonly nextLink?: string;
+}
+/** Optional parameters. */
+export interface ManagedPrivateEndpointsGetOptionalParams extends coreClient.OperationOptions {
+}
+/** Contains response data for the get operation. */
+export type ManagedPrivateEndpointsGetResponse = ManagedPrivateEndpoint;
+/** Optional parameters. */
+export interface ManagedPrivateEndpointsCreateOptionalParams extends coreClient.OperationOptions {
+}
+/** Contains response data for the create operation. */
+export type ManagedPrivateEndpointsCreateResponse = ManagedPrivateEndpoint;
+/** Optional parameters. */
+export interface ManagedPrivateEndpointsDeleteOptionalParams extends coreClient.OperationOptions {
+}
+/** Optional parameters. */
+export interface ManagedPrivateEndpointsListOptionalParams extends coreClient.OperationOptions {
+}
+/** Contains response data for the list operation. */
+export type ManagedPrivateEndpointsListResponse = ManagedPrivateEndpointListResponse;
+/** Optional parameters. */
+export interface ManagedPrivateEndpointsListNextOptionalParams extends coreClient.OperationOptions {
+}
+/** Contains response data for the listNext operation. */
+export type ManagedPrivateEndpointsListNextResponse = ManagedPrivateEndpointListResponse;
+/** Optional parameters. */
+export interface ManagedPrivateEndpointsClientOptionalParams extends coreClient.ServiceClientOptions {
+    /** Api Version */
+    apiVersion?: string;
+    /** Overrides client endpoint. */
+    endpoint?: string;
+}
+//# sourceMappingURL=index.d.ts.map

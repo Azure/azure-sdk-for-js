@@ -1,0 +1,107 @@
+import { PagedAsyncIterableIterator } from "@azure/core-paging";
+import { DigitalTwinModels } from "../operationsInterfaces/index.js";
+import { AzureDigitalTwinsAPI } from "../azureDigitalTwinsAPI.js";
+import { DigitalTwinsModelData, DigitalTwinModelsListOptionalParams, DigitalTwinModelsAddOptionalParams, DigitalTwinModelsAddResponse, DigitalTwinModelsGetByIdOptionalParams, DigitalTwinModelsGetByIdResponse, DigitalTwinModelsUpdateOptionalParams, DigitalTwinModelsDeleteOptionalParams } from "../models/index.js";
+/** Class containing DigitalTwinModels operations. */
+export declare class DigitalTwinModelsImpl implements DigitalTwinModels {
+    private readonly client;
+    /**
+     * Initialize a new instance of the class DigitalTwinModels class.
+     * @param client Reference to the service client
+     */
+    constructor(client: AzureDigitalTwinsAPI);
+    /**
+     * Retrieves model metadata and, optionally, model definitions.
+     * Status codes:
+     * * 200 OK
+     * * 400 Bad Request
+     *   * InvalidArgument - The model id is invalid.
+     *   * LimitExceeded - The maximum number of model ids allowed in 'dependenciesFor' has been reached.
+     * * 404 Not Found
+     *   * ModelNotFound - The model was not found.
+     * @param options The options parameters.
+     */
+    list(options?: DigitalTwinModelsListOptionalParams): PagedAsyncIterableIterator<DigitalTwinsModelData>;
+    private listPagingPage;
+    private listPagingAll;
+    /**
+     * Uploads one or more models. When any error occurs, no models are uploaded.
+     * Status codes:
+     * * 201 Created
+     * * 400 Bad Request
+     *   * DTDLParserError - The models provided are not valid DTDL.
+     *   * InvalidArgument - The model id is invalid.
+     *   * LimitExceeded - The maximum number of model ids allowed in 'dependenciesFor' has been reached.
+     *   * ModelVersionNotSupported - The version of DTDL used is not supported.
+     * * 409 Conflict
+     *   * ModelAlreadyExists - The model provided already exists.
+     * @param models An array of models to add.
+     * @param options The options parameters.
+     */
+    add(models: Record<string, unknown>[], options?: DigitalTwinModelsAddOptionalParams): Promise<DigitalTwinModelsAddResponse>;
+    /**
+     * Retrieves model metadata and, optionally, model definitions.
+     * Status codes:
+     * * 200 OK
+     * * 400 Bad Request
+     *   * InvalidArgument - The model id is invalid.
+     *   * LimitExceeded - The maximum number of model ids allowed in 'dependenciesFor' has been reached.
+     * * 404 Not Found
+     *   * ModelNotFound - The model was not found.
+     * @param options The options parameters.
+     */
+    private _list;
+    /**
+     * Retrieves model metadata and optionally the model definition.
+     * Status codes:
+     * * 200 OK
+     * * 400 Bad Request
+     *   * InvalidArgument - The model id is invalid.
+     *   * MissingArgument - The model id was not provided.
+     * * 404 Not Found
+     *   * ModelNotFound - The model was not found.
+     * @param id The id for the model. The id is globally unique and case sensitive.
+     * @param options The options parameters.
+     */
+    getById(id: string, options?: DigitalTwinModelsGetByIdOptionalParams): Promise<DigitalTwinModelsGetByIdResponse>;
+    /**
+     * Updates the metadata for a model.
+     * Status codes:
+     * * 204 No Content
+     * * 400 Bad Request
+     *   * InvalidArgument - The model id is invalid.
+     *   * JsonPatchInvalid - The JSON Patch provided is invalid.
+     *   * MissingArgument - The model id was not provided.
+     * * 404 Not Found
+     *   * ModelNotFound - The model was not found.
+     * * 409 Conflict
+     *   * ModelReferencesNotDecommissioned - The model refers to models that are not decommissioned.
+     * @param id The id for the model. The id is globally unique and case sensitive.
+     * @param updateModel An update specification described by JSON Patch. Only the decommissioned property
+     *                    can be replaced.
+     * @param options The options parameters.
+     */
+    update(id: string, updateModel: Record<string, unknown>[], options?: DigitalTwinModelsUpdateOptionalParams): Promise<void>;
+    /**
+     * Deletes a model. A model can only be deleted if no other models reference it.
+     * Status codes:
+     * * 204 No Content
+     * * 400 Bad Request
+     *   * InvalidArgument - The model id is invalid.
+     *   * MissingArgument - The model id was not provided.
+     * * 404 Not Found
+     *   * ModelNotFound - The model was not found.
+     * * 409 Conflict
+     *   * ModelReferencesNotDeleted - The model refers to models that are not deleted.
+     * @param id The id for the model. The id is globally unique and case sensitive.
+     * @param options The options parameters.
+     */
+    delete(id: string, options?: DigitalTwinModelsDeleteOptionalParams): Promise<void>;
+    /**
+     * ListNext
+     * @param nextLink The nextLink from the previous successful call to the List method.
+     * @param options The options parameters.
+     */
+    private _listNext;
+}
+//# sourceMappingURL=digitalTwinModels.d.ts.map

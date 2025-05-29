@@ -1,0 +1,1 @@
+{"version":3,"file":"wrapAbortSignal.d.ts","sourceRoot":"","sources":["../../../src/util/wrapAbortSignal.ts"],"names":[],"mappings":"AAGA,OAAO,KAAK,EAAE,eAAe,EAAE,MAAM,yBAAyB,CAAC;AAE/D;;;;;GAKG;AACH,wBAAgB,mBAAmB,CAAC,eAAe,EAAE,eAAe,GAAG;IACrE,WAAW,EAAE,WAAW,CAAC;IACzB,OAAO,CAAC,EAAE,MAAM,IAAI,CAAC;CACtB,CAwBA"}

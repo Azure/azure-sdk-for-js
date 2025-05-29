@@ -1,0 +1,1 @@
+{"version":3,"file":"ItemOperation.d.ts","sourceRoot":"","sources":["../../../src/bulk/ItemOperation.ts"],"names":[],"mappings":"AAGA,OAAO,KAAK,EAAE,cAAc,EAAE,MAAM,mBAAmB,CAAC;AACxD,OAAO,KAAK,EAAE,oBAAoB,EAAE,MAAM,2BAA2B,CAAC;AAEtE;;;GAGG;AAEH,MAAM,WAAW,aAAa;IAE5B,yBAAyB,EAAE,cAAc,CAAC;IAC1C,cAAc,EAAE,cAAc,CAAC;IAC/B,gBAAgB,EAAE,oBAAoB,CAAC;CACxC"}

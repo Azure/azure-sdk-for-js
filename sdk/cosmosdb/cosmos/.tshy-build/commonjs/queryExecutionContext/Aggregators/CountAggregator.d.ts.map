@@ -1,0 +1,1 @@
+{"version":3,"file":"CountAggregator.d.ts","sourceRoot":"","sources":["../../../../src/queryExecutionContext/Aggregators/CountAggregator.ts"],"names":[],"mappings":"AAEA,OAAO,KAAK,EAAE,UAAU,EAAE,MAAM,iBAAiB,CAAC;AAElD,cAAc;AACd,qBAAa,eAAgB,YAAW,UAAU;IACzC,KAAK,EAAE,MAAM,CAAC;IACrB;;;OAGG;;IAIH;;OAEG;IACI,SAAS,CAAC,KAAK,EAAE,MAAM,GAAG,IAAI;IAIrC;;OAEG;IACI,SAAS,IAAI,MAAM;CAG3B"}

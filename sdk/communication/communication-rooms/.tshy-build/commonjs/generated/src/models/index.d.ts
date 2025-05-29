@@ -1,0 +1,208 @@
+import * as coreClient from "@azure/core-client";
+/** Request payload for creating new room. */
+export interface CreateRoomRequest {
+    /** The timestamp from when the room is open for joining. The timestamp is in RFC3339 format: `yyyy-MM-ddTHH:mm:ssZ`. The default value is the current date time. */
+    validFrom?: Date;
+    /** The timestamp from when the room can no longer be joined. The timestamp is in RFC3339 format: `yyyy-MM-ddTHH:mm:ssZ`. The default value is the current date time plus 180 days. */
+    validUntil?: Date;
+    /** Set this flag to true if, at the time of the call, dial out to a PSTN number is enabled in a particular room. By default, this flag is set to false. */
+    pstnDialOutEnabled?: boolean;
+    /** (Optional) Participants to be invited to the room. */
+    participants?: {
+        [propertyName: string]: ParticipantProperties;
+    };
+}
+export interface ParticipantProperties {
+    /** The role of a room participant. The default value is Attendee. */
+    role: Role;
+}
+/** The meeting room. */
+export interface RoomModel {
+    /** Unique identifier of a room. This id is server generated. */
+    id: string;
+    /** The timestamp when the room was created at the server. The timestamp is in RFC3339 format: `yyyy-MM-ddTHH:mm:ssZ`. */
+    createdAt: Date;
+    /** The timestamp from when the room is open for joining. The timestamp is in RFC3339 format: `yyyy-MM-ddTHH:mm:ssZ`. */
+    validFrom: Date;
+    /** The timestamp from when the room can no longer be joined. The timestamp is in RFC3339 format: `yyyy-MM-ddTHH:mm:ssZ`. */
+    validUntil: Date;
+    /** Set this flag to true if, at the time of the call, dial out to a PSTN number is enabled in a particular room. By default, this flag is set to false. */
+    pstnDialOutEnabled: boolean;
+}
+/** The Communication Services error. */
+export interface CommunicationErrorResponse {
+    /** The Communication Services error. */
+    error: CommunicationError;
+}
+/** The Communication Services error. */
+export interface CommunicationError {
+    /** The error code. */
+    code: string;
+    /** The error message. */
+    message: string;
+    /**
+     * The error target.
+     * NOTE: This property will not be serialized. It can only be populated by the server.
+     */
+    readonly target?: string;
+    /**
+     * Further details about specific errors that led to this error.
+     * NOTE: This property will not be serialized. It can only be populated by the server.
+     */
+    readonly details?: CommunicationError[];
+    /**
+     * The inner error if any.
+     * NOTE: This property will not be serialized. It can only be populated by the server.
+     */
+    readonly innerError?: CommunicationError;
+}
+/** A collection of rooms. */
+export interface RoomsCollection {
+    /** A collection of rooms. */
+    value: RoomModel[];
+    /** If there are more rooms that can be retrieved, the next link will be populated. */
+    nextLink?: string;
+}
+/** Request payload for updating a room. */
+export interface UpdateRoomRequest {
+    /** (Optional) The timestamp from when the room is open for joining. The timestamp is in RFC3339 format: `yyyy-MM-ddTHH:mm:ssZ`. */
+    validFrom?: Date;
+    /** (Optional) The timestamp from when the room can no longer be joined. The timestamp is in RFC3339 format: `yyyy-MM-ddTHH:mm:ssZ`. */
+    validUntil?: Date;
+    /** (Optional) Set this flag to true if, at the time of the call, dial out to a PSTN number is enabled in a particular room. By default, this flag is set to false. */
+    pstnDialOutEnabled?: boolean;
+}
+/** A collection of participants in a room. */
+export interface ParticipantsCollection {
+    /** A collection of participants. */
+    value: RoomParticipant[];
+    /** If there are more participants that can be retrieved, the next link will be populated. */
+    nextLink?: string;
+}
+/** A participant of the room. */
+export interface RoomParticipant {
+    /** Raw ID representation of the communication identifier. Please refer to the following document for additional information on Raw ID. <br> https://learn.microsoft.com/azure/communication-services/concepts/identifiers?pivots=programming-language-rest#raw-id-representation */
+    rawId: string;
+    /** The role of a room participant. The default value is Attendee. */
+    role: Role;
+}
+/** Participants to be updated in the room. */
+export interface UpdateParticipantsRequest {
+    /** Participants to be updated. */
+    participants?: {
+        [propertyName: string]: ParticipantProperties;
+    };
+}
+/** Defines headers for Rooms_create operation. */
+export interface RoomsCreateExceptionHeaders {
+    errorCode?: string;
+}
+/** Defines headers for Rooms_list operation. */
+export interface RoomsListExceptionHeaders {
+    errorCode?: string;
+}
+/** Defines headers for Rooms_get operation. */
+export interface RoomsGetExceptionHeaders {
+    errorCode?: string;
+}
+/** Defines headers for Rooms_update operation. */
+export interface RoomsUpdateExceptionHeaders {
+    errorCode?: string;
+}
+/** Defines headers for Rooms_delete operation. */
+export interface RoomsDeleteExceptionHeaders {
+    errorCode?: string;
+}
+/** Defines headers for Rooms_listNext operation. */
+export interface RoomsListNextExceptionHeaders {
+    errorCode?: string;
+}
+/** Defines headers for Participants_list operation. */
+export interface ParticipantsListExceptionHeaders {
+    errorCode?: string;
+}
+/** Defines headers for Participants_update operation. */
+export interface ParticipantsUpdateExceptionHeaders {
+    errorCode?: string;
+}
+/** Defines headers for Participants_listNext operation. */
+export interface ParticipantsListNextExceptionHeaders {
+    errorCode?: string;
+}
+/** Defines values for Role. */
+export type Role = "Presenter" | "Attendee" | "Consumer" | "Collaborator";
+/** Optional parameters. */
+export interface RoomsCreateOptionalParams extends coreClient.OperationOptions {
+    /** The timestamp from when the room is open for joining. The timestamp is in RFC3339 format: `yyyy-MM-ddTHH:mm:ssZ`. The default value is the current date time. */
+    validFrom?: Date;
+    /** The timestamp from when the room can no longer be joined. The timestamp is in RFC3339 format: `yyyy-MM-ddTHH:mm:ssZ`. The default value is the current date time plus 180 days. */
+    validUntil?: Date;
+    /** Set this flag to true if, at the time of the call, dial out to a PSTN number is enabled in a particular room. By default, this flag is set to false. */
+    pstnDialOutEnabled?: boolean;
+    /** (Optional) Participants to be invited to the room. */
+    participants?: {
+        [propertyName: string]: ParticipantProperties;
+    };
+    /** If specified, the client directs that the request is repeatable; that is, that the client can make the request multiple times with the same Repeatability-Request-ID and get back an appropriate response without the server executing the request multiple times. The value of the Repeatability-Request-ID is an opaque string representing a client-generated, globally unique for all time, identifier for the request. It is recommended to use version 4 (random) UUIDs. */
+    repeatabilityRequestID?: string;
+    /** If Repeatability-Request-ID header is specified, then Repeatability-First-Sent header must also be specified. The value should be the date and time at which the request was first created, expressed using the IMF-fixdate form of HTTP-date. */
+    repeatabilityFirstSent?: Date;
+}
+/** Contains response data for the create operation. */
+export type RoomsCreateResponse = RoomModel;
+/** Optional parameters. */
+export interface RoomsListOptionalParams extends coreClient.OperationOptions {
+}
+/** Contains response data for the list operation. */
+export type RoomsListResponse = RoomsCollection;
+/** Optional parameters. */
+export interface RoomsGetOptionalParams extends coreClient.OperationOptions {
+}
+/** Contains response data for the get operation. */
+export type RoomsGetResponse = RoomModel;
+/** Optional parameters. */
+export interface RoomsUpdateOptionalParams extends coreClient.OperationOptions {
+    /** (Optional) The timestamp from when the room is open for joining. The timestamp is in RFC3339 format: `yyyy-MM-ddTHH:mm:ssZ`. */
+    validFrom?: Date;
+    /** (Optional) The timestamp from when the room can no longer be joined. The timestamp is in RFC3339 format: `yyyy-MM-ddTHH:mm:ssZ`. */
+    validUntil?: Date;
+    /** (Optional) Set this flag to true if, at the time of the call, dial out to a PSTN number is enabled in a particular room. By default, this flag is set to false. */
+    pstnDialOutEnabled?: boolean;
+}
+/** Contains response data for the update operation. */
+export type RoomsUpdateResponse = RoomModel;
+/** Optional parameters. */
+export interface RoomsDeleteOptionalParams extends coreClient.OperationOptions {
+}
+/** Optional parameters. */
+export interface RoomsListNextOptionalParams extends coreClient.OperationOptions {
+}
+/** Contains response data for the listNext operation. */
+export type RoomsListNextResponse = RoomsCollection;
+/** Optional parameters. */
+export interface ParticipantsListOptionalParams extends coreClient.OperationOptions {
+}
+/** Contains response data for the list operation. */
+export type ParticipantsListResponse = ParticipantsCollection;
+/** Optional parameters. */
+export interface ParticipantsUpdateOptionalParams extends coreClient.OperationOptions {
+    /** Participants to be updated. */
+    participants?: {
+        [propertyName: string]: ParticipantProperties;
+    };
+}
+/** Contains response data for the update operation. */
+export type ParticipantsUpdateResponse = Record<string, unknown>;
+/** Optional parameters. */
+export interface ParticipantsListNextOptionalParams extends coreClient.OperationOptions {
+}
+/** Contains response data for the listNext operation. */
+export type ParticipantsListNextResponse = ParticipantsCollection;
+/** Optional parameters. */
+export interface RoomsRestClientOptionalParams extends coreClient.ServiceClientOptions {
+    /** Api Version */
+    apiVersion?: string;
+    /** Overrides client endpoint. */
+    endpoint?: string;
+}
+//# sourceMappingURL=index.d.ts.map

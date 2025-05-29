@@ -1,0 +1,35 @@
+{
+  "extends": "./build.json",
+  "include": [
+    "../src/**/*.ts",
+    "../src/**/*.mts",
+    "../src/**/*.tsx",
+    "../src/**/*.json"
+  ],
+  "exclude": [
+    "../src/package.json",
+    "../src/credentials/authorizationCodeCredential-browser.mts",
+    "../src/credentials/azureCliCredential-browser.mts",
+    "../src/credentials/azureDeveloperCliCredential-browser.mts",
+    "../src/credentials/azurePipelinesCredential-browser.mts",
+    "../src/credentials/azurePowerShellCredential-browser.mts",
+    "../src/credentials/clientAssertionCredential-browser.mts",
+    "../src/credentials/clientCertificateCredential-browser.mts",
+    "../src/credentials/clientSecretCredential-browser.mts",
+    "../src/credentials/defaultAzureCredential-browser.mts",
+    "../src/credentials/deviceCodeCredential-browser.mts",
+    "../src/credentials/environmentCredential-browser.mts",
+    "../src/credentials/interactiveBrowserCredential-browser.mts",
+    "../src/credentials/managedIdentityCredential/index-browser.mts",
+    "../src/credentials/onBehalfOfCredential-browser.mts",
+    "../src/credentials/usernamePasswordCredential-browser.mts",
+    "../src/credentials/visualStudioCodeCredential-browser.mts",
+    "../src/credentials/workloadIdentityCredential-browser.mts",
+    "../src/msal/msal-browser.mts",
+    "../src/plugins/consumer-browser.mts",
+    "../src/util/processMultiTenantRequest-browser.mts"
+  ],
+  "compilerOptions": {
+    "outDir": "../.tshy-build/workerd"
+  }
+}

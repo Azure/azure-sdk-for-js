@@ -1,0 +1,1 @@
+{"version":3,"file":"storedAttestationPolicy.d.ts","sourceRoot":"","sources":["../../../src/models/storedAttestationPolicy.ts"],"names":[],"mappings":"AAOA;;GAEG;AACH,qBAAa,uBAAuB;gBACtB,KAAK,EAAE,MAAM;IAIzB;;;;OAIG;IACH,SAAS,IAAI,MAAM;IAQnB;;;;;OAKG;IACH,MAAM,CAAC,WAAW,CAAC,KAAK,EAAE,OAAO,GAAG,uBAAuB;IAQ3D;;OAEG;IACH,iBAAiB,EAAE,UAAU,CAAC;CAC/B"}

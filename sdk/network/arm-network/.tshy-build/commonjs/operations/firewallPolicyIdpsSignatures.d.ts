@@ -1,0 +1,22 @@
+import { FirewallPolicyIdpsSignatures } from "../operationsInterfaces/index.js";
+import { NetworkManagementClient } from "../networkManagementClient.js";
+import { IdpsQueryObject, FirewallPolicyIdpsSignaturesListOptionalParams, FirewallPolicyIdpsSignaturesListResponse } from "../models/index.js";
+/** Class containing FirewallPolicyIdpsSignatures operations. */
+export declare class FirewallPolicyIdpsSignaturesImpl implements FirewallPolicyIdpsSignatures {
+    private readonly client;
+    /**
+     * Initialize a new instance of the class FirewallPolicyIdpsSignatures class.
+     * @param client Reference to the service client
+     */
+    constructor(client: NetworkManagementClient);
+    /**
+     * Retrieves the current status of IDPS signatures for the relevant policy. Maximal amount of returned
+     * signatures is 1000.
+     * @param resourceGroupName The name of the resource group.
+     * @param firewallPolicyName The name of the Firewall Policy.
+     * @param parameters Will describe the query to run against the IDPS signatures DB
+     * @param options The options parameters.
+     */
+    list(resourceGroupName: string, firewallPolicyName: string, parameters: IdpsQueryObject, options?: FirewallPolicyIdpsSignaturesListOptionalParams): Promise<FirewallPolicyIdpsSignaturesListResponse>;
+}
+//# sourceMappingURL=firewallPolicyIdpsSignatures.d.ts.map

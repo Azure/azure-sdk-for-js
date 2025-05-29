@@ -1,0 +1,1 @@
+{"version":3,"file":"spanGraphModel.d.ts","sourceRoot":"","sources":["../../../src/tracing/spanGraphModel.ts"],"names":[],"mappings":"AAGA;;;GAGG;AACH,MAAM,WAAW,aAAa;IAC5B;;OAEG;IACH,IAAI,EAAE,MAAM,CAAC;IACb;;OAEG;IACH,QAAQ,EAAE,aAAa,EAAE,CAAC;CAC3B;AAED;;;GAGG;AACH,MAAM,WAAW,SAAS;IACxB;;OAEG;IACH,KAAK,EAAE,aAAa,EAAE,CAAC;CACxB"}

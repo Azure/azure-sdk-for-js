@@ -1,0 +1,22 @@
+import { OperationParameter, OperationURLParameter, OperationQueryParameter } from "@azure/core-client";
+export declare const accept: OperationParameter;
+export declare const endpoint: OperationURLParameter;
+export declare const chatThreadId: OperationURLParameter;
+export declare const maxPageSize: OperationQueryParameter;
+export declare const skip: OperationQueryParameter;
+export declare const apiVersion: OperationQueryParameter;
+export declare const contentType: OperationParameter;
+export declare const sendReadReceiptRequest: OperationParameter;
+export declare const sendChatMessageRequest: OperationParameter;
+export declare const startTime: OperationQueryParameter;
+export declare const chatMessageId: OperationURLParameter;
+export declare const contentType1: OperationParameter;
+export declare const updateChatMessageRequest: OperationParameter;
+export declare const participantCommunicationIdentifier: OperationParameter;
+export declare const addChatParticipantsRequest: OperationParameter;
+export declare const updateChatThreadRequest: OperationParameter;
+export declare const sendTypingNotificationRequest: OperationParameter;
+export declare const nextLink: OperationURLParameter;
+export declare const createChatThreadRequest: OperationParameter;
+export declare const repeatabilityRequestId: OperationParameter;
+//# sourceMappingURL=parameters.d.ts.map

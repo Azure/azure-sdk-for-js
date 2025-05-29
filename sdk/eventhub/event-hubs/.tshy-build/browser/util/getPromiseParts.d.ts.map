@@ -1,0 +1,1 @@
+{"version":3,"file":"getPromiseParts.d.ts","sourceRoot":"","sources":["../../../src/util/getPromiseParts.ts"],"names":[],"mappings":"AAGA;;;GAGG;AACH,wBAAgB,eAAe,CAAC,CAAC,GAAG,OAAO,KAAK;IAC9C,OAAO,EAAE,OAAO,CAAC,CAAC,CAAC,CAAC;IACpB,OAAO,EAAE,CAAC,KAAK,EAAE,CAAC,KAAK,IAAI,CAAC;IAC5B,MAAM,EAAE,CAAC,MAAM,EAAE,KAAK,KAAK,IAAI,CAAC;CACjC,CAYA"}

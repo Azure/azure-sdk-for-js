@@ -1,0 +1,1 @@
+{"version":3,"file":"httpClientAdapter.d.ts","sourceRoot":"","sources":["../../src/httpClientAdapter.ts"],"names":[],"mappings":"AAGA,OAAO,KAAK,EAAE,UAAU,EAAqC,MAAM,2BAA2B,CAAC;AAC/F,OAAO,KAAK,EAAE,aAAa,EAAE,MAAM,0CAA0C,CAAC;AAI9E;;;;GAIG;AACH,wBAAgB,iBAAiB,CAAC,mBAAmB,EAAE,aAAa,GAAG,UAAU,CAShF"}

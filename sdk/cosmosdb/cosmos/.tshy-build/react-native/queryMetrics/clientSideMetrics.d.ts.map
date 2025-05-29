@@ -1,0 +1,1 @@
+{"version":3,"file":"clientSideMetrics.d.ts","sourceRoot":"","sources":["../../../src/queryMetrics/clientSideMetrics.ts"],"names":[],"mappings":"AAGA,qBAAa,iBAAiB;aACA,aAAa,EAAE,MAAM;gBAArB,aAAa,EAAE,MAAM;IAEjD;;OAEG;IACI,GAAG,CAAC,GAAG,sBAAsB,EAAE,iBAAiB,EAAE,GAAG,iBAAiB;IAa7E,gBAAuB,IAAI,oBAA4B;WAEzC,eAAe,CAAC,GAAG,sBAAsB,EAAE,iBAAiB,EAAE,GAAG,iBAAiB;CAOjG"}

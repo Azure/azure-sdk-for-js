@@ -1,0 +1,1 @@
+{"version":3,"file":"skus.d.ts","sourceRoot":"","sources":["../../../src/operationsInterfaces/skus.ts"],"names":[],"mappings":"AAQA,OAAO,EAAE,0BAA0B,EAAE,MAAM,oBAAoB,CAAC;AAChE,OAAO,EAAE,cAAc,EAAE,sBAAsB,EAAE,MAAM,oBAAoB,CAAC;AAG5E,qCAAqC;AACrC,MAAM,WAAW,IAAI;IACnB;;;OAGG;IACH,IAAI,CACF,OAAO,CAAC,EAAE,sBAAsB,GAC/B,0BAA0B,CAAC,cAAc,CAAC,CAAC;CAC/C"}

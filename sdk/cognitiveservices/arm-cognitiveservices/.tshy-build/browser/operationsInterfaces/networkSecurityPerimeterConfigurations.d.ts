@@ -1,0 +1,38 @@
+import { PagedAsyncIterableIterator } from "@azure/core-paging";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
+import { NetworkSecurityPerimeterConfiguration, NetworkSecurityPerimeterConfigurationsListOptionalParams, NetworkSecurityPerimeterConfigurationsGetOptionalParams, NetworkSecurityPerimeterConfigurationsGetResponse, NetworkSecurityPerimeterConfigurationsReconcileOptionalParams, NetworkSecurityPerimeterConfigurationsReconcileResponse } from "../models/index.js";
+/** Interface representing a NetworkSecurityPerimeterConfigurations. */
+export interface NetworkSecurityPerimeterConfigurations {
+    /**
+     * Gets a list of NSP configurations for an account.
+     * @param resourceGroupName The name of the resource group. The name is case insensitive.
+     * @param accountName The name of Cognitive Services account.
+     * @param options The options parameters.
+     */
+    list(resourceGroupName: string, accountName: string, options?: NetworkSecurityPerimeterConfigurationsListOptionalParams): PagedAsyncIterableIterator<NetworkSecurityPerimeterConfiguration>;
+    /**
+     * Gets the specified NSP configurations for an account.
+     * @param resourceGroupName The name of the resource group. The name is case insensitive.
+     * @param accountName The name of Cognitive Services account.
+     * @param nspConfigurationName The name of the NSP Configuration.
+     * @param options The options parameters.
+     */
+    get(resourceGroupName: string, accountName: string, nspConfigurationName: string, options?: NetworkSecurityPerimeterConfigurationsGetOptionalParams): Promise<NetworkSecurityPerimeterConfigurationsGetResponse>;
+    /**
+     * Reconcile the NSP configuration for an account.
+     * @param resourceGroupName The name of the resource group. The name is case insensitive.
+     * @param accountName The name of Cognitive Services account.
+     * @param nspConfigurationName The name of the NSP Configuration.
+     * @param options The options parameters.
+     */
+    beginReconcile(resourceGroupName: string, accountName: string, nspConfigurationName: string, options?: NetworkSecurityPerimeterConfigurationsReconcileOptionalParams): Promise<SimplePollerLike<OperationState<NetworkSecurityPerimeterConfigurationsReconcileResponse>, NetworkSecurityPerimeterConfigurationsReconcileResponse>>;
+    /**
+     * Reconcile the NSP configuration for an account.
+     * @param resourceGroupName The name of the resource group. The name is case insensitive.
+     * @param accountName The name of Cognitive Services account.
+     * @param nspConfigurationName The name of the NSP Configuration.
+     * @param options The options parameters.
+     */
+    beginReconcileAndWait(resourceGroupName: string, accountName: string, nspConfigurationName: string, options?: NetworkSecurityPerimeterConfigurationsReconcileOptionalParams): Promise<NetworkSecurityPerimeterConfigurationsReconcileResponse>;
+}
+//# sourceMappingURL=networkSecurityPerimeterConfigurations.d.ts.map

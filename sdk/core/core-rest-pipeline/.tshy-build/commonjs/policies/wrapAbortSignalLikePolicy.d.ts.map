@@ -1,0 +1,1 @@
+{"version":3,"file":"wrapAbortSignalLikePolicy.d.ts","sourceRoot":"","sources":["../../../src/policies/wrapAbortSignalLikePolicy.ts"],"names":[],"mappings":"AAGA,OAAO,EAAE,KAAK,cAAc,EAAE,MAAM,gBAAgB,CAAC;AAGrD,eAAO,MAAM,6BAA6B,8BAA8B,CAAC;AAEzE;;;;;GAKG;AACH,wBAAgB,yBAAyB,IAAI,cAAc,CAkB1D"}

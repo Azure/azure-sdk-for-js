@@ -1,0 +1,1 @@
+{"version":3,"file":"CosmosHeaders.js","sourceRoot":"","sources":["../../../src/queryExecutionContext/CosmosHeaders.ts"],"names":[],"mappings":"","sourcesContent":["// Copyright (c) Microsoft Corporation.\n// Licensed under the MIT License.\nexport interface CosmosHeaders {\n  [key: string]: string | boolean | number;\n}\n"]}

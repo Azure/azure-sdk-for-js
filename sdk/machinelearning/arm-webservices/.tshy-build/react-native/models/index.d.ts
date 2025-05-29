@@ -1,0 +1,751 @@
+import * as coreClient from "@azure/core-client";
+export type WebServicePropertiesUnion = WebServiceProperties | WebServicePropertiesForGraph;
+/** The list of REST API operations. */
+export interface OperationEntityListResult {
+    /**
+     * The list of operations.
+     * NOTE: This property will not be serialized. It can only be populated by the server.
+     */
+    readonly value?: OperationEntity[];
+}
+/** An API operation. */
+export interface OperationEntity {
+    /**
+     * Operation name: {provider}/{resource}/{operation}.
+     * NOTE: This property will not be serialized. It can only be populated by the server.
+     */
+    readonly name?: string;
+    /** The API operation info. */
+    display?: OperationDisplayInfo;
+}
+/** The API operation info. */
+export interface OperationDisplayInfo {
+    /**
+     * The description of the operation.
+     * NOTE: This property will not be serialized. It can only be populated by the server.
+     */
+    readonly description?: string;
+    /**
+     * The action that users can perform, based on their permission level.
+     * NOTE: This property will not be serialized. It can only be populated by the server.
+     */
+    readonly operation?: string;
+    /**
+     * The service provider.
+     * NOTE: This property will not be serialized. It can only be populated by the server.
+     */
+    readonly provider?: string;
+    /**
+     * The resource on which the operation is performed.
+     * NOTE: This property will not be serialized. It can only be populated by the server.
+     */
+    readonly resource?: string;
+}
+/** The set of properties specific to the Azure ML web service resource. */
+export interface WebServiceProperties {
+    /** Polymorphic discriminator, which specifies the different types this object can be */
+    packageType: "Graph";
+    /** The title of the web service. */
+    title?: string;
+    /** The description of the web service. */
+    description?: string;
+    /**
+     * Read Only: The date and time when the web service was created.
+     * NOTE: This property will not be serialized. It can only be populated by the server.
+     */
+    readonly createdOn?: Date;
+    /**
+     * Read Only: The date and time when the web service was last modified.
+     * NOTE: This property will not be serialized. It can only be populated by the server.
+     */
+    readonly modifiedOn?: Date;
+    /**
+     * Read Only: The provision state of the web service. Valid values are Unknown, Provisioning, Succeeded, and Failed.
+     * NOTE: This property will not be serialized. It can only be populated by the server.
+     */
+    readonly provisioningState?: ProvisioningState;
+    /** Contains the web service provisioning keys. If you do not specify provisioning keys, the Azure Machine Learning system generates them for you. Note: The keys are not returned from calls to GET operations. */
+    keys?: WebServiceKeys;
+    /** When set to true, indicates that the web service is read-only and can no longer be updated or patched, only removed. Default, is false. Note: Once set to true, you cannot change its value. */
+    readOnly?: boolean;
+    /**
+     * Read Only: Contains the URI of the swagger spec associated with this web service.
+     * NOTE: This property will not be serialized. It can only be populated by the server.
+     */
+    readonly swaggerLocation?: string;
+    /** When set to true, sample data is included in the web service's swagger definition. The default value is true. */
+    exposeSampleData?: boolean;
+    /** Contains the configuration settings for the web service endpoint. */
+    realtimeConfiguration?: RealtimeConfiguration;
+    /** Settings controlling the diagnostics traces collection for the web service. */
+    diagnostics?: DiagnosticsConfiguration;
+    /** Specifies the storage account that Azure Machine Learning uses to store information about the web service. Only the name of the storage account is returned from calls to GET operations. When updating the storage account information, you must ensure that all necessary assets are available in the new storage account or calls to your web service will fail. */
+    storageAccount?: StorageAccount;
+    /** Specifies the Machine Learning workspace containing the experiment that is source for the web service. */
+    machineLearningWorkspace?: MachineLearningWorkspace;
+    /** Contains the commitment plan associated with this web service. Set at creation time. Once set, this value cannot be changed. Note: The commitment plan is not returned from calls to GET operations. */
+    commitmentPlan?: CommitmentPlan;
+    /** Contains the Swagger 2.0 schema describing one or more of the web service's inputs. For more information, see the Swagger specification. */
+    input?: ServiceInputOutputSpecification;
+    /** Contains the Swagger 2.0 schema describing one or more of the web service's outputs. For more information, see the Swagger specification. */
+    output?: ServiceInputOutputSpecification;
+    /** Defines sample input data for one or more of the service's inputs. */
+    exampleRequest?: ExampleRequest;
+    /** Contains user defined properties describing web service assets. Properties are expressed as Key/Value pairs. */
+    assets?: {
+        [propertyName: string]: AssetItem;
+    };
+    /** The set of global parameters values defined for the web service, given as a global parameter name to default value map. If no default value is specified, the parameter is considered to be required. */
+    parameters?: {
+        [propertyName: string]: WebServiceParameter;
+    };
+    /** When set to true, indicates that the payload size is larger than 3 MB. Otherwise false. If the payload size exceed 3 MB, the payload is stored in a blob and the PayloadsLocation parameter contains the URI of the blob. Otherwise, this will be set to false and Assets, Input, Output, Package, Parameters, ExampleRequest are inline. The Payload sizes is determined by adding the size of the Assets, Input, Output, Package, Parameters, and the ExampleRequest. */
+    payloadsInBlobStorage?: boolean;
+    /** The URI of the payload blob. This parameter contains a value only if the payloadsInBlobStorage parameter is set to true. Otherwise is set to null. */
+    payloadsLocation?: BlobLocation;
+}
+/** Access keys for the web service calls. */
+export interface WebServiceKeys {
+    /** The primary access key. */
+    primary?: string;
+    /** The secondary access key. */
+    secondary?: string;
+}
+/** Holds the available configuration options for an Azure ML web service endpoint. */
+export interface RealtimeConfiguration {
+    /** Specifies the maximum concurrent calls that can be made to the web service. Minimum value: 4, Maximum value: 200. */
+    maxConcurrentCalls?: number;
+}
+/** Diagnostics settings for an Azure ML web service. */
+export interface DiagnosticsConfiguration {
+    /** Specifies the verbosity of the diagnostic output. Valid values are: None - disables tracing; Error - collects only error (stderr) traces; All - collects all traces (stdout and stderr). */
+    level: DiagnosticsLevel;
+    /** Specifies the date and time when the logging will cease. If null, diagnostic collection is not time limited. */
+    expiry?: Date;
+}
+/** Access information for a storage account. */
+export interface StorageAccount {
+    /** Specifies the name of the storage account. */
+    name?: string;
+    /** Specifies the key used to access the storage account. */
+    key?: string;
+}
+/** Information about the machine learning workspace containing the experiment that is source for the web service. */
+export interface MachineLearningWorkspace {
+    /** Specifies the workspace ID of the machine learning workspace associated with the web service */
+    id: string;
+}
+/** Information about the machine learning commitment plan associated with the web service. */
+export interface CommitmentPlan {
+    /** Specifies the Azure Resource Manager ID of the commitment plan associated with the web service. */
+    id: string;
+}
+/** The swagger 2.0 schema describing the service's inputs or outputs. See Swagger specification: http://swagger.io/specification/ */
+export interface ServiceInputOutputSpecification {
+    /** The title of your Swagger schema. */
+    title?: string;
+    /** The description of the Swagger schema. */
+    description?: string;
+    /** The type of the entity described in swagger. Always 'object'. */
+    type: string;
+    /** Specifies a collection that contains the column schema for each input or output of the web service. For more information, see the Swagger specification. */
+    properties: {
+        [propertyName: string]: TableSpecification;
+    };
+}
+/** The swagger 2.0 schema describing a single service input or output. See Swagger specification: http://swagger.io/specification/ */
+export interface TableSpecification {
+    /** Swagger schema title. */
+    title?: string;
+    /** Swagger schema description. */
+    description?: string;
+    /** The type of the entity described in swagger. */
+    type: string;
+    /** The format, if 'type' is not 'object' */
+    format?: string;
+    /** The set of columns within the data table. */
+    properties?: {
+        [propertyName: string]: ColumnSpecification;
+    };
+}
+/** Swagger 2.0 schema for a column within the data table representing a web service input or output. See Swagger specification: http://swagger.io/specification/ */
+export interface ColumnSpecification {
+    /** Data type of the column. */
+    type: ColumnType;
+    /** Additional format information for the data type. */
+    format?: ColumnFormat;
+    /** If the data type is categorical, this provides the list of accepted categories. */
+    enum?: Record<string, unknown>[];
+    /** Flag indicating if the type supports null values or not. */
+    xMsIsnullable?: boolean;
+    /** Flag indicating whether the categories are treated as an ordered set or not, if this is a categorical column. */
+    xMsIsordered?: boolean;
+}
+/** Sample input data for the service's input(s). */
+export interface ExampleRequest {
+    /** Sample input data for the web service's input(s) given as an input name to sample input values matrix map. */
+    inputs?: {
+        [propertyName: string]: Record<string, unknown>[][];
+    };
+    /** Sample input data for the web service's global parameters */
+    globalParameters?: {
+        [propertyName: string]: Record<string, unknown>;
+    };
+}
+/** Information about an asset associated with the web service. */
+export interface AssetItem {
+    /** Asset's friendly name. */
+    name: string;
+    /** Asset's Id. */
+    id?: string;
+    /** Asset's type. */
+    type: AssetType;
+    /** Access information for the asset. */
+    locationInfo: BlobLocation;
+    /** Information about the asset's input ports. */
+    inputPorts?: {
+        [propertyName: string]: InputPort;
+    };
+    /** Information about the asset's output ports. */
+    outputPorts?: {
+        [propertyName: string]: OutputPort;
+    };
+    /** If the asset is a custom module, this holds the module's metadata. */
+    metadata?: {
+        [propertyName: string]: string;
+    };
+    /** If the asset is a custom module, this holds the module's parameters. */
+    parameters?: ModuleAssetParameter[];
+}
+/** Describes the access location for a blob. */
+export interface BlobLocation {
+    /** The URI from which the blob is accessible from. For example, aml://abc for system assets or https://xyz for user assets or payload. */
+    uri: string;
+    /** Access credentials for the blob, if applicable (e.g. blob specified by storage account connection string + blob URI) */
+    credentials?: string;
+}
+/** Asset input port */
+export interface InputPort {
+    /** Port data type. */
+    type?: InputPortType;
+}
+/** Asset output port */
+export interface OutputPort {
+    /** Port data type. */
+    type?: OutputPortType;
+}
+/** Parameter definition for a module asset. */
+export interface ModuleAssetParameter {
+    /** Parameter name. */
+    name?: string;
+    /** Parameter type. */
+    parameterType?: string;
+    /** Definitions for nested interface parameters if this is a complex module parameter. */
+    modeValuesInfo?: {
+        [propertyName: string]: ModeValueInfo;
+    };
+}
+/** Nested parameter definition. */
+export interface ModeValueInfo {
+    /** The interface string name for the nested parameter. */
+    interfaceString?: string;
+    /** The definition of the parameter. */
+    parameters?: ModuleAssetParameter[];
+}
+/** Web Service Parameter object for node and global parameter */
+export interface WebServiceParameter {
+    /** The parameter value */
+    value?: Record<string, unknown>;
+    /** If the parameter value in 'value' field is encrypted, the thumbprint of the certificate should be put here. */
+    certificateThumbprint?: string;
+}
+/** Azure resource. */
+export interface Resource {
+    /**
+     * Specifies the resource ID.
+     * NOTE: This property will not be serialized. It can only be populated by the server.
+     */
+    readonly id?: string;
+    /**
+     * Specifies the name of the resource.
+     * NOTE: This property will not be serialized. It can only be populated by the server.
+     */
+    readonly name?: string;
+    /** Specifies the location of the resource. */
+    location: string;
+    /**
+     * Specifies the type of the resource.
+     * NOTE: This property will not be serialized. It can only be populated by the server.
+     */
+    readonly type?: string;
+    /** Contains resource tags defined as key/value pairs. */
+    tags?: {
+        [propertyName: string]: string;
+    };
+}
+/** Azure resource. */
+export interface PatchedResource {
+    /**
+     * Specifies the resource ID.
+     * NOTE: This property will not be serialized. It can only be populated by the server.
+     */
+    readonly id?: string;
+    /**
+     * Specifies the name of the resource.
+     * NOTE: This property will not be serialized. It can only be populated by the server.
+     */
+    readonly name?: string;
+    /**
+     * Specifies the location of the resource.
+     * NOTE: This property will not be serialized. It can only be populated by the server.
+     */
+    readonly location?: string;
+    /**
+     * Specifies the type of the resource.
+     * NOTE: This property will not be serialized. It can only be populated by the server.
+     */
+    readonly type?: string;
+    /** Contains resource tags defined as key/value pairs. */
+    tags?: {
+        [propertyName: string]: string;
+    };
+}
+/** Azure async operation status. */
+export interface AsyncOperationStatus {
+    /**
+     * Async operation id.
+     * NOTE: This property will not be serialized. It can only be populated by the server.
+     */
+    readonly id?: string;
+    /**
+     * Async operation name.
+     * NOTE: This property will not be serialized. It can only be populated by the server.
+     */
+    readonly name?: string;
+    /**
+     * Read Only: The provisioning state of the web service. Valid values are Unknown, Provisioning, Succeeded, and Failed.
+     * NOTE: This property will not be serialized. It can only be populated by the server.
+     */
+    readonly provisioningState?: ProvisioningState;
+    /**
+     * The date time that the async operation started.
+     * NOTE: This property will not be serialized. It can only be populated by the server.
+     */
+    readonly startTime?: Date;
+    /**
+     * The date time that the async operation finished.
+     * NOTE: This property will not be serialized. It can only be populated by the server.
+     */
+    readonly endTime?: Date;
+    /**
+     * Async operation progress.
+     * NOTE: This property will not be serialized. It can only be populated by the server.
+     */
+    readonly percentComplete?: number;
+    /**
+     * If the async operation fails, this structure contains the error details.
+     * NOTE: This property will not be serialized. It can only be populated by the server.
+     */
+    readonly errorInfo?: AsyncOperationErrorInfo;
+}
+/** The error detail information for async operation */
+export interface AsyncOperationErrorInfo {
+    /**
+     * The error code.
+     * NOTE: This property will not be serialized. It can only be populated by the server.
+     */
+    readonly code?: string;
+    /**
+     * The error target.
+     * NOTE: This property will not be serialized. It can only be populated by the server.
+     */
+    readonly target?: string;
+    /**
+     * The error message.
+     * NOTE: This property will not be serialized. It can only be populated by the server.
+     */
+    readonly message?: string;
+    /**
+     * An array containing error information.
+     * NOTE: This property will not be serialized. It can only be populated by the server.
+     */
+    readonly details?: AsyncOperationErrorInfo[];
+}
+/** Paginated list of web services. */
+export interface PaginatedWebServicesList {
+    /** An array of web service objects. */
+    value?: WebService[];
+    /** A continuation link (absolute URI) to the next page of results in the list. */
+    nextLink?: string;
+}
+/** Defines the graph of modules making up the machine learning solution. */
+export interface GraphPackage {
+    /** The set of nodes making up the graph, provided as a nodeId to GraphNode map */
+    nodes?: {
+        [propertyName: string]: GraphNode;
+    };
+    /** The list of edges making up the graph. */
+    edges?: GraphEdge[];
+    /** The collection of global parameters for the graph, given as a global parameter name to GraphParameter map. Each parameter here has a 1:1 match with the global parameters values map declared at the WebServiceProperties level. */
+    graphParameters?: {
+        [propertyName: string]: GraphParameter;
+    };
+}
+/** Specifies a node in the web service graph. The node can either be an input, output or asset node, so only one of the corresponding id properties is populated at any given time. */
+export interface GraphNode {
+    /** The id of the asset represented by this node. */
+    assetId?: string;
+    /** The id of the input element represented by this node. */
+    inputId?: string;
+    /** The id of the output element represented by this node. */
+    outputId?: string;
+    /** If applicable, parameters of the node. Global graph parameters map into these, with values set at runtime. */
+    parameters?: {
+        [propertyName: string]: WebServiceParameter;
+    };
+}
+/** Defines an edge within the web service's graph. */
+export interface GraphEdge {
+    /** The source graph node's identifier. */
+    sourceNodeId?: string;
+    /** The identifier of the source node's port that the edge connects from. */
+    sourcePortId?: string;
+    /** The destination graph node's identifier. */
+    targetNodeId?: string;
+    /** The identifier of the destination node's port that the edge connects into. */
+    targetPortId?: string;
+}
+/** Defines a global parameter in the graph. */
+export interface GraphParameter {
+    /** Description of this graph parameter. */
+    description?: string;
+    /** Graph parameter's type. */
+    type: ParameterType;
+    /** Association links for this parameter to nodes in the graph. */
+    links: GraphParameterLink[];
+}
+/** Association link for a graph global parameter to a node in the graph. */
+export interface GraphParameterLink {
+    /** The graph node's identifier */
+    nodeId: string;
+    /** The identifier of the node parameter that the global parameter maps to. */
+    parameterKey: string;
+}
+/** Properties specific to a Graph based web service. */
+export interface WebServicePropertiesForGraph extends WebServiceProperties {
+    /** Polymorphic discriminator, which specifies the different types this object can be */
+    packageType: "Graph";
+    /** The definition of the graph package making up this web service. */
+    package?: GraphPackage;
+}
+/** Instance of an Azure ML web service resource. */
+export interface WebService extends Resource {
+    /** Contains the property payload that describes the web service. */
+    properties: WebServicePropertiesUnion;
+}
+/** Instance of an Patched Azure ML web service resource. */
+export interface PatchedWebService extends PatchedResource {
+    /** Contains the property payload that describes the web service. */
+    properties?: WebServicePropertiesUnion;
+}
+/** Known values of {@link ProvisioningState} that the service accepts. */
+export declare enum KnownProvisioningState {
+    /** Unknown */
+    Unknown = "Unknown",
+    /** Provisioning */
+    Provisioning = "Provisioning",
+    /** Succeeded */
+    Succeeded = "Succeeded",
+    /** Failed */
+    Failed = "Failed"
+}
+/**
+ * Defines values for ProvisioningState. \
+ * {@link KnownProvisioningState} can be used interchangeably with ProvisioningState,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Unknown** \
+ * **Provisioning** \
+ * **Succeeded** \
+ * **Failed**
+ */
+export type ProvisioningState = string;
+/** Known values of {@link DiagnosticsLevel} that the service accepts. */
+export declare enum KnownDiagnosticsLevel {
+    /** None */
+    None = "None",
+    /** Error */
+    Error = "Error",
+    /** All */
+    All = "All"
+}
+/**
+ * Defines values for DiagnosticsLevel. \
+ * {@link KnownDiagnosticsLevel} can be used interchangeably with DiagnosticsLevel,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **None** \
+ * **Error** \
+ * **All**
+ */
+export type DiagnosticsLevel = string;
+/** Known values of {@link ColumnType} that the service accepts. */
+export declare enum KnownColumnType {
+    /** Boolean */
+    Boolean = "Boolean",
+    /** Integer */
+    Integer = "Integer",
+    /** Number */
+    Number = "Number",
+    /** String */
+    String = "String"
+}
+/**
+ * Defines values for ColumnType. \
+ * {@link KnownColumnType} can be used interchangeably with ColumnType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Boolean** \
+ * **Integer** \
+ * **Number** \
+ * **String**
+ */
+export type ColumnType = string;
+/** Known values of {@link ColumnFormat} that the service accepts. */
+export declare enum KnownColumnFormat {
+    /** Byte */
+    Byte = "Byte",
+    /** Char */
+    Char = "Char",
+    /** Complex64 */
+    Complex64 = "Complex64",
+    /** Complex128 */
+    Complex128 = "Complex128",
+    /** DateTime */
+    DateTime = "Date-time",
+    /** DateTimeOffset */
+    DateTimeOffset = "Date-timeOffset",
+    /** Double */
+    Double = "Double",
+    /** Duration */
+    Duration = "Duration",
+    /** Float */
+    Float = "Float",
+    /** Int8 */
+    Int8 = "Int8",
+    /** Int16 */
+    Int16 = "Int16",
+    /** Int32 */
+    Int32 = "Int32",
+    /** Int64 */
+    Int64 = "Int64",
+    /** Uint8 */
+    Uint8 = "Uint8",
+    /** Uint16 */
+    Uint16 = "Uint16",
+    /** Uint32 */
+    Uint32 = "Uint32",
+    /** Uint64 */
+    Uint64 = "Uint64"
+}
+/**
+ * Defines values for ColumnFormat. \
+ * {@link KnownColumnFormat} can be used interchangeably with ColumnFormat,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Byte** \
+ * **Char** \
+ * **Complex64** \
+ * **Complex128** \
+ * **Date-time** \
+ * **Date-timeOffset** \
+ * **Double** \
+ * **Duration** \
+ * **Float** \
+ * **Int8** \
+ * **Int16** \
+ * **Int32** \
+ * **Int64** \
+ * **Uint8** \
+ * **Uint16** \
+ * **Uint32** \
+ * **Uint64**
+ */
+export type ColumnFormat = string;
+/** Known values of {@link AssetType} that the service accepts. */
+export declare enum KnownAssetType {
+    /** Module */
+    Module = "Module",
+    /** Resource */
+    Resource = "Resource"
+}
+/**
+ * Defines values for AssetType. \
+ * {@link KnownAssetType} can be used interchangeably with AssetType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Module** \
+ * **Resource**
+ */
+export type AssetType = string;
+/** Known values of {@link InputPortType} that the service accepts. */
+export declare enum KnownInputPortType {
+    /** Dataset */
+    Dataset = "Dataset"
+}
+/**
+ * Defines values for InputPortType. \
+ * {@link KnownInputPortType} can be used interchangeably with InputPortType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Dataset**
+ */
+export type InputPortType = string;
+/** Known values of {@link OutputPortType} that the service accepts. */
+export declare enum KnownOutputPortType {
+    /** Dataset */
+    Dataset = "Dataset"
+}
+/**
+ * Defines values for OutputPortType. \
+ * {@link KnownOutputPortType} can be used interchangeably with OutputPortType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Dataset**
+ */
+export type OutputPortType = string;
+/** Known values of {@link ParameterType} that the service accepts. */
+export declare enum KnownParameterType {
+    /** String */
+    String = "String",
+    /** Int */
+    Int = "Int",
+    /** Float */
+    Float = "Float",
+    /** Enumerated */
+    Enumerated = "Enumerated",
+    /** Script */
+    Script = "Script",
+    /** Mode */
+    Mode = "Mode",
+    /** Credential */
+    Credential = "Credential",
+    /** Boolean */
+    Boolean = "Boolean",
+    /** Double */
+    Double = "Double",
+    /** ColumnPicker */
+    ColumnPicker = "ColumnPicker",
+    /** ParameterRange */
+    ParameterRange = "ParameterRange",
+    /** DataGatewayName */
+    DataGatewayName = "DataGatewayName"
+}
+/**
+ * Defines values for ParameterType. \
+ * {@link KnownParameterType} can be used interchangeably with ParameterType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **String** \
+ * **Int** \
+ * **Float** \
+ * **Enumerated** \
+ * **Script** \
+ * **Mode** \
+ * **Credential** \
+ * **Boolean** \
+ * **Double** \
+ * **ColumnPicker** \
+ * **ParameterRange** \
+ * **DataGatewayName**
+ */
+export type ParameterType = string;
+/** Optional parameters. */
+export interface OperationsListOptionalParams extends coreClient.OperationOptions {
+}
+/** Contains response data for the list operation. */
+export type OperationsListResponse = OperationEntityListResult;
+/** Optional parameters. */
+export interface WebServicesCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
+    /** Delay to wait until next poll, in milliseconds. */
+    updateIntervalInMs?: number;
+    /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+    resumeFrom?: string;
+}
+/** Contains response data for the createOrUpdate operation. */
+export type WebServicesCreateOrUpdateResponse = WebService;
+/** Optional parameters. */
+export interface WebServicesGetOptionalParams extends coreClient.OperationOptions {
+    /** The region for which encrypted credential parameters are valid. */
+    region?: string;
+}
+/** Contains response data for the get operation. */
+export type WebServicesGetResponse = WebService;
+/** Optional parameters. */
+export interface WebServicesPatchOptionalParams extends coreClient.OperationOptions {
+    /** Delay to wait until next poll, in milliseconds. */
+    updateIntervalInMs?: number;
+    /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+    resumeFrom?: string;
+}
+/** Contains response data for the patch operation. */
+export type WebServicesPatchResponse = WebService;
+/** Optional parameters. */
+export interface WebServicesRemoveOptionalParams extends coreClient.OperationOptions {
+    /** Delay to wait until next poll, in milliseconds. */
+    updateIntervalInMs?: number;
+    /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+    resumeFrom?: string;
+}
+/** Optional parameters. */
+export interface WebServicesCreateRegionalPropertiesOptionalParams extends coreClient.OperationOptions {
+    /** Delay to wait until next poll, in milliseconds. */
+    updateIntervalInMs?: number;
+    /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+    resumeFrom?: string;
+}
+/** Contains response data for the createRegionalProperties operation. */
+export type WebServicesCreateRegionalPropertiesResponse = AsyncOperationStatus;
+/** Optional parameters. */
+export interface WebServicesListKeysOptionalParams extends coreClient.OperationOptions {
+}
+/** Contains response data for the listKeys operation. */
+export type WebServicesListKeysResponse = WebServiceKeys;
+/** Optional parameters. */
+export interface WebServicesListByResourceGroupOptionalParams extends coreClient.OperationOptions {
+    /** Continuation token for pagination. */
+    skiptoken?: string;
+}
+/** Contains response data for the listByResourceGroup operation. */
+export type WebServicesListByResourceGroupResponse = PaginatedWebServicesList;
+/** Optional parameters. */
+export interface WebServicesListBySubscriptionIdOptionalParams extends coreClient.OperationOptions {
+    /** Continuation token for pagination. */
+    skiptoken?: string;
+}
+/** Contains response data for the listBySubscriptionId operation. */
+export type WebServicesListBySubscriptionIdResponse = PaginatedWebServicesList;
+/** Optional parameters. */
+export interface WebServicesListByResourceGroupNextOptionalParams extends coreClient.OperationOptions {
+    /** Continuation token for pagination. */
+    skiptoken?: string;
+}
+/** Contains response data for the listByResourceGroupNext operation. */
+export type WebServicesListByResourceGroupNextResponse = PaginatedWebServicesList;
+/** Optional parameters. */
+export interface WebServicesListBySubscriptionIdNextOptionalParams extends coreClient.OperationOptions {
+    /** Continuation token for pagination. */
+    skiptoken?: string;
+}
+/** Contains response data for the listBySubscriptionIdNext operation. */
+export type WebServicesListBySubscriptionIdNextResponse = PaginatedWebServicesList;
+/** Optional parameters. */
+export interface AzureMLWebServicesManagementClientOptionalParams extends coreClient.ServiceClientOptions {
+    /** server parameter */
+    $host?: string;
+    /** Api Version */
+    apiVersion?: string;
+    /** Overrides client endpoint. */
+    endpoint?: string;
+}
+//# sourceMappingURL=index.d.ts.map

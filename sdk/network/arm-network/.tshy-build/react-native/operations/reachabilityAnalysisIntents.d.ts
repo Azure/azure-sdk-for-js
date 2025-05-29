@@ -1,0 +1,69 @@
+import { PagedAsyncIterableIterator } from "@azure/core-paging";
+import { ReachabilityAnalysisIntents } from "../operationsInterfaces/index.js";
+import { NetworkManagementClient } from "../networkManagementClient.js";
+import { ReachabilityAnalysisIntent, ReachabilityAnalysisIntentsListOptionalParams, ReachabilityAnalysisIntentsGetOptionalParams, ReachabilityAnalysisIntentsGetResponse, ReachabilityAnalysisIntentsCreateOptionalParams, ReachabilityAnalysisIntentsCreateResponse, ReachabilityAnalysisIntentsDeleteOptionalParams } from "../models/index.js";
+/** Class containing ReachabilityAnalysisIntents operations. */
+export declare class ReachabilityAnalysisIntentsImpl implements ReachabilityAnalysisIntents {
+    private readonly client;
+    /**
+     * Initialize a new instance of the class ReachabilityAnalysisIntents class.
+     * @param client Reference to the service client
+     */
+    constructor(client: NetworkManagementClient);
+    /**
+     * Gets list of Reachability Analysis Intents .
+     * @param resourceGroupName The name of the resource group.
+     * @param networkManagerName The name of the network manager.
+     * @param workspaceName Workspace name.
+     * @param options The options parameters.
+     */
+    list(resourceGroupName: string, networkManagerName: string, workspaceName: string, options?: ReachabilityAnalysisIntentsListOptionalParams): PagedAsyncIterableIterator<ReachabilityAnalysisIntent>;
+    private listPagingPage;
+    private listPagingAll;
+    /**
+     * Gets list of Reachability Analysis Intents .
+     * @param resourceGroupName The name of the resource group.
+     * @param networkManagerName The name of the network manager.
+     * @param workspaceName Workspace name.
+     * @param options The options parameters.
+     */
+    private _list;
+    /**
+     * Get the Reachability Analysis Intent.
+     * @param resourceGroupName The name of the resource group.
+     * @param networkManagerName The name of the network manager.
+     * @param workspaceName Workspace name.
+     * @param reachabilityAnalysisIntentName Reachability Analysis Intent name.
+     * @param options The options parameters.
+     */
+    get(resourceGroupName: string, networkManagerName: string, workspaceName: string, reachabilityAnalysisIntentName: string, options?: ReachabilityAnalysisIntentsGetOptionalParams): Promise<ReachabilityAnalysisIntentsGetResponse>;
+    /**
+     * Creates Reachability Analysis Intent.
+     * @param resourceGroupName The name of the resource group.
+     * @param networkManagerName The name of the network manager.
+     * @param workspaceName Workspace name.
+     * @param reachabilityAnalysisIntentName Reachability Analysis Intent name.
+     * @param body Reachability Analysis Intent object to create/update.
+     * @param options The options parameters.
+     */
+    create(resourceGroupName: string, networkManagerName: string, workspaceName: string, reachabilityAnalysisIntentName: string, body: ReachabilityAnalysisIntent, options?: ReachabilityAnalysisIntentsCreateOptionalParams): Promise<ReachabilityAnalysisIntentsCreateResponse>;
+    /**
+     * Deletes Reachability Analysis Intent.
+     * @param resourceGroupName The name of the resource group.
+     * @param networkManagerName The name of the network manager.
+     * @param workspaceName Workspace name.
+     * @param reachabilityAnalysisIntentName Reachability Analysis Intent name.
+     * @param options The options parameters.
+     */
+    delete(resourceGroupName: string, networkManagerName: string, workspaceName: string, reachabilityAnalysisIntentName: string, options?: ReachabilityAnalysisIntentsDeleteOptionalParams): Promise<void>;
+    /**
+     * ListNext
+     * @param resourceGroupName The name of the resource group.
+     * @param networkManagerName The name of the network manager.
+     * @param workspaceName Workspace name.
+     * @param nextLink The nextLink from the previous successful call to the List method.
+     * @param options The options parameters.
+     */
+    private _listNext;
+}
+//# sourceMappingURL=reachabilityAnalysisIntents.d.ts.map

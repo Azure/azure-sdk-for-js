@@ -1,0 +1,38 @@
+import * as coreClient from "@azure/core-client";
+export declare const ChatMessageReadReceiptsCollection: coreClient.CompositeMapper;
+export declare const ChatMessageReadReceipt: coreClient.CompositeMapper;
+export declare const CommunicationIdentifierModel: coreClient.CompositeMapper;
+export declare const CommunicationUserIdentifierModel: coreClient.CompositeMapper;
+export declare const PhoneNumberIdentifierModel: coreClient.CompositeMapper;
+export declare const MicrosoftTeamsUserIdentifierModel: coreClient.CompositeMapper;
+export declare const MicrosoftTeamsAppIdentifierModel: coreClient.CompositeMapper;
+export declare const CommunicationErrorResponse: coreClient.CompositeMapper;
+export declare const ChatError: coreClient.CompositeMapper;
+export declare const SendReadReceiptRequest: coreClient.CompositeMapper;
+export declare const SendChatMessageRequest: coreClient.CompositeMapper;
+export declare const SendChatMessageResult: coreClient.CompositeMapper;
+export declare const ChatMessagesCollection: coreClient.CompositeMapper;
+export declare const ChatMessage: coreClient.CompositeMapper;
+export declare const ChatMessageContent: coreClient.CompositeMapper;
+export declare const ChatParticipant: coreClient.CompositeMapper;
+export declare const ChatAttachment: coreClient.CompositeMapper;
+export declare const UpdateChatMessageRequest: coreClient.CompositeMapper;
+export declare const ChatParticipantsCollection: coreClient.CompositeMapper;
+export declare const AddChatParticipantsRequest: coreClient.CompositeMapper;
+export declare const AddChatParticipantsResult: coreClient.CompositeMapper;
+export declare const CreateChatThreadRequest: coreClient.CompositeMapper;
+export declare const ChatRetentionPolicy: coreClient.CompositeMapper;
+export declare const CreateChatThreadResult: coreClient.CompositeMapper;
+export declare const ChatThreadProperties: coreClient.CompositeMapper;
+export declare const ChatThreadsItemCollection: coreClient.CompositeMapper;
+export declare const ChatThreadItem: coreClient.CompositeMapper;
+export declare const UpdateChatThreadRequest: coreClient.CompositeMapper;
+export declare const SendTypingNotificationRequest: coreClient.CompositeMapper;
+export declare const ThreadCreationDateRetentionPolicy: coreClient.CompositeMapper;
+export declare const NoneRetentionPolicy: coreClient.CompositeMapper;
+export declare let discriminators: {
+    ChatRetentionPolicy: coreClient.CompositeMapper;
+    "ChatRetentionPolicy.threadCreationDate": coreClient.CompositeMapper;
+    "ChatRetentionPolicy.none": coreClient.CompositeMapper;
+};
+//# sourceMappingURL=mappers.d.ts.map

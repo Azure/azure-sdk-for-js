@@ -1,0 +1,1 @@
+{"version":3,"file":"Serializer.js","sourceRoot":"","sources":["../../../../src/encryption/Serializers/Serializer.ts"],"names":[],"mappings":"AAAA,uCAAuC;AACvC,kCAAkC","sourcesContent":["// Copyright (c) Microsoft Corporation.\n// Licensed under the MIT License.\n\nexport interface Serializer {\n  serialize(value: any): Buffer;\n  deserialize(bytes: Buffer): any;\n}\n"]}

@@ -1,0 +1,21 @@
+import { OperationParameter, OperationURLParameter, OperationQueryParameter } from "@azure/core-client";
+export declare const accept: OperationParameter;
+export declare const $host: OperationURLParameter;
+export declare const contentType: OperationParameter;
+export declare const body: OperationParameter;
+export declare const subscriptionId: OperationURLParameter;
+export declare const apiVersion: OperationQueryParameter;
+export declare const resourceGroupName: OperationURLParameter;
+export declare const body1: OperationParameter;
+export declare const resourceName: OperationURLParameter;
+export declare const body2: OperationParameter;
+export declare const accountResourceName: OperationURLParameter;
+export declare const body3: OperationParameter;
+export declare const extensionResourceName: OperationURLParameter;
+export declare const rootResourceName: OperationURLParameter;
+export declare const body4: OperationParameter;
+export declare const validating: OperationQueryParameter;
+export declare const subContainerName: OperationURLParameter;
+export declare const operation: OperationQueryParameter;
+export declare const jobId: OperationQueryParameter;
+//# sourceMappingURL=parameters.d.ts.map

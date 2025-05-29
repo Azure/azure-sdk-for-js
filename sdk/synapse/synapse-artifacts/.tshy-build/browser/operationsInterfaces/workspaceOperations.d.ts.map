@@ -1,0 +1,1 @@
+{"version":3,"file":"workspaceOperations.d.ts","sourceRoot":"","sources":["../../../src/operationsInterfaces/workspaceOperations.ts"],"names":[],"mappings":"AAQA,OAAO,KAAK,EAAE,0BAA0B,EAAE,oBAAoB,EAAE,MAAM,oBAAoB,CAAC;AAE3F,oDAAoD;AACpD,MAAM,WAAW,mBAAmB;IAClC;;;OAGG;IACH,GAAG,CAAC,OAAO,CAAC,EAAE,0BAA0B,GAAG,OAAO,CAAC,oBAAoB,CAAC,CAAC;CAC1E"}

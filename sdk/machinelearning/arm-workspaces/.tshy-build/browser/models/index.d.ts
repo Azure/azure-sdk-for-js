@@ -1,0 +1,190 @@
+import * as coreClient from "@azure/core-client";
+/** An array of operations supported by the resource provider. */
+export interface OperationListResult {
+    /** List of AML Studio operations supported by the AML Studio resource provider. */
+    value?: Operation[];
+}
+/** Azure Machine Learning Studio REST API operation */
+export interface Operation {
+    /** Operation name: {provider}/{resource}/{operation} */
+    name?: string;
+    /** Display name of operation */
+    display?: OperationDisplay;
+}
+/** Display name of operation */
+export interface OperationDisplay {
+    /** The resource provider name: Microsoft.MachineLearning */
+    provider?: string;
+    /** The resource on which the operation is performed. */
+    resource?: string;
+    /** The operation that users can perform. */
+    operation?: string;
+    /** The description for the operation. */
+    description?: string;
+}
+/** The error response send when an operation fails. */
+export interface ErrorResponse {
+    /** error code */
+    code: string;
+    /** error message */
+    message: string;
+}
+/** An Azure resource. */
+export interface Resource {
+    /**
+     * The resource ID.
+     * NOTE: This property will not be serialized. It can only be populated by the server.
+     */
+    readonly id?: string;
+    /**
+     * The name of the resource.
+     * NOTE: This property will not be serialized. It can only be populated by the server.
+     */
+    readonly name?: string;
+    /**
+     * The type of the resource.
+     * NOTE: This property will not be serialized. It can only be populated by the server.
+     */
+    readonly type?: string;
+    /** The location of the resource. This cannot be changed after the resource is created. */
+    location: string;
+    /** The tags of the resource. */
+    tags?: {
+        [propertyName: string]: string;
+    };
+    /** The sku of the workspace. */
+    sku?: Sku;
+}
+/** Sku of the resource */
+export interface Sku {
+    /** Name of the sku */
+    name?: string;
+    /** Tier of the sku like Basic or Enterprise */
+    tier?: string;
+}
+/** The parameters for updating a machine learning workspace. */
+export interface WorkspaceUpdateParameters {
+    /** The resource tags for the machine learning workspace. */
+    tags?: {
+        [propertyName: string]: string;
+    };
+    /** The current state of workspace resource. */
+    workspaceState?: WorkspaceState;
+    /** The key vault identifier used for encrypted workspaces. */
+    keyVaultIdentifierId?: string;
+    /** The sku of the workspace. */
+    sku?: Sku;
+}
+/** Workspace authorization keys for a workspace. */
+export interface WorkspaceKeysResponse {
+    /** Primary authorization key for this workspace. */
+    primaryToken?: string;
+    /** Secondary authorization key for this workspace. */
+    secondaryToken?: string;
+}
+/** The result of a request to list machine learning workspace keys. */
+export interface WorkspaceListResult {
+    /** The list of machine learning workspaces. Since this list may be incomplete, the nextLink field should be used to request the next list of machine learning workspaces. */
+    value?: Workspace[];
+    /** The URI that can be used to request the next list of machine learning workspaces. */
+    nextLink?: string;
+}
+/** An object that represents a machine learning workspace. */
+export interface Workspace extends Resource {
+    /** The fully qualified arm id of the storage account associated with this workspace. */
+    userStorageAccountId?: string;
+    /** The email id of the owner for this workspace. */
+    ownerEmail?: string;
+    /**
+     * The type of this workspace.
+     * NOTE: This property will not be serialized. It can only be populated by the server.
+     */
+    readonly workspaceType?: WorkspaceType;
+    /**
+     * The current state of workspace resource.
+     * NOTE: This property will not be serialized. It can only be populated by the server.
+     */
+    readonly workspaceState?: WorkspaceState;
+    /**
+     * The immutable id associated with this workspace.
+     * NOTE: This property will not be serialized. It can only be populated by the server.
+     */
+    readonly workspaceId?: string;
+    /**
+     * The creation time for this workspace resource.
+     * NOTE: This property will not be serialized. It can only be populated by the server.
+     */
+    readonly creationTime?: string;
+    /**
+     * The regional endpoint for the machine learning studio service which hosts this workspace.
+     * NOTE: This property will not be serialized. It can only be populated by the server.
+     */
+    readonly studioEndpoint?: string;
+    /** The key vault identifier used for encrypted workspaces. */
+    keyVaultIdentifierId?: string;
+}
+/** Defines values for WorkspaceType. */
+export type WorkspaceType = "Production" | "Free" | "Anonymous" | "PaidStandard" | "PaidPremium";
+/** Defines values for WorkspaceState. */
+export type WorkspaceState = "Deleted" | "Enabled" | "Disabled" | "Migrated" | "Updated" | "Registered" | "Unregistered";
+/** Optional parameters. */
+export interface OperationsListOptionalParams extends coreClient.OperationOptions {
+}
+/** Contains response data for the list operation. */
+export type OperationsListResponse = OperationListResult;
+/** Optional parameters. */
+export interface WorkspacesGetOptionalParams extends coreClient.OperationOptions {
+}
+/** Contains response data for the get operation. */
+export type WorkspacesGetResponse = Workspace;
+/** Optional parameters. */
+export interface WorkspacesCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
+}
+/** Contains response data for the createOrUpdate operation. */
+export type WorkspacesCreateOrUpdateResponse = Workspace;
+/** Optional parameters. */
+export interface WorkspacesDeleteOptionalParams extends coreClient.OperationOptions {
+}
+/** Optional parameters. */
+export interface WorkspacesUpdateOptionalParams extends coreClient.OperationOptions {
+}
+/** Contains response data for the update operation. */
+export type WorkspacesUpdateResponse = Workspace;
+/** Optional parameters. */
+export interface WorkspacesResyncStorageKeysOptionalParams extends coreClient.OperationOptions {
+}
+/** Optional parameters. */
+export interface WorkspacesListWorkspaceKeysOptionalParams extends coreClient.OperationOptions {
+}
+/** Contains response data for the listWorkspaceKeys operation. */
+export type WorkspacesListWorkspaceKeysResponse = WorkspaceKeysResponse;
+/** Optional parameters. */
+export interface WorkspacesListByResourceGroupOptionalParams extends coreClient.OperationOptions {
+}
+/** Contains response data for the listByResourceGroup operation. */
+export type WorkspacesListByResourceGroupResponse = WorkspaceListResult;
+/** Optional parameters. */
+export interface WorkspacesListOptionalParams extends coreClient.OperationOptions {
+}
+/** Contains response data for the list operation. */
+export type WorkspacesListResponse = WorkspaceListResult;
+/** Optional parameters. */
+export interface WorkspacesListByResourceGroupNextOptionalParams extends coreClient.OperationOptions {
+}
+/** Contains response data for the listByResourceGroupNext operation. */
+export type WorkspacesListByResourceGroupNextResponse = WorkspaceListResult;
+/** Optional parameters. */
+export interface WorkspacesListNextOptionalParams extends coreClient.OperationOptions {
+}
+/** Contains response data for the listNext operation. */
+export type WorkspacesListNextResponse = WorkspaceListResult;
+/** Optional parameters. */
+export interface MachineLearningWorkspacesManagementClientOptionalParams extends coreClient.ServiceClientOptions {
+    /** server parameter */
+    $host?: string;
+    /** Api Version */
+    apiVersion?: string;
+    /** Overrides client endpoint. */
+    endpoint?: string;
+}
+//# sourceMappingURL=index.d.ts.map

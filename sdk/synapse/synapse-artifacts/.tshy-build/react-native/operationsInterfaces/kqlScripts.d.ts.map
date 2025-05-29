@@ -1,0 +1,1 @@
+{"version":3,"file":"kqlScripts.d.ts","sourceRoot":"","sources":["../../../src/operationsInterfaces/kqlScripts.ts"],"names":[],"mappings":"AAQA,OAAO,KAAK,EAAE,0BAA0B,EAAE,MAAM,oBAAoB,CAAC;AACrE,OAAO,KAAK,EAAE,iBAAiB,EAAE,8BAA8B,EAAE,MAAM,oBAAoB,CAAC;AAE5F,2CAA2C;AAC3C,MAAM,WAAW,UAAU;IACzB;;;OAGG;IACH,OAAO,CAAC,OAAO,CAAC,EAAE,8BAA8B,GAAG,0BAA0B,CAAC,iBAAiB,CAAC,CAAC;CAClG"}

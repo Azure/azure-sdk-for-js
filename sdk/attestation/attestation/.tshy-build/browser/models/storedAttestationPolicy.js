@@ -1,0 +1,31 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
+import { stringToBytes } from "../utils/utf8.js";
+import { TypeDeserializer } from "../utils/typeDeserializer.js";
+import * as Mappers from "../generated/models/mappers.js";
+/**
+ * Represents a stored attestation policy sent to the attestation service.
+ */
+export class StoredAttestationPolicy {
+    constructor(value) {
+        this.attestationPolicy = stringToBytes(value);
+    }
+    /**
+     * Serializes a StoredAttestationPolicy object to a JSON encoded string.
+     *
+     * @returns The serialized JSON policy.
+     */
+    serialize() {
+        return TypeDeserializer.serialize(this, { StoredAttestationPolicy: Mappers.StoredAttestationPolicy }, Mappers.StoredAttestationPolicy);
+    }
+    /**
+     * Deserializes a stored attestation policy object returned from the attestation service.
+     *
+     * @param value - Raw JSON object from service to serialize as an attestation policy.
+     * @returns Stored attestation policy.
+     */
+    static deserialize(value) {
+        return TypeDeserializer.deserialize(value, { StoredAttestationPolicy: Mappers.StoredAttestationPolicy }, "StoredAttestationPolicy");
+    }
+}
+//# sourceMappingURL=storedAttestationPolicy.js.map

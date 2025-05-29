@@ -1,0 +1,1 @@
+{"version":3,"file":"DatabaseDefinition.js","sourceRoot":"","sources":["../../../../src/client/Database/DatabaseDefinition.ts"],"names":[],"mappings":"","sourcesContent":["// Copyright (c) Microsoft Corporation.\n// Licensed under the MIT License.\nexport interface DatabaseDefinition {\n  /** The id of the database. */\n  id?: string;\n}\n"]}

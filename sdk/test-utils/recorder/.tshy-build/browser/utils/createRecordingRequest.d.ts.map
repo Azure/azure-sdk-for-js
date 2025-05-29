@@ -1,0 +1,1 @@
+{"version":3,"file":"createRecordingRequest.d.ts","sourceRoot":"","sources":["../../../src/utils/createRecordingRequest.ts"],"names":[],"mappings":"AAGA,OAAO,EAAyB,WAAW,EAAE,eAAe,EAAE,MAAM,2BAA2B,CAAC;AAEhG;;;GAGG;AACH,wBAAgB,sBAAsB,CACpC,GAAG,EAAE,MAAM,EACX,WAAW,CAAC,EAAE,MAAM,EACpB,WAAW,CAAC,EAAE,MAAM,EACpB,MAAM,GAAE,WAAoB,EAC5B,UAAU,CAAC,EAAE,MAAM,GAClB,eAAe,CAoBjB"}

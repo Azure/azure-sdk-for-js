@@ -1,0 +1,26 @@
+import { OperationParameter, OperationURLParameter, OperationQueryParameter } from "@azure/core-client";
+export declare const contentType: OperationParameter;
+export declare const accept: OperationParameter;
+export declare const customId: OperationParameter;
+export declare const createTokenWithScopes: OperationParameter;
+export declare const expiresInMinutes: OperationParameter;
+export declare const endpoint: OperationURLParameter;
+export declare const apiVersion: OperationQueryParameter;
+export declare const id: OperationURLParameter;
+export declare const token: OperationParameter;
+export declare const appId: OperationParameter;
+export declare const userId: OperationParameter;
+export declare const scopes: OperationParameter;
+export declare const expiresInMinutes1: OperationParameter;
+export declare const body3: OperationParameter;
+export declare const tenantId: OperationURLParameter;
+export declare const objectId: OperationURLParameter;
+export declare const principalType: OperationParameter;
+export declare const clientIds: OperationParameter;
+export declare const contentType1: OperationParameter;
+export declare const body5: OperationParameter;
+export declare const nextLink: OperationURLParameter;
+export declare const tenantId1: OperationParameter;
+export declare const principalType1: OperationParameter;
+export declare const clientIds1: OperationParameter;
+//# sourceMappingURL=parameters.d.ts.map

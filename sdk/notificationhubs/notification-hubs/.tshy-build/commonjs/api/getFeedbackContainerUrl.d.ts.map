@@ -1,0 +1,1 @@
+{"version":3,"file":"getFeedbackContainerUrl.d.ts","sourceRoot":"","sources":["../../../src/api/getFeedbackContainerUrl.ts"],"names":[],"mappings":"AAIA,OAAO,KAAK,EAAE,6BAA6B,EAAE,MAAM,YAAY,CAAC;AAChE,OAAO,KAAK,EAAE,gBAAgB,EAAE,MAAM,yBAAyB,CAAC;AAKhE;;;;;;GAMG;AACH,wBAAgB,uBAAuB,CACrC,OAAO,EAAE,6BAA6B,EACtC,OAAO,GAAE,gBAAqB,GAC7B,OAAO,CAAC,MAAM,CAAC,CAiBjB"}

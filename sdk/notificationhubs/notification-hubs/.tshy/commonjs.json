@@ -1,0 +1,18 @@
+{
+  "extends": "./build.json",
+  "include": [
+    "../src/**/*.ts",
+    "../src/**/*.cts",
+    "../src/**/*.tsx",
+    "../src/**/*.json"
+  ],
+  "exclude": [
+    "../src/**/*.mts",
+    "../src/package.json",
+    "../src/auth/hmacSha256-browser.mts",
+    "../src/auth/hmacSha256-react-native.mts"
+  ],
+  "compilerOptions": {
+    "outDir": "../.tshy-build/commonjs"
+  }
+}

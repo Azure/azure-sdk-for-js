@@ -1,0 +1,26 @@
+import { OperationParameter, OperationURLParameter, OperationQueryParameter } from "@azure/core-client";
+export declare const accept: OperationParameter;
+export declare const $host: OperationURLParameter;
+export declare const apiVersion: OperationQueryParameter;
+export declare const nextLink: OperationURLParameter;
+export declare const contentType: OperationParameter;
+export declare const parameters: OperationParameter;
+export declare const location: OperationURLParameter;
+export declare const subscriptionId: OperationURLParameter;
+export declare const resourceGroupName: OperationURLParameter;
+export declare const resourceName: OperationURLParameter;
+export declare const parameters1: OperationParameter;
+export declare const parameters2: OperationParameter;
+export declare const replicaName: OperationURLParameter;
+export declare const certificateName: OperationURLParameter;
+export declare const parameters3: OperationParameter;
+export declare const name: OperationURLParameter;
+export declare const parameters4: OperationParameter;
+export declare const hubName: OperationURLParameter;
+export declare const parameters5: OperationParameter;
+export declare const privateEndpointConnectionName: OperationURLParameter;
+export declare const parameters6: OperationParameter;
+export declare const parameters7: OperationParameter;
+export declare const sharedPrivateLinkResourceName: OperationURLParameter;
+export declare const parameters8: OperationParameter;
+//# sourceMappingURL=parameters.d.ts.map

@@ -1,0 +1,1 @@
+{"version":3,"file":"SumAggregator.d.ts","sourceRoot":"","sources":["../../../../src/queryExecutionContext/Aggregators/SumAggregator.ts"],"names":[],"mappings":"AAEA,OAAO,KAAK,EAAE,UAAU,EAAE,MAAM,iBAAiB,CAAC;AAElD,cAAc;AACd,qBAAa,aAAc,YAAW,UAAU;IACvC,GAAG,EAAE,MAAM,CAAC;IACnB;;OAEG;IACI,SAAS,CAAC,KAAK,EAAE,MAAM,GAAG,IAAI;IAWrC;;OAEG;IACI,SAAS,IAAI,MAAM;CAG3B"}

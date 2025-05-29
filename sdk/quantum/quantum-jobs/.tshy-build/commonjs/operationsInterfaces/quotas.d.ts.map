@@ -1,0 +1,1 @@
+{"version":3,"file":"quotas.d.ts","sourceRoot":"","sources":["../../../src/operationsInterfaces/quotas.ts"],"names":[],"mappings":"AAQA,OAAO,KAAK,EAAE,0BAA0B,EAAE,MAAM,oBAAoB,CAAC;AACrE,OAAO,KAAK,EAAE,KAAK,EAAE,wBAAwB,EAAE,MAAM,oBAAoB,CAAC;AAG1E,uCAAuC;AACvC,MAAM,WAAW,MAAM;IACrB;;;OAGG;IACH,IAAI,CAAC,OAAO,CAAC,EAAE,wBAAwB,GAAG,0BAA0B,CAAC,KAAK,CAAC,CAAC;CAC7E"}

@@ -1,0 +1,21 @@
+import * as coreClient from "@azure/core-client";
+export declare const CreateRoomRequest: coreClient.CompositeMapper;
+export declare const ParticipantProperties: coreClient.CompositeMapper;
+export declare const RoomModel: coreClient.CompositeMapper;
+export declare const CommunicationErrorResponse: coreClient.CompositeMapper;
+export declare const CommunicationError: coreClient.CompositeMapper;
+export declare const RoomsCollection: coreClient.CompositeMapper;
+export declare const UpdateRoomRequest: coreClient.CompositeMapper;
+export declare const ParticipantsCollection: coreClient.CompositeMapper;
+export declare const RoomParticipant: coreClient.CompositeMapper;
+export declare const UpdateParticipantsRequest: coreClient.CompositeMapper;
+export declare const RoomsCreateExceptionHeaders: coreClient.CompositeMapper;
+export declare const RoomsListExceptionHeaders: coreClient.CompositeMapper;
+export declare const RoomsGetExceptionHeaders: coreClient.CompositeMapper;
+export declare const RoomsUpdateExceptionHeaders: coreClient.CompositeMapper;
+export declare const RoomsDeleteExceptionHeaders: coreClient.CompositeMapper;
+export declare const RoomsListNextExceptionHeaders: coreClient.CompositeMapper;
+export declare const ParticipantsListExceptionHeaders: coreClient.CompositeMapper;
+export declare const ParticipantsUpdateExceptionHeaders: coreClient.CompositeMapper;
+export declare const ParticipantsListNextExceptionHeaders: coreClient.CompositeMapper;
+//# sourceMappingURL=mappers.d.ts.map

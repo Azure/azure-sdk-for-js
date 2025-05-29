@@ -1,0 +1,1 @@
+{"version":3,"file":"storage.d.ts","sourceRoot":"","sources":["../../../src/operationsInterfaces/storage.ts"],"names":[],"mappings":"AAQA,OAAO,KAAK,EACV,WAAW,EACX,2BAA2B,EAC3B,qBAAqB,EACtB,MAAM,oBAAoB,CAAC;AAE5B,wCAAwC;AACxC,MAAM,WAAW,OAAO;IACtB;;;;;OAKG;IACH,MAAM,CACJ,WAAW,EAAE,WAAW,EACxB,OAAO,CAAC,EAAE,2BAA2B,GACpC,OAAO,CAAC,qBAAqB,CAAC,CAAC;CACnC"}

@@ -1,0 +1,1 @@
+{"version":3,"file":"ChangeFeedStartFromContinuation.d.ts","sourceRoot":"","sources":["../../../../src/client/ChangeFeed/ChangeFeedStartFromContinuation.ts"],"names":[],"mappings":"AAIA;;;GAGG;AACH,qBAAa,+BAA+B;IAC1C,OAAO,CAAC,iBAAiB,CAAS;gBAEtB,YAAY,EAAE,MAAM;IAIzB,aAAa,IAAI,MAAM;IAGvB,iBAAiB,IAAI,GAAG;IAIxB,eAAe,IAAI,GAAG;CAkB9B"}

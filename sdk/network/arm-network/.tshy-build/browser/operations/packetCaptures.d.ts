@@ -1,0 +1,105 @@
+import { PagedAsyncIterableIterator } from "@azure/core-paging";
+import { PacketCaptures } from "../operationsInterfaces/index.js";
+import { NetworkManagementClient } from "../networkManagementClient.js";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
+import { PacketCaptureResult, PacketCapturesListOptionalParams, PacketCapture, PacketCapturesCreateOptionalParams, PacketCapturesCreateResponse, PacketCapturesGetOptionalParams, PacketCapturesGetResponse, PacketCapturesDeleteOptionalParams, PacketCapturesStopOptionalParams, PacketCapturesGetStatusOptionalParams, PacketCapturesGetStatusResponse } from "../models/index.js";
+/** Class containing PacketCaptures operations. */
+export declare class PacketCapturesImpl implements PacketCaptures {
+    private readonly client;
+    /**
+     * Initialize a new instance of the class PacketCaptures class.
+     * @param client Reference to the service client
+     */
+    constructor(client: NetworkManagementClient);
+    /**
+     * Lists all packet capture sessions within the specified resource group.
+     * @param resourceGroupName The name of the resource group.
+     * @param networkWatcherName The name of the Network Watcher resource.
+     * @param options The options parameters.
+     */
+    list(resourceGroupName: string, networkWatcherName: string, options?: PacketCapturesListOptionalParams): PagedAsyncIterableIterator<PacketCaptureResult>;
+    private listPagingPage;
+    private listPagingAll;
+    /**
+     * Create and start a packet capture on the specified VM.
+     * @param resourceGroupName The name of the resource group.
+     * @param networkWatcherName The name of the network watcher.
+     * @param packetCaptureName The name of the packet capture session.
+     * @param parameters Parameters that define the create packet capture operation.
+     * @param options The options parameters.
+     */
+    beginCreate(resourceGroupName: string, networkWatcherName: string, packetCaptureName: string, parameters: PacketCapture, options?: PacketCapturesCreateOptionalParams): Promise<SimplePollerLike<OperationState<PacketCapturesCreateResponse>, PacketCapturesCreateResponse>>;
+    /**
+     * Create and start a packet capture on the specified VM.
+     * @param resourceGroupName The name of the resource group.
+     * @param networkWatcherName The name of the network watcher.
+     * @param packetCaptureName The name of the packet capture session.
+     * @param parameters Parameters that define the create packet capture operation.
+     * @param options The options parameters.
+     */
+    beginCreateAndWait(resourceGroupName: string, networkWatcherName: string, packetCaptureName: string, parameters: PacketCapture, options?: PacketCapturesCreateOptionalParams): Promise<PacketCapturesCreateResponse>;
+    /**
+     * Gets a packet capture session by name.
+     * @param resourceGroupName The name of the resource group.
+     * @param networkWatcherName The name of the network watcher.
+     * @param packetCaptureName The name of the packet capture session.
+     * @param options The options parameters.
+     */
+    get(resourceGroupName: string, networkWatcherName: string, packetCaptureName: string, options?: PacketCapturesGetOptionalParams): Promise<PacketCapturesGetResponse>;
+    /**
+     * Deletes the specified packet capture session.
+     * @param resourceGroupName The name of the resource group.
+     * @param networkWatcherName The name of the network watcher.
+     * @param packetCaptureName The name of the packet capture session.
+     * @param options The options parameters.
+     */
+    beginDelete(resourceGroupName: string, networkWatcherName: string, packetCaptureName: string, options?: PacketCapturesDeleteOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
+    /**
+     * Deletes the specified packet capture session.
+     * @param resourceGroupName The name of the resource group.
+     * @param networkWatcherName The name of the network watcher.
+     * @param packetCaptureName The name of the packet capture session.
+     * @param options The options parameters.
+     */
+    beginDeleteAndWait(resourceGroupName: string, networkWatcherName: string, packetCaptureName: string, options?: PacketCapturesDeleteOptionalParams): Promise<void>;
+    /**
+     * Stops a specified packet capture session.
+     * @param resourceGroupName The name of the resource group.
+     * @param networkWatcherName The name of the network watcher.
+     * @param packetCaptureName The name of the packet capture session.
+     * @param options The options parameters.
+     */
+    beginStop(resourceGroupName: string, networkWatcherName: string, packetCaptureName: string, options?: PacketCapturesStopOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
+    /**
+     * Stops a specified packet capture session.
+     * @param resourceGroupName The name of the resource group.
+     * @param networkWatcherName The name of the network watcher.
+     * @param packetCaptureName The name of the packet capture session.
+     * @param options The options parameters.
+     */
+    beginStopAndWait(resourceGroupName: string, networkWatcherName: string, packetCaptureName: string, options?: PacketCapturesStopOptionalParams): Promise<void>;
+    /**
+     * Query the status of a running packet capture session.
+     * @param resourceGroupName The name of the resource group.
+     * @param networkWatcherName The name of the Network Watcher resource.
+     * @param packetCaptureName The name given to the packet capture session.
+     * @param options The options parameters.
+     */
+    beginGetStatus(resourceGroupName: string, networkWatcherName: string, packetCaptureName: string, options?: PacketCapturesGetStatusOptionalParams): Promise<SimplePollerLike<OperationState<PacketCapturesGetStatusResponse>, PacketCapturesGetStatusResponse>>;
+    /**
+     * Query the status of a running packet capture session.
+     * @param resourceGroupName The name of the resource group.
+     * @param networkWatcherName The name of the Network Watcher resource.
+     * @param packetCaptureName The name given to the packet capture session.
+     * @param options The options parameters.
+     */
+    beginGetStatusAndWait(resourceGroupName: string, networkWatcherName: string, packetCaptureName: string, options?: PacketCapturesGetStatusOptionalParams): Promise<PacketCapturesGetStatusResponse>;
+    /**
+     * Lists all packet capture sessions within the specified resource group.
+     * @param resourceGroupName The name of the resource group.
+     * @param networkWatcherName The name of the Network Watcher resource.
+     * @param options The options parameters.
+     */
+    private _list;
+}
+//# sourceMappingURL=packetCaptures.d.ts.map

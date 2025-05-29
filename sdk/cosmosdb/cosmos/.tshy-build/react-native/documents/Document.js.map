@@ -1,0 +1,1 @@
+{"version":3,"file":"Document.js","sourceRoot":"","sources":["../../../src/documents/Document.ts"],"names":[],"mappings":"","sourcesContent":["// Copyright (c) Microsoft Corporation.\n// Licensed under the MIT License.\nexport interface Document {\n  [key: string]: any;\n}\n"]}

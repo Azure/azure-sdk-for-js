@@ -1,0 +1,36 @@
+import { PagedAsyncIterableIterator } from "@azure/core-paging";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
+import { Account, DeletedAccountsListOptionalParams, DeletedAccountsGetOptionalParams, DeletedAccountsGetResponse, DeletedAccountsPurgeOptionalParams } from "../models/index.js";
+/** Interface representing a DeletedAccounts. */
+export interface DeletedAccounts {
+    /**
+     * Returns all the resources of a particular type belonging to a subscription.
+     * @param options The options parameters.
+     */
+    list(options?: DeletedAccountsListOptionalParams): PagedAsyncIterableIterator<Account>;
+    /**
+     * Returns a Cognitive Services account specified by the parameters.
+     * @param location Resource location.
+     * @param resourceGroupName The name of the resource group. The name is case insensitive.
+     * @param accountName The name of Cognitive Services account.
+     * @param options The options parameters.
+     */
+    get(location: string, resourceGroupName: string, accountName: string, options?: DeletedAccountsGetOptionalParams): Promise<DeletedAccountsGetResponse>;
+    /**
+     * Deletes a Cognitive Services account from the resource group.
+     * @param location Resource location.
+     * @param resourceGroupName The name of the resource group. The name is case insensitive.
+     * @param accountName The name of Cognitive Services account.
+     * @param options The options parameters.
+     */
+    beginPurge(location: string, resourceGroupName: string, accountName: string, options?: DeletedAccountsPurgeOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
+    /**
+     * Deletes a Cognitive Services account from the resource group.
+     * @param location Resource location.
+     * @param resourceGroupName The name of the resource group. The name is case insensitive.
+     * @param accountName The name of Cognitive Services account.
+     * @param options The options parameters.
+     */
+    beginPurgeAndWait(location: string, resourceGroupName: string, accountName: string, options?: DeletedAccountsPurgeOptionalParams): Promise<void>;
+}
+//# sourceMappingURL=deletedAccounts.d.ts.map

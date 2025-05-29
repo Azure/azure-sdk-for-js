@@ -1,0 +1,22 @@
+import * as coreClient from "@azure/core-client";
+export declare const PolicyResponse: coreClient.CompositeMapper;
+export declare const CloudError: coreClient.CompositeMapper;
+export declare const CloudErrorBody: coreClient.CompositeMapper;
+export declare const PolicyCertificatesResponse: coreClient.CompositeMapper;
+export declare const PolicyCertificatesModifyResponse: coreClient.CompositeMapper;
+export declare const AttestOpenEnclaveRequest: coreClient.CompositeMapper;
+export declare const RuntimeData: coreClient.CompositeMapper;
+export declare const InitTimeData: coreClient.CompositeMapper;
+export declare const AttestationResponse: coreClient.CompositeMapper;
+export declare const AttestSgxEnclaveRequest: coreClient.CompositeMapper;
+export declare const TpmAttestationRequest: coreClient.CompositeMapper;
+export declare const TpmAttestationResponse: coreClient.CompositeMapper;
+export declare const JsonWebKeySet: coreClient.CompositeMapper;
+export declare const JsonWebKey: coreClient.CompositeMapper;
+export declare const AttestationCertificateManagementBody: coreClient.CompositeMapper;
+export declare const PolicyCertificatesResult: coreClient.CompositeMapper;
+export declare const PolicyCertificatesModificationResult: coreClient.CompositeMapper;
+export declare const StoredAttestationPolicy: coreClient.CompositeMapper;
+export declare const PolicyResult: coreClient.CompositeMapper;
+export declare const GeneratedAttestationResult: coreClient.CompositeMapper;
+//# sourceMappingURL=mappers.d.ts.map

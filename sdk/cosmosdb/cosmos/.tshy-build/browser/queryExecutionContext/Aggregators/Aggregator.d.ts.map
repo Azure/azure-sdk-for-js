@@ -1,0 +1,1 @@
+{"version":3,"file":"Aggregator.d.ts","sourceRoot":"","sources":["../../../../src/queryExecutionContext/Aggregators/Aggregator.ts"],"names":[],"mappings":"AAEA,cAAc;AACd,MAAM,WAAW,UAAU;IACzB,SAAS,EAAE,CAAC,KAAK,EAAE,GAAG,KAAK,IAAI,CAAC;IAChC,SAAS,EAAE,MAAM,GAAG,CAAC;CACtB"}

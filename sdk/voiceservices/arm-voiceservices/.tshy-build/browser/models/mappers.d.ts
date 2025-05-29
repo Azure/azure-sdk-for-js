@@ -1,0 +1,25 @@
+import * as coreClient from "@azure/core-client";
+export declare const OperationListResult: coreClient.CompositeMapper;
+export declare const Operation: coreClient.CompositeMapper;
+export declare const OperationDisplay: coreClient.CompositeMapper;
+export declare const ErrorResponse: coreClient.CompositeMapper;
+export declare const ErrorDetail: coreClient.CompositeMapper;
+export declare const ErrorAdditionalInfo: coreClient.CompositeMapper;
+export declare const CommunicationsGatewayListResult: coreClient.CompositeMapper;
+export declare const ServiceRegionProperties: coreClient.CompositeMapper;
+export declare const PrimaryRegionProperties: coreClient.CompositeMapper;
+export declare const Resource: coreClient.CompositeMapper;
+export declare const SystemData: coreClient.CompositeMapper;
+export declare const CheckNameAvailabilityRequest: coreClient.CompositeMapper;
+export declare const CheckNameAvailabilityResponse: coreClient.CompositeMapper;
+export declare const CommunicationsGatewayUpdate: coreClient.CompositeMapper;
+export declare const TestLineListResult: coreClient.CompositeMapper;
+export declare const TestLineUpdate: coreClient.CompositeMapper;
+export declare const TrackedResource: coreClient.CompositeMapper;
+export declare const CommunicationsGateway: coreClient.CompositeMapper;
+export declare const TestLine: coreClient.CompositeMapper;
+export declare const CommunicationsGatewaysCreateOrUpdateHeaders: coreClient.CompositeMapper;
+export declare const CommunicationsGatewaysDeleteHeaders: coreClient.CompositeMapper;
+export declare const TestLinesCreateOrUpdateHeaders: coreClient.CompositeMapper;
+export declare const TestLinesDeleteHeaders: coreClient.CompositeMapper;
+//# sourceMappingURL=mappers.d.ts.map

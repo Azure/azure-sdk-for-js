@@ -1,0 +1,649 @@
+import type { TokenCredential } from "@azure/core-auth";
+import type { AbortSignalLike } from "@azure/abort-controller";
+import type { ServiceGetUserDelegationKeyHeaders, ContainerCreateResponse, ContainerDeleteResponse, ServiceGetPropertiesResponse, BlobServiceProperties, ServiceSetPropertiesResponse, ServiceGetStatisticsResponse, ServiceGetAccountInfoResponse, ServiceListContainersSegmentResponse, ContainerItem, UserDelegationKeyModel, ContainerUndeleteResponse, FilterBlobSegmentModel, ServiceFilterBlobsHeaders, LeaseAccessConditions, FilterBlobSegment, FilterBlobItem } from "./generatedModels.js";
+import type { StoragePipelineOptions, PipelineLike } from "./Pipeline.js";
+import type { ContainerCreateOptions, ContainerDeleteMethodOptions } from "./ContainerClient.js";
+import { ContainerClient } from "./ContainerClient.js";
+import type { WithResponse } from "./utils/utils.common.js";
+import { StorageSharedKeyCredential } from "./credentials/StorageSharedKeyCredential.js";
+import { AnonymousCredential } from "./credentials/AnonymousCredential.js";
+import type { PagedAsyncIterableIterator } from "@azure/core-paging";
+import { BlobBatchClient } from "./BlobBatchClient.js";
+import type { CommonOptions } from "./StorageClient.js";
+import { StorageClient } from "./StorageClient.js";
+import { AccountSASPermissions } from "./sas/AccountSASPermissions.js";
+import type { SASProtocol } from "./sas/SASQueryParameters.js";
+import type { SasIPRange } from "./sas/SasIPRange.js";
+/**
+ * Options to configure the {@link BlobServiceClient.getProperties} operation.
+ */
+export interface ServiceGetPropertiesOptions extends CommonOptions {
+    /**
+     * An implementation of the `AbortSignalLike` interface to signal the request to cancel the operation.
+     * For example, use the &commat;azure/abort-controller to create an `AbortSignal`.
+     */
+    abortSignal?: AbortSignalLike;
+}
+/**
+ * Options to configure the {@link BlobServiceClient.setProperties} operation.
+ */
+export interface ServiceSetPropertiesOptions extends CommonOptions {
+    /**
+     * An implementation of the `AbortSignalLike` interface to signal the request to cancel the operation.
+     * For example, use the &commat;azure/abort-controller to create an `AbortSignal`.
+     */
+    abortSignal?: AbortSignalLike;
+}
+/**
+ * Options to configure the {@link BlobServiceClient.getAccountInfo} operation.
+ */
+export interface ServiceGetAccountInfoOptions extends CommonOptions {
+    /**
+     * An implementation of the `AbortSignalLike` interface to signal the request to cancel the operation.
+     * For example, use the &commat;azure/abort-controller to create an `AbortSignal`.
+     */
+    abortSignal?: AbortSignalLike;
+}
+/**
+ * Options to configure the {@link BlobServiceClient.getStatistics} operation.
+ */
+export interface ServiceGetStatisticsOptions extends CommonOptions {
+    /**
+     * An implementation of the `AbortSignalLike` interface to signal the request to cancel the operation.
+     * For example, use the &commat;azure/abort-controller to create an `AbortSignal`.
+     */
+    abortSignal?: AbortSignalLike;
+}
+/**
+ * Options to configure the Service - Get User Delegation Key.
+ */
+export interface ServiceGetUserDelegationKeyOptions extends CommonOptions {
+    /**
+     * An implementation of the `AbortSignalLike` interface to signal the request to cancel the operation.
+     * For example, use the &commat;azure/abort-controller to create an `AbortSignal`.
+     */
+    abortSignal?: AbortSignalLike;
+}
+/**
+ * Options to configure the {@link BlobServiceClient.listContainers} operation.
+ */
+export interface ServiceListContainersOptions extends CommonOptions {
+    /**
+     * An implementation of the `AbortSignalLike` interface to signal the request to cancel the operation.
+     * For example, use the &commat;azure/abort-controller to create an `AbortSignal`.
+     */
+    abortSignal?: AbortSignalLike;
+    /**
+     * Filters the results to return only containers
+     * whose name begins with the specified prefix.
+     */
+    prefix?: string;
+    /**
+     * Specifies whether the container's metadata
+     *                                   should be returned as part of the response body.
+     */
+    includeMetadata?: boolean;
+    /**
+     * Specifies whether soft deleted containers should be included in the response.
+     */
+    includeDeleted?: boolean;
+    /**
+     * Specifies whether system containers should be included in the response.
+     */
+    includeSystem?: boolean;
+}
+/**
+ * Options to configure the {@link BlobServiceClient.findBlobsByTags} operation.
+ */
+export interface ServiceFindBlobByTagsOptions extends CommonOptions {
+    /**
+     * An implementation of the `AbortSignalLike` interface to signal the request to cancel the operation.
+     * For example, use the &commat;azure/abort-controller to create an `AbortSignal`.
+     */
+    abortSignal?: AbortSignalLike;
+}
+/**
+ * The response of {@link BlobServiceClient.findBlobsByTags} operation.
+ */
+export type ServiceFindBlobsByTagsSegmentResponse = WithResponse<FilterBlobSegment & ServiceFilterBlobsHeaders, ServiceFilterBlobsHeaders, FilterBlobSegmentModel>;
+/**
+ * A user delegation key.
+ */
+export interface UserDelegationKey {
+    /**
+     * The Azure Active Directory object ID in GUID format.
+     */
+    signedObjectId: string;
+    /**
+     * The Azure Active Directory tenant ID in GUID format.
+     */
+    signedTenantId: string;
+    /**
+     * The date-time the key is active.
+     */
+    signedStartsOn: Date;
+    /**
+     * The date-time the key expires.
+     */
+    signedExpiresOn: Date;
+    /**
+     * Abbreviation of the Azure Storage service that accepts the key.
+     */
+    signedService: string;
+    /**
+     * The service version that created the key.
+     */
+    signedVersion: string;
+    /**
+     * The key as a base64 string.
+     */
+    value: string;
+}
+/**
+ * Contains response data for the {@link getUserDelegationKey} operation.
+ */
+export declare type ServiceGetUserDelegationKeyResponse = WithResponse<UserDelegationKey & ServiceGetUserDelegationKeyHeaders, ServiceGetUserDelegationKeyHeaders, UserDelegationKeyModel>;
+/**
+ * Options to configure {@link BlobServiceClient.undeleteContainer} operation.
+ */
+export interface ServiceUndeleteContainerOptions extends CommonOptions {
+    /**
+     * An implementation of the `AbortSignalLike` interface to signal the request to cancel the operation.
+     * For example, use the &commat;azure/abort-controller to create an `AbortSignal`.
+     */
+    abortSignal?: AbortSignalLike;
+    /**
+     * Optional. Specifies the new name of the restored container.
+     * Will use its original name if this is not specified.
+     * @deprecated Restore container to a different name is not supported by service anymore.
+     */
+    destinationContainerName?: string;
+}
+/**
+ * Options to configure {@link BlobServiceClient.renameContainer} operation.
+ */
+export interface ServiceRenameContainerOptions extends CommonOptions {
+    /**
+     * An implementation of the `AbortSignalLike` interface to signal the request to cancel the operation.
+     * For example, use the &commat;azure/abort-controller to create an `AbortSignal`.
+     */
+    abortSignal?: AbortSignalLike;
+    /**
+     * Condition to meet for the source container.
+     */
+    sourceCondition?: LeaseAccessConditions;
+}
+/**
+ * Options to configure {@link BlobServiceClient.generateAccountSasUrl} operation.
+ */
+export interface ServiceGenerateAccountSasUrlOptions {
+    /**
+     * The version of the service this SAS will target. If not specified, it will default to the version targeted by the
+     * library.
+     */
+    version?: string;
+    /**
+     * Optional. SAS protocols allowed.
+     */
+    protocol?: SASProtocol;
+    /**
+     * Optional. When the SAS will take effect.
+     */
+    startsOn?: Date;
+    /**
+     * Optional. IP range allowed.
+     */
+    ipRange?: SasIPRange;
+    /**
+     * Optional. Encryption scope to use when sending requests authorized with this SAS URI.
+     */
+    encryptionScope?: string;
+}
+/**
+ * A BlobServiceClient represents a Client to the Azure Storage Blob service allowing you
+ * to manipulate blob containers.
+ */
+export declare class BlobServiceClient extends StorageClient {
+    /**
+     * serviceContext provided by protocol layer.
+     */
+    private serviceContext;
+    /**
+     *
+     * Creates an instance of BlobServiceClient from connection string.
+     *
+     * @param connectionString - Account connection string or a SAS connection string of an Azure storage account.
+     *                                  [ Note - Account connection string can only be used in NODE.JS runtime. ]
+     *                                  Account connection string example -
+     *                                  `DefaultEndpointsProtocol=https;AccountName=myaccount;AccountKey=accountKey;EndpointSuffix=core.windows.net`
+     *                                  SAS connection string example -
+     *                                  `BlobEndpoint=https://myaccount.blob.core.windows.net/;QueueEndpoint=https://myaccount.queue.core.windows.net/;FileEndpoint=https://myaccount.file.core.windows.net/;TableEndpoint=https://myaccount.table.core.windows.net/;SharedAccessSignature=sasString`
+     * @param options - Optional. Options to configure the HTTP pipeline.
+     */
+    static fromConnectionString(connectionString: string, options?: StoragePipelineOptions): BlobServiceClient;
+    /**
+     * Creates an instance of BlobServiceClient.
+     *
+     * @param url - A Client string pointing to Azure Storage blob service, such as
+     *                     "https://myaccount.blob.core.windows.net". You can append a SAS
+     *                     if using AnonymousCredential, such as "https://myaccount.blob.core.windows.net?sasString".
+     * @param credential -  Such as AnonymousCredential, StorageSharedKeyCredential or any credential from the `@azure/identity` package to authenticate requests to the service. You can also provide an object that implements the TokenCredential interface. If not specified, AnonymousCredential is used.
+     * @param options - Optional. Options to configure the HTTP pipeline.
+     *
+     * Example using DefaultAzureCredential from `@azure/identity`:
+     *
+     * ```ts snippet:ReadmeSampleCreateClient_DefaultAzureCredential
+     * import { DefaultAzureCredential } from "@azure/identity";
+     * import { BlobServiceClient } from "@azure/storage-blob";
+     *
+     * // Enter your storage account name
+     * const account = "<account>";
+     * const defaultAzureCredential = new DefaultAzureCredential();
+     *
+     * const blobServiceClient = new BlobServiceClient(
+     *   `https://${account}.blob.core.windows.net`,
+     *   defaultAzureCredential,
+     * );
+     * ```
+     *
+     * Example using an account name/key:
+     *
+     * ```ts snippet:ReadmeSampleCreateClient_StorageSharedKeyCredential
+     * import { StorageSharedKeyCredential, BlobServiceClient } from "@azure/storage-blob";
+     *
+     * const account = "<account>";
+     * const accountKey = "<accountkey>";
+     *
+     * // Use StorageSharedKeyCredential with storage account and account key
+     * // StorageSharedKeyCredential is only available in Node.js runtime, not in browsers
+     * const sharedKeyCredential = new StorageSharedKeyCredential(account, accountKey);
+     * const blobServiceClient = new BlobServiceClient(
+     *   `https://${account}.blob.core.windows.net`,
+     *   sharedKeyCredential,
+     * );
+     * ```
+     */
+    constructor(url: string, credential?: StorageSharedKeyCredential | AnonymousCredential | TokenCredential, options?: StoragePipelineOptions);
+    /**
+     * Creates an instance of BlobServiceClient.
+     *
+     * @param url - A Client string pointing to Azure Storage blob service, such as
+     *                     "https://myaccount.blob.core.windows.net". You can append a SAS
+     *                     if using AnonymousCredential, such as "https://myaccount.blob.core.windows.net?sasString".
+     * @param pipeline - Call newPipeline() to create a default
+     *                            pipeline, or provide a customized pipeline.
+     */
+    constructor(url: string, pipeline: PipelineLike);
+    /**
+     * Creates a {@link ContainerClient} object
+     *
+     * @param containerName - A container name
+     * @returns A new ContainerClient object for the given container name.
+     *
+     * Example usage:
+     *
+     * ```ts snippet:BlobServiceClientGetContainerClient
+     * import { BlobServiceClient } from "@azure/storage-blob";
+     * import { DefaultAzureCredential } from "@azure/identity";
+     *
+     * const account = "<account>";
+     * const blobServiceClient = new BlobServiceClient(
+     *   `https://${account}.blob.core.windows.net`,
+     *   new DefaultAzureCredential(),
+     * );
+     *
+     * const containerClient = blobServiceClient.getContainerClient("<container name>");
+     * ```
+     */
+    getContainerClient(containerName: string): ContainerClient;
+    /**
+     * Create a Blob container. @see https://learn.microsoft.com/en-us/rest/api/storageservices/create-container
+     *
+     * @param containerName - Name of the container to create.
+     * @param options - Options to configure Container Create operation.
+     * @returns Container creation response and the corresponding container client.
+     */
+    createContainer(containerName: string, options?: ContainerCreateOptions): Promise<{
+        containerClient: ContainerClient;
+        containerCreateResponse: ContainerCreateResponse;
+    }>;
+    /**
+     * Deletes a Blob container.
+     *
+     * @param containerName - Name of the container to delete.
+     * @param options - Options to configure Container Delete operation.
+     * @returns Container deletion response.
+     */
+    deleteContainer(containerName: string, options?: ContainerDeleteMethodOptions): Promise<ContainerDeleteResponse>;
+    /**
+     * Restore a previously deleted Blob container.
+     * This API is only functional if Container Soft Delete is enabled for the storage account associated with the container.
+     *
+     * @param deletedContainerName - Name of the previously deleted container.
+     * @param deletedContainerVersion - Version of the previously deleted container, used to uniquely identify the deleted container.
+     * @param options - Options to configure Container Restore operation.
+     * @returns Container deletion response.
+     */
+    undeleteContainer(deletedContainerName: string, deletedContainerVersion: string, options?: ServiceUndeleteContainerOptions): Promise<{
+        containerClient: ContainerClient;
+        containerUndeleteResponse: ContainerUndeleteResponse;
+    }>;
+    /**
+     * Gets the properties of a storage account’s Blob service, including properties
+     * for Storage Analytics and CORS (Cross-Origin Resource Sharing) rules.
+     * @see https://learn.microsoft.com/en-us/rest/api/storageservices/get-blob-service-properties
+     *
+     * @param options - Options to the Service Get Properties operation.
+     * @returns Response data for the Service Get Properties operation.
+     */
+    getProperties(options?: ServiceGetPropertiesOptions): Promise<ServiceGetPropertiesResponse>;
+    /**
+     * Sets properties for a storage account’s Blob service endpoint, including properties
+     * for Storage Analytics, CORS (Cross-Origin Resource Sharing) rules and soft delete settings.
+     * @see https://learn.microsoft.com/en-us/rest/api/storageservices/set-blob-service-properties
+     *
+     * @param properties -
+     * @param options - Options to the Service Set Properties operation.
+     * @returns Response data for the Service Set Properties operation.
+     */
+    setProperties(properties: BlobServiceProperties, options?: ServiceSetPropertiesOptions): Promise<ServiceSetPropertiesResponse>;
+    /**
+     * Retrieves statistics related to replication for the Blob service. It is only
+     * available on the secondary location endpoint when read-access geo-redundant
+     * replication is enabled for the storage account.
+     * @see https://learn.microsoft.com/en-us/rest/api/storageservices/get-blob-service-stats
+     *
+     * @param options - Options to the Service Get Statistics operation.
+     * @returns Response data for the Service Get Statistics operation.
+     */
+    getStatistics(options?: ServiceGetStatisticsOptions): Promise<ServiceGetStatisticsResponse>;
+    /**
+     * The Get Account Information operation returns the sku name and account kind
+     * for the specified account.
+     * The Get Account Information operation is available on service versions beginning
+     * with version 2018-03-28.
+     * @see https://learn.microsoft.com/en-us/rest/api/storageservices/get-account-information
+     *
+     * @param options - Options to the Service Get Account Info operation.
+     * @returns Response data for the Service Get Account Info operation.
+     */
+    getAccountInfo(options?: ServiceGetAccountInfoOptions): Promise<ServiceGetAccountInfoResponse>;
+    /**
+     * Returns a list of the containers under the specified account.
+     * @see https://learn.microsoft.com/en-us/rest/api/storageservices/list-containers2
+     *
+     * @param marker - A string value that identifies the portion of
+     *                        the list of containers to be returned with the next listing operation. The
+     *                        operation returns the continuationToken value within the response body if the
+     *                        listing operation did not return all containers remaining to be listed
+     *                        with the current page. The continuationToken value can be used as the value for
+     *                        the marker parameter in a subsequent call to request the next page of list
+     *                        items. The marker value is opaque to the client.
+     * @param options - Options to the Service List Container Segment operation.
+     * @returns Response data for the Service List Container Segment operation.
+     */
+    private listContainersSegment;
+    /**
+     * The Filter Blobs operation enables callers to list blobs across all containers whose tags
+     * match a given search expression. Filter blobs searches across all containers within a
+     * storage account but can be scoped within the expression to a single container.
+     *
+     * @param tagFilterSqlExpression - The where parameter enables the caller to query blobs whose tags match a given expression.
+     *                                        The given expression must evaluate to true for a blob to be returned in the results.
+     *                                        The[OData - ABNF] filter syntax rule defines the formal grammar for the value of the where query parameter;
+     *                                        however, only a subset of the OData filter syntax is supported in the Blob service.
+     * @param marker - A string value that identifies the portion of
+     *                          the list of blobs to be returned with the next listing operation. The
+     *                          operation returns the continuationToken value within the response body if the
+     *                          listing operation did not return all blobs remaining to be listed
+     *                          with the current page. The continuationToken value can be used as the value for
+     *                          the marker parameter in a subsequent call to request the next page of list
+     *                          items. The marker value is opaque to the client.
+     * @param options - Options to find blobs by tags.
+     */
+    private findBlobsByTagsSegment;
+    /**
+     * Returns an AsyncIterableIterator for ServiceFindBlobsByTagsSegmentResponse.
+     *
+     * @param tagFilterSqlExpression -  The where parameter enables the caller to query blobs whose tags match a given expression.
+     *                                         The given expression must evaluate to true for a blob to be returned in the results.
+     *                                         The[OData - ABNF] filter syntax rule defines the formal grammar for the value of the where query parameter;
+     *                                         however, only a subset of the OData filter syntax is supported in the Blob service.
+     * @param marker - A string value that identifies the portion of
+     *                          the list of blobs to be returned with the next listing operation. The
+     *                          operation returns the continuationToken value within the response body if the
+     *                          listing operation did not return all blobs remaining to be listed
+     *                          with the current page. The continuationToken value can be used as the value for
+     *                          the marker parameter in a subsequent call to request the next page of list
+     *                          items. The marker value is opaque to the client.
+     * @param options - Options to find blobs by tags.
+     */
+    private findBlobsByTagsSegments;
+    /**
+     * Returns an AsyncIterableIterator for blobs.
+     *
+     * @param tagFilterSqlExpression -  The where parameter enables the caller to query blobs whose tags match a given expression.
+     *                                         The given expression must evaluate to true for a blob to be returned in the results.
+     *                                         The[OData - ABNF] filter syntax rule defines the formal grammar for the value of the where query parameter;
+     *                                         however, only a subset of the OData filter syntax is supported in the Blob service.
+     * @param options - Options to findBlobsByTagsItems.
+     */
+    private findBlobsByTagsItems;
+    /**
+     * Returns an async iterable iterator to find all blobs with specified tag
+     * under the specified account.
+     *
+     * .byPage() returns an async iterable iterator to list the blobs in pages.
+     *
+     * @see https://learn.microsoft.com/en-us/rest/api/storageservices/get-blob-service-properties
+     *
+     * ```ts snippet:BlobServiceClientFindBlobsByTags
+     * import { BlobServiceClient } from "@azure/storage-blob";
+     * import { DefaultAzureCredential } from "@azure/identity";
+     *
+     * const account = "<account>";
+     * const blobServiceClient = new BlobServiceClient(
+     *   `https://${account}.blob.core.windows.net`,
+     *   new DefaultAzureCredential(),
+     * );
+     *
+     * // Use for await to iterate the blobs
+     * let i = 1;
+     * for await (const blob of blobServiceClient.findBlobsByTags("tagkey='tagvalue'")) {
+     *   console.log(`Blob ${i++}: ${blob.name}`);
+     * }
+     *
+     * // Use iter.next() to iterate the blobs
+     * i = 1;
+     * const iter = blobServiceClient.findBlobsByTags("tagkey='tagvalue'");
+     * let { value, done } = await iter.next();
+     * while (!done) {
+     *   console.log(`Blob ${i++}: ${value.name}`);
+     *   ({ value, done } = await iter.next());
+     * }
+     *
+     * // Use byPage() to iterate the blobs
+     * i = 1;
+     * for await (const page of blobServiceClient
+     *   .findBlobsByTags("tagkey='tagvalue'")
+     *   .byPage({ maxPageSize: 20 })) {
+     *   for (const blob of page.blobs) {
+     *     console.log(`Blob ${i++}: ${blob.name}`);
+     *   }
+     * }
+     *
+     * // Use paging with a marker
+     * i = 1;
+     * let iterator = blobServiceClient.findBlobsByTags("tagkey='tagvalue'").byPage({ maxPageSize: 2 });
+     * let response = (await iterator.next()).value;
+     * // Prints 2 blob names
+     * if (response.blobs) {
+     *   for (const blob of response.blobs) {
+     *     console.log(`Blob ${i++}: ${blob.name}`);
+     *   }
+     * }
+     * // Gets next marker
+     * let marker = response.continuationToken;
+     * // Passing next marker as continuationToken
+     * iterator = blobServiceClient
+     *   .findBlobsByTags("tagkey='tagvalue'")
+     *   .byPage({ continuationToken: marker, maxPageSize: 10 });
+     * response = (await iterator.next()).value;
+     *
+     * // Prints blob names
+     * if (response.blobs) {
+     *   for (const blob of response.blobs) {
+     *     console.log(`Blob ${i++}: ${blob.name}`);
+     *   }
+     * }
+     * ```
+     *
+     * @param tagFilterSqlExpression -  The where parameter enables the caller to query blobs whose tags match a given expression.
+     *                                         The given expression must evaluate to true for a blob to be returned in the results.
+     *                                         The[OData - ABNF] filter syntax rule defines the formal grammar for the value of the where query parameter;
+     *                                         however, only a subset of the OData filter syntax is supported in the Blob service.
+     * @param options - Options to find blobs by tags.
+     */
+    findBlobsByTags(tagFilterSqlExpression: string, options?: ServiceFindBlobByTagsOptions): PagedAsyncIterableIterator<FilterBlobItem, ServiceFindBlobsByTagsSegmentResponse>;
+    /**
+     * Returns an AsyncIterableIterator for ServiceListContainersSegmentResponses
+     *
+     * @param marker - A string value that identifies the portion of
+     *                        the list of containers to be returned with the next listing operation. The
+     *                        operation returns the continuationToken value within the response body if the
+     *                        listing operation did not return all containers remaining to be listed
+     *                        with the current page. The continuationToken value can be used as the value for
+     *                        the marker parameter in a subsequent call to request the next page of list
+     *                        items. The marker value is opaque to the client.
+     * @param options - Options to list containers operation.
+     */
+    private listSegments;
+    /**
+     * Returns an AsyncIterableIterator for Container Items
+     *
+     * @param options - Options to list containers operation.
+     */
+    private listItems;
+    /**
+     * Returns an async iterable iterator to list all the containers
+     * under the specified account.
+     *
+     * .byPage() returns an async iterable iterator to list the containers in pages.
+     *
+     * ```ts snippet:BlobServiceClientListContainers
+     * import { BlobServiceClient } from "@azure/storage-blob";
+     * import { DefaultAzureCredential } from "@azure/identity";
+     *
+     * const account = "<account>";
+     * const blobServiceClient = new BlobServiceClient(
+     *   `https://${account}.blob.core.windows.net`,
+     *   new DefaultAzureCredential(),
+     * );
+     *
+     * // Use for await to iterate the containers
+     * let i = 1;
+     * for await (const container of blobServiceClient.listContainers()) {
+     *   console.log(`Container ${i++}: ${container.name}`);
+     * }
+     *
+     * // Use iter.next() to iterate the containers
+     * i = 1;
+     * const iter = blobServiceClient.listContainers();
+     * let { value, done } = await iter.next();
+     * while (!done) {
+     *   console.log(`Container ${i++}: ${value.name}`);
+     *   ({ value, done } = await iter.next());
+     * }
+     *
+     * // Use byPage() to iterate the containers
+     * i = 1;
+     * for await (const page of blobServiceClient.listContainers().byPage({ maxPageSize: 20 })) {
+     *   for (const container of page.containerItems) {
+     *     console.log(`Container ${i++}: ${container.name}`);
+     *   }
+     * }
+     *
+     * // Use paging with a marker
+     * i = 1;
+     * let iterator = blobServiceClient.listContainers().byPage({ maxPageSize: 2 });
+     * let response = (await iterator.next()).value;
+     *
+     * // Prints 2 container names
+     * if (response.containerItems) {
+     *   for (const container of response.containerItems) {
+     *     console.log(`Container ${i++}: ${container.name}`);
+     *   }
+     * }
+     *
+     * // Gets next marker
+     * let marker = response.continuationToken;
+     * // Passing next marker as continuationToken
+     * iterator = blobServiceClient
+     *   .listContainers()
+     *   .byPage({ continuationToken: marker, maxPageSize: 10 });
+     * response = (await iterator.next()).value;
+     *
+     * // Prints 10 container names
+     * if (response.containerItems) {
+     *   for (const container of response.containerItems) {
+     *     console.log(`Container ${i++}: ${container.name}`);
+     *   }
+     * }
+     * ```
+     *
+     * @param options - Options to list containers.
+     * @returns An asyncIterableIterator that supports paging.
+     */
+    listContainers(options?: ServiceListContainersOptions): PagedAsyncIterableIterator<ContainerItem, ServiceListContainersSegmentResponse>;
+    /**
+     * ONLY AVAILABLE WHEN USING BEARER TOKEN AUTHENTICATION (TokenCredential).
+     *
+     * Retrieves a user delegation key for the Blob service. This is only a valid operation when using
+     * bearer token authentication.
+     *
+     * @see https://learn.microsoft.com/en-us/rest/api/storageservices/get-user-delegation-key
+     *
+     * @param startsOn -      The start time for the user delegation SAS. Must be within 7 days of the current time
+     * @param expiresOn -     The end time for the user delegation SAS. Must be within 7 days of the current time
+     */
+    getUserDelegationKey(startsOn: Date, expiresOn: Date, options?: ServiceGetUserDelegationKeyOptions): Promise<ServiceGetUserDelegationKeyResponse>;
+    /**
+     * Creates a BlobBatchClient object to conduct batch operations.
+     *
+     * @see https://learn.microsoft.com/en-us/rest/api/storageservices/blob-batch
+     *
+     * @returns A new BlobBatchClient object for this service.
+     */
+    getBlobBatchClient(): BlobBatchClient;
+    /**
+     * Only available for BlobServiceClient constructed with a shared key credential.
+     *
+     * Generates a Blob account Shared Access Signature (SAS) URI based on the client properties
+     * and parameters passed in. The SAS is signed by the shared key credential of the client.
+     *
+     * @see https://learn.microsoft.com/en-us/rest/api/storageservices/create-account-sas
+     *
+     * @param expiresOn - Optional. The time at which the shared access signature becomes invalid. Default to an hour later if not provided.
+     * @param permissions - Specifies the list of permissions to be associated with the SAS.
+     * @param resourceTypes - Specifies the resource types associated with the shared access signature.
+     * @param options - Optional parameters.
+     * @returns An account SAS URI consisting of the URI to the resource represented by this client, followed by the generated SAS token.
+     */
+    generateAccountSasUrl(expiresOn?: Date, permissions?: AccountSASPermissions, resourceTypes?: string, options?: ServiceGenerateAccountSasUrlOptions): string;
+    /**
+     * Only available for BlobServiceClient constructed with a shared key credential.
+     *
+     * Generates string to sign for a Blob account Shared Access Signature (SAS) URI based on
+     * the client properties and parameters passed in. The SAS is signed by the shared key credential of the client.
+     *
+     * @see https://learn.microsoft.com/en-us/rest/api/storageservices/create-account-sas
+     *
+     * @param expiresOn - Optional. The time at which the shared access signature becomes invalid. Default to an hour later if not provided.
+     * @param permissions - Specifies the list of permissions to be associated with the SAS.
+     * @param resourceTypes - Specifies the resource types associated with the shared access signature.
+     * @param options - Optional parameters.
+     * @returns An account SAS URI consisting of the URI to the resource represented by this client, followed by the generated SAS token.
+     */
+    generateSasStringToSign(expiresOn?: Date, permissions?: AccountSASPermissions, resourceTypes?: string, options?: ServiceGenerateAccountSasUrlOptions): string;
+}
+//# sourceMappingURL=BlobServiceClient.d.ts.map

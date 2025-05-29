@@ -1,0 +1,650 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
+import { Constants, ErrorNameConditionMapper, StandardAbortMessage } from "@azure/core-amqp";
+import { ReceiverEvents } from "rhea-promise";
+import { LinkEntity } from "../core/linkEntity.js";
+import { receiverLogger as logger } from "../log.js";
+import { DispositionType, ServiceBusMessageImpl } from "../serviceBusMessage.js";
+import { throwErrorIfConnectionClosed } from "../util/errors.js";
+import { calculateRenewAfterDuration, convertTicksToDate } from "../util/utils.js";
+import { BatchingReceiverLite } from "../core/batchingReceiver.js";
+import { onMessageSettled, createReceiverOptions } from "../core/shared.js";
+import { AbortError } from "@azure/abort-controller";
+import { ReceiverHelper } from "../core/receiverHelper.js";
+import { ServiceBusError, translateServiceBusError } from "../serviceBusError.js";
+import { abandonMessage, completeMessage } from "../receivers/receiverCommon.js";
+import { delay, isDefined } from "@azure/core-util";
+/**
+ * @internal
+ * Describes the receiver for a Message Session.
+ */
+export class MessageSession extends LinkEntity {
+    /**
+     * Denotes if we are currently receiving messages
+     */
+    get isReceivingMessages() {
+        return this._batchingReceiverLite.isReceivingMessages || this._isReceivingMessagesForSubscriber;
+    }
+    get receiverHelper() {
+        return this._receiverHelper;
+    }
+    /**
+     * Ensures that the session lock is renewed before it expires. The lock will not be renewed for
+     * more than the configured totalAutoLockRenewDuration.
+     */
+    _ensureSessionLockRenewal() {
+        if (this.autoRenewLock &&
+            new Date(this._totalAutoLockRenewDuration) > this.sessionLockedUntilUtc &&
+            Date.now() < this._totalAutoLockRenewDuration &&
+            this.isOpen()) {
+            const nextRenewalTimeout = calculateRenewAfterDuration(this.sessionLockedUntilUtc);
+            this._sessionLockRenewalTimer = setTimeout(async () => {
+                try {
+                    logger.verbose("%s Attempting to renew the session lock for MessageSession '%s' " + "with name '%s'.", this.logPrefix, this.sessionId, this.name);
+                    this.sessionLockedUntilUtc = await this._context
+                        .getManagementClient(this.entityPath)
+                        .renewSessionLock(this.sessionId, {
+                        associatedLinkName: this.name,
+                        timeoutInMs: 10000,
+                    });
+                    logger.verbose("%s Successfully renewed the session lock for MessageSession '%s' " + "with name '%s'.", this.logPrefix, this.sessionId, this.name);
+                    logger.verbose("%s Calling _ensureSessionLockRenewal() again for MessageSession '%s'.", this.logPrefix, this.sessionId);
+                    this._ensureSessionLockRenewal();
+                }
+                catch (err) {
+                    logger.logError(err, "%s An error occurred while renewing the session lock for MessageSession '%s'", this.logPrefix, this.sessionId);
+                }
+            }, nextRenewalTimeout);
+            logger.verbose("%s MessageSession '%s' has next session lock renewal in %d milliseconds @(%s).", this.logPrefix, this.sessionId, nextRenewalTimeout, new Date(Date.now() + nextRenewalTimeout).toString());
+        }
+    }
+    async createRheaLink(options, _abortSignal) {
+        var _a, _b;
+        this._lastSBError = undefined;
+        let errorMessage = "";
+        const link = await this._context.connection.createReceiver(options);
+        this._intermediateLink = link;
+        const receivedSessionId = (_b = (_a = link.source) === null || _a === void 0 ? void 0 : _a.filter) === null || _b === void 0 ? void 0 : _b[Constants.sessionFilterName];
+        if (this._providedSessionId === undefined && receivedSessionId === undefined) {
+            // When we ask for any sessions (passing option of session-filter: undefined),
+            // but don't receive one back, check whether service has sent any error.
+            if (options.source &&
+                typeof options.source !== "string" &&
+                options.source.filter &&
+                Constants.sessionFilterName in options.source.filter &&
+                options.source.filter[Constants.sessionFilterName] === undefined) {
+                await delay(1); // yield to eventloop
+                if (this._lastSBError) {
+                    logger.verbose("%s cleaning up resources held by link", this.logPrefix);
+                    await link.close({ closeSession: true });
+                    link.remove();
+                    throw this._lastSBError;
+                }
+            }
+            // Ideally this code path should never be reached as `MessageSession.createReceiver()` should fail instead
+            // TODO: https://github.com/Azure/azure-sdk-for-js/issues/9775 to figure out why this code path indeed gets hit.
+            errorMessage = `Failed to create a receiver. No unlocked sessions available.`;
+        }
+        else if (this._providedSessionId !== undefined &&
+            receivedSessionId !== this._providedSessionId) {
+            // This code path is reached if the session is already locked by another receiver.
+            // TODO: Check why the service would not throw an error or just timeout instead of giving a misleading successful receiver
+            errorMessage = `Failed to create a receiver for the requested session '${this._providedSessionId}'. It may be locked by another receiver.`;
+        }
+        if (errorMessage) {
+            const error = translateServiceBusError({
+                description: errorMessage,
+                condition: ErrorNameConditionMapper.SessionCannotBeLockedError,
+            });
+            logger.logError(error, this.logPrefix);
+            logger.verbose("%s cleaning up resources held by intermediate link (SessionCannotBeLockedError)", this.logPrefix);
+            await link.close({ closeSession: true });
+            link.remove();
+            throw error;
+        }
+        return link;
+    }
+    /**
+     * Creates a new AMQP receiver under a new AMQP session.
+     */
+    async _init(opts = {}) {
+        var _a, _b;
+        try {
+            const sessionOptions = this._createMessageSessionOptions(this.identifier, opts.timeoutInMs);
+            await this.initLink(sessionOptions, opts.abortSignal);
+            if (!this.link) {
+                throw new Error("INTERNAL ERROR: failed to create receiver but without an error.");
+            }
+            const receivedSessionId = (_b = (_a = this.link.source) === null || _a === void 0 ? void 0 : _a.filter) === null || _b === void 0 ? void 0 : _b[Constants.sessionFilterName];
+            if (this._providedSessionId === undefined)
+                this.sessionId = receivedSessionId;
+            this.sessionLockedUntilUtc = convertTicksToDate(this.link.properties["com.microsoft:locked-until-utc"]);
+            logger.verbose("%s Session with id '%s' is locked until: '%s'.", this.logPrefix, this.sessionId, this.sessionLockedUntilUtc.toISOString());
+            logger.verbose("%s Receiver created with receiver options: %O", this.logPrefix, sessionOptions);
+            if (!this._context.messageSessions[this.name]) {
+                this._context.messageSessions[this.name] = this;
+            }
+            this._totalAutoLockRenewDuration = Date.now() + this.maxAutoRenewDurationInMs;
+            this._ensureSessionLockRenewal();
+        }
+        catch (err) {
+            const errObj = translateServiceBusError(err);
+            logger.logError(errObj, "%s An error occured while creating the receiver", this.logPrefix);
+            // Fix the unhelpful error messages for the OperationTimeoutError that comes from `rhea-promise`.
+            if (errObj.code === "OperationTimeoutError") {
+                if (this._providedSessionId !== undefined) {
+                    errObj.message = `Failed to create a receiver for the requested session '${this._providedSessionId}' within allocated time and retry attempts.`;
+                }
+                else {
+                    errObj.message = "Failed to create a receiver within allocated time and retry attempts.";
+                }
+            }
+            if (this._intermediateLink) {
+                logger.verbose("%s cleaning up resources held by intermediate link", this.logPrefix);
+                await this._intermediateLink.close({ closeSession: true });
+                this._intermediateLink.remove();
+            }
+            throw errObj;
+        }
+    }
+    /**
+     * Creates the options that need to be specified while creating an AMQP receiver link.
+     */
+    _createMessageSessionOptions(clientId, timeoutInMs) {
+        const rcvrOptions = createReceiverOptions(this.name, this.receiveMode, {
+            address: this.address,
+            filter: { [Constants.sessionFilterName]: this.sessionId },
+        }, clientId, {
+            onClose: (context) => this._onAmqpClose(context).catch(() => {
+                /* */
+            }),
+            onSessionClose: (context) => this._onSessionClose(context).catch(() => {
+                /* */
+            }),
+            onError: this._onAmqpError,
+            onSessionError: this._onSessionError,
+            onSettled: this._onSettled,
+        }, timeoutInMs);
+        return rcvrOptions;
+    }
+    /**
+     * Constructs a MessageSession instance which lets you receive messages as batches
+     * or via callbacks using subscribe.
+     *
+     * @param _providedSessionId - The sessionId provided by the user. This can be the
+     * name of a session ID to open (empty string is also valid) or it can be undefined,
+     * to indicate we want the next unlocked non-empty session.
+     */
+    constructor(identifier, connectionContext, entityPath, _providedSessionId, options) {
+        super(entityPath, entityPath, connectionContext, "session", logger, {
+            address: entityPath,
+            audience: `${connectionContext.config.endpoint}${entityPath}`,
+        });
+        this.identifier = identifier;
+        this._providedSessionId = _providedSessionId;
+        /**
+         * The maximum number of messages that should be
+         * processed concurrently in a session while in streaming mode. Once this limit has been reached,
+         * more messages will not be received until the user's message handler has completed processing current message.
+         * - **Default**: `1` (message in a session at a time).
+         */
+        this.maxConcurrentCalls = 1;
+        /**
+         * Maintains a map of deliveries that
+         * are being actively disposed. It acts as a store for correlating the responses received for
+         * active dispositions.
+         */
+        this._deliveryDispositionMap = new Map();
+        this._receiverHelper = new ReceiverHelper(() => ({
+            receiver: this.link,
+            logPrefix: this.logPrefix,
+        }));
+        this._retryOptions = options.retryOptions;
+        this.autoComplete = false;
+        if (isDefined(this._providedSessionId))
+            this.sessionId = this._providedSessionId;
+        this.receiveMode = options.receiveMode || "peekLock";
+        this.skipParsingBodyAsJson = options.skipParsingBodyAsJson;
+        this.skipConvertingDate = options.skipConvertingDate;
+        this.maxAutoRenewDurationInMs =
+            options.maxAutoLockRenewalDurationInMs != null
+                ? options.maxAutoLockRenewalDurationInMs
+                : 300 * 1000;
+        this._totalAutoLockRenewDuration = Date.now() + this.maxAutoRenewDurationInMs;
+        this.autoRenewLock = this.maxAutoRenewDurationInMs > 0 && this.receiveMode === "peekLock";
+        this._isReceivingMessagesForSubscriber = false;
+        this._batchingReceiverLite = new BatchingReceiverLite(connectionContext, entityPath, async (_abortSignal) => {
+            return this.link;
+        }, this.receiveMode, this.skipParsingBodyAsJson, this.skipConvertingDate);
+        // setting all the handlers
+        this._onSettled = (context) => {
+            const delivery = context.delivery;
+            onMessageSettled(this.logPrefix, delivery, this._deliveryDispositionMap);
+        };
+        this._notifyError = async (args) => {
+            if (this._onError) {
+                this._onError(args);
+                logger.verbose("%s Notified the user's error handler about the error received by the Receiver", this.logPrefix);
+            }
+        };
+        this._onAmqpError = (context) => {
+            const receiverError = context.receiver && context.receiver.error;
+            if (receiverError) {
+                const sbError = translateServiceBusError(receiverError);
+                if (sbError.code === "SessionLockLostError") {
+                    sbError.message = `The session lock has expired on the session with id ${this.sessionId}.`;
+                }
+                this._lastSBError = sbError;
+                logger.logError(sbError, "%s An error occurred for Receiver", this.logPrefix);
+                this._notifyError({
+                    error: sbError,
+                    errorSource: "receive",
+                    entityPath: this.entityPath,
+                    fullyQualifiedNamespace: this._context.config.host,
+                    identifier: this.identifier,
+                });
+            }
+        };
+        this._onSessionError = (context) => {
+            const connectionId = this._context.connectionId;
+            const sessionError = context.session && context.session.error;
+            if (sessionError) {
+                const sbError = translateServiceBusError(sessionError);
+                logger.logError(sbError, "[%s] An error occurred on the session for Receiver '%s': %O.", connectionId, this.name, sbError);
+                this._notifyError({
+                    error: sbError,
+                    errorSource: "receive",
+                    entityPath: this.entityPath,
+                    fullyQualifiedNamespace: this._context.config.host,
+                    identifier: this.identifier,
+                });
+            }
+        };
+        this._onAmqpClose = async (context) => {
+            const connectionId = this._context.connectionId;
+            const receiverError = context.receiver && context.receiver.error;
+            const receiver = this.link || context.receiver;
+            if (receiverError) {
+                const sbError = translateServiceBusError(receiverError);
+                logger.logError(sbError, "[%s] 'receiver_close' event occurred for receiver '%s' for sessionId '%s'. " +
+                    "The associated error is: %O", connectionId, this.name, this.sessionId, sbError);
+                // no need to notify the user's error handler since rhea guarantees that receiver_error
+                // will always be emitted before receiver_close.
+            }
+            if (receiver && !receiver.isItselfClosed()) {
+                logger.verbose("%s 'receiver_close' event occurred on the receiver for sessionId '%s' " +
+                    "and the sdk did not initiate this. Hence, let's gracefully close the receiver.", this.logPrefix, this.sessionId);
+                try {
+                    await this.close();
+                }
+                catch (err) {
+                    logger.logError(err, "%s An error occurred while closing the receiver for sessionId '%s'.", this.logPrefix, this.sessionId);
+                }
+            }
+            else {
+                logger.verbose("%s 'receiver_close' event occurred on the receiver for sessionId '%s' " +
+                    "because the sdk initiated it. Hence no need to gracefully close the receiver", this.logPrefix, this.sessionId);
+            }
+        };
+        this._onSessionClose = async (context) => {
+            const receiver = this.link || context.receiver;
+            const sessionError = context.session && context.session.error;
+            if (sessionError) {
+                const sbError = translateServiceBusError(sessionError);
+                logger.logError(sbError, "%s 'session_close' event occurred for receiver for sessionId '%s'. " +
+                    "The associated error is", this.logPrefix, this.sessionId);
+                // no need to notify the user's error handler since rhea guarantees that session_error
+                // will always be emitted before session_close.
+            }
+            if (receiver && !receiver.isSessionItselfClosed()) {
+                logger.verbose("%s 'session_close' event occurred on the receiver for sessionId '%s' " +
+                    "and the sdk did not initiate this. Hence, let's gracefully close the receiver.", this.logPrefix, this.sessionId);
+                try {
+                    await this.close();
+                }
+                catch (err) {
+                    logger.logError(err, "%s An error occurred while closing the receiver for sessionId '%s'", this.logPrefix, this.sessionId);
+                }
+            }
+            else {
+                logger.verbose("%s 'session_close' event occurred on the receiver for sessionId'%s' " +
+                    "because the sdk initiated it. Hence no need to gracefully close the receiver", this.logPrefix, this.sessionId);
+            }
+        };
+    }
+    /**
+     * Closes the underlying AMQP receiver link.
+     */
+    async close(error) {
+        try {
+            this._isReceivingMessagesForSubscriber = false;
+            if (this._sessionLockRenewalTimer)
+                clearTimeout(this._sessionLockRenewalTimer);
+            logger.verbose("%s Cleared the timers for 'no new message received' task and " +
+                "'session lock renewal' task.", this.logPrefix);
+            await super.close();
+            this._batchingReceiverLite.terminate(error);
+        }
+        catch (err) {
+            logger.logError(err, "%s An error occurred while closing the message session with id '%s'", this.logPrefix, this.sessionId);
+        }
+    }
+    /**
+     * Determines whether the AMQP receiver link is open. If open then returns true else returns false.
+     */
+    isOpen() {
+        const result = this.link && this.link.isOpen();
+        logger.verbose("%s Receiver for sessionId '%s' is open? -> %s", this.logPrefix, this.sessionId, result);
+        return result;
+    }
+    /**
+     * Registers handlers to deal with the incoming stream of messages over an AMQP receiver link
+     * from a Queue/Subscription.
+     * To stop receiving messages, call `close()` on the SessionReceiver or set the property
+     * `newMessageWaitTimeoutInMs` in the options to provide a timeout.
+     *
+     * @param onMessage - Handler for processing each incoming message.
+     * @param onError - Handler for any error that occurs while receiving or processing messages.
+     * @param options - Options to control whether messages should be automatically completed. You can
+     * also provide a timeout in milliseconds to denote the amount of time to wait for a new message
+     * before closing the receiver.
+     */
+    subscribe(onMessage, onError, options) {
+        this.receiverHelper.resume();
+        this._subscribeImpl(onMessage, onError, options);
+    }
+    _subscribeImpl(onMessage, onError, options) {
+        var _a;
+        if (!options)
+            options = {};
+        if ((_a = options.abortSignal) === null || _a === void 0 ? void 0 : _a.aborted) {
+            throw new AbortError(StandardAbortMessage);
+        }
+        this._isReceivingMessagesForSubscriber = true;
+        if (typeof options.maxConcurrentCalls === "number" && options.maxConcurrentCalls > 0) {
+            this.maxConcurrentCalls = options.maxConcurrentCalls;
+        }
+        // If explicitly set to false then autoComplete is false else true (default).
+        this.autoComplete =
+            options.autoCompleteMessages === false ? options.autoCompleteMessages : true;
+        this._onMessage = onMessage;
+        this._onError = onError;
+        if (this.link && this.link.isOpen()) {
+            const onSessionMessage = async (context) => {
+                // If the receiver got closed in PeekLock mode, avoid processing the message as we
+                // cannot settle the message.
+                if (this.receiveMode === "peekLock" && (!this.link || !this.link.isOpen())) {
+                    logger.verbose("%s Not calling the user's message handler for the current message " +
+                        "as the receiver is closed", this.logPrefix);
+                    return;
+                }
+                const bMessage = new ServiceBusMessageImpl(context.message, context.delivery, true, this.receiveMode, this.skipParsingBodyAsJson, this.skipConvertingDate);
+                try {
+                    await this._onMessage(bMessage);
+                    if (this.autoComplete &&
+                        this.receiveMode === "peekLock" &&
+                        !bMessage.delivery.remote_settled) {
+                        try {
+                            logger.verbose("%s Auto completing the message with id '%s' on the receiver.", this.logPrefix, bMessage.messageId);
+                            await completeMessage(bMessage, this._context, this.entityPath, this._retryOptions);
+                        }
+                        catch (completeError) {
+                            const translatedError = translateServiceBusError(completeError);
+                            logger.logError(translatedError, "%s An error occurred while completing the message with id '%s' on the " +
+                                "receiver", this.logPrefix, bMessage.messageId);
+                            await this._notifyError({
+                                error: translatedError,
+                                errorSource: "complete",
+                                entityPath: this.entityPath,
+                                fullyQualifiedNamespace: this._context.config.host,
+                                identifier: this.identifier,
+                            });
+                        }
+                    }
+                }
+                catch (err) {
+                    logger.logError(err, "%s An error occurred while running user's message handler for the message " +
+                        "with id '%s' on the receiver", this.logPrefix, bMessage.messageId);
+                    await this._onError({
+                        error: err,
+                        errorSource: "processMessageCallback",
+                        entityPath: this.entityPath,
+                        fullyQualifiedNamespace: this._context.config.host,
+                        identifier: this.identifier,
+                    });
+                    const error = translateServiceBusError(err);
+                    // Nothing much to do if user's message handler throws. Let us try abandoning the message.
+                    if (!bMessage.delivery.remote_settled &&
+                        this.receiveMode === "peekLock" &&
+                        this.isOpen() // only try to abandon the messages if the connection is still open
+                    ) {
+                        try {
+                            logger.logError(error, "%s Abandoning the message with id '%s' on the receiver since an error occured", this.logPrefix, bMessage.messageId);
+                            await abandonMessage(bMessage, this._context, this.entityPath, undefined, this._retryOptions);
+                        }
+                        catch (abandonError) {
+                            const translatedError = translateServiceBusError(abandonError);
+                            logger.logError(translatedError, "%s An error occurred while abandoning the message with id '%s' on the " +
+                                "receiver", this.logPrefix, bMessage.messageId, translatedError);
+                            await this._notifyError({
+                                error: translatedError,
+                                errorSource: "abandon",
+                                entityPath: this.entityPath,
+                                fullyQualifiedNamespace: this._context.config.host,
+                                identifier: this.identifier,
+                            });
+                        }
+                    }
+                    return;
+                }
+                finally {
+                    try {
+                        this.receiverHelper.addCredit(1);
+                    }
+                    catch (err) {
+                        // this isn't something we expect in normal operation - we'd only get here
+                        // because of a bug in our code.
+                        this.processCreditError(err);
+                    }
+                }
+            };
+            // setting the "message" event listener.
+            this.link.on(ReceiverEvents.message, onSessionMessage);
+            try {
+                this.receiverHelper.addCredit(this.maxConcurrentCalls);
+            }
+            catch (err) {
+                // this isn't something we expect in normal operation - we'd only get here
+                // because of a bug in our code.
+                this.processCreditError(err);
+            }
+        }
+        else {
+            this._isReceivingMessagesForSubscriber = false;
+            const msg = `MessageSession with sessionId '${this.sessionId}' and name '${this.name}' ` +
+                `has either not been created or is not open.`;
+            logger.verbose("[%s] %s", this._context.connectionId, msg);
+            this._notifyError({
+                error: new Error(msg),
+                // This is _probably_ the right error code since we require that
+                // the message session is created before we even give back the receiver. So it not
+                // being open at this point is either:
+                //
+                // 1. we didn't acquire the lock
+                // 2. the connection was broken (we don't reconnect)
+                //
+                // If any of these becomes untrue you'll probably want to re-evaluate this classification.
+                errorSource: "receive",
+                entityPath: this.entityPath,
+                fullyQualifiedNamespace: this._context.config.host,
+                identifier: this.identifier,
+            });
+        }
+    }
+    async processCreditError(err) {
+        if (err.name === "AbortError") {
+            // if we fail to add credits because the user has asked us to stop
+            // then this isn't an error - it's normal.
+            return;
+        }
+        logger.logError(err, "Cannot request messages on the receiver");
+        const error = new ServiceBusError("Cannot request messages on the receiver", "SessionLockLost");
+        error.retryable = false;
+        // from the user's perspective this is a fatal link error and they should retry
+        // opening the link.
+        await this._onError({
+            error,
+            errorSource: "processMessageCallback",
+            entityPath: this.entityPath,
+            fullyQualifiedNamespace: this._context.config.host,
+            identifier: this.identifier,
+        });
+    }
+    /**
+     * Returns a batch of messages based on given count and timeout over an AMQP receiver link
+     * from a Queue/Subscription.
+     *
+     * @param maxMessageCount - The maximum number of messages to receive from Queue/Subscription.
+     * @param maxWaitTimeInMs - The total wait time in milliseconds until which the receiver will attempt to receive specified number of messages.
+     * If this time elapses before the `maxMessageCount` is reached, then messages collected till then will be returned to the user.
+     * @returns A promise that resolves with an array of Message objects.
+     */
+    async receiveMessages(maxMessageCount, maxWaitTimeInMs, maxTimeAfterFirstMessageInMs, options) {
+        try {
+            return await this._batchingReceiverLite.receiveMessages(Object.assign({ maxMessageCount,
+                maxWaitTimeInMs,
+                maxTimeAfterFirstMessageInMs }, options));
+        }
+        catch (error) {
+            logger.logError(error, `${this.logPrefix} Rejecting receiveMessages() with error`);
+            throw error;
+        }
+    }
+    /**
+     * To be called when connection is disconnected to gracefully close ongoing receive request.
+     * @param connectionError - The connection error if any.
+     */
+    async onDetached(connectionError) {
+        logger.error(translateServiceBusError(connectionError), `${this.logPrefix} onDetached: closing link (session receiver will not reconnect)`);
+        try {
+            // Notifying so that the streaming receiver knows about the error
+            await this._notifyError({
+                entityPath: this.entityPath,
+                fullyQualifiedNamespace: this._context.config.host,
+                error: translateServiceBusError(connectionError),
+                errorSource: "receive",
+                identifier: this.identifier,
+            });
+        }
+        catch (error) {
+            logger.error(translateServiceBusError(error), `${this.logPrefix} onDetached: unexpected error seen when tried calling "_notifyError" with ${translateServiceBusError(connectionError)}`);
+        }
+        await this.close(connectionError);
+    }
+    /**
+     * Settles the message with the specified disposition.
+     * @param message - The ServiceBus Message that needs to be settled.
+     * @param operation - The disposition type.
+     * @param options - Optional parameters that can be provided while disposing the message.
+     */
+    async settleMessage(message, operation, options) {
+        return new Promise((resolve, reject) => {
+            if (operation.match(/^(complete|abandon|defer|deadletter)$/) == null) {
+                return reject(new Error(`operation: '${operation}' is not a valid operation.`));
+            }
+            const delivery = message.delivery;
+            const timer = setTimeout(() => {
+                this._deliveryDispositionMap.delete(delivery.id);
+                logger.verbose("[%s] Disposition for delivery id: %d, did not complete in %d milliseconds. " +
+                    "Hence rejecting the promise with timeout error", this._context.connectionId, delivery.id, Constants.defaultOperationTimeoutInMs);
+                const e = {
+                    condition: ErrorNameConditionMapper.ServiceUnavailableError,
+                    description: "Operation to settle the message has timed out. The disposition of the " +
+                        "message may or may not be successful",
+                };
+                return reject(translateServiceBusError(e));
+            }, Constants.defaultOperationTimeoutInMs);
+            this._deliveryDispositionMap.set(delivery.id, {
+                resolve: resolve,
+                reject: reject,
+                timer: timer,
+            });
+            if (operation === DispositionType.complete) {
+                delivery.accept();
+            }
+            else if (operation === DispositionType.abandon) {
+                const params = {
+                    undeliverable_here: false,
+                };
+                if (options.propertiesToModify)
+                    params.message_annotations = options.propertiesToModify;
+                delivery.modified(params);
+            }
+            else if (operation === DispositionType.defer) {
+                const params = {
+                    undeliverable_here: true,
+                };
+                if (options.propertiesToModify)
+                    params.message_annotations = options.propertiesToModify;
+                delivery.modified(params);
+            }
+            else if (operation === DispositionType.deadletter) {
+                const error = {
+                    condition: Constants.deadLetterName,
+                    info: Object.assign(Object.assign({}, options.propertiesToModify), { DeadLetterReason: options.deadLetterReason, DeadLetterErrorDescription: options.deadLetterDescription }),
+                };
+                delivery.reject(error);
+            }
+        });
+    }
+    /**
+     * Creates a new instance of the MessageSession based on the provided parameters.
+     * @param identifier - name to identify the message session
+     * @param context - The client entity context
+     * @param options - Options that can be provided while creating the MessageSession.
+     */
+    static async create(identifier, context, entityPath, sessionId, options) {
+        var _a, _b;
+        throwErrorIfConnectionClosed(context);
+        const messageSession = new MessageSession(identifier, context, entityPath, sessionId, options);
+        let timeoutInMs;
+        // Only passing client timeout in link properties for accepting next available
+        // session as this is the only long-polling scenario.
+        if (sessionId === undefined) {
+            timeoutInMs = (_b = (_a = options.retryOptions) === null || _a === void 0 ? void 0 : _a.timeoutInMs) !== null && _b !== void 0 ? _b : Constants.defaultOperationTimeoutInMs;
+            // The number of milliseconds to use as the basis for calculating a random jitter amount
+            // opening receiver links. This is intended to ensure that multiple
+            // session operations don't timeout at the same exact moment.
+            const openReceiveLinkBaseJitterInMs = 100;
+            // The amount of time to subtract from the client timeout when setting the server timeout when attempting to
+            // accept the next available session. This will decrease the likelihood that the client times out before receiving a
+            // response from the server.
+            const openReceiveLinkBufferInMs = 20;
+            // The amount minimum threshold for the server timeout for which we will subtract the "openReceiveLinkBufferInMs".
+            // If the server timeout is less than this, we will not subtract the additional buffer.
+            const openReceiveLinkBufferThresholdInMs = 1000;
+            // Subtract a random amount up to 100ms from the operation timeout as the jitter when attempting to open next available session link.
+            // This prevents excessive resource usage when using high amounts of concurrency and accepting the next available session.
+            // Take the min of 1% of the total timeout and the base jitter amount so that we don't end up subtracting more than 1% of the total timeout.
+            const jitterBaseInMs = Math.min(timeoutInMs * 0.01, openReceiveLinkBaseJitterInMs);
+            // We set the operation timeout on the properties not only to include the jitter, but also because the server will otherwise
+            // restrict the maximum timeout to 1 minute and 5 seconds, regardless of the client timeout. We only do this for accepting next available
+            // session as this is the only long-polling scenario.
+            timeoutInMs = Math.floor(timeoutInMs - jitterBaseInMs * Math.random());
+            // Subtract an additional constant buffer to reduce the likelihood that the client times out before the service which leads to unnecessary
+            // network traffic. If the timeout is too short, we won't do this.
+            if (timeoutInMs >= openReceiveLinkBufferThresholdInMs) {
+                timeoutInMs -= openReceiveLinkBufferInMs;
+            }
+        }
+        await messageSession._init({
+            abortSignal: options === null || options === void 0 ? void 0 : options.abortSignal,
+            timeoutInMs,
+        });
+        return messageSession;
+    }
+    removeLinkFromContext() {
+        delete this._context.messageSessions[this.name];
+    }
+}
+//# sourceMappingURL=messageSession.js.map

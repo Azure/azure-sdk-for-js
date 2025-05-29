@@ -1,0 +1,20 @@
+import type { OperationParameter, OperationURLParameter, OperationQueryParameter } from "@azure/core-client";
+export declare const contentType: OperationParameter;
+export declare const accept: OperationParameter;
+export declare const subject: OperationParameter;
+export declare const actions: OperationParameter;
+export declare const scope: OperationParameter;
+export declare const endpoint: OperationURLParameter;
+export declare const apiVersion: OperationQueryParameter;
+export declare const roleId: OperationQueryParameter;
+export declare const principalId: OperationQueryParameter;
+export declare const scope1: OperationQueryParameter;
+export declare const continuationToken: OperationParameter;
+export declare const roleId1: OperationParameter;
+export declare const principalId1: OperationParameter;
+export declare const scope2: OperationParameter;
+export declare const principalType: OperationParameter;
+export declare const roleAssignmentId: OperationURLParameter;
+export declare const isBuiltIn: OperationQueryParameter;
+export declare const roleDefinitionId: OperationURLParameter;
+//# sourceMappingURL=parameters.d.ts.map

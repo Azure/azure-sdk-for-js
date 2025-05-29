@@ -1,0 +1,1 @@
+{"version":3,"file":"FullTextPolicy.d.ts","sourceRoot":"","sources":["../../../src/documents/FullTextPolicy.ts"],"names":[],"mappings":"AAGA;;GAEG;AACH,MAAM,WAAW,cAAc;IAC7B;;OAEG;IACH,eAAe,EAAE,MAAM,CAAC;IACxB;;OAEG;IACH,aAAa,EAAE,YAAY,EAAE,CAAC;CAC/B;AAED;;GAEG;AACH,MAAM,WAAW,YAAY;IAC3B;;OAEG;IACH,IAAI,EAAE,MAAM,CAAC;IACb;;OAEG;IACH,QAAQ,EAAE,MAAM,CAAC;CAClB"}

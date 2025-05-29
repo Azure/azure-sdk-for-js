@@ -1,0 +1,60 @@
+import { PagedAsyncIterableIterator } from "@azure/core-paging";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
+import { NetworkVirtualApplianceConnection, NetworkVirtualApplianceConnectionsListOptionalParams, NetworkVirtualApplianceConnectionsCreateOrUpdateOptionalParams, NetworkVirtualApplianceConnectionsCreateOrUpdateResponse, NetworkVirtualApplianceConnectionsGetOptionalParams, NetworkVirtualApplianceConnectionsGetResponse, NetworkVirtualApplianceConnectionsDeleteOptionalParams } from "../models/index.js";
+/** Interface representing a NetworkVirtualApplianceConnections. */
+export interface NetworkVirtualApplianceConnections {
+    /**
+     * Lists NetworkVirtualApplianceConnections under the NVA.
+     * @param resourceGroupName The name of the resource group.
+     * @param networkVirtualApplianceName The name of the Network Virtual Appliance.
+     * @param options The options parameters.
+     */
+    list(resourceGroupName: string, networkVirtualApplianceName: string, options?: NetworkVirtualApplianceConnectionsListOptionalParams): PagedAsyncIterableIterator<NetworkVirtualApplianceConnection>;
+    /**
+     * Creates a connection to Network Virtual Appliance, if it doesn't exist else updates the existing NVA
+     * connection'
+     * @param resourceGroupName The name of the resource group.
+     * @param networkVirtualApplianceName The name of the Network Virtual Appliance.
+     * @param connectionName The name of the NVA connection.
+     * @param networkVirtualApplianceConnectionParameters Parameters supplied in an
+     *                                                    NetworkVirtualApplianceConnection PUT operation.
+     * @param options The options parameters.
+     */
+    beginCreateOrUpdate(resourceGroupName: string, networkVirtualApplianceName: string, connectionName: string, networkVirtualApplianceConnectionParameters: NetworkVirtualApplianceConnection, options?: NetworkVirtualApplianceConnectionsCreateOrUpdateOptionalParams): Promise<SimplePollerLike<OperationState<NetworkVirtualApplianceConnectionsCreateOrUpdateResponse>, NetworkVirtualApplianceConnectionsCreateOrUpdateResponse>>;
+    /**
+     * Creates a connection to Network Virtual Appliance, if it doesn't exist else updates the existing NVA
+     * connection'
+     * @param resourceGroupName The name of the resource group.
+     * @param networkVirtualApplianceName The name of the Network Virtual Appliance.
+     * @param connectionName The name of the NVA connection.
+     * @param networkVirtualApplianceConnectionParameters Parameters supplied in an
+     *                                                    NetworkVirtualApplianceConnection PUT operation.
+     * @param options The options parameters.
+     */
+    beginCreateOrUpdateAndWait(resourceGroupName: string, networkVirtualApplianceName: string, connectionName: string, networkVirtualApplianceConnectionParameters: NetworkVirtualApplianceConnection, options?: NetworkVirtualApplianceConnectionsCreateOrUpdateOptionalParams): Promise<NetworkVirtualApplianceConnectionsCreateOrUpdateResponse>;
+    /**
+     * Retrieves the details of specified NVA connection.
+     * @param resourceGroupName The name of the resource group.
+     * @param networkVirtualApplianceName The name of the Network Virtual Appliance.
+     * @param connectionName The name of the NVA connection.
+     * @param options The options parameters.
+     */
+    get(resourceGroupName: string, networkVirtualApplianceName: string, connectionName: string, options?: NetworkVirtualApplianceConnectionsGetOptionalParams): Promise<NetworkVirtualApplianceConnectionsGetResponse>;
+    /**
+     * Deletes a NVA connection.
+     * @param resourceGroupName The name of the resource group.
+     * @param networkVirtualApplianceName The name of the Network Virtual Appliance.
+     * @param connectionName The name of the NVA connection.
+     * @param options The options parameters.
+     */
+    beginDelete(resourceGroupName: string, networkVirtualApplianceName: string, connectionName: string, options?: NetworkVirtualApplianceConnectionsDeleteOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
+    /**
+     * Deletes a NVA connection.
+     * @param resourceGroupName The name of the resource group.
+     * @param networkVirtualApplianceName The name of the Network Virtual Appliance.
+     * @param connectionName The name of the NVA connection.
+     * @param options The options parameters.
+     */
+    beginDeleteAndWait(resourceGroupName: string, networkVirtualApplianceName: string, connectionName: string, options?: NetworkVirtualApplianceConnectionsDeleteOptionalParams): Promise<void>;
+}
+//# sourceMappingURL=networkVirtualApplianceConnections.d.ts.map

@@ -1,0 +1,3921 @@
+import * as coreClient from "@azure/core-client";
+import * as coreHttpCompat from "@azure/core-http-compat";
+/** Storage Service Properties. */
+export interface BlobServiceProperties {
+    /** Azure Analytics Logging settings. */
+    blobAnalyticsLogging?: Logging;
+    /** a summary of request statistics grouped by API in hour or minute aggregates for blobs */
+    hourMetrics?: Metrics;
+    /** a summary of request statistics grouped by API in hour or minute aggregates for blobs */
+    minuteMetrics?: Metrics;
+    /** The set of CORS rules. */
+    cors?: CorsRule[];
+    /** The default version to use for requests to the Blob service if an incoming request's version is not specified. Possible values include version 2008-10-27 and all more recent versions */
+    defaultServiceVersion?: string;
+    /** the retention policy which determines how long the associated data should persist */
+    deleteRetentionPolicy?: RetentionPolicy;
+    /** The properties that enable an account to host a static website */
+    staticWebsite?: StaticWebsite;
+}
+/** Azure Analytics Logging settings. */
+export interface Logging {
+    /** The version of Storage Analytics to configure. */
+    version: string;
+    /** Indicates whether all delete requests should be logged. */
+    deleteProperty: boolean;
+    /** Indicates whether all read requests should be logged. */
+    read: boolean;
+    /** Indicates whether all write requests should be logged. */
+    write: boolean;
+    /** the retention policy which determines how long the associated data should persist */
+    retentionPolicy: RetentionPolicy;
+}
+/** the retention policy which determines how long the associated data should persist */
+export interface RetentionPolicy {
+    /** Indicates whether a retention policy is enabled for the storage service */
+    enabled: boolean;
+    /** Indicates the number of days that metrics or logging or soft-deleted data should be retained. All data older than this value will be deleted */
+    days?: number;
+}
+/** a summary of request statistics grouped by API in hour or minute aggregates for blobs */
+export interface Metrics {
+    /** The version of Storage Analytics to configure. */
+    version?: string;
+    /** Indicates whether metrics are enabled for the Blob service. */
+    enabled: boolean;
+    /** Indicates whether metrics should generate summary statistics for called API operations. */
+    includeAPIs?: boolean;
+    /** the retention policy which determines how long the associated data should persist */
+    retentionPolicy?: RetentionPolicy;
+}
+/** CORS is an HTTP feature that enables a web application running under one domain to access resources in another domain. Web browsers implement a security restriction known as same-origin policy that prevents a web page from calling APIs in a different domain; CORS provides a secure way to allow one domain (the origin domain) to call APIs in another domain */
+export interface CorsRule {
+    /** The origin domains that are permitted to make a request against the storage service via CORS. The origin domain is the domain from which the request originates. Note that the origin must be an exact case-sensitive match with the origin that the user age sends to the service. You can also use the wildcard character '*' to allow all origin domains to make requests via CORS. */
+    allowedOrigins: string;
+    /** The methods (HTTP request verbs) that the origin domain may use for a CORS request. (comma separated) */
+    allowedMethods: string;
+    /** the request headers that the origin domain may specify on the CORS request. */
+    allowedHeaders: string;
+    /** The response headers that may be sent in the response to the CORS request and exposed by the browser to the request issuer */
+    exposedHeaders: string;
+    /** The maximum amount time that a browser should cache the preflight OPTIONS request. */
+    maxAgeInSeconds: number;
+}
+/** The properties that enable an account to host a static website */
+export interface StaticWebsite {
+    /** Indicates whether this account is hosting a static website */
+    enabled: boolean;
+    /** The default name of the index page under each directory */
+    indexDocument?: string;
+    /** The absolute path of the custom 404 page */
+    errorDocument404Path?: string;
+    /** Absolute path of the default index page */
+    defaultIndexDocumentPath?: string;
+}
+export interface StorageError {
+    message?: string;
+    code?: string;
+    authenticationErrorDetail?: string;
+}
+/** Stats for the storage service. */
+export interface BlobServiceStatistics {
+    /** Geo-Replication information for the Secondary Storage Service */
+    geoReplication?: GeoReplication;
+}
+/** Geo-Replication information for the Secondary Storage Service */
+export interface GeoReplication {
+    /** The status of the secondary location */
+    status: GeoReplicationStatusType;
+    /** A GMT date/time value, to the second. All primary writes preceding this value are guaranteed to be available for read operations at the secondary. Primary writes after this point in time may or may not be available for reads. */
+    lastSyncOn: Date;
+}
+/** An enumeration of containers */
+export interface ListContainersSegmentResponse {
+    serviceEndpoint: string;
+    prefix?: string;
+    marker?: string;
+    maxPageSize?: number;
+    containerItems: ContainerItem[];
+    continuationToken?: string;
+}
+/** An Azure Storage container */
+export interface ContainerItem {
+    name: string;
+    deleted?: boolean;
+    version?: string;
+    /** Properties of a container */
+    properties: ContainerProperties;
+    /** Dictionary of <string> */
+    metadata?: {
+        [propertyName: string]: string;
+    };
+}
+/** Properties of a container */
+export interface ContainerProperties {
+    lastModified: Date;
+    etag: string;
+    leaseStatus?: LeaseStatusType;
+    leaseState?: LeaseStateType;
+    leaseDuration?: LeaseDurationType;
+    publicAccess?: PublicAccessType;
+    hasImmutabilityPolicy?: boolean;
+    hasLegalHold?: boolean;
+    defaultEncryptionScope?: string;
+    preventEncryptionScopeOverride?: boolean;
+    deletedOn?: Date;
+    remainingRetentionDays?: number;
+    /** Indicates if version level worm is enabled on this container. */
+    isImmutableStorageWithVersioningEnabled?: boolean;
+}
+/** Key information */
+export interface KeyInfo {
+    /** The date-time the key is active in ISO 8601 UTC time */
+    startsOn: string;
+    /** The date-time the key expires in ISO 8601 UTC time */
+    expiresOn: string;
+}
+/** A user delegation key */
+export interface UserDelegationKey {
+    /** The Azure Active Directory object ID in GUID format. */
+    signedObjectId: string;
+    /** The Azure Active Directory tenant ID in GUID format */
+    signedTenantId: string;
+    /** The date-time the key is active */
+    signedStartsOn: string;
+    /** The date-time the key expires */
+    signedExpiresOn: string;
+    /** Abbreviation of the Azure Storage service that accepts the key */
+    signedService: string;
+    /** The service version that created the key */
+    signedVersion: string;
+    /** The key as a base64 string */
+    value: string;
+}
+/** The result of a Filter Blobs API call */
+export interface FilterBlobSegment {
+    serviceEndpoint: string;
+    where: string;
+    blobs: FilterBlobItem[];
+    continuationToken?: string;
+}
+/** Blob info from a Filter Blobs API call */
+export interface FilterBlobItem {
+    name: string;
+    containerName: string;
+    /** Blob tags */
+    tags?: BlobTags;
+}
+/** Blob tags */
+export interface BlobTags {
+    blobTagSet: BlobTag[];
+}
+export interface BlobTag {
+    key: string;
+    value: string;
+}
+/** signed identifier */
+export interface SignedIdentifier {
+    /** a unique id */
+    id: string;
+    /** An Access policy */
+    accessPolicy: AccessPolicy;
+}
+/** An Access policy */
+export interface AccessPolicy {
+    /** the date-time the policy is active */
+    startsOn?: string;
+    /** the date-time the policy expires */
+    expiresOn?: string;
+    /** the permissions for the acl policy */
+    permissions?: string;
+}
+/** An enumeration of blobs */
+export interface ListBlobsFlatSegmentResponse {
+    serviceEndpoint: string;
+    containerName: string;
+    prefix?: string;
+    marker?: string;
+    maxPageSize?: number;
+    segment: BlobFlatListSegment;
+    continuationToken?: string;
+}
+export interface BlobFlatListSegment {
+    blobItems: BlobItemInternal[];
+}
+/** An Azure Storage blob */
+export interface BlobItemInternal {
+    name: BlobName;
+    deleted: boolean;
+    snapshot: string;
+    versionId?: string;
+    isCurrentVersion?: boolean;
+    /** Properties of a blob */
+    properties: BlobPropertiesInternal;
+    /** Dictionary of <string> */
+    metadata?: {
+        [propertyName: string]: string;
+    };
+    /** Blob tags */
+    blobTags?: BlobTags;
+    /** Dictionary of <string> */
+    objectReplicationMetadata?: {
+        [propertyName: string]: string;
+    };
+    /** Inactive root blobs which have any versions would have such tag with value true. */
+    hasVersionsOnly?: boolean;
+}
+export interface BlobName {
+    /** Indicates if the blob name is encoded. */
+    encoded?: boolean;
+    /** The name of the blob. */
+    content?: string;
+}
+/** Properties of a blob */
+export interface BlobPropertiesInternal {
+    createdOn?: Date;
+    lastModified: Date;
+    etag: string;
+    /** Size in bytes */
+    contentLength?: number;
+    contentType?: string;
+    contentEncoding?: string;
+    contentLanguage?: string;
+    contentMD5?: Uint8Array;
+    contentDisposition?: string;
+    cacheControl?: string;
+    blobSequenceNumber?: number;
+    blobType?: BlobType;
+    leaseStatus?: LeaseStatusType;
+    leaseState?: LeaseStateType;
+    leaseDuration?: LeaseDurationType;
+    copyId?: string;
+    copyStatus?: CopyStatusType;
+    copySource?: string;
+    copyProgress?: string;
+    copyCompletedOn?: Date;
+    copyStatusDescription?: string;
+    serverEncrypted?: boolean;
+    incrementalCopy?: boolean;
+    destinationSnapshot?: string;
+    deletedOn?: Date;
+    remainingRetentionDays?: number;
+    accessTier?: AccessTier;
+    accessTierInferred?: boolean;
+    archiveStatus?: ArchiveStatus;
+    customerProvidedKeySha256?: string;
+    /** The name of the encryption scope under which the blob is encrypted. */
+    encryptionScope?: string;
+    accessTierChangedOn?: Date;
+    tagCount?: number;
+    expiresOn?: Date;
+    isSealed?: boolean;
+    /** If an object is in rehydrate pending state then this header is returned with priority of rehydrate. Valid values are High and Standard. */
+    rehydratePriority?: RehydratePriority;
+    lastAccessedOn?: Date;
+    /** UTC date/time value generated by the service that indicates the time at which the blob immutability policy will expire. */
+    immutabilityPolicyExpiresOn?: Date;
+    /** Indicates immutability policy mode. */
+    immutabilityPolicyMode?: BlobImmutabilityPolicyMode;
+    /** Indicates if a legal hold is present on the blob. */
+    legalHold?: boolean;
+}
+/** An enumeration of blobs */
+export interface ListBlobsHierarchySegmentResponse {
+    serviceEndpoint: string;
+    containerName: string;
+    prefix?: string;
+    marker?: string;
+    maxPageSize?: number;
+    delimiter?: string;
+    segment: BlobHierarchyListSegment;
+    continuationToken?: string;
+}
+export interface BlobHierarchyListSegment {
+    blobPrefixes?: BlobPrefix[];
+    blobItems: BlobItemInternal[];
+}
+export interface BlobPrefix {
+    name: BlobName;
+}
+export interface BlockLookupList {
+    committed?: string[];
+    uncommitted?: string[];
+    latest?: string[];
+}
+export interface BlockList {
+    committedBlocks?: Block[];
+    uncommittedBlocks?: Block[];
+}
+/** Represents a single block in a block blob.  It describes the block's ID and size. */
+export interface Block {
+    /** The base64 encoded block ID. */
+    name: string;
+    /** The block size in bytes. */
+    size: number;
+}
+/** the list of pages */
+export interface PageList {
+    pageRange?: PageRange[];
+    clearRange?: ClearRange[];
+    continuationToken?: string;
+}
+export interface PageRange {
+    start: number;
+    end: number;
+}
+export interface ClearRange {
+    start: number;
+    end: number;
+}
+/** Groups the set of query request settings. */
+export interface QueryRequest {
+    /** Required. The type of the provided query expression. */
+    queryType: string;
+    /** The query expression in SQL. The maximum size of the query expression is 256KiB. */
+    expression: string;
+    inputSerialization?: QuerySerialization;
+    outputSerialization?: QuerySerialization;
+}
+export interface QuerySerialization {
+    format: QueryFormat;
+}
+export interface QueryFormat {
+    /** The quick query format type. */
+    type: QueryFormatType;
+    /** Groups the settings used for interpreting the blob data if the blob is delimited text formatted. */
+    delimitedTextConfiguration?: DelimitedTextConfiguration;
+    /** json text configuration */
+    jsonTextConfiguration?: JsonTextConfiguration;
+    /** Groups the settings used for formatting the response if the response should be Arrow formatted. */
+    arrowConfiguration?: ArrowConfiguration;
+    /** parquet configuration */
+    parquetTextConfiguration?: Record<string, unknown>;
+}
+/** Groups the settings used for interpreting the blob data if the blob is delimited text formatted. */
+export interface DelimitedTextConfiguration {
+    /** The string used to separate columns. */
+    columnSeparator?: string;
+    /** The string used to quote a specific field. */
+    fieldQuote?: string;
+    /** The string used to separate records. */
+    recordSeparator?: string;
+    /** The string used as an escape character. */
+    escapeChar?: string;
+    /** Represents whether the data has headers. */
+    headersPresent?: boolean;
+}
+/** json text configuration */
+export interface JsonTextConfiguration {
+    /** The string used to separate records. */
+    recordSeparator?: string;
+}
+/** Groups the settings used for formatting the response if the response should be Arrow formatted. */
+export interface ArrowConfiguration {
+    schema: ArrowField[];
+}
+/** Groups settings regarding specific field of an arrow schema */
+export interface ArrowField {
+    type: string;
+    name?: string;
+    precision?: number;
+    scale?: number;
+}
+/** Defines headers for Service_setProperties operation. */
+export interface ServiceSetPropertiesHeaders {
+    /** If a client request id header is sent in the request, this header will be present in the response with the same value. */
+    clientRequestId?: string;
+    /** This header uniquely identifies the request that was made and can be used for troubleshooting the request. */
+    requestId?: string;
+    /** Indicates the version of the Blob service used to execute the request. This header is returned for requests made against version 2009-09-19 and above. */
+    version?: string;
+    /** Error Code */
+    errorCode?: string;
+}
+/** Defines headers for Service_setProperties operation. */
+export interface ServiceSetPropertiesExceptionHeaders {
+    errorCode?: string;
+}
+/** Defines headers for Service_getProperties operation. */
+export interface ServiceGetPropertiesHeaders {
+    /** If a client request id header is sent in the request, this header will be present in the response with the same value. */
+    clientRequestId?: string;
+    /** This header uniquely identifies the request that was made and can be used for troubleshooting the request. */
+    requestId?: string;
+    /** Indicates the version of the Blob service used to execute the request. This header is returned for requests made against version 2009-09-19 and above. */
+    version?: string;
+    /** Error Code */
+    errorCode?: string;
+}
+/** Defines headers for Service_getProperties operation. */
+export interface ServiceGetPropertiesExceptionHeaders {
+    errorCode?: string;
+}
+/** Defines headers for Service_getStatistics operation. */
+export interface ServiceGetStatisticsHeaders {
+    /** If a client request id header is sent in the request, this header will be present in the response with the same value. */
+    clientRequestId?: string;
+    /** This header uniquely identifies the request that was made and can be used for troubleshooting the request. */
+    requestId?: string;
+    /** Indicates the version of the Blob service used to execute the request. This header is returned for requests made against version 2009-09-19 and above. */
+    version?: string;
+    /** UTC date/time value generated by the service that indicates the time at which the response was initiated */
+    date?: Date;
+    /** Error Code */
+    errorCode?: string;
+}
+/** Defines headers for Service_getStatistics operation. */
+export interface ServiceGetStatisticsExceptionHeaders {
+    errorCode?: string;
+}
+/** Defines headers for Service_listContainersSegment operation. */
+export interface ServiceListContainersSegmentHeaders {
+    /** If a client request id header is sent in the request, this header will be present in the response with the same value. */
+    clientRequestId?: string;
+    /** This header uniquely identifies the request that was made and can be used for troubleshooting the request. */
+    requestId?: string;
+    /** Indicates the version of the Blob service used to execute the request. This header is returned for requests made against version 2009-09-19 and above. */
+    version?: string;
+    /** Error Code */
+    errorCode?: string;
+}
+/** Defines headers for Service_listContainersSegment operation. */
+export interface ServiceListContainersSegmentExceptionHeaders {
+    errorCode?: string;
+}
+/** Defines headers for Service_getUserDelegationKey operation. */
+export interface ServiceGetUserDelegationKeyHeaders {
+    /** If a client request id header is sent in the request, this header will be present in the response with the same value. */
+    clientRequestId?: string;
+    /** This header uniquely identifies the request that was made and can be used for troubleshooting the request. */
+    requestId?: string;
+    /** Indicates the version of the Blob service used to execute the request. This header is returned for requests made against version 2009-09-19 and above. */
+    version?: string;
+    /** UTC date/time value generated by the service that indicates the time at which the response was initiated */
+    date?: Date;
+    /** Error Code */
+    errorCode?: string;
+}
+/** Defines headers for Service_getUserDelegationKey operation. */
+export interface ServiceGetUserDelegationKeyExceptionHeaders {
+    errorCode?: string;
+}
+/** Defines headers for Service_getAccountInfo operation. */
+export interface ServiceGetAccountInfoHeaders {
+    /** If a client request id header is sent in the request, this header will be present in the response with the same value. */
+    clientRequestId?: string;
+    /** This header uniquely identifies the request that was made and can be used for troubleshooting the request. */
+    requestId?: string;
+    /** Indicates the version of the Blob service used to execute the request. This header is returned for requests made against version 2009-09-19 and above. */
+    version?: string;
+    /** UTC date/time value generated by the service that indicates the time at which the response was initiated */
+    date?: Date;
+    /** Identifies the sku name of the account */
+    skuName?: SkuName;
+    /** Identifies the account kind */
+    accountKind?: AccountKind;
+    /** Version 2019-07-07 and newer. Indicates if the account has a hierarchical namespace enabled. */
+    isHierarchicalNamespaceEnabled?: boolean;
+    /** Error Code */
+    errorCode?: string;
+}
+/** Defines headers for Service_getAccountInfo operation. */
+export interface ServiceGetAccountInfoExceptionHeaders {
+    errorCode?: string;
+}
+/** Defines headers for Service_submitBatch operation. */
+export interface ServiceSubmitBatchHeaders {
+    /** The media type of the body of the response. For batch requests, this is multipart/mixed; boundary=batchresponse_GUID */
+    contentType?: string;
+    /** This header uniquely identifies the request that was made and can be used for troubleshooting the request. */
+    requestId?: string;
+    /** Indicates the version of the Blob service used to execute the request. This header is returned for requests made against version 2009-09-19 and above. */
+    version?: string;
+    /** If a client request id header is sent in the request, this header will be present in the response with the same value. */
+    clientRequestId?: string;
+    /** Error Code */
+    errorCode?: string;
+}
+/** Defines headers for Service_submitBatch operation. */
+export interface ServiceSubmitBatchExceptionHeaders {
+    errorCode?: string;
+}
+/** Defines headers for Service_filterBlobs operation. */
+export interface ServiceFilterBlobsHeaders {
+    /** If a client request id header is sent in the request, this header will be present in the response with the same value. */
+    clientRequestId?: string;
+    /** This header uniquely identifies the request that was made and can be used for troubleshooting the request. */
+    requestId?: string;
+    /** Indicates the version of the Blob service used to execute the request. This header is returned for requests made against version 2009-09-19 and above. */
+    version?: string;
+    /** UTC date/time value generated by the service that indicates the time at which the response was initiated */
+    date?: Date;
+    /** Error Code */
+    errorCode?: string;
+}
+/** Defines headers for Service_filterBlobs operation. */
+export interface ServiceFilterBlobsExceptionHeaders {
+    errorCode?: string;
+}
+/** Defines headers for Container_create operation. */
+export interface ContainerCreateHeaders {
+    /** The ETag contains a value that you can use to perform operations conditionally. If the request version is 2011-08-18 or newer, the ETag value will be in quotes. */
+    etag?: string;
+    /** Returns the date and time the container was last modified. Any operation that modifies the blob, including an update of the blob's metadata or properties, changes the last-modified time of the blob. */
+    lastModified?: Date;
+    /** If a client request id header is sent in the request, this header will be present in the response with the same value. */
+    clientRequestId?: string;
+    /** This header uniquely identifies the request that was made and can be used for troubleshooting the request. */
+    requestId?: string;
+    /** Indicates the version of the Blob service used to execute the request. This header is returned for requests made against version 2009-09-19 and above. */
+    version?: string;
+    /** UTC date/time value generated by the service that indicates the time at which the response was initiated */
+    date?: Date;
+    /** Error Code */
+    errorCode?: string;
+}
+/** Defines headers for Container_create operation. */
+export interface ContainerCreateExceptionHeaders {
+    errorCode?: string;
+}
+/** Defines headers for Container_getProperties operation. */
+export interface ContainerGetPropertiesHeaders {
+    metadata?: {
+        [propertyName: string]: string;
+    };
+    /** The ETag contains a value that you can use to perform operations conditionally. If the request version is 2011-08-18 or newer, the ETag value will be in quotes. */
+    etag?: string;
+    /** Returns the date and time the container was last modified. Any operation that modifies the blob, including an update of the blob's metadata or properties, changes the last-modified time of the blob. */
+    lastModified?: Date;
+    /** When a blob is leased, specifies whether the lease is of infinite or fixed duration. */
+    leaseDuration?: LeaseDurationType;
+    /** Lease state of the blob. */
+    leaseState?: LeaseStateType;
+    /** The current lease status of the blob. */
+    leaseStatus?: LeaseStatusType;
+    /** If a client request id header is sent in the request, this header will be present in the response with the same value. */
+    clientRequestId?: string;
+    /** This header uniquely identifies the request that was made and can be used for troubleshooting the request. */
+    requestId?: string;
+    /** Indicates the version of the Blob service used to execute the request. This header is returned for requests made against version 2009-09-19 and above. */
+    version?: string;
+    /** UTC date/time value generated by the service that indicates the time at which the response was initiated */
+    date?: Date;
+    /** Indicated whether data in the container may be accessed publicly and the level of access */
+    blobPublicAccess?: PublicAccessType;
+    /** Indicates whether the container has an immutability policy set on it. */
+    hasImmutabilityPolicy?: boolean;
+    /** Indicates whether the container has a legal hold. */
+    hasLegalHold?: boolean;
+    /** The default encryption scope for the container. */
+    defaultEncryptionScope?: string;
+    /** Indicates whether the container's default encryption scope can be overriden. */
+    denyEncryptionScopeOverride?: boolean;
+    /** Indicates whether version level worm is enabled on a container. */
+    isImmutableStorageWithVersioningEnabled?: boolean;
+    /** Error Code */
+    errorCode?: string;
+}
+/** Defines headers for Container_getProperties operation. */
+export interface ContainerGetPropertiesExceptionHeaders {
+    errorCode?: string;
+}
+/** Defines headers for Container_delete operation. */
+export interface ContainerDeleteHeaders {
+    /** If a client request id header is sent in the request, this header will be present in the response with the same value. */
+    clientRequestId?: string;
+    /** This header uniquely identifies the request that was made and can be used for troubleshooting the request. */
+    requestId?: string;
+    /** Indicates the version of the Blob service used to execute the request. This header is returned for requests made against version 2009-09-19 and above. */
+    version?: string;
+    /** UTC date/time value generated by the service that indicates the time at which the response was initiated */
+    date?: Date;
+    /** Error Code */
+    errorCode?: string;
+}
+/** Defines headers for Container_delete operation. */
+export interface ContainerDeleteExceptionHeaders {
+    errorCode?: string;
+}
+/** Defines headers for Container_setMetadata operation. */
+export interface ContainerSetMetadataHeaders {
+    /** The ETag contains a value that you can use to perform operations conditionally. If the request version is 2011-08-18 or newer, the ETag value will be in quotes. */
+    etag?: string;
+    /** Returns the date and time the container was last modified. Any operation that modifies the blob, including an update of the blob's metadata or properties, changes the last-modified time of the blob. */
+    lastModified?: Date;
+    /** If a client request id header is sent in the request, this header will be present in the response with the same value. */
+    clientRequestId?: string;
+    /** This header uniquely identifies the request that was made and can be used for troubleshooting the request. */
+    requestId?: string;
+    /** Indicates the version of the Blob service used to execute the request. This header is returned for requests made against version 2009-09-19 and above. */
+    version?: string;
+    /** UTC date/time value generated by the service that indicates the time at which the response was initiated */
+    date?: Date;
+    /** Error Code */
+    errorCode?: string;
+}
+/** Defines headers for Container_setMetadata operation. */
+export interface ContainerSetMetadataExceptionHeaders {
+    errorCode?: string;
+}
+/** Defines headers for Container_getAccessPolicy operation. */
+export interface ContainerGetAccessPolicyHeaders {
+    /** Indicated whether data in the container may be accessed publicly and the level of access */
+    blobPublicAccess?: PublicAccessType;
+    /** The ETag contains a value that you can use to perform operations conditionally. If the request version is 2011-08-18 or newer, the ETag value will be in quotes. */
+    etag?: string;
+    /** Returns the date and time the container was last modified. Any operation that modifies the blob, including an update of the blob's metadata or properties, changes the last-modified time of the blob. */
+    lastModified?: Date;
+    /** If a client request id header is sent in the request, this header will be present in the response with the same value. */
+    clientRequestId?: string;
+    /** This header uniquely identifies the request that was made and can be used for troubleshooting the request. */
+    requestId?: string;
+    /** Indicates the version of the Blob service used to execute the request. This header is returned for requests made against version 2009-09-19 and above. */
+    version?: string;
+    /** UTC date/time value generated by the service that indicates the time at which the response was initiated */
+    date?: Date;
+    /** Error Code */
+    errorCode?: string;
+}
+/** Defines headers for Container_getAccessPolicy operation. */
+export interface ContainerGetAccessPolicyExceptionHeaders {
+    errorCode?: string;
+}
+/** Defines headers for Container_setAccessPolicy operation. */
+export interface ContainerSetAccessPolicyHeaders {
+    /** The ETag contains a value that you can use to perform operations conditionally. If the request version is 2011-08-18 or newer, the ETag value will be in quotes. */
+    etag?: string;
+    /** Returns the date and time the container was last modified. Any operation that modifies the blob, including an update of the blob's metadata or properties, changes the last-modified time of the blob. */
+    lastModified?: Date;
+    /** If a client request id header is sent in the request, this header will be present in the response with the same value. */
+    clientRequestId?: string;
+    /** This header uniquely identifies the request that was made and can be used for troubleshooting the request. */
+    requestId?: string;
+    /** Indicates the version of the Blob service used to execute the request. This header is returned for requests made against version 2009-09-19 and above. */
+    version?: string;
+    /** UTC date/time value generated by the service that indicates the time at which the response was initiated */
+    date?: Date;
+    /** Error Code */
+    errorCode?: string;
+}
+/** Defines headers for Container_setAccessPolicy operation. */
+export interface ContainerSetAccessPolicyExceptionHeaders {
+    errorCode?: string;
+}
+/** Defines headers for Container_restore operation. */
+export interface ContainerRestoreHeaders {
+    /** If a client request id header is sent in the request, this header will be present in the response with the same value. */
+    clientRequestId?: string;
+    /** This header uniquely identifies the request that was made and can be used for troubleshooting the request. */
+    requestId?: string;
+    /** Indicates the version of the Blob service used to execute the request. This header is returned for requests made against version 2009-09-19 and above. */
+    version?: string;
+    /** UTC date/time value generated by the service that indicates the time at which the response was initiated */
+    date?: Date;
+    /** Error Code */
+    errorCode?: string;
+}
+/** Defines headers for Container_restore operation. */
+export interface ContainerRestoreExceptionHeaders {
+    errorCode?: string;
+}
+/** Defines headers for Container_rename operation. */
+export interface ContainerRenameHeaders {
+    /** If a client request id header is sent in the request, this header will be present in the response with the same value. */
+    clientRequestId?: string;
+    /** This header uniquely identifies the request that was made and can be used for troubleshooting the request. */
+    requestId?: string;
+    /** Indicates the version of the Blob service used to execute the request. This header is returned for requests made against version 2009-09-19 and above. */
+    version?: string;
+    /** UTC date/time value generated by the service that indicates the time at which the response was initiated */
+    date?: Date;
+    /** Error Code */
+    errorCode?: string;
+}
+/** Defines headers for Container_rename operation. */
+export interface ContainerRenameExceptionHeaders {
+    errorCode?: string;
+}
+/** Defines headers for Container_submitBatch operation. */
+export interface ContainerSubmitBatchHeaders {
+    /** The media type of the body of the response. For batch requests, this is multipart/mixed; boundary=batchresponse_GUID */
+    contentType?: string;
+    /** This header uniquely identifies the request that was made and can be used for troubleshooting the request. */
+    requestId?: string;
+    /** Indicates the version of the Blob service used to execute the request. This header is returned for requests made against version 2009-09-19 and above. */
+    version?: string;
+}
+/** Defines headers for Container_submitBatch operation. */
+export interface ContainerSubmitBatchExceptionHeaders {
+    errorCode?: string;
+}
+/** Defines headers for Container_filterBlobs operation. */
+export interface ContainerFilterBlobsHeaders {
+    /** If a client request id header is sent in the request, this header will be present in the response with the same value. */
+    clientRequestId?: string;
+    /** This header uniquely identifies the request that was made and can be used for troubleshooting the request. */
+    requestId?: string;
+    /** Indicates the version of the Blob service used to execute the request. This header is returned for requests made against version 2009-09-19 and above. */
+    version?: string;
+    /** UTC date/time value generated by the service that indicates the time at which the response was initiated */
+    date?: Date;
+}
+/** Defines headers for Container_filterBlobs operation. */
+export interface ContainerFilterBlobsExceptionHeaders {
+    errorCode?: string;
+}
+/** Defines headers for Container_acquireLease operation. */
+export interface ContainerAcquireLeaseHeaders {
+    /** The ETag contains a value that you can use to perform operations conditionally. If the request version is 2011-08-18 or newer, the ETag value will be in quotes. */
+    etag?: string;
+    /** Returns the date and time the container was last modified. Any operation that modifies the blob, including an update of the blob's metadata or properties, changes the last-modified time of the blob. */
+    lastModified?: Date;
+    /** Uniquely identifies a container's lease */
+    leaseId?: string;
+    /** If a client request id header is sent in the request, this header will be present in the response with the same value. */
+    clientRequestId?: string;
+    /** This header uniquely identifies the request that was made and can be used for troubleshooting the request. */
+    requestId?: string;
+    /** Indicates the version of the Blob service used to execute the request. This header is returned for requests made against version 2009-09-19 and above. */
+    version?: string;
+    /** UTC date/time value generated by the service that indicates the time at which the response was initiated */
+    date?: Date;
+}
+/** Defines headers for Container_acquireLease operation. */
+export interface ContainerAcquireLeaseExceptionHeaders {
+    errorCode?: string;
+}
+/** Defines headers for Container_releaseLease operation. */
+export interface ContainerReleaseLeaseHeaders {
+    /** The ETag contains a value that you can use to perform operations conditionally. If the request version is 2011-08-18 or newer, the ETag value will be in quotes. */
+    etag?: string;
+    /** Returns the date and time the container was last modified. Any operation that modifies the blob, including an update of the blob's metadata or properties, changes the last-modified time of the blob. */
+    lastModified?: Date;
+    /** If a client request id header is sent in the request, this header will be present in the response with the same value. */
+    clientRequestId?: string;
+    /** This header uniquely identifies the request that was made and can be used for troubleshooting the request. */
+    requestId?: string;
+    /** Indicates the version of the Blob service used to execute the request. This header is returned for requests made against version 2009-09-19 and above. */
+    version?: string;
+    /** UTC date/time value generated by the service that indicates the time at which the response was initiated */
+    date?: Date;
+}
+/** Defines headers for Container_releaseLease operation. */
+export interface ContainerReleaseLeaseExceptionHeaders {
+    errorCode?: string;
+}
+/** Defines headers for Container_renewLease operation. */
+export interface ContainerRenewLeaseHeaders {
+    /** The ETag contains a value that you can use to perform operations conditionally. If the request version is 2011-08-18 or newer, the ETag value will be in quotes. */
+    etag?: string;
+    /** Returns the date and time the container was last modified. Any operation that modifies the blob, including an update of the blob's metadata or properties, changes the last-modified time of the blob. */
+    lastModified?: Date;
+    /** Uniquely identifies a container's lease */
+    leaseId?: string;
+    /** If a client request id header is sent in the request, this header will be present in the response with the same value. */
+    clientRequestId?: string;
+    /** This header uniquely identifies the request that was made and can be used for troubleshooting the request. */
+    requestId?: string;
+    /** Indicates the version of the Blob service used to execute the request. This header is returned for requests made against version 2009-09-19 and above. */
+    version?: string;
+    /** UTC date/time value generated by the service that indicates the time at which the response was initiated */
+    date?: Date;
+}
+/** Defines headers for Container_renewLease operation. */
+export interface ContainerRenewLeaseExceptionHeaders {
+    errorCode?: string;
+}
+/** Defines headers for Container_breakLease operation. */
+export interface ContainerBreakLeaseHeaders {
+    /** The ETag contains a value that you can use to perform operations conditionally. If the request version is 2011-08-18 or newer, the ETag value will be in quotes. */
+    etag?: string;
+    /** Returns the date and time the container was last modified. Any operation that modifies the blob, including an update of the blob's metadata or properties, changes the last-modified time of the blob. */
+    lastModified?: Date;
+    /** Approximate time remaining in the lease period, in seconds. */
+    leaseTime?: number;
+    /** If a client request id header is sent in the request, this header will be present in the response with the same value. */
+    clientRequestId?: string;
+    /** This header uniquely identifies the request that was made and can be used for troubleshooting the request. */
+    requestId?: string;
+    /** Indicates the version of the Blob service used to execute the request. This header is returned for requests made against version 2009-09-19 and above. */
+    version?: string;
+    /** UTC date/time value generated by the service that indicates the time at which the response was initiated */
+    date?: Date;
+}
+/** Defines headers for Container_breakLease operation. */
+export interface ContainerBreakLeaseExceptionHeaders {
+    errorCode?: string;
+}
+/** Defines headers for Container_changeLease operation. */
+export interface ContainerChangeLeaseHeaders {
+    /** The ETag contains a value that you can use to perform operations conditionally. If the request version is 2011-08-18 or newer, the ETag value will be in quotes. */
+    etag?: string;
+    /** Returns the date and time the container was last modified. Any operation that modifies the blob, including an update of the blob's metadata or properties, changes the last-modified time of the blob. */
+    lastModified?: Date;
+    /** Uniquely identifies a container's lease */
+    leaseId?: string;
+    /** If a client request id header is sent in the request, this header will be present in the response with the same value. */
+    clientRequestId?: string;
+    /** This header uniquely identifies the request that was made and can be used for troubleshooting the request. */
+    requestId?: string;
+    /** Indicates the version of the Blob service used to execute the request. This header is returned for requests made against version 2009-09-19 and above. */
+    version?: string;
+    /** UTC date/time value generated by the service that indicates the time at which the response was initiated */
+    date?: Date;
+}
+/** Defines headers for Container_changeLease operation. */
+export interface ContainerChangeLeaseExceptionHeaders {
+    errorCode?: string;
+}
+/** Defines headers for Container_listBlobFlatSegment operation. */
+export interface ContainerListBlobFlatSegmentHeaders {
+    /** The media type of the body of the response. For List Blobs this is 'application/xml' */
+    contentType?: string;
+    /** If a client request id header is sent in the request, this header will be present in the response with the same value. */
+    clientRequestId?: string;
+    /** This header uniquely identifies the request that was made and can be used for troubleshooting the request. */
+    requestId?: string;
+    /** Indicates the version of the Blob service used to execute the request. This header is returned for requests made against version 2009-09-19 and above. */
+    version?: string;
+    /** UTC date/time value generated by the service that indicates the time at which the response was initiated */
+    date?: Date;
+    /** Error Code */
+    errorCode?: string;
+}
+/** Defines headers for Container_listBlobFlatSegment operation. */
+export interface ContainerListBlobFlatSegmentExceptionHeaders {
+    errorCode?: string;
+}
+/** Defines headers for Container_listBlobHierarchySegment operation. */
+export interface ContainerListBlobHierarchySegmentHeaders {
+    /** The media type of the body of the response. For List Blobs this is 'application/xml' */
+    contentType?: string;
+    /** If a client request id header is sent in the request, this header will be present in the response with the same value. */
+    clientRequestId?: string;
+    /** This header uniquely identifies the request that was made and can be used for troubleshooting the request. */
+    requestId?: string;
+    /** Indicates the version of the Blob service used to execute the request. This header is returned for requests made against version 2009-09-19 and above. */
+    version?: string;
+    /** UTC date/time value generated by the service that indicates the time at which the response was initiated */
+    date?: Date;
+    /** Error Code */
+    errorCode?: string;
+}
+/** Defines headers for Container_listBlobHierarchySegment operation. */
+export interface ContainerListBlobHierarchySegmentExceptionHeaders {
+    errorCode?: string;
+}
+/** Defines headers for Container_getAccountInfo operation. */
+export interface ContainerGetAccountInfoHeaders {
+    /** If a client request id header is sent in the request, this header will be present in the response with the same value. */
+    clientRequestId?: string;
+    /** This header uniquely identifies the request that was made and can be used for troubleshooting the request. */
+    requestId?: string;
+    /** Indicates the version of the Blob service used to execute the request. This header is returned for requests made against version 2009-09-19 and above. */
+    version?: string;
+    /** UTC date/time value generated by the service that indicates the time at which the response was initiated */
+    date?: Date;
+    /** Identifies the sku name of the account */
+    skuName?: SkuName;
+    /** Identifies the account kind */
+    accountKind?: AccountKind;
+    /** Version 2019-07-07 and newer. Indicates if the account has a hierarchical namespace enabled. */
+    isHierarchicalNamespaceEnabled?: boolean;
+}
+/** Defines headers for Container_getAccountInfo operation. */
+export interface ContainerGetAccountInfoExceptionHeaders {
+    errorCode?: string;
+}
+/** Defines headers for Blob_download operation. */
+export interface BlobDownloadHeaders {
+    /** Returns the date and time the container was last modified. Any operation that modifies the blob, including an update of the blob's metadata or properties, changes the last-modified time of the blob. */
+    lastModified?: Date;
+    /** Returns the date and time the blob was created. */
+    createdOn?: Date;
+    metadata?: {
+        [propertyName: string]: string;
+    };
+    /** Optional. Only valid when Object Replication is enabled for the storage container and on the destination blob of the replication. */
+    objectReplicationPolicyId?: string;
+    /** Optional. Only valid when Object Replication is enabled for the storage container and on the source blob of the replication. When retrieving this header, it will return the header with the policy id and rule id (e.g. x-ms-or-policyid_ruleid), and the value will be the status of the replication (e.g. complete, failed). */
+    objectReplicationRules?: {
+        [propertyName: string]: string;
+    };
+    /** The number of bytes present in the response body. */
+    contentLength?: number;
+    /** The media type of the body of the response. For Download Blob this is 'application/octet-stream' */
+    contentType?: string;
+    /** Indicates the range of bytes returned in the event that the client requested a subset of the blob by setting the 'Range' request header. */
+    contentRange?: string;
+    /** The ETag contains a value that you can use to perform operations conditionally. If the request version is 2011-08-18 or newer, the ETag value will be in quotes. */
+    etag?: string;
+    /** If the blob has an MD5 hash and this operation is to read the full blob, this response header is returned so that the client can check for message content integrity. */
+    contentMD5?: Uint8Array;
+    /** This header returns the value that was specified for the Content-Encoding request header */
+    contentEncoding?: string;
+    /** This header is returned if it was previously specified for the blob. */
+    cacheControl?: string;
+    /** This header returns the value that was specified for the 'x-ms-blob-content-disposition' header. The Content-Disposition response header field conveys additional information about how to process the response payload, and also can be used to attach additional metadata. For example, if set to attachment, it indicates that the user-agent should not display the response, but instead show a Save As dialog with a filename other than the blob name specified. */
+    contentDisposition?: string;
+    /** This header returns the value that was specified for the Content-Language request header. */
+    contentLanguage?: string;
+    /** The current sequence number for a page blob. This header is not returned for block blobs or append blobs */
+    blobSequenceNumber?: number;
+    /** The blob's type. */
+    blobType?: BlobType;
+    /** Conclusion time of the last attempted Copy Blob operation where this blob was the destination blob. This value can specify the time of a completed, aborted, or failed copy attempt. This header does not appear if a copy is pending, if this blob has never been the destination in a Copy Blob operation, or if this blob has been modified after a concluded Copy Blob operation using Set Blob Properties, Put Blob, or Put Block List. */
+    copyCompletedOn?: Date;
+    /** Only appears when x-ms-copy-status is failed or pending. Describes the cause of the last fatal or non-fatal copy operation failure. This header does not appear if this blob has never been the destination in a Copy Blob operation, or if this blob has been modified after a concluded Copy Blob operation using Set Blob Properties, Put Blob, or Put Block List */
+    copyStatusDescription?: string;
+    /** String identifier for this copy operation. Use with Get Blob Properties to check the status of this copy operation, or pass to Abort Copy Blob to abort a pending copy. */
+    copyId?: string;
+    /** Contains the number of bytes copied and the total bytes in the source in the last attempted Copy Blob operation where this blob was the destination blob. Can show between 0 and Content-Length bytes copied. This header does not appear if this blob has never been the destination in a Copy Blob operation, or if this blob has been modified after a concluded Copy Blob operation using Set Blob Properties, Put Blob, or Put Block List */
+    copyProgress?: string;
+    /** URL up to 2 KB in length that specifies the source blob or file used in the last attempted Copy Blob operation where this blob was the destination blob. This header does not appear if this blob has never been the destination in a Copy Blob operation, or if this blob has been modified after a concluded Copy Blob operation using Set Blob Properties, Put Blob, or Put Block List. */
+    copySource?: string;
+    /** State of the copy operation identified by x-ms-copy-id. */
+    copyStatus?: CopyStatusType;
+    /** When a blob is leased, specifies whether the lease is of infinite or fixed duration. */
+    leaseDuration?: LeaseDurationType;
+    /** Lease state of the blob. */
+    leaseState?: LeaseStateType;
+    /** The current lease status of the blob. */
+    leaseStatus?: LeaseStatusType;
+    /** If a client request id header is sent in the request, this header will be present in the response with the same value. */
+    clientRequestId?: string;
+    /** This header uniquely identifies the request that was made and can be used for troubleshooting the request. */
+    requestId?: string;
+    /** Indicates the version of the Blob service used to execute the request. This header is returned for requests made against version 2009-09-19 and above. */
+    version?: string;
+    /** A DateTime value returned by the service that uniquely identifies the blob. The value of this header indicates the blob version, and may be used in subsequent requests to access this version of the blob. */
+    versionId?: string;
+    /** The value of this header indicates whether version of this blob is a current version, see also x-ms-version-id header. */
+    isCurrentVersion?: boolean;
+    /** Indicates that the service supports requests for partial blob content. */
+    acceptRanges?: string;
+    /** UTC date/time value generated by the service that indicates the time at which the response was initiated */
+    date?: Date;
+    /** The number of committed blocks present in the blob. This header is returned only for append blobs. */
+    blobCommittedBlockCount?: number;
+    /** The value of this header is set to true if the blob data and application metadata are completely encrypted using the specified algorithm. Otherwise, the value is set to false (when the blob is unencrypted, or if only parts of the blob/application metadata are encrypted). */
+    isServerEncrypted?: boolean;
+    /** The SHA-256 hash of the encryption key used to encrypt the blob. This header is only returned when the blob was encrypted with a customer-provided key. */
+    encryptionKeySha256?: string;
+    /** Returns the name of the encryption scope used to encrypt the blob contents and application metadata.  Note that the absence of this header implies use of the default account encryption scope. */
+    encryptionScope?: string;
+    /** If the blob has a MD5 hash, and if request contains range header (Range or x-ms-range), this response header is returned with the value of the whole blob's MD5 value. This value may or may not be equal to the value returned in Content-MD5 header, with the latter calculated from the requested range */
+    blobContentMD5?: Uint8Array;
+    /** The number of tags associated with the blob */
+    tagCount?: number;
+    /** If this blob has been sealed */
+    isSealed?: boolean;
+    /** UTC date/time value generated by the service that indicates the time at which the blob was last read or written to */
+    lastAccessed?: Date;
+    /** UTC date/time value generated by the service that indicates the time at which the blob immutability policy will expire. */
+    immutabilityPolicyExpiresOn?: Date;
+    /** Indicates immutability policy mode. */
+    immutabilityPolicyMode?: BlobImmutabilityPolicyMode;
+    /** Indicates if a legal hold is present on the blob. */
+    legalHold?: boolean;
+    /** Error Code */
+    errorCode?: string;
+    /** If the request is to read a specified range and the x-ms-range-get-content-crc64 is set to true, then the request returns a crc64 for the range, as long as the range size is less than or equal to 4 MB. If both x-ms-range-get-content-crc64 & x-ms-range-get-content-md5 is specified in the same request, it will fail with 400(Bad Request). */
+    contentCrc64?: Uint8Array;
+}
+/** Defines headers for Blob_download operation. */
+export interface BlobDownloadExceptionHeaders {
+    errorCode?: string;
+}
+/** Defines headers for Blob_getProperties operation. */
+export interface BlobGetPropertiesHeaders {
+    /** Returns the date and time the blob was last modified. Any operation that modifies the blob, including an update of the blob's metadata or properties, changes the last-modified time of the blob. */
+    lastModified?: Date;
+    /** Returns the date and time the blob was created. */
+    createdOn?: Date;
+    metadata?: {
+        [propertyName: string]: string;
+    };
+    /** Optional. Only valid when Object Replication is enabled for the storage container and on the destination blob of the replication. */
+    objectReplicationPolicyId?: string;
+    /** Optional. Only valid when Object Replication is enabled for the storage container and on the source blob of the replication. When retrieving this header, it will return the header with the policy id and rule id (e.g. x-ms-or-policyid_ruleid), and the value will be the status of the replication (e.g. complete, failed). */
+    objectReplicationRules?: {
+        [propertyName: string]: string;
+    };
+    /** The blob's type. */
+    blobType?: BlobType;
+    /** Conclusion time of the last attempted Copy Blob operation where this blob was the destination blob. This value can specify the time of a completed, aborted, or failed copy attempt. This header does not appear if a copy is pending, if this blob has never been the destination in a Copy Blob operation, or if this blob has been modified after a concluded Copy Blob operation using Set Blob Properties, Put Blob, or Put Block List. */
+    copyCompletedOn?: Date;
+    /** Only appears when x-ms-copy-status is failed or pending. Describes the cause of the last fatal or non-fatal copy operation failure. This header does not appear if this blob has never been the destination in a Copy Blob operation, or if this blob has been modified after a concluded Copy Blob operation using Set Blob Properties, Put Blob, or Put Block List */
+    copyStatusDescription?: string;
+    /** String identifier for this copy operation. Use with Get Blob Properties to check the status of this copy operation, or pass to Abort Copy Blob to abort a pending copy. */
+    copyId?: string;
+    /** Contains the number of bytes copied and the total bytes in the source in the last attempted Copy Blob operation where this blob was the destination blob. Can show between 0 and Content-Length bytes copied. This header does not appear if this blob has never been the destination in a Copy Blob operation, or if this blob has been modified after a concluded Copy Blob operation using Set Blob Properties, Put Blob, or Put Block List */
+    copyProgress?: string;
+    /** URL up to 2 KB in length that specifies the source blob or file used in the last attempted Copy Blob operation where this blob was the destination blob. This header does not appear if this blob has never been the destination in a Copy Blob operation, or if this blob has been modified after a concluded Copy Blob operation using Set Blob Properties, Put Blob, or Put Block List. */
+    copySource?: string;
+    /** State of the copy operation identified by x-ms-copy-id. */
+    copyStatus?: CopyStatusType;
+    /** Included if the blob is incremental copy blob. */
+    isIncrementalCopy?: boolean;
+    /** Included if the blob is incremental copy blob or incremental copy snapshot, if x-ms-copy-status is success. Snapshot time of the last successful incremental copy snapshot for this blob. */
+    destinationSnapshot?: string;
+    /** When a blob is leased, specifies whether the lease is of infinite or fixed duration. */
+    leaseDuration?: LeaseDurationType;
+    /** Lease state of the blob. */
+    leaseState?: LeaseStateType;
+    /** The current lease status of the blob. */
+    leaseStatus?: LeaseStatusType;
+    /** The size of the blob in bytes. For a page blob, this header returns the value of the x-ms-blob-content-length header that is stored with the blob. */
+    contentLength?: number;
+    /** The content type specified for the blob. The default content type is 'application/octet-stream' */
+    contentType?: string;
+    /** The ETag contains a value that you can use to perform operations conditionally. If the request version is 2011-08-18 or newer, the ETag value will be in quotes. */
+    etag?: string;
+    /** If the blob has an MD5 hash and this operation is to read the full blob, this response header is returned so that the client can check for message content integrity. */
+    contentMD5?: Uint8Array;
+    /** This header returns the value that was specified for the Content-Encoding request header */
+    contentEncoding?: string;
+    /** This header returns the value that was specified for the 'x-ms-blob-content-disposition' header. The Content-Disposition response header field conveys additional information about how to process the response payload, and also can be used to attach additional metadata. For example, if set to attachment, it indicates that the user-agent should not display the response, but instead show a Save As dialog with a filename other than the blob name specified. */
+    contentDisposition?: string;
+    /** This header returns the value that was specified for the Content-Language request header. */
+    contentLanguage?: string;
+    /** This header is returned if it was previously specified for the blob. */
+    cacheControl?: string;
+    /** The current sequence number for a page blob. This header is not returned for block blobs or append blobs */
+    blobSequenceNumber?: number;
+    /** If a client request id header is sent in the request, this header will be present in the response with the same value. */
+    clientRequestId?: string;
+    /** This header uniquely identifies the request that was made and can be used for troubleshooting the request. */
+    requestId?: string;
+    /** Indicates the version of the Blob service used to execute the request. This header is returned for requests made against version 2009-09-19 and above. */
+    version?: string;
+    /** UTC date/time value generated by the service that indicates the time at which the response was initiated */
+    date?: Date;
+    /** Indicates that the service supports requests for partial blob content. */
+    acceptRanges?: string;
+    /** The number of committed blocks present in the blob. This header is returned only for append blobs. */
+    blobCommittedBlockCount?: number;
+    /** The value of this header is set to true if the blob data and application metadata are completely encrypted using the specified algorithm. Otherwise, the value is set to false (when the blob is unencrypted, or if only parts of the blob/application metadata are encrypted). */
+    isServerEncrypted?: boolean;
+    /** The SHA-256 hash of the encryption key used to encrypt the metadata. This header is only returned when the metadata was encrypted with a customer-provided key. */
+    encryptionKeySha256?: string;
+    /** Returns the name of the encryption scope used to encrypt the blob contents and application metadata.  Note that the absence of this header implies use of the default account encryption scope. */
+    encryptionScope?: string;
+    /** The tier of page blob on a premium storage account or tier of block blob on blob storage LRS accounts. For a list of allowed premium page blob tiers, see https://docs.microsoft.com/en-us/azure/virtual-machines/windows/premium-storage#features. For blob storage LRS accounts, valid values are Hot/Cool/Archive. */
+    accessTier?: string;
+    /** For page blobs on a premium storage account only. If the access tier is not explicitly set on the blob, the tier is inferred based on its content length and this header will be returned with true value. */
+    accessTierInferred?: boolean;
+    /** For blob storage LRS accounts, valid values are rehydrate-pending-to-hot/rehydrate-pending-to-cool. If the blob is being rehydrated and is not complete then this header is returned indicating that rehydrate is pending and also tells the destination tier. */
+    archiveStatus?: string;
+    /** The time the tier was changed on the object. This is only returned if the tier on the block blob was ever set. */
+    accessTierChangedOn?: Date;
+    /** A DateTime value returned by the service that uniquely identifies the blob. The value of this header indicates the blob version, and may be used in subsequent requests to access this version of the blob. */
+    versionId?: string;
+    /** The value of this header indicates whether version of this blob is a current version, see also x-ms-version-id header. */
+    isCurrentVersion?: boolean;
+    /** The number of tags associated with the blob */
+    tagCount?: number;
+    /** The time this blob will expire. */
+    expiresOn?: Date;
+    /** If this blob has been sealed */
+    isSealed?: boolean;
+    /** If an object is in rehydrate pending state then this header is returned with priority of rehydrate. */
+    rehydratePriority?: RehydratePriority;
+    /** UTC date/time value generated by the service that indicates the time at which the blob was last read or written to */
+    lastAccessed?: Date;
+    /** UTC date/time value generated by the service that indicates the time at which the blob immutability policy will expire. */
+    immutabilityPolicyExpiresOn?: Date;
+    /** Indicates immutability policy mode. */
+    immutabilityPolicyMode?: BlobImmutabilityPolicyMode;
+    /** Indicates if a legal hold is present on the blob. */
+    legalHold?: boolean;
+    /** Error Code */
+    errorCode?: string;
+}
+/** Defines headers for Blob_getProperties operation. */
+export interface BlobGetPropertiesExceptionHeaders {
+    errorCode?: string;
+}
+/** Defines headers for Blob_delete operation. */
+export interface BlobDeleteHeaders {
+    /** If a client request id header is sent in the request, this header will be present in the response with the same value. */
+    clientRequestId?: string;
+    /** This header uniquely identifies the request that was made and can be used for troubleshooting the request. */
+    requestId?: string;
+    /** Indicates the version of the Blob service used to execute the request. This header is returned for requests made against version 2009-09-19 and above. */
+    version?: string;
+    /** UTC date/time value generated by the service that indicates the time at which the response was initiated */
+    date?: Date;
+    /** Error Code */
+    errorCode?: string;
+}
+/** Defines headers for Blob_delete operation. */
+export interface BlobDeleteExceptionHeaders {
+    errorCode?: string;
+}
+/** Defines headers for Blob_undelete operation. */
+export interface BlobUndeleteHeaders {
+    /** If a client request id header is sent in the request, this header will be present in the response with the same value. */
+    clientRequestId?: string;
+    /** This header uniquely identifies the request that was made and can be used for troubleshooting the request. */
+    requestId?: string;
+    /** Indicates the version of the Blob service used to execute the request. This header is returned for requests made against version 2009-09-19 and above. */
+    version?: string;
+    /** UTC date/time value generated by the service that indicates the time at which the response was initiated. */
+    date?: Date;
+    /** Error Code */
+    errorCode?: string;
+}
+/** Defines headers for Blob_undelete operation. */
+export interface BlobUndeleteExceptionHeaders {
+    errorCode?: string;
+}
+/** Defines headers for Blob_setExpiry operation. */
+export interface BlobSetExpiryHeaders {
+    /** The ETag contains a value that you can use to perform operations conditionally. If the request version is 2011-08-18 or newer, the ETag value will be in quotes. */
+    etag?: string;
+    /** Returns the date and time the container was last modified. Any operation that modifies the blob, including an update of the blob's metadata or properties, changes the last-modified time of the blob. */
+    lastModified?: Date;
+    /** If a client request id header is sent in the request, this header will be present in the response with the same value. */
+    clientRequestId?: string;
+    /** This header uniquely identifies the request that was made and can be used for troubleshooting the request. */
+    requestId?: string;
+    /** Indicates the version of the Blob service used to execute the request. This header is returned for requests made against version 2009-09-19 and above. */
+    version?: string;
+    /** UTC date/time value generated by the service that indicates the time at which the response was initiated. */
+    date?: Date;
+}
+/** Defines headers for Blob_setExpiry operation. */
+export interface BlobSetExpiryExceptionHeaders {
+    errorCode?: string;
+}
+/** Defines headers for Blob_setHttpHeaders operation. */
+export interface BlobSetHttpHeadersHeaders {
+    /** The ETag contains a value that you can use to perform operations conditionally. If the request version is 2011-08-18 or newer, the ETag value will be in quotes. */
+    etag?: string;
+    /** Returns the date and time the container was last modified. Any operation that modifies the blob, including an update of the blob's metadata or properties, changes the last-modified time of the blob. */
+    lastModified?: Date;
+    /** The current sequence number for a page blob. This header is not returned for block blobs or append blobs */
+    blobSequenceNumber?: number;
+    /** If a client request id header is sent in the request, this header will be present in the response with the same value. */
+    clientRequestId?: string;
+    /** This header uniquely identifies the request that was made and can be used for troubleshooting the request. */
+    requestId?: string;
+    /** Indicates the version of the Blob service used to execute the request. This header is returned for requests made against version 2009-09-19 and above. */
+    version?: string;
+    /** UTC date/time value generated by the service that indicates the time at which the response was initiated */
+    date?: Date;
+    /** Error Code */
+    errorCode?: string;
+}
+/** Defines headers for Blob_setHttpHeaders operation. */
+export interface BlobSetHttpHeadersExceptionHeaders {
+    errorCode?: string;
+}
+/** Defines headers for Blob_setImmutabilityPolicy operation. */
+export interface BlobSetImmutabilityPolicyHeaders {
+    /** If a client request id header is sent in the request, this header will be present in the response with the same value. */
+    clientRequestId?: string;
+    /** This header uniquely identifies the request that was made and can be used for troubleshooting the request. */
+    requestId?: string;
+    /** Indicates the version of the Blob service used to execute the request. This header is returned for requests made against version 2009-09-19 and above. */
+    version?: string;
+    /** UTC date/time value generated by the service that indicates the time at which the response was initiated */
+    date?: Date;
+    /** Indicates the time the immutability policy will expire. */
+    immutabilityPolicyExpiry?: Date;
+    /** Indicates immutability policy mode. */
+    immutabilityPolicyMode?: BlobImmutabilityPolicyMode;
+}
+/** Defines headers for Blob_setImmutabilityPolicy operation. */
+export interface BlobSetImmutabilityPolicyExceptionHeaders {
+    errorCode?: string;
+}
+/** Defines headers for Blob_deleteImmutabilityPolicy operation. */
+export interface BlobDeleteImmutabilityPolicyHeaders {
+    /** If a client request id header is sent in the request, this header will be present in the response with the same value. */
+    clientRequestId?: string;
+    /** This header uniquely identifies the request that was made and can be used for troubleshooting the request. */
+    requestId?: string;
+    /** Indicates the version of the Blob service used to execute the request. This header is returned for requests made against version 2009-09-19 and above. */
+    version?: string;
+    /** UTC date/time value generated by the service that indicates the time at which the response was initiated */
+    date?: Date;
+}
+/** Defines headers for Blob_deleteImmutabilityPolicy operation. */
+export interface BlobDeleteImmutabilityPolicyExceptionHeaders {
+    errorCode?: string;
+}
+/** Defines headers for Blob_setLegalHold operation. */
+export interface BlobSetLegalHoldHeaders {
+    /** If a client request id header is sent in the request, this header will be present in the response with the same value. */
+    clientRequestId?: string;
+    /** This header uniquely identifies the request that was made and can be used for troubleshooting the request. */
+    requestId?: string;
+    /** Indicates the version of the Blob service used to execute the request. This header is returned for requests made against version 2009-09-19 and above. */
+    version?: string;
+    /** UTC date/time value generated by the service that indicates the time at which the response was initiated */
+    date?: Date;
+    /** Indicates if the blob has a legal hold. */
+    legalHold?: boolean;
+}
+/** Defines headers for Blob_setLegalHold operation. */
+export interface BlobSetLegalHoldExceptionHeaders {
+    errorCode?: string;
+}
+/** Defines headers for Blob_setMetadata operation. */
+export interface BlobSetMetadataHeaders {
+    /** The ETag contains a value that you can use to perform operations conditionally. If the request version is 2011-08-18 or newer, the ETag value will be in quotes. */
+    etag?: string;
+    /** Returns the date and time the container was last modified. Any operation that modifies the blob, including an update of the blob's metadata or properties, changes the last-modified time of the blob. */
+    lastModified?: Date;
+    /** If a client request id header is sent in the request, this header will be present in the response with the same value. */
+    clientRequestId?: string;
+    /** This header uniquely identifies the request that was made and can be used for troubleshooting the request. */
+    requestId?: string;
+    /** Indicates the version of the Blob service used to execute the request. This header is returned for requests made against version 2009-09-19 and above. */
+    version?: string;
+    /** A DateTime value returned by the service that uniquely identifies the blob. The value of this header indicates the blob version, and may be used in subsequent requests to access this version of the blob. */
+    versionId?: string;
+    /** UTC date/time value generated by the service that indicates the time at which the response was initiated */
+    date?: Date;
+    /** The value of this header is set to true if the contents of the request are successfully encrypted using the specified algorithm, and false otherwise. */
+    isServerEncrypted?: boolean;
+    /** The SHA-256 hash of the encryption key used to encrypt the metadata. This header is only returned when the metadata was encrypted with a customer-provided key. */
+    encryptionKeySha256?: string;
+    /** Returns the name of the encryption scope used to encrypt the blob contents and application metadata.  Note that the absence of this header implies use of the default account encryption scope. */
+    encryptionScope?: string;
+    /** Error Code */
+    errorCode?: string;
+}
+/** Defines headers for Blob_setMetadata operation. */
+export interface BlobSetMetadataExceptionHeaders {
+    errorCode?: string;
+}
+/** Defines headers for Blob_acquireLease operation. */
+export interface BlobAcquireLeaseHeaders {
+    /** The ETag contains a value that you can use to perform operations conditionally. If the request version is 2011-08-18 or newer, the ETag value will be in quotes. */
+    etag?: string;
+    /** Returns the date and time the blob was last modified. Any operation that modifies the blob, including an update of the blob's metadata or properties, changes the last-modified time of the blob. */
+    lastModified?: Date;
+    /** Uniquely identifies a blobs' lease */
+    leaseId?: string;
+    /** If a client request id header is sent in the request, this header will be present in the response with the same value. */
+    clientRequestId?: string;
+    /** This header uniquely identifies the request that was made and can be used for troubleshooting the request. */
+    requestId?: string;
+    /** Indicates the version of the Blob service used to execute the request. This header is returned for requests made against version 2009-09-19 and above. */
+    version?: string;
+    /** UTC date/time value generated by the service that indicates the time at which the response was initiated */
+    date?: Date;
+}
+/** Defines headers for Blob_acquireLease operation. */
+export interface BlobAcquireLeaseExceptionHeaders {
+    errorCode?: string;
+}
+/** Defines headers for Blob_releaseLease operation. */
+export interface BlobReleaseLeaseHeaders {
+    /** The ETag contains a value that you can use to perform operations conditionally. If the request version is 2011-08-18 or newer, the ETag value will be in quotes. */
+    etag?: string;
+    /** Returns the date and time the blob was last modified. Any operation that modifies the blob, including an update of the blob's metadata or properties, changes the last-modified time of the blob. */
+    lastModified?: Date;
+    /** If a client request id header is sent in the request, this header will be present in the response with the same value. */
+    clientRequestId?: string;
+    /** This header uniquely identifies the request that was made and can be used for troubleshooting the request. */
+    requestId?: string;
+    /** Indicates the version of the Blob service used to execute the request. This header is returned for requests made against version 2009-09-19 and above. */
+    version?: string;
+    /** UTC date/time value generated by the service that indicates the time at which the response was initiated */
+    date?: Date;
+}
+/** Defines headers for Blob_releaseLease operation. */
+export interface BlobReleaseLeaseExceptionHeaders {
+    errorCode?: string;
+}
+/** Defines headers for Blob_renewLease operation. */
+export interface BlobRenewLeaseHeaders {
+    /** The ETag contains a value that you can use to perform operations conditionally. If the request version is 2011-08-18 or newer, the ETag value will be in quotes. */
+    etag?: string;
+    /** Returns the date and time the blob was last modified. Any operation that modifies the blob, including an update of the blob's metadata or properties, changes the last-modified time of the blob. */
+    lastModified?: Date;
+    /** Uniquely identifies a blobs' lease */
+    leaseId?: string;
+    /** If a client request id header is sent in the request, this header will be present in the response with the same value. */
+    clientRequestId?: string;
+    /** This header uniquely identifies the request that was made and can be used for troubleshooting the request. */
+    requestId?: string;
+    /** Indicates the version of the Blob service used to execute the request. This header is returned for requests made against version 2009-09-19 and above. */
+    version?: string;
+    /** UTC date/time value generated by the service that indicates the time at which the response was initiated */
+    date?: Date;
+}
+/** Defines headers for Blob_renewLease operation. */
+export interface BlobRenewLeaseExceptionHeaders {
+    errorCode?: string;
+}
+/** Defines headers for Blob_changeLease operation. */
+export interface BlobChangeLeaseHeaders {
+    /** The ETag contains a value that you can use to perform operations conditionally. If the request version is 2011-08-18 or newer, the ETag value will be in quotes. */
+    etag?: string;
+    /** Returns the date and time the blob was last modified. Any operation that modifies the blob, including an update of the blob's metadata or properties, changes the last-modified time of the blob. */
+    lastModified?: Date;
+    /** If a client request id header is sent in the request, this header will be present in the response with the same value. */
+    clientRequestId?: string;
+    /** This header uniquely identifies the request that was made and can be used for troubleshooting the request. */
+    requestId?: string;
+    /** Uniquely identifies a blobs' lease */
+    leaseId?: string;
+    /** Indicates the version of the Blob service used to execute the request. This header is returned for requests made against version 2009-09-19 and above. */
+    version?: string;
+    /** UTC date/time value generated by the service that indicates the time at which the response was initiated */
+    date?: Date;
+}
+/** Defines headers for Blob_changeLease operation. */
+export interface BlobChangeLeaseExceptionHeaders {
+    errorCode?: string;
+}
+/** Defines headers for Blob_breakLease operation. */
+export interface BlobBreakLeaseHeaders {
+    /** The ETag contains a value that you can use to perform operations conditionally. If the request version is 2011-08-18 or newer, the ETag value will be in quotes. */
+    etag?: string;
+    /** Returns the date and time the blob was last modified. Any operation that modifies the blob, including an update of the blob's metadata or properties, changes the last-modified time of the blob. */
+    lastModified?: Date;
+    /** Approximate time remaining in the lease period, in seconds. */
+    leaseTime?: number;
+    /** If a client request id header is sent in the request, this header will be present in the response with the same value. */
+    clientRequestId?: string;
+    /** This header uniquely identifies the request that was made and can be used for troubleshooting the request. */
+    requestId?: string;
+    /** Indicates the version of the Blob service used to execute the request. This header is returned for requests made against version 2009-09-19 and above. */
+    version?: string;
+    /** UTC date/time value generated by the service that indicates the time at which the response was initiated */
+    date?: Date;
+}
+/** Defines headers for Blob_breakLease operation. */
+export interface BlobBreakLeaseExceptionHeaders {
+    errorCode?: string;
+}
+/** Defines headers for Blob_createSnapshot operation. */
+export interface BlobCreateSnapshotHeaders {
+    /** Uniquely identifies the snapshot and indicates the snapshot version. It may be used in subsequent requests to access the snapshot */
+    snapshot?: string;
+    /** The ETag contains a value that you can use to perform operations conditionally. If the request version is 2011-08-18 or newer, the ETag value will be in quotes. */
+    etag?: string;
+    /** Returns the date and time the container was last modified. Any operation that modifies the blob, including an update of the blob's metadata or properties, changes the last-modified time of the blob. */
+    lastModified?: Date;
+    /** If a client request id header is sent in the request, this header will be present in the response with the same value. */
+    clientRequestId?: string;
+    /** This header uniquely identifies the request that was made and can be used for troubleshooting the request. */
+    requestId?: string;
+    /** Indicates the version of the Blob service used to execute the request. This header is returned for requests made against version 2009-09-19 and above. */
+    version?: string;
+    /** A DateTime value returned by the service that uniquely identifies the blob. The value of this header indicates the blob version, and may be used in subsequent requests to access this version of the blob. */
+    versionId?: string;
+    /** UTC date/time value generated by the service that indicates the time at which the response was initiated */
+    date?: Date;
+    /** True if the contents of the request are successfully encrypted using the specified algorithm, and false otherwise. For a snapshot request, this header is set to true when metadata was provided in the request and encrypted with a customer-provided key. */
+    isServerEncrypted?: boolean;
+    /** Error Code */
+    errorCode?: string;
+}
+/** Defines headers for Blob_createSnapshot operation. */
+export interface BlobCreateSnapshotExceptionHeaders {
+    errorCode?: string;
+}
+/** Defines headers for Blob_startCopyFromURL operation. */
+export interface BlobStartCopyFromURLHeaders {
+    /** The ETag contains a value that you can use to perform operations conditionally. If the request version is 2011-08-18 or newer, the ETag value will be in quotes. */
+    etag?: string;
+    /** Returns the date and time the container was last modified. Any operation that modifies the blob, including an update of the blob's metadata or properties, changes the last-modified time of the blob. */
+    lastModified?: Date;
+    /** If a client request id header is sent in the request, this header will be present in the response with the same value. */
+    clientRequestId?: string;
+    /** This header uniquely identifies the request that was made and can be used for troubleshooting the request. */
+    requestId?: string;
+    /** Indicates the version of the Blob service used to execute the request. This header is returned for requests made against version 2009-09-19 and above. */
+    version?: string;
+    /** A DateTime value returned by the service that uniquely identifies the blob. The value of this header indicates the blob version, and may be used in subsequent requests to access this version of the blob. */
+    versionId?: string;
+    /** UTC date/time value generated by the service that indicates the time at which the response was initiated */
+    date?: Date;
+    /** String identifier for this copy operation. Use with Get Blob Properties to check the status of this copy operation, or pass to Abort Copy Blob to abort a pending copy. */
+    copyId?: string;
+    /** State of the copy operation identified by x-ms-copy-id. */
+    copyStatus?: CopyStatusType;
+    /** Error Code */
+    errorCode?: string;
+}
+/** Defines headers for Blob_startCopyFromURL operation. */
+export interface BlobStartCopyFromURLExceptionHeaders {
+    errorCode?: string;
+}
+/** Defines headers for Blob_copyFromURL operation. */
+export interface BlobCopyFromURLHeaders {
+    /** The ETag contains a value that you can use to perform operations conditionally. If the request version is 2011-08-18 or newer, the ETag value will be in quotes. */
+    etag?: string;
+    /** Returns the date and time the container was last modified. Any operation that modifies the blob, including an update of the blob's metadata or properties, changes the last-modified time of the blob. */
+    lastModified?: Date;
+    /** If a client request id header is sent in the request, this header will be present in the response with the same value. */
+    clientRequestId?: string;
+    /** This header uniquely identifies the request that was made and can be used for troubleshooting the request. */
+    requestId?: string;
+    /** Indicates the version of the Blob service used to execute the request. This header is returned for requests made against version 2009-09-19 and above. */
+    version?: string;
+    /** A DateTime value returned by the service that uniquely identifies the blob. The value of this header indicates the blob version, and may be used in subsequent requests to access this version of the blob. */
+    versionId?: string;
+    /** UTC date/time value generated by the service that indicates the time at which the response was initiated */
+    date?: Date;
+    /** String identifier for this copy operation. */
+    copyId?: string;
+    /** State of the copy operation identified by x-ms-copy-id. */
+    copyStatus?: SyncCopyStatusType;
+    /** This response header is returned so that the client can check for the integrity of the copied content. This header is only returned if the source content MD5 was specified. */
+    contentMD5?: Uint8Array;
+    /** This response header is returned so that the client can check for the integrity of the copied content. */
+    xMsContentCrc64?: Uint8Array;
+    /** Returns the name of the encryption scope used to encrypt the blob contents and application metadata.  Note that the absence of this header implies use of the default account encryption scope. */
+    encryptionScope?: string;
+    /** Error Code */
+    errorCode?: string;
+}
+/** Defines headers for Blob_copyFromURL operation. */
+export interface BlobCopyFromURLExceptionHeaders {
+    errorCode?: string;
+}
+/** Defines headers for Blob_abortCopyFromURL operation. */
+export interface BlobAbortCopyFromURLHeaders {
+    /** If a client request id header is sent in the request, this header will be present in the response with the same value. */
+    clientRequestId?: string;
+    /** This header uniquely identifies the request that was made and can be used for troubleshooting the request. */
+    requestId?: string;
+    /** Indicates the version of the Blob service used to execute the request. This header is returned for requests made against version 2009-09-19 and above. */
+    version?: string;
+    /** UTC date/time value generated by the service that indicates the time at which the response was initiated */
+    date?: Date;
+    /** Error Code */
+    errorCode?: string;
+}
+/** Defines headers for Blob_abortCopyFromURL operation. */
+export interface BlobAbortCopyFromURLExceptionHeaders {
+    errorCode?: string;
+}
+/** Defines headers for Blob_setTier operation. */
+export interface BlobSetTierHeaders {
+    /** If a client request id header is sent in the request, this header will be present in the response with the same value. */
+    clientRequestId?: string;
+    /** This header uniquely identifies the request that was made and can be used for troubleshooting the request. */
+    requestId?: string;
+    /** Indicates the version of the Blob service used to execute the request. This header is returned for requests made against version 2009-09-19 and newer. */
+    version?: string;
+    /** Error Code */
+    errorCode?: string;
+}
+/** Defines headers for Blob_setTier operation. */
+export interface BlobSetTierExceptionHeaders {
+    errorCode?: string;
+}
+/** Defines headers for Blob_getAccountInfo operation. */
+export interface BlobGetAccountInfoHeaders {
+    /** If a client request id header is sent in the request, this header will be present in the response with the same value. */
+    clientRequestId?: string;
+    /** This header uniquely identifies the request that was made and can be used for troubleshooting the request. */
+    requestId?: string;
+    /** Indicates the version of the Blob service used to execute the request. This header is returned for requests made against version 2009-09-19 and above. */
+    version?: string;
+    /** UTC date/time value generated by the service that indicates the time at which the response was initiated */
+    date?: Date;
+    /** Identifies the sku name of the account */
+    skuName?: SkuName;
+    /** Identifies the account kind */
+    accountKind?: AccountKind;
+    /** Version 2019-07-07 and newer. Indicates if the account has a hierarchical namespace enabled. */
+    isHierarchicalNamespaceEnabled?: boolean;
+}
+/** Defines headers for Blob_getAccountInfo operation. */
+export interface BlobGetAccountInfoExceptionHeaders {
+    errorCode?: string;
+}
+/** Defines headers for Blob_query operation. */
+export interface BlobQueryHeaders {
+    /** Returns the date and time the container was last modified. Any operation that modifies the blob, including an update of the blob's metadata or properties, changes the last-modified time of the blob. */
+    lastModified?: Date;
+    metadata?: {
+        [propertyName: string]: string;
+    };
+    /** The number of bytes present in the response body. */
+    contentLength?: number;
+    /** The media type of the body of the response. For Download Blob this is 'application/octet-stream' */
+    contentType?: string;
+    /** Indicates the range of bytes returned in the event that the client requested a subset of the blob by setting the 'Range' request header. */
+    contentRange?: string;
+    /** The ETag contains a value that you can use to perform operations conditionally. If the request version is 2011-08-18 or newer, the ETag value will be in quotes. */
+    etag?: string;
+    /** If the blob has an MD5 hash and this operation is to read the full blob, this response header is returned so that the client can check for message content integrity. */
+    contentMD5?: Uint8Array;
+    /** This header returns the value that was specified for the Content-Encoding request header */
+    contentEncoding?: string;
+    /** This header is returned if it was previously specified for the blob. */
+    cacheControl?: string;
+    /** This header returns the value that was specified for the 'x-ms-blob-content-disposition' header. The Content-Disposition response header field conveys additional information about how to process the response payload, and also can be used to attach additional metadata. For example, if set to attachment, it indicates that the user-agent should not display the response, but instead show a Save As dialog with a filename other than the blob name specified. */
+    contentDisposition?: string;
+    /** This header returns the value that was specified for the Content-Language request header. */
+    contentLanguage?: string;
+    /** The current sequence number for a page blob. This header is not returned for block blobs or append blobs */
+    blobSequenceNumber?: number;
+    /** The blob's type. */
+    blobType?: BlobType;
+    /** Conclusion time of the last attempted Copy Blob operation where this blob was the destination blob. This value can specify the time of a completed, aborted, or failed copy attempt. This header does not appear if a copy is pending, if this blob has never been the destination in a Copy Blob operation, or if this blob has been modified after a concluded Copy Blob operation using Set Blob Properties, Put Blob, or Put Block List. */
+    copyCompletionTime?: Date;
+    /** Only appears when x-ms-copy-status is failed or pending. Describes the cause of the last fatal or non-fatal copy operation failure. This header does not appear if this blob has never been the destination in a Copy Blob operation, or if this blob has been modified after a concluded Copy Blob operation using Set Blob Properties, Put Blob, or Put Block List */
+    copyStatusDescription?: string;
+    /** String identifier for this copy operation. Use with Get Blob Properties to check the status of this copy operation, or pass to Abort Copy Blob to abort a pending copy. */
+    copyId?: string;
+    /** Contains the number of bytes copied and the total bytes in the source in the last attempted Copy Blob operation where this blob was the destination blob. Can show between 0 and Content-Length bytes copied. This header does not appear if this blob has never been the destination in a Copy Blob operation, or if this blob has been modified after a concluded Copy Blob operation using Set Blob Properties, Put Blob, or Put Block List */
+    copyProgress?: string;
+    /** URL up to 2 KB in length that specifies the source blob or file used in the last attempted Copy Blob operation where this blob was the destination blob. This header does not appear if this blob has never been the destination in a Copy Blob operation, or if this blob has been modified after a concluded Copy Blob operation using Set Blob Properties, Put Blob, or Put Block List. */
+    copySource?: string;
+    /** State of the copy operation identified by x-ms-copy-id. */
+    copyStatus?: CopyStatusType;
+    /** When a blob is leased, specifies whether the lease is of infinite or fixed duration. */
+    leaseDuration?: LeaseDurationType;
+    /** Lease state of the blob. */
+    leaseState?: LeaseStateType;
+    /** The current lease status of the blob. */
+    leaseStatus?: LeaseStatusType;
+    /** If a client request id header is sent in the request, this header will be present in the response with the same value. */
+    clientRequestId?: string;
+    /** This header uniquely identifies the request that was made and can be used for troubleshooting the request. */
+    requestId?: string;
+    /** Indicates the version of the Blob service used to execute the request. This header is returned for requests made against version 2009-09-19 and above. */
+    version?: string;
+    /** Indicates that the service supports requests for partial blob content. */
+    acceptRanges?: string;
+    /** UTC date/time value generated by the service that indicates the time at which the response was initiated */
+    date?: Date;
+    /** The number of committed blocks present in the blob. This header is returned only for append blobs. */
+    blobCommittedBlockCount?: number;
+    /** The value of this header is set to true if the blob data and application metadata are completely encrypted using the specified algorithm. Otherwise, the value is set to false (when the blob is unencrypted, or if only parts of the blob/application metadata are encrypted). */
+    isServerEncrypted?: boolean;
+    /** The SHA-256 hash of the encryption key used to encrypt the blob. This header is only returned when the blob was encrypted with a customer-provided key. */
+    encryptionKeySha256?: string;
+    /** Returns the name of the encryption scope used to encrypt the blob contents and application metadata.  Note that the absence of this header implies use of the default account encryption scope. */
+    encryptionScope?: string;
+    /** If the blob has a MD5 hash, and if request contains range header (Range or x-ms-range), this response header is returned with the value of the whole blob's MD5 value. This value may or may not be equal to the value returned in Content-MD5 header, with the latter calculated from the requested range */
+    blobContentMD5?: Uint8Array;
+    /** Error Code */
+    errorCode?: string;
+    /** If the request is to read a specified range and the x-ms-range-get-content-crc64 is set to true, then the request returns a crc64 for the range, as long as the range size is less than or equal to 4 MB. If both x-ms-range-get-content-crc64 & x-ms-range-get-content-md5 is specified in the same request, it will fail with 400(Bad Request). */
+    contentCrc64?: Uint8Array;
+}
+/** Defines headers for Blob_query operation. */
+export interface BlobQueryExceptionHeaders {
+    errorCode?: string;
+}
+/** Defines headers for Blob_getTags operation. */
+export interface BlobGetTagsHeaders {
+    /** If a client request id header is sent in the request, this header will be present in the response with the same value. */
+    clientRequestId?: string;
+    /** This header uniquely identifies the request that was made and can be used for troubleshooting the request. */
+    requestId?: string;
+    /** Indicates the version of the Blob service used to execute the request. This header is returned for requests made against version 2009-09-19 and above. */
+    version?: string;
+    /** UTC date/time value generated by the service that indicates the time at which the response was initiated */
+    date?: Date;
+    /** Error Code */
+    errorCode?: string;
+}
+/** Defines headers for Blob_getTags operation. */
+export interface BlobGetTagsExceptionHeaders {
+    errorCode?: string;
+}
+/** Defines headers for Blob_setTags operation. */
+export interface BlobSetTagsHeaders {
+    /** If a client request id header is sent in the request, this header will be present in the response with the same value. */
+    clientRequestId?: string;
+    /** This header uniquely identifies the request that was made and can be used for troubleshooting the request. */
+    requestId?: string;
+    /** Indicates the version of the Blob service used to execute the request. This header is returned for requests made against version 2009-09-19 and above. */
+    version?: string;
+    /** UTC date/time value generated by the service that indicates the time at which the response was initiated */
+    date?: Date;
+    /** Error Code */
+    errorCode?: string;
+}
+/** Defines headers for Blob_setTags operation. */
+export interface BlobSetTagsExceptionHeaders {
+    errorCode?: string;
+}
+/** Defines headers for PageBlob_create operation. */
+export interface PageBlobCreateHeaders {
+    /** The ETag contains a value that you can use to perform operations conditionally. If the request version is 2011-08-18 or newer, the ETag value will be in quotes. */
+    etag?: string;
+    /** Returns the date and time the container was last modified. Any operation that modifies the blob, including an update of the blob's metadata or properties, changes the last-modified time of the blob. */
+    lastModified?: Date;
+    /** If the blob has an MD5 hash and this operation is to read the full blob, this response header is returned so that the client can check for message content integrity. */
+    contentMD5?: Uint8Array;
+    /** If a client request id header is sent in the request, this header will be present in the response with the same value. */
+    clientRequestId?: string;
+    /** This header uniquely identifies the request that was made and can be used for troubleshooting the request. */
+    requestId?: string;
+    /** Indicates the version of the Blob service used to execute the request. This header is returned for requests made against version 2009-09-19 and above. */
+    version?: string;
+    /** A DateTime value returned by the service that uniquely identifies the blob. The value of this header indicates the blob version, and may be used in subsequent requests to access this version of the blob. */
+    versionId?: string;
+    /** UTC date/time value generated by the service that indicates the time at which the response was initiated */
+    date?: Date;
+    /** The value of this header is set to true if the contents of the request are successfully encrypted using the specified algorithm, and false otherwise. */
+    isServerEncrypted?: boolean;
+    /** The SHA-256 hash of the encryption key used to encrypt the blob. This header is only returned when the blob was encrypted with a customer-provided key. */
+    encryptionKeySha256?: string;
+    /** Returns the name of the encryption scope used to encrypt the blob contents and application metadata.  Note that the absence of this header implies use of the default account encryption scope. */
+    encryptionScope?: string;
+    /** Error Code */
+    errorCode?: string;
+}
+/** Defines headers for PageBlob_create operation. */
+export interface PageBlobCreateExceptionHeaders {
+    errorCode?: string;
+}
+/** Defines headers for PageBlob_uploadPages operation. */
+export interface PageBlobUploadPagesHeaders {
+    /** The ETag contains a value that you can use to perform operations conditionally. If the request version is 2011-08-18 or newer, the ETag value will be in quotes. */
+    etag?: string;
+    /** Returns the date and time the container was last modified. Any operation that modifies the blob, including an update of the blob's metadata or properties, changes the last-modified time of the blob. */
+    lastModified?: Date;
+    /** If the blob has an MD5 hash and this operation is to read the full blob, this response header is returned so that the client can check for message content integrity. */
+    contentMD5?: Uint8Array;
+    /** This header is returned so that the client can check for message content integrity. The value of this header is computed by the Blob service; it is not necessarily the same value specified in the request headers. */
+    xMsContentCrc64?: Uint8Array;
+    /** The current sequence number for the page blob. */
+    blobSequenceNumber?: number;
+    /** If a client request id header is sent in the request, this header will be present in the response with the same value. */
+    clientRequestId?: string;
+    /** This header uniquely identifies the request that was made and can be used for troubleshooting the request. */
+    requestId?: string;
+    /** Indicates the version of the Blob service used to execute the request. This header is returned for requests made against version 2009-09-19 and above. */
+    version?: string;
+    /** UTC date/time value generated by the service that indicates the time at which the response was initiated */
+    date?: Date;
+    /** The value of this header is set to true if the contents of the request are successfully encrypted using the specified algorithm, and false otherwise. */
+    isServerEncrypted?: boolean;
+    /** The SHA-256 hash of the encryption key used to encrypt the pages. This header is only returned when the pages were encrypted with a customer-provided key. */
+    encryptionKeySha256?: string;
+    /** Returns the name of the encryption scope used to encrypt the blob contents and application metadata.  Note that the absence of this header implies use of the default account encryption scope. */
+    encryptionScope?: string;
+    /** Error Code */
+    errorCode?: string;
+}
+/** Defines headers for PageBlob_uploadPages operation. */
+export interface PageBlobUploadPagesExceptionHeaders {
+    errorCode?: string;
+}
+/** Defines headers for PageBlob_clearPages operation. */
+export interface PageBlobClearPagesHeaders {
+    /** The ETag contains a value that you can use to perform operations conditionally. If the request version is 2011-08-18 or newer, the ETag value will be in quotes. */
+    etag?: string;
+    /** Returns the date and time the container was last modified. Any operation that modifies the blob, including an update of the blob's metadata or properties, changes the last-modified time of the blob. */
+    lastModified?: Date;
+    /** If the blob has an MD5 hash and this operation is to read the full blob, this response header is returned so that the client can check for message content integrity. */
+    contentMD5?: Uint8Array;
+    /** This header is returned so that the client can check for message content integrity. The value of this header is computed by the Blob service; it is not necessarily the same value specified in the request headers. */
+    xMsContentCrc64?: Uint8Array;
+    /** The current sequence number for the page blob. */
+    blobSequenceNumber?: number;
+    /** If a client request id header is sent in the request, this header will be present in the response with the same value. */
+    clientRequestId?: string;
+    /** This header uniquely identifies the request that was made and can be used for troubleshooting the request. */
+    requestId?: string;
+    /** Indicates the version of the Blob service used to execute the request. This header is returned for requests made against version 2009-09-19 and above. */
+    version?: string;
+    /** UTC date/time value generated by the service that indicates the time at which the response was initiated */
+    date?: Date;
+    /** Error Code */
+    errorCode?: string;
+}
+/** Defines headers for PageBlob_clearPages operation. */
+export interface PageBlobClearPagesExceptionHeaders {
+    errorCode?: string;
+}
+/** Defines headers for PageBlob_uploadPagesFromURL operation. */
+export interface PageBlobUploadPagesFromURLHeaders {
+    /** The ETag contains a value that you can use to perform operations conditionally. If the request version is 2011-08-18 or newer, the ETag value will be in quotes. */
+    etag?: string;
+    /** Returns the date and time the container was last modified. Any operation that modifies the blob, including an update of the blob's metadata or properties, changes the last-modified time of the blob. */
+    lastModified?: Date;
+    /** If the blob has an MD5 hash and this operation is to read the full blob, this response header is returned so that the client can check for message content integrity. */
+    contentMD5?: Uint8Array;
+    /** This header is returned so that the client can check for message content integrity. The value of this header is computed by the Blob service; it is not necessarily the same value specified in the request headers. */
+    xMsContentCrc64?: Uint8Array;
+    /** The current sequence number for the page blob. */
+    blobSequenceNumber?: number;
+    /** This header uniquely identifies the request that was made and can be used for troubleshooting the request. */
+    requestId?: string;
+    /** Indicates the version of the Blob service used to execute the request. This header is returned for requests made against version 2009-09-19 and above. */
+    version?: string;
+    /** UTC date/time value generated by the service that indicates the time at which the response was initiated */
+    date?: Date;
+    /** The value of this header is set to true if the contents of the request are successfully encrypted using the specified algorithm, and false otherwise. */
+    isServerEncrypted?: boolean;
+    /** The SHA-256 hash of the encryption key used to encrypt the blob. This header is only returned when the blob was encrypted with a customer-provided key. */
+    encryptionKeySha256?: string;
+    /** Returns the name of the encryption scope used to encrypt the blob contents and application metadata.  Note that the absence of this header implies use of the default account encryption scope. */
+    encryptionScope?: string;
+    /** Error Code */
+    errorCode?: string;
+}
+/** Defines headers for PageBlob_uploadPagesFromURL operation. */
+export interface PageBlobUploadPagesFromURLExceptionHeaders {
+    errorCode?: string;
+}
+/** Defines headers for PageBlob_getPageRanges operation. */
+export interface PageBlobGetPageRangesHeaders {
+    /** Returns the date and time the container was last modified. Any operation that modifies the blob, including an update of the blob's metadata or properties, changes the last-modified time of the blob. */
+    lastModified?: Date;
+    /** The ETag contains a value that you can use to perform operations conditionally. If the request version is 2011-08-18 or newer, the ETag value will be in quotes. */
+    etag?: string;
+    /** The size of the blob in bytes. */
+    blobContentLength?: number;
+    /** If a client request id header is sent in the request, this header will be present in the response with the same value. */
+    clientRequestId?: string;
+    /** This header uniquely identifies the request that was made and can be used for troubleshooting the request. */
+    requestId?: string;
+    /** Indicates the version of the Blob service used to execute the request. This header is returned for requests made against version 2009-09-19 and above. */
+    version?: string;
+    /** UTC date/time value generated by the service that indicates the time at which the response was initiated */
+    date?: Date;
+    /** Error Code */
+    errorCode?: string;
+}
+/** Defines headers for PageBlob_getPageRanges operation. */
+export interface PageBlobGetPageRangesExceptionHeaders {
+    errorCode?: string;
+}
+/** Defines headers for PageBlob_getPageRangesDiff operation. */
+export interface PageBlobGetPageRangesDiffHeaders {
+    /** Returns the date and time the container was last modified. Any operation that modifies the blob, including an update of the blob's metadata or properties, changes the last-modified time of the blob. */
+    lastModified?: Date;
+    /** The ETag contains a value that you can use to perform operations conditionally. If the request version is 2011-08-18 or newer, the ETag value will be in quotes. */
+    etag?: string;
+    /** The size of the blob in bytes. */
+    blobContentLength?: number;
+    /** If a client request id header is sent in the request, this header will be present in the response with the same value. */
+    clientRequestId?: string;
+    /** This header uniquely identifies the request that was made and can be used for troubleshooting the request. */
+    requestId?: string;
+    /** Indicates the version of the Blob service used to execute the request. This header is returned for requests made against version 2009-09-19 and above. */
+    version?: string;
+    /** UTC date/time value generated by the service that indicates the time at which the response was initiated */
+    date?: Date;
+    /** Error Code */
+    errorCode?: string;
+}
+/** Defines headers for PageBlob_getPageRangesDiff operation. */
+export interface PageBlobGetPageRangesDiffExceptionHeaders {
+    errorCode?: string;
+}
+/** Defines headers for PageBlob_resize operation. */
+export interface PageBlobResizeHeaders {
+    /** The ETag contains a value that you can use to perform operations conditionally. If the request version is 2011-08-18 or newer, the ETag value will be in quotes. */
+    etag?: string;
+    /** Returns the date and time the container was last modified. Any operation that modifies the blob, including an update of the blob's metadata or properties, changes the last-modified time of the blob. */
+    lastModified?: Date;
+    /** The current sequence number for a page blob. This header is not returned for block blobs or append blobs */
+    blobSequenceNumber?: number;
+    /** If a client request id header is sent in the request, this header will be present in the response with the same value. */
+    clientRequestId?: string;
+    /** This header uniquely identifies the request that was made and can be used for troubleshooting the request. */
+    requestId?: string;
+    /** Indicates the version of the Blob service used to execute the request. This header is returned for requests made against version 2009-09-19 and above. */
+    version?: string;
+    /** UTC date/time value generated by the service that indicates the time at which the response was initiated */
+    date?: Date;
+    /** Error Code */
+    errorCode?: string;
+}
+/** Defines headers for PageBlob_resize operation. */
+export interface PageBlobResizeExceptionHeaders {
+    errorCode?: string;
+}
+/** Defines headers for PageBlob_updateSequenceNumber operation. */
+export interface PageBlobUpdateSequenceNumberHeaders {
+    /** The ETag contains a value that you can use to perform operations conditionally. If the request version is 2011-08-18 or newer, the ETag value will be in quotes. */
+    etag?: string;
+    /** Returns the date and time the container was last modified. Any operation that modifies the blob, including an update of the blob's metadata or properties, changes the last-modified time of the blob. */
+    lastModified?: Date;
+    /** The current sequence number for a page blob. This header is not returned for block blobs or append blobs */
+    blobSequenceNumber?: number;
+    /** If a client request id header is sent in the request, this header will be present in the response with the same value. */
+    clientRequestId?: string;
+    /** This header uniquely identifies the request that was made and can be used for troubleshooting the request. */
+    requestId?: string;
+    /** Indicates the version of the Blob service used to execute the request. This header is returned for requests made against version 2009-09-19 and above. */
+    version?: string;
+    /** UTC date/time value generated by the service that indicates the time at which the response was initiated */
+    date?: Date;
+    /** Error Code */
+    errorCode?: string;
+}
+/** Defines headers for PageBlob_updateSequenceNumber operation. */
+export interface PageBlobUpdateSequenceNumberExceptionHeaders {
+    errorCode?: string;
+}
+/** Defines headers for PageBlob_copyIncremental operation. */
+export interface PageBlobCopyIncrementalHeaders {
+    /** The ETag contains a value that you can use to perform operations conditionally. If the request version is 2011-08-18 or newer, the ETag value will be in quotes. */
+    etag?: string;
+    /** Returns the date and time the container was last modified. Any operation that modifies the blob, including an update of the blob's metadata or properties, changes the last-modified time of the blob. */
+    lastModified?: Date;
+    /** If a client request id header is sent in the request, this header will be present in the response with the same value. */
+    clientRequestId?: string;
+    /** This header uniquely identifies the request that was made and can be used for troubleshooting the request. */
+    requestId?: string;
+    /** Indicates the version of the Blob service used to execute the request. This header is returned for requests made against version 2009-09-19 and above. */
+    version?: string;
+    /** UTC date/time value generated by the service that indicates the time at which the response was initiated */
+    date?: Date;
+    /** String identifier for this copy operation. Use with Get Blob Properties to check the status of this copy operation, or pass to Abort Copy Blob to abort a pending copy. */
+    copyId?: string;
+    /** State of the copy operation identified by x-ms-copy-id. */
+    copyStatus?: CopyStatusType;
+    /** Error Code */
+    errorCode?: string;
+}
+/** Defines headers for PageBlob_copyIncremental operation. */
+export interface PageBlobCopyIncrementalExceptionHeaders {
+    errorCode?: string;
+}
+/** Defines headers for AppendBlob_create operation. */
+export interface AppendBlobCreateHeaders {
+    /** The ETag contains a value that you can use to perform operations conditionally. If the request version is 2011-08-18 or newer, the ETag value will be in quotes. */
+    etag?: string;
+    /** Returns the date and time the container was last modified. Any operation that modifies the blob, including an update of the blob's metadata or properties, changes the last-modified time of the blob. */
+    lastModified?: Date;
+    /** If the blob has an MD5 hash and this operation is to read the full blob, this response header is returned so that the client can check for message content integrity. */
+    contentMD5?: Uint8Array;
+    /** If a client request id header is sent in the request, this header will be present in the response with the same value. */
+    clientRequestId?: string;
+    /** This header uniquely identifies the request that was made and can be used for troubleshooting the request. */
+    requestId?: string;
+    /** Indicates the version of the Blob service used to execute the request. This header is returned for requests made against version 2009-09-19 and above. */
+    version?: string;
+    /** A DateTime value returned by the service that uniquely identifies the blob. The value of this header indicates the blob version, and may be used in subsequent requests to access this version of the blob. */
+    versionId?: string;
+    /** UTC date/time value generated by the service that indicates the time at which the response was initiated */
+    date?: Date;
+    /** The value of this header is set to true if the contents of the request are successfully encrypted using the specified algorithm, and false otherwise. */
+    isServerEncrypted?: boolean;
+    /** The SHA-256 hash of the encryption key used to encrypt the blob. This header is only returned when the blob was encrypted with a customer-provided key. */
+    encryptionKeySha256?: string;
+    /** Returns the name of the encryption scope used to encrypt the blob contents and application metadata.  Note that the absence of this header implies use of the default account encryption scope. */
+    encryptionScope?: string;
+    /** Error Code */
+    errorCode?: string;
+}
+/** Defines headers for AppendBlob_create operation. */
+export interface AppendBlobCreateExceptionHeaders {
+    errorCode?: string;
+}
+/** Defines headers for AppendBlob_appendBlock operation. */
+export interface AppendBlobAppendBlockHeaders {
+    /** The ETag contains a value that you can use to perform operations conditionally. If the request version is 2011-08-18 or newer, the ETag value will be in quotes. */
+    etag?: string;
+    /** Returns the date and time the container was last modified. Any operation that modifies the blob, including an update of the blob's metadata or properties, changes the last-modified time of the blob. */
+    lastModified?: Date;
+    /** If the blob has an MD5 hash and this operation is to read the full blob, this response header is returned so that the client can check for message content integrity. */
+    contentMD5?: Uint8Array;
+    /** This header is returned so that the client can check for message content integrity. The value of this header is computed by the Blob service; it is not necessarily the same value specified in the request headers. */
+    xMsContentCrc64?: Uint8Array;
+    /** If a client request id header is sent in the request, this header will be present in the response with the same value. */
+    clientRequestId?: string;
+    /** This header uniquely identifies the request that was made and can be used for troubleshooting the request. */
+    requestId?: string;
+    /** Indicates the version of the Blob service used to execute the request. This header is returned for requests made against version 2009-09-19 and above. */
+    version?: string;
+    /** UTC date/time value generated by the service that indicates the time at which the response was initiated */
+    date?: Date;
+    /** This response header is returned only for append operations. It returns the offset at which the block was committed, in bytes. */
+    blobAppendOffset?: string;
+    /** The number of committed blocks present in the blob. This header is returned only for append blobs. */
+    blobCommittedBlockCount?: number;
+    /** The value of this header is set to true if the contents of the request are successfully encrypted using the specified algorithm, and false otherwise. */
+    isServerEncrypted?: boolean;
+    /** The SHA-256 hash of the encryption key used to encrypt the block. This header is only returned when the block was encrypted with a customer-provided key. */
+    encryptionKeySha256?: string;
+    /** Returns the name of the encryption scope used to encrypt the blob contents and application metadata.  Note that the absence of this header implies use of the default account encryption scope. */
+    encryptionScope?: string;
+    /** Error Code */
+    errorCode?: string;
+}
+/** Defines headers for AppendBlob_appendBlock operation. */
+export interface AppendBlobAppendBlockExceptionHeaders {
+    errorCode?: string;
+}
+/** Defines headers for AppendBlob_appendBlockFromUrl operation. */
+export interface AppendBlobAppendBlockFromUrlHeaders {
+    /** The ETag contains a value that you can use to perform operations conditionally. If the request version is 2011-08-18 or newer, the ETag value will be in quotes. */
+    etag?: string;
+    /** Returns the date and time the container was last modified. Any operation that modifies the blob, including an update of the blob's metadata or properties, changes the last-modified time of the blob. */
+    lastModified?: Date;
+    /** If the blob has an MD5 hash and this operation is to read the full blob, this response header is returned so that the client can check for message content integrity. */
+    contentMD5?: Uint8Array;
+    /** This header is returned so that the client can check for message content integrity. The value of this header is computed by the Blob service; it is not necessarily the same value specified in the request headers. */
+    xMsContentCrc64?: Uint8Array;
+    /** This header uniquely identifies the request that was made and can be used for troubleshooting the request. */
+    requestId?: string;
+    /** Indicates the version of the Blob service used to execute the request. This header is returned for requests made against version 2009-09-19 and above. */
+    version?: string;
+    /** UTC date/time value generated by the service that indicates the time at which the response was initiated */
+    date?: Date;
+    /** This response header is returned only for append operations. It returns the offset at which the block was committed, in bytes. */
+    blobAppendOffset?: string;
+    /** The number of committed blocks present in the blob. This header is returned only for append blobs. */
+    blobCommittedBlockCount?: number;
+    /** The SHA-256 hash of the encryption key used to encrypt the block. This header is only returned when the block was encrypted with a customer-provided key. */
+    encryptionKeySha256?: string;
+    /** Returns the name of the encryption scope used to encrypt the blob contents and application metadata.  Note that the absence of this header implies use of the default account encryption scope. */
+    encryptionScope?: string;
+    /** The value of this header is set to true if the contents of the request are successfully encrypted using the specified algorithm, and false otherwise. */
+    isServerEncrypted?: boolean;
+    /** Error Code */
+    errorCode?: string;
+}
+/** Defines headers for AppendBlob_appendBlockFromUrl operation. */
+export interface AppendBlobAppendBlockFromUrlExceptionHeaders {
+    errorCode?: string;
+}
+/** Defines headers for AppendBlob_seal operation. */
+export interface AppendBlobSealHeaders {
+    /** The ETag contains a value that you can use to perform operations conditionally. If the request version is 2011-08-18 or newer, the ETag value will be in quotes. */
+    etag?: string;
+    /** Returns the date and time the container was last modified. Any operation that modifies the blob, including an update of the blob's metadata or properties, changes the last-modified time of the blob. */
+    lastModified?: Date;
+    /** If a client request id header is sent in the request, this header will be present in the response with the same value. */
+    clientRequestId?: string;
+    /** This header uniquely identifies the request that was made and can be used for troubleshooting the request. */
+    requestId?: string;
+    /** Indicates the version of the Blob service used to execute the request. This header is returned for requests made against version 2009-09-19 and above. */
+    version?: string;
+    /** UTC date/time value generated by the service that indicates the time at which the response was initiated */
+    date?: Date;
+    /** If this blob has been sealed */
+    isSealed?: boolean;
+}
+/** Defines headers for AppendBlob_seal operation. */
+export interface AppendBlobSealExceptionHeaders {
+    errorCode?: string;
+}
+/** Defines headers for BlockBlob_upload operation. */
+export interface BlockBlobUploadHeaders {
+    /** The ETag contains a value that you can use to perform operations conditionally. If the request version is 2011-08-18 or newer, the ETag value will be in quotes. */
+    etag?: string;
+    /** Returns the date and time the container was last modified. Any operation that modifies the blob, including an update of the blob's metadata or properties, changes the last-modified time of the blob. */
+    lastModified?: Date;
+    /** If the blob has an MD5 hash and this operation is to read the full blob, this response header is returned so that the client can check for message content integrity. */
+    contentMD5?: Uint8Array;
+    /** If a client request id header is sent in the request, this header will be present in the response with the same value. */
+    clientRequestId?: string;
+    /** This header uniquely identifies the request that was made and can be used for troubleshooting the request. */
+    requestId?: string;
+    /** Indicates the version of the Blob service used to execute the request. This header is returned for requests made against version 2009-09-19 and above. */
+    version?: string;
+    /** A DateTime value returned by the service that uniquely identifies the blob. The value of this header indicates the blob version, and may be used in subsequent requests to access this version of the blob. */
+    versionId?: string;
+    /** UTC date/time value generated by the service that indicates the time at which the response was initiated */
+    date?: Date;
+    /** The value of this header is set to true if the contents of the request are successfully encrypted using the specified algorithm, and false otherwise. */
+    isServerEncrypted?: boolean;
+    /** The SHA-256 hash of the encryption key used to encrypt the blob. This header is only returned when the blob was encrypted with a customer-provided key. */
+    encryptionKeySha256?: string;
+    /** Returns the name of the encryption scope used to encrypt the blob contents and application metadata.  Note that the absence of this header implies use of the default account encryption scope. */
+    encryptionScope?: string;
+    /** Error Code */
+    errorCode?: string;
+}
+/** Defines headers for BlockBlob_upload operation. */
+export interface BlockBlobUploadExceptionHeaders {
+    errorCode?: string;
+}
+/** Defines headers for BlockBlob_putBlobFromUrl operation. */
+export interface BlockBlobPutBlobFromUrlHeaders {
+    /** The ETag contains a value that you can use to perform operations conditionally. If the request version is 2011-08-18 or newer, the ETag value will be in quotes. */
+    etag?: string;
+    /** Returns the date and time the container was last modified. Any operation that modifies the blob, including an update of the blob's metadata or properties, changes the last-modified time of the blob. */
+    lastModified?: Date;
+    /** If the blob has an MD5 hash and this operation is to read the full blob, this response header is returned so that the client can check for message content integrity. */
+    contentMD5?: Uint8Array;
+    /** If a client request id header is sent in the request, this header will be present in the response with the same value. */
+    clientRequestId?: string;
+    /** This header uniquely identifies the request that was made and can be used for troubleshooting the request. */
+    requestId?: string;
+    /** Indicates the version of the Blob service used to execute the request. This header is returned for requests made against version 2009-09-19 and above. */
+    version?: string;
+    /** A DateTime value returned by the service that uniquely identifies the blob. The value of this header indicates the blob version, and may be used in subsequent requests to access this version of the blob. */
+    versionId?: string;
+    /** UTC date/time value generated by the service that indicates the time at which the response was initiated */
+    date?: Date;
+    /** The value of this header is set to true if the contents of the request are successfully encrypted using the specified algorithm, and false otherwise. */
+    isServerEncrypted?: boolean;
+    /** The SHA-256 hash of the encryption key used to encrypt the blob. This header is only returned when the blob was encrypted with a customer-provided key. */
+    encryptionKeySha256?: string;
+    /** Returns the name of the encryption scope used to encrypt the blob contents and application metadata.  Note that the absence of this header implies use of the default account encryption scope. */
+    encryptionScope?: string;
+    /** Error Code */
+    errorCode?: string;
+}
+/** Defines headers for BlockBlob_putBlobFromUrl operation. */
+export interface BlockBlobPutBlobFromUrlExceptionHeaders {
+    errorCode?: string;
+}
+/** Defines headers for BlockBlob_stageBlock operation. */
+export interface BlockBlobStageBlockHeaders {
+    /** This header is returned so that the client can check for message content integrity. The value of this header is computed by the Blob service; it is not necessarily the same value specified in the request headers. */
+    contentMD5?: Uint8Array;
+    /** If a client request id header is sent in the request, this header will be present in the response with the same value. */
+    clientRequestId?: string;
+    /** This header uniquely identifies the request that was made and can be used for troubleshooting the request. */
+    requestId?: string;
+    /** Indicates the version of the Blob service used to execute the request. This header is returned for requests made against version 2009-09-19 and above. */
+    version?: string;
+    /** UTC date/time value generated by the service that indicates the time at which the response was initiated */
+    date?: Date;
+    /** This header is returned so that the client can check for message content integrity. The value of this header is computed by the Blob service; it is not necessarily the same value specified in the request headers. */
+    xMsContentCrc64?: Uint8Array;
+    /** The value of this header is set to true if the contents of the request are successfully encrypted using the specified algorithm, and false otherwise. */
+    isServerEncrypted?: boolean;
+    /** The SHA-256 hash of the encryption key used to encrypt the block. This header is only returned when the block was encrypted with a customer-provided key. */
+    encryptionKeySha256?: string;
+    /** Returns the name of the encryption scope used to encrypt the blob contents and application metadata.  Note that the absence of this header implies use of the default account encryption scope. */
+    encryptionScope?: string;
+    /** Error Code */
+    errorCode?: string;
+}
+/** Defines headers for BlockBlob_stageBlock operation. */
+export interface BlockBlobStageBlockExceptionHeaders {
+    errorCode?: string;
+}
+/** Defines headers for BlockBlob_stageBlockFromURL operation. */
+export interface BlockBlobStageBlockFromURLHeaders {
+    /** This header is returned so that the client can check for message content integrity. The value of this header is computed by the Blob service; it is not necessarily the same value specified in the request headers. */
+    contentMD5?: Uint8Array;
+    /** This header is returned so that the client can check for message content integrity. The value of this header is computed by the Blob service; it is not necessarily the same value specified in the request headers. */
+    xMsContentCrc64?: Uint8Array;
+    /** If a client request id header is sent in the request, this header will be present in the response with the same value. */
+    clientRequestId?: string;
+    /** This header uniquely identifies the request that was made and can be used for troubleshooting the request. */
+    requestId?: string;
+    /** Indicates the version of the Blob service used to execute the request. This header is returned for requests made against version 2009-09-19 and above. */
+    version?: string;
+    /** UTC date/time value generated by the service that indicates the time at which the response was initiated */
+    date?: Date;
+    /** The value of this header is set to true if the contents of the request are successfully encrypted using the specified algorithm, and false otherwise. */
+    isServerEncrypted?: boolean;
+    /** The SHA-256 hash of the encryption key used to encrypt the block. This header is only returned when the block was encrypted with a customer-provided key. */
+    encryptionKeySha256?: string;
+    /** Returns the name of the encryption scope used to encrypt the blob contents and application metadata.  Note that the absence of this header implies use of the default account encryption scope. */
+    encryptionScope?: string;
+    /** Error Code */
+    errorCode?: string;
+}
+/** Defines headers for BlockBlob_stageBlockFromURL operation. */
+export interface BlockBlobStageBlockFromURLExceptionHeaders {
+    errorCode?: string;
+}
+/** Defines headers for BlockBlob_commitBlockList operation. */
+export interface BlockBlobCommitBlockListHeaders {
+    /** The ETag contains a value that you can use to perform operations conditionally. If the request version is 2011-08-18 or newer, the ETag value will be in quotes. */
+    etag?: string;
+    /** Returns the date and time the container was last modified. Any operation that modifies the blob, including an update of the blob's metadata or properties, changes the last-modified time of the blob. */
+    lastModified?: Date;
+    /** This header is returned so that the client can check for message content integrity. This header refers to the content of the request, meaning, in this case, the list of blocks, and not the content of the blob itself. */
+    contentMD5?: Uint8Array;
+    /** This header is returned so that the client can check for message content integrity. This header refers to the content of the request, meaning, in this case, the list of blocks, and not the content of the blob itself. */
+    xMsContentCrc64?: Uint8Array;
+    /** If a client request id header is sent in the request, this header will be present in the response with the same value. */
+    clientRequestId?: string;
+    /** This header uniquely identifies the request that was made and can be used for troubleshooting the request. */
+    requestId?: string;
+    /** Indicates the version of the Blob service used to execute the request. This header is returned for requests made against version 2009-09-19 and above. */
+    version?: string;
+    /** A DateTime value returned by the service that uniquely identifies the blob. The value of this header indicates the blob version, and may be used in subsequent requests to access this version of the blob. */
+    versionId?: string;
+    /** UTC date/time value generated by the service that indicates the time at which the response was initiated */
+    date?: Date;
+    /** The value of this header is set to true if the contents of the request are successfully encrypted using the specified algorithm, and false otherwise. */
+    isServerEncrypted?: boolean;
+    /** The SHA-256 hash of the encryption key used to encrypt the blob. This header is only returned when the blob was encrypted with a customer-provided key. */
+    encryptionKeySha256?: string;
+    /** Returns the name of the encryption scope used to encrypt the blob contents and application metadata.  Note that the absence of this header implies use of the default account encryption scope. */
+    encryptionScope?: string;
+    /** Error Code */
+    errorCode?: string;
+}
+/** Defines headers for BlockBlob_commitBlockList operation. */
+export interface BlockBlobCommitBlockListExceptionHeaders {
+    errorCode?: string;
+}
+/** Defines headers for BlockBlob_getBlockList operation. */
+export interface BlockBlobGetBlockListHeaders {
+    /** Returns the date and time the container was last modified. Any operation that modifies the blob, including an update of the blob's metadata or properties, changes the last-modified time of the blob. */
+    lastModified?: Date;
+    /** The ETag contains a value that you can use to perform operations conditionally. If the request version is 2011-08-18 or newer, the ETag value will be in quotes. */
+    etag?: string;
+    /** The media type of the body of the response. For Get Block List this is 'application/xml' */
+    contentType?: string;
+    /** The size of the blob in bytes. */
+    blobContentLength?: number;
+    /** If a client request id header is sent in the request, this header will be present in the response with the same value. */
+    clientRequestId?: string;
+    /** This header uniquely identifies the request that was made and can be used for troubleshooting the request. */
+    requestId?: string;
+    /** Indicates the version of the Blob service used to execute the request. This header is returned for requests made against version 2009-09-19 and above. */
+    version?: string;
+    /** UTC date/time value generated by the service that indicates the time at which the response was initiated */
+    date?: Date;
+    /** Error Code */
+    errorCode?: string;
+}
+/** Defines headers for BlockBlob_getBlockList operation. */
+export interface BlockBlobGetBlockListExceptionHeaders {
+    errorCode?: string;
+}
+/** Parameter group */
+export interface ContainerEncryptionScope {
+    /** Optional.  Version 2019-07-07 and later.  Specifies the default encryption scope to set on the container and use for all future writes. */
+    defaultEncryptionScope?: string;
+    /** Optional.  Version 2019-07-07 and newer.  If true, prevents any request from specifying a different encryption scope than the scope set on the container. */
+    preventEncryptionScopeOverride?: boolean;
+}
+/** Parameter group */
+export interface LeaseAccessConditions {
+    /** If specified, the operation only succeeds if the resource's lease is active and matches this ID. */
+    leaseId?: string;
+}
+/** Parameter group */
+export interface ModifiedAccessConditions {
+    /** Specify this header value to operate only on a blob if it has been modified since the specified date/time. */
+    ifModifiedSince?: Date;
+    /** Specify this header value to operate only on a blob if it has not been modified since the specified date/time. */
+    ifUnmodifiedSince?: Date;
+    /** Specify an ETag value to operate only on blobs with a matching value. */
+    ifMatch?: string;
+    /** Specify an ETag value to operate only on blobs without a matching value. */
+    ifNoneMatch?: string;
+    /** Specify a SQL where clause on blob tags to operate only on blobs with a matching value. */
+    ifTags?: string;
+}
+/** Parameter group */
+export interface CpkInfo {
+    /** Optional. Specifies the encryption key to use to encrypt the data provided in the request. If not specified, encryption is performed with the root account encryption key.  For more information, see Encryption at Rest for Azure Storage Services. */
+    encryptionKey?: string;
+    /** The SHA-256 hash of the provided encryption key. Must be provided if the x-ms-encryption-key header is provided. */
+    encryptionKeySha256?: string;
+    /** The algorithm used to produce the encryption key hash. Currently, the only accepted value is "AES256". Must be provided if the x-ms-encryption-key header is provided. */
+    encryptionAlgorithm?: EncryptionAlgorithmType;
+}
+/** Parameter group */
+export interface BlobHttpHeaders {
+    /** Optional. Sets the blob's cache control. If specified, this property is stored with the blob and returned with a read request. */
+    blobCacheControl?: string;
+    /** Optional. Sets the blob's content type. If specified, this property is stored with the blob and returned with a read request. */
+    blobContentType?: string;
+    /** Optional. An MD5 hash of the blob content. Note that this hash is not validated, as the hashes for the individual blocks were validated when each was uploaded. */
+    blobContentMD5?: Uint8Array;
+    /** Optional. Sets the blob's content encoding. If specified, this property is stored with the blob and returned with a read request. */
+    blobContentEncoding?: string;
+    /** Optional. Set the blob's content language. If specified, this property is stored with the blob and returned with a read request. */
+    blobContentLanguage?: string;
+    /** Optional. Sets the blob's Content-Disposition header. */
+    blobContentDisposition?: string;
+}
+/** Parameter group */
+export interface SourceModifiedAccessConditions {
+    /** Specify this header value to operate only on a blob if it has been modified since the specified date/time. */
+    sourceIfModifiedSince?: Date;
+    /** Specify this header value to operate only on a blob if it has not been modified since the specified date/time. */
+    sourceIfUnmodifiedSince?: Date;
+    /** Specify an ETag value to operate only on blobs with a matching value. */
+    sourceIfMatch?: string;
+    /** Specify an ETag value to operate only on blobs without a matching value. */
+    sourceIfNoneMatch?: string;
+    /** Specify a SQL where clause on blob tags to operate only on blobs with a matching value. */
+    sourceIfTags?: string;
+}
+/** Parameter group */
+export interface SequenceNumberAccessConditions {
+    /** Specify this header value to operate only on a blob if it has a sequence number less than or equal to the specified. */
+    ifSequenceNumberLessThanOrEqualTo?: number;
+    /** Specify this header value to operate only on a blob if it has a sequence number less than the specified. */
+    ifSequenceNumberLessThan?: number;
+    /** Specify this header value to operate only on a blob if it has the specified sequence number. */
+    ifSequenceNumberEqualTo?: number;
+}
+/** Parameter group */
+export interface AppendPositionAccessConditions {
+    /** Optional conditional header. The max length in bytes permitted for the append blob. If the Append Block operation would cause the blob to exceed that limit or if the blob size is already greater than the value specified in this header, the request will fail with MaxBlobSizeConditionNotMet error (HTTP status code 412 - Precondition Failed). */
+    maxSize?: number;
+    /** Optional conditional header, used only for the Append Block operation. A number indicating the byte offset to compare. Append Block will succeed only if the append position is equal to this number. If it is not, the request will fail with the AppendPositionConditionNotMet error (HTTP status code 412 - Precondition Failed). */
+    appendPosition?: number;
+}
+/** Known values of {@link EncryptionAlgorithmType} that the service accepts. */
+export declare enum KnownEncryptionAlgorithmType {
+    /** AES256 */
+    AES256 = "AES256"
+}
+/**
+ * Defines values for EncryptionAlgorithmType. \
+ * {@link KnownEncryptionAlgorithmType} can be used interchangeably with EncryptionAlgorithmType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **AES256**
+ */
+export type EncryptionAlgorithmType = string;
+/** Known values of {@link BlobExpiryOptions} that the service accepts. */
+export declare enum KnownBlobExpiryOptions {
+    /** NeverExpire */
+    NeverExpire = "NeverExpire",
+    /** RelativeToCreation */
+    RelativeToCreation = "RelativeToCreation",
+    /** RelativeToNow */
+    RelativeToNow = "RelativeToNow",
+    /** Absolute */
+    Absolute = "Absolute"
+}
+/**
+ * Defines values for BlobExpiryOptions. \
+ * {@link KnownBlobExpiryOptions} can be used interchangeably with BlobExpiryOptions,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **NeverExpire** \
+ * **RelativeToCreation** \
+ * **RelativeToNow** \
+ * **Absolute**
+ */
+export type BlobExpiryOptions = string;
+/** Known values of {@link StorageErrorCode} that the service accepts. */
+export declare enum KnownStorageErrorCode {
+    /** AccountAlreadyExists */
+    AccountAlreadyExists = "AccountAlreadyExists",
+    /** AccountBeingCreated */
+    AccountBeingCreated = "AccountBeingCreated",
+    /** AccountIsDisabled */
+    AccountIsDisabled = "AccountIsDisabled",
+    /** AuthenticationFailed */
+    AuthenticationFailed = "AuthenticationFailed",
+    /** AuthorizationFailure */
+    AuthorizationFailure = "AuthorizationFailure",
+    /** ConditionHeadersNotSupported */
+    ConditionHeadersNotSupported = "ConditionHeadersNotSupported",
+    /** ConditionNotMet */
+    ConditionNotMet = "ConditionNotMet",
+    /** EmptyMetadataKey */
+    EmptyMetadataKey = "EmptyMetadataKey",
+    /** InsufficientAccountPermissions */
+    InsufficientAccountPermissions = "InsufficientAccountPermissions",
+    /** InternalError */
+    InternalError = "InternalError",
+    /** InvalidAuthenticationInfo */
+    InvalidAuthenticationInfo = "InvalidAuthenticationInfo",
+    /** InvalidHeaderValue */
+    InvalidHeaderValue = "InvalidHeaderValue",
+    /** InvalidHttpVerb */
+    InvalidHttpVerb = "InvalidHttpVerb",
+    /** InvalidInput */
+    InvalidInput = "InvalidInput",
+    /** InvalidMd5 */
+    InvalidMd5 = "InvalidMd5",
+    /** InvalidMetadata */
+    InvalidMetadata = "InvalidMetadata",
+    /** InvalidQueryParameterValue */
+    InvalidQueryParameterValue = "InvalidQueryParameterValue",
+    /** InvalidRange */
+    InvalidRange = "InvalidRange",
+    /** InvalidResourceName */
+    InvalidResourceName = "InvalidResourceName",
+    /** InvalidUri */
+    InvalidUri = "InvalidUri",
+    /** InvalidXmlDocument */
+    InvalidXmlDocument = "InvalidXmlDocument",
+    /** InvalidXmlNodeValue */
+    InvalidXmlNodeValue = "InvalidXmlNodeValue",
+    /** Md5Mismatch */
+    Md5Mismatch = "Md5Mismatch",
+    /** MetadataTooLarge */
+    MetadataTooLarge = "MetadataTooLarge",
+    /** MissingContentLengthHeader */
+    MissingContentLengthHeader = "MissingContentLengthHeader",
+    /** MissingRequiredQueryParameter */
+    MissingRequiredQueryParameter = "MissingRequiredQueryParameter",
+    /** MissingRequiredHeader */
+    MissingRequiredHeader = "MissingRequiredHeader",
+    /** MissingRequiredXmlNode */
+    MissingRequiredXmlNode = "MissingRequiredXmlNode",
+    /** MultipleConditionHeadersNotSupported */
+    MultipleConditionHeadersNotSupported = "MultipleConditionHeadersNotSupported",
+    /** OperationTimedOut */
+    OperationTimedOut = "OperationTimedOut",
+    /** OutOfRangeInput */
+    OutOfRangeInput = "OutOfRangeInput",
+    /** OutOfRangeQueryParameterValue */
+    OutOfRangeQueryParameterValue = "OutOfRangeQueryParameterValue",
+    /** RequestBodyTooLarge */
+    RequestBodyTooLarge = "RequestBodyTooLarge",
+    /** ResourceTypeMismatch */
+    ResourceTypeMismatch = "ResourceTypeMismatch",
+    /** RequestUrlFailedToParse */
+    RequestUrlFailedToParse = "RequestUrlFailedToParse",
+    /** ResourceAlreadyExists */
+    ResourceAlreadyExists = "ResourceAlreadyExists",
+    /** ResourceNotFound */
+    ResourceNotFound = "ResourceNotFound",
+    /** ServerBusy */
+    ServerBusy = "ServerBusy",
+    /** UnsupportedHeader */
+    UnsupportedHeader = "UnsupportedHeader",
+    /** UnsupportedXmlNode */
+    UnsupportedXmlNode = "UnsupportedXmlNode",
+    /** UnsupportedQueryParameter */
+    UnsupportedQueryParameter = "UnsupportedQueryParameter",
+    /** UnsupportedHttpVerb */
+    UnsupportedHttpVerb = "UnsupportedHttpVerb",
+    /** AppendPositionConditionNotMet */
+    AppendPositionConditionNotMet = "AppendPositionConditionNotMet",
+    /** BlobAlreadyExists */
+    BlobAlreadyExists = "BlobAlreadyExists",
+    /** BlobImmutableDueToPolicy */
+    BlobImmutableDueToPolicy = "BlobImmutableDueToPolicy",
+    /** BlobNotFound */
+    BlobNotFound = "BlobNotFound",
+    /** BlobOverwritten */
+    BlobOverwritten = "BlobOverwritten",
+    /** BlobTierInadequateForContentLength */
+    BlobTierInadequateForContentLength = "BlobTierInadequateForContentLength",
+    /** BlobUsesCustomerSpecifiedEncryption */
+    BlobUsesCustomerSpecifiedEncryption = "BlobUsesCustomerSpecifiedEncryption",
+    /** BlockCountExceedsLimit */
+    BlockCountExceedsLimit = "BlockCountExceedsLimit",
+    /** BlockListTooLong */
+    BlockListTooLong = "BlockListTooLong",
+    /** CannotChangeToLowerTier */
+    CannotChangeToLowerTier = "CannotChangeToLowerTier",
+    /** CannotVerifyCopySource */
+    CannotVerifyCopySource = "CannotVerifyCopySource",
+    /** ContainerAlreadyExists */
+    ContainerAlreadyExists = "ContainerAlreadyExists",
+    /** ContainerBeingDeleted */
+    ContainerBeingDeleted = "ContainerBeingDeleted",
+    /** ContainerDisabled */
+    ContainerDisabled = "ContainerDisabled",
+    /** ContainerNotFound */
+    ContainerNotFound = "ContainerNotFound",
+    /** ContentLengthLargerThanTierLimit */
+    ContentLengthLargerThanTierLimit = "ContentLengthLargerThanTierLimit",
+    /** CopyAcrossAccountsNotSupported */
+    CopyAcrossAccountsNotSupported = "CopyAcrossAccountsNotSupported",
+    /** CopyIdMismatch */
+    CopyIdMismatch = "CopyIdMismatch",
+    /** FeatureVersionMismatch */
+    FeatureVersionMismatch = "FeatureVersionMismatch",
+    /** IncrementalCopyBlobMismatch */
+    IncrementalCopyBlobMismatch = "IncrementalCopyBlobMismatch",
+    /** IncrementalCopyOfEarlierVersionSnapshotNotAllowed */
+    IncrementalCopyOfEarlierVersionSnapshotNotAllowed = "IncrementalCopyOfEarlierVersionSnapshotNotAllowed",
+    /** IncrementalCopySourceMustBeSnapshot */
+    IncrementalCopySourceMustBeSnapshot = "IncrementalCopySourceMustBeSnapshot",
+    /** InfiniteLeaseDurationRequired */
+    InfiniteLeaseDurationRequired = "InfiniteLeaseDurationRequired",
+    /** InvalidBlobOrBlock */
+    InvalidBlobOrBlock = "InvalidBlobOrBlock",
+    /** InvalidBlobTier */
+    InvalidBlobTier = "InvalidBlobTier",
+    /** InvalidBlobType */
+    InvalidBlobType = "InvalidBlobType",
+    /** InvalidBlockId */
+    InvalidBlockId = "InvalidBlockId",
+    /** InvalidBlockList */
+    InvalidBlockList = "InvalidBlockList",
+    /** InvalidOperation */
+    InvalidOperation = "InvalidOperation",
+    /** InvalidPageRange */
+    InvalidPageRange = "InvalidPageRange",
+    /** InvalidSourceBlobType */
+    InvalidSourceBlobType = "InvalidSourceBlobType",
+    /** InvalidSourceBlobUrl */
+    InvalidSourceBlobUrl = "InvalidSourceBlobUrl",
+    /** InvalidVersionForPageBlobOperation */
+    InvalidVersionForPageBlobOperation = "InvalidVersionForPageBlobOperation",
+    /** LeaseAlreadyPresent */
+    LeaseAlreadyPresent = "LeaseAlreadyPresent",
+    /** LeaseAlreadyBroken */
+    LeaseAlreadyBroken = "LeaseAlreadyBroken",
+    /** LeaseIdMismatchWithBlobOperation */
+    LeaseIdMismatchWithBlobOperation = "LeaseIdMismatchWithBlobOperation",
+    /** LeaseIdMismatchWithContainerOperation */
+    LeaseIdMismatchWithContainerOperation = "LeaseIdMismatchWithContainerOperation",
+    /** LeaseIdMismatchWithLeaseOperation */
+    LeaseIdMismatchWithLeaseOperation = "LeaseIdMismatchWithLeaseOperation",
+    /** LeaseIdMissing */
+    LeaseIdMissing = "LeaseIdMissing",
+    /** LeaseIsBreakingAndCannotBeAcquired */
+    LeaseIsBreakingAndCannotBeAcquired = "LeaseIsBreakingAndCannotBeAcquired",
+    /** LeaseIsBreakingAndCannotBeChanged */
+    LeaseIsBreakingAndCannotBeChanged = "LeaseIsBreakingAndCannotBeChanged",
+    /** LeaseIsBrokenAndCannotBeRenewed */
+    LeaseIsBrokenAndCannotBeRenewed = "LeaseIsBrokenAndCannotBeRenewed",
+    /** LeaseLost */
+    LeaseLost = "LeaseLost",
+    /** LeaseNotPresentWithBlobOperation */
+    LeaseNotPresentWithBlobOperation = "LeaseNotPresentWithBlobOperation",
+    /** LeaseNotPresentWithContainerOperation */
+    LeaseNotPresentWithContainerOperation = "LeaseNotPresentWithContainerOperation",
+    /** LeaseNotPresentWithLeaseOperation */
+    LeaseNotPresentWithLeaseOperation = "LeaseNotPresentWithLeaseOperation",
+    /** MaxBlobSizeConditionNotMet */
+    MaxBlobSizeConditionNotMet = "MaxBlobSizeConditionNotMet",
+    /** NoAuthenticationInformation */
+    NoAuthenticationInformation = "NoAuthenticationInformation",
+    /** NoPendingCopyOperation */
+    NoPendingCopyOperation = "NoPendingCopyOperation",
+    /** OperationNotAllowedOnIncrementalCopyBlob */
+    OperationNotAllowedOnIncrementalCopyBlob = "OperationNotAllowedOnIncrementalCopyBlob",
+    /** PendingCopyOperation */
+    PendingCopyOperation = "PendingCopyOperation",
+    /** PreviousSnapshotCannotBeNewer */
+    PreviousSnapshotCannotBeNewer = "PreviousSnapshotCannotBeNewer",
+    /** PreviousSnapshotNotFound */
+    PreviousSnapshotNotFound = "PreviousSnapshotNotFound",
+    /** PreviousSnapshotOperationNotSupported */
+    PreviousSnapshotOperationNotSupported = "PreviousSnapshotOperationNotSupported",
+    /** SequenceNumberConditionNotMet */
+    SequenceNumberConditionNotMet = "SequenceNumberConditionNotMet",
+    /** SequenceNumberIncrementTooLarge */
+    SequenceNumberIncrementTooLarge = "SequenceNumberIncrementTooLarge",
+    /** SnapshotCountExceeded */
+    SnapshotCountExceeded = "SnapshotCountExceeded",
+    /** SnapshotOperationRateExceeded */
+    SnapshotOperationRateExceeded = "SnapshotOperationRateExceeded",
+    /** SnapshotsPresent */
+    SnapshotsPresent = "SnapshotsPresent",
+    /** SourceConditionNotMet */
+    SourceConditionNotMet = "SourceConditionNotMet",
+    /** SystemInUse */
+    SystemInUse = "SystemInUse",
+    /** TargetConditionNotMet */
+    TargetConditionNotMet = "TargetConditionNotMet",
+    /** UnauthorizedBlobOverwrite */
+    UnauthorizedBlobOverwrite = "UnauthorizedBlobOverwrite",
+    /** BlobBeingRehydrated */
+    BlobBeingRehydrated = "BlobBeingRehydrated",
+    /** BlobArchived */
+    BlobArchived = "BlobArchived",
+    /** BlobNotArchived */
+    BlobNotArchived = "BlobNotArchived",
+    /** AuthorizationSourceIPMismatch */
+    AuthorizationSourceIPMismatch = "AuthorizationSourceIPMismatch",
+    /** AuthorizationProtocolMismatch */
+    AuthorizationProtocolMismatch = "AuthorizationProtocolMismatch",
+    /** AuthorizationPermissionMismatch */
+    AuthorizationPermissionMismatch = "AuthorizationPermissionMismatch",
+    /** AuthorizationServiceMismatch */
+    AuthorizationServiceMismatch = "AuthorizationServiceMismatch",
+    /** AuthorizationResourceTypeMismatch */
+    AuthorizationResourceTypeMismatch = "AuthorizationResourceTypeMismatch",
+    /** BlobAccessTierNotSupportedForAccountType */
+    BlobAccessTierNotSupportedForAccountType = "BlobAccessTierNotSupportedForAccountType"
+}
+/**
+ * Defines values for StorageErrorCode. \
+ * {@link KnownStorageErrorCode} can be used interchangeably with StorageErrorCode,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **AccountAlreadyExists** \
+ * **AccountBeingCreated** \
+ * **AccountIsDisabled** \
+ * **AuthenticationFailed** \
+ * **AuthorizationFailure** \
+ * **ConditionHeadersNotSupported** \
+ * **ConditionNotMet** \
+ * **EmptyMetadataKey** \
+ * **InsufficientAccountPermissions** \
+ * **InternalError** \
+ * **InvalidAuthenticationInfo** \
+ * **InvalidHeaderValue** \
+ * **InvalidHttpVerb** \
+ * **InvalidInput** \
+ * **InvalidMd5** \
+ * **InvalidMetadata** \
+ * **InvalidQueryParameterValue** \
+ * **InvalidRange** \
+ * **InvalidResourceName** \
+ * **InvalidUri** \
+ * **InvalidXmlDocument** \
+ * **InvalidXmlNodeValue** \
+ * **Md5Mismatch** \
+ * **MetadataTooLarge** \
+ * **MissingContentLengthHeader** \
+ * **MissingRequiredQueryParameter** \
+ * **MissingRequiredHeader** \
+ * **MissingRequiredXmlNode** \
+ * **MultipleConditionHeadersNotSupported** \
+ * **OperationTimedOut** \
+ * **OutOfRangeInput** \
+ * **OutOfRangeQueryParameterValue** \
+ * **RequestBodyTooLarge** \
+ * **ResourceTypeMismatch** \
+ * **RequestUrlFailedToParse** \
+ * **ResourceAlreadyExists** \
+ * **ResourceNotFound** \
+ * **ServerBusy** \
+ * **UnsupportedHeader** \
+ * **UnsupportedXmlNode** \
+ * **UnsupportedQueryParameter** \
+ * **UnsupportedHttpVerb** \
+ * **AppendPositionConditionNotMet** \
+ * **BlobAlreadyExists** \
+ * **BlobImmutableDueToPolicy** \
+ * **BlobNotFound** \
+ * **BlobOverwritten** \
+ * **BlobTierInadequateForContentLength** \
+ * **BlobUsesCustomerSpecifiedEncryption** \
+ * **BlockCountExceedsLimit** \
+ * **BlockListTooLong** \
+ * **CannotChangeToLowerTier** \
+ * **CannotVerifyCopySource** \
+ * **ContainerAlreadyExists** \
+ * **ContainerBeingDeleted** \
+ * **ContainerDisabled** \
+ * **ContainerNotFound** \
+ * **ContentLengthLargerThanTierLimit** \
+ * **CopyAcrossAccountsNotSupported** \
+ * **CopyIdMismatch** \
+ * **FeatureVersionMismatch** \
+ * **IncrementalCopyBlobMismatch** \
+ * **IncrementalCopyOfEarlierVersionSnapshotNotAllowed** \
+ * **IncrementalCopySourceMustBeSnapshot** \
+ * **InfiniteLeaseDurationRequired** \
+ * **InvalidBlobOrBlock** \
+ * **InvalidBlobTier** \
+ * **InvalidBlobType** \
+ * **InvalidBlockId** \
+ * **InvalidBlockList** \
+ * **InvalidOperation** \
+ * **InvalidPageRange** \
+ * **InvalidSourceBlobType** \
+ * **InvalidSourceBlobUrl** \
+ * **InvalidVersionForPageBlobOperation** \
+ * **LeaseAlreadyPresent** \
+ * **LeaseAlreadyBroken** \
+ * **LeaseIdMismatchWithBlobOperation** \
+ * **LeaseIdMismatchWithContainerOperation** \
+ * **LeaseIdMismatchWithLeaseOperation** \
+ * **LeaseIdMissing** \
+ * **LeaseIsBreakingAndCannotBeAcquired** \
+ * **LeaseIsBreakingAndCannotBeChanged** \
+ * **LeaseIsBrokenAndCannotBeRenewed** \
+ * **LeaseLost** \
+ * **LeaseNotPresentWithBlobOperation** \
+ * **LeaseNotPresentWithContainerOperation** \
+ * **LeaseNotPresentWithLeaseOperation** \
+ * **MaxBlobSizeConditionNotMet** \
+ * **NoAuthenticationInformation** \
+ * **NoPendingCopyOperation** \
+ * **OperationNotAllowedOnIncrementalCopyBlob** \
+ * **PendingCopyOperation** \
+ * **PreviousSnapshotCannotBeNewer** \
+ * **PreviousSnapshotNotFound** \
+ * **PreviousSnapshotOperationNotSupported** \
+ * **SequenceNumberConditionNotMet** \
+ * **SequenceNumberIncrementTooLarge** \
+ * **SnapshotCountExceeded** \
+ * **SnapshotOperationRateExceeded** \
+ * **SnapshotsPresent** \
+ * **SourceConditionNotMet** \
+ * **SystemInUse** \
+ * **TargetConditionNotMet** \
+ * **UnauthorizedBlobOverwrite** \
+ * **BlobBeingRehydrated** \
+ * **BlobArchived** \
+ * **BlobNotArchived** \
+ * **AuthorizationSourceIPMismatch** \
+ * **AuthorizationProtocolMismatch** \
+ * **AuthorizationPermissionMismatch** \
+ * **AuthorizationServiceMismatch** \
+ * **AuthorizationResourceTypeMismatch** \
+ * **BlobAccessTierNotSupportedForAccountType**
+ */
+export type StorageErrorCode = string;
+/** Defines values for GeoReplicationStatusType. */
+export type GeoReplicationStatusType = "live" | "bootstrap" | "unavailable";
+/** Defines values for ListContainersIncludeType. */
+export type ListContainersIncludeType = "metadata" | "deleted" | "system";
+/** Defines values for LeaseStatusType. */
+export type LeaseStatusType = "locked" | "unlocked";
+/** Defines values for LeaseStateType. */
+export type LeaseStateType = "available" | "leased" | "expired" | "breaking" | "broken";
+/** Defines values for LeaseDurationType. */
+export type LeaseDurationType = "infinite" | "fixed";
+/** Defines values for PublicAccessType. */
+export type PublicAccessType = "container" | "blob";
+/** Defines values for SkuName. */
+export type SkuName = "Standard_LRS" | "Standard_GRS" | "Standard_RAGRS" | "Standard_ZRS" | "Premium_LRS";
+/** Defines values for AccountKind. */
+export type AccountKind = "Storage" | "BlobStorage" | "StorageV2" | "FileStorage" | "BlockBlobStorage";
+/** Defines values for ListBlobsIncludeItem. */
+export type ListBlobsIncludeItem = "copy" | "deleted" | "metadata" | "snapshots" | "uncommittedblobs" | "versions" | "tags" | "immutabilitypolicy" | "legalhold" | "deletedwithversions";
+/** Defines values for BlobType. */
+export type BlobType = "BlockBlob" | "PageBlob" | "AppendBlob";
+/** Defines values for CopyStatusType. */
+export type CopyStatusType = "pending" | "success" | "aborted" | "failed";
+/** Defines values for AccessTier. */
+export type AccessTier = "P4" | "P6" | "P10" | "P15" | "P20" | "P30" | "P40" | "P50" | "P60" | "P70" | "P80" | "Hot" | "Cool" | "Archive" | "Cold";
+/** Defines values for ArchiveStatus. */
+export type ArchiveStatus = "rehydrate-pending-to-hot" | "rehydrate-pending-to-cool" | "rehydrate-pending-to-cold";
+/** Defines values for RehydratePriority. */
+export type RehydratePriority = "High" | "Standard";
+/** Defines values for BlobImmutabilityPolicyMode. */
+export type BlobImmutabilityPolicyMode = "Mutable" | "Unlocked" | "Locked";
+/** Defines values for DeleteSnapshotsOptionType. */
+export type DeleteSnapshotsOptionType = "include" | "only";
+/** Defines values for BlobCopySourceTags. */
+export type BlobCopySourceTags = "REPLACE" | "COPY";
+/** Defines values for BlockListType. */
+export type BlockListType = "committed" | "uncommitted" | "all";
+/** Defines values for SequenceNumberActionType. */
+export type SequenceNumberActionType = "max" | "update" | "increment";
+/** Defines values for QueryFormatType. */
+export type QueryFormatType = "delimited" | "json" | "arrow" | "parquet";
+/** Defines values for SyncCopyStatusType. */
+export type SyncCopyStatusType = "success";
+/** Optional parameters. */
+export interface ServiceSetPropertiesOptionalParams extends coreClient.OperationOptions {
+    /** The timeout parameter is expressed in seconds. For more information, see <a href="https://docs.microsoft.com/en-us/rest/api/storageservices/fileservices/setting-timeouts-for-blob-service-operations">Setting Timeouts for Blob Service Operations.</a> */
+    timeoutInSeconds?: number;
+    /** Provides a client-generated, opaque value with a 1 KB character limit that is recorded in the analytics logs when storage analytics logging is enabled. */
+    requestId?: string;
+}
+/** Contains response data for the setProperties operation. */
+export type ServiceSetPropertiesResponse = ServiceSetPropertiesHeaders;
+/** Optional parameters. */
+export interface ServiceGetPropertiesOptionalParams extends coreClient.OperationOptions {
+    /** The timeout parameter is expressed in seconds. For more information, see <a href="https://docs.microsoft.com/en-us/rest/api/storageservices/fileservices/setting-timeouts-for-blob-service-operations">Setting Timeouts for Blob Service Operations.</a> */
+    timeoutInSeconds?: number;
+    /** Provides a client-generated, opaque value with a 1 KB character limit that is recorded in the analytics logs when storage analytics logging is enabled. */
+    requestId?: string;
+}
+/** Contains response data for the getProperties operation. */
+export type ServiceGetPropertiesResponse = ServiceGetPropertiesHeaders & BlobServiceProperties;
+/** Optional parameters. */
+export interface ServiceGetStatisticsOptionalParams extends coreClient.OperationOptions {
+    /** The timeout parameter is expressed in seconds. For more information, see <a href="https://docs.microsoft.com/en-us/rest/api/storageservices/fileservices/setting-timeouts-for-blob-service-operations">Setting Timeouts for Blob Service Operations.</a> */
+    timeoutInSeconds?: number;
+    /** Provides a client-generated, opaque value with a 1 KB character limit that is recorded in the analytics logs when storage analytics logging is enabled. */
+    requestId?: string;
+}
+/** Contains response data for the getStatistics operation. */
+export type ServiceGetStatisticsResponse = ServiceGetStatisticsHeaders & BlobServiceStatistics;
+/** Optional parameters. */
+export interface ServiceListContainersSegmentOptionalParams extends coreClient.OperationOptions {
+    /** The timeout parameter is expressed in seconds. For more information, see <a href="https://docs.microsoft.com/en-us/rest/api/storageservices/fileservices/setting-timeouts-for-blob-service-operations">Setting Timeouts for Blob Service Operations.</a> */
+    timeoutInSeconds?: number;
+    /** Provides a client-generated, opaque value with a 1 KB character limit that is recorded in the analytics logs when storage analytics logging is enabled. */
+    requestId?: string;
+    /** Filters the results to return only containers whose name begins with the specified prefix. */
+    prefix?: string;
+    /** A string value that identifies the portion of the list of containers to be returned with the next listing operation. The operation returns the ContinuationToken value within the response body if the listing operation did not return all containers remaining to be listed with the current page. The NextMarker value can be used as the value for the marker parameter in a subsequent call to request the next page of list items. The marker value is opaque to the client. */
+    marker?: string;
+    /** Specifies the maximum number of containers to return. If the request does not specify maxresults, or specifies a value greater than 5000, the server will return up to 5000 items. Note that if the listing operation crosses a partition boundary, then the service will return a continuation token for retrieving the remainder of the results. For this reason, it is possible that the service will return fewer results than specified by maxresults, or than the default of 5000. */
+    maxPageSize?: number;
+    /** Include this parameter to specify that the container's metadata be returned as part of the response body. */
+    include?: ListContainersIncludeType[];
+}
+/** Contains response data for the listContainersSegment operation. */
+export type ServiceListContainersSegmentResponse = ServiceListContainersSegmentHeaders & ListContainersSegmentResponse;
+/** Optional parameters. */
+export interface ServiceGetUserDelegationKeyOptionalParams extends coreClient.OperationOptions {
+    /** The timeout parameter is expressed in seconds. For more information, see <a href="https://docs.microsoft.com/en-us/rest/api/storageservices/fileservices/setting-timeouts-for-blob-service-operations">Setting Timeouts for Blob Service Operations.</a> */
+    timeoutInSeconds?: number;
+    /** Provides a client-generated, opaque value with a 1 KB character limit that is recorded in the analytics logs when storage analytics logging is enabled. */
+    requestId?: string;
+}
+/** Contains response data for the getUserDelegationKey operation. */
+export type ServiceGetUserDelegationKeyResponse = ServiceGetUserDelegationKeyHeaders & UserDelegationKey;
+/** Optional parameters. */
+export interface ServiceGetAccountInfoOptionalParams extends coreClient.OperationOptions {
+    /** The timeout parameter is expressed in seconds. For more information, see <a href="https://docs.microsoft.com/en-us/rest/api/storageservices/fileservices/setting-timeouts-for-blob-service-operations">Setting Timeouts for Blob Service Operations.</a> */
+    timeoutInSeconds?: number;
+    /** Provides a client-generated, opaque value with a 1 KB character limit that is recorded in the analytics logs when storage analytics logging is enabled. */
+    requestId?: string;
+}
+/** Contains response data for the getAccountInfo operation. */
+export type ServiceGetAccountInfoResponse = ServiceGetAccountInfoHeaders;
+/** Optional parameters. */
+export interface ServiceSubmitBatchOptionalParams extends coreClient.OperationOptions {
+    /** The timeout parameter is expressed in seconds. For more information, see <a href="https://docs.microsoft.com/en-us/rest/api/storageservices/fileservices/setting-timeouts-for-blob-service-operations">Setting Timeouts for Blob Service Operations.</a> */
+    timeoutInSeconds?: number;
+    /** Provides a client-generated, opaque value with a 1 KB character limit that is recorded in the analytics logs when storage analytics logging is enabled. */
+    requestId?: string;
+}
+/** Contains response data for the submitBatch operation. */
+export type ServiceSubmitBatchResponse = ServiceSubmitBatchHeaders & {
+    /**
+     * BROWSER ONLY
+     *
+     * The response body as a browser Blob.
+     * Always `undefined` in node.js.
+     */
+    blobBody?: Promise<Blob>;
+    /**
+     * NODEJS ONLY
+     *
+     * The response body as a node.js Readable stream.
+     * Always `undefined` in the browser.
+     */
+    readableStreamBody?: NodeJS.ReadableStream;
+};
+/** Optional parameters. */
+export interface ServiceFilterBlobsOptionalParams extends coreClient.OperationOptions {
+    /** The timeout parameter is expressed in seconds. For more information, see <a href="https://docs.microsoft.com/en-us/rest/api/storageservices/fileservices/setting-timeouts-for-blob-service-operations">Setting Timeouts for Blob Service Operations.</a> */
+    timeoutInSeconds?: number;
+    /** Provides a client-generated, opaque value with a 1 KB character limit that is recorded in the analytics logs when storage analytics logging is enabled. */
+    requestId?: string;
+    /** A string value that identifies the portion of the list of containers to be returned with the next listing operation. The operation returns the ContinuationToken value within the response body if the listing operation did not return all containers remaining to be listed with the current page. The NextMarker value can be used as the value for the marker parameter in a subsequent call to request the next page of list items. The marker value is opaque to the client. */
+    marker?: string;
+    /** Specifies the maximum number of containers to return. If the request does not specify maxresults, or specifies a value greater than 5000, the server will return up to 5000 items. Note that if the listing operation crosses a partition boundary, then the service will return a continuation token for retrieving the remainder of the results. For this reason, it is possible that the service will return fewer results than specified by maxresults, or than the default of 5000. */
+    maxPageSize?: number;
+    /** Filters the results to return only to return only blobs whose tags match the specified expression. */
+    where?: string;
+}
+/** Contains response data for the filterBlobs operation. */
+export type ServiceFilterBlobsResponse = ServiceFilterBlobsHeaders & FilterBlobSegment;
+/** Optional parameters. */
+export interface ContainerCreateOptionalParams extends coreClient.OperationOptions {
+    /** Parameter group */
+    containerEncryptionScope?: ContainerEncryptionScope;
+    /** The timeout parameter is expressed in seconds. For more information, see <a href="https://docs.microsoft.com/en-us/rest/api/storageservices/fileservices/setting-timeouts-for-blob-service-operations">Setting Timeouts for Blob Service Operations.</a> */
+    timeoutInSeconds?: number;
+    /** Provides a client-generated, opaque value with a 1 KB character limit that is recorded in the analytics logs when storage analytics logging is enabled. */
+    requestId?: string;
+    /** Optional. Specifies a user-defined name-value pair associated with the blob. If no name-value pairs are specified, the operation will copy the metadata from the source blob or file to the destination blob. If one or more name-value pairs are specified, the destination blob is created with the specified metadata, and metadata is not copied from the source blob or file. Note that beginning with version 2009-09-19, metadata names must adhere to the naming rules for C# identifiers. See Naming and Referencing Containers, Blobs, and Metadata for more information. */
+    metadata?: {
+        [propertyName: string]: string;
+    };
+    /** Specifies whether data in the container may be accessed publicly and the level of access */
+    access?: PublicAccessType;
+}
+/** Contains response data for the create operation. */
+export type ContainerCreateResponse = ContainerCreateHeaders;
+/** Optional parameters. */
+export interface ContainerGetPropertiesOptionalParams extends coreClient.OperationOptions {
+    /** Parameter group */
+    leaseAccessConditions?: LeaseAccessConditions;
+    /** The timeout parameter is expressed in seconds. For more information, see <a href="https://docs.microsoft.com/en-us/rest/api/storageservices/fileservices/setting-timeouts-for-blob-service-operations">Setting Timeouts for Blob Service Operations.</a> */
+    timeoutInSeconds?: number;
+    /** Provides a client-generated, opaque value with a 1 KB character limit that is recorded in the analytics logs when storage analytics logging is enabled. */
+    requestId?: string;
+}
+/** Contains response data for the getProperties operation. */
+export type ContainerGetPropertiesResponse = ContainerGetPropertiesHeaders;
+/** Optional parameters. */
+export interface ContainerDeleteOptionalParams extends coreClient.OperationOptions {
+    /** Parameter group */
+    leaseAccessConditions?: LeaseAccessConditions;
+    /** Parameter group */
+    modifiedAccessConditions?: ModifiedAccessConditions;
+    /** The timeout parameter is expressed in seconds. For more information, see <a href="https://docs.microsoft.com/en-us/rest/api/storageservices/fileservices/setting-timeouts-for-blob-service-operations">Setting Timeouts for Blob Service Operations.</a> */
+    timeoutInSeconds?: number;
+    /** Provides a client-generated, opaque value with a 1 KB character limit that is recorded in the analytics logs when storage analytics logging is enabled. */
+    requestId?: string;
+}
+/** Contains response data for the delete operation. */
+export type ContainerDeleteResponse = ContainerDeleteHeaders;
+/** Optional parameters. */
+export interface ContainerSetMetadataOptionalParams extends coreClient.OperationOptions {
+    /** Parameter group */
+    leaseAccessConditions?: LeaseAccessConditions;
+    /** Parameter group */
+    modifiedAccessConditions?: ModifiedAccessConditions;
+    /** The timeout parameter is expressed in seconds. For more information, see <a href="https://docs.microsoft.com/en-us/rest/api/storageservices/fileservices/setting-timeouts-for-blob-service-operations">Setting Timeouts for Blob Service Operations.</a> */
+    timeoutInSeconds?: number;
+    /** Provides a client-generated, opaque value with a 1 KB character limit that is recorded in the analytics logs when storage analytics logging is enabled. */
+    requestId?: string;
+    /** Optional. Specifies a user-defined name-value pair associated with the blob. If no name-value pairs are specified, the operation will copy the metadata from the source blob or file to the destination blob. If one or more name-value pairs are specified, the destination blob is created with the specified metadata, and metadata is not copied from the source blob or file. Note that beginning with version 2009-09-19, metadata names must adhere to the naming rules for C# identifiers. See Naming and Referencing Containers, Blobs, and Metadata for more information. */
+    metadata?: {
+        [propertyName: string]: string;
+    };
+}
+/** Contains response data for the setMetadata operation. */
+export type ContainerSetMetadataResponse = ContainerSetMetadataHeaders;
+/** Optional parameters. */
+export interface ContainerGetAccessPolicyOptionalParams extends coreClient.OperationOptions {
+    /** Parameter group */
+    leaseAccessConditions?: LeaseAccessConditions;
+    /** The timeout parameter is expressed in seconds. For more information, see <a href="https://docs.microsoft.com/en-us/rest/api/storageservices/fileservices/setting-timeouts-for-blob-service-operations">Setting Timeouts for Blob Service Operations.</a> */
+    timeoutInSeconds?: number;
+    /** Provides a client-generated, opaque value with a 1 KB character limit that is recorded in the analytics logs when storage analytics logging is enabled. */
+    requestId?: string;
+}
+/** Contains response data for the getAccessPolicy operation. */
+export type ContainerGetAccessPolicyResponse = ContainerGetAccessPolicyHeaders & SignedIdentifier[];
+/** Optional parameters. */
+export interface ContainerSetAccessPolicyOptionalParams extends coreClient.OperationOptions {
+    /** Parameter group */
+    leaseAccessConditions?: LeaseAccessConditions;
+    /** Parameter group */
+    modifiedAccessConditions?: ModifiedAccessConditions;
+    /** The timeout parameter is expressed in seconds. For more information, see <a href="https://docs.microsoft.com/en-us/rest/api/storageservices/fileservices/setting-timeouts-for-blob-service-operations">Setting Timeouts for Blob Service Operations.</a> */
+    timeoutInSeconds?: number;
+    /** Provides a client-generated, opaque value with a 1 KB character limit that is recorded in the analytics logs when storage analytics logging is enabled. */
+    requestId?: string;
+    /** Specifies whether data in the container may be accessed publicly and the level of access */
+    access?: PublicAccessType;
+    /** the acls for the container */
+    containerAcl?: SignedIdentifier[];
+}
+/** Contains response data for the setAccessPolicy operation. */
+export type ContainerSetAccessPolicyResponse = ContainerSetAccessPolicyHeaders;
+/** Optional parameters. */
+export interface ContainerRestoreOptionalParams extends coreClient.OperationOptions {
+    /** The timeout parameter is expressed in seconds. For more information, see <a href="https://docs.microsoft.com/en-us/rest/api/storageservices/fileservices/setting-timeouts-for-blob-service-operations">Setting Timeouts for Blob Service Operations.</a> */
+    timeoutInSeconds?: number;
+    /** Provides a client-generated, opaque value with a 1 KB character limit that is recorded in the analytics logs when storage analytics logging is enabled. */
+    requestId?: string;
+    /** Optional.  Version 2019-12-12 and later.  Specifies the name of the deleted container to restore. */
+    deletedContainerName?: string;
+    /** Optional.  Version 2019-12-12 and later.  Specifies the version of the deleted container to restore. */
+    deletedContainerVersion?: string;
+}
+/** Contains response data for the restore operation. */
+export type ContainerRestoreResponse = ContainerRestoreHeaders;
+/** Optional parameters. */
+export interface ContainerRenameOptionalParams extends coreClient.OperationOptions {
+    /** The timeout parameter is expressed in seconds. For more information, see <a href="https://docs.microsoft.com/en-us/rest/api/storageservices/fileservices/setting-timeouts-for-blob-service-operations">Setting Timeouts for Blob Service Operations.</a> */
+    timeoutInSeconds?: number;
+    /** Provides a client-generated, opaque value with a 1 KB character limit that is recorded in the analytics logs when storage analytics logging is enabled. */
+    requestId?: string;
+    /** A lease ID for the source path. If specified, the source path must have an active lease and the lease ID must match. */
+    sourceLeaseId?: string;
+}
+/** Contains response data for the rename operation. */
+export type ContainerRenameResponse = ContainerRenameHeaders;
+/** Optional parameters. */
+export interface ContainerSubmitBatchOptionalParams extends coreClient.OperationOptions {
+    /** The timeout parameter is expressed in seconds. For more information, see <a href="https://docs.microsoft.com/en-us/rest/api/storageservices/fileservices/setting-timeouts-for-blob-service-operations">Setting Timeouts for Blob Service Operations.</a> */
+    timeoutInSeconds?: number;
+    /** Provides a client-generated, opaque value with a 1 KB character limit that is recorded in the analytics logs when storage analytics logging is enabled. */
+    requestId?: string;
+}
+/** Contains response data for the submitBatch operation. */
+export type ContainerSubmitBatchResponse = ContainerSubmitBatchHeaders & {
+    /**
+     * BROWSER ONLY
+     *
+     * The response body as a browser Blob.
+     * Always `undefined` in node.js.
+     */
+    blobBody?: Promise<Blob>;
+    /**
+     * NODEJS ONLY
+     *
+     * The response body as a node.js Readable stream.
+     * Always `undefined` in the browser.
+     */
+    readableStreamBody?: NodeJS.ReadableStream;
+};
+/** Optional parameters. */
+export interface ContainerFilterBlobsOptionalParams extends coreClient.OperationOptions {
+    /** The timeout parameter is expressed in seconds. For more information, see <a href="https://docs.microsoft.com/en-us/rest/api/storageservices/fileservices/setting-timeouts-for-blob-service-operations">Setting Timeouts for Blob Service Operations.</a> */
+    timeoutInSeconds?: number;
+    /** Provides a client-generated, opaque value with a 1 KB character limit that is recorded in the analytics logs when storage analytics logging is enabled. */
+    requestId?: string;
+    /** A string value that identifies the portion of the list of containers to be returned with the next listing operation. The operation returns the ContinuationToken value within the response body if the listing operation did not return all containers remaining to be listed with the current page. The NextMarker value can be used as the value for the marker parameter in a subsequent call to request the next page of list items. The marker value is opaque to the client. */
+    marker?: string;
+    /** Specifies the maximum number of containers to return. If the request does not specify maxresults, or specifies a value greater than 5000, the server will return up to 5000 items. Note that if the listing operation crosses a partition boundary, then the service will return a continuation token for retrieving the remainder of the results. For this reason, it is possible that the service will return fewer results than specified by maxresults, or than the default of 5000. */
+    maxPageSize?: number;
+    /** Filters the results to return only to return only blobs whose tags match the specified expression. */
+    where?: string;
+}
+/** Contains response data for the filterBlobs operation. */
+export type ContainerFilterBlobsResponse = ContainerFilterBlobsHeaders & FilterBlobSegment;
+/** Optional parameters. */
+export interface ContainerAcquireLeaseOptionalParams extends coreClient.OperationOptions {
+    /** Parameter group */
+    modifiedAccessConditions?: ModifiedAccessConditions;
+    /** The timeout parameter is expressed in seconds. For more information, see <a href="https://docs.microsoft.com/en-us/rest/api/storageservices/fileservices/setting-timeouts-for-blob-service-operations">Setting Timeouts for Blob Service Operations.</a> */
+    timeoutInSeconds?: number;
+    /** Provides a client-generated, opaque value with a 1 KB character limit that is recorded in the analytics logs when storage analytics logging is enabled. */
+    requestId?: string;
+    /** Specifies the duration of the lease, in seconds, or negative one (-1) for a lease that never expires. A non-infinite lease can be between 15 and 60 seconds. A lease duration cannot be changed using renew or change. */
+    duration?: number;
+    /** Proposed lease ID, in a GUID string format. The Blob service returns 400 (Invalid request) if the proposed lease ID is not in the correct format. See Guid Constructor (String) for a list of valid GUID string formats. */
+    proposedLeaseId?: string;
+}
+/** Contains response data for the acquireLease operation. */
+export type ContainerAcquireLeaseResponse = ContainerAcquireLeaseHeaders;
+/** Optional parameters. */
+export interface ContainerReleaseLeaseOptionalParams extends coreClient.OperationOptions {
+    /** Parameter group */
+    modifiedAccessConditions?: ModifiedAccessConditions;
+    /** The timeout parameter is expressed in seconds. For more information, see <a href="https://docs.microsoft.com/en-us/rest/api/storageservices/fileservices/setting-timeouts-for-blob-service-operations">Setting Timeouts for Blob Service Operations.</a> */
+    timeoutInSeconds?: number;
+    /** Provides a client-generated, opaque value with a 1 KB character limit that is recorded in the analytics logs when storage analytics logging is enabled. */
+    requestId?: string;
+}
+/** Contains response data for the releaseLease operation. */
+export type ContainerReleaseLeaseResponse = ContainerReleaseLeaseHeaders;
+/** Optional parameters. */
+export interface ContainerRenewLeaseOptionalParams extends coreClient.OperationOptions {
+    /** Parameter group */
+    modifiedAccessConditions?: ModifiedAccessConditions;
+    /** The timeout parameter is expressed in seconds. For more information, see <a href="https://docs.microsoft.com/en-us/rest/api/storageservices/fileservices/setting-timeouts-for-blob-service-operations">Setting Timeouts for Blob Service Operations.</a> */
+    timeoutInSeconds?: number;
+    /** Provides a client-generated, opaque value with a 1 KB character limit that is recorded in the analytics logs when storage analytics logging is enabled. */
+    requestId?: string;
+}
+/** Contains response data for the renewLease operation. */
+export type ContainerRenewLeaseResponse = ContainerRenewLeaseHeaders;
+/** Optional parameters. */
+export interface ContainerBreakLeaseOptionalParams extends coreClient.OperationOptions {
+    /** Parameter group */
+    modifiedAccessConditions?: ModifiedAccessConditions;
+    /** The timeout parameter is expressed in seconds. For more information, see <a href="https://docs.microsoft.com/en-us/rest/api/storageservices/fileservices/setting-timeouts-for-blob-service-operations">Setting Timeouts for Blob Service Operations.</a> */
+    timeoutInSeconds?: number;
+    /** Provides a client-generated, opaque value with a 1 KB character limit that is recorded in the analytics logs when storage analytics logging is enabled. */
+    requestId?: string;
+    /** For a break operation, proposed duration the lease should continue before it is broken, in seconds, between 0 and 60. This break period is only used if it is shorter than the time remaining on the lease. If longer, the time remaining on the lease is used. A new lease will not be available before the break period has expired, but the lease may be held for longer than the break period. If this header does not appear with a break operation, a fixed-duration lease breaks after the remaining lease period elapses, and an infinite lease breaks immediately. */
+    breakPeriod?: number;
+}
+/** Contains response data for the breakLease operation. */
+export type ContainerBreakLeaseResponse = ContainerBreakLeaseHeaders;
+/** Optional parameters. */
+export interface ContainerChangeLeaseOptionalParams extends coreClient.OperationOptions {
+    /** Parameter group */
+    modifiedAccessConditions?: ModifiedAccessConditions;
+    /** The timeout parameter is expressed in seconds. For more information, see <a href="https://docs.microsoft.com/en-us/rest/api/storageservices/fileservices/setting-timeouts-for-blob-service-operations">Setting Timeouts for Blob Service Operations.</a> */
+    timeoutInSeconds?: number;
+    /** Provides a client-generated, opaque value with a 1 KB character limit that is recorded in the analytics logs when storage analytics logging is enabled. */
+    requestId?: string;
+}
+/** Contains response data for the changeLease operation. */
+export type ContainerChangeLeaseResponse = ContainerChangeLeaseHeaders;
+/** Optional parameters. */
+export interface ContainerListBlobFlatSegmentOptionalParams extends coreClient.OperationOptions {
+    /** The timeout parameter is expressed in seconds. For more information, see <a href="https://docs.microsoft.com/en-us/rest/api/storageservices/fileservices/setting-timeouts-for-blob-service-operations">Setting Timeouts for Blob Service Operations.</a> */
+    timeoutInSeconds?: number;
+    /** Provides a client-generated, opaque value with a 1 KB character limit that is recorded in the analytics logs when storage analytics logging is enabled. */
+    requestId?: string;
+    /** Filters the results to return only containers whose name begins with the specified prefix. */
+    prefix?: string;
+    /** A string value that identifies the portion of the list of containers to be returned with the next listing operation. The operation returns the ContinuationToken value within the response body if the listing operation did not return all containers remaining to be listed with the current page. The NextMarker value can be used as the value for the marker parameter in a subsequent call to request the next page of list items. The marker value is opaque to the client. */
+    marker?: string;
+    /** Specifies the maximum number of containers to return. If the request does not specify maxresults, or specifies a value greater than 5000, the server will return up to 5000 items. Note that if the listing operation crosses a partition boundary, then the service will return a continuation token for retrieving the remainder of the results. For this reason, it is possible that the service will return fewer results than specified by maxresults, or than the default of 5000. */
+    maxPageSize?: number;
+    /** Include this parameter to specify one or more datasets to include in the response. */
+    include?: ListBlobsIncludeItem[];
+}
+/** Contains response data for the listBlobFlatSegment operation. */
+export type ContainerListBlobFlatSegmentResponse = ContainerListBlobFlatSegmentHeaders & ListBlobsFlatSegmentResponse;
+/** Optional parameters. */
+export interface ContainerListBlobHierarchySegmentOptionalParams extends coreClient.OperationOptions {
+    /** The timeout parameter is expressed in seconds. For more information, see <a href="https://docs.microsoft.com/en-us/rest/api/storageservices/fileservices/setting-timeouts-for-blob-service-operations">Setting Timeouts for Blob Service Operations.</a> */
+    timeoutInSeconds?: number;
+    /** Provides a client-generated, opaque value with a 1 KB character limit that is recorded in the analytics logs when storage analytics logging is enabled. */
+    requestId?: string;
+    /** Filters the results to return only containers whose name begins with the specified prefix. */
+    prefix?: string;
+    /** A string value that identifies the portion of the list of containers to be returned with the next listing operation. The operation returns the ContinuationToken value within the response body if the listing operation did not return all containers remaining to be listed with the current page. The NextMarker value can be used as the value for the marker parameter in a subsequent call to request the next page of list items. The marker value is opaque to the client. */
+    marker?: string;
+    /** Specifies the maximum number of containers to return. If the request does not specify maxresults, or specifies a value greater than 5000, the server will return up to 5000 items. Note that if the listing operation crosses a partition boundary, then the service will return a continuation token for retrieving the remainder of the results. For this reason, it is possible that the service will return fewer results than specified by maxresults, or than the default of 5000. */
+    maxPageSize?: number;
+    /** Include this parameter to specify one or more datasets to include in the response. */
+    include?: ListBlobsIncludeItem[];
+}
+/** Contains response data for the listBlobHierarchySegment operation. */
+export type ContainerListBlobHierarchySegmentResponse = ContainerListBlobHierarchySegmentHeaders & ListBlobsHierarchySegmentResponse;
+/** Optional parameters. */
+export interface ContainerGetAccountInfoOptionalParams extends coreClient.OperationOptions {
+    /** The timeout parameter is expressed in seconds. For more information, see <a href="https://docs.microsoft.com/en-us/rest/api/storageservices/fileservices/setting-timeouts-for-blob-service-operations">Setting Timeouts for Blob Service Operations.</a> */
+    timeoutInSeconds?: number;
+    /** Provides a client-generated, opaque value with a 1 KB character limit that is recorded in the analytics logs when storage analytics logging is enabled. */
+    requestId?: string;
+}
+/** Contains response data for the getAccountInfo operation. */
+export type ContainerGetAccountInfoResponse = ContainerGetAccountInfoHeaders;
+/** Optional parameters. */
+export interface BlobDownloadOptionalParams extends coreClient.OperationOptions {
+    /** Parameter group */
+    leaseAccessConditions?: LeaseAccessConditions;
+    /** Parameter group */
+    modifiedAccessConditions?: ModifiedAccessConditions;
+    /** Parameter group */
+    cpkInfo?: CpkInfo;
+    /** The timeout parameter is expressed in seconds. For more information, see <a href="https://docs.microsoft.com/en-us/rest/api/storageservices/fileservices/setting-timeouts-for-blob-service-operations">Setting Timeouts for Blob Service Operations.</a> */
+    timeoutInSeconds?: number;
+    /** Provides a client-generated, opaque value with a 1 KB character limit that is recorded in the analytics logs when storage analytics logging is enabled. */
+    requestId?: string;
+    /** The snapshot parameter is an opaque DateTime value that, when present, specifies the blob snapshot to retrieve. For more information on working with blob snapshots, see <a href="https://docs.microsoft.com/en-us/rest/api/storageservices/fileservices/creating-a-snapshot-of-a-blob">Creating a Snapshot of a Blob.</a> */
+    snapshot?: string;
+    /** The version id parameter is an opaque DateTime value that, when present, specifies the version of the blob to operate on. It's for service version 2019-10-10 and newer. */
+    versionId?: string;
+    /** Return only the bytes of the blob in the specified range. */
+    range?: string;
+    /** When set to true and specified together with the Range, the service returns the MD5 hash for the range, as long as the range is less than or equal to 4 MB in size. */
+    rangeGetContentMD5?: boolean;
+    /** When set to true and specified together with the Range, the service returns the CRC64 hash for the range, as long as the range is less than or equal to 4 MB in size. */
+    rangeGetContentCRC64?: boolean;
+}
+/** Contains response data for the download operation. */
+export type BlobDownloadResponse = BlobDownloadHeaders & {
+    /**
+     * BROWSER ONLY
+     *
+     * The response body as a browser Blob.
+     * Always `undefined` in node.js.
+     */
+    blobBody?: Promise<Blob>;
+    /**
+     * NODEJS ONLY
+     *
+     * The response body as a node.js Readable stream.
+     * Always `undefined` in the browser.
+     */
+    readableStreamBody?: NodeJS.ReadableStream;
+};
+/** Optional parameters. */
+export interface BlobGetPropertiesOptionalParams extends coreClient.OperationOptions {
+    /** Parameter group */
+    leaseAccessConditions?: LeaseAccessConditions;
+    /** Parameter group */
+    modifiedAccessConditions?: ModifiedAccessConditions;
+    /** Parameter group */
+    cpkInfo?: CpkInfo;
+    /** The timeout parameter is expressed in seconds. For more information, see <a href="https://docs.microsoft.com/en-us/rest/api/storageservices/fileservices/setting-timeouts-for-blob-service-operations">Setting Timeouts for Blob Service Operations.</a> */
+    timeoutInSeconds?: number;
+    /** Provides a client-generated, opaque value with a 1 KB character limit that is recorded in the analytics logs when storage analytics logging is enabled. */
+    requestId?: string;
+    /** The snapshot parameter is an opaque DateTime value that, when present, specifies the blob snapshot to retrieve. For more information on working with blob snapshots, see <a href="https://docs.microsoft.com/en-us/rest/api/storageservices/fileservices/creating-a-snapshot-of-a-blob">Creating a Snapshot of a Blob.</a> */
+    snapshot?: string;
+    /** The version id parameter is an opaque DateTime value that, when present, specifies the version of the blob to operate on. It's for service version 2019-10-10 and newer. */
+    versionId?: string;
+}
+/** Contains response data for the getProperties operation. */
+export type BlobGetPropertiesResponse = BlobGetPropertiesHeaders;
+/** Optional parameters. */
+export interface BlobDeleteOptionalParams extends coreClient.OperationOptions {
+    /** Parameter group */
+    leaseAccessConditions?: LeaseAccessConditions;
+    /** Parameter group */
+    modifiedAccessConditions?: ModifiedAccessConditions;
+    /** The timeout parameter is expressed in seconds. For more information, see <a href="https://docs.microsoft.com/en-us/rest/api/storageservices/fileservices/setting-timeouts-for-blob-service-operations">Setting Timeouts for Blob Service Operations.</a> */
+    timeoutInSeconds?: number;
+    /** Provides a client-generated, opaque value with a 1 KB character limit that is recorded in the analytics logs when storage analytics logging is enabled. */
+    requestId?: string;
+    /** The snapshot parameter is an opaque DateTime value that, when present, specifies the blob snapshot to retrieve. For more information on working with blob snapshots, see <a href="https://docs.microsoft.com/en-us/rest/api/storageservices/fileservices/creating-a-snapshot-of-a-blob">Creating a Snapshot of a Blob.</a> */
+    snapshot?: string;
+    /** The version id parameter is an opaque DateTime value that, when present, specifies the version of the blob to operate on. It's for service version 2019-10-10 and newer. */
+    versionId?: string;
+    /** Required if the blob has associated snapshots. Specify one of the following two options: include: Delete the base blob and all of its snapshots. only: Delete only the blob's snapshots and not the blob itself */
+    deleteSnapshots?: DeleteSnapshotsOptionType;
+    /** Optional.  Only possible value is 'permanent', which specifies to permanently delete a blob if blob soft delete is enabled. */
+    blobDeleteType?: string;
+}
+/** Contains response data for the delete operation. */
+export type BlobDeleteResponse = BlobDeleteHeaders;
+/** Optional parameters. */
+export interface BlobUndeleteOptionalParams extends coreClient.OperationOptions {
+    /** The timeout parameter is expressed in seconds. For more information, see <a href="https://docs.microsoft.com/en-us/rest/api/storageservices/fileservices/setting-timeouts-for-blob-service-operations">Setting Timeouts for Blob Service Operations.</a> */
+    timeoutInSeconds?: number;
+    /** Provides a client-generated, opaque value with a 1 KB character limit that is recorded in the analytics logs when storage analytics logging is enabled. */
+    requestId?: string;
+}
+/** Contains response data for the undelete operation. */
+export type BlobUndeleteResponse = BlobUndeleteHeaders;
+/** Optional parameters. */
+export interface BlobSetExpiryOptionalParams extends coreClient.OperationOptions {
+    /** The timeout parameter is expressed in seconds. For more information, see <a href="https://docs.microsoft.com/en-us/rest/api/storageservices/fileservices/setting-timeouts-for-blob-service-operations">Setting Timeouts for Blob Service Operations.</a> */
+    timeoutInSeconds?: number;
+    /** Provides a client-generated, opaque value with a 1 KB character limit that is recorded in the analytics logs when storage analytics logging is enabled. */
+    requestId?: string;
+    /** The time to set the blob to expiry */
+    expiresOn?: string;
+}
+/** Contains response data for the setExpiry operation. */
+export type BlobSetExpiryResponse = BlobSetExpiryHeaders;
+/** Optional parameters. */
+export interface BlobSetHttpHeadersOptionalParams extends coreClient.OperationOptions {
+    /** Parameter group */
+    leaseAccessConditions?: LeaseAccessConditions;
+    /** Parameter group */
+    modifiedAccessConditions?: ModifiedAccessConditions;
+    /** Parameter group */
+    blobHttpHeaders?: BlobHttpHeaders;
+    /** The timeout parameter is expressed in seconds. For more information, see <a href="https://docs.microsoft.com/en-us/rest/api/storageservices/fileservices/setting-timeouts-for-blob-service-operations">Setting Timeouts for Blob Service Operations.</a> */
+    timeoutInSeconds?: number;
+    /** Provides a client-generated, opaque value with a 1 KB character limit that is recorded in the analytics logs when storage analytics logging is enabled. */
+    requestId?: string;
+}
+/** Contains response data for the setHttpHeaders operation. */
+export type BlobSetHttpHeadersResponse = BlobSetHttpHeadersHeaders;
+/** Optional parameters. */
+export interface BlobSetImmutabilityPolicyOptionalParams extends coreClient.OperationOptions {
+    /** Parameter group */
+    modifiedAccessConditions?: ModifiedAccessConditions;
+    /** The timeout parameter is expressed in seconds. For more information, see <a href="https://docs.microsoft.com/en-us/rest/api/storageservices/fileservices/setting-timeouts-for-blob-service-operations">Setting Timeouts for Blob Service Operations.</a> */
+    timeoutInSeconds?: number;
+    /** Provides a client-generated, opaque value with a 1 KB character limit that is recorded in the analytics logs when storage analytics logging is enabled. */
+    requestId?: string;
+    /** The snapshot parameter is an opaque DateTime value that, when present, specifies the blob snapshot to retrieve. For more information on working with blob snapshots, see <a href="https://docs.microsoft.com/en-us/rest/api/storageservices/fileservices/creating-a-snapshot-of-a-blob">Creating a Snapshot of a Blob.</a> */
+    snapshot?: string;
+    /** The version id parameter is an opaque DateTime value that, when present, specifies the version of the blob to operate on. It's for service version 2019-10-10 and newer. */
+    versionId?: string;
+    /** Specifies the date time when the blobs immutability policy is set to expire. */
+    immutabilityPolicyExpiry?: Date;
+    /** Specifies the immutability policy mode to set on the blob. */
+    immutabilityPolicyMode?: BlobImmutabilityPolicyMode;
+}
+/** Contains response data for the setImmutabilityPolicy operation. */
+export type BlobSetImmutabilityPolicyResponse = BlobSetImmutabilityPolicyHeaders;
+/** Optional parameters. */
+export interface BlobDeleteImmutabilityPolicyOptionalParams extends coreClient.OperationOptions {
+    /** The timeout parameter is expressed in seconds. For more information, see <a href="https://docs.microsoft.com/en-us/rest/api/storageservices/fileservices/setting-timeouts-for-blob-service-operations">Setting Timeouts for Blob Service Operations.</a> */
+    timeoutInSeconds?: number;
+    /** Provides a client-generated, opaque value with a 1 KB character limit that is recorded in the analytics logs when storage analytics logging is enabled. */
+    requestId?: string;
+    /** The snapshot parameter is an opaque DateTime value that, when present, specifies the blob snapshot to retrieve. For more information on working with blob snapshots, see <a href="https://docs.microsoft.com/en-us/rest/api/storageservices/fileservices/creating-a-snapshot-of-a-blob">Creating a Snapshot of a Blob.</a> */
+    snapshot?: string;
+    /** The version id parameter is an opaque DateTime value that, when present, specifies the version of the blob to operate on. It's for service version 2019-10-10 and newer. */
+    versionId?: string;
+}
+/** Contains response data for the deleteImmutabilityPolicy operation. */
+export type BlobDeleteImmutabilityPolicyResponse = BlobDeleteImmutabilityPolicyHeaders;
+/** Optional parameters. */
+export interface BlobSetLegalHoldOptionalParams extends coreClient.OperationOptions {
+    /** The timeout parameter is expressed in seconds. For more information, see <a href="https://docs.microsoft.com/en-us/rest/api/storageservices/fileservices/setting-timeouts-for-blob-service-operations">Setting Timeouts for Blob Service Operations.</a> */
+    timeoutInSeconds?: number;
+    /** Provides a client-generated, opaque value with a 1 KB character limit that is recorded in the analytics logs when storage analytics logging is enabled. */
+    requestId?: string;
+    /** The snapshot parameter is an opaque DateTime value that, when present, specifies the blob snapshot to retrieve. For more information on working with blob snapshots, see <a href="https://docs.microsoft.com/en-us/rest/api/storageservices/fileservices/creating-a-snapshot-of-a-blob">Creating a Snapshot of a Blob.</a> */
+    snapshot?: string;
+    /** The version id parameter is an opaque DateTime value that, when present, specifies the version of the blob to operate on. It's for service version 2019-10-10 and newer. */
+    versionId?: string;
+}
+/** Contains response data for the setLegalHold operation. */
+export type BlobSetLegalHoldResponse = BlobSetLegalHoldHeaders;
+/** Optional parameters. */
+export interface BlobSetMetadataOptionalParams extends coreClient.OperationOptions {
+    /** Parameter group */
+    leaseAccessConditions?: LeaseAccessConditions;
+    /** Parameter group */
+    modifiedAccessConditions?: ModifiedAccessConditions;
+    /** Parameter group */
+    cpkInfo?: CpkInfo;
+    /** The timeout parameter is expressed in seconds. For more information, see <a href="https://docs.microsoft.com/en-us/rest/api/storageservices/fileservices/setting-timeouts-for-blob-service-operations">Setting Timeouts for Blob Service Operations.</a> */
+    timeoutInSeconds?: number;
+    /** Provides a client-generated, opaque value with a 1 KB character limit that is recorded in the analytics logs when storage analytics logging is enabled. */
+    requestId?: string;
+    /** Optional. Specifies a user-defined name-value pair associated with the blob. If no name-value pairs are specified, the operation will copy the metadata from the source blob or file to the destination blob. If one or more name-value pairs are specified, the destination blob is created with the specified metadata, and metadata is not copied from the source blob or file. Note that beginning with version 2009-09-19, metadata names must adhere to the naming rules for C# identifiers. See Naming and Referencing Containers, Blobs, and Metadata for more information. */
+    metadata?: {
+        [propertyName: string]: string;
+    };
+    /** Optional. Version 2019-07-07 and later.  Specifies the name of the encryption scope to use to encrypt the data provided in the request. If not specified, encryption is performed with the default account encryption scope.  For more information, see Encryption at Rest for Azure Storage Services. */
+    encryptionScope?: string;
+}
+/** Contains response data for the setMetadata operation. */
+export type BlobSetMetadataResponse = BlobSetMetadataHeaders;
+/** Optional parameters. */
+export interface BlobAcquireLeaseOptionalParams extends coreClient.OperationOptions {
+    /** Parameter group */
+    modifiedAccessConditions?: ModifiedAccessConditions;
+    /** The timeout parameter is expressed in seconds. For more information, see <a href="https://docs.microsoft.com/en-us/rest/api/storageservices/fileservices/setting-timeouts-for-blob-service-operations">Setting Timeouts for Blob Service Operations.</a> */
+    timeoutInSeconds?: number;
+    /** Provides a client-generated, opaque value with a 1 KB character limit that is recorded in the analytics logs when storage analytics logging is enabled. */
+    requestId?: string;
+    /** Specifies the duration of the lease, in seconds, or negative one (-1) for a lease that never expires. A non-infinite lease can be between 15 and 60 seconds. A lease duration cannot be changed using renew or change. */
+    duration?: number;
+    /** Proposed lease ID, in a GUID string format. The Blob service returns 400 (Invalid request) if the proposed lease ID is not in the correct format. See Guid Constructor (String) for a list of valid GUID string formats. */
+    proposedLeaseId?: string;
+}
+/** Contains response data for the acquireLease operation. */
+export type BlobAcquireLeaseResponse = BlobAcquireLeaseHeaders;
+/** Optional parameters. */
+export interface BlobReleaseLeaseOptionalParams extends coreClient.OperationOptions {
+    /** Parameter group */
+    modifiedAccessConditions?: ModifiedAccessConditions;
+    /** The timeout parameter is expressed in seconds. For more information, see <a href="https://docs.microsoft.com/en-us/rest/api/storageservices/fileservices/setting-timeouts-for-blob-service-operations">Setting Timeouts for Blob Service Operations.</a> */
+    timeoutInSeconds?: number;
+    /** Provides a client-generated, opaque value with a 1 KB character limit that is recorded in the analytics logs when storage analytics logging is enabled. */
+    requestId?: string;
+}
+/** Contains response data for the releaseLease operation. */
+export type BlobReleaseLeaseResponse = BlobReleaseLeaseHeaders;
+/** Optional parameters. */
+export interface BlobRenewLeaseOptionalParams extends coreClient.OperationOptions {
+    /** Parameter group */
+    modifiedAccessConditions?: ModifiedAccessConditions;
+    /** The timeout parameter is expressed in seconds. For more information, see <a href="https://docs.microsoft.com/en-us/rest/api/storageservices/fileservices/setting-timeouts-for-blob-service-operations">Setting Timeouts for Blob Service Operations.</a> */
+    timeoutInSeconds?: number;
+    /** Provides a client-generated, opaque value with a 1 KB character limit that is recorded in the analytics logs when storage analytics logging is enabled. */
+    requestId?: string;
+}
+/** Contains response data for the renewLease operation. */
+export type BlobRenewLeaseResponse = BlobRenewLeaseHeaders;
+/** Optional parameters. */
+export interface BlobChangeLeaseOptionalParams extends coreClient.OperationOptions {
+    /** Parameter group */
+    modifiedAccessConditions?: ModifiedAccessConditions;
+    /** The timeout parameter is expressed in seconds. For more information, see <a href="https://docs.microsoft.com/en-us/rest/api/storageservices/fileservices/setting-timeouts-for-blob-service-operations">Setting Timeouts for Blob Service Operations.</a> */
+    timeoutInSeconds?: number;
+    /** Provides a client-generated, opaque value with a 1 KB character limit that is recorded in the analytics logs when storage analytics logging is enabled. */
+    requestId?: string;
+}
+/** Contains response data for the changeLease operation. */
+export type BlobChangeLeaseResponse = BlobChangeLeaseHeaders;
+/** Optional parameters. */
+export interface BlobBreakLeaseOptionalParams extends coreClient.OperationOptions {
+    /** Parameter group */
+    modifiedAccessConditions?: ModifiedAccessConditions;
+    /** The timeout parameter is expressed in seconds. For more information, see <a href="https://docs.microsoft.com/en-us/rest/api/storageservices/fileservices/setting-timeouts-for-blob-service-operations">Setting Timeouts for Blob Service Operations.</a> */
+    timeoutInSeconds?: number;
+    /** Provides a client-generated, opaque value with a 1 KB character limit that is recorded in the analytics logs when storage analytics logging is enabled. */
+    requestId?: string;
+    /** For a break operation, proposed duration the lease should continue before it is broken, in seconds, between 0 and 60. This break period is only used if it is shorter than the time remaining on the lease. If longer, the time remaining on the lease is used. A new lease will not be available before the break period has expired, but the lease may be held for longer than the break period. If this header does not appear with a break operation, a fixed-duration lease breaks after the remaining lease period elapses, and an infinite lease breaks immediately. */
+    breakPeriod?: number;
+}
+/** Contains response data for the breakLease operation. */
+export type BlobBreakLeaseResponse = BlobBreakLeaseHeaders;
+/** Optional parameters. */
+export interface BlobCreateSnapshotOptionalParams extends coreClient.OperationOptions {
+    /** Parameter group */
+    leaseAccessConditions?: LeaseAccessConditions;
+    /** Parameter group */
+    modifiedAccessConditions?: ModifiedAccessConditions;
+    /** Parameter group */
+    cpkInfo?: CpkInfo;
+    /** The timeout parameter is expressed in seconds. For more information, see <a href="https://docs.microsoft.com/en-us/rest/api/storageservices/fileservices/setting-timeouts-for-blob-service-operations">Setting Timeouts for Blob Service Operations.</a> */
+    timeoutInSeconds?: number;
+    /** Provides a client-generated, opaque value with a 1 KB character limit that is recorded in the analytics logs when storage analytics logging is enabled. */
+    requestId?: string;
+    /** Optional. Specifies a user-defined name-value pair associated with the blob. If no name-value pairs are specified, the operation will copy the metadata from the source blob or file to the destination blob. If one or more name-value pairs are specified, the destination blob is created with the specified metadata, and metadata is not copied from the source blob or file. Note that beginning with version 2009-09-19, metadata names must adhere to the naming rules for C# identifiers. See Naming and Referencing Containers, Blobs, and Metadata for more information. */
+    metadata?: {
+        [propertyName: string]: string;
+    };
+    /** Optional. Version 2019-07-07 and later.  Specifies the name of the encryption scope to use to encrypt the data provided in the request. If not specified, encryption is performed with the default account encryption scope.  For more information, see Encryption at Rest for Azure Storage Services. */
+    encryptionScope?: string;
+}
+/** Contains response data for the createSnapshot operation. */
+export type BlobCreateSnapshotResponse = BlobCreateSnapshotHeaders;
+/** Optional parameters. */
+export interface BlobStartCopyFromURLOptionalParams extends coreClient.OperationOptions {
+    /** Parameter group */
+    leaseAccessConditions?: LeaseAccessConditions;
+    /** Parameter group */
+    modifiedAccessConditions?: ModifiedAccessConditions;
+    /** Parameter group */
+    sourceModifiedAccessConditions?: SourceModifiedAccessConditions;
+    /** The timeout parameter is expressed in seconds. For more information, see <a href="https://docs.microsoft.com/en-us/rest/api/storageservices/fileservices/setting-timeouts-for-blob-service-operations">Setting Timeouts for Blob Service Operations.</a> */
+    timeoutInSeconds?: number;
+    /** Provides a client-generated, opaque value with a 1 KB character limit that is recorded in the analytics logs when storage analytics logging is enabled. */
+    requestId?: string;
+    /** Optional. Specifies a user-defined name-value pair associated with the blob. If no name-value pairs are specified, the operation will copy the metadata from the source blob or file to the destination blob. If one or more name-value pairs are specified, the destination blob is created with the specified metadata, and metadata is not copied from the source blob or file. Note that beginning with version 2009-09-19, metadata names must adhere to the naming rules for C# identifiers. See Naming and Referencing Containers, Blobs, and Metadata for more information. */
+    metadata?: {
+        [propertyName: string]: string;
+    };
+    /** Specifies the date time when the blobs immutability policy is set to expire. */
+    immutabilityPolicyExpiry?: Date;
+    /** Specifies the immutability policy mode to set on the blob. */
+    immutabilityPolicyMode?: BlobImmutabilityPolicyMode;
+    /** Optional. Indicates the tier to be set on the blob. */
+    tier?: AccessTier;
+    /** Optional: Indicates the priority with which to rehydrate an archived blob. */
+    rehydratePriority?: RehydratePriority;
+    /** Optional.  Used to set blob tags in various blob operations. */
+    blobTagsString?: string;
+    /** Overrides the sealed state of the destination blob.  Service version 2019-12-12 and newer. */
+    sealBlob?: boolean;
+    /** Specified if a legal hold should be set on the blob. */
+    legalHold?: boolean;
+}
+/** Contains response data for the startCopyFromURL operation. */
+export type BlobStartCopyFromURLResponse = BlobStartCopyFromURLHeaders;
+/** Optional parameters. */
+export interface BlobCopyFromURLOptionalParams extends coreClient.OperationOptions {
+    /** Parameter group */
+    leaseAccessConditions?: LeaseAccessConditions;
+    /** Parameter group */
+    modifiedAccessConditions?: ModifiedAccessConditions;
+    /** Parameter group */
+    sourceModifiedAccessConditions?: SourceModifiedAccessConditions;
+    /** The timeout parameter is expressed in seconds. For more information, see <a href="https://docs.microsoft.com/en-us/rest/api/storageservices/fileservices/setting-timeouts-for-blob-service-operations">Setting Timeouts for Blob Service Operations.</a> */
+    timeoutInSeconds?: number;
+    /** Provides a client-generated, opaque value with a 1 KB character limit that is recorded in the analytics logs when storage analytics logging is enabled. */
+    requestId?: string;
+    /** Optional. Specifies a user-defined name-value pair associated with the blob. If no name-value pairs are specified, the operation will copy the metadata from the source blob or file to the destination blob. If one or more name-value pairs are specified, the destination blob is created with the specified metadata, and metadata is not copied from the source blob or file. Note that beginning with version 2009-09-19, metadata names must adhere to the naming rules for C# identifiers. See Naming and Referencing Containers, Blobs, and Metadata for more information. */
+    metadata?: {
+        [propertyName: string]: string;
+    };
+    /** Specifies the date time when the blobs immutability policy is set to expire. */
+    immutabilityPolicyExpiry?: Date;
+    /** Specifies the immutability policy mode to set on the blob. */
+    immutabilityPolicyMode?: BlobImmutabilityPolicyMode;
+    /** Optional. Version 2019-07-07 and later.  Specifies the name of the encryption scope to use to encrypt the data provided in the request. If not specified, encryption is performed with the default account encryption scope.  For more information, see Encryption at Rest for Azure Storage Services. */
+    encryptionScope?: string;
+    /** Optional. Indicates the tier to be set on the blob. */
+    tier?: AccessTier;
+    /** Optional.  Used to set blob tags in various blob operations. */
+    blobTagsString?: string;
+    /** Specified if a legal hold should be set on the blob. */
+    legalHold?: boolean;
+    /** Specify the md5 calculated for the range of bytes that must be read from the copy source. */
+    sourceContentMD5?: Uint8Array;
+    /** Only Bearer type is supported. Credentials should be a valid OAuth access token to copy source. */
+    copySourceAuthorization?: string;
+    /** Optional, default 'replace'.  Indicates if source tags should be copied or replaced with the tags specified by x-ms-tags. */
+    copySourceTags?: BlobCopySourceTags;
+}
+/** Contains response data for the copyFromURL operation. */
+export type BlobCopyFromURLResponse = BlobCopyFromURLHeaders;
+/** Optional parameters. */
+export interface BlobAbortCopyFromURLOptionalParams extends coreClient.OperationOptions {
+    /** Parameter group */
+    leaseAccessConditions?: LeaseAccessConditions;
+    /** The timeout parameter is expressed in seconds. For more information, see <a href="https://docs.microsoft.com/en-us/rest/api/storageservices/fileservices/setting-timeouts-for-blob-service-operations">Setting Timeouts for Blob Service Operations.</a> */
+    timeoutInSeconds?: number;
+    /** Provides a client-generated, opaque value with a 1 KB character limit that is recorded in the analytics logs when storage analytics logging is enabled. */
+    requestId?: string;
+}
+/** Contains response data for the abortCopyFromURL operation. */
+export type BlobAbortCopyFromURLResponse = BlobAbortCopyFromURLHeaders;
+/** Optional parameters. */
+export interface BlobSetTierOptionalParams extends coreClient.OperationOptions {
+    /** Parameter group */
+    leaseAccessConditions?: LeaseAccessConditions;
+    /** Parameter group */
+    modifiedAccessConditions?: ModifiedAccessConditions;
+    /** The timeout parameter is expressed in seconds. For more information, see <a href="https://docs.microsoft.com/en-us/rest/api/storageservices/fileservices/setting-timeouts-for-blob-service-operations">Setting Timeouts for Blob Service Operations.</a> */
+    timeoutInSeconds?: number;
+    /** Provides a client-generated, opaque value with a 1 KB character limit that is recorded in the analytics logs when storage analytics logging is enabled. */
+    requestId?: string;
+    /** The snapshot parameter is an opaque DateTime value that, when present, specifies the blob snapshot to retrieve. For more information on working with blob snapshots, see <a href="https://docs.microsoft.com/en-us/rest/api/storageservices/fileservices/creating-a-snapshot-of-a-blob">Creating a Snapshot of a Blob.</a> */
+    snapshot?: string;
+    /** The version id parameter is an opaque DateTime value that, when present, specifies the version of the blob to operate on. It's for service version 2019-10-10 and newer. */
+    versionId?: string;
+    /** Optional: Indicates the priority with which to rehydrate an archived blob. */
+    rehydratePriority?: RehydratePriority;
+}
+/** Contains response data for the setTier operation. */
+export type BlobSetTierResponse = BlobSetTierHeaders;
+/** Optional parameters. */
+export interface BlobGetAccountInfoOptionalParams extends coreClient.OperationOptions {
+    /** The timeout parameter is expressed in seconds. For more information, see <a href="https://docs.microsoft.com/en-us/rest/api/storageservices/fileservices/setting-timeouts-for-blob-service-operations">Setting Timeouts for Blob Service Operations.</a> */
+    timeoutInSeconds?: number;
+    /** Provides a client-generated, opaque value with a 1 KB character limit that is recorded in the analytics logs when storage analytics logging is enabled. */
+    requestId?: string;
+}
+/** Contains response data for the getAccountInfo operation. */
+export type BlobGetAccountInfoResponse = BlobGetAccountInfoHeaders;
+/** Optional parameters. */
+export interface BlobQueryOptionalParams extends coreClient.OperationOptions {
+    /** Parameter group */
+    leaseAccessConditions?: LeaseAccessConditions;
+    /** Parameter group */
+    modifiedAccessConditions?: ModifiedAccessConditions;
+    /** Parameter group */
+    cpkInfo?: CpkInfo;
+    /** The timeout parameter is expressed in seconds. For more information, see <a href="https://docs.microsoft.com/en-us/rest/api/storageservices/fileservices/setting-timeouts-for-blob-service-operations">Setting Timeouts for Blob Service Operations.</a> */
+    timeoutInSeconds?: number;
+    /** Provides a client-generated, opaque value with a 1 KB character limit that is recorded in the analytics logs when storage analytics logging is enabled. */
+    requestId?: string;
+    /** The snapshot parameter is an opaque DateTime value that, when present, specifies the blob snapshot to retrieve. For more information on working with blob snapshots, see <a href="https://docs.microsoft.com/en-us/rest/api/storageservices/fileservices/creating-a-snapshot-of-a-blob">Creating a Snapshot of a Blob.</a> */
+    snapshot?: string;
+    /** the query request */
+    queryRequest?: QueryRequest;
+}
+/** Contains response data for the query operation. */
+export type BlobQueryResponse = BlobQueryHeaders & {
+    /**
+     * BROWSER ONLY
+     *
+     * The response body as a browser Blob.
+     * Always `undefined` in node.js.
+     */
+    blobBody?: Promise<Blob>;
+    /**
+     * NODEJS ONLY
+     *
+     * The response body as a node.js Readable stream.
+     * Always `undefined` in the browser.
+     */
+    readableStreamBody?: NodeJS.ReadableStream;
+};
+/** Optional parameters. */
+export interface BlobGetTagsOptionalParams extends coreClient.OperationOptions {
+    /** Parameter group */
+    leaseAccessConditions?: LeaseAccessConditions;
+    /** Parameter group */
+    modifiedAccessConditions?: ModifiedAccessConditions;
+    /** The timeout parameter is expressed in seconds. For more information, see <a href="https://docs.microsoft.com/en-us/rest/api/storageservices/fileservices/setting-timeouts-for-blob-service-operations">Setting Timeouts for Blob Service Operations.</a> */
+    timeoutInSeconds?: number;
+    /** Provides a client-generated, opaque value with a 1 KB character limit that is recorded in the analytics logs when storage analytics logging is enabled. */
+    requestId?: string;
+    /** The snapshot parameter is an opaque DateTime value that, when present, specifies the blob snapshot to retrieve. For more information on working with blob snapshots, see <a href="https://docs.microsoft.com/en-us/rest/api/storageservices/fileservices/creating-a-snapshot-of-a-blob">Creating a Snapshot of a Blob.</a> */
+    snapshot?: string;
+    /** The version id parameter is an opaque DateTime value that, when present, specifies the version of the blob to operate on. It's for service version 2019-10-10 and newer. */
+    versionId?: string;
+}
+/** Contains response data for the getTags operation. */
+export type BlobGetTagsResponse = BlobGetTagsHeaders & BlobTags;
+/** Optional parameters. */
+export interface BlobSetTagsOptionalParams extends coreClient.OperationOptions {
+    /** Parameter group */
+    leaseAccessConditions?: LeaseAccessConditions;
+    /** Parameter group */
+    modifiedAccessConditions?: ModifiedAccessConditions;
+    /** The timeout parameter is expressed in seconds. For more information, see <a href="https://docs.microsoft.com/en-us/rest/api/storageservices/fileservices/setting-timeouts-for-blob-service-operations">Setting Timeouts for Blob Service Operations.</a> */
+    timeoutInSeconds?: number;
+    /** Provides a client-generated, opaque value with a 1 KB character limit that is recorded in the analytics logs when storage analytics logging is enabled. */
+    requestId?: string;
+    /** The version id parameter is an opaque DateTime value that, when present, specifies the version of the blob to operate on. It's for service version 2019-10-10 and newer. */
+    versionId?: string;
+    /** Blob tags */
+    tags?: BlobTags;
+    /** Specify the transactional md5 for the body, to be validated by the service. */
+    transactionalContentMD5?: Uint8Array;
+    /** Specify the transactional crc64 for the body, to be validated by the service. */
+    transactionalContentCrc64?: Uint8Array;
+}
+/** Contains response data for the setTags operation. */
+export type BlobSetTagsResponse = BlobSetTagsHeaders;
+/** Optional parameters. */
+export interface PageBlobCreateOptionalParams extends coreClient.OperationOptions {
+    /** Parameter group */
+    leaseAccessConditions?: LeaseAccessConditions;
+    /** Parameter group */
+    modifiedAccessConditions?: ModifiedAccessConditions;
+    /** Parameter group */
+    cpkInfo?: CpkInfo;
+    /** Parameter group */
+    blobHttpHeaders?: BlobHttpHeaders;
+    /** The timeout parameter is expressed in seconds. For more information, see <a href="https://docs.microsoft.com/en-us/rest/api/storageservices/fileservices/setting-timeouts-for-blob-service-operations">Setting Timeouts for Blob Service Operations.</a> */
+    timeoutInSeconds?: number;
+    /** Provides a client-generated, opaque value with a 1 KB character limit that is recorded in the analytics logs when storage analytics logging is enabled. */
+    requestId?: string;
+    /** Optional. Specifies a user-defined name-value pair associated with the blob. If no name-value pairs are specified, the operation will copy the metadata from the source blob or file to the destination blob. If one or more name-value pairs are specified, the destination blob is created with the specified metadata, and metadata is not copied from the source blob or file. Note that beginning with version 2009-09-19, metadata names must adhere to the naming rules for C# identifiers. See Naming and Referencing Containers, Blobs, and Metadata for more information. */
+    metadata?: {
+        [propertyName: string]: string;
+    };
+    /** Specifies the date time when the blobs immutability policy is set to expire. */
+    immutabilityPolicyExpiry?: Date;
+    /** Specifies the immutability policy mode to set on the blob. */
+    immutabilityPolicyMode?: BlobImmutabilityPolicyMode;
+    /** Optional. Version 2019-07-07 and later.  Specifies the name of the encryption scope to use to encrypt the data provided in the request. If not specified, encryption is performed with the default account encryption scope.  For more information, see Encryption at Rest for Azure Storage Services. */
+    encryptionScope?: string;
+    /** Optional. Indicates the tier to be set on the blob. */
+    tier?: AccessTier;
+    /** Optional.  Used to set blob tags in various blob operations. */
+    blobTagsString?: string;
+    /** Specified if a legal hold should be set on the blob. */
+    legalHold?: boolean;
+    /** Set for page blobs only. The sequence number is a user-controlled value that you can use to track requests. The value of the sequence number must be between 0 and 2^63 - 1. */
+    blobSequenceNumber?: number;
+}
+/** Contains response data for the create operation. */
+export type PageBlobCreateResponse = PageBlobCreateHeaders;
+/** Optional parameters. */
+export interface PageBlobUploadPagesOptionalParams extends coreClient.OperationOptions {
+    /** Parameter group */
+    leaseAccessConditions?: LeaseAccessConditions;
+    /** Parameter group */
+    modifiedAccessConditions?: ModifiedAccessConditions;
+    /** Parameter group */
+    cpkInfo?: CpkInfo;
+    /** Parameter group */
+    sequenceNumberAccessConditions?: SequenceNumberAccessConditions;
+    /** The timeout parameter is expressed in seconds. For more information, see <a href="https://docs.microsoft.com/en-us/rest/api/storageservices/fileservices/setting-timeouts-for-blob-service-operations">Setting Timeouts for Blob Service Operations.</a> */
+    timeoutInSeconds?: number;
+    /** Provides a client-generated, opaque value with a 1 KB character limit that is recorded in the analytics logs when storage analytics logging is enabled. */
+    requestId?: string;
+    /** Return only the bytes of the blob in the specified range. */
+    range?: string;
+    /** Optional. Version 2019-07-07 and later.  Specifies the name of the encryption scope to use to encrypt the data provided in the request. If not specified, encryption is performed with the default account encryption scope.  For more information, see Encryption at Rest for Azure Storage Services. */
+    encryptionScope?: string;
+    /** Specify the transactional md5 for the body, to be validated by the service. */
+    transactionalContentMD5?: Uint8Array;
+    /** Specify the transactional crc64 for the body, to be validated by the service. */
+    transactionalContentCrc64?: Uint8Array;
+}
+/** Contains response data for the uploadPages operation. */
+export type PageBlobUploadPagesResponse = PageBlobUploadPagesHeaders;
+/** Optional parameters. */
+export interface PageBlobClearPagesOptionalParams extends coreClient.OperationOptions {
+    /** Parameter group */
+    leaseAccessConditions?: LeaseAccessConditions;
+    /** Parameter group */
+    modifiedAccessConditions?: ModifiedAccessConditions;
+    /** Parameter group */
+    cpkInfo?: CpkInfo;
+    /** Parameter group */
+    sequenceNumberAccessConditions?: SequenceNumberAccessConditions;
+    /** The timeout parameter is expressed in seconds. For more information, see <a href="https://docs.microsoft.com/en-us/rest/api/storageservices/fileservices/setting-timeouts-for-blob-service-operations">Setting Timeouts for Blob Service Operations.</a> */
+    timeoutInSeconds?: number;
+    /** Provides a client-generated, opaque value with a 1 KB character limit that is recorded in the analytics logs when storage analytics logging is enabled. */
+    requestId?: string;
+    /** Return only the bytes of the blob in the specified range. */
+    range?: string;
+    /** Optional. Version 2019-07-07 and later.  Specifies the name of the encryption scope to use to encrypt the data provided in the request. If not specified, encryption is performed with the default account encryption scope.  For more information, see Encryption at Rest for Azure Storage Services. */
+    encryptionScope?: string;
+}
+/** Contains response data for the clearPages operation. */
+export type PageBlobClearPagesResponse = PageBlobClearPagesHeaders;
+/** Optional parameters. */
+export interface PageBlobUploadPagesFromURLOptionalParams extends coreClient.OperationOptions {
+    /** Parameter group */
+    leaseAccessConditions?: LeaseAccessConditions;
+    /** Parameter group */
+    modifiedAccessConditions?: ModifiedAccessConditions;
+    /** Parameter group */
+    cpkInfo?: CpkInfo;
+    /** Parameter group */
+    sourceModifiedAccessConditions?: SourceModifiedAccessConditions;
+    /** Parameter group */
+    sequenceNumberAccessConditions?: SequenceNumberAccessConditions;
+    /** The timeout parameter is expressed in seconds. For more information, see <a href="https://docs.microsoft.com/en-us/rest/api/storageservices/fileservices/setting-timeouts-for-blob-service-operations">Setting Timeouts for Blob Service Operations.</a> */
+    timeoutInSeconds?: number;
+    /** Provides a client-generated, opaque value with a 1 KB character limit that is recorded in the analytics logs when storage analytics logging is enabled. */
+    requestId?: string;
+    /** Optional. Version 2019-07-07 and later.  Specifies the name of the encryption scope to use to encrypt the data provided in the request. If not specified, encryption is performed with the default account encryption scope.  For more information, see Encryption at Rest for Azure Storage Services. */
+    encryptionScope?: string;
+    /** Specify the md5 calculated for the range of bytes that must be read from the copy source. */
+    sourceContentMD5?: Uint8Array;
+    /** Only Bearer type is supported. Credentials should be a valid OAuth access token to copy source. */
+    copySourceAuthorization?: string;
+    /** Specify the crc64 calculated for the range of bytes that must be read from the copy source. */
+    sourceContentCrc64?: Uint8Array;
+}
+/** Contains response data for the uploadPagesFromURL operation. */
+export type PageBlobUploadPagesFromURLResponse = PageBlobUploadPagesFromURLHeaders;
+/** Optional parameters. */
+export interface PageBlobGetPageRangesOptionalParams extends coreClient.OperationOptions {
+    /** Parameter group */
+    leaseAccessConditions?: LeaseAccessConditions;
+    /** Parameter group */
+    modifiedAccessConditions?: ModifiedAccessConditions;
+    /** The timeout parameter is expressed in seconds. For more information, see <a href="https://docs.microsoft.com/en-us/rest/api/storageservices/fileservices/setting-timeouts-for-blob-service-operations">Setting Timeouts for Blob Service Operations.</a> */
+    timeoutInSeconds?: number;
+    /** Provides a client-generated, opaque value with a 1 KB character limit that is recorded in the analytics logs when storage analytics logging is enabled. */
+    requestId?: string;
+    /** A string value that identifies the portion of the list of containers to be returned with the next listing operation. The operation returns the ContinuationToken value within the response body if the listing operation did not return all containers remaining to be listed with the current page. The NextMarker value can be used as the value for the marker parameter in a subsequent call to request the next page of list items. The marker value is opaque to the client. */
+    marker?: string;
+    /** Specifies the maximum number of containers to return. If the request does not specify maxresults, or specifies a value greater than 5000, the server will return up to 5000 items. Note that if the listing operation crosses a partition boundary, then the service will return a continuation token for retrieving the remainder of the results. For this reason, it is possible that the service will return fewer results than specified by maxresults, or than the default of 5000. */
+    maxPageSize?: number;
+    /** The snapshot parameter is an opaque DateTime value that, when present, specifies the blob snapshot to retrieve. For more information on working with blob snapshots, see <a href="https://docs.microsoft.com/en-us/rest/api/storageservices/fileservices/creating-a-snapshot-of-a-blob">Creating a Snapshot of a Blob.</a> */
+    snapshot?: string;
+    /** Return only the bytes of the blob in the specified range. */
+    range?: string;
+}
+/** Contains response data for the getPageRanges operation. */
+export type PageBlobGetPageRangesResponse = PageBlobGetPageRangesHeaders & PageList;
+/** Optional parameters. */
+export interface PageBlobGetPageRangesDiffOptionalParams extends coreClient.OperationOptions {
+    /** Parameter group */
+    leaseAccessConditions?: LeaseAccessConditions;
+    /** Parameter group */
+    modifiedAccessConditions?: ModifiedAccessConditions;
+    /** The timeout parameter is expressed in seconds. For more information, see <a href="https://docs.microsoft.com/en-us/rest/api/storageservices/fileservices/setting-timeouts-for-blob-service-operations">Setting Timeouts for Blob Service Operations.</a> */
+    timeoutInSeconds?: number;
+    /** Provides a client-generated, opaque value with a 1 KB character limit that is recorded in the analytics logs when storage analytics logging is enabled. */
+    requestId?: string;
+    /** A string value that identifies the portion of the list of containers to be returned with the next listing operation. The operation returns the ContinuationToken value within the response body if the listing operation did not return all containers remaining to be listed with the current page. The NextMarker value can be used as the value for the marker parameter in a subsequent call to request the next page of list items. The marker value is opaque to the client. */
+    marker?: string;
+    /** Specifies the maximum number of containers to return. If the request does not specify maxresults, or specifies a value greater than 5000, the server will return up to 5000 items. Note that if the listing operation crosses a partition boundary, then the service will return a continuation token for retrieving the remainder of the results. For this reason, it is possible that the service will return fewer results than specified by maxresults, or than the default of 5000. */
+    maxPageSize?: number;
+    /** The snapshot parameter is an opaque DateTime value that, when present, specifies the blob snapshot to retrieve. For more information on working with blob snapshots, see <a href="https://docs.microsoft.com/en-us/rest/api/storageservices/fileservices/creating-a-snapshot-of-a-blob">Creating a Snapshot of a Blob.</a> */
+    snapshot?: string;
+    /** Return only the bytes of the blob in the specified range. */
+    range?: string;
+    /** Optional in version 2015-07-08 and newer. The prevsnapshot parameter is a DateTime value that specifies that the response will contain only pages that were changed between target blob and previous snapshot. Changed pages include both updated and cleared pages. The target blob may be a snapshot, as long as the snapshot specified by prevsnapshot is the older of the two. Note that incremental snapshots are currently supported only for blobs created on or after January 1, 2016. */
+    prevsnapshot?: string;
+    /** Optional. This header is only supported in service versions 2019-04-19 and after and specifies the URL of a previous snapshot of the target blob. The response will only contain pages that were changed between the target blob and its previous snapshot. */
+    prevSnapshotUrl?: string;
+}
+/** Contains response data for the getPageRangesDiff operation. */
+export type PageBlobGetPageRangesDiffResponse = PageBlobGetPageRangesDiffHeaders & PageList;
+/** Optional parameters. */
+export interface PageBlobResizeOptionalParams extends coreClient.OperationOptions {
+    /** Parameter group */
+    leaseAccessConditions?: LeaseAccessConditions;
+    /** Parameter group */
+    modifiedAccessConditions?: ModifiedAccessConditions;
+    /** Parameter group */
+    cpkInfo?: CpkInfo;
+    /** The timeout parameter is expressed in seconds. For more information, see <a href="https://docs.microsoft.com/en-us/rest/api/storageservices/fileservices/setting-timeouts-for-blob-service-operations">Setting Timeouts for Blob Service Operations.</a> */
+    timeoutInSeconds?: number;
+    /** Provides a client-generated, opaque value with a 1 KB character limit that is recorded in the analytics logs when storage analytics logging is enabled. */
+    requestId?: string;
+    /** Optional. Version 2019-07-07 and later.  Specifies the name of the encryption scope to use to encrypt the data provided in the request. If not specified, encryption is performed with the default account encryption scope.  For more information, see Encryption at Rest for Azure Storage Services. */
+    encryptionScope?: string;
+}
+/** Contains response data for the resize operation. */
+export type PageBlobResizeResponse = PageBlobResizeHeaders;
+/** Optional parameters. */
+export interface PageBlobUpdateSequenceNumberOptionalParams extends coreClient.OperationOptions {
+    /** Parameter group */
+    leaseAccessConditions?: LeaseAccessConditions;
+    /** Parameter group */
+    modifiedAccessConditions?: ModifiedAccessConditions;
+    /** The timeout parameter is expressed in seconds. For more information, see <a href="https://docs.microsoft.com/en-us/rest/api/storageservices/fileservices/setting-timeouts-for-blob-service-operations">Setting Timeouts for Blob Service Operations.</a> */
+    timeoutInSeconds?: number;
+    /** Provides a client-generated, opaque value with a 1 KB character limit that is recorded in the analytics logs when storage analytics logging is enabled. */
+    requestId?: string;
+    /** Set for page blobs only. The sequence number is a user-controlled value that you can use to track requests. The value of the sequence number must be between 0 and 2^63 - 1. */
+    blobSequenceNumber?: number;
+}
+/** Contains response data for the updateSequenceNumber operation. */
+export type PageBlobUpdateSequenceNumberResponse = PageBlobUpdateSequenceNumberHeaders;
+/** Optional parameters. */
+export interface PageBlobCopyIncrementalOptionalParams extends coreClient.OperationOptions {
+    /** Parameter group */
+    modifiedAccessConditions?: ModifiedAccessConditions;
+    /** The timeout parameter is expressed in seconds. For more information, see <a href="https://docs.microsoft.com/en-us/rest/api/storageservices/fileservices/setting-timeouts-for-blob-service-operations">Setting Timeouts for Blob Service Operations.</a> */
+    timeoutInSeconds?: number;
+    /** Provides a client-generated, opaque value with a 1 KB character limit that is recorded in the analytics logs when storage analytics logging is enabled. */
+    requestId?: string;
+}
+/** Contains response data for the copyIncremental operation. */
+export type PageBlobCopyIncrementalResponse = PageBlobCopyIncrementalHeaders;
+/** Optional parameters. */
+export interface AppendBlobCreateOptionalParams extends coreClient.OperationOptions {
+    /** Parameter group */
+    leaseAccessConditions?: LeaseAccessConditions;
+    /** Parameter group */
+    modifiedAccessConditions?: ModifiedAccessConditions;
+    /** Parameter group */
+    cpkInfo?: CpkInfo;
+    /** Parameter group */
+    blobHttpHeaders?: BlobHttpHeaders;
+    /** The timeout parameter is expressed in seconds. For more information, see <a href="https://docs.microsoft.com/en-us/rest/api/storageservices/fileservices/setting-timeouts-for-blob-service-operations">Setting Timeouts for Blob Service Operations.</a> */
+    timeoutInSeconds?: number;
+    /** Provides a client-generated, opaque value with a 1 KB character limit that is recorded in the analytics logs when storage analytics logging is enabled. */
+    requestId?: string;
+    /** Optional. Specifies a user-defined name-value pair associated with the blob. If no name-value pairs are specified, the operation will copy the metadata from the source blob or file to the destination blob. If one or more name-value pairs are specified, the destination blob is created with the specified metadata, and metadata is not copied from the source blob or file. Note that beginning with version 2009-09-19, metadata names must adhere to the naming rules for C# identifiers. See Naming and Referencing Containers, Blobs, and Metadata for more information. */
+    metadata?: {
+        [propertyName: string]: string;
+    };
+    /** Specifies the date time when the blobs immutability policy is set to expire. */
+    immutabilityPolicyExpiry?: Date;
+    /** Specifies the immutability policy mode to set on the blob. */
+    immutabilityPolicyMode?: BlobImmutabilityPolicyMode;
+    /** Optional. Version 2019-07-07 and later.  Specifies the name of the encryption scope to use to encrypt the data provided in the request. If not specified, encryption is performed with the default account encryption scope.  For more information, see Encryption at Rest for Azure Storage Services. */
+    encryptionScope?: string;
+    /** Optional.  Used to set blob tags in various blob operations. */
+    blobTagsString?: string;
+    /** Specified if a legal hold should be set on the blob. */
+    legalHold?: boolean;
+}
+/** Contains response data for the create operation. */
+export type AppendBlobCreateResponse = AppendBlobCreateHeaders;
+/** Optional parameters. */
+export interface AppendBlobAppendBlockOptionalParams extends coreClient.OperationOptions {
+    /** Parameter group */
+    leaseAccessConditions?: LeaseAccessConditions;
+    /** Parameter group */
+    modifiedAccessConditions?: ModifiedAccessConditions;
+    /** Parameter group */
+    cpkInfo?: CpkInfo;
+    /** Parameter group */
+    appendPositionAccessConditions?: AppendPositionAccessConditions;
+    /** The timeout parameter is expressed in seconds. For more information, see <a href="https://docs.microsoft.com/en-us/rest/api/storageservices/fileservices/setting-timeouts-for-blob-service-operations">Setting Timeouts for Blob Service Operations.</a> */
+    timeoutInSeconds?: number;
+    /** Provides a client-generated, opaque value with a 1 KB character limit that is recorded in the analytics logs when storage analytics logging is enabled. */
+    requestId?: string;
+    /** Optional. Version 2019-07-07 and later.  Specifies the name of the encryption scope to use to encrypt the data provided in the request. If not specified, encryption is performed with the default account encryption scope.  For more information, see Encryption at Rest for Azure Storage Services. */
+    encryptionScope?: string;
+    /** Specify the transactional md5 for the body, to be validated by the service. */
+    transactionalContentMD5?: Uint8Array;
+    /** Specify the transactional crc64 for the body, to be validated by the service. */
+    transactionalContentCrc64?: Uint8Array;
+}
+/** Contains response data for the appendBlock operation. */
+export type AppendBlobAppendBlockResponse = AppendBlobAppendBlockHeaders;
+/** Optional parameters. */
+export interface AppendBlobAppendBlockFromUrlOptionalParams extends coreClient.OperationOptions {
+    /** Parameter group */
+    leaseAccessConditions?: LeaseAccessConditions;
+    /** Parameter group */
+    modifiedAccessConditions?: ModifiedAccessConditions;
+    /** Parameter group */
+    cpkInfo?: CpkInfo;
+    /** Parameter group */
+    sourceModifiedAccessConditions?: SourceModifiedAccessConditions;
+    /** Parameter group */
+    appendPositionAccessConditions?: AppendPositionAccessConditions;
+    /** The timeout parameter is expressed in seconds. For more information, see <a href="https://docs.microsoft.com/en-us/rest/api/storageservices/fileservices/setting-timeouts-for-blob-service-operations">Setting Timeouts for Blob Service Operations.</a> */
+    timeoutInSeconds?: number;
+    /** Provides a client-generated, opaque value with a 1 KB character limit that is recorded in the analytics logs when storage analytics logging is enabled. */
+    requestId?: string;
+    /** Optional. Version 2019-07-07 and later.  Specifies the name of the encryption scope to use to encrypt the data provided in the request. If not specified, encryption is performed with the default account encryption scope.  For more information, see Encryption at Rest for Azure Storage Services. */
+    encryptionScope?: string;
+    /** Specify the md5 calculated for the range of bytes that must be read from the copy source. */
+    sourceContentMD5?: Uint8Array;
+    /** Only Bearer type is supported. Credentials should be a valid OAuth access token to copy source. */
+    copySourceAuthorization?: string;
+    /** Specify the transactional md5 for the body, to be validated by the service. */
+    transactionalContentMD5?: Uint8Array;
+    /** Specify the crc64 calculated for the range of bytes that must be read from the copy source. */
+    sourceContentCrc64?: Uint8Array;
+    /** Bytes of source data in the specified range. */
+    sourceRange?: string;
+}
+/** Contains response data for the appendBlockFromUrl operation. */
+export type AppendBlobAppendBlockFromUrlResponse = AppendBlobAppendBlockFromUrlHeaders;
+/** Optional parameters. */
+export interface AppendBlobSealOptionalParams extends coreClient.OperationOptions {
+    /** Parameter group */
+    leaseAccessConditions?: LeaseAccessConditions;
+    /** Parameter group */
+    modifiedAccessConditions?: ModifiedAccessConditions;
+    /** Parameter group */
+    appendPositionAccessConditions?: AppendPositionAccessConditions;
+    /** The timeout parameter is expressed in seconds. For more information, see <a href="https://docs.microsoft.com/en-us/rest/api/storageservices/fileservices/setting-timeouts-for-blob-service-operations">Setting Timeouts for Blob Service Operations.</a> */
+    timeoutInSeconds?: number;
+    /** Provides a client-generated, opaque value with a 1 KB character limit that is recorded in the analytics logs when storage analytics logging is enabled. */
+    requestId?: string;
+}
+/** Contains response data for the seal operation. */
+export type AppendBlobSealResponse = AppendBlobSealHeaders;
+/** Optional parameters. */
+export interface BlockBlobUploadOptionalParams extends coreClient.OperationOptions {
+    /** Parameter group */
+    leaseAccessConditions?: LeaseAccessConditions;
+    /** Parameter group */
+    modifiedAccessConditions?: ModifiedAccessConditions;
+    /** Parameter group */
+    cpkInfo?: CpkInfo;
+    /** Parameter group */
+    blobHttpHeaders?: BlobHttpHeaders;
+    /** The timeout parameter is expressed in seconds. For more information, see <a href="https://docs.microsoft.com/en-us/rest/api/storageservices/fileservices/setting-timeouts-for-blob-service-operations">Setting Timeouts for Blob Service Operations.</a> */
+    timeoutInSeconds?: number;
+    /** Provides a client-generated, opaque value with a 1 KB character limit that is recorded in the analytics logs when storage analytics logging is enabled. */
+    requestId?: string;
+    /** Optional. Specifies a user-defined name-value pair associated with the blob. If no name-value pairs are specified, the operation will copy the metadata from the source blob or file to the destination blob. If one or more name-value pairs are specified, the destination blob is created with the specified metadata, and metadata is not copied from the source blob or file. Note that beginning with version 2009-09-19, metadata names must adhere to the naming rules for C# identifiers. See Naming and Referencing Containers, Blobs, and Metadata for more information. */
+    metadata?: {
+        [propertyName: string]: string;
+    };
+    /** Specifies the date time when the blobs immutability policy is set to expire. */
+    immutabilityPolicyExpiry?: Date;
+    /** Specifies the immutability policy mode to set on the blob. */
+    immutabilityPolicyMode?: BlobImmutabilityPolicyMode;
+    /** Optional. Version 2019-07-07 and later.  Specifies the name of the encryption scope to use to encrypt the data provided in the request. If not specified, encryption is performed with the default account encryption scope.  For more information, see Encryption at Rest for Azure Storage Services. */
+    encryptionScope?: string;
+    /** Optional. Indicates the tier to be set on the blob. */
+    tier?: AccessTier;
+    /** Optional.  Used to set blob tags in various blob operations. */
+    blobTagsString?: string;
+    /** Specified if a legal hold should be set on the blob. */
+    legalHold?: boolean;
+    /** Specify the transactional md5 for the body, to be validated by the service. */
+    transactionalContentMD5?: Uint8Array;
+    /** Specify the transactional crc64 for the body, to be validated by the service. */
+    transactionalContentCrc64?: Uint8Array;
+}
+/** Contains response data for the upload operation. */
+export type BlockBlobUploadResponse = BlockBlobUploadHeaders;
+/** Optional parameters. */
+export interface BlockBlobPutBlobFromUrlOptionalParams extends coreClient.OperationOptions {
+    /** Parameter group */
+    leaseAccessConditions?: LeaseAccessConditions;
+    /** Parameter group */
+    modifiedAccessConditions?: ModifiedAccessConditions;
+    /** Parameter group */
+    cpkInfo?: CpkInfo;
+    /** Parameter group */
+    blobHttpHeaders?: BlobHttpHeaders;
+    /** Parameter group */
+    sourceModifiedAccessConditions?: SourceModifiedAccessConditions;
+    /** The timeout parameter is expressed in seconds. For more information, see <a href="https://docs.microsoft.com/en-us/rest/api/storageservices/fileservices/setting-timeouts-for-blob-service-operations">Setting Timeouts for Blob Service Operations.</a> */
+    timeoutInSeconds?: number;
+    /** Provides a client-generated, opaque value with a 1 KB character limit that is recorded in the analytics logs when storage analytics logging is enabled. */
+    requestId?: string;
+    /** Optional. Specifies a user-defined name-value pair associated with the blob. If no name-value pairs are specified, the operation will copy the metadata from the source blob or file to the destination blob. If one or more name-value pairs are specified, the destination blob is created with the specified metadata, and metadata is not copied from the source blob or file. Note that beginning with version 2009-09-19, metadata names must adhere to the naming rules for C# identifiers. See Naming and Referencing Containers, Blobs, and Metadata for more information. */
+    metadata?: {
+        [propertyName: string]: string;
+    };
+    /** Optional. Version 2019-07-07 and later.  Specifies the name of the encryption scope to use to encrypt the data provided in the request. If not specified, encryption is performed with the default account encryption scope.  For more information, see Encryption at Rest for Azure Storage Services. */
+    encryptionScope?: string;
+    /** Optional. Indicates the tier to be set on the blob. */
+    tier?: AccessTier;
+    /** Optional.  Used to set blob tags in various blob operations. */
+    blobTagsString?: string;
+    /** Specify the md5 calculated for the range of bytes that must be read from the copy source. */
+    sourceContentMD5?: Uint8Array;
+    /** Only Bearer type is supported. Credentials should be a valid OAuth access token to copy source. */
+    copySourceAuthorization?: string;
+    /** Optional, default 'replace'.  Indicates if source tags should be copied or replaced with the tags specified by x-ms-tags. */
+    copySourceTags?: BlobCopySourceTags;
+    /** Specify the transactional md5 for the body, to be validated by the service. */
+    transactionalContentMD5?: Uint8Array;
+    /** Optional, default is true.  Indicates if properties from the source blob should be copied. */
+    copySourceBlobProperties?: boolean;
+}
+/** Contains response data for the putBlobFromUrl operation. */
+export type BlockBlobPutBlobFromUrlResponse = BlockBlobPutBlobFromUrlHeaders;
+/** Optional parameters. */
+export interface BlockBlobStageBlockOptionalParams extends coreClient.OperationOptions {
+    /** Parameter group */
+    leaseAccessConditions?: LeaseAccessConditions;
+    /** Parameter group */
+    cpkInfo?: CpkInfo;
+    /** The timeout parameter is expressed in seconds. For more information, see <a href="https://docs.microsoft.com/en-us/rest/api/storageservices/fileservices/setting-timeouts-for-blob-service-operations">Setting Timeouts for Blob Service Operations.</a> */
+    timeoutInSeconds?: number;
+    /** Provides a client-generated, opaque value with a 1 KB character limit that is recorded in the analytics logs when storage analytics logging is enabled. */
+    requestId?: string;
+    /** Optional. Version 2019-07-07 and later.  Specifies the name of the encryption scope to use to encrypt the data provided in the request. If not specified, encryption is performed with the default account encryption scope.  For more information, see Encryption at Rest for Azure Storage Services. */
+    encryptionScope?: string;
+    /** Specify the transactional md5 for the body, to be validated by the service. */
+    transactionalContentMD5?: Uint8Array;
+    /** Specify the transactional crc64 for the body, to be validated by the service. */
+    transactionalContentCrc64?: Uint8Array;
+}
+/** Contains response data for the stageBlock operation. */
+export type BlockBlobStageBlockResponse = BlockBlobStageBlockHeaders;
+/** Optional parameters. */
+export interface BlockBlobStageBlockFromURLOptionalParams extends coreClient.OperationOptions {
+    /** Parameter group */
+    leaseAccessConditions?: LeaseAccessConditions;
+    /** Parameter group */
+    cpkInfo?: CpkInfo;
+    /** Parameter group */
+    sourceModifiedAccessConditions?: SourceModifiedAccessConditions;
+    /** The timeout parameter is expressed in seconds. For more information, see <a href="https://docs.microsoft.com/en-us/rest/api/storageservices/fileservices/setting-timeouts-for-blob-service-operations">Setting Timeouts for Blob Service Operations.</a> */
+    timeoutInSeconds?: number;
+    /** Provides a client-generated, opaque value with a 1 KB character limit that is recorded in the analytics logs when storage analytics logging is enabled. */
+    requestId?: string;
+    /** Optional. Version 2019-07-07 and later.  Specifies the name of the encryption scope to use to encrypt the data provided in the request. If not specified, encryption is performed with the default account encryption scope.  For more information, see Encryption at Rest for Azure Storage Services. */
+    encryptionScope?: string;
+    /** Specify the md5 calculated for the range of bytes that must be read from the copy source. */
+    sourceContentMD5?: Uint8Array;
+    /** Only Bearer type is supported. Credentials should be a valid OAuth access token to copy source. */
+    copySourceAuthorization?: string;
+    /** Specify the crc64 calculated for the range of bytes that must be read from the copy source. */
+    sourceContentCrc64?: Uint8Array;
+    /** Bytes of source data in the specified range. */
+    sourceRange?: string;
+}
+/** Contains response data for the stageBlockFromURL operation. */
+export type BlockBlobStageBlockFromURLResponse = BlockBlobStageBlockFromURLHeaders;
+/** Optional parameters. */
+export interface BlockBlobCommitBlockListOptionalParams extends coreClient.OperationOptions {
+    /** Parameter group */
+    leaseAccessConditions?: LeaseAccessConditions;
+    /** Parameter group */
+    modifiedAccessConditions?: ModifiedAccessConditions;
+    /** Parameter group */
+    cpkInfo?: CpkInfo;
+    /** Parameter group */
+    blobHttpHeaders?: BlobHttpHeaders;
+    /** The timeout parameter is expressed in seconds. For more information, see <a href="https://docs.microsoft.com/en-us/rest/api/storageservices/fileservices/setting-timeouts-for-blob-service-operations">Setting Timeouts for Blob Service Operations.</a> */
+    timeoutInSeconds?: number;
+    /** Provides a client-generated, opaque value with a 1 KB character limit that is recorded in the analytics logs when storage analytics logging is enabled. */
+    requestId?: string;
+    /** Optional. Specifies a user-defined name-value pair associated with the blob. If no name-value pairs are specified, the operation will copy the metadata from the source blob or file to the destination blob. If one or more name-value pairs are specified, the destination blob is created with the specified metadata, and metadata is not copied from the source blob or file. Note that beginning with version 2009-09-19, metadata names must adhere to the naming rules for C# identifiers. See Naming and Referencing Containers, Blobs, and Metadata for more information. */
+    metadata?: {
+        [propertyName: string]: string;
+    };
+    /** Specifies the date time when the blobs immutability policy is set to expire. */
+    immutabilityPolicyExpiry?: Date;
+    /** Specifies the immutability policy mode to set on the blob. */
+    immutabilityPolicyMode?: BlobImmutabilityPolicyMode;
+    /** Optional. Version 2019-07-07 and later.  Specifies the name of the encryption scope to use to encrypt the data provided in the request. If not specified, encryption is performed with the default account encryption scope.  For more information, see Encryption at Rest for Azure Storage Services. */
+    encryptionScope?: string;
+    /** Optional. Indicates the tier to be set on the blob. */
+    tier?: AccessTier;
+    /** Optional.  Used to set blob tags in various blob operations. */
+    blobTagsString?: string;
+    /** Specified if a legal hold should be set on the blob. */
+    legalHold?: boolean;
+    /** Specify the transactional md5 for the body, to be validated by the service. */
+    transactionalContentMD5?: Uint8Array;
+    /** Specify the transactional crc64 for the body, to be validated by the service. */
+    transactionalContentCrc64?: Uint8Array;
+}
+/** Contains response data for the commitBlockList operation. */
+export type BlockBlobCommitBlockListResponse = BlockBlobCommitBlockListHeaders;
+/** Optional parameters. */
+export interface BlockBlobGetBlockListOptionalParams extends coreClient.OperationOptions {
+    /** Parameter group */
+    leaseAccessConditions?: LeaseAccessConditions;
+    /** Parameter group */
+    modifiedAccessConditions?: ModifiedAccessConditions;
+    /** The timeout parameter is expressed in seconds. For more information, see <a href="https://docs.microsoft.com/en-us/rest/api/storageservices/fileservices/setting-timeouts-for-blob-service-operations">Setting Timeouts for Blob Service Operations.</a> */
+    timeoutInSeconds?: number;
+    /** Provides a client-generated, opaque value with a 1 KB character limit that is recorded in the analytics logs when storage analytics logging is enabled. */
+    requestId?: string;
+    /** The snapshot parameter is an opaque DateTime value that, when present, specifies the blob snapshot to retrieve. For more information on working with blob snapshots, see <a href="https://docs.microsoft.com/en-us/rest/api/storageservices/fileservices/creating-a-snapshot-of-a-blob">Creating a Snapshot of a Blob.</a> */
+    snapshot?: string;
+}
+/** Contains response data for the getBlockList operation. */
+export type BlockBlobGetBlockListResponse = BlockBlobGetBlockListHeaders & BlockList;
+/** Optional parameters. */
+export interface StorageClientOptionalParams extends coreHttpCompat.ExtendedServiceClientOptions {
+    /** Specifies the version of the operation to use for this request. */
+    version?: string;
+    /** Overrides client endpoint. */
+    endpoint?: string;
+}
+//# sourceMappingURL=index.d.ts.map

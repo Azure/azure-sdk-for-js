@@ -1,0 +1,5 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
+export { KnownCommunicationIdentifierModelKind, KnownCommunicationCloudEnvironmentModel, KnownRecordingContentType, KnownRecordingChannelType, KnownRecordingFormatType, KnownAcsEmailDeliveryReportStatus, KnownAcsUserEngagement, KnownAcsRouterLabelOperator, KnownAcsRouterWorkerSelectorState, KnownAcsRouterJobStatus, KnownAcsRouterUpdatedWorkerProperty, KnownAcsMessageDeliveryStatus, KnownAcsMessageChannelKind, KnownAcsInteractiveReplyKind, KnownDataBoxStageName, KnownHealthcareFhirResourceType, KnownStorageBlobAccessTier, KnownStorageTaskCompletedStatus, KnownStorageTaskAssignmentCompletedStatus, KnownAppAction, KnownStampKind, KnownAppServicePlanAction, KnownAsyncStatus, KnownEventGridMqttClientState, KnownEventGridMqttClientDisconnectionReason, KnownServiceApiVersions, } from "./generated/index.js";
+export { isSystemEvent } from "./predicates.js";
+//# sourceMappingURL=index.js.map

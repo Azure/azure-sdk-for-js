@@ -1,0 +1,1 @@
+{"version":3,"file":"customerConfig.d.ts","sourceRoot":"","sources":["../../../src/common/customerConfig.ts"],"names":[],"mappings":"AAGA,cAAM,cAAc;IAClB,OAAO,CAAC,MAAM,CAAC,QAAQ,CAAiB;IACjC,WAAW,CAAC,EAAE,MAAM,GAAG,MAAM,EAAE,CAAC;IAChC,cAAc,CAAC,EAAE,MAAM,GAAG,MAAM,EAAE,CAAC;WAE5B,WAAW,IAAI,cAAc;CAM5C;AAED,QAAA,MAAM,cAAc,gBAA+B,CAAC;AACpD,eAAe,cAAc,CAAC"}

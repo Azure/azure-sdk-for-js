@@ -1,0 +1,1 @@
+{"version":3,"file":"sourceDir-cjs.cjs","sourceRoot":"","sources":["../../src/sourceDir-cjs.cts"],"names":[],"mappings":";AAAA,uCAAuC;AACvC,kCAAkC;;;AAErB,QAAA,SAAS,GAAG,SAAS,CAAC","sourcesContent":["// Copyright (c) Microsoft Corporation.\n// Licensed under the MIT License.\n\nexport const sourceDir = __dirname;\n"]}

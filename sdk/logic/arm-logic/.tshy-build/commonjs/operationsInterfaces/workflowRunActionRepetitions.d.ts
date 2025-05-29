@@ -1,0 +1,35 @@
+import { PagedAsyncIterableIterator } from "@azure/core-paging";
+import { WorkflowRunActionRepetitionDefinition, WorkflowRunActionRepetitionsListOptionalParams, ExpressionRoot, WorkflowRunActionRepetitionsListExpressionTracesOptionalParams, WorkflowRunActionRepetitionsGetOptionalParams, WorkflowRunActionRepetitionsGetResponse } from "../models/index.js";
+/** Interface representing a WorkflowRunActionRepetitions. */
+export interface WorkflowRunActionRepetitions {
+    /**
+     * Get all of a workflow run action repetitions.
+     * @param resourceGroupName The resource group name.
+     * @param workflowName The workflow name.
+     * @param runName The workflow run name.
+     * @param actionName The workflow action name.
+     * @param options The options parameters.
+     */
+    list(resourceGroupName: string, workflowName: string, runName: string, actionName: string, options?: WorkflowRunActionRepetitionsListOptionalParams): PagedAsyncIterableIterator<WorkflowRunActionRepetitionDefinition>;
+    /**
+     * Lists a workflow run expression trace.
+     * @param resourceGroupName The resource group name.
+     * @param workflowName The workflow name.
+     * @param runName The workflow run name.
+     * @param actionName The workflow action name.
+     * @param repetitionName The workflow repetition.
+     * @param options The options parameters.
+     */
+    listExpressionTraces(resourceGroupName: string, workflowName: string, runName: string, actionName: string, repetitionName: string, options?: WorkflowRunActionRepetitionsListExpressionTracesOptionalParams): PagedAsyncIterableIterator<ExpressionRoot>;
+    /**
+     * Get a workflow run action repetition.
+     * @param resourceGroupName The resource group name.
+     * @param workflowName The workflow name.
+     * @param runName The workflow run name.
+     * @param actionName The workflow action name.
+     * @param repetitionName The workflow repetition.
+     * @param options The options parameters.
+     */
+    get(resourceGroupName: string, workflowName: string, runName: string, actionName: string, repetitionName: string, options?: WorkflowRunActionRepetitionsGetOptionalParams): Promise<WorkflowRunActionRepetitionsGetResponse>;
+}
+//# sourceMappingURL=workflowRunActionRepetitions.d.ts.map

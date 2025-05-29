@@ -1,0 +1,16 @@
+{
+  "extends": "./build.json",
+  "include": [
+    "../src/**/*.ts",
+    "../src/**/*.mts",
+    "../src/**/*.tsx",
+    "../src/**/*.json"
+  ],
+  "exclude": [
+    "../src/package.json",
+    "../src/signaling/signalingClient-browser.mts"
+  ],
+  "compilerOptions": {
+    "outDir": "../.tshy-build/react-native"
+  }
+}

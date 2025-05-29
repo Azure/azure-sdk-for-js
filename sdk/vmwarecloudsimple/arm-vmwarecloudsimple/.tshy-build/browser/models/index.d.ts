@@ -1,0 +1,1302 @@
+import * as coreClient from "@azure/core-client";
+/** List of available operations */
+export interface AvailableOperationsListResponse {
+    /** Link for next list of available operations */
+    nextLink?: string;
+    /** Returns a list of available operations */
+    value?: AvailableOperation[];
+}
+/** Resource provider available operation model */
+export interface AvailableOperation {
+    /** The list of operations */
+    display?: AvailableOperationDisplay;
+    /** Indicating whether the operation is a data action or not */
+    isDataAction?: boolean;
+    /** {resourceProviderNamespace}/{resourceType}/{read|write|delete|action} */
+    name?: string;
+    /** The origin of operation */
+    origin?: OperationOrigin;
+    /** The list of specification's service metrics */
+    serviceSpecification?: AvailableOperationDisplayPropertyServiceSpecificationMetricsList;
+}
+/** Resource provider available operation display model */
+export interface AvailableOperationDisplay {
+    /** Description of the operation for display purposes */
+    description?: string;
+    /** Name of the operation for display purposes */
+    operation?: string;
+    /** Name of the provider for display purposes */
+    provider?: string;
+    /** Name of the resource type for display purposes */
+    resource?: string;
+}
+/** List of available operation display property service specification metrics */
+export interface AvailableOperationDisplayPropertyServiceSpecificationMetricsList {
+    /** Metric specifications of operation */
+    metricSpecifications?: AvailableOperationDisplayPropertyServiceSpecificationMetricsItem[];
+}
+/** Available operation display property service specification metrics item */
+export interface AvailableOperationDisplayPropertyServiceSpecificationMetricsItem {
+    /** Metric's aggregation type for e.g. (Average, Total) */
+    aggregationType: AggregationType;
+    /** Metric's description */
+    displayDescription: string;
+    /** Human readable metric's name */
+    displayName: string;
+    /** Metric's name/id */
+    name: string;
+    /** Metric's unit */
+    unit: string;
+}
+/** General error model */
+export interface CsrpError {
+    /** Error's body */
+    error?: CsrpErrorBody;
+}
+/** Error properties */
+export interface CsrpErrorBody {
+    /**
+     * Error's code
+     * NOTE: This property will not be serialized. It can only be populated by the server.
+     */
+    readonly code?: string;
+    /**
+     * Error's details
+     * NOTE: This property will not be serialized. It can only be populated by the server.
+     */
+    readonly details?: CsrpErrorBody[];
+    /**
+     * Error's message
+     * NOTE: This property will not be serialized. It can only be populated by the server.
+     */
+    readonly message?: string;
+    /** Error's target */
+    target?: string;
+}
+/** List of dedicated nodes response model */
+export interface DedicatedCloudNodeListResponse {
+    /** Link for next list of DedicatedCloudNode */
+    nextLink?: string;
+    /** Results of the DedicatedCloudNode list */
+    value?: DedicatedCloudNode[];
+}
+/** Dedicated cloud node model */
+export interface DedicatedCloudNode {
+    /**
+     * /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/dedicatedCloudNodes/{dedicatedCloudNodeName}
+     * NOTE: This property will not be serialized. It can only be populated by the server.
+     */
+    readonly id?: string;
+    /** Azure region */
+    location: string;
+    /**
+     * {dedicatedCloudNodeName}
+     * NOTE: This property will not be serialized. It can only be populated by the server.
+     */
+    readonly name?: string;
+    /** Dedicated Cloud Nodes SKU */
+    sku?: Sku;
+    /** Dedicated Cloud Nodes tags */
+    tags?: {
+        [propertyName: string]: string;
+    };
+    /**
+     * {resourceProviderNamespace}/{resourceType}
+     * NOTE: This property will not be serialized. It can only be populated by the server.
+     */
+    readonly type?: string;
+    /** Availability Zone id, e.g. "az1" */
+    availabilityZoneId?: string;
+    /**
+     * Availability Zone name, e.g. "Availability Zone 1"
+     * NOTE: This property will not be serialized. It can only be populated by the server.
+     */
+    readonly availabilityZoneName?: string;
+    /**
+     * VMWare Cloud Rack Name
+     * NOTE: This property will not be serialized. It can only be populated by the server.
+     */
+    readonly cloudRackName?: string;
+    /**
+     * date time the resource was created
+     * NOTE: This property will not be serialized. It can only be populated by the server.
+     */
+    readonly created?: Date;
+    /** count of nodes to create */
+    nodesCount?: number;
+    /** Placement Group id, e.g. "n1" */
+    placementGroupId?: string;
+    /**
+     * Placement Name, e.g. "Placement Group 1"
+     * NOTE: This property will not be serialized. It can only be populated by the server.
+     */
+    readonly placementGroupName?: string;
+    /**
+     * Private Cloud Id
+     * NOTE: This property will not be serialized. It can only be populated by the server.
+     */
+    readonly privateCloudId?: string;
+    /**
+     * Resource Pool Name
+     * NOTE: This property will not be serialized. It can only be populated by the server.
+     */
+    readonly privateCloudName?: string;
+    /**
+     * The provisioning status of the resource
+     * NOTE: This property will not be serialized. It can only be populated by the server.
+     */
+    readonly provisioningState?: string;
+    /** purchase id */
+    purchaseId?: string;
+    /**
+     * Node status, indicates is private cloud set up on this node or not
+     * NOTE: This property will not be serialized. It can only be populated by the server.
+     */
+    readonly status?: NodeStatus;
+    /**
+     * VMWare Cluster Name
+     * NOTE: This property will not be serialized. It can only be populated by the server.
+     */
+    readonly vmwareClusterName?: string;
+    /** SKU's id */
+    idPropertiesSkuDescriptionId?: string;
+    /** SKU's name */
+    namePropertiesSkuDescriptionName?: string;
+}
+/** The purchase SKU for CloudSimple paid resources */
+export interface Sku {
+    /** The capacity of the SKU */
+    capacity?: string;
+    /** dedicatedCloudNode example: 8 x Ten-Core Intel® Xeon® Processor E5-2640 v4 2.40GHz 25MB Cache (90W); 12 x 64GB PC4-19200 2400MHz DDR4 ECC Registered DIMM, ... */
+    description?: string;
+    /** If the service has different generations of hardware, for the same SKU, then that can be captured here */
+    family?: string;
+    /** The name of the SKU for VMWare CloudSimple Node */
+    name: string;
+    /** The tier of the SKU */
+    tier?: string;
+}
+/** List of dedicated cloud services */
+export interface DedicatedCloudServiceListResponse {
+    /** Link for next list of DedicatedCloudNode */
+    nextLink?: string;
+    /** Results of the DedicatedCloudService list */
+    value?: DedicatedCloudService[];
+}
+/** Dedicated cloud service model */
+export interface DedicatedCloudService {
+    /**
+     * /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/dedicatedCloudServices/{dedicatedCloudServiceName}
+     * NOTE: This property will not be serialized. It can only be populated by the server.
+     */
+    readonly id?: string;
+    /** Azure region */
+    location: string;
+    /**
+     * {dedicatedCloudServiceName}
+     * NOTE: This property will not be serialized. It can only be populated by the server.
+     */
+    readonly name?: string;
+    /** The list of tags */
+    tags?: {
+        [propertyName: string]: string;
+    };
+    /**
+     * {resourceProviderNamespace}/{resourceType}
+     * NOTE: This property will not be serialized. It can only be populated by the server.
+     */
+    readonly type?: string;
+    /** gateway Subnet for the account. It will collect the subnet address and always treat it as /28 */
+    gatewaySubnet?: string;
+    /**
+     * indicates whether account onboarded or not in a given region
+     * NOTE: This property will not be serialized. It can only be populated by the server.
+     */
+    readonly isAccountOnboarded?: OnboardingStatus;
+    /**
+     * total nodes purchased
+     * NOTE: This property will not be serialized. It can only be populated by the server.
+     */
+    readonly nodes?: number;
+    /**
+     * link to a service management web portal
+     * NOTE: This property will not be serialized. It can only be populated by the server.
+     */
+    readonly serviceURL?: string;
+}
+/** List of SKU availabilities */
+export interface SkuAvailabilityListResponse {
+    /** Link for next list of DedicatedCloudNode */
+    nextLink?: string;
+    /** Results of the DedicatedPlacementGroupSkuAvailability list */
+    value?: SkuAvailability[];
+}
+/** SKU availability model */
+export interface SkuAvailability {
+    /** CloudSimple Availability Zone id */
+    dedicatedAvailabilityZoneId?: string;
+    /** CloudSimple Availability Zone Name */
+    dedicatedAvailabilityZoneName?: string;
+    /** CloudSimple Placement Group Id */
+    dedicatedPlacementGroupId?: string;
+    /** CloudSimple Placement Group name */
+    dedicatedPlacementGroupName?: string;
+    /** indicates how many resources of a given SKU is available in a AZ->PG */
+    limit: number;
+    /** resource type e.g. DedicatedCloudNodes */
+    resourceType?: string;
+    /** sku id */
+    skuId?: string;
+    /** sku name */
+    skuName?: string;
+}
+/** Operation status response */
+export interface OperationResource {
+    /**
+     * End time of the operation
+     * NOTE: This property will not be serialized. It can only be populated by the server.
+     */
+    readonly endTime?: Date;
+    /** Error Message if operation failed */
+    error?: OperationError;
+    /**
+     * Operation Id
+     * NOTE: This property will not be serialized. It can only be populated by the server.
+     */
+    readonly id?: string;
+    /**
+     * Operation ID
+     * NOTE: This property will not be serialized. It can only be populated by the server.
+     */
+    readonly name?: string;
+    /**
+     * Start time of the operation
+     * NOTE: This property will not be serialized. It can only be populated by the server.
+     */
+    readonly startTime?: Date;
+    /**
+     * Operation status
+     * NOTE: This property will not be serialized. It can only be populated by the server.
+     */
+    readonly status?: string;
+}
+/** Operation error model */
+export interface OperationError {
+    /** Error's code */
+    code?: string;
+    /** Error's message */
+    message?: string;
+}
+/** List of private clouds */
+export interface PrivateCloudList {
+    /** Link for next list of Private Clouds */
+    nextLink?: string;
+    /** the list of private clouds */
+    value?: PrivateCloud[];
+}
+/** Private cloud model */
+export interface PrivateCloud {
+    /** Azure Id, e.g. "/subscriptions/4da99247-a172-4ed6-8ae9-ebed2d12f839/providers/Microsoft.VMwareCloudSimple/privateClouds/cloud123" */
+    id?: string;
+    /** Location where private cloud created, e.g "westus" */
+    location?: string;
+    /** Private cloud name */
+    name?: string;
+    /** Azure Resource type */
+    type?: "Microsoft.VMwareCloudSimple/privateClouds";
+    /** Availability Zone id, e.g. "az1" */
+    availabilityZoneId?: string;
+    /** Availability Zone name, e.g. "Availability Zone 1" */
+    availabilityZoneName?: string;
+    /** Number of clusters */
+    clustersNumber?: number;
+    /** User's emails who created cloud */
+    createdBy?: string;
+    /** When private cloud was created */
+    createdOn?: Date;
+    /** Array of DNS servers */
+    dnsServers?: string[];
+    /** Expiration date of PC */
+    expires?: string;
+    /** Nsx Type, e.g. "Advanced" */
+    nsxType?: string;
+    /** Placement Group id, e.g. "n1" */
+    placementGroupId?: string;
+    /** Placement Group name */
+    placementGroupName?: string;
+    /** Id of a private cloud */
+    privateCloudId?: string;
+    /** The list of Resource Pools */
+    resourcePools?: ResourcePool[];
+    /** Private Cloud state, e.g. "operational" */
+    state?: string;
+    /** Number of cores */
+    totalCpuCores?: number;
+    /** Number of nodes */
+    totalNodes?: number;
+    /** Memory size */
+    totalRam?: number;
+    /** Disk space in TB */
+    totalStorage?: number;
+    /** Virtualization type e.g. "vSphere" */
+    typePropertiesType?: string;
+    /** e.g. "6.5u2" */
+    vSphereVersion?: string;
+    /** FQDN for vcenter access */
+    vcenterFqdn?: string;
+    /** Vcenter ip address */
+    vcenterRefid?: string;
+    /** The list of Virtual Machine Templates */
+    virtualMachineTemplates?: VirtualMachineTemplate[];
+    /** The list of Virtual Networks */
+    virtualNetworks?: VirtualNetwork[];
+    /** Is Vrops enabled/disabled */
+    vrOpsEnabled?: boolean;
+}
+/** Resource pool model */
+export interface ResourcePool {
+    /** resource pool id (privateCloudId:vsphereId) */
+    id: string;
+    /**
+     * Azure region
+     * NOTE: This property will not be serialized. It can only be populated by the server.
+     */
+    readonly location?: string;
+    /**
+     * {ResourcePoolName}
+     * NOTE: This property will not be serialized. It can only be populated by the server.
+     */
+    readonly name?: string;
+    /**
+     * The Private Cloud Id
+     * NOTE: This property will not be serialized. It can only be populated by the server.
+     */
+    readonly privateCloudId?: string;
+    /**
+     * {resourceProviderNamespace}/{resourceType}
+     * NOTE: This property will not be serialized. It can only be populated by the server.
+     */
+    readonly type?: string;
+    /**
+     * Hierarchical resource pool name
+     * NOTE: This property will not be serialized. It can only be populated by the server.
+     */
+    readonly fullName?: string;
+}
+/** Virtual machine template model */
+export interface VirtualMachineTemplate {
+    /**
+     * virtual machine template id (privateCloudId:vsphereId)
+     * NOTE: This property will not be serialized. It can only be populated by the server.
+     */
+    readonly id?: string;
+    /** Azure region */
+    location?: string;
+    /**
+     * {virtualMachineTemplateName}
+     * NOTE: This property will not be serialized. It can only be populated by the server.
+     */
+    readonly name?: string;
+    /**
+     * {resourceProviderNamespace}/{resourceType}
+     * NOTE: This property will not be serialized. It can only be populated by the server.
+     */
+    readonly type?: string;
+    /** The amount of memory */
+    amountOfRam?: number;
+    /** The list of Virtual Disk Controllers */
+    controllers?: VirtualDiskController[];
+    /** The description of Virtual Machine Template */
+    description?: string;
+    /** The list of Virtual Disks */
+    disks?: VirtualDisk[];
+    /** Expose Guest OS or not */
+    exposeToGuestVM?: boolean;
+    /**
+     * The Guest OS
+     * NOTE: This property will not be serialized. It can only be populated by the server.
+     */
+    readonly guestOS?: string;
+    /**
+     * The Guest OS types
+     * NOTE: This property will not be serialized. It can only be populated by the server.
+     */
+    readonly guestOSType?: string;
+    /** The list of Virtual NICs */
+    nics?: VirtualNic[];
+    /** The number of CPU cores */
+    numberOfCores?: number;
+    /** path to folder */
+    path?: string;
+    /** The Private Cloud Id */
+    privateCloudId?: string;
+    /** The list of VSphere networks */
+    vSphereNetworks?: string[];
+    /** The tags from VSphere */
+    vSphereTags?: string[];
+    /**
+     * The VMware tools version
+     * NOTE: This property will not be serialized. It can only be populated by the server.
+     */
+    readonly vmwaretools?: string;
+}
+/** Virtual disk controller model */
+export interface VirtualDiskController {
+    /**
+     * Controller's id
+     * NOTE: This property will not be serialized. It can only be populated by the server.
+     */
+    readonly id?: string;
+    /**
+     * The display name of Controller
+     * NOTE: This property will not be serialized. It can only be populated by the server.
+     */
+    readonly name?: string;
+    /**
+     * dik controller subtype (VMWARE_PARAVIRTUAL, BUS_PARALLEL, LSI_PARALLEL, LSI_SAS)
+     * NOTE: This property will not be serialized. It can only be populated by the server.
+     */
+    readonly subType?: string;
+    /**
+     * disk controller type (SCSI)
+     * NOTE: This property will not be serialized. It can only be populated by the server.
+     */
+    readonly type?: string;
+}
+/** Virtual disk model */
+export interface VirtualDisk {
+    /** Disk's Controller id */
+    controllerId: string;
+    /** Disk's independence mode type */
+    independenceMode: DiskIndependenceMode;
+    /** Disk's total size */
+    totalSize: number;
+    /** Disk's id */
+    virtualDiskId?: string;
+    /**
+     * Disk's display name
+     * NOTE: This property will not be serialized. It can only be populated by the server.
+     */
+    readonly virtualDiskName?: string;
+}
+/** Virtual NIC model */
+export interface VirtualNic {
+    /** guest OS customization for nic */
+    customization?: GuestOsnicCustomization;
+    /** NIC ip address */
+    ipAddresses?: string[];
+    /** NIC MAC address */
+    macAddress?: string;
+    /** Virtual Network */
+    network: VirtualNetwork;
+    /** NIC type */
+    nicType: NICType;
+    /** Is NIC powered on/off on boot */
+    powerOnBoot?: boolean;
+    /** NIC id */
+    virtualNicId?: string;
+    /**
+     * NIC name
+     * NOTE: This property will not be serialized. It can only be populated by the server.
+     */
+    readonly virtualNicName?: string;
+}
+/** Guest OS nic customization */
+export interface GuestOsnicCustomization {
+    /** IP address allocation method */
+    allocation?: GuestOsnicCustomizationAllocation;
+    /** List of dns servers to use */
+    dnsServers?: string[];
+    /** Gateway addresses assigned to nic */
+    gateway?: string[];
+    /** Static ip address for nic */
+    ipAddress?: string;
+    /** Network mask for nic */
+    mask?: string;
+    /** primary WINS server for Windows */
+    primaryWinsServer?: string;
+    /** secondary WINS server for Windows */
+    secondaryWinsServer?: string;
+}
+/** Virtual network model */
+export interface VirtualNetwork {
+    /**
+     * can be used in vm creation/deletion
+     * NOTE: This property will not be serialized. It can only be populated by the server.
+     */
+    readonly assignable?: boolean;
+    /** virtual network id (privateCloudId:vsphereId) */
+    id: string;
+    /**
+     * Azure region
+     * NOTE: This property will not be serialized. It can only be populated by the server.
+     */
+    readonly location?: string;
+    /**
+     * {VirtualNetworkName}
+     * NOTE: This property will not be serialized. It can only be populated by the server.
+     */
+    readonly name?: string;
+    /**
+     * {resourceProviderNamespace}/{resourceType}
+     * NOTE: This property will not be serialized. It can only be populated by the server.
+     */
+    readonly type?: string;
+    /**
+     * The Private Cloud id
+     * NOTE: This property will not be serialized. It can only be populated by the server.
+     */
+    readonly privateCloudId?: string;
+}
+/** List of customization polices response model */
+export interface CustomizationPoliciesListResponse {
+    /** Link for next list of the Customization policy */
+    nextLink?: string;
+    /** List of the customization policies */
+    value?: CustomizationPolicy[];
+}
+/** The virtual machine customization policy */
+export interface CustomizationPolicy {
+    /** Customization policy azure id */
+    id?: string;
+    /** Azure region */
+    location?: string;
+    /**
+     * Customization policy name
+     * NOTE: This property will not be serialized. It can only be populated by the server.
+     */
+    readonly name?: string;
+    /** NOTE: This property will not be serialized. It can only be populated by the server. */
+    readonly type?: string;
+    /** Policy description */
+    description?: string;
+    /** The Private cloud id */
+    privateCloudId?: string;
+    /** Detailed customization policy specification */
+    specification?: CustomizationSpecification;
+    /** The type of customization (Linux or Windows) */
+    typePropertiesType?: CustomizationPolicyPropertiesType;
+    /** Policy version */
+    version?: string;
+}
+/** The specification for Customization Policy */
+export interface CustomizationSpecification {
+    /** Customization Identity. It contains data about user and hostname */
+    identity?: CustomizationIdentity;
+    /** Network interface settings */
+    nicSettings?: CustomizationNicSetting[];
+}
+export interface CustomizationIdentity {
+    /** Windows Text Identity. Prepared data */
+    data?: string;
+    /** Virtual machine host name settings */
+    hostName?: CustomizationHostName;
+    /** Identity type */
+    type?: CustomizationIdentityType;
+    /** Windows Identity. User data customization */
+    userData?: CustomizationIdentityUserData;
+}
+/** Host name model */
+export interface CustomizationHostName {
+    /** Hostname */
+    name?: string;
+    /** Type of host name */
+    type?: CustomizationHostNameType;
+}
+/** Windows Identity. User data customization */
+export interface CustomizationIdentityUserData {
+    /** Is password predefined in customization policy */
+    isPasswordPredefined?: boolean;
+}
+export interface CustomizationNicSetting {
+    /** The list of adapters' settings */
+    adapter?: CustomizationIPSettings;
+    /** NIC mac address */
+    macAddress?: string;
+}
+export interface CustomizationIPSettings {
+    /** The list of gateways */
+    gateway?: string[];
+    /** Ip address customization settings */
+    ip?: CustomizationIPAddress;
+    /** Adapter subnet mask */
+    subnetMask?: string;
+}
+export interface CustomizationIPAddress {
+    /** Argument when Custom ip type is selected */
+    argument?: string;
+    /** Defined Ip Address when Fixed ip type is selected */
+    ipAddress?: string;
+    /** Customization Specification ip type */
+    type?: CustomizationIPAddressType;
+}
+/** List of resource pools response model */
+export interface ResourcePoolsListResponse {
+    /** Link for next list of ResourcePoolsList */
+    nextLink?: string;
+    /** Results of the Resource pools list */
+    value?: ResourcePool[];
+}
+/** List of virtual machine templates */
+export interface VirtualMachineTemplateListResponse {
+    /** Link for next list of VirtualMachineTemplate */
+    nextLink?: string;
+    /** Results of the VM template list */
+    value?: VirtualMachineTemplate[];
+}
+/** List of virtual networks */
+export interface VirtualNetworkListResponse {
+    /** Link for next list of VirtualNetwork */
+    nextLink?: string;
+    /** Results of the VirtualNetwork list */
+    value?: VirtualNetwork[];
+}
+/** List of usages */
+export interface UsageListResponse {
+    /** Link for next list of DedicatedCloudNode */
+    nextLink?: string;
+    /**
+     * The list of usages
+     * NOTE: This property will not be serialized. It can only be populated by the server.
+     */
+    readonly value?: Usage[];
+}
+/** Usage model */
+export interface Usage {
+    /** The current usage value */
+    currentValue: number;
+    /** limit of a given sku in a region for a subscription. The maximum permitted value for the usage quota. If there is no limit, this value will be -1 */
+    limit: number;
+    /** Usage name value and localized name */
+    name?: UsageName;
+    /** The usages' unit */
+    unit?: UsageCount;
+}
+/** User name model */
+export interface UsageName {
+    /** e.g. "Virtual Machines" */
+    localizedValue?: string;
+    /** resource type or resource type sku name, e.g. virtualMachines */
+    value?: string;
+}
+/** List of virtual machines */
+export interface VirtualMachineListResponse {
+    /** Link for next list of VirtualMachines */
+    nextLink?: string;
+    /** Results of the VirtualMachine list */
+    value?: VirtualMachine[];
+}
+/** Virtual machine model */
+export interface VirtualMachine {
+    /**
+     * /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/virtualMachines/{virtualMachineName}
+     * NOTE: This property will not be serialized. It can only be populated by the server.
+     */
+    readonly id?: string;
+    /** Azure region */
+    location: string;
+    /**
+     * {virtualMachineName}
+     * NOTE: This property will not be serialized. It can only be populated by the server.
+     */
+    readonly name?: string;
+    /** The list of tags */
+    tags?: {
+        [propertyName: string]: string;
+    };
+    /**
+     * {resourceProviderNamespace}/{resourceType}
+     * NOTE: This property will not be serialized. It can only be populated by the server.
+     */
+    readonly type?: string;
+    /** The amount of memory */
+    amountOfRam?: number;
+    /**
+     * The list of Virtual Disks' Controllers
+     * NOTE: This property will not be serialized. It can only be populated by the server.
+     */
+    readonly controllers?: VirtualDiskController[];
+    /** Virtual machine properties */
+    customization?: GuestOSCustomization;
+    /** The list of Virtual Disks */
+    disks?: VirtualDisk[];
+    /**
+     * The DNS name of Virtual Machine in VCenter
+     * NOTE: This property will not be serialized. It can only be populated by the server.
+     */
+    readonly dnsname?: string;
+    /** Expose Guest OS or not */
+    exposeToGuestVM?: boolean;
+    /**
+     * The path to virtual machine folder in VCenter
+     * NOTE: This property will not be serialized. It can only be populated by the server.
+     */
+    readonly folder?: string;
+    /**
+     * The name of Guest OS
+     * NOTE: This property will not be serialized. It can only be populated by the server.
+     */
+    readonly guestOS?: string;
+    /**
+     * The Guest OS type
+     * NOTE: This property will not be serialized. It can only be populated by the server.
+     */
+    readonly guestOSType?: GuestOSType;
+    /** The list of Virtual NICs */
+    nics?: VirtualNic[];
+    /** The number of CPU cores */
+    numberOfCores?: number;
+    /** Password for login. Deprecated - use customization property */
+    password?: string;
+    /** Private Cloud Id */
+    privateCloudId?: string;
+    /**
+     * The provisioning status of the resource
+     * NOTE: This property will not be serialized. It can only be populated by the server.
+     */
+    readonly provisioningState?: string;
+    /**
+     * The public ip of Virtual Machine
+     * NOTE: This property will not be serialized. It can only be populated by the server.
+     */
+    readonly publicIP?: string;
+    /** Virtual Machines Resource Pool */
+    resourcePool?: ResourcePool;
+    /**
+     * The status of Virtual machine
+     * NOTE: This property will not be serialized. It can only be populated by the server.
+     */
+    readonly status?: VirtualMachineStatus;
+    /** Virtual Machine Template Id */
+    templateId?: string;
+    /** Username for login. Deprecated - use customization property */
+    username?: string;
+    /** The list of Virtual VSphere Networks */
+    vSphereNetworks?: string[];
+    /**
+     * The internal id of Virtual Machine in VCenter
+     * NOTE: This property will not be serialized. It can only be populated by the server.
+     */
+    readonly vmId?: string;
+    /**
+     * VMware tools version
+     * NOTE: This property will not be serialized. It can only be populated by the server.
+     */
+    readonly vmwaretools?: string;
+}
+/** Guest OS Customization properties */
+export interface GuestOSCustomization {
+    /** List of dns servers to use */
+    dnsServers?: string[];
+    /** Virtual Machine hostname */
+    hostName?: string;
+    /** Password for login */
+    password?: string;
+    /** id of customization policy */
+    policyId?: string;
+    /** Username for login */
+    username?: string;
+}
+/** General patch payload modal */
+export interface PatchPayload {
+    /** The tags key:value pairs */
+    tags?: {
+        [propertyName: string]: string;
+    };
+}
+/** List of virtual machine stop modes */
+export interface VirtualMachineStopMode {
+    /** mode indicates a type of stop operation - reboot, suspend, shutdown or power-off */
+    mode?: StopMode;
+}
+/** Defines headers for Operations_get operation. */
+export interface OperationsGetHeaders {
+    location?: string;
+    retryAfter?: number;
+}
+/** Defines headers for Operations_get operation. */
+export interface OperationsGetExceptionHeaders {
+    contentType?: string;
+}
+/** Defines headers for DedicatedCloudNodes_createOrUpdate operation. */
+export interface DedicatedCloudNodesCreateOrUpdateHeaders {
+    azureAsyncOperation?: string;
+    location?: string;
+    retryAfter?: number;
+}
+/** Defines headers for DedicatedCloudNodes_delete operation. */
+export interface DedicatedCloudNodesDeleteExceptionHeaders {
+    contentType?: string;
+}
+/** Defines headers for DedicatedCloudServices_delete operation. */
+export interface DedicatedCloudServicesDeleteExceptionHeaders {
+    contentType?: string;
+}
+/** Defines headers for VirtualMachines_createOrUpdate operation. */
+export interface VirtualMachinesCreateOrUpdateHeaders {
+    azureAsyncOperation?: string;
+}
+/** Defines headers for VirtualMachines_delete operation. */
+export interface VirtualMachinesDeleteHeaders {
+    azureAsyncOperation?: string;
+    location?: string;
+    retryAfter?: number;
+}
+/** Defines headers for VirtualMachines_delete operation. */
+export interface VirtualMachinesDeleteExceptionHeaders {
+    contentType?: string;
+}
+/** Defines headers for VirtualMachines_start operation. */
+export interface VirtualMachinesStartHeaders {
+    azureAsyncOperation?: string;
+    location?: string;
+    retryAfter?: number;
+}
+/** Defines headers for VirtualMachines_start operation. */
+export interface VirtualMachinesStartExceptionHeaders {
+    contentType?: string;
+}
+/** Defines headers for VirtualMachines_stop operation. */
+export interface VirtualMachinesStopHeaders {
+    azureAsyncOperation?: string;
+    location?: string;
+    retryAfter?: number;
+}
+/** Defines headers for VirtualMachines_stop operation. */
+export interface VirtualMachinesStopExceptionHeaders {
+    contentType?: string;
+}
+/** Known values of {@link GuestOsnicCustomizationAllocation} that the service accepts. */
+export declare enum KnownGuestOsnicCustomizationAllocation {
+    /** Static */
+    Static = "static",
+    /** Dynamic */
+    Dynamic = "dynamic"
+}
+/**
+ * Defines values for GuestOsnicCustomizationAllocation. \
+ * {@link KnownGuestOsnicCustomizationAllocation} can be used interchangeably with GuestOsnicCustomizationAllocation,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **static** \
+ * **dynamic**
+ */
+export type GuestOsnicCustomizationAllocation = string;
+/** Known values of {@link CustomizationHostNameType} that the service accepts. */
+export declare enum KnownCustomizationHostNameType {
+    /** UserDefined */
+    UserDefined = "USER_DEFINED",
+    /** PrefixBased */
+    PrefixBased = "PREFIX_BASED",
+    /** Fixed */
+    Fixed = "FIXED",
+    /** VirtualMachineName */
+    VirtualMachineName = "VIRTUAL_MACHINE_NAME",
+    /** CustomName */
+    CustomName = "CUSTOM_NAME"
+}
+/**
+ * Defines values for CustomizationHostNameType. \
+ * {@link KnownCustomizationHostNameType} can be used interchangeably with CustomizationHostNameType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **USER_DEFINED** \
+ * **PREFIX_BASED** \
+ * **FIXED** \
+ * **VIRTUAL_MACHINE_NAME** \
+ * **CUSTOM_NAME**
+ */
+export type CustomizationHostNameType = string;
+/** Known values of {@link CustomizationIdentityType} that the service accepts. */
+export declare enum KnownCustomizationIdentityType {
+    /** WindowsText */
+    WindowsText = "WINDOWS_TEXT",
+    /** Windows */
+    Windows = "WINDOWS",
+    /** Linux */
+    Linux = "LINUX"
+}
+/**
+ * Defines values for CustomizationIdentityType. \
+ * {@link KnownCustomizationIdentityType} can be used interchangeably with CustomizationIdentityType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **WINDOWS_TEXT** \
+ * **WINDOWS** \
+ * **LINUX**
+ */
+export type CustomizationIdentityType = string;
+/** Known values of {@link CustomizationIPAddressType} that the service accepts. */
+export declare enum KnownCustomizationIPAddressType {
+    /** Custom */
+    Custom = "CUSTOM",
+    /** DhcpIP */
+    DhcpIP = "DHCP_IP",
+    /** FixedIP */
+    FixedIP = "FIXED_IP",
+    /** UserDefined */
+    UserDefined = "USER_DEFINED"
+}
+/**
+ * Defines values for CustomizationIPAddressType. \
+ * {@link KnownCustomizationIPAddressType} can be used interchangeably with CustomizationIPAddressType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **CUSTOM** \
+ * **DHCP_IP** \
+ * **FIXED_IP** \
+ * **USER_DEFINED**
+ */
+export type CustomizationIPAddressType = string;
+/** Known values of {@link CustomizationPolicyPropertiesType} that the service accepts. */
+export declare enum KnownCustomizationPolicyPropertiesType {
+    /** Linux */
+    Linux = "LINUX",
+    /** Windows */
+    Windows = "WINDOWS"
+}
+/**
+ * Defines values for CustomizationPolicyPropertiesType. \
+ * {@link KnownCustomizationPolicyPropertiesType} can be used interchangeably with CustomizationPolicyPropertiesType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **LINUX** \
+ * **WINDOWS**
+ */
+export type CustomizationPolicyPropertiesType = string;
+/** Defines values for OperationOrigin. */
+export type OperationOrigin = "user" | "system" | "user,system";
+/** Defines values for AggregationType. */
+export type AggregationType = "Average" | "Total";
+/** Defines values for NodeStatus. */
+export type NodeStatus = "unused" | "used";
+/** Defines values for OnboardingStatus. */
+export type OnboardingStatus = "notOnBoarded" | "onBoarded" | "onBoardingFailed" | "onBoarding";
+/** Defines values for DiskIndependenceMode. */
+export type DiskIndependenceMode = "persistent" | "independent_persistent" | "independent_nonpersistent";
+/** Defines values for NICType. */
+export type NICType = "E1000" | "E1000E" | "PCNET32" | "VMXNET" | "VMXNET2" | "VMXNET3";
+/** Defines values for UsageCount. */
+export type UsageCount = "Count" | "Bytes" | "Seconds" | "Percent" | "CountPerSecond" | "BytesPerSecond";
+/** Defines values for GuestOSType. */
+export type GuestOSType = "linux" | "windows" | "other";
+/** Defines values for VirtualMachineStatus. */
+export type VirtualMachineStatus = "running" | "suspended" | "poweredoff" | "updating" | "deallocating" | "deleting";
+/** Defines values for StopMode. */
+export type StopMode = "reboot" | "suspend" | "shutdown" | "poweroff";
+/** Optional parameters. */
+export interface OperationsListOptionalParams extends coreClient.OperationOptions {
+}
+/** Contains response data for the list operation. */
+export type OperationsListResponse = AvailableOperationsListResponse;
+/** Optional parameters. */
+export interface OperationsGetOptionalParams extends coreClient.OperationOptions {
+}
+/** Contains response data for the get operation. */
+export type OperationsGetResponse = OperationResource;
+/** Optional parameters. */
+export interface OperationsListNextOptionalParams extends coreClient.OperationOptions {
+}
+/** Contains response data for the listNext operation. */
+export type OperationsListNextResponse = AvailableOperationsListResponse;
+/** Optional parameters. */
+export interface DedicatedCloudNodesListBySubscriptionOptionalParams extends coreClient.OperationOptions {
+    /** The filter to apply on the list operation */
+    filter?: string;
+    /** The maximum number of record sets to return */
+    top?: number;
+    /** to be used by nextLink implementation */
+    skipToken?: string;
+}
+/** Contains response data for the listBySubscription operation. */
+export type DedicatedCloudNodesListBySubscriptionResponse = DedicatedCloudNodeListResponse;
+/** Optional parameters. */
+export interface DedicatedCloudNodesListByResourceGroupOptionalParams extends coreClient.OperationOptions {
+    /** The filter to apply on the list operation */
+    filter?: string;
+    /** The maximum number of record sets to return */
+    top?: number;
+    /** to be used by nextLink implementation */
+    skipToken?: string;
+}
+/** Contains response data for the listByResourceGroup operation. */
+export type DedicatedCloudNodesListByResourceGroupResponse = DedicatedCloudNodeListResponse;
+/** Optional parameters. */
+export interface DedicatedCloudNodesGetOptionalParams extends coreClient.OperationOptions {
+}
+/** Contains response data for the get operation. */
+export type DedicatedCloudNodesGetResponse = DedicatedCloudNode;
+/** Optional parameters. */
+export interface DedicatedCloudNodesCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
+    /** Delay to wait until next poll, in milliseconds. */
+    updateIntervalInMs?: number;
+    /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+    resumeFrom?: string;
+}
+/** Contains response data for the createOrUpdate operation. */
+export type DedicatedCloudNodesCreateOrUpdateResponse = DedicatedCloudNodesCreateOrUpdateHeaders & DedicatedCloudNode;
+/** Optional parameters. */
+export interface DedicatedCloudNodesDeleteOptionalParams extends coreClient.OperationOptions {
+}
+/** Optional parameters. */
+export interface DedicatedCloudNodesUpdateOptionalParams extends coreClient.OperationOptions {
+}
+/** Contains response data for the update operation. */
+export type DedicatedCloudNodesUpdateResponse = DedicatedCloudNode;
+/** Optional parameters. */
+export interface DedicatedCloudNodesListBySubscriptionNextOptionalParams extends coreClient.OperationOptions {
+}
+/** Contains response data for the listBySubscriptionNext operation. */
+export type DedicatedCloudNodesListBySubscriptionNextResponse = DedicatedCloudNodeListResponse;
+/** Optional parameters. */
+export interface DedicatedCloudNodesListByResourceGroupNextOptionalParams extends coreClient.OperationOptions {
+}
+/** Contains response data for the listByResourceGroupNext operation. */
+export type DedicatedCloudNodesListByResourceGroupNextResponse = DedicatedCloudNodeListResponse;
+/** Optional parameters. */
+export interface DedicatedCloudServicesListBySubscriptionOptionalParams extends coreClient.OperationOptions {
+    /** The filter to apply on the list operation */
+    filter?: string;
+    /** The maximum number of record sets to return */
+    top?: number;
+    /** to be used by nextLink implementation */
+    skipToken?: string;
+}
+/** Contains response data for the listBySubscription operation. */
+export type DedicatedCloudServicesListBySubscriptionResponse = DedicatedCloudServiceListResponse;
+/** Optional parameters. */
+export interface DedicatedCloudServicesListByResourceGroupOptionalParams extends coreClient.OperationOptions {
+    /** The filter to apply on the list operation */
+    filter?: string;
+    /** The maximum number of record sets to return */
+    top?: number;
+    /** to be used by nextLink implementation */
+    skipToken?: string;
+}
+/** Contains response data for the listByResourceGroup operation. */
+export type DedicatedCloudServicesListByResourceGroupResponse = DedicatedCloudServiceListResponse;
+/** Optional parameters. */
+export interface DedicatedCloudServicesGetOptionalParams extends coreClient.OperationOptions {
+}
+/** Contains response data for the get operation. */
+export type DedicatedCloudServicesGetResponse = DedicatedCloudService;
+/** Optional parameters. */
+export interface DedicatedCloudServicesCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
+}
+/** Contains response data for the createOrUpdate operation. */
+export type DedicatedCloudServicesCreateOrUpdateResponse = DedicatedCloudService;
+/** Optional parameters. */
+export interface DedicatedCloudServicesDeleteOptionalParams extends coreClient.OperationOptions {
+    /** Delay to wait until next poll, in milliseconds. */
+    updateIntervalInMs?: number;
+    /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+    resumeFrom?: string;
+}
+/** Optional parameters. */
+export interface DedicatedCloudServicesUpdateOptionalParams extends coreClient.OperationOptions {
+}
+/** Contains response data for the update operation. */
+export type DedicatedCloudServicesUpdateResponse = DedicatedCloudService;
+/** Optional parameters. */
+export interface DedicatedCloudServicesListBySubscriptionNextOptionalParams extends coreClient.OperationOptions {
+}
+/** Contains response data for the listBySubscriptionNext operation. */
+export type DedicatedCloudServicesListBySubscriptionNextResponse = DedicatedCloudServiceListResponse;
+/** Optional parameters. */
+export interface DedicatedCloudServicesListByResourceGroupNextOptionalParams extends coreClient.OperationOptions {
+}
+/** Contains response data for the listByResourceGroupNext operation. */
+export type DedicatedCloudServicesListByResourceGroupNextResponse = DedicatedCloudServiceListResponse;
+/** Optional parameters. */
+export interface SkusAvailabilityListOptionalParams extends coreClient.OperationOptions {
+    /** sku id, if no sku is passed availability for all skus will be returned */
+    skuId?: string;
+}
+/** Contains response data for the list operation. */
+export type SkusAvailabilityListResponse = SkuAvailabilityListResponse;
+/** Optional parameters. */
+export interface SkusAvailabilityListNextOptionalParams extends coreClient.OperationOptions {
+}
+/** Contains response data for the listNext operation. */
+export type SkusAvailabilityListNextResponse = SkuAvailabilityListResponse;
+/** Optional parameters. */
+export interface PrivateCloudsListOptionalParams extends coreClient.OperationOptions {
+}
+/** Contains response data for the list operation. */
+export type PrivateCloudsListResponse = PrivateCloudList;
+/** Optional parameters. */
+export interface PrivateCloudsGetOptionalParams extends coreClient.OperationOptions {
+}
+/** Contains response data for the get operation. */
+export type PrivateCloudsGetResponse = PrivateCloud;
+/** Optional parameters. */
+export interface PrivateCloudsListNextOptionalParams extends coreClient.OperationOptions {
+}
+/** Contains response data for the listNext operation. */
+export type PrivateCloudsListNextResponse = PrivateCloudList;
+/** Optional parameters. */
+export interface CustomizationPoliciesListOptionalParams extends coreClient.OperationOptions {
+    /** The filter to apply on the list operation. only type is allowed here as a filter e.g. $filter=type eq 'xxxx' */
+    filter?: string;
+}
+/** Contains response data for the list operation. */
+export type CustomizationPoliciesListOperationResponse = CustomizationPoliciesListResponse;
+/** Optional parameters. */
+export interface CustomizationPoliciesGetOptionalParams extends coreClient.OperationOptions {
+}
+/** Contains response data for the get operation. */
+export type CustomizationPoliciesGetResponse = CustomizationPolicy;
+/** Optional parameters. */
+export interface CustomizationPoliciesListNextOptionalParams extends coreClient.OperationOptions {
+}
+/** Contains response data for the listNext operation. */
+export type CustomizationPoliciesListNextResponse = CustomizationPoliciesListResponse;
+/** Optional parameters. */
+export interface ResourcePoolsListOptionalParams extends coreClient.OperationOptions {
+}
+/** Contains response data for the list operation. */
+export type ResourcePoolsListOperationResponse = ResourcePoolsListResponse;
+/** Optional parameters. */
+export interface ResourcePoolsGetOptionalParams extends coreClient.OperationOptions {
+}
+/** Contains response data for the get operation. */
+export type ResourcePoolsGetResponse = ResourcePool;
+/** Optional parameters. */
+export interface ResourcePoolsListNextOptionalParams extends coreClient.OperationOptions {
+}
+/** Contains response data for the listNext operation. */
+export type ResourcePoolsListNextResponse = ResourcePoolsListResponse;
+/** Optional parameters. */
+export interface VirtualMachineTemplatesListOptionalParams extends coreClient.OperationOptions {
+}
+/** Contains response data for the list operation. */
+export type VirtualMachineTemplatesListResponse = VirtualMachineTemplateListResponse;
+/** Optional parameters. */
+export interface VirtualMachineTemplatesGetOptionalParams extends coreClient.OperationOptions {
+}
+/** Contains response data for the get operation. */
+export type VirtualMachineTemplatesGetResponse = VirtualMachineTemplate;
+/** Optional parameters. */
+export interface VirtualMachineTemplatesListNextOptionalParams extends coreClient.OperationOptions {
+}
+/** Contains response data for the listNext operation. */
+export type VirtualMachineTemplatesListNextResponse = VirtualMachineTemplateListResponse;
+/** Optional parameters. */
+export interface VirtualNetworksListOptionalParams extends coreClient.OperationOptions {
+}
+/** Contains response data for the list operation. */
+export type VirtualNetworksListResponse = VirtualNetworkListResponse;
+/** Optional parameters. */
+export interface VirtualNetworksGetOptionalParams extends coreClient.OperationOptions {
+}
+/** Contains response data for the get operation. */
+export type VirtualNetworksGetResponse = VirtualNetwork;
+/** Optional parameters. */
+export interface VirtualNetworksListNextOptionalParams extends coreClient.OperationOptions {
+}
+/** Contains response data for the listNext operation. */
+export type VirtualNetworksListNextResponse = VirtualNetworkListResponse;
+/** Optional parameters. */
+export interface UsagesListOptionalParams extends coreClient.OperationOptions {
+    /** The filter to apply on the list operation. only name.value is allowed here as a filter e.g. $filter=name.value eq 'xxxx' */
+    filter?: string;
+}
+/** Contains response data for the list operation. */
+export type UsagesListResponse = UsageListResponse;
+/** Optional parameters. */
+export interface UsagesListNextOptionalParams extends coreClient.OperationOptions {
+}
+/** Contains response data for the listNext operation. */
+export type UsagesListNextResponse = UsageListResponse;
+/** Optional parameters. */
+export interface VirtualMachinesListBySubscriptionOptionalParams extends coreClient.OperationOptions {
+    /** The filter to apply on the list operation */
+    filter?: string;
+    /** The maximum number of record sets to return */
+    top?: number;
+    /** to be used by nextLink implementation */
+    skipToken?: string;
+}
+/** Contains response data for the listBySubscription operation. */
+export type VirtualMachinesListBySubscriptionResponse = VirtualMachineListResponse;
+/** Optional parameters. */
+export interface VirtualMachinesListByResourceGroupOptionalParams extends coreClient.OperationOptions {
+    /** The filter to apply on the list operation */
+    filter?: string;
+    /** The maximum number of record sets to return */
+    top?: number;
+    /** to be used by nextLink implementation */
+    skipToken?: string;
+}
+/** Contains response data for the listByResourceGroup operation. */
+export type VirtualMachinesListByResourceGroupResponse = VirtualMachineListResponse;
+/** Optional parameters. */
+export interface VirtualMachinesGetOptionalParams extends coreClient.OperationOptions {
+}
+/** Contains response data for the get operation. */
+export type VirtualMachinesGetResponse = VirtualMachine;
+/** Optional parameters. */
+export interface VirtualMachinesCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
+    /** Delay to wait until next poll, in milliseconds. */
+    updateIntervalInMs?: number;
+    /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+    resumeFrom?: string;
+}
+/** Contains response data for the createOrUpdate operation. */
+export type VirtualMachinesCreateOrUpdateResponse = VirtualMachinesCreateOrUpdateHeaders & VirtualMachine;
+/** Optional parameters. */
+export interface VirtualMachinesDeleteOptionalParams extends coreClient.OperationOptions {
+    /** Delay to wait until next poll, in milliseconds. */
+    updateIntervalInMs?: number;
+    /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+    resumeFrom?: string;
+}
+/** Contains response data for the delete operation. */
+export type VirtualMachinesDeleteResponse = VirtualMachinesDeleteHeaders;
+/** Optional parameters. */
+export interface VirtualMachinesUpdateOptionalParams extends coreClient.OperationOptions {
+    /** Delay to wait until next poll, in milliseconds. */
+    updateIntervalInMs?: number;
+    /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+    resumeFrom?: string;
+}
+/** Contains response data for the update operation. */
+export type VirtualMachinesUpdateResponse = VirtualMachine;
+/** Optional parameters. */
+export interface VirtualMachinesStartOptionalParams extends coreClient.OperationOptions {
+    /** Delay to wait until next poll, in milliseconds. */
+    updateIntervalInMs?: number;
+    /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+    resumeFrom?: string;
+}
+/** Optional parameters. */
+export interface VirtualMachinesStopOptionalParams extends coreClient.OperationOptions {
+    /** body stop mode parameter (reboot, shutdown, etc...) */
+    m?: VirtualMachineStopMode;
+    /** query stop mode parameter (reboot, shutdown, etc...) */
+    mode?: StopMode;
+    /** Delay to wait until next poll, in milliseconds. */
+    updateIntervalInMs?: number;
+    /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+    resumeFrom?: string;
+}
+/** Optional parameters. */
+export interface VirtualMachinesListBySubscriptionNextOptionalParams extends coreClient.OperationOptions {
+}
+/** Contains response data for the listBySubscriptionNext operation. */
+export type VirtualMachinesListBySubscriptionNextResponse = VirtualMachineListResponse;
+/** Optional parameters. */
+export interface VirtualMachinesListByResourceGroupNextOptionalParams extends coreClient.OperationOptions {
+}
+/** Contains response data for the listByResourceGroupNext operation. */
+export type VirtualMachinesListByResourceGroupNextResponse = VirtualMachineListResponse;
+/** Optional parameters. */
+export interface VMwareCloudSimpleOptionalParams extends coreClient.ServiceClientOptions {
+    /** server parameter */
+    $host?: string;
+    /** Api Version */
+    apiVersion?: string;
+    /** Overrides client endpoint. */
+    endpoint?: string;
+}
+//# sourceMappingURL=index.d.ts.map

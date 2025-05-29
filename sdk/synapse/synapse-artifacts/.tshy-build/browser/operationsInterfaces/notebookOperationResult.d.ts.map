@@ -1,0 +1,1 @@
+{"version":3,"file":"notebookOperationResult.d.ts","sourceRoot":"","sources":["../../../src/operationsInterfaces/notebookOperationResult.ts"],"names":[],"mappings":"AAQA,OAAO,KAAK,EAAE,wCAAwC,EAAE,MAAM,oBAAoB,CAAC;AAEnF,wDAAwD;AACxD,MAAM,WAAW,uBAAuB;IACtC;;;;OAIG;IACH,GAAG,CAAC,WAAW,EAAE,MAAM,EAAE,OAAO,CAAC,EAAE,wCAAwC,GAAG,OAAO,CAAC,IAAI,CAAC,CAAC;CAC7F"}

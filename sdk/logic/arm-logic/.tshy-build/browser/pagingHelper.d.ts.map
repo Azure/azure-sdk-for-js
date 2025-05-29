@@ -1,0 +1,1 @@
+{"version":3,"file":"pagingHelper.d.ts","sourceRoot":"","sources":["../../src/pagingHelper.ts"],"names":[],"mappings":"AAQA,MAAM,WAAW,QAAQ;IACvB,iBAAiB,CAAC,EAAE,MAAM,CAAC;CAC5B;AAID;;;;;;GAMG;AACH,wBAAgB,oBAAoB,CAAC,IAAI,EAAE,OAAO,GAAG,MAAM,GAAG,SAAS,CAKtE;AAED,wBAAgB,oBAAoB,CAClC,IAAI,EAAE,OAAO,EACb,iBAAiB,EAAE,MAAM,GAAG,SAAS,GACpC,IAAI,CAON"}

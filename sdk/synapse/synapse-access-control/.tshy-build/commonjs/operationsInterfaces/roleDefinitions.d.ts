@@ -1,0 +1,21 @@
+import type { RoleDefinitionsListRoleDefinitionsOptionalParams, RoleDefinitionsListRoleDefinitionsResponse, RoleDefinitionsGetRoleDefinitionByIdOptionalParams, RoleDefinitionsGetRoleDefinitionByIdResponse, RoleDefinitionsListScopesOptionalParams, RoleDefinitionsListScopesResponse } from "../models/index.js";
+/** Interface representing a RoleDefinitions. */
+export interface RoleDefinitions {
+    /**
+     * List role definitions.
+     * @param options - The options parameters.
+     */
+    listRoleDefinitions(options?: RoleDefinitionsListRoleDefinitionsOptionalParams): Promise<RoleDefinitionsListRoleDefinitionsResponse>;
+    /**
+     * Get role definition by role definition Id.
+     * @param roleDefinitionId - Synapse Built-In Role Definition Id.
+     * @param options - The options parameters.
+     */
+    getRoleDefinitionById(roleDefinitionId: string, options?: RoleDefinitionsGetRoleDefinitionByIdOptionalParams): Promise<RoleDefinitionsGetRoleDefinitionByIdResponse>;
+    /**
+     * List rbac scopes.
+     * @param options - The options parameters.
+     */
+    listScopes(options?: RoleDefinitionsListScopesOptionalParams): Promise<RoleDefinitionsListScopesResponse>;
+}
+//# sourceMappingURL=roleDefinitions.d.ts.map

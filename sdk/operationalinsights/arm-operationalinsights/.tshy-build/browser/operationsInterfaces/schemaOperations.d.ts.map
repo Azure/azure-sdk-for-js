@@ -1,0 +1,1 @@
+{"version":3,"file":"schemaOperations.d.ts","sourceRoot":"","sources":["../../../src/operationsInterfaces/schemaOperations.ts"],"names":[],"mappings":"AAQA,OAAO,EAAE,uBAAuB,EAAE,iBAAiB,EAAE,MAAM,oBAAoB,CAAC;AAEhF,iDAAiD;AACjD,MAAM,WAAW,gBAAgB;IAC/B;;;;;OAKG;IACH,GAAG,CACD,iBAAiB,EAAE,MAAM,EACzB,aAAa,EAAE,MAAM,EACrB,OAAO,CAAC,EAAE,uBAAuB,GAChC,OAAO,CAAC,iBAAiB,CAAC,CAAC;CAC/B"}

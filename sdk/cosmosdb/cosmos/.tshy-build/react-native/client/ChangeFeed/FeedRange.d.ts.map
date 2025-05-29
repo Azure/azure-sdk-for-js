@@ -1,0 +1,1 @@
+{"version":3,"file":"FeedRange.d.ts","sourceRoot":"","sources":["../../../../src/client/ChangeFeed/FeedRange.ts"],"names":[],"mappings":"AAKA;;GAEG;AACH,8BAAsB,SAAS;IAC7B;;OAEG;IACH,QAAQ,CAAC,YAAY,EAAE,MAAM,CAAC;IAC9B;;OAEG;IACH,QAAQ,CAAC,YAAY,EAAE,MAAM,CAAC;CAa/B;AAED;;;GAGG;AACH,qBAAa,iBAAkB,SAAQ,SAAS;gBAElC,YAAY,EAAE,MAAM,EAAE,YAAY,EAAE,MAAM;CAGvD"}

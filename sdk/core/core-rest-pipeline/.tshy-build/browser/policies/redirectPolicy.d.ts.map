@@ -1,0 +1,1 @@
+{"version":3,"file":"redirectPolicy.d.ts","sourceRoot":"","sources":["../../../src/policies/redirectPolicy.ts"],"names":[],"mappings":"AAGA,OAAO,KAAK,EAAE,cAAc,EAAE,MAAM,gBAAgB,CAAC;AAOrD;;GAEG;AACH,eAAO,MAAM,kBAAkB,mBAAwB,CAAC;AAExD;;GAEG;AACH,MAAM,WAAW,qBAAqB;IACpC;;;OAGG;IACH,UAAU,CAAC,EAAE,MAAM,CAAC;CACrB;AAED;;;;;GAKG;AACH,wBAAgB,cAAc,CAAC,OAAO,GAAE,qBAA0B,GAAG,cAAc,CAElF"}

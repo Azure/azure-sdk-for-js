@@ -1,0 +1,1 @@
+{"version":3,"file":"ChangeFeedPolicy.d.ts","sourceRoot":"","sources":["../../../../src/client/ChangeFeed/ChangeFeedPolicy.ts"],"names":[],"mappings":"AAEA,OAAO,KAAK,EAAE,2BAA2B,EAAE,MAAM,kCAAkC,CAAC;AACpF;;GAEG;AACH,qBAAa,gBAAgB;IACpB,iBAAiB,EAAE,MAAM,CAAC;gBAErB,iBAAiB,EAAE,2BAA2B;CAG3D"}

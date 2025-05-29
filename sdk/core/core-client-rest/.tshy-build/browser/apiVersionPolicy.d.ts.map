@@ -1,0 +1,1 @@
+{"version":3,"file":"apiVersionPolicy.d.ts","sourceRoot":"","sources":["../../src/apiVersionPolicy.ts"],"names":[],"mappings":"AAGA,OAAO,KAAK,EAAE,cAAc,EAAE,MAAM,2BAA2B,CAAC;AAChE,OAAO,KAAK,EAAE,aAAa,EAAE,MAAM,aAAa,CAAC;AAEjD,eAAO,MAAM,oBAAoB,qBAAqB,CAAC;AAEvD;;;;GAIG;AACH,wBAAgB,gBAAgB,CAAC,OAAO,EAAE,aAAa,GAAG,cAAc,CAgBvE"}

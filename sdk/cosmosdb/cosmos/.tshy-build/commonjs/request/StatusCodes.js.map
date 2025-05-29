@@ -1,0 +1,1 @@
+{"version":3,"file":"StatusCodes.js","sourceRoot":"","sources":["../../../src/request/StatusCodes.ts"],"names":[],"mappings":";AAAA,uCAAuC;AACvC,kCAAkC","sourcesContent":["// Copyright (c) Microsoft Corporation.\n// Licensed under the MIT License.\n\n/**\n * @hidden\n */\nexport type StatusCode = number;\n/**\n * @hidden\n */\nexport type SubStatusCode = number;\n"]}

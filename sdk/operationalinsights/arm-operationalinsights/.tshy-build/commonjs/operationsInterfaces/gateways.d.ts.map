@@ -1,0 +1,1 @@
+{"version":3,"file":"gateways.d.ts","sourceRoot":"","sources":["../../../src/operationsInterfaces/gateways.ts"],"names":[],"mappings":"AAQA,OAAO,EAAE,4BAA4B,EAAE,MAAM,oBAAoB,CAAC;AAElE,yCAAyC;AACzC,MAAM,WAAW,QAAQ;IACvB;;;;;;OAMG;IACH,MAAM,CACJ,iBAAiB,EAAE,MAAM,EACzB,aAAa,EAAE,MAAM,EACrB,SAAS,EAAE,MAAM,EACjB,OAAO,CAAC,EAAE,4BAA4B,GACrC,OAAO,CAAC,IAAI,CAAC,CAAC;CAClB"}

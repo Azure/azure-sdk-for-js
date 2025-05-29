@@ -1,0 +1,1 @@
+{"version":3,"file":"playwright-service-global-setup.d.ts","sourceRoot":"","sources":["../../../../src/core/global/playwright-service-global-setup.ts"],"names":[],"mappings":"AAIA,OAAO,KAAK,EAAE,UAAU,EAAE,MAAM,kBAAkB,CAAC;AAKnD,QAAA,MAAM,mCAAmC,GAAU,QAAQ,UAAU,KAAG,OAAO,CAAC,GAAG,CAWlF,CAAC;AAEF,eAAe,mCAAmC,CAAC"}

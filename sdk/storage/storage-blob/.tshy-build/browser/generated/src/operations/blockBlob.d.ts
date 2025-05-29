@@ -1,0 +1,79 @@
+import { BlockBlob } from "../operationsInterfaces/index.js";
+import * as coreRestPipeline from "@azure/core-rest-pipeline";
+import { StorageClient } from "../storageClient.js";
+import { BlockBlobUploadOptionalParams, BlockBlobUploadResponse, BlockBlobPutBlobFromUrlOptionalParams, BlockBlobPutBlobFromUrlResponse, BlockBlobStageBlockOptionalParams, BlockBlobStageBlockResponse, BlockBlobStageBlockFromURLOptionalParams, BlockBlobStageBlockFromURLResponse, BlockLookupList, BlockBlobCommitBlockListOptionalParams, BlockBlobCommitBlockListResponse, BlockListType, BlockBlobGetBlockListOptionalParams, BlockBlobGetBlockListResponse } from "../models/index.js";
+/** Class containing BlockBlob operations. */
+export declare class BlockBlobImpl implements BlockBlob {
+    private readonly client;
+    /**
+     * Initialize a new instance of the class BlockBlob class.
+     * @param client Reference to the service client
+     */
+    constructor(client: StorageClient);
+    /**
+     * The Upload Block Blob operation updates the content of an existing block blob. Updating an existing
+     * block blob overwrites any existing metadata on the blob. Partial updates are not supported with Put
+     * Blob; the content of the existing blob is overwritten with the content of the new blob. To perform a
+     * partial update of the content of a block blob, use the Put Block List operation.
+     * @param contentLength The length of the request.
+     * @param body Initial data
+     * @param options The options parameters.
+     */
+    upload(contentLength: number, body: coreRestPipeline.RequestBodyType, options?: BlockBlobUploadOptionalParams): Promise<BlockBlobUploadResponse>;
+    /**
+     * The Put Blob from URL operation creates a new Block Blob where the contents of the blob are read
+     * from a given URL.  This API is supported beginning with the 2020-04-08 version. Partial updates are
+     * not supported with Put Blob from URL; the content of an existing blob is overwritten with the
+     * content of the new blob.  To perform partial updates to a block blob’s contents using a source URL,
+     * use the Put Block from URL API in conjunction with Put Block List.
+     * @param contentLength The length of the request.
+     * @param copySource Specifies the name of the source page blob snapshot. This value is a URL of up to
+     *                   2 KB in length that specifies a page blob snapshot. The value should be URL-encoded as it would
+     *                   appear in a request URI. The source blob must either be public or must be authenticated via a shared
+     *                   access signature.
+     * @param options The options parameters.
+     */
+    putBlobFromUrl(contentLength: number, copySource: string, options?: BlockBlobPutBlobFromUrlOptionalParams): Promise<BlockBlobPutBlobFromUrlResponse>;
+    /**
+     * The Stage Block operation creates a new block to be committed as part of a blob
+     * @param blockId A valid Base64 string value that identifies the block. Prior to encoding, the string
+     *                must be less than or equal to 64 bytes in size. For a given blob, the length of the value specified
+     *                for the blockid parameter must be the same size for each block.
+     * @param contentLength The length of the request.
+     * @param body Initial data
+     * @param options The options parameters.
+     */
+    stageBlock(blockId: string, contentLength: number, body: coreRestPipeline.RequestBodyType, options?: BlockBlobStageBlockOptionalParams): Promise<BlockBlobStageBlockResponse>;
+    /**
+     * The Stage Block operation creates a new block to be committed as part of a blob where the contents
+     * are read from a URL.
+     * @param blockId A valid Base64 string value that identifies the block. Prior to encoding, the string
+     *                must be less than or equal to 64 bytes in size. For a given blob, the length of the value specified
+     *                for the blockid parameter must be the same size for each block.
+     * @param contentLength The length of the request.
+     * @param sourceUrl Specify a URL to the copy source.
+     * @param options The options parameters.
+     */
+    stageBlockFromURL(blockId: string, contentLength: number, sourceUrl: string, options?: BlockBlobStageBlockFromURLOptionalParams): Promise<BlockBlobStageBlockFromURLResponse>;
+    /**
+     * The Commit Block List operation writes a blob by specifying the list of block IDs that make up the
+     * blob. In order to be written as part of a blob, a block must have been successfully written to the
+     * server in a prior Put Block operation. You can call Put Block List to update a blob by uploading
+     * only those blocks that have changed, then committing the new and existing blocks together. You can
+     * do this by specifying whether to commit a block from the committed block list or from the
+     * uncommitted block list, or to commit the most recently uploaded version of the block, whichever list
+     * it may belong to.
+     * @param blocks Blob Blocks.
+     * @param options The options parameters.
+     */
+    commitBlockList(blocks: BlockLookupList, options?: BlockBlobCommitBlockListOptionalParams): Promise<BlockBlobCommitBlockListResponse>;
+    /**
+     * The Get Block List operation retrieves the list of blocks that have been uploaded as part of a block
+     * blob
+     * @param listType Specifies whether to return the list of committed blocks, the list of uncommitted
+     *                 blocks, or both lists together.
+     * @param options The options parameters.
+     */
+    getBlockList(listType: BlockListType, options?: BlockBlobGetBlockListOptionalParams): Promise<BlockBlobGetBlockListResponse>;
+}
+//# sourceMappingURL=blockBlob.d.ts.map

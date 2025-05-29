@@ -1,0 +1,18 @@
+{
+  "extends": "./build.json",
+  "include": [
+    "../src/**/*.ts",
+    "../src/**/*.mts",
+    "../src/**/*.tsx",
+    "../src/**/*.json"
+  ],
+  "exclude": [
+    "../src/package.json",
+    "../src/utils/encoding-browser.mts",
+    "../src/utils/env-browser.mts",
+    "../src/utils/relativePathCalculator-browser.mts"
+  ],
+  "compilerOptions": {
+    "outDir": "../.tshy-build/react-native"
+  }
+}

@@ -1,0 +1,98 @@
+import { PagedAsyncIterableIterator } from "@azure/core-paging";
+import { LocalUsersOperations } from "../operationsInterfaces/index.js";
+import { StorageManagementClient } from "../storageManagementClient.js";
+import { LocalUser, LocalUsersListOptionalParams, LocalUsersGetOptionalParams, LocalUsersGetResponse, LocalUsersCreateOrUpdateOptionalParams, LocalUsersCreateOrUpdateResponse, LocalUsersDeleteOptionalParams, LocalUsersListKeysOptionalParams, LocalUsersListKeysResponse, LocalUsersRegeneratePasswordOptionalParams, LocalUsersRegeneratePasswordResponse } from "../models/index.js";
+/** Class containing LocalUsersOperations operations. */
+export declare class LocalUsersOperationsImpl implements LocalUsersOperations {
+    private readonly client;
+    /**
+     * Initialize a new instance of the class LocalUsersOperations class.
+     * @param client Reference to the service client
+     */
+    constructor(client: StorageManagementClient);
+    /**
+     * List the local users associated with the storage account.
+     * @param resourceGroupName The name of the resource group within the user's subscription. The name is
+     *                          case insensitive.
+     * @param accountName The name of the storage account within the specified resource group. Storage
+     *                    account names must be between 3 and 24 characters in length and use numbers and lower-case letters
+     *                    only.
+     * @param options The options parameters.
+     */
+    list(resourceGroupName: string, accountName: string, options?: LocalUsersListOptionalParams): PagedAsyncIterableIterator<LocalUser>;
+    private listPagingPage;
+    private listPagingAll;
+    /**
+     * List the local users associated with the storage account.
+     * @param resourceGroupName The name of the resource group within the user's subscription. The name is
+     *                          case insensitive.
+     * @param accountName The name of the storage account within the specified resource group. Storage
+     *                    account names must be between 3 and 24 characters in length and use numbers and lower-case letters
+     *                    only.
+     * @param options The options parameters.
+     */
+    private _list;
+    /**
+     * Get the local user of the storage account by username.
+     * @param resourceGroupName The name of the resource group within the user's subscription. The name is
+     *                          case insensitive.
+     * @param accountName The name of the storage account within the specified resource group. Storage
+     *                    account names must be between 3 and 24 characters in length and use numbers and lower-case letters
+     *                    only.
+     * @param username The name of local user. The username must contain lowercase letters and numbers
+     *                 only. It must be unique only within the storage account.
+     * @param options The options parameters.
+     */
+    get(resourceGroupName: string, accountName: string, username: string, options?: LocalUsersGetOptionalParams): Promise<LocalUsersGetResponse>;
+    /**
+     * Create or update the properties of a local user associated with the storage account. Properties for
+     * NFSv3 enablement and extended groups cannot be set with other properties.
+     * @param resourceGroupName The name of the resource group within the user's subscription. The name is
+     *                          case insensitive.
+     * @param accountName The name of the storage account within the specified resource group. Storage
+     *                    account names must be between 3 and 24 characters in length and use numbers and lower-case letters
+     *                    only.
+     * @param username The name of local user. The username must contain lowercase letters and numbers
+     *                 only. It must be unique only within the storage account.
+     * @param properties The local user associated with a storage account.
+     * @param options The options parameters.
+     */
+    createOrUpdate(resourceGroupName: string, accountName: string, username: string, properties: LocalUser, options?: LocalUsersCreateOrUpdateOptionalParams): Promise<LocalUsersCreateOrUpdateResponse>;
+    /**
+     * Deletes the local user associated with the specified storage account.
+     * @param resourceGroupName The name of the resource group within the user's subscription. The name is
+     *                          case insensitive.
+     * @param accountName The name of the storage account within the specified resource group. Storage
+     *                    account names must be between 3 and 24 characters in length and use numbers and lower-case letters
+     *                    only.
+     * @param username The name of local user. The username must contain lowercase letters and numbers
+     *                 only. It must be unique only within the storage account.
+     * @param options The options parameters.
+     */
+    delete(resourceGroupName: string, accountName: string, username: string, options?: LocalUsersDeleteOptionalParams): Promise<void>;
+    /**
+     * List SSH authorized keys and shared key of the local user.
+     * @param resourceGroupName The name of the resource group within the user's subscription. The name is
+     *                          case insensitive.
+     * @param accountName The name of the storage account within the specified resource group. Storage
+     *                    account names must be between 3 and 24 characters in length and use numbers and lower-case letters
+     *                    only.
+     * @param username The name of local user. The username must contain lowercase letters and numbers
+     *                 only. It must be unique only within the storage account.
+     * @param options The options parameters.
+     */
+    listKeys(resourceGroupName: string, accountName: string, username: string, options?: LocalUsersListKeysOptionalParams): Promise<LocalUsersListKeysResponse>;
+    /**
+     * Regenerate the local user SSH password.
+     * @param resourceGroupName The name of the resource group within the user's subscription. The name is
+     *                          case insensitive.
+     * @param accountName The name of the storage account within the specified resource group. Storage
+     *                    account names must be between 3 and 24 characters in length and use numbers and lower-case letters
+     *                    only.
+     * @param username The name of local user. The username must contain lowercase letters and numbers
+     *                 only. It must be unique only within the storage account.
+     * @param options The options parameters.
+     */
+    regeneratePassword(resourceGroupName: string, accountName: string, username: string, options?: LocalUsersRegeneratePasswordOptionalParams): Promise<LocalUsersRegeneratePasswordResponse>;
+}
+//# sourceMappingURL=localUsersOperations.d.ts.map

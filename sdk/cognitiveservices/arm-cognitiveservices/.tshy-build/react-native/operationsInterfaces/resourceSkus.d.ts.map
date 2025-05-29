@@ -1,0 +1,1 @@
+{"version":3,"file":"resourceSkus.d.ts","sourceRoot":"","sources":["../../../src/operationsInterfaces/resourceSkus.ts"],"names":[],"mappings":"AAQA,OAAO,EAAE,0BAA0B,EAAE,MAAM,oBAAoB,CAAC;AAChE,OAAO,EAAE,WAAW,EAAE,8BAA8B,EAAE,MAAM,oBAAoB,CAAC;AAGjF,6CAA6C;AAC7C,MAAM,WAAW,YAAY;IAC3B;;;OAGG;IACH,IAAI,CACF,OAAO,CAAC,EAAE,8BAA8B,GACvC,0BAA0B,CAAC,WAAW,CAAC,CAAC;CAC5C"}

@@ -1,0 +1,1 @@
+{"version":3,"file":"UserDefinition.js","sourceRoot":"","sources":["../../../../src/client/User/UserDefinition.ts"],"names":[],"mappings":"","sourcesContent":["// Copyright (c) Microsoft Corporation.\n// Licensed under the MIT License.\nexport interface UserDefinition {\n  /** The id of the user. */\n  id?: string;\n}\n"]}

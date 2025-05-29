@@ -1,0 +1,1 @@
+{"version":3,"file":"TimeoutError.d.ts","sourceRoot":"","sources":["../../../src/request/TimeoutError.ts"],"names":[],"mappings":"AAEA;;GAEG;AACH,eAAO,MAAM,gBAAgB,iBAAiB,CAAC;AAE/C,qBAAa,YAAa,SAAQ,KAAK;IACrC,SAAgB,IAAI,EAAE,MAAM,CAAoB;gBACpC,OAAO,GAAE,MAAwB;CAI9C"}

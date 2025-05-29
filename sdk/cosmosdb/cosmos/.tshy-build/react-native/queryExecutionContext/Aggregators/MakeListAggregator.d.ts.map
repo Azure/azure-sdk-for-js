@@ -1,0 +1,1 @@
+{"version":3,"file":"MakeListAggregator.d.ts","sourceRoot":"","sources":["../../../../src/queryExecutionContext/Aggregators/MakeListAggregator.ts"],"names":[],"mappings":"AAEA,OAAO,KAAK,EAAE,UAAU,EAAE,MAAM,iBAAiB,CAAC;AAElD,cAAc;AACd,qBAAa,kBAAmB,YAAW,UAAU;IACnD,KAAK,EAAE,GAAG,EAAE,CAAC;;IAKN,SAAS,CAAC,KAAK,EAAE,GAAG,EAAE,GAAG,IAAI;IAK7B,SAAS,IAAI,GAAG,EAAE;CAI1B"}

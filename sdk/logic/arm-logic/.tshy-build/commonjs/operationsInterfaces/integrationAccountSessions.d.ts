@@ -1,0 +1,38 @@
+import { PagedAsyncIterableIterator } from "@azure/core-paging";
+import { IntegrationAccountSession, IntegrationAccountSessionsListOptionalParams, IntegrationAccountSessionsGetOptionalParams, IntegrationAccountSessionsGetResponse, IntegrationAccountSessionsCreateOrUpdateOptionalParams, IntegrationAccountSessionsCreateOrUpdateResponse, IntegrationAccountSessionsDeleteOptionalParams } from "../models/index.js";
+/** Interface representing a IntegrationAccountSessions. */
+export interface IntegrationAccountSessions {
+    /**
+     * Gets a list of integration account sessions.
+     * @param resourceGroupName The resource group name.
+     * @param integrationAccountName The integration account name.
+     * @param options The options parameters.
+     */
+    list(resourceGroupName: string, integrationAccountName: string, options?: IntegrationAccountSessionsListOptionalParams): PagedAsyncIterableIterator<IntegrationAccountSession>;
+    /**
+     * Gets an integration account session.
+     * @param resourceGroupName The resource group name.
+     * @param integrationAccountName The integration account name.
+     * @param sessionName The integration account session name.
+     * @param options The options parameters.
+     */
+    get(resourceGroupName: string, integrationAccountName: string, sessionName: string, options?: IntegrationAccountSessionsGetOptionalParams): Promise<IntegrationAccountSessionsGetResponse>;
+    /**
+     * Creates or updates an integration account session.
+     * @param resourceGroupName The resource group name.
+     * @param integrationAccountName The integration account name.
+     * @param sessionName The integration account session name.
+     * @param session The integration account session.
+     * @param options The options parameters.
+     */
+    createOrUpdate(resourceGroupName: string, integrationAccountName: string, sessionName: string, session: IntegrationAccountSession, options?: IntegrationAccountSessionsCreateOrUpdateOptionalParams): Promise<IntegrationAccountSessionsCreateOrUpdateResponse>;
+    /**
+     * Deletes an integration account session.
+     * @param resourceGroupName The resource group name.
+     * @param integrationAccountName The integration account name.
+     * @param sessionName The integration account session name.
+     * @param options The options parameters.
+     */
+    delete(resourceGroupName: string, integrationAccountName: string, sessionName: string, options?: IntegrationAccountSessionsDeleteOptionalParams): Promise<void>;
+}
+//# sourceMappingURL=integrationAccountSessions.d.ts.map

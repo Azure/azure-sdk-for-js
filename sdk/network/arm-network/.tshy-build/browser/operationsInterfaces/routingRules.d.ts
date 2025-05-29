@@ -1,0 +1,57 @@
+import { PagedAsyncIterableIterator } from "@azure/core-paging";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
+import { RoutingRule, RoutingRulesListOptionalParams, RoutingRulesGetOptionalParams, RoutingRulesGetResponse, RoutingRulesCreateOrUpdateOptionalParams, RoutingRulesCreateOrUpdateResponse, RoutingRulesDeleteOptionalParams } from "../models/index.js";
+/** Interface representing a RoutingRules. */
+export interface RoutingRules {
+    /**
+     * List all network manager routing configuration routing rules.
+     * @param resourceGroupName The name of the resource group. The name is case insensitive.
+     * @param networkManagerName The name of the network manager.
+     * @param configurationName The name of the network manager Routing Configuration.
+     * @param ruleCollectionName The name of the network manager routing Configuration rule collection.
+     * @param options The options parameters.
+     */
+    list(resourceGroupName: string, networkManagerName: string, configurationName: string, ruleCollectionName: string, options?: RoutingRulesListOptionalParams): PagedAsyncIterableIterator<RoutingRule>;
+    /**
+     * Gets a network manager routing configuration routing rule.
+     * @param resourceGroupName The name of the resource group. The name is case insensitive.
+     * @param networkManagerName The name of the network manager.
+     * @param configurationName The name of the network manager Routing Configuration.
+     * @param ruleCollectionName The name of the network manager routing Configuration rule collection.
+     * @param ruleName The name of the rule.
+     * @param options The options parameters.
+     */
+    get(resourceGroupName: string, networkManagerName: string, configurationName: string, ruleCollectionName: string, ruleName: string, options?: RoutingRulesGetOptionalParams): Promise<RoutingRulesGetResponse>;
+    /**
+     * Creates or updates an routing rule.
+     * @param resourceGroupName The name of the resource group. The name is case insensitive.
+     * @param networkManagerName The name of the network manager.
+     * @param configurationName The name of the network manager Routing Configuration.
+     * @param ruleCollectionName The name of the network manager routing Configuration rule collection.
+     * @param ruleName The name of the rule.
+     * @param routingRule The routing rule to create or update
+     * @param options The options parameters.
+     */
+    createOrUpdate(resourceGroupName: string, networkManagerName: string, configurationName: string, ruleCollectionName: string, ruleName: string, routingRule: RoutingRule, options?: RoutingRulesCreateOrUpdateOptionalParams): Promise<RoutingRulesCreateOrUpdateResponse>;
+    /**
+     * Deletes a routing rule.
+     * @param resourceGroupName The name of the resource group. The name is case insensitive.
+     * @param networkManagerName The name of the network manager.
+     * @param configurationName The name of the network manager Routing Configuration.
+     * @param ruleCollectionName The name of the network manager routing Configuration rule collection.
+     * @param ruleName The name of the rule.
+     * @param options The options parameters.
+     */
+    beginDelete(resourceGroupName: string, networkManagerName: string, configurationName: string, ruleCollectionName: string, ruleName: string, options?: RoutingRulesDeleteOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
+    /**
+     * Deletes a routing rule.
+     * @param resourceGroupName The name of the resource group. The name is case insensitive.
+     * @param networkManagerName The name of the network manager.
+     * @param configurationName The name of the network manager Routing Configuration.
+     * @param ruleCollectionName The name of the network manager routing Configuration rule collection.
+     * @param ruleName The name of the rule.
+     * @param options The options parameters.
+     */
+    beginDeleteAndWait(resourceGroupName: string, networkManagerName: string, configurationName: string, ruleCollectionName: string, ruleName: string, options?: RoutingRulesDeleteOptionalParams): Promise<void>;
+}
+//# sourceMappingURL=routingRules.d.ts.map

@@ -1,0 +1,56 @@
+import { PagedAsyncIterableIterator } from "@azure/core-paging";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
+import { CustomDomain, WebPubSubCustomDomainsListOptionalParams, WebPubSubCustomDomainsGetOptionalParams, WebPubSubCustomDomainsGetResponse, WebPubSubCustomDomainsCreateOrUpdateOptionalParams, WebPubSubCustomDomainsCreateOrUpdateResponse, WebPubSubCustomDomainsDeleteOptionalParams } from "../models/index.js";
+/** Interface representing a WebPubSubCustomDomains. */
+export interface WebPubSubCustomDomains {
+    /**
+     * List all custom domains.
+     * @param resourceGroupName The name of the resource group. The name is case insensitive.
+     * @param resourceName The name of the resource.
+     * @param options The options parameters.
+     */
+    list(resourceGroupName: string, resourceName: string, options?: WebPubSubCustomDomainsListOptionalParams): PagedAsyncIterableIterator<CustomDomain>;
+    /**
+     * Get a custom domain.
+     * @param resourceGroupName The name of the resource group. The name is case insensitive.
+     * @param resourceName The name of the resource.
+     * @param name Custom domain name.
+     * @param options The options parameters.
+     */
+    get(resourceGroupName: string, resourceName: string, name: string, options?: WebPubSubCustomDomainsGetOptionalParams): Promise<WebPubSubCustomDomainsGetResponse>;
+    /**
+     * Create or update a custom domain.
+     * @param resourceGroupName The name of the resource group. The name is case insensitive.
+     * @param resourceName The name of the resource.
+     * @param name Custom domain name.
+     * @param parameters A custom domain
+     * @param options The options parameters.
+     */
+    beginCreateOrUpdate(resourceGroupName: string, resourceName: string, name: string, parameters: CustomDomain, options?: WebPubSubCustomDomainsCreateOrUpdateOptionalParams): Promise<SimplePollerLike<OperationState<WebPubSubCustomDomainsCreateOrUpdateResponse>, WebPubSubCustomDomainsCreateOrUpdateResponse>>;
+    /**
+     * Create or update a custom domain.
+     * @param resourceGroupName The name of the resource group. The name is case insensitive.
+     * @param resourceName The name of the resource.
+     * @param name Custom domain name.
+     * @param parameters A custom domain
+     * @param options The options parameters.
+     */
+    beginCreateOrUpdateAndWait(resourceGroupName: string, resourceName: string, name: string, parameters: CustomDomain, options?: WebPubSubCustomDomainsCreateOrUpdateOptionalParams): Promise<WebPubSubCustomDomainsCreateOrUpdateResponse>;
+    /**
+     * Delete a custom domain.
+     * @param resourceGroupName The name of the resource group. The name is case insensitive.
+     * @param resourceName The name of the resource.
+     * @param name Custom domain name.
+     * @param options The options parameters.
+     */
+    beginDelete(resourceGroupName: string, resourceName: string, name: string, options?: WebPubSubCustomDomainsDeleteOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
+    /**
+     * Delete a custom domain.
+     * @param resourceGroupName The name of the resource group. The name is case insensitive.
+     * @param resourceName The name of the resource.
+     * @param name Custom domain name.
+     * @param options The options parameters.
+     */
+    beginDeleteAndWait(resourceGroupName: string, resourceName: string, name: string, options?: WebPubSubCustomDomainsDeleteOptionalParams): Promise<void>;
+}
+//# sourceMappingURL=webPubSubCustomDomains.d.ts.map

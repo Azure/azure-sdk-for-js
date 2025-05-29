@@ -1,0 +1,437 @@
+import { PagedAsyncIterableIterator } from "@azure/core-paging";
+import { VirtualNetworkGateways } from "../operationsInterfaces/index.js";
+import { NetworkManagementClient } from "../networkManagementClient.js";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
+import { VirtualNetworkGateway, VirtualNetworkGatewaysListOptionalParams, VirtualNetworkGatewayConnectionListEntity, VirtualNetworkGatewaysListConnectionsOptionalParams, VirtualNetworkGatewaysCreateOrUpdateOptionalParams, VirtualNetworkGatewaysCreateOrUpdateResponse, VirtualNetworkGatewaysGetOptionalParams, VirtualNetworkGatewaysGetResponse, VirtualNetworkGatewaysDeleteOptionalParams, TagsObject, VirtualNetworkGatewaysUpdateTagsOptionalParams, VirtualNetworkGatewaysUpdateTagsResponse, VirtualNetworkGatewaysResetOptionalParams, VirtualNetworkGatewaysResetResponse, VirtualNetworkGatewaysResetVpnClientSharedKeyOptionalParams, VpnClientParameters, VirtualNetworkGatewaysGeneratevpnclientpackageOptionalParams, VirtualNetworkGatewaysGeneratevpnclientpackageResponse, VirtualNetworkGatewaysGenerateVpnProfileOptionalParams, VirtualNetworkGatewaysGenerateVpnProfileResponse, VirtualNetworkGatewaysGetVpnProfilePackageUrlOptionalParams, VirtualNetworkGatewaysGetVpnProfilePackageUrlResponse, VirtualNetworkGatewaysGetBgpPeerStatusOptionalParams, VirtualNetworkGatewaysGetBgpPeerStatusResponse, VirtualNetworkGatewaysSupportedVpnDevicesOptionalParams, VirtualNetworkGatewaysSupportedVpnDevicesResponse, VirtualNetworkGatewaysGetLearnedRoutesOptionalParams, VirtualNetworkGatewaysGetLearnedRoutesResponse, VirtualNetworkGatewaysGetAdvertisedRoutesOptionalParams, VirtualNetworkGatewaysGetAdvertisedRoutesResponse, VpnClientIPsecParameters, VirtualNetworkGatewaysSetVpnclientIpsecParametersOptionalParams, VirtualNetworkGatewaysSetVpnclientIpsecParametersResponse, VirtualNetworkGatewaysGetVpnclientIpsecParametersOptionalParams, VirtualNetworkGatewaysGetVpnclientIpsecParametersResponse, VpnDeviceScriptParameters, VirtualNetworkGatewaysVpnDeviceConfigurationScriptOptionalParams, VirtualNetworkGatewaysVpnDeviceConfigurationScriptResponse, VirtualNetworkGatewaysStartPacketCaptureOptionalParams, VirtualNetworkGatewaysStartPacketCaptureResponse, VpnPacketCaptureStopParameters, VirtualNetworkGatewaysStopPacketCaptureOptionalParams, VirtualNetworkGatewaysStopPacketCaptureResponse, VirtualNetworkGatewaysGetFailoverAllTestDetailsOptionalParams, VirtualNetworkGatewaysGetFailoverAllTestDetailsResponse, VirtualNetworkGatewaysGetFailoverSingleTestDetailsOptionalParams, VirtualNetworkGatewaysGetFailoverSingleTestDetailsResponse, VirtualNetworkGatewaysStartExpressRouteSiteFailoverSimulationOptionalParams, VirtualNetworkGatewaysStartExpressRouteSiteFailoverSimulationResponse, ExpressRouteFailoverStopApiParameters, VirtualNetworkGatewaysStopExpressRouteSiteFailoverSimulationOptionalParams, VirtualNetworkGatewaysStopExpressRouteSiteFailoverSimulationResponse, VirtualNetworkGatewaysGetVpnclientConnectionHealthOptionalParams, VirtualNetworkGatewaysGetVpnclientConnectionHealthResponse, P2SVpnConnectionRequest, VirtualNetworkGatewaysDisconnectVirtualNetworkGatewayVpnConnectionsOptionalParams } from "../models/index.js";
+/** Class containing VirtualNetworkGateways operations. */
+export declare class VirtualNetworkGatewaysImpl implements VirtualNetworkGateways {
+    private readonly client;
+    /**
+     * Initialize a new instance of the class VirtualNetworkGateways class.
+     * @param client Reference to the service client
+     */
+    constructor(client: NetworkManagementClient);
+    /**
+     * Gets all virtual network gateways by resource group.
+     * @param resourceGroupName The name of the resource group.
+     * @param options The options parameters.
+     */
+    list(resourceGroupName: string, options?: VirtualNetworkGatewaysListOptionalParams): PagedAsyncIterableIterator<VirtualNetworkGateway>;
+    private listPagingPage;
+    private listPagingAll;
+    /**
+     * Gets all the connections in a virtual network gateway.
+     * @param resourceGroupName The name of the resource group.
+     * @param virtualNetworkGatewayName The name of the virtual network gateway.
+     * @param options The options parameters.
+     */
+    listConnections(resourceGroupName: string, virtualNetworkGatewayName: string, options?: VirtualNetworkGatewaysListConnectionsOptionalParams): PagedAsyncIterableIterator<VirtualNetworkGatewayConnectionListEntity>;
+    private listConnectionsPagingPage;
+    private listConnectionsPagingAll;
+    /**
+     * Creates or updates a virtual network gateway in the specified resource group.
+     * @param resourceGroupName The name of the resource group.
+     * @param virtualNetworkGatewayName The name of the virtual network gateway.
+     * @param parameters Parameters supplied to create or update virtual network gateway operation.
+     * @param options The options parameters.
+     */
+    beginCreateOrUpdate(resourceGroupName: string, virtualNetworkGatewayName: string, parameters: VirtualNetworkGateway, options?: VirtualNetworkGatewaysCreateOrUpdateOptionalParams): Promise<SimplePollerLike<OperationState<VirtualNetworkGatewaysCreateOrUpdateResponse>, VirtualNetworkGatewaysCreateOrUpdateResponse>>;
+    /**
+     * Creates or updates a virtual network gateway in the specified resource group.
+     * @param resourceGroupName The name of the resource group.
+     * @param virtualNetworkGatewayName The name of the virtual network gateway.
+     * @param parameters Parameters supplied to create or update virtual network gateway operation.
+     * @param options The options parameters.
+     */
+    beginCreateOrUpdateAndWait(resourceGroupName: string, virtualNetworkGatewayName: string, parameters: VirtualNetworkGateway, options?: VirtualNetworkGatewaysCreateOrUpdateOptionalParams): Promise<VirtualNetworkGatewaysCreateOrUpdateResponse>;
+    /**
+     * Gets the specified virtual network gateway by resource group.
+     * @param resourceGroupName The name of the resource group.
+     * @param virtualNetworkGatewayName The name of the virtual network gateway.
+     * @param options The options parameters.
+     */
+    get(resourceGroupName: string, virtualNetworkGatewayName: string, options?: VirtualNetworkGatewaysGetOptionalParams): Promise<VirtualNetworkGatewaysGetResponse>;
+    /**
+     * Deletes the specified virtual network gateway.
+     * @param resourceGroupName The name of the resource group.
+     * @param virtualNetworkGatewayName The name of the virtual network gateway.
+     * @param options The options parameters.
+     */
+    beginDelete(resourceGroupName: string, virtualNetworkGatewayName: string, options?: VirtualNetworkGatewaysDeleteOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
+    /**
+     * Deletes the specified virtual network gateway.
+     * @param resourceGroupName The name of the resource group.
+     * @param virtualNetworkGatewayName The name of the virtual network gateway.
+     * @param options The options parameters.
+     */
+    beginDeleteAndWait(resourceGroupName: string, virtualNetworkGatewayName: string, options?: VirtualNetworkGatewaysDeleteOptionalParams): Promise<void>;
+    /**
+     * Updates a virtual network gateway tags.
+     * @param resourceGroupName The name of the resource group.
+     * @param virtualNetworkGatewayName The name of the virtual network gateway.
+     * @param parameters Parameters supplied to update virtual network gateway tags.
+     * @param options The options parameters.
+     */
+    beginUpdateTags(resourceGroupName: string, virtualNetworkGatewayName: string, parameters: TagsObject, options?: VirtualNetworkGatewaysUpdateTagsOptionalParams): Promise<SimplePollerLike<OperationState<VirtualNetworkGatewaysUpdateTagsResponse>, VirtualNetworkGatewaysUpdateTagsResponse>>;
+    /**
+     * Updates a virtual network gateway tags.
+     * @param resourceGroupName The name of the resource group.
+     * @param virtualNetworkGatewayName The name of the virtual network gateway.
+     * @param parameters Parameters supplied to update virtual network gateway tags.
+     * @param options The options parameters.
+     */
+    beginUpdateTagsAndWait(resourceGroupName: string, virtualNetworkGatewayName: string, parameters: TagsObject, options?: VirtualNetworkGatewaysUpdateTagsOptionalParams): Promise<VirtualNetworkGatewaysUpdateTagsResponse>;
+    /**
+     * Gets all virtual network gateways by resource group.
+     * @param resourceGroupName The name of the resource group.
+     * @param options The options parameters.
+     */
+    private _list;
+    /**
+     * Gets all the connections in a virtual network gateway.
+     * @param resourceGroupName The name of the resource group.
+     * @param virtualNetworkGatewayName The name of the virtual network gateway.
+     * @param options The options parameters.
+     */
+    private _listConnections;
+    /**
+     * Resets the primary of the virtual network gateway in the specified resource group.
+     * @param resourceGroupName The name of the resource group.
+     * @param virtualNetworkGatewayName The name of the virtual network gateway.
+     * @param options The options parameters.
+     */
+    beginReset(resourceGroupName: string, virtualNetworkGatewayName: string, options?: VirtualNetworkGatewaysResetOptionalParams): Promise<SimplePollerLike<OperationState<VirtualNetworkGatewaysResetResponse>, VirtualNetworkGatewaysResetResponse>>;
+    /**
+     * Resets the primary of the virtual network gateway in the specified resource group.
+     * @param resourceGroupName The name of the resource group.
+     * @param virtualNetworkGatewayName The name of the virtual network gateway.
+     * @param options The options parameters.
+     */
+    beginResetAndWait(resourceGroupName: string, virtualNetworkGatewayName: string, options?: VirtualNetworkGatewaysResetOptionalParams): Promise<VirtualNetworkGatewaysResetResponse>;
+    /**
+     * Resets the VPN client shared key of the virtual network gateway in the specified resource group.
+     * @param resourceGroupName The name of the resource group.
+     * @param virtualNetworkGatewayName The name of the virtual network gateway.
+     * @param options The options parameters.
+     */
+    beginResetVpnClientSharedKey(resourceGroupName: string, virtualNetworkGatewayName: string, options?: VirtualNetworkGatewaysResetVpnClientSharedKeyOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
+    /**
+     * Resets the VPN client shared key of the virtual network gateway in the specified resource group.
+     * @param resourceGroupName The name of the resource group.
+     * @param virtualNetworkGatewayName The name of the virtual network gateway.
+     * @param options The options parameters.
+     */
+    beginResetVpnClientSharedKeyAndWait(resourceGroupName: string, virtualNetworkGatewayName: string, options?: VirtualNetworkGatewaysResetVpnClientSharedKeyOptionalParams): Promise<void>;
+    /**
+     * Generates VPN client package for P2S client of the virtual network gateway in the specified resource
+     * group.
+     * @param resourceGroupName The name of the resource group.
+     * @param virtualNetworkGatewayName The name of the virtual network gateway.
+     * @param parameters Parameters supplied to the generate virtual network gateway VPN client package
+     *                   operation.
+     * @param options The options parameters.
+     */
+    beginGeneratevpnclientpackage(resourceGroupName: string, virtualNetworkGatewayName: string, parameters: VpnClientParameters, options?: VirtualNetworkGatewaysGeneratevpnclientpackageOptionalParams): Promise<SimplePollerLike<OperationState<VirtualNetworkGatewaysGeneratevpnclientpackageResponse>, VirtualNetworkGatewaysGeneratevpnclientpackageResponse>>;
+    /**
+     * Generates VPN client package for P2S client of the virtual network gateway in the specified resource
+     * group.
+     * @param resourceGroupName The name of the resource group.
+     * @param virtualNetworkGatewayName The name of the virtual network gateway.
+     * @param parameters Parameters supplied to the generate virtual network gateway VPN client package
+     *                   operation.
+     * @param options The options parameters.
+     */
+    beginGeneratevpnclientpackageAndWait(resourceGroupName: string, virtualNetworkGatewayName: string, parameters: VpnClientParameters, options?: VirtualNetworkGatewaysGeneratevpnclientpackageOptionalParams): Promise<VirtualNetworkGatewaysGeneratevpnclientpackageResponse>;
+    /**
+     * Generates VPN profile for P2S client of the virtual network gateway in the specified resource group.
+     * Used for IKEV2 and radius based authentication.
+     * @param resourceGroupName The name of the resource group.
+     * @param virtualNetworkGatewayName The name of the virtual network gateway.
+     * @param parameters Parameters supplied to the generate virtual network gateway VPN client package
+     *                   operation.
+     * @param options The options parameters.
+     */
+    beginGenerateVpnProfile(resourceGroupName: string, virtualNetworkGatewayName: string, parameters: VpnClientParameters, options?: VirtualNetworkGatewaysGenerateVpnProfileOptionalParams): Promise<SimplePollerLike<OperationState<VirtualNetworkGatewaysGenerateVpnProfileResponse>, VirtualNetworkGatewaysGenerateVpnProfileResponse>>;
+    /**
+     * Generates VPN profile for P2S client of the virtual network gateway in the specified resource group.
+     * Used for IKEV2 and radius based authentication.
+     * @param resourceGroupName The name of the resource group.
+     * @param virtualNetworkGatewayName The name of the virtual network gateway.
+     * @param parameters Parameters supplied to the generate virtual network gateway VPN client package
+     *                   operation.
+     * @param options The options parameters.
+     */
+    beginGenerateVpnProfileAndWait(resourceGroupName: string, virtualNetworkGatewayName: string, parameters: VpnClientParameters, options?: VirtualNetworkGatewaysGenerateVpnProfileOptionalParams): Promise<VirtualNetworkGatewaysGenerateVpnProfileResponse>;
+    /**
+     * Gets pre-generated VPN profile for P2S client of the virtual network gateway in the specified
+     * resource group. The profile needs to be generated first using generateVpnProfile.
+     * @param resourceGroupName The name of the resource group.
+     * @param virtualNetworkGatewayName The name of the virtual network gateway.
+     * @param options The options parameters.
+     */
+    beginGetVpnProfilePackageUrl(resourceGroupName: string, virtualNetworkGatewayName: string, options?: VirtualNetworkGatewaysGetVpnProfilePackageUrlOptionalParams): Promise<SimplePollerLike<OperationState<VirtualNetworkGatewaysGetVpnProfilePackageUrlResponse>, VirtualNetworkGatewaysGetVpnProfilePackageUrlResponse>>;
+    /**
+     * Gets pre-generated VPN profile for P2S client of the virtual network gateway in the specified
+     * resource group. The profile needs to be generated first using generateVpnProfile.
+     * @param resourceGroupName The name of the resource group.
+     * @param virtualNetworkGatewayName The name of the virtual network gateway.
+     * @param options The options parameters.
+     */
+    beginGetVpnProfilePackageUrlAndWait(resourceGroupName: string, virtualNetworkGatewayName: string, options?: VirtualNetworkGatewaysGetVpnProfilePackageUrlOptionalParams): Promise<VirtualNetworkGatewaysGetVpnProfilePackageUrlResponse>;
+    /**
+     * The GetBgpPeerStatus operation retrieves the status of all BGP peers.
+     * @param resourceGroupName The name of the resource group.
+     * @param virtualNetworkGatewayName The name of the virtual network gateway.
+     * @param options The options parameters.
+     */
+    beginGetBgpPeerStatus(resourceGroupName: string, virtualNetworkGatewayName: string, options?: VirtualNetworkGatewaysGetBgpPeerStatusOptionalParams): Promise<SimplePollerLike<OperationState<VirtualNetworkGatewaysGetBgpPeerStatusResponse>, VirtualNetworkGatewaysGetBgpPeerStatusResponse>>;
+    /**
+     * The GetBgpPeerStatus operation retrieves the status of all BGP peers.
+     * @param resourceGroupName The name of the resource group.
+     * @param virtualNetworkGatewayName The name of the virtual network gateway.
+     * @param options The options parameters.
+     */
+    beginGetBgpPeerStatusAndWait(resourceGroupName: string, virtualNetworkGatewayName: string, options?: VirtualNetworkGatewaysGetBgpPeerStatusOptionalParams): Promise<VirtualNetworkGatewaysGetBgpPeerStatusResponse>;
+    /**
+     * Gets a xml format representation for supported vpn devices.
+     * @param resourceGroupName The name of the resource group.
+     * @param virtualNetworkGatewayName The name of the virtual network gateway.
+     * @param options The options parameters.
+     */
+    supportedVpnDevices(resourceGroupName: string, virtualNetworkGatewayName: string, options?: VirtualNetworkGatewaysSupportedVpnDevicesOptionalParams): Promise<VirtualNetworkGatewaysSupportedVpnDevicesResponse>;
+    /**
+     * This operation retrieves a list of routes the virtual network gateway has learned, including routes
+     * learned from BGP peers.
+     * @param resourceGroupName The name of the resource group.
+     * @param virtualNetworkGatewayName The name of the virtual network gateway.
+     * @param options The options parameters.
+     */
+    beginGetLearnedRoutes(resourceGroupName: string, virtualNetworkGatewayName: string, options?: VirtualNetworkGatewaysGetLearnedRoutesOptionalParams): Promise<SimplePollerLike<OperationState<VirtualNetworkGatewaysGetLearnedRoutesResponse>, VirtualNetworkGatewaysGetLearnedRoutesResponse>>;
+    /**
+     * This operation retrieves a list of routes the virtual network gateway has learned, including routes
+     * learned from BGP peers.
+     * @param resourceGroupName The name of the resource group.
+     * @param virtualNetworkGatewayName The name of the virtual network gateway.
+     * @param options The options parameters.
+     */
+    beginGetLearnedRoutesAndWait(resourceGroupName: string, virtualNetworkGatewayName: string, options?: VirtualNetworkGatewaysGetLearnedRoutesOptionalParams): Promise<VirtualNetworkGatewaysGetLearnedRoutesResponse>;
+    /**
+     * This operation retrieves a list of routes the virtual network gateway is advertising to the
+     * specified peer.
+     * @param resourceGroupName The name of the resource group.
+     * @param virtualNetworkGatewayName The name of the virtual network gateway.
+     * @param peer The IP address of the peer.
+     * @param options The options parameters.
+     */
+    beginGetAdvertisedRoutes(resourceGroupName: string, virtualNetworkGatewayName: string, peer: string, options?: VirtualNetworkGatewaysGetAdvertisedRoutesOptionalParams): Promise<SimplePollerLike<OperationState<VirtualNetworkGatewaysGetAdvertisedRoutesResponse>, VirtualNetworkGatewaysGetAdvertisedRoutesResponse>>;
+    /**
+     * This operation retrieves a list of routes the virtual network gateway is advertising to the
+     * specified peer.
+     * @param resourceGroupName The name of the resource group.
+     * @param virtualNetworkGatewayName The name of the virtual network gateway.
+     * @param peer The IP address of the peer.
+     * @param options The options parameters.
+     */
+    beginGetAdvertisedRoutesAndWait(resourceGroupName: string, virtualNetworkGatewayName: string, peer: string, options?: VirtualNetworkGatewaysGetAdvertisedRoutesOptionalParams): Promise<VirtualNetworkGatewaysGetAdvertisedRoutesResponse>;
+    /**
+     * The Set VpnclientIpsecParameters operation sets the vpnclient ipsec policy for P2S client of virtual
+     * network gateway in the specified resource group through Network resource provider.
+     * @param resourceGroupName The name of the resource group.
+     * @param virtualNetworkGatewayName The name of the virtual network gateway.
+     * @param vpnclientIpsecParams Parameters supplied to the Begin Set vpnclient ipsec parameters of
+     *                             Virtual Network Gateway P2S client operation through Network resource provider.
+     * @param options The options parameters.
+     */
+    beginSetVpnclientIpsecParameters(resourceGroupName: string, virtualNetworkGatewayName: string, vpnclientIpsecParams: VpnClientIPsecParameters, options?: VirtualNetworkGatewaysSetVpnclientIpsecParametersOptionalParams): Promise<SimplePollerLike<OperationState<VirtualNetworkGatewaysSetVpnclientIpsecParametersResponse>, VirtualNetworkGatewaysSetVpnclientIpsecParametersResponse>>;
+    /**
+     * The Set VpnclientIpsecParameters operation sets the vpnclient ipsec policy for P2S client of virtual
+     * network gateway in the specified resource group through Network resource provider.
+     * @param resourceGroupName The name of the resource group.
+     * @param virtualNetworkGatewayName The name of the virtual network gateway.
+     * @param vpnclientIpsecParams Parameters supplied to the Begin Set vpnclient ipsec parameters of
+     *                             Virtual Network Gateway P2S client operation through Network resource provider.
+     * @param options The options parameters.
+     */
+    beginSetVpnclientIpsecParametersAndWait(resourceGroupName: string, virtualNetworkGatewayName: string, vpnclientIpsecParams: VpnClientIPsecParameters, options?: VirtualNetworkGatewaysSetVpnclientIpsecParametersOptionalParams): Promise<VirtualNetworkGatewaysSetVpnclientIpsecParametersResponse>;
+    /**
+     * The Get VpnclientIpsecParameters operation retrieves information about the vpnclient ipsec policy
+     * for P2S client of virtual network gateway in the specified resource group through Network resource
+     * provider.
+     * @param resourceGroupName The name of the resource group.
+     * @param virtualNetworkGatewayName The virtual network gateway name.
+     * @param options The options parameters.
+     */
+    beginGetVpnclientIpsecParameters(resourceGroupName: string, virtualNetworkGatewayName: string, options?: VirtualNetworkGatewaysGetVpnclientIpsecParametersOptionalParams): Promise<SimplePollerLike<OperationState<VirtualNetworkGatewaysGetVpnclientIpsecParametersResponse>, VirtualNetworkGatewaysGetVpnclientIpsecParametersResponse>>;
+    /**
+     * The Get VpnclientIpsecParameters operation retrieves information about the vpnclient ipsec policy
+     * for P2S client of virtual network gateway in the specified resource group through Network resource
+     * provider.
+     * @param resourceGroupName The name of the resource group.
+     * @param virtualNetworkGatewayName The virtual network gateway name.
+     * @param options The options parameters.
+     */
+    beginGetVpnclientIpsecParametersAndWait(resourceGroupName: string, virtualNetworkGatewayName: string, options?: VirtualNetworkGatewaysGetVpnclientIpsecParametersOptionalParams): Promise<VirtualNetworkGatewaysGetVpnclientIpsecParametersResponse>;
+    /**
+     * Gets a xml format representation for vpn device configuration script.
+     * @param resourceGroupName The name of the resource group.
+     * @param virtualNetworkGatewayConnectionName The name of the virtual network gateway connection for
+     *                                            which the configuration script is generated.
+     * @param parameters Parameters supplied to the generate vpn device script operation.
+     * @param options The options parameters.
+     */
+    vpnDeviceConfigurationScript(resourceGroupName: string, virtualNetworkGatewayConnectionName: string, parameters: VpnDeviceScriptParameters, options?: VirtualNetworkGatewaysVpnDeviceConfigurationScriptOptionalParams): Promise<VirtualNetworkGatewaysVpnDeviceConfigurationScriptResponse>;
+    /**
+     * Starts packet capture on virtual network gateway in the specified resource group.
+     * @param resourceGroupName The name of the resource group.
+     * @param virtualNetworkGatewayName The name of the virtual network gateway.
+     * @param options The options parameters.
+     */
+    beginStartPacketCapture(resourceGroupName: string, virtualNetworkGatewayName: string, options?: VirtualNetworkGatewaysStartPacketCaptureOptionalParams): Promise<SimplePollerLike<OperationState<VirtualNetworkGatewaysStartPacketCaptureResponse>, VirtualNetworkGatewaysStartPacketCaptureResponse>>;
+    /**
+     * Starts packet capture on virtual network gateway in the specified resource group.
+     * @param resourceGroupName The name of the resource group.
+     * @param virtualNetworkGatewayName The name of the virtual network gateway.
+     * @param options The options parameters.
+     */
+    beginStartPacketCaptureAndWait(resourceGroupName: string, virtualNetworkGatewayName: string, options?: VirtualNetworkGatewaysStartPacketCaptureOptionalParams): Promise<VirtualNetworkGatewaysStartPacketCaptureResponse>;
+    /**
+     * Stops packet capture on virtual network gateway in the specified resource group.
+     * @param resourceGroupName The name of the resource group.
+     * @param virtualNetworkGatewayName The name of the virtual network gateway.
+     * @param parameters Virtual network gateway packet capture parameters supplied to stop packet capture
+     *                   on gateway.
+     * @param options The options parameters.
+     */
+    beginStopPacketCapture(resourceGroupName: string, virtualNetworkGatewayName: string, parameters: VpnPacketCaptureStopParameters, options?: VirtualNetworkGatewaysStopPacketCaptureOptionalParams): Promise<SimplePollerLike<OperationState<VirtualNetworkGatewaysStopPacketCaptureResponse>, VirtualNetworkGatewaysStopPacketCaptureResponse>>;
+    /**
+     * Stops packet capture on virtual network gateway in the specified resource group.
+     * @param resourceGroupName The name of the resource group.
+     * @param virtualNetworkGatewayName The name of the virtual network gateway.
+     * @param parameters Virtual network gateway packet capture parameters supplied to stop packet capture
+     *                   on gateway.
+     * @param options The options parameters.
+     */
+    beginStopPacketCaptureAndWait(resourceGroupName: string, virtualNetworkGatewayName: string, parameters: VpnPacketCaptureStopParameters, options?: VirtualNetworkGatewaysStopPacketCaptureOptionalParams): Promise<VirtualNetworkGatewaysStopPacketCaptureResponse>;
+    /**
+     * This operation retrieves the details of all the failover tests performed on the gateway for
+     * different peering locations
+     * @param resourceGroupName The name of the resource group.
+     * @param virtualNetworkGatewayName The name of the virtual network gateway.
+     * @param typeParam The type of failover test
+     * @param fetchLatest Fetch only the latest tests for each peering location
+     * @param options The options parameters.
+     */
+    beginGetFailoverAllTestDetails(resourceGroupName: string, virtualNetworkGatewayName: string, typeParam: string, fetchLatest: boolean, options?: VirtualNetworkGatewaysGetFailoverAllTestDetailsOptionalParams): Promise<SimplePollerLike<OperationState<VirtualNetworkGatewaysGetFailoverAllTestDetailsResponse>, VirtualNetworkGatewaysGetFailoverAllTestDetailsResponse>>;
+    /**
+     * This operation retrieves the details of all the failover tests performed on the gateway for
+     * different peering locations
+     * @param resourceGroupName The name of the resource group.
+     * @param virtualNetworkGatewayName The name of the virtual network gateway.
+     * @param typeParam The type of failover test
+     * @param fetchLatest Fetch only the latest tests for each peering location
+     * @param options The options parameters.
+     */
+    beginGetFailoverAllTestDetailsAndWait(resourceGroupName: string, virtualNetworkGatewayName: string, typeParam: string, fetchLatest: boolean, options?: VirtualNetworkGatewaysGetFailoverAllTestDetailsOptionalParams): Promise<VirtualNetworkGatewaysGetFailoverAllTestDetailsResponse>;
+    /**
+     * This operation retrieves the details of a particular failover test performed on the gateway based on
+     * the test Guid
+     * @param resourceGroupName The name of the resource group.
+     * @param virtualNetworkGatewayName The name of the virtual network gateway.
+     * @param peeringLocation Peering location of the test
+     * @param failoverTestId The unique Guid value which identifies the test
+     * @param options The options parameters.
+     */
+    beginGetFailoverSingleTestDetails(resourceGroupName: string, virtualNetworkGatewayName: string, peeringLocation: string, failoverTestId: string, options?: VirtualNetworkGatewaysGetFailoverSingleTestDetailsOptionalParams): Promise<SimplePollerLike<OperationState<VirtualNetworkGatewaysGetFailoverSingleTestDetailsResponse>, VirtualNetworkGatewaysGetFailoverSingleTestDetailsResponse>>;
+    /**
+     * This operation retrieves the details of a particular failover test performed on the gateway based on
+     * the test Guid
+     * @param resourceGroupName The name of the resource group.
+     * @param virtualNetworkGatewayName The name of the virtual network gateway.
+     * @param peeringLocation Peering location of the test
+     * @param failoverTestId The unique Guid value which identifies the test
+     * @param options The options parameters.
+     */
+    beginGetFailoverSingleTestDetailsAndWait(resourceGroupName: string, virtualNetworkGatewayName: string, peeringLocation: string, failoverTestId: string, options?: VirtualNetworkGatewaysGetFailoverSingleTestDetailsOptionalParams): Promise<VirtualNetworkGatewaysGetFailoverSingleTestDetailsResponse>;
+    /**
+     * This operation starts failover simulation on the gateway for the specified peering location
+     * @param resourceGroupName The name of the resource group.
+     * @param virtualNetworkGatewayName The name of the virtual network gateway.
+     * @param peeringLocation Peering location of the test
+     * @param options The options parameters.
+     */
+    beginStartExpressRouteSiteFailoverSimulation(resourceGroupName: string, virtualNetworkGatewayName: string, peeringLocation: string, options?: VirtualNetworkGatewaysStartExpressRouteSiteFailoverSimulationOptionalParams): Promise<SimplePollerLike<OperationState<VirtualNetworkGatewaysStartExpressRouteSiteFailoverSimulationResponse>, VirtualNetworkGatewaysStartExpressRouteSiteFailoverSimulationResponse>>;
+    /**
+     * This operation starts failover simulation on the gateway for the specified peering location
+     * @param resourceGroupName The name of the resource group.
+     * @param virtualNetworkGatewayName The name of the virtual network gateway.
+     * @param peeringLocation Peering location of the test
+     * @param options The options parameters.
+     */
+    beginStartExpressRouteSiteFailoverSimulationAndWait(resourceGroupName: string, virtualNetworkGatewayName: string, peeringLocation: string, options?: VirtualNetworkGatewaysStartExpressRouteSiteFailoverSimulationOptionalParams): Promise<VirtualNetworkGatewaysStartExpressRouteSiteFailoverSimulationResponse>;
+    /**
+     * This operation stops failover simulation on the gateway for the specified peering location
+     * @param resourceGroupName The name of the resource group.
+     * @param virtualNetworkGatewayName The name of the virtual network gateway.
+     * @param stopParameters Virtual network gateway stop simulation parameters supplied to stop failover
+     *                       simulation on gateway.
+     * @param options The options parameters.
+     */
+    beginStopExpressRouteSiteFailoverSimulation(resourceGroupName: string, virtualNetworkGatewayName: string, stopParameters: ExpressRouteFailoverStopApiParameters, options?: VirtualNetworkGatewaysStopExpressRouteSiteFailoverSimulationOptionalParams): Promise<SimplePollerLike<OperationState<VirtualNetworkGatewaysStopExpressRouteSiteFailoverSimulationResponse>, VirtualNetworkGatewaysStopExpressRouteSiteFailoverSimulationResponse>>;
+    /**
+     * This operation stops failover simulation on the gateway for the specified peering location
+     * @param resourceGroupName The name of the resource group.
+     * @param virtualNetworkGatewayName The name of the virtual network gateway.
+     * @param stopParameters Virtual network gateway stop simulation parameters supplied to stop failover
+     *                       simulation on gateway.
+     * @param options The options parameters.
+     */
+    beginStopExpressRouteSiteFailoverSimulationAndWait(resourceGroupName: string, virtualNetworkGatewayName: string, stopParameters: ExpressRouteFailoverStopApiParameters, options?: VirtualNetworkGatewaysStopExpressRouteSiteFailoverSimulationOptionalParams): Promise<VirtualNetworkGatewaysStopExpressRouteSiteFailoverSimulationResponse>;
+    /**
+     * Get VPN client connection health detail per P2S client connection of the virtual network gateway in
+     * the specified resource group.
+     * @param resourceGroupName The name of the resource group.
+     * @param virtualNetworkGatewayName The name of the virtual network gateway.
+     * @param options The options parameters.
+     */
+    beginGetVpnclientConnectionHealth(resourceGroupName: string, virtualNetworkGatewayName: string, options?: VirtualNetworkGatewaysGetVpnclientConnectionHealthOptionalParams): Promise<SimplePollerLike<OperationState<VirtualNetworkGatewaysGetVpnclientConnectionHealthResponse>, VirtualNetworkGatewaysGetVpnclientConnectionHealthResponse>>;
+    /**
+     * Get VPN client connection health detail per P2S client connection of the virtual network gateway in
+     * the specified resource group.
+     * @param resourceGroupName The name of the resource group.
+     * @param virtualNetworkGatewayName The name of the virtual network gateway.
+     * @param options The options parameters.
+     */
+    beginGetVpnclientConnectionHealthAndWait(resourceGroupName: string, virtualNetworkGatewayName: string, options?: VirtualNetworkGatewaysGetVpnclientConnectionHealthOptionalParams): Promise<VirtualNetworkGatewaysGetVpnclientConnectionHealthResponse>;
+    /**
+     * Disconnect vpn connections of virtual network gateway in the specified resource group.
+     * @param resourceGroupName The name of the resource group.
+     * @param virtualNetworkGatewayName The name of the virtual network gateway.
+     * @param request The parameters are supplied to disconnect vpn connections.
+     * @param options The options parameters.
+     */
+    beginDisconnectVirtualNetworkGatewayVpnConnections(resourceGroupName: string, virtualNetworkGatewayName: string, request: P2SVpnConnectionRequest, options?: VirtualNetworkGatewaysDisconnectVirtualNetworkGatewayVpnConnectionsOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
+    /**
+     * Disconnect vpn connections of virtual network gateway in the specified resource group.
+     * @param resourceGroupName The name of the resource group.
+     * @param virtualNetworkGatewayName The name of the virtual network gateway.
+     * @param request The parameters are supplied to disconnect vpn connections.
+     * @param options The options parameters.
+     */
+    beginDisconnectVirtualNetworkGatewayVpnConnectionsAndWait(resourceGroupName: string, virtualNetworkGatewayName: string, request: P2SVpnConnectionRequest, options?: VirtualNetworkGatewaysDisconnectVirtualNetworkGatewayVpnConnectionsOptionalParams): Promise<void>;
+    /**
+     * ListNext
+     * @param resourceGroupName The name of the resource group.
+     * @param nextLink The nextLink from the previous successful call to the List method.
+     * @param options The options parameters.
+     */
+    private _listNext;
+    /**
+     * ListConnectionsNext
+     * @param resourceGroupName The name of the resource group.
+     * @param virtualNetworkGatewayName The name of the virtual network gateway.
+     * @param nextLink The nextLink from the previous successful call to the ListConnections method.
+     * @param options The options parameters.
+     */
+    private _listConnectionsNext;
+}
+//# sourceMappingURL=virtualNetworkGateways.d.ts.map

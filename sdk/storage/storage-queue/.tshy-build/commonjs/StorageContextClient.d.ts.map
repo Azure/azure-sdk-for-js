@@ -1,0 +1,1 @@
+{"version":3,"file":"StorageContextClient.d.ts","sourceRoot":"","sources":["../../src/StorageContextClient.ts"],"names":[],"mappings":"AAGA,OAAO,KAAK,EAAE,kBAAkB,EAAE,aAAa,EAAE,MAAM,oBAAoB,CAAC;AAC5E,OAAO,EAAE,aAAa,EAAE,MAAM,0BAA0B,CAAC;AAEzD;;GAEG;AACH,qBAAa,oBAAqB,SAAQ,aAAa;IAC/C,oBAAoB,CAAC,CAAC,EAC1B,kBAAkB,EAAE,kBAAkB,EACtC,aAAa,EAAE,aAAa,GAC3B,OAAO,CAAC,CAAC,CAAC;CAYd"}

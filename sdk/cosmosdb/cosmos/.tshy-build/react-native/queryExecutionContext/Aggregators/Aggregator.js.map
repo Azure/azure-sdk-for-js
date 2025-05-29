@@ -1,0 +1,1 @@
+{"version":3,"file":"Aggregator.js","sourceRoot":"","sources":["../../../../src/queryExecutionContext/Aggregators/Aggregator.ts"],"names":[],"mappings":"","sourcesContent":["// Copyright (c) Microsoft Corporation.\n// Licensed under the MIT License.\n/** @hidden */\nexport interface Aggregator {\n  aggregate: (other: any) => void;\n  getResult: () => any;\n}\n"]}

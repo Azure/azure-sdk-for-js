@@ -1,0 +1,49 @@
+import { PagedAsyncIterableIterator } from "@azure/core-paging";
+import { IntegrationAccountMap, IntegrationAccountMapsListOptionalParams, IntegrationAccountMapsGetOptionalParams, IntegrationAccountMapsGetResponse, IntegrationAccountMapsCreateOrUpdateOptionalParams, IntegrationAccountMapsCreateOrUpdateResponse, IntegrationAccountMapsDeleteOptionalParams, GetCallbackUrlParameters, IntegrationAccountMapsListContentCallbackUrlOptionalParams, IntegrationAccountMapsListContentCallbackUrlResponse } from "../models/index.js";
+/** Interface representing a IntegrationAccountMaps. */
+export interface IntegrationAccountMaps {
+    /**
+     * Gets a list of integration account maps.
+     * @param resourceGroupName The resource group name.
+     * @param integrationAccountName The integration account name.
+     * @param options The options parameters.
+     */
+    list(resourceGroupName: string, integrationAccountName: string, options?: IntegrationAccountMapsListOptionalParams): PagedAsyncIterableIterator<IntegrationAccountMap>;
+    /**
+     * Gets an integration account map.
+     * @param resourceGroupName The resource group name.
+     * @param integrationAccountName The integration account name.
+     * @param mapName The integration account map name.
+     * @param options The options parameters.
+     */
+    get(resourceGroupName: string, integrationAccountName: string, mapName: string, options?: IntegrationAccountMapsGetOptionalParams): Promise<IntegrationAccountMapsGetResponse>;
+    /**
+     * Creates or updates an integration account map. If the map is larger than 4 MB, you need to store the
+     * map in an Azure blob and use the blob's Shared Access Signature (SAS) URL as the 'contentLink'
+     * property value.
+     * @param resourceGroupName The resource group name.
+     * @param integrationAccountName The integration account name.
+     * @param mapName The integration account map name.
+     * @param map The integration account map.
+     * @param options The options parameters.
+     */
+    createOrUpdate(resourceGroupName: string, integrationAccountName: string, mapName: string, map: IntegrationAccountMap, options?: IntegrationAccountMapsCreateOrUpdateOptionalParams): Promise<IntegrationAccountMapsCreateOrUpdateResponse>;
+    /**
+     * Deletes an integration account map.
+     * @param resourceGroupName The resource group name.
+     * @param integrationAccountName The integration account name.
+     * @param mapName The integration account map name.
+     * @param options The options parameters.
+     */
+    delete(resourceGroupName: string, integrationAccountName: string, mapName: string, options?: IntegrationAccountMapsDeleteOptionalParams): Promise<void>;
+    /**
+     * Get the content callback url.
+     * @param resourceGroupName The resource group name.
+     * @param integrationAccountName The integration account name.
+     * @param mapName The integration account map name.
+     * @param listContentCallbackUrl The callback url parameters.
+     * @param options The options parameters.
+     */
+    listContentCallbackUrl(resourceGroupName: string, integrationAccountName: string, mapName: string, listContentCallbackUrl: GetCallbackUrlParameters, options?: IntegrationAccountMapsListContentCallbackUrlOptionalParams): Promise<IntegrationAccountMapsListContentCallbackUrlResponse>;
+}
+//# sourceMappingURL=integrationAccountMaps.d.ts.map

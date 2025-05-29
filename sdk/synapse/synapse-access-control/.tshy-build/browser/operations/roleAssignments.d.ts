@@ -1,0 +1,55 @@
+import type { PagedAsyncIterableIterator } from "@azure/core-paging";
+import type { RoleAssignments } from "../operationsInterfaces/index.js";
+import type { AccessControlClient } from "../accessControlClient.js";
+import type { RoleAssignmentDetails, RoleAssignmentsListRoleAssignmentsOptionalParams, SubjectInfo, RequiredAction, RoleAssignmentsCheckPrincipalAccessOptionalParams, RoleAssignmentsCheckPrincipalAccessResponse, RoleAssignmentsCreateRoleAssignmentOptionalParams, RoleAssignmentsCreateRoleAssignmentResponse, RoleAssignmentsGetRoleAssignmentByIdOptionalParams, RoleAssignmentsGetRoleAssignmentByIdResponse, RoleAssignmentsDeleteRoleAssignmentByIdOptionalParams } from "../models/index.js";
+/** Class containing RoleAssignments operations. */
+export declare class RoleAssignmentsImpl implements RoleAssignments {
+    private readonly client;
+    /**
+     * Initialize a new instance of the class RoleAssignments class.
+     * @param client - Reference to the service client
+     */
+    constructor(client: AccessControlClient);
+    /**
+     * List role assignments.
+     * @param options - The options parameters.
+     */
+    listRoleAssignments(options?: RoleAssignmentsListRoleAssignmentsOptionalParams): PagedAsyncIterableIterator<RoleAssignmentDetails>;
+    private listRoleAssignmentsPagingPage;
+    private listRoleAssignmentsPagingAll;
+    /**
+     * Check if the given principalId has access to perform list of actions at a given scope.
+     * @param subject - Subject details
+     * @param actions - List of actions.
+     * @param scope - - Scope at which the check access is done.
+     * @param options - The options parameters.
+     */
+    checkPrincipalAccess(subject: SubjectInfo, actions: RequiredAction[], scope: string, options?: RoleAssignmentsCheckPrincipalAccessOptionalParams): Promise<RoleAssignmentsCheckPrincipalAccessResponse>;
+    /**
+     * List role assignments.
+     * @param options - The options parameters.
+     */
+    private _listRoleAssignments;
+    /**
+     * Create role assignment.
+     * @param roleAssignmentId - The ID of the role assignment.
+     * @param roleId - Role ID of the Synapse Built-In Role
+     * @param principalId - Object ID of the AAD principal or security-group
+     * @param scope - Scope at which the role assignment is created
+     * @param options - The options parameters.
+     */
+    createRoleAssignment(roleAssignmentId: string, roleId: string, principalId: string, scope: string, options?: RoleAssignmentsCreateRoleAssignmentOptionalParams): Promise<RoleAssignmentsCreateRoleAssignmentResponse>;
+    /**
+     * Get role assignment by role assignment Id.
+     * @param roleAssignmentId - The ID of the role assignment.
+     * @param options - The options parameters.
+     */
+    getRoleAssignmentById(roleAssignmentId: string, options?: RoleAssignmentsGetRoleAssignmentByIdOptionalParams): Promise<RoleAssignmentsGetRoleAssignmentByIdResponse>;
+    /**
+     * Delete role assignment by role assignment Id.
+     * @param roleAssignmentId - The ID of the role assignment.
+     * @param options - The options parameters.
+     */
+    deleteRoleAssignmentById(roleAssignmentId: string, options?: RoleAssignmentsDeleteRoleAssignmentByIdOptionalParams): Promise<void>;
+}
+//# sourceMappingURL=roleAssignments.d.ts.map

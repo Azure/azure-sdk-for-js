@@ -1,0 +1,25 @@
+{
+  "extends": "./build.json",
+  "include": [
+    "../src/**/*.ts",
+    "../src/**/*.cts",
+    "../src/**/*.tsx",
+    "../src/**/*.json"
+  ],
+  "exclude": [
+    "../src/**/*.mts",
+    "../src/package.json",
+    "../src/BatchUtils-browser.mts",
+    "../src/BlobDownloadResponse-browser.mts",
+    "../src/BlobQueryResponse-browser.mts",
+    "../src/credentials/StorageSharedKeyCredential-browser.mts",
+    "../src/credentials/UserDelegationKeyCredential-browser.mts",
+    "../src/index-browser.mts",
+    "../src/policies/StorageCorrectContentLengthPolicy-browser.mts",
+    "../src/policies/StorageSharedKeyCredentialPolicyV2-browser.mts",
+    "../src/utils/utils-browser.mts"
+  ],
+  "compilerOptions": {
+    "outDir": "../.tshy-build/commonjs"
+  }
+}

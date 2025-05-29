@@ -1,0 +1,1 @@
+{"version":3,"file":"StaticValueAggregator.d.ts","sourceRoot":"","sources":["../../../../src/queryExecutionContext/Aggregators/StaticValueAggregator.ts"],"names":[],"mappings":"AAEA,OAAO,KAAK,EAAE,UAAU,EAAE,MAAM,iBAAiB,CAAC;AAElD,cAAc;AACd,qBAAa,qBAAsB,YAAW,UAAU;IAC/C,KAAK,EAAE,GAAG,CAAC;IACX,SAAS,CAAC,KAAK,EAAE,OAAO,GAAG,IAAI;IAM/B,SAAS,IAAI,GAAG;CAGxB"}

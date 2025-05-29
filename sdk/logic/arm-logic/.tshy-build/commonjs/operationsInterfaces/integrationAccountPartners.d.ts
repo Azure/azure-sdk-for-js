@@ -1,0 +1,47 @@
+import { PagedAsyncIterableIterator } from "@azure/core-paging";
+import { IntegrationAccountPartner, IntegrationAccountPartnersListOptionalParams, IntegrationAccountPartnersGetOptionalParams, IntegrationAccountPartnersGetResponse, IntegrationAccountPartnersCreateOrUpdateOptionalParams, IntegrationAccountPartnersCreateOrUpdateResponse, IntegrationAccountPartnersDeleteOptionalParams, GetCallbackUrlParameters, IntegrationAccountPartnersListContentCallbackUrlOptionalParams, IntegrationAccountPartnersListContentCallbackUrlResponse } from "../models/index.js";
+/** Interface representing a IntegrationAccountPartners. */
+export interface IntegrationAccountPartners {
+    /**
+     * Gets a list of integration account partners.
+     * @param resourceGroupName The resource group name.
+     * @param integrationAccountName The integration account name.
+     * @param options The options parameters.
+     */
+    list(resourceGroupName: string, integrationAccountName: string, options?: IntegrationAccountPartnersListOptionalParams): PagedAsyncIterableIterator<IntegrationAccountPartner>;
+    /**
+     * Gets an integration account partner.
+     * @param resourceGroupName The resource group name.
+     * @param integrationAccountName The integration account name.
+     * @param partnerName The integration account partner name.
+     * @param options The options parameters.
+     */
+    get(resourceGroupName: string, integrationAccountName: string, partnerName: string, options?: IntegrationAccountPartnersGetOptionalParams): Promise<IntegrationAccountPartnersGetResponse>;
+    /**
+     * Creates or updates an integration account partner.
+     * @param resourceGroupName The resource group name.
+     * @param integrationAccountName The integration account name.
+     * @param partnerName The integration account partner name.
+     * @param partner The integration account partner.
+     * @param options The options parameters.
+     */
+    createOrUpdate(resourceGroupName: string, integrationAccountName: string, partnerName: string, partner: IntegrationAccountPartner, options?: IntegrationAccountPartnersCreateOrUpdateOptionalParams): Promise<IntegrationAccountPartnersCreateOrUpdateResponse>;
+    /**
+     * Deletes an integration account partner.
+     * @param resourceGroupName The resource group name.
+     * @param integrationAccountName The integration account name.
+     * @param partnerName The integration account partner name.
+     * @param options The options parameters.
+     */
+    delete(resourceGroupName: string, integrationAccountName: string, partnerName: string, options?: IntegrationAccountPartnersDeleteOptionalParams): Promise<void>;
+    /**
+     * Get the content callback url.
+     * @param resourceGroupName The resource group name.
+     * @param integrationAccountName The integration account name.
+     * @param partnerName The integration account partner name.
+     * @param listContentCallbackUrl The callback url parameters.
+     * @param options The options parameters.
+     */
+    listContentCallbackUrl(resourceGroupName: string, integrationAccountName: string, partnerName: string, listContentCallbackUrl: GetCallbackUrlParameters, options?: IntegrationAccountPartnersListContentCallbackUrlOptionalParams): Promise<IntegrationAccountPartnersListContentCallbackUrlResponse>;
+}
+//# sourceMappingURL=integrationAccountPartners.d.ts.map

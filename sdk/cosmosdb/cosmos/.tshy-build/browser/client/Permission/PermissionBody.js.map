@@ -1,0 +1,1 @@
+{"version":3,"file":"PermissionBody.js","sourceRoot":"","sources":["../../../../src/client/Permission/PermissionBody.ts"],"names":[],"mappings":"","sourcesContent":["// Copyright (c) Microsoft Corporation.\n// Licensed under the MIT License.\nexport interface PermissionBody {\n  /** System generated resource token for the particular resource and user */\n  _token: string;\n}\n"]}

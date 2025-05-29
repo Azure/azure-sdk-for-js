@@ -1,0 +1,1 @@
+{"version":3,"file":"fetcherAbstract.d.ts","sourceRoot":"","sources":["../../src/fetcherAbstract.ts"],"names":[],"mappings":"AAGA,OAAO,KAAK,EAAE,gBAAgB,EAAE,MAAM,oBAAoB,CAAC;AAC3D,OAAO,KAAK,EAAE,IAAI,EAAE,MAAM,iBAAiB,CAAC;AAE5C;;;;GAIG;AACH,MAAM,WAAW,OAAO;IACtB,KAAK,CAAC,IAAI,EAAE,MAAM,EAAE,OAAO,CAAC,EAAE,gBAAgB,GAAG,OAAO,CAAC,IAAI,GAAG,IAAI,EAAE,CAAC,CAAC;CACzE"}

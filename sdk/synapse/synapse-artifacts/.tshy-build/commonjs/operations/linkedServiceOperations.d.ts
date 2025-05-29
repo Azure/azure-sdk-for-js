@@ -1,0 +1,80 @@
+import type { PagedAsyncIterableIterator } from "@azure/core-paging";
+import type { LinkedServiceOperations } from "../operationsInterfaces/index.js";
+import type { ArtifactsClient } from "../artifactsClient.js";
+import type { SimplePollerLike, OperationState } from "@azure/core-lro";
+import type { LinkedServiceResource, LinkedServiceGetLinkedServicesByWorkspaceOptionalParams, LinkedServiceCreateOrUpdateLinkedServiceOptionalParams, LinkedServiceCreateOrUpdateLinkedServiceResponse, LinkedServiceGetLinkedServiceOptionalParams, LinkedServiceGetLinkedServiceResponse, LinkedServiceDeleteLinkedServiceOptionalParams, ArtifactRenameRequest, LinkedServiceRenameLinkedServiceOptionalParams } from "../models/index.js";
+/** Class containing LinkedServiceOperations operations. */
+export declare class LinkedServiceOperationsImpl implements LinkedServiceOperations {
+    private readonly client;
+    /**
+     * Initialize a new instance of the class LinkedServiceOperations class.
+     * @param client - Reference to the service client
+     */
+    constructor(client: ArtifactsClient);
+    /**
+     * Lists linked services.
+     * @param options - The options parameters.
+     */
+    listLinkedServicesByWorkspace(options?: LinkedServiceGetLinkedServicesByWorkspaceOptionalParams): PagedAsyncIterableIterator<LinkedServiceResource>;
+    private getLinkedServicesByWorkspacePagingPage;
+    private getLinkedServicesByWorkspacePagingAll;
+    /**
+     * Lists linked services.
+     * @param options - The options parameters.
+     */
+    private _getLinkedServicesByWorkspace;
+    /**
+     * Creates or updates a linked service.
+     * @param linkedServiceName - The linked service name.
+     * @param linkedService - Linked service resource definition.
+     * @param options - The options parameters.
+     */
+    beginCreateOrUpdateLinkedService(linkedServiceName: string, linkedService: LinkedServiceResource, options?: LinkedServiceCreateOrUpdateLinkedServiceOptionalParams): Promise<SimplePollerLike<OperationState<LinkedServiceCreateOrUpdateLinkedServiceResponse>, LinkedServiceCreateOrUpdateLinkedServiceResponse>>;
+    /**
+     * Creates or updates a linked service.
+     * @param linkedServiceName - The linked service name.
+     * @param linkedService - Linked service resource definition.
+     * @param options - The options parameters.
+     */
+    beginCreateOrUpdateLinkedServiceAndWait(linkedServiceName: string, linkedService: LinkedServiceResource, options?: LinkedServiceCreateOrUpdateLinkedServiceOptionalParams): Promise<LinkedServiceCreateOrUpdateLinkedServiceResponse>;
+    /**
+     * Gets a linked service.
+     * @param linkedServiceName - The linked service name.
+     * @param options - The options parameters.
+     */
+    getLinkedService(linkedServiceName: string, options?: LinkedServiceGetLinkedServiceOptionalParams): Promise<LinkedServiceGetLinkedServiceResponse>;
+    /**
+     * Deletes a linked service.
+     * @param linkedServiceName - The linked service name.
+     * @param options - The options parameters.
+     */
+    beginDeleteLinkedService(linkedServiceName: string, options?: LinkedServiceDeleteLinkedServiceOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
+    /**
+     * Deletes a linked service.
+     * @param linkedServiceName - The linked service name.
+     * @param options - The options parameters.
+     */
+    beginDeleteLinkedServiceAndWait(linkedServiceName: string, options?: LinkedServiceDeleteLinkedServiceOptionalParams): Promise<void>;
+    /**
+     * Renames a linked service.
+     * @param linkedServiceName - The linked service name.
+     * @param request - proposed new name.
+     * @param options - The options parameters.
+     */
+    beginRenameLinkedService(linkedServiceName: string, request: ArtifactRenameRequest, options?: LinkedServiceRenameLinkedServiceOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
+    /**
+     * Renames a linked service.
+     * @param linkedServiceName - The linked service name.
+     * @param request - proposed new name.
+     * @param options - The options parameters.
+     */
+    beginRenameLinkedServiceAndWait(linkedServiceName: string, request: ArtifactRenameRequest, options?: LinkedServiceRenameLinkedServiceOptionalParams): Promise<void>;
+    /**
+     * GetLinkedServicesByWorkspaceNext
+     * @param nextLink - The nextLink from the previous successful call to the GetLinkedServicesByWorkspace
+     *                 method.
+     * @param options - The options parameters.
+     */
+    private _getLinkedServicesByWorkspaceNext;
+}
+//# sourceMappingURL=linkedServiceOperations.d.ts.map

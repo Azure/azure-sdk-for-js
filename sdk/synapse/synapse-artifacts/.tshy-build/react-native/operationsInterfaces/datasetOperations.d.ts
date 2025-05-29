@@ -1,0 +1,58 @@
+import type { PagedAsyncIterableIterator } from "@azure/core-paging";
+import type { SimplePollerLike, OperationState } from "@azure/core-lro";
+import type { DatasetResource, DatasetGetDatasetsByWorkspaceOptionalParams, DatasetCreateOrUpdateDatasetOptionalParams, DatasetCreateOrUpdateDatasetResponse, DatasetGetDatasetOptionalParams, DatasetGetDatasetResponse, DatasetDeleteDatasetOptionalParams, ArtifactRenameRequest, DatasetRenameDatasetOptionalParams } from "../models/index.js";
+/** Interface representing a DatasetOperations. */
+export interface DatasetOperations {
+    /**
+     * Lists datasets.
+     * @param options - The options parameters.
+     */
+    listDatasetsByWorkspace(options?: DatasetGetDatasetsByWorkspaceOptionalParams): PagedAsyncIterableIterator<DatasetResource>;
+    /**
+     * Creates or updates a dataset.
+     * @param datasetName - The dataset name.
+     * @param dataset - Dataset resource definition.
+     * @param options - The options parameters.
+     */
+    beginCreateOrUpdateDataset(datasetName: string, dataset: DatasetResource, options?: DatasetCreateOrUpdateDatasetOptionalParams): Promise<SimplePollerLike<OperationState<DatasetCreateOrUpdateDatasetResponse>, DatasetCreateOrUpdateDatasetResponse>>;
+    /**
+     * Creates or updates a dataset.
+     * @param datasetName - The dataset name.
+     * @param dataset - Dataset resource definition.
+     * @param options - The options parameters.
+     */
+    beginCreateOrUpdateDatasetAndWait(datasetName: string, dataset: DatasetResource, options?: DatasetCreateOrUpdateDatasetOptionalParams): Promise<DatasetCreateOrUpdateDatasetResponse>;
+    /**
+     * Gets a dataset.
+     * @param datasetName - The dataset name.
+     * @param options - The options parameters.
+     */
+    getDataset(datasetName: string, options?: DatasetGetDatasetOptionalParams): Promise<DatasetGetDatasetResponse>;
+    /**
+     * Deletes a dataset.
+     * @param datasetName - The dataset name.
+     * @param options - The options parameters.
+     */
+    beginDeleteDataset(datasetName: string, options?: DatasetDeleteDatasetOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
+    /**
+     * Deletes a dataset.
+     * @param datasetName - The dataset name.
+     * @param options - The options parameters.
+     */
+    beginDeleteDatasetAndWait(datasetName: string, options?: DatasetDeleteDatasetOptionalParams): Promise<void>;
+    /**
+     * Renames a dataset.
+     * @param datasetName - The dataset name.
+     * @param request - proposed new name.
+     * @param options - The options parameters.
+     */
+    beginRenameDataset(datasetName: string, request: ArtifactRenameRequest, options?: DatasetRenameDatasetOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
+    /**
+     * Renames a dataset.
+     * @param datasetName - The dataset name.
+     * @param request - proposed new name.
+     * @param options - The options parameters.
+     */
+    beginRenameDatasetAndWait(datasetName: string, request: ArtifactRenameRequest, options?: DatasetRenameDatasetOptionalParams): Promise<void>;
+}
+//# sourceMappingURL=datasetOperations.d.ts.map

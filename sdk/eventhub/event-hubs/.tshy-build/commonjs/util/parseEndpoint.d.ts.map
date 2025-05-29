@@ -1,0 +1,1 @@
+{"version":3,"file":"parseEndpoint.d.ts","sourceRoot":"","sources":["../../../src/util/parseEndpoint.ts"],"names":[],"mappings":"AAGA;;;;GAIG;AACH,wBAAgB,aAAa,CAAC,QAAQ,EAAE,MAAM,GAAG;IAAE,IAAI,EAAE,MAAM,CAAC;IAAC,QAAQ,EAAE,MAAM,CAAC;IAAC,IAAI,CAAC,EAAE,MAAM,CAAA;CAAE,CAUjG"}

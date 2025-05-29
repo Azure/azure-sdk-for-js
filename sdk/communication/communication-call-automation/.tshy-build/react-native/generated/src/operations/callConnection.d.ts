@@ -1,0 +1,103 @@
+import { PagedAsyncIterableIterator } from "@azure/core-paging";
+import { CallConnection } from "../operationsInterfaces/index.js";
+import { CallAutomationApiClient } from "../callAutomationApiClient.js";
+import { CallParticipantInternal, CallConnectionGetParticipantsOptionalParams, CallConnectionGetCallOptionalParams, CallConnectionGetCallResponse, CallConnectionHangupCallOptionalParams, CallConnectionTerminateCallOptionalParams, TransferToParticipantRequest, CallConnectionTransferToParticipantOptionalParams, CallConnectionTransferToParticipantResponse, AddParticipantRequest, CallConnectionAddParticipantOptionalParams, CallConnectionAddParticipantResponse, RemoveParticipantRequest, CallConnectionRemoveParticipantOptionalParams, CallConnectionRemoveParticipantResponse, MuteParticipantsRequest, CallConnectionMuteOptionalParams, CallConnectionMuteResponse, UnmuteParticipantsRequest, CallConnectionUnmuteOptionalParams, CallConnectionUnmuteResponse, CancelAddParticipantRequest, CallConnectionCancelAddParticipantOptionalParams, CallConnectionCancelAddParticipantResponse, CallConnectionGetParticipantOptionalParams, CallConnectionGetParticipantResponse } from "../models/index.js";
+/** Class containing CallConnection operations. */
+export declare class CallConnectionImpl implements CallConnection {
+    private readonly client;
+    /**
+     * Initialize a new instance of the class CallConnection class.
+     * @param client Reference to the service client
+     */
+    constructor(client: CallAutomationApiClient);
+    /**
+     * Get participants from a call. Recording and transcription bots are omitted from this list.
+     * @param callConnectionId The call connection Id
+     * @param options The options parameters.
+     */
+    listParticipants(callConnectionId: string, options?: CallConnectionGetParticipantsOptionalParams): PagedAsyncIterableIterator<CallParticipantInternal>;
+    private getParticipantsPagingPage;
+    private getParticipantsPagingAll;
+    /**
+     * Get the detail properties of an ongoing call.
+     * @param callConnectionId The call connection id.
+     * @param options The options parameters.
+     */
+    getCall(callConnectionId: string, options?: CallConnectionGetCallOptionalParams): Promise<CallConnectionGetCallResponse>;
+    /**
+     * Hang up call automation service from the call. This will make call automation service leave the
+     * call, but does not terminate if there are more than 1 caller in the call.
+     * @param callConnectionId The call connection id.
+     * @param options The options parameters.
+     */
+    hangupCall(callConnectionId: string, options?: CallConnectionHangupCallOptionalParams): Promise<void>;
+    /**
+     * Terminate a call using CallConnectionId.
+     * @param callConnectionId The terminate call request.
+     * @param options The options parameters.
+     */
+    terminateCall(callConnectionId: string, options?: CallConnectionTerminateCallOptionalParams): Promise<void>;
+    /**
+     * Transfer the call to a participant.
+     * @param callConnectionId The call connection id.
+     * @param transferToParticipantRequest The transfer to participant request.
+     * @param options The options parameters.
+     */
+    transferToParticipant(callConnectionId: string, transferToParticipantRequest: TransferToParticipantRequest, options?: CallConnectionTransferToParticipantOptionalParams): Promise<CallConnectionTransferToParticipantResponse>;
+    /**
+     * Get participants from a call. Recording and transcription bots are omitted from this list.
+     * @param callConnectionId The call connection Id
+     * @param options The options parameters.
+     */
+    private _getParticipants;
+    /**
+     * Add a participant to the call.
+     * @param callConnectionId The call connection Id
+     * @param addParticipantRequest The add participants request.
+     * @param options The options parameters.
+     */
+    addParticipant(callConnectionId: string, addParticipantRequest: AddParticipantRequest, options?: CallConnectionAddParticipantOptionalParams): Promise<CallConnectionAddParticipantResponse>;
+    /**
+     * Remove a participant from the call using identifier.
+     * @param callConnectionId The call connection id.
+     * @param removeParticipantRequest The participant to be removed from the call.
+     * @param options The options parameters.
+     */
+    removeParticipant(callConnectionId: string, removeParticipantRequest: RemoveParticipantRequest, options?: CallConnectionRemoveParticipantOptionalParams): Promise<CallConnectionRemoveParticipantResponse>;
+    /**
+     * Mute participants from the call using identifier.
+     * @param callConnectionId The call connection id.
+     * @param muteParticipantsRequest The participants to be muted from the call.
+     * @param options The options parameters.
+     */
+    mute(callConnectionId: string, muteParticipantsRequest: MuteParticipantsRequest, options?: CallConnectionMuteOptionalParams): Promise<CallConnectionMuteResponse>;
+    /**
+     * Unmute participants from the call using identifier.
+     * @param callConnectionId The call connection id.
+     * @param unmuteParticipantsRequest The participants to be unmuted from the call.
+     * @param options The options parameters.
+     */
+    unmute(callConnectionId: string, unmuteParticipantsRequest: UnmuteParticipantsRequest, options?: CallConnectionUnmuteOptionalParams): Promise<CallConnectionUnmuteResponse>;
+    /**
+     * Cancel add participant operation.
+     * @param callConnectionId The call connection Id
+     * @param cancelAddParticipantRequest Cancellation request.
+     * @param options The options parameters.
+     */
+    cancelAddParticipant(callConnectionId: string, cancelAddParticipantRequest: CancelAddParticipantRequest, options?: CallConnectionCancelAddParticipantOptionalParams): Promise<CallConnectionCancelAddParticipantResponse>;
+    /**
+     * Get participant from a call.
+     * @param callConnectionId The call connection Id
+     * @param participantRawId Raw id of the participant to retrieve.
+     * @param options The options parameters.
+     */
+    getParticipant(callConnectionId: string, participantRawId: string, options?: CallConnectionGetParticipantOptionalParams): Promise<CallConnectionGetParticipantResponse>;
+    /**
+     * GetParticipantsNext
+     * @param callConnectionId The call connection Id
+     * @param nextLink The nextLink from the previous successful call to the GetParticipants method.
+     * @param options The options parameters.
+     */
+    private _getParticipantsNext;
+}
+//# sourceMappingURL=callConnection.d.ts.map

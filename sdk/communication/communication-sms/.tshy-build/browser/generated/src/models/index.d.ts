@@ -1,0 +1,117 @@
+import * as coreClient from "@azure/core-client";
+/** Represents the properties of a send message request. */
+export interface SendMessageRequest {
+    /** The sender's phone number in E.164 format that is owned by the authenticated account. */
+    from: string;
+    /** The recipient's phone number in E.164 format. In this version, a minimum of 1 and upto 100 recipients in the list are supported. */
+    smsRecipients: SmsRecipient[];
+    /** The contents of the message that will be sent to the recipient. The allowable content is defined by RFC 5724. */
+    message: string;
+    /** Optional configuration for sending SMS messages. */
+    smsSendOptions?: SmsSendOptions;
+}
+/** Recipient details for sending SMS messages. */
+export interface SmsRecipient {
+    /** The recipient's phone number in E.164 format. */
+    to: string;
+    /** If specified, the client directs that the request is repeatable; that is, the client can make the request multiple times with the same Repeatability-Request-ID and get back an appropriate response without the server executing the request multiple times. The value of the Repeatability-Request-ID is an opaque string representing a client-generated, 36-character hexadecimal case-insensitive encoding of a UUID (GUID), identifier for the request. */
+    repeatabilityRequestId?: string;
+    /** MUST be sent by clients to specify that a request is repeatable. Repeatability-First-Sent is used to specify the date and time at which the request was first created.eg- Tue, 26 Mar 2019 16:06:51 GMT */
+    repeatabilityFirstSent?: string;
+}
+/** Optional configuration for sending SMS messages. */
+export interface SmsSendOptions {
+    /** Enable this flag to receive a delivery report for this message on the Azure Resource EventGrid. */
+    enableDeliveryReport: boolean;
+    /** Use this field to provide metadata that will then be sent back in the corresponding Delivery Report. */
+    tag?: string;
+    /** Time to wait for a delivery report. After this time a delivery report with timeout error code is generated. */
+    deliveryReportTimeoutInSeconds?: number;
+}
+/** Response for a successful or multi status send Sms request. */
+export interface SmsSendResponse {
+    value: SmsSendResponseItem[];
+}
+/** Response for a single recipient. */
+export interface SmsSendResponseItem {
+    /** The recipient's phone number in E.164 format. */
+    to: string;
+    /** The identifier of the outgoing Sms message. Only present if message processed. */
+    messageId?: string;
+    /** HTTP Status code. */
+    httpStatusCode: number;
+    /** The result of a repeatable request with one of the case-insensitive values accepted or rejected. */
+    repeatabilityResult?: SmsSendResponseItemRepeatabilityResult;
+    /** Indicates if the message is processed successfully or not. */
+    successful: boolean;
+    /** Optional error message in case of 4xx/5xx/repeatable errors. */
+    errorMessage?: string;
+}
+/** An opt out request. */
+export interface OptOutRequest {
+    /** The sender's identifier (typically phone number in E.164 format) that is owned by the authenticated account. */
+    from: string;
+    recipients: OptOutRecipient[];
+}
+/** A single opt out recipient number. */
+export interface OptOutRecipient {
+    /** The recipient's phone number (in E.164 format). */
+    to: string;
+}
+/** Response for an opt out request. Validate the returned items in the response to see which recipients were successfully added or removed from the opt outs list. */
+export interface OptOutResponse {
+    value: OptOutResponseItem[];
+}
+export interface OptOutResponseItem {
+    /** The recipient phone number (in E.164 format). */
+    to: string;
+    httpStatusCode: number;
+    /** Optional flag specifying if number was Opted Out from receiving messages */
+    isOptedOut?: boolean;
+    /** Optional error message in case of 4xx/5xx errors. */
+    errorMessage?: string;
+}
+/** Known values of {@link SmsSendResponseItemRepeatabilityResult} that the service accepts. */
+export declare enum KnownSmsSendResponseItemRepeatabilityResult {
+    /** Accepted */
+    Accepted = "accepted",
+    /** Rejected */
+    Rejected = "rejected"
+}
+/**
+ * Defines values for SmsSendResponseItemRepeatabilityResult. \
+ * {@link KnownSmsSendResponseItemRepeatabilityResult} can be used interchangeably with SmsSendResponseItemRepeatabilityResult,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **accepted** \
+ * **rejected**
+ */
+export type SmsSendResponseItemRepeatabilityResult = string;
+/** Optional parameters. */
+export interface SmsSendOptionalParams extends coreClient.OperationOptions {
+}
+/** Contains response data for the send operation. */
+export type SmsSendOperationResponse = SmsSendResponse;
+/** Optional parameters. */
+export interface OptOutsAddOptionalParams extends coreClient.OperationOptions {
+}
+/** Contains response data for the add operation. */
+export type OptOutsAddResponse = OptOutResponse;
+/** Optional parameters. */
+export interface OptOutsRemoveOptionalParams extends coreClient.OperationOptions {
+}
+/** Contains response data for the remove operation. */
+export type OptOutsRemoveResponse = OptOutResponse;
+/** Optional parameters. */
+export interface OptOutsCheckOptionalParams extends coreClient.OperationOptions {
+}
+/** Contains response data for the check operation. */
+export type OptOutsCheckResponse = OptOutResponse;
+/** Optional parameters. */
+export interface SmsApiClientOptionalParams extends coreClient.ServiceClientOptions {
+    /** Api Version */
+    apiVersion?: string;
+    /** Overrides client endpoint. */
+    endpoint?: string;
+}
+//# sourceMappingURL=index.d.ts.map

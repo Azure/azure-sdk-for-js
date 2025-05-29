@@ -1,0 +1,1 @@
+{"version":3,"file":"StoredProcedureDefinition.d.ts","sourceRoot":"","sources":["../../../../src/client/StoredProcedure/StoredProcedureDefinition.ts"],"names":[],"mappings":"AAEA,MAAM,WAAW,yBAAyB;IACxC;;OAEG;IACH,EAAE,CAAC,EAAE,MAAM,CAAC;IACZ;;OAEG;IACH,IAAI,CAAC,EAAE,MAAM,GAAG,CAAC,CAAC,GAAG,MAAM,EAAE,GAAG,EAAE,KAAK,IAAI,CAAC,CAAC;CAC9C"}

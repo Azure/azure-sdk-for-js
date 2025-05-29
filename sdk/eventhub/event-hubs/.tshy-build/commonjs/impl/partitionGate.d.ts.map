@@ -1,0 +1,1 @@
+{"version":3,"file":"partitionGate.d.ts","sourceRoot":"","sources":["../../../src/impl/partitionGate.ts"],"names":[],"mappings":"AAGA;;;;;;;;;GASG;AACH,qBAAa,aAAa;IACxB,OAAO,CAAC,WAAW,CAAqB;IAExC;;;;;OAKG;IACH,GAAG,CAAC,WAAW,EAAE,MAAM,GAAG,KAAK,GAAG,IAAI;IAYtC;;;;OAIG;IACH,MAAM,CAAC,WAAW,EAAE,MAAM,GAAG,KAAK,GAAG,IAAI;CAG1C"}

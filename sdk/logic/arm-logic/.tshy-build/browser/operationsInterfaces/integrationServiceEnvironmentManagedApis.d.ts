@@ -1,0 +1,56 @@
+import { PagedAsyncIterableIterator } from "@azure/core-paging";
+import { PollerLike, PollOperationState } from "@azure/core-lro";
+import { IntegrationServiceEnvironmentManagedApi, IntegrationServiceEnvironmentManagedApisListOptionalParams, IntegrationServiceEnvironmentManagedApisGetOptionalParams, IntegrationServiceEnvironmentManagedApisGetResponse, IntegrationServiceEnvironmentManagedApisPutOptionalParams, IntegrationServiceEnvironmentManagedApisPutResponse, IntegrationServiceEnvironmentManagedApisDeleteOptionalParams } from "../models/index.js";
+/** Interface representing a IntegrationServiceEnvironmentManagedApis. */
+export interface IntegrationServiceEnvironmentManagedApis {
+    /**
+     * Gets the integration service environment managed Apis.
+     * @param resourceGroup The resource group.
+     * @param integrationServiceEnvironmentName The integration service environment name.
+     * @param options The options parameters.
+     */
+    list(resourceGroup: string, integrationServiceEnvironmentName: string, options?: IntegrationServiceEnvironmentManagedApisListOptionalParams): PagedAsyncIterableIterator<IntegrationServiceEnvironmentManagedApi>;
+    /**
+     * Gets the integration service environment managed Api.
+     * @param resourceGroup The resource group name.
+     * @param integrationServiceEnvironmentName The integration service environment name.
+     * @param apiName The api name.
+     * @param options The options parameters.
+     */
+    get(resourceGroup: string, integrationServiceEnvironmentName: string, apiName: string, options?: IntegrationServiceEnvironmentManagedApisGetOptionalParams): Promise<IntegrationServiceEnvironmentManagedApisGetResponse>;
+    /**
+     * Puts the integration service environment managed Api.
+     * @param resourceGroup The resource group name.
+     * @param integrationServiceEnvironmentName The integration service environment name.
+     * @param apiName The api name.
+     * @param integrationServiceEnvironmentManagedApi The integration service environment managed api.
+     * @param options The options parameters.
+     */
+    beginPut(resourceGroup: string, integrationServiceEnvironmentName: string, apiName: string, integrationServiceEnvironmentManagedApi: IntegrationServiceEnvironmentManagedApi, options?: IntegrationServiceEnvironmentManagedApisPutOptionalParams): Promise<PollerLike<PollOperationState<IntegrationServiceEnvironmentManagedApisPutResponse>, IntegrationServiceEnvironmentManagedApisPutResponse>>;
+    /**
+     * Puts the integration service environment managed Api.
+     * @param resourceGroup The resource group name.
+     * @param integrationServiceEnvironmentName The integration service environment name.
+     * @param apiName The api name.
+     * @param integrationServiceEnvironmentManagedApi The integration service environment managed api.
+     * @param options The options parameters.
+     */
+    beginPutAndWait(resourceGroup: string, integrationServiceEnvironmentName: string, apiName: string, integrationServiceEnvironmentManagedApi: IntegrationServiceEnvironmentManagedApi, options?: IntegrationServiceEnvironmentManagedApisPutOptionalParams): Promise<IntegrationServiceEnvironmentManagedApisPutResponse>;
+    /**
+     * Deletes the integration service environment managed Api.
+     * @param resourceGroup The resource group.
+     * @param integrationServiceEnvironmentName The integration service environment name.
+     * @param apiName The api name.
+     * @param options The options parameters.
+     */
+    beginDelete(resourceGroup: string, integrationServiceEnvironmentName: string, apiName: string, options?: IntegrationServiceEnvironmentManagedApisDeleteOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
+    /**
+     * Deletes the integration service environment managed Api.
+     * @param resourceGroup The resource group.
+     * @param integrationServiceEnvironmentName The integration service environment name.
+     * @param apiName The api name.
+     * @param options The options parameters.
+     */
+    beginDeleteAndWait(resourceGroup: string, integrationServiceEnvironmentName: string, apiName: string, options?: IntegrationServiceEnvironmentManagedApisDeleteOptionalParams): Promise<void>;
+}
+//# sourceMappingURL=integrationServiceEnvironmentManagedApis.d.ts.map

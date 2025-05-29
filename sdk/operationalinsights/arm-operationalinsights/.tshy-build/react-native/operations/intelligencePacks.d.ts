@@ -1,0 +1,37 @@
+import { IntelligencePacks } from "../operationsInterfaces/index.js";
+import { OperationalInsightsManagementClient } from "../operationalInsightsManagementClient.js";
+import { IntelligencePacksDisableOptionalParams, IntelligencePacksEnableOptionalParams, IntelligencePacksListOptionalParams, IntelligencePacksListResponse } from "../models/index.js";
+/** Class containing IntelligencePacks operations. */
+export declare class IntelligencePacksImpl implements IntelligencePacks {
+    private readonly client;
+    /**
+     * Initialize a new instance of the class IntelligencePacks class.
+     * @param client Reference to the service client
+     */
+    constructor(client: OperationalInsightsManagementClient);
+    /**
+     * Disables an intelligence pack for a given workspace.
+     * @param resourceGroupName The name of the resource group. The name is case insensitive.
+     * @param workspaceName The name of the workspace.
+     * @param intelligencePackName The name of the intelligence pack to be disabled.
+     * @param options The options parameters.
+     */
+    disable(resourceGroupName: string, workspaceName: string, intelligencePackName: string, options?: IntelligencePacksDisableOptionalParams): Promise<void>;
+    /**
+     * Enables an intelligence pack for a given workspace.
+     * @param resourceGroupName The name of the resource group. The name is case insensitive.
+     * @param workspaceName The name of the workspace.
+     * @param intelligencePackName The name of the intelligence pack to be enabled.
+     * @param options The options parameters.
+     */
+    enable(resourceGroupName: string, workspaceName: string, intelligencePackName: string, options?: IntelligencePacksEnableOptionalParams): Promise<void>;
+    /**
+     * Lists all the intelligence packs possible and whether they are enabled or disabled for a given
+     * workspace.
+     * @param resourceGroupName The name of the resource group. The name is case insensitive.
+     * @param workspaceName The name of the workspace.
+     * @param options The options parameters.
+     */
+    list(resourceGroupName: string, workspaceName: string, options?: IntelligencePacksListOptionalParams): Promise<IntelligencePacksListResponse>;
+}
+//# sourceMappingURL=intelligencePacks.d.ts.map

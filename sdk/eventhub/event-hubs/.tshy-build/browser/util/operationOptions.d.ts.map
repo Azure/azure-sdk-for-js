@@ -1,0 +1,1 @@
+{"version":3,"file":"operationOptions.d.ts","sourceRoot":"","sources":["../../../src/util/operationOptions.ts"],"names":[],"mappings":"AAGA,OAAO,KAAK,EAAE,eAAe,EAAE,MAAM,yBAAyB,CAAC;AAC/D,OAAO,KAAK,EAAE,uBAAuB,EAAE,MAAM,qBAAqB,CAAC;AAEnE;;GAEG;AAGH,MAAM,WAAW,gBAAgB;IAC/B;;OAEG;IACH,WAAW,CAAC,EAAE,eAAe,CAAC;IAC9B;;OAEG;IACH,cAAc,CAAC,EAAE,uBAAuB,CAAC;CAC1C"}

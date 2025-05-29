@@ -1,0 +1,1 @@
+{"version":3,"file":"PartitionKeyRange.d.ts","sourceRoot":"","sources":["../../../../src/client/Container/PartitionKeyRange.ts"],"names":[],"mappings":"AAEA;;GAEG;AACH,MAAM,WAAW,iBAAiB;IAChC,EAAE,EAAE,MAAM,CAAC;IACX,YAAY,EAAE,MAAM,CAAC;IACrB,YAAY,EAAE,MAAM,CAAC;IACrB,SAAS,EAAE,MAAM,CAAC;IAClB,kBAAkB,EAAE,MAAM,CAAC;IAC3B,MAAM,EAAE,MAAM,CAAC;IACf,OAAO,EAAE,MAAM,EAAE,CAAC;CACnB"}

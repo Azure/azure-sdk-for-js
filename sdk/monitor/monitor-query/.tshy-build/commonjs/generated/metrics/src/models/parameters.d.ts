@@ -1,0 +1,23 @@
+import { OperationParameter, OperationURLParameter, OperationQueryParameter } from "@azure/core-client";
+export declare const accept: OperationParameter;
+export declare const $host: OperationURLParameter;
+export declare const subscriptionId: OperationURLParameter;
+export declare const apiVersion: OperationQueryParameter;
+export declare const region: OperationQueryParameter;
+export declare const timespan: OperationQueryParameter;
+export declare const interval: OperationQueryParameter;
+export declare const metricnames: OperationQueryParameter;
+export declare const aggregation: OperationQueryParameter;
+export declare const top: OperationQueryParameter;
+export declare const orderby: OperationQueryParameter;
+export declare const filter: OperationQueryParameter;
+export declare const resultType: OperationQueryParameter;
+export declare const metricnamespace: OperationQueryParameter;
+export declare const autoAdjustTimegrain: OperationQueryParameter;
+export declare const validateDimensions: OperationQueryParameter;
+export declare const rollupby: OperationQueryParameter;
+export declare const contentType: OperationParameter;
+export declare const body: OperationParameter;
+export declare const resourceUri: OperationURLParameter;
+export declare const resultType1: OperationQueryParameter;
+//# sourceMappingURL=parameters.d.ts.map

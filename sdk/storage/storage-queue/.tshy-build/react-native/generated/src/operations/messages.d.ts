@@ -1,0 +1,38 @@
+import { Messages } from "../operationsInterfaces/index.js";
+import { StorageClient } from "../storageClient.js";
+import { MessagesDequeueOptionalParams, MessagesDequeueResponse, MessagesClearOptionalParams, MessagesClearResponse, QueueMessage, MessagesEnqueueOptionalParams, MessagesEnqueueResponse, MessagesPeekOptionalParams, MessagesPeekResponse } from "../models/index.js";
+/** Class containing Messages operations. */
+export declare class MessagesImpl implements Messages {
+    private readonly client;
+    /**
+     * Initialize a new instance of the class Messages class.
+     * @param client Reference to the service client
+     */
+    constructor(client: StorageClient);
+    /**
+     * The Dequeue operation retrieves one or more messages from the front of the queue.
+     * @param options The options parameters.
+     */
+    dequeue(options?: MessagesDequeueOptionalParams): Promise<MessagesDequeueResponse>;
+    /**
+     * The Clear operation deletes all messages from the specified queue.
+     * @param options The options parameters.
+     */
+    clear(options?: MessagesClearOptionalParams): Promise<MessagesClearResponse>;
+    /**
+     * The Enqueue operation adds a new message to the back of the message queue. A visibility timeout can
+     * also be specified to make the message invisible until the visibility timeout expires. A message must
+     * be in a format that can be included in an XML request with UTF-8 encoding. The encoded message can
+     * be up to 64 KB in size for versions 2011-08-18 and newer, or 8 KB in size for previous versions.
+     * @param queueMessage A Message object which can be stored in a Queue
+     * @param options The options parameters.
+     */
+    enqueue(queueMessage: QueueMessage, options?: MessagesEnqueueOptionalParams): Promise<MessagesEnqueueResponse>;
+    /**
+     * The Peek operation retrieves one or more messages from the front of the queue, but does not alter
+     * the visibility of the message.
+     * @param options The options parameters.
+     */
+    peek(options?: MessagesPeekOptionalParams): Promise<MessagesPeekResponse>;
+}
+//# sourceMappingURL=messages.d.ts.map

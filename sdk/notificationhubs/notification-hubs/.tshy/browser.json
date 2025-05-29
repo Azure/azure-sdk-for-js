@@ -1,0 +1,16 @@
+{
+  "extends": "./build.json",
+  "include": [
+    "../src/**/*.ts",
+    "../src/**/*.mts",
+    "../src/**/*.tsx",
+    "../src/**/*.json"
+  ],
+  "exclude": [
+    "../src/package.json",
+    "../src/auth/hmacSha256-react-native.mts"
+  ],
+  "compilerOptions": {
+    "outDir": "../.tshy-build/browser"
+  }
+}

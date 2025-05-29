@@ -1,0 +1,44 @@
+import { Aliases } from "../operationsInterfaces/index.js";
+import { SearchServiceClient } from "../searchServiceClient.js";
+import { SearchAlias, AliasesCreateOptionalParams, AliasesCreateResponse, AliasesListOptionalParams, AliasesListResponse, AliasesCreateOrUpdateOptionalParams, AliasesCreateOrUpdateResponse, AliasesDeleteOptionalParams, AliasesGetOptionalParams, AliasesGetResponse } from "../models/index.js";
+/** Class containing Aliases operations. */
+export declare class AliasesImpl implements Aliases {
+    private readonly client;
+    /**
+     * Initialize a new instance of the class Aliases class.
+     * @param client Reference to the service client
+     */
+    constructor(client: SearchServiceClient);
+    /**
+     * Creates a new search alias.
+     * @param alias The definition of the alias to create.
+     * @param options The options parameters.
+     */
+    create(alias: SearchAlias, options?: AliasesCreateOptionalParams): Promise<AliasesCreateResponse>;
+    /**
+     * Lists all aliases available for a search service.
+     * @param options The options parameters.
+     */
+    list(options?: AliasesListOptionalParams): Promise<AliasesListResponse>;
+    /**
+     * Creates a new search alias or updates an alias if it already exists.
+     * @param aliasName The definition of the alias to create or update.
+     * @param alias The definition of the alias to create or update.
+     * @param options The options parameters.
+     */
+    createOrUpdate(aliasName: string, alias: SearchAlias, options?: AliasesCreateOrUpdateOptionalParams): Promise<AliasesCreateOrUpdateResponse>;
+    /**
+     * Deletes a search alias and its associated mapping to an index. This operation is permanent, with no
+     * recovery option. The mapped index is untouched by this operation.
+     * @param aliasName The name of the alias to delete.
+     * @param options The options parameters.
+     */
+    delete(aliasName: string, options?: AliasesDeleteOptionalParams): Promise<void>;
+    /**
+     * Retrieves an alias definition.
+     * @param aliasName The name of the alias to retrieve.
+     * @param options The options parameters.
+     */
+    get(aliasName: string, options?: AliasesGetOptionalParams): Promise<AliasesGetResponse>;
+}
+//# sourceMappingURL=aliases.d.ts.map

@@ -1,0 +1,8 @@
+import type { ListSchemaGroups200Response, ListSchemaGroupsDefaultResponse, ListSchemaVersions200Response, ListSchemaVersionsDefaultResponse, GetSchemaById200Response, GetSchemaByIdDefaultResponse, GetSchemaByVersion200Response, GetSchemaByVersionDefaultResponse, GetSchemaPropertiesByContent204Response, GetSchemaPropertiesByContentDefaultResponse, RegisterSchema204Response, RegisterSchemaDefaultResponse } from "./responses.js";
+export declare function isUnexpected(response: ListSchemaGroups200Response | ListSchemaGroupsDefaultResponse): response is ListSchemaGroupsDefaultResponse;
+export declare function isUnexpected(response: ListSchemaVersions200Response | ListSchemaVersionsDefaultResponse): response is ListSchemaVersionsDefaultResponse;
+export declare function isUnexpected(response: GetSchemaById200Response | GetSchemaByIdDefaultResponse): response is GetSchemaByIdDefaultResponse;
+export declare function isUnexpected(response: GetSchemaByVersion200Response | GetSchemaByVersionDefaultResponse): response is GetSchemaByVersionDefaultResponse;
+export declare function isUnexpected(response: GetSchemaPropertiesByContent204Response | GetSchemaPropertiesByContentDefaultResponse): response is GetSchemaPropertiesByContentDefaultResponse;
+export declare function isUnexpected(response: RegisterSchema204Response | RegisterSchemaDefaultResponse): response is RegisterSchemaDefaultResponse;
+//# sourceMappingURL=isUnexpected.d.ts.map
