@@ -116,6 +116,7 @@ export function createPoller<T>({
           case "failed":
             throw state.error ?? new Error("Operation failed");
           case "notStarted":
+            return poller.result as T;
           case "running":
             throw new Error("Polling completed without succeeding or failing");
         }
