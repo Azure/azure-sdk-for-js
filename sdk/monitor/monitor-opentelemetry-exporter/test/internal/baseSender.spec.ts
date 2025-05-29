@@ -96,6 +96,7 @@ vi.mock("../../src/utils/breezeUtils.js", () => {
 });
 
 // Now import the BaseSender which will use our mocked dependencies
+import "../../src/platform/nodejs/index.js"; // Import this first to avoid circular dependencies
 import { BaseSender } from "../../src/platform/nodejs/baseSender.js";
 
 // Test implementation of BaseSender
