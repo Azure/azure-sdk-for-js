@@ -1,1 +1,0 @@
-{"version":3,"file":"signalingClientOptions.d.ts","sourceRoot":"","sources":["../../../src/signaling/signalingClientOptions.ts"],"names":[],"mappings":"AAGA,OAAO,KAAK,EAAE,iBAAiB,EAAE,MAAM,sBAAsB,CAAC;AAE9D,MAAM,WAAW,sBAAuB,SAAQ,iBAAiB;IAC/D,gBAAgB,CAAC,EAAE,MAAM,CAAC;IAC1B,iBAAiB,CAAC,EAAE,MAAM,CAAC;CAC5B"}
