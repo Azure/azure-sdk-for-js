@@ -73,9 +73,11 @@ export class TimeoutFailoverRetryPolicy implements RetryPolicy {
 
     // Mark the partition as unavailable.
     // Let the Retry logic decide if the request should be retried
-    await this.globalPartitionEndpointManager.tryMarkEndpointUnavailableForPartitionKeyRange(
-      requestContext,
-    );
+    if (requestContext) {
+      await this.globalPartitionEndpointManager.tryMarkEndpointUnavailableForPartitionKeyRange(
+        requestContext,
+      );
+    }
 
     if (!this.enableEndPointDiscovery) {
       return false;

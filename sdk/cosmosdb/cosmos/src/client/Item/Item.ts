@@ -12,11 +12,7 @@ import {
   ResourceType,
   StatusCodes,
 } from "../../common/index.js";
-import type {
-  PartitionKey,
-  PartitionKeyDefinition,
-  PartitionKeyInternal,
-} from "../../documents/index.js";
+import type { PartitionKey, PartitionKeyInternal } from "../../documents/index.js";
 import { convertToInternalPartitionKey } from "../../documents/index.js";
 import type { RequestOptions, Response } from "../../request/index.js";
 import { ErrorResponse } from "../../request/index.js";

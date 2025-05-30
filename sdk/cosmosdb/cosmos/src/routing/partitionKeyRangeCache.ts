@@ -82,7 +82,8 @@ export class PartitionKeyRangeCache {
     partitionKey: PartitionKeyInternal,
     partitionKeyDefinition: PartitionKeyDefinition,
     diagnosticNode: DiagnosticNodeInternal,
-  ): Promise<string> {
+  ): Promise<string | undefined> {
+    let partitionKeyRangeId: string;
     const hashedPartitionKey = hashPartitionKey(partitionKey, partitionKeyDefinition);
     const partitionKeyRanges = (
       await this.onCollectionRoutingMap(collectionLink, diagnosticNode)
@@ -96,8 +97,10 @@ export class PartitionKeyRangeCache {
           hashedPartitionKey,
         )
       ) {
-        return partitionKeyRange.id;
+        partitionKeyRangeId = partitionKeyRange.id;
+        break;
       }
     }
+    return partitionKeyRangeId;
   }
 }

@@ -53,7 +53,6 @@ const QueryJsonContentType = "application/query+json";
 const HttpHeaders = Constants.HttpHeaders;
 /**
  * @hidden
- * @hidden
  */
 export class ClientContext {
   private readonly sessionContainer: SessionContainer;
@@ -62,6 +61,7 @@ export class ClientContext {
   private diagnosticWriter: DiagnosticWriter;
   private diagnosticFormatter: DiagnosticFormatter;
   public partitionKeyDefinitionCache: { [containerUrl: string]: any }; // TODO: PartitionKeyDefinitionCache
+  /** @internal */
   public partitionKeyRangeCache: PartitionKeyRangeCache;
   /** boolean flag to support operations with client-side encryption */
   public enableEncryption: boolean = false;
@@ -71,7 +71,7 @@ export class ClientContext {
     private globalEndpointManager: GlobalEndpointManager,
     private clientConfig: ClientConfigDiagnostic,
     public diagnosticLevel: CosmosDbDiagnosticLevel,
-    public globalPartitionEndpointManager: GlobalPartitionEndpointManager,
+    private globalPartitionEndpointManager: GlobalPartitionEndpointManager,
   ) {
     if (cosmosClientOptions.clientEncryptionOptions) {
       this.enableEncryption = true;

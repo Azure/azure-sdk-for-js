@@ -81,6 +81,8 @@ export class CosmosClient {
    * @internal
    */
   private encryptionManager: EncryptionManager;
+  /** @internal */
+  private globalPartitionEndpointManager: GlobalPartitionEndpointManager;
   /**
    * Creates a new {@link CosmosClient} object from a connection string. Your database connection string can be found in the Azure Portal
    */
@@ -155,7 +157,7 @@ export class CosmosClient {
         this.getDatabaseAccountInternal(diagnosticNode, opts),
     );
 
-    const globalPartitionEndpointManager = new GlobalPartitionEndpointManager(
+    this.globalPartitionEndpointManager = new GlobalPartitionEndpointManager(
       optionsOrConnectionString,
       globalEndpointManager,
     );
@@ -168,7 +170,7 @@ export class CosmosClient {
         optionsOrConnectionString.diagnosticLevel,
         getDiagnosticLevelFromEnvironment(),
       ),
-      globalPartitionEndpointManager,
+      this.globalPartitionEndpointManager,
     );
     if (
       optionsOrConnectionString.connectionPolicy?.enableEndpointDiscovery &&
@@ -321,9 +323,7 @@ export class CosmosClient {
       clearTimeout(this.encryptionManager.encryptionKeyStoreProvider.cacheRefresher);
       clearTimeout(this.encryptionManager.protectedDataEncryptionKeyCache.cacheRefresher);
     }
-    clearTimeout(
-      this.clientContext.globalPartitionEndpointManager.circuitBreakerFailbackBackgroundRefresher,
-    );
+    clearTimeout(this.globalPartitionEndpointManager.circuitBreakerFailbackBackgroundRefresher);
   }
 
   private async backgroundRefreshEndpointList(

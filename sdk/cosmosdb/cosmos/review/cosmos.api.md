@@ -183,6 +183,7 @@ export type ClientConfigDiagnostic = {
 
 // @public (undocumented)
 export class ClientContext {
+    // Warning: (ae-forgotten-export) The symbol "GlobalPartitionEndpointManager" needs to be exported by the entry point index.d.ts
     constructor(cosmosClientOptions: CosmosClientOptions, globalEndpointManager: GlobalEndpointManager, clientConfig: ClientConfigDiagnostic, diagnosticLevel: CosmosDbDiagnosticLevel, globalPartitionEndpointManager: GlobalPartitionEndpointManager);
     // (undocumented)
     batch<T>({ body, path, partitionKey, resourceId, options, diagnosticNode, partitionKeyRangeId, }: {
@@ -253,20 +254,12 @@ export class ClientContext {
     getWriteEndpoint(diagnosticNode: DiagnosticNodeInternal): Promise<string>;
     // (undocumented)
     getWriteEndpoints(): Promise<readonly string[]>;
-    // Warning: (ae-forgotten-export) The symbol "GlobalPartitionEndpointManager" needs to be exported by the entry point index.d.ts
-    //
-    // (undocumented)
-    globalPartitionEndpointManager: GlobalPartitionEndpointManager;
     // (undocumented)
     initializeDiagnosticSettings(diagnosticLevel: CosmosDbDiagnosticLevel): void;
     // (undocumented)
     partitionKeyDefinitionCache: {
         [containerUrl: string]: any;
     };
-    // Warning: (ae-forgotten-export) The symbol "PartitionKeyRangeCache" needs to be exported by the entry point index.d.ts
-    //
-    // (undocumented)
-    partitionKeyRangeCache: PartitionKeyRangeCache;
     // (undocumented)
     patch<T>({ body, path, resourceType, resourceId, options, partitionKey, diagnosticNode, partitionKeyRangeId, }: {
         body: any;
