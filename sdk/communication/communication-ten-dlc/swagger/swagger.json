@@ -546,6 +546,217 @@
         }
       }
     },
+    "/tendlc/countries/US/campaigns/{campaignId}/attachments/{attachmentId}": {
+      "put": {
+        "tags": ["10DLC - CampaignAttachment"],
+        "summary": "Creates or replace an attachment on a 10DLC US Campaign Brief.",
+        "operationId": "TenDlc_PutUSCampaignAttachment",
+        "consumes": ["application/json"],
+        "produces": ["application/json"],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "campaignId",
+            "description": "Campaign Brief Id. Must be a valid GUID",
+            "required": true,
+            "type": "string",
+            "format": "uuid"
+          },
+          {
+            "in": "path",
+            "name": "attachmentId",
+            "description": "Attachment Id. Must be a valid GUID",
+            "required": true,
+            "type": "string",
+            "format": "uuid"
+          },
+          {
+            "$ref": "#/parameters/ApiVersionParameter"
+          },
+          {
+            "in": "body",
+            "name": "body",
+            "description": "Data to create or replace a Campaign Brief File Attachment",
+            "schema": {
+              "$ref": "#/definitions/CampaignAttachment"
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Created",
+            "schema": {
+              "$ref": "#/definitions/CampaignAttachment"
+            }
+          },
+          "200": {
+            "description": "Success",
+            "schema": {
+              "$ref": "#/definitions/CampaignAttachment"
+            }
+          },
+          "default": {
+            "description": "Failure",
+            "schema": {
+              "$ref": "#/definitions/CommunicationErrorResponse"
+            }
+          }
+        },
+        "x-ms-examples": {
+          "Creates or Replaces an attachment on a 10DLC US Campaign Brief": {
+            "$ref": "./examples/PutTenDlcUSCampaignAttachment.json"
+          }
+        }
+      },
+      "get": {
+        "tags": ["10DLC - CampaignAttachment"],
+        "summary": "Gets a specific attachment from a 10DLC US Campaign Brief.",
+        "operationId": "TenDlc_GetUSCampaignAttachment",
+        "produces": ["application/json"],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "campaignId",
+            "description": "Campaign Brief Id. Must be a valid GUID",
+            "required": true,
+            "type": "string",
+            "format": "uuid"
+          },
+          {
+            "in": "path",
+            "name": "attachmentId",
+            "description": "Attachment Id. Must be a valid GUID",
+            "required": true,
+            "type": "string",
+            "format": "uuid"
+          },
+          {
+            "$ref": "#/parameters/ApiVersionParameter"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "$ref": "#/definitions/CampaignAttachment"
+            }
+          },
+          "default": {
+            "description": "Failure",
+            "schema": {
+              "$ref": "#/definitions/CommunicationErrorResponse"
+            }
+          }
+        },
+        "x-ms-examples": {
+          "Creates or Replaces a US Campaign Brief File Attachment": {
+            "$ref": "./examples/GetTenDlcUSCampaignAttachment.json"
+          }
+        }
+      },
+      "delete": {
+        "tags": ["10DLC - CampaignAttachment"],
+        "summary": "Deletes a specific attachment from a 10DLC US Campaign Brief.",
+        "operationId": "TenDlc_DeleteUSCampaignAttachment",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "campaignId",
+            "description": "Campaign Brief Id. Must be a valid GUID",
+            "required": true,
+            "type": "string",
+            "format": "uuid"
+          },
+          {
+            "in": "path",
+            "name": "attachmentId",
+            "description": "Attachment Id. Must be a valid GUID",
+            "required": true,
+            "type": "string",
+            "format": "uuid"
+          },
+          {
+            "$ref": "#/parameters/ApiVersionParameter"
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "No Content"
+          },
+          "default": {
+            "description": "Failure",
+            "schema": {
+              "$ref": "#/definitions/CommunicationErrorResponse"
+            }
+          }
+        },
+        "x-ms-examples": {
+          "Deletes a US Campaign Brief File Attachment": {
+            "$ref": "./examples/DeleteTenDlcUSCampaignAttachment.json"
+          }
+        },
+        "produces": ["application/json"]
+      }
+    },
+    "/tendlc/countries/US/campaigns/{campaignId}/attachments": {
+      "get": {
+        "tags": ["10DLC - CampaignAttachment"],
+        "summary": "Gets the list of attachments from a 10DLC US Campaign Brief.",
+        "operationId": "TenDlc_GetUSCampaignAttachments",
+        "produces": ["application/json"],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "campaignId",
+            "required": true,
+            "type": "string",
+            "format": "uuid"
+          },
+          {
+            "in": "query",
+            "name": "skip",
+            "description": "An optional parameter for how many entries to skip, for pagination purposes.",
+            "type": "integer",
+            "format": "int32",
+            "default": 0
+          },
+          {
+            "in": "query",
+            "name": "top",
+            "description": "An optional parameter for how many entries to return, for pagination purposes.",
+            "type": "integer",
+            "format": "int32",
+            "default": 100
+          },
+          {
+            "$ref": "#/parameters/ApiVersionParameter"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "$ref": "#/definitions/CampaignAttachments"
+            }
+          },
+          "default": {
+            "description": "Failure",
+            "schema": {
+              "$ref": "#/definitions/CommunicationErrorResponse"
+            }
+          }
+        },
+        "x-ms-pageable": {
+          "nextLinkName": "nextLink",
+          "itemName": "attachments"
+        },
+        "x-ms-examples": {
+          "List US Campaign Brief File Attachments": {
+            "$ref": "./examples/GetTenDlcUSCampaignAttachments.json"
+          }
+        }
+      }
+    },
     "/phoneNumbers/{phoneNumber}/tendlcConfiguration": {
       "put": {
         "tags": ["10DLC - Phone Number Configuration"],
@@ -876,6 +1087,92 @@
         "termsAndConditionsAccepted": {
           "description": "Whether the terms and conditions have been accepted",
           "type": "boolean"
+        }
+      }
+    },
+    "CampaignAttachment": {
+      "description": "A File Attachment for a 10DLC CampaignBrief",
+      "required": ["fileContentBase64", "fileName", "fileType", "id", "type"],
+      "type": "object",
+      "properties": {
+        "id": {
+          "format": "uuid",
+          "description": "Program Brief Attachment Id.",
+          "type": "string"
+        },
+        "type": {
+          "description": "Attachment type describing the purpose of the attachment\r\ne.g. 'callToAction', 'termsOfService'",
+          "enum": ["callToAction", "termsOfService", "privacyPolicy", "other"],
+          "type": "string",
+          "x-ms-enum": {
+            "name": "AttachmentType",
+            "modelAsString": true
+          }
+        },
+        "fileName": {
+          "description": "The name of the file being attached\r\ne.g. 'myFile01'",
+          "minLength": 1,
+          "type": "string"
+        },
+        "fileSizeInBytes": {
+          "format": "int32",
+          "description": "File size in bytes.",
+          "type": "integer"
+        },
+        "fileType": {
+          "description": "The type of file being attached\r\ne.g. 'pdf', 'jpg', 'png'",
+          "enum": ["png", "jpg", "jpeg", "pdf"],
+          "type": "string",
+          "x-ms-enum": {
+            "name": "FileType",
+            "modelAsString": true
+          }
+        },
+        "fileContentBase64": {
+          "description": "File content as base 64 encoded string",
+          "minLength": 1,
+          "type": "string"
+        }
+      }
+    },
+    "CampaignAttachments": {
+      "description": "A wrapper for a list of 10DLC CampaignAttachment entities.",
+      "type": "object",
+      "properties": {
+        "attachments": {
+          "description": "List of Program Brief attachments.",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/CampaignAttachment"
+          }
+        },
+        "nextLink": {
+          "description": "Represents the URL link to the next page.",
+          "type": "string"
+        }
+      }
+    },
+    "CampaignAttachmentSummary": {
+      "description": "A summary of 10DLC Campaign Brief File Attachment data",
+      "type": "object",
+      "properties": {
+        "id": {
+          "format": "uuid",
+          "description": "Campaign Attachment Id.",
+          "type": "string"
+        },
+        "type": {
+          "description": "Attachment type describing the purpose of the attachment\r\ne.g. 'callToAction', 'termsOfService'",
+          "enum": ["callToAction", "termsOfService", "privacyPolicy", "other"],
+          "type": "string",
+          "x-ms-enum": {
+            "name": "AttachmentType",
+            "modelAsString": true
+          }
+        },
+        "fileName": {
+          "description": "The name of the attached file\r\ne.g. 'myFile01'",
+          "type": "string"
         }
       }
     },
@@ -1236,6 +1533,13 @@
         },
         "messageDetails": {
           "$ref": "#/definitions/MessageDetails"
+        },
+        "attachments": {
+          "description": "A list of summarized data of attachments currently added to the 10DLC Campaign",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/CampaignAttachmentSummary"
+          }
         }
       }
     },

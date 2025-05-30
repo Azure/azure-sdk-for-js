@@ -177,6 +177,8 @@ export interface USCampaign {
   campaignDetails?: CampaignDetails;
   /** Compiles details describing how the messaging campaign will work, for example whether opt-in and opt-out will be required and how will the messages for those actions look like. */
   messageDetails?: MessageDetails;
+  /** A list of summarized data of attachments currently added to the 10DLC Campaign */
+  attachments?: CampaignAttachmentSummary[];
 }
 
 /** Information about the campaign. */
@@ -236,11 +238,60 @@ export interface UseCase {
   sampleMessages?: string[];
 }
 
+/** A summary of 10DLC Campaign Brief File Attachment data */
+export interface CampaignAttachmentSummary {
+  /** Campaign Attachment Id. */
+  id?: string;
+  /**
+   * Attachment type describing the purpose of the attachment
+   * e.g. 'callToAction', 'termsOfService'
+   */
+  type?: AttachmentType;
+  /**
+   * The name of the attached file
+   * e.g. 'myFile01'
+   */
+  fileName?: string;
+}
+
 /** A wrapper for a list of USCampaigns */
 export interface USCampaigns {
   /** List of USCampaigns */
   campaigns?: USCampaign[];
   /** Represents the URL link to the next page */
+  nextLink?: string;
+}
+
+/** A File Attachment for a 10DLC CampaignBrief */
+export interface CampaignAttachment {
+  /** Program Brief Attachment Id. */
+  id: string;
+  /**
+   * Attachment type describing the purpose of the attachment
+   * e.g. 'callToAction', 'termsOfService'
+   */
+  type: AttachmentType;
+  /**
+   * The name of the file being attached
+   * e.g. 'myFile01'
+   */
+  fileName: string;
+  /** File size in bytes. */
+  fileSizeInBytes?: number;
+  /**
+   * The type of file being attached
+   * e.g. 'pdf', 'jpg', 'png'
+   */
+  fileType: FileType;
+  /** File content as base 64 encoded string */
+  fileContentBase64: string;
+}
+
+/** A wrapper for a list of 10DLC CampaignAttachment entities. */
+export interface CampaignAttachments {
+  /** List of Program Brief attachments. */
+  attachments?: CampaignAttachment[];
+  /** Represents the URL link to the next page. */
   nextLink?: string;
 }
 
@@ -401,6 +452,14 @@ export type SubContentType =
   | "PollingVoting"
   | "PublicServiceAnnouncement"
   | "SecurityAlert";
+/** Defines values for AttachmentType. */
+export type AttachmentType =
+  | "callToAction"
+  | "termsOfService"
+  | "privacyPolicy"
+  | "other";
+/** Defines values for FileType. */
+export type FileType = "png" | "jpg" | "jpeg" | "pdf";
 /** Defines values for PhoneNumberCapabilityType. */
 export type PhoneNumberCapabilityType =
   | "none"
@@ -521,6 +580,39 @@ export interface TenDlcCancelUSCampaignOptionalParams
 export type TenDlcCancelUSCampaignResponse = USCampaign;
 
 /** Optional parameters. */
+export interface TenDlcPutUSCampaignAttachmentOptionalParams
+  extends coreClient.OperationOptions {
+  /** File size in bytes. */
+  fileSizeInBytes?: number;
+}
+
+/** Contains response data for the putUSCampaignAttachment operation. */
+export type TenDlcPutUSCampaignAttachmentResponse = CampaignAttachment;
+
+/** Optional parameters. */
+export interface TenDlcGetUSCampaignAttachmentOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the getUSCampaignAttachment operation. */
+export type TenDlcGetUSCampaignAttachmentResponse = CampaignAttachment;
+
+/** Optional parameters. */
+export interface TenDlcDeleteUSCampaignAttachmentOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Optional parameters. */
+export interface TenDlcGetUSCampaignAttachmentsOptionalParams
+  extends coreClient.OperationOptions {
+  /** An optional parameter for how many entries to skip, for pagination purposes. */
+  skip?: number;
+  /** An optional parameter for how many entries to return, for pagination purposes. */
+  top?: number;
+}
+
+/** Contains response data for the getUSCampaignAttachments operation. */
+export type TenDlcGetUSCampaignAttachmentsResponse = CampaignAttachments;
+
+/** Optional parameters. */
 export interface TenDlcGetCostsOptionalParams
   extends coreClient.OperationOptions {
   /** The number of items to skip in the result set (default: 0). */
@@ -545,6 +637,13 @@ export interface TenDlcGetUSCampaignsNextOptionalParams
 
 /** Contains response data for the getUSCampaignsNext operation. */
 export type TenDlcGetUSCampaignsNextResponse = USCampaigns;
+
+/** Optional parameters. */
+export interface TenDlcGetUSCampaignAttachmentsNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the getUSCampaignAttachmentsNext operation. */
+export type TenDlcGetUSCampaignAttachmentsNextResponse = CampaignAttachments;
 
 /** Optional parameters. */
 export interface TenDlcGetCostsNextOptionalParams

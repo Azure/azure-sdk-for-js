@@ -14,6 +14,7 @@ import { tracingClient } from "./generated/src/tracing.js";
 import { logger } from "./utils/logger.js";
 import { createTenDlcPagingPolicy } from "./utils/customPipelinePolicies.js";
 import type {
+  CampaignAttachment,
   TenDlcCancelUSBrandOptionalParams,
   TenDlcCancelUSBrandResponse,
   TenDlcCancelUSCampaignOptionalParams,
@@ -23,6 +24,7 @@ import type {
   TenDlcSubmitUSCampaignOptionalParams,
   USBrand,
   USCampaign,
+  
 } from "./generated/src/models/index.js";
 import type {
   DeleteBrandOptionalParams,
@@ -36,6 +38,14 @@ import type {
   SubmitCampaignOptionalParams,
   UpsertUSBrandOptions,
   UpsertUSCampaignOptions,
+  TenDlcPutUSCampaignAttachmentOptionalParams,
+  TenDlcPutUSCampaignAttachmentResponse,
+  TenDlcGetUSCampaignAttachmentOptionalParams,
+  TenDlcGetUSCampaignAttachmentsOptionalParams,
+  TenDlcGetUSCampaignAttachmentResponse,
+  TenDlcDeleteUSCampaignAttachmentOptionalParams,
+  AttachmentType,
+  FileType,
 } from "./models.js";
 
 /**
@@ -395,5 +405,89 @@ export class TenDlcClient {
     } finally {
       span.end();
     }
+  }
+
+  public getUSCampaignAttachment(
+    campaignId: string,
+    attachmentId: string,
+    options: TenDlcGetUSCampaignAttachmentOptionalParams = {},
+  ): Promise<TenDlcGetUSCampaignAttachmentResponse> {
+    return tracingClient.withSpan(
+      "TenDLCClient-getCampaignAttachment",
+      options,
+      (updatedOptions) => {
+        return this.client.tenDlc.getUSCampaignAttachment(
+          campaignId,
+          attachmentId,
+          updatedOptions,
+        );
+      },
+    );
+  }
+
+  public listUSCampaignAttachments(
+    campaignId: string,
+    options: TenDlcGetUSCampaignAttachmentsOptionalParams = {},
+  ): PagedAsyncIterableIterator<CampaignAttachment> {
+    const { span, updatedOptions } = tracingClient.startSpan(
+      "TenDLCClient-listCampaignAttachments",
+      options,
+    );
+    try {
+      return this.client.tenDlc.listUSCampaignAttachments(campaignId, updatedOptions);
+    } catch (e: any) {
+      span.setStatus({
+        status: "error",
+        error: e,
+      });
+      throw e;
+    } finally {
+      span.end();
+    }
+  }
+
+  public deleteUSCampaignAttachment(
+    campaignId: string,
+    attachmentId: string,
+    options: TenDlcDeleteUSCampaignAttachmentOptionalParams = {},
+  ): Promise<void> {
+    return tracingClient.withSpan(
+      "TenDLCClient-deleteCampaignAttachment",
+      options,
+      (updatedOptions) => {
+        return this.client.tenDlc.deleteUSCampaignAttachment(
+          campaignId,
+          attachmentId,
+          updatedOptions,
+        );
+      },
+    );
+  }
+
+  public createOrReplaceCampaignAttachment(
+    campaignId: string,
+    attachmentId: string,
+    fileName: string,
+    fileType: FileType,
+    fileContent: string,
+    attachmentType: AttachmentType,
+    options: TenDlcPutUSCampaignAttachmentOptionalParams = {},
+  ): Promise<TenDlcPutUSCampaignAttachmentResponse> {
+    return tracingClient.withSpan(
+      "TenDLCClient-createOrReplaceCampaignAttachment",
+      options,
+      (updatedOptions) => {
+        return this.client.tenDlc.putUSCampaignAttachment(
+          campaignId,
+          attachmentId,
+          attachmentId,
+          attachmentType,
+          fileName,
+          fileType,
+          fileContent,
+          updatedOptions,
+        );
+      },
+    );
   }
 }

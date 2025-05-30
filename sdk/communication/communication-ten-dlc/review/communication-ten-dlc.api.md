@@ -24,6 +24,9 @@ export interface Address {
 export type AlternateBusinessIdType = "Duns" | "Lei" | "Giin";
 
 // @public
+export type AttachmentType = "callToAction" | "termsOfService" | "privacyPolicy" | "other";
+
+// @public
 export type BillingFrequency = "Monthly" | "Once";
 
 // @public
@@ -46,6 +49,29 @@ export interface BrandDetails {
 
 // @public
 export type BrandStatus = "Draft" | "Submitted" | "Cancelled" | "PendingCancellation" | "Denied" | "Approved" | "MicrosoftSupportEngaged" | "VettingSubmitted" | "PendingCustomerUpdate";
+
+// @public
+export interface CampaignAttachment {
+    fileContentBase64: string;
+    fileName: string;
+    fileSizeInBytes?: number;
+    fileType: FileType;
+    id: string;
+    type: AttachmentType;
+}
+
+// @public
+export interface CampaignAttachments {
+    attachments?: CampaignAttachment[];
+    nextLink?: string;
+}
+
+// @public
+export interface CampaignAttachmentSummary {
+    fileName?: string;
+    id?: string;
+    type?: AttachmentType;
+}
 
 // @public
 export interface CampaignDetails {
@@ -84,6 +110,9 @@ export interface DeleteCampaignOptionalParams extends TenDlcDeleteUSCampaignOpti
 
 // @public
 export type EntityType = "PrivateProfit" | "PublicProfit" | "NonProfit" | "Government";
+
+// @public
+export type FileType = "png" | "jpg" | "jpeg" | "pdf";
 
 // @public
 export interface GetBrandOptionalParams extends TenDlcGetUSBrandOptionalParams {
@@ -163,12 +192,20 @@ export class TenDlcClient {
     constructor(endpoint: string, credential: TokenCredential, options?: TenDlcClientOptions);
     cancelUSBrand(brandId: string, options?: TenDlcCancelUSBrandOptionalParams): Promise<TenDlcCancelUSBrandResponse>;
     cancelUSCampaign(campaignId: string, options?: TenDlcCancelUSCampaignOptionalParams): Promise<TenDlcCancelUSCampaignResponse>;
+    // (undocumented)
+    createOrReplaceCampaignAttachment(campaignId: string, attachmentId: string, fileName: string, fileType: FileType, fileContent: string, attachmentType: AttachmentType, options?: TenDlcPutUSCampaignAttachmentOptionalParams): Promise<TenDlcPutUSCampaignAttachmentResponse>;
     deleteUSBrand(brandId: string, options?: DeleteBrandOptionalParams): Promise<void>;
     deleteUSCampaign(campaignId: string, options?: DeleteCampaignOptionalParams): Promise<void>;
+    // (undocumented)
+    deleteUSCampaignAttachment(campaignId: string, attachmentId: string, options?: TenDlcDeleteUSCampaignAttachmentOptionalParams): Promise<void>;
     getUSBrand(brandId: string, options?: GetBrandOptionalParams): Promise<USBrand>;
     getUSCampaign(campaignId: string, options?: GetCampaignOptionalParams): Promise<USCampaign>;
+    // (undocumented)
+    getUSCampaignAttachment(campaignId: string, attachmentId: string, options?: TenDlcGetUSCampaignAttachmentOptionalParams): Promise<TenDlcGetUSCampaignAttachmentResponse>;
     listCosts(options?: ListCostsOptions): PagedAsyncIterableIterator<TenDlcCost>;
     listUSBrands(options?: GetBrandsOptionalParams): PagedAsyncIterableIterator<USBrand>;
+    // (undocumented)
+    listUSCampaignAttachments(campaignId: string, options?: TenDlcGetUSCampaignAttachmentsOptionalParams): PagedAsyncIterableIterator<CampaignAttachment>;
     listUSCampaigns(options?: ListCampaignsOptionalParams): PagedAsyncIterableIterator<USCampaign>;
     submitUSBrand(brandId: string, options?: SubmitBrandOptionalParams): Promise<USBrand>;
     submitUSCampaign(campaignId: string, options?: SubmitCampaignOptionalParams): Promise<USCampaign>;
@@ -203,6 +240,10 @@ export interface TenDlcDeleteUSBrandOptionalParams extends coreClient.OperationO
 }
 
 // @public
+export interface TenDlcDeleteUSCampaignAttachmentOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
 export interface TenDlcDeleteUSCampaignOptionalParams extends coreClient.OperationOptions {
 }
 
@@ -227,6 +268,22 @@ export interface TenDlcGetUSBrandsOptionalParams extends coreClient.OperationOpt
 }
 
 // @public
+export interface TenDlcGetUSCampaignAttachmentOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type TenDlcGetUSCampaignAttachmentResponse = CampaignAttachment;
+
+// @public
+export interface TenDlcGetUSCampaignAttachmentsOptionalParams extends coreClient.OperationOptions {
+    skip?: number;
+    top?: number;
+}
+
+// @public
+export type TenDlcGetUSCampaignAttachmentsResponse = CampaignAttachments;
+
+// @public
 export interface TenDlcGetUSCampaignOptionalParams extends coreClient.OperationOptions {
 }
 
@@ -239,6 +296,14 @@ export interface TenDlcGetUSCampaignsOptionalParams extends coreClient.Operation
     // (undocumented)
     top?: number;
 }
+
+// @public
+export interface TenDlcPutUSCampaignAttachmentOptionalParams extends coreClient.OperationOptions {
+    fileSizeInBytes?: number;
+}
+
+// @public
+export type TenDlcPutUSCampaignAttachmentResponse = CampaignAttachment;
 
 // @public
 export interface TenDlcSubmitUSBrandOptionalParams extends coreClient.OperationOptions {
@@ -283,6 +348,7 @@ export interface USBrands {
 
 // @public
 export interface USCampaign {
+    attachments?: CampaignAttachmentSummary[];
     brandId?: string;
     campaignDetails?: CampaignDetails;
     costs?: TenDlcCost[];

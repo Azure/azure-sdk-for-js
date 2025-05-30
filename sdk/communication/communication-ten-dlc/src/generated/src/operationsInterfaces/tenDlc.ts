@@ -12,6 +12,8 @@ import {
   TenDlcGetUSBrandsOptionalParams,
   USCampaign,
   TenDlcGetUSCampaignsOptionalParams,
+  CampaignAttachment,
+  TenDlcGetUSCampaignAttachmentsOptionalParams,
   TenDlcCost,
   TenDlcGetCostsOptionalParams,
   TenDlcUpsertUSBrandOptionalParams,
@@ -34,6 +36,13 @@ import {
   TenDlcSubmitUSCampaignResponse,
   TenDlcCancelUSCampaignOptionalParams,
   TenDlcCancelUSCampaignResponse,
+  AttachmentType,
+  FileType,
+  TenDlcPutUSCampaignAttachmentOptionalParams,
+  TenDlcPutUSCampaignAttachmentResponse,
+  TenDlcGetUSCampaignAttachmentOptionalParams,
+  TenDlcGetUSCampaignAttachmentResponse,
+  TenDlcDeleteUSCampaignAttachmentOptionalParams,
 } from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
@@ -47,6 +56,15 @@ export interface TenDlc {
   listUSCampaigns(
     options?: TenDlcGetUSCampaignsOptionalParams,
   ): PagedAsyncIterableIterator<USCampaign>;
+  /**
+   * Gets the list of attachments from a 10DLC US Campaign Brief.
+   * @param campaignId
+   * @param options The options parameters.
+   */
+  listUSCampaignAttachments(
+    campaignId: string,
+    options?: TenDlcGetUSCampaignAttachmentsOptionalParams,
+  ): PagedAsyncIterableIterator<CampaignAttachment>;
   /**
    * This method supports pagination via the "skip" and "top" query parameters.
    * @param options The options parameters.
@@ -144,4 +162,50 @@ export interface TenDlc {
     campaignId: string,
     options?: TenDlcCancelUSCampaignOptionalParams,
   ): Promise<TenDlcCancelUSCampaignResponse>;
+  /**
+   * Creates or replace an attachment on a 10DLC US Campaign Brief.
+   * @param campaignId Campaign Brief Id. Must be a valid GUID
+   * @param attachmentId Attachment Id. Must be a valid GUID
+   * @param id Program Brief Attachment Id.
+   * @param typeParam Attachment type describing the purpose of the attachment
+   *                  e.g. 'callToAction', 'termsOfService'
+   * @param fileName The name of the file being attached
+   *                 e.g. 'myFile01'
+   * @param fileType The type of file being attached
+   *                 e.g. 'pdf', 'jpg', 'png'
+   * @param fileContentBase64 File content as base 64 encoded string
+   * @param options The options parameters.
+   */
+  putUSCampaignAttachment(
+    campaignId: string,
+    attachmentId: string,
+    id: string,
+    typeParam: AttachmentType,
+    fileName: string,
+    fileType: FileType,
+    fileContentBase64: string,
+    options?: TenDlcPutUSCampaignAttachmentOptionalParams,
+  ): Promise<TenDlcPutUSCampaignAttachmentResponse>;
+  /**
+   * Gets a specific attachment from a 10DLC US Campaign Brief.
+   * @param campaignId Campaign Brief Id. Must be a valid GUID
+   * @param attachmentId Attachment Id. Must be a valid GUID
+   * @param options The options parameters.
+   */
+  getUSCampaignAttachment(
+    campaignId: string,
+    attachmentId: string,
+    options?: TenDlcGetUSCampaignAttachmentOptionalParams,
+  ): Promise<TenDlcGetUSCampaignAttachmentResponse>;
+  /**
+   * Deletes a specific attachment from a 10DLC US Campaign Brief.
+   * @param campaignId Campaign Brief Id. Must be a valid GUID
+   * @param attachmentId Attachment Id. Must be a valid GUID
+   * @param options The options parameters.
+   */
+  deleteUSCampaignAttachment(
+    campaignId: string,
+    attachmentId: string,
+    options?: TenDlcDeleteUSCampaignAttachmentOptionalParams,
+  ): Promise<void>;
 }

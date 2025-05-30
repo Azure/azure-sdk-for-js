@@ -524,6 +524,18 @@ export const USCampaign: coreClient.CompositeMapper = {
           className: "MessageDetails",
         },
       },
+      attachments: {
+        serializedName: "attachments",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "CampaignAttachmentSummary",
+            },
+          },
+        },
+      },
     },
   },
 };
@@ -707,6 +719,33 @@ export const UseCase: coreClient.CompositeMapper = {
   },
 };
 
+export const CampaignAttachmentSummary: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "CampaignAttachmentSummary",
+    modelProperties: {
+      id: {
+        serializedName: "id",
+        type: {
+          name: "Uuid",
+        },
+      },
+      type: {
+        serializedName: "type",
+        type: {
+          name: "String",
+        },
+      },
+      fileName: {
+        serializedName: "fileName",
+        type: {
+          name: "String",
+        },
+      },
+    },
+  },
+};
+
 export const USCampaigns: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
@@ -720,6 +759,89 @@ export const USCampaigns: coreClient.CompositeMapper = {
             type: {
               name: "Composite",
               className: "USCampaign",
+            },
+          },
+        },
+      },
+      nextLink: {
+        serializedName: "nextLink",
+        type: {
+          name: "String",
+        },
+      },
+    },
+  },
+};
+
+export const CampaignAttachment: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "CampaignAttachment",
+    modelProperties: {
+      id: {
+        serializedName: "id",
+        required: true,
+        type: {
+          name: "Uuid",
+        },
+      },
+      typeParam: {
+        serializedName: "type",
+        required: true,
+        type: {
+          name: "String",
+        },
+      },
+      fileName: {
+        constraints: {
+          MinLength: 1,
+        },
+        serializedName: "fileName",
+        required: true,
+        type: {
+          name: "String",
+        },
+      },
+      fileSizeInBytes: {
+        serializedName: "fileSizeInBytes",
+        type: {
+          name: "Number",
+        },
+      },
+      fileType: {
+        serializedName: "fileType",
+        required: true,
+        type: {
+          name: "String",
+        },
+      },
+      fileContentBase64: {
+        constraints: {
+          MinLength: 1,
+        },
+        serializedName: "fileContentBase64",
+        required: true,
+        type: {
+          name: "String",
+        },
+      },
+    },
+  },
+};
+
+export const CampaignAttachments: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "CampaignAttachments",
+    modelProperties: {
+      attachments: {
+        serializedName: "attachments",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "CampaignAttachment",
             },
           },
         },

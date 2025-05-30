@@ -14,6 +14,7 @@ import {
 import {
   USBrand as USBrandMapper,
   USCampaign as USCampaignMapper,
+  CampaignAttachment as CampaignAttachmentMapper,
   TenDlcConfigurationRequest as TenDlcConfigurationRequestMapper,
 } from "../models/mappers.js";
 
@@ -159,18 +160,6 @@ export const campaignId: OperationURLParameter = {
   },
 };
 
-export const nextLink: OperationURLParameter = {
-  parameterPath: "nextLink",
-  mapper: {
-    serializedName: "nextLink",
-    required: true,
-    type: {
-      name: "String",
-    },
-  },
-  skipEncoding: true,
-};
-
 export const contentType1: OperationParameter = {
   parameterPath: ["options", "contentType"],
   mapper: {
@@ -181,6 +170,59 @@ export const contentType1: OperationParameter = {
       name: "String",
     },
   },
+};
+
+export const id1: OperationParameter = {
+  parameterPath: "id",
+  mapper: CampaignAttachmentMapper,
+};
+
+export const typeParam: OperationParameter = {
+  parameterPath: "typeParam",
+  mapper: CampaignAttachmentMapper,
+};
+
+export const fileName: OperationParameter = {
+  parameterPath: "fileName",
+  mapper: CampaignAttachmentMapper,
+};
+
+export const fileSizeInBytes: OperationParameter = {
+  parameterPath: ["options", "fileSizeInBytes"],
+  mapper: CampaignAttachmentMapper,
+};
+
+export const fileType: OperationParameter = {
+  parameterPath: "fileType",
+  mapper: CampaignAttachmentMapper,
+};
+
+export const fileContentBase64: OperationParameter = {
+  parameterPath: "fileContentBase64",
+  mapper: CampaignAttachmentMapper,
+};
+
+export const attachmentId: OperationURLParameter = {
+  parameterPath: "attachmentId",
+  mapper: {
+    serializedName: "attachmentId",
+    required: true,
+    type: {
+      name: "Uuid",
+    },
+  },
+};
+
+export const nextLink: OperationURLParameter = {
+  parameterPath: "nextLink",
+  mapper: {
+    serializedName: "nextLink",
+    required: true,
+    type: {
+      name: "String",
+    },
+  },
+  skipEncoding: true,
 };
 
 export const sms: OperationParameter = {

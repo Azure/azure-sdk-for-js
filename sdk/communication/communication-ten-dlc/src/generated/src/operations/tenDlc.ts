@@ -23,6 +23,10 @@ import {
   TenDlcGetUSCampaignsNextOptionalParams,
   TenDlcGetUSCampaignsOptionalParams,
   TenDlcGetUSCampaignsResponse,
+  CampaignAttachment,
+  TenDlcGetUSCampaignAttachmentsNextOptionalParams,
+  TenDlcGetUSCampaignAttachmentsOptionalParams,
+  TenDlcGetUSCampaignAttachmentsResponse,
   TenDlcCost,
   TenDlcGetCostsNextOptionalParams,
   TenDlcGetCostsOptionalParams,
@@ -47,8 +51,16 @@ import {
   TenDlcSubmitUSCampaignResponse,
   TenDlcCancelUSCampaignOptionalParams,
   TenDlcCancelUSCampaignResponse,
+  AttachmentType,
+  FileType,
+  TenDlcPutUSCampaignAttachmentOptionalParams,
+  TenDlcPutUSCampaignAttachmentResponse,
+  TenDlcGetUSCampaignAttachmentOptionalParams,
+  TenDlcGetUSCampaignAttachmentResponse,
+  TenDlcDeleteUSCampaignAttachmentOptionalParams,
   TenDlcGetUSBrandsNextResponse,
   TenDlcGetUSCampaignsNextResponse,
+  TenDlcGetUSCampaignAttachmentsNextResponse,
   TenDlcGetCostsNextResponse,
 } from "../models/index.js";
 
@@ -163,6 +175,75 @@ export class TenDlcImpl implements TenDlc {
     options?: TenDlcGetUSCampaignsOptionalParams,
   ): AsyncIterableIterator<USCampaign> {
     for await (const page of this.getUSCampaignsPagingPage(options)) {
+      yield* page;
+    }
+  }
+
+  /**
+   * Gets the list of attachments from a 10DLC US Campaign Brief.
+   * @param campaignId
+   * @param options The options parameters.
+   */
+  public listUSCampaignAttachments(
+    campaignId: string,
+    options?: TenDlcGetUSCampaignAttachmentsOptionalParams,
+  ): PagedAsyncIterableIterator<CampaignAttachment> {
+    const iter = this.getUSCampaignAttachmentsPagingAll(campaignId, options);
+    return {
+      next() {
+        return iter.next();
+      },
+      [Symbol.asyncIterator]() {
+        return this;
+      },
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
+        return this.getUSCampaignAttachmentsPagingPage(
+          campaignId,
+          options,
+          settings,
+        );
+      },
+    };
+  }
+
+  private async *getUSCampaignAttachmentsPagingPage(
+    campaignId: string,
+    options?: TenDlcGetUSCampaignAttachmentsOptionalParams,
+    settings?: PageSettings,
+  ): AsyncIterableIterator<CampaignAttachment[]> {
+    let result: TenDlcGetUSCampaignAttachmentsResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._getUSCampaignAttachments(campaignId, options);
+      let page = result.attachments || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
+    while (continuationToken) {
+      result = await this._getUSCampaignAttachmentsNext(
+        campaignId,
+        continuationToken,
+        options,
+      );
+      continuationToken = result.nextLink;
+      let page = result.attachments || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
+  }
+
+  private async *getUSCampaignAttachmentsPagingAll(
+    campaignId: string,
+    options?: TenDlcGetUSCampaignAttachmentsOptionalParams,
+  ): AsyncIterableIterator<CampaignAttachment> {
+    for await (const page of this.getUSCampaignAttachmentsPagingPage(
+      campaignId,
+      options,
+    )) {
       yield* page;
     }
   }
@@ -476,6 +557,118 @@ export class TenDlcImpl implements TenDlc {
   }
 
   /**
+   * Creates or replace an attachment on a 10DLC US Campaign Brief.
+   * @param campaignId Campaign Brief Id. Must be a valid GUID
+   * @param attachmentId Attachment Id. Must be a valid GUID
+   * @param id Program Brief Attachment Id.
+   * @param typeParam Attachment type describing the purpose of the attachment
+   *                  e.g. 'callToAction', 'termsOfService'
+   * @param fileName The name of the file being attached
+   *                 e.g. 'myFile01'
+   * @param fileType The type of file being attached
+   *                 e.g. 'pdf', 'jpg', 'png'
+   * @param fileContentBase64 File content as base 64 encoded string
+   * @param options The options parameters.
+   */
+  async putUSCampaignAttachment(
+    campaignId: string,
+    attachmentId: string,
+    id: string,
+    typeParam: AttachmentType,
+    fileName: string,
+    fileType: FileType,
+    fileContentBase64: string,
+    options?: TenDlcPutUSCampaignAttachmentOptionalParams,
+  ): Promise<TenDlcPutUSCampaignAttachmentResponse> {
+    return tracingClient.withSpan(
+      "TenDLCClient.putUSCampaignAttachment",
+      options ?? {},
+      async (options) => {
+        return this.client.sendOperationRequest(
+          {
+            campaignId,
+            attachmentId,
+            id,
+            typeParam,
+            fileName,
+            fileType,
+            fileContentBase64,
+            options,
+          },
+          putUSCampaignAttachmentOperationSpec,
+        ) as Promise<TenDlcPutUSCampaignAttachmentResponse>;
+      },
+    );
+  }
+
+  /**
+   * Gets a specific attachment from a 10DLC US Campaign Brief.
+   * @param campaignId Campaign Brief Id. Must be a valid GUID
+   * @param attachmentId Attachment Id. Must be a valid GUID
+   * @param options The options parameters.
+   */
+  async getUSCampaignAttachment(
+    campaignId: string,
+    attachmentId: string,
+    options?: TenDlcGetUSCampaignAttachmentOptionalParams,
+  ): Promise<TenDlcGetUSCampaignAttachmentResponse> {
+    return tracingClient.withSpan(
+      "TenDLCClient.getUSCampaignAttachment",
+      options ?? {},
+      async (options) => {
+        return this.client.sendOperationRequest(
+          { campaignId, attachmentId, options },
+          getUSCampaignAttachmentOperationSpec,
+        ) as Promise<TenDlcGetUSCampaignAttachmentResponse>;
+      },
+    );
+  }
+
+  /**
+   * Deletes a specific attachment from a 10DLC US Campaign Brief.
+   * @param campaignId Campaign Brief Id. Must be a valid GUID
+   * @param attachmentId Attachment Id. Must be a valid GUID
+   * @param options The options parameters.
+   */
+  async deleteUSCampaignAttachment(
+    campaignId: string,
+    attachmentId: string,
+    options?: TenDlcDeleteUSCampaignAttachmentOptionalParams,
+  ): Promise<void> {
+    return tracingClient.withSpan(
+      "TenDLCClient.deleteUSCampaignAttachment",
+      options ?? {},
+      async (options) => {
+        return this.client.sendOperationRequest(
+          { campaignId, attachmentId, options },
+          deleteUSCampaignAttachmentOperationSpec,
+        ) as Promise<void>;
+      },
+    );
+  }
+
+  /**
+   * Gets the list of attachments from a 10DLC US Campaign Brief.
+   * @param campaignId
+   * @param options The options parameters.
+   */
+  private async _getUSCampaignAttachments(
+    campaignId: string,
+    options?: TenDlcGetUSCampaignAttachmentsOptionalParams,
+  ): Promise<TenDlcGetUSCampaignAttachmentsResponse> {
+    return tracingClient.withSpan(
+      "TenDLCClient._getUSCampaignAttachments",
+      options ?? {},
+      async (options) => {
+        return this.client.sendOperationRequest(
+          { campaignId, options },
+          getUSCampaignAttachmentsOperationSpec,
+        ) as Promise<TenDlcGetUSCampaignAttachmentsResponse>;
+      },
+    );
+  }
+
+  /**
    * This method supports pagination via the "skip" and "top" query parameters.
    * @param options The options parameters.
    */
@@ -532,6 +725,30 @@ export class TenDlcImpl implements TenDlc {
           { nextLink, options },
           getUSCampaignsNextOperationSpec,
         ) as Promise<TenDlcGetUSCampaignsNextResponse>;
+      },
+    );
+  }
+
+  /**
+   * GetUSCampaignAttachmentsNext
+   * @param campaignId
+   * @param nextLink The nextLink from the previous successful call to the GetUSCampaignAttachments
+   *                 method.
+   * @param options The options parameters.
+   */
+  private async _getUSCampaignAttachmentsNext(
+    campaignId: string,
+    nextLink: string,
+    options?: TenDlcGetUSCampaignAttachmentsNextOptionalParams,
+  ): Promise<TenDlcGetUSCampaignAttachmentsNextResponse> {
+    return tracingClient.withSpan(
+      "TenDLCClient._getUSCampaignAttachmentsNext",
+      options ?? {},
+      async (options) => {
+        return this.client.sendOperationRequest(
+          { campaignId, nextLink, options },
+          getUSCampaignAttachmentsNextOperationSpec,
+        ) as Promise<TenDlcGetUSCampaignAttachmentsNextResponse>;
       },
     );
   }
@@ -795,6 +1012,95 @@ const cancelUSCampaignOperationSpec: coreClient.OperationSpec = {
   headerParameters: [Parameters.accept],
   serializer,
 };
+const putUSCampaignAttachmentOperationSpec: coreClient.OperationSpec = {
+  path: "/tendlc/countries/US/campaigns/{campaignId}/attachments/{attachmentId}",
+  httpMethod: "PUT",
+  responses: {
+    200: {
+      bodyMapper: Mappers.CampaignAttachment,
+    },
+    201: {
+      bodyMapper: Mappers.CampaignAttachment,
+    },
+    default: {
+      bodyMapper: Mappers.CommunicationErrorResponse,
+    },
+  },
+  requestBody: {
+    parameterPath: {
+      id: ["id"],
+      typeParam: ["typeParam"],
+      fileName: ["fileName"],
+      fileSizeInBytes: ["options", "fileSizeInBytes"],
+      fileType: ["fileType"],
+      fileContentBase64: ["fileContentBase64"],
+    },
+    mapper: { ...Mappers.CampaignAttachment, required: true },
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.endpoint,
+    Parameters.campaignId,
+    Parameters.attachmentId,
+  ],
+  headerParameters: [Parameters.accept, Parameters.contentType1],
+  mediaType: "json",
+  serializer,
+};
+const getUSCampaignAttachmentOperationSpec: coreClient.OperationSpec = {
+  path: "/tendlc/countries/US/campaigns/{campaignId}/attachments/{attachmentId}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.CampaignAttachment,
+    },
+    default: {
+      bodyMapper: Mappers.CommunicationErrorResponse,
+    },
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.endpoint,
+    Parameters.campaignId,
+    Parameters.attachmentId,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
+};
+const deleteUSCampaignAttachmentOperationSpec: coreClient.OperationSpec = {
+  path: "/tendlc/countries/US/campaigns/{campaignId}/attachments/{attachmentId}",
+  httpMethod: "DELETE",
+  responses: {
+    204: {},
+    default: {
+      bodyMapper: Mappers.CommunicationErrorResponse,
+    },
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.endpoint,
+    Parameters.campaignId,
+    Parameters.attachmentId,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
+};
+const getUSCampaignAttachmentsOperationSpec: coreClient.OperationSpec = {
+  path: "/tendlc/countries/US/campaigns/{campaignId}/attachments",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.CampaignAttachments,
+    },
+    default: {
+      bodyMapper: Mappers.CommunicationErrorResponse,
+    },
+  },
+  queryParameters: [Parameters.apiVersion, Parameters.skip, Parameters.top],
+  urlParameters: [Parameters.endpoint, Parameters.campaignId],
+  headerParameters: [Parameters.accept],
+  serializer,
+};
 const getCostsOperationSpec: coreClient.OperationSpec = {
   path: "/tendlc/costs",
   httpMethod: "GET",
@@ -838,6 +1144,25 @@ const getUSCampaignsNextOperationSpec: coreClient.OperationSpec = {
     },
   },
   urlParameters: [Parameters.endpoint, Parameters.nextLink],
+  headerParameters: [Parameters.accept],
+  serializer,
+};
+const getUSCampaignAttachmentsNextOperationSpec: coreClient.OperationSpec = {
+  path: "{nextLink}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.CampaignAttachments,
+    },
+    default: {
+      bodyMapper: Mappers.CommunicationErrorResponse,
+    },
+  },
+  urlParameters: [
+    Parameters.endpoint,
+    Parameters.campaignId,
+    Parameters.nextLink,
+  ],
   headerParameters: [Parameters.accept],
   serializer,
 };
