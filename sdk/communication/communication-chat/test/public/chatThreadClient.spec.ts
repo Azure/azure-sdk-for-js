@@ -78,7 +78,7 @@ describe("ChatThreadClient", { skip: !isNodeLike }, () => {
     assert.equal(topic, thread.topic);
   });
 
-  it("successfully updates the thread retention policy to none retention plicy", async function () {
+  it("successfully updates the thread retention policy to none retention policy", async function () {
     const retentionPolicy: NoneRetentionPolicy = { kind: "none" };
 
     await chatThreadClient.updateProperties({ retentionPolicy: retentionPolicy });
