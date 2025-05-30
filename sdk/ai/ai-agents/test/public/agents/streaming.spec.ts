@@ -2,10 +2,10 @@
 // Licensed under the MIT License.
 
 import type { Recorder, VitestTestContext } from "@azure-tools/test-recorder";
-import type { AgentsClient, ThreadRun } from "../../../src/index.js";
+import type { AgentsClient, ThreadRun} from "../../../src/index.js";
+import { MessageStreamEvent, RunStreamEvent, } from "../../../src/index.js";
 import { createRecorder, createProjectsClient } from "../utils/createClient.js";
 import { assert, beforeEach, afterEach, it, describe } from "vitest";
-import { RunStreamEvent, MessageStreamEvent } from "../../../src/models/streamingModels.js";
 
 describe("Agents - streaming", () => {
   let recorder: Recorder;
@@ -68,7 +68,6 @@ describe("Agents - streaming", () => {
     console.log(`Deleted Thread, thread ID:  ${thread.id}`);
   });
 
-  // eslint-disable-next-line no-only-tests/no-only-tests
   it("should create thread and run streaming", async function () {
     // Create agent
     const agent = await projectsClient.createAgent("gpt-4-1106-preview", {
