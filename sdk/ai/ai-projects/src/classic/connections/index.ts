@@ -8,13 +8,20 @@ import {
   ConnectionsGetWithCredentialsOptionalParams,
   ConnectionsGetOptionalParams,
 } from "../../api/connections/options.js";
-import { list, getWithCredentials, get, getDefault } from "../../api/connections/operations.js";
+import {
+  list,
+  getWithCredentials,
+  get,
+  getDefault,
+} from "../../api/connections/operations.js";
 import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 
 /** Interface representing a Connections operations. */
 export interface ConnectionsOperations {
   /** List all connections in the project, without populating connection credentials */
-  list: (options?: ConnectionsListOptionalParams) => PagedAsyncIterableIterator<Connection>;
+  list: (
+    options?: ConnectionsListOptionalParams,
+  ) => PagedAsyncIterableIterator<Connection>;
   /** Get a connection by name, with its connection credentials */
   getWithCredentials: (
     name: string,
@@ -33,8 +40,10 @@ export interface ConnectionsOperations {
 function _getConnections(context: AIProjectContext) {
   return {
     list: (options?: ConnectionsListOptionalParams) => list(context, options),
-    getWithCredentials: (name: string, options?: ConnectionsGetWithCredentialsOptionalParams) =>
-      getWithCredentials(context, name, options),
+    getWithCredentials: (
+      name: string,
+      options?: ConnectionsGetWithCredentialsOptionalParams,
+    ) => getWithCredentials(context, name, options),
     get: (name: string, includeCredentials?: boolean, options?: ConnectionsGetOptionalParams) =>
       get(context, name, includeCredentials, options),
     getDefault: (connectionType: ConnectionType, includeCredentials?: boolean) =>
@@ -42,7 +51,9 @@ function _getConnections(context: AIProjectContext) {
   };
 }
 
-export function _getConnectionsOperations(context: AIProjectContext): ConnectionsOperations {
+export function _getConnectionsOperations(
+  context: AIProjectContext,
+): ConnectionsOperations {
   return {
     ..._getConnections(context),
   };

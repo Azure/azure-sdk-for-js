@@ -1,6 +1,5 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-/* eslint-disable tsdoc/syntax */
 
 import { AIProjectClientOptionalParams, AIProjectContext } from "../../api/aiProjectContext.js";
 import {
@@ -59,7 +58,11 @@ export interface DatasetsOperations {
    *         Please add @clientName("clientName") or @clientName("<JS-Specific-Name>", "javascript")
    *         to the operation to override the generated name.
    */
-  delete: (name: string, version: string, options?: DatasetsDeleteOptionalParams) => Promise<void>;
+  delete: (
+    name: string,
+    version: string,
+    options?: DatasetsDeleteOptionalParams,
+  ) => Promise<void>;
   /** Get the specific version of the DatasetVersion */
   get: (
     name: string,
@@ -67,7 +70,9 @@ export interface DatasetsOperations {
     options?: DatasetsGetOptionalParams,
   ) => Promise<DatasetVersionUnion>;
   /** List the latest version of each DatasetVersion */
-  list: (options?: DatasetsListOptionalParams) => PagedAsyncIterableIterator<DatasetVersionUnion>;
+  list: (
+    options?: DatasetsListOptionalParams,
+  ) => PagedAsyncIterableIterator<DatasetVersionUnion>;
   /** List all versions of the given DatasetVersion */
   listVersions: (
     name: string,
@@ -111,13 +116,18 @@ function _getDatasets(
       body: DatasetVersionUnion,
       options?: DatasetsCreateOrUpdateOptionalParams,
     ) => createOrUpdate(context, name, version, body, options),
-    delete: (name: string, version: string, options?: DatasetsDeleteOptionalParams) =>
-      $delete(context, name, version, options),
+    delete: (
+      name: string,
+      version: string,
+      options?: DatasetsDeleteOptionalParams,
+    ) => $delete(context, name, version, options),
     get: (name: string, version: string, options?: DatasetsGetOptionalParams) =>
       get(context, name, version, options),
     list: (options?: DatasetsListOptionalParams) => list(context, options),
-    listVersions: (name: string, options?: DatasetsListVersionsOptionalParams) =>
-      listVersions(context, name, options),
+    listVersions: (
+      name: string,
+      options?: DatasetsListVersionsOptionalParams,
+    ) => listVersions(context, name, options),
     uploadFile: (name: string, version: string, filePath: string, connectionName?: string) =>
       uploadFile(context, name, version, filePath, { connectionName, projectOptions }),
     uploadFolder: (name: string, version: string, folderPath: string, connectionName?: string) =>
