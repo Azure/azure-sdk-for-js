@@ -309,7 +309,7 @@ describe("snippets", function () {
       },
     };
 
-    const evalResp = await project.evaluations.createRun(newEvaluation);
+    const evalResp = await project.evaluations.create(newEvaluation);
     console.log("Create a new evaluation:", JSON.stringify(evalResp, null, 2));
     // get the evaluation by ID
     const eval2 = await project.evaluations.get(evalResp.name);
