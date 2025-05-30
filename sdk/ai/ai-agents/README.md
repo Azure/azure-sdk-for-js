@@ -661,36 +661,27 @@ const streamEventMessages = await client.runs.create(thread.id, agent.id).stream
 Event handling can be done as follows:
 
 ```ts snippet:eventHandling
-import {
-  RunStreamEvent,
-  ThreadRun,
-  MessageStreamEvent,
-  MessageDeltaChunk,
-  MessageDeltaTextContent,
-  ErrorEvent,
-  DoneEvent,
-} from "@azure/ai-agents";
+import { RunStreamEvent, MessageStreamEvent, ErrorEvent, DoneEvent } from "@azure/ai-agents";
 
 const streamEventMessages = await client.runs.create(thread.id, agent.id).stream();
 
 for await (const eventMessage of streamEventMessages) {
   switch (eventMessage.event) {
     case RunStreamEvent.ThreadRunCreated:
-      console.log(`ThreadRun status: ${(eventMessage.data as ThreadRun).status}`);
+      console.log(`ThreadRun status: ${eventMessage.data.status}`);
       break;
     case MessageStreamEvent.ThreadMessageDelta:
       {
-        const messageDelta = eventMessage.data as MessageDeltaChunk;
+        const messageDelta = eventMessage.data;
         messageDelta.delta.content.forEach((contentPart) => {
           if (contentPart.type === "text") {
-            const textContent = contentPart as MessageDeltaTextContent;
+            const textContent = contentPart;
             const textValue = textContent.text?.value || "No text";
             console.log(`Text delta received:: ${textValue}`);
           }
         });
       }
       break;
-
     case RunStreamEvent.ThreadRunCompleted:
       console.log("Thread Run Completed");
       break;

@@ -20,6 +20,10 @@ import {
   truncationObjectSerializer,
   agentsToolChoiceOptionSerializer,
   threadRunDeserializer,
+  MessageStreamEvent,
+  RunStepStreamEvent,
+  RunStreamEvent,
+  ThreadStreamEvent,
 } from "../models/models.js";
 import type {
   CreateThreadAndRunOptionalParams,
@@ -39,12 +43,6 @@ import type {
   AgentEventMessageStream,
   AgentEventStreamData,
   AgentRunResponse,
-} from "../models/streamingModels.js";
-import {
-  MessageStreamEvent,
-  RunStepStreamEvent,
-  RunStreamEvent,
-  ThreadStreamEvent,
 } from "../models/streamingModels.js";
 import type {
   RunsCreateRunOptionalParams,
@@ -432,7 +430,10 @@ async function* toAsyncIterable(stream: EventMessageStream): AsyncIterable<Agent
 
 function deserializeEventData(event: EventMessage): AgentEventStreamData {
   try {
-    const jsonData = JSON.parse(event.data);
+    const jsonData = JSON.parse(event.data);  
+    if (Object.values(RunStreamEvent).includes(event.event as RunStreamEvent)) {
+      return threadRunDeserializer(jsonData);
+    }
     switch (event.event) {
       case MessageStreamEvent.ThreadMessageDelta:
         return jsonData;
