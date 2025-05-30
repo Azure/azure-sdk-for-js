@@ -217,6 +217,63 @@ describe("Call Automation Client Unit Tests", () => {
     assert.equal(result, answerCallResultMock);
   });
 
+  it("AnswerCall with TeamsPhoneCallDetails in custom context", async () => {
+    // mocks
+    const answerCallResultMock: AnswerCallResult = {
+      callConnectionProperties: {} as CallConnectionProperties,
+      callConnection: {} as CallConnection,
+      waitForEventProcessor: async () => {
+        return {} as AnswerCallEventResult;
+      },
+    };
+    vi.spyOn(client, "answerCall").mockResolvedValue(answerCallResultMock);
+
+    const answerCallOptions: AnswerCallOptions = {
+      operationContext: "operationContextAnswerCall",
+      customCallingContext: [
+        { kind: "voip", key: "foo", value: "bar" },
+        {
+          kind: "teamsPhoneCallDetails",
+          teamsPhoneCallerDetails: {
+            caller: { teamsAppId: "teamsAppId123" },
+            name: "John Doe",
+            phoneNumber: "+14255551234",
+            additionalCallerInformation: {
+              Department: "Sales",
+              Priority: "High",
+            },
+          },
+          teamsPhoneSourceDetails: {
+            source: { teamsAppId: "teamsAppId123" },
+            language: "en-US",
+            status: "Active",
+          },
+          sessionId: "session-123-abc",
+          intent: "Sales Inquiry",
+          callTopic: "New Product Information",
+          callContext: "Customer inquiry about latest offerings",
+        },
+      ],
+    };
+
+    const promiseResult = client.answerCall(
+      CALL_INCOMING_CALL_CONTEXT,
+      CALL_CALLBACK_URL,
+      answerCallOptions,
+    );
+
+    // asserts
+    const result = await promiseResult;
+
+    assert.isNotNull(result);
+    expect(client.answerCall).toHaveBeenCalledWith(
+      CALL_INCOMING_CALL_CONTEXT,
+      CALL_CALLBACK_URL,
+      answerCallOptions,
+    );
+    assert.equal(result, answerCallResultMock);
+  });
+
   it("RedirectCall", async () => {
     // mocks
     vi.spyOn(client, "redirectCall").mockReturnValue(

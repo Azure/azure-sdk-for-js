@@ -434,6 +434,8 @@ export interface CommunicationIdentifierModel {
     microsoftTeamsUser?: MicrosoftTeamsUserIdentifierModel;
     phoneNumber?: PhoneNumberIdentifierModel;
     rawId?: string;
+    // Warning: (ae-forgotten-export) The symbol "TeamsExtensionUserIdentifierModel" needs to be exported by the entry point index.d.ts
+    teamsExtensionUser?: TeamsExtensionUserIdentifierModel;
 }
 
 // @public
@@ -551,7 +553,7 @@ export interface CreateCallResult {
 }
 
 // @public
-export type CustomCallingContext = (VoipHeader | SipUserToUserHeader | SipCustomHeader)[];
+export type CustomCallingContext = (VoipHeader | SipUserToUserHeader | SipCustomHeader | TeamsPhoneCallDetails)[];
 
 // @public (undocumented)
 export interface CustomCallingContextHeader {
@@ -566,6 +568,7 @@ export interface CustomCallingContextInternal {
     sipHeaders?: {
         [propertyName: string]: string;
     };
+    teamsPhoneCallDetails?: TeamsPhoneCallDetailsInternal;
     voipHeaders?: {
         [propertyName: string]: string;
     };
@@ -742,6 +745,7 @@ export enum KnownCommunicationIdentifierModelKind {
     MicrosoftTeamsApp = "microsoftTeamsApp",
     MicrosoftTeamsUser = "microsoftTeamsUser",
     PhoneNumber = "phoneNumber",
+    TeamsExtensionUser = "teamsExtensionUser",
     Unknown = "unknown"
 }
 
@@ -1029,6 +1033,8 @@ export type PauseRecordingOptions = OperationOptions;
 
 // @public
 export interface PhoneNumberIdentifierModel {
+    assertedId?: string;
+    isAnonymous?: boolean;
     value: string;
 }
 
@@ -1346,6 +1352,7 @@ export interface SipUserToUserHeader extends CustomCallingContextHeader {
 
 // @public
 export interface SpeechResult {
+    confidence?: number;
     speech?: string;
 }
 
@@ -1449,6 +1456,80 @@ export enum StreamingDataKind {
 
 // @public (undocumented)
 export type StreamingDataResult = TranscriptionMetadata | TranscriptionData | AudioData_2 | AudioMetadata;
+
+// @public
+export interface TeamsPhoneCallDetails {
+    callContext?: string;
+    callSentiment?: string;
+    callTopic?: string;
+    intent?: string;
+    // (undocumented)
+    kind: "teamsPhoneCallDetails";
+    sessionId?: string;
+    suggestedActions?: string;
+    teamsPhoneCallerDetails?: TeamsPhoneCallerDetails;
+    teamsPhoneSourceDetails?: TeamsPhoneSourceDetails;
+    transcriptUrl?: string;
+}
+
+// @public
+export interface TeamsPhoneCallDetailsInternal {
+    callContext?: string;
+    callSentiment?: string;
+    callTopic?: string;
+    intent?: string;
+    sessionId?: string;
+    suggestedActions?: string;
+    teamsPhoneCallerDetails?: TeamsPhoneCallerDetailsInternal;
+    teamsPhoneSourceDetails?: TeamsPhoneSourceDetailsInternal;
+    transcriptUrl?: string;
+}
+
+// @public
+export interface TeamsPhoneCallerDetails {
+    additionalCallerInformation?: {
+        [propertyName: string]: string;
+    };
+    caller: CommunicationIdentifier;
+    isAuthenticated?: boolean;
+    name: string;
+    phoneNumber: string;
+    recordId?: string;
+    screenPopUrl?: string;
+}
+
+// @public
+export interface TeamsPhoneCallerDetailsInternal {
+    additionalCallerInformation?: {
+        [propertyName: string]: string;
+    };
+    caller: CommunicationIdentifierModel;
+    isAuthenticated?: boolean;
+    name: string;
+    phoneNumber: string;
+    recordId?: string;
+    screenPopUrl?: string;
+}
+
+// @public
+export interface TeamsPhoneSourceDetails {
+    intendedTargets?: {
+        [propertyName: string]: CommunicationIdentifier;
+    };
+    language: string;
+    source: CommunicationIdentifier;
+    status: string;
+}
+
+// @public
+export interface TeamsPhoneSourceDetailsInternal {
+    intendedTargets?: {
+        [propertyName: string]: CommunicationIdentifierModel;
+    };
+    language: string;
+    source: CommunicationIdentifierModel;
+    status: string;
+}
 
 // @public
 export enum TextFormat {

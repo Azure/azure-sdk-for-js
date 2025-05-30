@@ -2,7 +2,11 @@
 // Licensed under the MIT License.
 
 import { createSerializer } from "@azure/core-client";
-import { communicationIdentifierConverter, callParticipantConverter } from "./utli/converters.js";
+import {
+  communicationIdentifierConverter,
+  callParticipantConverter,
+  teamsPhoneCallDetailsConverter,
+} from "./utli/converters.js";
 import type {
   CallAutomationEvent,
   AddParticipantSucceeded,
@@ -93,6 +97,27 @@ export function parseCallAutomationEvent(
       break;
     case "Microsoft.Communication.IncomingCall":
       callbackEvent = { kind: "IncomingCall" } as IncomingCall;
+
+      // Normalize customContext: convert undefined to null and ensure all properties are null if undefined
+      if (data.customContext === undefined) {
+        parsed.customContext = {
+          voipHeaders: null,
+          sipHeaders: null,
+          teamsPhoneCallDetails: null,
+        };
+      } else if (data.customContext) {
+        // If customContext exists, ensure its properties are null instead of undefined
+        parsed.customContext = {
+          voipHeaders:
+            data.customContext.voipHeaders === undefined ? null : data.customContext.voipHeaders,
+          sipHeaders:
+            data.customContext.sipHeaders === undefined ? null : data.customContext.sipHeaders,
+          teamsPhoneCallDetails:
+            data.customContext.teamsPhoneCallDetails === undefined
+              ? null
+              : teamsPhoneCallDetailsConverter(data.customContext.teamsPhoneCallDetails),
+        };
+      }
       break;
     case "Microsoft.Communication.CallDisconnected":
       callbackEvent = { kind: "CallDisconnected" } as CallDisconnected;
