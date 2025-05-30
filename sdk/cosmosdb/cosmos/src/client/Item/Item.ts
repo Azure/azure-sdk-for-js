@@ -28,7 +28,7 @@ import type { ItemDefinition } from "./ItemDefinition.js";
 import { ItemResponse } from "./ItemResponse.js";
 import { getEmptyCosmosDiagnostics, withDiagnostics } from "../../utils/diagnostics.js";
 import { setPartitionKeyIfUndefined } from "../../extractPartitionKey.js";
-import { readPartitionKeyDefinition } from "../ClientUtils.js";
+import { computePartitionKeyRangeId } from "../ClientUtils.js";
 import { PartitionKeyRangeCache } from "../../routing/partitionKeyRangeCache.js";
 
 /**
@@ -134,9 +134,14 @@ export class Item {
         const path = getPathFromLink(url);
         const id = getIdFromLink(url);
 
-        const partitionKeyRangeId = await this.computePartitionKeyRangeId(
+        const isPartitionLevelFailOverEnabled =
+          this.clientContext.getIsPartitionLevelFailOverEnabled();
+        const partitionKeyRangeId = await computePartitionKeyRangeId(
           diagnosticNode,
           partitionKey,
+          this.partitionKeyRangeCache,
+          isPartitionLevelFailOverEnabled,
+          this.container,
         );
 
         response = await this.clientContext.read<T>({
@@ -298,9 +303,14 @@ export class Item {
         const path = getPathFromLink(url);
         const id = getIdFromLink(url);
 
-        const partitionKeyRangeId = await this.computePartitionKeyRangeId(
+        const isPartitionLevelFailOverEnabled =
+          this.clientContext.getIsPartitionLevelFailOverEnabled();
+        const partitionKeyRangeId = await computePartitionKeyRangeId(
           diagnosticNode,
           partitionKey,
+          this.partitionKeyRangeCache,
+          isPartitionLevelFailOverEnabled,
+          this.container,
         );
 
         response = await this.clientContext.replace<T>({
@@ -419,9 +429,14 @@ export class Item {
         const path = getPathFromLink(url);
         const id = getIdFromLink(url);
 
-        const partitionKeyRangeId = await this.computePartitionKeyRangeId(
+        const isPartitionLevelFailOverEnabled =
+          this.clientContext.getIsPartitionLevelFailOverEnabled();
+        const partitionKeyRangeId = await computePartitionKeyRangeId(
           diagnosticNode,
           partitionKey,
+          this.partitionKeyRangeCache,
+          isPartitionLevelFailOverEnabled,
+          this.container,
         );
 
         response = await this.clientContext.delete<T>({
@@ -554,9 +569,14 @@ export class Item {
         const path = getPathFromLink(url);
         const id = getIdFromLink(url);
 
-        const partitionKeyRangeId = await this.computePartitionKeyRangeId(
+        const isPartitionLevelFailOverEnabled =
+          this.clientContext.getIsPartitionLevelFailOverEnabled();
+        const partitionKeyRangeId = await computePartitionKeyRangeId(
           diagnosticNode,
           partitionKey,
+          this.partitionKeyRangeCache,
+          isPartitionLevelFailOverEnabled,
+          this.container,
         );
 
         response = await this.clientContext.patch<T>({
@@ -605,34 +625,5 @@ export class Item {
         getEmptyCosmosDiagnostics(),
       );
     }, this.clientContext);
-  }
-
-  /**
-   * Computes the partition key range id for the given partition key and partition key definition if partition level failover is enabled.
-   * If partition level failover is not enabled, it returns undefined.
-   * @hidden
-   */
-  private async computePartitionKeyRangeId(
-    diagnosticNode: DiagnosticNodeInternal,
-    partitionKey: PartitionKeyInternal,
-  ): Promise<string | undefined> {
-    const partitionKeyDefinition = await readPartitionKeyDefinition(diagnosticNode, this.container);
-    let partitionKeyRangeId: string;
-    const isPartitionLevelFailOverEnabled = this.clientContext.getIsPartitionLevelFailOverEnabled();
-    if (
-      isPartitionLevelFailOverEnabled &&
-      partitionKey &&
-      partitionKey.length > 0 &&
-      partitionKeyDefinition
-    ) {
-      partitionKeyRangeId =
-        await this.partitionKeyRangeCache.getPartitionKeyRangeIdFromPartitionKey(
-          this.container.url,
-          partitionKey,
-          partitionKeyDefinition,
-          diagnosticNode,
-        );
-    }
-    return partitionKeyRangeId;
   }
 }

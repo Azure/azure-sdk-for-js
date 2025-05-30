@@ -56,7 +56,7 @@ import {
   addDiagnosticChild,
 } from "../../utils/diagnostics.js";
 import { randomUUID } from "@azure/core-util";
-import { readPartitionKeyDefinition } from "../ClientUtils.js";
+import { computePartitionKeyRangeId, readPartitionKeyDefinition } from "../ClientUtils.js";
 import { ChangeFeedIteratorBuilder } from "../ChangeFeed/ChangeFeedIteratorBuilder.js";
 import type { EncryptionQueryBuilder } from "../../encryption/index.js";
 import type { EncryptionSqlParameter } from "../../encryption/EncryptionQueryBuilder.js";
@@ -151,23 +151,16 @@ export class Items {
       innerOptions: FeedOptions,
       correlatedActivityId: string,
     ) => {
-      const partitionKeyDefinition = await readPartitionKeyDefinition(
-        diagnosticNode,
-        this.container,
-      );
-      let partitionKeyRangeId: string;
+      const pk = convertToInternalPartitionKey(options.partitionKey);
       const isPartitionLevelFailOverEnabled =
         this.clientContext.getIsPartitionLevelFailOverEnabled();
-      const pk = convertToInternalPartitionKey(options.partitionKey);
-      if (isPartitionLevelFailOverEnabled && pk && pk.length > 0 && partitionKeyDefinition) {
-        partitionKeyRangeId =
-          await this.partitionKeyRangeCache.getPartitionKeyRangeIdFromPartitionKey(
-            this.container.url,
-            pk,
-            partitionKeyDefinition,
-            diagnosticNode,
-          );
-      }
+      const partitionKeyRangeId = await computePartitionKeyRangeId(
+        diagnosticNode,
+        pk,
+        this.partitionKeyRangeCache,
+        isPartitionLevelFailOverEnabled,
+        this.container,
+      );
 
       const response = await this.clientContext.queryFeed({
         path,
@@ -542,23 +535,16 @@ export class Items {
         const path = getPathFromLink(this.container.url, ResourceType.item);
         const id = getIdFromLink(this.container.url);
 
-        let partitionKeyRangeId: string;
         const isPartitionLevelFailOverEnabled =
           this.clientContext.getIsPartitionLevelFailOverEnabled();
-        if (
-          isPartitionLevelFailOverEnabled &&
-          partitionKey &&
-          partitionKey.length > 0 &&
-          partitionKeyDefinition
-        ) {
-          partitionKeyRangeId =
-            await this.partitionKeyRangeCache.getPartitionKeyRangeIdFromPartitionKey(
-              this.container.url,
-              partitionKey,
-              partitionKeyDefinition,
-              diagnosticNode,
-            );
-        }
+        const partitionKeyRangeId = await computePartitionKeyRangeId(
+          diagnosticNode,
+          partitionKey,
+          this.partitionKeyRangeCache,
+          isPartitionLevelFailOverEnabled,
+          this.container,
+          partitionKeyDefinition,
+        );
 
         response = await this.clientContext.create<T>({
           body,
@@ -716,23 +702,16 @@ export class Items {
         const path = getPathFromLink(this.container.url, ResourceType.item);
         const id = getIdFromLink(this.container.url);
 
-        let partitionKeyRangeId: string;
         const isPartitionLevelFailOverEnabled =
           this.clientContext.getIsPartitionLevelFailOverEnabled();
-        if (
-          isPartitionLevelFailOverEnabled &&
-          partitionKey &&
-          partitionKey.length > 0 &&
-          partitionKeyDefinition
-        ) {
-          partitionKeyRangeId =
-            await this.partitionKeyRangeCache.getPartitionKeyRangeIdFromPartitionKey(
-              this.container.url,
-              partitionKey,
-              partitionKeyDefinition,
-              diagnosticNode,
-            );
-        }
+        const partitionKeyRangeId = await computePartitionKeyRangeId(
+          diagnosticNode,
+          partitionKey,
+          this.partitionKeyRangeCache,
+          isPartitionLevelFailOverEnabled,
+          this.container,
+          partitionKeyDefinition,
+        );
 
         response = await this.clientContext.upsert<T>({
           body,
@@ -1224,27 +1203,15 @@ export class Items {
           );
         }
 
-        const partitionKeyDefinition = await readPartitionKeyDefinition(
-          diagnosticNode,
-          this.container,
-        );
-        let partitionKeyRangeId: string;
         const isPartitionLevelFailOverEnabled =
           this.clientContext.getIsPartitionLevelFailOverEnabled();
-        if (
-          isPartitionLevelFailOverEnabled &&
-          partitionKey &&
-          partitionKey.length > 0 &&
-          partitionKeyDefinition
-        ) {
-          partitionKeyRangeId =
-            await this.partitionKeyRangeCache.getPartitionKeyRangeIdFromPartitionKey(
-              this.container.url,
-              partitionKey,
-              partitionKeyDefinition,
-              diagnosticNode,
-            );
-        }
+        const partitionKeyRangeId = await computePartitionKeyRangeId(
+          diagnosticNode,
+          partitionKey,
+          this.partitionKeyRangeCache,
+          isPartitionLevelFailOverEnabled,
+          this.container,
+        );
 
         response = await this.clientContext.batch({
           body: operations,
