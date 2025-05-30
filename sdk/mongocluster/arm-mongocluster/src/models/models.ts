@@ -1,83 +1,228 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { serializeRecord } from "../helpers/serializerHelpers.js";
-
-/** The response of a Replica list operation. */
-export interface _ReplicaListResult {
-  /** The Replica items on this page */
-  value: Replica[];
+/** A list of REST API operations supported by an Azure Resource Provider. It contains an URL link to get the next set of results. */
+export interface _OperationListResult {
+  /** The Operation items on this page */
+  value: Operation[];
   /** The link to the next page of items */
   nextLink?: string;
 }
 
-/** Common fields that are returned in the response for all Azure Resource Manager resources */
-export interface Resource {
-  /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  readonly id?: string;
-  /** The name of the resource */
+export function _operationListResultDeserializer(
+  item: any,
+): _OperationListResult {
+  return {
+    value: operationArrayDeserializer(item["value"]),
+    nextLink: item["nextLink"],
+  };
+}
+
+export function operationArrayDeserializer(result: Array<Operation>): any[] {
+  return result.map((item) => {
+    return operationDeserializer(item);
+  });
+}
+
+/** Details of a REST API operation, returned from the Resource Provider Operations API */
+export interface Operation {
+  /** The name of the operation, as per Resource-Based Access Control (RBAC). Examples: "Microsoft.Compute/virtualMachines/write", "Microsoft.Compute/virtualMachines/capture/action" */
   readonly name?: string;
-  /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  readonly type?: string;
-  /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  readonly systemData?: SystemData;
+  /** Whether the operation applies to data-plane. This is "true" for data-plane operations and "false" for Azure Resource Manager/control-plane operations. */
+  readonly isDataAction?: boolean;
+  /** Localized display information for this particular operation. */
+  display?: OperationDisplay;
+  /** The intended executor of the operation; as in Resource Based Access Control (RBAC) and audit logs UX. Default value is "user,system" */
+  readonly origin?: Origin;
+  /** Extensible enum. Indicates the action type. "Internal" refers to actions that are for internal only APIs. */
+  readonly actionType?: ActionType;
 }
 
-export function resourceSerializer(item: Resource) {
-  return item as any;
+export function operationDeserializer(item: any): Operation {
+  return {
+    name: item["name"],
+    isDataAction: item["isDataAction"],
+    display: !item["display"]
+      ? item["display"]
+      : operationDisplayDeserializer(item["display"]),
+    origin: item["origin"],
+    actionType: item["actionType"],
+  };
 }
 
-/** Metadata pertaining to creation and last modification of the resource. */
-export interface SystemData {
-  /** The identity that created the resource. */
-  createdBy?: string;
-  /** The type of identity that created the resource. */
-  createdByType?: CreatedByType;
-  /** The timestamp of resource creation (UTC). */
-  createdAt?: Date;
-  /** The identity that last modified the resource. */
-  lastModifiedBy?: string;
-  /** The type of identity that last modified the resource. */
-  lastModifiedByType?: CreatedByType;
-  /** The timestamp of resource last modification (UTC) */
-  lastModifiedAt?: Date;
+/** Localized display information for and operation. */
+export interface OperationDisplay {
+  /** The localized friendly form of the resource provider name, e.g. "Microsoft Monitoring Insights" or "Microsoft Compute". */
+  readonly provider?: string;
+  /** The localized friendly name of the resource type related to this operation. E.g. "Virtual Machines" or "Job Schedule Collections". */
+  readonly resource?: string;
+  /** The concise, localized friendly name for the operation; suitable for dropdowns. E.g. "Create or Update Virtual Machine", "Restart Virtual Machine". */
+  readonly operation?: string;
+  /** The short, localized friendly description of the operation; suitable for tool tips and detailed views. */
+  readonly description?: string;
 }
 
-/** Known values of {@link CreatedByType} that the service accepts. */
-export enum KnownCreatedByType {
-  /** User */
-  User = "User",
-  /** Application */
-  Application = "Application",
-  /** ManagedIdentity */
-  ManagedIdentity = "ManagedIdentity",
-  /** Key */
-  Key = "Key",
+export function operationDisplayDeserializer(item: any): OperationDisplay {
+  return {
+    provider: item["provider"],
+    resource: item["resource"],
+    operation: item["operation"],
+    description: item["description"],
+  };
+}
+
+/** The intended executor of the operation; as in Resource Based Access Control (RBAC) and audit logs UX. Default value is "user,system" */
+export enum KnownOrigin {
+  /** Indicates the operation is initiated by a user. */
+  User = "user",
+  /** Indicates the operation is initiated by a system. */
+  System = "system",
+  /** Indicates the operation is initiated by a user or system. */
+  UserSystem = "user,system",
 }
 
 /**
- * The kind of entity that created the resource. \
- * {@link KnownCreatedByType} can be used interchangeably with CreatedByType,
+ * The intended executor of the operation; as in Resource Based Access Control (RBAC) and audit logs UX. Default value is "user,system" \
+ * {@link KnownOrigin} can be used interchangeably with Origin,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **User** \
- * **Application** \
- * **ManagedIdentity** \
- * **Key**
+ * **user**: Indicates the operation is initiated by a user. \
+ * **system**: Indicates the operation is initiated by a system. \
+ * **user,system**: Indicates the operation is initiated by a user or system.
  */
-export type CreatedByType = string;
+export type Origin = string;
 
-/** The resource model definition for a Azure Resource Manager proxy resource. It will not have tags and a location */
-export interface ProxyResource extends Resource {}
-
-export function proxyResourceSerializer(item: ProxyResource) {
-  return item as any;
+/** Extensible enum. Indicates the action type. "Internal" refers to actions that are for internal only APIs. */
+export enum KnownActionType {
+  /** Actions are for internal-only APIs. */
+  Internal = "Internal",
 }
 
-/** Represents a mongo cluster replica. */
-export interface Replica extends ProxyResource {
+/**
+ * Extensible enum. Indicates the action type. "Internal" refers to actions that are for internal only APIs. \
+ * {@link KnownActionType} can be used interchangeably with ActionType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Internal**: Actions are for internal-only APIs.
+ */
+export type ActionType = string;
+
+/** Common error response for all Azure Resource Manager APIs to return error details for failed operations. */
+export interface ErrorResponse {
+  /** The error object. */
+  error?: ErrorDetail;
+}
+
+export function errorResponseDeserializer(item: any): ErrorResponse {
+  return {
+    error: !item["error"]
+      ? item["error"]
+      : errorDetailDeserializer(item["error"]),
+  };
+}
+
+/** The error detail. */
+export interface ErrorDetail {
+  /** The error code. */
+  readonly code?: string;
+  /** The error message. */
+  readonly message?: string;
+  /** The error target. */
+  readonly target?: string;
+  /** The error details. */
+  readonly details?: ErrorDetail[];
+  /** The error additional info. */
+  readonly additionalInfo?: ErrorAdditionalInfo[];
+}
+
+export function errorDetailDeserializer(item: any): ErrorDetail {
+  return {
+    code: item["code"],
+    message: item["message"],
+    target: item["target"],
+    details: !item["details"]
+      ? item["details"]
+      : errorDetailArrayDeserializer(item["details"]),
+    additionalInfo: !item["additionalInfo"]
+      ? item["additionalInfo"]
+      : errorAdditionalInfoArrayDeserializer(item["additionalInfo"]),
+  };
+}
+
+export function errorDetailArrayDeserializer(
+  result: Array<ErrorDetail>,
+): any[] {
+  return result.map((item) => {
+    return errorDetailDeserializer(item);
+  });
+}
+
+export function errorAdditionalInfoArrayDeserializer(
+  result: Array<ErrorAdditionalInfo>,
+): any[] {
+  return result.map((item) => {
+    return errorAdditionalInfoDeserializer(item);
+  });
+}
+
+/** The resource management error additional info. */
+export interface ErrorAdditionalInfo {
+  /** The additional info type. */
+  readonly type?: string;
+  /** The additional info. */
+  readonly info?: Record<string, any>;
+}
+
+export function errorAdditionalInfoDeserializer(
+  item: any,
+): ErrorAdditionalInfo {
+  return {
+    type: item["type"],
+    info: !item["info"]
+      ? item["info"]
+      : _errorAdditionalInfoInfoDeserializer(item["info"]),
+  };
+}
+
+/** model interface _ErrorAdditionalInfoInfo */
+export interface _ErrorAdditionalInfoInfo {}
+
+export function _errorAdditionalInfoInfoDeserializer(
+  item: any,
+): _ErrorAdditionalInfoInfo {
+  return item;
+}
+
+/** Represents a mongo cluster resource. */
+export interface MongoCluster extends TrackedResource {
   /** The resource-specific properties for this resource. */
   properties?: MongoClusterProperties;
+}
+
+export function mongoClusterSerializer(item: MongoCluster): any {
+  return {
+    tags: item["tags"],
+    location: item["location"],
+    properties: !item["properties"]
+      ? item["properties"]
+      : mongoClusterPropertiesSerializer(item["properties"]),
+  };
+}
+
+export function mongoClusterDeserializer(item: any): MongoCluster {
+  return {
+    tags: item["tags"],
+    location: item["location"],
+    id: item["id"],
+    name: item["name"],
+    type: item["type"],
+    systemData: !item["systemData"]
+      ? item["systemData"]
+      : systemDataDeserializer(item["systemData"]),
+    properties: !item["properties"]
+      ? item["properties"]
+      : mongoClusterPropertiesDeserializer(item["properties"]),
+  };
 }
 
 /** The properties of a mongo cluster. */
@@ -110,6 +255,8 @@ export interface MongoClusterProperties {
   compute?: ComputeProperties;
   /** The backup properties of the mongo cluster. */
   backup?: BackupProperties;
+  /** The Data API properties of the mongo cluster. */
+  dataApi?: DataApiProperties;
   /** List of private endpoint connections. */
   readonly privateEndpointConnections?: PrivateEndpointConnection[];
   /** List of private endpoint connections. */
@@ -122,40 +269,109 @@ export interface MongoClusterProperties {
 
 export function mongoClusterPropertiesSerializer(
   item: MongoClusterProperties,
-): Record<string, unknown> {
+): any {
   return {
     createMode: item["createMode"],
-    restoreParameters: !item.restoreParameters
-      ? item.restoreParameters
-      : mongoClusterRestoreParametersSerializer(item.restoreParameters),
-    replicaParameters: !item.replicaParameters
-      ? item.replicaParameters
-      : mongoClusterReplicaParametersSerializer(item.replicaParameters),
-    administrator: !item.administrator
-      ? item.administrator
-      : administratorPropertiesSerializer(item.administrator),
+    restoreParameters: !item["restoreParameters"]
+      ? item["restoreParameters"]
+      : mongoClusterRestoreParametersSerializer(item["restoreParameters"]),
+    replicaParameters: !item["replicaParameters"]
+      ? item["replicaParameters"]
+      : mongoClusterReplicaParametersSerializer(item["replicaParameters"]),
+    administrator: !item["administrator"]
+      ? item["administrator"]
+      : administratorPropertiesSerializer(item["administrator"]),
     serverVersion: item["serverVersion"],
     publicNetworkAccess: item["publicNetworkAccess"],
-    highAvailability: !item.highAvailability
-      ? item.highAvailability
-      : highAvailabilityPropertiesSerializer(item.highAvailability),
-    storage: !item.storage ? item.storage : storagePropertiesSerializer(item.storage),
-    sharding: !item.sharding ? item.sharding : shardingPropertiesSerializer(item.sharding),
-    compute: !item.compute ? item.compute : computePropertiesSerializer(item.compute),
-    backup: !item.backup ? item.backup : backupPropertiesSerializer(item.backup),
-    previewFeatures: item["previewFeatures"],
+    highAvailability: !item["highAvailability"]
+      ? item["highAvailability"]
+      : highAvailabilityPropertiesSerializer(item["highAvailability"]),
+    storage: !item["storage"]
+      ? item["storage"]
+      : storagePropertiesSerializer(item["storage"]),
+    sharding: !item["sharding"]
+      ? item["sharding"]
+      : shardingPropertiesSerializer(item["sharding"]),
+    compute: !item["compute"]
+      ? item["compute"]
+      : computePropertiesSerializer(item["compute"]),
+    backup: !item["backup"]
+      ? item["backup"]
+      : backupPropertiesSerializer(item["backup"]),
+    dataApi: !item["dataApi"]
+      ? item["dataApi"]
+      : dataApiPropertiesSerializer(item["dataApi"]),
+    previewFeatures: !item["previewFeatures"]
+      ? item["previewFeatures"]
+      : item["previewFeatures"].map((p: any) => {
+          return p;
+        }),
   };
 }
 
-/** Known values of {@link CreateMode} that the service accepts. */
+export function mongoClusterPropertiesDeserializer(
+  item: any,
+): MongoClusterProperties {
+  return {
+    createMode: item["createMode"],
+    restoreParameters: !item["restoreParameters"]
+      ? item["restoreParameters"]
+      : mongoClusterRestoreParametersDeserializer(item["restoreParameters"]),
+    replicaParameters: !item["replicaParameters"]
+      ? item["replicaParameters"]
+      : mongoClusterReplicaParametersDeserializer(item["replicaParameters"]),
+    administrator: !item["administrator"]
+      ? item["administrator"]
+      : administratorPropertiesDeserializer(item["administrator"]),
+    serverVersion: item["serverVersion"],
+    connectionString: item["connectionString"],
+    provisioningState: item["provisioningState"],
+    clusterStatus: item["clusterStatus"],
+    publicNetworkAccess: item["publicNetworkAccess"],
+    highAvailability: !item["highAvailability"]
+      ? item["highAvailability"]
+      : highAvailabilityPropertiesDeserializer(item["highAvailability"]),
+    storage: !item["storage"]
+      ? item["storage"]
+      : storagePropertiesDeserializer(item["storage"]),
+    sharding: !item["sharding"]
+      ? item["sharding"]
+      : shardingPropertiesDeserializer(item["sharding"]),
+    compute: !item["compute"]
+      ? item["compute"]
+      : computePropertiesDeserializer(item["compute"]),
+    backup: !item["backup"]
+      ? item["backup"]
+      : backupPropertiesDeserializer(item["backup"]),
+    dataApi: !item["dataApi"]
+      ? item["dataApi"]
+      : dataApiPropertiesDeserializer(item["dataApi"]),
+    privateEndpointConnections: !item["privateEndpointConnections"]
+      ? item["privateEndpointConnections"]
+      : privateEndpointConnectionArrayDeserializer(
+          item["privateEndpointConnections"],
+        ),
+    previewFeatures: !item["previewFeatures"]
+      ? item["previewFeatures"]
+      : item["previewFeatures"].map((p: any) => {
+          return p;
+        }),
+    replica: !item["replica"]
+      ? item["replica"]
+      : replicationPropertiesDeserializer(item["replica"]),
+    infrastructureVersion: item["infrastructureVersion"],
+  };
+}
+
+/** The mode that the Mongo Cluster is created with. */
 export enum KnownCreateMode {
-  /** Default */
+  /** Create a new mongo cluster. */
   Default = "Default",
-  /** PointInTimeRestore */
+  /** Create a mongo cluster from a restore point-in-time. */
   PointInTimeRestore = "PointInTimeRestore",
-  /** GeoReplica */
+  /** Create a replica cluster in distinct geographic region from the source cluster. */
   GeoReplica = "GeoReplica",
-  /** Replica */
+  /** Create a replica cluster in the same geographic region as the source cluster. */
   Replica = "Replica",
 }
 
@@ -164,10 +380,10 @@ export enum KnownCreateMode {
  * {@link KnownCreateMode} can be used interchangeably with CreateMode,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **Default** \
- * **PointInTimeRestore** \
- * **GeoReplica** \
- * **Replica**
+ * **Default**: Create a new mongo cluster. \
+ * **PointInTimeRestore**: Create a mongo cluster from a restore point-in-time. \
+ * **GeoReplica**: Create a replica cluster in distinct geographic region from the source cluster. \
+ * **Replica**: Create a replica cluster in the same geographic region as the source cluster.
  */
 export type CreateMode = string;
 
@@ -181,9 +397,22 @@ export interface MongoClusterRestoreParameters {
 
 export function mongoClusterRestoreParametersSerializer(
   item: MongoClusterRestoreParameters,
-): Record<string, unknown> {
+): any {
   return {
-    pointInTimeUTC: item["pointInTimeUTC"]?.toISOString(),
+    pointInTimeUTC: !item["pointInTimeUTC"]
+      ? item["pointInTimeUTC"]
+      : item["pointInTimeUTC"].toISOString(),
+    sourceResourceId: item["sourceResourceId"],
+  };
+}
+
+export function mongoClusterRestoreParametersDeserializer(
+  item: any,
+): MongoClusterRestoreParameters {
+  return {
+    pointInTimeUTC: !item["pointInTimeUTC"]
+      ? item["pointInTimeUTC"]
+      : new Date(item["pointInTimeUTC"]),
     sourceResourceId: item["sourceResourceId"],
   };
 }
@@ -198,7 +427,16 @@ export interface MongoClusterReplicaParameters {
 
 export function mongoClusterReplicaParametersSerializer(
   item: MongoClusterReplicaParameters,
-): Record<string, unknown> {
+): any {
+  return {
+    sourceResourceId: item["sourceResourceId"],
+    sourceLocation: item["sourceLocation"],
+  };
+}
+
+export function mongoClusterReplicaParametersDeserializer(
+  item: any,
+): MongoClusterReplicaParameters {
   return {
     sourceResourceId: item["sourceResourceId"],
     sourceLocation: item["sourceLocation"],
@@ -215,28 +453,64 @@ export interface AdministratorProperties {
 
 export function administratorPropertiesSerializer(
   item: AdministratorProperties,
-): Record<string, unknown> {
+): any {
+  return { userName: item["userName"], password: item["password"] };
+}
+
+export function administratorPropertiesDeserializer(
+  item: any,
+): AdministratorProperties {
   return {
     userName: item["userName"],
     password: item["password"],
   };
 }
 
-/** Known values of {@link MongoClusterStatus} that the service accepts. */
-export enum KnownMongoClusterStatus {
-  /** Ready */
-  Ready = "Ready",
-  /** Provisioning */
-  Provisioning = "Provisioning",
-  /** Updating */
+/** The provisioning state of the last accepted operation. */
+export enum KnownProvisioningState {
+  /** Resource has been created. */
+  Succeeded = "Succeeded",
+  /** Resource creation failed. */
+  Failed = "Failed",
+  /** Resource creation was canceled. */
+  Canceled = "Canceled",
+  /** An operation is in-progress on the resource. */
+  InProgress = "InProgress",
+  /** An update operation is in-progress on the resource. */
   Updating = "Updating",
-  /** Starting */
+  /** A drop operation is in-progress on the resource. */
+  Dropping = "Dropping",
+}
+
+/**
+ * The provisioning state of the last accepted operation. \
+ * {@link KnownProvisioningState} can be used interchangeably with ProvisioningState,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Succeeded**: Resource has been created. \
+ * **Failed**: Resource creation failed. \
+ * **Canceled**: Resource creation was canceled. \
+ * **InProgress**: An operation is in-progress on the resource. \
+ * **Updating**: An update operation is in-progress on the resource. \
+ * **Dropping**: A drop operation is in-progress on the resource.
+ */
+export type ProvisioningState = string;
+
+/** The status of the Mongo cluster resource. */
+export enum KnownMongoClusterStatus {
+  /** The mongo cluster resource is ready for use. */
+  Ready = "Ready",
+  /** The mongo cluster resource is being provisioned. */
+  Provisioning = "Provisioning",
+  /** The mongo cluster resource is being updated. */
+  Updating = "Updating",
+  /** The mongo cluster resource is being started. */
   Starting = "Starting",
-  /** Stopping */
+  /** The mongo cluster resource is being stopped. */
   Stopping = "Stopping",
-  /** Stopped */
+  /** The mongo cluster resource is stopped. */
   Stopped = "Stopped",
-  /** Dropping */
+  /** The mongo cluster resource is being dropped. */
   Dropping = "Dropping",
 }
 
@@ -245,21 +519,21 @@ export enum KnownMongoClusterStatus {
  * {@link KnownMongoClusterStatus} can be used interchangeably with MongoClusterStatus,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **Ready** \
- * **Provisioning** \
- * **Updating** \
- * **Starting** \
- * **Stopping** \
- * **Stopped** \
- * **Dropping**
+ * **Ready**: The mongo cluster resource is ready for use. \
+ * **Provisioning**: The mongo cluster resource is being provisioned. \
+ * **Updating**: The mongo cluster resource is being updated. \
+ * **Starting**: The mongo cluster resource is being started. \
+ * **Stopping**: The mongo cluster resource is being stopped. \
+ * **Stopped**: The mongo cluster resource is stopped. \
+ * **Dropping**: The mongo cluster resource is being dropped.
  */
 export type MongoClusterStatus = string;
 
-/** Known values of {@link PublicNetworkAccess} that the service accepts. */
+/** Whether or not public endpoint access is allowed for this Mongo cluster.  Value is optional and default value is 'Enabled' */
 export enum KnownPublicNetworkAccess {
-  /** Enabled */
+  /** If set, mongo cluster can be accessed through private and public methods. */
   Enabled = "Enabled",
-  /** Disabled */
+  /** If set, the private endpoints are the exclusive access method. */
   Disabled = "Disabled",
 }
 
@@ -268,8 +542,8 @@ export enum KnownPublicNetworkAccess {
  * {@link KnownPublicNetworkAccess} can be used interchangeably with PublicNetworkAccess,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **Enabled** \
- * **Disabled**
+ * **Enabled**: If set, mongo cluster can be accessed through private and public methods. \
+ * **Disabled**: If set, the private endpoints are the exclusive access method.
  */
 export type PublicNetworkAccess = string;
 
@@ -281,19 +555,25 @@ export interface HighAvailabilityProperties {
 
 export function highAvailabilityPropertiesSerializer(
   item: HighAvailabilityProperties,
-): Record<string, unknown> {
+): any {
+  return { targetMode: item["targetMode"] };
+}
+
+export function highAvailabilityPropertiesDeserializer(
+  item: any,
+): HighAvailabilityProperties {
   return {
     targetMode: item["targetMode"],
   };
 }
 
-/** Known values of {@link HighAvailabilityMode} that the service accepts. */
+/** The high availability modes for a cluster. */
 export enum KnownHighAvailabilityMode {
-  /** Disabled */
+  /** High availability mode is disabled. This mode is can see availability impact during faults or maintenance and is not recommended for production. */
   Disabled = "Disabled",
-  /** SameZone */
+  /** High availability mode is enabled, where each server in a shard is placed in the same availability zone. */
   SameZone = "SameZone",
-  /** ZoneRedundantPreferred */
+  /** High availability mode is enabled and preferences ZoneRedundant if availability zones capacity is available in the region, otherwise falls-back to provisioning with SameZone. */
   ZoneRedundantPreferred = "ZoneRedundantPreferred",
 }
 
@@ -302,9 +582,9 @@ export enum KnownHighAvailabilityMode {
  * {@link KnownHighAvailabilityMode} can be used interchangeably with HighAvailabilityMode,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **Disabled** \
- * **SameZone** \
- * **ZoneRedundantPreferred**
+ * **Disabled**: High availability mode is disabled. This mode is can see availability impact during faults or maintenance and is not recommended for production. \
+ * **SameZone**: High availability mode is enabled, where each server in a shard is placed in the same availability zone. \
+ * **ZoneRedundantPreferred**: High availability mode is enabled and preferences ZoneRedundant if availability zones capacity is available in the region, otherwise falls-back to provisioning with SameZone.
  */
 export type HighAvailabilityMode = string;
 
@@ -314,7 +594,11 @@ export interface StorageProperties {
   sizeGb?: number;
 }
 
-export function storagePropertiesSerializer(item: StorageProperties): Record<string, unknown> {
+export function storagePropertiesSerializer(item: StorageProperties): any {
+  return { sizeGb: item["sizeGb"] };
+}
+
+export function storagePropertiesDeserializer(item: any): StorageProperties {
   return {
     sizeGb: item["sizeGb"],
   };
@@ -326,7 +610,11 @@ export interface ShardingProperties {
   shardCount?: number;
 }
 
-export function shardingPropertiesSerializer(item: ShardingProperties): Record<string, unknown> {
+export function shardingPropertiesSerializer(item: ShardingProperties): any {
+  return { shardCount: item["shardCount"] };
+}
+
+export function shardingPropertiesDeserializer(item: any): ShardingProperties {
   return {
     shardCount: item["shardCount"],
   };
@@ -338,7 +626,11 @@ export interface ComputeProperties {
   tier?: string;
 }
 
-export function computePropertiesSerializer(item: ComputeProperties): Record<string, unknown> {
+export function computePropertiesSerializer(item: ComputeProperties): any {
+  return { tier: item["tier"] };
+}
+
+export function computePropertiesDeserializer(item: any): ComputeProperties {
   return {
     tier: item["tier"],
   };
@@ -350,14 +642,78 @@ export interface BackupProperties {
   readonly earliestRestoreTime?: string;
 }
 
-export function backupPropertiesSerializer(item: BackupProperties) {
-  return item as any;
+export function backupPropertiesSerializer(item: BackupProperties): any {
+  return item;
+}
+
+export function backupPropertiesDeserializer(item: any): BackupProperties {
+  return {
+    earliestRestoreTime: item["earliestRestoreTime"],
+  };
+}
+
+/** Data API properties. */
+export interface DataApiProperties {
+  /** The mode to indicate whether the Mongo Data API is enabled for a cluster. */
+  mode?: DataApiMode;
+}
+
+export function dataApiPropertiesSerializer(item: DataApiProperties): any {
+  return { mode: item["mode"] };
+}
+
+export function dataApiPropertiesDeserializer(item: any): DataApiProperties {
+  return {
+    mode: item["mode"],
+  };
+}
+
+/** The mode to apply to the Mongo Data API. */
+export enum KnownDataApiMode {
+  /** Mongo Data API is enabled for the cluster. */
+  Enabled = "Enabled",
+  /** Mongo Data API is disabled for the cluster. */
+  Disabled = "Disabled",
+}
+
+/**
+ * The mode to apply to the Mongo Data API. \
+ * {@link KnownDataApiMode} can be used interchangeably with DataApiMode,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Enabled**: Mongo Data API is enabled for the cluster. \
+ * **Disabled**: Mongo Data API is disabled for the cluster.
+ */
+export type DataApiMode = string;
+
+export function privateEndpointConnectionArrayDeserializer(
+  result: Array<PrivateEndpointConnection>,
+): any[] {
+  return result.map((item) => {
+    return privateEndpointConnectionDeserializer(item);
+  });
 }
 
 /** The private endpoint connection resource */
 export interface PrivateEndpointConnection extends Resource {
   /** The private endpoint connection properties */
   properties?: PrivateEndpointConnectionProperties;
+}
+
+export function privateEndpointConnectionDeserializer(
+  item: any,
+): PrivateEndpointConnection {
+  return {
+    id: item["id"],
+    name: item["name"],
+    type: item["type"],
+    systemData: !item["systemData"]
+      ? item["systemData"]
+      : systemDataDeserializer(item["systemData"]),
+    properties: !item["properties"]
+      ? item["properties"]
+      : privateEndpointConnectionPropertiesDeserializer(item["properties"]),
+  };
 }
 
 /** Properties of the private endpoint connection. */
@@ -374,25 +730,52 @@ export interface PrivateEndpointConnectionProperties {
 
 export function privateEndpointConnectionPropertiesSerializer(
   item: PrivateEndpointConnectionProperties,
-): Record<string, unknown> {
+): any {
   return {
-    privateEndpoint: !item.privateEndpoint
-      ? item.privateEndpoint
-      : privateEndpointSerializer(item.privateEndpoint),
-    privateLinkServiceConnectionState: privateLinkServiceConnectionStateSerializer(
-      item.privateLinkServiceConnectionState,
-    ),
+    privateEndpoint: !item["privateEndpoint"]
+      ? item["privateEndpoint"]
+      : privateEndpointSerializer(item["privateEndpoint"]),
+    privateLinkServiceConnectionState:
+      privateLinkServiceConnectionStateSerializer(
+        item["privateLinkServiceConnectionState"],
+      ),
   };
 }
 
-/** The Private Endpoint resource. */
+export function privateEndpointConnectionPropertiesDeserializer(
+  item: any,
+): PrivateEndpointConnectionProperties {
+  return {
+    groupIds: !item["groupIds"]
+      ? item["groupIds"]
+      : item["groupIds"].map((p: any) => {
+          return p;
+        }),
+    privateEndpoint: !item["privateEndpoint"]
+      ? item["privateEndpoint"]
+      : privateEndpointDeserializer(item["privateEndpoint"]),
+    privateLinkServiceConnectionState:
+      privateLinkServiceConnectionStateDeserializer(
+        item["privateLinkServiceConnectionState"],
+      ),
+    provisioningState: item["provisioningState"],
+  };
+}
+
+/** The private endpoint resource. */
 export interface PrivateEndpoint {
-  /** The resource identifier for private endpoint */
+  /** The resource identifier of the private endpoint */
   readonly id?: string;
 }
 
-export function privateEndpointSerializer(item: PrivateEndpoint) {
-  return item as any;
+export function privateEndpointSerializer(item: PrivateEndpoint): any {
+  return item;
+}
+
+export function privateEndpointDeserializer(item: any): PrivateEndpoint {
+  return {
+    id: item["id"],
+  };
 }
 
 /** A collection of information about the state of the connection between service consumer and provider. */
@@ -407,7 +790,7 @@ export interface PrivateLinkServiceConnectionState {
 
 export function privateLinkServiceConnectionStateSerializer(
   item: PrivateLinkServiceConnectionState,
-): Record<string, unknown> {
+): any {
   return {
     status: item["status"],
     description: item["description"],
@@ -415,13 +798,23 @@ export function privateLinkServiceConnectionStateSerializer(
   };
 }
 
-/** Known values of {@link PrivateEndpointServiceConnectionStatus} that the service accepts. */
+export function privateLinkServiceConnectionStateDeserializer(
+  item: any,
+): PrivateLinkServiceConnectionState {
+  return {
+    status: item["status"],
+    description: item["description"],
+    actionsRequired: item["actionsRequired"],
+  };
+}
+
+/** The private endpoint connection status. */
 export enum KnownPrivateEndpointServiceConnectionStatus {
-  /** Pending */
+  /** Connection waiting for approval or rejection */
   Pending = "Pending",
-  /** Approved */
+  /** Connection approved */
   Approved = "Approved",
-  /** Rejected */
+  /** Connection Rejected */
   Rejected = "Rejected",
 }
 
@@ -430,21 +823,21 @@ export enum KnownPrivateEndpointServiceConnectionStatus {
  * {@link KnownPrivateEndpointServiceConnectionStatus} can be used interchangeably with PrivateEndpointServiceConnectionStatus,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **Pending** \
- * **Approved** \
- * **Rejected**
+ * **Pending**: Connection waiting for approval or rejection \
+ * **Approved**: Connection approved \
+ * **Rejected**: Connection Rejected
  */
 export type PrivateEndpointServiceConnectionStatus = string;
 
-/** Known values of {@link PrivateEndpointConnectionProvisioningState} that the service accepts. */
+/** The current provisioning state. */
 export enum KnownPrivateEndpointConnectionProvisioningState {
-  /** Succeeded */
+  /** Connection has been provisioned */
   Succeeded = "Succeeded",
-  /** Creating */
+  /** Connection is being created */
   Creating = "Creating",
-  /** Deleting */
+  /** Connection is being deleted */
   Deleting = "Deleting",
-  /** Failed */
+  /** Connection provisioning has failed */
   Failed = "Failed",
 }
 
@@ -453,16 +846,16 @@ export enum KnownPrivateEndpointConnectionProvisioningState {
  * {@link KnownPrivateEndpointConnectionProvisioningState} can be used interchangeably with PrivateEndpointConnectionProvisioningState,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **Succeeded** \
- * **Creating** \
- * **Deleting** \
- * **Failed**
+ * **Succeeded**: Connection has been provisioned \
+ * **Creating**: Connection is being created \
+ * **Deleting**: Connection is being deleted \
+ * **Failed**: Connection provisioning has failed
  */
 export type PrivateEndpointConnectionProvisioningState = string;
 
-/** Known values of {@link PreviewFeature} that the service accepts. */
+/** Preview features that can be enabled on a mongo cluster. */
 export enum KnownPreviewFeature {
-  /** GeoReplicas */
+  /** Enables geo replicas preview feature. The feature must be set at create-time on new cluster to enable linking a geo-replica cluster to it. */
   GeoReplicas = "GeoReplicas",
 }
 
@@ -471,7 +864,7 @@ export enum KnownPreviewFeature {
  * {@link KnownPreviewFeature} can be used interchangeably with PreviewFeature,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **GeoReplicas**
+ * **GeoReplicas**: Enables geo replicas preview feature. The feature must be set at create-time on new cluster to enable linking a geo-replica cluster to it.
  */
 export type PreviewFeature = string;
 
@@ -485,13 +878,23 @@ export interface ReplicationProperties {
   readonly replicationState?: ReplicationState;
 }
 
-/** Known values of {@link ReplicationRole} that the service accepts. */
+export function replicationPropertiesDeserializer(
+  item: any,
+): ReplicationProperties {
+  return {
+    sourceResourceId: item["sourceResourceId"],
+    role: item["role"],
+    replicationState: item["replicationState"],
+  };
+}
+
+/** Replication role of the mongo cluster. */
 export enum KnownReplicationRole {
-  /** Primary */
+  /** The cluster is a primary replica. */
   Primary = "Primary",
-  /** AsyncReplica */
+  /** The cluster is a local asynchronous replica. */
   AsyncReplica = "AsyncReplica",
-  /** GeoAsyncReplica */
+  /** The cluster is a geo-asynchronous replica. */
   GeoAsyncReplica = "GeoAsyncReplica",
 }
 
@@ -500,25 +903,25 @@ export enum KnownReplicationRole {
  * {@link KnownReplicationRole} can be used interchangeably with ReplicationRole,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **Primary** \
- * **AsyncReplica** \
- * **GeoAsyncReplica**
+ * **Primary**: The cluster is a primary replica. \
+ * **AsyncReplica**: The cluster is a local asynchronous replica. \
+ * **GeoAsyncReplica**: The cluster is a geo-asynchronous replica.
  */
 export type ReplicationRole = string;
 
-/** Known values of {@link ReplicationState} that the service accepts. */
+/** The state of the replication link between the replica and source cluster. */
 export enum KnownReplicationState {
-  /** Active */
+  /** Replication link is active. */
   Active = "Active",
-  /** Catchup */
+  /** Replica is catching-up with the primary. This can occur after the replica is created or after a promotion is triggered. */
   Catchup = "Catchup",
-  /** Provisioning */
+  /** Replica and replication link to the primary is being created. */
   Provisioning = "Provisioning",
-  /** Updating */
+  /** Replication link is being updated due to a change on the replica or an upgrade. */
   Updating = "Updating",
-  /** Broken */
+  /** Replication link is broken and the replica may need to be recreated. */
   Broken = "Broken",
-  /** Reconfiguring */
+  /** Replication link is re-configuring due to a promotion event. */
   Reconfiguring = "Reconfiguring",
 }
 
@@ -527,103 +930,96 @@ export enum KnownReplicationState {
  * {@link KnownReplicationState} can be used interchangeably with ReplicationState,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **Active** \
- * **Catchup** \
- * **Provisioning** \
- * **Updating** \
- * **Broken** \
- * **Reconfiguring**
+ * **Active**: Replication link is active. \
+ * **Catchup**: Replica is catching-up with the primary. This can occur after the replica is created or after a promotion is triggered. \
+ * **Provisioning**: Replica and replication link to the primary is being created. \
+ * **Updating**: Replication link is being updated due to a change on the replica or an upgrade. \
+ * **Broken**: Replication link is broken and the replica may need to be recreated. \
+ * **Reconfiguring**: Replication link is re-configuring due to a promotion event.
  */
 export type ReplicationState = string;
 
-/** The response of a PrivateLinkResource list operation. */
-export interface _PrivateLinkResourceListResult {
-  /** The PrivateLinkResource items on this page */
-  value: PrivateLinkResource[];
-  /** The link to the next page of items */
-  nextLink?: string;
+/** Common fields that are returned in the response for all Azure Resource Manager resources */
+export interface Resource {
+  /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
+  readonly id?: string;
+  /** The name of the resource */
+  readonly name?: string;
+  /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
+  readonly type?: string;
+  /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
+  readonly systemData?: SystemData;
 }
 
-/** Concrete proxy resource types can be created by aliasing this type using a specific property type. */
-export interface PrivateLinkResource extends ProxyResource {
-  /** The resource-specific properties for this resource. */
-  properties?: PrivateLinkResourceProperties;
+export function resourceSerializer(item: Resource): any {
+  return item;
 }
 
-/** Properties of a private link resource. */
-export interface PrivateLinkResourceProperties {
-  /** The private link resource group id. */
-  readonly groupId?: string;
-  /** The private link resource required member names. */
-  readonly requiredMembers?: string[];
-  /** The private link resource private link DNS zone name. */
-  requiredZoneNames?: string[];
-}
-
-/** The response of a PrivateEndpointConnectionResource list operation. */
-export interface _PrivateEndpointConnectionResourceListResult {
-  /** The PrivateEndpointConnectionResource items on this page */
-  value: PrivateEndpointConnectionResource[];
-  /** The link to the next page of items */
-  nextLink?: string;
-}
-
-/** Concrete proxy resource types can be created by aliasing this type using a specific property type. */
-export interface PrivateEndpointConnectionResource extends ProxyResource {
-  /** The resource-specific properties for this resource. */
-  properties?: PrivateEndpointConnectionProperties;
-}
-
-export function privateEndpointConnectionResourceSerializer(
-  item: PrivateEndpointConnectionResource,
-): Record<string, unknown> {
+export function resourceDeserializer(item: any): Resource {
   return {
-    properties: !item.properties
-      ? item.properties
-      : privateEndpointConnectionPropertiesSerializer(item.properties),
+    id: item["id"],
+    name: item["name"],
+    type: item["type"],
+    systemData: !item["systemData"]
+      ? item["systemData"]
+      : systemDataDeserializer(item["systemData"]),
   };
 }
 
-/** Represents a mongo cluster firewall rule. */
-export interface FirewallRule extends ProxyResource {
-  /** The resource-specific properties for this resource. */
-  properties?: FirewallRuleProperties;
+/** Metadata pertaining to creation and last modification of the resource. */
+export interface SystemData {
+  /** The identity that created the resource. */
+  createdBy?: string;
+  /** The type of identity that created the resource. */
+  createdByType?: CreatedByType;
+  /** The timestamp of resource creation (UTC). */
+  createdAt?: Date;
+  /** The identity that last modified the resource. */
+  lastModifiedBy?: string;
+  /** The type of identity that last modified the resource. */
+  lastModifiedByType?: CreatedByType;
+  /** The timestamp of resource last modification (UTC) */
+  lastModifiedAt?: Date;
 }
 
-export function firewallRuleSerializer(item: FirewallRule): Record<string, unknown> {
+export function systemDataDeserializer(item: any): SystemData {
   return {
-    properties: !item.properties
-      ? item.properties
-      : firewallRulePropertiesSerializer(item.properties),
+    createdBy: item["createdBy"],
+    createdByType: item["createdByType"],
+    createdAt: !item["createdAt"]
+      ? item["createdAt"]
+      : new Date(item["createdAt"]),
+    lastModifiedBy: item["lastModifiedBy"],
+    lastModifiedByType: item["lastModifiedByType"],
+    lastModifiedAt: !item["lastModifiedAt"]
+      ? item["lastModifiedAt"]
+      : new Date(item["lastModifiedAt"]),
   };
 }
 
-/** The properties of a mongo cluster firewall rule. */
-export interface FirewallRuleProperties {
-  /** The provisioning state of the firewall rule. */
-  readonly provisioningState?: ProvisioningState;
-  /** The start IP address of the mongo cluster firewall rule. Must be IPv4 format. */
-  startIpAddress: string;
-  /** The end IP address of the mongo cluster firewall rule. Must be IPv4 format. */
-  endIpAddress: string;
+/** The kind of entity that created the resource. */
+export enum KnownCreatedByType {
+  /** The entity was created by a user. */
+  User = "User",
+  /** The entity was created by an application. */
+  Application = "Application",
+  /** The entity was created by a managed identity. */
+  ManagedIdentity = "ManagedIdentity",
+  /** The entity was created by a key. */
+  Key = "Key",
 }
 
-export function firewallRulePropertiesSerializer(
-  item: FirewallRuleProperties,
-): Record<string, unknown> {
-  return {
-    startIpAddress: item["startIpAddress"],
-    endIpAddress: item["endIpAddress"],
-  };
-}
-
-/** The response of a FirewallRule list operation. */
-export interface _FirewallRuleListResult {
-  /** The FirewallRule items on this page */
-  value: FirewallRule[];
-  /** The link to the next page of items */
-  nextLink?: string;
-}
+/**
+ * The kind of entity that created the resource. \
+ * {@link KnowncreatedByType} can be used interchangeably with createdByType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **User**: The entity was created by a user. \
+ * **Application**: The entity was created by an application. \
+ * **ManagedIdentity**: The entity was created by a managed identity. \
+ * **Key**: The entity was created by a key.
+ */
+export type CreatedByType = string;
 
 /** The resource model definition for an Azure Resource Manager tracked top level resource which has 'tags' and a 'location' */
 export interface TrackedResource extends Resource {
@@ -633,26 +1029,20 @@ export interface TrackedResource extends Resource {
   location: string;
 }
 
-export function trackedResourceSerializer(item: TrackedResource): Record<string, unknown> {
-  return {
-    tags: !item.tags ? item.tags : (serializeRecord(item.tags as any) as any),
-    location: item["location"],
-  };
+export function trackedResourceSerializer(item: TrackedResource): any {
+  return { tags: item["tags"], location: item["location"] };
 }
 
-/** Represents a mongo cluster resource. */
-export interface MongoCluster extends TrackedResource {
-  /** The resource-specific properties for this resource. */
-  properties?: MongoClusterProperties;
-}
-
-export function mongoClusterSerializer(item: MongoCluster): Record<string, unknown> {
+export function trackedResourceDeserializer(item: any): TrackedResource {
   return {
-    tags: !item.tags ? item.tags : (serializeRecord(item.tags as any) as any),
+    id: item["id"],
+    name: item["name"],
+    type: item["type"],
+    systemData: !item["systemData"]
+      ? item["systemData"]
+      : systemDataDeserializer(item["systemData"]),
+    tags: item["tags"],
     location: item["location"],
-    properties: !item.properties
-      ? item.properties
-      : mongoClusterPropertiesSerializer(item.properties),
   };
 }
 
@@ -664,12 +1054,12 @@ export interface MongoClusterUpdate {
   properties?: MongoClusterUpdateProperties;
 }
 
-export function mongoClusterUpdateSerializer(item: MongoClusterUpdate): Record<string, unknown> {
+export function mongoClusterUpdateSerializer(item: MongoClusterUpdate): any {
   return {
-    tags: !item.tags ? item.tags : (serializeRecord(item.tags as any) as any),
-    properties: !item.properties
-      ? item.properties
-      : mongoClusterUpdatePropertiesSerializer(item.properties),
+    tags: item["tags"],
+    properties: !item["properties"]
+      ? item["properties"]
+      : mongoClusterUpdatePropertiesSerializer(item["properties"]),
   };
 }
 
@@ -691,27 +1081,44 @@ export interface MongoClusterUpdateProperties {
   compute?: ComputeProperties;
   /** The backup properties of the mongo cluster. */
   backup?: BackupProperties;
+  /** The Data API properties of the mongo cluster. */
+  dataApi?: DataApiProperties;
   /** List of private endpoint connections. */
   previewFeatures?: PreviewFeature[];
 }
 
 export function mongoClusterUpdatePropertiesSerializer(
   item: MongoClusterUpdateProperties,
-): Record<string, unknown> {
+): any {
   return {
-    administrator: !item.administrator
-      ? item.administrator
-      : administratorPropertiesSerializer(item.administrator),
+    administrator: !item["administrator"]
+      ? item["administrator"]
+      : administratorPropertiesSerializer(item["administrator"]),
     serverVersion: item["serverVersion"],
     publicNetworkAccess: item["publicNetworkAccess"],
-    highAvailability: !item.highAvailability
-      ? item.highAvailability
-      : highAvailabilityPropertiesSerializer(item.highAvailability),
-    storage: !item.storage ? item.storage : storagePropertiesSerializer(item.storage),
-    sharding: !item.sharding ? item.sharding : shardingPropertiesSerializer(item.sharding),
-    compute: !item.compute ? item.compute : computePropertiesSerializer(item.compute),
-    backup: !item.backup ? item.backup : backupPropertiesSerializer(item.backup),
-    previewFeatures: item["previewFeatures"],
+    highAvailability: !item["highAvailability"]
+      ? item["highAvailability"]
+      : highAvailabilityPropertiesSerializer(item["highAvailability"]),
+    storage: !item["storage"]
+      ? item["storage"]
+      : storagePropertiesSerializer(item["storage"]),
+    sharding: !item["sharding"]
+      ? item["sharding"]
+      : shardingPropertiesSerializer(item["sharding"]),
+    compute: !item["compute"]
+      ? item["compute"]
+      : computePropertiesSerializer(item["compute"]),
+    backup: !item["backup"]
+      ? item["backup"]
+      : backupPropertiesSerializer(item["backup"]),
+    dataApi: !item["dataApi"]
+      ? item["dataApi"]
+      : dataApiPropertiesSerializer(item["dataApi"]),
+    previewFeatures: !item["previewFeatures"]
+      ? item["previewFeatures"]
+      : item["previewFeatures"].map((p: any) => {
+          return p;
+        }),
   };
 }
 
@@ -723,10 +1130,53 @@ export interface _MongoClusterListResult {
   nextLink?: string;
 }
 
+export function _mongoClusterListResultDeserializer(
+  item: any,
+): _MongoClusterListResult {
+  return {
+    value: mongoClusterArrayDeserializer(item["value"]),
+    nextLink: item["nextLink"],
+  };
+}
+
+export function mongoClusterArraySerializer(
+  result: Array<MongoCluster>,
+): any[] {
+  return result.map((item) => {
+    return mongoClusterSerializer(item);
+  });
+}
+
+export function mongoClusterArrayDeserializer(
+  result: Array<MongoCluster>,
+): any[] {
+  return result.map((item) => {
+    return mongoClusterDeserializer(item);
+  });
+}
+
 /** The connection strings for the given mongo cluster. */
 export interface ListConnectionStringsResult {
   /** An array that contains the connection strings for a mongo cluster. */
   readonly connectionStrings?: ConnectionString[];
+}
+
+export function listConnectionStringsResultDeserializer(
+  item: any,
+): ListConnectionStringsResult {
+  return {
+    connectionStrings: !item["connectionStrings"]
+      ? item["connectionStrings"]
+      : connectionStringArrayDeserializer(item["connectionStrings"]),
+  };
+}
+
+export function connectionStringArrayDeserializer(
+  result: Array<ConnectionString>,
+): any[] {
+  return result.map((item) => {
+    return connectionStringDeserializer(item);
+  });
 }
 
 /** Connection string for the mongo cluster */
@@ -739,6 +1189,14 @@ export interface ConnectionString {
   readonly name?: string;
 }
 
+export function connectionStringDeserializer(item: any): ConnectionString {
+  return {
+    connectionString: item["connectionString"],
+    description: item["description"],
+    name: item["name"],
+  };
+}
+
 /** The check availability request body. */
 export interface CheckNameAvailabilityRequest {
   /** The name of the resource for which availability needs to be checked. */
@@ -749,11 +1207,8 @@ export interface CheckNameAvailabilityRequest {
 
 export function checkNameAvailabilityRequestSerializer(
   item: CheckNameAvailabilityRequest,
-): Record<string, unknown> {
-  return {
-    name: item["name"],
-    type: item["type"],
-  };
+): any {
+  return { name: item["name"], type: item["type"] };
 }
 
 /** The check availability result. */
@@ -766,11 +1221,21 @@ export interface CheckNameAvailabilityResponse {
   message?: string;
 }
 
-/** Known values of {@link CheckNameAvailabilityReason} that the service accepts. */
+export function checkNameAvailabilityResponseDeserializer(
+  item: any,
+): CheckNameAvailabilityResponse {
+  return {
+    nameAvailable: item["nameAvailable"],
+    reason: item["reason"],
+    message: item["message"],
+  };
+}
+
+/** Possible reasons for a name not being available. */
 export enum KnownCheckNameAvailabilityReason {
-  /** Invalid */
+  /** Name is invalid. */
   Invalid = "Invalid",
-  /** AlreadyExists */
+  /** Name already exists. */
   AlreadyExists = "AlreadyExists",
 }
 
@@ -779,8 +1244,8 @@ export enum KnownCheckNameAvailabilityReason {
  * {@link KnownCheckNameAvailabilityReason} can be used interchangeably with CheckNameAvailabilityReason,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **Invalid** \
- * **AlreadyExists**
+ * **Invalid**: Name is invalid. \
+ * **AlreadyExists**: Name already exists.
  */
 export type CheckNameAvailabilityReason = string;
 
@@ -794,16 +1259,13 @@ export interface PromoteReplicaRequest {
 
 export function promoteReplicaRequestSerializer(
   item: PromoteReplicaRequest,
-): Record<string, unknown> {
-  return {
-    promoteOption: item["promoteOption"],
-    mode: item["mode"],
-  };
+): any {
+  return { promoteOption: item["promoteOption"], mode: item["mode"] };
 }
 
-/** Known values of {@link PromoteOption} that the service accepts. */
+/** The option to apply to a promote operation. */
 export enum KnownPromoteOption {
-  /** Forced */
+  /** Promote option forces the promotion without waiting for the replica to be caught up to the primary. This can result in data-loss so should only be used during disaster recovery scenarios. */
   Forced = "Forced",
 }
 
@@ -812,13 +1274,13 @@ export enum KnownPromoteOption {
  * {@link KnownPromoteOption} can be used interchangeably with PromoteOption,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **Forced**
+ * **Forced**: Promote option forces the promotion without waiting for the replica to be caught up to the primary. This can result in data-loss so should only be used during disaster recovery scenarios.
  */
 export type PromoteOption = string;
 
-/** Known values of {@link PromoteMode} that the service accepts. */
+/** The mode to apply to a promote operation. */
 export enum KnownPromoteMode {
-  /** Switchover */
+  /** Promotion will switch the current replica cluster to the primary role and the original primary will be switched to a replica role, maintaining the replication link. */
   Switchover = "Switchover",
 }
 
@@ -827,107 +1289,307 @@ export enum KnownPromoteMode {
  * {@link KnownPromoteMode} can be used interchangeably with PromoteMode,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **Switchover**
+ * **Switchover**: Promotion will switch the current replica cluster to the primary role and the original primary will be switched to a replica role, maintaining the replication link.
  */
 export type PromoteMode = string;
 
-/** A list of REST API operations supported by an Azure Resource Provider. It contains an URL link to get the next set of results. */
-export interface _OperationListResult {
-  /** The Operation items on this page */
-  value: Operation[];
+/** Represents a mongo cluster firewall rule. */
+export interface FirewallRule extends ProxyResource {
+  /** The resource-specific properties for this resource. */
+  properties?: FirewallRuleProperties;
+}
+
+export function firewallRuleSerializer(item: FirewallRule): any {
+  return {
+    properties: !item["properties"]
+      ? item["properties"]
+      : firewallRulePropertiesSerializer(item["properties"]),
+  };
+}
+
+export function firewallRuleDeserializer(item: any): FirewallRule {
+  return {
+    id: item["id"],
+    name: item["name"],
+    type: item["type"],
+    systemData: !item["systemData"]
+      ? item["systemData"]
+      : systemDataDeserializer(item["systemData"]),
+    properties: !item["properties"]
+      ? item["properties"]
+      : firewallRulePropertiesDeserializer(item["properties"]),
+  };
+}
+
+/** The properties of a mongo cluster firewall rule. */
+export interface FirewallRuleProperties {
+  /** The provisioning state of the firewall rule. */
+  readonly provisioningState?: ProvisioningState;
+  /** The start IP address of the mongo cluster firewall rule. Must be IPv4 format. */
+  startIpAddress: string;
+  /** The end IP address of the mongo cluster firewall rule. Must be IPv4 format. */
+  endIpAddress: string;
+}
+
+export function firewallRulePropertiesSerializer(
+  item: FirewallRuleProperties,
+): any {
+  return {
+    startIpAddress: item["startIpAddress"],
+    endIpAddress: item["endIpAddress"],
+  };
+}
+
+export function firewallRulePropertiesDeserializer(
+  item: any,
+): FirewallRuleProperties {
+  return {
+    provisioningState: item["provisioningState"],
+    startIpAddress: item["startIpAddress"],
+    endIpAddress: item["endIpAddress"],
+  };
+}
+
+/** The resource model definition for a Azure Resource Manager proxy resource. It will not have tags and a location */
+export interface ProxyResource extends Resource {}
+
+export function proxyResourceSerializer(item: ProxyResource): any {
+  return item;
+}
+
+export function proxyResourceDeserializer(item: any): ProxyResource {
+  return {
+    id: item["id"],
+    name: item["name"],
+    type: item["type"],
+    systemData: !item["systemData"]
+      ? item["systemData"]
+      : systemDataDeserializer(item["systemData"]),
+  };
+}
+
+/** The response of a FirewallRule list operation. */
+export interface _FirewallRuleListResult {
+  /** The FirewallRule items on this page */
+  value: FirewallRule[];
   /** The link to the next page of items */
   nextLink?: string;
 }
 
-/** Details of a REST API operation, returned from the Resource Provider Operations API */
-export interface Operation {
-  /** The name of the operation, as per Resource-Based Access Control (RBAC). Examples: "Microsoft.Compute/virtualMachines/write", "Microsoft.Compute/virtualMachines/capture/action" */
-  readonly name?: string;
-  /** Whether the operation applies to data-plane. This is "true" for data-plane operations and "false" for Azure Resource Manager/control-plane operations. */
-  readonly isDataAction?: boolean;
-  /** Localized display information for this particular operation. */
-  readonly display?: OperationDisplay;
-  /** The intended executor of the operation; as in Resource Based Access Control (RBAC) and audit logs UX. Default value is "user,system" */
-  readonly origin?: Origin;
-  /** Extensible enum. Indicates the action type. "Internal" refers to actions that are for internal only APIs. */
-  actionType?: ActionType;
+export function _firewallRuleListResultDeserializer(
+  item: any,
+): _FirewallRuleListResult {
+  return {
+    value: firewallRuleArrayDeserializer(item["value"]),
+    nextLink: item["nextLink"],
+  };
 }
 
-/** Localized display information for and operation. */
-export interface OperationDisplay {
-  /** The localized friendly form of the resource provider name, e.g. "Microsoft Monitoring Insights" or "Microsoft Compute". */
-  readonly provider?: string;
-  /** The localized friendly name of the resource type related to this operation. E.g. "Virtual Machines" or "Job Schedule Collections". */
-  readonly resource?: string;
-  /** The concise, localized friendly name for the operation; suitable for dropdowns. E.g. "Create or Update Virtual Machine", "Restart Virtual Machine". */
-  readonly operation?: string;
-  /** The short, localized friendly description of the operation; suitable for tool tips and detailed views. */
-  readonly description?: string;
+export function firewallRuleArraySerializer(
+  result: Array<FirewallRule>,
+): any[] {
+  return result.map((item) => {
+    return firewallRuleSerializer(item);
+  });
 }
 
-/** Known values of {@link Origin} that the service accepts. */
-export enum KnownOrigin {
-  /** user */
-  User = "user",
-  /** system */
-  System = "system",
-  /** user,system */
-  UserSystem = "user,system",
+export function firewallRuleArrayDeserializer(
+  result: Array<FirewallRule>,
+): any[] {
+  return result.map((item) => {
+    return firewallRuleDeserializer(item);
+  });
 }
 
-/**
- * The intended executor of the operation; as in Resource Based Access Control (RBAC) and audit logs UX. Default value is "user,system" \
- * {@link KnownOrigin} can be used interchangeably with Origin,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **user** \
- * **system** \
- * **user,system**
- */
-export type Origin = string;
-
-/** Known values of {@link ActionType} that the service accepts. */
-export enum KnownActionType {
-  /** Internal */
-  Internal = "Internal",
+/** The response of a PrivateEndpointConnectionResource list operation. */
+export interface _PrivateEndpointConnectionResourceListResult {
+  /** The PrivateEndpointConnectionResource items on this page */
+  value: PrivateEndpointConnectionResource[];
+  /** The link to the next page of items */
+  nextLink?: string;
 }
 
-/**
- * Extensible enum. Indicates the action type. "Internal" refers to actions that are for internal only APIs. \
- * {@link KnownActionType} can be used interchangeably with ActionType,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **Internal**
- */
-export type ActionType = string;
-
-/** Known values of {@link ProvisioningState } that the service accepts. */
-export enum KnownProvisioningState {
-  /** Succeeded */
-  Succeeded = "Succeeded",
-  /** Failed */
-  Failed = "Failed",
-  /** Canceled */
-  Canceled = "Canceled",
-  /** InProgress */
-  InProgress = "InProgress",
-  /** Updating */
-  Updating = "Updating",
-  /** Dropping */
-  Dropping = "Dropping",
+export function _privateEndpointConnectionResourceListResultDeserializer(
+  item: any,
+): _PrivateEndpointConnectionResourceListResult {
+  return {
+    value: privateEndpointConnectionResourceArrayDeserializer(item["value"]),
+    nextLink: item["nextLink"],
+  };
 }
 
-/**
- * The provisioning state of a resource type. \
- * {@link KnownProvisioningState } can be used interchangeably with ResourceProvisioningState,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **Succeeded** \
- * **Failed** \
- * **Canceled** \
- * **InProgress** \
- * **Updating** \
- * **Dropping**
- */
+export function privateEndpointConnectionResourceArraySerializer(
+  result: Array<PrivateEndpointConnectionResource>,
+): any[] {
+  return result.map((item) => {
+    return privateEndpointConnectionResourceSerializer(item);
+  });
+}
 
-export type ProvisioningState = string;
+export function privateEndpointConnectionResourceArrayDeserializer(
+  result: Array<PrivateEndpointConnectionResource>,
+): any[] {
+  return result.map((item) => {
+    return privateEndpointConnectionResourceDeserializer(item);
+  });
+}
+
+/** Concrete proxy resource types can be created by aliasing this type using a specific property type. */
+export interface PrivateEndpointConnectionResource extends ProxyResource {
+  /** The resource-specific properties for this resource. */
+  properties?: PrivateEndpointConnectionProperties;
+}
+
+export function privateEndpointConnectionResourceSerializer(
+  item: PrivateEndpointConnectionResource,
+): any {
+  return {
+    properties: !item["properties"]
+      ? item["properties"]
+      : privateEndpointConnectionPropertiesSerializer(item["properties"]),
+  };
+}
+
+export function privateEndpointConnectionResourceDeserializer(
+  item: any,
+): PrivateEndpointConnectionResource {
+  return {
+    id: item["id"],
+    name: item["name"],
+    type: item["type"],
+    systemData: !item["systemData"]
+      ? item["systemData"]
+      : systemDataDeserializer(item["systemData"]),
+    properties: !item["properties"]
+      ? item["properties"]
+      : privateEndpointConnectionPropertiesDeserializer(item["properties"]),
+  };
+}
+
+/** The response of a PrivateLinkResource list operation. */
+export interface _PrivateLinkResourceListResult {
+  /** The PrivateLinkResource items on this page */
+  value: PrivateLinkResource[];
+  /** The link to the next page of items */
+  nextLink?: string;
+}
+
+export function _privateLinkResourceListResultDeserializer(
+  item: any,
+): _PrivateLinkResourceListResult {
+  return {
+    value: privateLinkResourceArrayDeserializer(item["value"]),
+    nextLink: item["nextLink"],
+  };
+}
+
+export function privateLinkResourceArrayDeserializer(
+  result: Array<PrivateLinkResource>,
+): any[] {
+  return result.map((item) => {
+    return privateLinkResourceDeserializer(item);
+  });
+}
+
+/** Concrete proxy resource types can be created by aliasing this type using a specific property type. */
+export interface PrivateLinkResource extends ProxyResource {
+  /** The resource-specific properties for this resource. */
+  properties?: PrivateLinkResourceProperties;
+}
+
+export function privateLinkResourceDeserializer(
+  item: any,
+): PrivateLinkResource {
+  return {
+    id: item["id"],
+    name: item["name"],
+    type: item["type"],
+    systemData: !item["systemData"]
+      ? item["systemData"]
+      : systemDataDeserializer(item["systemData"]),
+    properties: !item["properties"]
+      ? item["properties"]
+      : privateLinkResourcePropertiesDeserializer(item["properties"]),
+  };
+}
+
+/** Properties of a private link resource. */
+export interface PrivateLinkResourceProperties {
+  /** The private link resource group id. */
+  readonly groupId?: string;
+  /** The private link resource required member names. */
+  readonly requiredMembers?: string[];
+  /** The private link resource private link DNS zone name. */
+  requiredZoneNames?: string[];
+}
+
+export function privateLinkResourcePropertiesDeserializer(
+  item: any,
+): PrivateLinkResourceProperties {
+  return {
+    groupId: item["groupId"],
+    requiredMembers: !item["requiredMembers"]
+      ? item["requiredMembers"]
+      : item["requiredMembers"].map((p: any) => {
+          return p;
+        }),
+    requiredZoneNames: !item["requiredZoneNames"]
+      ? item["requiredZoneNames"]
+      : item["requiredZoneNames"].map((p: any) => {
+          return p;
+        }),
+  };
+}
+
+/** The response of a Replica list operation. */
+export interface _ReplicaListResult {
+  /** The Replica items on this page */
+  value: Replica[];
+  /** The link to the next page of items */
+  nextLink?: string;
+}
+
+export function _replicaListResultDeserializer(item: any): _ReplicaListResult {
+  return {
+    value: replicaArrayDeserializer(item["value"]),
+    nextLink: item["nextLink"],
+  };
+}
+
+export function replicaArrayDeserializer(result: Array<Replica>): any[] {
+  return result.map((item) => {
+    return replicaDeserializer(item);
+  });
+}
+
+/** Represents a mongo cluster replica. */
+export interface Replica extends ProxyResource {
+  /** The resource-specific properties for this resource. */
+  properties?: MongoClusterProperties;
+}
+
+export function replicaDeserializer(item: any): Replica {
+  return {
+    id: item["id"],
+    name: item["name"],
+    type: item["type"],
+    systemData: !item["systemData"]
+      ? item["systemData"]
+      : systemDataDeserializer(item["systemData"]),
+    properties: !item["properties"]
+      ? item["properties"]
+      : mongoClusterPropertiesDeserializer(item["properties"]),
+  };
+}
+
+/** The available API versions. */
+export enum KnownVersions {
+  /** Azure Cosmos DB for Mongo vCore clusters api version 2024-03-01-preview. */
+  V20240301Preview = "2024-03-01-preview",
+  /** Azure Cosmos DB for Mongo vCore clusters api version 2024-06-01-preview. */
+  V20240601Preview = "2024-06-01-preview",
+  /** Azure Cosmos DB for Mongo vCore clusters api version 2024-07-01. */
+  V20240701 = "2024-07-01",
+  /** Azure Cosmos DB for Mongo vCore clusters api version 2024-10-01. */
+  V20241001Preview = "2024-10-01-preview",
+}

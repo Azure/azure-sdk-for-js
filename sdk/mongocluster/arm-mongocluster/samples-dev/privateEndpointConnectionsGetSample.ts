@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to get a specific private connection
  *
  * @summary get a specific private connection
- * x-ms-original-file: 2024-07-01/MongoClusters_PrivateEndpointConnectionGet.json
+ * x-ms-original-file: 2024-10-01-preview/MongoClusters_PrivateEndpointConnectionGet.json
  */
 async function getAPrivateEndpointConnectionOnAMongoClusterResource(): Promise<void> {
   const credential = new DefaultAzureCredential();
