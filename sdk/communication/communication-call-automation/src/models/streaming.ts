@@ -140,18 +140,18 @@ export interface OutStreamingData {
  */
 export function createOutboundAudioData(data: string): string {
   const outStreamingData: OutStreamingData = {
-      kind: "audioData",
-      audioData: {
-        data: data,
-        timestamp: undefined,
-        participant: undefined,
-        isSilent: false,
-      },
-      stopAudio: {},
-    };
+    kind: "audioData",
+    audioData: {
+      data: data,
+      timestamp: undefined,
+      participant: undefined,
+      isSilent: false,
+    },
+    stopAudio: {},
+  };
 
-    const json = JSON.stringify(outStreamingData);
-    return json;
+  const json = JSON.stringify(outStreamingData);
+  return json;
 }
 
 /**
@@ -159,10 +159,10 @@ export function createOutboundAudioData(data: string): string {
  */
 export function createOutboundStopAudioData(): string {
   const outStreamingData: OutStreamingData = {
-      kind: "stopAudio",
-      audioData: undefined,
-      stopAudio: {},
-    };
-    const json = JSON.stringify(outStreamingData);
-    return json;
+    kind: "stopAudio",
+    audioData: undefined,
+    stopAudio: {},
+  };
+  const json = JSON.stringify(outStreamingData);
+  return json;
 }
