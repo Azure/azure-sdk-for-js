@@ -123,22 +123,23 @@ export enum Channel {
   Mono = 1,
 }
 
-// Base class for Out Streaming Data
-export class OutStreamingData {
+/**
+ * OutboundStreamingAudioData interface for outbound audio streaming payload.
+ */
+export interface OutStreamingData {
   /** Out streaming data kind ex. StopAudio, AudioData*/
   kind: MediaKind;
   /** Out streaming Audio Data */
   audioData?: AudioData;
   /** Out streaming Stop Audio Data */
   stopAudio?: StopAudio;
+}
 
-  constructor(kind: MediaKind) {
-    this.kind = kind;
-  }
-
-  /** Public static method to stringify the outbound audio data. */
-  static getStreamingDataForOutbound(data: string): string {
-    const outStreamingData: OutStreamingData = {
+/**
+ * Helper function to create outbound audio data payload.
+ */
+export function createOutboundAudioData(data: string): string {
+  const outStreamingData: OutStreamingData = {
       kind: "audioData",
       audioData: {
         data: data,
@@ -151,16 +152,17 @@ export class OutStreamingData {
 
     const json = JSON.stringify(outStreamingData);
     return json;
-  }
+}
 
-  /** Public static method to stringify the stop audio data. */
-  static getStopAudioForOutbound(): string {
-    const outStreamingData: OutStreamingData = {
+/**
+ * Helper function to create outbound stop audio data payload.
+ */
+export function createOutboundStopAudioData(): string {
+  const outStreamingData: OutStreamingData = {
       kind: "stopAudio",
       audioData: undefined,
       stopAudio: {},
     };
     const json = JSON.stringify(outStreamingData);
     return json;
-  }
 }

@@ -1,14 +1,29 @@
 # Release History
 
-## 1.5.0-beta.1 (Unreleased)
+## 1.4.0 (2025-06-02)
 
 ### Features Added
 
-### Breaking Changes
+- Real-time transcription support
+- Audio and DTMF streaming capabilities
+- Integration of ConnectAPI for seamless streaming and transcription
+- Improved media streaming with bidirectional functionality, allowing audio formats in both directions, currently supporting sample rates of 24kHz and 16kHz
+
+## 1.5.0-beta.2 (2025-05-21)
 
 ### Bugs Fixed
 
-### Other Changes
+- Fix to correctly reflect the client version in telemetry data.
+
+## 1.5.0-beta.1 (2025-05-20)
+
+### Features Added
+
+- Added support for Teams multipersona users in add participant, transfer, and redirect scenarios in OPS calls
+- Added TeamsAppSource for use when creating outbound OPS calls
+- Added Incomingcall event to support incoming call notification for Teams multipersona users
+- Recording with the call connection ID is now supported. OPS calls can be recorded using the call connection ID.
+- Added StartRecordingFailed event to indicate when the start recording API is unable to initiate the recording.
 
 ## 1.4.0-beta.1 (2024-11-22)
 

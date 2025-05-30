@@ -546,6 +546,12 @@ export interface CreateCallOptions extends OperationOptions {
 export type CreateCallResult = CallResult;
 
 // @public
+export function createOutboundAudioData(data: string): string;
+
+// @public
+export function createOutboundStopAudioData(): string;
+
+// @public
 export type CustomCallingContext = (VoipHeader | SipUserToUserHeader | SipCustomHeader)[];
 
 // @public
@@ -749,12 +755,9 @@ export interface MuteParticipantResult {
     operationContext?: string;
 }
 
-// @public (undocumented)
-export class OutStreamingData {
-    constructor(kind: MediaKind);
+// @public
+export interface OutStreamingData {
     audioData?: AudioData_2;
-    static getStopAudioForOutbound(): string;
-    static getStreamingDataForOutbound(data: string): string;
     kind: MediaKind;
     stopAudio?: StopAudio;
 }
