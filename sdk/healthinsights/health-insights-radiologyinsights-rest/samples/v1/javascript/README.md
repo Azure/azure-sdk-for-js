@@ -11,9 +11,12 @@ These sample programs show how to use the JavaScript client libraries for Health
 | [sample_finding_inference_async.js][sample_finding_inference_async]                                       | Displays the finding of the Radiology Insights request.                    |
 | [sample_follow_up_communication_inference_async.js][sample_follow_up_communication_inference_async]       | Displays the follow up communication of the Radiology Insights request.    |
 | [sample_follow_up_recommendation_inference_async.js][sample_follow_up_recommendation_inference_async]     | Displays the follow up recommendation of the Radiology Insights request.   |
+| [sample_guidance_inference_async.js][sample_guidance_inference_async]                                     | Displays the guidance of the Radiology Insights request . |
 | [sample_laterality_discrepancy_inference_async.js][sample_laterality_discrepancy_inference_async]         | Displays the laterality discrepancy of the Radiology Insights request.     |
 | [sample_limited_order_discrepancy_inference_async.js][sample_limited_order_discrepancy_inference_async]   | Displays the limited order discrepancy of the Radiology Insights request.  |
+| [sample_quality_measure_inference_async.js][sample_quality_measure_inference_async]                       | Displays the quality measure of the Radiology Insights request.  |
 | [sample_radiology_procedure_inference_async.js][sample_radiology_procedure_inference_async]               | Displays the radiology procedure of the Radiology Insights request.        |
+| [sample_scoring_and_assessment_inference_async.js][sample_scoring_and_assessment_inference_async]         | Displays the scoring and assessment of the Radiology Insights request.  |
 | [sample_sex_mismatch_inference_async.js][sample_sex_mismatch_inference_async]                             | Displays the sex mismatch of the Radiology Insights request.               |
 
 ## Prerequisites
@@ -61,9 +64,12 @@ Take a look at our [API Documentation][apiref] for more information about the AP
 [sample_finding_inference_async]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/healthinsights/health-insights-radiologyinsights-rest/samples/v1/javascript/sample_finding_inference_async.js
 [sample_follow_up_communication_inference_async]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/healthinsights/health-insights-radiologyinsights-rest/samples/v1/javascript/sample_follow_up_communication_inference_async.js
 [sample_follow_up_recommendation_inference_async]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/healthinsights/health-insights-radiologyinsights-rest/samples/v1/javascript/sample_follow_up_recommendation_inference_async.js
+[sample_guidance_inference_async]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/healthinsights/health-insights-radiologyinsights-rest/samples/v1/javascript/sample_guidance_inference_async.js
 [sample_laterality_discrepancy_inference_async]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/healthinsights/health-insights-radiologyinsights-rest/samples/v1/javascript/sample_laterality_discrepancy_inference_async.js
 [sample_limited_order_discrepancy_inference_async]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/healthinsights/health-insights-radiologyinsights-rest/samples/v1/javascript/sample_limited_order_discrepancy_inference_async.js
+[sample_quality_measure_inference_async]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/healthinsights/health-insights-radiologyinsights-rest/samples/v1/javascript/sample_quality_measure_inference_async.js
 [sample_radiology_procedure_inference_async]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/healthinsights/health-insights-radiologyinsights-rest/samples/v1/javascript/sample_radiology_procedure_inference_async.js
+[sample_scoring_and_assessment_inference_async]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/healthinsights/health-insights-radiologyinsights-rest/samples/v1/javascript/sample_scoring_and_assessment_inference_async.js
 [sample_sex_mismatch_inference_async]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/healthinsights/health-insights-radiologyinsights-rest/samples/v1/javascript/sample_sex_mismatch_inference_async.js
 [apiref]: https://learn.microsoft.com/javascript/api
 [freesub]: https://azure.microsoft.com/free/

@@ -3,12 +3,12 @@
 
 import type { Recorder } from "@azure-tools/test-recorder";
 import type { AzureHealthInsightsClient } from "../../src/index.js";
-import { ClinicalDocumentTypeEnum, getLongRunningPoller } from "../../src/index.js";
+import { getLongRunningPoller } from "../../src/index.js";
 import { createRecorder, createTestClient } from "./utils/recordedClient.js";
 import { describe, it, assert, beforeEach, afterEach } from "vitest";
 
 const codingData = {
-  system: "Http://hl7.org/fhir/ValueSet/cpt-all",
+  system: "http://www.ama-assn.org/go/cpt",
   code: "24727-0",
   display: "CT HEAD W CONTRAST IV",
 };
@@ -19,7 +19,7 @@ const code = {
 
 const patientInfo = {
   sex: "female",
-  birthDate: new Date("1959-11-11T19:00:00+00:00"),
+  birthDate: "1959-11-11T19:00:00+00:00",
 };
 
 const encounterData = {
@@ -62,14 +62,14 @@ I recommend a new brain CT within nine months.`,
 
 const patientDocumentData = {
   type: "note",
-  clinicalType: ClinicalDocumentTypeEnum.RadiologyReport,
+  clinicalType: "radiologyReport",
   id: "docid1",
   language: "en",
   authors: [authorData],
   specialtyType: "radiology",
   administrativeMetadata: administrativeMetadata,
   content: content,
-  createdAt: new Date("2021-05-31T16:00:00.000Z"),
+  createdAt: "2021-05-31T16:00:00.000Z",
   orderedProceduresAsCsv: "CT HEAD W CONTRAST IV",
 };
 
@@ -92,6 +92,9 @@ const inferenceTypes = [
   "followupRecommendation",
   "followupCommunication",
   "radiologyProcedure",
+  "scoringAndAssessment",
+  "guidance",
+  "qualityMeasure",
 ];
 
 const followupRecommendationOptions = {
