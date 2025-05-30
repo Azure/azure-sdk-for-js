@@ -11,8 +11,8 @@ import { StatsbeatMetrics } from "./statsbeatMetrics.js";
 import type { CustomerStatsbeatProperties, StatsbeatOptions } from "./types.js";
 import { CustomerStatsbeat, DropCode, RetryCode } from "./types.js";
 import { CustomStatsbeatCounter, STATSBEAT_LANGUAGE, TelemetryType } from "./types.js";
-import { AzureMonitorMetricExporter } from "../metric.js";
 import { getAttachType } from "../../utils/metricUtils.js";
+import { AzureMonitorStatsbeatExporter } from "./statsbeatExporter.js";
 
 /**
  * Class that handles customer-facing statsbeat metrics
@@ -22,8 +22,9 @@ export class CustomerStatsbeatMetrics extends StatsbeatMetrics {
   private statsCollectionInterval: number = 900000; // 15 minutes
   private customerStatsbeatMeter: Meter;
   private customerStatsbeatMeterProvider: MeterProvider;
-  private customerAzureExporter: AzureMonitorMetricExporter;
+  private customerStatsbeatExporter: AzureMonitorStatsbeatExporter;
   private customerStatsbeatCollection: Array<CustomerStatsbeat> = [];
+  private isInitialized: boolean = false;
 
   private endpointUrl: string;
   private host: string;
@@ -49,10 +50,10 @@ export class CustomerStatsbeatMetrics extends StatsbeatMetrics {
       connectionString: `InstrumentationKey=${options.instrumentationKey};IngestionEndpoint=${options.endpointUrl}`,
     };
 
-    this.customerAzureExporter = new AzureMonitorMetricExporter(exporterConfig);
+    this.customerStatsbeatExporter = new AzureMonitorStatsbeatExporter(exporterConfig);
     // Exports Customer Statsbeat every 15 minutes
     const customerMetricReaderOptions: PeriodicExportingMetricReaderOptions = {
-      exporter: this.customerAzureExporter,
+      exporter: this.customerStatsbeatExporter,
       exportIntervalMillis: options.networkCollectionInterval || this.statsCollectionInterval, // Using network interval option for customer metrics
     };
     this.customerStatsbeatMeterProvider = new MeterProvider({
@@ -78,7 +79,10 @@ export class CustomerStatsbeatMetrics extends StatsbeatMetrics {
       CustomStatsbeatCounter.ITEM_RETRY_COUNT,
     );
 
-    this.initialize();
+    if (!this.isInitialized) {
+      this.initialize();
+    }
+    this.isInitialized = true;
 
     this.customerProperties = {
       language: this.language,
