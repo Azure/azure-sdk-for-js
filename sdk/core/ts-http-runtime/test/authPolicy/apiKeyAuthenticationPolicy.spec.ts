@@ -84,6 +84,37 @@ describe("apiKeyAuthenticationPolicy", () => {
 
     vi.clearAllMocks();
   });
+
+  it.each([
+    { authSchemes: [], shouldAuthenticate: false },
+    { authSchemes: undefined, shouldAuthenticate: true },
+  ])(
+    `handles authentication correctly when request authSchemes is $authSchemes`,
+    async ({ authSchemes, shouldAuthenticate }) => {
+      const request = createPipelineRequest({ url: "https://example.com" });
+      request.authSchemes = authSchemes;
+
+      const apiKey = "testKey";
+
+      const successResponse: PipelineResponse = {
+        headers: createHttpHeaders(),
+        request,
+        status: 200,
+      };
+      const next = vi.fn<SendRequest>();
+      next.mockResolvedValue(successResponse);
+
+      const policy = createApiKeyPolicy(apiKey, "header");
+      await policy.sendRequest(request, next);
+
+      if (shouldAuthenticate) {
+        expect(request.headers.get("api-key")).toBe(apiKey);
+      } else {
+        expect(request.headers.has("api-key")).toBe(false);
+        expect(next).toHaveBeenCalledWith(request);
+      }
+    },
+  );
 });
 
 function createApiKeyPolicy(
