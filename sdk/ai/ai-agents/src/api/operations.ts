@@ -24,6 +24,8 @@ import {
   RunStepStreamEvent,
   RunStreamEvent,
   ThreadStreamEvent,
+  runStepDeserializer,
+  threadMessageDeserializer,
 } from "../models/models.js";
 import type {
   CreateThreadAndRunOptionalParams,
@@ -436,9 +438,9 @@ function deserializeEventData(event: EventMessage): AgentEventStreamData {
     }
     switch (event.event) {
       case MessageStreamEvent.ThreadMessageDelta:
-        return jsonData;
+        return threadMessageDeserializer(jsonData);
       case RunStepStreamEvent.ThreadRunStepDelta:
-        return jsonData;
+        return runStepDeserializer(jsonData);
       default: {
         for (const { events } of handlers) {
           if (events.includes(event.event)) {
