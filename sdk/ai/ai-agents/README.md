@@ -74,7 +74,7 @@ npm install @azure/ai-agents @azure/identity
 
 The `AgentsClient` is used to construct the client. Currently, we recommend that you use the AgentsClient through the [Azure AI Projects Client Library](https://www.npmjs.com/package/@azure/ai-projects) using `client.agents`.
 
-To construct a client:
+To get your project endpoint you can refer this doc: [azure_foundry_service_endpoint]. Below we will assume the environment variable `PROJECT_ENDPOINT` was defined to hold this value:
 
 ```ts snippet:setup
 import { AgentsClient } from "@azure/ai-agents";
@@ -835,6 +835,7 @@ additional questions or comments.
 
 <!-- LINKS -->
 
+[azure_foundry_service_endpoint]: https://learn.microsoft.com/azure/ai-foundry/model-inference/how-to/configure-project-connection?pivots=ai-foundry-portal
 [code_of_conduct]: https://opensource.microsoft.com/codeofconduct/
 [entra_id]: https://learn.microsoft.com/azure/ai-services/authentication?tabs=powershell#authenticate-with-microsoft-entra-id
 [azure_identity_npm]: https://www.npmjs.com/package/@azure/identity
