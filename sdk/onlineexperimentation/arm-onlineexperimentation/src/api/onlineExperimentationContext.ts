@@ -44,7 +44,7 @@ export function createOnlineExperimentation(
   };
   const clientContext = getClient(endpointUrl, credential, updatedOptions);
   clientContext.pipeline.removePolicy({ name: "ApiVersionPolicy" });
-  const apiVersion = options.apiVersion ?? "2025-05-31-preview";
+  const apiVersion = options.apiVersion ?? "2025-08-01-preview";
   clientContext.pipeline.addPolicy({
     name: "ClientApiVersionPolicy",
     sendRequest: (req, next) => {

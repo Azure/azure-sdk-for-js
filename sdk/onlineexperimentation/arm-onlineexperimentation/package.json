@@ -12,7 +12,9 @@
       "./package.json": "./package.json",
       ".": "./src/index.ts",
       "./api": "./src/api/index.ts",
-      "./api/onlineExperimentWorkspaces": "./src/api/onlineExperimentWorkspaces/index.ts",
+      "./api/privateLinkResources": "./src/api/privateLinkResources/index.ts",
+      "./api/privateEndpointConnections": "./src/api/privateEndpointConnections/index.ts",
+      "./api/onlineExperimentationWorkspaces": "./src/api/onlineExperimentationWorkspaces/index.ts",
       "./api/operations": "./src/api/operations/index.ts",
       "./models": "./src/models/index.ts"
     },
@@ -61,13 +63,13 @@
     ]
   },
   "dependencies": {
-    "@azure-rest/core-client": "^2.3.1",
+    "@azure-rest/core-client": "^2.1.0",
     "@azure/abort-controller": "^2.1.2",
     "@azure/core-auth": "^1.9.0",
-    "@azure/core-lro": "^3.1.0",
-    "@azure/core-rest-pipeline": "^1.19.1",
-    "@azure/core-util": "^1.11.0",
-    "@azure/logger": "^1.1.4",
+    "@azure/core-lro": "^3.0.0",
+    "@azure/core-rest-pipeline": "^1.20.0",
+    "@azure/core-util": "^1.12.0",
+    "@azure/logger": "^1.2.0",
     "tslib": "^2.8.1"
   },
   "devDependencies": {
@@ -76,7 +78,7 @@
     "@azure-tools/test-utils-vitest": "^1.0.0",
     "@azure/dev-tool": "^1.0.0",
     "@azure/eslint-plugin-azure-sdk": "^3.0.0",
-    "@azure/identity": "^4.9.1",
+    "@azure/identity": "^4.10.0",
     "@types/node": "^18.0.0",
     "@vitest/browser": "^3.0.9",
     "@vitest/coverage-istanbul": "^3.0.9",
@@ -99,7 +101,7 @@
     "lint:fix": "echo skipped",
     "pack": "npm pack 2>&1",
     "test": "npm run test:node && npm run test:browser",
-    "test:browser": "echo skipped",
+    "test:browser": "dev-tool run build-test && dev-tool run test:vitest --browser",
     "test:node": "dev-tool run test:vitest",
     "test:node:esm": "dev-tool run test:vitest --esm",
     "update-snippets": "dev-tool run update-snippets"
@@ -152,22 +154,58 @@
         "default": "./dist/commonjs/api/index.js"
       }
     },
-    "./api/onlineExperimentWorkspaces": {
+    "./api/privateLinkResources": {
       "browser": {
-        "types": "./dist/browser/api/onlineExperimentWorkspaces/index.d.ts",
-        "default": "./dist/browser/api/onlineExperimentWorkspaces/index.js"
+        "types": "./dist/browser/api/privateLinkResources/index.d.ts",
+        "default": "./dist/browser/api/privateLinkResources/index.js"
       },
       "react-native": {
-        "types": "./dist/react-native/api/onlineExperimentWorkspaces/index.d.ts",
-        "default": "./dist/react-native/api/onlineExperimentWorkspaces/index.js"
+        "types": "./dist/react-native/api/privateLinkResources/index.d.ts",
+        "default": "./dist/react-native/api/privateLinkResources/index.js"
       },
       "import": {
-        "types": "./dist/esm/api/onlineExperimentWorkspaces/index.d.ts",
-        "default": "./dist/esm/api/onlineExperimentWorkspaces/index.js"
+        "types": "./dist/esm/api/privateLinkResources/index.d.ts",
+        "default": "./dist/esm/api/privateLinkResources/index.js"
       },
       "require": {
-        "types": "./dist/commonjs/api/onlineExperimentWorkspaces/index.d.ts",
-        "default": "./dist/commonjs/api/onlineExperimentWorkspaces/index.js"
+        "types": "./dist/commonjs/api/privateLinkResources/index.d.ts",
+        "default": "./dist/commonjs/api/privateLinkResources/index.js"
+      }
+    },
+    "./api/privateEndpointConnections": {
+      "browser": {
+        "types": "./dist/browser/api/privateEndpointConnections/index.d.ts",
+        "default": "./dist/browser/api/privateEndpointConnections/index.js"
+      },
+      "react-native": {
+        "types": "./dist/react-native/api/privateEndpointConnections/index.d.ts",
+        "default": "./dist/react-native/api/privateEndpointConnections/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/privateEndpointConnections/index.d.ts",
+        "default": "./dist/esm/api/privateEndpointConnections/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/privateEndpointConnections/index.d.ts",
+        "default": "./dist/commonjs/api/privateEndpointConnections/index.js"
+      }
+    },
+    "./api/onlineExperimentationWorkspaces": {
+      "browser": {
+        "types": "./dist/browser/api/onlineExperimentationWorkspaces/index.d.ts",
+        "default": "./dist/browser/api/onlineExperimentationWorkspaces/index.js"
+      },
+      "react-native": {
+        "types": "./dist/react-native/api/onlineExperimentationWorkspaces/index.d.ts",
+        "default": "./dist/react-native/api/onlineExperimentationWorkspaces/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/onlineExperimentationWorkspaces/index.d.ts",
+        "default": "./dist/esm/api/onlineExperimentationWorkspaces/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/onlineExperimentationWorkspaces/index.d.ts",
+        "default": "./dist/commonjs/api/onlineExperimentationWorkspaces/index.js"
       }
     },
     "./api/operations": {
