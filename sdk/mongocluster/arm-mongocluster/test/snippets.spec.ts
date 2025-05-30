@@ -2,18 +2,13 @@
 // Licensed under the MIT License.
 
 import { MongoClusterManagementClient } from "../src/index.js";
-import {
-  DefaultAzureCredential,
-  InteractiveBrowserCredential,
-} from "@azure/identity";
+import { DefaultAzureCredential, InteractiveBrowserCredential } from "@azure/identity";
 import { setLogLevel } from "@azure/logger";
 import { describe, it } from "vitest";
 
 describe("snippets", () => {
   it("ReadmeSampleCreateClient_Node", async () => {
-    const client = new MongoClusterManagementClient(
-      new DefaultAzureCredential(),
-    );
+    const client = new MongoClusterManagementClient(new DefaultAzureCredential());
   });
 
   it("ReadmeSampleCreateClient_Browser", async () => {
