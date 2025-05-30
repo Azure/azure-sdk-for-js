@@ -19,6 +19,8 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 const endpoint = process.env["AZURE_AI_PROJECT_ENDPOINT_STRING"] || "<project endpoint string>";
+const containerConnectionName =
+  process.env["AZURE_STORAGE_CONNECTION_NAME"] || "<storage connection name>";
 const VERSION1 = "1.0";
 const VERSION2 = "2.0";
 const VERSION3 = "3.0";
@@ -31,6 +33,7 @@ async function main(): Promise<void> {
 
   // Create a unique dataset name for this sample run
   const datasetName = `sample-dataset-basic`;
+  const folderDatasetName = `${datasetName}-folder`;
 
   console.log("Upload a single file and create a new Dataset to reference the file.");
   console.log("Here we explicitly specify the dataset version.");
@@ -38,10 +41,11 @@ async function main(): Promise<void> {
     datasetName,
     VERSION1,
     path.join(__dirname, sampleFolder, "sample_file1.txt"),
+    containerConnectionName,
   );
   console.log("Dataset1 created:", JSON.stringify(dataset1, null, 2));
 
-  const credential = project.datasets.getCredentials(dataset1.name, dataset1.version, {});
+  const credential = await project.datasets.getCredentials(dataset1.name, dataset1.version, {});
   console.log("Credential for the dataset:", credential);
 
   console.log(
@@ -49,9 +53,10 @@ async function main(): Promise<void> {
   );
   console.log("Here again we explicitly specify a new dataset version");
   const dataset2 = await project.datasets.uploadFolder(
-    datasetName,
+    folderDatasetName,
     VERSION2,
     path.join(__dirname, sampleFolder),
+    containerConnectionName,
   );
   console.log("Dataset2 created:", JSON.stringify(dataset2, null, 2));
 
@@ -62,6 +67,7 @@ async function main(): Promise<void> {
     datasetName,
     VERSION3,
     path.join(__dirname, sampleFolder, "sample_file2.txt"),
+    containerConnectionName,
   );
   console.log("Dataset3 created:", JSON.stringify(dataset3, null, 2));
 
@@ -91,7 +97,7 @@ async function main(): Promise<void> {
 
   console.log("Delete all Datasets created above:");
   await project.datasets.delete(datasetName, VERSION1);
-  await project.datasets.delete(datasetName, VERSION2);
+  await project.datasets.delete(folderDatasetName, VERSION2);
   await project.datasets.delete(datasetName, dataset3.version);
   console.log("All specified Datasets have been deleted.");
 }

@@ -106,9 +106,6 @@ importers:
       '@rush-temp/arm-appinsights':
         specifier: file:./projects/arm-appinsights.tgz
         version: file:projects/arm-appinsights.tgz(@types/debug@4.1.12)(tsx@4.19.4)(vite@6.3.5(@types/node@22.7.9)(tsx@4.19.4)(yaml@2.8.0))(yaml@2.8.0)
-      '@rush-temp/arm-appplatform':
-        specifier: file:./projects/arm-appplatform.tgz
-        version: file:projects/arm-appplatform.tgz(@types/debug@4.1.12)(tsx@4.19.4)(vite@6.3.5(@types/node@22.7.9)(tsx@4.19.4)(yaml@2.8.0))(yaml@2.8.0)
       '@rush-temp/arm-appservice':
         specifier: file:./projects/arm-appservice.tgz
         version: file:projects/arm-appservice.tgz(@types/debug@4.1.12)(tsx@4.19.4)(vite@6.3.5(@types/node@22.7.9)(tsx@4.19.4)(yaml@2.8.0))(yaml@2.8.0)
@@ -532,9 +529,6 @@ importers:
       '@rush-temp/arm-marketplaceordering':
         specifier: file:./projects/arm-marketplaceordering.tgz
         version: file:projects/arm-marketplaceordering.tgz(@types/debug@4.1.12)(tsx@4.19.4)(vite@6.3.5(@types/node@22.7.9)(tsx@4.19.4)(yaml@2.8.0))(yaml@2.8.0)
-      '@rush-temp/arm-mediaservices':
-        specifier: file:./projects/arm-mediaservices.tgz
-        version: file:projects/arm-mediaservices.tgz(@types/debug@4.1.12)(tsx@4.19.4)(vite@6.3.5(@types/node@22.7.9)(tsx@4.19.4)(yaml@2.8.0))(yaml@2.8.0)
       '@rush-temp/arm-migrate':
         specifier: file:./projects/arm-migrate.tgz
         version: file:projects/arm-migrate.tgz(@types/debug@4.1.12)(tsx@4.19.4)(vite@6.3.5(@types/node@22.7.9)(tsx@4.19.4)(yaml@2.8.0))(yaml@2.8.0)
@@ -978,7 +972,7 @@ importers:
         version: file:projects/defender-easm.tgz(@types/debug@4.1.12)(tsx@4.19.4)(vite@6.3.5(@types/node@22.7.9)(tsx@4.19.4)(yaml@2.8.0))(yaml@2.8.0)
       '@rush-temp/dev-tool':
         specifier: file:./projects/dev-tool.tgz
-        version: file:projects/dev-tool.tgz(@types/debug@4.1.12)(@vitest/browser@3.1.4)(rollup@4.41.1)
+        version: file:projects/dev-tool.tgz(@types/debug@4.1.12)(@vitest/browser@3.1.4)
       '@rush-temp/developer-devcenter':
         specifier: file:./projects/developer-devcenter.tgz
         version: file:projects/developer-devcenter.tgz(@types/debug@4.1.12)(tsx@4.19.4)(vite@6.3.5(@types/node@22.7.9)(tsx@4.19.4)(yaml@2.8.0))(yaml@2.8.0)
@@ -2597,10 +2591,6 @@ packages:
     resolution: {integrity: sha512-NvNwPRvLiNZOpNlY/HI50yGvdBatTW7pANBH5k6dfpodVsqReSOgHAC1Y6XSzr2dgwuCO7l9QUV9DQqH558LIw==, tarball: file:projects/arm-appinsights.tgz}
     version: 0.0.0
 
-  '@rush-temp/arm-appplatform@file:projects/arm-appplatform.tgz':
-    resolution: {integrity: sha512-jXivRKYuGErmXMenOf2YnB1QhR7ROUCbOzjrIHwA24154HR28uudXZKbVqWeUuAM605Q2nRLa9hynDooeKWxQQ==, tarball: file:projects/arm-appplatform.tgz}
-    version: 0.0.0
-
   '@rush-temp/arm-appservice-1@file:projects/arm-appservice-1.tgz':
     resolution: {integrity: sha512-TdpfIMAinDGGg49OtaT7b3aoLJWNsPldWieQL9PWUKaI3ODe/NsjeMjT4qdSXCTrckO322+cBb9g6oL/auiTQg==, tarball: file:projects/arm-appservice-1.tgz}
     version: 0.0.0
@@ -3165,10 +3155,6 @@ packages:
     resolution: {integrity: sha512-V8bE/LPb2/ZV/MM2xdU+mQSUjANPaN7ig29cplab9a6B/LQIk3+kbHrSH7ddbHY7xjKexs11f5Uzk5exEaKN0g==, tarball: file:projects/arm-marketplaceordering.tgz}
     version: 0.0.0
 
-  '@rush-temp/arm-mediaservices@file:projects/arm-mediaservices.tgz':
-    resolution: {integrity: sha512-Co16P/gZ1uI/N95fCrICJsvMgkqGkoNZXzSwjLfA5aZGGqKQMWstUHilVTfnDa+/QOpFP1obXFedEzhEG4itvA==, tarball: file:projects/arm-mediaservices.tgz}
-    version: 0.0.0
-
   '@rush-temp/arm-migrate@file:projects/arm-migrate.tgz':
     resolution: {integrity: sha512-QhMhgtj6EmtxfbyE3DKpguFi6Da5c15xAUZqCpCR/mAQXKGlPd8Dkb5OHKFFQaxNH5qUv7gQIzG5Ql5OQSJrbw==, tarball: file:projects/arm-migrate.tgz}
     version: 0.0.0
@@ -3686,7 +3672,7 @@ packages:
     version: 0.0.0
 
   '@rush-temp/confidential-ledger@file:projects/confidential-ledger.tgz':
-    resolution: {integrity: sha512-9mRWDxRM3sY7PegtI6b4LNHlcZRbSoEA8pKGXwraf6LgG9q39cbfRKTLNxZEqTpKIfp/gNM5psmIIO2gwjelZg==, tarball: file:projects/confidential-ledger.tgz}
+    resolution: {integrity: sha512-Amz/YjIdF0Rh4w1Jf6wHdmSIrtW77BQChhWwqGDbiyMluhjIjPlpW3bizKZBA++Gs4aLvR2HxmcPhjwExAZq3g==, tarball: file:projects/confidential-ledger.tgz}
     version: 0.0.0
 
   '@rush-temp/container-registry@file:projects/container-registry.tgz':
@@ -3758,7 +3744,7 @@ packages:
     version: 0.0.0
 
   '@rush-temp/dev-tool@file:projects/dev-tool.tgz':
-    resolution: {integrity: sha512-Mc+huNSvbZwevmMntdGQdCU276BQ79+5ggArqk+K+yrS2R/SoEfl3fEpo3LhClbvjbZ1vlScKL42EhKtl0NaFw==, tarball: file:projects/dev-tool.tgz}
+    resolution: {integrity: sha512-Ee25oFxCRC3Y7lLoMrqefv0aCHebIDwtSRMoZY+Hx28MaKsgYCofRbmhZ2sqCrhcb8JuLkYKXSCZ9QBm05kyiA==, tarball: file:projects/dev-tool.tgz}
     version: 0.0.0
 
   '@rush-temp/developer-devcenter@file:projects/developer-devcenter.tgz':
@@ -4224,9 +4210,6 @@ packages:
   '@ts-morph/common@0.26.1':
     resolution: {integrity: sha512-Sn28TGl/4cFpcM+jwsH1wLncYq3FtN/BIpem+HOygfBWPT5pAeS5dB4VFVzV8FbnOKHpDLZmvAl4AjPEev5idA==}
 
-  '@types/archiver@6.0.3':
-    resolution: {integrity: sha512-a6wUll6k3zX6qs5KlxIggs1P1JcYJaTCx2gnlr+f0S1yd2DoaEwoIK10HmBaLnZwWneBz+JBm0dwcZu0zECBcQ==}
-
   '@types/argparse@1.0.38':
     resolution: {integrity: sha512-ebDJ9b0e702Yr7pWgB0jzm+CX4Srzz8RcXtLJDJB+BSccqMa36uyH/zUsSYao5+BD1ytv3k3rPYCq4mAE1hsXA==}
 
@@ -4364,9 +4347,6 @@ packages:
 
   '@types/range-parser@1.2.7':
     resolution: {integrity: sha512-hKormJbkJqzQGhziax5PItDUTMAM9uE2XXQmM37dyd4hVM+5aVl7oVxMVUiVQn2oCQFN/LKCZdvSM0pFRqbSmQ==}
-
-  '@types/readdir-glob@1.1.5':
-    resolution: {integrity: sha512-raiuEPUYqXu+nvtY2Pe8s8FEmZ3x5yAH4VkLdihcPdalvsHltomrRC9BzuStrJ9yk06470hS0Crw0f1pXqD+Hg==}
 
   '@types/resolve@1.20.2':
     resolution: {integrity: sha512-60BCwRFOZCQhDncwQdxxeOEEkbc5dIMccYLwbxsS4TUNeVECQ/pBJ0j09mrHOl/JJvpRPGwO9SvE4nR2Nb/a4Q==}
@@ -6585,24 +6565,6 @@ packages:
     resolution: {integrity: sha512-wI8D5dvYovRMx/YYKtUNt3Yxaw4ORC9xo6Gt9t22kveWz1enG9QrhVlagzwrxSC455xD1dHMKhIJkbsQ7d48BA==}
     engines: {node: '>=8.3'}
 
-  rollup-plugin-polyfill-node@0.13.0:
-    resolution: {integrity: sha512-FYEvpCaD5jGtyBuBFcQImEGmTxDTPbiHjJdrYIp+mFIwgXiXabxvKUK7ZT9P31ozu2Tqm9llYQMRWsfvTMTAOw==}
-    peerDependencies:
-      rollup: ^1.20.0 || ^2.0.0 || ^3.0.0 || ^4.0.0
-
-  rollup-plugin-visualizer@5.14.0:
-    resolution: {integrity: sha512-VlDXneTDaKsHIw8yzJAFWtrzguoJ/LnQ+lMpoVfYJ3jJF4Ihe5oYLAqLklIK/35lgUY+1yEzCkHyZ1j4A5w5fA==}
-    engines: {node: '>=18'}
-    hasBin: true
-    peerDependencies:
-      rolldown: 1.x
-      rollup: 2.x || 3.x || 4.x
-    peerDependenciesMeta:
-      rolldown:
-        optional: true
-      rollup:
-        optional: true
-
   rollup@4.41.1:
     resolution: {integrity: sha512-cPmwD3FnFv8rKMBc1MxWCwVQFxwf1JEmSX3iQXrRVVG15zerAIXRjMFVWnd5Q5QvgKF7Aj+5ykXFhUl+QGnyOw==}
     engines: {node: '>=18.0.0', npm: '>=8.0.0'}
@@ -6760,10 +6722,6 @@ packages:
   source-map@0.6.1:
     resolution: {integrity: sha512-UjgapumWlbMhkBgzT7Ykc5YXUT46F0iKu8SGXq0bcwP5dz/h0Plj6enJqjz1Zbq2l5WaqYnrVbwWOWMyF3F47g==}
     engines: {node: '>=0.10.0'}
-
-  source-map@0.7.4:
-    resolution: {integrity: sha512-l3BikUxvPOcn5E74dZiq5BGsTb5yEwhaTSzccU6t4sDOH8NWJCstKO5QT2CvtFoK6F0saL7p9xHAqHOlCPJygA==}
-    engines: {node: '>= 8'}
 
   spawn-command@0.0.2:
     resolution: {integrity: sha512-zC8zGoGkmc8J9ndvml8Xksr1Amk9qBujgbF0JAIWO7kXr43w0h/0GJNM/Vustixu+YE8N/MTrQ7N31FvHUACxQ==}
@@ -10066,41 +10024,6 @@ snapshots:
 
   '@rush-temp/arm-appinsights@file:projects/arm-appinsights.tgz(@types/debug@4.1.12)(tsx@4.19.4)(vite@6.3.5(@types/node@22.7.9)(tsx@4.19.4)(yaml@2.8.0))(yaml@2.8.0)':
     dependencies:
-      '@types/node': 18.19.103
-      '@vitest/browser': 3.1.4(playwright@1.52.0)(vite@6.3.5(@types/node@22.7.9)(tsx@4.19.4)(yaml@2.8.0))(vitest@3.1.4)
-      '@vitest/coverage-istanbul': 3.1.4(vitest@3.1.4)
-      dotenv: 16.5.0
-      playwright: 1.52.0
-      tslib: 2.8.1
-      typescript: 5.8.3
-      vitest: 3.1.4(@types/debug@4.1.12)(@types/node@18.19.103)(@vitest/browser@3.1.4)(tsx@4.19.4)(yaml@2.8.0)
-    transitivePeerDependencies:
-      - '@edge-runtime/vm'
-      - '@types/debug'
-      - '@vitest/ui'
-      - bufferutil
-      - happy-dom
-      - jiti
-      - jsdom
-      - less
-      - lightningcss
-      - msw
-      - safaridriver
-      - sass
-      - sass-embedded
-      - stylus
-      - sugarss
-      - supports-color
-      - terser
-      - tsx
-      - utf-8-validate
-      - vite
-      - webdriverio
-      - yaml
-
-  '@rush-temp/arm-appplatform@file:projects/arm-appplatform.tgz(@types/debug@4.1.12)(tsx@4.19.4)(vite@6.3.5(@types/node@22.7.9)(tsx@4.19.4)(yaml@2.8.0))(yaml@2.8.0)':
-    dependencies:
-      '@azure/core-lro': 2.7.2
       '@types/node': 18.19.103
       '@vitest/browser': 3.1.4(playwright@1.52.0)(vite@6.3.5(@types/node@22.7.9)(tsx@4.19.4)(yaml@2.8.0))(vitest@3.1.4)
       '@vitest/coverage-istanbul': 3.1.4(vitest@3.1.4)
@@ -14998,41 +14921,6 @@ snapshots:
 
   '@rush-temp/arm-marketplaceordering@file:projects/arm-marketplaceordering.tgz(@types/debug@4.1.12)(tsx@4.19.4)(vite@6.3.5(@types/node@22.7.9)(tsx@4.19.4)(yaml@2.8.0))(yaml@2.8.0)':
     dependencies:
-      '@types/node': 18.19.103
-      '@vitest/browser': 3.1.4(playwright@1.52.0)(vite@6.3.5(@types/node@22.7.9)(tsx@4.19.4)(yaml@2.8.0))(vitest@3.1.4)
-      '@vitest/coverage-istanbul': 3.1.4(vitest@3.1.4)
-      dotenv: 16.5.0
-      playwright: 1.52.0
-      tslib: 2.8.1
-      typescript: 5.8.3
-      vitest: 3.1.4(@types/debug@4.1.12)(@types/node@18.19.103)(@vitest/browser@3.1.4)(tsx@4.19.4)(yaml@2.8.0)
-    transitivePeerDependencies:
-      - '@edge-runtime/vm'
-      - '@types/debug'
-      - '@vitest/ui'
-      - bufferutil
-      - happy-dom
-      - jiti
-      - jsdom
-      - less
-      - lightningcss
-      - msw
-      - safaridriver
-      - sass
-      - sass-embedded
-      - stylus
-      - sugarss
-      - supports-color
-      - terser
-      - tsx
-      - utf-8-validate
-      - vite
-      - webdriverio
-      - yaml
-
-  '@rush-temp/arm-mediaservices@file:projects/arm-mediaservices.tgz(@types/debug@4.1.12)(tsx@4.19.4)(vite@6.3.5(@types/node@22.7.9)(tsx@4.19.4)(yaml@2.8.0))(yaml@2.8.0)':
-    dependencies:
-      '@azure/core-lro': 2.7.2
       '@types/node': 18.19.103
       '@vitest/browser': 3.1.4(playwright@1.52.0)(vite@6.3.5(@types/node@22.7.9)(tsx@4.19.4)(yaml@2.8.0))(vitest@3.1.4)
       '@vitest/coverage-istanbul': 3.1.4(vitest@3.1.4)
@@ -20215,7 +20103,7 @@ snapshots:
       - webdriverio
       - yaml
 
-  '@rush-temp/dev-tool@file:projects/dev-tool.tgz(@types/debug@4.1.12)(@vitest/browser@3.1.4)(rollup@4.41.1)':
+  '@rush-temp/dev-tool@file:projects/dev-tool.tgz(@types/debug@4.1.12)(@vitest/browser@3.1.4)':
     dependencies:
       '@_ts/max': typescript@5.8.3
       '@_ts/min': typescript@4.2.4
@@ -20224,7 +20112,6 @@ snapshots:
       '@eslint/js': 9.27.0
       '@microsoft/api-extractor': 7.52.8(@types/node@18.19.103)
       '@microsoft/api-extractor-model': 7.30.6(@types/node@18.19.103)
-      '@types/archiver': 6.0.3
       '@types/express': 5.0.2
       '@types/express-serve-static-core': 5.0.6
       '@types/fs-extra': 11.0.4
@@ -20247,8 +20134,6 @@ snapshots:
       mkdirp: 3.0.1
       prettier: 3.5.3
       rimraf: 5.0.10
-      rollup-plugin-polyfill-node: 0.13.0(rollup@4.41.1)
-      rollup-plugin-visualizer: 5.14.0(rollup@4.41.1)
       semver: 7.7.2
       strip-json-comments: 5.0.2
       tar: 7.4.3
@@ -20272,8 +20157,6 @@ snapshots:
       - less
       - lightningcss
       - msw
-      - rolldown
-      - rollup
       - sass
       - sass-embedded
       - stylus
@@ -23577,10 +23460,6 @@ snapshots:
       minimatch: 9.0.5
       path-browserify: 1.0.1
 
-  '@types/archiver@6.0.3':
-    dependencies:
-      '@types/readdir-glob': 1.1.5
-
   '@types/argparse@1.0.38': {}
 
   '@types/aria-query@5.0.4': {}
@@ -23748,10 +23627,6 @@ snapshots:
   '@types/qs@6.14.0': {}
 
   '@types/range-parser@1.2.7': {}
-
-  '@types/readdir-glob@1.1.5':
-    dependencies:
-      '@types/node': 18.19.103
 
   '@types/resolve@1.20.2': {}
 
@@ -26136,20 +26011,6 @@ snapshots:
       globby: 10.0.1
       is-plain-object: 3.0.1
 
-  rollup-plugin-polyfill-node@0.13.0(rollup@4.41.1):
-    dependencies:
-      '@rollup/plugin-inject': 5.0.5(rollup@4.41.1)
-      rollup: 4.41.1
-
-  rollup-plugin-visualizer@5.14.0(rollup@4.41.1):
-    dependencies:
-      open: 8.4.2
-      picomatch: 4.0.2
-      source-map: 0.7.4
-      yargs: 17.7.2
-    optionalDependencies:
-      rollup: 4.41.1
-
   rollup@4.41.1:
     dependencies:
       '@types/estree': 1.0.7
@@ -26357,8 +26218,6 @@ snapshots:
       source-map: 0.6.1
 
   source-map@0.6.1: {}
-
-  source-map@0.7.4: {}
 
   spawn-command@0.0.2: {}
 
