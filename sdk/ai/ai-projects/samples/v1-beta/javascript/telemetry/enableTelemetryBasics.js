@@ -18,7 +18,9 @@ async function main() {
   // Enable telemetry to stdout. This will print telemetry events to the console.
   project.enableTelemetry("stdout");
 
-  const client = project.inference.chatCompletions();
+  const client = project.inference.chatCompletions({
+    apiVersion: "2024-05-01-preview",
+  });
   const response = await client.post({
     body: {
       model: deploymentName,
