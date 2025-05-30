@@ -5,7 +5,7 @@
 ### Features Added
 
 - GA release of the reservations functionality.
-- API version `2025-04-01` is the default.
+- GA allowing purchases from countries that require a do not resell agreement.
 
 ## 1.4.0-beta.1 (2025-05-21)
 
