@@ -8,8 +8,30 @@
 export type ActionType = string;
 
 // @public
+export interface Attributes {
+    name: string;
+    value: string;
+}
+
+// @public
 export interface Branch extends ProxyResource {
     properties?: BranchProperties;
+}
+
+// @public
+export interface BranchProperties {
+    attributes?: Attributes[];
+    readonly createdAt?: string;
+    databaseName?: string;
+    databases?: NeonDatabaseProperties[];
+    endpoints?: EndpointProperties[];
+    readonly entityId?: string;
+    entityName?: string;
+    parentId?: string;
+    projectId?: string;
+    readonly provisioningState?: ResourceProvisioningState;
+    roleName?: string;
+    roles?: NeonRoleProperties[];
 }
 
 // @public
@@ -28,12 +50,57 @@ export interface Compute extends ProxyResource {
 }
 
 // @public
+export interface ComputeProperties {
+    attributes?: Attributes[];
+    cpuCores?: number;
+    readonly createdAt?: string;
+    readonly entityId?: string;
+    entityName?: string;
+    memory?: number;
+    readonly provisioningState?: ResourceProvisioningState;
+    region?: string;
+    status?: string;
+}
+
+// @public
+export interface ConnectionUriProperties {
+    branchId?: string;
+    readonly connectionStringUri?: string;
+    databaseName?: string;
+    endpointId?: string;
+    isPooled?: boolean;
+    projectId?: string;
+    roleName?: string;
+}
+
+// @public
 export type CreatedByType = string;
+
+// @public
+export interface DefaultEndpointSettings {
+    autoscalingLimitMaxCu: number;
+    autoscalingLimitMinCu: number;
+}
 
 // @public
 export interface Endpoint extends ProxyResource {
     properties?: EndpointProperties;
 }
+
+// @public
+export interface EndpointProperties {
+    attributes?: Attributes[];
+    branchId?: string;
+    readonly createdAt?: string;
+    endpointType?: EndpointType;
+    readonly entityId?: string;
+    entityName?: string;
+    projectId?: string;
+    readonly provisioningState?: ResourceProvisioningState;
+}
+
+// @public
+export type EndpointType = string;
 
 // @public
 export interface ErrorAdditionalInfo {
@@ -66,6 +133,12 @@ export enum KnownCreatedByType {
     Key = "Key",
     ManagedIdentity = "ManagedIdentity",
     User = "User"
+}
+
+// @public
+export enum KnownEndpointType {
+    ReadOnly = "read_only",
+    ReadWrite = "read_write"
 }
 
 // @public
@@ -118,8 +191,31 @@ export interface NeonDatabase extends ProxyResource {
 }
 
 // @public
+export interface NeonDatabaseProperties {
+    attributes?: Attributes[];
+    branchId?: string;
+    readonly createdAt?: string;
+    readonly entityId?: string;
+    entityName?: string;
+    ownerName?: string;
+    readonly provisioningState?: ResourceProvisioningState;
+}
+
+// @public
 export interface NeonRole extends ProxyResource {
     properties?: NeonRoleProperties;
+}
+
+// @public
+export interface NeonRoleProperties {
+    attributes?: Attributes[];
+    branchId?: string;
+    readonly createdAt?: string;
+    readonly entityId?: string;
+    entityName?: string;
+    isSuperUser?: boolean;
+    permissions?: string[];
+    readonly provisioningState?: ResourceProvisioningState;
 }
 
 // @public
@@ -175,8 +271,36 @@ export interface PartnerOrganizationProperties {
 }
 
 // @public
+export interface PgVersion {
+    version?: number;
+}
+
+// @public
+export interface PgVersionsResult {
+    versions: PgVersion[];
+}
+
+// @public
 export interface Project extends ProxyResource {
     properties?: ProjectProperties;
+}
+
+// @public
+export interface ProjectProperties {
+    attributes?: Attributes[];
+    branch?: BranchProperties;
+    readonly createdAt?: string;
+    databases?: NeonDatabaseProperties[];
+    defaultEndpointSettings?: DefaultEndpointSettings;
+    endpoints?: EndpointProperties[];
+    readonly entityId?: string;
+    entityName?: string;
+    historyRetention?: number;
+    pgVersion?: number;
+    readonly provisioningState?: ResourceProvisioningState;
+    regionId?: string;
+    roles?: NeonRoleProperties[];
+    storage?: number;
 }
 
 // @public

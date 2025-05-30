@@ -13,12 +13,6 @@ export interface ProjectsListOptionalParams extends OperationOptions {}
 export interface ProjectsDeleteOptionalParams extends OperationOptions {}
 
 /** Optional parameters. */
-export interface ProjectsUpdateOptionalParams extends OperationOptions {
-  /** Delay to wait until next poll, in milliseconds. */
-  updateIntervalInMs?: number;
-}
-
-/** Optional parameters. */
 export interface ProjectsCreateOrUpdateOptionalParams extends OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
