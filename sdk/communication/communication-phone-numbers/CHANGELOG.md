@@ -5,7 +5,7 @@
 ### Features Added
 
 - GA release of the reservations functionality.
-- GA allowing purchases from countries that require a do not resell agreement.
+- GA support for automated purchases of phone numbers from countries requiring a Do Not Resell agreement.
 
 ## 1.4.0-beta.1 (2025-05-21)
 
