@@ -4,15 +4,13 @@
 import { OperationOptions } from "@azure-rest/core-client";
 
 /** Optional parameters. */
-export interface DatasetsGetCredentialsOptionalParams
-  extends OperationOptions {}
+export interface DatasetsGetCredentialsOptionalParams extends OperationOptions {}
 
 /** Optional parameters. */
 export interface DatasetsPendingUploadOptionalParams extends OperationOptions {}
 
 /** Optional parameters. */
-export interface DatasetsCreateOrUpdateOptionalParams
-  extends OperationOptions {}
+export interface DatasetsCreateOrUpdateOptionalParams extends OperationOptions {}
 
 /** Optional parameters. */
 export interface DatasetsDeleteOptionalParams extends OperationOptions {}

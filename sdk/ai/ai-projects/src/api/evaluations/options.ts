@@ -4,8 +4,7 @@
 import { OperationOptions } from "@azure-rest/core-client";
 
 /** Optional parameters. */
-export interface EvaluationsCreateAgentEvaluationOptionalParams
-  extends OperationOptions {}
+export interface EvaluationsCreateAgentEvaluationOptionalParams extends OperationOptions {}
 
 /** Optional parameters. */
 export interface EvaluationsCreateOptionalParams extends OperationOptions {}
