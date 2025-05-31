@@ -71,7 +71,15 @@ export default async (...args: string[]): Promise<boolean> => {
     ),
   );
 
-  return executor(...args);
+  const status = await executor(...args);
+  if (!status) {
+    // opportunity to log recommendations for the commands
+    if (args[0] === "prettier" && args[1] === "--list-different") {
+      log.warn(`Invoke "npm run format" in package directory to fix formatting.`);
+    }
+  }
+
+  return status;
 };
 
 export async function vendoredWithOptions(
