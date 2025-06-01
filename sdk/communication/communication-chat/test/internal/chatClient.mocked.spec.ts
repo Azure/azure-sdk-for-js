@@ -1,7 +1,11 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { ChatClientOptions, CreateChatThreadOptions, CreateChatThreadRequest } from "../../src/index.js";
+import type {
+  ChatClientOptions,
+  CreateChatThreadOptions,
+  CreateChatThreadRequest,
+} from "../../src/index.js";
 import { ChatClient } from "../../src/index.js";
 import type * as RestModel from "../../src/generated/src/models/index.js";
 import { apiVersion } from "../../src/generated/src/models/parameters.js";
@@ -113,7 +117,7 @@ describe("[Mocked] ChatClient", async () => {
     assert.equal(request.method, "POST");
     assert.deepEqual(JSON.parse(request.body as string), { ...sendRequest, ...sendOptions });
     assert.isNotEmpty(request.headers.get("repeatability-request-id"));
-  })
+  });
 
   it("makes successful list threads request", async () => {
     const mockResponse: RestModel.ChatThreadsItemCollection = {

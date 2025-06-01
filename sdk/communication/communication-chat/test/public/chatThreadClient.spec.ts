@@ -2,7 +2,13 @@
 // Licensed under the MIT License.
 
 import type { Recorder } from "@azure-tools/test-recorder";
-import type { ChatClient, ChatMessage, ChatThreadClient, NoneRetentionPolicy, ThreadCreationDateRetentionPolicy } from "../../src/index.js";
+import type {
+  ChatClient,
+  ChatMessage,
+  ChatThreadClient,
+  NoneRetentionPolicy,
+  ThreadCreationDateRetentionPolicy,
+} from "../../src/index.js";
 import { createChatClient, createRecorder, createTestUser } from "./utils/recordedClient.js";
 import type { CommunicationIdentifier } from "@azure/communication-common";
 import { getIdentifierKind } from "@azure/communication-common";

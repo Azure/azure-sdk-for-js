@@ -138,7 +138,7 @@ export const mapToRetentionPolicySdkModel = (
   if (retentionPolicy.kind === "threadCreationDate") {
     return retentionPolicy as RestModel.ThreadCreationDateRetentionPolicy;
   }
-   
+
   if (retentionPolicy.kind === "none") {
     return retentionPolicy as RestModel.NoneRetentionPolicy;
   } else {
@@ -162,8 +162,8 @@ export const mapToChatThreadPropertiesSdkModel = (
         createdByCommunicationIdentifier as SerializedCommunicationIdentifier,
       ),
     };
-  }  
-  
+  }
+
   if (retentionPolicy) {
     result = {
       ...result,
