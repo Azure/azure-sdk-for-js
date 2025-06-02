@@ -12,9 +12,9 @@ generate-metadata: false
 license-header: MICROSOFT_MIT_NO_VERSION
 output-folder: ../src/generated
 module-kind: esm
-tag: package-2025-05-15
+tag: package-2025-06-15
 require:
-  - https://github.com/Azure/azure-rest-api-specs/blob/8bf7f264d186b52eccb579accd3f584788511049/specification/communication/data-plane/CallAutomation/readme.md
+  - https://github.com/Azure/azure-rest-api-specs/blob/6d7d3fc4315bbb2c446a9add65f8d47f20a85426/specification/communication/data-plane/CallAutomation/readme.md
 package-version: 1.4.0
 model-date-time-as-string: false
 optional-response-headers: true

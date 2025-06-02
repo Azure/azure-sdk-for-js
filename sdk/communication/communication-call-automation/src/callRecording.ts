@@ -51,7 +51,7 @@ export class CallRecording {
    */
   public async start(options: StartRecordingOptions): Promise<RecordingStateResult> {
     const startCallRecordingRequest: StartCallRecordingRequest = {
-      callLocator: options.callLocator,
+      callLocator: options.callLocator ? options.callLocator : undefined,
     };
 
     startCallRecordingRequest.recordingChannelType = options.recordingChannel;
@@ -60,6 +60,9 @@ export class CallRecording {
     startCallRecordingRequest.recordingStateCallbackUri = options.recordingStateCallbackEndpointUrl;
     startCallRecordingRequest.pauseOnStart = options.pauseOnStart;
     startCallRecordingRequest.recordingStorage = options.recordingStorage;
+    startCallRecordingRequest.callConnectionId = options.callConnectionId
+      ? options.callConnectionId
+      : undefined;
 
     if (options.channelAffinity) {
       startCallRecordingRequest.channelAffinity = [];

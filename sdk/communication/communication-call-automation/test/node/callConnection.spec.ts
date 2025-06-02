@@ -86,6 +86,7 @@ describe("CallConnection Unit Tests", () => {
           kind: "sipx",
           key: "TestKey",
           value: "TestValue",
+          sipHeaderPrefix: "X-MS-Custom-",
         },
       ],
     };
@@ -97,6 +98,7 @@ describe("CallConnection Unit Tests", () => {
           kind: "sipx",
           key: "TestKey2",
           value: "TestValue2",
+          sipHeaderPrefix: "X-",
         },
       ],
     };
