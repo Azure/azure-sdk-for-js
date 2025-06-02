@@ -86,7 +86,7 @@ export class CertificateClient {
 // @public
 export interface CertificateClientOptions extends coreClient.ClientOptions {
     disableChallengeResourceVerification?: boolean;
-    serviceVersion?: "7.0" | "7.1" | "7.2" | "7.3" | "7.4" | "7.5" | "7.6-preview.2";
+    serviceVersion?: "7.0" | "7.1" | "7.2" | "7.3" | "7.4" | "7.5" | "7.6";
 }
 
 // @public
