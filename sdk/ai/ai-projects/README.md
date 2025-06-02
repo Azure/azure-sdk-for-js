@@ -72,7 +72,7 @@ npm install @azure/ai-projects @azure/identity
 
 ### Create and authenticate the client
 
-To construct an `AIProjectsClient`:
+To construct an `AIProjectsClient` You can refer this doc: [azure_foundry_service_endpoint]. Below we will assume the environment variable `AZURE_AI_PROJECT_ENDPOINT_STRING` was defined to hold this value:
 
 ```ts snippet:setup
 import { AIProjectClient } from "@azure/ai-projects";
@@ -438,7 +438,7 @@ const newEvaluation: EvaluationWithOptionalName = {
     },
   },
 };
-const evalResp = await project.evaluations.createRun(newEvaluation);
+const evalResp = await project.evaluations.create(newEvaluation);
 console.log("Create a new evaluation:", JSON.stringify(evalResp, null, 2));
 // get the evaluation by ID
 const eval2 = await project.evaluations.get(evalResp.name);
@@ -521,5 +521,6 @@ additional questions or comments.
 [azure_sub]: https://azure.microsoft.com/free/
 [evaluators]: https://learn.microsoft.com/azure/ai-studio/how-to/develop/evaluate-sdk
 [evaluator_library]: https://learn.microsoft.com/azure/ai-studio/how-to/evaluate-generative-ai-app#view-and-manage-the-evaluators-in-the-evaluator-library
+[azure_foundry_service_endpoint]: https://learn.microsoft.com/azure/ai-foundry/model-inference/how-to/configure-project-connection?pivots=ai-foundry-portal
 [azure_ai_evaluation]: https://learn.microsoft.com/javascript/api/overview/azure/ai-projects-readme
 [samples]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/ai/ai-projects/samples

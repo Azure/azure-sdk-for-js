@@ -144,6 +144,7 @@ export interface CreateLedgerEntryQueryParam {
 // @public (undocumented)
 export interface CreateLedgerEntryQueryParamProperties {
     collectionId?: string;
+    tags?: string;
 }
 
 // @public
@@ -897,6 +898,9 @@ export function isUnexpected(response: GetCurrentLedgerEntry200Response | GetCur
 export function isUnexpected(response: ListUsers200Response | ListUsersDefaultResponse): response is ListUsersDefaultResponse;
 
 // @public (undocumented)
+export function isUnexpected(response: ListLedgerUsers200Response | ListLedgerUsersDefaultResponse): response is ListLedgerUsersDefaultResponse;
+
+// @public (undocumented)
 export function isUnexpected(response: DeleteUser204Response | DeleteUserDefaultResponse): response is DeleteUserDefaultResponse;
 
 // @public (undocumented)
@@ -904,6 +908,57 @@ export function isUnexpected(response: GetUser200Response | GetUserDefaultRespon
 
 // @public (undocumented)
 export function isUnexpected(response: CreateOrUpdateUser200Response | CreateOrUpdateUserDefaultResponse): response is CreateOrUpdateUserDefaultResponse;
+
+// @public (undocumented)
+export function isUnexpected(response: DeleteLedgerUser204Response | DeleteLedgerUserDefaultResponse): response is DeleteLedgerUserDefaultResponse;
+
+// @public (undocumented)
+export function isUnexpected(response: GetLedgerUser200Response | GetLedgerUserDefaultResponse): response is GetLedgerUserDefaultResponse;
+
+// @public (undocumented)
+export function isUnexpected(response: CreateOrUpdateLedgerUser200Response | CreateOrUpdateLedgerUserDefaultResponse): response is CreateOrUpdateLedgerUserDefaultResponse;
+
+// @public (undocumented)
+export function isUnexpected(response: GetUserDefinedEndpoint200Response | GetUserDefinedEndpointDefaultResponse): response is GetUserDefinedEndpointDefaultResponse;
+
+// @public (undocumented)
+export function isUnexpected(response: CreateUserDefinedEndpoint201Response | CreateUserDefinedEndpointDefaultResponse): response is CreateUserDefinedEndpointDefaultResponse;
+
+// @public (undocumented)
+export function isUnexpected(response: GetRuntimeOptions200Response | GetRuntimeOptionsDefaultResponse): response is GetRuntimeOptionsDefaultResponse;
+
+// @public (undocumented)
+export function isUnexpected(response: UpdateRuntimeOptions200Response | UpdateRuntimeOptionsDefaultResponse): response is UpdateRuntimeOptionsDefaultResponse;
+
+// @public (undocumented)
+export function isUnexpected(response: GetUserDefinedEndpointsModule200Response | GetUserDefinedEndpointsModuleDefaultResponse): response is GetUserDefinedEndpointsModuleDefaultResponse;
+
+// @public (undocumented)
+export function isUnexpected(response: ListUserDefinedFunctions200Response | ListUserDefinedFunctionsDefaultResponse): response is ListUserDefinedFunctionsDefaultResponse;
+
+// @public (undocumented)
+export function isUnexpected(response: DeleteUserDefinedFunction204Response | DeleteUserDefinedFunctionDefaultResponse): response is DeleteUserDefinedFunctionDefaultResponse;
+
+// @public (undocumented)
+export function isUnexpected(response: GetUserDefinedFunction200Response | GetUserDefinedFunctionDefaultResponse): response is GetUserDefinedFunctionDefaultResponse;
+
+// @public (undocumented)
+export function isUnexpected(response: CreateUserDefinedFunction200Response | CreateUserDefinedFunction201Response | CreateUserDefinedFunctionDefaultResponse): response is CreateUserDefinedFunctionDefaultResponse;
+
+// @public (undocumented)
+export function isUnexpected(response: ExecuteUserDefinedFunction200Response | ExecuteUserDefinedFunctionDefaultResponse): response is ExecuteUserDefinedFunctionDefaultResponse;
+
+// @public (undocumented)
+export function isUnexpected(response: GetUserDefinedRole200Response | GetUserDefinedRoleDefaultResponse): response is GetUserDefinedRoleDefaultResponse;
+
+// @public (undocumented)
+export function isUnexpected(response: CreateUserDefinedRole200Response | CreateUserDefinedRoleDefaultResponse): response is CreateUserDefinedRoleDefaultResponse;
+
+// @public (undocumented)
+export function isUnexpected(response: UpdateUserDefinedRole200Response | UpdateUserDefinedRoleDefaultResponse): response is UpdateUserDefinedRoleDefaultResponse;
+
+// @public (undocumented)
+export function isUnexpected(response: DeleteUserDefinedRole200Response | DeleteUserDefinedRoleDefaultResponse): response is DeleteUserDefinedRoleDefaultResponse;
 
 // @public
 export interface JSRuntimeOptions {
@@ -1093,6 +1148,7 @@ export interface ListLedgerEntriesQueryParam {
 export interface ListLedgerEntriesQueryParamProperties {
     collectionId?: string;
     fromTransactionId?: string;
+    tag?: string;
     toTransactionId?: string;
 }
 
@@ -1280,6 +1336,10 @@ export type PaginateReturn<TResult> = TResult extends {
 } | {
     body: {
         ledgerUsers?: infer TPage;
+    };
+} | {
+    body: {
+        functions?: infer TPage;
     };
 } ? GetArrayType<TPage> : Array<unknown>;
 

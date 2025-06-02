@@ -19,7 +19,7 @@ import {
   MessageTextContent,
   RequiredToolCall,
   ThreadRun,
-} from "@azure/ai-agents";
+} from "../src/index.js";
 import { createProjectsClient } from "./public/utils/createClient.js";
 import { DefaultAzureCredential } from "@azure/identity";
 import { beforeEach, it, describe } from "vitest";
