@@ -1,5 +1,15 @@
 # Release History
 
+## 1.0.0-beta.4 (2025-06-02)
+
+### Features Added
+
+- Internal updates based on TypeSpec finalization.
+
+### Bugs Fixed
+
+- Fixed an issue with streaming serialization
+
 ## 1.0.0-beta.3 (2025-05-20)
 
 ### Features Added
