@@ -1,14 +1,19 @@
 # Release History
 
-## 4.10.0-beta.2 (Unreleased)
+## 4.10.0 (Unreleased)
 
 ### Features Added
+
+- Added support for service API version `7.6-preview.2`. [#32947](https://github.com/Azure/azure-sdk-for-js/pull/32947)
+- Added support for `KeyClient.getKeyAttestation` which can be used to retrieve the key along with its attestation blob from a managed HSM. [#32947](https://github.com/Azure/azure-sdk-for-js/pull/32947)
 
 ### Breaking Changes
 
 ### Bugs Fixed
 
 ### Other Changes
+
+- Generate code from TypeSpec. This is an internal change that should not affect customers. [#31845](https://github.com/Azure/azure-sdk-for-js/pull/31845)
 
 ## 4.10.0-beta.1 (2025-03-11)
 
