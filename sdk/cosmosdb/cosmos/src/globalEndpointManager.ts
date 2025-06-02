@@ -175,6 +175,7 @@ export class GlobalEndpointManager {
             normalizeEndpoint(loc.name) === normalizeEndpoint(preferredLocation),
         );
         if (location) {
+          // comment
           break;
         }
       }
