@@ -96,19 +96,6 @@ const recorderEnvSetup: RecorderStartOptions = {
 export async function createRecorder(context: VitestTestContext): Promise<Recorder> {
   const recorder = new Recorder(context);
   await recorder.start(recorderEnvSetup);
-  await recorder.addSanitizers(
-    {
-      generalSanitizers: [
-        {
-          regex: true,
-          target: "(.*)&blockid=(?<block_id_value>.*)",
-          groupForReplace: "block_id_value",
-          value: "sanitized_blockid",
-        },
-      ],
-    },
-    ["record", "playback"],
-  );
   return recorder;
 }
 
