@@ -24,6 +24,7 @@ export class CustomerStatsbeatMetrics extends StatsbeatMetrics {
   private customerStatsbeatMeterProvider: MeterProvider;
   private customerStatsbeatExporter: AzureMonitorStatsbeatExporter;
   private customerStatsbeatCollection: Array<CustomerStatsbeat> = [];
+  private customerStatsbeatMetricReader: PeriodicExportingMetricReader;
   private isInitialized: boolean = false;
 
   private endpointUrl: string;
@@ -56,8 +57,11 @@ export class CustomerStatsbeatMetrics extends StatsbeatMetrics {
       exporter: this.customerStatsbeatExporter,
       exportIntervalMillis: options.networkCollectionInterval || this.statsCollectionInterval, // Using network interval option for customer metrics
     };
+    this.customerStatsbeatMetricReader = new PeriodicExportingMetricReader(
+      customerMetricReaderOptions,
+    );
     this.customerStatsbeatMeterProvider = new MeterProvider({
-      readers: [new PeriodicExportingMetricReader(customerMetricReaderOptions)],
+      readers: [this.customerStatsbeatMetricReader],
     });
 
     this.customerStatsbeatMeter = this.customerStatsbeatMeterProvider.getMeter(
@@ -133,7 +137,7 @@ export class CustomerStatsbeatMetrics extends StatsbeatMetrics {
     const attributes = { ...this.customerProperties, telemetry_type: TelemetryType.UNKNOWN };
 
     // For each { telemetry_type -> count } mapping, call observe, passing the count and attributes that include the telemetry_type
-    for (let i = 0; i < counter.totalItemDropCount.length; i++) {
+    for (let i = 0; i < counter.totalItemSuccessCount.length; i++) {
       // Only send metrics if count is greater than zero
       if (counter.totalItemSuccessCount[i].count > 0) {
         attributes.telemetry_type = counter.totalItemSuccessCount[i].telemetry_type;
