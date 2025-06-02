@@ -4,7 +4,7 @@
 
 ### Features Added
 
-- Added support for service API version `7.6-preview.2`. [#32947](https://github.com/Azure/azure-sdk-for-js/pull/32947)
+- Added support for service API version `7.6` which is now the default. [#32947](https://github.com/Azure/azure-sdk-for-js/pull/32947)
 - Added support for `KeyClient.getKeyAttestation` which can be used to retrieve the key along with its attestation blob from a managed HSM. [#32947](https://github.com/Azure/azure-sdk-for-js/pull/32947)
 
 ### Breaking Changes

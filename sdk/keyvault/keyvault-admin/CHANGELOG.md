@@ -4,7 +4,7 @@
 
 ### Features Added
 
-- Added support for service API version `7.6` which is now the default. [#32947](https://github.com/Azure/azure-sdk-for-js/pull/32947)
+- Added support for service API version `7.6` which is now the default. [#34657](https://github.com/Azure/azure-sdk-for-js/pull/34657)
 - Added `KeyVaultBackupClient.beginPreBackup` and `KeyVaultBackupClient.beginPreRestore` methods for checking if it is possible to perform a full key backup or full key restore. [#32947](https://github.com/Azure/azure-sdk-for-js/pull/32947)
 
 ### Breaking Changes
