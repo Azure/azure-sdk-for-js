@@ -39,7 +39,7 @@ async function main() {
   const wrappedCsr = `-----BEGIN CERTIFICATE REQUEST-----
 ${base64Csr}
 -----END CERTIFICATE REQUEST-----`;
-  await fs.writeFileSync("test.csr", wrappedCsr);
+  fs.writeFileSync("test.csr", wrappedCsr);
 
   // Now, signing the retrieved certificate request with a fake certificate authority.
   // A certificate authority is composed of two pieces, a certificate and a private key.
@@ -51,7 +51,7 @@ ${base64Csr}
   //
   // For more information on how to set up a local certificate authority
   // go to: https://gist.github.com/Soarez/9688998
-  await childProcess.execSync(
+  childProcess.execSync(
     "openssl x509 -req -in test.csr -CA ca.crt -CAkey ca.key -CAcreateserial -out test.crt",
   );
   const base64Crt = fs.readFileSync("test.crt").toString().split("\n").slice(1, -1).join("");
