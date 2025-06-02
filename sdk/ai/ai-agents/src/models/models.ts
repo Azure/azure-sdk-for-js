@@ -3429,7 +3429,9 @@ export function vectorStoreFileDeserializer(item: any): VectorStoreFile {
     lastError: !item["last_error"]
       ? item["last_error"]
       : vectorStoreFileErrorDeserializer(item["last_error"]),
-    chunkingStrategy: vectorStoreChunkingStrategyResponseUnionDeserializer(item["chunking_strategy"]),
+    chunkingStrategy: vectorStoreChunkingStrategyResponseUnionDeserializer(
+      item["chunking_strategy"],
+    ),
   };
 }
 
@@ -3482,7 +3484,7 @@ export function vectorStoreChunkingStrategyResponseUnionDeserializer(
   if (!item) {
     return vectorStoreChunkingStrategyResponseDeserializer({ type: "other" });
   }
-  
+
   switch (item.type) {
     case "other":
       return vectorStoreAutoChunkingStrategyResponseDeserializer(
