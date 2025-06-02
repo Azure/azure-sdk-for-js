@@ -7,6 +7,7 @@
  * @summary demonstrates how to use agent operations with the Sharepoint tool.
  */
 
+// This sample requires using a preview version of the Agents package.
 const {
   AgentsClient,
   ToolUtility,

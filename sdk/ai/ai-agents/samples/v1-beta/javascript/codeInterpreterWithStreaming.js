@@ -111,29 +111,41 @@ async function main() {
   // Get most recent message from the assistant
   const assistantMessage = messagesArray.find((msg) => msg.role === "assistant");
   if (assistantMessage) {
-    const textContent = assistantMessage.content.find((content) => isOutputOfType(content, "text"));
-    if (textContent) {
-      // Save the newly created file
-      console.log(`Saving new files...`);
-      const imageFileOutput = messagesArray[0].content[0];
-      const imageFile = imageFileOutput.imageFile.fileId;
-      const imageFileName = path.resolve(
-        "./data/" + (await client.files.get(imageFile)).filename + "ImageFile.png",
-      );
-      console.log(`Image file name : ${imageFileName}`);
+    // Look for an image file in the assistant's message
+    const imageFileOutput = assistantMessage.content.find(
+      (content) => content.type === "image_file" && content.imageFile?.fileId,
+    );
 
-      const fileContent = await (await client.files.getContent(imageFile).asNodeStream()).body;
-      if (fileContent) {
-        const chunks = [];
-        for await (const chunk of fileContent) {
-          chunks.push(Buffer.isBuffer(chunk) ? chunk : Buffer.from(chunk));
+    if (imageFileOutput) {
+      try {
+        // Save the newly created file
+        console.log(`Saving new files...`);
+        const imageFile = imageFileOutput.imageFile.fileId;
+        const imageFileName = path.resolve(
+          "./data/" + (await client.files.get(imageFile)).filename + "ImageFile.png",
+        );
+        console.log(`Image file name : ${imageFileName}`);
+
+        const fileContent = await client.files.getContent(imageFile).asNodeStream();
+        if (fileContent && fileContent.body) {
+          const chunks = [];
+          for await (const chunk of fileContent.body) {
+            chunks.push(Buffer.isBuffer(chunk) ? chunk : Buffer.from(chunk));
+          }
+          const buffer = Buffer.concat(chunks);
+          fs.writeFileSync(imageFileName, buffer);
+          console.log(`Successfully saved image to ${imageFileName}`);
+        } else {
+          console.error("No file content available in the response");
         }
-        const buffer = Buffer.concat(chunks);
-        fs.writeFileSync(imageFileName, buffer);
-      } else {
-        console.log("No file content available");
+      } catch (error) {
+        console.error("Error saving image file:", error);
       }
+    } else {
+      console.log("No image file found in assistant's message");
     }
+  } else {
+    console.log("No assistant message found");
   }
 
   // Iterate through messages and print details for each annotation

@@ -7,6 +7,7 @@
  * @summary demonstrates how to use agent operations with the Microsoft Fabric tool.
  */
 
+// This sample requires using a preview version of the Agents package.
 const { AgentsClient, ToolUtility, isOutputOfType } = require("@azure/ai-agents");
 const { DefaultAzureCredential } = require("@azure/identity");
 require("dotenv/config");

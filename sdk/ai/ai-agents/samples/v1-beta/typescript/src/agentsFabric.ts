@@ -7,6 +7,7 @@
  * @summary demonstrates how to use agent operations with the Microsoft Fabric tool.
  */
 
+// This sample requires using a preview version of the Agents package.
 import type { MessageContent, MessageTextContent } from "@azure/ai-agents";
 import { AgentsClient, ToolUtility, isOutputOfType } from "@azure/ai-agents";
 import { DefaultAzureCredential } from "@azure/identity";
