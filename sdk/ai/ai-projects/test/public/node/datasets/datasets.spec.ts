@@ -33,7 +33,7 @@ describe("datasets - basic", () => {
     recorder = await createRecorder(context);
     await recorder.addSanitizers(
       {
-        generalSanitizers: [
+        uriSanitizers: [
           {
             regex: true,
             target: "(.*)&blockid=(?<block_id_value>.*)",
