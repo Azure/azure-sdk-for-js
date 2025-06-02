@@ -31,19 +31,6 @@ describe("datasets - basic", () => {
 
   beforeEach(async function (context: VitestTestContext) {
     recorder = await createRecorder(context);
-    await recorder.addSanitizers(
-      {
-        uriSanitizers: [
-          {
-            regex: true,
-            target: "(.*)&blockid=(?<block_id_value>.*)",
-            groupForReplace: "block_id_value",
-            value: "sanitized_blockid",
-          },
-        ],
-      },
-      ["record", "playback"],
-    );
     projectsClient = createProjectsClient(recorder);
     datasets = projectsClient.datasets;
 
