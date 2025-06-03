@@ -13,7 +13,7 @@ const replaceableVariables: Record<string, string> = {
   GENERIC_STRING: "Sanitized",
   ENDPOINT: "Sanitized.azure.com",
   DEPLOYMENT_NAME: "DeepSeek-V3",
-  AZURE_AI_PROJECT_ENDPOINT_STRING: "https://Sanitized.azure.com/api/projects/000000",
+  AZURE_AI_PROJECT_ENDPOINT_STRING: "https://Sanitized.azure.com/api/projects/project",
   AZURE_STORAGE_CONNECTION_NAME: "00000",
   DEPLOYMENT_GPT_MODEL: "gpt-4o",
   EMBEDDING_DEPLOYMENT_NAME: "text-embedding-3-large",
