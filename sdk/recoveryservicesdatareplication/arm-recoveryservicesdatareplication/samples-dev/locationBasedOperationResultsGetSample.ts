@@ -13,7 +13,10 @@ import { DefaultAzureCredential } from "@azure/identity";
 async function getsTheLocationBasedOperationResultStatus(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "930CEC23-4430-4513-B855-DBA237E2F3BF";
-  const client = new AzureSiteRecoveryManagementServiceAPI(credential, subscriptionId);
+  const client = new AzureSiteRecoveryManagementServiceAPI(
+    credential,
+    subscriptionId,
+  );
   const result = await client.locationBasedOperationResults.get(
     "rgswagger_2024-09-01",
     "Central US EUAP",

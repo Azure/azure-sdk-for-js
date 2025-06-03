@@ -4,19 +4,23 @@
 import { OperationOptions } from "@azure-rest/core-client";
 
 /** Optional parameters. */
-export interface ReplicationExtensionListOptionalParams extends OperationOptions {}
+export interface ReplicationExtensionListOptionalParams
+  extends OperationOptions {}
 
 /** Optional parameters. */
-export interface ReplicationExtensionDeleteOptionalParams extends OperationOptions {
+export interface ReplicationExtensionDeleteOptionalParams
+  extends OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
 }
 
 /** Optional parameters. */
-export interface ReplicationExtensionCreateOptionalParams extends OperationOptions {
+export interface ReplicationExtensionCreateOptionalParams
+  extends OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
 }
 
 /** Optional parameters. */
-export interface ReplicationExtensionGetOptionalParams extends OperationOptions {}
+export interface ReplicationExtensionGetOptionalParams
+  extends OperationOptions {}

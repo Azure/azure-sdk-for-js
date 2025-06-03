@@ -9,12 +9,15 @@ import {
   _RecoveryPointModelListResult,
   _recoveryPointModelListResultDeserializer,
 } from "../../models/models.js";
-import { RecoveryPointListOptionalParams, RecoveryPointGetOptionalParams } from "./options.js";
+import {
+  RecoveryPointListOptionalParams,
+  RecoveryPointGetOptionalParams,
+} from "./options.js";
+import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
 import {
   PagedAsyncIterableIterator,
   buildPagedAsyncIterator,
 } from "../../static-helpers/pagingHelpers.js";
-import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
 import {
   StreamableMethod,
   PathUncheckedResponse,
@@ -42,13 +45,15 @@ export function _listSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).get({
-    ...operationOptionsToRequestParameters(options),
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
-  });
+  return context
+    .path(path)
+    .get({
+      ...operationOptionsToRequestParameters(options),
+      headers: {
+        accept: "application/json",
+        ...options.requestOptions?.headers,
+      },
+    });
 }
 
 export async function _listDeserialize(
@@ -74,7 +79,14 @@ export function list(
 ): PagedAsyncIterableIterator<RecoveryPointModel> {
   return buildPagedAsyncIterator(
     context,
-    () => _listSend(context, resourceGroupName, vaultName, protectedItemName, options),
+    () =>
+      _listSend(
+        context,
+        resourceGroupName,
+        vaultName,
+        protectedItemName,
+        options,
+      ),
     _listDeserialize,
     ["200"],
     { itemName: "value", nextLinkName: "nextLink" },
@@ -103,16 +115,20 @@ export function _getSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).get({
-    ...operationOptionsToRequestParameters(options),
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
-  });
+  return context
+    .path(path)
+    .get({
+      ...operationOptionsToRequestParameters(options),
+      headers: {
+        accept: "application/json",
+        ...options.requestOptions?.headers,
+      },
+    });
 }
 
-export async function _getDeserialize(result: PathUncheckedResponse): Promise<RecoveryPointModel> {
+export async function _getDeserialize(
+  result: PathUncheckedResponse,
+): Promise<RecoveryPointModel> {
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);

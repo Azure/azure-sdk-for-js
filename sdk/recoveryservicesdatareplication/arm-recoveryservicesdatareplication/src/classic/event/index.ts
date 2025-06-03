@@ -3,7 +3,10 @@
 
 import { AzureSiteRecoveryManagementServiceAPIContext } from "../../api/azureSiteRecoveryManagementServiceAPIContext.js";
 import { EventModel } from "../../models/models.js";
-import { EventListOptionalParams, EventGetOptionalParams } from "../../api/event/options.js";
+import {
+  EventListOptionalParams,
+  EventGetOptionalParams,
+} from "../../api/event/options.js";
 import { list, get } from "../../api/event/operations.js";
 import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 
@@ -26,8 +29,11 @@ export interface EventOperations {
 
 function _getEvent(context: AzureSiteRecoveryManagementServiceAPIContext) {
   return {
-    list: (resourceGroupName: string, vaultName: string, options?: EventListOptionalParams) =>
-      list(context, resourceGroupName, vaultName, options),
+    list: (
+      resourceGroupName: string,
+      vaultName: string,
+      options?: EventListOptionalParams,
+    ) => list(context, resourceGroupName, vaultName, options),
     get: (
       resourceGroupName: string,
       vaultName: string,

@@ -1,7 +1,14 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-export { plannedFailover, list, $delete, update, create, get } from "./operations.js";
+export {
+  plannedFailover,
+  list,
+  $delete,
+  update,
+  create,
+  get,
+} from "./operations.js";
 export {
   ProtectedItemPlannedFailoverOptionalParams,
   ProtectedItemListOptionalParams,

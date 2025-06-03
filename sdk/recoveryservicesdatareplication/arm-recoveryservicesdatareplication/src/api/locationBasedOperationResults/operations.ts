@@ -38,16 +38,20 @@ export function _getSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).get({
-    ...operationOptionsToRequestParameters(options),
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
-  });
+  return context
+    .path(path)
+    .get({
+      ...operationOptionsToRequestParameters(options),
+      headers: {
+        accept: "application/json",
+        ...options.requestOptions?.headers,
+      },
+    });
 }
 
-export async function _getDeserialize(result: PathUncheckedResponse): Promise<OperationStatus> {
+export async function _getDeserialize(
+  result: PathUncheckedResponse,
+): Promise<OperationStatus> {
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
@@ -68,6 +72,12 @@ export async function get(
     requestOptions: {},
   },
 ): Promise<OperationStatus> {
-  const result = await _getSend(context, resourceGroupName, location, operationId, options);
+  const result = await _getSend(
+    context,
+    resourceGroupName,
+    location,
+    operationId,
+    options,
+  );
   return _getDeserialize(result);
 }

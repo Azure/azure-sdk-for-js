@@ -13,11 +13,18 @@ import { DefaultAzureCredential } from "@azure/identity";
 async function updatesTheVault(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "930CEC23-4430-4513-B855-DBA237E2F3BF";
-  const client = new AzureSiteRecoveryManagementServiceAPI(credential, subscriptionId);
-  const result = await client.vault.update("rgrecoveryservicesdatareplication", "4", {
-    properties: { vaultType: "DisasterRecovery" },
-    tags: { key8872: "pvtc" },
-  });
+  const client = new AzureSiteRecoveryManagementServiceAPI(
+    credential,
+    subscriptionId,
+  );
+  const result = await client.vault.update(
+    "rgrecoveryservicesdatareplication",
+    "4",
+    {
+      properties: { vaultType: "DisasterRecovery" },
+      tags: { key8872: "pvtc" },
+    },
+  );
   console.log(result);
 }
 

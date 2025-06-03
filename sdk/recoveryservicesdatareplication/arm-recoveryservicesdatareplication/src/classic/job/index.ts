@@ -3,7 +3,10 @@
 
 import { AzureSiteRecoveryManagementServiceAPIContext } from "../../api/azureSiteRecoveryManagementServiceAPIContext.js";
 import { JobModel } from "../../models/models.js";
-import { JobListOptionalParams, JobGetOptionalParams } from "../../api/job/options.js";
+import {
+  JobListOptionalParams,
+  JobGetOptionalParams,
+} from "../../api/job/options.js";
 import { list, get } from "../../api/job/operations.js";
 import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 
@@ -26,8 +29,11 @@ export interface JobOperations {
 
 function _getJob(context: AzureSiteRecoveryManagementServiceAPIContext) {
   return {
-    list: (resourceGroupName: string, vaultName: string, options?: JobListOptionalParams) =>
-      list(context, resourceGroupName, vaultName, options),
+    list: (
+      resourceGroupName: string,
+      vaultName: string,
+      options?: JobListOptionalParams,
+    ) => list(context, resourceGroupName, vaultName, options),
     get: (
       resourceGroupName: string,
       vaultName: string,

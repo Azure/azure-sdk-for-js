@@ -13,8 +13,15 @@ import { DefaultAzureCredential } from "@azure/identity";
 async function getsThePolicy(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "930CEC23-4430-4513-B855-DBA237E2F3BF";
-  const client = new AzureSiteRecoveryManagementServiceAPI(credential, subscriptionId);
-  const result = await client.policy.get("rgrecoveryservicesdatareplication", "4", "wdqsacasc");
+  const client = new AzureSiteRecoveryManagementServiceAPI(
+    credential,
+    subscriptionId,
+  );
+  const result = await client.policy.get(
+    "rgrecoveryservicesdatareplication",
+    "4",
+    "wdqsacasc",
+  );
   console.log(result);
 }
 

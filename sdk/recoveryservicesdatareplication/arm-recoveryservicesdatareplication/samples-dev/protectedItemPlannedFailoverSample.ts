@@ -13,18 +13,15 @@ import { DefaultAzureCredential } from "@azure/identity";
 async function performsPlannedFailover(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "930CEC23-4430-4513-B855-DBA237E2F3BF";
-  const client = new AzureSiteRecoveryManagementServiceAPI(credential, subscriptionId);
+  const client = new AzureSiteRecoveryManagementServiceAPI(
+    credential,
+    subscriptionId,
+  );
   const result = await client.protectedItem.plannedFailover(
     "rgrecoveryservicesdatareplication",
     "4",
     "d",
-    {
-      properties: {
-        customProperties: {
-          instanceType: "PlannedFailoverModelCustomProperties",
-        },
-      },
-    },
+    { properties: {} },
   );
   console.log(result);
 }

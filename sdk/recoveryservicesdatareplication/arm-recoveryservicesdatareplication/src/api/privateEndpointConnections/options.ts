@@ -4,16 +4,20 @@
 import { OperationOptions } from "@azure-rest/core-client";
 
 /** Optional parameters. */
-export interface PrivateEndpointConnectionsListOptionalParams extends OperationOptions {}
+export interface PrivateEndpointConnectionsListOptionalParams
+  extends OperationOptions {}
 
 /** Optional parameters. */
-export interface PrivateEndpointConnectionsDeleteOptionalParams extends OperationOptions {
+export interface PrivateEndpointConnectionsDeleteOptionalParams
+  extends OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
 }
 
 /** Optional parameters. */
-export interface PrivateEndpointConnectionsUpdateOptionalParams extends OperationOptions {}
+export interface PrivateEndpointConnectionsUpdateOptionalParams
+  extends OperationOptions {}
 
 /** Optional parameters. */
-export interface PrivateEndpointConnectionsGetOptionalParams extends OperationOptions {}
+export interface PrivateEndpointConnectionsGetOptionalParams
+  extends OperationOptions {}

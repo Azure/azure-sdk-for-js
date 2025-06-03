@@ -4,7 +4,8 @@
 import { OperationOptions } from "@azure-rest/core-client";
 
 /** Optional parameters. */
-export interface FabricListBySubscriptionOptionalParams extends OperationOptions {}
+export interface FabricListBySubscriptionOptionalParams
+  extends OperationOptions {}
 
 /** Optional parameters. */
 export interface FabricListOptionalParams extends OperationOptions {

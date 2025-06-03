@@ -95,7 +95,13 @@ function _getPrivateEndpointConnectionProxies(
       privateEndpointConnectionProxyName: string,
       options?: PrivateEndpointConnectionProxiesDeleteOptionalParams,
     ) =>
-      $delete(context, resourceGroupName, vaultName, privateEndpointConnectionProxyName, options),
+      $delete(
+        context,
+        resourceGroupName,
+        vaultName,
+        privateEndpointConnectionProxyName,
+        options,
+      ),
     create: (
       resourceGroupName: string,
       vaultName: string,
@@ -116,7 +122,14 @@ function _getPrivateEndpointConnectionProxies(
       vaultName: string,
       privateEndpointConnectionProxyName: string,
       options?: PrivateEndpointConnectionProxiesGetOptionalParams,
-    ) => get(context, resourceGroupName, vaultName, privateEndpointConnectionProxyName, options),
+    ) =>
+      get(
+        context,
+        resourceGroupName,
+        vaultName,
+        privateEndpointConnectionProxyName,
+        options,
+      ),
   };
 }
 

@@ -1,7 +1,14 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-export { listBySubscription, list, $delete, update, create, get } from "./operations.js";
+export {
+  listBySubscription,
+  list,
+  $delete,
+  update,
+  create,
+  get,
+} from "./operations.js";
 export {
   FabricListBySubscriptionOptionalParams,
   FabricListOptionalParams,

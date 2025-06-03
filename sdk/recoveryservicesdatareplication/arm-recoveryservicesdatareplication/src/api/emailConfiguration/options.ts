@@ -4,10 +4,12 @@
 import { OperationOptions } from "@azure-rest/core-client";
 
 /** Optional parameters. */
-export interface EmailConfigurationListOptionalParams extends OperationOptions {}
+export interface EmailConfigurationListOptionalParams
+  extends OperationOptions {}
 
 /** Optional parameters. */
-export interface EmailConfigurationCreateOptionalParams extends OperationOptions {}
+export interface EmailConfigurationCreateOptionalParams
+  extends OperationOptions {}
 
 /** Optional parameters. */
 export interface EmailConfigurationGetOptionalParams extends OperationOptions {}

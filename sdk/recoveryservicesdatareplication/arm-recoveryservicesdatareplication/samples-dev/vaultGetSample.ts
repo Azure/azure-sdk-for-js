@@ -13,8 +13,14 @@ import { DefaultAzureCredential } from "@azure/identity";
 async function getsTheVault(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "930CEC23-4430-4513-B855-DBA237E2F3BF";
-  const client = new AzureSiteRecoveryManagementServiceAPI(credential, subscriptionId);
-  const result = await client.vault.get("rgrecoveryservicesdatareplication", "4");
+  const client = new AzureSiteRecoveryManagementServiceAPI(
+    credential,
+    subscriptionId,
+  );
+  const result = await client.vault.get(
+    "rgrecoveryservicesdatareplication",
+    "4",
+  );
   console.log(result);
 }
 

@@ -13,7 +13,10 @@ import { DefaultAzureCredential } from "@azure/identity";
 async function deletesThePrivateEndpointConnection(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "930CEC23-4430-4513-B855-DBA237E2F3BF";
-  const client = new AzureSiteRecoveryManagementServiceAPI(credential, subscriptionId);
+  const client = new AzureSiteRecoveryManagementServiceAPI(
+    credential,
+    subscriptionId,
+  );
   await client.privateEndpointConnections.delete(
     "rgswagger_2024-09-01",
     "4",

@@ -13,9 +13,15 @@ import { DefaultAzureCredential } from "@azure/identity";
 async function listsTheProtectedItems(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "930CEC23-4430-4513-B855-DBA237E2F3BF";
-  const client = new AzureSiteRecoveryManagementServiceAPI(credential, subscriptionId);
+  const client = new AzureSiteRecoveryManagementServiceAPI(
+    credential,
+    subscriptionId,
+  );
   const resArray = new Array();
-  for await (const item of client.protectedItem.list("rgrecoveryservicesdatareplication", "4")) {
+  for await (const item of client.protectedItem.list(
+    "rgrecoveryservicesdatareplication",
+    "4",
+  )) {
     resArray.push(item);
   }
 

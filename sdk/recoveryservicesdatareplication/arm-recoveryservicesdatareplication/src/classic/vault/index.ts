@@ -72,8 +72,11 @@ function _getVault(context: AzureSiteRecoveryManagementServiceAPIContext) {
       listBySubscription(context, options),
     list: (resourceGroupName: string, options?: VaultListOptionalParams) =>
       list(context, resourceGroupName, options),
-    delete: (resourceGroupName: string, vaultName: string, options?: VaultDeleteOptionalParams) =>
-      $delete(context, resourceGroupName, vaultName, options),
+    delete: (
+      resourceGroupName: string,
+      vaultName: string,
+      options?: VaultDeleteOptionalParams,
+    ) => $delete(context, resourceGroupName, vaultName, options),
     update: (
       resourceGroupName: string,
       vaultName: string,
@@ -86,8 +89,11 @@ function _getVault(context: AzureSiteRecoveryManagementServiceAPIContext) {
       resource: VaultModel,
       options?: VaultCreateOptionalParams,
     ) => create(context, resourceGroupName, vaultName, resource, options),
-    get: (resourceGroupName: string, vaultName: string, options?: VaultGetOptionalParams) =>
-      get(context, resourceGroupName, vaultName, options),
+    get: (
+      resourceGroupName: string,
+      vaultName: string,
+      options?: VaultGetOptionalParams,
+    ) => get(context, resourceGroupName, vaultName, options),
   };
 }
 

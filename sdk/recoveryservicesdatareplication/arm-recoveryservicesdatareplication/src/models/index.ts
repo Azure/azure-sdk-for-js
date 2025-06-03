@@ -72,6 +72,7 @@ export {
   ErrorModel,
   JobModelCustomProperties,
   JobModelCustomPropertiesUnion,
+  AffectedObjectDetails,
   FailoverJobModelCustomProperties,
   FailoverProtectedItemProperties,
   TestFailoverCleanupJobModelCustomProperties,
