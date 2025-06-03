@@ -1,9 +1,9 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-//---------------------
+// ---------------------
 // interfaces
-//---------------------
+// ---------------------
 interface ValueOptions {
   isFirst: boolean; // is first value in the expression
   op?: string; // operator

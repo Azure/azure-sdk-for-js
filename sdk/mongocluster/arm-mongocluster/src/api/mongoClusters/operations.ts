@@ -1,26 +1,28 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { MongoClusterManagementContext as Client } from "../index.js";
-import {
-  errorResponseDeserializer,
+import type { MongoClusterManagementContext as Client } from "../index.js";
+import type {
   MongoCluster,
-  mongoClusterSerializer,
-  mongoClusterDeserializer,
   MongoClusterUpdate,
-  mongoClusterUpdateSerializer,
   _MongoClusterListResult,
-  _mongoClusterListResultDeserializer,
   ListConnectionStringsResult,
-  listConnectionStringsResultDeserializer,
   CheckNameAvailabilityRequest,
-  checkNameAvailabilityRequestSerializer,
   CheckNameAvailabilityResponse,
-  checkNameAvailabilityResponseDeserializer,
   PromoteReplicaRequest,
-  promoteReplicaRequestSerializer,
 } from "../../models/models.js";
 import {
+  errorResponseDeserializer,
+  mongoClusterSerializer,
+  mongoClusterDeserializer,
+  mongoClusterUpdateSerializer,
+  _mongoClusterListResultDeserializer,
+  listConnectionStringsResultDeserializer,
+  checkNameAvailabilityRequestSerializer,
+  checkNameAvailabilityResponseDeserializer,
+  promoteReplicaRequestSerializer,
+} from "../../models/models.js";
+import type {
   MongoClustersPromoteOptionalParams,
   MongoClustersCheckNameAvailabilityOptionalParams,
   MongoClustersListConnectionStringsOptionalParams,
@@ -31,19 +33,13 @@ import {
   MongoClustersCreateOrUpdateOptionalParams,
   MongoClustersGetOptionalParams,
 } from "./options.js";
-import {
-  PagedAsyncIterableIterator,
-  buildPagedAsyncIterator,
-} from "../../static-helpers/pagingHelpers.js";
+import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { buildPagedAsyncIterator } from "../../static-helpers/pagingHelpers.js";
 import { getLongRunningPoller } from "../../static-helpers/pollingHelpers.js";
 import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
-import {
-  StreamableMethod,
-  PathUncheckedResponse,
-  createRestError,
-  operationOptionsToRequestParameters,
-} from "@azure-rest/core-client";
-import { PollerLike, OperationState } from "@azure/core-lro";
+import type { StreamableMethod, PathUncheckedResponse } from "@azure-rest/core-client";
+import { createRestError, operationOptionsToRequestParameters } from "@azure-rest/core-client";
+import type { PollerLike, OperationState } from "@azure/core-lro";
 
 export function _promoteSend(
   context: Client,

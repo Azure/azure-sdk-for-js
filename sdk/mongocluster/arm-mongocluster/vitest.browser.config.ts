@@ -10,8 +10,8 @@ export default mergeConfig(
   defineConfig({
     test: {
       include: ["dist-test/browser/test/**/*.spec.js",],
-      testTimeout: 1200000,
-      hookTimeout: 1200000,
+      testTimeout: 3600000,
+      hookTimeout: 3600000,
     },
   }),
 );

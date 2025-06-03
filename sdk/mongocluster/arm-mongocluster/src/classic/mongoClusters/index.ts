@@ -1,8 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { MongoClusterManagementContext } from "../../api/mongoClusterManagementContext.js";
-import {
+import type { MongoClusterManagementContext } from "../../api/mongoClusterManagementContext.js";
+import type {
   MongoCluster,
   MongoClusterUpdate,
   ListConnectionStringsResult,
@@ -10,7 +10,7 @@ import {
   CheckNameAvailabilityResponse,
   PromoteReplicaRequest,
 } from "../../models/models.js";
-import {
+import type {
   MongoClustersPromoteOptionalParams,
   MongoClustersCheckNameAvailabilityOptionalParams,
   MongoClustersListConnectionStringsOptionalParams,
@@ -32,8 +32,8 @@ import {
   createOrUpdate,
   get,
 } from "../../api/mongoClusters/operations.js";
-import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
-import { PollerLike, OperationState } from "@azure/core-lro";
+import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import type { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a MongoClusters operations. */
 export interface MongoClustersOperations {
