@@ -9,7 +9,7 @@ ARG NODE_VERSION=18
 # public OSS users should simply leave this argument blank or ignore its presence entirely
 ARG REGISTRY=""
 
-FROM ${REGISTRY}node:${NODE_VERSION}-alpine as repo
+FROM ${REGISTRY}node:${NODE_VERSION}-alpine as builder
 WORKDIR /app
 
 COPY . .
@@ -17,5 +17,19 @@ COPY . .
 # Install the latest nightly build of identity
 RUN npm install --no-package-lock
 
-# Wait for the test to `exec` into the container and run the script
-CMD ["sleep", "infinity"]
+# Build the identity package
+RUN npm run build
+
+# Remove unnecessary files to reduce image size
+FROM ${REGISTRY}node:${NODE_VERSION}-alpine
+WORKDIR /app
+
+# Copy only the built app and necessary files
+COPY --from=builder /app/dist ./dist
+COPY --from=builder /app/package.json ./
+
+# Install only production dependencies
+RUN npm install --only=production
+
+# Start the app
+CMD ["node", "dist/index.js"]
