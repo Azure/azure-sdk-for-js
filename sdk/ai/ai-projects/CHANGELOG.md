@@ -8,8 +8,8 @@
 
 ### Features added
 
-- The `project.datasets.uploadFile` method is updated to take an options bag of type `DatasetUploadOptionalOptions`.
-- The `project.datasets.uploadFolder` method is updated to take an options bag of type `DatasetUploadOptionalOptions`.
+- The `project.datasets.uploadFile` method is updated to take an options bag of type `DatasetUploadOptions`.
+- The `project.datasets.uploadFolder` method is updated to take an options bag of type `DatasetUploadOptions`.
 
 ## 1.0.0-beta.8 (2025-05-21)
 

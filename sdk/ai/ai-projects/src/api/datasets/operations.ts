@@ -4,7 +4,7 @@
 
 import * as fs from "fs";
 import * as nodePath from "path";
-import { DatasetUploadInternalOptionalParams, AIProjectContext as Client } from "../index.js";
+import { DatasetUploadInternalOptions, AIProjectContext as Client } from "../index.js";
 import {
   _PagedDatasetVersion,
   _pagedDatasetVersionDeserializer,
@@ -145,7 +145,7 @@ async function createDatasetAndGetItsContainer(
   context: Client,
   name: string,
   version: string,
-  options?: DatasetUploadInternalOptionalParams,
+  options?: DatasetUploadInternalOptions,
 ): Promise<{ containerClient: ContainerClient; version: string }> {
   const { connectionName, projectOptions = {} } = options || {};
   // Start a pending upload to get the container URL with SAS token
@@ -211,7 +211,7 @@ export async function uploadFile(
   name: string,
   version: string,
   filePath: string,
-  options?: DatasetUploadInternalOptionalParams,
+  options?: DatasetUploadInternalOptions,
 ): Promise<DatasetVersionUnion> {
   // if file does not exist
 
@@ -250,7 +250,7 @@ export async function uploadFolder(
   name: string,
   version: string,
   folderPath: string,
-  options?: DatasetUploadInternalOptionalParams,
+  options?: DatasetUploadInternalOptions,
 ): Promise<DatasetVersionUnion> {
   // Check if the folder exists
   const folderExists = fs.existsSync(folderPath);
