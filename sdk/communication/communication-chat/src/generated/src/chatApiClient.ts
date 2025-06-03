@@ -57,7 +57,7 @@ export class ChatApiClient extends coreClient.ServiceClient {
     this.endpoint = endpoint;
 
     // Assigning values to Constant parameters
-    this.apiVersion = options.apiVersion || "2024-03-07";
+    this.apiVersion = options.apiVersion || "2025-03-15";
     this.chatThread = new ChatThreadImpl(this);
     this.chat = new ChatImpl(this);
     this.addCustomApiVersionPolicy(options.apiVersion);
