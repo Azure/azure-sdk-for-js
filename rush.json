@@ -2371,6 +2371,11 @@
       "versionPolicyName": "management"
     },
     {
+      "packageName": "@azure/arm-purestorageblock",
+      "projectFolder": "sdk/purestorageblock/arm-purestorageblock",
+      "versionPolicyName": "management"
+    },
+    {
       "packageName": "@azure/arm-sitemanager",
       "projectFolder": "sdk/sitemanager/arm-sitemanager",
       "versionPolicyName": "management"
