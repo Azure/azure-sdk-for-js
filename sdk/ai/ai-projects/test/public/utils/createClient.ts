@@ -118,7 +118,8 @@ export function createProjectsClient(
 ): AIProjectClient {
   const credential = createTestCredential();
   const endpoint =
-    process.env["AZURE_AI_PROJECT_ENDPOINT_STRING"] || replaceableVariables.AZURE_AI_PROJECT_ENDPOINT_STRING;
+    process.env["AZURE_AI_PROJECT_ENDPOINT_STRING"] ||
+    replaceableVariables.AZURE_AI_PROJECT_ENDPOINT_STRING;
   return AIProjectClient.fromEndpoint(
     endpoint,
     credential,
