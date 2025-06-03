@@ -163,12 +163,10 @@ describe("oauth2AuthenticationPolicy", () => {
   });
 
   it.each([
-    { authSchemes: [], shouldAuthenticate: false, description: "empty scheme array" },
-    {
-      authSchemes: undefined,
-      shouldAuthenticate: true,
-      description: "undefined scheme (service-level)",
-    },
+    // authSchemes set to empty array, should override service level scheme
+    { authSchemes: [], shouldAuthenticate: false },
+    // authSchemes is not defined, should use service level scheme
+    { authSchemes: undefined, shouldAuthenticate: true },
   ])(
     "handles authentication correctly when request authSchemes is $description",
     async ({ authSchemes, shouldAuthenticate }) => {

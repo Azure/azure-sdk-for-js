@@ -92,7 +92,9 @@ describe("basicAuthenticationPolicy", () => {
   });
 
   it.each([
+    // authSchemes set to empty array, should override service level scheme
     { authSchemes: [], shouldAuthenticate: false },
+    // authSchemes is not defined, should use service level scheme
     { authSchemes: undefined, shouldAuthenticate: true },
   ])(
     "handles authentication correctly when request authSchemes is $description",
