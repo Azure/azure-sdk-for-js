@@ -224,7 +224,7 @@ export type ContactPointUseOutput = string;
 function createClient(endpointParam: string, credentials: TokenCredential | KeyCredential, { apiVersion, ...options }?: AzureHealthInsightsClientOptions): AzureHealthInsightsClient;
 export default createClient;
 
-// @public (undocumented)
+// @public
 export interface CreateJob200Headers {
     "operation-location": string;
     "x-ms-request-id"?: string;
@@ -232,15 +232,12 @@ export interface CreateJob200Headers {
 
 // @public
 export interface CreateJob200Response extends HttpResponse {
-    // (undocumented)
     body: RadiologyInsightsJobOutput;
-    // (undocumented)
     headers: RawHttpHeaders & CreateJob200Headers;
-    // (undocumented)
     status: "200";
 }
 
-// @public (undocumented)
+// @public
 export interface CreateJob201Headers {
     "operation-location": string;
     "x-ms-request-id"?: string;
@@ -248,32 +245,26 @@ export interface CreateJob201Headers {
 
 // @public
 export interface CreateJob201Response extends HttpResponse {
-    // (undocumented)
     body: RadiologyInsightsJobOutput;
-    // (undocumented)
     headers: RawHttpHeaders & CreateJob201Headers;
-    // (undocumented)
     status: "201";
 }
 
-// @public (undocumented)
+// @public
 export interface CreateJobBodyParam {
     body: RadiologyInsightsJob;
 }
 
-// @public (undocumented)
+// @public
 export interface CreateJobDefaultHeaders {
     "x-ms-error-code"?: string;
     "x-ms-request-id"?: string;
 }
 
-// @public (undocumented)
+// @public
 export interface CreateJobDefaultResponse extends HttpResponse {
-    // (undocumented)
     body: HealthInsightsErrorResponseOutput;
-    // (undocumented)
     headers: RawHttpHeaders & CreateJobDefaultHeaders;
-    // (undocumented)
     status: string;
 }
 
@@ -286,22 +277,19 @@ export interface CreateJobExpandQueryParam {
 
 // @public
 export interface CreateJobLogicalResponse extends HttpResponse {
-    // (undocumented)
     body: RadiologyInsightsJobOutput;
-    // (undocumented)
     status: "200";
 }
 
-// @public (undocumented)
+// @public
 export type CreateJobParameters = CreateJobQueryParam & CreateJobBodyParam & RequestParameters;
 
-// @public (undocumented)
+// @public
 export interface CreateJobQueryParam {
-    // (undocumented)
     queryParameters?: CreateJobQueryParamProperties;
 }
 
-// @public (undocumented)
+// @public
 export interface CreateJobQueryParamProperties {
     expand?: CreateJobExpandQueryParam;
 }
@@ -390,7 +378,6 @@ export interface DomainResourceOutputParent extends ResourceOutput {
     contained?: Array<ResourceOutput>;
     extension?: Array<ExtensionOutput>;
     modifierExtension?: Array<ExtensionOutput>;
-    // (undocumented)
     resourceType: string;
     text?: NarrativeOutput;
 }
@@ -400,7 +387,6 @@ export interface DomainResourceParent extends Resource {
     contained?: Array<Resource>;
     extension?: Array<Extension>;
     modifierExtension?: Array<Extension>;
-    // (undocumented)
     resourceType: string;
     text?: Narrative;
 }
@@ -556,7 +542,7 @@ export interface GetJob {
     put(options: CreateJobParameters): StreamableMethod<CreateJob200Response | CreateJob201Response | CreateJobDefaultResponse>;
 }
 
-// @public (undocumented)
+// @public
 export interface GetJob200Headers {
     "retry-after"?: number;
     "x-ms-request-id"?: string;
@@ -564,27 +550,21 @@ export interface GetJob200Headers {
 
 // @public
 export interface GetJob200Response extends HttpResponse {
-    // (undocumented)
     body: RadiologyInsightsJobOutput;
-    // (undocumented)
     headers: RawHttpHeaders & GetJob200Headers;
-    // (undocumented)
     status: "200";
 }
 
-// @public (undocumented)
+// @public
 export interface GetJobDefaultHeaders {
     "x-ms-error-code"?: string;
     "x-ms-request-id"?: string;
 }
 
-// @public (undocumented)
+// @public
 export interface GetJobDefaultResponse extends HttpResponse {
-    // (undocumented)
     body: HealthInsightsErrorResponseOutput;
-    // (undocumented)
     headers: RawHttpHeaders & GetJobDefaultHeaders;
-    // (undocumented)
     status: string;
 }
 
@@ -595,16 +575,15 @@ export interface GetJobExpandQueryParam {
     value: string[];
 }
 
-// @public (undocumented)
+// @public
 export type GetJobParameters = GetJobQueryParam & RequestParameters;
 
-// @public (undocumented)
+// @public
 export interface GetJobQueryParam {
-    // (undocumented)
     queryParameters?: GetJobQueryParamProperties;
 }
 
-// @public (undocumented)
+// @public
 export interface GetJobQueryParamProperties {
     expand?: GetJobExpandQueryParam;
 }
@@ -1058,14 +1037,12 @@ export type ProcedureRecommendationOutput = ProcedureRecommendationOutputParent 
 // @public
 export interface ProcedureRecommendationOutputParent {
     extension?: Array<ExtensionOutput>;
-    // (undocumented)
     kind: string;
 }
 
 // @public
 export interface ProcedureRecommendationParent {
     extension?: Array<Extension>;
-    // (undocumented)
     kind: string;
 }
 
@@ -1174,14 +1151,12 @@ export type RadiologyInsightsInferenceOutput = RadiologyInsightsInferenceOutputP
 // @public
 export interface RadiologyInsightsInferenceOutputParent {
     extension?: Array<ExtensionOutput>;
-    // (undocumented)
     kind: string;
 }
 
 // @public
 export interface RadiologyInsightsInferenceParent {
     extension?: Array<Extension>;
-    // (undocumented)
     kind: string;
 }
 

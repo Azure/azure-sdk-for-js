@@ -21,7 +21,7 @@ import AzureHealthInsightsClient, {
 const endpoint = process.env["HEALTH_INSIGHTS_ENDPOINT"] || "";
 
 /**
- * Print the clincal guidance inference
+ * Print the clinical guidance inference
  */
 
 function printResults(radiologyInsightsResult: RadiologyInsightsJobOutput): void {

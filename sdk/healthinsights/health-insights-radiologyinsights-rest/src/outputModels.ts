@@ -387,20 +387,18 @@ export interface ContactPointOutput {
   period?: PeriodOutput;
 }
 
-/**
- * A resource with narrative, extensions, and contained resources
- * Based on [FHIR DomainResource](https://www.hl7.org/fhir/domainresource.html)
- */
+/** A resource with narrative, extensions, and contained resources Based on [FHIR DomainResource](https://www.hl7.org/fhir/domainresource.html) */
 export interface DomainResourceOutputParent extends ResourceOutput {
-  /** Text summary of the resource, for human interpretation */
-  text?: NarrativeOutput;
   /** Contained, inline Resources */
   contained?: Array<ResourceOutput>;
   /** Additional Content defined by implementations */
   extension?: Array<ExtensionOutput>;
   /** Extensions that cannot be ignored */
   modifierExtension?: Array<ExtensionOutput>;
+  /** resourceType */
   resourceType: string;
+  /** Text summary of the resource, for human interpretation */
+  text?: NarrativeOutput;
 }
 
 /**
@@ -782,9 +780,12 @@ export interface RadiologyInsightsPatientResultOutput {
  *   - Guidance
  *   - QualityMeasure
  */
+
+/** An inference made by the Radiology Insights model regarding a patient: AgeMismatch, SexMismatch, LateralityDiscrepancy, CompleteOrderDiscrepancy, LimitedOrderDiscrepancy, Finding, CriticalResult, FollowupRecommendation, RadiologyProcedure, FollowupCommunicatio */
 export interface RadiologyInsightsInferenceOutputParent {
   /** Additional Content defined by implementations */
   extension?: Array<ExtensionOutput>;
+  /** The kind of inference*/
   kind: string;
 }
 
@@ -944,6 +945,7 @@ export interface RecommendationFindingOutput {
 export interface ProcedureRecommendationOutputParent {
   /** Additional Content defined by implementations */
   extension?: Array<ExtensionOutput>;
+  /** The kind of procedure recommendation eg. generic or imaging */
   kind: string;
 }
 
