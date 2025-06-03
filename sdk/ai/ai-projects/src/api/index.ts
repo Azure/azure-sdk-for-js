@@ -7,9 +7,9 @@ export { AIProjectClientOptionalParams };
 
 /** Options for uploading datasets */
 export interface DatasetUploadOptionalOptions {
-  /** Optional connection name for the storage account to be used */
+  /**  The name of an Azure Storage Account connection, where the file should be uploaded. If not specified, the default Azure Storage Account connection will be used.  */
   connectionName?: string;
-  /** Only for folder uploads. A regex pattern to filter files to be uploaded. Only files matching the pattern will be uploaded */
+  /** Only for folder uploads. A regex pattern to filter files to be uploaded. Only files matching the pattern will be uploaded. If not specified, all files will be uploaded. */
   filePattern?: RegExp;
 }
 

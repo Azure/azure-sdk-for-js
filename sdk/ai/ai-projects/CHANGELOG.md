@@ -2,11 +2,14 @@
 
 ## 1.0.0-beta.9 (2025-06-03)
 
-### Breaking changes
+### Other Changes
+
+- Add the apiVersion and rest api doc information of client library to `README.md`
+
+### Features added
 
 - The `project.datasets.uploadFile` method is updated to take an options bag of type `DatasetUploadOptionalOptions`.
 - The `project.datasets.uploadFolder` method is updated to take an options bag of type `DatasetUploadOptionalOptions`.
-- Add the apiVersion and rest api doc information of client library to `README.md`
 
 ## 1.0.0-beta.8 (2025-05-21)
 
