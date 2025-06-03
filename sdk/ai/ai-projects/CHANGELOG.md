@@ -4,9 +4,8 @@
 
 ### Breaking changes
 
-- Function `project.datasets.uploadFile` optional param is update from `string` to `DatasetUploadOptionalOptions`
-- Function `project.datasets.uploadFolder` optional param is update from `string` to `DatasetUploadOptionalOptions`
-- Function `project.datasets.uploadFolder` support file filter with `filePattern` param in `DatasetUploadOptionalOptions`
+- The `project.datasets.uploadFile` method is updated to take an options bag of type `DatasetUploadOptionalOptions`.
+- The `project.datasets.uploadFolder` method is updated to take an options bag of type `DatasetUploadOptionalOptions`.
 
 ## 1.0.0-beta.8 (2025-05-21)
 
