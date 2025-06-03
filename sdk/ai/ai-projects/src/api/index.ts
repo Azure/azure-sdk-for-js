@@ -13,7 +13,10 @@ export interface DatasetUploadOptionalOptions {
   filePattern?: RegExp;
 }
 
-/** Options for dataset upload operations that are internal and may not be exposed to all users */
+/**
+ * @internal
+ * Options for dataset upload operations that are internal and may not be exposed to all users
+ */
 export interface DatasetUploadInternalOptionalParams extends DatasetUploadOptionalOptions {
   projectOptions?: AIProjectClientOptionalParams;
 }

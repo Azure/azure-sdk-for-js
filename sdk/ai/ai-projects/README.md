@@ -84,7 +84,7 @@ const client = new AIProjectClient(endpoint, new DefaultAzureCredential());
 
 ### API version and rest apis
 
-The client library uses api version is `2025-05-15-preview`, the rest api doc is: [AI_Foundry_data_plane_REST_APIs]
+The client library uses api version is `2025-05-15-preview`, the rest api doc is: [ai_foundry_data_plane_rest_apis]
 
 ## Examples
 
@@ -527,5 +527,5 @@ additional questions or comments.
 [evaluator_library]: https://learn.microsoft.com/azure/ai-studio/how-to/evaluate-generative-ai-app#view-and-manage-the-evaluators-in-the-evaluator-library
 [azure_foundry_service_endpoint]: https://learn.microsoft.com/azure/ai-foundry/model-inference/how-to/configure-project-connection?pivots=ai-foundry-portal
 [azure_ai_evaluation]: https://learn.microsoft.com/javascript/api/overview/azure/ai-projects-readme
-[AI_Foundry_data_plane_REST_APIs]: https://learn.microsoft.com/en-us/rest/api/aifoundry/aiprojects/operation-groups?view=rest-aifoundry-aiprojects-2025-05-15-preview
+[ai_foundry_data_plane_rest_apis]: https://learn.microsoft.com/rest/api/aifoundry/aiprojects/operation-groups?view=rest-aifoundry-aiprojects-2025-05-15-preview
 [samples]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/ai/ai-projects/samples
