@@ -13,7 +13,7 @@ const replaceableVariables: Record<string, string> = {
   GENERIC_STRING: "Sanitized",
   ENDPOINT: "Sanitized.azure.com",
   DEPLOYMENT_NAME: "DeepSeek-V3",
-  AZURE_AI_PROJECT_ENDPOINT: "https://Sanitized.azure.com/api/projects/project1",
+  AZURE_AI_PROJECT_ENDPOINT_STRING: "https://Sanitized.azure.com/api/projects/project1",
   AZURE_STORAGE_CONNECTION_NAME: "00000",
   DEPLOYMENT_GPT_MODEL: "gpt-4o",
   EMBEDDING_DEPLOYMENT_NAME: "text-embedding-3-large",
@@ -118,7 +118,7 @@ export function createProjectsClient(
 ): AIProjectClient {
   const credential = createTestCredential();
   const endpoint =
-    process.env["AZURE_AI_PROJECT_ENDPOINT"] || replaceableVariables.AZURE_AI_PROJECT_ENDPOINT;
+    process.env["AZURE_AI_PROJECT_ENDPOINT_STRING"] || replaceableVariables.AZURE_AI_PROJECT_ENDPOINT_STRING;
   return AIProjectClient.fromEndpoint(
     endpoint,
     credential,
