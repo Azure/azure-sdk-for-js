@@ -4,7 +4,7 @@
 
 import * as fs from "fs";
 import * as nodePath from "path";
-import { DatasetUploadOptionalParams, AIProjectContext as Client } from "../index.js";
+import { DatasetUploadInternalOptionalParams, AIProjectContext as Client } from "../index.js";
 import {
   _PagedDatasetVersion,
   _pagedDatasetVersionDeserializer,
@@ -145,7 +145,7 @@ async function createDatasetAndGetItsContainer(
   context: Client,
   name: string,
   version: string,
-  options?: DatasetUploadOptionalParams,
+  options?: DatasetUploadInternalOptionalParams,
 ): Promise<{ containerClient: ContainerClient; version: string }> {
   const { connectionName, projectOptions = {} } = options || {};
   // Start a pending upload to get the container URL with SAS token
@@ -211,7 +211,7 @@ export async function uploadFile(
   name: string,
   version: string,
   filePath: string,
-  options?: DatasetUploadOptionalParams,
+  options?: DatasetUploadInternalOptionalParams,
 ): Promise<DatasetVersionUnion> {
   // if file does not exist
 
@@ -250,7 +250,7 @@ export async function uploadFolder(
   name: string,
   version: string,
   folderPath: string,
-  options?: DatasetUploadOptionalParams,
+  options?: DatasetUploadInternalOptionalParams,
 ): Promise<DatasetVersionUnion> {
   // Check if the folder exists
   const folderExists = fs.existsSync(folderPath);
@@ -290,12 +290,17 @@ export async function uploadFolder(
 
   // Get all files in the folder
   const allFiles = await getAllFiles(folderPath);
-  if (allFiles.length === 0) {
+  let filteredFiles = allFiles;
+  if (options?.filePattern) {
+    filteredFiles = allFiles.filter((file) => options.filePattern?.test(file));
+  }
+
+  if (filteredFiles.length === 0) {
     throw new Error("The provided folder is empty.");
   }
 
   // Upload each file to blob storage while maintaining relative paths
-  for (const filePath of allFiles) {
+  for (const filePath of filteredFiles) {
     // Create blob name as relative path from the base folder
     const relativePath = nodePath.relative(folderPath, filePath).split(nodePath.sep).join("/");
 

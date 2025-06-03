@@ -1,5 +1,13 @@
 # Release History
 
+## 1.0.0-beta.9 (2025-06-03)
+
+### Breaking changes
+
+- Function `project.datasets.uploadFile` optional param is update from `string` to `DatasetUploadOptionalOptions`
+- Function `project.datasets.uploadFolder` optional param is update from `string` to `DatasetUploadOptionalOptions`
+- Function `project.datasets.uploadFolder` support file filter with `filePattern` param in `DatasetUploadOptionalOptions`
+
 ## 1.0.0-beta.8 (2025-05-21)
 
 ### Bugs Fixed
