@@ -4,8 +4,7 @@
 import { OperationOptions } from "@azure-rest/core-client";
 
 /** Optional parameters. */
-export interface VaultListBySubscriptionOptionalParams
-  extends OperationOptions {}
+export interface VaultListBySubscriptionOptionalParams extends OperationOptions {}
 
 /** Optional parameters. */
 export interface VaultListOptionalParams extends OperationOptions {

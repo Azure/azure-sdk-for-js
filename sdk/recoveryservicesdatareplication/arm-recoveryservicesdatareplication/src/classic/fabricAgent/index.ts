@@ -9,12 +9,7 @@ import {
   FabricAgentCreateOptionalParams,
   FabricAgentGetOptionalParams,
 } from "../../api/fabricAgent/options.js";
-import {
-  list,
-  $delete,
-  create,
-  get,
-} from "../../api/fabricAgent/operations.js";
+import { list, $delete, create, get } from "../../api/fabricAgent/operations.js";
 import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 import { PollerLike, OperationState } from "@azure/core-lro";
 
@@ -55,9 +50,7 @@ export interface FabricAgentOperations {
   ) => Promise<FabricAgentModel>;
 }
 
-function _getFabricAgent(
-  context: AzureSiteRecoveryManagementServiceAPIContext,
-) {
+function _getFabricAgent(context: AzureSiteRecoveryManagementServiceAPIContext) {
   return {
     list: (
       resourceGroupName: string,
@@ -69,23 +62,14 @@ function _getFabricAgent(
       fabricName: string,
       fabricAgentName: string,
       options?: FabricAgentDeleteOptionalParams,
-    ) =>
-      $delete(context, resourceGroupName, fabricName, fabricAgentName, options),
+    ) => $delete(context, resourceGroupName, fabricName, fabricAgentName, options),
     create: (
       resourceGroupName: string,
       fabricName: string,
       fabricAgentName: string,
       resource: FabricAgentModel,
       options?: FabricAgentCreateOptionalParams,
-    ) =>
-      create(
-        context,
-        resourceGroupName,
-        fabricName,
-        fabricAgentName,
-        resource,
-        options,
-      ),
+    ) => create(context, resourceGroupName, fabricName, fabricAgentName, resource, options),
     get: (
       resourceGroupName: string,
       fabricName: string,

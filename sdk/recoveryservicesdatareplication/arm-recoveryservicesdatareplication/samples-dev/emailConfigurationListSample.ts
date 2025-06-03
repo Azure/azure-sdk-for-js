@@ -13,15 +13,9 @@ import { DefaultAzureCredential } from "@azure/identity";
 async function listsTheEmailConfigurationSettings(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "930CEC23-4430-4513-B855-DBA237E2F3BF";
-  const client = new AzureSiteRecoveryManagementServiceAPI(
-    credential,
-    subscriptionId,
-  );
+  const client = new AzureSiteRecoveryManagementServiceAPI(credential, subscriptionId);
   const resArray = new Array();
-  for await (const item of client.emailConfiguration.list(
-    "rgswagger_2024-09-01",
-    "4",
-  )) {
+  for await (const item of client.emailConfiguration.list("rgswagger_2024-09-01", "4")) {
     resArray.push(item);
   }
 

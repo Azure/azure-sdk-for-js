@@ -4,8 +4,7 @@
 import { OperationOptions } from "@azure-rest/core-client";
 
 /** Optional parameters. */
-export interface ProtectedItemPlannedFailoverOptionalParams
-  extends OperationOptions {
+export interface ProtectedItemPlannedFailoverOptionalParams extends OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
 }

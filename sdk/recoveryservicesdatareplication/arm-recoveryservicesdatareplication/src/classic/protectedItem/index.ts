@@ -79,9 +79,7 @@ export interface ProtectedItemOperations {
   ) => Promise<ProtectedItemModel>;
 }
 
-function _getProtectedItem(
-  context: AzureSiteRecoveryManagementServiceAPIContext,
-) {
+function _getProtectedItem(context: AzureSiteRecoveryManagementServiceAPIContext) {
   return {
     plannedFailover: (
       resourceGroupName: string,
@@ -89,15 +87,7 @@ function _getProtectedItem(
       protectedItemName: string,
       body: PlannedFailoverModel,
       options?: ProtectedItemPlannedFailoverOptionalParams,
-    ) =>
-      plannedFailover(
-        context,
-        resourceGroupName,
-        vaultName,
-        protectedItemName,
-        body,
-        options,
-      ),
+    ) => plannedFailover(context, resourceGroupName, vaultName, protectedItemName, body, options),
     list: (
       resourceGroupName: string,
       vaultName: string,
@@ -108,44 +98,21 @@ function _getProtectedItem(
       vaultName: string,
       protectedItemName: string,
       options?: ProtectedItemDeleteOptionalParams,
-    ) =>
-      $delete(
-        context,
-        resourceGroupName,
-        vaultName,
-        protectedItemName,
-        options,
-      ),
+    ) => $delete(context, resourceGroupName, vaultName, protectedItemName, options),
     update: (
       resourceGroupName: string,
       vaultName: string,
       protectedItemName: string,
       properties: ProtectedItemModelUpdate,
       options?: ProtectedItemUpdateOptionalParams,
-    ) =>
-      update(
-        context,
-        resourceGroupName,
-        vaultName,
-        protectedItemName,
-        properties,
-        options,
-      ),
+    ) => update(context, resourceGroupName, vaultName, protectedItemName, properties, options),
     create: (
       resourceGroupName: string,
       vaultName: string,
       protectedItemName: string,
       resource: ProtectedItemModel,
       options?: ProtectedItemCreateOptionalParams,
-    ) =>
-      create(
-        context,
-        resourceGroupName,
-        vaultName,
-        protectedItemName,
-        resource,
-        options,
-      ),
+    ) => create(context, resourceGroupName, vaultName, protectedItemName, resource, options),
     get: (
       resourceGroupName: string,
       vaultName: string,

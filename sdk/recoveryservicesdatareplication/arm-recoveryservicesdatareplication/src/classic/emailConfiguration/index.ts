@@ -36,9 +36,7 @@ export interface EmailConfigurationOperations {
   ) => Promise<EmailConfigurationModel>;
 }
 
-function _getEmailConfiguration(
-  context: AzureSiteRecoveryManagementServiceAPIContext,
-) {
+function _getEmailConfiguration(context: AzureSiteRecoveryManagementServiceAPIContext) {
   return {
     list: (
       resourceGroupName: string,
@@ -51,28 +49,13 @@ function _getEmailConfiguration(
       emailConfigurationName: string,
       resource: EmailConfigurationModel,
       options?: EmailConfigurationCreateOptionalParams,
-    ) =>
-      create(
-        context,
-        resourceGroupName,
-        vaultName,
-        emailConfigurationName,
-        resource,
-        options,
-      ),
+    ) => create(context, resourceGroupName, vaultName, emailConfigurationName, resource, options),
     get: (
       resourceGroupName: string,
       vaultName: string,
       emailConfigurationName: string,
       options?: EmailConfigurationGetOptionalParams,
-    ) =>
-      get(
-        context,
-        resourceGroupName,
-        vaultName,
-        emailConfigurationName,
-        options,
-      ),
+    ) => get(context, resourceGroupName, vaultName, emailConfigurationName, options),
   };
 }
 

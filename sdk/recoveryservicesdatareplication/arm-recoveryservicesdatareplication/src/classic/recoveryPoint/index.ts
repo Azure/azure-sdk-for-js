@@ -29,32 +29,21 @@ export interface RecoveryPointOperations {
   ) => Promise<RecoveryPointModel>;
 }
 
-function _getRecoveryPoint(
-  context: AzureSiteRecoveryManagementServiceAPIContext,
-) {
+function _getRecoveryPoint(context: AzureSiteRecoveryManagementServiceAPIContext) {
   return {
     list: (
       resourceGroupName: string,
       vaultName: string,
       protectedItemName: string,
       options?: RecoveryPointListOptionalParams,
-    ) =>
-      list(context, resourceGroupName, vaultName, protectedItemName, options),
+    ) => list(context, resourceGroupName, vaultName, protectedItemName, options),
     get: (
       resourceGroupName: string,
       vaultName: string,
       protectedItemName: string,
       recoveryPointName: string,
       options?: RecoveryPointGetOptionalParams,
-    ) =>
-      get(
-        context,
-        resourceGroupName,
-        vaultName,
-        protectedItemName,
-        recoveryPointName,
-        options,
-      ),
+    ) => get(context, resourceGroupName, vaultName, protectedItemName, recoveryPointName, options),
   };
 }
 

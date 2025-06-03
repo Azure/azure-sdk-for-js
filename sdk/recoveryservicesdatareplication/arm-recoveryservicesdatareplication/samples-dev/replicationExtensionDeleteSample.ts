@@ -13,15 +13,8 @@ import { DefaultAzureCredential } from "@azure/identity";
 async function deletesTheReplicationExtension(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "930CEC23-4430-4513-B855-DBA237E2F3BF";
-  const client = new AzureSiteRecoveryManagementServiceAPI(
-    credential,
-    subscriptionId,
-  );
-  await client.replicationExtension.delete(
-    "rgrecoveryservicesdatareplication",
-    "4",
-    "g16yjJ",
-  );
+  const client = new AzureSiteRecoveryManagementServiceAPI(credential, subscriptionId);
+  await client.replicationExtension.delete("rgrecoveryservicesdatareplication", "4", "g16yjJ");
 }
 
 async function main(): Promise<void> {

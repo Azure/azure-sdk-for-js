@@ -13,15 +13,8 @@ import { DefaultAzureCredential } from "@azure/identity";
 async function getsTheFabricAgent(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "930CEC23-4430-4513-B855-DBA237E2F3BF";
-  const client = new AzureSiteRecoveryManagementServiceAPI(
-    credential,
-    subscriptionId,
-  );
-  const result = await client.fabricAgent.get(
-    "rgrecoveryservicesdatareplication",
-    "wPR",
-    "M",
-  );
+  const client = new AzureSiteRecoveryManagementServiceAPI(credential, subscriptionId);
+  const result = await client.fabricAgent.get("rgrecoveryservicesdatareplication", "wPR", "M");
   console.log(result);
 }
 

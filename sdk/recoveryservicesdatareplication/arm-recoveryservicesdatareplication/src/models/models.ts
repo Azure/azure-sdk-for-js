@@ -9,9 +9,7 @@ export interface _OperationListResult {
   nextLink?: string;
 }
 
-export function _operationListResultDeserializer(
-  item: any,
-): _OperationListResult {
+export function _operationListResultDeserializer(item: any): _OperationListResult {
   return {
     value: operationArrayDeserializer(item["value"]),
     nextLink: item["nextLink"],
@@ -42,9 +40,7 @@ export function operationDeserializer(item: any): Operation {
   return {
     name: item["name"],
     isDataAction: item["isDataAction"],
-    display: !item["display"]
-      ? item["display"]
-      : operationDisplayDeserializer(item["display"]),
+    display: !item["display"] ? item["display"] : operationDisplayDeserializer(item["display"]),
     origin: item["origin"],
     actionType: item["actionType"],
   };
@@ -115,9 +111,7 @@ export interface ErrorResponse {
 
 export function errorResponseDeserializer(item: any): ErrorResponse {
   return {
-    error: !item["error"]
-      ? item["error"]
-      : errorDetailDeserializer(item["error"]),
+    error: !item["error"] ? item["error"] : errorDetailDeserializer(item["error"]),
   };
 }
 
@@ -140,26 +134,20 @@ export function errorDetailDeserializer(item: any): ErrorDetail {
     code: item["code"],
     message: item["message"],
     target: item["target"],
-    details: !item["details"]
-      ? item["details"]
-      : errorDetailArrayDeserializer(item["details"]),
+    details: !item["details"] ? item["details"] : errorDetailArrayDeserializer(item["details"]),
     additionalInfo: !item["additionalInfo"]
       ? item["additionalInfo"]
       : errorAdditionalInfoArrayDeserializer(item["additionalInfo"]),
   };
 }
 
-export function errorDetailArrayDeserializer(
-  result: Array<ErrorDetail>,
-): any[] {
+export function errorDetailArrayDeserializer(result: Array<ErrorDetail>): any[] {
   return result.map((item) => {
     return errorDetailDeserializer(item);
   });
 }
 
-export function errorAdditionalInfoArrayDeserializer(
-  result: Array<ErrorAdditionalInfo>,
-): any[] {
+export function errorAdditionalInfoArrayDeserializer(result: Array<ErrorAdditionalInfo>): any[] {
   return result.map((item) => {
     return errorAdditionalInfoDeserializer(item);
   });
@@ -173,23 +161,17 @@ export interface ErrorAdditionalInfo {
   readonly info?: Record<string, any>;
 }
 
-export function errorAdditionalInfoDeserializer(
-  item: any,
-): ErrorAdditionalInfo {
+export function errorAdditionalInfoDeserializer(item: any): ErrorAdditionalInfo {
   return {
     type: item["type"],
-    info: !item["info"]
-      ? item["info"]
-      : _errorAdditionalInfoInfoDeserializer(item["info"]),
+    info: !item["info"] ? item["info"] : _errorAdditionalInfoInfoDeserializer(item["info"]),
   };
 }
 
 /** model interface _ErrorAdditionalInfoInfo */
 export interface _ErrorAdditionalInfoInfo {}
 
-export function _errorAdditionalInfoInfoDeserializer(
-  item: any,
-): _ErrorAdditionalInfoInfo {
+export function _errorAdditionalInfoInfoDeserializer(item: any): _ErrorAdditionalInfoInfo {
   return item;
 }
 
@@ -199,9 +181,7 @@ export interface EmailConfigurationModel extends ProxyResource {
   properties?: EmailConfigurationModelProperties;
 }
 
-export function emailConfigurationModelSerializer(
-  item: EmailConfigurationModel,
-): any {
+export function emailConfigurationModelSerializer(item: EmailConfigurationModel): any {
   return {
     properties: !item["properties"]
       ? item["properties"]
@@ -209,9 +189,7 @@ export function emailConfigurationModelSerializer(
   };
 }
 
-export function emailConfigurationModelDeserializer(
-  item: any,
-): EmailConfigurationModel {
+export function emailConfigurationModelDeserializer(item: any): EmailConfigurationModel {
   return {
     id: item["id"],
     name: item["name"],
@@ -364,9 +342,7 @@ export function systemDataDeserializer(item: any): SystemData {
   return {
     createdBy: item["createdBy"],
     createdByType: item["createdByType"],
-    createdAt: !item["createdAt"]
-      ? item["createdAt"]
-      : new Date(item["createdAt"]),
+    createdAt: !item["createdAt"] ? item["createdAt"] : new Date(item["createdAt"]),
     lastModifiedBy: item["lastModifiedBy"],
     lastModifiedByType: item["lastModifiedByType"],
     lastModifiedAt: !item["lastModifiedAt"]
@@ -482,15 +458,11 @@ export interface VaultModelProperties {
   vaultType?: ReplicationVaultType;
 }
 
-export function vaultModelPropertiesSerializer(
-  item: VaultModelProperties,
-): any {
+export function vaultModelPropertiesSerializer(item: VaultModelProperties): any {
   return { vaultType: item["vaultType"] };
 }
 
-export function vaultModelPropertiesDeserializer(
-  item: any,
-): VaultModelProperties {
+export function vaultModelPropertiesDeserializer(item: any): VaultModelProperties {
   return {
     provisioningState: item["provisioningState"],
     serviceResourceId: item["serviceResourceId"],
@@ -528,18 +500,14 @@ export interface ManagedServiceIdentity {
   userAssignedIdentities?: Record<string, UserAssignedIdentity | null>;
 }
 
-export function managedServiceIdentitySerializer(
-  item: ManagedServiceIdentity,
-): any {
+export function managedServiceIdentitySerializer(item: ManagedServiceIdentity): any {
   return {
     type: item["type"],
     userAssignedIdentities: item["userAssignedIdentities"],
   };
 }
 
-export function managedServiceIdentityDeserializer(
-  item: any,
-): ManagedServiceIdentity {
+export function managedServiceIdentityDeserializer(item: any): ManagedServiceIdentity {
   return {
     principalId: item["principalId"],
     tenantId: item["tenantId"],
@@ -580,15 +548,11 @@ export interface UserAssignedIdentity {
   readonly principalId?: string;
 }
 
-export function userAssignedIdentitySerializer(
-  item: UserAssignedIdentity,
-): any {
+export function userAssignedIdentitySerializer(item: UserAssignedIdentity): any {
   return item;
 }
 
-export function userAssignedIdentityDeserializer(
-  item: any,
-): UserAssignedIdentity {
+export function userAssignedIdentityDeserializer(item: any): UserAssignedIdentity {
   return {
     clientId: item["clientId"],
     principalId: item["principalId"],
@@ -644,9 +608,7 @@ export function vaultModelUpdateSerializer(item: VaultModelUpdate): any {
     properties: !item["properties"]
       ? item["properties"]
       : vaultModelPropertiesSerializer(item["properties"]),
-    identity: !item["identity"]
-      ? item["identity"]
-      : vaultIdentityModelSerializer(item["identity"]),
+    identity: !item["identity"] ? item["identity"] : vaultIdentityModelSerializer(item["identity"]),
   };
 }
 
@@ -693,9 +655,7 @@ export interface _VaultModelListResult {
   nextLink?: string;
 }
 
-export function _vaultModelListResultDeserializer(
-  item: any,
-): _VaultModelListResult {
+export function _vaultModelListResultDeserializer(item: any): _VaultModelListResult {
   return {
     value: vaultModelArrayDeserializer(item["value"]),
     nextLink: item["nextLink"],
@@ -760,9 +720,7 @@ export interface EventModelProperties {
   readonly provisioningState?: ProvisioningState;
 }
 
-export function eventModelPropertiesDeserializer(
-  item: any,
-): EventModelProperties {
+export function eventModelPropertiesDeserializer(item: any): EventModelProperties {
   return {
     resourceType: item["resourceType"],
     resourceName: item["resourceName"],
@@ -777,16 +735,12 @@ export function eventModelPropertiesDeserializer(
     healthErrors: !item["healthErrors"]
       ? item["healthErrors"]
       : healthErrorModelArrayDeserializer(item["healthErrors"]),
-    customProperties: eventModelCustomPropertiesUnionDeserializer(
-      item["customProperties"],
-    ),
+    customProperties: eventModelCustomPropertiesUnionDeserializer(item["customProperties"]),
     provisioningState: item["provisioningState"],
   };
 }
 
-export function healthErrorModelArrayDeserializer(
-  result: Array<HealthErrorModel>,
-): any[] {
+export function healthErrorModelArrayDeserializer(result: Array<HealthErrorModel>): any[] {
   return result.map((item) => {
     return healthErrorModelDeserializer(item);
   });
@@ -840,9 +794,7 @@ export function healthErrorModelDeserializer(item: any): HealthErrorModel {
     category: item["category"],
     severity: item["severity"],
     source: item["source"],
-    creationTime: !item["creationTime"]
-      ? item["creationTime"]
-      : new Date(item["creationTime"]),
+    creationTime: !item["creationTime"] ? item["creationTime"] : new Date(item["creationTime"]),
     isCustomerResolvable: item["isCustomerResolvable"],
     summary: item["summary"],
     message: item["message"],
@@ -885,18 +837,14 @@ export interface InnerHealthErrorModel {
   readonly recommendation?: string;
 }
 
-export function innerHealthErrorModelDeserializer(
-  item: any,
-): InnerHealthErrorModel {
+export function innerHealthErrorModelDeserializer(item: any): InnerHealthErrorModel {
   return {
     code: item["code"],
     healthCategory: item["healthCategory"],
     category: item["category"],
     severity: item["severity"],
     source: item["source"],
-    creationTime: !item["creationTime"]
-      ? item["creationTime"]
-      : new Date(item["creationTime"]),
+    creationTime: !item["creationTime"] ? item["creationTime"] : new Date(item["creationTime"]),
     isCustomerResolvable: item["isCustomerResolvable"],
     summary: item["summary"],
     message: item["message"],
@@ -912,9 +860,7 @@ export interface EventModelCustomProperties {
   instanceType: string;
 }
 
-export function eventModelCustomPropertiesDeserializer(
-  item: any,
-): EventModelCustomProperties {
+export function eventModelCustomPropertiesDeserializer(item: any): EventModelCustomProperties {
   return {
     instanceType: item["instanceType"],
   };
@@ -946,8 +892,7 @@ export function eventModelCustomPropertiesUnionDeserializer(
 }
 
 /** HyperV to  AzStackHCI event model custom properties. This class provides provider specific details for events of type DataContract.HealthEvents.HealthEventType.ProtectedItemHealth and DataContract.HealthEvents.HealthEventType.AgentHealth. */
-export interface HyperVToAzStackHCIEventModelCustomProperties
-  extends EventModelCustomProperties {
+export interface HyperVToAzStackHCIEventModelCustomProperties extends EventModelCustomProperties {
   /** Gets or sets the friendly name of the source which has raised this health event. */
   readonly eventSourceFriendlyName?: string;
   /** Gets or sets the protected item friendly name. */
@@ -976,8 +921,7 @@ export function hyperVToAzStackHCIEventModelCustomPropertiesDeserializer(
 }
 
 /** VMware to  AzStackHCI event model custom properties. This class provides provider specific details for events of type DataContract.HealthEvents.HealthEventType.ProtectedItemHealth and DataContract.HealthEvents.HealthEventType.AgentHealth. */
-export interface VMwareToAzStackHCIEventModelCustomProperties
-  extends EventModelCustomProperties {
+export interface VMwareToAzStackHCIEventModelCustomProperties extends EventModelCustomProperties {
   /** Gets or sets the friendly name of the source which has raised this health event. */
   readonly eventSourceFriendlyName?: string;
   /** Gets or sets the protected item friendly name. */
@@ -1013,9 +957,7 @@ export interface _EventModelListResult {
   nextLink?: string;
 }
 
-export function _eventModelListResultDeserializer(
-  item: any,
-): _EventModelListResult {
+export function _eventModelListResultDeserializer(item: any): _EventModelListResult {
   return {
     value: eventModelArrayDeserializer(item["value"]),
     nextLink: item["nextLink"],
@@ -1076,19 +1018,13 @@ export interface FabricModelProperties {
   customProperties: FabricModelCustomPropertiesUnion;
 }
 
-export function fabricModelPropertiesSerializer(
-  item: FabricModelProperties,
-): any {
+export function fabricModelPropertiesSerializer(item: FabricModelProperties): any {
   return {
-    customProperties: fabricModelCustomPropertiesUnionSerializer(
-      item["customProperties"],
-    ),
+    customProperties: fabricModelCustomPropertiesUnionSerializer(item["customProperties"]),
   };
 }
 
-export function fabricModelPropertiesDeserializer(
-  item: any,
-): FabricModelProperties {
+export function fabricModelPropertiesDeserializer(item: any): FabricModelProperties {
   return {
     provisioningState: item["provisioningState"],
     serviceEndpoint: item["serviceEndpoint"],
@@ -1097,9 +1033,7 @@ export function fabricModelPropertiesDeserializer(
     healthErrors: !item["healthErrors"]
       ? item["healthErrors"]
       : healthErrorModelArrayDeserializer(item["healthErrors"]),
-    customProperties: fabricModelCustomPropertiesUnionDeserializer(
-      item["customProperties"],
-    ),
+    customProperties: fabricModelCustomPropertiesUnionDeserializer(item["customProperties"]),
   };
 }
 
@@ -1131,15 +1065,11 @@ export interface FabricModelCustomProperties {
   instanceType: string;
 }
 
-export function fabricModelCustomPropertiesSerializer(
-  item: FabricModelCustomProperties,
-): any {
+export function fabricModelCustomPropertiesSerializer(item: FabricModelCustomProperties): any {
   return { instanceType: item["instanceType"] };
 }
 
-export function fabricModelCustomPropertiesDeserializer(
-  item: any,
-): FabricModelCustomProperties {
+export function fabricModelCustomPropertiesDeserializer(item: any): FabricModelCustomProperties {
   return {
     instanceType: item["instanceType"],
   };
@@ -1201,8 +1131,7 @@ export function fabricModelCustomPropertiesUnionDeserializer(
 }
 
 /** AzStackHCI fabric model custom properties. */
-export interface AzStackHCIFabricModelCustomProperties
-  extends FabricModelCustomProperties {
+export interface AzStackHCIFabricModelCustomProperties extends FabricModelCustomProperties {
   /** Gets or sets the ARM Id of the AzStackHCI site. */
   azStackHciSiteId: string;
   /** Gets or sets the Appliance name. */
@@ -1263,29 +1192,21 @@ export interface AzStackHCIClusterProperties {
   storageContainers: StorageContainerProperties[];
 }
 
-export function azStackHCIClusterPropertiesSerializer(
-  item: AzStackHCIClusterProperties,
-): any {
+export function azStackHCIClusterPropertiesSerializer(item: AzStackHCIClusterProperties): any {
   return {
     clusterName: item["clusterName"],
     resourceName: item["resourceName"],
     storageAccountName: item["storageAccountName"],
-    storageContainers: storageContainerPropertiesArraySerializer(
-      item["storageContainers"],
-    ),
+    storageContainers: storageContainerPropertiesArraySerializer(item["storageContainers"]),
   };
 }
 
-export function azStackHCIClusterPropertiesDeserializer(
-  item: any,
-): AzStackHCIClusterProperties {
+export function azStackHCIClusterPropertiesDeserializer(item: any): AzStackHCIClusterProperties {
   return {
     clusterName: item["clusterName"],
     resourceName: item["resourceName"],
     storageAccountName: item["storageAccountName"],
-    storageContainers: storageContainerPropertiesArrayDeserializer(
-      item["storageContainers"],
-    ),
+    storageContainers: storageContainerPropertiesArrayDeserializer(item["storageContainers"]),
   };
 }
 
@@ -1313,18 +1234,14 @@ export interface StorageContainerProperties {
   clusterSharedVolumePath: string;
 }
 
-export function storageContainerPropertiesSerializer(
-  item: StorageContainerProperties,
-): any {
+export function storageContainerPropertiesSerializer(item: StorageContainerProperties): any {
   return {
     name: item["name"],
     clusterSharedVolumePath: item["clusterSharedVolumePath"],
   };
 }
 
-export function storageContainerPropertiesDeserializer(
-  item: any,
-): StorageContainerProperties {
+export function storageContainerPropertiesDeserializer(item: any): StorageContainerProperties {
   return {
     name: item["name"],
     clusterSharedVolumePath: item["clusterSharedVolumePath"],
@@ -1332,8 +1249,7 @@ export function storageContainerPropertiesDeserializer(
 }
 
 /** HyperV migrate fabric model custom properties. */
-export interface HyperVMigrateFabricModelCustomProperties
-  extends FabricModelCustomProperties {
+export interface HyperVMigrateFabricModelCustomProperties extends FabricModelCustomProperties {
   /** Gets or sets the ARM Id of the HyperV site. */
   hyperVSiteId: string;
   /** Gets or sets the fabric resource Id. */
@@ -1372,8 +1288,7 @@ export function hyperVMigrateFabricModelCustomPropertiesDeserializer(
 }
 
 /** VMware migrate fabric model custom properties. */
-export interface VMwareMigrateFabricModelCustomProperties
-  extends FabricModelCustomProperties {
+export interface VMwareMigrateFabricModelCustomProperties extends FabricModelCustomProperties {
   /** Gets or sets the ARM Id of the VMware site. */
   vmwareSiteId: string;
   /** Gets or sets the ARM Id of the migration solution. */
@@ -1435,9 +1350,7 @@ export interface _FabricModelListResult {
   nextLink?: string;
 }
 
-export function _fabricModelListResultDeserializer(
-  item: any,
-): _FabricModelListResult {
+export function _fabricModelListResultDeserializer(item: any): _FabricModelListResult {
   return {
     value: fabricModelArrayDeserializer(item["value"]),
     nextLink: item["nextLink"],
@@ -1450,9 +1363,7 @@ export function fabricModelArraySerializer(result: Array<FabricModel>): any[] {
   });
 }
 
-export function fabricModelArrayDeserializer(
-  result: Array<FabricModel>,
-): any[] {
+export function fabricModelArrayDeserializer(result: Array<FabricModel>): any[] {
   return result.map((item) => {
     return fabricModelDeserializer(item);
   });
@@ -1512,49 +1423,31 @@ export interface FabricAgentModelProperties {
   customProperties: FabricAgentModelCustomPropertiesUnion;
 }
 
-export function fabricAgentModelPropertiesSerializer(
-  item: FabricAgentModelProperties,
-): any {
+export function fabricAgentModelPropertiesSerializer(item: FabricAgentModelProperties): any {
   return {
     machineId: item["machineId"],
     machineName: item["machineName"],
-    authenticationIdentity: identityModelSerializer(
-      item["authenticationIdentity"],
-    ),
-    resourceAccessIdentity: identityModelSerializer(
-      item["resourceAccessIdentity"],
-    ),
-    customProperties: fabricAgentModelCustomPropertiesUnionSerializer(
-      item["customProperties"],
-    ),
+    authenticationIdentity: identityModelSerializer(item["authenticationIdentity"]),
+    resourceAccessIdentity: identityModelSerializer(item["resourceAccessIdentity"]),
+    customProperties: fabricAgentModelCustomPropertiesUnionSerializer(item["customProperties"]),
   };
 }
 
-export function fabricAgentModelPropertiesDeserializer(
-  item: any,
-): FabricAgentModelProperties {
+export function fabricAgentModelPropertiesDeserializer(item: any): FabricAgentModelProperties {
   return {
     correlationId: item["correlationId"],
     machineId: item["machineId"],
     machineName: item["machineName"],
-    authenticationIdentity: identityModelDeserializer(
-      item["authenticationIdentity"],
-    ),
-    resourceAccessIdentity: identityModelDeserializer(
-      item["resourceAccessIdentity"],
-    ),
+    authenticationIdentity: identityModelDeserializer(item["authenticationIdentity"]),
+    resourceAccessIdentity: identityModelDeserializer(item["resourceAccessIdentity"]),
     isResponsive: item["isResponsive"],
-    lastHeartbeat: !item["lastHeartbeat"]
-      ? item["lastHeartbeat"]
-      : new Date(item["lastHeartbeat"]),
+    lastHeartbeat: !item["lastHeartbeat"] ? item["lastHeartbeat"] : new Date(item["lastHeartbeat"]),
     versionNumber: item["versionNumber"],
     provisioningState: item["provisioningState"],
     healthErrors: !item["healthErrors"]
       ? item["healthErrors"]
       : healthErrorModelArrayDeserializer(item["healthErrors"]),
-    customProperties: fabricAgentModelCustomPropertiesUnionDeserializer(
-      item["customProperties"],
-    ),
+    customProperties: fabricAgentModelCustomPropertiesUnionDeserializer(item["customProperties"]),
   };
 }
 
@@ -1647,8 +1540,7 @@ export function fabricAgentModelCustomPropertiesUnionDeserializer(
 }
 
 /** VMware fabric agent model custom properties. */
-export interface VMwareFabricAgentModelCustomProperties
-  extends FabricAgentModelCustomProperties {
+export interface VMwareFabricAgentModelCustomProperties extends FabricAgentModelCustomProperties {
   /** Gets or sets the BIOS Id of the fabric agent machine. */
   biosId: string;
   /** Identity model. */
@@ -1663,9 +1555,7 @@ export function vMwareFabricAgentModelCustomPropertiesSerializer(
   return {
     instanceType: item["instanceType"],
     biosId: item["biosId"],
-    marsAuthenticationIdentity: identityModelSerializer(
-      item["marsAuthenticationIdentity"],
-    ),
+    marsAuthenticationIdentity: identityModelSerializer(item["marsAuthenticationIdentity"]),
   };
 }
 
@@ -1675,9 +1565,7 @@ export function vMwareFabricAgentModelCustomPropertiesDeserializer(
   return {
     instanceType: item["instanceType"],
     biosId: item["biosId"],
-    marsAuthenticationIdentity: identityModelDeserializer(
-      item["marsAuthenticationIdentity"],
-    ),
+    marsAuthenticationIdentity: identityModelDeserializer(item["marsAuthenticationIdentity"]),
   };
 }
 
@@ -1689,26 +1577,20 @@ export interface _FabricAgentModelListResult {
   nextLink?: string;
 }
 
-export function _fabricAgentModelListResultDeserializer(
-  item: any,
-): _FabricAgentModelListResult {
+export function _fabricAgentModelListResultDeserializer(item: any): _FabricAgentModelListResult {
   return {
     value: fabricAgentModelArrayDeserializer(item["value"]),
     nextLink: item["nextLink"],
   };
 }
 
-export function fabricAgentModelArraySerializer(
-  result: Array<FabricAgentModel>,
-): any[] {
+export function fabricAgentModelArraySerializer(result: Array<FabricAgentModel>): any[] {
   return result.map((item) => {
     return fabricAgentModelSerializer(item);
   });
 }
 
-export function fabricAgentModelArrayDeserializer(
-  result: Array<FabricAgentModel>,
-): any[] {
+export function fabricAgentModelArrayDeserializer(result: Array<FabricAgentModel>): any[] {
   return result.map((item) => {
     return fabricAgentModelDeserializer(item);
   });
@@ -1778,9 +1660,7 @@ export function jobModelPropertiesDeserializer(item: any): JobModelProperties {
   return {
     displayName: item["displayName"],
     state: item["state"],
-    startTime: !item["startTime"]
-      ? item["startTime"]
-      : new Date(item["startTime"]),
+    startTime: !item["startTime"] ? item["startTime"] : new Date(item["startTime"]),
     endTime: !item["endTime"] ? item["endTime"] : new Date(item["endTime"]),
     objectId: item["objectId"],
     objectName: item["objectName"],
@@ -1796,15 +1676,9 @@ export function jobModelPropertiesDeserializer(item: any): JobModelProperties {
           return p;
         }),
     activityId: item["activityId"],
-    tasks: !item["tasks"]
-      ? item["tasks"]
-      : taskModelArrayDeserializer(item["tasks"]),
-    errors: !item["errors"]
-      ? item["errors"]
-      : errorModelArrayDeserializer(item["errors"]),
-    customProperties: jobModelCustomPropertiesUnionDeserializer(
-      item["customProperties"],
-    ),
+    tasks: !item["tasks"] ? item["tasks"] : taskModelArrayDeserializer(item["tasks"]),
+    errors: !item["errors"] ? item["errors"] : errorModelArrayDeserializer(item["errors"]),
+    customProperties: jobModelCustomPropertiesUnionDeserializer(item["customProperties"]),
     provisioningState: item["provisioningState"],
   };
 }
@@ -1910,9 +1784,7 @@ export function taskModelDeserializer(item: any): TaskModel {
   return {
     taskName: item["taskName"],
     state: item["state"],
-    startTime: !item["startTime"]
-      ? item["startTime"]
-      : new Date(item["startTime"]),
+    startTime: !item["startTime"] ? item["startTime"] : new Date(item["startTime"]),
     endTime: !item["endTime"] ? item["endTime"] : new Date(item["endTime"]),
     customProperties: !item["customProperties"]
       ? item["customProperties"]
@@ -1959,9 +1831,7 @@ export interface TaskModelCustomProperties {
   instanceType: string;
 }
 
-export function taskModelCustomPropertiesDeserializer(
-  item: any,
-): TaskModelCustomProperties {
+export function taskModelCustomPropertiesDeserializer(item: any): TaskModelCustomProperties {
   return {
     instanceType: item["instanceType"],
   };
@@ -2002,9 +1872,7 @@ export function errorModelDeserializer(item: any): ErrorModel {
     code: item["code"],
     type: item["type"],
     severity: item["severity"],
-    creationTime: !item["creationTime"]
-      ? item["creationTime"]
-      : new Date(item["creationTime"]),
+    creationTime: !item["creationTime"] ? item["creationTime"] : new Date(item["creationTime"]),
     message: item["message"],
     causes: item["causes"],
     recommendation: item["recommendation"],
@@ -2020,9 +1888,7 @@ export interface JobModelCustomProperties {
   readonly affectedObjectDetails?: AffectedObjectDetails;
 }
 
-export function jobModelCustomPropertiesDeserializer(
-  item: any,
-): JobModelCustomProperties {
+export function jobModelCustomPropertiesDeserializer(item: any): JobModelCustomProperties {
   return {
     instanceType: item["instanceType"],
     affectedObjectDetails: !item["affectedObjectDetails"]
@@ -2043,9 +1909,7 @@ export function jobModelCustomPropertiesUnionDeserializer(
 ): JobModelCustomPropertiesUnion {
   switch (item.instanceType) {
     case "FailoverJobDetails":
-      return failoverJobModelCustomPropertiesDeserializer(
-        item as FailoverJobModelCustomProperties,
-      );
+      return failoverJobModelCustomPropertiesDeserializer(item as FailoverJobModelCustomProperties);
 
     case "TestFailoverCleanupJobDetails":
       return testFailoverCleanupJobModelCustomPropertiesDeserializer(
@@ -2070,9 +1934,7 @@ export interface AffectedObjectDetails {
   type?: "object";
 }
 
-export function affectedObjectDetailsDeserializer(
-  item: any,
-): AffectedObjectDetails {
+export function affectedObjectDetailsDeserializer(item: any): AffectedObjectDetails {
   return {
     description: item["description"],
     type: item["type"],
@@ -2080,8 +1942,7 @@ export function affectedObjectDetailsDeserializer(
 }
 
 /** Failover job model custom properties. */
-export interface FailoverJobModelCustomProperties
-  extends JobModelCustomProperties {
+export interface FailoverJobModelCustomProperties extends JobModelCustomProperties {
   /** Gets or sets the failed over protected item details. */
   readonly protectedItemDetails?: FailoverProtectedItemProperties[];
   /** Gets or sets the instance type. */
@@ -2098,9 +1959,7 @@ export function failoverJobModelCustomPropertiesDeserializer(
       : affectedObjectDetailsDeserializer(item["affectedObjectDetails"]),
     protectedItemDetails: !item["protectedItemDetails"]
       ? item["protectedItemDetails"]
-      : failoverProtectedItemPropertiesArrayDeserializer(
-          item["protectedItemDetails"],
-        ),
+      : failoverProtectedItemPropertiesArrayDeserializer(item["protectedItemDetails"]),
   };
 }
 
@@ -2147,8 +2006,7 @@ export function failoverProtectedItemPropertiesDeserializer(
 }
 
 /** Test failover cleanup job model custom properties. */
-export interface TestFailoverCleanupJobModelCustomProperties
-  extends JobModelCustomProperties {
+export interface TestFailoverCleanupJobModelCustomProperties extends JobModelCustomProperties {
   /** Gets or sets the test failover cleanup comments. */
   readonly comments?: string;
   /** Gets or sets the instance type. */
@@ -2168,8 +2026,7 @@ export function testFailoverCleanupJobModelCustomPropertiesDeserializer(
 }
 
 /** Test failover job model custom properties. */
-export interface TestFailoverJobModelCustomProperties
-  extends JobModelCustomProperties {
+export interface TestFailoverJobModelCustomProperties extends JobModelCustomProperties {
   /** Gets or sets the test VM details. */
   readonly protectedItemDetails?: FailoverProtectedItemProperties[];
   /** Gets or sets the instance type. */
@@ -2186,9 +2043,7 @@ export function testFailoverJobModelCustomPropertiesDeserializer(
       : affectedObjectDetailsDeserializer(item["affectedObjectDetails"]),
     protectedItemDetails: !item["protectedItemDetails"]
       ? item["protectedItemDetails"]
-      : failoverProtectedItemPropertiesArrayDeserializer(
-          item["protectedItemDetails"],
-        ),
+      : failoverProtectedItemPropertiesArrayDeserializer(item["protectedItemDetails"]),
   };
 }
 
@@ -2200,9 +2055,7 @@ export interface _JobModelListResult {
   nextLink?: string;
 }
 
-export function _jobModelListResultDeserializer(
-  item: any,
-): _JobModelListResult {
+export function _jobModelListResultDeserializer(item: any): _JobModelListResult {
   return {
     value: jobModelArrayDeserializer(item["value"]),
     nextLink: item["nextLink"],
@@ -2245,24 +2098,16 @@ export interface PolicyModelProperties {
   customProperties: PolicyModelCustomPropertiesUnion;
 }
 
-export function policyModelPropertiesSerializer(
-  item: PolicyModelProperties,
-): any {
+export function policyModelPropertiesSerializer(item: PolicyModelProperties): any {
   return {
-    customProperties: policyModelCustomPropertiesUnionSerializer(
-      item["customProperties"],
-    ),
+    customProperties: policyModelCustomPropertiesUnionSerializer(item["customProperties"]),
   };
 }
 
-export function policyModelPropertiesDeserializer(
-  item: any,
-): PolicyModelProperties {
+export function policyModelPropertiesDeserializer(item: any): PolicyModelProperties {
   return {
     provisioningState: item["provisioningState"],
-    customProperties: policyModelCustomPropertiesUnionDeserializer(
-      item["customProperties"],
-    ),
+    customProperties: policyModelCustomPropertiesUnionDeserializer(item["customProperties"]),
   };
 }
 
@@ -2273,15 +2118,11 @@ export interface PolicyModelCustomProperties {
   instanceType: string;
 }
 
-export function policyModelCustomPropertiesSerializer(
-  item: PolicyModelCustomProperties,
-): any {
+export function policyModelCustomPropertiesSerializer(item: PolicyModelCustomProperties): any {
   return { instanceType: item["instanceType"] };
 }
 
-export function policyModelCustomPropertiesDeserializer(
-  item: any,
-): PolicyModelCustomProperties {
+export function policyModelCustomPropertiesDeserializer(item: any): PolicyModelCustomProperties {
   return {
     instanceType: item["instanceType"],
   };
@@ -2332,8 +2173,7 @@ export function policyModelCustomPropertiesUnionDeserializer(
 }
 
 /** HyperV To AzStackHCI Policy model custom properties. */
-export interface HyperVToAzStackHCIPolicyModelCustomProperties
-  extends PolicyModelCustomProperties {
+export interface HyperVToAzStackHCIPolicyModelCustomProperties extends PolicyModelCustomProperties {
   /** Gets or sets the duration in minutes until which the recovery points need to be stored. */
   recoveryPointHistoryInMinutes: number;
   /** Gets or sets the crash consistent snapshot frequency (in minutes). */
@@ -2350,8 +2190,7 @@ export function hyperVToAzStackHCIPolicyModelCustomPropertiesSerializer(
   return {
     instanceType: item["instanceType"],
     recoveryPointHistoryInMinutes: item["recoveryPointHistoryInMinutes"],
-    crashConsistentFrequencyInMinutes:
-      item["crashConsistentFrequencyInMinutes"],
+    crashConsistentFrequencyInMinutes: item["crashConsistentFrequencyInMinutes"],
     appConsistentFrequencyInMinutes: item["appConsistentFrequencyInMinutes"],
   };
 }
@@ -2362,15 +2201,13 @@ export function hyperVToAzStackHCIPolicyModelCustomPropertiesDeserializer(
   return {
     instanceType: item["instanceType"],
     recoveryPointHistoryInMinutes: item["recoveryPointHistoryInMinutes"],
-    crashConsistentFrequencyInMinutes:
-      item["crashConsistentFrequencyInMinutes"],
+    crashConsistentFrequencyInMinutes: item["crashConsistentFrequencyInMinutes"],
     appConsistentFrequencyInMinutes: item["appConsistentFrequencyInMinutes"],
   };
 }
 
 /** VMware To AzStackHCI Policy model custom properties. */
-export interface VMwareToAzStackHCIPolicyModelCustomProperties
-  extends PolicyModelCustomProperties {
+export interface VMwareToAzStackHCIPolicyModelCustomProperties extends PolicyModelCustomProperties {
   /** Gets or sets the duration in minutes until which the recovery points need to be stored. */
   recoveryPointHistoryInMinutes: number;
   /** Gets or sets the crash consistent snapshot frequency (in minutes). */
@@ -2387,8 +2224,7 @@ export function vMwareToAzStackHCIPolicyModelCustomPropertiesSerializer(
   return {
     instanceType: item["instanceType"],
     recoveryPointHistoryInMinutes: item["recoveryPointHistoryInMinutes"],
-    crashConsistentFrequencyInMinutes:
-      item["crashConsistentFrequencyInMinutes"],
+    crashConsistentFrequencyInMinutes: item["crashConsistentFrequencyInMinutes"],
     appConsistentFrequencyInMinutes: item["appConsistentFrequencyInMinutes"],
   };
 }
@@ -2399,8 +2235,7 @@ export function vMwareToAzStackHCIPolicyModelCustomPropertiesDeserializer(
   return {
     instanceType: item["instanceType"],
     recoveryPointHistoryInMinutes: item["recoveryPointHistoryInMinutes"],
-    crashConsistentFrequencyInMinutes:
-      item["crashConsistentFrequencyInMinutes"],
+    crashConsistentFrequencyInMinutes: item["crashConsistentFrequencyInMinutes"],
     appConsistentFrequencyInMinutes: item["appConsistentFrequencyInMinutes"],
   };
 }
@@ -2413,9 +2248,7 @@ export interface _PolicyModelListResult {
   nextLink?: string;
 }
 
-export function _policyModelListResultDeserializer(
-  item: any,
-): _PolicyModelListResult {
+export function _policyModelListResultDeserializer(item: any): _PolicyModelListResult {
   return {
     value: policyModelArrayDeserializer(item["value"]),
     nextLink: item["nextLink"],
@@ -2428,9 +2261,7 @@ export function policyModelArraySerializer(result: Array<PolicyModel>): any[] {
   });
 }
 
-export function policyModelArrayDeserializer(
-  result: Array<PolicyModel>,
-): any[] {
+export function policyModelArrayDeserializer(result: Array<PolicyModel>): any[] {
   return result.map((item) => {
     return policyModelDeserializer(item);
   });
@@ -2442,21 +2273,15 @@ export interface PrivateEndpointConnection extends ProxyResource {
   properties?: PrivateEndpointConnectionResponseProperties;
 }
 
-export function privateEndpointConnectionSerializer(
-  item: PrivateEndpointConnection,
-): any {
+export function privateEndpointConnectionSerializer(item: PrivateEndpointConnection): any {
   return {
     properties: !item["properties"]
       ? item["properties"]
-      : privateEndpointConnectionResponsePropertiesSerializer(
-          item["properties"],
-        ),
+      : privateEndpointConnectionResponsePropertiesSerializer(item["properties"]),
   };
 }
 
-export function privateEndpointConnectionDeserializer(
-  item: any,
-): PrivateEndpointConnection {
+export function privateEndpointConnectionDeserializer(item: any): PrivateEndpointConnection {
   return {
     id: item["id"],
     name: item["name"],
@@ -2466,9 +2291,7 @@ export function privateEndpointConnectionDeserializer(
       : systemDataDeserializer(item["systemData"]),
     properties: !item["properties"]
       ? item["properties"]
-      : privateEndpointConnectionResponsePropertiesDeserializer(
-          item["properties"],
-        ),
+      : privateEndpointConnectionResponsePropertiesDeserializer(item["properties"]),
   };
 }
 
@@ -2489,13 +2312,9 @@ export function privateEndpointConnectionResponsePropertiesSerializer(
     privateEndpoint: !item["privateEndpoint"]
       ? item["privateEndpoint"]
       : privateEndpointSerializer(item["privateEndpoint"]),
-    privateLinkServiceConnectionState: !item[
-      "privateLinkServiceConnectionState"
-    ]
+    privateLinkServiceConnectionState: !item["privateLinkServiceConnectionState"]
       ? item["privateLinkServiceConnectionState"]
-      : privateLinkServiceConnectionStateSerializer(
-          item["privateLinkServiceConnectionState"],
-        ),
+      : privateLinkServiceConnectionStateSerializer(item["privateLinkServiceConnectionState"]),
   };
 }
 
@@ -2507,13 +2326,9 @@ export function privateEndpointConnectionResponsePropertiesDeserializer(
     privateEndpoint: !item["privateEndpoint"]
       ? item["privateEndpoint"]
       : privateEndpointDeserializer(item["privateEndpoint"]),
-    privateLinkServiceConnectionState: !item[
-      "privateLinkServiceConnectionState"
-    ]
+    privateLinkServiceConnectionState: !item["privateLinkServiceConnectionState"]
       ? item["privateLinkServiceConnectionState"]
-      : privateLinkServiceConnectionStateDeserializer(
-          item["privateLinkServiceConnectionState"],
-        ),
+      : privateLinkServiceConnectionStateDeserializer(item["privateLinkServiceConnectionState"]),
   };
 }
 
@@ -2651,9 +2466,7 @@ export function privateEndpointConnectionProxyDeserializer(
       : systemDataDeserializer(item["systemData"]),
     properties: !item["properties"]
       ? item["properties"]
-      : privateEndpointConnectionProxyPropertiesDeserializer(
-          item["properties"],
-        ),
+      : privateEndpointConnectionProxyPropertiesDeserializer(item["properties"]),
     etag: item["etag"],
   };
 }
@@ -2701,56 +2514,36 @@ export interface RemotePrivateEndpoint {
   connectionDetails?: ConnectionDetails[];
 }
 
-export function remotePrivateEndpointSerializer(
-  item: RemotePrivateEndpoint,
-): any {
+export function remotePrivateEndpointSerializer(item: RemotePrivateEndpoint): any {
   return {
     id: item["id"],
     privateLinkServiceConnections: !item["privateLinkServiceConnections"]
       ? item["privateLinkServiceConnections"]
-      : privateLinkServiceConnectionArraySerializer(
-          item["privateLinkServiceConnections"],
-        ),
-    manualPrivateLinkServiceConnections: !item[
-      "manualPrivateLinkServiceConnections"
-    ]
+      : privateLinkServiceConnectionArraySerializer(item["privateLinkServiceConnections"]),
+    manualPrivateLinkServiceConnections: !item["manualPrivateLinkServiceConnections"]
       ? item["manualPrivateLinkServiceConnections"]
-      : privateLinkServiceConnectionArraySerializer(
-          item["manualPrivateLinkServiceConnections"],
-        ),
+      : privateLinkServiceConnectionArraySerializer(item["manualPrivateLinkServiceConnections"]),
     privateLinkServiceProxies: !item["privateLinkServiceProxies"]
       ? item["privateLinkServiceProxies"]
-      : privateLinkServiceProxyArraySerializer(
-          item["privateLinkServiceProxies"],
-        ),
+      : privateLinkServiceProxyArraySerializer(item["privateLinkServiceProxies"]),
     connectionDetails: !item["connectionDetails"]
       ? item["connectionDetails"]
       : connectionDetailsArraySerializer(item["connectionDetails"]),
   };
 }
 
-export function remotePrivateEndpointDeserializer(
-  item: any,
-): RemotePrivateEndpoint {
+export function remotePrivateEndpointDeserializer(item: any): RemotePrivateEndpoint {
   return {
     id: item["id"],
     privateLinkServiceConnections: !item["privateLinkServiceConnections"]
       ? item["privateLinkServiceConnections"]
-      : privateLinkServiceConnectionArrayDeserializer(
-          item["privateLinkServiceConnections"],
-        ),
-    manualPrivateLinkServiceConnections: !item[
-      "manualPrivateLinkServiceConnections"
-    ]
+      : privateLinkServiceConnectionArrayDeserializer(item["privateLinkServiceConnections"]),
+    manualPrivateLinkServiceConnections: !item["manualPrivateLinkServiceConnections"]
       ? item["manualPrivateLinkServiceConnections"]
-      : privateLinkServiceConnectionArrayDeserializer(
-          item["manualPrivateLinkServiceConnections"],
-        ),
+      : privateLinkServiceConnectionArrayDeserializer(item["manualPrivateLinkServiceConnections"]),
     privateLinkServiceProxies: !item["privateLinkServiceProxies"]
       ? item["privateLinkServiceProxies"]
-      : privateLinkServiceProxyArrayDeserializer(
-          item["privateLinkServiceProxies"],
-        ),
+      : privateLinkServiceProxyArrayDeserializer(item["privateLinkServiceProxies"]),
     connectionDetails: !item["connectionDetails"]
       ? item["connectionDetails"]
       : connectionDetailsArrayDeserializer(item["connectionDetails"]),
@@ -2783,9 +2576,7 @@ export interface PrivateLinkServiceConnection {
   requestMessage?: string;
 }
 
-export function privateLinkServiceConnectionSerializer(
-  item: PrivateLinkServiceConnection,
-): any {
+export function privateLinkServiceConnectionSerializer(item: PrivateLinkServiceConnection): any {
   return {
     name: item["name"],
     groupIds: !item["groupIds"]
@@ -2797,9 +2588,7 @@ export function privateLinkServiceConnectionSerializer(
   };
 }
 
-export function privateLinkServiceConnectionDeserializer(
-  item: any,
-): PrivateLinkServiceConnection {
+export function privateLinkServiceConnectionDeserializer(item: any): PrivateLinkServiceConnection {
   return {
     name: item["name"],
     groupIds: !item["groupIds"]
@@ -2839,53 +2628,37 @@ export interface PrivateLinkServiceProxy {
   groupConnectivityInformation?: GroupConnectivityInformation[];
 }
 
-export function privateLinkServiceProxySerializer(
-  item: PrivateLinkServiceProxy,
-): any {
+export function privateLinkServiceProxySerializer(item: PrivateLinkServiceProxy): any {
   return {
     id: item["id"],
-    remotePrivateLinkServiceConnectionState: !item[
-      "remotePrivateLinkServiceConnectionState"
-    ]
+    remotePrivateLinkServiceConnectionState: !item["remotePrivateLinkServiceConnectionState"]
       ? item["remotePrivateLinkServiceConnectionState"]
       : privateLinkServiceConnectionStateSerializer(
           item["remotePrivateLinkServiceConnectionState"],
         ),
     remotePrivateEndpointConnection: !item["remotePrivateEndpointConnection"]
       ? item["remotePrivateEndpointConnection"]
-      : remotePrivateEndpointConnectionSerializer(
-          item["remotePrivateEndpointConnection"],
-        ),
+      : remotePrivateEndpointConnectionSerializer(item["remotePrivateEndpointConnection"]),
     groupConnectivityInformation: !item["groupConnectivityInformation"]
       ? item["groupConnectivityInformation"]
-      : groupConnectivityInformationArraySerializer(
-          item["groupConnectivityInformation"],
-        ),
+      : groupConnectivityInformationArraySerializer(item["groupConnectivityInformation"]),
   };
 }
 
-export function privateLinkServiceProxyDeserializer(
-  item: any,
-): PrivateLinkServiceProxy {
+export function privateLinkServiceProxyDeserializer(item: any): PrivateLinkServiceProxy {
   return {
     id: item["id"],
-    remotePrivateLinkServiceConnectionState: !item[
-      "remotePrivateLinkServiceConnectionState"
-    ]
+    remotePrivateLinkServiceConnectionState: !item["remotePrivateLinkServiceConnectionState"]
       ? item["remotePrivateLinkServiceConnectionState"]
       : privateLinkServiceConnectionStateDeserializer(
           item["remotePrivateLinkServiceConnectionState"],
         ),
     remotePrivateEndpointConnection: !item["remotePrivateEndpointConnection"]
       ? item["remotePrivateEndpointConnection"]
-      : remotePrivateEndpointConnectionDeserializer(
-          item["remotePrivateEndpointConnection"],
-        ),
+      : remotePrivateEndpointConnectionDeserializer(item["remotePrivateEndpointConnection"]),
     groupConnectivityInformation: !item["groupConnectivityInformation"]
       ? item["groupConnectivityInformation"]
-      : groupConnectivityInformationArrayDeserializer(
-          item["groupConnectivityInformation"],
-        ),
+      : groupConnectivityInformationArrayDeserializer(item["groupConnectivityInformation"]),
   };
 }
 
@@ -2941,9 +2714,7 @@ export interface GroupConnectivityInformation {
   privateLinkServiceArmRegion?: string;
 }
 
-export function groupConnectivityInformationSerializer(
-  item: GroupConnectivityInformation,
-): any {
+export function groupConnectivityInformationSerializer(item: GroupConnectivityInformation): any {
   return {
     groupId: item["groupId"],
     memberName: item["memberName"],
@@ -2958,9 +2729,7 @@ export function groupConnectivityInformationSerializer(
   };
 }
 
-export function groupConnectivityInformationDeserializer(
-  item: any,
-): GroupConnectivityInformation {
+export function groupConnectivityInformationDeserializer(item: any): GroupConnectivityInformation {
   return {
     groupId: item["groupId"],
     memberName: item["memberName"],
@@ -2975,17 +2744,13 @@ export function groupConnectivityInformationDeserializer(
   };
 }
 
-export function connectionDetailsArraySerializer(
-  result: Array<ConnectionDetails>,
-): any[] {
+export function connectionDetailsArraySerializer(result: Array<ConnectionDetails>): any[] {
   return result.map((item) => {
     return connectionDetailsSerializer(item);
   });
 }
 
-export function connectionDetailsArrayDeserializer(
-  result: Array<ConnectionDetails>,
-): any[] {
+export function connectionDetailsArrayDeserializer(result: Array<ConnectionDetails>): any[] {
   return result.map((item) => {
     return connectionDetailsDeserializer(item);
   });
@@ -3064,9 +2829,7 @@ export interface PrivateLinkResource extends ProxyResource {
   properties?: PrivateLinkResourceProperties;
 }
 
-export function privateLinkResourceDeserializer(
-  item: any,
-): PrivateLinkResource {
+export function privateLinkResourceDeserializer(item: any): PrivateLinkResource {
   return {
     id: item["id"],
     name: item["name"],
@@ -3128,9 +2891,7 @@ export function _privateLinkResourceListResultDeserializer(
   };
 }
 
-export function privateLinkResourceArrayDeserializer(
-  result: Array<PrivateLinkResource>,
-): any[] {
+export function privateLinkResourceArrayDeserializer(result: Array<PrivateLinkResource>): any[] {
   return result.map((item) => {
     return privateLinkResourceDeserializer(item);
   });
@@ -3226,21 +2987,15 @@ export interface ProtectedItemModelProperties {
   customProperties: ProtectedItemModelCustomPropertiesUnion;
 }
 
-export function protectedItemModelPropertiesSerializer(
-  item: ProtectedItemModelProperties,
-): any {
+export function protectedItemModelPropertiesSerializer(item: ProtectedItemModelProperties): any {
   return {
     policyName: item["policyName"],
     replicationExtensionName: item["replicationExtensionName"],
-    customProperties: protectedItemModelCustomPropertiesUnionSerializer(
-      item["customProperties"],
-    ),
+    customProperties: protectedItemModelCustomPropertiesUnionSerializer(item["customProperties"]),
   };
 }
 
-export function protectedItemModelPropertiesDeserializer(
-  item: any,
-): ProtectedItemModelProperties {
+export function protectedItemModelPropertiesDeserializer(item: any): ProtectedItemModelProperties {
   return {
     policyName: item["policyName"],
     replicationExtensionName: item["replicationExtensionName"],
@@ -3260,14 +3015,10 @@ export function protectedItemModelPropertiesDeserializer(
     fabricAgentId: item["fabricAgentId"],
     targetFabricAgentId: item["targetFabricAgentId"],
     resyncRequired: item["resyncRequired"],
-    lastSuccessfulPlannedFailoverTime: !item[
-      "lastSuccessfulPlannedFailoverTime"
-    ]
+    lastSuccessfulPlannedFailoverTime: !item["lastSuccessfulPlannedFailoverTime"]
       ? item["lastSuccessfulPlannedFailoverTime"]
       : new Date(item["lastSuccessfulPlannedFailoverTime"]),
-    lastSuccessfulUnplannedFailoverTime: !item[
-      "lastSuccessfulUnplannedFailoverTime"
-    ]
+    lastSuccessfulUnplannedFailoverTime: !item["lastSuccessfulUnplannedFailoverTime"]
       ? item["lastSuccessfulUnplannedFailoverTime"]
       : new Date(item["lastSuccessfulUnplannedFailoverTime"]),
     lastSuccessfulTestFailoverTime: !item["lastSuccessfulTestFailoverTime"]
@@ -3283,14 +3034,10 @@ export function protectedItemModelPropertiesDeserializer(
         }),
     lastFailedEnableProtectionJob: !item["lastFailedEnableProtectionJob"]
       ? item["lastFailedEnableProtectionJob"]
-      : protectedItemJobPropertiesDeserializer(
-          item["lastFailedEnableProtectionJob"],
-        ),
+      : protectedItemJobPropertiesDeserializer(item["lastFailedEnableProtectionJob"]),
     lastFailedPlannedFailoverJob: !item["lastFailedPlannedFailoverJob"]
       ? item["lastFailedPlannedFailoverJob"]
-      : protectedItemJobPropertiesDeserializer(
-          item["lastFailedPlannedFailoverJob"],
-        ),
+      : protectedItemJobPropertiesDeserializer(item["lastFailedPlannedFailoverJob"]),
     lastTestFailoverJob: !item["lastTestFailoverJob"]
       ? item["lastTestFailoverJob"]
       : protectedItemJobPropertiesDeserializer(item["lastTestFailoverJob"]),
@@ -3298,9 +3045,7 @@ export function protectedItemModelPropertiesDeserializer(
     healthErrors: !item["healthErrors"]
       ? item["healthErrors"]
       : healthErrorModelArrayDeserializer(item["healthErrors"]),
-    customProperties: protectedItemModelCustomPropertiesUnionDeserializer(
-      item["customProperties"],
-    ),
+    customProperties: protectedItemModelCustomPropertiesUnionDeserializer(item["customProperties"]),
   };
 }
 
@@ -3553,18 +3298,14 @@ export interface ProtectedItemJobProperties {
   readonly endTime?: Date;
 }
 
-export function protectedItemJobPropertiesDeserializer(
-  item: any,
-): ProtectedItemJobProperties {
+export function protectedItemJobPropertiesDeserializer(item: any): ProtectedItemJobProperties {
   return {
     scenarioName: item["scenarioName"],
     id: item["id"],
     name: item["name"],
     displayName: item["displayName"],
     state: item["state"],
-    startTime: !item["startTime"]
-      ? item["startTime"]
-      : new Date(item["startTime"]),
+    startTime: !item["startTime"] ? item["startTime"] : new Date(item["startTime"]),
     endTime: !item["endTime"] ? item["endTime"] : new Date(item["endTime"]),
   };
 }
@@ -3727,12 +3468,8 @@ export function hyperVToAzStackHCIProtectedItemModelCustomPropertiesSerializer(
     targetHciClusterId: item["targetHciClusterId"],
     targetArcClusterCustomLocationId: item["targetArcClusterCustomLocationId"],
     fabricDiscoveryMachineId: item["fabricDiscoveryMachineId"],
-    disksToInclude: hyperVToAzStackHCIDiskInputArraySerializer(
-      item["disksToInclude"],
-    ),
-    nicsToInclude: hyperVToAzStackHCINicInputArraySerializer(
-      item["nicsToInclude"],
-    ),
+    disksToInclude: hyperVToAzStackHCIDiskInputArraySerializer(item["disksToInclude"]),
+    nicsToInclude: hyperVToAzStackHCINicInputArraySerializer(item["nicsToInclude"]),
     targetVmName: item["targetVmName"],
     targetResourceGroupId: item["targetResourceGroupId"],
     storageContainerId: item["storageContainerId"],
@@ -3762,12 +3499,8 @@ export function hyperVToAzStackHCIProtectedItemModelCustomPropertiesDeserializer
     targetArcClusterCustomLocationId: item["targetArcClusterCustomLocationId"],
     targetAzStackHciClusterName: item["targetAzStackHciClusterName"],
     fabricDiscoveryMachineId: item["fabricDiscoveryMachineId"],
-    disksToInclude: hyperVToAzStackHCIDiskInputArrayDeserializer(
-      item["disksToInclude"],
-    ),
-    nicsToInclude: hyperVToAzStackHCINicInputArrayDeserializer(
-      item["nicsToInclude"],
-    ),
+    disksToInclude: hyperVToAzStackHCIDiskInputArrayDeserializer(item["disksToInclude"]),
+    nicsToInclude: hyperVToAzStackHCINicInputArrayDeserializer(item["nicsToInclude"]),
     sourceVmName: item["sourceVmName"],
     sourceCpuCores: item["sourceCpuCores"],
     sourceMemoryInMegaBytes: item["sourceMemoryInMegaBytes"],
@@ -3781,9 +3514,7 @@ export function hyperVToAzStackHCIProtectedItemModelCustomPropertiesDeserializer
     isDynamicRam: item["isDynamicRam"],
     dynamicMemoryConfig: !item["dynamicMemoryConfig"]
       ? item["dynamicMemoryConfig"]
-      : protectedItemDynamicMemoryConfigDeserializer(
-          item["dynamicMemoryConfig"],
-        ),
+      : protectedItemDynamicMemoryConfigDeserializer(item["dynamicMemoryConfig"]),
     targetMemoryInMegaBytes: item["targetMemoryInMegaBytes"],
     runAsAccountId: item["runAsAccountId"],
     sourceFabricAgentName: item["sourceFabricAgentName"],
@@ -3800,19 +3531,14 @@ export function hyperVToAzStackHCIProtectedItemModelCustomPropertiesDeserializer
       ? item["lastRecoveryPointReceived"]
       : new Date(item["lastRecoveryPointReceived"]),
     lastRecoveryPointId: item["lastRecoveryPointId"],
-    initialReplicationProgressPercentage:
-      item["initialReplicationProgressPercentage"],
+    initialReplicationProgressPercentage: item["initialReplicationProgressPercentage"],
     resyncProgressPercentage: item["resyncProgressPercentage"],
     protectedDisks: !item["protectedDisks"]
       ? item["protectedDisks"]
-      : hyperVToAzStackHCIProtectedDiskPropertiesArrayDeserializer(
-          item["protectedDisks"],
-        ),
+      : hyperVToAzStackHCIProtectedDiskPropertiesArrayDeserializer(item["protectedDisks"]),
     protectedNics: !item["protectedNics"]
       ? item["protectedNics"]
-      : hyperVToAzStackHCIProtectedNicPropertiesArrayDeserializer(
-          item["protectedNics"],
-        ),
+      : hyperVToAzStackHCIProtectedNicPropertiesArrayDeserializer(item["protectedNics"]),
     targetVmBiosId: item["targetVmBiosId"],
     lastReplicationUpdateTime: !item["lastReplicationUpdateTime"]
       ? item["lastReplicationUpdateTime"]
@@ -3880,9 +3606,7 @@ export interface HyperVToAzStackHCIDiskInput {
   diskController?: DiskControllerInputs;
 }
 
-export function hyperVToAzStackHCIDiskInputSerializer(
-  item: HyperVToAzStackHCIDiskInput,
-): any {
+export function hyperVToAzStackHCIDiskInputSerializer(item: HyperVToAzStackHCIDiskInput): any {
   return {
     diskId: item["diskId"],
     storageContainerId: item["storageContainerId"],
@@ -3900,9 +3624,7 @@ export function hyperVToAzStackHCIDiskInputSerializer(
   };
 }
 
-export function hyperVToAzStackHCIDiskInputDeserializer(
-  item: any,
-): HyperVToAzStackHCIDiskInput {
+export function hyperVToAzStackHCIDiskInputDeserializer(item: any): HyperVToAzStackHCIDiskInput {
   return {
     diskId: item["diskId"],
     storageContainerId: item["storageContainerId"],
@@ -3930,9 +3652,7 @@ export interface DiskControllerInputs {
   controllerLocation: number;
 }
 
-export function diskControllerInputsSerializer(
-  item: DiskControllerInputs,
-): any {
+export function diskControllerInputsSerializer(item: DiskControllerInputs): any {
   return {
     controllerName: item["controllerName"],
     controllerId: item["controllerId"],
@@ -3940,9 +3660,7 @@ export function diskControllerInputsSerializer(
   };
 }
 
-export function diskControllerInputsDeserializer(
-  item: any,
-): DiskControllerInputs {
+export function diskControllerInputsDeserializer(item: any): DiskControllerInputs {
   return {
     controllerName: item["controllerName"],
     controllerId: item["controllerId"],
@@ -3984,9 +3702,7 @@ export interface HyperVToAzStackHCINicInput {
   isMacMigrationEnabled?: boolean;
 }
 
-export function hyperVToAzStackHCINicInputSerializer(
-  item: HyperVToAzStackHCINicInput,
-): any {
+export function hyperVToAzStackHCINicInputSerializer(item: HyperVToAzStackHCINicInput): any {
   return {
     nicId: item["nicId"],
     targetNetworkId: item["targetNetworkId"],
@@ -3997,9 +3713,7 @@ export function hyperVToAzStackHCINicInputSerializer(
   };
 }
 
-export function hyperVToAzStackHCINicInputDeserializer(
-  item: any,
-): HyperVToAzStackHCINicInput {
+export function hyperVToAzStackHCINicInputDeserializer(item: any): HyperVToAzStackHCINicInput {
   return {
     nicId: item["nicId"],
     networkName: item["networkName"],
@@ -4272,12 +3986,8 @@ export function vMwareToAzStackHCIProtectedItemModelCustomPropertiesSerializer(
     storageContainerId: item["storageContainerId"],
     targetResourceGroupId: item["targetResourceGroupId"],
     customLocationRegion: item["customLocationRegion"],
-    disksToInclude: vMwareToAzStackHCIDiskInputArraySerializer(
-      item["disksToInclude"],
-    ),
-    nicsToInclude: vMwareToAzStackHCINicInputArraySerializer(
-      item["nicsToInclude"],
-    ),
+    disksToInclude: vMwareToAzStackHCIDiskInputArraySerializer(item["disksToInclude"]),
+    nicsToInclude: vMwareToAzStackHCINicInputArraySerializer(item["nicsToInclude"]),
     targetVmName: item["targetVmName"],
     hyperVGeneration: item["hyperVGeneration"],
     targetNetworkId: item["targetNetworkId"],
@@ -4309,22 +4019,14 @@ export function vMwareToAzStackHCIProtectedItemModelCustomPropertiesDeserializer
     targetResourceGroupId: item["targetResourceGroupId"],
     targetLocation: item["targetLocation"],
     customLocationRegion: item["customLocationRegion"],
-    disksToInclude: vMwareToAzStackHCIDiskInputArrayDeserializer(
-      item["disksToInclude"],
-    ),
-    nicsToInclude: vMwareToAzStackHCINicInputArrayDeserializer(
-      item["nicsToInclude"],
-    ),
+    disksToInclude: vMwareToAzStackHCIDiskInputArrayDeserializer(item["disksToInclude"]),
+    nicsToInclude: vMwareToAzStackHCINicInputArrayDeserializer(item["nicsToInclude"]),
     protectedDisks: !item["protectedDisks"]
       ? item["protectedDisks"]
-      : vMwareToAzStackHCIProtectedDiskPropertiesArrayDeserializer(
-          item["protectedDisks"],
-        ),
+      : vMwareToAzStackHCIProtectedDiskPropertiesArrayDeserializer(item["protectedDisks"]),
     protectedNics: !item["protectedNics"]
       ? item["protectedNics"]
-      : vMwareToAzStackHCIProtectedNicPropertiesArrayDeserializer(
-          item["protectedNics"],
-        ),
+      : vMwareToAzStackHCIProtectedNicPropertiesArrayDeserializer(item["protectedNics"]),
     targetVmBiosId: item["targetVmBiosId"],
     targetVmName: item["targetVmName"],
     hyperVGeneration: item["hyperVGeneration"],
@@ -4334,9 +4036,7 @@ export function vMwareToAzStackHCIProtectedItemModelCustomPropertiesDeserializer
     isDynamicRam: item["isDynamicRam"],
     dynamicMemoryConfig: !item["dynamicMemoryConfig"]
       ? item["dynamicMemoryConfig"]
-      : protectedItemDynamicMemoryConfigDeserializer(
-          item["dynamicMemoryConfig"],
-        ),
+      : protectedItemDynamicMemoryConfigDeserializer(item["dynamicMemoryConfig"]),
     targetMemoryInMegaBytes: item["targetMemoryInMegaBytes"],
     osType: item["osType"],
     osName: item["osName"],
@@ -4355,8 +4055,7 @@ export function vMwareToAzStackHCIProtectedItemModelCustomPropertiesDeserializer
       ? item["lastRecoveryPointReceived"]
       : new Date(item["lastRecoveryPointReceived"]),
     lastRecoveryPointId: item["lastRecoveryPointId"],
-    initialReplicationProgressPercentage:
-      item["initialReplicationProgressPercentage"],
+    initialReplicationProgressPercentage: item["initialReplicationProgressPercentage"],
     migrationProgressPercentage: item["migrationProgressPercentage"],
     resumeProgressPercentage: item["resumeProgressPercentage"],
     resyncProgressPercentage: item["resyncProgressPercentage"],
@@ -4413,9 +4112,7 @@ export interface VMwareToAzStackHCIDiskInput {
   diskController?: DiskControllerInputs;
 }
 
-export function vMwareToAzStackHCIDiskInputSerializer(
-  item: VMwareToAzStackHCIDiskInput,
-): any {
+export function vMwareToAzStackHCIDiskInputSerializer(item: VMwareToAzStackHCIDiskInput): any {
   return {
     diskId: item["diskId"],
     storageContainerId: item["storageContainerId"],
@@ -4433,9 +4130,7 @@ export function vMwareToAzStackHCIDiskInputSerializer(
   };
 }
 
-export function vMwareToAzStackHCIDiskInputDeserializer(
-  item: any,
-): VMwareToAzStackHCIDiskInput {
+export function vMwareToAzStackHCIDiskInputDeserializer(item: any): VMwareToAzStackHCIDiskInput {
   return {
     diskId: item["diskId"],
     storageContainerId: item["storageContainerId"],
@@ -4489,9 +4184,7 @@ export interface VMwareToAzStackHCINicInput {
   isMacMigrationEnabled?: boolean;
 }
 
-export function vMwareToAzStackHCINicInputSerializer(
-  item: VMwareToAzStackHCINicInput,
-): any {
+export function vMwareToAzStackHCINicInputSerializer(item: VMwareToAzStackHCINicInput): any {
   return {
     nicId: item["nicId"],
     label: item["label"],
@@ -4503,9 +4196,7 @@ export function vMwareToAzStackHCINicInputSerializer(
   };
 }
 
-export function vMwareToAzStackHCINicInputDeserializer(
-  item: any,
-): VMwareToAzStackHCINicInput {
+export function vMwareToAzStackHCINicInputDeserializer(item: any): VMwareToAzStackHCINicInput {
   return {
     nicId: item["nicId"],
     label: item["label"],
@@ -4657,9 +4348,7 @@ export interface ProtectedItemModelUpdate {
   readonly systemData?: SystemData;
 }
 
-export function protectedItemModelUpdateSerializer(
-  item: ProtectedItemModelUpdate,
-): any {
+export function protectedItemModelUpdateSerializer(item: ProtectedItemModelUpdate): any {
   return {
     properties: !item["properties"]
       ? item["properties"]
@@ -4679,9 +4368,7 @@ export function protectedItemModelPropertiesUpdateSerializer(
   return {
     customProperties: !item["customProperties"]
       ? item["customProperties"]
-      : protectedItemModelCustomPropertiesUpdateUnionSerializer(
-          item["customProperties"],
-        ),
+      : protectedItemModelCustomPropertiesUpdateUnionSerializer(item["customProperties"]),
   };
 }
 
@@ -4814,17 +4501,13 @@ export function _protectedItemModelListResultDeserializer(
   };
 }
 
-export function protectedItemModelArraySerializer(
-  result: Array<ProtectedItemModel>,
-): any[] {
+export function protectedItemModelArraySerializer(result: Array<ProtectedItemModel>): any[] {
   return result.map((item) => {
     return protectedItemModelSerializer(item);
   });
 }
 
-export function protectedItemModelArrayDeserializer(
-  result: Array<ProtectedItemModel>,
-): any[] {
+export function protectedItemModelArrayDeserializer(result: Array<ProtectedItemModel>): any[] {
   return result.map((item) => {
     return protectedItemModelDeserializer(item);
   });
@@ -4836,17 +4519,13 @@ export interface PlannedFailoverModel {
   properties: PlannedFailoverModelProperties;
 }
 
-export function plannedFailoverModelSerializer(
-  item: PlannedFailoverModel,
-): any {
+export function plannedFailoverModelSerializer(item: PlannedFailoverModel): any {
   return {
     properties: plannedFailoverModelPropertiesSerializer(item["properties"]),
   };
 }
 
-export function plannedFailoverModelDeserializer(
-  item: any,
-): PlannedFailoverModel {
+export function plannedFailoverModelDeserializer(item: any): PlannedFailoverModel {
   return {
     properties: plannedFailoverModelPropertiesDeserializer(item["properties"]),
   };
@@ -4862,9 +4541,7 @@ export function plannedFailoverModelPropertiesSerializer(
   item: PlannedFailoverModelProperties,
 ): any {
   return {
-    customProperties: plannedFailoverModelCustomPropertiesUnionSerializer(
-      item["customProperties"],
-    ),
+    customProperties: plannedFailoverModelCustomPropertiesUnionSerializer(item["customProperties"]),
   };
 }
 
@@ -5029,15 +4706,11 @@ export interface RecoveryPointModelProperties {
   readonly provisioningState?: ProvisioningState;
 }
 
-export function recoveryPointModelPropertiesDeserializer(
-  item: any,
-): RecoveryPointModelProperties {
+export function recoveryPointModelPropertiesDeserializer(item: any): RecoveryPointModelProperties {
   return {
     recoveryPointTime: new Date(item["recoveryPointTime"]),
     recoveryPointType: item["recoveryPointType"],
-    customProperties: recoveryPointModelCustomPropertiesUnionDeserializer(
-      item["customProperties"],
-    ),
+    customProperties: recoveryPointModelCustomPropertiesUnionDeserializer(item["customProperties"]),
     provisioningState: item["provisioningState"],
   };
 }
@@ -5161,9 +4834,7 @@ export function _recoveryPointModelListResultDeserializer(
   };
 }
 
-export function recoveryPointModelArrayDeserializer(
-  result: Array<RecoveryPointModel>,
-): any[] {
+export function recoveryPointModelArrayDeserializer(result: Array<RecoveryPointModel>): any[] {
   return result.map((item) => {
     return recoveryPointModelDeserializer(item);
   });
@@ -5175,9 +4846,7 @@ export interface ReplicationExtensionModel extends ProxyResource {
   properties?: ReplicationExtensionModelProperties;
 }
 
-export function replicationExtensionModelSerializer(
-  item: ReplicationExtensionModel,
-): any {
+export function replicationExtensionModelSerializer(item: ReplicationExtensionModel): any {
   return {
     properties: !item["properties"]
       ? item["properties"]
@@ -5185,9 +4854,7 @@ export function replicationExtensionModelSerializer(
   };
 }
 
-export function replicationExtensionModelDeserializer(
-  item: any,
-): ReplicationExtensionModel {
+export function replicationExtensionModelDeserializer(item: any): ReplicationExtensionModel {
   return {
     id: item["id"],
     name: item["name"],
@@ -5224,10 +4891,9 @@ export function replicationExtensionModelPropertiesDeserializer(
 ): ReplicationExtensionModelProperties {
   return {
     provisioningState: item["provisioningState"],
-    customProperties:
-      replicationExtensionModelCustomPropertiesUnionDeserializer(
-        item["customProperties"],
-      ),
+    customProperties: replicationExtensionModelCustomPropertiesUnionDeserializer(
+      item["customProperties"],
+    ),
   };
 }
 
@@ -5487,9 +5153,7 @@ export interface CheckNameAvailabilityModel {
   type?: string;
 }
 
-export function checkNameAvailabilityModelSerializer(
-  item: CheckNameAvailabilityModel,
-): any {
+export function checkNameAvailabilityModelSerializer(item: CheckNameAvailabilityModel): any {
   return { name: item["name"], type: item["type"] };
 }
 
@@ -5519,9 +5183,7 @@ export interface DeploymentPreflightModel {
   resources?: DeploymentPreflightResource[];
 }
 
-export function deploymentPreflightModelSerializer(
-  item: DeploymentPreflightModel,
-): any {
+export function deploymentPreflightModelSerializer(item: DeploymentPreflightModel): any {
   return {
     resources: !item["resources"]
       ? item["resources"]
@@ -5529,9 +5191,7 @@ export function deploymentPreflightModelSerializer(
   };
 }
 
-export function deploymentPreflightModelDeserializer(
-  item: any,
-): DeploymentPreflightModel {
+export function deploymentPreflightModelDeserializer(item: any): DeploymentPreflightModel {
   return {
     resources: !item["resources"]
       ? item["resources"]
@@ -5569,9 +5229,7 @@ export interface DeploymentPreflightResource {
   properties?: any;
 }
 
-export function deploymentPreflightResourceSerializer(
-  item: DeploymentPreflightResource,
-): any {
+export function deploymentPreflightResourceSerializer(item: DeploymentPreflightResource): any {
   return {
     name: item["name"],
     type: item["type"],
@@ -5581,9 +5239,7 @@ export function deploymentPreflightResourceSerializer(
   };
 }
 
-export function deploymentPreflightResourceDeserializer(
-  item: any,
-): DeploymentPreflightResource {
+export function deploymentPreflightResourceDeserializer(item: any): DeploymentPreflightResource {
   return {
     name: item["name"],
     type: item["type"],

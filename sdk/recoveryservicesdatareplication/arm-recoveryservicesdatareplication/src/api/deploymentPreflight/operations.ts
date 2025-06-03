@@ -35,19 +35,15 @@ export function _postSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context
-    .path(path)
-    .post({
-      ...operationOptionsToRequestParameters(options),
-      contentType: "application/json",
-      headers: {
-        accept: "application/json",
-        ...options.requestOptions?.headers,
-      },
-      body: !options["body"]
-        ? options["body"]
-        : deploymentPreflightModelSerializer(options["body"]),
-    });
+  return context.path(path).post({
+    ...operationOptionsToRequestParameters(options),
+    contentType: "application/json",
+    headers: {
+      accept: "application/json",
+      ...options.requestOptions?.headers,
+    },
+    body: !options["body"] ? options["body"] : deploymentPreflightModelSerializer(options["body"]),
+  });
 }
 
 export async function _postDeserialize(
@@ -70,11 +66,6 @@ export async function post(
   deploymentId: string,
   options: DeploymentPreflightPostOptionalParams = { requestOptions: {} },
 ): Promise<DeploymentPreflightModel> {
-  const result = await _postSend(
-    context,
-    resourceGroupName,
-    deploymentId,
-    options,
-  );
+  const result = await _postSend(context, resourceGroupName, deploymentId, options);
   return _postDeserialize(result);
 }

@@ -58,17 +58,15 @@ export function _plannedFailoverSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context
-    .path(path)
-    .post({
-      ...operationOptionsToRequestParameters(options),
-      contentType: "application/json",
-      headers: {
-        accept: "application/json",
-        ...options.requestOptions?.headers,
-      },
-      body: plannedFailoverModelSerializer(body),
-    });
+  return context.path(path).post({
+    ...operationOptionsToRequestParameters(options),
+    contentType: "application/json",
+    headers: {
+      accept: "application/json",
+      ...options.requestOptions?.headers,
+    },
+    body: plannedFailoverModelSerializer(body),
+  });
 }
 
 export async function _plannedFailoverDeserialize(
@@ -93,25 +91,13 @@ export function plannedFailover(
   body: PlannedFailoverModel,
   options: ProtectedItemPlannedFailoverOptionalParams = { requestOptions: {} },
 ): PollerLike<OperationState<PlannedFailoverModel>, PlannedFailoverModel> {
-  return getLongRunningPoller(
-    context,
-    _plannedFailoverDeserialize,
-    ["202", "200"],
-    {
-      updateIntervalInMs: options?.updateIntervalInMs,
-      abortSignal: options?.abortSignal,
-      getInitialResponse: () =>
-        _plannedFailoverSend(
-          context,
-          resourceGroupName,
-          vaultName,
-          protectedItemName,
-          body,
-          options,
-        ),
-      resourceLocationConfig: "location",
-    },
-  ) as PollerLike<OperationState<PlannedFailoverModel>, PlannedFailoverModel>;
+  return getLongRunningPoller(context, _plannedFailoverDeserialize, ["202", "200"], {
+    updateIntervalInMs: options?.updateIntervalInMs,
+    abortSignal: options?.abortSignal,
+    getInitialResponse: () =>
+      _plannedFailoverSend(context, resourceGroupName, vaultName, protectedItemName, body, options),
+    resourceLocationConfig: "location",
+  }) as PollerLike<OperationState<PlannedFailoverModel>, PlannedFailoverModel>;
 }
 
 export function _listSend(
@@ -135,15 +121,13 @@ export function _listSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context
-    .path(path)
-    .get({
-      ...operationOptionsToRequestParameters(options),
-      headers: {
-        accept: "application/json",
-        ...options.requestOptions?.headers,
-      },
-    });
+  return context.path(path).get({
+    ...operationOptionsToRequestParameters(options),
+    headers: {
+      accept: "application/json",
+      ...options.requestOptions?.headers,
+    },
+  });
 }
 
 export async function _listDeserialize(
@@ -196,20 +180,16 @@ export function _$deleteSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context
-    .path(path)
-    .delete({
-      ...operationOptionsToRequestParameters(options),
-      headers: {
-        accept: "application/json",
-        ...options.requestOptions?.headers,
-      },
-    });
+  return context.path(path).delete({
+    ...operationOptionsToRequestParameters(options),
+    headers: {
+      accept: "application/json",
+      ...options.requestOptions?.headers,
+    },
+  });
 }
 
-export async function _$deleteDeserialize(
-  result: PathUncheckedResponse,
-): Promise<void> {
+export async function _$deleteDeserialize(result: PathUncheckedResponse): Promise<void> {
   const expectedStatuses = ["202", "204", "200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
@@ -233,24 +213,13 @@ export function $delete(
   protectedItemName: string,
   options: ProtectedItemDeleteOptionalParams = { requestOptions: {} },
 ): PollerLike<OperationState<void>, void> {
-  return getLongRunningPoller(
-    context,
-    _$deleteDeserialize,
-    ["202", "204", "200"],
-    {
-      updateIntervalInMs: options?.updateIntervalInMs,
-      abortSignal: options?.abortSignal,
-      getInitialResponse: () =>
-        _$deleteSend(
-          context,
-          resourceGroupName,
-          vaultName,
-          protectedItemName,
-          options,
-        ),
-      resourceLocationConfig: "location",
-    },
-  ) as PollerLike<OperationState<void>, void>;
+  return getLongRunningPoller(context, _$deleteDeserialize, ["202", "204", "200"], {
+    updateIntervalInMs: options?.updateIntervalInMs,
+    abortSignal: options?.abortSignal,
+    getInitialResponse: () =>
+      _$deleteSend(context, resourceGroupName, vaultName, protectedItemName, options),
+    resourceLocationConfig: "location",
+  }) as PollerLike<OperationState<void>, void>;
 }
 
 export function _updateSend(
@@ -274,17 +243,15 @@ export function _updateSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context
-    .path(path)
-    .patch({
-      ...operationOptionsToRequestParameters(options),
-      contentType: "application/json",
-      headers: {
-        accept: "application/json",
-        ...options.requestOptions?.headers,
-      },
-      body: protectedItemModelUpdateSerializer(properties),
-    });
+  return context.path(path).patch({
+    ...operationOptionsToRequestParameters(options),
+    contentType: "application/json",
+    headers: {
+      accept: "application/json",
+      ...options.requestOptions?.headers,
+    },
+    body: protectedItemModelUpdateSerializer(properties),
+  });
 }
 
 export async function _updateDeserialize(
@@ -313,14 +280,7 @@ export function update(
     updateIntervalInMs: options?.updateIntervalInMs,
     abortSignal: options?.abortSignal,
     getInitialResponse: () =>
-      _updateSend(
-        context,
-        resourceGroupName,
-        vaultName,
-        protectedItemName,
-        properties,
-        options,
-      ),
+      _updateSend(context, resourceGroupName, vaultName, protectedItemName, properties, options),
     resourceLocationConfig: "location",
   }) as PollerLike<OperationState<ProtectedItemModel>, ProtectedItemModel>;
 }
@@ -346,17 +306,15 @@ export function _createSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context
-    .path(path)
-    .put({
-      ...operationOptionsToRequestParameters(options),
-      contentType: "application/json",
-      headers: {
-        accept: "application/json",
-        ...options.requestOptions?.headers,
-      },
-      body: protectedItemModelSerializer(resource),
-    });
+  return context.path(path).put({
+    ...operationOptionsToRequestParameters(options),
+    contentType: "application/json",
+    headers: {
+      accept: "application/json",
+      ...options.requestOptions?.headers,
+    },
+    body: protectedItemModelSerializer(resource),
+  });
 }
 
 export async function _createDeserialize(
@@ -385,14 +343,7 @@ export function create(
     updateIntervalInMs: options?.updateIntervalInMs,
     abortSignal: options?.abortSignal,
     getInitialResponse: () =>
-      _createSend(
-        context,
-        resourceGroupName,
-        vaultName,
-        protectedItemName,
-        resource,
-        options,
-      ),
+      _createSend(context, resourceGroupName, vaultName, protectedItemName, resource, options),
     resourceLocationConfig: "azure-async-operation",
   }) as PollerLike<OperationState<ProtectedItemModel>, ProtectedItemModel>;
 }
@@ -417,20 +368,16 @@ export function _getSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context
-    .path(path)
-    .get({
-      ...operationOptionsToRequestParameters(options),
-      headers: {
-        accept: "application/json",
-        ...options.requestOptions?.headers,
-      },
-    });
+  return context.path(path).get({
+    ...operationOptionsToRequestParameters(options),
+    headers: {
+      accept: "application/json",
+      ...options.requestOptions?.headers,
+    },
+  });
 }
 
-export async function _getDeserialize(
-  result: PathUncheckedResponse,
-): Promise<ProtectedItemModel> {
+export async function _getDeserialize(result: PathUncheckedResponse): Promise<ProtectedItemModel> {
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
@@ -449,12 +396,6 @@ export async function get(
   protectedItemName: string,
   options: ProtectedItemGetOptionalParams = { requestOptions: {} },
 ): Promise<ProtectedItemModel> {
-  const result = await _getSend(
-    context,
-    resourceGroupName,
-    vaultName,
-    protectedItemName,
-    options,
-  );
+  const result = await _getSend(context, resourceGroupName, vaultName, protectedItemName, options);
   return _getDeserialize(result);
 }

@@ -16,9 +16,7 @@ export interface OperationResultsOperations {
   ) => Promise<OperationStatus>;
 }
 
-function _getOperationResults(
-  context: AzureSiteRecoveryManagementServiceAPIContext,
-) {
+function _getOperationResults(context: AzureSiteRecoveryManagementServiceAPIContext) {
   return {
     get: (
       resourceGroupName: string,

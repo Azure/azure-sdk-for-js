@@ -27,9 +27,7 @@ export interface PrivateLinkResourcesOperations {
   ) => Promise<PrivateLinkResource>;
 }
 
-function _getPrivateLinkResources(
-  context: AzureSiteRecoveryManagementServiceAPIContext,
-) {
+function _getPrivateLinkResources(context: AzureSiteRecoveryManagementServiceAPIContext) {
   return {
     list: (
       resourceGroupName: string,
@@ -41,14 +39,7 @@ function _getPrivateLinkResources(
       vaultName: string,
       privateLinkResourceName: string,
       options?: PrivateLinkResourcesGetOptionalParams,
-    ) =>
-      get(
-        context,
-        resourceGroupName,
-        vaultName,
-        privateLinkResourceName,
-        options,
-      ),
+    ) => get(context, resourceGroupName, vaultName, privateLinkResourceName, options),
   };
 }
 
