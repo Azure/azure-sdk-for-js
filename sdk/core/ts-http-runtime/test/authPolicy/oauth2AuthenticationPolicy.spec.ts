@@ -168,7 +168,7 @@ describe("oauth2AuthenticationPolicy", () => {
     // authSchemes is not defined, should use service level scheme
     { authSchemes: undefined, shouldAuthenticate: true },
   ])(
-    "handles authentication correctly when request authSchemes is $description",
+    "handles authentication correctly when request authSchemes is $authSchemes",
     async ({ authSchemes, shouldAuthenticate }) => {
       const request = createPipelineRequest({ url: "https://example.com" });
       request.authSchemes = authSchemes;
