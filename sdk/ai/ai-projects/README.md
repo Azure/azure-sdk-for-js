@@ -82,7 +82,7 @@ const endpoint = process.env["AZURE_AI_PROJECT_ENDPOINT_STRING"] || "<project en
 const client = new AIProjectClient(endpoint, new DefaultAzureCredential());
 ```
 
-The client uses API version `2025-05-15-preview`, refer to the [API documentation]([ai_foundry_data_plane_rest_apis]) to learn more about the supported features.
+The client uses API version `2025-05-15-preview`, refer to the [API documentation][ai_foundry_data_plane_rest_apis] to learn more about the supported features.
 
 ## Examples
 
