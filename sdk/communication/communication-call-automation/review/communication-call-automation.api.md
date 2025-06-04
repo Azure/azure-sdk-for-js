@@ -424,29 +424,6 @@ export interface ChoiceResult {
 }
 
 // @public
-export type CommunicationCloudEnvironmentModel = string;
-
-// @public
-export interface CommunicationIdentifierModel {
-    communicationUser?: CommunicationUserIdentifierModel;
-    kind?: CommunicationIdentifierModelKind;
-    microsoftTeamsApp?: MicrosoftTeamsAppIdentifierModel;
-    microsoftTeamsUser?: MicrosoftTeamsUserIdentifierModel;
-    phoneNumber?: PhoneNumberIdentifierModel;
-    rawId?: string;
-    // Warning: (ae-forgotten-export) The symbol "TeamsExtensionUserIdentifierModel" needs to be exported by the entry point index.d.ts
-    teamsExtensionUser?: TeamsExtensionUserIdentifierModel;
-}
-
-// @public
-export type CommunicationIdentifierModelKind = string;
-
-// @public
-export interface CommunicationUserIdentifierModel {
-    id: string;
-}
-
-// @public
 export interface ConnectCallEventResult {
     failureResult?: ConnectFailed;
     isSuccess: boolean;
@@ -561,17 +538,6 @@ export interface CustomCallingContextHeader {
     key: string;
     // (undocumented)
     value: string;
-}
-
-// @public
-export interface CustomCallingContextInternal {
-    sipHeaders?: {
-        [propertyName: string]: string;
-    };
-    teamsPhoneCallDetails?: TeamsPhoneCallDetailsInternal;
-    voipHeaders?: {
-        [propertyName: string]: string;
-    };
 }
 
 // @public
@@ -982,19 +948,6 @@ export interface MediaStreamingUpdate {
 }
 
 // @public
-export interface MicrosoftTeamsAppIdentifierModel {
-    appId: string;
-    cloud?: CommunicationCloudEnvironmentModel;
-}
-
-// @public
-export interface MicrosoftTeamsUserIdentifierModel {
-    cloud?: CommunicationCloudEnvironmentModel;
-    isAnonymous?: boolean;
-    userId: string;
-}
-
-// @public
 export interface MuteParticipantOption extends OperationOptions {
     operationContext?: string;
 }
@@ -1030,13 +983,6 @@ export interface ParticipantsUpdated {
 
 // @public
 export type PauseRecordingOptions = OperationOptions;
-
-// @public
-export interface PhoneNumberIdentifierModel {
-    assertedId?: string;
-    isAnonymous?: boolean;
-    value: string;
-}
 
 // @public
 export interface PlayCanceled {
@@ -1473,37 +1419,11 @@ export interface TeamsPhoneCallDetails {
 }
 
 // @public
-export interface TeamsPhoneCallDetailsInternal {
-    callContext?: string;
-    callSentiment?: string;
-    callTopic?: string;
-    intent?: string;
-    sessionId?: string;
-    suggestedActions?: string;
-    teamsPhoneCallerDetails?: TeamsPhoneCallerDetailsInternal;
-    teamsPhoneSourceDetails?: TeamsPhoneSourceDetailsInternal;
-    transcriptUrl?: string;
-}
-
-// @public
 export interface TeamsPhoneCallerDetails {
     additionalCallerInformation?: {
         [propertyName: string]: string;
     };
     caller: CommunicationIdentifier;
-    isAuthenticated?: boolean;
-    name: string;
-    phoneNumber: string;
-    recordId?: string;
-    screenPopUrl?: string;
-}
-
-// @public
-export interface TeamsPhoneCallerDetailsInternal {
-    additionalCallerInformation?: {
-        [propertyName: string]: string;
-    };
-    caller: CommunicationIdentifierModel;
     isAuthenticated?: boolean;
     name: string;
     phoneNumber: string;
@@ -1518,16 +1438,6 @@ export interface TeamsPhoneSourceDetails {
     };
     language: string;
     source: CommunicationIdentifier;
-    status: string;
-}
-
-// @public
-export interface TeamsPhoneSourceDetailsInternal {
-    intendedTargets?: {
-        [propertyName: string]: CommunicationIdentifierModel;
-    };
-    language: string;
-    source: CommunicationIdentifierModel;
     status: string;
 }
 
