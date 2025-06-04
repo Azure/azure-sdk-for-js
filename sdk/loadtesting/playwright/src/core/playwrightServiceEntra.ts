@@ -4,18 +4,18 @@
 import { EntraIdAccessTokenConstants } from "../common/constants.js";
 import { coreLogger } from "../common/logger.js";
 import { EntraIdAccessToken } from "../common/entraIdAccessToken.js";
+import { state } from "../common/state.js";
 import type { TokenCredential } from "@azure/identity";
 
 class PlaywrightServiceEntra {
   private _entraIdAccessTokenRotationInterval?: NodeJS.Timeout;
-  private static instance: PlaywrightServiceEntra;
   private _entraIdAccessToken: EntraIdAccessToken;
 
   static getInstance = (): PlaywrightServiceEntra => {
-    if (!PlaywrightServiceEntra.instance) {
-      PlaywrightServiceEntra.instance = new PlaywrightServiceEntra();
+    if (!state.playwrightServiceEntra) {
+      state.playwrightServiceEntra = new PlaywrightServiceEntra();
     }
-    return PlaywrightServiceEntra.instance;
+    return state.playwrightServiceEntra;
   };
 
   set entraIdAccessToken(credential: TokenCredential) {

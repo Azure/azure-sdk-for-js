@@ -1,16 +1,17 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
+import { state } from "./state.js";
+
 class CustomerConfig {
-  private static instance: CustomerConfig;
   public globalSetup?: string | string[];
   public globalTeardown?: string | string[];
 
   public static getInstance(): CustomerConfig {
-    if (!CustomerConfig.instance) {
-      CustomerConfig.instance = new CustomerConfig();
+    if (!state.customerConfig) {
+      state.customerConfig = new CustomerConfig();
     }
-    return CustomerConfig.instance;
+    return state.customerConfig;
   }
 }
 
