@@ -222,8 +222,8 @@ export interface DatasetsOperations {
     list: (options?: DatasetsListOptionalParams) => PagedAsyncIterableIterator<DatasetVersionUnion>;
     listVersions: (name: string, options?: DatasetsListVersionsOptionalParams) => PagedAsyncIterableIterator<DatasetVersionUnion>;
     pendingUpload: (name: string, version: string, body: PendingUploadRequest, options?: DatasetsPendingUploadOptionalParams) => Promise<PendingUploadResponse>;
-    uploadFile: (name: string, version: string, filePath: string, connectionName?: string) => Promise<DatasetVersionUnion>;
-    uploadFolder: (name: string, version: string, folderPath: string, connectionName?: string) => Promise<DatasetVersionUnion>;
+    uploadFile: (name: string, version: string, filePath: string, options?: DatasetUploadOptions) => Promise<DatasetVersionUnion>;
+    uploadFolder: (name: string, version: string, folderPath: string, options?: DatasetUploadOptions) => Promise<DatasetVersionUnion>;
 }
 
 // @public
@@ -232,6 +232,12 @@ export interface DatasetsPendingUploadOptionalParams extends OperationOptions {
 
 // @public
 export type DatasetType = "uri_file" | "uri_folder";
+
+// @public
+export interface DatasetUploadOptions {
+    connectionName?: string;
+    filePattern?: RegExp;
+}
 
 // @public
 export interface DatasetVersion {
