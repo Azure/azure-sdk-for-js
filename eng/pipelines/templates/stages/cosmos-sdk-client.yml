@@ -44,19 +44,17 @@ extends:
             - NodeTestVersion=18.x
           PreSteps:
             - template: /eng/pipelines/templates/steps/cosmos-integration-public.yml@self
+          PostSteps:
+            - script: |
+                node $(Build.SourcesDirectory)/common/scripts/install-run-rushx.js test:node:integration
+              workingDirectory: $(System.DefaultWorkingDirectory)/sdk/cosmosdb/cosmos
+              displayName: "Cosmos Integration tests"
+
           # Temporary fix for cosmos ci pipeline
           UseFederatedAuth: false
           EnvVars:
             MOCHA_TIMEOUT: 100000
             NODE_TLS_REJECT_UNAUTHORIZED: 0
-
-      - stage: Integration tests
-        jobs:
-          - script: |
-              node $(Build.SourcesDirectory)/common/scripts/install-run-rushx.js test:node:integration
-            workingDirectory: $(System.DefaultWorkingDirectory)/sdk/cosmosdb/cosmos
-            displayName: "Cosmos Integration tests"
-
 
       # The Prerelease and Release stages are conditioned on whether we are building a pull request and the branch.
       - ${{if and(ne(variables['Build.Reason'], 'PullRequest'), eq(variables['System.TeamProject'], 'internal'))}}:
