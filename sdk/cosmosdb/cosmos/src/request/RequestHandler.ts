@@ -18,7 +18,7 @@ import type { AzureLogger } from "@azure/logger";
 import { createClientLogger } from "@azure/logger";
 import type { DiagnosticNodeInternal } from "../diagnostics/DiagnosticNodeInternal.js";
 import { DiagnosticNodeType } from "../diagnostics/DiagnosticNodeInternal.js";
-import { addDignosticChild } from "../utils/diagnostics.js";
+import { addDiagnosticChild } from "../utils/diagnostics.js";
 import { getCurrentTimestampInMs } from "../utils/time.js";
 
 const logger: AzureLogger = createClientLogger("RequestHandler");
@@ -186,7 +186,7 @@ async function request<T>(
     }
   }
 
-  return addDignosticChild(
+  return addDiagnosticChild(
     async (childNode: DiagnosticNodeInternal) => {
       return RetryUtility.execute({
         diagnosticNode: childNode,

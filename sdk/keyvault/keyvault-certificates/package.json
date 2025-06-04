@@ -2,7 +2,7 @@
   "name": "@azure/keyvault-certificates",
   "sdk-type": "client",
   "author": "Microsoft Corporation",
-  "version": "4.10.0-beta.2",
+  "version": "4.10.0",
   "license": "MIT",
   "description": "Isomorphic client library for Azure KeyVault's certificates.",
   "homepage": "https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/keyvault/keyvault-certificates/README.md",
@@ -45,8 +45,8 @@
     "pack": "npm pack 2>&1",
     "test": "npm run test:node && npm run test:browser",
     "test:browser": "echo skipped",
-    "test:node": "dev-tool run test:vitest -- --test-timeout 100000 --hook-timeout 100000",
-    "test:node:esm": "dev-tool run test:vitest --no-test-proxy --esm -- --test-timeout 350000",
+    "test:node": "dev-tool run test:vitest",
+    "test:node:esm": "dev-tool run test:vitest --no-test-proxy --esm",
     "update-snippets": "dev-tool run update-snippets"
   },
   "sideEffects": false,
@@ -70,6 +70,7 @@
     ],
     "skip": [
       "backupAndRestore.js",
+      "importCertificate.js",
       "listCertificates.js",
       "mergeCertificate.js",
       "contacts.js",
