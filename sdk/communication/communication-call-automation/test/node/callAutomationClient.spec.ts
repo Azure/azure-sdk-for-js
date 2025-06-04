@@ -9,9 +9,7 @@ import {
   CALL_TARGET_ID,
   CALL_TARGET_ID_2,
 } from "../utils/connectionUtils.js";
-import type {
-  CommunicationIdentifier,
-} from "@azure/communication-common";
+import type { CommunicationIdentifier } from "@azure/communication-common";
 import type { CallInvite, CallConnection } from "../../src/index.js";
 import { randomUUID } from "@azure/core-util";
 import type { MockedObject } from "vitest";

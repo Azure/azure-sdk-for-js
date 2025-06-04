@@ -105,7 +105,7 @@ describe("CallConnection Unit Tests", () => {
     callConnection = vi.mocked(
       new CallConnection(
         "mockCallConnectionId",
-        "https://mock.endpoint.com", 
+        "https://mock.endpoint.com",
         { key: "mockKey" },
         {} as any,
       ),
