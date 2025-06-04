@@ -45,10 +45,7 @@ extends:
           PreSteps:
             - template: /eng/pipelines/templates/steps/cosmos-integration-public.yml@self
           PostSteps:
-            - script: |
-                node $(Build.SourcesDirectory)/common/scripts/install-run-rushx.js test:node:integration
-              workingDirectory: $(System.DefaultWorkingDirectory)/sdk/cosmosdb/cosmos
-              displayName: "Cosmos Integration tests"
+            - template: /eng/pipelines/templates/steps/cosmos-additional-steps.yml@self
 
           # Temporary fix for cosmos ci pipeline
           UseFederatedAuth: false
