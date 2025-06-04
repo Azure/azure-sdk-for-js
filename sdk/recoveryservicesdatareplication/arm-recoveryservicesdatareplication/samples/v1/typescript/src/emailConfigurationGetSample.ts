@@ -5,28 +5,21 @@ import { AzureSiteRecoveryManagementServiceAPI } from "@azure/arm-recoveryservic
 import { DefaultAzureCredential } from "@azure/identity";
 
 /**
- * This sample demonstrates how to performs update on the fabric.
+ * This sample demonstrates how to gets the details of the alert configuration setting.
  *
- * @summary performs update on the fabric.
- * x-ms-original-file: 2024-09-01/Fabric_Update.json
+ * @summary gets the details of the alert configuration setting.
+ * x-ms-original-file: 2024-09-01/EmailConfiguration_Get.json
  */
-async function updatesTheFabric(): Promise<void> {
+async function getsTheEmailConfigurationSetting(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "930CEC23-4430-4513-B855-DBA237E2F3BF";
   const client = new AzureSiteRecoveryManagementServiceAPI(credential, subscriptionId);
-  const result = await client.fabric.update("rgswagger_2024-09-01", "wPR", {
-    properties: {
-      customProperties: {
-        instanceType: "FabricModelCustomProperties",
-      },
-    },
-    tags: {},
-  });
+  const result = await client.emailConfiguration.get("rgswagger_2024-09-01", "4", "0");
   console.log(result);
 }
 
 async function main(): Promise<void> {
-  await updatesTheFabric();
+  await getsTheEmailConfigurationSetting();
 }
 
 main().catch(console.error);

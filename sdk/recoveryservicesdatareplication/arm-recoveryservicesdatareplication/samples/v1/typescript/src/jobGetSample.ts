@@ -5,28 +5,21 @@ import { AzureSiteRecoveryManagementServiceAPI } from "@azure/arm-recoveryservic
 import { DefaultAzureCredential } from "@azure/identity";
 
 /**
- * This sample demonstrates how to performs update on the fabric.
+ * This sample demonstrates how to gets the details of the job.
  *
- * @summary performs update on the fabric.
- * x-ms-original-file: 2024-09-01/Fabric_Update.json
+ * @summary gets the details of the job.
+ * x-ms-original-file: 2024-09-01/Job_Get.json
  */
-async function updatesTheFabric(): Promise<void> {
+async function getsTheJob(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "930CEC23-4430-4513-B855-DBA237E2F3BF";
   const client = new AzureSiteRecoveryManagementServiceAPI(credential, subscriptionId);
-  const result = await client.fabric.update("rgswagger_2024-09-01", "wPR", {
-    properties: {
-      customProperties: {
-        instanceType: "FabricModelCustomProperties",
-      },
-    },
-    tags: {},
-  });
+  const result = await client.job.get("rgrecoveryservicesdatareplication", "4", "ZGH4y");
   console.log(result);
 }
 
 async function main(): Promise<void> {
-  await updatesTheFabric();
+  await getsTheJob();
 }
 
 main().catch(console.error);

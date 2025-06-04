@@ -5,28 +5,23 @@ import { AzureSiteRecoveryManagementServiceAPI } from "@azure/arm-recoveryservic
 import { DefaultAzureCredential } from "@azure/identity";
 
 /**
- * This sample demonstrates how to performs update on the fabric.
+ * This sample demonstrates how to performs update on the protected item.
  *
- * @summary performs update on the fabric.
- * x-ms-original-file: 2024-09-01/Fabric_Update.json
+ * @summary performs update on the protected item.
+ * x-ms-original-file: 2024-09-01/ProtectedItem_Update.json
  */
-async function updatesTheFabric(): Promise<void> {
+async function updateProtectedItem(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "930CEC23-4430-4513-B855-DBA237E2F3BF";
   const client = new AzureSiteRecoveryManagementServiceAPI(credential, subscriptionId);
-  const result = await client.fabric.update("rgswagger_2024-09-01", "wPR", {
-    properties: {
-      customProperties: {
-        instanceType: "FabricModelCustomProperties",
-      },
-    },
-    tags: {},
+  const result = await client.protectedItem.update("rgswagger_2024-09-01", "4", "d", {
+    properties: {},
   });
   console.log(result);
 }
 
 async function main(): Promise<void> {
-  await updatesTheFabric();
+  await updateProtectedItem();
 }
 
 main().catch(console.error);

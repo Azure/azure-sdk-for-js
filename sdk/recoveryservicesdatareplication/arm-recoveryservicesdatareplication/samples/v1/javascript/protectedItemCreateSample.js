@@ -1,8 +1,10 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { AzureSiteRecoveryManagementServiceAPI } from "@azure/arm-recoveryservicesdatareplication";
-import { DefaultAzureCredential } from "@azure/identity";
+const {
+  AzureSiteRecoveryManagementServiceAPI,
+} = require("@azure/arm-recoveryservicesdatareplication");
+const { DefaultAzureCredential } = require("@azure/identity");
 
 /**
  * This sample demonstrates how to creates the protected item.
@@ -10,7 +12,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * @summary creates the protected item.
  * x-ms-original-file: 2024-09-01/ProtectedItem_Create.json
  */
-async function putsTheProtectedItem(): Promise<void> {
+async function putsTheProtectedItem() {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "930CEC23-4430-4513-B855-DBA237E2F3BF";
   const client = new AzureSiteRecoveryManagementServiceAPI(credential, subscriptionId);
@@ -26,7 +28,7 @@ async function putsTheProtectedItem(): Promise<void> {
   console.log(result);
 }
 
-async function main(): Promise<void> {
+async function main() {
   await putsTheProtectedItem();
 }
 

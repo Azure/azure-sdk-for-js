@@ -1,8 +1,10 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { AzureSiteRecoveryManagementServiceAPI } from "@azure/arm-recoveryservicesdatareplication";
-import { DefaultAzureCredential } from "@azure/identity";
+const {
+  AzureSiteRecoveryManagementServiceAPI,
+} = require("@azure/arm-recoveryservicesdatareplication");
+const { DefaultAzureCredential } = require("@azure/identity");
 
 /**
  * This sample demonstrates how to creates the fabric agent.
@@ -10,7 +12,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * @summary creates the fabric agent.
  * x-ms-original-file: 2024-09-01/FabricAgent_Create.json
  */
-async function putsTheFabricAgent(): Promise<void> {
+async function putsTheFabricAgent() {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "930CEC23-4430-4513-B855-DBA237E2F3BF";
   const client = new AzureSiteRecoveryManagementServiceAPI(credential, subscriptionId);
@@ -40,7 +42,7 @@ async function putsTheFabricAgent(): Promise<void> {
   console.log(result);
 }
 
-async function main(): Promise<void> {
+async function main() {
   await putsTheFabricAgent();
 }
 
