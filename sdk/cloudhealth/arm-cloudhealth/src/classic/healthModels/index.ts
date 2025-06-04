@@ -68,9 +68,8 @@ export interface HealthModelsOperations {
 
 function _getHealthModels(context: CloudHealthContext) {
   return {
-    listBySubscription: (
-      options?: HealthModelsListBySubscriptionOptionalParams,
-    ) => listBySubscription(context, options),
+    listBySubscription: (options?: HealthModelsListBySubscriptionOptionalParams) =>
+      listBySubscription(context, options),
     listByResourceGroup: (
       resourceGroupName: string,
       options?: HealthModelsListByResourceGroupOptionalParams,
@@ -85,8 +84,7 @@ function _getHealthModels(context: CloudHealthContext) {
       healthModelName: string,
       properties: HealthModelUpdate,
       options?: HealthModelsUpdateOptionalParams,
-    ) =>
-      update(context, resourceGroupName, healthModelName, properties, options),
+    ) => update(context, resourceGroupName, healthModelName, properties, options),
     create: (
       resourceGroupName: string,
       healthModelName: string,
@@ -101,9 +99,7 @@ function _getHealthModels(context: CloudHealthContext) {
   };
 }
 
-export function _getHealthModelsOperations(
-  context: CloudHealthContext,
-): HealthModelsOperations {
+export function _getHealthModelsOperations(context: CloudHealthContext): HealthModelsOperations {
   return {
     ..._getHealthModels(context),
   };

@@ -60,21 +60,13 @@ function _getSignalDefinitions(context: CloudHealthContext) {
       resourceGroupName: string,
       healthModelName: string,
       options?: SignalDefinitionsListByHealthModelOptionalParams,
-    ) =>
-      listByHealthModel(context, resourceGroupName, healthModelName, options),
+    ) => listByHealthModel(context, resourceGroupName, healthModelName, options),
     delete: (
       resourceGroupName: string,
       healthModelName: string,
       signalDefinitionName: string,
       options?: SignalDefinitionsDeleteOptionalParams,
-    ) =>
-      $delete(
-        context,
-        resourceGroupName,
-        healthModelName,
-        signalDefinitionName,
-        options,
-      ),
+    ) => $delete(context, resourceGroupName, healthModelName, signalDefinitionName, options),
     createOrUpdate: (
       resourceGroupName: string,
       healthModelName: string,
@@ -95,14 +87,7 @@ function _getSignalDefinitions(context: CloudHealthContext) {
       healthModelName: string,
       signalDefinitionName: string,
       options?: SignalDefinitionsGetOptionalParams,
-    ) =>
-      get(
-        context,
-        resourceGroupName,
-        healthModelName,
-        signalDefinitionName,
-        options,
-      ),
+    ) => get(context, resourceGroupName, healthModelName, signalDefinitionName, options),
   };
 }
 

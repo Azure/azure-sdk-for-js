@@ -9,9 +9,7 @@ export interface _OperationListResult {
   nextLink?: string;
 }
 
-export function _operationListResultDeserializer(
-  item: any,
-): _OperationListResult {
+export function _operationListResultDeserializer(item: any): _OperationListResult {
   return {
     value: operationArrayDeserializer(item["value"]),
     nextLink: item["nextLink"],
@@ -42,9 +40,7 @@ export function operationDeserializer(item: any): Operation {
   return {
     name: item["name"],
     isDataAction: item["isDataAction"],
-    display: !item["display"]
-      ? item["display"]
-      : operationDisplayDeserializer(item["display"]),
+    display: !item["display"] ? item["display"] : operationDisplayDeserializer(item["display"]),
     origin: item["origin"],
     actionType: item["actionType"],
   };
@@ -115,9 +111,7 @@ export interface ErrorResponse {
 
 export function errorResponseDeserializer(item: any): ErrorResponse {
   return {
-    error: !item["error"]
-      ? item["error"]
-      : errorDetailDeserializer(item["error"]),
+    error: !item["error"] ? item["error"] : errorDetailDeserializer(item["error"]),
   };
 }
 
@@ -140,26 +134,20 @@ export function errorDetailDeserializer(item: any): ErrorDetail {
     code: item["code"],
     message: item["message"],
     target: item["target"],
-    details: !item["details"]
-      ? item["details"]
-      : errorDetailArrayDeserializer(item["details"]),
+    details: !item["details"] ? item["details"] : errorDetailArrayDeserializer(item["details"]),
     additionalInfo: !item["additionalInfo"]
       ? item["additionalInfo"]
       : errorAdditionalInfoArrayDeserializer(item["additionalInfo"]),
   };
 }
 
-export function errorDetailArrayDeserializer(
-  result: Array<ErrorDetail>,
-): any[] {
+export function errorDetailArrayDeserializer(result: Array<ErrorDetail>): any[] {
   return result.map((item) => {
     return errorDetailDeserializer(item);
   });
 }
 
-export function errorAdditionalInfoArrayDeserializer(
-  result: Array<ErrorAdditionalInfo>,
-): any[] {
+export function errorAdditionalInfoArrayDeserializer(result: Array<ErrorAdditionalInfo>): any[] {
   return result.map((item) => {
     return errorAdditionalInfoDeserializer(item);
   });
@@ -173,9 +161,7 @@ export interface ErrorAdditionalInfo {
   readonly info?: any;
 }
 
-export function errorAdditionalInfoDeserializer(
-  item: any,
-): ErrorAdditionalInfo {
+export function errorAdditionalInfoDeserializer(item: any): ErrorAdditionalInfo {
   return {
     type: item["type"],
     info: item["info"],
@@ -232,9 +218,7 @@ export interface HealthModelProperties {
   discovery?: ModelDiscoverySettings;
 }
 
-export function healthModelPropertiesSerializer(
-  item: HealthModelProperties,
-): any {
+export function healthModelPropertiesSerializer(item: HealthModelProperties): any {
   return {
     discovery: !item["discovery"]
       ? item["discovery"]
@@ -242,9 +226,7 @@ export function healthModelPropertiesSerializer(
   };
 }
 
-export function healthModelPropertiesDeserializer(
-  item: any,
-): HealthModelProperties {
+export function healthModelPropertiesDeserializer(item: any): HealthModelProperties {
   return {
     dataplaneEndpoint: item["dataplaneEndpoint"],
     provisioningState: item["provisioningState"],
@@ -289,9 +271,7 @@ export interface ModelDiscoverySettings {
   identity?: string;
 }
 
-export function modelDiscoverySettingsSerializer(
-  item: ModelDiscoverySettings,
-): any {
+export function modelDiscoverySettingsSerializer(item: ModelDiscoverySettings): any {
   return {
     scope: item["scope"],
     addRecommendedSignals: item["addRecommendedSignals"],
@@ -299,9 +279,7 @@ export function modelDiscoverySettingsSerializer(
   };
 }
 
-export function modelDiscoverySettingsDeserializer(
-  item: any,
-): ModelDiscoverySettings {
+export function modelDiscoverySettingsDeserializer(item: any): ModelDiscoverySettings {
   return {
     scope: item["scope"],
     addRecommendedSignals: item["addRecommendedSignals"],
@@ -339,18 +317,14 @@ export interface ManagedServiceIdentity {
   userAssignedIdentities?: Record<string, UserAssignedIdentity | null>;
 }
 
-export function managedServiceIdentitySerializer(
-  item: ManagedServiceIdentity,
-): any {
+export function managedServiceIdentitySerializer(item: ManagedServiceIdentity): any {
   return {
     type: item["type"],
     userAssignedIdentities: item["userAssignedIdentities"],
   };
 }
 
-export function managedServiceIdentityDeserializer(
-  item: any,
-): ManagedServiceIdentity {
+export function managedServiceIdentityDeserializer(item: any): ManagedServiceIdentity {
   return {
     principalId: item["principalId"],
     tenantId: item["tenantId"],
@@ -391,15 +365,11 @@ export interface UserAssignedIdentity {
   readonly clientId?: string;
 }
 
-export function userAssignedIdentitySerializer(
-  item: UserAssignedIdentity,
-): any {
+export function userAssignedIdentitySerializer(item: UserAssignedIdentity): any {
   return item;
 }
 
-export function userAssignedIdentityDeserializer(
-  item: any,
-): UserAssignedIdentity {
+export function userAssignedIdentityDeserializer(item: any): UserAssignedIdentity {
   return {
     principalId: item["principalId"],
     clientId: item["clientId"],
@@ -478,9 +448,7 @@ export function systemDataDeserializer(item: any): SystemData {
   return {
     createdBy: item["createdBy"],
     createdByType: item["createdByType"],
-    createdAt: !item["createdAt"]
-      ? item["createdAt"]
-      : new Date(item["createdAt"]),
+    createdAt: !item["createdAt"] ? item["createdAt"] : new Date(item["createdAt"]),
     lastModifiedBy: item["lastModifiedBy"],
     lastModifiedByType: item["lastModifiedByType"],
     lastModifiedAt: !item["lastModifiedAt"]
@@ -541,9 +509,7 @@ export interface HealthModelUpdateProperties {
   discovery?: ModelDiscoverySettings;
 }
 
-export function healthModelUpdatePropertiesSerializer(
-  item: HealthModelUpdateProperties,
-): any {
+export function healthModelUpdatePropertiesSerializer(item: HealthModelUpdateProperties): any {
   return {
     discovery: !item["discovery"]
       ? item["discovery"]
@@ -559,9 +525,7 @@ export interface _HealthModelListResult {
   nextLink?: string;
 }
 
-export function _healthModelListResultDeserializer(
-  item: any,
-): _HealthModelListResult {
+export function _healthModelListResultDeserializer(item: any): _HealthModelListResult {
   return {
     value: healthModelArrayDeserializer(item["value"]),
     nextLink: item["nextLink"],
@@ -574,9 +538,7 @@ export function healthModelArraySerializer(result: Array<HealthModel>): any[] {
   });
 }
 
-export function healthModelArrayDeserializer(
-  result: Array<HealthModel>,
-): any[] {
+export function healthModelArrayDeserializer(result: Array<HealthModel>): any[] {
   return result.map((item) => {
     return healthModelDeserializer(item);
   });
@@ -631,9 +593,7 @@ export interface SignalDefinitionProperties {
   readonly deletionDate?: Date;
 }
 
-export function signalDefinitionPropertiesSerializer(
-  item: SignalDefinitionProperties,
-): any {
+export function signalDefinitionPropertiesSerializer(item: SignalDefinitionProperties): any {
   return {
     displayName: item["displayName"],
     signalKind: item["signalKind"],
@@ -644,9 +604,7 @@ export function signalDefinitionPropertiesSerializer(
   };
 }
 
-export function signalDefinitionPropertiesDeserializer(
-  item: any,
-): SignalDefinitionProperties {
+export function signalDefinitionPropertiesDeserializer(item: any): SignalDefinitionProperties {
   return {
     provisioningState: item["provisioningState"],
     displayName: item["displayName"],
@@ -655,9 +613,7 @@ export function signalDefinitionPropertiesDeserializer(
     labels: item["labels"],
     dataUnit: item["dataUnit"],
     evaluationRules: evaluationRuleDeserializer(item["evaluationRules"]),
-    deletionDate: !item["deletionDate"]
-      ? item["deletionDate"]
-      : new Date(item["deletionDate"]),
+    deletionDate: !item["deletionDate"] ? item["deletionDate"] : new Date(item["deletionDate"]),
   };
 }
 
@@ -814,9 +770,7 @@ export interface DynamicDetectionRule {
   trainingStartTime?: Date;
 }
 
-export function dynamicDetectionRuleSerializer(
-  item: DynamicDetectionRule,
-): any {
+export function dynamicDetectionRuleSerializer(item: DynamicDetectionRule): any {
   return {
     dynamicThresholdModel: item["dynamicThresholdModel"],
     modelSensitivity: item["modelSensitivity"],
@@ -827,9 +781,7 @@ export function dynamicDetectionRuleSerializer(
   };
 }
 
-export function dynamicDetectionRuleDeserializer(
-  item: any,
-): DynamicDetectionRule {
+export function dynamicDetectionRuleDeserializer(item: any): DynamicDetectionRule {
   return {
     dynamicThresholdModel: item["dynamicThresholdModel"],
     modelSensitivity: item["modelSensitivity"],
@@ -923,8 +875,7 @@ export enum KnownSignalOperator {
 export type SignalOperator = string;
 
 /** Azure Resource Metric Signal Definition properties */
-export interface ResourceMetricSignalDefinitionProperties
-  extends SignalDefinitionProperties {
+export interface ResourceMetricSignalDefinitionProperties extends SignalDefinitionProperties {
   /** Kind of the signal definition */
   signalKind: "AzureResourceMetric";
   /** Metric namespace */
@@ -971,9 +922,7 @@ export function resourceMetricSignalDefinitionPropertiesDeserializer(
     labels: item["labels"],
     dataUnit: item["dataUnit"],
     evaluationRules: evaluationRuleDeserializer(item["evaluationRules"]),
-    deletionDate: !item["deletionDate"]
-      ? item["deletionDate"]
-      : new Date(item["deletionDate"]),
+    deletionDate: !item["deletionDate"] ? item["deletionDate"] : new Date(item["deletionDate"]),
     metricNamespace: item["metricNamespace"],
     metricName: item["metricName"],
     timeGrain: item["timeGrain"],
@@ -1008,8 +957,7 @@ export enum KnownMetricAggregationType {
 export type MetricAggregationType = string;
 
 /** Log Analytics Query Signal Definition properties */
-export interface LogAnalyticsQuerySignalDefinitionProperties
-  extends SignalDefinitionProperties {
+export interface LogAnalyticsQuerySignalDefinitionProperties extends SignalDefinitionProperties {
   /** Kind of the signal definition */
   signalKind: "LogAnalyticsQuery";
   /** Query text in KQL syntax */
@@ -1047,9 +995,7 @@ export function logAnalyticsQuerySignalDefinitionPropertiesDeserializer(
     labels: item["labels"],
     dataUnit: item["dataUnit"],
     evaluationRules: evaluationRuleDeserializer(item["evaluationRules"]),
-    deletionDate: !item["deletionDate"]
-      ? item["deletionDate"]
-      : new Date(item["deletionDate"]),
+    deletionDate: !item["deletionDate"] ? item["deletionDate"] : new Date(item["deletionDate"]),
     queryText: item["queryText"],
     timeGrain: item["timeGrain"],
     valueColumnName: item["valueColumnName"],
@@ -1057,8 +1003,7 @@ export function logAnalyticsQuerySignalDefinitionPropertiesDeserializer(
 }
 
 /** Prometheus Metrics Signal Definition properties */
-export interface PrometheusMetricsSignalDefinitionProperties
-  extends SignalDefinitionProperties {
+export interface PrometheusMetricsSignalDefinitionProperties extends SignalDefinitionProperties {
   /** Kind of the signal definition */
   signalKind: "PrometheusMetricsQuery";
   /** Query text in PromQL syntax */
@@ -1093,9 +1038,7 @@ export function prometheusMetricsSignalDefinitionPropertiesDeserializer(
     labels: item["labels"],
     dataUnit: item["dataUnit"],
     evaluationRules: evaluationRuleDeserializer(item["evaluationRules"]),
-    deletionDate: !item["deletionDate"]
-      ? item["deletionDate"]
-      : new Date(item["deletionDate"]),
+    deletionDate: !item["deletionDate"] ? item["deletionDate"] : new Date(item["deletionDate"]),
     queryText: item["queryText"],
     timeGrain: item["timeGrain"],
   };
@@ -1127,26 +1070,20 @@ export interface _SignalDefinitionListResult {
   nextLink?: string;
 }
 
-export function _signalDefinitionListResultDeserializer(
-  item: any,
-): _SignalDefinitionListResult {
+export function _signalDefinitionListResultDeserializer(item: any): _SignalDefinitionListResult {
   return {
     value: signalDefinitionArrayDeserializer(item["value"]),
     nextLink: item["nextLink"],
   };
 }
 
-export function signalDefinitionArraySerializer(
-  result: Array<SignalDefinition>,
-): any[] {
+export function signalDefinitionArraySerializer(result: Array<SignalDefinition>): any[] {
   return result.map((item) => {
     return signalDefinitionSerializer(item);
   });
 }
 
-export function signalDefinitionArrayDeserializer(
-  result: Array<SignalDefinition>,
-): any[] {
+export function signalDefinitionArrayDeserializer(result: Array<SignalDefinition>): any[] {
   return result.map((item) => {
     return signalDefinitionDeserializer(item);
   });
@@ -1158,9 +1095,7 @@ export interface AuthenticationSetting extends ProxyResource {
   properties?: AuthenticationSettingPropertiesUnion;
 }
 
-export function authenticationSettingSerializer(
-  item: AuthenticationSetting,
-): any {
+export function authenticationSettingSerializer(item: AuthenticationSetting): any {
   return {
     properties: !item["properties"]
       ? item["properties"]
@@ -1168,9 +1103,7 @@ export function authenticationSettingSerializer(
   };
 }
 
-export function authenticationSettingDeserializer(
-  item: any,
-): AuthenticationSetting {
+export function authenticationSettingDeserializer(item: any): AuthenticationSetting {
   return {
     id: item["id"],
     name: item["name"],
@@ -1308,9 +1241,7 @@ export function _authenticationSettingListResultDeserializer(
   };
 }
 
-export function authenticationSettingArraySerializer(
-  result: Array<AuthenticationSetting>,
-): any[] {
+export function authenticationSettingArraySerializer(result: Array<AuthenticationSetting>): any[] {
   return result.map((item) => {
     return authenticationSettingSerializer(item);
   });
@@ -1393,12 +1324,8 @@ export function entityPropertiesSerializer(item: EntityProperties): any {
     healthObjective: item["healthObjective"],
     impact: item["impact"],
     labels: item["labels"],
-    signals: !item["signals"]
-      ? item["signals"]
-      : signalGroupSerializer(item["signals"]),
-    alerts: !item["alerts"]
-      ? item["alerts"]
-      : entityAlertsSerializer(item["alerts"]),
+    signals: !item["signals"] ? item["signals"] : signalGroupSerializer(item["signals"]),
+    alerts: !item["alerts"] ? item["alerts"] : entityAlertsSerializer(item["alerts"]),
   };
 }
 
@@ -1410,23 +1337,15 @@ export function entityPropertiesDeserializer(item: any): EntityProperties {
     canvasPosition: !item["canvasPosition"]
       ? item["canvasPosition"]
       : entityCoordinatesDeserializer(item["canvasPosition"]),
-    icon: !item["icon"]
-      ? item["icon"]
-      : iconDefinitionDeserializer(item["icon"]),
+    icon: !item["icon"] ? item["icon"] : iconDefinitionDeserializer(item["icon"]),
     healthObjective: item["healthObjective"],
     impact: item["impact"],
     labels: item["labels"],
-    signals: !item["signals"]
-      ? item["signals"]
-      : signalGroupDeserializer(item["signals"]),
+    signals: !item["signals"] ? item["signals"] : signalGroupDeserializer(item["signals"]),
     discoveredBy: item["discoveredBy"],
-    deletionDate: !item["deletionDate"]
-      ? item["deletionDate"]
-      : new Date(item["deletionDate"]),
+    deletionDate: !item["deletionDate"] ? item["deletionDate"] : new Date(item["deletionDate"]),
     healthState: item["healthState"],
-    alerts: !item["alerts"]
-      ? item["alerts"]
-      : entityAlertsDeserializer(item["alerts"]),
+    alerts: !item["alerts"] ? item["alerts"] : entityAlertsDeserializer(item["alerts"]),
   };
 }
 
@@ -1511,9 +1430,7 @@ export function signalGroupSerializer(item: SignalGroup): any {
       : logAnalyticsSignalGroupSerializer(item["azureLogAnalytics"]),
     azureMonitorWorkspace: !item["azureMonitorWorkspace"]
       ? item["azureMonitorWorkspace"]
-      : azureMonitorWorkspaceSignalGroupSerializer(
-          item["azureMonitorWorkspace"],
-        ),
+      : azureMonitorWorkspaceSignalGroupSerializer(item["azureMonitorWorkspace"]),
     dependencies: !item["dependencies"]
       ? item["dependencies"]
       : dependenciesSignalGroupSerializer(item["dependencies"]),
@@ -1530,9 +1447,7 @@ export function signalGroupDeserializer(item: any): SignalGroup {
       : logAnalyticsSignalGroupDeserializer(item["azureLogAnalytics"]),
     azureMonitorWorkspace: !item["azureMonitorWorkspace"]
       ? item["azureMonitorWorkspace"]
-      : azureMonitorWorkspaceSignalGroupDeserializer(
-          item["azureMonitorWorkspace"],
-        ),
+      : azureMonitorWorkspaceSignalGroupDeserializer(item["azureMonitorWorkspace"]),
     dependencies: !item["dependencies"]
       ? item["dependencies"]
       : dependenciesSignalGroupDeserializer(item["dependencies"]),
@@ -1549,9 +1464,7 @@ export interface AzureResourceSignalGroup {
   azureResourceId: string;
 }
 
-export function azureResourceSignalGroupSerializer(
-  item: AzureResourceSignalGroup,
-): any {
+export function azureResourceSignalGroupSerializer(item: AzureResourceSignalGroup): any {
   return {
     signalAssignments: !item["signalAssignments"]
       ? item["signalAssignments"]
@@ -1561,9 +1474,7 @@ export function azureResourceSignalGroupSerializer(
   };
 }
 
-export function azureResourceSignalGroupDeserializer(
-  item: any,
-): AzureResourceSignalGroup {
+export function azureResourceSignalGroupDeserializer(item: any): AzureResourceSignalGroup {
   return {
     signalAssignments: !item["signalAssignments"]
       ? item["signalAssignments"]
@@ -1573,17 +1484,13 @@ export function azureResourceSignalGroupDeserializer(
   };
 }
 
-export function signalAssignmentArraySerializer(
-  result: Array<SignalAssignment>,
-): any[] {
+export function signalAssignmentArraySerializer(result: Array<SignalAssignment>): any[] {
   return result.map((item) => {
     return signalAssignmentSerializer(item);
   });
 }
 
-export function signalAssignmentArrayDeserializer(
-  result: Array<SignalAssignment>,
-): any[] {
+export function signalAssignmentArrayDeserializer(result: Array<SignalAssignment>): any[] {
   return result.map((item) => {
     return signalAssignmentDeserializer(item);
   });
@@ -1621,9 +1528,7 @@ export interface LogAnalyticsSignalGroup {
   logAnalyticsWorkspaceResourceId: string;
 }
 
-export function logAnalyticsSignalGroupSerializer(
-  item: LogAnalyticsSignalGroup,
-): any {
+export function logAnalyticsSignalGroupSerializer(item: LogAnalyticsSignalGroup): any {
   return {
     signalAssignments: !item["signalAssignments"]
       ? item["signalAssignments"]
@@ -1633,9 +1538,7 @@ export function logAnalyticsSignalGroupSerializer(
   };
 }
 
-export function logAnalyticsSignalGroupDeserializer(
-  item: any,
-): LogAnalyticsSignalGroup {
+export function logAnalyticsSignalGroupDeserializer(item: any): LogAnalyticsSignalGroup {
   return {
     signalAssignments: !item["signalAssignments"]
       ? item["signalAssignments"]
@@ -1689,9 +1592,7 @@ export interface DependenciesSignalGroup {
   unhealthyThreshold?: string;
 }
 
-export function dependenciesSignalGroupSerializer(
-  item: DependenciesSignalGroup,
-): any {
+export function dependenciesSignalGroupSerializer(item: DependenciesSignalGroup): any {
   return {
     aggregationType: item["aggregationType"],
     degradedThreshold: item["degradedThreshold"],
@@ -1699,9 +1600,7 @@ export function dependenciesSignalGroupSerializer(
   };
 }
 
-export function dependenciesSignalGroupDeserializer(
-  item: any,
-): DependenciesSignalGroup {
+export function dependenciesSignalGroupDeserializer(item: any): DependenciesSignalGroup {
   return {
     aggregationType: item["aggregationType"],
     degradedThreshold: item["degradedThreshold"],
@@ -1767,9 +1666,7 @@ export function entityAlertsSerializer(item: EntityAlerts): any {
     unhealthy: !item["unhealthy"]
       ? item["unhealthy"]
       : alertConfigurationSerializer(item["unhealthy"]),
-    degraded: !item["degraded"]
-      ? item["degraded"]
-      : alertConfigurationSerializer(item["degraded"]),
+    degraded: !item["degraded"] ? item["degraded"] : alertConfigurationSerializer(item["degraded"]),
   };
 }
 
@@ -1918,9 +1815,7 @@ export interface RelationshipProperties {
   readonly deletionDate?: Date;
 }
 
-export function relationshipPropertiesSerializer(
-  item: RelationshipProperties,
-): any {
+export function relationshipPropertiesSerializer(item: RelationshipProperties): any {
   return {
     displayName: item["displayName"],
     parentEntityName: item["parentEntityName"],
@@ -1929,9 +1824,7 @@ export function relationshipPropertiesSerializer(
   };
 }
 
-export function relationshipPropertiesDeserializer(
-  item: any,
-): RelationshipProperties {
+export function relationshipPropertiesDeserializer(item: any): RelationshipProperties {
   return {
     provisioningState: item["provisioningState"],
     displayName: item["displayName"],
@@ -1939,9 +1832,7 @@ export function relationshipPropertiesDeserializer(
     childEntityName: item["childEntityName"],
     labels: item["labels"],
     discoveredBy: item["discoveredBy"],
-    deletionDate: !item["deletionDate"]
-      ? item["deletionDate"]
-      : new Date(item["deletionDate"]),
+    deletionDate: !item["deletionDate"] ? item["deletionDate"] : new Date(item["deletionDate"]),
   };
 }
 
@@ -1953,26 +1844,20 @@ export interface _RelationshipListResult {
   nextLink?: string;
 }
 
-export function _relationshipListResultDeserializer(
-  item: any,
-): _RelationshipListResult {
+export function _relationshipListResultDeserializer(item: any): _RelationshipListResult {
   return {
     value: relationshipArrayDeserializer(item["value"]),
     nextLink: item["nextLink"],
   };
 }
 
-export function relationshipArraySerializer(
-  result: Array<Relationship>,
-): any[] {
+export function relationshipArraySerializer(result: Array<Relationship>): any[] {
   return result.map((item) => {
     return relationshipSerializer(item);
   });
 }
 
-export function relationshipArrayDeserializer(
-  result: Array<Relationship>,
-): any[] {
+export function relationshipArrayDeserializer(result: Array<Relationship>): any[] {
   return result.map((item) => {
     return relationshipDeserializer(item);
   });
@@ -2030,9 +1915,7 @@ export interface DiscoveryRuleProperties {
   readonly entityName: string;
 }
 
-export function discoveryRulePropertiesSerializer(
-  item: DiscoveryRuleProperties,
-): any {
+export function discoveryRulePropertiesSerializer(item: DiscoveryRuleProperties): any {
   return {
     displayName: item["displayName"],
     resourceGraphQuery: item["resourceGraphQuery"],
@@ -2042,9 +1925,7 @@ export function discoveryRulePropertiesSerializer(
   };
 }
 
-export function discoveryRulePropertiesDeserializer(
-  item: any,
-): DiscoveryRuleProperties {
+export function discoveryRulePropertiesDeserializer(item: any): DiscoveryRuleProperties {
   return {
     provisioningState: item["provisioningState"],
     displayName: item["displayName"],
@@ -2052,9 +1933,7 @@ export function discoveryRulePropertiesDeserializer(
     authenticationSetting: item["authenticationSetting"],
     discoverRelationships: item["discoverRelationships"],
     addRecommendedSignals: item["addRecommendedSignals"],
-    deletionDate: !item["deletionDate"]
-      ? item["deletionDate"]
-      : new Date(item["deletionDate"]),
+    deletionDate: !item["deletionDate"] ? item["deletionDate"] : new Date(item["deletionDate"]),
     errorMessage: item["errorMessage"],
     numberOfDiscoveredEntities: item["numberOfDiscoveredEntities"],
     entityName: item["entityName"],
@@ -2087,26 +1966,20 @@ export interface _DiscoveryRuleListResult {
   nextLink?: string;
 }
 
-export function _discoveryRuleListResultDeserializer(
-  item: any,
-): _DiscoveryRuleListResult {
+export function _discoveryRuleListResultDeserializer(item: any): _DiscoveryRuleListResult {
   return {
     value: discoveryRuleArrayDeserializer(item["value"]),
     nextLink: item["nextLink"],
   };
 }
 
-export function discoveryRuleArraySerializer(
-  result: Array<DiscoveryRule>,
-): any[] {
+export function discoveryRuleArraySerializer(result: Array<DiscoveryRule>): any[] {
   return result.map((item) => {
     return discoveryRuleSerializer(item);
   });
 }
 
-export function discoveryRuleArrayDeserializer(
-  result: Array<DiscoveryRule>,
-): any[] {
+export function discoveryRuleArrayDeserializer(result: Array<DiscoveryRule>): any[] {
   return result.map((item) => {
     return discoveryRuleDeserializer(item);
   });

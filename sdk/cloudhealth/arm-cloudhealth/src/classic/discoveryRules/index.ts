@@ -60,21 +60,13 @@ function _getDiscoveryRules(context: CloudHealthContext) {
       resourceGroupName: string,
       healthModelName: string,
       options?: DiscoveryRulesListByHealthModelOptionalParams,
-    ) =>
-      listByHealthModel(context, resourceGroupName, healthModelName, options),
+    ) => listByHealthModel(context, resourceGroupName, healthModelName, options),
     delete: (
       resourceGroupName: string,
       healthModelName: string,
       discoveryRuleName: string,
       options?: DiscoveryRulesDeleteOptionalParams,
-    ) =>
-      $delete(
-        context,
-        resourceGroupName,
-        healthModelName,
-        discoveryRuleName,
-        options,
-      ),
+    ) => $delete(context, resourceGroupName, healthModelName, discoveryRuleName, options),
     createOrUpdate: (
       resourceGroupName: string,
       healthModelName: string,
@@ -95,14 +87,7 @@ function _getDiscoveryRules(context: CloudHealthContext) {
       healthModelName: string,
       discoveryRuleName: string,
       options?: DiscoveryRulesGetOptionalParams,
-    ) =>
-      get(
-        context,
-        resourceGroupName,
-        healthModelName,
-        discoveryRuleName,
-        options,
-      ),
+    ) => get(context, resourceGroupName, healthModelName, discoveryRuleName, options),
   };
 }
 

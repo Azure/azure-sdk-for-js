@@ -14,11 +14,7 @@ async function entitiesDelete(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "4980D7D5-4E07-47AD-AD34-E76C6BC9F061";
   const client = new CloudHealthClient(credential, subscriptionId);
-  await client.entities.delete(
-    "rgopenapi",
-    "model1",
-    "U4VTRFlUkm9kR6H23-c-6U-XHq7n",
-  );
+  await client.entities.delete("rgopenapi", "model1", "U4VTRFlUkm9kR6H23-c-6U-XHq7n");
 }
 
 async function main(): Promise<void> {

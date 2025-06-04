@@ -4,17 +4,13 @@
 import { OperationOptions } from "@azure-rest/core-client";
 
 /** Optional parameters. */
-export interface AuthenticationSettingsListByHealthModelOptionalParams
-  extends OperationOptions {}
+export interface AuthenticationSettingsListByHealthModelOptionalParams extends OperationOptions {}
 
 /** Optional parameters. */
-export interface AuthenticationSettingsDeleteOptionalParams
-  extends OperationOptions {}
+export interface AuthenticationSettingsDeleteOptionalParams extends OperationOptions {}
 
 /** Optional parameters. */
-export interface AuthenticationSettingsCreateOrUpdateOptionalParams
-  extends OperationOptions {}
+export interface AuthenticationSettingsCreateOrUpdateOptionalParams extends OperationOptions {}
 
 /** Optional parameters. */
-export interface AuthenticationSettingsGetOptionalParams
-  extends OperationOptions {}
+export interface AuthenticationSettingsGetOptionalParams extends OperationOptions {}

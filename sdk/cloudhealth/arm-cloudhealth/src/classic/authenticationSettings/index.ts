@@ -60,21 +60,13 @@ function _getAuthenticationSettings(context: CloudHealthContext) {
       resourceGroupName: string,
       healthModelName: string,
       options?: AuthenticationSettingsListByHealthModelOptionalParams,
-    ) =>
-      listByHealthModel(context, resourceGroupName, healthModelName, options),
+    ) => listByHealthModel(context, resourceGroupName, healthModelName, options),
     delete: (
       resourceGroupName: string,
       healthModelName: string,
       authenticationSettingName: string,
       options?: AuthenticationSettingsDeleteOptionalParams,
-    ) =>
-      $delete(
-        context,
-        resourceGroupName,
-        healthModelName,
-        authenticationSettingName,
-        options,
-      ),
+    ) => $delete(context, resourceGroupName, healthModelName, authenticationSettingName, options),
     createOrUpdate: (
       resourceGroupName: string,
       healthModelName: string,
@@ -95,14 +87,7 @@ function _getAuthenticationSettings(context: CloudHealthContext) {
       healthModelName: string,
       authenticationSettingName: string,
       options?: AuthenticationSettingsGetOptionalParams,
-    ) =>
-      get(
-        context,
-        resourceGroupName,
-        healthModelName,
-        authenticationSettingName,
-        options,
-      ),
+    ) => get(context, resourceGroupName, healthModelName, authenticationSettingName, options),
   };
 }
 

@@ -32,21 +32,17 @@ async function entitiesCreateOrUpdate(): Promise<void> {
         signals: {
           azureResource: {
             signalAssignments: [{ signalDefinitions: ["sigdef1"] }],
-            authenticationSetting:
-              "B3P1X3e-FZtZ-4Ak-2VLHGQ-4m4-05DE-XNW5zW3P-46XY-DC3SSX",
+            authenticationSetting: "B3P1X3e-FZtZ-4Ak-2VLHGQ-4m4-05DE-XNW5zW3P-46XY-DC3SSX",
             azureResourceId:
               "/subscriptions/12345678-1234-1234-1234-123456789012/resourceGroups/rg1/providers/Microsoft.Compute/virtualMachines/vm1",
           },
           azureLogAnalytics: {
             signalAssignments: [
               {
-                signalDefinitions: [
-                  "B3P1X3e-FZtZ-4Ak-2VLHGQ-4m4-05DE-XNW5zW3P-46XY-DC3SSX",
-                ],
+                signalDefinitions: ["B3P1X3e-FZtZ-4Ak-2VLHGQ-4m4-05DE-XNW5zW3P-46XY-DC3SSX"],
               },
             ],
-            authenticationSetting:
-              "B3P1X3e-FZtZ-4Ak-2VLHGQ-4m4-05DE-XNW5zW3P-46XY-DC3SSX",
+            authenticationSetting: "B3P1X3e-FZtZ-4Ak-2VLHGQ-4m4-05DE-XNW5zW3P-46XY-DC3SSX",
             logAnalyticsWorkspaceResourceId:
               "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rg/providers/Microsoft.OperationalInsights/workspaces/myworkspace",
           },
@@ -55,8 +51,7 @@ async function entitiesCreateOrUpdate(): Promise<void> {
               { signalDefinitions: ["sigdef2"] },
               { signalDefinitions: ["sigdef3"] },
             ],
-            authenticationSetting:
-              "B3P1X3e-FZtZ-4Ak-2VLHGQ-4m4-05DE-XNW5zW3P-46XY-DC3SSX",
+            authenticationSetting: "B3P1X3e-FZtZ-4Ak-2VLHGQ-4m4-05DE-XNW5zW3P-46XY-DC3SSX",
             azureMonitorWorkspaceResourceId:
               "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rg/providers/Microsoft.OperationalInsights/workspaces/myworkspace",
           },

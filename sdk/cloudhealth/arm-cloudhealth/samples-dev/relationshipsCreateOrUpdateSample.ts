@@ -14,19 +14,14 @@ async function relationshipsCreateOrUpdate(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "4980D7D5-4E07-47AD-AD34-E76C6BC9F061";
   const client = new CloudHealthClient(credential, subscriptionId);
-  const result = await client.relationships.createOrUpdate(
-    "rgopenapi",
-    "model1",
-    "rel1",
-    {
-      properties: {
-        displayName: "My relationship",
-        parentEntityName: "Entity1",
-        childEntityName: "Entity2",
-        labels: { key9681: "ixfvzsfnpvkkbrce" },
-      },
+  const result = await client.relationships.createOrUpdate("rgopenapi", "model1", "rel1", {
+    properties: {
+      displayName: "My relationship",
+      parentEntityName: "Entity1",
+      childEntityName: "Entity2",
+      labels: { key9681: "ixfvzsfnpvkkbrce" },
     },
-  );
+  });
   console.log(result);
 }
 

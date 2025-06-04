@@ -43,23 +43,19 @@ export function _listByHealthModelSend(
       resourceGroupName: resourceGroupName,
       healthModelName: healthModelName,
       "api%2Dversion": context.apiVersion,
-      timestamp: !options?.timestamp
-        ? options?.timestamp
-        : options?.timestamp.toISOString(),
+      timestamp: !options?.timestamp ? options?.timestamp : options?.timestamp.toISOString(),
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context
-    .path(path)
-    .get({
-      ...operationOptionsToRequestParameters(options),
-      headers: {
-        accept: "application/json",
-        ...options.requestOptions?.headers,
-      },
-    });
+  return context.path(path).get({
+    ...operationOptionsToRequestParameters(options),
+    headers: {
+      accept: "application/json",
+      ...options.requestOptions?.headers,
+    },
+  });
 }
 
 export async function _listByHealthModelDeserialize(
@@ -86,13 +82,7 @@ export function listByHealthModel(
 ): PagedAsyncIterableIterator<DiscoveryRule> {
   return buildPagedAsyncIterator(
     context,
-    () =>
-      _listByHealthModelSend(
-        context,
-        resourceGroupName,
-        healthModelName,
-        options,
-      ),
+    () => _listByHealthModelSend(context, resourceGroupName, healthModelName, options),
     _listByHealthModelDeserialize,
     ["200"],
     { itemName: "value", nextLinkName: "nextLink" },
@@ -119,20 +109,16 @@ export function _$deleteSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context
-    .path(path)
-    .delete({
-      ...operationOptionsToRequestParameters(options),
-      headers: {
-        accept: "application/json",
-        ...options.requestOptions?.headers,
-      },
-    });
+  return context.path(path).delete({
+    ...operationOptionsToRequestParameters(options),
+    headers: {
+      accept: "application/json",
+      ...options.requestOptions?.headers,
+    },
+  });
 }
 
-export async function _$deleteDeserialize(
-  result: PathUncheckedResponse,
-): Promise<void> {
+export async function _$deleteDeserialize(result: PathUncheckedResponse): Promise<void> {
   const expectedStatuses = ["200", "204"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
@@ -187,17 +173,15 @@ export function _createOrUpdateSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context
-    .path(path)
-    .put({
-      ...operationOptionsToRequestParameters(options),
-      contentType: "application/json",
-      headers: {
-        accept: "application/json",
-        ...options.requestOptions?.headers,
-      },
-      body: discoveryRuleSerializer(resource),
-    });
+  return context.path(path).put({
+    ...operationOptionsToRequestParameters(options),
+    contentType: "application/json",
+    headers: {
+      accept: "application/json",
+      ...options.requestOptions?.headers,
+    },
+    body: discoveryRuleSerializer(resource),
+  });
 }
 
 export async function _createOrUpdateDeserialize(
@@ -253,20 +237,16 @@ export function _getSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context
-    .path(path)
-    .get({
-      ...operationOptionsToRequestParameters(options),
-      headers: {
-        accept: "application/json",
-        ...options.requestOptions?.headers,
-      },
-    });
+  return context.path(path).get({
+    ...operationOptionsToRequestParameters(options),
+    headers: {
+      accept: "application/json",
+      ...options.requestOptions?.headers,
+    },
+  });
 }
 
-export async function _getDeserialize(
-  result: PathUncheckedResponse,
-): Promise<DiscoveryRule> {
+export async function _getDeserialize(result: PathUncheckedResponse): Promise<DiscoveryRule> {
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);

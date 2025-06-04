@@ -14,10 +14,7 @@ import {
   RelationshipsOperations,
   _getRelationshipsOperations,
 } from "./classic/relationships/index.js";
-import {
-  EntitiesOperations,
-  _getEntitiesOperations,
-} from "./classic/entities/index.js";
+import { EntitiesOperations, _getEntitiesOperations } from "./classic/entities/index.js";
 import {
   AuthenticationSettingsOperations,
   _getAuthenticationSettingsOperations,
@@ -30,10 +27,7 @@ import {
   HealthModelsOperations,
   _getHealthModelsOperations,
 } from "./classic/healthModels/index.js";
-import {
-  OperationsOperations,
-  _getOperationsOperations,
-} from "./classic/operations/index.js";
+import { OperationsOperations, _getOperationsOperations } from "./classic/operations/index.js";
 import { Pipeline } from "@azure/core-rest-pipeline";
 import { TokenCredential } from "@azure/core-auth";
 
@@ -61,9 +55,7 @@ export class CloudHealthClient {
     this.discoveryRules = _getDiscoveryRulesOperations(this._client);
     this.relationships = _getRelationshipsOperations(this._client);
     this.entities = _getEntitiesOperations(this._client);
-    this.authenticationSettings = _getAuthenticationSettingsOperations(
-      this._client,
-    );
+    this.authenticationSettings = _getAuthenticationSettingsOperations(this._client);
     this.signalDefinitions = _getSignalDefinitionsOperations(this._client);
     this.healthModels = _getHealthModelsOperations(this._client);
     this.operations = _getOperationsOperations(this._client);

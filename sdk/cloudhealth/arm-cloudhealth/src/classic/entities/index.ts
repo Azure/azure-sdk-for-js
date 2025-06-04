@@ -9,12 +9,7 @@ import {
   EntitiesCreateOrUpdateOptionalParams,
   EntitiesGetOptionalParams,
 } from "../../api/entities/options.js";
-import {
-  listByHealthModel,
-  $delete,
-  createOrUpdate,
-  get,
-} from "../../api/entities/operations.js";
+import { listByHealthModel, $delete, createOrUpdate, get } from "../../api/entities/operations.js";
 import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 
 /** Interface representing a Entities operations. */
@@ -60,30 +55,20 @@ function _getEntities(context: CloudHealthContext) {
       resourceGroupName: string,
       healthModelName: string,
       options?: EntitiesListByHealthModelOptionalParams,
-    ) =>
-      listByHealthModel(context, resourceGroupName, healthModelName, options),
+    ) => listByHealthModel(context, resourceGroupName, healthModelName, options),
     delete: (
       resourceGroupName: string,
       healthModelName: string,
       entityName: string,
       options?: EntitiesDeleteOptionalParams,
-    ) =>
-      $delete(context, resourceGroupName, healthModelName, entityName, options),
+    ) => $delete(context, resourceGroupName, healthModelName, entityName, options),
     createOrUpdate: (
       resourceGroupName: string,
       healthModelName: string,
       entityName: string,
       resource: Entity,
       options?: EntitiesCreateOrUpdateOptionalParams,
-    ) =>
-      createOrUpdate(
-        context,
-        resourceGroupName,
-        healthModelName,
-        entityName,
-        resource,
-        options,
-      ),
+    ) => createOrUpdate(context, resourceGroupName, healthModelName, entityName, resource, options),
     get: (
       resourceGroupName: string,
       healthModelName: string,
@@ -93,9 +78,7 @@ function _getEntities(context: CloudHealthContext) {
   };
 }
 
-export function _getEntitiesOperations(
-  context: CloudHealthContext,
-): EntitiesOperations {
+export function _getEntitiesOperations(context: CloudHealthContext): EntitiesOperations {
   return {
     ..._getEntities(context),
   };
