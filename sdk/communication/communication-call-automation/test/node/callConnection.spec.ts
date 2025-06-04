@@ -792,15 +792,9 @@ describe("CallConnection Live Tests", function () {
 
     await new Promise((resolve) => setTimeout(resolve, 10000));
 
-    const participantLists = await callConnection.listParticipants();
-    let isMuted = false;
-    for (const participant of participantLists.values!) {
-      const communicationUser = participant.identifier as CommunicationUserIdentifier;
-      if (communicationUser.communicationUserId === testUser2.communicationUserId) {
-        isMuted = participant.isMuted!;
-      }
-    }
-    assert.isTrue(isMuted);
+    const participant = await callConnection.getParticipant(testUser2);    
+    assert.isDefined(participant);
+    assert.isTrue(participant.isMuted);
   });
 
   it("Add a participant cancels add participant request", { timeout: 90000 }, async function (ctx) {
