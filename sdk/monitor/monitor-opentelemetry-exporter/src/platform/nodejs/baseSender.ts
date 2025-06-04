@@ -114,8 +114,10 @@ export abstract class BaseSender {
           this.retryTimer.unref();
         }
         // If we are not exportings statsbeat and statsbeat is not disabled -- count success
-        this.networkStatsbeatMetrics?.countSuccess(duration);
-        this.countSuccessfulEnvelopes(envelopes);
+        if (!this.isStatsbeatSender) {
+          this.networkStatsbeatMetrics?.countSuccess(duration);
+          this.countSuccessfulEnvelopes(envelopes);
+        }
         return { code: ExportResultCode.SUCCESS };
       } else if (statusCode && isRetriable(statusCode)) {
         // Failed -- persist failed data
@@ -158,7 +160,9 @@ export abstract class BaseSender {
           if (breezeResponse.itemsReceived > 0) {
             this.networkStatsbeatMetrics?.countSuccess(duration);
             // Count only the successful envelopes (non-undefined)
-            this.countSuccessfulEnvelopes(successfulEnvelopes.filter(Boolean));
+            if (!this.isStatsbeatSender) {
+              this.countSuccessfulEnvelopes(successfulEnvelopes.filter(Boolean));
+            }
             // For network statsbeat we just care that some envelopes were successful
             this.networkStatsbeatMetrics?.countSuccess(duration);
           }
