@@ -77,6 +77,7 @@ To construct an `AIProjectsClient`, the `endpoint` can be fetched from [endpoint
 ```ts snippet:setup
 import { AIProjectClient } from "@azure/ai-projects";
 import { DefaultAzureCredential } from "@azure/identity";
+
 const endpoint = process.env["AZURE_AI_PROJECT_ENDPOINT_STRING"] || "<project endpoint string>";
 const client = new AIProjectClient(endpoint, new DefaultAzureCredential());
 ```
