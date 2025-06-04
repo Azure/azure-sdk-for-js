@@ -11,5 +11,3 @@ export { getContinuationToken } from "./pagingHelper.js";
 export * from "./models/index.js";
 export { ContainerAppsAPIClient } from "./containerAppsAPIClient.js";
 export * from "./operationsInterfaces/index.js";
-
-const a = b;
