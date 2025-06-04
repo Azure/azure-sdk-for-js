@@ -7,7 +7,11 @@ import type { AzureMonitorExporterOptions } from "../../config.js";
 import { FileSystemPersist } from "./persist/index.js";
 import type { ExportResult } from "@opentelemetry/core";
 import { ExportResultCode } from "@opentelemetry/core";
-import { getInstance as getNetworkStatsbeatInstance, releaseInstance as releaseNetworkStatsbeatInstance, type NetworkStatsbeatMetrics } from "../../export/statsbeat/networkStatsbeatMetrics.js";
+import {
+  getInstance as getNetworkStatsbeatInstance,
+  releaseInstance as releaseNetworkStatsbeatInstance,
+  type NetworkStatsbeatMetrics,
+} from "../../export/statsbeat/networkStatsbeatMetrics.js";
 import { getInstance } from "../../export/statsbeat/longIntervalStatsbeatMetrics.js";
 import type { RestError } from "@azure/core-rest-pipeline";
 import { MAX_STATSBEAT_FAILURES, isStatsbeatShutdownStatus } from "../../export/statsbeat/types.js";

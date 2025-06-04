@@ -456,13 +456,13 @@ export class NetworkStatsbeatMetrics extends StatsbeatMetrics {
     if (referenceCount > 0) {
       referenceCount--;
     }
-    
+
     if (referenceCount === 0 && instance) {
       const shutdownPromise = instance.shutdown();
       instance = null;
       return shutdownPromise;
     }
-    
+
     return Promise.resolve();
   }
 

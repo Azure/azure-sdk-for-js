@@ -10,13 +10,26 @@ import {
 } from "../../src/Declarations/Constants.js";
 import nock from "nock";
 import type { NetworkStatsbeatMetrics } from "../../src/export/statsbeat/networkStatsbeatMetrics.js";
-import { getInstance as getNetworkStatsbeatInstance, shutdownInstance as shutdownNetworkStatsbeatInstance } from "../../src/export/statsbeat/networkStatsbeatMetrics.js";
+import {
+  getInstance as getNetworkStatsbeatInstance,
+  shutdownInstance as shutdownNetworkStatsbeatInstance,
+} from "../../src/export/statsbeat/networkStatsbeatMetrics.js";
 import { AZURE_MONITOR_AUTO_ATTACH, StatsbeatCounter } from "../../src/export/statsbeat/types.js";
 import { getInstance } from "../../src/export/statsbeat/longIntervalStatsbeatMetrics.js";
 import { getInstance as getContext } from "../../src/platform/nodejs/context/context.js";
 import { AzureMonitorTraceExporter } from "../../src/export/trace.js";
 import { diag } from "@opentelemetry/api";
-import { describe, it, assert, expect, vi, beforeAll, afterAll, beforeEach, afterEach } from "vitest";
+import {
+  describe,
+  it,
+  assert,
+  expect,
+  vi,
+  beforeAll,
+  afterAll,
+  beforeEach,
+  afterEach,
+} from "vitest";
 
 describe("#AzureMonitorStatsbeatExporter", () => {
   process.env.LONG_INTERVAL_EXPORT_MILLIS = "100";
