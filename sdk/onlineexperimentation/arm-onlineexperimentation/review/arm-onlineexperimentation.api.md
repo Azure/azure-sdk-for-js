@@ -111,27 +111,6 @@ export enum KnownOrigin {
 }
 
 // @public
-export enum KnownPrivateEndpointConnectionProvisioningState {
-    Creating = "Creating",
-    Deleting = "Deleting",
-    Failed = "Failed",
-    Succeeded = "Succeeded"
-}
-
-// @public
-export enum KnownPrivateEndpointServiceConnectionStatus {
-    Approved = "Approved",
-    Pending = "Pending",
-    Rejected = "Rejected"
-}
-
-// @public
-export enum KnownPublicNetworkAccessType {
-    Disabled = "Disabled",
-    Enabled = "Enabled"
-}
-
-// @public
 export enum KnownResourceProvisioningState {
     Canceled = "Canceled",
     Failed = "Failed",
@@ -140,8 +119,7 @@ export enum KnownResourceProvisioningState {
 
 // @public
 export enum KnownVersions {
-    V20250531Preview = "2025-05-31-preview",
-    V20250801Preview = "2025-08-01-preview"
+    V20250531Preview = "2025-05-31-preview"
 }
 
 // @public
@@ -161,8 +139,6 @@ export class OnlineExperimentationClient {
     readonly onlineExperimentationWorkspaces: OnlineExperimentationWorkspacesOperations;
     readonly operations: OperationsOperations;
     readonly pipeline: Pipeline;
-    readonly privateEndpointConnections: PrivateEndpointConnectionsOperations;
-    readonly privateLinkResources: PrivateLinkResourcesOperations;
 }
 
 // @public
@@ -184,7 +160,6 @@ export interface OnlineExperimentationWorkspacePatch {
         logAnalyticsWorkspaceResourceId?: string;
         logsExporterStorageAccountResourceId?: string;
         encryption?: ResourceEncryptionConfiguration;
-        publicNetworkAccess?: PublicNetworkAccessType;
     };
     sku?: OnlineExperimentationWorkspaceSku;
     tags?: Record<string, string>;
@@ -197,9 +172,7 @@ export interface OnlineExperimentationWorkspaceProperties {
     readonly endpoint?: string;
     logAnalyticsWorkspaceResourceId: string;
     logsExporterStorageAccountResourceId: string;
-    readonly privateEndpointConnections?: PrivateEndpointConnection[];
     readonly provisioningState?: ResourceProvisioningState;
-    publicNetworkAccess?: PublicNetworkAccessType;
     readonly workspaceId?: string;
 }
 
@@ -292,95 +265,6 @@ export interface PagedAsyncIterableIterator<TElement, TPage = TElement[], TPageS
 export interface PageSettings {
     continuationToken?: string;
 }
-
-// @public
-export interface PrivateEndpoint {
-    readonly id?: string;
-}
-
-// @public
-export interface PrivateEndpointConnection extends ProxyResource {
-    properties?: PrivateEndpointConnectionProperties;
-}
-
-// @public
-export interface PrivateEndpointConnectionProperties {
-    readonly groupIds?: string[];
-    privateEndpoint?: PrivateEndpoint;
-    privateLinkServiceConnectionState: PrivateLinkServiceConnectionState;
-    readonly provisioningState?: PrivateEndpointConnectionProvisioningState;
-}
-
-// @public
-export type PrivateEndpointConnectionProvisioningState = string;
-
-// @public
-export interface PrivateEndpointConnectionsDeleteOptionalParams extends OperationOptions {
-    updateIntervalInMs?: number;
-}
-
-// @public
-export interface PrivateEndpointConnectionsGetOptionalParams extends OperationOptions {
-}
-
-// @public
-export interface PrivateEndpointConnectionsListOptionalParams extends OperationOptions {
-}
-
-// @public
-export interface PrivateEndpointConnectionsOperations {
-    delete: (resourceGroupName: string, workspaceName: string, privateEndpointConnectionName: string, options?: PrivateEndpointConnectionsDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
-    get: (resourceGroupName: string, workspaceName: string, privateEndpointConnectionName: string, options?: PrivateEndpointConnectionsGetOptionalParams) => Promise<PrivateEndpointConnection>;
-    list: (resourceGroupName: string, workspaceName: string, options?: PrivateEndpointConnectionsListOptionalParams) => PagedAsyncIterableIterator<PrivateEndpointConnection>;
-    update: (resourceGroupName: string, workspaceName: string, privateEndpointConnectionName: string, resource: PrivateEndpointConnection, options?: PrivateEndpointConnectionsUpdateOptionalParams) => Promise<PrivateEndpointConnection>;
-}
-
-// @public
-export interface PrivateEndpointConnectionsUpdateOptionalParams extends OperationOptions {
-}
-
-// @public
-export type PrivateEndpointServiceConnectionStatus = string;
-
-// @public
-export interface PrivateLinkResource extends ProxyResource {
-    properties?: PrivateLinkResourceProperties;
-}
-
-// @public
-export interface PrivateLinkResourceProperties {
-    readonly groupId?: string;
-    readonly requiredMembers?: string[];
-    requiredZoneNames?: string[];
-}
-
-// @public
-export interface PrivateLinkResourcesGetOptionalParams extends OperationOptions {
-}
-
-// @public
-export interface PrivateLinkResourcesListOptionalParams extends OperationOptions {
-}
-
-// @public
-export interface PrivateLinkResourcesOperations {
-    get: (resourceGroupName: string, workspaceName: string, privateLinkResourceName: string, options?: PrivateLinkResourcesGetOptionalParams) => Promise<PrivateLinkResource>;
-    list: (resourceGroupName: string, workspaceName: string, options?: PrivateLinkResourcesListOptionalParams) => PagedAsyncIterableIterator<PrivateLinkResource>;
-}
-
-// @public
-export interface PrivateLinkServiceConnectionState {
-    actionsRequired?: string;
-    description?: string;
-    status?: PrivateEndpointServiceConnectionStatus;
-}
-
-// @public
-export interface ProxyResource extends Resource {
-}
-
-// @public
-export type PublicNetworkAccessType = string;
 
 // @public
 export interface Resource {

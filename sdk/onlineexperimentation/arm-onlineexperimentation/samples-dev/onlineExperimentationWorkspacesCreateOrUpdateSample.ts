@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to create an online experimentation workspace, or update an existing workspace.
  *
  * @summary create an online experimentation workspace, or update an existing workspace.
- * x-ms-original-file: 2025-08-01-preview/OnlineExperimentationWorkspaces_CreateOrUpdate.json
+ * x-ms-original-file: 2025-05-31-preview/OnlineExperimentationWorkspaces_CreateOrUpdate.json
  */
 async function createOrUpdateAnOnlineExperimentationWorkspaceWithFreeSku(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -47,47 +47,7 @@ async function createOrUpdateAnOnlineExperimentationWorkspaceWithFreeSku(): Prom
  * This sample demonstrates how to create an online experimentation workspace, or update an existing workspace.
  *
  * @summary create an online experimentation workspace, or update an existing workspace.
- * x-ms-original-file: 2025-08-01-preview/OnlineExperimentationWorkspaces_CreateOrUpdateWithDisabledPublicNetworkAccess.json
- */
-async function createOrUpdateAnOnlineExperimentationWorkspaceWithPublicNetworkAccessDisabled(): Promise<void> {
-  const credential = new DefaultAzureCredential();
-  const subscriptionId = "fa5fc227-a624-475e-b696-cdd604c735bc";
-  const client = new OnlineExperimentationClient(credential, subscriptionId);
-  const result = await client.onlineExperimentationWorkspaces.createOrUpdate(
-    "res9871",
-    "expworkspace7",
-    {
-      location: "eastus2",
-      tags: { newKey: "newVal" },
-      properties: {
-        logAnalyticsWorkspaceResourceId:
-          "/subscriptions/fa5fc227-a624-475e-b696-cdd604c735bc/resourceGroups/res9871/providers/Microsoft.OperationalInsights/workspaces/log9871",
-        logsExporterStorageAccountResourceId:
-          "/subscriptions/fa5fc227-a624-475e-b696-cdd604c735bc/resourceGroups/res9871/providers/Microsoft.Storage/storageAccounts/sto9871",
-        appConfigurationResourceId:
-          "/subscriptions/fa5fc227-a624-475e-b696-cdd604c735bc/resourceGroups/res9871/providers/Microsoft.AppConfiguration/configurationStores/appconfig9871",
-        publicNetworkAccess: "Disabled",
-      },
-      identity: {
-        type: "UserAssigned",
-        userAssignedIdentities: {
-          "/subscriptions/fa5fc227-a624-475e-b696-cdd604c735bc/resourceGroups/eu2cgroup/providers/Microsoft.ManagedIdentity/userAssignedIdentities/id1":
-            {},
-          "/subscriptions/fa5fc227-a624-475e-b696-cdd604c735bc/resourceGroups/eu2cgroup/providers/Microsoft.ManagedIdentity/userAssignedIdentities/id2":
-            {},
-        },
-      },
-      sku: { name: "S0" },
-    },
-  );
-  console.log(result);
-}
-
-/**
- * This sample demonstrates how to create an online experimentation workspace, or update an existing workspace.
- *
- * @summary create an online experimentation workspace, or update an existing workspace.
- * x-ms-original-file: 2025-08-01-preview/OnlineExperimentationWorkspaces_CreateOrUpdateWithEncryption.json
+ * x-ms-original-file: 2025-05-31-preview/OnlineExperimentationWorkspaces_CreateOrUpdateWithEncryption.json
  */
 async function createOrUpdateAnOnlineExperimentationWorkspaceWithFreeSkuAndCustomerManagedKey(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -106,7 +66,6 @@ async function createOrUpdateAnOnlineExperimentationWorkspaceWithFreeSkuAndCusto
           "/subscriptions/fa5fc227-a624-475e-b696-cdd604c735bc/resourceGroups/res9871/providers/Microsoft.Storage/storageAccounts/sto9871",
         appConfigurationResourceId:
           "/subscriptions/fa5fc227-a624-475e-b696-cdd604c735bc/resourceGroups/res9871/providers/Microsoft.AppConfiguration/configurationStores/appconfig9871",
-        publicNetworkAccess: "Enabled",
         encryption: {
           customerManagedKeyEncryption: {
             keyEncryptionKeyIdentity: {
@@ -114,7 +73,8 @@ async function createOrUpdateAnOnlineExperimentationWorkspaceWithFreeSkuAndCusto
               userAssignedIdentityResourceId:
                 "/subscriptions/fa5fc227-a624-475e-b696-cdd604c735bc/resourceGroups/eu2cgroup/providers/Microsoft.ManagedIdentity/userAssignedIdentities/id1",
             },
-            keyEncryptionKeyUrl: "https://contosovault.vault.azure.net/keys/contosokek",
+            keyEncryptionKeyUrl:
+              "https://contosovault.vault.azure.net/keys/contosokek",
           },
         },
       },
@@ -135,7 +95,6 @@ async function createOrUpdateAnOnlineExperimentationWorkspaceWithFreeSkuAndCusto
 
 async function main(): Promise<void> {
   await createOrUpdateAnOnlineExperimentationWorkspaceWithFreeSku();
-  await createOrUpdateAnOnlineExperimentationWorkspaceWithPublicNetworkAccessDisabled();
   await createOrUpdateAnOnlineExperimentationWorkspaceWithFreeSkuAndCustomerManagedKey();
 }
 
