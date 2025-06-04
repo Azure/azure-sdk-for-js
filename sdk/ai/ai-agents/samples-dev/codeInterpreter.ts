@@ -50,7 +50,7 @@ export async function main(): Promise<void> {
   const message = await client.messages.create(
     thread.id,
     "user",
-    "Could you please create a bar chart in the Industrials sector for the operating profit from the uploaded CSV file and provide the file to me?",
+    "Could you please create a bar chart in the Consumer Discretionary sector for the operating profit from the uploaded CSV file and provide the file to me?",
     {
       attachments: [
         {
@@ -103,7 +103,7 @@ export async function main(): Promise<void> {
   const imageFile = (allMessages[0].content[0] as MessageImageFileContent).imageFile;
   console.log(`Image file ID : ${imageFile.fileId}`);
   const imageFileName = path.resolve(
-    "./data/" + (await client.files.get(imageFile.fileId)).filename + "ImageFile.png",
+    "./data/ImageFile_" + (await client.files.get(imageFile.fileId)).filename,
   );
 
   const fileContent = await (await client.files.getContent(imageFile.fileId).asNodeStream()).body;
