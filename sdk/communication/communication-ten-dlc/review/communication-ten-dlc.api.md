@@ -98,7 +98,7 @@ export interface ContactInformation {
 }
 
 // @public
-export type ContentType = "AccountNotification" | "CustomerCare" | "DeliveryNotification" | "FraudAlert" | "HigherEducation" | "LowVolume" | "MachineToMachine" | "Marketing" | "Mixed" | "PollingVoting" | "PublicServiceAnnouncement" | "SecurityAlert" | "TwoFactorAuthentication" | "UcaasLow";
+export type ContentType = "AccountNotification" | "AgentsFranchises" | "Charity" | "CustomerCare" | "DeliveryNotification" | "Emergency" | "FraudAlert" | "HigherEducation" | "LowVolume" | "MachineToMachine" | "Marketing" | "Mixed" | "PollingVoting" | "PublicServiceAnnouncement" | "SecurityAlert" | "SoleProprietor" | "TwoFactorAuthentication" | "UcaasLow";
 
 // @public
 export interface DeleteBrandOptionalParams extends TenDlcDeleteUSBrandOptionalParams {
@@ -161,7 +161,7 @@ export interface ReviewNote {
 export type StockExchange = "Nasdaq" | "Nyse" | "Amex" | "Amx" | "Asx" | "B3" | "Bme" | "Bse" | "Fra" | "Icex" | "Jpx" | "Jse" | "Krx" | "Lon" | "Nse" | "Omx" | "Sehk" | "Sgx" | "Sse" | "Sto" | "Swx" | "Szse" | "Tsx" | "Twse" | "Vse" | "Other";
 
 // @public
-export type SubContentType = "TwoFactorAuthentication" | "AccountNotification" | "CustomerCare" | "DeliveryNotification" | "FraudAlert" | "HigherEducation" | "Marketing" | "PollingVoting" | "PublicServiceAnnouncement" | "SecurityAlert";
+export type SubContentType = "AccountNotification" | "AgentsFranchises" | "Charity" | "CustomerCare" | "DeliveryNotification" | "Emergency" | "FraudAlert" | "HigherEducation" | "LowVolume" | "MachineToMachine" | "Marketing" | "Mixed" | "PollingVoting" | "PublicServiceAnnouncement" | "SecurityAlert" | "SoleProprietor" | "TwoFactorAuthentication" | "UcaasLow";
 
 // @public
 export interface SubmitBrandOptionalParams extends TenDlcSubmitUSBrandOptionalParams {

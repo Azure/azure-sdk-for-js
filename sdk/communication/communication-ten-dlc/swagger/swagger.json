@@ -1551,8 +1551,11 @@
           "description": "Type of user content",
           "enum": [
             "AccountNotification",
+            "AgentsFranchises",
+            "Charity",
             "CustomerCare",
             "DeliveryNotification",
+            "Emergency",
             "FraudAlert",
             "HigherEducation",
             "LowVolume",
@@ -1562,6 +1565,7 @@
             "PollingVoting",
             "PublicServiceAnnouncement",
             "SecurityAlert",
+            "SoleProprietor",
             "TwoFactorAuthentication",
             "UcaasLow"
           ],
@@ -1577,16 +1581,24 @@
           "items": {
             "description": "Enum representing the sub-content types.",
             "enum": [
-              "TwoFactorAuthentication",
               "AccountNotification",
+              "AgentsFranchises",
+              "Charity",
               "CustomerCare",
               "DeliveryNotification",
+              "Emergency",
               "FraudAlert",
               "HigherEducation",
+              "LowVolume",
+              "MachineToMachine",
               "Marketing",
+              "Mixed",
               "PollingVoting",
               "PublicServiceAnnouncement",
-              "SecurityAlert"
+              "SecurityAlert",
+              "SoleProprietor",
+              "TwoFactorAuthentication",
+              "UcaasLow"
             ],
             "type": "string",
             "x-ms-enum": {
