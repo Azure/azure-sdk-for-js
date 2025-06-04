@@ -103,8 +103,7 @@ const endpoint = "https://contoso.eastus.communications.azure.net";
 const credential = new DefaultAzureCredential();
 const client = new CommunicationIdentityClient(endpoint, credential);
 
-const user = await client.createUser( { customId: "alice@contoso.com"});
-const getResult = await client.getUser(user);
+const user = await client.createUser();
 ```
 
 ### Creating and refreshing a user token
