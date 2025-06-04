@@ -1,15 +1,25 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { MongoClusterManagementContext as Client } from "../index.js";
-import type { _ReplicaListResult, Replica } from "../../models/models.js";
-import { errorResponseDeserializer, _replicaListResultDeserializer } from "../../models/models.js";
-import type { ReplicasListByParentOptionalParams } from "./options.js";
-import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
-import { buildPagedAsyncIterator } from "../../static-helpers/pagingHelpers.js";
+import { MongoClusterManagementContext as Client } from "../index.js";
+import {
+  errorResponseDeserializer,
+  _ReplicaListResult,
+  _replicaListResultDeserializer,
+  Replica,
+} from "../../models/models.js";
+import { ReplicasListByParentOptionalParams } from "./options.js";
+import {
+  PagedAsyncIterableIterator,
+  buildPagedAsyncIterator,
+} from "../../static-helpers/pagingHelpers.js";
 import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
-import type { StreamableMethod, PathUncheckedResponse } from "@azure-rest/core-client";
-import { createRestError, operationOptionsToRequestParameters } from "@azure-rest/core-client";
+import {
+  StreamableMethod,
+  PathUncheckedResponse,
+  createRestError,
+  operationOptionsToRequestParameters,
+} from "@azure-rest/core-client";
 
 export function _listByParentSend(
   context: Client,
@@ -29,13 +39,15 @@ export function _listByParentSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).get({
-    ...operationOptionsToRequestParameters(options),
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
-  });
+  return context
+    .path(path)
+    .get({
+      ...operationOptionsToRequestParameters(options),
+      headers: {
+        accept: "application/json",
+        ...options.requestOptions?.headers,
+      },
+    });
 }
 
 export async function _listByParentDeserialize(
@@ -60,7 +72,8 @@ export function listByParent(
 ): PagedAsyncIterableIterator<Replica> {
   return buildPagedAsyncIterator(
     context,
-    () => _listByParentSend(context, resourceGroupName, mongoClusterName, options),
+    () =>
+      _listByParentSend(context, resourceGroupName, mongoClusterName, options),
     _listByParentDeserialize,
     ["200"],
     { itemName: "value", nextLinkName: "nextLink" },

@@ -1,18 +1,25 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { MongoClusterManagementContext as Client } from "../index.js";
-import type { _PrivateLinkResourceListResult, PrivateLinkResource } from "../../models/models.js";
+import { MongoClusterManagementContext as Client } from "../index.js";
 import {
   errorResponseDeserializer,
+  _PrivateLinkResourceListResult,
   _privateLinkResourceListResultDeserializer,
+  PrivateLinkResource,
 } from "../../models/models.js";
-import type { PrivateLinksListByMongoClusterOptionalParams } from "./options.js";
-import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
-import { buildPagedAsyncIterator } from "../../static-helpers/pagingHelpers.js";
+import { PrivateLinksListByMongoClusterOptionalParams } from "./options.js";
+import {
+  PagedAsyncIterableIterator,
+  buildPagedAsyncIterator,
+} from "../../static-helpers/pagingHelpers.js";
 import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
-import type { StreamableMethod, PathUncheckedResponse } from "@azure-rest/core-client";
-import { createRestError, operationOptionsToRequestParameters } from "@azure-rest/core-client";
+import {
+  StreamableMethod,
+  PathUncheckedResponse,
+  createRestError,
+  operationOptionsToRequestParameters,
+} from "@azure-rest/core-client";
 
 export function _listByMongoClusterSend(
   context: Client,
@@ -34,13 +41,15 @@ export function _listByMongoClusterSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).get({
-    ...operationOptionsToRequestParameters(options),
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
-  });
+  return context
+    .path(path)
+    .get({
+      ...operationOptionsToRequestParameters(options),
+      headers: {
+        accept: "application/json",
+        ...options.requestOptions?.headers,
+      },
+    });
 }
 
 export async function _listByMongoClusterDeserialize(
@@ -67,7 +76,13 @@ export function listByMongoCluster(
 ): PagedAsyncIterableIterator<PrivateLinkResource> {
   return buildPagedAsyncIterator(
     context,
-    () => _listByMongoClusterSend(context, resourceGroupName, mongoClusterName, options),
+    () =>
+      _listByMongoClusterSend(
+        context,
+        resourceGroupName,
+        mongoClusterName,
+        options,
+      ),
     _listByMongoClusterDeserialize,
     ["200"],
     { itemName: "value", nextLinkName: "nextLink" },

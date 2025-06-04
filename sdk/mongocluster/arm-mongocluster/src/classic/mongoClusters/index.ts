@@ -1,8 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { MongoClusterManagementContext } from "../../api/mongoClusterManagementContext.js";
-import type {
+import { MongoClusterManagementContext } from "../../api/mongoClusterManagementContext.js";
+import {
   MongoCluster,
   MongoClusterUpdate,
   ListConnectionStringsResult,
@@ -10,7 +10,7 @@ import type {
   CheckNameAvailabilityResponse,
   PromoteReplicaRequest,
 } from "../../models/models.js";
-import type {
+import {
   MongoClustersPromoteOptionalParams,
   MongoClustersCheckNameAvailabilityOptionalParams,
   MongoClustersListConnectionStringsOptionalParams,
@@ -32,8 +32,8 @@ import {
   createOrUpdate,
   get,
 } from "../../api/mongoClusters/operations.js";
-import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
-import type { PollerLike, OperationState } from "@azure/core-lro";
+import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a MongoClusters operations. */
 export interface MongoClustersOperations {
@@ -57,7 +57,9 @@ export interface MongoClustersOperations {
     options?: MongoClustersListConnectionStringsOptionalParams,
   ) => Promise<ListConnectionStringsResult>;
   /** List all the mongo clusters in a given subscription. */
-  list: (options?: MongoClustersListOptionalParams) => PagedAsyncIterableIterator<MongoCluster>;
+  list: (
+    options?: MongoClustersListOptionalParams,
+  ) => PagedAsyncIterableIterator<MongoCluster>;
   /** List all the mongo clusters in a given resource group. */
   listByResourceGroup: (
     resourceGroupName: string,
@@ -113,7 +115,13 @@ function _getMongoClusters(context: MongoClusterManagementContext) {
       resourceGroupName: string,
       mongoClusterName: string,
       options?: MongoClustersListConnectionStringsOptionalParams,
-    ) => listConnectionStrings(context, resourceGroupName, mongoClusterName, options),
+    ) =>
+      listConnectionStrings(
+        context,
+        resourceGroupName,
+        mongoClusterName,
+        options,
+      ),
     list: (options?: MongoClustersListOptionalParams) => list(context, options),
     listByResourceGroup: (
       resourceGroupName: string,
@@ -129,13 +137,21 @@ function _getMongoClusters(context: MongoClusterManagementContext) {
       mongoClusterName: string,
       properties: MongoClusterUpdate,
       options?: MongoClustersUpdateOptionalParams,
-    ) => update(context, resourceGroupName, mongoClusterName, properties, options),
+    ) =>
+      update(context, resourceGroupName, mongoClusterName, properties, options),
     createOrUpdate: (
       resourceGroupName: string,
       mongoClusterName: string,
       resource: MongoCluster,
       options?: MongoClustersCreateOrUpdateOptionalParams,
-    ) => createOrUpdate(context, resourceGroupName, mongoClusterName, resource, options),
+    ) =>
+      createOrUpdate(
+        context,
+        resourceGroupName,
+        mongoClusterName,
+        resource,
+        options,
+      ),
     get: (
       resourceGroupName: string,
       mongoClusterName: string,

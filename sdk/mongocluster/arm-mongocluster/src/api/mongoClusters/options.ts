@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { OperationOptions } from "@azure-rest/core-client";
+import { OperationOptions } from "@azure-rest/core-client";
 
 /** Optional parameters. */
 export interface MongoClustersPromoteOptionalParams extends OperationOptions {
@@ -10,16 +10,19 @@ export interface MongoClustersPromoteOptionalParams extends OperationOptions {
 }
 
 /** Optional parameters. */
-export interface MongoClustersCheckNameAvailabilityOptionalParams extends OperationOptions {}
+export interface MongoClustersCheckNameAvailabilityOptionalParams
+  extends OperationOptions {}
 
 /** Optional parameters. */
-export interface MongoClustersListConnectionStringsOptionalParams extends OperationOptions {}
+export interface MongoClustersListConnectionStringsOptionalParams
+  extends OperationOptions {}
 
 /** Optional parameters. */
 export interface MongoClustersListOptionalParams extends OperationOptions {}
 
 /** Optional parameters. */
-export interface MongoClustersListByResourceGroupOptionalParams extends OperationOptions {}
+export interface MongoClustersListByResourceGroupOptionalParams
+  extends OperationOptions {}
 
 /** Optional parameters. */
 export interface MongoClustersDeleteOptionalParams extends OperationOptions {
@@ -34,7 +37,8 @@ export interface MongoClustersUpdateOptionalParams extends OperationOptions {
 }
 
 /** Optional parameters. */
-export interface MongoClustersCreateOrUpdateOptionalParams extends OperationOptions {
+export interface MongoClustersCreateOrUpdateOptionalParams
+  extends OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
 }

@@ -1,11 +1,11 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { MongoClusterManagementContext } from "../../api/mongoClusterManagementContext.js";
-import type { Replica } from "../../models/models.js";
-import type { ReplicasListByParentOptionalParams } from "../../api/replicas/options.js";
+import { MongoClusterManagementContext } from "../../api/mongoClusterManagementContext.js";
+import { Replica } from "../../models/models.js";
+import { ReplicasListByParentOptionalParams } from "../../api/replicas/options.js";
 import { listByParent } from "../../api/replicas/operations.js";
-import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 
 /** Interface representing a Replicas operations. */
 export interface ReplicasOperations {
@@ -27,7 +27,9 @@ function _getReplicas(context: MongoClusterManagementContext) {
   };
 }
 
-export function _getReplicasOperations(context: MongoClusterManagementContext): ReplicasOperations {
+export function _getReplicasOperations(
+  context: MongoClusterManagementContext,
+): ReplicasOperations {
   return {
     ..._getReplicas(context),
   };

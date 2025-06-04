@@ -1,9 +1,9 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { MongoClusterManagementContext } from "../../api/mongoClusterManagementContext.js";
-import type { FirewallRule } from "../../models/models.js";
-import type {
+import { MongoClusterManagementContext } from "../../api/mongoClusterManagementContext.js";
+import { FirewallRule } from "../../models/models.js";
+import {
   FirewallRulesListByMongoClusterOptionalParams,
   FirewallRulesDeleteOptionalParams,
   FirewallRulesCreateOrUpdateOptionalParams,
@@ -15,8 +15,8 @@ import {
   createOrUpdate,
   get,
 } from "../../api/firewallRules/operations.js";
-import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
-import type { PollerLike, OperationState } from "@azure/core-lro";
+import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a FirewallRules operations. */
 export interface FirewallRulesOperations {
@@ -61,13 +61,21 @@ function _getFirewallRules(context: MongoClusterManagementContext) {
       resourceGroupName: string,
       mongoClusterName: string,
       options?: FirewallRulesListByMongoClusterOptionalParams,
-    ) => listByMongoCluster(context, resourceGroupName, mongoClusterName, options),
+    ) =>
+      listByMongoCluster(context, resourceGroupName, mongoClusterName, options),
     delete: (
       resourceGroupName: string,
       mongoClusterName: string,
       firewallRuleName: string,
       options?: FirewallRulesDeleteOptionalParams,
-    ) => $delete(context, resourceGroupName, mongoClusterName, firewallRuleName, options),
+    ) =>
+      $delete(
+        context,
+        resourceGroupName,
+        mongoClusterName,
+        firewallRuleName,
+        options,
+      ),
     createOrUpdate: (
       resourceGroupName: string,
       mongoClusterName: string,
@@ -88,7 +96,14 @@ function _getFirewallRules(context: MongoClusterManagementContext) {
       mongoClusterName: string,
       firewallRuleName: string,
       options?: FirewallRulesGetOptionalParams,
-    ) => get(context, resourceGroupName, mongoClusterName, firewallRuleName, options),
+    ) =>
+      get(
+        context,
+        resourceGroupName,
+        mongoClusterName,
+        firewallRuleName,
+        options,
+      ),
   };
 }
 

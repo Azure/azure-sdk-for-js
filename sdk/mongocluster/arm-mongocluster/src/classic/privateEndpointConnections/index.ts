@@ -1,9 +1,9 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { MongoClusterManagementContext } from "../../api/mongoClusterManagementContext.js";
-import type { PrivateEndpointConnectionResource } from "../../models/models.js";
-import type {
+import { MongoClusterManagementContext } from "../../api/mongoClusterManagementContext.js";
+import { PrivateEndpointConnectionResource } from "../../models/models.js";
+import {
   PrivateEndpointConnectionsDeleteOptionalParams,
   PrivateEndpointConnectionsCreateOptionalParams,
   PrivateEndpointConnectionsGetOptionalParams,
@@ -15,8 +15,8 @@ import {
   get,
   listByMongoCluster,
 } from "../../api/privateEndpointConnections/operations.js";
-import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
-import type { PollerLike, OperationState } from "@azure/core-lro";
+import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a PrivateEndpointConnections operations. */
 export interface PrivateEndpointConnectionsOperations {
@@ -58,7 +58,9 @@ export interface PrivateEndpointConnectionsOperations {
   ) => PagedAsyncIterableIterator<PrivateEndpointConnectionResource>;
 }
 
-function _getPrivateEndpointConnections(context: MongoClusterManagementContext) {
+function _getPrivateEndpointConnections(
+  context: MongoClusterManagementContext,
+) {
   return {
     delete: (
       resourceGroupName: string,
@@ -66,7 +68,13 @@ function _getPrivateEndpointConnections(context: MongoClusterManagementContext) 
       privateEndpointConnectionName: string,
       options?: PrivateEndpointConnectionsDeleteOptionalParams,
     ) =>
-      $delete(context, resourceGroupName, mongoClusterName, privateEndpointConnectionName, options),
+      $delete(
+        context,
+        resourceGroupName,
+        mongoClusterName,
+        privateEndpointConnectionName,
+        options,
+      ),
     create: (
       resourceGroupName: string,
       mongoClusterName: string,
@@ -87,12 +95,20 @@ function _getPrivateEndpointConnections(context: MongoClusterManagementContext) 
       mongoClusterName: string,
       privateEndpointConnectionName: string,
       options?: PrivateEndpointConnectionsGetOptionalParams,
-    ) => get(context, resourceGroupName, mongoClusterName, privateEndpointConnectionName, options),
+    ) =>
+      get(
+        context,
+        resourceGroupName,
+        mongoClusterName,
+        privateEndpointConnectionName,
+        options,
+      ),
     listByMongoCluster: (
       resourceGroupName: string,
       mongoClusterName: string,
       options?: PrivateEndpointConnectionsListByMongoClusterOptionalParams,
-    ) => listByMongoCluster(context, resourceGroupName, mongoClusterName, options),
+    ) =>
+      listByMongoCluster(context, resourceGroupName, mongoClusterName, options),
   };
 }
 

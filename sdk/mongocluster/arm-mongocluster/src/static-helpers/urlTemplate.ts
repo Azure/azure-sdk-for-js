@@ -1,9 +1,9 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-// ---------------------
+//---------------------
 // interfaces
-// ---------------------
+//---------------------
 interface ValueOptions {
   isFirst: boolean; // is first value in the expression
   op?: string; // operator
@@ -46,7 +46,10 @@ function isDefined(val: any) {
 }
 
 function getNamedAndIfEmpty(op?: string): [boolean, string] {
-  return [!!op && [";", "?", "&"].includes(op), !!op && ["?", "&"].includes(op) ? "=" : ""];
+  return [
+    !!op && [";", "?", "&"].includes(op),
+    !!op && ["?", "&"].includes(op) ? "=" : "",
+  ];
 }
 
 function getFirstOrSep(op?: string, isFirst = false) {

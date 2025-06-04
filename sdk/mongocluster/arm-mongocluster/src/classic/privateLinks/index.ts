@@ -1,11 +1,11 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { MongoClusterManagementContext } from "../../api/mongoClusterManagementContext.js";
-import type { PrivateLinkResource } from "../../models/models.js";
-import type { PrivateLinksListByMongoClusterOptionalParams } from "../../api/privateLinks/options.js";
+import { MongoClusterManagementContext } from "../../api/mongoClusterManagementContext.js";
+import { PrivateLinkResource } from "../../models/models.js";
+import { PrivateLinksListByMongoClusterOptionalParams } from "../../api/privateLinks/options.js";
 import { listByMongoCluster } from "../../api/privateLinks/operations.js";
-import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 
 /** Interface representing a PrivateLinks operations. */
 export interface PrivateLinksOperations {
@@ -23,7 +23,8 @@ function _getPrivateLinks(context: MongoClusterManagementContext) {
       resourceGroupName: string,
       mongoClusterName: string,
       options?: PrivateLinksListByMongoClusterOptionalParams,
-    ) => listByMongoCluster(context, resourceGroupName, mongoClusterName, options),
+    ) =>
+      listByMongoCluster(context, resourceGroupName, mongoClusterName, options),
   };
 }
 

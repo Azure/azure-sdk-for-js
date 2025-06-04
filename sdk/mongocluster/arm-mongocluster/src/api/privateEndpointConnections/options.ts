@@ -1,22 +1,25 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { OperationOptions } from "@azure-rest/core-client";
+import { OperationOptions } from "@azure-rest/core-client";
 
 /** Optional parameters. */
-export interface PrivateEndpointConnectionsDeleteOptionalParams extends OperationOptions {
+export interface PrivateEndpointConnectionsDeleteOptionalParams
+  extends OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
 }
 
 /** Optional parameters. */
-export interface PrivateEndpointConnectionsCreateOptionalParams extends OperationOptions {
+export interface PrivateEndpointConnectionsCreateOptionalParams
+  extends OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
 }
 
 /** Optional parameters. */
-export interface PrivateEndpointConnectionsGetOptionalParams extends OperationOptions {}
+export interface PrivateEndpointConnectionsGetOptionalParams
+  extends OperationOptions {}
 
 /** Optional parameters. */
 export interface PrivateEndpointConnectionsListByMongoClusterOptionalParams

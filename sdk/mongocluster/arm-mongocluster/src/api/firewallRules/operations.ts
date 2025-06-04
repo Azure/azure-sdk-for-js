@@ -1,27 +1,34 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { MongoClusterManagementContext as Client } from "../index.js";
-import type { FirewallRule, _FirewallRuleListResult } from "../../models/models.js";
+import { MongoClusterManagementContext as Client } from "../index.js";
 import {
   errorResponseDeserializer,
+  FirewallRule,
   firewallRuleSerializer,
   firewallRuleDeserializer,
+  _FirewallRuleListResult,
   _firewallRuleListResultDeserializer,
 } from "../../models/models.js";
-import type {
+import {
   FirewallRulesListByMongoClusterOptionalParams,
   FirewallRulesDeleteOptionalParams,
   FirewallRulesCreateOrUpdateOptionalParams,
   FirewallRulesGetOptionalParams,
 } from "./options.js";
-import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
-import { buildPagedAsyncIterator } from "../../static-helpers/pagingHelpers.js";
-import { getLongRunningPoller } from "../../static-helpers/pollingHelpers.js";
+import {
+  PagedAsyncIterableIterator,
+  buildPagedAsyncIterator,
+} from "../../static-helpers/pagingHelpers.js";
 import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
-import type { StreamableMethod, PathUncheckedResponse } from "@azure-rest/core-client";
-import { createRestError, operationOptionsToRequestParameters } from "@azure-rest/core-client";
-import type { PollerLike, OperationState } from "@azure/core-lro";
+import { getLongRunningPoller } from "../../static-helpers/pollingHelpers.js";
+import {
+  StreamableMethod,
+  PathUncheckedResponse,
+  createRestError,
+  operationOptionsToRequestParameters,
+} from "@azure-rest/core-client";
+import { PollerLike, OperationState } from "@azure/core-lro";
 
 export function _listByMongoClusterSend(
   context: Client,
@@ -43,13 +50,15 @@ export function _listByMongoClusterSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).get({
-    ...operationOptionsToRequestParameters(options),
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
-  });
+  return context
+    .path(path)
+    .get({
+      ...operationOptionsToRequestParameters(options),
+      headers: {
+        accept: "application/json",
+        ...options.requestOptions?.headers,
+      },
+    });
 }
 
 export async function _listByMongoClusterDeserialize(
@@ -76,7 +85,13 @@ export function listByMongoCluster(
 ): PagedAsyncIterableIterator<FirewallRule> {
   return buildPagedAsyncIterator(
     context,
-    () => _listByMongoClusterSend(context, resourceGroupName, mongoClusterName, options),
+    () =>
+      _listByMongoClusterSend(
+        context,
+        resourceGroupName,
+        mongoClusterName,
+        options,
+      ),
     _listByMongoClusterDeserialize,
     ["200"],
     { itemName: "value", nextLinkName: "nextLink" },
@@ -103,16 +118,20 @@ export function _$deleteSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).delete({
-    ...operationOptionsToRequestParameters(options),
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
-  });
+  return context
+    .path(path)
+    .delete({
+      ...operationOptionsToRequestParameters(options),
+      headers: {
+        accept: "application/json",
+        ...options.requestOptions?.headers,
+      },
+    });
 }
 
-export async function _$deleteDeserialize(result: PathUncheckedResponse): Promise<void> {
+export async function _$deleteDeserialize(
+  result: PathUncheckedResponse,
+): Promise<void> {
   const expectedStatuses = ["202", "204", "200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
@@ -136,13 +155,24 @@ export function $delete(
   firewallRuleName: string,
   options: FirewallRulesDeleteOptionalParams = { requestOptions: {} },
 ): PollerLike<OperationState<void>, void> {
-  return getLongRunningPoller(context, _$deleteDeserialize, ["202", "204", "200"], {
-    updateIntervalInMs: options?.updateIntervalInMs,
-    abortSignal: options?.abortSignal,
-    getInitialResponse: () =>
-      _$deleteSend(context, resourceGroupName, mongoClusterName, firewallRuleName, options),
-    resourceLocationConfig: "location",
-  }) as PollerLike<OperationState<void>, void>;
+  return getLongRunningPoller(
+    context,
+    _$deleteDeserialize,
+    ["202", "204", "200"],
+    {
+      updateIntervalInMs: options?.updateIntervalInMs,
+      abortSignal: options?.abortSignal,
+      getInitialResponse: () =>
+        _$deleteSend(
+          context,
+          resourceGroupName,
+          mongoClusterName,
+          firewallRuleName,
+          options,
+        ),
+      resourceLocationConfig: "location",
+    },
+  ) as PollerLike<OperationState<void>, void>;
 }
 
 export function _createOrUpdateSend(
@@ -166,15 +196,17 @@ export function _createOrUpdateSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).put({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
-    body: firewallRuleSerializer(resource),
-  });
+  return context
+    .path(path)
+    .put({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      headers: {
+        accept: "application/json",
+        ...options.requestOptions?.headers,
+      },
+      body: firewallRuleSerializer(resource),
+    });
 }
 
 export async function _createOrUpdateDeserialize(
@@ -199,20 +231,25 @@ export function createOrUpdate(
   resource: FirewallRule,
   options: FirewallRulesCreateOrUpdateOptionalParams = { requestOptions: {} },
 ): PollerLike<OperationState<FirewallRule>, FirewallRule> {
-  return getLongRunningPoller(context, _createOrUpdateDeserialize, ["200", "201", "202"], {
-    updateIntervalInMs: options?.updateIntervalInMs,
-    abortSignal: options?.abortSignal,
-    getInitialResponse: () =>
-      _createOrUpdateSend(
-        context,
-        resourceGroupName,
-        mongoClusterName,
-        firewallRuleName,
-        resource,
-        options,
-      ),
-    resourceLocationConfig: "azure-async-operation",
-  }) as PollerLike<OperationState<FirewallRule>, FirewallRule>;
+  return getLongRunningPoller(
+    context,
+    _createOrUpdateDeserialize,
+    ["200", "201", "202"],
+    {
+      updateIntervalInMs: options?.updateIntervalInMs,
+      abortSignal: options?.abortSignal,
+      getInitialResponse: () =>
+        _createOrUpdateSend(
+          context,
+          resourceGroupName,
+          mongoClusterName,
+          firewallRuleName,
+          resource,
+          options,
+        ),
+      resourceLocationConfig: "azure-async-operation",
+    },
+  ) as PollerLike<OperationState<FirewallRule>, FirewallRule>;
 }
 
 export function _getSend(
@@ -235,16 +272,20 @@ export function _getSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).get({
-    ...operationOptionsToRequestParameters(options),
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
-  });
+  return context
+    .path(path)
+    .get({
+      ...operationOptionsToRequestParameters(options),
+      headers: {
+        accept: "application/json",
+        ...options.requestOptions?.headers,
+      },
+    });
 }
 
-export async function _getDeserialize(result: PathUncheckedResponse): Promise<FirewallRule> {
+export async function _getDeserialize(
+  result: PathUncheckedResponse,
+): Promise<FirewallRule> {
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);

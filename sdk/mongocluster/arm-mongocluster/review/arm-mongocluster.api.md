@@ -23,6 +23,14 @@ export interface AdministratorProperties {
 }
 
 // @public
+export interface AuthConfigProperties {
+    allowedModes?: AuthenticationMode[];
+}
+
+// @public
+export type AuthenticationMode = string;
+
+// @public
 export interface BackupProperties {
     readonly earliestRestoreTime?: string;
 }
@@ -73,6 +81,26 @@ export type DataApiMode = string;
 export interface DataApiProperties {
     mode?: DataApiMode;
 }
+
+// @public
+export interface DatabaseRole {
+    db: string;
+    role: UserRole;
+}
+
+// @public
+export interface EntraIdentityProvider extends IdentityProvider {
+    properties: EntraIdentityProviderProperties;
+    type: "MicrosoftEntraID";
+}
+
+// @public
+export interface EntraIdentityProviderProperties {
+    principalType: EntraPrincipalType;
+}
+
+// @public
+export type EntraPrincipalType = string;
 
 // @public
 export interface ErrorAdditionalInfo {
@@ -141,8 +169,25 @@ export interface HighAvailabilityProperties {
 }
 
 // @public
+export interface IdentityProvider {
+    type: IdentityProviderType;
+}
+
+// @public
+export type IdentityProviderType = string;
+
+// @public
+export type IdentityProviderUnion = EntraIdentityProvider | IdentityProvider;
+
+// @public
 export enum KnownActionType {
     Internal = "Internal"
+}
+
+// @public
+export enum KnownAuthenticationMode {
+    MicrosoftEntraID = "MicrosoftEntraID",
+    NativeAuth = "NativeAuth"
 }
 
 // @public
@@ -174,10 +219,21 @@ export enum KnownDataApiMode {
 }
 
 // @public
+export enum KnownEntraPrincipalType {
+    ServicePrincipal = "servicePrincipal",
+    User = "user"
+}
+
+// @public
 export enum KnownHighAvailabilityMode {
     Disabled = "Disabled",
     SameZone = "SameZone",
     ZoneRedundantPreferred = "ZoneRedundantPreferred"
+}
+
+// @public
+export enum KnownIdentityProviderType {
+    MicrosoftEntraID = "MicrosoftEntraID"
 }
 
 // @public
@@ -262,11 +318,23 @@ export enum KnownReplicationState {
 }
 
 // @public
+export enum KnownStorageType {
+    PremiumSSD = "PremiumSSD",
+    PremiumSSDv2 = "PremiumSSDv2"
+}
+
+// @public
+export enum KnownUserRole {
+    DatabaseOwner = "dbOwner"
+}
+
+// @public
 export enum KnownVersions {
     V20240301Preview = "2024-03-01-preview",
     V20240601Preview = "2024-06-01-preview",
     V20240701 = "2024-07-01",
-    V20241001Preview = "2024-10-01-preview"
+    V20241001Preview = "2024-10-01-preview",
+    V20250401Preview = "2025-04-01-preview"
 }
 
 // @public
@@ -289,6 +357,7 @@ export class MongoClusterManagementClient {
     readonly privateEndpointConnections: PrivateEndpointConnectionsOperations;
     readonly privateLinks: PrivateLinksOperations;
     readonly replicas: ReplicasOperations;
+    readonly users: UsersOperations;
 }
 
 // @public
@@ -299,6 +368,7 @@ export interface MongoClusterManagementClientOptionalParams extends ClientOption
 // @public
 export interface MongoClusterProperties {
     administrator?: AdministratorProperties;
+    authConfig?: AuthConfigProperties;
     backup?: BackupProperties;
     readonly clusterStatus?: MongoClusterStatus;
     compute?: ComputeProperties;
@@ -396,6 +466,7 @@ export interface MongoClusterUpdate {
 // @public
 export interface MongoClusterUpdateProperties {
     administrator?: AdministratorProperties;
+    authConfig?: AuthConfigProperties;
     backup?: BackupProperties;
     compute?: ComputeProperties;
     dataApi?: DataApiProperties;
@@ -608,8 +679,14 @@ export interface ShardingProperties {
 
 // @public
 export interface StorageProperties {
+    iops?: number;
     sizeGb?: number;
+    throughput?: number;
+    type?: StorageType;
 }
+
+// @public
+export type StorageType = string;
 
 // @public
 export interface SystemData {
@@ -625,6 +702,47 @@ export interface SystemData {
 export interface TrackedResource extends Resource {
     location: string;
     tags?: Record<string, string>;
+}
+
+// @public
+export interface User extends ProxyResource {
+    properties?: UserProperties;
+}
+
+// @public
+export interface UserProperties {
+    identityProvider?: IdentityProviderUnion;
+    readonly provisioningState?: ProvisioningState;
+    roles?: DatabaseRole[];
+}
+
+// @public
+export type UserRole = string;
+
+// @public
+export interface UsersCreateOrUpdateOptionalParams extends OperationOptions {
+    updateIntervalInMs?: number;
+}
+
+// @public
+export interface UsersDeleteOptionalParams extends OperationOptions {
+    updateIntervalInMs?: number;
+}
+
+// @public
+export interface UsersGetOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface UsersListByMongoClusterOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface UsersOperations {
+    createOrUpdate: (resourceGroupName: string, mongoClusterName: string, userName: string, resource: User, options?: UsersCreateOrUpdateOptionalParams) => PollerLike<OperationState<User>, User>;
+    delete: (resourceGroupName: string, mongoClusterName: string, userName: string, options?: UsersDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
+    get: (resourceGroupName: string, mongoClusterName: string, userName: string, options?: UsersGetOptionalParams) => Promise<User>;
+    listByMongoCluster: (resourceGroupName: string, mongoClusterName: string, options?: UsersListByMongoClusterOptionalParams) => PagedAsyncIterableIterator<User>;
 }
 
 // (No @packageDocumentation comment for this package)

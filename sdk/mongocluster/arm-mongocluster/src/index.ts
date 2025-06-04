@@ -36,6 +36,8 @@ export {
   KnownHighAvailabilityMode,
   HighAvailabilityMode,
   StorageProperties,
+  KnownStorageType,
+  StorageType,
   ShardingProperties,
   ComputeProperties,
   BackupProperties,
@@ -57,6 +59,9 @@ export {
   ReplicationRole,
   KnownReplicationState,
   ReplicationState,
+  AuthConfigProperties,
+  KnownAuthenticationMode,
+  AuthenticationMode,
   Resource,
   SystemData,
   KnownCreatedByType,
@@ -82,6 +87,19 @@ export {
   PrivateLinkResource,
   PrivateLinkResourceProperties,
   Replica,
+  User,
+  UserProperties,
+  IdentityProvider,
+  IdentityProviderUnion,
+  KnownIdentityProviderType,
+  IdentityProviderType,
+  EntraIdentityProvider,
+  EntraIdentityProviderProperties,
+  KnownEntraPrincipalType,
+  EntraPrincipalType,
+  DatabaseRole,
+  KnownUserRole,
+  UserRole,
   KnownVersions,
 } from "./models/index.js";
 export { MongoClusterManagementClientOptionalParams } from "./api/index.js";
@@ -112,11 +130,18 @@ export {
 export { PrivateLinksListByMongoClusterOptionalParams } from "./api/privateLinks/index.js";
 export { ReplicasListByParentOptionalParams } from "./api/replicas/index.js";
 export {
+  UsersListByMongoClusterOptionalParams,
+  UsersDeleteOptionalParams,
+  UsersCreateOrUpdateOptionalParams,
+  UsersGetOptionalParams,
+} from "./api/users/index.js";
+export {
   FirewallRulesOperations,
   MongoClustersOperations,
   OperationsOperations,
   PrivateEndpointConnectionsOperations,
   PrivateLinksOperations,
   ReplicasOperations,
+  UsersOperations,
 } from "./classic/index.js";
 export { PageSettings, ContinuablePage, PagedAsyncIterableIterator };
