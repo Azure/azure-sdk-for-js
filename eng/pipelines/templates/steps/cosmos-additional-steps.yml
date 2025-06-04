@@ -4,7 +4,7 @@ parameters:
 
 steps:
   - script: |
-      node ../../../common/scripts/install-run-rushx.js test:node:integration --verbose
+      node ../../../common/scripts/install-run-rushx.js test:node:integration
     condition: succeededOrFailed()
     displayName: "Typecheck Samples - Cosmos"
     workingDirectory: "${{parameters.PackagePath}}"
