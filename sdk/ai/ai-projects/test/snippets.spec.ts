@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 import type { VitestTestContext } from "@azure-tools/test-recorder";
-import { AIProjectClient, DatasetVersion, EvaluatorIds } from "@azure/ai-projects";
+import { AIProjectClient, DatasetVersion, EvaluatorIds } from "../src/index.js";
 import type {
   AzureAISearchIndex,
   Connection,
@@ -10,7 +10,7 @@ import type {
   Evaluation,
   EvaluationWithOptionalName,
   ModelDeployment,
-} from "@azure/ai-projects";
+} from "../src/index.js";
 import { isRestError } from "@azure/core-rest-pipeline";
 import { createProjectsClient } from "./public/utils/createClient.js";
 import { DefaultAzureCredential } from "@azure/identity";
