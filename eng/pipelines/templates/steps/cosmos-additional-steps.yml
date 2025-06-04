@@ -6,5 +6,5 @@ steps:
   - script: |
       node ../../../common/scripts/install-run-rushx.js test:node:integration
     condition: succeededOrFailed()
-    displayName: "Typecheck Samples - Cosmos"
+    displayName: "Cosmos Integration Tests"
     workingDirectory: "${{parameters.PackagePath}}"
