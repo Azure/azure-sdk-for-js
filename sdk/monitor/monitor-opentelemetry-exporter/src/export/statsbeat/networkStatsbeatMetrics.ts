@@ -23,6 +23,18 @@ import { AzureMonitorStatsbeatExporter } from "./statsbeatExporter.js";
 import { ENV_DISABLE_STATSBEAT } from "../../Declarations/Constants.js";
 import { getAttachType } from "../../utils/metricUtils.js";
 
+/**
+ * Singleton instance for NetworkStatsbeatMetrics
+ * @internal
+ */
+let instance: NetworkStatsbeatMetrics | null = null;
+
+/**
+ * Reference count for the singleton instance
+ * @internal
+ */
+let referenceCount: number = 0;
+
 export class NetworkStatsbeatMetrics extends StatsbeatMetrics {
   private disableNonEssentialStatsbeat: boolean = !!process.env[ENV_DISABLE_STATSBEAT];
   private commonProperties: CommonStatsbeatProperties;
@@ -421,4 +433,77 @@ export class NetworkStatsbeatMetrics extends StatsbeatMetrics {
     }
     return shortHost;
   }
+  /**
+   * Get singleton instance of NetworkStatsbeatMetrics
+   * @param options - Statsbeat configuration options
+   * @returns NetworkStatsbeatMetrics singleton instance
+   * @internal
+   */
+  public static getInstance(options: StatsbeatOptions): NetworkStatsbeatMetrics {
+    if (!instance) {
+      instance = new NetworkStatsbeatMetrics(options);
+    }
+    referenceCount++;
+    return instance;
+  }
+
+  /**
+   * Release a reference to the singleton instance
+   * When reference count reaches zero, the instance is shut down
+   * @internal
+   */
+  public static releaseInstance(): Promise<void> {
+    if (referenceCount > 0) {
+      referenceCount--;
+    }
+    
+    if (referenceCount === 0 && instance) {
+      const shutdownPromise = instance.shutdown();
+      instance = null;
+      return shutdownPromise;
+    }
+    
+    return Promise.resolve();
+  }
+
+  /**
+   * Shutdown and reset the singleton instance immediately (for testing)
+   * @internal
+   */
+  public static shutdownInstance(): Promise<void> {
+    if (instance) {
+      const shutdownPromise = instance.shutdown();
+      instance = null;
+      referenceCount = 0;
+      return shutdownPromise;
+    }
+    return Promise.resolve();
+  }
+}
+
+/**
+ * Get singleton instance of NetworkStatsbeatMetrics
+ * @param options - Statsbeat configuration options
+ * @returns NetworkStatsbeatMetrics singleton instance
+ * @internal
+ */
+export function getInstance(options: StatsbeatOptions): NetworkStatsbeatMetrics {
+  return NetworkStatsbeatMetrics.getInstance(options);
+}
+
+/**
+ * Release a reference to the singleton instance
+ * When reference count reaches zero, the instance is shut down
+ * @internal
+ */
+export function releaseInstance(): Promise<void> {
+  return NetworkStatsbeatMetrics.releaseInstance();
+}
+
+/**
+ * Shutdown and reset the singleton instance immediately (for testing)
+ * @internal
+ */
+export function shutdownInstance(): Promise<void> {
+  return NetworkStatsbeatMetrics.shutdownInstance();
 }

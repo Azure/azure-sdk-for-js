@@ -7,7 +7,7 @@ import type { AzureMonitorExporterOptions } from "../../config.js";
 import { FileSystemPersist } from "./persist/index.js";
 import type { ExportResult } from "@opentelemetry/core";
 import { ExportResultCode } from "@opentelemetry/core";
-import { NetworkStatsbeatMetrics } from "../../export/statsbeat/networkStatsbeatMetrics.js";
+import { getInstance as getNetworkStatsbeatInstance, releaseInstance as releaseNetworkStatsbeatInstance, type NetworkStatsbeatMetrics } from "../../export/statsbeat/networkStatsbeatMetrics.js";
 import { getInstance } from "../../export/statsbeat/longIntervalStatsbeatMetrics.js";
 import type { RestError } from "@azure/core-rest-pipeline";
 import { MAX_STATSBEAT_FAILURES, isStatsbeatShutdownStatus } from "../../export/statsbeat/types.js";
@@ -45,8 +45,8 @@ export abstract class BaseSender {
     this.disableOfflineStorage = options.exporterOptions.disableOfflineStorage || false;
     this.persister = new FileSystemPersist(options.instrumentationKey, options.exporterOptions);
     if (options.trackStatsbeat) {
-      // Initialize statsbeatMetrics
-      this.networkStatsbeatMetrics = new NetworkStatsbeatMetrics({
+      // Initialize statsbeatMetrics using singleton pattern
+      this.networkStatsbeatMetrics = getNetworkStatsbeatInstance({
         instrumentationKey: options.instrumentationKey,
         endpointUrl: options.endpointUrl,
         disableOfflineStorage: this.disableOfflineStorage,
@@ -250,9 +250,12 @@ export abstract class BaseSender {
    * Shutdown statsbeat metrics
    */
   private shutdownStatsbeat(): void {
-    this.networkStatsbeatMetrics?.shutdown();
+    // Release reference to network statsbeat singleton
+    if (this.networkStatsbeatMetrics) {
+      releaseNetworkStatsbeatInstance();
+      this.networkStatsbeatMetrics = undefined;
+    }
     this.longIntervalStatsbeatMetrics?.shutdown();
-    this.networkStatsbeatMetrics = undefined;
     this.statsbeatFailureCount = 0;
   }
 
