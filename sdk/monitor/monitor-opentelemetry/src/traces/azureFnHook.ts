@@ -41,7 +41,13 @@ export class AzureFunctionsHook {
   constructor() {
     try {
       this._functionsCoreModule = loadAzureFunctionCore();
-      this._addPreInvocationHook();
+      if (this._functionsCoreModule) {
+        this._addPreInvocationHook();
+      } else {
+        Logger.getInstance().debug(
+          "@azure/functions-core failed to load, not running in Azure Functions",
+        );
+      }
     } catch (error) {
       Logger.getInstance().debug(
         "@azure/functions-core failed to load, not running in Azure Functions",

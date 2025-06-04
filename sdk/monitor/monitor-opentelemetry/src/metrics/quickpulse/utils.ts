@@ -293,7 +293,7 @@ function getDependencyData(span: ReadableSpan): DependencyData {
   if (span.kind === SpanKind.PRODUCER) {
     dependencyData.Type = DependencyTypes.QueueMessage;
   }
-  if (span.kind === SpanKind.INTERNAL && span.parentSpanId) {
+  if (span.kind === SpanKind.INTERNAL && span.parentSpanContext?.spanId) {
     dependencyData.Type = DependencyTypes.InProc;
   }
 
