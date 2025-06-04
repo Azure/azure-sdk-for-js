@@ -13,7 +13,7 @@ import type {
   TenDlcGetCostsOptionalParams,
   TenDlcSubmitUSBrandOptionalParams,
   TenDlcSubmitUSCampaignOptionalParams,
-  MessageDetails,
+  MessageDetails
 } from "./models.js";
 
 /**
@@ -27,7 +27,6 @@ export interface UpsertUSBrandOptions extends TenDlcGetUSBrandOptionalParams {
  * Additional options for the Create or update campaign request.
  */
 export interface UpsertUSCampaignOptions extends TenDlcGetUSCampaignOptionalParams {
-  id: string | undefined;
   brandId: string | undefined;
   name: string | undefined;
   campaignDetails: CampaignDetails | undefined;

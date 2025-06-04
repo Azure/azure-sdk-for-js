@@ -325,8 +325,6 @@ export interface UpsertUSCampaignOptions extends TenDlcGetUSCampaignOptionalPara
     // (undocumented)
     campaignDetails: CampaignDetails | undefined;
     // (undocumented)
-    id: string | undefined;
-    // (undocumented)
     messageDetails: MessageDetails | undefined;
     // (undocumented)
     name: string | undefined;
