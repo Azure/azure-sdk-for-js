@@ -792,7 +792,7 @@ describe("CallConnection Live Tests", function () {
 
     await new Promise((resolve) => setTimeout(resolve, 10000));
 
-    const participant = await callConnection.getParticipant(testUser2);    
+    const participant = await callConnection.getParticipant(testUser2);
     assert.isDefined(participant);
     assert.isTrue(participant.isMuted);
   });
