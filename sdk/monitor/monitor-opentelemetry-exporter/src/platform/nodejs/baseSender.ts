@@ -10,7 +10,13 @@ import { ExportResultCode } from "@opentelemetry/core";
 import { NetworkStatsbeatMetrics } from "../../export/statsbeat/networkStatsbeatMetrics.js";
 import { getInstance } from "../../export/statsbeat/longIntervalStatsbeatMetrics.js";
 import type { RestError } from "@azure/core-rest-pipeline";
-import { DropCode, MAX_STATSBEAT_FAILURES, RetryCode, TelemetryType, isStatsbeatShutdownStatus } from "../../export/statsbeat/types.js";
+import {
+  DropCode,
+  MAX_STATSBEAT_FAILURES,
+  RetryCode,
+  TelemetryType,
+  isStatsbeatShutdownStatus,
+} from "../../export/statsbeat/types.js";
 import type { BreezeResponse } from "../../utils/breezeUtils.js";
 import { isRetriable } from "../../utils/breezeUtils.js";
 import type { TelemetryItem as Envelope } from "../../generated/index.js";
@@ -61,14 +67,18 @@ export abstract class BaseSender {
         disableOfflineStorage: this.disableOfflineStorage,
       });
       if (process.env[ENV_APPLICATIONINSIGHTS_STATSBEAT_ENABLED_PREVIEW]) {
-        this.customerStatsbeatMetrics = new CustomerStatsbeatMetrics({
+        this.customerStatsbeatMetrics = CustomerStatsbeatMetrics.getInstance({
           instrumentationKey: options.instrumentationKey,
           endpointUrl: options.endpointUrl,
           disableOfflineStorage: this.disableOfflineStorage,
         });
       }
     }
-    this.persister = new FileSystemPersist(options.instrumentationKey, options.exporterOptions, this.customerStatsbeatMetrics);
+    this.persister = new FileSystemPersist(
+      options.instrumentationKey,
+      options.exporterOptions,
+      this.customerStatsbeatMetrics,
+    );
     this.retryTimer = null;
     this.isStatsbeatSender = options.isStatsbeatSender || false;
   }
@@ -125,7 +135,7 @@ export abstract class BaseSender {
           const filteredEnvelopes: Envelope[] = [];
           // Create a list of successful envelopes by filtering out the failed ones for customer statsbeat
           const successfulEnvelopes: Envelope[] = [...envelopes];
-          
+
           // Figure out which items to retry and which were successful
           // If we have a partial success, count the succeeded envelopes
           if (breezeResponse.itemsAccepted > 0 && statusCode === 206) {
@@ -136,14 +146,14 @@ export abstract class BaseSender {
             breezeResponse.errors.forEach((error) => {
               // Mark as undefined so we don't process them in countSuccessfulEnvelopes
               successfulEnvelopes[error.index] = undefined as unknown as Envelope;
-              
+
               // Add to retry list if status code is retriable
               if (error.statusCode && isRetriable(error.statusCode)) {
                 filteredEnvelopes.push(envelopes[error.index]);
               }
             });
           }
-          
+
           // If we have a partial success, count the succeeded envelopes
           if (breezeResponse.itemsReceived > 0) {
             this.networkStatsbeatMetrics?.countSuccess(duration);
@@ -304,7 +314,7 @@ export abstract class BaseSender {
         this.customerStatsbeatMetrics?.countRetryItems(
           envelopes.length,
           RetryCode.CLIENT_STORAGE_DISABLED,
-        )
+        );
       }
       return { code: ExportResultCode.FAILED, error: ex };
     }
@@ -326,6 +336,10 @@ export abstract class BaseSender {
   private shutdownStatsbeat(): void {
     this.networkStatsbeatMetrics?.shutdown();
     this.longIntervalStatsbeatMetrics?.shutdown();
+    if (this.customerStatsbeatMetrics) {
+      CustomerStatsbeatMetrics.releaseInstance();
+      this.customerStatsbeatMetrics = undefined;
+    }
     this.networkStatsbeatMetrics = undefined;
     this.statsbeatFailureCount = 0;
   }

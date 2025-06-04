@@ -17,8 +17,18 @@ import { AzureMonitorStatsbeatExporter } from "./statsbeatExporter.js";
 /**
  * Class that handles customer-facing statsbeat metrics
  * These metrics are sent to the customer's breeze endpoint
+ *
+ * Implements a singleton pattern to ensure only one set of customer statsbeat metrics
+ * is exported every 15 minutes, regardless of the number of exporters or senders.
+ *
+ * Use `CustomerStatsbeatMetrics.getInstance()` to get a reference to the shared instance.
+ * Call `CustomerStatsbeatMetrics.releaseInstance()` when done to properly manage reference counting.
+ * Use `CustomerStatsbeatMetrics.shutdownInstance()` for complete shutdown and cleanup.
  */
 export class CustomerStatsbeatMetrics extends StatsbeatMetrics {
+  private static _instance: CustomerStatsbeatMetrics | undefined;
+  private static _refCount = 0;
+
   private statsCollectionInterval: number = 900000; // 15 minutes
   private customerStatsbeatMeter: Meter;
   private customerStatsbeatMeterProvider: MeterProvider;
@@ -43,7 +53,7 @@ export class CustomerStatsbeatMetrics extends StatsbeatMetrics {
   // Customer statsbeat properties
   private customerProperties: CustomerStatsbeatProperties;
 
-  constructor(options: StatsbeatOptions) {
+  private constructor(options: StatsbeatOptions) {
     super();
     // Use the customer's regular endpoint, not the statsbeat endpoint
     // TODO: Fix this to use the correct connection string value
@@ -93,6 +103,45 @@ export class CustomerStatsbeatMetrics extends StatsbeatMetrics {
       version: this.version,
       computeType: this.attach,
     };
+  }
+
+  /**
+   * Get singleton instance of CustomerStatsbeatMetrics
+   * @param options - Configuration options for customer statsbeat metrics
+   * @returns The singleton instance
+   */
+  public static getInstance(options: StatsbeatOptions): CustomerStatsbeatMetrics {
+    if (!CustomerStatsbeatMetrics._instance) {
+      CustomerStatsbeatMetrics._instance = new CustomerStatsbeatMetrics(options);
+    }
+    CustomerStatsbeatMetrics._refCount++;
+    return CustomerStatsbeatMetrics._instance;
+  }
+
+  /**
+   * Release singleton instance reference
+   * When reference count reaches zero, the instance is shut down
+   */
+  public static releaseInstance(): void {
+    if (CustomerStatsbeatMetrics._refCount > 0) {
+      CustomerStatsbeatMetrics._refCount--;
+    }
+    if (CustomerStatsbeatMetrics._refCount === 0 && CustomerStatsbeatMetrics._instance) {
+      CustomerStatsbeatMetrics._instance.shutdown();
+      CustomerStatsbeatMetrics._instance = undefined;
+    }
+  }
+
+  /**
+   * Force shutdown of singleton instance
+   * Used for cleanup in tests or emergency shutdown
+   */
+  public static shutdownInstance(): void {
+    if (CustomerStatsbeatMetrics._instance) {
+      CustomerStatsbeatMetrics._instance.shutdown();
+      CustomerStatsbeatMetrics._instance = undefined;
+      CustomerStatsbeatMetrics._refCount = 0;
+    }
   }
 
   /**
@@ -203,8 +252,23 @@ export class CustomerStatsbeatMetrics extends StatsbeatMetrics {
    * @param telemetry_type - The type of telemetry being tracked
    */
   public countSuccessfulItems(envelopes: number, telemetry_type: TelemetryType): void {
-    const counter: CustomerStatsbeat = this.getCustomerStatsbeatCounter(this.endpointUrl, this.host);
-    counter.totalItemSuccessCount.push({ count: envelopes, telemetry_type });
+    const counter: CustomerStatsbeat = this.getCustomerStatsbeatCounter(
+      this.endpointUrl,
+      this.host,
+    );
+    
+    // Check if an entry with the same telemetry_type already exists
+    const existingEntry = counter.totalItemSuccessCount.find(
+      entry => entry.telemetry_type === telemetry_type
+    );
+    
+    if (existingEntry) {
+      // Increment the existing entry's count
+      existingEntry.count += envelopes;
+    } else {
+      // Create a new entry
+      counter.totalItemSuccessCount.push({ count: envelopes, telemetry_type });
+    }
   }
 
   /**
@@ -213,11 +277,26 @@ export class CustomerStatsbeatMetrics extends StatsbeatMetrics {
    * @param dropCode - The drop code indicating the reason for drop
    */
   public countDroppedItems(envelopes: number, dropCode: DropCode): void {
-    const counter: CustomerStatsbeat = this.getCustomerStatsbeatCounter(this.endpointUrl, this.host);
-    counter.totalItemDropCount.push({
-      count: envelopes,
-      "drop.code": dropCode,
-    });
+    const counter: CustomerStatsbeat = this.getCustomerStatsbeatCounter(
+      this.endpointUrl,
+      this.host,
+    );
+    
+    // Check if an entry with the same drop code already exists
+    const existingEntry = counter.totalItemDropCount.find(
+      entry => entry["drop.code"] === dropCode
+    );
+    
+    if (existingEntry) {
+      // Increment the existing entry's count
+      existingEntry.count += envelopes;
+    } else {
+      // Create a new entry
+      counter.totalItemDropCount.push({
+        count: envelopes,
+        "drop.code": dropCode,
+      });
+    }
   }
   /**
    * Tracks retried envelopes
@@ -225,11 +304,26 @@ export class CustomerStatsbeatMetrics extends StatsbeatMetrics {
    * @param retryCode - The retry code indicating the reason for retry
    */
   public countRetryItems(envelopes: number, retryCode: RetryCode): void {
-    const counter: CustomerStatsbeat = this.getCustomerStatsbeatCounter(this.endpointUrl, this.host);
-    counter.totalItemRetryCount.push({
-      count: envelopes,
-      "retry.code": retryCode,
-    });
+    const counter: CustomerStatsbeat = this.getCustomerStatsbeatCounter(
+      this.endpointUrl,
+      this.host,
+    );
+    
+    // Check if an entry with the same retry code already exists
+    const existingEntry = counter.totalItemRetryCount.find(
+      entry => entry["retry.code"] === retryCode
+    );
+    
+    if (existingEntry) {
+      // Increment the existing entry's count
+      existingEntry.count += envelopes;
+    } else {
+      // Create a new entry
+      counter.totalItemRetryCount.push({
+        count: envelopes,
+        "retry.code": retryCode,
+      });
+    }
   }
 
   // Gets a customerStatsbeat counter if one exists for the given endpoint

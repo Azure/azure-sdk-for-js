@@ -156,8 +156,8 @@ export class FileSystemPersist implements PersistentStorage {
         // If the directory size exceeds the max limit, we send customer statsbeat and warn the user
         this._customerStatsbeatMetrics?.countDroppedItems(
           envelopeLength,
-          DropCode.CLIENT_PERSISTENCE_CAPACITY
-        )
+          DropCode.CLIENT_PERSISTENCE_CAPACITY,
+        );
         diag.warn(
           `Not saving data due to max size limit being met. Directory size in bytes is: ${size}`,
         );
@@ -179,7 +179,7 @@ export class FileSystemPersist implements PersistentStorage {
       // If the envelopes cannot be written to disk, we send customer statsbeat and warn the user
       this._customerStatsbeatMetrics?.countRetryItems(
         envelopeLength,
-        RetryCode.CLIENT_STORAGE_DISABLED
+        RetryCode.CLIENT_STORAGE_DISABLED,
       );
       diag.warn(`Error writing file to persistent file storage`, writeError);
       return false;
