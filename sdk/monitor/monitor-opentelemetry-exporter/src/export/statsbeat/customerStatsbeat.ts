@@ -33,7 +33,7 @@ export class CustomerStatsbeatMetrics extends StatsbeatMetrics {
   private customerStatsbeatMeter: Meter;
   private customerStatsbeatMeterProvider: MeterProvider;
   private customerStatsbeatExporter: AzureMonitorStatsbeatExporter;
-  private customerStatsbeatCollection: Array<CustomerStatsbeat> = [];
+  private customerStatsbeatCounter: CustomerStatsbeat;
   private customerStatsbeatMetricReader: PeriodicExportingMetricReader;
   private isInitialized: boolean = false;
 
@@ -97,6 +97,9 @@ export class CustomerStatsbeatMetrics extends StatsbeatMetrics {
       this.initialize();
     }
     this.isInitialized = true;
+
+    // Initialize the single customer statsbeat counter
+    this.customerStatsbeatCounter = new CustomerStatsbeat(this.endpointUrl, this.host);
 
     this.customerProperties = {
       language: this.language,
@@ -179,10 +182,7 @@ export class CustomerStatsbeatMetrics extends StatsbeatMetrics {
   // Observable gauge callbacks
   private itemSuccessCallback(observableResult: BatchObservableResult): void {
     // Only send metrics if count is greater than zero
-    const counter: CustomerStatsbeat = this.getCustomerStatsbeatCounter(
-      this.endpointUrl,
-      this.host,
-    );
+    const counter: CustomerStatsbeat = this.customerStatsbeatCounter;
     const attributes = { ...this.customerProperties, telemetry_type: TelemetryType.UNKNOWN };
 
     // For each { telemetry_type -> count } mapping, call observe, passing the count and attributes that include the telemetry_type
@@ -205,10 +205,7 @@ export class CustomerStatsbeatMetrics extends StatsbeatMetrics {
   // TODO: exception.message populate if "drop.code" is CLIENT_EXCEPTION
   private itemDropCallback(observableResult: BatchObservableResult): void {
     // Only send metrics if count is greater than zero
-    const counter: CustomerStatsbeat = this.getCustomerStatsbeatCounter(
-      this.endpointUrl,
-      this.host,
-    );
+    const counter: CustomerStatsbeat = this.customerStatsbeatCounter;
     const attributes = { ...this.customerProperties, "drop.code": DropCode.UNKNOWN };
 
     // For each { drop.code -> count } mapping, call observe, passing the count and attributes that include the drop.code
@@ -226,10 +223,7 @@ export class CustomerStatsbeatMetrics extends StatsbeatMetrics {
 
   // TODO: exception.message populate if "drop.code" is CLIENT_EXCEPTION
   private itemRetryCallback(observableResult: BatchObservableResult): void {
-    const counter: CustomerStatsbeat = this.getCustomerStatsbeatCounter(
-      this.endpointUrl,
-      this.host,
-    );
+    const counter: CustomerStatsbeat = this.customerStatsbeatCounter;
     const attributes = { ...this.customerProperties, "retry.code": RetryCode.UNKNOWN };
 
     // For each { retry.code -> count } mapping, call observe, passing the count and attributes that include the retry.code
@@ -252,10 +246,7 @@ export class CustomerStatsbeatMetrics extends StatsbeatMetrics {
    * @param telemetry_type - The type of telemetry being tracked
    */
   public countSuccessfulItems(envelopes: number, telemetry_type: TelemetryType): void {
-    const counter: CustomerStatsbeat = this.getCustomerStatsbeatCounter(
-      this.endpointUrl,
-      this.host,
-    );
+    const counter: CustomerStatsbeat = this.customerStatsbeatCounter;
     
     // Check if an entry with the same telemetry_type already exists
     const existingEntry = counter.totalItemSuccessCount.find(
@@ -277,10 +268,7 @@ export class CustomerStatsbeatMetrics extends StatsbeatMetrics {
    * @param dropCode - The drop code indicating the reason for drop
    */
   public countDroppedItems(envelopes: number, dropCode: DropCode): void {
-    const counter: CustomerStatsbeat = this.getCustomerStatsbeatCounter(
-      this.endpointUrl,
-      this.host,
-    );
+    const counter: CustomerStatsbeat = this.customerStatsbeatCounter;
     
     // Check if an entry with the same drop code already exists
     const existingEntry = counter.totalItemDropCount.find(
@@ -304,10 +292,7 @@ export class CustomerStatsbeatMetrics extends StatsbeatMetrics {
    * @param retryCode - The retry code indicating the reason for retry
    */
   public countRetryItems(envelopes: number, retryCode: RetryCode): void {
-    const counter: CustomerStatsbeat = this.getCustomerStatsbeatCounter(
-      this.endpointUrl,
-      this.host,
-    );
+    const counter: CustomerStatsbeat = this.customerStatsbeatCounter;
     
     // Check if an entry with the same retry code already exists
     const existingEntry = counter.totalItemRetryCount.find(
@@ -324,24 +309,6 @@ export class CustomerStatsbeatMetrics extends StatsbeatMetrics {
         "retry.code": retryCode,
       });
     }
-  }
-
-  // Gets a customerStatsbeat counter if one exists for the given endpoint
-  private getCustomerStatsbeatCounter(endpoint: string, host: string): CustomerStatsbeat {
-    // Check if the counter is available
-    for (let i = 0; i < this.customerStatsbeatCollection.length; i++) {
-      // Same object
-      if (
-        endpoint === this.customerStatsbeatCollection[i].endpoint &&
-        host === this.customerStatsbeatCollection[i].host
-      ) {
-        return this.customerStatsbeatCollection[i];
-      }
-    }
-    // Create a new counter if not found
-    const newCounter = new CustomerStatsbeat(endpoint, host);
-    this.customerStatsbeatCollection.push(newCounter);
-    return newCounter;
   }
 
   private getShortHost(originalHost: string): string {
