@@ -50,9 +50,12 @@ extends:
             MOCHA_TIMEOUT: 100000
             NODE_TLS_REJECT_UNAUTHORIZED: 0
 
-      - script: |
-          node eng/tools/rush-runner/index.js test:node:integration -packages "azure-cosmos" --verbose
-        displayName: "Cosmos Integration tests"
+      - stage: Integration tests
+        jobs:
+          - script: |
+              node $(Build.SourcesDirectory)/common/scripts/install-run-rushx.js test:node:integration
+            workingDirectory: $(System.DefaultWorkingDirectory)/sdk/cosmosdb/cosmos
+            displayName: "Cosmos Integration tests"
 
 
       # The Prerelease and Release stages are conditioned on whether we are building a pull request and the branch.
