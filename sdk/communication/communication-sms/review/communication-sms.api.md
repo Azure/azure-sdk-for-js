@@ -18,6 +18,12 @@ export interface CheckOptions extends OperationOptions {
 }
 
 // @public
+export interface MessagingConnectOptions {
+    apiKey: string;
+    partner: string;
+}
+
+// @public
 export interface OptOutAddResult {
     errorMessage?: string;
     httpStatusCode: number;
@@ -69,12 +75,6 @@ export interface SmsSendOptions extends OperationOptions {
     enableDeliveryReport?: boolean;
     messagingConnect?: MessagingConnectOptions;
     tag?: string;
-}
-
-// @public
-export interface MessagingConnectOptions {
-    apiKey: string;
-    partner: string;
 }
 
 // @public
