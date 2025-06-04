@@ -425,43 +425,30 @@ export type CampaignStatus =
 /** Defines values for ContentType. */
 export type ContentType =
   | "AccountNotification"
-  | "AgentsFranchises"
-  | "Charity"
   | "CustomerCare"
   | "DeliveryNotification"
-  | "Emergency"
   | "FraudAlert"
   | "HigherEducation"
-  | "LowVolume"
   | "MachineToMachine"
   | "Marketing"
   | "Mixed"
   | "PollingVoting"
   | "PublicServiceAnnouncement"
   | "SecurityAlert"
-  | "SoleProprietor"
   | "TwoFactorAuthentication"
   | "UcaasLow";
 /** Defines values for SubContentType. */
 export type SubContentType =
   | "AccountNotification"
-  | "AgentsFranchises"
-  | "Charity"
   | "CustomerCare"
   | "DeliveryNotification"
-  | "Emergency"
   | "FraudAlert"
   | "HigherEducation"
-  | "LowVolume"
-  | "MachineToMachine"
   | "Marketing"
-  | "Mixed"
   | "PollingVoting"
   | "PublicServiceAnnouncement"
   | "SecurityAlert"
-  | "SoleProprietor"
-  | "TwoFactorAuthentication"
-  | "UcaasLow";
+  | "TwoFactorAuthentication";
 /** Defines values for AttachmentType. */
 export type AttachmentType =
   | "callToAction"
