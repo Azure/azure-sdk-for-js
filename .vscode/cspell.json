@@ -60,6 +60,7 @@
     "Eugps",
     "Fhir",
     "Fnhr",
+    "GLEU",
     "Guids",
     "Hana",
     "IDRG",
@@ -97,7 +98,10 @@
     "Xiaomi",
     "adfs",
     "agrifood",
+    "ansii",
+    "atbash",
     "azsdk",
+    "azureai",
     "centralus",
     "deps",
     "deserialization",
@@ -113,6 +117,7 @@
     "entra",
     "etags",
     "findsimilars",
+    "gleu",
     "hnsw",
     "kusto",
     "lcov",
@@ -205,7 +210,9 @@
         "sipx",
         "ssml",
         "unhold",
-        "Unhold"
+        "Unhold",
+        "Gcch",
+        "gcch"
       ]
     },
     {

@@ -14,7 +14,7 @@ import "dotenv/config";
  * This sample demonstrates how to You can provide the template and parameters directly in the request or link to JSON files.
  *
  * @summary You can provide the template and parameters directly in the request or link to JSON files.
- * x-ms-original-file: specification/resources/resource-manager/Microsoft.Resources/stable/2024-11-01/examples/PutDeploymentAtScope.json
+ * x-ms-original-file: specification/resources/resource-manager/Microsoft.Resources/stable/2025-03-01/examples/PutDeploymentAtScope.json
  */
 async function createDeploymentAtAGivenScope(): Promise<void> {
   const scope =
