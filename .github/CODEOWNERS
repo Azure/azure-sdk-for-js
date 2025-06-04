@@ -822,6 +822,9 @@ sdk/ai/ai-agents @ganeshyb @glharper @dargilco @jhakulin @ZachhK @bobogogo1990
 /sdk/postgresql/arm-postgresql/ @qiaozha @MaryGao
 
 # PRLabel: %Mgmt
+/sdk/purestorageblock/arm-purestorageblock/ @qiaozha @MaryGao
+
+# PRLabel: %Mgmt
 /sdk/postgresql/arm-postgresql-flexible/ @qiaozha @MaryGao
 
 # PRLabel: %Mgmt
