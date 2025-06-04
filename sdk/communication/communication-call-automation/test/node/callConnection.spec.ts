@@ -146,11 +146,11 @@ describe("CallConnection Unit Tests", () => {
     // stub CallConnection
     callConnection = vi.mocked(
       new CallConnection(
-        expect.anything(),
-        expect.anything(),
-        expect.anything(),
-        expect.anything(),
-        expect.anything(),
+        "mockCallConnectionId",
+        "https://mock.endpoint.com", 
+        { key: "mockKey" },
+        {} as any,
+        {},
       ),
     );
   });
