@@ -210,7 +210,7 @@ export class TenDlcClient {
     submitUSBrand(brandId: string, options?: SubmitBrandOptionalParams): Promise<USBrand>;
     submitUSCampaign(campaignId: string, options?: SubmitCampaignOptionalParams): Promise<USCampaign>;
     upsertUSBrand(brandId: string, options?: UpsertUSBrandOptions): Promise<USBrand>;
-    upsertUSCampaign(campaingId: string, options?: UpsertUSCampaignOptions): Promise<USCampaign>;
+    upsertUSCampaign(campaignId: string, options?: UpsertUSCampaignOptions): Promise<USCampaign>;
 }
 
 // @public
@@ -326,7 +326,11 @@ export interface UpsertUSCampaignOptions extends TenDlcGetUSCampaignOptionalPara
     // (undocumented)
     campaignDetails: CampaignDetails | undefined;
     // (undocumented)
+    id: string | undefined;
+    // (undocumented)
     messageDetails: MessageDetails | undefined;
+    // (undocumented)
+    name: string | undefined;
 }
 
 // @public

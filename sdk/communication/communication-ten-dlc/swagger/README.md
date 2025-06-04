@@ -14,6 +14,7 @@ input-file: ./swagger.json
 model-date-time-as-string: false
 optional-response-headers: true
 payload-flattening-threshold: 10
+v3: true
 add-credentials: false
 skip-enum-validation: true
 title: 10 DLC Client

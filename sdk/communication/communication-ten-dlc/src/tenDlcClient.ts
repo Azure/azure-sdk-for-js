@@ -131,9 +131,11 @@ export class TenDlcClient {
    * @returns The upserted US campaign.
    */
   public upsertUSCampaign(
-    campaingId: string,
+    campaignId: string,
     options: UpsertUSCampaignOptions = {
+      id: "",
       brandId: "",
+      name: "",
       campaignDetails: {},
       messageDetails: {},
     },
@@ -143,7 +145,7 @@ export class TenDlcClient {
       options,
     );
     try {
-      return this.client.tenDlc.upsertUSCampaign(campaingId, updatedOptions);
+      return this.client.tenDlc.upsertUSCampaign(campaignId, updatedOptions);
     } catch (e: any) {
       span.setStatus({
         status: "error",
