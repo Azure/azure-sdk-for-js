@@ -125,7 +125,7 @@ export async function main(): Promise<void> {
         console.log(`Saving new files...`);
         const imageFile = imageFileOutput.imageFile.fileId;
         const imageFileName = path.resolve(
-          "./data/" + (await client.files.get(imageFile)).filename + "ImageFile.png",
+          "./data/ImageFile_" + (await client.files.get(imageFile)).filename,
         );
         console.log(`Image file name : ${imageFileName}`);
 
