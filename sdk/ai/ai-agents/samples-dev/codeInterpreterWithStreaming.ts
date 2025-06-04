@@ -68,23 +68,25 @@ export async function main(): Promise<void> {
  // Create and execute a run
  const streamEventMessages = await client.runs.create(thread.id, agent.id).stream();
 
- for await (const eventMessage of streamEventMessages) {
-   switch (eventMessage.event) {
-     case RunStreamEvent.ThreadRunCreated:
-       console.log(`ThreadRun status: ${eventMessage.data.status}`);
-       break;
-     case MessageStreamEvent.ThreadMessageDelta:
-       {
-         const messageDelta = eventMessage.data;
-         messageDelta.delta.content.forEach((contentPart) => {
-           if (contentPart.type === "text") {
-             const textContent = contentPart;
-             const textValue = textContent.text?.value || "No text";
-             console.log(`Text delta received:: ${textValue}`);
-           }
-         });
-       }
-       break;
+  for await (const eventMessage of streamEventMessages) {
+    switch (eventMessage.event) {
+      case RunStreamEvent.ThreadRunCreated:
+        console.log(`ThreadRun status: ${eventMessage.data.status}`);
+        break;
+      case MessageStreamEvent.ThreadMessageDelta:
+        {
+          const messageDelta = eventMessage.data;
+          if (messageDelta.delta && messageDelta.delta.content) {
+            messageDelta.delta.content.forEach((contentPart) => {
+              if (contentPart.type === "text") {
+                const textContent = contentPart;
+                const textValue = textContent.text?.value || "No text";
+                console.log(`Text delta received:: ${textValue}`);
+              }
+            });
+          }
+        }
+        break;
 
      case RunStreamEvent.ThreadRunCompleted:
        console.log("Thread Run Completed");
@@ -110,22 +112,22 @@ export async function main(): Promise<void> {
  }
  console.log("Messages:", messagesArray);
 
-// Get most recent message from the assistant
- const assistantMessage = messagesArray.find((msg) => msg.role === "assistant");
- if (assistantMessage) {
-   // Look for an image file in the assistant's message
-   const imageFileOutput = assistantMessage.content.find(content => 
-     content.type === "image_file" && content.imageFile?.fileId);
-   
-   if (imageFileOutput) {
-     try {
-       // Save the newly created file
-       console.log(`Saving new files...`);
-       const imageFile = imageFileOutput.imageFile.fileId;
-       const imageFileName = path.resolve(
-         "./data/" + (await client.files.get(imageFile)).filename + "ImageFile.png",
-       );
-       console.log(`Image file name : ${imageFileName}`);
+  // Get most recent message from the assistant
+  const assistantMessage = messagesArray.find((msg) => msg.role === "assistant");
+  if (assistantMessage && assistantMessage.content && assistantMessage.content.length > 0) {
+    // Look for an image file in the assistant's message
+    const imageFileOutput = assistantMessage.content.find(content => 
+      content.type === "image_file" && content.imageFile?.fileId);
+    
+    if (imageFileOutput) {
+      try {
+        // Save the newly created file
+        console.log(`Saving new files...`);
+        const imageFile = imageFileOutput.imageFile.fileId;
+        const imageFileName = path.resolve(
+          "./data/" + (await client.files.get(imageFile)).filename + "ImageFile.png",
+        );
+        console.log(`Image file name : ${imageFileName}`);
 
        const fileContent = await client.files.getContent(imageFile).asNodeStream();
        if (fileContent && fileContent.body) {
@@ -149,19 +151,21 @@ export async function main(): Promise<void> {
    console.log("No assistant message found");
  }
 
- // Iterate through messages and print details for each annotation
- console.log(`Message Details:`);
- messagesArray.forEach((m) => {
-   console.log(`File Paths:`);
-   console.log(`Type: ${m.content[0].type}`);
-   if (isOutputOfType(m.content[0], "text")) {
-     const textContent = m.content[0];
-     console.log(`Text: ${textContent.text.value}`);
-   }
-   console.log(`File ID: ${m.id}`);
-   // firstId and lastId are properties of the paginator, not the messages array
-   // Removing these references as they don't exist in this context
- });
+  // Iterate through messages and print details for each annotation
+  console.log(`Message Details:`);
+  messagesArray.forEach((m) => {
+    console.log(`File Paths:`);
+    if (m.content && m.content.length > 0) {
+      console.log(`Type: ${m.content[0].type}`);
+      if (isOutputOfType(m.content[0], "text")) {
+        const textContent = m.content[0];
+        console.log(`Text: ${textContent.text.value}`);
+      }
+    }
+    console.log(`File ID: ${m.id}`);
+    // firstId and lastId are properties of the paginator, not the messages array
+    // Removing these references as they don't exist in this context
+  });
 
  // Delete the agent once done
  await client.deleteAgent(agent.id);
