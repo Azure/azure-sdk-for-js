@@ -111,12 +111,9 @@ describe("datasets - basic", () => {
         compareBodies: false,
       });
       // 1. Create dataset through file upload
-      const dataset = await datasets.uploadFile(
-        datasetName,
-        VERSION1,
-        testFilePath,
-        containerConnectionName,
-      );
+      const dataset = await datasets.uploadFile(datasetName, VERSION1, testFilePath, {
+        connectionName: containerConnectionName,
+      });
       assert.isNotNull(dataset);
       assert.equal(dataset.name, datasetName);
       assert.equal(dataset.version, VERSION1);
@@ -160,12 +157,9 @@ describe("datasets - basic", () => {
       await recorder.setMatcher("CustomDefaultMatcher", {
         compareBodies: false,
       });
-      const createdDataset = await datasets.uploadFile(
-        datasetName,
-        VERSION2,
-        testFilePath,
-        containerConnectionName,
-      );
+      const createdDataset = await datasets.uploadFile(datasetName, VERSION2, testFilePath, {
+        connectionName: containerConnectionName,
+      });
 
       // Get the specific dataset version
       const retrievedDataset = await datasets.get(datasetName, VERSION2);
@@ -192,12 +186,9 @@ describe("datasets - basic", () => {
         compareBodies: false,
       });
       // Upload folder to create a dataset
-      const dataset = await datasets.uploadFolder(
-        folderDatasetName,
-        VERSION3,
-        tempFolderPath,
-        containerConnectionName,
-      );
+      const dataset = await datasets.uploadFolder(folderDatasetName, VERSION3, tempFolderPath, {
+        connectionName: containerConnectionName,
+      });
 
       assert.isNotNull(dataset);
       assert.equal(dataset.name, folderDatasetName);
