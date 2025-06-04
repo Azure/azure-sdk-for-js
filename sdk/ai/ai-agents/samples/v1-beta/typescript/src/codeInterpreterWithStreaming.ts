@@ -58,7 +58,7 @@ export async function main(): Promise<void> {
   const message = await client.messages.create(
     thread.id,
     "user",
-    "Could you please create a bar chart in the TRANSPORTATION sector for the operating profit from the uploaded CSV file and provide the file to me?",
+    "Could you please create a bar chart in the Industrials sector for the operating profit from the uploaded CSV file and provide the file to me?",
   );
 
   console.log(`Created message, message ID: ${message.id}`);
@@ -74,13 +74,15 @@ export async function main(): Promise<void> {
       case MessageStreamEvent.ThreadMessageDelta:
         {
           const messageDelta = eventMessage.data;
-          messageDelta.delta.content.forEach((contentPart) => {
-            if (contentPart.type === "text") {
-              const textContent = contentPart;
-              const textValue = textContent.text?.value || "No text";
-              console.log(`Text delta received:: ${textValue}`);
-            }
-          });
+          if (messageDelta.delta && messageDelta.delta.content) {
+            messageDelta.delta.content.forEach((contentPart) => {
+              if (contentPart.type === "text") {
+                const textContent = contentPart;
+                const textValue = textContent.text?.value || "No text";
+                console.log(`Text delta received:: ${textValue}`);
+              }
+            });
+          }
         }
         break;
 
@@ -110,12 +112,11 @@ export async function main(): Promise<void> {
 
   // Get most recent message from the assistant
   const assistantMessage = messagesArray.find((msg) => msg.role === "assistant");
-  if (assistantMessage) {
+  if (assistantMessage && assistantMessage.content && assistantMessage.content.length > 0) {
     // Look for an image file in the assistant's message
-    const imageFileOutput = assistantMessage.content.find(
-      (content) => content.type === "image_file" && content.imageFile?.fileId,
-    );
-
+    const imageFileOutput = assistantMessage.content.find(content => 
+      content.type === "image_file" && content.imageFile?.fileId);
+    
     if (imageFileOutput) {
       try {
         // Save the newly created file
@@ -152,10 +153,12 @@ export async function main(): Promise<void> {
   console.log(`Message Details:`);
   messagesArray.forEach((m) => {
     console.log(`File Paths:`);
-    console.log(`Type: ${m.content[0].type}`);
-    if (isOutputOfType(m.content[0], "text")) {
-      const textContent = m.content[0];
-      console.log(`Text: ${textContent.text.value}`);
+    if (m.content && m.content.length > 0) {
+      console.log(`Type: ${m.content[0].type}`);
+      if (isOutputOfType(m.content[0], "text")) {
+        const textContent = m.content[0];
+        console.log(`Text: ${textContent.text.value}`);
+      }
     }
     console.log(`File ID: ${m.id}`);
     // firstId and lastId are properties of the paginator, not the messages array

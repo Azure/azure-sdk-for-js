@@ -49,7 +49,7 @@ export async function main(): Promise<void> {
   const message = await client.messages.create(
     thread.id,
     "user",
-    "Could you please create a bar chart in the TRANSPORTATION sector for the operating profit from the uploaded CSV file and provide the file to me?",
+    "Could you please create a bar chart in the Industrials sector for the operating profit from the uploaded CSV file and provide the file to me?",
     {
       attachments: [
         {
