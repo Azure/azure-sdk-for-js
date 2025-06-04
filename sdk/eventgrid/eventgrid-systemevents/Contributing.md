@@ -20,7 +20,7 @@ Steps
 
 4. update `src/index.ts` to re-export new public types from `./generated/index.js`.
 
-5. update `src/predcates.ts` to add mapping between new event names and their corresponding `*EventData` types.
+5. update `src/predicates.ts` to add mapping between new event names and their corresponding `*EventData` types.
 
 6. build the package `rush build -t @azure/eventgrid-systemevents` or `rush build -t .` when under the `sdk/eventgrid/eventgrid-systemevents` directory
 
