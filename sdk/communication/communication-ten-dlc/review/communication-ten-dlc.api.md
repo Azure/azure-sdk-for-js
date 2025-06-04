@@ -77,7 +77,6 @@ export interface CampaignAttachmentSummary {
 export interface CampaignDetails {
     callToAction?: string;
     description?: string;
-    name?: string;
     privacyPolicyUrl?: string;
     termsAndConditionsUrl?: string;
 }

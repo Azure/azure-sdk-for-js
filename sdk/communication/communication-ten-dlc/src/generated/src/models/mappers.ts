@@ -545,15 +545,6 @@ export const CampaignDetails: coreClient.CompositeMapper = {
     name: "Composite",
     className: "CampaignDetails",
     modelProperties: {
-      name: {
-        constraints: {
-          MaxLength: 255,
-        },
-        serializedName: "name",
-        type: {
-          name: "String",
-        },
-      },
       callToAction: {
         serializedName: "callToAction",
         type: {

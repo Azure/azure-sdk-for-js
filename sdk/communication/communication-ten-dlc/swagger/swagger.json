@@ -1180,11 +1180,6 @@
       "description": "Information about the campaign.",
       "type": "object",
       "properties": {
-        "name": {
-          "description": "Friendly name for the campaign",
-          "maxLength": 255,
-          "type": "string"
-        },
         "callToAction": {
           "description": "Call to action text. To be provided when InteractiveVoiceResponse is specified as call to action type",
           "type": "string"

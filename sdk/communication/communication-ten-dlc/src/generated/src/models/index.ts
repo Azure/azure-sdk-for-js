@@ -183,8 +183,6 @@ export interface USCampaign {
 
 /** Information about the campaign. */
 export interface CampaignDetails {
-  /** Friendly name for the campaign */
-  name?: string;
   /** Call to action text. To be provided when InteractiveVoiceResponse is specified as call to action type */
   callToAction?: string;
   /** Describes how and why the number will be used for messaging as part of the program. */
