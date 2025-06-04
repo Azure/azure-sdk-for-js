@@ -1,8 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { CloudHealthClient } from "@azure/arm-cloudhealth";
-import { DefaultAzureCredential } from "@azure/identity";
+const { CloudHealthClient } = require("@azure/arm-cloudhealth");
+const { DefaultAzureCredential } = require("@azure/identity");
 
 /**
  * This sample demonstrates how to create a DiscoveryRule
@@ -10,7 +10,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * @summary create a DiscoveryRule
  * x-ms-original-file: 2025-05-01-preview/DiscoveryRules_CreateOrUpdate.json
  */
-async function discoveryRulesCreateOrUpdate(): Promise<void> {
+async function discoveryRulesCreateOrUpdate() {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const client = new CloudHealthClient(credential, subscriptionId);
@@ -33,7 +33,7 @@ async function discoveryRulesCreateOrUpdate(): Promise<void> {
   console.log(result);
 }
 
-async function main(): Promise<void> {
+async function main() {
   await discoveryRulesCreateOrUpdate();
 }
 
