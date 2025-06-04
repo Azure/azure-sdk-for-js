@@ -9,13 +9,14 @@ import {
   LEGACY_ENV_DISABLE_STATSBEAT,
 } from "../../src/Declarations/Constants.js";
 import nock from "nock";
-import { NetworkStatsbeatMetrics } from "../../src/export/statsbeat/networkStatsbeatMetrics.js";
+import type { NetworkStatsbeatMetrics } from "../../src/export/statsbeat/networkStatsbeatMetrics.js";
+import { getInstance as getNetworkStatsbeatInstance, shutdownInstance as shutdownNetworkStatsbeatInstance } from "../../src/export/statsbeat/networkStatsbeatMetrics.js";
 import { AZURE_MONITOR_AUTO_ATTACH, StatsbeatCounter } from "../../src/export/statsbeat/types.js";
 import { getInstance } from "../../src/export/statsbeat/longIntervalStatsbeatMetrics.js";
 import { getInstance as getContext } from "../../src/platform/nodejs/context/context.js";
 import { AzureMonitorTraceExporter } from "../../src/export/trace.js";
 import { diag } from "@opentelemetry/api";
-import { describe, it, assert, expect, vi, beforeAll, afterAll } from "vitest";
+import { describe, it, assert, expect, vi, beforeAll, afterAll, beforeEach, afterEach } from "vitest";
 
 describe("#AzureMonitorStatsbeatExporter", () => {
   process.env.LONG_INTERVAL_EXPORT_MILLIS = "100";
@@ -46,6 +47,11 @@ describe("#AzureMonitorStatsbeatExporter", () => {
       name: "Name",
       time: new Date(),
     };
+
+    // Clean up singleton between tests
+    afterEach(async () => {
+      await shutdownNetworkStatsbeatInstance();
+    });
 
     beforeAll(() => {
       scope = nock(DEFAULT_BREEZE_ENDPOINT).post("/v2.1/track");
@@ -87,7 +93,7 @@ describe("#AzureMonitorStatsbeatExporter", () => {
       });
 
       it("should use non EU connection string", () => {
-        const statsbeat = new NetworkStatsbeatMetrics({
+        const statsbeat = getNetworkStatsbeatInstance({
           instrumentationKey: "InstrumentationKey=1aa11111-bbbb-1ccc-8ddd-eeeeffff3333;",
           endpointUrl: "IngestionEndpoint=https://westus-0.in.applicationinsights.azure.com",
         });
@@ -95,12 +101,12 @@ describe("#AzureMonitorStatsbeatExporter", () => {
       });
 
       it("should use EU connection string", () => {
-        const statsbeat = new NetworkStatsbeatMetrics(options);
+        const statsbeat = getNetworkStatsbeatInstance(options);
         assert.strictEqual(statsbeat["host"], "IngestionEndpoint=https://westeurope-5");
       });
 
       it("getShortHost", () => {
-        const statsbeat = new NetworkStatsbeatMetrics(options);
+        const statsbeat = getNetworkStatsbeatInstance(options);
         assert.strictEqual(
           statsbeat["getShortHost"]("http://westus02-1.in.applicationinsights.azure.com"),
           "westus02",
@@ -114,7 +120,7 @@ describe("#AzureMonitorStatsbeatExporter", () => {
       });
 
       it("should add correct network properties to the custom metric", () => {
-        const statsbeat = new NetworkStatsbeatMetrics(options);
+        const statsbeat = getNetworkStatsbeatInstance(options);
         // eslint-disable-next-line no-unused-expressions
         statsbeat["statsCollectionShortInterval"];
         statsbeat.countSuccess(100);
@@ -139,32 +145,40 @@ describe("#AzureMonitorStatsbeatExporter", () => {
         assert.ok(statsbeat["version"]);
       });
 
-      it("should add correct attach value to the attach metric", () => {
+      it("should add correct attach value to the attach metric", async () => {
         const originalEnv = process.env;
         const newEnv = <{ [id: string]: string }>{};
         process.env = newEnv;
         newEnv[AZURE_MONITOR_AUTO_ATTACH] = "true";
-        const statsbeat = new NetworkStatsbeatMetrics(options);
-        // eslint-disable-next-line no-unused-expressions
-        statsbeat["statsCollectionShortInterval"];
-        statsbeat.countSuccess(100);
-        const metric = statsbeat["networkStatsbeatCollection"][0];
-        assert.strictEqual(metric.intervalRequestExecutionTime, 100);
+        const statsbeat = getNetworkStatsbeatInstance(options);
+        try {
+          // eslint-disable-next-line no-unused-expressions
+          statsbeat["statsCollectionShortInterval"];
+          statsbeat.countSuccess(100);
+          const metric = statsbeat["networkStatsbeatCollection"][0];
+          assert.strictEqual(metric.intervalRequestExecutionTime, 100);
 
-        // Ensure network statsbeat attributes are populated
-        assert.strictEqual(statsbeat["attach"], "IntegratedAuto");
-        assert.ok(getContext().tags["ai.internal.sdkVersion"]);
-        process.env = originalEnv;
+          // Ensure network statsbeat attributes are populated
+          assert.strictEqual(statsbeat["attach"], "IntegratedAuto");
+          assert.ok(getContext().tags["ai.internal.sdkVersion"]);
+        } finally {
+          process.env = originalEnv;
+          await shutdownNetworkStatsbeatInstance();
+        }
       });
 
-      it("should set common properties correctly", () => {
+      it("should set common properties correctly", async () => {
         const originalEnv = process.env;
         const newEnv = <{ [id: string]: string }>{};
         newEnv.WEBSITE_SITE_NAME = "test";
         process.env = newEnv;
-        const statsbeat = new NetworkStatsbeatMetrics(options);
-        assert.strictEqual(statsbeat["commonProperties"]["rp"], "appsvc");
-        process.env = originalEnv;
+        const statsbeat = getNetworkStatsbeatInstance(options);
+        try {
+          assert.strictEqual(statsbeat["commonProperties"]["rp"], "appsvc");
+        } finally {
+          process.env = originalEnv;
+          await shutdownNetworkStatsbeatInstance();
+        }
       });
 
       it("should add correct long interval properties to the custom metric", () => {
@@ -209,7 +223,15 @@ describe("#AzureMonitorStatsbeatExporter", () => {
     });
 
     describe("Resource provider function", () => {
-      const statsbeat = new NetworkStatsbeatMetrics(options);
+      let statsbeat: NetworkStatsbeatMetrics;
+
+      beforeEach(() => {
+        statsbeat = getNetworkStatsbeatInstance(options);
+      });
+
+      afterEach(async () => {
+        await shutdownNetworkStatsbeatInstance();
+      });
 
       it("it should determine if the rp is unknown", async () => {
         await statsbeat["getResourceProvider"]();
@@ -285,16 +307,16 @@ describe("#AzureMonitorStatsbeatExporter", () => {
     describe("Track data from statsbeats", () => {
       let statsbeat: NetworkStatsbeatMetrics;
 
-      beforeAll(() => {
+      beforeEach(() => {
         process.env.WEBSITE_SITE_NAME = "test";
-        statsbeat = new NetworkStatsbeatMetrics({
+        statsbeat = getNetworkStatsbeatInstance({
           ...options,
           networkCollectionInterval: 100,
         });
       });
 
-      afterAll(async () => {
-        await statsbeat.shutdown();
+      afterEach(async () => {
+        await shutdownNetworkStatsbeatInstance();
         process.env.WEBSITE_SITE_NAME = undefined;
       });
 
@@ -424,7 +446,7 @@ describe("#AzureMonitorStatsbeatExporter", () => {
 
       it("should not export zero value statsbeats", async () => {
         // Create a new statsbeat instance to avoid interference from other tests
-        const zeroStatsbeat = new NetworkStatsbeatMetrics({
+        const zeroStatsbeat = getNetworkStatsbeatInstance({
           ...options,
           networkCollectionInterval: 100,
         });
@@ -461,7 +483,7 @@ describe("#AzureMonitorStatsbeatExporter", () => {
           }
         } finally {
           // Clean up
-          await zeroStatsbeat.shutdown();
+          await shutdownNetworkStatsbeatInstance();
         }
       });
     });

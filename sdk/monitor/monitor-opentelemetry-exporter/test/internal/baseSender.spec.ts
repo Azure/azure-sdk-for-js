@@ -66,6 +66,11 @@ vi.mock("../../src/export/statsbeat/networkStatsbeatMetrics.js", () => {
     NetworkStatsbeatMetrics: vi.fn().mockImplementation(() => {
       return mockNetworkStats;
     }),
+    getInstance: vi.fn().mockImplementation(() => {
+      return mockNetworkStats;
+    }),
+    releaseInstance: vi.fn().mockResolvedValue(undefined),
+    shutdownInstance: vi.fn().mockResolvedValue(undefined),
   };
 });
 
@@ -441,7 +446,8 @@ describe("BaseSender", () => {
       const result = await sender.exportEnvelopes([{ name: "test", time: new Date() }]);
 
       expect(result.code).toBe(ExportResultCode.SUCCESS);
-      expect(sender.getNetworkStats().shutdown).toHaveBeenCalled();
+      // Network stats now use singleton pattern, so no direct shutdown call
+      // Long interval stats still have shutdown method
       expect(sender.getLongIntervalStats().shutdown).toHaveBeenCalled();
     });
 
