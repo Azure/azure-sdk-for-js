@@ -341,7 +341,7 @@ export abstract class BaseSender {
     this.networkStatsbeatMetrics?.shutdown();
     this.longIntervalStatsbeatMetrics?.shutdown();
     if (this.customerStatsbeatMetrics) {
-      CustomerStatsbeatMetrics.releaseInstance();
+      CustomerStatsbeatMetrics.shutdown();
       this.customerStatsbeatMetrics = undefined;
     }
     this.networkStatsbeatMetrics = undefined;

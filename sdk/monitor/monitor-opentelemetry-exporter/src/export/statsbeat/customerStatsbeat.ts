@@ -22,12 +22,10 @@ import { AzureMonitorStatsbeatExporter } from "./statsbeatExporter.js";
  * is exported every 15 minutes, regardless of the number of exporters or senders.
  *
  * Use `CustomerStatsbeatMetrics.getInstance()` to get a reference to the shared instance.
- * Call `CustomerStatsbeatMetrics.releaseInstance()` when done to properly manage reference counting.
- * Use `CustomerStatsbeatMetrics.shutdownInstance()` for complete shutdown and cleanup.
+ * Use `CustomerStatsbeatMetrics.shutdown()` to shut down the singleton instance.
  */
 export class CustomerStatsbeatMetrics extends StatsbeatMetrics {
   private static _instance: CustomerStatsbeatMetrics | undefined;
-  private static _refCount = 0;
 
   private statsCollectionInterval: number = 900000; // 15 minutes
   private customerStatsbeatMeter: Meter;
@@ -117,34 +115,20 @@ export class CustomerStatsbeatMetrics extends StatsbeatMetrics {
     if (!CustomerStatsbeatMetrics._instance) {
       CustomerStatsbeatMetrics._instance = new CustomerStatsbeatMetrics(options);
     }
-    CustomerStatsbeatMetrics._refCount++;
     return CustomerStatsbeatMetrics._instance;
   }
 
   /**
-   * Release singleton instance reference
-   * When reference count reaches zero, the instance is shut down
+   * Shutdown the singleton instance
+   * Used for cleanup and complete shutdown
    */
-  public static releaseInstance(): void {
-    if (CustomerStatsbeatMetrics._refCount > 0) {
-      CustomerStatsbeatMetrics._refCount--;
-    }
-    if (CustomerStatsbeatMetrics._refCount === 0 && CustomerStatsbeatMetrics._instance) {
-      CustomerStatsbeatMetrics._instance.shutdown();
-      CustomerStatsbeatMetrics._instance = undefined;
-    }
-  }
-
-  /**
-   * Force shutdown of singleton instance
-   * Used for cleanup in tests or emergency shutdown
-   */
-  public static shutdownInstance(): void {
+  public static shutdown(): Promise<void> | undefined {
     if (CustomerStatsbeatMetrics._instance) {
-      CustomerStatsbeatMetrics._instance.shutdown();
+      const shutdownPromise = CustomerStatsbeatMetrics._instance.shutdown();
       CustomerStatsbeatMetrics._instance = undefined;
-      CustomerStatsbeatMetrics._refCount = 0;
+      return shutdownPromise;
     }
+    return undefined;
   }
 
   /**
