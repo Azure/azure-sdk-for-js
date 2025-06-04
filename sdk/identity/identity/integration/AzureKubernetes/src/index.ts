@@ -11,21 +11,13 @@ dotenv.config();
 const app = express();
 
 // Utility function to test storage access with a credential
-async function testStorageAccess(credential: TokenCredential, storageAccount: string | undefined, credentialType: string): Promise<boolean> {
+async function testStorageAccess(credential: TokenCredential, storageAccount: string ): Promise<{ success: boolean; error?: string; details?: any }> {
   try {
-    console.log(`Testing ${credentialType} with storage account: ${storageAccount}`);
-
-    if (!storageAccount) {
-      throw new Error(`Storage account name not provided for ${credentialType}`);
-    }
-
     // Create blob service client
     const blobServiceClient = new BlobServiceClient(
       `https://${storageAccount}.blob.core.windows.net`,
       credential
     );
-
-    console.log(`Created BlobServiceClient for ${credentialType}`);
 
     // List containers to test authentication
     const containerIterator = blobServiceClient.listContainers();
@@ -38,16 +30,19 @@ async function testStorageAccess(credential: TokenCredential, storageAccount: st
       if (count >= 10) break; // Limit to first 10 containers
     }
 
-    console.log(`Successfully listed ${count} containers using ${credentialType}`);
-    if (containers.length > 0) {
-      console.log(`Container names: ${containers.join(", ")}`);
-    }
-
-    return true;
+    return { success: true };
 
   } catch (error: any) {
-    console.log(error);
-    return false;
+    return {
+      success: false,
+      error: error.message || "Unknown error occurred",
+      details: {
+        name: error.name,
+        code: error.code,
+        statusCode: error.statusCode,
+        stack: error.stack
+      }
+    };
   }
 }
 
@@ -60,42 +55,50 @@ app.get("/", (req: express.Request, res: express.Response) => {
       "/managed-identity",
       "/managed-identity/user-assigned",
       "/workload-identity"
-    ],
-    timestamp: new Date().toISOString()
+    ]
   });
 });
 
 // Test system-assigned managed identity
 app.get("/managed-identity", async (req: express.Request, res: express.Response) => {
-  console.log("=== Testing System-Assigned Managed Identity ===");
-
   try {
     const storageAccount = process.env.IDENTITY_STORAGE_NAME_1;
     const credential = new ManagedIdentityCredential();
+    const result = await testStorageAccess(credential, storageAccount!);
 
-    const success = await testStorageAccess(credential, storageAccount, "System-Assigned Managed Identity");
-
-    res.status(success ? 200 : 500).json({
-      test: "managed-identity",
-      success: success,
-      timestamp: new Date().toISOString()
-    });
+    if (result.success) {
+      res.json({ test: "managed-identity" });
+    } else {
+      res.status(500).json({
+        test: "managed-identity",
+        error: result.error,
+        details: result.details,
+        environment: {
+          storageAccount: storageAccount,
+          hasStorageAccount: !!storageAccount
+        }
+      });
+    }
 
   } catch (error: any) {
-    console.log(error);
-
     res.status(500).json({
       test: "managed-identity",
-      success: false,
-      timestamp: new Date().toISOString()
+      error: error.message || "Unknown error occurred",
+      details: {
+        name: error.name,
+        code: error.code,
+        stack: error.stack
+      },
+      environment: {
+        storageAccount: process.env.IDENTITY_STORAGE_NAME_1,
+        hasStorageAccount: !!process.env.IDENTITY_STORAGE_NAME_1
+      }
     });
   }
 });
 
 // Test user-assigned managed identity
 app.get("/managed-identity/user-assigned", async (req: express.Request, res: express.Response) => {
-  console.log("=== Testing User-Assigned Managed Identity ===");
-
   try {
     const storageAccount = process.env.IDENTITY_STORAGE_NAME_2;
     const clientId = process.env.IDENTITY_USER_DEFINED_CLIENT_ID;
@@ -105,33 +108,47 @@ app.get("/managed-identity/user-assigned", async (req: express.Request, res: exp
     }
 
     const credential = new ManagedIdentityCredential({ clientId });
+    const result = await testStorageAccess(credential, storageAccount!);
 
-    const success = await testStorageAccess(credential, storageAccount, "User-Assigned Managed Identity");
-
-    res.status(success ? 200 : 500).json({
-      test: "user-assigned-managed-identity",
-      success: success,
-      clientId: clientId,
-      timestamp: new Date().toISOString()
-    });
+    if (result.success) {
+      res.json({ test: "user-assigned-managed-identity" });
+    } else {
+      res.status(500).json({
+        test: "user-assigned-managed-identity",
+        error: result.error,
+        details: result.details,
+        environment: {
+          storageAccount: storageAccount,
+          clientId: clientId,
+          hasStorageAccount: !!storageAccount,
+          hasClientId: !!clientId
+        }
+      });
+    }
 
   } catch (error: any) {
-    console.log(error);
-
     res.status(500).json({
       test: "user-assigned-managed-identity",
-      success: false,
-      timestamp: new Date().toISOString()
+      error: error.message || "Unknown error occurred",
+      details: {
+        name: error.name,
+        code: error.code,
+        stack: error.stack
+      },
+      environment: {
+        storageAccount: process.env.IDENTITY_STORAGE_NAME_2,
+        clientId: process.env.IDENTITY_USER_DEFINED_CLIENT_ID,
+        hasStorageAccount: !!process.env.IDENTITY_STORAGE_NAME_2,
+        hasClientId: !!process.env.IDENTITY_USER_DEFINED_CLIENT_ID
+      }
     });
   }
 });
 
 // Test workload identity
 app.get("/workload-identity", async (req: express.Request, res: express.Response) => {
-  console.log("=== Testing Workload Identity ===");
-
   try {
-    const storageAccount = process.env.IDENTITY_STORAGE_NAME_1;
+    const storageAccount = process.env.IDENTITY_STORAGE_NAME_1!;
     const tenantId = process.env.AZURE_TENANT_ID;
     const clientId = process.env.AZURE_CLIENT_ID;
 
@@ -144,23 +161,47 @@ app.get("/workload-identity", async (req: express.Request, res: express.Response
       clientId
     });
 
-    const success = await testStorageAccess(credential, storageAccount, "Workload Identity");
+    const result = await testStorageAccess(credential, storageAccount);
 
-    res.status(success ? 200 : 500).json({
-      test: "workload-identity",
-      success: success,
-      tenantId: tenantId,
-      clientId: clientId,
-      timestamp: new Date().toISOString()
-    });
+    if (result.success) {
+      res.json({ test: "workload-identity" });
+    } else {
+      res.status(500).json({
+        test: "workload-identity",
+        error: result.error,
+        details: result.details,
+        environment: {
+          storageAccount: storageAccount,
+          tenantId: tenantId,
+          clientId: clientId,
+          hasStorageAccount: !!storageAccount,
+          hasTenantId: !!tenantId,
+          hasClientId: !!clientId,
+          tokenFile: process.env.AZURE_FEDERATED_TOKEN_FILE,
+          hasTokenFile: !!process.env.AZURE_FEDERATED_TOKEN_FILE
+        }
+      });
+    }
 
   } catch (error: any) {
-    console.log(error);
-
     res.status(500).json({
       test: "workload-identity",
-      success: false,
-      timestamp: new Date().toISOString()
+      error: error.message || "Unknown error occurred",
+      details: {
+        name: error.name,
+        code: error.code,
+        stack: error.stack
+      },
+      environment: {
+        storageAccount: process.env.IDENTITY_STORAGE_NAME_1,
+        tenantId: process.env.AZURE_TENANT_ID,
+        clientId: process.env.AZURE_CLIENT_ID,
+        hasStorageAccount: !!process.env.IDENTITY_STORAGE_NAME_1,
+        hasTenantId: !!process.env.AZURE_TENANT_ID,
+        hasClientId: !!process.env.AZURE_CLIENT_ID,
+        tokenFile: process.env.AZURE_FEDERATED_TOKEN_FILE,
+        hasTokenFile: !!process.env.AZURE_FEDERATED_TOKEN_FILE
+      }
     });
   }
 });
@@ -169,10 +210,5 @@ app.get("/workload-identity", async (req: express.Request, res: express.Response
 const port = process.env.FUNCTIONS_CUSTOMHANDLER_PORT || 8080;
 
 app.listen(port, () => {
-  console.log(`Azure Identity Test Server listening on port ${port}`);
-  console.log("Available endpoints:");
-  console.log("  GET / - Health check and service info");
-  console.log("  GET /managed-identity - Test system-assigned managed identity");
-  console.log("  GET /managed-identity/user-assigned - Test user-assigned managed identity");
-  console.log("  GET /workload-identity - Test workload identity");
+  // Server started - no logging needed for pipeline
 });
