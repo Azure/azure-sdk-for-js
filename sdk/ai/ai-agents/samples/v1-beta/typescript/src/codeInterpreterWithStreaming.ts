@@ -58,7 +58,7 @@ export async function main(): Promise<void> {
   const message = await client.messages.create(
     thread.id,
     "user",
-    "Could you please create a bar chart in the Industrials sector for the operating profit from the uploaded CSV file and provide the file to me?",
+    "Could you please create a bar chart in the Consumer Discretionary sector for the operating profit from the uploaded CSV file and provide the file to me?",
   );
 
   console.log(`Created message, message ID: ${message.id}`);
@@ -114,16 +114,17 @@ export async function main(): Promise<void> {
   const assistantMessage = messagesArray.find((msg) => msg.role === "assistant");
   if (assistantMessage && assistantMessage.content && assistantMessage.content.length > 0) {
     // Look for an image file in the assistant's message
-    const imageFileOutput = assistantMessage.content.find(content => 
-      content.type === "image_file" && content.imageFile?.fileId);
-    
+    const imageFileOutput = assistantMessage.content.find(
+      (content) => content.type === "image_file" && content.imageFile?.fileId,
+    );
+
     if (imageFileOutput) {
       try {
         // Save the newly created file
         console.log(`Saving new files...`);
         const imageFile = imageFileOutput.imageFile.fileId;
         const imageFileName = path.resolve(
-          "./data/" + (await client.files.get(imageFile)).filename + "ImageFile.png",
+          "./data/ImageFile_" + (await client.files.get(imageFile)).filename,
         );
         console.log(`Image file name : ${imageFileName}`);
 

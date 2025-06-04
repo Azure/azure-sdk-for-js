@@ -58,7 +58,7 @@ async function main() {
   const message = await client.messages.create(
     thread.id,
     "user",
-    "Could you please create a bar chart in the Industrials sector for the operating profit from the uploaded CSV file and provide the file to me?",
+    "Could you please create a bar chart in the Consumer Discretionary sector for the operating profit from the uploaded CSV file and provide the file to me?",
   );
 
   console.log(`Created message, message ID: ${message.id}`);
@@ -124,7 +124,7 @@ async function main() {
         console.log(`Saving new files...`);
         const imageFile = imageFileOutput.imageFile.fileId;
         const imageFileName = path.resolve(
-          "./data/" + (await client.files.get(imageFile)).filename + "ImageFile.png",
+          "./data/ImageFile_" + (await client.files.get(imageFile)).filename,
         );
         console.log(`Image file name : ${imageFileName}`);
 

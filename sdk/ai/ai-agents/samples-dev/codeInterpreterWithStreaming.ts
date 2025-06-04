@@ -116,9 +116,10 @@ export async function main(): Promise<void> {
   const assistantMessage = messagesArray.find((msg) => msg.role === "assistant");
   if (assistantMessage && assistantMessage.content && assistantMessage.content.length > 0) {
     // Look for an image file in the assistant's message
-    const imageFileOutput = assistantMessage.content.find(content => 
-      content.type === "image_file" && content.imageFile?.fileId);
-    
+    const imageFileOutput = assistantMessage.content.find(
+      (content) => content.type === "image_file" && content.imageFile?.fileId,
+    );
+
     if (imageFileOutput) {
       try {
         // Save the newly created file

@@ -1,6 +1,10 @@
 # Release History
 
-## 1.0.0-beta.4 (2025-06-02)
+## 1.0.0-beta.4 (2025-06-04)
+
+### Breaking Changes
+
+- API version is changed to v1, removing preview features. To use preview features, please use previous beta version.
 
 ### Features Added
 
@@ -9,6 +13,7 @@
 ### Bugs Fixed
 
 - Fixed an issue with streaming serialization
+- Fixed an issue with codeInterpreterWithStreaming sample inconsistently writing file to disk
 
 ## 1.0.0-beta.3 (2025-05-20)
 
