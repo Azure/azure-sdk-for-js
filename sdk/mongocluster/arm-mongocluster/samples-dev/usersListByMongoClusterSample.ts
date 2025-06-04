@@ -15,10 +15,7 @@ async function listTheUsersOnAMongoClusterResource(): Promise<void> {
   const subscriptionId = "ffffffff-ffff-ffff-ffff-ffffffffffff";
   const client = new MongoClusterManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (const item of client.users.listByMongoCluster(
-    "TestGroup",
-    "myMongoCluster",
-  )) {
+  for await (const item of client.users.listByMongoCluster("TestGroup", "myMongoCluster")) {
     resArray.push(item);
   }
 

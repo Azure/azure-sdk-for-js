@@ -9,9 +9,7 @@ export interface _OperationListResult {
   nextLink?: string;
 }
 
-export function _operationListResultDeserializer(
-  item: any,
-): _OperationListResult {
+export function _operationListResultDeserializer(item: any): _OperationListResult {
   return {
     value: operationArrayDeserializer(item["value"]),
     nextLink: item["nextLink"],
@@ -42,9 +40,7 @@ export function operationDeserializer(item: any): Operation {
   return {
     name: item["name"],
     isDataAction: item["isDataAction"],
-    display: !item["display"]
-      ? item["display"]
-      : operationDisplayDeserializer(item["display"]),
+    display: !item["display"] ? item["display"] : operationDisplayDeserializer(item["display"]),
     origin: item["origin"],
     actionType: item["actionType"],
   };
@@ -115,9 +111,7 @@ export interface ErrorResponse {
 
 export function errorResponseDeserializer(item: any): ErrorResponse {
   return {
-    error: !item["error"]
-      ? item["error"]
-      : errorDetailDeserializer(item["error"]),
+    error: !item["error"] ? item["error"] : errorDetailDeserializer(item["error"]),
   };
 }
 
@@ -140,26 +134,20 @@ export function errorDetailDeserializer(item: any): ErrorDetail {
     code: item["code"],
     message: item["message"],
     target: item["target"],
-    details: !item["details"]
-      ? item["details"]
-      : errorDetailArrayDeserializer(item["details"]),
+    details: !item["details"] ? item["details"] : errorDetailArrayDeserializer(item["details"]),
     additionalInfo: !item["additionalInfo"]
       ? item["additionalInfo"]
       : errorAdditionalInfoArrayDeserializer(item["additionalInfo"]),
   };
 }
 
-export function errorDetailArrayDeserializer(
-  result: Array<ErrorDetail>,
-): any[] {
+export function errorDetailArrayDeserializer(result: Array<ErrorDetail>): any[] {
   return result.map((item) => {
     return errorDetailDeserializer(item);
   });
 }
 
-export function errorAdditionalInfoArrayDeserializer(
-  result: Array<ErrorAdditionalInfo>,
-): any[] {
+export function errorAdditionalInfoArrayDeserializer(result: Array<ErrorAdditionalInfo>): any[] {
   return result.map((item) => {
     return errorAdditionalInfoDeserializer(item);
   });
@@ -173,23 +161,17 @@ export interface ErrorAdditionalInfo {
   readonly info?: Record<string, any>;
 }
 
-export function errorAdditionalInfoDeserializer(
-  item: any,
-): ErrorAdditionalInfo {
+export function errorAdditionalInfoDeserializer(item: any): ErrorAdditionalInfo {
   return {
     type: item["type"],
-    info: !item["info"]
-      ? item["info"]
-      : _errorAdditionalInfoInfoDeserializer(item["info"]),
+    info: !item["info"] ? item["info"] : _errorAdditionalInfoInfoDeserializer(item["info"]),
   };
 }
 
 /** model interface _ErrorAdditionalInfoInfo */
 export interface _ErrorAdditionalInfoInfo {}
 
-export function _errorAdditionalInfoInfoDeserializer(
-  item: any,
-): _ErrorAdditionalInfoInfo {
+export function _errorAdditionalInfoInfoDeserializer(item: any): _ErrorAdditionalInfoInfo {
   return item;
 }
 
@@ -269,9 +251,7 @@ export interface MongoClusterProperties {
   authConfig?: AuthConfigProperties;
 }
 
-export function mongoClusterPropertiesSerializer(
-  item: MongoClusterProperties,
-): any {
+export function mongoClusterPropertiesSerializer(item: MongoClusterProperties): any {
   return {
     createMode: item["createMode"],
     restoreParameters: !item["restoreParameters"]
@@ -288,21 +268,11 @@ export function mongoClusterPropertiesSerializer(
     highAvailability: !item["highAvailability"]
       ? item["highAvailability"]
       : highAvailabilityPropertiesSerializer(item["highAvailability"]),
-    storage: !item["storage"]
-      ? item["storage"]
-      : storagePropertiesSerializer(item["storage"]),
-    sharding: !item["sharding"]
-      ? item["sharding"]
-      : shardingPropertiesSerializer(item["sharding"]),
-    compute: !item["compute"]
-      ? item["compute"]
-      : computePropertiesSerializer(item["compute"]),
-    backup: !item["backup"]
-      ? item["backup"]
-      : backupPropertiesSerializer(item["backup"]),
-    dataApi: !item["dataApi"]
-      ? item["dataApi"]
-      : dataApiPropertiesSerializer(item["dataApi"]),
+    storage: !item["storage"] ? item["storage"] : storagePropertiesSerializer(item["storage"]),
+    sharding: !item["sharding"] ? item["sharding"] : shardingPropertiesSerializer(item["sharding"]),
+    compute: !item["compute"] ? item["compute"] : computePropertiesSerializer(item["compute"]),
+    backup: !item["backup"] ? item["backup"] : backupPropertiesSerializer(item["backup"]),
+    dataApi: !item["dataApi"] ? item["dataApi"] : dataApiPropertiesSerializer(item["dataApi"]),
     previewFeatures: !item["previewFeatures"]
       ? item["previewFeatures"]
       : item["previewFeatures"].map((p: any) => {
@@ -314,9 +284,7 @@ export function mongoClusterPropertiesSerializer(
   };
 }
 
-export function mongoClusterPropertiesDeserializer(
-  item: any,
-): MongoClusterProperties {
+export function mongoClusterPropertiesDeserializer(item: any): MongoClusterProperties {
   return {
     createMode: item["createMode"],
     restoreParameters: !item["restoreParameters"]
@@ -336,26 +304,16 @@ export function mongoClusterPropertiesDeserializer(
     highAvailability: !item["highAvailability"]
       ? item["highAvailability"]
       : highAvailabilityPropertiesDeserializer(item["highAvailability"]),
-    storage: !item["storage"]
-      ? item["storage"]
-      : storagePropertiesDeserializer(item["storage"]),
+    storage: !item["storage"] ? item["storage"] : storagePropertiesDeserializer(item["storage"]),
     sharding: !item["sharding"]
       ? item["sharding"]
       : shardingPropertiesDeserializer(item["sharding"]),
-    compute: !item["compute"]
-      ? item["compute"]
-      : computePropertiesDeserializer(item["compute"]),
-    backup: !item["backup"]
-      ? item["backup"]
-      : backupPropertiesDeserializer(item["backup"]),
-    dataApi: !item["dataApi"]
-      ? item["dataApi"]
-      : dataApiPropertiesDeserializer(item["dataApi"]),
+    compute: !item["compute"] ? item["compute"] : computePropertiesDeserializer(item["compute"]),
+    backup: !item["backup"] ? item["backup"] : backupPropertiesDeserializer(item["backup"]),
+    dataApi: !item["dataApi"] ? item["dataApi"] : dataApiPropertiesDeserializer(item["dataApi"]),
     privateEndpointConnections: !item["privateEndpointConnections"]
       ? item["privateEndpointConnections"]
-      : privateEndpointConnectionArrayDeserializer(
-          item["privateEndpointConnections"],
-        ),
+      : privateEndpointConnectionArrayDeserializer(item["privateEndpointConnections"]),
     previewFeatures: !item["previewFeatures"]
       ? item["previewFeatures"]
       : item["previewFeatures"].map((p: any) => {
@@ -403,9 +361,7 @@ export interface MongoClusterRestoreParameters {
   sourceResourceId?: string;
 }
 
-export function mongoClusterRestoreParametersSerializer(
-  item: MongoClusterRestoreParameters,
-): any {
+export function mongoClusterRestoreParametersSerializer(item: MongoClusterRestoreParameters): any {
   return {
     pointInTimeUTC: !item["pointInTimeUTC"]
       ? item["pointInTimeUTC"]
@@ -433,9 +389,7 @@ export interface MongoClusterReplicaParameters {
   sourceLocation: string;
 }
 
-export function mongoClusterReplicaParametersSerializer(
-  item: MongoClusterReplicaParameters,
-): any {
+export function mongoClusterReplicaParametersSerializer(item: MongoClusterReplicaParameters): any {
   return {
     sourceResourceId: item["sourceResourceId"],
     sourceLocation: item["sourceLocation"],
@@ -459,15 +413,11 @@ export interface AdministratorProperties {
   password?: string;
 }
 
-export function administratorPropertiesSerializer(
-  item: AdministratorProperties,
-): any {
+export function administratorPropertiesSerializer(item: AdministratorProperties): any {
   return { userName: item["userName"], password: item["password"] };
 }
 
-export function administratorPropertiesDeserializer(
-  item: any,
-): AdministratorProperties {
+export function administratorPropertiesDeserializer(item: any): AdministratorProperties {
   return {
     userName: item["userName"],
     password: item["password"],
@@ -561,15 +511,11 @@ export interface HighAvailabilityProperties {
   targetMode?: HighAvailabilityMode;
 }
 
-export function highAvailabilityPropertiesSerializer(
-  item: HighAvailabilityProperties,
-): any {
+export function highAvailabilityPropertiesSerializer(item: HighAvailabilityProperties): any {
   return { targetMode: item["targetMode"] };
 }
 
-export function highAvailabilityPropertiesDeserializer(
-  item: any,
-): HighAvailabilityProperties {
+export function highAvailabilityPropertiesDeserializer(item: any): HighAvailabilityProperties {
   return {
     targetMode: item["targetMode"],
   };
@@ -740,9 +686,7 @@ export interface PrivateEndpointConnection extends Resource {
   properties?: PrivateEndpointConnectionProperties;
 }
 
-export function privateEndpointConnectionDeserializer(
-  item: any,
-): PrivateEndpointConnection {
+export function privateEndpointConnectionDeserializer(item: any): PrivateEndpointConnection {
   return {
     id: item["id"],
     name: item["name"],
@@ -775,10 +719,9 @@ export function privateEndpointConnectionPropertiesSerializer(
     privateEndpoint: !item["privateEndpoint"]
       ? item["privateEndpoint"]
       : privateEndpointSerializer(item["privateEndpoint"]),
-    privateLinkServiceConnectionState:
-      privateLinkServiceConnectionStateSerializer(
-        item["privateLinkServiceConnectionState"],
-      ),
+    privateLinkServiceConnectionState: privateLinkServiceConnectionStateSerializer(
+      item["privateLinkServiceConnectionState"],
+    ),
   };
 }
 
@@ -794,10 +737,9 @@ export function privateEndpointConnectionPropertiesDeserializer(
     privateEndpoint: !item["privateEndpoint"]
       ? item["privateEndpoint"]
       : privateEndpointDeserializer(item["privateEndpoint"]),
-    privateLinkServiceConnectionState:
-      privateLinkServiceConnectionStateDeserializer(
-        item["privateLinkServiceConnectionState"],
-      ),
+    privateLinkServiceConnectionState: privateLinkServiceConnectionStateDeserializer(
+      item["privateLinkServiceConnectionState"],
+    ),
     provisioningState: item["provisioningState"],
   };
 }
@@ -918,9 +860,7 @@ export interface ReplicationProperties {
   readonly replicationState?: ReplicationState;
 }
 
-export function replicationPropertiesDeserializer(
-  item: any,
-): ReplicationProperties {
+export function replicationPropertiesDeserializer(item: any): ReplicationProperties {
   return {
     sourceResourceId: item["sourceResourceId"],
     role: item["role"],
@@ -985,9 +925,7 @@ export interface AuthConfigProperties {
   allowedModes?: AuthenticationMode[];
 }
 
-export function authConfigPropertiesSerializer(
-  item: AuthConfigProperties,
-): any {
+export function authConfigPropertiesSerializer(item: AuthConfigProperties): any {
   return {
     allowedModes: !item["allowedModes"]
       ? item["allowedModes"]
@@ -997,9 +935,7 @@ export function authConfigPropertiesSerializer(
   };
 }
 
-export function authConfigPropertiesDeserializer(
-  item: any,
-): AuthConfigProperties {
+export function authConfigPropertiesDeserializer(item: any): AuthConfigProperties {
   return {
     allowedModes: !item["allowedModes"]
       ? item["allowedModes"]
@@ -1074,9 +1010,7 @@ export function systemDataDeserializer(item: any): SystemData {
   return {
     createdBy: item["createdBy"],
     createdByType: item["createdByType"],
-    createdAt: !item["createdAt"]
-      ? item["createdAt"]
-      : new Date(item["createdAt"]),
+    createdAt: !item["createdAt"] ? item["createdAt"] : new Date(item["createdAt"]),
     lastModifiedBy: item["lastModifiedBy"],
     lastModifiedByType: item["lastModifiedByType"],
     lastModifiedAt: !item["lastModifiedAt"]
@@ -1177,9 +1111,7 @@ export interface MongoClusterUpdateProperties {
   authConfig?: AuthConfigProperties;
 }
 
-export function mongoClusterUpdatePropertiesSerializer(
-  item: MongoClusterUpdateProperties,
-): any {
+export function mongoClusterUpdatePropertiesSerializer(item: MongoClusterUpdateProperties): any {
   return {
     administrator: !item["administrator"]
       ? item["administrator"]
@@ -1189,21 +1121,11 @@ export function mongoClusterUpdatePropertiesSerializer(
     highAvailability: !item["highAvailability"]
       ? item["highAvailability"]
       : highAvailabilityPropertiesSerializer(item["highAvailability"]),
-    storage: !item["storage"]
-      ? item["storage"]
-      : storagePropertiesSerializer(item["storage"]),
-    sharding: !item["sharding"]
-      ? item["sharding"]
-      : shardingPropertiesSerializer(item["sharding"]),
-    compute: !item["compute"]
-      ? item["compute"]
-      : computePropertiesSerializer(item["compute"]),
-    backup: !item["backup"]
-      ? item["backup"]
-      : backupPropertiesSerializer(item["backup"]),
-    dataApi: !item["dataApi"]
-      ? item["dataApi"]
-      : dataApiPropertiesSerializer(item["dataApi"]),
+    storage: !item["storage"] ? item["storage"] : storagePropertiesSerializer(item["storage"]),
+    sharding: !item["sharding"] ? item["sharding"] : shardingPropertiesSerializer(item["sharding"]),
+    compute: !item["compute"] ? item["compute"] : computePropertiesSerializer(item["compute"]),
+    backup: !item["backup"] ? item["backup"] : backupPropertiesSerializer(item["backup"]),
+    dataApi: !item["dataApi"] ? item["dataApi"] : dataApiPropertiesSerializer(item["dataApi"]),
     previewFeatures: !item["previewFeatures"]
       ? item["previewFeatures"]
       : item["previewFeatures"].map((p: any) => {
@@ -1223,26 +1145,20 @@ export interface _MongoClusterListResult {
   nextLink?: string;
 }
 
-export function _mongoClusterListResultDeserializer(
-  item: any,
-): _MongoClusterListResult {
+export function _mongoClusterListResultDeserializer(item: any): _MongoClusterListResult {
   return {
     value: mongoClusterArrayDeserializer(item["value"]),
     nextLink: item["nextLink"],
   };
 }
 
-export function mongoClusterArraySerializer(
-  result: Array<MongoCluster>,
-): any[] {
+export function mongoClusterArraySerializer(result: Array<MongoCluster>): any[] {
   return result.map((item) => {
     return mongoClusterSerializer(item);
   });
 }
 
-export function mongoClusterArrayDeserializer(
-  result: Array<MongoCluster>,
-): any[] {
+export function mongoClusterArrayDeserializer(result: Array<MongoCluster>): any[] {
   return result.map((item) => {
     return mongoClusterDeserializer(item);
   });
@@ -1254,9 +1170,7 @@ export interface ListConnectionStringsResult {
   readonly connectionStrings?: ConnectionString[];
 }
 
-export function listConnectionStringsResultDeserializer(
-  item: any,
-): ListConnectionStringsResult {
+export function listConnectionStringsResultDeserializer(item: any): ListConnectionStringsResult {
   return {
     connectionStrings: !item["connectionStrings"]
       ? item["connectionStrings"]
@@ -1264,9 +1178,7 @@ export function listConnectionStringsResultDeserializer(
   };
 }
 
-export function connectionStringArrayDeserializer(
-  result: Array<ConnectionString>,
-): any[] {
+export function connectionStringArrayDeserializer(result: Array<ConnectionString>): any[] {
   return result.map((item) => {
     return connectionStringDeserializer(item);
   });
@@ -1298,9 +1210,7 @@ export interface CheckNameAvailabilityRequest {
   type?: string;
 }
 
-export function checkNameAvailabilityRequestSerializer(
-  item: CheckNameAvailabilityRequest,
-): any {
+export function checkNameAvailabilityRequestSerializer(item: CheckNameAvailabilityRequest): any {
   return { name: item["name"], type: item["type"] };
 }
 
@@ -1350,9 +1260,7 @@ export interface PromoteReplicaRequest {
   mode?: PromoteMode;
 }
 
-export function promoteReplicaRequestSerializer(
-  item: PromoteReplicaRequest,
-): any {
+export function promoteReplicaRequestSerializer(item: PromoteReplicaRequest): any {
   return { promoteOption: item["promoteOption"], mode: item["mode"] };
 }
 
@@ -1424,18 +1332,14 @@ export interface FirewallRuleProperties {
   endIpAddress: string;
 }
 
-export function firewallRulePropertiesSerializer(
-  item: FirewallRuleProperties,
-): any {
+export function firewallRulePropertiesSerializer(item: FirewallRuleProperties): any {
   return {
     startIpAddress: item["startIpAddress"],
     endIpAddress: item["endIpAddress"],
   };
 }
 
-export function firewallRulePropertiesDeserializer(
-  item: any,
-): FirewallRuleProperties {
+export function firewallRulePropertiesDeserializer(item: any): FirewallRuleProperties {
   return {
     provisioningState: item["provisioningState"],
     startIpAddress: item["startIpAddress"],
@@ -1469,26 +1373,20 @@ export interface _FirewallRuleListResult {
   nextLink?: string;
 }
 
-export function _firewallRuleListResultDeserializer(
-  item: any,
-): _FirewallRuleListResult {
+export function _firewallRuleListResultDeserializer(item: any): _FirewallRuleListResult {
   return {
     value: firewallRuleArrayDeserializer(item["value"]),
     nextLink: item["nextLink"],
   };
 }
 
-export function firewallRuleArraySerializer(
-  result: Array<FirewallRule>,
-): any[] {
+export function firewallRuleArraySerializer(result: Array<FirewallRule>): any[] {
   return result.map((item) => {
     return firewallRuleSerializer(item);
   });
 }
 
-export function firewallRuleArrayDeserializer(
-  result: Array<FirewallRule>,
-): any[] {
+export function firewallRuleArrayDeserializer(result: Array<FirewallRule>): any[] {
   return result.map((item) => {
     return firewallRuleDeserializer(item);
   });
@@ -1576,9 +1474,7 @@ export function _privateLinkResourceListResultDeserializer(
   };
 }
 
-export function privateLinkResourceArrayDeserializer(
-  result: Array<PrivateLinkResource>,
-): any[] {
+export function privateLinkResourceArrayDeserializer(result: Array<PrivateLinkResource>): any[] {
   return result.map((item) => {
     return privateLinkResourceDeserializer(item);
   });
@@ -1590,9 +1486,7 @@ export interface PrivateLinkResource extends ProxyResource {
   properties?: PrivateLinkResourceProperties;
 }
 
-export function privateLinkResourceDeserializer(
-  item: any,
-): PrivateLinkResource {
+export function privateLinkResourceDeserializer(item: any): PrivateLinkResource {
   return {
     id: item["id"],
     name: item["name"],
@@ -1718,9 +1612,7 @@ export function userPropertiesSerializer(item: UserProperties): any {
     identityProvider: !item["identityProvider"]
       ? item["identityProvider"]
       : identityProviderUnionSerializer(item["identityProvider"]),
-    roles: !item["roles"]
-      ? item["roles"]
-      : databaseRoleArraySerializer(item["roles"]),
+    roles: !item["roles"] ? item["roles"] : databaseRoleArraySerializer(item["roles"]),
   };
 }
 
@@ -1730,9 +1622,7 @@ export function userPropertiesDeserializer(item: any): UserProperties {
     identityProvider: !item["identityProvider"]
       ? item["identityProvider"]
       : identityProviderUnionDeserializer(item["identityProvider"]),
-    roles: !item["roles"]
-      ? item["roles"]
-      : databaseRoleArrayDeserializer(item["roles"]),
+    roles: !item["roles"] ? item["roles"] : databaseRoleArrayDeserializer(item["roles"]),
   };
 }
 
@@ -1756,9 +1646,7 @@ export function identityProviderDeserializer(item: any): IdentityProvider {
 /** Alias for IdentityProviderUnion */
 export type IdentityProviderUnion = EntraIdentityProvider | IdentityProvider;
 
-export function identityProviderUnionSerializer(
-  item: IdentityProviderUnion,
-): any {
+export function identityProviderUnionSerializer(item: IdentityProviderUnion): any {
   switch (item.type) {
     case "MicrosoftEntraID":
       return entraIdentityProviderSerializer(item as EntraIdentityProvider);
@@ -1768,9 +1656,7 @@ export function identityProviderUnionSerializer(
   }
 }
 
-export function identityProviderUnionDeserializer(
-  item: any,
-): IdentityProviderUnion {
+export function identityProviderUnionDeserializer(item: any): IdentityProviderUnion {
   switch (item.type) {
     case "MicrosoftEntraID":
       return entraIdentityProviderDeserializer(item as EntraIdentityProvider);
@@ -1803,18 +1689,14 @@ export interface EntraIdentityProvider extends IdentityProvider {
   properties: EntraIdentityProviderProperties;
 }
 
-export function entraIdentityProviderSerializer(
-  item: EntraIdentityProvider,
-): any {
+export function entraIdentityProviderSerializer(item: EntraIdentityProvider): any {
   return {
     type: item["type"],
     properties: entraIdentityProviderPropertiesSerializer(item["properties"]),
   };
 }
 
-export function entraIdentityProviderDeserializer(
-  item: any,
-): EntraIdentityProvider {
+export function entraIdentityProviderDeserializer(item: any): EntraIdentityProvider {
   return {
     type: item["type"],
     properties: entraIdentityProviderPropertiesDeserializer(item["properties"]),
@@ -1859,17 +1741,13 @@ export enum KnownEntraPrincipalType {
  */
 export type EntraPrincipalType = string;
 
-export function databaseRoleArraySerializer(
-  result: Array<DatabaseRole>,
-): any[] {
+export function databaseRoleArraySerializer(result: Array<DatabaseRole>): any[] {
   return result.map((item) => {
     return databaseRoleSerializer(item);
   });
 }
 
-export function databaseRoleArrayDeserializer(
-  result: Array<DatabaseRole>,
-): any[] {
+export function databaseRoleArrayDeserializer(result: Array<DatabaseRole>): any[] {
   return result.map((item) => {
     return databaseRoleDeserializer(item);
   });

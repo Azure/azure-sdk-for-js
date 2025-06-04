@@ -4,8 +4,7 @@
 import { OperationOptions } from "@azure-rest/core-client";
 
 /** Optional parameters. */
-export interface FirewallRulesListByMongoClusterOptionalParams
-  extends OperationOptions {}
+export interface FirewallRulesListByMongoClusterOptionalParams extends OperationOptions {}
 
 /** Optional parameters. */
 export interface FirewallRulesDeleteOptionalParams extends OperationOptions {
@@ -14,8 +13,7 @@ export interface FirewallRulesDeleteOptionalParams extends OperationOptions {
 }
 
 /** Optional parameters. */
-export interface FirewallRulesCreateOrUpdateOptionalParams
-  extends OperationOptions {
+export interface FirewallRulesCreateOrUpdateOptionalParams extends OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
 }

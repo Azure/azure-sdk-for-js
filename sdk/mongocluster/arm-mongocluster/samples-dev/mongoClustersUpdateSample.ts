@@ -14,11 +14,9 @@ async function enablesDataAPIOnAMongoClusterResource(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "ffffffff-ffff-ffff-ffff-ffffffffffff";
   const client = new MongoClusterManagementClient(credential, subscriptionId);
-  const result = await client.mongoClusters.update(
-    "TestResourceGroup",
-    "myMongoCluster",
-    { properties: { dataApi: { mode: "Enabled" } } },
-  );
+  const result = await client.mongoClusters.update("TestResourceGroup", "myMongoCluster", {
+    properties: { dataApi: { mode: "Enabled" } },
+  });
   console.log(result);
 }
 
@@ -32,11 +30,9 @@ async function updatesTheDiskSizeOnAMongoClusterResource(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "ffffffff-ffff-ffff-ffff-ffffffffffff";
   const client = new MongoClusterManagementClient(credential, subscriptionId);
-  const result = await client.mongoClusters.update(
-    "TestResourceGroup",
-    "myMongoCluster",
-    { properties: { storage: { sizeGb: 256 } } },
-  );
+  const result = await client.mongoClusters.update("TestResourceGroup", "myMongoCluster", {
+    properties: { storage: { sizeGb: 256 } },
+  });
   console.log(result);
 }
 
@@ -50,15 +46,11 @@ async function updatesTheAllowedAuthenticationModesToIncludeMicrosoftEntraIDAuth
   const credential = new DefaultAzureCredential();
   const subscriptionId = "ffffffff-ffff-ffff-ffff-ffffffffffff";
   const client = new MongoClusterManagementClient(credential, subscriptionId);
-  const result = await client.mongoClusters.update(
-    "TestResourceGroup",
-    "myMongoCluster",
-    {
-      properties: {
-        authConfig: { allowedModes: ["NativeAuth", "MicrosoftEntraID"] },
-      },
+  const result = await client.mongoClusters.update("TestResourceGroup", "myMongoCluster", {
+    properties: {
+      authConfig: { allowedModes: ["NativeAuth", "MicrosoftEntraID"] },
     },
-  );
+  });
   console.log(result);
 }
 
@@ -72,11 +64,9 @@ async function disablesPublicNetworkAccessOnAMongoClusterResourceWithAPrivateEnd
   const credential = new DefaultAzureCredential();
   const subscriptionId = "ffffffff-ffff-ffff-ffff-ffffffffffff";
   const client = new MongoClusterManagementClient(credential, subscriptionId);
-  const result = await client.mongoClusters.update(
-    "TestResourceGroup",
-    "myMongoCluster",
-    { properties: { publicNetworkAccess: "Disabled" } },
-  );
+  const result = await client.mongoClusters.update("TestResourceGroup", "myMongoCluster", {
+    properties: { publicNetworkAccess: "Disabled" },
+  });
   console.log(result);
 }
 
@@ -90,20 +80,16 @@ async function updatesThePremiumSSDv2SizeIopsAndThroughputOnAMongoClusterResourc
   const credential = new DefaultAzureCredential();
   const subscriptionId = "ffffffff-ffff-ffff-ffff-ffffffffffff";
   const client = new MongoClusterManagementClient(credential, subscriptionId);
-  const result = await client.mongoClusters.update(
-    "TestResourceGroup",
-    "myMongoCluster",
-    {
-      properties: {
-        storage: {
-          sizeGb: 128,
-          type: "PremiumSSDv2",
-          iops: 5000,
-          throughput: 1000,
-        },
+  const result = await client.mongoClusters.update("TestResourceGroup", "myMongoCluster", {
+    properties: {
+      storage: {
+        sizeGb: 128,
+        type: "PremiumSSDv2",
+        iops: 5000,
+        throughput: 1000,
       },
     },
-  );
+  });
   console.log(result);
 }
 
@@ -117,15 +103,11 @@ async function resetsTheAdministratorLoginPassword(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "ffffffff-ffff-ffff-ffff-ffffffffffff";
   const client = new MongoClusterManagementClient(credential, subscriptionId);
-  const result = await client.mongoClusters.update(
-    "TestResourceGroup",
-    "myMongoCluster",
-    {
-      properties: {
-        administrator: { userName: "mongoAdmin", password: "password" },
-      },
+  const result = await client.mongoClusters.update("TestResourceGroup", "myMongoCluster", {
+    properties: {
+      administrator: { userName: "mongoAdmin", password: "password" },
     },
-  );
+  });
   console.log(result);
 }
 
@@ -139,24 +121,20 @@ async function updatesAMongoClusterResource(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "ffffffff-ffff-ffff-ffff-ffffffffffff";
   const client = new MongoClusterManagementClient(credential, subscriptionId);
-  const result = await client.mongoClusters.update(
-    "TestResourceGroup",
-    "myMongoCluster",
-    {
-      properties: {
-        administrator: { userName: "mongoAdmin" },
-        authConfig: { allowedModes: ["NativeAuth"] },
-        serverVersion: "5.0",
-        storage: { sizeGb: 256, type: "PremiumSSD" },
-        compute: { tier: "M50" },
-        sharding: { shardCount: 4 },
-        highAvailability: { targetMode: "SameZone" },
-        previewFeatures: [],
-        publicNetworkAccess: "Enabled",
-        dataApi: { mode: "Disabled" },
-      },
+  const result = await client.mongoClusters.update("TestResourceGroup", "myMongoCluster", {
+    properties: {
+      administrator: { userName: "mongoAdmin" },
+      authConfig: { allowedModes: ["NativeAuth"] },
+      serverVersion: "5.0",
+      storage: { sizeGb: 256, type: "PremiumSSD" },
+      compute: { tier: "M50" },
+      sharding: { shardCount: 4 },
+      highAvailability: { targetMode: "SameZone" },
+      previewFeatures: [],
+      publicNetworkAccess: "Enabled",
+      dataApi: { mode: "Disabled" },
     },
-  );
+  });
   console.log(result);
 }
 

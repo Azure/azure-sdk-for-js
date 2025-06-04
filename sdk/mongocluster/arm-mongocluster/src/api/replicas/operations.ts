@@ -39,15 +39,13 @@ export function _listByParentSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context
-    .path(path)
-    .get({
-      ...operationOptionsToRequestParameters(options),
-      headers: {
-        accept: "application/json",
-        ...options.requestOptions?.headers,
-      },
-    });
+  return context.path(path).get({
+    ...operationOptionsToRequestParameters(options),
+    headers: {
+      accept: "application/json",
+      ...options.requestOptions?.headers,
+    },
+  });
 }
 
 export async function _listByParentDeserialize(
@@ -72,8 +70,7 @@ export function listByParent(
 ): PagedAsyncIterableIterator<Replica> {
   return buildPagedAsyncIterator(
     context,
-    () =>
-      _listByParentSend(context, resourceGroupName, mongoClusterName, options),
+    () => _listByParentSend(context, resourceGroupName, mongoClusterName, options),
     _listByParentDeserialize,
     ["200"],
     { itemName: "value", nextLinkName: "nextLink" },

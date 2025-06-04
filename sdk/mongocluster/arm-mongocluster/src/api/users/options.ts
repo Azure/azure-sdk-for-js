@@ -4,8 +4,7 @@
 import { OperationOptions } from "@azure-rest/core-client";
 
 /** Optional parameters. */
-export interface UsersListByMongoClusterOptionalParams
-  extends OperationOptions {}
+export interface UsersListByMongoClusterOptionalParams extends OperationOptions {}
 
 /** Optional parameters. */
 export interface UsersDeleteOptionalParams extends OperationOptions {

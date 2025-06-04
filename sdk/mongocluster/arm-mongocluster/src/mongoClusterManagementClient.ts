@@ -7,10 +7,7 @@ import {
   MongoClusterManagementClientOptionalParams,
 } from "./api/index.js";
 import { UsersOperations, _getUsersOperations } from "./classic/users/index.js";
-import {
-  ReplicasOperations,
-  _getReplicasOperations,
-} from "./classic/replicas/index.js";
+import { ReplicasOperations, _getReplicasOperations } from "./classic/replicas/index.js";
 import {
   PrivateLinksOperations,
   _getPrivateLinksOperations,
@@ -27,10 +24,7 @@ import {
   MongoClustersOperations,
   _getMongoClustersOperations,
 } from "./classic/mongoClusters/index.js";
-import {
-  OperationsOperations,
-  _getOperationsOperations,
-} from "./classic/operations/index.js";
+import { OperationsOperations, _getOperationsOperations } from "./classic/operations/index.js";
 import { Pipeline } from "@azure/core-rest-pipeline";
 import { TokenCredential } from "@azure/core-auth";
 
@@ -59,9 +53,7 @@ export class MongoClusterManagementClient {
     this.users = _getUsersOperations(this._client);
     this.replicas = _getReplicasOperations(this._client);
     this.privateLinks = _getPrivateLinksOperations(this._client);
-    this.privateEndpointConnections = _getPrivateEndpointConnectionsOperations(
-      this._client,
-    );
+    this.privateEndpointConnections = _getPrivateEndpointConnectionsOperations(this._client);
     this.firewallRules = _getFirewallRulesOperations(this._client);
     this.mongoClusters = _getMongoClustersOperations(this._client);
     this.operations = _getOperationsOperations(this._client);
