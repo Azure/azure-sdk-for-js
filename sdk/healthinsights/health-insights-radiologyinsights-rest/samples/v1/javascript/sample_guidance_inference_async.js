@@ -2,12 +2,12 @@
 // Licensed under the MIT License.
 
 /**
- * @summary Displays the radiology procedure of the Radiology Insights request.
+ * @summary Displays the clinical guidance of the Radiology Insights request.
  */
 const { DefaultAzureCredential } = require("@azure/identity");
-const dotenv = require("dotenv");
 
-const AzureHealthInsightsClient = require("../src").default,
+const dotenv = require("dotenv");
+const AzureHealthInsightsClient = require("../../../src").default,
   { ClinicalDocumentType, getLongRunningPoller, isUnexpected } = require("../src");
 
 dotenv.config();
@@ -17,7 +17,7 @@ dotenv.config();
 const endpoint = process.env["HEALTH_INSIGHTS_ENDPOINT"] || "";
 
 /**
- * Print the radiology procedure inference
+ * Print the complete order discrepancy inference
  */
 
 function printResults(radiologyInsightsResult) {
@@ -27,48 +27,125 @@ function printResults(radiologyInsightsResult) {
       results.patientResults.forEach((patientResult) => {
         if (patientResult.inferences) {
           patientResult.inferences.forEach((inference) => {
-            if (inference.kind === "radiologyProcedure") {
-              console.log("Radiology Procedure Inference found");
-              inference.procedureCodes?.forEach((procedureCode) => {
-                console.log("   Procedure Codes: ");
-                displayCodes(procedureCode);
-              });
-
-              if ("imagingProcedures" in inference) {
-                inference.imagingProcedures?.forEach((imagingProcedure) => {
-                  console.log("   Imaging Procedure Codes: ");
-                  displayImaging(imagingProcedure);
-                });
-              }
-
-              if ("orderedProcedure" in inference) {
-                console.log("   Ordered procedures: ");
-                if ("code" in inference.orderedProcedure) {
-                  displayCodes(inference.orderedProcedure.code);
+            if (inference.kind === "guidance") {
+              console.log("Guidance Inference found: ");
+              if ("finding" in inference) {
+                const find = inference.finding;
+                if ("code" in find) {
+                  const fcode = find.code;
+                  console.log("   Finding Code: ");
+                  displayCodes(fcode);
                 }
               }
 
-              if ("description" in inference.orderedProcedure) {
-                console.log("   Description: " + inference.orderedProcedure.description);
+              if ("identifier" in inference) {
+                console.log("   Identifier: ", inference.identifier);
+                if ("code" in inference.identifier) {
+                  displayCodes(inference.identifier.code);
+                }
               }
+
+              inference.presentGuidanceInformation?.forEach((presentInfo) => {
+                console.log("   Present Guidance Information: ");
+                displayPresentGuidanceInformation(presentInfo);
+              })
+
+              if ("ranking" in inference) {
+                console.log("   Ranking: ", inference.ranking);
+              }
+
+              if ("recommendationProposals" in inference) {
+                inference.recommendationProposals.forEach((proposal) => {
+                  console.log("   Recommendation Proposal: ", proposal.kind);
+                  console.log("      Recommendation Procedure: ", proposal.recommendedProcedure.kind);
+                  if ("imagingProcedures" in proposal.recommendedProcedure) {
+                    proposal.recommendedProcedure.imagingProcedures?.forEach((imagingProcedure) => {
+                      console.log("      Recommended Imaging Procedure Codes: ");
+                      displayImaging(imagingProcedure);
+                    });
+                  }
+                });
+              }
+
+              inference.missingGuidanceInformation?.forEach((missingInfo) => {
+                console.log("   Missing Guidance Information: ", missingInfo);
+              })
+
             }
-          });
+          })
+        }
+      });
+    } else {
+      const error = radiologyInsightsResult.error;
+      if (error) {
+        console.log(error.code, ":", error.message);
+      }
+    }
+
+    function displayCodes(codeableConcept) {
+      codeableConcept.coding?.forEach((coding) => {
+        if ("code" in coding) {
+          if ("display" in coding && "system" in coding && "code" in coding) {
+            console.log(
+              "      Coding: " + coding.code + ", " + coding.display + " (" + coding.system + ")",
+            );
+          }
         }
       });
     }
-  } else {
-    const error = radiologyInsightsResult.error;
-    if (error) {
-      console.log(error.code, ":", error.message);
+
+    function displayPresentGuidanceInformation(guidanceinfo) {
+      console.log("     Present Guidance Information Item: ", guidanceinfo.presentGuidanceItem);
+
+      guidanceinfo.presentGuidanceValues?.forEach((sizes) => {
+        console.log("     Present Guidance Value: ", sizes);
+      })
+
+      guidanceinfo.sizes?.forEach((sizes) => {
+        if ("valueQuantity" in sizes) {
+          console.log("     Size valueQuantity: ");
+          displayQuantityOutput(guidanceinfo.sizes.valueQuantity);
+        }
+        if ("valueRange" in sizes) {
+          if ("low" in sizes.valueRange) {
+            console.log("     Size ValueRange: min", sizes.valueRange.low);
+          }
+          if ("high" in sizes.valueRange) {
+            console.log("     Size ValueRange: max", sizes.valueRange.high);
+          }
+        }
+      })
+
+      if ("maximumDiameterAsInText" in guidanceinfo) {
+        console.log("     Maximum Diameter As In Text: ");
+        displayQuantityOutput(guidanceinfo.maximumDiameterAsInText);
+      }
+
+      if ("extension" in guidanceinfo) {
+        console.log("     Extension: ");
+        displaySectionInfo(guidanceinfo.extension);
+      }
     }
   }
 
-  function displayCodes(codeableConcept) {
-    codeableConcept.coding?.forEach((coding) => {
-      if ("code" in coding) {
-        console.log(
-          "      Coding: " + coding.code + ", " + coding.display + " (" + coding.system + ")",
-        );
+  function displayQuantityOutput(quantity) {
+    if ("value" in quantity) {
+      console.log("     Value: ", quantity.value);
+    }
+    if ("unit" in quantity) {
+      console.log("     Unit: ", quantity.unit);
+    }
+  }
+
+  function displaySectionInfo(inference) {
+    inference.extension?.forEach((ext) => {
+      if ("url" in ext && ext.url === "section") {
+        console.log("   Section:");
+        ext.extension?.forEach((subextension) => {
+          if ("url" in subextension && "valueString" in subextension) {
+            console.log("      " + subextension.url + ": " + subextension.valueString);
+          }
+        });
       }
     });
   }
@@ -91,14 +168,15 @@ function printResults(radiologyInsightsResult) {
       displayCodes(images.view.code);
     }
   }
+
 }
 
 // Create request body for radiology insights
 function createRequestBody() {
   const codingData = {
     system: "http://www.ama-assn.org/go/cpt",
-    code: "24727-0",
-    display: "CT HEAD W CONTRAST IV",
+    code: "71250",
+    display: "CT CHEST WO CONTRAST",
   };
 
   const code = {
@@ -126,7 +204,7 @@ function createRequestBody() {
 
   const orderedProceduresData = {
     code: code,
-    description: "CT HEAD W CONTRAST IV",
+    description: "CT CHEST WO CONTRAST",
   };
 
   const administrativeMetadata = {
@@ -136,22 +214,10 @@ function createRequestBody() {
 
   const content = {
     sourceType: "inline",
-    value: ` Exam:  Head CT with Contrast
-
-
-
-
-    History:  Headaches for 2 months
-    Technique: Axial, sagittal, and coronal images were reconstructed from helical CT through the head without IV contrast.
-    IV contrast:  100 mL IV Omnipaque 300.
-
-
-
-
-    Findings: There is no mass effect. There is no abnormal enhancement of the brain or within injuries with IV contrast.
-    However, there is no evidence of enhancing lesion in either internal auditory canal.
-    Impression: Negative CT of the brain without IV contrast.
-    I recommend a new brain CT within nine months.`,
+    value: `History:
+    Left renal tumor with thin septations.
+    Findings:
+    There is a right kidney tumor with nodular calcification.`,
   };
 
   const patientDocumentData = {
@@ -164,7 +230,7 @@ function createRequestBody() {
     administrativeMetadata: administrativeMetadata,
     content: content,
     createdAt: "2021-05-31T16:00:00.000Z",
-    orderedProceduresAsCsv: "CT HEAD W CONTRAST IV",
+    orderedProceduresAsCsv: "CT CHEST WO CONTRAST",
   };
 
   const patientData = {
@@ -254,7 +320,7 @@ async function main() {
 }
 
 main().catch((err) => {
-  console.error("The radiology procedure encountered an error:", err);
+  console.error("The complete order encountered an error:", err);
 });
 
 module.exports = { main };
