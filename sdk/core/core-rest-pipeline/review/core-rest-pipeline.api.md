@@ -390,9 +390,9 @@ export const RestError: RestErrorConstructor;
 // @public
 export interface RestErrorConstructor {
     new (message: string, options?: RestErrorOptions): RestError;
-    PARSE_ERROR: string;
+    readonly PARSE_ERROR: string;
     readonly prototype: RestError;
-    REQUEST_SEND_ERROR: string;
+    readonly REQUEST_SEND_ERROR: string;
 }
 
 // @public

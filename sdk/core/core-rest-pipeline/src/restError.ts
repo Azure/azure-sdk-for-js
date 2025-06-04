@@ -39,12 +39,12 @@ export interface RestErrorConstructor {
    * This means the actual request failed for some reason,
    * such as a DNS issue or the connection being lost.
    */
-  REQUEST_SEND_ERROR: string;
+  readonly REQUEST_SEND_ERROR: string;
   /**
    * This means that parsing the response from the server failed.
    * It may have been malformed.
    */
-  PARSE_ERROR: string;
+  readonly PARSE_ERROR: string;
 
   /**
    * Prototype of RestError
