@@ -481,19 +481,17 @@ export function apiManagementCircuitBreakerClosedEventDataDeserializer(
 /** Schema of the Data property of an EventGridEvent for a Microsoft.ApiManagement.GatewayTokenNearExpiry event. */
 export interface ApiManagementGatewayTokenNearExpiryEventData {
   /** Information related to a given self-hosted gateway deployment. */
-  gatewayInfo: ApiManagementGateway;
+  gateway: ApiManagementGateway;
   /** Information related to a an expired gateway token for a self-hosted gateway deployment. */
-  tokenInfo: ApiManagementNearExpiryGatewayToken;
+  token: ApiManagementNearExpiryGatewayToken;
 }
 
 export function apiManagementGatewayTokenNearExpiryEventDataDeserializer(
   item: any,
 ): ApiManagementGatewayTokenNearExpiryEventData {
   return {
-    gatewayInfo: apiManagementGatewayDeserializer(item["gatewayInfo"]),
-    tokenInfo: apiManagementNearExpiryGatewayTokenDeserializer(
-      item["tokenInfo"],
-    ),
+    gateway: apiManagementGatewayDeserializer(item["gatewayInfo"]),
+    token: apiManagementNearExpiryGatewayTokenDeserializer(item["tokenInfo"]),
   };
 }
 
@@ -517,45 +515,45 @@ export function apiManagementGatewayDeserializer(
 /** Information related to a gateway token that is near expiry for a self-hosted gateway deployment. */
 export interface ApiManagementNearExpiryGatewayToken {
   /** Timestamp when the gateway token will expire. */
-  expiredAtUtc: Date;
+  expiresOn: Date;
 }
 
 export function apiManagementNearExpiryGatewayTokenDeserializer(
   item: any,
 ): ApiManagementNearExpiryGatewayToken {
   return {
-    expiredAtUtc: new Date(item["expiredAtUtc"]),
+    expiresOn: new Date(item["expiredAtUtc"]),
   };
 }
 
 /** Schema of the Data property of an EventGridEvent for a Microsoft.ApiManagement.GatewayTokenExpired event. */
 export interface ApiManagementGatewayTokenExpiredEventData {
   /** Information related to a given self-hosted gateway deployment. */
-  gatewayInfo: ApiManagementGateway;
+  gateway: ApiManagementGateway;
   /** Information related to a an expired gateway token for a self-hosted gateway deployment. */
-  tokenInfo: ApiManagementExpiredGatewayToken;
+  token: ApiManagementExpiredGatewayToken;
 }
 
 export function apiManagementGatewayTokenExpiredEventDataDeserializer(
   item: any,
 ): ApiManagementGatewayTokenExpiredEventData {
   return {
-    gatewayInfo: apiManagementGatewayDeserializer(item["gatewayInfo"]),
-    tokenInfo: apiManagementExpiredGatewayTokenDeserializer(item["tokenInfo"]),
+    gateway: apiManagementGatewayDeserializer(item["gatewayInfo"]),
+    token: apiManagementExpiredGatewayTokenDeserializer(item["tokenInfo"]),
   };
 }
 
 /** Information related to a gateway token that has expired for a self-hosted gateway deployment. */
 export interface ApiManagementExpiredGatewayToken {
   /** Timestamp when the gateway token has expired. */
-  expiredAtUtc: Date;
+  expiresOn: Date;
 }
 
 export function apiManagementExpiredGatewayTokenDeserializer(
   item: any,
 ): ApiManagementExpiredGatewayToken {
   return {
-    expiredAtUtc: new Date(item["expiredAtUtc"]),
+    expiresOn: new Date(item["expiredAtUtc"]),
   };
 }
 
@@ -1072,6 +1070,8 @@ export enum KnownCommunicationIdentifierModelKind {
   PhoneNumber = "phoneNumber",
   /** Microsoft Teams User */
   MicrosoftTeamsUser = "microsoftTeamsUser",
+  /** Microsoft Teams App */
+  MicrosoftTeamsApp = "microsoftTeamsApp",
 }
 
 /**
@@ -1082,7 +1082,8 @@ export enum KnownCommunicationIdentifierModelKind {
  * **unknown**: Unknown \
  * **communicationUser**: Communication User \
  * **phoneNumber**: Phone Number \
- * **microsoftTeamsUser**: Microsoft Teams User
+ * **microsoftTeamsUser**: Microsoft Teams User \
+ * **microsoftTeamsApp**: Microsoft Teams App
  */
 export type CommunicationIdentifierModelKind = string;
 
@@ -1242,7 +1243,7 @@ export interface AcsCallParticipant {
   /** The communication identifier of the participant user */
   communicationIdentifier?: CommunicationIdentifierModel;
   /** The role of the participant */
-  role?: AcsCallParticipantRoleKind;
+  role?: AcsCallParticipantKind;
 }
 
 export function acsCallParticipantDeserializer(item: any): AcsCallParticipant {
@@ -1256,8 +1257,8 @@ export function acsCallParticipantDeserializer(item: any): AcsCallParticipant {
   };
 }
 
-/** Call participant role kind. */
-export enum KnownAcsCallParticipantRoleKind {
+/** Call participant kind. */
+export enum KnownAcsCallParticipantKind {
   /** Attendee */
   Attendee = "Attendee",
   /** Presenter */
@@ -1271,8 +1272,8 @@ export enum KnownAcsCallParticipantRoleKind {
 }
 
 /**
- * Call participant role kind. \
- * {@link KnownAcsCallParticipantRoleKind} can be used interchangeably with AcsCallParticipantRoleKind,
+ * Call participant kind. \
+ * {@link KnownAcsCallParticipantKind} can be used interchangeably with AcsCallParticipantKind,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
  * **Attendee**: Attendee \
@@ -1281,7 +1282,7 @@ export enum KnownAcsCallParticipantRoleKind {
  * **Consumer**: Consumer \
  * **Collaborator**: Collaborator
  */
-export type AcsCallParticipantRoleKind = string;
+export type AcsCallParticipantKind = string;
 
 /** Schema of calling event group properties */
 export interface AcsCallGroup {
@@ -1364,7 +1365,7 @@ export interface AcsCallEndedBy {
   /** The communication identifier of the call ended by */
   communicationIdentifier: CommunicationIdentifierModel;
   /** The type of call ended by. */
-  type: AcsCallEndedByKind;
+  kind: AcsCallEndedByKind;
   /** The name of the call ended by. */
   name: string;
 }
@@ -1374,7 +1375,7 @@ export function acsCallEndedByDeserializer(item: any): AcsCallEndedBy {
     communicationIdentifier: communicationIdentifierModelDeserializer(
       item["communicationIdentifier"],
     ),
-    type: item["type"],
+    kind: item["type"],
     name: item["name"],
   };
 }
@@ -2327,11 +2328,11 @@ export interface AcsRecordingFileStatusUpdatedEventData {
   /** The recording duration in milliseconds */
   recordingDurationMs?: number;
   /** The recording content type- AudioVideo, or Audio */
-  recordingContentType: RecordingContentType;
+  recordingContentType: AcsRecordingContentType;
   /** The recording  channel type - Mixed, Unmixed */
-  recordingChannelType: RecordingChannelType;
+  recordingChannelType: AcsRecordingChannelType;
   /** The recording format type - Mp4, Mp3, Wav */
-  recordingFormatType: RecordingFormatType;
+  recordingFormatType: AcsRecordingFormatType;
   /** The reason for ending recording session */
   sessionEndReason?: string;
 }
@@ -2406,7 +2407,7 @@ export function acsRecordingChunkInfoDeserializer(
 }
 
 /** Recording content type */
-export enum KnownRecordingContentType {
+export enum KnownAcsRecordingContentType {
   /** AudioVideo content type */
   AudioVideo = "AudioVideo",
   /** Audio content type */
@@ -2415,16 +2416,16 @@ export enum KnownRecordingContentType {
 
 /**
  * Recording content type \
- * {@link KnownrecordingContentType} can be used interchangeably with recordingContentType,
+ * {@link KnownAcsRecordingContentType} can be used interchangeably with AcsRecordingContentType,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
  * **AudioVideo**: AudioVideo content type \
  * **Audio**: Audio content type
  */
-export type RecordingContentType = string;
+export type AcsRecordingContentType = string;
 
 /** Recording channel type */
-export enum KnownRecordingChannelType {
+export enum KnownAcsRecordingChannelType {
   /** Mixed channel type */
   Mixed = "Mixed",
   /** Unmixed channel type */
@@ -2433,16 +2434,16 @@ export enum KnownRecordingChannelType {
 
 /**
  * Recording channel type \
- * {@link KnownrecordingChannelType} can be used interchangeably with recordingChannelType,
+ * {@link KnownAcsRecordingChannelType} can be used interchangeably with AcsRecordingChannelType,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
  * **Mixed**: Mixed channel type \
  * **Unmixed**: Unmixed channel type
  */
-export type RecordingChannelType = string;
+export type AcsRecordingChannelType = string;
 
 /** Recording format type */
-export enum KnownRecordingFormatType {
+export enum KnownAcsRecordingFormatType {
   /** WAV format */
   Wav = "Wav",
   /** MP3 format */
@@ -2453,14 +2454,14 @@ export enum KnownRecordingFormatType {
 
 /**
  * Recording format type \
- * {@link KnownrecordingFormatType} can be used interchangeably with recordingFormatType,
+ * {@link KnownAcsRecordingFormatType} can be used interchangeably with AcsRecordingFormatType,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
  * **Wav**: WAV format \
  * **Mp3**: MP3 format \
  * **Mp4**: MP4 format
  */
-export type RecordingFormatType = string;
+export type AcsRecordingFormatType = string;
 
 /** Schema of the Data property of an EventGridEvent for a Microsoft.Communication.EmailDeliveryReportReceived event. */
 export interface AcsEmailDeliveryReportReceivedEventData {
@@ -4384,7 +4385,7 @@ export function edgeSolutionVersionPublishedEventDataDeserializer(
 /** Schema of the Data property of an EventGridEvent for a Microsoft.EventHub.CaptureFileCreated event. */
 export interface EventHubCaptureFileCreatedEventData {
   /** The path to the capture file. */
-  fileUrl: string;
+  fileurl: string;
   /** The file type of the capture file. */
   fileType: string;
   /** The shard ID. */
@@ -4407,7 +4408,7 @@ export function eventHubCaptureFileCreatedEventDataDeserializer(
   item: any,
 ): EventHubCaptureFileCreatedEventData {
   return {
-    fileUrl: item["fileUrl"],
+    fileurl: item["fileUrl"],
     fileType: item["fileType"],
     partitionId: item["partitionId"],
     sizeInBytes: item["sizeInBytes"],
@@ -4811,23 +4812,23 @@ export function iotHubDeviceTelemetryEventDataDeserializer(
 /** Schema of the Data property of an EventGridEvent for a Microsoft.HealthcareApis.FhirResourceCreated event. */
 export interface HealthcareFhirResourceCreatedEventData {
   /** Type of HL7 FHIR resource. */
-  resourceType: HealthcareFhirResourceType;
+  fhirResourceType: HealthcareFhirResourceType;
   /** Domain name of FHIR account for this resource. */
-  resourceFhirAccount: string;
+  fhirServiceHostName: string;
   /** Id of HL7 FHIR resource. */
-  resourceFhirId: string;
+  fhirResourceId: string;
   /** VersionId of HL7 FHIR resource. It changes when the resource is created, updated, or deleted(soft-deletion). */
-  resourceVersionId: number;
+  fhirResourceVersionId: number;
 }
 
 export function healthcareFhirResourceCreatedEventDataDeserializer(
   item: any,
 ): HealthcareFhirResourceCreatedEventData {
   return {
-    resourceType: item["resourceType"],
-    resourceFhirAccount: item["resourceFhirAccount"],
-    resourceFhirId: item["resourceFhirId"],
-    resourceVersionId: item["resourceVersionId"],
+    fhirResourceType: item["resourceType"],
+    fhirServiceHostName: item["resourceFhirAccount"],
+    fhirResourceId: item["resourceFhirId"],
+    fhirResourceVersionId: item["resourceVersionId"],
   };
 }
 
@@ -5329,46 +5330,46 @@ export type HealthcareFhirResourceType = string;
 /** Schema of the Data property of an EventGridEvent for a Microsoft.HealthcareApis.FhirResourceUpdated event. */
 export interface HealthcareFhirResourceUpdatedEventData {
   /** Type of HL7 FHIR resource. */
-  resourceType: HealthcareFhirResourceType;
+  fhirResourceType: HealthcareFhirResourceType;
   /** Domain name of FHIR account for this resource. */
-  resourceFhirAccount: string;
+  fhirServiceHostName: string;
   /** Id of HL7 FHIR resource. */
-  resourceFhirId: string;
+  fhirResourceId: string;
   /** VersionId of HL7 FHIR resource. It changes when the resource is created, updated, or deleted(soft-deletion). */
-  resourceVersionId: number;
+  fhirResourceVersionId: number;
 }
 
 export function healthcareFhirResourceUpdatedEventDataDeserializer(
   item: any,
 ): HealthcareFhirResourceUpdatedEventData {
   return {
-    resourceType: item["resourceType"],
-    resourceFhirAccount: item["resourceFhirAccount"],
-    resourceFhirId: item["resourceFhirId"],
-    resourceVersionId: item["resourceVersionId"],
+    fhirResourceType: item["resourceType"],
+    fhirServiceHostName: item["resourceFhirAccount"],
+    fhirResourceId: item["resourceFhirId"],
+    fhirResourceVersionId: item["resourceVersionId"],
   };
 }
 
 /** Schema of the Data property of an EventGridEvent for a Microsoft.HealthcareApis.FhirResourceDeleted event. */
 export interface HealthcareFhirResourceDeletedEventData {
   /** Type of HL7 FHIR resource. */
-  resourceType: HealthcareFhirResourceType;
+  fhirResourceType: HealthcareFhirResourceType;
   /** Domain name of FHIR account for this resource. */
   resourceFhirAccount: string;
   /** Id of HL7 FHIR resource. */
-  resourceFhirId: string;
+  fhirResourceId: string;
   /** VersionId of HL7 FHIR resource. It changes when the resource is created, updated, or deleted(soft-deletion). */
-  resourceVersionId: number;
+  fhirResourceVersionId: number;
 }
 
 export function healthcareFhirResourceDeletedEventDataDeserializer(
   item: any,
 ): HealthcareFhirResourceDeletedEventData {
   return {
-    resourceType: item["resourceType"],
+    fhirResourceType: item["resourceType"],
     resourceFhirAccount: item["resourceFhirAccount"],
-    resourceFhirId: item["resourceFhirId"],
-    resourceVersionId: item["resourceVersionId"],
+    fhirResourceId: item["resourceFhirId"],
+    fhirResourceVersionId: item["resourceVersionId"],
   };
 }
 
@@ -7194,7 +7195,7 @@ export interface StorageTaskCompletedEventData {
   /** The task name for a storage task. */
   taskName?: string;
   /** The summary report blob url for a storage task */
-  summaryReportBlobUrl: string;
+  summaryReportBlobUri: string;
 }
 
 export function storageTaskCompletedEventDataDeserializer(
@@ -7205,7 +7206,7 @@ export function storageTaskCompletedEventDataDeserializer(
     completedDateTime: new Date(item["completedDateTime"]),
     taskExecutionId: item["taskExecutionId"],
     taskName: item["taskName"],
-    summaryReportBlobUrl: item["summaryReportBlobUrl"],
+    summaryReportBlobUri: item["summaryReportBlobUrl"],
   };
 }
 
