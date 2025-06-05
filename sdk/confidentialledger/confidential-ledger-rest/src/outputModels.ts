@@ -93,6 +93,34 @@ export interface LedgerEntryOutput {
   postHooks?: Array<UserDefinedFunctionHookOutput>;
 }
 
+/** Hook for a user defined function execution. */
+export interface UserDefinedFunctionHookOutput {
+  /** ID of the user defined function to execute. */
+  functionId: string;
+  /** The properties for executing a user defined function. */
+  properties?: UserDefinedFunctionExecutionPropertiesOutput;
+}
+
+/** The properties for executing a user defined function. */
+export interface UserDefinedFunctionExecutionPropertiesOutput {
+  /** Runtime arguments of the user defined function. Defaults to an empty list. */
+  arguments?: Array<string>;
+  /** Name of the exported function to execute in the code of the user defined function. Defaults to main. */
+  exportedFunctionName?: string;
+  /** JS runtime options for user defined endpoints and functions */
+  runtimeOptions?: JSRuntimeOptionsOutput;
+}
+
+/** JS runtime options for user defined endpoints and functions */
+export interface JSRuntimeOptionsOutput {
+  log_exception_details?: boolean;
+  max_cached_interpreters?: number;
+  max_execution_time_ms?: number;
+  max_heap_bytes?: number;
+  max_stack_bytes?: number;
+  return_exception_details?: boolean;
+}
+
 /** Returned as a result of a write to the Confidential Ledger, the transaction id in the response indicates when the write will become durable. */
 export interface LedgerWriteResultOutput {
   collectionId: string;
@@ -246,34 +274,6 @@ export interface InterpreterReusePolicyOutput {
 export interface ModuleDefOutput {
   module: string;
   name: string;
-}
-
-/** Hook for a user defined function execution. */
-export interface UserDefinedFunctionHookOutput {
-  /** ID of the user defined function to execute. */
-  functionId: string;
-  /** The properties for executing a user defined function. */
-  properties?: UserDefinedFunctionExecutionPropertiesOutput;
-}
-
-/** The properties for executing a user defined function. */
-export interface UserDefinedFunctionExecutionPropertiesOutput {
-  /** Runtime arguments of the user defined function. Defaults to an empty list. */
-  arguments?: Array<string>;
-  /** Name of the exported function to execute in the code of the user defined function. Defaults to main. */
-  exportedFunctionName?: string;
-  /** JS runtime options for user defined endpoints and functions */
-  runtimeOptions?: JSRuntimeOptionsOutput;
-}
-
-/** JS runtime options for user defined endpoints and functions */
-export interface JSRuntimeOptionsOutput {
-  log_exception_details?: boolean;
-  max_cached_interpreters?: number;
-  max_execution_time_ms?: number;
-  max_heap_bytes?: number;
-  max_stack_bytes?: number;
-  return_exception_details?: boolean;
 }
 
 /** Paginated user defined functions returned in response to a query. */

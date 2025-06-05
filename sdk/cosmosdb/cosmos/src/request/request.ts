@@ -260,7 +260,7 @@ export async function getHeaders({
     !options.contentResponseOnWriteEnabled
   ) {
     if (operationType === OperationType.Batch) {
-      headers[Constants.HttpHeaders.Prefer] = Constants.HttpHeaders.PREFER_RETURN_MINIMAL;
+      headers[Constants.HttpHeaders.Prefer] = Constants.HttpHeaders.PreferReturnMinimal;
     } else {
       throw new ErrorResponse(
         "Currently `contentResponseOnWriteEnabled` option is only supported for batch and bulk operations.",

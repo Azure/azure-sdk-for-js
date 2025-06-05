@@ -107,7 +107,7 @@ export class LimiterQueue {
   private partitionMetric: PartitionMetric;
   // callback used to refresh the partition key range cache in case of split/merge error
   private readonly refreshPartitionKeyRangeCache: (diagnosticNode: any) => Promise<void>;
-
+  private refreshPKRangeCachePromise: Promise<void> | undefined = undefined;
   /**
    * Creates a new HighPerformanceQueue.
    */
@@ -129,6 +129,8 @@ export class LimiterQueue {
    */
   public push(batcher: Batcher): Promise<any> {
     if (this.terminated) {
+      const ops = batcher.getOperations();
+      ops.forEach((op) => this.retrier(op, op.operationContext.diagnosticNode));
       return Promise.resolve(this.terminatedValue);
     }
     return new Promise<any>((resolve, reject) => {
@@ -158,7 +160,15 @@ export class LimiterQueue {
       queueItem.resolve(customValue);
     }
     if (customValue === StatusCodes.Gone) {
-      await this.refreshPartitionKeyRangeCache(diagnosticNode);
+      // Multiple requests could result in 410 error for one partition based on degree of concurrency.
+      // The refreshPKRangeCachePromise is added to ensure that only one refreshPartitionKeyRangeCache() call is made
+      // to backend for one partition.
+      if (this.refreshPKRangeCachePromise) {
+        await this.refreshPKRangeCachePromise;
+      } else {
+        this.refreshPKRangeCachePromise = this.refreshPartitionKeyRangeCache(diagnosticNode);
+        await this.refreshPKRangeCachePromise;
+      }
       for (const operation of operationsList) {
         await this.retrier(operation, operation.operationContext.diagnosticNode);
       }
