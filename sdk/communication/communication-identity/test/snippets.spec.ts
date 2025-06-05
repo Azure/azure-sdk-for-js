@@ -46,7 +46,7 @@ describe("snippets", () => {
     const credential = new DefaultAzureCredential();
     const client = new CommunicationIdentityClient(endpoint, credential);
     // @ts-preserve-whitespace
-    const user = await client.createUser({ customId: "alice@contoso.com"});
+    const user = await client.createUser({ customId: "alice@contoso.com" });
     const getResult = await client.getUser(user);
   });
 
