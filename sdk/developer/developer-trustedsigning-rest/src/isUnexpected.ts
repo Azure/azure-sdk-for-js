@@ -16,28 +16,27 @@ import type {
 const responseMap: Record<string, string[]> = {
   "GET /codesigningaccounts/{accountName}/certificateprofiles/{certificateProfile}/sign/{operationId}":
     ["200"],
-  "GET /codesigningaccounts/{accountName}/certificateprofiles/{certificateProfile}/sign/rootcert":
-    ["200"],
-  "GET /codesigningaccounts/{accountName}/certificateprofiles/{certificateProfile}/sign/eku":
-    ["200"],
-  "GET /codesigningaccounts/{accountName}/certificateprofiles/{certificateProfile}:sign":
-    ["200", "202"],
-  "POST /codesigningaccounts/{accountName}/certificateprofiles/{certificateProfile}:sign":
-    ["202"],
+  "GET /codesigningaccounts/{accountName}/certificateprofiles/{certificateProfile}/sign/rootcert": [
+    "200",
+  ],
+  "GET /codesigningaccounts/{accountName}/certificateprofiles/{certificateProfile}/sign/eku": [
+    "200",
+  ],
+  "GET /codesigningaccounts/{accountName}/certificateprofiles/{certificateProfile}:sign": [
+    "200",
+    "202",
+  ],
+  "POST /codesigningaccounts/{accountName}/certificateprofiles/{certificateProfile}:sign": ["202"],
 };
 
 export function isUnexpected(
   response: GetSigningStatus200Response | GetSigningStatusDefaultResponse,
 ): response is GetSigningStatusDefaultResponse;
 export function isUnexpected(
-  response:
-    | GetSignRootCertificate200Response
-    | GetSignRootCertificateDefaultResponse,
+  response: GetSignRootCertificate200Response | GetSignRootCertificateDefaultResponse,
 ): response is GetSignRootCertificateDefaultResponse;
 export function isUnexpected(
-  response:
-    | ListExtendedKeyUsages200Response
-    | ListExtendedKeyUsagesDefaultResponse,
+  response: ListExtendedKeyUsages200Response | ListExtendedKeyUsagesDefaultResponse,
 ): response is ListExtendedKeyUsagesDefaultResponse;
 export function isUnexpected(
   response: Sign202Response | SignLogicalResponse | SignDefaultResponse,
@@ -90,24 +89,17 @@ function getParametrizedPathSuccess(method: string, path: string): string[] {
 
     // track if we have found a match to return the values found.
     let found = true;
-    for (
-      let i = candidateParts.length - 1, j = pathParts.length - 1;
-      i >= 1 && j >= 1;
-      i--, j--
-    ) {
-      if (
-        candidateParts[i]?.startsWith("{") &&
-        candidateParts[i]?.indexOf("}") !== -1
-      ) {
+    for (let i = candidateParts.length - 1, j = pathParts.length - 1; i >= 1 && j >= 1; i--, j--) {
+      if (candidateParts[i]?.startsWith("{") && candidateParts[i]?.indexOf("}") !== -1) {
         const start = candidateParts[i]!.indexOf("}") + 1,
           end = candidateParts[i]?.length;
         // If the current part of the candidate is a "template" part
         // Try to use the suffix of pattern to match the path
         // {guid} ==> $
         // {guid}:export ==> :export$
-        const isMatched = new RegExp(
-          `${candidateParts[i]?.slice(start, end)}`,
-        ).test(pathParts[j] || "");
+        const isMatched = new RegExp(`${candidateParts[i]?.slice(start, end)}`).test(
+          pathParts[j] || "",
+        );
 
         if (!isMatched) {
           found = false;

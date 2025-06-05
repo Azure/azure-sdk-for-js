@@ -23,34 +23,26 @@ export interface GetSigningStatus {
   /** This status operation requires that a Sign request has been submitted and the operationId is known. */
   get(
     options?: GetSigningStatusParameters,
-  ): StreamableMethod<
-    GetSigningStatus200Response | GetSigningStatusDefaultResponse
-  >;
+  ): StreamableMethod<GetSigningStatus200Response | GetSigningStatusDefaultResponse>;
 }
 
 export interface GetSignRootCertificate {
   /** The root certificate is generated as part of the initial account creation and it is used to sign the bits for the profile provided. */
   get(
     options?: GetSignRootCertificateParameters,
-  ): StreamableMethod<
-    GetSignRootCertificate200Response | GetSignRootCertificateDefaultResponse
-  >;
+  ): StreamableMethod<GetSignRootCertificate200Response | GetSignRootCertificateDefaultResponse>;
 }
 
 export interface ListExtendedKeyUsages {
   /** The list of extended key usages are used to determine the purpose of the certificate usage as part of the signing operation. */
   get(
     options?: ListExtendedKeyUsagesParameters,
-  ): StreamableMethod<
-    ListExtendedKeyUsages200Response | ListExtendedKeyUsagesDefaultResponse
-  >;
+  ): StreamableMethod<ListExtendedKeyUsages200Response | ListExtendedKeyUsagesDefaultResponse>;
 }
 
 export interface Sign {
   /** Submit a sign operation under the created account and profile name provided. */
-  post(
-    options: SignParameters,
-  ): StreamableMethod<Sign202Response | SignDefaultResponse>;
+  post(options: SignParameters): StreamableMethod<Sign202Response | SignDefaultResponse>;
 }
 
 export interface Routes {

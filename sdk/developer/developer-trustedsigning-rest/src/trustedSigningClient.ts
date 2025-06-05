@@ -22,10 +22,7 @@ export interface TrustedSigningClientOptions extends ClientOptions {
 export default function createClient(
   endpointParam: string,
   credentials: TokenCredential,
-  {
-    apiVersion = "2023-06-15-preview",
-    ...options
-  }: TrustedSigningClientOptions = {},
+  { apiVersion = "2023-06-15-preview", ...options }: TrustedSigningClientOptions = {},
 ): TrustedSigningClient {
   const endpointUrl = options.endpoint ?? options.baseUrl ?? `${endpointParam}`;
   const userAgentInfo = `azsdk-js-developer-trustedsigning-rest/1.0.0-beta.1`;
@@ -42,16 +39,10 @@ export default function createClient(
       logger: options.loggingOptions?.logger ?? logger.info,
     },
     credentials: {
-      scopes: options.credentials?.scopes ?? [
-        "https://codesigning.azure.net/.default",
-      ],
+      scopes: options.credentials?.scopes ?? ["https://codesigning.azure.net/.default"],
     },
   };
-  const client = getClient(
-    endpointUrl,
-    credentials,
-    options,
-  ) as TrustedSigningClient;
+  const client = getClient(endpointUrl, credentials, options) as TrustedSigningClient;
 
   client.pipeline.removePolicy({ name: "ApiVersionPolicy" });
   client.pipeline.addPolicy({

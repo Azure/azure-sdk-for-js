@@ -25,6 +25,4 @@ export interface SignHeaderParam {
   headers?: RawHttpHeadersInput & SignHeaders;
 }
 
-export type SignParameters = SignHeaderParam &
-  SignBodyParam &
-  RequestParameters;
+export type SignParameters = SignHeaderParam & SignBodyParam & RequestParameters;
