@@ -788,6 +788,28 @@ export const contentMD5: OperationParameter = {
   }
 };
 
+export const structuredBodyType: OperationParameter = {
+  parameterPath: ["options", "structuredBodyType"],
+  mapper: {
+    serializedName: "x-ms-structured-body",
+    xmlName: "x-ms-structured-body",
+    type: {
+      name: "String"
+    }
+  }
+};
+
+export const structuredContentLength: OperationParameter = {
+  parameterPath: ["options", "structuredContentLength"],
+  mapper: {
+    serializedName: "x-ms-structured-content-length",
+    xmlName: "x-ms-structured-content-length",
+    type: {
+      name: "Number"
+    }
+  }
+};
+
 export const xMsLeaseAction: OperationParameter = {
   parameterPath: "xMsLeaseAction",
   mapper: {

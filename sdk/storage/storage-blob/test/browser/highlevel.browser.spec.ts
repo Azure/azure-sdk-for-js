@@ -58,6 +58,22 @@ describe("Highlevel", () => {
       tempFile2 = getBrowserFile(getUniqueName("browserfile2"), tempFile2Length);
     }
   });
+  
+  it("upload and download", async (ctx) => {
+    if (!isLiveMode()) {
+      ctx.skip();
+    }
+    await blockBlobClient.upload(tempFile2, tempFile2Length);
+
+    const downloadResponse = await blockBlobClient.download(0);
+    console.log("Downloaded")
+    const downloadedString = await bodyToString(downloadResponse);
+    console.log("bodyToString")
+    const uploadedString = await tempFile2.text();
+    console.log("source ToString")
+    
+    assert.equal(uploadedString, downloadedString);
+  });
 
   it("uploadBrowserDataToBlockBlob should abort when blob >= BLOCK_BLOB_MAX_UPLOAD_BLOB_BYTES", async (ctx) => {
     if (!isLiveMode()) {
@@ -270,5 +286,20 @@ describe("Highlevel", () => {
       downloadedBlob3,
       new Blob([uint16Array], { type: "application/octet-stream" }),
     );
+  });
+  
+  it.only("uploadData should work with Blob, ArrayBuffer and ArrayBufferView", async function () {
+    const byteLength = 10;
+    const arrayBuf = new ArrayBuffer(byteLength);
+    const uint8Array = new Uint8Array(arrayBuf);
+    for (let i = 0; i < byteLength; i++) {
+      uint8Array[i] = i;
+    }
+
+    const blob = new Blob([arrayBuf], { type: "application/octet-stream" });
+    const formData = new FormData();
+    formData.append("array", blob);
+
+    await blockBlobClient.upload(formData, 203);
   });
 });

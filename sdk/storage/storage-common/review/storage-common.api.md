@@ -5,6 +5,7 @@
 ```ts
 
 import type { HttpClient } from '@azure/core-rest-pipeline';
+import { RequestBodyType } from '@azure/core-rest-pipeline';
 
 // @public
 export class BufferScheduler {
@@ -15,8 +16,49 @@ export class BufferScheduler {
 // @public (undocumented)
 export function getCachedDefaultHttpClient(): HttpClient;
 
+// @public (undocumented)
+export function isNodeReadableStream(source: any): boolean;
+
 // @public
 export type OutgoingHandler = (body: () => NodeJS.ReadableStream, length: number, offset?: number) => Promise<any>;
+
+// @public (undocumented)
+export class StorageCRC64Calculator {
+    constructor();
+    // (undocumented)
+    Append(body: Uint8Array, length: number): void;
+    // (undocumented)
+    Final(body: Uint8Array, length: number): Uint8Array;
+    // (undocumented)
+    static init(): Promise<void>;
+    // (undocumented)
+    static isInitializing: boolean;
+    // (undocumented)
+    static nativeInstance: any;
+}
+
+// @public (undocumented)
+export function structuredMessageDecodingBrowser(source: Blob | ReadableStream<Uint8Array>): Promise<Blob>;
+
+// @public (undocumented)
+export function structuredMessageDecodingStream(source: NodeJS.ReadableStream, options: StructuredMessageDecodingStreamOptions): NodeJS.ReadableStream;
+
+// @public (undocumented)
+export interface StructuredMessageDecodingStreamOptions {
+    highWaterMark?: number;
+}
+
+// @public (undocumented)
+export function structuredMessageEncoding(source: RequestBodyType, content_length: number): Promise<{
+    body: RequestBodyType;
+    encoded_content_length: number;
+}>;
+
+// @public (undocumented)
+export interface StructuredMessageEncodingStreamOptions {
+    doInjectErrorOnce?: boolean;
+    highWaterMark?: number;
+}
 
 // (No @packageDocumentation comment for this package)
 
