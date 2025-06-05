@@ -9,7 +9,6 @@ import type { ExportResult } from "@opentelemetry/core";
 import { ExportResultCode } from "@opentelemetry/core";
 import {
   getInstance as getNetworkStatsbeatInstance,
-  releaseInstance as releaseNetworkStatsbeatInstance,
   type NetworkStatsbeatMetrics,
 } from "../../export/statsbeat/networkStatsbeatMetrics.js";
 import { getInstance } from "../../export/statsbeat/longIntervalStatsbeatMetrics.js";
@@ -254,9 +253,8 @@ export abstract class BaseSender {
    * Shutdown statsbeat metrics
    */
   private shutdownStatsbeat(): void {
-    // Release reference to network statsbeat singleton
+    // Clear reference to network statsbeat singleton
     if (this.networkStatsbeatMetrics) {
-      releaseNetworkStatsbeatInstance();
       this.networkStatsbeatMetrics = undefined;
     }
     this.longIntervalStatsbeatMetrics?.shutdown();

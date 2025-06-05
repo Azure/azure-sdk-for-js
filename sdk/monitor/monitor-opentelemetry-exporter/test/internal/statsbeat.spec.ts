@@ -12,7 +12,7 @@ import nock from "nock";
 import type { NetworkStatsbeatMetrics } from "../../src/export/statsbeat/networkStatsbeatMetrics.js";
 import {
   getInstance as getNetworkStatsbeatInstance,
-  shutdownInstance as shutdownNetworkStatsbeatInstance,
+  shutdown as shutdownNetworkStatsbeat,
 } from "../../src/export/statsbeat/networkStatsbeatMetrics.js";
 import { AZURE_MONITOR_AUTO_ATTACH, StatsbeatCounter } from "../../src/export/statsbeat/types.js";
 import { getInstance } from "../../src/export/statsbeat/longIntervalStatsbeatMetrics.js";
@@ -63,7 +63,7 @@ describe("#AzureMonitorStatsbeatExporter", () => {
 
     // Clean up singleton between tests
     afterEach(async () => {
-      await shutdownNetworkStatsbeatInstance();
+      await shutdownNetworkStatsbeat();
     });
 
     beforeAll(() => {
@@ -176,7 +176,7 @@ describe("#AzureMonitorStatsbeatExporter", () => {
           assert.ok(getContext().tags["ai.internal.sdkVersion"]);
         } finally {
           process.env = originalEnv;
-          await shutdownNetworkStatsbeatInstance();
+          await shutdownNetworkStatsbeat();
         }
       });
 
@@ -190,7 +190,7 @@ describe("#AzureMonitorStatsbeatExporter", () => {
           assert.strictEqual(statsbeat["commonProperties"]["rp"], "appsvc");
         } finally {
           process.env = originalEnv;
-          await shutdownNetworkStatsbeatInstance();
+          await shutdownNetworkStatsbeat();
         }
       });
 
@@ -243,7 +243,7 @@ describe("#AzureMonitorStatsbeatExporter", () => {
       });
 
       afterEach(async () => {
-        await shutdownNetworkStatsbeatInstance();
+        await shutdownNetworkStatsbeat();
       });
 
       it("it should determine if the rp is unknown", async () => {
@@ -329,7 +329,7 @@ describe("#AzureMonitorStatsbeatExporter", () => {
       });
 
       afterEach(async () => {
-        await shutdownNetworkStatsbeatInstance();
+        await shutdownNetworkStatsbeat();
         process.env.WEBSITE_SITE_NAME = undefined;
       });
 
@@ -496,7 +496,7 @@ describe("#AzureMonitorStatsbeatExporter", () => {
           }
         } finally {
           // Clean up
-          await shutdownNetworkStatsbeatInstance();
+          await shutdownNetworkStatsbeat();
         }
       });
     });
