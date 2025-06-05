@@ -46,7 +46,7 @@ export async function main() {
       apiKey: "<messaging-connect-api-key>",
       // Specifies the partner associated with the API key.
       partner: "<messaging-connect-partner>",
-    }
+    },
   };
 
   // send sms with request and options
