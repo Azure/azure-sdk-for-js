@@ -14,15 +14,10 @@ async function employeesUpdate(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "11809CA1-E126-4017-945E-AA795CD5C5A9";
   const client = new ContosoClient(credential, subscriptionId);
-  const result = await client.employees.update(
-    "2021-11-01",
-    "rgopenapi",
-    "-XhyNJ--",
-    {
-      tags: { key7952: "no" },
-      properties: { age: 24, city: "uyfg", profile: "oapgijcswfkruiuuzbwco" },
-    },
-  );
+  const result = await client.employees.update("2021-11-01", "rgopenapi", "-XhyNJ--", {
+    tags: { key7952: "no" },
+    properties: { age: 24, city: "uyfg", profile: "oapgijcswfkruiuuzbwco" },
+  });
   console.log(result);
 }
 

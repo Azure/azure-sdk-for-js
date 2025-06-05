@@ -74,10 +74,8 @@ export interface EmployeesOperations {
 
 function _getEmployees(context: ContosoContext) {
   return {
-    listBySubscription: (
-      apiVersion: string,
-      options?: EmployeesListBySubscriptionOptionalParams,
-    ) => listBySubscription(context, apiVersion, options),
+    listBySubscription: (apiVersion: string, options?: EmployeesListBySubscriptionOptionalParams) =>
+      listBySubscription(context, apiVersion, options),
     listByResourceGroup: (
       apiVersion: string,
       resourceGroupName: string,
@@ -95,30 +93,14 @@ function _getEmployees(context: ContosoContext) {
       employeeName: string,
       properties: Employee,
       options?: EmployeesUpdateOptionalParams,
-    ) =>
-      update(
-        context,
-        apiVersion,
-        resourceGroupName,
-        employeeName,
-        properties,
-        options,
-      ),
+    ) => update(context, apiVersion, resourceGroupName, employeeName, properties, options),
     createOrUpdate: (
       apiVersion: string,
       resourceGroupName: string,
       employeeName: string,
       resource: Employee,
       options?: EmployeesCreateOrUpdateOptionalParams,
-    ) =>
-      createOrUpdate(
-        context,
-        apiVersion,
-        resourceGroupName,
-        employeeName,
-        resource,
-        options,
-      ),
+    ) => createOrUpdate(context, apiVersion, resourceGroupName, employeeName, resource, options),
     get: (
       apiVersion: string,
       resourceGroupName: string,
@@ -128,9 +110,7 @@ function _getEmployees(context: ContosoContext) {
   };
 }
 
-export function _getEmployeesOperations(
-  context: ContosoContext,
-): EmployeesOperations {
+export function _getEmployeesOperations(context: ContosoContext): EmployeesOperations {
   return {
     ..._getEmployees(context),
   };

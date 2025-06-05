@@ -23,9 +23,7 @@ function _getOperations(context: ContosoContext) {
   };
 }
 
-export function _getOperationsOperations(
-  context: ContosoContext,
-): OperationsOperations {
+export function _getOperationsOperations(context: ContosoContext): OperationsOperations {
   return {
     ..._getOperations(context),
   };

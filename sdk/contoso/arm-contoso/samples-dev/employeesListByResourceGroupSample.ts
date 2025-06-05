@@ -15,10 +15,7 @@ async function employeesListByResourceGroup(): Promise<void> {
   const subscriptionId = "11809CA1-E126-4017-945E-AA795CD5C5A9";
   const client = new ContosoClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (const item of client.employees.listByResourceGroup(
-    "2021-11-01",
-    "rgopenapi",
-  )) {
+  for await (const item of client.employees.listByResourceGroup("2021-11-01", "rgopenapi")) {
     resArray.push(item);
   }
 

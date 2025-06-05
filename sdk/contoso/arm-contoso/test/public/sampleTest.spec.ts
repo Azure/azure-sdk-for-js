@@ -9,12 +9,12 @@ describe("My test", () => {
   let recorder: Recorder;
 
   beforeEach(async (ctx) => {
-      recorder = await createRecorder(ctx);
-    });
+    recorder = await createRecorder(ctx);
+  });
 
   afterEach(async () => {
-      await recorder.stop();
-    });
+    await recorder.stop();
+  });
 
   it("sample test", async function () {
     assert.equal(1, 1);

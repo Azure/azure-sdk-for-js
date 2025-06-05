@@ -14,11 +14,7 @@ async function employeesDelete(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "11809CA1-E126-4017-945E-AA795CD5C5A9";
   const client = new ContosoClient(credential, subscriptionId);
-  await client.employees.delete(
-    "2021-11-01",
-    "rgopenapi",
-    "5vX--BxSu3ux48rI4O9OQ569",
-  );
+  await client.employees.delete("2021-11-01", "rgopenapi", "5vX--BxSu3ux48rI4O9OQ569");
 }
 
 async function main(): Promise<void> {
