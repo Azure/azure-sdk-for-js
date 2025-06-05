@@ -5,14 +5,14 @@ import type {
   EventGridContext as Client,
   PublishCloudEvent200Response,
   PublishCloudEventDefaultResponse,
-} from "./cadl-generated/rest/index.js";
-import { isUnexpected } from "./cadl-generated/rest/index.js";
+} from "./generated/rest/index.js";
+import { isUnexpected } from "./generated/rest/index.js";
 import type { StreamableMethod } from "@azure-rest/core-client";
 import { operationOptionsToRequestParameters } from "@azure-rest/core-client";
-import type { PublishCloudEventOptionalParams } from "./cadl-generated/models/options.js";
+import type { PublishCloudEventOptionalParams } from "./generated/models/options.js";
 import type { RawHttpHeadersInput } from "@azure/core-rest-pipeline";
 import { Buffer } from "buffer";
-import type { CloudEvent } from "./cadl-generated/index.js";
+import type { CloudEvent } from "./generated/index.js";
 
 export async function publishCloudEventInBinaryMode(
   context: Client,
