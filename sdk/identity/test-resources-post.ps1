@@ -32,8 +32,8 @@ param (
 )
 
 if (!$AdditionalParameters['deployMIResources']) {
-    Write-Host "Skipping post-provisioning script because resources weren't deployed"
-    return
+  Write-Host "Skipping post-provisioning script because resources weren't deployed"
+  return
 }
 
 $MIClientId = $DeploymentOutputs['IDENTITY_USER_DEFINED_CLIENT_ID']
@@ -126,12 +126,14 @@ spec:
   - name: $podName
     image: $image
     env:
-    - name: IDENTITY_STORAGE_NAME_1
+    - name: IDENTITY_STORAGE_NAME
       value: "$storageName1"
     - name: IDENTITY_STORAGE_NAME_2
       value: "$storageName2"
     - name: IDENTITY_USER_DEFINED_CLIENT_ID
       value: "$userDefinedClientId"
+    - name: FUNCTIONS_CUSTOMHANDLER_PORT
+      value: "80"
     ports:
     - containerPort: 80
   nodeSelector:
@@ -156,9 +158,9 @@ az container create -g $identityResourceGroup -n $($DeploymentOutputs['IDENTITY_
   --memory "1.0"`
   --os-type "Linux" `
   --scope $DeploymentOutputs['IDENTITY_STORAGE_ID_2'] `
-  -e IDENTITY_STORAGE_NAME_1=$storageName1 `
+  -e IDENTITY_STORAGE_NAME=$storageName1 `
   -e IDENTITY_STORAGE_NAME_2=$storageName2 `
-  -e IDENTITY_USER_DEFINED_IDENTITY_CLIENT_ID=$userDefinedClientId `
+  -e IDENTITY_USER_DEFINED_CLIENT_ID=$userDefinedClientId `
   -e FUNCTIONS_CUSTOMHANDLER_PORT=80
 
 Write-Host "Container instance created"

@@ -17,7 +17,7 @@ let userAssignedClientId: string;
 let azureClientId: string;
 
 // Utility function to test storage access with a credential
-async function testStorageAccess(credential: TokenCredential, storageAccount: string ): Promise<void> {
+async function testStorageAccess(credential: TokenCredential, storageAccount: string): Promise<void> {
   try {
     // Create blob service client
     const blobServiceClient = new BlobServiceClient(
@@ -47,7 +47,7 @@ app.get("/managed-identity", async (req: express.Request, res: express.Response)
   try {
     const credential = new ManagedIdentityCredential();
     await testStorageAccess(credential, storageAccount);
-    
+
     res.json({ test: "managed-identity-success" });
   } catch (error: any) {
     res.status(500).json({
@@ -67,7 +67,7 @@ app.get("/managed-identity/user-assigned", async (req: express.Request, res: exp
   try {
     const credential = new ManagedIdentityCredential({ clientId: userAssignedClientId });
     await testStorageAccess(credential, storageAccount2);
-    
+
     res.json({ test: "user-assigned-managed-identity-success" });
   } catch (error: any) {
     res.status(500).json({
