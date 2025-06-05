@@ -472,7 +472,8 @@ const downloadOperationSpec: coreClient.OperationSpec = {
     Parameters.leaseId,
     Parameters.allowTrailingDot,
     Parameters.range,
-    Parameters.rangeGetContentMD5
+    Parameters.rangeGetContentMD5,
+    Parameters.structuredBodyType
   ],
   isXML: true,
   serializer: xmlSerializer
@@ -717,13 +718,15 @@ const uploadRangeOperationSpec: coreClient.OperationSpec = {
     Parameters.fileRequestIntent,
     Parameters.leaseId,
     Parameters.allowTrailingDot,
+    Parameters.structuredBodyType,
     Parameters.contentType2,
     Parameters.accept3,
     Parameters.range1,
     Parameters.fileRangeWrite,
     Parameters.contentLength,
     Parameters.contentMD5,
-    Parameters.fileLastWrittenMode
+    Parameters.fileLastWrittenMode,
+    Parameters.structuredContentLength
   ],
   isXML: true,
   contentType: "application/xml; charset=utf-8",
