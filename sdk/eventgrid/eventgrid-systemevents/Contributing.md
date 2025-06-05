@@ -6,7 +6,7 @@ Please also read the contributing guidelines from the [Azure Team](https://azure
 
 Steps
 
-0. to work around a code generator limitation at this point, we need a script to help with generation. Copy it from `sdk/keyvault` directory:
+0. to work around a code generator limitation at this point, we need [a script](https://github.com/Azure/azure-sdk-for-js/blob/2d40eeb8f7729164a1d9f521511d5eaede491213/sdk/keyvault/generate.js) to help with generation. Copy it from `sdk/keyvault` directory:
 
    `cp sdk/keyvault/generate.js sdk/eventgrid/generate.cjs`
 
