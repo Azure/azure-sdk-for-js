@@ -265,10 +265,16 @@ sdk/ai/ai-inference-rest @glharper @dargilco @jhakulin
 # ServiceOwners: @glharper @dargilco
 
 # PRLLabel: %AI Projects
-sdk/ai/ai-projects @ganeshyb @glharper @dargilco @jhakulin @ZachhK
+sdk/ai/ai-projects @ganeshyb @glharper @dargilco @jhakulin @ZachhK @bobogogo1990
 
 # ServiceLabel: %AI Projects
-# ServiceOwners: @ganeshyb @glharper @dargilco @jhakulin @ZachhK
+# ServiceOwners: @ganeshyb @glharper @dargilco @jhakulin @ZachhK @bobogogo1990
+
+# PRLLabel: %AI Agents
+sdk/ai/ai-agents @ganeshyb @glharper @dargilco @jhakulin @ZachhK @bobogogo1990
+
+# ServiceLabel: %AI Agents
+# ServiceOwners: @ganeshyb @glharper @dargilco @jhakulin @ZachhK @bobogogo1990
 
 # PRLabel: %Image Analysis
 # ServiceLabel: %Image Analysis
@@ -320,7 +326,7 @@ sdk/ai/ai-projects @ganeshyb @glharper @dargilco @jhakulin @ZachhK
 
 # PRLabel: %Azure Load Testing
 # ServiceLabel: %Azure Load Testing
-/sdk/loadtesting/ @prativen @mitsha-microsoft @ninallam
+/sdk/loadtesting/ @azure/testing-services
 
 # API review files
 /sdk/**/review/*api.md @bterlson @Azure/azure-sdk-for-js-core
@@ -814,6 +820,9 @@ sdk/ai/ai-projects @ganeshyb @glharper @dargilco @jhakulin @ZachhK
 
 # PRLabel: %Mgmt
 /sdk/postgresql/arm-postgresql/ @qiaozha @MaryGao
+
+# PRLabel: %Mgmt
+/sdk/purestorageblock/arm-purestorageblock/ @qiaozha @MaryGao
 
 # PRLabel: %Mgmt
 /sdk/postgresql/arm-postgresql-flexible/ @qiaozha @MaryGao
