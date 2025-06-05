@@ -8,7 +8,7 @@ import type {
   RejectResult,
   RenewLocksResult,
 } from "./generated/models/index.js";
-import { EventGridClient as EventGridClientGenerated } from "./generated/EventGridClient.js";
+import { EventGridClient as EventGridClientGenerated } from "./generated/eventGridClient.js";
 import type {
   CloudEvent,
   ReceiveResult,

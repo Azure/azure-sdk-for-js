@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-export { EventGridClient, EventGridClientOptions } from "./EventGridClient.js";
+export { EventGridClient } from "./eventGridClient.js";
 export {
   CloudEvent,
   PublishResult,
@@ -10,17 +10,19 @@ export {
   BrokerProperties,
   AcknowledgeResult,
   FailedLockToken,
-  ReleaseDelay,
   ReleaseResult,
   RejectResult,
   RenewLocksResult,
-  ServiceApiVersions,
-  ErrorResponse,
-  PublishCloudEventOptionalParams,
-  PublishCloudEventsOptionalParams,
-  ReceiveCloudEventsOptionalParams,
-  AcknowledgeCloudEventsOptionalParams,
-  ReleaseCloudEventsOptionalParams,
-  RejectCloudEventsOptionalParams,
-  RenewCloudEventLocksOptionalParams,
+  ReleaseDelay,
+  KnownServiceApiVersions,
 } from "./models/index.js";
+export {
+  EventGridClientOptionalParams,
+  RenewCloudEventLocksOptionalParams,
+  RejectCloudEventsOptionalParams,
+  ReleaseCloudEventsOptionalParams,
+  AcknowledgeCloudEventsOptionalParams,
+  ReceiveCloudEventsOptionalParams,
+  PublishCloudEventsOptionalParams,
+  PublishCloudEventOptionalParams,
+} from "./api/index.js";

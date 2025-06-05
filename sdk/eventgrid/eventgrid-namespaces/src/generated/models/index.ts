@@ -9,19 +9,9 @@ export {
   BrokerProperties,
   AcknowledgeResult,
   FailedLockToken,
-  ReleaseDelay,
   ReleaseResult,
   RejectResult,
   RenewLocksResult,
-  ServiceApiVersions,
-  ErrorResponse,
+  ReleaseDelay,
+  KnownServiceApiVersions,
 } from "./models.js";
-export {
-  PublishCloudEventOptionalParams,
-  PublishCloudEventsOptionalParams,
-  ReceiveCloudEventsOptionalParams,
-  AcknowledgeCloudEventsOptionalParams,
-  ReleaseCloudEventsOptionalParams,
-  RejectCloudEventsOptionalParams,
-  RenewCloudEventLocksOptionalParams,
-} from "./options.js";

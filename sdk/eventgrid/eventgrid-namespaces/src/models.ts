@@ -9,7 +9,7 @@ import type {
   AcknowledgeCloudEventsOptionalParams,
   RejectCloudEventsOptionalParams,
   RenewCloudEventLocksOptionalParams,
-  EventGridClientOptions as EventGridOptions,
+  EventGridClientOptionalParams as EventGridOptions,
   ReleaseDelay,
 } from "./generated/index.js";
 
