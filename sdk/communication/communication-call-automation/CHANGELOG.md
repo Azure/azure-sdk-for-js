@@ -1,6 +1,6 @@
 # Release History
 
-## 1.4.0 (2025-06-02)
+## 1.5.0 (Unreleased)
 
 ### Features Added
 
@@ -78,7 +78,7 @@
 ### Features Added
 
 - Support for Bring Your Own Storage recording option
-- Support for PauseOnStart recording option 
+- Support for PauseOnStart recording option
 - Support for Recording state change with new recording kind's
 
 ### Other Changes
