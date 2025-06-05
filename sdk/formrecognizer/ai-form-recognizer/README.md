@@ -146,7 +146,7 @@ Connect to alternative Azure cloud environments (such as Azure China or Azure Go
 
 ```ts snippet:ReadmeSampleSovereignClouds
 import { DefaultAzureCredential } from "@azure/identity";
-import { DocumentAnalysisClient } from "@azure/ai-form-recognizer";
+import { DocumentAnalysisClient, KnownFormRecognizerAudience } from "@azure/ai-form-recognizer";
 
 const credential = new DefaultAzureCredential();
 const client = new DocumentAnalysisClient(

@@ -8,6 +8,7 @@ import {
   DocumentModelAdministrationClient,
   DocumentObjectField,
   DocumentStringField,
+  KnownFormRecognizerAudience,
 } from "../src/index.js";
 import { DefaultAzureCredential } from "@azure/identity";
 import { setLogLevel } from "@azure/logger";
