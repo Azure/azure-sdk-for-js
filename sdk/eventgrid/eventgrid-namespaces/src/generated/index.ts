@@ -13,6 +13,7 @@ export {
   ReleaseResult,
   RejectResult,
   RenewLocksResult,
+  KnownReleaseDelay,
   ReleaseDelay,
   KnownServiceApiVersions,
 } from "./models/index.js";

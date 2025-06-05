@@ -134,7 +134,7 @@ export interface RejectResult {
 }
 
 // @public
-export type ReleaseDelay = "0" | "10" | "60" | "600" | "3600";
+export type ReleaseDelay = string;
 
 // @public
 export interface ReleaseEventsOptions extends OperationOptions {

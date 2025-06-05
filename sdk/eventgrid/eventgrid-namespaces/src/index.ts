@@ -10,6 +10,7 @@ export {
   ReleaseResult,
   RejectResult,
   ReleaseDelay,
+  KnownReleaseDelay,
   RenewLocksResult,
   AcknowledgeCloudEventsOptionalParams as AcknowledgeEventsOptionalParams,
   ReceiveCloudEventsOptionalParams as ReceiveEventsOptionalParams,
@@ -39,7 +40,6 @@ export {
   RenewEventLocksOptions,
   EventGridSenderClientOptions,
   EventGridReceiverClientOptions,
-  KnownReleaseDelay,
 } from "./models.js";
 
 export { EventGridDeserializer } from "./consumer.js";

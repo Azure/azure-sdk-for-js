@@ -221,7 +221,31 @@ export function renewLocksResultDeserializer(item: any): RenewLocksResult {
 }
 
 /** Supported delays for release operation. */
-export type ReleaseDelay = "0" | "10" | "60" | "600" | "3600";
+export enum KnownReleaseDelay {
+  /** Release the event after 0 seconds. */
+  NoDelay = "0",
+  /** Release the event after 10 seconds. */
+  TenSeconds = "10",
+  /** Release the event after 60 seconds. */
+  OneMinute = "60",
+  /** Release the event after 600 seconds. */
+  TenMinutes = "600",
+  /** Release the event after 3600 seconds. */
+  OneHour = "3600",
+}
+
+/**
+ * Supported delays for release operation. \
+ * {@link KnownReleaseDelay} can be used interchangeably with ReleaseDelay,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **0**: Release the event after 0 seconds. \
+ * **10**: Release the event after 10 seconds. \
+ * **60**: Release the event after 60 seconds. \
+ * **600**: Release the event after 600 seconds. \
+ * **3600**: Release the event after 3600 seconds.
+ */
+export type ReleaseDelay = string;
 
 /** Known values of {@link ServiceApiVersions} that the service accepts. */
 export enum KnownServiceApiVersions {
