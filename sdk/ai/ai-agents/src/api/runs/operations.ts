@@ -407,7 +407,7 @@ export function createRunAndPoll(
       return createRunInternal(context, threadId, assistantId, options);
     },
     pollOperation: async (currentRun: ThreadRun) => {
-      return getRun(context, threadId, currentRun.id);
+      return getRun(context, threadId, currentRun.id, options);
     },
     getOperationStatus: getLroOperationStatus,
     getOperationError: (result: ThreadRun) => {
