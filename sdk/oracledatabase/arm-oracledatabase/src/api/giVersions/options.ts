@@ -5,8 +5,7 @@ import { SystemShapes } from "../../models/models.js";
 import { OperationOptions } from "@azure-rest/core-client";
 
 /** Optional parameters. */
-export interface GiVersionsListByLocationOptionalParams
-  extends OperationOptions {
+export interface GiVersionsListByLocationOptionalParams extends OperationOptions {
   /** If provided, filters the results for the given shape */
   shape?: SystemShapes;
   /** Filters the result for the given Azure Availability Zone */

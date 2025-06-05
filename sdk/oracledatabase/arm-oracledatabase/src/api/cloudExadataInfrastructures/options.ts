@@ -15,26 +15,22 @@ export interface CloudExadataInfrastructuresListByResourceGroupOptionalParams
   extends OperationOptions {}
 
 /** Optional parameters. */
-export interface CloudExadataInfrastructuresDeleteOptionalParams
-  extends OperationOptions {
+export interface CloudExadataInfrastructuresDeleteOptionalParams extends OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
 }
 
 /** Optional parameters. */
-export interface CloudExadataInfrastructuresUpdateOptionalParams
-  extends OperationOptions {
+export interface CloudExadataInfrastructuresUpdateOptionalParams extends OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
 }
 
 /** Optional parameters. */
-export interface CloudExadataInfrastructuresGetOptionalParams
-  extends OperationOptions {}
+export interface CloudExadataInfrastructuresGetOptionalParams extends OperationOptions {}
 
 /** Optional parameters. */
-export interface CloudExadataInfrastructuresCreateOrUpdateOptionalParams
-  extends OperationOptions {
+export interface CloudExadataInfrastructuresCreateOrUpdateOptionalParams extends OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
 }

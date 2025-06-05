@@ -27,10 +27,8 @@ export interface DnsPrivateZonesOperations {
 
 function _getDnsPrivateZones(context: OracleDatabaseManagementContext) {
   return {
-    listByLocation: (
-      location: string,
-      options?: DnsPrivateZonesListByLocationOptionalParams,
-    ) => listByLocation(context, location, options),
+    listByLocation: (location: string, options?: DnsPrivateZonesListByLocationOptionalParams) =>
+      listByLocation(context, location, options),
     get: (
       location: string,
       dnsprivatezonename: string,

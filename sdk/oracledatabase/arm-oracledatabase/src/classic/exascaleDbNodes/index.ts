@@ -2,21 +2,13 @@
 // Licensed under the MIT License.
 
 import { OracleDatabaseManagementContext } from "../../api/oracleDatabaseManagementContext.js";
-import {
-  DbNodeAction,
-  ExascaleDbNode,
-  DbActionResponse,
-} from "../../models/models.js";
+import { DbNodeAction, ExascaleDbNode, DbActionResponse } from "../../models/models.js";
 import {
   ExascaleDbNodesActionOptionalParams,
   ExascaleDbNodesListByParentOptionalParams,
   ExascaleDbNodesGetOptionalParams,
 } from "../../api/exascaleDbNodes/options.js";
-import {
-  action,
-  listByParent,
-  get,
-} from "../../api/exascaleDbNodes/operations.js";
+import { action, listByParent, get } from "../../api/exascaleDbNodes/operations.js";
 import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 import { PollerLike, OperationState } from "@azure/core-lro";
 
@@ -53,15 +45,7 @@ function _getExascaleDbNodes(context: OracleDatabaseManagementContext) {
       exascaleDbNodeName: string,
       body: DbNodeAction,
       options?: ExascaleDbNodesActionOptionalParams,
-    ) =>
-      action(
-        context,
-        resourceGroupName,
-        exadbVmClusterName,
-        exascaleDbNodeName,
-        body,
-        options,
-      ),
+    ) => action(context, resourceGroupName, exadbVmClusterName, exascaleDbNodeName, body, options),
     listByParent: (
       resourceGroupName: string,
       exadbVmClusterName: string,
@@ -72,14 +56,7 @@ function _getExascaleDbNodes(context: OracleDatabaseManagementContext) {
       exadbVmClusterName: string,
       exascaleDbNodeName: string,
       options?: ExascaleDbNodesGetOptionalParams,
-    ) =>
-      get(
-        context,
-        resourceGroupName,
-        exadbVmClusterName,
-        exascaleDbNodeName,
-        options,
-      ),
+    ) => get(context, resourceGroupName, exadbVmClusterName, exascaleDbNodeName, options),
   };
 }
 

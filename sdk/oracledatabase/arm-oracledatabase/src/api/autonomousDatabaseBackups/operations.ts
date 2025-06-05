@@ -53,15 +53,13 @@ export function _listByParentSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context
-    .path(path)
-    .get({
-      ...operationOptionsToRequestParameters(options),
-      headers: {
-        accept: "application/json",
-        ...options.requestOptions?.headers,
-      },
-    });
+  return context.path(path).get({
+    ...operationOptionsToRequestParameters(options),
+    headers: {
+      accept: "application/json",
+      ...options.requestOptions?.headers,
+    },
+  });
 }
 
 export async function _listByParentDeserialize(
@@ -88,13 +86,7 @@ export function listByParent(
 ): PagedAsyncIterableIterator<AutonomousDatabaseBackup> {
   return buildPagedAsyncIterator(
     context,
-    () =>
-      _listByParentSend(
-        context,
-        resourceGroupName,
-        autonomousdatabasename,
-        options,
-      ),
+    () => _listByParentSend(context, resourceGroupName, autonomousdatabasename, options),
     _listByParentDeserialize,
     ["200"],
     { itemName: "value", nextLinkName: "nextLink" },
@@ -124,17 +116,15 @@ export function _updateSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context
-    .path(path)
-    .patch({
-      ...operationOptionsToRequestParameters(options),
-      contentType: "application/json",
-      headers: {
-        accept: "application/json",
-        ...options.requestOptions?.headers,
-      },
-      body: autonomousDatabaseBackupUpdateSerializer(properties),
-    });
+  return context.path(path).patch({
+    ...operationOptionsToRequestParameters(options),
+    contentType: "application/json",
+    headers: {
+      accept: "application/json",
+      ...options.requestOptions?.headers,
+    },
+    body: autonomousDatabaseBackupUpdateSerializer(properties),
+  });
 }
 
 export async function _updateDeserialize(
@@ -160,10 +150,7 @@ export function update(
   options: AutonomousDatabaseBackupsUpdateOptionalParams = {
     requestOptions: {},
   },
-): PollerLike<
-  OperationState<AutonomousDatabaseBackup>,
-  AutonomousDatabaseBackup
-> {
+): PollerLike<OperationState<AutonomousDatabaseBackup>, AutonomousDatabaseBackup> {
   return getLongRunningPoller(context, _updateDeserialize, ["200", "202"], {
     updateIntervalInMs: options?.updateIntervalInMs,
     abortSignal: options?.abortSignal,
@@ -177,10 +164,7 @@ export function update(
         options,
       ),
     resourceLocationConfig: "location",
-  }) as PollerLike<
-    OperationState<AutonomousDatabaseBackup>,
-    AutonomousDatabaseBackup
-  >;
+  }) as PollerLike<OperationState<AutonomousDatabaseBackup>, AutonomousDatabaseBackup>;
 }
 
 export function _$deleteSend(
@@ -205,20 +189,16 @@ export function _$deleteSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context
-    .path(path)
-    .delete({
-      ...operationOptionsToRequestParameters(options),
-      headers: {
-        accept: "application/json",
-        ...options.requestOptions?.headers,
-      },
-    });
+  return context.path(path).delete({
+    ...operationOptionsToRequestParameters(options),
+    headers: {
+      accept: "application/json",
+      ...options.requestOptions?.headers,
+    },
+  });
 }
 
-export async function _$deleteDeserialize(
-  result: PathUncheckedResponse,
-): Promise<void> {
+export async function _$deleteDeserialize(result: PathUncheckedResponse): Promise<void> {
   const expectedStatuses = ["202", "204", "200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
@@ -244,24 +224,13 @@ export function $delete(
     requestOptions: {},
   },
 ): PollerLike<OperationState<void>, void> {
-  return getLongRunningPoller(
-    context,
-    _$deleteDeserialize,
-    ["202", "204", "200"],
-    {
-      updateIntervalInMs: options?.updateIntervalInMs,
-      abortSignal: options?.abortSignal,
-      getInitialResponse: () =>
-        _$deleteSend(
-          context,
-          resourceGroupName,
-          autonomousdatabasename,
-          adbbackupid,
-          options,
-        ),
-      resourceLocationConfig: "location",
-    },
-  ) as PollerLike<OperationState<void>, void>;
+  return getLongRunningPoller(context, _$deleteDeserialize, ["202", "204", "200"], {
+    updateIntervalInMs: options?.updateIntervalInMs,
+    abortSignal: options?.abortSignal,
+    getInitialResponse: () =>
+      _$deleteSend(context, resourceGroupName, autonomousdatabasename, adbbackupid, options),
+    resourceLocationConfig: "location",
+  }) as PollerLike<OperationState<void>, void>;
 }
 
 export function _getSend(
@@ -284,15 +253,13 @@ export function _getSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context
-    .path(path)
-    .get({
-      ...operationOptionsToRequestParameters(options),
-      headers: {
-        accept: "application/json",
-        ...options.requestOptions?.headers,
-      },
-    });
+  return context.path(path).get({
+    ...operationOptionsToRequestParameters(options),
+    headers: {
+      accept: "application/json",
+      ...options.requestOptions?.headers,
+    },
+  });
 }
 
 export async function _getDeserialize(
@@ -349,17 +316,15 @@ export function _createOrUpdateSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context
-    .path(path)
-    .put({
-      ...operationOptionsToRequestParameters(options),
-      contentType: "application/json",
-      headers: {
-        accept: "application/json",
-        ...options.requestOptions?.headers,
-      },
-      body: autonomousDatabaseBackupSerializer(resource),
-    });
+  return context.path(path).put({
+    ...operationOptionsToRequestParameters(options),
+    contentType: "application/json",
+    headers: {
+      accept: "application/json",
+      ...options.requestOptions?.headers,
+    },
+    body: autonomousDatabaseBackupSerializer(resource),
+  });
 }
 
 export async function _createOrUpdateDeserialize(
@@ -385,30 +350,19 @@ export function createOrUpdate(
   options: AutonomousDatabaseBackupsCreateOrUpdateOptionalParams = {
     requestOptions: {},
   },
-): PollerLike<
-  OperationState<AutonomousDatabaseBackup>,
-  AutonomousDatabaseBackup
-> {
-  return getLongRunningPoller(
-    context,
-    _createOrUpdateDeserialize,
-    ["200", "201"],
-    {
-      updateIntervalInMs: options?.updateIntervalInMs,
-      abortSignal: options?.abortSignal,
-      getInitialResponse: () =>
-        _createOrUpdateSend(
-          context,
-          resourceGroupName,
-          autonomousdatabasename,
-          adbbackupid,
-          resource,
-          options,
-        ),
-      resourceLocationConfig: "azure-async-operation",
-    },
-  ) as PollerLike<
-    OperationState<AutonomousDatabaseBackup>,
-    AutonomousDatabaseBackup
-  >;
+): PollerLike<OperationState<AutonomousDatabaseBackup>, AutonomousDatabaseBackup> {
+  return getLongRunningPoller(context, _createOrUpdateDeserialize, ["200", "201"], {
+    updateIntervalInMs: options?.updateIntervalInMs,
+    abortSignal: options?.abortSignal,
+    getInitialResponse: () =>
+      _createOrUpdateSend(
+        context,
+        resourceGroupName,
+        autonomousdatabasename,
+        adbbackupid,
+        resource,
+        options,
+      ),
+    resourceLocationConfig: "azure-async-operation",
+  }) as PollerLike<OperationState<AutonomousDatabaseBackup>, AutonomousDatabaseBackup>;
 }

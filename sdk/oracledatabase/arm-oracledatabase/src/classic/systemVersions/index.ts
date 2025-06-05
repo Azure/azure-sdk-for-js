@@ -27,15 +27,10 @@ export interface SystemVersionsOperations {
 
 function _getSystemVersions(context: OracleDatabaseManagementContext) {
   return {
-    listByLocation: (
-      location: string,
-      options?: SystemVersionsListByLocationOptionalParams,
-    ) => listByLocation(context, location, options),
-    get: (
-      location: string,
-      systemversionname: string,
-      options?: SystemVersionsGetOptionalParams,
-    ) => get(context, location, systemversionname, options),
+    listByLocation: (location: string, options?: SystemVersionsListByLocationOptionalParams) =>
+      listByLocation(context, location, options),
+    get: (location: string, systemversionname: string, options?: SystemVersionsGetOptionalParams) =>
+      get(context, location, systemversionname, options),
   };
 }
 

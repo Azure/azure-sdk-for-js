@@ -27,15 +27,10 @@ export interface FlexComponentsOperations {
 
 function _getFlexComponents(context: OracleDatabaseManagementContext) {
   return {
-    listByParent: (
-      location: string,
-      options?: FlexComponentsListByParentOptionalParams,
-    ) => listByParent(context, location, options),
-    get: (
-      location: string,
-      flexComponentName: string,
-      options?: FlexComponentsGetOptionalParams,
-    ) => get(context, location, flexComponentName, options),
+    listByParent: (location: string, options?: FlexComponentsListByParentOptionalParams) =>
+      listByParent(context, location, options),
+    get: (location: string, flexComponentName: string, options?: FlexComponentsGetOptionalParams) =>
+      get(context, location, flexComponentName, options),
   };
 }
 

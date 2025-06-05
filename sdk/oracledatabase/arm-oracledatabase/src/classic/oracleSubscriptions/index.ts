@@ -49,10 +49,7 @@ export interface OracleSubscriptionsOperations {
   /** List Saas Subscription Details */
   listSaasSubscriptionDetails: (
     options?: OracleSubscriptionsListSaasSubscriptionDetailsOptionalParams,
-  ) => PollerLike<
-    OperationState<SaasSubscriptionDetails>,
-    SaasSubscriptionDetails
-  >;
+  ) => PollerLike<OperationState<SaasSubscriptionDetails>, SaasSubscriptionDetails>;
   /** List Cloud Account Details */
   listCloudAccountDetails: (
     options?: OracleSubscriptionsListCloudAccountDetailsOptionalParams,
@@ -72,9 +69,7 @@ export interface OracleSubscriptionsOperations {
     options?: OracleSubscriptionsUpdateOptionalParams,
   ) => PollerLike<OperationState<OracleSubscription>, OracleSubscription>;
   /** Get a OracleSubscription */
-  get: (
-    options?: OracleSubscriptionsGetOptionalParams,
-  ) => Promise<OracleSubscription>;
+  get: (options?: OracleSubscriptionsGetOptionalParams) => Promise<OracleSubscription>;
   /** Create a OracleSubscription */
   createOrUpdate: (
     resource: OracleSubscription,
@@ -92,30 +87,25 @@ function _getOracleSubscriptions(context: OracleDatabaseManagementContext) {
       body: AzureSubscriptions,
       options?: OracleSubscriptionsAddAzureSubscriptionsOptionalParams,
     ) => addAzureSubscriptions(context, body, options),
-    listActivationLinks: (
-      options?: OracleSubscriptionsListActivationLinksOptionalParams,
-    ) => listActivationLinks(context, options),
+    listActivationLinks: (options?: OracleSubscriptionsListActivationLinksOptionalParams) =>
+      listActivationLinks(context, options),
     listSaasSubscriptionDetails: (
       options?: OracleSubscriptionsListSaasSubscriptionDetailsOptionalParams,
     ) => listSaasSubscriptionDetails(context, options),
-    listCloudAccountDetails: (
-      options?: OracleSubscriptionsListCloudAccountDetailsOptionalParams,
-    ) => listCloudAccountDetails(context, options),
-    delete: (options?: OracleSubscriptionsDeleteOptionalParams) =>
-      $delete(context, options),
+    listCloudAccountDetails: (options?: OracleSubscriptionsListCloudAccountDetailsOptionalParams) =>
+      listCloudAccountDetails(context, options),
+    delete: (options?: OracleSubscriptionsDeleteOptionalParams) => $delete(context, options),
     update: (
       properties: OracleSubscriptionUpdate,
       options?: OracleSubscriptionsUpdateOptionalParams,
     ) => update(context, properties, options),
-    get: (options?: OracleSubscriptionsGetOptionalParams) =>
-      get(context, options),
+    get: (options?: OracleSubscriptionsGetOptionalParams) => get(context, options),
     createOrUpdate: (
       resource: OracleSubscription,
       options?: OracleSubscriptionsCreateOrUpdateOptionalParams,
     ) => createOrUpdate(context, resource, options),
-    listBySubscription: (
-      options?: OracleSubscriptionsListBySubscriptionOptionalParams,
-    ) => listBySubscription(context, options),
+    listBySubscription: (options?: OracleSubscriptionsListBySubscriptionOptionalParams) =>
+      listBySubscription(context, options),
   };
 }
 

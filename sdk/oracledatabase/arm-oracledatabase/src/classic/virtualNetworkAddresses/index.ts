@@ -68,26 +68,13 @@ function _getVirtualNetworkAddresses(context: OracleDatabaseManagementContext) {
       virtualnetworkaddressname: string,
       options?: VirtualNetworkAddressesDeleteOptionalParams,
     ) =>
-      $delete(
-        context,
-        resourceGroupName,
-        cloudvmclustername,
-        virtualnetworkaddressname,
-        options,
-      ),
+      $delete(context, resourceGroupName, cloudvmclustername, virtualnetworkaddressname, options),
     get: (
       resourceGroupName: string,
       cloudvmclustername: string,
       virtualnetworkaddressname: string,
       options?: VirtualNetworkAddressesGetOptionalParams,
-    ) =>
-      get(
-        context,
-        resourceGroupName,
-        cloudvmclustername,
-        virtualnetworkaddressname,
-        options,
-      ),
+    ) => get(context, resourceGroupName, cloudvmclustername, virtualnetworkaddressname, options),
     createOrUpdate: (
       resourceGroupName: string,
       cloudvmclustername: string,

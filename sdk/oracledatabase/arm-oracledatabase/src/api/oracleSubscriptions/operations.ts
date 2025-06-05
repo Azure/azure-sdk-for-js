@@ -62,17 +62,15 @@ export function _addAzureSubscriptionsSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context
-    .path(path)
-    .post({
-      ...operationOptionsToRequestParameters(options),
-      contentType: "application/json",
-      headers: {
-        accept: "application/json",
-        ...options.requestOptions?.headers,
-      },
-      body: azureSubscriptionsSerializer(body),
-    });
+  return context.path(path).post({
+    ...operationOptionsToRequestParameters(options),
+    contentType: "application/json",
+    headers: {
+      accept: "application/json",
+      ...options.requestOptions?.headers,
+    },
+    body: azureSubscriptionsSerializer(body),
+  });
 }
 
 export async function _addAzureSubscriptionsDeserialize(
@@ -96,18 +94,12 @@ export function addAzureSubscriptions(
     requestOptions: {},
   },
 ): PollerLike<OperationState<void>, void> {
-  return getLongRunningPoller(
-    context,
-    _addAzureSubscriptionsDeserialize,
-    ["202", "200"],
-    {
-      updateIntervalInMs: options?.updateIntervalInMs,
-      abortSignal: options?.abortSignal,
-      getInitialResponse: () =>
-        _addAzureSubscriptionsSend(context, body, options),
-      resourceLocationConfig: "location",
-    },
-  ) as PollerLike<OperationState<void>, void>;
+  return getLongRunningPoller(context, _addAzureSubscriptionsDeserialize, ["202", "200"], {
+    updateIntervalInMs: options?.updateIntervalInMs,
+    abortSignal: options?.abortSignal,
+    getInitialResponse: () => _addAzureSubscriptionsSend(context, body, options),
+    resourceLocationConfig: "location",
+  }) as PollerLike<OperationState<void>, void>;
 }
 
 export function _listActivationLinksSend(
@@ -126,15 +118,13 @@ export function _listActivationLinksSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context
-    .path(path)
-    .post({
-      ...operationOptionsToRequestParameters(options),
-      headers: {
-        accept: "application/json",
-        ...options.requestOptions?.headers,
-      },
-    });
+  return context.path(path).post({
+    ...operationOptionsToRequestParameters(options),
+    headers: {
+      accept: "application/json",
+      ...options.requestOptions?.headers,
+    },
+  });
 }
 
 export async function _listActivationLinksDeserialize(
@@ -157,17 +147,12 @@ export function listActivationLinks(
     requestOptions: {},
   },
 ): PollerLike<OperationState<ActivationLinks>, ActivationLinks> {
-  return getLongRunningPoller(
-    context,
-    _listActivationLinksDeserialize,
-    ["200", "202"],
-    {
-      updateIntervalInMs: options?.updateIntervalInMs,
-      abortSignal: options?.abortSignal,
-      getInitialResponse: () => _listActivationLinksSend(context, options),
-      resourceLocationConfig: "location",
-    },
-  ) as PollerLike<OperationState<ActivationLinks>, ActivationLinks>;
+  return getLongRunningPoller(context, _listActivationLinksDeserialize, ["200", "202"], {
+    updateIntervalInMs: options?.updateIntervalInMs,
+    abortSignal: options?.abortSignal,
+    getInitialResponse: () => _listActivationLinksSend(context, options),
+    resourceLocationConfig: "location",
+  }) as PollerLike<OperationState<ActivationLinks>, ActivationLinks>;
 }
 
 export function _listSaasSubscriptionDetailsSend(
@@ -186,15 +171,13 @@ export function _listSaasSubscriptionDetailsSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context
-    .path(path)
-    .post({
-      ...operationOptionsToRequestParameters(options),
-      headers: {
-        accept: "application/json",
-        ...options.requestOptions?.headers,
-      },
-    });
+  return context.path(path).post({
+    ...operationOptionsToRequestParameters(options),
+    headers: {
+      accept: "application/json",
+      ...options.requestOptions?.headers,
+    },
+  });
 }
 
 export async function _listSaasSubscriptionDetailsDeserialize(
@@ -216,25 +199,13 @@ export function listSaasSubscriptionDetails(
   options: OracleSubscriptionsListSaasSubscriptionDetailsOptionalParams = {
     requestOptions: {},
   },
-): PollerLike<
-  OperationState<SaasSubscriptionDetails>,
-  SaasSubscriptionDetails
-> {
-  return getLongRunningPoller(
-    context,
-    _listSaasSubscriptionDetailsDeserialize,
-    ["200", "202"],
-    {
-      updateIntervalInMs: options?.updateIntervalInMs,
-      abortSignal: options?.abortSignal,
-      getInitialResponse: () =>
-        _listSaasSubscriptionDetailsSend(context, options),
-      resourceLocationConfig: "location",
-    },
-  ) as PollerLike<
-    OperationState<SaasSubscriptionDetails>,
-    SaasSubscriptionDetails
-  >;
+): PollerLike<OperationState<SaasSubscriptionDetails>, SaasSubscriptionDetails> {
+  return getLongRunningPoller(context, _listSaasSubscriptionDetailsDeserialize, ["200", "202"], {
+    updateIntervalInMs: options?.updateIntervalInMs,
+    abortSignal: options?.abortSignal,
+    getInitialResponse: () => _listSaasSubscriptionDetailsSend(context, options),
+    resourceLocationConfig: "location",
+  }) as PollerLike<OperationState<SaasSubscriptionDetails>, SaasSubscriptionDetails>;
 }
 
 export function _listCloudAccountDetailsSend(
@@ -253,15 +224,13 @@ export function _listCloudAccountDetailsSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context
-    .path(path)
-    .post({
-      ...operationOptionsToRequestParameters(options),
-      headers: {
-        accept: "application/json",
-        ...options.requestOptions?.headers,
-      },
-    });
+  return context.path(path).post({
+    ...operationOptionsToRequestParameters(options),
+    headers: {
+      accept: "application/json",
+      ...options.requestOptions?.headers,
+    },
+  });
 }
 
 export async function _listCloudAccountDetailsDeserialize(
@@ -284,17 +253,12 @@ export function listCloudAccountDetails(
     requestOptions: {},
   },
 ): PollerLike<OperationState<CloudAccountDetails>, CloudAccountDetails> {
-  return getLongRunningPoller(
-    context,
-    _listCloudAccountDetailsDeserialize,
-    ["200", "202"],
-    {
-      updateIntervalInMs: options?.updateIntervalInMs,
-      abortSignal: options?.abortSignal,
-      getInitialResponse: () => _listCloudAccountDetailsSend(context, options),
-      resourceLocationConfig: "location",
-    },
-  ) as PollerLike<OperationState<CloudAccountDetails>, CloudAccountDetails>;
+  return getLongRunningPoller(context, _listCloudAccountDetailsDeserialize, ["200", "202"], {
+    updateIntervalInMs: options?.updateIntervalInMs,
+    abortSignal: options?.abortSignal,
+    getInitialResponse: () => _listCloudAccountDetailsSend(context, options),
+    resourceLocationConfig: "location",
+  }) as PollerLike<OperationState<CloudAccountDetails>, CloudAccountDetails>;
 }
 
 export function _$deleteSend(
@@ -311,20 +275,16 @@ export function _$deleteSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context
-    .path(path)
-    .delete({
-      ...operationOptionsToRequestParameters(options),
-      headers: {
-        accept: "application/json",
-        ...options.requestOptions?.headers,
-      },
-    });
+  return context.path(path).delete({
+    ...operationOptionsToRequestParameters(options),
+    headers: {
+      accept: "application/json",
+      ...options.requestOptions?.headers,
+    },
+  });
 }
 
-export async function _$deleteDeserialize(
-  result: PathUncheckedResponse,
-): Promise<void> {
+export async function _$deleteDeserialize(result: PathUncheckedResponse): Promise<void> {
   const expectedStatuses = ["202", "204", "200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
@@ -345,17 +305,12 @@ export function $delete(
   context: Client,
   options: OracleSubscriptionsDeleteOptionalParams = { requestOptions: {} },
 ): PollerLike<OperationState<void>, void> {
-  return getLongRunningPoller(
-    context,
-    _$deleteDeserialize,
-    ["202", "204", "200"],
-    {
-      updateIntervalInMs: options?.updateIntervalInMs,
-      abortSignal: options?.abortSignal,
-      getInitialResponse: () => _$deleteSend(context, options),
-      resourceLocationConfig: "location",
-    },
-  ) as PollerLike<OperationState<void>, void>;
+  return getLongRunningPoller(context, _$deleteDeserialize, ["202", "204", "200"], {
+    updateIntervalInMs: options?.updateIntervalInMs,
+    abortSignal: options?.abortSignal,
+    getInitialResponse: () => _$deleteSend(context, options),
+    resourceLocationConfig: "location",
+  }) as PollerLike<OperationState<void>, void>;
 }
 
 export function _updateSend(
@@ -373,17 +328,15 @@ export function _updateSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context
-    .path(path)
-    .patch({
-      ...operationOptionsToRequestParameters(options),
-      contentType: "application/json",
-      headers: {
-        accept: "application/json",
-        ...options.requestOptions?.headers,
-      },
-      body: oracleSubscriptionUpdateSerializer(properties),
-    });
+  return context.path(path).patch({
+    ...operationOptionsToRequestParameters(options),
+    contentType: "application/json",
+    headers: {
+      accept: "application/json",
+      ...options.requestOptions?.headers,
+    },
+    body: oracleSubscriptionUpdateSerializer(properties),
+  });
 }
 
 export async function _updateDeserialize(
@@ -427,20 +380,16 @@ export function _getSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context
-    .path(path)
-    .get({
-      ...operationOptionsToRequestParameters(options),
-      headers: {
-        accept: "application/json",
-        ...options.requestOptions?.headers,
-      },
-    });
+  return context.path(path).get({
+    ...operationOptionsToRequestParameters(options),
+    headers: {
+      accept: "application/json",
+      ...options.requestOptions?.headers,
+    },
+  });
 }
 
-export async function _getDeserialize(
-  result: PathUncheckedResponse,
-): Promise<OracleSubscription> {
+export async function _getDeserialize(result: PathUncheckedResponse): Promise<OracleSubscription> {
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
@@ -477,17 +426,15 @@ export function _createOrUpdateSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context
-    .path(path)
-    .put({
-      ...operationOptionsToRequestParameters(options),
-      contentType: "application/json",
-      headers: {
-        accept: "application/json",
-        ...options.requestOptions?.headers,
-      },
-      body: oracleSubscriptionSerializer(resource),
-    });
+  return context.path(path).put({
+    ...operationOptionsToRequestParameters(options),
+    contentType: "application/json",
+    headers: {
+      accept: "application/json",
+      ...options.requestOptions?.headers,
+    },
+    body: oracleSubscriptionSerializer(resource),
+  });
 }
 
 export async function _createOrUpdateDeserialize(
@@ -511,17 +458,12 @@ export function createOrUpdate(
     requestOptions: {},
   },
 ): PollerLike<OperationState<OracleSubscription>, OracleSubscription> {
-  return getLongRunningPoller(
-    context,
-    _createOrUpdateDeserialize,
-    ["200", "201"],
-    {
-      updateIntervalInMs: options?.updateIntervalInMs,
-      abortSignal: options?.abortSignal,
-      getInitialResponse: () => _createOrUpdateSend(context, resource, options),
-      resourceLocationConfig: "azure-async-operation",
-    },
-  ) as PollerLike<OperationState<OracleSubscription>, OracleSubscription>;
+  return getLongRunningPoller(context, _createOrUpdateDeserialize, ["200", "201"], {
+    updateIntervalInMs: options?.updateIntervalInMs,
+    abortSignal: options?.abortSignal,
+    getInitialResponse: () => _createOrUpdateSend(context, resource, options),
+    resourceLocationConfig: "azure-async-operation",
+  }) as PollerLike<OperationState<OracleSubscription>, OracleSubscription>;
 }
 
 export function _listBySubscriptionSend(
@@ -540,15 +482,13 @@ export function _listBySubscriptionSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context
-    .path(path)
-    .get({
-      ...operationOptionsToRequestParameters(options),
-      headers: {
-        accept: "application/json",
-        ...options.requestOptions?.headers,
-      },
-    });
+  return context.path(path).get({
+    ...operationOptionsToRequestParameters(options),
+    headers: {
+      accept: "application/json",
+      ...options.requestOptions?.headers,
+    },
+  });
 }
 
 export async function _listBySubscriptionDeserialize(

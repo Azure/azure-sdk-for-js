@@ -8,5 +8,4 @@ export interface AutonomousDatabaseCharacterSetsListByLocationOptionalParams
   extends OperationOptions {}
 
 /** Optional parameters. */
-export interface AutonomousDatabaseCharacterSetsGetOptionalParams
-  extends OperationOptions {}
+export interface AutonomousDatabaseCharacterSetsGetOptionalParams extends OperationOptions {}

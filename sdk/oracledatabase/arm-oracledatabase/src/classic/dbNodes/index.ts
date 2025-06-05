@@ -45,15 +45,7 @@ function _getDbNodes(context: OracleDatabaseManagementContext) {
       dbnodeocid: string,
       body: DbNodeAction,
       options?: DbNodesActionOptionalParams,
-    ) =>
-      action(
-        context,
-        resourceGroupName,
-        cloudvmclustername,
-        dbnodeocid,
-        body,
-        options,
-      ),
+    ) => action(context, resourceGroupName, cloudvmclustername, dbnodeocid, body, options),
     listByParent: (
       resourceGroupName: string,
       cloudvmclustername: string,
@@ -64,14 +56,11 @@ function _getDbNodes(context: OracleDatabaseManagementContext) {
       cloudvmclustername: string,
       dbnodeocid: string,
       options?: DbNodesGetOptionalParams,
-    ) =>
-      get(context, resourceGroupName, cloudvmclustername, dbnodeocid, options),
+    ) => get(context, resourceGroupName, cloudvmclustername, dbnodeocid, options),
   };
 }
 
-export function _getDbNodesOperations(
-  context: OracleDatabaseManagementContext,
-): DbNodesOperations {
+export function _getDbNodesOperations(context: OracleDatabaseManagementContext): DbNodesOperations {
   return {
     ..._getDbNodes(context),
   };

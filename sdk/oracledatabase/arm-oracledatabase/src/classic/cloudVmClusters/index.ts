@@ -106,21 +106,13 @@ function _getCloudVmClusters(context: OracleDatabaseManagementContext) {
       cloudvmclustername: string,
       body: PrivateIpAddressesFilter,
       options?: CloudVmClustersListPrivateIpAddressesOptionalParams,
-    ) =>
-      listPrivateIpAddresses(
-        context,
-        resourceGroupName,
-        cloudvmclustername,
-        body,
-        options,
-      ),
+    ) => listPrivateIpAddresses(context, resourceGroupName, cloudvmclustername, body, options),
     removeVms: (
       resourceGroupName: string,
       cloudvmclustername: string,
       body: AddRemoveDbNode,
       options?: CloudVmClustersRemoveVmsOptionalParams,
-    ) =>
-      removeVms(context, resourceGroupName, cloudvmclustername, body, options),
+    ) => removeVms(context, resourceGroupName, cloudvmclustername, body, options),
     addVms: (
       resourceGroupName: string,
       cloudvmclustername: string,
@@ -141,14 +133,7 @@ function _getCloudVmClusters(context: OracleDatabaseManagementContext) {
       cloudvmclustername: string,
       properties: CloudVmClusterUpdate,
       options?: CloudVmClustersUpdateOptionalParams,
-    ) =>
-      update(
-        context,
-        resourceGroupName,
-        cloudvmclustername,
-        properties,
-        options,
-      ),
+    ) => update(context, resourceGroupName, cloudvmclustername, properties, options),
     get: (
       resourceGroupName: string,
       cloudvmclustername: string,
@@ -159,17 +144,9 @@ function _getCloudVmClusters(context: OracleDatabaseManagementContext) {
       cloudvmclustername: string,
       resource: CloudVmCluster,
       options?: CloudVmClustersCreateOrUpdateOptionalParams,
-    ) =>
-      createOrUpdate(
-        context,
-        resourceGroupName,
-        cloudvmclustername,
-        resource,
-        options,
-      ),
-    listBySubscription: (
-      options?: CloudVmClustersListBySubscriptionOptionalParams,
-    ) => listBySubscription(context, options),
+    ) => createOrUpdate(context, resourceGroupName, cloudvmclustername, resource, options),
+    listBySubscription: (options?: CloudVmClustersListBySubscriptionOptionalParams) =>
+      listBySubscription(context, options),
   };
 }
 

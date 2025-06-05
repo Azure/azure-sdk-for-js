@@ -51,22 +51,18 @@ export function _actionSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context
-    .path(path)
-    .post({
-      ...operationOptionsToRequestParameters(options),
-      contentType: "application/json",
-      headers: {
-        accept: "application/json",
-        ...options.requestOptions?.headers,
-      },
-      body: dbNodeActionSerializer(body),
-    });
+  return context.path(path).post({
+    ...operationOptionsToRequestParameters(options),
+    contentType: "application/json",
+    headers: {
+      accept: "application/json",
+      ...options.requestOptions?.headers,
+    },
+    body: dbNodeActionSerializer(body),
+  });
 }
 
-export async function _actionDeserialize(
-  result: PathUncheckedResponse,
-): Promise<DbNode> {
+export async function _actionDeserialize(result: PathUncheckedResponse): Promise<DbNode> {
   const expectedStatuses = ["202", "200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
@@ -90,14 +86,7 @@ export function action(
     updateIntervalInMs: options?.updateIntervalInMs,
     abortSignal: options?.abortSignal,
     getInitialResponse: () =>
-      _actionSend(
-        context,
-        resourceGroupName,
-        cloudvmclustername,
-        dbnodeocid,
-        body,
-        options,
-      ),
+      _actionSend(context, resourceGroupName, cloudvmclustername, dbnodeocid, body, options),
     resourceLocationConfig: "location",
   }) as PollerLike<OperationState<DbNode>, DbNode>;
 }
@@ -120,15 +109,13 @@ export function _listByParentSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context
-    .path(path)
-    .get({
-      ...operationOptionsToRequestParameters(options),
-      headers: {
-        accept: "application/json",
-        ...options.requestOptions?.headers,
-      },
-    });
+  return context.path(path).get({
+    ...operationOptionsToRequestParameters(options),
+    headers: {
+      accept: "application/json",
+      ...options.requestOptions?.headers,
+    },
+  });
 }
 
 export async function _listByParentDeserialize(
@@ -153,13 +140,7 @@ export function listByParent(
 ): PagedAsyncIterableIterator<DbNode> {
   return buildPagedAsyncIterator(
     context,
-    () =>
-      _listByParentSend(
-        context,
-        resourceGroupName,
-        cloudvmclustername,
-        options,
-      ),
+    () => _listByParentSend(context, resourceGroupName, cloudvmclustername, options),
     _listByParentDeserialize,
     ["200"],
     { itemName: "value", nextLinkName: "nextLink" },
@@ -186,20 +167,16 @@ export function _getSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context
-    .path(path)
-    .get({
-      ...operationOptionsToRequestParameters(options),
-      headers: {
-        accept: "application/json",
-        ...options.requestOptions?.headers,
-      },
-    });
+  return context.path(path).get({
+    ...operationOptionsToRequestParameters(options),
+    headers: {
+      accept: "application/json",
+      ...options.requestOptions?.headers,
+    },
+  });
 }
 
-export async function _getDeserialize(
-  result: PathUncheckedResponse,
-): Promise<DbNode> {
+export async function _getDeserialize(result: PathUncheckedResponse): Promise<DbNode> {
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);

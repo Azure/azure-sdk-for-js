@@ -152,53 +152,25 @@ function _getAutonomousDatabases(context: OracleDatabaseManagementContext) {
       autonomousdatabasename: string,
       body: RestoreAutonomousDatabaseDetails,
       options?: AutonomousDatabasesRestoreOptionalParams,
-    ) =>
-      restore(
-        context,
-        resourceGroupName,
-        autonomousdatabasename,
-        body,
-        options,
-      ),
+    ) => restore(context, resourceGroupName, autonomousdatabasename, body, options),
     generateWallet: (
       resourceGroupName: string,
       autonomousdatabasename: string,
       body: GenerateAutonomousDatabaseWalletDetails,
       options?: AutonomousDatabasesGenerateWalletOptionalParams,
-    ) =>
-      generateWallet(
-        context,
-        resourceGroupName,
-        autonomousdatabasename,
-        body,
-        options,
-      ),
+    ) => generateWallet(context, resourceGroupName, autonomousdatabasename, body, options),
     failover: (
       resourceGroupName: string,
       autonomousdatabasename: string,
       body: PeerDbDetails,
       options?: AutonomousDatabasesFailoverOptionalParams,
-    ) =>
-      failover(
-        context,
-        resourceGroupName,
-        autonomousdatabasename,
-        body,
-        options,
-      ),
+    ) => failover(context, resourceGroupName, autonomousdatabasename, body, options),
     switchover: (
       resourceGroupName: string,
       autonomousdatabasename: string,
       body: PeerDbDetails,
       options?: AutonomousDatabasesSwitchoverOptionalParams,
-    ) =>
-      switchover(
-        context,
-        resourceGroupName,
-        autonomousdatabasename,
-        body,
-        options,
-      ),
+    ) => switchover(context, resourceGroupName, autonomousdatabasename, body, options),
     listByResourceGroup: (
       resourceGroupName: string,
       options?: AutonomousDatabasesListByResourceGroupOptionalParams,
@@ -208,14 +180,7 @@ function _getAutonomousDatabases(context: OracleDatabaseManagementContext) {
       autonomousdatabasename: string,
       properties: AutonomousDatabaseUpdate,
       options?: AutonomousDatabasesUpdateOptionalParams,
-    ) =>
-      update(
-        context,
-        resourceGroupName,
-        autonomousdatabasename,
-        properties,
-        options,
-      ),
+    ) => update(context, resourceGroupName, autonomousdatabasename, properties, options),
     delete: (
       resourceGroupName: string,
       autonomousdatabasename: string,
@@ -231,17 +196,9 @@ function _getAutonomousDatabases(context: OracleDatabaseManagementContext) {
       autonomousdatabasename: string,
       resource: AutonomousDatabase,
       options?: AutonomousDatabasesCreateOrUpdateOptionalParams,
-    ) =>
-      createOrUpdate(
-        context,
-        resourceGroupName,
-        autonomousdatabasename,
-        resource,
-        options,
-      ),
-    listBySubscription: (
-      options?: AutonomousDatabasesListBySubscriptionOptionalParams,
-    ) => listBySubscription(context, options),
+    ) => createOrUpdate(context, resourceGroupName, autonomousdatabasename, resource, options),
+    listBySubscription: (options?: AutonomousDatabasesListBySubscriptionOptionalParams) =>
+      listBySubscription(context, options),
   };
 }
 

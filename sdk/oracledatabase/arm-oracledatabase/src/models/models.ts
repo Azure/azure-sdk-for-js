@@ -9,9 +9,7 @@ export interface _OperationListResult {
   nextLink?: string;
 }
 
-export function _operationListResultDeserializer(
-  item: any,
-): _OperationListResult {
+export function _operationListResultDeserializer(item: any): _OperationListResult {
   return {
     value: operationArrayDeserializer(item["value"]),
     nextLink: item["nextLink"],
@@ -42,9 +40,7 @@ export function operationDeserializer(item: any): Operation {
   return {
     name: item["name"],
     isDataAction: item["isDataAction"],
-    display: !item["display"]
-      ? item["display"]
-      : operationDisplayDeserializer(item["display"]),
+    display: !item["display"] ? item["display"] : operationDisplayDeserializer(item["display"]),
     origin: item["origin"],
     actionType: item["actionType"],
   };
@@ -115,9 +111,7 @@ export interface ErrorResponse {
 
 export function errorResponseDeserializer(item: any): ErrorResponse {
   return {
-    error: !item["error"]
-      ? item["error"]
-      : errorDetailDeserializer(item["error"]),
+    error: !item["error"] ? item["error"] : errorDetailDeserializer(item["error"]),
   };
 }
 
@@ -140,26 +134,20 @@ export function errorDetailDeserializer(item: any): ErrorDetail {
     code: item["code"],
     message: item["message"],
     target: item["target"],
-    details: !item["details"]
-      ? item["details"]
-      : errorDetailArrayDeserializer(item["details"]),
+    details: !item["details"] ? item["details"] : errorDetailArrayDeserializer(item["details"]),
     additionalInfo: !item["additionalInfo"]
       ? item["additionalInfo"]
       : errorAdditionalInfoArrayDeserializer(item["additionalInfo"]),
   };
 }
 
-export function errorDetailArrayDeserializer(
-  result: Array<ErrorDetail>,
-): any[] {
+export function errorDetailArrayDeserializer(result: Array<ErrorDetail>): any[] {
   return result.map((item) => {
     return errorDetailDeserializer(item);
   });
 }
 
-export function errorAdditionalInfoArrayDeserializer(
-  result: Array<ErrorAdditionalInfo>,
-): any[] {
+export function errorAdditionalInfoArrayDeserializer(result: Array<ErrorAdditionalInfo>): any[] {
   return result.map((item) => {
     return errorAdditionalInfoDeserializer(item);
   });
@@ -173,9 +161,7 @@ export interface ErrorAdditionalInfo {
   readonly info?: any;
 }
 
-export function errorAdditionalInfoDeserializer(
-  item: any,
-): ErrorAdditionalInfo {
+export function errorAdditionalInfoDeserializer(item: any): ErrorAdditionalInfo {
   return {
     type: item["type"],
     info: item["info"],
@@ -223,9 +209,7 @@ export interface CloudExadataInfrastructure extends TrackedResource {
   zones: string[];
 }
 
-export function cloudExadataInfrastructureSerializer(
-  item: CloudExadataInfrastructure,
-): any {
+export function cloudExadataInfrastructureSerializer(item: CloudExadataInfrastructure): any {
   return {
     tags: item["tags"],
     location: item["location"],
@@ -238,9 +222,7 @@ export function cloudExadataInfrastructureSerializer(
   };
 }
 
-export function cloudExadataInfrastructureDeserializer(
-  item: any,
-): CloudExadataInfrastructure {
+export function cloudExadataInfrastructureDeserializer(item: any): CloudExadataInfrastructure {
   return {
     tags: item["tags"],
     location: item["location"],
@@ -358,9 +340,7 @@ export function cloudExadataInfrastructurePropertiesDeserializer(
   return {
     definedFileSystemConfiguration: !item["definedFileSystemConfiguration"]
       ? item["definedFileSystemConfiguration"]
-      : definedFileSystemConfigurationArrayDeserializer(
-          item["definedFileSystemConfiguration"],
-        ),
+      : definedFileSystemConfigurationArrayDeserializer(item["definedFileSystemConfiguration"]),
     ocid: item["ocid"],
     computeCount: item["computeCount"],
     storageCount: item["storageCount"],
@@ -462,9 +442,7 @@ export interface MaintenanceWindow {
 export function maintenanceWindowSerializer(item: MaintenanceWindow): any {
   return {
     preference: item["preference"],
-    months: !item["months"]
-      ? item["months"]
-      : monthArraySerializer(item["months"]),
+    months: !item["months"] ? item["months"] : monthArraySerializer(item["months"]),
     weeksOfMonth: !item["weeksOfMonth"]
       ? item["weeksOfMonth"]
       : item["weeksOfMonth"].map((p: any) => {
@@ -489,9 +467,7 @@ export function maintenanceWindowSerializer(item: MaintenanceWindow): any {
 export function maintenanceWindowDeserializer(item: any): MaintenanceWindow {
   return {
     preference: item["preference"],
-    months: !item["months"]
-      ? item["months"]
-      : monthArrayDeserializer(item["months"]),
+    months: !item["months"] ? item["months"] : monthArrayDeserializer(item["months"]),
     weeksOfMonth: !item["weeksOfMonth"]
       ? item["weeksOfMonth"]
       : item["weeksOfMonth"].map((p: any) => {
@@ -698,30 +674,22 @@ export interface EstimatedPatchingTime {
   readonly totalEstimatedPatchingTime?: number;
 }
 
-export function estimatedPatchingTimeDeserializer(
-  item: any,
-): EstimatedPatchingTime {
+export function estimatedPatchingTimeDeserializer(item: any): EstimatedPatchingTime {
   return {
     estimatedDbServerPatchingTime: item["estimatedDbServerPatchingTime"],
-    estimatedNetworkSwitchesPatchingTime:
-      item["estimatedNetworkSwitchesPatchingTime"],
-    estimatedStorageServerPatchingTime:
-      item["estimatedStorageServerPatchingTime"],
+    estimatedNetworkSwitchesPatchingTime: item["estimatedNetworkSwitchesPatchingTime"],
+    estimatedStorageServerPatchingTime: item["estimatedStorageServerPatchingTime"],
     totalEstimatedPatchingTime: item["totalEstimatedPatchingTime"],
   };
 }
 
-export function customerContactArraySerializer(
-  result: Array<CustomerContact>,
-): any[] {
+export function customerContactArraySerializer(result: Array<CustomerContact>): any[] {
   return result.map((item) => {
     return customerContactSerializer(item);
   });
 }
 
-export function customerContactArrayDeserializer(
-  result: Array<CustomerContact>,
-): any[] {
+export function customerContactArrayDeserializer(result: Array<CustomerContact>): any[] {
   return result.map((item) => {
     return customerContactDeserializer(item);
   });
@@ -890,9 +858,7 @@ export function systemDataDeserializer(item: any): SystemData {
   return {
     createdBy: item["createdBy"],
     createdByType: item["createdByType"],
-    createdAt: !item["createdAt"]
-      ? item["createdAt"]
-      : new Date(item["createdAt"]),
+    createdAt: !item["createdAt"] ? item["createdAt"] : new Date(item["createdAt"]),
     lastModifiedBy: item["lastModifiedBy"],
     lastModifiedByType: item["lastModifiedByType"],
     lastModifiedAt: !item["lastModifiedAt"]
@@ -968,9 +934,7 @@ export function cloudExadataInfrastructureUpdateSerializer(
     tags: item["tags"],
     properties: !item["properties"]
       ? item["properties"]
-      : cloudExadataInfrastructureUpdatePropertiesSerializer(
-          item["properties"],
-        ),
+      : cloudExadataInfrastructureUpdatePropertiesSerializer(item["properties"]),
   };
 }
 
@@ -1108,9 +1072,7 @@ export function dbServerPropertiesDeserializer(item: any): DbServerProperties {
     maxDbNodeStorageInGbs: item["maxDbNodeStorageInGbs"],
     memorySizeInGbs: item["memorySizeInGbs"],
     shape: item["shape"],
-    timeCreated: !item["timeCreated"]
-      ? item["timeCreated"]
-      : new Date(item["timeCreated"]),
+    timeCreated: !item["timeCreated"] ? item["timeCreated"] : new Date(item["timeCreated"]),
     provisioningState: item["provisioningState"],
     computeModel: item["computeModel"],
   };
@@ -1128,9 +1090,7 @@ export interface DbServerPatchingDetails {
   readonly timePatchingStarted?: Date;
 }
 
-export function dbServerPatchingDetailsDeserializer(
-  item: any,
-): DbServerPatchingDetails {
+export function dbServerPatchingDetailsDeserializer(item: any): DbServerPatchingDetails {
   return {
     estimatedPatchDuration: item["estimatedPatchDuration"],
     patchingStatus: item["patchingStatus"],
@@ -1223,9 +1183,7 @@ export interface _DbServerListResult {
   nextLink?: string;
 }
 
-export function _dbServerListResultDeserializer(
-  item: any,
-): _DbServerListResult {
+export function _dbServerListResultDeserializer(item: any): _DbServerListResult {
   return {
     value: dbServerArrayDeserializer(item["value"]),
     nextLink: item["nextLink"],
@@ -1246,26 +1204,20 @@ export interface _CloudVmClusterListResult {
   nextLink?: string;
 }
 
-export function _cloudVmClusterListResultDeserializer(
-  item: any,
-): _CloudVmClusterListResult {
+export function _cloudVmClusterListResultDeserializer(item: any): _CloudVmClusterListResult {
   return {
     value: cloudVmClusterArrayDeserializer(item["value"]),
     nextLink: item["nextLink"],
   };
 }
 
-export function cloudVmClusterArraySerializer(
-  result: Array<CloudVmCluster>,
-): any[] {
+export function cloudVmClusterArraySerializer(result: Array<CloudVmCluster>): any[] {
   return result.map((item) => {
     return cloudVmClusterSerializer(item);
   });
 }
 
-export function cloudVmClusterArrayDeserializer(
-  result: Array<CloudVmCluster>,
-): any[] {
+export function cloudVmClusterArrayDeserializer(result: Array<CloudVmCluster>): any[] {
   return result.map((item) => {
     return cloudVmClusterDeserializer(item);
   });
@@ -1407,16 +1359,12 @@ export interface CloudVmClusterProperties {
   readonly computeModel?: ComputeModel;
 }
 
-export function cloudVmClusterPropertiesSerializer(
-  item: CloudVmClusterProperties,
-): any {
+export function cloudVmClusterPropertiesSerializer(item: CloudVmClusterProperties): any {
   return {
     storageSizeInGbs: item["storageSizeInGbs"],
     fileSystemConfigurationDetails: !item["fileSystemConfigurationDetails"]
       ? item["fileSystemConfigurationDetails"]
-      : fileSystemConfigurationDetailsArraySerializer(
-          item["fileSystemConfigurationDetails"],
-        ),
+      : fileSystemConfigurationDetailsArraySerializer(item["fileSystemConfigurationDetails"]),
     dataStorageSizeInTbs: item["dataStorageSizeInTbs"],
     dbNodeStorageSizeInGbs: item["dbNodeStorageSizeInGbs"],
     memorySizeInGbs: item["memorySizeInGbs"],
@@ -1442,9 +1390,7 @@ export function cloudVmClusterPropertiesSerializer(
     giVersion: item["giVersion"],
     subnetId: item["subnetId"],
     backupSubnetCidr: item["backupSubnetCidr"],
-    nsgCidrs: !item["nsgCidrs"]
-      ? item["nsgCidrs"]
-      : nsgCidrArraySerializer(item["nsgCidrs"]),
+    nsgCidrs: !item["nsgCidrs"] ? item["nsgCidrs"] : nsgCidrArraySerializer(item["nsgCidrs"]),
     dataCollectionOptions: !item["dataCollectionOptions"]
       ? item["dataCollectionOptions"]
       : dataCollectionOptionsSerializer(item["dataCollectionOptions"]),
@@ -1462,9 +1408,7 @@ export function cloudVmClusterPropertiesSerializer(
   };
 }
 
-export function cloudVmClusterPropertiesDeserializer(
-  item: any,
-): CloudVmClusterProperties {
+export function cloudVmClusterPropertiesDeserializer(item: any): CloudVmClusterProperties {
   return {
     ocid: item["ocid"],
     listenerPort: item["listenerPort"],
@@ -1472,15 +1416,11 @@ export function cloudVmClusterPropertiesDeserializer(
     storageSizeInGbs: item["storageSizeInGbs"],
     fileSystemConfigurationDetails: !item["fileSystemConfigurationDetails"]
       ? item["fileSystemConfigurationDetails"]
-      : fileSystemConfigurationDetailsArrayDeserializer(
-          item["fileSystemConfigurationDetails"],
-        ),
+      : fileSystemConfigurationDetailsArrayDeserializer(item["fileSystemConfigurationDetails"]),
     dataStorageSizeInTbs: item["dataStorageSizeInTbs"],
     dbNodeStorageSizeInGbs: item["dbNodeStorageSizeInGbs"],
     memorySizeInGbs: item["memorySizeInGbs"],
-    timeCreated: !item["timeCreated"]
-      ? item["timeCreated"]
-      : new Date(item["timeCreated"]),
+    timeCreated: !item["timeCreated"] ? item["timeCreated"] : new Date(item["timeCreated"]),
     lifecycleDetails: item["lifecycleDetails"],
     timeZone: item["timeZone"],
     zoneId: item["zoneId"],
@@ -1522,9 +1462,7 @@ export function cloudVmClusterPropertiesDeserializer(
     nsgUrl: item["nsgUrl"],
     subnetId: item["subnetId"],
     backupSubnetCidr: item["backupSubnetCidr"],
-    nsgCidrs: !item["nsgCidrs"]
-      ? item["nsgCidrs"]
-      : nsgCidrArrayDeserializer(item["nsgCidrs"]),
+    nsgCidrs: !item["nsgCidrs"] ? item["nsgCidrs"] : nsgCidrArrayDeserializer(item["nsgCidrs"]),
     dataCollectionOptions: !item["dataCollectionOptions"]
       ? item["dataCollectionOptions"]
       : dataCollectionOptionsDeserializer(item["dataCollectionOptions"]),
@@ -1727,9 +1665,7 @@ export interface DataCollectionOptions {
   isIncidentLogsEnabled?: boolean;
 }
 
-export function dataCollectionOptionsSerializer(
-  item: DataCollectionOptions,
-): any {
+export function dataCollectionOptionsSerializer(item: DataCollectionOptions): any {
   return {
     isDiagnosticsEventsEnabled: item["isDiagnosticsEventsEnabled"],
     isHealthMonitoringEnabled: item["isHealthMonitoringEnabled"],
@@ -1737,9 +1673,7 @@ export function dataCollectionOptionsSerializer(
   };
 }
 
-export function dataCollectionOptionsDeserializer(
-  item: any,
-): DataCollectionOptions {
+export function dataCollectionOptionsDeserializer(item: any): DataCollectionOptions {
   return {
     isDiagnosticsEventsEnabled: item["isDiagnosticsEventsEnabled"],
     isHealthMonitoringEnabled: item["isHealthMonitoringEnabled"],
@@ -1761,18 +1695,14 @@ export interface ExadataIormConfig {
 
 export function exadataIormConfigDeserializer(item: any): ExadataIormConfig {
   return {
-    dbPlans: !item["dbPlans"]
-      ? item["dbPlans"]
-      : dbIormConfigArrayDeserializer(item["dbPlans"]),
+    dbPlans: !item["dbPlans"] ? item["dbPlans"] : dbIormConfigArrayDeserializer(item["dbPlans"]),
     lifecycleDetails: item["lifecycleDetails"],
     lifecycleState: item["lifecycleState"],
     objective: item["objective"],
   };
 }
 
-export function dbIormConfigArrayDeserializer(
-  result: Array<DbIormConfig>,
-): any[] {
+export function dbIormConfigArrayDeserializer(result: Array<DbIormConfig>): any[] {
   return result.map((item) => {
     return dbIormConfigDeserializer(item);
   });
@@ -1858,9 +1788,7 @@ export interface CloudVmClusterUpdate {
   properties?: CloudVmClusterUpdateProperties;
 }
 
-export function cloudVmClusterUpdateSerializer(
-  item: CloudVmClusterUpdate,
-): any {
+export function cloudVmClusterUpdateSerializer(item: CloudVmClusterUpdate): any {
   return {
     tags: item["tags"],
     properties: !item["properties"]
@@ -1904,9 +1832,7 @@ export function cloudVmClusterUpdatePropertiesSerializer(
     storageSizeInGbs: item["storageSizeInGbs"],
     fileSystemConfigurationDetails: !item["fileSystemConfigurationDetails"]
       ? item["fileSystemConfigurationDetails"]
-      : fileSystemConfigurationDetailsArraySerializer(
-          item["fileSystemConfigurationDetails"],
-        ),
+      : fileSystemConfigurationDetailsArraySerializer(item["fileSystemConfigurationDetails"]),
     dataStorageSizeInTbs: item["dataStorageSizeInTbs"],
     dbNodeStorageSizeInGbs: item["dbNodeStorageSizeInGbs"],
     memorySizeInGbs: item["memorySizeInGbs"],
@@ -1952,9 +1878,7 @@ export interface PrivateIpAddressesFilter {
   vnicId: string;
 }
 
-export function privateIpAddressesFilterSerializer(
-  item: PrivateIpAddressesFilter,
-): any {
+export function privateIpAddressesFilterSerializer(item: PrivateIpAddressesFilter): any {
   return { subnetId: item["subnetId"], vnicId: item["vnicId"] };
 }
 
@@ -1972,9 +1896,7 @@ export interface PrivateIpAddressProperties {
   subnetId: string;
 }
 
-export function privateIpAddressPropertiesDeserializer(
-  item: any,
-): PrivateIpAddressProperties {
+export function privateIpAddressPropertiesDeserializer(item: any): PrivateIpAddressProperties {
   return {
     displayName: item["displayName"],
     hostnameLabel: item["hostnameLabel"],
@@ -1990,9 +1912,7 @@ export interface VirtualNetworkAddress extends ProxyResource {
   properties?: VirtualNetworkAddressProperties;
 }
 
-export function virtualNetworkAddressSerializer(
-  item: VirtualNetworkAddress,
-): any {
+export function virtualNetworkAddressSerializer(item: VirtualNetworkAddress): any {
   return {
     properties: !item["properties"]
       ? item["properties"]
@@ -2000,9 +1920,7 @@ export function virtualNetworkAddressSerializer(
   };
 }
 
-export function virtualNetworkAddressDeserializer(
-  item: any,
-): VirtualNetworkAddress {
+export function virtualNetworkAddressDeserializer(item: any): VirtualNetworkAddress {
   return {
     id: item["id"],
     name: item["name"],
@@ -2053,9 +1971,7 @@ export function virtualNetworkAddressPropertiesDeserializer(
     lifecycleDetails: item["lifecycleDetails"],
     provisioningState: item["provisioningState"],
     lifecycleState: item["lifecycleState"],
-    timeAssigned: !item["timeAssigned"]
-      ? item["timeAssigned"]
-      : new Date(item["timeAssigned"]),
+    timeAssigned: !item["timeAssigned"] ? item["timeAssigned"] : new Date(item["timeAssigned"]),
   };
 }
 
@@ -2103,9 +2019,7 @@ export function _virtualNetworkAddressListResultDeserializer(
   };
 }
 
-export function virtualNetworkAddressArraySerializer(
-  result: Array<VirtualNetworkAddress>,
-): any[] {
+export function virtualNetworkAddressArraySerializer(result: Array<VirtualNetworkAddress>): any[] {
   return result.map((item) => {
     return virtualNetworkAddressSerializer(item);
   });
@@ -2145,9 +2059,7 @@ export interface SystemVersionProperties {
   systemVersion: string;
 }
 
-export function systemVersionPropertiesDeserializer(
-  item: any,
-): SystemVersionProperties {
+export function systemVersionPropertiesDeserializer(item: any): SystemVersionProperties {
   return {
     systemVersion: item["systemVersion"],
   };
@@ -2161,18 +2073,14 @@ export interface _SystemVersionListResult {
   nextLink?: string;
 }
 
-export function _systemVersionListResultDeserializer(
-  item: any,
-): _SystemVersionListResult {
+export function _systemVersionListResultDeserializer(item: any): _SystemVersionListResult {
   return {
     value: systemVersionArrayDeserializer(item["value"]),
     nextLink: item["nextLink"],
   };
 }
 
-export function systemVersionArrayDeserializer(
-  result: Array<SystemVersion>,
-): any[] {
+export function systemVersionArrayDeserializer(result: Array<SystemVersion>): any[] {
   return result.map((item) => {
     return systemVersionDeserializer(item);
   });
@@ -2195,17 +2103,13 @@ export function _oracleSubscriptionListResultDeserializer(
   };
 }
 
-export function oracleSubscriptionArraySerializer(
-  result: Array<OracleSubscription>,
-): any[] {
+export function oracleSubscriptionArraySerializer(result: Array<OracleSubscription>): any[] {
   return result.map((item) => {
     return oracleSubscriptionSerializer(item);
   });
 }
 
-export function oracleSubscriptionArrayDeserializer(
-  result: Array<OracleSubscription>,
-): any[] {
+export function oracleSubscriptionArrayDeserializer(result: Array<OracleSubscription>): any[] {
   return result.map((item) => {
     return oracleSubscriptionDeserializer(item);
   });
@@ -2267,9 +2171,7 @@ export interface OracleSubscriptionProperties {
   readonly lastOperationStatusDetail?: string;
 }
 
-export function oracleSubscriptionPropertiesSerializer(
-  item: OracleSubscriptionProperties,
-): any {
+export function oracleSubscriptionPropertiesSerializer(item: OracleSubscriptionProperties): any {
   return {
     termUnit: item["termUnit"],
     productCode: item["productCode"],
@@ -2277,9 +2179,7 @@ export function oracleSubscriptionPropertiesSerializer(
   };
 }
 
-export function oracleSubscriptionPropertiesDeserializer(
-  item: any,
-): OracleSubscriptionProperties {
+export function oracleSubscriptionPropertiesDeserializer(item: any): OracleSubscriptionProperties {
   return {
     provisioningState: item["provisioningState"],
     saasSubscriptionId: item["saasSubscriptionId"],
@@ -2421,9 +2321,7 @@ export interface OracleSubscriptionUpdate {
   properties?: OracleSubscriptionUpdateProperties;
 }
 
-export function oracleSubscriptionUpdateSerializer(
-  item: OracleSubscriptionUpdate,
-): any {
+export function oracleSubscriptionUpdateSerializer(item: OracleSubscriptionUpdate): any {
   return {
     plan: !item["plan"] ? item["plan"] : planUpdateSerializer(item["plan"]),
     properties: !item["properties"]
@@ -2478,9 +2376,7 @@ export interface CloudAccountDetails {
   readonly cloudAccountHomeRegion?: string;
 }
 
-export function cloudAccountDetailsDeserializer(
-  item: any,
-): CloudAccountDetails {
+export function cloudAccountDetailsDeserializer(item: any): CloudAccountDetails {
   return {
     cloudAccountName: item["cloudAccountName"],
     cloudAccountHomeRegion: item["cloudAccountHomeRegion"],
@@ -2515,15 +2411,11 @@ export interface SaasSubscriptionDetails {
   readonly isFreeTrial?: boolean;
 }
 
-export function saasSubscriptionDetailsDeserializer(
-  item: any,
-): SaasSubscriptionDetails {
+export function saasSubscriptionDetailsDeserializer(item: any): SaasSubscriptionDetails {
   return {
     id: item["id"],
     subscriptionName: item["subscriptionName"],
-    timeCreated: !item["timeCreated"]
-      ? item["timeCreated"]
-      : new Date(item["timeCreated"]),
+    timeCreated: !item["timeCreated"] ? item["timeCreated"] : new Date(item["timeCreated"]),
     offerId: item["offerId"],
     planId: item["planId"],
     saasSubscriptionStatus: item["saasSubscriptionStatus"],
@@ -2547,8 +2439,7 @@ export interface ActivationLinks {
 export function activationLinksDeserializer(item: any): ActivationLinks {
   return {
     newCloudAccountActivationLink: item["newCloudAccountActivationLink"],
-    existingCloudAccountActivationLink:
-      item["existingCloudAccountActivationLink"],
+    existingCloudAccountActivationLink: item["existingCloudAccountActivationLink"],
   };
 }
 
@@ -2803,9 +2694,7 @@ export interface GiVersionProperties {
   version: string;
 }
 
-export function giVersionPropertiesDeserializer(
-  item: any,
-): GiVersionProperties {
+export function giVersionPropertiesDeserializer(item: any): GiVersionProperties {
   return {
     version: item["version"],
   };
@@ -2819,9 +2708,7 @@ export interface _GiVersionListResult {
   nextLink?: string;
 }
 
-export function _giVersionListResultDeserializer(
-  item: any,
-): _GiVersionListResult {
+export function _giVersionListResultDeserializer(item: any): _GiVersionListResult {
   return {
     value: giVersionArrayDeserializer(item["value"]),
     nextLink: item["nextLink"],
@@ -2842,18 +2729,14 @@ export interface _GiMinorVersionListResult {
   nextLink?: string;
 }
 
-export function _giMinorVersionListResultDeserializer(
-  item: any,
-): _GiMinorVersionListResult {
+export function _giMinorVersionListResultDeserializer(item: any): _GiMinorVersionListResult {
   return {
     value: giMinorVersionArrayDeserializer(item["value"]),
     nextLink: item["nextLink"],
   };
 }
 
-export function giMinorVersionArrayDeserializer(
-  result: Array<GiMinorVersion>,
-): any[] {
+export function giMinorVersionArrayDeserializer(result: Array<GiMinorVersion>): any[] {
   return result.map((item) => {
     return giMinorVersionDeserializer(item);
   });
@@ -2887,9 +2770,7 @@ export interface GiMinorVersionProperties {
   gridImageOcid?: string;
 }
 
-export function giMinorVersionPropertiesDeserializer(
-  item: any,
-): GiMinorVersionProperties {
+export function giMinorVersionPropertiesDeserializer(item: any): GiMinorVersionProperties {
   return {
     version: item["version"],
     gridImageOcid: item["gridImageOcid"],
@@ -2968,9 +2849,7 @@ export interface DbSystemShapeProperties {
   displayName?: string;
 }
 
-export function dbSystemShapePropertiesDeserializer(
-  item: any,
-): DbSystemShapeProperties {
+export function dbSystemShapePropertiesDeserializer(item: any): DbSystemShapeProperties {
   return {
     shapeFamily: item["shapeFamily"],
     shapeName: item["shapeName"],
@@ -2980,8 +2859,7 @@ export function dbSystemShapePropertiesDeserializer(
     coreCountIncrement: item["coreCountIncrement"],
     minStorageCount: item["minStorageCount"],
     maxStorageCount: item["maxStorageCount"],
-    availableDataStoragePerServerInTbs:
-      item["availableDataStoragePerServerInTbs"],
+    availableDataStoragePerServerInTbs: item["availableDataStoragePerServerInTbs"],
     availableMemoryPerNodeInGbs: item["availableMemoryPerNodeInGbs"],
     availableDbNodePerNodeInGbs: item["availableDbNodePerNodeInGbs"],
     minCoreCountPerNode: item["minCoreCountPerNode"],
@@ -3008,18 +2886,14 @@ export interface _DbSystemShapeListResult {
   nextLink?: string;
 }
 
-export function _dbSystemShapeListResultDeserializer(
-  item: any,
-): _DbSystemShapeListResult {
+export function _dbSystemShapeListResultDeserializer(item: any): _DbSystemShapeListResult {
   return {
     value: dbSystemShapeArrayDeserializer(item["value"]),
     nextLink: item["nextLink"],
   };
 }
 
-export function dbSystemShapeArrayDeserializer(
-  result: Array<DbSystemShape>,
-): any[] {
+export function dbSystemShapeArrayDeserializer(result: Array<DbSystemShape>): any[] {
   return result.map((item) => {
     return dbSystemShapeDeserializer(item);
   });
@@ -3065,9 +2939,7 @@ export interface DnsPrivateViewProperties {
   readonly provisioningState?: ResourceProvisioningState;
 }
 
-export function dnsPrivateViewPropertiesDeserializer(
-  item: any,
-): DnsPrivateViewProperties {
+export function dnsPrivateViewPropertiesDeserializer(item: any): DnsPrivateViewProperties {
   return {
     ocid: item["ocid"],
     displayName: item["displayName"],
@@ -3112,18 +2984,14 @@ export interface _DnsPrivateViewListResult {
   nextLink?: string;
 }
 
-export function _dnsPrivateViewListResultDeserializer(
-  item: any,
-): _DnsPrivateViewListResult {
+export function _dnsPrivateViewListResultDeserializer(item: any): _DnsPrivateViewListResult {
   return {
     value: dnsPrivateViewArrayDeserializer(item["value"]),
     nextLink: item["nextLink"],
   };
 }
 
-export function dnsPrivateViewArrayDeserializer(
-  result: Array<DnsPrivateView>,
-): any[] {
+export function dnsPrivateViewArrayDeserializer(result: Array<DnsPrivateView>): any[] {
   return result.map((item) => {
     return dnsPrivateViewDeserializer(item);
   });
@@ -3173,9 +3041,7 @@ export interface DnsPrivateZoneProperties {
   readonly provisioningState?: ResourceProvisioningState;
 }
 
-export function dnsPrivateZonePropertiesDeserializer(
-  item: any,
-): DnsPrivateZoneProperties {
+export function dnsPrivateZonePropertiesDeserializer(item: any): DnsPrivateZoneProperties {
   return {
     ocid: item["ocid"],
     isProtected: item["isProtected"],
@@ -3243,18 +3109,14 @@ export interface _DnsPrivateZoneListResult {
   nextLink?: string;
 }
 
-export function _dnsPrivateZoneListResultDeserializer(
-  item: any,
-): _DnsPrivateZoneListResult {
+export function _dnsPrivateZoneListResultDeserializer(item: any): _DnsPrivateZoneListResult {
   return {
     value: dnsPrivateZoneArrayDeserializer(item["value"]),
     nextLink: item["nextLink"],
   };
 }
 
-export function dnsPrivateZoneArrayDeserializer(
-  result: Array<DnsPrivateZone>,
-): any[] {
+export function dnsPrivateZoneArrayDeserializer(result: Array<DnsPrivateZone>): any[] {
   return result.map((item) => {
     return dnsPrivateZoneDeserializer(item);
   });
@@ -3304,9 +3166,7 @@ export interface FlexComponentProperties {
   readonly descriptionSummary?: string;
 }
 
-export function flexComponentPropertiesDeserializer(
-  item: any,
-): FlexComponentProperties {
+export function flexComponentPropertiesDeserializer(item: any): FlexComponentProperties {
   return {
     minimumCoreCount: item["minimumCoreCount"],
     availableCoreCount: item["availableCoreCount"],
@@ -3347,18 +3207,14 @@ export interface _FlexComponentListResult {
   nextLink?: string;
 }
 
-export function _flexComponentListResultDeserializer(
-  item: any,
-): _FlexComponentListResult {
+export function _flexComponentListResultDeserializer(item: any): _FlexComponentListResult {
   return {
     value: flexComponentArrayDeserializer(item["value"]),
     nextLink: item["nextLink"],
   };
 }
 
-export function flexComponentArrayDeserializer(
-  result: Array<FlexComponent>,
-): any[] {
+export function flexComponentArrayDeserializer(result: Array<FlexComponent>): any[] {
   return result.map((item) => {
     return flexComponentDeserializer(item);
   });
@@ -3381,17 +3237,13 @@ export function _autonomousDatabaseListResultDeserializer(
   };
 }
 
-export function autonomousDatabaseArraySerializer(
-  result: Array<AutonomousDatabase>,
-): any[] {
+export function autonomousDatabaseArraySerializer(result: Array<AutonomousDatabase>): any[] {
   return result.map((item) => {
     return autonomousDatabaseSerializer(item);
   });
 }
 
-export function autonomousDatabaseArrayDeserializer(
-  result: Array<AutonomousDatabase>,
-): any[] {
+export function autonomousDatabaseArrayDeserializer(result: Array<AutonomousDatabase>): any[] {
   return result.map((item) => {
     return autonomousDatabaseDeserializer(item);
   });
@@ -3594,8 +3446,7 @@ export function autonomousDatabaseBasePropertiesSerializer(
   return {
     adminPassword: item["adminPassword"],
     dataBaseType: item["dataBaseType"],
-    autonomousMaintenanceScheduleType:
-      item["autonomousMaintenanceScheduleType"],
+    autonomousMaintenanceScheduleType: item["autonomousMaintenanceScheduleType"],
     characterSet: item["characterSet"],
     computeCount: item["computeCount"],
     computeModel: item["computeModel"],
@@ -3613,8 +3464,7 @@ export function autonomousDatabaseBasePropertiesSerializer(
     peerDbId: item["peerDbId"],
     isLocalDataGuardEnabled: item["isLocalDataGuardEnabled"],
     isMtlsConnectionRequired: item["isMtlsConnectionRequired"],
-    isPreviewVersionWithServiceTermsAccepted:
-      item["isPreviewVersionWithServiceTermsAccepted"],
+    isPreviewVersionWithServiceTermsAccepted: item["isPreviewVersionWithServiceTermsAccepted"],
     licenseModel: item["licenseModel"],
     ncharacterSet: item["ncharacterSet"],
     scheduledOperations: !item["scheduledOperations"]
@@ -3629,8 +3479,7 @@ export function autonomousDatabaseBasePropertiesSerializer(
     longTermBackupSchedule: !item["longTermBackupSchedule"]
       ? item["longTermBackupSchedule"]
       : longTermBackUpScheduleDetailsSerializer(item["longTermBackupSchedule"]),
-    localAdgAutoFailoverMaxDataLossLimit:
-      item["localAdgAutoFailoverMaxDataLossLimit"],
+    localAdgAutoFailoverMaxDataLossLimit: item["localAdgAutoFailoverMaxDataLossLimit"],
     openMode: item["openMode"],
     permissionLevel: item["permissionLevel"],
     role: item["role"],
@@ -3649,8 +3498,7 @@ export function autonomousDatabaseBasePropertiesDeserializer(
   return {
     adminPassword: item["adminPassword"],
     dataBaseType: item["dataBaseType"],
-    autonomousMaintenanceScheduleType:
-      item["autonomousMaintenanceScheduleType"],
+    autonomousMaintenanceScheduleType: item["autonomousMaintenanceScheduleType"],
     characterSet: item["characterSet"],
     computeCount: item["computeCount"],
     computeModel: item["computeModel"],
@@ -3677,9 +3525,7 @@ export function autonomousDatabaseBasePropertiesDeserializer(
     timeDisasterRecoveryRoleChanged: !item["timeDisasterRecoveryRoleChanged"]
       ? item["timeDisasterRecoveryRoleChanged"]
       : new Date(item["timeDisasterRecoveryRoleChanged"]),
-    remoteDisasterRecoveryConfiguration: !item[
-      "remoteDisasterRecoveryConfiguration"
-    ]
+    remoteDisasterRecoveryConfiguration: !item["remoteDisasterRecoveryConfiguration"]
       ? item["remoteDisasterRecoveryConfiguration"]
       : disasterRecoveryConfigurationDetailsDeserializer(
           item["remoteDisasterRecoveryConfiguration"],
@@ -3689,8 +3535,7 @@ export function autonomousDatabaseBasePropertiesDeserializer(
       : autonomousDatabaseStandbySummaryDeserializer(item["localStandbyDb"]),
     failedDataRecoveryInSeconds: item["failedDataRecoveryInSeconds"],
     isMtlsConnectionRequired: item["isMtlsConnectionRequired"],
-    isPreviewVersionWithServiceTermsAccepted:
-      item["isPreviewVersionWithServiceTermsAccepted"],
+    isPreviewVersionWithServiceTermsAccepted: item["isPreviewVersionWithServiceTermsAccepted"],
     licenseModel: item["licenseModel"],
     ncharacterSet: item["ncharacterSet"],
     lifecycleDetails: item["lifecycleDetails"],
@@ -3704,9 +3549,7 @@ export function autonomousDatabaseBasePropertiesDeserializer(
     ociUrl: item["ociUrl"],
     subnetId: item["subnetId"],
     vnetId: item["vnetId"],
-    timeCreated: !item["timeCreated"]
-      ? item["timeCreated"]
-      : new Date(item["timeCreated"]),
+    timeCreated: !item["timeCreated"] ? item["timeCreated"] : new Date(item["timeCreated"]),
     timeMaintenanceBegin: !item["timeMaintenanceBegin"]
       ? item["timeMaintenanceBegin"]
       : new Date(item["timeMaintenanceBegin"]),
@@ -3738,12 +3581,9 @@ export function autonomousDatabaseBasePropertiesDeserializer(
       : new Date(item["nextLongTermBackupTimeStamp"]),
     longTermBackupSchedule: !item["longTermBackupSchedule"]
       ? item["longTermBackupSchedule"]
-      : longTermBackUpScheduleDetailsDeserializer(
-          item["longTermBackupSchedule"],
-        ),
+      : longTermBackUpScheduleDetailsDeserializer(item["longTermBackupSchedule"]),
     isPreview: item["isPreview"],
-    localAdgAutoFailoverMaxDataLossLimit:
-      item["localAdgAutoFailoverMaxDataLossLimit"],
+    localAdgAutoFailoverMaxDataLossLimit: item["localAdgAutoFailoverMaxDataLossLimit"],
     memoryPerOracleComputeUnitInGbs: item["memoryPerOracleComputeUnitInGbs"],
     openMode: item["openMode"],
     operationsInsightsStatus: item["operationsInsightsStatus"],
@@ -3763,15 +3603,13 @@ export function autonomousDatabaseBasePropertiesDeserializer(
           return p;
         }),
     timeDataGuardRoleChanged: item["timeDataGuardRoleChanged"],
-    timeDeletionOfFreeAutonomousDatabase:
-      item["timeDeletionOfFreeAutonomousDatabase"],
+    timeDeletionOfFreeAutonomousDatabase: item["timeDeletionOfFreeAutonomousDatabase"],
     timeLocalDataGuardEnabled: item["timeLocalDataGuardEnabled"],
     timeOfLastFailover: item["timeOfLastFailover"],
     timeOfLastRefresh: item["timeOfLastRefresh"],
     timeOfLastRefreshPoint: item["timeOfLastRefreshPoint"],
     timeOfLastSwitchover: item["timeOfLastSwitchover"],
-    timeReclamationOfFreeAutonomousDatabase:
-      item["timeReclamationOfFreeAutonomousDatabase"],
+    timeReclamationOfFreeAutonomousDatabase: item["timeReclamationOfFreeAutonomousDatabase"],
     usedDataStorageSizeInGbs: item["usedDataStorageSizeInGbs"],
     usedDataStorageSizeInTbs: item["usedDataStorageSizeInTbs"],
     ocid: item["ocid"],
@@ -3797,14 +3635,10 @@ export function autonomousDatabaseBasePropertiesUnionSerializer(
 ): any {
   switch (item.dataBaseType) {
     case "Regular":
-      return autonomousDatabasePropertiesSerializer(
-        item as AutonomousDatabaseProperties,
-      );
+      return autonomousDatabasePropertiesSerializer(item as AutonomousDatabaseProperties);
 
     case "Clone":
-      return autonomousDatabaseClonePropertiesSerializer(
-        item as AutonomousDatabaseCloneProperties,
-      );
+      return autonomousDatabaseClonePropertiesSerializer(item as AutonomousDatabaseCloneProperties);
 
     case "CrossRegionDisasterRecovery":
       return autonomousDatabaseCrossRegionDisasterRecoveryPropertiesSerializer(
@@ -3826,9 +3660,7 @@ export function autonomousDatabaseBasePropertiesUnionDeserializer(
 ): AutonomousDatabaseBasePropertiesUnion {
   switch (item.dataBaseType) {
     case "Regular":
-      return autonomousDatabasePropertiesDeserializer(
-        item as AutonomousDatabaseProperties,
-      );
+      return autonomousDatabasePropertiesDeserializer(item as AutonomousDatabaseProperties);
 
     case "Clone":
       return autonomousDatabaseClonePropertiesDeserializer(
@@ -4083,9 +3915,7 @@ export interface ScheduledOperationsType {
   scheduledStopTime?: string;
 }
 
-export function scheduledOperationsTypeSerializer(
-  item: ScheduledOperationsType,
-): any {
+export function scheduledOperationsTypeSerializer(item: ScheduledOperationsType): any {
   return {
     dayOfWeek: dayOfWeekSerializer(item["dayOfWeek"]),
     scheduledStartTime: item["scheduledStartTime"],
@@ -4093,9 +3923,7 @@ export function scheduledOperationsTypeSerializer(
   };
 }
 
-export function scheduledOperationsTypeDeserializer(
-  item: any,
-): ScheduledOperationsType {
+export function scheduledOperationsTypeDeserializer(item: any): ScheduledOperationsType {
   return {
     dayOfWeek: dayOfWeekDeserializer(item["dayOfWeek"]),
     scheduledStartTime: item["scheduledStartTime"],
@@ -4134,9 +3962,7 @@ export interface ConnectionStringType {
   profiles?: ProfileType[];
 }
 
-export function connectionStringTypeDeserializer(
-  item: any,
-): ConnectionStringType {
+export function connectionStringTypeDeserializer(item: any): ConnectionStringType {
   return {
     allConnectionStrings: !item["allConnectionStrings"]
       ? item["allConnectionStrings"]
@@ -4145,9 +3971,7 @@ export function connectionStringTypeDeserializer(
     high: item["high"],
     low: item["low"],
     medium: item["medium"],
-    profiles: !item["profiles"]
-      ? item["profiles"]
-      : profileTypeArrayDeserializer(item["profiles"]),
+    profiles: !item["profiles"] ? item["profiles"] : profileTypeArrayDeserializer(item["profiles"]),
   };
 }
 
@@ -4161,9 +3985,7 @@ export interface AllConnectionStringType {
   medium?: string;
 }
 
-export function allConnectionStringTypeDeserializer(
-  item: any,
-): AllConnectionStringType {
+export function allConnectionStringTypeDeserializer(item: any): AllConnectionStringType {
   return {
     high: item["high"],
     low: item["low"],
@@ -4171,9 +3993,7 @@ export function allConnectionStringTypeDeserializer(
   };
 }
 
-export function profileTypeArrayDeserializer(
-  result: Array<ProfileType>,
-): any[] {
+export function profileTypeArrayDeserializer(result: Array<ProfileType>): any[] {
   return result.map((item) => {
     return profileTypeDeserializer(item);
   });
@@ -4422,14 +4242,10 @@ export interface LongTermBackUpScheduleDetails {
   isDisabled?: boolean;
 }
 
-export function longTermBackUpScheduleDetailsSerializer(
-  item: LongTermBackUpScheduleDetails,
-): any {
+export function longTermBackUpScheduleDetailsSerializer(item: LongTermBackUpScheduleDetails): any {
   return {
     repeatCadence: item["repeatCadence"],
-    timeOfBackup: !item["timeOfBackup"]
-      ? item["timeOfBackup"]
-      : item["timeOfBackup"].toISOString(),
+    timeOfBackup: !item["timeOfBackup"] ? item["timeOfBackup"] : item["timeOfBackup"].toISOString(),
     retentionPeriodInDays: item["retentionPeriodInDays"],
     isDisabled: item["isDisabled"],
   };
@@ -4440,9 +4256,7 @@ export function longTermBackUpScheduleDetailsDeserializer(
 ): LongTermBackUpScheduleDetails {
   return {
     repeatCadence: item["repeatCadence"],
-    timeOfBackup: !item["timeOfBackup"]
-      ? item["timeOfBackup"]
-      : new Date(item["timeOfBackup"]),
+    timeOfBackup: !item["timeOfBackup"] ? item["timeOfBackup"] : new Date(item["timeOfBackup"]),
     retentionPeriodInDays: item["retentionPeriodInDays"],
     isDisabled: item["isDisabled"],
   };
@@ -4566,20 +4380,16 @@ export enum KnownRoleType {
 export type RoleType = string;
 
 /** Autonomous Database resource model. */
-export interface AutonomousDatabaseProperties
-  extends AutonomousDatabaseBaseProperties {
+export interface AutonomousDatabaseProperties extends AutonomousDatabaseBaseProperties {
   /** Database type to be created. */
   dataBaseType: "Regular";
 }
 
-export function autonomousDatabasePropertiesSerializer(
-  item: AutonomousDatabaseProperties,
-): any {
+export function autonomousDatabasePropertiesSerializer(item: AutonomousDatabaseProperties): any {
   return {
     adminPassword: item["adminPassword"],
     dataBaseType: item["dataBaseType"],
-    autonomousMaintenanceScheduleType:
-      item["autonomousMaintenanceScheduleType"],
+    autonomousMaintenanceScheduleType: item["autonomousMaintenanceScheduleType"],
     characterSet: item["characterSet"],
     computeCount: item["computeCount"],
     computeModel: item["computeModel"],
@@ -4597,8 +4407,7 @@ export function autonomousDatabasePropertiesSerializer(
     peerDbId: item["peerDbId"],
     isLocalDataGuardEnabled: item["isLocalDataGuardEnabled"],
     isMtlsConnectionRequired: item["isMtlsConnectionRequired"],
-    isPreviewVersionWithServiceTermsAccepted:
-      item["isPreviewVersionWithServiceTermsAccepted"],
+    isPreviewVersionWithServiceTermsAccepted: item["isPreviewVersionWithServiceTermsAccepted"],
     licenseModel: item["licenseModel"],
     ncharacterSet: item["ncharacterSet"],
     scheduledOperations: !item["scheduledOperations"]
@@ -4613,8 +4422,7 @@ export function autonomousDatabasePropertiesSerializer(
     longTermBackupSchedule: !item["longTermBackupSchedule"]
       ? item["longTermBackupSchedule"]
       : longTermBackUpScheduleDetailsSerializer(item["longTermBackupSchedule"]),
-    localAdgAutoFailoverMaxDataLossLimit:
-      item["localAdgAutoFailoverMaxDataLossLimit"],
+    localAdgAutoFailoverMaxDataLossLimit: item["localAdgAutoFailoverMaxDataLossLimit"],
     openMode: item["openMode"],
     permissionLevel: item["permissionLevel"],
     role: item["role"],
@@ -4627,14 +4435,11 @@ export function autonomousDatabasePropertiesSerializer(
   };
 }
 
-export function autonomousDatabasePropertiesDeserializer(
-  item: any,
-): AutonomousDatabaseProperties {
+export function autonomousDatabasePropertiesDeserializer(item: any): AutonomousDatabaseProperties {
   return {
     adminPassword: item["adminPassword"],
     dataBaseType: item["dataBaseType"],
-    autonomousMaintenanceScheduleType:
-      item["autonomousMaintenanceScheduleType"],
+    autonomousMaintenanceScheduleType: item["autonomousMaintenanceScheduleType"],
     characterSet: item["characterSet"],
     computeCount: item["computeCount"],
     computeModel: item["computeModel"],
@@ -4661,9 +4466,7 @@ export function autonomousDatabasePropertiesDeserializer(
     timeDisasterRecoveryRoleChanged: !item["timeDisasterRecoveryRoleChanged"]
       ? item["timeDisasterRecoveryRoleChanged"]
       : new Date(item["timeDisasterRecoveryRoleChanged"]),
-    remoteDisasterRecoveryConfiguration: !item[
-      "remoteDisasterRecoveryConfiguration"
-    ]
+    remoteDisasterRecoveryConfiguration: !item["remoteDisasterRecoveryConfiguration"]
       ? item["remoteDisasterRecoveryConfiguration"]
       : disasterRecoveryConfigurationDetailsDeserializer(
           item["remoteDisasterRecoveryConfiguration"],
@@ -4673,8 +4476,7 @@ export function autonomousDatabasePropertiesDeserializer(
       : autonomousDatabaseStandbySummaryDeserializer(item["localStandbyDb"]),
     failedDataRecoveryInSeconds: item["failedDataRecoveryInSeconds"],
     isMtlsConnectionRequired: item["isMtlsConnectionRequired"],
-    isPreviewVersionWithServiceTermsAccepted:
-      item["isPreviewVersionWithServiceTermsAccepted"],
+    isPreviewVersionWithServiceTermsAccepted: item["isPreviewVersionWithServiceTermsAccepted"],
     licenseModel: item["licenseModel"],
     ncharacterSet: item["ncharacterSet"],
     lifecycleDetails: item["lifecycleDetails"],
@@ -4688,9 +4490,7 @@ export function autonomousDatabasePropertiesDeserializer(
     ociUrl: item["ociUrl"],
     subnetId: item["subnetId"],
     vnetId: item["vnetId"],
-    timeCreated: !item["timeCreated"]
-      ? item["timeCreated"]
-      : new Date(item["timeCreated"]),
+    timeCreated: !item["timeCreated"] ? item["timeCreated"] : new Date(item["timeCreated"]),
     timeMaintenanceBegin: !item["timeMaintenanceBegin"]
       ? item["timeMaintenanceBegin"]
       : new Date(item["timeMaintenanceBegin"]),
@@ -4722,12 +4522,9 @@ export function autonomousDatabasePropertiesDeserializer(
       : new Date(item["nextLongTermBackupTimeStamp"]),
     longTermBackupSchedule: !item["longTermBackupSchedule"]
       ? item["longTermBackupSchedule"]
-      : longTermBackUpScheduleDetailsDeserializer(
-          item["longTermBackupSchedule"],
-        ),
+      : longTermBackUpScheduleDetailsDeserializer(item["longTermBackupSchedule"]),
     isPreview: item["isPreview"],
-    localAdgAutoFailoverMaxDataLossLimit:
-      item["localAdgAutoFailoverMaxDataLossLimit"],
+    localAdgAutoFailoverMaxDataLossLimit: item["localAdgAutoFailoverMaxDataLossLimit"],
     memoryPerOracleComputeUnitInGbs: item["memoryPerOracleComputeUnitInGbs"],
     openMode: item["openMode"],
     operationsInsightsStatus: item["operationsInsightsStatus"],
@@ -4747,15 +4544,13 @@ export function autonomousDatabasePropertiesDeserializer(
           return p;
         }),
     timeDataGuardRoleChanged: item["timeDataGuardRoleChanged"],
-    timeDeletionOfFreeAutonomousDatabase:
-      item["timeDeletionOfFreeAutonomousDatabase"],
+    timeDeletionOfFreeAutonomousDatabase: item["timeDeletionOfFreeAutonomousDatabase"],
     timeLocalDataGuardEnabled: item["timeLocalDataGuardEnabled"],
     timeOfLastFailover: item["timeOfLastFailover"],
     timeOfLastRefresh: item["timeOfLastRefresh"],
     timeOfLastRefreshPoint: item["timeOfLastRefreshPoint"],
     timeOfLastSwitchover: item["timeOfLastSwitchover"],
-    timeReclamationOfFreeAutonomousDatabase:
-      item["timeReclamationOfFreeAutonomousDatabase"],
+    timeReclamationOfFreeAutonomousDatabase: item["timeReclamationOfFreeAutonomousDatabase"],
     usedDataStorageSizeInGbs: item["usedDataStorageSizeInGbs"],
     usedDataStorageSizeInTbs: item["usedDataStorageSizeInTbs"],
     ocid: item["ocid"],
@@ -4769,8 +4564,7 @@ export function autonomousDatabasePropertiesDeserializer(
 }
 
 /** Autonomous Database clone resource model. */
-export interface AutonomousDatabaseCloneProperties
-  extends AutonomousDatabaseBaseProperties {
+export interface AutonomousDatabaseCloneProperties extends AutonomousDatabaseBaseProperties {
   /** Database type to be created. */
   dataBaseType: "Clone";
   /** The source of the database. */
@@ -4797,8 +4591,7 @@ export function autonomousDatabaseClonePropertiesSerializer(
   return {
     adminPassword: item["adminPassword"],
     dataBaseType: item["dataBaseType"],
-    autonomousMaintenanceScheduleType:
-      item["autonomousMaintenanceScheduleType"],
+    autonomousMaintenanceScheduleType: item["autonomousMaintenanceScheduleType"],
     characterSet: item["characterSet"],
     computeCount: item["computeCount"],
     computeModel: item["computeModel"],
@@ -4816,8 +4609,7 @@ export function autonomousDatabaseClonePropertiesSerializer(
     peerDbId: item["peerDbId"],
     isLocalDataGuardEnabled: item["isLocalDataGuardEnabled"],
     isMtlsConnectionRequired: item["isMtlsConnectionRequired"],
-    isPreviewVersionWithServiceTermsAccepted:
-      item["isPreviewVersionWithServiceTermsAccepted"],
+    isPreviewVersionWithServiceTermsAccepted: item["isPreviewVersionWithServiceTermsAccepted"],
     licenseModel: item["licenseModel"],
     ncharacterSet: item["ncharacterSet"],
     scheduledOperations: !item["scheduledOperations"]
@@ -4832,8 +4624,7 @@ export function autonomousDatabaseClonePropertiesSerializer(
     longTermBackupSchedule: !item["longTermBackupSchedule"]
       ? item["longTermBackupSchedule"]
       : longTermBackUpScheduleDetailsSerializer(item["longTermBackupSchedule"]),
-    localAdgAutoFailoverMaxDataLossLimit:
-      item["localAdgAutoFailoverMaxDataLossLimit"],
+    localAdgAutoFailoverMaxDataLossLimit: item["localAdgAutoFailoverMaxDataLossLimit"],
     openMode: item["openMode"],
     permissionLevel: item["permissionLevel"],
     role: item["role"],
@@ -4857,8 +4648,7 @@ export function autonomousDatabaseClonePropertiesDeserializer(
   return {
     adminPassword: item["adminPassword"],
     dataBaseType: item["dataBaseType"],
-    autonomousMaintenanceScheduleType:
-      item["autonomousMaintenanceScheduleType"],
+    autonomousMaintenanceScheduleType: item["autonomousMaintenanceScheduleType"],
     characterSet: item["characterSet"],
     computeCount: item["computeCount"],
     computeModel: item["computeModel"],
@@ -4885,9 +4675,7 @@ export function autonomousDatabaseClonePropertiesDeserializer(
     timeDisasterRecoveryRoleChanged: !item["timeDisasterRecoveryRoleChanged"]
       ? item["timeDisasterRecoveryRoleChanged"]
       : new Date(item["timeDisasterRecoveryRoleChanged"]),
-    remoteDisasterRecoveryConfiguration: !item[
-      "remoteDisasterRecoveryConfiguration"
-    ]
+    remoteDisasterRecoveryConfiguration: !item["remoteDisasterRecoveryConfiguration"]
       ? item["remoteDisasterRecoveryConfiguration"]
       : disasterRecoveryConfigurationDetailsDeserializer(
           item["remoteDisasterRecoveryConfiguration"],
@@ -4897,8 +4685,7 @@ export function autonomousDatabaseClonePropertiesDeserializer(
       : autonomousDatabaseStandbySummaryDeserializer(item["localStandbyDb"]),
     failedDataRecoveryInSeconds: item["failedDataRecoveryInSeconds"],
     isMtlsConnectionRequired: item["isMtlsConnectionRequired"],
-    isPreviewVersionWithServiceTermsAccepted:
-      item["isPreviewVersionWithServiceTermsAccepted"],
+    isPreviewVersionWithServiceTermsAccepted: item["isPreviewVersionWithServiceTermsAccepted"],
     licenseModel: item["licenseModel"],
     ncharacterSet: item["ncharacterSet"],
     lifecycleDetails: item["lifecycleDetails"],
@@ -4912,9 +4699,7 @@ export function autonomousDatabaseClonePropertiesDeserializer(
     ociUrl: item["ociUrl"],
     subnetId: item["subnetId"],
     vnetId: item["vnetId"],
-    timeCreated: !item["timeCreated"]
-      ? item["timeCreated"]
-      : new Date(item["timeCreated"]),
+    timeCreated: !item["timeCreated"] ? item["timeCreated"] : new Date(item["timeCreated"]),
     timeMaintenanceBegin: !item["timeMaintenanceBegin"]
       ? item["timeMaintenanceBegin"]
       : new Date(item["timeMaintenanceBegin"]),
@@ -4946,12 +4731,9 @@ export function autonomousDatabaseClonePropertiesDeserializer(
       : new Date(item["nextLongTermBackupTimeStamp"]),
     longTermBackupSchedule: !item["longTermBackupSchedule"]
       ? item["longTermBackupSchedule"]
-      : longTermBackUpScheduleDetailsDeserializer(
-          item["longTermBackupSchedule"],
-        ),
+      : longTermBackUpScheduleDetailsDeserializer(item["longTermBackupSchedule"]),
     isPreview: item["isPreview"],
-    localAdgAutoFailoverMaxDataLossLimit:
-      item["localAdgAutoFailoverMaxDataLossLimit"],
+    localAdgAutoFailoverMaxDataLossLimit: item["localAdgAutoFailoverMaxDataLossLimit"],
     memoryPerOracleComputeUnitInGbs: item["memoryPerOracleComputeUnitInGbs"],
     openMode: item["openMode"],
     operationsInsightsStatus: item["operationsInsightsStatus"],
@@ -4971,15 +4753,13 @@ export function autonomousDatabaseClonePropertiesDeserializer(
           return p;
         }),
     timeDataGuardRoleChanged: item["timeDataGuardRoleChanged"],
-    timeDeletionOfFreeAutonomousDatabase:
-      item["timeDeletionOfFreeAutonomousDatabase"],
+    timeDeletionOfFreeAutonomousDatabase: item["timeDeletionOfFreeAutonomousDatabase"],
     timeLocalDataGuardEnabled: item["timeLocalDataGuardEnabled"],
     timeOfLastFailover: item["timeOfLastFailover"],
     timeOfLastRefresh: item["timeOfLastRefresh"],
     timeOfLastRefreshPoint: item["timeOfLastRefreshPoint"],
     timeOfLastSwitchover: item["timeOfLastSwitchover"],
-    timeReclamationOfFreeAutonomousDatabase:
-      item["timeReclamationOfFreeAutonomousDatabase"],
+    timeReclamationOfFreeAutonomousDatabase: item["timeReclamationOfFreeAutonomousDatabase"],
     usedDataStorageSizeInGbs: item["usedDataStorageSizeInGbs"],
     usedDataStorageSizeInTbs: item["usedDataStorageSizeInTbs"],
     ocid: item["ocid"],
@@ -5112,8 +4892,7 @@ export function autonomousDatabaseCrossRegionDisasterRecoveryPropertiesSerialize
   return {
     adminPassword: item["adminPassword"],
     dataBaseType: item["dataBaseType"],
-    autonomousMaintenanceScheduleType:
-      item["autonomousMaintenanceScheduleType"],
+    autonomousMaintenanceScheduleType: item["autonomousMaintenanceScheduleType"],
     characterSet: item["characterSet"],
     computeCount: item["computeCount"],
     computeModel: item["computeModel"],
@@ -5131,8 +4910,7 @@ export function autonomousDatabaseCrossRegionDisasterRecoveryPropertiesSerialize
     peerDbId: item["peerDbId"],
     isLocalDataGuardEnabled: item["isLocalDataGuardEnabled"],
     isMtlsConnectionRequired: item["isMtlsConnectionRequired"],
-    isPreviewVersionWithServiceTermsAccepted:
-      item["isPreviewVersionWithServiceTermsAccepted"],
+    isPreviewVersionWithServiceTermsAccepted: item["isPreviewVersionWithServiceTermsAccepted"],
     licenseModel: item["licenseModel"],
     ncharacterSet: item["ncharacterSet"],
     scheduledOperations: !item["scheduledOperations"]
@@ -5147,8 +4925,7 @@ export function autonomousDatabaseCrossRegionDisasterRecoveryPropertiesSerialize
     longTermBackupSchedule: !item["longTermBackupSchedule"]
       ? item["longTermBackupSchedule"]
       : longTermBackUpScheduleDetailsSerializer(item["longTermBackupSchedule"]),
-    localAdgAutoFailoverMaxDataLossLimit:
-      item["localAdgAutoFailoverMaxDataLossLimit"],
+    localAdgAutoFailoverMaxDataLossLimit: item["localAdgAutoFailoverMaxDataLossLimit"],
     openMode: item["openMode"],
     permissionLevel: item["permissionLevel"],
     role: item["role"],
@@ -5173,8 +4950,7 @@ export function autonomousDatabaseCrossRegionDisasterRecoveryPropertiesDeseriali
   return {
     adminPassword: item["adminPassword"],
     dataBaseType: item["dataBaseType"],
-    autonomousMaintenanceScheduleType:
-      item["autonomousMaintenanceScheduleType"],
+    autonomousMaintenanceScheduleType: item["autonomousMaintenanceScheduleType"],
     characterSet: item["characterSet"],
     computeCount: item["computeCount"],
     computeModel: item["computeModel"],
@@ -5201,9 +4977,7 @@ export function autonomousDatabaseCrossRegionDisasterRecoveryPropertiesDeseriali
     timeDisasterRecoveryRoleChanged: !item["timeDisasterRecoveryRoleChanged"]
       ? item["timeDisasterRecoveryRoleChanged"]
       : new Date(item["timeDisasterRecoveryRoleChanged"]),
-    remoteDisasterRecoveryConfiguration: !item[
-      "remoteDisasterRecoveryConfiguration"
-    ]
+    remoteDisasterRecoveryConfiguration: !item["remoteDisasterRecoveryConfiguration"]
       ? item["remoteDisasterRecoveryConfiguration"]
       : disasterRecoveryConfigurationDetailsDeserializer(
           item["remoteDisasterRecoveryConfiguration"],
@@ -5213,8 +4987,7 @@ export function autonomousDatabaseCrossRegionDisasterRecoveryPropertiesDeseriali
       : autonomousDatabaseStandbySummaryDeserializer(item["localStandbyDb"]),
     failedDataRecoveryInSeconds: item["failedDataRecoveryInSeconds"],
     isMtlsConnectionRequired: item["isMtlsConnectionRequired"],
-    isPreviewVersionWithServiceTermsAccepted:
-      item["isPreviewVersionWithServiceTermsAccepted"],
+    isPreviewVersionWithServiceTermsAccepted: item["isPreviewVersionWithServiceTermsAccepted"],
     licenseModel: item["licenseModel"],
     ncharacterSet: item["ncharacterSet"],
     lifecycleDetails: item["lifecycleDetails"],
@@ -5228,9 +5001,7 @@ export function autonomousDatabaseCrossRegionDisasterRecoveryPropertiesDeseriali
     ociUrl: item["ociUrl"],
     subnetId: item["subnetId"],
     vnetId: item["vnetId"],
-    timeCreated: !item["timeCreated"]
-      ? item["timeCreated"]
-      : new Date(item["timeCreated"]),
+    timeCreated: !item["timeCreated"] ? item["timeCreated"] : new Date(item["timeCreated"]),
     timeMaintenanceBegin: !item["timeMaintenanceBegin"]
       ? item["timeMaintenanceBegin"]
       : new Date(item["timeMaintenanceBegin"]),
@@ -5262,12 +5033,9 @@ export function autonomousDatabaseCrossRegionDisasterRecoveryPropertiesDeseriali
       : new Date(item["nextLongTermBackupTimeStamp"]),
     longTermBackupSchedule: !item["longTermBackupSchedule"]
       ? item["longTermBackupSchedule"]
-      : longTermBackUpScheduleDetailsDeserializer(
-          item["longTermBackupSchedule"],
-        ),
+      : longTermBackUpScheduleDetailsDeserializer(item["longTermBackupSchedule"]),
     isPreview: item["isPreview"],
-    localAdgAutoFailoverMaxDataLossLimit:
-      item["localAdgAutoFailoverMaxDataLossLimit"],
+    localAdgAutoFailoverMaxDataLossLimit: item["localAdgAutoFailoverMaxDataLossLimit"],
     memoryPerOracleComputeUnitInGbs: item["memoryPerOracleComputeUnitInGbs"],
     openMode: item["openMode"],
     operationsInsightsStatus: item["operationsInsightsStatus"],
@@ -5287,15 +5055,13 @@ export function autonomousDatabaseCrossRegionDisasterRecoveryPropertiesDeseriali
           return p;
         }),
     timeDataGuardRoleChanged: item["timeDataGuardRoleChanged"],
-    timeDeletionOfFreeAutonomousDatabase:
-      item["timeDeletionOfFreeAutonomousDatabase"],
+    timeDeletionOfFreeAutonomousDatabase: item["timeDeletionOfFreeAutonomousDatabase"],
     timeLocalDataGuardEnabled: item["timeLocalDataGuardEnabled"],
     timeOfLastFailover: item["timeOfLastFailover"],
     timeOfLastRefresh: item["timeOfLastRefresh"],
     timeOfLastRefreshPoint: item["timeOfLastRefreshPoint"],
     timeOfLastSwitchover: item["timeOfLastSwitchover"],
-    timeReclamationOfFreeAutonomousDatabase:
-      item["timeReclamationOfFreeAutonomousDatabase"],
+    timeReclamationOfFreeAutonomousDatabase: item["timeReclamationOfFreeAutonomousDatabase"],
     usedDataStorageSizeInGbs: item["usedDataStorageSizeInGbs"],
     usedDataStorageSizeInTbs: item["usedDataStorageSizeInTbs"],
     ocid: item["ocid"],
@@ -5337,8 +5103,7 @@ export function autonomousDatabaseFromBackupTimestampPropertiesSerializer(
   return {
     adminPassword: item["adminPassword"],
     dataBaseType: item["dataBaseType"],
-    autonomousMaintenanceScheduleType:
-      item["autonomousMaintenanceScheduleType"],
+    autonomousMaintenanceScheduleType: item["autonomousMaintenanceScheduleType"],
     characterSet: item["characterSet"],
     computeCount: item["computeCount"],
     computeModel: item["computeModel"],
@@ -5356,8 +5121,7 @@ export function autonomousDatabaseFromBackupTimestampPropertiesSerializer(
     peerDbId: item["peerDbId"],
     isLocalDataGuardEnabled: item["isLocalDataGuardEnabled"],
     isMtlsConnectionRequired: item["isMtlsConnectionRequired"],
-    isPreviewVersionWithServiceTermsAccepted:
-      item["isPreviewVersionWithServiceTermsAccepted"],
+    isPreviewVersionWithServiceTermsAccepted: item["isPreviewVersionWithServiceTermsAccepted"],
     licenseModel: item["licenseModel"],
     ncharacterSet: item["ncharacterSet"],
     scheduledOperations: !item["scheduledOperations"]
@@ -5372,8 +5136,7 @@ export function autonomousDatabaseFromBackupTimestampPropertiesSerializer(
     longTermBackupSchedule: !item["longTermBackupSchedule"]
       ? item["longTermBackupSchedule"]
       : longTermBackUpScheduleDetailsSerializer(item["longTermBackupSchedule"]),
-    localAdgAutoFailoverMaxDataLossLimit:
-      item["localAdgAutoFailoverMaxDataLossLimit"],
+    localAdgAutoFailoverMaxDataLossLimit: item["localAdgAutoFailoverMaxDataLossLimit"],
     openMode: item["openMode"],
     permissionLevel: item["permissionLevel"],
     role: item["role"],
@@ -5386,11 +5149,8 @@ export function autonomousDatabaseFromBackupTimestampPropertiesSerializer(
     source: item["source"],
     sourceId: item["sourceId"],
     cloneType: item["cloneType"],
-    timestamp: !item["timestamp"]
-      ? item["timestamp"]
-      : item["timestamp"].toISOString(),
-    useLatestAvailableBackupTimeStamp:
-      item["useLatestAvailableBackupTimeStamp"],
+    timestamp: !item["timestamp"] ? item["timestamp"] : item["timestamp"].toISOString(),
+    useLatestAvailableBackupTimeStamp: item["useLatestAvailableBackupTimeStamp"],
   };
 }
 
@@ -5400,8 +5160,7 @@ export function autonomousDatabaseFromBackupTimestampPropertiesDeserializer(
   return {
     adminPassword: item["adminPassword"],
     dataBaseType: item["dataBaseType"],
-    autonomousMaintenanceScheduleType:
-      item["autonomousMaintenanceScheduleType"],
+    autonomousMaintenanceScheduleType: item["autonomousMaintenanceScheduleType"],
     characterSet: item["characterSet"],
     computeCount: item["computeCount"],
     computeModel: item["computeModel"],
@@ -5428,9 +5187,7 @@ export function autonomousDatabaseFromBackupTimestampPropertiesDeserializer(
     timeDisasterRecoveryRoleChanged: !item["timeDisasterRecoveryRoleChanged"]
       ? item["timeDisasterRecoveryRoleChanged"]
       : new Date(item["timeDisasterRecoveryRoleChanged"]),
-    remoteDisasterRecoveryConfiguration: !item[
-      "remoteDisasterRecoveryConfiguration"
-    ]
+    remoteDisasterRecoveryConfiguration: !item["remoteDisasterRecoveryConfiguration"]
       ? item["remoteDisasterRecoveryConfiguration"]
       : disasterRecoveryConfigurationDetailsDeserializer(
           item["remoteDisasterRecoveryConfiguration"],
@@ -5440,8 +5197,7 @@ export function autonomousDatabaseFromBackupTimestampPropertiesDeserializer(
       : autonomousDatabaseStandbySummaryDeserializer(item["localStandbyDb"]),
     failedDataRecoveryInSeconds: item["failedDataRecoveryInSeconds"],
     isMtlsConnectionRequired: item["isMtlsConnectionRequired"],
-    isPreviewVersionWithServiceTermsAccepted:
-      item["isPreviewVersionWithServiceTermsAccepted"],
+    isPreviewVersionWithServiceTermsAccepted: item["isPreviewVersionWithServiceTermsAccepted"],
     licenseModel: item["licenseModel"],
     ncharacterSet: item["ncharacterSet"],
     lifecycleDetails: item["lifecycleDetails"],
@@ -5455,9 +5211,7 @@ export function autonomousDatabaseFromBackupTimestampPropertiesDeserializer(
     ociUrl: item["ociUrl"],
     subnetId: item["subnetId"],
     vnetId: item["vnetId"],
-    timeCreated: !item["timeCreated"]
-      ? item["timeCreated"]
-      : new Date(item["timeCreated"]),
+    timeCreated: !item["timeCreated"] ? item["timeCreated"] : new Date(item["timeCreated"]),
     timeMaintenanceBegin: !item["timeMaintenanceBegin"]
       ? item["timeMaintenanceBegin"]
       : new Date(item["timeMaintenanceBegin"]),
@@ -5489,12 +5243,9 @@ export function autonomousDatabaseFromBackupTimestampPropertiesDeserializer(
       : new Date(item["nextLongTermBackupTimeStamp"]),
     longTermBackupSchedule: !item["longTermBackupSchedule"]
       ? item["longTermBackupSchedule"]
-      : longTermBackUpScheduleDetailsDeserializer(
-          item["longTermBackupSchedule"],
-        ),
+      : longTermBackUpScheduleDetailsDeserializer(item["longTermBackupSchedule"]),
     isPreview: item["isPreview"],
-    localAdgAutoFailoverMaxDataLossLimit:
-      item["localAdgAutoFailoverMaxDataLossLimit"],
+    localAdgAutoFailoverMaxDataLossLimit: item["localAdgAutoFailoverMaxDataLossLimit"],
     memoryPerOracleComputeUnitInGbs: item["memoryPerOracleComputeUnitInGbs"],
     openMode: item["openMode"],
     operationsInsightsStatus: item["operationsInsightsStatus"],
@@ -5514,15 +5265,13 @@ export function autonomousDatabaseFromBackupTimestampPropertiesDeserializer(
           return p;
         }),
     timeDataGuardRoleChanged: item["timeDataGuardRoleChanged"],
-    timeDeletionOfFreeAutonomousDatabase:
-      item["timeDeletionOfFreeAutonomousDatabase"],
+    timeDeletionOfFreeAutonomousDatabase: item["timeDeletionOfFreeAutonomousDatabase"],
     timeLocalDataGuardEnabled: item["timeLocalDataGuardEnabled"],
     timeOfLastFailover: item["timeOfLastFailover"],
     timeOfLastRefresh: item["timeOfLastRefresh"],
     timeOfLastRefreshPoint: item["timeOfLastRefreshPoint"],
     timeOfLastSwitchover: item["timeOfLastSwitchover"],
-    timeReclamationOfFreeAutonomousDatabase:
-      item["timeReclamationOfFreeAutonomousDatabase"],
+    timeReclamationOfFreeAutonomousDatabase: item["timeReclamationOfFreeAutonomousDatabase"],
     usedDataStorageSizeInGbs: item["usedDataStorageSizeInGbs"],
     usedDataStorageSizeInTbs: item["usedDataStorageSizeInTbs"],
     ocid: item["ocid"],
@@ -5535,11 +5284,8 @@ export function autonomousDatabaseFromBackupTimestampPropertiesDeserializer(
     source: item["source"],
     sourceId: item["sourceId"],
     cloneType: item["cloneType"],
-    timestamp: !item["timestamp"]
-      ? item["timestamp"]
-      : new Date(item["timestamp"]),
-    useLatestAvailableBackupTimeStamp:
-      item["useLatestAvailableBackupTimeStamp"],
+    timestamp: !item["timestamp"] ? item["timestamp"] : new Date(item["timestamp"]),
+    useLatestAvailableBackupTimeStamp: item["useLatestAvailableBackupTimeStamp"],
   };
 }
 
@@ -5551,9 +5297,7 @@ export interface AutonomousDatabaseUpdate {
   properties?: AutonomousDatabaseUpdateProperties;
 }
 
-export function autonomousDatabaseUpdateSerializer(
-  item: AutonomousDatabaseUpdate,
-): any {
+export function autonomousDatabaseUpdateSerializer(item: AutonomousDatabaseUpdate): any {
   return {
     tags: item["tags"],
     properties: !item["properties"]
@@ -5617,8 +5361,7 @@ export function autonomousDatabaseUpdatePropertiesSerializer(
 ): any {
   return {
     adminPassword: item["adminPassword"],
-    autonomousMaintenanceScheduleType:
-      item["autonomousMaintenanceScheduleType"],
+    autonomousMaintenanceScheduleType: item["autonomousMaintenanceScheduleType"],
     computeCount: item["computeCount"],
     cpuCoreCount: item["cpuCoreCount"],
     customerContacts: !item["customerContacts"]
@@ -5640,8 +5383,7 @@ export function autonomousDatabaseUpdatePropertiesSerializer(
     longTermBackupSchedule: !item["longTermBackupSchedule"]
       ? item["longTermBackupSchedule"]
       : longTermBackUpScheduleDetailsSerializer(item["longTermBackupSchedule"]),
-    localAdgAutoFailoverMaxDataLossLimit:
-      item["localAdgAutoFailoverMaxDataLossLimit"],
+    localAdgAutoFailoverMaxDataLossLimit: item["localAdgAutoFailoverMaxDataLossLimit"],
     openMode: item["openMode"],
     permissionLevel: item["permissionLevel"],
     role: item["role"],
@@ -5664,9 +5406,7 @@ export interface ScheduledOperationsTypeUpdate {
   scheduledStopTime?: string;
 }
 
-export function scheduledOperationsTypeUpdateSerializer(
-  item: ScheduledOperationsTypeUpdate,
-): any {
+export function scheduledOperationsTypeUpdateSerializer(item: ScheduledOperationsTypeUpdate): any {
   return {
     dayOfWeek: dayOfWeekUpdateSerializer(item["dayOfWeek"]),
     scheduledStartTime: item["scheduledStartTime"],
@@ -5746,9 +5486,7 @@ export interface AutonomousDatabaseWalletFile {
   walletFiles: string;
 }
 
-export function autonomousDatabaseWalletFileDeserializer(
-  item: any,
-): AutonomousDatabaseWalletFile {
+export function autonomousDatabaseWalletFileDeserializer(item: any): AutonomousDatabaseWalletFile {
   return {
     walletFiles: item["walletFiles"],
   };
@@ -5772,9 +5510,7 @@ export interface AutonomousDatabaseBackup extends ProxyResource {
   properties?: AutonomousDatabaseBackupProperties;
 }
 
-export function autonomousDatabaseBackupSerializer(
-  item: AutonomousDatabaseBackup,
-): any {
+export function autonomousDatabaseBackupSerializer(item: AutonomousDatabaseBackup): any {
   return {
     properties: !item["properties"]
       ? item["properties"]
@@ -5782,9 +5518,7 @@ export function autonomousDatabaseBackupSerializer(
   };
 }
 
-export function autonomousDatabaseBackupDeserializer(
-  item: any,
-): AutonomousDatabaseBackup {
+export function autonomousDatabaseBackupDeserializer(item: any): AutonomousDatabaseBackup {
   return {
     id: item["id"],
     name: item["name"],
@@ -5995,9 +5729,7 @@ export function autonomousDatabaseCharacterSetDeserializer(
       : systemDataDeserializer(item["systemData"]),
     properties: !item["properties"]
       ? item["properties"]
-      : autonomousDatabaseCharacterSetPropertiesDeserializer(
-          item["properties"],
-        ),
+      : autonomousDatabaseCharacterSetPropertiesDeserializer(item["properties"]),
   };
 }
 
@@ -6058,9 +5790,7 @@ export function autonomousDatabaseNationalCharacterSetDeserializer(
       : systemDataDeserializer(item["systemData"]),
     properties: !item["properties"]
       ? item["properties"]
-      : autonomousDatabaseNationalCharacterSetPropertiesDeserializer(
-          item["properties"],
-        ),
+      : autonomousDatabaseNationalCharacterSetPropertiesDeserializer(item["properties"]),
   };
 }
 
@@ -6090,9 +5820,7 @@ export function _autonomousDatabaseNationalCharacterSetListResultDeserializer(
   item: any,
 ): _AutonomousDatabaseNationalCharacterSetListResult {
   return {
-    value: autonomousDatabaseNationalCharacterSetArrayDeserializer(
-      item["value"],
-    ),
+    value: autonomousDatabaseNationalCharacterSetArrayDeserializer(item["value"]),
     nextLink: item["nextLink"],
   };
 }
@@ -6111,9 +5839,7 @@ export interface AutonomousDbVersion extends ProxyResource {
   properties?: AutonomousDbVersionProperties;
 }
 
-export function autonomousDbVersionDeserializer(
-  item: any,
-): AutonomousDbVersion {
+export function autonomousDbVersionDeserializer(item: any): AutonomousDbVersion {
   return {
     id: item["id"],
     name: item["name"],
@@ -6173,9 +5899,7 @@ export function _autonomousDbVersionListResultDeserializer(
   };
 }
 
-export function autonomousDbVersionArrayDeserializer(
-  result: Array<AutonomousDbVersion>,
-): any[] {
+export function autonomousDbVersionArrayDeserializer(result: Array<AutonomousDbVersion>): any[] {
   return result.map((item) => {
     return autonomousDbVersionDeserializer(item);
   });
@@ -6189,26 +5913,20 @@ export interface _ExadbVmClusterListResult {
   nextLink?: string;
 }
 
-export function _exadbVmClusterListResultDeserializer(
-  item: any,
-): _ExadbVmClusterListResult {
+export function _exadbVmClusterListResultDeserializer(item: any): _ExadbVmClusterListResult {
   return {
     value: exadbVmClusterArrayDeserializer(item["value"]),
     nextLink: item["nextLink"],
   };
 }
 
-export function exadbVmClusterArraySerializer(
-  result: Array<ExadbVmCluster>,
-): any[] {
+export function exadbVmClusterArraySerializer(result: Array<ExadbVmCluster>): any[] {
   return result.map((item) => {
     return exadbVmClusterSerializer(item);
   });
 }
 
-export function exadbVmClusterArrayDeserializer(
-  result: Array<ExadbVmCluster>,
-): any[] {
+export function exadbVmClusterArrayDeserializer(result: Array<ExadbVmCluster>): any[] {
   return result.map((item) => {
     return exadbVmClusterDeserializer(item);
   });
@@ -6348,9 +6066,7 @@ export interface ExadbVmClusterProperties {
   readonly subnetOcid?: string;
 }
 
-export function exadbVmClusterPropertiesSerializer(
-  item: ExadbVmClusterProperties,
-): any {
+export function exadbVmClusterPropertiesSerializer(item: ExadbVmClusterProperties): any {
   return {
     clusterName: item["clusterName"],
     backupSubnetCidr: item["backupSubnetCidr"],
@@ -6367,9 +6083,7 @@ export function exadbVmClusterPropertiesSerializer(
     hostname: item["hostname"],
     licenseModel: item["licenseModel"],
     nodeCount: item["nodeCount"],
-    nsgCidrs: !item["nsgCidrs"]
-      ? item["nsgCidrs"]
-      : nsgCidrArraySerializer(item["nsgCidrs"]),
+    nsgCidrs: !item["nsgCidrs"] ? item["nsgCidrs"] : nsgCidrArraySerializer(item["nsgCidrs"]),
     privateZoneOcid: item["privateZoneOcid"],
     scanListenerPortTcp: item["scanListenerPortTcp"],
     scanListenerPortTcpSsl: item["scanListenerPortTcpSsl"],
@@ -6380,15 +6094,11 @@ export function exadbVmClusterPropertiesSerializer(
     systemVersion: item["systemVersion"],
     timeZone: item["timeZone"],
     totalEcpuCount: item["totalEcpuCount"],
-    vmFileSystemStorage: exadbVmClusterStorageDetailsSerializer(
-      item["vmFileSystemStorage"],
-    ),
+    vmFileSystemStorage: exadbVmClusterStorageDetailsSerializer(item["vmFileSystemStorage"]),
   };
 }
 
-export function exadbVmClusterPropertiesDeserializer(
-  item: any,
-): ExadbVmClusterProperties {
+export function exadbVmClusterPropertiesDeserializer(item: any): ExadbVmClusterProperties {
   return {
     ocid: item["ocid"],
     clusterName: item["clusterName"],
@@ -6412,9 +6122,7 @@ export function exadbVmClusterPropertiesDeserializer(
     licenseModel: item["licenseModel"],
     memorySizeInGbs: item["memorySizeInGbs"],
     nodeCount: item["nodeCount"],
-    nsgCidrs: !item["nsgCidrs"]
-      ? item["nsgCidrs"]
-      : nsgCidrArrayDeserializer(item["nsgCidrs"]),
+    nsgCidrs: !item["nsgCidrs"] ? item["nsgCidrs"] : nsgCidrArrayDeserializer(item["nsgCidrs"]),
     zoneOcid: item["zoneOcid"],
     privateZoneOcid: item["privateZoneOcid"],
     scanListenerPortTcp: item["scanListenerPortTcp"],
@@ -6427,9 +6135,7 @@ export function exadbVmClusterPropertiesDeserializer(
     systemVersion: item["systemVersion"],
     timeZone: item["timeZone"],
     totalEcpuCount: item["totalEcpuCount"],
-    vmFileSystemStorage: exadbVmClusterStorageDetailsDeserializer(
-      item["vmFileSystemStorage"],
-    ),
+    vmFileSystemStorage: exadbVmClusterStorageDetailsDeserializer(item["vmFileSystemStorage"]),
     lifecycleDetails: item["lifecycleDetails"],
     scanDnsName: item["scanDnsName"],
     scanIpIds: !item["scanIpIds"]
@@ -6440,14 +6146,10 @@ export function exadbVmClusterPropertiesDeserializer(
     scanDnsRecordId: item["scanDnsRecordId"],
     snapshotFileSystemStorage: !item["snapshotFileSystemStorage"]
       ? item["snapshotFileSystemStorage"]
-      : exadbVmClusterStorageDetailsDeserializer(
-          item["snapshotFileSystemStorage"],
-        ),
+      : exadbVmClusterStorageDetailsDeserializer(item["snapshotFileSystemStorage"]),
     totalFileSystemStorage: !item["totalFileSystemStorage"]
       ? item["totalFileSystemStorage"]
-      : exadbVmClusterStorageDetailsDeserializer(
-          item["totalFileSystemStorage"],
-        ),
+      : exadbVmClusterStorageDetailsDeserializer(item["totalFileSystemStorage"]),
     vipIds: !item["vipIds"]
       ? item["vipIds"]
       : item["vipIds"].map((p: any) => {
@@ -6519,15 +6221,11 @@ export interface ExadbVmClusterStorageDetails {
   totalSizeInGbs: number;
 }
 
-export function exadbVmClusterStorageDetailsSerializer(
-  item: ExadbVmClusterStorageDetails,
-): any {
+export function exadbVmClusterStorageDetailsSerializer(item: ExadbVmClusterStorageDetails): any {
   return { totalSizeInGbs: item["totalSizeInGbs"] };
 }
 
-export function exadbVmClusterStorageDetailsDeserializer(
-  item: any,
-): ExadbVmClusterStorageDetails {
+export function exadbVmClusterStorageDetailsDeserializer(item: any): ExadbVmClusterStorageDetails {
   return {
     totalSizeInGbs: item["totalSizeInGbs"],
   };
@@ -6543,9 +6241,7 @@ export interface ExadbVmClusterUpdate {
   properties?: ExadbVmClusterUpdateProperties;
 }
 
-export function exadbVmClusterUpdateSerializer(
-  item: ExadbVmClusterUpdate,
-): any {
+export function exadbVmClusterUpdateSerializer(item: ExadbVmClusterUpdate): any {
   return {
     zones: !item["zones"]
       ? item["zones"]
@@ -6583,9 +6279,7 @@ export function removeVirtualMachineFromExadbVmClusterDetailsSerializer(
   return { dbNodes: dbNodeDetailsArraySerializer(item["dbNodes"]) };
 }
 
-export function dbNodeDetailsArraySerializer(
-  result: Array<DbNodeDetails>,
-): any[] {
+export function dbNodeDetailsArraySerializer(result: Array<DbNodeDetails>): any[] {
   return result.map((item) => {
     return dbNodeDetailsSerializer(item);
   });
@@ -6651,9 +6345,7 @@ export interface ExascaleDbNodeProperties {
   totalCpuCoreCount?: number;
 }
 
-export function exascaleDbNodePropertiesDeserializer(
-  item: any,
-): ExascaleDbNodeProperties {
+export function exascaleDbNodePropertiesDeserializer(item: any): ExascaleDbNodeProperties {
   return {
     ocid: item["ocid"],
     additionalDetails: item["additionalDetails"],
@@ -6683,18 +6375,14 @@ export interface _ExascaleDbNodeListResult {
   nextLink?: string;
 }
 
-export function _exascaleDbNodeListResultDeserializer(
-  item: any,
-): _ExascaleDbNodeListResult {
+export function _exascaleDbNodeListResultDeserializer(item: any): _ExascaleDbNodeListResult {
   return {
     value: exascaleDbNodeArrayDeserializer(item["value"]),
     nextLink: item["nextLink"],
   };
 }
 
-export function exascaleDbNodeArrayDeserializer(
-  result: Array<ExascaleDbNode>,
-): any[] {
+export function exascaleDbNodeArrayDeserializer(result: Array<ExascaleDbNode>): any[] {
   return result.map((item) => {
     return exascaleDbNodeDeserializer(item);
   });
@@ -6720,9 +6408,7 @@ export interface ExascaleDbStorageVault extends TrackedResource {
   zones?: string[];
 }
 
-export function exascaleDbStorageVaultSerializer(
-  item: ExascaleDbStorageVault,
-): any {
+export function exascaleDbStorageVaultSerializer(item: ExascaleDbStorageVault): any {
   return {
     tags: item["tags"],
     location: item["location"],
@@ -6737,9 +6423,7 @@ export function exascaleDbStorageVaultSerializer(
   };
 }
 
-export function exascaleDbStorageVaultDeserializer(
-  item: any,
-): ExascaleDbStorageVault {
+export function exascaleDbStorageVaultDeserializer(item: any): ExascaleDbStorageVault {
   return {
     tags: item["tags"],
     location: item["location"],
@@ -6814,9 +6498,7 @@ export function exascaleDbStorageVaultPropertiesDeserializer(
     ),
     highCapacityDatabaseStorage: !item["highCapacityDatabaseStorage"]
       ? item["highCapacityDatabaseStorage"]
-      : exascaleDbStorageDetailsDeserializer(
-          item["highCapacityDatabaseStorage"],
-        ),
+      : exascaleDbStorageDetailsDeserializer(item["highCapacityDatabaseStorage"]),
     timeZone: item["timeZone"],
     provisioningState: item["provisioningState"],
     lifecycleState: item["lifecycleState"],
@@ -6833,9 +6515,7 @@ export interface ExascaleDbStorageInputDetails {
   totalSizeInGbs: number;
 }
 
-export function exascaleDbStorageInputDetailsSerializer(
-  item: ExascaleDbStorageInputDetails,
-): any {
+export function exascaleDbStorageInputDetailsSerializer(item: ExascaleDbStorageInputDetails): any {
   return { totalSizeInGbs: item["totalSizeInGbs"] };
 }
 
@@ -6855,9 +6535,7 @@ export interface ExascaleDbStorageDetails {
   totalSizeInGbs?: number;
 }
 
-export function exascaleDbStorageDetailsDeserializer(
-  item: any,
-): ExascaleDbStorageDetails {
+export function exascaleDbStorageDetailsDeserializer(item: any): ExascaleDbStorageDetails {
   return {
     availableSizeInGbs: item["availableSizeInGbs"],
     totalSizeInGbs: item["totalSizeInGbs"],

@@ -9,10 +9,7 @@ import {
   _DbServerListResult,
   _dbServerListResultDeserializer,
 } from "../../models/models.js";
-import {
-  DbServersListByParentOptionalParams,
-  DbServersGetOptionalParams,
-} from "./options.js";
+import { DbServersListByParentOptionalParams, DbServersGetOptionalParams } from "./options.js";
 import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
 import {
   PagedAsyncIterableIterator,
@@ -43,15 +40,13 @@ export function _listByParentSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context
-    .path(path)
-    .get({
-      ...operationOptionsToRequestParameters(options),
-      headers: {
-        accept: "application/json",
-        ...options.requestOptions?.headers,
-      },
-    });
+  return context.path(path).get({
+    ...operationOptionsToRequestParameters(options),
+    headers: {
+      accept: "application/json",
+      ...options.requestOptions?.headers,
+    },
+  });
 }
 
 export async function _listByParentDeserialize(
@@ -76,13 +71,7 @@ export function listByParent(
 ): PagedAsyncIterableIterator<DbServer> {
   return buildPagedAsyncIterator(
     context,
-    () =>
-      _listByParentSend(
-        context,
-        resourceGroupName,
-        cloudexadatainfrastructurename,
-        options,
-      ),
+    () => _listByParentSend(context, resourceGroupName, cloudexadatainfrastructurename, options),
     _listByParentDeserialize,
     ["200"],
     { itemName: "value", nextLinkName: "nextLink" },
@@ -109,20 +98,16 @@ export function _getSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context
-    .path(path)
-    .get({
-      ...operationOptionsToRequestParameters(options),
-      headers: {
-        accept: "application/json",
-        ...options.requestOptions?.headers,
-      },
-    });
+  return context.path(path).get({
+    ...operationOptionsToRequestParameters(options),
+    headers: {
+      accept: "application/json",
+      ...options.requestOptions?.headers,
+    },
+  });
 }
 
-export async function _getDeserialize(
-  result: PathUncheckedResponse,
-): Promise<DbServer> {
+export async function _getDeserialize(result: PathUncheckedResponse): Promise<DbServer> {
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);

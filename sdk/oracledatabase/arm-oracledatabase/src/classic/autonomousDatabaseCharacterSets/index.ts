@@ -7,10 +7,7 @@ import {
   AutonomousDatabaseCharacterSetsListByLocationOptionalParams,
   AutonomousDatabaseCharacterSetsGetOptionalParams,
 } from "../../api/autonomousDatabaseCharacterSets/options.js";
-import {
-  listByLocation,
-  get,
-} from "../../api/autonomousDatabaseCharacterSets/operations.js";
+import { listByLocation, get } from "../../api/autonomousDatabaseCharacterSets/operations.js";
 import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 
 /** Interface representing a AutonomousDatabaseCharacterSets operations. */
@@ -28,9 +25,7 @@ export interface AutonomousDatabaseCharacterSetsOperations {
   ) => Promise<AutonomousDatabaseCharacterSet>;
 }
 
-function _getAutonomousDatabaseCharacterSets(
-  context: OracleDatabaseManagementContext,
-) {
+function _getAutonomousDatabaseCharacterSets(context: OracleDatabaseManagementContext) {
   return {
     listByLocation: (
       location: string,

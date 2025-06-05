@@ -10,8 +10,7 @@ export interface ExascaleDbNodesActionOptionalParams extends OperationOptions {
 }
 
 /** Optional parameters. */
-export interface ExascaleDbNodesListByParentOptionalParams
-  extends OperationOptions {}
+export interface ExascaleDbNodesListByParentOptionalParams extends OperationOptions {}
 
 /** Optional parameters. */
 export interface ExascaleDbNodesGetOptionalParams extends OperationOptions {}

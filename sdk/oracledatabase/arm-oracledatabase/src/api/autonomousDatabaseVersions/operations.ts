@@ -43,15 +43,13 @@ export function _listByLocationSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context
-    .path(path)
-    .get({
-      ...operationOptionsToRequestParameters(options),
-      headers: {
-        accept: "application/json",
-        ...options.requestOptions?.headers,
-      },
-    });
+  return context.path(path).get({
+    ...operationOptionsToRequestParameters(options),
+    headers: {
+      accept: "application/json",
+      ...options.requestOptions?.headers,
+    },
+  });
 }
 
 export async function _listByLocationDeserialize(
@@ -102,20 +100,16 @@ export function _getSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context
-    .path(path)
-    .get({
-      ...operationOptionsToRequestParameters(options),
-      headers: {
-        accept: "application/json",
-        ...options.requestOptions?.headers,
-      },
-    });
+  return context.path(path).get({
+    ...operationOptionsToRequestParameters(options),
+    headers: {
+      accept: "application/json",
+      ...options.requestOptions?.headers,
+    },
+  });
 }
 
-export async function _getDeserialize(
-  result: PathUncheckedResponse,
-): Promise<AutonomousDbVersion> {
+export async function _getDeserialize(result: PathUncheckedResponse): Promise<AutonomousDbVersion> {
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
@@ -133,11 +127,6 @@ export async function get(
   autonomousdbversionsname: string,
   options: AutonomousDatabaseVersionsGetOptionalParams = { requestOptions: {} },
 ): Promise<AutonomousDbVersion> {
-  const result = await _getSend(
-    context,
-    location,
-    autonomousdbversionsname,
-    options,
-  );
+  const result = await _getSend(context, location, autonomousdbversionsname, options);
   return _getDeserialize(result);
 }

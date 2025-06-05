@@ -4,8 +4,7 @@
 import { OperationOptions } from "@azure-rest/core-client";
 
 /** Optional parameters. */
-export interface DnsPrivateZonesListByLocationOptionalParams
-  extends OperationOptions {}
+export interface DnsPrivateZonesListByLocationOptionalParams extends OperationOptions {}
 
 /** Optional parameters. */
 export interface DnsPrivateZonesGetOptionalParams extends OperationOptions {}

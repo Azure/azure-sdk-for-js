@@ -33,26 +33,13 @@ function _getDbServers(context: OracleDatabaseManagementContext) {
       resourceGroupName: string,
       cloudexadatainfrastructurename: string,
       options?: DbServersListByParentOptionalParams,
-    ) =>
-      listByParent(
-        context,
-        resourceGroupName,
-        cloudexadatainfrastructurename,
-        options,
-      ),
+    ) => listByParent(context, resourceGroupName, cloudexadatainfrastructurename, options),
     get: (
       resourceGroupName: string,
       cloudexadatainfrastructurename: string,
       dbserverocid: string,
       options?: DbServersGetOptionalParams,
-    ) =>
-      get(
-        context,
-        resourceGroupName,
-        cloudexadatainfrastructurename,
-        dbserverocid,
-        options,
-      ),
+    ) => get(context, resourceGroupName, cloudexadatainfrastructurename, dbserverocid, options),
   };
 }
 

@@ -27,15 +27,10 @@ export interface DbSystemShapesOperations {
 
 function _getDbSystemShapes(context: OracleDatabaseManagementContext) {
   return {
-    listByLocation: (
-      location: string,
-      options?: DbSystemShapesListByLocationOptionalParams,
-    ) => listByLocation(context, location, options),
-    get: (
-      location: string,
-      dbsystemshapename: string,
-      options?: DbSystemShapesGetOptionalParams,
-    ) => get(context, location, dbsystemshapename, options),
+    listByLocation: (location: string, options?: DbSystemShapesListByLocationOptionalParams) =>
+      listByLocation(context, location, options),
+    get: (location: string, dbsystemshapename: string, options?: DbSystemShapesGetOptionalParams) =>
+      get(context, location, dbsystemshapename, options),
   };
 }
 

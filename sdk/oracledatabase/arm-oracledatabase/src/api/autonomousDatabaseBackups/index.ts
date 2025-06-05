@@ -1,13 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-export {
-  listByParent,
-  update,
-  $delete,
-  get,
-  createOrUpdate,
-} from "./operations.js";
+export { listByParent, update, $delete, get, createOrUpdate } from "./operations.js";
 export {
   AutonomousDatabaseBackupsListByParentOptionalParams,
   AutonomousDatabaseBackupsUpdateOptionalParams,

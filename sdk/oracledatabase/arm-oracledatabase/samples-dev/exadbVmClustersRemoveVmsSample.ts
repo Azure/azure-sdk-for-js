@@ -14,18 +14,14 @@ async function exadbVmClustersRemoveVmsMaximumSet(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const client = new OracleDatabaseManagementClient(credential, subscriptionId);
-  const result = await client.exadbVmClusters.removeVms(
-    "rgopenapi",
-    "vmClusterName",
-    {
-      dbNodes: [
-        {
-          dbNodeId:
-            "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rg1/providers/Oracle.Database/exadbVmClusters/vmCluster/dbNodes/dbNodeName",
-        },
-      ],
-    },
-  );
+  const result = await client.exadbVmClusters.removeVms("rgopenapi", "vmClusterName", {
+    dbNodes: [
+      {
+        dbNodeId:
+          "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rg1/providers/Oracle.Database/exadbVmClusters/vmCluster/dbNodes/dbNodeName",
+      },
+    ],
+  });
   console.log(result);
 }
 

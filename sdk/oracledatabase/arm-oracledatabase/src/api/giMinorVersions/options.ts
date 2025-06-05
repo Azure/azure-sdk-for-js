@@ -8,8 +8,7 @@ import { OperationOptions } from "@azure-rest/core-client";
 export interface GiMinorVersionsGetOptionalParams extends OperationOptions {}
 
 /** Optional parameters. */
-export interface GiMinorVersionsListByParentOptionalParams
-  extends OperationOptions {
+export interface GiMinorVersionsListByParentOptionalParams extends OperationOptions {
   /** If provided, filters the results to the set of database versions which are supported for the given shape family. */
   shapeFamily?: ShapeFamily;
   /** Filters the result for the given Azure Availability Zone */

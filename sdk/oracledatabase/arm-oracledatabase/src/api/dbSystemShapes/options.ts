@@ -4,8 +4,7 @@
 import { OperationOptions } from "@azure-rest/core-client";
 
 /** Optional parameters. */
-export interface DbSystemShapesListByLocationOptionalParams
-  extends OperationOptions {
+export interface DbSystemShapesListByLocationOptionalParams extends OperationOptions {
   /** Filters the result for the given Azure Availability Zone */
   zone?: string;
 }
