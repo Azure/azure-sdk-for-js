@@ -67,6 +67,74 @@ export interface PhoneNumberCountry {
   countryCode: string;
 }
 
+/** The parameters for the browse operation. */
+export interface PhoneNumbersBrowseRequest {
+  /** Represents the number type of the offering. */
+  phoneNumberType: PhoneNumberType;
+  /** The minimum desired capabilities for the browse operation request. */
+  capabilities?: PhoneNumberBrowseCapabilitiesRequest;
+  /** Represents the assignment type of the offering. Also known as the use case. */
+  assignmentType?: PhoneNumberAssignmentType;
+  /** The phone number prefix to match. If specified, the search will be limited to phone numbers that start with the any of the given prefixes. */
+  phoneNumberPrefixes?: string[];
+}
+
+/** The minimum desired capabilities for the browse operation request. */
+export interface PhoneNumberBrowseCapabilitiesRequest {
+  /** Capability value for calling. */
+  calling?: PhoneNumberCapabilityType;
+  /** Capability value for SMS. */
+  sms?: PhoneNumberCapabilityType;
+}
+
+/** The result of a phone number browse operation. */
+export interface PhoneNumbersBrowseResult {
+  /** The phone numbers that are available for purchase. */
+  phoneNumbers: AvailablePhoneNumber[];
+}
+
+/** Represents a phone number available in inventory */
+export interface AvailablePhoneNumber {
+  /** The id of the phone number. */
+  id?: string;
+  /** The ISO 3166-2 country code, e.g. US. */
+  countryCode: string;
+  /** The phone number in E.164 format, e.g. +11234567890. */
+  phoneNumber?: string;
+  /** Capabilities of a phone number. */
+  capabilities: PhoneNumberCapabilities;
+  /** Represents the number type of the offering. */
+  phoneNumberType: PhoneNumberType;
+  /** Represents the assignment type of the offering. Also known as the use case. */
+  assignmentType: PhoneNumberAssignmentType;
+  /** The incurred cost for this phone number. */
+  cost?: PhoneNumberCost;
+  /** Represents the status of the phone number. Possible values include: 'available', 'reserved', 'expired', 'error', 'purchased'. */
+  status?: PhoneNumberAvailabilityStatus;
+  /** Indicates if do not resell agreement is required. If true, the phone number cannot be acquired unless the customer provides explicit agreement to not resell it. */
+  isAgreementToNotResellRequired?: boolean;
+  /** The Communication Services error. */
+  error?: CommunicationError;
+}
+
+/** Capabilities of a phone number. */
+export interface PhoneNumberCapabilities {
+  /** Capability value for calling. */
+  calling: PhoneNumberCapabilityType;
+  /** Capability value for SMS. */
+  sms: PhoneNumberCapabilityType;
+}
+
+/** The incurred cost for a single phone number. */
+export interface PhoneNumberCost {
+  /** The cost amount. */
+  amount: number;
+  /** The ISO 4217 currency code for the cost amount, e.g. USD. */
+  currencyCode: string;
+  /** The frequency with which the cost gets billed. */
+  billingFrequency: "monthly";
+}
+
 /** Represents a wrapper around a list of cities or towns. */
 export interface PhoneNumberLocalities {
   /** Represents the underlying list of localities, e.g. cities or town. */
@@ -111,22 +179,30 @@ export interface PhoneNumberOffering {
   cost: PhoneNumberCost;
 }
 
-/** Capabilities of a phone number. */
-export interface PhoneNumberCapabilities {
-  /** Capability value for calling. */
-  calling: PhoneNumberCapabilityType;
-  /** Capability value for SMS. */
-  sms: PhoneNumberCapabilityType;
+/** Represents a list of phone numbers reservations. Note that the phone numbers from each reservation are not included. */
+export interface PhoneNumbersReservations {
+  /** Represents a list of phone numbers reservations. Note that the phone numbers from each reservation are not included. */
+  reservations: PhoneNumbersReservation[];
+  /** Represents the URL link to the next page of phone number results. */
+  nextLink?: string;
 }
 
-/** The incurred cost for a single phone number. */
-export interface PhoneNumberCost {
-  /** The cost amount. */
-  amount: number;
-  /** The ISO 4217 currency code for the cost amount, e.g. USD. */
-  currencyCode: string;
-  /** The frequency with which the cost gets billed. */
-  billingFrequency: "monthly";
+/** Represents a reservation for phone numbers. A reservation is a temporary hold on phone numbers that can later be purchased. The reservation has a limited lifetime after which the phone numbers are released if not purchased. Reservations older than 1 month are automatically deleted. */
+export interface PhoneNumbersReservation {
+  /** The id of the reservation. */
+  id?: string;
+  /** The time at which the reservation will expire. If a reservation is not purchased before this time, all of the reserved phone numbers will be released and made available for others to purchase. */
+  expiresAt?: Date;
+  /** A dictionary containing the reservation phone numbers. The key is the ID of the phone number (digits only) and values are AvailablePhoneNumber objects. Not populated when retrieving PhoneNumbersReservation collections. */
+  phoneNumbers?: { [propertyName: string]: AvailablePhoneNumber | null };
+  /** Represents the status of the reservation. Possible values include: 'active', 'submitted', 'completed', 'expired'. */
+  status?: ReservationStatus;
+}
+
+/** The phone number search purchase request. */
+export interface PhoneNumbersReservationPurchaseRequest {
+  /** The agreement to not resell the phone numbers. Defaults to false if not provided. */
+  agreeToNotResell?: boolean;
 }
 
 /** Represents a phone number search request to find phone numbers. Found phone numbers are temporarily held for a following purchase. */
@@ -159,12 +235,20 @@ export interface PhoneNumberSearchResult {
   cost: PhoneNumberCost;
   /** The date that this search result expires and phone numbers are no longer on hold. A search result expires in less than 15min, e.g. 2020-11-19T16:31:49.048Z. */
   searchExpiresBy: Date;
+  /** Indicates if do not resell agreement is required. If true, the phone numbers cannot be acquired unless the customer provides explicit agreement to not resell them. */
+  isAgreementToNotResellRequired?: boolean;
+  /** The error code of the search. */
+  errorCode?: number;
+  /** Mapping Error Messages to Codes */
+  error?: PhoneNumberSearchResultError;
 }
 
 /** The phone number search purchase request. */
 export interface PhoneNumberPurchaseRequest {
   /** The search id. */
   searchId?: string;
+  /** The agreement to not resell the phone numbers. Defaults to false if not provided. */
+  agreeToNotResell?: boolean;
 }
 
 export interface PhoneNumberOperation {
@@ -272,6 +356,24 @@ export interface OperatorDetails {
   mobileCountryCode?: string;
 }
 
+/** Contains error details in case of failure when reserving, releasing or purchasing the phone number. Note that this is ignored by the service when present in requests. */
+export interface AvailablePhoneNumberError {
+  /** The error code indicating the reason why the operation performed on the phone number failed. */
+  code: string;
+  /** The error message describing the failure that occurred. */
+  message: string;
+}
+
+/** Defines headers for PhoneNumbers_purchaseReservation operation. */
+export interface PhoneNumbersPurchaseReservationHeaders {
+  /** URL to query for status of the operation. */
+  operationLocation?: string;
+  /** The operation id. */
+  operationId?: string;
+  /** The reservation purchase operation id. */
+  reservationPurchaseId?: string;
+}
+
 /** Defines headers for PhoneNumbers_searchAvailablePhoneNumbers operation. */
 export interface PhoneNumbersSearchAvailablePhoneNumbersHeaders {
   /** URL to retrieve the final result after operation completes. */
@@ -332,12 +434,45 @@ export type PhoneNumberCapabilityType =
   | "inbound"
   | "outbound"
   | "inbound+outbound";
+/** Defines values for PhoneNumberAvailabilityStatus. */
+export type PhoneNumberAvailabilityStatus =
+  | "available"
+  | "reserved"
+  | "expired"
+  | "error"
+  | "purchased";
+/** Defines values for ReservationStatus. */
+export type ReservationStatus =
+  | "active"
+  | "submitted"
+  | "completed"
+  | "expired";
+/** Defines values for PhoneNumberSearchResultError. */
+export type PhoneNumberSearchResultError =
+  | "NoError"
+  | "UnknownErrorCode"
+  | "OutOfStock"
+  | "AuthorizationDenied"
+  | "MissingAddress"
+  | "InvalidAddress"
+  | "InvalidOfferModel"
+  | "NotEnoughLicenses"
+  | "NoWallet"
+  | "NotEnoughCredit"
+  | "NumbersPartiallyAcquired"
+  | "AllNumbersNotAcquired"
+  | "ReservationExpired"
+  | "PurchaseFailed"
+  | "BillingUnavailable"
+  | "ProvisioningFailed"
+  | "UnknownSearchError";
 /** Defines values for PhoneNumberOperationType. */
 export type PhoneNumberOperationType =
   | "purchase"
   | "releasePhoneNumber"
   | "search"
-  | "updatePhoneNumberCapabilities";
+  | "updatePhoneNumberCapabilities"
+  | "reservationPurchase";
 /** Defines values for PhoneNumberOperationStatus. */
 export type PhoneNumberOperationStatus =
   | "notStarted"
@@ -382,6 +517,21 @@ export interface PhoneNumbersListAvailableCountriesOptionalParams
 export type PhoneNumbersListAvailableCountriesResponse = PhoneNumberCountries;
 
 /** Optional parameters. */
+export interface PhoneNumbersBrowseAvailableNumbersOptionalParams
+  extends coreClient.OperationOptions {
+  /** The minimum desired capabilities for the browse operation request. */
+  capabilities?: PhoneNumberBrowseCapabilitiesRequest;
+  /** Represents the assignment type of the offering. Also known as the use case. */
+  assignmentType?: PhoneNumberAssignmentType;
+  /** The phone number prefix to match. If specified, the search will be limited to phone numbers that start with the any of the given prefixes. */
+  phoneNumberPrefixes?: string[];
+}
+
+/** Contains response data for the browseAvailableNumbers operation. */
+export type PhoneNumbersBrowseAvailableNumbersResponse =
+  PhoneNumbersBrowseResult;
+
+/** Optional parameters. */
 export interface PhoneNumbersListAvailableLocalitiesOptionalParams
   extends coreClient.OperationOptions {
   /** An optional parameter for how many entries to skip, for pagination purposes. The default value is 0. */
@@ -416,6 +566,59 @@ export interface PhoneNumbersListOfferingsOptionalParams
 export type PhoneNumbersListOfferingsResponse = OfferingsResponse;
 
 /** Optional parameters. */
+export interface PhoneNumbersListReservationsOptionalParams
+  extends coreClient.OperationOptions {
+  /** An optional parameter for how many entries to return, for pagination purposes. The default value is 100. */
+  maxPageSize?: number;
+}
+
+/** Contains response data for the listReservations operation. */
+export type PhoneNumbersListReservationsResponse = PhoneNumbersReservations;
+
+/** Optional parameters. */
+export interface PhoneNumbersCreateOrUpdateReservationOptionalParams
+  extends coreClient.OperationOptions {
+  /** The id of the reservation. */
+  id?: string;
+  /** The time at which the reservation will expire. If a reservation is not purchased before this time, all of the reserved phone numbers will be released and made available for others to purchase. */
+  expiresAt?: Date;
+  /** A dictionary containing the reservation phone numbers. The key is the ID of the phone number (digits only) and values are AvailablePhoneNumber objects. Not populated when retrieving PhoneNumbersReservation collections. */
+  phoneNumbers?: { [propertyName: string]: AvailablePhoneNumber | null };
+  /** Represents the status of the reservation. Possible values include: 'active', 'submitted', 'completed', 'expired'. */
+  status?: ReservationStatus;
+}
+
+/** Contains response data for the createOrUpdateReservation operation. */
+export type PhoneNumbersCreateOrUpdateReservationResponse =
+  PhoneNumbersReservation;
+
+/** Optional parameters. */
+export interface PhoneNumbersGetReservationOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the getReservation operation. */
+export type PhoneNumbersGetReservationResponse = PhoneNumbersReservation;
+
+/** Optional parameters. */
+export interface PhoneNumbersDeleteReservationOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Optional parameters. */
+export interface PhoneNumbersPurchaseReservationOptionalParams
+  extends coreClient.OperationOptions {
+  /** The agreement to not resell the phone numbers. Defaults to false if not provided. */
+  agreeToNotResell?: boolean;
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the purchaseReservation operation. */
+export type PhoneNumbersPurchaseReservationResponse =
+  PhoneNumbersPurchaseReservationHeaders;
+
+/** Optional parameters. */
 export interface PhoneNumbersSearchAvailablePhoneNumbersOptionalParams
   extends coreClient.OperationOptions {
   /** The area code of the desired phone number, e.g. 425. */
@@ -444,6 +647,8 @@ export interface PhoneNumbersPurchasePhoneNumbersOptionalParams
   extends coreClient.OperationOptions {
   /** The search id. */
   searchId?: string;
+  /** The agreement to not resell the phone numbers. Defaults to false if not provided. */
+  agreeToNotResell?: boolean;
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
   /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
@@ -567,6 +772,13 @@ export interface PhoneNumbersListOfferingsNextOptionalParams
 
 /** Contains response data for the listOfferingsNext operation. */
 export type PhoneNumbersListOfferingsNextResponse = OfferingsResponse;
+
+/** Optional parameters. */
+export interface PhoneNumbersListReservationsNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listReservationsNext operation. */
+export type PhoneNumbersListReservationsNextResponse = PhoneNumbersReservations;
 
 /** Optional parameters. */
 export interface PhoneNumbersListPhoneNumbersNextOptionalParams
