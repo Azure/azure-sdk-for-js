@@ -6,10 +6,13 @@ trigger:
       - main
       - release/*
       - hotfix/*
+    exclude:
+      - feature/v4
   paths:
     include:
       - sdk/eventgrid/ci.mgmt.yml
       - sdk/eventgrid/arm-eventgrid
+      - sdk/eventgrid/eventgrid-systemevents
 pr:
   branches:
     include:
@@ -23,6 +26,7 @@ pr:
     include:
       - sdk/eventgrid/ci.mgmt.yml
       - sdk/eventgrid/arm-eventgrid
+      - sdk/eventgrid/eventgrid-systemevents
 extends:
   template: /eng/pipelines/templates/stages/archetype-sdk-client.yml
   parameters:
@@ -31,4 +35,6 @@ extends:
       - name: azure-arm-eventgrid
         safeName: azurearmeventgrid
         triggeringPaths:
-        - /sdk/test-utils/
+          - /sdk/test-utils/
+      - name: azure-eventgrid-systemevents
+        safeName: azureeventgridsystemevents
