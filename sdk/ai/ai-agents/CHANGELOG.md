@@ -6,6 +6,10 @@
 
 - API version is changed to v1, removing preview features. To use preview features, please use previous beta version.
 
+### Features Added
+
+- Adding connected agents sample
+
 ### Bugs Fixed
 
 - Fixed an issue with streaming serialization

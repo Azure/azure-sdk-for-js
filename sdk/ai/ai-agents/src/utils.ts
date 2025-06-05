@@ -20,6 +20,7 @@ import type {
   AISearchIndexResource,
   BingGroundingToolDefinition,
   BingGroundingSearchConfiguration,
+  ConnectedAgentToolDefinition,
 } from "./index.js";
 
 /**
@@ -187,6 +188,28 @@ export class ToolUtility {
   }
 
   /**
+   * Creates a connected agent tool
+   *
+   * @returns An object containing the definition for the connected agent tool.
+   */
+  static createConnectedAgentTool(
+    id: string,
+    name: string,
+    description: string,
+  ): { definition: ConnectedAgentToolDefinition } {
+    return {
+      definition: {
+        type: "connected_agent",
+        connectedAgent: {
+          id: id,
+          name: name,
+          description: description,
+        },
+      },
+    };
+  }
+
+  /**
    * Creates a function tool
    *
    * @param functionDefinition - The function definition to use.
@@ -337,6 +360,24 @@ export class ToolSet {
     definition: BingGroundingToolDefinition;
   } {
     const tool = ToolUtility.createBingGroundingTool(searchConfigurations);
+    this.toolDefinitions.push(tool.definition);
+    return tool;
+  }
+
+  /**
+   * Adds a connected agent tool to the tool set.
+   *
+   * @param id - The ID of the connected agent.
+   * @param name - The name of the connected agent.
+   * @param description - The description of the connected agent.
+   * @returns An object containing the definition for the connected agent tool
+   */
+  addConnectedAgentTool(
+    id: string,
+    name: string,
+    description: string,
+  ): { definition: ConnectedAgentToolDefinition } {
+    const tool = ToolUtility.createConnectedAgentTool(id, name, description);
     this.toolDefinitions.push(tool.definition);
     return tool;
   }

@@ -1392,6 +1392,9 @@ export class ToolSet {
         definition: CodeInterpreterToolDefinition;
         resources: ToolResources;
     };
+    addConnectedAgentTool(id: string, name: string, description: string): {
+        definition: ConnectedAgentToolDefinition;
+    };
     addConnectionTool(toolType: connectionToolType, connectionIds: string[]): {
         definition: ToolDefinition;
     };
@@ -1418,6 +1421,9 @@ export class ToolUtility {
     static createCodeInterpreterTool(fileIds?: string[], dataSources?: Array<VectorStoreDataSource>): {
         definition: CodeInterpreterToolDefinition;
         resources: ToolResources;
+    };
+    static createConnectedAgentTool(id: string, name: string, description: string): {
+        definition: ConnectedAgentToolDefinition;
     };
     static createConnectionTool(toolType: connectionToolType, connectionIds: string[]): {
         definition: ToolDefinitionUnion;
