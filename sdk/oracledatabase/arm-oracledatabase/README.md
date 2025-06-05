@@ -55,8 +55,7 @@ Using Node.js and Node-like environments, you can use the `DefaultAzureCredentia
 import { OracleDatabaseManagementClient } from "@azure/arm-oracledatabase";
 import { DefaultAzureCredential } from "@azure/identity";
 
-const subscriptionId = "00000000-0000-0000-0000-000000000000";
-const client = new OracleDatabaseManagementClient(new DefaultAzureCredential(), subscriptionId);
+const client = new OracleDatabaseManagementClient(new DefaultAzureCredential());
 ```
 
 For browser environments, use the `InteractiveBrowserCredential` from the `@azure/identity` package to authenticate.
@@ -68,10 +67,8 @@ import { OracleDatabaseManagementClient } from "@azure/arm-oracledatabase";
 const credential = new InteractiveBrowserCredential({
   tenantId: "<YOUR_TENANT_ID>",
   clientId: "<YOUR_CLIENT_ID>",
- });
-
-const subscriptionId = "00000000-0000-0000-0000-000000000000";
-const client = new OracleDatabaseManagementClient(credential, subscriptionId);
+});
+const client = new OracleDatabaseManagementClient(credential);
 ```
 
 
