@@ -23,7 +23,7 @@ You can find an explanation of how this repository's code works by going to our 
 
 Example of building with the types:
 
-```typescript snippet:paging_example
+```typescript snippet:ReadmePagingSample
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
 
 function listSecrets(
@@ -40,6 +40,7 @@ function listSecrets(
     byPage: (settings: PageSettings = {}) => listSecretsPage(settings, options),
   };
 }
+
 for await (const page of listSecrets().byPage({ maxPageSize: 2 })) {
   for (const secret of page) {
     console.log("secret: ", secret);
@@ -68,5 +69,3 @@ Log an issue at https://github.com/Azure/azure-sdk-for-js/issues
 ## Contributing
 
 If you'd like to contribute to this library, please read the [contributing guide](https://github.com/Azure/azure-sdk-for-js/blob/main/CONTRIBUTING.md) to learn more about how to build and test the code.
-
-![Impressions](https://azure-sdk-impressions.azurewebsites.net/api/impressions/azure-sdk-for-js%2Fsdk%2Fcore%2Fcore-paging%2FREADME.png)

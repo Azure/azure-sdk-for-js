@@ -24,6 +24,13 @@
                     placeholder="Enter subscription key..."
                   />
                 </div>
+                <div class="col-sm-8">
+                  <input
+                    class="form-control"
+                    id="api-name"
+                    placeholder="Enter Azure Api name..."
+                  />
+                </div>
                 <div class="col-sm-4">
                   <button id="fetch-from-azure" class="btn btn-primary">Fetch secret</button>
                 </div>
@@ -44,7 +51,7 @@
                   features offered by Azure API Management. <br />
                   For more information please refer to
                   <a
-                    href="https://docs.microsoft.com/azure/api-management/howto-protect-backend-frontend-azure-ad-b2c"
+                    href="https://learn.microsoft.com/azure/api-management/howto-protect-backend-frontend-azure-ad-b2c"
                     target="_blank"
                     >this document</a
                   >.
@@ -76,6 +83,6 @@
         </div>
       </div>
     </div>
-    <script src="./index.ts"></script>
+    <script type="module" src="./index.ts"></script>
   </body>
 </html>

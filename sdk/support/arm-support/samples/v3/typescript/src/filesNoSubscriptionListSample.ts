@@ -10,9 +10,7 @@
 // Licensed under the MIT License.
 import { MicrosoftSupport } from "@azure/arm-support";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Lists all the Files information under a workspace for an Azure subscription.
@@ -20,7 +18,7 @@ dotenv.config();
  * @summary Lists all the Files information under a workspace for an Azure subscription.
  * x-ms-original-file: specification/support/resource-manager/Microsoft.Support/stable/2024-04-01/examples/ListFilesUnderFileWorkspace.json
  */
-async function listFilesUnderAWorkspace() {
+async function listFilesUnderAWorkspace(): Promise<void> {
   const fileWorkspaceName = "testworkspace";
   const credential = new DefaultAzureCredential();
   const client = new MicrosoftSupport(credential);
@@ -31,7 +29,7 @@ async function listFilesUnderAWorkspace() {
   console.log(resArray);
 }
 
-async function main() {
+async function main(): Promise<void> {
   listFilesUnderAWorkspace();
 }
 

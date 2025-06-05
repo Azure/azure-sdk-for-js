@@ -13,11 +13,13 @@
 ## 1.1.0 (2023-05-09)
 
 ### Features Added
- - Added `ContainerRegistryContentClient` for uploading and downloading OCI blobs and manifests.
+
+- Added `ContainerRegistryContentClient` for uploading and downloading OCI blobs and manifests.
 
 ### Breaking Changes
 
 Since `1.1.0-beta.3`:
+
 - The manifest property on GetManifestResult is now `Record<string, unknown>` instead of OciImageManifest. This property is now populated regardless of the media type of the manifest, instead of only being populated when the manifest was an OCI image manifest.
 - Added an `isOciImageManifest` type guard to check if a manifest is an OCI image manifest, providing strong typing.
 - Renamed properties on `OciImageManifest`, `OciDescriptor`, and `OciAnnotations` to match the specification exactly:
@@ -140,7 +142,7 @@ This release marks the general availability release of Azure Container Registry 
 - Added new properties to allow easier interaction with other docker tools:
   - `loginServer` in `ContainerRegistryClient`.
   - `fullyQualifiedName` in `ContainerRepository`
-- Added support for anonymous access. See [the service documentation](https://docs.microsoft.com/azure/container-registry/container-registry-faq#how-do-i-enable-anonymous-pull-access) for more information.
+- Added support for anonymous access. See [the service documentation](https://learn.microsoft.com/azure/container-registry/container-registry-faq#how-do-i-enable-anonymous-pull-access) for more information.
 
 ### Breaking Changes
 

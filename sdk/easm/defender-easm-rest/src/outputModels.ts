@@ -1,7 +1,17 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { Paged } from "@azure/core-paging";
+/** Paged collection of AssetResource items */
+export interface PagedAssetResourceOutput {
+  /** The AssetResource items on this page */
+  value: Array<AssetResourceOutput>;
+  /** The link to the next page of items */
+  nextLink?: string;
+  /** The total number of items available in the full result set. */
+  totalElements?: number;
+  /** The cursor mark to be used on the next request.  Not set if using paging. */
+  mark?: string;
+}
 
 /** The items in the current page of results. */
 export interface AssetResourceOutputParent {
@@ -17,8 +27,8 @@ export interface AssetResourceOutputParent {
   createdDate?: string;
   /** The date this asset was last updated for this workspace. */
   updatedDate?: string;
-  /** Possible values: candidate, confirmed, dismissed, candidateInvestigate, associatedPartner, associatedThirdparty, archived */
-  state?: string;
+  /** Possible values: "archived" */
+  state?: AssetStateOutput;
   /** An optional customer provided identifier for this asset. */
   externalId?: string;
   /** Customer labels assigned to this asset. */
@@ -44,9 +54,9 @@ export interface AuditTrailItemOutput {
   /**
    * The kind of asset.
    *
-   * Possible values: as, contact, domain, host, ipAddress, ipBlock, page, sslCert
+   * Possible values: "as", "contact", "domain", "host", "ipAddress", "ipBlock", "page", "sslCert"
    */
-  kind?: string;
+  kind?: AuditTrailItemKindOutput;
   /** An explanation of why this audit trail node was discovered from the previous node. */
   reason?: string;
 }
@@ -128,8 +138,8 @@ export interface ObservedHeaderOutput extends ObservedValueOutput {
 }
 
 export interface ObservedPortStateOutput extends ObservedValueOutput {
-  /** Possible values: open, closed, filtered */
-  value?: string;
+  /** Possible values: "open", "closed", "filtered" */
+  value?: ObservedPortStateValueOutput;
   port?: number;
 }
 
@@ -157,6 +167,7 @@ export interface ObservedIntegersOutput extends ObservedValueOutput {
   sources?: Array<SourceOutput>;
 }
 
+/** A inventory base model created for swagger documentation purpose */
 export interface InventoryAssetOutput {}
 
 export interface ContactAssetOutput extends InventoryAssetOutput {
@@ -169,57 +180,41 @@ export interface ContactAssetOutput extends InventoryAssetOutput {
   count?: number;
 }
 
-export interface DomainAssetOutput extends InventoryAssetOutput {
-  domain?: string;
-  whoisId?: number;
-  registrarIanaIds?: Array<ObservedIntegerOutput>;
-  registrantContacts?: Array<ObservedStringOutput>;
-  registrantOrgs?: Array<ObservedStringOutput>;
-  adminContacts?: Array<ObservedStringOutput>;
-  technicalContacts?: Array<ObservedStringOutput>;
-  alexaInfos?: Array<AlexaInfoOutput>;
-  nameServers?: Array<ObservedStringOutput>;
-  mailServers?: Array<ObservedStringOutput>;
-  whoisServers?: Array<ObservedStringOutput>;
-  domainStatuses?: Array<ObservedStringOutput>;
-  registrarCreatedAt?: Array<ObservedLongOutput>;
-  registrarUpdatedAt?: Array<ObservedLongOutput>;
-  registrarExpiresAt?: Array<ObservedLongOutput>;
-  soaRecords?: Array<SoaRecordOutput>;
-  detailedFromWhoisAt?: string;
-  registrarNames?: Array<ObservedStringOutput>;
+export interface SslCertAssetOutput extends InventoryAssetOutput {
+  sha1?: string;
+  subjectCommonNames?: string[];
+  organizations?: string[];
+  organizationalUnits?: string[];
+  issuerCommonNames?: string[];
+  sigAlgName?: string;
+  invalidAfter?: string;
+  serialNumber?: string;
+  subjectAlternativeNames?: string[];
+  issuerAlternativeNames?: string[];
   sources?: Array<SourceOutput>;
   firstSeen?: string;
   lastSeen?: string;
   count?: number;
-  parkedDomain?: Array<ObservedBooleanOutput>;
-  registrantNames?: Array<ObservedStringOutput>;
-  adminNames?: Array<ObservedStringOutput>;
-  technicalNames?: Array<ObservedStringOutput>;
-  adminOrgs?: Array<ObservedStringOutput>;
-  technicalOrgs?: Array<ObservedStringOutput>;
-  registrantPhones?: Array<ObservedStringOutput>;
-  adminPhones?: Array<ObservedStringOutput>;
-  technicalPhones?: Array<ObservedStringOutput>;
-}
-
-export interface AlexaInfoOutput {
-  alexaRank?: number;
-  category?: string;
-  firstSeen?: string;
-  lastSeen?: string;
-  count?: number;
+  invalidBefore?: string;
+  keySize?: number;
+  keyAlgorithm?: string;
+  subjectLocality?: string[];
+  subjectState?: string[];
+  subjectCountry?: string[];
+  issuerLocality?: string[];
+  issuerState?: string[];
+  issuerCountry?: string[];
+  subjectOrganizations?: string[];
+  subjectOrganizationalUnits?: string[];
+  issuerOrganizations?: string[];
+  issuerOrganizationalUnits?: string[];
+  version?: number;
+  certificateAuthority?: boolean;
+  selfSigned?: boolean;
+  sigAlgOid?: string;
   recent?: boolean;
-}
-
-export interface SoaRecordOutput {
-  nameServer?: string;
-  email?: string;
-  firstSeen?: string;
-  lastSeen?: string;
-  count?: number;
-  serialNumber?: number;
-  recent?: boolean;
+  /** Possible values: "domainValidation", "organizationValidation", "extendedValidation" */
+  validationType?: SslCertAssetValidationTypeOutput;
 }
 
 export interface HostAssetOutput extends InventoryAssetOutput {
@@ -326,43 +321,6 @@ export interface CookieOutput {
   count?: number;
   recent?: boolean;
   cookieExpiryDate?: string;
-}
-
-export interface SslCertAssetOutput extends InventoryAssetOutput {
-  sha1?: string;
-  subjectCommonNames?: string[];
-  organizations?: string[];
-  organizationalUnits?: string[];
-  issuerCommonNames?: string[];
-  sigAlgName?: string;
-  invalidAfter?: string;
-  serialNumber?: string;
-  subjectAlternativeNames?: string[];
-  issuerAlternativeNames?: string[];
-  sources?: Array<SourceOutput>;
-  firstSeen?: string;
-  lastSeen?: string;
-  count?: number;
-  invalidBefore?: string;
-  keySize?: number;
-  keyAlgorithm?: string;
-  subjectLocality?: string[];
-  subjectState?: string[];
-  subjectCountry?: string[];
-  issuerLocality?: string[];
-  issuerState?: string[];
-  issuerCountry?: string[];
-  subjectOrganizations?: string[];
-  subjectOrganizationalUnits?: string[];
-  issuerOrganizations?: string[];
-  issuerOrganizationalUnits?: string[];
-  version?: number;
-  certificateAuthority?: boolean;
-  selfSigned?: boolean;
-  sigAlgOid?: string;
-  recent?: boolean;
-  /** Possible values: domainValidation, organizationValidation, extendedValidation */
-  validationType?: string;
 }
 
 export interface HostCoreOutput {
@@ -481,6 +439,59 @@ export interface IpBlockOutput {
   firstSeen?: string;
   lastSeen?: string;
   count?: number;
+  recent?: boolean;
+}
+
+export interface DomainAssetOutput {
+  domain?: string;
+  whoisId?: number;
+  registrarIanaIds?: Array<ObservedIntegerOutput>;
+  registrantContacts?: Array<ObservedStringOutput>;
+  registrantOrgs?: Array<ObservedStringOutput>;
+  adminContacts?: Array<ObservedStringOutput>;
+  technicalContacts?: Array<ObservedStringOutput>;
+  alexaInfos?: Array<AlexaInfoOutput>;
+  nameServers?: Array<ObservedStringOutput>;
+  mailServers?: Array<ObservedStringOutput>;
+  whoisServers?: Array<ObservedStringOutput>;
+  domainStatuses?: Array<ObservedStringOutput>;
+  registrarCreatedAt?: Array<ObservedLongOutput>;
+  registrarUpdatedAt?: Array<ObservedLongOutput>;
+  registrarExpiresAt?: Array<ObservedLongOutput>;
+  soaRecords?: Array<SoaRecordOutput>;
+  detailedFromWhoisAt?: string;
+  registrarNames?: Array<ObservedStringOutput>;
+  sources?: Array<SourceOutput>;
+  firstSeen?: string;
+  lastSeen?: string;
+  count?: number;
+  parkedDomain?: Array<ObservedBooleanOutput>;
+  registrantNames?: Array<ObservedStringOutput>;
+  adminNames?: Array<ObservedStringOutput>;
+  technicalNames?: Array<ObservedStringOutput>;
+  adminOrgs?: Array<ObservedStringOutput>;
+  technicalOrgs?: Array<ObservedStringOutput>;
+  registrantPhones?: Array<ObservedStringOutput>;
+  adminPhones?: Array<ObservedStringOutput>;
+  technicalPhones?: Array<ObservedStringOutput>;
+}
+
+export interface AlexaInfoOutput {
+  alexaRank?: number;
+  category?: string;
+  firstSeen?: string;
+  lastSeen?: string;
+  count?: number;
+  recent?: boolean;
+}
+
+export interface SoaRecordOutput {
+  nameServer?: string;
+  email?: string;
+  firstSeen?: string;
+  lastSeen?: string;
+  count?: number;
+  serialNumber?: number;
   recent?: boolean;
 }
 
@@ -615,8 +626,8 @@ export interface PageAssetOutput extends InventoryAssetOutput {
   cause?: PageCauseOutput;
   referrer?: string;
   redirectUrls?: Array<ObservedStringOutput>;
-  /** Possible values: httpHeader, metaRefresh, javascript, final */
-  redirectType?: string;
+  /** Possible values: "httpHeader", "metaRefresh", "javascript", "final" */
+  redirectType?: PageAssetRedirectTypeOutput;
   finalUrls?: Array<ObservedStringOutput>;
   finalResponseCodes?: Array<ObservedIntegerOutput>;
   parkedPage?: Array<ObservedBooleanOutput>;
@@ -733,19 +744,29 @@ export interface TaskOutput {
   /**
    * The state the task is in.
    *
-   * Possible values: pending, running, paused, complete, incomplete, failed, warning
+   * Possible values: "pending", "running", "paused", "complete", "incomplete", "failed", "warning"
    */
-  state?: string;
+  state?: TaskStateOutput;
   /**
    * The phase the task is in.
    *
-   * Possible values: running, polling, complete
+   * Possible values: "running", "polling", "complete"
    */
-  phase?: string;
+  phase?: TaskPhaseOutput;
   /** The reason the task was moved into its current state, if the task wasn't completed. */
   reason?: string;
   /** Attributes unique to the task.  This differs by task type. */
   metadata?: Record<string, any>;
+}
+
+/** Paged collection of DataConnection items */
+export interface PagedDataConnectionOutput {
+  /** The DataConnection items on this page */
+  value: Array<DataConnectionOutput>;
+  /** The link to the next page of items */
+  nextLink?: string;
+  /** The total number of items available in the full result set. */
+  totalElements?: number;
 }
 
 export interface DataConnectionOutputParent {
@@ -758,17 +779,17 @@ export interface DataConnectionOutputParent {
   /**
    * The type of data the data connection will transfer
    *
-   * Possible values: assets, attackSurfaceInsights
+   * Possible values: "assets", "attackSurfaceInsights"
    */
-  content?: string;
+  content?: DataConnectionContentOutput;
   /** The date the data connection was created. */
   readonly createdDate?: string;
   /**
    * The rate at which the data connection will receive updates.
    *
-   * Possible values: daily, weekly, monthly
+   * Possible values: "daily", "weekly", "monthly"
    */
-  frequency?: string;
+  frequency?: DataConnectionFrequencyOutput;
   /** The day to update the data connection on. */
   frequencyOffset?: number;
   /** The date the data connection was last updated. */
@@ -816,6 +837,7 @@ export interface AzureDataExplorerDataConnectionOutput extends DataConnectionOut
   properties: AzureDataExplorerDataConnectionPropertiesOutput;
 }
 
+/** Validate result for validate action endpoints */
 export interface ValidateResultOutput {
   /** This is the top-level error object whose code matches the x-ms-error-code response header. */
   error?: ErrorDetailOutput;
@@ -841,6 +863,16 @@ export interface InnerErrorOutput {
   code?: string;
   /** This is an additional field representing the value that caused the error to help with debugging. */
   value?: any;
+}
+
+/** Paged collection of DiscoGroup items */
+export interface PagedDiscoGroupOutput {
+  /** The DiscoGroup items on this page */
+  value: Array<DiscoGroupOutput>;
+  /** The link to the next page of items */
+  nextLink?: string;
+  /** The total number of items available in the full result set. */
+  totalElements?: number;
 }
 
 export interface DiscoGroupOutput {
@@ -875,9 +907,9 @@ export interface DiscoSourceOutput {
   /**
    * The kind of disco source.
    *
-   * Possible values: as, attribute, contact, domain, host, ipBlock
+   * Possible values: "as", "attribute", "contact", "domain", "host", "ipBlock"
    */
-  kind?: string;
+  kind?: DiscoSourceKindOutput;
   /** The name for the disco source. */
   name?: string;
 }
@@ -895,9 +927,9 @@ export interface DiscoRunResultOutput {
   /**
    * The State of the disco run.
    *
-   * Possible values: pending, running, completed, failed
+   * Possible values: "pending", "running", "completed", "failed"
    */
-  state?: string;
+  state?: DiscoRunStateOutput;
   /** The total count of assets that were found this disco run. */
   totalAssetsFoundCount?: number;
   /** The list of seeds used for the disco run. */
@@ -915,6 +947,16 @@ export interface DiscoRunPageResultOutput {
   nextLink?: string;
   /** The items in the current page of results. */
   value?: Array<DiscoRunResultOutput>;
+}
+
+/** Paged collection of DiscoTemplate items */
+export interface PagedDiscoTemplateOutput {
+  /** The DiscoTemplate items on this page */
+  value: Array<DiscoTemplateOutput>;
+  /** The link to the next page of items */
+  nextLink?: string;
+  /** The total number of items available in the full result set. */
+  totalElements?: number;
 }
 
 /** The items in the current page of results. */
@@ -959,9 +1001,9 @@ export interface ReportBillableAssetBreakdownOutput {
   /**
    * The kind of billable asset.
    *
-   * Possible values: domain, host, ipAddress
+   * Possible values: "domain", "host", "ipAddress"
    */
-  kind?: string;
+  kind?: ReportBillableAssetBreakdownKindOutput;
   /** The number of assets of this type. */
   count?: number;
 }
@@ -1023,6 +1065,16 @@ export interface AssetSummaryResultOutput {
   children?: Array<AssetSummaryResultOutput>;
 }
 
+/** Paged collection of SavedFilter items */
+export interface PagedSavedFilterOutput {
+  /** The SavedFilter items on this page */
+  value: Array<SavedFilterOutput>;
+  /** The link to the next page of items */
+  nextLink?: string;
+  /** The total number of items available in the full result set. */
+  totalElements?: number;
+}
+
 export interface SavedFilterOutput {
   /** The system generated unique id for the resource. */
   id?: string;
@@ -1034,8 +1086,19 @@ export interface SavedFilterOutput {
   description?: string;
 }
 
+/** Paged collection of Task items */
+export interface PagedTaskOutput {
+  /** The Task items on this page */
+  value: Array<TaskOutput>;
+  /** The link to the next page of items */
+  nextLink?: string;
+  /** The total number of items available in the full result set. */
+  totalElements?: number;
+}
+
 /** The items in the current page of results. */
 export type AssetResourceOutput =
+  | AssetResourceOutputParent
   | AsAssetResourceOutput
   | ContactAssetResourceOutput
   | DomainAssetResourceOutput
@@ -1045,17 +1108,32 @@ export type AssetResourceOutput =
   | PageAssetResourceOutput
   | SslCertAssetResourceOutput;
 export type DataConnectionOutput =
+  | DataConnectionOutputParent
   | LogAnalyticsDataConnectionOutput
   | AzureDataExplorerDataConnectionOutput;
-/** Paged collection of AssetResource items */
-export type PagedAssetResourceOutput = Paged<AssetResourceOutput>;
-/** Paged collection of DataConnection items */
-export type PagedDataConnectionOutput = Paged<DataConnectionOutput>;
-/** Paged collection of DiscoGroup items */
-export type PagedDiscoGroupOutput = Paged<DiscoGroupOutput>;
-/** Paged collection of DiscoTemplate items */
-export type PagedDiscoTemplateOutput = Paged<DiscoTemplateOutput>;
-/** Paged collection of SavedFilter items */
-export type PagedSavedFilterOutput = Paged<SavedFilterOutput>;
-/** Paged collection of Task items */
-export type PagedTaskOutput = Paged<TaskOutput>;
+/** Alias for AssetUpdateStateOutput */
+export type AssetUpdateStateOutput = string;
+/** Alias for AssetStateOutput */
+export type AssetStateOutput = string;
+/** Alias for AuditTrailItemKindOutput */
+export type AuditTrailItemKindOutput = string;
+/** Alias for ObservedPortStateValueOutput */
+export type ObservedPortStateValueOutput = string;
+/** Alias for SslCertAssetValidationTypeOutput */
+export type SslCertAssetValidationTypeOutput = string;
+/** Alias for PageAssetRedirectTypeOutput */
+export type PageAssetRedirectTypeOutput = string;
+/** Alias for TaskStateOutput */
+export type TaskStateOutput = string;
+/** Alias for TaskPhaseOutput */
+export type TaskPhaseOutput = string;
+/** Alias for DataConnectionContentOutput */
+export type DataConnectionContentOutput = string;
+/** Alias for DataConnectionFrequencyOutput */
+export type DataConnectionFrequencyOutput = string;
+/** Alias for DiscoSourceKindOutput */
+export type DiscoSourceKindOutput = string;
+/** Alias for DiscoRunStateOutput */
+export type DiscoRunStateOutput = string;
+/** Alias for ReportBillableAssetBreakdownKindOutput */
+export type ReportBillableAssetBreakdownKindOutput = string;

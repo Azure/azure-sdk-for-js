@@ -3,27 +3,20 @@
 
 /**
  * This example shows how to use
- * [@opentelemetry/sdk-trace-base](https://github.com/open-telemetry/opentelemetry-js/tree/master/packages/opentelemetry-tracing)
+ * [@opentelemetry/sdk-trace-base](https://github.com/open-telemetry/opentelemetry-js/tree/master/packages/opentelemetry-sdk-trace-base)
  * to instrument a simple Node.js application - e.g. a batch job.
  *
  * @summary use opentelemetry tracing to instrument a Node.js application. Basic use of Tracing in Node.js application.
  */
 
 import * as opentelemetry from "@opentelemetry/api";
-import { Resource } from "@opentelemetry/resources";
+import { resourceFromAttributes } from "@opentelemetry/resources";
 import { SemanticResourceAttributes } from "@opentelemetry/semantic-conventions";
 import { BasicTracerProvider, SimpleSpanProcessor } from "@opentelemetry/sdk-trace-base";
 import { AzureMonitorTraceExporter } from "@azure/monitor-opentelemetry-exporter";
 
 // Load the .env file if it exists
-import * as dotenv from "dotenv";
-dotenv.config();
-
-const provider = new BasicTracerProvider({
-  resource: new Resource({
-    [SemanticResourceAttributes.SERVICE_NAME]: "basic-service",
-  }),
-});
+import "dotenv/config";
 
 // Configure span processor to send spans to the exporter
 const exporter = new AzureMonitorTraceExporter({
@@ -32,7 +25,12 @@ const exporter = new AzureMonitorTraceExporter({
     process.env["APPLICATIONINSIGHTS_CONNECTION_STRING"] ||
     "InstrumentationKey=00000000-0000-0000-0000-000000000000;",
 });
-provider.addSpanProcessor(new SimpleSpanProcessor(exporter as any));
+const provider = new BasicTracerProvider({
+  resource: resourceFromAttributes({
+    [SemanticResourceAttributes.SERVICE_NAME]: "basic-service",
+  }),
+  spanProcessors: [new SimpleSpanProcessor(exporter)],
+});
 
 /**
  * Initialize the OpenTelemetry APIs to use the BasicTracerProvider bindings.
@@ -43,10 +41,11 @@ provider.addSpanProcessor(new SimpleSpanProcessor(exporter as any));
  * do not register a global tracer provider, instrumentation which calls these
  * methods will receive no-op implementations.
  */
-provider.register();
+// Register the tracer provider with the OpenTelemetry API
+opentelemetry.trace.setGlobalTracerProvider(provider);
 const tracer = opentelemetry.trace.getTracer("example-basic-tracer-node");
 
-export async function main() {
+export async function main(): Promise<void> {
   // Create a span. A span must be closed.
   const parentSpan = tracer.startSpan("main");
   for (let i = 0; i < 10; i += 1) {
@@ -56,10 +55,10 @@ export async function main() {
   parentSpan.end();
 
   // flush and close the connection.
-  exporter.shutdown();
+  await provider.shutdown();
 }
 
-function doWork(parent: opentelemetry.Span) {
+function doWork(parent: opentelemetry.Span): void {
   // Start another span. In this example, the main method already started a
   // span, so that'll be the parent span, and this will be a child span.
   const ctx = opentelemetry.trace.setSpan(opentelemetry.context.active(), parent);

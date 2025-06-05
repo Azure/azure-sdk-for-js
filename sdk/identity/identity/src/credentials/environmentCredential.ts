@@ -51,8 +51,7 @@ export function getSendCertificateChain(): boolean {
 }
 
 /**
- * Enables authentication to Microsoft Entra ID using a client secret or certificate, or as a user
- * with a username and password.
+ * Enables authentication to Microsoft Entra ID using a client secret or certificate.
  */
 export class EnvironmentCredential implements TokenCredential {
   private _credential?:
@@ -75,7 +74,7 @@ export class EnvironmentCredential implements TokenCredential {
    * - `AZURE_CLIENT_CERTIFICATE_PASSWORD`: (optional) password for the certificate file.
    * - `AZURE_CLIENT_SEND_CERTIFICATE_CHAIN`: (optional) indicates that the certificate chain should be set in x5c header to support subject name / issuer based authentication.
    *
-   * Alternatively, users can provide environment variables for username and password authentication:
+   * Username and password authentication is deprecated, since it doesn't support multifactor authentication (MFA). See https://aka.ms/azsdk/identity/mfa for more details. Users can still provide environment variables for this authentication method:
    * - `AZURE_USERNAME`: Username to authenticate with.
    * - `AZURE_PASSWORD`: Password to authenticate with.
    *
@@ -130,6 +129,10 @@ export class EnvironmentCredential implements TokenCredential {
     if (tenantId && clientId && username && password) {
       logger.info(
         `Invoking UsernamePasswordCredential with tenant ID: ${tenantId}, clientId: ${clientId} and username: ${username}`,
+      );
+
+      logger.warning(
+        "Environment is configured to use username and password authentication. This authentication method is deprecated, as it doesn't support multifactor authentication (MFA). Use a more secure credential. For more details, see https://aka.ms/azsdk/identity/mfa.",
       );
       this._credential = new UsernamePasswordCredential(
         tenantId,

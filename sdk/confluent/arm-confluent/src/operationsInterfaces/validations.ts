@@ -12,7 +12,7 @@ import {
   ValidationsValidateOrganizationResponse,
   ValidationsValidateOrganizationV2OptionalParams,
   ValidationsValidateOrganizationV2Response,
-} from "../models";
+} from "../models/index.js";
 
 /** Interface representing a Validations. */
 export interface Validations {

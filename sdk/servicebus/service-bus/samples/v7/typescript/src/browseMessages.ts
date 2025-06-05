@@ -4,7 +4,7 @@
 /**
  * This sample demonstrates how the peekMessages() function can be used to browse a Service Bus message.
  *
- * See https://docs.microsoft.com/azure/service-bus-messaging/message-browsing to learn about message browsing.
+ * See https://learn.microsoft.com/azure/service-bus-messaging/message-browsing to learn about message browsing.
  *
  * Setup: Please run "sendMessages" sample before running this to populate the queue/topic
  *
@@ -15,14 +15,12 @@ import { ServiceBusClient } from "@azure/service-bus";
 import { DefaultAzureCredential } from "@azure/identity";
 
 // Load the .env file if it exists
-import * as dotenv from "dotenv";
-dotenv.config();
-
+import "dotenv/config";
 // Define connection string and related Service Bus entity names here
 const fqdn = process.env.SERVICEBUS_FQDN || "<your-servicebus-namespace>.servicebus.windows.net";
 const queueName = process.env.QUEUE_NAME || "<queue name>";
 
-export async function main() {
+export async function main(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const sbClient = new ServiceBusClient(fqdn, credential);
 

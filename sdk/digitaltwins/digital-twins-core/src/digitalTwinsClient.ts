@@ -1,7 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/* eslint-disable @azure/azure-sdk/ts-naming-options */
 import type {
   OperationOptions,
   InternalClientPipelineOptions,
@@ -74,13 +73,13 @@ export class DigitalTwinsClient {
    * Creates an instance of AzureDigitalTwinsAPI.
    *
    * Example usage:
-   * ```ts
-   * const { DigitalTwinsClient, ServiceClientCredentials } = require("@azure/digital-twins-core");
+   * ```ts snippet:ReadmeSampleCreateClient_Node
+   * import { DefaultAzureCredential } from "@azure/identity";
+   * import { DigitalTwinsClient } from "@azure/digital-twins-core";
    *
-   * const client = new DigitalTwinsClient(
-   *   "<endpoint>",
-   *   new DefaultAzureCredential();
-   * );
+   * const url = "<URL to Azure Digital Twins instance>";
+   * const credential = new DefaultAzureCredential();
+   * const serviceClient = new DigitalTwinsClient(url, credential);
    * ```
    * @param endpointUrl - The endpoint URL of the service.
    * @param credential - Used to authenticate requests to the service.
@@ -505,7 +504,7 @@ export class DigitalTwinsClient {
         models: dtdlModels,
       },
       async (updatedOptions) => {
-        return this.client.digitalTwinModels.add(updatedOptions);
+        return this.client.digitalTwinModels.add(dtdlModels, updatedOptions);
       },
     );
   }
@@ -596,17 +595,18 @@ export class DigitalTwinsClient {
     filter: string,
     options: OperationOptions = {},
   ): Promise<void> {
+    const eventRoute = {
+      endpointName: endpointId,
+      filter,
+    };
     return tracingClient.withSpan(
       "DigitalTwinsClient.upsertEventRoute",
       {
-        eventRoute: {
-          endpointName: endpointId,
-          filter,
-        },
+        eventRoute,
         ...options,
       },
       async (updatedOptions) => {
-        return this.client.eventRoutes.add(eventRouteId, updatedOptions);
+        return this.client.eventRoutes.add(eventRouteId, eventRoute, updatedOptions);
       },
     );
   }

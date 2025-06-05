@@ -6,17 +6,15 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
 const { PostgreSQLManagementFlexibleServerClient } = require("@azure/arm-postgresql-flexible");
 const { DefaultAzureCredential } = require("@azure/identity");
-require("dotenv").config();
+require("dotenv/config");
 
 /**
  * This sample demonstrates how to Updates an existing server. The request body can contain one to many of the properties present in the normal server definition.
  *
  * @summary Updates an existing server. The request body can contain one to many of the properties present in the normal server definition.
- * x-ms-original-file: specification/postgresql/resource-manager/Microsoft.DBforPostgreSQL/preview/2023-12-01-preview/examples/PromoteReplicaAsForcedStandaloneServer.json
+ * x-ms-original-file: specification/postgresql/resource-manager/Microsoft.DBforPostgreSQL/preview/2025-01-01-preview/examples/PromoteReplicaAsForcedStandaloneServer.json
  */
 async function promoteAReplicaServerAsAStandaloneServerAsForcedIEItWillPromoteAReplicaServerImmediatelyWithoutWaitingForPrimaryAndReplicaToBeInSync() {
   const subscriptionId =
@@ -36,7 +34,7 @@ async function promoteAReplicaServerAsAStandaloneServerAsForcedIEItWillPromoteAR
  * This sample demonstrates how to Updates an existing server. The request body can contain one to many of the properties present in the normal server definition.
  *
  * @summary Updates an existing server. The request body can contain one to many of the properties present in the normal server definition.
- * x-ms-original-file: specification/postgresql/resource-manager/Microsoft.DBforPostgreSQL/preview/2023-12-01-preview/examples/PromoteReplicaAsPlannedStandaloneServer.json
+ * x-ms-original-file: specification/postgresql/resource-manager/Microsoft.DBforPostgreSQL/preview/2025-01-01-preview/examples/PromoteReplicaAsPlannedStandaloneServer.json
  */
 async function promoteAReplicaServerAsAStandaloneServerAsPlannedIEItWillWaitForReplicationToComplete() {
   const subscriptionId =
@@ -56,7 +54,7 @@ async function promoteAReplicaServerAsAStandaloneServerAsPlannedIEItWillWaitForR
  * This sample demonstrates how to Updates an existing server. The request body can contain one to many of the properties present in the normal server definition.
  *
  * @summary Updates an existing server. The request body can contain one to many of the properties present in the normal server definition.
- * x-ms-original-file: specification/postgresql/resource-manager/Microsoft.DBforPostgreSQL/preview/2023-12-01-preview/examples/ServerUpdate.json
+ * x-ms-original-file: specification/postgresql/resource-manager/Microsoft.DBforPostgreSQL/preview/2025-01-01-preview/examples/ServerUpdate.json
  */
 async function serverUpdate() {
   const subscriptionId =
@@ -80,9 +78,96 @@ async function serverUpdate() {
  * This sample demonstrates how to Updates an existing server. The request body can contain one to many of the properties present in the normal server definition.
  *
  * @summary Updates an existing server. The request body can contain one to many of the properties present in the normal server definition.
- * x-ms-original-file: specification/postgresql/resource-manager/Microsoft.DBforPostgreSQL/preview/2023-12-01-preview/examples/ServerUpdateWithAadAuthEnabled.json
+ * x-ms-original-file: specification/postgresql/resource-manager/Microsoft.DBforPostgreSQL/preview/2025-01-01-preview/examples/ServerUpdateWithCustomerMaintenanceWindow.json
  */
-async function serverUpdateWithAadAuthEnabled() {
+async function serverUpdateWithCustomerMaintenanceWindow() {
+  const subscriptionId =
+    process.env["POSTGRESQL_SUBSCRIPTION_ID"] || "ffffffff-ffff-ffff-ffff-ffffffffffff";
+  const resourceGroupName = process.env["POSTGRESQL_RESOURCE_GROUP"] || "testrg";
+  const serverName = "pgtestsvc4";
+  const parameters = {
+    createMode: "Update",
+    maintenanceWindow: {
+      customWindow: "Enabled",
+      dayOfWeek: 0,
+      startHour: 8,
+      startMinute: 0,
+    },
+  };
+  const credential = new DefaultAzureCredential();
+  const client = new PostgreSQLManagementFlexibleServerClient(credential, subscriptionId);
+  const result = await client.servers.beginUpdateAndWait(resourceGroupName, serverName, parameters);
+  console.log(result);
+}
+
+/**
+ * This sample demonstrates how to Updates an existing server. The request body can contain one to many of the properties present in the normal server definition.
+ *
+ * @summary Updates an existing server. The request body can contain one to many of the properties present in the normal server definition.
+ * x-ms-original-file: specification/postgresql/resource-manager/Microsoft.DBforPostgreSQL/preview/2025-01-01-preview/examples/ServerUpdateWithDataEncryptionEnabled.json
+ */
+async function serverUpdateWithDataEncryptionEnabled() {
+  const subscriptionId =
+    process.env["POSTGRESQL_SUBSCRIPTION_ID"] || "ffffffff-ffff-ffff-ffff-ffffffffffff";
+  const resourceGroupName = process.env["POSTGRESQL_RESOURCE_GROUP"] || "TestGroup";
+  const serverName = "pgtestsvc4";
+  const parameters = {
+    administratorLoginPassword: "newpassword",
+    backup: { backupRetentionDays: 20 },
+    createMode: "Update",
+    dataEncryption: {
+      type: "AzureKeyVault",
+      geoBackupKeyURI:
+        "https://test-geo-kv.vault.azure.net/keys/test-key1/yyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyy",
+      geoBackupUserAssignedIdentityId:
+        "/subscriptions/ffffffff-ffff-ffff-ffff-ffffffffffff/resourceGroups/testresourcegroup/providers/Microsoft.ManagedIdentity/userAssignedIdentities/test-geo-usermanagedidentity",
+      primaryKeyURI:
+        "https://test-kv.vault.azure.net/keys/test-key1/xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+      primaryUserAssignedIdentityId:
+        "/subscriptions/ffffffff-ffff-ffff-ffff-ffffffffffff/resourceGroups/testresourcegroup/providers/Microsoft.ManagedIdentity/userAssignedIdentities/test-usermanagedidentity",
+    },
+    identity: {
+      type: "UserAssigned",
+      userAssignedIdentities: {
+        "/subscriptions/ffffffffFfffFfffFfffFfffffffffff/resourceGroups/testresourcegroup/providers/MicrosoftManagedIdentity/userAssignedIdentities/testGeoUsermanagedidentity":
+          {},
+        "/subscriptions/ffffffffFfffFfffFfffFfffffffffff/resourceGroups/testresourcegroup/providers/MicrosoftManagedIdentity/userAssignedIdentities/testUsermanagedidentity":
+          {},
+      },
+    },
+    sku: { name: "Standard_D8s_v3", tier: "GeneralPurpose" },
+  };
+  const credential = new DefaultAzureCredential();
+  const client = new PostgreSQLManagementFlexibleServerClient(credential, subscriptionId);
+  const result = await client.servers.beginUpdateAndWait(resourceGroupName, serverName, parameters);
+  console.log(result);
+}
+
+/**
+ * This sample demonstrates how to Updates an existing server. The request body can contain one to many of the properties present in the normal server definition.
+ *
+ * @summary Updates an existing server. The request body can contain one to many of the properties present in the normal server definition.
+ * x-ms-original-file: specification/postgresql/resource-manager/Microsoft.DBforPostgreSQL/preview/2025-01-01-preview/examples/ServerUpdateWithMajorVersionUpgrade.json
+ */
+async function serverUpdateWithMajorVersionUpgrade() {
+  const subscriptionId =
+    process.env["POSTGRESQL_SUBSCRIPTION_ID"] || "ffffffff-ffff-ffff-ffff-ffffffffffff";
+  const resourceGroupName = process.env["POSTGRESQL_RESOURCE_GROUP"] || "testrg";
+  const serverName = "pgtestsvc4";
+  const parameters = { createMode: "Update", version: "16" };
+  const credential = new DefaultAzureCredential();
+  const client = new PostgreSQLManagementFlexibleServerClient(credential, subscriptionId);
+  const result = await client.servers.beginUpdateAndWait(resourceGroupName, serverName, parameters);
+  console.log(result);
+}
+
+/**
+ * This sample demonstrates how to Updates an existing server. The request body can contain one to many of the properties present in the normal server definition.
+ *
+ * @summary Updates an existing server. The request body can contain one to many of the properties present in the normal server definition.
+ * x-ms-original-file: specification/postgresql/resource-manager/Microsoft.DBforPostgreSQL/preview/2025-01-01-preview/examples/ServerUpdateWithMicrosoftEntraEnabled.json
+ */
+async function serverUpdateWithMicrosoftEntraEnabled() {
   const subscriptionId =
     process.env["POSTGRESQL_SUBSCRIPTION_ID"] || "ffffffff-ffff-ffff-ffff-ffffffffffff";
   const resourceGroupName = process.env["POSTGRESQL_RESOURCE_GROUP"] || "TestGroup";
@@ -109,94 +194,7 @@ async function serverUpdateWithAadAuthEnabled() {
  * This sample demonstrates how to Updates an existing server. The request body can contain one to many of the properties present in the normal server definition.
  *
  * @summary Updates an existing server. The request body can contain one to many of the properties present in the normal server definition.
- * x-ms-original-file: specification/postgresql/resource-manager/Microsoft.DBforPostgreSQL/preview/2023-12-01-preview/examples/ServerUpdateWithCustomerMaintenanceWindow.json
- */
-async function serverUpdateWithCustomerMaintenanceWindow() {
-  const subscriptionId =
-    process.env["POSTGRESQL_SUBSCRIPTION_ID"] || "ffffffff-ffff-ffff-ffff-ffffffffffff";
-  const resourceGroupName = process.env["POSTGRESQL_RESOURCE_GROUP"] || "testrg";
-  const serverName = "pgtestsvc4";
-  const parameters = {
-    createMode: "Update",
-    maintenanceWindow: {
-      customWindow: "Enabled",
-      dayOfWeek: 0,
-      startHour: 8,
-      startMinute: 0,
-    },
-  };
-  const credential = new DefaultAzureCredential();
-  const client = new PostgreSQLManagementFlexibleServerClient(credential, subscriptionId);
-  const result = await client.servers.beginUpdateAndWait(resourceGroupName, serverName, parameters);
-  console.log(result);
-}
-
-/**
- * This sample demonstrates how to Updates an existing server. The request body can contain one to many of the properties present in the normal server definition.
- *
- * @summary Updates an existing server. The request body can contain one to many of the properties present in the normal server definition.
- * x-ms-original-file: specification/postgresql/resource-manager/Microsoft.DBforPostgreSQL/preview/2023-12-01-preview/examples/ServerUpdateWithDataEncryptionEnabled.json
- */
-async function serverUpdateWithDataEncryptionEnabled() {
-  const subscriptionId =
-    process.env["POSTGRESQL_SUBSCRIPTION_ID"] || "ffffffff-ffff-ffff-ffff-ffffffffffff";
-  const resourceGroupName = process.env["POSTGRESQL_RESOURCE_GROUP"] || "TestGroup";
-  const serverName = "pgtestsvc4";
-  const parameters = {
-    administratorLoginPassword: "newpassword",
-    backup: { backupRetentionDays: 20 },
-    createMode: "Update",
-    dataEncryption: {
-      type: "AzureKeyVault",
-      geoBackupKeyURI:
-        "https://test-geo-kv.vault.azure.net/keys/test-key1/66f57315bab34b0189daa113fbc78787",
-      geoBackupUserAssignedIdentityId:
-        "/subscriptions/ffffffff-ffff-ffff-ffff-ffffffffffff/resourceGroups/testresourcegroup/providers/Microsoft.ManagedIdentity/userAssignedIdentities/test-geo-usermanagedidentity",
-      primaryKeyURI:
-        "https://test-kv.vault.azure.net/keys/test-key1/77f57315bab34b0189daa113fbc78787",
-      primaryUserAssignedIdentityId:
-        "/subscriptions/ffffffff-ffff-ffff-ffff-ffffffffffff/resourceGroups/testresourcegroup/providers/Microsoft.ManagedIdentity/userAssignedIdentities/test-usermanagedidentity",
-    },
-    identity: {
-      type: "UserAssigned",
-      userAssignedIdentities: {
-        "/subscriptions/ffffffffFfffFfffFfffFfffffffffff/resourceGroups/testresourcegroup/providers/MicrosoftManagedIdentity/userAssignedIdentities/testGeoUsermanagedidentity":
-          {},
-        "/subscriptions/ffffffffFfffFfffFfffFfffffffffff/resourceGroups/testresourcegroup/providers/MicrosoftManagedIdentity/userAssignedIdentities/testUsermanagedidentity":
-          {},
-      },
-    },
-    sku: { name: "Standard_D8s_v3", tier: "GeneralPurpose" },
-  };
-  const credential = new DefaultAzureCredential();
-  const client = new PostgreSQLManagementFlexibleServerClient(credential, subscriptionId);
-  const result = await client.servers.beginUpdateAndWait(resourceGroupName, serverName, parameters);
-  console.log(result);
-}
-
-/**
- * This sample demonstrates how to Updates an existing server. The request body can contain one to many of the properties present in the normal server definition.
- *
- * @summary Updates an existing server. The request body can contain one to many of the properties present in the normal server definition.
- * x-ms-original-file: specification/postgresql/resource-manager/Microsoft.DBforPostgreSQL/preview/2023-12-01-preview/examples/ServerUpdateWithMajorVersionUpgrade.json
- */
-async function serverUpdateWithMajorVersionUpgrade() {
-  const subscriptionId =
-    process.env["POSTGRESQL_SUBSCRIPTION_ID"] || "ffffffff-ffff-ffff-ffff-ffffffffffff";
-  const resourceGroupName = process.env["POSTGRESQL_RESOURCE_GROUP"] || "testrg";
-  const serverName = "pgtestsvc4";
-  const parameters = { createMode: "Update", version: "14" };
-  const credential = new DefaultAzureCredential();
-  const client = new PostgreSQLManagementFlexibleServerClient(credential, subscriptionId);
-  const result = await client.servers.beginUpdateAndWait(resourceGroupName, serverName, parameters);
-  console.log(result);
-}
-
-/**
- * This sample demonstrates how to Updates an existing server. The request body can contain one to many of the properties present in the normal server definition.
- *
- * @summary Updates an existing server. The request body can contain one to many of the properties present in the normal server definition.
- * x-ms-original-file: specification/postgresql/resource-manager/Microsoft.DBforPostgreSQL/preview/2023-12-01-preview/examples/PromoteReplicaAsForcedSwitchover.json
+ * x-ms-original-file: specification/postgresql/resource-manager/Microsoft.DBforPostgreSQL/preview/2025-01-01-preview/examples/PromoteReplicaAsForcedSwitchover.json
  */
 async function switchOverAReplicaServerAsForcedIEItWillReplicaAsPrimaryAndOriginalPrimaryAsReplicaImmediatelyWithoutWaitingForPrimaryAndReplicaToBeInSync() {
   const subscriptionId =
@@ -216,7 +214,7 @@ async function switchOverAReplicaServerAsForcedIEItWillReplicaAsPrimaryAndOrigin
  * This sample demonstrates how to Updates an existing server. The request body can contain one to many of the properties present in the normal server definition.
  *
  * @summary Updates an existing server. The request body can contain one to many of the properties present in the normal server definition.
- * x-ms-original-file: specification/postgresql/resource-manager/Microsoft.DBforPostgreSQL/preview/2023-12-01-preview/examples/PromoteReplicaAsPlannedSwitchover.json
+ * x-ms-original-file: specification/postgresql/resource-manager/Microsoft.DBforPostgreSQL/preview/2025-01-01-preview/examples/PromoteReplicaAsPlannedSwitchover.json
  */
 async function switchOverAReplicaServerAsPlannedIEItWillWaitForReplicationToCompleteBeforePromotingReplicaAsPrimaryAndOriginalPrimaryAsReplica() {
   const subscriptionId =
@@ -233,15 +231,15 @@ async function switchOverAReplicaServerAsPlannedIEItWillWaitForReplicationToComp
 }
 
 async function main() {
-  promoteAReplicaServerAsAStandaloneServerAsForcedIEItWillPromoteAReplicaServerImmediatelyWithoutWaitingForPrimaryAndReplicaToBeInSync();
-  promoteAReplicaServerAsAStandaloneServerAsPlannedIEItWillWaitForReplicationToComplete();
-  serverUpdate();
-  serverUpdateWithAadAuthEnabled();
-  serverUpdateWithCustomerMaintenanceWindow();
-  serverUpdateWithDataEncryptionEnabled();
-  serverUpdateWithMajorVersionUpgrade();
-  switchOverAReplicaServerAsForcedIEItWillReplicaAsPrimaryAndOriginalPrimaryAsReplicaImmediatelyWithoutWaitingForPrimaryAndReplicaToBeInSync();
-  switchOverAReplicaServerAsPlannedIEItWillWaitForReplicationToCompleteBeforePromotingReplicaAsPrimaryAndOriginalPrimaryAsReplica();
+  await promoteAReplicaServerAsAStandaloneServerAsForcedIEItWillPromoteAReplicaServerImmediatelyWithoutWaitingForPrimaryAndReplicaToBeInSync();
+  await promoteAReplicaServerAsAStandaloneServerAsPlannedIEItWillWaitForReplicationToComplete();
+  await serverUpdate();
+  await serverUpdateWithCustomerMaintenanceWindow();
+  await serverUpdateWithDataEncryptionEnabled();
+  await serverUpdateWithMajorVersionUpgrade();
+  await serverUpdateWithMicrosoftEntraEnabled();
+  await switchOverAReplicaServerAsForcedIEItWillReplicaAsPrimaryAndOriginalPrimaryAsReplicaImmediatelyWithoutWaitingForPrimaryAndReplicaToBeInSync();
+  await switchOverAReplicaServerAsPlannedIEItWillWaitForReplicationToCompleteBeforePromotingReplicaAsPrimaryAndOriginalPrimaryAsReplica();
 }
 
 main().catch(console.error);

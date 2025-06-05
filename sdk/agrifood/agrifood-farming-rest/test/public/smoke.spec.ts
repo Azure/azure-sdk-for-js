@@ -1,5 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
+
 import type { FarmBeatsClient, Party, PartiesListParameters } from "../../src/index.js";
 import { paginate } from "../../src/index.js";
 import type { Recorder } from "@azure-tools/test-recorder";

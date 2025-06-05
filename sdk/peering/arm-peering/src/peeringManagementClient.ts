@@ -31,7 +31,7 @@ import {
   PrefixesImpl,
   PeeringServiceProvidersImpl,
   PeeringServicesImpl
-} from "./operations";
+} from "./operations/index.js";
 import {
   CdnPeeringPrefixes,
   LegacyPeerings,
@@ -49,15 +49,15 @@ import {
   Prefixes,
   PeeringServiceProviders,
   PeeringServices
-} from "./operationsInterfaces";
-import * as Parameters from "./models/parameters";
-import * as Mappers from "./models/mappers";
+} from "./operationsInterfaces/index.js";
+import * as Parameters from "./models/parameters.js";
+import * as Mappers from "./models/mappers.js";
 import {
   PeeringManagementClientOptionalParams,
   CheckServiceProviderAvailabilityInput,
   CheckServiceProviderAvailabilityOptionalParams,
   CheckServiceProviderAvailabilityResponse
-} from "./models";
+} from "./models/index.js";
 
 export class PeeringManagementClient extends coreClient.ServiceClient {
   $host: string;

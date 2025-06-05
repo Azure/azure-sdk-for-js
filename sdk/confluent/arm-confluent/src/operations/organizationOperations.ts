@@ -7,19 +7,19 @@
  */
 
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
-import { setContinuationToken } from "../pagingHelper";
-import { OrganizationOperations } from "../operationsInterfaces";
+import { setContinuationToken } from "../pagingHelper.js";
+import { OrganizationOperations } from "../operationsInterfaces/index.js";
 import * as coreClient from "@azure/core-client";
-import * as Mappers from "../models/mappers";
-import * as Parameters from "../models/parameters";
-import { ConfluentManagementClient } from "../confluentManagementClient";
+import * as Mappers from "../models/mappers.js";
+import * as Parameters from "../models/parameters.js";
+import { ConfluentManagementClient } from "../confluentManagementClient.js";
 import {
   OperationResult,
   OrganizationOperationsListNextOptionalParams,
   OrganizationOperationsListOptionalParams,
   OrganizationOperationsListResponse,
   OrganizationOperationsListNextResponse,
-} from "../models";
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Class containing OrganizationOperations operations. */

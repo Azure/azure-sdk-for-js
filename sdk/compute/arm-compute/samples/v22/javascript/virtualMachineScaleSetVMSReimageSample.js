@@ -10,13 +10,13 @@
 // Licensed under the MIT License.
 const { ComputeManagementClient } = require("@azure/arm-compute");
 const { DefaultAzureCredential } = require("@azure/identity");
-require("dotenv").config();
+require("dotenv/config");
 
 /**
  * This sample demonstrates how to Reimages (upgrade the operating system) a specific virtual machine in a VM scale set.
  *
  * @summary Reimages (upgrade the operating system) a specific virtual machine in a VM scale set.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-07-01/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSetVM_Reimage_MaximumSet_Gen.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-11-01/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSetVM_Reimage_MaximumSet_Gen.json
  */
 async function virtualMachineScaleSetVMReimageMaximumSetGen() {
   const subscriptionId = process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
@@ -45,7 +45,7 @@ async function virtualMachineScaleSetVMReimageMaximumSetGen() {
  * This sample demonstrates how to Reimages (upgrade the operating system) a specific virtual machine in a VM scale set.
  *
  * @summary Reimages (upgrade the operating system) a specific virtual machine in a VM scale set.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-07-01/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSetVM_Reimage_MinimumSet_Gen.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-11-01/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSetVM_Reimage_MinimumSet_Gen.json
  */
 async function virtualMachineScaleSetVMReimageMinimumSetGen() {
   const subscriptionId = process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
@@ -63,8 +63,8 @@ async function virtualMachineScaleSetVMReimageMinimumSetGen() {
 }
 
 async function main() {
-  virtualMachineScaleSetVMReimageMaximumSetGen();
-  virtualMachineScaleSetVMReimageMinimumSetGen();
+  await virtualMachineScaleSetVMReimageMaximumSetGen();
+  await virtualMachineScaleSetVMReimageMinimumSetGen();
 }
 
 main().catch(console.error);

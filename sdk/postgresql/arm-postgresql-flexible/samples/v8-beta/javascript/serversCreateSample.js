@@ -6,17 +6,45 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
 const { PostgreSQLManagementFlexibleServerClient } = require("@azure/arm-postgresql-flexible");
 const { DefaultAzureCredential } = require("@azure/identity");
-require("dotenv").config();
+require("dotenv/config");
 
 /**
  * This sample demonstrates how to Creates a new server.
  *
  * @summary Creates a new server.
- * x-ms-original-file: specification/postgresql/resource-manager/Microsoft.DBforPostgreSQL/preview/2023-12-01-preview/examples/ServerCreateGeoRestoreWithDataEncryptionEnabled.json
+ * x-ms-original-file: specification/postgresql/resource-manager/Microsoft.DBforPostgreSQL/preview/2025-01-01-preview/examples/ClusterCreate.json
+ */
+async function clusterCreate() {
+  const subscriptionId =
+    process.env["POSTGRESQL_SUBSCRIPTION_ID"] || "ffffffff-ffff-ffff-ffff-ffffffffffff";
+  const resourceGroupName = process.env["POSTGRESQL_RESOURCE_GROUP"] || "testrg";
+  const serverName = "pgtestcluster";
+  const parameters = {
+    administratorLogin: "login",
+    administratorLoginPassword: "Password1",
+    backup: { backupRetentionDays: 7, geoRedundantBackup: "Disabled" },
+    cluster: { clusterSize: 2 },
+    createMode: "Create",
+    highAvailability: { mode: "Disabled" },
+    location: "westus",
+    network: { publicNetworkAccess: "Disabled" },
+    sku: { name: "Standard_D4ds_v5", tier: "GeneralPurpose" },
+    storage: { autoGrow: "Disabled", storageSizeGB: 256, tier: "P15" },
+    version: "16",
+  };
+  const credential = new DefaultAzureCredential();
+  const client = new PostgreSQLManagementFlexibleServerClient(credential, subscriptionId);
+  const result = await client.servers.beginCreateAndWait(resourceGroupName, serverName, parameters);
+  console.log(result);
+}
+
+/**
+ * This sample demonstrates how to Creates a new server.
+ *
+ * @summary Creates a new server.
+ * x-ms-original-file: specification/postgresql/resource-manager/Microsoft.DBforPostgreSQL/preview/2025-01-01-preview/examples/ServerCreateGeoRestoreWithDataEncryptionEnabled.json
  */
 async function createADatabaseAsAGeoRestoreInGeoPairedLocation() {
   const subscriptionId =
@@ -28,11 +56,11 @@ async function createADatabaseAsAGeoRestoreInGeoPairedLocation() {
     dataEncryption: {
       type: "AzureKeyVault",
       geoBackupKeyURI:
-        "https://test-geo-kv.vault.azure.net/keys/test-key1/66f57315bab34b0189daa113fbc78787",
+        "https://test-geo-kv.vault.azure.net/keys/test-key1/yyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyy",
       geoBackupUserAssignedIdentityId:
         "/subscriptions/ffffffff-ffff-ffff-ffff-ffffffffffff/resourceGroups/testresourcegroup/providers/Microsoft.ManagedIdentity/userAssignedIdentities/test-geo-usermanagedidentity",
       primaryKeyURI:
-        "https://test-kv.vault.azure.net/keys/test-key1/77f57315bab34b0189daa113fbc78787",
+        "https://test-kv.vault.azure.net/keys/test-key1/xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
       primaryUserAssignedIdentityId:
         "/subscriptions/ffffffff-ffff-ffff-ffff-ffffffffffff/resourceGroups/testresourcegroup/providers/Microsoft.ManagedIdentity/userAssignedIdentities/test-usermanagedidentity",
     },
@@ -60,7 +88,7 @@ async function createADatabaseAsAGeoRestoreInGeoPairedLocation() {
  * This sample demonstrates how to Creates a new server.
  *
  * @summary Creates a new server.
- * x-ms-original-file: specification/postgresql/resource-manager/Microsoft.DBforPostgreSQL/preview/2023-12-01-preview/examples/ServerCreatePointInTimeRestore.json
+ * x-ms-original-file: specification/postgresql/resource-manager/Microsoft.DBforPostgreSQL/preview/2025-01-01-preview/examples/ServerCreatePointInTimeRestore.json
  */
 async function createADatabaseAsAPointInTimeRestore() {
   const subscriptionId =
@@ -84,31 +112,31 @@ async function createADatabaseAsAPointInTimeRestore() {
  * This sample demonstrates how to Creates a new server.
  *
  * @summary Creates a new server.
- * x-ms-original-file: specification/postgresql/resource-manager/Microsoft.DBforPostgreSQL/preview/2023-12-01-preview/examples/ServerCreate.json
+ * x-ms-original-file: specification/postgresql/resource-manager/Microsoft.DBforPostgreSQL/preview/2025-01-01-preview/examples/ServerCreate.json
  */
 async function createANewServer() {
   const subscriptionId =
     process.env["POSTGRESQL_SUBSCRIPTION_ID"] || "ffffffff-ffff-ffff-ffff-ffffffffffff";
   const resourceGroupName = process.env["POSTGRESQL_RESOURCE_GROUP"] || "testrg";
-  const serverName = "pgtestsvc4";
+  const serverName = "testpgflex";
   const parameters = {
-    administratorLogin: "cloudsa",
-    administratorLoginPassword: "password",
+    administratorLogin: "login",
+    administratorLoginPassword: "Password1",
     availabilityZone: "1",
-    backup: { backupRetentionDays: 7, geoRedundantBackup: "Disabled" },
+    backup: { backupRetentionDays: 7, geoRedundantBackup: "Enabled" },
     createMode: "Create",
     highAvailability: { mode: "ZoneRedundant" },
-    location: "westus",
+    location: "eastus",
     network: {
       delegatedSubnetResourceId:
-        "/subscriptions/ffffffff-ffff-ffff-ffff-ffffffffffff/resourceGroups/testrg/providers/Microsoft.Network/virtualNetworks/test-vnet/subnets/test-vnet-subnet",
+        "/subscriptions/ffffffff-ffff-ffff-ffff-ffffffffffff/resourceGroups/testrg/providers/Microsoft.Network/virtualNetworks/test-vnet/subnets/test-subnet",
       privateDnsZoneArmResourceId:
-        "/subscriptions/ffffffff-ffff-ffff-ffff-ffffffffffff/resourcegroups/testrg/providers/Microsoft.Network/privateDnsZones/test-private-dns-zone.postgres.database.azure.com",
+        "/subscriptions/ffffffff-ffff-ffff-ffff-ffffffffffff/resourceGroups/testrg/providers/Microsoft.Network/privateDnsZones/testpgflex.private.postgres.database",
     },
-    sku: { name: "Standard_D4s_v3", tier: "GeneralPurpose" },
+    sku: { name: "Standard_D4ds_v5", tier: "GeneralPurpose" },
     storage: { autoGrow: "Disabled", storageSizeGB: 512, tier: "P20" },
-    tags: { elasticServer: "1" },
-    version: "12",
+    tags: { vNetServer: "1" },
+    version: "16",
   };
   const credential = new DefaultAzureCredential();
   const client = new PostgreSQLManagementFlexibleServerClient(credential, subscriptionId);
@@ -120,16 +148,16 @@ async function createANewServer() {
  * This sample demonstrates how to Creates a new server.
  *
  * @summary Creates a new server.
- * x-ms-original-file: specification/postgresql/resource-manager/Microsoft.DBforPostgreSQL/preview/2023-12-01-preview/examples/ServerCreateWithAadAuthEnabled.json
+ * x-ms-original-file: specification/postgresql/resource-manager/Microsoft.DBforPostgreSQL/preview/2025-01-01-preview/examples/ServerCreateWithMicrosoftEntraEnabled.json
  */
-async function createANewServerWithActiveDirectoryAuthenticationEnabled() {
+async function createANewServerWithMicrosoftEntraAuthenticationEnabled() {
   const subscriptionId =
     process.env["POSTGRESQL_SUBSCRIPTION_ID"] || "ffffffff-ffff-ffff-ffff-ffffffffffff";
   const resourceGroupName = process.env["POSTGRESQL_RESOURCE_GROUP"] || "testrg";
   const serverName = "pgtestsvc4";
   const parameters = {
-    administratorLogin: "cloudsa",
-    administratorLoginPassword: "password",
+    administratorLogin: "login",
+    administratorLoginPassword: "Password1",
     authConfig: {
       activeDirectoryAuth: "Enabled",
       passwordAuth: "Enabled",
@@ -147,10 +175,10 @@ async function createANewServerWithActiveDirectoryAuthenticationEnabled() {
       privateDnsZoneArmResourceId:
         "/subscriptions/ffffffff-ffff-ffff-ffff-ffffffffffff/resourcegroups/testrg/providers/Microsoft.Network/privateDnsZones/test-private-dns-zone.postgres.database.azure.com",
     },
-    sku: { name: "Standard_D4s_v3", tier: "GeneralPurpose" },
+    sku: { name: "Standard_D4ds_v5", tier: "GeneralPurpose" },
     storage: { autoGrow: "Disabled", storageSizeGB: 512, tier: "P20" },
     tags: { elasticServer: "1" },
-    version: "12",
+    version: "16",
   };
   const credential = new DefaultAzureCredential();
   const client = new PostgreSQLManagementFlexibleServerClient(credential, subscriptionId);
@@ -162,7 +190,7 @@ async function createANewServerWithActiveDirectoryAuthenticationEnabled() {
  * This sample demonstrates how to Creates a new server.
  *
  * @summary Creates a new server.
- * x-ms-original-file: specification/postgresql/resource-manager/Microsoft.DBforPostgreSQL/preview/2023-12-01-preview/examples/ServerCreateReplica.json
+ * x-ms-original-file: specification/postgresql/resource-manager/Microsoft.DBforPostgreSQL/preview/2025-01-01-preview/examples/ServerCreateReplica.json
  */
 async function serverCreateReplica() {
   const subscriptionId =
@@ -176,7 +204,7 @@ async function serverCreateReplica() {
       geoBackupKeyURI: "",
       geoBackupUserAssignedIdentityId: "",
       primaryKeyURI:
-        "https://test-kv.vault.azure.net/keys/test-key1/77f57315bab34b0189daa113fbc78787",
+        "https://test-kv.vault.azure.net/keys/test-key1/xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
       primaryUserAssignedIdentityId:
         "/subscriptions/ffffffff-ffff-ffff-ffff-ffffffffffff/resourceGroups/testresourcegroup/providers/Microsoft.ManagedIdentity/userAssignedIdentities/test-usermanagedidentity",
     },
@@ -202,7 +230,7 @@ async function serverCreateReplica() {
  * This sample demonstrates how to Creates a new server.
  *
  * @summary Creates a new server.
- * x-ms-original-file: specification/postgresql/resource-manager/Microsoft.DBforPostgreSQL/preview/2023-12-01-preview/examples/ServerCreateReviveDropped.json
+ * x-ms-original-file: specification/postgresql/resource-manager/Microsoft.DBforPostgreSQL/preview/2025-01-01-preview/examples/ServerCreateReviveDropped.json
  */
 async function serverCreateReviveDropped() {
   const subscriptionId =
@@ -226,7 +254,7 @@ async function serverCreateReviveDropped() {
  * This sample demonstrates how to Creates a new server.
  *
  * @summary Creates a new server.
- * x-ms-original-file: specification/postgresql/resource-manager/Microsoft.DBforPostgreSQL/preview/2023-12-01-preview/examples/ServerCreateWithDataEncryptionEnabled.json
+ * x-ms-original-file: specification/postgresql/resource-manager/Microsoft.DBforPostgreSQL/preview/2025-01-01-preview/examples/ServerCreateWithDataEncryptionEnabled.json
  */
 async function serverCreateWithDataEncryptionEnabled() {
   const subscriptionId =
@@ -234,8 +262,8 @@ async function serverCreateWithDataEncryptionEnabled() {
   const resourceGroupName = process.env["POSTGRESQL_RESOURCE_GROUP"] || "testrg";
   const serverName = "pgtestsvc4";
   const parameters = {
-    administratorLogin: "cloudsa",
-    administratorLoginPassword: "password",
+    administratorLogin: "login",
+    administratorLoginPassword: "Password1",
     availabilityZone: "1",
     backup: { backupRetentionDays: 7, geoRedundantBackup: "Disabled" },
     createMode: "Create",
@@ -244,7 +272,7 @@ async function serverCreateWithDataEncryptionEnabled() {
       geoBackupKeyURI: "",
       geoBackupUserAssignedIdentityId: "",
       primaryKeyURI:
-        "https://test-kv.vault.azure.net/keys/test-key1/77f57315bab34b0189daa113fbc78787",
+        "https://test-kv.vault.azure.net/keys/test-key1/xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
       primaryUserAssignedIdentityId:
         "/subscriptions/ffffffff-ffff-ffff-ffff-ffffffffffff/resourceGroups/testresourcegroup/providers/Microsoft.ManagedIdentity/userAssignedIdentities/test-usermanagedidentity",
     },
@@ -263,10 +291,9 @@ async function serverCreateWithDataEncryptionEnabled() {
       privateDnsZoneArmResourceId:
         "/subscriptions/ffffffff-ffff-ffff-ffff-ffffffffffff/resourcegroups/testrg/providers/Microsoft.Network/privateDnsZones/test-private-dns-zone.postgres.database.azure.com",
     },
-    sku: { name: "Standard_D4s_v3", tier: "GeneralPurpose" },
-    storage: { autoGrow: "Disabled", storageSizeGB: 512 },
-    tags: { elasticServer: "1" },
-    version: "12",
+    sku: { name: "Standard_D4ds_v5", tier: "GeneralPurpose" },
+    storage: { autoGrow: "Disabled", storageSizeGB: 512, tier: "P20" },
+    version: "16",
   };
   const credential = new DefaultAzureCredential();
   const client = new PostgreSQLManagementFlexibleServerClient(credential, subscriptionId);
@@ -275,13 +302,14 @@ async function serverCreateWithDataEncryptionEnabled() {
 }
 
 async function main() {
-  createADatabaseAsAGeoRestoreInGeoPairedLocation();
-  createADatabaseAsAPointInTimeRestore();
-  createANewServer();
-  createANewServerWithActiveDirectoryAuthenticationEnabled();
-  serverCreateReplica();
-  serverCreateReviveDropped();
-  serverCreateWithDataEncryptionEnabled();
+  await clusterCreate();
+  await createADatabaseAsAGeoRestoreInGeoPairedLocation();
+  await createADatabaseAsAPointInTimeRestore();
+  await createANewServer();
+  await createANewServerWithMicrosoftEntraAuthenticationEnabled();
+  await serverCreateReplica();
+  await serverCreateReviveDropped();
+  await serverCreateWithDataEncryptionEnabled();
 }
 
 main().catch(console.error);

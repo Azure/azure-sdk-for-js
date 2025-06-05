@@ -2,11 +2,23 @@
 // Licensed under the MIT License.
 
 import { defineConfig } from "vitest/config";
+import { VerboseReporter } from "vitest/reporters";
+
+/**
+ * vitest reporter that does not output "serialized error" to console which may contain secrets
+ */
+export class AzureSDKReporter extends VerboseReporter {
+  /**
+   * the `verbose` flag is used by VerboseReporter solely to control whether the serialized error should be output, so all we need to do
+   * is set it to false
+   */
+  protected verbose = false;
+}
 
 export default defineConfig({
   test: {
     testTimeout: 18000,
-    reporters: ["verbose", "junit"],
+    reporters: [new AzureSDKReporter(), "junit"],
     outputFile: {
       junit: "test-results.xml",
     },

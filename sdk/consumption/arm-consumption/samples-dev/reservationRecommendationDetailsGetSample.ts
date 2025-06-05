@@ -6,13 +6,9 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
 import { ConsumptionManagementClient } from "@azure/arm-consumption";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Details of a reservation recommendation for what-if analysis of reserved instances.
@@ -20,10 +16,9 @@ dotenv.config();
  * @summary Details of a reservation recommendation for what-if analysis of reserved instances.
  * x-ms-original-file: specification/consumption/resource-manager/Microsoft.Consumption/stable/2021-10-01/examples/ReservationRecommendationDetailsByBillingAccount.json
  */
-async function reservationRecommendationsByBillingAccountLegacy() {
+async function reservationRecommendationsByBillingAccountLegacy(): Promise<void> {
   const subscriptionId =
-    process.env["CONSUMPTION_SUBSCRIPTION_ID"] ||
-    "00000000-0000-0000-0000-000000000000";
+    process.env["CONSUMPTION_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";
   const scope = "Shared";
   const region = "eastus";
   const term = "P1Y";
@@ -36,7 +31,7 @@ async function reservationRecommendationsByBillingAccountLegacy() {
     region,
     term,
     lookBackPeriod,
-    product
+    product,
   );
   console.log(result);
 }
@@ -47,10 +42,9 @@ async function reservationRecommendationsByBillingAccountLegacy() {
  * @summary Details of a reservation recommendation for what-if analysis of reserved instances.
  * x-ms-original-file: specification/consumption/resource-manager/Microsoft.Consumption/stable/2021-10-01/examples/ReservationRecommendationDetailsByBillingProfile.json
  */
-async function reservationRecommendationsByBillingProfileModern() {
+async function reservationRecommendationsByBillingProfileModern(): Promise<void> {
   const subscriptionId =
-    process.env["CONSUMPTION_SUBSCRIPTION_ID"] ||
-    "00000000-0000-0000-0000-000000000000";
+    process.env["CONSUMPTION_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";
   const scope = "Shared";
   const region = "australiaeast";
   const term = "P1Y";
@@ -63,7 +57,7 @@ async function reservationRecommendationsByBillingProfileModern() {
     region,
     term,
     lookBackPeriod,
-    product
+    product,
   );
   console.log(result);
 }
@@ -74,10 +68,9 @@ async function reservationRecommendationsByBillingProfileModern() {
  * @summary Details of a reservation recommendation for what-if analysis of reserved instances.
  * x-ms-original-file: specification/consumption/resource-manager/Microsoft.Consumption/stable/2021-10-01/examples/ReservationRecommendationDetailsByResourceGroup.json
  */
-async function reservationRecommendationsByResourceGroupLegacy() {
+async function reservationRecommendationsByResourceGroupLegacy(): Promise<void> {
   const subscriptionId =
-    process.env["CONSUMPTION_SUBSCRIPTION_ID"] ||
-    "00000000-0000-0000-0000-000000000000";
+    process.env["CONSUMPTION_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";
   const scope = "Single";
   const region = "westus";
   const term = "P3Y";
@@ -90,7 +83,7 @@ async function reservationRecommendationsByResourceGroupLegacy() {
     region,
     term,
     lookBackPeriod,
-    product
+    product,
   );
   console.log(result);
 }
@@ -101,10 +94,9 @@ async function reservationRecommendationsByResourceGroupLegacy() {
  * @summary Details of a reservation recommendation for what-if analysis of reserved instances.
  * x-ms-original-file: specification/consumption/resource-manager/Microsoft.Consumption/stable/2021-10-01/examples/ReservationRecommendationDetailsBySubscription.json
  */
-async function reservationRecommendationsBySubscriptionLegacy() {
+async function reservationRecommendationsBySubscriptionLegacy(): Promise<void> {
   const subscriptionId =
-    process.env["CONSUMPTION_SUBSCRIPTION_ID"] ||
-    "00000000-0000-0000-0000-000000000000";
+    process.env["CONSUMPTION_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";
   const scope = "Single";
   const region = "westus";
   const term = "P3Y";
@@ -117,16 +109,16 @@ async function reservationRecommendationsBySubscriptionLegacy() {
     region,
     term,
     lookBackPeriod,
-    product
+    product,
   );
   console.log(result);
 }
 
-async function main() {
-  reservationRecommendationsByBillingAccountLegacy();
-  reservationRecommendationsByBillingProfileModern();
-  reservationRecommendationsByResourceGroupLegacy();
-  reservationRecommendationsBySubscriptionLegacy();
+async function main(): Promise<void> {
+  await reservationRecommendationsByBillingAccountLegacy();
+  await reservationRecommendationsByBillingProfileModern();
+  await reservationRecommendationsByResourceGroupLegacy();
+  await reservationRecommendationsBySubscriptionLegacy();
 }
 
 main().catch(console.error);

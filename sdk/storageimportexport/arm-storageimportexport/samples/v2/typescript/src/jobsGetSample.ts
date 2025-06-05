@@ -10,9 +10,7 @@
 // Licensed under the MIT License.
 import { StorageImportExport } from "@azure/arm-storageimportexport";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Gets information about an existing job.
@@ -20,7 +18,7 @@ dotenv.config();
  * @summary Gets information about an existing job.
  * x-ms-original-file: specification/storageimportexport/resource-manager/Microsoft.ImportExport/preview/2021-01-01/examples/GetExportJob.json
  */
-async function getExportJob() {
+async function getExportJob(): Promise<void> {
   const subscriptionId =
     process.env["STORAGEIMPORTEXPORT_SUBSCRIPTION_ID"] ||
     "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx";
@@ -39,7 +37,7 @@ async function getExportJob() {
  * @summary Gets information about an existing job.
  * x-ms-original-file: specification/storageimportexport/resource-manager/Microsoft.ImportExport/preview/2021-01-01/examples/GetJob.json
  */
-async function getImportJob() {
+async function getImportJob(): Promise<void> {
   const subscriptionId =
     process.env["STORAGEIMPORTEXPORT_SUBSCRIPTION_ID"] ||
     "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx";
@@ -52,7 +50,7 @@ async function getImportJob() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   getExportJob();
   getImportJob();
 }

@@ -13,10 +13,9 @@
  * @summary translates a collection of documents
  */
 
-import DocumentTranslator, { StartTranslationDetails } from "@azure-rest/ai-document-translator";
-
-import * as dotenv from "dotenv";
-dotenv.config();
+import type { StartTranslationDetails } from "@azure-rest/ai-document-translator";
+import DocumentTranslator from "@azure-rest/ai-document-translator";
+import "dotenv/config";
 
 /**
  * These are states of the Long Running Operation considered as terminal
@@ -48,7 +47,7 @@ const batchSubmissionRequest: StartTranslationDetails = {
   ],
 };
 
-export async function main() {
+export async function main(): Promise<void> {
   console.log("== Translate documents in a container sample ==");
 
   // Create a new client
@@ -112,7 +111,7 @@ function wait(seconds: number): Promise<void> {
 }
 
 // Helper function that extracts the batch id from operation-location header
-function extractBatchId(batchUrl: string = "") {
+function extractBatchId(batchUrl: string = ""): string {
   const parts = batchUrl.split("/");
 
   return parts[parts.length - 1];

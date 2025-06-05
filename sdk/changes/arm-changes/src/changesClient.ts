@@ -14,9 +14,9 @@ import {
   SendRequest
 } from "@azure/core-rest-pipeline";
 import * as coreAuth from "@azure/core-auth";
-import { ChangesImpl } from "./operations";
-import { Changes } from "./operationsInterfaces";
-import { ChangesClientOptionalParams } from "./models";
+import { ChangesImpl } from "./operations/index.js";
+import { Changes } from "./operationsInterfaces/index.js";
+import { ChangesClientOptionalParams } from "./models/index.js";
 
 export class ChangesClient extends coreClient.ServiceClient {
   $host: string;

@@ -12,7 +12,7 @@ enable-xml: true
 generate-metadata: false
 license-header: MICROSOFT_MIT_NO_VERSION
 output-folder: ../src/generated
-input-file: https://raw.githubusercontent.com/Azure/azure-rest-api-specs/b478dcdabacb37945ff89daa0eda1ae1afc98db4/specification/storage/data-plane/Microsoft.BlobStorage/stable/2025-01-05/blob.json
+input-file: https://raw.githubusercontent.com/Azure/azure-rest-api-specs/12de00e62d5760d296c3cf30796aeb315f6891ee/specification/storage/data-plane/Microsoft.BlobStorage/stable/2025-07-05/blob.json
 model-date-time-as-string: true
 optional-response-headers: true
 v3: true
@@ -21,7 +21,7 @@ add-credentials: false
 core-http-compat-mode: true
 use-extension:
   "@autorest/typescript": "latest"
-package-version: 12.26.0
+package-version: 12.27.0
 ```
 
 ## Customizations for Track 2 Generator
@@ -1474,15 +1474,6 @@ directive:
       $["properties"]["AuthenticationErrorDetail"] = { "type": "string" };
 ```
 
-### Update service version from "2018-03-28" to "2025-01-05"
-
-```yaml
-directive:
-  - from: swagger-document
-    where: $.parameters.ApiVersionParameter
-    transform: $.enum = [ "2025-01-05" ];
-```
-
 ### Remove structured body parameters.
 
 ```yaml
@@ -1534,5 +1525,3 @@ directive:
     transform: >
       delete $["x-ms-structured-body"];
 ```
-
-![Impressions](https://azure-sdk-impressions.azurewebsites.net/api/impressions/azure-sdk-for-js%2Fsdk%2Fstorage%2Fstorage-blob%2Fswagger%2FREADME.png)

@@ -196,7 +196,7 @@ describe("multipart buildBodyPart", () => {
       {
         description: "binary content gets passed through, regardless of content type",
         descriptor: {
-          contentType: "application/json; charset=UTF-8",
+          contentType: "application/json",
           body: new Uint8Array([1, 2, 3]),
         },
         expected: new Uint8Array([1, 2, 3]),

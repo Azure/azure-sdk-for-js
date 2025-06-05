@@ -21,66 +21,66 @@ import {
   UpdateVCenterRequest,
   ReplicationvCentersUpdateOptionalParams,
   ReplicationvCentersUpdateResponse,
-} from "../models";
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a ReplicationvCenters. */
 export interface ReplicationvCenters {
   /**
    * Lists the vCenter servers registered in a fabric.
-   * @param resourceName The name of the recovery services vault.
    * @param resourceGroupName The name of the resource group where the recovery services vault is
    *                          present.
+   * @param resourceName The name of the recovery services vault.
    * @param fabricName Fabric name.
    * @param options The options parameters.
    */
   listByReplicationFabrics(
-    resourceName: string,
     resourceGroupName: string,
+    resourceName: string,
     fabricName: string,
     options?: ReplicationvCentersListByReplicationFabricsOptionalParams,
   ): PagedAsyncIterableIterator<VCenter>;
   /**
    * Lists the vCenter servers registered in the vault.
-   * @param resourceName The name of the recovery services vault.
    * @param resourceGroupName The name of the resource group where the recovery services vault is
    *                          present.
+   * @param resourceName The name of the recovery services vault.
    * @param options The options parameters.
    */
   list(
-    resourceName: string,
     resourceGroupName: string,
+    resourceName: string,
     options?: ReplicationvCentersListOptionalParams,
   ): PagedAsyncIterableIterator<VCenter>;
   /**
    * Gets the details of a registered vCenter server(Add vCenter server).
-   * @param resourceName The name of the recovery services vault.
    * @param resourceGroupName The name of the resource group where the recovery services vault is
    *                          present.
+   * @param resourceName The name of the recovery services vault.
    * @param fabricName Fabric name.
    * @param vcenterName vcenter name.
    * @param options The options parameters.
    */
   get(
-    resourceName: string,
     resourceGroupName: string,
+    resourceName: string,
     fabricName: string,
     vcenterName: string,
     options?: ReplicationvCentersGetOptionalParams,
   ): Promise<ReplicationvCentersGetResponse>;
   /**
    * The operation to create a vCenter object..
-   * @param resourceName The name of the recovery services vault.
    * @param resourceGroupName The name of the resource group where the recovery services vault is
    *                          present.
+   * @param resourceName The name of the recovery services vault.
    * @param fabricName Fabric name.
    * @param vcenterName vcenter name.
    * @param addVCenterRequest The input to the add vCenter operation.
    * @param options The options parameters.
    */
   beginCreate(
-    resourceName: string,
     resourceGroupName: string,
+    resourceName: string,
     fabricName: string,
     vcenterName: string,
     addVCenterRequest: AddVCenterRequest,
@@ -93,17 +93,17 @@ export interface ReplicationvCenters {
   >;
   /**
    * The operation to create a vCenter object..
-   * @param resourceName The name of the recovery services vault.
    * @param resourceGroupName The name of the resource group where the recovery services vault is
    *                          present.
+   * @param resourceName The name of the recovery services vault.
    * @param fabricName Fabric name.
    * @param vcenterName vcenter name.
    * @param addVCenterRequest The input to the add vCenter operation.
    * @param options The options parameters.
    */
   beginCreateAndWait(
-    resourceName: string,
     resourceGroupName: string,
+    resourceName: string,
     fabricName: string,
     vcenterName: string,
     addVCenterRequest: AddVCenterRequest,
@@ -111,49 +111,49 @@ export interface ReplicationvCenters {
   ): Promise<ReplicationvCentersCreateResponse>;
   /**
    * The operation to remove(unregister) a registered vCenter server from the vault.
-   * @param resourceName The name of the recovery services vault.
    * @param resourceGroupName The name of the resource group where the recovery services vault is
    *                          present.
+   * @param resourceName The name of the recovery services vault.
    * @param fabricName Fabric name.
    * @param vcenterName vcenter name.
    * @param options The options parameters.
    */
   beginDelete(
-    resourceName: string,
     resourceGroupName: string,
+    resourceName: string,
     fabricName: string,
     vcenterName: string,
     options?: ReplicationvCentersDeleteOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * The operation to remove(unregister) a registered vCenter server from the vault.
-   * @param resourceName The name of the recovery services vault.
    * @param resourceGroupName The name of the resource group where the recovery services vault is
    *                          present.
+   * @param resourceName The name of the recovery services vault.
    * @param fabricName Fabric name.
    * @param vcenterName vcenter name.
    * @param options The options parameters.
    */
   beginDeleteAndWait(
-    resourceName: string,
     resourceGroupName: string,
+    resourceName: string,
     fabricName: string,
     vcenterName: string,
     options?: ReplicationvCentersDeleteOptionalParams,
   ): Promise<void>;
   /**
    * The operation to update a registered vCenter.
-   * @param resourceName The name of the recovery services vault.
    * @param resourceGroupName The name of the resource group where the recovery services vault is
    *                          present.
+   * @param resourceName The name of the recovery services vault.
    * @param fabricName Fabric name.
    * @param vcenterName vcenter name.
    * @param updateVCenterRequest The input to the update vCenter operation.
    * @param options The options parameters.
    */
   beginUpdate(
-    resourceName: string,
     resourceGroupName: string,
+    resourceName: string,
     fabricName: string,
     vcenterName: string,
     updateVCenterRequest: UpdateVCenterRequest,
@@ -166,17 +166,17 @@ export interface ReplicationvCenters {
   >;
   /**
    * The operation to update a registered vCenter.
-   * @param resourceName The name of the recovery services vault.
    * @param resourceGroupName The name of the resource group where the recovery services vault is
    *                          present.
+   * @param resourceName The name of the recovery services vault.
    * @param fabricName Fabric name.
    * @param vcenterName vcenter name.
    * @param updateVCenterRequest The input to the update vCenter operation.
    * @param options The options parameters.
    */
   beginUpdateAndWait(
-    resourceName: string,
     resourceGroupName: string,
+    resourceName: string,
     fabricName: string,
     vcenterName: string,
     updateVCenterRequest: UpdateVCenterRequest,

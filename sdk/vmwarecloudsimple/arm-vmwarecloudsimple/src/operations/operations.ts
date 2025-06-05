@@ -7,12 +7,12 @@
  */
 
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
-import { setContinuationToken } from "../pagingHelper";
-import { Operations } from "../operationsInterfaces";
+import { setContinuationToken } from "../pagingHelper.js";
+import { Operations } from "../operationsInterfaces/index.js";
 import * as coreClient from "@azure/core-client";
-import * as Mappers from "../models/mappers";
-import * as Parameters from "../models/parameters";
-import { VMwareCloudSimple } from "../vMwareCloudSimple";
+import * as Mappers from "../models/mappers.js";
+import * as Parameters from "../models/parameters.js";
+import { VMwareCloudSimple } from "../vMwareCloudSimple.js";
 import {
   AvailableOperation,
   OperationsListNextOptionalParams,
@@ -21,7 +21,7 @@ import {
   OperationsGetOptionalParams,
   OperationsGetResponse,
   OperationsListNextResponse
-} from "../models";
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Class containing Operations operations. */

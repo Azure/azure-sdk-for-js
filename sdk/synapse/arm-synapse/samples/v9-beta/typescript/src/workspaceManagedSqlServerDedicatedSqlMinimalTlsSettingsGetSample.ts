@@ -10,9 +10,7 @@
 // Licensed under the MIT License.
 import { SynapseManagementClient } from "@azure/arm-synapse";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Get workspace managed sql server's minimal tls settings.
@@ -20,7 +18,7 @@ dotenv.config();
  * @summary Get workspace managed sql server's minimal tls settings.
  * x-ms-original-file: specification/synapse/resource-manager/Microsoft.Synapse/stable/2021-06-01/examples/GetWorkspaceManagedSqlServerDedicatedSQLminimalTlsSettings.json
  */
-async function getWorkspaceManagedSqlServerDedicatedSqlMinimalTlsSettings() {
+async function getWorkspaceManagedSqlServerDedicatedSqlMinimalTlsSettings(): Promise<void> {
   const subscriptionId =
     process.env["SYNAPSE_SUBSCRIPTION_ID"] ||
     "00000000-1111-2222-3333-444444444444";
@@ -38,7 +36,7 @@ async function getWorkspaceManagedSqlServerDedicatedSqlMinimalTlsSettings() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   getWorkspaceManagedSqlServerDedicatedSqlMinimalTlsSettings();
 }
 

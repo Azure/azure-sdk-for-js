@@ -10,7 +10,7 @@
 // Licensed under the MIT License.
 const { ComputeManagementClient } = require("@azure/arm-compute");
 const { DefaultAzureCredential } = require("@azure/identity");
-require("dotenv").config();
+require("dotenv/config");
 
 /**
  * This sample demonstrates how to Get a shared gallery by subscription id or tenant id.
@@ -29,7 +29,7 @@ async function getASharedGallery() {
 }
 
 async function main() {
-  getASharedGallery();
+  await getASharedGallery();
 }
 
 main().catch(console.error);

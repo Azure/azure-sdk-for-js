@@ -9,7 +9,7 @@
 import {
   NetworkProfileGetOptionalParams,
   NetworkProfileGetResponse,
-} from "../models";
+} from "../models/index.js";
 
 /** Interface representing a NetworkProfileOperations. */
 export interface NetworkProfileOperations {

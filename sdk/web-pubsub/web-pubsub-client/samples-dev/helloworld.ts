@@ -11,21 +11,25 @@ import type {
 } from "@azure/web-pubsub-client";
 import { WebPubSubClient } from "@azure/web-pubsub-client";
 import { WebPubSubServiceClient } from "@azure/web-pubsub";
+import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
 
-const hubName = "sample_chat";
-const groupName = "testGroup";
-const serviceClient = new WebPubSubServiceClient(process.env.WPS_CONNECTION_STRING!, hubName);
-
-const fetchClientAccessUrl = async (_: GetClientAccessUrlOptions): Promise<string> => {
-  return (
-    await serviceClient.getClientAccessToken({
-      roles: [`webpubsub.joinLeaveGroup.${groupName}`, `webpubsub.sendToGroup.${groupName}`],
-    })
-  ).url;
-};
-
 async function main(): Promise<void> {
+  const hubName = "sample_chat";
+  const groupName = "testGroup";
+  const serviceClient = new WebPubSubServiceClient(
+    process.env.WPS_ENDPOINT!,
+    new DefaultAzureCredential(),
+    hubName,
+  );
+
+  const fetchClientAccessUrl = async (_: GetClientAccessUrlOptions): Promise<string> => {
+    return (
+      await serviceClient.getClientAccessToken({
+        roles: [`webpubsub.joinLeaveGroup.${groupName}`, `webpubsub.sendToGroup.${groupName}`],
+      })
+    ).url;
+  };
   const client = new WebPubSubClient({
     getClientAccessUrl: fetchClientAccessUrl,
   } as WebPubSubClientCredential);

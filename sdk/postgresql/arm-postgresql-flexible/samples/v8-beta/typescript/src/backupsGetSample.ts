@@ -6,28 +6,24 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
 import { PostgreSQLManagementFlexibleServerClient } from "@azure/arm-postgresql-flexible";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Get specific backup for a given server.
  *
  * @summary Get specific backup for a given server.
- * x-ms-original-file: specification/postgresql/resource-manager/Microsoft.DBforPostgreSQL/preview/2023-12-01-preview/examples/BackupGet.json
+ * x-ms-original-file: specification/postgresql/resource-manager/Microsoft.DBforPostgreSQL/preview/2025-01-01-preview/examples/BackupGet.json
  */
-async function getABackupForAServer() {
+async function getABackupForAServer(): Promise<void> {
   const subscriptionId =
     process.env["POSTGRESQL_SUBSCRIPTION_ID"] ||
     "ffffffff-ffff-ffff-ffff-ffffffffffff";
   const resourceGroupName =
     process.env["POSTGRESQL_RESOURCE_GROUP"] || "TestGroup";
   const serverName = "postgresqltestserver";
-  const backupName = "daily_20210615T160516";
+  const backupName = "daily_20250303T160516";
   const credential = new DefaultAzureCredential();
   const client = new PostgreSQLManagementFlexibleServerClient(
     credential,
@@ -41,8 +37,8 @@ async function getABackupForAServer() {
   console.log(result);
 }
 
-async function main() {
-  getABackupForAServer();
+async function main(): Promise<void> {
+  await getABackupForAServer();
 }
 
 main().catch(console.error);

@@ -13,6 +13,7 @@ import {
   isCommunicationUserIdentifier,
   isMicrosoftTeamsUserIdentifier,
   isPhoneNumberIdentifier,
+  isTeamsExtensionUserIdentifier,
   isUnknownIdentifier,
 } from "../../src/index.js";
 import { describe, it, assert } from "vitest";
@@ -24,6 +25,7 @@ describe("Identifier models", function () {
     assert.isFalse(isPhoneNumberIdentifier(communicationUser));
     assert.isFalse(isMicrosoftTeamsUserIdentifier(communicationUser));
     assert.isFalse(isUnknownIdentifier(communicationUser));
+    assert.isFalse(isTeamsExtensionUserIdentifier(communicationUser));
   });
 
   it("get kind", function () {
@@ -105,6 +107,41 @@ describe("Identifier models", function () {
         rawId: "8:orgid:legacyFormat",
       },
       "8:orgid:legacyFormat",
+    );
+    assertRawId(
+      {
+        userId: "207ffef6-9444-41fb-92ab-20eacaae2768",
+        tenantId: "45ab2481-1c1c-4005-be24-0ffb879b1130",
+        resourceId: "bbbcbc1e-9f06-482a-b5d8-20e3f26ef0cd",
+      },
+      "8:acs:bbbcbc1e-9f06-482a-b5d8-20e3f26ef0cd_45ab2481-1c1c-4005-be24-0ffb879b1130_207ffef6-9444-41fb-92ab-20eacaae2768",
+    );
+    assertRawId(
+      {
+        userId: "207ffef6-9444-41fb-92ab-20eacaae2768",
+        tenantId: "45ab2481-1c1c-4005-be24-0ffb879b1130",
+        resourceId: "bbbcbc1e-9f06-482a-b5d8-20e3f26ef0cd",
+        cloud: "dod",
+      },
+      "8:dod-acs:bbbcbc1e-9f06-482a-b5d8-20e3f26ef0cd_45ab2481-1c1c-4005-be24-0ffb879b1130_207ffef6-9444-41fb-92ab-20eacaae2768",
+    );
+    assertRawId(
+      {
+        userId: "207ffef6-9444-41fb-92ab-20eacaae2768",
+        tenantId: "45ab2481-1c1c-4005-be24-0ffb879b1130",
+        resourceId: "bbbcbc1e-9f06-482a-b5d8-20e3f26ef0cd",
+        cloud: "gcch",
+      },
+      "8:gcch-acs:bbbcbc1e-9f06-482a-b5d8-20e3f26ef0cd_45ab2481-1c1c-4005-be24-0ffb879b1130_207ffef6-9444-41fb-92ab-20eacaae2768",
+    );
+    assertRawId(
+      {
+        rawId: "8:acs:resource_tenant_user",
+        userId: "207ffef6-9444-41fb-92ab-20eacaae2768",
+        tenantId: "45ab2481-1c1c-4005-be24-0ffb879b1130",
+        resourceId: "bbbcbc1e-9f06-482a-b5d8-20e3f26ef0cd",
+      },
+      "8:acs:resource_tenant_user",
     );
     assertRawId(
       {
@@ -234,25 +271,71 @@ describe("Identifier models", function () {
     assertIdentifier("4:112345556789", {
       phoneNumber: "112345556789",
       kind: "phoneNumber",
+      isAnonymous: false,
+      assertedId: undefined,
     });
     assertIdentifier("4:+112345556789", {
       phoneNumber: "+112345556789",
       kind: "phoneNumber",
+      isAnonymous: false,
+      assertedId: undefined,
     });
     assertIdentifier("4:207ffef6-9444-41fb-92ab-20eacaae2768", {
       phoneNumber: "207ffef6-9444-41fb-92ab-20eacaae2768",
       kind: "phoneNumber",
+      isAnonymous: false,
+      assertedId: undefined,
     });
     assertIdentifier(
       "4:207ffef6-9444-41fb-92ab-20eacaae2768_207ffef6-9444-41fb-92ab-20eacaae2768",
       {
         phoneNumber: "207ffef6-9444-41fb-92ab-20eacaae2768_207ffef6-9444-41fb-92ab-20eacaae2768",
         kind: "phoneNumber",
+        isAnonymous: false,
+        assertedId: "207ffef6-9444-41fb-92ab-20eacaae2768",
       },
     );
     assertIdentifier("4:+112345556789_207ffef6-9444-41fb-92ab-20eacaae2768", {
       phoneNumber: "+112345556789_207ffef6-9444-41fb-92ab-20eacaae2768",
       kind: "phoneNumber",
+      isAnonymous: false,
+      assertedId: "207ffef6-9444-41fb-92ab-20eacaae2768",
+    });
+    assertIdentifier("4:207ffef6-9444-41fb-92ab-20eacaae2768_", {
+      phoneNumber: "207ffef6-9444-41fb-92ab-20eacaae2768_",
+      kind: "phoneNumber",
+      isAnonymous: false,
+      assertedId: undefined,
+    });
+    assertIdentifier("4:+112345556789_207ffef6-9444-41fb-92ab-20eacaae2768_123", {
+      phoneNumber: "+112345556789_207ffef6-9444-41fb-92ab-20eacaae2768_123",
+      kind: "phoneNumber",
+      isAnonymous: false,
+      assertedId: "123",
+    });
+    assertIdentifier("4:_123", {
+      phoneNumber: "_123",
+      kind: "phoneNumber",
+      isAnonymous: false,
+      assertedId: "123",
+    });
+    assertIdentifier("4:anonymous", {
+      phoneNumber: "anonymous",
+      kind: "phoneNumber",
+      isAnonymous: true,
+      assertedId: undefined,
+    });
+    assertIdentifier("4:anonymous_123", {
+      phoneNumber: "anonymous_123",
+      kind: "phoneNumber",
+      isAnonymous: false,
+      assertedId: "123",
+    });
+    assertIdentifier("4:_anonymous", {
+      phoneNumber: "_anonymous",
+      kind: "phoneNumber",
+      isAnonymous: false,
+      assertedId: "anonymous",
     });
     assertIdentifier("28:45ab2481-1c1c-4005-be24-0ffb879b1130", {
       id: "28:45ab2481-1c1c-4005-be24-0ffb879b1130",
@@ -281,6 +364,37 @@ describe("Identifier models", function () {
       cloud: "dod",
       teamsAppId: "01234567-89ab-cdef-0123-456789abcdef",
     });
+    assertIdentifier(
+      "8:gcch-acs:bbbcbc1e-9f06-482a-b5d8-20e3f26ef0cd_45ab2481-1c1c-4005-be24-0ffb879b1130_207ffef6-9444-41fb-92ab-20eacaae2768",
+      {
+        userId: "207ffef6-9444-41fb-92ab-20eacaae2768",
+        tenantId: "45ab2481-1c1c-4005-be24-0ffb879b1130",
+        resourceId: "bbbcbc1e-9f06-482a-b5d8-20e3f26ef0cd",
+        cloud: "gcch",
+        kind: "teamsExtensionUser",
+      },
+    );
+    assertIdentifier(
+      "8:dod-acs:bbbcbc1e-9f06-482a-b5d8-20e3f26ef0cd_45ab2481-1c1c-4005-be24-0ffb879b1130_207ffef6-9444-41fb-92ab-20eacaae2768",
+      {
+        userId: "207ffef6-9444-41fb-92ab-20eacaae2768",
+        tenantId: "45ab2481-1c1c-4005-be24-0ffb879b1130",
+        resourceId: "bbbcbc1e-9f06-482a-b5d8-20e3f26ef0cd",
+        cloud: "dod",
+        kind: "teamsExtensionUser",
+      },
+    );
+    assertIdentifier(
+      "8:acs:bbbcbc1e-9f06-482a-b5d8-20e3f26ef0cd_45ab2481-1c1c-4005-be24-0ffb879b1130_207ffef6-9444-41fb-92ab-20eacaae2768",
+      {
+        userId: "207ffef6-9444-41fb-92ab-20eacaae2768",
+        tenantId: "45ab2481-1c1c-4005-be24-0ffb879b1130",
+        resourceId: "bbbcbc1e-9f06-482a-b5d8-20e3f26ef0cd",
+        cloud: "public",
+        kind: "teamsExtensionUser",
+      },
+    );
+
     assertIdentifier("28:ag08-global:01234567-89ab-cdef-0123-456789abcdef", {
       id: "28:ag08-global:01234567-89ab-cdef-0123-456789abcdef",
       kind: "unknown",
@@ -332,6 +446,8 @@ describe("Identifier models", function () {
     assertRoundtrip("4:207ffef6-9444-41fb-92ab-20eacaae2768");
     assertRoundtrip("4:207ffef6-9444-41fb-92ab-20eacaae2768_207ffef6-9444-41fb-92ab-20eacaae2768");
     assertRoundtrip("4:+112345556789_207ffef6-9444-41fb-92ab-20eacaae2768");
+    assertRoundtrip("4:anonymous");
+    assertRoundtrip("4:_anonymous");
     assertRoundtrip("28:45ab2481-1c1c-4005-be24-0ffb879b1130");
     assertRoundtrip("28:gcch-global:01234567-89ab-cdef-0123-456789abcdef");
     assertRoundtrip("28:dod-global:01234567-89ab-cdef-0123-456789abcdef");
@@ -340,6 +456,15 @@ describe("Identifier models", function () {
     assertRoundtrip("28:dod:01234567-89ab-cdef-0123-456789abcdef");
     assertRoundtrip("28:gal-global:01234567-89ab-cdef-0123-456789abcdef");
     assertRoundtrip("48:45ab2481-1c1c-4005-be24-0ffb879b1130");
+    assertRoundtrip(
+      "8:gcch-acs:bbbcbc1e-9f06-482a-b5d8-20e3f26ef0cd_45ab2481-1c1c-4005-be24-0ffb879b1130_207ffef6-9444-41fb-92ab-20eacaae2768",
+    );
+    assertRoundtrip(
+      "8:dod-acs:bbbcbc1e-9f06-482a-b5d8-20e3f26ef0cd_45ab2481-1c1c-4005-be24-0ffb879b1130_207ffef6-9444-41fb-92ab-20eacaae2768",
+    );
+    assertRoundtrip(
+      "8:acs:bbbcbc1e-9f06-482a-b5d8-20e3f26ef0cd_45ab2481-1c1c-4005-be24-0ffb879b1130_207ffef6-9444-41fb-92ab-20eacaae2768",
+    );
     assertRoundtrip("");
   });
 });

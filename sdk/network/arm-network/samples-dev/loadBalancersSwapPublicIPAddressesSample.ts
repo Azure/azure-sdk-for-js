@@ -6,24 +6,21 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
+import type {
+  LoadBalancerVipSwapRequest} from "@azure/arm-network";
 import {
-  LoadBalancerVipSwapRequest,
   NetworkManagementClient,
 } from "@azure/arm-network";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Swaps VIPs between two load balancers.
  *
  * @summary Swaps VIPs between two load balancers.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2024-05-01/examples/LoadBalancersSwapPublicIpAddresses.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2024-07-01/examples/LoadBalancersSwapPublicIpAddresses.json
  */
-async function swapViPsBetweenTwoLoadBalancers() {
+async function swapViPsBetweenTwoLoadBalancers(): Promise<void> {
   const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";
   const location = "westus";
   const parameters: LoadBalancerVipSwapRequest = {
@@ -51,8 +48,8 @@ async function swapViPsBetweenTwoLoadBalancers() {
   console.log(result);
 }
 
-async function main() {
-  swapViPsBetweenTwoLoadBalancers();
+async function main(): Promise<void> {
+  await swapViPsBetweenTwoLoadBalancers();
 }
 
 main().catch(console.error);

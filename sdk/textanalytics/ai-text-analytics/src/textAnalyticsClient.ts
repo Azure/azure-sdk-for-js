@@ -123,7 +123,7 @@ export interface AnalyzeSentimentOptions extends TextAnalyticsOperationOptions {
    * aspect-based sentiment analysis). If set to true, the returned
    * `SentenceSentiment` objects will have property `opinions` containing
    * the result of this analysis.
-   * More information about the feature can be found here: {@link https://docs.microsoft.com/azure/cognitive-services/text-analytics/how-tos/text-analytics-how-to-sentiment-analysis?tabs=version-3-1#opinion-mining}
+   * More information about the feature can be found here: {@link https://learn.microsoft.com/azure/cognitive-services/text-analytics/how-tos/text-analytics-how-to-sentiment-analysis?tabs=version-3-1#opinion-mining}
    */
   includeOpinionMining?: boolean;
   /**
@@ -281,7 +281,7 @@ export interface AnalyzeSentimentAction extends TextAnalyticsAction {
    * aspect-based sentiment analysis). If set to true, the returned
    * `SentenceSentiment` objects will have property `opinions` containing
    * the result of this analysis.
-   * More information about the feature can be found here: {@link https://docs.microsoft.com/azure/cognitive-services/text-analytics/how-tos/text-analytics-how-to-sentiment-analysis?tabs=version-3-1#opinion-mining}
+   * More information about the feature can be found here: {@link https://learn.microsoft.com/azure/cognitive-services/text-analytics/how-tos/text-analytics-how-to-sentiment-analysis?tabs=version-3-1#opinion-mining}
    */
   includeOpinionMining?: boolean;
 }
@@ -341,13 +341,10 @@ export class TextAnalyticsClient {
    * Creates an instance of TextAnalyticsClient.
    *
    * Example usage:
-   * ```ts
+   * ```ts snippet:ReadmeSampleCreateClient_KeyCredential
    * import { TextAnalyticsClient, AzureKeyCredential } from "@azure/ai-text-analytics";
    *
-   * const client = new TextAnalyticsClient(
-   *    "<service endpoint>",
-   *    new AzureKeyCredential("<api key>")
-   * );
+   * const client = new TextAnalyticsClient("<endpoint>", new AzureKeyCredential("<API key>"));
    * ```
    * @param endpointUrl - The URL to the TextAnalytics endpoint
    * @param credential - Used to authenticate requests to the service.
@@ -476,9 +473,9 @@ export class TextAnalyticsClient {
    * in the passed-in input strings, and categorize those entities into types
    * such as person, location, or organization.  For more information on 
    * available categories, @see
-   * {@link https://docs.microsoft.com/azure/cognitive-services/Text-Analytics/named-entity-types}.
+   * {@link https://learn.microsoft.com/azure/cognitive-services/Text-Analytics/named-entity-types}.
    * For a list of languages supported by this operation, @see
-   * {@link https://docs.microsoft.com/azure/cognitive-services/text-analytics/language-support}.
+   * {@link https://learn.microsoft.com/azure/cognitive-services/text-analytics/language-support}.
    * @param documents - The input strings to analyze.
    * @param language - The language that all the input strings are
         written in. If unspecified, this value will be set to the default
@@ -498,9 +495,9 @@ export class TextAnalyticsClient {
    * in the passed-in input documents, and categorize those entities into types
    * such as person, location, or organization.  For more information on
    * available categories, @see
-   * {@link https://docs.microsoft.com/azure/cognitive-services/Text-Analytics/named-entity-types}.
+   * {@link https://learn.microsoft.com/azure/cognitive-services/Text-Analytics/named-entity-types}.
    * For a list of languages supported by this operation, @see
-   * {@link https://docs.microsoft.com/azure/cognitive-services/text-analytics/language-support}.
+   * {@link https://learn.microsoft.com/azure/cognitive-services/text-analytics/language-support}.
    * @param documents - The input documents to analyze.
    * @param options - Optional parameters for the operation.
    */
@@ -552,7 +549,7 @@ export class TextAnalyticsClient {
    * the model's confidence in each of the predicted sentiments. Optionally it
    * can also identify targets in the text and assessments about it through
    * opinion mining. For a list of languages supported by this operation, @see
-   * {@link https://docs.microsoft.com/azure/cognitive-services/text-analytics/language-support}.
+   * {@link https://learn.microsoft.com/azure/cognitive-services/text-analytics/language-support}.
    * @param documents - The input strings to analyze.
    * @param language - The language that all the input strings are
         written in. If unspecified, this value will be set to the default
@@ -572,7 +569,7 @@ export class TextAnalyticsClient {
    * the model's confidence in each of the predicted sentiments.Optionally it
    * can also identify targets in the text and assessments about it through
    * opinion mining. For a list of languages supported by this operation, @see
-   * {@link https://docs.microsoft.com/azure/cognitive-services/text-analytics/language-support}.
+   * {@link https://learn.microsoft.com/azure/cognitive-services/text-analytics/language-support}.
    * @param documents - The input documents to analyze.
    * @param options - Optional parameters that includes enabling opinion mining.
    */
@@ -620,7 +617,7 @@ export class TextAnalyticsClient {
    * Runs a model to identify a collection of significant phrases
    * found in the passed-in input strings.
    * For a list of languages supported by this operation, @see
-   * {@link https://docs.microsoft.com/azure/cognitive-services/text-analytics/language-support}.
+   * {@link https://learn.microsoft.com/azure/cognitive-services/text-analytics/language-support}.
    * @param documents - The input strings to analyze.
    * @param language - The language that all the input strings are
         written in. If unspecified, this value will be set to the default
@@ -638,7 +635,7 @@ export class TextAnalyticsClient {
    * Runs a model to identify a collection of significant phrases
    * found in the passed-in input documents.
    * For a list of languages supported by this operation, @see
-   * {@link https://docs.microsoft.com/azure/cognitive-services/text-analytics/language-support}.
+   * {@link https://learn.microsoft.com/azure/cognitive-services/text-analytics/language-support}.
    * @param documents - The input documents to analyze.
    * @param options - Options for the operation.
    */
@@ -688,7 +685,7 @@ export class TextAnalyticsClient {
    * and categorize those entities into types such as US social security
    * number, drivers license number, or credit card number.
    * For a list of languages supported by this operation, @see
-   * {@link https://docs.microsoft.com/en-us/azure/cognitive-services/text-analytics/language-support}.
+   * {@link https://learn.microsoft.com/en-us/azure/cognitive-services/text-analytics/language-support}.
    * @param inputs - The input strings to analyze.
    * @param language - The language that all the input strings are
         written in. If unspecified, this value will be set to the default
@@ -708,7 +705,7 @@ export class TextAnalyticsClient {
    * and categorize those entities into types such as US social security
    * number, drivers license number, or credit card number.
    * For a list of languages supported by this operation, @see
-   * {@link https://docs.microsoft.com/en-us/azure/cognitive-services/text-analytics/language-support}.
+   * {@link https://learn.microsoft.com/en-us/azure/cognitive-services/text-analytics/language-support}.
    * @param inputs - The input documents to analyze.
    * @param options - Optional parameters for the operation.
    */
@@ -753,7 +750,7 @@ export class TextAnalyticsClient {
    * found in the passed-in input strings, and include information linking the
    * entities to their corresponding entries in a well-known knowledge base.
    * For a list of languages supported by this operation, @see
-   * {@link https://docs.microsoft.com/azure/cognitive-services/text-analytics/language-support}.
+   * {@link https://learn.microsoft.com/azure/cognitive-services/text-analytics/language-support}.
    * @param documents - The input strings to analyze.
    * @param language - The language that all the input strings are
         written in. If unspecified, this value will be set to the default
@@ -772,7 +769,7 @@ export class TextAnalyticsClient {
    * found in the passed-in input documents, and include information linking the
    * entities to their corresponding entries in a well-known knowledge base.
    * For a list of languages supported by this operation, @see
-   * {@link https://docs.microsoft.com/azure/cognitive-services/text-analytics/language-support}.
+   * {@link https://learn.microsoft.com/azure/cognitive-services/text-analytics/language-support}.
    * @param documents - The input documents to analyze.
    * @param options - Options for the operation.
    */

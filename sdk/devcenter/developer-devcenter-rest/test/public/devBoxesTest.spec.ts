@@ -31,7 +31,7 @@ describe("DevCenter Dev Boxes Operations Test", () => {
   let poolName: string;
   let devboxName: string;
 
-  beforeEach(async function (context) {
+  beforeEach(async (context) => {
     recorder = await createRecorder(context);
 
     endpoint = env["ENDPOINT"] || "";
@@ -45,11 +45,11 @@ describe("DevCenter Dev Boxes Operations Test", () => {
     });
   });
 
-  afterEach(async function () {
+  afterEach(async () => {
     await recorder.stop();
   });
 
-  it("GetPool", async function () {
+  it("GetPool", async () => {
     const poolOutput = await client
       .path("/projects/{projectName}/pools/{poolName}", projectName, poolName)
       .get();
@@ -61,7 +61,7 @@ describe("DevCenter Dev Boxes Operations Test", () => {
     expect(poolOutput.body.name).to.equal(poolName);
   });
 
-  it("GetPools", async function () {
+  it("GetPools", async () => {
     const poolsList = await client.path("/projects/{projectName}/pools", projectName).get();
 
     if (isUnexpected(poolsList)) {
@@ -81,7 +81,7 @@ describe("DevCenter Dev Boxes Operations Test", () => {
     expect(pools[0].name).to.equal(poolName);
   });
 
-  it("GetSchedule", async function () {
+  it("GetSchedule", async () => {
     const scheduleOutput = await client
       .path(
         "/projects/{projectName}/pools/{poolName}/schedules/{scheduleName}",
@@ -98,7 +98,7 @@ describe("DevCenter Dev Boxes Operations Test", () => {
     expect(scheduleOutput.body.name).to.equal("default");
   });
 
-  it("GetSchedules", async function () {
+  it("GetSchedules", async () => {
     const schedulesListResponse = await client
       .path("/projects/{projectName}/pools/{poolName}/schedules", projectName, poolName)
       .get();
@@ -120,7 +120,7 @@ describe("DevCenter Dev Boxes Operations Test", () => {
     expect(schedules[0].name).to.equal("default");
   });
 
-  it("GetDevBox", async function () {
+  it("GetDevBox", async () => {
     await setupDevBox();
     const devboxOutput = await client
       .path(
@@ -138,7 +138,7 @@ describe("DevCenter Dev Boxes Operations Test", () => {
     expect(devboxOutput.body.name).to.equal(devboxName);
   });
 
-  it("GetRemoteConnection", async function () {
+  it("GetRemoteConnection", async () => {
     await setupDevBox();
     const remoteConnectionResponse = await client
       .path(
@@ -156,7 +156,7 @@ describe("DevCenter Dev Boxes Operations Test", () => {
     assert.isTrue(stringIsAValidUrl(remoteConnectionResponse.body.rdpConnectionUrl as string));
   });
 
-  it("GetAllDevBoxes", async function () {
+  it("GetAllDevBoxes", async () => {
     await setupDevBox();
     const devboxesListResponse = await client.path("/devboxes").get();
 
@@ -177,7 +177,7 @@ describe("DevCenter Dev Boxes Operations Test", () => {
     expect(devBoxes[0].name).to.equal(devboxName);
   });
 
-  it("GetAllDevBoxesByUser", async function () {
+  it("GetAllDevBoxesByUser", async () => {
     await setupDevBox();
     const devboxesListResponse = await client.path("/users/{userId}/devboxes", userId).get();
 
@@ -198,7 +198,7 @@ describe("DevCenter Dev Boxes Operations Test", () => {
     expect(devBoxes[0].name).to.equal(devboxName);
   });
 
-  it("GetDevBoxes", async function () {
+  it("GetDevBoxes", async () => {
     await setupDevBox();
     const devboxesListResponse = await client
       .path("/projects/{projectName}/users/{userId}/devboxes", projectName, userId)
@@ -221,7 +221,7 @@ describe("DevCenter Dev Boxes Operations Test", () => {
     expect(devBoxes[0].name).to.equal(devboxName);
   });
 
-  it("GetActions", async function () {
+  it("GetActions", async () => {
     await setupDevBox();
     const actionsListResponse = await client
       .path(
@@ -249,7 +249,7 @@ describe("DevCenter Dev Boxes Operations Test", () => {
     expect(actions[0].name).to.equal("schedule-default");
   });
 
-  it("GetAction", async function () {
+  it("GetAction", async () => {
     await setupDevBox();
     const actionResponse = await client
       .path(
@@ -268,7 +268,7 @@ describe("DevCenter Dev Boxes Operations Test", () => {
     expect(actionResponse.body.name).to.equal("schedule-default");
   });
 
-  it("DelayAction", async function () {
+  it("DelayAction", async () => {
     await setupDevBox();
     const delayActionParameters: DelayActionsParameters = {
       queryParameters: {
@@ -289,7 +289,7 @@ describe("DevCenter Dev Boxes Operations Test", () => {
     assert.equal(delayActionResponse.status, "200", "Delaying DevBox action should return 200 OK.");
   });
 
-  it("DelayAllActions", async function () {
+  it("DelayAllActions", async () => {
     await setupDevBox();
     const delayActionsParameters: DelayActionsParameters = {
       queryParameters: {
@@ -320,7 +320,7 @@ describe("DevCenter Dev Boxes Operations Test", () => {
     expect(actionDelayResults[0].result).to.equal("Succeeded");
   });
 
-  it("SkipAction", async function () {
+  it("SkipAction", async () => {
     await setupDevBox();
     const skipActionResponse = await client
       .path(
@@ -335,7 +335,7 @@ describe("DevCenter Dev Boxes Operations Test", () => {
     assert.equal(skipActionResponse.status, "204");
   });
 
-  it("StartsStopsAndDeleteDevBox", async function () {
+  it("StartsStopsAndDeleteDevBox", async () => {
     await setupDevBox();
     // Stop an already running Dev Box
     const stopDevBoxResponse = await client
@@ -394,7 +394,7 @@ describe("DevCenter Dev Boxes Operations Test", () => {
     await deleteDevBox();
   });
 
-  async function setupDevBox() {
+  async function setupDevBox(): Promise<void> {
     const devboxesListResponse = await client
       .path("/projects/{projectName}/users/{userId}/devboxes", projectName, userId)
       .get();
@@ -459,7 +459,7 @@ describe("DevCenter Dev Boxes Operations Test", () => {
     console.log(`Provisioned dev box with state ${devBoxCreateResult.body.provisioningState}.`);
   }
 
-  async function deleteDevBox() {
+  async function deleteDevBox(): Promise<void> {
     const devBoxDeleteResponse = await client
       .path(
         "/projects/{projectName}/users/{userId}/devboxes/{devBoxName}",

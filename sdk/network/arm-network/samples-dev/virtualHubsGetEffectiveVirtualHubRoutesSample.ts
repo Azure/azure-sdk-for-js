@@ -6,25 +6,22 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
-import {
+import type {
   EffectiveRoutesParameters,
-  VirtualHubsGetEffectiveVirtualHubRoutesOptionalParams,
+  VirtualHubsGetEffectiveVirtualHubRoutesOptionalParams} from "@azure/arm-network";
+import {
   NetworkManagementClient,
 } from "@azure/arm-network";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Gets the effective routes configured for the Virtual Hub resource or the specified resource .
  *
  * @summary Gets the effective routes configured for the Virtual Hub resource or the specified resource .
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2024-05-01/examples/EffectiveRoutesListForConnection.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2024-07-01/examples/EffectiveRoutesListForConnection.json
  */
-async function effectiveRoutesForAConnectionResource() {
+async function effectiveRoutesForAConnectionResource(): Promise<void> {
   const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";
   const resourceGroupName = process.env["NETWORK_RESOURCE_GROUP"] || "rg1";
   const virtualHubName = "virtualHub1";
@@ -51,9 +48,9 @@ async function effectiveRoutesForAConnectionResource() {
  * This sample demonstrates how to Gets the effective routes configured for the Virtual Hub resource or the specified resource .
  *
  * @summary Gets the effective routes configured for the Virtual Hub resource or the specified resource .
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2024-05-01/examples/EffectiveRoutesListForRouteTable.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2024-07-01/examples/EffectiveRoutesListForRouteTable.json
  */
-async function effectiveRoutesForARouteTableResource() {
+async function effectiveRoutesForARouteTableResource(): Promise<void> {
   const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";
   const resourceGroupName = process.env["NETWORK_RESOURCE_GROUP"] || "rg1";
   const virtualHubName = "virtualHub1";
@@ -80,9 +77,9 @@ async function effectiveRoutesForARouteTableResource() {
  * This sample demonstrates how to Gets the effective routes configured for the Virtual Hub resource or the specified resource .
  *
  * @summary Gets the effective routes configured for the Virtual Hub resource or the specified resource .
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2024-05-01/examples/EffectiveRoutesListForVirtualHub.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2024-07-01/examples/EffectiveRoutesListForVirtualHub.json
  */
-async function effectiveRoutesForTheVirtualHub() {
+async function effectiveRoutesForTheVirtualHub(): Promise<void> {
   const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";
   const resourceGroupName = process.env["NETWORK_RESOURCE_GROUP"] || "rg1";
   const virtualHubName = "virtualHub1";
@@ -101,10 +98,10 @@ async function effectiveRoutesForTheVirtualHub() {
   console.log(result);
 }
 
-async function main() {
-  effectiveRoutesForAConnectionResource();
-  effectiveRoutesForARouteTableResource();
-  effectiveRoutesForTheVirtualHub();
+async function main(): Promise<void> {
+  await effectiveRoutesForAConnectionResource();
+  await effectiveRoutesForARouteTableResource();
+  await effectiveRoutesForTheVirtualHub();
 }
 
 main().catch(console.error);

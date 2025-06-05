@@ -10,20 +10,18 @@
 // Licensed under the MIT License.
 import {
   VaultCreateOrUpdateParameters,
-  KeyVaultManagementClient
+  KeyVaultManagementClient,
 } from "@azure/arm-keyvault";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Create or update a key vault in the specified subscription.
  *
  * @summary Create or update a key vault in the specified subscription.
- * x-ms-original-file: specification/keyvault/resource-manager/Microsoft.KeyVault/stable/2023-07-01/examples/createVault.json
+ * x-ms-original-file: specification/keyvault/resource-manager/Microsoft.KeyVault/stable/2024-11-01/examples/createVault.json
  */
-async function createANewVaultOrUpdateAnExistingVault() {
+async function createANewVaultOrUpdateAnExistingVault(): Promise<void> {
   const subscriptionId =
     process.env["KEYVAULT_SUBSCRIPTION_ID"] ||
     "00000000-0000-0000-0000-000000000000";
@@ -51,7 +49,7 @@ async function createANewVaultOrUpdateAnExistingVault() {
               "deleteissuers",
               "manageissuers",
               "recover",
-              "purge"
+              "purge",
             ],
             keys: [
               "encrypt",
@@ -69,7 +67,7 @@ async function createANewVaultOrUpdateAnExistingVault() {
               "backup",
               "restore",
               "recover",
-              "purge"
+              "purge",
             ],
             secrets: [
               "get",
@@ -79,26 +77,26 @@ async function createANewVaultOrUpdateAnExistingVault() {
               "backup",
               "restore",
               "recover",
-              "purge"
-            ]
+              "purge",
+            ],
           },
-          tenantId: "00000000-0000-0000-0000-000000000000"
-        }
+          tenantId: "00000000-0000-0000-0000-000000000000",
+        },
       ],
       enabledForDeployment: true,
       enabledForDiskEncryption: true,
       enabledForTemplateDeployment: true,
       publicNetworkAccess: "Enabled",
       sku: { name: "standard", family: "A" },
-      tenantId: "00000000-0000-0000-0000-000000000000"
-    }
+      tenantId: "00000000-0000-0000-0000-000000000000",
+    },
   };
   const credential = new DefaultAzureCredential();
   const client = new KeyVaultManagementClient(credential, subscriptionId);
   const result = await client.vaults.beginCreateOrUpdateAndWait(
     resourceGroupName,
     vaultName,
-    parameters
+    parameters,
   );
   console.log(result);
 }
@@ -107,9 +105,9 @@ async function createANewVaultOrUpdateAnExistingVault() {
  * This sample demonstrates how to Create or update a key vault in the specified subscription.
  *
  * @summary Create or update a key vault in the specified subscription.
- * x-ms-original-file: specification/keyvault/resource-manager/Microsoft.KeyVault/stable/2023-07-01/examples/createVaultWithNetworkAcls.json
+ * x-ms-original-file: specification/keyvault/resource-manager/Microsoft.KeyVault/stable/2024-11-01/examples/createVaultWithNetworkAcls.json
  */
-async function createOrUpdateAVaultWithNetworkAcls() {
+async function createOrUpdateAVaultWithNetworkAcls(): Promise<void> {
   const subscriptionId =
     process.env["KEYVAULT_SUBSCRIPTION_ID"] ||
     "00000000-0000-0000-0000-000000000000";
@@ -128,28 +126,27 @@ async function createOrUpdateAVaultWithNetworkAcls() {
         ipRules: [{ value: "124.56.78.91" }, { value: "'10.91.4.0/24'" }],
         virtualNetworkRules: [
           {
-            id:
-              "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/virtualNetworks/test-vnet/subnets/subnet1"
-          }
-        ]
+            id: "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/virtualNetworks/test-vnet/subnets/subnet1",
+          },
+        ],
       },
       sku: { name: "standard", family: "A" },
-      tenantId: "00000000-0000-0000-0000-000000000000"
-    }
+      tenantId: "00000000-0000-0000-0000-000000000000",
+    },
   };
   const credential = new DefaultAzureCredential();
   const client = new KeyVaultManagementClient(credential, subscriptionId);
   const result = await client.vaults.beginCreateOrUpdateAndWait(
     resourceGroupName,
     vaultName,
-    parameters
+    parameters,
   );
   console.log(result);
 }
 
-async function main() {
-  createANewVaultOrUpdateAnExistingVault();
-  createOrUpdateAVaultWithNetworkAcls();
+async function main(): Promise<void> {
+  await createANewVaultOrUpdateAnExistingVault();
+  await createOrUpdateAVaultWithNetworkAcls();
 }
 
 main().catch(console.error);

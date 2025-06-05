@@ -30,7 +30,7 @@ async function commandFailedResult() {
       subscriptionId,
       resourceGroupName,
       resourceName,
-      commandId
+      commandId,
     )
     .get();
   console.log(result);
@@ -57,7 +57,7 @@ async function commandSucceedResult() {
       subscriptionId,
       resourceGroupName,
       resourceName,
-      commandId
+      commandId,
     )
     .get();
   console.log(result);

@@ -1,13 +1,17 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { CommonClientOptions, OperationOptions } from "@azure/core-client";
+import type { ClientOptions, OperationOptions } from "@azure-rest/core-client";
 import type { SUPPORTED_API_VERSIONS } from "./constants.js";
+import { KeyVaultBackupClient } from "./backupClient.js";
+
+export type { PollerLike } from "./lro/shim.js";
+export type { OperationStatus } from "./generated/index.js";
 
 /**
  * The optional parameters accepted by the KeyVaultBackupClient
  */
-export interface KeyVaultBackupClientOptions extends CommonClientOptions {
+export interface KeyVaultBackupClientOptions extends ClientOptions {
   /**
    * The accepted versions of the Key Vault's service API.
    */
@@ -37,19 +41,31 @@ export interface KeyVaultBackupPollerOptions extends OperationOptions {
 
 /**
  * An interface representing the optional parameters that can be
- * passed to {@link beginBackup}
+ * passed to {@link KeyVaultBackupClient.beginPreBackup}
+ */
+export interface KeyVaultBeginPreBackupOptions extends KeyVaultBackupPollerOptions {}
+
+/**
+ * An interface representing the optional parameters that can be
+ * passed to {@link KeyVaultBackupClient.beginBackup}
  */
 export interface KeyVaultBeginBackupOptions extends KeyVaultBackupPollerOptions {}
 
 /**
  * An interface representing the optional parameters that can be
- * passed to {@link beginRestore}
+ * passed to {@link KeyVaultBackupClient.beginRestore}
  */
 export interface KeyVaultBeginRestoreOptions extends KeyVaultBackupPollerOptions {}
 
 /**
  * An interface representing the optional parameters that can be
- * passed to {@link beginSelectiveKeyRestore}
+ * passed to {@link KeyVaultBackupClient.beginPreRestore}
+ */
+export interface KeyVaultBeginPreRestoreOptions extends KeyVaultBackupPollerOptions {}
+
+/**
+ * An interface representing the optional parameters that can be
+ * passed to {@link KeyVaultBackupClient.beginSelectiveKeyRestore}
  */
 export interface KeyVaultBeginSelectiveKeyRestoreOptions extends KeyVaultBackupPollerOptions {}
 
@@ -65,7 +81,7 @@ export interface KeyVaultBackupResult {
   /**
    * The start time of the backup operation.
    */
-  startTime: Date;
+  startTime?: Date;
 
   /**
    * The end time of the backup operation.
@@ -80,7 +96,7 @@ export interface KeyVaultRestoreResult {
   /**
    * The start time of the restore operation.
    */
-  startTime: Date;
+  startTime?: Date;
 
   /**
    * The end time of the restore operation.
@@ -95,7 +111,7 @@ export interface KeyVaultSelectiveKeyRestoreResult {
   /**
    * The start time of the selective key restore operation.
    */
-  startTime: Date;
+  startTime?: Date;
 
   /**
    * The end time of the selective key restore operation.

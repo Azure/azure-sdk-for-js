@@ -9,7 +9,7 @@
 import {
   AsyncOperationStatusGetOptionalParams,
   AsyncOperationStatusGetResponse,
-} from "../models";
+} from "../models/index.js";
 
 /** Interface representing a AsyncOperationStatus. */
 export interface AsyncOperationStatus {

@@ -74,7 +74,7 @@ export default createRule({
             const paramTypeName = typeAnnotation.typeName.name;
             if (paramTypeName.endsWith("Options")) {
               // check that parameter type is prefixed with method name
-              if (!optionsRegex.test(paramTypeName)) {
+              if (paramTypeName !== "OperationOptions" && !optionsRegex.test(paramTypeName)) {
                 const prefixKind = method.kind === "constructor" ? "class" : "method";
                 context.report({
                   node: param,

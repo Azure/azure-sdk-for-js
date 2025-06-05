@@ -10,7 +10,7 @@ import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   LongRunningBackupCreateOptionalParams,
   LongRunningBackupCreateResponse,
-} from "../models";
+} from "../models/index.js";
 
 /** Interface representing a LongRunningBackup. */
 export interface LongRunningBackup {

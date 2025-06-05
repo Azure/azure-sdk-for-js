@@ -6,21 +6,18 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
-import { NetworkInterface, NetworkManagementClient } from "@azure/arm-network";
+import type { NetworkInterface} from "@azure/arm-network";
+import { NetworkManagementClient } from "@azure/arm-network";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Creates or updates a network interface.
  *
  * @summary Creates or updates a network interface.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2024-05-01/examples/NetworkInterfaceCreate.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2024-07-01/examples/NetworkInterfaceCreate.json
  */
-async function createNetworkInterface() {
+async function createNetworkInterface(): Promise<void> {
   const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";
   const resourceGroupName = process.env["NETWORK_RESOURCE_GROUP"] || "rg1";
   const networkInterfaceName = "test-nic";
@@ -55,9 +52,9 @@ async function createNetworkInterface() {
  * This sample demonstrates how to Creates or updates a network interface.
  *
  * @summary Creates or updates a network interface.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2024-05-01/examples/NetworkInterfaceCreateGatewayLoadBalancerConsumer.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2024-07-01/examples/NetworkInterfaceCreateGatewayLoadBalancerConsumer.json
  */
-async function createNetworkInterfaceWithGatewayLoadBalancerConsumerConfigured() {
+async function createNetworkInterfaceWithGatewayLoadBalancerConsumerConfigured(): Promise<void> {
   const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";
   const resourceGroupName = process.env["NETWORK_RESOURCE_GROUP"] || "rg1";
   const networkInterfaceName = "test-nic";
@@ -89,9 +86,9 @@ async function createNetworkInterfaceWithGatewayLoadBalancerConsumerConfigured()
   console.log(result);
 }
 
-async function main() {
-  createNetworkInterface();
-  createNetworkInterfaceWithGatewayLoadBalancerConsumerConfigured();
+async function main(): Promise<void> {
+  await createNetworkInterface();
+  await createNetworkInterfaceWithGatewayLoadBalancerConsumerConfigured();
 }
 
 main().catch(console.error);

@@ -6,17 +6,15 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
 const { PostgreSQLManagementFlexibleServerClient } = require("@azure/arm-postgresql-flexible");
 const { DefaultAzureCredential } = require("@azure/identity");
-require("dotenv").config();
+require("dotenv/config");
 
 /**
  * This sample demonstrates how to Gets a private link resource for PostgreSQL server.
  *
  * @summary Gets a private link resource for PostgreSQL server.
- * x-ms-original-file: specification/postgresql/resource-manager/Microsoft.DBforPostgreSQL/preview/2023-12-01-preview/examples/PrivateLinkResourcesGet.json
+ * x-ms-original-file: specification/postgresql/resource-manager/Microsoft.DBforPostgreSQL/preview/2025-01-01-preview/examples/PrivateLinkResourcesGet.json
  */
 async function getsAPrivateLinkResourceForPostgreSql() {
   const subscriptionId =
@@ -31,7 +29,7 @@ async function getsAPrivateLinkResourceForPostgreSql() {
 }
 
 async function main() {
-  getsAPrivateLinkResourceForPostgreSql();
+  await getsAPrivateLinkResourceForPostgreSql();
 }
 
 main().catch(console.error);

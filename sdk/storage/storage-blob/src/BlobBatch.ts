@@ -15,14 +15,14 @@ import {
   createEmptyPipeline,
   createHttpHeaders,
 } from "@azure/core-rest-pipeline";
-import { isNode } from "@azure/core-util";
-import { AnonymousCredential } from "./credentials/AnonymousCredential";
-import type { BlobDeleteOptions, BlobSetTierOptions } from "./Clients";
-import { BlobClient } from "./Clients";
-import type { AccessTier } from "./generatedModels";
-import { Mutex } from "./utils/Mutex";
-import { Pipeline } from "./Pipeline";
-import { getURLPath, getURLPathAndQuery, iEqual } from "./utils/utils.common";
+import { isNodeLike } from "@azure/core-util";
+import { AnonymousCredential } from "./credentials/AnonymousCredential.js";
+import type { BlobDeleteOptions, BlobSetTierOptions } from "./Clients.js";
+import { BlobClient } from "./Clients.js";
+import type { AccessTier } from "./generatedModels.js";
+import { Mutex } from "./utils/Mutex.js";
+import { Pipeline } from "./Pipeline.js";
+import { getURLPath, getURLPathAndQuery, iEqual } from "./utils/utils.common.js";
 import { stringifyXML } from "@azure/core-xml";
 import {
   HeaderConstants,
@@ -30,11 +30,11 @@ import {
   HTTP_VERSION_1_1,
   HTTP_LINE_ENDING,
   StorageOAuthScopes,
-} from "./utils/constants";
-import { StorageSharedKeyCredential } from "./credentials/StorageSharedKeyCredential";
-import { tracingClient } from "./utils/tracing";
+} from "./utils/constants.js";
+import { StorageSharedKeyCredential } from "./credentials/StorageSharedKeyCredential.js";
+import { tracingClient } from "./utils/tracing.js";
 import { authorizeRequestOnTenantChallenge, serializationPolicy } from "@azure/core-client";
-import { storageSharedKeyCredentialPolicy } from "./policies/StorageSharedKeyCredentialPolicyV2";
+import { storageSharedKeyCredentialPolicy } from "./policies/StorageSharedKeyCredentialPolicyV2.js";
 
 /**
  * A request associated with a batch operation.
@@ -121,9 +121,9 @@ export class BlobBatch {
    * Only one kind of operation is allowed per batch request.
    *
    * Note that in order to delete a blob, you must delete all of its snapshots.
-   * You can delete both at the same time. See [delete operation details](https://docs.microsoft.com/en-us/rest/api/storageservices/delete-blob).
+   * You can delete both at the same time. See [delete operation details](https://learn.microsoft.com/en-us/rest/api/storageservices/delete-blob).
    * The operation will be authenticated and authorized with specified credential.
-   * See [blob batch authorization details](https://docs.microsoft.com/en-us/rest/api/storageservices/blob-batch#authorization).
+   * See [blob batch authorization details](https://learn.microsoft.com/en-us/rest/api/storageservices/blob-batch#authorization).
    *
    * @param url - The url of the blob resource to delete.
    * @param credential - Such as AnonymousCredential, StorageSharedKeyCredential or any credential from the `@azure/identity` package to authenticate requests to the service. You can also provide an object that implements the TokenCredential interface. If not specified, AnonymousCredential is used.
@@ -141,9 +141,9 @@ export class BlobBatch {
    * Only one kind of operation is allowed per batch request.
    *
    * Note that in order to delete a blob, you must delete all of its snapshots.
-   * You can delete both at the same time. See [delete operation details](https://docs.microsoft.com/en-us/rest/api/storageservices/delete-blob).
+   * You can delete both at the same time. See [delete operation details](https://learn.microsoft.com/en-us/rest/api/storageservices/delete-blob).
    * The operation will be authenticated and authorized with specified credential.
-   * See [blob batch authorization details](https://docs.microsoft.com/en-us/rest/api/storageservices/blob-batch#authorization).
+   * See [blob batch authorization details](https://learn.microsoft.com/en-us/rest/api/storageservices/blob-batch#authorization).
    *
    * @param blobClient - The BlobClient.
    * @param options -
@@ -165,7 +165,7 @@ export class BlobBatch {
 
     if (
       typeof urlOrBlobClient === "string" &&
-      ((isNode && credentialOrOptions instanceof StorageSharedKeyCredential) ||
+      ((isNodeLike && credentialOrOptions instanceof StorageSharedKeyCredential) ||
         credentialOrOptions instanceof AnonymousCredential ||
         isTokenCredential(credentialOrOptions))
     ) {
@@ -215,9 +215,9 @@ export class BlobBatch {
    * A block blob's tier determines Hot/Cool/Archive storage type.
    * This operation does not update the blob's ETag.
    * For detailed information about block blob level tiering
-   * see [hot, cool, and archive access tiers](https://docs.microsoft.com/en-us/azure/storage/blobs/storage-blob-storage-tiers).
+   * see [hot, cool, and archive access tiers](https://learn.microsoft.com/en-us/azure/storage/blobs/storage-blob-storage-tiers).
    * The operation will be authenticated and authorized
-   * with specified credential. See [blob batch authorization details](https://docs.microsoft.com/en-us/rest/api/storageservices/blob-batch#authorization).
+   * with specified credential. See [blob batch authorization details](https://learn.microsoft.com/en-us/rest/api/storageservices/blob-batch#authorization).
    *
    * @param url - The url of the blob resource to delete.
    * @param credential - Such as AnonymousCredential, StorageSharedKeyCredential or any credential from the `@azure/identity` package to authenticate requests to the service. You can also provide an object that implements the TokenCredential interface. If not specified, AnonymousCredential is used.
@@ -239,9 +239,9 @@ export class BlobBatch {
    * A block blob's tier determines Hot/Cool/Archive storage type.
    * This operation does not update the blob's ETag.
    * For detailed information about block blob level tiering
-   * see [hot, cool, and archive access tiers](https://docs.microsoft.com/en-us/azure/storage/blobs/storage-blob-storage-tiers).
+   * see [hot, cool, and archive access tiers](https://learn.microsoft.com/en-us/azure/storage/blobs/storage-blob-storage-tiers).
    * The operation will be authenticated and authorized
-   * with specified credential. See [blob batch authorization details](https://docs.microsoft.com/en-us/rest/api/storageservices/blob-batch#authorization).
+   * with specified credential. See [blob batch authorization details](https://learn.microsoft.com/en-us/rest/api/storageservices/blob-batch#authorization).
    *
    * @param blobClient - The BlobClient.
    * @param tier -
@@ -269,7 +269,7 @@ export class BlobBatch {
 
     if (
       typeof urlOrBlobClient === "string" &&
-      ((isNode && credentialOrTier instanceof StorageSharedKeyCredential) ||
+      ((isNodeLike && credentialOrTier instanceof StorageSharedKeyCredential) ||
         credentialOrTier instanceof AnonymousCredential ||
         isTokenCredential(credentialOrTier))
     ) {
@@ -320,7 +320,7 @@ export class BlobBatch {
 
 /**
  * Inner batch request class which is responsible for assembling and serializing sub requests.
- * See https://docs.microsoft.com/en-us/rest/api/storageservices/blob-batch#request-body for how requests are assembled.
+ * See https://learn.microsoft.com/en-us/rest/api/storageservices/blob-batch#request-body for how requests are assembled.
  */
 class InnerBatchRequest {
   private operationCount: number;

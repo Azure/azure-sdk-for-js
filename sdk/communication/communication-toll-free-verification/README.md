@@ -35,8 +35,8 @@ Once you have a key, you can authenticate the `TollFreeVerificationClient` with 
 
 ### Using a connection string
 
-```javascript
-const { TollFreeVerificationClient } = require("@azure-tools/communication-toll-free-verification");
+```ts snippet:ReadmeSampleCreateClient_ConnectionString
+import { TollFreeVerificationClient } from "@azure-tools/communication-toll-free-verification";
 
 const connectionString = "endpoint=<endpoint>;accessKey=<accessKey>";
 const client = new TollFreeVerificationClient(connectionString);
@@ -46,9 +46,9 @@ const client = new TollFreeVerificationClient(connectionString);
 
 If you use a key to initialize the client you will also need to provide the appropriate endpoint. You can get this endpoint from your Communication Services resource in [Azure Portal][azure_portal]. Once you have a key and endpoint, you can authenticate with the following code:
 
-```javascript
-const { AzureKeyCredential } = require("@azure/core-auth");
-const { TollFreeVerificationClient } = require("@azure-tools/communication-toll-free-verification");
+```ts snippet:ReadmeSampleCreateClient_KeyCredential
+import { AzureKeyCredential } from "@azure/core-auth";
+import { TollFreeVerificationClient } from "@azure-tools/communication-toll-free-verification";
 
 const credential = new AzureKeyCredential("<key-from-resource>");
 const client = new TollFreeVerificationClient("<endpoint-from-resource>", credential);
@@ -64,9 +64,9 @@ npm install @azure/identity
 
 The [`@azure/identity`][azure_identity] package provides a variety of credential types that your application can use to do this. The [README for `@azure/identity`][azure_identity_readme] provides more details and samples to get you started.
 
-```javascript
-const { DefaultAzureCredential } = require("@azure/identity");
-const { TollFreeVerificationClient } = require("@azure-tools/communication-toll-free-verification");
+```ts snippet:ReadmeSampleCreateClient_TokenCredential
+import { DefaultAzureCredential } from "@azure/identity";
+import { TollFreeVerificationClient } from "@azure-tools/communication-toll-free-verification";
 
 const credential = new DefaultAzureCredential();
 const client = new TollFreeVerificationClient("<endpoint-from-resource>", credential);
@@ -82,11 +82,12 @@ The following sections provide code snippets that cover some of the common tasks
 
 Use the `getCampaignBrief` method to obtain the current applied configuration for your resource.
 
-```javascript
-const { TollFreeVerificationClient } = require("@azure-tools/communication-toll-free-verification");
+```ts snippet:SampleReadmeGetCampaignBrief
+import { DefaultAzureCredential } from "@azure/identity";
+import { TollFreeVerificationClient } from "@azure-tools/communication-toll-free-verification";
 
-const connectionString = "endpoint=<endpoint>;accessKey=<accessKey>";
-const client = new TollFreeVerificationClient(connectionString);
+const credential = new DefaultAzureCredential();
+const client = new TollFreeVerificationClient("<endpoint-from-resource>", credential);
 
 // get a campaign brief
 const campaignBrief = await client.getCampaignBrief("63215741-b596-4eb4-a9c0-b2905ce22cb0", "US");
@@ -95,6 +96,18 @@ console.log(campaignBrief);
 ```
 
 ## Troubleshooting
+
+### Logging
+
+Enabling logging may help uncover useful information about failures. In order to see a log of HTTP requests and responses, set the `AZURE_LOG_LEVEL` environment variable to `info`. Alternatively, logging can be enabled at runtime by calling `setLogLevel` in the `@azure/logger`:
+
+```ts snippet:SetLogLevel
+import { setLogLevel } from "@azure/logger";
+
+setLogLevel("info");
+```
+
+For more detailed instructions on how to enable logs, you can look at the [@azure/logger package docs](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/core/logger).
 
 ## Next steps
 
@@ -115,5 +128,3 @@ If you'd like to contribute to this library, please read the [contributing guide
 [defaultazurecredential]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/identity/identity#defaultazurecredential
 [azure_identity]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/identity/identity
 [azure_identity_readme]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/identity/identity/README.md
-
-![Impressions](https://azure-sdk-impressions.azurewebsites.net/api/impressions/azure-sdk-for-js%2Fsdk%2Fcommunication%2Fcommunication-toll-free-verification%2FREADME.png)

@@ -19,7 +19,7 @@ import {
   ProtectedItemDeleteResponse,
   ProtectedItemPlannedFailoverOptionalParams,
   ProtectedItemPlannedFailoverResponse
-} from "../models";
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a ProtectedItem. */

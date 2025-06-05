@@ -23,6 +23,7 @@
   "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/web-pubsub/web-pubsub",
   "dependencies": {
     "@azure/web-pubsub": "latest",
-    "dotenv": "latest"
+    "dotenv": "latest",
+    "@azure/identity": "^4.7.0"
   }
 }

@@ -50,29 +50,29 @@ The following section shows you how to initialize and authenticate your client, 
 
 ### List All Managed Clusters
 
-```typescript
-import ContainerServiceManagementClient, { paginate } from "@azure-rest/arm-containerservice";
+```ts snippet:SampleReadmeListManagedClusters
 import { DefaultAzureCredential } from "@azure/identity";
+import ContainerServiceClient, { isUnexpected, paginate } from "@azure-rest/arm-containerservice";
 
-async function listManagedClusters() {
-  const subscriptionId = process.env.SUBSCRIPTION_ID as string;
-  const credential = new DefaultAzureCredential();
-  const client = ContainerServiceManagementClient(credential);
-  const initialResponse = await client
-    .path(
-      "/subscriptions/{subscriptionId}/providers/Microsoft.ContainerService/managedClusters",
-      subscriptionId,
-    )
-    .get();
-  const result = paginate(client, initialResponse);
-  const resArray = new Array();
-  for await (let item of result) {
-    resArray.push(item);
-  }
-  console.log(resArray);
+const subscriptionId = "00000000-0000-0000-0000-000000000000";
+const credential = new DefaultAzureCredential();
+const client = ContainerServiceClient(credential);
+
+const initialResponse = await client
+  .path(
+    "/subscriptions/{subscriptionId}/providers/Microsoft.ContainerService/managedClusters",
+    subscriptionId,
+  )
+  .get();
+
+if (isUnexpected(initialResponse)) {
+  throw initialResponse;
 }
 
-listManagedClusters().catch(console.error);
+const result = paginate(client, initialResponse);
+for await (const item of result) {
+  console.log(`Managed Cluster: ${item.name}`);
+}
 ```
 
 ## Troubleshooting
@@ -81,7 +81,7 @@ listManagedClusters().catch(console.error);
 
 Enabling logging may help uncover useful information about failures. In order to see a log of HTTP requests and responses, set the `AZURE_LOG_LEVEL` environment variable to `info`. Alternatively, logging can be enabled at runtime by calling `setLogLevel` in the `@azure/logger`:
 
-```javascript
+```ts snippet:SetLogLevel
 import { setLogLevel } from "@azure/logger";
 
 setLogLevel("info");

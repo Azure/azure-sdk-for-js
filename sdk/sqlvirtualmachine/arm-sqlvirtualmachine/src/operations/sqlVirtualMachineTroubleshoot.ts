@@ -6,22 +6,22 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { SqlVirtualMachineTroubleshoot } from "../operationsInterfaces";
+import { SqlVirtualMachineTroubleshoot } from "../operationsInterfaces/index.js";
 import * as coreClient from "@azure/core-client";
-import * as Mappers from "../models/mappers";
-import * as Parameters from "../models/parameters";
-import { SqlVirtualMachineManagementClient } from "../sqlVirtualMachineManagementClient";
+import * as Mappers from "../models/mappers.js";
+import * as Parameters from "../models/parameters.js";
+import { SqlVirtualMachineManagementClient } from "../sqlVirtualMachineManagementClient.js";
 import {
   SimplePollerLike,
   OperationState,
   createHttpPoller
 } from "@azure/core-lro";
-import { createLroSpec } from "../lroImpl";
+import { createLroSpec } from "../lroImpl.js";
 import {
   SqlVmTroubleshooting,
   SqlVirtualMachineTroubleshootTroubleshootOptionalParams,
   SqlVirtualMachineTroubleshootTroubleshootResponse
-} from "../models";
+} from "../models/index.js";
 
 /** Class containing SqlVirtualMachineTroubleshoot operations. */
 export class SqlVirtualMachineTroubleshootImpl

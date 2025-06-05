@@ -12,40 +12,40 @@ import {
   ReplicationProtectableItemsListByReplicationProtectionContainersOptionalParams,
   ReplicationProtectableItemsGetOptionalParams,
   ReplicationProtectableItemsGetResponse,
-} from "../models";
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a ReplicationProtectableItems. */
 export interface ReplicationProtectableItems {
   /**
    * Lists the protectable items in a protection container.
-   * @param resourceName The name of the recovery services vault.
    * @param resourceGroupName The name of the resource group where the recovery services vault is
    *                          present.
+   * @param resourceName The name of the recovery services vault.
    * @param fabricName Fabric name.
    * @param protectionContainerName Protection container name.
    * @param options The options parameters.
    */
   listByReplicationProtectionContainers(
-    resourceName: string,
     resourceGroupName: string,
+    resourceName: string,
     fabricName: string,
     protectionContainerName: string,
     options?: ReplicationProtectableItemsListByReplicationProtectionContainersOptionalParams,
   ): PagedAsyncIterableIterator<ProtectableItem>;
   /**
    * The operation to get the details of a protectable item.
-   * @param resourceName The name of the recovery services vault.
    * @param resourceGroupName The name of the resource group where the recovery services vault is
    *                          present.
+   * @param resourceName The name of the recovery services vault.
    * @param fabricName Fabric name.
    * @param protectionContainerName Protection container name.
    * @param protectableItemName Protectable item name.
    * @param options The options parameters.
    */
   get(
-    resourceName: string,
     resourceGroupName: string,
+    resourceName: string,
     fabricName: string,
     protectionContainerName: string,
     protectableItemName: string,

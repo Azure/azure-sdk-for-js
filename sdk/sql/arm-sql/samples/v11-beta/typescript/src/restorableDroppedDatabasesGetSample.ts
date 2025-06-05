@@ -13,9 +13,7 @@ import {
   SqlManagementClient,
 } from "@azure/arm-sql";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Gets a restorable dropped database.
@@ -23,7 +21,7 @@ dotenv.config();
  * @summary Gets a restorable dropped database.
  * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2022-08-01-preview/examples/GetRestorableDroppedDatabaseWithExpandEqualsKeys.json
  */
-async function getsARestorableDroppedDatabaseWithExpandEqualsKeys() {
+async function getsARestorableDroppedDatabaseWithExpandEqualsKeys(): Promise<void> {
   const subscriptionId =
     process.env["SQL_SUBSCRIPTION_ID"] ||
     "00000000-1111-2222-3333-444444444444";
@@ -50,7 +48,7 @@ async function getsARestorableDroppedDatabaseWithExpandEqualsKeys() {
  * @summary Gets a restorable dropped database.
  * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2022-08-01-preview/examples/GetRestorableDroppedDatabase.json
  */
-async function getsARestorableDroppedDatabase() {
+async function getsARestorableDroppedDatabase(): Promise<void> {
   const subscriptionId =
     process.env["SQL_SUBSCRIPTION_ID"] ||
     "00000000-1111-2222-3333-444444444444";
@@ -68,7 +66,7 @@ async function getsARestorableDroppedDatabase() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   getsARestorableDroppedDatabaseWithExpandEqualsKeys();
   getsARestorableDroppedDatabase();
 }

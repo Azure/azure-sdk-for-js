@@ -10,9 +10,7 @@
 // Licensed under the MIT License.
 import { ApplicationClient } from "@azure/arm-managedapplications";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Lists all the applications within a subscription.
@@ -20,7 +18,7 @@ dotenv.config();
  * @summary Lists all the applications within a subscription.
  * x-ms-original-file: specification/solutions/resource-manager/Microsoft.Solutions/stable/2021-07-01/examples/listApplicationsByResourceGroup.json
  */
-async function listsAllTheApplicationsWithinASubscription() {
+async function listsAllTheApplicationsWithinASubscription(): Promise<void> {
   const subscriptionId =
     process.env["MANAGEDAPPLICATIONS_SUBSCRIPTION_ID"] || "subid";
   const credential = new DefaultAzureCredential();
@@ -32,7 +30,7 @@ async function listsAllTheApplicationsWithinASubscription() {
   console.log(resArray);
 }
 
-async function main() {
+async function main(): Promise<void> {
   listsAllTheApplicationsWithinASubscription();
 }
 

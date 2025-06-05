@@ -10,7 +10,7 @@
 // Licensed under the MIT License.
 const { ComputeManagementClient } = require("@azure/arm-compute");
 const { DefaultAzureCredential } = require("@azure/identity");
-require("dotenv").config();
+require("dotenv/config");
 
 /**
  * This sample demonstrates how to List galleries under a subscription.
@@ -23,14 +23,14 @@ async function listGalleriesInASubscription() {
   const credential = new DefaultAzureCredential();
   const client = new ComputeManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.galleries.list()) {
+  for await (const item of client.galleries.list()) {
     resArray.push(item);
   }
   console.log(resArray);
 }
 
 async function main() {
-  listGalleriesInASubscription();
+  await listGalleriesInASubscription();
 }
 
 main().catch(console.error);

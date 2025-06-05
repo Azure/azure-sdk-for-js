@@ -7,17 +7,17 @@
  */
 
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
-import { Scripts } from "../operationsInterfaces";
+import { Scripts } from "../operationsInterfaces/index.js";
 import * as coreClient from "@azure/core-client";
-import * as Mappers from "../models/mappers";
-import * as Parameters from "../models/parameters";
-import { KustoManagementClient } from "../kustoManagementClient";
+import * as Mappers from "../models/mappers.js";
+import * as Parameters from "../models/parameters.js";
+import { KustoManagementClient } from "../kustoManagementClient.js";
 import {
   SimplePollerLike,
   OperationState,
-  createHttpPoller
+  createHttpPoller,
 } from "@azure/core-lro";
-import { createLroSpec } from "../lroImpl";
+import { createLroSpec } from "../lroImpl.js";
 import {
   Script,
   ScriptsListByDatabaseOptionalParams,
@@ -31,8 +31,8 @@ import {
   ScriptsDeleteOptionalParams,
   ScriptCheckNameRequest,
   ScriptsCheckNameAvailabilityOptionalParams,
-  ScriptsCheckNameAvailabilityResponse
-} from "../models";
+  ScriptsCheckNameAvailabilityResponse,
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Class containing Scripts operations. */
@@ -58,13 +58,13 @@ export class ScriptsImpl implements Scripts {
     resourceGroupName: string,
     clusterName: string,
     databaseName: string,
-    options?: ScriptsListByDatabaseOptionalParams
+    options?: ScriptsListByDatabaseOptionalParams,
   ): PagedAsyncIterableIterator<Script> {
     const iter = this.listByDatabasePagingAll(
       resourceGroupName,
       clusterName,
       databaseName,
-      options
+      options,
     );
     return {
       next() {
@@ -82,9 +82,9 @@ export class ScriptsImpl implements Scripts {
           clusterName,
           databaseName,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
@@ -93,14 +93,14 @@ export class ScriptsImpl implements Scripts {
     clusterName: string,
     databaseName: string,
     options?: ScriptsListByDatabaseOptionalParams,
-    _settings?: PageSettings
+    _settings?: PageSettings,
   ): AsyncIterableIterator<Script[]> {
     let result: ScriptsListByDatabaseResponse;
     result = await this._listByDatabase(
       resourceGroupName,
       clusterName,
       databaseName,
-      options
+      options,
     );
     yield result.value || [];
   }
@@ -109,13 +109,13 @@ export class ScriptsImpl implements Scripts {
     resourceGroupName: string,
     clusterName: string,
     databaseName: string,
-    options?: ScriptsListByDatabaseOptionalParams
+    options?: ScriptsListByDatabaseOptionalParams,
   ): AsyncIterableIterator<Script> {
     for await (const page of this.listByDatabasePagingPage(
       resourceGroupName,
       clusterName,
       databaseName,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -132,11 +132,11 @@ export class ScriptsImpl implements Scripts {
     resourceGroupName: string,
     clusterName: string,
     databaseName: string,
-    options?: ScriptsListByDatabaseOptionalParams
+    options?: ScriptsListByDatabaseOptionalParams,
   ): Promise<ScriptsListByDatabaseResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, clusterName, databaseName, options },
-      listByDatabaseOperationSpec
+      listByDatabaseOperationSpec,
     );
   }
 
@@ -153,11 +153,11 @@ export class ScriptsImpl implements Scripts {
     clusterName: string,
     databaseName: string,
     scriptName: string,
-    options?: ScriptsGetOptionalParams
+    options?: ScriptsGetOptionalParams,
   ): Promise<ScriptsGetResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, clusterName, databaseName, scriptName, options },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 
@@ -176,7 +176,7 @@ export class ScriptsImpl implements Scripts {
     databaseName: string,
     scriptName: string,
     parameters: Script,
-    options?: ScriptsCreateOrUpdateOptionalParams
+    options?: ScriptsCreateOrUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<ScriptsCreateOrUpdateResponse>,
@@ -185,21 +185,20 @@ export class ScriptsImpl implements Scripts {
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<ScriptsCreateOrUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -208,8 +207,8 @@ export class ScriptsImpl implements Scripts {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -217,8 +216,8 @@ export class ScriptsImpl implements Scripts {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
@@ -230,16 +229,16 @@ export class ScriptsImpl implements Scripts {
         databaseName,
         scriptName,
         parameters,
-        options
+        options,
       },
-      spec: createOrUpdateOperationSpec
+      spec: createOrUpdateOperationSpec,
     });
     const poller = await createHttpPoller<
       ScriptsCreateOrUpdateResponse,
       OperationState<ScriptsCreateOrUpdateResponse>
     >(lro, {
       restoreFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs
+      intervalInMs: options?.updateIntervalInMs,
     });
     await poller.poll();
     return poller;
@@ -260,7 +259,7 @@ export class ScriptsImpl implements Scripts {
     databaseName: string,
     scriptName: string,
     parameters: Script,
-    options?: ScriptsCreateOrUpdateOptionalParams
+    options?: ScriptsCreateOrUpdateOptionalParams,
   ): Promise<ScriptsCreateOrUpdateResponse> {
     const poller = await this.beginCreateOrUpdate(
       resourceGroupName,
@@ -268,7 +267,7 @@ export class ScriptsImpl implements Scripts {
       databaseName,
       scriptName,
       parameters,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -288,7 +287,7 @@ export class ScriptsImpl implements Scripts {
     databaseName: string,
     scriptName: string,
     parameters: Script,
-    options?: ScriptsUpdateOptionalParams
+    options?: ScriptsUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<ScriptsUpdateResponse>,
@@ -297,21 +296,20 @@ export class ScriptsImpl implements Scripts {
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<ScriptsUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -320,8 +318,8 @@ export class ScriptsImpl implements Scripts {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -329,8 +327,8 @@ export class ScriptsImpl implements Scripts {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
@@ -342,16 +340,16 @@ export class ScriptsImpl implements Scripts {
         databaseName,
         scriptName,
         parameters,
-        options
+        options,
       },
-      spec: updateOperationSpec
+      spec: updateOperationSpec,
     });
     const poller = await createHttpPoller<
       ScriptsUpdateResponse,
       OperationState<ScriptsUpdateResponse>
     >(lro, {
       restoreFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs
+      intervalInMs: options?.updateIntervalInMs,
     });
     await poller.poll();
     return poller;
@@ -372,7 +370,7 @@ export class ScriptsImpl implements Scripts {
     databaseName: string,
     scriptName: string,
     parameters: Script,
-    options?: ScriptsUpdateOptionalParams
+    options?: ScriptsUpdateOptionalParams,
   ): Promise<ScriptsUpdateResponse> {
     const poller = await this.beginUpdate(
       resourceGroupName,
@@ -380,7 +378,7 @@ export class ScriptsImpl implements Scripts {
       databaseName,
       scriptName,
       parameters,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -398,25 +396,24 @@ export class ScriptsImpl implements Scripts {
     clusterName: string,
     databaseName: string,
     scriptName: string,
-    options?: ScriptsDeleteOptionalParams
+    options?: ScriptsDeleteOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<void> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -425,8 +422,8 @@ export class ScriptsImpl implements Scripts {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -434,8 +431,8 @@ export class ScriptsImpl implements Scripts {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
@@ -446,13 +443,13 @@ export class ScriptsImpl implements Scripts {
         clusterName,
         databaseName,
         scriptName,
-        options
+        options,
       },
-      spec: deleteOperationSpec
+      spec: deleteOperationSpec,
     });
     const poller = await createHttpPoller<void, OperationState<void>>(lro, {
       restoreFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs
+      intervalInMs: options?.updateIntervalInMs,
     });
     await poller.poll();
     return poller;
@@ -471,14 +468,14 @@ export class ScriptsImpl implements Scripts {
     clusterName: string,
     databaseName: string,
     scriptName: string,
-    options?: ScriptsDeleteOptionalParams
+    options?: ScriptsDeleteOptionalParams,
   ): Promise<void> {
     const poller = await this.beginDelete(
       resourceGroupName,
       clusterName,
       databaseName,
       scriptName,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -496,11 +493,11 @@ export class ScriptsImpl implements Scripts {
     clusterName: string,
     databaseName: string,
     scriptName: ScriptCheckNameRequest,
-    options?: ScriptsCheckNameAvailabilityOptionalParams
+    options?: ScriptsCheckNameAvailabilityOptionalParams,
   ): Promise<ScriptsCheckNameAvailabilityResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, clusterName, databaseName, scriptName, options },
-      checkNameAvailabilityOperationSpec
+      checkNameAvailabilityOperationSpec,
     );
   }
 }
@@ -508,39 +505,15 @@ export class ScriptsImpl implements Scripts {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listByDatabaseOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Kusto/clusters/{clusterName}/databases/{databaseName}/scripts",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Kusto/clusters/{clusterName}/databases/{databaseName}/scripts",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ScriptListResult
+      bodyMapper: Mappers.ScriptListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
-  },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.resourceGroupName,
-    Parameters.clusterName,
-    Parameters.subscriptionId,
-    Parameters.databaseName
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
-};
-const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Kusto/clusters/{clusterName}/databases/{databaseName}/scripts/{scriptName}",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.Script
+      bodyMapper: Mappers.ErrorResponse,
     },
-    default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -549,31 +522,52 @@ const getOperationSpec: coreClient.OperationSpec = {
     Parameters.clusterName,
     Parameters.subscriptionId,
     Parameters.databaseName,
-    Parameters.scriptName
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
+};
+const getOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Kusto/clusters/{clusterName}/databases/{databaseName}/scripts/{scriptName}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.Script,
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.resourceGroupName,
+    Parameters.clusterName,
+    Parameters.subscriptionId,
+    Parameters.databaseName,
+    Parameters.scriptName,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
 };
 const createOrUpdateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Kusto/clusters/{clusterName}/databases/{databaseName}/scripts/{scriptName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Kusto/clusters/{clusterName}/databases/{databaseName}/scripts/{scriptName}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.Script
+      bodyMapper: Mappers.Script,
     },
     201: {
-      bodyMapper: Mappers.Script
+      bodyMapper: Mappers.Script,
     },
     202: {
-      bodyMapper: Mappers.Script
+      bodyMapper: Mappers.Script,
     },
     204: {
-      bodyMapper: Mappers.Script
+      bodyMapper: Mappers.Script,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   requestBody: Parameters.parameters8,
   queryParameters: [Parameters.apiVersion],
@@ -583,32 +577,31 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
     Parameters.clusterName,
     Parameters.subscriptionId,
     Parameters.databaseName,
-    Parameters.scriptName
+    Parameters.scriptName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const updateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Kusto/clusters/{clusterName}/databases/{databaseName}/scripts/{scriptName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Kusto/clusters/{clusterName}/databases/{databaseName}/scripts/{scriptName}",
   httpMethod: "PATCH",
   responses: {
     200: {
-      bodyMapper: Mappers.Script
+      bodyMapper: Mappers.Script,
     },
     201: {
-      bodyMapper: Mappers.Script
+      bodyMapper: Mappers.Script,
     },
     202: {
-      bodyMapper: Mappers.Script
+      bodyMapper: Mappers.Script,
     },
     204: {
-      bodyMapper: Mappers.Script
+      bodyMapper: Mappers.Script,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   requestBody: Parameters.parameters8,
   queryParameters: [Parameters.apiVersion],
@@ -618,15 +611,14 @@ const updateOperationSpec: coreClient.OperationSpec = {
     Parameters.clusterName,
     Parameters.subscriptionId,
     Parameters.databaseName,
-    Parameters.scriptName
+    Parameters.scriptName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const deleteOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Kusto/clusters/{clusterName}/databases/{databaseName}/scripts/{scriptName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Kusto/clusters/{clusterName}/databases/{databaseName}/scripts/{scriptName}",
   httpMethod: "DELETE",
   responses: {
     200: {},
@@ -634,8 +626,8 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     202: {},
     204: {},
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -644,22 +636,21 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     Parameters.clusterName,
     Parameters.subscriptionId,
     Parameters.databaseName,
-    Parameters.scriptName
+    Parameters.scriptName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const checkNameAvailabilityOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Kusto/clusters/{clusterName}/databases/{databaseName}/scriptsCheckNameAvailability",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Kusto/clusters/{clusterName}/databases/{databaseName}/scriptsCheckNameAvailability",
   httpMethod: "POST",
   responses: {
     200: {
-      bodyMapper: Mappers.CheckNameResult
+      bodyMapper: Mappers.CheckNameResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   requestBody: Parameters.scriptName1,
   queryParameters: [Parameters.apiVersion],
@@ -668,9 +659,9 @@ const checkNameAvailabilityOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.clusterName,
     Parameters.subscriptionId,
-    Parameters.databaseName
+    Parameters.databaseName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };

@@ -1,3 +1,5 @@
+<!-- dev-tool snippets ignore -->
+
 # Migrating abort-controller from 1.x to 2.x
 
 This guide is intended to provide an overview for the changes between 1.x and 2.x of the `@azure/abort-controller` package. This is one of our core packages, and so is not intended to be used directly by consumers of Azure SDKs.

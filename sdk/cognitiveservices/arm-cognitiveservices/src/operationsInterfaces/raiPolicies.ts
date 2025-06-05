@@ -17,7 +17,7 @@ import {
   RaiPoliciesCreateOrUpdateResponse,
   RaiPoliciesDeleteOptionalParams,
   RaiPoliciesDeleteResponse,
-} from "../models";
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a RaiPolicies. */
@@ -74,10 +74,7 @@ export interface RaiPolicies {
     raiPolicyName: string,
     options?: RaiPoliciesDeleteOptionalParams,
   ): Promise<
-    SimplePollerLike<
-      OperationState<RaiPoliciesDeleteResponse>,
-      RaiPoliciesDeleteResponse
-    >
+    SimplePollerLike<OperationState<RaiPoliciesDeleteResponse>, RaiPoliciesDeleteResponse>
   >;
   /**
    * Deletes the specified Content Filters associated with the Azure OpenAI account.

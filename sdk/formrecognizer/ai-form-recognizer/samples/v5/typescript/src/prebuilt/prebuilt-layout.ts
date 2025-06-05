@@ -12,7 +12,7 @@ import * as fr from "@azure/ai-form-recognizer";
  * Extract text and layout information from documents.
  */
 export const PrebuiltLayoutModel = fr.createModelFromSchema(
-  modelInfo()
+  modelInfo(),
 ) as fr.DocumentModel<PrebuiltLayoutResult>;
 
 export interface PrebuiltLayoutResult extends fr.AnalyzeResultCommon {
@@ -37,7 +37,7 @@ export interface PrebuiltLayoutResult extends fr.AnalyzeResultCommon {
 /**
  * The raw model schema.
  */
-function modelInfo() {
+function modelInfo(): any {
   return {
     modelId: "prebuilt-layout",
     description: "Extract text and layout information from documents.",

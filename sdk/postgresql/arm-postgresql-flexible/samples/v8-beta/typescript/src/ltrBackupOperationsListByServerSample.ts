@@ -6,21 +6,17 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
 import { PostgreSQLManagementFlexibleServerClient } from "@azure/arm-postgresql-flexible";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Gets the result of the give long term retention backup operations for the flexible server.
  *
  * @summary Gets the result of the give long term retention backup operations for the flexible server.
- * x-ms-original-file: specification/postgresql/resource-manager/Microsoft.DBforPostgreSQL/preview/2023-12-01-preview/examples/LongTermRetentionOperationListByServer.json
+ * x-ms-original-file: specification/postgresql/resource-manager/Microsoft.DBforPostgreSQL/preview/2025-01-01-preview/examples/LongTermRetentionOperationListByServer.json
  */
-async function sampleListOfLongTernRetentionOperationsByFlexibleServer() {
+async function sampleListOfLongTernRetentionOperationsByFlexibleServer(): Promise<void> {
   const subscriptionId =
     process.env["POSTGRESQL_SUBSCRIPTION_ID"] ||
     "ffffffff-ffff-ffff-ffff-ffffffffffff";
@@ -33,7 +29,7 @@ async function sampleListOfLongTernRetentionOperationsByFlexibleServer() {
     subscriptionId,
   );
   const resArray = new Array();
-  for await (let item of client.ltrBackupOperations.listByServer(
+  for await (const item of client.ltrBackupOperations.listByServer(
     resourceGroupName,
     serverName,
   )) {
@@ -42,8 +38,8 @@ async function sampleListOfLongTernRetentionOperationsByFlexibleServer() {
   console.log(resArray);
 }
 
-async function main() {
-  sampleListOfLongTernRetentionOperationsByFlexibleServer();
+async function main(): Promise<void> {
+  await sampleListOfLongTernRetentionOperationsByFlexibleServer();
 }
 
 main().catch(console.error);

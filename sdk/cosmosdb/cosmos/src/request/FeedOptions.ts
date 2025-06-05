@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import type { PartitionKey } from "../documents";
-import type { SharedOptions } from "./SharedOptions";
+import type { PartitionKey } from "../documents/index.js";
+import type { SharedOptions } from "./SharedOptions.js";
 
 /**
  * The feed options and query methods.
@@ -128,4 +128,20 @@ export interface FeedOptions extends SharedOptions {
    * Default: false; When set to true, it allows queries to bypass the default behavior that blocks nonStreaming queries without top or limit clauses.
    */
   allowUnboundedNonStreamingQueries?: boolean;
+  /**
+   * Controls query execution behavior.
+   * Default: false. If set to false, the query will retry until results are ready and `maxItemCount` is reached, which can take time for large partitions with relatively small data.
+   * If set to true, scans partitions up to `maxDegreeOfParallelism`, adds results to the buffer, and returns what is available. If results are not ready, it returns an empty response.
+   */
+  enableQueryControl?: boolean;
+  /**
+   * Default: false. If set to true, it disables the hybrid search query plan optimization.
+   * This optimization is enabled by default and is used to improve the performance of hybrid search queries.
+   */
+  disableHybridSearchQueryPlanOptimization?: boolean;
+  /**
+   * @internal
+   * rid of the container.
+   */
+  containerRid?: string;
 }

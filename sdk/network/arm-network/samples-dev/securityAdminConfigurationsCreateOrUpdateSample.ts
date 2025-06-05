@@ -6,24 +6,21 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
+import type {
+  SecurityAdminConfiguration} from "@azure/arm-network";
 import {
-  SecurityAdminConfiguration,
   NetworkManagementClient,
 } from "@azure/arm-network";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Creates or updates a network manager security admin configuration.
  *
  * @summary Creates or updates a network manager security admin configuration.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2024-05-01/examples/NetworkManagerSecurityAdminConfigurationPut_ManualAggregation.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2024-07-01/examples/NetworkManagerSecurityAdminConfigurationPut_ManualAggregation.json
  */
-async function createManualModeSecurityAdminConfiguration() {
+async function createManualModeSecurityAdminConfiguration(): Promise<void> {
   const subscriptionId =
     process.env["NETWORK_SUBSCRIPTION_ID"] ||
     "11111111-1111-1111-1111-111111111111";
@@ -50,9 +47,9 @@ async function createManualModeSecurityAdminConfiguration() {
  * This sample demonstrates how to Creates or updates a network manager security admin configuration.
  *
  * @summary Creates or updates a network manager security admin configuration.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2024-05-01/examples/NetworkManagerSecurityAdminConfigurationPut.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2024-07-01/examples/NetworkManagerSecurityAdminConfigurationPut.json
  */
-async function createNetworkManagerSecurityAdminConfiguration() {
+async function createNetworkManagerSecurityAdminConfiguration(): Promise<void> {
   const subscriptionId =
     process.env["NETWORK_SUBSCRIPTION_ID"] ||
     "00000000-0000-0000-0000-000000000000";
@@ -74,9 +71,9 @@ async function createNetworkManagerSecurityAdminConfiguration() {
   console.log(result);
 }
 
-async function main() {
-  createManualModeSecurityAdminConfiguration();
-  createNetworkManagerSecurityAdminConfiguration();
+async function main(): Promise<void> {
+  await createManualModeSecurityAdminConfiguration();
+  await createNetworkManagerSecurityAdminConfiguration();
 }
 
 main().catch(console.error);

@@ -18,7 +18,7 @@ param (
 $storageAccountName = $DeploymentOutputs['ACCOUNT_NAME']
 $context = New-AzStorageContext -StorageAccountName $storageAccountName
 
-# https://docs.microsoft.com/en-us/powershell/module/az.storage/set-azstoragecorsrule?view=azps-3.3.0
+# https://learn.microsoft.com/en-us/powershell/module/az.storage/set-azstoragecorsrule?view=azps-3.3.0
 $corsRules = (@{
     AllowedHeaders  = @('*');
     AllowedOrigins  = @('*');

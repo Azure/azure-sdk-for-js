@@ -45,7 +45,7 @@ import {
   ValidateRestoreRequestObject,
   BackupInstancesValidateForRestoreOptionalParams,
   BackupInstancesValidateForRestoreResponse,
-} from "../models";
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a BackupInstances. */

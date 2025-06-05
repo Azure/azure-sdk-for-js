@@ -10,17 +10,15 @@
 // Licensed under the MIT License.
 import { ElasticSanManagement } from "@azure/arm-elasticsan";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Delete an VolumeGroup.
  *
  * @summary Delete an VolumeGroup.
- * x-ms-original-file: specification/elasticsan/resource-manager/Microsoft.ElasticSan/preview/2024-06-01-preview/examples/VolumeGroups_Delete_MaximumSet_Gen.json
+ * x-ms-original-file: specification/elasticsan/resource-manager/Microsoft.ElasticSan/preview/2024-07-01-preview/examples/VolumeGroups_Delete_MaximumSet_Gen.json
  */
-async function volumeGroupsDeleteMaximumSetGen() {
+async function volumeGroupsDeleteMaximumSetGen(): Promise<void> {
   const subscriptionId =
     process.env["ELASTICSANS_SUBSCRIPTION_ID"] || "subscriptionid";
   const resourceGroupName =
@@ -41,9 +39,9 @@ async function volumeGroupsDeleteMaximumSetGen() {
  * This sample demonstrates how to Delete an VolumeGroup.
  *
  * @summary Delete an VolumeGroup.
- * x-ms-original-file: specification/elasticsan/resource-manager/Microsoft.ElasticSan/preview/2024-06-01-preview/examples/VolumeGroups_Delete_MinimumSet_Gen.json
+ * x-ms-original-file: specification/elasticsan/resource-manager/Microsoft.ElasticSan/preview/2024-07-01-preview/examples/VolumeGroups_Delete_MinimumSet_Gen.json
  */
-async function volumeGroupsDeleteMinimumSetGen() {
+async function volumeGroupsDeleteMinimumSetGen(): Promise<void> {
   const subscriptionId =
     process.env["ELASTICSANS_SUBSCRIPTION_ID"] || "subscriptionid";
   const resourceGroupName =
@@ -60,9 +58,9 @@ async function volumeGroupsDeleteMinimumSetGen() {
   console.log(result);
 }
 
-async function main() {
-  volumeGroupsDeleteMaximumSetGen();
-  volumeGroupsDeleteMinimumSetGen();
+async function main(): Promise<void> {
+  await volumeGroupsDeleteMaximumSetGen();
+  await volumeGroupsDeleteMinimumSetGen();
 }
 
 main().catch(console.error);

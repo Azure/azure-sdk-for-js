@@ -6,21 +6,17 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
 import { PostgreSQLManagementFlexibleServerClient } from "@azure/arm-postgresql-flexible";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Get a server's Advanced Threat Protection settings.
  *
  * @summary Get a server's Advanced Threat Protection settings.
- * x-ms-original-file: specification/postgresql/resource-manager/Microsoft.DBforPostgreSQL/preview/2023-12-01-preview/examples/ServerThreatProtectionSettingsGet.json
+ * x-ms-original-file: specification/postgresql/resource-manager/Microsoft.DBforPostgreSQL/preview/2025-01-01-preview/examples/ServerThreatProtectionSettingsGet.json
  */
-async function getAServerThreatProtectionSettings() {
+async function getAServerThreatProtectionSettings(): Promise<void> {
   const subscriptionId =
     process.env["POSTGRESQL_SUBSCRIPTION_ID"] ||
     "00000000-1111-2222-3333-444444444444";
@@ -41,8 +37,8 @@ async function getAServerThreatProtectionSettings() {
   console.log(result);
 }
 
-async function main() {
-  getAServerThreatProtectionSettings();
+async function main(): Promise<void> {
+  await getAServerThreatProtectionSettings();
 }
 
 main().catch(console.error);

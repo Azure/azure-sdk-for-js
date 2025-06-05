@@ -6,17 +6,15 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
 const { AzureQuotaExtensionAPI } = require("@azure/arm-quota");
 const { DefaultAzureCredential } = require("@azure/identity");
-require("dotenv").config();
+require("dotenv/config");
 
 /**
  * This sample demonstrates how to Get a list of current usage for all resources for the scope specified.
  *
  * @summary Get a list of current usage for all resources for the scope specified.
- * x-ms-original-file: specification/quota/resource-manager/Microsoft.Quota/preview/2023-06-01-preview/examples/getComputeUsages.json
+ * x-ms-original-file: specification/quota/resource-manager/Microsoft.Quota/preview/2024-12-18-preview/examples/getComputeUsages.json
  */
 async function quotasListUsagesForCompute() {
   const scope =
@@ -34,7 +32,7 @@ async function quotasListUsagesForCompute() {
  * This sample demonstrates how to Get a list of current usage for all resources for the scope specified.
  *
  * @summary Get a list of current usage for all resources for the scope specified.
- * x-ms-original-file: specification/quota/resource-manager/Microsoft.Quota/preview/2023-06-01-preview/examples/getNetworkUsages.json
+ * x-ms-original-file: specification/quota/resource-manager/Microsoft.Quota/preview/2024-12-18-preview/examples/getNetworkUsages.json
  */
 async function quotasListUsagesForNetwork() {
   const scope =
@@ -52,7 +50,7 @@ async function quotasListUsagesForNetwork() {
  * This sample demonstrates how to Get a list of current usage for all resources for the scope specified.
  *
  * @summary Get a list of current usage for all resources for the scope specified.
- * x-ms-original-file: specification/quota/resource-manager/Microsoft.Quota/preview/2023-06-01-preview/examples/getMachineLearningServicesUsages.json
+ * x-ms-original-file: specification/quota/resource-manager/Microsoft.Quota/preview/2024-12-18-preview/examples/getMachineLearningServicesUsages.json
  */
 async function quotasListUsagesMachineLearningServices() {
   const scope =
@@ -67,9 +65,9 @@ async function quotasListUsagesMachineLearningServices() {
 }
 
 async function main() {
-  quotasListUsagesForCompute();
-  quotasListUsagesForNetwork();
-  quotasListUsagesMachineLearningServices();
+  await quotasListUsagesForCompute();
+  await quotasListUsagesForNetwork();
+  await quotasListUsagesMachineLearningServices();
 }
 
 main().catch(console.error);

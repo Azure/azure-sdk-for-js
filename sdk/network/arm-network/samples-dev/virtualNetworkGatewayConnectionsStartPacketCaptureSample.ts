@@ -6,25 +6,22 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
-import {
+import type {
   VpnPacketCaptureStartParameters,
-  VirtualNetworkGatewayConnectionsStartPacketCaptureOptionalParams,
+  VirtualNetworkGatewayConnectionsStartPacketCaptureOptionalParams} from "@azure/arm-network";
+import {
   NetworkManagementClient,
 } from "@azure/arm-network";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Starts packet capture on virtual network gateway connection in the specified resource group.
  *
  * @summary Starts packet capture on virtual network gateway connection in the specified resource group.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2024-05-01/examples/VirtualNetworkGatewayConnectionStartPacketCaptureFilterData.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2024-07-01/examples/VirtualNetworkGatewayConnectionStartPacketCaptureFilterData.json
  */
-async function startPacketCaptureOnVirtualNetworkGatewayConnectionWithFilter() {
+async function startPacketCaptureOnVirtualNetworkGatewayConnectionWithFilter(): Promise<void> {
   const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";
   const resourceGroupName = process.env["NETWORK_RESOURCE_GROUP"] || "rg1";
   const virtualNetworkGatewayConnectionName = "vpngwcn1";
@@ -49,9 +46,9 @@ async function startPacketCaptureOnVirtualNetworkGatewayConnectionWithFilter() {
  * This sample demonstrates how to Starts packet capture on virtual network gateway connection in the specified resource group.
  *
  * @summary Starts packet capture on virtual network gateway connection in the specified resource group.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2024-05-01/examples/VirtualNetworkGatewayConnectionStartPacketCapture.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2024-07-01/examples/VirtualNetworkGatewayConnectionStartPacketCapture.json
  */
-async function startPacketCaptureOnVirtualNetworkGatewayConnectionWithoutFilter() {
+async function startPacketCaptureOnVirtualNetworkGatewayConnectionWithoutFilter(): Promise<void> {
   const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";
   const resourceGroupName = process.env["NETWORK_RESOURCE_GROUP"] || "rg1";
   const virtualNetworkGatewayConnectionName = "vpngwcn1";
@@ -65,9 +62,9 @@ async function startPacketCaptureOnVirtualNetworkGatewayConnectionWithoutFilter(
   console.log(result);
 }
 
-async function main() {
-  startPacketCaptureOnVirtualNetworkGatewayConnectionWithFilter();
-  startPacketCaptureOnVirtualNetworkGatewayConnectionWithoutFilter();
+async function main(): Promise<void> {
+  await startPacketCaptureOnVirtualNetworkGatewayConnectionWithFilter();
+  await startPacketCaptureOnVirtualNetworkGatewayConnectionWithoutFilter();
 }
 
 main().catch(console.error);

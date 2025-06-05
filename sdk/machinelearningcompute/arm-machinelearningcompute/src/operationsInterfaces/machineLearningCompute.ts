@@ -9,7 +9,7 @@
 import {
   MachineLearningComputeListAvailableOperationsOptionalParams,
   MachineLearningComputeListAvailableOperationsResponse
-} from "../models";
+} from "../models/index.js";
 
 /** Interface representing a MachineLearningCompute. */
 export interface MachineLearningCompute {

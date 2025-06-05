@@ -17,7 +17,7 @@ import {
   RaiBlocklistsCreateOrUpdateResponse,
   RaiBlocklistsDeleteOptionalParams,
   RaiBlocklistsDeleteResponse,
-} from "../models";
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a RaiBlocklists. */
@@ -74,10 +74,7 @@ export interface RaiBlocklists {
     raiBlocklistName: string,
     options?: RaiBlocklistsDeleteOptionalParams,
   ): Promise<
-    SimplePollerLike<
-      OperationState<RaiBlocklistsDeleteResponse>,
-      RaiBlocklistsDeleteResponse
-    >
+    SimplePollerLike<OperationState<RaiBlocklistsDeleteResponse>, RaiBlocklistsDeleteResponse>
   >;
   /**
    * Deletes the specified custom blocklist associated with the Azure OpenAI account.

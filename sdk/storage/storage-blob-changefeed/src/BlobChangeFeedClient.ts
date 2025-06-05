@@ -8,11 +8,11 @@ import type {
 } from "@azure/storage-blob";
 import { BlobServiceClient, Pipeline } from "@azure/storage-blob";
 import type { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
-import type { BlobChangeFeedEvent } from "./models/BlobChangeFeedEvent";
-import { ChangeFeedFactory } from "./ChangeFeedFactory";
-import type { ChangeFeed } from "./ChangeFeed";
-import { CHANGE_FEED_MAX_PAGE_SIZE, SDK_VERSION } from "./utils/constants";
-import type { BlobChangeFeedListChangesOptions } from "./models/models";
+import type { BlobChangeFeedEvent } from "./models/BlobChangeFeedEvent.js";
+import { ChangeFeedFactory } from "./ChangeFeedFactory.js";
+import type { ChangeFeed } from "./ChangeFeed.js";
+import { CHANGE_FEED_MAX_PAGE_SIZE, SDK_VERSION } from "./utils/constants.js";
+import type { BlobChangeFeedListChangesOptions } from "./models/models.js";
 import type { TokenCredential } from "@azure/core-auth";
 
 /**
@@ -78,7 +78,7 @@ export interface BlobChangeFeedClientOptions {
 
 /**
  * BlobChangeFeedClient.
- * @see https://docs.microsoft.com/en-us/azure/storage/blobs/storage-blob-change-feed?tabs=azure-portal
+ * @see https://learn.microsoft.com/en-us/azure/storage/blobs/storage-blob-change-feed?tabs=azure-portal
  */
 export class BlobChangeFeedClient {
   /**
@@ -129,26 +129,36 @@ export class BlobChangeFeedClient {
    *
    * Example using DefaultAzureCredential from `@azure/identity`:
    *
-   * ```js
-   * const account = "<storage account name>";
+   * ```ts snippet:ReadmeSampleCreateClient_TokenCredential
+   * import { DefaultAzureCredential } from "@azure/identity";
+   * import { BlobChangeFeedClient } from "@azure/storage-blob-changefeed";
    *
-   * const defaultAzureCredential = new DefaultAzureCredential();
-   *
-   * const blobChangeFeedClient = new BlobChangeFeedClient(
+   * // Enter your storage account name and shared key
+   * const account = "<account>";
+   * const credential = new DefaultAzureCredential();
+   * const changeFeedClient = new BlobChangeFeedClient(
+   *   // When using AnonymousCredential, following url should include a valid SAS or support public access
    *   `https://${account}.blob.core.windows.net`,
-   *   defaultAzureCredential
+   *   credential,
    * );
    * ```
    *
    * Example using an account name/key:
    *
-   * ```js
-   * const account = "<storage account name>"
-   * const sharedKeyCredential = new StorageSharedKeyCredential(account, "<account key>");
+   * ```ts snippet:ReadmeSampleCreateClient
+   * import { StorageSharedKeyCredential } from "@azure/storage-blob";
+   * import { BlobChangeFeedClient } from "@azure/storage-blob-changefeed";
    *
-   * const blobChangeFeedClient = new BlobChangeFeedClient(
+   * // Enter your storage account name and shared key
+   * const account = "<account>";
+   * const accountKey = "<accountkey>";
+   * // Use StorageSharedKeyCredential with storage account and account key
+   * // StorageSharedKeyCredential is only available in Node.js runtime, not in browsers
+   * const sharedKeyCredential = new StorageSharedKeyCredential(account, accountKey);
+   * const changeFeedClient = new BlobChangeFeedClient(
+   *   // When using AnonymousCredential, following url should include a valid SAS or support public access
    *   `https://${account}.blob.core.windows.net`,
-   *   sharedKeyCredential
+   *   sharedKeyCredential,
    * );
    * ```
    */
@@ -266,63 +276,71 @@ export class BlobChangeFeedClient {
    *
    * Example using `for await` syntax:
    *
-   * ```js
-   * let i = 1;
-   * for await (const event of blobChangeFeedClient.listChanges()) {
-   *   console.log(`Event ${i++}, type: ${event.eventType}`);
+   * ```ts snippet:ReadmeSampleListChanges
+   * import { StorageSharedKeyCredential } from "@azure/storage-blob";
+   * import { BlobChangeFeedClient } from "@azure/storage-blob-changefeed";
+   *
+   * const account = "<account>";
+   * const accountKey = "<accountkey>";
+   * const sharedKeyCredential = new StorageSharedKeyCredential(account, accountKey);
+   * const changeFeedClient = new BlobChangeFeedClient(
+   *   `https://${account}.blob.core.windows.net`,
+   *   sharedKeyCredential,
+   * );
+   *
+   * // Use for await to iterate through the change feed
+   * for await (const event of changeFeedClient.listChanges()) {
+   *   console.log(`Event: ${event.eventType}`);
+   *   console.log(`Event time: ${event.eventTime}`);
+   *   console.log(`Event data: ${JSON.stringify(event.data)}`);
    * }
-   * ```
    *
-   * Example using `iter.next()`:
-   *
-   * ```js
-   * let i = 1;
-   * const iter = blobChangeFeedClient.listChanges();
-   * let eventItem = await iter.next();
-   * while (!eventItem.done) {
-   *   console.log(`Event ${i++}, type: ${eventItem.eventType}`);
-   *   eventItem = await iter.next();
-   * }
-   * ```
-   *
-   * Example using `byPage()`:
-   *
-   * ```js
-   * // passing optional maxPageSize in the page settings
-   * let i = 1;
-   * for await (const eventPage of blobChangeFeedClient.listChanges().byPage({ maxPageSize: 20 })) {
-   *   if (eventPage.events) {
-   *     for (const event of eventPage.events) {
-   *       console.log(`Event ${i++}, type: ${event.eventType}`);
-   *     }
+   * // Use `byPage` to iterate through the change feed
+   * for await (const page of changeFeedClient.listChanges().byPage()) {
+   *   console.log(`Page: ${JSON.stringify(page)}`);
+   *   for (const event of page.events) {
+   *     console.log(`Event: ${event.eventType}`);
+   *     console.log(`Event time: ${event.eventTime}`);
+   *     console.log(`Event data: ${JSON.stringify(event.data)}`);
    *   }
    * }
    * ```
    *
    * Example using paging with a marker:
    *
-   * ```js
-   * let i = 1;
-   * let iterator = blobChangeFeedClient.listChanges().byPage({ maxPageSize: 2 });
-   * let eventPage = (await iterator.next()).value;
+   * ```ts snippet:ReadmeSampleListChanges_Continuation
+   * import { StorageSharedKeyCredential } from "@azure/storage-blob";
+   * import { BlobChangeFeedClient } from "@azure/storage-blob-changefeed";
    *
-   * if (eventPage.events) {
-   *   for (const container of eventPage.events) {
-   *     console.log(`Event ${i++}, type: ${event.eventType}`);
+   * const account = "<account>";
+   * const accountKey = "<accountkey>";
+   * const sharedKeyCredential = new StorageSharedKeyCredential(account, accountKey);
+   * const changeFeedClient = new BlobChangeFeedClient(
+   *   `https://${account}.blob.core.windows.net`,
+   *   sharedKeyCredential,
+   * );
+   *
+   * let iterator = changeFeedClient.listChanges().byPage({ maxPageSize: 2 });
+   * let response = (await iterator.next()).value;
+   * // Prints 2 page ranges
+   * if (response.pageRange) {
+   *   for (const pageRange of response.pageRange) {
+   *     console.log(`Event: ${pageRange.eventType}`);
+   *     console.log(`Event time: ${pageRange.eventTime}`);
+   *     console.log(`Event data: ${JSON.stringify(pageRange.data)}`);
    *   }
    * }
-   *
    * // Gets next marker
-   * let marker = eventPage.continuationToken;
+   * let marker = response.continuationToken;
    * // Passing next marker as continuationToken
-   * iterator = blobChangeFeedClient
-   *   .listChanges()
-   *   .byPage({ continuationToken: marker, maxPageSize: 10 });
-   * eventPage = (await iterator.next()).value;
-   *
-   * if (eventPage.events) {
-   *   for (const container of eventPage.events) {
-   *      console.log(`Event ${i++}, type: ${event.eventType}`);
+   * iterator = changeFeedClient.listChanges().byPage({ continuationToken: marker, maxPageSize: 10 });
+   * response = (await iterator.next()).value;
+   * // Prints 10 page ranges
+   * if (response.pageRange) {
+   *   for (const pageRange of response.pageRange) {
+   *     console.log(`Event: ${pageRange.eventType}`);
+   *     console.log(`Event time: ${pageRange.eventTime}`);
+   *     console.log(`Event data: ${JSON.stringify(pageRange.data)}`);
    *   }
    * }
    * ```

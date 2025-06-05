@@ -18,8 +18,8 @@ import {
   ClusterPrincipalAssignmentsGetResponse,
   ClusterPrincipalAssignmentsCreateOrUpdateOptionalParams,
   ClusterPrincipalAssignmentsCreateOrUpdateResponse,
-  ClusterPrincipalAssignmentsDeleteOptionalParams
-} from "../models";
+  ClusterPrincipalAssignmentsDeleteOptionalParams,
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a ClusterPrincipalAssignments. */
@@ -33,7 +33,7 @@ export interface ClusterPrincipalAssignments {
   list(
     resourceGroupName: string,
     clusterName: string,
-    options?: ClusterPrincipalAssignmentsListOptionalParams
+    options?: ClusterPrincipalAssignmentsListOptionalParams,
   ): PagedAsyncIterableIterator<ClusterPrincipalAssignment>;
   /**
    * Checks that the principal assignment name is valid and is not already in use.
@@ -46,7 +46,7 @@ export interface ClusterPrincipalAssignments {
     resourceGroupName: string,
     clusterName: string,
     principalAssignmentName: ClusterPrincipalAssignmentCheckNameRequest,
-    options?: ClusterPrincipalAssignmentsCheckNameAvailabilityOptionalParams
+    options?: ClusterPrincipalAssignmentsCheckNameAvailabilityOptionalParams,
   ): Promise<ClusterPrincipalAssignmentsCheckNameAvailabilityResponse>;
   /**
    * Gets a Kusto cluster principalAssignment.
@@ -59,7 +59,7 @@ export interface ClusterPrincipalAssignments {
     resourceGroupName: string,
     clusterName: string,
     principalAssignmentName: string,
-    options?: ClusterPrincipalAssignmentsGetOptionalParams
+    options?: ClusterPrincipalAssignmentsGetOptionalParams,
   ): Promise<ClusterPrincipalAssignmentsGetResponse>;
   /**
    * Create a Kusto cluster principalAssignment.
@@ -74,7 +74,7 @@ export interface ClusterPrincipalAssignments {
     clusterName: string,
     principalAssignmentName: string,
     parameters: ClusterPrincipalAssignment,
-    options?: ClusterPrincipalAssignmentsCreateOrUpdateOptionalParams
+    options?: ClusterPrincipalAssignmentsCreateOrUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<ClusterPrincipalAssignmentsCreateOrUpdateResponse>,
@@ -94,7 +94,7 @@ export interface ClusterPrincipalAssignments {
     clusterName: string,
     principalAssignmentName: string,
     parameters: ClusterPrincipalAssignment,
-    options?: ClusterPrincipalAssignmentsCreateOrUpdateOptionalParams
+    options?: ClusterPrincipalAssignmentsCreateOrUpdateOptionalParams,
   ): Promise<ClusterPrincipalAssignmentsCreateOrUpdateResponse>;
   /**
    * Deletes a Kusto cluster principalAssignment.
@@ -107,7 +107,7 @@ export interface ClusterPrincipalAssignments {
     resourceGroupName: string,
     clusterName: string,
     principalAssignmentName: string,
-    options?: ClusterPrincipalAssignmentsDeleteOptionalParams
+    options?: ClusterPrincipalAssignmentsDeleteOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Deletes a Kusto cluster principalAssignment.
@@ -120,6 +120,6 @@ export interface ClusterPrincipalAssignments {
     resourceGroupName: string,
     clusterName: string,
     principalAssignmentName: string,
-    options?: ClusterPrincipalAssignmentsDeleteOptionalParams
+    options?: ClusterPrincipalAssignmentsDeleteOptionalParams,
   ): Promise<void>;
 }

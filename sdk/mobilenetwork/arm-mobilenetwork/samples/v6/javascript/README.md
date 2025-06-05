@@ -213,6 +213,6 @@ Take a look at our [API Documentation][apiref] for more information about the AP
 [sliceslistbymobilenetworksample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/mobilenetwork/arm-mobilenetwork/samples/v6/javascript/slicesListByMobileNetworkSample.js
 [slicesupdatetagssample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/mobilenetwork/arm-mobilenetwork/samples/v6/javascript/slicesUpdateTagsSample.js
 [ueinformationlistsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/mobilenetwork/arm-mobilenetwork/samples/v6/javascript/ueInformationListSample.js
-[apiref]: https://docs.microsoft.com/javascript/api/@azure/arm-mobilenetwork?view=azure-node-preview
+[apiref]: https://learn.microsoft.com/javascript/api/@azure/arm-mobilenetwork?view=azure-node-preview
 [freesub]: https://azure.microsoft.com/free/
 [package]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/mobilenetwork/arm-mobilenetwork/README.md

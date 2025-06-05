@@ -21,7 +21,7 @@ import {
   PrivateLinkResourcesImpl,
   PrivateEndpointConnectionProxiesImpl,
   OperationsImpl
-} from "./operations";
+} from "./operations/index.js";
 import {
   Accounts,
   Instances,
@@ -29,15 +29,15 @@ import {
   PrivateLinkResources,
   PrivateEndpointConnectionProxies,
   Operations
-} from "./operationsInterfaces";
-import * as Parameters from "./models/parameters";
-import * as Mappers from "./models/mappers";
+} from "./operationsInterfaces/index.js";
+import * as Parameters from "./models/parameters.js";
+import * as Mappers from "./models/mappers.js";
 import {
   DeviceUpdateOptionalParams,
   CheckNameAvailabilityRequest,
   CheckNameAvailabilityOptionalParams,
   CheckNameAvailabilityOperationResponse
-} from "./models";
+} from "./models/index.js";
 
 export class DeviceUpdate extends coreClient.ServiceClient {
   $host: string;

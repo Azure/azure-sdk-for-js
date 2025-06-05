@@ -13,17 +13,15 @@ import {
   EventHubManagementClient,
 } from "@azure/arm-eventhub";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Creates or updates an ApplicationGroup for a Namespace.
  *
  * @summary Creates or updates an ApplicationGroup for a Namespace.
- * x-ms-original-file: specification/eventhub/resource-manager/Microsoft.EventHub/stable/2024-01-01/examples/ApplicationGroup/ApplicationGroupCreate.json
+ * x-ms-original-file: specification/eventhub/resource-manager/Microsoft.EventHub/preview/2024-05-01-preview/examples/ApplicationGroup/ApplicationGroupCreate.json
  */
-async function applicationGroupCreate() {
+async function applicationGroupCreate(): Promise<void> {
   const subscriptionId =
     process.env["EVENTHUB_SUBSCRIPTION_ID"] ||
     "00000000-0000-0000-0000-000000000000";
@@ -67,8 +65,8 @@ async function applicationGroupCreate() {
   console.log(result);
 }
 
-async function main() {
-  applicationGroupCreate();
+async function main(): Promise<void> {
+  await applicationGroupCreate();
 }
 
 main().catch(console.error);

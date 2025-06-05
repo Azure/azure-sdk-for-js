@@ -6,24 +6,21 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
+import type {
+  ConnectivityConfiguration} from "@azure/arm-network";
 import {
-  ConnectivityConfiguration,
   NetworkManagementClient,
 } from "@azure/arm-network";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Creates/Updates a new network manager connectivity configuration
  *
  * @summary Creates/Updates a new network manager connectivity configuration
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2024-05-01/examples/NetworkManagerConnectivityConfigurationPut.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2024-07-01/examples/NetworkManagerConnectivityConfigurationPut.json
  */
-async function connectivityConfigurationsPut() {
+async function connectivityConfigurationsPut(): Promise<void> {
   const subscriptionId =
     process.env["NETWORK_SUBSCRIPTION_ID"] ||
     "00000000-0000-0000-0000-000000000000";
@@ -42,6 +39,11 @@ async function connectivityConfigurationsPut() {
         useHubGateway: "True",
       },
     ],
+    connectivityCapabilities: {
+      connectedGroupAddressOverlap: "Allowed",
+      connectedGroupPrivateEndpointsScale: "Standard",
+      peeringEnforcement: "Unenforced",
+    },
     connectivityTopology: "HubAndSpoke",
     deleteExistingPeering: "True",
     hubs: [
@@ -64,8 +66,8 @@ async function connectivityConfigurationsPut() {
   console.log(result);
 }
 
-async function main() {
-  connectivityConfigurationsPut();
+async function main(): Promise<void> {
+  await connectivityConfigurationsPut();
 }
 
 main().catch(console.error);

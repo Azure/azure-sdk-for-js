@@ -7,7 +7,7 @@
  */
 
 /// <reference lib="esnext.asynciterable" />
-export { getContinuationToken } from "./pagingHelper";
-export * from "./models";
-export { DnsResolverManagementClient } from "./dnsResolverManagementClient";
-export * from "./operationsInterfaces";
+export { getContinuationToken } from "./pagingHelper.js";
+export * from "./models/index.js";
+export { DnsResolverManagementClient } from "./dnsResolverManagementClient.js";
+export * from "./operationsInterfaces/index.js";

@@ -118,7 +118,7 @@ describe("My test", () => {
     await recorder.stop();
   });
 
-  it("cancer profiling test", async function () {
+  it("cancer profiling test", async () => {
     const result = await client.path("/oncophenotype/jobs").post(parameters);
     const poller = await getLongRunningPoller(client, result);
     const res = await poller.pollUntilDone();

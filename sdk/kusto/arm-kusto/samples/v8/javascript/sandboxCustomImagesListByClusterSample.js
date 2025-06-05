@@ -10,13 +10,13 @@
 // Licensed under the MIT License.
 const { KustoManagementClient } = require("@azure/arm-kusto");
 const { DefaultAzureCredential } = require("@azure/identity");
-require("dotenv").config();
+require("dotenv/config");
 
 /**
  * This sample demonstrates how to Returns the list of the existing sandbox custom images of the given Kusto cluster.
  *
  * @summary Returns the list of the existing sandbox custom images of the given Kusto cluster.
- * x-ms-original-file: specification/azure-kusto/resource-manager/Microsoft.Kusto/stable/2023-08-15/examples/KustoSandboxCustomImagesList.json
+ * x-ms-original-file: specification/azure-kusto/resource-manager/Microsoft.Kusto/stable/2024-04-13/examples/KustoSandboxCustomImagesList.json
  */
 async function kustoSandboxCustomImagesListByCluster() {
   const subscriptionId =
@@ -33,7 +33,7 @@ async function kustoSandboxCustomImagesListByCluster() {
 }
 
 async function main() {
-  kustoSandboxCustomImagesListByCluster();
+  await kustoSandboxCustomImagesListByCluster();
 }
 
 main().catch(console.error);

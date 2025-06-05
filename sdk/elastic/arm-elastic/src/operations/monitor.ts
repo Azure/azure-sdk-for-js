@@ -6,18 +6,18 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { Monitor } from "../operationsInterfaces";
+import { Monitor } from "../operationsInterfaces/index.js";
 import * as coreClient from "@azure/core-client";
-import * as Mappers from "../models/mappers";
-import * as Parameters from "../models/parameters";
-import { MicrosoftElastic } from "../microsoftElastic";
+import * as Mappers from "../models/mappers.js";
+import * as Parameters from "../models/parameters.js";
+import { MicrosoftElastic } from "../microsoftElastic.js";
 import {
   SimplePollerLike,
   OperationState,
   createHttpPoller,
 } from "@azure/core-lro";
-import { createLroSpec } from "../lroImpl";
-import { MonitorUpgradeOptionalParams } from "../models";
+import { createLroSpec } from "../lroImpl.js";
+import { MonitorUpgradeOptionalParams } from "../models/index.js";
 
 /** Class containing Monitor operations. */
 export class MonitorImpl implements Monitor {

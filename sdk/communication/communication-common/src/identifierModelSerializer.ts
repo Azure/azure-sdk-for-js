@@ -37,6 +37,10 @@ export interface SerializedCommunicationIdentifier {
    * The Microsoft Teams App.
    */
   microsoftTeamsApp?: SerializedMicrosoftTeamsAppIdentifier;
+  /**
+   * The Microsoft Teams Extension user.
+   */
+  teamsExtensionUser?: SerializedTeamsExtensionUserIdentifier;
 }
 
 /**
@@ -59,6 +63,14 @@ export interface SerializedPhoneNumberIdentifier {
    * The phone number in E.164 format.
    */
   value: string;
+  /**
+   * The asserted Id is set on a phone number that is already in the same call to distinguish from other connections made through the same number.
+   */
+  assertedId?: string;
+  /**
+   * True if the phone number is anonymous.
+   */
+  isAnonymous?: boolean;
 }
 
 /**
@@ -67,7 +79,7 @@ export interface SerializedPhoneNumberIdentifier {
  */
 export interface SerializedMicrosoftTeamsUserIdentifier {
   /**
-   * The Id of the Microsoft Teams user. If not anonymous, this is the AAD object Id of the user.
+   * The Id of the Microsoft Teams user. If not anonymous, this is the Entra ID object Id of the user.
    */
   userId: string;
   /**
@@ -92,6 +104,32 @@ export interface SerializedMicrosoftTeamsAppIdentifier {
 
   /**
    * The cloud that the Microsoft Teams App belongs to. By default 'public' if missing.
+   */
+  cloud?: SerializedCommunicationCloudEnvironment;
+}
+
+/**
+ * @hidden
+ * A Microsoft Teams Phone user who is using the Azure Communication Services resource to extend their Teams Phone set up.
+ */
+export interface SerializedTeamsExtensionUserIdentifier {
+  /**
+   * The Id of the Microsoft Teams Extension user, i.e. the Entra ID object Id of the user.
+   */
+  userId: string;
+
+  /**
+   * The tenant Id of the Microsoft Teams Extension user.
+   */
+  tenantId: string;
+
+  /**
+   * The Azure Communication Services resource Id.
+   */
+  resourceId: string;
+
+  /**
+   * The cloud that the Microsoft Teams Extension user belongs to. If missing, the cloud is "public".
    */
   cloud?: SerializedCommunicationCloudEnvironment;
 }
@@ -132,6 +170,9 @@ const assertMaximumOneNestedModel = (identifier: SerializedCommunicationIdentifi
   if (identifier.phoneNumber !== undefined) {
     presentProperties.push("phoneNumber");
   }
+  if (identifier.teamsExtensionUser !== undefined) {
+    presentProperties.push("teamsExtensionUser");
+  }
   if (presentProperties.length > 1) {
     throw new Error(
       `Only one of the properties in ${JSON.stringify(presentProperties)} should be present.`,
@@ -159,6 +200,8 @@ export const serializeCommunicationIdentifier = (
         rawId: identifierKind.rawId ?? getIdentifierRawId(identifierKind),
         phoneNumber: {
           value: identifierKind.phoneNumber,
+          isAnonymous: identifierKind.isAnonymous ?? false,
+          assertedId: identifierKind.assertedId,
         },
       };
     case "microsoftTeamsUser":
@@ -175,6 +218,16 @@ export const serializeCommunicationIdentifier = (
         rawId: identifierKind.rawId ?? getIdentifierRawId(identifierKind),
         microsoftTeamsApp: {
           appId: identifierKind.teamsAppId,
+          cloud: identifierKind.cloud ?? "public",
+        },
+      };
+    case "teamsExtensionUser":
+      return {
+        rawId: identifierKind.rawId ?? getIdentifierRawId(identifierKind),
+        teamsExtensionUser: {
+          userId: identifierKind.userId,
+          tenantId: identifierKind.tenantId,
+          resourceId: identifierKind.resourceId,
           cloud: identifierKind.cloud ?? "public",
         },
       };
@@ -202,6 +255,10 @@ const getKind = (serializedIdentifier: SerializedCommunicationIdentifier): strin
     return "microsoftTeamsApp";
   }
 
+  if (serializedIdentifier.teamsExtensionUser) {
+    return "teamsExtensionUser";
+  }
+
   return "unknown";
 };
 
@@ -215,8 +272,11 @@ export const deserializeCommunicationIdentifier = (
 ): CommunicationIdentifierKind => {
   assertMaximumOneNestedModel(serializedIdentifier);
 
-  const { communicationUser, microsoftTeamsUser, microsoftTeamsApp, phoneNumber } =
-    serializedIdentifier;
+  const communicationUser = serializedIdentifier.communicationUser;
+  const microsoftTeamsUser = serializedIdentifier.microsoftTeamsUser;
+  const microsoftTeamsApp = serializedIdentifier.microsoftTeamsApp;
+  const phoneNumber = serializedIdentifier.phoneNumber;
+  const teamsExtensionUser = serializedIdentifier.teamsExtensionUser;
   const kind = serializedIdentifier.kind ?? getKind(serializedIdentifier);
 
   if (kind === "communicationUser" && communicationUser) {
@@ -230,6 +290,8 @@ export const deserializeCommunicationIdentifier = (
       kind: "phoneNumber",
       phoneNumber: assertNotNullOrUndefined({ phoneNumber }, "value"),
       rawId: assertNotNullOrUndefined({ phoneNumber: serializedIdentifier }, "rawId"),
+      isAnonymous: phoneNumber.isAnonymous ?? false,
+      assertedId: phoneNumber.assertedId,
     };
   }
   if (kind === "microsoftTeamsUser" && microsoftTeamsUser) {
@@ -247,6 +309,16 @@ export const deserializeCommunicationIdentifier = (
       teamsAppId: assertNotNullOrUndefined({ microsoftTeamsApp }, "appId"),
       cloud: assertNotNullOrUndefined({ microsoftTeamsApp }, "cloud"),
       rawId: assertNotNullOrUndefined({ microsoftTeamsApp: serializedIdentifier }, "rawId"),
+    };
+  }
+  if (kind === "teamsExtensionUser" && teamsExtensionUser) {
+    return {
+      kind: "teamsExtensionUser",
+      userId: assertNotNullOrUndefined({ teamsExtensionUser }, "userId"),
+      tenantId: assertNotNullOrUndefined({ teamsExtensionUser }, "tenantId"),
+      resourceId: assertNotNullOrUndefined({ teamsExtensionUser }, "resourceId"),
+      cloud: assertNotNullOrUndefined({ teamsExtensionUser }, "cloud"),
+      rawId: assertNotNullOrUndefined({ teamsExtensionUser: serializedIdentifier }, "rawId"),
     };
   }
   return {

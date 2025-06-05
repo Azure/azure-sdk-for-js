@@ -6,15 +6,15 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { ExpressRouteProviderPortsLocation } from "../operationsInterfaces";
+import { ExpressRouteProviderPortsLocation } from "../operationsInterfaces/index.js";
 import * as coreClient from "@azure/core-client";
-import * as Mappers from "../models/mappers";
-import * as Parameters from "../models/parameters";
-import { NetworkManagementClient } from "../networkManagementClient";
+import * as Mappers from "../models/mappers.js";
+import * as Parameters from "../models/parameters.js";
+import { NetworkManagementClient } from "../networkManagementClient.js";
 import {
   ExpressRouteProviderPortsLocationListOptionalParams,
   ExpressRouteProviderPortsLocationListResponse,
-} from "../models";
+} from "../models/index.js";
 
 /** Class containing ExpressRouteProviderPortsLocation operations. */
 export class ExpressRouteProviderPortsLocationImpl

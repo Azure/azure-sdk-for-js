@@ -25,6 +25,10 @@ ruleTester.run("ts-naming-options", rule, {
     {
       code: "class ExampleClient { createExample(options: CreateExampleOptions = {}) {}; };",
     },
+    // OperationOptions is allowed
+    {
+      code: "class ExampleClient { public createExample(options: OperationOptions) {}; };",
+    },
     // multiple methods
     {
       code: "class ExampleClient { createExample(options: CreateExampleOptions) {}; upsertExample(options: UpsertExampleOptions) {}; };",

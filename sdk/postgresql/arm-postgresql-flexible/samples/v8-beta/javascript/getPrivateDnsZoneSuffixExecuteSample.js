@@ -6,17 +6,15 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
 const { PostgreSQLManagementFlexibleServerClient } = require("@azure/arm-postgresql-flexible");
 const { DefaultAzureCredential } = require("@azure/identity");
-require("dotenv").config();
+require("dotenv/config");
 
 /**
  * This sample demonstrates how to Get private DNS zone suffix in the cloud
  *
  * @summary Get private DNS zone suffix in the cloud
- * x-ms-original-file: specification/postgresql/resource-manager/Microsoft.DBforPostgreSQL/preview/2023-12-01-preview/examples/GetPrivateDnsZoneSuffix.json
+ * x-ms-original-file: specification/postgresql/resource-manager/Microsoft.DBforPostgreSQL/preview/2025-01-01-preview/examples/GetPrivateDnsZoneSuffix.json
  */
 async function getPrivateDnsZoneSuffix() {
   const credential = new DefaultAzureCredential();
@@ -26,7 +24,7 @@ async function getPrivateDnsZoneSuffix() {
 }
 
 async function main() {
-  getPrivateDnsZoneSuffix();
+  await getPrivateDnsZoneSuffix();
 }
 
 main().catch(console.error);

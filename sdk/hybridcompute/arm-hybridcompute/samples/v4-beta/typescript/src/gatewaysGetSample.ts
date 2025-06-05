@@ -10,9 +10,7 @@
 // Licensed under the MIT License.
 import { HybridComputeManagementClient } from "@azure/arm-hybridcompute";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Retrieves information about the view of a gateway.
@@ -20,7 +18,7 @@ dotenv.config();
  * @summary Retrieves information about the view of a gateway.
  * x-ms-original-file: specification/hybridcompute/resource-manager/Microsoft.HybridCompute/preview/2024-07-31-preview/examples/gateway/Gateway_Get.json
  */
-async function getGateway() {
+async function getGateway(): Promise<void> {
   const subscriptionId =
     process.env["HYBRIDCOMPUTE_SUBSCRIPTION_ID"] ||
     "ffd506c8-3415-42d3-9612-fdb423fb17df";
@@ -33,7 +31,7 @@ async function getGateway() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   getGateway();
 }
 

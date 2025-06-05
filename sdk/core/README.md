@@ -124,7 +124,7 @@ Azure Application Insights, a feature of Azure Monitor, is an extensible Applica
 
 > If your application already uses ApplicationInsights, automatic collection of Azure SDK traces is supported in versions 1.8.0 and later.
 
-To setup Application Insights tracking for your application follow the [Start Monitoring your Node.js Application](https://docs.microsoft.com/azure/azure-monitor/app/nodejs-quick-start) quickstart guide.
+To setup Application Insights tracking for your application follow the [Start Monitoring your Node.js Application](https://learn.microsoft.com/azure/azure-monitor/app/nodejs-quick-start) quickstart guide.
 
 #### Open Telemetry
 
@@ -139,7 +139,7 @@ Consumers are expected to pass in the `Context` of the parent `Span` when callin
 ```ts
 const result = await blobClient.download(undefined, undefined, {
   tracingOptions: {
-    tracingContext: activeContext
+    tracingContext: activeContext,
   },
 });
 ```

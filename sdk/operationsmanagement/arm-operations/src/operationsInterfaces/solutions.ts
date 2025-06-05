@@ -21,7 +21,7 @@ import {
   SolutionsListByResourceGroupResponse,
   SolutionsListBySubscriptionOptionalParams,
   SolutionsListBySubscriptionResponse
-} from "../models";
+} from "../models/index.js";
 
 /** Interface representing a Solutions. */
 export interface Solutions {

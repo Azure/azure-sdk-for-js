@@ -7,25 +7,23 @@
  */
 
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
-import { setContinuationToken } from "../pagingHelper";
-import { LocationBasedModelCapacities } from "../operationsInterfaces";
+import { setContinuationToken } from "../pagingHelper.js";
+import { LocationBasedModelCapacities } from "../operationsInterfaces/index.js";
 import * as coreClient from "@azure/core-client";
-import * as Mappers from "../models/mappers";
-import * as Parameters from "../models/parameters";
-import { CognitiveServicesManagementClient } from "../cognitiveServicesManagementClient";
+import * as Mappers from "../models/mappers.js";
+import * as Parameters from "../models/parameters.js";
+import { CognitiveServicesManagementClient } from "../cognitiveServicesManagementClient.js";
 import {
   ModelCapacityListResultValueItem,
   LocationBasedModelCapacitiesListNextOptionalParams,
   LocationBasedModelCapacitiesListOptionalParams,
   LocationBasedModelCapacitiesListResponse,
   LocationBasedModelCapacitiesListNextResponse,
-} from "../models";
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Class containing LocationBasedModelCapacities operations. */
-export class LocationBasedModelCapacitiesImpl
-  implements LocationBasedModelCapacities
-{
+export class LocationBasedModelCapacitiesImpl implements LocationBasedModelCapacities {
   private readonly client: CognitiveServicesManagementClient;
 
   /**
@@ -51,13 +49,7 @@ export class LocationBasedModelCapacitiesImpl
     modelVersion: string,
     options?: LocationBasedModelCapacitiesListOptionalParams,
   ): PagedAsyncIterableIterator<ModelCapacityListResultValueItem> {
-    const iter = this.listPagingAll(
-      location,
-      modelFormat,
-      modelName,
-      modelVersion,
-      options,
-    );
+    const iter = this.listPagingAll(location, modelFormat, modelName, modelVersion, options);
     return {
       next() {
         return iter.next();
@@ -92,13 +84,7 @@ export class LocationBasedModelCapacitiesImpl
     let result: LocationBasedModelCapacitiesListResponse;
     let continuationToken = settings?.continuationToken;
     if (!continuationToken) {
-      result = await this._list(
-        location,
-        modelFormat,
-        modelName,
-        modelVersion,
-        options,
-      );
+      result = await this._list(location, modelFormat, modelName, modelVersion, options);
       let page = result.value || [];
       continuationToken = result.nextLink;
       setContinuationToken(page, continuationToken);
@@ -163,10 +149,7 @@ export class LocationBasedModelCapacitiesImpl
     nextLink: string,
     options?: LocationBasedModelCapacitiesListNextOptionalParams,
   ): Promise<LocationBasedModelCapacitiesListNextResponse> {
-    return this.client.sendOperationRequest(
-      { location, nextLink, options },
-      listNextOperationSpec,
-    );
+    return this.client.sendOperationRequest({ location, nextLink, options }, listNextOperationSpec);
   }
 }
 // Operation Specifications
@@ -189,11 +172,7 @@ const listOperationSpec: coreClient.OperationSpec = {
     Parameters.modelName,
     Parameters.modelVersion,
   ],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.location,
-  ],
+  urlParameters: [Parameters.$host, Parameters.subscriptionId, Parameters.location],
   headerParameters: [Parameters.accept],
   serializer,
 };

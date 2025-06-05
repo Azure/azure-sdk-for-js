@@ -10,9 +10,7 @@
 // Licensed under the MIT License.
 import { PaloAltoNetworksCloudngfw } from "@azure/arm-paloaltonetworksngfw";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Get changelog
@@ -20,7 +18,7 @@ dotenv.config();
  * @summary Get changelog
  * x-ms-original-file: specification/paloaltonetworks/resource-manager/PaloAltoNetworks.Cloudngfw/stable/2023-09-01/examples/LocalRulestacks_getChangeLog_MaximumSet_Gen.json
  */
-async function localRulestacksGetChangeLogMaximumSetGen() {
+async function localRulestacksGetChangeLogMaximumSetGen(): Promise<void> {
   const subscriptionId =
     process.env["PALOALTONETWORKSNGFW_SUBSCRIPTION_ID"] ||
     "2bf4a339-294d-4c25-b0b2-ef649e9f5c27";
@@ -42,7 +40,7 @@ async function localRulestacksGetChangeLogMaximumSetGen() {
  * @summary Get changelog
  * x-ms-original-file: specification/paloaltonetworks/resource-manager/PaloAltoNetworks.Cloudngfw/stable/2023-09-01/examples/LocalRulestacks_getChangeLog_MinimumSet_Gen.json
  */
-async function localRulestacksGetChangeLogMinimumSetGen() {
+async function localRulestacksGetChangeLogMinimumSetGen(): Promise<void> {
   const subscriptionId =
     process.env["PALOALTONETWORKSNGFW_SUBSCRIPTION_ID"] ||
     "2bf4a339-294d-4c25-b0b2-ef649e9f5c27";
@@ -58,7 +56,7 @@ async function localRulestacksGetChangeLogMinimumSetGen() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   localRulestacksGetChangeLogMaximumSetGen();
   localRulestacksGetChangeLogMinimumSetGen();
 }

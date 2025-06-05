@@ -23,7 +23,7 @@ import {
   NetworkFeatures,
   NetAppResourceUpdateNetworkSiblingSetOptionalParams,
   NetAppResourceUpdateNetworkSiblingSetResponse,
-} from "../models";
+} from "../models/index.js";
 
 /** Interface representing a NetAppResource. */
 export interface NetAppResource {

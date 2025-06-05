@@ -29,7 +29,7 @@ async function getASharedGalleryImage() {
       subscriptionId,
       location,
       galleryUniqueName,
-      galleryImageName
+      galleryImageName,
     )
     .get(options);
   console.log(result);

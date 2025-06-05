@@ -27,7 +27,7 @@ import {
   AvailableClusterPoolVersionsImpl,
   AvailableClusterVersionsImpl,
   ClusterLibrariesImpl,
-} from "./operations";
+} from "./operations/index.js";
 import {
   ClusterPools,
   ClusterPoolAvailableUpgrades,
@@ -41,8 +41,8 @@ import {
   AvailableClusterPoolVersions,
   AvailableClusterVersions,
   ClusterLibraries,
-} from "./operationsInterfaces";
-import { HDInsightContainersManagementClientOptionalParams } from "./models";
+} from "./operationsInterfaces/index.js";
+import { HDInsightContainersManagementClientOptionalParams } from "./models/index.js";
 
 export class HDInsightContainersManagementClient extends coreClient.ServiceClient {
   $host: string;

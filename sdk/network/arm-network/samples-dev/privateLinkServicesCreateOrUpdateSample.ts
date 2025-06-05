@@ -6,24 +6,21 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
+import type {
+  PrivateLinkService} from "@azure/arm-network";
 import {
-  PrivateLinkService,
   NetworkManagementClient,
 } from "@azure/arm-network";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Creates or updates an private link service in the specified resource group.
  *
  * @summary Creates or updates an private link service in the specified resource group.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2024-05-01/examples/PrivateLinkServiceCreate.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2024-07-01/examples/PrivateLinkServiceCreate.json
  */
-async function createPrivateLinkService() {
+async function createPrivateLinkService(): Promise<void> {
   const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subId";
   const resourceGroupName = process.env["NETWORK_RESOURCE_GROUP"] || "rg1";
   const serviceName = "testPls";
@@ -61,8 +58,8 @@ async function createPrivateLinkService() {
   console.log(result);
 }
 
-async function main() {
-  createPrivateLinkService();
+async function main(): Promise<void> {
+  await createPrivateLinkService();
 }
 
 main().catch(console.error);

@@ -1,7 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import type { RetryOptions } from "../retry/retryOptions";
-import { ConnectionMode } from "./ConnectionMode";
+import { Constants } from "../common/constants.js";
+import type { RetryOptions } from "../retry/retryOptions.js";
+import { ConnectionMode } from "./ConnectionMode.js";
 /**
  * Represents the Connection policy associated with a CosmosClient in the Azure Cosmos DB database service.
  */
@@ -21,12 +22,12 @@ export interface ConnectionPolicy {
   retryOptions?: RetryOptions;
   /**
    * The flag that enables writes on any locations (regions) for geo-replicated database accounts in the Azure Cosmos DB service.
-   * Default is `false`.
+   * Default is `true`.
    */
   useMultipleWriteLocations?: boolean;
   /** Rate in milliseconds at which the client will refresh the endpoints list in the background */
   endpointRefreshRateInMs?: number;
-  /** Flag to enable/disable background refreshing of endpoints. Defaults to false.
+  /** Flag to enable/disable background refreshing of endpoints. Defaults to true.
    * Endpoint discovery using `enableEndpointsDiscovery` will still work for failed requests. */
   enableBackgroundEndpointRefreshing?: boolean;
 }
@@ -40,9 +41,9 @@ export const defaultConnectionPolicy: ConnectionPolicy = Object.freeze({
   enableEndpointDiscovery: true,
   preferredLocations: [],
   retryOptions: {
-    maxRetryAttemptCount: 9,
-    fixedRetryIntervalInMilliseconds: 0,
-    maxWaitTimeInSeconds: 30,
+    maxRetryAttemptCount: Constants.ThrottledRequestMaxRetryAttemptCount,
+    fixedRetryIntervalInMilliseconds: Constants.ThrottledRequestFixedRetryIntervalInMs,
+    maxWaitTimeInSeconds: Constants.ThrottledRequestMaxWaitTimeInSeconds,
   },
   useMultipleWriteLocations: true,
   endpointRefreshRateInMs: 300000,

@@ -20,15 +20,15 @@ import {
   LinkersImpl,
   OperationsImpl,
   ConfigurationNamesImpl,
-} from "./operations";
+} from "./operations/index.js";
 import {
   Connector,
   Linker,
   Linkers,
   Operations,
   ConfigurationNames,
-} from "./operationsInterfaces";
-import { ServiceLinkerManagementClientOptionalParams } from "./models";
+} from "./operationsInterfaces/index.js";
+import { ServiceLinkerManagementClientOptionalParams } from "./models/index.js";
 
 export class ServiceLinkerManagementClient extends coreClient.ServiceClient {
   $host: string;

@@ -10,20 +10,20 @@ import { DefaultAzureCredential } from "@azure/identity";
  * @summary list quotas for a given subscription Id.
  * x-ms-original-file: 2024-12-01/Quotas_ListBySubscription.json
  */
-async function quotasListBySubscription() {
+async function quotasListBySubscription(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const client = new AzurePlaywrightServiceClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.quotas.listBySubscription("eastus")) {
+  for await (const item of client.quotas.listBySubscription("eastus")) {
     resArray.push(item);
   }
 
   console.log(resArray);
 }
 
-async function main() {
-  quotasListBySubscription();
+async function main(): Promise<void> {
+  await quotasListBySubscription();
 }
 
 main().catch(console.error);

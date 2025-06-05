@@ -6,21 +6,17 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
 import { PostgreSQLManagementFlexibleServerClient } from "@azure/arm-postgresql-flexible";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to List all the configurations in a given server.
  *
  * @summary List all the configurations in a given server.
- * x-ms-original-file: specification/postgresql/resource-manager/Microsoft.DBforPostgreSQL/preview/2023-12-01-preview/examples/ConfigurationListByServer.json
+ * x-ms-original-file: specification/postgresql/resource-manager/Microsoft.DBforPostgreSQL/preview/2025-01-01-preview/examples/ConfigurationListByServer.json
  */
-async function configurationList() {
+async function configurationList(): Promise<void> {
   const subscriptionId =
     process.env["POSTGRESQL_SUBSCRIPTION_ID"] ||
     "ffffffff-ffff-ffff-ffff-ffffffffffff";
@@ -33,7 +29,7 @@ async function configurationList() {
     subscriptionId,
   );
   const resArray = new Array();
-  for await (let item of client.configurations.listByServer(
+  for await (const item of client.configurations.listByServer(
     resourceGroupName,
     serverName,
   )) {
@@ -42,8 +38,8 @@ async function configurationList() {
   console.log(resArray);
 }
 
-async function main() {
-  configurationList();
+async function main(): Promise<void> {
+  await configurationList();
 }
 
 main().catch(console.error);

@@ -13,9 +13,7 @@ import {
   HybridContainerServiceClient
 } from "@azure/arm-hybridcontainerservice";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Creates or updates the agent pool in the provisioned cluster
@@ -23,7 +21,7 @@ dotenv.config();
  * @summary Creates or updates the agent pool in the provisioned cluster
  * x-ms-original-file: specification/hybridaks/resource-manager/Microsoft.HybridContainerService/stable/2024-01-01/examples/PutAgentPool.json
  */
-async function putAgentPool() {
+async function putAgentPool(): Promise<void> {
   const connectedClusterResourceUri =
     "subscriptions/fd3c3665-1729-4b7b-9a38-238e83b0f98b/resourceGroups/testrg/providers/Microsoft.Kubernetes/connectedClusters/test-hybridakscluster";
   const agentPoolName = "testnodepool";
@@ -46,7 +44,7 @@ async function putAgentPool() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   putAgentPool();
 }
 

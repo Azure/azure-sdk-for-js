@@ -14,19 +14,18 @@
  * @summary use the "prebuilt-receipt" model ID to extract data from a receipt document (weakly-typed)
  */
 
+import type { AnalyzeOperationOutput } from "@azure-rest/ai-document-intelligence";
 import DocumentIntelligence, {
-  AnalyzeResultOperationOutput,
   getLongRunningPoller,
   isUnexpected,
 } from "@azure-rest/ai-document-intelligence";
+import { DefaultAzureCredential } from "@azure/identity";
+import "dotenv/config";
 
-import * as dotenv from "dotenv";
-dotenv.config();
-
-async function main() {
+async function main(): Promise<void> {
   const client = DocumentIntelligence(
     process.env["DOCUMENT_INTELLIGENCE_ENDPOINT"] || "<cognitive services endpoint>",
-    { key: process.env["DOCUMENT_INTELLIGENCE_API_KEY"] || "<api key>" },
+    new DefaultAzureCredential(),
   );
 
   const initialResponse = await client
@@ -44,8 +43,8 @@ async function main() {
   }
   const poller = getLongRunningPoller(client, initialResponse);
 
-  poller.onProgress((state) => console.log("Operation:", state.result, state.status));
-  const analyzeResult = ((await poller.pollUntilDone()).body as AnalyzeResultOperationOutput)
+  await poller.onProgress((state) => console.log("Operation:", state.result, state.status));
+  const analyzeResult = ((await poller.pollUntilDone()).body as AnalyzeOperationOutput)
     .analyzeResult;
 
   const documents = analyzeResult?.documents;

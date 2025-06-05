@@ -10,9 +10,7 @@
 // Licensed under the MIT License.
 import { SharingUpdate, ComputeManagementClient } from "@azure/arm-compute";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Update sharing profile of a gallery.
@@ -20,7 +18,7 @@ dotenv.config();
  * @summary Update sharing profile of a gallery.
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/GalleryRP/stable/2024-03-03/examples/galleryExamples/Gallery_AddToSharingProfile.json
  */
-async function addSharingIdToTheSharingProfileOfAGallery() {
+async function addSharingIdToTheSharingProfileOfAGallery(): Promise<void> {
   const subscriptionId =
     process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
   const resourceGroupName =
@@ -55,7 +53,7 @@ async function addSharingIdToTheSharingProfileOfAGallery() {
  * @summary Update sharing profile of a gallery.
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/GalleryRP/stable/2024-03-03/examples/galleryExamples/Gallery_ResetSharingProfile.json
  */
-async function resetSharingProfileOfAGallery() {
+async function resetSharingProfileOfAGallery(): Promise<void> {
   const subscriptionId =
     process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
   const resourceGroupName =
@@ -78,7 +76,7 @@ async function resetSharingProfileOfAGallery() {
  * @summary Update sharing profile of a gallery.
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/GalleryRP/stable/2024-03-03/examples/galleryExamples/Gallery_EnableCommunityGallery.json
  */
-async function shareAGalleryToCommunity() {
+async function shareAGalleryToCommunity(): Promise<void> {
   const subscriptionId =
     process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
   const resourceGroupName =
@@ -95,10 +93,10 @@ async function shareAGalleryToCommunity() {
   console.log(result);
 }
 
-async function main() {
-  addSharingIdToTheSharingProfileOfAGallery();
-  resetSharingProfileOfAGallery();
-  shareAGalleryToCommunity();
+async function main(): Promise<void> {
+  await addSharingIdToTheSharingProfileOfAGallery();
+  await resetSharingProfileOfAGallery();
+  await shareAGalleryToCommunity();
 }
 
 main().catch(console.error);

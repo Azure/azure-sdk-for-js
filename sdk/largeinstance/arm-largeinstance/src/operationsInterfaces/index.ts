@@ -6,6 +6,6 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-export * from "./operations";
-export * from "./azureLargeInstanceOperations";
-export * from "./azureLargeStorageInstanceOperations";
+export * from "./operations.js";
+export * from "./azureLargeInstanceOperations.js";
+export * from "./azureLargeStorageInstanceOperations.js";

@@ -10,9 +10,7 @@
 // Licensed under the MIT License.
 import { HelpRP } from "@azure/arm-selfhelp";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Gets Self Help Solutions for a given solutionId. Self Help Solutions consist of rich instructional video tutorials, links and guides to public documentation related to a specific problem that enables users to troubleshoot Azure issues.
@@ -20,7 +18,7 @@ dotenv.config();
  * @summary Gets Self Help Solutions for a given solutionId. Self Help Solutions consist of rich instructional video tutorials, links and guides to public documentation related to a specific problem that enables users to troubleshoot Azure issues.
  * x-ms-original-file: specification/help/resource-manager/Microsoft.Help/preview/2024-03-01-preview/examples/SelfHelpSolution_Get.json
  */
-async function solutionGet() {
+async function solutionGet(): Promise<void> {
   const solutionId = "SolutionId1";
   const credential = new DefaultAzureCredential();
   const client = new HelpRP(credential);
@@ -28,7 +26,7 @@ async function solutionGet() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   solutionGet();
 }
 

@@ -10,9 +10,7 @@
 // Licensed under the MIT License.
 import { OracleDatabaseManagementClient } from "@azure/arm-oracledatabase";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Perform add storage capacity on exadata infra
@@ -20,7 +18,7 @@ dotenv.config();
  * @summary Perform add storage capacity on exadata infra
  * x-ms-original-file: specification/oracle/resource-manager/Oracle.Database/stable/2023-09-01/examples/exaInfra_addStorageCapacity.json
  */
-async function performAddStorageCapacityOnExadataInfra() {
+async function performAddStorageCapacityOnExadataInfra(): Promise<void> {
   const subscriptionId =
     process.env["ORACLEDATABASE_SUBSCRIPTION_ID"] ||
     "00000000-0000-0000-0000-000000000000";
@@ -37,7 +35,7 @@ async function performAddStorageCapacityOnExadataInfra() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   performAddStorageCapacityOnExadataInfra();
 }
 

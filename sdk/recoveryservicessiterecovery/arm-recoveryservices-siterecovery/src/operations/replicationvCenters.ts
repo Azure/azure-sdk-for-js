@@ -7,18 +7,18 @@
  */
 
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
-import { setContinuationToken } from "../pagingHelper";
-import { ReplicationvCenters } from "../operationsInterfaces";
+import { setContinuationToken } from "../pagingHelper.js";
+import { ReplicationvCenters } from "../operationsInterfaces/index.js";
 import * as coreClient from "@azure/core-client";
-import * as Mappers from "../models/mappers";
-import * as Parameters from "../models/parameters";
-import { SiteRecoveryManagementClient } from "../siteRecoveryManagementClient";
+import * as Mappers from "../models/mappers.js";
+import * as Parameters from "../models/parameters.js";
+import { SiteRecoveryManagementClient } from "../siteRecoveryManagementClient.js";
 import {
   SimplePollerLike,
   OperationState,
   createHttpPoller,
 } from "@azure/core-lro";
-import { createLroSpec } from "../lroImpl";
+import { createLroSpec } from "../lroImpl.js";
 import {
   VCenter,
   ReplicationvCentersListByReplicationFabricsNextOptionalParams,
@@ -38,7 +38,7 @@ import {
   ReplicationvCentersUpdateResponse,
   ReplicationvCentersListByReplicationFabricsNextResponse,
   ReplicationvCentersListNextResponse,
-} from "../models";
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Class containing ReplicationvCenters operations. */
@@ -55,21 +55,21 @@ export class ReplicationvCentersImpl implements ReplicationvCenters {
 
   /**
    * Lists the vCenter servers registered in a fabric.
-   * @param resourceName The name of the recovery services vault.
    * @param resourceGroupName The name of the resource group where the recovery services vault is
    *                          present.
+   * @param resourceName The name of the recovery services vault.
    * @param fabricName Fabric name.
    * @param options The options parameters.
    */
   public listByReplicationFabrics(
-    resourceName: string,
     resourceGroupName: string,
+    resourceName: string,
     fabricName: string,
     options?: ReplicationvCentersListByReplicationFabricsOptionalParams,
   ): PagedAsyncIterableIterator<VCenter> {
     const iter = this.listByReplicationFabricsPagingAll(
-      resourceName,
       resourceGroupName,
+      resourceName,
       fabricName,
       options,
     );
@@ -85,8 +85,8 @@ export class ReplicationvCentersImpl implements ReplicationvCenters {
           throw new Error("maxPageSize is not supported by this operation.");
         }
         return this.listByReplicationFabricsPagingPage(
-          resourceName,
           resourceGroupName,
+          resourceName,
           fabricName,
           options,
           settings,
@@ -96,8 +96,8 @@ export class ReplicationvCentersImpl implements ReplicationvCenters {
   }
 
   private async *listByReplicationFabricsPagingPage(
-    resourceName: string,
     resourceGroupName: string,
+    resourceName: string,
     fabricName: string,
     options?: ReplicationvCentersListByReplicationFabricsOptionalParams,
     settings?: PageSettings,
@@ -106,8 +106,8 @@ export class ReplicationvCentersImpl implements ReplicationvCenters {
     let continuationToken = settings?.continuationToken;
     if (!continuationToken) {
       result = await this._listByReplicationFabrics(
-        resourceName,
         resourceGroupName,
+        resourceName,
         fabricName,
         options,
       );
@@ -118,8 +118,8 @@ export class ReplicationvCentersImpl implements ReplicationvCenters {
     }
     while (continuationToken) {
       result = await this._listByReplicationFabricsNext(
-        resourceName,
         resourceGroupName,
+        resourceName,
         fabricName,
         continuationToken,
         options,
@@ -132,14 +132,14 @@ export class ReplicationvCentersImpl implements ReplicationvCenters {
   }
 
   private async *listByReplicationFabricsPagingAll(
-    resourceName: string,
     resourceGroupName: string,
+    resourceName: string,
     fabricName: string,
     options?: ReplicationvCentersListByReplicationFabricsOptionalParams,
   ): AsyncIterableIterator<VCenter> {
     for await (const page of this.listByReplicationFabricsPagingPage(
-      resourceName,
       resourceGroupName,
+      resourceName,
       fabricName,
       options,
     )) {
@@ -149,17 +149,17 @@ export class ReplicationvCentersImpl implements ReplicationvCenters {
 
   /**
    * Lists the vCenter servers registered in the vault.
-   * @param resourceName The name of the recovery services vault.
    * @param resourceGroupName The name of the resource group where the recovery services vault is
    *                          present.
+   * @param resourceName The name of the recovery services vault.
    * @param options The options parameters.
    */
   public list(
-    resourceName: string,
     resourceGroupName: string,
+    resourceName: string,
     options?: ReplicationvCentersListOptionalParams,
   ): PagedAsyncIterableIterator<VCenter> {
-    const iter = this.listPagingAll(resourceName, resourceGroupName, options);
+    const iter = this.listPagingAll(resourceGroupName, resourceName, options);
     return {
       next() {
         return iter.next();
@@ -172,8 +172,8 @@ export class ReplicationvCentersImpl implements ReplicationvCenters {
           throw new Error("maxPageSize is not supported by this operation.");
         }
         return this.listPagingPage(
-          resourceName,
           resourceGroupName,
+          resourceName,
           options,
           settings,
         );
@@ -182,15 +182,15 @@ export class ReplicationvCentersImpl implements ReplicationvCenters {
   }
 
   private async *listPagingPage(
-    resourceName: string,
     resourceGroupName: string,
+    resourceName: string,
     options?: ReplicationvCentersListOptionalParams,
     settings?: PageSettings,
   ): AsyncIterableIterator<VCenter[]> {
     let result: ReplicationvCentersListResponse;
     let continuationToken = settings?.continuationToken;
     if (!continuationToken) {
-      result = await this._list(resourceName, resourceGroupName, options);
+      result = await this._list(resourceGroupName, resourceName, options);
       let page = result.value || [];
       continuationToken = result.nextLink;
       setContinuationToken(page, continuationToken);
@@ -198,8 +198,8 @@ export class ReplicationvCentersImpl implements ReplicationvCenters {
     }
     while (continuationToken) {
       result = await this._listNext(
-        resourceName,
         resourceGroupName,
+        resourceName,
         continuationToken,
         options,
       );
@@ -211,13 +211,13 @@ export class ReplicationvCentersImpl implements ReplicationvCenters {
   }
 
   private async *listPagingAll(
-    resourceName: string,
     resourceGroupName: string,
+    resourceName: string,
     options?: ReplicationvCentersListOptionalParams,
   ): AsyncIterableIterator<VCenter> {
     for await (const page of this.listPagingPage(
-      resourceName,
       resourceGroupName,
+      resourceName,
       options,
     )) {
       yield* page;
@@ -226,59 +226,59 @@ export class ReplicationvCentersImpl implements ReplicationvCenters {
 
   /**
    * Lists the vCenter servers registered in a fabric.
-   * @param resourceName The name of the recovery services vault.
    * @param resourceGroupName The name of the resource group where the recovery services vault is
    *                          present.
+   * @param resourceName The name of the recovery services vault.
    * @param fabricName Fabric name.
    * @param options The options parameters.
    */
   private _listByReplicationFabrics(
-    resourceName: string,
     resourceGroupName: string,
+    resourceName: string,
     fabricName: string,
     options?: ReplicationvCentersListByReplicationFabricsOptionalParams,
   ): Promise<ReplicationvCentersListByReplicationFabricsResponse> {
     return this.client.sendOperationRequest(
-      { resourceName, resourceGroupName, fabricName, options },
+      { resourceGroupName, resourceName, fabricName, options },
       listByReplicationFabricsOperationSpec,
     );
   }
 
   /**
    * Gets the details of a registered vCenter server(Add vCenter server).
-   * @param resourceName The name of the recovery services vault.
    * @param resourceGroupName The name of the resource group where the recovery services vault is
    *                          present.
+   * @param resourceName The name of the recovery services vault.
    * @param fabricName Fabric name.
    * @param vcenterName vcenter name.
    * @param options The options parameters.
    */
   get(
-    resourceName: string,
     resourceGroupName: string,
+    resourceName: string,
     fabricName: string,
     vcenterName: string,
     options?: ReplicationvCentersGetOptionalParams,
   ): Promise<ReplicationvCentersGetResponse> {
     return this.client.sendOperationRequest(
-      { resourceName, resourceGroupName, fabricName, vcenterName, options },
+      { resourceGroupName, resourceName, fabricName, vcenterName, options },
       getOperationSpec,
     );
   }
 
   /**
    * The operation to create a vCenter object..
-   * @param resourceName The name of the recovery services vault.
    * @param resourceGroupName The name of the resource group where the recovery services vault is
    *                          present.
+   * @param resourceName The name of the recovery services vault.
    * @param fabricName Fabric name.
    * @param vcenterName vcenter name.
    * @param addVCenterRequest The input to the add vCenter operation.
    * @param options The options parameters.
    */
   async beginCreate(
-    resourceName: string,
     resourceGroupName: string,
+    resourceName: string,
     fabricName: string,
     vcenterName: string,
     addVCenterRequest: AddVCenterRequest,
@@ -330,8 +330,8 @@ export class ReplicationvCentersImpl implements ReplicationvCenters {
     const lro = createLroSpec({
       sendOperationFn,
       args: {
-        resourceName,
         resourceGroupName,
+        resourceName,
         fabricName,
         vcenterName,
         addVCenterRequest,
@@ -352,25 +352,25 @@ export class ReplicationvCentersImpl implements ReplicationvCenters {
 
   /**
    * The operation to create a vCenter object..
-   * @param resourceName The name of the recovery services vault.
    * @param resourceGroupName The name of the resource group where the recovery services vault is
    *                          present.
+   * @param resourceName The name of the recovery services vault.
    * @param fabricName Fabric name.
    * @param vcenterName vcenter name.
    * @param addVCenterRequest The input to the add vCenter operation.
    * @param options The options parameters.
    */
   async beginCreateAndWait(
-    resourceName: string,
     resourceGroupName: string,
+    resourceName: string,
     fabricName: string,
     vcenterName: string,
     addVCenterRequest: AddVCenterRequest,
     options?: ReplicationvCentersCreateOptionalParams,
   ): Promise<ReplicationvCentersCreateResponse> {
     const poller = await this.beginCreate(
-      resourceName,
       resourceGroupName,
+      resourceName,
       fabricName,
       vcenterName,
       addVCenterRequest,
@@ -381,16 +381,16 @@ export class ReplicationvCentersImpl implements ReplicationvCenters {
 
   /**
    * The operation to remove(unregister) a registered vCenter server from the vault.
-   * @param resourceName The name of the recovery services vault.
    * @param resourceGroupName The name of the resource group where the recovery services vault is
    *                          present.
+   * @param resourceName The name of the recovery services vault.
    * @param fabricName Fabric name.
    * @param vcenterName vcenter name.
    * @param options The options parameters.
    */
   async beginDelete(
-    resourceName: string,
     resourceGroupName: string,
+    resourceName: string,
     fabricName: string,
     vcenterName: string,
     options?: ReplicationvCentersDeleteOptionalParams,
@@ -436,8 +436,8 @@ export class ReplicationvCentersImpl implements ReplicationvCenters {
     const lro = createLroSpec({
       sendOperationFn,
       args: {
-        resourceName,
         resourceGroupName,
+        resourceName,
         fabricName,
         vcenterName,
         options,
@@ -454,23 +454,23 @@ export class ReplicationvCentersImpl implements ReplicationvCenters {
 
   /**
    * The operation to remove(unregister) a registered vCenter server from the vault.
-   * @param resourceName The name of the recovery services vault.
    * @param resourceGroupName The name of the resource group where the recovery services vault is
    *                          present.
+   * @param resourceName The name of the recovery services vault.
    * @param fabricName Fabric name.
    * @param vcenterName vcenter name.
    * @param options The options parameters.
    */
   async beginDeleteAndWait(
-    resourceName: string,
     resourceGroupName: string,
+    resourceName: string,
     fabricName: string,
     vcenterName: string,
     options?: ReplicationvCentersDeleteOptionalParams,
   ): Promise<void> {
     const poller = await this.beginDelete(
-      resourceName,
       resourceGroupName,
+      resourceName,
       fabricName,
       vcenterName,
       options,
@@ -480,17 +480,17 @@ export class ReplicationvCentersImpl implements ReplicationvCenters {
 
   /**
    * The operation to update a registered vCenter.
-   * @param resourceName The name of the recovery services vault.
    * @param resourceGroupName The name of the resource group where the recovery services vault is
    *                          present.
+   * @param resourceName The name of the recovery services vault.
    * @param fabricName Fabric name.
    * @param vcenterName vcenter name.
    * @param updateVCenterRequest The input to the update vCenter operation.
    * @param options The options parameters.
    */
   async beginUpdate(
-    resourceName: string,
     resourceGroupName: string,
+    resourceName: string,
     fabricName: string,
     vcenterName: string,
     updateVCenterRequest: UpdateVCenterRequest,
@@ -542,8 +542,8 @@ export class ReplicationvCentersImpl implements ReplicationvCenters {
     const lro = createLroSpec({
       sendOperationFn,
       args: {
-        resourceName,
         resourceGroupName,
+        resourceName,
         fabricName,
         vcenterName,
         updateVCenterRequest,
@@ -564,25 +564,25 @@ export class ReplicationvCentersImpl implements ReplicationvCenters {
 
   /**
    * The operation to update a registered vCenter.
-   * @param resourceName The name of the recovery services vault.
    * @param resourceGroupName The name of the resource group where the recovery services vault is
    *                          present.
+   * @param resourceName The name of the recovery services vault.
    * @param fabricName Fabric name.
    * @param vcenterName vcenter name.
    * @param updateVCenterRequest The input to the update vCenter operation.
    * @param options The options parameters.
    */
   async beginUpdateAndWait(
-    resourceName: string,
     resourceGroupName: string,
+    resourceName: string,
     fabricName: string,
     vcenterName: string,
     updateVCenterRequest: UpdateVCenterRequest,
     options?: ReplicationvCentersUpdateOptionalParams,
   ): Promise<ReplicationvCentersUpdateResponse> {
     const poller = await this.beginUpdate(
-      resourceName,
       resourceGroupName,
+      resourceName,
       fabricName,
       vcenterName,
       updateVCenterRequest,
@@ -593,61 +593,61 @@ export class ReplicationvCentersImpl implements ReplicationvCenters {
 
   /**
    * Lists the vCenter servers registered in the vault.
-   * @param resourceName The name of the recovery services vault.
    * @param resourceGroupName The name of the resource group where the recovery services vault is
    *                          present.
+   * @param resourceName The name of the recovery services vault.
    * @param options The options parameters.
    */
   private _list(
-    resourceName: string,
     resourceGroupName: string,
+    resourceName: string,
     options?: ReplicationvCentersListOptionalParams,
   ): Promise<ReplicationvCentersListResponse> {
     return this.client.sendOperationRequest(
-      { resourceName, resourceGroupName, options },
+      { resourceGroupName, resourceName, options },
       listOperationSpec,
     );
   }
 
   /**
    * ListByReplicationFabricsNext
-   * @param resourceName The name of the recovery services vault.
    * @param resourceGroupName The name of the resource group where the recovery services vault is
    *                          present.
+   * @param resourceName The name of the recovery services vault.
    * @param fabricName Fabric name.
    * @param nextLink The nextLink from the previous successful call to the ListByReplicationFabrics
    *                 method.
    * @param options The options parameters.
    */
   private _listByReplicationFabricsNext(
-    resourceName: string,
     resourceGroupName: string,
+    resourceName: string,
     fabricName: string,
     nextLink: string,
     options?: ReplicationvCentersListByReplicationFabricsNextOptionalParams,
   ): Promise<ReplicationvCentersListByReplicationFabricsNextResponse> {
     return this.client.sendOperationRequest(
-      { resourceName, resourceGroupName, fabricName, nextLink, options },
+      { resourceGroupName, resourceName, fabricName, nextLink, options },
       listByReplicationFabricsNextOperationSpec,
     );
   }
 
   /**
    * ListNext
-   * @param resourceName The name of the recovery services vault.
    * @param resourceGroupName The name of the resource group where the recovery services vault is
    *                          present.
+   * @param resourceName The name of the recovery services vault.
    * @param nextLink The nextLink from the previous successful call to the List method.
    * @param options The options parameters.
    */
   private _listNext(
-    resourceName: string,
     resourceGroupName: string,
+    resourceName: string,
     nextLink: string,
     options?: ReplicationvCentersListNextOptionalParams,
   ): Promise<ReplicationvCentersListNextResponse> {
     return this.client.sendOperationRequest(
-      { resourceName, resourceGroupName, nextLink, options },
+      { resourceGroupName, resourceName, nextLink, options },
       listNextOperationSpec,
     );
   }

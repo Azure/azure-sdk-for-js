@@ -6,17 +6,15 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
 const { AzureQuotaExtensionAPI } = require("@azure/arm-quota");
 const { DefaultAzureCredential } = require("@azure/identity");
-require("dotenv").config();
+require("dotenv/config");
 
 /**
  * This sample demonstrates how to Get all the quotaAllocationRequests for a resourceProvider/location. The filter paramter for location is required.
  *
  * @summary Get all the quotaAllocationRequests for a resourceProvider/location. The filter paramter for location is required.
- * x-ms-original-file: specification/quota/resource-manager/Microsoft.Quota/preview/2023-06-01-preview/examples/SubscriptionQuotaAllocationRequests/SubscriptionQuotaAllocationRequests_List-Compute.json
+ * x-ms-original-file: specification/quota/resource-manager/Microsoft.Quota/preview/2024-12-18-preview/examples/SubscriptionQuotaAllocationRequests/SubscriptionQuotaAllocationRequests_List-Compute.json
  */
 async function subscriptionQuotaAllocationListRequestForCompute() {
   const subscriptionId =
@@ -40,7 +38,7 @@ async function subscriptionQuotaAllocationListRequestForCompute() {
 }
 
 async function main() {
-  subscriptionQuotaAllocationListRequestForCompute();
+  await subscriptionQuotaAllocationListRequestForCompute();
 }
 
 main().catch(console.error);

@@ -10,17 +10,15 @@
 // Licensed under the MIT License.
 import { ElasticSanManagement } from "@azure/arm-elasticsan";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Get a ElasticSan.
  *
  * @summary Get a ElasticSan.
- * x-ms-original-file: specification/elasticsan/resource-manager/Microsoft.ElasticSan/preview/2024-06-01-preview/examples/ElasticSans_Get_MaximumSet_Gen.json
+ * x-ms-original-file: specification/elasticsan/resource-manager/Microsoft.ElasticSan/preview/2024-07-01-preview/examples/ElasticSans_Get_MaximumSet_Gen.json
  */
-async function elasticSansGetMaximumSetGen() {
+async function elasticSansGetMaximumSetGen(): Promise<void> {
   const subscriptionId =
     process.env["ELASTICSANS_SUBSCRIPTION_ID"] || "subscriptionid";
   const resourceGroupName =
@@ -39,9 +37,9 @@ async function elasticSansGetMaximumSetGen() {
  * This sample demonstrates how to Get a ElasticSan.
  *
  * @summary Get a ElasticSan.
- * x-ms-original-file: specification/elasticsan/resource-manager/Microsoft.ElasticSan/preview/2024-06-01-preview/examples/ElasticSans_Get_MinimumSet_Gen.json
+ * x-ms-original-file: specification/elasticsan/resource-manager/Microsoft.ElasticSan/preview/2024-07-01-preview/examples/ElasticSans_Get_MinimumSet_Gen.json
  */
-async function elasticSansGetMinimumSetGen() {
+async function elasticSansGetMinimumSetGen(): Promise<void> {
   const subscriptionId =
     process.env["ELASTICSANS_SUBSCRIPTION_ID"] || "subscriptionid";
   const resourceGroupName =
@@ -56,9 +54,9 @@ async function elasticSansGetMinimumSetGen() {
   console.log(result);
 }
 
-async function main() {
-  elasticSansGetMaximumSetGen();
-  elasticSansGetMinimumSetGen();
+async function main(): Promise<void> {
+  await elasticSansGetMaximumSetGen();
+  await elasticSansGetMinimumSetGen();
 }
 
 main().catch(console.error);

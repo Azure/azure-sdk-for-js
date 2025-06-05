@@ -7,7 +7,7 @@
  */
 
 /// <reference lib="esnext.asynciterable" />
-export { getContinuationToken } from "./pagingHelper";
-export * from "./models";
-export { MicrosoftStorageSync } from "./microsoftStorageSync";
-export * from "./operationsInterfaces";
+export { getContinuationToken } from "./pagingHelper.js";
+export * from "./models/index.js";
+export { MicrosoftStorageSync } from "./microsoftStorageSync.js";
+export * from "./operationsInterfaces/index.js";

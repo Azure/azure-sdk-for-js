@@ -69,8 +69,8 @@ npx dev-tool run vendored cross-env ACCOUNT_NAME="<account name>" ACCOUNT_KEY="<
 Take a look at our [API Documentation][apiref] for more information about the APIs that are available in the clients.
 
 [datalakeserviceclient]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/storage/storage-file-datalake/samples/v12/typescript/src/dataLakeServiceClient.ts
-[apiref]: https://docs.microsoft.com/javascript/api/@azure/storage-file-datalake
+[apiref]: https://learn.microsoft.com/javascript/api/@azure/storage-file-datalake
 [freesub]: https://azure.microsoft.com/free/
-[createinstance_azurestorageaccount]: https://docs.microsoft.com/azure/storage/common/storage-account-overview
+[createinstance_azurestorageaccount]: https://learn.microsoft.com/azure/storage/common/storage-account-overview
 [package]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/storage/storage-file-datalake/README.md
 [typescript]: https://www.typescriptlang.org/docs/home.html

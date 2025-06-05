@@ -13,9 +13,7 @@ import {
   RecoveryServicesBackupClient,
 } from "@azure/arm-recoveryservicesbackup";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Provides a pageable list of protectable objects within your subscription according to the query filter and the
@@ -23,9 +21,9 @@ pagination parameters.
  *
  * @summary Provides a pageable list of protectable objects within your subscription according to the query filter and the
 pagination parameters.
- * x-ms-original-file: specification/recoveryservicesbackup/resource-manager/Microsoft.RecoveryServices/stable/2024-04-01/examples/AzureIaasVm/BackupProtectableItems_List.json
+ * x-ms-original-file: specification/recoveryservicesbackup/resource-manager/Microsoft.RecoveryServices/stable/2025-02-01/examples/AzureIaasVm/BackupProtectableItems_List.json
  */
-async function listProtectableItemsWithBackupManagementTypeFilterAsAzureIaasVM() {
+async function listProtectableItemsWithBackupManagementTypeFilterAsAzureIaasVM(): Promise<void> {
   const subscriptionId =
     process.env["RECOVERYSERVICESBACKUP_SUBSCRIPTION_ID"] ||
     "00000000-0000-0000-0000-000000000000";
@@ -37,7 +35,7 @@ async function listProtectableItemsWithBackupManagementTypeFilterAsAzureIaasVM()
   const credential = new DefaultAzureCredential();
   const client = new RecoveryServicesBackupClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.backupProtectableItems.list(
+  for await (const item of client.backupProtectableItems.list(
     vaultName,
     resourceGroupName,
     options,
@@ -47,8 +45,8 @@ async function listProtectableItemsWithBackupManagementTypeFilterAsAzureIaasVM()
   console.log(resArray);
 }
 
-async function main() {
-  listProtectableItemsWithBackupManagementTypeFilterAsAzureIaasVM();
+async function main(): Promise<void> {
+  await listProtectableItemsWithBackupManagementTypeFilterAsAzureIaasVM();
 }
 
 main().catch(console.error);

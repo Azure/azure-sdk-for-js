@@ -6,25 +6,22 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
-import {
+import type {
   MigrateLoadBalancerToIpBasedRequest,
-  LoadBalancersMigrateToIpBasedOptionalParams,
+  LoadBalancersMigrateToIpBasedOptionalParams} from "@azure/arm-network";
+import {
   NetworkManagementClient,
 } from "@azure/arm-network";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Migrate load balancer to IP Based
  *
  * @summary Migrate load balancer to IP Based
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2024-05-01/examples/MigrateLoadBalancerToIPBased.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2024-07-01/examples/MigrateLoadBalancerToIPBased.json
  */
-async function migrateLoadBalancerToIPBased() {
+async function migrateLoadBalancerToIPBased(): Promise<void> {
   const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";
   const groupName = "rg1";
   const loadBalancerName = "lb1";
@@ -42,8 +39,8 @@ async function migrateLoadBalancerToIPBased() {
   console.log(result);
 }
 
-async function main() {
-  migrateLoadBalancerToIPBased();
+async function main(): Promise<void> {
+  await migrateLoadBalancerToIPBased();
 }
 
 main().catch(console.error);

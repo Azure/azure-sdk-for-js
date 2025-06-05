@@ -10,17 +10,15 @@
 // Licensed under the MIT License.
 import { Volume, ElasticSanManagement } from "@azure/arm-elasticsan";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Create a Volume.
  *
  * @summary Create a Volume.
- * x-ms-original-file: specification/elasticsan/resource-manager/Microsoft.ElasticSan/preview/2024-06-01-preview/examples/Volumes_Create_MaximumSet_Gen.json
+ * x-ms-original-file: specification/elasticsan/resource-manager/Microsoft.ElasticSan/preview/2024-07-01-preview/examples/Volumes_Create_MaximumSet_Gen.json
  */
-async function volumesCreateMaximumSetGen() {
+async function volumesCreateMaximumSetGen(): Promise<void> {
   const subscriptionId =
     process.env["ELASTICSANS_SUBSCRIPTION_ID"] || "subscriptionid";
   const resourceGroupName =
@@ -30,9 +28,9 @@ async function volumesCreateMaximumSetGen() {
   const volumeName = "volumename";
   const parameters: Volume = {
     properties: {
-      creationData: { createSource: "None", sourceId: "ARM Id of Resource" },
-      managedBy: { resourceId: "mtkeip" },
-      sizeGiB: 9,
+      creationData: { createSource: "None", sourceId: "mdonegivjquite" },
+      managedBy: { resourceId: "pclpkrpkpmvcsegcubrakcoodrubo" },
+      sizeGiB: 23,
     },
   };
   const credential = new DefaultAzureCredential();
@@ -51,9 +49,9 @@ async function volumesCreateMaximumSetGen() {
  * This sample demonstrates how to Create a Volume.
  *
  * @summary Create a Volume.
- * x-ms-original-file: specification/elasticsan/resource-manager/Microsoft.ElasticSan/preview/2024-06-01-preview/examples/Volumes_Create_MinimumSet_Gen.json
+ * x-ms-original-file: specification/elasticsan/resource-manager/Microsoft.ElasticSan/preview/2024-07-01-preview/examples/Volumes_Create_MinimumSet_Gen.json
  */
-async function volumesCreateMinimumSetGen() {
+async function volumesCreateMinimumSetGen(): Promise<void> {
   const subscriptionId =
     process.env["ELASTICSANS_SUBSCRIPTION_ID"] || "subscriptionid";
   const resourceGroupName =
@@ -74,9 +72,9 @@ async function volumesCreateMinimumSetGen() {
   console.log(result);
 }
 
-async function main() {
-  volumesCreateMaximumSetGen();
-  volumesCreateMinimumSetGen();
+async function main(): Promise<void> {
+  await volumesCreateMaximumSetGen();
+  await volumesCreateMinimumSetGen();
 }
 
 main().catch(console.error);

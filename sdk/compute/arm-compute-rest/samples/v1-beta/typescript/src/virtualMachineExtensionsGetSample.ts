@@ -1,15 +1,10 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
 import createComputeManagementClient, {
-  VirtualMachineExtensionsGetParameters
+  VirtualMachineExtensionsGetParameters,
 } from "@azure-rest/arm-compute";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to The operation to get the extension.
@@ -25,7 +20,7 @@ async function virtualMachineExtensionsGetMaximumSetGen() {
   const vmName = "aaaaaaaaaaaaaaaaaaaaaaaaaaaaa";
   const vmExtensionName = "aaaaaaa";
   const options: VirtualMachineExtensionsGetParameters = {
-    queryParameters: { $expand: "aaaaaa", "api-version": "2022-08-01" }
+    queryParameters: { $expand: "aaaaaa", "api-version": "2022-08-01" },
   };
   const result = await client
     .path(
@@ -33,7 +28,7 @@ async function virtualMachineExtensionsGetMaximumSetGen() {
       subscriptionId,
       resourceGroupName,
       vmName,
-      vmExtensionName
+      vmExtensionName,
     )
     .get(options);
   console.log(result);
@@ -54,7 +49,7 @@ async function virtualMachineExtensionsGetMinimumSetGen() {
   const vmName = "a";
   const vmExtensionName = "aaaaaaaaaaaaaaaaaaaaaaaaaaaa";
   const options: VirtualMachineExtensionsGetParameters = {
-    queryParameters: { "api-version": "2022-08-01" }
+    queryParameters: { "api-version": "2022-08-01" },
   };
   const result = await client
     .path(
@@ -62,7 +57,7 @@ async function virtualMachineExtensionsGetMinimumSetGen() {
       subscriptionId,
       resourceGroupName,
       vmName,
-      vmExtensionName
+      vmExtensionName,
     )
     .get(options);
   console.log(result);

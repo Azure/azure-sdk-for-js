@@ -10,17 +10,15 @@
 // Licensed under the MIT License.
 import { ComputeManagementClient } from "@azure/arm-compute";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to The operation to start a virtual machine.
  *
  * @summary The operation to start a virtual machine.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-07-01/examples/virtualMachineExamples/VirtualMachine_Start_MaximumSet_Gen.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-11-01/examples/virtualMachineExamples/VirtualMachine_Start_MaximumSet_Gen.json
  */
-async function virtualMachineStartMaximumSetGen() {
+async function virtualMachineStartMaximumSetGen(): Promise<void> {
   const subscriptionId =
     process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
   const resourceGroupName =
@@ -39,9 +37,9 @@ async function virtualMachineStartMaximumSetGen() {
  * This sample demonstrates how to The operation to start a virtual machine.
  *
  * @summary The operation to start a virtual machine.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-07-01/examples/virtualMachineExamples/VirtualMachine_Start_MinimumSet_Gen.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-11-01/examples/virtualMachineExamples/VirtualMachine_Start_MinimumSet_Gen.json
  */
-async function virtualMachineStartMinimumSetGen() {
+async function virtualMachineStartMinimumSetGen(): Promise<void> {
   const subscriptionId =
     process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
   const resourceGroupName =
@@ -56,9 +54,9 @@ async function virtualMachineStartMinimumSetGen() {
   console.log(result);
 }
 
-async function main() {
-  virtualMachineStartMaximumSetGen();
-  virtualMachineStartMinimumSetGen();
+async function main(): Promise<void> {
+  await virtualMachineStartMaximumSetGen();
+  await virtualMachineStartMinimumSetGen();
 }
 
 main().catch(console.error);

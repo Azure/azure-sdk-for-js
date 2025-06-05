@@ -6,6 +6,6 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-export * from "./fluidRelayOperations";
-export * from "./fluidRelayServers";
-export * from "./fluidRelayContainers";
+export * from "./fluidRelayOperations.js";
+export * from "./fluidRelayServers.js";
+export * from "./fluidRelayContainers.js";

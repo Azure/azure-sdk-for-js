@@ -6,17 +6,15 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
 const { PostgreSQLManagementFlexibleServerClient } = require("@azure/arm-postgresql-flexible");
 const { DefaultAzureCredential } = require("@azure/identity");
-require("dotenv").config();
+require("dotenv/config");
 
 /**
  * This sample demonstrates how to Gets details of a migration.
  *
  * @summary Gets details of a migration.
- * x-ms-original-file: specification/postgresql/resource-manager/Microsoft.DBforPostgreSQL/preview/2023-12-01-preview/examples/Migrations_Get.json
+ * x-ms-original-file: specification/postgresql/resource-manager/Microsoft.DBforPostgreSQL/preview/2025-01-01-preview/examples/Migrations_Get.json
  */
 async function migrationsGet() {
   const subscriptionId = "ffffffff-ffff-ffff-ffff-ffffffffffff";
@@ -38,7 +36,7 @@ async function migrationsGet() {
  * This sample demonstrates how to Gets details of a migration.
  *
  * @summary Gets details of a migration.
- * x-ms-original-file: specification/postgresql/resource-manager/Microsoft.DBforPostgreSQL/preview/2023-12-01-preview/examples/Migrations_GetMigrationWithSuccessfulValidationAndMigration.json
+ * x-ms-original-file: specification/postgresql/resource-manager/Microsoft.DBforPostgreSQL/preview/2025-01-01-preview/examples/Migrations_GetMigrationWithSuccessfulValidationAndMigration.json
  */
 async function migrationsGetMigrationWithSuccessfulValidationAndMigration() {
   const subscriptionId = "ffffffff-ffff-ffff-ffff-ffffffffffff";
@@ -60,7 +58,7 @@ async function migrationsGetMigrationWithSuccessfulValidationAndMigration() {
  * This sample demonstrates how to Gets details of a migration.
  *
  * @summary Gets details of a migration.
- * x-ms-original-file: specification/postgresql/resource-manager/Microsoft.DBforPostgreSQL/preview/2023-12-01-preview/examples/Migrations_GetMigrationWithSuccessfulValidationButMigrationFailure.json
+ * x-ms-original-file: specification/postgresql/resource-manager/Microsoft.DBforPostgreSQL/preview/2025-01-01-preview/examples/Migrations_GetMigrationWithSuccessfulValidationButMigrationFailure.json
  */
 async function migrationsGetMigrationWithSuccessfulValidationButMigrationFailure() {
   const subscriptionId = "ffffffff-ffff-ffff-ffff-ffffffffffff";
@@ -82,7 +80,7 @@ async function migrationsGetMigrationWithSuccessfulValidationButMigrationFailure
  * This sample demonstrates how to Gets details of a migration.
  *
  * @summary Gets details of a migration.
- * x-ms-original-file: specification/postgresql/resource-manager/Microsoft.DBforPostgreSQL/preview/2023-12-01-preview/examples/Migrations_GetMigrationWithSuccessfulValidationOnly.json
+ * x-ms-original-file: specification/postgresql/resource-manager/Microsoft.DBforPostgreSQL/preview/2025-01-01-preview/examples/Migrations_GetMigrationWithSuccessfulValidationOnly.json
  */
 async function migrationsGetMigrationWithSuccessfulValidationOnly() {
   const subscriptionId = "ffffffff-ffff-ffff-ffff-ffffffffffff";
@@ -104,7 +102,7 @@ async function migrationsGetMigrationWithSuccessfulValidationOnly() {
  * This sample demonstrates how to Gets details of a migration.
  *
  * @summary Gets details of a migration.
- * x-ms-original-file: specification/postgresql/resource-manager/Microsoft.DBforPostgreSQL/preview/2023-12-01-preview/examples/Migrations_GetMigrationWithValidationFailures.json
+ * x-ms-original-file: specification/postgresql/resource-manager/Microsoft.DBforPostgreSQL/preview/2025-01-01-preview/examples/Migrations_GetMigrationWithValidationFailures.json
  */
 async function migrationsGetMigrationWithValidationFailures() {
   const subscriptionId = "ffffffff-ffff-ffff-ffff-ffffffffffff";
@@ -123,11 +121,11 @@ async function migrationsGetMigrationWithValidationFailures() {
 }
 
 async function main() {
-  migrationsGet();
-  migrationsGetMigrationWithSuccessfulValidationAndMigration();
-  migrationsGetMigrationWithSuccessfulValidationButMigrationFailure();
-  migrationsGetMigrationWithSuccessfulValidationOnly();
-  migrationsGetMigrationWithValidationFailures();
+  await migrationsGet();
+  await migrationsGetMigrationWithSuccessfulValidationAndMigration();
+  await migrationsGetMigrationWithSuccessfulValidationButMigrationFailure();
+  await migrationsGetMigrationWithSuccessfulValidationOnly();
+  await migrationsGetMigrationWithValidationFailures();
 }
 
 main().catch(console.error);

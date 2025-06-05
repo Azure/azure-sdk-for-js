@@ -28,7 +28,7 @@ import {
   Workspace as WorkspaceMapper,
   WorkspacePatch as WorkspacePatchMapper,
   Table as TableMapper
-} from "../models/mappers";
+} from "../models/mappers.js";
 
 export const accept: OperationParameter = {
   parameterPath: "accept",

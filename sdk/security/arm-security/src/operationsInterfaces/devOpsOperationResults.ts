@@ -9,7 +9,7 @@
 import {
   DevOpsOperationResultsGetOptionalParams,
   DevOpsOperationResultsGetResponse,
-} from "../models";
+} from "../models/index.js";
 
 /** Interface representing a DevOpsOperationResults. */
 export interface DevOpsOperationResults {

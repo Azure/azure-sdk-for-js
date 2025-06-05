@@ -8,11 +8,11 @@
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import {
-  SubscriptionQuotaItem,
+  QuotaItem,
   NetAppResourceQuotaLimitsListOptionalParams,
   NetAppResourceQuotaLimitsGetOptionalParams,
   NetAppResourceQuotaLimitsGetResponse,
-} from "../models";
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a NetAppResourceQuotaLimits. */
@@ -25,7 +25,7 @@ export interface NetAppResourceQuotaLimits {
   list(
     location: string,
     options?: NetAppResourceQuotaLimitsListOptionalParams,
-  ): PagedAsyncIterableIterator<SubscriptionQuotaItem>;
+  ): PagedAsyncIterableIterator<QuotaItem>;
   /**
    * Get the default and current subscription quota limit
    * @param location The name of the Azure region.

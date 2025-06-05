@@ -10,13 +10,13 @@
 // Licensed under the MIT License.
 const { ComputeManagementClient } = require("@azure/arm-compute");
 const { DefaultAzureCredential } = require("@azure/identity");
-require("dotenv").config();
+require("dotenv/config");
 
 /**
  * This sample demonstrates how to Attach and detach data disks to/from the virtual machine.
  *
  * @summary Attach and detach data disks to/from the virtual machine.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-07-01/examples/virtualMachineExamples/VirtualMachine_AttachDetachDataDisks_MaximumSet_Gen.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-11-01/examples/virtualMachineExamples/VirtualMachine_AttachDetachDataDisks_MaximumSet_Gen.json
  */
 async function virtualMachineAttachDetachDataDisksMaximumSetGen() {
   const subscriptionId = process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
@@ -74,7 +74,7 @@ async function virtualMachineAttachDetachDataDisksMaximumSetGen() {
  * This sample demonstrates how to Attach and detach data disks to/from the virtual machine.
  *
  * @summary Attach and detach data disks to/from the virtual machine.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-07-01/examples/virtualMachineExamples/VirtualMachine_AttachDetachDataDisks_MinimumSet_Gen.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-11-01/examples/virtualMachineExamples/VirtualMachine_AttachDetachDataDisks_MinimumSet_Gen.json
  */
 async function virtualMachineAttachDetachDataDisksMinimumSetGen() {
   const subscriptionId = process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
@@ -105,8 +105,8 @@ async function virtualMachineAttachDetachDataDisksMinimumSetGen() {
 }
 
 async function main() {
-  virtualMachineAttachDetachDataDisksMaximumSetGen();
-  virtualMachineAttachDetachDataDisksMinimumSetGen();
+  await virtualMachineAttachDetachDataDisksMaximumSetGen();
+  await virtualMachineAttachDetachDataDisksMinimumSetGen();
 }
 
 main().catch(console.error);

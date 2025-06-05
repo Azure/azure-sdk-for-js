@@ -10,7 +10,7 @@
 // Licensed under the MIT License.
 const { ComputeManagementClient } = require("@azure/arm-compute");
 const { DefaultAzureCredential } = require("@azure/identity");
-require("dotenv").config();
+require("dotenv/config");
 
 /**
  * This sample demonstrates how to Get a shared gallery image version by subscription id or tenant id.
@@ -36,7 +36,7 @@ async function getASharedGalleryImageVersion() {
 }
 
 async function main() {
-  getASharedGalleryImageVersion();
+  await getASharedGalleryImageVersion();
 }
 
 main().catch(console.error);

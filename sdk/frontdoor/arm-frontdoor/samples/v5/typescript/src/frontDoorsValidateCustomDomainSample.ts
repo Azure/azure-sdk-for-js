@@ -13,9 +13,7 @@ import {
   FrontDoorManagementClient,
 } from "@azure/arm-frontdoor";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Validates the custom domain mapping to ensure it maps to the correct Front Door endpoint in DNS.
@@ -23,7 +21,7 @@ dotenv.config();
  * @summary Validates the custom domain mapping to ensure it maps to the correct Front Door endpoint in DNS.
  * x-ms-original-file: specification/frontdoor/resource-manager/Microsoft.Network/stable/2021-06-01/examples/FrontdoorValidateCustomDomain.json
  */
-async function frontDoorValidateCustomDomain() {
+async function frontDoorValidateCustomDomain(): Promise<void> {
   const subscriptionId = process.env["FRONTDOOR_SUBSCRIPTION_ID"] || "subid";
   const resourceGroupName = process.env["FRONTDOOR_RESOURCE_GROUP"] || "rg1";
   const frontDoorName = "frontDoor1";
@@ -40,7 +38,7 @@ async function frontDoorValidateCustomDomain() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   frontDoorValidateCustomDomain();
 }
 

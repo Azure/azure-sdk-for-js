@@ -20,7 +20,7 @@ class BasicClient {
       packageName: "@azure/some-example-package",
       packageVersion: "1.0.0",
       // The Resource Provider, which should normally be one of the values defined here:
-      // https://docs.microsoft.com/azure/azure-resource-manager/management/azure-services-resource-providers
+      // https://learn.microsoft.com/azure/azure-resource-manager/management/azure-services-resource-providers
       namespace: "Microsoft.Sample",
     });
   }

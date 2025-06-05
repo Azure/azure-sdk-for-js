@@ -3,7 +3,7 @@
 
 import { type LogPolicyOptions, logPolicy } from "./policies/logPolicy.js";
 import { type Pipeline, createEmptyPipeline } from "./pipeline.js";
-import type { PipelineRetryOptions, TlsSettings, ProxySettings } from "./interfaces.js";
+import type { Agent, PipelineRetryOptions, ProxySettings, TlsSettings } from "./interfaces.js";
 import { type RedirectPolicyOptions, redirectPolicy } from "./policies/redirectPolicy.js";
 import { type UserAgentPolicyOptions, userAgentPolicy } from "./policies/userAgentPolicy.js";
 import { multipartPolicy, multipartPolicyName } from "./policies/multipartPolicy.js";
@@ -13,8 +13,10 @@ import { formDataPolicy } from "./policies/formDataPolicy.js";
 import { isNodeLike } from "@azure/core-util";
 import { proxyPolicy } from "./policies/proxyPolicy.js";
 import { setClientRequestIdPolicy } from "./policies/setClientRequestIdPolicy.js";
+import { agentPolicy } from "./policies/agentPolicy.js";
 import { tlsPolicy } from "./policies/tlsPolicy.js";
 import { tracingPolicy } from "./policies/tracingPolicy.js";
+import { wrapAbortSignalLikePolicy } from "./policies/wrapAbortSignalLikePolicy.js";
 
 /**
  * Defines options that are used to configure the HTTP pipeline for
@@ -30,6 +32,9 @@ export interface PipelineOptions {
    * Options to configure a proxy for outgoing requests.
    */
   proxyOptions?: ProxySettings;
+
+  /** Options for configuring Agent instance for outgoing requests */
+  agent?: Agent;
 
   /** Options for configuring TLS authentication */
   tlsOptions?: TlsSettings;
@@ -79,12 +84,17 @@ export function createPipelineFromOptions(options: InternalPipelineOptions): Pip
   const pipeline = createEmptyPipeline();
 
   if (isNodeLike) {
+    if (options.agent) {
+      pipeline.addPolicy(agentPolicy(options.agent));
+    }
     if (options.tlsOptions) {
       pipeline.addPolicy(tlsPolicy(options.tlsOptions));
     }
     pipeline.addPolicy(proxyPolicy(options.proxyOptions));
     pipeline.addPolicy(decompressResponsePolicy());
   }
+
+  pipeline.addPolicy(wrapAbortSignalLikePolicy());
 
   pipeline.addPolicy(formDataPolicy(), { beforePolicies: [multipartPolicyName] });
   pipeline.addPolicy(userAgentPolicy(options.userAgentOptions));

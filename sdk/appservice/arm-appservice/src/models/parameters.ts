@@ -38,7 +38,6 @@ import {
   VnetRoute as VnetRouteMapper,
   Certificate as CertificateMapper,
   CertificatePatchResource as CertificatePatchResourceMapper,
-  ContainerApp as ContainerAppMapper,
   KubeEnvironment as KubeEnvironmentMapper,
   KubeEnvironmentPatchResource as KubeEnvironmentPatchResourceMapper,
   User as UserMapper,
@@ -141,7 +140,7 @@ export const subscriptionId: OperationURLParameter = {
 export const apiVersion: OperationQueryParameter = {
   parameterPath: "apiVersion",
   mapper: {
-    defaultValue: "2023-12-01",
+    defaultValue: "2024-04-01",
     isConstant: true,
     serializedName: "api-version",
     type: {
@@ -643,23 +642,6 @@ export const certificateEnvelope: OperationParameter = {
 export const certificateEnvelope1: OperationParameter = {
   parameterPath: "certificateEnvelope",
   mapper: CertificatePatchResourceMapper,
-};
-
-export const containerAppEnvelope: OperationParameter = {
-  parameterPath: "containerAppEnvelope",
-  mapper: ContainerAppMapper,
-};
-
-export const containerAppName: OperationURLParameter = {
-  parameterPath: "containerAppName",
-  mapper: {
-    serializedName: "containerAppName",
-    required: true,
-    xmlName: "containerAppName",
-    type: {
-      name: "String",
-    },
-  },
 };
 
 export const location: OperationURLParameter = {

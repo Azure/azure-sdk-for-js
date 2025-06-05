@@ -6,17 +6,15 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
 const { PostgreSQLManagementFlexibleServerClient } = require("@azure/arm-postgresql-flexible");
 const { DefaultAzureCredential } = require("@azure/identity");
-require("dotenv").config();
+require("dotenv/config");
 
 /**
  * This sample demonstrates how to Creates or updates a server's Advanced Threat Protection settings.
  *
  * @summary Creates or updates a server's Advanced Threat Protection settings.
- * x-ms-original-file: specification/postgresql/resource-manager/Microsoft.DBforPostgreSQL/preview/2023-12-01-preview/examples/ServerThreatProtectionSettingsCreateOrUpdate.json
+ * x-ms-original-file: specification/postgresql/resource-manager/Microsoft.DBforPostgreSQL/preview/2025-01-01-preview/examples/ServerThreatProtectionSettingsCreateOrUpdate.json
  */
 async function updateAServerThreatProtectionSettings() {
   const subscriptionId =
@@ -37,7 +35,7 @@ async function updateAServerThreatProtectionSettings() {
 }
 
 async function main() {
-  updateAServerThreatProtectionSettings();
+  await updateAServerThreatProtectionSettings();
 }
 
 main().catch(console.error);

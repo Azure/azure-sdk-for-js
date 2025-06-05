@@ -6,24 +6,21 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
+import type {
+  VirtualNetworkGatewayNatRule} from "@azure/arm-network";
 import {
-  VirtualNetworkGatewayNatRule,
   NetworkManagementClient,
 } from "@azure/arm-network";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Creates a nat rule to a scalable virtual network gateway if it doesn't exist else updates the existing nat rules.
  *
  * @summary Creates a nat rule to a scalable virtual network gateway if it doesn't exist else updates the existing nat rules.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2024-05-01/examples/VirtualNetworkGatewayNatRulePut.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2024-07-01/examples/VirtualNetworkGatewayNatRulePut.json
  */
-async function virtualNetworkGatewayNatRulePut() {
+async function virtualNetworkGatewayNatRulePut(): Promise<void> {
   const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";
   const resourceGroupName = process.env["NETWORK_RESOURCE_GROUP"] || "rg1";
   const virtualNetworkGatewayName = "gateway1";
@@ -50,8 +47,8 @@ async function virtualNetworkGatewayNatRulePut() {
   console.log(result);
 }
 
-async function main() {
-  virtualNetworkGatewayNatRulePut();
+async function main(): Promise<void> {
+  await virtualNetworkGatewayNatRulePut();
 }
 
 main().catch(console.error);

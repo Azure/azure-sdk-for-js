@@ -18,7 +18,8 @@ export type ActionType = string;
 
 // @public
 export interface ContainerGroupInstanceCountSummary {
-    instanceCountsByState: PoolResourceStateCount[];
+    instanceCountsByState: PoolContainerGroupStateCount[];
+    zone?: number;
 }
 
 // @public
@@ -42,6 +43,29 @@ export type ContinuablePage<TElement, TPage = TElement[]> = TPage & {
 export type CreatedByType = string;
 
 // @public
+export interface ErrorAdditionalInfo {
+    readonly info?: Record<string, any>;
+    readonly type?: string;
+}
+
+// @public
+export interface ErrorDetail {
+    readonly additionalInfo?: ErrorAdditionalInfo[];
+    readonly code?: string;
+    readonly details?: ErrorDetail[];
+    readonly message?: string;
+    readonly target?: string;
+}
+
+// @public
+export interface ErrorResponse {
+    error?: ErrorDetail;
+}
+
+// @public
+export type HealthStateCode = string;
+
+// @public
 export enum KnownActionType {
     Internal = "Internal"
 }
@@ -55,10 +79,35 @@ export enum KnownCreatedByType {
 }
 
 // @public
+export enum KnownHealthStateCode {
+    Degraded = "HealthState/degraded",
+    Healthy = "HealthState/healthy"
+}
+
+// @public
 export enum KnownOrigin {
     System = "system",
     User = "user",
     UserSystem = "user,system"
+}
+
+// @public
+export enum KnownPoolContainerGroupState {
+    Creating = "Creating",
+    Deleting = "Deleting",
+    Running = "Running"
+}
+
+// @public
+export enum KnownPoolVirtualMachineState {
+    Creating = "Creating",
+    Deallocated = "Deallocated",
+    Deallocating = "Deallocating",
+    Deleting = "Deleting",
+    Hibernated = "Hibernated",
+    Hibernating = "Hibernating",
+    Running = "Running",
+    Starting = "Starting"
 }
 
 // @public
@@ -75,15 +124,22 @@ export enum KnownRefillPolicy {
 }
 
 // @public
+export enum KnownVersions {
+    _20240301 = "2024-03-01",
+    _20250301 = "2025-03-01"
+}
+
+// @public
 export enum KnownVirtualMachineState {
     Deallocated = "Deallocated",
+    Hibernated = "Hibernated",
     Running = "Running"
 }
 
 // @public
 export interface Operation {
-    actionType?: ActionType;
-    readonly display?: OperationDisplay;
+    readonly actionType?: ActionType;
+    display?: OperationDisplay;
     readonly isDataAction?: boolean;
     readonly name?: string;
     readonly origin?: Origin;
@@ -122,9 +178,27 @@ export interface PageSettings {
 }
 
 // @public
-export interface PoolResourceStateCount {
+export type PoolContainerGroupState = string;
+
+// @public
+export interface PoolContainerGroupStateCount {
     count: number;
-    state: string;
+    state: PoolContainerGroupState;
+}
+
+// @public
+export interface PoolStatus {
+    readonly code: HealthStateCode;
+    readonly message?: string;
+}
+
+// @public
+export type PoolVirtualMachineState = string;
+
+// @public
+export interface PoolVirtualMachineStateCount {
+    count: number;
+    state: PoolVirtualMachineState;
 }
 
 // @public
@@ -162,6 +236,18 @@ export interface StandbyContainerGroupPoolElasticityProfile {
 }
 
 // @public
+export interface StandbyContainerGroupPoolForecastValues {
+    readonly instancesRequestedCount: number[];
+}
+
+// @public
+export interface StandbyContainerGroupPoolPrediction {
+    readonly forecastInfo: string;
+    readonly forecastStartTime: Date;
+    readonly forecastValues: StandbyContainerGroupPoolForecastValues;
+}
+
+// @public
 export interface StandbyContainerGroupPoolResource extends TrackedResource {
     properties?: StandbyContainerGroupPoolResourceProperties;
 }
@@ -171,6 +257,7 @@ export interface StandbyContainerGroupPoolResourceProperties {
     containerGroupProperties: ContainerGroupProperties;
     elasticityProfile: StandbyContainerGroupPoolElasticityProfile;
     readonly provisioningState?: ProvisioningState;
+    zones?: string[];
 }
 
 // @public
@@ -183,6 +270,7 @@ export interface StandbyContainerGroupPoolResourceUpdate {
 export interface StandbyContainerGroupPoolResourceUpdateProperties {
     containerGroupProperties?: ContainerGroupProperties;
     elasticityProfile?: StandbyContainerGroupPoolElasticityProfile;
+    zones?: string[];
 }
 
 // @public
@@ -193,7 +281,9 @@ export interface StandbyContainerGroupPoolRuntimeViewResource extends ProxyResou
 // @public
 export interface StandbyContainerGroupPoolRuntimeViewResourceProperties {
     readonly instanceCountSummary: ContainerGroupInstanceCountSummary[];
+    readonly prediction?: StandbyContainerGroupPoolPrediction;
     readonly provisioningState?: ProvisioningState;
+    readonly status?: PoolStatus;
 }
 
 // @public
@@ -270,6 +360,18 @@ export interface StandbyVirtualMachinePoolElasticityProfile {
 }
 
 // @public
+export interface StandbyVirtualMachinePoolForecastValues {
+    readonly instancesRequestedCount: number[];
+}
+
+// @public
+export interface StandbyVirtualMachinePoolPrediction {
+    readonly forecastInfo: string;
+    readonly forecastStartTime: Date;
+    readonly forecastValues: StandbyVirtualMachinePoolForecastValues;
+}
+
+// @public
 export interface StandbyVirtualMachinePoolResource extends TrackedResource {
     properties?: StandbyVirtualMachinePoolResourceProperties;
 }
@@ -303,7 +405,9 @@ export interface StandbyVirtualMachinePoolRuntimeViewResource extends ProxyResou
 // @public
 export interface StandbyVirtualMachinePoolRuntimeViewResourceProperties {
     readonly instanceCountSummary: VirtualMachineInstanceCountSummary[];
+    readonly prediction?: StandbyVirtualMachinePoolPrediction;
     readonly provisioningState?: ProvisioningState;
+    readonly status?: PoolStatus;
 }
 
 // @public
@@ -404,7 +508,7 @@ export interface TrackedResource extends Resource {
 
 // @public
 export interface VirtualMachineInstanceCountSummary {
-    instanceCountsByState: PoolResourceStateCount[];
+    instanceCountsByState: PoolVirtualMachineStateCount[];
     zone?: number;
 }
 

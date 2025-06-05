@@ -37,7 +37,7 @@ import {
   DeletedBackupInstancesImpl,
   ResourceGuardsImpl,
   DppResourceGuardProxyImpl,
-} from "./operations";
+} from "./operations/index.js";
 import {
   BackupVaults,
   OperationResult,
@@ -61,8 +61,8 @@ import {
   DeletedBackupInstances,
   ResourceGuards,
   DppResourceGuardProxy,
-} from "./operationsInterfaces";
-import { DataProtectionClientOptionalParams } from "./models";
+} from "./operationsInterfaces/index.js";
+import { DataProtectionClientOptionalParams } from "./models/index.js";
 
 export class DataProtectionClient extends coreClient.ServiceClient {
   $host: string;

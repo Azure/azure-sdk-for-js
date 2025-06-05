@@ -6,21 +6,18 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
-import { AdminRule, NetworkManagementClient } from "@azure/arm-network";
+import type { AdminRule} from "@azure/arm-network";
+import { NetworkManagementClient } from "@azure/arm-network";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Creates or updates an admin rule.
  *
  * @summary Creates or updates an admin rule.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2024-05-01/examples/NetworkManagerAdminRulePut_NetworkGroupSource.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2024-07-01/examples/NetworkManagerAdminRulePut_NetworkGroupSource.json
  */
-async function createAAdminRuleWithNetworkGroupAsSourceOrDestination() {
+async function createAAdminRuleWithNetworkGroupAsSourceOrDestination(): Promise<void> {
   const subscriptionId =
     process.env["NETWORK_SUBSCRIPTION_ID"] ||
     "00000000-0000-0000-0000-000000000000";
@@ -64,9 +61,9 @@ async function createAAdminRuleWithNetworkGroupAsSourceOrDestination() {
  * This sample demonstrates how to Creates or updates an admin rule.
  *
  * @summary Creates or updates an admin rule.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2024-05-01/examples/NetworkManagerAdminRulePut.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2024-07-01/examples/NetworkManagerAdminRulePut.json
  */
-async function createAnAdminRule() {
+async function createAnAdminRule(): Promise<void> {
   const subscriptionId =
     process.env["NETWORK_SUBSCRIPTION_ID"] ||
     "00000000-0000-0000-0000-000000000000";
@@ -100,9 +97,9 @@ async function createAnAdminRule() {
   console.log(result);
 }
 
-async function main() {
-  createAAdminRuleWithNetworkGroupAsSourceOrDestination();
-  createAnAdminRule();
+async function main(): Promise<void> {
+  await createAAdminRuleWithNetworkGroupAsSourceOrDestination();
+  await createAnAdminRule();
 }
 
 main().catch(console.error);

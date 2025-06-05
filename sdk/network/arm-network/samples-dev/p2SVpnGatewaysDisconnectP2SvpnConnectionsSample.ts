@@ -6,24 +6,21 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
+import type {
+  P2SVpnConnectionRequest} from "@azure/arm-network";
 import {
-  P2SVpnConnectionRequest,
   NetworkManagementClient,
 } from "@azure/arm-network";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Disconnect P2S vpn connections of the virtual wan P2SVpnGateway in the specified resource group.
  *
  * @summary Disconnect P2S vpn connections of the virtual wan P2SVpnGateway in the specified resource group.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2024-05-01/examples/P2sVpnGatewaysDisconnectP2sVpnConnections.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2024-07-01/examples/P2sVpnGatewaysDisconnectP2sVpnConnections.json
  */
-async function disconnectVpnConnectionsFromP2SVpnGateway() {
+async function disconnectVpnConnectionsFromP2SVpnGateway(): Promise<void> {
   const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";
   const resourceGroupName =
     process.env["NETWORK_RESOURCE_GROUP"] || "p2s-vpn-gateway-test";
@@ -42,8 +39,8 @@ async function disconnectVpnConnectionsFromP2SVpnGateway() {
   console.log(result);
 }
 
-async function main() {
-  disconnectVpnConnectionsFromP2SVpnGateway();
+async function main(): Promise<void> {
+  await disconnectVpnConnectionsFromP2SVpnGateway();
 }
 
 main().catch(console.error);

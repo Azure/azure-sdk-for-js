@@ -10,17 +10,15 @@
 // Licensed under the MIT License.
 import { ComputeManagementClient } from "@azure/arm-compute";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Retrieves information about an SSH public key.
  *
  * @summary Retrieves information about an SSH public key.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-07-01/examples/sshPublicKeyExamples/SshPublicKey_Get.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-11-01/examples/sshPublicKeyExamples/SshPublicKey_Get.json
  */
-async function getAnSshPublicKey() {
+async function getAnSshPublicKey(): Promise<void> {
   const subscriptionId =
     process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscriptionId}";
   const resourceGroupName =
@@ -35,8 +33,8 @@ async function getAnSshPublicKey() {
   console.log(result);
 }
 
-async function main() {
-  getAnSshPublicKey();
+async function main(): Promise<void> {
+  await getAnSshPublicKey();
 }
 
 main().catch(console.error);

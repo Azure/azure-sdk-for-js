@@ -10,17 +10,15 @@
 // Licensed under the MIT License.
 import { ContainerRegistryManagementClient } from "@azure/arm-containerregistry";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Gets the count of queued runs for a given agent pool.
  *
  * @summary Gets the count of queued runs for a given agent pool.
- * x-ms-original-file: specification/containerregistry/resource-manager/Microsoft.ContainerRegistry/preview/2019-06-01-preview/examples/AgentPoolsGetQueueStatus.json
+ * x-ms-original-file: specification/containerregistry/resource-manager/Microsoft.ContainerRegistry/preview/2025-03-01-preview/examples/AgentPoolsGetQueueStatus.json
  */
-async function agentPoolsGetQueueStatus() {
+async function agentPoolsGetQueueStatus(): Promise<void> {
   const subscriptionId =
     process.env["CONTAINERREGISTRY_SUBSCRIPTION_ID"] ||
     "4385cf00-2d3a-425a-832f-f4285b1c9dce";
@@ -31,18 +29,18 @@ async function agentPoolsGetQueueStatus() {
   const credential = new DefaultAzureCredential();
   const client = new ContainerRegistryManagementClient(
     credential,
-    subscriptionId
+    subscriptionId,
   );
   const result = await client.agentPools.getQueueStatus(
     resourceGroupName,
     registryName,
-    agentPoolName
+    agentPoolName,
   );
   console.log(result);
 }
 
-async function main() {
-  agentPoolsGetQueueStatus();
+async function main(): Promise<void> {
+  await agentPoolsGetQueueStatus();
 }
 
 main().catch(console.error);

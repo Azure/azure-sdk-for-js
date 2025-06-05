@@ -6,21 +6,17 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
 import { PostgreSQLManagementFlexibleServerClient } from "@azure/arm-postgresql-flexible";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Get capabilities for a flexible server.
  *
  * @summary Get capabilities for a flexible server.
- * x-ms-original-file: specification/postgresql/resource-manager/Microsoft.DBforPostgreSQL/preview/2023-12-01-preview/examples/ServerCapabilities.json
+ * x-ms-original-file: specification/postgresql/resource-manager/Microsoft.DBforPostgreSQL/preview/2025-01-01-preview/examples/ServerCapabilities.json
  */
-async function serverCapabilitiesList() {
+async function serverCapabilitiesList(): Promise<void> {
   const subscriptionId =
     process.env["POSTGRESQL_SUBSCRIPTION_ID"] ||
     "ffffffff-ffff-ffff-ffff-ffffffffffff";
@@ -33,7 +29,7 @@ async function serverCapabilitiesList() {
     subscriptionId,
   );
   const resArray = new Array();
-  for await (let item of client.serverCapabilities.list(
+  for await (const item of client.serverCapabilities.list(
     resourceGroupName,
     serverName,
   )) {
@@ -42,8 +38,8 @@ async function serverCapabilitiesList() {
   console.log(resArray);
 }
 
-async function main() {
-  serverCapabilitiesList();
+async function main(): Promise<void> {
+  await serverCapabilitiesList();
 }
 
 main().catch(console.error);

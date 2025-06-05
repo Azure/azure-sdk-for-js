@@ -10,9 +10,7 @@
 // Licensed under the MIT License.
 import { SynapseManagementClient } from "@azure/arm-synapse";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Returns the list of attached database configurations of the given Kusto Pool.
@@ -20,7 +18,7 @@ dotenv.config();
  * @summary Returns the list of attached database configurations of the given Kusto Pool.
  * x-ms-original-file: specification/synapse/resource-manager/Microsoft.Synapse/preview/2021-06-01-preview/examples/KustoPoolAttachedDatabaseConfigurationsListByKustoPool.json
  */
-async function kustoPoolAttachedDatabaseConfigurationsListByKustoPool() {
+async function kustoPoolAttachedDatabaseConfigurationsListByKustoPool(): Promise<void> {
   const subscriptionId =
     process.env["SYNAPSE_SUBSCRIPTION_ID"] ||
     "12345678-1234-1234-1234-123456789098";
@@ -41,7 +39,7 @@ async function kustoPoolAttachedDatabaseConfigurationsListByKustoPool() {
   console.log(resArray);
 }
 
-async function main() {
+async function main(): Promise<void> {
   kustoPoolAttachedDatabaseConfigurationsListByKustoPool();
 }
 

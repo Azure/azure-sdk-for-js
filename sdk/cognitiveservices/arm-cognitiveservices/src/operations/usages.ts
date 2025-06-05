@@ -7,19 +7,19 @@
  */
 
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
-import { setContinuationToken } from "../pagingHelper";
-import { Usages } from "../operationsInterfaces";
+import { setContinuationToken } from "../pagingHelper.js";
+import { Usages } from "../operationsInterfaces/index.js";
 import * as coreClient from "@azure/core-client";
-import * as Mappers from "../models/mappers";
-import * as Parameters from "../models/parameters";
-import { CognitiveServicesManagementClient } from "../cognitiveServicesManagementClient";
+import * as Mappers from "../models/mappers.js";
+import * as Parameters from "../models/parameters.js";
+import { CognitiveServicesManagementClient } from "../cognitiveServicesManagementClient.js";
 import {
   Usage,
   UsagesListNextOptionalParams,
   UsagesListOptionalParams,
   UsagesListResponse,
   UsagesListNextResponse,
-} from "../models";
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Class containing Usages operations. */
@@ -97,14 +97,8 @@ export class UsagesImpl implements Usages {
    * @param location Resource location.
    * @param options The options parameters.
    */
-  private _list(
-    location: string,
-    options?: UsagesListOptionalParams,
-  ): Promise<UsagesListResponse> {
-    return this.client.sendOperationRequest(
-      { location, options },
-      listOperationSpec,
-    );
+  private _list(location: string, options?: UsagesListOptionalParams): Promise<UsagesListResponse> {
+    return this.client.sendOperationRequest({ location, options }, listOperationSpec);
   }
 
   /**
@@ -118,10 +112,7 @@ export class UsagesImpl implements Usages {
     nextLink: string,
     options?: UsagesListNextOptionalParams,
   ): Promise<UsagesListNextResponse> {
-    return this.client.sendOperationRequest(
-      { location, nextLink, options },
-      listNextOperationSpec,
-    );
+    return this.client.sendOperationRequest({ location, nextLink, options }, listNextOperationSpec);
   }
 }
 // Operation Specifications
@@ -139,11 +130,7 @@ const listOperationSpec: coreClient.OperationSpec = {
     },
   },
   queryParameters: [Parameters.apiVersion, Parameters.filter],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.location,
-  ],
+  urlParameters: [Parameters.$host, Parameters.subscriptionId, Parameters.location],
   headerParameters: [Parameters.accept],
   serializer,
 };

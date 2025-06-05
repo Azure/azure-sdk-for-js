@@ -6,8 +6,8 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-export * from "./endpoints";
-export * from "./profiles";
-export * from "./geographicHierarchies";
-export * from "./heatMap";
-export * from "./trafficManagerUserMetricsKeys";
+export * from "./endpoints.js";
+export * from "./profiles.js";
+export * from "./geographicHierarchies.js";
+export * from "./heatMap.js";
+export * from "./trafficManagerUserMetricsKeys.js";

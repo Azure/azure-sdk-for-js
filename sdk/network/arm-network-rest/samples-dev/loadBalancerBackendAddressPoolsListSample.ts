@@ -1,16 +1,9 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
-import createNetworkManagementClient, {
-  LoadBalancerBackendAddressPoolsListParameters,
-  paginate,
-} from "@azure-rest/arm-network";
+import type { LoadBalancerBackendAddressPoolsListParameters } from "@azure-rest/arm-network";
+import createNetworkManagementClient, { paginate } from "@azure-rest/arm-network";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Gets all the load balancer backed address pools.
@@ -18,7 +11,7 @@ dotenv.config();
  * @summary Gets all the load balancer backed address pools.
  * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-05-01/examples/LBBackendAddressPoolListWithBackendAddressesPoolType.json
  */
-async function loadBalancerWithBackendAddressPoolContainingBackendAddresses() {
+async function loadBalancerWithBackendAddressPoolContainingBackendAddresses(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = createNetworkManagementClient(credential);
   const subscriptionId = "";
@@ -50,7 +43,7 @@ loadBalancerWithBackendAddressPoolContainingBackendAddresses().catch(console.err
  * @summary Gets all the load balancer backed address pools.
  * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-05-01/examples/LoadBalancerBackendAddressPoolList.json
  */
-async function loadBalancerBackendAddressPoolList() {
+async function loadBalancerBackendAddressPoolList(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = createNetworkManagementClient(credential);
   const subscriptionId = "";

@@ -3,21 +3,19 @@
 
 /**
  * @summary This sample demonstrates data feed management operations.
+ * @azsdk-weight 80
  */
 
-// Load the .env file if it exists
-import * as dotenv from "dotenv";
-dotenv.config();
-
+import "dotenv/config";
 import {
   MetricsAdvisorKeyCredential,
   MetricsAdvisorAdministrationClient,
   MetricsAdvisorDataFeed,
   DataFeedPatch,
-  DataFeedDescriptor
+  DataFeedDescriptor,
 } from "@azure/ai-metrics-advisor";
 
-export async function main() {
+export async function main(): Promise<void> {
   // You will need to set these environment variables or edit the following values
   const endpoint = process.env["METRICS_ADVISOR_ENDPOINT"] || "<service endpoint>";
   const subscriptionKey = process.env["METRICS_ADVISOR_SUBSCRIPTION_KEY"] || "<subscription key>";
@@ -33,13 +31,13 @@ export async function main() {
   await deleteDataFeed(adminClient, created.id);
 }
 
-async function listDataFeeds(client: MetricsAdvisorAdministrationClient) {
+async function listDataFeeds(client: MetricsAdvisorAdministrationClient): Promise<void> {
   console.log("Listing Datafeeds ...");
   console.log("  using while loop");
   const iter = client.listDataFeeds({
     filter: {
-      dataFeedName: "js-blob-datafeed"
-    }
+      dataFeedName: "js-blob-datafeed",
+    },
   });
   let result = await iter.next();
   while (!result.done) {
@@ -71,7 +69,7 @@ async function listDataFeeds(client: MetricsAdvisorAdministrationClient) {
 }
 
 async function createDataFeed(
-  client: MetricsAdvisorAdministrationClient
+  client: MetricsAdvisorAdministrationClient,
 ): Promise<MetricsAdvisorDataFeed> {
   console.log("Creating Datafeed...");
   const feed: DataFeedDescriptor = {
@@ -84,47 +82,47 @@ async function createDataFeed(
       container: process.env.METRICS_ADVISOR_AZURE_BLOB_CONTAINER || "<Azure Blob container name>",
       blobTemplate:
         process.env.METRICS_ADVISOR_AZURE_BLOB_TEMPLATE || "<Azure Blob data file name template>",
-      authenticationType: "Basic"
+      authenticationType: "Basic",
     },
     granularity: {
-      granularityType: "Daily"
+      granularityType: "Daily",
     },
     schema: {
       metrics: [
         {
           name: "Metric1",
           displayName: "Metric1 display",
-          description: ""
+          description: "",
         },
         {
           name: "Metric2",
           displayName: "Metric2 display",
-          description: ""
-        }
+          description: "",
+        },
       ],
       dimensions: [
         { name: "Dim1", displayName: "Dim1 display" },
-        { name: "Dim2", displayName: "Dim2 display" }
+        { name: "Dim2", displayName: "Dim2 display" },
       ],
-      timestampColumn: undefined
+      timestampColumn: undefined,
     },
     ingestionSettings: {
       ingestionStartTime: new Date(Date.UTC(2020, 8, 21)),
       ingestionStartOffsetInSeconds: 0,
       dataSourceRequestConcurrency: -1,
       ingestionRetryDelayInSeconds: -1,
-      stopRetryAfterInSeconds: -1
+      stopRetryAfterInSeconds: -1,
     },
     rollupSettings: {
       rollupType: "AutoRollup",
       rollupMethod: "Sum",
-      rollupIdentificationValue: "__CUSTOM_SUM__"
+      rollupIdentificationValue: "__CUSTOM_SUM__",
     },
     missingDataPointFillSettings: {
       fillType: "CustomValue",
-      customFillValue: 567
+      customFillValue: 567,
     },
-    accessMode: "Private"
+    accessMode: "Private",
   };
   const result = await client.createDataFeed(feed);
 
@@ -132,7 +130,10 @@ async function createDataFeed(
   return result;
 }
 
-async function getDataFeed(client: MetricsAdvisorAdministrationClient, dataFeedId: string) {
+async function getDataFeed(
+  client: MetricsAdvisorAdministrationClient,
+  dataFeedId: string,
+): Promise<void> {
   console.log("Retrieving datafeed by id...");
   const result = await client.getDataFeed(dataFeedId);
   console.log("datafeed result is as follows - ");
@@ -141,24 +142,27 @@ async function getDataFeed(client: MetricsAdvisorAdministrationClient, dataFeedI
   console.log(`  name: ${result.name}`);
 }
 
-async function updateDataFeed(client: MetricsAdvisorAdministrationClient, dataFeedId: string) {
+async function updateDataFeed(
+  client: MetricsAdvisorAdministrationClient,
+  dataFeedId: string,
+): Promise<void> {
   const patch: DataFeedPatch = {
     source: {
       dataSourceType: "AzureBlob",
-      authenticationType: "ManagedIdentity"
+      authenticationType: "ManagedIdentity",
     },
     name: "new name test-datafeed " + new Date().getTime().toString(),
     ingestionSettings: {
       ingestionStartTime: new Date(Date.UTC(2020, 8, 15)),
       ingestionRetryDelayInSeconds: 3000,
       stopRetryAfterInSeconds: 667777,
-      ingestionStartOffsetInSeconds: 4444
+      ingestionStartOffsetInSeconds: 4444,
     },
     description: "New datafeed description",
     missingDataPointFillSettings: {
-      fillType: "SmartFilling"
+      fillType: "SmartFilling",
     },
-    status: "Paused"
+    status: "Paused",
   };
 
   try {
@@ -171,7 +175,10 @@ async function updateDataFeed(client: MetricsAdvisorAdministrationClient, dataFe
   }
 }
 
-async function deleteDataFeed(client: MetricsAdvisorAdministrationClient, dataFeedId: string) {
+async function deleteDataFeed(
+  client: MetricsAdvisorAdministrationClient,
+  dataFeedId: string,
+): Promise<void> {
   console.log(`Deleting datafeed ${dataFeedId}...`);
   await client.deleteDataFeed(dataFeedId);
 }

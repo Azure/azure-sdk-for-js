@@ -1,5 +1,32 @@
 # Release History
     
+## 5.3.0-beta.1 (2025-02-12)
+Compared with version 5.2.0
+    
+### Features Added
+
+  - Added operation Namespaces.beginFailover
+  - Added operation Namespaces.beginFailoverAndWait
+  - Added Interface FailOver
+  - Added Interface GeoDataReplicationProperties
+  - Added Interface MessageTimestampDescription
+  - Added Interface NamespaceReplicaLocation
+  - Added Interface NamespacesFailoverHeaders
+  - Added Interface NamespacesFailoverOptionalParams
+  - Added Type Alias GeoDRRoleType
+  - Added Type Alias NamespacesFailoverResponse
+  - Added Type Alias TimestampType
+  - Interface EHNamespace has a new optional parameter geoDataReplication
+  - Interface Eventhub has a new optional parameter identifier
+  - Interface Eventhub has a new optional parameter messageTimestampDescription
+  - Interface RetentionDescription has a new optional parameter minCompactionLagInMins
+  - Added Enum KnownGeoDRRoleType
+  - Added Enum KnownTimestampType
+  - Enum KnownCleanupPolicyRetentionDescription has a new value DeleteOrCompact
+  - Enum KnownSchemaType has a new value Json
+  - Enum KnownSchemaType has a new value ProtoBuf
+    
+    
 ## 5.2.0 (2024-07-18)
     
 ### Features Added

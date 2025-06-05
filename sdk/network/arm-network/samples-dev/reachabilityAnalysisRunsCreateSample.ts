@@ -6,24 +6,21 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
+import type {
+  ReachabilityAnalysisRun} from "@azure/arm-network";
 import {
-  ReachabilityAnalysisRun,
   NetworkManagementClient,
 } from "@azure/arm-network";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Creates Reachability Analysis Runs.
  *
  * @summary Creates Reachability Analysis Runs.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2024-05-01/examples/ReachabilityAnalysisRunPut.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2024-07-01/examples/ReachabilityAnalysisRunPut.json
  */
-async function reachabilityAnalysisRunCreate() {
+async function reachabilityAnalysisRunCreate(): Promise<void> {
   const subscriptionId =
     process.env["NETWORK_SUBSCRIPTION_ID"] ||
     "00000000-0000-0000-0000-000000000000";
@@ -50,8 +47,8 @@ async function reachabilityAnalysisRunCreate() {
   console.log(result);
 }
 
-async function main() {
-  reachabilityAnalysisRunCreate();
+async function main(): Promise<void> {
+  await reachabilityAnalysisRunCreate();
 }
 
 main().catch(console.error);

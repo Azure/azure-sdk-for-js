@@ -1,27 +1,38 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { InternalEnvironmentVariables, ServiceAuth } from "../common/constants";
-import customerConfig from "../common/customerConfig";
-import { PlaywrightServiceConfig } from "../common/playwrightServiceConfig";
-import playwrightServiceEntra from "./playwrightServiceEntra";
-import type { PlaywrightServiceAdditionalOptions, BrowserConnectOptions } from "../common/types";
+import { InternalEnvironmentVariables, ServiceAuth } from "../common/constants.js";
+import customerConfig from "../common/customerConfig.js";
+import { PlaywrightServiceConfig } from "../common/playwrightServiceConfig.js";
+import playwrightServiceEntra from "./playwrightServiceEntra.js";
+import type { PlaywrightServiceAdditionalOptions, BrowserConnectOptions } from "../common/types.js";
 import {
   emitReportingUrl,
   fetchOrValidateAccessToken,
   getAccessToken,
   getServiceWSEndpoint,
   validateMptPAT,
+  warnIfAccessTokenCloseToExpiry,
   validatePlaywrightVersion,
   validateServiceUrl,
   exitWithFailureMessage,
   getPackageVersion,
   getPlaywrightVersion,
   getVersionInfo,
-} from "../utils/utils";
-import { ServiceErrorMessageConstants } from "../common/messages";
+} from "../utils/utils.js";
+import { ServiceErrorMessageConstants } from "../common/messages.js";
 import type { PlaywrightTestConfig } from "@playwright/test";
+import { globalSetupPath, globalTeardownPath } from "./playwrightServiceUtils.js";
 
+const performOneTimeOperation = (options?: PlaywrightServiceAdditionalOptions): void => {
+  const oneTimeOperationFlag =
+    process.env[InternalEnvironmentVariables.ONE_TIME_OPERATION_FLAG] === "true";
+  if (oneTimeOperationFlag) return;
+  process.env[InternalEnvironmentVariables.ONE_TIME_OPERATION_FLAG] = "true";
+  if (options?.serviceAuthType === ServiceAuth.ACCESS_TOKEN) {
+    warnIfAccessTokenCloseToExpiry();
+  }
+};
 /**
  * @public
  *
@@ -111,6 +122,7 @@ const getServiceConfig = (
   emitReportingUrl();
 
   const globalFunctions: any = {};
+
   if (options?.serviceAuthType === ServiceAuth.ACCESS_TOKEN) {
     // mpt PAT requested and set by the customer, no need to setup entra lifecycle handlers
     validateMptPAT(exitWithFailureMessage);
@@ -125,19 +137,15 @@ const getServiceConfig = (
       if (customerConfig.globalTeardown) {
         globalFunctions.globalTeardown.push(...(customerConfig.globalTeardown as string[]));
       }
-      globalFunctions.globalSetup.push(require.resolve("./global/playwright-service-global-setup"));
-      globalFunctions.globalTeardown.push(
-        require.resolve("./global/playwright-service-global-teardown"),
-      );
+      globalFunctions.globalSetup.push(globalSetupPath);
+      globalFunctions.globalTeardown.push(globalTeardownPath);
     } else {
       // If multiple global file is not supported, wrap playwright-service global setup/teardown with customer provided global setup/teardown
-      globalFunctions.globalSetup = require.resolve("./global/playwright-service-global-setup");
-      globalFunctions.globalTeardown = require.resolve(
-        "./global/playwright-service-global-teardown",
-      );
+      globalFunctions.globalSetup = globalSetupPath;
+      globalFunctions.globalTeardown = globalTeardownPath;
     }
   }
-
+  performOneTimeOperation(options);
   if (options?.useCloudHostedBrowsers === false) {
     return {
       ...globalFunctions,

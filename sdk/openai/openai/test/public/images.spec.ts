@@ -1,74 +1,68 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { matrix } from "@azure-tools/test-utils-vitest";
-import { createClient } from "./utils/createClient.js";
-import {
-  APIMatrix,
-  type APIVersion,
-  type DeploymentInfo,
-  getDeployments,
-  getSucceeded,
-  updateWithSucceeded,
-  withDeployments,
-} from "./utils/utils.js";
-import { assertImagesWithJSON, assertImagesWithURLs } from "./utils/asserts.js";
-import type { OpenAI, AzureOpenAI } from "openai";
-import { describe, it, beforeAll } from "vitest";
+import { describe } from "vitest";
+import { assertImagesWithJSON, assertImagesWithURLs } from "../utils/asserts.js";
+import { createClientsAndDeployments } from "../utils/createClients.js";
+import { APIMatrix, type APIVersion, testWithDeployments } from "../utils/utils.js";
 
-describe("Images", function () {
-  matrix([APIMatrix] as const, async function (apiVersion: APIVersion) {
-    describe(`[${apiVersion}] Client`, () => {
-      let deployments: DeploymentInfo[] = [];
-      let client: AzureOpenAI | OpenAI;
+describe.concurrent.each(APIMatrix)("Images [%s]", (apiVersion: APIVersion) => {
+  const clientsAndDeploymentsInfo = createClientsAndDeployments(apiVersion, {
+    imageGenerations: "true",
+  });
 
-      beforeAll(async function () {
-        client = createClient(apiVersion, "vision");
-        deployments = await getDeployments("vision");
+  describe("images.generate", () => {
+    const prompt = "a flower vase on a table";
+    const n = 1;
+    const height = 1024;
+    const width = 1024;
+    const size = `${height}x${width}`;
+
+    describe("generates image URLs", () => {
+      testWithDeployments({
+        clientsAndDeploymentsInfo,
+        run: (client, deploymentName) =>
+          client.images.generate({ model: deploymentName, prompt, n, size }),
+        validate: (item) => assertImagesWithURLs(item, height, width),
+        modelsListToSkip: [
+          { name: "gpt-image-1" }, // always responds with b64_json
+        ],
       });
+    });
 
-      describe("getImages", function () {
-        const imageGenerationDeployments: DeploymentInfo[] = [];
-        const prompt = "a flower vase on a table";
-        const numberOfImages = 1;
-        const height = 1024;
-        const width = 1024;
-        const size = `${height}x${width}`;
+    describe("generates image strings with response_format", () => {
+      testWithDeployments({
+        clientsAndDeploymentsInfo,
+        run: (client, deploymentName) =>
+          client.images.generate({
+            model: deploymentName,
+            prompt,
+            n,
+            size,
+            response_format: "b64_json",
+          }),
+        modelsListToSkip: [
+          { name: "gpt-image-1" }, // `response_format` parameter is not supported for this model
+        ],
+        validate: (item) => assertImagesWithJSON(item, height, width),
+      });
+    });
 
-        it("generates image URLs", async function () {
-          updateWithSucceeded(
-            await withDeployments(
-              getSucceeded(deployments, imageGenerationDeployments),
-              (deploymentName) =>
-                client.images.generate({
-                  model: deploymentName,
-                  prompt: prompt,
-                  n: numberOfImages,
-                  size,
-                }),
-              (item) => assertImagesWithURLs(item, height, width),
-            ),
-            imageGenerationDeployments,
-          );
-        });
-
-        it("generates image strings", async function () {
-          updateWithSucceeded(
-            await withDeployments(
-              getSucceeded(deployments, imageGenerationDeployments),
-              (deploymentName) =>
-                client.images.generate({
-                  model: deploymentName,
-                  prompt,
-                  n: numberOfImages,
-                  size,
-                  response_format: "b64_json",
-                }),
-              (item) => assertImagesWithJSON(item, height, width),
-            ),
-            imageGenerationDeployments,
-          );
-        });
+    describe("generates image strings without response_format", () => {
+      testWithDeployments({
+        clientsAndDeploymentsInfo,
+        run: (client, deploymentName) =>
+          client.images.generate({
+            model: deploymentName,
+            prompt,
+            n,
+            size,
+            quality: "medium",
+          }),
+        validate: (item) => assertImagesWithJSON(item, height, width),
+        modelsListToSkip: [
+          { name: "dall-e-3" }, // quality values are different for dalle3 and gpt-image-1
+        ],
       });
     });
   });

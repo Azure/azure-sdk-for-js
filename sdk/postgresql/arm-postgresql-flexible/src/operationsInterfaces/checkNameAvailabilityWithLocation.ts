@@ -6,11 +6,11 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import {
+import type {
   CheckNameAvailabilityRequest,
   CheckNameAvailabilityWithLocationExecuteOptionalParams,
   CheckNameAvailabilityWithLocationExecuteResponse,
-} from "../models";
+} from "../models/index.js";
 
 /** Interface representing a CheckNameAvailabilityWithLocation. */
 export interface CheckNameAvailabilityWithLocation {

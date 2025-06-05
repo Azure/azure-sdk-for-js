@@ -47,6 +47,6 @@ Take a look at our [API Documentation][apiref] for more information about the AP
 
 [changesgetsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/changes/arm-changes/samples/v1/javascript/changesGetSample.js
 [changeslistsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/changes/arm-changes/samples/v1/javascript/changesListSample.js
-[apiref]: https://docs.microsoft.com/javascript/api/@azure/arm-changes?view=azure-node-preview
+[apiref]: https://learn.microsoft.com/javascript/api/@azure/arm-changes?view=azure-node-preview
 [freesub]: https://azure.microsoft.com/free/
 [package]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/changes/arm-changes/README.md

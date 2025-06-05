@@ -10,7 +10,7 @@
 // Licensed under the MIT License.
 const { ComputeManagementClient } = require("@azure/arm-compute");
 const { DefaultAzureCredential } = require("@azure/identity");
-require("dotenv").config();
+require("dotenv/config");
 
 /**
  * This sample demonstrates how to List community gallery images inside a gallery.
@@ -25,14 +25,14 @@ async function listCommunityGalleryImages() {
   const credential = new DefaultAzureCredential();
   const client = new ComputeManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.communityGalleryImages.list(location, publicGalleryName)) {
+  for await (const item of client.communityGalleryImages.list(location, publicGalleryName)) {
     resArray.push(item);
   }
   console.log(resArray);
 }
 
 async function main() {
-  listCommunityGalleryImages();
+  await listCommunityGalleryImages();
 }
 
 main().catch(console.error);

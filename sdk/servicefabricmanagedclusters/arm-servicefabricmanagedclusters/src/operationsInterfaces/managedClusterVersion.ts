@@ -16,7 +16,7 @@ import {
   ManagedClusterVersionListResponse,
   ManagedClusterVersionListByEnvironmentOptionalParams,
   ManagedClusterVersionListByEnvironmentResponse,
-} from "../models";
+} from "../models/index.js";
 
 /** Interface representing a ManagedClusterVersion. */
 export interface ManagedClusterVersion {

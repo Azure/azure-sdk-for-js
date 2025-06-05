@@ -17,7 +17,7 @@ import {
   AliasImpl,
   SubscriptionPolicyImpl,
   BillingAccountImpl
-} from "./operations";
+} from "./operations/index.js";
 import {
   Subscriptions,
   Tenants,
@@ -26,8 +26,8 @@ import {
   Alias,
   SubscriptionPolicy,
   BillingAccount
-} from "./operationsInterfaces";
-import { SubscriptionClientOptionalParams } from "./models";
+} from "./operationsInterfaces/index.js";
+import { SubscriptionClientOptionalParams } from "./models/index.js";
 
 export class SubscriptionClient extends coreClient.ServiceClient {
   $host: string;

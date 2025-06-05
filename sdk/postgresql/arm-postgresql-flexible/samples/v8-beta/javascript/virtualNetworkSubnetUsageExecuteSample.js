@@ -6,17 +6,15 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
 const { PostgreSQLManagementFlexibleServerClient } = require("@azure/arm-postgresql-flexible");
 const { DefaultAzureCredential } = require("@azure/identity");
-require("dotenv").config();
+require("dotenv/config");
 
 /**
  * This sample demonstrates how to Get virtual network subnet usage for a given vNet resource id.
  *
  * @summary Get virtual network subnet usage for a given vNet resource id.
- * x-ms-original-file: specification/postgresql/resource-manager/Microsoft.DBforPostgreSQL/preview/2023-12-01-preview/examples/VirtualNetworkSubnetUsage.json
+ * x-ms-original-file: specification/postgresql/resource-manager/Microsoft.DBforPostgreSQL/preview/2025-01-01-preview/examples/VirtualNetworkSubnetUsage.json
  */
 async function virtualNetworkSubnetUsageList() {
   const subscriptionId =
@@ -33,7 +31,7 @@ async function virtualNetworkSubnetUsageList() {
 }
 
 async function main() {
-  virtualNetworkSubnetUsageList();
+  await virtualNetworkSubnetUsageList();
 }
 
 main().catch(console.error);

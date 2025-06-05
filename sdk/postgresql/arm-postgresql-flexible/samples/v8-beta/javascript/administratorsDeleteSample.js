@@ -6,17 +6,15 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
 const { PostgreSQLManagementFlexibleServerClient } = require("@azure/arm-postgresql-flexible");
 const { DefaultAzureCredential } = require("@azure/identity");
-require("dotenv").config();
+require("dotenv/config");
 
 /**
- * This sample demonstrates how to Deletes an Active Directory Administrator associated with the server.
+ * This sample demonstrates how to Deletes an Microsoft Entra Administrator associated with the server.
  *
- * @summary Deletes an Active Directory Administrator associated with the server.
- * x-ms-original-file: specification/postgresql/resource-manager/Microsoft.DBforPostgreSQL/preview/2023-12-01-preview/examples/AdministratorDelete.json
+ * @summary Deletes an Microsoft Entra Administrator associated with the server.
+ * x-ms-original-file: specification/postgresql/resource-manager/Microsoft.DBforPostgreSQL/preview/2025-01-01-preview/examples/AdministratorDelete.json
  */
 async function administratorDelete() {
   const subscriptionId =
@@ -35,7 +33,7 @@ async function administratorDelete() {
 }
 
 async function main() {
-  administratorDelete();
+  await administratorDelete();
 }
 
 main().catch(console.error);

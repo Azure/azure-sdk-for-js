@@ -10,13 +10,13 @@
 // Licensed under the MIT License.
 const { ComputeManagementClient } = require("@azure/arm-compute");
 const { DefaultAzureCredential } = require("@azure/identity");
-require("dotenv").config();
+require("dotenv/config");
 
 /**
  * This sample demonstrates how to Restarts one or more virtual machines in a VM scale set.
  *
  * @summary Restarts one or more virtual machines in a VM scale set.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-07-01/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSet_Restart_MaximumSet_Gen.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-11-01/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSet_Restart_MaximumSet_Gen.json
  */
 async function virtualMachineScaleSetRestartMaximumSetGen() {
   const subscriptionId = process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
@@ -42,7 +42,7 @@ async function virtualMachineScaleSetRestartMaximumSetGen() {
  * This sample demonstrates how to Restarts one or more virtual machines in a VM scale set.
  *
  * @summary Restarts one or more virtual machines in a VM scale set.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-07-01/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSet_Restart_MinimumSet_Gen.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-11-01/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSet_Restart_MinimumSet_Gen.json
  */
 async function virtualMachineScaleSetRestartMinimumSetGen() {
   const subscriptionId = process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
@@ -58,8 +58,8 @@ async function virtualMachineScaleSetRestartMinimumSetGen() {
 }
 
 async function main() {
-  virtualMachineScaleSetRestartMaximumSetGen();
-  virtualMachineScaleSetRestartMinimumSetGen();
+  await virtualMachineScaleSetRestartMaximumSetGen();
+  await virtualMachineScaleSetRestartMinimumSetGen();
 }
 
 main().catch(console.error);

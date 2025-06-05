@@ -14,6 +14,8 @@ import {
 import { tracingClient } from "../util/tracing.js";
 import { ensureValidScopeForDevTimeCreds } from "../util/scopeUtils.js";
 
+const logger = credentialLogger("AzureDeveloperCliCredential");
+
 /**
  * Mockable reference to the Developer CLI credential cliCredentialFunctions
  * @internal
@@ -24,12 +26,16 @@ export const developerCliCredentialInternals = {
    */
   getSafeWorkingDir(): string {
     if (process.platform === "win32") {
-      if (!process.env["SYSTEMROOT"]) {
-        throw new Error(
-          "Azure Developer CLI credential expects a 'SYSTEMROOT' environment variable",
+      let systemRoot = process.env.SystemRoot || process.env["SYSTEMROOT"];
+      if (!systemRoot) {
+        logger.getToken.warning(
+          "The SystemRoot environment variable is not set. This may cause issues when using the Azure Developer CLI credential.",
         );
+
+        systemRoot = "C:\\Windows";
       }
-      return process.env["SYSTEMROOT"];
+
+      return systemRoot;
     } else {
       return "/bin";
     }
@@ -78,8 +84,6 @@ export const developerCliCredentialInternals = {
     });
   },
 };
-
-const logger = credentialLogger("AzureDeveloperCliCredential");
 
 /**
  * Azure Developer CLI is a command-line interface tool that allows developers to create, manage, and deploy

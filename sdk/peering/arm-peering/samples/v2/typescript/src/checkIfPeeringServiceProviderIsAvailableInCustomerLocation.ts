@@ -20,7 +20,7 @@ import {
 } from "@azure/arm-peering";
 import { DefaultAzureCredential } from "@azure/identity";
 
-async function checkIfPeeringServiceProviderIsAvailableInCustomerLocation() {
+async function checkIfPeeringServiceProviderIsAvailableInCustomerLocation(): Promise<void> {
   const subscriptionId = "subId";
   const checkServiceProviderAvailabilityInput: CheckServiceProviderAvailabilityInput = {
     peeringServiceLocation: "peeringServiceLocation1",

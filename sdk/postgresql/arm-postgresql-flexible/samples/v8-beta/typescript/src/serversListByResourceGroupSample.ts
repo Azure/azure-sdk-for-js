@@ -6,33 +6,29 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
 import { PostgreSQLManagementFlexibleServerClient } from "@azure/arm-postgresql-flexible";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to List all the servers in a given resource group.
  *
  * @summary List all the servers in a given resource group.
- * x-ms-original-file: specification/postgresql/resource-manager/Microsoft.DBforPostgreSQL/preview/2023-12-01-preview/examples/ServerListByResourceGroup.json
+ * x-ms-original-file: specification/postgresql/resource-manager/Microsoft.DBforPostgreSQL/preview/2025-01-01-preview/examples/ServerListByResourceGroup.json
  */
-async function serverListByResourceGroup() {
+async function serverListByResourceGroup(): Promise<void> {
   const subscriptionId =
     process.env["POSTGRESQL_SUBSCRIPTION_ID"] ||
     "ffffffff-ffff-ffff-ffff-ffffffffffff";
   const resourceGroupName =
-    process.env["POSTGRESQL_RESOURCE_GROUP"] || "testrg";
+    process.env["POSTGRESQL_RESOURCE_GROUP"] || "testrgn";
   const credential = new DefaultAzureCredential();
   const client = new PostgreSQLManagementFlexibleServerClient(
     credential,
     subscriptionId,
   );
   const resArray = new Array();
-  for await (let item of client.servers.listByResourceGroup(
+  for await (const item of client.servers.listByResourceGroup(
     resourceGroupName,
   )) {
     resArray.push(item);
@@ -40,8 +36,8 @@ async function serverListByResourceGroup() {
   console.log(resArray);
 }
 
-async function main() {
-  serverListByResourceGroup();
+async function main(): Promise<void> {
+  await serverListByResourceGroup();
 }
 
 main().catch(console.error);

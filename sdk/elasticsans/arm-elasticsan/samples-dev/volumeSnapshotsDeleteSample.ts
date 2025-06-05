@@ -10,17 +10,15 @@
 // Licensed under the MIT License.
 import { ElasticSanManagement } from "@azure/arm-elasticsan";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Delete a Volume Snapshot.
  *
  * @summary Delete a Volume Snapshot.
- * x-ms-original-file: specification/elasticsan/resource-manager/Microsoft.ElasticSan/preview/2024-06-01-preview/examples/VolumeSnapshots_Delete_MaximumSet_Gen.json
+ * x-ms-original-file: specification/elasticsan/resource-manager/Microsoft.ElasticSan/preview/2024-07-01-preview/examples/VolumeSnapshots_Delete_MaximumSet_Gen.json
  */
-async function volumeSnapshotsDeleteMaximumSetGen() {
+async function volumeSnapshotsDeleteMaximumSetGen(): Promise<void> {
   const subscriptionId =
     process.env["ELASTICSANS_SUBSCRIPTION_ID"] || "subscriptionid";
   const resourceGroupName =
@@ -43,9 +41,9 @@ async function volumeSnapshotsDeleteMaximumSetGen() {
  * This sample demonstrates how to Delete a Volume Snapshot.
  *
  * @summary Delete a Volume Snapshot.
- * x-ms-original-file: specification/elasticsan/resource-manager/Microsoft.ElasticSan/preview/2024-06-01-preview/examples/VolumeSnapshots_Delete_MinimumSet_Gen.json
+ * x-ms-original-file: specification/elasticsan/resource-manager/Microsoft.ElasticSan/preview/2024-07-01-preview/examples/VolumeSnapshots_Delete_MinimumSet_Gen.json
  */
-async function volumeSnapshotsDeleteMinimumSetGen() {
+async function volumeSnapshotsDeleteMinimumSetGen(): Promise<void> {
   const subscriptionId =
     process.env["ELASTICSANS_SUBSCRIPTION_ID"] || "subscriptionid";
   const resourceGroupName =
@@ -64,9 +62,9 @@ async function volumeSnapshotsDeleteMinimumSetGen() {
   console.log(result);
 }
 
-async function main() {
-  volumeSnapshotsDeleteMaximumSetGen();
-  volumeSnapshotsDeleteMinimumSetGen();
+async function main(): Promise<void> {
+  await volumeSnapshotsDeleteMaximumSetGen();
+  await volumeSnapshotsDeleteMinimumSetGen();
 }
 
 main().catch(console.error);

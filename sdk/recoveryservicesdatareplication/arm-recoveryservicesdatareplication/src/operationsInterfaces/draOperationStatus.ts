@@ -9,7 +9,7 @@
 import {
   DraOperationStatusGetOptionalParams,
   DraOperationStatusGetResponse
-} from "../models";
+} from "../models/index.js";
 
 /** Interface representing a DraOperationStatus. */
 export interface DraOperationStatus {

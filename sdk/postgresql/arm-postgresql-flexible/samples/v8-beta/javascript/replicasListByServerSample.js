@@ -6,17 +6,15 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
 const { PostgreSQLManagementFlexibleServerClient } = require("@azure/arm-postgresql-flexible");
 const { DefaultAzureCredential } = require("@azure/identity");
-require("dotenv").config();
+require("dotenv/config");
 
 /**
  * This sample demonstrates how to List all the replicas for a given server.
  *
  * @summary List all the replicas for a given server.
- * x-ms-original-file: specification/postgresql/resource-manager/Microsoft.DBforPostgreSQL/preview/2023-12-01-preview/examples/ReplicasListByServer.json
+ * x-ms-original-file: specification/postgresql/resource-manager/Microsoft.DBforPostgreSQL/preview/2025-01-01-preview/examples/ReplicasListByServer.json
  */
 async function replicasListByServer() {
   const subscriptionId =
@@ -26,14 +24,14 @@ async function replicasListByServer() {
   const credential = new DefaultAzureCredential();
   const client = new PostgreSQLManagementFlexibleServerClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.replicas.listByServer(resourceGroupName, serverName)) {
+  for await (const item of client.replicas.listByServer(resourceGroupName, serverName)) {
     resArray.push(item);
   }
   console.log(resArray);
 }
 
 async function main() {
-  replicasListByServer();
+  await replicasListByServer();
 }
 
 main().catch(console.error);

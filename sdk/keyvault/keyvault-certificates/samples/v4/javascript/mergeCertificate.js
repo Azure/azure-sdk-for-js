@@ -6,18 +6,15 @@
  */
 
 const childProcess = require("child_process");
-// Load the .env file if it exists
-const dotenv = require("dotenv");
-const fs = require("fs");
-
+const fs = require("node:fs");
 const { CertificateClient } = require("@azure/keyvault-certificates");
 const { DefaultAzureCredential } = require("@azure/identity");
-
-dotenv.config();
+// Load the .env file if it exists
+require("dotenv/config");
 
 async function main() {
   // This sample uses DefaultAzureCredential, which supports a number of authentication mechanisms.
-  // See https://docs.microsoft.com/javascript/api/overview/azure/identity-readme?view=azure-node-latest for more information
+  // See https://learn.microsoft.com/javascript/api/overview/azure/identity-readme?view=azure-node-latest for more information
   // about DefaultAzureCredential and the other credentials that are available for use.
   // If you're using MSI, DefaultAzureCredential should "just work".
   const url = process.env["KEYVAULT_URI"] || "<keyvault-url>";
@@ -55,7 +52,7 @@ ${base64Csr}
   // For more information on how to set up a local certificate authority
   // go to: https://gist.github.com/Soarez/9688998
   childProcess.execSync(
-    "openssl x509 -req -in test.csr -CA ca.crt -CAkey ca.key -CAcreateserial -out test.crt"
+    "openssl x509 -req -in test.csr -CA ca.crt -CAkey ca.key -CAcreateserial -out test.crt",
   );
   const base64Crt = fs.readFileSync("test.crt").toString().split("\n").slice(1, -1).join("");
 

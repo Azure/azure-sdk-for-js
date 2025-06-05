@@ -17,7 +17,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * @summary Returns all the resources of a particular type belonging to a subscription.
  * x-ms-original-file: specification/healthbot/resource-manager/Microsoft.HealthBot/stable/2021-06-10/examples/ListBotsBySubscription.json
  */
-async function listBotsBySubscription() {
+async function listBotsBySubscription(): Promise<void> {
   const subscriptionId = "subscription-id";
   const credential = new DefaultAzureCredential();
   const client = new HealthbotClient(credential, subscriptionId);

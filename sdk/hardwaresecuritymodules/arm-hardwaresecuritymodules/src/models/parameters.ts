@@ -19,7 +19,7 @@ import {
   PrivateEndpointConnection as PrivateEndpointConnectionMapper,
   DedicatedHsm as DedicatedHsmMapper,
   DedicatedHsmPatchParameters as DedicatedHsmPatchParametersMapper,
-} from "../models/mappers";
+} from "../models/mappers.js";
 
 export const contentType: OperationParameter = {
   parameterPath: ["options", "contentType"],

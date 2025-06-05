@@ -6,7 +6,7 @@
  * notification using APNs.  This sends a JSON message to an APNs given device token and returns
  * a Tracking ID which can be used for troubleshooting with the Azure Notification Hubs team.
  *
- * See https://docs.microsoft.com/azure/notification-hubs/notification-hubs-tags-segment-push-message
+ * See https://learn.microsoft.com/azure/notification-hubs/notification-hubs-tags-segment-push-message
  * to learn about Routing and Tag Expressions.
  *
  *

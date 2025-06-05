@@ -10,9 +10,7 @@
 // Licensed under the MIT License.
 import { MySQLManagementFlexibleServerClient } from "@azure/arm-mysql-flexible";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Gets information about a database.
@@ -20,7 +18,7 @@ dotenv.config();
  * @summary Gets information about a database.
  * x-ms-original-file: specification/mysql/resource-manager/Microsoft.DBforMySQL/Databases/preview/2023-06-01-preview/examples/DatabaseGet.json
  */
-async function getADatabase() {
+async function getADatabase(): Promise<void> {
   const subscriptionId =
     process.env["MYSQL_SUBSCRIPTION_ID"] ||
     "ffffffff-ffff-ffff-ffff-ffffffffffff";
@@ -40,7 +38,7 @@ async function getADatabase() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   getADatabase();
 }
 

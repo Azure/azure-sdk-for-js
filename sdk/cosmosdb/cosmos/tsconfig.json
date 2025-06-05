@@ -1,24 +1,13 @@
 {
-  "extends": "../../../tsconfig",
-  "compilerOptions": {
-    "module": "esnext",
-    "strict": false,
-    "noImplicitAny": true,
-    "noImplicitReturns": false,
-    "noFallthroughCasesInSwitch": false,
-    "outDir": "./dist-esm",
-    "preserveConstEnums": true,
-    "removeComments": false,
-    "target": "ES2017",
-    "newLine": "LF",
-    "resolveJsonModule": true,
-    "lib": ["es2019"],
-    "moduleResolution": "node",
-    "composite": true,
-    "stripInternal": true,
-    "paths": {
-      "@azure/cosmos": ["./src/index"]
+  "references": [
+    {
+      "path": "./tsconfig.src.json"
+    },
+    {
+      "path": "./tsconfig.samples.json"
+    },
+    {
+      "path": "./tsconfig.test.json"
     }
-  },
-  "include": ["src/**/*.ts", "test/**/*.ts", "samples-dev/**/*.(ts|json)"]
+  ]
 }

@@ -10,17 +10,15 @@
 // Licensed under the MIT License.
 import { VolumeGroup, ElasticSanManagement } from "@azure/arm-elasticsan";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Create a Volume Group.
  *
  * @summary Create a Volume Group.
- * x-ms-original-file: specification/elasticsan/resource-manager/Microsoft.ElasticSan/preview/2024-06-01-preview/examples/VolumeGroups_Create_MaximumSet_Gen.json
+ * x-ms-original-file: specification/elasticsan/resource-manager/Microsoft.ElasticSan/preview/2024-07-01-preview/examples/VolumeGroups_Create_MaximumSet_Gen.json
  */
-async function volumeGroupsCreateMaximumSetGen() {
+async function volumeGroupsCreateMaximumSetGen(): Promise<void> {
   const subscriptionId =
     process.env["ELASTICSANS_SUBSCRIPTION_ID"] || "subscriptionid";
   const resourceGroupName =
@@ -28,26 +26,25 @@ async function volumeGroupsCreateMaximumSetGen() {
   const elasticSanName = "elasticsanname";
   const volumeGroupName = "volumegroupname";
   const parameters: VolumeGroup = {
-    identity: { type: "None", userAssignedIdentities: { key1006: {} } },
+    identity: { type: "None", userAssignedIdentities: { key2350: {} } },
     properties: {
+      deleteRetentionPolicy: {
+        policyState: "Enabled",
+        retentionPeriodDays: 14,
+      },
       encryption: "EncryptionAtRestWithPlatformKey",
       encryptionProperties: {
-        encryptionIdentity: {
-          encryptionUserAssignedIdentity: "gfhkfbozahmmwluqndfgxunssafa",
-        },
+        encryptionIdentity: { encryptionUserAssignedIdentity: "vgbeephfgecgg" },
         keyVaultProperties: {
-          keyName: "lunpapamzeimppgobraxjt",
-          keyVaultUri: "https://microsoft.com/a",
-          keyVersion: "oemygbnfmqhijmonkqfqmy",
+          keyName: "rommjwp",
+          keyVaultUri: "https://microsoft.com/at",
+          keyVersion: "ulmxxgzgsuhalwesmhfslq",
         },
       },
       enforceDataIntegrityCheckForIscsi: true,
       networkAcls: {
         virtualNetworkRules: [
-          {
-            action: "Allow",
-            virtualNetworkResourceId: "bkhwaiqvvaguymsmnzzbzz",
-          },
+          { action: "Allow", virtualNetworkResourceId: "fhhawhc" },
         ],
       },
       protocolType: "Iscsi",
@@ -68,9 +65,9 @@ async function volumeGroupsCreateMaximumSetGen() {
  * This sample demonstrates how to Create a Volume Group.
  *
  * @summary Create a Volume Group.
- * x-ms-original-file: specification/elasticsan/resource-manager/Microsoft.ElasticSan/preview/2024-06-01-preview/examples/VolumeGroups_Create_MinimumSet_Gen.json
+ * x-ms-original-file: specification/elasticsan/resource-manager/Microsoft.ElasticSan/preview/2024-07-01-preview/examples/VolumeGroups_Create_MinimumSet_Gen.json
  */
-async function volumeGroupsCreateMinimumSetGen() {
+async function volumeGroupsCreateMinimumSetGen(): Promise<void> {
   const subscriptionId =
     process.env["ELASTICSANS_SUBSCRIPTION_ID"] || "subscriptionid";
   const resourceGroupName =
@@ -89,9 +86,9 @@ async function volumeGroupsCreateMinimumSetGen() {
   console.log(result);
 }
 
-async function main() {
-  volumeGroupsCreateMaximumSetGen();
-  volumeGroupsCreateMinimumSetGen();
+async function main(): Promise<void> {
+  await volumeGroupsCreateMaximumSetGen();
+  await volumeGroupsCreateMinimumSetGen();
 }
 
 main().catch(console.error);

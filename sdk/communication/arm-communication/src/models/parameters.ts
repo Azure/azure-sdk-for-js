@@ -23,7 +23,7 @@ import {
   EmailServiceResource as EmailServiceResourceMapper,
   EmailServiceResourceUpdate as EmailServiceResourceUpdateMapper,
   SenderUsernameResource as SenderUsernameResourceMapper,
-} from "../models/mappers";
+} from "../models/mappers.js";
 
 export const accept: OperationParameter = {
   parameterPath: "accept",

@@ -13,9 +13,7 @@ import {
   AzureReservationAPI
 } from "@azure/arm-reservations";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Change directory (tenant) of `ReservationOrder` and all `Reservation` under it to specified tenant id
@@ -23,7 +21,7 @@ dotenv.config();
  * @summary Change directory (tenant) of `ReservationOrder` and all `Reservation` under it to specified tenant id
  * x-ms-original-file: specification/reservations/resource-manager/Microsoft.Capacity/stable/2022-11-01/examples/ChangeDirectoryReservationOrder.json
  */
-async function changeDirectory() {
+async function changeDirectory(): Promise<void> {
   const reservationOrderId = "a075419f-44cc-497f-b68a-14ee811d48b9";
   const body: ChangeDirectoryRequest = {
     destinationTenantId: "906655ea-30be-4587-9d12-b50e077b0f32"
@@ -37,7 +35,7 @@ async function changeDirectory() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   changeDirectory();
 }
 

@@ -19,7 +19,7 @@ import {
   FileSystemListPathsResponse,
   FileSystemListBlobHierarchySegmentOptionalParams,
   FileSystemListBlobHierarchySegmentResponse
-} from "../models";
+} from "../models/index.js";
 
 /** Interface representing a FileSystemOperations. */
 export interface FileSystemOperations {

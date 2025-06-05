@@ -10,9 +10,7 @@
 // Licensed under the MIT License.
 import { MonitorClient } from "@azure/arm-monitor";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Delete an alert rule definition.
@@ -20,7 +18,7 @@ dotenv.config();
  * @summary Delete an alert rule definition.
  * x-ms-original-file: specification/monitor/resource-manager/Microsoft.Insights/stable/2018-03-01/examples/deleteMetricAlert.json
  */
-async function deleteAnAlertRule() {
+async function deleteAnAlertRule(): Promise<void> {
   const subscriptionId =
     process.env["MONITOR_SUBSCRIPTION_ID"] ||
     "14ddf0c5-77c5-4b53-84f6-e1fa43ad68f7";
@@ -32,7 +30,7 @@ async function deleteAnAlertRule() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   deleteAnAlertRule();
 }
 

@@ -9,7 +9,7 @@
 import {
   ExternalUserCreateOrUpdateOptionalParams,
   ExternalUserCreateOrUpdateResponse,
-} from "../models";
+} from "../models/index.js";
 
 /** Interface representing a ExternalUser. */
 export interface ExternalUser {

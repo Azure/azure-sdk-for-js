@@ -7,19 +7,19 @@
  */
 
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
-import { setContinuationToken } from "../pagingHelper";
-import { CommitmentTiers } from "../operationsInterfaces";
+import { setContinuationToken } from "../pagingHelper.js";
+import { CommitmentTiers } from "../operationsInterfaces/index.js";
 import * as coreClient from "@azure/core-client";
-import * as Mappers from "../models/mappers";
-import * as Parameters from "../models/parameters";
-import { CognitiveServicesManagementClient } from "../cognitiveServicesManagementClient";
+import * as Mappers from "../models/mappers.js";
+import * as Parameters from "../models/parameters.js";
+import { CognitiveServicesManagementClient } from "../cognitiveServicesManagementClient.js";
 import {
   CommitmentTier,
   CommitmentTiersListNextOptionalParams,
   CommitmentTiersListOptionalParams,
   CommitmentTiersListResponse,
   CommitmentTiersListNextResponse,
-} from "../models";
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Class containing CommitmentTiers operations. */
@@ -101,10 +101,7 @@ export class CommitmentTiersImpl implements CommitmentTiers {
     location: string,
     options?: CommitmentTiersListOptionalParams,
   ): Promise<CommitmentTiersListResponse> {
-    return this.client.sendOperationRequest(
-      { location, options },
-      listOperationSpec,
-    );
+    return this.client.sendOperationRequest({ location, options }, listOperationSpec);
   }
 
   /**
@@ -118,10 +115,7 @@ export class CommitmentTiersImpl implements CommitmentTiers {
     nextLink: string,
     options?: CommitmentTiersListNextOptionalParams,
   ): Promise<CommitmentTiersListNextResponse> {
-    return this.client.sendOperationRequest(
-      { location, nextLink, options },
-      listNextOperationSpec,
-    );
+    return this.client.sendOperationRequest({ location, nextLink, options }, listNextOperationSpec);
   }
 }
 // Operation Specifications
@@ -139,11 +133,7 @@ const listOperationSpec: coreClient.OperationSpec = {
     },
   },
   queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.location,
-  ],
+  urlParameters: [Parameters.$host, Parameters.subscriptionId, Parameters.location],
   headerParameters: [Parameters.accept],
   serializer,
 };

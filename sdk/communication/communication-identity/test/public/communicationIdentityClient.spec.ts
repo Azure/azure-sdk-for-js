@@ -40,15 +40,23 @@ matrix([[true, false]], async (useAad: boolean) => {
       }
     });
 
-    afterEach(async (ctx) => {
-      if (!ctx.task.pending) {
-        await recorder.stop();
-      }
+    afterEach(async () => {
+      await recorder.stop();
     });
 
     it("successfully creates a user", async () => {
       const user: CommunicationUserIdentifier = await client.createUser();
       assert.isString(user.communicationUserId);
+    });
+
+    it("successfully creates and gets a user with customId", async () => {
+      const customId = "alice@contoso.com";
+      const user: CommunicationUserIdentifier = await client.createUser({ customId });
+      assert.isString(user.communicationUserId);
+      const user2: CommunicationUserIdentifier = await client.createUser({ customId });
+      assert.equal(user.communicationUserId, user2.communicationUserId);
+      const getResult = await client.getUserDetail(user);
+      assert.equal(getResult.customId, customId);
     });
 
     tokenScopeScenarios.forEach((scenario) =>

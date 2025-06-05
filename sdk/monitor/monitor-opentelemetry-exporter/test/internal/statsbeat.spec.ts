@@ -10,8 +10,9 @@ import {
 } from "../../src/Declarations/Constants.js";
 import nock from "nock";
 import { NetworkStatsbeatMetrics } from "../../src/export/statsbeat/networkStatsbeatMetrics.js";
-import { StatsbeatCounter } from "../../src/export/statsbeat/types.js";
+import { AZURE_MONITOR_AUTO_ATTACH, StatsbeatCounter } from "../../src/export/statsbeat/types.js";
 import { getInstance } from "../../src/export/statsbeat/longIntervalStatsbeatMetrics.js";
+import { getInstance as getContext } from "../../src/platform/nodejs/context/context.js";
 import { AzureMonitorTraceExporter } from "../../src/export/trace.js";
 import { diag } from "@opentelemetry/api";
 import { describe, it, assert, expect, vi, beforeAll, afterAll } from "vitest";
@@ -48,6 +49,16 @@ describe("#AzureMonitorStatsbeatExporter", () => {
 
     beforeAll(() => {
       scope = nock(DEFAULT_BREEZE_ENDPOINT).post("/v2.1/track");
+
+      it("should wait 15 seconds from startup to export long interval statsbeat", async () => {
+        const longIntervalStatsbeat = getInstance(options);
+        const mockExport = vi.spyOn(longIntervalStatsbeat["longIntervalAzureExporter"], "export");
+        longIntervalStatsbeat["initialize"]();
+        expect(mockExport).not.toHaveBeenCalled();
+        setTimeout(async () => {
+          expect(mockExport).toHaveBeenCalled();
+        }, 15000);
+      });
     });
 
     afterAll(() => {
@@ -109,6 +120,7 @@ describe("#AzureMonitorStatsbeatExporter", () => {
         statsbeat.countSuccess(100);
         const metric = statsbeat["networkStatsbeatCollection"][0];
         assert.strictEqual(metric.intervalRequestExecutionTime, 100);
+        assert.strictEqual(metric.totalSuccessfulRequestCount, 1);
 
         // Ensure network statsbeat attributes are populated
         assert.strictEqual(statsbeat["attach"], "Manual");
@@ -125,6 +137,24 @@ describe("#AzureMonitorStatsbeatExporter", () => {
         assert.ok(statsbeat["os"]);
         assert.ok(statsbeat["runtimeVersion"]);
         assert.ok(statsbeat["version"]);
+      });
+
+      it("should add correct attach value to the attach metric", () => {
+        const originalEnv = process.env;
+        const newEnv = <{ [id: string]: string }>{};
+        process.env = newEnv;
+        newEnv[AZURE_MONITOR_AUTO_ATTACH] = "true";
+        const statsbeat = new NetworkStatsbeatMetrics(options);
+        // eslint-disable-next-line no-unused-expressions
+        statsbeat["statsCollectionShortInterval"];
+        statsbeat.countSuccess(100);
+        const metric = statsbeat["networkStatsbeatCollection"][0];
+        assert.strictEqual(metric.intervalRequestExecutionTime, 100);
+
+        // Ensure network statsbeat attributes are populated
+        assert.strictEqual(statsbeat["attach"], "IntegratedAuto");
+        assert.ok(getContext().tags["ai.internal.sdkVersion"]);
+        process.env = originalEnv;
       });
 
       it("should set common properties correctly", () => {
@@ -282,7 +312,7 @@ describe("#AzureMonitorStatsbeatExporter", () => {
         const scopeMetrics = resourceMetrics.scopeMetrics;
         assert.strictEqual(scopeMetrics.length, 1, "Scope Metrics count");
         const metrics = scopeMetrics[0].metrics;
-        assert.strictEqual(metrics.length, 8, "Metrics count");
+        assert.strictEqual(metrics.length, 6, "Metrics count");
         assert.strictEqual(metrics[0].descriptor.name, StatsbeatCounter.SUCCESS_COUNT);
         assert.strictEqual(metrics[1].descriptor.name, StatsbeatCounter.FAILURE_COUNT);
         assert.strictEqual(metrics[2].descriptor.name, StatsbeatCounter.RETRY_COUNT);
@@ -391,10 +421,53 @@ describe("#AzureMonitorStatsbeatExporter", () => {
         delete process.env.STATSBEAT_FEATURES;
         delete process.env.LONG_INTERVAL_EXPORT_MILLIS;
       });
+
+      it("should not export zero value statsbeats", async () => {
+        // Create a new statsbeat instance to avoid interference from other tests
+        const zeroStatsbeat = new NetworkStatsbeatMetrics({
+          ...options,
+          networkCollectionInterval: 100,
+        });
+
+        try {
+          // Spy on the exporter's export method
+          const mockExport = vi.spyOn(zeroStatsbeat["networkAzureExporter"], "export");
+
+          zeroStatsbeat.countSuccess(0);
+
+          // Wait for the export interval to trigger without adding any counts
+          await new Promise((resolve) => setTimeout(resolve, 500));
+
+          // Check that export was called
+          expect(mockExport).toHaveBeenCalled();
+
+          // Get the metrics that were exported
+          const resourceMetrics = mockExport.mock.calls[0][0];
+          const scopeMetrics = resourceMetrics.scopeMetrics;
+          assert.strictEqual(scopeMetrics.length, 1, "Scope Metrics count");
+
+          // Check the metrics - there should be 0 data points for most metrics
+          // since we're now filtering zero values
+          const metrics = scopeMetrics[0].metrics;
+
+          // Check each metric to ensure zero values are filtered out
+          for (const metric of metrics) {
+            // We expect all metrics to have no data points as they all have zero values
+            assert.strictEqual(
+              metric.dataPoints.length,
+              1,
+              `${metric.descriptor.name} should have no data points apart from success since all other values are zero`,
+            );
+          }
+        } finally {
+          // Clean up
+          await zeroStatsbeat.shutdown();
+        }
+      });
     });
 
     describe("Disable Non-Essential Statsbeat", () => {
-      it("should disable statsbeat when the environement variable is set", () => {
+      it("should disable statsbeat when the environment variable is set", () => {
         process.env[ENV_DISABLE_STATSBEAT] = "true";
         const exporter = new AzureMonitorTraceExporter(exportOptions);
         assert.ok(exporter["sender"]["networkStatsbeatMetrics"]);
@@ -403,12 +476,41 @@ describe("#AzureMonitorStatsbeatExporter", () => {
         delete process.env[ENV_DISABLE_STATSBEAT];
       });
 
-      it("should disable all statsbeat when the legacy environement variable is set", () => {
+      it("should disable all statsbeat when the legacy environment variable is set", () => {
         process.env[LEGACY_ENV_DISABLE_STATSBEAT] = "true";
         const exporter = new AzureMonitorTraceExporter(exportOptions);
         assert.ok(!exporter["sender"]["networkStatsbeatMetrics"]);
         assert.ok(!exporter["sender"]["longIntervalStatsbeatMetrics"]);
         delete process.env[LEGACY_ENV_DISABLE_STATSBEAT];
+      });
+    });
+
+    describe("Long Interval Statsbeat Metrics", () => {
+      it("should properly bind the metric reader to a metric producer", async () => {
+        // Get an instance of LongIntervalStatsbeatMetrics
+        const longIntervalStatsbeat = getInstance(options);
+
+        // Create a spy on the collect method to ensure it doesn't throw an error
+        const collectSpy = vi.spyOn(longIntervalStatsbeat["longIntervalMetricReader"], "collect");
+
+        // Attempt to collect metrics - this would throw an error if the MetricReader is not bound
+        // to a MetricProducer properly
+        try {
+          await longIntervalStatsbeat["longIntervalMetricReader"].collect();
+          // If we get here without an error, the test passes
+          assert.ok(true, "Metric reader collect method executed without errors");
+        } catch (error) {
+          // If an error occurs, the test should fail
+          assert.fail(
+            `Metric reader collect method threw an error: ${error instanceof Error ? error.message : String(error)}`,
+          );
+        }
+
+        // Verify the collect method was called
+        expect(collectSpy).toHaveBeenCalled();
+
+        // Restore the spy
+        collectSpy.mockRestore();
       });
     });
   });

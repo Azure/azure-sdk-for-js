@@ -1,6 +1,6 @@
 # Release History
 
-## 5.9.1 (Unreleased)
+## 5.12.1 (Unreleased)
 
 ### Features Added
 
@@ -9,6 +9,70 @@
 ### Bugs Fixed
 
 ### Other Changes
+
+## 5.12.0 (2025-05-14)
+
+### Features Added
+
+- Added new System Events:
+
+  - `Microsoft.ApiManagement.CircuitBreaker.Closed`
+  - `Microsoft.ApiManagement.CircuitBreaker.Opened`
+  - `Microsoft.ApiManagement.GatewayTokenExpired`
+  - `Microsoft.ApiManagement.GatewayTokenNearExpiry`
+  - `Microsoft.Communication.CallEnded": AcsCallEndedEventData`
+  - `Microsoft.Communication.CallParticipantAdded`
+  - `Microsoft.Communication.CallParticipantRemoved`
+  - `Microsoft.Communication.CallStarted`
+  - `Microsoft.Communication.ChatAzureBotCommandReceivedInThread`
+  - `Microsoft.Communication.ChatTypingIndicatorReceivedInThread`
+  - `Microsoft.Edge.SolutionVersionPublished`
+
+### Bugs Fixed
+
+- For `AcsChatMessageEditedEventData`, `AcsChatMessageEditedInThreadEventData`, and `AcsChatThreadPropertiesUpdatedPerUserEventData`
+  - Made `editTime` and `metadata` optional
+- For `AcsChatMessageEventBase`
+  - Made `composeTime`, `senderCommunicationIdentifier`, `senderDisplayName`, and `version` optional
+- For `AcsChatMessageEventInThreadBase`
+  - Made `composeTime`, `senderDisplayName`, and `version` optional
+- For `AcsChatMessageReceivedInThreadEventData` and `AcsChatThreadCreatedWithUserEventData`
+  - Made `metadata` optional
+- For `AcsChatParticipantAddedToThreadEventData` and `AcsChatParticipantRemovedFromThreadEventData`
+  - Made `time` and `version` optional
+- For `AcsChatThreadParticipant`
+  - Made `displayName` and `metadata` optional
+- For `AcsChatThreadDeletedEventData` and `AcsChatThreadWithUserDeletedEventData`
+  - Made `deleteTime` optional
+- For `AcsSmsDeliveryReportReceivedEventData`
+  - Made `receivedTimestamp` and `tag` optional
+- For `AcsSmsReceivedEventData`
+  - Made `message` required
+
+## 5.11.0 (2025-02-21)
+
+### Features Added
+
+- properties added to `AcsMessageMediaContent`
+  - `animated`
+- properties added to `AcsMessageReceivedEventData`
+  - `messageId`
+  - `messageType`
+  - `reaction`
+
+## 5.10.0 (2025-01-21)
+
+### Features Added
+
+- Added `internetMessageId` property to `AcsEmailDeliveryReportReceivedEventData`.
+- Added `recipientMailServerHostName` property to `AcsEmailDeliveryReportStatusDetails`.
+- For `AcsSmsReceivedEventData`:
+  - Added `segmentCount` property
+
+### Bugs Fixed
+
+- For `AcsSmsReceivedEventData`:
+  - Made `message` & `receivedTimestamp` properties optional.
 
 ## 5.9.0 (2024-12-02)
 

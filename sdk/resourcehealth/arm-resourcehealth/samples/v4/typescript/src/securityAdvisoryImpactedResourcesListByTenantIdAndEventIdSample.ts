@@ -10,9 +10,7 @@
 // Licensed under the MIT License.
 import { MicrosoftResourceHealth } from "@azure/arm-resourcehealth";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Lists impacted resources in the tenant by an event (Security Advisory).
@@ -20,7 +18,7 @@ dotenv.config();
  * @summary Lists impacted resources in the tenant by an event (Security Advisory).
  * x-ms-original-file: specification/resourcehealth/resource-manager/Microsoft.ResourceHealth/stable/2022-10-01/examples/SecurityAdvisoryImpactedResources_ListByTenantId_ListByEventId.json
  */
-async function listSecurityAdvisoryImpactedResourcesByTenantId() {
+async function listSecurityAdvisoryImpactedResourcesByTenantId(): Promise<void> {
   const subscriptionId =
     process.env["RESOURCEHEALTH_SUBSCRIPTION_ID"] ||
     "00000000-0000-0000-0000-000000000000";
@@ -36,7 +34,7 @@ async function listSecurityAdvisoryImpactedResourcesByTenantId() {
   console.log(resArray);
 }
 
-async function main() {
+async function main(): Promise<void> {
   listSecurityAdvisoryImpactedResourcesByTenantId();
 }
 

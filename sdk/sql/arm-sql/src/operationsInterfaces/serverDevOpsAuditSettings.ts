@@ -16,7 +16,7 @@ import {
   ServerDevOpsAuditSettingsGetResponse,
   ServerDevOpsAuditSettingsCreateOrUpdateOptionalParams,
   ServerDevOpsAuditSettingsCreateOrUpdateResponse,
-} from "../models";
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a ServerDevOpsAuditSettings. */

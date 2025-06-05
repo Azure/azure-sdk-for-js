@@ -6,24 +6,21 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
+import type {
+  BackendAddressPool} from "@azure/arm-network";
 import {
-  BackendAddressPool,
   NetworkManagementClient,
 } from "@azure/arm-network";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Creates or updates a load balancer backend address pool.
  *
  * @summary Creates or updates a load balancer backend address pool.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2024-05-01/examples/LBBackendAddressPoolWithBackendAddressesPut.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2024-07-01/examples/LBBackendAddressPoolWithBackendAddressesPut.json
  */
-async function updateLoadBalancerBackendPoolWithBackendAddressesContainingVirtualNetworkAndIPAddress() {
+async function updateLoadBalancerBackendPoolWithBackendAddressesContainingVirtualNetworkAndIPAddress(): Promise<void> {
   const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";
   const resourceGroupName = process.env["NETWORK_RESOURCE_GROUP"] || "testrg";
   const loadBalancerName = "lb";
@@ -58,8 +55,8 @@ async function updateLoadBalancerBackendPoolWithBackendAddressesContainingVirtua
   console.log(result);
 }
 
-async function main() {
-  updateLoadBalancerBackendPoolWithBackendAddressesContainingVirtualNetworkAndIPAddress();
+async function main(): Promise<void> {
+  await updateLoadBalancerBackendPoolWithBackendAddressesContainingVirtualNetworkAndIPAddress();
 }
 
 main().catch(console.error);

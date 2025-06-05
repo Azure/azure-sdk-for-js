@@ -1,16 +1,11 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
 import createNetworkManagementClient, {
   VpnConnectionsStopPacketCaptureParameters,
-  getLongRunningPoller
+  getLongRunningPoller,
 } from "@azure-rest/arm-network";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Stops packet capture on Vpn connection in the specified resource group.
@@ -18,7 +13,7 @@ dotenv.config();
  * @summary Stops packet capture on Vpn connection in the specified resource group.
  * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-05-01/examples/VpnConnectionStopPacketCapture.json
  */
-async function startPacketCaptureOnVpnConnectionWithoutFilter() {
+async function startPacketCaptureOnVpnConnectionWithoutFilter(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = createNetworkManagementClient(credential);
   const subscriptionId = "";
@@ -29,9 +24,9 @@ async function startPacketCaptureOnVpnConnectionWithoutFilter() {
     body: {
       linkConnectionNames: ["vpnSiteLink1", "vpnSiteLink2"],
       sasUrl:
-        "https://teststorage.blob.core.windows.net/?sv=2018-03-28&ss=bfqt&srt=sco&sp=rwdlacup&se=2019-09-13T07:44:05Z&st=2019-09-06T23:44:05Z&spr=https&sig=V1h9D1riltvZMI69d6ihENnFo%2FrCvTqGgjO2lf%2FVBhE%3D"
+        "https://teststorage.blob.core.windows.net/?sv=2018-03-28&ss=bfqt&srt=sco&sp=rwdlacup&se=2019-09-13T07:44:05Z&st=2019-09-06T23:44:05Z&spr=https&sig=V1h9D1riltvZMI69d6ihENnFo%2FrCvTqGgjO2lf%2FVBhE%3D",
     },
-    queryParameters: { "api-version": "2022-05-01" }
+    queryParameters: { "api-version": "2022-05-01" },
   };
   const initialResponse = await client
     .path(
@@ -39,7 +34,7 @@ async function startPacketCaptureOnVpnConnectionWithoutFilter() {
       subscriptionId,
       resourceGroupName,
       gatewayName,
-      vpnConnectionName
+      vpnConnectionName,
     )
     .post(options);
   const poller = getLongRunningPoller(client, initialResponse);

@@ -10,21 +10,21 @@ import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import {
   ReplicationAppliance,
   ReplicationAppliancesListOptionalParams,
-} from "../models";
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a ReplicationAppliances. */
 export interface ReplicationAppliances {
   /**
    * Gets the list of Azure Site Recovery appliances for the vault.
-   * @param resourceName The name of the recovery services vault.
    * @param resourceGroupName The name of the resource group where the recovery services vault is
    *                          present.
+   * @param resourceName The name of the recovery services vault.
    * @param options The options parameters.
    */
   list(
-    resourceName: string,
     resourceGroupName: string,
+    resourceName: string,
     options?: ReplicationAppliancesListOptionalParams,
   ): PagedAsyncIterableIterator<ReplicationAppliance>;
 }

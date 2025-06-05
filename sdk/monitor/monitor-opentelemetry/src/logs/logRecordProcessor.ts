@@ -1,8 +1,9 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { MetricHandler } from "../metrics/handler";
+import type { MetricHandler } from "../metrics/handler.js";
 import type { LogRecord, LogRecordProcessor } from "@opentelemetry/sdk-logs";
+import { Logger } from "../shared/logging/index.js";
 
 /**
  * Azure Monitor LogRecord Processor.
@@ -16,7 +17,11 @@ export class AzureLogRecordProcessor implements LogRecordProcessor {
   }
 
   public onEmit(logRecord: LogRecord): void {
-    this._metricHandler.recordLog(logRecord);
+    try {
+      this._metricHandler.recordLog(logRecord);
+    } catch (error) {
+      Logger.getInstance().warn("Error while recording log", error);
+    }
   }
 
   public forceFlush(): Promise<void> {

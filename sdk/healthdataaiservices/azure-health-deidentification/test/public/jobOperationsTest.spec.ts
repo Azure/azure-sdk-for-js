@@ -53,7 +53,7 @@ describe("Batch", () => {
   let client: DeidentificationClient;
   const environment = getTestEnvironment();
 
-  beforeEach(async function (context) {
+  beforeEach(async (context) => {
     recorder = await createRecorder(context);
     await recorder.start({
       envSetupForPlayback: replaceableVariables,
@@ -88,7 +88,7 @@ describe("Batch", () => {
     }
   });
 
-  afterEach(async function () {
+  afterEach(async () => {
     await recorder.stop();
   });
 

@@ -6,17 +6,15 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
 const { PostgreSQLManagementFlexibleServerClient } = require("@azure/arm-postgresql-flexible");
 const { DefaultAzureCredential } = require("@azure/identity");
-require("dotenv").config();
+require("dotenv/config");
 
 /**
  * This sample demonstrates how to Updates an existing virtual endpoint. The request body can contain one to many of the properties present in the normal virtual endpoint definition.
  *
  * @summary Updates an existing virtual endpoint. The request body can contain one to many of the properties present in the normal virtual endpoint definition.
- * x-ms-original-file: specification/postgresql/resource-manager/Microsoft.DBforPostgreSQL/preview/2023-12-01-preview/examples/VirtualEndpointUpdate.json
+ * x-ms-original-file: specification/postgresql/resource-manager/Microsoft.DBforPostgreSQL/preview/2025-01-01-preview/examples/VirtualEndpointUpdate.json
  */
 async function updateAVirtualEndpointForAServerToUpdateThe() {
   const subscriptionId =
@@ -40,7 +38,7 @@ async function updateAVirtualEndpointForAServerToUpdateThe() {
 }
 
 async function main() {
-  updateAVirtualEndpointForAServerToUpdateThe();
+  await updateAVirtualEndpointForAServerToUpdateThe();
 }
 
 main().catch(console.error);

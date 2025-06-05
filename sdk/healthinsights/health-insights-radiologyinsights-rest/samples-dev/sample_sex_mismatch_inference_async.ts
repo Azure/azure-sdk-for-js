@@ -6,9 +6,11 @@
  */
 import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
-import type { CreateJobParameters, RadiologyInsightsJobOutput } from "@azure-rest/health-insights-radiologyinsights";
+import type {
+  CreateJobParameters,
+  RadiologyInsightsJobOutput,
+} from "@azure-rest/health-insights-radiologyinsights";
 import AzureHealthInsightsClient, {
-  ClinicalDocumentTypeEnum,
   getLongRunningPoller,
   isUnexpected,
 } from "@azure-rest/health-insights-radiologyinsights";
@@ -48,9 +50,11 @@ function printResults(radiologyInsightsResult: RadiologyInsightsJobOutput): void
   function displayCodes(codeableConcept: any): void {
     codeableConcept.coding?.forEach((coding: any) => {
       if ("code" in coding) {
-        console.log(
-          "      Coding: " + coding.code + ", " + coding.display + " (" + coding.system + ")",
-        );
+        if ("display" in coding && "system" in coding && "code" in coding) {
+          console.log(
+            "         Coding: " + coding.code + ", " + coding.display + " (" + coding.system + ")",
+          );
+        }
       }
     });
   }
@@ -59,7 +63,7 @@ function printResults(radiologyInsightsResult: RadiologyInsightsJobOutput): void
 // Create request body for radiology insights
 function createRequestBody(): CreateJobParameters {
   const codingData = {
-    system: "Http://hl7.org/fhir/ValueSet/cpt-all",
+    system: "http://www.ama-assn.org/go/cpt",
     code: "USPELVIS",
     display: "US PELVIS COMPLETE",
   };
@@ -70,7 +74,7 @@ function createRequestBody(): CreateJobParameters {
 
   const patientInfo = {
     sex: "female",
-    birthDate: new Date("1959-11-11T19:00:00+00:00"),
+    birthDate: "1959-11-11T19:00:00+00:00",
   };
 
   const encounterData = {
@@ -128,14 +132,14 @@ function createRequestBody(): CreateJobParameters {
 
   const patientDocumentData = {
     type: "note",
-    clinicalType: ClinicalDocumentTypeEnum.RadiologyReport,
+    clinicalType: "radiologyReport",
     id: "docid1",
     language: "en",
     authors: [authorData],
     specialtyType: "radiology",
     administrativeMetadata: administrativeMetadata,
     content: content,
-    createdAt: new Date("2021-05-31T16:00:00.000Z"),
+    createdAt: "2021-05-31T16:00:00.000Z",
     orderedProceduresAsCsv: "US PELVIS COMPLETE",
   };
 
@@ -158,6 +162,9 @@ function createRequestBody(): CreateJobParameters {
     "followupRecommendation",
     "followupCommunication",
     "radiologyProcedure",
+    "scoringAndAssessment",
+    "guidance",
+    "qualityMeasure",
   ];
 
   const followupRecommendationOptions = {
@@ -219,7 +226,7 @@ export async function main(): Promise<void> {
     throw RadiologyInsightsResult;
   }
   const resultBody = RadiologyInsightsResult.body;
-  printResults(resultBody);
+  await printResults(resultBody);
 }
 
 main().catch((err) => {

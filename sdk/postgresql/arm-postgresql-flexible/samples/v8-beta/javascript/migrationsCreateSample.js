@@ -6,17 +6,15 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
 const { PostgreSQLManagementFlexibleServerClient } = require("@azure/arm-postgresql-flexible");
 const { DefaultAzureCredential } = require("@azure/identity");
-require("dotenv").config();
+require("dotenv/config");
 
 /**
  * This sample demonstrates how to Creates a new migration.
  *
  * @summary Creates a new migration.
- * x-ms-original-file: specification/postgresql/resource-manager/Microsoft.DBforPostgreSQL/preview/2023-12-01-preview/examples/Migrations_Create_Other_SourceTypes_Validate_Migrate.json
+ * x-ms-original-file: specification/postgresql/resource-manager/Microsoft.DBforPostgreSQL/preview/2025-01-01-preview/examples/Migrations_Create_Other_SourceTypes_Validate_Migrate.json
  */
 async function createMigrationWithOtherSourceTypesForValidateAndMigrate() {
   const subscriptionId = "ffffffff-ffff-ffff-ffff-ffffffffffff";
@@ -55,7 +53,7 @@ async function createMigrationWithOtherSourceTypesForValidateAndMigrate() {
  * This sample demonstrates how to Creates a new migration.
  *
  * @summary Creates a new migration.
- * x-ms-original-file: specification/postgresql/resource-manager/Microsoft.DBforPostgreSQL/preview/2023-12-01-preview/examples/Migrations_Create_Validate_Only.json
+ * x-ms-original-file: specification/postgresql/resource-manager/Microsoft.DBforPostgreSQL/preview/2025-01-01-preview/examples/Migrations_Create_Validate_Only.json
  */
 async function createPreMigrationValidation() {
   const subscriptionId = "ffffffff-ffff-ffff-ffff-ffffffffffff";
@@ -93,7 +91,7 @@ async function createPreMigrationValidation() {
  * This sample demonstrates how to Creates a new migration.
  *
  * @summary Creates a new migration.
- * x-ms-original-file: specification/postgresql/resource-manager/Microsoft.DBforPostgreSQL/preview/2023-12-01-preview/examples/Migrations_Create_With_Other_Users.json
+ * x-ms-original-file: specification/postgresql/resource-manager/Microsoft.DBforPostgreSQL/preview/2025-01-01-preview/examples/Migrations_Create_With_Other_Users.json
  */
 async function migrationsCreateByPassingUserNames() {
   const subscriptionId = "ffffffff-ffff-ffff-ffff-ffffffffffff";
@@ -131,7 +129,46 @@ async function migrationsCreateByPassingUserNames() {
  * This sample demonstrates how to Creates a new migration.
  *
  * @summary Creates a new migration.
- * x-ms-original-file: specification/postgresql/resource-manager/Microsoft.DBforPostgreSQL/preview/2023-12-01-preview/examples/Migrations_Create_With_PrivateEndpoint_Servers.json
+ * x-ms-original-file: specification/postgresql/resource-manager/Microsoft.DBforPostgreSQL/preview/2025-01-01-preview/examples/Migrations_Create_With_FullyQualifiedDomainName.json
+ */
+async function migrationsCreateWithFullyQualifiedDomainName() {
+  const subscriptionId = "ffffffff-ffff-ffff-ffff-ffffffffffff";
+  const resourceGroupName = process.env["POSTGRESQL_RESOURCE_GROUP"] || "testrg";
+  const targetDbServerName = "testtarget";
+  const migrationName = "testmigration";
+  const parameters = {
+    dbsToMigrate: ["db1", "db2", "db3", "db4"],
+    location: "westus",
+    migrationMode: "Offline",
+    overwriteDbsInTarget: "True",
+    secretParameters: {
+      adminCredentials: {
+        sourceServerPassword: "xxxxxxxx",
+        targetServerPassword: "xxxxxxxx",
+      },
+    },
+    sourceDbServerFullyQualifiedDomainName: "testsourcefqdn.example.com",
+    sourceDbServerResourceId:
+      "/subscriptions/ffffffff-ffff-ffff-ffff-ffffffffffff/resourceGroups/testrg/providers/Microsoft.DBForPostgreSql/servers/testsource",
+    targetDbServerFullyQualifiedDomainName: "test-target-fqdn.example.com",
+  };
+  const credential = new DefaultAzureCredential();
+  const client = new PostgreSQLManagementFlexibleServerClient(credential);
+  const result = await client.migrations.create(
+    subscriptionId,
+    resourceGroupName,
+    targetDbServerName,
+    migrationName,
+    parameters,
+  );
+  console.log(result);
+}
+
+/**
+ * This sample demonstrates how to Creates a new migration.
+ *
+ * @summary Creates a new migration.
+ * x-ms-original-file: specification/postgresql/resource-manager/Microsoft.DBforPostgreSQL/preview/2025-01-01-preview/examples/Migrations_Create_With_PrivateEndpoint_Servers.json
  */
 async function migrationsCreateWithPrivateEndpoint() {
   const subscriptionId = "ffffffff-ffff-ffff-ffff-ffffffffffff";
@@ -170,7 +207,7 @@ async function migrationsCreateWithPrivateEndpoint() {
  * This sample demonstrates how to Creates a new migration.
  *
  * @summary Creates a new migration.
- * x-ms-original-file: specification/postgresql/resource-manager/Microsoft.DBforPostgreSQL/preview/2023-12-01-preview/examples/Migrations_Create_With_Roles.json
+ * x-ms-original-file: specification/postgresql/resource-manager/Microsoft.DBforPostgreSQL/preview/2025-01-01-preview/examples/Migrations_Create_With_Roles.json
  */
 async function migrationsCreateWithRoles() {
   const subscriptionId = "ffffffff-ffff-ffff-ffff-ffffffffffff";
@@ -208,7 +245,7 @@ async function migrationsCreateWithRoles() {
  * This sample demonstrates how to Creates a new migration.
  *
  * @summary Creates a new migration.
- * x-ms-original-file: specification/postgresql/resource-manager/Microsoft.DBforPostgreSQL/preview/2023-12-01-preview/examples/Migrations_Create.json
+ * x-ms-original-file: specification/postgresql/resource-manager/Microsoft.DBforPostgreSQL/preview/2025-01-01-preview/examples/Migrations_Create.json
  */
 async function migrationsCreate() {
   const subscriptionId = "ffffffff-ffff-ffff-ffff-ffffffffffff";
@@ -218,8 +255,6 @@ async function migrationsCreate() {
   const parameters = {
     dbsToMigrate: ["db1", "db2", "db3", "db4"],
     location: "westus",
-    migrationInstanceResourceId:
-      "/subscriptions/ffffffff-ffff-ffff-ffff-ffffffffffff/resourceGroups/testrg/providers/Microsoft.DBForPostgreSql/flexibleServers/testsourcemigration",
     migrationMode: "Offline",
     overwriteDbsInTarget: "True",
     secretParameters: {
@@ -244,12 +279,13 @@ async function migrationsCreate() {
 }
 
 async function main() {
-  createMigrationWithOtherSourceTypesForValidateAndMigrate();
-  createPreMigrationValidation();
-  migrationsCreateByPassingUserNames();
-  migrationsCreateWithPrivateEndpoint();
-  migrationsCreateWithRoles();
-  migrationsCreate();
+  await createMigrationWithOtherSourceTypesForValidateAndMigrate();
+  await createPreMigrationValidation();
+  await migrationsCreateByPassingUserNames();
+  await migrationsCreateWithFullyQualifiedDomainName();
+  await migrationsCreateWithPrivateEndpoint();
+  await migrationsCreateWithRoles();
+  await migrationsCreate();
 }
 
 main().catch(console.error);

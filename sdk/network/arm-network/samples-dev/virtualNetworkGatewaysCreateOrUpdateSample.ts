@@ -6,24 +6,21 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
+import type {
+  VirtualNetworkGateway} from "@azure/arm-network";
 import {
-  VirtualNetworkGateway,
   NetworkManagementClient,
 } from "@azure/arm-network";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Creates or updates a virtual network gateway in the specified resource group.
  *
  * @summary Creates or updates a virtual network gateway in the specified resource group.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2024-05-01/examples/VirtualNetworkGatewayUpdate.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2024-07-01/examples/VirtualNetworkGatewayUpdate.json
  */
-async function updateVirtualNetworkGateway() {
+async function updateVirtualNetworkGateway(): Promise<void> {
   const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";
   const resourceGroupName = process.env["NETWORK_RESOURCE_GROUP"] || "rg1";
   const virtualNetworkGatewayName = "vpngw";
@@ -37,6 +34,7 @@ async function updateVirtualNetworkGateway() {
     enableBgp: false,
     enableBgpRouteTranslationForNat: false,
     enableDnsForwarding: true,
+    enableHighBandwidthVpnGateway: false,
     gatewayType: "Vpn",
     ipConfigurations: [
       {
@@ -100,9 +98,9 @@ async function updateVirtualNetworkGateway() {
  * This sample demonstrates how to Creates or updates a virtual network gateway in the specified resource group.
  *
  * @summary Creates or updates a virtual network gateway in the specified resource group.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2024-05-01/examples/VirtualNetworkScalableGatewayUpdate.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2024-07-01/examples/VirtualNetworkScalableGatewayUpdate.json
  */
-async function updateVirtualNetworkScalableGateway() {
+async function updateVirtualNetworkScalableGateway(): Promise<void> {
   const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";
   const resourceGroupName = process.env["NETWORK_RESOURCE_GROUP"] || "rg1";
   const virtualNetworkGatewayName = "ergw";
@@ -162,9 +160,9 @@ async function updateVirtualNetworkScalableGateway() {
   console.log(result);
 }
 
-async function main() {
-  updateVirtualNetworkGateway();
-  updateVirtualNetworkScalableGateway();
+async function main(): Promise<void> {
+  await updateVirtualNetworkGateway();
+  await updateVirtualNetworkScalableGateway();
 }
 
 main().catch(console.error);

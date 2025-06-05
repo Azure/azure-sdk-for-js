@@ -15,7 +15,7 @@ import {
   BillingSubscriptionsAliasesGetResponse,
   BillingSubscriptionsAliasesCreateOrUpdateOptionalParams,
   BillingSubscriptionsAliasesCreateOrUpdateResponse,
-} from "../models";
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a BillingSubscriptionsAliases. */

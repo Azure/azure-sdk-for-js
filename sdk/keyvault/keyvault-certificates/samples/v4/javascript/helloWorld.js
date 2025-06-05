@@ -5,18 +5,14 @@
  * @summary Uses a CertificateClient in various ways to read a certificate as well as update a certificate's tags.
  */
 
-// Load the .env file if it exists
-const dotenv = require("dotenv");
-
 const { CertificateClient, DefaultCertificatePolicy } = require("@azure/keyvault-certificates");
-
 const { DefaultAzureCredential } = require("@azure/identity");
-
-dotenv.config();
+// Load the .env file if it exists
+require("dotenv/config");
 
 async function main() {
   // This sample uses DefaultAzureCredential, which supports a number of authentication mechanisms.
-  // See https://docs.microsoft.com/javascript/api/overview/azure/identity-readme?view=azure-node-latest for more information
+  // See https://learn.microsoft.com/javascript/api/overview/azure/identity-readme?view=azure-node-latest for more information
   // about DefaultAzureCredential and the other credentials that are available for use.
   // If you're using MSI, DefaultAzureCredential should "just work".
   const url = process.env["KEYVAULT_URI"] || "<keyvault-url>";
@@ -31,7 +27,7 @@ async function main() {
   // Creating a self-signed certificate
   const createPoller = await client.beginCreateCertificate(
     certificateName,
-    DefaultCertificatePolicy
+    DefaultCertificatePolicy,
   );
 
   // Get the pending certificate before the creation operation is complete
@@ -47,7 +43,7 @@ async function main() {
   // Note: It will not retrieve the certificate's policy.
   const certificateFromVersion = await client.getCertificateVersion(
     certificateName,
-    certificateWithPolicy.properties.version
+    certificateWithPolicy.properties.version,
   );
   console.log("Certificate from a specific version:", certificateFromVersion);
 
@@ -63,7 +59,7 @@ async function main() {
   const updatedCertificate = await client.updateCertificateProperties(
     certificateName,
     version,
-    properties
+    properties,
   );
   console.log("Updated certificate:", updatedCertificate);
 

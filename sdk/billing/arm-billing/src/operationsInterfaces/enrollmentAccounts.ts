@@ -15,7 +15,7 @@ import {
   EnrollmentAccountsGetByDepartmentResponse,
   EnrollmentAccountsGetOptionalParams,
   EnrollmentAccountsGetResponse,
-} from "../models";
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a EnrollmentAccounts. */

@@ -26,7 +26,7 @@ import {
   Device as DeviceMapper,
   DeviceUpdate as DeviceUpdateMapper,
   GenerateCapabilityImageRequest as GenerateCapabilityImageRequestMapper,
-} from "../models/mappers";
+} from "../models/mappers.js";
 
 export const accept: OperationParameter = {
   parameterPath: "accept",

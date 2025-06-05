@@ -14,9 +14,9 @@ import {
   SendRequest
 } from "@azure/core-rest-pipeline";
 import * as coreAuth from "@azure/core-auth";
-import { OperationsImpl, WorkspacesImpl } from "./operations";
-import { Operations, Workspaces } from "./operationsInterfaces";
-import { MachineLearningWorkspacesManagementClientOptionalParams } from "./models";
+import { OperationsImpl, WorkspacesImpl } from "./operations/index.js";
+import { Operations, Workspaces } from "./operationsInterfaces/index.js";
+import { MachineLearningWorkspacesManagementClientOptionalParams } from "./models/index.js";
 
 export class MachineLearningWorkspacesManagementClient extends coreClient.ServiceClient {
   $host: string;

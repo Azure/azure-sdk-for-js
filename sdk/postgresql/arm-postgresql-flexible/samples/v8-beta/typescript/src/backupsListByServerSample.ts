@@ -6,21 +6,17 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
 import { PostgreSQLManagementFlexibleServerClient } from "@azure/arm-postgresql-flexible";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to List all the backups for a given server.
  *
  * @summary List all the backups for a given server.
- * x-ms-original-file: specification/postgresql/resource-manager/Microsoft.DBforPostgreSQL/preview/2023-12-01-preview/examples/BackupListByServer.json
+ * x-ms-original-file: specification/postgresql/resource-manager/Microsoft.DBforPostgreSQL/preview/2025-01-01-preview/examples/BackupListByServer.json
  */
-async function listBackupsForAServer() {
+async function listBackupsForAServer(): Promise<void> {
   const subscriptionId =
     process.env["POSTGRESQL_SUBSCRIPTION_ID"] ||
     "ffffffff-ffff-ffff-ffff-ffffffffffff";
@@ -33,7 +29,7 @@ async function listBackupsForAServer() {
     subscriptionId,
   );
   const resArray = new Array();
-  for await (let item of client.backups.listByServer(
+  for await (const item of client.backups.listByServer(
     resourceGroupName,
     serverName,
   )) {
@@ -42,8 +38,8 @@ async function listBackupsForAServer() {
   console.log(resArray);
 }
 
-async function main() {
-  listBackupsForAServer();
+async function main(): Promise<void> {
+  await listBackupsForAServer();
 }
 
 main().catch(console.error);

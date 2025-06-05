@@ -6,27 +6,23 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
 import { PostgreSQLManagementFlexibleServerClient } from "@azure/arm-postgresql-flexible";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Gets information about a server.
  *
  * @summary Gets information about a server.
- * x-ms-original-file: specification/postgresql/resource-manager/Microsoft.DBforPostgreSQL/preview/2023-12-01-preview/examples/ServerGet.json
+ * x-ms-original-file: specification/postgresql/resource-manager/Microsoft.DBforPostgreSQL/preview/2025-01-01-preview/examples/ServerGet.json
  */
-async function serverGet() {
+async function serverGet(): Promise<void> {
   const subscriptionId =
     process.env["POSTGRESQL_SUBSCRIPTION_ID"] ||
     "ffffffff-ffff-ffff-ffff-ffffffffffff";
   const resourceGroupName =
     process.env["POSTGRESQL_RESOURCE_GROUP"] || "testrg";
-  const serverName = "pgtestsvc1";
+  const serverName = "testpgflex";
   const credential = new DefaultAzureCredential();
   const client = new PostgreSQLManagementFlexibleServerClient(
     credential,
@@ -40,9 +36,9 @@ async function serverGet() {
  * This sample demonstrates how to Gets information about a server.
  *
  * @summary Gets information about a server.
- * x-ms-original-file: specification/postgresql/resource-manager/Microsoft.DBforPostgreSQL/preview/2023-12-01-preview/examples/ServerGetWithPrivateEndpoints.json
+ * x-ms-original-file: specification/postgresql/resource-manager/Microsoft.DBforPostgreSQL/preview/2025-01-01-preview/examples/ServerGetWithPrivateEndpoints.json
  */
-async function serverGetWithPrivateEndpoints() {
+async function serverGetWithPrivateEndpoints(): Promise<void> {
   const subscriptionId =
     process.env["POSTGRESQL_SUBSCRIPTION_ID"] ||
     "ffffffff-ffff-ffff-ffff-ffffffffffff";
@@ -62,15 +58,15 @@ async function serverGetWithPrivateEndpoints() {
  * This sample demonstrates how to Gets information about a server.
  *
  * @summary Gets information about a server.
- * x-ms-original-file: specification/postgresql/resource-manager/Microsoft.DBforPostgreSQL/preview/2023-12-01-preview/examples/ServerGetWithVnet.json
+ * x-ms-original-file: specification/postgresql/resource-manager/Microsoft.DBforPostgreSQL/preview/2025-01-01-preview/examples/ServerGetWithVnet.json
  */
-async function serverGetWithVnet() {
+async function serverGetWithVnet(): Promise<void> {
   const subscriptionId =
     process.env["POSTGRESQL_SUBSCRIPTION_ID"] ||
     "ffffffff-ffff-ffff-ffff-ffffffffffff";
   const resourceGroupName =
     process.env["POSTGRESQL_RESOURCE_GROUP"] || "testrg";
-  const serverName = "pgtestsvc4";
+  const serverName = "testpgflex";
   const credential = new DefaultAzureCredential();
   const client = new PostgreSQLManagementFlexibleServerClient(
     credential,
@@ -80,10 +76,10 @@ async function serverGetWithVnet() {
   console.log(result);
 }
 
-async function main() {
-  serverGet();
-  serverGetWithPrivateEndpoints();
-  serverGetWithVnet();
+async function main(): Promise<void> {
+  await serverGet();
+  await serverGetWithPrivateEndpoints();
+  await serverGetWithVnet();
 }
 
 main().catch(console.error);

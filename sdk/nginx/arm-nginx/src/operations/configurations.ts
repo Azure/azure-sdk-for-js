@@ -7,20 +7,20 @@
  */
 
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
-import { setContinuationToken } from "../pagingHelper";
-import { Configurations } from "../operationsInterfaces";
+import { setContinuationToken } from "../pagingHelper.js";
+import { Configurations } from "../operationsInterfaces/index.js";
 import * as coreClient from "@azure/core-client";
-import * as Mappers from "../models/mappers";
-import * as Parameters from "../models/parameters";
-import { NginxManagementClient } from "../nginxManagementClient";
+import * as Mappers from "../models/mappers.js";
+import * as Parameters from "../models/parameters.js";
+import { NginxManagementClient } from "../nginxManagementClient.js";
 import {
   SimplePollerLike,
   OperationState,
   createHttpPoller,
 } from "@azure/core-lro";
-import { createLroSpec } from "../lroImpl";
+import { createLroSpec } from "../lroImpl.js";
 import {
-  NginxConfiguration,
+  NginxConfigurationResponse,
   ConfigurationsListNextOptionalParams,
   ConfigurationsListOptionalParams,
   ConfigurationsListResponse,
@@ -32,7 +32,7 @@ import {
   ConfigurationsAnalysisOptionalParams,
   ConfigurationsAnalysisResponse,
   ConfigurationsListNextResponse,
-} from "../models";
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Class containing Configurations operations. */
@@ -57,7 +57,7 @@ export class ConfigurationsImpl implements Configurations {
     resourceGroupName: string,
     deploymentName: string,
     options?: ConfigurationsListOptionalParams,
-  ): PagedAsyncIterableIterator<NginxConfiguration> {
+  ): PagedAsyncIterableIterator<NginxConfigurationResponse> {
     const iter = this.listPagingAll(resourceGroupName, deploymentName, options);
     return {
       next() {
@@ -85,7 +85,7 @@ export class ConfigurationsImpl implements Configurations {
     deploymentName: string,
     options?: ConfigurationsListOptionalParams,
     settings?: PageSettings,
-  ): AsyncIterableIterator<NginxConfiguration[]> {
+  ): AsyncIterableIterator<NginxConfigurationResponse[]> {
     let result: ConfigurationsListResponse;
     let continuationToken = settings?.continuationToken;
     if (!continuationToken) {
@@ -113,7 +113,7 @@ export class ConfigurationsImpl implements Configurations {
     resourceGroupName: string,
     deploymentName: string,
     options?: ConfigurationsListOptionalParams,
-  ): AsyncIterableIterator<NginxConfiguration> {
+  ): AsyncIterableIterator<NginxConfigurationResponse> {
     for await (const page of this.listPagingPage(
       resourceGroupName,
       deploymentName,
@@ -395,7 +395,7 @@ const listOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.NginxConfigurationListResponse,
     },
     default: {
-      bodyMapper: Mappers.ResourceProviderDefaultErrorResponse,
+      bodyMapper: Mappers.ErrorResponse,
     },
   },
   queryParameters: [Parameters.apiVersion],
@@ -413,10 +413,10 @@ const getOperationSpec: coreClient.OperationSpec = {
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.NginxConfiguration,
+      bodyMapper: Mappers.NginxConfigurationResponse,
     },
     default: {
-      bodyMapper: Mappers.ResourceProviderDefaultErrorResponse,
+      bodyMapper: Mappers.ErrorResponse,
     },
   },
   queryParameters: [Parameters.apiVersion],
@@ -435,22 +435,22 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.NginxConfiguration,
+      bodyMapper: Mappers.NginxConfigurationResponse,
     },
     201: {
-      bodyMapper: Mappers.NginxConfiguration,
+      bodyMapper: Mappers.NginxConfigurationResponse,
     },
     202: {
-      bodyMapper: Mappers.NginxConfiguration,
+      bodyMapper: Mappers.NginxConfigurationResponse,
     },
     204: {
-      bodyMapper: Mappers.NginxConfiguration,
+      bodyMapper: Mappers.NginxConfigurationResponse,
     },
     default: {
-      bodyMapper: Mappers.ResourceProviderDefaultErrorResponse,
+      bodyMapper: Mappers.ErrorResponse,
     },
   },
-  requestBody: Parameters.body1,
+  requestBody: Parameters.body2,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
@@ -459,7 +459,7 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
     Parameters.deploymentName,
     Parameters.configurationName,
   ],
-  headerParameters: [Parameters.accept, Parameters.contentType],
+  headerParameters: [Parameters.contentType, Parameters.accept],
   mediaType: "json",
   serializer,
 };
@@ -472,7 +472,7 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     202: {},
     204: {},
     default: {
-      bodyMapper: Mappers.ResourceProviderDefaultErrorResponse,
+      bodyMapper: Mappers.ErrorResponse,
     },
   },
   queryParameters: [Parameters.apiVersion],
@@ -494,10 +494,10 @@ const analysisOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.AnalysisResult,
     },
     default: {
-      bodyMapper: Mappers.ResourceProviderDefaultErrorResponse,
+      bodyMapper: Mappers.ErrorResponse,
     },
   },
-  requestBody: Parameters.body2,
+  requestBody: Parameters.body3,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
@@ -506,7 +506,7 @@ const analysisOperationSpec: coreClient.OperationSpec = {
     Parameters.deploymentName,
     Parameters.configurationName1,
   ],
-  headerParameters: [Parameters.accept, Parameters.contentType],
+  headerParameters: [Parameters.contentType, Parameters.accept],
   mediaType: "json",
   serializer,
 };
@@ -518,7 +518,7 @@ const listNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.NginxConfigurationListResponse,
     },
     default: {
-      bodyMapper: Mappers.ResourceProviderDefaultErrorResponse,
+      bodyMapper: Mappers.ErrorResponse,
     },
   },
   urlParameters: [

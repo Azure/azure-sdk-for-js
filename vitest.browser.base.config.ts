@@ -3,6 +3,7 @@
 
 import { defineConfig } from "vitest/config";
 import browserMap from "@azure-tools/vite-plugin-browser-test-map";
+import { AzureSDKReporter } from "./vitest.shared.config.js";
 
 export default defineConfig({
   define: {
@@ -13,20 +14,22 @@ export default defineConfig({
       enabled: true,
     },
     testTimeout: 18000,
-    reporters: ["verbose", "junit"],
+    reporters: [new AzureSDKReporter(), "junit"],
     outputFile: {
       junit: "test-results.browser.xml",
     },
     browser: {
+      instances: [
+        {
+          browser: "chromium",
+          launch: {
+            args: ["--disable-web-security"],
+          },
+        },
+      ],
       enabled: true,
       headless: true,
-      name: "chromium",
       provider: "playwright",
-      providerOptions: {
-        launch: {
-          args: ["--disable-web-security"],
-        },
-      },
     },
     fakeTimers: {
       toFake: ["setTimeout", "Date"],

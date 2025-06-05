@@ -24,16 +24,13 @@
 
 import { AttestationClient } from "@azure/attestation";
 import { DefaultAzureCredential } from "@azure/identity";
-
 import { X509 } from "jsrsasign";
-
-// Load environment from a .env file if it exists.
-import * as dotenv from "dotenv";
 import { writeBanner } from "./utils/helpers.js";
-dotenv.config();
+// Load environment from a .env file if it exists.
+import "dotenv/config";
 
-async function getOpenIdMetadata() {
-  writeBanner("getOpenIdMetadata");
+async function getOpenIdMetadata(): Promise<void> {
+  await writeBanner("getOpenIdMetadata");
   const endpoint = process.env.ATTESTATION_AAD_URL;
 
   if (!endpoint) {
@@ -48,8 +45,8 @@ async function getOpenIdMetadata() {
   console.log("OpenID Certificate endpoint: ", defaultOpenIdMetadata.jwks_uri);
 }
 
-async function getOpenIdMetadataAnonymously() {
-  writeBanner("getOpenIdMetadata - Anonymously.");
+async function getOpenIdMetadataAnonymously(): Promise<void> {
+  await writeBanner("getOpenIdMetadata - Anonymously.");
   const endpoint = process.env.ATTESTATION_AAD_URL;
 
   if (!endpoint) {
@@ -64,8 +61,8 @@ async function getOpenIdMetadataAnonymously() {
   console.log("OpenID Certificate endpoint: ", defaultOpenIdMetadata.jwks_uri);
 }
 
-async function getSigningCertificates() {
-  writeBanner("getSigningCertificates");
+async function getSigningCertificates(): Promise<void> {
+  await writeBanner("getSigningCertificates");
   const endpoint = process.env.ATTESTATION_AAD_URL;
 
   if (!endpoint) {
@@ -80,7 +77,7 @@ async function getSigningCertificates() {
   console.log(`There are ${attestationSigners.length} signers`);
 
   // Now print the Key ID and certificate subject for each signer.
-  attestationSigners.forEach((element) => {
+  await attestationSigners.forEach((element) => {
     console.log(`  Element Key ID: ${element.keyId};`);
     const cert = new X509();
     cert.readCertPEM(element.certificates[0]);
@@ -88,7 +85,7 @@ async function getSigningCertificates() {
   });
 }
 
-export async function main() {
+export async function main(): Promise<void> {
   await getOpenIdMetadata();
   await getOpenIdMetadataAnonymously();
   await getSigningCertificates();

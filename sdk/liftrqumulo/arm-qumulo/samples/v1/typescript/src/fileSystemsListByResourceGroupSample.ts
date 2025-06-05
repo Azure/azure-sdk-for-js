@@ -10,9 +10,7 @@
 // Licensed under the MIT License.
 import { QumuloStorage } from "@azure/arm-qumulo";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to List FileSystemResource resources by resource group
@@ -20,7 +18,7 @@ dotenv.config();
  * @summary List FileSystemResource resources by resource group
  * x-ms-original-file: specification/liftrqumulo/resource-manager/Qumulo.Storage/stable/2022-10-12/examples/FileSystems_ListByResourceGroup_MaximumSet_Gen.json
  */
-async function fileSystemsListByResourceGroupMaximumSetGen() {
+async function fileSystemsListByResourceGroupMaximumSetGen(): Promise<void> {
   const subscriptionId =
     process.env["LIFTRQUMULO_SUBSCRIPTION_ID"] || "ulseeqylxb";
   const resourceGroupName =
@@ -42,7 +40,7 @@ async function fileSystemsListByResourceGroupMaximumSetGen() {
  * @summary List FileSystemResource resources by resource group
  * x-ms-original-file: specification/liftrqumulo/resource-manager/Qumulo.Storage/stable/2022-10-12/examples/FileSystems_ListByResourceGroup_MinimumSet_Gen.json
  */
-async function fileSystemsListByResourceGroupMinimumSetGen() {
+async function fileSystemsListByResourceGroupMinimumSetGen(): Promise<void> {
   const subscriptionId =
     process.env["LIFTRQUMULO_SUBSCRIPTION_ID"] || "aaaaaaa";
   const resourceGroupName =
@@ -58,7 +56,7 @@ async function fileSystemsListByResourceGroupMinimumSetGen() {
   console.log(resArray);
 }
 
-async function main() {
+async function main(): Promise<void> {
   fileSystemsListByResourceGroupMaximumSetGen();
   fileSystemsListByResourceGroupMinimumSetGen();
 }

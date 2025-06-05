@@ -70,7 +70,7 @@ export interface ListLocalitiesOptions extends OperationOptions {
  * Additional options for the search operator information request.
  */
 export interface SearchOperatorInformationOptions extends OperationOptions {
-  includeAdditionalOperatorDetails: boolean;
+  includeAdditionalOperatorDetails?: boolean;
 }
 
 /**
@@ -105,7 +105,6 @@ export {
   PhoneNumberOffering,
   PhoneNumberSearchRequest,
   PhoneNumberSearchResult,
-  PhoneNumberSearchResultError,
   PhoneNumberType,
   PurchasedPhoneNumber,
   OperatorDetails,

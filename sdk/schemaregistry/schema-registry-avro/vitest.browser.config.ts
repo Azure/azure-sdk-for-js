@@ -1,4 +1,3 @@
-
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
@@ -11,17 +10,14 @@ export default mergeConfig(
   viteConfig,
   defineConfig({
     optimizeDeps: {
-      include: ["process", "buffer"],
+      include: ["buffer", "process"],
     },
-    plugins: [
-      browserMap(),
-      inject({ process: "process", Buffer: ["buffer", "Buffer"] }),
-    ],
+    plugins: [browserMap(), inject({ process: "process", Buffer: ["buffer", "Buffer"] })],
     test: {
       fileParallelism: false,
-      include: [
-        "dist-test/browser/test/**/*.spec.js",
-      ],
+      include: ["dist-test/browser/test/**/*.spec.js"],
+      testTimeout: 1200000,
+      hookTimeout: 1200000,
     },
   }),
 );

@@ -13,7 +13,7 @@ import {
   BackupAndExportCreateResponse,
   BackupAndExportValidateBackupOptionalParams,
   BackupAndExportValidateBackupResponse,
-} from "../models";
+} from "../models/index.js";
 
 /** Interface representing a BackupAndExport. */
 export interface BackupAndExport {

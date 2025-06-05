@@ -6,17 +6,15 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
 const { PostgreSQLManagementFlexibleServerClient } = require("@azure/arm-postgresql-flexible");
 const { DefaultAzureCredential } = require("@azure/identity");
-require("dotenv").config();
+require("dotenv/config");
 
 /**
  * This sample demonstrates how to Get a list of server's Threat Protection state.
  *
  * @summary Get a list of server's Threat Protection state.
- * x-ms-original-file: specification/postgresql/resource-manager/Microsoft.DBforPostgreSQL/preview/2023-12-01-preview/examples/ServerThreatProtectionSettingsListByServer.json
+ * x-ms-original-file: specification/postgresql/resource-manager/Microsoft.DBforPostgreSQL/preview/2025-01-01-preview/examples/ServerThreatProtectionSettingsListByServer.json
  */
 async function getAServerAdvancedThreatProtectionSettings() {
   const subscriptionId =
@@ -26,7 +24,7 @@ async function getAServerAdvancedThreatProtectionSettings() {
   const credential = new DefaultAzureCredential();
   const client = new PostgreSQLManagementFlexibleServerClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.serverThreatProtectionSettings.listByServer(
+  for await (const item of client.serverThreatProtectionSettings.listByServer(
     resourceGroupName,
     serverName,
   )) {
@@ -36,7 +34,7 @@ async function getAServerAdvancedThreatProtectionSettings() {
 }
 
 async function main() {
-  getAServerAdvancedThreatProtectionSettings();
+  await getAServerAdvancedThreatProtectionSettings();
 }
 
 main().catch(console.error);

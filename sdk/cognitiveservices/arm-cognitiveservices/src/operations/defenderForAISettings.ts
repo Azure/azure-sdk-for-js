@@ -7,12 +7,12 @@
  */
 
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
-import { setContinuationToken } from "../pagingHelper";
-import { DefenderForAISettings } from "../operationsInterfaces";
+import { setContinuationToken } from "../pagingHelper.js";
+import { DefenderForAISettings } from "../operationsInterfaces/index.js";
 import * as coreClient from "@azure/core-client";
-import * as Mappers from "../models/mappers";
-import * as Parameters from "../models/parameters";
-import { CognitiveServicesManagementClient } from "../cognitiveServicesManagementClient";
+import * as Mappers from "../models/mappers.js";
+import * as Parameters from "../models/parameters.js";
+import { CognitiveServicesManagementClient } from "../cognitiveServicesManagementClient.js";
 import {
   DefenderForAISetting,
   DefenderForAISettingsListNextOptionalParams,
@@ -25,7 +25,7 @@ import {
   DefenderForAISettingsUpdateOptionalParams,
   DefenderForAISettingsUpdateResponse,
   DefenderForAISettingsListNextResponse,
-} from "../models";
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Class containing DefenderForAISettings operations. */
@@ -63,12 +63,7 @@ export class DefenderForAISettingsImpl implements DefenderForAISettings {
         if (settings?.maxPageSize) {
           throw new Error("maxPageSize is not supported by this operation.");
         }
-        return this.listPagingPage(
-          resourceGroupName,
-          accountName,
-          options,
-          settings,
-        );
+        return this.listPagingPage(resourceGroupName, accountName, options, settings);
       },
     };
   }
@@ -89,12 +84,7 @@ export class DefenderForAISettingsImpl implements DefenderForAISettings {
       yield page;
     }
     while (continuationToken) {
-      result = await this._listNext(
-        resourceGroupName,
-        accountName,
-        continuationToken,
-        options,
-      );
+      result = await this._listNext(resourceGroupName, accountName, continuationToken, options);
       continuationToken = result.nextLink;
       let page = result.value || [];
       setContinuationToken(page, continuationToken);
@@ -107,11 +97,7 @@ export class DefenderForAISettingsImpl implements DefenderForAISettings {
     accountName: string,
     options?: DefenderForAISettingsListOptionalParams,
   ): AsyncIterableIterator<DefenderForAISetting> {
-    for await (const page of this.listPagingPage(
-      resourceGroupName,
-      accountName,
-      options,
-    )) {
+    for await (const page of this.listPagingPage(resourceGroupName, accountName, options)) {
       yield* page;
     }
   }

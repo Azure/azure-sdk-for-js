@@ -25,7 +25,7 @@ import {
   PrivateEndpointConnection as PrivateEndpointConnectionMapper,
   RedisCacheAccessPolicy as RedisCacheAccessPolicyMapper,
   RedisCacheAccessPolicyAssignment as RedisCacheAccessPolicyAssignmentMapper,
-} from "../models/mappers";
+} from "../models/mappers.js";
 
 export const accept: OperationParameter = {
   parameterPath: "accept",
@@ -54,7 +54,7 @@ export const $host: OperationURLParameter = {
 export const apiVersion: OperationQueryParameter = {
   parameterPath: "apiVersion",
   mapper: {
-    defaultValue: "2024-03-01",
+    defaultValue: "2024-11-01",
     isConstant: true,
     serializedName: "api-version",
     type: {

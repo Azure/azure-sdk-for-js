@@ -5,7 +5,7 @@ import * as path from "path";
 import * as fs from "fs/promises";
 import type { CompilerOptions } from "typescript";
 
-type Config = {
+export type Config = {
   compilerOptions: CompilerOptions;
   include?: string[];
   exclude?: string[];
@@ -33,7 +33,7 @@ function mergeConfig(config1: Config, config2: Config) {
  * @param configPath - The path to the tsconfig file.
  * @returns A record containing the raw parsed configuration.
  */
-export async function resolveConfig(configPath: string) {
+export async function resolveConfig(configPath: string): Promise<Config> {
   async function helper(configPath: string) {
     const absolutePath = path.resolve(configPath);
     const configDir = path.dirname(absolutePath);

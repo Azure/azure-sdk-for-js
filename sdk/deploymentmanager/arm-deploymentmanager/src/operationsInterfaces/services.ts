@@ -15,7 +15,7 @@ import {
   ServicesDeleteOptionalParams,
   ServicesListOptionalParams,
   ServicesListResponse
-} from "../models";
+} from "../models/index.js";
 
 /** Interface representing a Services. */
 export interface Services {

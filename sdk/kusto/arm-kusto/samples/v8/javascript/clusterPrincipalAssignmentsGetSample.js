@@ -10,13 +10,13 @@
 // Licensed under the MIT License.
 const { KustoManagementClient } = require("@azure/arm-kusto");
 const { DefaultAzureCredential } = require("@azure/identity");
-require("dotenv").config();
+require("dotenv/config");
 
 /**
  * This sample demonstrates how to Gets a Kusto cluster principalAssignment.
  *
  * @summary Gets a Kusto cluster principalAssignment.
- * x-ms-original-file: specification/azure-kusto/resource-manager/Microsoft.Kusto/stable/2023-08-15/examples/KustoClusterPrincipalAssignmentsGet.json
+ * x-ms-original-file: specification/azure-kusto/resource-manager/Microsoft.Kusto/stable/2024-04-13/examples/KustoClusterPrincipalAssignmentsGet.json
  */
 async function kustoClusterPrincipalAssignmentsGet() {
   const subscriptionId =
@@ -35,7 +35,7 @@ async function kustoClusterPrincipalAssignmentsGet() {
 }
 
 async function main() {
-  kustoClusterPrincipalAssignmentsGet();
+  await kustoClusterPrincipalAssignmentsGet();
 }
 
 main().catch(console.error);

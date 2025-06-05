@@ -55,12 +55,13 @@ AZURE_CLIENT_ID, AZURE_TENANT_ID, AZURE_CLIENT_SECRET
 
 Use the returned token credential to authenticate the client:
 
-```typescript
+```ts snippet:ReadmeSampleCreateClient_Node
 import PurviewScanning from "@azure-rest/purview-scanning";
 import { DefaultAzureCredential } from "@azure/identity";
+
 const client = PurviewScanning(
-  "https://<my-account-name>.scan.purview.azure.com",
-  new DefaultAzureCredential()
+  "https://<my-account-name>.purview.azure.com",
+  new DefaultAzureCredential(),
 );
 ```
 
@@ -78,34 +79,24 @@ The following section shows you how to initialize and authenticate your client, 
 
 ### List All Data Sources
 
-```typescript
-import PurviewScanning, { paginate, DataSource } from "@azure-rest/purview-scanning";
-import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
+```ts snippet:ReadmeSampleListAllDataSources
+import PurviewScanning, { isUnexpected, paginate } from "@azure-rest/purview-scanning";
 import { DefaultAzureCredential } from "@azure/identity";
 
-async function main(): Promise<void> {
-  console.log("== List dataSources ==");
-  const client = PurviewScanning(
-    "https://<my-account-name>.scan.purview.azure.com",
-    new DefaultAzureCredential()
-  );
+const client = PurviewScanning(
+  "https://<my-account-name>.purview.azure.com",
+  new DefaultAzureCredential(),
+);
 
-  const dataSources = await client.path("/datasources").get();
-  if (dataSources.status !== "200") {
-    throw dataSources.body.error;
-  }
-  const iter = paginate(client, dataSources)
-
-  const items: DataSource[] = [];
-
-  for await (const item of <PagedAsyncIterableIterator<DataSource, (DataSource)[], PageSettings>>iter) {
-    items.push(item);
-  }
-
-  console.log(items?.map((ds) => ds.name).join("\n"));
+const dataSources = await client.path("/datasources").get();
+if (isUnexpected(dataSources)) {
+  throw dataSources.body.error;
 }
 
-main().catch(console.error);
+const pagedDataSources = paginate(client, dataSources);
+for await (const dataSource of pagedDataSources) {
+  console.log(`Data Source Name: ${dataSource.name}`);
+}
 ```
 
 ## Troubleshooting
@@ -114,7 +105,7 @@ main().catch(console.error);
 
 Enabling logging may help uncover useful information about failures. In order to see a log of HTTP requests and responses, set the `AZURE_LOG_LEVEL` environment variable to `info`. Alternatively, logging can be enabled at runtime by calling `setLogLevel` in the `@azure/logger`:
 
-```ts
+```ts snippet:SetLogLevel
 import { setLogLevel } from "@azure/logger";
 
 setLogLevel("info");
@@ -132,8 +123,6 @@ If you'd like to contribute to this library, please read the [contributing guide
 
 - [Microsoft Azure SDK for JavaScript](https://github.com/Azure/azure-sdk-for-js)
 
-![Impressions](https://azure-sdk-impressions.azurewebsites.net/api/impressions/azure-sdk-for-js%2Fsdk%2Fpurview%2Fpurview-scanning-rest%2FREADME.png)
-
 <!-- LINKS -->
 
 [scanning_product_documentation]: https://azure.microsoft.com/services/purview/
@@ -142,9 +131,9 @@ If you'd like to contribute to this library, please read the [contributing guide
 [scanning_npm]: https://www.npmjs.com/package/@azure-rest/purview-scanning
 [scanning_ref_docs]: https://azure.github.io/azure-sdk-for-js
 [azure_subscription]: https://azure.microsoft.com/free/
-[purview_resource]: https://docs.microsoft.com/azure/purview/create-catalog-portal
-[authenticate_with_token]: https://docs.microsoft.com/azure/cognitive-services/authentication?tabs=powershell#authenticate-with-an-authentication-token
+[purview_resource]: https://learn.microsoft.com/azure/purview/create-catalog-portal
+[authenticate_with_token]: https://learn.microsoft.com/azure/cognitive-services/authentication?tabs=powershell#authenticate-with-an-authentication-token
 [azure_identity_credentials]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/identity/identity#credentials
 [azure_identity_npm]: https://www.npmjs.com/package/@azure/identity
-[enable_aad]: https://docs.microsoft.com/azure/purview/create-catalog-portal#add-a-security-principal-to-a-data-plane-role
+[enable_aad]: https://learn.microsoft.com/azure/purview/create-catalog-portal#add-a-security-principal-to-a-data-plane-role
 [default_azure_credential]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/identity/identity#defaultazurecredential

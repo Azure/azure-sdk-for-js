@@ -10,9 +10,7 @@
 // Licensed under the MIT License.
 import { RecoveryServicesBackupClient } from "@azure/arm-recoveryservicesbackup";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Provides the details of the backup policies associated to Recovery Services Vault. This is an asynchronous
@@ -20,9 +18,9 @@ operation. Status of the operation can be fetched using GetPolicyOperationResult
  *
  * @summary Provides the details of the backup policies associated to Recovery Services Vault. This is an asynchronous
 operation. Status of the operation can be fetched using GetPolicyOperationResult API.
- * x-ms-original-file: specification/recoveryservicesbackup/resource-manager/Microsoft.RecoveryServices/stable/2024-04-01/examples/AzureIaasVm/V2Policy/v2-Get-Policy.json
+ * x-ms-original-file: specification/recoveryservicesbackup/resource-manager/Microsoft.RecoveryServices/stable/2025-02-01/examples/AzureIaasVm/V2Policy/v2-Get-Policy.json
  */
-async function getAzureIaasVMEnhancedProtectionPolicyDetails() {
+async function getAzureIaasVMEnhancedProtectionPolicyDetails(): Promise<void> {
   const subscriptionId =
     process.env["RECOVERYSERVICESBACKUP_SUBSCRIPTION_ID"] ||
     "00000000-0000-0000-0000-000000000000";
@@ -46,9 +44,9 @@ operation. Status of the operation can be fetched using GetPolicyOperationResult
  *
  * @summary Provides the details of the backup policies associated to Recovery Services Vault. This is an asynchronous
 operation. Status of the operation can be fetched using GetPolicyOperationResult API.
- * x-ms-original-file: specification/recoveryservicesbackup/resource-manager/Microsoft.RecoveryServices/stable/2024-04-01/examples/AzureIaasVm/ProtectionPolicies_Get.json
+ * x-ms-original-file: specification/recoveryservicesbackup/resource-manager/Microsoft.RecoveryServices/stable/2025-02-01/examples/AzureIaasVm/ProtectionPolicies_Get.json
  */
-async function getAzureIaasVMProtectionPolicyDetails() {
+async function getAzureIaasVMProtectionPolicyDetails(): Promise<void> {
   const subscriptionId =
     process.env["RECOVERYSERVICESBACKUP_SUBSCRIPTION_ID"] ||
     "00000000-0000-0000-0000-000000000000";
@@ -66,9 +64,9 @@ async function getAzureIaasVMProtectionPolicyDetails() {
   console.log(result);
 }
 
-async function main() {
-  getAzureIaasVMEnhancedProtectionPolicyDetails();
-  getAzureIaasVMProtectionPolicyDetails();
+async function main(): Promise<void> {
+  await getAzureIaasVMEnhancedProtectionPolicyDetails();
+  await getAzureIaasVMProtectionPolicyDetails();
 }
 
 main().catch(console.error);

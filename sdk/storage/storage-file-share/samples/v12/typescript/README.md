@@ -87,8 +87,8 @@ Take a look at our [API Documentation][apiref] for more information about the AP
 [proxyauth]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/storage/storage-file-share/samples/v12/typescript/src/proxyAuth.ts
 [advancedrequestoptions]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/storage/storage-file-share/samples/v12/typescript/src/advancedRequestOptions.ts
 [custompipeline]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/storage/storage-file-share/samples/v12/typescript/src/customPipeline.ts
-[apiref]: https://docs.microsoft.com/javascript/api/@azure/storage-file-share
+[apiref]: https://learn.microsoft.com/javascript/api/@azure/storage-file-share
 [freesub]: https://azure.microsoft.com/free/
-[createinstance_azurestorageaccount]: https://docs.microsoft.com/azure/storage/common/storage-account-overview
+[createinstance_azurestorageaccount]: https://learn.microsoft.com/azure/storage/common/storage-account-overview
 [package]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/storage/storage-file-share/README.md
 [typescript]: https://www.typescriptlang.org/docs/home.html

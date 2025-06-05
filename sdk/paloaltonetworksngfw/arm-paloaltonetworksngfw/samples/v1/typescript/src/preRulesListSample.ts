@@ -10,9 +10,7 @@
 // Licensed under the MIT License.
 import { PaloAltoNetworksCloudngfw } from "@azure/arm-paloaltonetworksngfw";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to List PreRulesResource resources by Tenant
@@ -20,7 +18,7 @@ dotenv.config();
  * @summary List PreRulesResource resources by Tenant
  * x-ms-original-file: specification/paloaltonetworks/resource-manager/PaloAltoNetworks.Cloudngfw/stable/2023-09-01/examples/PreRules_List_MaximumSet_Gen.json
  */
-async function preRulesListMaximumSetGen() {
+async function preRulesListMaximumSetGen(): Promise<void> {
   const globalRulestackName = "lrs1";
   const credential = new DefaultAzureCredential();
   const client = new PaloAltoNetworksCloudngfw(credential);
@@ -37,7 +35,7 @@ async function preRulesListMaximumSetGen() {
  * @summary List PreRulesResource resources by Tenant
  * x-ms-original-file: specification/paloaltonetworks/resource-manager/PaloAltoNetworks.Cloudngfw/stable/2023-09-01/examples/PreRules_List_MinimumSet_Gen.json
  */
-async function preRulesListMinimumSetGen() {
+async function preRulesListMinimumSetGen(): Promise<void> {
   const globalRulestackName = "lrs1";
   const credential = new DefaultAzureCredential();
   const client = new PaloAltoNetworksCloudngfw(credential);
@@ -48,7 +46,7 @@ async function preRulesListMinimumSetGen() {
   console.log(resArray);
 }
 
-async function main() {
+async function main(): Promise<void> {
   preRulesListMaximumSetGen();
   preRulesListMinimumSetGen();
 }

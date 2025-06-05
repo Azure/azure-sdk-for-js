@@ -1,15 +1,184 @@
 # Release History
-
-## 5.2.1 (Unreleased)
-
+    
+## 5.3.0 (2025-04-23)
+    
 ### Features Added
 
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
-
+  - Added operation group ClusterRecoveryPointOperations
+  - Added operation group ClusterRecoveryPoints
+  - Added operation group ReplicationProtectionClusters
+  - Added operation ReplicationProtectionContainers.beginSwitchClusterProtection
+  - Added operation ReplicationProtectionContainers.beginSwitchClusterProtectionAndWait
+  - Added Interface A2AApplyClusterRecoveryPointInput
+  - Added Interface A2AClusterRecoveryPointDetails
+  - Added Interface A2AClusterTestFailoverInput
+  - Added Interface A2AClusterUnplannedFailoverInput
+  - Added Interface A2AProtectedItemDetail
+  - Added Interface A2AReplicationProtectionClusterDetails
+  - Added Interface A2ASharedDiskIRErrorDetails
+  - Added Interface A2ASharedDiskReplicationDetails
+  - Added Interface A2ASwitchClusterProtectionInput
+  - Added Interface ApplyClusterRecoveryPointInput
+  - Added Interface ApplyClusterRecoveryPointInputProperties
+  - Added Interface ApplyClusterRecoveryPointProviderSpecificInput
+  - Added Interface ClusterFailoverJobDetails
+  - Added Interface ClusterProviderSpecificRecoveryPointDetails
+  - Added Interface ClusterRecoveryPoint
+  - Added Interface ClusterRecoveryPointCollection
+  - Added Interface ClusterRecoveryPointGetOptionalParams
+  - Added Interface ClusterRecoveryPointProperties
+  - Added Interface ClusterRecoveryPointsListByReplicationProtectionClusterNextOptionalParams
+  - Added Interface ClusterRecoveryPointsListByReplicationProtectionClusterOptionalParams
+  - Added Interface ClusterSwitchProtectionJobDetails
+  - Added Interface ClusterTestFailoverCleanupInput
+  - Added Interface ClusterTestFailoverCleanupInputProperties
+  - Added Interface ClusterTestFailoverInput
+  - Added Interface ClusterTestFailoverInputProperties
+  - Added Interface ClusterTestFailoverJobDetails
+  - Added Interface ClusterTestFailoverProviderSpecificInput
+  - Added Interface ClusterUnplannedFailoverInput
+  - Added Interface ClusterUnplannedFailoverInputProperties
+  - Added Interface ClusterUnplannedFailoverProviderSpecificInput
+  - Added Interface InMageRcmAddDisksInput
+  - Added Interface InMageRcmUnProtectedDiskDetails
+  - Added Interface ManagedRunCommandScriptInput
+  - Added Interface ProtectedClustersQueryParameter
+  - Added Interface RegisteredClusterNodes
+  - Added Interface ReplicationClusterProviderSpecificSettings
+  - Added Interface ReplicationProtectionCluster
+  - Added Interface ReplicationProtectionClusterCollection
+  - Added Interface ReplicationProtectionClusterProperties
+  - Added Interface ReplicationProtectionClustersApplyRecoveryPointHeaders
+  - Added Interface ReplicationProtectionClustersApplyRecoveryPointOptionalParams
+  - Added Interface ReplicationProtectionClustersCreateHeaders
+  - Added Interface ReplicationProtectionClustersCreateOptionalParams
+  - Added Interface ReplicationProtectionClustersFailoverCommitHeaders
+  - Added Interface ReplicationProtectionClustersFailoverCommitOptionalParams
+  - Added Interface ReplicationProtectionClustersGetOperationResultsOptionalParams
+  - Added Interface ReplicationProtectionClustersGetOptionalParams
+  - Added Interface ReplicationProtectionClustersListByReplicationProtectionContainersNextOptionalParams
+  - Added Interface ReplicationProtectionClustersListByReplicationProtectionContainersOptionalParams
+  - Added Interface ReplicationProtectionClustersListNextOptionalParams
+  - Added Interface ReplicationProtectionClustersListOptionalParams
+  - Added Interface ReplicationProtectionClustersPurgeHeaders
+  - Added Interface ReplicationProtectionClustersPurgeOptionalParams
+  - Added Interface ReplicationProtectionClustersRepairReplicationHeaders
+  - Added Interface ReplicationProtectionClustersRepairReplicationOptionalParams
+  - Added Interface ReplicationProtectionClustersTestFailoverCleanupHeaders
+  - Added Interface ReplicationProtectionClustersTestFailoverCleanupOptionalParams
+  - Added Interface ReplicationProtectionClustersTestFailoverHeaders
+  - Added Interface ReplicationProtectionClustersTestFailoverOptionalParams
+  - Added Interface ReplicationProtectionClustersUnplannedFailoverHeaders
+  - Added Interface ReplicationProtectionClustersUnplannedFailoverOptionalParams
+  - Added Interface ReplicationProtectionContainersSwitchClusterProtectionHeaders
+  - Added Interface ReplicationProtectionContainersSwitchClusterProtectionOptionalParams
+  - Added Interface ReplicationProtectionContainersSwitchProtectionHeaders
+  - Added Interface SecurityProfileProperties
+  - Added Interface SharedDiskReplicationItemProperties
+  - Added Interface SharedDiskReplicationProviderSpecificSettings
+  - Added Interface SwitchClusterProtectionInput
+  - Added Interface SwitchClusterProtectionInputProperties
+  - Added Interface SwitchClusterProtectionProviderSpecificInput
+  - Added Interface UserCreatedResourceTag
+  - Added Type Alias ApplyClusterRecoveryPointProviderSpecificInputUnion
+  - Added Type Alias ClusterProviderSpecificRecoveryPointDetailsUnion
+  - Added Type Alias ClusterRecoveryPointGetResponse
+  - Added Type Alias ClusterRecoveryPointsListByReplicationProtectionClusterNextResponse
+  - Added Type Alias ClusterRecoveryPointsListByReplicationProtectionClusterResponse
+  - Added Type Alias ClusterRecoveryPointType
+  - Added Type Alias ClusterTestFailoverProviderSpecificInputUnion
+  - Added Type Alias ClusterUnplannedFailoverProviderSpecificInputUnion
+  - Added Type Alias DiskState
+  - Added Type Alias FailoverDirection
+  - Added Type Alias LinuxLicenseType
+  - Added Type Alias ReplicationClusterProviderSpecificSettingsUnion
+  - Added Type Alias ReplicationProtectionClustersApplyRecoveryPointResponse
+  - Added Type Alias ReplicationProtectionClustersCreateResponse
+  - Added Type Alias ReplicationProtectionClustersFailoverCommitResponse
+  - Added Type Alias ReplicationProtectionClustersGetOperationResultsResponse
+  - Added Type Alias ReplicationProtectionClustersGetResponse
+  - Added Type Alias ReplicationProtectionClustersListByReplicationProtectionContainersNextResponse
+  - Added Type Alias ReplicationProtectionClustersListByReplicationProtectionContainersResponse
+  - Added Type Alias ReplicationProtectionClustersListNextResponse
+  - Added Type Alias ReplicationProtectionClustersListResponse
+  - Added Type Alias ReplicationProtectionClustersPurgeResponse
+  - Added Type Alias ReplicationProtectionClustersRepairReplicationResponse
+  - Added Type Alias ReplicationProtectionClustersTestFailoverCleanupResponse
+  - Added Type Alias ReplicationProtectionClustersTestFailoverResponse
+  - Added Type Alias ReplicationProtectionClustersUnplannedFailoverResponse
+  - Added Type Alias ReplicationProtectionContainersSwitchClusterProtectionResponse
+  - Added Type Alias SecurityConfiguration
+  - Added Type Alias SharedDiskReplicationProviderSpecificSettingsUnion
+  - Added Type Alias SwitchClusterProtectionProviderSpecificInputUnion
+  - Interface A2AEnableProtectionInput has a new optional parameter protectionClusterId
+  - Interface A2AReplicationDetails has a new optional parameter isClusterInfraReady
+  - Interface A2AReplicationDetails has a new optional parameter protectionClusterId
+  - Interface HyperVReplicaAzureDiskInputDetails has a new optional parameter sectorSizeInBytes
+  - Interface HyperVReplicaAzureEnableProtectionInput has a new optional parameter linuxLicenseType
+  - Interface HyperVReplicaAzureEnableProtectionInput has a new optional parameter targetVmSecurityProfile
+  - Interface HyperVReplicaAzureEnableProtectionInput has a new optional parameter userSelectedOSName
+  - Interface HyperVReplicaAzureManagedDiskDetails has a new optional parameter sectorSizeInBytes
+  - Interface HyperVReplicaAzureManagedDiskDetails has a new optional parameter targetDiskAccountType
+  - Interface HyperVReplicaAzureReplicationDetails has a new optional parameter linuxLicenseType
+  - Interface HyperVReplicaAzureReplicationDetails has a new optional parameter targetVmSecurityProfile
+  - Interface HyperVReplicaAzureUpdateReplicationProtectedItemInput has a new optional parameter linuxLicenseType
+  - Interface HyperVReplicaAzureUpdateReplicationProtectedItemInput has a new optional parameter userSelectedOSName
+  - Interface InMageRcmDiskInput has a new optional parameter sectorSizeInBytes
+  - Interface InMageRcmDisksDefaultInput has a new optional parameter sectorSizeInBytes
+  - Interface InMageRcmEnableProtectionInput has a new optional parameter linuxLicenseType
+  - Interface InMageRcmEnableProtectionInput has a new optional parameter seedManagedDiskTags
+  - Interface InMageRcmEnableProtectionInput has a new optional parameter sqlServerLicenseType
+  - Interface InMageRcmEnableProtectionInput has a new optional parameter targetManagedDiskTags
+  - Interface InMageRcmEnableProtectionInput has a new optional parameter targetNicTags
+  - Interface InMageRcmEnableProtectionInput has a new optional parameter targetVmSecurityProfile
+  - Interface InMageRcmEnableProtectionInput has a new optional parameter targetVmTags
+  - Interface InMageRcmEnableProtectionInput has a new optional parameter userSelectedOSName
+  - Interface InMageRcmNicDetails has a new optional parameter targetNicName
+  - Interface InMageRcmNicInput has a new optional parameter targetNicName
+  - Interface InMageRcmProtectedDiskDetails has a new optional parameter customTargetDiskName
+  - Interface InMageRcmProtectedDiskDetails has a new optional parameter diskState
+  - Interface InMageRcmProtectedDiskDetails has a new optional parameter sectorSizeInBytes
+  - Interface InMageRcmReplicationDetails has a new optional parameter linuxLicenseType
+  - Interface InMageRcmReplicationDetails has a new optional parameter osName
+  - Interface InMageRcmReplicationDetails has a new optional parameter seedManagedDiskTags
+  - Interface InMageRcmReplicationDetails has a new optional parameter sqlServerLicenseType
+  - Interface InMageRcmReplicationDetails has a new optional parameter supportedOSVersions
+  - Interface InMageRcmReplicationDetails has a new optional parameter targetManagedDiskTags
+  - Interface InMageRcmReplicationDetails has a new optional parameter targetNicTags
+  - Interface InMageRcmReplicationDetails has a new optional parameter targetVmSecurityProfile
+  - Interface InMageRcmReplicationDetails has a new optional parameter targetVmTags
+  - Interface InMageRcmReplicationDetails has a new optional parameter unprotectedDisks
+  - Interface InMageRcmTestFailoverInput has a new optional parameter osUpgradeVersion
+  - Interface InMageRcmUnplannedFailoverInput has a new optional parameter osUpgradeVersion
+  - Interface InMageRcmUpdateReplicationProtectedItemInput has a new optional parameter linuxLicenseType
+  - Interface InMageRcmUpdateReplicationProtectedItemInput has a new optional parameter sqlServerLicenseType
+  - Interface InMageRcmUpdateReplicationProtectedItemInput has a new optional parameter targetManagedDiskTags
+  - Interface InMageRcmUpdateReplicationProtectedItemInput has a new optional parameter targetNicTags
+  - Interface InMageRcmUpdateReplicationProtectedItemInput has a new optional parameter targetVmTags
+  - Interface InMageRcmUpdateReplicationProtectedItemInput has a new optional parameter userSelectedOSName
+  - Interface OSDetails has a new optional parameter userSelectedOSName
+  - Interface VMwareCbtDiskInput has a new optional parameter sectorSizeInBytes
+  - Interface VMwareCbtEnableMigrationInput has a new optional parameter linuxLicenseType
+  - Interface VMwareCbtEnableMigrationInput has a new optional parameter userSelectedOSName
+  - Interface VMwareCbtMigrateInput has a new optional parameter postMigrationSteps
+  - Interface VMwareCbtMigrationDetails has a new optional parameter linuxLicenseType
+  - Interface VMwareCbtProtectedDiskDetails has a new optional parameter sectorSizeInBytes
+  - Interface VMwareCbtTestMigrateInput has a new optional parameter postMigrationSteps
+  - Interface VMwareCbtUpdateMigrationItemInput has a new optional parameter linuxLicenseType
+  - Interface VMwareCbtUpdateMigrationItemInput has a new optional parameter userSelectedOSName
+  - Type of parameter instanceType of interface AddDisksProviderSpecificInput is changed from "A2A" to "A2A" | "InMageRcm"
+  - Type of parameter instanceType of interface JobDetails is changed from "AsrJobDetails" | "ExportJobDetails" | "FailoverJobDetails" | "SwitchProtectionJobDetails" | "TestFailoverJobDetails" to "AsrJobDetails" | "ClusterFailoverJobDetails" | "ClusterSwitchProtectionJobDetails" | "ClusterTestFailoverJobDetails" | "ExportJobDetails" | "FailoverJobDetails" | "SwitchProtectionJobDetails" | "TestFailoverJobDetails"
+  - Added Enum KnownClusterRecoveryPointType
+  - Added Enum KnownDiskState
+  - Added Enum KnownFailoverDirection
+  - Added Enum KnownLinuxLicenseType
+  - Added Enum KnownSecurityConfiguration
+  - Enum KnownDiskAccountType has a new value PremiumV2LRS
+  - Enum KnownDiskAccountType has a new value PremiumZRS
+  - Enum KnownDiskAccountType has a new value StandardSSDZRS
+  - Enum KnownDiskAccountType has a new value UltraSSDLRS
+    
+    
 ## 5.2.0 (2024-02-09)
     
 ### Features Added
@@ -546,4 +715,4 @@ To understand the detail of the change, please refer to [Changelog](https://aka.
 
 To migrate the existing applications to the latest version, please refer to [Migration Guide](https://aka.ms/js-track2-migration-guide).
 
-To learn more, please refer to our documentation [Quick Start](https://aka.ms/azsdk/js/mgmt/quickstart ).
+To learn more, please refer to our documentation [Quick Start](https://aka.ms/azsdk/js/mgmt/quickstart).

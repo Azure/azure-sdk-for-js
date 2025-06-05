@@ -3,7 +3,6 @@
   "compilerOptions": {
     "paths": {
       "@azure-rest/ai-inference": ["./dist/esm"]
-    },
-    "lib": ["DOM"]
+    }
   }
 }

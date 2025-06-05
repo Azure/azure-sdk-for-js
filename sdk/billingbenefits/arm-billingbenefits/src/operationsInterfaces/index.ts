@@ -6,8 +6,8 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-export * from "./operations";
-export * from "./savingsPlanOrderAlias";
-export * from "./savingsPlanOrder";
-export * from "./savingsPlan";
-export * from "./reservationOrderAlias";
+export * from "./operations.js";
+export * from "./savingsPlanOrderAlias.js";
+export * from "./savingsPlanOrder.js";
+export * from "./savingsPlan.js";
+export * from "./reservationOrderAlias.js";

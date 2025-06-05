@@ -17,6 +17,64 @@ import { TokenCredential } from '@azure/core-auth';
 export type ActionType = string;
 
 // @public
+export interface Attributes {
+    name: string;
+    value: string;
+}
+
+// @public
+export interface Branch extends ProxyResource {
+    properties?: BranchProperties;
+}
+
+// @public
+export interface BranchesCreateOrUpdateOptionalParams extends OperationOptions {
+    updateIntervalInMs?: number;
+}
+
+// @public
+export interface BranchesDeleteOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface BranchesGetOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface BranchesListOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface BranchesOperations {
+    createOrUpdate: (resourceGroupName: string, organizationName: string, projectName: string, branchName: string, resource: Branch, options?: BranchesCreateOrUpdateOptionalParams) => PollerLike<OperationState<Branch>, Branch>;
+    delete: (resourceGroupName: string, organizationName: string, projectName: string, branchName: string, options?: BranchesDeleteOptionalParams) => Promise<void>;
+    get: (resourceGroupName: string, organizationName: string, projectName: string, branchName: string, options?: BranchesGetOptionalParams) => Promise<Branch>;
+    list: (resourceGroupName: string, organizationName: string, projectName: string, options?: BranchesListOptionalParams) => PagedAsyncIterableIterator<Branch>;
+    update: (resourceGroupName: string, organizationName: string, projectName: string, branchName: string, properties: Branch, options?: BranchesUpdateOptionalParams) => PollerLike<OperationState<Branch>, Branch>;
+}
+
+// @public
+export interface BranchesUpdateOptionalParams extends OperationOptions {
+    updateIntervalInMs?: number;
+}
+
+// @public
+export interface BranchProperties {
+    attributes?: Attributes[];
+    readonly createdAt?: string;
+    databaseName?: string;
+    databases?: NeonDatabaseProperties[];
+    endpoints?: EndpointProperties[];
+    readonly entityId?: string;
+    entityName?: string;
+    parentId?: string;
+    projectId?: string;
+    readonly provisioningState?: ResourceProvisioningState;
+    roleName?: string;
+    roles?: NeonRoleProperties[];
+}
+
+// @public
 export interface CompanyDetails {
     businessPhone?: string;
     companyName?: string;
@@ -27,12 +85,149 @@ export interface CompanyDetails {
 }
 
 // @public
+export interface Compute extends ProxyResource {
+    properties?: ComputeProperties;
+}
+
+// @public
+export interface ComputeProperties {
+    attributes?: Attributes[];
+    cpuCores?: number;
+    readonly createdAt?: string;
+    readonly entityId?: string;
+    entityName?: string;
+    memory?: number;
+    readonly provisioningState?: ResourceProvisioningState;
+    region?: string;
+    status?: string;
+}
+
+// @public
+export interface ComputesCreateOrUpdateOptionalParams extends OperationOptions {
+    updateIntervalInMs?: number;
+}
+
+// @public
+export interface ComputesDeleteOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface ComputesGetOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface ComputesListOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface ComputesOperations {
+    createOrUpdate: (resourceGroupName: string, organizationName: string, projectName: string, branchName: string, computeName: string, resource: Compute, options?: ComputesCreateOrUpdateOptionalParams) => PollerLike<OperationState<Compute>, Compute>;
+    delete: (resourceGroupName: string, organizationName: string, projectName: string, branchName: string, computeName: string, options?: ComputesDeleteOptionalParams) => Promise<void>;
+    get: (resourceGroupName: string, organizationName: string, projectName: string, branchName: string, computeName: string, options?: ComputesGetOptionalParams) => Promise<Compute>;
+    list: (resourceGroupName: string, organizationName: string, projectName: string, branchName: string, options?: ComputesListOptionalParams) => PagedAsyncIterableIterator<Compute>;
+    update: (resourceGroupName: string, organizationName: string, projectName: string, branchName: string, computeName: string, properties: Compute, options?: ComputesUpdateOptionalParams) => PollerLike<OperationState<Compute>, Compute>;
+}
+
+// @public
+export interface ComputesUpdateOptionalParams extends OperationOptions {
+    updateIntervalInMs?: number;
+}
+
+// @public
+export interface ConnectionUriProperties {
+    branchId?: string;
+    readonly connectionStringUri?: string;
+    databaseName?: string;
+    endpointId?: string;
+    isPooled?: boolean;
+    projectId?: string;
+    roleName?: string;
+}
+
+// @public
 export type ContinuablePage<TElement, TPage = TElement[]> = TPage & {
     continuationToken?: string;
 };
 
 // @public
 export type CreatedByType = string;
+
+// @public
+export interface DefaultEndpointSettings {
+    autoscalingLimitMaxCu: number;
+    autoscalingLimitMinCu: number;
+}
+
+// @public
+export interface Endpoint extends ProxyResource {
+    properties?: EndpointProperties;
+}
+
+// @public
+export interface EndpointProperties {
+    attributes?: Attributes[];
+    branchId?: string;
+    readonly createdAt?: string;
+    endpointType?: EndpointType;
+    readonly entityId?: string;
+    entityName?: string;
+    projectId?: string;
+    readonly provisioningState?: ResourceProvisioningState;
+}
+
+// @public
+export interface EndpointsCreateOrUpdateOptionalParams extends OperationOptions {
+    updateIntervalInMs?: number;
+}
+
+// @public
+export interface EndpointsDeleteOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface EndpointsGetOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface EndpointsListOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface EndpointsOperations {
+    createOrUpdate: (resourceGroupName: string, organizationName: string, projectName: string, branchName: string, endpointName: string, resource: Endpoint, options?: EndpointsCreateOrUpdateOptionalParams) => PollerLike<OperationState<Endpoint>, Endpoint>;
+    delete: (resourceGroupName: string, organizationName: string, projectName: string, branchName: string, endpointName: string, options?: EndpointsDeleteOptionalParams) => Promise<void>;
+    get: (resourceGroupName: string, organizationName: string, projectName: string, branchName: string, endpointName: string, options?: EndpointsGetOptionalParams) => Promise<Endpoint>;
+    list: (resourceGroupName: string, organizationName: string, projectName: string, branchName: string, options?: EndpointsListOptionalParams) => PagedAsyncIterableIterator<Endpoint>;
+    update: (resourceGroupName: string, organizationName: string, projectName: string, branchName: string, endpointName: string, properties: Endpoint, options?: EndpointsUpdateOptionalParams) => PollerLike<OperationState<Endpoint>, Endpoint>;
+}
+
+// @public
+export interface EndpointsUpdateOptionalParams extends OperationOptions {
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type EndpointType = string;
+
+// @public
+export interface ErrorAdditionalInfo {
+    readonly info?: Record<string, any>;
+    readonly type?: string;
+}
+
+// @public
+export interface ErrorDetail {
+    readonly additionalInfo?: ErrorAdditionalInfo[];
+    readonly code?: string;
+    readonly details?: ErrorDetail[];
+    readonly message?: string;
+    readonly target?: string;
+}
+
+// @public
+export interface ErrorResponse {
+    error?: ErrorDetail;
+}
 
 // @public
 export enum KnownActionType {
@@ -45,6 +240,12 @@ export enum KnownCreatedByType {
     Key = "Key",
     ManagedIdentity = "ManagedIdentity",
     User = "User"
+}
+
+// @public
+export enum KnownEndpointType {
+    ReadOnly = "read_only",
+    ReadWrite = "read_write"
 }
 
 // @public
@@ -78,7 +279,7 @@ export enum KnownSingleSignOnStates {
 
 // @public
 export enum KnownVersions {
-    V1_Preview = "2024-08-01-preview"
+    V20250301 = "2025-03-01"
 }
 
 // @public
@@ -92,6 +293,101 @@ export interface MarketplaceDetails {
 export type MarketplaceSubscriptionStatus = string;
 
 // @public
+export interface NeonDatabase extends ProxyResource {
+    properties?: NeonDatabaseProperties;
+}
+
+// @public
+export interface NeonDatabaseProperties {
+    attributes?: Attributes[];
+    branchId?: string;
+    readonly createdAt?: string;
+    readonly entityId?: string;
+    entityName?: string;
+    ownerName?: string;
+    readonly provisioningState?: ResourceProvisioningState;
+}
+
+// @public
+export interface NeonDatabasesCreateOrUpdateOptionalParams extends OperationOptions {
+    updateIntervalInMs?: number;
+}
+
+// @public
+export interface NeonDatabasesDeleteOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface NeonDatabasesGetOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface NeonDatabasesListOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface NeonDatabasesOperations {
+    createOrUpdate: (resourceGroupName: string, organizationName: string, projectName: string, branchName: string, neonDatabaseName: string, resource: NeonDatabase, options?: NeonDatabasesCreateOrUpdateOptionalParams) => PollerLike<OperationState<NeonDatabase>, NeonDatabase>;
+    delete: (resourceGroupName: string, organizationName: string, projectName: string, branchName: string, neonDatabaseName: string, options?: NeonDatabasesDeleteOptionalParams) => Promise<void>;
+    get: (resourceGroupName: string, organizationName: string, projectName: string, branchName: string, neonDatabaseName: string, options?: NeonDatabasesGetOptionalParams) => Promise<NeonDatabase>;
+    list: (resourceGroupName: string, organizationName: string, projectName: string, branchName: string, options?: NeonDatabasesListOptionalParams) => PagedAsyncIterableIterator<NeonDatabase>;
+    update: (resourceGroupName: string, organizationName: string, projectName: string, branchName: string, neonDatabaseName: string, properties: NeonDatabase, options?: NeonDatabasesUpdateOptionalParams) => PollerLike<OperationState<NeonDatabase>, NeonDatabase>;
+}
+
+// @public
+export interface NeonDatabasesUpdateOptionalParams extends OperationOptions {
+    updateIntervalInMs?: number;
+}
+
+// @public
+export interface NeonRole extends ProxyResource {
+    properties?: NeonRoleProperties;
+}
+
+// @public
+export interface NeonRoleProperties {
+    attributes?: Attributes[];
+    branchId?: string;
+    readonly createdAt?: string;
+    readonly entityId?: string;
+    entityName?: string;
+    isSuperUser?: boolean;
+    permissions?: string[];
+    readonly provisioningState?: ResourceProvisioningState;
+}
+
+// @public
+export interface NeonRolesCreateOrUpdateOptionalParams extends OperationOptions {
+    updateIntervalInMs?: number;
+}
+
+// @public
+export interface NeonRolesDeleteOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface NeonRolesGetOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface NeonRolesListOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface NeonRolesOperations {
+    createOrUpdate: (resourceGroupName: string, organizationName: string, projectName: string, branchName: string, neonRoleName: string, resource: NeonRole, options?: NeonRolesCreateOrUpdateOptionalParams) => PollerLike<OperationState<NeonRole>, NeonRole>;
+    delete: (resourceGroupName: string, organizationName: string, projectName: string, branchName: string, neonRoleName: string, options?: NeonRolesDeleteOptionalParams) => Promise<void>;
+    get: (resourceGroupName: string, organizationName: string, projectName: string, branchName: string, neonRoleName: string, options?: NeonRolesGetOptionalParams) => Promise<NeonRole>;
+    list: (resourceGroupName: string, organizationName: string, projectName: string, branchName: string, options?: NeonRolesListOptionalParams) => PagedAsyncIterableIterator<NeonRole>;
+    update: (resourceGroupName: string, organizationName: string, projectName: string, branchName: string, neonRoleName: string, properties: NeonRole, options?: NeonRolesUpdateOptionalParams) => PollerLike<OperationState<NeonRole>, NeonRole>;
+}
+
+// @public
+export interface NeonRolesUpdateOptionalParams extends OperationOptions {
+    updateIntervalInMs?: number;
+}
+
+// @public
 export interface OfferDetails {
     offerId: string;
     planId: string;
@@ -103,8 +399,8 @@ export interface OfferDetails {
 
 // @public
 export interface Operation {
-    actionType?: ActionType;
-    readonly display?: OperationDisplay;
+    readonly actionType?: ActionType;
+    display?: OperationDisplay;
     readonly isDataAction?: boolean;
     readonly name?: string;
     readonly origin?: Origin;
@@ -132,6 +428,7 @@ export interface OrganizationProperties {
     companyDetails: CompanyDetails;
     marketplaceDetails: MarketplaceDetails;
     partnerOrganizationProperties?: PartnerOrganizationProperties;
+    projectProperties?: ProjectProperties;
     readonly provisioningState?: ResourceProvisioningState;
     userDetails: UserDetails;
 }
@@ -156,6 +453,11 @@ export interface OrganizationsGetOptionalParams extends OperationOptions {
 }
 
 // @public
+export interface OrganizationsGetPostgresVersionsOptionalParams extends OperationOptions {
+    parameters?: PgVersion;
+}
+
+// @public
 export interface OrganizationsListByResourceGroupOptionalParams extends OperationOptions {
 }
 
@@ -168,6 +470,7 @@ export interface OrganizationsOperations {
     createOrUpdate: (resourceGroupName: string, organizationName: string, resource: OrganizationResource, options?: OrganizationsCreateOrUpdateOptionalParams) => PollerLike<OperationState<OrganizationResource>, OrganizationResource>;
     delete: (resourceGroupName: string, organizationName: string, options?: OrganizationsDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
     get: (resourceGroupName: string, organizationName: string, options?: OrganizationsGetOptionalParams) => Promise<OrganizationResource>;
+    getPostgresVersions: (resourceGroupName: string, options?: OrganizationsGetPostgresVersionsOptionalParams) => Promise<PgVersionsResult>;
     listByResourceGroup: (resourceGroupName: string, options?: OrganizationsListByResourceGroupOptionalParams) => PagedAsyncIterableIterator<OrganizationResource>;
     listBySubscription: (options?: OrganizationsListBySubscriptionOptionalParams) => PagedAsyncIterableIterator<OrganizationResource>;
     update: (resourceGroupName: string, organizationName: string, properties: OrganizationResource, options?: OrganizationsUpdateOptionalParams) => PollerLike<OperationState<OrganizationResource>, OrganizationResource>;
@@ -200,17 +503,96 @@ export interface PartnerOrganizationProperties {
     singleSignOnProperties?: SingleSignOnProperties;
 }
 
+// @public
+export interface PgVersion {
+    version?: number;
+}
+
+// @public
+export interface PgVersionsResult {
+    versions: PgVersion[];
+}
+
 // @public (undocumented)
 export class PostgresClient {
     constructor(credential: TokenCredential, subscriptionId: string, options?: PostgresClientOptionalParams);
+    readonly branches: BranchesOperations;
+    readonly computes: ComputesOperations;
+    readonly endpoints: EndpointsOperations;
+    readonly neonDatabases: NeonDatabasesOperations;
+    readonly neonRoles: NeonRolesOperations;
     readonly operations: OperationsOperations;
     readonly organizations: OrganizationsOperations;
     readonly pipeline: Pipeline;
+    readonly projects: ProjectsOperations;
 }
 
 // @public
 export interface PostgresClientOptionalParams extends ClientOptions {
     apiVersion?: string;
+}
+
+// @public
+export interface Project extends ProxyResource {
+    properties?: ProjectProperties;
+}
+
+// @public
+export interface ProjectProperties {
+    attributes?: Attributes[];
+    branch?: BranchProperties;
+    readonly createdAt?: string;
+    databases?: NeonDatabaseProperties[];
+    defaultEndpointSettings?: DefaultEndpointSettings;
+    endpoints?: EndpointProperties[];
+    readonly entityId?: string;
+    entityName?: string;
+    historyRetention?: number;
+    pgVersion?: number;
+    readonly provisioningState?: ResourceProvisioningState;
+    regionId?: string;
+    roles?: NeonRoleProperties[];
+    storage?: number;
+}
+
+// @public
+export interface ProjectsCreateOrUpdateOptionalParams extends OperationOptions {
+    updateIntervalInMs?: number;
+}
+
+// @public
+export interface ProjectsDeleteOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface ProjectsGetConnectionUriOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface ProjectsGetOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface ProjectsListOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface ProjectsOperations {
+    createOrUpdate: (resourceGroupName: string, organizationName: string, projectName: string, resource: Project, options?: ProjectsCreateOrUpdateOptionalParams) => PollerLike<OperationState<Project>, Project>;
+    delete: (resourceGroupName: string, organizationName: string, projectName: string, options?: ProjectsDeleteOptionalParams) => Promise<void>;
+    get: (resourceGroupName: string, organizationName: string, projectName: string, options?: ProjectsGetOptionalParams) => Promise<Project>;
+    getConnectionUri: (resourceGroupName: string, organizationName: string, projectName: string, connectionUriParameters: ConnectionUriProperties, options?: ProjectsGetConnectionUriOptionalParams) => Promise<ConnectionUriProperties>;
+    list: (resourceGroupName: string, organizationName: string, options?: ProjectsListOptionalParams) => PagedAsyncIterableIterator<Project>;
+    update: (resourceGroupName: string, organizationName: string, projectName: string, properties: Project, options?: ProjectsUpdateOptionalParams) => PollerLike<OperationState<Project>, Project>;
+}
+
+// @public
+export interface ProjectsUpdateOptionalParams extends OperationOptions {
+    updateIntervalInMs?: number;
+}
+
+// @public
+export interface ProxyResource extends Resource {
 }
 
 // @public

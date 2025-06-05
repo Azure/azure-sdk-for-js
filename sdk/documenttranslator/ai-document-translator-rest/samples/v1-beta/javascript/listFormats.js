@@ -9,8 +9,7 @@
  */
 
 const DocumentTranslator = require("@azure-rest/ai-document-translator").default;
-
-require("dotenv").config();
+require("dotenv/config");
 
 const endpoint = process.env["ENDPOINT"] || "document-translator endpoint";
 const apiKey = process.env["DOCUMENT_TRANSLATOR_API_KEY"] || "<api key>";

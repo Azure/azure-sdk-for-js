@@ -10,7 +10,7 @@ function expectAbortError(promise: Promise<unknown>): Chai.PromisedAssertion {
   return expect(promise).to.eventually.be.rejected.and.has.property("name", "AbortError");
 }
 
-describe("Cancellation via AbortSignal", function () {
+describe("Cancellation via AbortSignal", () => {
   const cancellationCases = [
     {
       type: "pre-aborted",
@@ -32,26 +32,26 @@ describe("Cancellation via AbortSignal", function () {
     },
   ];
 
-  describe("EventHubConsumerClient", function () {
+  describe("EventHubConsumerClient", () => {
     let consumerClient: EventHubConsumerClient;
-    beforeEach(async function () {
+    beforeEach(async () => {
       consumerClient = createConsumer().consumer;
     });
 
-    afterEach(async function () {
+    afterEach(async () => {
       await consumerClient.close();
     });
 
     for (const { type: caseType, getSignal } of cancellationCases) {
-      it(`getEventHubProperties supports cancellation (${caseType})`, async function () {
+      it(`getEventHubProperties supports cancellation (${caseType})`, async () => {
         await expectAbortError(consumerClient.getEventHubProperties({ abortSignal: getSignal() }));
       });
 
-      it(`getPartitionIds supports cancellation (${caseType})`, async function () {
+      it(`getPartitionIds supports cancellation (${caseType})`, async () => {
         await expectAbortError(consumerClient.getPartitionIds({ abortSignal: getSignal() }));
       });
 
-      it(`getPartitionProperties supports cancellation (${caseType})`, async function () {
+      it(`getPartitionProperties supports cancellation (${caseType})`, async () => {
         await expectAbortError(
           consumerClient.getPartitionProperties("0", { abortSignal: getSignal() }),
         );
@@ -59,36 +59,36 @@ describe("Cancellation via AbortSignal", function () {
     }
   });
 
-  describe("EventHubProducerClient", function () {
+  describe("EventHubProducerClient", () => {
     let producerClient: EventHubProducerClient;
-    beforeEach(async function () {
+    beforeEach(async () => {
       producerClient = createProducer().producer;
     });
 
-    afterEach(async function () {
+    afterEach(async () => {
       await producerClient.close();
     });
 
     for (const { type: caseType, getSignal } of cancellationCases) {
-      it(`getEventHubProperties supports cancellation (${caseType})`, async function () {
+      it(`getEventHubProperties supports cancellation (${caseType})`, async () => {
         await expectAbortError(producerClient.getEventHubProperties({ abortSignal: getSignal() }));
       });
 
-      it(`getPartitionIds supports cancellation (${caseType})`, async function () {
+      it(`getPartitionIds supports cancellation (${caseType})`, async () => {
         await expectAbortError(producerClient.getPartitionIds({ abortSignal: getSignal() }));
       });
 
-      it(`getPartitionProperties supports cancellation (${caseType})`, async function () {
+      it(`getPartitionProperties supports cancellation (${caseType})`, async () => {
         await expectAbortError(
           producerClient.getPartitionProperties("0", { abortSignal: getSignal() }),
         );
       });
 
-      it(`createBatch supports cancellation (${caseType})`, async function () {
+      it(`createBatch supports cancellation (${caseType})`, async () => {
         await expectAbortError(producerClient.createBatch({ abortSignal: getSignal() }));
       });
 
-      it(`sendBatch supports cancellation (${caseType})`, async function () {
+      it(`sendBatch supports cancellation (${caseType})`, async () => {
         await expectAbortError(
           producerClient.sendBatch([{ body: "unsung hero" }], { abortSignal: getSignal() }),
         );

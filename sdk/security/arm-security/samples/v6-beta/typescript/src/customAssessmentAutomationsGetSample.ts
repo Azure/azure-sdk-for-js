@@ -10,9 +10,7 @@
 // Licensed under the MIT License.
 import { SecurityCenter } from "@azure/arm-security";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Gets a single custom assessment automation by name for the provided subscription and resource group.
@@ -20,7 +18,7 @@ dotenv.config();
  * @summary Gets a single custom assessment automation by name for the provided subscription and resource group.
  * x-ms-original-file: specification/security/resource-manager/Microsoft.Security/preview/2021-07-01-preview/examples/CustomAssessmentAutomations/customAssessmentAutomationGet_example.json
  */
-async function getACustomAssessmentAutomation() {
+async function getACustomAssessmentAutomation(): Promise<void> {
   const subscriptionId =
     process.env["SECURITY_SUBSCRIPTION_ID"] ||
     "e5d1b86c-3051-44d5-8802-aa65d45a279b";
@@ -36,7 +34,7 @@ async function getACustomAssessmentAutomation() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   getACustomAssessmentAutomation();
 }
 

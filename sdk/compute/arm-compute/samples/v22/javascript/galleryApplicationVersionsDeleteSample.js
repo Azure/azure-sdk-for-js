@@ -10,7 +10,7 @@
 // Licensed under the MIT License.
 const { ComputeManagementClient } = require("@azure/arm-compute");
 const { DefaultAzureCredential } = require("@azure/identity");
-require("dotenv").config();
+require("dotenv/config");
 
 /**
  * This sample demonstrates how to Delete a gallery Application Version.
@@ -36,7 +36,7 @@ async function deleteAGalleryApplicationVersion() {
 }
 
 async function main() {
-  deleteAGalleryApplicationVersion();
+  await deleteAGalleryApplicationVersion();
 }
 
 main().catch(console.error);

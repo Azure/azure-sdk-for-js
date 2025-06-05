@@ -15,7 +15,7 @@ import {
   ScopeConnectionsGetOptionalParams,
   ScopeConnectionsGetResponse,
   ScopeConnectionsDeleteOptionalParams,
-} from "../models";
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a ScopeConnections. */

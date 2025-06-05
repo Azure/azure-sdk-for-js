@@ -1,6 +1,13 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
+/**
+ * THIS IS AN AUTO-GENERATED FILE - DO NOT EDIT!
+ *
+ * Any changes you make here may be lost.
+ *
+ * If you need to make changes, please do so in the original source file, \{project-root\}/sources/custom
+ */
 /** A function tool call requested by the AI model. */
 export interface ChatCompletionsToolCallOutput {
   /** The ID of the tool call. */
@@ -39,28 +46,14 @@ export interface ChatCompletionsOutput {
   created: number;
   /** The model used for the chat completion. */
   model: string;
-  /** Usage information for tokens processed and generated as part of this completions operation. */
-  usage: CompletionsUsageOutput;
   /**
    * The collection of completions choices associated with this completions response.
    * Generally, `n` choices are generated per provided prompt with a default value of 1.
    * Token limits and other settings may limit the number of choices generated.
    */
   choices: Array<ChatChoiceOutput>;
-}
-
-/**
- * Representation of the token counts processed for a completions request.
- * Counts consider all tokens across prompts, choices, choice alternates, best_of generations, and
- * other consumers.
- */
-export interface CompletionsUsageOutput {
-  /** The number of tokens generated across all completions emissions. */
-  completion_tokens: number;
-  /** The number of tokens in the provided prompts for the completions request. */
-  prompt_tokens: number;
-  /** The total number of tokens processed for the completions request and response. */
-  total_tokens: number;
+  /** Usage information for tokens processed and generated as part of this completions operation. */
+  usage: CompletionsUsageOutput;
 }
 
 /**
@@ -82,7 +75,7 @@ export interface ChatResponseMessageOutput {
   /**
    * The chat role associated with the message.
    *
-   * Possible values: "system", "user", "assistant", "tool"
+   * Possible values: "system", "user", "assistant", "tool", "developer"
    */
   role: ChatRoleOutput;
   /** The content of the message. */
@@ -94,6 +87,20 @@ export interface ChatResponseMessageOutput {
   tool_calls?: Array<ChatCompletionsToolCallOutput>;
 }
 
+/**
+ * Representation of the token counts processed for a completions request.
+ * Counts consider all tokens across prompts, choices, choice alternates, best_of generations, and
+ * other consumers.
+ */
+export interface CompletionsUsageOutput {
+  /** The number of tokens generated across all completions emissions. */
+  completion_tokens: number;
+  /** The number of tokens in the provided prompts for the completions request. */
+  prompt_tokens: number;
+  /** The total number of tokens processed for the completions request and response. */
+  total_tokens: number;
+}
+
 /** Represents some basic information about the AI model. */
 export interface ModelInfoOutput {
   /** The name of the AI model. For example: `Phi21` */
@@ -101,7 +108,7 @@ export interface ModelInfoOutput {
   /**
    * The type of the AI model. A Unique identifier for the profile.
    *
-   * Possible values: "embeddings", "image_generation", "text_generation", "image_embeddings", "audio_generation", "chat"
+   * Possible values: "embeddings", "image_generation", "text_generation", "image_embeddings", "audio_generation", "chat_completion"
    */
   model_type: ModelTypeOutput;
   /** The model provider name. For example: `Microsoft Research` */
@@ -114,6 +121,8 @@ export interface ModelInfoOutput {
  * recommendations, and other similar scenarios.
  */
 export interface EmbeddingsResultOutput {
+  /** Unique identifier for the embeddings result. */
+  id: string;
   /** Embedding values for the prompts submitted in the request. */
   data: Array<EmbeddingItemOutput>;
   /** Usage counts for tokens input using the embeddings API. */

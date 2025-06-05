@@ -9,7 +9,7 @@
 import {
   ThreatIntelligenceIndicatorMetricsListOptionalParams,
   ThreatIntelligenceIndicatorMetricsListResponse
-} from "../models";
+} from "../models/index.js";
 
 /** Interface representing a ThreatIntelligenceIndicatorMetrics. */
 export interface ThreatIntelligenceIndicatorMetrics {

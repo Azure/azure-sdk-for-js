@@ -7,7 +7,6 @@ import type { KeyVaultBackupClient } from "../../src/index.js";
 import { authenticate } from "./utils/authentication.js";
 import { testPollerProperties } from "./utils/recorder.js";
 import { describe, it, beforeEach, afterEach, expect } from "vitest";
-import { AbortError } from "@azure/abort-controller";
 import { getEnvironmentVariable } from "./utils/common.js";
 
 describe("Aborting KeyVaultBackupClient's requests", () => {
@@ -33,7 +32,7 @@ describe("Aborting KeyVaultBackupClient's requests", () => {
     await recorder.stop();
   });
 
-  it("can abort beginBackup", async function () {
+  it("can abort beginBackup", async () => {
     const controller = new AbortController();
     controller.abort();
 
@@ -42,10 +41,10 @@ describe("Aborting KeyVaultBackupClient's requests", () => {
         ...testPollerProperties,
         abortSignal: controller.signal,
       }),
-    ).rejects.toThrow(AbortError);
+    ).rejects.toThrow(expect.objectContaining({ name: "AbortError" }));
   });
 
-  it("can abort beginRestore", async function () {
+  it("can abort beginRestore", async () => {
     const backupURI = `${blobStorageUri}/${generateFakeUUID()}`;
     const controller = new AbortController();
     controller.abort();
@@ -55,10 +54,10 @@ describe("Aborting KeyVaultBackupClient's requests", () => {
         ...testPollerProperties,
         abortSignal: controller.signal,
       }),
-    ).rejects.toThrow(AbortError);
+    ).rejects.toThrow(expect.objectContaining({ name: "AbortError" }));
   });
 
-  it("can abort beginSelectiveKeyRestore", async function () {
+  it("can abort beginSelectiveKeyRestore", async () => {
     const backupURI = `${blobStorageUri}/${generateFakeUUID()}`;
 
     const controller = new AbortController();
@@ -69,6 +68,6 @@ describe("Aborting KeyVaultBackupClient's requests", () => {
         ...testPollerProperties,
         abortSignal: controller.signal,
       }),
-    ).rejects.toThrow(AbortError);
+    ).rejects.toThrow(expect.objectContaining({ name: "AbortError" }));
   });
 });

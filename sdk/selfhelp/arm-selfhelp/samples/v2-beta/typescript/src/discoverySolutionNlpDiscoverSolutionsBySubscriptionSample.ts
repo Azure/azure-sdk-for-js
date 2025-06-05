@@ -14,9 +14,7 @@ import {
   HelpRP,
 } from "@azure/arm-selfhelp";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Search for relevant Azure Diagnostics, Solutions and Troubleshooters using a natural language issue summary and subscription.
@@ -24,7 +22,7 @@ dotenv.config();
  * @summary Search for relevant Azure Diagnostics, Solutions and Troubleshooters using a natural language issue summary and subscription.
  * x-ms-original-file: specification/help/resource-manager/Microsoft.Help/preview/2024-03-01-preview/examples/DiscoverSolutionsAtSubscriptionScope.json
  */
-async function discoverySolutionsUsingIssueSummaryAndServiceId() {
+async function discoverySolutionsUsingIssueSummaryAndServiceId(): Promise<void> {
   const subscriptionId = "0d0fcd2e-c4fd-4349-8497-200edb3923c6";
   const discoverSolutionRequest: DiscoveryNlpRequest = {
     issueSummary: "how to retrieve certs from deleted keyvault.",
@@ -44,7 +42,7 @@ async function discoverySolutionsUsingIssueSummaryAndServiceId() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   discoverySolutionsUsingIssueSummaryAndServiceId();
 }
 

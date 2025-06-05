@@ -97,8 +97,8 @@ The message and inner `code` may vary, but the rest of the text will indicate wh
 This error indicates that the authenticated application or user does not have permissions to perform that operation, though the cause may vary.
 
 1. Check that the application or user has the appropriate permissions:
-   - [Access policies](https://docs.microsoft.com/azure/key-vault/general/assign-access-policy) (Key Vault)
-   - [Role-Based Access Control (RBAC)](https://docs.microsoft.com/azure/key-vault/general/rbac-guide) (Key Vault and Managed HSM)
+   - [Access policies](https://learn.microsoft.com/azure/key-vault/general/assign-access-policy) (Key Vault)
+   - [Role-Based Access Control (RBAC)](https://learn.microsoft.com/azure/key-vault/general/rbac-guide) (Key Vault and Managed HSM)
 2. If the appropriate permissions are assigned to your application or user, make sure you are authenticating as that user.
    - Are you using [DefaultAzureCredential]? If so, ensure that it is selecting the correct underlying credential type. [Enable logging](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/identity/identity/README.md#logging) to see which credential type was used.
 
@@ -135,7 +135,7 @@ Read our [release notes](https://aka.ms/azsdk/blog/vault-uri) for more informati
 
 ## Other Service Errors
 
-To troubleshoot additional HTTP service errors not described below, see [Azure Key Vault REST API Error Codes](https://docs.microsoft.com/azure/key-vault/general/rest-error-codes).
+To troubleshoot additional HTTP service errors not described below, see [Azure Key Vault REST API Error Codes](https://learn.microsoft.com/azure/key-vault/general/rest-error-codes).
 
 ### HTTP 429: Too Many Requests
 
@@ -148,7 +148,7 @@ Possible solutions include:
 3. Use Azure App Configuration for storing non-secrets and references to Key Vault secrets. Storing all app configuration in Key Vault will increase the likelihood of requests being throttled as more application instances are started. See [our @azure/app-configuration](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/appconfiguration/app-configuration/README.md) for more information.
 4. If you are performing encryption or decryption operations, consider using wrap and unwrap operations for a symmetric key which may also improve application throughput.
 
-See our [Azure Key Vault throttling guide](https://docs.microsoft.com/azure/key-vault/general/overview-throttling) for more information.
+See our [Azure Key Vault throttling guide](https://learn.microsoft.com/azure/key-vault/general/overview-throttling) for more information.
 
 ## Support
 

@@ -10,17 +10,15 @@
 // Licensed under the MIT License.
 import { ComputeManagementClient } from "@azure/arm-compute";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to The operation to delete the extension.
  *
  * @summary The operation to delete the extension.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-07-01/examples/virtualMachineExamples/VirtualMachineExtension_Delete_MaximumSet_Gen.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-11-01/examples/virtualMachineExamples/VirtualMachineExtension_Delete_MaximumSet_Gen.json
  */
-async function virtualMachineExtensionDeleteMaximumSetGen() {
+async function virtualMachineExtensionDeleteMaximumSetGen(): Promise<void> {
   const subscriptionId =
     process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
   const resourceGroupName =
@@ -41,9 +39,9 @@ async function virtualMachineExtensionDeleteMaximumSetGen() {
  * This sample demonstrates how to The operation to delete the extension.
  *
  * @summary The operation to delete the extension.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-07-01/examples/virtualMachineExamples/VirtualMachineExtension_Delete_MinimumSet_Gen.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-11-01/examples/virtualMachineExamples/VirtualMachineExtension_Delete_MinimumSet_Gen.json
  */
-async function virtualMachineExtensionDeleteMinimumSetGen() {
+async function virtualMachineExtensionDeleteMinimumSetGen(): Promise<void> {
   const subscriptionId =
     process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
   const resourceGroupName =
@@ -60,9 +58,9 @@ async function virtualMachineExtensionDeleteMinimumSetGen() {
   console.log(result);
 }
 
-async function main() {
-  virtualMachineExtensionDeleteMaximumSetGen();
-  virtualMachineExtensionDeleteMinimumSetGen();
+async function main(): Promise<void> {
+  await virtualMachineExtensionDeleteMaximumSetGen();
+  await virtualMachineExtensionDeleteMinimumSetGen();
 }
 
 main().catch(console.error);

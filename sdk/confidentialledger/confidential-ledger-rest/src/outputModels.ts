@@ -87,6 +87,38 @@ export interface LedgerEntryOutput {
   readonly collectionId?: string;
   /** A unique identifier for the state of the ledger. If returned as part of a LedgerEntry, it indicates the state from which the entry was read. */
   readonly transactionId?: string;
+  /** List of user defined function hooks to be executed before the ledger entry is written. */
+  preHooks?: Array<UserDefinedFunctionHookOutput>;
+  /** List of user defined function hooks to be executed after the ledger entry is written. */
+  postHooks?: Array<UserDefinedFunctionHookOutput>;
+}
+
+/** Hook for a user defined function execution. */
+export interface UserDefinedFunctionHookOutput {
+  /** ID of the user defined function to execute. */
+  functionId: string;
+  /** The properties for executing a user defined function. */
+  properties?: UserDefinedFunctionExecutionPropertiesOutput;
+}
+
+/** The properties for executing a user defined function. */
+export interface UserDefinedFunctionExecutionPropertiesOutput {
+  /** Runtime arguments of the user defined function. Defaults to an empty list. */
+  arguments?: Array<string>;
+  /** Name of the exported function to execute in the code of the user defined function. Defaults to main. */
+  exportedFunctionName?: string;
+  /** JS runtime options for user defined endpoints and functions */
+  runtimeOptions?: JSRuntimeOptionsOutput;
+}
+
+/** JS runtime options for user defined endpoints and functions */
+export interface JSRuntimeOptionsOutput {
+  log_exception_details?: boolean;
+  max_cached_interpreters?: number;
+  max_execution_time_ms?: number;
+  max_heap_bytes?: number;
+  max_stack_bytes?: number;
+  return_exception_details?: boolean;
 }
 
 /** Returned as a result of a write to the Confidential Ledger, the transaction id in the response indicates when the write will become durable. */
@@ -186,4 +218,104 @@ export interface LedgerUserOutput {
   assignedRole: "Administrator" | "Contributor" | "Reader";
   /** Identifier for the user. This must either be an AAD object id or a certificate fingerprint. */
   readonly userId?: string;
+}
+
+/** Paginated users returned in response to a query. */
+export interface PagedLedgerUsersOutput {
+  ledgerUsers?: Array<LedgerUserMultipleRolesOutput>;
+  /** Path from which to retrieve the next page of results. */
+  nextLink?: string;
+}
+
+/** Details about a Confidential Ledger user. */
+export interface LedgerUserMultipleRolesOutput {
+  /** Represents an assignable role. */
+  assignedRoles: Array<"Administrator" | "Contributor" | "Reader">;
+  /** Identifier for the user. This must either be an AAD object id or a certificate fingerprint. */
+  readonly userId?: string;
+}
+
+/** bundle for the user defined endpoints */
+export interface BundleOutput {
+  metadata: MetadataOutput;
+  /** Any object */
+  modules: Record<string, unknown>;
+}
+
+export interface MetadataOutput {
+  /** A map of path to method endpoints for the path */
+  endpoints: Record<string, MethodToEndpointPropertiesOutput>;
+}
+
+export interface MethodToEndpointPropertiesOutput {
+  get?: EndpointPropertiesOutput;
+  put?: EndpointPropertiesOutput;
+  patch?: EndpointPropertiesOutput;
+  delete?: EndpointPropertiesOutput;
+}
+
+export interface EndpointPropertiesOutput {
+  authn_policies: Array<any>;
+  forwarding_required: "sometimes" | "always" | "never";
+  interpreter_reuse?: InterpreterReusePolicyOutput;
+  js_function?: string;
+  js_module?: string;
+  mode?: "readwrite" | "readonly" | "historical";
+  /** Anything */
+  openapi?: any;
+  openapi_hidden?: boolean;
+  redirection_strategy?: "none" | "to_primary" | "to_backup";
+}
+
+export interface InterpreterReusePolicyOutput {
+  key: string;
+}
+
+export interface ModuleDefOutput {
+  module: string;
+  name: string;
+}
+
+/** Paginated user defined functions returned in response to a query. */
+export interface PagedUserDefinedFunctionsOutput {
+  functions: Array<UserDefinedFunctionOutput>;
+  /** Path from which to retrieve the next page of results. */
+  nextLink?: string;
+}
+
+/** A user defined function in the ledger. */
+export interface UserDefinedFunctionOutput {
+  /** Code of the user defined function in JavaScript. */
+  code: string;
+  /** ID of the user defined function. */
+  readonly id?: string;
+}
+
+/** The result of a user defined function execution. */
+export interface UserDefinedFunctionExecutionResponseOutput {
+  /** The error object of a user defined function execution. This is returned only when the user defined function execution throws an exception. */
+  error?: UserDefinedFunctionExecutionErrorOutput;
+  /** The result object of a user defined function execution. This is returned only when the user defined function executes successfully. */
+  result?: UserDefinedFunctionExecutionResultOutput;
+  /** Represents the status of a user defined function execution. */
+  status: "Succeeded" | "Failed";
+}
+
+/** The error object of a user defined function execution. This is returned only when the user defined function execution throws an exception. */
+export interface UserDefinedFunctionExecutionErrorOutput {
+  /** Message indicating the error thrown when executing the function. */
+  message?: string;
+}
+
+/** The result object of a user defined function execution. This is returned only when the user defined function executes successfully. */
+export interface UserDefinedFunctionExecutionResultOutput {
+  /** String-encoded value returned by the user defined function execution. If the function does not return any value, this is set to an empty string. */
+  returnValue?: string;
+}
+
+/** Definition for roles */
+export interface RoleOutput {
+  /** name of the user defined role */
+  roleName?: string;
+  roleActions?: Array<string>;
 }

@@ -10,7 +10,7 @@
 // Licensed under the MIT License.
 import {
   MitigateJobRequest,
-  DataBoxManagementClient
+  DataBoxManagementClient,
 } from "@azure/arm-databox";
 import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
@@ -19,9 +19,9 @@ import "dotenv/config";
  * This sample demonstrates how to Request to mitigate for a given job
  *
  * @summary Request to mitigate for a given job
- * x-ms-original-file: specification/databox/resource-manager/Microsoft.DataBox/stable/2022-12-01/examples/JobMitigate.json
+ * x-ms-original-file: specification/databox/resource-manager/Microsoft.DataBox/stable/2025-02-01/examples/JobMitigate.json
  */
-async function mitigate() {
+async function mitigate(): Promise<void> {
   const subscriptionId =
     process.env["DATABOX_SUBSCRIPTION_ID"] || "YourSubscriptionId";
   const jobName = "TestJobName1";
@@ -30,21 +30,21 @@ async function mitigate() {
   const mitigateJobRequest: MitigateJobRequest = {
     serialNumberCustomerResolutionMap: {
       testDISK1: "MoveToCleanUpDevice",
-      testDISK2: "Resume"
-    }
+      testDISK2: "Resume",
+    },
   };
   const credential = new DefaultAzureCredential();
   const client = new DataBoxManagementClient(credential, subscriptionId);
   const result = await client.mitigate(
     jobName,
     resourceGroupName,
-    mitigateJobRequest
+    mitigateJobRequest,
   );
   console.log(result);
 }
 
-async function main() {
-  mitigate();
+async function main(): Promise<void> {
+  await mitigate();
 }
 
 main().catch(console.error);

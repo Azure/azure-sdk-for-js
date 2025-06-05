@@ -6,7 +6,8 @@
  */
 
 import { DefaultAzureCredential } from "@azure/identity";
-import { SchemaRegistryClient, SchemaDescription } from "@azure/schema-registry";
+import type { SchemaDescription } from "@azure/schema-registry";
+import { SchemaRegistryClient } from "@azure/schema-registry";
 import { AvroSerializer } from "@azure/schema-registry-avro";
 import {
   EventHubConsumerClient,
@@ -15,9 +16,7 @@ import {
 } from "@azure/event-hubs";
 
 // Load the .env file if it exists
-import * as dotenv from "dotenv";
-dotenv.config();
-
+import "dotenv/config";
 // The fully qualified namespace for schema registry
 const schemaRegistryFullyQualifiedNamespace =
   process.env["SCHEMAREGISTRY_AVRO_FULLY_QUALIFIED_NAMESPACE"] || "<endpoint>";
@@ -62,7 +61,7 @@ const schemaDescription: SchemaDescription = {
   definition: schema,
 };
 
-export async function main() {
+export async function main(): Promise<void> {
   // Create a credential
   const credential = new DefaultAzureCredential();
 
@@ -123,7 +122,7 @@ export async function main() {
   );
 
   // Wait for a bit before cleaning up the sample
-  setTimeout(async () => {
+  await setTimeout(async () => {
     await subscription.close();
     await eventHubConsumerClient.close();
     console.log(`Exiting sample`);

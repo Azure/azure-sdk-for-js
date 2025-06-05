@@ -10,9 +10,7 @@
 // Licensed under the MIT License.
 import { AzureNetworkFabricManagementServiceAPI } from "@azure/arm-managednetworkfabric";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Lists all the NetworkFabricControllers thats available in the resource group.
@@ -20,7 +18,7 @@ dotenv.config();
  * @summary Lists all the NetworkFabricControllers thats available in the resource group.
  * x-ms-original-file: specification/managednetworkfabric/resource-manager/Microsoft.ManagedNetworkFabric/stable/2023-06-15/examples/NetworkFabricControllers_ListByResourceGroup_MaximumSet_Gen.json
  */
-async function networkFabricControllersListByResourceGroupMaximumSetGen() {
+async function networkFabricControllersListByResourceGroupMaximumSetGen(): Promise<void> {
   const subscriptionId =
     process.env["MANAGEDNETWORKFABRIC_SUBSCRIPTION_ID"] ||
     "1234ABCD-0A1B-1234-5678-123456ABCDEF";
@@ -40,7 +38,7 @@ async function networkFabricControllersListByResourceGroupMaximumSetGen() {
   console.log(resArray);
 }
 
-async function main() {
+async function main(): Promise<void> {
   networkFabricControllersListByResourceGroupMaximumSetGen();
 }
 

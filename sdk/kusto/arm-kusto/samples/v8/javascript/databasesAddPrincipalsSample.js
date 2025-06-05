@@ -10,13 +10,13 @@
 // Licensed under the MIT License.
 const { KustoManagementClient } = require("@azure/arm-kusto");
 const { DefaultAzureCredential } = require("@azure/identity");
-require("dotenv").config();
+require("dotenv/config");
 
 /**
  * This sample demonstrates how to Add Database principals permissions.
  *
  * @summary Add Database principals permissions.
- * x-ms-original-file: specification/azure-kusto/resource-manager/Microsoft.Kusto/stable/2023-08-15/examples/KustoDatabaseAddPrincipals.json
+ * x-ms-original-file: specification/azure-kusto/resource-manager/Microsoft.Kusto/stable/2024-04-13/examples/KustoDatabaseAddPrincipals.json
  */
 async function kustoDatabaseAddPrincipals() {
   const subscriptionId =
@@ -64,7 +64,7 @@ async function kustoDatabaseAddPrincipals() {
 }
 
 async function main() {
-  kustoDatabaseAddPrincipals();
+  await kustoDatabaseAddPrincipals();
 }
 
 main().catch(console.error);

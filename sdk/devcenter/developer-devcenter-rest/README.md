@@ -51,7 +51,15 @@ As an example, [DefaultAzureCredential](https://github.com/Azure/azure-sdk-for-j
 can be used to authenticate the client.
 
 Set the value of dev center endpoint as environment variable:
-DEVCENTER_ENDPOINT
+`DEVCENTER_ENDPOINT`
+
+```ts snippet:ReadmeSampleCreateClient_Node
+import AzureDeveloperDevCenter from "@azure-rest/developer-devcenter";
+import { DefaultAzureCredential } from "@azure/identity";
+
+const endpoint = process.env["DEVCENTER_ENDPOINT"] || "<endpoint>";
+const client = AzureDeveloperDevCenter(endpoint, new DefaultAzureCredential());
+```
 
 ## Key Concepts
 
@@ -71,8 +79,8 @@ Environments refer to templated developer environments, which combine a template
 
 Enabling logging may help uncover useful information about failures. In order to see a log of HTTP requests and responses, set the `AZURE_LOG_LEVEL` environment variable to `info`. Alternatively, logging can be enabled at runtime by calling `setLogLevel` in the `@azure/logger`:
 
-```javascript
-const { setLogLevel } = require("@azure/logger");
+```ts snippet:SetLogLevel
+import { setLogLevel } from "@azure/logger";
 
 setLogLevel("info");
 ```

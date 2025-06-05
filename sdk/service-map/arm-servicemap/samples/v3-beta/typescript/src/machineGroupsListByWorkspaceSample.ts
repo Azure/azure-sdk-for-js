@@ -13,9 +13,7 @@ import {
   ServiceMap
 } from "@azure/arm-servicemap";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Returns all machine groups during the specified time interval.
@@ -23,7 +21,7 @@ dotenv.config();
  * @summary Returns all machine groups during the specified time interval.
  * x-ms-original-file: specification/service-map/resource-manager/Microsoft.OperationalInsights/preview/2015-11-01-preview/examples/MachineGroups/SMMachineGroupsListByWorkspaceGet.json
  */
-async function smMachineGroupsListByWorkspaceGet() {
+async function smMachineGroupsListByWorkspaceGet(): Promise<void> {
   const subscriptionId =
     process.env["SERVICE-MAP_SUBSCRIPTION_ID"] ||
     "63BE4E24-FDF0-4E9C-9342-6A5D5A359722";
@@ -49,7 +47,7 @@ async function smMachineGroupsListByWorkspaceGet() {
   console.log(resArray);
 }
 
-async function main() {
+async function main(): Promise<void> {
   smMachineGroupsListByWorkspaceGet();
 }
 

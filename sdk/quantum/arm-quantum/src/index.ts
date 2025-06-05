@@ -7,7 +7,7 @@
  */
 
 /// <reference lib="esnext.asynciterable" />
-export { getContinuationToken } from "./pagingHelper";
-export * from "./models";
-export { AzureQuantumManagementClient } from "./azureQuantumManagementClient";
-export * from "./operationsInterfaces";
+export { getContinuationToken } from "./pagingHelper.js";
+export * from "./models/index.js";
+export { AzureQuantumManagementClient } from "./azureQuantumManagementClient.js";
+export * from "./operationsInterfaces/index.js";

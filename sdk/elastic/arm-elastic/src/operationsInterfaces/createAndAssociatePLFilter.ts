@@ -7,7 +7,7 @@
  */
 
 import { SimplePollerLike, OperationState } from "@azure/core-lro";
-import { CreateAndAssociatePLFilterCreateOptionalParams } from "../models";
+import { CreateAndAssociatePLFilterCreateOptionalParams } from "../models/index.js";
 
 /** Interface representing a CreateAndAssociatePLFilter. */
 export interface CreateAndAssociatePLFilter {

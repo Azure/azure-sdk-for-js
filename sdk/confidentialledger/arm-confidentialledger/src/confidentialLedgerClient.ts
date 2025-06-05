@@ -18,20 +18,20 @@ import {
   OperationsImpl,
   LedgerImpl,
   ManagedCCFOperationsImpl,
-} from "./operations";
+} from "./operations/index.js";
 import {
   Operations,
   Ledger,
   ManagedCCFOperations,
-} from "./operationsInterfaces";
-import * as Parameters from "./models/parameters";
-import * as Mappers from "./models/mappers";
+} from "./operationsInterfaces/index.js";
+import * as Parameters from "./models/parameters.js";
+import * as Mappers from "./models/mappers.js";
 import {
   ConfidentialLedgerClientOptionalParams,
   CheckNameAvailabilityRequest,
   CheckNameAvailabilityOptionalParams,
   CheckNameAvailabilityOperationResponse,
-} from "./models";
+} from "./models/index.js";
 
 export class ConfidentialLedgerClient extends coreClient.ServiceClient {
   $host: string;
@@ -119,7 +119,7 @@ export class ConfidentialLedgerClient extends coreClient.ServiceClient {
 
     // Assigning values to Constant parameters
     this.$host = options.$host || "https://management.azure.com";
-    this.apiVersion = options.apiVersion || "2023-06-28-preview";
+    this.apiVersion = options.apiVersion || "2024-09-19-preview";
     this.operations = new OperationsImpl(this);
     this.ledger = new LedgerImpl(this);
     this.managedCCFOperations = new ManagedCCFOperationsImpl(this);

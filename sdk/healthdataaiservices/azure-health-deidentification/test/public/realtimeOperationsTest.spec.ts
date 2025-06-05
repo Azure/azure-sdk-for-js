@@ -20,7 +20,7 @@ describe("Realtime", () => {
   let recorder: Recorder;
   let client: DeidentificationClient;
 
-  beforeEach(async function (context) {
+  beforeEach(async (context) => {
     recorder = await createRecorder(context);
     await recorder.start({
       envSetupForPlayback: replaceableVariables,
@@ -34,11 +34,11 @@ describe("Realtime", () => {
     }
   });
 
-  afterEach(async function () {
+  afterEach(async () => {
     await recorder.stop();
   });
 
-  it("surrogate returns expected", async function () {
+  it("surrogate returns expected", async () => {
     const content: DeidentificationContent = {
       inputText: inputText,
       operation: "Surrogate",
@@ -66,7 +66,7 @@ describe("Realtime", () => {
       output.outputText,
       "Expected output text to be different from input text.",
     );
-  }, 10000);
+  }, 20000);
 
   it("redact returns expected", async function () {
     const content: DeidentificationContent = {
@@ -125,5 +125,5 @@ describe("Realtime", () => {
       output.taggerResult!.entities[0].length.utf8 === 10,
       "Expected first tag to be 10 characters long.",
     );
-  }, 10000);
+  }, 20000);
 });

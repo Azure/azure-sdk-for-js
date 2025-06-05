@@ -7,18 +7,18 @@
  */
 
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
-import { setContinuationToken } from "../pagingHelper";
-import { DicomServices } from "../operationsInterfaces";
+import { setContinuationToken } from "../pagingHelper.js";
+import { DicomServices } from "../operationsInterfaces/index.js";
 import * as coreClient from "@azure/core-client";
-import * as Mappers from "../models/mappers";
-import * as Parameters from "../models/parameters";
-import { HealthcareApisManagementClient } from "../healthcareApisManagementClient";
+import * as Mappers from "../models/mappers.js";
+import * as Parameters from "../models/parameters.js";
+import { HealthcareApisManagementClient } from "../healthcareApisManagementClient.js";
 import {
   SimplePollerLike,
   OperationState,
   createHttpPoller,
 } from "@azure/core-lro";
-import { createLroSpec } from "../lroImpl";
+import { createLroSpec } from "../lroImpl.js";
 import {
   DicomService,
   DicomServicesListByWorkspaceNextOptionalParams,
@@ -33,7 +33,7 @@ import {
   DicomServicesUpdateResponse,
   DicomServicesDeleteOptionalParams,
   DicomServicesListByWorkspaceNextResponse,
-} from "../models";
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Class containing DicomServices operations. */

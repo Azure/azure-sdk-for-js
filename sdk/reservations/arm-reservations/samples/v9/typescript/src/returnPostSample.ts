@@ -10,9 +10,7 @@
 // Licensed under the MIT License.
 import { RefundRequest, AzureReservationAPI } from "@azure/arm-reservations";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Return a reservation and get refund information.
@@ -20,7 +18,7 @@ dotenv.config();
  * @summary Return a reservation and get refund information.
  * x-ms-original-file: specification/reservations/resource-manager/Microsoft.Capacity/stable/2022-11-01/examples/Return.json
  */
-async function returnAReservation() {
+async function returnAReservation(): Promise<void> {
   const reservationOrderId = "50000000-aaaa-bbbb-cccc-100000000004";
   const body: RefundRequest = {
     properties: {
@@ -40,7 +38,7 @@ async function returnAReservation() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   returnAReservation();
 }
 

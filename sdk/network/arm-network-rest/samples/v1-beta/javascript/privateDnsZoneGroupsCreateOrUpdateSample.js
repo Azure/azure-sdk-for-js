@@ -6,7 +6,7 @@
 const createNetworkManagementClient = require("@azure-rest/arm-network").default,
   { getLongRunningPoller } = require("@azure-rest/arm-network");
 const { DefaultAzureCredential } = require("@azure/identity");
-require("dotenv").config();
+require("dotenv/config");
 
 /**
  * This sample demonstrates how to Creates or updates a private dns zone group in the specified private endpoint.
@@ -42,7 +42,7 @@ async function createPrivateDnsZoneGroup() {
       subscriptionId,
       resourceGroupName,
       privateEndpointName,
-      privateDnsZoneGroupName
+      privateDnsZoneGroupName,
     )
     .put(options);
   const poller = getLongRunningPoller(client, initialResponse);

@@ -22,7 +22,7 @@ import {
   RolloutsImpl,
   ArtifactSourcesImpl,
   OperationsImpl
-} from "./operations";
+} from "./operations/index.js";
 import {
   ServiceTopologies,
   Services,
@@ -31,8 +31,8 @@ import {
   Rollouts,
   ArtifactSources,
   Operations
-} from "./operationsInterfaces";
-import { AzureDeploymentManagerOptionalParams } from "./models";
+} from "./operationsInterfaces/index.js";
+import { AzureDeploymentManagerOptionalParams } from "./models/index.js";
 
 export class AzureDeploymentManager extends coreClient.ServiceClient {
   $host: string;

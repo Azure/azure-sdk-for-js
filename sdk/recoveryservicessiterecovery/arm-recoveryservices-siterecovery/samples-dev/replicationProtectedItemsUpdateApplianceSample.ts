@@ -13,24 +13,22 @@ import {
   SiteRecoveryManagementClient,
 } from "@azure/arm-recoveryservices-siterecovery";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to The operation to update appliance of an ASR replication protected item.
  *
  * @summary The operation to update appliance of an ASR replication protected item.
- * x-ms-original-file: specification/recoveryservicessiterecovery/resource-manager/Microsoft.RecoveryServices/stable/2023-08-01/examples/ReplicationProtectedItems_UpdateAppliance.json
+ * x-ms-original-file: specification/recoveryservicessiterecovery/resource-manager/Microsoft.RecoveryServices/stable/2025-01-01/examples/ReplicationProtectedItems_UpdateAppliance.json
  */
-async function updatesApplianceForReplicationProtectedItem() {
+async function updatesApplianceForReplicationProtectedItem(): Promise<void> {
   const subscriptionId =
     process.env["RECOVERYSERVICESSITERECOVERY_SUBSCRIPTION_ID"] ||
     "7c943c1b-5122-4097-90c8-861411bdd574";
-  const resourceName = "Ayan-0106-SA-Vault";
   const resourceGroupName =
     process.env["RECOVERYSERVICESSITERECOVERY_RESOURCE_GROUP"] ||
     "Ayan-0106-SA-RG";
+  const resourceName = "Ayan-0106-SA-Vault";
   const fabricName = "Ayan-0106-SA-Vaultreplicationfabric";
   const protectionContainerName = "Ayan-0106-SA-Vaultreplicationcontainer";
   const replicatedProtectedItemName =
@@ -49,8 +47,8 @@ async function updatesApplianceForReplicationProtectedItem() {
   const client = new SiteRecoveryManagementClient(credential, subscriptionId);
   const result =
     await client.replicationProtectedItems.beginUpdateApplianceAndWait(
-      resourceName,
       resourceGroupName,
+      resourceName,
       fabricName,
       protectionContainerName,
       replicatedProtectedItemName,
@@ -59,8 +57,8 @@ async function updatesApplianceForReplicationProtectedItem() {
   console.log(result);
 }
 
-async function main() {
-  updatesApplianceForReplicationProtectedItem();
+async function main(): Promise<void> {
+  await updatesApplianceForReplicationProtectedItem();
 }
 
 main().catch(console.error);

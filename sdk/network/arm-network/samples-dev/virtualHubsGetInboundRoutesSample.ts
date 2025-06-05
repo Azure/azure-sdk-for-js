@@ -6,24 +6,21 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
+import type {
+  GetInboundRoutesParameters} from "@azure/arm-network";
 import {
-  GetInboundRoutesParameters,
   NetworkManagementClient,
 } from "@azure/arm-network";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Gets the inbound routes configured for the Virtual Hub on a particular connection.
  *
  * @summary Gets the inbound routes configured for the Virtual Hub on a particular connection.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2024-05-01/examples/GetInboundRoutes.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2024-07-01/examples/GetInboundRoutes.json
  */
-async function inboundRoutesForTheVirtualHubOnAParticularConnection() {
+async function inboundRoutesForTheVirtualHubOnAParticularConnection(): Promise<void> {
   const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";
   const resourceGroupName = process.env["NETWORK_RESOURCE_GROUP"] || "rg1";
   const virtualHubName = "virtualHub1";
@@ -42,8 +39,8 @@ async function inboundRoutesForTheVirtualHubOnAParticularConnection() {
   console.log(result);
 }
 
-async function main() {
-  inboundRoutesForTheVirtualHubOnAParticularConnection();
+async function main(): Promise<void> {
+  await inboundRoutesForTheVirtualHubOnAParticularConnection();
 }
 
 main().catch(console.error);

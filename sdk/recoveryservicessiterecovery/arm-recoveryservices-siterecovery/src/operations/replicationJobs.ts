@@ -7,18 +7,18 @@
  */
 
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
-import { setContinuationToken } from "../pagingHelper";
-import { ReplicationJobs } from "../operationsInterfaces";
+import { setContinuationToken } from "../pagingHelper.js";
+import { ReplicationJobs } from "../operationsInterfaces/index.js";
 import * as coreClient from "@azure/core-client";
-import * as Mappers from "../models/mappers";
-import * as Parameters from "../models/parameters";
-import { SiteRecoveryManagementClient } from "../siteRecoveryManagementClient";
+import * as Mappers from "../models/mappers.js";
+import * as Parameters from "../models/parameters.js";
+import { SiteRecoveryManagementClient } from "../siteRecoveryManagementClient.js";
 import {
   SimplePollerLike,
   OperationState,
   createHttpPoller,
 } from "@azure/core-lro";
-import { createLroSpec } from "../lroImpl";
+import { createLroSpec } from "../lroImpl.js";
 import {
   Job,
   ReplicationJobsListNextOptionalParams,
@@ -37,7 +37,7 @@ import {
   ReplicationJobsExportOptionalParams,
   ReplicationJobsExportResponse,
   ReplicationJobsListNextResponse,
-} from "../models";
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Class containing ReplicationJobs operations. */
@@ -54,17 +54,17 @@ export class ReplicationJobsImpl implements ReplicationJobs {
 
   /**
    * Gets the list of Azure Site Recovery Jobs for the vault.
-   * @param resourceName The name of the recovery services vault.
    * @param resourceGroupName The name of the resource group where the recovery services vault is
    *                          present.
+   * @param resourceName The name of the recovery services vault.
    * @param options The options parameters.
    */
   public list(
-    resourceName: string,
     resourceGroupName: string,
+    resourceName: string,
     options?: ReplicationJobsListOptionalParams,
   ): PagedAsyncIterableIterator<Job> {
-    const iter = this.listPagingAll(resourceName, resourceGroupName, options);
+    const iter = this.listPagingAll(resourceGroupName, resourceName, options);
     return {
       next() {
         return iter.next();
@@ -77,8 +77,8 @@ export class ReplicationJobsImpl implements ReplicationJobs {
           throw new Error("maxPageSize is not supported by this operation.");
         }
         return this.listPagingPage(
-          resourceName,
           resourceGroupName,
+          resourceName,
           options,
           settings,
         );
@@ -87,15 +87,15 @@ export class ReplicationJobsImpl implements ReplicationJobs {
   }
 
   private async *listPagingPage(
-    resourceName: string,
     resourceGroupName: string,
+    resourceName: string,
     options?: ReplicationJobsListOptionalParams,
     settings?: PageSettings,
   ): AsyncIterableIterator<Job[]> {
     let result: ReplicationJobsListResponse;
     let continuationToken = settings?.continuationToken;
     if (!continuationToken) {
-      result = await this._list(resourceName, resourceGroupName, options);
+      result = await this._list(resourceGroupName, resourceName, options);
       let page = result.value || [];
       continuationToken = result.nextLink;
       setContinuationToken(page, continuationToken);
@@ -103,8 +103,8 @@ export class ReplicationJobsImpl implements ReplicationJobs {
     }
     while (continuationToken) {
       result = await this._listNext(
-        resourceName,
         resourceGroupName,
+        resourceName,
         continuationToken,
         options,
       );
@@ -116,13 +116,13 @@ export class ReplicationJobsImpl implements ReplicationJobs {
   }
 
   private async *listPagingAll(
-    resourceName: string,
     resourceGroupName: string,
+    resourceName: string,
     options?: ReplicationJobsListOptionalParams,
   ): AsyncIterableIterator<Job> {
     for await (const page of this.listPagingPage(
-      resourceName,
       resourceGroupName,
+      resourceName,
       options,
     )) {
       yield* page;
@@ -131,53 +131,53 @@ export class ReplicationJobsImpl implements ReplicationJobs {
 
   /**
    * Gets the list of Azure Site Recovery Jobs for the vault.
-   * @param resourceName The name of the recovery services vault.
    * @param resourceGroupName The name of the resource group where the recovery services vault is
    *                          present.
+   * @param resourceName The name of the recovery services vault.
    * @param options The options parameters.
    */
   private _list(
-    resourceName: string,
     resourceGroupName: string,
+    resourceName: string,
     options?: ReplicationJobsListOptionalParams,
   ): Promise<ReplicationJobsListResponse> {
     return this.client.sendOperationRequest(
-      { resourceName, resourceGroupName, options },
+      { resourceGroupName, resourceName, options },
       listOperationSpec,
     );
   }
 
   /**
    * Get the details of an Azure Site Recovery job.
-   * @param resourceName The name of the recovery services vault.
    * @param resourceGroupName The name of the resource group where the recovery services vault is
    *                          present.
+   * @param resourceName The name of the recovery services vault.
    * @param jobName Job identifier.
    * @param options The options parameters.
    */
   get(
-    resourceName: string,
     resourceGroupName: string,
+    resourceName: string,
     jobName: string,
     options?: ReplicationJobsGetOptionalParams,
   ): Promise<ReplicationJobsGetResponse> {
     return this.client.sendOperationRequest(
-      { resourceName, resourceGroupName, jobName, options },
+      { resourceGroupName, resourceName, jobName, options },
       getOperationSpec,
     );
   }
 
   /**
    * The operation to cancel an Azure Site Recovery job.
-   * @param resourceName The name of the recovery services vault.
    * @param resourceGroupName The name of the resource group where the recovery services vault is
    *                          present.
+   * @param resourceName The name of the recovery services vault.
    * @param jobName Job identifier.
    * @param options The options parameters.
    */
   async beginCancel(
-    resourceName: string,
     resourceGroupName: string,
+    resourceName: string,
     jobName: string,
     options?: ReplicationJobsCancelOptionalParams,
   ): Promise<
@@ -226,7 +226,7 @@ export class ReplicationJobsImpl implements ReplicationJobs {
 
     const lro = createLroSpec({
       sendOperationFn,
-      args: { resourceName, resourceGroupName, jobName, options },
+      args: { resourceGroupName, resourceName, jobName, options },
       spec: cancelOperationSpec,
     });
     const poller = await createHttpPoller<
@@ -242,21 +242,21 @@ export class ReplicationJobsImpl implements ReplicationJobs {
 
   /**
    * The operation to cancel an Azure Site Recovery job.
-   * @param resourceName The name of the recovery services vault.
    * @param resourceGroupName The name of the resource group where the recovery services vault is
    *                          present.
+   * @param resourceName The name of the recovery services vault.
    * @param jobName Job identifier.
    * @param options The options parameters.
    */
   async beginCancelAndWait(
-    resourceName: string,
     resourceGroupName: string,
+    resourceName: string,
     jobName: string,
     options?: ReplicationJobsCancelOptionalParams,
   ): Promise<ReplicationJobsCancelResponse> {
     const poller = await this.beginCancel(
-      resourceName,
       resourceGroupName,
+      resourceName,
       jobName,
       options,
     );
@@ -265,15 +265,15 @@ export class ReplicationJobsImpl implements ReplicationJobs {
 
   /**
    * The operation to restart an Azure Site Recovery job.
-   * @param resourceName The name of the recovery services vault.
    * @param resourceGroupName The name of the resource group where the recovery services vault is
    *                          present.
+   * @param resourceName The name of the recovery services vault.
    * @param jobName Job identifier.
    * @param options The options parameters.
    */
   async beginRestart(
-    resourceName: string,
     resourceGroupName: string,
+    resourceName: string,
     jobName: string,
     options?: ReplicationJobsRestartOptionalParams,
   ): Promise<
@@ -322,7 +322,7 @@ export class ReplicationJobsImpl implements ReplicationJobs {
 
     const lro = createLroSpec({
       sendOperationFn,
-      args: { resourceName, resourceGroupName, jobName, options },
+      args: { resourceGroupName, resourceName, jobName, options },
       spec: restartOperationSpec,
     });
     const poller = await createHttpPoller<
@@ -338,21 +338,21 @@ export class ReplicationJobsImpl implements ReplicationJobs {
 
   /**
    * The operation to restart an Azure Site Recovery job.
-   * @param resourceName The name of the recovery services vault.
    * @param resourceGroupName The name of the resource group where the recovery services vault is
    *                          present.
+   * @param resourceName The name of the recovery services vault.
    * @param jobName Job identifier.
    * @param options The options parameters.
    */
   async beginRestartAndWait(
-    resourceName: string,
     resourceGroupName: string,
+    resourceName: string,
     jobName: string,
     options?: ReplicationJobsRestartOptionalParams,
   ): Promise<ReplicationJobsRestartResponse> {
     const poller = await this.beginRestart(
-      resourceName,
       resourceGroupName,
+      resourceName,
       jobName,
       options,
     );
@@ -361,16 +361,16 @@ export class ReplicationJobsImpl implements ReplicationJobs {
 
   /**
    * The operation to resume an Azure Site Recovery job.
-   * @param resourceName The name of the recovery services vault.
    * @param resourceGroupName The name of the resource group where the recovery services vault is
    *                          present.
+   * @param resourceName The name of the recovery services vault.
    * @param jobName Job identifier.
    * @param resumeJobParams Resume rob comments.
    * @param options The options parameters.
    */
   async beginResume(
-    resourceName: string,
     resourceGroupName: string,
+    resourceName: string,
     jobName: string,
     resumeJobParams: ResumeJobParams,
     options?: ReplicationJobsResumeOptionalParams,
@@ -421,8 +421,8 @@ export class ReplicationJobsImpl implements ReplicationJobs {
     const lro = createLroSpec({
       sendOperationFn,
       args: {
-        resourceName,
         resourceGroupName,
+        resourceName,
         jobName,
         resumeJobParams,
         options,
@@ -442,23 +442,23 @@ export class ReplicationJobsImpl implements ReplicationJobs {
 
   /**
    * The operation to resume an Azure Site Recovery job.
-   * @param resourceName The name of the recovery services vault.
    * @param resourceGroupName The name of the resource group where the recovery services vault is
    *                          present.
+   * @param resourceName The name of the recovery services vault.
    * @param jobName Job identifier.
    * @param resumeJobParams Resume rob comments.
    * @param options The options parameters.
    */
   async beginResumeAndWait(
-    resourceName: string,
     resourceGroupName: string,
+    resourceName: string,
     jobName: string,
     resumeJobParams: ResumeJobParams,
     options?: ReplicationJobsResumeOptionalParams,
   ): Promise<ReplicationJobsResumeResponse> {
     const poller = await this.beginResume(
-      resourceName,
       resourceGroupName,
+      resourceName,
       jobName,
       resumeJobParams,
       options,
@@ -468,15 +468,15 @@ export class ReplicationJobsImpl implements ReplicationJobs {
 
   /**
    * The operation to export the details of the Azure Site Recovery jobs of the vault.
-   * @param resourceName The name of the recovery services vault.
    * @param resourceGroupName The name of the resource group where the recovery services vault is
    *                          present.
+   * @param resourceName The name of the recovery services vault.
    * @param jobQueryParameter job query filter.
    * @param options The options parameters.
    */
   async beginExport(
-    resourceName: string,
     resourceGroupName: string,
+    resourceName: string,
     jobQueryParameter: JobQueryParameter,
     options?: ReplicationJobsExportOptionalParams,
   ): Promise<
@@ -525,7 +525,7 @@ export class ReplicationJobsImpl implements ReplicationJobs {
 
     const lro = createLroSpec({
       sendOperationFn,
-      args: { resourceName, resourceGroupName, jobQueryParameter, options },
+      args: { resourceGroupName, resourceName, jobQueryParameter, options },
       spec: exportOperationSpec,
     });
     const poller = await createHttpPoller<
@@ -541,21 +541,21 @@ export class ReplicationJobsImpl implements ReplicationJobs {
 
   /**
    * The operation to export the details of the Azure Site Recovery jobs of the vault.
-   * @param resourceName The name of the recovery services vault.
    * @param resourceGroupName The name of the resource group where the recovery services vault is
    *                          present.
+   * @param resourceName The name of the recovery services vault.
    * @param jobQueryParameter job query filter.
    * @param options The options parameters.
    */
   async beginExportAndWait(
-    resourceName: string,
     resourceGroupName: string,
+    resourceName: string,
     jobQueryParameter: JobQueryParameter,
     options?: ReplicationJobsExportOptionalParams,
   ): Promise<ReplicationJobsExportResponse> {
     const poller = await this.beginExport(
-      resourceName,
       resourceGroupName,
+      resourceName,
       jobQueryParameter,
       options,
     );
@@ -564,20 +564,20 @@ export class ReplicationJobsImpl implements ReplicationJobs {
 
   /**
    * ListNext
-   * @param resourceName The name of the recovery services vault.
    * @param resourceGroupName The name of the resource group where the recovery services vault is
    *                          present.
+   * @param resourceName The name of the recovery services vault.
    * @param nextLink The nextLink from the previous successful call to the List method.
    * @param options The options parameters.
    */
   private _listNext(
-    resourceName: string,
     resourceGroupName: string,
+    resourceName: string,
     nextLink: string,
     options?: ReplicationJobsListNextOptionalParams,
   ): Promise<ReplicationJobsListNextResponse> {
     return this.client.sendOperationRequest(
-      { resourceName, resourceGroupName, nextLink, options },
+      { resourceGroupName, resourceName, nextLink, options },
       listNextOperationSpec,
     );
   }

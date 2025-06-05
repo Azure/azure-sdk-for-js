@@ -26,7 +26,7 @@ import {
   ContainerGroupsStartOptionalParams,
   ContainerGroupsGetOutboundNetworkDependenciesEndpointsOptionalParams,
   ContainerGroupsGetOutboundNetworkDependenciesEndpointsResponse,
-} from "../models";
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a ContainerGroups. */

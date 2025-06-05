@@ -4,14 +4,12 @@
 
 ```ts
 
-import { OperationOptions } from '@azure-rest/core-client';
-
 // @public
 export type ActionType = string;
 
 // @public
 export interface CancelOperationsRequest {
-    correlationid: string;
+    correlationId: string;
     operationIds: string[];
 }
 
@@ -33,21 +31,21 @@ export interface DeallocateResourceOperationResponse {
 
 // @public
 export interface ExecuteDeallocateRequest {
-    correlationid: string;
+    correlationId: string;
     executionParameters: ExecutionParameters;
     resources: Resources;
 }
 
 // @public
 export interface ExecuteHibernateRequest {
-    correlationid: string;
+    correlationId: string;
     executionParameters: ExecutionParameters;
     resources: Resources;
 }
 
 // @public
 export interface ExecuteStartRequest {
-    correlationid: string;
+    correlationId: string;
     executionParameters: ExecutionParameters;
     resources: Resources;
 }
@@ -70,7 +68,7 @@ export interface GetOperationErrorsResponse {
 
 // @public
 export interface GetOperationStatusRequest {
-    correlationid: string;
+    correlationId: string;
     operationIds: string[];
 }
 
@@ -135,9 +133,14 @@ export enum KnownResourceOperationType {
 }
 
 // @public
+export enum KnownVersions {
+    "V2024-10-01" = "2024-10-01"
+}
+
+// @public
 export interface Operation {
-    actionType?: ActionType;
-    readonly display?: OperationDisplay;
+    readonly actionType?: ActionType;
+    display?: OperationDisplay;
     readonly isDataAction?: boolean;
     readonly name?: string;
     readonly origin?: Origin;
@@ -153,10 +156,12 @@ export interface OperationDisplay {
 
 // @public
 export interface OperationErrorDetails {
-    crpOperationId: string;
+    azureOperationName?: string;
+    crpOperationId?: string;
     errorCode: string;
     errorDetails: string;
-    timeStamp: string;
+    errorDetailsTimestamp?: string;
+    timestamp?: string;
 }
 
 // @public
@@ -168,10 +173,6 @@ export interface OperationErrorsResult {
     operationId?: string;
     requestErrorCode?: string;
     requestErrorDetails?: string;
-}
-
-// @public
-export interface OperationsListOptionalParams extends OperationOptions {
 }
 
 // @public
@@ -194,16 +195,17 @@ export interface ResourceOperation {
 // @public
 export interface ResourceOperationDetails {
     completedAt?: string;
-    deadline: string;
-    deadlineType: DeadlineType;
+    deadline?: string;
+    deadlineType?: DeadlineType;
     operationId: string;
-    opType: ResourceOperationType;
-    resourceId: string;
+    operationTimezone?: string;
+    opType?: ResourceOperationType;
+    resourceId?: string;
     resourceOperationError?: ResourceOperationError;
     retryPolicy?: RetryPolicy;
-    state: OperationState;
-    subscriptionId: string;
-    timeZone?: string;
+    state?: OperationState;
+    subscriptionId?: string;
+    timezone?: string;
 }
 
 // @public
@@ -228,45 +230,11 @@ export interface RetryPolicy {
 
 // @public
 export interface Schedule {
-    deadLine: string;
+    deadline?: string;
     deadlineType: DeadlineType;
-    timeZone: string;
-}
-
-// @public
-export interface ScheduledActionsVirtualMachinesCancelOperationsOptionalParams extends OperationOptions {
-}
-
-// @public
-export interface ScheduledActionsVirtualMachinesExecuteDeallocateOptionalParams extends OperationOptions {
-}
-
-// @public
-export interface ScheduledActionsVirtualMachinesExecuteHibernateOptionalParams extends OperationOptions {
-}
-
-// @public
-export interface ScheduledActionsVirtualMachinesExecuteStartOptionalParams extends OperationOptions {
-}
-
-// @public
-export interface ScheduledActionsVirtualMachinesGetOperationErrorsOptionalParams extends OperationOptions {
-}
-
-// @public
-export interface ScheduledActionsVirtualMachinesGetOperationStatusOptionalParams extends OperationOptions {
-}
-
-// @public
-export interface ScheduledActionsVirtualMachinesSubmitDeallocateOptionalParams extends OperationOptions {
-}
-
-// @public
-export interface ScheduledActionsVirtualMachinesSubmitHibernateOptionalParams extends OperationOptions {
-}
-
-// @public
-export interface ScheduledActionsVirtualMachinesSubmitStartOptionalParams extends OperationOptions {
+    timezone?: string;
+    userRequestDeadline?: string;
+    userRequestTimezone?: string;
 }
 
 // @public
@@ -279,7 +247,7 @@ export interface StartResourceOperationResponse {
 
 // @public
 export interface SubmitDeallocateRequest {
-    correlationid: string;
+    correlationId: string;
     executionParameters: ExecutionParameters;
     resources: Resources;
     schedule: Schedule;
@@ -287,7 +255,7 @@ export interface SubmitDeallocateRequest {
 
 // @public
 export interface SubmitHibernateRequest {
-    correlationid: string;
+    correlationId: string;
     executionParameters: ExecutionParameters;
     resources: Resources;
     schedule: Schedule;
@@ -295,7 +263,7 @@ export interface SubmitHibernateRequest {
 
 // @public
 export interface SubmitStartRequest {
-    correlationid: string;
+    correlationId: string;
     executionParameters: ExecutionParameters;
     resources: Resources;
     schedule: Schedule;

@@ -9,7 +9,7 @@
 import {
   VMIngestionDetailsOptionalParams,
   VMIngestionDetailsOperationResponse,
-} from "../models";
+} from "../models/index.js";
 
 /** Interface representing a VMIngestion. */
 export interface VMIngestion {

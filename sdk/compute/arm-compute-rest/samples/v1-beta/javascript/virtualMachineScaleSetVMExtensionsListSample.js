@@ -29,7 +29,7 @@ async function listExtensionsInVmssInstance() {
       subscriptionId,
       resourceGroupName,
       vmScaleSetName,
-      instanceId
+      instanceId,
     )
     .get(options);
   console.log(result);

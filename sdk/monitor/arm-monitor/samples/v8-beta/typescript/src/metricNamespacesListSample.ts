@@ -13,9 +13,7 @@ import {
   MonitorClient,
 } from "@azure/arm-monitor";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Lists the metric namespaces for the resource.
@@ -23,7 +21,7 @@ dotenv.config();
  * @summary Lists the metric namespaces for the resource.
  * x-ms-original-file: specification/monitor/resource-manager/Microsoft.Insights/stable/2024-02-01/examples/GetMetricNamespaces.json
  */
-async function getMetricNamespacesWithoutFilter() {
+async function getMetricNamespacesWithoutFilter(): Promise<void> {
   const resourceUri =
     "subscriptions/182c901a-129a-4f5d-86e4-cc6b294590a2/resourceGroups/hyr-log/providers/microsoft.insights/components/f1-bill";
   const startTime = "2020-08-31T15:53:00Z";
@@ -37,7 +35,7 @@ async function getMetricNamespacesWithoutFilter() {
   console.log(resArray);
 }
 
-async function main() {
+async function main(): Promise<void> {
   getMetricNamespacesWithoutFilter();
 }
 

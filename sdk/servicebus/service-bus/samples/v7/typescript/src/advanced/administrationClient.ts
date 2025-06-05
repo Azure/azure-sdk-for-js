@@ -4,7 +4,7 @@
 /**
  * This sample demonstrates how the ServiceBusAdministrationClient can be used to manage the resources of a service bus namespace.
  *
- * See https://docs.microsoft.com/rest/api/servicebus/resource-provider-apis to learn more.
+ * See https://learn.microsoft.com/rest/api/servicebus/resource-provider-apis to learn more.
  *
  * @summary Demonstrates how to manage the resources of a service bus namespace.
  */
@@ -13,14 +13,12 @@ import { ServiceBusAdministrationClient } from "@azure/service-bus";
 import { DefaultAzureCredential } from "@azure/identity";
 
 // Load the .env file if it exists
-import * as dotenv from "dotenv";
-dotenv.config();
-
+import "dotenv/config";
 // Define connection string and related Service Bus entity names here
 const fqdn = process.env.SERVICEBUS_FQDN || "<your-servicebus-namespace>.servicebus.windows.net";
 const queueName = process.env.QUEUE_NAME || "<queue name>";
 
-export async function main() {
+export async function main(): Promise<void> {
   // You can also use AAD credentials from `@azure/identity` along with the host url
   // instead of the connection string for authentication.
   const credential = new DefaultAzureCredential();

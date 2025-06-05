@@ -10,13 +10,13 @@
 // Licensed under the MIT License.
 const { ComputeManagementClient } = require("@azure/arm-compute");
 const { DefaultAzureCredential } = require("@azure/identity");
-require("dotenv").config();
+require("dotenv/config");
 
 /**
  * This sample demonstrates how to Starts one or more virtual machines in a VM scale set.
  *
  * @summary Starts one or more virtual machines in a VM scale set.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-07-01/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSet_Start_MaximumSet_Gen.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-11-01/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSet_Start_MaximumSet_Gen.json
  */
 async function virtualMachineScaleSetStartMaximumSetGen() {
   const subscriptionId = process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
@@ -40,7 +40,7 @@ async function virtualMachineScaleSetStartMaximumSetGen() {
  * This sample demonstrates how to Starts one or more virtual machines in a VM scale set.
  *
  * @summary Starts one or more virtual machines in a VM scale set.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-07-01/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSet_Start_MinimumSet_Gen.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-11-01/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSet_Start_MinimumSet_Gen.json
  */
 async function virtualMachineScaleSetStartMinimumSetGen() {
   const subscriptionId = process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
@@ -56,8 +56,8 @@ async function virtualMachineScaleSetStartMinimumSetGen() {
 }
 
 async function main() {
-  virtualMachineScaleSetStartMaximumSetGen();
-  virtualMachineScaleSetStartMinimumSetGen();
+  await virtualMachineScaleSetStartMaximumSetGen();
+  await virtualMachineScaleSetStartMinimumSetGen();
 }
 
 main().catch(console.error);

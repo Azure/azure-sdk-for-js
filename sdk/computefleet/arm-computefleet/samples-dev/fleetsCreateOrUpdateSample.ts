@@ -10,7 +10,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * @summary create a Fleet
  * x-ms-original-file: 2024-11-01/Fleets_CreateOrUpdate.json
  */
-async function fleetsCreateOrUpdate() {
+async function fleetsCreateOrUpdate(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "1DC2F28C-A625-4B0E-9748-9885A3C9E9EB";
   const client = new AzureFleetClient(credential, subscriptionId);
@@ -357,7 +357,7 @@ async function fleetsCreateOrUpdate() {
  * @summary create a Fleet
  * x-ms-original-file: 2024-11-01/Fleets_CreateOrUpdate_MinimumSet.json
  */
-async function fleetsCreateOrUpdateMinimumSet() {
+async function fleetsCreateOrUpdateMinimumSet(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "1DC2F28C-A625-4B0E-9748-9885A3C9E9EB";
   const client = new AzureFleetClient(credential, subscriptionId);
@@ -441,9 +441,9 @@ async function fleetsCreateOrUpdateMinimumSet() {
   console.log(result);
 }
 
-async function main() {
-  fleetsCreateOrUpdate();
-  fleetsCreateOrUpdateMinimumSet();
+async function main(): Promise<void> {
+  await fleetsCreateOrUpdate();
+  await fleetsCreateOrUpdateMinimumSet();
 }
 
 main().catch(console.error);

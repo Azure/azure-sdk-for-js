@@ -6,24 +6,21 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
+import type {
+  NetworkVirtualApplianceConnection} from "@azure/arm-network";
 import {
-  NetworkVirtualApplianceConnection,
   NetworkManagementClient,
 } from "@azure/arm-network";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Creates a connection to Network Virtual Appliance, if it doesn't exist else updates the existing NVA connection'
  *
  * @summary Creates a connection to Network Virtual Appliance, if it doesn't exist else updates the existing NVA connection'
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2024-05-01/examples/NetworkVirtualApplianceConnectionPut.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2024-07-01/examples/NetworkVirtualApplianceConnectionPut.json
  */
-async function networkVirtualApplianceConnectionPut() {
+async function networkVirtualApplianceConnectionPut(): Promise<void> {
   const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";
   const resourceGroupName = process.env["NETWORK_RESOURCE_GROUP"] || "rg1";
   const networkVirtualApplianceName = "nva1";
@@ -67,8 +64,8 @@ async function networkVirtualApplianceConnectionPut() {
   console.log(result);
 }
 
-async function main() {
-  networkVirtualApplianceConnectionPut();
+async function main(): Promise<void> {
+  await networkVirtualApplianceConnectionPut();
 }
 
 main().catch(console.error);

@@ -18,7 +18,7 @@ import {
   ForwardingRulesDeleteOptionalParams,
   ForwardingRulesGetOptionalParams,
   ForwardingRulesGetResponse,
-} from "../models";
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a ForwardingRules. */

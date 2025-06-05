@@ -6,22 +6,18 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import {
-  env,
-  Recorder,
-  RecorderStartOptions,
-  isPlaybackMode,
-} from "@azure-tools/test-recorder";
+import type { RecorderStartOptions } from "@azure-tools/test-recorder";
+import { env, Recorder, isPlaybackMode } from "@azure-tools/test-recorder";
 import { createTestCredential } from "@azure-tools/test-credential";
 import { AutomationClient } from "../src/automationClient.js";
-import { RunbookCreateOrUpdateParameters } from "../src/index.js";
+import type { RunbookCreateOrUpdateParameters } from "../src/index.js";
 import { afterEach, assert, beforeEach, describe, it } from "vitest";
 
 const replaceableVariables: Record<string, string> = {
   AZURE_CLIENT_ID: "azure_client_id",
   AZURE_CLIENT_SECRET: "azure_client_secret",
   AZURE_TENANT_ID: "88888888-8888-8888-8888-888888888888",
-  SUBSCRIPTION_ID: "azure_subscription_id"
+  SUBSCRIPTION_ID: "azure_subscription_id",
 };
 
 const recorderOptions: RecorderStartOptions = {
@@ -47,10 +43,10 @@ describe("automation test", () => {
   let runbookContent: string;
   let runbookParameters: RunbookCreateOrUpdateParameters;
 
-  beforeEach(async function (ctx) {
+  beforeEach(async (ctx) => {
     recorder = new Recorder(ctx);
     await recorder.start(recorderOptions);
-    subscriptionId = env.SUBSCRIPTION_ID || '';
+    subscriptionId = env.SUBSCRIPTION_ID || "";
     // This is an example of how the environment variables are used
     const credential = createTestCredential();
     client = new AutomationClient(credential, subscriptionId, recorder.configureClientOptions({}));
@@ -61,61 +57,85 @@ describe("automation test", () => {
     runbookContent = "testabc";
 
     runbookParameters = {
-      "name": runbookName,
+      name: runbookName,
       location,
-      "tags": {
-        "tag01": "value01",
-        "tag02": "value02"
+      tags: {
+        tag01: "value01",
+        tag02: "value02",
       },
-      "runbookType": "PowerShellWorkflow",
-      "draft": {}
-    }
+      runbookType: "PowerShellWorkflow",
+      draft: {},
+    };
   });
 
-  afterEach(async function () {
+  afterEach(async () => {
     await recorder.stop();
   });
 
-  it("Automation create test", async function () {
-    const res = await client.automationAccountOperations.createOrUpdate(resourceGroup, automationAccountName,
+  it("Automation create test", async () => {
+    const res = await client.automationAccountOperations.createOrUpdate(
+      resourceGroup,
+      automationAccountName,
       {
         sku: {
-          name: "Free"
+          name: "Free",
         },
         name: automationAccountName,
-        location: "East US 2"
-      }
-    )
+        location: "East US 2",
+      },
+    );
     assert.equal(res.name, automationAccountName);
   });
 
-  it("Runbook create test", async function () {
-    const res = await client.runbookOperations.createOrUpdate(resourceGroup, automationAccountName, runbookName, runbookParameters)
+  it("Runbook create test", async () => {
+    const res = await client.runbookOperations.createOrUpdate(
+      resourceGroup,
+      automationAccountName,
+      runbookName,
+      runbookParameters,
+    );
     assert.equal(res.name, runbookName);
   });
 
-  it("RunbookDraft get test", async function () {
-    // console.log(res)
-
+  it("RunbookDraft get test", async () => {
+    const res = await client.runbookDraftOperations.getContent(
+      resourceGroup,
+      automationAccountName,
+      runbookName,
+    );
+    console.log(res);
   });
 
-  it.skip("RunbookDraft Replace test", async function () {
-
+  it.skip("RunbookDraft Replace test", async () => {
+    await client.runbookDraftOperations.beginReplaceContentAndWait(
+      resourceGroup,
+      automationAccountName,
+      runbookName,
+      runbookContent,
+      testPollingOptions,
+    );
   });
 
-  it("Runbook delete test", async function () {
+  it("Runbook delete test", async () => {
+    await client.runbookOperations.delete(resourceGroup, automationAccountName, runbookName);
     const resArray = new Array();
-    for await (let item of client.runbookOperations.listByAutomationAccount(resourceGroup, automationAccountName)) {
+    for await (const item of client.runbookOperations.listByAutomationAccount(
+      resourceGroup,
+      automationAccountName,
+    )) {
       resArray.push(item);
     }
     assert.equal(resArray.length, 0);
   });
 
-  it("automation delete test", async function () {
+  it("automation delete test", async () => {
+    await client.automationAccountOperations.delete(resourceGroup, automationAccountName);
     const resArray = new Array();
-    for await (let item of client.automationAccountOperations.listByResourceGroup(resourceGroup)) {
+    for await (const item of client.automationAccountOperations.listByResourceGroup(
+      resourceGroup,
+    )) {
       resArray.push(item);
     }
     assert.equal(resArray.length, 0);
   });
-})
+});

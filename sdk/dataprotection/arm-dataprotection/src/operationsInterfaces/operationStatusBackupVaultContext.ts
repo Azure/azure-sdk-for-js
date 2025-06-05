@@ -9,7 +9,7 @@
 import {
   OperationStatusBackupVaultContextGetOptionalParams,
   OperationStatusBackupVaultContextGetResponse,
-} from "../models";
+} from "../models/index.js";
 
 /** Interface representing a OperationStatusBackupVaultContext. */
 export interface OperationStatusBackupVaultContext {

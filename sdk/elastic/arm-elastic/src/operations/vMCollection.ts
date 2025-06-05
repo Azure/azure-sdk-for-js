@@ -6,12 +6,12 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { VMCollection } from "../operationsInterfaces";
+import { VMCollection } from "../operationsInterfaces/index.js";
 import * as coreClient from "@azure/core-client";
-import * as Mappers from "../models/mappers";
-import * as Parameters from "../models/parameters";
-import { MicrosoftElastic } from "../microsoftElastic";
-import { VMCollectionUpdateOptionalParams } from "../models";
+import * as Mappers from "../models/mappers.js";
+import * as Parameters from "../models/parameters.js";
+import { MicrosoftElastic } from "../microsoftElastic.js";
+import { VMCollectionUpdateOptionalParams } from "../models/index.js";
 
 /** Class containing VMCollection operations. */
 export class VMCollectionImpl implements VMCollection {

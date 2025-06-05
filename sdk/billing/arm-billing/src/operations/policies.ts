@@ -6,17 +6,17 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { Policies } from "../operationsInterfaces";
+import { Policies } from "../operationsInterfaces/index.js";
 import * as coreClient from "@azure/core-client";
-import * as Mappers from "../models/mappers";
-import * as Parameters from "../models/parameters";
-import { BillingManagementClient } from "../billingManagementClient";
+import * as Mappers from "../models/mappers.js";
+import * as Parameters from "../models/parameters.js";
+import { BillingManagementClient } from "../billingManagementClient.js";
 import {
   SimplePollerLike,
   OperationState,
   createHttpPoller,
 } from "@azure/core-lro";
-import { createLroSpec } from "../lroImpl";
+import { createLroSpec } from "../lroImpl.js";
 import {
   ServiceDefinedResourceName,
   PoliciesGetByCustomerOptionalParams,
@@ -40,7 +40,7 @@ import {
   PoliciesCreateOrUpdateByBillingAccountResponse,
   PoliciesGetBySubscriptionOptionalParams,
   PoliciesGetBySubscriptionResponse,
-} from "../models";
+} from "../models/index.js";
 
 /** Class containing Policies operations. */
 export class PoliciesImpl implements Policies {

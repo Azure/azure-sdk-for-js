@@ -10,9 +10,7 @@
 // Licensed under the MIT License.
 import { RegenerateAccessKeyParameters, RelayAPI } from "@azure/arm-relay";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Regenerates the primary or secondary connection strings to the hybrid connection.
@@ -20,7 +18,7 @@ dotenv.config();
  * @summary Regenerates the primary or secondary connection strings to the hybrid connection.
  * x-ms-original-file: specification/relay/resource-manager/Microsoft.Relay/stable/2017-04-01/examples/HybridConnection/RelayHybridConnectionAuthorizationRuleRegenrateKey.json
  */
-async function relayHybridConnectionAuthorizationRuleRegenrateKey() {
+async function relayHybridConnectionAuthorizationRuleRegenrateKey(): Promise<void> {
   const subscriptionId =
     process.env["RELAY_SUBSCRIPTION_ID"] ||
     "ffffffff-ffff-ffff-ffff-ffffffffffff";
@@ -42,7 +40,7 @@ async function relayHybridConnectionAuthorizationRuleRegenrateKey() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   relayHybridConnectionAuthorizationRuleRegenrateKey();
 }
 

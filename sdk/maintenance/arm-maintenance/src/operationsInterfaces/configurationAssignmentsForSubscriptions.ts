@@ -16,7 +16,7 @@ import {
   ConfigurationAssignmentsForSubscriptionsUpdateResponse,
   ConfigurationAssignmentsForSubscriptionsDeleteOptionalParams,
   ConfigurationAssignmentsForSubscriptionsDeleteResponse,
-} from "../models";
+} from "../models/index.js";
 
 /** Interface representing a ConfigurationAssignmentsForSubscriptions. */
 export interface ConfigurationAssignmentsForSubscriptions {

@@ -77,7 +77,7 @@ export async function main(): Promise<void> {
   const ajv = new Ajv.default();
   const validator = ajv.compile(JSON.parse(schema));
   const validators = new Map<string, ValidateFunction>();
-  validators.set(schema, validator);
+  await validators.set(schema, validator);
   const validateOptions: DeserializeOptions = {
     validateCallback(callBackValue, callbackSchema) {
       const callbackValidator = validators.get(callbackSchema);

@@ -6,24 +6,21 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
+import type {
+  UnprepareNetworkPoliciesRequest} from "@azure/arm-network";
 import {
-  UnprepareNetworkPoliciesRequest,
   NetworkManagementClient,
 } from "@azure/arm-network";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Unprepares a subnet by removing network intent policies.
  *
  * @summary Unprepares a subnet by removing network intent policies.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2024-05-01/examples/SubnetUnprepareNetworkPolicies.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2024-07-01/examples/SubnetUnprepareNetworkPolicies.json
  */
-async function unprepareNetworkPolicies() {
+async function unprepareNetworkPolicies(): Promise<void> {
   const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";
   const resourceGroupName = process.env["NETWORK_RESOURCE_GROUP"] || "rg1";
   const virtualNetworkName = "test-vnet";
@@ -41,8 +38,8 @@ async function unprepareNetworkPolicies() {
   console.log(result);
 }
 
-async function main() {
-  unprepareNetworkPolicies();
+async function main(): Promise<void> {
+  await unprepareNetworkPolicies();
 }
 
 main().catch(console.error);

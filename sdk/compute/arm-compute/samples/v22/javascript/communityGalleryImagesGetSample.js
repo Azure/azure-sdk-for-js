@@ -10,7 +10,7 @@
 // Licensed under the MIT License.
 const { ComputeManagementClient } = require("@azure/arm-compute");
 const { DefaultAzureCredential } = require("@azure/identity");
-require("dotenv").config();
+require("dotenv/config");
 
 /**
  * This sample demonstrates how to Get a community gallery image.
@@ -34,7 +34,7 @@ async function getACommunityGalleryImage() {
 }
 
 async function main() {
-  getACommunityGalleryImage();
+  await getACommunityGalleryImage();
 }
 
 main().catch(console.error);

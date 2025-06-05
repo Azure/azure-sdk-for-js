@@ -9,7 +9,7 @@
 import {
   LocationBasedRecommendedActionSessionsOperationStatusGetOptionalParams,
   LocationBasedRecommendedActionSessionsOperationStatusGetResponse
-} from "../models";
+} from "../models/index.js";
 
 /** Interface representing a LocationBasedRecommendedActionSessionsOperationStatus. */
 export interface LocationBasedRecommendedActionSessionsOperationStatus {

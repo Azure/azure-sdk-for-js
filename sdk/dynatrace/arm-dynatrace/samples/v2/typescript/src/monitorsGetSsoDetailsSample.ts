@@ -14,9 +14,7 @@ import {
   DynatraceObservability
 } from "@azure/arm-dynatrace";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Gets the SSO configuration details from the partner.
@@ -24,7 +22,7 @@ dotenv.config();
  * @summary Gets the SSO configuration details from the partner.
  * x-ms-original-file: specification/dynatrace/resource-manager/Dynatrace.Observability/stable/2023-04-27/examples/Monitors_GetSSODetails_MaximumSet_Gen.json
  */
-async function monitorsGetSsoDetailsMaximumSetGen() {
+async function monitorsGetSsoDetailsMaximumSetGen(): Promise<void> {
   const subscriptionId =
     process.env["DYNATRACE_SUBSCRIPTION_ID"] ||
     "00000000-0000-0000-0000-000000000000";
@@ -49,7 +47,7 @@ async function monitorsGetSsoDetailsMaximumSetGen() {
  * @summary Gets the SSO configuration details from the partner.
  * x-ms-original-file: specification/dynatrace/resource-manager/Dynatrace.Observability/stable/2023-04-27/examples/Monitors_GetSSODetails_MinimumSet_Gen.json
  */
-async function monitorsGetSsoDetailsMinimumSetGen() {
+async function monitorsGetSsoDetailsMinimumSetGen(): Promise<void> {
   const subscriptionId =
     process.env["DYNATRACE_SUBSCRIPTION_ID"] ||
     "00000000-0000-0000-0000-000000000000";
@@ -68,7 +66,7 @@ async function monitorsGetSsoDetailsMinimumSetGen() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   monitorsGetSsoDetailsMaximumSetGen();
   monitorsGetSsoDetailsMinimumSetGen();
 }

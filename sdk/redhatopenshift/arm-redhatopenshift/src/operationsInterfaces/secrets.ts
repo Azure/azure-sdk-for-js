@@ -18,7 +18,7 @@ import {
   SecretUpdate,
   SecretsUpdateOptionalParams,
   SecretsUpdateResponse,
-} from "../models";
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a Secrets. */

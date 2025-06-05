@@ -8,12 +8,12 @@ import { setLogLevel } from "@azure/logger";
 const logLevel = (process.env.AZURE_LOG_LEVEL as AzureLogLevel) || "info";
 const localStorage: { debug?: string } = {};
 
-beforeAll(async function () {
+beforeAll(async () => {
   setLogLevel(logLevel);
   localStorage.debug = `azure:*:${logLevel}`;
 });
 
-afterAll(async function () {
+afterAll(async () => {
   delete localStorage.debug;
   setLogLevel();
 });

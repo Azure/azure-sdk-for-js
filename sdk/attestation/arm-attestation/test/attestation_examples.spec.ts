@@ -6,12 +6,8 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import {
-  env,
-  Recorder,
-  RecorderStartOptions,
-  isPlaybackMode,
-} from "@azure-tools/test-recorder";
+import type { RecorderStartOptions } from "@azure-tools/test-recorder";
+import { env, Recorder, isPlaybackMode } from "@azure-tools/test-recorder";
 import { createTestCredential } from "@azure-tools/test-credential";
 import { AttestationManagementClient } from "../src/attestationManagementClient.js";
 import { afterEach, assert, beforeEach, describe, it } from "vitest";
@@ -20,7 +16,7 @@ const replaceableVariables: Record<string, string> = {
   AZURE_CLIENT_ID: "azure_client_id",
   AZURE_CLIENT_SECRET: "azure_client_secret",
   AZURE_TENANT_ID: "88888888-8888-8888-8888-888888888888",
-  SUBSCRIPTION_ID: "azure_subscription_id"
+  SUBSCRIPTION_ID: "azure_subscription_id",
 };
 
 const recorderOptions: RecorderStartOptions = {
@@ -43,54 +39,57 @@ describe("Attestation test", () => {
   let resourceGroup: string;
   let providerName: string;
 
-  beforeEach(async function (ctx) {
+  beforeEach(async (ctx) => {
     recorder = new Recorder(ctx);
     await recorder.start(recorderOptions);
-    subscriptionId = env.SUBSCRIPTION_ID || '';
+    subscriptionId = env.SUBSCRIPTION_ID || "";
     // This is an example of how the environment variables are used
     const credential = createTestCredential();
-    client = new AttestationManagementClient(credential, subscriptionId, recorder.configureClientOptions({}));
+    client = new AttestationManagementClient(
+      credential,
+      subscriptionId,
+      recorder.configureClientOptions({}),
+    );
     location = "eastus";
     resourceGroup = "myjstest";
     providerName = "myservicexxx";
   });
 
-  afterEach(async function () {
+  afterEach(async () => {
     await recorder.stop();
   });
 
-  it("attestationProviders create test", async function () {
+  it("attestationProviders create test", async () => {
     const res = await client.attestationProviders.create(resourceGroup, providerName, {
-      properties: {
-
-      },
-      location: location
-    })
+      properties: {},
+      location: location,
+    });
     assert.equal(res.name, providerName);
   });
 
-  it("attestationProviders get test", async function () {
-    const res = await client.attestationProviders.get(resourceGroup, providerName)
+  it("attestationProviders get test", async () => {
+    const res = await client.attestationProviders.get(resourceGroup, providerName);
     assert.equal(res.name, providerName);
   });
 
-  it("attestationProviders list test", async function () {
-    const res = await client.attestationProviders.listByResourceGroup(resourceGroup)
+  it("attestationProviders list test", async () => {
+    const res = await client.attestationProviders.listByResourceGroup(resourceGroup);
     assert.notEqual(res.value?.length, 0);
   });
 
-  it("attestationProviders update test", async function () {
+  it("attestationProviders update test", async () => {
     const res = await client.attestationProviders.update(resourceGroup, providerName, {
       tags: {
         tag1: "value1",
-        tag2: "value2"
-      }
-    })
-    assert.equal(res.type, "Microsoft.Attestation/attestationProviders")
+        tag2: "value2",
+      },
+    });
+    assert.equal(res.type, "Microsoft.Attestation/attestationProviders");
   });
 
-  it("attestationProviders delete test", async function () {
-    const res = await client.attestationProviders.listByResourceGroup(resourceGroup)
+  it("attestationProviders delete test", async () => {
+    await client.attestationProviders.delete(resourceGroup, providerName);
+    const res = await client.attestationProviders.listByResourceGroup(resourceGroup);
     assert.equal(res.value?.length, 0);
   });
 });

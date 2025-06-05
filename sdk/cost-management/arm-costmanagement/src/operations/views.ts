@@ -7,12 +7,12 @@
  */
 
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
-import { setContinuationToken } from "../pagingHelper";
-import { Views } from "../operationsInterfaces";
+import { setContinuationToken } from "../pagingHelper.js";
+import { Views } from "../operationsInterfaces/index.js";
 import * as coreClient from "@azure/core-client";
-import * as Mappers from "../models/mappers";
-import * as Parameters from "../models/parameters";
-import { CostManagementClient } from "../costManagementClient";
+import * as Mappers from "../models/mappers.js";
+import * as Parameters from "../models/parameters.js";
+import { CostManagementClient } from "../costManagementClient.js";
 import {
   View,
   ViewsListNextOptionalParams,
@@ -33,7 +33,7 @@ import {
   ViewsDeleteByScopeOptionalParams,
   ViewsListNextResponse,
   ViewsListByScopeNextResponse
-} from "../models";
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Class containing Views operations. */

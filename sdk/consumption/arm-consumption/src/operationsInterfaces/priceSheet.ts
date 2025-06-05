@@ -11,7 +11,7 @@ import {
   PriceSheetGetResponse,
   PriceSheetGetByBillingPeriodOptionalParams,
   PriceSheetGetByBillingPeriodResponse
-} from "../models";
+} from "../models/index.js";
 
 /** Interface representing a PriceSheet. */
 export interface PriceSheet {

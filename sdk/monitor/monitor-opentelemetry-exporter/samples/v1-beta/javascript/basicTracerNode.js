@@ -11,25 +11,27 @@
 
 const opentelemetry = require("@opentelemetry/api");
 const { Resource } = require("@opentelemetry/resources");
-const { SemanticResourceAttributes } = require("@opentelemetry/semantic-conventions");
+const { ATTR_SERVICE_NAME } = require("@opentelemetry/semantic-conventions");
 const { BasicTracerProvider, SimpleSpanProcessor } = require("@opentelemetry/sdk-trace-base");
 const { AzureMonitorTraceExporter } = require("@azure/monitor-opentelemetry-exporter");
 
 // Load the .env file if it exists
-require("dotenv").config();
-
-const provider = new BasicTracerProvider({
-  resource: new Resource({
-    [SemanticResourceAttributes.SERVICE_NAME]: "basic-service",
-  }),
-});
+require("dotenv/config");
 
 // Configure span processor to send spans to the exporter
 const exporter = new AzureMonitorTraceExporter({
   connectionString:
-    process.env["APPLICATIONINSIGHTS_CONNECTION_STRING"] || "<your connection string>",
+    // Replace with your Application Insights Connection String
+    process.env["APPLICATIONINSIGHTS_CONNECTION_STRING"] ||
+    "InstrumentationKey=00000000-0000-0000-0000-000000000000;",
 });
-provider.addSpanProcessor(new SimpleSpanProcessor(exporter));
+
+const provider = new BasicTracerProvider({
+  resource: new Resource({
+    [ATTR_SERVICE_NAME]: "basic-service",
+  }),
+  spanProcessors: [new SimpleSpanProcessor(exporter)],
+});
 
 /**
  * Initialize the OpenTelemetry APIs to use the BasicTracerProvider bindings.
@@ -53,7 +55,7 @@ async function main() {
   parentSpan.end();
 
   // flush and close the connection.
-  exporter.shutdown();
+  await exporter.shutdown();
 }
 
 function doWork(parent) {

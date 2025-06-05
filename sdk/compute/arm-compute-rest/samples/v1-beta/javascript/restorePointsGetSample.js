@@ -29,7 +29,7 @@ async function getARestorePoint() {
       subscriptionId,
       resourceGroupName,
       restorePointCollectionName,
-      restorePointName
+      restorePointName,
     )
     .get(options);
   console.log(result);
@@ -58,7 +58,7 @@ async function getRestorePointWithInstanceView() {
       subscriptionId,
       resourceGroupName,
       restorePointCollectionName,
-      restorePointName
+      restorePointName,
     )
     .get(options);
   console.log(result);

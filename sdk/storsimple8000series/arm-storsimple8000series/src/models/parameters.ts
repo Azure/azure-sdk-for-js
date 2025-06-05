@@ -35,7 +35,7 @@ import {
   VolumeContainer as VolumeContainerMapper,
   Volume as VolumeMapper,
   StorageAccountCredential as StorageAccountCredentialMapper
-} from "../models/mappers";
+} from "../models/mappers.js";
 
 export const accept: OperationParameter = {
   parameterPath: "accept",

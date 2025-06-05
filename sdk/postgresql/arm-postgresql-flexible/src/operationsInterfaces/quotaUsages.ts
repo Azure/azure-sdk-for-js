@@ -6,8 +6,8 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { QuotaUsage, QuotaUsagesListOptionalParams } from "../models";
+import type { PagedAsyncIterableIterator } from "@azure/core-paging";
+import type { QuotaUsage, QuotaUsagesListOptionalParams } from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a QuotaUsages. */

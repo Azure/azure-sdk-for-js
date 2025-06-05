@@ -22,7 +22,7 @@ async function main() {
   });
   request.allowInsecureConnection = true;
   const response = await client.sendRequest(request);
-  console.dir(response);
+  await console.dir(response);
 }
 
 main()

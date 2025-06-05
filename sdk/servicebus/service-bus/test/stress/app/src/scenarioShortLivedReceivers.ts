@@ -17,7 +17,7 @@ import {
 import { EventEmitter } from "stream";
 import { EventContext, ReceiverEvents } from "rhea-promise";
 import parsedArgs from "minimist";
-import { v4 as generateUuid } from "uuid";
+import { randomUUID } from "@azure/core-util";
 
 const messageNumberPropertyName = "messageNumber";
 
@@ -32,7 +32,7 @@ async function main() {
   appInsightsClient.commonProperties = {
     // these will be reported with each event
     testName: "scenarioShortLivedReceiver",
-    testRunId: generateUuid(),
+    testRunId: randomUUID(),
   };
 
   const { receiveMode, maxWaitTimeInMs, numMessagesToSend, messagesPerReceive } = {

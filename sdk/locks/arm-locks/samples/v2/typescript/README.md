@@ -89,7 +89,7 @@ Take a look at our [API Documentation][apiref] for more information about the AP
 [managementlockslistatresourcelevelsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/locks/arm-locks/samples/v2/typescript/src/managementLocksListAtResourceLevelSample.ts
 [managementlockslistatsubscriptionlevelsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/locks/arm-locks/samples/v2/typescript/src/managementLocksListAtSubscriptionLevelSample.ts
 [managementlockslistbyscopesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/locks/arm-locks/samples/v2/typescript/src/managementLocksListByScopeSample.ts
-[apiref]: https://docs.microsoft.com/javascript/api/@azure/arm-locks?view=azure-node-preview
+[apiref]: https://learn.microsoft.com/javascript/api/@azure/arm-locks?view=azure-node-preview
 [freesub]: https://azure.microsoft.com/free/
 [package]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/locks/arm-locks/README.md
 [typescript]: https://www.typescriptlang.org/docs/home.html

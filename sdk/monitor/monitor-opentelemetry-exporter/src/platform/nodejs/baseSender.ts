@@ -98,11 +98,19 @@ export abstract class BaseSender {
         // Failed -- persist failed data
         if (statusCode === 429 || statusCode === 439) {
           this.networkStatsbeatMetrics?.countThrottle(statusCode);
+          return {
+            code: ExportResultCode.SUCCESS,
+          };
         }
         if (result) {
           diag.info(result);
           const breezeResponse = JSON.parse(result) as BreezeResponse;
           const filteredEnvelopes: Envelope[] = [];
+          // If we have a partial success, count the succeeded envelopes
+          if (breezeResponse.itemsAccepted > 0 && statusCode === 206) {
+            this.networkStatsbeatMetrics?.countSuccess(duration);
+          }
+          // Figure out if we need to either retry or count failures
           if (breezeResponse.errors) {
             breezeResponse.errors.forEach((error) => {
               if (error.statusCode && isRetriable(error.statusCode)) {

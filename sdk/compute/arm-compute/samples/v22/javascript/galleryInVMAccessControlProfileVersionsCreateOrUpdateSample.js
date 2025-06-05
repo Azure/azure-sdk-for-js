@@ -10,7 +10,7 @@
 // Licensed under the MIT License.
 const { ComputeManagementClient } = require("@azure/arm-compute");
 const { DefaultAzureCredential } = require("@azure/identity");
-require("dotenv").config();
+require("dotenv/config");
 
 /**
  * This sample demonstrates how to Create or update a gallery inVMAccessControlProfile version.
@@ -64,7 +64,7 @@ async function createOrUpdateAGalleryInVMAccessControlProfileVersion() {
 }
 
 async function main() {
-  createOrUpdateAGalleryInVMAccessControlProfileVersion();
+  await createOrUpdateAGalleryInVMAccessControlProfileVersion();
 }
 
 main().catch(console.error);

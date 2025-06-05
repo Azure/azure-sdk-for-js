@@ -5,10 +5,10 @@
  * @summary Demonstrates using a ChangeFeed.
  */
 
-require("dotenv").config();
-
-const { finish, handleError, logSampleHeader } = require("./Shared/handleError");
+require("dotenv/config");
+const { finish, handleError, logSampleHeader } = require("./Shared/handleError.js");
 const { CosmosClient } = require("@azure/cosmos");
+
 const key = process.env.COSMOS_KEY || "<cosmos key>";
 const endpoint = process.env.COSMOS_ENDPOINT || "<cosmos endpoint>";
 const databaseId = process.env.COSMOS_DATABASE || "<cosmos database>";
@@ -48,19 +48,31 @@ async function run() {
     console.log(`
 ✨✨✨ Change Feed Samples ✨✨✨
 
+
+
+
   There are 4 scenarios for change feed:
       1. Start from a specific continuation
       2. Start from a specific point in time
       3. Start from the beginning
       4. Start from now
 
+
+
+
   All 4 scenarios will eventually catch up to each other if read for long enough
+
+
+
 
   In this sample, we expect the scenario to see the following items, by id:
     1. [3]
     2. [2, 3]
     3. [1, 2, 3]
     4. []
+
+
+
 
   After we've read to this point, if we insert a new item id 4, we expect all of them to see it, since they will all be caught up.
 `);

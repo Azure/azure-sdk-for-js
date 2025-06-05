@@ -6,12 +6,12 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { IPGeodata } from "../operationsInterfaces";
+import { IPGeodata } from "../operationsInterfaces/index.js";
 import * as coreClient from "@azure/core-client";
-import * as Mappers from "../models/mappers";
-import * as Parameters from "../models/parameters";
-import { SecurityInsights } from "../securityInsights";
-import { IPGeodataGetOptionalParams, IPGeodataGetResponse } from "../models";
+import * as Mappers from "../models/mappers.js";
+import * as Parameters from "../models/parameters.js";
+import { SecurityInsights } from "../securityInsights.js";
+import { IPGeodataGetOptionalParams, IPGeodataGetResponse } from "../models/index.js";
 
 /** Class containing IPGeodata operations. */
 export class IPGeodataImpl implements IPGeodata {

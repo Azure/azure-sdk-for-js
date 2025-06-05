@@ -79,6 +79,6 @@ Take a look at our [API Documentation][apiref] for more information about the AP
 [subscriptionslistlocationssample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/subscription/arm-subscriptions/samples/v5/javascript/subscriptionsListLocationsSample.js
 [subscriptionslistsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/subscription/arm-subscriptions/samples/v5/javascript/subscriptionsListSample.js
 [tenantslistsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/subscription/arm-subscriptions/samples/v5/javascript/tenantsListSample.js
-[apiref]: https://docs.microsoft.com/javascript/api/@azure/arm-subscriptions?view=azure-node-preview
+[apiref]: https://learn.microsoft.com/javascript/api/@azure/arm-subscriptions?view=azure-node-preview
 [freesub]: https://azure.microsoft.com/free/
 [package]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/subscription/arm-subscriptions/README.md

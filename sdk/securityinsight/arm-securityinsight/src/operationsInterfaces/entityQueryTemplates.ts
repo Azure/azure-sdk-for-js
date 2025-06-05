@@ -12,7 +12,7 @@ import {
   EntityQueryTemplatesListOptionalParams,
   EntityQueryTemplatesGetOptionalParams,
   EntityQueryTemplatesGetResponse
-} from "../models";
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a EntityQueryTemplates. */

@@ -6,14 +6,14 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { SimplePollerLike, OperationState } from "@azure/core-lro";
-import {
+import type { SimplePollerLike, OperationState } from "@azure/core-lro";
+import type {
   PrivateEndpointConnection,
   PrivateEndpointConnectionUpdateOptionalParams,
   PrivateEndpointConnectionUpdateResponse,
   PrivateEndpointConnectionDeleteOptionalParams,
   PrivateEndpointConnectionDeleteResponse,
-} from "../models";
+} from "../models/index.js";
 
 /** Interface representing a PrivateEndpointConnectionOperations. */
 export interface PrivateEndpointConnectionOperations {

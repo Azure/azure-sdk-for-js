@@ -7,18 +7,14 @@
  */
 
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
-import { setContinuationToken } from "../pagingHelper";
-import { RaiBlocklistItems } from "../operationsInterfaces";
+import { setContinuationToken } from "../pagingHelper.js";
+import { RaiBlocklistItems } from "../operationsInterfaces/index.js";
 import * as coreClient from "@azure/core-client";
-import * as Mappers from "../models/mappers";
-import * as Parameters from "../models/parameters";
-import { CognitiveServicesManagementClient } from "../cognitiveServicesManagementClient";
-import {
-  SimplePollerLike,
-  OperationState,
-  createHttpPoller,
-} from "@azure/core-lro";
-import { createLroSpec } from "../lroImpl";
+import * as Mappers from "../models/mappers.js";
+import * as Parameters from "../models/parameters.js";
+import { CognitiveServicesManagementClient } from "../cognitiveServicesManagementClient.js";
+import { SimplePollerLike, OperationState, createHttpPoller } from "@azure/core-lro";
+import { createLroSpec } from "../lroImpl.js";
 import {
   RaiBlocklistItem,
   RaiBlocklistItemsListNextOptionalParams,
@@ -35,7 +31,7 @@ import {
   RaiBlocklistItemsBatchAddResponse,
   RaiBlocklistItemsBatchDeleteOptionalParams,
   RaiBlocklistItemsListNextResponse,
-} from "../models";
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Class containing RaiBlocklistItems operations. */
@@ -63,12 +59,7 @@ export class RaiBlocklistItemsImpl implements RaiBlocklistItems {
     raiBlocklistName: string,
     options?: RaiBlocklistItemsListOptionalParams,
   ): PagedAsyncIterableIterator<RaiBlocklistItem> {
-    const iter = this.listPagingAll(
-      resourceGroupName,
-      accountName,
-      raiBlocklistName,
-      options,
-    );
+    const iter = this.listPagingAll(resourceGroupName, accountName, raiBlocklistName, options);
     return {
       next() {
         return iter.next();
@@ -101,12 +92,7 @@ export class RaiBlocklistItemsImpl implements RaiBlocklistItems {
     let result: RaiBlocklistItemsListResponse;
     let continuationToken = settings?.continuationToken;
     if (!continuationToken) {
-      result = await this._list(
-        resourceGroupName,
-        accountName,
-        raiBlocklistName,
-        options,
-      );
+      result = await this._list(resourceGroupName, accountName, raiBlocklistName, options);
       let page = result.value || [];
       continuationToken = result.nextLink;
       setContinuationToken(page, continuationToken);
@@ -249,8 +235,7 @@ export class RaiBlocklistItemsImpl implements RaiBlocklistItems {
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,

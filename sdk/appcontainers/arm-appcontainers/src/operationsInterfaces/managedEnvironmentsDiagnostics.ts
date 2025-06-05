@@ -9,7 +9,7 @@
 import {
   ManagedEnvironmentsDiagnosticsGetRootOptionalParams,
   ManagedEnvironmentsDiagnosticsGetRootResponse,
-} from "../models";
+} from "../models/index.js";
 
 /** Interface representing a ManagedEnvironmentsDiagnostics. */
 export interface ManagedEnvironmentsDiagnostics {

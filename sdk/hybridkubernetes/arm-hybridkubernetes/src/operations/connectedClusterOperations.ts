@@ -6,16 +6,17 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
-import { setContinuationToken } from "../pagingHelper";
-import { ConnectedClusterOperations } from "../operationsInterfaces";
+import type { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
+import { setContinuationToken } from "../pagingHelper.js";
+import type { ConnectedClusterOperations } from "../operationsInterfaces/index.js";
 import * as coreClient from "@azure/core-client";
-import * as Mappers from "../models/mappers";
-import * as Parameters from "../models/parameters";
-import { ConnectedKubernetesClient } from "../connectedKubernetesClient";
-import { PollerLike, PollOperationState, LroEngine } from "@azure/core-lro";
-import { LroImpl } from "../lroImpl";
-import {
+import * as Mappers from "../models/mappers.js";
+import * as Parameters from "../models/parameters.js";
+import type { ConnectedKubernetesClient } from "../connectedKubernetesClient.js";
+import type { SimplePollerLike, OperationState } from "@azure/core-lro";
+import { createHttpPoller } from "@azure/core-lro";
+import { createLroSpec } from "../lroImpl.js";
+import type {
   ConnectedCluster,
   ConnectedClusterListByResourceGroupNextOptionalParams,
   ConnectedClusterListByResourceGroupOptionalParams,
@@ -23,8 +24,8 @@ import {
   ConnectedClusterListBySubscriptionNextOptionalParams,
   ConnectedClusterListBySubscriptionOptionalParams,
   ConnectedClusterListBySubscriptionResponse,
-  ConnectedClusterCreateOptionalParams,
-  ConnectedClusterCreateResponse,
+  ConnectedClusterCreateOrReplaceOptionalParams,
+  ConnectedClusterCreateOrReplaceResponse,
   ConnectedClusterPatch,
   ConnectedClusterUpdateOptionalParams,
   ConnectedClusterUpdateResponse,
@@ -35,13 +36,12 @@ import {
   ConnectedClusterListClusterUserCredentialOptionalParams,
   ConnectedClusterListClusterUserCredentialResponse,
   ConnectedClusterListByResourceGroupNextResponse,
-  ConnectedClusterListBySubscriptionNextResponse
-} from "../models";
+  ConnectedClusterListBySubscriptionNextResponse,
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Class containing ConnectedClusterOperations operations. */
-export class ConnectedClusterOperationsImpl
-  implements ConnectedClusterOperations {
+export class ConnectedClusterOperationsImpl implements ConnectedClusterOperations {
   private readonly client: ConnectedKubernetesClient;
 
   /**
@@ -59,7 +59,7 @@ export class ConnectedClusterOperationsImpl
    */
   public listByResourceGroup(
     resourceGroupName: string,
-    options?: ConnectedClusterListByResourceGroupOptionalParams
+    options?: ConnectedClusterListByResourceGroupOptionalParams,
   ): PagedAsyncIterableIterator<ConnectedCluster> {
     const iter = this.listByResourceGroupPagingAll(resourceGroupName, options);
     return {
@@ -73,19 +73,15 @@ export class ConnectedClusterOperationsImpl
         if (settings?.maxPageSize) {
           throw new Error("maxPageSize is not supported by this operation.");
         }
-        return this.listByResourceGroupPagingPage(
-          resourceGroupName,
-          options,
-          settings
-        );
-      }
+        return this.listByResourceGroupPagingPage(resourceGroupName, options, settings);
+      },
     };
   }
 
   private async *listByResourceGroupPagingPage(
     resourceGroupName: string,
     options?: ConnectedClusterListByResourceGroupOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<ConnectedCluster[]> {
     let result: ConnectedClusterListByResourceGroupResponse;
     let continuationToken = settings?.continuationToken;
@@ -97,11 +93,7 @@ export class ConnectedClusterOperationsImpl
       yield page;
     }
     while (continuationToken) {
-      result = await this._listByResourceGroupNext(
-        resourceGroupName,
-        continuationToken,
-        options
-      );
+      result = await this._listByResourceGroupNext(resourceGroupName, continuationToken, options);
       continuationToken = result.nextLink;
       let page = result.value || [];
       setContinuationToken(page, continuationToken);
@@ -111,12 +103,9 @@ export class ConnectedClusterOperationsImpl
 
   private async *listByResourceGroupPagingAll(
     resourceGroupName: string,
-    options?: ConnectedClusterListByResourceGroupOptionalParams
+    options?: ConnectedClusterListByResourceGroupOptionalParams,
   ): AsyncIterableIterator<ConnectedCluster> {
-    for await (const page of this.listByResourceGroupPagingPage(
-      resourceGroupName,
-      options
-    )) {
+    for await (const page of this.listByResourceGroupPagingPage(resourceGroupName, options)) {
       yield* page;
     }
   }
@@ -126,7 +115,7 @@ export class ConnectedClusterOperationsImpl
    * @param options The options parameters.
    */
   public listBySubscription(
-    options?: ConnectedClusterListBySubscriptionOptionalParams
+    options?: ConnectedClusterListBySubscriptionOptionalParams,
   ): PagedAsyncIterableIterator<ConnectedCluster> {
     const iter = this.listBySubscriptionPagingAll(options);
     return {
@@ -141,13 +130,13 @@ export class ConnectedClusterOperationsImpl
           throw new Error("maxPageSize is not supported by this operation.");
         }
         return this.listBySubscriptionPagingPage(options, settings);
-      }
+      },
     };
   }
 
   private async *listBySubscriptionPagingPage(
     options?: ConnectedClusterListBySubscriptionOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<ConnectedCluster[]> {
     let result: ConnectedClusterListBySubscriptionResponse;
     let continuationToken = settings?.continuationToken;
@@ -168,7 +157,7 @@ export class ConnectedClusterOperationsImpl
   }
 
   private async *listBySubscriptionPagingAll(
-    options?: ConnectedClusterListBySubscriptionOptionalParams
+    options?: ConnectedClusterListBySubscriptionOptionalParams,
   ): AsyncIterableIterator<ConnectedCluster> {
     for await (const page of this.listBySubscriptionPagingPage(options)) {
       yield* page;
@@ -176,41 +165,39 @@ export class ConnectedClusterOperationsImpl
   }
 
   /**
-   * API to register a new Kubernetes cluster and create a tracked resource in Azure Resource Manager
-   * (ARM).
+   * API to register a new Kubernetes cluster and create or replace a connected cluster tracked resource
+   * in Azure Resource Manager (ARM).
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param clusterName The name of the Kubernetes cluster on which get is called.
    * @param connectedCluster Parameters supplied to Create a Connected Cluster.
    * @param options The options parameters.
    */
-  async beginCreate(
+  async beginCreateOrReplace(
     resourceGroupName: string,
     clusterName: string,
     connectedCluster: ConnectedCluster,
-    options?: ConnectedClusterCreateOptionalParams
+    options?: ConnectedClusterCreateOrReplaceOptionalParams,
   ): Promise<
-    PollerLike<
-      PollOperationState<ConnectedClusterCreateResponse>,
-      ConnectedClusterCreateResponse
+    SimplePollerLike<
+      OperationState<ConnectedClusterCreateOrReplaceResponse>,
+      ConnectedClusterCreateOrReplaceResponse
     >
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
-    ): Promise<ConnectedClusterCreateResponse> => {
+      spec: coreClient.OperationSpec,
+    ): Promise<ConnectedClusterCreateOrReplaceResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -219,8 +206,8 @@ export class ConnectedClusterOperationsImpl
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -228,44 +215,47 @@ export class ConnectedClusterOperationsImpl
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { resourceGroupName, clusterName, connectedCluster, options },
-      createOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceGroupName, clusterName, connectedCluster, options },
+      spec: createOrReplaceOperationSpec,
+    });
+    const poller = await createHttpPoller<
+      ConnectedClusterCreateOrReplaceResponse,
+      OperationState<ConnectedClusterCreateOrReplaceResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      lroResourceLocationConfig: "azure-async-operation"
+      resourceLocationConfig: "azure-async-operation",
     });
     await poller.poll();
     return poller;
   }
 
   /**
-   * API to register a new Kubernetes cluster and create a tracked resource in Azure Resource Manager
-   * (ARM).
+   * API to register a new Kubernetes cluster and create or replace a connected cluster tracked resource
+   * in Azure Resource Manager (ARM).
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param clusterName The name of the Kubernetes cluster on which get is called.
    * @param connectedCluster Parameters supplied to Create a Connected Cluster.
    * @param options The options parameters.
    */
-  async beginCreateAndWait(
+  async beginCreateOrReplaceAndWait(
     resourceGroupName: string,
     clusterName: string,
     connectedCluster: ConnectedCluster,
-    options?: ConnectedClusterCreateOptionalParams
-  ): Promise<ConnectedClusterCreateResponse> {
-    const poller = await this.beginCreate(
+    options?: ConnectedClusterCreateOrReplaceOptionalParams,
+  ): Promise<ConnectedClusterCreateOrReplaceResponse> {
+    const poller = await this.beginCreateOrReplace(
       resourceGroupName,
       clusterName,
       connectedCluster,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -281,11 +271,11 @@ export class ConnectedClusterOperationsImpl
     resourceGroupName: string,
     clusterName: string,
     connectedClusterPatch: ConnectedClusterPatch,
-    options?: ConnectedClusterUpdateOptionalParams
+    options?: ConnectedClusterUpdateOptionalParams,
   ): Promise<ConnectedClusterUpdateResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, clusterName, connectedClusterPatch, options },
-      updateOperationSpec
+      updateOperationSpec,
     );
   }
 
@@ -299,11 +289,11 @@ export class ConnectedClusterOperationsImpl
   get(
     resourceGroupName: string,
     clusterName: string,
-    options?: ConnectedClusterGetOptionalParams
+    options?: ConnectedClusterGetOptionalParams,
   ): Promise<ConnectedClusterGetResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, clusterName, options },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 
@@ -316,25 +306,23 @@ export class ConnectedClusterOperationsImpl
   async beginDelete(
     resourceGroupName: string,
     clusterName: string,
-    options?: ConnectedClusterDeleteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>> {
+    options?: ConnectedClusterDeleteOptionalParams,
+  ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<void> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -343,8 +331,8 @@ export class ConnectedClusterOperationsImpl
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -352,20 +340,20 @@ export class ConnectedClusterOperationsImpl
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { resourceGroupName, clusterName, options },
-      deleteOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceGroupName, clusterName, options },
+      spec: deleteOperationSpec,
+    });
+    const poller = await createHttpPoller<void, OperationState<void>>(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      lroResourceLocationConfig: "location"
+      resourceLocationConfig: "location",
     });
     await poller.poll();
     return poller;
@@ -380,13 +368,9 @@ export class ConnectedClusterOperationsImpl
   async beginDeleteAndWait(
     resourceGroupName: string,
     clusterName: string,
-    options?: ConnectedClusterDeleteOptionalParams
+    options?: ConnectedClusterDeleteOptionalParams,
   ): Promise<void> {
-    const poller = await this.beginDelete(
-      resourceGroupName,
-      clusterName,
-      options
-    );
+    const poller = await this.beginDelete(resourceGroupName, clusterName, options);
     return poller.pollUntilDone();
   }
 
@@ -401,11 +385,11 @@ export class ConnectedClusterOperationsImpl
     resourceGroupName: string,
     clusterName: string,
     properties: ListClusterUserCredentialProperties,
-    options?: ConnectedClusterListClusterUserCredentialOptionalParams
+    options?: ConnectedClusterListClusterUserCredentialOptionalParams,
   ): Promise<ConnectedClusterListClusterUserCredentialResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, clusterName, properties, options },
-      listClusterUserCredentialOperationSpec
+      listClusterUserCredentialOperationSpec,
     );
   }
 
@@ -416,11 +400,11 @@ export class ConnectedClusterOperationsImpl
    */
   private _listByResourceGroup(
     resourceGroupName: string,
-    options?: ConnectedClusterListByResourceGroupOptionalParams
+    options?: ConnectedClusterListByResourceGroupOptionalParams,
   ): Promise<ConnectedClusterListByResourceGroupResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, options },
-      listByResourceGroupOperationSpec
+      listByResourceGroupOperationSpec,
     );
   }
 
@@ -429,12 +413,9 @@ export class ConnectedClusterOperationsImpl
    * @param options The options parameters.
    */
   private _listBySubscription(
-    options?: ConnectedClusterListBySubscriptionOptionalParams
+    options?: ConnectedClusterListBySubscriptionOptionalParams,
   ): Promise<ConnectedClusterListBySubscriptionResponse> {
-    return this.client.sendOperationRequest(
-      { options },
-      listBySubscriptionOperationSpec
-    );
+    return this.client.sendOperationRequest({ options }, listBySubscriptionOperationSpec);
   }
 
   /**
@@ -446,11 +427,11 @@ export class ConnectedClusterOperationsImpl
   private _listByResourceGroupNext(
     resourceGroupName: string,
     nextLink: string,
-    options?: ConnectedClusterListByResourceGroupNextOptionalParams
+    options?: ConnectedClusterListByResourceGroupNextOptionalParams,
   ): Promise<ConnectedClusterListByResourceGroupNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, nextLink, options },
-      listByResourceGroupNextOperationSpec
+      listByResourceGroupNextOperationSpec,
     );
   }
 
@@ -461,37 +442,36 @@ export class ConnectedClusterOperationsImpl
    */
   private _listBySubscriptionNext(
     nextLink: string,
-    options?: ConnectedClusterListBySubscriptionNextOptionalParams
+    options?: ConnectedClusterListBySubscriptionNextOptionalParams,
   ): Promise<ConnectedClusterListBySubscriptionNextResponse> {
     return this.client.sendOperationRequest(
       { nextLink, options },
-      listBySubscriptionNextOperationSpec
+      listBySubscriptionNextOperationSpec,
     );
   }
 }
 // Operation Specifications
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
-const createOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/Microsoft.Kubernetes/connectedClusters/{clusterName}",
+const createOrReplaceOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/Microsoft.Kubernetes/connectedClusters/{clusterName}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.ConnectedCluster
+      bodyMapper: Mappers.ConnectedCluster,
     },
     201: {
-      bodyMapper: Mappers.ConnectedCluster
+      bodyMapper: Mappers.ConnectedCluster,
     },
     202: {
-      bodyMapper: Mappers.ConnectedCluster
+      bodyMapper: Mappers.ConnectedCluster,
     },
     204: {
-      bodyMapper: Mappers.ConnectedCluster
+      bodyMapper: Mappers.ConnectedCluster,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   requestBody: Parameters.connectedCluster,
   queryParameters: [Parameters.apiVersion],
@@ -499,23 +479,22 @@ const createOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.clusterName
+    Parameters.clusterName,
   ],
   headerParameters: [Parameters.contentType, Parameters.accept],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const updateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/Microsoft.Kubernetes/connectedClusters/{clusterName}",
+  path: "/subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/Microsoft.Kubernetes/connectedClusters/{clusterName}",
   httpMethod: "PATCH",
   responses: {
     200: {
-      bodyMapper: Mappers.ConnectedCluster
+      bodyMapper: Mappers.ConnectedCluster,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   requestBody: Parameters.connectedClusterPatch,
   queryParameters: [Parameters.apiVersion],
@@ -523,37 +502,35 @@ const updateOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.clusterName
+    Parameters.clusterName,
   ],
   headerParameters: [Parameters.contentType, Parameters.accept],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/Microsoft.Kubernetes/connectedClusters/{clusterName}",
+  path: "/subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/Microsoft.Kubernetes/connectedClusters/{clusterName}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ConnectedCluster
+      bodyMapper: Mappers.ConnectedCluster,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.clusterName
+    Parameters.clusterName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const deleteOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/Microsoft.Kubernetes/connectedClusters/{clusterName}",
+  path: "/subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/Microsoft.Kubernetes/connectedClusters/{clusterName}",
   httpMethod: "DELETE",
   responses: {
     200: {},
@@ -561,30 +538,29 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     202: {},
     204: {},
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.clusterName
+    Parameters.clusterName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listClusterUserCredentialOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/Microsoft.Kubernetes/connectedClusters/{clusterName}/listClusterUserCredential",
+  path: "/subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/Microsoft.Kubernetes/connectedClusters/{clusterName}/listClusterUserCredential",
   httpMethod: "POST",
   responses: {
     200: {
-      bodyMapper: Mappers.CredentialResults
+      bodyMapper: Mappers.CredentialResults,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   requestBody: Parameters.properties,
   queryParameters: [Parameters.apiVersion],
@@ -592,88 +568,76 @@ const listClusterUserCredentialOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.clusterName
+    Parameters.clusterName,
   ],
   headerParameters: [Parameters.contentType, Parameters.accept],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const listByResourceGroupOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/Microsoft.Kubernetes/connectedClusters",
+  path: "/subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/Microsoft.Kubernetes/connectedClusters",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ConnectedClusterList
+      bodyMapper: Mappers.ConnectedClusterList,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName
-  ],
+  urlParameters: [Parameters.$host, Parameters.subscriptionId, Parameters.resourceGroupName],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listBySubscriptionOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/providers/Microsoft.Kubernetes/connectedClusters",
+  path: "/subscriptions/{subscriptionId}/providers/Microsoft.Kubernetes/connectedClusters",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ConnectedClusterList
+      bodyMapper: Mappers.ConnectedClusterList,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.$host, Parameters.subscriptionId],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listByResourceGroupNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ConnectedClusterList
+      bodyMapper: Mappers.ConnectedClusterList,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
-  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.nextLink
+    Parameters.nextLink,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listBySubscriptionNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ConnectedClusterList
+      bodyMapper: Mappers.ConnectedClusterList,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.nextLink
-  ],
+  urlParameters: [Parameters.$host, Parameters.subscriptionId, Parameters.nextLink],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

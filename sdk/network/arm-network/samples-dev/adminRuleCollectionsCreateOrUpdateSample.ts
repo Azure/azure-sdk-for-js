@@ -6,24 +6,21 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
+import type {
+  AdminRuleCollection} from "@azure/arm-network";
 import {
-  AdminRuleCollection,
   NetworkManagementClient,
 } from "@azure/arm-network";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Creates or updates an admin rule collection.
  *
  * @summary Creates or updates an admin rule collection.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2024-05-01/examples/NetworkManagerAdminRuleCollectionPut.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2024-07-01/examples/NetworkManagerAdminRuleCollectionPut.json
  */
-async function createOrUpdateAnAdminRuleCollection() {
+async function createOrUpdateAnAdminRuleCollection(): Promise<void> {
   const subscriptionId =
     process.env["NETWORK_SUBSCRIPTION_ID"] ||
     "00000000-0000-0000-0000-000000000000";
@@ -52,8 +49,8 @@ async function createOrUpdateAnAdminRuleCollection() {
   console.log(result);
 }
 
-async function main() {
-  createOrUpdateAnAdminRuleCollection();
+async function main(): Promise<void> {
+  await createOrUpdateAnAdminRuleCollection();
 }
 
 main().catch(console.error);

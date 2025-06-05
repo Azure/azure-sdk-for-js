@@ -1,8 +1,10 @@
 # Release History
 
-## 2.0.0 (Unreleased)
+## 2.0.0 (2025-05-27)
 
 ### Features Added
+
+- Updated service API version to use API version 2023-10-31 by default.
 
 ### Breaking Changes
 
@@ -17,10 +19,6 @@
   - Client methods that previously returned `RestResponse` now return `void`. In the event the operation fails, a `RestError` will still be thrown. To access the raw HTTP response, use the `onResponse` callback described above.
 - Digital Twin objects returned from operations no longer have their properties wrapped in a `body` property.
 
-### Bugs Fixed
-
-### Other Changes
-
 ## 1.1.0 (2022-07-19)
 
 ### Features Added
@@ -34,7 +32,7 @@
 - With the dropping of support for Node.js versions that are no longer in LTS, the dependency on `@types/node` has been updated to version 12. Read our [support policy](https://github.com/Azure/azure-sdk-for-js/blob/main/SUPPORT.md) for more details.
 - Updated our internal core package dependencies to their latest versions in order to add support for Opentelemetry 1.0.0 which is compatible with the latest versions of our other client libraries.
 - Changed TS compilation target to ES2017 in order to produce smaller bundles and use more native platform features
-- Added support for [property sourceTime](https://docs.microsoft.com/azure/digital-twins/how-to-manage-twin#update-a-propertys-sourcetime).
+- Added support for [property sourceTime](https://learn.microsoft.com/azure/digital-twins/how-to-manage-twin#update-a-propertys-sourcetime).
 
 ### Other Changes
 

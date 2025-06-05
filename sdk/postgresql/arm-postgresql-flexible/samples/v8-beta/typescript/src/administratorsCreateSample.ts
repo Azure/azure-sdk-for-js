@@ -6,24 +6,20 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
 import {
   ActiveDirectoryAdministratorAdd,
   PostgreSQLManagementFlexibleServerClient,
 } from "@azure/arm-postgresql-flexible";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Creates a new server.
  *
  * @summary Creates a new server.
- * x-ms-original-file: specification/postgresql/resource-manager/Microsoft.DBforPostgreSQL/preview/2023-12-01-preview/examples/AdministratorAdd.json
+ * x-ms-original-file: specification/postgresql/resource-manager/Microsoft.DBforPostgreSQL/preview/2025-01-01-preview/examples/AdministratorAdd.json
  */
-async function addsAnActiveDIrectoryAdministratorForTheServer() {
+async function addsAnMicrosoftEntraAdministratorForTheServer(): Promise<void> {
   const subscriptionId =
     process.env["POSTGRESQL_SUBSCRIPTION_ID"] ||
     "ffffffff-ffff-ffff-ffff-ffffffffffff";
@@ -50,8 +46,8 @@ async function addsAnActiveDIrectoryAdministratorForTheServer() {
   console.log(result);
 }
 
-async function main() {
-  addsAnActiveDIrectoryAdministratorForTheServer();
+async function main(): Promise<void> {
+  await addsAnMicrosoftEntraAdministratorForTheServer();
 }
 
 main().catch(console.error);

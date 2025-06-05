@@ -3,8 +3,8 @@
 
 import type { Recorder } from "@azure-tools/test-recorder";
 import type { AzureHealthInsightsClient } from "../../src/index.js";
-import { ClinicalDocumentTypeEnum, getLongRunningPoller } from "../../src/index.js";
-import { createRecorder, createTestClient } from "./utils/recordedClient.js";
+import { getLongRunningPoller } from "../../src/index.js";
+import { createTestClient, createRecorder } from "./utils/recordedClient.js";
 import { describe, it, assert, beforeEach, afterEach } from "vitest";
 
 const codingData = {
@@ -14,7 +14,7 @@ const codingData = {
 };
 
 const codingData2 = {
-  system: "Http://hl7.org/fhir/ValueSet/cpt-all",
+  system: "http://www.ama-assn.org/go/cpt",
   code: "111111",
   display: "CT ABD/PELVIS",
 };
@@ -36,7 +36,7 @@ const clinicInfoData = {
 
 const patientInfo = {
   sex: "female",
-  birthDate: new Date("1959-11-11T19:00:00+00:00"),
+  birthDate: "1959-11-11T19:00:00+00:00",
   clinicalInfo: [clinicInfoData],
 };
 
@@ -72,7 +72,7 @@ The results were sent via Powerscribe to George Brown, PA.`,
 
 const patientDocumentData = {
   type: "note",
-  clinicalType: ClinicalDocumentTypeEnum.RadiologyReport,
+  clinicalType: "radiologyReport",
   id: "docid1",
   language: "en",
   authors: [authorData],
@@ -102,6 +102,9 @@ const inferenceTypes = [
   "followupRecommendation",
   "followupCommunication",
   "radiologyProcedure",
+  "scoringAndAssessment",
+  "guidance",
+  "qualityMeasure",
 ];
 
 const followupRecommendationOptions = {

@@ -6,15 +6,15 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { OperationStatuses } from "../operationsInterfaces";
+import { OperationStatuses } from "../operationsInterfaces/index.js";
 import * as coreClient from "@azure/core-client";
-import * as Mappers from "../models/mappers";
-import * as Parameters from "../models/parameters";
-import { ChaosManagementClient } from "../chaosManagementClient";
+import * as Mappers from "../models/mappers.js";
+import * as Parameters from "../models/parameters.js";
+import { ChaosManagementClient } from "../chaosManagementClient.js";
 import {
   OperationStatusesGetOptionalParams,
   OperationStatusesGetResponse,
-} from "../models";
+} from "../models/index.js";
 
 /** Class containing OperationStatuses operations. */
 export class OperationStatusesImpl implements OperationStatuses {

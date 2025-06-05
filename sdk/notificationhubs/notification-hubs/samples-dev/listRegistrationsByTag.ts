@@ -5,7 +5,7 @@
  * This sample demonstrates how the listRegistrationsByTag() method can be used to list all registrations with
  * the given tag.
  *
- * See https://docs.microsoft.com/azure/notification-hubs/notification-hubs-push-notification-registration-management
+ * See https://learn.microsoft.com/azure/notification-hubs/notification-hubs-push-notification-registration-management
  * to learn about registrations.
  *
  *

@@ -34,20 +34,20 @@ function expectAbortError(promise: Promise<unknown>): Chai.PromisedAssertion {
   return expect(promise).to.eventually.be.rejected.and.has.property("name", "AbortError");
 }
 
-describe("Cancellation via AbortSignal", function () {
+describe("Cancellation via AbortSignal", () => {
   let context: ConnectionContext;
-  beforeEach(async function () {
+  beforeEach(async () => {
     context = createContext().context;
   });
 
-  afterEach(async function () {
+  afterEach(async () => {
     await context.close();
   });
 
-  describe("EventHubReceiver", function () {
+  describe("EventHubReceiver", () => {
     let client: PartitionReceiver;
     const timeoutInMs = 60000;
-    beforeEach(async function () {
+    beforeEach(async () => {
       client = createReceiver(
         context,
         "$default", // consumer group
@@ -59,20 +59,20 @@ describe("Cancellation via AbortSignal", function () {
       );
     });
 
-    afterEach(async function () {
+    afterEach(async () => {
       await client.close();
     });
 
     for (const { type: caseType, getSignal } of cancellationCases) {
-      it(`initialize supports cancellation (${caseType})`, async function () {
+      it(`initialize supports cancellation (${caseType})`, async () => {
         await expectAbortError(client.connect({ abortSignal: getSignal(), timeoutInMs }));
       });
 
-      it(`receiveBatch supports cancellation (${caseType})`, async function () {
+      it(`receiveBatch supports cancellation (${caseType})`, async () => {
         await expectAbortError(client.receiveBatch(10, undefined, getSignal()));
       });
 
-      it(`receiveBatch supports cancellation when connection already exists (${caseType})`, async function () {
+      it(`receiveBatch supports cancellation when connection already exists (${caseType})`, async () => {
         // Open the connection.
         await client.connect({ abortSignal: undefined, timeoutInMs });
         await expectAbortError(client.receiveBatch(10, undefined, getSignal()));
@@ -80,26 +80,26 @@ describe("Cancellation via AbortSignal", function () {
     }
   });
 
-  describe("EventHubSender", function () {
+  describe("EventHubSender", () => {
     let client: EventHubSender;
-    beforeEach(async function () {
+    beforeEach(async () => {
       client = new EventHubSender(context, "Sender1", { enableIdempotentProducer: false });
     });
 
-    afterEach(async function () {
+    afterEach(async () => {
       await client.close();
     });
 
     for (const { type: caseType, getSignal } of cancellationCases) {
-      it(`_getLink supports cancellation (${caseType})`, async function () {
+      it(`_getLink supports cancellation (${caseType})`, async () => {
         await expectAbortError(client["_getLink"]({ abortSignal: getSignal() }));
       });
 
-      it(`getMaxMessageSize supports cancellation (${caseType})`, async function () {
+      it(`getMaxMessageSize supports cancellation (${caseType})`, async () => {
         await expectAbortError(client.getMaxMessageSize({ abortSignal: getSignal() }));
       });
 
-      it(`send supports cancellation (${caseType})`, async function () {
+      it(`send supports cancellation (${caseType})`, async () => {
         await expectAbortError(
           client.send([{ body: "unsung hero" }], { abortSignal: getSignal() }),
         );

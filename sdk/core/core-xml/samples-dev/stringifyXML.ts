@@ -26,7 +26,7 @@ async function main() {
 
 function serializeToAtomXmlRequest(
   resourceName: string,
-  resource: unknown
+  resource: unknown,
 ): Record<string, unknown> {
   const XML_METADATA_MARKER = "$";
   const content: any = {};

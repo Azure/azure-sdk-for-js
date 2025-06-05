@@ -6,24 +6,21 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
+import type {
+  SecurityUserRulesDeleteOptionalParams} from "@azure/arm-network";
 import {
-  SecurityUserRulesDeleteOptionalParams,
   NetworkManagementClient,
 } from "@azure/arm-network";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Deletes a security user rule.
  *
  * @summary Deletes a security user rule.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2024-05-01/examples/NetworkManagerSecurityUserRuleDelete.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2024-07-01/examples/NetworkManagerSecurityUserRuleDelete.json
  */
-async function deleteASecurityUserRule() {
+async function deleteASecurityUserRule(): Promise<void> {
   const subscriptionId =
     process.env["NETWORK_SUBSCRIPTION_ID"] ||
     "00000000-0000-0000-0000-000000000000";
@@ -47,8 +44,8 @@ async function deleteASecurityUserRule() {
   console.log(result);
 }
 
-async function main() {
-  deleteASecurityUserRule();
+async function main(): Promise<void> {
+  await deleteASecurityUserRule();
 }
 
 main().catch(console.error);

@@ -1,22 +1,33 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { padStart } from "../../src/utils/utils.common";
+import { padStart } from "../../src/utils/utils.common.js";
 import type { TokenCredential, GetTokenOptions, AccessToken } from "@azure/core-auth";
 import type { RecorderStartOptions } from "@azure-tools/test-recorder";
 import { isPlaybackMode, Recorder } from "@azure-tools/test-recorder";
-import type { StorageClient } from "../../src/StorageClient";
+import type { StorageClient } from "../../src/StorageClient.js";
 import type { Pipeline } from "@azure/core-rest-pipeline";
-import type {
-  FindReplaceSanitizer,
-  RegexSanitizer,
-} from "@azure-tools/test-recorder/types/src/utils/utils";
+import type { FindReplaceSanitizer, RegexSanitizer } from "@azure-tools/test-recorder";
+import type { TestContext } from "vitest";
+import type { ShareServiceClient } from "@azure/storage-file-share";
 
 export const testPollerProperties = {
   intervalInMs: isPlaybackMode() ? 0 : undefined,
 };
 
 export function configureBlobStorageClient(recorder: Recorder, serviceClient: StorageClient): void {
+  const options = recorder.configureClientOptions({});
+
+  const pipeline: Pipeline = (serviceClient as any).storageClientContext.pipeline;
+  for (const { policy } of options.additionalPolicies ?? []) {
+    pipeline.addPolicy(policy, { afterPhase: "Sign", afterPolicies: ["injectorPolicy"] });
+  }
+}
+
+export function configureFileStorageClient(
+  recorder: Recorder,
+  serviceClient: ShareServiceClient,
+): void {
   const options = recorder.configureClientOptions({});
 
   const pipeline: Pipeline = (serviceClient as any).storageClientContext.pipeline;
@@ -253,7 +264,7 @@ export function generateRandomUint8Array(byteLength: number): Uint8Array {
   return uint8Arr;
 }
 
-export async function createAndStartRecorder(testContext?: Mocha.Test): Promise<Recorder> {
+export async function createAndStartRecorder(testContext?: TestContext): Promise<Recorder> {
   const recorder = new Recorder(testContext);
   await recorder.start(recorderEnvSetup);
   // SAS token may contain sensitive information

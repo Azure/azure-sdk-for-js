@@ -6,24 +6,20 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
 import { NetAppAccount, NetAppManagementClient } from "@azure/arm-netapp";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Create or update the specified NetApp account within the resource group
  *
  * @summary Create or update the specified NetApp account within the resource group
- * x-ms-original-file: specification/netapp/resource-manager/Microsoft.NetApp/preview/2024-07-01-preview/examples/Accounts_CreateOrUpdate.json
+ * x-ms-original-file: specification/netapp/resource-manager/Microsoft.NetApp/preview/2025-01-01-preview/examples/Accounts_CreateOrUpdate.json
  */
-async function accountsCreateOrUpdate() {
+async function accountsCreateOrUpdate(): Promise<void> {
   const subscriptionId =
     process.env["NETAPP_SUBSCRIPTION_ID"] ||
-    "D633CC2E-722B-4AE1-B636-BBD9E4C60ED9";
+    "00000000-0000-0000-0000-000000000000";
   const resourceGroupName = process.env["NETAPP_RESOURCE_GROUP"] || "myRG";
   const accountName = "account1";
   const body: NetAppAccount = { location: "eastus" };
@@ -41,12 +37,12 @@ async function accountsCreateOrUpdate() {
  * This sample demonstrates how to Create or update the specified NetApp account within the resource group
  *
  * @summary Create or update the specified NetApp account within the resource group
- * x-ms-original-file: specification/netapp/resource-manager/Microsoft.NetApp/preview/2024-07-01-preview/examples/Accounts_CreateOrUpdateAD.json
+ * x-ms-original-file: specification/netapp/resource-manager/Microsoft.NetApp/preview/2025-01-01-preview/examples/Accounts_CreateOrUpdateAD.json
  */
-async function accountsCreateOrUpdateWithActiveDirectory() {
+async function accountsCreateOrUpdateWithActiveDirectory(): Promise<void> {
   const subscriptionId =
     process.env["NETAPP_SUBSCRIPTION_ID"] ||
-    "D633CC2E-722B-4AE1-B636-BBD9E4C60ED9";
+    "00000000-0000-0000-0000-000000000000";
   const resourceGroupName = process.env["NETAPP_RESOURCE_GROUP"] || "myRG";
   const accountName = "account1";
   const body: NetAppAccount = {
@@ -58,7 +54,7 @@ async function accountsCreateOrUpdateWithActiveDirectory() {
         ldapOverTLS: false,
         ldapSigning: false,
         organizationalUnit: "OU=Engineering",
-        password: "ad_password",
+        password: "<REDACTED>",
         site: "SiteName",
         smbServerName: "SMBServer",
         username: "ad_user_name",
@@ -76,9 +72,9 @@ async function accountsCreateOrUpdateWithActiveDirectory() {
   console.log(result);
 }
 
-async function main() {
-  accountsCreateOrUpdate();
-  accountsCreateOrUpdateWithActiveDirectory();
+async function main(): Promise<void> {
+  await accountsCreateOrUpdate();
+  await accountsCreateOrUpdateWithActiveDirectory();
 }
 
 main().catch(console.error);

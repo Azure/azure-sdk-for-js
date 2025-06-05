@@ -10,9 +10,7 @@
 // Licensed under the MIT License.
 import { GuestConfigurationClient } from "@azure/arm-guestconfiguration";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to List all guest configuration assignments for VMSS.
@@ -20,7 +18,7 @@ dotenv.config();
  * @summary List all guest configuration assignments for VMSS.
  * x-ms-original-file: specification/guestconfiguration/resource-manager/Microsoft.GuestConfiguration/stable/2022-01-25/examples/listVMSSGuestConfigurationAssignments.json
  */
-async function listAllGuestConfigurationAssignmentsForVmss() {
+async function listAllGuestConfigurationAssignmentsForVmss(): Promise<void> {
   const subscriptionId =
     process.env["GUESTCONFIGURATION_SUBSCRIPTION_ID"] || "mySubscriptionId";
   const resourceGroupName =
@@ -38,7 +36,7 @@ async function listAllGuestConfigurationAssignmentsForVmss() {
   console.log(resArray);
 }
 
-async function main() {
+async function main(): Promise<void> {
   listAllGuestConfigurationAssignmentsForVmss();
 }
 

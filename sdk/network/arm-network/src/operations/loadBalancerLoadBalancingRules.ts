@@ -7,18 +7,18 @@
  */
 
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
-import { setContinuationToken } from "../pagingHelper";
-import { LoadBalancerLoadBalancingRules } from "../operationsInterfaces";
+import { setContinuationToken } from "../pagingHelper.js";
+import { LoadBalancerLoadBalancingRules } from "../operationsInterfaces/index.js";
 import * as coreClient from "@azure/core-client";
-import * as Mappers from "../models/mappers";
-import * as Parameters from "../models/parameters";
-import { NetworkManagementClient } from "../networkManagementClient";
+import * as Mappers from "../models/mappers.js";
+import * as Parameters from "../models/parameters.js";
+import { NetworkManagementClient } from "../networkManagementClient.js";
 import {
   SimplePollerLike,
   OperationState,
   createHttpPoller,
 } from "@azure/core-lro";
-import { createLroSpec } from "../lroImpl";
+import { createLroSpec } from "../lroImpl.js";
 import {
   LoadBalancingRule,
   LoadBalancerLoadBalancingRulesListNextOptionalParams,
@@ -29,7 +29,7 @@ import {
   LoadBalancerLoadBalancingRulesHealthOptionalParams,
   LoadBalancerLoadBalancingRulesHealthResponse,
   LoadBalancerLoadBalancingRulesListNextResponse,
-} from "../models";
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Class containing LoadBalancerLoadBalancingRules operations. */
@@ -346,8 +346,8 @@ const healthOperationSpec: coreClient.OperationSpec = {
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
-    Parameters.groupName1,
-    Parameters.loadBalancerName1,
+    Parameters.groupName2,
+    Parameters.loadBalancerName2,
     Parameters.loadBalancingRuleName1,
   ],
   headerParameters: [Parameters.accept],

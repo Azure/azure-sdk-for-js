@@ -1,15 +1,9 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
-import createNetworkManagementClient, {
-  ManagementGroupNetworkManagerConnectionsCreateOrUpdateParameters,
-} from "@azure-rest/arm-network";
+import type { ManagementGroupNetworkManagerConnectionsCreateOrUpdateParameters } from "@azure-rest/arm-network";
+import createNetworkManagementClient from "@azure-rest/arm-network";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Create a network manager connection on this management group.
@@ -17,7 +11,7 @@ dotenv.config();
  * @summary Create a network manager connection on this management group.
  * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-05-01/examples/NetworkManagerConnectionManagementGroupPut.json
  */
-async function createOrUpdateManagementGroupNetworkManagerConnection() {
+async function createOrUpdateManagementGroupNetworkManagerConnection(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = createNetworkManagementClient(credential);
   const managementGroupId = "managementGroupA";

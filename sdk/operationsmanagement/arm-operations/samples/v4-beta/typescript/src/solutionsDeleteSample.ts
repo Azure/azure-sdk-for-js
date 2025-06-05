@@ -17,7 +17,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * @summary Deletes the solution in the subscription.
  * x-ms-original-file: specification/operationsmanagement/resource-manager/Microsoft.OperationsManagement/preview/2015-11-01-preview/examples/SolutionDelete.json
  */
-async function solutionDelete() {
+async function solutionDelete(): Promise<void> {
   const subscriptionId = "subid";
   const resourceGroupName = "rg1";
   const solutionName = "solution1";

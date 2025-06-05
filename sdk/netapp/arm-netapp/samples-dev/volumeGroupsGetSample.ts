@@ -6,24 +6,20 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
 import { NetAppManagementClient } from "@azure/arm-netapp";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Get details of the specified volume group
  *
  * @summary Get details of the specified volume group
- * x-ms-original-file: specification/netapp/resource-manager/Microsoft.NetApp/preview/2024-07-01-preview/examples/VolumeGroups_Get_Oracle.json
+ * x-ms-original-file: specification/netapp/resource-manager/Microsoft.NetApp/preview/2025-01-01-preview/examples/VolumeGroups_Get_Oracle.json
  */
-async function volumeGroupsGetOracle() {
+async function volumeGroupsGetOracle(): Promise<void> {
   const subscriptionId =
     process.env["NETAPP_SUBSCRIPTION_ID"] ||
-    "D633CC2E-722B-4AE1-B636-BBD9E4C60ED9";
+    "00000000-0000-0000-0000-000000000000";
   const resourceGroupName = process.env["NETAPP_RESOURCE_GROUP"] || "myRG";
   const accountName = "account1";
   const volumeGroupName = "group1";
@@ -41,12 +37,12 @@ async function volumeGroupsGetOracle() {
  * This sample demonstrates how to Get details of the specified volume group
  *
  * @summary Get details of the specified volume group
- * x-ms-original-file: specification/netapp/resource-manager/Microsoft.NetApp/preview/2024-07-01-preview/examples/VolumeGroups_Get_SapHana.json
+ * x-ms-original-file: specification/netapp/resource-manager/Microsoft.NetApp/preview/2025-01-01-preview/examples/VolumeGroups_Get_SapHana.json
  */
-async function volumeGroupsGetSapHana() {
+async function volumeGroupsGetSapHana(): Promise<void> {
   const subscriptionId =
     process.env["NETAPP_SUBSCRIPTION_ID"] ||
-    "D633CC2E-722B-4AE1-B636-BBD9E4C60ED9";
+    "00000000-0000-0000-0000-000000000000";
   const resourceGroupName = process.env["NETAPP_RESOURCE_GROUP"] || "myRG";
   const accountName = "account1";
   const volumeGroupName = "group1";
@@ -60,9 +56,9 @@ async function volumeGroupsGetSapHana() {
   console.log(result);
 }
 
-async function main() {
-  volumeGroupsGetOracle();
-  volumeGroupsGetSapHana();
+async function main(): Promise<void> {
+  await volumeGroupsGetOracle();
+  await volumeGroupsGetSapHana();
 }
 
 main().catch(console.error);

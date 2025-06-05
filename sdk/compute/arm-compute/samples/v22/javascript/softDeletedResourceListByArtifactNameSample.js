@@ -10,7 +10,7 @@
 // Licensed under the MIT License.
 const { ComputeManagementClient } = require("@azure/arm-compute");
 const { DefaultAzureCredential } = require("@azure/identity");
-require("dotenv").config();
+require("dotenv/config");
 
 /**
  * This sample demonstrates how to List soft-deleted resources of an artifact in the gallery, such as soft-deleted gallery image version of an image.
@@ -27,7 +27,7 @@ async function listSoftDeletedResourcesOfAnArtifactInTheGallery() {
   const credential = new DefaultAzureCredential();
   const client = new ComputeManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.softDeletedResource.listByArtifactName(
+  for await (const item of client.softDeletedResource.listByArtifactName(
     resourceGroupName,
     galleryName,
     artifactType,
@@ -39,7 +39,7 @@ async function listSoftDeletedResourcesOfAnArtifactInTheGallery() {
 }
 
 async function main() {
-  listSoftDeletedResourcesOfAnArtifactInTheGallery();
+  await listSoftDeletedResourcesOfAnArtifactInTheGallery();
 }
 
 main().catch(console.error);

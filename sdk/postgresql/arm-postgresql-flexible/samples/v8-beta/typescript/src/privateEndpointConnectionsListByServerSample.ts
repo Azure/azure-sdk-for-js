@@ -6,21 +6,17 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
 import { PostgreSQLManagementFlexibleServerClient } from "@azure/arm-postgresql-flexible";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Gets all private endpoint connections on a server.
  *
  * @summary Gets all private endpoint connections on a server.
- * x-ms-original-file: specification/postgresql/resource-manager/Microsoft.DBforPostgreSQL/preview/2023-12-01-preview/examples/PrivateEndpointConnectionList.json
+ * x-ms-original-file: specification/postgresql/resource-manager/Microsoft.DBforPostgreSQL/preview/2025-01-01-preview/examples/PrivateEndpointConnectionList.json
  */
-async function getsListOfPrivateEndpointConnectionsOnAServer() {
+async function getsListOfPrivateEndpointConnectionsOnAServer(): Promise<void> {
   const subscriptionId =
     process.env["POSTGRESQL_SUBSCRIPTION_ID"] ||
     "ffffffff-ffff-ffff-ffff-ffffffffffff";
@@ -33,7 +29,7 @@ async function getsListOfPrivateEndpointConnectionsOnAServer() {
     subscriptionId,
   );
   const resArray = new Array();
-  for await (let item of client.privateEndpointConnections.listByServer(
+  for await (const item of client.privateEndpointConnections.listByServer(
     resourceGroupName,
     serverName,
   )) {
@@ -42,8 +38,8 @@ async function getsListOfPrivateEndpointConnectionsOnAServer() {
   console.log(resArray);
 }
 
-async function main() {
-  getsListOfPrivateEndpointConnectionsOnAServer();
+async function main(): Promise<void> {
+  await getsListOfPrivateEndpointConnectionsOnAServer();
 }
 
 main().catch(console.error);

@@ -130,7 +130,7 @@ export class ServiceBusClient {
    *
    * To target sub queues like the dead letter queue or the transfer dead letter queue, provide the
    * `subQueue` in the options. To learn more about dead letter queues, see
-   * https://docs.microsoft.com/azure/service-bus-messaging/service-bus-dead-letter-queues
+   * https://learn.microsoft.com/azure/service-bus-messaging/service-bus-dead-letter-queues
    *
    * You can choose between two receive modes:  "peekLock" (default) and "receiveAndDelete".
    * - In peekLock mode, the receiver has a lock on the message for the duration specified on the
@@ -145,7 +145,7 @@ export class ServiceBusClient {
    * deadletterMessage() methods on the receiver.
    *
    * More information about how peekLock and message settlement works here:
-   * https://docs.microsoft.com/azure/service-bus-messaging/message-transfers-locks-settlement#peeklock
+   * https://learn.microsoft.com/azure/service-bus-messaging/message-transfers-locks-settlement#peeklock
    *
    * @param queueName - The name of the queue to receive from.
    * @param options - Options to pass the receiveMode, defaulted to peekLock.
@@ -159,7 +159,7 @@ export class ServiceBusClient {
    *
    * To target sub queues like the dead letter queue or the transfer dead letter queue, provide the
    * `subQueue` in the options. To learn more about dead letter queues, see
-   * https://docs.microsoft.com/azure/service-bus-messaging/service-bus-dead-letter-queues
+   * https://learn.microsoft.com/azure/service-bus-messaging/service-bus-dead-letter-queues
    *
    * You can choose between two receive modes:  "peekLock" (default) and "receiveAndDelete".
    * - In peekLock mode, the receiver has a lock on the message for the duration specified on the
@@ -174,7 +174,7 @@ export class ServiceBusClient {
    * deadletterMessage() methods on the receiver.
    *
    * More information about how peekLock and message settlement works here:
-   * https://docs.microsoft.com/azure/service-bus-messaging/message-transfers-locks-settlement#peeklock
+   * https://learn.microsoft.com/azure/service-bus-messaging/message-transfers-locks-settlement#peeklock
    *
    * @param topicName - Name of the topic for the subscription we want to receive from.
    * @param subscriptionName - Name of the subscription (under the `topic`) that we want to receive from.
@@ -267,7 +267,7 @@ export class ServiceBusClient {
    * deadletterMessage() methods on the receiver.
    *
    * More information about how peekLock and message settlement works here:
-   * https://docs.microsoft.com/azure/service-bus-messaging/message-transfers-locks-settlement#peeklock
+   * https://learn.microsoft.com/azure/service-bus-messaging/message-transfers-locks-settlement#peeklock
    *
    * @param queueName - The name of the queue to receive from.
    * @param sessionId - The id of the session from which messages need to be received
@@ -292,7 +292,7 @@ export class ServiceBusClient {
    * deadletterMessage() methods on the receiver.
    *
    * More information about how peekLock and message settlement works here:
-   * https://docs.microsoft.com/azure/service-bus-messaging/message-transfers-locks-settlement#peeklock
+   * https://learn.microsoft.com/azure/service-bus-messaging/message-transfers-locks-settlement#peeklock
    *
    * @param topicName - Name of the topic for the subscription we want to receive from.
    * @param subscriptionName - Name of the subscription (under the `topic`) that we want to receive from.
@@ -393,7 +393,7 @@ export class ServiceBusClient {
    * deadletterMessage() methods on the receiver.
    *
    * More information about how peekLock and message settlement works here:
-   * https://docs.microsoft.com/azure/service-bus-messaging/message-transfers-locks-settlement#peeklock
+   * https://learn.microsoft.com/azure/service-bus-messaging/message-transfers-locks-settlement#peeklock
    *
    * @param queueName - The name of the queue to receive from.
    * @param options - Options include receiveMode(defaulted to peekLock), options to create session receiver.
@@ -416,7 +416,7 @@ export class ServiceBusClient {
    * deadletterMessage() methods on the receiver.
    *
    * More information about how peekLock and message settlement works here:
-   * https://docs.microsoft.com/azure/service-bus-messaging/message-transfers-locks-settlement#peeklock
+   * https://learn.microsoft.com/azure/service-bus-messaging/message-transfers-locks-settlement#peeklock
    *
    * @param topicName - Name of the topic for the subscription we want to receive from.
    * @param subscriptionName - Name of the subscription (under the `topic`) that we want to receive from.

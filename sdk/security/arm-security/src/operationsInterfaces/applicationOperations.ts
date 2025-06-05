@@ -13,7 +13,7 @@ import {
   ApplicationCreateOrUpdateOptionalParams,
   ApplicationCreateOrUpdateResponse,
   ApplicationDeleteOptionalParams,
-} from "../models";
+} from "../models/index.js";
 
 /** Interface representing a ApplicationOperations. */
 export interface ApplicationOperations {

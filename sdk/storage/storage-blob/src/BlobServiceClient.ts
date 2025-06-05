@@ -3,7 +3,7 @@
 import type { TokenCredential } from "@azure/core-auth";
 import { isTokenCredential } from "@azure/core-auth";
 import { getDefaultProxySettings } from "@azure/core-rest-pipeline";
-import { isNode } from "@azure/core-util";
+import { isNodeLike } from "@azure/core-util";
 import type { AbortSignalLike } from "@azure/abort-controller";
 import type {
   ServiceGetUserDelegationKeyHeaders,
@@ -20,44 +20,42 @@ import type {
   ContainerUndeleteResponse,
   FilterBlobSegmentModel,
   ServiceFilterBlobsHeaders,
-  ContainerRenameResponse,
   LeaseAccessConditions,
   FilterBlobSegment,
   FilterBlobItem,
   ServiceGetPropertiesResponseInternal,
   ServiceGetStatisticsResponseInternal,
   ServiceListContainersSegmentResponseInternal,
-} from "./generatedModels";
-import type { Service } from "./generated/src/operationsInterfaces";
-import type { StoragePipelineOptions, PipelineLike } from "./Pipeline";
-import { newPipeline, isPipelineLike } from "./Pipeline";
-import type { ContainerCreateOptions, ContainerDeleteMethodOptions } from "./ContainerClient";
-import { ContainerClient } from "./ContainerClient";
-import type { WithResponse } from "./utils/utils.common";
+} from "./generatedModels.js";
+import type { Service } from "./generated/src/operationsInterfaces/index.js";
+import type { StoragePipelineOptions, PipelineLike } from "./Pipeline.js";
+import { newPipeline, isPipelineLike } from "./Pipeline.js";
+import type { ContainerCreateOptions, ContainerDeleteMethodOptions } from "./ContainerClient.js";
+import { ContainerClient } from "./ContainerClient.js";
+import type { WithResponse } from "./utils/utils.common.js";
 import {
   appendToURLPath,
   appendToURLQuery,
   extractConnectionStringParts,
   toTags,
-} from "./utils/utils.common";
-import { StorageSharedKeyCredential } from "./credentials/StorageSharedKeyCredential";
-import { AnonymousCredential } from "./credentials/AnonymousCredential";
+} from "./utils/utils.common.js";
+import { StorageSharedKeyCredential } from "./credentials/StorageSharedKeyCredential.js";
+import { AnonymousCredential } from "./credentials/AnonymousCredential.js";
 import type { PageSettings, PagedAsyncIterableIterator } from "@azure/core-paging";
-import { truncatedISO8061Date, assertResponse } from "./utils/utils.common";
-import { tracingClient } from "./utils/tracing";
-import { BlobBatchClient } from "./BlobBatchClient";
-import type { CommonOptions } from "./StorageClient";
-import { StorageClient } from "./StorageClient";
-import { AccountSASPermissions } from "./sas/AccountSASPermissions";
-import type { SASProtocol } from "./sas/SASQueryParameters";
-import type { SasIPRange } from "./sas/SasIPRange";
+import { truncatedISO8061Date, assertResponse } from "./utils/utils.common.js";
+import { tracingClient } from "./utils/tracing.js";
+import { BlobBatchClient } from "./BlobBatchClient.js";
+import type { CommonOptions } from "./StorageClient.js";
+import { StorageClient } from "./StorageClient.js";
+import { AccountSASPermissions } from "./sas/AccountSASPermissions.js";
+import type { SASProtocol } from "./sas/SASQueryParameters.js";
+import type { SasIPRange } from "./sas/SasIPRange.js";
 import {
   generateAccountSASQueryParameters,
   generateAccountSASQueryParametersInternal,
-} from "./sas/AccountSASSignatureValues";
-import { AccountSASServices } from "./sas/AccountSASServices";
+} from "./sas/AccountSASSignatureValues.js";
+import { AccountSASServices } from "./sas/AccountSASServices.js";
 import type {
-  ContainerRenameHeaders,
   ContainerRestoreHeaders,
   ListContainersIncludeType,
   ServiceFilterBlobsResponse,
@@ -67,7 +65,7 @@ import type {
   ServiceGetUserDelegationKeyResponse as ServiceGetUserDelegationKeyResponseModel,
   ServiceListContainersSegmentHeaders,
   ServiceSetPropertiesHeaders,
-} from "./generated/src";
+} from "./generated/src/index.js";
 
 /**
  * Options to configure the {@link BlobServiceClient.getProperties} operation.
@@ -363,7 +361,7 @@ export class BlobServiceClient extends StorageClient {
     options = options || {};
     const extractedCreds = extractConnectionStringParts(connectionString);
     if (extractedCreds.kind === "AccountConnString") {
-      if (isNode) {
+      if (isNodeLike) {
         const sharedKeyCredential = new StorageSharedKeyCredential(
           extractedCreds.accountName!,
           extractedCreds.accountKey,
@@ -399,26 +397,34 @@ export class BlobServiceClient extends StorageClient {
    *
    * Example using DefaultAzureCredential from `@azure/identity`:
    *
-   * ```js
-   * const account = "<storage account name>";
+   * ```ts snippet:ReadmeSampleCreateClient_DefaultAzureCredential
+   * import { DefaultAzureCredential } from "@azure/identity";
+   * import { BlobServiceClient } from "@azure/storage-blob";
    *
+   * // Enter your storage account name
+   * const account = "<account>";
    * const defaultAzureCredential = new DefaultAzureCredential();
    *
    * const blobServiceClient = new BlobServiceClient(
    *   `https://${account}.blob.core.windows.net`,
-   *   defaultAzureCredential
+   *   defaultAzureCredential,
    * );
    * ```
    *
    * Example using an account name/key:
    *
-   * ```js
-   * const account = "<storage account name>"
-   * const sharedKeyCredential = new StorageSharedKeyCredential(account, "<account key>");
+   * ```ts snippet:ReadmeSampleCreateClient_StorageSharedKeyCredential
+   * import { StorageSharedKeyCredential, BlobServiceClient } from "@azure/storage-blob";
    *
+   * const account = "<account>";
+   * const accountKey = "<accountkey>";
+   *
+   * // Use StorageSharedKeyCredential with storage account and account key
+   * // StorageSharedKeyCredential is only available in Node.js runtime, not in browsers
+   * const sharedKeyCredential = new StorageSharedKeyCredential(account, accountKey);
    * const blobServiceClient = new BlobServiceClient(
    *   `https://${account}.blob.core.windows.net`,
-   *   sharedKeyCredential
+   *   sharedKeyCredential,
    * );
    * ```
    */
@@ -454,7 +460,7 @@ export class BlobServiceClient extends StorageClient {
     if (isPipelineLike(credentialOrPipeline)) {
       pipeline = credentialOrPipeline;
     } else if (
-      (isNode && credentialOrPipeline instanceof StorageSharedKeyCredential) ||
+      (isNodeLike && credentialOrPipeline instanceof StorageSharedKeyCredential) ||
       credentialOrPipeline instanceof AnonymousCredential ||
       isTokenCredential(credentialOrPipeline)
     ) {
@@ -475,7 +481,16 @@ export class BlobServiceClient extends StorageClient {
    *
    * Example usage:
    *
-   * ```js
+   * ```ts snippet:BlobServiceClientGetContainerClient
+   * import { BlobServiceClient } from "@azure/storage-blob";
+   * import { DefaultAzureCredential } from "@azure/identity";
+   *
+   * const account = "<account>";
+   * const blobServiceClient = new BlobServiceClient(
+   *   `https://${account}.blob.core.windows.net`,
+   *   new DefaultAzureCredential(),
+   * );
+   *
    * const containerClient = blobServiceClient.getContainerClient("<container name>");
    * ```
    */
@@ -487,7 +502,7 @@ export class BlobServiceClient extends StorageClient {
   }
 
   /**
-   * Create a Blob container. @see https://docs.microsoft.com/en-us/rest/api/storageservices/create-container
+   * Create a Blob container. @see https://learn.microsoft.com/en-us/rest/api/storageservices/create-container
    *
    * @param containerName - Name of the container to create.
    * @param options - Options to configure Container Create operation.
@@ -577,47 +592,9 @@ export class BlobServiceClient extends StorageClient {
   }
 
   /**
-   * Rename an existing Blob Container.
-   *
-   * @param sourceContainerName - The name of the source container.
-   * @param destinationContainerName - The new name of the container.
-   * @param options - Options to configure Container Rename operation.
-   */
-  /* eslint-disable-next-line @typescript-eslint/ban-ts-comment */
-  // @ts-ignore Need to hide this interface for now. Make it public and turn on the live tests for it when the service is ready.
-  private async renameContainer(
-    sourceContainerName: string,
-    destinationContainerName: string,
-    options: ServiceRenameContainerOptions = {},
-  ): Promise<{
-    containerClient: ContainerClient;
-    containerRenameResponse: ContainerRenameResponse;
-  }> {
-    return tracingClient.withSpan(
-      "BlobServiceClient-renameContainer",
-      options,
-      async (updatedOptions) => {
-        const containerClient = this.getContainerClient(destinationContainerName);
-        // Hack to access a protected member.
-        const containerContext = containerClient["storageClientContext"].container;
-        const containerRenameResponse = assertResponse<
-          ContainerRenameHeaders,
-          ContainerRenameHeaders
-        >(
-          await containerContext.rename(sourceContainerName, {
-            ...updatedOptions,
-            sourceLeaseId: options.sourceCondition?.leaseId,
-          }),
-        );
-        return { containerClient, containerRenameResponse };
-      },
-    );
-  }
-
-  /**
    * Gets the properties of a storage account’s Blob service, including properties
    * for Storage Analytics and CORS (Cross-Origin Resource Sharing) rules.
-   * @see https://docs.microsoft.com/en-us/rest/api/storageservices/get-blob-service-properties
+   * @see https://learn.microsoft.com/en-us/rest/api/storageservices/get-blob-service-properties
    *
    * @param options - Options to the Service Get Properties operation.
    * @returns Response data for the Service Get Properties operation.
@@ -642,7 +619,7 @@ export class BlobServiceClient extends StorageClient {
   /**
    * Sets properties for a storage account’s Blob service endpoint, including properties
    * for Storage Analytics, CORS (Cross-Origin Resource Sharing) rules and soft delete settings.
-   * @see https://docs.microsoft.com/en-us/rest/api/storageservices/set-blob-service-properties
+   * @see https://learn.microsoft.com/en-us/rest/api/storageservices/set-blob-service-properties
    *
    * @param properties -
    * @param options - Options to the Service Set Properties operation.
@@ -670,7 +647,7 @@ export class BlobServiceClient extends StorageClient {
    * Retrieves statistics related to replication for the Blob service. It is only
    * available on the secondary location endpoint when read-access geo-redundant
    * replication is enabled for the storage account.
-   * @see https://docs.microsoft.com/en-us/rest/api/storageservices/get-blob-service-stats
+   * @see https://learn.microsoft.com/en-us/rest/api/storageservices/get-blob-service-stats
    *
    * @param options - Options to the Service Get Statistics operation.
    * @returns Response data for the Service Get Statistics operation.
@@ -697,7 +674,7 @@ export class BlobServiceClient extends StorageClient {
    * for the specified account.
    * The Get Account Information operation is available on service versions beginning
    * with version 2018-03-28.
-   * @see https://docs.microsoft.com/en-us/rest/api/storageservices/get-account-information
+   * @see https://learn.microsoft.com/en-us/rest/api/storageservices/get-account-information
    *
    * @param options - Options to the Service Get Account Info operation.
    * @returns Response data for the Service Get Account Info operation.
@@ -721,7 +698,7 @@ export class BlobServiceClient extends StorageClient {
 
   /**
    * Returns a list of the containers under the specified account.
-   * @see https://docs.microsoft.com/en-us/rest/api/storageservices/list-containers2
+   * @see https://learn.microsoft.com/en-us/rest/api/storageservices/list-containers2
    *
    * @param marker - A string value that identifies the portion of
    *                        the list of containers to be returned with the next listing operation. The
@@ -875,57 +852,53 @@ export class BlobServiceClient extends StorageClient {
    *
    * .byPage() returns an async iterable iterator to list the blobs in pages.
    *
-   * @see https://docs.microsoft.com/en-us/rest/api/storageservices/get-blob-service-properties
+   * @see https://learn.microsoft.com/en-us/rest/api/storageservices/get-blob-service-properties
    *
-   * Example using `for await` syntax:
+   * ```ts snippet:BlobServiceClientFindBlobsByTags
+   * import { BlobServiceClient } from "@azure/storage-blob";
+   * import { DefaultAzureCredential } from "@azure/identity";
    *
-   * ```js
+   * const account = "<account>";
+   * const blobServiceClient = new BlobServiceClient(
+   *   `https://${account}.blob.core.windows.net`,
+   *   new DefaultAzureCredential(),
+   * );
+   *
+   * // Use for await to iterate the blobs
    * let i = 1;
    * for await (const blob of blobServiceClient.findBlobsByTags("tagkey='tagvalue'")) {
-   *   console.log(`Blob ${i++}: ${container.name}`);
+   *   console.log(`Blob ${i++}: ${blob.name}`);
    * }
-   * ```
    *
-   * Example using `iter.next()`:
-   *
-   * ```js
-   * let i = 1;
+   * // Use iter.next() to iterate the blobs
+   * i = 1;
    * const iter = blobServiceClient.findBlobsByTags("tagkey='tagvalue'");
-   * let blobItem = await iter.next();
-   * while (!blobItem.done) {
-   *   console.log(`Blob ${i++}: ${blobItem.value.name}`);
-   *   blobItem = await iter.next();
+   * let { value, done } = await iter.next();
+   * while (!done) {
+   *   console.log(`Blob ${i++}: ${value.name}`);
+   *   ({ value, done } = await iter.next());
    * }
-   * ```
    *
-   * Example using `byPage()`:
-   *
-   * ```js
-   * // passing optional maxPageSize in the page settings
-   * let i = 1;
-   * for await (const response of blobServiceClient.findBlobsByTags("tagkey='tagvalue'").byPage({ maxPageSize: 20 })) {
-   *   if (response.blobs) {
-   *     for (const blob of response.blobs) {
-   *       console.log(`Blob ${i++}: ${blob.name}`);
-   *     }
+   * // Use byPage() to iterate the blobs
+   * i = 1;
+   * for await (const page of blobServiceClient
+   *   .findBlobsByTags("tagkey='tagvalue'")
+   *   .byPage({ maxPageSize: 20 })) {
+   *   for (const blob of page.blobs) {
+   *     console.log(`Blob ${i++}: ${blob.name}`);
    *   }
    * }
-   * ```
    *
-   * Example using paging with a marker:
-   *
-   * ```js
-   * let i = 1;
+   * // Use paging with a marker
+   * i = 1;
    * let iterator = blobServiceClient.findBlobsByTags("tagkey='tagvalue'").byPage({ maxPageSize: 2 });
    * let response = (await iterator.next()).value;
-   *
    * // Prints 2 blob names
    * if (response.blobs) {
    *   for (const blob of response.blobs) {
    *     console.log(`Blob ${i++}: ${blob.name}`);
    *   }
    * }
-   *
    * // Gets next marker
    * let marker = response.continuationToken;
    * // Passing next marker as continuationToken
@@ -937,7 +910,7 @@ export class BlobServiceClient extends StorageClient {
    * // Prints blob names
    * if (response.blobs) {
    *   for (const blob of response.blobs) {
-   *      console.log(`Blob ${i++}: ${blob.name}`);
+   *     console.log(`Blob ${i++}: ${blob.name}`);
    *   }
    * }
    * ```
@@ -1031,45 +1004,41 @@ export class BlobServiceClient extends StorageClient {
    *
    * .byPage() returns an async iterable iterator to list the containers in pages.
    *
-   * Example using `for await` syntax:
+   * ```ts snippet:BlobServiceClientListContainers
+   * import { BlobServiceClient } from "@azure/storage-blob";
+   * import { DefaultAzureCredential } from "@azure/identity";
    *
-   * ```js
+   * const account = "<account>";
+   * const blobServiceClient = new BlobServiceClient(
+   *   `https://${account}.blob.core.windows.net`,
+   *   new DefaultAzureCredential(),
+   * );
+   *
+   * // Use for await to iterate the containers
    * let i = 1;
    * for await (const container of blobServiceClient.listContainers()) {
    *   console.log(`Container ${i++}: ${container.name}`);
    * }
-   * ```
    *
-   * Example using `iter.next()`:
-   *
-   * ```js
-   * let i = 1;
+   * // Use iter.next() to iterate the containers
+   * i = 1;
    * const iter = blobServiceClient.listContainers();
-   * let containerItem = await iter.next();
-   * while (!containerItem.done) {
-   *   console.log(`Container ${i++}: ${containerItem.value.name}`);
-   *   containerItem = await iter.next();
+   * let { value, done } = await iter.next();
+   * while (!done) {
+   *   console.log(`Container ${i++}: ${value.name}`);
+   *   ({ value, done } = await iter.next());
    * }
-   * ```
    *
-   * Example using `byPage()`:
-   *
-   * ```js
-   * // passing optional maxPageSize in the page settings
-   * let i = 1;
-   * for await (const response of blobServiceClient.listContainers().byPage({ maxPageSize: 20 })) {
-   *   if (response.containerItems) {
-   *     for (const container of response.containerItems) {
-   *       console.log(`Container ${i++}: ${container.name}`);
-   *     }
+   * // Use byPage() to iterate the containers
+   * i = 1;
+   * for await (const page of blobServiceClient.listContainers().byPage({ maxPageSize: 20 })) {
+   *   for (const container of page.containerItems) {
+   *     console.log(`Container ${i++}: ${container.name}`);
    *   }
    * }
-   * ```
    *
-   * Example using paging with a marker:
-   *
-   * ```js
-   * let i = 1;
+   * // Use paging with a marker
+   * i = 1;
    * let iterator = blobServiceClient.listContainers().byPage({ maxPageSize: 2 });
    * let response = (await iterator.next()).value;
    *
@@ -1091,7 +1060,7 @@ export class BlobServiceClient extends StorageClient {
    * // Prints 10 container names
    * if (response.containerItems) {
    *   for (const container of response.containerItems) {
-   *      console.log(`Container ${i++}: ${container.name}`);
+   *     console.log(`Container ${i++}: ${container.name}`);
    *   }
    * }
    * ```
@@ -1155,7 +1124,7 @@ export class BlobServiceClient extends StorageClient {
    * Retrieves a user delegation key for the Blob service. This is only a valid operation when using
    * bearer token authentication.
    *
-   * @see https://docs.microsoft.com/en-us/rest/api/storageservices/get-user-delegation-key
+   * @see https://learn.microsoft.com/en-us/rest/api/storageservices/get-user-delegation-key
    *
    * @param startsOn -      The start time for the user delegation SAS. Must be within 7 days of the current time
    * @param expiresOn -     The end time for the user delegation SAS. Must be within 7 days of the current time
@@ -1214,7 +1183,7 @@ export class BlobServiceClient extends StorageClient {
   /**
    * Creates a BlobBatchClient object to conduct batch operations.
    *
-   * @see https://docs.microsoft.com/en-us/rest/api/storageservices/blob-batch
+   * @see https://learn.microsoft.com/en-us/rest/api/storageservices/blob-batch
    *
    * @returns A new BlobBatchClient object for this service.
    */
@@ -1228,7 +1197,7 @@ export class BlobServiceClient extends StorageClient {
    * Generates a Blob account Shared Access Signature (SAS) URI based on the client properties
    * and parameters passed in. The SAS is signed by the shared key credential of the client.
    *
-   * @see https://docs.microsoft.com/en-us/rest/api/storageservices/create-account-sas
+   * @see https://learn.microsoft.com/en-us/rest/api/storageservices/create-account-sas
    *
    * @param expiresOn - Optional. The time at which the shared access signature becomes invalid. Default to an hour later if not provided.
    * @param permissions - Specifies the list of permissions to be associated with the SAS.
@@ -1273,7 +1242,7 @@ export class BlobServiceClient extends StorageClient {
    * Generates string to sign for a Blob account Shared Access Signature (SAS) URI based on
    * the client properties and parameters passed in. The SAS is signed by the shared key credential of the client.
    *
-   * @see https://docs.microsoft.com/en-us/rest/api/storageservices/create-account-sas
+   * @see https://learn.microsoft.com/en-us/rest/api/storageservices/create-account-sas
    *
    * @param expiresOn - Optional. The time at which the shared access signature becomes invalid. Default to an hour later if not provided.
    * @param permissions - Specifies the list of permissions to be associated with the SAS.

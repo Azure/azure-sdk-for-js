@@ -6,15 +6,15 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { ThreatIntelligenceIndicatorMetrics } from "../operationsInterfaces";
+import { ThreatIntelligenceIndicatorMetrics } from "../operationsInterfaces/index.js";
 import * as coreClient from "@azure/core-client";
-import * as Mappers from "../models/mappers";
-import * as Parameters from "../models/parameters";
-import { SecurityInsights } from "../securityInsights";
+import * as Mappers from "../models/mappers.js";
+import * as Parameters from "../models/parameters.js";
+import { SecurityInsights } from "../securityInsights.js";
 import {
   ThreatIntelligenceIndicatorMetricsListOptionalParams,
   ThreatIntelligenceIndicatorMetricsListResponse
-} from "../models";
+} from "../models/index.js";
 
 /** Class containing ThreatIntelligenceIndicatorMetrics operations. */
 export class ThreatIntelligenceIndicatorMetricsImpl

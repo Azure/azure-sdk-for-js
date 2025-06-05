@@ -6,19 +6,17 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
 const { PostgreSQLManagementFlexibleServerClient } = require("@azure/arm-postgresql-flexible");
 const { DefaultAzureCredential } = require("@azure/identity");
-require("dotenv").config();
+require("dotenv/config");
 
 /**
  * This sample demonstrates how to Creates a new server.
  *
  * @summary Creates a new server.
- * x-ms-original-file: specification/postgresql/resource-manager/Microsoft.DBforPostgreSQL/preview/2023-12-01-preview/examples/AdministratorAdd.json
+ * x-ms-original-file: specification/postgresql/resource-manager/Microsoft.DBforPostgreSQL/preview/2025-01-01-preview/examples/AdministratorAdd.json
  */
-async function addsAnActiveDIrectoryAdministratorForTheServer() {
+async function addsAnMicrosoftEntraAdministratorForTheServer() {
   const subscriptionId =
     process.env["POSTGRESQL_SUBSCRIPTION_ID"] || "ffffffff-ffff-ffff-ffff-ffffffffffff";
   const resourceGroupName = process.env["POSTGRESQL_RESOURCE_GROUP"] || "testrg";
@@ -41,7 +39,7 @@ async function addsAnActiveDIrectoryAdministratorForTheServer() {
 }
 
 async function main() {
-  addsAnActiveDIrectoryAdministratorForTheServer();
+  await addsAnMicrosoftEntraAdministratorForTheServer();
 }
 
 main().catch(console.error);

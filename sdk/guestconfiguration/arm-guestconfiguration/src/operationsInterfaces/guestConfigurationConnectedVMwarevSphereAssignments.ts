@@ -15,7 +15,7 @@ import {
   GuestConfigurationConnectedVMwarevSphereAssignmentsGetOptionalParams,
   GuestConfigurationConnectedVMwarevSphereAssignmentsGetResponse,
   GuestConfigurationConnectedVMwarevSphereAssignmentsDeleteOptionalParams,
-} from "../models";
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a GuestConfigurationConnectedVMwarevSphereAssignments. */

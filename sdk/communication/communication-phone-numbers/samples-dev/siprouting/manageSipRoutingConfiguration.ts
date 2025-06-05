@@ -3,9 +3,7 @@
 
 import { SipRoutingClient } from "@azure/communication-phone-numbers";
 import { randomUUID } from "@azure/core-util";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 // NOTE: Before running the example please make sure that the trunks and the routes are empty for specified connection string.
 // Otherwise the example may fail on data constraints.

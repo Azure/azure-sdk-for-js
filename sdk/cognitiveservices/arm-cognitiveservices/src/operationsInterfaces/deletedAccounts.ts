@@ -14,7 +14,7 @@ import {
   DeletedAccountsGetOptionalParams,
   DeletedAccountsGetResponse,
   DeletedAccountsPurgeOptionalParams,
-} from "../models";
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a DeletedAccounts. */
@@ -23,9 +23,7 @@ export interface DeletedAccounts {
    * Returns all the resources of a particular type belonging to a subscription.
    * @param options The options parameters.
    */
-  list(
-    options?: DeletedAccountsListOptionalParams,
-  ): PagedAsyncIterableIterator<Account>;
+  list(options?: DeletedAccountsListOptionalParams): PagedAsyncIterableIterator<Account>;
   /**
    * Returns a Cognitive Services account specified by the parameters.
    * @param location Resource location.

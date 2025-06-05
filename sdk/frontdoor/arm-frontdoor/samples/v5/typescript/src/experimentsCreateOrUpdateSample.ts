@@ -10,9 +10,7 @@
 // Licensed under the MIT License.
 import { Experiment, FrontDoorManagementClient } from "@azure/arm-frontdoor";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Creates or updates an Experiment
@@ -20,7 +18,7 @@ dotenv.config();
  * @summary Creates or updates an Experiment
  * x-ms-original-file: specification/frontdoor/resource-manager/Microsoft.Network/stable/2019-11-01/examples/NetworkExperimentCreateExperiment.json
  */
-async function createsAnExperiment() {
+async function createsAnExperiment(): Promise<void> {
   const subscriptionId = process.env["FRONTDOOR_SUBSCRIPTION_ID"] || "subid";
   const resourceGroupName =
     process.env["FRONTDOOR_RESOURCE_GROUP"] || "MyResourceGroup";
@@ -43,7 +41,7 @@ async function createsAnExperiment() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   createsAnExperiment();
 }
 

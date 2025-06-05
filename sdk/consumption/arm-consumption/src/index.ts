@@ -7,7 +7,7 @@
  */
 
 /// <reference lib="esnext.asynciterable" />
-export { getContinuationToken } from "./pagingHelper";
-export * from "./models";
-export { ConsumptionManagementClient } from "./consumptionManagementClient";
-export * from "./operationsInterfaces";
+export { getContinuationToken } from "./pagingHelper.js";
+export * from "./models/index.js";
+export { ConsumptionManagementClient } from "./consumptionManagementClient.js";
+export * from "./operationsInterfaces/index.js";

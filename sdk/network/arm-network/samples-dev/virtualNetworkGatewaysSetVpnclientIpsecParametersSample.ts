@@ -6,24 +6,21 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
+import type {
+  VpnClientIPsecParameters} from "@azure/arm-network";
 import {
-  VpnClientIPsecParameters,
   NetworkManagementClient,
 } from "@azure/arm-network";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to The Set VpnclientIpsecParameters operation sets the vpnclient ipsec policy for P2S client of virtual network gateway in the specified resource group through Network resource provider.
  *
  * @summary The Set VpnclientIpsecParameters operation sets the vpnclient ipsec policy for P2S client of virtual network gateway in the specified resource group through Network resource provider.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2024-05-01/examples/VirtualNetworkGatewaySetVpnClientIpsecParameters.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2024-07-01/examples/VirtualNetworkGatewaySetVpnClientIpsecParameters.json
  */
-async function setVirtualNetworkGatewayVpnClientIpsecParameters() {
+async function setVirtualNetworkGatewayVpnClientIpsecParameters(): Promise<void> {
   const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";
   const resourceGroupName = process.env["NETWORK_RESOURCE_GROUP"] || "rg1";
   const virtualNetworkGatewayName = "vpngw";
@@ -48,8 +45,8 @@ async function setVirtualNetworkGatewayVpnClientIpsecParameters() {
   console.log(result);
 }
 
-async function main() {
-  setVirtualNetworkGatewayVpnClientIpsecParameters();
+async function main(): Promise<void> {
+  await setVirtualNetworkGatewayVpnClientIpsecParameters();
 }
 
 main().catch(console.error);

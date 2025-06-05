@@ -10,17 +10,15 @@
 // Licensed under the MIT License.
 import { EventHubManagementClient } from "@azure/arm-eventhub";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Gets a list of authorization rules for a Namespace.
  *
  * @summary Gets a list of authorization rules for a Namespace.
- * x-ms-original-file: specification/eventhub/resource-manager/Microsoft.EventHub/stable/2024-01-01/examples/NameSpaces/EHNameSpaceAuthorizationRuleListAll.json
+ * x-ms-original-file: specification/eventhub/resource-manager/Microsoft.EventHub/preview/2024-05-01-preview/examples/NameSpaces/EHNameSpaceAuthorizationRuleListAll.json
  */
-async function listAuthorizationRules() {
+async function listAuthorizationRules(): Promise<void> {
   const subscriptionId =
     process.env["EVENTHUB_SUBSCRIPTION_ID"] ||
     "5f750a97-50d9-4e36-8081-c9ee4c0210d4";
@@ -39,8 +37,8 @@ async function listAuthorizationRules() {
   console.log(resArray);
 }
 
-async function main() {
-  listAuthorizationRules();
+async function main(): Promise<void> {
+  await listAuthorizationRules();
 }
 
 main().catch(console.error);

@@ -17,7 +17,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * @summary The Get Domain Service operation retrieves a json representation of the Domain Service.
  * x-ms-original-file: specification/domainservices/resource-manager/Microsoft.AAD/stable/2021-05-01/examples/GetDomainService.json
  */
-async function getDomainService() {
+async function getDomainService(): Promise<void> {
   const subscriptionId = "1639790a-76a2-4ac4-98d9-8562f5dfcb4d";
   const resourceGroupName = "TestResourceGroup";
   const domainServiceName = "TestDomainService.com";

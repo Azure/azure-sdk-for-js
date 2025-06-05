@@ -8,74 +8,74 @@
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import {
-    GroupContract,
-    ProductGroupCheckEntityExistsOptionalParams,
-    ProductGroupCheckEntityExistsResponse,
-    ProductGroupCreateOrUpdateOptionalParams,
-    ProductGroupCreateOrUpdateResponse,
-    ProductGroupDeleteOptionalParams,
-    ProductGroupListByProductOptionalParams
+  GroupContract,
+  ProductGroupListByProductOptionalParams,
+  ProductGroupCheckEntityExistsOptionalParams,
+  ProductGroupCheckEntityExistsResponse,
+  ProductGroupCreateOrUpdateOptionalParams,
+  ProductGroupCreateOrUpdateResponse,
+  ProductGroupDeleteOptionalParams,
 } from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a ProductGroup. */
 export interface ProductGroup {
-    /**
-     * Lists the collection of developer groups associated with the specified product.
-     * @param resourceGroupName The name of the resource group. The name is case insensitive.
-     * @param serviceName The name of the API Management service.
-     * @param productId Product identifier. Must be unique in the current API Management service instance.
-     * @param options The options parameters.
-     */
-    listByProduct(
-        resourceGroupName: string,
-        serviceName: string,
-        productId: string,
-        options?: ProductGroupListByProductOptionalParams
-    ): PagedAsyncIterableIterator<GroupContract>;
-    /**
-     * Checks that Group entity specified by identifier is associated with the Product entity.
-     * @param resourceGroupName The name of the resource group. The name is case insensitive.
-     * @param serviceName The name of the API Management service.
-     * @param productId Product identifier. Must be unique in the current API Management service instance.
-     * @param groupId Group identifier. Must be unique in the current API Management service instance.
-     * @param options The options parameters.
-     */
-    checkEntityExists(
-        resourceGroupName: string,
-        serviceName: string,
-        productId: string,
-        groupId: string,
-        options?: ProductGroupCheckEntityExistsOptionalParams
-    ): Promise<ProductGroupCheckEntityExistsResponse>;
-    /**
-     * Adds the association between the specified developer group with the specified product.
-     * @param resourceGroupName The name of the resource group. The name is case insensitive.
-     * @param serviceName The name of the API Management service.
-     * @param productId Product identifier. Must be unique in the current API Management service instance.
-     * @param groupId Group identifier. Must be unique in the current API Management service instance.
-     * @param options The options parameters.
-     */
-    createOrUpdate(
-        resourceGroupName: string,
-        serviceName: string,
-        productId: string,
-        groupId: string,
-        options?: ProductGroupCreateOrUpdateOptionalParams
-    ): Promise<ProductGroupCreateOrUpdateResponse>;
-    /**
-     * Deletes the association between the specified group and product.
-     * @param resourceGroupName The name of the resource group. The name is case insensitive.
-     * @param serviceName The name of the API Management service.
-     * @param productId Product identifier. Must be unique in the current API Management service instance.
-     * @param groupId Group identifier. Must be unique in the current API Management service instance.
-     * @param options The options parameters.
-     */
-    delete(
-        resourceGroupName: string,
-        serviceName: string,
-        productId: string,
-        groupId: string,
-        options?: ProductGroupDeleteOptionalParams
-    ): Promise<void>;
+  /**
+   * Lists the collection of developer groups associated with the specified product.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param serviceName The name of the API Management service.
+   * @param productId Product identifier. Must be unique in the current API Management service instance.
+   * @param options The options parameters.
+   */
+  listByProduct(
+    resourceGroupName: string,
+    serviceName: string,
+    productId: string,
+    options?: ProductGroupListByProductOptionalParams,
+  ): PagedAsyncIterableIterator<GroupContract>;
+  /**
+   * Checks that Group entity specified by identifier is associated with the Product entity.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param serviceName The name of the API Management service.
+   * @param productId Product identifier. Must be unique in the current API Management service instance.
+   * @param groupId Group identifier. Must be unique in the current API Management service instance.
+   * @param options The options parameters.
+   */
+  checkEntityExists(
+    resourceGroupName: string,
+    serviceName: string,
+    productId: string,
+    groupId: string,
+    options?: ProductGroupCheckEntityExistsOptionalParams,
+  ): Promise<ProductGroupCheckEntityExistsResponse>;
+  /**
+   * Adds the association between the specified developer group with the specified product.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param serviceName The name of the API Management service.
+   * @param productId Product identifier. Must be unique in the current API Management service instance.
+   * @param groupId Group identifier. Must be unique in the current API Management service instance.
+   * @param options The options parameters.
+   */
+  createOrUpdate(
+    resourceGroupName: string,
+    serviceName: string,
+    productId: string,
+    groupId: string,
+    options?: ProductGroupCreateOrUpdateOptionalParams,
+  ): Promise<ProductGroupCreateOrUpdateResponse>;
+  /**
+   * Deletes the association between the specified group and product.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param serviceName The name of the API Management service.
+   * @param productId Product identifier. Must be unique in the current API Management service instance.
+   * @param groupId Group identifier. Must be unique in the current API Management service instance.
+   * @param options The options parameters.
+   */
+  delete(
+    resourceGroupName: string,
+    serviceName: string,
+    productId: string,
+    groupId: string,
+    options?: ProductGroupDeleteOptionalParams,
+  ): Promise<void>;
 }

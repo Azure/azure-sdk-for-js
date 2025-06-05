@@ -13,9 +13,7 @@ import {
   SourceControlConfigurationClient
 } from "@azure/arm-kubernetesconfiguration";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Create a new Kubernetes Flux Configuration.
@@ -23,7 +21,7 @@ dotenv.config();
  * @summary Create a new Kubernetes Flux Configuration.
  * x-ms-original-file: specification/kubernetesconfiguration/resource-manager/Microsoft.KubernetesConfiguration/stable/2023-05-01/examples/CreateFluxConfiguration.json
  */
-async function createFluxConfiguration() {
+async function createFluxConfiguration(): Promise<void> {
   const subscriptionId =
     process.env["KUBERNETESCONFIGURATION_SUBSCRIPTION_ID"] || "subId1";
   const resourceGroupName =
@@ -99,7 +97,7 @@ async function createFluxConfiguration() {
  * @summary Create a new Kubernetes Flux Configuration.
  * x-ms-original-file: specification/kubernetesconfiguration/resource-manager/Microsoft.KubernetesConfiguration/stable/2023-05-01/examples/CreateFluxConfigurationWithBucket.json
  */
-async function createFluxConfigurationWithBucketSourceKind() {
+async function createFluxConfigurationWithBucketSourceKind(): Promise<void> {
   const subscriptionId =
     process.env["KUBERNETESCONFIGURATION_SUBSCRIPTION_ID"] || "subId1";
   const resourceGroupName =
@@ -153,7 +151,7 @@ async function createFluxConfigurationWithBucketSourceKind() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   createFluxConfiguration();
   createFluxConfigurationWithBucketSourceKind();
 }

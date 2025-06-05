@@ -6,13 +6,12 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
 import {
   AnalyticsItemsDeleteOptionalParams,
-  ApplicationInsightsManagementClient
+  ApplicationInsightsManagementClient,
 } from "@azure/arm-appinsights";
 import { DefaultAzureCredential } from "@azure/identity";
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Deletes a specific Analytics Items defined within an Application Insights component.
@@ -20,9 +19,11 @@ import { DefaultAzureCredential } from "@azure/identity";
  * @summary Deletes a specific Analytics Items defined within an Application Insights component.
  * x-ms-original-file: specification/applicationinsights/resource-manager/Microsoft.Insights/stable/2015-05-01/examples/AnalyticsItemDelete.json
  */
-async function analyticsItemDelete() {
-  const subscriptionId = "subid";
-  const resourceGroupName = "my-resource-group";
+async function analyticsItemDelete(): Promise<void> {
+  const subscriptionId =
+    process.env["APPLICATIONINSIGHTS_SUBSCRIPTION_ID"] || "subid";
+  const resourceGroupName =
+    process.env["APPLICATIONINSIGHTS_RESOURCE_GROUP"] || "my-resource-group";
   const resourceName = "my-component";
   const scopePath = "analyticsItems";
   const id = "3466c160-4a10-4df8-afdf-0007f3f6dee5";
@@ -30,15 +31,19 @@ async function analyticsItemDelete() {
   const credential = new DefaultAzureCredential();
   const client = new ApplicationInsightsManagementClient(
     credential,
-    subscriptionId
+    subscriptionId,
   );
   const result = await client.analyticsItems.delete(
     resourceGroupName,
     resourceName,
     scopePath,
-    options
+    options,
   );
   console.log(result);
 }
 
-analyticsItemDelete().catch(console.error);
+async function main(): Promise<void> {
+  await analyticsItemDelete();
+}
+
+main().catch(console.error);

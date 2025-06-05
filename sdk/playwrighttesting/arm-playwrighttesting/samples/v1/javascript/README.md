@@ -61,6 +61,6 @@ Take a look at our [API Documentation][apiref] for more information about the AP
 [operationslistsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/playwrighttesting/arm-playwrighttesting/samples/v1/javascript/operationsListSample.js
 [quotasgetsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/playwrighttesting/arm-playwrighttesting/samples/v1/javascript/quotasGetSample.js
 [quotaslistbysubscriptionsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/playwrighttesting/arm-playwrighttesting/samples/v1/javascript/quotasListBySubscriptionSample.js
-[apiref]: https://docs.microsoft.com/javascript/api/@azure/arm-playwrighttesting?view=azure-node-preview
+[apiref]: https://learn.microsoft.com/javascript/api/@azure/arm-playwrighttesting?view=azure-node-preview
 [freesub]: https://azure.microsoft.com/free/
 [package]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/playwrighttesting/arm-playwrighttesting/README.md

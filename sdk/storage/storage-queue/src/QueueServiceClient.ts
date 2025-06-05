@@ -3,7 +3,7 @@
 
 import type { TokenCredential } from "@azure/core-auth";
 import { isTokenCredential } from "@azure/core-auth";
-import { isNode } from "@azure/core-util";
+import { isNodeLike } from "@azure/core-util";
 import type {
   QueueCreateResponse,
   QueueDeleteResponse,
@@ -19,33 +19,33 @@ import type {
   ServiceSetPropertiesHeaders,
   ServiceGetStatisticsHeaders,
   QueueServiceStatistics,
-} from "./generatedModels";
+} from "./generatedModels.js";
 import type { AbortSignalLike } from "@azure/abort-controller";
-import type { Service } from "./generated/src/operationsInterfaces";
-import type { StoragePipelineOptions, Pipeline } from "./Pipeline";
-import { newPipeline, isPipelineLike } from "./Pipeline";
-import type { CommonOptions } from "./StorageClient";
-import { StorageClient } from "./StorageClient";
+import type { Service } from "./generated/src/operationsInterfaces/index.js";
+import type { StoragePipelineOptions, Pipeline } from "./Pipeline.js";
+import { newPipeline, isPipelineLike } from "./Pipeline.js";
+import type { CommonOptions } from "./StorageClient.js";
+import { StorageClient } from "./StorageClient.js";
 import type { PageSettings, PagedAsyncIterableIterator } from "@azure/core-paging";
 import {
   appendToURLPath,
   appendToURLQuery,
   extractConnectionStringParts,
   assertResponse,
-} from "./utils/utils.common";
-import { StorageSharedKeyCredential } from "../../storage-blob/src/credentials/StorageSharedKeyCredential";
-import { AnonymousCredential } from "../../storage-blob/src/credentials/AnonymousCredential";
-import { tracingClient } from "./utils/tracing";
-import type { QueueCreateOptions, QueueDeleteOptions } from "./QueueClient";
-import { QueueClient } from "./QueueClient";
-import { AccountSASPermissions } from "./AccountSASPermissions";
+} from "./utils/utils.common.js";
+import { StorageSharedKeyCredential } from "@azure/storage-blob";
+import { AnonymousCredential } from "@azure/storage-blob";
+import { tracingClient } from "./utils/tracing.js";
+import type { QueueCreateOptions, QueueDeleteOptions } from "./QueueClient.js";
+import { QueueClient } from "./QueueClient.js";
+import { AccountSASPermissions } from "./AccountSASPermissions.js";
 import {
   generateAccountSASQueryParameters,
   generateAccountSASQueryParametersInternal,
-} from "./AccountSASSignatureValues";
-import { AccountSASServices } from "./AccountSASServices";
-import type { SASProtocol } from "./SASQueryParameters";
-import type { SasIPRange } from "./SasIPRange";
+} from "./AccountSASSignatureValues.js";
+import { AccountSASServices } from "./AccountSASServices.js";
+import type { SASProtocol } from "./SASQueryParameters.js";
+import type { SasIPRange } from "./SasIPRange.js";
 import { getDefaultProxySettings } from "@azure/core-rest-pipeline";
 
 /**
@@ -190,7 +190,7 @@ export class QueueServiceClient extends StorageClient {
     options = options || {};
     const extractedCreds = extractConnectionStringParts(connectionString);
     if (extractedCreds.kind === "AccountConnString") {
-      if (isNode) {
+      if (isNodeLike) {
         const sharedKeyCredential = new StorageSharedKeyCredential(
           extractedCreds.accountName!,
           extractedCreds.accountKey,
@@ -229,31 +229,41 @@ export class QueueServiceClient extends StorageClient {
    *
    * Example using DefaultAzureCredential from `@azure/identity`:
    *
-   * ```js
-   * const account = "<account>";
+   * ```ts snippet:ReadmeSampleCreateClient_DefaultAzureCredential
+   * import { DefaultAzureCredential } from "@azure/identity";
+   * import { QueueServiceClient } from "@azure/storage-queue";
    *
+   * const account = "<account>";
    * const credential = new DefaultAzureCredential();
    *
    * const queueServiceClient = new QueueServiceClient(
    *   `https://${account}.queue.core.windows.net`,
-   *   credential
-   * }
+   *   credential,
+   * );
    * ```
    *
    * Example using an account name/key:
    *
-   * ```js
-   * const account = "<account>";
+   * ```ts snippet:ReadmeSampleCreateClient_StorageSharedKeyCredential
+   * import { StorageSharedKeyCredential, QueueServiceClient } from "@azure/storage-queue";
    *
-   * const sharedKeyCredential = new StorageSharedKeyCredential(account, "<account key>");
+   * // Enter your storage account name and shared key
+   * const account = "<account>";
+   * const accountKey = "<accountkey>";
+   *
+   * // Use StorageSharedKeyCredential with storage account and account key
+   * // StorageSharedKeyCredential is only available in Node.js runtime, not in browsers
+   * const sharedKeyCredential = new StorageSharedKeyCredential(account, accountKey);
    *
    * const queueServiceClient = new QueueServiceClient(
    *   `https://${account}.queue.core.windows.net`,
    *   sharedKeyCredential,
    *   {
    *     retryOptions: { maxTries: 4 }, // Retry options
-   *     telemetry: { value: "BasicSample/V11.0.0" } // Customized telemetry string
-   *   }
+   *     userAgentOptions: {
+   *       userAgentPrefix: "BasicSample V10.0.0",
+   *     }, // Customized telemetry string
+   *   },
    * );
    * ```
    */
@@ -289,7 +299,7 @@ export class QueueServiceClient extends StorageClient {
     if (isPipelineLike(credentialOrPipeline)) {
       pipeline = credentialOrPipeline;
     } else if (
-      (isNode && credentialOrPipeline instanceof StorageSharedKeyCredential) ||
+      (isNodeLike && credentialOrPipeline instanceof StorageSharedKeyCredential) ||
       credentialOrPipeline instanceof AnonymousCredential ||
       isTokenCredential(credentialOrPipeline)
     ) {
@@ -310,9 +320,22 @@ export class QueueServiceClient extends StorageClient {
    *
    * Example usage:
    *
-   * ```js
-   * const queueClient = queueServiceClient.getQueueClient("<new queue name>");
+   * ```ts snippet:ReadmeSampleCreateQueue
+   * import { QueueServiceClient } from "@azure/storage-queue";
+   * import { DefaultAzureCredential } from "@azure/identity";
+   *
+   * const account = "<account>";
+   * const queueServiceClient = new QueueServiceClient(
+   *   `https://${account}.queue.core.windows.net`,
+   *   new DefaultAzureCredential(),
+   * );
+   *
+   * const queueName = "<valid queue name>";
+   * const queueClient = queueServiceClient.getQueueClient(queueName);
    * const createQueueResponse = await queueClient.create();
+   * console.log(
+   *   `Created queue ${queueName} successfully, service assigned request Id: ${createQueueResponse.requestId}`,
+   * );
    * ```
    */
   public getQueueClient(queueName: string): QueueClient {
@@ -321,7 +344,7 @@ export class QueueServiceClient extends StorageClient {
 
   /**
    * Returns a list of the queues under the specified account.
-   * @see https://docs.microsoft.com/en-us/rest/api/storageservices/list-queues1
+   * @see https://learn.microsoft.com/en-us/rest/api/storageservices/list-queues1
    *
    * @param marker - A string value that identifies the portion of
    *                        the list of queues to be returned with the next listing operation. The
@@ -416,68 +439,93 @@ export class QueueServiceClient extends StorageClient {
    *
    * Example using `for await` syntax:
    *
-   * ```js
+   * ```ts snippet:ReadmeSampleListQueues
+   * import { QueueServiceClient } from "@azure/storage-queue";
+   * import { DefaultAzureCredential } from "@azure/identity";
+   *
+   * const account = "<account>";
+   * const queueServiceClient = new QueueServiceClient(
+   *   `https://${account}.queue.core.windows.net`,
+   *   new DefaultAzureCredential(),
+   * );
+   *
    * let i = 1;
    * for await (const item of queueServiceClient.listQueues()) {
-   *   console.log(`Queue${i}: ${item.name}`);
-   *   i++;
+   *   console.log(`Queue${i++}: ${item.name}`);
    * }
    * ```
    *
    * Example using `iter.next()`:
    *
-   * ```js
+   * ```ts snippet:ReadmeSampleListQueues_Iterator
+   * import { QueueServiceClient } from "@azure/storage-queue";
+   * import { DefaultAzureCredential } from "@azure/identity";
+   *
+   * const account = "<account>";
+   * const queueServiceClient = new QueueServiceClient(
+   *   `https://${account}.queue.core.windows.net`,
+   *   new DefaultAzureCredential(),
+   * );
+   *
    * let i = 1;
-   * let iterator = queueServiceClient.listQueues();
-   * let item = await iterator.next();
-   * while (!item.done) {
-   *   console.log(`Queue${i}: ${item.value.name}`);
-   *   i++;
-   *   item = await iterator.next();
+   * const iterator = queueServiceClient.listQueues();
+   * let { done, value } = await iterator.next();
+   * while (!done) {
+   *   console.log(`Queue${i++}: ${value.name}`);
+   *   ({ done, value } = await iterator.next());
    * }
    * ```
    *
    * Example using `byPage()`:
    *
-   * ```js
-   * // passing optional maxPageSize in the page settings
+   * ```ts snippet:ReadmeSampleListQueues_ByPage
+   * import { QueueServiceClient } from "@azure/storage-queue";
+   * import { DefaultAzureCredential } from "@azure/identity";
+   *
+   * const account = "<account>";
+   * const queueServiceClient = new QueueServiceClient(
+   *   `https://${account}.queue.core.windows.net`,
+   *   new DefaultAzureCredential(),
+   * );
+   *
    * let i = 1;
-   * for await (const item2 of queueServiceClient.listQueues().byPage({ maxPageSize: 20 })) {
-   *   if (item2.queueItems) {
-   *     for (const queueItem of item2.queueItems) {
-   *       console.log(`Queue${i}: ${queueItem.name}`);
-   *       i++;
-   *     }
+   * for await (const page of queueServiceClient.listQueues().byPage({ maxPageSize: 20 })) {
+   *   for (const item of page.queueItems || []) {
+   *     console.log(`Queue${i++}: ${item.name}`);
    *   }
    * }
    * ```
    *
    * Example using paging with a marker:
    *
-   * ```js
+   * ```ts snippet:ReadmeSampleListQueues_Continuation
+   * import { QueueServiceClient } from "@azure/storage-queue";
+   * import { DefaultAzureCredential } from "@azure/identity";
+   *
+   * const account = "<account>";
+   * const queueServiceClient = new QueueServiceClient(
+   *   `https://${account}.queue.core.windows.net`,
+   *   new DefaultAzureCredential(),
+   * );
+   *
    * let i = 1;
    * let iterator = queueServiceClient.listQueues().byPage({ maxPageSize: 2 });
-   * let item = (await iterator.next()).value;
-   *
-   * // Prints 2 queue names
-   * if (item.queueItems) {
-   *   for (const queueItem of item.queueItems) {
-   *     console.log(`Queue${i}: ${queueItem.name}`);
-   *     i++;
+   * let response = (await iterator.next()).value;
+   * // Prints 2 queues
+   * if (response.queueItems) {
+   *   for (const item of response.queueItems) {
+   *     console.log(`Queue${i++}: ${item.name}`);
    *   }
    * }
    * // Gets next marker
-   * let marker = item.continuationToken;
-   *
+   * let marker = response.continuationToken;
    * // Passing next marker as continuationToken
    * iterator = queueServiceClient.listQueues().byPage({ continuationToken: marker, maxPageSize: 10 });
-   * item = (await iterator.next()).value;
-   *
-   * // Prints 10 queue names
-   * if (item.queueItems) {
-   *   for (const queueItem of item.queueItems) {
-   *     console.log(`Queue${i}: ${queueItem.name}`);
-   *     i++;
+   * response = (await iterator.next()).value;
+   * // Prints 10 queues
+   * if (response.queueItems) {
+   *   for (const item of response.queueItems) {
+   *     console.log(`Queue${i++}: ${item.name}`);
    *   }
    * }
    * ```
@@ -527,7 +575,7 @@ export class QueueServiceClient extends StorageClient {
   /**
    * Gets the properties of a storage account’s Queue service, including properties
    * for Storage Analytics and CORS (Cross-Origin Resource Sharing) rules.
-   * @see https://docs.microsoft.com/en-us/rest/api/storageservices/get-queue-service-properties
+   * @see https://learn.microsoft.com/en-us/rest/api/storageservices/get-queue-service-properties
    *
    * @param options - Options to get properties operation.
    * @returns Response data including the queue service properties.
@@ -551,7 +599,7 @@ export class QueueServiceClient extends StorageClient {
   /**
    * Sets properties for a storage account’s Queue service endpoint, including properties
    * for Storage Analytics, CORS (Cross-Origin Resource Sharing) rules and soft delete settings.
-   * @see https://docs.microsoft.com/en-us/rest/api/storageservices/set-queue-service-properties
+   * @see https://learn.microsoft.com/en-us/rest/api/storageservices/set-queue-service-properties
    *
    * @param properties -
    * @param options - Options to set properties operation.
@@ -576,7 +624,7 @@ export class QueueServiceClient extends StorageClient {
    * Retrieves statistics related to replication for the Queue service. It is only
    * available on the secondary location endpoint when read-access geo-redundant
    * replication is enabled for the storage account.
-   * @see https://docs.microsoft.com/en-us/rest/api/storageservices/get-queue-service-stats
+   * @see https://learn.microsoft.com/en-us/rest/api/storageservices/get-queue-service-stats
    *
    * @param options - Options to get statistics operation.
    * @returns Response data for get statistics the operation.
@@ -599,7 +647,7 @@ export class QueueServiceClient extends StorageClient {
 
   /**
    * Creates a new queue under the specified account.
-   * @see https://docs.microsoft.com/en-us/rest/api/storageservices/create-queue4
+   * @see https://learn.microsoft.com/en-us/rest/api/storageservices/create-queue4
    *
    * @param queueName - name of the queue to create
    * @param options - Options to Queue create operation.
@@ -620,7 +668,7 @@ export class QueueServiceClient extends StorageClient {
 
   /**
    * Deletes the specified queue permanently.
-   * @see https://docs.microsoft.com/en-us/rest/api/storageservices/delete-queue3
+   * @see https://learn.microsoft.com/en-us/rest/api/storageservices/delete-queue3
    *
    * @param queueName - name of the queue to delete.
    * @param options - Options to Queue delete operation.
@@ -645,7 +693,7 @@ export class QueueServiceClient extends StorageClient {
    * Generates an account Shared Access Signature (SAS) URI based on the client properties
    * and parameters passed in. The SAS is signed by the shared key credential of the client.
    *
-   * @see https://docs.microsoft.com/en-us/rest/api/storageservices/create-account-sas
+   * @see https://learn.microsoft.com/en-us/rest/api/storageservices/create-account-sas
    *
    * @param expiresOn - Optional. The time at which the shared access signature becomes invalid. Default to an hour later if not specified.
    * @param permissions - Specifies the list of permissions to be associated with the SAS.
@@ -690,7 +738,7 @@ export class QueueServiceClient extends StorageClient {
    * Generates string to sign for an account Shared Access Signature (SAS) URI based on the client properties
    * and parameters passed in. The SAS is signed by the shared key credential of the client.
    *
-   * @see https://docs.microsoft.com/en-us/rest/api/storageservices/create-account-sas
+   * @see https://learn.microsoft.com/en-us/rest/api/storageservices/create-account-sas
    *
    * @param expiresOn - Optional. The time at which the shared access signature becomes invalid. Default to an hour later if not specified.
    * @param permissions - Specifies the list of permissions to be associated with the SAS.

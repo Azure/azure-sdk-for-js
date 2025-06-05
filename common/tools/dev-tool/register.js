@@ -26,9 +26,12 @@ const { name: hostPackageName } = main.require("./package.json");
 // If we're bootstrapping a dev-tool command, we need to patch the package from
 // CWD instead.  This will still end up being dev-tool if we end up in a
 // self-hosting situation where dev-tool calls itself from its own scripts.
+const packageJsonPath = path.join(cwd, "package.json");
 const packageNameToPatch =
   hostPackageName === "@azure/dev-tool"
-    ? require(path.join(cwd, "package.json")).name
+    ? existsSync(packageJsonPath)
+      ? require(packageJsonPath).name
+      : hostPackageName
     : hostPackageName;
 
 if (process.env.DEBUG) {

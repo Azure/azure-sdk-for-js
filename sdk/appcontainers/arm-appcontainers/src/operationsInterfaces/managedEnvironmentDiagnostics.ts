@@ -11,7 +11,7 @@ import {
   ManagedEnvironmentDiagnosticsListDetectorsResponse,
   ManagedEnvironmentDiagnosticsGetDetectorOptionalParams,
   ManagedEnvironmentDiagnosticsGetDetectorResponse,
-} from "../models";
+} from "../models/index.js";
 
 /** Interface representing a ManagedEnvironmentDiagnostics. */
 export interface ManagedEnvironmentDiagnostics {

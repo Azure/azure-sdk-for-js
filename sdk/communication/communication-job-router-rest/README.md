@@ -82,8 +82,8 @@ In the `RouterQuickStart` folder, install the ACS Job Router SDK by executing `n
 
 First we need to construct an `AzureCommunicationRoutingServiceClient`.
 
-```js
-const JobRouterClient = require("@azure-rest/communication-job-router").default;
+```ts snippet:ReadmeSampleCreateClient
+import JobRouterClient from "@azure-rest/communication-job-router";
 
 const connectionString =
   "endpoint=https://<YOUR_ACS>.communication.azure.com/;accesskey=<YOUR_ACCESS_KEY>";
@@ -94,20 +94,27 @@ const routerClient = JobRouterClient(connectionString);
 
 This policy determines which workers will receive job offers as jobs are distributed off their queues.
 
-```js
-const distributionPolicyId = "distribution-policy-id-1";
-const distributionPolicy = await routerClient
-  .path("/routing/distributionPolicies/{id}", distributionPolicyId)
+```ts snippet:ReadmeSampleCreateDistributionPolicy
+import JobRouterClient from "@azure-rest/communication-job-router";
+
+const connectionString =
+  "endpoint=https://<YOUR_ACS>.communication.azure.com/;accesskey=<YOUR_ACCESS_KEY>";
+const routerClient = JobRouterClient(connectionString);
+
+const id = "distribution-policy-123";
+const result = await routerClient
+  .path("/routing/distributionPolicies/{distributionPolicyId}", id)
   .patch({
     contentType: "application/merge-patch+json",
     body: {
-      name: "Default Distribution Policy",
-      offerExpiresAfterSeconds: 30,
+      name: "distribution-policy-123",
       mode: {
         kind: "longestIdle",
         minConcurrentOffers: 1,
-        maxConcurrentOffers: 3,
+        maxConcurrentOffers: 5,
+        bypassSelectors: false,
       },
+      offerExpiresAfterSeconds: 120,
     },
   });
 ```
@@ -116,14 +123,20 @@ const distributionPolicy = await routerClient
 
 This queue offers jobs to workers according to our previously created distribution policy.
 
-```js
-const salesQueueId = "sales-queue-id-1";
-const salesQueue = await routerClient.path("/routing/queues/{id}", salesQueueId).patch({
+```ts snippet:ReadmeSampleCreateQueue
+import JobRouterClient from "@azure-rest/communication-job-router";
+
+const connectionString =
+  "endpoint=https://<YOUR_ACS>.communication.azure.com/;accesskey=<YOUR_ACCESS_KEY>";
+const routerClient = JobRouterClient(connectionString);
+
+const distributionPolicyId = "distribution-policy-123";
+const queueId = "queue-123";
+const result = await routerClient.path("/routing/queues/{queueId}", queueId).patch({
   contentType: "application/merge-patch+json",
   body: {
     distributionPolicyId: distributionPolicyId,
     name: "Main",
-    labels: {},
   },
 });
 ```
@@ -135,44 +148,20 @@ These workers are assigned to our previously created "Sales" queue and have some
 - setting `availableForOffers` to `true` means these workers are ready to accept job offers.
 - refer to our [labels documentation](https://learn.microsoft.com/azure/communication-services/concepts/router/concepts#labels) to better understand labels and label selectors.
 
-```js
-// Create worker "Alice".
-const workerAliceId = "773accfb-476e-42f9-a202-b211b41a4ea4";
-const workerAlice = await routerClient.path("/routing/workers/{id}", workerAliceId).patch({
-  contentType: "application/merge-patch+json",
-  body: {
-    capacity: 120,
-    queues: [salesQueueId],
-    labels: {
-      Xbox: 5,
-      german: 4,
-      name: "Alice",
-    },
-    channels: [
-      {
-        channelId: "CustomChatChannel",
-        capacityCostPerJob: 10,
-      },
-      {
-        channelId: "CustomVoiceChannel",
-        capacityCostPerJob: 100,
-      },
-    ],
-  },
-});
+```ts snippet:ReadmeSampleCreateWorkers
+import JobRouterClient from "@azure-rest/communication-job-router";
 
-// Create worker "Bob".
-const workerBobId = "21837c88-6967-4078-86b9-1207821a8392";
-const workerBob = await routerClient.path("/routing/workers/{id}", workerBobId).patch({
+const connectionString =
+  "endpoint=https://<YOUR_ACS>.communication.azure.com/;accesskey=<YOUR_ACCESS_KEY>";
+const routerClient = JobRouterClient(connectionString);
+
+const id = "router-worker-123";
+const result = await routerClient.path("/routing/workers/{workerId}", id).patch({
   contentType: "application/merge-patch+json",
   body: {
     capacity: 100,
-    queues: [salesQueueId],
-    labels: {
-      Xbox: 5,
-      english: 3,
-      name: "Alice",
-    },
+    queues: ["MainQueue", "SecondaryQueue"],
+    labels: {},
     channels: [
       {
         channelId: "CustomChatChannel",
@@ -193,17 +182,24 @@ Refer to our [job lifecycle documentation](https://learn.microsoft.com/azure/com
 
 ### Create a Job
 
-This job is enqueued on our previously created "Sales" queue.
+We can create a job with the following:
 
-```js
+```ts snippet:ReadmeSampleCreateJob
+import JobRouterClient from "@azure-rest/communication-job-router";
+
+const connectionString =
+  "endpoint=https://<YOUR_ACS>.communication.azure.com/;accesskey=<YOUR_ACCESS_KEY>";
+const routerClient = JobRouterClient(connectionString);
+
+const queueId = "queue-123";
 const jobId = "router-job-123";
-const result = await routerClient.path("/routing/jobs/{id}", jobId).patch({
+const result = await routerClient.path("/routing/jobs/{jobId}", jobId).patch({
   contentType: "application/merge-patch+json",
   body: {
-    channelReference: "66e4362e-aad5-4d71-bb51-448672ebf492",
-    channelId: "voice",
+    channelId: "ChatChannel",
+    queueId: queueId,
+    channelReference: "abc",
     priority: 2,
-    queueId: salesQueueId,
     labels: {},
   },
 });
@@ -215,31 +211,40 @@ const result = await routerClient.path("/routing/jobs/{id}", jobId).patch({
 
 This policy classifies jobs upon creation.
 
-```js
-const classificationPolicyId = "classification-policy-1";
-const classificationPolicy = await routerClient
-  .path("/routing/classificationPolicies/{id}", classificationPolicyId)
+```ts snippet:ReadmeSampleCreateClassificationPolicy
+import JobRouterClient from "@azure-rest/communication-job-router";
+
+const connectionString =
+  "endpoint=https://<YOUR_ACS>.communication.azure.com/;accesskey=<YOUR_ACCESS_KEY>";
+const routerClient = JobRouterClient(connectionString);
+
+const classificationPolicyId = "classification-policy-123";
+
+const result = await routerClient
+  .path("/routing/classificationPolicies/{classificationPolicyId}", classificationPolicyId)
   .patch({
     contentType: "application/merge-patch+json",
     body: {
-      name: "Default Classification Policy",
-      fallbackQueueId: salesQueueId,
+      name: "test-policy",
+      fallbackQueueId: "queue-123",
       queueSelectorAttachments: [
         {
-          kind: "static",
-          queueSelector: { key: "department", labelOperator: "equal", value: "xbox" },
-        },
-      ],
-      workerSelectorAttachments: [
-        {
-          kind: "static",
-          workerSelector: { key: "english", labelOperator: "greaterThan", value: 5 },
+          kind: "conditional",
+          queueSelectors: [
+            {
+              key: "foo",
+              labelOperator: "equal",
+              value: { default: 10 },
+            },
+          ],
+          condition: {
+            kind: "direct-map-rule",
+          },
         },
       ],
       prioritizationRule: {
-        kind: "expression",
-        language: "powerFx",
-        expression: 'If(job.department = "xbox", 2, 1)',
+        kind: "static",
+        value: { default: 2 },
       },
     },
   });
@@ -252,13 +257,21 @@ const classificationPolicy = await routerClient
 
 This job will be classified with our previously created classification policy. It also has a label.
 
-```js
-const job = await routerClient.path("/routing/jobs/{id}", jobId).patch({
+```ts snippet:ReadmeSampleCreateJobWithClassificationPolicy
+import JobRouterClient from "@azure-rest/communication-job-router";
+
+const connectionString =
+  "endpoint=https://<YOUR_ACS>.communication.azure.com/;accesskey=<YOUR_ACCESS_KEY>";
+const routerClient = JobRouterClient(connectionString);
+
+const jobId = "router-job-123";
+const classificationPolicyId = "classification-policy-123";
+const job = await routerClient.path("/routing/jobs/{jobId}", jobId).patch({
   contentType: "application/merge-patch+json",
   body: {
     channelReference: "66e4362e-aad5-4d71-bb51-448672ebf492",
     channelId: "voice",
-    classificationPolicyId: classificationPolicy.body.id,
+    classificationPolicyId: classificationPolicyId,
     labels: {
       department: "xbox",
     },
@@ -320,9 +333,7 @@ One way to subscribe to ACS Job Router events is through the Azure Portal.
 
 Refer to our ["subscribe to Job Router events" documentation](https://learn.microsoft.com/azure/communication-services/how-tos/router-sdk/subscribe-events) to better understand subscribing to Job Router events.
 
-The route in your NodeJS application that receives events may look something like this:
-
-```js
+```ts snippet:ignore
 app.post('/event', (req, res) => {
     req.body.forEach(eventGridEvent => {
         // Deserialize the event data into the appropriate type
@@ -343,11 +354,21 @@ Once you receive a `RouterWorkerOfferIssued` event you can accept or decline the
 - `workerId` - Id of the worker accepting or declining the job offer.
 - `offerId` - Id of the offer being accepted or declined.
 
-```js
+```ts snippet:ReadmeSampleAcceptOrDeclineOffer
+import JobRouterClient from "@azure-rest/communication-job-router";
+
+const connectionString =
+  "endpoint=https://<YOUR_ACS>.communication.azure.com/;accesskey=<YOUR_ACCESS_KEY>";
+const routerClient = JobRouterClient(connectionString);
+
+const workerId = "router-worker-123";
+const offerId = "offer-id";
+
+// Accept the job offer
 const acceptResponse = await routerClient
   .path("/routing/workers/{workerId}/offers/{offerId}:accept", workerId, offerId)
   .post();
-// or
+// or decline the job offer
 const declineResponse = await routerClient
   .path("/routing/workers/{workerId}/offers/{offerId}:decline", workerId, offerId)
   .post();
@@ -357,13 +378,19 @@ const declineResponse = await routerClient
 
 The `assignmentId` received from the previous step's response is required to complete the job. Completing the job puts it in the wrap-up phase of its lifecycle.
 
-```ts
+```ts snippet:ReadmeSampleCompleteJob
+import JobRouterClient from "@azure-rest/communication-job-router";
+
+const connectionString =
+  "endpoint=https://<YOUR_ACS>.communication.azure.com/;accesskey=<YOUR_ACCESS_KEY>";
+const routerClient = JobRouterClient(connectionString);
+
+const workerId = "router-worker-123";
+const jobId = "job-id";
+const assignmentId = "assignment-id";
+
 const completeJob = await routerClient
-  .path(
-    "/routing/jobs/{jobId}/assignments/{assignmentId}:complete",
-    jobId,
-    acceptResponse.body.assignmentId,
-  )
+  .path("/routing/jobs/{jobId}/assignments/{assignmentId}:complete", jobId, assignmentId)
   .post({
     body: {
       note: `Job has been completed by ${workerId} at ${new Date()}`,
@@ -375,13 +402,19 @@ const completeJob = await routerClient
 
 Once the worker has completed the wrap-up phase of the job we can close the job and attach a note to it for future reference.
 
-```ts
+```ts snippet:ReadmeSampleCloseJob
+import JobRouterClient from "@azure-rest/communication-job-router";
+
+const connectionString =
+  "endpoint=https://<YOUR_ACS>.communication.azure.com/;accesskey=<YOUR_ACCESS_KEY>";
+const routerClient = JobRouterClient(connectionString);
+
+const workerId = "router-worker-123";
+const jobId = "job-id";
+const assignmentId = "assignment-id";
+
 const closeJob = await routerClient
-  .path(
-    "/routing/jobs/{jobId}/assignments/{assignmentId}:close",
-    jobId,
-    acceptResponse.body.assignmentId,
-  )
+  .path("/routing/jobs/{jobId}/assignments/{assignmentId}:close", jobId, assignmentId)
   .post({
     body: {
       note: `Job has been closed by ${workerId} at ${new Date()}`,
@@ -395,8 +428,8 @@ const closeJob = await routerClient
 
 Enabling logging may help uncover useful information about failures. In order to see a log of HTTP requests and responses, set the `AZURE_LOG_LEVEL` environment variable to `info`. Alternatively, logging can be enabled at runtime by calling `setLogLevel` in the `@azure/logger`:
 
-```javascript
-const { setLogLevel } = require("@azure/logger");
+```ts snippet:SetLogLevel
+import { setLogLevel } from "@azure/logger";
 
 setLogLevel("info");
 ```

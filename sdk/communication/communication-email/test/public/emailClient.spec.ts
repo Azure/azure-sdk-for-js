@@ -4,31 +4,31 @@
 import type { EmailClient, EmailMessage } from "../../src/index.js";
 import { KnownEmailSendStatus } from "../../src/index.js";
 import type { Recorder } from "@azure-tools/test-recorder";
-import { env } from "@azure-tools/test-recorder";
-import { createRecordedEmailClientWithConnectionString } from "./utils/recordedClient.js";
+import { createClient } from "./utils/recordedClient.js";
 import { describe, it, assert, beforeEach, afterEach } from "vitest";
+import { getRecipientAddress, getSenderAddress, isPlaybackMode } from "../utils/injectables.js";
+
+const options = { updateIntervalInMs: isPlaybackMode() ? 0 : 3000 };
 
 describe(`EmailClient [Playback/Live]`, () => {
   let recorder: Recorder;
   let client: EmailClient;
 
   beforeEach(async (ctx) => {
-    ({ client, recorder } = await createRecordedEmailClientWithConnectionString(ctx));
+    ({ client, recorder } = await createClient(ctx));
   });
 
-  afterEach(async (ctx) => {
-    if (!ctx.task.pending) {
-      await recorder.stop();
-    }
+  afterEach(async () => {
+    await recorder.stop();
   });
 
-  it("successfully sends an email to a single recipient", { timeout: 120000 }, async () => {
+  it("successfully sends an email to a single recipient", async () => {
     const emailMessage: EmailMessage = {
-      senderAddress: env.SENDER_ADDRESS || "",
+      senderAddress: getSenderAddress(),
       recipients: {
         to: [
           {
-            address: env.RECIPIENT_ADDRESS || "",
+            address: getRecipientAddress(),
             displayName: "someRecipient",
           },
         ],
@@ -40,7 +40,7 @@ describe(`EmailClient [Playback/Live]`, () => {
       },
     };
 
-    const poller = await client.beginSend(emailMessage);
+    const poller = await client.beginSend(emailMessage, options);
     const response = await poller.pollUntilDone();
 
     assert.isTrue(response.status === KnownEmailSendStatus.Succeeded);
@@ -51,27 +51,27 @@ describe(`EmailClient [Playback/Live]`, () => {
     { timeout: 120000 },
     async () => {
       const emailMessage: EmailMessage = {
-        senderAddress: env.SENDER_ADDRESS ?? "",
+        senderAddress: getSenderAddress(),
         recipients: {
           to: [
             {
-              address: env.RECIPIENT_ADDRESS ?? "",
+              address: getRecipientAddress(),
               displayName: "someRecipient",
             },
             {
-              address: env.RECIPIENT_ADDRESS ?? "",
+              address: getRecipientAddress(),
               displayName: "someRecipient",
             },
           ],
           cc: [
             {
-              address: env.RECIPIENT_ADDRESS ?? "",
+              address: getRecipientAddress(),
               displayName: "someRecipient",
             },
           ],
           bcc: [
             {
-              address: env.RECIPIENT_ADDRESS ?? "",
+              address: getRecipientAddress(),
               displayName: "someRecipient",
             },
           ],
@@ -83,20 +83,20 @@ describe(`EmailClient [Playback/Live]`, () => {
         },
       };
 
-      const poller = await client.beginSend(emailMessage);
+      const poller = await client.beginSend(emailMessage, options);
       const response = await poller.pollUntilDone();
 
       assert.isTrue(response.status === KnownEmailSendStatus.Succeeded);
     },
   );
 
-  it("successfully sends an email with an attachment", { timeout: 120000 }, async () => {
+  it("successfully sends an email with an attachment", async () => {
     const emailMessage: EmailMessage = {
-      senderAddress: env.SENDER_ADDRESS ?? "",
+      senderAddress: getSenderAddress(),
       recipients: {
         to: [
           {
-            address: env.RECIPIENT_ADDRESS ?? "",
+            address: getRecipientAddress(),
             displayName: "someRecipient",
           },
         ],
@@ -115,19 +115,19 @@ describe(`EmailClient [Playback/Live]`, () => {
       ],
     };
 
-    const poller = await client.beginSend(emailMessage);
+    const poller = await client.beginSend(emailMessage, options);
     const response = await poller.pollUntilDone();
 
     assert.isTrue(response.status === KnownEmailSendStatus.Succeeded);
   });
 
-  it("successfully sends an email with an inline attachment", { timeout: 120000 }, async () => {
+  it("successfully sends an email with an inline attachment", async () => {
     const emailMessage: EmailMessage = {
-      senderAddress: env.SENDER_ADDRESS ?? "",
+      senderAddress: getSenderAddress(),
       recipients: {
         to: [
           {
-            address: env.RECIPIENT_ADDRESS ?? "",
+            address: getRecipientAddress(),
             displayName: "someRecipient",
           },
         ],
@@ -147,7 +147,7 @@ describe(`EmailClient [Playback/Live]`, () => {
       ],
     };
 
-    const poller = await client.beginSend(emailMessage);
+    const poller = await client.beginSend(emailMessage, options);
     const response = await poller.pollUntilDone();
 
     assert.isTrue(response.status === KnownEmailSendStatus.Succeeded);

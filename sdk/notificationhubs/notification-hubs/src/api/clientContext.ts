@@ -64,6 +64,7 @@ class NotificationHubsServiceClient implements NotificationHubsClientContext {
   constructor(
     connectionString: string,
     hubName: string,
+    // eslint-disable-next-line @azure/azure-sdk/ts-naming-options
     options: NotificationHubsClientOptions = {},
   ) {
     this.hubName = hubName;

@@ -140,7 +140,7 @@ export class SchemaRegistryClient implements SchemaRegistry {
    * Gets an existing schema by ID. If the schema was not found, a RestError with
    * status code 404 will be thrown, which could be caught as follows:
    * 
-   * ```js
+   * ```ts snippet:ignore
    * ...
    * } catch (e) {
     if (typeof e === "object" && e.statusCode === 404) {
@@ -159,7 +159,7 @@ export class SchemaRegistryClient implements SchemaRegistry {
    * Gets an existing schema by version. If the schema was not found, a RestError with
    * status code 404 will be thrown, which could be caught as follows:
    * 
-   * ```js
+   * ```ts snippet:ignore
    * ...
    * } catch (e) {
     if (typeof e === "object" && e.statusCode === 404) {

@@ -13,9 +13,7 @@ import {
   StorageActionsManagementClient,
 } from "@azure/arm-storageactions";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Update storage task properties
@@ -23,7 +21,7 @@ dotenv.config();
  * @summary Update storage task properties
  * x-ms-original-file: specification/storageactions/resource-manager/Microsoft.StorageActions/stable/2023-01-01/examples/storageTasksCrud/PatchStorageTask.json
  */
-async function patchStorageTask() {
+async function patchStorageTask(): Promise<void> {
   const subscriptionId =
     process.env["STORAGEACTIONS_SUBSCRIPTION_ID"] ||
     "1f31ba14-ce16-4281-b9b4-3e78da6e1616";
@@ -31,6 +29,13 @@ async function patchStorageTask() {
     process.env["STORAGEACTIONS_RESOURCE_GROUP"] || "res4228";
   const storageTaskName = "mytask1";
   const parameters: StorageTaskUpdateParameters = {
+    identity: {
+      type: "UserAssigned",
+      userAssignedIdentities: {
+        "/subscriptions/1f31ba14Ce164281B9b43e78da6e1616/resourceGroups/res4228/providers/MicrosoftManagedIdentity/userAssignedIdentities/myUserAssignedIdentity":
+          {},
+      },
+    },
     properties: {
       description: "My Storage task",
       action: {
@@ -64,8 +69,8 @@ async function patchStorageTask() {
   console.log(result);
 }
 
-async function main() {
-  patchStorageTask();
+async function main(): Promise<void> {
+  await patchStorageTask();
 }
 
 main().catch(console.error);

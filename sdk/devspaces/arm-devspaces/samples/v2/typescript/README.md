@@ -71,7 +71,7 @@ Take a look at our [API Documentation][apiref] for more information about the AP
 [controllerslistconnectiondetailssample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/devspaces/arm-devspaces/samples/v2/typescript/src/controllersListConnectionDetailsSample.ts
 [controllerslistsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/devspaces/arm-devspaces/samples/v2/typescript/src/controllersListSample.ts
 [controllersupdatesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/devspaces/arm-devspaces/samples/v2/typescript/src/controllersUpdateSample.ts
-[apiref]: https://docs.microsoft.com/javascript/api/@azure/arm-devspaces?view=azure-node-preview
+[apiref]: https://learn.microsoft.com/javascript/api/@azure/arm-devspaces?view=azure-node-preview
 [freesub]: https://azure.microsoft.com/free/
 [package]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/devspaces/arm-devspaces/README.md
 [typescript]: https://www.typescriptlang.org/docs/home.html

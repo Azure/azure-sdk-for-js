@@ -14,7 +14,7 @@ import {
   QueueServicesSetServicePropertiesResponse,
   QueueServicesGetServicePropertiesOptionalParams,
   QueueServicesGetServicePropertiesResponse,
-} from "../models";
+} from "../models/index.js";
 
 /** Interface representing a QueueServices. */
 export interface QueueServices {

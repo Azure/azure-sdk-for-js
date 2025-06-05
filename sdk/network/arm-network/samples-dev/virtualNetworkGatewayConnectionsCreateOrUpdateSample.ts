@@ -6,24 +6,21 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
+import type {
+  VirtualNetworkGatewayConnection} from "@azure/arm-network";
 import {
-  VirtualNetworkGatewayConnection,
   NetworkManagementClient,
 } from "@azure/arm-network";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Creates or updates a virtual network gateway connection in the specified resource group.
  *
  * @summary Creates or updates a virtual network gateway connection in the specified resource group.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2024-05-01/examples/VirtualNetworkGatewayConnectionCreate.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2024-07-01/examples/VirtualNetworkGatewayConnectionCreate.json
  */
-async function createVirtualNetworkGatewayConnectionS2S() {
+async function createVirtualNetworkGatewayConnectionS2S(): Promise<void> {
   const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";
   const resourceGroupName = process.env["NETWORK_RESOURCE_GROUP"] || "rg1";
   const virtualNetworkGatewayConnectionName = "connS2S";
@@ -67,6 +64,10 @@ async function createVirtualNetworkGatewayConnectionS2S() {
     routingWeight: 0,
     sharedKey: "Abc123",
     trafficSelectorPolicies: [],
+    tunnelProperties: [
+      { bgpPeeringAddress: "10.78.1.17", tunnelIpAddress: "10.78.1.5" },
+      { bgpPeeringAddress: "10.78.1.20", tunnelIpAddress: "10.78.1.7" },
+    ],
     usePolicyBasedTrafficSelectors: false,
     virtualNetworkGateway1: {
       active: false,
@@ -108,8 +109,8 @@ async function createVirtualNetworkGatewayConnectionS2S() {
   console.log(result);
 }
 
-async function main() {
-  createVirtualNetworkGatewayConnectionS2S();
+async function main(): Promise<void> {
+  await createVirtualNetworkGatewayConnectionS2S();
 }
 
 main().catch(console.error);

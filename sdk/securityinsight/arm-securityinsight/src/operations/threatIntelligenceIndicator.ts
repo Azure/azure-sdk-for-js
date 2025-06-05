@@ -7,12 +7,12 @@
  */
 
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
-import { setContinuationToken } from "../pagingHelper";
-import { ThreatIntelligenceIndicator } from "../operationsInterfaces";
+import { setContinuationToken } from "../pagingHelper.js";
+import { ThreatIntelligenceIndicator } from "../operationsInterfaces/index.js";
 import * as coreClient from "@azure/core-client";
-import * as Mappers from "../models/mappers";
-import * as Parameters from "../models/parameters";
-import { SecurityInsights } from "../securityInsights";
+import * as Mappers from "../models/mappers.js";
+import * as Parameters from "../models/parameters.js";
+import { SecurityInsights } from "../securityInsights.js";
 import {
   ThreatIntelligenceInformationUnion,
   ThreatIntelligenceFilteringCriteria,
@@ -32,7 +32,7 @@ import {
   ThreatIntelligenceIndicatorReplaceTagsOptionalParams,
   ThreatIntelligenceIndicatorReplaceTagsResponse,
   ThreatIntelligenceIndicatorQueryIndicatorsNextResponse
-} from "../models";
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Class containing ThreatIntelligenceIndicator operations. */

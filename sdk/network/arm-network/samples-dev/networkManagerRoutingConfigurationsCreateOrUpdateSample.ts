@@ -6,24 +6,21 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
+import type {
+  NetworkManagerRoutingConfiguration} from "@azure/arm-network";
 import {
-  NetworkManagerRoutingConfiguration,
   NetworkManagementClient,
 } from "@azure/arm-network";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Creates or updates a network manager routing configuration.
  *
  * @summary Creates or updates a network manager routing configuration.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2024-05-01/examples/NetworkManagerRoutingConfigurationPut.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2024-07-01/examples/NetworkManagerRoutingConfigurationPut.json
  */
-async function createNetworkManagerRoutingConfiguration() {
+async function createNetworkManagerRoutingConfiguration(): Promise<void> {
   const subscriptionId =
     process.env["NETWORK_SUBSCRIPTION_ID"] ||
     "00000000-0000-0000-0000-000000000000";
@@ -45,8 +42,8 @@ async function createNetworkManagerRoutingConfiguration() {
   console.log(result);
 }
 
-async function main() {
-  createNetworkManagerRoutingConfiguration();
+async function main(): Promise<void> {
+  await createNetworkManagerRoutingConfiguration();
 }
 
 main().catch(console.error);

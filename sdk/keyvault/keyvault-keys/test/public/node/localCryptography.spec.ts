@@ -44,43 +44,43 @@ describe("Local cryptography public tests", () => {
       cryptoClientFromKey = new CryptographyClient(customKeyVaultKey.key!);
     });
 
-    it("the CryptographyClient can be created from a local JsonWebKey object", async function () {
+    it("the CryptographyClient can be created from a local JsonWebKey object", async () => {
       assert.isEmpty(cryptoClientFromKey.vaultUrl);
       assert.equal(cryptoClientFromKey.keyID, customKeyVaultKey.id);
     });
 
     describe("when using an unsupported algorithm", function () {
-      it("throws on encrypt", async function () {
+      it("throws on encrypt", async () => {
         await expect(cryptoClientFromKey.encrypt("foo", Buffer.from("bar"))).rejects.toThrow(
           /using a local JsonWebKey/,
         );
       });
 
-      it("throws on wrapKey", async function () {
+      it("throws on wrapKey", async () => {
         await expect(cryptoClientFromKey.wrapKey("A128KW", Buffer.from("bar"))).rejects.toThrow(
           /using a local JsonWebKey/,
         );
       });
 
-      it("throws on sign", async function () {
+      it("throws on sign", async () => {
         await expect(cryptoClientFromKey.sign("RSA1_5", Buffer.from("bar"))).rejects.toThrow(
           /using a local JsonWebKey/,
         );
       });
 
-      it("throws on signData", async function () {
+      it("throws on signData", async () => {
         await expect(cryptoClientFromKey.signData("PS360", Buffer.from("bar"))).rejects.toThrow(
           /using a local JsonWebKey/,
         );
       });
 
-      it("throws on verify", async function () {
+      it("throws on verify", async () => {
         await expect(
           cryptoClientFromKey.verify("PS360", Buffer.from("bar"), Buffer.from("baz")),
         ).rejects.toThrow(/using a local JsonWebKey/);
       });
 
-      it("throws on verifyData", async function () {
+      it("throws on verifyData", async () => {
         await expect(
           cryptoClientFromKey.verifyData("PS360", Buffer.from("bar"), Buffer.from("baz")),
         ).rejects.toThrow(/using a local JsonWebKey/);
@@ -88,13 +88,13 @@ describe("Local cryptography public tests", () => {
     });
 
     describe("when using an unsupported operation", function () {
-      it("throws on decrypt", async function () {
+      it("throws on decrypt", async () => {
         await expect(cryptoClientFromKey.decrypt("RSA1_5", Buffer.from("bar"))).rejects.toThrow(
           /using a local JsonWebKey/,
         );
       });
 
-      it("throws on unwrapKey", async function () {
+      it("throws on unwrapKey", async () => {
         await expect(cryptoClientFromKey.unwrapKey("RSA1_5", Buffer.from("bar"))).rejects.toThrow(
           /using a local JsonWebKey/,
         );

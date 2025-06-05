@@ -6,17 +6,15 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
 const { PostgreSQLManagementFlexibleServerClient } = require("@azure/arm-postgresql-flexible");
 const { DefaultAzureCredential } = require("@azure/identity");
-require("dotenv").config();
+require("dotenv/config");
 
 /**
  * This sample demonstrates how to Start the Long Term Retention Backup operation
  *
  * @summary Start the Long Term Retention Backup operation
- * x-ms-original-file: specification/postgresql/resource-manager/Microsoft.DBforPostgreSQL/preview/2023-12-01-preview/examples/LongTermRetentionBackup.json
+ * x-ms-original-file: specification/postgresql/resource-manager/Microsoft.DBforPostgreSQL/preview/2025-01-01-preview/examples/LongTermRetentionBackup.json
  */
 async function sampleExecuteBackup() {
   const subscriptionId =
@@ -38,7 +36,7 @@ async function sampleExecuteBackup() {
 }
 
 async function main() {
-  sampleExecuteBackup();
+  await sampleExecuteBackup();
 }
 
 main().catch(console.error);

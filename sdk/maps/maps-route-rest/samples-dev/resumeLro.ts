@@ -80,7 +80,7 @@ async function main(): Promise<void> {
     body: { summary, batchItems },
   } = (await rehydratedPoller.pollUntilDone()) as RouteGetRouteDirectionsBatch200Response;
   console.log(`${summary.successfulRequests}/${summary.totalRequests} requests succeeded.`);
-  batchItems.forEach((item, index) => {
+  await batchItems.forEach((item, index) => {
     if (item.response.error) {
       console.error(`Request ${index} failed with error: ${item.response.error.message}`);
     } else {

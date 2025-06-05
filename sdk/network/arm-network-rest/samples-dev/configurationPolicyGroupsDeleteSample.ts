@@ -1,16 +1,9 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
-import createNetworkManagementClient, {
-  ConfigurationPolicyGroupsDeleteParameters,
-  getLongRunningPoller,
-} from "@azure-rest/arm-network";
+import type { ConfigurationPolicyGroupsDeleteParameters } from "@azure-rest/arm-network";
+import createNetworkManagementClient, { getLongRunningPoller } from "@azure-rest/arm-network";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Deletes a ConfigurationPolicyGroup.
@@ -18,7 +11,7 @@ dotenv.config();
  * @summary Deletes a ConfigurationPolicyGroup.
  * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-05-01/examples/ConfigurationPolicyGroupDelete.json
  */
-async function configurationPolicyGroupDelete() {
+async function configurationPolicyGroupDelete(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = createNetworkManagementClient(credential);
   const subscriptionId = "";
@@ -37,7 +30,7 @@ async function configurationPolicyGroupDelete() {
       configurationPolicyGroupName,
     )
     .delete(options);
-  const poller = getLongRunningPoller(client, initialResponse);
+  const poller = await getLongRunningPoller(client, initialResponse);
   const result = await poller.pollUntilDone();
   console.log(result);
 }

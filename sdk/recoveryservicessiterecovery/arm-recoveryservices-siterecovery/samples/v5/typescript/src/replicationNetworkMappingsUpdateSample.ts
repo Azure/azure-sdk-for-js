@@ -13,24 +13,22 @@ import {
   SiteRecoveryManagementClient,
 } from "@azure/arm-recoveryservices-siterecovery";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to The operation to update an ASR network mapping.
  *
  * @summary The operation to update an ASR network mapping.
- * x-ms-original-file: specification/recoveryservicessiterecovery/resource-manager/Microsoft.RecoveryServices/stable/2023-08-01/examples/ReplicationNetworkMappings_Update.json
+ * x-ms-original-file: specification/recoveryservicessiterecovery/resource-manager/Microsoft.RecoveryServices/stable/2025-01-01/examples/ReplicationNetworkMappings_Update.json
  */
-async function updatesNetworkMapping() {
+async function updatesNetworkMapping(): Promise<void> {
   const subscriptionId =
     process.env["RECOVERYSERVICESSITERECOVERY_SUBSCRIPTION_ID"] ||
     "9112a37f-0f3e-46ec-9c00-060c6edca071";
-  const resourceName = "srce2avaultbvtaC27";
   const resourceGroupName =
     process.env["RECOVERYSERVICESSITERECOVERY_RESOURCE_GROUP"] ||
     "srcBvte2a14C27";
+  const resourceName = "srce2avaultbvtaC27";
   const fabricName =
     "b0cef6e9a4437b81803d0b55ada4f700ab66caae59c35d62723a1589c0cd13ac";
   const networkName = "e2267b5c-2650-49bd-ab3f-d66aae694c06";
@@ -46,8 +44,8 @@ async function updatesNetworkMapping() {
   const credential = new DefaultAzureCredential();
   const client = new SiteRecoveryManagementClient(credential, subscriptionId);
   const result = await client.replicationNetworkMappings.beginUpdateAndWait(
-    resourceName,
     resourceGroupName,
+    resourceName,
     fabricName,
     networkName,
     networkMappingName,
@@ -56,8 +54,8 @@ async function updatesNetworkMapping() {
   console.log(result);
 }
 
-async function main() {
-  updatesNetworkMapping();
+async function main(): Promise<void> {
+  await updatesNetworkMapping();
 }
 
 main().catch(console.error);

@@ -7,12 +7,12 @@
  */
 
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
-import { setContinuationToken } from "../pagingHelper";
-import { FirewallRules } from "../operationsInterfaces";
+import { setContinuationToken } from "../pagingHelper.js";
+import { FirewallRules } from "../operationsInterfaces/index.js";
 import * as coreClient from "@azure/core-client";
-import * as Mappers from "../models/mappers";
-import * as Parameters from "../models/parameters";
-import { DataLakeAnalyticsAccountManagementClient } from "../dataLakeAnalyticsAccountManagementClient";
+import * as Mappers from "../models/mappers.js";
+import * as Parameters from "../models/parameters.js";
+import { DataLakeAnalyticsAccountManagementClient } from "../dataLakeAnalyticsAccountManagementClient.js";
 import {
   FirewallRule,
   FirewallRulesListByAccountNextOptionalParams,
@@ -27,7 +27,7 @@ import {
   FirewallRulesUpdateResponse,
   FirewallRulesDeleteOptionalParams,
   FirewallRulesListByAccountNextResponse
-} from "../models";
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Class containing FirewallRules operations. */

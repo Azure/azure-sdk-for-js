@@ -6,24 +6,21 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
+import type {
+  ExpressRoutePortAuthorization} from "@azure/arm-network";
 import {
-  ExpressRoutePortAuthorization,
   NetworkManagementClient,
 } from "@azure/arm-network";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Creates or updates an authorization in the specified express route port.
  *
  * @summary Creates or updates an authorization in the specified express route port.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2024-05-01/examples/ExpressRoutePortAuthorizationCreate.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2024-07-01/examples/ExpressRoutePortAuthorizationCreate.json
  */
-async function createExpressRoutePortAuthorization() {
+async function createExpressRoutePortAuthorization(): Promise<void> {
   const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";
   const resourceGroupName = process.env["NETWORK_RESOURCE_GROUP"] || "rg1";
   const expressRoutePortName = "expressRoutePortName";
@@ -41,8 +38,8 @@ async function createExpressRoutePortAuthorization() {
   console.log(result);
 }
 
-async function main() {
-  createExpressRoutePortAuthorization();
+async function main(): Promise<void> {
+  await createExpressRoutePortAuthorization();
 }
 
 main().catch(console.error);

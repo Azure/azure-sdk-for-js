@@ -13,9 +13,7 @@ import {
   AzureReservationAPI
 } from "@azure/arm-reservations";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Get the details of the `ReservationOrder`.
@@ -23,7 +21,7 @@ dotenv.config();
  * @summary Get the details of the `ReservationOrder`.
  * x-ms-original-file: specification/reservations/resource-manager/Microsoft.Capacity/stable/2022-11-01/examples/GetReservationOrderDetails.json
  */
-async function getReservationOrder() {
+async function getReservationOrder(): Promise<void> {
   const reservationOrderId = "a075419f-44cc-497f-b68a-14ee811d48b9";
   const credential = new DefaultAzureCredential();
   const client = new AzureReservationAPI(credential);
@@ -37,7 +35,7 @@ async function getReservationOrder() {
  * @summary Get the details of the `ReservationOrder`.
  * x-ms-original-file: specification/reservations/resource-manager/Microsoft.Capacity/stable/2022-11-01/examples/GetReservationOrderDetailsWithExpandPlanInformation.json
  */
-async function getReservationWithExpandPayments() {
+async function getReservationWithExpandPayments(): Promise<void> {
   const reservationOrderId = "a075419f-44cc-497f-b68a-14ee811d48b9";
   const expand = "schedule";
   const options: ReservationOrderGetOptionalParams = { expand };
@@ -47,7 +45,7 @@ async function getReservationWithExpandPayments() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   getReservationOrder();
   getReservationWithExpandPayments();
 }

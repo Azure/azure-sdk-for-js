@@ -6,16 +6,10 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
-import {
-  ManagedGrafanaUpdateParameters,
-  DashboardManagementClient
-} from "@azure/arm-dashboard";
+import type { ManagedGrafanaUpdateParameters } from "@azure/arm-dashboard";
+import { DashboardManagementClient } from "@azure/arm-dashboard";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Update a workspace for Grafana resource.
@@ -23,12 +17,10 @@ dotenv.config();
  * @summary Update a workspace for Grafana resource.
  * x-ms-original-file: specification/dashboard/resource-manager/Microsoft.Dashboard/stable/2023-09-01/examples/Grafana_Update.json
  */
-async function grafanaUpdate() {
+async function grafanaUpdate(): Promise<void> {
   const subscriptionId =
-    process.env["DASHBOARD_SUBSCRIPTION_ID"] ||
-    "00000000-0000-0000-0000-000000000000";
-  const resourceGroupName =
-    process.env["DASHBOARD_RESOURCE_GROUP"] || "myResourceGroup";
+    process.env["DASHBOARD_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";
+  const resourceGroupName = process.env["DASHBOARD_RESOURCE_GROUP"] || "myResourceGroup";
   const workspaceName = "myWorkspace";
   const requestBodyParameters: ManagedGrafanaUpdateParameters = {
     properties: {
@@ -36,7 +28,7 @@ async function grafanaUpdate() {
       deterministicOutboundIP: "Enabled",
       enterpriseConfigurations: {
         marketplaceAutoRenew: "Enabled",
-        marketplacePlanId: "myPlanId"
+        marketplacePlanId: "myPlanId",
       },
       grafanaConfigurations: {
         smtp: {
@@ -47,35 +39,35 @@ async function grafanaUpdate() {
           password: "<password>",
           skipVerify: true,
           startTLSPolicy: "OpportunisticStartTLS",
-          user: "username"
-        }
+          user: "username",
+        },
       },
       grafanaIntegrations: {
         azureMonitorWorkspaceIntegrations: [
           {
             azureMonitorWorkspaceResourceId:
-              "/subscriptions/00000000-0000-0000-0000-000000000000/resourcegroups/myResourceGroup/providers/microsoft.monitor/accounts/myAzureMonitorWorkspace"
-          }
-        ]
+              "/subscriptions/00000000-0000-0000-0000-000000000000/resourcegroups/myResourceGroup/providers/microsoft.monitor/accounts/myAzureMonitorWorkspace",
+          },
+        ],
       },
       grafanaMajorVersion: "9",
-      grafanaPlugins: { samplePluginId: {} }
+      grafanaPlugins: { samplePluginId: {} },
     },
     sku: { name: "Standard" },
-    tags: { environment: "Dev 2" }
+    tags: { environment: "Dev 2" },
   };
   const credential = new DefaultAzureCredential();
   const client = new DashboardManagementClient(credential, subscriptionId);
   const result = await client.grafana.update(
     resourceGroupName,
     workspaceName,
-    requestBodyParameters
+    requestBodyParameters,
   );
   console.log(result);
 }
 
-async function main() {
-  grafanaUpdate();
+async function main(): Promise<void> {
+  await grafanaUpdate();
 }
 
 main().catch(console.error);

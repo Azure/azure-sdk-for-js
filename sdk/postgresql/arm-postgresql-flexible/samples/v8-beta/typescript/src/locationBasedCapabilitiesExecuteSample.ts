@@ -6,32 +6,28 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
 import { PostgreSQLManagementFlexibleServerClient } from "@azure/arm-postgresql-flexible";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Get capabilities at specified location in a given subscription.
  *
  * @summary Get capabilities at specified location in a given subscription.
- * x-ms-original-file: specification/postgresql/resource-manager/Microsoft.DBforPostgreSQL/preview/2023-12-01-preview/examples/CapabilitiesByLocation.json
+ * x-ms-original-file: specification/postgresql/resource-manager/Microsoft.DBforPostgreSQL/preview/2025-01-01-preview/examples/CapabilitiesByLocation.json
  */
-async function capabilitiesList() {
+async function capabilitiesList(): Promise<void> {
   const subscriptionId =
     process.env["POSTGRESQL_SUBSCRIPTION_ID"] ||
     "ffffffff-ffff-ffff-ffff-ffffffffffff";
-  const locationName = "westus";
+  const locationName = "eastus";
   const credential = new DefaultAzureCredential();
   const client = new PostgreSQLManagementFlexibleServerClient(
     credential,
     subscriptionId,
   );
   const resArray = new Array();
-  for await (let item of client.locationBasedCapabilities.listExecute(
+  for await (const item of client.locationBasedCapabilities.listExecute(
     locationName,
   )) {
     resArray.push(item);
@@ -39,8 +35,8 @@ async function capabilitiesList() {
   console.log(resArray);
 }
 
-async function main() {
-  capabilitiesList();
+async function main(): Promise<void> {
+  await capabilitiesList();
 }
 
 main().catch(console.error);

@@ -6,13 +6,13 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import {
+import type {
   AdminKeysGetOptionalParams,
   AdminKeysGetResponse,
   AdminKeyKind,
   AdminKeysRegenerateOptionalParams,
   AdminKeysRegenerateResponse,
-} from "../models";
+} from "../models/index.js";
 
 /** Interface representing a AdminKeys. */
 export interface AdminKeys {

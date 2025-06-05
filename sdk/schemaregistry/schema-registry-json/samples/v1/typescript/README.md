@@ -67,7 +67,7 @@ Take a look at our [API Documentation][apiref] for more information about the AP
 [witheventhubsbufferedproducerclient]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/schemaregistry/schema-registry-json/samples/v1/typescript/src/withEventHubsBufferedProducerClient.ts
 [witheventhubsconsumerclient]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/schemaregistry/schema-registry-json/samples/v1/typescript/src/withEventHubsConsumerClient.ts
 [witheventhubsproducerclient]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/schemaregistry/schema-registry-json/samples/v1/typescript/src/withEventHubsProducerClient.ts
-[apiref]: https://docs.microsoft.com/javascript/api/@azure/schema-registry-json
+[apiref]: https://learn.microsoft.com/javascript/api/@azure/schema-registry-json
 [freesub]: https://azure.microsoft.com/free/
 [createinstance_azureschemaregistryresource]: https://aka.ms/schemaregistry
 [package]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/schemaregistry/schema-registry-json/README.md

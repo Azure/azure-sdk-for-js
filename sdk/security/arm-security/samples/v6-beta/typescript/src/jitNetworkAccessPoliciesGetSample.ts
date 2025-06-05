@@ -10,9 +10,7 @@
 // Licensed under the MIT License.
 import { SecurityCenter } from "@azure/arm-security";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Policies for protecting resources using Just-in-Time access control for the subscription, location
@@ -20,7 +18,7 @@ dotenv.config();
  * @summary Policies for protecting resources using Just-in-Time access control for the subscription, location
  * x-ms-original-file: specification/security/resource-manager/Microsoft.Security/stable/2020-01-01/examples/JitNetworkAccessPolicies/GetJitNetworkAccessPolicy_example.json
  */
-async function getJitNetworkAccessPolicy() {
+async function getJitNetworkAccessPolicy(): Promise<void> {
   const subscriptionId =
     process.env["SECURITY_SUBSCRIPTION_ID"] ||
     "20ff7fc3-e762-44dd-bd96-b71116dcdc23";
@@ -37,7 +35,7 @@ async function getJitNetworkAccessPolicy() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   getJitNetworkAccessPolicy();
 }
 

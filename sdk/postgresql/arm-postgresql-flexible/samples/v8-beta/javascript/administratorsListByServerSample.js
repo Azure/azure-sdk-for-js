@@ -6,17 +6,15 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
 const { PostgreSQLManagementFlexibleServerClient } = require("@azure/arm-postgresql-flexible");
 const { DefaultAzureCredential } = require("@azure/identity");
-require("dotenv").config();
+require("dotenv/config");
 
 /**
  * This sample demonstrates how to List all the AAD administrators for a given server.
  *
  * @summary List all the AAD administrators for a given server.
- * x-ms-original-file: specification/postgresql/resource-manager/Microsoft.DBforPostgreSQL/preview/2023-12-01-preview/examples/AdministratorsListByServer.json
+ * x-ms-original-file: specification/postgresql/resource-manager/Microsoft.DBforPostgreSQL/preview/2025-01-01-preview/examples/AdministratorsListByServer.json
  */
 async function administratorsListByServer() {
   const subscriptionId =
@@ -26,14 +24,14 @@ async function administratorsListByServer() {
   const credential = new DefaultAzureCredential();
   const client = new PostgreSQLManagementFlexibleServerClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.administrators.listByServer(resourceGroupName, serverName)) {
+  for await (const item of client.administrators.listByServer(resourceGroupName, serverName)) {
     resArray.push(item);
   }
   console.log(resArray);
 }
 
 async function main() {
-  administratorsListByServer();
+  await administratorsListByServer();
 }
 
 main().catch(console.error);

@@ -6,24 +6,21 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
+import type {
+  CheckPrivateLinkServiceVisibilityRequest} from "@azure/arm-network";
 import {
-  CheckPrivateLinkServiceVisibilityRequest,
   NetworkManagementClient,
 } from "@azure/arm-network";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Checks whether the subscription is visible to private link service in the specified resource group.
  *
  * @summary Checks whether the subscription is visible to private link service in the specified resource group.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2024-05-01/examples/CheckPrivateLinkServiceVisibilityByResourceGroup.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2024-07-01/examples/CheckPrivateLinkServiceVisibilityByResourceGroup.json
  */
-async function checkPrivateLinkServiceVisibility() {
+async function checkPrivateLinkServiceVisibility(): Promise<void> {
   const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";
   const location = "westus";
   const resourceGroupName = process.env["NETWORK_RESOURCE_GROUP"] || "rg1";
@@ -42,8 +39,8 @@ async function checkPrivateLinkServiceVisibility() {
   console.log(result);
 }
 
-async function main() {
-  checkPrivateLinkServiceVisibility();
+async function main(): Promise<void> {
+  await checkPrivateLinkServiceVisibility();
 }
 
 main().catch(console.error);

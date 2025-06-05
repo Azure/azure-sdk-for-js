@@ -10,13 +10,13 @@
 // Licensed under the MIT License.
 const { KustoManagementClient } = require("@azure/arm-kusto");
 const { DefaultAzureCredential } = require("@azure/identity");
-require("dotenv").config();
+require("dotenv/config");
 
 /**
  * This sample demonstrates how to Remove a list of language extensions that can run within KQL queries.
  *
  * @summary Remove a list of language extensions that can run within KQL queries.
- * x-ms-original-file: specification/azure-kusto/resource-manager/Microsoft.Kusto/stable/2023-08-15/examples/KustoClusterRemoveLanguageExtensions.json
+ * x-ms-original-file: specification/azure-kusto/resource-manager/Microsoft.Kusto/stable/2024-04-13/examples/KustoClusterRemoveLanguageExtensions.json
  */
 async function kustoClusterRemoveLanguageExtensions() {
   const subscriptionId =
@@ -37,7 +37,7 @@ async function kustoClusterRemoveLanguageExtensions() {
 }
 
 async function main() {
-  kustoClusterRemoveLanguageExtensions();
+  await kustoClusterRemoveLanguageExtensions();
 }
 
 main().catch(console.error);

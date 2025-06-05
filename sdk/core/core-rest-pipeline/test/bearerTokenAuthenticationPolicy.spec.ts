@@ -1083,7 +1083,7 @@ class MockRefreshAzureCredential implements TokenCredential {
  * @param handler - the function to run with the different argument combinations
  *
  * @example
- * ```typescript
+ * ```ts snippet:ignore
  * matrix([
  *     [true, false],
  *     [1, 2, 3]

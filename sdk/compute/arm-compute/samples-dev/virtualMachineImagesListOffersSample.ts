@@ -10,17 +10,15 @@
 // Licensed under the MIT License.
 import { ComputeManagementClient } from "@azure/arm-compute";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Gets a list of virtual machine image offers for the specified location and publisher.
  *
  * @summary Gets a list of virtual machine image offers for the specified location and publisher.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-07-01/examples/virtualMachineImageExamples/VirtualMachineImage_ListOffers_MaximumSet_Gen.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-11-01/examples/virtualMachineImageExamples/VirtualMachineImage_ListOffers_MaximumSet_Gen.json
  */
-async function virtualMachineImageListOffersMaximumSetGen() {
+async function virtualMachineImageListOffersMaximumSetGen(): Promise<void> {
   const subscriptionId =
     process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
   const location = "aaaaaaa";
@@ -38,9 +36,9 @@ async function virtualMachineImageListOffersMaximumSetGen() {
  * This sample demonstrates how to Gets a list of virtual machine image offers for the specified location and publisher.
  *
  * @summary Gets a list of virtual machine image offers for the specified location and publisher.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-07-01/examples/virtualMachineImageExamples/VirtualMachineImage_ListOffers_MinimumSet_Gen.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-11-01/examples/virtualMachineImageExamples/VirtualMachineImage_ListOffers_MinimumSet_Gen.json
  */
-async function virtualMachineImageListOffersMinimumSetGen() {
+async function virtualMachineImageListOffersMinimumSetGen(): Promise<void> {
   const subscriptionId =
     process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
   const location = "aaaaaaaaaaaaaaaaa";
@@ -54,9 +52,9 @@ async function virtualMachineImageListOffersMinimumSetGen() {
   console.log(result);
 }
 
-async function main() {
-  virtualMachineImageListOffersMaximumSetGen();
-  virtualMachineImageListOffersMinimumSetGen();
+async function main(): Promise<void> {
+  await virtualMachineImageListOffersMaximumSetGen();
+  await virtualMachineImageListOffersMinimumSetGen();
 }
 
 main().catch(console.error);

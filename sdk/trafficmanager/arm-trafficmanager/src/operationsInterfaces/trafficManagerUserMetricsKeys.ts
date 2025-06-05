@@ -13,7 +13,7 @@ import {
   TrafficManagerUserMetricsKeysCreateOrUpdateResponse,
   TrafficManagerUserMetricsKeysDeleteOptionalParams,
   TrafficManagerUserMetricsKeysDeleteResponse
-} from "../models";
+} from "../models/index.js";
 
 /** Interface representing a TrafficManagerUserMetricsKeys. */
 export interface TrafficManagerUserMetricsKeys {

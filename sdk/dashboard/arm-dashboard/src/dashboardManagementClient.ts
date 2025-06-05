@@ -20,15 +20,15 @@ import {
   PrivateEndpointConnectionsImpl,
   PrivateLinkResourcesImpl,
   ManagedPrivateEndpointsImpl
-} from "./operations";
+} from "./operations/index.js";
 import {
   Operations,
   Grafana,
   PrivateEndpointConnections,
   PrivateLinkResources,
   ManagedPrivateEndpoints
-} from "./operationsInterfaces";
-import { DashboardManagementClientOptionalParams } from "./models";
+} from "./operationsInterfaces/index.js";
+import { DashboardManagementClientOptionalParams } from "./models/index.js";
 
 export class DashboardManagementClient extends coreClient.ServiceClient {
   $host: string;
