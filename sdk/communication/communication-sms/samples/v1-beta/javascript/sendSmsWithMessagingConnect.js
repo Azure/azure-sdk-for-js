@@ -11,7 +11,7 @@ const { SmsClient } = require("@azure/communication-sms");
 require("dotenv").config();
 
 async function main() {
-  console.log("== Send SMS Message With Messaging Connect ==");
+  console.log("== Send SMS Message With Options ==");
 
   // You will need to set this environment variable or edit the following values
   const connectionString =
@@ -39,11 +39,11 @@ async function main() {
 
   // construct send options
   const sendOptions = {
-    messagingConnect: {
+    messagingConnectOptions: {
       // Represents the API key associated with the customer's account in the Messaging Connect Partner portal.
-      apiKey: process.env.MESSAGING_CONNECT_API_KEY || "<messaging-connect-api-key>",
+      apiKey: "<messaging-connect-api-key>",
       // Specifies the partner associated with the API key.
-      partner: process.env.MESSAGING_CONNECT_PARTNER || "<messaging-connect-partner>",
+      partner: "<messaging-connect-partner>",
     },
   };
 

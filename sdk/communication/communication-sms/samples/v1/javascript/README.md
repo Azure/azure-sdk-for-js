@@ -12,15 +12,14 @@ urlFragment: communication-sms-javascript
 
 These sample programs show how to use the JavaScript client libraries for Azure Communication Services - SMS in some common scenarios.
 
-| **File Name**                                                 | **Description**                                                     |
-| ------------------------------------------------------------- | --------------------------------------------------------------------|
-| [sendSms.js][sendsms]                                         | Send an SMS message to 1 or more recipients                         |
-| [sendSmsWithMessagingConnect.js][sendSmsWithMessagingConnect] | Configure Messaging Connect options when sending a message          |
-| [sendSmsWithOptions.js][sendsmswithoptions]                   | Configure SMS options when sending a message                        |
-| [usingAadAuth.js][usingaadauth]                               | Use AAD token credentials when sending a SMS message.               |
-| [optOutCheck.js][optoutcheck]                                 | Check if recipients opted out of receiving messages                 |
-| [optOutAdd.js][optoutadd]                                     | Opt out recipients from receiving messages                          |
-| [optOutRemove.js][optoutremove]                               | Remove recipients from Opt Out list                                 |
+| **File Name**                               | **Description**                                       |
+| ------------------------------------------- | ----------------------------------------------------- |
+| [sendSms.js][sendsms]                       | Send an SMS message to 1 or more recipients           |
+| [sendSmsWithOptions.js][sendsmswithoptions] | Configure SMS options when sending a message          |
+| [usingAadAuth.js][usingaadauth]             | Use AAD token credentials when sending a SMS message. |
+| [optOutCheck.js][optoutcheck]               | Check if recipients opted out of receiving messages   |
+| [optOutAdd.js][optoutadd]                   | Opt out recipients from receiving messages            |
+| [optOutRemove.js][optoutremove]             | Remove recipients from Opt Out list                   |
 
 
 ## Prerequisites
@@ -65,7 +64,6 @@ Take a look at our [API Documentation][apiref] for more information about the AP
 
 [sendsms]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/communication/communication-sms/samples/v1/javascript/sendSms.js
 [sendsmswithoptions]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/communication/communication-sms/samples/v1/javascript/sendSmsWithOptions.js
-[sendSmsWithMessagingConnect]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/communication/communication-sms/samples/v1/javascript/sendSmsWithMessagingConnect.js
 [usingaadauth]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/communication/communication-sms/samples/v1/javascript/usingAadAuth.js
 [apiref]: https://learn.microsoft.com/javascript/api/@azure/communication-sms
 [freesub]: https://azure.microsoft.com/free/
@@ -74,3 +72,4 @@ Take a look at our [API Documentation][apiref] for more information about the AP
 [optoutcheck]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/communication/communication-sms/samples/v1/javascript/optOutCheck.js
 [optoutadd]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/communication/communication-sms/samples/v1/javascript/optOutAdd.js
 [optoutremove]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/communication/communication-sms/samples/v1/javascript/optOutRemove.js
+
