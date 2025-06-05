@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to list InstanceResource resources by subscription ID
  *
  * @summary list InstanceResource resources by subscription ID
- * x-ms-original-file: 2024-09-18-preview/Instances_ListBySubscription_MaximumSet_Gen.json
+ * x-ms-original-file: 2024-09-18/Instances_ListBySubscription_MaximumSet_Gen.json
  */
 async function instancesListBySubscriptionGeneratedByMaximumSetRule() {
   const credential = new DefaultAzureCredential();
@@ -26,7 +26,7 @@ async function instancesListBySubscriptionGeneratedByMaximumSetRule() {
  * This sample demonstrates how to list InstanceResource resources by subscription ID
  *
  * @summary list InstanceResource resources by subscription ID
- * x-ms-original-file: 2024-09-18-preview/Instances_ListBySubscription_MinimumSet_Gen.json
+ * x-ms-original-file: 2024-09-18/Instances_ListBySubscription_MinimumSet_Gen.json
  */
 async function instancesListBySubscriptionGeneratedByMinimumSetRule() {
   const credential = new DefaultAzureCredential();

@@ -5,20 +5,21 @@ const { WeightsAndBiasesClient } = require("@azure/arm-weightsandbiases");
 const { DefaultAzureCredential } = require("@azure/identity");
 
 /**
- * This sample demonstrates how to delete a InstanceResource
+ * This sample demonstrates how to get a InstanceResource
  *
- * @summary delete a InstanceResource
- * x-ms-original-file: 2024-09-18-preview/Instances_Delete_MaximumSet_Gen.json
+ * @summary get a InstanceResource
+ * x-ms-original-file: 2024-09-18/Instances_Get_MaximumSet_Gen.json
  */
-async function instancesDeleteGeneratedByMaximumSetRule() {
+async function instancesGetGeneratedByMaximumSetRule() {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "0BCB047F-CB71-4DFE-B0BD-88519F411C2F";
   const client = new WeightsAndBiasesClient(credential, subscriptionId);
-  await client.instances.delete("rgopenapi", "myinstance");
+  const result = await client.instances.get("rgopenapi", "myinstance");
+  console.log(result);
 }
 
 async function main() {
-  await instancesDeleteGeneratedByMaximumSetRule();
+  await instancesGetGeneratedByMaximumSetRule();
 }
 
 main().catch(console.error);
