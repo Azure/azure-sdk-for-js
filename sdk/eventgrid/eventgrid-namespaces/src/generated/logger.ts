@@ -2,4 +2,4 @@
 // Licensed under the MIT License.
 
 import { createClientLogger } from "@azure/logger";
-export const logger = createClientLogger("eventgrid-namespaces-rest");
+export const logger = createClientLogger("eventgrid-namespaces");
