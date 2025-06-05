@@ -1,6 +1,6 @@
 # Release History
 
-## 2.0.0 (Unreleased)
+## 2.0.0 (2025-06-06)
 
 Extending scope with inferences for scoring and assessment, quality measure and clinical guidance
 
