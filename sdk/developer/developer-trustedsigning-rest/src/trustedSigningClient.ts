@@ -25,7 +25,7 @@ export default function createClient(
   { apiVersion = "2023-06-15-preview", ...options }: TrustedSigningClientOptions = {},
 ): TrustedSigningClient {
   const endpointUrl = options.endpoint ?? options.baseUrl ?? `${endpointParam}`;
-  const userAgentInfo = `azsdk-js-developer-trustedsigning-rest/1.0.0-beta.1`;
+  const userAgentInfo = `azsdk-js-@azure-rest/developer-trustedsigning/1.0.0-beta.1`;
   const userAgentPrefix =
     options.userAgentOptions && options.userAgentOptions.userAgentPrefix
       ? `${options.userAgentOptions.userAgentPrefix} ${userAgentInfo}`
