@@ -1,0 +1,16 @@
+{
+  "name": "using-connect-options",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {},
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": "",
+  "devDependencies": {
+    "@azure/playwright": "beta",
+    "@playwright/test": "latest",
+    "@types/node": "^20.14.6",
+    "@azure/identity": "^4.0.0"
+  }
+}

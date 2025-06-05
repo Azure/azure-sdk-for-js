@@ -23,6 +23,7 @@ const endpoint = process.env["AZURE_AI_PROJECT_ENDPOINT_STRING"] || "<project en
 const containerConnectionName =
   process.env["AZURE_STORAGE_CONNECTION_NAME"] || "<storage connection name>";
 const VERSION1 = "1.0";
+const VERSION1_UPDATE = "1.1";
 const VERSION2 = "2.0";
 const VERSION3 = "3.0";
 
@@ -42,9 +43,18 @@ async function main(): Promise<void> {
     datasetName,
     VERSION1,
     path.join(__dirname, sampleFolder, "sample_file1.txt"),
-    containerConnectionName,
+    {
+      connectionName: containerConnectionName,
+    },
   );
   console.log("Dataset1 created:", JSON.stringify(dataset1, null, 2));
+
+  const updatedDataset1 = await project.datasets.createOrUpdate(
+    datasetName,
+    VERSION1_UPDATE,
+    dataset1,
+  );
+  console.log("Dataset1 updated:", JSON.stringify(updatedDataset1, null, 2));
 
   const credential = await project.datasets.getCredentials(dataset1.name, dataset1.version, {});
   console.log("Credential for the dataset:", credential);
@@ -57,7 +67,11 @@ async function main(): Promise<void> {
     folderDatasetName,
     VERSION2,
     path.join(__dirname, sampleFolder),
-    containerConnectionName,
+    {
+      connectionName: containerConnectionName,
+      // only upload sample_file1.txt and sample_file2.txt
+      filePattern: /sample_file[1-2]\.txt$/,
+    },
   );
   console.log("Dataset2 created:", JSON.stringify(dataset2, null, 2));
 
@@ -68,7 +82,9 @@ async function main(): Promise<void> {
     datasetName,
     VERSION3,
     path.join(__dirname, sampleFolder, "sample_file2.txt"),
-    containerConnectionName,
+    {
+      connectionName: containerConnectionName,
+    },
   );
   console.log("Dataset3 created:", JSON.stringify(dataset3, null, 2));
 

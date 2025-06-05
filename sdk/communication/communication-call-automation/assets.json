@@ -2,5 +2,9 @@
   "AssetsRepo": "Azure/azure-sdk-assets",
   "AssetsRepoPrefixPath": "js",
   "TagPrefix": "js/communication/communication-call-automation",
+<<<<<<< HEAD
   "Tag": "js/communication/communication-call-automation_545b84468a"
+=======
+  "Tag": "js/communication/communication-call-automation_c5bf358895"
+>>>>>>> 2d40eeb8f7729164a1d9f521511d5eaede491213
 }
