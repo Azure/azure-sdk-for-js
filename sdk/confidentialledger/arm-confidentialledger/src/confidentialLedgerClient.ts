@@ -119,7 +119,7 @@ export class ConfidentialLedgerClient extends coreClient.ServiceClient {
 
     // Assigning values to Constant parameters
     this.$host = options.$host || "https://management.azure.com";
-    this.apiVersion = options.apiVersion || "2023-06-28-preview";
+    this.apiVersion = options.apiVersion || "2024-09-19-preview";
     this.operations = new OperationsImpl(this);
     this.ledger = new LedgerImpl(this);
     this.managedCCFOperations = new ManagedCCFOperationsImpl(this);

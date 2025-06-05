@@ -14,6 +14,11 @@ const replaceableVariables: Record<string, string> = {
   ENDPOINT: "Sanitized.azure.com",
   DEPLOYMENT_NAME: "DeepSeek-V3",
   AZURE_AI_PROJECT_ENDPOINT: "https://Sanitized.azure.com/api/projects/project1",
+  AZURE_STORAGE_CONNECTION_NAME: "00000",
+  DEPLOYMENT_GPT_MODEL: "gpt-4o",
+  EMBEDDING_DEPLOYMENT_NAME: "text-embedding-3-large",
+  IMAGE_EMBEDDING_DEPLOYMENT_NAME: "Cohere-embed-v3-english",
+  EVALUATION_DEPLOYMENT_NAME: "gpt-4o-mini",
   SUBSCRIPTION_ID: "00000000-0000-0000-0000-000000000000",
   RESOURCE_GROUP_NAME: "00000",
   WORKSPACE_NAME: "00000",
@@ -91,6 +96,19 @@ const recorderEnvSetup: RecorderStartOptions = {
 export async function createRecorder(context: VitestTestContext): Promise<Recorder> {
   const recorder = new Recorder(context);
   await recorder.start(recorderEnvSetup);
+  await recorder.addSanitizers(
+    {
+      uriSanitizers: [
+        {
+          regex: true,
+          target: "(.*)&blockid=(?<block_id_value>.*)",
+          groupForReplace: "block_id_value",
+          value: "sanitized_blockid",
+        },
+      ],
+    },
+    ["record", "playback"],
+  );
   return recorder;
 }
 
