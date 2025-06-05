@@ -982,6 +982,9 @@ importers:
       '@rush-temp/developer-devcenter':
         specifier: file:./projects/developer-devcenter.tgz
         version: file:projects/developer-devcenter.tgz(@types/debug@4.1.12)(tsx@4.19.4)(vite@6.3.5(@types/node@22.7.9)(tsx@4.19.4)(yaml@2.8.0))(yaml@2.8.0)
+      '@rush-temp/developer-trustedsigning':
+        specifier: file:./projects/developer-trustedsigning.tgz
+        version: file:projects/developer-trustedsigning.tgz(@types/debug@4.1.12)(tsx@4.19.4)(vite@6.3.5(@types/node@22.7.9)(tsx@4.19.4)(yaml@2.8.0))(yaml@2.8.0)
       '@rush-temp/digital-twins-core':
         specifier: file:./projects/digital-twins-core.tgz
         version: file:projects/digital-twins-core.tgz(@types/debug@4.1.12)(tsx@4.19.4)(vite@6.3.5(@types/node@22.7.9)(tsx@4.19.4)(yaml@2.8.0))(yaml@2.8.0)
@@ -3758,6 +3761,10 @@ packages:
 
   '@rush-temp/developer-devcenter@file:projects/developer-devcenter.tgz':
     resolution: {integrity: sha512-c/CnOmXXkgPOy7rWm/oKuWmr3hsIuOSkmCgsPPQttfLrwr2Prja+t3v8kr4bXJKsknn5DrQAI6P7LH4pfsKrJg==, tarball: file:projects/developer-devcenter.tgz}
+    version: 0.0.0
+
+  '@rush-temp/developer-trustedsigning@file:projects/developer-trustedsigning.tgz':
+    resolution: {integrity: sha512-GXmo6llV9X3kssT+t1Gu/6mRWRaUzDofsoQB6mgZh4VI00CC3Lney127rJMtXNQA20JI3afjoRgKY97TBwrgYQ==, tarball: file:projects/developer-trustedsigning.tgz}
     version: 0.0.0
 
   '@rush-temp/digital-twins-core@file:projects/digital-twins-core.tgz':
@@ -20216,6 +20223,41 @@ snapshots:
       - terser
 
   '@rush-temp/developer-devcenter@file:projects/developer-devcenter.tgz(@types/debug@4.1.12)(tsx@4.19.4)(vite@6.3.5(@types/node@22.7.9)(tsx@4.19.4)(yaml@2.8.0))(yaml@2.8.0)':
+    dependencies:
+      '@types/node': 18.19.110
+      '@vitest/browser': 3.2.0(playwright@1.52.0)(vite@6.3.5(@types/node@22.7.9)(tsx@4.19.4)(yaml@2.8.0))(vitest@3.2.0)
+      '@vitest/coverage-istanbul': 3.2.0(vitest@3.2.0)
+      dotenv: 16.5.0
+      eslint: 9.28.0
+      playwright: 1.52.0
+      tslib: 2.8.1
+      typescript: 5.8.3
+      vitest: 3.2.0(@types/debug@4.1.12)(@types/node@18.19.110)(@vitest/browser@3.2.0)(tsx@4.19.4)(yaml@2.8.0)
+    transitivePeerDependencies:
+      - '@edge-runtime/vm'
+      - '@types/debug'
+      - '@vitest/ui'
+      - bufferutil
+      - happy-dom
+      - jiti
+      - jsdom
+      - less
+      - lightningcss
+      - msw
+      - safaridriver
+      - sass
+      - sass-embedded
+      - stylus
+      - sugarss
+      - supports-color
+      - terser
+      - tsx
+      - utf-8-validate
+      - vite
+      - webdriverio
+      - yaml
+
+  '@rush-temp/developer-trustedsigning@file:projects/developer-trustedsigning.tgz(@types/debug@4.1.12)(tsx@4.19.4)(vite@6.3.5(@types/node@22.7.9)(tsx@4.19.4)(yaml@2.8.0))(yaml@2.8.0)':
     dependencies:
       '@types/node': 18.19.110
       '@vitest/browser': 3.2.0(playwright@1.52.0)(vite@6.3.5(@types/node@22.7.9)(tsx@4.19.4)(yaml@2.8.0))(vitest@3.2.0)
