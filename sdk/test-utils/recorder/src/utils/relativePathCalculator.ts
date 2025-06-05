@@ -59,7 +59,7 @@ function relativePackagePath(): string {
  * Note for browser tests:
  *    1. Supposed to be called from the global config vitest.browser.shared.config.ts.
  *    2. Set this `RECORDINGS_RELATIVE_PATH` as an env variable
- *      ```js snippet:RelativeRecordingsPathForBrowser
+ *      ```ts
  *        const { relativeRecordingsPath } = require("@azure-tools/test-recorder");
  *        process.env.RECORDINGS_RELATIVE_PATH = relativeRecordingsPath();
  *      ```

@@ -78,13 +78,13 @@ Do `rush update` and `rush build -t .` to install and build the latest dependenc
 
 And you're ready! Now you can use the test recorder in your code, as shown below:
 
-```typescript snippet:ImportRecorder
+```typescript
 import { Recorder } from "@azure-tools/test-recorder";
 ```
 
 Or, if you know what you want to import, you can also do the following:
 
-```typescript snippet:ImportMultipleFromRecorder
+```typescript
 import { Recorder, RecorderStartOptions, env, SanitizerOptions } from "@azure-tools/test-recorder";
 ```
 
@@ -140,7 +140,7 @@ For further understanding, please read the [ASSET_SYNC_WORKFLOW.md](https://gith
 
 Inside a vitest test (either in the `beforeEach` or in the test body itself), you will need to instantiate the `Recorder` as below to leverage its functionalities.
 
-```js snippet:RecorderBeforeEach
+```ts
 let recorder: Recorder;
 
 beforeEach(async function (context) {
@@ -150,13 +150,13 @@ beforeEach(async function (context) {
 
 The client being tested needs to add the recording policy that redirects requests to the test-proxy tool first before they go to the service. This is done by simply passing the client options bag through the `recorder.configureClientOptions` helper:
 
-```js snippet:ConfigureClientOptions
+```ts
 const client = new MyServiceClient(/** args **/, recorder.configureClientOptions(/** client options **/));
 ```
 
 Recording starts with the `recorder.start()` method.
 
-```js snippet:RecorderStart
+```ts
 await recorder.start(/** recorderOptions go here **/);
 ```
 
@@ -166,7 +166,7 @@ Any requests that are made using the above `client (MyServiceClient)` will be re
 
 Likewise, in `playback` mode, the saved responses are utilized by the test-proxy tool when the requests are redirected to it instead of reaching the service.
 
-```js snippet:RecorderStop
+```ts
 await recorder.stop();
 ```
 
@@ -182,7 +182,7 @@ This API lets you declare variables computed at record time and re-used during p
 
 Example usage:
 
-```ts snippet:RecorderVariableExample
+```ts
 const queueName = recorder.variable("queue-name", `queue-${Math.floor(Math.random() * 1000)}`);
 // Assume that we have a client that has a createQueue method.
 await client.createQueue(queueName);
@@ -216,7 +216,7 @@ We do not record the AAD traffic since it is typically noise that is not needed 
 - This package provides a `NoOpCredential` implementation of `TokenCredential` which makes no network requests, and should be used in `playback mode`.
 - The provided `createTestCredential` helper will handle switching between `NoOpCredential` in playback and `ClientSecretCredential` when recording for you:
 
-```ts snippet:CreateTestCredentialExample
+```ts
 import { createTestCredential } from "@azure-tools/test-credential";
 
 const credential = createTestCredential();
@@ -235,7 +235,7 @@ To record your tests,
 
 - make sure to set the environment variable `TEST_MODE` to `record`
 
-  ```sh snippet:SetTestModeRecord
+  ```sh
   # Windows
   set TEST_MODE=record
 
@@ -253,7 +253,7 @@ In the following example, we'll use the recorder with the client from `@azure/da
 
 _[Example](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/template/template/test/public/configurationClient.spec.ts) from the template project if you want to check out._
 
-```typescript snippet:TableServiceClientTestExample
+```typescript
 import { RecorderStartOptions, Recorder, env } from "@azure-tools/test-recorder";
 import { createTestCredential } from "@azure-tools/test-credential";
 import { TableServiceClient } from "@azure/data-tables";
@@ -339,7 +339,7 @@ We try our best to make sure the sensitive information is not leaked anywhere wi
 
 `envSetupForPlayback` expects key-value pairs, with keys signifying the names of the environment variables, and the values would be the fake ones that you'd like to map/swap the originals with.
 
-```js snippet:EnvSetupForPlaybackExample
+```ts
   envSetupForPlayback: {
     TABLES_URL: "https://fakeaccount.table.core.windows.net",
   }
