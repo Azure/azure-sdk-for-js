@@ -13,7 +13,7 @@ import * as dotenv from "dotenv";
 dotenv.config();
 
 export async function main() {
-  console.log("\n== Broswse and reserve available phone numbers sample ==\n");
+  console.log("\n== Browse and reserve available phone numbers sample ==\n");
 
   // You will need to set this environment variable or edit the following values
   const connectionString =

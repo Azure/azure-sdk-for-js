@@ -40,6 +40,16 @@ describe("snippets", () => {
     const user = await client.createUser();
   });
 
+  it("ReadmeSampleCreateUser_CustomId", async () => {
+    const endpoint = "https://contoso.eastus.communications.azure.net";
+    // @ts-preserve-whitespace
+    const credential = new DefaultAzureCredential();
+    const client = new CommunicationIdentityClient(endpoint, credential);
+    // @ts-preserve-whitespace
+    const user = await client.createUser({ customId: "alice@contoso.com" });
+    const getResult = await client.getUser(user);
+  });
+
   it("ReadmeSampleCreateToken", async () => {
     const endpoint = "https://contoso.eastus.communications.azure.net";
     // @ts-preserve-whitespace

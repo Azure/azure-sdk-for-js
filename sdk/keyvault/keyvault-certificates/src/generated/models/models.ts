@@ -158,7 +158,7 @@ export function keyVaultErrorDeserializer(item: any): KeyVaultError {
 export type ErrorModel = {
   code?: string;
   message?: string;
-  innerError?: ErrorModel_1;
+  innerError?: ErrorModel;
 } | null;
 
 /** model interface _KeyVaultErrorError */
@@ -168,7 +168,7 @@ export interface _KeyVaultErrorError {
   /** The error message. */
   readonly message?: string;
   /** The key vault server error. */
-  readonly innerError?: ErrorModel_1;
+  readonly innerError?: ErrorModel;
 }
 
 export function _keyVaultErrorErrorDeserializer(
@@ -182,13 +182,6 @@ export function _keyVaultErrorErrorDeserializer(
       : _keyVaultErrorErrorDeserializer(item["innererror"]),
   };
 }
-
-/** Alias for ErrorModel */
-export type ErrorModel_1 = {
-  code?: string;
-  message?: string;
-  innerError?: ErrorModel_1;
-} | null;
 
 /** A Deleted Certificate consisting of its previous id, attributes and its tags, as well as information on when it will be purged. */
 export interface DeletedCertificateBundle {
@@ -360,15 +353,15 @@ export enum KnownJsonWebKeyType {
   /** Elliptic Curve. */
   EC = "EC",
   /** Elliptic Curve with a private key which is not exportable from the HSM. */
-  EC_HSM = "EC-HSM",
+  ECHSM = "EC-HSM",
   /** RSA (https://tools.ietf.org/html/rfc3447). */
   RSA = "RSA",
   /** RSA with a private key which is not exportable from the HSM. */
-  RSA_HSM = "RSA-HSM",
+  RSAHSM = "RSA-HSM",
   /** Octet sequence (used to represent symmetric keys). */
-  oct = "oct",
+  Oct = "oct",
   /** Octet sequence with a private key which is not exportable from the HSM. */
-  oct_HSM = "oct-HSM",
+  OctHSM = "oct-HSM",
 }
 
 /**
@@ -388,13 +381,13 @@ export type JsonWebKeyType = string;
 /** Elliptic curve name. For valid values, see JsonWebKeyCurveName. */
 export enum KnownJsonWebKeyCurveName {
   /** The NIST P-256 elliptic curve, AKA SECG curve SECP256R1. */
-  P_256 = "P-256",
+  P256 = "P-256",
   /** The NIST P-384 elliptic curve, AKA SECG curve SECP384R1. */
-  P_384 = "P-384",
+  P384 = "P-384",
   /** The NIST P-521 elliptic curve, AKA SECG curve SECP521R1. */
-  P_521 = "P-521",
+  P521 = "P-521",
   /** The SECG SECP256K1 elliptic curve. */
-  P_256K = "P-256K",
+  P256K = "P-256K",
 }
 
 /**
@@ -540,23 +533,23 @@ export function subjectAlternativeNamesDeserializer(
 /** Supported usages of a certificate key. */
 export enum KnownKeyUsageType {
   /** Indicates that the certificate key can be used as a digital signature. */
-  digitalSignature = "digitalSignature",
+  DigitalSignature = "digitalSignature",
   /** Indicates that the certificate key can be used for authentication. */
-  nonRepudiation = "nonRepudiation",
+  NonRepudiation = "nonRepudiation",
   /** Indicates that the certificate key can be used for key encryption. */
-  keyEncipherment = "keyEncipherment",
+  KeyEncipherment = "keyEncipherment",
   /** Indicates that the certificate key can be used for data encryption. */
-  dataEncipherment = "dataEncipherment",
+  DataEncipherment = "dataEncipherment",
   /** Indicates that the certificate key can be used to determine key agreement, such as a key created using the Diffie-Hellman key agreement algorithm. */
-  keyAgreement = "keyAgreement",
+  KeyAgreement = "keyAgreement",
   /** Indicates that the certificate key can be used to sign certificates. */
-  keyCertSign = "keyCertSign",
+  KeyCertSign = "keyCertSign",
   /** Indicates that the certificate key can be used to sign a certificate revocation list. */
-  cRLSign = "cRLSign",
+  CRLSign = "cRLSign",
   /** Indicates that the certificate key can be used for encryption only. */
-  encipherOnly = "encipherOnly",
+  EncipherOnly = "encipherOnly",
   /** Indicates that the certificate key can be used for decryption only. */
-  decipherOnly = "decipherOnly",
+  DecipherOnly = "decipherOnly",
 }
 
 /**
@@ -1329,7 +1322,9 @@ export function deletedCertificateItemDeserializer(
 /** The available API versions. */
 export enum KnownVersions {
   /** The 7.5 API version. */
-  "v7.5" = "7.5",
+  V75 = "7.5",
   /** The 7.6-preview.2 API version. */
-  "v7.6_preview.2" = "7.6-preview.2",
+  V76Preview2 = "7.6-preview.2",
+  /** The 7.6 API version. */
+  V76 = "7.6",
 }

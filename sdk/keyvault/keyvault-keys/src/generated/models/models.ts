@@ -77,21 +77,21 @@ export type JsonWebKeyType = string;
 /** JSON web key operations. For more information, see JsonWebKeyOperation. */
 export enum KnownJsonWebKeyOperation {
   /** Indicates that the key can be used to encrypt. */
-  encrypt = "encrypt",
+  Encrypt = "encrypt",
   /** Indicates that the key can be used to decrypt. */
-  decrypt = "decrypt",
+  Decrypt = "decrypt",
   /** Indicates that the key can be used to sign. */
-  sign = "sign",
+  Sign = "sign",
   /** Indicates that the key can be used to verify. */
-  verify = "verify",
+  Verify = "verify",
   /** Indicates that the key can be used to wrap another key. */
-  wrapKey = "wrapKey",
+  WrapKey = "wrapKey",
   /** Indicates that the key can be used to unwrap another key. */
-  unwrapKey = "unwrapKey",
+  UnwrapKey = "unwrapKey",
   /** Indicates that the key can be imported during creation. */
-  "import" = "import",
+  Import = "import",
   /** Indicates that the private component of the key can be exported. */
-  "export" = "export",
+  Export = "export",
 }
 
 /**
@@ -131,7 +131,7 @@ export interface KeyAttributes {
   /** The underlying HSM Platform. */
   readonly hsmPlatform?: string;
   /** The key or key version attestation information. */
-  attestation?: KeyAttestation;
+  readonly attestation?: KeyAttestation;
 }
 
 export function keyAttributesSerializer(item: KeyAttributes): any {
@@ -144,9 +144,6 @@ export function keyAttributesSerializer(item: KeyAttributes): any {
       ? item["expires"]
       : (item["expires"].getTime() / 1000) | 0,
     exportable: item["exportable"],
-    attestation: !item["attestation"]
-      ? item["attestation"]
-      : keyAttestationSerializer(item["attestation"]),
   };
 }
 
@@ -214,21 +211,6 @@ export interface KeyAttestation {
   publicKeyAttestation?: Uint8Array;
   /** The version of the attestation. */
   version?: string;
-}
-
-export function keyAttestationSerializer(item: KeyAttestation): any {
-  return {
-    certificatePemFile: !item["certificatePemFile"]
-      ? item["certificatePemFile"]
-      : uint8ArrayToString(item["certificatePemFile"], "base64url"),
-    privateKeyAttestation: !item["privateKeyAttestation"]
-      ? item["privateKeyAttestation"]
-      : uint8ArrayToString(item["privateKeyAttestation"], "base64url"),
-    publicKeyAttestation: !item["publicKeyAttestation"]
-      ? item["publicKeyAttestation"]
-      : uint8ArrayToString(item["publicKeyAttestation"], "base64url"),
-    version: item["version"],
-  };
 }
 
 export function keyAttestationDeserializer(item: any): KeyAttestation {
@@ -490,7 +472,7 @@ export function keyVaultErrorDeserializer(item: any): KeyVaultError {
 export type ErrorModel = {
   code?: string;
   message?: string;
-  innerError?: ErrorModel_1;
+  innerError?: ErrorModel;
 } | null;
 
 /** model interface _KeyVaultErrorError */
@@ -500,7 +482,7 @@ export interface _KeyVaultErrorError {
   /** The error message. */
   readonly message?: string;
   /** The key vault server error. */
-  readonly innerError?: ErrorModel_1;
+  readonly innerError?: ErrorModel;
 }
 
 export function _keyVaultErrorErrorDeserializer(
@@ -514,13 +496,6 @@ export function _keyVaultErrorErrorDeserializer(
       : _keyVaultErrorErrorDeserializer(item["innererror"]),
   };
 }
-
-/** Alias for ErrorModel */
-export type ErrorModel_1 = {
-  code?: string;
-  message?: string;
-  innerError?: ErrorModel_1;
-} | null;
 
 /** The key import parameters. */
 export interface KeyImportParameters {
@@ -1228,7 +1203,9 @@ export function randomBytesDeserializer(item: any): RandomBytes {
 /** The available API versions. */
 export enum KnownVersions {
   /** The 7.5 API version. */
-  "v7.5" = "7.5",
+  V75 = "7.5",
   /** The 7.6-preview.2 API version. */
-  "v7.6_preview.2" = "7.6-preview.2",
+  V76Preview2 = "7.6-preview.2",
+  /** The 7.6 API version. */
+  V76 = "7.6",
 }

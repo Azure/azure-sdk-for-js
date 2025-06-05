@@ -1,34 +1,21 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import {
-  KeyVaultContext as Client,
-  FullBackupOptionalParams,
-  FullBackupStatusOptionalParams,
-  FullRestoreOperationOptionalParams,
-  GetSettingOptionalParams,
-  GetSettingsOptionalParams,
-  PreFullBackupOptionalParams,
-  PreFullRestoreOperationOptionalParams,
-  RestoreStatusOptionalParams,
-  SelectiveKeyRestoreOperationOptionalParams,
-  SelectiveKeyRestoreStatusOptionalParams,
-  UpdateSettingOptionalParams,
-} from "./index.js";
+import { KeyVaultContext as Client } from "./index.js";
 import {
   FullBackupOperation,
   fullBackupOperationDeserializer,
   keyVaultErrorDeserializer,
   SASTokenParameter,
-  sASTokenParameterSerializer,
+  sasTokenParameterSerializer,
   PreBackupOperationParameters,
   preBackupOperationParametersSerializer,
   RestoreOperation,
   restoreOperationDeserializer,
-  PreRestoreOperationParameters,
-  preRestoreOperationParametersSerializer,
   RestoreOperationParameters,
   restoreOperationParametersSerializer,
+  PreRestoreOperationParameters,
+  preRestoreOperationParametersSerializer,
   SelectiveKeyRestoreOperation,
   selectiveKeyRestoreOperationDeserializer,
   SelectiveKeyRestoreOperationParameters,
@@ -40,7 +27,21 @@ import {
   SettingsListResult,
   settingsListResultDeserializer,
 } from "../models/models.js";
+import {
+  GetSettingsOptionalParams,
+  GetSettingOptionalParams,
+  UpdateSettingOptionalParams,
+  SelectiveKeyRestoreOperationOptionalParams,
+  SelectiveKeyRestoreStatusOptionalParams,
+  PreFullRestoreOperationOptionalParams,
+  FullRestoreOperationOptionalParams,
+  RestoreStatusOptionalParams,
+  PreFullBackupOptionalParams,
+  FullBackupOptionalParams,
+  FullBackupStatusOptionalParams,
+} from "./options.js";
 import { getLongRunningPoller } from "../static-helpers/pollingHelpers.js";
+import { expandUrlTemplate } from "../static-helpers/urlTemplate.js";
 import {
   StreamableMethod,
   PathUncheckedResponse,
@@ -53,15 +54,23 @@ export function _getSettingsSend(
   context: Client,
   options: GetSettingsOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
+  const path = expandUrlTemplate(
+    "/settings{?api%2Dversion}",
+    {
+      "api%2Dversion": context.apiVersion,
+    },
+    {
+      allowReserved: options?.requestOptions?.skipUrlEncoding,
+    },
+  );
   return context
-    .path("/settings")
+    .path(path)
     .get({
       ...operationOptionsToRequestParameters(options),
       headers: {
         accept: "application/json",
         ...options.requestOptions?.headers,
       },
-      queryParameters: { "api-version": context.apiVersion },
     });
 }
 
@@ -92,15 +101,24 @@ export function _getSettingSend(
   settingName: string,
   options: GetSettingOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
+  const path = expandUrlTemplate(
+    "/settings/{setting-name}{?api%2Dversion}",
+    {
+      "setting-name": settingName,
+      "api%2Dversion": context.apiVersion,
+    },
+    {
+      allowReserved: options?.requestOptions?.skipUrlEncoding,
+    },
+  );
   return context
-    .path("/settings/{setting-name}", settingName)
+    .path(path)
     .get({
       ...operationOptionsToRequestParameters(options),
       headers: {
         accept: "application/json",
         ...options.requestOptions?.headers,
       },
-      queryParameters: { "api-version": context.apiVersion },
     });
 }
 
@@ -133,8 +151,18 @@ export function _updateSettingSend(
   parameters: UpdateSettingRequest,
   options: UpdateSettingOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
+  const path = expandUrlTemplate(
+    "/settings/{setting-name}{?api%2Dversion}",
+    {
+      "setting-name": settingName,
+      "api%2Dversion": context.apiVersion,
+    },
+    {
+      allowReserved: options?.requestOptions?.skipUrlEncoding,
+    },
+  );
   return context
-    .path("/settings/{setting-name}", settingName)
+    .path(path)
     .patch({
       ...operationOptionsToRequestParameters(options),
       contentType: "application/json",
@@ -142,7 +170,6 @@ export function _updateSettingSend(
         accept: "application/json",
         ...options.requestOptions?.headers,
       },
-      queryParameters: { "api-version": context.apiVersion },
       body: updateSettingRequestSerializer(parameters),
     });
 }
@@ -182,8 +209,18 @@ export function _selectiveKeyRestoreOperationSend(
   restoreBlobDetails: SelectiveKeyRestoreOperationParameters,
   options: SelectiveKeyRestoreOperationOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
+  const path = expandUrlTemplate(
+    "/keys/{keyName}/restore{?api%2Dversion}",
+    {
+      keyName: keyName,
+      "api%2Dversion": context.apiVersion,
+    },
+    {
+      allowReserved: options?.requestOptions?.skipUrlEncoding,
+    },
+  );
   return context
-    .path("/keys/{keyName}/restore", keyName)
+    .path(path)
     .put({
       ...operationOptionsToRequestParameters(options),
       contentType: "application/json",
@@ -191,7 +228,6 @@ export function _selectiveKeyRestoreOperationSend(
         accept: "application/json",
         ...options.requestOptions?.headers,
       },
-      queryParameters: { "api-version": context.apiVersion },
       body: selectiveKeyRestoreOperationParametersSerializer(
         restoreBlobDetails,
       ),
@@ -248,15 +284,24 @@ export function _selectiveKeyRestoreStatusSend(
   jobId: string,
   options: SelectiveKeyRestoreStatusOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
+  const path = expandUrlTemplate(
+    "/restore/{jobId}/pending{?api%2Dversion}",
+    {
+      jobId: jobId,
+      "api%2Dversion": context.apiVersion,
+    },
+    {
+      allowReserved: options?.requestOptions?.skipUrlEncoding,
+    },
+  );
   return context
-    .path("/restore/{jobId}/pending", jobId)
+    .path(path)
     .get({
       ...operationOptionsToRequestParameters(options),
       headers: {
         accept: "application/json",
         ...options.requestOptions?.headers,
       },
-      queryParameters: { "api-version": context.apiVersion },
     });
 }
 
@@ -283,65 +328,22 @@ export async function selectiveKeyRestoreStatus(
   return _selectiveKeyRestoreStatusDeserialize(result);
 }
 
-export function _fullRestoreOperationSend(
-  context: Client,
-  restoreBlobDetails: RestoreOperationParameters,
-  options: FullRestoreOperationOptionalParams = { requestOptions: {} },
-): StreamableMethod {
-  return context
-    .path("/restore")
-    .put({
-      ...operationOptionsToRequestParameters(options),
-      contentType: "application/json",
-      headers: {
-        accept: "application/json",
-        ...options.requestOptions?.headers,
-      },
-      queryParameters: { "api-version": context.apiVersion },
-      body: restoreOperationParametersSerializer(restoreBlobDetails),
-    });
-}
-
-export async function _fullRestoreOperationDeserialize(
-  result: PathUncheckedResponse,
-): Promise<RestoreOperation> {
-  const expectedStatuses = ["202", "200"];
-  if (!expectedStatuses.includes(result.status)) {
-    const error = createRestError(result);
-    error.details = keyVaultErrorDeserializer(result.body);
-    throw error;
-  }
-
-  return restoreOperationDeserializer(result.body);
-}
-
-/** Restores all key materials using the SAS token pointing to a previously stored Azure Blob storage backup folder */
-export function fullRestoreOperation(
-  context: Client,
-  restoreBlobDetails: RestoreOperationParameters,
-  options: FullRestoreOperationOptionalParams = { requestOptions: {} },
-): PollerLike<OperationState<RestoreOperation>, RestoreOperation> {
-  return getLongRunningPoller(
-    context,
-    _fullRestoreOperationDeserialize,
-    ["202", "200"],
-    {
-      updateIntervalInMs: options?.updateIntervalInMs,
-      abortSignal: options?.abortSignal,
-      getInitialResponse: () =>
-        _fullRestoreOperationSend(context, restoreBlobDetails, options),
-      resourceLocationConfig: "azure-async-operation",
-    },
-  ) as PollerLike<OperationState<RestoreOperation>, RestoreOperation>;
-}
-
 export function _preFullRestoreOperationSend(
   context: Client,
   preRestoreOperationParameters: PreRestoreOperationParameters,
   options: PreFullRestoreOperationOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
+  const path = expandUrlTemplate(
+    "/prerestore{?api%2Dversion}",
+    {
+      "api%2Dversion": context.apiVersion,
+    },
+    {
+      allowReserved: options?.requestOptions?.skipUrlEncoding,
+    },
+  );
   return context
-    .path("/prerestore")
+    .path(path)
     .put({
       ...operationOptionsToRequestParameters(options),
       contentType: "application/json",
@@ -349,7 +351,6 @@ export function _preFullRestoreOperationSend(
         accept: "application/json",
         ...options.requestOptions?.headers,
       },
-      queryParameters: { "api-version": context.apiVersion },
       body: preRestoreOperationParametersSerializer(
         preRestoreOperationParameters,
       ),
@@ -393,20 +394,89 @@ export function preFullRestoreOperation(
   ) as PollerLike<OperationState<RestoreOperation>, RestoreOperation>;
 }
 
+export function _fullRestoreOperationSend(
+  context: Client,
+  restoreBlobDetails: RestoreOperationParameters,
+  options: FullRestoreOperationOptionalParams = { requestOptions: {} },
+): StreamableMethod {
+  const path = expandUrlTemplate(
+    "/restore{?api%2Dversion}",
+    {
+      "api%2Dversion": context.apiVersion,
+    },
+    {
+      allowReserved: options?.requestOptions?.skipUrlEncoding,
+    },
+  );
+  return context
+    .path(path)
+    .put({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      headers: {
+        accept: "application/json",
+        ...options.requestOptions?.headers,
+      },
+      body: restoreOperationParametersSerializer(restoreBlobDetails),
+    });
+}
+
+export async function _fullRestoreOperationDeserialize(
+  result: PathUncheckedResponse,
+): Promise<RestoreOperation> {
+  const expectedStatuses = ["202", "200"];
+  if (!expectedStatuses.includes(result.status)) {
+    const error = createRestError(result);
+    error.details = keyVaultErrorDeserializer(result.body);
+    throw error;
+  }
+
+  return restoreOperationDeserializer(result.body);
+}
+
+/** Restores all key materials using the SAS token pointing to a previously stored Azure Blob storage backup folder */
+export function fullRestoreOperation(
+  context: Client,
+  restoreBlobDetails: RestoreOperationParameters,
+  options: FullRestoreOperationOptionalParams = { requestOptions: {} },
+): PollerLike<OperationState<RestoreOperation>, RestoreOperation> {
+  return getLongRunningPoller(
+    context,
+    _fullRestoreOperationDeserialize,
+    ["202", "200"],
+    {
+      updateIntervalInMs: options?.updateIntervalInMs,
+      abortSignal: options?.abortSignal,
+      getInitialResponse: () =>
+        _fullRestoreOperationSend(context, restoreBlobDetails, options),
+      resourceLocationConfig: "azure-async-operation",
+    },
+  ) as PollerLike<OperationState<RestoreOperation>, RestoreOperation>;
+}
+
 export function _restoreStatusSend(
   context: Client,
   jobId: string,
   options: RestoreStatusOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
+  const path = expandUrlTemplate(
+    "/restore/{jobId}/pending{?api%2Dversion}",
+    {
+      jobId: jobId,
+      "api%2Dversion": context.apiVersion,
+    },
+    {
+      allowReserved: options?.requestOptions?.skipUrlEncoding,
+    },
+  );
   return context
-    .path("/restore/{jobId}/pending", jobId)
+    .path(path)
     .get({
       ...operationOptionsToRequestParameters(options),
       headers: {
         accept: "application/json",
         ...options.requestOptions?.headers,
       },
-      queryParameters: { "api-version": context.apiVersion },
     });
 }
 
@@ -438,8 +508,17 @@ export function _preFullBackupSend(
   preBackupOperationParameters: PreBackupOperationParameters,
   options: PreFullBackupOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
+  const path = expandUrlTemplate(
+    "/prebackup{?api%2Dversion}",
+    {
+      "api%2Dversion": context.apiVersion,
+    },
+    {
+      allowReserved: options?.requestOptions?.skipUrlEncoding,
+    },
+  );
   return context
-    .path("/prebackup")
+    .path(path)
     .post({
       ...operationOptionsToRequestParameters(options),
       contentType: "application/json",
@@ -447,7 +526,6 @@ export function _preFullBackupSend(
         accept: "application/json",
         ...options.requestOptions?.headers,
       },
-      queryParameters: { "api-version": context.apiVersion },
       body: preBackupOperationParametersSerializer(
         preBackupOperationParameters,
       ),
@@ -492,8 +570,17 @@ export function _fullBackupSend(
   azureStorageBlobContainerUri: SASTokenParameter,
   options: FullBackupOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
+  const path = expandUrlTemplate(
+    "/backup{?api%2Dversion}",
+    {
+      "api%2Dversion": context.apiVersion,
+    },
+    {
+      allowReserved: options?.requestOptions?.skipUrlEncoding,
+    },
+  );
   return context
-    .path("/backup")
+    .path(path)
     .post({
       ...operationOptionsToRequestParameters(options),
       contentType: "application/json",
@@ -501,8 +588,7 @@ export function _fullBackupSend(
         accept: "application/json",
         ...options.requestOptions?.headers,
       },
-      queryParameters: { "api-version": context.apiVersion },
-      body: sASTokenParameterSerializer(azureStorageBlobContainerUri),
+      body: sasTokenParameterSerializer(azureStorageBlobContainerUri),
     });
 }
 
@@ -539,15 +625,24 @@ export function _fullBackupStatusSend(
   jobId: string,
   options: FullBackupStatusOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
+  const path = expandUrlTemplate(
+    "/backup/{jobId}/pending{?api%2Dversion}",
+    {
+      jobId: jobId,
+      "api%2Dversion": context.apiVersion,
+    },
+    {
+      allowReserved: options?.requestOptions?.skipUrlEncoding,
+    },
+  );
   return context
-    .path("/backup/{jobId}/pending", jobId)
+    .path(path)
     .get({
       ...operationOptionsToRequestParameters(options),
       headers: {
         accept: "application/json",
         ...options.requestOptions?.headers,
       },
-      queryParameters: { "api-version": context.apiVersion },
     });
 }
 

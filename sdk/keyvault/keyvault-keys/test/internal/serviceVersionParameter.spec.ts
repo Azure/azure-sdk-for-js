@@ -51,7 +51,7 @@ describe("The Keys client should set the serviceVersion", () => {
 
     expect(spy).toHaveBeenCalledWith(
       expect.objectContaining({
-        url: `https://keyvaultname.vault.azure.net/keys/keyName/create?api-version=${LATEST_API_VERSION}`,
+        url: `https://keyvaultname.vault.azure.net/keys/keyName/create?api%2Dversion=${LATEST_API_VERSION}`,
       }),
     );
   });
@@ -65,7 +65,7 @@ describe("The Keys client should set the serviceVersion", () => {
 
     expect(spy).toHaveBeenCalledWith(
       expect.objectContaining({
-        url: `https://keyvaultname.vault.azure.net/keys/keyName/create?api-version=7.0`,
+        url: `https://keyvaultname.vault.azure.net/keys/keyName/create?api%2Dversion=7.0`,
       }),
     );
   });

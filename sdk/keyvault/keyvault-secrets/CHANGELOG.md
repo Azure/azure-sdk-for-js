@@ -1,14 +1,18 @@
 # Release History
 
-## 4.10.0-beta.2 (Unreleased)
+## 4.10.0 (Unreleased)
 
 ### Features Added
+
+- Added support for service API version `7.6` which is now the default. [#32947](https://github.com/Azure/azure-sdk-for-js/pull/32947)
 
 ### Breaking Changes
 
 ### Bugs Fixed
 
 ### Other Changes
+
+- Generate code from TypeSpec. This is an internal change that should not affect customers. [#31848](https://github.com/Azure/azure-sdk-for-js/pull/31848)
 
 ## 4.10.0-beta.1 (2025-03-11)
 

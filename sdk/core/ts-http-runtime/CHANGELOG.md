@@ -8,6 +8,8 @@
 
 ### Bugs Fixed
 
+- Fix an issue where `authSchemes` is not exposed in `PipelineRequestOptions`.
+
 ### Other Changes
 
 ## 0.2.2 (2025-05-01)
@@ -23,6 +25,7 @@
 ## 0.2.1 (2025-04-08)
 
 ### Bugs Fixed
+
 - Fix an issue where insecure connection setting was not properly propagated through the client options.
 
 ## 0.2.0 (2025-03-25)

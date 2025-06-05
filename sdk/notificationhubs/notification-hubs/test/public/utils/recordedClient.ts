@@ -33,6 +33,17 @@ export async function createRecordedClientContext(
   recorder: Recorder,
 ): Promise<NotificationHubsClientContext> {
   await recorder.start(recorderOptions);
+  await recorder.addSanitizers(
+    {
+      headerSanitizers: [
+        {
+          key: "x-ms-azsdk-telemetry",
+          value: "class=REDACTED",
+        },
+      ],
+    },
+    ["record", "playback"],
+  );
   if (isBrowser) {
     // there are timestamps in the body, so do not match body
     await recorder.setMatcher("BodilessMatcher");

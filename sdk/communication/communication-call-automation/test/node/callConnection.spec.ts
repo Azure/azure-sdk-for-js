@@ -75,6 +75,7 @@ describe("CallConnection Unit Tests", () => {
   let target: CallInvite;
   let phoneTarget: CallInvite;
   let phoneTarget2: CallInvite;
+  let teamsTarget: CallInvite;
   let callConnection: MockedObject<CallConnection>;
 
   beforeEach(() => {
@@ -107,14 +108,49 @@ describe("CallConnection Unit Tests", () => {
       ],
     };
 
+    teamsTarget = {
+      targetParticipant: { teamsAppId: "teamsAppId123" },
+      customCallingContext: [
+        {
+          kind: "voip",
+          key: "teamsKey",
+          value: "teamsValue",
+        },
+        {
+          kind: "teamsPhoneCallDetails",
+          teamsPhoneCallerDetails: {
+            caller: { teamsAppId: "teamsAppId123" },
+            name: "John Doe",
+            phoneNumber: "+14255551234",
+            additionalCallerInformation: {
+              Department: "Sales",
+              Priority: "High",
+            },
+          },
+          teamsPhoneSourceDetails: {
+            source: { teamsAppId: "teamsAppId123" },
+            language: "en-US",
+            status: "Active",
+          },
+          sessionId: "session-123-abc",
+          intent: "Sales Inquiry",
+          callTopic: "New Product Information",
+          callContext: "Customer is interested in our latest product line",
+          transcriptUrl: "https://transcripts.example.com/call/123",
+          callSentiment: "Positive",
+          suggestedActions: "Offer product demo, Schedule follow-up",
+        },
+      ],
+    };
+
     // stub CallConnection
     callConnection = vi.mocked(
       new CallConnection(
-        expect.anything(),
-        expect.anything(),
-        expect.anything(),
-        expect.anything(),
-        expect.anything(),
+        "mockCallConnectionId",
+        "https://mock.endpoint.com",
+        { key: "mockKey" },
+        {} as any,
+        {},
       ),
     );
   });
@@ -407,6 +443,39 @@ describe("CallConnection Unit Tests", () => {
     assert.isNotNull(result);
     expect(callConnection.transferCallToParticipant).toHaveBeenCalledWith(
       phoneTarget2.targetParticipant,
+      options,
+    );
+    assert.equal(result, transferCallResultMock);
+  });
+  it("TransferCallToParticipantWithTransfereeTeamsHeader", async () => {
+    // mocks
+    const transferCallResultMock: TransferCallResult = {
+      waitForEventProcessor: async () => {
+        return {} as TransferCallToParticipantEventResult;
+      },
+    };
+    callConnection.transferCallToParticipant.mockReturnValue(
+      new Promise((resolve) => {
+        resolve(transferCallResultMock);
+      }),
+    );
+
+    const transferee = { teamsAppId: "teamsAppId123" };
+
+    const options: TransferCallToParticipantOptions = {
+      customCallingContext: teamsTarget.customCallingContext,
+      transferee: transferee,
+    };
+    const promiseResult = callConnection.transferCallToParticipant(
+      teamsTarget.targetParticipant,
+      options,
+    );
+
+    // asserts
+    const result = await promiseResult;
+    assert.isNotNull(result);
+    expect(callConnection.transferCallToParticipant).toHaveBeenCalledWith(
+      teamsTarget.targetParticipant,
       options,
     );
     assert.equal(result, transferCallResultMock);
@@ -723,15 +792,9 @@ describe("CallConnection Live Tests", function () {
 
     await new Promise((resolve) => setTimeout(resolve, 10000));
 
-    const participantLists = await callConnection.listParticipants();
-    let isMuted = false;
-    for (const participant of participantLists.values!) {
-      const communicationUser = participant.identifier as CommunicationUserIdentifier;
-      if (communicationUser.communicationUserId === testUser2.communicationUserId) {
-        isMuted = participant.isMuted!;
-      }
-    }
-    assert.isTrue(isMuted);
+    const participant = await callConnection.getParticipant(testUser2);
+    assert.isDefined(participant);
+    assert.isTrue(participant.isMuted);
   });
 
   it("Add a participant cancels add participant request", { timeout: 90000 }, async function (ctx) {

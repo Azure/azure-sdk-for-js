@@ -1131,11 +1131,6 @@
       "versionPolicyName": "management"
     },
     {
-      "packageName": "@azure/arm-appplatform",
-      "projectFolder": "sdk/appplatform/arm-appplatform",
-      "versionPolicyName": "management"
-    },
-    {
       "packageName": "@azure/arm-containerservice",
       "projectFolder": "sdk/containerservice/arm-containerservice",
       "versionPolicyName": "management"
@@ -1148,11 +1143,6 @@
     {
       "packageName": "@azure/arm-operations",
       "projectFolder": "sdk/operationsmanagement/arm-operations",
-      "versionPolicyName": "management"
-    },
-    {
-      "packageName": "@azure/arm-mediaservices",
-      "projectFolder": "sdk/mediaservices/arm-mediaservices",
       "versionPolicyName": "management"
     },
     {
@@ -1951,6 +1941,16 @@
       "versionPolicyName": "client"
     },
     {
+      "packageName": "@azure/create-playwright",
+      "projectFolder": "sdk/loadtesting/create-playwright",
+      "versionPolicyName": "client"
+    },
+    {
+      "packageName": "@azure/playwright",
+      "projectFolder": "sdk/loadtesting/playwright",
+      "versionPolicyName": "client"
+    },
+    {
       "packageName": "@azure/arm-elasticsan",
       "projectFolder": "sdk/elasticsans/arm-elasticsan",
       "versionPolicyName": "management"
@@ -2378,6 +2378,11 @@
     {
       "packageName": "@azure/arm-carbonoptimization",
       "projectFolder": "sdk/carbonoptimization/arm-carbonoptimization",
+      "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-purestorageblock",
+      "projectFolder": "sdk/purestorageblock/arm-purestorageblock",
       "versionPolicyName": "management"
     },
     {

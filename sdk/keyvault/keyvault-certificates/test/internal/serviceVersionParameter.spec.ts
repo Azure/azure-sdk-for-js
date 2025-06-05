@@ -49,7 +49,7 @@ describe("The Certificates client should set the serviceVersion", () => {
     expect(spy).toHaveBeenCalled();
     const url = spy.mock.lastCall![0].url;
     expect(url).toEqual(
-      `https://keyvaultname.vault.azure.net/certificates/certificateName/?api-version=${LATEST_API_VERSION}`,
+      `https://keyvaultname.vault.azure.net/certificates/certificateName/?api%2Dversion=${LATEST_API_VERSION}`,
     );
   });
 
@@ -68,7 +68,7 @@ describe("The Certificates client should set the serviceVersion", () => {
       expect(spy).toHaveBeenCalled();
       const url = spy.mock.lastCall![0].url;
       expect(url).toEqual(
-        `https://keyvaultname.vault.azure.net/certificates/certificateName/?api-version=${serviceVersion}`,
+        `https://keyvaultname.vault.azure.net/certificates/certificateName/?api%2Dversion=${serviceVersion}`,
       );
     }
   });

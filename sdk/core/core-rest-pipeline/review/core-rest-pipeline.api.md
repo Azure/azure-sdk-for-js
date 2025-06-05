@@ -376,15 +376,23 @@ export interface RedirectPolicyOptions {
 export type RequestBodyType = NodeJS.ReadableStream | (() => NodeJS.ReadableStream) | ReadableStream<Uint8Array> | (() => ReadableStream<Uint8Array>) | Blob | ArrayBuffer | ArrayBufferView | FormData | string | null;
 
 // @public
-export class RestError extends Error {
-    constructor(message: string, options?: RestErrorOptions);
+export interface RestError extends Error {
     code?: string;
     details?: unknown;
-    static readonly PARSE_ERROR: string;
     request?: PipelineRequest;
-    static readonly REQUEST_SEND_ERROR: string;
     response?: PipelineResponse;
     statusCode?: number;
+}
+
+// @public
+export const RestError: RestErrorConstructor;
+
+// @public
+export interface RestErrorConstructor {
+    new (message: string, options?: RestErrorOptions): RestError;
+    readonly PARSE_ERROR: string;
+    readonly prototype: RestError;
+    readonly REQUEST_SEND_ERROR: string;
 }
 
 // @public

@@ -64,7 +64,7 @@ export {
   PendingUploadType,
   KnownVersions,
 } from "./models/index.js";
-export { AIProjectClientOptionalParams } from "./api/index.js";
+export { AIProjectClientOptionalParams, DatasetUploadOptions } from "./api/index.js";
 export {
   ConnectionsListOptionalParams,
   ConnectionsGetWithCredentialsOptionalParams,

@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 import type { VitestTestContext } from "@azure-tools/test-recorder";
-import { AIProjectClient, DatasetVersion, EvaluatorIds } from "@azure/ai-projects";
+import { AIProjectClient, DatasetVersion, EvaluatorIds } from "../src/index.js";
 import type {
   AzureAISearchIndex,
   Connection,
@@ -10,7 +10,7 @@ import type {
   Evaluation,
   EvaluationWithOptionalName,
   ModelDeployment,
-} from "@azure/ai-projects";
+} from "../src/index.js";
 import { isRestError } from "@azure/core-rest-pipeline";
 import { createProjectsClient } from "./public/utils/createClient.js";
 import { DefaultAzureCredential } from "@azure/identity";
@@ -309,7 +309,7 @@ describe("snippets", function () {
       },
     };
 
-    const evalResp = await project.evaluations.createRun(newEvaluation);
+    const evalResp = await project.evaluations.create(newEvaluation);
     console.log("Create a new evaluation:", JSON.stringify(evalResp, null, 2));
     // get the evaluation by ID
     const eval2 = await project.evaluations.get(evalResp.name);

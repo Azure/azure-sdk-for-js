@@ -1,9 +1,16 @@
 # Release History
 
-## 1.4.0-beta.1 (2025-05-21)
+## 1.4.0 (2025-06-20)
 
 ### Features Added
 
+- GA release of the reservations functionality.
+- GA support for automated purchases of phone numbers from countries requiring a do not resell agreement.
+  - For more information, refer to: https://learn.microsoft.com/azure/communication-services/concepts/numbers/sub-eligibility-number-capability
+
+## 1.4.0-beta.1 (2025-05-21)
+
+### Features Added
 - Adds support for the Browse Available Phone Numbers and Reservations APIs
   - This adds an alternate way to search and purchase phone numbers that allows customers to select which phone numbers they want to reserve and purchase.
 - Adds support for automated purchases of phone numbers from countries requiring a Do Not Resell agreement.

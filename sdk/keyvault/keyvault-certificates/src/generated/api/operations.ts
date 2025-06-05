@@ -1,36 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import {
-  BackupCertificateOptionalParams,
-  KeyVaultContext as Client,
-  CreateCertificateOptionalParams,
-  DeleteCertificateContactsOptionalParams,
-  DeleteCertificateIssuerOptionalParams,
-  DeleteCertificateOperationOptionalParams,
-  DeleteCertificateOptionalParams,
-  GetCertificateContactsOptionalParams,
-  GetCertificateIssuerOptionalParams,
-  GetCertificateIssuersOptionalParams,
-  GetCertificateOperationOptionalParams,
-  GetCertificateOptionalParams,
-  GetCertificatePolicyOptionalParams,
-  GetCertificatesOptionalParams,
-  GetCertificateVersionsOptionalParams,
-  GetDeletedCertificateOptionalParams,
-  GetDeletedCertificatesOptionalParams,
-  ImportCertificateOptionalParams,
-  MergeCertificateOptionalParams,
-  PurgeDeletedCertificateOptionalParams,
-  RecoverDeletedCertificateOptionalParams,
-  RestoreCertificateOptionalParams,
-  SetCertificateContactsOptionalParams,
-  SetCertificateIssuerOptionalParams,
-  UpdateCertificateIssuerOptionalParams,
-  UpdateCertificateOperationOptionalParams,
-  UpdateCertificateOptionalParams,
-  UpdateCertificatePolicyOptionalParams,
-} from "./index.js";
+import { KeyVaultContext as Client } from "./index.js";
 import {
   _CertificateListResult,
   _certificateListResultDeserializer,
@@ -76,9 +47,39 @@ import {
   DeletedCertificateItem,
 } from "../models/models.js";
 import {
+  RecoverDeletedCertificateOptionalParams,
+  PurgeDeletedCertificateOptionalParams,
+  GetDeletedCertificateOptionalParams,
+  GetDeletedCertificatesOptionalParams,
+  RestoreCertificateOptionalParams,
+  BackupCertificateOptionalParams,
+  MergeCertificateOptionalParams,
+  DeleteCertificateOperationOptionalParams,
+  GetCertificateOperationOptionalParams,
+  UpdateCertificateOperationOptionalParams,
+  GetCertificateOptionalParams,
+  UpdateCertificateOptionalParams,
+  UpdateCertificatePolicyOptionalParams,
+  GetCertificatePolicyOptionalParams,
+  GetCertificateVersionsOptionalParams,
+  ImportCertificateOptionalParams,
+  CreateCertificateOptionalParams,
+  DeleteCertificateIssuerOptionalParams,
+  GetCertificateIssuerOptionalParams,
+  UpdateCertificateIssuerOptionalParams,
+  SetCertificateIssuerOptionalParams,
+  GetCertificateIssuersOptionalParams,
+  DeleteCertificateContactsOptionalParams,
+  GetCertificateContactsOptionalParams,
+  SetCertificateContactsOptionalParams,
+  DeleteCertificateOptionalParams,
+  GetCertificatesOptionalParams,
+} from "./options.js";
+import {
   PagedAsyncIterableIterator,
   buildPagedAsyncIterator,
 } from "../static-helpers/pagingHelpers.js";
+import { expandUrlTemplate } from "../static-helpers/urlTemplate.js";
 import {
   StreamableMethod,
   PathUncheckedResponse,
@@ -91,15 +92,24 @@ export function _recoverDeletedCertificateSend(
   certificateName: string,
   options: RecoverDeletedCertificateOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
+  const path = expandUrlTemplate(
+    "/deletedcertificates/{certificate-name}/recover{?api%2Dversion}",
+    {
+      "certificate-name": certificateName,
+      "api%2Dversion": context.apiVersion,
+    },
+    {
+      allowReserved: options?.requestOptions?.skipUrlEncoding,
+    },
+  );
   return context
-    .path("/deletedcertificates/{certificate-name}/recover", certificateName)
+    .path(path)
     .post({
       ...operationOptionsToRequestParameters(options),
       headers: {
         accept: "application/json",
         ...options.requestOptions?.headers,
       },
-      queryParameters: { "api-version": context.apiVersion },
     });
 }
 
@@ -135,15 +145,24 @@ export function _purgeDeletedCertificateSend(
   certificateName: string,
   options: PurgeDeletedCertificateOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
+  const path = expandUrlTemplate(
+    "/deletedcertificates/{certificate-name}{?api%2Dversion}",
+    {
+      "certificate-name": certificateName,
+      "api%2Dversion": context.apiVersion,
+    },
+    {
+      allowReserved: options?.requestOptions?.skipUrlEncoding,
+    },
+  );
   return context
-    .path("/deletedcertificates/{certificate-name}", certificateName)
+    .path(path)
     .delete({
       ...operationOptionsToRequestParameters(options),
       headers: {
         accept: "application/json",
         ...options.requestOptions?.headers,
       },
-      queryParameters: { "api-version": context.apiVersion },
     });
 }
 
@@ -179,15 +198,24 @@ export function _getDeletedCertificateSend(
   certificateName: string,
   options: GetDeletedCertificateOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
+  const path = expandUrlTemplate(
+    "/deletedcertificates/{certificate-name}{?api%2Dversion}",
+    {
+      "certificate-name": certificateName,
+      "api%2Dversion": context.apiVersion,
+    },
+    {
+      allowReserved: options?.requestOptions?.skipUrlEncoding,
+    },
+  );
   return context
-    .path("/deletedcertificates/{certificate-name}", certificateName)
+    .path(path)
     .get({
       ...operationOptionsToRequestParameters(options),
       headers: {
         accept: "application/json",
         ...options.requestOptions?.headers,
       },
-      queryParameters: { "api-version": context.apiVersion },
     });
 }
 
@@ -222,18 +250,24 @@ export function _getDeletedCertificatesSend(
   context: Client,
   options: GetDeletedCertificatesOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
+  const path = expandUrlTemplate(
+    "/deletedcertificates{?api%2Dversion,maxresults,includePending}",
+    {
+      "api%2Dversion": context.apiVersion,
+      maxresults: options?.maxresults,
+      includePending: options?.includePending,
+    },
+    {
+      allowReserved: options?.requestOptions?.skipUrlEncoding,
+    },
+  );
   return context
-    .path("/deletedcertificates")
+    .path(path)
     .get({
       ...operationOptionsToRequestParameters(options),
       headers: {
         accept: "application/json",
         ...options.requestOptions?.headers,
-      },
-      queryParameters: {
-        "api-version": context.apiVersion,
-        maxresults: options?.maxresults,
-        includePending: options?.includePending,
       },
     });
 }
@@ -270,8 +304,17 @@ export function _restoreCertificateSend(
   parameters: CertificateRestoreParameters,
   options: RestoreCertificateOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
+  const path = expandUrlTemplate(
+    "/certificates/restore{?api%2Dversion}",
+    {
+      "api%2Dversion": context.apiVersion,
+    },
+    {
+      allowReserved: options?.requestOptions?.skipUrlEncoding,
+    },
+  );
   return context
-    .path("/certificates/restore")
+    .path(path)
     .post({
       ...operationOptionsToRequestParameters(options),
       contentType: "application/json",
@@ -279,7 +322,6 @@ export function _restoreCertificateSend(
         accept: "application/json",
         ...options.requestOptions?.headers,
       },
-      queryParameters: { "api-version": context.apiVersion },
       body: certificateRestoreParametersSerializer(parameters),
     });
 }
@@ -312,15 +354,24 @@ export function _backupCertificateSend(
   certificateName: string,
   options: BackupCertificateOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
+  const path = expandUrlTemplate(
+    "/certificates/{certificate-name}/backup{?api%2Dversion}",
+    {
+      "certificate-name": certificateName,
+      "api%2Dversion": context.apiVersion,
+    },
+    {
+      allowReserved: options?.requestOptions?.skipUrlEncoding,
+    },
+  );
   return context
-    .path("/certificates/{certificate-name}/backup", certificateName)
+    .path(path)
     .post({
       ...operationOptionsToRequestParameters(options),
       headers: {
         accept: "application/json",
         ...options.requestOptions?.headers,
       },
-      queryParameters: { "api-version": context.apiVersion },
     });
 }
 
@@ -357,8 +408,18 @@ export function _mergeCertificateSend(
   parameters: CertificateMergeParameters,
   options: MergeCertificateOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
+  const path = expandUrlTemplate(
+    "/certificates/{certificate-name}/pending/merge{?api%2Dversion}",
+    {
+      "certificate-name": certificateName,
+      "api%2Dversion": context.apiVersion,
+    },
+    {
+      allowReserved: options?.requestOptions?.skipUrlEncoding,
+    },
+  );
   return context
-    .path("/certificates/{certificate-name}/pending/merge", certificateName)
+    .path(path)
     .post({
       ...operationOptionsToRequestParameters(options),
       contentType: "application/json",
@@ -366,7 +427,6 @@ export function _mergeCertificateSend(
         accept: "application/json",
         ...options.requestOptions?.headers,
       },
-      queryParameters: { "api-version": context.apiVersion },
       body: certificateMergeParametersSerializer(parameters),
     });
 }
@@ -405,15 +465,24 @@ export function _deleteCertificateOperationSend(
   certificateName: string,
   options: DeleteCertificateOperationOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
+  const path = expandUrlTemplate(
+    "/certificates/{certificate-name}/pending{?api%2Dversion}",
+    {
+      "certificate-name": certificateName,
+      "api%2Dversion": context.apiVersion,
+    },
+    {
+      allowReserved: options?.requestOptions?.skipUrlEncoding,
+    },
+  );
   return context
-    .path("/certificates/{certificate-name}/pending", certificateName)
+    .path(path)
     .delete({
       ...operationOptionsToRequestParameters(options),
       headers: {
         accept: "application/json",
         ...options.requestOptions?.headers,
       },
-      queryParameters: { "api-version": context.apiVersion },
     });
 }
 
@@ -449,15 +518,24 @@ export function _getCertificateOperationSend(
   certificateName: string,
   options: GetCertificateOperationOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
+  const path = expandUrlTemplate(
+    "/certificates/{certificate-name}/pending{?api%2Dversion}",
+    {
+      "certificate-name": certificateName,
+      "api%2Dversion": context.apiVersion,
+    },
+    {
+      allowReserved: options?.requestOptions?.skipUrlEncoding,
+    },
+  );
   return context
-    .path("/certificates/{certificate-name}/pending", certificateName)
+    .path(path)
     .get({
       ...operationOptionsToRequestParameters(options),
       headers: {
         accept: "application/json",
         ...options.requestOptions?.headers,
       },
-      queryParameters: { "api-version": context.apiVersion },
     });
 }
 
@@ -494,8 +572,18 @@ export function _updateCertificateOperationSend(
   certificateOperation: CertificateOperationUpdateParameter,
   options: UpdateCertificateOperationOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
+  const path = expandUrlTemplate(
+    "/certificates/{certificate-name}/pending{?api%2Dversion}",
+    {
+      "certificate-name": certificateName,
+      "api%2Dversion": context.apiVersion,
+    },
+    {
+      allowReserved: options?.requestOptions?.skipUrlEncoding,
+    },
+  );
   return context
-    .path("/certificates/{certificate-name}/pending", certificateName)
+    .path(path)
     .patch({
       ...operationOptionsToRequestParameters(options),
       contentType: "application/json",
@@ -503,7 +591,6 @@ export function _updateCertificateOperationSend(
         accept: "application/json",
         ...options.requestOptions?.headers,
       },
-      queryParameters: { "api-version": context.apiVersion },
       body: certificateOperationUpdateParameterSerializer(certificateOperation),
     });
 }
@@ -543,19 +630,25 @@ export function _getCertificateSend(
   certificateVersion: string,
   options: GetCertificateOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
+  const path = expandUrlTemplate(
+    "/certificates/{certificate-name}/{certificate-version}{?api%2Dversion}",
+    {
+      "certificate-name": certificateName,
+      "certificate-version": certificateVersion,
+      "api%2Dversion": context.apiVersion,
+    },
+    {
+      allowReserved: options?.requestOptions?.skipUrlEncoding,
+    },
+  );
   return context
-    .path(
-      "/certificates/{certificate-name}/{certificate-version}",
-      certificateName,
-      certificateVersion,
-    )
+    .path(path)
     .get({
       ...operationOptionsToRequestParameters(options),
       headers: {
         accept: "application/json",
         ...options.requestOptions?.headers,
       },
-      queryParameters: { "api-version": context.apiVersion },
     });
 }
 
@@ -595,12 +688,19 @@ export function _updateCertificateSend(
   parameters: CertificateUpdateParameters,
   options: UpdateCertificateOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
+  const path = expandUrlTemplate(
+    "/certificates/{certificate-name}/{certificate-version}{?api%2Dversion}",
+    {
+      "certificate-name": certificateName,
+      "certificate-version": certificateVersion,
+      "api%2Dversion": context.apiVersion,
+    },
+    {
+      allowReserved: options?.requestOptions?.skipUrlEncoding,
+    },
+  );
   return context
-    .path(
-      "/certificates/{certificate-name}/{certificate-version}",
-      certificateName,
-      certificateVersion,
-    )
+    .path(path)
     .patch({
       ...operationOptionsToRequestParameters(options),
       contentType: "application/json",
@@ -608,7 +708,6 @@ export function _updateCertificateSend(
         accept: "application/json",
         ...options.requestOptions?.headers,
       },
-      queryParameters: { "api-version": context.apiVersion },
       body: certificateUpdateParametersSerializer(parameters),
     });
 }
@@ -650,8 +749,18 @@ export function _updateCertificatePolicySend(
   certificatePolicy: CertificatePolicy,
   options: UpdateCertificatePolicyOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
+  const path = expandUrlTemplate(
+    "/certificates/{certificate-name}/policy{?api%2Dversion}",
+    {
+      "certificate-name": certificateName,
+      "api%2Dversion": context.apiVersion,
+    },
+    {
+      allowReserved: options?.requestOptions?.skipUrlEncoding,
+    },
+  );
   return context
-    .path("/certificates/{certificate-name}/policy", certificateName)
+    .path(path)
     .patch({
       ...operationOptionsToRequestParameters(options),
       contentType: "application/json",
@@ -659,7 +768,6 @@ export function _updateCertificatePolicySend(
         accept: "application/json",
         ...options.requestOptions?.headers,
       },
-      queryParameters: { "api-version": context.apiVersion },
       body: certificatePolicySerializer(certificatePolicy),
     });
 }
@@ -698,15 +806,24 @@ export function _getCertificatePolicySend(
   certificateName: string,
   options: GetCertificatePolicyOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
+  const path = expandUrlTemplate(
+    "/certificates/{certificate-name}/policy{?api%2Dversion}",
+    {
+      "certificate-name": certificateName,
+      "api%2Dversion": context.apiVersion,
+    },
+    {
+      allowReserved: options?.requestOptions?.skipUrlEncoding,
+    },
+  );
   return context
-    .path("/certificates/{certificate-name}/policy", certificateName)
+    .path(path)
     .get({
       ...operationOptionsToRequestParameters(options),
       headers: {
         accept: "application/json",
         ...options.requestOptions?.headers,
       },
-      queryParameters: { "api-version": context.apiVersion },
     });
 }
 
@@ -742,17 +859,24 @@ export function _getCertificateVersionsSend(
   certificateName: string,
   options: GetCertificateVersionsOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
+  const path = expandUrlTemplate(
+    "/certificates/{certificate-name}/versions{?api%2Dversion,maxresults}",
+    {
+      "certificate-name": certificateName,
+      "api%2Dversion": context.apiVersion,
+      maxresults: options?.maxresults,
+    },
+    {
+      allowReserved: options?.requestOptions?.skipUrlEncoding,
+    },
+  );
   return context
-    .path("/certificates/{certificate-name}/versions", certificateName)
+    .path(path)
     .get({
       ...operationOptionsToRequestParameters(options),
       headers: {
         accept: "application/json",
         ...options.requestOptions?.headers,
-      },
-      queryParameters: {
-        "api-version": context.apiVersion,
-        maxresults: options?.maxresults,
       },
     });
 }
@@ -791,8 +915,18 @@ export function _importCertificateSend(
   parameters: CertificateImportParameters,
   options: ImportCertificateOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
+  const path = expandUrlTemplate(
+    "/certificates/{certificate-name}/import{?api%2Dversion}",
+    {
+      "certificate-name": certificateName,
+      "api%2Dversion": context.apiVersion,
+    },
+    {
+      allowReserved: options?.requestOptions?.skipUrlEncoding,
+    },
+  );
   return context
-    .path("/certificates/{certificate-name}/import", certificateName)
+    .path(path)
     .post({
       ...operationOptionsToRequestParameters(options),
       contentType: "application/json",
@@ -800,7 +934,6 @@ export function _importCertificateSend(
         accept: "application/json",
         ...options.requestOptions?.headers,
       },
-      queryParameters: { "api-version": context.apiVersion },
       body: certificateImportParametersSerializer(parameters),
     });
 }
@@ -840,8 +973,18 @@ export function _createCertificateSend(
   parameters: CertificateCreateParameters,
   options: CreateCertificateOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
+  const path = expandUrlTemplate(
+    "/certificates/{certificate-name}/create{?api%2Dversion}",
+    {
+      "certificate-name": certificateName,
+      "api%2Dversion": context.apiVersion,
+    },
+    {
+      allowReserved: options?.requestOptions?.skipUrlEncoding,
+    },
+  );
   return context
-    .path("/certificates/{certificate-name}/create", certificateName)
+    .path(path)
     .post({
       ...operationOptionsToRequestParameters(options),
       contentType: "application/json",
@@ -849,7 +992,6 @@ export function _createCertificateSend(
         accept: "application/json",
         ...options.requestOptions?.headers,
       },
-      queryParameters: { "api-version": context.apiVersion },
       body: certificateCreateParametersSerializer(parameters),
     });
 }
@@ -888,15 +1030,24 @@ export function _deleteCertificateIssuerSend(
   issuerName: string,
   options: DeleteCertificateIssuerOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
+  const path = expandUrlTemplate(
+    "/certificates/issuers/{issuer-name}{?api%2Dversion}",
+    {
+      "issuer-name": issuerName,
+      "api%2Dversion": context.apiVersion,
+    },
+    {
+      allowReserved: options?.requestOptions?.skipUrlEncoding,
+    },
+  );
   return context
-    .path("/certificates/issuers/{issuer-name}", issuerName)
+    .path(path)
     .delete({
       ...operationOptionsToRequestParameters(options),
       headers: {
         accept: "application/json",
         ...options.requestOptions?.headers,
       },
-      queryParameters: { "api-version": context.apiVersion },
     });
 }
 
@@ -932,15 +1083,24 @@ export function _getCertificateIssuerSend(
   issuerName: string,
   options: GetCertificateIssuerOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
+  const path = expandUrlTemplate(
+    "/certificates/issuers/{issuer-name}{?api%2Dversion}",
+    {
+      "issuer-name": issuerName,
+      "api%2Dversion": context.apiVersion,
+    },
+    {
+      allowReserved: options?.requestOptions?.skipUrlEncoding,
+    },
+  );
   return context
-    .path("/certificates/issuers/{issuer-name}", issuerName)
+    .path(path)
     .get({
       ...operationOptionsToRequestParameters(options),
       headers: {
         accept: "application/json",
         ...options.requestOptions?.headers,
       },
-      queryParameters: { "api-version": context.apiVersion },
     });
 }
 
@@ -973,8 +1133,18 @@ export function _updateCertificateIssuerSend(
   parameter: CertificateIssuerUpdateParameters,
   options: UpdateCertificateIssuerOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
+  const path = expandUrlTemplate(
+    "/certificates/issuers/{issuer-name}{?api%2Dversion}",
+    {
+      "issuer-name": issuerName,
+      "api%2Dversion": context.apiVersion,
+    },
+    {
+      allowReserved: options?.requestOptions?.skipUrlEncoding,
+    },
+  );
   return context
-    .path("/certificates/issuers/{issuer-name}", issuerName)
+    .path(path)
     .patch({
       ...operationOptionsToRequestParameters(options),
       contentType: "application/json",
@@ -982,7 +1152,6 @@ export function _updateCertificateIssuerSend(
         accept: "application/json",
         ...options.requestOptions?.headers,
       },
-      queryParameters: { "api-version": context.apiVersion },
       body: certificateIssuerUpdateParametersSerializer(parameter),
     });
 }
@@ -1022,8 +1191,18 @@ export function _setCertificateIssuerSend(
   parameter: CertificateIssuerSetParameters,
   options: SetCertificateIssuerOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
+  const path = expandUrlTemplate(
+    "/certificates/issuers/{issuer-name}{?api%2Dversion}",
+    {
+      "issuer-name": issuerName,
+      "api%2Dversion": context.apiVersion,
+    },
+    {
+      allowReserved: options?.requestOptions?.skipUrlEncoding,
+    },
+  );
   return context
-    .path("/certificates/issuers/{issuer-name}", issuerName)
+    .path(path)
     .put({
       ...operationOptionsToRequestParameters(options),
       contentType: "application/json",
@@ -1031,7 +1210,6 @@ export function _setCertificateIssuerSend(
         accept: "application/json",
         ...options.requestOptions?.headers,
       },
-      queryParameters: { "api-version": context.apiVersion },
       body: certificateIssuerSetParametersSerializer(parameter),
     });
 }
@@ -1069,17 +1247,23 @@ export function _getCertificateIssuersSend(
   context: Client,
   options: GetCertificateIssuersOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
+  const path = expandUrlTemplate(
+    "/certificates/issuers{?api%2Dversion,maxresults}",
+    {
+      "api%2Dversion": context.apiVersion,
+      maxresults: options?.maxresults,
+    },
+    {
+      allowReserved: options?.requestOptions?.skipUrlEncoding,
+    },
+  );
   return context
-    .path("/certificates/issuers")
+    .path(path)
     .get({
       ...operationOptionsToRequestParameters(options),
       headers: {
         accept: "application/json",
         ...options.requestOptions?.headers,
-      },
-      queryParameters: {
-        "api-version": context.apiVersion,
-        maxresults: options?.maxresults,
       },
     });
 }
@@ -1115,15 +1299,23 @@ export function _deleteCertificateContactsSend(
   context: Client,
   options: DeleteCertificateContactsOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
+  const path = expandUrlTemplate(
+    "/certificates/contacts{?api%2Dversion}",
+    {
+      "api%2Dversion": context.apiVersion,
+    },
+    {
+      allowReserved: options?.requestOptions?.skipUrlEncoding,
+    },
+  );
   return context
-    .path("/certificates/contacts")
+    .path(path)
     .delete({
       ...operationOptionsToRequestParameters(options),
       headers: {
         accept: "application/json",
         ...options.requestOptions?.headers,
       },
-      queryParameters: { "api-version": context.apiVersion },
     });
 }
 
@@ -1153,15 +1345,23 @@ export function _getCertificateContactsSend(
   context: Client,
   options: GetCertificateContactsOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
+  const path = expandUrlTemplate(
+    "/certificates/contacts{?api%2Dversion}",
+    {
+      "api%2Dversion": context.apiVersion,
+    },
+    {
+      allowReserved: options?.requestOptions?.skipUrlEncoding,
+    },
+  );
   return context
-    .path("/certificates/contacts")
+    .path(path)
     .get({
       ...operationOptionsToRequestParameters(options),
       headers: {
         accept: "application/json",
         ...options.requestOptions?.headers,
       },
-      queryParameters: { "api-version": context.apiVersion },
     });
 }
 
@@ -1192,8 +1392,17 @@ export function _setCertificateContactsSend(
   contacts: Contacts,
   options: SetCertificateContactsOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
+  const path = expandUrlTemplate(
+    "/certificates/contacts{?api%2Dversion}",
+    {
+      "api%2Dversion": context.apiVersion,
+    },
+    {
+      allowReserved: options?.requestOptions?.skipUrlEncoding,
+    },
+  );
   return context
-    .path("/certificates/contacts")
+    .path(path)
     .put({
       ...operationOptionsToRequestParameters(options),
       contentType: "application/json",
@@ -1201,7 +1410,6 @@ export function _setCertificateContactsSend(
         accept: "application/json",
         ...options.requestOptions?.headers,
       },
-      queryParameters: { "api-version": context.apiVersion },
       body: contactsSerializer(contacts),
     });
 }
@@ -1234,15 +1442,24 @@ export function _deleteCertificateSend(
   certificateName: string,
   options: DeleteCertificateOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
+  const path = expandUrlTemplate(
+    "/certificates/{certificate-name}{?api%2Dversion}",
+    {
+      "certificate-name": certificateName,
+      "api%2Dversion": context.apiVersion,
+    },
+    {
+      allowReserved: options?.requestOptions?.skipUrlEncoding,
+    },
+  );
   return context
-    .path("/certificates/{certificate-name}", certificateName)
+    .path(path)
     .delete({
       ...operationOptionsToRequestParameters(options),
       headers: {
         accept: "application/json",
         ...options.requestOptions?.headers,
       },
-      queryParameters: { "api-version": context.apiVersion },
     });
 }
 
@@ -1277,18 +1494,24 @@ export function _getCertificatesSend(
   context: Client,
   options: GetCertificatesOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
+  const path = expandUrlTemplate(
+    "/certificates{?api%2Dversion,maxresults,includePending}",
+    {
+      "api%2Dversion": context.apiVersion,
+      maxresults: options?.maxresults,
+      includePending: options?.includePending,
+    },
+    {
+      allowReserved: options?.requestOptions?.skipUrlEncoding,
+    },
+  );
   return context
-    .path("/certificates")
+    .path(path)
     .get({
       ...operationOptionsToRequestParameters(options),
       headers: {
         accept: "application/json",
         ...options.requestOptions?.headers,
-      },
-      queryParameters: {
-        "api-version": context.apiVersion,
-        maxresults: options?.maxresults,
-        includePending: options?.includePending,
       },
     });
 }

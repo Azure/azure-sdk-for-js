@@ -1,5 +1,11 @@
 # Release History
 
+## 4.10.1 (Unreleased)
+
+### Bugs Fixed
+
+- Fixed the bug in interactive authentication request to account for the correct user login prompt based on the login hint provided, in case there are multiple accounts present in the browser flow. [#34321](https://github.com/Azure/azure-sdk-for-js/pull/34321)
+
 ## 4.10.0 (2025-05-14)
 
 ### Features Added
