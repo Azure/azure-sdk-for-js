@@ -5,14 +5,13 @@
  * @summary Configure Messaging Connect options when sending a message
  */
 
-import { SmsClient, SmsSendRequest } from "@azure/communication-sms";
+import type { SmsSendRequest, SmsSendOptions } from "@azure/communication-sms";
+import { SmsClient } from "@azure/communication-sms";
 
 // Load the .env file if it exists
-import * as dotenv from "dotenv";
-import { SmsSendOptions } from "../src/generated/src/models";
-dotenv.config();
+import "dotenv/config";
 
-export async function main() {
+export async function main(): Promise<void> {
   console.log("== Send SMS Message With Options ==");
 
   // You will need to set this environment variable or edit the following values
@@ -41,7 +40,7 @@ export async function main() {
 
   // construct send options
   const sendOptions: SmsSendOptions = {
-    messagingConnectOptions: {
+    messagingConnect: {
       // Represents the API key associated with the customer's account in the Messaging Connect Partner portal.
       apiKey: "<messaging-connect-api-key>",
       // Specifies the partner associated with the API key.
