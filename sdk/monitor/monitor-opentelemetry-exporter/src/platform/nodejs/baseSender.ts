@@ -48,7 +48,6 @@ export abstract class BaseSender {
     this.disableOfflineStorage = options.exporterOptions.disableOfflineStorage || false;
     this.persister = new FileSystemPersist(options.instrumentationKey, options.exporterOptions);
     if (options.trackStatsbeat) {
-      // Initialize statsbeatMetrics using singleton pattern
       this.networkStatsbeatMetrics = getNetworkStatsbeatInstance({
         instrumentationKey: options.instrumentationKey,
         endpointUrl: options.endpointUrl,
@@ -269,9 +268,8 @@ export abstract class BaseSender {
    * Shutdown statsbeat metrics
    */
   private shutdownStatsbeat(): void {
-    // Clear reference to network statsbeat singleton
     if (this.networkStatsbeatMetrics) {
-      this.networkStatsbeatMetrics = undefined;
+      this.networkStatsbeatMetrics.shutdown();
     }
     this.longIntervalStatsbeatMetrics?.shutdown();
     this.statsbeatFailureCount = 0;
