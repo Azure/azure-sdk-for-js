@@ -19,11 +19,9 @@ These sample programs show how to use the TypeScript client libraries for Azure 
 | [agentsBasics.ts][agentsbasics]                                               | demonstrates how to use basic agent operations.                                                                            |
 | [agentsBingGrounding.ts][agentsbinggrounding]                                 | demonstrates how to use agent operations with the Grounding with Bing Search tool.                                         |
 | [agentsBingGroundingWithStreaming.ts][agentsbinggroundingwithstreaming]       | demonstrates how to use agent operations with the Grounding with Bing Search tool using streaming.                         |
-| [agentsFabric.ts][agentsfabric]                                               | demonstrates how to use agent operations with the Microsoft Fabric tool.                                                   |
 | [agentsImageInputWithBase64.ts][agentsimageinputwithbase64]                   | This sample demonstrates how to use basic agent operations with image input (base64 encoded) for the Azure Agents service. |
 | [agentsImageInputWithFile.ts][agentsimageinputwithfile]                       | This sample demonstrates how to use basic agent operations using image file input for the Azure Agents service.            |
 | [agentsImageInputWithUrl.ts][agentsimageinputwithurl]                         | This sample demonstrates how to use basic agent operations using image url input for the Azure Agents service.             |
-| [agentsSharepoint.ts][agentssharepoint]                                       | demonstrates how to use agent operations with the Sharepoint tool.                                                         |
 | [agentsWithFunctionTool.ts][agentswithfunctiontool]                           | demonstrates how to use basic agent operations using function tool.                                                        |
 | [agentsWithOpenApi.ts][agentswithopenapi]                                     | demonstrates how to use agent operations with an OpenApi tool.                                                             |
 | [agentsWithToolset.ts][agentswithtoolset]                                     | demonstrates how to use agent operations with toolset.                                                                     |
@@ -99,11 +97,9 @@ Take a look at our [API Documentation][apiref] for more information about the AP
 [agentsbasics]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/ai/ai-agents/samples/v1-beta/typescript/src/agentsBasics.ts
 [agentsbinggrounding]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/ai/ai-agents/samples/v1-beta/typescript/src/agentsBingGrounding.ts
 [agentsbinggroundingwithstreaming]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/ai/ai-agents/samples/v1-beta/typescript/src/agentsBingGroundingWithStreaming.ts
-[agentsfabric]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/ai/ai-agents/samples/v1-beta/typescript/src/agentsFabric.ts
 [agentsimageinputwithbase64]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/ai/ai-agents/samples/v1-beta/typescript/src/agentsImageInputWithBase64.ts
 [agentsimageinputwithfile]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/ai/ai-agents/samples/v1-beta/typescript/src/agentsImageInputWithFile.ts
 [agentsimageinputwithurl]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/ai/ai-agents/samples/v1-beta/typescript/src/agentsImageInputWithUrl.ts
-[agentssharepoint]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/ai/ai-agents/samples/v1-beta/typescript/src/agentsSharepoint.ts
 [agentswithfunctiontool]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/ai/ai-agents/samples/v1-beta/typescript/src/agentsWithFunctionTool.ts
 [agentswithopenapi]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/ai/ai-agents/samples/v1-beta/typescript/src/agentsWithOpenApi.ts
 [agentswithtoolset]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/ai/ai-agents/samples/v1-beta/typescript/src/agentsWithToolset.ts
