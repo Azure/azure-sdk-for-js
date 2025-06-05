@@ -14,11 +14,7 @@ async function workloadNetworksUpdateSegments(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const client = new AzureVMwareSolutionAPI(credential, subscriptionId);
-  const result = await client.workloadNetworks.updateSegments(
-    "group1",
-    "cloud1",
-    "segment1",
-  );
+  const result = await client.workloadNetworks.updateSegments("group1", "cloud1", "segment1");
   console.log(result);
 }
 

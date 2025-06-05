@@ -9,12 +9,7 @@ import {
   AddonsGetOptionalParams,
   AddonsListOptionalParams,
 } from "../../api/addons/options.js";
-import {
-  $delete,
-  createOrUpdate,
-  get,
-  list,
-} from "../../api/addons/operations.js";
+import { $delete, createOrUpdate, get, list } from "../../api/addons/operations.js";
 import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 import { PollerLike, OperationState } from "@azure/core-lro";
 
@@ -62,23 +57,14 @@ function _getAddons(context: AzureVMwareSolutionAPIContext) {
       privateCloudName: string,
       addonName: string,
       options?: AddonsDeleteOptionalParams,
-    ) =>
-      $delete(context, resourceGroupName, privateCloudName, addonName, options),
+    ) => $delete(context, resourceGroupName, privateCloudName, addonName, options),
     createOrUpdate: (
       resourceGroupName: string,
       privateCloudName: string,
       addonName: string,
       addon: Addon,
       options?: AddonsCreateOrUpdateOptionalParams,
-    ) =>
-      createOrUpdate(
-        context,
-        resourceGroupName,
-        privateCloudName,
-        addonName,
-        addon,
-        options,
-      ),
+    ) => createOrUpdate(context, resourceGroupName, privateCloudName, addonName, addon, options),
     get: (
       resourceGroupName: string,
       privateCloudName: string,
@@ -93,9 +79,7 @@ function _getAddons(context: AzureVMwareSolutionAPIContext) {
   };
 }
 
-export function _getAddonsOperations(
-  context: AzureVMwareSolutionAPIContext,
-): AddonsOperations {
+export function _getAddonsOperations(context: AzureVMwareSolutionAPIContext): AddonsOperations {
   return {
     ..._getAddons(context),
   };

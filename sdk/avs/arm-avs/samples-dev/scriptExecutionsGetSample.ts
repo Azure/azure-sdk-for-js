@@ -14,11 +14,7 @@ async function scriptExecutionsGet(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const client = new AzureVMwareSolutionAPI(credential, subscriptionId);
-  const result = await client.scriptExecutions.get(
-    "group1",
-    "cloud1",
-    "addSsoServer",
-  );
+  const result = await client.scriptExecutions.get("group1", "cloud1", "addSsoServer");
   console.log(result);
 }
 

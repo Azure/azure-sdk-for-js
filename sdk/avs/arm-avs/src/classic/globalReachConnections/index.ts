@@ -9,12 +9,7 @@ import {
   GlobalReachConnectionsGetOptionalParams,
   GlobalReachConnectionsListOptionalParams,
 } from "../../api/globalReachConnections/options.js";
-import {
-  $delete,
-  createOrUpdate,
-  get,
-  list,
-} from "../../api/globalReachConnections/operations.js";
+import { $delete, createOrUpdate, get, list } from "../../api/globalReachConnections/operations.js";
 import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 import { PollerLike, OperationState } from "@azure/core-lro";
 
@@ -62,14 +57,7 @@ function _getGlobalReachConnections(context: AzureVMwareSolutionAPIContext) {
       privateCloudName: string,
       globalReachConnectionName: string,
       options?: GlobalReachConnectionsDeleteOptionalParams,
-    ) =>
-      $delete(
-        context,
-        resourceGroupName,
-        privateCloudName,
-        globalReachConnectionName,
-        options,
-      ),
+    ) => $delete(context, resourceGroupName, privateCloudName, globalReachConnectionName, options),
     createOrUpdate: (
       resourceGroupName: string,
       privateCloudName: string,
@@ -90,14 +78,7 @@ function _getGlobalReachConnections(context: AzureVMwareSolutionAPIContext) {
       privateCloudName: string,
       globalReachConnectionName: string,
       options?: GlobalReachConnectionsGetOptionalParams,
-    ) =>
-      get(
-        context,
-        resourceGroupName,
-        privateCloudName,
-        globalReachConnectionName,
-        options,
-      ),
+    ) => get(context, resourceGroupName, privateCloudName, globalReachConnectionName, options),
     list: (
       resourceGroupName: string,
       privateCloudName: string,

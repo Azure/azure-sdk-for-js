@@ -34,14 +34,7 @@ function _getProvisionedNetworks(context: AzureVMwareSolutionAPIContext) {
       privateCloudName: string,
       provisionedNetworkName: string,
       options?: ProvisionedNetworksGetOptionalParams,
-    ) =>
-      get(
-        context,
-        resourceGroupName,
-        privateCloudName,
-        provisionedNetworkName,
-        options,
-      ),
+    ) => get(context, resourceGroupName, privateCloudName, provisionedNetworkName, options),
     list: (
       resourceGroupName: string,
       privateCloudName: string,

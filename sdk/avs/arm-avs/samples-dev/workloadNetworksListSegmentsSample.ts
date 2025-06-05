@@ -15,10 +15,7 @@ async function workloadNetworksListSegments(): Promise<void> {
   const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const client = new AzureVMwareSolutionAPI(credential, subscriptionId);
   const resArray = new Array();
-  for await (const item of client.workloadNetworks.listSegments(
-    "group1",
-    "cloud1",
-  )) {
+  for await (const item of client.workloadNetworks.listSegments("group1", "cloud1")) {
     resArray.push(item);
   }
 

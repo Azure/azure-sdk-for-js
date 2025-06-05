@@ -14,12 +14,7 @@ async function placementPoliciesGet(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const client = new AzureVMwareSolutionAPI(credential, subscriptionId);
-  const result = await client.placementPolicies.get(
-    "group1",
-    "cloud1",
-    "cluster1",
-    "policy1",
-  );
+  const result = await client.placementPolicies.get("group1", "cloud1", "cluster1", "policy1");
   console.log(result);
 }
 

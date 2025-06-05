@@ -117,10 +117,7 @@ export interface WorkloadNetworksOperations {
     vmGroupId: string,
     workloadNetworkVMGroup: WorkloadNetworkVMGroup,
     options?: WorkloadNetworksUpdateVMGroupOptionalParams,
-  ) => PollerLike<
-    OperationState<WorkloadNetworkVMGroup>,
-    WorkloadNetworkVMGroup
-  >;
+  ) => PollerLike<OperationState<WorkloadNetworkVMGroup>, WorkloadNetworkVMGroup>;
   /** Create a WorkloadNetworkVMGroup */
   createVMGroup: (
     resourceGroupName: string,
@@ -128,10 +125,7 @@ export interface WorkloadNetworksOperations {
     vmGroupId: string,
     workloadNetworkVMGroup: WorkloadNetworkVMGroup,
     options?: WorkloadNetworksCreateVMGroupOptionalParams,
-  ) => PollerLike<
-    OperationState<WorkloadNetworkVMGroup>,
-    WorkloadNetworkVMGroup
-  >;
+  ) => PollerLike<OperationState<WorkloadNetworkVMGroup>, WorkloadNetworkVMGroup>;
   /** Get a WorkloadNetworkVMGroup */
   getVMGroup: (
     resourceGroupName: string,
@@ -172,10 +166,7 @@ export interface WorkloadNetworksOperations {
     segmentId: string,
     workloadNetworkSegment: WorkloadNetworkSegment,
     options?: WorkloadNetworksUpdateSegmentsOptionalParams,
-  ) => PollerLike<
-    OperationState<WorkloadNetworkSegment>,
-    WorkloadNetworkSegment
-  >;
+  ) => PollerLike<OperationState<WorkloadNetworkSegment>, WorkloadNetworkSegment>;
   /** Create a WorkloadNetworkSegment */
   createSegments: (
     resourceGroupName: string,
@@ -183,10 +174,7 @@ export interface WorkloadNetworksOperations {
     segmentId: string,
     workloadNetworkSegment: WorkloadNetworkSegment,
     options?: WorkloadNetworksCreateSegmentsOptionalParams,
-  ) => PollerLike<
-    OperationState<WorkloadNetworkSegment>,
-    WorkloadNetworkSegment
-  >;
+  ) => PollerLike<OperationState<WorkloadNetworkSegment>, WorkloadNetworkSegment>;
   /** Get a WorkloadNetworkSegment */
   getSegment: (
     resourceGroupName: string,
@@ -214,10 +202,7 @@ export interface WorkloadNetworksOperations {
     publicIPId: string,
     workloadNetworkPublicIP: WorkloadNetworkPublicIP,
     options?: WorkloadNetworksCreatePublicIPOptionalParams,
-  ) => PollerLike<
-    OperationState<WorkloadNetworkPublicIP>,
-    WorkloadNetworkPublicIP
-  >;
+  ) => PollerLike<OperationState<WorkloadNetworkPublicIP>, WorkloadNetworkPublicIP>;
   /** Get a WorkloadNetworkPublicIP */
   getPublicIP: (
     resourceGroupName: string,
@@ -245,10 +230,7 @@ export interface WorkloadNetworksOperations {
     portMirroringId: string,
     workloadNetworkPortMirroring: WorkloadNetworkPortMirroring,
     options?: WorkloadNetworksUpdatePortMirroringOptionalParams,
-  ) => PollerLike<
-    OperationState<WorkloadNetworkPortMirroring>,
-    WorkloadNetworkPortMirroring
-  >;
+  ) => PollerLike<OperationState<WorkloadNetworkPortMirroring>, WorkloadNetworkPortMirroring>;
   /** Create a WorkloadNetworkPortMirroring */
   createPortMirroring: (
     resourceGroupName: string,
@@ -256,10 +238,7 @@ export interface WorkloadNetworksOperations {
     portMirroringId: string,
     workloadNetworkPortMirroring: WorkloadNetworkPortMirroring,
     options?: WorkloadNetworksCreatePortMirroringOptionalParams,
-  ) => PollerLike<
-    OperationState<WorkloadNetworkPortMirroring>,
-    WorkloadNetworkPortMirroring
-  >;
+  ) => PollerLike<OperationState<WorkloadNetworkPortMirroring>, WorkloadNetworkPortMirroring>;
   /** Get a WorkloadNetworkPortMirroring */
   getPortMirroring: (
     resourceGroupName: string,
@@ -300,10 +279,7 @@ export interface WorkloadNetworksOperations {
     dnsZoneId: string,
     workloadNetworkDnsZone: WorkloadNetworkDnsZone,
     options?: WorkloadNetworksUpdateDnsZoneOptionalParams,
-  ) => PollerLike<
-    OperationState<WorkloadNetworkDnsZone>,
-    WorkloadNetworkDnsZone
-  >;
+  ) => PollerLike<OperationState<WorkloadNetworkDnsZone>, WorkloadNetworkDnsZone>;
   /** Create a WorkloadNetworkDnsZone */
   createDnsZone: (
     resourceGroupName: string,
@@ -311,10 +287,7 @@ export interface WorkloadNetworksOperations {
     dnsZoneId: string,
     workloadNetworkDnsZone: WorkloadNetworkDnsZone,
     options?: WorkloadNetworksCreateDnsZoneOptionalParams,
-  ) => PollerLike<
-    OperationState<WorkloadNetworkDnsZone>,
-    WorkloadNetworkDnsZone
-  >;
+  ) => PollerLike<OperationState<WorkloadNetworkDnsZone>, WorkloadNetworkDnsZone>;
   /** Get a WorkloadNetworkDnsZone */
   getDnsZone: (
     resourceGroupName: string,
@@ -342,10 +315,7 @@ export interface WorkloadNetworksOperations {
     dnsServiceId: string,
     workloadNetworkDnsService: WorkloadNetworkDnsService,
     options?: WorkloadNetworksUpdateDnsServiceOptionalParams,
-  ) => PollerLike<
-    OperationState<WorkloadNetworkDnsService>,
-    WorkloadNetworkDnsService
-  >;
+  ) => PollerLike<OperationState<WorkloadNetworkDnsService>, WorkloadNetworkDnsService>;
   /** Create a WorkloadNetworkDnsService */
   createDnsService: (
     resourceGroupName: string,
@@ -353,10 +323,7 @@ export interface WorkloadNetworksOperations {
     dnsServiceId: string,
     workloadNetworkDnsService: WorkloadNetworkDnsService,
     options?: WorkloadNetworksCreateDnsServiceOptionalParams,
-  ) => PollerLike<
-    OperationState<WorkloadNetworkDnsService>,
-    WorkloadNetworkDnsService
-  >;
+  ) => PollerLike<OperationState<WorkloadNetworkDnsService>, WorkloadNetworkDnsService>;
   /** Get a WorkloadNetworkDnsService */
   getDnsService: (
     resourceGroupName: string,
@@ -427,14 +394,7 @@ function _getWorkloadNetworks(context: AzureVMwareSolutionAPIContext) {
       vmGroupId: string,
       privateCloudName: string,
       options?: WorkloadNetworksDeleteVMGroupOptionalParams,
-    ) =>
-      deleteVMGroup(
-        context,
-        resourceGroupName,
-        vmGroupId,
-        privateCloudName,
-        options,
-      ),
+    ) => deleteVMGroup(context, resourceGroupName, vmGroupId, privateCloudName, options),
     updateVMGroup: (
       resourceGroupName: string,
       privateCloudName: string,
@@ -470,14 +430,7 @@ function _getWorkloadNetworks(context: AzureVMwareSolutionAPIContext) {
       privateCloudName: string,
       vmGroupId: string,
       options?: WorkloadNetworksGetVMGroupOptionalParams,
-    ) =>
-      getVMGroup(
-        context,
-        resourceGroupName,
-        privateCloudName,
-        vmGroupId,
-        options,
-      ),
+    ) => getVMGroup(context, resourceGroupName, privateCloudName, vmGroupId, options),
     listVMGroups: (
       resourceGroupName: string,
       privateCloudName: string,
@@ -488,38 +441,18 @@ function _getWorkloadNetworks(context: AzureVMwareSolutionAPIContext) {
       privateCloudName: string,
       virtualMachineId: string,
       options?: WorkloadNetworksGetVirtualMachineOptionalParams,
-    ) =>
-      getVirtualMachine(
-        context,
-        resourceGroupName,
-        privateCloudName,
-        virtualMachineId,
-        options,
-      ),
+    ) => getVirtualMachine(context, resourceGroupName, privateCloudName, virtualMachineId, options),
     listVirtualMachines: (
       resourceGroupName: string,
       privateCloudName: string,
       options?: WorkloadNetworksListVirtualMachinesOptionalParams,
-    ) =>
-      listVirtualMachines(
-        context,
-        resourceGroupName,
-        privateCloudName,
-        options,
-      ),
+    ) => listVirtualMachines(context, resourceGroupName, privateCloudName, options),
     deleteSegment: (
       resourceGroupName: string,
       privateCloudName: string,
       segmentId: string,
       options?: WorkloadNetworksDeleteSegmentOptionalParams,
-    ) =>
-      deleteSegment(
-        context,
-        resourceGroupName,
-        privateCloudName,
-        segmentId,
-        options,
-      ),
+    ) => deleteSegment(context, resourceGroupName, privateCloudName, segmentId, options),
     updateSegments: (
       resourceGroupName: string,
       privateCloudName: string,
@@ -555,14 +488,7 @@ function _getWorkloadNetworks(context: AzureVMwareSolutionAPIContext) {
       privateCloudName: string,
       segmentId: string,
       options?: WorkloadNetworksGetSegmentOptionalParams,
-    ) =>
-      getSegment(
-        context,
-        resourceGroupName,
-        privateCloudName,
-        segmentId,
-        options,
-      ),
+    ) => getSegment(context, resourceGroupName, privateCloudName, segmentId, options),
     listSegments: (
       resourceGroupName: string,
       privateCloudName: string,
@@ -573,14 +499,7 @@ function _getWorkloadNetworks(context: AzureVMwareSolutionAPIContext) {
       publicIPId: string,
       privateCloudName: string,
       options?: WorkloadNetworksDeletePublicIPOptionalParams,
-    ) =>
-      deletePublicIP(
-        context,
-        resourceGroupName,
-        publicIPId,
-        privateCloudName,
-        options,
-      ),
+    ) => deletePublicIP(context, resourceGroupName, publicIPId, privateCloudName, options),
     createPublicIP: (
       resourceGroupName: string,
       privateCloudName: string,
@@ -601,14 +520,7 @@ function _getWorkloadNetworks(context: AzureVMwareSolutionAPIContext) {
       privateCloudName: string,
       publicIPId: string,
       options?: WorkloadNetworksGetPublicIPOptionalParams,
-    ) =>
-      getPublicIP(
-        context,
-        resourceGroupName,
-        privateCloudName,
-        publicIPId,
-        options,
-      ),
+    ) => getPublicIP(context, resourceGroupName, privateCloudName, publicIPId, options),
     listPublicIPs: (
       resourceGroupName: string,
       privateCloudName: string,
@@ -620,13 +532,7 @@ function _getWorkloadNetworks(context: AzureVMwareSolutionAPIContext) {
       privateCloudName: string,
       options?: WorkloadNetworksDeletePortMirroringOptionalParams,
     ) =>
-      deletePortMirroring(
-        context,
-        resourceGroupName,
-        portMirroringId,
-        privateCloudName,
-        options,
-      ),
+      deletePortMirroring(context, resourceGroupName, portMirroringId, privateCloudName, options),
     updatePortMirroring: (
       resourceGroupName: string,
       privateCloudName: string,
@@ -662,33 +568,18 @@ function _getWorkloadNetworks(context: AzureVMwareSolutionAPIContext) {
       privateCloudName: string,
       portMirroringId: string,
       options?: WorkloadNetworksGetPortMirroringOptionalParams,
-    ) =>
-      getPortMirroring(
-        context,
-        resourceGroupName,
-        privateCloudName,
-        portMirroringId,
-        options,
-      ),
+    ) => getPortMirroring(context, resourceGroupName, privateCloudName, portMirroringId, options),
     listPortMirroring: (
       resourceGroupName: string,
       privateCloudName: string,
       options?: WorkloadNetworksListPortMirroringOptionalParams,
-    ) =>
-      listPortMirroring(context, resourceGroupName, privateCloudName, options),
+    ) => listPortMirroring(context, resourceGroupName, privateCloudName, options),
     getGateway: (
       resourceGroupName: string,
       privateCloudName: string,
       gatewayId: string,
       options?: WorkloadNetworksGetGatewayOptionalParams,
-    ) =>
-      getGateway(
-        context,
-        resourceGroupName,
-        privateCloudName,
-        gatewayId,
-        options,
-      ),
+    ) => getGateway(context, resourceGroupName, privateCloudName, gatewayId, options),
     listGateways: (
       resourceGroupName: string,
       privateCloudName: string,
@@ -699,14 +590,7 @@ function _getWorkloadNetworks(context: AzureVMwareSolutionAPIContext) {
       dnsZoneId: string,
       privateCloudName: string,
       options?: WorkloadNetworksDeleteDnsZoneOptionalParams,
-    ) =>
-      deleteDnsZone(
-        context,
-        resourceGroupName,
-        dnsZoneId,
-        privateCloudName,
-        options,
-      ),
+    ) => deleteDnsZone(context, resourceGroupName, dnsZoneId, privateCloudName, options),
     updateDnsZone: (
       resourceGroupName: string,
       privateCloudName: string,
@@ -742,14 +626,7 @@ function _getWorkloadNetworks(context: AzureVMwareSolutionAPIContext) {
       privateCloudName: string,
       dnsZoneId: string,
       options?: WorkloadNetworksGetDnsZoneOptionalParams,
-    ) =>
-      getDnsZone(
-        context,
-        resourceGroupName,
-        privateCloudName,
-        dnsZoneId,
-        options,
-      ),
+    ) => getDnsZone(context, resourceGroupName, privateCloudName, dnsZoneId, options),
     listDnsZones: (
       resourceGroupName: string,
       privateCloudName: string,
@@ -760,14 +637,7 @@ function _getWorkloadNetworks(context: AzureVMwareSolutionAPIContext) {
       dnsServiceId: string,
       privateCloudName: string,
       options?: WorkloadNetworksDeleteDnsServiceOptionalParams,
-    ) =>
-      deleteDnsService(
-        context,
-        resourceGroupName,
-        dnsServiceId,
-        privateCloudName,
-        options,
-      ),
+    ) => deleteDnsService(context, resourceGroupName, dnsServiceId, privateCloudName, options),
     updateDnsService: (
       resourceGroupName: string,
       privateCloudName: string,
@@ -803,14 +673,7 @@ function _getWorkloadNetworks(context: AzureVMwareSolutionAPIContext) {
       privateCloudName: string,
       dnsServiceId: string,
       options?: WorkloadNetworksGetDnsServiceOptionalParams,
-    ) =>
-      getDnsService(
-        context,
-        resourceGroupName,
-        privateCloudName,
-        dnsServiceId,
-        options,
-      ),
+    ) => getDnsService(context, resourceGroupName, privateCloudName, dnsServiceId, options),
     listDnsServices: (
       resourceGroupName: string,
       privateCloudName: string,
@@ -821,8 +684,7 @@ function _getWorkloadNetworks(context: AzureVMwareSolutionAPIContext) {
       privateCloudName: string,
       dhcpId: string,
       options?: WorkloadNetworksDeleteDhcpOptionalParams,
-    ) =>
-      deleteDhcp(context, resourceGroupName, privateCloudName, dhcpId, options),
+    ) => deleteDhcp(context, resourceGroupName, privateCloudName, dhcpId, options),
     updateDhcp: (
       resourceGroupName: string,
       privateCloudName: string,

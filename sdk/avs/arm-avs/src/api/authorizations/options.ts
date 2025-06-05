@@ -10,8 +10,7 @@ export interface AuthorizationsDeleteOptionalParams extends OperationOptions {
 }
 
 /** Optional parameters. */
-export interface AuthorizationsCreateOrUpdateOptionalParams
-  extends OperationOptions {
+export interface AuthorizationsCreateOrUpdateOptionalParams extends OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
 }

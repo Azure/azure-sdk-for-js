@@ -2,20 +2,13 @@
 // Licensed under the MIT License.
 
 import { AzureVMwareSolutionAPIContext } from "../../api/azureVMwareSolutionAPIContext.js";
-import {
-  VirtualMachine,
-  VirtualMachineRestrictMovement,
-} from "../../models/models.js";
+import { VirtualMachine, VirtualMachineRestrictMovement } from "../../models/models.js";
 import {
   VirtualMachinesRestrictMovementOptionalParams,
   VirtualMachinesGetOptionalParams,
   VirtualMachinesListOptionalParams,
 } from "../../api/virtualMachines/options.js";
-import {
-  restrictMovement,
-  get,
-  list,
-} from "../../api/virtualMachines/operations.js";
+import { restrictMovement, get, list } from "../../api/virtualMachines/operations.js";
 import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 import { PollerLike, OperationState } from "@azure/core-lro";
 
@@ -72,22 +65,13 @@ function _getVirtualMachines(context: AzureVMwareSolutionAPIContext) {
       clusterName: string,
       virtualMachineId: string,
       options?: VirtualMachinesGetOptionalParams,
-    ) =>
-      get(
-        context,
-        resourceGroupName,
-        privateCloudName,
-        clusterName,
-        virtualMachineId,
-        options,
-      ),
+    ) => get(context, resourceGroupName, privateCloudName, clusterName, virtualMachineId, options),
     list: (
       resourceGroupName: string,
       privateCloudName: string,
       clusterName: string,
       options?: VirtualMachinesListOptionalParams,
-    ) =>
-      list(context, resourceGroupName, privateCloudName, clusterName, options),
+    ) => list(context, resourceGroupName, privateCloudName, clusterName, options),
   };
 }
 

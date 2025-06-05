@@ -14,11 +14,7 @@ async function hcxEnterpriseSitesGet(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const client = new AzureVMwareSolutionAPI(credential, subscriptionId);
-  const result = await client.hcxEnterpriseSites.get(
-    "group1",
-    "cloud1",
-    "site1",
-  );
+  const result = await client.hcxEnterpriseSites.get("group1", "cloud1", "site1");
   console.log(result);
 }
 

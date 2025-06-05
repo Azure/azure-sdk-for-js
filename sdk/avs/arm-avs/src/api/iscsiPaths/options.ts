@@ -10,8 +10,7 @@ export interface IscsiPathsDeleteOptionalParams extends OperationOptions {
 }
 
 /** Optional parameters. */
-export interface IscsiPathsCreateOrUpdateOptionalParams
-  extends OperationOptions {
+export interface IscsiPathsCreateOrUpdateOptionalParams extends OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
 }
@@ -20,5 +19,4 @@ export interface IscsiPathsCreateOrUpdateOptionalParams
 export interface IscsiPathsGetOptionalParams extends OperationOptions {}
 
 /** Optional parameters. */
-export interface IscsiPathsListByPrivateCloudOptionalParams
-  extends OperationOptions {}
+export interface IscsiPathsListByPrivateCloudOptionalParams extends OperationOptions {}

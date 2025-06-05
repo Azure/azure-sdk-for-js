@@ -10,9 +10,7 @@ import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.j
 /** Interface representing a Skus operations. */
 export interface SkusOperations {
   /** A list of SKUs. */
-  list: (
-    options?: SkusListOptionalParams,
-  ) => PagedAsyncIterableIterator<ResourceSku>;
+  list: (options?: SkusListOptionalParams) => PagedAsyncIterableIterator<ResourceSku>;
 }
 
 function _getSkus(context: AzureVMwareSolutionAPIContext) {
@@ -21,9 +19,7 @@ function _getSkus(context: AzureVMwareSolutionAPIContext) {
   };
 }
 
-export function _getSkusOperations(
-  context: AzureVMwareSolutionAPIContext,
-): SkusOperations {
+export function _getSkusOperations(context: AzureVMwareSolutionAPIContext): SkusOperations {
   return {
     ..._getSkus(context),
   };

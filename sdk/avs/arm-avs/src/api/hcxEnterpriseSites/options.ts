@@ -4,16 +4,13 @@
 import { OperationOptions } from "@azure-rest/core-client";
 
 /** Optional parameters. */
-export interface HcxEnterpriseSitesDeleteOptionalParams
-  extends OperationOptions {}
+export interface HcxEnterpriseSitesDeleteOptionalParams extends OperationOptions {}
 
 /** Optional parameters. */
-export interface HcxEnterpriseSitesCreateOrUpdateOptionalParams
-  extends OperationOptions {}
+export interface HcxEnterpriseSitesCreateOrUpdateOptionalParams extends OperationOptions {}
 
 /** Optional parameters. */
 export interface HcxEnterpriseSitesGetOptionalParams extends OperationOptions {}
 
 /** Optional parameters. */
-export interface HcxEnterpriseSitesListOptionalParams
-  extends OperationOptions {}
+export interface HcxEnterpriseSitesListOptionalParams extends OperationOptions {}

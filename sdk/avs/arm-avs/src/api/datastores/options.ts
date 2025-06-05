@@ -10,8 +10,7 @@ export interface DatastoresDeleteOptionalParams extends OperationOptions {
 }
 
 /** Optional parameters. */
-export interface DatastoresCreateOrUpdateOptionalParams
-  extends OperationOptions {
+export interface DatastoresCreateOrUpdateOptionalParams extends OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
 }

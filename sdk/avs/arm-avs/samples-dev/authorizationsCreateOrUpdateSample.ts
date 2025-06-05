@@ -14,11 +14,7 @@ async function authorizationsCreateOrUpdate(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const client = new AzureVMwareSolutionAPI(credential, subscriptionId);
-  const result = await client.authorizations.createOrUpdate(
-    "group1",
-    "cloud1",
-    "authorization1",
-  );
+  const result = await client.authorizations.createOrUpdate("group1", "cloud1", "authorization1");
   console.log(result);
 }
 

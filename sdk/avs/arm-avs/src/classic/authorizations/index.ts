@@ -9,12 +9,7 @@ import {
   AuthorizationsGetOptionalParams,
   AuthorizationsListOptionalParams,
 } from "../../api/authorizations/options.js";
-import {
-  $delete,
-  createOrUpdate,
-  get,
-  list,
-} from "../../api/authorizations/operations.js";
+import { $delete, createOrUpdate, get, list } from "../../api/authorizations/operations.js";
 import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 import { PollerLike, OperationState } from "@azure/core-lro";
 
@@ -39,10 +34,7 @@ export interface AuthorizationsOperations {
     authorizationName: string,
     authorization: ExpressRouteAuthorization,
     options?: AuthorizationsCreateOrUpdateOptionalParams,
-  ) => PollerLike<
-    OperationState<ExpressRouteAuthorization>,
-    ExpressRouteAuthorization
-  >;
+  ) => PollerLike<OperationState<ExpressRouteAuthorization>, ExpressRouteAuthorization>;
   /** Get a ExpressRouteAuthorization */
   get: (
     resourceGroupName: string,
@@ -65,14 +57,7 @@ function _getAuthorizations(context: AzureVMwareSolutionAPIContext) {
       privateCloudName: string,
       authorizationName: string,
       options?: AuthorizationsDeleteOptionalParams,
-    ) =>
-      $delete(
-        context,
-        resourceGroupName,
-        privateCloudName,
-        authorizationName,
-        options,
-      ),
+    ) => $delete(context, resourceGroupName, privateCloudName, authorizationName, options),
     createOrUpdate: (
       resourceGroupName: string,
       privateCloudName: string,
@@ -93,14 +78,7 @@ function _getAuthorizations(context: AzureVMwareSolutionAPIContext) {
       privateCloudName: string,
       authorizationName: string,
       options?: AuthorizationsGetOptionalParams,
-    ) =>
-      get(
-        context,
-        resourceGroupName,
-        privateCloudName,
-        authorizationName,
-        options,
-      ),
+    ) => get(context, resourceGroupName, privateCloudName, authorizationName, options),
     list: (
       resourceGroupName: string,
       privateCloudName: string,

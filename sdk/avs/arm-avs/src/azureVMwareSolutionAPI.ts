@@ -16,10 +16,7 @@ import {
   _getProvisionedNetworksOperations,
 } from "./classic/provisionedNetworks/index.js";
 import { HostsOperations, _getHostsOperations } from "./classic/hosts/index.js";
-import {
-  IscsiPathsOperations,
-  _getIscsiPathsOperations,
-} from "./classic/iscsiPaths/index.js";
+import { IscsiPathsOperations, _getIscsiPathsOperations } from "./classic/iscsiPaths/index.js";
 import {
   ScriptExecutionsOperations,
   _getScriptExecutionsOperations,
@@ -40,14 +37,8 @@ import {
   VirtualMachinesOperations,
   _getVirtualMachinesOperations,
 } from "./classic/virtualMachines/index.js";
-import {
-  AddonsOperations,
-  _getAddonsOperations,
-} from "./classic/addons/index.js";
-import {
-  CloudLinksOperations,
-  _getCloudLinksOperations,
-} from "./classic/cloudLinks/index.js";
+import { AddonsOperations, _getAddonsOperations } from "./classic/addons/index.js";
+import { CloudLinksOperations, _getCloudLinksOperations } from "./classic/cloudLinks/index.js";
 import {
   GlobalReachConnectionsOperations,
   _getGlobalReachConnectionsOperations,
@@ -60,26 +51,14 @@ import {
   HcxEnterpriseSitesOperations,
   _getHcxEnterpriseSitesOperations,
 } from "./classic/hcxEnterpriseSites/index.js";
-import {
-  DatastoresOperations,
-  _getDatastoresOperations,
-} from "./classic/datastores/index.js";
-import {
-  ClustersOperations,
-  _getClustersOperations,
-} from "./classic/clusters/index.js";
+import { DatastoresOperations, _getDatastoresOperations } from "./classic/datastores/index.js";
+import { ClustersOperations, _getClustersOperations } from "./classic/clusters/index.js";
 import {
   PrivateCloudsOperations,
   _getPrivateCloudsOperations,
 } from "./classic/privateClouds/index.js";
-import {
-  LocationsOperations,
-  _getLocationsOperations,
-} from "./classic/locations/index.js";
-import {
-  OperationsOperations,
-  _getOperationsOperations,
-} from "./classic/operations/index.js";
+import { LocationsOperations, _getLocationsOperations } from "./classic/locations/index.js";
+import { OperationsOperations, _getOperationsOperations } from "./classic/operations/index.js";
 import {
   WorkloadNetworksOperations,
   _getWorkloadNetworksOperations,
@@ -120,9 +99,7 @@ export class AzureVMwareSolutionAPI {
     this.virtualMachines = _getVirtualMachinesOperations(this._client);
     this.addons = _getAddonsOperations(this._client);
     this.cloudLinks = _getCloudLinksOperations(this._client);
-    this.globalReachConnections = _getGlobalReachConnectionsOperations(
-      this._client,
-    );
+    this.globalReachConnections = _getGlobalReachConnectionsOperations(this._client);
     this.authorizations = _getAuthorizationsOperations(this._client);
     this.hcxEnterpriseSites = _getHcxEnterpriseSitesOperations(this._client);
     this.datastores = _getDatastoresOperations(this._client);

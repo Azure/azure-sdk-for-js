@@ -10,8 +10,7 @@ export interface CloudLinksDeleteOptionalParams extends OperationOptions {
 }
 
 /** Optional parameters. */
-export interface CloudLinksCreateOrUpdateOptionalParams
-  extends OperationOptions {
+export interface CloudLinksCreateOrUpdateOptionalParams extends OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
 }

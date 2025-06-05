@@ -44,20 +44,16 @@ export function _getSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context
-    .path(path)
-    .get({
-      ...operationOptionsToRequestParameters(options),
-      headers: {
-        accept: "application/json",
-        ...options.requestOptions?.headers,
-      },
-    });
+  return context.path(path).get({
+    ...operationOptionsToRequestParameters(options),
+    headers: {
+      accept: "application/json",
+      ...options.requestOptions?.headers,
+    },
+  });
 }
 
-export async function _getDeserialize(
-  result: PathUncheckedResponse,
-): Promise<Host> {
+export async function _getDeserialize(result: PathUncheckedResponse): Promise<Host> {
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
@@ -108,20 +104,16 @@ export function _listSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context
-    .path(path)
-    .get({
-      ...operationOptionsToRequestParameters(options),
-      headers: {
-        accept: "application/json",
-        ...options.requestOptions?.headers,
-      },
-    });
+  return context.path(path).get({
+    ...operationOptionsToRequestParameters(options),
+    headers: {
+      accept: "application/json",
+      ...options.requestOptions?.headers,
+    },
+  });
 }
 
-export async function _listDeserialize(
-  result: PathUncheckedResponse,
-): Promise<_HostListResult> {
+export async function _listDeserialize(result: PathUncheckedResponse): Promise<_HostListResult> {
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
@@ -142,14 +134,7 @@ export function list(
 ): PagedAsyncIterableIterator<Host> {
   return buildPagedAsyncIterator(
     context,
-    () =>
-      _listSend(
-        context,
-        resourceGroupName,
-        privateCloudName,
-        clusterName,
-        options,
-      ),
+    () => _listSend(context, resourceGroupName, privateCloudName, clusterName, options),
     _listDeserialize,
     ["200"],
     { itemName: "value", nextLinkName: "nextLink" },

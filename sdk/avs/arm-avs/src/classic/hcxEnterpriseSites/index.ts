@@ -9,12 +9,7 @@ import {
   HcxEnterpriseSitesGetOptionalParams,
   HcxEnterpriseSitesListOptionalParams,
 } from "../../api/hcxEnterpriseSites/options.js";
-import {
-  $delete,
-  createOrUpdate,
-  get,
-  list,
-} from "../../api/hcxEnterpriseSites/operations.js";
+import { $delete, createOrUpdate, get, list } from "../../api/hcxEnterpriseSites/operations.js";
 import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 
 /** Interface representing a HcxEnterpriseSites operations. */
@@ -61,14 +56,7 @@ function _getHcxEnterpriseSites(context: AzureVMwareSolutionAPIContext) {
       privateCloudName: string,
       hcxEnterpriseSiteName: string,
       options?: HcxEnterpriseSitesDeleteOptionalParams,
-    ) =>
-      $delete(
-        context,
-        resourceGroupName,
-        privateCloudName,
-        hcxEnterpriseSiteName,
-        options,
-      ),
+    ) => $delete(context, resourceGroupName, privateCloudName, hcxEnterpriseSiteName, options),
     createOrUpdate: (
       resourceGroupName: string,
       privateCloudName: string,
@@ -89,14 +77,7 @@ function _getHcxEnterpriseSites(context: AzureVMwareSolutionAPIContext) {
       privateCloudName: string,
       hcxEnterpriseSiteName: string,
       options?: HcxEnterpriseSitesGetOptionalParams,
-    ) =>
-      get(
-        context,
-        resourceGroupName,
-        privateCloudName,
-        hcxEnterpriseSiteName,
-        options,
-      ),
+    ) => get(context, resourceGroupName, privateCloudName, hcxEnterpriseSiteName, options),
     list: (
       resourceGroupName: string,
       privateCloudName: string,

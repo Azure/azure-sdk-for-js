@@ -14,10 +14,7 @@ async function privateCloudsListAdminCredentials(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const client = new AzureVMwareSolutionAPI(credential, subscriptionId);
-  const result = await client.privateClouds.listAdminCredentials(
-    "group1",
-    "cloud1",
-  );
+  const result = await client.privateClouds.listAdminCredentials("group1", "cloud1");
   console.log(result);
 }
 
