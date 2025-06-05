@@ -6,6 +6,7 @@
 - [Authenticate with Microsoft Entra ID - Hello World](#authenticate-with-azure-ad-ioredis-hello-world)
 - [Authenticate with Microsoft Entra ID - Handle Reauthentication](#authenticate-with-azure-ad-handle-reauthentication)
 - [Authenticate with Microsoft Entra ID - Using Token Cache](#authenticate-with-azure-ad-using-token-cache)
+- [Authenticate with Microsoft Entra ID - Clustered Cache with Token Cache](#authenticate-with-azure-ad-clustered-cache-with-token-cache)
 - [Troubleshooting](#troubleshooting)
 
 #### Prerequisites
@@ -31,6 +32,8 @@
   This sample is recommended to users looking to build long-running applications and would like to handle reauthenticating with Microsoft Entra ID upon token expiry.
 - [Authenticate with Microsoft Entra ID - Using Token Cache](#authenticate-with-azure-ad-using-token-cache):
   This sample is recommended to users looking to build long-running applications that would like to handle reauthenticating with a token cache. The token cache stores and proactively refreshes the Microsoft Entra access token 2 minutes before expiry and ensures a non-expired token is available for use when the cache is accessed.
+- [Authenticate with Microsoft Entra ID - Clustered Cache with Token Cache](#authenticate-with-azure-ad-clustered-cache-with-token-cache):
+  This sample is recommended to users working with clustered Azure Cache for Redis configurations that require token refresh across all cluster nodes. It demonstrates how to update authentication tokens for all nodes in the cluster when the cached access token is refreshed.
 
 #### Authenticate with Microsoft Entra ID: Hello World
 
@@ -224,6 +227,7 @@ async function main() {
     );
     if (redis) {
       await redis.auth(extractUsernameFromToken(accessToken), accessTokenCache.token);
+      redis.options.password = accessTokenCache.token;
     }
   }
 
@@ -261,6 +265,124 @@ async function main() {
             port: 6380,
           },
           keepAlive: 0,
+        });
+      }
+    }
+  }
+  clearTimeout(id);
+}
+
+main().catch((err) => {
+  console.log("error code: ", err.code);
+  console.log("error message: ", err.message);
+  console.log("error stack: ", err.stack);
+});
+```
+
+#### Authenticate with Microsoft Entra ID: Clustered Cache with Token Cache
+
+This sample is intended to assist in authenticating a hosted Azure Cache for Redis instance with Microsoft Entra ID via the ioredis client library for clustered configurations. It focuses on displaying the logic required to fetch a Microsoft Entra access token using a token cache and to use it as password when setting up the ioredis cluster instance. It also shows how to update authentication tokens across all cluster nodes when the cached access token is refreshed.
+
+##### Migration Guidance
+
+When migrating your existing clustered application code to authenticate with Microsoft Entra ID, you need to replace the password input with the Microsoft Entra token.
+Integrate the logic in your application code to fetch a Microsoft Entra access token via the Azure Identity library. Store the token in a token cache and update all cluster nodes when the token is refreshed, as shown below.
+
+```ts
+import Redis from "ioredis";
+import { AccessToken, DefaultAzureCredential, TokenCredential } from "@azure/identity";
+import * as dotenv from "dotenv";
+dotenv.config();
+
+function randomNumber(min, max) {
+  min = Math.ceil(min);
+  max = Math.floor(max);
+  return Math.floor(Math.random() * (max - min + 1)) + min;
+}
+
+async function returnPassword(credential: TokenCredential) {
+  const redisScope = "https://redis.azure.com/.default";
+
+  // Fetch a Microsoft Entra token to be used for authentication. This token will be used as the password.
+  let accessToken = await credential.getToken(redisScope);
+  return accessToken;
+}
+
+function extractUsernameFromToken(accessToken: AccessToken): string {
+  const base64Metadata = accessToken.token.split(".")[1];
+  const { oid } = JSON.parse(Buffer.from(base64Metadata, "base64").toString("utf8"));
+  return oid;
+}
+
+async function main() {
+  // Construct a Token Credential from Identity library
+  const credential = new DefaultAzureCredential();
+  let accessTokenCache: AccessToken | undefined = undefined;
+  let id: NodeJS.Timeout;
+
+  async function updateToken() {
+    accessTokenCache = await returnPassword(credential);
+    let randomTimestamp = randomNumber(120000, 300000);
+    id = setTimeout(
+      updateToken,
+      accessTokenCache.expiresOnTimestamp - randomTimestamp - Date.now(),
+    );
+    if (redisCluster) {
+      // For clustered caches, update authentication for all nodes
+      const nodes = redisCluster.nodes("all");
+      for (const node of nodes) {
+        await node.auth(extractUsernameFromToken(accessTokenCache), accessTokenCache.token);
+        node.options.password = accessTokenCache.token;
+      }
+    }
+  }
+
+  await updateToken();
+
+  let accessToken: AccessToken | undefined = { ...accessTokenCache };
+  // Create ioredis cluster client and connect to the Azure Cache for Redis over the TLS port using the access token as password.
+  let redisCluster = new Redis.Cluster([
+    {
+      host: process.env.REDIS_HOSTNAME,
+      port: 6380,
+    }
+  ], {
+    dnsLookup: (address, callback) => callback(null, address),
+    redisOptions: {
+      username: extractUsernameFromToken(accessToken),
+      password: accessToken.token,
+      tls: {
+        servername: process.env.REDIS_HOSTNAME,
+      },
+    },
+  });
+
+  for (let i = 0; i < 3; i++) {
+    try {
+      // Set a value against your key in the Azure Redis Cache.
+      await redisCluster.set("Az:mykey", "value123");
+      // Fetch value of your key in the Azure Redis Cache.
+      console.log("redis key:", await redisCluster.get("Az:mykey"));
+      break;
+    } catch (e) {
+      console.log("error during redis get", e.toString());
+      if (accessToken.expiresOnTimestamp <= Date.now() || redisCluster.status === "end" || "close") {
+        redisCluster.disconnect();
+        accessToken = { ...accessTokenCache };
+        redisCluster = new Redis.Cluster([
+          {
+            host: process.env.REDIS_HOSTNAME,
+            port: 6380,
+          }
+        ], {
+          dnsLookup: (address, callback) => callback(null, address),
+          redisOptions: {
+            username: extractUsernameFromToken(accessToken),
+            password: accessToken.token,
+            tls: {
+              servername: process.env.REDIS_HOSTNAME,
+            },
+          },
         });
       }
     }
