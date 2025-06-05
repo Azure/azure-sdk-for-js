@@ -19,7 +19,7 @@ describe("TenDlcClient - Campaigns", function () {
     },
   };
 
-  beforeEach(async (ctx) {
+  beforeEach(async (ctx) => {
     ({ client, recorder } = await createRecordedClient(ctx));
     if (isPlaybackMode()) {
       id = DEFAULT_ID;
@@ -35,6 +35,7 @@ describe("TenDlcClient - Campaigns", function () {
   it("successfully inserts campaign", async () => {
     const options = {
       brandId: id,
+      name: "Test Campaign",
       campaignDetails: {},
       messageDetails: messageDetails,
     };
@@ -52,6 +53,7 @@ describe("TenDlcClient - Campaigns", function () {
   it("successfully updates campaign", async () => {
     const options = {
       brandId: id,
+      name: "Test Campaign",
       campaignDetails: {},
       messageDetails: messageDetails,
     };
@@ -65,6 +67,7 @@ describe("TenDlcClient - Campaigns", function () {
     messageDetails.useCase.sampleMessages = ["updatedSampleMessages"];
     const newOptions = {
       brandId: id,
+      name: "Test Campaign",
       campaignDetails: {},
       messageDetails: messageDetails,
     };
@@ -82,6 +85,7 @@ describe("TenDlcClient - Campaigns", function () {
   it("can list all us campaigns", async function () {
     const options = {
       brandId: id,
+      name: "Test Campaign",
       campaignDetails: {},
       messageDetails: {},
     };

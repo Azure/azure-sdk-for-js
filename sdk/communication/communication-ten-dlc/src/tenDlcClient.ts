@@ -22,7 +22,6 @@ import type {
   TenDlcCost,
   TenDlcSubmitUSBrandOptionalParams,
   TenDlcSubmitUSCampaignOptionalParams,
-  TenDlcUpsertUSCampaignOptionalParams,
   USBrand,
   USCampaign,
   
@@ -134,26 +133,15 @@ export class TenDlcClient {
   public upsertUSCampaign(
     campaignId: string,
     options: UpsertUSCampaignOptions = {
-      brandId: "",
-      name: "",
-      campaignDetails: {},
-      messageDetails: {},
+      body: {
+        id: campaignId,
+      }
     },
   ): Promise<USCampaign> {
 
-    const internalOptions: TenDlcUpsertUSCampaignOptionalParams = {
-      body: {
-        id: campaignId,
-        brandId: options.brandId,
-        name: options.name,
-        campaignDetails: options.campaignDetails,
-        messageDetails: options.messageDetails,
-      }
-    };
-
     const { span, updatedOptions } = tracingClient.startSpan(
       "TenDlcClient-upsertUSCampaign",
-      internalOptions,
+      options,
     );
     try {
       return this.client.tenDlc.upsertUSCampaign(campaignId, updatedOptions);

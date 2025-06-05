@@ -321,13 +321,7 @@ export interface UpsertUSBrandOptions extends TenDlcGetUSBrandOptionalParams {
 // @public
 export interface UpsertUSCampaignOptions extends TenDlcGetUSCampaignOptionalParams {
     // (undocumented)
-    brandId: string | undefined;
-    // (undocumented)
-    campaignDetails: CampaignDetails | undefined;
-    // (undocumented)
-    messageDetails: MessageDetails | undefined;
-    // (undocumented)
-    name: string | undefined;
+    body: USCampaign | undefined;
 }
 
 // @public

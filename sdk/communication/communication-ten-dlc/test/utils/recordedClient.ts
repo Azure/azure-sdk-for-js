@@ -1,7 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { Context, Test } from "mocha";
 import * as dotenv from "dotenv";
 
 import {
@@ -10,12 +9,14 @@ import {
   env,
   isPlaybackMode,
   type SanitizerOptions,
+  TestInfo
 } from "@azure-tools/test-recorder";
 import { TenDlcClient } from "../../src/index.js";
 import type { TokenCredential } from "@azure/identity";
 // import { isNode } from "@azure-tools/test-utils";
 import { isNodeLike } from "@azure/core-util";
 import { createMSUserAgentPolicy } from "./msUserAgentPolicy.js";
+
 
 if (isNodeLike) {
   dotenv.config();
@@ -67,7 +68,7 @@ const recorderOptions: RecorderStartOptions = {
   ],
 };
 
-export async function createRecorder(context: Test | undefined): Promise<Recorder> {
+export async function createRecorder(context: TestInfo | undefined): Promise<Recorder> {
   const recorder = new Recorder(context);
   await recorder.start(recorderOptions);
   await recorder.setMatcher("CustomDefaultMatcher", {
@@ -80,9 +81,9 @@ export async function createRecorder(context: Test | undefined): Promise<Recorde
 }
 
 export async function createRecordedClient(
-  context: Context,
+  context: TestInfo,
 ): Promise<RecordedClient<TenDlcClient>> {
-  const recorder = await createRecorder(context.currentTest);
+  const recorder = await new Recorder(context);
 
   const client = new TenDlcClient(
     env.COMMUNICATION_LIVETEST_STATIC_CONNECTION_STRING ?? "",
