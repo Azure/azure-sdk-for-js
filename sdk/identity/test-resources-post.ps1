@@ -40,6 +40,7 @@ $MIClientId = $DeploymentOutputs['IDENTITY_USER_DEFINED_CLIENT_ID']
 $MIName = $DeploymentOutputs['IDENTITY_USER_DEFINED_IDENTITY_NAME']
 $saAccountName = 'workload-identity-sa'
 $podName = $DeploymentOutputs['IDENTITY_AKS_POD_NAME']
+$storageName1 = $DeploymentOutputs['IDENTITY_STORAGE_NAME_1']
 $storageName2 = $DeploymentOutputs['IDENTITY_STORAGE_NAME_2']
 $userDefinedClientId = $DeploymentOutputs['IDENTITY_USER_DEFINED_CLIENT_ID']
 $identityResourceGroup = $DeploymentOutputs['IDENTITY_RESOURCE_GROUP']
@@ -125,6 +126,8 @@ spec:
   - name: $podName
     image: $image
     env:
+    - name: IDENTITY_STORAGE_NAME_1
+      value: "$storageName1"
     - name: IDENTITY_STORAGE_NAME_2
       value: "$storageName2"
     - name: IDENTITY_USER_DEFINED_CLIENT_ID
@@ -152,12 +155,12 @@ az container create -g $identityResourceGroup -n $($DeploymentOutputs['IDENTITY_
   --ip-address "Public" `
   --memory "1.0"`
   --os-type "Linux" `
-  --scope $DeploymentOutputs['IDENTITY_STORAGE_ID_1'] `
-  -e IDENTITY_STORAGE_NAME=$DeploymentOutputs['IDENTITY_STORAGE_NAME_1']`
-     IDENTITY_STORAGE_NAME_USER_ASSIGNED=$DeploymentOutputs['IDENTITY_STORAGE_NAME_2']`
-     IDENTITY_USER_DEFINED_IDENTITY_CLIENT_ID=$DeploymentOutputs['IDENTITY_USER_DEFINED_CLIENT_ID']`
-     FUNCTIONS_CUSTOMHANDLER_PORT=80
-  
+  --scope $DeploymentOutputs['IDENTITY_STORAGE_ID_2'] `
+  -e IDENTITY_STORAGE_NAME_1=$storageName1 `
+  -e IDENTITY_STORAGE_NAME_2=$storageName2 `
+  -e IDENTITY_USER_DEFINED_IDENTITY_CLIENT_ID=$userDefinedClientId `
+  -e FUNCTIONS_CUSTOMHANDLER_PORT=80
+
 Write-Host "Container instance created"
 $aciIP = az container show -g $identityResourceGroup -n $DeploymentOutputs['IDENTITY_CONTAINER_INSTANCE_NAME'] --query ipAddress.ip --output tsv
 Write-Host "##vso[task.setvariable variable=IDENTITY_ACI_IP;]$aciIP"

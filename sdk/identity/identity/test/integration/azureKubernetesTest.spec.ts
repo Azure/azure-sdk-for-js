@@ -18,11 +18,14 @@ describe("Azure Kubernetes Integration test", function () {
     assert.include(pods, podName);
 
     // Wait a moment for cleanup
-    await new Promise(resolve => setTimeout(resolve, 1000));
+    await new Promise((resolve) => setTimeout(resolve, 1000));
 
     // Check server status
     console.log("Checking server status...");
-    const statusResponse = runCommand("kubectl", `exec ${podName} -- wget -qO- http://localhost:${port}/`);
+    const statusResponse = runCommand(
+      "kubectl",
+      `exec ${podName} -- wget -qO- http://localhost:${port}/`,
+    );
 
     console.log("Server Status Response:", statusResponse);
 
@@ -34,7 +37,11 @@ describe("Azure Kubernetes Integration test", function () {
     }
 
     assert.equal(statusObj.status, "OK", "Server is not responding with OK status");
-    assert.equal(statusObj.service, "Azure Identity Test Service", "Unexpected service name in status response");
+    assert.equal(
+      statusObj.service,
+      "Azure Identity Test Service",
+      "Unexpected service name in status response",
+    );
   });
 
   afterEach(async function () {
@@ -49,7 +56,10 @@ describe("Azure Kubernetes Integration test", function () {
     }
 
     console.log("Testing managed identity endpoint...");
-    const response = runCommand("kubectl", `exec ${podName} -- wget -qO- http://localhost:${port}/managed-identity`);
+    const response = runCommand(
+      "kubectl",
+      `exec ${podName} -- wget -qO- http://localhost:${port}/managed-identity`,
+    );
 
     console.log("Managed Identity Response:", response);
 
@@ -73,7 +83,10 @@ describe("Azure Kubernetes Integration test", function () {
     }
 
     console.log("Testing workload identity endpoint...");
-    const response = runCommand("kubectl", `exec ${podName} -- wget -qO- http://localhost:${port}/workload-identity`);
+    const response = runCommand(
+      "kubectl",
+      `exec ${podName} -- wget -qO- http://localhost:${port}/workload-identity`,
+    );
 
     console.log("Workload Identity Response:", response);
 
@@ -97,7 +110,10 @@ describe("Azure Kubernetes Integration test", function () {
     }
 
     console.log("Testing user-assigned managed identity endpoint...");
-    const response = runCommand("kubectl", `exec ${podName} -- wget -qO- http://localhost:${port}/managed-identity/user-assigned`);
+    const response = runCommand(
+      "kubectl",
+      `exec ${podName} -- wget -qO- http://localhost:${port}/managed-identity/user-assigned`,
+    );
 
     console.log("User-Assigned Managed Identity Response:", response);
 
