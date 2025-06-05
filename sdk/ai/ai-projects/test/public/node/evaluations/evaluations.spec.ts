@@ -56,7 +56,9 @@ describe("evaluations - basic", () => {
       datasetName,
       datasetVersion,
       sampleDataPath,
-      containerConnectionName,
+      {
+        connectionName: containerConnectionName,
+      },
     );
 
     assert.isNotNull(dataset);

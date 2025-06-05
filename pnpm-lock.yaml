@@ -15141,6 +15141,55 @@ importers:
         specifier: catalog:testing
         version: 3.1.4(@types/debug@4.1.12)(@types/node@18.19.101)(@vitest/browser@3.1.4)(jsdom@16.7.0)(msw@2.7.3(@types/node@18.19.101)(typescript@5.8.2))(terser@5.39.0)(tsx@4.19.4)(yaml@2.8.0)
 
+  sdk/loadtesting/create-playwright:
+    dependencies:
+      prompts:
+        specifier: ^2.4.2
+        version: 2.4.2
+      tslib:
+        specifier: 'catalog:'
+        version: 2.8.1
+    devDependencies:
+      '@azure-tools/test-utils-vitest':
+        specifier: workspace:^
+        version: link:../../test-utils/test-utils-vitest
+      '@azure/dev-tool':
+        specifier: workspace:^
+        version: link:../../../common/tools/dev-tool
+      '@azure/eslint-plugin-azure-sdk':
+        specifier: workspace:^
+        version: link:../../../common/tools/eslint-plugin-azure-sdk
+      '@azure/identity':
+        specifier: catalog:internal
+        version: 4.10.0
+      '@types/node':
+        specifier: 'catalog:'
+        version: 18.19.101
+      '@types/prompts':
+        specifier: ^2.4.9
+        version: 2.4.9
+      '@vitest/browser':
+        specifier: catalog:testing
+        version: 3.1.4(msw@2.7.3(@types/node@18.19.101)(typescript@5.8.2))(playwright@1.52.0)(vite@6.3.5(@types/node@18.19.101)(terser@5.39.0)(tsx@4.19.4)(yaml@2.8.0))(vitest@3.1.4)
+      '@vitest/coverage-istanbul':
+        specifier: catalog:testing
+        version: 3.1.4(vitest@3.1.4)
+      dotenv:
+        specifier: catalog:testing
+        version: 16.4.7
+      eslint:
+        specifier: 'catalog:'
+        version: 9.22.0
+      playwright:
+        specifier: catalog:testing
+        version: 1.52.0
+      typescript:
+        specifier: 'catalog:'
+        version: 5.8.2
+      vitest:
+        specifier: catalog:testing
+        version: 3.1.4(@types/debug@4.1.12)(@types/node@18.19.101)(@vitest/browser@3.1.4)(jsdom@16.7.0)(msw@2.7.3(@types/node@18.19.101)(typescript@5.8.2))(terser@5.39.0)(tsx@4.19.4)(yaml@2.8.0)
+
   sdk/loadtesting/load-testing-rest:
     dependencies:
       '@azure-rest/core-client':
@@ -15201,6 +15250,58 @@ importers:
       autorest:
         specifier: 'catalog:'
         version: 3.7.2
+      dotenv:
+        specifier: catalog:testing
+        version: 16.4.7
+      eslint:
+        specifier: 'catalog:'
+        version: 9.22.0
+      playwright:
+        specifier: catalog:testing
+        version: 1.52.0
+      typescript:
+        specifier: 'catalog:'
+        version: 5.8.2
+      vitest:
+        specifier: catalog:testing
+        version: 3.1.4(@types/debug@4.1.12)(@types/node@18.19.101)(@vitest/browser@3.1.4)(jsdom@16.7.0)(msw@2.7.3(@types/node@18.19.101)(typescript@5.8.2))(terser@5.39.0)(tsx@4.19.4)(yaml@2.8.0)
+
+  sdk/loadtesting/playwright:
+    dependencies:
+      '@azure/core-auth':
+        specifier: workspace:^
+        version: link:../../core/core-auth
+      '@azure/logger':
+        specifier: workspace:^
+        version: link:../../core/logger
+      '@playwright/test':
+        specifier: ^1.47.0
+        version: 1.52.0
+      tslib:
+        specifier: 'catalog:'
+        version: 2.8.1
+    devDependencies:
+      '@azure-tools/test-utils-vitest':
+        specifier: workspace:^
+        version: link:../../test-utils/test-utils-vitest
+      '@azure/dev-tool':
+        specifier: workspace:^
+        version: link:../../../common/tools/dev-tool
+      '@azure/eslint-plugin-azure-sdk':
+        specifier: workspace:^
+        version: link:../../../common/tools/eslint-plugin-azure-sdk
+      '@azure/identity':
+        specifier: catalog:internal
+        version: 4.10.0
+      '@types/node':
+        specifier: 'catalog:'
+        version: 18.19.101
+      '@vitest/browser':
+        specifier: catalog:testing
+        version: 3.1.4(msw@2.7.3(@types/node@18.19.101)(typescript@5.8.2))(playwright@1.52.0)(vite@6.3.5(@types/node@18.19.101)(terser@5.39.0)(tsx@4.19.4)(yaml@2.8.0))(vitest@3.1.4)
+      '@vitest/coverage-istanbul':
+        specifier: catalog:testing
+        version: 3.1.4(vitest@3.1.4)
       dotenv:
         specifier: catalog:testing
         version: 16.4.7
@@ -17031,9 +17132,6 @@ importers:
       '@azure-tools/test-utils-vitest':
         specifier: workspace:^
         version: link:../../test-utils/test-utils-vitest
-      '@azure/arm-network':
-        specifier: ^33.2.0
-        version: 33.5.0
       '@azure/dev-tool':
         specifier: workspace:^
         version: link:../../../common/tools/dev-tool
@@ -27566,10 +27664,6 @@ packages:
     resolution: {integrity: sha512-6QmZ9aGdiz+9u7jPhQEg2zY/Tn8hwJrmjAMuHlWpnqE2kHvSDnKCE3BiNLZsENfi/IeLKBuW0QIdZ5UhbSSA0A==}
     engines: {node: '>=14.0.0'}
 
-  '@azure/arm-network@33.5.0':
-    resolution: {integrity: sha512-wXD34p4/J2kZrkWylabtxLzrea5TK2m9NRwYtBLCvgQXN5NFTQohHgOFhoi/7DgV6w1qaM+qGz9mo5HRxpU70w==}
-    engines: {node: '>=18.0.0'}
-
   '@azure/arm-operationalinsights@9.0.0':
     resolution: {integrity: sha512-2MGyYUdi0ITlqqVq1XEHf7oX20I5VX0/OH/Lu+g4MW6h4js+sPSLjTBpVbafD/NoroLAdVdltVCOR6h3b1bTxg==}
     engines: {node: '>=14.0.0'}
@@ -33086,18 +33180,6 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
-  '@azure/arm-network@33.5.0':
-    dependencies:
-      '@azure/abort-controller': 2.1.2
-      '@azure/core-auth': 1.9.0
-      '@azure/core-client': 1.9.4
-      '@azure/core-lro': 2.7.2
-      '@azure/core-paging': 1.6.2
-      '@azure/core-rest-pipeline': 1.20.0
-      tslib: 2.8.1
-    transitivePeerDependencies:
-      - supports-color
-
   '@azure/arm-operationalinsights@9.0.0':
     dependencies:
       '@azure/abort-controller': 1.1.0
@@ -35425,7 +35507,7 @@ snapshots:
 
   '@types/prompts@2.4.9':
     dependencies:
-      '@types/node': 18.19.101
+      '@types/node': 22.15.24
       kleur: 3.0.3
 
   '@types/qs@6.9.18': {}

@@ -47,7 +47,7 @@ export interface ErrorResponse {
 // @public
 export interface InstanceProperties {
     marketplace: MarketplaceDetails;
-    partnerProperties?: PartnerProperties;
+    partnerProperties: PartnerProperties;
     readonly provisioningState?: ResourceProvisioningState;
     singleSignOnProperties?: SingleSignOnPropertiesV2;
     user: UserDetails;
@@ -169,7 +169,7 @@ export enum KnownSingleSignOnType {
 
 // @public
 export enum KnownVersions {
-    V20240918Preview = "2024-09-18-preview"
+    V20240918 = "2024-09-18"
 }
 
 // @public
