@@ -313,7 +313,7 @@ export interface TestAppComponentsOutput {
   readonly lastModifiedBy?: string;
 }
 
-/** An Azure resource object (Refer azure generic resource model :https://learn.microsoft.com/rest/api/resources/resources/get-by-id#genericresource) */
+/** An Azure resource object (Refer azure generic resource model :https://learn.microsoft.com/en-us/rest/api/resources/resources/get-by-id#genericresource) */
 export interface AppComponentOutput {
   /** fully qualified resource Id e.g subscriptions/{subId}/resourceGroups/{rg}/providers/Microsoft.LoadTestService/loadtests/{resName} */
   readonly resourceId: string;
@@ -337,7 +337,7 @@ export interface TestServerMetricsConfigurationOutput {
   readonly testId?: string;
   /**
    * Azure resource metrics collection {metric id : metrics object} (Refer :
-   * https://learn.microsoft.com/rest/api/monitor/metric-definitions/list#metricdefinition
+   * https://learn.microsoft.com/en-us/rest/api/monitor/metric-definitions/list#metricdefinition
    * for metric id).
    */
   metrics: Record<string, ResourceMetricOutput>;
@@ -354,7 +354,7 @@ export interface TestServerMetricsConfigurationOutput {
 /**
  * Associated metric definition for particular metrics of the azure resource (
  * Refer :
- * https://learn.microsoft.com/rest/api/monitor/metric-definitions/list#metricdefinition).
+ * https://learn.microsoft.com/en-us/rest/api/monitor/metric-definitions/list#metricdefinition).
  */
 export interface ResourceMetricOutput {
   /** Unique name for metric. */
@@ -800,7 +800,7 @@ export interface TestRunServerMetricsConfigurationOutput {
   readonly testRunId?: string;
   /**
    * Azure resource metrics collection {metric id : metrics object} (Refer :
-   * https://learn.microsoft.com/rest/api/monitor/metric-definitions/list#metricdefinition
+   * https://learn.microsoft.com/en-us/rest/api/monitor/metric-definitions/list#metricdefinition
    * for metric id).
    */
   metrics?: Record<string, ResourceMetricOutput>;

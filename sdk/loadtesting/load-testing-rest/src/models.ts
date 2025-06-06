@@ -251,7 +251,7 @@ export interface TestAppComponents {
   components: Record<string, AppComponent>;
 }
 
-/** An Azure resource object (Refer azure generic resource model :https://learn.microsoft.com/rest/api/resources/resources/get-by-id#genericresource) */
+/** An Azure resource object (Refer azure generic resource model :https://learn.microsoft.com/en-us/rest/api/resources/resources/get-by-id#genericresource) */
 export interface AppComponent {
   /** Azure resource name, required while creating the app component. */
   resourceName: string;
@@ -267,7 +267,7 @@ export interface AppComponent {
 export interface TestServerMetricsConfiguration {
   /**
    * Azure resource metrics collection {metric id : metrics object} (Refer :
-   * https://learn.microsoft.com/rest/api/monitor/metric-definitions/list#metricdefinition
+   * https://learn.microsoft.com/en-us/rest/api/monitor/metric-definitions/list#metricdefinition
    * for metric id).
    */
   metrics: Record<string, ResourceMetric>;
@@ -276,7 +276,7 @@ export interface TestServerMetricsConfiguration {
 /**
  * Associated metric definition for particular metrics of the azure resource (
  * Refer :
- * https://learn.microsoft.com/rest/api/monitor/metric-definitions/list#metricdefinition).
+ * https://learn.microsoft.com/en-us/rest/api/monitor/metric-definitions/list#metricdefinition).
  */
 export interface ResourceMetric {
   /** Azure resource id. */
@@ -459,7 +459,7 @@ export interface TestRunAppComponents {
 export interface TestRunServerMetricsConfiguration {
   /**
    * Azure resource metrics collection {metric id : metrics object} (Refer :
-   * https://learn.microsoft.com/rest/api/monitor/metric-definitions/list#metricdefinition
+   * https://learn.microsoft.com/en-us/rest/api/monitor/metric-definitions/list#metricdefinition
    * for metric id).
    */
   metrics?: Record<string, ResourceMetric>;

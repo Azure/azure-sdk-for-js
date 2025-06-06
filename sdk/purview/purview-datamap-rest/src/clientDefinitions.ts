@@ -825,7 +825,7 @@ export interface GlossaryListEntitiesAssignedWithTerm {
    * small batches with multiple API calls.
    *
    * [Entities Create Or Update
-   * operation](https://learn.microsoft.com/rest/api/purview/datamapdataplane/entity/bulk-create-or-update?tabs=HTTP)
+   * operation](https://learn.microsoft.com/en-us/rest/api/purview/datamapdataplane/entity/bulk-create-or-update?tabs=HTTP)
    * is an alternative to assign a term to multiple entities.
    */
   post(
