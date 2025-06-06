@@ -29,6 +29,7 @@ import {
   uploadFile,
   uploadFolder,
 } from "../../api/datasets/operations.js";
+import { DatasetUploadOptions } from "../../api/index.js";
 import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 
 /** Interface representing a Datasets operations. */
@@ -78,14 +79,14 @@ export interface DatasetsOperations {
     name: string,
     version: string,
     filePath: string,
-    connectionName?: string,
+    options?: DatasetUploadOptions,
   ) => Promise<DatasetVersionUnion>;
   /** Upload a folder to the DatasetVersion */
   uploadFolder: (
     name: string,
     version: string,
     folderPath: string,
-    connectionName?: string,
+    options?: DatasetUploadOptions,
   ) => Promise<DatasetVersionUnion>;
 }
 
@@ -118,10 +119,14 @@ function _getDatasets(
     list: (options?: DatasetsListOptionalParams) => list(context, options),
     listVersions: (name: string, options?: DatasetsListVersionsOptionalParams) =>
       listVersions(context, name, options),
-    uploadFile: (name: string, version: string, filePath: string, connectionName?: string) =>
-      uploadFile(context, name, version, filePath, { connectionName, projectOptions }),
-    uploadFolder: (name: string, version: string, folderPath: string, connectionName?: string) =>
-      uploadFolder(context, name, version, folderPath, { connectionName, projectOptions }),
+    uploadFile: (name: string, version: string, filePath: string, options?: DatasetUploadOptions) =>
+      uploadFile(context, name, version, filePath, { ...options, projectOptions }),
+    uploadFolder: (
+      name: string,
+      version: string,
+      folderPath: string,
+      options?: DatasetUploadOptions,
+    ) => uploadFolder(context, name, version, folderPath, { ...options, projectOptions }),
   };
 }
 
