@@ -4921,9 +4921,9 @@ export interface InMageRcmDisksDefaultInput {
 
 /** Resource tag input. */
 export interface UserCreatedResourceTag {
-  /** The tag name. Please read for more information: https://learn.microsoft.com/azure/azure-resource-manager/management/tag-resources#limitations */
+  /** The tag name. Please read for more information: https://learn.microsoft.com/en-us/azure/azure-resource-manager/management/tag-resources#limitations */
   tagName?: string;
-  /** The tag value. Please read her for more information: https://learn.microsoft.com/azure/azure-resource-manager/management/tag-resources#limitations */
+  /** The tag value. Please read her for more information: https://learn.microsoft.com/en-us/azure/azure-resource-manager/management/tag-resources#limitations */
   tagValue?: string;
 }
 

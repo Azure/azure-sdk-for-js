@@ -6590,7 +6590,7 @@ export interface BGPCommunityOutput {
   serviceSupportedRegion?: string;
   /** The name of the bgp community. e.g. Skype. */
   communityName?: string;
-  /** The value of the bgp community. For more information: https://docs.microsoft.com/azure/expressroute/expressroute-routing. */
+  /** The value of the bgp community. For more information: https://docs.microsoft.com/en-us/azure/expressroute/expressroute-routing. */
   communityValue?: string;
   /** The prefixes that the bgp community contains. */
   communityPrefixes?: Array<string>;
@@ -6772,7 +6772,7 @@ export interface VirtualNetworkPeeringPropertiesFormatOutput {
   allowGatewayTransit?: boolean;
   /** If remote gateways can be used on this virtual network. If the flag is set to true, and allowGatewayTransit on remote peering is also true, virtual network will use gateways of remote virtual network for transit. Only one peering can have this flag set to true. This flag cannot be set if virtual network already has a gateway. */
   useRemoteGateways?: boolean;
-  /** The reference to the remote virtual network. The remote virtual network can be in the same or different region (preview). See here to register for the preview and learn more (https://docs.microsoft.com/azure/virtual-network/virtual-network-create-peering). */
+  /** The reference to the remote virtual network. The remote virtual network can be in the same or different region (preview). See here to register for the preview and learn more (https://docs.microsoft.com/en-us/azure/virtual-network/virtual-network-create-peering). */
   remoteVirtualNetwork?: SubResourceOutput;
   /** The reference to the address space peered with the remote virtual network. */
   remoteAddressSpace?: AddressSpaceOutput;

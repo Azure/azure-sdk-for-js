@@ -936,7 +936,7 @@ export interface QuotaRequestSubmitResponse {
 /** The quota request response with the quota request ID. */
 export interface QuotaRequestSubmitResponse202 {
   /**
-   * The quota request ID. To check the request status, use the **id** value in a [Quota Request Status](https://docs.microsoft.com/rest/api/reserved-vm-instances/quotarequeststatus/get) GET operation.
+   * The quota request ID. To check the request status, use the **id** value in a [Quota Request Status](https://docs.microsoft.com/en-us/rest/api/reserved-vm-instances/quotarequeststatus/get) GET operation.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly id?: string;

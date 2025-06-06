@@ -430,14 +430,14 @@ export interface TextSourceInternal {
   text: string;
   /**
    * Source language locale to be played
-   * Refer to available locales here: <seealso href="https://learn.microsoft.com/azure/cognitive-services/speech-service/language-support?tabs=stt-tts" />
+   * Refer to available locales here: <seealso href="https://learn.microsoft.com/en-us/azure/cognitive-services/speech-service/language-support?tabs=stt-tts" />
    */
   sourceLocale?: string;
   /** Voice kind type */
   voiceKind?: VoiceKind;
   /**
    * Voice name to be played
-   * Refer to available Text-to-speech voices here: <seealso href="https://learn.microsoft.com/azure/cognitive-services/speech-service/language-support?tabs=stt-tts" />
+   * Refer to available Text-to-speech voices here: <seealso href="https://learn.microsoft.com/en-us/azure/cognitive-services/speech-service/language-support?tabs=stt-tts" />
    */
   voiceName?: string;
   /** Endpoint where the custom voice was deployed. */

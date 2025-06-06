@@ -198,7 +198,7 @@ export type RenderGetMapStateTileParameters = RenderGetMapStateTileQueryParam &
 export type RenderGetCopyrightCaptionParameters = RequestParameters;
 
 export interface RenderGetMapStaticImageQueryParamProperties {
-  /** Map style to be returned. Possible values are microsoft.base.road, microsoft.base.darkgrey, and microsoft.imagery.  Default value is set to be microsoft.base.road. For more information, see [Render TilesetId](https://learn.microsoft.com/rest/api/maps/render/get-map-tileset?view=rest-maps-2023-06-01&tabs=HTTP#tilesetid). */
+  /** Map style to be returned. Possible values are microsoft.base.road, microsoft.base.darkgrey, and microsoft.imagery.  Default value is set to be microsoft.base.road. For more information, see [Render TilesetId](https://learn.microsoft.com/en-us/rest/api/maps/render/get-map-tileset?view=rest-maps-2023-06-01&tabs=HTTP#tilesetid). */
   tilesetId?:
     | "microsoft.base"
     | "microsoft.base.labels"
@@ -222,7 +222,7 @@ export interface RenderGetMapStaticImageQueryParamProperties {
     | "microsoft.traffic.delay.main"
     | "microsoft.traffic.reduced.main"
     | "microsoft.traffic.incident";
-  /** Optional Value, indicating no traffic flow overlaid on the image result. Possible values are microsoft.traffic.relative.main and none. Default value is none, indicating no traffic flow returned. If traffic related tilesetId is provided, will return map image with corresponding traffic layer. For more information, see [Render TilesetId](https://learn.microsoft.com/rest/api/maps/render/get-map-tileset?view=rest-maps-2023-06-01&tabs=HTTP#tilesetid). */
+  /** Optional Value, indicating no traffic flow overlaid on the image result. Possible values are microsoft.traffic.relative.main and none. Default value is none, indicating no traffic flow returned. If traffic related tilesetId is provided, will return map image with corresponding traffic layer. For more information, see [Render TilesetId](https://learn.microsoft.com/en-us/rest/api/maps/render/get-map-tileset?view=rest-maps-2023-06-01&tabs=HTTP#tilesetid). */
   trafficLayer?: "microsoft.traffic.relative.main" | "none";
   /** Desired zoom level of the map. Support zoom value range from 0-20 (inclusive) for tilesetId being microsoft.base.road or microsoft.base.darkgrey. Support zoom value range from 0-19 (inclusive) for tilesetId being microsoft.imagery. Default value is 12.<br><br>For more information, see [Zoom Levels and Tile Grid](https://docs.microsoft.com/azure/location-based-services/zoom-levels-and-tile-grid). */
   zoom?: number;

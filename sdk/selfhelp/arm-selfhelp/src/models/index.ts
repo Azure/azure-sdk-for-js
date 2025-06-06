@@ -731,7 +731,7 @@ export interface TroubleshooterResource extends ProxyResource {
 /** Self Help Solution response. */
 export interface SolutionResourceSelfHelp extends ProxyResource {
   /**
-   * SolutionId is a unique id to identify a solution. You can retrieve the solution id using the Discovery api - https://learn.microsoft.com/rest/api/help/discovery-solution/list?view=rest-help-2023-09-01-preview&tabs=HTTP
+   * SolutionId is a unique id to identify a solution. You can retrieve the solution id using the Discovery api - https://learn.microsoft.com/en-us/rest/api/help/discovery-solution/list?view=rest-help-2023-09-01-preview&tabs=HTTP
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly solutionId?: string;
@@ -763,9 +763,9 @@ export interface SolutionNlpMetadataResource extends ProxyResource {
   problemTitle?: string;
   /** Description of the problem classification. */
   problemDescription?: string;
-  /** Id of the service (https://learn.microsoft.com/rest/api/support/services?view=rest-support-2020-04-01) that may be used to create a support ticket. */
+  /** Id of the service (https://learn.microsoft.com/en-us/rest/api/support/services?view=rest-support-2020-04-01) that may be used to create a support ticket. */
   serviceId?: string;
-  /** Id of the ProblemClassification (https://learn.microsoft.com/rest/api/support/problem-classifications?view=rest-support-2020-04-01) that may be used to create a support ticket. */
+  /** Id of the ProblemClassification (https://learn.microsoft.com/en-us/rest/api/support/problem-classifications?view=rest-support-2020-04-01) that may be used to create a support ticket. */
   problemClassificationId?: string;
   /** The list of solution metadata. */
   solutions?: SolutionMetadataProperties[];
@@ -1295,7 +1295,7 @@ export type DiagnosticsGetResponse = DiagnosticResource;
 /** Optional parameters. */
 export interface DiscoverySolutionListOptionalParams
   extends coreClient.OperationOptions {
-  /** 'ProblemClassificationId' is a mandatory filter to get solutions ids. It also supports optional 'ResourceType' and 'SolutionType' filters. The [$filter](https://learn.microsoft.com/odata/webapi/first-odata-api#filter) supports only 'and', 'or' and 'eq' operators. Example: $filter=ProblemClassificationId eq '1ddda5b4-cf6c-4d4f-91ad-bc38ab0e811e' */
+  /** 'ProblemClassificationId' is a mandatory filter to get solutions ids. It also supports optional 'ResourceType' and 'SolutionType' filters. The [$filter](https://learn.microsoft.com/en-us/odata/webapi/first-odata-api#filter) supports only 'and', 'or' and 'eq' operators. Example: $filter=ProblemClassificationId eq '1ddda5b4-cf6c-4d4f-91ad-bc38ab0e811e' */
   filter?: string;
   /** Skiptoken is only used if a previous operation returned a partial result. */
   skiptoken?: string;

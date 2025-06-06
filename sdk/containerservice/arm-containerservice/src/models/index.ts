@@ -339,11 +339,11 @@ export interface ManagedClusterAgentPoolProfileProperties {
 
 /** Settings for upgrading an agentpool */
 export interface AgentPoolUpgradeSettings {
-  /** This can either be set to an integer (e.g. '5') or a percentage (e.g. '50%'). If a percentage is specified, it is the percentage of the total agent pool size at the time of the upgrade. For percentages, fractional nodes are rounded up. If not specified, the default is 10%. For more information, including best practices, see: https://learn.microsoft.com/azure/aks/upgrade-cluster */
+  /** This can either be set to an integer (e.g. '5') or a percentage (e.g. '50%'). If a percentage is specified, it is the percentage of the total agent pool size at the time of the upgrade. For percentages, fractional nodes are rounded up. If not specified, the default is 10%. For more information, including best practices, see: https://learn.microsoft.com/en-us/azure/aks/upgrade-cluster */
   maxSurge?: string;
-  /** This can either be set to an integer (e.g. '1') or a percentage (e.g. '5%'). If a percentage is specified, it is the percentage of the total agent pool size at the time of the upgrade. For percentages, fractional nodes are rounded up. If not specified, the default is 0. For more information, including best practices, see: https://learn.microsoft.com/azure/aks/upgrade-cluster */
+  /** This can either be set to an integer (e.g. '1') or a percentage (e.g. '5%'). If a percentage is specified, it is the percentage of the total agent pool size at the time of the upgrade. For percentages, fractional nodes are rounded up. If not specified, the default is 0. For more information, including best practices, see: https://learn.microsoft.com/en-us/azure/aks/upgrade-cluster */
   maxUnavailable?: string;
-  /** This can either be set to an integer (e.g. '5') or a percentage (e.g. '50%'). If a percentage is specified, it is the percentage of the total agent pool size at the time of the upgrade. For percentages, fractional nodes are rounded up. If not specified, the default is maxSurge. This must always be greater than or equal to maxSurge. For more information, including best practices, see: https://learn.microsoft.com/azure/aks/upgrade-cluster */
+  /** This can either be set to an integer (e.g. '5') or a percentage (e.g. '50%'). If a percentage is specified, it is the percentage of the total agent pool size at the time of the upgrade. For percentages, fractional nodes are rounded up. If not specified, the default is maxSurge. This must always be greater than or equal to maxSurge. For more information, including best practices, see: https://learn.microsoft.com/en-us/azure/aks/upgrade-cluster */
   maxBlockedNodes?: string;
   /** The amount of time (in minutes) to wait on eviction of pods and graceful termination per node. This eviction wait time honors waiting on pod disruption budgets. If this time is exceeded, the upgrade fails. If not specified, the default is 30 minutes. */
   drainTimeoutInMinutes?: number;
@@ -1028,7 +1028,7 @@ export interface ManagedClusterSecurityProfile {
   imageIntegrity?: ManagedClusterSecurityProfileImageIntegrity;
   /** [Node Restriction](https://kubernetes.io/docs/reference/access-authn-authz/admission-controllers/#noderestriction) settings for the security profile. */
   nodeRestriction?: ManagedClusterSecurityProfileNodeRestriction;
-  /** A list of up to 10 base64 encoded CAs that will be added to the trust store on all nodes in the cluster. For more information see [Custom CA Trust Certificates](https://learn.microsoft.com/azure/aks/custom-certificate-authority). */
+  /** A list of up to 10 base64 encoded CAs that will be added to the trust store on all nodes in the cluster. For more information see [Custom CA Trust Certificates](https://learn.microsoft.com/en-us/azure/aks/custom-certificate-authority). */
   customCATrustCertificates?: Uint8Array[];
 }
 
@@ -1069,7 +1069,7 @@ export interface ManagedClusterSecurityProfileDefenderSecurityGatingIdentitiesIt
 export interface AzureKeyVaultKms {
   /** Whether to enable Azure Key Vault key management service. The default is false. */
   enabled?: boolean;
-  /** Identifier of Azure Key Vault key. See [key identifier format](https://docs.microsoft.com/azure/key-vault/general/about-keys-secrets-certificates#vault-name-and-object-name) for more details. When Azure Key Vault key management service is enabled, this field is required and must be a valid key identifier. When Azure Key Vault key management service is disabled, leave the field empty. */
+  /** Identifier of Azure Key Vault key. See [key identifier format](https://docs.microsoft.com/en-us/azure/key-vault/general/about-keys-secrets-certificates#vault-name-and-object-name) for more details. When Azure Key Vault key management service is enabled, this field is required and must be a valid key identifier. When Azure Key Vault key management service is disabled, leave the field empty. */
   keyId?: string;
   /** Network access of key vault. The possible values are `Public` and `Private`. `Public` means the key vault allows public access from all networks. `Private` means the key vault disables public access and enables private link. The default value is `Public`. */
   keyVaultNetworkAccess?: KeyVaultNetworkAccessTypes;
@@ -1153,10 +1153,10 @@ export interface ManagedClusterIngressProfileWebAppRouting {
   enabled?: boolean;
   /** Resource IDs of the DNS zones to be associated with the Web App Routing add-on. Used only when Web App Routing is enabled. Public and private DNS zones can be in different resource groups, but all public DNS zones must be in the same resource group and all private DNS zones must be in the same resource group. */
   dnsZoneResourceIds?: string[];
-  /** Configuration for the default NginxIngressController. See more at https://learn.microsoft.com/azure/aks/app-routing-nginx-configuration#the-default-nginx-ingress-controller. */
+  /** Configuration for the default NginxIngressController. See more at https://learn.microsoft.com/en-us/azure/aks/app-routing-nginx-configuration#the-default-nginx-ingress-controller. */
   nginx?: ManagedClusterIngressProfileNginx;
   /**
-   * Managed identity of the Web Application Routing add-on. This is the identity that should be granted permissions, for example, to manage the associated Azure DNS resource and get certificates from Azure Key Vault. See [this overview of the add-on](https://learn.microsoft.com/azure/aks/web-app-routing?tabs=with-osm) for more instructions.
+   * Managed identity of the Web Application Routing add-on. This is the identity that should be granted permissions, for example, to manage the associated Azure DNS resource and get certificates from Azure Key Vault. See [this overview of the add-on](https://learn.microsoft.com/en-us/azure/aks/web-app-routing?tabs=with-osm) for more instructions.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly identity?: UserAssignedIdentity;
@@ -1288,7 +1288,7 @@ export interface IstioServiceMesh {
   components?: IstioComponents;
   /** Istio Service Mesh Certificate Authority (CA) configuration. For now, we only support plugin certificates as described here https://aka.ms/asm-plugin-ca */
   certificateAuthority?: IstioCertificateAuthority;
-  /** The list of revisions of the Istio control plane. When an upgrade is not in progress, this holds one value. When canary upgrade is in progress, this can only hold two consecutive values. For more information, see: https://learn.microsoft.com/azure/aks/istio-upgrade */
+  /** The list of revisions of the Istio control plane. When an upgrade is not in progress, this holds one value. When canary upgrade is in progress, this can only hold two consecutive values. For more information, see: https://learn.microsoft.com/en-us/azure/aks/istio-upgrade */
   revisions?: string[];
 }
 

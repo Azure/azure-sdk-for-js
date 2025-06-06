@@ -800,7 +800,7 @@ export interface ManagedClusterSecurityProfileDefenderSecurityMonitoringOutput {
 export interface AzureKeyVaultKmsOutput {
   /** Whether to enable Azure Key Vault key management service. The default is false. */
   enabled?: boolean;
-  /** Identifier of Azure Key Vault key. See [key identifier format](https://docs.microsoft.com/azure/key-vault/general/about-keys-secrets-certificates#vault-name-and-object-name) for more details. When Azure Key Vault key management service is enabled, this field is required and must be a valid key identifier. When Azure Key Vault key management service is disabled, leave the field empty. */
+  /** Identifier of Azure Key Vault key. See [key identifier format](https://docs.microsoft.com/en-us/azure/key-vault/general/about-keys-secrets-certificates#vault-name-and-object-name) for more details. When Azure Key Vault key management service is enabled, this field is required and must be a valid key identifier. When Azure Key Vault key management service is disabled, leave the field empty. */
   keyId?: string;
   /** Network access of key vault. The possible values are `Public` and `Private`. `Public` means the key vault allows public access from all networks. `Private` means the key vault disables public access and enables private link. The default value is `Public`. */
   keyVaultNetworkAccess?: "Public" | "Private";

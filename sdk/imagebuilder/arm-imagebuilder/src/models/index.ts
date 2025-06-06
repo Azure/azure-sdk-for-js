@@ -398,20 +398,20 @@ export interface DistributeVersioner {
   scheme: "Latest" | "Source";
 }
 
-/** Describes an image source from [Azure Gallery Images](https://docs.microsoft.com/rest/api/compute/virtualmachineimages). */
+/** Describes an image source from [Azure Gallery Images](https://docs.microsoft.com/en-us/rest/api/compute/virtualmachineimages). */
 export interface ImageTemplatePlatformImageSource extends ImageTemplateSource {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "PlatformImage";
-  /** Image Publisher in [Azure Gallery Images](https://docs.microsoft.com/rest/api/compute/virtualmachineimages). */
+  /** Image Publisher in [Azure Gallery Images](https://docs.microsoft.com/en-us/rest/api/compute/virtualmachineimages). */
   publisher?: string;
-  /** Image offer from the [Azure Gallery Images](https://docs.microsoft.com/rest/api/compute/virtualmachineimages). */
+  /** Image offer from the [Azure Gallery Images](https://docs.microsoft.com/en-us/rest/api/compute/virtualmachineimages). */
   offer?: string;
-  /** Image sku from the [Azure Gallery Images](https://docs.microsoft.com/rest/api/compute/virtualmachineimages). */
+  /** Image sku from the [Azure Gallery Images](https://docs.microsoft.com/en-us/rest/api/compute/virtualmachineimages). */
   sku?: string;
-  /** Image version from the [Azure Gallery Images](https://docs.microsoft.com/rest/api/compute/virtualmachineimages). If 'latest' is specified here, the version is evaluated when the image build takes place, not when the template is submitted. */
+  /** Image version from the [Azure Gallery Images](https://docs.microsoft.com/en-us/rest/api/compute/virtualmachineimages). If 'latest' is specified here, the version is evaluated when the image build takes place, not when the template is submitted. */
   version?: string;
   /**
-   * Image version from the [Azure Gallery Images](https://docs.microsoft.com/rest/api/compute/virtualmachineimages). This readonly field differs from 'version', only if the value specified in 'version' field is 'latest'.
+   * Image version from the [Azure Gallery Images](https://docs.microsoft.com/en-us/rest/api/compute/virtualmachineimages). This readonly field differs from 'version', only if the value specified in 'version' field is 'latest'.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly exactVersion?: string;

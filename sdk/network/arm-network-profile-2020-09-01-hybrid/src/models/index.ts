@@ -1464,7 +1464,7 @@ export interface VirtualNetworkPeering extends SubResource {
   allowGatewayTransit?: boolean;
   /** If remote gateways can be used on this virtual network. If the flag is set to true, and allowGatewayTransit on remote peering is also true, virtual network will use gateways of remote virtual network for transit. Only one peering can have this flag set to true. This flag cannot be set if virtual network already has a gateway. */
   useRemoteGateways?: boolean;
-  /** The reference of the remote virtual network. The remote virtual network can be in the same or different region (preview). See here to register for the preview and learn more (https://docs.microsoft.com/azure/virtual-network/virtual-network-create-peering). */
+  /** The reference of the remote virtual network. The remote virtual network can be in the same or different region (preview). See here to register for the preview and learn more (https://docs.microsoft.com/en-us/azure/virtual-network/virtual-network-create-peering). */
   remoteVirtualNetwork?: SubResource;
   /** The reference of the remote virtual network address space. */
   remoteAddressSpace?: AddressSpace;

@@ -704,7 +704,7 @@ export type GeoReplicationStatusType = "live" | "bootstrap" | "unavailable";
 /** Optional parameters. */
 export interface ServiceSetPropertiesOptionalParams
   extends coreClient.OperationOptions {
-  /** The The timeout parameter is expressed in seconds. For more information, see <a href="https://docs.microsoft.com/rest/api/storageservices/setting-timeouts-for-queue-service-operations>Setting Timeouts for Queue Service Operations.</a> */
+  /** The The timeout parameter is expressed in seconds. For more information, see <a href="https://docs.microsoft.com/en-us/rest/api/storageservices/setting-timeouts-for-queue-service-operations>Setting Timeouts for Queue Service Operations.</a> */
   timeoutInSeconds?: number;
   /** Provides a client-generated, opaque value with a 1 KB character limit that is recorded in the analytics logs when storage analytics logging is enabled. */
   requestId?: string;
@@ -716,7 +716,7 @@ export type ServiceSetPropertiesResponse = ServiceSetPropertiesHeaders;
 /** Optional parameters. */
 export interface ServiceGetPropertiesOptionalParams
   extends coreClient.OperationOptions {
-  /** The The timeout parameter is expressed in seconds. For more information, see <a href="https://docs.microsoft.com/rest/api/storageservices/setting-timeouts-for-queue-service-operations>Setting Timeouts for Queue Service Operations.</a> */
+  /** The The timeout parameter is expressed in seconds. For more information, see <a href="https://docs.microsoft.com/en-us/rest/api/storageservices/setting-timeouts-for-queue-service-operations>Setting Timeouts for Queue Service Operations.</a> */
   timeoutInSeconds?: number;
   /** Provides a client-generated, opaque value with a 1 KB character limit that is recorded in the analytics logs when storage analytics logging is enabled. */
   requestId?: string;
@@ -729,7 +729,7 @@ export type ServiceGetPropertiesResponse = ServiceGetPropertiesHeaders &
 /** Optional parameters. */
 export interface ServiceGetStatisticsOptionalParams
   extends coreClient.OperationOptions {
-  /** The The timeout parameter is expressed in seconds. For more information, see <a href="https://docs.microsoft.com/rest/api/storageservices/setting-timeouts-for-queue-service-operations>Setting Timeouts for Queue Service Operations.</a> */
+  /** The The timeout parameter is expressed in seconds. For more information, see <a href="https://docs.microsoft.com/en-us/rest/api/storageservices/setting-timeouts-for-queue-service-operations>Setting Timeouts for Queue Service Operations.</a> */
   timeoutInSeconds?: number;
   /** Provides a client-generated, opaque value with a 1 KB character limit that is recorded in the analytics logs when storage analytics logging is enabled. */
   requestId?: string;
@@ -742,7 +742,7 @@ export type ServiceGetStatisticsResponse = ServiceGetStatisticsHeaders &
 /** Optional parameters. */
 export interface ServiceListQueuesSegmentOptionalParams
   extends coreClient.OperationOptions {
-  /** The The timeout parameter is expressed in seconds. For more information, see <a href="https://docs.microsoft.com/rest/api/storageservices/setting-timeouts-for-queue-service-operations>Setting Timeouts for Queue Service Operations.</a> */
+  /** The The timeout parameter is expressed in seconds. For more information, see <a href="https://docs.microsoft.com/en-us/rest/api/storageservices/setting-timeouts-for-queue-service-operations>Setting Timeouts for Queue Service Operations.</a> */
   timeoutInSeconds?: number;
   /** Provides a client-generated, opaque value with a 1 KB character limit that is recorded in the analytics logs when storage analytics logging is enabled. */
   requestId?: string;
@@ -762,7 +762,7 @@ export type ServiceListQueuesSegmentResponse = ServiceListQueuesSegmentHeaders &
 
 /** Optional parameters. */
 export interface QueueCreateOptionalParams extends coreClient.OperationOptions {
-  /** The The timeout parameter is expressed in seconds. For more information, see <a href="https://docs.microsoft.com/rest/api/storageservices/setting-timeouts-for-queue-service-operations>Setting Timeouts for Queue Service Operations.</a> */
+  /** The The timeout parameter is expressed in seconds. For more information, see <a href="https://docs.microsoft.com/en-us/rest/api/storageservices/setting-timeouts-for-queue-service-operations>Setting Timeouts for Queue Service Operations.</a> */
   timeoutInSeconds?: number;
   /** Provides a client-generated, opaque value with a 1 KB character limit that is recorded in the analytics logs when storage analytics logging is enabled. */
   requestId?: string;
@@ -775,7 +775,7 @@ export type QueueCreateResponse = QueueCreateHeaders;
 
 /** Optional parameters. */
 export interface QueueDeleteOptionalParams extends coreClient.OperationOptions {
-  /** The The timeout parameter is expressed in seconds. For more information, see <a href="https://docs.microsoft.com/rest/api/storageservices/setting-timeouts-for-queue-service-operations>Setting Timeouts for Queue Service Operations.</a> */
+  /** The The timeout parameter is expressed in seconds. For more information, see <a href="https://docs.microsoft.com/en-us/rest/api/storageservices/setting-timeouts-for-queue-service-operations>Setting Timeouts for Queue Service Operations.</a> */
   timeoutInSeconds?: number;
   /** Provides a client-generated, opaque value with a 1 KB character limit that is recorded in the analytics logs when storage analytics logging is enabled. */
   requestId?: string;
@@ -787,7 +787,7 @@ export type QueueDeleteResponse = QueueDeleteHeaders;
 /** Optional parameters. */
 export interface QueueGetPropertiesOptionalParams
   extends coreClient.OperationOptions {
-  /** The The timeout parameter is expressed in seconds. For more information, see <a href="https://docs.microsoft.com/rest/api/storageservices/setting-timeouts-for-queue-service-operations>Setting Timeouts for Queue Service Operations.</a> */
+  /** The The timeout parameter is expressed in seconds. For more information, see <a href="https://docs.microsoft.com/en-us/rest/api/storageservices/setting-timeouts-for-queue-service-operations>Setting Timeouts for Queue Service Operations.</a> */
   timeoutInSeconds?: number;
   /** Provides a client-generated, opaque value with a 1 KB character limit that is recorded in the analytics logs when storage analytics logging is enabled. */
   requestId?: string;
@@ -799,7 +799,7 @@ export type QueueGetPropertiesResponse = QueueGetPropertiesHeaders;
 /** Optional parameters. */
 export interface QueueSetMetadataOptionalParams
   extends coreClient.OperationOptions {
-  /** The The timeout parameter is expressed in seconds. For more information, see <a href="https://docs.microsoft.com/rest/api/storageservices/setting-timeouts-for-queue-service-operations>Setting Timeouts for Queue Service Operations.</a> */
+  /** The The timeout parameter is expressed in seconds. For more information, see <a href="https://docs.microsoft.com/en-us/rest/api/storageservices/setting-timeouts-for-queue-service-operations>Setting Timeouts for Queue Service Operations.</a> */
   timeoutInSeconds?: number;
   /** Provides a client-generated, opaque value with a 1 KB character limit that is recorded in the analytics logs when storage analytics logging is enabled. */
   requestId?: string;
@@ -813,7 +813,7 @@ export type QueueSetMetadataResponse = QueueSetMetadataHeaders;
 /** Optional parameters. */
 export interface QueueGetAccessPolicyOptionalParams
   extends coreClient.OperationOptions {
-  /** The The timeout parameter is expressed in seconds. For more information, see <a href="https://docs.microsoft.com/rest/api/storageservices/setting-timeouts-for-queue-service-operations>Setting Timeouts for Queue Service Operations.</a> */
+  /** The The timeout parameter is expressed in seconds. For more information, see <a href="https://docs.microsoft.com/en-us/rest/api/storageservices/setting-timeouts-for-queue-service-operations>Setting Timeouts for Queue Service Operations.</a> */
   timeoutInSeconds?: number;
   /** Provides a client-generated, opaque value with a 1 KB character limit that is recorded in the analytics logs when storage analytics logging is enabled. */
   requestId?: string;
@@ -826,7 +826,7 @@ export type QueueGetAccessPolicyResponse = QueueGetAccessPolicyHeaders &
 /** Optional parameters. */
 export interface QueueSetAccessPolicyOptionalParams
   extends coreClient.OperationOptions {
-  /** The The timeout parameter is expressed in seconds. For more information, see <a href="https://docs.microsoft.com/rest/api/storageservices/setting-timeouts-for-queue-service-operations>Setting Timeouts for Queue Service Operations.</a> */
+  /** The The timeout parameter is expressed in seconds. For more information, see <a href="https://docs.microsoft.com/en-us/rest/api/storageservices/setting-timeouts-for-queue-service-operations>Setting Timeouts for Queue Service Operations.</a> */
   timeoutInSeconds?: number;
   /** Provides a client-generated, opaque value with a 1 KB character limit that is recorded in the analytics logs when storage analytics logging is enabled. */
   requestId?: string;
@@ -840,7 +840,7 @@ export type QueueSetAccessPolicyResponse = QueueSetAccessPolicyHeaders;
 /** Optional parameters. */
 export interface MessagesDequeueOptionalParams
   extends coreClient.OperationOptions {
-  /** The The timeout parameter is expressed in seconds. For more information, see <a href="https://docs.microsoft.com/rest/api/storageservices/setting-timeouts-for-queue-service-operations>Setting Timeouts for Queue Service Operations.</a> */
+  /** The The timeout parameter is expressed in seconds. For more information, see <a href="https://docs.microsoft.com/en-us/rest/api/storageservices/setting-timeouts-for-queue-service-operations>Setting Timeouts for Queue Service Operations.</a> */
   timeoutInSeconds?: number;
   /** Provides a client-generated, opaque value with a 1 KB character limit that is recorded in the analytics logs when storage analytics logging is enabled. */
   requestId?: string;
@@ -857,7 +857,7 @@ export type MessagesDequeueResponse = MessagesDequeueHeaders &
 /** Optional parameters. */
 export interface MessagesClearOptionalParams
   extends coreClient.OperationOptions {
-  /** The The timeout parameter is expressed in seconds. For more information, see <a href="https://docs.microsoft.com/rest/api/storageservices/setting-timeouts-for-queue-service-operations>Setting Timeouts for Queue Service Operations.</a> */
+  /** The The timeout parameter is expressed in seconds. For more information, see <a href="https://docs.microsoft.com/en-us/rest/api/storageservices/setting-timeouts-for-queue-service-operations>Setting Timeouts for Queue Service Operations.</a> */
   timeoutInSeconds?: number;
   /** Provides a client-generated, opaque value with a 1 KB character limit that is recorded in the analytics logs when storage analytics logging is enabled. */
   requestId?: string;
@@ -869,7 +869,7 @@ export type MessagesClearResponse = MessagesClearHeaders;
 /** Optional parameters. */
 export interface MessagesEnqueueOptionalParams
   extends coreClient.OperationOptions {
-  /** The The timeout parameter is expressed in seconds. For more information, see <a href="https://docs.microsoft.com/rest/api/storageservices/setting-timeouts-for-queue-service-operations>Setting Timeouts for Queue Service Operations.</a> */
+  /** The The timeout parameter is expressed in seconds. For more information, see <a href="https://docs.microsoft.com/en-us/rest/api/storageservices/setting-timeouts-for-queue-service-operations>Setting Timeouts for Queue Service Operations.</a> */
   timeoutInSeconds?: number;
   /** Provides a client-generated, opaque value with a 1 KB character limit that is recorded in the analytics logs when storage analytics logging is enabled. */
   requestId?: string;
@@ -886,7 +886,7 @@ export type MessagesEnqueueResponse = MessagesEnqueueHeaders &
 /** Optional parameters. */
 export interface MessagesPeekOptionalParams
   extends coreClient.OperationOptions {
-  /** The The timeout parameter is expressed in seconds. For more information, see <a href="https://docs.microsoft.com/rest/api/storageservices/setting-timeouts-for-queue-service-operations>Setting Timeouts for Queue Service Operations.</a> */
+  /** The The timeout parameter is expressed in seconds. For more information, see <a href="https://docs.microsoft.com/en-us/rest/api/storageservices/setting-timeouts-for-queue-service-operations>Setting Timeouts for Queue Service Operations.</a> */
   timeoutInSeconds?: number;
   /** Provides a client-generated, opaque value with a 1 KB character limit that is recorded in the analytics logs when storage analytics logging is enabled. */
   requestId?: string;
@@ -900,7 +900,7 @@ export type MessagesPeekResponse = MessagesPeekHeaders & PeekedMessageItem[];
 /** Optional parameters. */
 export interface MessageIdUpdateOptionalParams
   extends coreClient.OperationOptions {
-  /** The The timeout parameter is expressed in seconds. For more information, see <a href="https://docs.microsoft.com/rest/api/storageservices/setting-timeouts-for-queue-service-operations>Setting Timeouts for Queue Service Operations.</a> */
+  /** The The timeout parameter is expressed in seconds. For more information, see <a href="https://docs.microsoft.com/en-us/rest/api/storageservices/setting-timeouts-for-queue-service-operations>Setting Timeouts for Queue Service Operations.</a> */
   timeoutInSeconds?: number;
   /** Provides a client-generated, opaque value with a 1 KB character limit that is recorded in the analytics logs when storage analytics logging is enabled. */
   requestId?: string;
@@ -914,7 +914,7 @@ export type MessageIdUpdateResponse = MessageIdUpdateHeaders;
 /** Optional parameters. */
 export interface MessageIdDeleteOptionalParams
   extends coreClient.OperationOptions {
-  /** The The timeout parameter is expressed in seconds. For more information, see <a href="https://docs.microsoft.com/rest/api/storageservices/setting-timeouts-for-queue-service-operations>Setting Timeouts for Queue Service Operations.</a> */
+  /** The The timeout parameter is expressed in seconds. For more information, see <a href="https://docs.microsoft.com/en-us/rest/api/storageservices/setting-timeouts-for-queue-service-operations>Setting Timeouts for Queue Service Operations.</a> */
   timeoutInSeconds?: number;
   /** Provides a client-generated, opaque value with a 1 KB character limit that is recorded in the analytics logs when storage analytics logging is enabled. */
   requestId?: string;

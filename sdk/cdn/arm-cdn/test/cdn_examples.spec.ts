@@ -160,8 +160,8 @@ describe("CDN test", () => {
   // before create a customdomain, you need to create a DNS Zone and after that add a CName Recoedsets
   it.skip("customDomains enable test", async () => {
     // skip this case as there's some issues from service
-    // 1. we need to add a custom name https://learn.microsoft.com/azure/cdn/cdn-map-content-to-custom-domain?tabs=azure-dns%2Cazure-portal%2Cazure-portal-cleanup
-    // 2. then enable the https https://learn.microsoft.com/azure/cdn/cdn-custom-ssl?tabs=option-1-default-enable-https-with-a-cdn-managed-certificate
+    // 1. we need to add a custom name https://learn.microsoft.com/en-us/azure/cdn/cdn-map-content-to-custom-domain?tabs=azure-dns%2Cazure-portal%2Cazure-portal-cleanup
+    // 2. then enable the https https://learn.microsoft.com/en-us/azure/cdn/cdn-custom-ssl?tabs=option-1-default-enable-https-with-a-cdn-managed-certificate
     const defaultSetting = {
       certificateSource: "Cdn",
       protocolType: "IPBased",

@@ -52,7 +52,7 @@ export class FileSystemOperationsImpl implements FileSystemOperations {
   /**
    * Set properties for the FileSystem.  This operation supports conditional HTTP requests.  For more
    * information, see [Specifying Conditional Headers for Blob Service
-   * Operations](https://docs.microsoft.com/rest/api/storageservices/specifying-conditional-headers-for-blob-service-operations).
+   * Operations](https://docs.microsoft.com/en-us/rest/api/storageservices/specifying-conditional-headers-for-blob-service-operations).
    * @param options The options parameters.
    */
   setProperties(
@@ -86,7 +86,7 @@ export class FileSystemOperationsImpl implements FileSystemOperations {
    * filesystem, will fail with status code 404 (Not Found) while the filesystem is being deleted. This
    * operation supports conditional HTTP requests.  For more information, see [Specifying Conditional
    * Headers for Blob Service
-   * Operations](https://docs.microsoft.com/rest/api/storageservices/specifying-conditional-headers-for-blob-service-operations).
+   * Operations](https://docs.microsoft.com/en-us/rest/api/storageservices/specifying-conditional-headers-for-blob-service-operations).
    * @param options The options parameters.
    */
   delete(

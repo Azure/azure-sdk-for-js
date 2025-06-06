@@ -648,7 +648,7 @@ export type AcceleratorType = string;
 
 /**
  * VMCategories defined for Azure VMs.
- * See: https://learn.microsoft.com/azure/virtual-machines/sizes/overview?tabs=breakdownseries%2Cgeneralsizelist%2Ccomputesizelist%2Cmemorysizelist%2Cstoragesizelist%2Cgpusizelist%2Cfpgasizelist%2Chpcsizelist#general-purpose
+ * See: https://learn.microsoft.com/en-us/azure/virtual-machines/sizes/overview?tabs=breakdownseries%2Cgeneralsizelist%2Ccomputesizelist%2Cmemorysizelist%2Cstoragesizelist%2Cgpusizelist%2Cfpgasizelist%2Chpcsizelist#general-purpose
  */
 export enum KnownVMCategory {
   /** General purpose VM sizes provide balanced CPU-to-memory ratio. Ideal for testing and development, small to medium databases, and low to medium traffic web servers. */
@@ -682,7 +682,7 @@ export enum KnownVMCategory {
 
 /**
  * VMCategories defined for Azure VMs.
- * See: https://learn.microsoft.com/azure/virtual-machines/sizes/overview?tabs=breakdownseries%2Cgeneralsizelist%2Ccomputesizelist%2Cmemorysizelist%2Cstoragesizelist%2Cgpusizelist%2Cfpgasizelist%2Chpcsizelist#general-purpose \
+ * See: https://learn.microsoft.com/en-us/azure/virtual-machines/sizes/overview?tabs=breakdownseries%2Cgeneralsizelist%2Ccomputesizelist%2Cmemorysizelist%2Cstoragesizelist%2Cgpusizelist%2Cfpgasizelist%2Chpcsizelist#general-purpose \
  * {@link KnownVMCategory} can be used interchangeably with VMCategory,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
@@ -2650,7 +2650,7 @@ export function virtualMachineScaleSetDataDiskArrayDeserializer(
  * Specifies the disk controller type configured for the VM and
  * VirtualMachineScaleSet. This property is only supported for virtual machines
  * whose operating system disk and VM sku supports Generation 2
- * (https://docs.microsoft.com/azure/virtual-machines/generation-2), please
+ * (https://docs.microsoft.com/en-us/azure/virtual-machines/generation-2), please
  * check the HyperVGenerations capability returned as part of VM sku capabilities
  * in the response of Microsoft.Compute SKUs api for the region contains V2
  * (https://docs.microsoft.com/rest/api/compute/resourceskus/list). For more
@@ -2668,7 +2668,7 @@ export enum KnownDiskControllerTypes {
  * Specifies the disk controller type configured for the VM and
  * VirtualMachineScaleSet. This property is only supported for virtual machines
  * whose operating system disk and VM sku supports Generation 2
- * (https://docs.microsoft.com/azure/virtual-machines/generation-2), please
+ * (https://docs.microsoft.com/en-us/azure/virtual-machines/generation-2), please
  * check the HyperVGenerations capability returned as part of VM sku capabilities
  * in the response of Microsoft.Compute SKUs api for the region contains V2
  * (https://docs.microsoft.com/rest/api/compute/resourceskus/list). For more
@@ -4165,7 +4165,7 @@ export interface VMSizeProperties {
    * specified in the request body the default behavior is to set it to the value of
    * vCPUs available for that VM size exposed in api response of [List all available
    * virtual machine sizes in a
-   * region](https://docs.microsoft.com/rest/api/compute/resource-skus/list).
+   * region](https://docs.microsoft.com/en-us/rest/api/compute/resource-skus/list).
    */
   vCPUsAvailable?: number;
   /**
@@ -4173,7 +4173,7 @@ export interface VMSizeProperties {
    * in the request body the default behavior is set to the value of vCPUsPerCore
    * for the VM Size exposed in api response of [List all available virtual machine
    * sizes in a
-   * region](https://docs.microsoft.com/rest/api/compute/resource-skus/list).
+   * region](https://docs.microsoft.com/en-us/rest/api/compute/resource-skus/list).
    * **Setting this property to 1 also means that hyper-threading is disabled.**
    */
   vCPUsPerCore?: number;

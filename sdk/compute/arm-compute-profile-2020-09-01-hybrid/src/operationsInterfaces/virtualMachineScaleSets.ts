@@ -345,7 +345,7 @@ export interface VirtualMachineScaleSets {
    * Perform maintenance on one or more virtual machines in a VM scale set. Operation on instances which
    * are not eligible for perform maintenance will be failed. Please refer to best practices for more
    * details:
-   * https://docs.microsoft.com/azure/virtual-machine-scale-sets/virtual-machine-scale-sets-maintenance-notifications
+   * https://docs.microsoft.com/en-us/azure/virtual-machine-scale-sets/virtual-machine-scale-sets-maintenance-notifications
    * @param resourceGroupName The name of the resource group.
    * @param vmScaleSetName The name of the VM scale set.
    * @param options The options parameters.
@@ -359,7 +359,7 @@ export interface VirtualMachineScaleSets {
    * Perform maintenance on one or more virtual machines in a VM scale set. Operation on instances which
    * are not eligible for perform maintenance will be failed. Please refer to best practices for more
    * details:
-   * https://docs.microsoft.com/azure/virtual-machine-scale-sets/virtual-machine-scale-sets-maintenance-notifications
+   * https://docs.microsoft.com/en-us/azure/virtual-machine-scale-sets/virtual-machine-scale-sets-maintenance-notifications
    * @param resourceGroupName The name of the resource group.
    * @param vmScaleSetName The name of the VM scale set.
    * @param options The options parameters.
