@@ -142,6 +142,12 @@ export class FileSystemPersist implements PersistentStorage {
     }
   }
 
+  /**
+   * Stores telemetry data to disk.
+   * @param payload - The telemetry data to store.
+   * @param envelopeLength -The length of the telemetry envelope.
+   * @returns A promise that resolves to true if the data was stored successfully, false otherwise.
+   */
   private async _storeToDisk(payload: string, envelopeLength: number): Promise<boolean> {
     try {
       await confirmDirExists(this._tempDirectory);

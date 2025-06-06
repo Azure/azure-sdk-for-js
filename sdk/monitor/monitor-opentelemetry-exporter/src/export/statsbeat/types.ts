@@ -1,6 +1,10 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
+/**
+ * Statsbeat class for network telemetry.
+ * @internal
+ */
 export class NetworkStatsbeat {
   public time: number | undefined;
 
@@ -53,6 +57,10 @@ export class NetworkStatsbeat {
   }
 }
 
+/**
+ * Statsbeat class for customer-visible telemetry.
+ * @internal
+ */
 export class CustomerStatsbeat {
   public endpoint: string;
 
