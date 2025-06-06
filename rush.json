@@ -1,7 +1,7 @@
 /**
  * This is the main configuration file for Rush.
  * For full documentation, please see https://rushjs.io
- */{
+ */ {
   "$schema": "https://developer.microsoft.com/json-schemas/rush/v5/rush.schema.json",
   /**
    * (Required) This specifies the version of the Rush engine to be used in this repo.
@@ -720,6 +720,9 @@
     {
       "packageName": "@azure/storage-blob",
       "projectFolder": "sdk/storage/storage-blob",
+      "cyclicDependencyProjects": [
+        "@azure/storage-file-share"
+      ],
       "versionPolicyName": "client"
     },
     {
@@ -825,6 +828,11 @@
     {
       "packageName": "@azure-tools/test-utils-vitest",
       "projectFolder": "sdk/test-utils/test-utils-vitest",
+      "versionPolicyName": "utility"
+    },
+    {
+      "packageName": "@azure-tools/mcp-server",
+      "projectFolder": "common/tools/mcp-server",
       "versionPolicyName": "utility"
     },
     {
@@ -1123,11 +1131,6 @@
       "versionPolicyName": "management"
     },
     {
-      "packageName": "@azure/arm-appplatform",
-      "projectFolder": "sdk/appplatform/arm-appplatform",
-      "versionPolicyName": "management"
-    },
-    {
       "packageName": "@azure/arm-containerservice",
       "projectFolder": "sdk/containerservice/arm-containerservice",
       "versionPolicyName": "management"
@@ -1140,11 +1143,6 @@
     {
       "packageName": "@azure/arm-operations",
       "projectFolder": "sdk/operationsmanagement/arm-operations",
-      "versionPolicyName": "management"
-    },
-    {
-      "packageName": "@azure/arm-mediaservices",
-      "projectFolder": "sdk/mediaservices/arm-mediaservices",
       "versionPolicyName": "management"
     },
     {
@@ -1943,6 +1941,16 @@
       "versionPolicyName": "client"
     },
     {
+      "packageName": "@azure/create-playwright",
+      "projectFolder": "sdk/loadtesting/create-playwright",
+      "versionPolicyName": "client"
+    },
+    {
+      "packageName": "@azure/playwright",
+      "projectFolder": "sdk/loadtesting/playwright",
+      "versionPolicyName": "client"
+    },
+    {
       "packageName": "@azure/arm-elasticsan",
       "projectFolder": "sdk/elasticsans/arm-elasticsan",
       "versionPolicyName": "management"
@@ -2308,6 +2316,11 @@
       "versionPolicyName": "client"
     },
     {
+      "packageName": "@azure/ai-agents",
+      "projectFolder": "sdk/ai/ai-agents",
+      "versionPolicyName": "client"
+    },
+    {
       "packageName": "@azure/arm-impactreporting",
       "projectFolder": "sdk/impactreporting/arm-impactreporting",
       "versionPolicyName": "management"
@@ -2338,8 +2351,63 @@
       "versionPolicyName": "management"
     },
     {
+      "packageName": "@azure/arm-lambdatesthyperexecute",
+      "projectFolder": "sdk/lambdatesthyperexecute/arm-lambdatesthyperexecute",
+      "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-dependencymap",
+      "projectFolder": "sdk/dependencymap/arm-dependencymap",
+      "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-programmableconnectivity",
+      "projectFolder": "sdk/programmableconnectivity/arm-programmableconnectivity",
+      "versionPolicyName": "management"
+    },
+    {
       "packageName": "@azure/arm-portalservicescopilot",
       "projectFolder": "sdk/portalservices/arm-portalservicescopilot",
+      "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-onlineexperimentation",
+      "projectFolder": "sdk/onlineexperimentation/arm-onlineexperimentation",
+      "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-carbonoptimization",
+      "projectFolder": "sdk/carbonoptimization/arm-carbonoptimization",
+      "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-purestorageblock",
+      "projectFolder": "sdk/purestorageblock/arm-purestorageblock",
+      "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-sitemanager",
+      "projectFolder": "sdk/sitemanager/arm-sitemanager",
+      "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure-rest/analytics-onlineexperimentation",
+      "projectFolder": "sdk/onlineexperimentation/analytics-onlineexperimentation-rest",
+      "versionPolicyName": "client"
+    },
+    {
+      "packageName": "@azure/arm-kubernetesconfiguration-extensions",
+      "projectFolder": "sdk/kubernetesconfiguration/arm-kubernetesconfiguration-extensions",
+      "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-kubernetesconfiguration-fluxconfigurations",
+      "projectFolder": "sdk/kubernetesconfiguration/arm-kubernetesconfiguration-fluxconfigurations",
+      "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-kubernetesconfiguration-extensiontypes",
+      "projectFolder": "sdk/kubernetesconfiguration/arm-kubernetesconfiguration-extensiontypes",
       "versionPolicyName": "management"
     }
   ]

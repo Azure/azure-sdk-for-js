@@ -24,7 +24,7 @@ import { isNodeLike } from "../util/checkEnvironment.js";
  * @param options - Client options
  */
 export function getClient(endpoint: string, clientOptions: ClientOptions = {}): Client {
-  const pipeline = createDefaultPipeline(clientOptions);
+  const pipeline = clientOptions.pipeline ?? createDefaultPipeline(clientOptions);
   if (clientOptions.additionalPolicies?.length) {
     for (const { policy, position } of clientOptions.additionalPolicies) {
       // Sign happens after Retry and is commonly needed to occur

@@ -25,11 +25,12 @@ These sample programs show how to use the TypeScript client libraries for Azure 
 | [DatabaseManagement.ts][databasemanagement]                                                                                 | Demonstrates database create, read, delete and reading all databases.                                                 |
 | [Diagnostics.ts][diagnostics]                                                                                               | Demonstrates usage of CosmosDiagnostic Object.                                                                        |
 | [EntraAuth.ts][entraauth]                                                                                                   | Uses Entra Auth credentials to authenticate with the CosmosClient.                                                    |
+| [ExecuteBulkOperations.ts][executebulkoperations]                                                                           | Shows CRUD operations using executeBulkOperations API.                                                                |
 | [HierarchicalPartitioning.ts][hierarchicalpartitioning]                                                                     | Shows various operations on containers with Hierarchical Partitioning.                                                |
 | [IndexManagement.ts][indexmanagement]                                                                                       | Shows various ways to manage indexing items or changing container index policies.                                     |
 | [ItemManagement.ts][itemmanagement]                                                                                         | Demonstrates item creation, read, delete and reading all items belonging to a container.                              |
-| [Query/FullTextSearch.ts][query_fulltextsearch]                                                                             | Demonstrates full text search queries.                                                                                |
 | [QueryThroughput.ts][querythroughput]                                                                                       | Demonstrates query throughput scenarios.                                                                              |
+| [Query/FullTextSearch.ts][query_fulltextsearch]                                                                             | Demonstrates full text search queries.                                                                                |
 | [SasTokenAuth.ts][sastokenauth]                                                                                             | Demonstrates using SasTokens for granting scoped access to Cosmos resources. _Private feature_                        |
 | [ServerSideScripts.ts][serversidescripts]                                                                                   | Demonstrates using stored procedures for server side run functions                                                    |
 
@@ -97,11 +98,12 @@ Take a look at our [API Documentation][apiref] for more information about the AP
 [databasemanagement]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/cosmosdb/cosmos/samples/v4/typescript/src/DatabaseManagement.ts
 [diagnostics]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/cosmosdb/cosmos/samples/v4/typescript/src/Diagnostics.ts
 [entraauth]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/cosmosdb/cosmos/samples/v4/typescript/src/EntraAuth.ts
+[executebulkoperations]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/cosmosdb/cosmos/samples/v4/typescript/src/ExecuteBulkOperations.ts
 [hierarchicalpartitioning]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/cosmosdb/cosmos/samples/v4/typescript/src/HierarchicalPartitioning.ts
 [indexmanagement]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/cosmosdb/cosmos/samples/v4/typescript/src/IndexManagement.ts
 [itemmanagement]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/cosmosdb/cosmos/samples/v4/typescript/src/ItemManagement.ts
-[query_fulltextsearch]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/cosmosdb/cosmos/samples/v4/typescript/src/Query/FullTextSearch.ts
 [querythroughput]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/cosmosdb/cosmos/samples/v4/typescript/src/QueryThroughput.ts
+[query_fulltextsearch]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/cosmosdb/cosmos/samples/v4/typescript/src/Query/FullTextSearch.ts
 [sastokenauth]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/cosmosdb/cosmos/samples/v4/typescript/src/SasTokenAuth.ts
 [serversidescripts]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/cosmosdb/cosmos/samples/v4/typescript/src/ServerSideScripts.ts
 [apiref]: https://learn.microsoft.com/javascript/api/@azure/cosmos

@@ -81,7 +81,7 @@ Now invoke webpack on the command-line:
 webpack --mode=development
 ```
 
-This will create a **bundled** version of your code along with the Azure SDK functionality your code depends on. It writes out the brower-compatible bundle to `dist/main.js` by default.
+This will create a **bundled** version of your code along with the Azure SDK functionality your code depends on. It writes out the browser-compatible bundle to `dist/main.js` by default.
 
 Now, you can use this bundle inside an html page via a script tag:
 
@@ -274,7 +274,7 @@ Now that we have our config file and necessary plugins installed, we can run rol
 rollup --config
 ```
 
-This will create a **bundled** version of your code along with the Azure SDK functionality your code depends on. It writes out the brower-compatible bundle to `dist/bundle.js` as configured above.
+This will create a **bundled** version of your code along with the Azure SDK functionality your code depends on. It writes out the browser-compatible bundle to `dist/bundle.js` as configured above.
 
 Now, you can use this bundle inside an html page via a script tag:
 
@@ -374,7 +374,7 @@ Now that we have our config file and necessary plugins installed, we can run rol
 rollup --config
 ```
 
-This will create a **bundled** version of your code along with the Azure SDK functionality your code depends on. It writes out the brower-compatible bundle to `dist/bundle.js` as configured above.
+This will create a **bundled** version of your code along with the Azure SDK functionality your code depends on. It writes out the browser-compatible bundle to `dist/bundle.js` as configured above.
 
 Now you can use this bundled output file inside an html page via a script tag:
 
@@ -402,6 +402,14 @@ Parcel uses [browserslist](https://github.com/browserslist/browserslist) to conf
     "last 1 Firefox version",
     "last 1 Edge version"
   ],
+```
+
+Also add the following to your package.json to enable exports map
+
+```json
+  "@parcel/resolver-default": {
+    "packageExports": true
+  }
 ```
 
 In order to use Azure SDK libraries inside JS, you need to import code from the package you installed earlier.

@@ -1,14 +1,31 @@
 # Release History
 
-## 0.2.2 (Unreleased)
+## 0.2.3 (Unreleased)
+
+### Features Added
+
+### Breaking Changes
+
+### Bugs Fixed
+
+- Fix an issue where `authSchemes` is not exposed in `PipelineRequestOptions`.
+
+### Other Changes
+
+## 0.2.2 (2025-05-01)
 
 ### Features Added
 
 - Add an optional `requestOverrides` property to `PipelineRequest` and `PipelineRequestOptions`.
 
+### Other Changes
+
+- Add `internal/` subpath. This subpath contains internal definitions that are for private use only; stability is not guaranteed.
+
 ## 0.2.1 (2025-04-08)
 
 ### Bugs Fixed
+
 - Fix an issue where insecure connection setting was not properly propagated through the client options.
 
 ## 0.2.0 (2025-03-25)

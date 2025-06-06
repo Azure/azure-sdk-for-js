@@ -113,6 +113,7 @@ export type ClientOptions = PipelineOptions & {
     additionalPolicies?: AdditionalPolicyConfig[];
     httpClient?: HttpClient;
     loggingOptions?: LogPolicyOptions;
+    pipeline?: Pipeline;
 };
 
 // @public
@@ -376,6 +377,7 @@ export interface PipelineRequest {
 export interface PipelineRequestOptions {
     abortSignal?: AbortSignal;
     allowInsecureConnection?: boolean;
+    authSchemes?: AuthScheme[];
     body?: RequestBodyType;
     disableKeepAlive?: boolean;
     enableBrowserStreams?: boolean;

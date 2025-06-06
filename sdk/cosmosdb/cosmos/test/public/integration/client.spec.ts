@@ -53,6 +53,7 @@ const testDataset = {
   containerGetResponse: {
     body: container1Definition,
     path: "",
+    id: "col1",
     resourceType: ResourceType.container,
     resourceId: "col1",
   },

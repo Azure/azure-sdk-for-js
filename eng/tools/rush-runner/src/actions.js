@@ -37,8 +37,6 @@ export function executeActions(action, serviceDirs, rushParams, artifactNames, c
     switch (actionComponents[0]) {
       case "build":
       case "test":
-      case "unit-test":
-      case "integration-test":
         exitCode = rushRunAllWithDirection(
           action,
           getDirectionMappedPackages(packageNames, action, serviceDirs),
@@ -48,6 +46,7 @@ export function executeActions(action, serviceDirs, rushParams, artifactNames, c
         break;
 
       case "lint":
+      case "update-snippets":
         exitCode = runRushInPackageDirs(action, packageDirs);
         break;
       case "check-format":

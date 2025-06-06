@@ -16,7 +16,7 @@ require("dotenv/config");
  * This sample demonstrates how to Rebalance nodes across specific load balancers.
  *
  * @summary Rebalance nodes across specific load balancers.
- * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/aks/preview/2025-01-02-preview/examples/LoadBalancers_Rebalance.json
+ * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/aks/preview/2025-02-02-preview/examples/LoadBalancers_Rebalance.json
  */
 async function listAgentPoolsByManagedCluster() {
   const subscriptionId =
