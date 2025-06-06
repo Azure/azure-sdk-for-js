@@ -67,7 +67,7 @@ vi.mock("../../src/export/statsbeat/networkStatsbeatMetrics.js", () => {
       static getInstance = vi.fn().mockImplementation(() => {
         return mockNetworkStats;
       });
-      
+
       constructor() {
         return mockNetworkStats;
       }
@@ -81,7 +81,7 @@ vi.mock("../../src/export/statsbeat/longIntervalStatsbeatMetrics.js", () => {
       static getInstance = vi.fn().mockImplementation(() => {
         return mockLongIntervalStats;
       });
-      
+
       constructor() {
         return mockLongIntervalStats;
       }

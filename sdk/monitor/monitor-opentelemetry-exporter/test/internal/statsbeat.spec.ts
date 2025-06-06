@@ -140,10 +140,7 @@ describe("#AzureMonitorStatsbeatExporter", () => {
 
         // Ensure network statsbeat attributes are populated
         assert.strictEqual(statsbeat["attach"], "Manual");
-        assert.strictEqual(
-          statsbeat["cikey"],
-          "1aa11111-bbbb-1ccc-8ddd-eeeeffff3333",
-        );
+        assert.strictEqual(statsbeat["cikey"], "1aa11111-bbbb-1ccc-8ddd-eeeeffff3333");
         assert.strictEqual(statsbeat["language"], "node");
         assert.strictEqual(statsbeat["resourceProvider"], "unknown");
         assert.strictEqual(
@@ -160,7 +157,7 @@ describe("#AzureMonitorStatsbeatExporter", () => {
         const newEnv = <{ [id: string]: string }>{};
         process.env = newEnv;
         newEnv[AZURE_MONITOR_AUTO_ATTACH] = "true";
-        
+
         // Reset singleton to pick up new environment variable
         (NetworkStatsbeatMetrics as any).instance = null;
         const statsbeat = NetworkStatsbeatMetrics.getInstance(options);
