@@ -448,11 +448,11 @@ export interface VirtualNetworkPeering {
   allowGatewayTransit?: boolean;
   /** If remote gateways can be used on this virtual network. If the flag is set to true, and allowGatewayTransit on remote peering is also true, virtual network will use gateways of remote virtual network for transit. Only one peering can have this flag set to true. This flag cannot be set if virtual network already has a gateway. */
   useRemoteGateways?: boolean;
-  /**  The remote virtual network should be in the same region. See here to learn more (https://docs.microsoft.com/en-us/azure/databricks/administration-guide/cloud-configurations/azure/vnet-peering). */
+  /**  The remote virtual network should be in the same region. See here to learn more (https://docs.microsoft.com/azure/databricks/administration-guide/cloud-configurations/azure/vnet-peering). */
   databricksVirtualNetwork?: VirtualNetworkPeeringPropertiesFormatDatabricksVirtualNetwork;
   /** The reference to the databricks virtual network address space. */
   databricksAddressSpace?: AddressSpace;
-  /**  The remote virtual network should be in the same region. See here to learn more (https://docs.microsoft.com/en-us/azure/databricks/administration-guide/cloud-configurations/azure/vnet-peering). */
+  /**  The remote virtual network should be in the same region. See here to learn more (https://docs.microsoft.com/azure/databricks/administration-guide/cloud-configurations/azure/vnet-peering). */
   remoteVirtualNetwork: VirtualNetworkPeeringPropertiesFormatRemoteVirtualNetwork;
   /** The reference to the remote virtual network address space. */
   remoteAddressSpace?: AddressSpace;
@@ -468,7 +468,7 @@ export interface VirtualNetworkPeering {
   readonly provisioningState?: PeeringProvisioningState;
 }
 
-/**  The remote virtual network should be in the same region. See here to learn more (https://docs.microsoft.com/en-us/azure/databricks/administration-guide/cloud-configurations/azure/vnet-peering). */
+/**  The remote virtual network should be in the same region. See here to learn more (https://docs.microsoft.com/azure/databricks/administration-guide/cloud-configurations/azure/vnet-peering). */
 export interface VirtualNetworkPeeringPropertiesFormatDatabricksVirtualNetwork {
   /** The Id of the databricks virtual network. */
   id?: string;
@@ -480,7 +480,7 @@ export interface AddressSpace {
   addressPrefixes?: string[];
 }
 
-/**  The remote virtual network should be in the same region. See here to learn more (https://docs.microsoft.com/en-us/azure/databricks/administration-guide/cloud-configurations/azure/vnet-peering). */
+/**  The remote virtual network should be in the same region. See here to learn more (https://docs.microsoft.com/azure/databricks/administration-guide/cloud-configurations/azure/vnet-peering). */
 export interface VirtualNetworkPeeringPropertiesFormatRemoteVirtualNetwork {
   /** The Id of the remote virtual network. */
   id?: string;

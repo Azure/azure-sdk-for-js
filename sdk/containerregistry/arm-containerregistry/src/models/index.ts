@@ -518,7 +518,7 @@ export interface OperationDefinition {
   display?: OperationDisplayDefinition;
   /**
    * This property indicates if the operation is an action or a data action
-   * ref: https://docs.microsoft.com/en-us/azure/role-based-access-control/role-definitions#management-and-data-operations
+   * ref: https://docs.microsoft.com/azure/role-based-access-control/role-definitions#management-and-data-operations
    */
   isDataAction?: boolean;
   /** The definition of Azure Monitoring service. */

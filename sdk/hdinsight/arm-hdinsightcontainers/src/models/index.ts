@@ -717,7 +717,7 @@ export interface CatalogOptions {
 export interface HiveCatalogOption {
   /** Name of trino catalog which should use specified hive metastore. */
   catalogName: string;
-  /** The authentication mode to connect to your Hive metastore database. More details: https://learn.microsoft.com/en-us/azure/azure-sql/database/logins-create-manage?view=azuresql#authentication-and-authorization */
+  /** The authentication mode to connect to your Hive metastore database. More details: https://learn.microsoft.com/azure/azure-sql/database/logins-create-manage?view=azuresql#authentication-and-authorization */
   metastoreDbConnectionAuthenticationMode?: MetastoreDbConnectionAuthenticationMode;
   /** Secret reference name from secretsProfile.secrets containing password for database connection. */
   metastoreDbConnectionPasswordSecret?: string;
@@ -725,7 +725,7 @@ export interface HiveCatalogOption {
   metastoreDbConnectionURL: string;
   /** User name for database connection. */
   metastoreDbConnectionUserName?: string;
-  /** Metastore root directory URI, format: abfs[s]://<container>@<account_name>.dfs.core.windows.net/<path>. More details: https://docs.microsoft.com/en-us/azure/storage/blobs/data-lake-storage-introduction-abfs-uri */
+  /** Metastore root directory URI, format: abfs[s]://<container>@<account_name>.dfs.core.windows.net/<path>. More details: https://docs.microsoft.com/azure/storage/blobs/data-lake-storage-introduction-abfs-uri */
   metastoreWarehouseDir: string;
 }
 
@@ -831,7 +831,7 @@ export interface FlinkCatalogOptions {
 
 /** Hive Catalog Option for Flink cluster. */
 export interface FlinkHiveCatalogOption {
-  /** The authentication mode to connect to your Hive metastore database. More details: https://learn.microsoft.com/en-us/azure/azure-sql/database/logins-create-manage?view=azuresql#authentication-and-authorization */
+  /** The authentication mode to connect to your Hive metastore database. More details: https://learn.microsoft.com/azure/azure-sql/database/logins-create-manage?view=azuresql#authentication-and-authorization */
   metastoreDbConnectionAuthenticationMode?: MetastoreDbConnectionAuthenticationMode;
   /** Secret reference name from secretsProfile.secrets containing password for database connection. */
   metastoreDbConnectionPasswordSecret?: string;
@@ -873,7 +873,7 @@ export interface SparkMetastoreSpec {
   dbServerHost: string;
   /** The database name. */
   dbName: string;
-  /** The authentication mode to connect to your Hive metastore database. More details: https://learn.microsoft.com/en-us/azure/azure-sql/database/logins-create-manage?view=azuresql#authentication-and-authorization */
+  /** The authentication mode to connect to your Hive metastore database. More details: https://learn.microsoft.com/azure/azure-sql/database/logins-create-manage?view=azuresql#authentication-and-authorization */
   dbConnectionAuthenticationMode?: DbConnectionAuthenticationMode;
   /** The database user name. */
   dbUserName?: string;

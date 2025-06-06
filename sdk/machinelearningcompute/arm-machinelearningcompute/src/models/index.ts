@@ -61,7 +61,7 @@ export interface AcsClusterProperties {
   masterCount?: number;
   /** The number of agent nodes in the Container Service. This can be changed to scale the cluster. */
   agentCount?: number;
-  /** The Azure VM size of the agent VM nodes. This cannot be changed once the cluster is created. This list is non exhaustive; refer to https://docs.microsoft.com/en-us/azure/virtual-machines/windows/sizes for the possible VM sizes. */
+  /** The Azure VM size of the agent VM nodes. This cannot be changed once the cluster is created. This list is non exhaustive; refer to https://docs.microsoft.com/azure/virtual-machines/windows/sizes for the possible VM sizes. */
   agentVmSize?: AgentVMSizeTypes;
 }
 

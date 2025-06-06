@@ -1645,7 +1645,7 @@ export interface TriggerBase {
   startTime?: string;
   /**
    * Specifies time zone in which the schedule runs.
-   * TimeZone should follow Windows time zone format. Refer: https://docs.microsoft.com/en-us/windows-hardware/manufacture/desktop/default-time-zones?view=windows-11
+   * TimeZone should follow Windows time zone format. Refer: https://docs.microsoft.com/windows-hardware/manufacture/desktop/default-time-zones?view=windows-11
    */
   timeZone?: string;
 }
@@ -2798,7 +2798,7 @@ export interface Recurrence {
   startTime?: string;
   /**
    * Specifies time zone in which the schedule runs.
-   * TimeZone should follow Windows time zone format. Refer: https://docs.microsoft.com/en-us/windows-hardware/manufacture/desktop/default-time-zones?view=windows-11
+   * TimeZone should follow Windows time zone format. Refer: https://docs.microsoft.com/windows-hardware/manufacture/desktop/default-time-zones?view=windows-11
    */
   timeZone?: string;
   /** [Required] The recurrence schedule. */
@@ -2822,7 +2822,7 @@ export interface Cron {
   startTime?: string;
   /**
    * Specifies time zone in which the schedule runs.
-   * TimeZone should follow Windows time zone format. Refer: https://docs.microsoft.com/en-us/windows-hardware/manufacture/desktop/default-time-zones?view=windows-11
+   * TimeZone should follow Windows time zone format. Refer: https://docs.microsoft.com/windows-hardware/manufacture/desktop/default-time-zones?view=windows-11
    */
   timeZone?: string;
   /**
@@ -3586,7 +3586,7 @@ export interface ForecastingSettings {
 /**
  * Settings used for training the model.
  * For more information on the available settings please visit the official documentation:
- * https://docs.microsoft.com/en-us/azure/machine-learning/how-to-auto-train-image-models.
+ * https://docs.microsoft.com/azure/machine-learning/how-to-auto-train-image-models.
  */
 export interface ImageModelSettings {
   /** Enable AMSGrad when optimizer is 'adam' or 'adamw'. */
@@ -3633,7 +3633,7 @@ export interface ImageModelSettings {
    * Number of layers to freeze for the model. Must be a positive integer.
    * For instance, passing 2 as value for 'seresnext' means
    * freezing layer0 and layer1. For a full list of models supported and details on layer freeze, please
-   * see: https://docs.microsoft.com/en-us/azure/machine-learning/how-to-auto-train-image-models.
+   * see: https://docs.microsoft.com/azure/machine-learning/how-to-auto-train-image-models.
    */
   layersToFreeze?: number;
   /** Initial learning rate. Must be a float in the range [0, 1]. */
@@ -3643,7 +3643,7 @@ export interface ImageModelSettings {
   /**
    * Name of the model to use for training.
    * For more information on the available models please visit the official documentation:
-   * https://docs.microsoft.com/en-us/azure/machine-learning/how-to-auto-train-image-models.
+   * https://docs.microsoft.com/azure/machine-learning/how-to-auto-train-image-models.
    */
   modelName?: string;
   /** Value of momentum when optimizer is 'sgd'. Must be a float in the range [0, 1]. */
@@ -3686,9 +3686,9 @@ export interface ImageModelSettings {
  * All distributions can be specified as distribution_name(min, max) or choice(val1, val2, ..., valn)
  * where distribution name can be: uniform, quniform, loguniform, etc
  * For more details on how to compose distribution expressions please check the documentation:
- * https://docs.microsoft.com/en-us/azure/machine-learning/how-to-tune-hyperparameters
+ * https://docs.microsoft.com/azure/machine-learning/how-to-tune-hyperparameters
  * For more information on the available settings please visit the official documentation:
- * https://docs.microsoft.com/en-us/azure/machine-learning/how-to-auto-train-image-models.
+ * https://docs.microsoft.com/azure/machine-learning/how-to-auto-train-image-models.
  */
 export interface ImageModelDistributionSettings {
   /** Enable AMSGrad when optimizer is 'adam' or 'adamw'. */
@@ -3727,7 +3727,7 @@ export interface ImageModelDistributionSettings {
    * Number of layers to freeze for the model. Must be a positive integer.
    * For instance, passing 2 as value for 'seresnext' means
    * freezing layer0 and layer1. For a full list of models supported and details on layer freeze, please
-   * see: https://docs.microsoft.com/en-us/azure/machine-learning/how-to-auto-train-image-models.
+   * see: https://docs.microsoft.com/azure/machine-learning/how-to-auto-train-image-models.
    */
   layersToFreeze?: string;
   /** Initial learning rate. Must be a float in the range [0, 1]. */
@@ -3737,7 +3737,7 @@ export interface ImageModelDistributionSettings {
   /**
    * Name of the model to use for training.
    * For more information on the available models please visit the official documentation:
-   * https://docs.microsoft.com/en-us/azure/machine-learning/how-to-auto-train-image-models.
+   * https://docs.microsoft.com/azure/machine-learning/how-to-auto-train-image-models.
    */
   modelName?: string;
   /** Value of momentum when optimizer is 'sgd'. Must be a float in the range [0, 1]. */
@@ -5484,7 +5484,7 @@ export interface StaticInputData extends MonitoringInputDataBase {
 /**
  * Settings used for training the model.
  * For more information on the available settings please visit the official documentation:
- * https://docs.microsoft.com/en-us/azure/machine-learning/how-to-auto-train-image-models.
+ * https://docs.microsoft.com/azure/machine-learning/how-to-auto-train-image-models.
  */
 export interface ImageModelSettingsClassification extends ImageModelSettings {
   /** Image crop size that is input to the neural network for the training dataset. Must be a positive integer. */
@@ -5503,7 +5503,7 @@ export interface ImageModelSettingsClassification extends ImageModelSettings {
 /**
  * Settings used for training the model.
  * For more information on the available settings please visit the official documentation:
- * https://docs.microsoft.com/en-us/azure/machine-learning/how-to-auto-train-image-models.
+ * https://docs.microsoft.com/azure/machine-learning/how-to-auto-train-image-models.
  */
 export interface ImageModelSettingsObjectDetection extends ImageModelSettings {
   /**
@@ -5581,9 +5581,9 @@ export interface ImageModelSettingsObjectDetection extends ImageModelSettings {
  * LayersToFreeze = "choice(0, 2)";
  * ```</example>
  * For more details on how to compose distribution expressions please check the documentation:
- * https://docs.microsoft.com/en-us/azure/machine-learning/how-to-tune-hyperparameters
+ * https://docs.microsoft.com/azure/machine-learning/how-to-tune-hyperparameters
  * For more information on the available settings please visit the official documentation:
- * https://docs.microsoft.com/en-us/azure/machine-learning/how-to-auto-train-image-models.
+ * https://docs.microsoft.com/azure/machine-learning/how-to-auto-train-image-models.
  */
 export interface ImageModelDistributionSettingsClassification
   extends ImageModelDistributionSettings {
@@ -5610,9 +5610,9 @@ export interface ImageModelDistributionSettingsClassification
  * LayersToFreeze = "choice(0, 2)";
  * ```</example>
  * For more details on how to compose distribution expressions please check the documentation:
- * https://docs.microsoft.com/en-us/azure/machine-learning/how-to-tune-hyperparameters
+ * https://docs.microsoft.com/azure/machine-learning/how-to-tune-hyperparameters
  * For more information on the available settings please visit the official documentation:
- * https://docs.microsoft.com/en-us/azure/machine-learning/how-to-auto-train-image-models.
+ * https://docs.microsoft.com/azure/machine-learning/how-to-auto-train-image-models.
  */
 export interface ImageModelDistributionSettingsObjectDetection
   extends ImageModelDistributionSettings {
@@ -5921,7 +5921,7 @@ export interface CodeContainerProperties extends AssetContainer {
 
 /**
  * Component container definition.
- * <see href="https://docs.microsoft.com/en-us/azure/machine-learning/reference-yaml-component-command" />
+ * <see href="https://docs.microsoft.com/azure/machine-learning/reference-yaml-component-command" />
  */
 export interface ComponentContainerProperties extends AssetContainer {
   /**
@@ -5987,7 +5987,7 @@ export interface CodeVersionProperties extends AssetBase {
 export interface ComponentVersionProperties extends AssetBase {
   /**
    * Defines Component definition details.
-   * <see href="https://docs.microsoft.com/en-us/azure/machine-learning/reference-yaml-component-command" />
+   * <see href="https://docs.microsoft.com/azure/machine-learning/reference-yaml-component-command" />
    */
   componentSpec?: Record<string, unknown>;
   /**
@@ -6009,13 +6009,13 @@ export interface DataVersionBaseProperties extends AssetBase {
 export interface EnvironmentVersionProperties extends AssetBase {
   /**
    * Environment type is either user managed or curated by the Azure ML service
-   * <see href="https://docs.microsoft.com/en-us/azure/machine-learning/resource-curated-environments" />
+   * <see href="https://docs.microsoft.com/azure/machine-learning/resource-curated-environments" />
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly environmentType?: EnvironmentType;
   /**
    * Name of the image that will be used for the environment.
-   * <seealso href="https://docs.microsoft.com/en-us/azure/machine-learning/how-to-deploy-custom-docker-image#use-a-custom-base-image" />
+   * <seealso href="https://docs.microsoft.com/azure/machine-learning/how-to-deploy-custom-docker-image#use-a-custom-base-image" />
    */
   image?: string;
   /**

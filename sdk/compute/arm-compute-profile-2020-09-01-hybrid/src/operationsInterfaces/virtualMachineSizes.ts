@@ -17,7 +17,7 @@ import {
 export interface VirtualMachineSizes {
   /**
    * This API is deprecated. Use [Resources
-   * Skus](https://docs.microsoft.com/en-us/rest/api/compute/resourceskus/list)
+   * Skus](https://docs.microsoft.com/rest/api/compute/resourceskus/list)
    * @param location The location upon which virtual-machine-sizes is queried.
    * @param options The options parameters.
    */

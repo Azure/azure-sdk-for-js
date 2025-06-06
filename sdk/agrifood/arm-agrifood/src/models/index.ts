@@ -222,7 +222,7 @@ export interface FarmBeatsListResponse {
 
 /**
  * Arm async operation class.
- * Ref: https://docs.microsoft.com/en-us/azure/azure-resource-manager/management/async-operations.
+ * Ref: https://docs.microsoft.com/azure/azure-resource-manager/management/async-operations.
  */
 export interface ArmAsyncOperation {
   /** Status of the async operation. */

@@ -877,7 +877,7 @@ export type ReasonTypeValues = string;
 /** Optional parameters. */
 export interface AvailabilityStatusesListBySubscriptionIdOptionalParams
   extends coreClient.OperationOptions {
-  /** The filter to apply on the operation. For more information please see https://docs.microsoft.com/en-us/rest/api/apimanagement/apis?redirectedfrom=MSDN */
+  /** The filter to apply on the operation. For more information please see https://docs.microsoft.com/rest/api/apimanagement/apis?redirectedfrom=MSDN */
   filter?: string;
   /** Setting $expand=recommendedactions in url query expands the recommendedactions in the response. */
   expand?: string;
@@ -889,7 +889,7 @@ export type AvailabilityStatusesListBySubscriptionIdResponse = AvailabilityStatu
 /** Optional parameters. */
 export interface AvailabilityStatusesListByResourceGroupOptionalParams
   extends coreClient.OperationOptions {
-  /** The filter to apply on the operation. For more information please see https://docs.microsoft.com/en-us/rest/api/apimanagement/apis?redirectedfrom=MSDN */
+  /** The filter to apply on the operation. For more information please see https://docs.microsoft.com/rest/api/apimanagement/apis?redirectedfrom=MSDN */
   filter?: string;
   /** Setting $expand=recommendedactions in url query expands the recommendedactions in the response. */
   expand?: string;
@@ -901,7 +901,7 @@ export type AvailabilityStatusesListByResourceGroupResponse = AvailabilityStatus
 /** Optional parameters. */
 export interface AvailabilityStatusesGetByResourceOptionalParams
   extends coreClient.OperationOptions {
-  /** The filter to apply on the operation. For more information please see https://docs.microsoft.com/en-us/rest/api/apimanagement/apis?redirectedfrom=MSDN */
+  /** The filter to apply on the operation. For more information please see https://docs.microsoft.com/rest/api/apimanagement/apis?redirectedfrom=MSDN */
   filter?: string;
   /** Setting $expand=recommendedactions in url query expands the recommendedactions in the response. */
   expand?: string;
@@ -913,7 +913,7 @@ export type AvailabilityStatusesGetByResourceResponse = AvailabilityStatus;
 /** Optional parameters. */
 export interface AvailabilityStatusesListOptionalParams
   extends coreClient.OperationOptions {
-  /** The filter to apply on the operation. For more information please see https://docs.microsoft.com/en-us/rest/api/apimanagement/apis?redirectedfrom=MSDN */
+  /** The filter to apply on the operation. For more information please see https://docs.microsoft.com/rest/api/apimanagement/apis?redirectedfrom=MSDN */
   filter?: string;
   /** Setting $expand=recommendedactions in url query expands the recommendedactions in the response. */
   expand?: string;
@@ -974,7 +974,7 @@ export type MetadataListNextResponse = MetadataEntityListResult;
 /** Optional parameters. */
 export interface ImpactedResourcesListBySubscriptionIdAndEventIdOptionalParams
   extends coreClient.OperationOptions {
-  /** The filter to apply on the operation. For more information please see https://docs.microsoft.com/en-us/rest/api/apimanagement/apis?redirectedfrom=MSDN */
+  /** The filter to apply on the operation. For more information please see https://docs.microsoft.com/rest/api/apimanagement/apis?redirectedfrom=MSDN */
   filter?: string;
 }
 
@@ -991,7 +991,7 @@ export type ImpactedResourcesGetResponse = EventImpactedResource;
 /** Optional parameters. */
 export interface ImpactedResourcesListByTenantIdAndEventIdOptionalParams
   extends coreClient.OperationOptions {
-  /** The filter to apply on the operation. For more information please see https://docs.microsoft.com/en-us/rest/api/apimanagement/apis?redirectedfrom=MSDN */
+  /** The filter to apply on the operation. For more information please see https://docs.microsoft.com/rest/api/apimanagement/apis?redirectedfrom=MSDN */
   filter?: string;
 }
 
@@ -1022,7 +1022,7 @@ export type ImpactedResourcesListByTenantIdAndEventIdNextResponse = EventImpacte
 /** Optional parameters. */
 export interface SecurityAdvisoryImpactedResourcesListBySubscriptionIdAndEventIdOptionalParams
   extends coreClient.OperationOptions {
-  /** The filter to apply on the operation. For more information please see https://docs.microsoft.com/en-us/rest/api/apimanagement/apis?redirectedfrom=MSDN */
+  /** The filter to apply on the operation. For more information please see https://docs.microsoft.com/rest/api/apimanagement/apis?redirectedfrom=MSDN */
   filter?: string;
 }
 
@@ -1032,7 +1032,7 @@ export type SecurityAdvisoryImpactedResourcesListBySubscriptionIdAndEventIdRespo
 /** Optional parameters. */
 export interface SecurityAdvisoryImpactedResourcesListByTenantIdAndEventIdOptionalParams
   extends coreClient.OperationOptions {
-  /** The filter to apply on the operation. For more information please see https://docs.microsoft.com/en-us/rest/api/apimanagement/apis?redirectedfrom=MSDN */
+  /** The filter to apply on the operation. For more information please see https://docs.microsoft.com/rest/api/apimanagement/apis?redirectedfrom=MSDN */
   filter?: string;
 }
 
@@ -1056,7 +1056,7 @@ export type SecurityAdvisoryImpactedResourcesListByTenantIdAndEventIdNextRespons
 /** Optional parameters. */
 export interface EventsListBySubscriptionIdOptionalParams
   extends coreClient.OperationOptions {
-  /** The filter to apply on the operation. For more information please see https://docs.microsoft.com/en-us/rest/api/apimanagement/apis?redirectedfrom=MSDN */
+  /** The filter to apply on the operation. For more information please see https://docs.microsoft.com/rest/api/apimanagement/apis?redirectedfrom=MSDN */
   filter?: string;
   /** Specifies from when to return events, based on the lastUpdateTime property. For example, queryStartTime = 7/24/2020 OR queryStartTime=7%2F24%2F2020 */
   queryStartTime?: string;
@@ -1068,7 +1068,7 @@ export type EventsListBySubscriptionIdResponse = Events;
 /** Optional parameters. */
 export interface EventsListByTenantIdOptionalParams
   extends coreClient.OperationOptions {
-  /** The filter to apply on the operation. For more information please see https://docs.microsoft.com/en-us/rest/api/apimanagement/apis?redirectedfrom=MSDN */
+  /** The filter to apply on the operation. For more information please see https://docs.microsoft.com/rest/api/apimanagement/apis?redirectedfrom=MSDN */
   filter?: string;
   /** Specifies from when to return events, based on the lastUpdateTime property. For example, queryStartTime = 7/24/2020 OR queryStartTime=7%2F24%2F2020 */
   queryStartTime?: string;
@@ -1080,7 +1080,7 @@ export type EventsListByTenantIdResponse = Events;
 /** Optional parameters. */
 export interface EventsListBySingleResourceOptionalParams
   extends coreClient.OperationOptions {
-  /** The filter to apply on the operation. For more information please see https://docs.microsoft.com/en-us/rest/api/apimanagement/apis?redirectedfrom=MSDN */
+  /** The filter to apply on the operation. For more information please see https://docs.microsoft.com/rest/api/apimanagement/apis?redirectedfrom=MSDN */
   filter?: string;
 }
 
@@ -1111,7 +1111,7 @@ export type EventsListBySingleResourceNextResponse = Events;
 /** Optional parameters. */
 export interface EventGetBySubscriptionIdAndTrackingIdOptionalParams
   extends coreClient.OperationOptions {
-  /** The filter to apply on the operation. For more information please see https://docs.microsoft.com/en-us/rest/api/apimanagement/apis?redirectedfrom=MSDN */
+  /** The filter to apply on the operation. For more information please see https://docs.microsoft.com/rest/api/apimanagement/apis?redirectedfrom=MSDN */
   filter?: string;
   /** Specifies from when to return events, based on the lastUpdateTime property. For example, queryStartTime = 7/24/2020 OR queryStartTime=7%2F24%2F2020 */
   queryStartTime?: string;
@@ -1130,7 +1130,7 @@ export type EventFetchDetailsBySubscriptionIdAndTrackingIdResponse = Event;
 /** Optional parameters. */
 export interface EventGetByTenantIdAndTrackingIdOptionalParams
   extends coreClient.OperationOptions {
-  /** The filter to apply on the operation. For more information please see https://docs.microsoft.com/en-us/rest/api/apimanagement/apis?redirectedfrom=MSDN */
+  /** The filter to apply on the operation. For more information please see https://docs.microsoft.com/rest/api/apimanagement/apis?redirectedfrom=MSDN */
   filter?: string;
   /** Specifies from when to return events, based on the lastUpdateTime property. For example, queryStartTime = 7/24/2020 OR queryStartTime=7%2F24%2F2020 */
   queryStartTime?: string;
@@ -1149,7 +1149,7 @@ export type EventFetchDetailsByTenantIdAndTrackingIdResponse = Event;
 /** Optional parameters. */
 export interface ChildAvailabilityStatusesGetByResourceOptionalParams
   extends coreClient.OperationOptions {
-  /** The filter to apply on the operation. For more information please see https://docs.microsoft.com/en-us/rest/api/apimanagement/apis?redirectedfrom=MSDN */
+  /** The filter to apply on the operation. For more information please see https://docs.microsoft.com/rest/api/apimanagement/apis?redirectedfrom=MSDN */
   filter?: string;
   /** Setting $expand=recommendedactions in url query expands the recommendedactions in the response. */
   expand?: string;
@@ -1161,7 +1161,7 @@ export type ChildAvailabilityStatusesGetByResourceResponse = AvailabilityStatus;
 /** Optional parameters. */
 export interface ChildAvailabilityStatusesListOptionalParams
   extends coreClient.OperationOptions {
-  /** The filter to apply on the operation. For more information please see https://docs.microsoft.com/en-us/rest/api/apimanagement/apis?redirectedfrom=MSDN */
+  /** The filter to apply on the operation. For more information please see https://docs.microsoft.com/rest/api/apimanagement/apis?redirectedfrom=MSDN */
   filter?: string;
   /** Setting $expand=recommendedactions in url query expands the recommendedactions in the response. */
   expand?: string;
@@ -1180,7 +1180,7 @@ export type ChildAvailabilityStatusesListNextResponse = AvailabilityStatusListRe
 /** Optional parameters. */
 export interface ChildResourcesListOptionalParams
   extends coreClient.OperationOptions {
-  /** The filter to apply on the operation. For more information please see https://docs.microsoft.com/en-us/rest/api/apimanagement/apis?redirectedfrom=MSDN */
+  /** The filter to apply on the operation. For more information please see https://docs.microsoft.com/rest/api/apimanagement/apis?redirectedfrom=MSDN */
   filter?: string;
   /** Setting $expand=recommendedactions in url query expands the recommendedactions in the response. */
   expand?: string;

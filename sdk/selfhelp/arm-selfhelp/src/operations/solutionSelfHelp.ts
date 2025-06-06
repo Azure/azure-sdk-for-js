@@ -34,7 +34,7 @@ export class SolutionSelfHelpImpl implements SolutionSelfHelp {
    * users to troubleshoot Azure issues.
    * @param solutionId SolutionId is a unique id to identify a solution. You can retrieve the solution id
    *                   using the Discovery api -
-   *                   https://learn.microsoft.com/en-us/rest/api/help/discovery-solution/list?view=rest-help-2023-09-01-preview&tabs=HTTP
+   *                   https://learn.microsoft.com/rest/api/help/discovery-solution/list?view=rest-help-2023-09-01-preview&tabs=HTTP
    * @param options The options parameters.
    */
   get(

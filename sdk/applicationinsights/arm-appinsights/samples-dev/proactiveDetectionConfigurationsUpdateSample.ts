@@ -37,7 +37,7 @@ async function proactiveDetectionConfigurationUpdate(): Promise<void> {
         "Smart Detection rules notify you of performance anomaly issues.",
       displayName: "Slow page load time",
       helpUrl:
-        " https://learn.microsoft.com/en-us/azure/application-insights/app-insights-proactive-performance-diagnostics",
+        " https://learn.microsoft.com/azure/application-insights/app-insights-proactive-performance-diagnostics",
       isEnabledByDefault: true,
       isHidden: false,
       isInPreview: false,

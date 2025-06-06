@@ -490,7 +490,7 @@ export interface AgentUpdateProperties {
   type?: SessionHostComponentUpdateType;
   /** Whether to use localTime of the virtual machine. */
   useSessionHostLocalTime?: boolean;
-  /** Time zone for maintenance as defined in https://docs.microsoft.com/en-us/dotnet/api/system.timezoneinfo.findsystemtimezonebyid?view=net-5.0. Must be set if useLocalTime is true. */
+  /** Time zone for maintenance as defined in https://docs.microsoft.com/dotnet/api/system.timezoneinfo.findsystemtimezonebyid?view=net-5.0. Must be set if useLocalTime is true. */
   maintenanceWindowTimeZone?: string;
   /** List of maintenance windows. Maintenance windows are 2 hours long. */
   maintenanceWindows?: MaintenanceWindowProperties[];
@@ -518,7 +518,7 @@ export interface AgentUpdatePatchProperties {
   type?: SessionHostComponentUpdateType;
   /** Whether to use localTime of the virtual machine. */
   useSessionHostLocalTime?: boolean;
-  /** Time zone for maintenance as defined in https://docs.microsoft.com/en-us/dotnet/api/system.timezoneinfo.findsystemtimezonebyid?view=net-5.0. Must be set if useLocalTime is true. */
+  /** Time zone for maintenance as defined in https://docs.microsoft.com/dotnet/api/system.timezoneinfo.findsystemtimezonebyid?view=net-5.0. Must be set if useLocalTime is true. */
   maintenanceWindowTimeZone?: string;
   /** List of maintenance windows. Maintenance windows are 2 hours long. */
   maintenanceWindows?: MaintenanceWindowPatchProperties[];
