@@ -25,7 +25,7 @@ parameters:
 
 jobs:
   - job:
-    displayName: 'UnitTest'
+    displayName: 'UnitTest $(NodeTestVersion)'
 
     condition: |
       and(
