@@ -3,6 +3,7 @@
 
 import { diag } from "@opentelemetry/api";
 import type { PersistentStorage, SenderResult } from "../../types.js";
+import { BreezePerformanceCounterNames } from "../../types.js";
 import type { AzureMonitorExporterOptions } from "../../config.js";
 import { FileSystemPersist } from "./persist/index.js";
 import type { ExportResult } from "@opentelemetry/core";
@@ -10,13 +11,34 @@ import { ExportResultCode } from "@opentelemetry/core";
 import { NetworkStatsbeatMetrics } from "../../export/statsbeat/networkStatsbeatMetrics.js";
 import { getInstance } from "../../export/statsbeat/longIntervalStatsbeatMetrics.js";
 import type { RestError } from "@azure/core-rest-pipeline";
-import { MAX_STATSBEAT_FAILURES, isStatsbeatShutdownStatus } from "../../export/statsbeat/types.js";
+import {
+  DropCode,
+  MAX_STATSBEAT_FAILURES,
+  RetryCode,
+  TelemetryType,
+  isStatsbeatShutdownStatus,
+} from "../../export/statsbeat/types.js";
 import type { BreezeResponse } from "../../utils/breezeUtils.js";
 import { isRetriable } from "../../utils/breezeUtils.js";
-import type { TelemetryItem as Envelope } from "../../generated/index.js";
-import { RetriableRestErrorTypes } from "../../Declarations/Constants.js";
+import type { TelemetryItem as Envelope, MetricsData } from "../../generated/index.js";
+import {
+  ENV_APPLICATIONINSIGHTS_STATSBEAT_ENABLED_PREVIEW,
+  RetriableRestErrorTypes,
+} from "../../Declarations/Constants.js";
+import { CustomerStatsbeatMetrics } from "../../export/statsbeat/customerStatsbeat.js";
 
 const DEFAULT_BATCH_SEND_RETRY_INTERVAL_MS = 60_000;
+
+/**
+ * Check if a metric name corresponds to a performance counter
+ * @param metricName - The name of the metric to check
+ * @returns true if the metric name is a performance counter, false otherwise
+ */
+function isPerformanceCounterMetric(metricName: string): boolean {
+  return Object.values(BreezePerformanceCounterNames).includes(
+    metricName as BreezePerformanceCounterNames,
+  );
+}
 
 /**
  * Base sender class
@@ -27,6 +49,7 @@ export abstract class BaseSender {
   private numConsecutiveRedirects: number;
   private retryTimer: NodeJS.Timeout | null;
   private networkStatsbeatMetrics: NetworkStatsbeatMetrics | undefined;
+  private customerStatsbeatMetrics: CustomerStatsbeatMetrics | undefined;
   private longIntervalStatsbeatMetrics;
   private statsbeatFailureCount: number = 0;
   private batchSendRetryIntervalMs: number = DEFAULT_BATCH_SEND_RETRY_INTERVAL_MS;
@@ -43,7 +66,6 @@ export abstract class BaseSender {
   }) {
     this.numConsecutiveRedirects = 0;
     this.disableOfflineStorage = options.exporterOptions.disableOfflineStorage || false;
-    this.persister = new FileSystemPersist(options.instrumentationKey, options.exporterOptions);
     if (options.trackStatsbeat) {
       // Initialize statsbeatMetrics
       this.networkStatsbeatMetrics = new NetworkStatsbeatMetrics({
@@ -56,7 +78,19 @@ export abstract class BaseSender {
         endpointUrl: options.endpointUrl,
         disableOfflineStorage: this.disableOfflineStorage,
       });
+      if (process.env[ENV_APPLICATIONINSIGHTS_STATSBEAT_ENABLED_PREVIEW]) {
+        this.customerStatsbeatMetrics = CustomerStatsbeatMetrics.getInstance({
+          instrumentationKey: options.instrumentationKey,
+          endpointUrl: options.endpointUrl,
+          disableOfflineStorage: this.disableOfflineStorage,
+        });
+      }
     }
+    this.persister = new FileSystemPersist(
+      options.instrumentationKey,
+      options.exporterOptions,
+      this.customerStatsbeatMetrics,
+    );
     this.retryTimer = null;
     this.isStatsbeatSender = options.isStatsbeatSender || false;
   }
@@ -92,12 +126,19 @@ export abstract class BaseSender {
           this.retryTimer.unref();
         }
         // If we are not exportings statsbeat and statsbeat is not disabled -- count success
-        this.networkStatsbeatMetrics?.countSuccess(duration);
+        if (!this.isStatsbeatSender) {
+          this.networkStatsbeatMetrics?.countSuccess(duration);
+          this.countSuccessfulEnvelopes(envelopes);
+        }
         return { code: ExportResultCode.SUCCESS };
       } else if (statusCode && isRetriable(statusCode)) {
         // Failed -- persist failed data
         if (statusCode === 429 || statusCode === 439) {
           this.networkStatsbeatMetrics?.countThrottle(statusCode);
+          this.customerStatsbeatMetrics?.countRetryItems(
+            envelopes.length,
+            RetryCode.RETRYABLE_STATUS_CODE,
+          );
           return {
             code: ExportResultCode.SUCCESS,
           };
@@ -106,31 +147,58 @@ export abstract class BaseSender {
           diag.info(result);
           const breezeResponse = JSON.parse(result) as BreezeResponse;
           const filteredEnvelopes: Envelope[] = [];
-          // If we have a partial success, count the succeeded envelopes
-          if (breezeResponse.itemsAccepted > 0 && statusCode === 206) {
-            this.networkStatsbeatMetrics?.countSuccess(duration);
-          }
+          // Create a list of successful envelopes by filtering out the failed ones for customer statsbeat
+          const successfulEnvelopes: Envelope[] = [...envelopes];
+
           // Figure out if we need to either retry or count failures
           if (breezeResponse.errors) {
             breezeResponse.errors.forEach((error) => {
+              // Mark as undefined so we don't process them in countSuccessfulEnvelopes
+              successfulEnvelopes[error.index] = undefined as unknown as Envelope;
+
+              // Add to retry list if status code is retriable
               if (error.statusCode && isRetriable(error.statusCode)) {
                 filteredEnvelopes.push(envelopes[error.index]);
               }
             });
           }
+
+          // If we have a partial success, count the succeeded envelopes
+          if (breezeResponse.itemsAccepted > 0) {
+            this.networkStatsbeatMetrics?.countSuccess(duration);
+            // Count only the successful envelopes (non-undefined)
+            if (!this.isStatsbeatSender) {
+              this.countSuccessfulEnvelopes(successfulEnvelopes.filter(Boolean));
+            }
+            // For network statsbeat we just care that some envelopes were successful
+            this.networkStatsbeatMetrics?.countSuccess(duration);
+          }
           if (filteredEnvelopes.length > 0) {
             this.networkStatsbeatMetrics?.countRetry(statusCode);
+            this.customerStatsbeatMetrics?.countRetryItems(
+              filteredEnvelopes.length,
+              RetryCode.RETRYABLE_STATUS_CODE,
+            );
             // calls resultCallback(ExportResult) based on result of persister.push
             return await this.persist(filteredEnvelopes);
           }
           // Failed -- not retriable
           this.networkStatsbeatMetrics?.countFailure(duration, statusCode);
+          // Count dropped items for customer statsbeat for non-retriable status codes
+          this.customerStatsbeatMetrics?.countDroppedItems(
+            envelopes.length - successfulEnvelopes.filter(Boolean).length,
+            DropCode.NON_RETRYABLE_STATUS_CODE,
+          );
           return {
             code: ExportResultCode.FAILED,
           };
         } else {
           // calls resultCallback(ExportResult) based on result of persister.push
           this.networkStatsbeatMetrics?.countRetry(statusCode);
+          this.customerStatsbeatMetrics?.countRetryItems(
+            envelopes.length,
+            RetryCode.RETRYABLE_STATUS_CODE,
+          );
           return await this.persist(envelopes);
         }
       } else {
@@ -138,10 +206,18 @@ export abstract class BaseSender {
         if (this.networkStatsbeatMetrics) {
           if (statusCode) {
             this.networkStatsbeatMetrics.countFailure(duration, statusCode);
+            this.customerStatsbeatMetrics?.countDroppedItems(
+              envelopes.length,
+              DropCode.NON_RETRYABLE_STATUS_CODE,
+            );
           }
         } else {
           // Handles all other status codes or client exceptions for Statsbeat
           this.incrementStatsbeatFailure();
+          this.customerStatsbeatMetrics?.countDroppedItems(
+            envelopes.length,
+            DropCode.CLIENT_EXCEPTION,
+          );
         }
         return {
           code: ExportResultCode.FAILED,
@@ -170,6 +246,11 @@ export abstract class BaseSender {
         } else {
           const redirectError = new Error("Circular redirect");
           this.networkStatsbeatMetrics?.countException(redirectError);
+          this.customerStatsbeatMetrics?.countDroppedItems(
+            envelopes.length,
+            DropCode.CLIENT_EXCEPTION,
+            redirectError.message,
+          );
           return { code: ExportResultCode.FAILED, error: redirectError };
         }
       } else if (
@@ -178,6 +259,10 @@ export abstract class BaseSender {
         !this.isStatsbeatSender
       ) {
         this.networkStatsbeatMetrics?.countRetry(restError.statusCode);
+        this.customerStatsbeatMetrics?.countRetryItems(
+          envelopes.length,
+          RetryCode.RETRYABLE_STATUS_CODE,
+        );
         return this.persist(envelopes);
       } else if (
         restError.statusCode === 400 &&
@@ -198,6 +283,10 @@ export abstract class BaseSender {
       if (this.isRetriableRestError(restError)) {
         if (restError.statusCode) {
           this.networkStatsbeatMetrics?.countRetry(restError.statusCode);
+          this.customerStatsbeatMetrics?.countRetryItems(
+            envelopes.length,
+            RetryCode.RETRYABLE_STATUS_CODE,
+          );
         }
         if (!this.isStatsbeatSender) {
           diag.error(
@@ -232,6 +321,13 @@ export abstract class BaseSender {
           };
     } catch (ex: any) {
       this.networkStatsbeatMetrics?.countWriteFailure();
+      // If offline storage is disabled, we count a customer statsbeat metric for retry stating client storage is disabled
+      if (this.disableOfflineStorage && envelopes) {
+        this.customerStatsbeatMetrics?.countRetryItems(
+          envelopes.length,
+          RetryCode.CLIENT_STORAGE_DISABLED,
+        );
+      }
       return { code: ExportResultCode.FAILED, error: ex };
     }
   }
@@ -252,13 +348,17 @@ export abstract class BaseSender {
   private shutdownStatsbeat(): void {
     this.networkStatsbeatMetrics?.shutdown();
     this.longIntervalStatsbeatMetrics?.shutdown();
+    if (this.customerStatsbeatMetrics) {
+      CustomerStatsbeatMetrics.shutdown();
+      this.customerStatsbeatMetrics = undefined;
+    }
     this.networkStatsbeatMetrics = undefined;
     this.statsbeatFailureCount = 0;
   }
 
   private async sendFirstPersistedFile(): Promise<void> {
+    const envelopes = (await this.persister.shift()) as Envelope[] | null;
     try {
-      const envelopes = (await this.persister.shift()) as Envelope[] | null;
       if (envelopes) {
         await this.send(envelopes);
       }
@@ -274,5 +374,49 @@ export abstract class BaseSender {
       return true;
     }
     return false;
+  }
+
+ private countSuccessfulEnvelopes(envelopes: Envelope[]): void {
+    for (const envelope of envelopes) {
+      if (envelope.data && envelope.data.baseType === "MessageData") {
+        this.customerStatsbeatMetrics?.countSuccessfulItems(1, TelemetryType.TRACE);
+      }
+      if (envelope.data && envelope.data.baseType === "AvailabilityData") {
+        this.customerStatsbeatMetrics?.countSuccessfulItems(1, TelemetryType.AVAILABILITY);
+      }
+      if (envelope.data && envelope.data.baseType === "TelemetryEventData") {
+        this.customerStatsbeatMetrics?.countSuccessfulItems(1, TelemetryType.CUSTOM_EVENT);
+      }
+      if (envelope.data && envelope.data.baseType === "TelemetryExceptionData") {
+        this.customerStatsbeatMetrics?.countSuccessfulItems(1, TelemetryType.EXCEPTION);
+      }
+      if (envelope.data && envelope.data.baseType === "PageViewData") {
+        this.customerStatsbeatMetrics?.countSuccessfulItems(1, TelemetryType.PAGE_VIEW);
+      }
+      if (envelope.data && envelope.data.baseType === "RemoteDependencyData") {
+        this.customerStatsbeatMetrics?.countSuccessfulItems(1, TelemetryType.DEPENDENCY);
+      }
+      if (envelope.data && envelope.data.baseType === "RequestData") {
+        this.customerStatsbeatMetrics?.countSuccessfulItems(1, TelemetryType.REQUEST);
+      }
+      if (envelope.data && envelope.data.baseType === "MetricData") {
+        const metricsData = envelope.data.baseData as MetricsData;
+        if (metricsData && metricsData.metrics && metricsData.metrics.length > 0) {
+          // Check if any of the metrics are performance counters
+          const hasPerformanceCounter = metricsData.metrics.some((metric) =>
+            isPerformanceCounterMetric(metric.name),
+          );
+
+          if (hasPerformanceCounter) {
+            this.customerStatsbeatMetrics?.countSuccessfulItems(
+              1,
+              TelemetryType.PERFORMANCE_COUNTER,
+            );
+          } else {
+            this.customerStatsbeatMetrics?.countSuccessfulItems(1, TelemetryType.CUSTOM_METRIC);
+          }
+        }
+      }
+    }
   }
 }
