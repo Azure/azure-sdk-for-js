@@ -95,6 +95,7 @@ Used to synchronously translate a single document. The method doesn't require an
 import DocumentTranslationClient, {
   DocumentTranslateParameters,
 } from "@azure-rest/ai-translation-document";
+import { ErrorResponse } from "@azure-rest/core-client";
 import { writeFile } from "node:fs/promises";
 
 const endpoint = "https://<translator-instance>.cognitiveservices.azure.com";
@@ -122,6 +123,13 @@ const options: DocumentTranslateParameters = {
 const response = await client.path("/document:translate").post(options).asNodeStream();
 if (!response.body) {
   throw new Error("No response body received");
+}
+
+if (response.status !== "200") {
+  const errorResponse: ErrorResponse = JSON.parse(response.body.read().toString());
+  throw new Error(
+    `Translation failed with status: ${response.status}, error: ${errorResponse.error.message}`,
+  );
 }
 
 // Write the buffer to a file
