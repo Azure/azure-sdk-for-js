@@ -35,6 +35,7 @@ import type {
   ListCampaignsOptionalParams,
   ListCostsOptions,
   SubmitBrandOptionalParams,
+  SubmitBrandForVettingOptionalParams,
   SubmitCampaignOptionalParams,
   UpsertUSBrandOptions,
   UpsertUSCampaignOptions,
@@ -334,6 +335,24 @@ export class TenDlcClient {
       options,
       (submitOptions: TenDlcSubmitUSBrandOptionalParams | undefined) => {
         return this.client.tenDlc.submitUSBrand(brandId, submitOptions);
+      },
+    );
+  }
+
+
+  /**
+   * Submits a US brand for vetting registration.
+   *
+   * @param brandId - The unique identifier of the brand to be submitted.
+   * @param options - Optional parameters for submitting the brand.
+   * @returns The submitted US brand.
+   */
+  public submitUSBrandForVetting(brandId: string, options: SubmitBrandForVettingOptionalParams = {}): Promise<USBrand> {
+    return tracingClient.withSpan(
+      "TenDlcClient-submitUSBrandForVetting",
+      options,
+      (submitOptions: TenDlcSubmitUSBrandOptionalParams | undefined) => {
+        return this.client.tenDlc.submitUSBrandForVetting(brandId, submitOptions);
       },
     );
   }

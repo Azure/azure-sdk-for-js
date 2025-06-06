@@ -163,6 +163,10 @@ export type StockExchange = "Nasdaq" | "Nyse" | "Amex" | "Amx" | "Asx" | "B3" | 
 export type SubContentType = "AccountNotification" | "CustomerCare" | "DeliveryNotification" | "FraudAlert" | "HigherEducation" | "Marketing" | "PollingVoting" | "PublicServiceAnnouncement" | "SecurityAlert" | "TwoFactorAuthentication";
 
 // @public
+export interface SubmitBrandForVettingOptionalParams extends TenDlcSubmitUSBrandOptionalParams {
+}
+
+// @public
 export interface SubmitBrandOptionalParams extends TenDlcSubmitUSBrandOptionalParams {
 }
 
@@ -207,6 +211,7 @@ export class TenDlcClient {
     listUSCampaignAttachments(campaignId: string, options?: TenDlcGetUSCampaignAttachmentsOptionalParams): PagedAsyncIterableIterator<CampaignAttachment>;
     listUSCampaigns(options?: ListCampaignsOptionalParams): PagedAsyncIterableIterator<USCampaign>;
     submitUSBrand(brandId: string, options?: SubmitBrandOptionalParams): Promise<USBrand>;
+    submitUSBrandForVetting(brandId: string, options?: SubmitBrandForVettingOptionalParams): Promise<USBrand>;
     submitUSCampaign(campaignId: string, options?: SubmitCampaignOptionalParams): Promise<USCampaign>;
     upsertUSBrand(brandId: string, options?: UpsertUSBrandOptions): Promise<USBrand>;
     upsertUSCampaign(campaignId: string, options?: UpsertUSCampaignOptions): Promise<USCampaign>;

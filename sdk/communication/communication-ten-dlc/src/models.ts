@@ -70,6 +70,12 @@ export interface ListCostsOptions extends TenDlcGetCostsOptionalParams {}
 export interface SubmitBrandOptionalParams extends TenDlcSubmitUSBrandOptionalParams {}
 
 /**
+ * Additional options for the Submit brand request.
+ */
+export interface SubmitBrandForVettingOptionalParams extends TenDlcSubmitUSBrandOptionalParams {}
+
+
+/**
  * Additional options for the Submit campaign request.
  */
 export interface SubmitCampaignOptionalParams extends TenDlcSubmitUSCampaignOptionalParams {}
