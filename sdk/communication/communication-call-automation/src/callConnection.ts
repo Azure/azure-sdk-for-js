@@ -214,7 +214,7 @@ export class CallConnection {
       ),
       sourceDisplayName: targetParticipant.sourceDisplayName,
       invitationTimeoutInSeconds: options.invitationTimeoutInSeconds,
-      operationContext: options.operationContext ? options.operationContext : randomUUID(),
+      operationContext: options.operationContext,
       operationCallbackUri: options.operationCallbackUrl,
       customCallingContext: this.createCustomCallingContextInternal(
         targetParticipant.customCallingContext!,
