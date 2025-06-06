@@ -514,4 +514,143 @@ describe("BaseSender", () => {
       expect(diag.error).not.toHaveBeenCalled();
     });
   });
+
+  describe("Performance Counter Detection", () => {
+    it("should count performance counter metrics correctly", async () => {
+      const mockCustomerStats = {
+        countSuccessfulItems: vi.fn(),
+      };
+
+      sender = new TestBaseSender({
+        endpointUrl: "https://example.com",
+        instrumentationKey: "test-key",
+        trackStatsbeat: true,
+        exporterOptions: {},
+        isStatsbeatSender: false,
+      });
+
+      // Mock the customer statsbeat metrics
+      (sender as any).customerStatsbeatMetrics = mockCustomerStats;
+
+      sender.sendMock.mockResolvedValue({
+        statusCode: 200,
+        result: "",
+      });
+
+      // Create a performance counter metric envelope
+      const performanceCounterEnvelope = {
+        name: "test",
+        time: new Date(),
+        data: {
+          baseType: "MetricData",
+          baseData: {
+            version: 2,
+            metrics: [
+              {
+                name: "\\Process(??APP_WIN32_PROC??)\\Private Bytes", // This is a performance counter
+                value: 1024,
+              },
+            ],
+          },
+        },
+      };
+
+      await sender.exportEnvelopes([performanceCounterEnvelope]);
+
+      expect(mockCustomerStats.countSuccessfulItems).toHaveBeenCalledWith(1, "PERFORMANCE_COUNTER");
+    });
+
+    it("should count custom metrics correctly", async () => {
+      const mockCustomerStats = {
+        countSuccessfulItems: vi.fn(),
+      };
+
+      sender = new TestBaseSender({
+        endpointUrl: "https://example.com",
+        instrumentationKey: "test-key",
+        trackStatsbeat: true,
+        exporterOptions: {},
+        isStatsbeatSender: false,
+      });
+
+      // Mock the customer statsbeat metrics
+      (sender as any).customerStatsbeatMetrics = mockCustomerStats;
+
+      sender.sendMock.mockResolvedValue({
+        statusCode: 200,
+        result: "",
+      });
+
+      // Create a custom metric envelope
+      const customMetricEnvelope = {
+        name: "test",
+        time: new Date(),
+        data: {
+          baseType: "MetricData",
+          baseData: {
+            version: 2,
+            metrics: [
+              {
+                name: "my_custom_metric", // This is NOT a performance counter
+                value: 42,
+              },
+            ],
+          },
+        },
+      };
+
+      await sender.exportEnvelopes([customMetricEnvelope]);
+
+      expect(mockCustomerStats.countSuccessfulItems).toHaveBeenCalledWith(1, "CUSTOM_METRIC");
+    });
+
+    it("should handle mixed metrics correctly", async () => {
+      const mockCustomerStats = {
+        countSuccessfulItems: vi.fn(),
+      };
+
+      sender = new TestBaseSender({
+        endpointUrl: "https://example.com",
+        instrumentationKey: "test-key",
+        trackStatsbeat: true,
+        exporterOptions: {},
+        isStatsbeatSender: false,
+      });
+
+      // Mock the customer statsbeat metrics
+      (sender as any).customerStatsbeatMetrics = mockCustomerStats;
+
+      sender.sendMock.mockResolvedValue({
+        statusCode: 200,
+        result: "",
+      });
+
+      // Create an envelope with mixed metrics (contains at least one performance counter)
+      const mixedMetricEnvelope = {
+        name: "test",
+        time: new Date(),
+        data: {
+          baseType: "MetricData",
+          baseData: {
+            version: 2,
+            metrics: [
+              {
+                name: "my_custom_metric", // Custom metric
+                value: 42,
+              },
+              {
+                name: "\\Memory\\Available Bytes", // Performance counter
+                value: 8192,
+              },
+            ],
+          },
+        },
+      };
+
+      await sender.exportEnvelopes([mixedMetricEnvelope]);
+
+      // Should be counted as performance counter since it contains at least one
+      expect(mockCustomerStats.countSuccessfulItems).toHaveBeenCalledWith(1, "PERFORMANCE_COUNTER");
+    });
+  });
 });

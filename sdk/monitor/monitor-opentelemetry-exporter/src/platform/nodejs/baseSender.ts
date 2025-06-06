@@ -3,6 +3,7 @@
 
 import { diag } from "@opentelemetry/api";
 import type { PersistentStorage, SenderResult } from "../../types.js";
+import { BreezePerformanceCounterNames } from "../../types.js";
 import type { AzureMonitorExporterOptions } from "../../config.js";
 import { FileSystemPersist } from "./persist/index.js";
 import type { ExportResult } from "@opentelemetry/core";
@@ -19,7 +20,7 @@ import {
 } from "../../export/statsbeat/types.js";
 import type { BreezeResponse } from "../../utils/breezeUtils.js";
 import { isRetriable } from "../../utils/breezeUtils.js";
-import type { TelemetryItem as Envelope } from "../../generated/index.js";
+import type { TelemetryItem as Envelope, MetricsData } from "../../generated/index.js";
 import {
   ENV_APPLICATIONINSIGHTS_STATSBEAT_ENABLED_PREVIEW,
   RetriableRestErrorTypes,
@@ -27,6 +28,15 @@ import {
 import { CustomerStatsbeatMetrics } from "../../export/statsbeat/customerStatsbeat.js";
 
 const DEFAULT_BATCH_SEND_RETRY_INTERVAL_MS = 60_000;
+
+/**
+ * Check if a metric name corresponds to a performance counter
+ * @param metricName - The name of the metric to check
+ * @returns true if the metric name is a performance counter, false otherwise
+ */
+function isPerformanceCounterMetric(metricName: string): boolean {
+  return Object.values(BreezePerformanceCounterNames).includes(metricName as BreezePerformanceCounterNames);
+}
 
 /**
  * Base sender class
@@ -391,14 +401,21 @@ export abstract class BaseSender {
       if (envelope.data && envelope.data.baseType === "RequestData") {
         this.customerStatsbeatMetrics?.countSuccessfulItems(1, TelemetryType.REQUEST);
       }
-      // TODO: Add support for detecting performance counters. I assume this can be done by checking the envelope name if it's a performance counter name.
-      // if (envelope.data && envelope.data.baseType === "MetricsData") {
-      //   if (envelope.data && envelope.data.name > 0) {
-      //     this.customerStatsbeatMetrics?.countSuccessfulItems(envelopesLength, TelemetryType.PERFORMANCE_COUNTER);
-      //   } else {
-      //     this.customerStatsbeatMetrics?.countSuccessfulItems(envelopesLength, TelemetryType.CUSTOM_METRIC);
-      //   }
-      // }
+      if (envelope.data && envelope.data.baseType === "MetricData") {
+        const metricsData = envelope.data.baseData as MetricsData;
+        if (metricsData && metricsData.metrics && metricsData.metrics.length > 0) {
+          // Check if any of the metrics are performance counters
+          const hasPerformanceCounter = metricsData.metrics.some(metric => 
+            isPerformanceCounterMetric(metric.name)
+          );
+          
+          if (hasPerformanceCounter) {
+            this.customerStatsbeatMetrics?.countSuccessfulItems(1, TelemetryType.PERFORMANCE_COUNTER);
+          } else {
+            this.customerStatsbeatMetrics?.countSuccessfulItems(1, TelemetryType.CUSTOM_METRIC);
+          }
+        }
+      }
     }
   }
 }
