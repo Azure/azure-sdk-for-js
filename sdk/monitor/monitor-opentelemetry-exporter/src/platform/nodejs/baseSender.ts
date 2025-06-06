@@ -7,11 +7,8 @@ import type { AzureMonitorExporterOptions } from "../../config.js";
 import { FileSystemPersist } from "./persist/index.js";
 import type { ExportResult } from "@opentelemetry/core";
 import { ExportResultCode } from "@opentelemetry/core";
-import {
-  getInstance as getNetworkStatsbeatInstance,
-  type NetworkStatsbeatMetrics,
-} from "../../export/statsbeat/networkStatsbeatMetrics.js";
-import { getInstance } from "../../export/statsbeat/longIntervalStatsbeatMetrics.js";
+import { NetworkStatsbeatMetrics } from "../../export/statsbeat/networkStatsbeatMetrics.js";
+import { LongIntervalStatsbeatMetrics } from "../../export/statsbeat/longIntervalStatsbeatMetrics.js";
 import type { RestError } from "@azure/core-rest-pipeline";
 import { MAX_STATSBEAT_FAILURES, isStatsbeatShutdownStatus } from "../../export/statsbeat/types.js";
 import type { BreezeResponse } from "../../utils/breezeUtils.js";
@@ -48,12 +45,12 @@ export abstract class BaseSender {
     this.disableOfflineStorage = options.exporterOptions.disableOfflineStorage || false;
     this.persister = new FileSystemPersist(options.instrumentationKey, options.exporterOptions);
     if (options.trackStatsbeat) {
-      this.networkStatsbeatMetrics = getNetworkStatsbeatInstance({
+      this.networkStatsbeatMetrics = NetworkStatsbeatMetrics.getInstance({
         instrumentationKey: options.instrumentationKey,
         endpointUrl: options.endpointUrl,
         disableOfflineStorage: this.disableOfflineStorage,
       });
-      this.longIntervalStatsbeatMetrics = getInstance({
+      this.longIntervalStatsbeatMetrics = LongIntervalStatsbeatMetrics.getInstance({
         instrumentationKey: options.instrumentationKey,
         endpointUrl: options.endpointUrl,
         disableOfflineStorage: this.disableOfflineStorage,

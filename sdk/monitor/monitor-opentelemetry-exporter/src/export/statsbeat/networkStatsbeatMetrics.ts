@@ -23,13 +23,8 @@ import { AzureMonitorStatsbeatExporter } from "./statsbeatExporter.js";
 import { ENV_DISABLE_STATSBEAT } from "../../Declarations/Constants.js";
 import { getAttachType } from "../../utils/metricUtils.js";
 
-/**
- * Singleton instance for NetworkStatsbeatMetrics
- * @internal
- */
-let instance: NetworkStatsbeatMetrics | null = null;
-
 export class NetworkStatsbeatMetrics extends StatsbeatMetrics {
+  private static instance: NetworkStatsbeatMetrics | null = null;
   private disableNonEssentialStatsbeat: boolean = !!process.env[ENV_DISABLE_STATSBEAT];
   private commonProperties: CommonStatsbeatProperties;
   private networkProperties: NetworkStatsbeatProperties;
@@ -427,49 +422,15 @@ export class NetworkStatsbeatMetrics extends StatsbeatMetrics {
     }
     return shortHost;
   }
+
   /**
-   * Get singleton instance of NetworkStatsbeatMetrics
-   * @param options - Statsbeat configuration options
-   * @returns NetworkStatsbeatMetrics singleton instance
+   * Singleton Network Statsbeat Metrics instance.
    * @internal
    */
   public static getInstance(options: StatsbeatOptions): NetworkStatsbeatMetrics {
-    if (!instance) {
-      instance = new NetworkStatsbeatMetrics(options);
+    if (!NetworkStatsbeatMetrics.instance) {
+      NetworkStatsbeatMetrics.instance = new NetworkStatsbeatMetrics(options);
     }
-    return instance;
+    return NetworkStatsbeatMetrics.instance;
   }
-
-  /**
-   * Shutdown the singleton instance
-   * Used for cleanup and complete shutdown
-   * @internal
-   */
-  public static shutdown(): Promise<void> {
-    if (instance) {
-      const shutdownPromise = instance.shutdown();
-      instance = null;
-      return shutdownPromise;
-    }
-    return Promise.resolve();
-  }
-}
-
-/**
- * Get singleton instance of NetworkStatsbeatMetrics
- * @param options - Statsbeat configuration options
- * @returns NetworkStatsbeatMetrics singleton instance
- * @internal
- */
-export function getInstance(options: StatsbeatOptions): NetworkStatsbeatMetrics {
-  return NetworkStatsbeatMetrics.getInstance(options);
-}
-
-/**
- * Shutdown the singleton instance
- * Used for cleanup and complete shutdown
- * @internal
- */
-export function shutdown(): Promise<void> {
-  return NetworkStatsbeatMetrics.shutdown();
 }
