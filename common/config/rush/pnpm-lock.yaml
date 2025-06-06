@@ -241,6 +241,9 @@ importers:
       '@rush-temp/arm-containerservicefleet':
         specifier: file:./projects/arm-containerservicefleet.tgz
         version: file:projects/arm-containerservicefleet.tgz(@types/debug@4.1.12)(tsx@4.19.4)(vite@6.3.5(@types/node@22.7.9)(tsx@4.19.4)(yaml@2.8.0))(yaml@2.8.0)
+      '@rush-temp/arm-contoso':
+        specifier: file:./projects/arm-contoso.tgz
+        version: file:projects/arm-contoso.tgz(@types/debug@4.1.12)(tsx@4.19.4)(vite@6.3.5(@types/node@22.7.9)(tsx@4.19.4)(yaml@2.8.0))(yaml@2.8.0)
       '@rush-temp/arm-cosmosdb':
         specifier: file:./projects/arm-cosmosdb.tgz
         version: file:projects/arm-cosmosdb.tgz(@types/debug@4.1.12)(tsx@4.19.4)(vite@6.3.5(@types/node@22.7.9)(tsx@4.19.4)(yaml@2.8.0))(yaml@2.8.0)
@@ -2770,6 +2773,10 @@ packages:
 
   '@rush-temp/arm-containerservicefleet@file:projects/arm-containerservicefleet.tgz':
     resolution: {integrity: sha512-94lg4aJEurpGjfl3lNhlpkhgl5YnXHN6BvWYHpffOnJImYe0yQCo0bTz0wU3Ct/eowKjp/quS6318L0Qot7WoQ==, tarball: file:projects/arm-containerservicefleet.tgz}
+    version: 0.0.0
+
+  '@rush-temp/arm-contoso@file:projects/arm-contoso.tgz':
+    resolution: {integrity: sha512-hxF1SPxQHDRhKmQ7rcaHudSheiemyqAn3GqfTTf3Ikgzs9ibggyD+8BPM/Pqu0Wq/nD67Q/d4pLIl7JiAURS+A==, tarball: file:projects/arm-contoso.tgz}
     version: 0.0.0
 
   '@rush-temp/arm-cosmosdb@file:projects/arm-cosmosdb.tgz':
@@ -11574,6 +11581,41 @@ snapshots:
       - yaml
 
   '@rush-temp/arm-containerservicefleet@file:projects/arm-containerservicefleet.tgz(@types/debug@4.1.12)(tsx@4.19.4)(vite@6.3.5(@types/node@22.7.9)(tsx@4.19.4)(yaml@2.8.0))(yaml@2.8.0)':
+    dependencies:
+      '@types/node': 18.19.110
+      '@vitest/browser': 3.2.0(playwright@1.52.0)(vite@6.3.5(@types/node@22.7.9)(tsx@4.19.4)(yaml@2.8.0))(vitest@3.2.0)
+      '@vitest/coverage-istanbul': 3.2.0(vitest@3.2.0)
+      dotenv: 16.5.0
+      eslint: 9.28.0
+      playwright: 1.52.0
+      tslib: 2.8.1
+      typescript: 5.8.3
+      vitest: 3.2.0(@types/debug@4.1.12)(@types/node@18.19.110)(@vitest/browser@3.2.0)(tsx@4.19.4)(yaml@2.8.0)
+    transitivePeerDependencies:
+      - '@edge-runtime/vm'
+      - '@types/debug'
+      - '@vitest/ui'
+      - bufferutil
+      - happy-dom
+      - jiti
+      - jsdom
+      - less
+      - lightningcss
+      - msw
+      - safaridriver
+      - sass
+      - sass-embedded
+      - stylus
+      - sugarss
+      - supports-color
+      - terser
+      - tsx
+      - utf-8-validate
+      - vite
+      - webdriverio
+      - yaml
+
+  '@rush-temp/arm-contoso@file:projects/arm-contoso.tgz(@types/debug@4.1.12)(tsx@4.19.4)(vite@6.3.5(@types/node@22.7.9)(tsx@4.19.4)(yaml@2.8.0))(yaml@2.8.0)':
     dependencies:
       '@types/node': 18.19.110
       '@vitest/browser': 3.2.0(playwright@1.52.0)(vite@6.3.5(@types/node@22.7.9)(tsx@4.19.4)(yaml@2.8.0))(vitest@3.2.0)
