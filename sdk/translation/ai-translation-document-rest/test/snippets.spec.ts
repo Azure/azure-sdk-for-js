@@ -10,7 +10,7 @@ import { setLogLevel } from "@azure/logger";
 import { describe, it } from "vitest";
 import { writeFile } from "node:fs/promises";
 import { BlobServiceClient, ContainerSASPermissions } from "@azure/storage-blob";
-import type { ErrorResponse } from '@azure-rest/core-client';
+import type { ErrorResponse } from "@azure-rest/core-client";
 
 describe("snippets", () => {
   it("ReadmeSampleKeyCredential", async () => {
@@ -59,7 +59,9 @@ describe("snippets", () => {
     // @ts-preserve-whitespace
     if (response.status !== "200") {
       const errorResponse: ErrorResponse = JSON.parse(response.body.read().toString());
-      throw new Error(`Translation failed with status: ${response.status}, error: ${errorResponse.error.message}`);
+      throw new Error(
+        `Translation failed with status: ${response.status}, error: ${errorResponse.error.message}`,
+      );
     }
     // @ts-preserve-whitespace
     // Write the buffer to a file
