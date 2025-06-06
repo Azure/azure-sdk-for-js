@@ -63,22 +63,29 @@ vi.mock("../../src/platform/nodejs/persist/index.js", () => {
 
 vi.mock("../../src/export/statsbeat/networkStatsbeatMetrics.js", () => {
   return {
-    NetworkStatsbeatMetrics: vi.fn().mockImplementation(() => {
-      return mockNetworkStats;
-    }),
-    getInstance: vi.fn().mockImplementation(() => {
-      return mockNetworkStats;
-    }),
-    releaseInstance: vi.fn().mockResolvedValue(undefined),
-    shutdownInstance: vi.fn().mockResolvedValue(undefined),
+    NetworkStatsbeatMetrics: class MockNetworkStatsbeatMetrics {
+      static getInstance = vi.fn().mockImplementation(() => {
+        return mockNetworkStats;
+      });
+      
+      constructor() {
+        return mockNetworkStats;
+      }
+    },
   };
 });
 
 vi.mock("../../src/export/statsbeat/longIntervalStatsbeatMetrics.js", () => {
   return {
-    getInstance: vi.fn().mockImplementation(() => {
-      return mockLongIntervalStats;
-    }),
+    LongIntervalStatsbeatMetrics: class MockLongIntervalStatsbeatMetrics {
+      static getInstance = vi.fn().mockImplementation(() => {
+        return mockLongIntervalStats;
+      });
+      
+      constructor() {
+        return mockLongIntervalStats;
+      }
+    },
   };
 });
 
