@@ -2,6 +2,10 @@
 
 ## 1.0.0-beta.32 ()
 
+### Features Added
+
+- Added customer-facing statsbeat preview.
+
 ### Other Changes
 
 - Ensure that the longIntervalStatsbeat reader is properly bound to a MetricProducer.
