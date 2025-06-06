@@ -26,12 +26,9 @@ async function main() {
   const project = new AIProjectClient(endpoint, new DefaultAzureCredential());
   const filePath = path.join(__dirname, "sample_data_evaluation.jsonl");
   // upload a file to the dataset
-  const dataset = await project.datasets.uploadFile(
-    "data-evaluation-test",
-    "1.0.5",
-    filePath,
-    containerConnectionName,
-  );
+  const dataset = await project.datasets.uploadFile("data-evaluation-test", "1.0.5", filePath, {
+    connectionName: containerConnectionName,
+  });
   console.log("Dataset created:", JSON.stringify(dataset, null, 2));
   // create a new evaluation
   const newEvaluation = {
