@@ -1,7 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import DeidentificationClient, { DeidentificationContent, isUnexpected } from "../src/index.js";
+import type { DeidentificationContent } from "../src/index.js";
+import DeidentificationClient, { isUnexpected } from "../src/index.js";
 import { DefaultAzureCredential } from "@azure/identity";
 import { setLogLevel } from "@azure/logger";
 import { describe, it } from "vitest";

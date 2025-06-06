@@ -5,7 +5,6 @@ export default [
   {
     rules: {
       "@azure/azure-sdk/ts-modules-only-named": "warn",
-      "@azure/azure-sdk/ts-apiextractor-json-types": "warn",
       "@azure/azure-sdk/ts-package-json-types": "warn",
       "@azure/azure-sdk/ts-package-json-engine-is-present": "warn",
       "@azure/azure-sdk/ts-package-json-module": "off",
