@@ -27,7 +27,7 @@ import { AzureMonitorStatsbeatExporter } from "./statsbeatExporter.js";
 export class CustomerStatsbeatMetrics extends StatsbeatMetrics {
   private static _instance: CustomerStatsbeatMetrics | undefined;
 
-  private statsCollectionInterval: number = 900000; // 15 minutes
+  private statsCollectionInterval: number = 30000; // 15 minutes
   private customerStatsbeatMeter: Meter;
   private customerStatsbeatMeterProvider: MeterProvider;
   private customerStatsbeatExporter: AzureMonitorStatsbeatExporter;
@@ -53,8 +53,6 @@ export class CustomerStatsbeatMetrics extends StatsbeatMetrics {
 
   private constructor(options: StatsbeatOptions) {
     super();
-    // Use the customer's regular endpoint, not the statsbeat endpoint
-    // TODO: Fix this to use the correct connection string value
     const exporterConfig: AzureMonitorExporterOptions = {
       connectionString: `InstrumentationKey=${options.instrumentationKey};IngestionEndpoint=${options.endpointUrl}`,
     };
@@ -172,7 +170,7 @@ export class CustomerStatsbeatMetrics extends StatsbeatMetrics {
     // For each { telemetry_type -> count } mapping, call observe, passing the count and attributes that include the telemetry_type
     for (let i = 0; i < counter.totalItemSuccessCount.length; i++) {
       // Only send metrics if count is greater than zero
-      if (counter.totalItemSuccessCount[i].count > 0) {
+      // if (counter.totalItemSuccessCount[i].count > 0) {
         attributes.telemetry_type = counter.totalItemSuccessCount[i].telemetry_type;
         observableResult.observe(
           this.itemSuccessCountGauge,
@@ -182,21 +180,31 @@ export class CustomerStatsbeatMetrics extends StatsbeatMetrics {
           },
         );
         counter.totalItemSuccessCount[i].count = 0;
-      }
+      // }
     }
   }
 
-  // TODO: exception.message populate if "drop.code" is CLIENT_EXCEPTION
   private itemDropCallback(observableResult: BatchObservableResult): void {
     // Only send metrics if count is greater than zero
     const counter: CustomerStatsbeat = this.customerStatsbeatCounter;
-    const attributes = { ...this.customerProperties, "drop.code": DropCode.UNKNOWN };
+    const baseAttributes = { ...this.customerProperties, "drop.code": DropCode.UNKNOWN };
 
     // For each { drop.code -> count } mapping, call observe, passing the count and attributes that include the drop.code
     for (let i = 0; i < counter.totalItemDropCount.length; i++) {
       // Only send metrics if count is greater than zero
       if (counter.totalItemDropCount[i].count > 0) {
+        const attributes = { ...baseAttributes };
         attributes["drop.code"] = counter.totalItemDropCount[i]["drop.code"];
+
+        // Add exception.message only for CLIENT_EXCEPTION drop code
+        if (
+          counter.totalItemDropCount[i]["drop.code"] === DropCode.CLIENT_EXCEPTION &&
+          counter.totalItemDropCount[i]["exception.message"]
+        ) {
+          (attributes as any)["exception.message"] =
+            counter.totalItemDropCount[i]["exception.message"];
+        }
+
         observableResult.observe(this.itemDropCountGauge, counter.totalItemDropCount[i].count, {
           ...attributes,
         });
@@ -205,16 +213,26 @@ export class CustomerStatsbeatMetrics extends StatsbeatMetrics {
     }
   }
 
-  // TODO: exception.message populate if "drop.code" is CLIENT_EXCEPTION
   private itemRetryCallback(observableResult: BatchObservableResult): void {
     const counter: CustomerStatsbeat = this.customerStatsbeatCounter;
-    const attributes = { ...this.customerProperties, "retry.code": RetryCode.UNKNOWN };
+    const baseAttributes = { ...this.customerProperties, "retry.code": RetryCode.UNKNOWN };
 
     // For each { retry.code -> count } mapping, call observe, passing the count and attributes that include the retry.code
     for (let i = 0; i < counter.totalItemRetryCount.length; i++) {
       // Only send metrics if count is greater than zero
       if (counter.totalItemRetryCount[i].count > 0) {
+        const attributes = { ...baseAttributes };
         attributes["retry.code"] = counter.totalItemRetryCount[i]["retry.code"];
+
+        // Add exception.message only for CLIENT_EXCEPTION retry code
+        if (
+          counter.totalItemRetryCount[i]["retry.code"] === RetryCode.CLIENT_EXCEPTION &&
+          counter.totalItemRetryCount[i]["exception.message"]
+        ) {
+          (attributes as any)["exception.message"] =
+            counter.totalItemRetryCount[i]["exception.message"];
+        }
+
         observableResult.observe(this.itemRetryCountGauge, counter.totalItemRetryCount[i].count, {
           ...attributes,
         });
@@ -231,12 +249,12 @@ export class CustomerStatsbeatMetrics extends StatsbeatMetrics {
    */
   public countSuccessfulItems(envelopes: number, telemetry_type: TelemetryType): void {
     const counter: CustomerStatsbeat = this.customerStatsbeatCounter;
-    
+
     // Check if an entry with the same telemetry_type already exists
     const existingEntry = counter.totalItemSuccessCount.find(
-      entry => entry.telemetry_type === telemetry_type
+      (entry) => entry.telemetry_type === telemetry_type,
     );
-    
+
     if (existingEntry) {
       // Increment the existing entry's count
       existingEntry.count += envelopes;
@@ -250,48 +268,63 @@ export class CustomerStatsbeatMetrics extends StatsbeatMetrics {
    * Tracks dropped items
    * @param envelopes - Number of envelopes dropped
    * @param dropCode - The drop code indicating the reason for drop
+   * @param exceptionMessage - Optional exception message when dropCode is CLIENT_EXCEPTION
    */
-  public countDroppedItems(envelopes: number, dropCode: DropCode): void {
+  public countDroppedItems(envelopes: number, dropCode: DropCode, exceptionMessage?: string): void {
     const counter: CustomerStatsbeat = this.customerStatsbeatCounter;
-    
-    // Check if an entry with the same drop code already exists
+
+    // Check if an entry with the same drop code and exception message already exists
     const existingEntry = counter.totalItemDropCount.find(
-      entry => entry["drop.code"] === dropCode
+      (entry) => entry["drop.code"] === dropCode && entry["exception.message"] === exceptionMessage,
     );
-    
+
     if (existingEntry) {
       // Increment the existing entry's count
       existingEntry.count += envelopes;
     } else {
       // Create a new entry
-      counter.totalItemDropCount.push({
+      const newEntry: { count: number; "drop.code": DropCode; "exception.message"?: string } = {
         count: envelopes,
         "drop.code": dropCode,
-      });
+      };
+
+      if (dropCode === DropCode.CLIENT_EXCEPTION && exceptionMessage) {
+        newEntry["exception.message"] = exceptionMessage;
+      }
+
+      counter.totalItemDropCount.push(newEntry);
     }
   }
   /**
    * Tracks retried envelopes
    * @param envelopes - Number of envelopes retried
    * @param retryCode - The retry code indicating the reason for retry
+   * @param exceptionMessage - Optional exception message when retryCode is CLIENT_EXCEPTION
    */
-  public countRetryItems(envelopes: number, retryCode: RetryCode): void {
+  public countRetryItems(envelopes: number, retryCode: RetryCode, exceptionMessage?: string): void {
     const counter: CustomerStatsbeat = this.customerStatsbeatCounter;
-    
-    // Check if an entry with the same retry code already exists
+
+    // Check if an entry with the same retry code and exception message already exists
     const existingEntry = counter.totalItemRetryCount.find(
-      entry => entry["retry.code"] === retryCode
+      (entry) =>
+        entry["retry.code"] === retryCode && entry["exception.message"] === exceptionMessage,
     );
-    
+
     if (existingEntry) {
       // Increment the existing entry's count
       existingEntry.count += envelopes;
     } else {
       // Create a new entry
-      counter.totalItemRetryCount.push({
+      const newEntry: { count: number; "retry.code": RetryCode; "exception.message"?: string } = {
         count: envelopes,
         "retry.code": retryCode,
-      });
+      };
+
+      if (retryCode === RetryCode.CLIENT_EXCEPTION && exceptionMessage) {
+        newEntry["exception.message"] = exceptionMessage;
+      }
+
+      counter.totalItemRetryCount.push(newEntry);
     }
   }
 

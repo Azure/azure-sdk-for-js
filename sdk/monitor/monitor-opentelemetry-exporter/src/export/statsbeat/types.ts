@@ -60,9 +60,17 @@ export class CustomerStatsbeat {
 
   public totalItemSuccessCount: { count: number; telemetry_type: TelemetryType }[];
 
-  public totalItemDropCount: { count: number; "drop.code": DropCode }[];
+  public totalItemDropCount: {
+    count: number;
+    "drop.code": DropCode;
+    "exception.message"?: string;
+  }[];
 
-  public totalItemRetryCount: { count: number; "retry.code": RetryCode }[];
+  public totalItemRetryCount: {
+    count: number;
+    "retry.code": RetryCode;
+    "exception.message"?: string;
+  }[];
 
   constructor(endpoint: string, host: string) {
     this.endpoint = endpoint;

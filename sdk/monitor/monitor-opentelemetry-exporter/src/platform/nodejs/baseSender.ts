@@ -35,7 +35,9 @@ const DEFAULT_BATCH_SEND_RETRY_INTERVAL_MS = 60_000;
  * @returns true if the metric name is a performance counter, false otherwise
  */
 function isPerformanceCounterMetric(metricName: string): boolean {
-  return Object.values(BreezePerformanceCounterNames).includes(metricName as BreezePerformanceCounterNames);
+  return Object.values(BreezePerformanceCounterNames).includes(
+    metricName as BreezePerformanceCounterNames,
+  );
 }
 
 /**
@@ -252,6 +254,7 @@ export abstract class BaseSender {
           this.customerStatsbeatMetrics?.countDroppedItems(
             envelopes.length,
             DropCode.CLIENT_EXCEPTION,
+            redirectError.message,
           );
           return { code: ExportResultCode.FAILED, error: redirectError };
         }
@@ -405,12 +408,15 @@ export abstract class BaseSender {
         const metricsData = envelope.data.baseData as MetricsData;
         if (metricsData && metricsData.metrics && metricsData.metrics.length > 0) {
           // Check if any of the metrics are performance counters
-          const hasPerformanceCounter = metricsData.metrics.some(metric => 
-            isPerformanceCounterMetric(metric.name)
+          const hasPerformanceCounter = metricsData.metrics.some((metric) =>
+            isPerformanceCounterMetric(metric.name),
           );
-          
+
           if (hasPerformanceCounter) {
-            this.customerStatsbeatMetrics?.countSuccessfulItems(1, TelemetryType.PERFORMANCE_COUNTER);
+            this.customerStatsbeatMetrics?.countSuccessfulItems(
+              1,
+              TelemetryType.PERFORMANCE_COUNTER,
+            );
           } else {
             this.customerStatsbeatMetrics?.countSuccessfulItems(1, TelemetryType.CUSTOM_METRIC);
           }
