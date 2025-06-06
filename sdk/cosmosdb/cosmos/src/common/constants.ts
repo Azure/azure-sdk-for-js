@@ -206,7 +206,7 @@ export const Constants = {
   AllowedPartitionUnavailabilityDurationInMs: 5 * 60 * 1000, // 5 minutes
   ReadRequestFailureCounterThreshold: 10,
   WriteRequestFailureCounterThreshold: 5,
-  TimeoutCounterResetWindow: 1000 * 60 * 1, // 1 minute
+  ConsecutiveFailureCountResetInterval: 1000 * 60 * 1, // 1 minute
 
   // ServiceDocument Resource
   ENABLE_MULTIPLE_WRITABLE_LOCATIONS: "enableMultipleWriteLocations",

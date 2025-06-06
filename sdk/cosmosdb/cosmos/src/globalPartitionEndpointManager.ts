@@ -51,10 +51,11 @@ export class GlobalPartitionEndpointManager {
   }
 
   /**
-   * Marks the current location unavailable for write. Future
+   * Checks eligibility of the request for partition failover and
+   * tries to mark the endpoint unavailable for the partition key range. Future
    * requests will be routed to the next location if available.
    */
-  public async tryMarkEndpointUnavailableForPartitionKeyRange(
+  public async checkRequestEligibilityAndTryMarkEndpointUnavailableForPartitionKeyRange(
     requestContext: RequestContext,
   ): Promise<boolean> {
     if (!(await this.isRequestEligibleForPartitionFailover(requestContext, true))) {
@@ -62,15 +63,15 @@ export class GlobalPartitionEndpointManager {
     }
     if (
       this.isRequestEligibleForPerPartitionAutomaticFailover(requestContext) ||
-      (this.IsRequestEligibleForPartitionLevelCircuitBreaker(requestContext) &&
+      (this.isRequestEligibleForPartitionLevelCircuitBreaker(requestContext) &&
         (await this.incrementRequestFailureCounterAndCheckIfPartitionCanFailover(requestContext)))
     ) {
-      return this.tryMarkEndpointUnavailableForPKRange(requestContext);
+      return this.tryMarkEndpointUnavailableForPartitionKeyRange(requestContext);
     }
     return false;
   }
 
-  private async tryMarkEndpointUnavailableForPKRange(
+  private async tryMarkEndpointUnavailableForPartitionKeyRange(
     requestContext: RequestContext,
   ): Promise<boolean> {
     const partitionKeyRangeId = requestContext.partitionKeyRangeId;
@@ -84,13 +85,13 @@ export class GlobalPartitionEndpointManager {
       for (const location of readLocations) {
         readEndPoints.push(location.databaseAccountEndpoint);
       }
-      return this.TryAddOrUpdatePartitionFailoverInfoAndMoveToNextLocation(
+      return this.tryAddOrUpdatePartitionFailoverInfoAndMoveToNextLocation(
         partitionKeyRangeId,
         failedEndPoint,
         readEndPoints,
         this.partitionKeyRangeToLocationForWrite,
       );
-    } else if (this.IsRequestEligibleForPartitionLevelCircuitBreaker(requestContext)) {
+    } else if (this.isRequestEligibleForPartitionLevelCircuitBreaker(requestContext)) {
       // For multi master write accounts, since all the regions are treated as write regions, the next locations to fail over
       // will be the preferred read regions that are configured in the application preferred regions in the CosmosClientOptions.
       if (this.preferredLocations && this.preferredLocations.length > 0) {
@@ -109,7 +110,7 @@ export class GlobalPartitionEndpointManager {
           readEndPoints.push(location.databaseAccountEndpoint);
         }
       }
-      return this.TryAddOrUpdatePartitionFailoverInfoAndMoveToNextLocation(
+      return this.tryAddOrUpdatePartitionFailoverInfoAndMoveToNextLocation(
         partitionKeyRangeId,
         failedEndPoint,
         readEndPoints,
@@ -125,9 +126,9 @@ export class GlobalPartitionEndpointManager {
    */
   public async tryAddPartitionLevelLocationOverride(
     requestContext: RequestContext,
-  ): Promise<boolean | [boolean, string]> {
+  ): Promise<{ overridden: boolean; newLocation?: string }> {
     if (!(await this.isRequestEligibleForPartitionFailover(requestContext, false))) {
-      return false;
+      return { overridden: false };
     }
 
     const partitionKeyRangeId = requestContext.partitionKeyRangeId;
@@ -135,9 +136,12 @@ export class GlobalPartitionEndpointManager {
     if (this.isRequestEligibleForPerPartitionAutomaticFailover(requestContext)) {
       if (this.partitionKeyRangeToLocationForWrite.has(partitionKeyRangeId)) {
         const partitionFailOver = this.partitionKeyRangeToLocationForWrite.get(partitionKeyRangeId);
-        return [true, partitionFailOver.currentEndPoint];
+        return {
+          overridden: true,
+          newLocation: partitionFailOver.currentEndPoint,
+        };
       }
-    } else if (this.IsRequestEligibleForPartitionLevelCircuitBreaker(requestContext)) {
+    } else if (this.isRequestEligibleForPartitionLevelCircuitBreaker(requestContext)) {
       if (this.partitionKeyRangeToLocationForReadAndWrite.has(partitionKeyRangeId)) {
         const partitionFailOver =
           this.partitionKeyRangeToLocationForReadAndWrite.get(partitionKeyRangeId);
@@ -147,11 +151,14 @@ export class GlobalPartitionEndpointManager {
             isReadRequest(requestContext.operationType),
           );
         if (canCircuitBreakerTriggerPartitionFailOver) {
-          return [true, partitionFailOver.currentEndPoint];
+          return {
+            overridden: true,
+            newLocation: partitionFailOver.currentEndPoint,
+          };
         }
       }
     }
-    return false;
+    return { overridden: false };
   }
 
   /**
@@ -173,7 +180,7 @@ export class GlobalPartitionEndpointManager {
       }
       partitionKeyRangeFailoverInfo =
         this.partitionKeyRangeToLocationForWrite.get(partitionKeyRangeId);
-    } else if (this.IsRequestEligibleForPartitionLevelCircuitBreaker(requestContext)) {
+    } else if (this.isRequestEligibleForPartitionLevelCircuitBreaker(requestContext)) {
       if (!this.partitionKeyRangeToLocationForReadAndWrite.has(partitionKeyRangeId)) {
         // If the partition key range is not already in the map, add it
         const failoverInfo = new PartitionKeyRangeFailoverInfo(failedEndPoint);
@@ -187,10 +194,10 @@ export class GlobalPartitionEndpointManager {
       return false;
     }
 
-    const currentTime = Date.now();
+    const currentTimeInMiliseconds = Date.now();
     await partitionKeyRangeFailoverInfo.incrementRequestFailureCounts(
       isReadRequest(requestContext.operationType),
-      currentTime,
+      currentTimeInMiliseconds,
     );
 
     return partitionKeyRangeFailoverInfo.CanCircuitBreakerTriggerPartitionFailOver(
@@ -231,10 +238,6 @@ export class GlobalPartitionEndpointManager {
     operationType?: OperationType,
     resourceType?: ResourceType,
   ): Promise<boolean> {
-    // TODO: check for this check
-    if (this.preferredLocationsCount <= 0) {
-      return false;
-    }
     const readEndPoints = await this.globalEndpointManager.getReadEndpoints();
     if (readEndPoints.length <= 1) {
       return false;
@@ -273,7 +276,7 @@ export class GlobalPartitionEndpointManager {
    * This method checks if partition-level circuit breaker is enabled, and if the request is a read-only request or
    * the global endpoint manager can use multiple write locations for the request.
    */
-  private IsRequestEligibleForPartitionLevelCircuitBreaker(
+  private isRequestEligibleForPartitionLevelCircuitBreaker(
     requestContext: RequestContext,
   ): boolean {
     if (!this.enablePartitionLevelCircuitBreaker) {
@@ -295,7 +298,7 @@ export class GlobalPartitionEndpointManager {
    * the failover information for the partition key range. Return True if the failover information was successfully
    * updated and the request was routed to a new location, otherwise false.
    */
-  private async TryAddOrUpdatePartitionFailoverInfoAndMoveToNextLocation(
+  private async tryAddOrUpdatePartitionFailoverInfoAndMoveToNextLocation(
     partitionKeyRangeId: string,
     failedEndPoint: string,
     nextEndPoints: readonly string[],
@@ -309,7 +312,7 @@ export class GlobalPartitionEndpointManager {
     const partitionFailOver = partitionKeyRangeToLocation.get(partitionKeyRangeId);
 
     // Will return true if it was able to update to a new region
-    if (await partitionFailOver.TryMoveNextLocation(nextEndPoints, failedEndPoint)) {
+    if (await partitionFailOver.tryMoveNextLocation(nextEndPoints, failedEndPoint)) {
       return true;
     }
     // All the locations have been tried. Remove the override information
@@ -318,8 +321,13 @@ export class GlobalPartitionEndpointManager {
   }
 
   /**
-   * This method that will run a continious loop with a delay of one minute to refresh
-   *  the connection to the failed backend replicas.
+   * Initiates a background loop that periodically checks for unhealthy endpoints
+   * and attempts to open connections to them. If a connection is successfully
+   * established, it initiates a failback to the original location for the partition key range.
+   * This is useful for scenarios where a partition key range has been marked as unavailable
+   * due to a circuit breaker, and we want to periodically check if the original location
+   * has become healthy again.
+   * The loop runs at a defined interval specified by Constants.StalePartitionUnavailabilityRefreshIntervalInMs.
    */
   private initiateCircuitBreakerFailbackLoop(): void {
     this.circuitBreakerFailbackBackgroundRefresher = setInterval(() => {
@@ -327,7 +335,7 @@ export class GlobalPartitionEndpointManager {
         try {
           await this.tryOpenConnectionToUnhealthyEndpointsAndInitiateFailbackAsync();
         } catch (err) {
-          throw new ErrorResponse(err.message);
+          console.error("Failed to open connection to unhealthy endpoints: ", err);
         }
       })();
     }, Constants.StalePartitionUnavailabilityRefreshIntervalInMs);
@@ -360,7 +368,7 @@ export class GlobalPartitionEndpointManager {
     }
 
     if (pkRangeToEndpointMappings.size > 0) {
-      await this.backgroundOpenConnectionTask(pkRangeToEndpointMappings);
+      this.backgroundOpenConnectionTask(pkRangeToEndpointMappings);
 
       for (const pkRange of pkRangeToEndpointMappings.keys()) {
         const [_, currentHealthState] = pkRangeToEndpointMappings.get(pkRange);
@@ -376,7 +384,7 @@ export class GlobalPartitionEndpointManager {
    * Attempts to mark the unhealthy endpoints for a faulty partition to healthy state, un-deterministically. This is done
    * specifically for the gateway mode to get the faulty partition failed back to the original location.
    */
-  private async backgroundOpenConnectionTask(
+  private backgroundOpenConnectionTask(
     pkRangeToEndpointMappings: Map<string, [string, HealthStatus]>,
   ): Promise<void> {
     for (const [pkRange, [originalFailedLocation, _]] of pkRangeToEndpointMappings) {
@@ -400,7 +408,6 @@ export class PartitionKeyRangeFailoverInfo {
   private lastRequestFailureTime: number = Date.now();
 
   private failureCountSemaphore: semaphore.Semaphore;
-  private timestampSemaphore: semaphore.Semaphore;
   private tryMoveNextLocationSemaphore: semaphore.Semaphore;
 
   /**
@@ -410,10 +417,13 @@ export class PartitionKeyRangeFailoverInfo {
     this.currentEndPoint = currentEndpoint;
     this.firstFailedEndPoint = currentEndpoint;
     this.failureCountSemaphore = semaphore(1);
-    this.timestampSemaphore = semaphore(1);
     this.tryMoveNextLocationSemaphore = semaphore(1);
   }
 
+  /**
+   * Checks if the circuit breaker can trigger a partition failover based on the failure counts.
+   * Returns true if the number of consecutive failures exceeds the defined thresholds for read or write requests.
+   */
   public async CanCircuitBreakerTriggerPartitionFailOver(
     isReadOnlyRequest: boolean,
   ): Promise<boolean> {
@@ -425,16 +435,23 @@ export class PartitionKeyRangeFailoverInfo {
       : consecutiveWriteRequestFailureCount > Constants.WriteRequestFailureCounterThreshold;
   }
 
+  /**
+   * Increments the failure counts for read or write requests and updates the timestamps.
+   * If the time since the last failure exceeds the reset window, it resets the failure counts.
+   */
   public async incrementRequestFailureCounts(
     isReadOnlyRequest: boolean,
-    currentTime: number,
+    currentTimeInMiliseconds: number,
   ): Promise<void> {
     return new Promise<void>((resolve, reject) => {
       this.failureCountSemaphore.take(async () => {
         try {
           const { lastRequestFailureTime } = await this.snapshotPartitionFailoverTimestamps();
 
-          if (currentTime - lastRequestFailureTime > Constants.TimeoutCounterResetWindow) {
+          if (
+            currentTimeInMiliseconds - lastRequestFailureTime >
+            Constants.ConsecutiveFailureCountResetInterval
+          ) {
             this.consecutiveReadRequestFailureCount = 0;
             this.consecutiveWriteRequestFailureCount = 0;
           }
@@ -444,7 +461,7 @@ export class PartitionKeyRangeFailoverInfo {
           } else {
             this.consecutiveWriteRequestFailureCount++;
           }
-          this.lastRequestFailureTime = currentTime;
+          this.lastRequestFailureTime = currentTimeInMiliseconds;
           return resolve();
         } catch (error) {
           reject(error);
@@ -456,45 +473,41 @@ export class PartitionKeyRangeFailoverInfo {
     });
   }
 
+  /**
+   * Returns a snapshot of the current consecutive request failure counts for read and write requests.
+   * This method is used to retrieve the current state of failure counts without modifying them.
+   */
   public async snapshotConsecutiveRequestFailureCount(): Promise<{
     consecutiveReadRequestFailureCount: number;
     consecutiveWriteRequestFailureCount: number;
   }> {
-    return new Promise((resolve, reject) => {
-      this.failureCountSemaphore.take(() => {
-        try {
-          const consecutiveReadRequestFailureCount = this.consecutiveReadRequestFailureCount;
-          const consecutiveWriteRequestFailureCount = this.consecutiveWriteRequestFailureCount;
-          resolve({ consecutiveReadRequestFailureCount, consecutiveWriteRequestFailureCount });
-        } catch (err) {
-          reject(err);
-        } finally {
-          this.failureCountSemaphore.leave();
-        }
-      });
-    });
+    return {
+      consecutiveReadRequestFailureCount: this.consecutiveReadRequestFailureCount,
+      consecutiveWriteRequestFailureCount: this.consecutiveWriteRequestFailureCount,
+    };
   }
 
+  /**
+   * Returns a snapshot of the first and last request failure timestamps.
+   * This method is used to retrieve the current state of failure timestamps without modifying them.
+   */
   public async snapshotPartitionFailoverTimestamps(): Promise<{
     firstRequestFailureTime: number;
     lastRequestFailureTime: number;
   }> {
-    return new Promise((resolve, reject) => {
-      this.timestampSemaphore.take(() => {
-        try {
-          const firstRequestFailureTime = this.firstRequestFailureTime;
-          const lastRequestFailureTime = this.lastRequestFailureTime;
-          resolve({ firstRequestFailureTime, lastRequestFailureTime });
-        } catch (err) {
-          reject(err);
-        } finally {
-          this.timestampSemaphore.leave();
-        }
-      });
-    });
+    return {
+      firstRequestFailureTime: this.firstRequestFailureTime,
+      lastRequestFailureTime: this.lastRequestFailureTime,
+    };
   }
 
-  public async TryMoveNextLocation(
+  /**
+   * Attempts to move to the next available location for the partition key range.
+   * If the current endpoint is the same as the failed endpoint, it tries to find a new endpoint
+   * from the provided list of endpoints. If a new endpoint is found, it updates the current endpoint
+   * and returns true. If no new endpoint is found, it returns false.
+   */
+  public async tryMoveNextLocation(
     endPoints: readonly string[],
     failedEndPoint: string,
   ): Promise<boolean> {

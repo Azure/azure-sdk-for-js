@@ -152,8 +152,7 @@ export class Items {
       correlatedActivityId: string,
     ) => {
       const pk = convertToInternalPartitionKey(options.partitionKey);
-      const isPartitionLevelFailOverEnabled =
-        this.clientContext.getIsPartitionLevelFailOverEnabled();
+      const isPartitionLevelFailOverEnabled = this.clientContext.isPartitionLevelFailOverEnabled();
       const partitionKeyRangeId = await computePartitionKeyRangeId(
         diagnosticNode,
         pk,
@@ -536,7 +535,7 @@ export class Items {
         const id = getIdFromLink(this.container.url);
 
         const isPartitionLevelFailOverEnabled =
-          this.clientContext.getIsPartitionLevelFailOverEnabled();
+          this.clientContext.isPartitionLevelFailOverEnabled();
         const partitionKeyRangeId = await computePartitionKeyRangeId(
           diagnosticNode,
           partitionKey,
@@ -703,7 +702,7 @@ export class Items {
         const id = getIdFromLink(this.container.url);
 
         const isPartitionLevelFailOverEnabled =
-          this.clientContext.getIsPartitionLevelFailOverEnabled();
+          this.clientContext.isPartitionLevelFailOverEnabled();
         const partitionKeyRangeId = await computePartitionKeyRangeId(
           diagnosticNode,
           partitionKey,
@@ -1204,7 +1203,7 @@ export class Items {
         }
 
         const isPartitionLevelFailOverEnabled =
-          this.clientContext.getIsPartitionLevelFailOverEnabled();
+          this.clientContext.isPartitionLevelFailOverEnabled();
         const partitionKeyRangeId = await computePartitionKeyRangeId(
           diagnosticNode,
           partitionKey,

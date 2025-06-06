@@ -57,7 +57,7 @@ export class EndpointDiscoveryRetryPolicy implements RetryPolicy {
     }
 
     if (
-      await this.globalPartitionEndpointManager.tryMarkEndpointUnavailableForPartitionKeyRange(
+      await this.globalPartitionEndpointManager.checkRequestEligibilityAndTryMarkEndpointUnavailableForPartitionKeyRange(
         requestContext,
       )
     ) {

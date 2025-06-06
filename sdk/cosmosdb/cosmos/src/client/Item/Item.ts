@@ -131,7 +131,7 @@ export class Item {
         const id = getIdFromLink(url);
 
         const isPartitionLevelFailOverEnabled =
-          this.clientContext.getIsPartitionLevelFailOverEnabled();
+          this.clientContext.isPartitionLevelFailOverEnabled();
         const partitionKeyRangeId = await computePartitionKeyRangeId(
           diagnosticNode,
           partitionKey,
@@ -300,7 +300,7 @@ export class Item {
         const id = getIdFromLink(url);
 
         const isPartitionLevelFailOverEnabled =
-          this.clientContext.getIsPartitionLevelFailOverEnabled();
+          this.clientContext.isPartitionLevelFailOverEnabled();
         const partitionKeyRangeId = await computePartitionKeyRangeId(
           diagnosticNode,
           partitionKey,
@@ -426,7 +426,7 @@ export class Item {
         const id = getIdFromLink(url);
 
         const isPartitionLevelFailOverEnabled =
-          this.clientContext.getIsPartitionLevelFailOverEnabled();
+          this.clientContext.isPartitionLevelFailOverEnabled();
         const partitionKeyRangeId = await computePartitionKeyRangeId(
           diagnosticNode,
           partitionKey,
@@ -566,7 +566,7 @@ export class Item {
         const id = getIdFromLink(url);
 
         const isPartitionLevelFailOverEnabled =
-          this.clientContext.getIsPartitionLevelFailOverEnabled();
+          this.clientContext.isPartitionLevelFailOverEnabled();
         const partitionKeyRangeId = await computePartitionKeyRangeId(
           diagnosticNode,
           partitionKey,

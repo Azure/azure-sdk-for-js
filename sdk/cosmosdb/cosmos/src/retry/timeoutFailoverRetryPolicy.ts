@@ -66,6 +66,8 @@ export class TimeoutFailoverRetryPolicy implements RetryPolicy {
     if (!retryContext || !locationEndpoint) {
       return false;
     }
+
+    // TODO: ujjwal check this
     // Check if the error is a timeout error (TimeoutErrorCode) and if it is not a valid HTTP network timeout request
     if (err.code === TimeoutErrorCode && !this.isValidRequestForTimeoutError()) {
       return false;
@@ -74,7 +76,7 @@ export class TimeoutFailoverRetryPolicy implements RetryPolicy {
     // Mark the partition as unavailable.
     // Let the Retry logic decide if the request should be retried
     if (requestContext) {
-      await this.globalPartitionEndpointManager.tryMarkEndpointUnavailableForPartitionKeyRange(
+      await this.globalPartitionEndpointManager.checkRequestEligibilityAndTryMarkEndpointUnavailableForPartitionKeyRange(
         requestContext,
       );
     }
