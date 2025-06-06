@@ -178,7 +178,7 @@ const queueServiceClient = QueueServiceClient.fromConnectionString(connectionStr
 
 #### with `StorageSharedKeyCredential`
 
-Alternatively, you instantiate a `QueueServiceClient` with a `StorageSharedKeyCredential` by passing account-name and account-key as arguments. (The account-name and account-key can be obtained from the azure portal.)
+Alternatively, you instantiate a `QueueServiceClient` with a `StorageSharedKeyCredential` by passing `accountName` and `accountKey` as arguments. (The values of account name and account key can be obtained from the azure portal.)
 [ONLY AVAILABLE IN NODE.JS RUNTIME]
 
 ```ts snippet:ReadmeSampleCreateClient_StorageSharedKeyCredential
