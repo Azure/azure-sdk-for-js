@@ -52,7 +52,6 @@ export class AzureMonitorStatsbeatExporter
         // Filter out metrics where all values are zero
         return metrics.some((metric: any) => metric.value !== 0);
       }
-      // Keep non-metric envelopes
       return true;
     });
   }

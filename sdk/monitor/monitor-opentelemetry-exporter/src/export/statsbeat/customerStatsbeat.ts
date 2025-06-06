@@ -20,14 +20,11 @@ import { AzureMonitorStatsbeatExporter } from "./statsbeatExporter.js";
  *
  * Implements a singleton pattern to ensure only one set of customer statsbeat metrics
  * is exported every 15 minutes, regardless of the number of exporters or senders.
- *
- * Use `CustomerStatsbeatMetrics.getInstance()` to get a reference to the shared instance.
- * Use `CustomerStatsbeatMetrics.shutdown()` to shut down the singleton instance.
  */
 export class CustomerStatsbeatMetrics extends StatsbeatMetrics {
   private static _instance: CustomerStatsbeatMetrics | undefined;
 
-  private statsCollectionInterval: number = 30000; // 15 minutes
+  private statsCollectionInterval: number = 900000; // 15 minutes
   private customerStatsbeatMeter: Meter;
   private customerStatsbeatMeterProvider: MeterProvider;
   private customerStatsbeatExporter: AzureMonitorStatsbeatExporter;
@@ -61,7 +58,7 @@ export class CustomerStatsbeatMetrics extends StatsbeatMetrics {
     // Exports Customer Statsbeat every 15 minutes
     const customerMetricReaderOptions: PeriodicExportingMetricReaderOptions = {
       exporter: this.customerStatsbeatExporter,
-      exportIntervalMillis: options.networkCollectionInterval || this.statsCollectionInterval, // Using network interval option for customer metrics
+      exportIntervalMillis: options.networkCollectionInterval || this.statsCollectionInterval,
     };
     this.customerStatsbeatMetricReader = new PeriodicExportingMetricReader(
       customerMetricReaderOptions,
@@ -145,8 +142,6 @@ export class CustomerStatsbeatMetrics extends StatsbeatMetrics {
   private async initialize(): Promise<void> {
     try {
       await super.getResourceProvider();
-
-      // Add customer statsbeat observable callbacks
       this.customerStatsbeatMeter.addBatchObservableCallback(this.itemSuccessCallback.bind(this), [
         this.itemSuccessCountGauge,
       ]);
@@ -163,13 +158,11 @@ export class CustomerStatsbeatMetrics extends StatsbeatMetrics {
 
   // Observable gauge callbacks
   private itemSuccessCallback(observableResult: BatchObservableResult): void {
-    // Only send metrics if count is greater than zero
     const counter: CustomerStatsbeat = this.customerStatsbeatCounter;
     const attributes = { ...this.customerProperties, telemetry_type: TelemetryType.UNKNOWN };
 
     // For each { telemetry_type -> count } mapping, call observe, passing the count and attributes that include the telemetry_type
     for (let i = 0; i < counter.totalItemSuccessCount.length; i++) {
-      // Only send metrics if count is greater than zero
       attributes.telemetry_type = counter.totalItemSuccessCount[i].telemetry_type;
       observableResult.observe(this.itemSuccessCountGauge, counter.totalItemSuccessCount[i].count, {
         ...attributes,
@@ -179,7 +172,6 @@ export class CustomerStatsbeatMetrics extends StatsbeatMetrics {
   }
 
   private itemDropCallback(observableResult: BatchObservableResult): void {
-    // Only send metrics if count is greater than zero
     const counter: CustomerStatsbeat = this.customerStatsbeatCounter;
     const baseAttributes = { ...this.customerProperties, "drop.code": DropCode.UNKNOWN };
 
@@ -244,10 +236,8 @@ export class CustomerStatsbeatMetrics extends StatsbeatMetrics {
     );
 
     if (existingEntry) {
-      // Increment the existing entry's count
       existingEntry.count += envelopes;
     } else {
-      // Create a new entry
       counter.totalItemSuccessCount.push({ count: envelopes, telemetry_type });
     }
   }
@@ -267,10 +257,8 @@ export class CustomerStatsbeatMetrics extends StatsbeatMetrics {
     );
 
     if (existingEntry) {
-      // Increment the existing entry's count
       existingEntry.count += envelopes;
     } else {
-      // Create a new entry
       const newEntry: { count: number; "drop.code": DropCode; "exception.message"?: string } = {
         count: envelopes,
         "drop.code": dropCode,
@@ -299,10 +287,8 @@ export class CustomerStatsbeatMetrics extends StatsbeatMetrics {
     );
 
     if (existingEntry) {
-      // Increment the existing entry's count
       existingEntry.count += envelopes;
     } else {
-      // Create a new entry
       const newEntry: { count: number; "retry.code": RetryCode; "exception.message"?: string } = {
         count: envelopes,
         "retry.code": retryCode,
