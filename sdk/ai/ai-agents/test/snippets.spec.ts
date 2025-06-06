@@ -48,7 +48,7 @@ describe("snippets", function () {
 
   it("toolSet", async function () {
     // Upload file for code interpreter tool
-    const filePath1 = "./data/nifty500QuarterlyResults.csv";
+    const filePath1 = "./data/syntheticCompanyQuarterlyResults.csv";
     const fileStream1 = fs.createReadStream(filePath1);
     const codeInterpreterFile = await client.files.upload(fileStream1, "assistants", {
       fileName: "myLocalFile",
@@ -112,7 +112,7 @@ describe("snippets", function () {
   });
 
   it("codeInterpreter", async function () {
-    const filePath = "./data/nifty500QuarterlyResults.csv";
+    const filePath = "./data/syntheticCompanyQuarterlyResults.csv";
     const localFileStream = fs.createReadStream(filePath);
     const localFile = await client.files.upload(localFileStream, "assistants", {
       fileName: "localFile",
@@ -329,7 +329,7 @@ describe("snippets", function () {
   });
 
   it("threadWithTool", async function () {
-    const filePath = "./data/nifty500QuarterlyResults.csv";
+    const filePath = "./data/syntheticCompanyQuarterlyResults.csv";
     const localFileStream = fs.createReadStream(filePath);
     const file = await client.files.upload(localFileStream, "assistants", {
       fileName: "sample_file_for_upload.csv",

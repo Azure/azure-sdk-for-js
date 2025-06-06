@@ -110,7 +110,7 @@ You can use `ToolSet` to do this:
 import { ToolSet } from "@azure/ai-agents";
 
 // Upload file for code interpreter tool
-const filePath1 = "./data/nifty500QuarterlyResults.csv";
+const filePath1 = "./data/syntheticCompanyQuarterlyResults.csv";
 const fileStream1 = fs.createReadStream(filePath1);
 const codeInterpreterFile = await client.files.upload(fileStream1, "assistants", {
   fileName: "myLocalFile",
@@ -182,7 +182,7 @@ Here is an example to upload a file and use it for code interpreter by an Agent:
 ```ts snippet:codeInterpreter
 import { ToolUtility } from "@azure/ai-agents";
 
-const filePath = "./data/nifty500QuarterlyResults.csv";
+const filePath = "./data/syntheticCompanyQuarterlyResults.csv";
 const localFileStream = fs.createReadStream(filePath);
 const localFile = await client.files.upload(localFileStream, "assistants", {
   fileName: "localFile",
@@ -452,7 +452,7 @@ In some scenarios, you might need to assign specific resources to individual thr
 ```ts snippet:threadWithTool
 import { ToolUtility } from "@azure/ai-agents";
 
-const filePath = "./data/nifty500QuarterlyResults.csv";
+const filePath = "./data/syntheticCompanyQuarterlyResults.csv";
 const localFileStream = fs.createReadStream(filePath);
 const file = await client.files.upload(localFileStream, "assistants", {
   fileName: "sample_file_for_upload.csv",

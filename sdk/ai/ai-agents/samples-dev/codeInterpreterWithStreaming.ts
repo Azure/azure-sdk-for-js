@@ -31,12 +31,12 @@ export async function main(): Promise<void> {
  // Create an Azure AI Client
  const client = new AgentsClient(projectEndpoint, new DefaultAzureCredential());
 
- // Upload file and wait for it to be processed
- const filePath = "./data/nifty500QuarterlyResults.csv";
- const localFileStream = fs.createReadStream(filePath);
- const localFile = await client.files.upload(localFileStream, "assistants", {
-   fileName: "myLocalFile",
- });
+  // Upload file and wait for it to be processed
+  const filePath = "./data/syntheticCompanyQuarterlyResults.csv";
+  const localFileStream = fs.createReadStream(filePath);
+  const localFile = await client.files.upload(localFileStream, "assistants", {
+    fileName: "myLocalFile",
+  });
 
  console.log(`Uploaded local file, file ID : ${localFile.id}`);
 

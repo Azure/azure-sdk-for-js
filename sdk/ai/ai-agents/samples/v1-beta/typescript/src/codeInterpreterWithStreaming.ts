@@ -37,7 +37,7 @@ export async function main(): Promise<void> {
   const client = new AgentsClient(projectEndpoint, new DefaultAzureCredential());
 
   // Upload file and wait for it to be processed
-  const filePath = "./data/nifty500QuarterlyResults.csv";
+  const filePath = "./data/syntheticCompanyQuarterlyResults.csv";
   const localFileStream = fs.createReadStream(filePath);
   const localFile = await client.files.upload(localFileStream, "assistants", {
     fileName: "myLocalFile",
