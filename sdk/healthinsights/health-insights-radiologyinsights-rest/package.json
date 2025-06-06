@@ -54,7 +54,7 @@
     "@azure-rest/core-client": "workspace:^",
     "@azure/abort-controller": "workspace:^",
     "@azure/core-auth": "workspace:^",
-    "@azure/core-lro": "catalog:corelrov2",
+    "@azure/core-lro": "workspace:^",
     "@azure/core-rest-pipeline": "workspace:^",
     "@azure/logger": "workspace:^",
     "tslib": "catalog:"
