@@ -5,6 +5,8 @@ import type { AzureLogger } from "@azure/logger";
 import { createClientLogger } from "@azure/logger";
 import type { AmqpError } from "rhea-promise";
 import { isObjectWithProperties } from "@azure/core-util";
+import { isMessagingError } from "@azure/core-amqp";
+import { translateServiceBusError } from "./serviceBusError.js";
 
 /**
  * The `@azure/logger` configuration for this package.
@@ -82,6 +84,14 @@ export interface ServiceBusLogger extends AzureLogger {
   logError(err: Error | AmqpError | undefined, ...args: any[]): void;
 }
 
+function isRetryableError(error: any): error is AmqpError {
+  if (!isError(error)) {
+    return false;
+  }
+  const translatedError = translateServiceBusError(error);
+  return isMessagingError(translatedError) && translatedError.retryable;
+}
+
 /**
  * Creates an AzureLogger with any additional methods for standardized logging (for example, with errors)
  * @internal
@@ -95,6 +105,12 @@ export function createServiceBusLogger(namespace: string): ServiceBusLogger {
     // abort errors are user initiated so we don't have to treat them as warnings, like we
     // would with other errors.
     if (isError(err) && err.name === "AbortError") {
+      l = _logger.info;
+    } else {
+      l = _logger.warning;
+    }
+
+    if (isRetryableError(err)) {
       l = _logger.info;
     } else {
       l = _logger.warning;
