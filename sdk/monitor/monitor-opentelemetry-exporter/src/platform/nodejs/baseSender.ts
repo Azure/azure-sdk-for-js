@@ -382,43 +382,37 @@ export abstract class BaseSender {
   }
 
   private countSuccessfulEnvelopes(envelopes: Envelope[]): void {
-    for (const envelope of envelopes) {
-      if (envelope.data && envelope.data.baseType === "MessageData") {
-        this.customerStatsbeatMetrics?.countSuccessfulItems(1, TelemetryType.TRACE);
-      }
-      if (envelope.data && envelope.data.baseType === "AvailabilityData") {
-        this.customerStatsbeatMetrics?.countSuccessfulItems(1, TelemetryType.AVAILABILITY);
-      }
-      if (envelope.data && envelope.data.baseType === "TelemetryEventData") {
-        this.customerStatsbeatMetrics?.countSuccessfulItems(1, TelemetryType.CUSTOM_EVENT);
-      }
-      if (envelope.data && envelope.data.baseType === "TelemetryExceptionData") {
-        this.customerStatsbeatMetrics?.countSuccessfulItems(1, TelemetryType.EXCEPTION);
-      }
-      if (envelope.data && envelope.data.baseType === "PageViewData") {
-        this.customerStatsbeatMetrics?.countSuccessfulItems(1, TelemetryType.PAGE_VIEW);
-      }
-      if (envelope.data && envelope.data.baseType === "RemoteDependencyData") {
-        this.customerStatsbeatMetrics?.countSuccessfulItems(1, TelemetryType.DEPENDENCY);
-      }
-      if (envelope.data && envelope.data.baseType === "RequestData") {
-        this.customerStatsbeatMetrics?.countSuccessfulItems(1, TelemetryType.REQUEST);
-      }
-      if (envelope.data && envelope.data.baseType === "MetricData") {
-        const metricsData = envelope.data.baseData as MetricsData;
-        if (metricsData && metricsData.metrics && metricsData.metrics.length > 0) {
-          // Check if any of the metrics are performance counters
-          const hasPerformanceCounter = metricsData.metrics.some((metric) =>
-            isPerformanceCounterMetric(metric.name),
-          );
+    const telemetryTypeMapping: Record<string, TelemetryType> = {
+      MessageData: TelemetryType.TRACE,
+      AvailabilityData: TelemetryType.AVAILABILITY,
+      TelemetryEventData: TelemetryType.CUSTOM_EVENT,
+      TelemetryExceptionData: TelemetryType.EXCEPTION,
+      PageViewData: TelemetryType.PAGE_VIEW,
+      RemoteDependencyData: TelemetryType.DEPENDENCY,
+      RequestData: TelemetryType.REQUEST,
+    };
 
-          if (hasPerformanceCounter) {
-            this.customerStatsbeatMetrics?.countSuccessfulItems(
-              1,
-              TelemetryType.PERFORMANCE_COUNTER,
+    for (const envelope of envelopes) {
+      if (envelope.data) {
+        const telemetryType = telemetryTypeMapping[envelope.data.baseType];
+        if (telemetryType) {
+          this.customerStatsbeatMetrics?.countSuccessfulItems(1, telemetryType);
+        } else if (envelope.data.baseType === "MetricData") {
+          const metricsData = envelope.data.baseData as MetricsData;
+          if (metricsData && metricsData.metrics && metricsData.metrics.length > 0) {
+            // Check if any of the metrics are performance counters
+            const hasPerformanceCounter = metricsData.metrics.some((metric) =>
+              isPerformanceCounterMetric(metric.name),
             );
-          } else {
-            this.customerStatsbeatMetrics?.countSuccessfulItems(1, TelemetryType.CUSTOM_METRIC);
+
+            if (hasPerformanceCounter) {
+              this.customerStatsbeatMetrics?.countSuccessfulItems(
+                1,
+                TelemetryType.PERFORMANCE_COUNTER,
+              );
+            } else {
+              this.customerStatsbeatMetrics?.countSuccessfulItems(1, TelemetryType.CUSTOM_METRIC);
+            }
           }
         }
       }
