@@ -45,12 +45,12 @@ export function accountSasPermissionsFromString(permissions: string): AccountSas
  * Using this method will guarantee the resource types are in
  * an order accepted by the service.
  *
- * @see https://learn.microsoft.com/en-us/rest/api/storageservices/constructing-an-account-sas
+ * @see https://learn.microsoft.com/rest/api/storageservices/constructing-an-account-sas
  *
  */
 export function accountSasPermissionsToString(permissions: AccountSasPermissions): string {
   // The order of the characters should be as specified here to ensure correctness:
-  // https://learn.microsoft.com/en-us/rest/api/storageservices/constructing-an-account-sas
+  // https://learn.microsoft.com/rest/api/storageservices/constructing-an-account-sas
   // Use a string array instead of string concatenating += operator for performance
   const permissionString: string[] = [];
   if (permissions.query) {

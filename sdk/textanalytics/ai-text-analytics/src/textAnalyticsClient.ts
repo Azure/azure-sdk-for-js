@@ -685,7 +685,7 @@ export class TextAnalyticsClient {
    * and categorize those entities into types such as US social security
    * number, drivers license number, or credit card number.
    * For a list of languages supported by this operation, @see
-   * {@link https://learn.microsoft.com/en-us/azure/cognitive-services/text-analytics/language-support}.
+   * {@link https://learn.microsoft.com/azure/cognitive-services/text-analytics/language-support}.
    * @param inputs - The input strings to analyze.
    * @param language - The language that all the input strings are
         written in. If unspecified, this value will be set to the default
@@ -705,7 +705,7 @@ export class TextAnalyticsClient {
    * and categorize those entities into types such as US social security
    * number, drivers license number, or credit card number.
    * For a list of languages supported by this operation, @see
-   * {@link https://learn.microsoft.com/en-us/azure/cognitive-services/text-analytics/language-support}.
+   * {@link https://learn.microsoft.com/azure/cognitive-services/text-analytics/language-support}.
    * @param inputs - The input documents to analyze.
    * @param options - Optional parameters for the operation.
    */

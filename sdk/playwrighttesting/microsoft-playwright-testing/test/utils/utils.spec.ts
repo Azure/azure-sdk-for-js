@@ -250,7 +250,7 @@ describe("Service Utils", () => {
     const expirationTime = fiveDaysFromNow * 1000;
     const daysToExpiration = Math.ceil((expirationTime - currentTime) / (24 * 60 * 60 * 1000));
     const expirationDate = new Date(expirationTime).toLocaleDateString();
-    const expirationWarning = `Warning: The access token used for this test run will expire in ${daysToExpiration} days on ${expirationDate}. Generate a new token from the portal to avoid failures. For a simpler, more secure solution, switch to Microsoft Entra ID and eliminate token management. https://learn.microsoft.com/en-us/entra/identity/`;
+    const expirationWarning = `Warning: The access token used for this test run will expire in ${daysToExpiration} days on ${expirationDate}. Generate a new token from the portal to avoid failures. For a simpler, more secure solution, switch to Microsoft Entra ID and eliminate token management. https://learn.microsoft.com/entra/identity/`;
     expect(consoleWarningSpy).toHaveBeenCalledOnce();
     expect(consoleWarningSpy).toHaveBeenCalledWith(expirationWarning);
     delete process.env[ServiceEnvironmentVariable.PLAYWRIGHT_SERVICE_ACCESS_TOKEN];

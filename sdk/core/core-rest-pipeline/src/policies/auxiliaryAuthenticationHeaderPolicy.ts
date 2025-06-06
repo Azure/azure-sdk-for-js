@@ -48,7 +48,7 @@ async function sendAuthorizeRequest(options: AuthorizeRequestOptions): Promise<s
  * A policy for external tokens to `x-ms-authorization-auxiliary` header.
  * This header will be used when creating a cross-tenant application we may need to handle authentication requests
  * for resources that are in different tenants.
- * You could see [ARM docs](https://learn.microsoft.com/en-us/azure/azure-resource-manager/management/authenticate-multi-tenant) for a rundown of how this feature works
+ * You could see [ARM docs](https://learn.microsoft.com/azure/azure-resource-manager/management/authenticate-multi-tenant) for a rundown of how this feature works
  */
 export function auxiliaryAuthenticationHeaderPolicy(
   options: AuxiliaryAuthenticationHeaderPolicyOptions,

@@ -212,7 +212,7 @@ export interface SignedIdentifier {
     expiresOn?: Date;
     /**
      * The permissions for the acl policy
-     * @see https://learn.microsoft.com/en-us/rest/api/storageservices/set-container-acl
+     * @see https://learn.microsoft.com/rest/api/storageservices/set-container-acl
      */
     permissions?: string;
   };
@@ -735,7 +735,7 @@ export class ContainerClient extends StorageClient {
   /**
    * Creates a new container under the specified account. If the container with
    * the same name already exists, the operation fails.
-   * @see https://learn.microsoft.com/en-us/rest/api/storageservices/create-container
+   * @see https://learn.microsoft.com/rest/api/storageservices/create-container
    * Naming rules: @see https://learn.microsoft.com/rest/api/storageservices/naming-and-referencing-containers--blobs--and-metadata
    *
    * @param options - Options to Container Create operation.
@@ -770,7 +770,7 @@ export class ContainerClient extends StorageClient {
   /**
    * Creates a new container under the specified account. If the container with
    * the same name already exists, it is not changed.
-   * @see https://learn.microsoft.com/en-us/rest/api/storageservices/create-container
+   * @see https://learn.microsoft.com/rest/api/storageservices/create-container
    * Naming rules: @see https://learn.microsoft.com/rest/api/storageservices/naming-and-referencing-containers--blobs--and-metadata
    *
    * @param options -
@@ -892,7 +892,7 @@ export class ContainerClient extends StorageClient {
   /**
    * Returns all user-defined metadata and system properties for the specified
    * container. The data returned does not include the container's list of blobs.
-   * @see https://learn.microsoft.com/en-us/rest/api/storageservices/get-container-properties
+   * @see https://learn.microsoft.com/rest/api/storageservices/get-container-properties
    *
    * WARNING: The `metadata` object returned in the response will have its keys in lowercase, even if
    * they originally contained uppercase characters. This differs from the metadata keys returned by
@@ -926,7 +926,7 @@ export class ContainerClient extends StorageClient {
   /**
    * Marks the specified container for deletion. The container and any blobs
    * contained within it are later deleted during garbage collection.
-   * @see https://learn.microsoft.com/en-us/rest/api/storageservices/delete-container
+   * @see https://learn.microsoft.com/rest/api/storageservices/delete-container
    *
    * @param options - Options to Container Delete operation.
    */
@@ -952,7 +952,7 @@ export class ContainerClient extends StorageClient {
   /**
    * Marks the specified container for deletion if it exists. The container and any blobs
    * contained within it are later deleted during garbage collection.
-   * @see https://learn.microsoft.com/en-us/rest/api/storageservices/delete-container
+   * @see https://learn.microsoft.com/rest/api/storageservices/delete-container
    *
    * @param options - Options to Container Delete operation.
    */
@@ -990,7 +990,7 @@ export class ContainerClient extends StorageClient {
    * If no option provided, or no metadata defined in the parameter, the container
    * metadata will be removed.
    *
-   * @see https://learn.microsoft.com/en-us/rest/api/storageservices/set-container-metadata
+   * @see https://learn.microsoft.com/rest/api/storageservices/set-container-metadata
    *
    * @param metadata - Replace existing metadata with this value.
    *                            If no value provided the existing metadata will be removed.
@@ -1034,7 +1034,7 @@ export class ContainerClient extends StorageClient {
    * WARNING: JavaScript Date will potentially lose precision when parsing startsOn and expiresOn strings.
    * For example, new Date("2018-12-31T03:44:23.8827891Z").toISOString() will get "2018-12-31T03:44:23.882Z".
    *
-   * @see https://learn.microsoft.com/en-us/rest/api/storageservices/get-container-acl
+   * @see https://learn.microsoft.com/rest/api/storageservices/get-container-acl
    *
    * @param options - Options to Container Get Access Policy operation.
    */
@@ -1112,7 +1112,7 @@ export class ContainerClient extends StorageClient {
    * When you establish a stored access policy on a container, it may take up to 30 seconds to take effect.
    * During this interval, a shared access signature that is associated with the stored access policy will
    * fail with status code 403 (Forbidden), until the access policy becomes active.
-   * @see https://learn.microsoft.com/en-us/rest/api/storageservices/set-container-acl
+   * @see https://learn.microsoft.com/rest/api/storageservices/set-container-acl
    *
    * @param access - The level of public access to data in the container.
    * @param containerAcl - Array of elements each having a unique Id and details of the access policy.
@@ -1215,7 +1215,7 @@ export class ContainerClient extends StorageClient {
    * during garbage collection. Note that in order to delete a blob, you must delete
    * all of its snapshots. You can delete both at the same time with the Delete
    * Blob operation.
-   * @see https://learn.microsoft.com/en-us/rest/api/storageservices/delete-blob
+   * @see https://learn.microsoft.com/rest/api/storageservices/delete-blob
    *
    * @param blobName -
    * @param options - Options to Blob Delete operation.
@@ -1997,7 +1997,7 @@ export class ContainerClient extends StorageClient {
    * for the specified account.
    * The Get Account Information operation is available on service versions beginning
    * with version 2018-03-28.
-   * @see https://learn.microsoft.com/en-us/rest/api/storageservices/get-account-information
+   * @see https://learn.microsoft.com/rest/api/storageservices/get-account-information
    *
    * @param options - Options to the Service Get Account Info operation.
    * @returns Response data for the Service Get Account Info operation.
@@ -2065,7 +2065,7 @@ export class ContainerClient extends StorageClient {
    * Generates a Blob Container Service Shared Access Signature (SAS) URI based on the client properties
    * and parameters passed in. The SAS is signed by the shared key credential of the client.
    *
-   * @see https://learn.microsoft.com/en-us/rest/api/storageservices/constructing-a-service-sas
+   * @see https://learn.microsoft.com/rest/api/storageservices/constructing-a-service-sas
    *
    * @param options - Optional parameters.
    * @returns The SAS URI consisting of the URI to the resource represented by this client, followed by the generated SAS token.
@@ -2096,7 +2096,7 @@ export class ContainerClient extends StorageClient {
    * Generates string to sign for a Blob Container Service Shared Access Signature (SAS) URI
    * based on the client properties and parameters passed in. The SAS is signed by the shared key credential of the client.
    *
-   * @see https://learn.microsoft.com/en-us/rest/api/storageservices/constructing-a-service-sas
+   * @see https://learn.microsoft.com/rest/api/storageservices/constructing-a-service-sas
    *
    * @param options - Optional parameters.
    * @returns The SAS URI consisting of the URI to the resource represented by this client, followed by the generated SAS token.
@@ -2122,7 +2122,7 @@ export class ContainerClient extends StorageClient {
    * Generates a Blob Container Service Shared Access Signature (SAS) URI based on the client properties
    * and parameters passed in. The SAS is signed by the input user delegation key.
    *
-   * @see https://learn.microsoft.com/en-us/rest/api/storageservices/constructing-a-service-sas
+   * @see https://learn.microsoft.com/rest/api/storageservices/constructing-a-service-sas
    *
    * @param options - Optional parameters.
    * @param userDelegationKey -  Return value of `blobServiceClient.getUserDelegationKey()`
@@ -2150,7 +2150,7 @@ export class ContainerClient extends StorageClient {
    * Generates string to sign for a Blob Container Service Shared Access Signature (SAS) URI
    * based on the client properties and parameters passed in. The SAS is signed by the input user delegation key.
    *
-   * @see https://learn.microsoft.com/en-us/rest/api/storageservices/constructing-a-service-sas
+   * @see https://learn.microsoft.com/rest/api/storageservices/constructing-a-service-sas
    *
    * @param options - Optional parameters.
    * @param userDelegationKey -  Return value of `blobServiceClient.getUserDelegationKey()`
@@ -2174,7 +2174,7 @@ export class ContainerClient extends StorageClient {
   /**
    * Creates a BlobBatchClient object to conduct batch operations.
    *
-   * @see https://learn.microsoft.com/en-us/rest/api/storageservices/blob-batch
+   * @see https://learn.microsoft.com/rest/api/storageservices/blob-batch
    *
    * @returns A new BlobBatchClient object for this container.
    */

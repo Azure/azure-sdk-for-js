@@ -57,7 +57,7 @@ export class AccountSASResourceTypes {
   /**
    * Converts the given resource types to a string.
    *
-   * @see https://learn.microsoft.com/en-us/rest/api/storageservices/constructing-an-account-sas
+   * @see https://learn.microsoft.com/rest/api/storageservices/constructing-an-account-sas
    *
    */
   public toString(): string {

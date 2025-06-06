@@ -641,7 +641,7 @@ export class SearchClient<TModel extends object> implements IndexDocumentsClient
    * This operation may partially succeed and not all document operations will
    * be reflected in the index. If you would like to treat this as an exception,
    * set the `throwOnAnyFailure` option to true.
-   * For more details about how merging works, see: https://learn.microsoft.com/en-us/rest/api/searchservice/AddUpdate-or-Delete-Documents
+   * For more details about how merging works, see: https://learn.microsoft.com/rest/api/searchservice/AddUpdate-or-Delete-Documents
    * @param batch - An array of actions to perform on the index.
    * @param options - Additional options.
    */
@@ -709,7 +709,7 @@ export class SearchClient<TModel extends object> implements IndexDocumentsClient
 
   /**
    * Update a set of documents in the index.
-   * For more details about how merging works, see https://learn.microsoft.com/en-us/rest/api/searchservice/AddUpdate-or-Delete-Documents
+   * For more details about how merging works, see https://learn.microsoft.com/rest/api/searchservice/AddUpdate-or-Delete-Documents
    * @param documents - The updated documents.
    * @param options - Additional options.
    */
@@ -737,7 +737,7 @@ export class SearchClient<TModel extends object> implements IndexDocumentsClient
 
   /**
    * Update a set of documents in the index or upload them if they don't exist.
-   * For more details about how merging works, see https://learn.microsoft.com/en-us/rest/api/searchservice/AddUpdate-or-Delete-Documents
+   * For more details about how merging works, see https://learn.microsoft.com/rest/api/searchservice/AddUpdate-or-Delete-Documents
    * @param documents - The updated documents.
    * @param options - Additional options.
    */

@@ -30,7 +30,7 @@ export async function main(): Promise<void> {
      * the latest generally availabe version of the model. When not specified,
      * latest will be assumed. Model versions are date based, e.g "2021-06-01".
      * See the documentation for a list of all model versions:
-     * https://learn.microsoft.com/en-us/azure/cognitive-services/language-service/concepts/model-lifecycle
+     * https://learn.microsoft.com/azure/cognitive-services/language-service/concepts/model-lifecycle
      */
     modelVersion: "latest",
     /**
@@ -53,7 +53,7 @@ export async function main(): Promise<void> {
          * the latest generally availabe version of the model. When not specified,
          * latest will be assumed. Model versions are date based, e.g "2022-03-01".
          * See the documentation for a list of all model versions:
-         * https://learn.microsoft.com/en-us/azure/cognitive-services/language-service/concepts/model-lifecycle
+         * https://learn.microsoft.com/azure/cognitive-services/language-service/concepts/model-lifecycle
          */
         modelVersion: "latest",
       },

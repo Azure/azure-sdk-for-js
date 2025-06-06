@@ -79,7 +79,7 @@ const redirectHash = isLocationDefined ? self.location.hash : undefined;
 
 /**
  * Uses MSAL Browser 2.X for browser authentication,
- * which uses the [Auth Code Flow](https://learn.microsoft.com/en-us/azure/active-directory/develop/v2-oauth2-auth-code-flow).
+ * which uses the [Auth Code Flow](https://learn.microsoft.com/azure/active-directory/develop/v2-oauth2-auth-code-flow).
  * @internal
  */
 export function createMsalBrowserClient(options: MsalBrowserFlowOptions): MsalBrowserClient {
