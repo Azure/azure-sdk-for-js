@@ -150,11 +150,6 @@ export abstract class BaseSender {
           // Create a list of successful envelopes by filtering out the failed ones for customer statsbeat
           const successfulEnvelopes: Envelope[] = [...envelopes];
 
-          // Figure out which items to retry and which were successful
-          // If we have a partial success, count the succeeded envelopes
-          if (breezeResponse.itemsAccepted > 0 && statusCode === 206) {
-            this.networkStatsbeatMetrics?.countSuccess(duration);
-          }
           // Figure out if we need to either retry or count failures
           if (breezeResponse.errors) {
             breezeResponse.errors.forEach((error) => {
@@ -169,7 +164,7 @@ export abstract class BaseSender {
           }
 
           // If we have a partial success, count the succeeded envelopes
-          if (breezeResponse.itemsReceived > 0) {
+          if (breezeResponse.itemsAccepted > 0) {
             this.networkStatsbeatMetrics?.countSuccess(duration);
             // Count only the successful envelopes (non-undefined)
             if (!this.isStatsbeatSender) {
