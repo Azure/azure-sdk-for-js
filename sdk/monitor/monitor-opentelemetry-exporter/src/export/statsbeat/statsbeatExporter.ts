@@ -74,10 +74,10 @@ export class AzureMonitorStatsbeatExporter
       this.instrumentationKey,
       true, // isStatsbeat flag passed to create a Statsbeat envelope.
     );
-    
+
     // Filter out zero-value metrics before export
     const filteredEnvelopes = this.filterZeroValueMetrics(envelopes);
-    
+
     // Supress tracing until OpenTelemetry Metrics SDK support it
     context.with(suppressTracing(context.active()), async () => {
       resultCallback(await this._sender.exportEnvelopes(filteredEnvelopes));

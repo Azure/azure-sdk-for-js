@@ -170,17 +170,11 @@ export class CustomerStatsbeatMetrics extends StatsbeatMetrics {
     // For each { telemetry_type -> count } mapping, call observe, passing the count and attributes that include the telemetry_type
     for (let i = 0; i < counter.totalItemSuccessCount.length; i++) {
       // Only send metrics if count is greater than zero
-      // if (counter.totalItemSuccessCount[i].count > 0) {
-        attributes.telemetry_type = counter.totalItemSuccessCount[i].telemetry_type;
-        observableResult.observe(
-          this.itemSuccessCountGauge,
-          counter.totalItemSuccessCount[i].count,
-          {
-            ...attributes,
-          },
-        );
-        counter.totalItemSuccessCount[i].count = 0;
-      // }
+      attributes.telemetry_type = counter.totalItemSuccessCount[i].telemetry_type;
+      observableResult.observe(this.itemSuccessCountGauge, counter.totalItemSuccessCount[i].count, {
+        ...attributes,
+      });
+      counter.totalItemSuccessCount[i].count = 0;
     }
   }
 
@@ -191,25 +185,22 @@ export class CustomerStatsbeatMetrics extends StatsbeatMetrics {
 
     // For each { drop.code -> count } mapping, call observe, passing the count and attributes that include the drop.code
     for (let i = 0; i < counter.totalItemDropCount.length; i++) {
-      // Only send metrics if count is greater than zero
-      if (counter.totalItemDropCount[i].count > 0) {
-        const attributes = { ...baseAttributes };
-        attributes["drop.code"] = counter.totalItemDropCount[i]["drop.code"];
+      const attributes = { ...baseAttributes };
+      attributes["drop.code"] = counter.totalItemDropCount[i]["drop.code"];
 
-        // Add exception.message only for CLIENT_EXCEPTION drop code
-        if (
-          counter.totalItemDropCount[i]["drop.code"] === DropCode.CLIENT_EXCEPTION &&
-          counter.totalItemDropCount[i]["exception.message"]
-        ) {
-          (attributes as any)["exception.message"] =
-            counter.totalItemDropCount[i]["exception.message"];
-        }
-
-        observableResult.observe(this.itemDropCountGauge, counter.totalItemDropCount[i].count, {
-          ...attributes,
-        });
-        counter.totalItemDropCount[i].count = 0;
+      // Add exception.message only for CLIENT_EXCEPTION drop code
+      if (
+        counter.totalItemDropCount[i]["drop.code"] === DropCode.CLIENT_EXCEPTION &&
+        counter.totalItemDropCount[i]["exception.message"]
+      ) {
+        (attributes as any)["exception.message"] =
+          counter.totalItemDropCount[i]["exception.message"];
       }
+
+      observableResult.observe(this.itemDropCountGauge, counter.totalItemDropCount[i].count, {
+        ...attributes,
+      });
+      counter.totalItemDropCount[i].count = 0;
     }
   }
 
@@ -219,25 +210,22 @@ export class CustomerStatsbeatMetrics extends StatsbeatMetrics {
 
     // For each { retry.code -> count } mapping, call observe, passing the count and attributes that include the retry.code
     for (let i = 0; i < counter.totalItemRetryCount.length; i++) {
-      // Only send metrics if count is greater than zero
-      if (counter.totalItemRetryCount[i].count > 0) {
-        const attributes = { ...baseAttributes };
-        attributes["retry.code"] = counter.totalItemRetryCount[i]["retry.code"];
+      const attributes = { ...baseAttributes };
+      attributes["retry.code"] = counter.totalItemRetryCount[i]["retry.code"];
 
-        // Add exception.message only for CLIENT_EXCEPTION retry code
-        if (
-          counter.totalItemRetryCount[i]["retry.code"] === RetryCode.CLIENT_EXCEPTION &&
-          counter.totalItemRetryCount[i]["exception.message"]
-        ) {
-          (attributes as any)["exception.message"] =
-            counter.totalItemRetryCount[i]["exception.message"];
-        }
-
-        observableResult.observe(this.itemRetryCountGauge, counter.totalItemRetryCount[i].count, {
-          ...attributes,
-        });
-        counter.totalItemRetryCount[i].count = 0;
+      // Add exception.message only for CLIENT_EXCEPTION retry code
+      if (
+        counter.totalItemRetryCount[i]["retry.code"] === RetryCode.CLIENT_EXCEPTION &&
+        counter.totalItemRetryCount[i]["exception.message"]
+      ) {
+        (attributes as any)["exception.message"] =
+          counter.totalItemRetryCount[i]["exception.message"];
       }
+
+      observableResult.observe(this.itemRetryCountGauge, counter.totalItemRetryCount[i].count, {
+        ...attributes,
+      });
+      counter.totalItemRetryCount[i].count = 0;
     }
   }
 
