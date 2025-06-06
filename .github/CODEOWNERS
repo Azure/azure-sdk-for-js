@@ -135,6 +135,11 @@
 # ServiceLabel: %Digital Twins
 /sdk/digitaltwins/ @sjiherzig @johngallardo @olivakar
 
+# PRLabel: %Durable Task Scheduler
+# ServiceLabel: %Durable Task Scheduler
+/sdk/durabletask/ @berndverst @kaibocai @torosent @RyanLettieri @philliphoff @cgillum
+# ServiceOwners: @berndverst @kaibocai @torosent @RyanLettieri @philliphoff @cgillum
+
 # PRLabel: %Event Grid
 /sdk/eventgrid/ @jeremymeng
 
