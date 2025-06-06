@@ -1941,6 +1941,16 @@
       "versionPolicyName": "client"
     },
     {
+      "packageName": "@azure/create-playwright",
+      "projectFolder": "sdk/loadtesting/create-playwright",
+      "versionPolicyName": "client"
+    },
+    {
+      "packageName": "@azure/playwright",
+      "projectFolder": "sdk/loadtesting/playwright",
+      "versionPolicyName": "client"
+    },
+    {
       "packageName": "@azure/arm-elasticsan",
       "projectFolder": "sdk/elasticsans/arm-elasticsan",
       "versionPolicyName": "management"
@@ -2368,6 +2378,16 @@
     {
       "packageName": "@azure/arm-carbonoptimization",
       "projectFolder": "sdk/carbonoptimization/arm-carbonoptimization",
+      "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-mongodbatlas",
+      "projectFolder": "sdk/mongodbatlas/arm-mongodbatlas",
+      "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-purestorageblock",
+      "projectFolder": "sdk/purestorageblock/arm-purestorageblock",
       "versionPolicyName": "management"
     },
     {
