@@ -16,6 +16,14 @@ export interface ScheduledActionsVirtualMachinesGetOperationStatusOptionalParams
   extends OperationOptions {}
 
 /** Optional parameters. */
+export interface ScheduledActionsVirtualMachinesExecuteDeleteOptionalParams
+  extends OperationOptions {}
+
+/** Optional parameters. */
+export interface ScheduledActionsVirtualMachinesExecuteCreateOptionalParams
+  extends OperationOptions {}
+
+/** Optional parameters. */
 export interface ScheduledActionsVirtualMachinesExecuteStartOptionalParams
   extends OperationOptions {}
 
@@ -38,6 +46,3 @@ export interface ScheduledActionsVirtualMachinesSubmitHibernateOptionalParams
 /** Optional parameters. */
 export interface ScheduledActionsVirtualMachinesSubmitDeallocateOptionalParams
   extends OperationOptions {}
-
-/** Optional parameters. */
-export interface OperationsListOptionalParams extends OperationOptions {}
