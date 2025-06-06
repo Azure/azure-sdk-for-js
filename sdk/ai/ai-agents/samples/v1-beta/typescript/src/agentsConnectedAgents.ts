@@ -22,11 +22,16 @@ export async function main(): Promise<void> {
 
   const stockAgent = await client.createAgent(modelDeploymentName, {
     name: "stock-price-agent",
-    instructions: "Your job is to get the stock price of a company. If you don't know the realtime stock price, return the last known stock price.",
+    instructions:
+      "Your job is to get the stock price of a company. If you don't know the realtime stock price, return the last known stock price.",
   });
 
   // Initialize Connected Agent tool with the agent id, name, and description
-  const connectedAgentTool = ToolUtility.createConnectedAgentTool(stockAgent.id, connectedAgentName, "Gets the stock price of a company");
+  const connectedAgentTool = ToolUtility.createConnectedAgentTool(
+    stockAgent.id,
+    connectedAgentName,
+    "Gets the stock price of a company",
+  );
 
   // Create agent with the Connected Agent tool and process assistant run
   const agent = await client.createAgent(modelDeploymentName, {
@@ -41,7 +46,11 @@ export async function main(): Promise<void> {
   console.log(`Created thread, thread ID : ${thread.id}`);
 
   // Create message to thread
-  const message = await client.messages.create(thread.id, "user", "What is the stock price of Microsoft?");
+  const message = await client.messages.create(
+    thread.id,
+    "user",
+    "What is the stock price of Microsoft?",
+  );
   console.log(`Created message, message ID : ${message.id}`);
 
   // Create and poll a run

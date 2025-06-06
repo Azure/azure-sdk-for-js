@@ -30,7 +30,7 @@ async function main() {
   const client = new AgentsClient(projectEndpoint, new DefaultAzureCredential());
 
   // Upload file and wait for it to be processed
-  const filePath = "./data/nifty500QuarterlyResults.csv";
+  const filePath = "./data/syntheticCompanyQuarterlyResults.csv";
   const localFileStream = fs.createReadStream(filePath);
   const localFile = await client.files.upload(localFileStream, "assistants", {
     fileName: "myLocalFile",
@@ -58,7 +58,7 @@ async function main() {
   const message = await client.messages.create(
     thread.id,
     "user",
-    "Could you please create a bar chart in the Consumer Discretionary sector for the operating profit from the uploaded CSV file and provide the file to me?",
+    "Could you please create a bar chart in the TRANSPORTATION sector for the operating profit from the uploaded CSV file and provide the file to me?",
   );
 
   console.log(`Created message, message ID: ${message.id}`);
