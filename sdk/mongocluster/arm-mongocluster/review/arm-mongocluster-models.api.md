@@ -4,8 +4,6 @@
 
 ```ts
 
-import { OperationOptions } from '@azure-rest/core-client';
-
 // @public
 export type ActionType = string;
 
@@ -14,6 +12,14 @@ export interface AdministratorProperties {
     password?: string;
     userName?: string;
 }
+
+// @public
+export interface AuthConfigProperties {
+    allowedModes?: AuthenticationMode[];
+}
+
+// @public
+export type AuthenticationMode = string;
 
 // @public
 export interface BackupProperties {
@@ -55,6 +61,54 @@ export type CreatedByType = string;
 export type CreateMode = string;
 
 // @public
+export type DataApiMode = string;
+
+// @public
+export interface DataApiProperties {
+    mode?: DataApiMode;
+}
+
+// @public
+export interface DatabaseRole {
+    db: string;
+    role: UserRole;
+}
+
+// @public
+export interface EntraIdentityProvider extends IdentityProvider {
+    properties: EntraIdentityProviderProperties;
+    type: "MicrosoftEntraID";
+}
+
+// @public
+export interface EntraIdentityProviderProperties {
+    principalType: EntraPrincipalType;
+}
+
+// @public
+export type EntraPrincipalType = string;
+
+// @public
+export interface ErrorAdditionalInfo {
+    readonly info?: Record<string, any>;
+    readonly type?: string;
+}
+
+// @public
+export interface ErrorDetail {
+    readonly additionalInfo?: ErrorAdditionalInfo[];
+    readonly code?: string;
+    readonly details?: ErrorDetail[];
+    readonly message?: string;
+    readonly target?: string;
+}
+
+// @public
+export interface ErrorResponse {
+    error?: ErrorDetail;
+}
+
+// @public
 export interface FirewallRule extends ProxyResource {
     properties?: FirewallRuleProperties;
 }
@@ -67,24 +121,6 @@ export interface FirewallRuleProperties {
 }
 
 // @public
-export interface FirewallRulesCreateOrUpdateOptionalParams extends OperationOptions {
-    updateIntervalInMs?: number;
-}
-
-// @public
-export interface FirewallRulesDeleteOptionalParams extends OperationOptions {
-    updateIntervalInMs?: number;
-}
-
-// @public
-export interface FirewallRulesGetOptionalParams extends OperationOptions {
-}
-
-// @public
-export interface FirewallRulesListByMongoClusterOptionalParams extends OperationOptions {
-}
-
-// @public
 export type HighAvailabilityMode = string;
 
 // @public
@@ -93,8 +129,25 @@ export interface HighAvailabilityProperties {
 }
 
 // @public
+export interface IdentityProvider {
+    type: IdentityProviderType;
+}
+
+// @public
+export type IdentityProviderType = string;
+
+// @public
+export type IdentityProviderUnion = EntraIdentityProvider | IdentityProvider;
+
+// @public
 export enum KnownActionType {
     Internal = "Internal"
+}
+
+// @public
+export enum KnownAuthenticationMode {
+    MicrosoftEntraID = "MicrosoftEntraID",
+    NativeAuth = "NativeAuth"
 }
 
 // @public
@@ -120,10 +173,27 @@ export enum KnownCreateMode {
 }
 
 // @public
+export enum KnownDataApiMode {
+    Disabled = "Disabled",
+    Enabled = "Enabled"
+}
+
+// @public
+export enum KnownEntraPrincipalType {
+    ServicePrincipal = "servicePrincipal",
+    User = "user"
+}
+
+// @public
 export enum KnownHighAvailabilityMode {
     Disabled = "Disabled",
     SameZone = "SameZone",
     ZoneRedundantPreferred = "ZoneRedundantPreferred"
+}
+
+// @public
+export enum KnownIdentityProviderType {
+    MicrosoftEntraID = "MicrosoftEntraID"
 }
 
 // @public
@@ -208,6 +278,26 @@ export enum KnownReplicationState {
 }
 
 // @public
+export enum KnownStorageType {
+    PremiumSSD = "PremiumSSD",
+    PremiumSSDv2 = "PremiumSSDv2"
+}
+
+// @public
+export enum KnownUserRole {
+    DatabaseOwner = "dbOwner"
+}
+
+// @public
+export enum KnownVersions {
+    V20240301Preview = "2024-03-01-preview",
+    V20240601Preview = "2024-06-01-preview",
+    V20240701 = "2024-07-01",
+    V20241001Preview = "2024-10-01-preview",
+    V20250401Preview = "2025-04-01-preview"
+}
+
+// @public
 export interface ListConnectionStringsResult {
     readonly connectionStrings?: ConnectionString[];
 }
@@ -220,11 +310,13 @@ export interface MongoCluster extends TrackedResource {
 // @public
 export interface MongoClusterProperties {
     administrator?: AdministratorProperties;
+    authConfig?: AuthConfigProperties;
     backup?: BackupProperties;
     readonly clusterStatus?: MongoClusterStatus;
     compute?: ComputeProperties;
     readonly connectionString?: string;
     createMode?: CreateMode;
+    dataApi?: DataApiProperties;
     highAvailability?: HighAvailabilityProperties;
     readonly infrastructureVersion?: string;
     previewFeatures?: PreviewFeature[];
@@ -252,47 +344,7 @@ export interface MongoClusterRestoreParameters {
 }
 
 // @public
-export interface MongoClustersCheckNameAvailabilityOptionalParams extends OperationOptions {
-}
-
-// @public
-export interface MongoClustersCreateOrUpdateOptionalParams extends OperationOptions {
-    updateIntervalInMs?: number;
-}
-
-// @public
-export interface MongoClustersDeleteOptionalParams extends OperationOptions {
-    updateIntervalInMs?: number;
-}
-
-// @public
-export interface MongoClustersGetOptionalParams extends OperationOptions {
-}
-
-// @public
-export interface MongoClustersListByResourceGroupOptionalParams extends OperationOptions {
-}
-
-// @public
-export interface MongoClustersListConnectionStringsOptionalParams extends OperationOptions {
-}
-
-// @public
-export interface MongoClustersListOptionalParams extends OperationOptions {
-}
-
-// @public
-export interface MongoClustersPromoteOptionalParams extends OperationOptions {
-    updateIntervalInMs?: number;
-}
-
-// @public
 export type MongoClusterStatus = string;
-
-// @public
-export interface MongoClustersUpdateOptionalParams extends OperationOptions {
-    updateIntervalInMs?: number;
-}
 
 // @public
 export interface MongoClusterUpdate {
@@ -303,8 +355,10 @@ export interface MongoClusterUpdate {
 // @public
 export interface MongoClusterUpdateProperties {
     administrator?: AdministratorProperties;
+    authConfig?: AuthConfigProperties;
     backup?: BackupProperties;
     compute?: ComputeProperties;
+    dataApi?: DataApiProperties;
     highAvailability?: HighAvailabilityProperties;
     previewFeatures?: PreviewFeature[];
     publicNetworkAccess?: PublicNetworkAccess;
@@ -315,8 +369,8 @@ export interface MongoClusterUpdateProperties {
 
 // @public
 export interface Operation {
-    actionType?: ActionType;
-    readonly display?: OperationDisplay;
+    readonly actionType?: ActionType;
+    display?: OperationDisplay;
     readonly isDataAction?: boolean;
     readonly name?: string;
     readonly origin?: Origin;
@@ -328,10 +382,6 @@ export interface OperationDisplay {
     readonly operation?: string;
     readonly provider?: string;
     readonly resource?: string;
-}
-
-// @public
-export interface OperationsListOptionalParams extends OperationOptions {
 }
 
 // @public
@@ -367,24 +417,6 @@ export interface PrivateEndpointConnectionResource extends ProxyResource {
 }
 
 // @public
-export interface PrivateEndpointConnectionsCreateOptionalParams extends OperationOptions {
-    updateIntervalInMs?: number;
-}
-
-// @public
-export interface PrivateEndpointConnectionsDeleteOptionalParams extends OperationOptions {
-    updateIntervalInMs?: number;
-}
-
-// @public
-export interface PrivateEndpointConnectionsGetOptionalParams extends OperationOptions {
-}
-
-// @public
-export interface PrivateEndpointConnectionsListByMongoClusterOptionalParams extends OperationOptions {
-}
-
-// @public
 export type PrivateEndpointServiceConnectionStatus = string;
 
 // @public
@@ -404,10 +436,6 @@ export interface PrivateLinkServiceConnectionState {
     actionsRequired?: string;
     description?: string;
     status?: PrivateEndpointServiceConnectionStatus;
-}
-
-// @public
-export interface PrivateLinksListByMongoClusterOptionalParams extends OperationOptions {
 }
 
 // @public
@@ -438,10 +466,6 @@ export interface Replica extends ProxyResource {
 }
 
 // @public
-export interface ReplicasListByParentOptionalParams extends OperationOptions {
-}
-
-// @public
 export interface ReplicationProperties {
     readonly replicationState?: ReplicationState;
     readonly role?: ReplicationRole;
@@ -469,8 +493,14 @@ export interface ShardingProperties {
 
 // @public
 export interface StorageProperties {
+    iops?: number;
     sizeGb?: number;
+    throughput?: number;
+    type?: StorageType;
 }
+
+// @public
+export type StorageType = string;
 
 // @public
 export interface SystemData {
@@ -487,6 +517,21 @@ export interface TrackedResource extends Resource {
     location: string;
     tags?: Record<string, string>;
 }
+
+// @public
+export interface User extends ProxyResource {
+    properties?: UserProperties;
+}
+
+// @public
+export interface UserProperties {
+    identityProvider?: IdentityProviderUnion;
+    readonly provisioningState?: ProvisioningState;
+    roles?: DatabaseRole[];
+}
+
+// @public
+export type UserRole = string;
 
 // (No @packageDocumentation comment for this package)
 

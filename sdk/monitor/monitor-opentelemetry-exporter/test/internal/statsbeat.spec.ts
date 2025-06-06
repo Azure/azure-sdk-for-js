@@ -484,5 +484,34 @@ describe("#AzureMonitorStatsbeatExporter", () => {
         delete process.env[LEGACY_ENV_DISABLE_STATSBEAT];
       });
     });
+
+    describe("Long Interval Statsbeat Metrics", () => {
+      it("should properly bind the metric reader to a metric producer", async () => {
+        // Get an instance of LongIntervalStatsbeatMetrics
+        const longIntervalStatsbeat = getInstance(options);
+
+        // Create a spy on the collect method to ensure it doesn't throw an error
+        const collectSpy = vi.spyOn(longIntervalStatsbeat["longIntervalMetricReader"], "collect");
+
+        // Attempt to collect metrics - this would throw an error if the MetricReader is not bound
+        // to a MetricProducer properly
+        try {
+          await longIntervalStatsbeat["longIntervalMetricReader"].collect();
+          // If we get here without an error, the test passes
+          assert.ok(true, "Metric reader collect method executed without errors");
+        } catch (error) {
+          // If an error occurs, the test should fail
+          assert.fail(
+            `Metric reader collect method threw an error: ${error instanceof Error ? error.message : String(error)}`,
+          );
+        }
+
+        // Verify the collect method was called
+        expect(collectSpy).toHaveBeenCalled();
+
+        // Restore the spy
+        collectSpy.mockRestore();
+      });
+    });
   });
 });

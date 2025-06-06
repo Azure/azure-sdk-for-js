@@ -78,6 +78,8 @@ Do `rush update` and `rush build -t .` to install and build the latest dependenc
 
 And you're ready! Now you can use the test recorder in your code, as shown below:
 
+<!-- dev-tool snippets ignore -->
+
 ```typescript
 import { Recorder } from "@azure-tools/test-recorder";
 ```

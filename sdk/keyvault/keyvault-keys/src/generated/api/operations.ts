@@ -1,34 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import {
-  BackupKeyOptionalParams,
-  KeyVaultContext as Client,
-  CreateKeyOptionalParams,
-  DecryptOptionalParams,
-  DeleteKeyOptionalParams,
-  EncryptOptionalParams,
-  GetDeletedKeyOptionalParams,
-  GetDeletedKeysOptionalParams,
-  GetKeyAttestationOptionalParams,
-  GetKeyOptionalParams,
-  GetKeyRotationPolicyOptionalParams,
-  GetKeysOptionalParams,
-  GetKeyVersionsOptionalParams,
-  GetRandomBytesOptionalParams,
-  ImportKeyOptionalParams,
-  PurgeDeletedKeyOptionalParams,
-  RecoverDeletedKeyOptionalParams,
-  ReleaseOptionalParams,
-  RestoreKeyOptionalParams,
-  RotateKeyOptionalParams,
-  SignOptionalParams,
-  UnwrapKeyOptionalParams,
-  UpdateKeyOptionalParams,
-  UpdateKeyRotationPolicyOptionalParams,
-  VerifyOptionalParams,
-  WrapKeyOptionalParams,
-} from "./index.js";
+import { KeyVaultContext as Client } from "./index.js";
 import {
   KeyCreateParameters,
   keyCreateParametersSerializer,
@@ -74,9 +47,37 @@ import {
   randomBytesDeserializer,
 } from "../models/models.js";
 import {
+  GetKeyAttestationOptionalParams,
+  GetRandomBytesOptionalParams,
+  UpdateKeyRotationPolicyOptionalParams,
+  GetKeyRotationPolicyOptionalParams,
+  RecoverDeletedKeyOptionalParams,
+  PurgeDeletedKeyOptionalParams,
+  GetDeletedKeyOptionalParams,
+  GetDeletedKeysOptionalParams,
+  ReleaseOptionalParams,
+  UnwrapKeyOptionalParams,
+  WrapKeyOptionalParams,
+  VerifyOptionalParams,
+  SignOptionalParams,
+  DecryptOptionalParams,
+  EncryptOptionalParams,
+  RestoreKeyOptionalParams,
+  BackupKeyOptionalParams,
+  GetKeysOptionalParams,
+  GetKeyVersionsOptionalParams,
+  GetKeyOptionalParams,
+  UpdateKeyOptionalParams,
+  DeleteKeyOptionalParams,
+  ImportKeyOptionalParams,
+  RotateKeyOptionalParams,
+  CreateKeyOptionalParams,
+} from "./options.js";
+import {
   PagedAsyncIterableIterator,
   buildPagedAsyncIterator,
 } from "../static-helpers/pagingHelpers.js";
+import { expandUrlTemplate } from "../static-helpers/urlTemplate.js";
 import {
   StreamableMethod,
   PathUncheckedResponse,
@@ -90,15 +91,25 @@ export function _getKeyAttestationSend(
   keyVersion: string,
   options: GetKeyAttestationOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
+  const path = expandUrlTemplate(
+    "/keys/{key-name}/{key-version}/attestation{?api%2Dversion}",
+    {
+      "key-name": keyName,
+      "key-version": keyVersion,
+      "api%2Dversion": context.apiVersion,
+    },
+    {
+      allowReserved: options?.requestOptions?.skipUrlEncoding,
+    },
+  );
   return context
-    .path("/keys/{key-name}/{key-version}/attestation", keyName, keyVersion)
+    .path(path)
     .get({
       ...operationOptionsToRequestParameters(options),
       headers: {
         accept: "application/json",
         ...options.requestOptions?.headers,
       },
-      queryParameters: { "api-version": context.apiVersion },
     });
 }
 
@@ -136,8 +147,17 @@ export function _getRandomBytesSend(
   parameters: GetRandomBytesRequest,
   options: GetRandomBytesOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
+  const path = expandUrlTemplate(
+    "/rng{?api%2Dversion}",
+    {
+      "api%2Dversion": context.apiVersion,
+    },
+    {
+      allowReserved: options?.requestOptions?.skipUrlEncoding,
+    },
+  );
   return context
-    .path("/rng")
+    .path(path)
     .post({
       ...operationOptionsToRequestParameters(options),
       contentType: "application/json",
@@ -145,7 +165,6 @@ export function _getRandomBytesSend(
         accept: "application/json",
         ...options.requestOptions?.headers,
       },
-      queryParameters: { "api-version": context.apiVersion },
       body: getRandomBytesRequestSerializer(parameters),
     });
 }
@@ -179,8 +198,18 @@ export function _updateKeyRotationPolicySend(
   keyRotationPolicy: KeyRotationPolicy,
   options: UpdateKeyRotationPolicyOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
+  const path = expandUrlTemplate(
+    "/keys/{key-name}/rotationpolicy{?api%2Dversion}",
+    {
+      "key-name": keyName,
+      "api%2Dversion": context.apiVersion,
+    },
+    {
+      allowReserved: options?.requestOptions?.skipUrlEncoding,
+    },
+  );
   return context
-    .path("/keys/{key-name}/rotationpolicy", keyName)
+    .path(path)
     .put({
       ...operationOptionsToRequestParameters(options),
       contentType: "application/json",
@@ -188,7 +217,6 @@ export function _updateKeyRotationPolicySend(
         accept: "application/json",
         ...options.requestOptions?.headers,
       },
-      queryParameters: { "api-version": context.apiVersion },
       body: keyRotationPolicySerializer(keyRotationPolicy),
     });
 }
@@ -227,15 +255,24 @@ export function _getKeyRotationPolicySend(
   keyName: string,
   options: GetKeyRotationPolicyOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
+  const path = expandUrlTemplate(
+    "/keys/{key-name}/rotationpolicy{?api%2Dversion}",
+    {
+      "key-name": keyName,
+      "api%2Dversion": context.apiVersion,
+    },
+    {
+      allowReserved: options?.requestOptions?.skipUrlEncoding,
+    },
+  );
   return context
-    .path("/keys/{key-name}/rotationpolicy", keyName)
+    .path(path)
     .get({
       ...operationOptionsToRequestParameters(options),
       headers: {
         accept: "application/json",
         ...options.requestOptions?.headers,
       },
-      queryParameters: { "api-version": context.apiVersion },
     });
 }
 
@@ -267,15 +304,24 @@ export function _recoverDeletedKeySend(
   keyName: string,
   options: RecoverDeletedKeyOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
+  const path = expandUrlTemplate(
+    "/deletedkeys/{key-name}/recover{?api%2Dversion}",
+    {
+      "key-name": keyName,
+      "api%2Dversion": context.apiVersion,
+    },
+    {
+      allowReserved: options?.requestOptions?.skipUrlEncoding,
+    },
+  );
   return context
-    .path("/deletedkeys/{key-name}/recover", keyName)
+    .path(path)
     .post({
       ...operationOptionsToRequestParameters(options),
       headers: {
         accept: "application/json",
         ...options.requestOptions?.headers,
       },
-      queryParameters: { "api-version": context.apiVersion },
     });
 }
 
@@ -307,15 +353,24 @@ export function _purgeDeletedKeySend(
   keyName: string,
   options: PurgeDeletedKeyOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
+  const path = expandUrlTemplate(
+    "/deletedkeys/{key-name}{?api%2Dversion}",
+    {
+      "key-name": keyName,
+      "api%2Dversion": context.apiVersion,
+    },
+    {
+      allowReserved: options?.requestOptions?.skipUrlEncoding,
+    },
+  );
   return context
-    .path("/deletedkeys/{key-name}", keyName)
+    .path(path)
     .delete({
       ...operationOptionsToRequestParameters(options),
       headers: {
         accept: "application/json",
         ...options.requestOptions?.headers,
       },
-      queryParameters: { "api-version": context.apiVersion },
     });
 }
 
@@ -347,15 +402,24 @@ export function _getDeletedKeySend(
   keyName: string,
   options: GetDeletedKeyOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
+  const path = expandUrlTemplate(
+    "/deletedkeys/{key-name}{?api%2Dversion}",
+    {
+      "key-name": keyName,
+      "api%2Dversion": context.apiVersion,
+    },
+    {
+      allowReserved: options?.requestOptions?.skipUrlEncoding,
+    },
+  );
   return context
-    .path("/deletedkeys/{key-name}", keyName)
+    .path(path)
     .get({
       ...operationOptionsToRequestParameters(options),
       headers: {
         accept: "application/json",
         ...options.requestOptions?.headers,
       },
-      queryParameters: { "api-version": context.apiVersion },
     });
 }
 
@@ -386,17 +450,23 @@ export function _getDeletedKeysSend(
   context: Client,
   options: GetDeletedKeysOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
+  const path = expandUrlTemplate(
+    "/deletedkeys{?api%2Dversion,maxresults}",
+    {
+      "api%2Dversion": context.apiVersion,
+      maxresults: options?.maxresults,
+    },
+    {
+      allowReserved: options?.requestOptions?.skipUrlEncoding,
+    },
+  );
   return context
-    .path("/deletedkeys")
+    .path(path)
     .get({
       ...operationOptionsToRequestParameters(options),
       headers: {
         accept: "application/json",
         ...options.requestOptions?.headers,
-      },
-      queryParameters: {
-        "api-version": context.apiVersion,
-        maxresults: options?.maxresults,
       },
     });
 }
@@ -435,8 +505,19 @@ export function _releaseSend(
   parameters: KeyReleaseParameters,
   options: ReleaseOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
+  const path = expandUrlTemplate(
+    "/keys/{key-name}/{key-version}/release{?api%2Dversion}",
+    {
+      "key-name": keyName,
+      "key-version": keyVersion,
+      "api%2Dversion": context.apiVersion,
+    },
+    {
+      allowReserved: options?.requestOptions?.skipUrlEncoding,
+    },
+  );
   return context
-    .path("/keys/{key-name}/{key-version}/release", keyName, keyVersion)
+    .path(path)
     .post({
       ...operationOptionsToRequestParameters(options),
       contentType: "application/json",
@@ -444,7 +525,6 @@ export function _releaseSend(
         accept: "application/json",
         ...options.requestOptions?.headers,
       },
-      queryParameters: { "api-version": context.apiVersion },
       body: keyReleaseParametersSerializer(parameters),
     });
 }
@@ -487,8 +567,19 @@ export function _unwrapKeySend(
   parameters: KeyOperationsParameters,
   options: UnwrapKeyOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
+  const path = expandUrlTemplate(
+    "/keys/{key-name}/{key-version}/unwrapkey{?api%2Dversion}",
+    {
+      "key-name": keyName,
+      "key-version": keyVersion,
+      "api%2Dversion": context.apiVersion,
+    },
+    {
+      allowReserved: options?.requestOptions?.skipUrlEncoding,
+    },
+  );
   return context
-    .path("/keys/{key-name}/{key-version}/unwrapkey", keyName, keyVersion)
+    .path(path)
     .post({
       ...operationOptionsToRequestParameters(options),
       contentType: "application/json",
@@ -496,7 +587,6 @@ export function _unwrapKeySend(
         accept: "application/json",
         ...options.requestOptions?.headers,
       },
-      queryParameters: { "api-version": context.apiVersion },
       body: keyOperationsParametersSerializer(parameters),
     });
 }
@@ -539,8 +629,19 @@ export function _wrapKeySend(
   parameters: KeyOperationsParameters,
   options: WrapKeyOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
+  const path = expandUrlTemplate(
+    "/keys/{key-name}/{key-version}/wrapkey{?api%2Dversion}",
+    {
+      "key-name": keyName,
+      "key-version": keyVersion,
+      "api%2Dversion": context.apiVersion,
+    },
+    {
+      allowReserved: options?.requestOptions?.skipUrlEncoding,
+    },
+  );
   return context
-    .path("/keys/{key-name}/{key-version}/wrapkey", keyName, keyVersion)
+    .path(path)
     .post({
       ...operationOptionsToRequestParameters(options),
       contentType: "application/json",
@@ -548,7 +649,6 @@ export function _wrapKeySend(
         accept: "application/json",
         ...options.requestOptions?.headers,
       },
-      queryParameters: { "api-version": context.apiVersion },
       body: keyOperationsParametersSerializer(parameters),
     });
 }
@@ -591,8 +691,19 @@ export function _verifySend(
   parameters: KeyVerifyParameters,
   options: VerifyOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
+  const path = expandUrlTemplate(
+    "/keys/{key-name}/{key-version}/verify{?api%2Dversion}",
+    {
+      "key-name": keyName,
+      "key-version": keyVersion,
+      "api%2Dversion": context.apiVersion,
+    },
+    {
+      allowReserved: options?.requestOptions?.skipUrlEncoding,
+    },
+  );
   return context
-    .path("/keys/{key-name}/{key-version}/verify", keyName, keyVersion)
+    .path(path)
     .post({
       ...operationOptionsToRequestParameters(options),
       contentType: "application/json",
@@ -600,7 +711,6 @@ export function _verifySend(
         accept: "application/json",
         ...options.requestOptions?.headers,
       },
-      queryParameters: { "api-version": context.apiVersion },
       body: keyVerifyParametersSerializer(parameters),
     });
 }
@@ -643,8 +753,19 @@ export function _signSend(
   parameters: KeySignParameters,
   options: SignOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
+  const path = expandUrlTemplate(
+    "/keys/{key-name}/{key-version}/sign{?api%2Dversion}",
+    {
+      "key-name": keyName,
+      "key-version": keyVersion,
+      "api%2Dversion": context.apiVersion,
+    },
+    {
+      allowReserved: options?.requestOptions?.skipUrlEncoding,
+    },
+  );
   return context
-    .path("/keys/{key-name}/{key-version}/sign", keyName, keyVersion)
+    .path(path)
     .post({
       ...operationOptionsToRequestParameters(options),
       contentType: "application/json",
@@ -652,7 +773,6 @@ export function _signSend(
         accept: "application/json",
         ...options.requestOptions?.headers,
       },
-      queryParameters: { "api-version": context.apiVersion },
       body: keySignParametersSerializer(parameters),
     });
 }
@@ -695,8 +815,19 @@ export function _decryptSend(
   parameters: KeyOperationsParameters,
   options: DecryptOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
+  const path = expandUrlTemplate(
+    "/keys/{key-name}/{key-version}/decrypt{?api%2Dversion}",
+    {
+      "key-name": keyName,
+      "key-version": keyVersion,
+      "api%2Dversion": context.apiVersion,
+    },
+    {
+      allowReserved: options?.requestOptions?.skipUrlEncoding,
+    },
+  );
   return context
-    .path("/keys/{key-name}/{key-version}/decrypt", keyName, keyVersion)
+    .path(path)
     .post({
       ...operationOptionsToRequestParameters(options),
       contentType: "application/json",
@@ -704,7 +835,6 @@ export function _decryptSend(
         accept: "application/json",
         ...options.requestOptions?.headers,
       },
-      queryParameters: { "api-version": context.apiVersion },
       body: keyOperationsParametersSerializer(parameters),
     });
 }
@@ -722,7 +852,7 @@ export async function _decryptDeserialize(
   return keyOperationResultDeserializer(result.body);
 }
 
-/** The DECRYPT operation decrypts a well-formed block of ciphertext using the target encryption key and specified algorithm. This operation is the reverse of the ENCRYPT operation; only a single block of data may be decrypted, the size of this block is dependent on the target key and the algorithm to be used. The DECRYPT operation applies to asymmetric and symmetric keys stored in Azure Key Vault since it uses the private portion of the key. This operation requires the keys/decrypt permission. Microsoft recommends not to use CBC algorithms for decryption without first ensuring the integrity of the ciphertext using an HMAC, for example. See https://docs.microsoft.com/dotnet/standard/security/vulnerabilities-cbc-mode for more information. */
+/** The DECRYPT operation decrypts a well-formed block of ciphertext using the target encryption key and specified algorithm. This operation is the reverse of the ENCRYPT operation; only a single block of data may be decrypted, the size of this block is dependent on the target key and the algorithm to be used. The DECRYPT operation applies to asymmetric and symmetric keys stored in Azure Key Vault since it uses the private portion of the key. This operation requires the keys/decrypt permission. Microsoft recommends not to use CBC algorithms for decryption without first ensuring the integrity of the ciphertext using an HMAC, for example. See https://learn.microsoft.com/dotnet/standard/security/vulnerabilities-cbc-mode for more information. */
 export async function decrypt(
   context: Client,
   keyName: string,
@@ -747,8 +877,19 @@ export function _encryptSend(
   parameters: KeyOperationsParameters,
   options: EncryptOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
+  const path = expandUrlTemplate(
+    "/keys/{key-name}/{key-version}/encrypt{?api%2Dversion}",
+    {
+      "key-name": keyName,
+      "key-version": keyVersion,
+      "api%2Dversion": context.apiVersion,
+    },
+    {
+      allowReserved: options?.requestOptions?.skipUrlEncoding,
+    },
+  );
   return context
-    .path("/keys/{key-name}/{key-version}/encrypt", keyName, keyVersion)
+    .path(path)
     .post({
       ...operationOptionsToRequestParameters(options),
       contentType: "application/json",
@@ -756,7 +897,6 @@ export function _encryptSend(
         accept: "application/json",
         ...options.requestOptions?.headers,
       },
-      queryParameters: { "api-version": context.apiVersion },
       body: keyOperationsParametersSerializer(parameters),
     });
 }
@@ -797,8 +937,17 @@ export function _restoreKeySend(
   parameters: KeyRestoreParameters,
   options: RestoreKeyOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
+  const path = expandUrlTemplate(
+    "/keys/restore{?api%2Dversion}",
+    {
+      "api%2Dversion": context.apiVersion,
+    },
+    {
+      allowReserved: options?.requestOptions?.skipUrlEncoding,
+    },
+  );
   return context
-    .path("/keys/restore")
+    .path(path)
     .post({
       ...operationOptionsToRequestParameters(options),
       contentType: "application/json",
@@ -806,7 +955,6 @@ export function _restoreKeySend(
         accept: "application/json",
         ...options.requestOptions?.headers,
       },
-      queryParameters: { "api-version": context.apiVersion },
       body: keyRestoreParametersSerializer(parameters),
     });
 }
@@ -839,15 +987,24 @@ export function _backupKeySend(
   keyName: string,
   options: BackupKeyOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
+  const path = expandUrlTemplate(
+    "/keys/{key-name}/backup{?api%2Dversion}",
+    {
+      "key-name": keyName,
+      "api%2Dversion": context.apiVersion,
+    },
+    {
+      allowReserved: options?.requestOptions?.skipUrlEncoding,
+    },
+  );
   return context
-    .path("/keys/{key-name}/backup", keyName)
+    .path(path)
     .post({
       ...operationOptionsToRequestParameters(options),
       headers: {
         accept: "application/json",
         ...options.requestOptions?.headers,
       },
-      queryParameters: { "api-version": context.apiVersion },
     });
 }
 
@@ -878,17 +1035,23 @@ export function _getKeysSend(
   context: Client,
   options: GetKeysOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
+  const path = expandUrlTemplate(
+    "/keys{?api%2Dversion,maxresults}",
+    {
+      "api%2Dversion": context.apiVersion,
+      maxresults: options?.maxresults,
+    },
+    {
+      allowReserved: options?.requestOptions?.skipUrlEncoding,
+    },
+  );
   return context
-    .path("/keys")
+    .path(path)
     .get({
       ...operationOptionsToRequestParameters(options),
       headers: {
         accept: "application/json",
         ...options.requestOptions?.headers,
-      },
-      queryParameters: {
-        "api-version": context.apiVersion,
-        maxresults: options?.maxresults,
       },
     });
 }
@@ -925,17 +1088,24 @@ export function _getKeyVersionsSend(
   keyName: string,
   options: GetKeyVersionsOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
+  const path = expandUrlTemplate(
+    "/keys/{key-name}/versions{?api%2Dversion,maxresults}",
+    {
+      "key-name": keyName,
+      "api%2Dversion": context.apiVersion,
+      maxresults: options?.maxresults,
+    },
+    {
+      allowReserved: options?.requestOptions?.skipUrlEncoding,
+    },
+  );
   return context
-    .path("/keys/{key-name}/versions", keyName)
+    .path(path)
     .get({
       ...operationOptionsToRequestParameters(options),
       headers: {
         accept: "application/json",
         ...options.requestOptions?.headers,
-      },
-      queryParameters: {
-        "api-version": context.apiVersion,
-        maxresults: options?.maxresults,
       },
     });
 }
@@ -974,15 +1144,25 @@ export function _getKeySend(
   keyVersion: string,
   options: GetKeyOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
+  const path = expandUrlTemplate(
+    "/keys/{key-name}/{key-version}{?api%2Dversion}",
+    {
+      "key-name": keyName,
+      "key-version": keyVersion,
+      "api%2Dversion": context.apiVersion,
+    },
+    {
+      allowReserved: options?.requestOptions?.skipUrlEncoding,
+    },
+  );
   return context
-    .path("/keys/{key-name}/{key-version}", keyName, keyVersion)
+    .path(path)
     .get({
       ...operationOptionsToRequestParameters(options),
       headers: {
         accept: "application/json",
         ...options.requestOptions?.headers,
       },
-      queryParameters: { "api-version": context.apiVersion },
     });
 }
 
@@ -1017,8 +1197,19 @@ export function _updateKeySend(
   parameters: KeyUpdateParameters,
   options: UpdateKeyOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
+  const path = expandUrlTemplate(
+    "/keys/{key-name}/{key-version}{?api%2Dversion}",
+    {
+      "key-name": keyName,
+      "key-version": keyVersion,
+      "api%2Dversion": context.apiVersion,
+    },
+    {
+      allowReserved: options?.requestOptions?.skipUrlEncoding,
+    },
+  );
   return context
-    .path("/keys/{key-name}/{key-version}", keyName, keyVersion)
+    .path(path)
     .patch({
       ...operationOptionsToRequestParameters(options),
       contentType: "application/json",
@@ -1026,7 +1217,6 @@ export function _updateKeySend(
         accept: "application/json",
         ...options.requestOptions?.headers,
       },
-      queryParameters: { "api-version": context.apiVersion },
       body: keyUpdateParametersSerializer(parameters),
     });
 }
@@ -1067,15 +1257,24 @@ export function _deleteKeySend(
   keyName: string,
   options: DeleteKeyOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
+  const path = expandUrlTemplate(
+    "/keys/{key-name}{?api%2Dversion}",
+    {
+      "key-name": keyName,
+      "api%2Dversion": context.apiVersion,
+    },
+    {
+      allowReserved: options?.requestOptions?.skipUrlEncoding,
+    },
+  );
   return context
-    .path("/keys/{key-name}", keyName)
+    .path(path)
     .delete({
       ...operationOptionsToRequestParameters(options),
       headers: {
         accept: "application/json",
         ...options.requestOptions?.headers,
       },
-      queryParameters: { "api-version": context.apiVersion },
     });
 }
 
@@ -1108,8 +1307,18 @@ export function _importKeySend(
   parameters: KeyImportParameters,
   options: ImportKeyOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
+  const path = expandUrlTemplate(
+    "/keys/{key-name}{?api%2Dversion}",
+    {
+      "key-name": keyName,
+      "api%2Dversion": context.apiVersion,
+    },
+    {
+      allowReserved: options?.requestOptions?.skipUrlEncoding,
+    },
+  );
   return context
-    .path("/keys/{key-name}", keyName)
+    .path(path)
     .put({
       ...operationOptionsToRequestParameters(options),
       contentType: "application/json",
@@ -1117,7 +1326,6 @@ export function _importKeySend(
         accept: "application/json",
         ...options.requestOptions?.headers,
       },
-      queryParameters: { "api-version": context.apiVersion },
       body: keyImportParametersSerializer(parameters),
     });
 }
@@ -1151,15 +1359,24 @@ export function _rotateKeySend(
   keyName: string,
   options: RotateKeyOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
+  const path = expandUrlTemplate(
+    "/keys/{key-name}/rotate{?api%2Dversion}",
+    {
+      "key-name": keyName,
+      "api%2Dversion": context.apiVersion,
+    },
+    {
+      allowReserved: options?.requestOptions?.skipUrlEncoding,
+    },
+  );
   return context
-    .path("/keys/{key-name}/rotate", keyName)
+    .path(path)
     .post({
       ...operationOptionsToRequestParameters(options),
       headers: {
         accept: "application/json",
         ...options.requestOptions?.headers,
       },
-      queryParameters: { "api-version": context.apiVersion },
     });
 }
 
@@ -1192,8 +1409,18 @@ export function _createKeySend(
   parameters: KeyCreateParameters,
   options: CreateKeyOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
+  const path = expandUrlTemplate(
+    "/keys/{key-name}/create{?api%2Dversion}",
+    {
+      "key-name": keyName,
+      "api%2Dversion": context.apiVersion,
+    },
+    {
+      allowReserved: options?.requestOptions?.skipUrlEncoding,
+    },
+  );
   return context
-    .path("/keys/{key-name}/create", keyName)
+    .path(path)
     .post({
       ...operationOptionsToRequestParameters(options),
       contentType: "application/json",
@@ -1201,7 +1428,6 @@ export function _createKeySend(
         accept: "application/json",
         ...options.requestOptions?.headers,
       },
-      queryParameters: { "api-version": context.apiVersion },
       body: keyCreateParametersSerializer(parameters),
     });
 }
