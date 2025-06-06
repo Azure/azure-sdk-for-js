@@ -2608,7 +2608,7 @@ packages:
     version: 0.0.0
 
   '@rush-temp/arm-arizeaiobservabilityeval@file:projects/arm-arizeaiobservabilityeval.tgz':
-    resolution: {integrity: sha512-A3OvWZAfponDPml5OSEL7zfXRTSVyCU/mipQ+lqfejqdCE5u9vSSuRVB/7KewEY/OgL1FyrHuw2sVTANYYFpuQ==, tarball: file:projects/arm-arizeaiobservabilityeval.tgz}
+    resolution: {integrity: sha512-iwjM3sGNQw1OWfjxM+Nrk2aHHMVJvzBeYNu3UGp5Hb4Xtt6YhzbjFQMPHG5jF4t7rpzIioMwAWc74CSzz+3Ccg==, tarball: file:projects/arm-arizeaiobservabilityeval.tgz}
     version: 0.0.0
 
   '@rush-temp/arm-astro@file:projects/arm-astro.tgz':
@@ -10165,7 +10165,7 @@ snapshots:
       eslint: 9.28.0
       playwright: 1.52.0
       tslib: 2.8.1
-      typescript: 5.7.3
+      typescript: 5.8.3
       vitest: 3.2.0(@types/debug@4.1.12)(@types/node@18.19.110)(@vitest/browser@3.2.0)(tsx@4.19.4)(yaml@2.8.0)
     transitivePeerDependencies:
       - '@edge-runtime/vm'

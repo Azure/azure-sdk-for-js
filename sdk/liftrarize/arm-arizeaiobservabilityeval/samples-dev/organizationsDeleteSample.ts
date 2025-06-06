@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to delete a OrganizationResource
  *
  * @summary delete a OrganizationResource
- * x-ms-original-file: 2024-10-01-preview/Organizations_Delete_MaximumSet_Gen.json
+ * x-ms-original-file: 2024-10-01/Organizations_Delete_MaximumSet_Gen.json
  */
 async function organizationsDeleteGeneratedByMaximumSetRule(): Promise<void> {
   const credential = new DefaultAzureCredential();

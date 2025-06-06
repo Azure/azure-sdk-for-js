@@ -1,16 +1,16 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-const { ObservabilityEvalClient } = require("@azure/arm-arizeaiobservabilityeval");
-const { DefaultAzureCredential } = require("@azure/identity");
+import { ObservabilityEvalClient } from "@azure/arm-arizeaiobservabilityeval";
+import { DefaultAzureCredential } from "@azure/identity";
 
 /**
  * This sample demonstrates how to list the operations for the provider
  *
  * @summary list the operations for the provider
- * x-ms-original-file: 2024-10-01-preview/Operations_List_MaximumSet_Gen.json
+ * x-ms-original-file: 2024-10-01/Operations_List_MaximumSet_Gen.json
  */
-async function operationsListGeneratedByMaximumSetRule() {
+async function operationsListGeneratedByMaximumSetRule(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "00000000-0000-0000-0000-00000000000";
   const client = new ObservabilityEvalClient(credential, subscriptionId);
@@ -26,9 +26,9 @@ async function operationsListGeneratedByMaximumSetRule() {
  * This sample demonstrates how to list the operations for the provider
  *
  * @summary list the operations for the provider
- * x-ms-original-file: 2024-10-01-preview/Operations_List_MinimumSet_Gen.json
+ * x-ms-original-file: 2024-10-01/Operations_List_MinimumSet_Gen.json
  */
-async function operationsListGeneratedByMinimumSetRule() {
+async function operationsListGeneratedByMinimumSetRule(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "00000000-0000-0000-0000-00000000000";
   const client = new ObservabilityEvalClient(credential, subscriptionId);
@@ -40,7 +40,7 @@ async function operationsListGeneratedByMinimumSetRule() {
   console.log(resArray);
 }
 
-async function main() {
+async function main(): Promise<void> {
   await operationsListGeneratedByMaximumSetRule();
   await operationsListGeneratedByMinimumSetRule();
 }
