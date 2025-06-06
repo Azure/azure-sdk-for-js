@@ -110,6 +110,44 @@ describe("bearerAuthenticationPolicy", function () {
     vi.clearAllMocks();
   });
 
+  it.each([
+    // authSchemes set to empty array, should override service level scheme
+    { authSchemes: [], shouldAuthenticate: false },
+    // authSchemes is not defined, should use service level scheme
+    { authSchemes: undefined, shouldAuthenticate: true },
+  ])(
+    "handles authentication correctly when request authSchemes is $authSchemes",
+    async ({ authSchemes, shouldAuthenticate }) => {
+      const request = createPipelineRequest({ url: "https://example.com" });
+      request.authSchemes = authSchemes;
+
+      const mockToken = "token";
+      const fakeGetToken = vi.fn().mockResolvedValue(mockToken);
+      const mockCredential: BearerTokenCredential = {
+        getBearerToken: fakeGetToken,
+      };
+      const successResponse: PipelineResponse = {
+        headers: createHttpHeaders(),
+        request,
+        status: 200,
+      };
+      const next = vi.fn<SendRequest>();
+      next.mockResolvedValue(successResponse);
+
+      const policy = createBearerTokenPolicy(mockCredential);
+      await policy.sendRequest(request, next);
+
+      if (shouldAuthenticate) {
+        expect(fakeGetToken).toHaveBeenCalled();
+        expect(request.headers.get("Authorization")).toBe(`Bearer ${mockToken}`);
+      } else {
+        expect(fakeGetToken).not.toHaveBeenCalled();
+        expect(request.headers.has("Authorization")).toBe(false);
+        expect(next).toHaveBeenCalledWith(request);
+      }
+    },
+  );
+
   function createBearerTokenPolicy(credential: BearerTokenCredential): PipelinePolicy {
     return bearerAuthenticationPolicy({
       credential,
