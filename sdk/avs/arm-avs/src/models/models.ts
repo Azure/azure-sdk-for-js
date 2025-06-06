@@ -1891,7 +1891,7 @@ export interface PrivateCloud extends TrackedResource {
   /** The SKU (Stock Keeping Unit) assigned to this resource. */
   sku: Sku;
   /** The managed service identities assigned to this resource. */
-  identity?: SystemAssignedServiceIdentity;
+  identity?: PrivateCloudIdentity;
   /** The availability zones. */
   zones?: string[];
 }
@@ -1906,7 +1906,7 @@ export function privateCloudSerializer(item: PrivateCloud): any {
     sku: skuSerializer(item["sku"]),
     identity: !item["identity"]
       ? item["identity"]
-      : systemAssignedServiceIdentitySerializer(item["identity"]),
+      : privateCloudIdentitySerializer(item["identity"]),
     zones: !item["zones"]
       ? item["zones"]
       : item["zones"].map((p: any) => {
@@ -1931,7 +1931,7 @@ export function privateCloudDeserializer(item: any): PrivateCloud {
     sku: skuDeserializer(item["sku"]),
     identity: !item["identity"]
       ? item["identity"]
-      : systemAssignedServiceIdentityDeserializer(item["identity"]),
+      : privateCloudIdentityDeserializer(item["identity"]),
     zones: !item["zones"]
       ? item["zones"]
       : item["zones"].map((p: any) => {
@@ -2536,22 +2536,20 @@ export enum KnownDnsZoneType {
 export type DnsZoneType = string;
 
 /** Managed service identity (either system assigned, or none) */
-export interface SystemAssignedServiceIdentity {
+export interface PrivateCloudIdentity {
   /** The service principal ID of the system assigned identity. This property will only be provided for a system assigned identity. */
   readonly principalId?: string;
   /** The tenant ID of the system assigned identity. This property will only be provided for a system assigned identity. */
   readonly tenantId?: string;
   /** The type of managed identity assigned to this resource. */
-  type: SystemAssignedServiceIdentityType;
+  type: ResourceIdentityType;
 }
 
-export function systemAssignedServiceIdentitySerializer(item: SystemAssignedServiceIdentity): any {
+export function privateCloudIdentitySerializer(item: PrivateCloudIdentity): any {
   return { type: item["type"] };
 }
 
-export function systemAssignedServiceIdentityDeserializer(
-  item: any,
-): SystemAssignedServiceIdentity {
+export function privateCloudIdentityDeserializer(item: any): PrivateCloudIdentity {
   return {
     principalId: item["principalId"],
     tenantId: item["tenantId"],
@@ -2560,7 +2558,7 @@ export function systemAssignedServiceIdentityDeserializer(
 }
 
 /** Type of managed service identity (either system assigned, or none). */
-export enum KnownSystemAssignedServiceIdentityType {
+export enum KnownResourceIdentityType {
   /** No managed system identity. */
   None = "None",
   /** System assigned managed system identity. */
@@ -2569,13 +2567,13 @@ export enum KnownSystemAssignedServiceIdentityType {
 
 /**
  * Type of managed service identity (either system assigned, or none). \
- * {@link KnownSystemAssignedServiceIdentityType} can be used interchangeably with SystemAssignedServiceIdentityType,
+ * {@link KnownResourceIdentityType} can be used interchangeably with ResourceIdentityType,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
  * **None**: No managed system identity. \
  * **SystemAssigned**: System assigned managed system identity.
  */
-export type SystemAssignedServiceIdentityType = string;
+export type ResourceIdentityType = string;
 
 /** The resource model definition for an Azure Resource Manager tracked top level resource which has 'tags' and a 'location' */
 export interface TrackedResource extends Resource {
@@ -2609,7 +2607,7 @@ export interface PrivateCloudUpdate {
   /** The SKU (Stock Keeping Unit) assigned to this resource. */
   sku?: Sku;
   /** The managed service identities assigned to this resource. */
-  identity?: SystemAssignedServiceIdentity;
+  identity?: PrivateCloudIdentity;
   /** The updatable properties of a private cloud resource */
   properties?: PrivateCloudUpdateProperties;
 }
@@ -2620,7 +2618,7 @@ export function privateCloudUpdateSerializer(item: PrivateCloudUpdate): any {
     sku: !item["sku"] ? item["sku"] : skuSerializer(item["sku"]),
     identity: !item["identity"]
       ? item["identity"]
-      : systemAssignedServiceIdentitySerializer(item["identity"]),
+      : privateCloudIdentitySerializer(item["identity"]),
     properties: !item["properties"]
       ? item["properties"]
       : privateCloudUpdatePropertiesSerializer(item["properties"]),
