@@ -4,11 +4,14 @@
 
 ```ts
 
-import * as coreAuth from '@azure/core-auth';
-import * as coreClient from '@azure/core-client';
+import { AbortSignalLike } from '@azure/abort-controller';
+import { ClientOptions } from '@azure-rest/core-client';
+import { OperationOptions } from '@azure-rest/core-client';
 import { OperationState } from '@azure/core-lro';
-import { PagedAsyncIterableIterator } from '@azure/core-paging';
-import { SimplePollerLike } from '@azure/core-lro';
+import { PathUncheckedResponse } from '@azure-rest/core-client';
+import { Pipeline } from '@azure/core-rest-pipeline';
+import { PollerLike } from '@azure/core-lro';
+import { TokenCredential } from '@azure/core-auth';
 
 // @public
 export type ActionType = string;
@@ -27,83 +30,48 @@ export interface AddonArcProperties extends AddonProperties {
 // @public
 export interface AddonHcxProperties extends AddonProperties {
     addonType: "HCX";
+    managementNetwork?: string;
     offer: string;
-}
-
-// @public
-export interface AddonList {
-    nextLink?: string;
-    value: Addon[];
+    uplinkNetwork?: string;
 }
 
 // @public
 export interface AddonProperties {
-    addonType: "Arc" | "HCX" | "SRM" | "VR";
+    addonType: AddonType;
     readonly provisioningState?: AddonProvisioningState;
 }
 
-// @public (undocumented)
-export type AddonPropertiesUnion = AddonProperties | AddonArcProperties | AddonHcxProperties | AddonSrmProperties | AddonVrProperties;
+// @public
+export type AddonPropertiesUnion = AddonSrmProperties | AddonVrProperties | AddonHcxProperties | AddonArcProperties | AddonProperties;
 
 // @public
 export type AddonProvisioningState = string;
 
 // @public
-export interface Addons {
-    beginCreateOrUpdate(resourceGroupName: string, privateCloudName: string, addonName: string, addon: Addon, options?: AddonsCreateOrUpdateOptionalParams): Promise<SimplePollerLike<OperationState<AddonsCreateOrUpdateResponse>, AddonsCreateOrUpdateResponse>>;
-    beginCreateOrUpdateAndWait(resourceGroupName: string, privateCloudName: string, addonName: string, addon: Addon, options?: AddonsCreateOrUpdateOptionalParams): Promise<AddonsCreateOrUpdateResponse>;
-    beginDelete(resourceGroupName: string, privateCloudName: string, addonName: string, options?: AddonsDeleteOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
-    beginDeleteAndWait(resourceGroupName: string, privateCloudName: string, addonName: string, options?: AddonsDeleteOptionalParams): Promise<void>;
-    get(resourceGroupName: string, privateCloudName: string, addonName: string, options?: AddonsGetOptionalParams): Promise<AddonsGetResponse>;
-    list(resourceGroupName: string, privateCloudName: string, options?: AddonsListOptionalParams): PagedAsyncIterableIterator<Addon>;
-}
-
-// @public
-export interface AddonsCreateOrUpdateHeaders {
-    retryAfter?: number;
-}
-
-// @public
-export interface AddonsCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface AddonsCreateOrUpdateOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
 
 // @public
-export type AddonsCreateOrUpdateResponse = Addon;
-
-// @public
-export interface AddonsDeleteHeaders {
-    location?: string;
-    retryAfter?: number;
-}
-
-// @public
-export interface AddonsDeleteOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface AddonsDeleteOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
 
 // @public
-export interface AddonsGetOptionalParams extends coreClient.OperationOptions {
+export interface AddonsGetOptionalParams extends OperationOptions {
 }
 
 // @public
-export type AddonsGetResponse = Addon;
-
-// @public
-export interface AddonsListNextOptionalParams extends coreClient.OperationOptions {
+export interface AddonsListOptionalParams extends OperationOptions {
 }
 
 // @public
-export type AddonsListNextResponse = AddonList;
-
-// @public
-export interface AddonsListOptionalParams extends coreClient.OperationOptions {
+export interface AddonsOperations {
+    createOrUpdate: (resourceGroupName: string, privateCloudName: string, addonName: string, addon: Addon, options?: AddonsCreateOrUpdateOptionalParams) => PollerLike<OperationState<Addon>, Addon>;
+    delete: (resourceGroupName: string, privateCloudName: string, addonName: string, options?: AddonsDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
+    get: (resourceGroupName: string, privateCloudName: string, addonName: string, options?: AddonsGetOptionalParams) => Promise<Addon>;
+    list: (resourceGroupName: string, privateCloudName: string, options?: AddonsListOptionalParams) => PagedAsyncIterableIterator<Addon>;
 }
-
-// @public
-export type AddonsListResponse = AddonList;
 
 // @public
 export interface AddonSrmProperties extends AddonProperties {
@@ -135,61 +103,30 @@ export type AffinityStrength = string;
 export type AffinityType = string;
 
 // @public
-export interface Authorizations {
-    beginCreateOrUpdate(resourceGroupName: string, privateCloudName: string, authorizationName: string, authorization: ExpressRouteAuthorization, options?: AuthorizationsCreateOrUpdateOptionalParams): Promise<SimplePollerLike<OperationState<AuthorizationsCreateOrUpdateResponse>, AuthorizationsCreateOrUpdateResponse>>;
-    beginCreateOrUpdateAndWait(resourceGroupName: string, privateCloudName: string, authorizationName: string, authorization: ExpressRouteAuthorization, options?: AuthorizationsCreateOrUpdateOptionalParams): Promise<AuthorizationsCreateOrUpdateResponse>;
-    beginDelete(resourceGroupName: string, privateCloudName: string, authorizationName: string, options?: AuthorizationsDeleteOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
-    beginDeleteAndWait(resourceGroupName: string, privateCloudName: string, authorizationName: string, options?: AuthorizationsDeleteOptionalParams): Promise<void>;
-    get(resourceGroupName: string, privateCloudName: string, authorizationName: string, options?: AuthorizationsGetOptionalParams): Promise<AuthorizationsGetResponse>;
-    list(resourceGroupName: string, privateCloudName: string, options?: AuthorizationsListOptionalParams): PagedAsyncIterableIterator<ExpressRouteAuthorization>;
-}
-
-// @public
-export interface AuthorizationsCreateOrUpdateHeaders {
-    retryAfter?: number;
-}
-
-// @public
-export interface AuthorizationsCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface AuthorizationsCreateOrUpdateOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
 
 // @public
-export type AuthorizationsCreateOrUpdateResponse = ExpressRouteAuthorization;
-
-// @public
-export interface AuthorizationsDeleteHeaders {
-    location?: string;
-    retryAfter?: number;
-}
-
-// @public
-export interface AuthorizationsDeleteOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface AuthorizationsDeleteOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
 
 // @public
-export interface AuthorizationsGetOptionalParams extends coreClient.OperationOptions {
+export interface AuthorizationsGetOptionalParams extends OperationOptions {
 }
 
 // @public
-export type AuthorizationsGetResponse = ExpressRouteAuthorization;
-
-// @public
-export interface AuthorizationsListNextOptionalParams extends coreClient.OperationOptions {
+export interface AuthorizationsListOptionalParams extends OperationOptions {
 }
 
 // @public
-export type AuthorizationsListNextResponse = ExpressRouteAuthorizationList;
-
-// @public
-export interface AuthorizationsListOptionalParams extends coreClient.OperationOptions {
+export interface AuthorizationsOperations {
+    createOrUpdate: (resourceGroupName: string, privateCloudName: string, authorizationName: string, authorization: ExpressRouteAuthorization, options?: AuthorizationsCreateOrUpdateOptionalParams) => PollerLike<OperationState<ExpressRouteAuthorization>, ExpressRouteAuthorization>;
+    delete: (resourceGroupName: string, privateCloudName: string, authorizationName: string, options?: AuthorizationsDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
+    get: (resourceGroupName: string, privateCloudName: string, authorizationName: string, options?: AuthorizationsGetOptionalParams) => Promise<ExpressRouteAuthorization>;
+    list: (resourceGroupName: string, privateCloudName: string, options?: AuthorizationsListOptionalParams) => PagedAsyncIterableIterator<ExpressRouteAuthorization>;
 }
-
-// @public
-export type AuthorizationsListResponse = ExpressRouteAuthorizationList;
 
 // @public
 export interface AvailabilityProperties {
@@ -205,55 +142,35 @@ export type AvailabilityStrategy = string;
 export type AzureHybridBenefitType = string;
 
 // @public (undocumented)
-export class AzureVMwareSolutionAPI extends coreClient.ServiceClient {
-    // (undocumented)
-    $host: string;
-    constructor(credentials: coreAuth.TokenCredential, subscriptionId: string, options?: AzureVMwareSolutionAPIOptionalParams);
-    // (undocumented)
-    addons: Addons;
-    // (undocumented)
-    apiVersion: string;
-    // (undocumented)
-    authorizations: Authorizations;
-    // (undocumented)
-    cloudLinks: CloudLinks;
-    // (undocumented)
-    clusters: Clusters;
-    // (undocumented)
-    datastores: Datastores;
-    // (undocumented)
-    globalReachConnections: GlobalReachConnections;
-    // (undocumented)
-    hcxEnterpriseSites: HcxEnterpriseSites;
-    // (undocumented)
-    iscsiPaths: IscsiPaths;
-    // (undocumented)
-    locations: Locations;
-    // (undocumented)
-    operations: Operations;
-    // (undocumented)
-    placementPolicies: PlacementPolicies;
-    // (undocumented)
-    privateClouds: PrivateClouds;
-    // (undocumented)
-    scriptCmdlets: ScriptCmdlets;
-    // (undocumented)
-    scriptExecutions: ScriptExecutions;
-    // (undocumented)
-    scriptPackages: ScriptPackages;
-    // (undocumented)
-    subscriptionId: string;
-    // (undocumented)
-    virtualMachines: VirtualMachines;
-    // (undocumented)
-    workloadNetworks: WorkloadNetworks;
+export class AzureVMwareSolutionAPI {
+    constructor(credential: TokenCredential, subscriptionId: string, options?: AzureVMwareSolutionAPIOptionalParams);
+    readonly addons: AddonsOperations;
+    readonly authorizations: AuthorizationsOperations;
+    readonly cloudLinks: CloudLinksOperations;
+    readonly clusters: ClustersOperations;
+    readonly datastores: DatastoresOperations;
+    readonly globalReachConnections: GlobalReachConnectionsOperations;
+    readonly hcxEnterpriseSites: HcxEnterpriseSitesOperations;
+    readonly hosts: HostsOperations;
+    readonly iscsiPaths: IscsiPathsOperations;
+    readonly locations: LocationsOperations;
+    readonly operations: OperationsOperations;
+    readonly pipeline: Pipeline;
+    readonly placementPolicies: PlacementPoliciesOperations;
+    readonly privateClouds: PrivateCloudsOperations;
+    readonly provisionedNetworks: ProvisionedNetworksOperations;
+    readonly pureStoragePolicies: PureStoragePoliciesOperations;
+    readonly scriptCmdlets: ScriptCmdletsOperations;
+    readonly scriptExecutions: ScriptExecutionsOperations;
+    readonly scriptPackages: ScriptPackagesOperations;
+    readonly skus: SkusOperations;
+    readonly virtualMachines: VirtualMachinesOperations;
+    readonly workloadNetworks: WorkloadNetworksOperations;
 }
 
 // @public
-export interface AzureVMwareSolutionAPIOptionalParams extends coreClient.ServiceClientOptions {
-    $host?: string;
+export interface AzureVMwareSolutionAPIOptionalParams extends ClientOptions {
     apiVersion?: string;
-    endpoint?: string;
 }
 
 // @public
@@ -266,186 +183,113 @@ export interface Circuit {
 
 // @public
 export interface CloudLink extends ProxyResource {
+    properties?: CloudLinkProperties;
+}
+
+// @public
+export interface CloudLinkProperties {
     linkedCloud?: string;
     readonly provisioningState?: CloudLinkProvisioningState;
     readonly status?: CloudLinkStatus;
 }
 
 // @public
-export interface CloudLinkList {
-    nextLink?: string;
-    value: CloudLink[];
-}
-
-// @public
 export type CloudLinkProvisioningState = string;
 
 // @public
-export interface CloudLinks {
-    beginCreateOrUpdate(resourceGroupName: string, privateCloudName: string, cloudLinkName: string, cloudLink: CloudLink, options?: CloudLinksCreateOrUpdateOptionalParams): Promise<SimplePollerLike<OperationState<CloudLinksCreateOrUpdateResponse>, CloudLinksCreateOrUpdateResponse>>;
-    beginCreateOrUpdateAndWait(resourceGroupName: string, privateCloudName: string, cloudLinkName: string, cloudLink: CloudLink, options?: CloudLinksCreateOrUpdateOptionalParams): Promise<CloudLinksCreateOrUpdateResponse>;
-    beginDelete(resourceGroupName: string, privateCloudName: string, cloudLinkName: string, options?: CloudLinksDeleteOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
-    beginDeleteAndWait(resourceGroupName: string, privateCloudName: string, cloudLinkName: string, options?: CloudLinksDeleteOptionalParams): Promise<void>;
-    get(resourceGroupName: string, privateCloudName: string, cloudLinkName: string, options?: CloudLinksGetOptionalParams): Promise<CloudLinksGetResponse>;
-    list(resourceGroupName: string, privateCloudName: string, options?: CloudLinksListOptionalParams): PagedAsyncIterableIterator<CloudLink>;
-}
-
-// @public
-export interface CloudLinksCreateOrUpdateHeaders {
-    retryAfter?: number;
-}
-
-// @public
-export interface CloudLinksCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface CloudLinksCreateOrUpdateOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
 
 // @public
-export type CloudLinksCreateOrUpdateResponse = CloudLink;
-
-// @public
-export interface CloudLinksDeleteHeaders {
-    location?: string;
-    retryAfter?: number;
-}
-
-// @public
-export interface CloudLinksDeleteOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface CloudLinksDeleteOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
 
 // @public
-export interface CloudLinksGetOptionalParams extends coreClient.OperationOptions {
+export interface CloudLinksGetOptionalParams extends OperationOptions {
 }
 
 // @public
-export type CloudLinksGetResponse = CloudLink;
-
-// @public
-export interface CloudLinksListNextOptionalParams extends coreClient.OperationOptions {
+export interface CloudLinksListOptionalParams extends OperationOptions {
 }
 
 // @public
-export type CloudLinksListNextResponse = CloudLinkList;
-
-// @public
-export interface CloudLinksListOptionalParams extends coreClient.OperationOptions {
+export interface CloudLinksOperations {
+    createOrUpdate: (resourceGroupName: string, privateCloudName: string, cloudLinkName: string, cloudLink: CloudLink, options?: CloudLinksCreateOrUpdateOptionalParams) => PollerLike<OperationState<CloudLink>, CloudLink>;
+    delete: (resourceGroupName: string, privateCloudName: string, cloudLinkName: string, options?: CloudLinksDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
+    get: (resourceGroupName: string, privateCloudName: string, cloudLinkName: string, options?: CloudLinksGetOptionalParams) => Promise<CloudLink>;
+    list: (resourceGroupName: string, privateCloudName: string, options?: CloudLinksListOptionalParams) => PagedAsyncIterableIterator<CloudLink>;
 }
-
-// @public
-export type CloudLinksListResponse = CloudLinkList;
 
 // @public
 export type CloudLinkStatus = string;
 
 // @public
 export interface Cluster extends ProxyResource {
+    properties?: ClusterProperties;
+    sku: Sku;
+}
+
+// @public
+export interface ClusterProperties {
     readonly clusterId?: number;
     clusterSize?: number;
     hosts?: string[];
     readonly provisioningState?: ClusterProvisioningState;
-    sku: Sku;
     vsanDatastoreName?: string;
-}
-
-// @public
-export interface ClusterList {
-    nextLink?: string;
-    value: Cluster[];
 }
 
 // @public
 export type ClusterProvisioningState = string;
 
 // @public
-export interface Clusters {
-    beginCreateOrUpdate(resourceGroupName: string, privateCloudName: string, clusterName: string, cluster: Cluster, options?: ClustersCreateOrUpdateOptionalParams): Promise<SimplePollerLike<OperationState<ClustersCreateOrUpdateResponse>, ClustersCreateOrUpdateResponse>>;
-    beginCreateOrUpdateAndWait(resourceGroupName: string, privateCloudName: string, clusterName: string, cluster: Cluster, options?: ClustersCreateOrUpdateOptionalParams): Promise<ClustersCreateOrUpdateResponse>;
-    beginDelete(resourceGroupName: string, privateCloudName: string, clusterName: string, options?: ClustersDeleteOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
-    beginDeleteAndWait(resourceGroupName: string, privateCloudName: string, clusterName: string, options?: ClustersDeleteOptionalParams): Promise<void>;
-    beginUpdate(resourceGroupName: string, privateCloudName: string, clusterName: string, clusterUpdate: ClusterUpdate, options?: ClustersUpdateOptionalParams): Promise<SimplePollerLike<OperationState<ClustersUpdateResponse>, ClustersUpdateResponse>>;
-    beginUpdateAndWait(resourceGroupName: string, privateCloudName: string, clusterName: string, clusterUpdate: ClusterUpdate, options?: ClustersUpdateOptionalParams): Promise<ClustersUpdateResponse>;
-    get(resourceGroupName: string, privateCloudName: string, clusterName: string, options?: ClustersGetOptionalParams): Promise<ClustersGetResponse>;
-    list(resourceGroupName: string, privateCloudName: string, options?: ClustersListOptionalParams): PagedAsyncIterableIterator<Cluster>;
-    listZones(resourceGroupName: string, privateCloudName: string, clusterName: string, options?: ClustersListZonesOptionalParams): Promise<ClustersListZonesResponse>;
-}
-
-// @public
-export interface ClustersCreateOrUpdateHeaders {
-    retryAfter?: number;
-}
-
-// @public
-export interface ClustersCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface ClustersCreateOrUpdateOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
 
 // @public
-export type ClustersCreateOrUpdateResponse = Cluster;
-
-// @public
-export interface ClustersDeleteHeaders {
-    location?: string;
-    retryAfter?: number;
-}
-
-// @public
-export interface ClustersDeleteOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface ClustersDeleteOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
 
 // @public
-export interface ClustersGetOptionalParams extends coreClient.OperationOptions {
+export interface ClustersGetOptionalParams extends OperationOptions {
 }
 
 // @public
-export type ClustersGetResponse = Cluster;
-
-// @public
-export interface ClustersListNextOptionalParams extends coreClient.OperationOptions {
+export interface ClustersListOptionalParams extends OperationOptions {
 }
 
 // @public
-export type ClustersListNextResponse = ClusterList;
-
-// @public
-export interface ClustersListOptionalParams extends coreClient.OperationOptions {
+export interface ClustersListZonesOptionalParams extends OperationOptions {
 }
 
 // @public
-export type ClustersListResponse = ClusterList;
-
-// @public
-export interface ClustersListZonesOptionalParams extends coreClient.OperationOptions {
+export interface ClustersOperations {
+    createOrUpdate: (resourceGroupName: string, privateCloudName: string, clusterName: string, cluster: Cluster, options?: ClustersCreateOrUpdateOptionalParams) => PollerLike<OperationState<Cluster>, Cluster>;
+    delete: (resourceGroupName: string, privateCloudName: string, clusterName: string, options?: ClustersDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
+    get: (resourceGroupName: string, privateCloudName: string, clusterName: string, options?: ClustersGetOptionalParams) => Promise<Cluster>;
+    list: (resourceGroupName: string, privateCloudName: string, options?: ClustersListOptionalParams) => PagedAsyncIterableIterator<Cluster>;
+    listZones: (resourceGroupName: string, privateCloudName: string, clusterName: string, options?: ClustersListZonesOptionalParams) => Promise<ClusterZoneList>;
+    update: (resourceGroupName: string, privateCloudName: string, clusterName: string, clusterUpdate: ClusterUpdate, options?: ClustersUpdateOptionalParams) => PollerLike<OperationState<Cluster>, Cluster>;
 }
 
 // @public
-export type ClustersListZonesResponse = ClusterZoneList;
-
-// @public
-export interface ClustersUpdateHeaders {
-    location?: string;
-    retryAfter?: number;
-}
-
-// @public
-export interface ClustersUpdateOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface ClustersUpdateOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
-
-// @public
-export type ClustersUpdateResponse = Cluster;
 
 // @public
 export interface ClusterUpdate {
+    properties?: ClusterUpdateProperties;
+    sku?: Sku;
+}
+
+// @public
+export interface ClusterUpdateProperties {
     clusterSize?: number;
     hosts?: string[];
-    sku?: Sku;
 }
 
 // @public
@@ -460,82 +304,56 @@ export interface ClusterZoneList {
 }
 
 // @public
+export type ContinuablePage<TElement, TPage = TElement[]> = TPage & {
+    continuationToken?: string;
+};
+
+// @public
 export type CreatedByType = string;
 
 // @public
 export interface Datastore extends ProxyResource {
+    properties?: DatastoreProperties;
+}
+
+// @public
+export interface DatastoreProperties {
     diskPoolVolume?: DiskPoolVolume;
     elasticSanVolume?: ElasticSanVolume;
     netAppVolume?: NetAppVolume;
     readonly provisioningState?: DatastoreProvisioningState;
+    pureStorageVolume?: PureStorageVolume;
     readonly status?: DatastoreStatus;
-}
-
-// @public
-export interface DatastoreList {
-    nextLink?: string;
-    value: Datastore[];
 }
 
 // @public
 export type DatastoreProvisioningState = string;
 
 // @public
-export interface Datastores {
-    beginCreateOrUpdate(resourceGroupName: string, privateCloudName: string, clusterName: string, datastoreName: string, datastore: Datastore, options?: DatastoresCreateOrUpdateOptionalParams): Promise<SimplePollerLike<OperationState<DatastoresCreateOrUpdateResponse>, DatastoresCreateOrUpdateResponse>>;
-    beginCreateOrUpdateAndWait(resourceGroupName: string, privateCloudName: string, clusterName: string, datastoreName: string, datastore: Datastore, options?: DatastoresCreateOrUpdateOptionalParams): Promise<DatastoresCreateOrUpdateResponse>;
-    beginDelete(resourceGroupName: string, privateCloudName: string, clusterName: string, datastoreName: string, options?: DatastoresDeleteOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
-    beginDeleteAndWait(resourceGroupName: string, privateCloudName: string, clusterName: string, datastoreName: string, options?: DatastoresDeleteOptionalParams): Promise<void>;
-    get(resourceGroupName: string, privateCloudName: string, clusterName: string, datastoreName: string, options?: DatastoresGetOptionalParams): Promise<DatastoresGetResponse>;
-    list(resourceGroupName: string, privateCloudName: string, clusterName: string, options?: DatastoresListOptionalParams): PagedAsyncIterableIterator<Datastore>;
-}
-
-// @public
-export interface DatastoresCreateOrUpdateHeaders {
-    retryAfter?: number;
-}
-
-// @public
-export interface DatastoresCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface DatastoresCreateOrUpdateOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
 
 // @public
-export type DatastoresCreateOrUpdateResponse = Datastore;
-
-// @public
-export interface DatastoresDeleteHeaders {
-    location?: string;
-    retryAfter?: number;
-}
-
-// @public
-export interface DatastoresDeleteOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface DatastoresDeleteOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
 
 // @public
-export interface DatastoresGetOptionalParams extends coreClient.OperationOptions {
+export interface DatastoresGetOptionalParams extends OperationOptions {
 }
 
 // @public
-export type DatastoresGetResponse = Datastore;
-
-// @public
-export interface DatastoresListNextOptionalParams extends coreClient.OperationOptions {
+export interface DatastoresListOptionalParams extends OperationOptions {
 }
 
 // @public
-export type DatastoresListNextResponse = DatastoreList;
-
-// @public
-export interface DatastoresListOptionalParams extends coreClient.OperationOptions {
+export interface DatastoresOperations {
+    createOrUpdate: (resourceGroupName: string, privateCloudName: string, clusterName: string, datastoreName: string, datastore: Datastore, options?: DatastoresCreateOrUpdateOptionalParams) => PollerLike<OperationState<Datastore>, Datastore>;
+    delete: (resourceGroupName: string, privateCloudName: string, clusterName: string, datastoreName: string, options?: DatastoresDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
+    get: (resourceGroupName: string, privateCloudName: string, clusterName: string, datastoreName: string, options?: DatastoresGetOptionalParams) => Promise<Datastore>;
+    list: (resourceGroupName: string, privateCloudName: string, clusterName: string, options?: DatastoresListOptionalParams) => PagedAsyncIterableIterator<Datastore>;
 }
-
-// @public
-export type DatastoresListResponse = DatastoreList;
 
 // @public
 export type DatastoreStatus = string;
@@ -602,7 +420,7 @@ export interface Endpoints {
 
 // @public
 export interface ErrorAdditionalInfo {
-    readonly info?: Record<string, unknown>;
+    readonly info?: any;
     readonly type?: string;
 }
 
@@ -622,6 +440,11 @@ export interface ErrorResponse {
 
 // @public
 export interface ExpressRouteAuthorization extends ProxyResource {
+    properties?: ExpressRouteAuthorizationProperties;
+}
+
+// @public
+export interface ExpressRouteAuthorizationProperties {
     readonly expressRouteAuthorizationId?: string;
     readonly expressRouteAuthorizationKey?: string;
     expressRouteId?: string;
@@ -629,19 +452,20 @@ export interface ExpressRouteAuthorization extends ProxyResource {
 }
 
 // @public
-export interface ExpressRouteAuthorizationList {
-    nextLink?: string;
-    value: ExpressRouteAuthorization[];
-}
-
-// @public
 export type ExpressRouteAuthorizationProvisioningState = string;
 
 // @public
-export function getContinuationToken(page: unknown): string | undefined;
+export interface GeneralHostProperties extends HostProperties {
+    kind: "General";
+}
 
 // @public
 export interface GlobalReachConnection extends ProxyResource {
+    properties?: GlobalReachConnectionProperties;
+}
+
+// @public
+export interface GlobalReachConnectionProperties {
     readonly addressPrefix?: string;
     authorizationKey?: string;
     readonly circuitConnectionStatus?: GlobalReachConnectionStatus;
@@ -651,132 +475,123 @@ export interface GlobalReachConnection extends ProxyResource {
 }
 
 // @public
-export interface GlobalReachConnectionList {
-    nextLink?: string;
-    value: GlobalReachConnection[];
-}
-
-// @public
 export type GlobalReachConnectionProvisioningState = string;
 
 // @public
-export interface GlobalReachConnections {
-    beginCreateOrUpdate(resourceGroupName: string, privateCloudName: string, globalReachConnectionName: string, globalReachConnection: GlobalReachConnection, options?: GlobalReachConnectionsCreateOrUpdateOptionalParams): Promise<SimplePollerLike<OperationState<GlobalReachConnectionsCreateOrUpdateResponse>, GlobalReachConnectionsCreateOrUpdateResponse>>;
-    beginCreateOrUpdateAndWait(resourceGroupName: string, privateCloudName: string, globalReachConnectionName: string, globalReachConnection: GlobalReachConnection, options?: GlobalReachConnectionsCreateOrUpdateOptionalParams): Promise<GlobalReachConnectionsCreateOrUpdateResponse>;
-    beginDelete(resourceGroupName: string, privateCloudName: string, globalReachConnectionName: string, options?: GlobalReachConnectionsDeleteOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
-    beginDeleteAndWait(resourceGroupName: string, privateCloudName: string, globalReachConnectionName: string, options?: GlobalReachConnectionsDeleteOptionalParams): Promise<void>;
-    get(resourceGroupName: string, privateCloudName: string, globalReachConnectionName: string, options?: GlobalReachConnectionsGetOptionalParams): Promise<GlobalReachConnectionsGetResponse>;
-    list(resourceGroupName: string, privateCloudName: string, options?: GlobalReachConnectionsListOptionalParams): PagedAsyncIterableIterator<GlobalReachConnection>;
-}
-
-// @public
-export interface GlobalReachConnectionsCreateOrUpdateHeaders {
-    retryAfter?: number;
-}
-
-// @public
-export interface GlobalReachConnectionsCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface GlobalReachConnectionsCreateOrUpdateOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
 
 // @public
-export type GlobalReachConnectionsCreateOrUpdateResponse = GlobalReachConnection;
-
-// @public
-export interface GlobalReachConnectionsDeleteHeaders {
-    location?: string;
-    retryAfter?: number;
-}
-
-// @public
-export interface GlobalReachConnectionsDeleteOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface GlobalReachConnectionsDeleteOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
 
 // @public
-export interface GlobalReachConnectionsGetOptionalParams extends coreClient.OperationOptions {
+export interface GlobalReachConnectionsGetOptionalParams extends OperationOptions {
 }
 
 // @public
-export type GlobalReachConnectionsGetResponse = GlobalReachConnection;
-
-// @public
-export interface GlobalReachConnectionsListNextOptionalParams extends coreClient.OperationOptions {
+export interface GlobalReachConnectionsListOptionalParams extends OperationOptions {
 }
 
 // @public
-export type GlobalReachConnectionsListNextResponse = GlobalReachConnectionList;
-
-// @public
-export interface GlobalReachConnectionsListOptionalParams extends coreClient.OperationOptions {
+export interface GlobalReachConnectionsOperations {
+    createOrUpdate: (resourceGroupName: string, privateCloudName: string, globalReachConnectionName: string, globalReachConnection: GlobalReachConnection, options?: GlobalReachConnectionsCreateOrUpdateOptionalParams) => PollerLike<OperationState<GlobalReachConnection>, GlobalReachConnection>;
+    delete: (resourceGroupName: string, privateCloudName: string, globalReachConnectionName: string, options?: GlobalReachConnectionsDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
+    get: (resourceGroupName: string, privateCloudName: string, globalReachConnectionName: string, options?: GlobalReachConnectionsGetOptionalParams) => Promise<GlobalReachConnection>;
+    list: (resourceGroupName: string, privateCloudName: string, options?: GlobalReachConnectionsListOptionalParams) => PagedAsyncIterableIterator<GlobalReachConnection>;
 }
-
-// @public
-export type GlobalReachConnectionsListResponse = GlobalReachConnectionList;
 
 // @public
 export type GlobalReachConnectionStatus = string;
 
 // @public
 export interface HcxEnterpriseSite extends ProxyResource {
+    properties?: HcxEnterpriseSiteProperties;
+}
+
+// @public
+export interface HcxEnterpriseSiteProperties {
     readonly activationKey?: string;
     readonly provisioningState?: HcxEnterpriseSiteProvisioningState;
     readonly status?: HcxEnterpriseSiteStatus;
 }
 
 // @public
-export interface HcxEnterpriseSiteList {
-    nextLink?: string;
-    value: HcxEnterpriseSite[];
-}
-
-// @public
 export type HcxEnterpriseSiteProvisioningState = string;
 
 // @public
-export interface HcxEnterpriseSites {
-    createOrUpdate(resourceGroupName: string, privateCloudName: string, hcxEnterpriseSiteName: string, hcxEnterpriseSite: HcxEnterpriseSite, options?: HcxEnterpriseSitesCreateOrUpdateOptionalParams): Promise<HcxEnterpriseSitesCreateOrUpdateResponse>;
-    delete(resourceGroupName: string, privateCloudName: string, hcxEnterpriseSiteName: string, options?: HcxEnterpriseSitesDeleteOptionalParams): Promise<void>;
-    get(resourceGroupName: string, privateCloudName: string, hcxEnterpriseSiteName: string, options?: HcxEnterpriseSitesGetOptionalParams): Promise<HcxEnterpriseSitesGetResponse>;
-    list(resourceGroupName: string, privateCloudName: string, options?: HcxEnterpriseSitesListOptionalParams): PagedAsyncIterableIterator<HcxEnterpriseSite>;
+export interface HcxEnterpriseSitesCreateOrUpdateOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface HcxEnterpriseSitesCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
+export interface HcxEnterpriseSitesDeleteOptionalParams extends OperationOptions {
 }
 
 // @public
-export type HcxEnterpriseSitesCreateOrUpdateResponse = HcxEnterpriseSite;
-
-// @public
-export interface HcxEnterpriseSitesDeleteOptionalParams extends coreClient.OperationOptions {
+export interface HcxEnterpriseSitesGetOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface HcxEnterpriseSitesGetOptionalParams extends coreClient.OperationOptions {
+export interface HcxEnterpriseSitesListOptionalParams extends OperationOptions {
 }
 
 // @public
-export type HcxEnterpriseSitesGetResponse = HcxEnterpriseSite;
-
-// @public
-export interface HcxEnterpriseSitesListNextOptionalParams extends coreClient.OperationOptions {
+export interface HcxEnterpriseSitesOperations {
+    createOrUpdate: (resourceGroupName: string, privateCloudName: string, hcxEnterpriseSiteName: string, hcxEnterpriseSite: HcxEnterpriseSite, options?: HcxEnterpriseSitesCreateOrUpdateOptionalParams) => Promise<HcxEnterpriseSite>;
+    delete: (resourceGroupName: string, privateCloudName: string, hcxEnterpriseSiteName: string, options?: HcxEnterpriseSitesDeleteOptionalParams) => Promise<void>;
+    get: (resourceGroupName: string, privateCloudName: string, hcxEnterpriseSiteName: string, options?: HcxEnterpriseSitesGetOptionalParams) => Promise<HcxEnterpriseSite>;
+    list: (resourceGroupName: string, privateCloudName: string, options?: HcxEnterpriseSitesListOptionalParams) => PagedAsyncIterableIterator<HcxEnterpriseSite>;
 }
-
-// @public
-export type HcxEnterpriseSitesListNextResponse = HcxEnterpriseSiteList;
-
-// @public
-export interface HcxEnterpriseSitesListOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type HcxEnterpriseSitesListResponse = HcxEnterpriseSiteList;
 
 // @public
 export type HcxEnterpriseSiteStatus = string;
+
+// @public
+export interface Host extends ProxyResource {
+    properties?: HostPropertiesUnion;
+    sku?: Sku;
+    zones?: string[];
+}
+
+// @public
+export type HostKind = string;
+
+// @public
+export type HostMaintenance = string;
+
+// @public
+export interface HostProperties {
+    displayName?: string;
+    // (undocumented)
+    readonly faultDomain?: string;
+    readonly fqdn?: string;
+    kind: HostKind;
+    maintenance?: HostMaintenance;
+    readonly moRefId?: string;
+    readonly provisioningState?: HostProvisioningState;
+}
+
+// @public
+export type HostPropertiesUnion = GeneralHostProperties | SpecializedHostProperties | HostProperties;
+
+// @public
+export type HostProvisioningState = string;
+
+// @public
+export interface HostsGetOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface HostsListOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface HostsOperations {
+    get: (resourceGroupName: string, privateCloudName: string, clusterName: string, hostId: string, options?: HostsGetOptionalParams) => Promise<Host>;
+    list: (resourceGroupName: string, privateCloudName: string, clusterName: string, options?: HostsListOptionalParams) => PagedAsyncIterableIterator<Host>;
+}
 
 // @public
 export interface IdentitySource {
@@ -797,75 +612,43 @@ export type InternetEnum = string;
 
 // @public
 export interface IscsiPath extends ProxyResource {
-    networkBlock?: string;
-    readonly provisioningState?: IscsiPathProvisioningState;
+    properties?: IscsiPathProperties;
 }
 
 // @public
-export interface IscsiPathListResult {
-    nextLink?: string;
-    value: IscsiPath[];
+export interface IscsiPathProperties {
+    networkBlock: string;
+    readonly provisioningState?: IscsiPathProvisioningState;
 }
 
 // @public
 export type IscsiPathProvisioningState = string;
 
 // @public
-export interface IscsiPaths {
-    beginCreateOrUpdate(resourceGroupName: string, privateCloudName: string, resource: IscsiPath, options?: IscsiPathsCreateOrUpdateOptionalParams): Promise<SimplePollerLike<OperationState<IscsiPathsCreateOrUpdateResponse>, IscsiPathsCreateOrUpdateResponse>>;
-    beginCreateOrUpdateAndWait(resourceGroupName: string, privateCloudName: string, resource: IscsiPath, options?: IscsiPathsCreateOrUpdateOptionalParams): Promise<IscsiPathsCreateOrUpdateResponse>;
-    beginDelete(resourceGroupName: string, privateCloudName: string, options?: IscsiPathsDeleteOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
-    beginDeleteAndWait(resourceGroupName: string, privateCloudName: string, options?: IscsiPathsDeleteOptionalParams): Promise<void>;
-    get(resourceGroupName: string, privateCloudName: string, options?: IscsiPathsGetOptionalParams): Promise<IscsiPathsGetResponse>;
-    listByPrivateCloud(resourceGroupName: string, privateCloudName: string, options?: IscsiPathsListByPrivateCloudOptionalParams): PagedAsyncIterableIterator<IscsiPath>;
-}
-
-// @public
-export interface IscsiPathsCreateOrUpdateHeaders {
-    retryAfter?: number;
-}
-
-// @public
-export interface IscsiPathsCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface IscsiPathsCreateOrUpdateOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
 
 // @public
-export type IscsiPathsCreateOrUpdateResponse = IscsiPath;
-
-// @public
-export interface IscsiPathsDeleteHeaders {
-    location?: string;
-    retryAfter?: number;
-}
-
-// @public
-export interface IscsiPathsDeleteOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface IscsiPathsDeleteOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
 
 // @public
-export interface IscsiPathsGetOptionalParams extends coreClient.OperationOptions {
+export interface IscsiPathsGetOptionalParams extends OperationOptions {
 }
 
 // @public
-export type IscsiPathsGetResponse = IscsiPath;
-
-// @public
-export interface IscsiPathsListByPrivateCloudNextOptionalParams extends coreClient.OperationOptions {
+export interface IscsiPathsListByPrivateCloudOptionalParams extends OperationOptions {
 }
 
 // @public
-export type IscsiPathsListByPrivateCloudNextResponse = IscsiPathListResult;
-
-// @public
-export interface IscsiPathsListByPrivateCloudOptionalParams extends coreClient.OperationOptions {
+export interface IscsiPathsOperations {
+    createOrUpdate: (resourceGroupName: string, privateCloudName: string, resource: IscsiPath, options?: IscsiPathsCreateOrUpdateOptionalParams) => PollerLike<OperationState<IscsiPath>, IscsiPath>;
+    delete: (resourceGroupName: string, privateCloudName: string, options?: IscsiPathsDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
+    get: (resourceGroupName: string, privateCloudName: string, options?: IscsiPathsGetOptionalParams) => Promise<IscsiPath>;
+    listByPrivateCloud: (resourceGroupName: string, privateCloudName: string, options?: IscsiPathsListByPrivateCloudOptionalParams) => PagedAsyncIterableIterator<IscsiPath>;
 }
-
-// @public
-export type IscsiPathsListByPrivateCloudResponse = IscsiPathListResult;
 
 // @public
 export enum KnownActionType {
@@ -885,9 +668,13 @@ export enum KnownAddonProvisioningState {
 
 // @public
 export enum KnownAddonType {
+    // (undocumented)
     Arc = "Arc",
+    // (undocumented)
     HCX = "HCX",
+    // (undocumented)
     SRM = "SRM",
+    // (undocumented)
     VR = "VR"
 }
 
@@ -974,7 +761,9 @@ export enum KnownDatastoreStatus {
 
 // @public
 export enum KnownDhcpTypeEnum {
+    // (undocumented)
     Relay = "RELAY",
+    // (undocumented)
     Server = "SERVER"
 }
 
@@ -1056,6 +845,27 @@ export enum KnownHcxEnterpriseSiteStatus {
 }
 
 // @public
+export enum KnownHostKind {
+    // (undocumented)
+    General = "General",
+    // (undocumented)
+    Specialized = "Specialized"
+}
+
+// @public
+export enum KnownHostMaintenance {
+    Replacement = "Replacement",
+    Upgrade = "Upgrade"
+}
+
+// @public
+export enum KnownHostProvisioningState {
+    Canceled = "Canceled",
+    Failed = "Failed",
+    Succeeded = "Succeeded"
+}
+
+// @public
 export enum KnownInternetEnum {
     Disabled = "Disabled",
     Enabled = "Enabled"
@@ -1115,7 +925,9 @@ export enum KnownPlacementPolicyState {
 
 // @public
 export enum KnownPlacementPolicyType {
+    // (undocumented)
     VmHost = "VmHost",
+    // (undocumented)
     VmVm = "VmVm"
 }
 
@@ -1145,6 +957,33 @@ export enum KnownPrivateCloudProvisioningState {
 }
 
 // @public
+export enum KnownProvisionedNetworkProvisioningState {
+    Canceled = "Canceled",
+    Failed = "Failed",
+    Succeeded = "Succeeded"
+}
+
+// @public
+export enum KnownProvisionedNetworkTypes {
+    EsxManagement = "esxManagement",
+    EsxReplication = "esxReplication",
+    HcxManagement = "hcxManagement",
+    HcxUplink = "hcxUplink",
+    VcenterManagement = "vcenterManagement",
+    Vmotion = "vmotion",
+    Vsan = "vsan"
+}
+
+// @public
+export enum KnownPureStoragePolicyProvisioningState {
+    Canceled = "Canceled",
+    Deleting = "Deleting",
+    Failed = "Failed",
+    Succeeded = "Succeeded",
+    Updating = "Updating"
+}
+
+// @public
 export enum KnownQuotaEnabled {
     Disabled = "Disabled",
     Enabled = "Enabled"
@@ -1154,6 +993,24 @@ export enum KnownQuotaEnabled {
 export enum KnownResourceIdentityType {
     None = "None",
     SystemAssigned = "SystemAssigned"
+}
+
+// @public
+export enum KnownResourceSkuResourceType {
+    PrivateClouds = "privateClouds",
+    PrivateCloudsClusters = "privateClouds/clusters"
+}
+
+// @public
+export enum KnownResourceSkuRestrictionsReasonCode {
+    NotAvailableForSubscription = "NotAvailableForSubscription",
+    QuotaId = "QuotaId"
+}
+
+// @public
+export enum KnownResourceSkuRestrictionsType {
+    Location = "Location",
+    Zone = "Zone"
 }
 
 // @public
@@ -1171,8 +1028,11 @@ export enum KnownScriptCmdletProvisioningState {
 
 // @public
 export enum KnownScriptExecutionParameterType {
+    // (undocumented)
     Credential = "Credential",
+    // (undocumented)
     SecureValue = "SecureValue",
+    // (undocumented)
     Value = "Value"
 }
 
@@ -1230,6 +1090,12 @@ export enum KnownTrialStatus {
     TrialAvailable = "TrialAvailable",
     TrialDisabled = "TrialDisabled",
     TrialUsed = "TrialUsed"
+}
+
+// @public
+export enum KnownVersions {
+    V20230901 = "2023-09-01",
+    V20240901 = "2024-09-01"
 }
 
 // @public
@@ -1345,25 +1211,19 @@ export enum KnownWorkloadNetworkVMGroupProvisioningState {
 }
 
 // @public
-export interface Locations {
-    checkQuotaAvailability(location: string, options?: LocationsCheckQuotaAvailabilityOptionalParams): Promise<LocationsCheckQuotaAvailabilityResponse>;
-    checkTrialAvailability(location: string, options?: LocationsCheckTrialAvailabilityOptionalParams): Promise<LocationsCheckTrialAvailabilityResponse>;
+export interface LocationsCheckQuotaAvailabilityOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface LocationsCheckQuotaAvailabilityOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type LocationsCheckQuotaAvailabilityResponse = Quota;
-
-// @public
-export interface LocationsCheckTrialAvailabilityOptionalParams extends coreClient.OperationOptions {
+export interface LocationsCheckTrialAvailabilityOptionalParams extends OperationOptions {
     sku?: Sku;
 }
 
 // @public
-export type LocationsCheckTrialAvailabilityResponse = Trial;
+export interface LocationsOperations {
+    checkQuotaAvailability: (location: string, options?: LocationsCheckQuotaAvailabilityOptionalParams) => Promise<Quota>;
+    checkTrialAvailability: (location: string, options?: LocationsCheckTrialAvailabilityOptionalParams) => Promise<Trial>;
+}
 
 // @public
 export interface ManagementCluster {
@@ -1403,29 +1263,13 @@ export interface OperationDisplay {
 }
 
 // @public
-export interface OperationListResult {
-    readonly nextLink?: string;
-    readonly value?: Operation[];
+export interface OperationsListOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface Operations {
-    list(options?: OperationsListOptionalParams): PagedAsyncIterableIterator<Operation>;
+export interface OperationsOperations {
+    list: (options?: OperationsListOptionalParams) => PagedAsyncIterableIterator<Operation>;
 }
-
-// @public
-export interface OperationsListNextOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type OperationsListNextResponse = OperationListResult;
-
-// @public
-export interface OperationsListOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type OperationsListResponse = OperationListResult;
 
 // @public
 export type OptionalParamEnum = string;
@@ -1434,84 +1278,48 @@ export type OptionalParamEnum = string;
 export type Origin = string;
 
 // @public
-export interface PlacementPolicies {
-    beginCreateOrUpdate(resourceGroupName: string, privateCloudName: string, clusterName: string, placementPolicyName: string, placementPolicy: PlacementPolicy, options?: PlacementPoliciesCreateOrUpdateOptionalParams): Promise<SimplePollerLike<OperationState<PlacementPoliciesCreateOrUpdateResponse>, PlacementPoliciesCreateOrUpdateResponse>>;
-    beginCreateOrUpdateAndWait(resourceGroupName: string, privateCloudName: string, clusterName: string, placementPolicyName: string, placementPolicy: PlacementPolicy, options?: PlacementPoliciesCreateOrUpdateOptionalParams): Promise<PlacementPoliciesCreateOrUpdateResponse>;
-    beginDelete(resourceGroupName: string, privateCloudName: string, clusterName: string, placementPolicyName: string, options?: PlacementPoliciesDeleteOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
-    beginDeleteAndWait(resourceGroupName: string, privateCloudName: string, clusterName: string, placementPolicyName: string, options?: PlacementPoliciesDeleteOptionalParams): Promise<void>;
-    beginUpdate(resourceGroupName: string, privateCloudName: string, clusterName: string, placementPolicyName: string, placementPolicyUpdate: PlacementPolicyUpdate, options?: PlacementPoliciesUpdateOptionalParams): Promise<SimplePollerLike<OperationState<PlacementPoliciesUpdateResponse>, PlacementPoliciesUpdateResponse>>;
-    beginUpdateAndWait(resourceGroupName: string, privateCloudName: string, clusterName: string, placementPolicyName: string, placementPolicyUpdate: PlacementPolicyUpdate, options?: PlacementPoliciesUpdateOptionalParams): Promise<PlacementPoliciesUpdateResponse>;
-    get(resourceGroupName: string, privateCloudName: string, clusterName: string, placementPolicyName: string, options?: PlacementPoliciesGetOptionalParams): Promise<PlacementPoliciesGetResponse>;
-    list(resourceGroupName: string, privateCloudName: string, clusterName: string, options?: PlacementPoliciesListOptionalParams): PagedAsyncIterableIterator<PlacementPolicy>;
+export interface PagedAsyncIterableIterator<TElement, TPage = TElement[], TPageSettings extends PageSettings = PageSettings> {
+    [Symbol.asyncIterator](): PagedAsyncIterableIterator<TElement, TPage, TPageSettings>;
+    byPage: (settings?: TPageSettings) => AsyncIterableIterator<ContinuablePage<TElement, TPage>>;
+    next(): Promise<IteratorResult<TElement>>;
 }
 
 // @public
-export interface PlacementPoliciesCreateOrUpdateHeaders {
-    retryAfter?: number;
+export interface PageSettings {
+    continuationToken?: string;
 }
 
 // @public
-export interface PlacementPoliciesCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface PlacementPoliciesCreateOrUpdateOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
 
 // @public
-export type PlacementPoliciesCreateOrUpdateResponse = PlacementPolicy;
-
-// @public
-export interface PlacementPoliciesDeleteHeaders {
-    location?: string;
-    retryAfter?: number;
-}
-
-// @public
-export interface PlacementPoliciesDeleteOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface PlacementPoliciesDeleteOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
 
 // @public
-export interface PlacementPoliciesGetOptionalParams extends coreClient.OperationOptions {
+export interface PlacementPoliciesGetOptionalParams extends OperationOptions {
 }
 
 // @public
-export type PlacementPoliciesGetResponse = PlacementPolicy;
-
-// @public
-export interface PlacementPoliciesList {
-    nextLink?: string;
-    value: PlacementPolicy[];
+export interface PlacementPoliciesListOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface PlacementPoliciesListNextOptionalParams extends coreClient.OperationOptions {
+export interface PlacementPoliciesOperations {
+    createOrUpdate: (resourceGroupName: string, privateCloudName: string, clusterName: string, placementPolicyName: string, placementPolicy: PlacementPolicy, options?: PlacementPoliciesCreateOrUpdateOptionalParams) => PollerLike<OperationState<PlacementPolicy>, PlacementPolicy>;
+    delete: (resourceGroupName: string, privateCloudName: string, clusterName: string, placementPolicyName: string, options?: PlacementPoliciesDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
+    get: (resourceGroupName: string, privateCloudName: string, clusterName: string, placementPolicyName: string, options?: PlacementPoliciesGetOptionalParams) => Promise<PlacementPolicy>;
+    list: (resourceGroupName: string, privateCloudName: string, clusterName: string, options?: PlacementPoliciesListOptionalParams) => PagedAsyncIterableIterator<PlacementPolicy>;
+    update: (resourceGroupName: string, privateCloudName: string, clusterName: string, placementPolicyName: string, placementPolicyUpdate: PlacementPolicyUpdate, options?: PlacementPoliciesUpdateOptionalParams) => PollerLike<OperationState<PlacementPolicy>, PlacementPolicy>;
 }
 
 // @public
-export type PlacementPoliciesListNextResponse = PlacementPoliciesList;
-
-// @public
-export interface PlacementPoliciesListOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type PlacementPoliciesListResponse = PlacementPoliciesList;
-
-// @public
-export interface PlacementPoliciesUpdateHeaders {
-    location?: string;
-    retryAfter?: number;
-}
-
-// @public
-export interface PlacementPoliciesUpdateOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface PlacementPoliciesUpdateOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
-
-// @public
-export type PlacementPoliciesUpdateResponse = PlacementPolicy;
 
 // @public
 export interface PlacementPolicy extends ProxyResource {
@@ -1523,11 +1331,11 @@ export interface PlacementPolicyProperties {
     displayName?: string;
     readonly provisioningState?: PlacementPolicyProvisioningState;
     state?: PlacementPolicyState;
-    type: "VmHost" | "VmVm";
+    type: PlacementPolicyType;
 }
 
-// @public (undocumented)
-export type PlacementPolicyPropertiesUnion = PlacementPolicyProperties | VmHostPlacementPolicyProperties | VmPlacementPolicyProperties;
+// @public
+export type PlacementPolicyPropertiesUnion = VmPlacementPolicyProperties | VmHostPlacementPolicyProperties | PlacementPolicyProperties;
 
 // @public
 export type PlacementPolicyProvisioningState = string;
@@ -1540,6 +1348,11 @@ export type PlacementPolicyType = string;
 
 // @public
 export interface PlacementPolicyUpdate {
+    properties?: PlacementPolicyUpdateProperties;
+}
+
+// @public
+export interface PlacementPolicyUpdateProperties {
     affinityStrength?: AffinityStrength;
     azureHybridBenefitType?: AzureHybridBenefitType;
     hostMembers?: string[];
@@ -1555,30 +1368,10 @@ export type PortMirroringStatusEnum = string;
 
 // @public
 export interface PrivateCloud extends TrackedResource {
-    availability?: AvailabilityProperties;
-    circuit?: Circuit;
-    dnsZoneType?: DnsZoneType;
-    encryption?: Encryption;
-    readonly endpoints?: Endpoints;
-    extendedNetworkBlocks?: string[];
-    readonly externalCloudLinks?: string[];
     identity?: PrivateCloudIdentity;
-    identitySources?: IdentitySource[];
-    internet?: InternetEnum;
-    managementCluster?: ManagementCluster;
-    readonly managementNetwork?: string;
-    networkBlock?: string;
-    readonly nsxPublicIpQuotaRaised?: NsxPublicIpQuotaRaisedEnum;
-    readonly nsxtCertificateThumbprint?: string;
-    nsxtPassword?: string;
-    readonly provisioningNetwork?: string;
-    readonly provisioningState?: PrivateCloudProvisioningState;
-    secondaryCircuit?: Circuit;
+    properties?: PrivateCloudProperties;
     sku: Sku;
-    readonly vcenterCertificateThumbprint?: string;
-    vcenterPassword?: string;
-    virtualNetworkId?: string;
-    readonly vmotionNetwork?: string;
+    zones?: string[];
 }
 
 // @public
@@ -1589,160 +1382,138 @@ export interface PrivateCloudIdentity {
 }
 
 // @public
-export interface PrivateCloudList {
-    nextLink?: string;
-    value: PrivateCloud[];
+export interface PrivateCloudProperties {
+    availability?: AvailabilityProperties;
+    circuit?: Circuit;
+    dnsZoneType?: DnsZoneType;
+    encryption?: Encryption;
+    readonly endpoints?: Endpoints;
+    extendedNetworkBlocks?: string[];
+    readonly externalCloudLinks?: string[];
+    identitySources?: IdentitySource[];
+    internet?: InternetEnum;
+    managementCluster: ManagementCluster;
+    readonly managementNetwork?: string;
+    networkBlock: string;
+    readonly nsxPublicIpQuotaRaised?: NsxPublicIpQuotaRaisedEnum;
+    readonly nsxtCertificateThumbprint?: string;
+    nsxtPassword?: string;
+    readonly provisioningNetwork?: string;
+    readonly provisioningState?: PrivateCloudProvisioningState;
+    secondaryCircuit?: Circuit;
+    readonly vcenterCertificateThumbprint?: string;
+    vcenterPassword?: string;
+    virtualNetworkId?: string;
+    readonly vmotionNetwork?: string;
 }
 
 // @public
 export type PrivateCloudProvisioningState = string;
 
 // @public
-export interface PrivateClouds {
-    beginCreateOrUpdate(resourceGroupName: string, privateCloudName: string, privateCloud: PrivateCloud, options?: PrivateCloudsCreateOrUpdateOptionalParams): Promise<SimplePollerLike<OperationState<PrivateCloudsCreateOrUpdateResponse>, PrivateCloudsCreateOrUpdateResponse>>;
-    beginCreateOrUpdateAndWait(resourceGroupName: string, privateCloudName: string, privateCloud: PrivateCloud, options?: PrivateCloudsCreateOrUpdateOptionalParams): Promise<PrivateCloudsCreateOrUpdateResponse>;
-    beginDelete(resourceGroupName: string, privateCloudName: string, options?: PrivateCloudsDeleteOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
-    beginDeleteAndWait(resourceGroupName: string, privateCloudName: string, options?: PrivateCloudsDeleteOptionalParams): Promise<void>;
-    beginRotateNsxtPassword(resourceGroupName: string, privateCloudName: string, options?: PrivateCloudsRotateNsxtPasswordOptionalParams): Promise<SimplePollerLike<OperationState<PrivateCloudsRotateNsxtPasswordResponse>, PrivateCloudsRotateNsxtPasswordResponse>>;
-    beginRotateNsxtPasswordAndWait(resourceGroupName: string, privateCloudName: string, options?: PrivateCloudsRotateNsxtPasswordOptionalParams): Promise<PrivateCloudsRotateNsxtPasswordResponse>;
-    beginRotateVcenterPassword(resourceGroupName: string, privateCloudName: string, options?: PrivateCloudsRotateVcenterPasswordOptionalParams): Promise<SimplePollerLike<OperationState<PrivateCloudsRotateVcenterPasswordResponse>, PrivateCloudsRotateVcenterPasswordResponse>>;
-    beginRotateVcenterPasswordAndWait(resourceGroupName: string, privateCloudName: string, options?: PrivateCloudsRotateVcenterPasswordOptionalParams): Promise<PrivateCloudsRotateVcenterPasswordResponse>;
-    beginUpdate(resourceGroupName: string, privateCloudName: string, privateCloudUpdate: PrivateCloudUpdate, options?: PrivateCloudsUpdateOptionalParams): Promise<SimplePollerLike<OperationState<PrivateCloudsUpdateResponse>, PrivateCloudsUpdateResponse>>;
-    beginUpdateAndWait(resourceGroupName: string, privateCloudName: string, privateCloudUpdate: PrivateCloudUpdate, options?: PrivateCloudsUpdateOptionalParams): Promise<PrivateCloudsUpdateResponse>;
-    get(resourceGroupName: string, privateCloudName: string, options?: PrivateCloudsGetOptionalParams): Promise<PrivateCloudsGetResponse>;
-    list(resourceGroupName: string, options?: PrivateCloudsListOptionalParams): PagedAsyncIterableIterator<PrivateCloud>;
-    listAdminCredentials(resourceGroupName: string, privateCloudName: string, options?: PrivateCloudsListAdminCredentialsOptionalParams): Promise<PrivateCloudsListAdminCredentialsResponse>;
-    listInSubscription(options?: PrivateCloudsListInSubscriptionOptionalParams): PagedAsyncIterableIterator<PrivateCloud>;
-}
-
-// @public
-export interface PrivateCloudsCreateOrUpdateHeaders {
-    retryAfter?: number;
-}
-
-// @public
-export interface PrivateCloudsCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface PrivateCloudsCreateOrUpdateOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
 
 // @public
-export type PrivateCloudsCreateOrUpdateResponse = PrivateCloud;
-
-// @public
-export interface PrivateCloudsDeleteHeaders {
-    location?: string;
-    retryAfter?: number;
-}
-
-// @public
-export interface PrivateCloudsDeleteOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface PrivateCloudsDeleteOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
 
 // @public
-export interface PrivateCloudsGetOptionalParams extends coreClient.OperationOptions {
+export interface PrivateCloudsGetOptionalParams extends OperationOptions {
 }
 
 // @public
-export type PrivateCloudsGetResponse = PrivateCloud;
-
-// @public
-export interface PrivateCloudsListAdminCredentialsOptionalParams extends coreClient.OperationOptions {
+export interface PrivateCloudsListAdminCredentialsOptionalParams extends OperationOptions {
 }
 
 // @public
-export type PrivateCloudsListAdminCredentialsResponse = AdminCredentials;
-
-// @public
-export interface PrivateCloudsListInSubscriptionNextOptionalParams extends coreClient.OperationOptions {
+export interface PrivateCloudsListInSubscriptionOptionalParams extends OperationOptions {
 }
 
 // @public
-export type PrivateCloudsListInSubscriptionNextResponse = PrivateCloudList;
-
-// @public
-export interface PrivateCloudsListInSubscriptionOptionalParams extends coreClient.OperationOptions {
+export interface PrivateCloudsListOptionalParams extends OperationOptions {
 }
 
 // @public
-export type PrivateCloudsListInSubscriptionResponse = PrivateCloudList;
-
-// @public
-export interface PrivateCloudsListNextOptionalParams extends coreClient.OperationOptions {
+export interface PrivateCloudsOperations {
+    createOrUpdate: (resourceGroupName: string, privateCloudName: string, privateCloud: PrivateCloud, options?: PrivateCloudsCreateOrUpdateOptionalParams) => PollerLike<OperationState<PrivateCloud>, PrivateCloud>;
+    delete: (resourceGroupName: string, privateCloudName: string, options?: PrivateCloudsDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
+    get: (resourceGroupName: string, privateCloudName: string, options?: PrivateCloudsGetOptionalParams) => Promise<PrivateCloud>;
+    list: (resourceGroupName: string, options?: PrivateCloudsListOptionalParams) => PagedAsyncIterableIterator<PrivateCloud>;
+    listAdminCredentials: (resourceGroupName: string, privateCloudName: string, options?: PrivateCloudsListAdminCredentialsOptionalParams) => Promise<AdminCredentials>;
+    listInSubscription: (options?: PrivateCloudsListInSubscriptionOptionalParams) => PagedAsyncIterableIterator<PrivateCloud>;
+    rotateNsxtPassword: (resourceGroupName: string, privateCloudName: string, options?: PrivateCloudsRotateNsxtPasswordOptionalParams) => PollerLike<OperationState<void>, void>;
+    rotateVcenterPassword: (resourceGroupName: string, privateCloudName: string, options?: PrivateCloudsRotateVcenterPasswordOptionalParams) => PollerLike<OperationState<void>, void>;
+    update: (resourceGroupName: string, privateCloudName: string, privateCloudUpdate: PrivateCloudUpdate, options?: PrivateCloudsUpdateOptionalParams) => PollerLike<OperationState<PrivateCloud>, PrivateCloud>;
 }
 
 // @public
-export type PrivateCloudsListNextResponse = PrivateCloudList;
-
-// @public
-export interface PrivateCloudsListOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type PrivateCloudsListResponse = PrivateCloudList;
-
-// @public
-export interface PrivateCloudsRotateNsxtPasswordHeaders {
-    location?: string;
-    retryAfter?: number;
-}
-
-// @public
-export interface PrivateCloudsRotateNsxtPasswordOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface PrivateCloudsRotateNsxtPasswordOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
 
 // @public
-export type PrivateCloudsRotateNsxtPasswordResponse = PrivateCloudsRotateNsxtPasswordHeaders;
-
-// @public
-export interface PrivateCloudsRotateVcenterPasswordHeaders {
-    location?: string;
-    retryAfter?: number;
-}
-
-// @public
-export interface PrivateCloudsRotateVcenterPasswordOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface PrivateCloudsRotateVcenterPasswordOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
 
 // @public
-export type PrivateCloudsRotateVcenterPasswordResponse = PrivateCloudsRotateVcenterPasswordHeaders;
-
-// @public
-export interface PrivateCloudsUpdateHeaders {
-    location?: string;
-    retryAfter?: number;
-}
-
-// @public
-export interface PrivateCloudsUpdateOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface PrivateCloudsUpdateOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
-
-// @public
-export type PrivateCloudsUpdateResponse = PrivateCloud;
 
 // @public
 export interface PrivateCloudUpdate {
+    identity?: PrivateCloudIdentity;
+    properties?: PrivateCloudUpdateProperties;
+    sku?: Sku;
+    tags?: Record<string, string>;
+}
+
+// @public
+export interface PrivateCloudUpdateProperties {
     availability?: AvailabilityProperties;
     dnsZoneType?: DnsZoneType;
     encryption?: Encryption;
     extendedNetworkBlocks?: string[];
-    identity?: PrivateCloudIdentity;
     identitySources?: IdentitySource[];
     internet?: InternetEnum;
     managementCluster?: ManagementCluster;
-    sku?: Sku;
-    tags?: {
-        [propertyName: string]: string;
-    };
 }
+
+// @public
+export interface ProvisionedNetwork extends ProxyResource {
+    properties?: ProvisionedNetworkProperties;
+}
+
+// @public
+export interface ProvisionedNetworkProperties {
+    readonly addressPrefix?: string;
+    readonly networkType?: ProvisionedNetworkTypes;
+    readonly provisioningState?: ProvisionedNetworkProvisioningState;
+}
+
+// @public
+export type ProvisionedNetworkProvisioningState = string;
+
+// @public
+export interface ProvisionedNetworksGetOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface ProvisionedNetworksListOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface ProvisionedNetworksOperations {
+    get: (resourceGroupName: string, privateCloudName: string, provisionedNetworkName: string, options?: ProvisionedNetworksGetOptionalParams) => Promise<ProvisionedNetwork>;
+    list: (resourceGroupName: string, privateCloudName: string, options?: ProvisionedNetworksListOptionalParams) => PagedAsyncIterableIterator<ProvisionedNetwork>;
+}
+
+// @public
+export type ProvisionedNetworkTypes = string;
 
 // @public
 export interface ProxyResource extends Resource {
@@ -1756,10 +1527,55 @@ export interface PSCredentialExecutionParameter extends ScriptExecutionParameter
 }
 
 // @public
+export interface PureStoragePoliciesCreateOrUpdateOptionalParams extends OperationOptions {
+    updateIntervalInMs?: number;
+}
+
+// @public
+export interface PureStoragePoliciesDeleteOptionalParams extends OperationOptions {
+    updateIntervalInMs?: number;
+}
+
+// @public
+export interface PureStoragePoliciesGetOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface PureStoragePoliciesListOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface PureStoragePoliciesOperations {
+    createOrUpdate: (resourceGroupName: string, privateCloudName: string, storagePolicyName: string, resource: PureStoragePolicy, options?: PureStoragePoliciesCreateOrUpdateOptionalParams) => PollerLike<OperationState<PureStoragePolicy>, PureStoragePolicy>;
+    delete: (resourceGroupName: string, privateCloudName: string, storagePolicyName: string, options?: PureStoragePoliciesDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
+    get: (resourceGroupName: string, privateCloudName: string, storagePolicyName: string, options?: PureStoragePoliciesGetOptionalParams) => Promise<PureStoragePolicy>;
+    list: (resourceGroupName: string, privateCloudName: string, options?: PureStoragePoliciesListOptionalParams) => PagedAsyncIterableIterator<PureStoragePolicy>;
+}
+
+// @public
+export interface PureStoragePolicy extends ProxyResource {
+    properties?: PureStoragePolicyProperties;
+}
+
+// @public
+export interface PureStoragePolicyProperties {
+    readonly provisioningState?: PureStoragePolicyProvisioningState;
+    storagePolicyDefinition: string;
+    storagePoolId: string;
+}
+
+// @public
+export type PureStoragePolicyProvisioningState = string;
+
+// @public
+export interface PureStorageVolume {
+    sizeGb: number;
+    storagePoolId: string;
+}
+
+// @public
 export interface Quota {
-    readonly hostsRemaining?: {
-        [propertyName: string]: number;
-    };
+    readonly hostsRemaining?: Record<string, number>;
     readonly quotaEnabled?: QuotaEnabled;
 }
 
@@ -1778,7 +1594,80 @@ export interface Resource {
 export type ResourceIdentityType = string;
 
 // @public
+export interface ResourceSku {
+    capabilities?: ResourceSkuCapabilities[];
+    family?: string;
+    locationInfo: ResourceSkuLocationInfo[];
+    locations: string[];
+    name: string;
+    resourceType: ResourceSkuResourceType;
+    restrictions: ResourceSkuRestrictions[];
+    size?: string;
+    tier?: string;
+}
+
+// @public
+export interface ResourceSkuCapabilities {
+    name: string;
+    value: string;
+}
+
+// @public
+export interface ResourceSkuLocationInfo {
+    location: string;
+    zoneDetails: ResourceSkuZoneDetails[];
+    zones: string[];
+}
+
+// @public
+export type ResourceSkuResourceType = string;
+
+// @public
+export interface ResourceSkuRestrictionInfo {
+    locations?: string[];
+    zones?: string[];
+}
+
+// @public
+export interface ResourceSkuRestrictions {
+    reasonCode?: ResourceSkuRestrictionsReasonCode;
+    restrictionInfo: ResourceSkuRestrictionInfo;
+    type?: ResourceSkuRestrictionsType;
+    values: string[];
+}
+
+// @public
+export type ResourceSkuRestrictionsReasonCode = string;
+
+// @public
+export type ResourceSkuRestrictionsType = string;
+
+// @public
+export interface ResourceSkuZoneDetails {
+    capabilities: ResourceSkuCapabilities[];
+    name: string[];
+}
+
+// @public
+export function restorePoller<TResponse extends PathUncheckedResponse, TResult>(client: AzureVMwareSolutionAPI, serializedState: string, sourceOperation: (...args: any[]) => PollerLike<OperationState<TResult>, TResult>, options?: RestorePollerOptions<TResult>): PollerLike<OperationState<TResult>, TResult>;
+
+// @public (undocumented)
+export interface RestorePollerOptions<TResult, TResponse extends PathUncheckedResponse = PathUncheckedResponse> extends OperationOptions {
+    abortSignal?: AbortSignalLike;
+    processResponseBody?: (result: TResponse) => Promise<TResult>;
+    updateIntervalInMs?: number;
+}
+
+// @public
 export interface ScriptCmdlet extends ProxyResource {
+    properties?: ScriptCmdletProperties;
+}
+
+// @public
+export type ScriptCmdletAudience = string;
+
+// @public
+export interface ScriptCmdletProperties {
     readonly audience?: ScriptCmdletAudience;
     readonly description?: string;
     readonly parameters?: ScriptParameter[];
@@ -1787,54 +1676,47 @@ export interface ScriptCmdlet extends ProxyResource {
 }
 
 // @public
-export type ScriptCmdletAudience = string;
-
-// @public
 export type ScriptCmdletProvisioningState = string;
 
 // @public
-export interface ScriptCmdlets {
-    get(resourceGroupName: string, privateCloudName: string, scriptPackageName: string, scriptCmdletName: string, options?: ScriptCmdletsGetOptionalParams): Promise<ScriptCmdletsGetResponse>;
-    list(resourceGroupName: string, privateCloudName: string, scriptPackageName: string, options?: ScriptCmdletsListOptionalParams): PagedAsyncIterableIterator<ScriptCmdlet>;
+export interface ScriptCmdletsGetOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface ScriptCmdletsGetOptionalParams extends coreClient.OperationOptions {
+export interface ScriptCmdletsListOptionalParams extends OperationOptions {
 }
 
 // @public
-export type ScriptCmdletsGetResponse = ScriptCmdlet;
-
-// @public
-export interface ScriptCmdletsList {
-    nextLink?: string;
-    value: ScriptCmdlet[];
+export interface ScriptCmdletsOperations {
+    get: (resourceGroupName: string, privateCloudName: string, scriptPackageName: string, scriptCmdletName: string, options?: ScriptCmdletsGetOptionalParams) => Promise<ScriptCmdlet>;
+    list: (resourceGroupName: string, privateCloudName: string, scriptPackageName: string, options?: ScriptCmdletsListOptionalParams) => PagedAsyncIterableIterator<ScriptCmdlet>;
 }
-
-// @public
-export interface ScriptCmdletsListNextOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type ScriptCmdletsListNextResponse = ScriptCmdletsList;
-
-// @public
-export interface ScriptCmdletsListOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type ScriptCmdletsListResponse = ScriptCmdletsList;
 
 // @public
 export interface ScriptExecution extends ProxyResource {
+    properties?: ScriptExecutionProperties;
+}
+
+// @public
+export interface ScriptExecutionParameter {
+    name: string;
+    type: ScriptExecutionParameterType;
+}
+
+// @public
+export type ScriptExecutionParameterType = string;
+
+// @public
+export type ScriptExecutionParameterUnion = ScriptSecureStringExecutionParameter | ScriptStringExecutionParameter | PSCredentialExecutionParameter | ScriptExecutionParameter;
+
+// @public
+export interface ScriptExecutionProperties {
     readonly errors?: string[];
     failureReason?: string;
     readonly finishedAt?: Date;
     hiddenParameters?: ScriptExecutionParameterUnion[];
     readonly information?: string[];
-    namedOutputs?: {
-        [propertyName: string]: Record<string, unknown>;
-    };
+    namedOutputs?: Record<string, Record<string, any>>;
     output?: string[];
     parameters?: ScriptExecutionParameterUnion[];
     readonly provisioningState?: ScriptExecutionProvisioningState;
@@ -1842,102 +1724,55 @@ export interface ScriptExecution extends ProxyResource {
     scriptCmdletId?: string;
     readonly startedAt?: Date;
     readonly submittedAt?: Date;
-    timeout?: string;
+    timeout: string;
     readonly warnings?: string[];
 }
-
-// @public
-export interface ScriptExecutionParameter {
-    name: string;
-    type: "Credential" | "SecureValue" | "Value";
-}
-
-// @public
-export type ScriptExecutionParameterType = string;
-
-// @public (undocumented)
-export type ScriptExecutionParameterUnion = ScriptExecutionParameter | PSCredentialExecutionParameter | ScriptSecureStringExecutionParameter | ScriptStringExecutionParameter;
 
 // @public
 export type ScriptExecutionProvisioningState = string;
 
 // @public
-export interface ScriptExecutions {
-    beginCreateOrUpdate(resourceGroupName: string, privateCloudName: string, scriptExecutionName: string, scriptExecution: ScriptExecution, options?: ScriptExecutionsCreateOrUpdateOptionalParams): Promise<SimplePollerLike<OperationState<ScriptExecutionsCreateOrUpdateResponse>, ScriptExecutionsCreateOrUpdateResponse>>;
-    beginCreateOrUpdateAndWait(resourceGroupName: string, privateCloudName: string, scriptExecutionName: string, scriptExecution: ScriptExecution, options?: ScriptExecutionsCreateOrUpdateOptionalParams): Promise<ScriptExecutionsCreateOrUpdateResponse>;
-    beginDelete(resourceGroupName: string, privateCloudName: string, scriptExecutionName: string, options?: ScriptExecutionsDeleteOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
-    beginDeleteAndWait(resourceGroupName: string, privateCloudName: string, scriptExecutionName: string, options?: ScriptExecutionsDeleteOptionalParams): Promise<void>;
-    get(resourceGroupName: string, privateCloudName: string, scriptExecutionName: string, options?: ScriptExecutionsGetOptionalParams): Promise<ScriptExecutionsGetResponse>;
-    getExecutionLogs(resourceGroupName: string, privateCloudName: string, scriptExecutionName: string, options?: ScriptExecutionsGetExecutionLogsOptionalParams): Promise<ScriptExecutionsGetExecutionLogsResponse>;
-    list(resourceGroupName: string, privateCloudName: string, options?: ScriptExecutionsListOptionalParams): PagedAsyncIterableIterator<ScriptExecution>;
-}
-
-// @public
-export interface ScriptExecutionsCreateOrUpdateHeaders {
-    retryAfter?: number;
-}
-
-// @public
-export interface ScriptExecutionsCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface ScriptExecutionsCreateOrUpdateOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
 
 // @public
-export type ScriptExecutionsCreateOrUpdateResponse = ScriptExecution;
-
-// @public
-export interface ScriptExecutionsDeleteHeaders {
-    location?: string;
-    retryAfter?: number;
-}
-
-// @public
-export interface ScriptExecutionsDeleteOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface ScriptExecutionsDeleteOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
 
 // @public
-export interface ScriptExecutionsGetExecutionLogsOptionalParams extends coreClient.OperationOptions {
+export interface ScriptExecutionsGetExecutionLogsOptionalParams extends OperationOptions {
     scriptOutputStreamType?: ScriptOutputStreamType[];
 }
 
 // @public
-export type ScriptExecutionsGetExecutionLogsResponse = ScriptExecution;
-
-// @public
-export interface ScriptExecutionsGetOptionalParams extends coreClient.OperationOptions {
+export interface ScriptExecutionsGetOptionalParams extends OperationOptions {
 }
 
 // @public
-export type ScriptExecutionsGetResponse = ScriptExecution;
-
-// @public
-export interface ScriptExecutionsList {
-    nextLink?: string;
-    value: ScriptExecution[];
+export interface ScriptExecutionsListOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface ScriptExecutionsListNextOptionalParams extends coreClient.OperationOptions {
+export interface ScriptExecutionsOperations {
+    createOrUpdate: (resourceGroupName: string, privateCloudName: string, scriptExecutionName: string, scriptExecution: ScriptExecution, options?: ScriptExecutionsCreateOrUpdateOptionalParams) => PollerLike<OperationState<ScriptExecution>, ScriptExecution>;
+    delete: (resourceGroupName: string, privateCloudName: string, scriptExecutionName: string, options?: ScriptExecutionsDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
+    get: (resourceGroupName: string, privateCloudName: string, scriptExecutionName: string, options?: ScriptExecutionsGetOptionalParams) => Promise<ScriptExecution>;
+    getExecutionLogs: (resourceGroupName: string, privateCloudName: string, scriptExecutionName: string, options?: ScriptExecutionsGetExecutionLogsOptionalParams) => Promise<ScriptExecution>;
+    list: (resourceGroupName: string, privateCloudName: string, options?: ScriptExecutionsListOptionalParams) => PagedAsyncIterableIterator<ScriptExecution>;
 }
-
-// @public
-export type ScriptExecutionsListNextResponse = ScriptExecutionsList;
-
-// @public
-export interface ScriptExecutionsListOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type ScriptExecutionsListResponse = ScriptExecutionsList;
 
 // @public
 export type ScriptOutputStreamType = string;
 
 // @public
 export interface ScriptPackage extends ProxyResource {
+    properties?: ScriptPackageProperties;
+}
+
+// @public
+export interface ScriptPackageProperties {
     readonly company?: string;
     readonly description?: string;
     readonly provisioningState?: ScriptPackageProvisioningState;
@@ -1949,37 +1784,18 @@ export interface ScriptPackage extends ProxyResource {
 export type ScriptPackageProvisioningState = string;
 
 // @public
-export interface ScriptPackages {
-    get(resourceGroupName: string, privateCloudName: string, scriptPackageName: string, options?: ScriptPackagesGetOptionalParams): Promise<ScriptPackagesGetResponse>;
-    list(resourceGroupName: string, privateCloudName: string, options?: ScriptPackagesListOptionalParams): PagedAsyncIterableIterator<ScriptPackage>;
+export interface ScriptPackagesGetOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface ScriptPackagesGetOptionalParams extends coreClient.OperationOptions {
+export interface ScriptPackagesListOptionalParams extends OperationOptions {
 }
 
 // @public
-export type ScriptPackagesGetResponse = ScriptPackage;
-
-// @public
-export interface ScriptPackagesList {
-    nextLink?: string;
-    value: ScriptPackage[];
+export interface ScriptPackagesOperations {
+    get: (resourceGroupName: string, privateCloudName: string, scriptPackageName: string, options?: ScriptPackagesGetOptionalParams) => Promise<ScriptPackage>;
+    list: (resourceGroupName: string, privateCloudName: string, options?: ScriptPackagesListOptionalParams) => PagedAsyncIterableIterator<ScriptPackage>;
 }
-
-// @public
-export interface ScriptPackagesListNextOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type ScriptPackagesListNextResponse = ScriptPackagesList;
-
-// @public
-export interface ScriptPackagesListOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type ScriptPackagesListResponse = ScriptPackagesList;
 
 // @public
 export interface ScriptParameter {
@@ -2018,7 +1834,21 @@ export interface Sku {
 }
 
 // @public
+export interface SkusListOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface SkusOperations {
+    list: (options?: SkusListOptionalParams) => PagedAsyncIterableIterator<ResourceSku>;
+}
+
+// @public
 export type SkuTier = "Free" | "Basic" | "Standard" | "Premium";
+
+// @public
+export interface SpecializedHostProperties extends HostProperties {
+    kind: "Specialized";
+}
 
 // @public
 export type SslEnum = string;
@@ -2036,9 +1866,7 @@ export interface SystemData {
 // @public
 export interface TrackedResource extends Resource {
     location: string;
-    tags?: {
-        [propertyName: string]: string;
-    };
+    tags?: Record<string, string>;
 }
 
 // @public
@@ -2052,6 +1880,11 @@ export type TrialStatus = string;
 
 // @public
 export interface VirtualMachine extends ProxyResource {
+    properties?: VirtualMachineProperties;
+}
+
+// @public
+export interface VirtualMachineProperties {
     readonly displayName?: string;
     readonly folderPath?: string;
     readonly moRefId?: string;
@@ -2071,54 +1904,24 @@ export interface VirtualMachineRestrictMovement {
 export type VirtualMachineRestrictMovementState = string;
 
 // @public
-export interface VirtualMachines {
-    beginRestrictMovement(resourceGroupName: string, privateCloudName: string, clusterName: string, virtualMachineId: string, restrictMovement: VirtualMachineRestrictMovement, options?: VirtualMachinesRestrictMovementOptionalParams): Promise<SimplePollerLike<OperationState<VirtualMachinesRestrictMovementResponse>, VirtualMachinesRestrictMovementResponse>>;
-    beginRestrictMovementAndWait(resourceGroupName: string, privateCloudName: string, clusterName: string, virtualMachineId: string, restrictMovement: VirtualMachineRestrictMovement, options?: VirtualMachinesRestrictMovementOptionalParams): Promise<VirtualMachinesRestrictMovementResponse>;
-    get(resourceGroupName: string, privateCloudName: string, clusterName: string, virtualMachineId: string, options?: VirtualMachinesGetOptionalParams): Promise<VirtualMachinesGetResponse>;
-    list(resourceGroupName: string, privateCloudName: string, clusterName: string, options?: VirtualMachinesListOptionalParams): PagedAsyncIterableIterator<VirtualMachine>;
+export interface VirtualMachinesGetOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface VirtualMachinesGetOptionalParams extends coreClient.OperationOptions {
+export interface VirtualMachinesListOptionalParams extends OperationOptions {
 }
 
 // @public
-export type VirtualMachinesGetResponse = VirtualMachine;
-
-// @public
-export interface VirtualMachinesList {
-    nextLink?: string;
-    value: VirtualMachine[];
+export interface VirtualMachinesOperations {
+    get: (resourceGroupName: string, privateCloudName: string, clusterName: string, virtualMachineId: string, options?: VirtualMachinesGetOptionalParams) => Promise<VirtualMachine>;
+    list: (resourceGroupName: string, privateCloudName: string, clusterName: string, options?: VirtualMachinesListOptionalParams) => PagedAsyncIterableIterator<VirtualMachine>;
+    restrictMovement: (resourceGroupName: string, privateCloudName: string, clusterName: string, virtualMachineId: string, restrictMovementParameter: VirtualMachineRestrictMovement, options?: VirtualMachinesRestrictMovementOptionalParams) => PollerLike<OperationState<void>, void>;
 }
 
 // @public
-export interface VirtualMachinesListNextOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type VirtualMachinesListNextResponse = VirtualMachinesList;
-
-// @public
-export interface VirtualMachinesListOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type VirtualMachinesListResponse = VirtualMachinesList;
-
-// @public
-export interface VirtualMachinesRestrictMovementHeaders {
-    location?: string;
-    retryAfter?: number;
-}
-
-// @public
-export interface VirtualMachinesRestrictMovementOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface VirtualMachinesRestrictMovementOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
-
-// @public
-export type VirtualMachinesRestrictMovementResponse = VirtualMachinesRestrictMovementHeaders;
 
 // @public
 export type VisibilityParameterEnum = string;
@@ -2148,7 +1951,7 @@ export type VMTypeEnum = string;
 
 // @public
 export interface WorkloadNetwork extends ProxyResource {
-    readonly provisioningState?: WorkloadNetworkProvisioningState;
+    properties?: WorkloadNetworkProperties;
 }
 
 // @public
@@ -2158,21 +1961,15 @@ export interface WorkloadNetworkDhcp extends ProxyResource {
 
 // @public
 export interface WorkloadNetworkDhcpEntity {
-    dhcpType: "RELAY" | "SERVER";
+    dhcpType: DhcpTypeEnum;
     displayName?: string;
     readonly provisioningState?: WorkloadNetworkDhcpProvisioningState;
     revision?: number;
     readonly segments?: string[];
 }
 
-// @public (undocumented)
-export type WorkloadNetworkDhcpEntityUnion = WorkloadNetworkDhcpEntity | WorkloadNetworkDhcpRelay | WorkloadNetworkDhcpServer;
-
 // @public
-export interface WorkloadNetworkDhcpList {
-    nextLink?: string;
-    value: WorkloadNetworkDhcp[];
-}
+export type WorkloadNetworkDhcpEntityUnion = WorkloadNetworkDhcpServer | WorkloadNetworkDhcpRelay | WorkloadNetworkDhcpEntity;
 
 // @public
 export type WorkloadNetworkDhcpProvisioningState = string;
@@ -2192,6 +1989,11 @@ export interface WorkloadNetworkDhcpServer extends WorkloadNetworkDhcpEntity {
 
 // @public
 export interface WorkloadNetworkDnsService extends ProxyResource {
+    properties?: WorkloadNetworkDnsServiceProperties;
+}
+
+// @public
+export interface WorkloadNetworkDnsServiceProperties {
     defaultDnsZone?: string;
     displayName?: string;
     dnsServiceIp?: string;
@@ -2206,13 +2008,12 @@ export interface WorkloadNetworkDnsService extends ProxyResource {
 export type WorkloadNetworkDnsServiceProvisioningState = string;
 
 // @public
-export interface WorkloadNetworkDnsServicesList {
-    nextLink?: string;
-    value: WorkloadNetworkDnsService[];
+export interface WorkloadNetworkDnsZone extends ProxyResource {
+    properties?: WorkloadNetworkDnsZoneProperties;
 }
 
 // @public
-export interface WorkloadNetworkDnsZone extends ProxyResource {
+export interface WorkloadNetworkDnsZoneProperties {
     displayName?: string;
     dnsServerIps?: string[];
     dnsServices?: number;
@@ -2226,32 +2027,24 @@ export interface WorkloadNetworkDnsZone extends ProxyResource {
 export type WorkloadNetworkDnsZoneProvisioningState = string;
 
 // @public
-export interface WorkloadNetworkDnsZonesList {
-    nextLink?: string;
-    value: WorkloadNetworkDnsZone[];
+export interface WorkloadNetworkGateway extends ProxyResource {
+    properties?: WorkloadNetworkGatewayProperties;
 }
 
 // @public
-export interface WorkloadNetworkGateway extends ProxyResource {
+export interface WorkloadNetworkGatewayProperties {
     displayName?: string;
     readonly path?: string;
     readonly provisioningState?: WorkloadNetworkProvisioningState;
 }
 
 // @public
-export interface WorkloadNetworkGatewayList {
-    nextLink?: string;
-    value: WorkloadNetworkGateway[];
-}
-
-// @public
-export interface WorkloadNetworkList {
-    nextLink?: string;
-    value: WorkloadNetwork[];
-}
-
-// @public
 export interface WorkloadNetworkPortMirroring extends ProxyResource {
+    properties?: WorkloadNetworkPortMirroringProperties;
+}
+
+// @public
+export interface WorkloadNetworkPortMirroringProperties {
     destination?: string;
     direction?: PortMirroringDirectionEnum;
     displayName?: string;
@@ -2262,19 +2055,23 @@ export interface WorkloadNetworkPortMirroring extends ProxyResource {
 }
 
 // @public
-export interface WorkloadNetworkPortMirroringList {
-    nextLink?: string;
-    value: WorkloadNetworkPortMirroring[];
-}
+export type WorkloadNetworkPortMirroringProvisioningState = string;
 
 // @public
-export type WorkloadNetworkPortMirroringProvisioningState = string;
+export interface WorkloadNetworkProperties {
+    readonly provisioningState?: WorkloadNetworkProvisioningState;
+}
 
 // @public
 export type WorkloadNetworkProvisioningState = string;
 
 // @public
 export interface WorkloadNetworkPublicIP extends ProxyResource {
+    properties?: WorkloadNetworkPublicIPProperties;
+}
+
+// @public
+export interface WorkloadNetworkPublicIPProperties {
     displayName?: string;
     numberOfPublicIPs?: number;
     readonly provisioningState?: WorkloadNetworkPublicIPProvisioningState;
@@ -2285,259 +2082,87 @@ export interface WorkloadNetworkPublicIP extends ProxyResource {
 export type WorkloadNetworkPublicIPProvisioningState = string;
 
 // @public
-export interface WorkloadNetworkPublicIPsList {
-    nextLink?: string;
-    value: WorkloadNetworkPublicIP[];
-}
-
-// @public
-export interface WorkloadNetworks {
-    beginCreateDhcp(resourceGroupName: string, privateCloudName: string, dhcpId: string, workloadNetworkDhcp: WorkloadNetworkDhcp, options?: WorkloadNetworksCreateDhcpOptionalParams): Promise<SimplePollerLike<OperationState<WorkloadNetworksCreateDhcpResponse>, WorkloadNetworksCreateDhcpResponse>>;
-    beginCreateDhcpAndWait(resourceGroupName: string, privateCloudName: string, dhcpId: string, workloadNetworkDhcp: WorkloadNetworkDhcp, options?: WorkloadNetworksCreateDhcpOptionalParams): Promise<WorkloadNetworksCreateDhcpResponse>;
-    beginCreateDnsService(resourceGroupName: string, privateCloudName: string, dnsServiceId: string, workloadNetworkDnsService: WorkloadNetworkDnsService, options?: WorkloadNetworksCreateDnsServiceOptionalParams): Promise<SimplePollerLike<OperationState<WorkloadNetworksCreateDnsServiceResponse>, WorkloadNetworksCreateDnsServiceResponse>>;
-    beginCreateDnsServiceAndWait(resourceGroupName: string, privateCloudName: string, dnsServiceId: string, workloadNetworkDnsService: WorkloadNetworkDnsService, options?: WorkloadNetworksCreateDnsServiceOptionalParams): Promise<WorkloadNetworksCreateDnsServiceResponse>;
-    beginCreateDnsZone(resourceGroupName: string, privateCloudName: string, dnsZoneId: string, workloadNetworkDnsZone: WorkloadNetworkDnsZone, options?: WorkloadNetworksCreateDnsZoneOptionalParams): Promise<SimplePollerLike<OperationState<WorkloadNetworksCreateDnsZoneResponse>, WorkloadNetworksCreateDnsZoneResponse>>;
-    beginCreateDnsZoneAndWait(resourceGroupName: string, privateCloudName: string, dnsZoneId: string, workloadNetworkDnsZone: WorkloadNetworkDnsZone, options?: WorkloadNetworksCreateDnsZoneOptionalParams): Promise<WorkloadNetworksCreateDnsZoneResponse>;
-    beginCreatePortMirroring(resourceGroupName: string, privateCloudName: string, portMirroringId: string, workloadNetworkPortMirroring: WorkloadNetworkPortMirroring, options?: WorkloadNetworksCreatePortMirroringOptionalParams): Promise<SimplePollerLike<OperationState<WorkloadNetworksCreatePortMirroringResponse>, WorkloadNetworksCreatePortMirroringResponse>>;
-    beginCreatePortMirroringAndWait(resourceGroupName: string, privateCloudName: string, portMirroringId: string, workloadNetworkPortMirroring: WorkloadNetworkPortMirroring, options?: WorkloadNetworksCreatePortMirroringOptionalParams): Promise<WorkloadNetworksCreatePortMirroringResponse>;
-    beginCreatePublicIP(resourceGroupName: string, privateCloudName: string, publicIPId: string, workloadNetworkPublicIP: WorkloadNetworkPublicIP, options?: WorkloadNetworksCreatePublicIPOptionalParams): Promise<SimplePollerLike<OperationState<WorkloadNetworksCreatePublicIPResponse>, WorkloadNetworksCreatePublicIPResponse>>;
-    beginCreatePublicIPAndWait(resourceGroupName: string, privateCloudName: string, publicIPId: string, workloadNetworkPublicIP: WorkloadNetworkPublicIP, options?: WorkloadNetworksCreatePublicIPOptionalParams): Promise<WorkloadNetworksCreatePublicIPResponse>;
-    beginCreateSegments(resourceGroupName: string, privateCloudName: string, segmentId: string, workloadNetworkSegment: WorkloadNetworkSegment, options?: WorkloadNetworksCreateSegmentsOptionalParams): Promise<SimplePollerLike<OperationState<WorkloadNetworksCreateSegmentsResponse>, WorkloadNetworksCreateSegmentsResponse>>;
-    beginCreateSegmentsAndWait(resourceGroupName: string, privateCloudName: string, segmentId: string, workloadNetworkSegment: WorkloadNetworkSegment, options?: WorkloadNetworksCreateSegmentsOptionalParams): Promise<WorkloadNetworksCreateSegmentsResponse>;
-    beginCreateVMGroup(resourceGroupName: string, privateCloudName: string, vmGroupId: string, workloadNetworkVMGroup: WorkloadNetworkVMGroup, options?: WorkloadNetworksCreateVMGroupOptionalParams): Promise<SimplePollerLike<OperationState<WorkloadNetworksCreateVMGroupResponse>, WorkloadNetworksCreateVMGroupResponse>>;
-    beginCreateVMGroupAndWait(resourceGroupName: string, privateCloudName: string, vmGroupId: string, workloadNetworkVMGroup: WorkloadNetworkVMGroup, options?: WorkloadNetworksCreateVMGroupOptionalParams): Promise<WorkloadNetworksCreateVMGroupResponse>;
-    beginDeleteDhcp(resourceGroupName: string, privateCloudName: string, dhcpId: string, options?: WorkloadNetworksDeleteDhcpOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
-    beginDeleteDhcpAndWait(resourceGroupName: string, privateCloudName: string, dhcpId: string, options?: WorkloadNetworksDeleteDhcpOptionalParams): Promise<void>;
-    beginDeleteDnsService(resourceGroupName: string, dnsServiceId: string, privateCloudName: string, options?: WorkloadNetworksDeleteDnsServiceOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
-    beginDeleteDnsServiceAndWait(resourceGroupName: string, dnsServiceId: string, privateCloudName: string, options?: WorkloadNetworksDeleteDnsServiceOptionalParams): Promise<void>;
-    beginDeleteDnsZone(resourceGroupName: string, dnsZoneId: string, privateCloudName: string, options?: WorkloadNetworksDeleteDnsZoneOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
-    beginDeleteDnsZoneAndWait(resourceGroupName: string, dnsZoneId: string, privateCloudName: string, options?: WorkloadNetworksDeleteDnsZoneOptionalParams): Promise<void>;
-    beginDeletePortMirroring(resourceGroupName: string, portMirroringId: string, privateCloudName: string, options?: WorkloadNetworksDeletePortMirroringOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
-    beginDeletePortMirroringAndWait(resourceGroupName: string, portMirroringId: string, privateCloudName: string, options?: WorkloadNetworksDeletePortMirroringOptionalParams): Promise<void>;
-    beginDeletePublicIP(resourceGroupName: string, publicIPId: string, privateCloudName: string, options?: WorkloadNetworksDeletePublicIPOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
-    beginDeletePublicIPAndWait(resourceGroupName: string, publicIPId: string, privateCloudName: string, options?: WorkloadNetworksDeletePublicIPOptionalParams): Promise<void>;
-    beginDeleteSegment(resourceGroupName: string, privateCloudName: string, segmentId: string, options?: WorkloadNetworksDeleteSegmentOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
-    beginDeleteSegmentAndWait(resourceGroupName: string, privateCloudName: string, segmentId: string, options?: WorkloadNetworksDeleteSegmentOptionalParams): Promise<void>;
-    beginDeleteVMGroup(resourceGroupName: string, vmGroupId: string, privateCloudName: string, options?: WorkloadNetworksDeleteVMGroupOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
-    beginDeleteVMGroupAndWait(resourceGroupName: string, vmGroupId: string, privateCloudName: string, options?: WorkloadNetworksDeleteVMGroupOptionalParams): Promise<void>;
-    beginUpdateDhcp(resourceGroupName: string, privateCloudName: string, dhcpId: string, workloadNetworkDhcp: WorkloadNetworkDhcp, options?: WorkloadNetworksUpdateDhcpOptionalParams): Promise<SimplePollerLike<OperationState<WorkloadNetworksUpdateDhcpResponse>, WorkloadNetworksUpdateDhcpResponse>>;
-    beginUpdateDhcpAndWait(resourceGroupName: string, privateCloudName: string, dhcpId: string, workloadNetworkDhcp: WorkloadNetworkDhcp, options?: WorkloadNetworksUpdateDhcpOptionalParams): Promise<WorkloadNetworksUpdateDhcpResponse>;
-    beginUpdateDnsService(resourceGroupName: string, privateCloudName: string, dnsServiceId: string, workloadNetworkDnsService: WorkloadNetworkDnsService, options?: WorkloadNetworksUpdateDnsServiceOptionalParams): Promise<SimplePollerLike<OperationState<WorkloadNetworksUpdateDnsServiceResponse>, WorkloadNetworksUpdateDnsServiceResponse>>;
-    beginUpdateDnsServiceAndWait(resourceGroupName: string, privateCloudName: string, dnsServiceId: string, workloadNetworkDnsService: WorkloadNetworkDnsService, options?: WorkloadNetworksUpdateDnsServiceOptionalParams): Promise<WorkloadNetworksUpdateDnsServiceResponse>;
-    beginUpdateDnsZone(resourceGroupName: string, privateCloudName: string, dnsZoneId: string, workloadNetworkDnsZone: WorkloadNetworkDnsZone, options?: WorkloadNetworksUpdateDnsZoneOptionalParams): Promise<SimplePollerLike<OperationState<WorkloadNetworksUpdateDnsZoneResponse>, WorkloadNetworksUpdateDnsZoneResponse>>;
-    beginUpdateDnsZoneAndWait(resourceGroupName: string, privateCloudName: string, dnsZoneId: string, workloadNetworkDnsZone: WorkloadNetworkDnsZone, options?: WorkloadNetworksUpdateDnsZoneOptionalParams): Promise<WorkloadNetworksUpdateDnsZoneResponse>;
-    beginUpdatePortMirroring(resourceGroupName: string, privateCloudName: string, portMirroringId: string, workloadNetworkPortMirroring: WorkloadNetworkPortMirroring, options?: WorkloadNetworksUpdatePortMirroringOptionalParams): Promise<SimplePollerLike<OperationState<WorkloadNetworksUpdatePortMirroringResponse>, WorkloadNetworksUpdatePortMirroringResponse>>;
-    beginUpdatePortMirroringAndWait(resourceGroupName: string, privateCloudName: string, portMirroringId: string, workloadNetworkPortMirroring: WorkloadNetworkPortMirroring, options?: WorkloadNetworksUpdatePortMirroringOptionalParams): Promise<WorkloadNetworksUpdatePortMirroringResponse>;
-    beginUpdateSegments(resourceGroupName: string, privateCloudName: string, segmentId: string, workloadNetworkSegment: WorkloadNetworkSegment, options?: WorkloadNetworksUpdateSegmentsOptionalParams): Promise<SimplePollerLike<OperationState<WorkloadNetworksUpdateSegmentsResponse>, WorkloadNetworksUpdateSegmentsResponse>>;
-    beginUpdateSegmentsAndWait(resourceGroupName: string, privateCloudName: string, segmentId: string, workloadNetworkSegment: WorkloadNetworkSegment, options?: WorkloadNetworksUpdateSegmentsOptionalParams): Promise<WorkloadNetworksUpdateSegmentsResponse>;
-    beginUpdateVMGroup(resourceGroupName: string, privateCloudName: string, vmGroupId: string, workloadNetworkVMGroup: WorkloadNetworkVMGroup, options?: WorkloadNetworksUpdateVMGroupOptionalParams): Promise<SimplePollerLike<OperationState<WorkloadNetworksUpdateVMGroupResponse>, WorkloadNetworksUpdateVMGroupResponse>>;
-    beginUpdateVMGroupAndWait(resourceGroupName: string, privateCloudName: string, vmGroupId: string, workloadNetworkVMGroup: WorkloadNetworkVMGroup, options?: WorkloadNetworksUpdateVMGroupOptionalParams): Promise<WorkloadNetworksUpdateVMGroupResponse>;
-    get(resourceGroupName: string, privateCloudName: string, options?: WorkloadNetworksGetOptionalParams): Promise<WorkloadNetworksGetResponse>;
-    getDhcp(resourceGroupName: string, dhcpId: string, privateCloudName: string, options?: WorkloadNetworksGetDhcpOptionalParams): Promise<WorkloadNetworksGetDhcpResponse>;
-    getDnsService(resourceGroupName: string, privateCloudName: string, dnsServiceId: string, options?: WorkloadNetworksGetDnsServiceOptionalParams): Promise<WorkloadNetworksGetDnsServiceResponse>;
-    getDnsZone(resourceGroupName: string, privateCloudName: string, dnsZoneId: string, options?: WorkloadNetworksGetDnsZoneOptionalParams): Promise<WorkloadNetworksGetDnsZoneResponse>;
-    getGateway(resourceGroupName: string, privateCloudName: string, gatewayId: string, options?: WorkloadNetworksGetGatewayOptionalParams): Promise<WorkloadNetworksGetGatewayResponse>;
-    getPortMirroring(resourceGroupName: string, privateCloudName: string, portMirroringId: string, options?: WorkloadNetworksGetPortMirroringOptionalParams): Promise<WorkloadNetworksGetPortMirroringResponse>;
-    getPublicIP(resourceGroupName: string, privateCloudName: string, publicIPId: string, options?: WorkloadNetworksGetPublicIPOptionalParams): Promise<WorkloadNetworksGetPublicIPResponse>;
-    getSegment(resourceGroupName: string, privateCloudName: string, segmentId: string, options?: WorkloadNetworksGetSegmentOptionalParams): Promise<WorkloadNetworksGetSegmentResponse>;
-    getVirtualMachine(resourceGroupName: string, privateCloudName: string, virtualMachineId: string, options?: WorkloadNetworksGetVirtualMachineOptionalParams): Promise<WorkloadNetworksGetVirtualMachineResponse>;
-    getVMGroup(resourceGroupName: string, privateCloudName: string, vmGroupId: string, options?: WorkloadNetworksGetVMGroupOptionalParams): Promise<WorkloadNetworksGetVMGroupResponse>;
-    list(resourceGroupName: string, privateCloudName: string, options?: WorkloadNetworksListOptionalParams): PagedAsyncIterableIterator<WorkloadNetwork>;
-    listDhcp(resourceGroupName: string, privateCloudName: string, options?: WorkloadNetworksListDhcpOptionalParams): PagedAsyncIterableIterator<WorkloadNetworkDhcp>;
-    listDnsServices(resourceGroupName: string, privateCloudName: string, options?: WorkloadNetworksListDnsServicesOptionalParams): PagedAsyncIterableIterator<WorkloadNetworkDnsService>;
-    listDnsZones(resourceGroupName: string, privateCloudName: string, options?: WorkloadNetworksListDnsZonesOptionalParams): PagedAsyncIterableIterator<WorkloadNetworkDnsZone>;
-    listGateways(resourceGroupName: string, privateCloudName: string, options?: WorkloadNetworksListGatewaysOptionalParams): PagedAsyncIterableIterator<WorkloadNetworkGateway>;
-    listPortMirroring(resourceGroupName: string, privateCloudName: string, options?: WorkloadNetworksListPortMirroringOptionalParams): PagedAsyncIterableIterator<WorkloadNetworkPortMirroring>;
-    listPublicIPs(resourceGroupName: string, privateCloudName: string, options?: WorkloadNetworksListPublicIPsOptionalParams): PagedAsyncIterableIterator<WorkloadNetworkPublicIP>;
-    listSegments(resourceGroupName: string, privateCloudName: string, options?: WorkloadNetworksListSegmentsOptionalParams): PagedAsyncIterableIterator<WorkloadNetworkSegment>;
-    listVirtualMachines(resourceGroupName: string, privateCloudName: string, options?: WorkloadNetworksListVirtualMachinesOptionalParams): PagedAsyncIterableIterator<WorkloadNetworkVirtualMachine>;
-    listVMGroups(resourceGroupName: string, privateCloudName: string, options?: WorkloadNetworksListVMGroupsOptionalParams): PagedAsyncIterableIterator<WorkloadNetworkVMGroup>;
-}
-
-// @public
-export interface WorkloadNetworksCreateDhcpHeaders {
-    retryAfter?: number;
-}
-
-// @public
-export interface WorkloadNetworksCreateDhcpOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface WorkloadNetworksCreateDhcpOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
 
 // @public
-export type WorkloadNetworksCreateDhcpResponse = WorkloadNetworkDhcp;
-
-// @public
-export interface WorkloadNetworksCreateDnsServiceHeaders {
-    retryAfter?: number;
-}
-
-// @public
-export interface WorkloadNetworksCreateDnsServiceOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface WorkloadNetworksCreateDnsServiceOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
 
 // @public
-export type WorkloadNetworksCreateDnsServiceResponse = WorkloadNetworkDnsService;
-
-// @public
-export interface WorkloadNetworksCreateDnsZoneHeaders {
-    retryAfter?: number;
-}
-
-// @public
-export interface WorkloadNetworksCreateDnsZoneOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface WorkloadNetworksCreateDnsZoneOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
 
 // @public
-export type WorkloadNetworksCreateDnsZoneResponse = WorkloadNetworkDnsZone;
-
-// @public
-export interface WorkloadNetworksCreatePortMirroringHeaders {
-    retryAfter?: number;
-}
-
-// @public
-export interface WorkloadNetworksCreatePortMirroringOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface WorkloadNetworksCreatePortMirroringOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
 
 // @public
-export type WorkloadNetworksCreatePortMirroringResponse = WorkloadNetworkPortMirroring;
-
-// @public
-export interface WorkloadNetworksCreatePublicIPHeaders {
-    retryAfter?: number;
-}
-
-// @public
-export interface WorkloadNetworksCreatePublicIPOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface WorkloadNetworksCreatePublicIPOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
 
 // @public
-export type WorkloadNetworksCreatePublicIPResponse = WorkloadNetworkPublicIP;
-
-// @public
-export interface WorkloadNetworksCreateSegmentsHeaders {
-    retryAfter?: number;
-}
-
-// @public
-export interface WorkloadNetworksCreateSegmentsOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface WorkloadNetworksCreateSegmentsOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
 
 // @public
-export type WorkloadNetworksCreateSegmentsResponse = WorkloadNetworkSegment;
-
-// @public
-export interface WorkloadNetworksCreateVMGroupHeaders {
-    retryAfter?: number;
-}
-
-// @public
-export interface WorkloadNetworksCreateVMGroupOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface WorkloadNetworksCreateVMGroupOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
 
 // @public
-export type WorkloadNetworksCreateVMGroupResponse = WorkloadNetworkVMGroup;
-
-// @public
-export interface WorkloadNetworksDeleteDhcpHeaders {
-    location?: string;
-    retryAfter?: number;
-}
-
-// @public
-export interface WorkloadNetworksDeleteDhcpOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface WorkloadNetworksDeleteDhcpOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
 
 // @public
-export interface WorkloadNetworksDeleteDnsServiceHeaders {
-    location?: string;
-    retryAfter?: number;
-}
-
-// @public
-export interface WorkloadNetworksDeleteDnsServiceOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface WorkloadNetworksDeleteDnsServiceOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
 
 // @public
-export interface WorkloadNetworksDeleteDnsZoneHeaders {
-    location?: string;
-    retryAfter?: number;
-}
-
-// @public
-export interface WorkloadNetworksDeleteDnsZoneOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface WorkloadNetworksDeleteDnsZoneOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
 
 // @public
-export interface WorkloadNetworksDeletePortMirroringHeaders {
-    location?: string;
-    retryAfter?: number;
-}
-
-// @public
-export interface WorkloadNetworksDeletePortMirroringOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface WorkloadNetworksDeletePortMirroringOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
 
 // @public
-export interface WorkloadNetworksDeletePublicIPHeaders {
-    location?: string;
-    retryAfter?: number;
-}
-
-// @public
-export interface WorkloadNetworksDeletePublicIPOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface WorkloadNetworksDeletePublicIPOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
 
 // @public
-export interface WorkloadNetworksDeleteSegmentHeaders {
-    location?: string;
-    retryAfter?: number;
-}
-
-// @public
-export interface WorkloadNetworksDeleteSegmentOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface WorkloadNetworksDeleteSegmentOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
 
 // @public
-export interface WorkloadNetworksDeleteVMGroupHeaders {
-    location?: string;
-    retryAfter?: number;
-}
-
-// @public
-export interface WorkloadNetworksDeleteVMGroupOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface WorkloadNetworksDeleteVMGroupOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
 
 // @public
 export interface WorkloadNetworkSegment extends ProxyResource {
+    properties?: WorkloadNetworkSegmentProperties;
+}
+
+// @public
+export interface WorkloadNetworkSegmentPortVif {
+    portName?: string;
+}
+
+// @public
+export interface WorkloadNetworkSegmentProperties {
     connectedGateway?: string;
     displayName?: string;
     readonly portVif?: WorkloadNetworkSegmentPortVif[];
@@ -2548,18 +2173,7 @@ export interface WorkloadNetworkSegment extends ProxyResource {
 }
 
 // @public
-export interface WorkloadNetworkSegmentPortVif {
-    portName?: string;
-}
-
-// @public
 export type WorkloadNetworkSegmentProvisioningState = string;
-
-// @public
-export interface WorkloadNetworkSegmentsList {
-    nextLink?: string;
-    value: WorkloadNetworkSegment[];
-}
 
 // @public
 export interface WorkloadNetworkSegmentSubnet {
@@ -2568,320 +2182,178 @@ export interface WorkloadNetworkSegmentSubnet {
 }
 
 // @public
-export interface WorkloadNetworksGetDhcpOptionalParams extends coreClient.OperationOptions {
+export interface WorkloadNetworksGetDhcpOptionalParams extends OperationOptions {
 }
 
 // @public
-export type WorkloadNetworksGetDhcpResponse = WorkloadNetworkDhcp;
-
-// @public
-export interface WorkloadNetworksGetDnsServiceOptionalParams extends coreClient.OperationOptions {
+export interface WorkloadNetworksGetDnsServiceOptionalParams extends OperationOptions {
 }
 
 // @public
-export type WorkloadNetworksGetDnsServiceResponse = WorkloadNetworkDnsService;
-
-// @public
-export interface WorkloadNetworksGetDnsZoneOptionalParams extends coreClient.OperationOptions {
+export interface WorkloadNetworksGetDnsZoneOptionalParams extends OperationOptions {
 }
 
 // @public
-export type WorkloadNetworksGetDnsZoneResponse = WorkloadNetworkDnsZone;
-
-// @public
-export interface WorkloadNetworksGetGatewayOptionalParams extends coreClient.OperationOptions {
+export interface WorkloadNetworksGetGatewayOptionalParams extends OperationOptions {
 }
 
 // @public
-export type WorkloadNetworksGetGatewayResponse = WorkloadNetworkGateway;
-
-// @public
-export interface WorkloadNetworksGetOptionalParams extends coreClient.OperationOptions {
+export interface WorkloadNetworksGetOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface WorkloadNetworksGetPortMirroringOptionalParams extends coreClient.OperationOptions {
+export interface WorkloadNetworksGetPortMirroringOptionalParams extends OperationOptions {
 }
 
 // @public
-export type WorkloadNetworksGetPortMirroringResponse = WorkloadNetworkPortMirroring;
-
-// @public
-export interface WorkloadNetworksGetPublicIPOptionalParams extends coreClient.OperationOptions {
+export interface WorkloadNetworksGetPublicIPOptionalParams extends OperationOptions {
 }
 
 // @public
-export type WorkloadNetworksGetPublicIPResponse = WorkloadNetworkPublicIP;
-
-// @public
-export type WorkloadNetworksGetResponse = WorkloadNetwork;
-
-// @public
-export interface WorkloadNetworksGetSegmentOptionalParams extends coreClient.OperationOptions {
+export interface WorkloadNetworksGetSegmentOptionalParams extends OperationOptions {
 }
 
 // @public
-export type WorkloadNetworksGetSegmentResponse = WorkloadNetworkSegment;
-
-// @public
-export interface WorkloadNetworksGetVirtualMachineOptionalParams extends coreClient.OperationOptions {
+export interface WorkloadNetworksGetVirtualMachineOptionalParams extends OperationOptions {
 }
 
 // @public
-export type WorkloadNetworksGetVirtualMachineResponse = WorkloadNetworkVirtualMachine;
-
-// @public
-export interface WorkloadNetworksGetVMGroupOptionalParams extends coreClient.OperationOptions {
+export interface WorkloadNetworksGetVMGroupOptionalParams extends OperationOptions {
 }
 
 // @public
-export type WorkloadNetworksGetVMGroupResponse = WorkloadNetworkVMGroup;
-
-// @public
-export interface WorkloadNetworksListDhcpNextOptionalParams extends coreClient.OperationOptions {
+export interface WorkloadNetworksListDhcpOptionalParams extends OperationOptions {
 }
 
 // @public
-export type WorkloadNetworksListDhcpNextResponse = WorkloadNetworkDhcpList;
-
-// @public
-export interface WorkloadNetworksListDhcpOptionalParams extends coreClient.OperationOptions {
+export interface WorkloadNetworksListDnsServicesOptionalParams extends OperationOptions {
 }
 
 // @public
-export type WorkloadNetworksListDhcpResponse = WorkloadNetworkDhcpList;
-
-// @public
-export interface WorkloadNetworksListDnsServicesNextOptionalParams extends coreClient.OperationOptions {
+export interface WorkloadNetworksListDnsZonesOptionalParams extends OperationOptions {
 }
 
 // @public
-export type WorkloadNetworksListDnsServicesNextResponse = WorkloadNetworkDnsServicesList;
-
-// @public
-export interface WorkloadNetworksListDnsServicesOptionalParams extends coreClient.OperationOptions {
+export interface WorkloadNetworksListGatewaysOptionalParams extends OperationOptions {
 }
 
 // @public
-export type WorkloadNetworksListDnsServicesResponse = WorkloadNetworkDnsServicesList;
-
-// @public
-export interface WorkloadNetworksListDnsZonesNextOptionalParams extends coreClient.OperationOptions {
+export interface WorkloadNetworksListOptionalParams extends OperationOptions {
 }
 
 // @public
-export type WorkloadNetworksListDnsZonesNextResponse = WorkloadNetworkDnsZonesList;
-
-// @public
-export interface WorkloadNetworksListDnsZonesOptionalParams extends coreClient.OperationOptions {
+export interface WorkloadNetworksListPortMirroringOptionalParams extends OperationOptions {
 }
 
 // @public
-export type WorkloadNetworksListDnsZonesResponse = WorkloadNetworkDnsZonesList;
-
-// @public
-export interface WorkloadNetworksListGatewaysNextOptionalParams extends coreClient.OperationOptions {
+export interface WorkloadNetworksListPublicIPsOptionalParams extends OperationOptions {
 }
 
 // @public
-export type WorkloadNetworksListGatewaysNextResponse = WorkloadNetworkGatewayList;
-
-// @public
-export interface WorkloadNetworksListGatewaysOptionalParams extends coreClient.OperationOptions {
+export interface WorkloadNetworksListSegmentsOptionalParams extends OperationOptions {
 }
 
 // @public
-export type WorkloadNetworksListGatewaysResponse = WorkloadNetworkGatewayList;
-
-// @public
-export interface WorkloadNetworksListNextOptionalParams extends coreClient.OperationOptions {
+export interface WorkloadNetworksListVirtualMachinesOptionalParams extends OperationOptions {
 }
 
 // @public
-export type WorkloadNetworksListNextResponse = WorkloadNetworkList;
-
-// @public
-export interface WorkloadNetworksListOptionalParams extends coreClient.OperationOptions {
+export interface WorkloadNetworksListVMGroupsOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface WorkloadNetworksListPortMirroringNextOptionalParams extends coreClient.OperationOptions {
+export interface WorkloadNetworksOperations {
+    createDhcp: (resourceGroupName: string, privateCloudName: string, dhcpId: string, workloadNetworkDhcp: WorkloadNetworkDhcp, options?: WorkloadNetworksCreateDhcpOptionalParams) => PollerLike<OperationState<WorkloadNetworkDhcp>, WorkloadNetworkDhcp>;
+    createDnsService: (resourceGroupName: string, privateCloudName: string, dnsServiceId: string, workloadNetworkDnsService: WorkloadNetworkDnsService, options?: WorkloadNetworksCreateDnsServiceOptionalParams) => PollerLike<OperationState<WorkloadNetworkDnsService>, WorkloadNetworkDnsService>;
+    createDnsZone: (resourceGroupName: string, privateCloudName: string, dnsZoneId: string, workloadNetworkDnsZone: WorkloadNetworkDnsZone, options?: WorkloadNetworksCreateDnsZoneOptionalParams) => PollerLike<OperationState<WorkloadNetworkDnsZone>, WorkloadNetworkDnsZone>;
+    createPortMirroring: (resourceGroupName: string, privateCloudName: string, portMirroringId: string, workloadNetworkPortMirroring: WorkloadNetworkPortMirroring, options?: WorkloadNetworksCreatePortMirroringOptionalParams) => PollerLike<OperationState<WorkloadNetworkPortMirroring>, WorkloadNetworkPortMirroring>;
+    createPublicIP: (resourceGroupName: string, privateCloudName: string, publicIPId: string, workloadNetworkPublicIP: WorkloadNetworkPublicIP, options?: WorkloadNetworksCreatePublicIPOptionalParams) => PollerLike<OperationState<WorkloadNetworkPublicIP>, WorkloadNetworkPublicIP>;
+    createSegments: (resourceGroupName: string, privateCloudName: string, segmentId: string, workloadNetworkSegment: WorkloadNetworkSegment, options?: WorkloadNetworksCreateSegmentsOptionalParams) => PollerLike<OperationState<WorkloadNetworkSegment>, WorkloadNetworkSegment>;
+    createVMGroup: (resourceGroupName: string, privateCloudName: string, vmGroupId: string, workloadNetworkVMGroup: WorkloadNetworkVMGroup, options?: WorkloadNetworksCreateVMGroupOptionalParams) => PollerLike<OperationState<WorkloadNetworkVMGroup>, WorkloadNetworkVMGroup>;
+    deleteDhcp: (resourceGroupName: string, privateCloudName: string, dhcpId: string, options?: WorkloadNetworksDeleteDhcpOptionalParams) => PollerLike<OperationState<void>, void>;
+    deleteDnsService: (resourceGroupName: string, dnsServiceId: string, privateCloudName: string, options?: WorkloadNetworksDeleteDnsServiceOptionalParams) => PollerLike<OperationState<void>, void>;
+    deleteDnsZone: (resourceGroupName: string, dnsZoneId: string, privateCloudName: string, options?: WorkloadNetworksDeleteDnsZoneOptionalParams) => PollerLike<OperationState<void>, void>;
+    deletePortMirroring: (resourceGroupName: string, portMirroringId: string, privateCloudName: string, options?: WorkloadNetworksDeletePortMirroringOptionalParams) => PollerLike<OperationState<void>, void>;
+    deletePublicIP: (resourceGroupName: string, publicIPId: string, privateCloudName: string, options?: WorkloadNetworksDeletePublicIPOptionalParams) => PollerLike<OperationState<void>, void>;
+    deleteSegment: (resourceGroupName: string, privateCloudName: string, segmentId: string, options?: WorkloadNetworksDeleteSegmentOptionalParams) => PollerLike<OperationState<void>, void>;
+    deleteVMGroup: (resourceGroupName: string, vmGroupId: string, privateCloudName: string, options?: WorkloadNetworksDeleteVMGroupOptionalParams) => PollerLike<OperationState<void>, void>;
+    get: (resourceGroupName: string, privateCloudName: string, options?: WorkloadNetworksGetOptionalParams) => Promise<WorkloadNetwork>;
+    getDhcp: (resourceGroupName: string, dhcpId: string, privateCloudName: string, options?: WorkloadNetworksGetDhcpOptionalParams) => Promise<WorkloadNetworkDhcp>;
+    getDnsService: (resourceGroupName: string, privateCloudName: string, dnsServiceId: string, options?: WorkloadNetworksGetDnsServiceOptionalParams) => Promise<WorkloadNetworkDnsService>;
+    getDnsZone: (resourceGroupName: string, privateCloudName: string, dnsZoneId: string, options?: WorkloadNetworksGetDnsZoneOptionalParams) => Promise<WorkloadNetworkDnsZone>;
+    getGateway: (resourceGroupName: string, privateCloudName: string, gatewayId: string, options?: WorkloadNetworksGetGatewayOptionalParams) => Promise<WorkloadNetworkGateway>;
+    getPortMirroring: (resourceGroupName: string, privateCloudName: string, portMirroringId: string, options?: WorkloadNetworksGetPortMirroringOptionalParams) => Promise<WorkloadNetworkPortMirroring>;
+    getPublicIP: (resourceGroupName: string, privateCloudName: string, publicIPId: string, options?: WorkloadNetworksGetPublicIPOptionalParams) => Promise<WorkloadNetworkPublicIP>;
+    getSegment: (resourceGroupName: string, privateCloudName: string, segmentId: string, options?: WorkloadNetworksGetSegmentOptionalParams) => Promise<WorkloadNetworkSegment>;
+    getVirtualMachine: (resourceGroupName: string, privateCloudName: string, virtualMachineId: string, options?: WorkloadNetworksGetVirtualMachineOptionalParams) => Promise<WorkloadNetworkVirtualMachine>;
+    getVMGroup: (resourceGroupName: string, privateCloudName: string, vmGroupId: string, options?: WorkloadNetworksGetVMGroupOptionalParams) => Promise<WorkloadNetworkVMGroup>;
+    list: (resourceGroupName: string, privateCloudName: string, options?: WorkloadNetworksListOptionalParams) => PagedAsyncIterableIterator<WorkloadNetwork>;
+    listDhcp: (resourceGroupName: string, privateCloudName: string, options?: WorkloadNetworksListDhcpOptionalParams) => PagedAsyncIterableIterator<WorkloadNetworkDhcp>;
+    listDnsServices: (resourceGroupName: string, privateCloudName: string, options?: WorkloadNetworksListDnsServicesOptionalParams) => PagedAsyncIterableIterator<WorkloadNetworkDnsService>;
+    listDnsZones: (resourceGroupName: string, privateCloudName: string, options?: WorkloadNetworksListDnsZonesOptionalParams) => PagedAsyncIterableIterator<WorkloadNetworkDnsZone>;
+    listGateways: (resourceGroupName: string, privateCloudName: string, options?: WorkloadNetworksListGatewaysOptionalParams) => PagedAsyncIterableIterator<WorkloadNetworkGateway>;
+    listPortMirroring: (resourceGroupName: string, privateCloudName: string, options?: WorkloadNetworksListPortMirroringOptionalParams) => PagedAsyncIterableIterator<WorkloadNetworkPortMirroring>;
+    listPublicIPs: (resourceGroupName: string, privateCloudName: string, options?: WorkloadNetworksListPublicIPsOptionalParams) => PagedAsyncIterableIterator<WorkloadNetworkPublicIP>;
+    listSegments: (resourceGroupName: string, privateCloudName: string, options?: WorkloadNetworksListSegmentsOptionalParams) => PagedAsyncIterableIterator<WorkloadNetworkSegment>;
+    listVirtualMachines: (resourceGroupName: string, privateCloudName: string, options?: WorkloadNetworksListVirtualMachinesOptionalParams) => PagedAsyncIterableIterator<WorkloadNetworkVirtualMachine>;
+    listVMGroups: (resourceGroupName: string, privateCloudName: string, options?: WorkloadNetworksListVMGroupsOptionalParams) => PagedAsyncIterableIterator<WorkloadNetworkVMGroup>;
+    updateDhcp: (resourceGroupName: string, privateCloudName: string, dhcpId: string, workloadNetworkDhcp: WorkloadNetworkDhcp, options?: WorkloadNetworksUpdateDhcpOptionalParams) => PollerLike<OperationState<WorkloadNetworkDhcp>, WorkloadNetworkDhcp>;
+    updateDnsService: (resourceGroupName: string, privateCloudName: string, dnsServiceId: string, workloadNetworkDnsService: WorkloadNetworkDnsService, options?: WorkloadNetworksUpdateDnsServiceOptionalParams) => PollerLike<OperationState<WorkloadNetworkDnsService>, WorkloadNetworkDnsService>;
+    updateDnsZone: (resourceGroupName: string, privateCloudName: string, dnsZoneId: string, workloadNetworkDnsZone: WorkloadNetworkDnsZone, options?: WorkloadNetworksUpdateDnsZoneOptionalParams) => PollerLike<OperationState<WorkloadNetworkDnsZone>, WorkloadNetworkDnsZone>;
+    updatePortMirroring: (resourceGroupName: string, privateCloudName: string, portMirroringId: string, workloadNetworkPortMirroring: WorkloadNetworkPortMirroring, options?: WorkloadNetworksUpdatePortMirroringOptionalParams) => PollerLike<OperationState<WorkloadNetworkPortMirroring>, WorkloadNetworkPortMirroring>;
+    updateSegments: (resourceGroupName: string, privateCloudName: string, segmentId: string, workloadNetworkSegment: WorkloadNetworkSegment, options?: WorkloadNetworksUpdateSegmentsOptionalParams) => PollerLike<OperationState<WorkloadNetworkSegment>, WorkloadNetworkSegment>;
+    updateVMGroup: (resourceGroupName: string, privateCloudName: string, vmGroupId: string, workloadNetworkVMGroup: WorkloadNetworkVMGroup, options?: WorkloadNetworksUpdateVMGroupOptionalParams) => PollerLike<OperationState<WorkloadNetworkVMGroup>, WorkloadNetworkVMGroup>;
 }
 
 // @public
-export type WorkloadNetworksListPortMirroringNextResponse = WorkloadNetworkPortMirroringList;
-
-// @public
-export interface WorkloadNetworksListPortMirroringOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type WorkloadNetworksListPortMirroringResponse = WorkloadNetworkPortMirroringList;
-
-// @public
-export interface WorkloadNetworksListPublicIPsNextOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type WorkloadNetworksListPublicIPsNextResponse = WorkloadNetworkPublicIPsList;
-
-// @public
-export interface WorkloadNetworksListPublicIPsOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type WorkloadNetworksListPublicIPsResponse = WorkloadNetworkPublicIPsList;
-
-// @public
-export type WorkloadNetworksListResponse = WorkloadNetworkList;
-
-// @public
-export interface WorkloadNetworksListSegmentsNextOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type WorkloadNetworksListSegmentsNextResponse = WorkloadNetworkSegmentsList;
-
-// @public
-export interface WorkloadNetworksListSegmentsOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type WorkloadNetworksListSegmentsResponse = WorkloadNetworkSegmentsList;
-
-// @public
-export interface WorkloadNetworksListVirtualMachinesNextOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type WorkloadNetworksListVirtualMachinesNextResponse = WorkloadNetworkVirtualMachinesList;
-
-// @public
-export interface WorkloadNetworksListVirtualMachinesOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type WorkloadNetworksListVirtualMachinesResponse = WorkloadNetworkVirtualMachinesList;
-
-// @public
-export interface WorkloadNetworksListVMGroupsNextOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type WorkloadNetworksListVMGroupsNextResponse = WorkloadNetworkVMGroupsList;
-
-// @public
-export interface WorkloadNetworksListVMGroupsOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type WorkloadNetworksListVMGroupsResponse = WorkloadNetworkVMGroupsList;
-
-// @public
-export interface WorkloadNetworksUpdateDhcpHeaders {
-    location?: string;
-    retryAfter?: number;
-}
-
-// @public
-export interface WorkloadNetworksUpdateDhcpOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface WorkloadNetworksUpdateDhcpOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
 
 // @public
-export type WorkloadNetworksUpdateDhcpResponse = WorkloadNetworkDhcp;
-
-// @public
-export interface WorkloadNetworksUpdateDnsServiceHeaders {
-    location?: string;
-    retryAfter?: number;
-}
-
-// @public
-export interface WorkloadNetworksUpdateDnsServiceOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface WorkloadNetworksUpdateDnsServiceOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
 
 // @public
-export type WorkloadNetworksUpdateDnsServiceResponse = WorkloadNetworkDnsService;
-
-// @public
-export interface WorkloadNetworksUpdateDnsZoneHeaders {
-    location?: string;
-    retryAfter?: number;
-}
-
-// @public
-export interface WorkloadNetworksUpdateDnsZoneOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface WorkloadNetworksUpdateDnsZoneOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
 
 // @public
-export type WorkloadNetworksUpdateDnsZoneResponse = WorkloadNetworkDnsZone;
-
-// @public
-export interface WorkloadNetworksUpdatePortMirroringHeaders {
-    location?: string;
-    retryAfter?: number;
-}
-
-// @public
-export interface WorkloadNetworksUpdatePortMirroringOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface WorkloadNetworksUpdatePortMirroringOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
 
 // @public
-export type WorkloadNetworksUpdatePortMirroringResponse = WorkloadNetworkPortMirroring;
-
-// @public
-export interface WorkloadNetworksUpdateSegmentsHeaders {
-    location?: string;
-    retryAfter?: number;
-}
-
-// @public
-export interface WorkloadNetworksUpdateSegmentsOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface WorkloadNetworksUpdateSegmentsOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
 
 // @public
-export type WorkloadNetworksUpdateSegmentsResponse = WorkloadNetworkSegment;
-
-// @public
-export interface WorkloadNetworksUpdateVMGroupHeaders {
-    location?: string;
-    retryAfter?: number;
-}
-
-// @public
-export interface WorkloadNetworksUpdateVMGroupOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface WorkloadNetworksUpdateVMGroupOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
-
-// @public
-export type WorkloadNetworksUpdateVMGroupResponse = WorkloadNetworkVMGroup;
 
 // @public
 export interface WorkloadNetworkVirtualMachine extends ProxyResource {
+    properties?: WorkloadNetworkVirtualMachineProperties;
+}
+
+// @public
+export interface WorkloadNetworkVirtualMachineProperties {
     displayName?: string;
     readonly provisioningState?: WorkloadNetworkProvisioningState;
     readonly vmType?: VMTypeEnum;
 }
 
 // @public
-export interface WorkloadNetworkVirtualMachinesList {
-    nextLink?: string;
-    value: WorkloadNetworkVirtualMachine[];
+export interface WorkloadNetworkVMGroup extends ProxyResource {
+    properties?: WorkloadNetworkVMGroupProperties;
 }
 
 // @public
-export interface WorkloadNetworkVMGroup extends ProxyResource {
+export interface WorkloadNetworkVMGroupProperties {
     displayName?: string;
     members?: string[];
     readonly provisioningState?: WorkloadNetworkVMGroupProvisioningState;
@@ -2891,12 +2363,6 @@ export interface WorkloadNetworkVMGroup extends ProxyResource {
 
 // @public
 export type WorkloadNetworkVMGroupProvisioningState = string;
-
-// @public
-export interface WorkloadNetworkVMGroupsList {
-    nextLink?: string;
-    value: WorkloadNetworkVMGroup[];
-}
 
 // (No @packageDocumentation comment for this package)
 
