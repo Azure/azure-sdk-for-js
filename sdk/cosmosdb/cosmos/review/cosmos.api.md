@@ -183,7 +183,6 @@ export type ClientConfigDiagnostic = {
 
 // @public (undocumented)
 export class ClientContext {
-    // Warning: (ae-forgotten-export) The symbol "GlobalPartitionEndpointManager" needs to be exported by the entry point index.d.ts
     constructor(cosmosClientOptions: CosmosClientOptions, globalEndpointManager: GlobalEndpointManager, clientConfig: ClientConfigDiagnostic, diagnosticLevel: CosmosDbDiagnosticLevel, globalPartitionEndpointManager: GlobalPartitionEndpointManager);
     // (undocumented)
     batch<T>({ body, path, partitionKey, resourceId, options, diagnosticNode, partitionKeyRangeId, }: {
@@ -632,7 +631,7 @@ export const Constants: {
     AllowedPartitionUnavailabilityDurationInMs: number;
     ReadRequestFailureCounterThreshold: number;
     WriteRequestFailureCounterThreshold: number;
-    TimeoutCounterResetWindow: number;
+    ConsecutiveFailureCountResetInterval: number;
     ENABLE_MULTIPLE_WRITABLE_LOCATIONS: string;
     DefaultUnavailableLocationExpirationTimeMS: number;
     ThrottleRetryCount: string;
@@ -1322,6 +1321,19 @@ export class GlobalEndpointManager {
     refreshEndpointList(diagnosticNode: DiagnosticNodeInternal): Promise<void>;
     // (undocumented)
     resolveServiceEndpoint(diagnosticNode: DiagnosticNodeInternal, resourceType: ResourceType, operationType: OperationType, startServiceEndpointIndex?: number): Promise<string>;
+}
+
+// @public
+export class GlobalPartitionEndpointManager {
+    checkRequestEligibilityAndTryMarkEndpointUnavailableForPartitionKeyRange(requestContext: RequestContext): Promise<boolean>;
+    // (undocumented)
+    circuitBreakerFailbackBackgroundRefresher: NodeJS.Timeout;
+    // (undocumented)
+    preferredLocationsCount: number;
+    tryAddPartitionLevelLocationOverride(requestContext: RequestContext): Promise<{
+        overridden: boolean;
+        newLocation?: string;
+    }>;
 }
 
 // @public (undocumented)

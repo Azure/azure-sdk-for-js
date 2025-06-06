@@ -160,3 +160,4 @@ export {
   CosmosEncryptedNumber,
   CosmosEncryptedNumberType,
 } from "./encryption/index.js";
+export { GlobalPartitionEndpointManager } from "./globalPartitionEndpointManager.js";

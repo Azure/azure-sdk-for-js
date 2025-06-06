@@ -3,7 +3,6 @@
 import { HealthStatus, OperationType, ResourceType, isReadRequest } from "./common/index.js";
 import {
   Constants,
-  ErrorResponse,
   type CosmosClientOptions,
   type GlobalEndpointManager,
   type RequestContext,
