@@ -426,6 +426,11 @@
       "versionPolicyName": "client"
     },
     {
+      "packageName": "@azure-tools/communication-ten-dlc",
+      "projectFolder": "sdk/communication/communication-ten-dlc",
+      "versionPolicyName": "client"
+    },
+    {
       "packageName": "@azure-tools/communication-recipient-verification",
       "projectFolder": "sdk/communication/communication-recipient-verification",
       "versionPolicyName": "client"
