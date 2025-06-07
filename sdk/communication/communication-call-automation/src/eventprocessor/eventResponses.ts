@@ -11,6 +11,8 @@ import type {
   PlayFailed,
   RemoveParticipantSucceeded,
   RemoveParticipantFailed,
+  MoveParticipantSucceeded,
+  MoveParticipantFailed,
   SendDtmfTonesCompleted,
   SendDtmfTonesFailed,
   RecognizeCompleted,
@@ -108,6 +110,18 @@ export interface RemoveParticipantEventResult {
   successResult?: RemoveParticipantSucceeded;
   /** contains failure event if the result was failure */
   failureResult?: RemoveParticipantFailed;
+}
+
+/**
+ * MoveParticipant event result
+ */
+export interface MoveParticipantEventResult {
+  /** returns true if move participant was successful */
+  isSuccess: boolean;
+  /** contains success event if the result was successful */
+  successResult?: MoveParticipantSucceeded;
+  /** contains failure event if the result was failure */
+  failureResult?: MoveParticipantFailed;
 }
 
 /**
