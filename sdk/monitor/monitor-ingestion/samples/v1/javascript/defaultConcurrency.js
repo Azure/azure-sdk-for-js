@@ -8,8 +8,7 @@
 
 const { DefaultAzureCredential } = require("@azure/identity");
 const { isAggregateLogsUploadError, LogsIngestionClient } = require("@azure/monitor-ingestion");
-
-require("dotenv").config();
+require("dotenv/config");
 
 async function main() {
   const logsIngestionEndpoint = process.env.LOGS_INGESTION_ENDPOINT || "logs_ingestion_endpoint";
@@ -34,7 +33,7 @@ async function main() {
     await client.upload(ruleId, streamName, logs);
   } catch (e) {
     if (isAggregateLogsUploadError(e)) {
-      let aggregateErrors = e.errors;
+      const aggregateErrors = e.errors;
       if (aggregateErrors.length > 0) {
         console.log(
           "Some logs have failed to complete ingestion. Number of error batches=",

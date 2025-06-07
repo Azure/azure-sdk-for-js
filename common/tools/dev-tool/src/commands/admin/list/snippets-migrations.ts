@@ -6,7 +6,7 @@ import { readFile, writeFile } from "node:fs/promises";
 import { resolveRoot } from "../../../util/resolveProject";
 import os from "node:os";
 import path from "node:path";
-import stripJsonComments from "strip-json-comments";
+import { getRushJson, type RushJsonProject } from "../../../util/synthesizedRushJson";
 
 export const commandInfo = makeCommandInfo(
   "snippets-migrations",
@@ -24,40 +24,6 @@ export const commandInfo = makeCommandInfo(
     },
   },
 );
-
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-let _rushJson: any = undefined;
-
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-async function getRushJson(): Promise<any> {
-  if (_rushJson) return _rushJson;
-
-  const rushJsonText = await readFile(
-    path.resolve(__dirname, "../../../../../../../rush.json"),
-    "utf-8",
-  );
-
-  return (_rushJson = JSON.parse(stripJsonComments(rushJsonText)));
-}
-
-/**
- * The shape of a rush.json `projects` entry.
- */
-export interface RushJsonProject {
-  /**
-   * The name of the package.
-   */
-  packageName: string;
-  /**
-   * The path to the project, relative to the monorepo root.
-   */
-  projectFolder: string;
-
-  /**
-   * The version policy name.
-   */
-  versionPolicyName: string;
-}
 
 interface MigrationResults {
   core: MigrationResult;

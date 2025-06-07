@@ -4,18 +4,22 @@
 
 ## [Index](#index)
 
-- [Sample perf test project](#sample-perf-test-project)
-- [Setting up the project](#setting-up-the-project)
-- [Writing perf tests](#writing-perf-tests)
-  - [Entry Point](#entry-point)
-  - [Base Class](#base-class)
-  - [Test File](#test-file)
-  - [Custom Options](#custom-options)
-- [Executing the perf tests](#executing-the-perf-tests)
-  - [Command to run](#command-to-run)
-  - [Adding Readme/Instructions](#adding-readme/instructions)
-  - [Testing an older version](#testing-an-older-version)
-- [Using Proxy Tool](#using-proxy-tool)
+- [Writing Performance Tests](#writing-performance-tests)
+  - [Index](#index)
+  - [Sample perf test project](#sample-perf-test-project)
+  - [Setting up the project](#setting-up-the-project)
+  - [Writing perf tests](#writing-perf-tests)
+    - [Entry Point](#entry-point)
+    - [Base Class](#base-class)
+    - [Test File](#test-file)
+    - [Custom Options](#custom-options)
+  - [Executing the perf tests](#executing-the-perf-tests)
+    - [Command to run](#command-to-run)
+    - [Adding Readme/Instructions](#adding-readmeinstructions)
+    - [Testing an older version](#testing-an-older-version)
+  - [Using Proxy Tool](#using-proxy-tool)
+    - [Using the testProxy option](#using-the-testproxy-option)
+    - [Running the proxy server](#running-the-proxy-server)
 
 ## [Sample perf test project](#sample-perf-test-project)
 
@@ -31,19 +35,8 @@ To add perf tests for the `sdk/<service>/<service-sdk>` package, follow the step
 
     (Create the `<service-sdk>-perf-tests` folder if that doesn't exist)
 
-2.  This new perf test project will be managed by the rush infrastructure in the repository, with the package name `@azure-tests/perf-<service-sdk>`. To allow rush to manage the project, add the following entry in `rush.json`
-
-    ```
-        {
-          "packageName": "@azure-tests/perf-<service-sdk>",
-          "projectFolder": "sdk/<service>/<service-sdk>-perf-tests",
-          "versionPolicyName": "test"
-        }
-
-    ```
-
-3.  Tests will live under `sdk/<service>/<service-sdk>-perf-tests/test`
-4.  Add a `package.json` such as [example-perf-package.json](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/storage/storage-file-datalake-perf-tests/package.json) at `sdk/<service>/<service-sdk>-perf-tests` folder.
+2.  Tests will live under `sdk/<service>/<service-sdk>-perf-tests/test`
+3.  Add a `package.json` such as [example-perf-package.json](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/storage/storage-file-datalake-perf-tests/package.json) at `sdk/<service>/<service-sdk>-perf-tests` folder.
 
     Make sure to import your `<service-sdk>` and the `test-utils-perf` project.
 
@@ -64,9 +57,9 @@ To add perf tests for the `sdk/<service>/<service-sdk>` package, follow the step
      "private": true,
     ```
 
-5.  Run `rush update` and commit the changes to the `pnpm-lock` file.
-6.  Copy the `tsconfig.json` and `tsconfig.src.json` from [the sample project](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/template/template-perf-tests).
-7.  Copy `sample.env`(and `.env`) files that are present at the `sdk/<service>/<service-sdk>` to `sdk/<service>/<service-sdk>-perf-tests`.
+4.  Run `pnpm install` and commit the changes to the `pnpm-lock` file.
+5.  Copy the `tsconfig.json` and `tsconfig.src.json` from [the sample project](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/template/template-perf-tests).
+6.  Copy `sample.env`(and `.env`) files that are present at the `sdk/<service>/<service-sdk>` to `sdk/<service>/<service-sdk>-perf-tests`.
 
 ## [Writing perf tests](#writing-perf-tests)
 
@@ -199,11 +192,9 @@ Refer to [the README for the template project](https://github.com/Azure/azure-sd
 Example: Currently `@azure/<service-sdk>` is at 12.4.0 on master and you want to test version 12.2.0
 
 - In the perf tests project, update dependency `@azure/<service-sdk>` version in `package.json` to `12.2.0`
-- Add a new exception in `common\config\rush\common-versions.json` under `allowedAlternativeVersions`
-  - `"@azure/<service-sdk>": [..., "12.2.0"]`
-- `rush update` (generates a new pnpm-lock file)
+- `pnpm install` (generates a new pnpm-lock file)
 - Navigate to `sdk\storage\<service-sdk>-perf-tests`
-- `rush build -t perf-<service-sdk>`
+- `pnpm build --filter=perf-<service-sdk>`
 - Run the tests as suggested before, example `npm run perf-test:node -- TestClassName --warmup 2 --duration 7 --iterations 2 --parallel 50`
 
 ## [Using Proxy Tool](#using-proxy-tool)

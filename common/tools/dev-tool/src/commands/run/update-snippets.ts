@@ -87,6 +87,9 @@ async function findAllSnippetLocations(info: ProjectInfo): Promise<SnippetLocati
   let hadError = false;
 
   for await (const f of getAllSnippetFiles(info.path)) {
+    if (f.includes("/node_modules/") || f.includes("\\node_modules\\")) {
+      continue;
+    }
     // We want to use some kind of semantically appropriate comment to allow ignoring a file.
     const ignoreString = f.endsWith(".md") ? IGNORE_MARKDOWN_COMMENT : IGNORE_CODE_COMMENT;
 
