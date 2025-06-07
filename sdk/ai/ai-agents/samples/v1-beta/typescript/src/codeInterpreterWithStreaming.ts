@@ -7,13 +7,6 @@
  * @summary demonstrates how to use agent operations with code interpreter.
  */
 
-import type {
-  MessageDeltaChunk,
-  MessageDeltaTextContent,
-  MessageImageFileContent,
-  MessageTextContent,
-  ThreadRun,
-} from "@azure/ai-agents";
 import {
   RunStreamEvent,
   MessageStreamEvent,
@@ -37,7 +30,7 @@ export async function main(): Promise<void> {
   const client = new AgentsClient(projectEndpoint, new DefaultAzureCredential());
 
   // Upload file and wait for it to be processed
-  const filePath = "./data/nifty500QuarterlyResults.csv";
+  const filePath = "./data/syntheticCompanyQuarterlyResults.csv";
   const localFileStream = fs.createReadStream(filePath);
   const localFile = await client.files.upload(localFileStream, "assistants", {
     fileName: "myLocalFile",
@@ -76,18 +69,20 @@ export async function main(): Promise<void> {
   for await (const eventMessage of streamEventMessages) {
     switch (eventMessage.event) {
       case RunStreamEvent.ThreadRunCreated:
-        console.log(`ThreadRun status: ${(eventMessage.data as ThreadRun).status}`);
+        console.log(`ThreadRun status: ${eventMessage.data.status}`);
         break;
       case MessageStreamEvent.ThreadMessageDelta:
         {
-          const messageDelta = eventMessage.data as MessageDeltaChunk;
-          messageDelta.delta.content.forEach((contentPart) => {
-            if (contentPart.type === "text") {
-              const textContent = contentPart as MessageDeltaTextContent;
-              const textValue = textContent.text?.value || "No text";
-              console.log(`Text delta received:: ${textValue}`);
-            }
-          });
+          const messageDelta = eventMessage.data;
+          if (messageDelta.delta && messageDelta.delta.content) {
+            messageDelta.delta.content.forEach((contentPart) => {
+              if (contentPart.type === "text") {
+                const textContent = contentPart;
+                const textValue = textContent.text?.value || "No text";
+                console.log(`Text delta received:: ${textValue}`);
+              }
+            });
+          }
         }
         break;
 
@@ -117,42 +112,54 @@ export async function main(): Promise<void> {
 
   // Get most recent message from the assistant
   const assistantMessage = messagesArray.find((msg) => msg.role === "assistant");
-  if (assistantMessage) {
-    const textContent = assistantMessage.content.find((content) =>
-      isOutputOfType<MessageTextContent>(content, "text"),
-    ) as MessageTextContent;
-    if (textContent) {
-      // Save the newly created file
-      console.log(`Saving new files...`);
-      const imageFileOutput = messagesArray[0].content[0] as MessageImageFileContent;
-      const imageFile = imageFileOutput.imageFile.fileId;
-      const imageFileName = path.resolve(
-        "./data/" + (await client.files.get(imageFile)).filename + "ImageFile.png",
-      );
-      console.log(`Image file name : ${imageFileName}`);
+  if (assistantMessage && assistantMessage.content && assistantMessage.content.length > 0) {
+    // Look for an image file in the assistant's message
+    const imageFileOutput = assistantMessage.content.find(
+      (content) => content.type === "image_file" && content.imageFile?.fileId,
+    );
 
-      const fileContent = await (await client.files.getContent(imageFile).asNodeStream()).body;
-      if (fileContent) {
-        const chunks: Buffer[] = [];
-        for await (const chunk of fileContent) {
-          chunks.push(Buffer.isBuffer(chunk) ? chunk : Buffer.from(chunk));
+    if (imageFileOutput) {
+      try {
+        // Save the newly created file
+        console.log(`Saving new files...`);
+        const imageFile = imageFileOutput.imageFile.fileId;
+        const imageFileName = path.resolve(
+          "./data/ImageFile_" + (await client.files.get(imageFile)).filename,
+        );
+        console.log(`Image file name : ${imageFileName}`);
+
+        const fileContent = await client.files.getContent(imageFile).asNodeStream();
+        if (fileContent && fileContent.body) {
+          const chunks = [];
+          for await (const chunk of fileContent.body) {
+            chunks.push(Buffer.isBuffer(chunk) ? chunk : Buffer.from(chunk));
+          }
+          const buffer = Buffer.concat(chunks);
+          fs.writeFileSync(imageFileName, buffer);
+          console.log(`Successfully saved image to ${imageFileName}`);
+        } else {
+          console.error("No file content available in the response");
         }
-        const buffer = Buffer.concat(chunks);
-        fs.writeFileSync(imageFileName, buffer);
-      } else {
-        console.log("No file content available");
+      } catch (error) {
+        console.error("Error saving image file:", error);
       }
+    } else {
+      console.log("No image file found in assistant's message");
     }
+  } else {
+    console.log("No assistant message found");
   }
 
   // Iterate through messages and print details for each annotation
   console.log(`Message Details:`);
   messagesArray.forEach((m) => {
     console.log(`File Paths:`);
-    console.log(`Type: ${m.content[0].type}`);
-    if (isOutputOfType<MessageTextContent>(m.content[0], "text")) {
-      const textContent = m.content[0] as MessageTextContent;
-      console.log(`Text: ${textContent.text.value}`);
+    if (m.content && m.content.length > 0) {
+      console.log(`Type: ${m.content[0].type}`);
+      if (isOutputOfType(m.content[0], "text")) {
+        const textContent = m.content[0];
+        console.log(`Text: ${textContent.text.value}`);
+      }
     }
     console.log(`File ID: ${m.id}`);
     // firstId and lastId are properties of the paginator, not the messages array

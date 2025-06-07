@@ -22,7 +22,7 @@ export async function main(): Promise<void> {
   // Create an Azure AI Client
   const client = new AgentsClient(projectEndpoint, new DefaultAzureCredential());
   // Upload file and wait for it to be processed
-  const filePath = "./data/nifty500QuarterlyResults.csv";
+  const filePath = "./data/syntheticCompanyQuarterlyResults.csv";
   const localFileStream = fs.createReadStream(filePath);
   const localFile = await client.files.upload(localFileStream, "assistants", {
     fileName: "localFile",
@@ -50,7 +50,7 @@ export async function main(): Promise<void> {
   const message = await client.messages.create(
     thread.id,
     "user",
-    "Could you please create a bar chart in the TRANSPORTATION sector for the operating profit from the uploaded CSV file and provide the file to me?",
+    "Could you please create a bar chart in the TRANSPORTATION  sector for the operating profit from the uploaded CSV file and provide the file to me?",
     {
       attachments: [
         {
@@ -70,7 +70,7 @@ export async function main(): Promise<void> {
       intervalInMs: 2000,
     },
     onResponse: (response): void => {
-      console.log(`Received response with status: ${response.status}`);
+      console.log(`Received response with status: ${response.parsedBody.status}`);
     },
   });
   console.log(`Run finished with status: ${run.status}`);
@@ -103,7 +103,7 @@ export async function main(): Promise<void> {
   const imageFile = (allMessages[0].content[0] as MessageImageFileContent).imageFile;
   console.log(`Image file ID : ${imageFile.fileId}`);
   const imageFileName = path.resolve(
-    "./data/" + (await client.files.get(imageFile.fileId)).filename + "ImageFile.png",
+    "./data/ImageFile_" + (await client.files.get(imageFile.fileId)).filename,
   );
 
   const fileContent = await (await client.files.getContent(imageFile.fileId).asNodeStream()).body;

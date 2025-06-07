@@ -34,7 +34,7 @@ async function main() {
     fileName: "myPollingFile.txt",
     // (Optional) Define an onResponse callback to monitor the progress of polling
     onResponse: (response) => {
-      console.log(`Received response with status: ${response.status}`);
+      console.log(`Received response with status: ${response.parsedBody.status}`);
     },
   });
   console.log(`Uploaded file with status ${file1.status}, file ID : ${file1.id}`);
@@ -46,7 +46,7 @@ async function main() {
   const filePoller = client.files.uploadAndPoll(readable2, "assistants", {
     fileName: "myPollingFile.txt",
     onResponse: (response) => {
-      console.log(`Received response with status: ${response.status}`);
+      console.log(`Received response with status: ${response.parsedBody.status}`);
     },
   });
   const file2 = await filePoller.pollUntilDone({ abortSignal: abortController.signal });

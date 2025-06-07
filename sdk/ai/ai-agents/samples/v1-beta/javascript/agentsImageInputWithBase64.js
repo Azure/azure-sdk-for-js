@@ -84,7 +84,7 @@ async function main() {
       intervalInMs: 2000,
     },
     onResponse: (response) => {
-      console.log(`Received response with status: ${response.status}`);
+      console.log(`Received response with status: ${response.parsedBody.status}`);
     },
   });
   console.log(`Run finished with status: ${run.status}`);

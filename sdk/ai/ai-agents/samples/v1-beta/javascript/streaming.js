@@ -59,7 +59,6 @@ async function main() {
           });
         }
         break;
-
       case RunStreamEvent.ThreadRunCompleted:
         console.log("Thread Run Completed");
         break;

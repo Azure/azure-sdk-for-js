@@ -1,9 +1,9 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { AgentsContext } from "../../api/agentsContext.js";
-import { VectorStoreFileBatch } from "../../models/models.js";
-import {
+import type { AgentsContext } from "../../api/agentsContext.js";
+import type { VectorStoreFileBatch } from "../../models/models.js";
+import type {
   VectorStoreFileBatchesListVectorStoreFileBatchFilesOptionalParams,
   VectorStoreFileBatchesCancelVectorStoreFileBatchOptionalParams,
   VectorStoreFileBatchesGetVectorStoreFileBatchOptionalParams,
@@ -16,8 +16,8 @@ import {
   createVectorStoreFileBatch,
   createVectorStoreFileBatchAndPoll,
 } from "../../api/vectorStoreFileBatches/operations.js";
-import { OperationState, PollerLike } from "@azure/core-lro";
-import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import type { OperationState, PollerLike } from "@azure/core-lro";
+import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 
 /** Interface representing a VectorStoreFileBatches operations. */
 export interface VectorStoreFileBatchesOperations {

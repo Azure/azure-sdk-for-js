@@ -51,7 +51,12 @@ async function main() {
       intervalInMs: 2000,
     },
     onResponse: (response) => {
-      console.log(`Received response with status: ${response.status}`);
+      const parsedBody =
+        typeof response.parsedBody === "object" && response.parsedBody !== null
+          ? response.parsedBody
+          : null;
+      const status = parsedBody && "status" in parsedBody ? parsedBody.status : "unknown";
+      console.log(`Received response with status: ${status}`);
     },
   });
   console.log(`Run finished with status: ${run.status}`);

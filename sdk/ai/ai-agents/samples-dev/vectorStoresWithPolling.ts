@@ -27,7 +27,7 @@ export async function main(): Promise<void> {
     },
     // (Optional) Define an onResponse callback to monitor the progress of polling
     onResponse: (response): void => {
-      console.log(`Received response with status: ${response.status}`);
+      console.log(`Received response with status: ${response.parsedBody.status}`);
     },
   });
   console.log(
@@ -44,7 +44,7 @@ export async function main(): Promise<void> {
       intervalInMs: 2000,
     },
     onResponse: (response): void => {
-      console.log(`Received response with status: ${response.status}`);
+      console.log(`Received response with status: ${response.parsedBody.status}`);
     },
   });
   const vectorStore2 = await vectorStorePoller.pollUntilDone({

@@ -3,7 +3,6 @@
 
 import type { AgentsContext } from "../../api/agentsContext.js";
 import type { VectorStore, VectorStoreDeletionStatus } from "../../models/models.js";
-import { _AgentsPagedResultVectorStore } from "../../models/models.js";
 import type {
   VectorStoresDeleteVectorStoreOptionalParams,
   VectorStoresModifyVectorStoreOptionalParams,
@@ -50,7 +49,6 @@ export interface VectorStoresOperations {
     options?: VectorStoresListVectorStoresOptionalParams,
   ) => PagedAsyncIterableIterator<VectorStore>;
 }
-
 function _getVectorStores(context: AgentsContext) {
   return {
     delete: (vectorStoreId: string, options?: VectorStoresDeleteVectorStoreOptionalParams) =>
