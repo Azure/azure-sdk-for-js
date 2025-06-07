@@ -57,6 +57,7 @@
     "@azure-tools/test-utils-vitest": "workspace:^",
     "@azure/dev-tool": "workspace:^",
     "@azure/eslint-plugin-azure-sdk": "workspace:^",
+    "@azure/identity": "catalog:internal",
     "@azure/web-pubsub": "workspace:^",
     "@types/node": "catalog:",
     "@types/ws": "catalog:polyfills",
