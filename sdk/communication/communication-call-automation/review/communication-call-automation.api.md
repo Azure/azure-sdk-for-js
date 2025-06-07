@@ -136,7 +136,7 @@ export interface CallAutomationClientOptions extends CommonClientOptions {
 }
 
 // @public
-export type CallAutomationEvent = AddParticipantSucceeded | AddParticipantFailed | RemoveParticipantSucceeded | RemoveParticipantFailed | CallConnected | CallDisconnected | CallTransferAccepted | CallTransferFailed | ParticipantsUpdated | RecordingStateChanged | PlayCompleted | PlayFailed | PlayCanceled | RecognizeCompleted | RecognizeCanceled | RecognizeFailed | ContinuousDtmfRecognitionToneReceived | ContinuousDtmfRecognitionToneFailed | ContinuousDtmfRecognitionStopped | SendDtmfTonesCompleted | SendDtmfTonesFailed | CancelAddParticipantSucceeded | CancelAddParticipantFailed | TranscriptionStarted | TranscriptionStopped | TranscriptionUpdated | TranscriptionFailed | CreateCallFailed | AnswerFailed | HoldFailed | ConnectFailed | MediaStreamingStarted | MediaStreamingStopped | MediaStreamingFailed | StartRecordingFailed | PlayStarted | PlayPaused | PlayResumed | HoldAudioStarted | HoldAudioPaused | HoldAudioResumed | HoldAudioCompleted | IncomingCall;
+export type CallAutomationEvent = AddParticipantSucceeded | AddParticipantFailed | RemoveParticipantSucceeded | RemoveParticipantFailed | MoveParticipantSucceeded | MoveParticipantFailed | CallConnected | CallDisconnected | CallTransferAccepted | CallTransferFailed | ParticipantsUpdated | RecordingStateChanged | PlayCompleted | PlayFailed | PlayCanceled | RecognizeCompleted | RecognizeCanceled | RecognizeFailed | ContinuousDtmfRecognitionToneReceived | ContinuousDtmfRecognitionToneFailed | ContinuousDtmfRecognitionStopped | SendDtmfTonesCompleted | SendDtmfTonesFailed | CancelAddParticipantSucceeded | CancelAddParticipantFailed | TranscriptionStarted | TranscriptionStopped | TranscriptionUpdated | TranscriptionFailed | CreateCallFailed | AnswerFailed | HoldFailed | ConnectFailed | MediaStreamingStarted | MediaStreamingStopped | MediaStreamingFailed | StartRecordingFailed | PlayStarted | PlayPaused | PlayResumed | HoldAudioStarted | HoldAudioPaused | HoldAudioResumed | HoldAudioCompleted | IncomingCall;
 
 // @public
 export class CallAutomationEventProcessor {
@@ -167,6 +167,7 @@ export class CallConnection {
     getParticipant(targetParticipant: CommunicationIdentifier, options?: GetParticipantOptions): Promise<CallParticipant>;
     hangUp(isForEveryone: boolean, options?: HangUpOptions): Promise<void>;
     listParticipants(options?: GetParticipantOptions): Promise<ListParticipantsResult>;
+    moveParticipants(targetParticipants: CommunicationIdentifier[], options: MoveParticipantsOptions): Promise<MoveParticipantsResult>;
     muteParticipant(participant: CommunicationIdentifier, options?: MuteParticipantOption): Promise<MuteParticipantResult>;
     removeParticipant(participant: CommunicationIdentifier, options?: RemoveParticipantsOption): Promise<RemoveParticipantResult>;
     transferCallToParticipant(targetParticipant: CommunicationIdentifier, options?: TransferCallToParticipantOptions): Promise<TransferCallResult>;
@@ -945,6 +946,52 @@ export interface MediaStreamingUpdate {
     mediaStreamingStatus?: MediaStreamingStatus;
     // (undocumented)
     mediaStreamingStatusDetails?: MediaStreamingStatusDetails;
+}
+
+// @public
+export interface MoveParticipantEventResult {
+    failureResult?: MoveParticipantFailed;
+    isSuccess: boolean;
+    successResult?: MoveParticipantSucceeded;
+}
+
+// @public
+export interface MoveParticipantFailed {
+    callConnectionId: string;
+    correlationId: string;
+    fromCall?: string;
+    kind: "MoveParticipantFailed";
+    operationContext?: string;
+    participant?: CommunicationIdentifier;
+    resultInformation?: ResultInformation;
+    serverCallId: string;
+}
+
+// @public
+export interface MoveParticipantsOptions extends OperationOptions {
+    fromCall: string;
+    operationCallbackUrl?: string;
+    operationContext?: string;
+}
+
+// @public
+export interface MoveParticipantsResult {
+    fromCall?: string;
+    operationContext?: string;
+    participants?: CallParticipant[];
+    waitForEventProcessor(abortSignal?: AbortSignalLike, timeoutInMs?: number): Promise<MoveParticipantEventResult>;
+}
+
+// @public
+export interface MoveParticipantSucceeded {
+    callConnectionId: string;
+    correlationId: string;
+    fromCall?: string;
+    kind: "MoveParticipantSucceeded";
+    operationContext?: string;
+    participant?: CommunicationIdentifier;
+    resultInformation?: ResultInformation;
+    serverCallId: string;
 }
 
 // @public
