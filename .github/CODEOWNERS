@@ -438,6 +438,9 @@ sdk/ai/ai-agents @ganeshyb @glharper @dargilco @jhakulin @ZachhK @bobogogo1990
 /sdk/compute/arm-compute/      @qiaozha @MaryGao
 
 # PRLabel: %Mgmt
+/sdk/cloudhealth/arm-cloudhealth/      @qiaozha @MaryGao
+
+# PRLabel: %Mgmt
 /sdk/compute/arm-compute-rest/ @qiaozha @MaryGao
 
 # PRLabel: %Mgmt
