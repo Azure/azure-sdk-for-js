@@ -33,21 +33,6 @@ export {
   SingleSignOnProperties,
   KnownSingleSignOnStates,
   SingleSignOnStates,
-  TrackedResource,
-  Resource,
-  SystemData,
-  KnownCreatedByType,
-  CreatedByType,
-  Project,
-  ProxyResource,
-  Branch,
-  Compute,
-  NeonDatabase,
-  NeonRole,
-  Endpoint,
-  KnownVersions,
-} from "./models/index.js";
-export {
   ProjectProperties,
   Attributes,
   DefaultEndpointSettings,
@@ -57,47 +42,35 @@ export {
   EndpointProperties,
   KnownEndpointType,
   EndpointType,
+  TrackedResource,
+  Resource,
+  SystemData,
+  KnownCreatedByType,
+  CreatedByType,
   PgVersion,
   PgVersionsResult,
+  Project,
+  ProxyResource,
   ConnectionUriProperties,
+  Branch,
+  Compute,
   ComputeProperties,
-} from "./models/models/index.js";
+  NeonDatabase,
+  NeonRole,
+  Endpoint,
+  KnownVersions,
+} from "./models/index.js";
 export { PostgresClientOptionalParams } from "./api/index.js";
 export {
   BranchesListOptionalParams,
   BranchesDeleteOptionalParams,
-  BranchesUpdateOptionalParams,
   BranchesCreateOrUpdateOptionalParams,
   BranchesGetOptionalParams,
 } from "./api/branches/index.js";
-export {
-  ComputesListOptionalParams,
-  ComputesDeleteOptionalParams,
-  ComputesUpdateOptionalParams,
-  ComputesCreateOrUpdateOptionalParams,
-  ComputesGetOptionalParams,
-} from "./api/computes/index.js";
-export {
-  EndpointsListOptionalParams,
-  EndpointsDeleteOptionalParams,
-  EndpointsUpdateOptionalParams,
-  EndpointsCreateOrUpdateOptionalParams,
-  EndpointsGetOptionalParams,
-} from "./api/endpoints/index.js";
-export {
-  NeonDatabasesListOptionalParams,
-  NeonDatabasesDeleteOptionalParams,
-  NeonDatabasesUpdateOptionalParams,
-  NeonDatabasesCreateOrUpdateOptionalParams,
-  NeonDatabasesGetOptionalParams,
-} from "./api/neonDatabases/index.js";
-export {
-  NeonRolesListOptionalParams,
-  NeonRolesDeleteOptionalParams,
-  NeonRolesUpdateOptionalParams,
-  NeonRolesCreateOrUpdateOptionalParams,
-  NeonRolesGetOptionalParams,
-} from "./api/neonRoles/index.js";
+export { ComputesListOptionalParams } from "./api/computes/index.js";
+export { EndpointsListOptionalParams } from "./api/endpoints/index.js";
+export { NeonDatabasesListOptionalParams } from "./api/neonDatabases/index.js";
+export { NeonRolesListOptionalParams } from "./api/neonRoles/index.js";
 export { OperationsListOptionalParams } from "./api/operations/index.js";
 export {
   OrganizationsGetPostgresVersionsOptionalParams,
@@ -112,7 +85,6 @@ export {
   ProjectsGetConnectionUriOptionalParams,
   ProjectsListOptionalParams,
   ProjectsDeleteOptionalParams,
-  ProjectsUpdateOptionalParams,
   ProjectsCreateOrUpdateOptionalParams,
   ProjectsGetOptionalParams,
 } from "./api/projects/index.js";

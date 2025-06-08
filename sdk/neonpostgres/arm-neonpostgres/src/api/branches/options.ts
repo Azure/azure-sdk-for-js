@@ -10,12 +10,6 @@ export interface BranchesListOptionalParams extends OperationOptions {}
 export interface BranchesDeleteOptionalParams extends OperationOptions {}
 
 /** Optional parameters. */
-export interface BranchesUpdateOptionalParams extends OperationOptions {
-  /** Delay to wait until next poll, in milliseconds. */
-  updateIntervalInMs?: number;
-}
-
-/** Optional parameters. */
 export interface BranchesCreateOrUpdateOptionalParams extends OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;

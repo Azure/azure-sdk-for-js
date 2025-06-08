@@ -50,12 +50,6 @@ export interface BranchesOperations {
     delete: (resourceGroupName: string, organizationName: string, projectName: string, branchName: string, options?: BranchesDeleteOptionalParams) => Promise<void>;
     get: (resourceGroupName: string, organizationName: string, projectName: string, branchName: string, options?: BranchesGetOptionalParams) => Promise<Branch>;
     list: (resourceGroupName: string, organizationName: string, projectName: string, options?: BranchesListOptionalParams) => PagedAsyncIterableIterator<Branch>;
-    update: (resourceGroupName: string, organizationName: string, projectName: string, branchName: string, properties: Branch, options?: BranchesUpdateOptionalParams) => PollerLike<OperationState<Branch>, Branch>;
-}
-
-// @public
-export interface BranchesUpdateOptionalParams extends OperationOptions {
-    updateIntervalInMs?: number;
 }
 
 // @public
@@ -103,34 +97,12 @@ export interface ComputeProperties {
 }
 
 // @public
-export interface ComputesCreateOrUpdateOptionalParams extends OperationOptions {
-    updateIntervalInMs?: number;
-}
-
-// @public
-export interface ComputesDeleteOptionalParams extends OperationOptions {
-}
-
-// @public
-export interface ComputesGetOptionalParams extends OperationOptions {
-}
-
-// @public
 export interface ComputesListOptionalParams extends OperationOptions {
 }
 
 // @public
 export interface ComputesOperations {
-    createOrUpdate: (resourceGroupName: string, organizationName: string, projectName: string, branchName: string, computeName: string, resource: Compute, options?: ComputesCreateOrUpdateOptionalParams) => PollerLike<OperationState<Compute>, Compute>;
-    delete: (resourceGroupName: string, organizationName: string, projectName: string, branchName: string, computeName: string, options?: ComputesDeleteOptionalParams) => Promise<void>;
-    get: (resourceGroupName: string, organizationName: string, projectName: string, branchName: string, computeName: string, options?: ComputesGetOptionalParams) => Promise<Compute>;
     list: (resourceGroupName: string, organizationName: string, projectName: string, branchName: string, options?: ComputesListOptionalParams) => PagedAsyncIterableIterator<Compute>;
-    update: (resourceGroupName: string, organizationName: string, projectName: string, branchName: string, computeName: string, properties: Compute, options?: ComputesUpdateOptionalParams) => PollerLike<OperationState<Compute>, Compute>;
-}
-
-// @public
-export interface ComputesUpdateOptionalParams extends OperationOptions {
-    updateIntervalInMs?: number;
 }
 
 // @public
@@ -176,34 +148,12 @@ export interface EndpointProperties {
 }
 
 // @public
-export interface EndpointsCreateOrUpdateOptionalParams extends OperationOptions {
-    updateIntervalInMs?: number;
-}
-
-// @public
-export interface EndpointsDeleteOptionalParams extends OperationOptions {
-}
-
-// @public
-export interface EndpointsGetOptionalParams extends OperationOptions {
-}
-
-// @public
 export interface EndpointsListOptionalParams extends OperationOptions {
 }
 
 // @public
 export interface EndpointsOperations {
-    createOrUpdate: (resourceGroupName: string, organizationName: string, projectName: string, branchName: string, endpointName: string, resource: Endpoint, options?: EndpointsCreateOrUpdateOptionalParams) => PollerLike<OperationState<Endpoint>, Endpoint>;
-    delete: (resourceGroupName: string, organizationName: string, projectName: string, branchName: string, endpointName: string, options?: EndpointsDeleteOptionalParams) => Promise<void>;
-    get: (resourceGroupName: string, organizationName: string, projectName: string, branchName: string, endpointName: string, options?: EndpointsGetOptionalParams) => Promise<Endpoint>;
     list: (resourceGroupName: string, organizationName: string, projectName: string, branchName: string, options?: EndpointsListOptionalParams) => PagedAsyncIterableIterator<Endpoint>;
-    update: (resourceGroupName: string, organizationName: string, projectName: string, branchName: string, endpointName: string, properties: Endpoint, options?: EndpointsUpdateOptionalParams) => PollerLike<OperationState<Endpoint>, Endpoint>;
-}
-
-// @public
-export interface EndpointsUpdateOptionalParams extends OperationOptions {
-    updateIntervalInMs?: number;
 }
 
 // @public
@@ -309,34 +259,12 @@ export interface NeonDatabaseProperties {
 }
 
 // @public
-export interface NeonDatabasesCreateOrUpdateOptionalParams extends OperationOptions {
-    updateIntervalInMs?: number;
-}
-
-// @public
-export interface NeonDatabasesDeleteOptionalParams extends OperationOptions {
-}
-
-// @public
-export interface NeonDatabasesGetOptionalParams extends OperationOptions {
-}
-
-// @public
 export interface NeonDatabasesListOptionalParams extends OperationOptions {
 }
 
 // @public
 export interface NeonDatabasesOperations {
-    createOrUpdate: (resourceGroupName: string, organizationName: string, projectName: string, branchName: string, neonDatabaseName: string, resource: NeonDatabase, options?: NeonDatabasesCreateOrUpdateOptionalParams) => PollerLike<OperationState<NeonDatabase>, NeonDatabase>;
-    delete: (resourceGroupName: string, organizationName: string, projectName: string, branchName: string, neonDatabaseName: string, options?: NeonDatabasesDeleteOptionalParams) => Promise<void>;
-    get: (resourceGroupName: string, organizationName: string, projectName: string, branchName: string, neonDatabaseName: string, options?: NeonDatabasesGetOptionalParams) => Promise<NeonDatabase>;
     list: (resourceGroupName: string, organizationName: string, projectName: string, branchName: string, options?: NeonDatabasesListOptionalParams) => PagedAsyncIterableIterator<NeonDatabase>;
-    update: (resourceGroupName: string, organizationName: string, projectName: string, branchName: string, neonDatabaseName: string, properties: NeonDatabase, options?: NeonDatabasesUpdateOptionalParams) => PollerLike<OperationState<NeonDatabase>, NeonDatabase>;
-}
-
-// @public
-export interface NeonDatabasesUpdateOptionalParams extends OperationOptions {
-    updateIntervalInMs?: number;
 }
 
 // @public
@@ -357,34 +285,12 @@ export interface NeonRoleProperties {
 }
 
 // @public
-export interface NeonRolesCreateOrUpdateOptionalParams extends OperationOptions {
-    updateIntervalInMs?: number;
-}
-
-// @public
-export interface NeonRolesDeleteOptionalParams extends OperationOptions {
-}
-
-// @public
-export interface NeonRolesGetOptionalParams extends OperationOptions {
-}
-
-// @public
 export interface NeonRolesListOptionalParams extends OperationOptions {
 }
 
 // @public
 export interface NeonRolesOperations {
-    createOrUpdate: (resourceGroupName: string, organizationName: string, projectName: string, branchName: string, neonRoleName: string, resource: NeonRole, options?: NeonRolesCreateOrUpdateOptionalParams) => PollerLike<OperationState<NeonRole>, NeonRole>;
-    delete: (resourceGroupName: string, organizationName: string, projectName: string, branchName: string, neonRoleName: string, options?: NeonRolesDeleteOptionalParams) => Promise<void>;
-    get: (resourceGroupName: string, organizationName: string, projectName: string, branchName: string, neonRoleName: string, options?: NeonRolesGetOptionalParams) => Promise<NeonRole>;
     list: (resourceGroupName: string, organizationName: string, projectName: string, branchName: string, options?: NeonRolesListOptionalParams) => PagedAsyncIterableIterator<NeonRole>;
-    update: (resourceGroupName: string, organizationName: string, projectName: string, branchName: string, neonRoleName: string, properties: NeonRole, options?: NeonRolesUpdateOptionalParams) => PollerLike<OperationState<NeonRole>, NeonRole>;
-}
-
-// @public
-export interface NeonRolesUpdateOptionalParams extends OperationOptions {
-    updateIntervalInMs?: number;
 }
 
 // @public
@@ -583,12 +489,6 @@ export interface ProjectsOperations {
     get: (resourceGroupName: string, organizationName: string, projectName: string, options?: ProjectsGetOptionalParams) => Promise<Project>;
     getConnectionUri: (resourceGroupName: string, organizationName: string, projectName: string, connectionUriParameters: ConnectionUriProperties, options?: ProjectsGetConnectionUriOptionalParams) => Promise<ConnectionUriProperties>;
     list: (resourceGroupName: string, organizationName: string, options?: ProjectsListOptionalParams) => PagedAsyncIterableIterator<Project>;
-    update: (resourceGroupName: string, organizationName: string, projectName: string, properties: Project, options?: ProjectsUpdateOptionalParams) => PollerLike<OperationState<Project>, Project>;
-}
-
-// @public
-export interface ProjectsUpdateOptionalParams extends OperationOptions {
-    updateIntervalInMs?: number;
 }
 
 // @public

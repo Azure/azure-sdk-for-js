@@ -9,25 +9,22 @@ import {
   projectDeserializer,
   _ProjectListResult,
   _projectListResultDeserializer,
-} from "../../models/models.js";
-import {
   ConnectionUriProperties,
   connectionUriPropertiesSerializer,
   connectionUriPropertiesDeserializer,
-} from "../../models/models/models.js";
+} from "../../models/models.js";
 import {
   ProjectsGetConnectionUriOptionalParams,
   ProjectsListOptionalParams,
   ProjectsDeleteOptionalParams,
-  ProjectsUpdateOptionalParams,
   ProjectsCreateOrUpdateOptionalParams,
   ProjectsGetOptionalParams,
 } from "./options.js";
+import { getLongRunningPoller } from "../../static-helpers/pollingHelpers.js";
 import {
   PagedAsyncIterableIterator,
   buildPagedAsyncIterator,
 } from "../../static-helpers/pagingHelpers.js";
-import { getLongRunningPoller } from "../../static-helpers/pollingHelpers.js";
 import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
 import {
   StreamableMethod,
@@ -217,67 +214,6 @@ export async function $delete(
     options,
   );
   return _$deleteDeserialize(result);
-}
-
-export function _updateSend(
-  context: Client,
-  resourceGroupName: string,
-  organizationName: string,
-  projectName: string,
-  properties: Project,
-  options: ProjectsUpdateOptionalParams = { requestOptions: {} },
-): StreamableMethod {
-  const path = expandUrlTemplate(
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Neon.Postgres/organizations/{organizationName}/projects/{projectName}{?api%2Dversion}",
-    {
-      subscriptionId: context.subscriptionId,
-      resourceGroupName: resourceGroupName,
-      organizationName: organizationName,
-      projectName: projectName,
-      "api%2Dversion": context.apiVersion,
-    },
-    {
-      allowReserved: options?.requestOptions?.skipUrlEncoding,
-    },
-  );
-  return context.path(path).patch({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
-    body: projectSerializer(properties),
-  });
-}
-
-export async function _updateDeserialize(result: PathUncheckedResponse): Promise<Project> {
-  const expectedStatuses = ["200", "202"];
-  if (!expectedStatuses.includes(result.status)) {
-    const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
-    throw error;
-  }
-
-  return projectDeserializer(result.body);
-}
-
-/** Update a Project */
-export function update(
-  context: Client,
-  resourceGroupName: string,
-  organizationName: string,
-  projectName: string,
-  properties: Project,
-  options: ProjectsUpdateOptionalParams = { requestOptions: {} },
-): PollerLike<OperationState<Project>, Project> {
-  return getLongRunningPoller(context, _updateDeserialize, ["200", "202"], {
-    updateIntervalInMs: options?.updateIntervalInMs,
-    abortSignal: options?.abortSignal,
-    getInitialResponse: () =>
-      _updateSend(context, resourceGroupName, organizationName, projectName, properties, options),
-    resourceLocationConfig: "location",
-  }) as PollerLike<OperationState<Project>, Project>;
 }
 
 export function _createOrUpdateSend(

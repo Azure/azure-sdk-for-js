@@ -13,15 +13,14 @@ import {
 import {
   BranchesListOptionalParams,
   BranchesDeleteOptionalParams,
-  BranchesUpdateOptionalParams,
   BranchesCreateOrUpdateOptionalParams,
   BranchesGetOptionalParams,
 } from "./options.js";
+import { getLongRunningPoller } from "../../static-helpers/pollingHelpers.js";
 import {
   PagedAsyncIterableIterator,
   buildPagedAsyncIterator,
 } from "../../static-helpers/pagingHelpers.js";
-import { getLongRunningPoller } from "../../static-helpers/pollingHelpers.js";
 import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
 import {
   StreamableMethod,
@@ -153,78 +152,6 @@ export async function $delete(
     options,
   );
   return _$deleteDeserialize(result);
-}
-
-export function _updateSend(
-  context: Client,
-  resourceGroupName: string,
-  organizationName: string,
-  projectName: string,
-  branchName: string,
-  properties: Branch,
-  options: BranchesUpdateOptionalParams = { requestOptions: {} },
-): StreamableMethod {
-  const path = expandUrlTemplate(
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Neon.Postgres/organizations/{organizationName}/projects/{projectName}/branches/{branchName}{?api%2Dversion}",
-    {
-      subscriptionId: context.subscriptionId,
-      resourceGroupName: resourceGroupName,
-      organizationName: organizationName,
-      projectName: projectName,
-      branchName: branchName,
-      "api%2Dversion": context.apiVersion,
-    },
-    {
-      allowReserved: options?.requestOptions?.skipUrlEncoding,
-    },
-  );
-  return context.path(path).patch({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
-    body: branchSerializer(properties),
-  });
-}
-
-export async function _updateDeserialize(result: PathUncheckedResponse): Promise<Branch> {
-  const expectedStatuses = ["200", "202"];
-  if (!expectedStatuses.includes(result.status)) {
-    const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
-    throw error;
-  }
-
-  return branchDeserializer(result.body);
-}
-
-/** Update a Branch */
-export function update(
-  context: Client,
-  resourceGroupName: string,
-  organizationName: string,
-  projectName: string,
-  branchName: string,
-  properties: Branch,
-  options: BranchesUpdateOptionalParams = { requestOptions: {} },
-): PollerLike<OperationState<Branch>, Branch> {
-  return getLongRunningPoller(context, _updateDeserialize, ["200", "202"], {
-    updateIntervalInMs: options?.updateIntervalInMs,
-    abortSignal: options?.abortSignal,
-    getInitialResponse: () =>
-      _updateSend(
-        context,
-        resourceGroupName,
-        organizationName,
-        projectName,
-        branchName,
-        properties,
-        options,
-      ),
-    resourceLocationConfig: "location",
-  }) as PollerLike<OperationState<Branch>, Branch>;
 }
 
 export function _createOrUpdateSend(
