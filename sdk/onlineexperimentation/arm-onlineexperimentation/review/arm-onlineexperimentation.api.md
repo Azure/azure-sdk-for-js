@@ -136,7 +136,7 @@ export type ManagedServiceIdentityType = string;
 // @public (undocumented)
 export class OnlineExperimentationClient {
     constructor(credential: TokenCredential, subscriptionId: string, options?: OnlineExperimentationClientOptionalParams);
-    readonly onlineExperimentWorkspaces: OnlineExperimentWorkspacesOperations;
+    readonly onlineExperimentationWorkspaces: OnlineExperimentationWorkspacesOperations;
     readonly operations: OperationsOperations;
     readonly pipeline: Pipeline;
 }
@@ -144,6 +144,50 @@ export class OnlineExperimentationClient {
 // @public
 export interface OnlineExperimentationClientOptionalParams extends ClientOptions {
     apiVersion?: string;
+}
+
+// @public
+export interface OnlineExperimentationWorkspace extends TrackedResource {
+    identity?: ManagedServiceIdentity;
+    properties?: OnlineExperimentationWorkspaceProperties;
+    sku?: OnlineExperimentationWorkspaceSku;
+}
+
+// @public
+export interface OnlineExperimentationWorkspacePatch {
+    identity?: ManagedServiceIdentity;
+    properties?: {
+        logAnalyticsWorkspaceResourceId?: string;
+        logsExporterStorageAccountResourceId?: string;
+        encryption?: ResourceEncryptionConfiguration;
+    };
+    sku?: OnlineExperimentationWorkspaceSku;
+    tags?: Record<string, string>;
+}
+
+// @public
+export interface OnlineExperimentationWorkspaceProperties {
+    appConfigurationResourceId: string;
+    encryption?: ResourceEncryptionConfiguration;
+    readonly endpoint?: string;
+    logAnalyticsWorkspaceResourceId: string;
+    logsExporterStorageAccountResourceId: string;
+    readonly provisioningState?: ResourceProvisioningState;
+    readonly workspaceId?: string;
+}
+
+// @public
+export interface OnlineExperimentationWorkspacesCreateOrUpdateOptionalParams extends OperationOptions {
+    updateIntervalInMs?: number;
+}
+
+// @public
+export interface OnlineExperimentationWorkspacesDeleteOptionalParams extends OperationOptions {
+    updateIntervalInMs?: number;
+}
+
+// @public
+export interface OnlineExperimentationWorkspacesGetOptionalParams extends OperationOptions {
 }
 
 // @public
@@ -159,57 +203,25 @@ export type OnlineExperimentationWorkspaceSkuName = string;
 export type OnlineExperimentationWorkspaceSkuTier = string;
 
 // @public
-export interface OnlineExperimentWorkspace extends TrackedResource {
-    identity?: ManagedServiceIdentity;
-    properties?: OnlineExperimentWorkspaceProperties;
-    sku?: OnlineExperimentationWorkspaceSku;
+export interface OnlineExperimentationWorkspacesListByResourceGroupOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface OnlineExperimentWorkspaceProperties {
-    appConfigurationResourceId: string;
-    encryption?: ResourceEncryptionConfiguration;
-    readonly endpoint?: string;
-    logAnalyticsWorkspaceResourceId: string;
-    logsExporterStorageAccountResourceId: string;
-    readonly provisioningState?: ResourceProvisioningState;
-    readonly workspaceId?: string;
+export interface OnlineExperimentationWorkspacesListBySubscriptionOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface OnlineExperimentWorkspacesCreateOrUpdateOptionalParams extends OperationOptions {
-    updateIntervalInMs?: number;
+export interface OnlineExperimentationWorkspacesOperations {
+    createOrUpdate: (resourceGroupName: string, workspaceName: string, resource: OnlineExperimentationWorkspace, options?: OnlineExperimentationWorkspacesCreateOrUpdateOptionalParams) => PollerLike<OperationState<OnlineExperimentationWorkspace>, OnlineExperimentationWorkspace>;
+    delete: (resourceGroupName: string, workspaceName: string, options?: OnlineExperimentationWorkspacesDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
+    get: (resourceGroupName: string, workspaceName: string, options?: OnlineExperimentationWorkspacesGetOptionalParams) => Promise<OnlineExperimentationWorkspace>;
+    listByResourceGroup: (resourceGroupName: string, options?: OnlineExperimentationWorkspacesListByResourceGroupOptionalParams) => PagedAsyncIterableIterator<OnlineExperimentationWorkspace>;
+    listBySubscription: (options?: OnlineExperimentationWorkspacesListBySubscriptionOptionalParams) => PagedAsyncIterableIterator<OnlineExperimentationWorkspace>;
+    update: (resourceGroupName: string, workspaceName: string, properties: OnlineExperimentationWorkspacePatch, options?: OnlineExperimentationWorkspacesUpdateOptionalParams) => PollerLike<OperationState<OnlineExperimentationWorkspace>, OnlineExperimentationWorkspace>;
 }
 
 // @public
-export interface OnlineExperimentWorkspacesDeleteOptionalParams extends OperationOptions {
-    updateIntervalInMs?: number;
-}
-
-// @public
-export interface OnlineExperimentWorkspacesGetOptionalParams extends OperationOptions {
-}
-
-// @public
-export interface OnlineExperimentWorkspacesListByResourceGroupOptionalParams extends OperationOptions {
-}
-
-// @public
-export interface OnlineExperimentWorkspacesListBySubscriptionOptionalParams extends OperationOptions {
-}
-
-// @public
-export interface OnlineExperimentWorkspacesOperations {
-    createOrUpdate: (resourceGroupName: string, workspaceName: string, resource: OnlineExperimentWorkspace, options?: OnlineExperimentWorkspacesCreateOrUpdateOptionalParams) => PollerLike<OperationState<OnlineExperimentWorkspace>, OnlineExperimentWorkspace>;
-    delete: (resourceGroupName: string, workspaceName: string, options?: OnlineExperimentWorkspacesDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
-    get: (resourceGroupName: string, workspaceName: string, options?: OnlineExperimentWorkspacesGetOptionalParams) => Promise<OnlineExperimentWorkspace>;
-    listByResourceGroup: (resourceGroupName: string, options?: OnlineExperimentWorkspacesListByResourceGroupOptionalParams) => PagedAsyncIterableIterator<OnlineExperimentWorkspace>;
-    listBySubscription: (options?: OnlineExperimentWorkspacesListBySubscriptionOptionalParams) => PagedAsyncIterableIterator<OnlineExperimentWorkspace>;
-    update: (resourceGroupName: string, workspaceName: string, properties: OnlineExperimentWorkspace, options?: OnlineExperimentWorkspacesUpdateOptionalParams) => PollerLike<OperationState<OnlineExperimentWorkspace>, OnlineExperimentWorkspace>;
-}
-
-// @public
-export interface OnlineExperimentWorkspacesUpdateOptionalParams extends OperationOptions {
+export interface OnlineExperimentationWorkspacesUpdateOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
 

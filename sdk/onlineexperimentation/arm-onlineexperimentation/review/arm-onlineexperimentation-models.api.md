@@ -120,6 +120,36 @@ export interface ManagedServiceIdentity {
 export type ManagedServiceIdentityType = string;
 
 // @public
+export interface OnlineExperimentationWorkspace extends TrackedResource {
+    identity?: ManagedServiceIdentity;
+    properties?: OnlineExperimentationWorkspaceProperties;
+    sku?: OnlineExperimentationWorkspaceSku;
+}
+
+// @public
+export interface OnlineExperimentationWorkspacePatch {
+    identity?: ManagedServiceIdentity;
+    properties?: {
+        logAnalyticsWorkspaceResourceId?: string;
+        logsExporterStorageAccountResourceId?: string;
+        encryption?: ResourceEncryptionConfiguration;
+    };
+    sku?: OnlineExperimentationWorkspaceSku;
+    tags?: Record<string, string>;
+}
+
+// @public
+export interface OnlineExperimentationWorkspaceProperties {
+    appConfigurationResourceId: string;
+    encryption?: ResourceEncryptionConfiguration;
+    readonly endpoint?: string;
+    logAnalyticsWorkspaceResourceId: string;
+    logsExporterStorageAccountResourceId: string;
+    readonly provisioningState?: ResourceProvisioningState;
+    readonly workspaceId?: string;
+}
+
+// @public
 export interface OnlineExperimentationWorkspaceSku {
     name: OnlineExperimentationWorkspaceSkuName;
     readonly tier?: OnlineExperimentationWorkspaceSkuTier;
@@ -130,24 +160,6 @@ export type OnlineExperimentationWorkspaceSkuName = string;
 
 // @public
 export type OnlineExperimentationWorkspaceSkuTier = string;
-
-// @public
-export interface OnlineExperimentWorkspace extends TrackedResource {
-    identity?: ManagedServiceIdentity;
-    properties?: OnlineExperimentWorkspaceProperties;
-    sku?: OnlineExperimentationWorkspaceSku;
-}
-
-// @public
-export interface OnlineExperimentWorkspaceProperties {
-    appConfigurationResourceId: string;
-    encryption?: ResourceEncryptionConfiguration;
-    readonly endpoint?: string;
-    logAnalyticsWorkspaceResourceId: string;
-    logsExporterStorageAccountResourceId: string;
-    readonly provisioningState?: ResourceProvisioningState;
-    readonly workspaceId?: string;
-}
 
 // @public
 export interface Operation {
