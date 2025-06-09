@@ -77,7 +77,7 @@ matrix([[true, false]], async (useAad) => {
       const request: PhoneNumbersListAreaCodesOptionalParams = {
         locality: locality.value.localizedName,
       };
-      const areaCodes = await client.listAvailableGeographicAreaCodes("IE", request);
+      const areaCodes = await client.listAvailableMobileAreaCodes("IE", request);
       for await (const areaCode of areaCodes) {
         assert.isNotNull(areaCode);
       }
