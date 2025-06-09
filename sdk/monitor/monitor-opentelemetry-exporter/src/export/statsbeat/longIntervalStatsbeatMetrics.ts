@@ -24,13 +24,12 @@ import { StatsbeatCounter, STATSBEAT_LANGUAGE, StatsbeatFeatureType } from "./ty
 import { AzureMonitorStatsbeatExporter } from "./statsbeatExporter.js";
 import { getAttachType } from "../../utils/metricUtils.js";
 
-let instance: LongIntervalStatsbeatMetrics | null = null;
-
 /**
  * Long Interval Statsbeat Metrics
  * @internal
  */
-class LongIntervalStatsbeatMetrics extends StatsbeatMetrics {
+export class LongIntervalStatsbeatMetrics extends StatsbeatMetrics {
+  private static instance: LongIntervalStatsbeatMetrics | null = null;
   private statsCollectionLongInterval: number = 86400000; // 1 day
   // Custom dimensions
   private cikey: string;
@@ -201,15 +200,14 @@ class LongIntervalStatsbeatMetrics extends StatsbeatMetrics {
   public shutdown(): Promise<void> {
     return this.longIntervalStatsbeatMeterProvider.shutdown();
   }
-}
-
-/**
- * Singleton LongIntervalStatsbeatMetrics instance.
- * @internal
- */
-export function getInstance(options: StatsbeatOptions): LongIntervalStatsbeatMetrics {
-  if (!instance) {
-    instance = new LongIntervalStatsbeatMetrics(options);
+  /**
+   * Singleton LongIntervalStatsbeatMetrics instance.
+   * @internal
+   */
+  public static getInstance(options: StatsbeatOptions): LongIntervalStatsbeatMetrics {
+    if (!LongIntervalStatsbeatMetrics.instance) {
+      LongIntervalStatsbeatMetrics.instance = new LongIntervalStatsbeatMetrics(options);
+    }
+    return LongIntervalStatsbeatMetrics.instance;
   }
-  return instance;
 }

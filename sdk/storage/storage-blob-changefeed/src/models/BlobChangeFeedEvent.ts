@@ -20,7 +20,7 @@ export type BlobChangeFeedEventType =
 
 /**
  * Change feed event record. Contains response data for the {@link BlobChangeFeedClient.listChanges} operation.
- * @see https://learn.microsoft.com/en-us/azure/event-grid/event-schema-blob-storage?toc=/azure/storage/blobs/toc.json#event-properties
+ * @see https://learn.microsoft.com/azure/event-grid/event-schema-blob-storage?toc=/azure/storage/blobs/toc.json#event-properties
  */
 export interface BlobChangeFeedEvent {
   /**
