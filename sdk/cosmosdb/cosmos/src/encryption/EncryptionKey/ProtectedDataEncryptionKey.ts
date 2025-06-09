@@ -15,8 +15,6 @@ export class ProtectedDataEncryptionKey extends DataEncryptionKey {
 
   public encryptedValue: Buffer;
 
-  public name: string;
-
   public constructor(
     name: string,
     keyEncryptionKey: KeyEncryptionKey,
@@ -24,7 +22,6 @@ export class ProtectedDataEncryptionKey extends DataEncryptionKey {
     encryptedKey: Buffer,
   ) {
     super(rawKey, name);
-    this.name = name;
     this.keyEncryptionKey = keyEncryptionKey;
     this.encryptedValue = encryptedKey;
   }

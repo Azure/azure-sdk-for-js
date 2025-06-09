@@ -481,7 +481,7 @@ const buildGetConfig = (gray, red) => {
         }
         else {
             gray("Retrieved from the command parameters");
-            Object.entries(configPartial).forEach(([key, value]) => { var _a; return value != null && gray(`${(_a = fieldIdToName[key]) !== null && _a !== void 0 ? _a : key}: ${value}`); });
+            Object.entries(configPartial).forEach(([key, value]) => value != null && gray(`${fieldIdToName[key] ?? key}: ${value}`));
             return configPartial;
         }
     };
@@ -546,7 +546,7 @@ async function generateProject(widgetConfig, deploymentConfig, options = {}) {
             fileData = mustache.render(fileData, {
                 name,
                 displayName: widgetConfig.displayName,
-                config: JSON.stringify(Object.assign(Object.assign({}, widgetConfig), { name }), null, "\t"),
+                config: JSON.stringify({ ...widgetConfig, name }, null, "\t"),
                 configDeploy: JSON.stringify(deploymentConfig, null, "\t"),
                 configAdditional: JSON.stringify(configAdditional, null, "\t"),
                 serverSettings: JSON.stringify(serverSettings, null, "\t"),
