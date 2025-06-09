@@ -10,6 +10,7 @@
 - Fix statsbeat throttle recording logic.
 - SEMATTRS_ENDUSER_ID is properly added to tags but not to properties in telemetry envelopes.
 - Update network statsbeat to follow a singleton pattern.
+- Stop sending client OS value.
 
 ## 1.0.0-beta.31 (2025-04-16)
 
