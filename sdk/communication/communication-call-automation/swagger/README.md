@@ -15,7 +15,7 @@ module-kind: esm
 tag: package-2025-06-15
 require:
   - https://github.com/Azure/azure-rest-api-specs/blob/6d7d3fc4315bbb2c446a9add65f8d47f20a85426/specification/communication/data-plane/CallAutomation/readme.md
-package-version: 1.4.0
+package-version: 1.5.0
 model-date-time-as-string: false
 optional-response-headers: true
 typescript: true
