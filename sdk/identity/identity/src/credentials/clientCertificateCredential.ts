@@ -29,7 +29,7 @@ const logger = credentialLogger(credentialName);
  * certificate that is assigned to an App Registration. More information
  * on how to configure certificate authentication can be found here:
  *
- * https://learn.microsoft.com/en-us/azure/active-directory/develop/active-directory-certificate-credentials#register-your-certificate-with-azure-ad
+ * https://learn.microsoft.com/azure/active-directory/develop/active-directory-certificate-credentials#register-your-certificate-with-azure-ad
  *
  */
 export class ClientCertificateCredential implements TokenCredential {

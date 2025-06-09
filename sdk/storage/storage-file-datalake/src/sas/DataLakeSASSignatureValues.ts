@@ -107,7 +107,7 @@ export interface DataLakeSASSignatureValues {
   /**
    * Optional. The name of the access policy on the file system this SAS references if any.
    *
-   * @see https://learn.microsoft.com/en-us/rest/api/storageservices/establishing-a-stored-access-policy
+   * @see https://learn.microsoft.com/rest/api/storageservices/establishing-a-stored-access-policy
    */
   identifier?: string;
 
@@ -297,7 +297,7 @@ export function generateDataLakeSASQueryParametersInternal(
   }
 
   // Version 2018-11-09 adds support for the signed resource and signed blob snapshot time fields.
-  // https://learn.microsoft.com/en-us/rest/api/storageservices/constructing-a-service-sas#constructing-the-signature-string
+  // https://learn.microsoft.com/rest/api/storageservices/constructing-a-service-sas#constructing-the-signature-string
   if (version >= "2018-11-09") {
     if (sharedKeyCredential !== undefined) {
       return generateBlobSASQueryParameters20181109(

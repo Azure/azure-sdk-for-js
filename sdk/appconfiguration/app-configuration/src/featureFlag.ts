@@ -28,7 +28,7 @@ export interface FeatureFlagValue {
    * Our feature management library supports three types of built-in filters: Targeting, TimeWindow, and Percentage.
    * Custom filters can also be created based on different factors, such as device used, browser types, geographic location, etc.
    *
-   * [More Info](https://learn.microsoft.com/en-us/azure/azure-app-configuration/howto-feature-filters-aspnet-core)
+   * [More Info](https://learn.microsoft.com/azure/azure-app-configuration/howto-feature-filters-aspnet-core)
    */
   conditions: {
     clientFilters: { name: string; parameters?: Record<string, unknown> }[];

@@ -12,7 +12,7 @@
       "./package.json": "./package.json",
       ".": "./src/index.ts",
       "./api": "./src/api/index.ts",
-      "./api/onlineExperimentWorkspaces": "./src/api/onlineExperimentWorkspaces/index.ts",
+      "./api/onlineExperimentationWorkspaces": "./src/api/onlineExperimentationWorkspaces/index.ts",
       "./api/operations": "./src/api/operations/index.ts",
       "./models": "./src/models/index.ts"
     },
@@ -99,7 +99,7 @@
     "lint:fix": "echo skipped",
     "pack": "pnpm pack 2>&1",
     "test": "npm run test:node && npm run test:browser",
-    "test:browser": "echo skipped",
+    "test:browser": "dev-tool run build-test && dev-tool run test:vitest --browser",
     "test:node": "dev-tool run test:vitest",
     "test:node:esm": "dev-tool run test:vitest --esm",
     "update-snippets": "dev-tool run update-snippets"
@@ -152,22 +152,22 @@
         "default": "./dist/commonjs/api/index.js"
       }
     },
-    "./api/onlineExperimentWorkspaces": {
+    "./api/onlineExperimentationWorkspaces": {
       "browser": {
-        "types": "./dist/browser/api/onlineExperimentWorkspaces/index.d.ts",
-        "default": "./dist/browser/api/onlineExperimentWorkspaces/index.js"
+        "types": "./dist/browser/api/onlineExperimentationWorkspaces/index.d.ts",
+        "default": "./dist/browser/api/onlineExperimentationWorkspaces/index.js"
       },
       "react-native": {
-        "types": "./dist/react-native/api/onlineExperimentWorkspaces/index.d.ts",
-        "default": "./dist/react-native/api/onlineExperimentWorkspaces/index.js"
+        "types": "./dist/react-native/api/onlineExperimentationWorkspaces/index.d.ts",
+        "default": "./dist/react-native/api/onlineExperimentationWorkspaces/index.js"
       },
       "import": {
-        "types": "./dist/esm/api/onlineExperimentWorkspaces/index.d.ts",
-        "default": "./dist/esm/api/onlineExperimentWorkspaces/index.js"
+        "types": "./dist/esm/api/onlineExperimentationWorkspaces/index.d.ts",
+        "default": "./dist/esm/api/onlineExperimentationWorkspaces/index.js"
       },
       "require": {
-        "types": "./dist/commonjs/api/onlineExperimentWorkspaces/index.d.ts",
-        "default": "./dist/commonjs/api/onlineExperimentWorkspaces/index.js"
+        "types": "./dist/commonjs/api/onlineExperimentationWorkspaces/index.d.ts",
+        "default": "./dist/commonjs/api/onlineExperimentationWorkspaces/index.js"
       }
     },
     "./api/operations": {
