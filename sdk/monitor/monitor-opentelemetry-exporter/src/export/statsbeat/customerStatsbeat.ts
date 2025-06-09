@@ -32,9 +32,6 @@ export class CustomerStatsbeatMetrics extends StatsbeatMetrics {
   private customerStatsbeatMetricReader: PeriodicExportingMetricReader;
   private isInitialized: boolean = false;
 
-  private endpointUrl: string;
-  private host: string;
-
   // Custom dimensions
   private language: string;
   private version: string;
@@ -73,8 +70,6 @@ export class CustomerStatsbeatMetrics extends StatsbeatMetrics {
 
     this.language = STATSBEAT_LANGUAGE;
     this.version = ai.packageVersion;
-    this.host = this.getShortHost(options.endpointUrl);
-    this.endpointUrl = options.endpointUrl;
 
     this.itemSuccessCountGauge = this.customerStatsbeatMeter.createObservableGauge(
       CustomStatsbeatCounter.ITEM_SUCCESS_COUNT,
@@ -92,7 +87,7 @@ export class CustomerStatsbeatMetrics extends StatsbeatMetrics {
     this.isInitialized = true;
 
     // Initialize the single customer statsbeat counter
-    this.customerStatsbeatCounter = new CustomerStatsbeat(this.endpointUrl, this.host);
+    this.customerStatsbeatCounter = new CustomerStatsbeat();
 
     this.customerProperties = {
       language: this.language,
@@ -300,20 +295,5 @@ export class CustomerStatsbeatMetrics extends StatsbeatMetrics {
 
       counter.totalItemRetryCount.push(newEntry);
     }
-  }
-
-  private getShortHost(originalHost: string): string {
-    let shortHost = originalHost;
-    try {
-      const hostRegex = new RegExp(/^https?:\/\/(?:www\.)?([^/.-]+)/);
-      const res = hostRegex.exec(originalHost);
-      if (res !== null && res.length > 1) {
-        shortHost = res[1];
-      }
-      shortHost = shortHost.replace(".in.applicationinsights.azure.com", "");
-    } catch (error) {
-      diag.debug("Failed to get the short host name.");
-    }
-    return shortHost;
   }
 }

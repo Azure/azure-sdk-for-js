@@ -62,10 +62,6 @@ export class NetworkStatsbeat {
  * @internal
  */
 export class CustomerStatsbeat {
-  public endpoint: string;
-
-  public host: string;
-
   public totalItemSuccessCount: { count: number; telemetry_type: TelemetryType }[];
 
   public totalItemDropCount: {
@@ -80,9 +76,7 @@ export class CustomerStatsbeat {
     "exception.message"?: string;
   }[];
 
-  constructor(endpoint: string, host: string) {
-    this.endpoint = endpoint;
-    this.host = host;
+  constructor() {
     this.totalItemSuccessCount = [];
     this.totalItemDropCount = [];
     this.totalItemRetryCount = [];

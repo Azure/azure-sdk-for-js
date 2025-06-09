@@ -376,7 +376,7 @@ export abstract class BaseSender {
     return false;
   }
 
- private countSuccessfulEnvelopes(envelopes: Envelope[]): void {
+  private countSuccessfulEnvelopes(envelopes: Envelope[]): void {
     for (const envelope of envelopes) {
       if (envelope.data && envelope.data.baseType === "MessageData") {
         this.customerStatsbeatMetrics?.countSuccessfulItems(1, TelemetryType.TRACE);
