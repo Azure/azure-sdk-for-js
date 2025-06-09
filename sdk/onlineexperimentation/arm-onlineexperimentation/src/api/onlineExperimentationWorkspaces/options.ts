@@ -4,30 +4,31 @@
 import { OperationOptions } from "@azure-rest/core-client";
 
 /** Optional parameters. */
-export interface OnlineExperimentWorkspacesListBySubscriptionOptionalParams
+export interface OnlineExperimentationWorkspacesListBySubscriptionOptionalParams
   extends OperationOptions {}
 
 /** Optional parameters. */
-export interface OnlineExperimentWorkspacesListByResourceGroupOptionalParams
+export interface OnlineExperimentationWorkspacesListByResourceGroupOptionalParams
   extends OperationOptions {}
 
 /** Optional parameters. */
-export interface OnlineExperimentWorkspacesDeleteOptionalParams extends OperationOptions {
+export interface OnlineExperimentationWorkspacesDeleteOptionalParams extends OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
 }
 
 /** Optional parameters. */
-export interface OnlineExperimentWorkspacesUpdateOptionalParams extends OperationOptions {
+export interface OnlineExperimentationWorkspacesUpdateOptionalParams extends OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
 }
 
 /** Optional parameters. */
-export interface OnlineExperimentWorkspacesCreateOrUpdateOptionalParams extends OperationOptions {
+export interface OnlineExperimentationWorkspacesCreateOrUpdateOptionalParams
+  extends OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
 }
 
 /** Optional parameters. */
-export interface OnlineExperimentWorkspacesGetOptionalParams extends OperationOptions {}
+export interface OnlineExperimentationWorkspacesGetOptionalParams extends OperationOptions {}

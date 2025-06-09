@@ -4,26 +4,28 @@
 import { OnlineExperimentationContext as Client } from "../index.js";
 import {
   errorResponseDeserializer,
-  OnlineExperimentWorkspace,
-  onlineExperimentWorkspaceSerializer,
-  onlineExperimentWorkspaceDeserializer,
-  _OnlineExperimentWorkspaceListResult,
-  _onlineExperimentWorkspaceListResultDeserializer,
+  OnlineExperimentationWorkspace,
+  onlineExperimentationWorkspaceSerializer,
+  onlineExperimentationWorkspaceDeserializer,
+  OnlineExperimentationWorkspacePatch,
+  onlineExperimentationWorkspacePatchSerializer,
+  _OnlineExperimentationWorkspaceListResult,
+  _onlineExperimentationWorkspaceListResultDeserializer,
 } from "../../models/models.js";
 import {
-  OnlineExperimentWorkspacesListBySubscriptionOptionalParams,
-  OnlineExperimentWorkspacesListByResourceGroupOptionalParams,
-  OnlineExperimentWorkspacesDeleteOptionalParams,
-  OnlineExperimentWorkspacesUpdateOptionalParams,
-  OnlineExperimentWorkspacesCreateOrUpdateOptionalParams,
-  OnlineExperimentWorkspacesGetOptionalParams,
+  OnlineExperimentationWorkspacesListBySubscriptionOptionalParams,
+  OnlineExperimentationWorkspacesListByResourceGroupOptionalParams,
+  OnlineExperimentationWorkspacesDeleteOptionalParams,
+  OnlineExperimentationWorkspacesUpdateOptionalParams,
+  OnlineExperimentationWorkspacesCreateOrUpdateOptionalParams,
+  OnlineExperimentationWorkspacesGetOptionalParams,
 } from "./options.js";
-import { getLongRunningPoller } from "../../static-helpers/pollingHelpers.js";
 import {
   PagedAsyncIterableIterator,
   buildPagedAsyncIterator,
 } from "../../static-helpers/pagingHelpers.js";
 import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
+import { getLongRunningPoller } from "../../static-helpers/pollingHelpers.js";
 import {
   StreamableMethod,
   PathUncheckedResponse,
@@ -34,7 +36,7 @@ import { PollerLike, OperationState } from "@azure/core-lro";
 
 export function _listBySubscriptionSend(
   context: Client,
-  options: OnlineExperimentWorkspacesListBySubscriptionOptionalParams = {
+  options: OnlineExperimentationWorkspacesListBySubscriptionOptionalParams = {
     requestOptions: {},
   },
 ): StreamableMethod {
@@ -59,7 +61,7 @@ export function _listBySubscriptionSend(
 
 export async function _listBySubscriptionDeserialize(
   result: PathUncheckedResponse,
-): Promise<_OnlineExperimentWorkspaceListResult> {
+): Promise<_OnlineExperimentationWorkspaceListResult> {
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
@@ -67,16 +69,16 @@ export async function _listBySubscriptionDeserialize(
     throw error;
   }
 
-  return _onlineExperimentWorkspaceListResultDeserializer(result.body);
+  return _onlineExperimentationWorkspaceListResultDeserializer(result.body);
 }
 
-/** Gets all experiment workspaces in the specified subscription. */
+/** Gets all online experimentation workspaces in the specified subscription. */
 export function listBySubscription(
   context: Client,
-  options: OnlineExperimentWorkspacesListBySubscriptionOptionalParams = {
+  options: OnlineExperimentationWorkspacesListBySubscriptionOptionalParams = {
     requestOptions: {},
   },
-): PagedAsyncIterableIterator<OnlineExperimentWorkspace> {
+): PagedAsyncIterableIterator<OnlineExperimentationWorkspace> {
   return buildPagedAsyncIterator(
     context,
     () => _listBySubscriptionSend(context, options),
@@ -89,7 +91,7 @@ export function listBySubscription(
 export function _listByResourceGroupSend(
   context: Client,
   resourceGroupName: string,
-  options: OnlineExperimentWorkspacesListByResourceGroupOptionalParams = {
+  options: OnlineExperimentationWorkspacesListByResourceGroupOptionalParams = {
     requestOptions: {},
   },
 ): StreamableMethod {
@@ -115,7 +117,7 @@ export function _listByResourceGroupSend(
 
 export async function _listByResourceGroupDeserialize(
   result: PathUncheckedResponse,
-): Promise<_OnlineExperimentWorkspaceListResult> {
+): Promise<_OnlineExperimentationWorkspaceListResult> {
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
@@ -123,17 +125,17 @@ export async function _listByResourceGroupDeserialize(
     throw error;
   }
 
-  return _onlineExperimentWorkspaceListResultDeserializer(result.body);
+  return _onlineExperimentationWorkspaceListResultDeserializer(result.body);
 }
 
-/** Gets all experiment workspaces in a resource group. */
+/** Gets all online experimentation workspaces in a resource group. */
 export function listByResourceGroup(
   context: Client,
   resourceGroupName: string,
-  options: OnlineExperimentWorkspacesListByResourceGroupOptionalParams = {
+  options: OnlineExperimentationWorkspacesListByResourceGroupOptionalParams = {
     requestOptions: {},
   },
-): PagedAsyncIterableIterator<OnlineExperimentWorkspace> {
+): PagedAsyncIterableIterator<OnlineExperimentationWorkspace> {
   return buildPagedAsyncIterator(
     context,
     () => _listByResourceGroupSend(context, resourceGroupName, options),
@@ -147,7 +149,7 @@ export function _$deleteSend(
   context: Client,
   resourceGroupName: string,
   workspaceName: string,
-  options: OnlineExperimentWorkspacesDeleteOptionalParams = {
+  options: OnlineExperimentationWorkspacesDeleteOptionalParams = {
     requestOptions: {},
   },
 ): StreamableMethod {
@@ -183,7 +185,7 @@ export async function _$deleteDeserialize(result: PathUncheckedResponse): Promis
   return;
 }
 
-/** Deletes an experiment workspace */
+/** Deletes an online experimentation workspace. */
 /**
  *  @fixme delete is a reserved word that cannot be used as an operation name.
  *         Please add @clientName("clientName") or @clientName("<JS-Specific-Name>", "javascript")
@@ -193,7 +195,7 @@ export function $delete(
   context: Client,
   resourceGroupName: string,
   workspaceName: string,
-  options: OnlineExperimentWorkspacesDeleteOptionalParams = {
+  options: OnlineExperimentationWorkspacesDeleteOptionalParams = {
     requestOptions: {},
   },
 ): PollerLike<OperationState<void>, void> {
@@ -209,8 +211,8 @@ export function _updateSend(
   context: Client,
   resourceGroupName: string,
   workspaceName: string,
-  properties: OnlineExperimentWorkspace,
-  options: OnlineExperimentWorkspacesUpdateOptionalParams = {
+  properties: OnlineExperimentationWorkspacePatch,
+  options: OnlineExperimentationWorkspacesUpdateOptionalParams = {
     requestOptions: {},
   },
 ): StreamableMethod {
@@ -233,13 +235,13 @@ export function _updateSend(
       accept: "application/json",
       ...options.requestOptions?.headers,
     },
-    body: onlineExperimentWorkspaceSerializer(properties),
+    body: onlineExperimentationWorkspacePatchSerializer(properties),
   });
 }
 
 export async function _updateDeserialize(
   result: PathUncheckedResponse,
-): Promise<OnlineExperimentWorkspace> {
+): Promise<OnlineExperimentationWorkspace> {
   const expectedStatuses = ["200", "202"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
@@ -247,34 +249,34 @@ export async function _updateDeserialize(
     throw error;
   }
 
-  return onlineExperimentWorkspaceDeserializer(result.body);
+  return onlineExperimentationWorkspaceDeserializer(result.body);
 }
 
-/** Patch an experiment workspace */
+/** Patch an online experimentation workspace. */
 export function update(
   context: Client,
   resourceGroupName: string,
   workspaceName: string,
-  properties: OnlineExperimentWorkspace,
-  options: OnlineExperimentWorkspacesUpdateOptionalParams = {
+  properties: OnlineExperimentationWorkspacePatch,
+  options: OnlineExperimentationWorkspacesUpdateOptionalParams = {
     requestOptions: {},
   },
-): PollerLike<OperationState<OnlineExperimentWorkspace>, OnlineExperimentWorkspace> {
+): PollerLike<OperationState<OnlineExperimentationWorkspace>, OnlineExperimentationWorkspace> {
   return getLongRunningPoller(context, _updateDeserialize, ["200", "202"], {
     updateIntervalInMs: options?.updateIntervalInMs,
     abortSignal: options?.abortSignal,
     getInitialResponse: () =>
       _updateSend(context, resourceGroupName, workspaceName, properties, options),
     resourceLocationConfig: "location",
-  }) as PollerLike<OperationState<OnlineExperimentWorkspace>, OnlineExperimentWorkspace>;
+  }) as PollerLike<OperationState<OnlineExperimentationWorkspace>, OnlineExperimentationWorkspace>;
 }
 
 export function _createOrUpdateSend(
   context: Client,
   resourceGroupName: string,
   workspaceName: string,
-  resource: OnlineExperimentWorkspace,
-  options: OnlineExperimentWorkspacesCreateOrUpdateOptionalParams = {
+  resource: OnlineExperimentationWorkspace,
+  options: OnlineExperimentationWorkspacesCreateOrUpdateOptionalParams = {
     requestOptions: {},
   },
 ): StreamableMethod {
@@ -297,13 +299,13 @@ export function _createOrUpdateSend(
       accept: "application/json",
       ...options.requestOptions?.headers,
     },
-    body: onlineExperimentWorkspaceSerializer(resource),
+    body: onlineExperimentationWorkspaceSerializer(resource),
   });
 }
 
 export async function _createOrUpdateDeserialize(
   result: PathUncheckedResponse,
-): Promise<OnlineExperimentWorkspace> {
+): Promise<OnlineExperimentationWorkspace> {
   const expectedStatuses = ["200", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
@@ -311,33 +313,35 @@ export async function _createOrUpdateDeserialize(
     throw error;
   }
 
-  return onlineExperimentWorkspaceDeserializer(result.body);
+  return onlineExperimentationWorkspaceDeserializer(result.body);
 }
 
-/** Create an experiment workspace, or update an existing workspace */
+/** Create an online experimentation workspace, or update an existing workspace. */
 export function createOrUpdate(
   context: Client,
   resourceGroupName: string,
   workspaceName: string,
-  resource: OnlineExperimentWorkspace,
-  options: OnlineExperimentWorkspacesCreateOrUpdateOptionalParams = {
+  resource: OnlineExperimentationWorkspace,
+  options: OnlineExperimentationWorkspacesCreateOrUpdateOptionalParams = {
     requestOptions: {},
   },
-): PollerLike<OperationState<OnlineExperimentWorkspace>, OnlineExperimentWorkspace> {
+): PollerLike<OperationState<OnlineExperimentationWorkspace>, OnlineExperimentationWorkspace> {
   return getLongRunningPoller(context, _createOrUpdateDeserialize, ["200", "201"], {
     updateIntervalInMs: options?.updateIntervalInMs,
     abortSignal: options?.abortSignal,
     getInitialResponse: () =>
       _createOrUpdateSend(context, resourceGroupName, workspaceName, resource, options),
     resourceLocationConfig: "azure-async-operation",
-  }) as PollerLike<OperationState<OnlineExperimentWorkspace>, OnlineExperimentWorkspace>;
+  }) as PollerLike<OperationState<OnlineExperimentationWorkspace>, OnlineExperimentationWorkspace>;
 }
 
 export function _getSend(
   context: Client,
   resourceGroupName: string,
   workspaceName: string,
-  options: OnlineExperimentWorkspacesGetOptionalParams = { requestOptions: {} },
+  options: OnlineExperimentationWorkspacesGetOptionalParams = {
+    requestOptions: {},
+  },
 ): StreamableMethod {
   const path = expandUrlTemplate(
     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.OnlineExperimentation/workspaces/{workspaceName}{?api%2Dversion}",
@@ -362,7 +366,7 @@ export function _getSend(
 
 export async function _getDeserialize(
   result: PathUncheckedResponse,
-): Promise<OnlineExperimentWorkspace> {
+): Promise<OnlineExperimentationWorkspace> {
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
@@ -370,16 +374,18 @@ export async function _getDeserialize(
     throw error;
   }
 
-  return onlineExperimentWorkspaceDeserializer(result.body);
+  return onlineExperimentationWorkspaceDeserializer(result.body);
 }
 
-/** Gets an experiment workspace */
+/** Gets an online experimentation workspace. */
 export async function get(
   context: Client,
   resourceGroupName: string,
   workspaceName: string,
-  options: OnlineExperimentWorkspacesGetOptionalParams = { requestOptions: {} },
-): Promise<OnlineExperimentWorkspace> {
+  options: OnlineExperimentationWorkspacesGetOptionalParams = {
+    requestOptions: {},
+  },
+): Promise<OnlineExperimentationWorkspace> {
   const result = await _getSend(context, resourceGroupName, workspaceName, options);
   return _getDeserialize(result);
 }

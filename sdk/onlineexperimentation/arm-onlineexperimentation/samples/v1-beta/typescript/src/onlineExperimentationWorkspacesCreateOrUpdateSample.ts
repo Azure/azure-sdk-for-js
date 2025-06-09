@@ -5,16 +5,16 @@ import { OnlineExperimentationClient } from "@azure/arm-onlineexperimentation";
 import { DefaultAzureCredential } from "@azure/identity";
 
 /**
- * This sample demonstrates how to create an experiment workspace, or update an existing workspace
+ * This sample demonstrates how to create an online experimentation workspace, or update an existing workspace.
  *
- * @summary create an experiment workspace, or update an existing workspace
- * x-ms-original-file: 2025-05-31-preview/OnlineExperimentWorkspaces_CreateOrUpdate.json
+ * @summary create an online experimentation workspace, or update an existing workspace.
+ * x-ms-original-file: 2025-05-31-preview/OnlineExperimentationWorkspaces_CreateOrUpdate.json
  */
-async function createOrUpdateAnOnlineExperimentWorkspaceWithFreeSku(): Promise<void> {
+async function createOrUpdateAnOnlineExperimentationWorkspaceWithFreeSku(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "fa5fc227-a624-475e-b696-cdd604c735bc";
   const client = new OnlineExperimentationClient(credential, subscriptionId);
-  const result = await client.onlineExperimentWorkspaces.createOrUpdate(
+  const result = await client.onlineExperimentationWorkspaces.createOrUpdate(
     "res9871",
     "expworkspace7",
     {
@@ -44,16 +44,16 @@ async function createOrUpdateAnOnlineExperimentWorkspaceWithFreeSku(): Promise<v
 }
 
 /**
- * This sample demonstrates how to create an experiment workspace, or update an existing workspace
+ * This sample demonstrates how to create an online experimentation workspace, or update an existing workspace.
  *
- * @summary create an experiment workspace, or update an existing workspace
- * x-ms-original-file: 2025-05-31-preview/OnlineExperimentWorkspaces_CreateOrUpdateWithEncryption.json
+ * @summary create an online experimentation workspace, or update an existing workspace.
+ * x-ms-original-file: 2025-05-31-preview/OnlineExperimentationWorkspaces_CreateOrUpdateWithEncryption.json
  */
-async function createOrUpdateAnOnlineExperimentWorkspaceWithFreeSkuAndCustomerManagedKey(): Promise<void> {
+async function createOrUpdateAnOnlineExperimentationWorkspaceWithFreeSkuAndCustomerManagedKey(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "fa5fc227-a624-475e-b696-cdd604c735bc";
   const client = new OnlineExperimentationClient(credential, subscriptionId);
-  const result = await client.onlineExperimentWorkspaces.createOrUpdate(
+  const result = await client.onlineExperimentationWorkspaces.createOrUpdate(
     "res9871",
     "expworkspace7",
     {
@@ -73,7 +73,8 @@ async function createOrUpdateAnOnlineExperimentWorkspaceWithFreeSkuAndCustomerMa
               userAssignedIdentityResourceId:
                 "/subscriptions/fa5fc227-a624-475e-b696-cdd604c735bc/resourceGroups/eu2cgroup/providers/Microsoft.ManagedIdentity/userAssignedIdentities/id1",
             },
-            keyEncryptionKeyUrl: "https://contosovault.vault.azure.net/keys/contosokek",
+            keyEncryptionKeyUrl:
+              "https://contosovault.vault.azure.net/keys/contosokek",
           },
         },
       },
@@ -93,8 +94,8 @@ async function createOrUpdateAnOnlineExperimentWorkspaceWithFreeSkuAndCustomerMa
 }
 
 async function main(): Promise<void> {
-  await createOrUpdateAnOnlineExperimentWorkspaceWithFreeSku();
-  await createOrUpdateAnOnlineExperimentWorkspaceWithFreeSkuAndCustomerManagedKey();
+  await createOrUpdateAnOnlineExperimentationWorkspaceWithFreeSku();
+  await createOrUpdateAnOnlineExperimentationWorkspaceWithFreeSkuAndCustomerManagedKey();
 }
 
 main().catch(console.error);
