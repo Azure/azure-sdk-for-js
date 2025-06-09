@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 /* eslint-disable tsdoc/syntax */
 
-import { AIProjectContext } from "../../api/aiProjectContext.js";
+import { AIProjectClientOptionalParams, AIProjectContext } from "../../api/aiProjectContext.js";
 import {
   DatasetVersionUnion,
   PendingUploadRequest,
@@ -29,6 +29,7 @@ import {
   uploadFile,
   uploadFolder,
 } from "../../api/datasets/operations.js";
+import { DatasetUploadOptions } from "../../api/index.js";
 import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 
 /** Interface representing a Datasets operations. */
@@ -78,18 +79,21 @@ export interface DatasetsOperations {
     name: string,
     version: string,
     filePath: string,
-    connectionName?: string,
+    options?: DatasetUploadOptions,
   ) => Promise<DatasetVersionUnion>;
   /** Upload a folder to the DatasetVersion */
   uploadFolder: (
     name: string,
     version: string,
     folderPath: string,
-    connectionName?: string,
+    options?: DatasetUploadOptions,
   ) => Promise<DatasetVersionUnion>;
 }
 
-function _getDatasets(context: AIProjectContext) {
+function _getDatasets(
+  context: AIProjectContext,
+  projectOptions: AIProjectClientOptionalParams = {},
+) {
   return {
     getCredentials: (
       name: string,
@@ -115,15 +119,22 @@ function _getDatasets(context: AIProjectContext) {
     list: (options?: DatasetsListOptionalParams) => list(context, options),
     listVersions: (name: string, options?: DatasetsListVersionsOptionalParams) =>
       listVersions(context, name, options),
-    uploadFile: (name: string, version: string, filePath: string, connectionName?: string) =>
-      uploadFile(context, name, version, filePath, connectionName),
-    uploadFolder: (name: string, version: string, folderPath: string, connectionName?: string) =>
-      uploadFolder(context, name, version, folderPath, connectionName),
+    uploadFile: (name: string, version: string, filePath: string, options?: DatasetUploadOptions) =>
+      uploadFile(context, name, version, filePath, { ...options, projectOptions }),
+    uploadFolder: (
+      name: string,
+      version: string,
+      folderPath: string,
+      options?: DatasetUploadOptions,
+    ) => uploadFolder(context, name, version, folderPath, { ...options, projectOptions }),
   };
 }
 
-export function _getDatasetsOperations(context: AIProjectContext): DatasetsOperations {
+export function _getDatasetsOperations(
+  context: AIProjectContext,
+  projectOptions: AIProjectClientOptionalParams = {},
+): DatasetsOperations {
   return {
-    ..._getDatasets(context),
+    ..._getDatasets(context, projectOptions),
   };
 }
