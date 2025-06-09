@@ -78,7 +78,7 @@ export interface BlobChangeFeedClientOptions {
 
 /**
  * BlobChangeFeedClient.
- * @see https://learn.microsoft.com/en-us/azure/storage/blobs/storage-blob-change-feed?tabs=azure-portal
+ * @see https://learn.microsoft.com/azure/storage/blobs/storage-blob-change-feed?tabs=azure-portal
  */
 export class BlobChangeFeedClient {
   /**
