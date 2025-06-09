@@ -22,6 +22,7 @@ import {
   RedirectCallRequest,
   RejectCallRequest,
   ConnectRequest,
+  CustomCallingContextInternal,
 } from "./generated/src/index.js";
 import { CallConnection } from "./callConnection.js";
 import { CallRecording } from "./callRecording.js";
@@ -34,6 +35,7 @@ import type {
 } from "./models/options.js";
 import type { AnswerCallResult, ConnectCallResult, CreateCallResult } from "./models/responses.js";
 import {
+  CustomCallingContext,
   type CallConnectionProperties,
   type CallInvite,
   type CallLocator,
@@ -377,6 +379,29 @@ export class CallAutomationClient {
     };
 
     return this.callAutomationApiClient.rejectCall(request, optionsInternal);
+  }
+
+  private createCustomCallingContextInternal(
+    customCallingContext: CustomCallingContext,
+  ): CustomCallingContextInternal {
+    const sipHeaders: { [key: string]: string } = {};
+    const voipHeaders: { [key: string]: string } = {};
+    if (customCallingContext) {
+      for (const header of customCallingContext) {
+        if (header.kind === "sipuui") {
+          sipHeaders[`User-To-User`] = header.value;
+        } else if (header.kind === "sipx") {
+          if (header.sipHeaderPrefix === "X-") {
+            sipHeaders[`X-${header.key}`] = header.value;
+          } else {
+            sipHeaders[`X-MS-Custom-${header.key}`] = header.value;
+          }
+        } else if (header.kind === "voip") {
+          voipHeaders[`${header.key}`] = header.value;
+        }
+      }
+    }
+    return { sipHeaders: sipHeaders, voipHeaders: voipHeaders };
   }
 
   /**
