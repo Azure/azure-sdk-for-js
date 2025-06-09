@@ -1,11 +1,5 @@
 # Release History
 
-## 1.3.3 (Unreleased)
-
-### Other Changes
-
-- Depend on Monitor OpenTelemetry Exporter beta 32.
-
 ## 1.3.2 (2025-05-06)
 
 ### Bugs Fixed
