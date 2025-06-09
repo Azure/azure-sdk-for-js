@@ -33,7 +33,7 @@
 - [Authenticate with Microsoft Entra ID - Using Token Cache](#authenticate-with-azure-ad-using-token-cache):
   This sample is recommended to users looking to build long-running applications that would like to handle reauthenticating with a token cache. The token cache stores and proactively refreshes the Microsoft Entra access token 2 minutes before expiry and ensures a non-expired token is available for use when the cache is accessed.
 - [Authenticate with Microsoft Entra ID - Clustered Cache with Token Cache](#authenticate-with-azure-ad-clustered-cache-with-token-cache):
-  This sample is recommended to users working with clustered Azure Cache for Redis configurations that require token refresh across all cluster nodes. It demonstrates how to update authentication tokens for all nodes in the cluster when the cached access token is refreshed.
+  This sample is recommended to users looking to build long-running applications that connect to Redis clusters and would like to handle reauthenticating with a token cache. It demonstrates how to update authentication tokens for all nodes in the cluster when the cached access token is refreshed.
 
 #### Authenticate with Microsoft Entra ID: Hello World
 
@@ -154,7 +154,7 @@ async function main() {
       break;
     } catch (e) {
       console.log("error during redis get", e.toString());
-      if (accessToken.expiresOnTimestamp <= Date.now() || redis.status === "end" || "close") {
+      if (accessToken.expiresOnTimestamp <= Date.now() || ["end", "close"].includes(redis.status)) {
         redis.disconnect();
         redis = new Redis({
           username: extractUsernameFromToken(accessToken),
@@ -254,7 +254,7 @@ async function main() {
       break;
     } catch (e) {
       console.log("error during redis get", e.toString());
-      if (accessToken.expiresOnTimestamp <= Date.now() || redis.status === "end" || "close") {
+      if (accessToken.expiresOnTimestamp <= Date.now() || ["end", "close"].includes(redis.status)) {
         redis.disconnect();
         accessToken = { ...accessTokenCache };
         redis = new Redis({
@@ -329,7 +329,7 @@ async function main() {
     );
     if (redisCluster) {
       // For clustered caches, update authentication for all nodes
-      const nodes = redisCluster.nodes("all");
+      const nodes = redisCluster.nodes();
       for (const node of nodes) {
         await node.auth(extractUsernameFromToken(accessTokenCache), accessTokenCache.token);
         node.options.password = accessTokenCache.token;
@@ -352,7 +352,8 @@ async function main() {
       username: extractUsernameFromToken(accessToken),
       password: accessToken.token,
       tls: {
-        servername: process.env.REDIS_HOSTNAME,
+        host: process.env.REDIS_HOSTNAME,
+        port: 6380,
       },
     },
   });
@@ -366,7 +367,7 @@ async function main() {
       break;
     } catch (e) {
       console.log("error during redis get", e.toString());
-      if (accessToken.expiresOnTimestamp <= Date.now() || redisCluster.status === "end" || "close") {
+      if (accessToken.expiresOnTimestamp <= Date.now() || ["end", "close"].includes(redisCluster.status)) {
         redisCluster.disconnect();
         accessToken = { ...accessTokenCache };
         redisCluster = new Redis.Cluster([
@@ -380,7 +381,8 @@ async function main() {
             username: extractUsernameFromToken(accessToken),
             password: accessToken.token,
             tls: {
-              servername: process.env.REDIS_HOSTNAME,
+              host: process.env.REDIS_HOSTNAME,
+              port: 6380,
             },
           },
         });
