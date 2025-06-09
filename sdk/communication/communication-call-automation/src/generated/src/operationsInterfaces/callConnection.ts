@@ -32,9 +32,6 @@ import {
   CancelAddParticipantRequest,
   CallConnectionCancelAddParticipantOptionalParams,
   CallConnectionCancelAddParticipantResponse,
-  MoveParticipantsRequest,
-  CallConnectionMoveParticipantsOptionalParams,
-  CallConnectionMoveParticipantsResponse,
   CallConnectionGetParticipantOptionalParams,
   CallConnectionGetParticipantResponse,
 } from "../models/index.js";
@@ -145,17 +142,6 @@ export interface CallConnection {
     cancelAddParticipantRequest: CancelAddParticipantRequest,
     options?: CallConnectionCancelAddParticipantOptionalParams,
   ): Promise<CallConnectionCancelAddParticipantResponse>;
-  /**
-   * Add a participant to the call.
-   * @param callConnectionId The call connection Id
-   * @param moveParticipantRequest The move participants request.
-   * @param options The options parameters.
-   */
-  moveParticipants(
-    callConnectionId: string,
-    moveParticipantRequest: MoveParticipantsRequest,
-    options?: CallConnectionMoveParticipantsOptionalParams,
-  ): Promise<CallConnectionMoveParticipantsResponse>;
   /**
    * Get participant from a call.
    * @param callConnectionId The call connection Id

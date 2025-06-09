@@ -23,7 +23,6 @@ import {
   MuteParticipantsRequest as MuteParticipantsRequestMapper,
   UnmuteParticipantsRequest as UnmuteParticipantsRequestMapper,
   CancelAddParticipantRequest as CancelAddParticipantRequestMapper,
-  MoveParticipantsRequest as MoveParticipantsRequestMapper,
   PlayRequest as PlayRequestMapper,
   StartTranscriptionRequest as StartTranscriptionRequestMapper,
   StopTranscriptionRequest as StopTranscriptionRequestMapper,
@@ -173,11 +172,6 @@ export const unmuteParticipantsRequest: OperationParameter = {
 export const cancelAddParticipantRequest: OperationParameter = {
   parameterPath: "cancelAddParticipantRequest",
   mapper: CancelAddParticipantRequestMapper,
-};
-
-export const moveParticipantRequest: OperationParameter = {
-  parameterPath: "moveParticipantRequest",
-  mapper: MoveParticipantsRequestMapper,
 };
 
 export const participantRawId: OperationURLParameter = {
