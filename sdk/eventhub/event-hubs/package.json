@@ -38,7 +38,7 @@
     "execute:samples": "dev-tool samples run samples-dev",
     "extract-api": "dev-tool run build-package && dev-tool run extract-api",
     "format": "dev-tool run vendored prettier --write --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.{ts,cts,mts}\" \"test/**/*.{ts,cts,mts}\" \"samples-dev/**/*.{ts,cts,mts}\" \"scripts/**/*.{ts,cts,mts}\" \"*.{js,cjs,mjs,json}\"",
-    "generate-certs": "tsx scripts/generateCerts.mts",
+    "generate-certs": "dev-tool run vendored tsx scripts/generateCerts.mts",
     "lint": "eslint package.json api-extractor.json src test",
     "lint:fix": "eslint package.json api-extractor.json src test --fix --fix-type [problem,suggestion]",
     "pack": "npm pack 2>&1",
@@ -137,7 +137,6 @@
     "https-proxy-agent": "^7.0.0",
     "node-forge": "^1.3.1",
     "playwright": "^1.45.3",
-    "tsx": "^4.19.4",
     "typescript": "~5.8.2",
     "vitest": "^3.0.9",
     "ws": "^8.2.0"
