@@ -780,10 +780,7 @@ describe("BaseSender", () => {
       const result = await testSender.exportEnvelopes(envelopes);
 
       expect(result.code).toBe(ExportResultCode.FAILED);
-      expect(mockCustomerStatsbeatMetrics.countDroppedItems).toHaveBeenCalledWith(
-        1,
-        "NON_RETRYABLE_STATUS_CODE",
-      );
+      expect(mockCustomerStatsbeatMetrics.countDroppedItems).toHaveBeenCalledWith(1, 400);
 
       // Verify exception.message is not passed for non-client exceptions
       const call = mockCustomerStatsbeatMetrics.countDroppedItems.mock.calls[0];

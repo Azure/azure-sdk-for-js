@@ -66,13 +66,13 @@ export class CustomerStatsbeat {
 
   public totalItemDropCount: {
     count: number;
-    "drop.code": DropCode;
+    "drop.code": DropCode | number;
     "exception.message"?: string;
   }[];
 
   public totalItemRetryCount: {
     count: number;
-    "retry.code": RetryCode;
+    "retry.code": RetryCode | number;
     "exception.message"?: string;
   }[];
 

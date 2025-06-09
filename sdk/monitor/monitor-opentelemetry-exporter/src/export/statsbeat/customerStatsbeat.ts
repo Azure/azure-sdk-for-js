@@ -168,7 +168,10 @@ export class CustomerStatsbeatMetrics extends StatsbeatMetrics {
 
   private itemDropCallback(observableResult: BatchObservableResult): void {
     const counter: CustomerStatsbeat = this.customerStatsbeatCounter;
-    const baseAttributes = { ...this.customerProperties, "drop.code": DropCode.UNKNOWN };
+    const baseAttributes: CustomerStatsbeatProperties & { "drop.code": DropCode | number } = {
+      ...this.customerProperties,
+      "drop.code": DropCode.UNKNOWN,
+    };
 
     // For each { drop.code -> count } mapping, call observe, passing the count and attributes that include the drop.code
     for (let i = 0; i < counter.totalItemDropCount.length; i++) {
@@ -193,7 +196,10 @@ export class CustomerStatsbeatMetrics extends StatsbeatMetrics {
 
   private itemRetryCallback(observableResult: BatchObservableResult): void {
     const counter: CustomerStatsbeat = this.customerStatsbeatCounter;
-    const baseAttributes = { ...this.customerProperties, "retry.code": RetryCode.UNKNOWN };
+    const baseAttributes: CustomerStatsbeatProperties & { "retry.code": RetryCode | number } = {
+      ...this.customerProperties,
+      "retry.code": RetryCode.UNKNOWN,
+    };
 
     // For each { retry.code -> count } mapping, call observe, passing the count and attributes that include the retry.code
     for (let i = 0; i < counter.totalItemRetryCount.length; i++) {
@@ -243,7 +249,11 @@ export class CustomerStatsbeatMetrics extends StatsbeatMetrics {
    * @param dropCode - The drop code indicating the reason for drop
    * @param exceptionMessage - Optional exception message when dropCode is CLIENT_EXCEPTION
    */
-  public countDroppedItems(envelopes: number, dropCode: DropCode, exceptionMessage?: string): void {
+  public countDroppedItems(
+    envelopes: number,
+    dropCode: DropCode | number,
+    exceptionMessage?: string,
+  ): void {
     const counter: CustomerStatsbeat = this.customerStatsbeatCounter;
 
     // Check if an entry with the same drop code and exception message already exists
@@ -254,7 +264,11 @@ export class CustomerStatsbeatMetrics extends StatsbeatMetrics {
     if (existingEntry) {
       existingEntry.count += envelopes;
     } else {
-      const newEntry: { count: number; "drop.code": DropCode; "exception.message"?: string } = {
+      const newEntry: {
+        count: number;
+        "drop.code": DropCode | number;
+        "exception.message"?: string;
+      } = {
         count: envelopes,
         "drop.code": dropCode,
       };
@@ -272,7 +286,11 @@ export class CustomerStatsbeatMetrics extends StatsbeatMetrics {
    * @param retryCode - The retry code indicating the reason for retry
    * @param exceptionMessage - Optional exception message when retryCode is CLIENT_EXCEPTION
    */
-  public countRetryItems(envelopes: number, retryCode: RetryCode, exceptionMessage?: string): void {
+  public countRetryItems(
+    envelopes: number,
+    retryCode: RetryCode | number,
+    exceptionMessage?: string,
+  ): void {
     const counter: CustomerStatsbeat = this.customerStatsbeatCounter;
 
     // Check if an entry with the same retry code and exception message already exists
@@ -284,7 +302,11 @@ export class CustomerStatsbeatMetrics extends StatsbeatMetrics {
     if (existingEntry) {
       existingEntry.count += envelopes;
     } else {
-      const newEntry: { count: number; "retry.code": RetryCode; "exception.message"?: string } = {
+      const newEntry: {
+        count: number;
+        "retry.code": RetryCode | number;
+        "exception.message"?: string;
+      } = {
         count: envelopes,
         "retry.code": retryCode,
       };

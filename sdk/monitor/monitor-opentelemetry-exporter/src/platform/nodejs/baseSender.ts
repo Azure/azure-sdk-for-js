@@ -135,10 +135,7 @@ export abstract class BaseSender {
         // Failed -- persist failed data
         if (statusCode === 429 || statusCode === 439) {
           this.networkStatsbeatMetrics?.countThrottle(statusCode);
-          this.customerStatsbeatMetrics?.countRetryItems(
-            envelopes.length,
-            RetryCode.RETRYABLE_STATUS_CODE,
-          );
+          this.customerStatsbeatMetrics?.countRetryItems(envelopes.length, statusCode);
           return {
             code: ExportResultCode.SUCCESS,
           };
@@ -175,10 +172,7 @@ export abstract class BaseSender {
           }
           if (filteredEnvelopes.length > 0) {
             this.networkStatsbeatMetrics?.countRetry(statusCode);
-            this.customerStatsbeatMetrics?.countRetryItems(
-              filteredEnvelopes.length,
-              RetryCode.RETRYABLE_STATUS_CODE,
-            );
+            this.customerStatsbeatMetrics?.countRetryItems(filteredEnvelopes.length, statusCode);
             // calls resultCallback(ExportResult) based on result of persister.push
             return await this.persist(filteredEnvelopes);
           }
@@ -187,7 +181,7 @@ export abstract class BaseSender {
           // Count dropped items for customer statsbeat for non-retriable status codes
           this.customerStatsbeatMetrics?.countDroppedItems(
             envelopes.length - successfulEnvelopes.filter(Boolean).length,
-            DropCode.NON_RETRYABLE_STATUS_CODE,
+            statusCode,
           );
           return {
             code: ExportResultCode.FAILED,
@@ -195,10 +189,7 @@ export abstract class BaseSender {
         } else {
           // calls resultCallback(ExportResult) based on result of persister.push
           this.networkStatsbeatMetrics?.countRetry(statusCode);
-          this.customerStatsbeatMetrics?.countRetryItems(
-            envelopes.length,
-            RetryCode.RETRYABLE_STATUS_CODE,
-          );
+          this.customerStatsbeatMetrics?.countRetryItems(envelopes.length, statusCode);
           return await this.persist(envelopes);
         }
       } else {
@@ -206,10 +197,7 @@ export abstract class BaseSender {
         if (this.networkStatsbeatMetrics) {
           if (statusCode) {
             this.networkStatsbeatMetrics.countFailure(duration, statusCode);
-            this.customerStatsbeatMetrics?.countDroppedItems(
-              envelopes.length,
-              DropCode.NON_RETRYABLE_STATUS_CODE,
-            );
+            this.customerStatsbeatMetrics?.countDroppedItems(envelopes.length, statusCode);
           }
         } else {
           // Handles all other status codes or client exceptions for Statsbeat
@@ -259,10 +247,7 @@ export abstract class BaseSender {
         !this.isStatsbeatSender
       ) {
         this.networkStatsbeatMetrics?.countRetry(restError.statusCode);
-        this.customerStatsbeatMetrics?.countRetryItems(
-          envelopes.length,
-          RetryCode.RETRYABLE_STATUS_CODE,
-        );
+        this.customerStatsbeatMetrics?.countRetryItems(envelopes.length, restError.statusCode);
         return this.persist(envelopes);
       } else if (
         restError.statusCode === 400 &&
@@ -283,10 +268,7 @@ export abstract class BaseSender {
       if (this.isRetriableRestError(restError)) {
         if (restError.statusCode) {
           this.networkStatsbeatMetrics?.countRetry(restError.statusCode);
-          this.customerStatsbeatMetrics?.countRetryItems(
-            envelopes.length,
-            RetryCode.RETRYABLE_STATUS_CODE,
-          );
+          this.customerStatsbeatMetrics?.countRetryItems(envelopes.length, restError.statusCode);
         }
         if (!this.isStatsbeatSender) {
           diag.error(
