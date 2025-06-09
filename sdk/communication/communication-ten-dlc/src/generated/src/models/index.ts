@@ -425,16 +425,21 @@ export type CampaignStatus =
 /** Defines values for ContentType. */
 export type ContentType =
   | "AccountNotification"
+  | "AgentsFranchises"
+  | "Charity"
   | "CustomerCare"
   | "DeliveryNotification"
+  | "Emergency"
   | "FraudAlert"
   | "HigherEducation"
+  | "LowVolume"
   | "MachineToMachine"
   | "Marketing"
   | "Mixed"
   | "PollingVoting"
   | "PublicServiceAnnouncement"
   | "SecurityAlert"
+  | "SoleProprietor"
   | "TwoFactorAuthentication"
   | "UcaasLow";
 /** Defines values for SubContentType. */

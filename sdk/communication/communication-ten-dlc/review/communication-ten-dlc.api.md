@@ -97,7 +97,7 @@ export interface ContactInformation {
 }
 
 // @public
-export type ContentType = "AccountNotification" | "CustomerCare" | "DeliveryNotification" | "FraudAlert" | "HigherEducation" | "MachineToMachine" | "Marketing" | "Mixed" | "PollingVoting" | "PublicServiceAnnouncement" | "SecurityAlert" | "TwoFactorAuthentication" | "UcaasLow";
+export type ContentType = "AccountNotification" | "AgentsFranchises" | "Charity" | "CustomerCare" | "DeliveryNotification" | "Emergency" | "FraudAlert" | "HigherEducation" | "LowVolume" | "MachineToMachine" | "Marketing" | "Mixed" | "PollingVoting" | "PublicServiceAnnouncement" | "SecurityAlert" | "SoleProprietor" | "TwoFactorAuthentication" | "UcaasLow";
 
 // @public
 export interface DeleteBrandOptionalParams extends TenDlcDeleteUSBrandOptionalParams {
