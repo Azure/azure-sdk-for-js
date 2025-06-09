@@ -3,7 +3,9 @@
     "ESLint": {
       "type": "stdio",
       "command": "npx",
-      "args": ["eslint", "--mcp"]
+      "args": [
+        "@eslint/mcp@latest"
+      ]
     }
   }
 }
