@@ -2,13 +2,16 @@
 // Licensed under the MIT License.
 
 import { describe, it, assert, beforeEach, afterEach, vi, expect } from "vitest";
-import {
-  GlobalPartitionEndpointManager,
-  PartitionKeyRangeFailoverInfo,
-} from "../../../src/globalPartitionEndpointManager.js";
+import { GlobalPartitionEndpointManager } from "../../../src/globalPartitionEndpointManager.js";
 import type { GlobalEndpointManager } from "../../../src/globalEndpointManager.js";
 import { HealthStatus, OperationType, ResourceType } from "../../../src/common/index.js";
-import { Constants, ErrorResponse, HTTPMethod, RequestContext } from "../../../src/index.js";
+import {
+  Constants,
+  ErrorResponse,
+  HTTPMethod,
+  PartitionKeyRangeFailoverInfo,
+  RequestContext,
+} from "../../../src/index.js";
 import { mock } from "node:test";
 
 const mockReadEndpoints = [
@@ -76,7 +79,7 @@ describe("GlobalPartitionEndpointManager", () => {
 
     it("should return false if request context is undefined", async () => {
       const result =
-        await globalPartitionEndpointManager.tryMarkEndpointUnavailableForPartitionKeyRange(
+        await globalPartitionEndpointManager.checkRequestEligibilityAndTryMarkEndpointUnavailableForPartitionKeyRange(
           undefined as any,
         );
       assert.equal(result, false);
@@ -84,7 +87,7 @@ describe("GlobalPartitionEndpointManager", () => {
 
     it("should return false if partitionKeyRangeId is missing", async () => {
       const result =
-        await globalPartitionEndpointManager.tryMarkEndpointUnavailableForPartitionKeyRange(
+        await globalPartitionEndpointManager.checkRequestEligibilityAndTryMarkEndpointUnavailableForPartitionKeyRange(
           createRequestContext({ partitionKeyRangeId: undefined }),
         );
       assert.equal(result, false);
@@ -92,7 +95,7 @@ describe("GlobalPartitionEndpointManager", () => {
 
     it("should return false if endpoint is missing", async () => {
       const result =
-        await globalPartitionEndpointManager.tryMarkEndpointUnavailableForPartitionKeyRange(
+        await globalPartitionEndpointManager.checkRequestEligibilityAndTryMarkEndpointUnavailableForPartitionKeyRange(
           createRequestContext({ endpoint: undefined }),
         );
       assert.equal(result, false);
@@ -100,7 +103,7 @@ describe("GlobalPartitionEndpointManager", () => {
 
     it("should return false if failed endpoint is missing", async () => {
       const result =
-        await globalPartitionEndpointManager.tryMarkEndpointUnavailableForPartitionKeyRange(
+        await globalPartitionEndpointManager.checkRequestEligibilityAndTryMarkEndpointUnavailableForPartitionKeyRange(
           createRequestContext({ endpoint: undefined }),
         );
       assert.equal(result, false);
@@ -118,7 +121,7 @@ describe("GlobalPartitionEndpointManager", () => {
         mockGEM,
       );
       const result =
-        await managerNoPreferred.tryMarkEndpointUnavailableForPartitionKeyRange(
+        await managerNoPreferred.checkRequestEligibilityAndTryMarkEndpointUnavailableForPartitionKeyRange(
           createRequestContext(),
         );
       assert.equal(result, false);
@@ -136,7 +139,7 @@ describe("GlobalPartitionEndpointManager", () => {
         mockGEM,
       );
       const result =
-        await managerNoPreferred.tryMarkEndpointUnavailableForPartitionKeyRange(
+        await managerNoPreferred.checkRequestEligibilityAndTryMarkEndpointUnavailableForPartitionKeyRange(
           createRequestContext(),
         );
       assert.equal(result, false);
@@ -145,32 +148,30 @@ describe("GlobalPartitionEndpointManager", () => {
     it("should succeed and cycle through endpoints", async () => {
       const requestContext = createRequestContext();
       const firstFailover =
-        await globalPartitionEndpointManager.tryMarkEndpointUnavailableForPartitionKeyRange(
+        await globalPartitionEndpointManager.checkRequestEligibilityAndTryMarkEndpointUnavailableForPartitionKeyRange(
           requestContext,
         );
       assert.equal(firstFailover, true);
 
-      const [hasOverride, newEndpoint] =
-        (await globalPartitionEndpointManager.tryAddPartitionLevelLocationOverride(
-          requestContext,
-        )) as [boolean, string];
-      assert.equal(hasOverride, true);
-      assert.notEqual(newEndpoint, requestContext.endpoint);
+      const result =
+        await globalPartitionEndpointManager.tryAddPartitionLevelLocationOverride(requestContext);
+      assert.equal(result.overridden, true);
+      assert.notEqual(result.newLocation, requestContext.endpoint);
     });
 
     it("should clean up after all endpoints have failed", async () => {
       const requestContext = createRequestContext();
       // Fail all locations manually
-      await globalPartitionEndpointManager.tryMarkEndpointUnavailableForPartitionKeyRange(
+      await globalPartitionEndpointManager.checkRequestEligibilityAndTryMarkEndpointUnavailableForPartitionKeyRange(
         requestContext,
       ); // Moves to region2
       requestContext.endpoint = mockReadEndpoints[1];
-      await globalPartitionEndpointManager.tryMarkEndpointUnavailableForPartitionKeyRange(
+      await globalPartitionEndpointManager.checkRequestEligibilityAndTryMarkEndpointUnavailableForPartitionKeyRange(
         requestContext,
       ); // Moves to region3
       requestContext.endpoint = mockReadEndpoints[2];
       const result =
-        await globalPartitionEndpointManager.tryMarkEndpointUnavailableForPartitionKeyRange(
+        await globalPartitionEndpointManager.checkRequestEligibilityAndTryMarkEndpointUnavailableForPartitionKeyRange(
           requestContext,
         ); // No more locations
       assert.equal(result, false);
@@ -178,15 +179,19 @@ describe("GlobalPartitionEndpointManager", () => {
       // Should no longer override since failover info is deleted
       const override =
         await globalPartitionEndpointManager.tryAddPartitionLevelLocationOverride(requestContext);
-      assert.equal(override, false);
+      assert.equal(override.overridden, false);
     });
 
     it("handles multiple partitionKeyRangeIds independently", async () => {
       const ctx1 = createRequestContext({ partitionKeyRangeId: "range1" });
       const ctx2 = createRequestContext({ partitionKeyRangeId: "range2" });
 
-      await globalPartitionEndpointManager.tryMarkEndpointUnavailableForPartitionKeyRange(ctx1);
-      await globalPartitionEndpointManager.tryMarkEndpointUnavailableForPartitionKeyRange(ctx2);
+      await globalPartitionEndpointManager.checkRequestEligibilityAndTryMarkEndpointUnavailableForPartitionKeyRange(
+        ctx1,
+      );
+      await globalPartitionEndpointManager.checkRequestEligibilityAndTryMarkEndpointUnavailableForPartitionKeyRange(
+        ctx2,
+      );
 
       const override1 =
         await globalPartitionEndpointManager.tryAddPartitionLevelLocationOverride(ctx1);
@@ -217,21 +222,21 @@ describe("GlobalPartitionEndpointManager", () => {
     it("should return false if request context is missing", async () => {
       const result =
         await globalPartitionEndpointManager.tryAddPartitionLevelLocationOverride(undefined);
-      assert.equal(result, false);
+      assert.equal(result.overridden, false);
     });
 
     it("should return false for read requests", async () => {
       const result = await globalPartitionEndpointManager.tryAddPartitionLevelLocationOverride(
         createRequestContext({ operationType: OperationType.Read }),
       );
-      assert.equal(result, false);
+      assert.equal(result.overridden, false);
     });
 
     it("should return false if partitionKeyRangeId is missing", async () => {
       const result = await globalPartitionEndpointManager.tryAddPartitionLevelLocationOverride(
         createRequestContext({ partitionKeyRangeId: undefined }),
       );
-      assert.equal(result, false);
+      assert.equal(result.overridden, false);
     });
 
     it("should return false if no override present", async () => {
@@ -239,12 +244,12 @@ describe("GlobalPartitionEndpointManager", () => {
         await globalPartitionEndpointManager.tryAddPartitionLevelLocationOverride(
           createRequestContext(),
         );
-      assert.equal(result, false);
+      assert.equal(result.overridden, false);
     });
 
     it("should return override if failover occurred", async () => {
       const requestContext = createRequestContext();
-      await globalPartitionEndpointManager.tryMarkEndpointUnavailableForPartitionKeyRange(
+      await globalPartitionEndpointManager.checkRequestEligibilityAndTryMarkEndpointUnavailableForPartitionKeyRange(
         requestContext,
       );
 

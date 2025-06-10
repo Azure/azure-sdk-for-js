@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 import { describe, it, beforeEach, assert } from "vitest";
-import { PartitionKeyRangeFailoverInfo } from "../../../src/globalPartitionEndpointManager.js";
+import { PartitionKeyRangeFailoverInfo } from "../../../src/PartitionKeyRangeFailoverInfo.js";
 
 describe("PartitionKeyRangeFailoverInfo", () => {
   const initialEndpoint = "https://region1.documents.azure.com";
@@ -65,7 +65,7 @@ describe("PartitionKeyRangeFailoverInfo", () => {
       "https://region3.documents.azure.com",
     ];
 
-    const result = await failoverInfo.TryMoveNextLocation(nextEndpoints, initialEndpoint);
+    const result = await failoverInfo.tryMoveNextLocation(nextEndpoints, initialEndpoint);
     assert.isTrue(result);
     assert.equal(failoverInfo.currentEndPoint, "https://region2.documents.azure.com");
   });
@@ -73,8 +73,8 @@ describe("PartitionKeyRangeFailoverInfo", () => {
   it("TryMoveNextLocation should skip already failed endpoints", async () => {
     const nextEndpoints = [initialEndpoint, "https://region2.documents.azure.com"];
 
-    await failoverInfo.TryMoveNextLocation(nextEndpoints, initialEndpoint);
-    const result = await failoverInfo.TryMoveNextLocation(
+    await failoverInfo.tryMoveNextLocation(nextEndpoints, initialEndpoint);
+    const result = await failoverInfo.tryMoveNextLocation(
       nextEndpoints,
       "https://region2.documents.azure.com",
     );
@@ -82,7 +82,7 @@ describe("PartitionKeyRangeFailoverInfo", () => {
   });
 
   it("TryMoveNextLocation returns true if failedEndPoint is not current", async () => {
-    const result = await failoverInfo.TryMoveNextLocation(
+    const result = await failoverInfo.tryMoveNextLocation(
       ["https://region2.documents.azure.com"],
       "https://region2.documents.azure.com",
     );

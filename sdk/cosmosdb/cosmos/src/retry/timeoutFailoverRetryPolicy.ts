@@ -67,7 +67,6 @@ export class TimeoutFailoverRetryPolicy implements RetryPolicy {
       return false;
     }
 
-    // TODO: ujjwal check this
     // Check if the error is a timeout error (TimeoutErrorCode) and if it is not a valid HTTP network timeout request
     if (err.code === TimeoutErrorCode && !this.isValidRequestForTimeoutError()) {
       return false;

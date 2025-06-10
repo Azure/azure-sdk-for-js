@@ -71,7 +71,7 @@ export class ClientContext {
     private globalEndpointManager: GlobalEndpointManager,
     private clientConfig: ClientConfigDiagnostic,
     public diagnosticLevel: CosmosDbDiagnosticLevel,
-    private globalPartitionEndpointManager: GlobalPartitionEndpointManager,
+    private globalPartitionEndpointManager?: GlobalPartitionEndpointManager,
   ) {
     if (cosmosClientOptions.clientEncryptionOptions) {
       this.enableEncryption = true;

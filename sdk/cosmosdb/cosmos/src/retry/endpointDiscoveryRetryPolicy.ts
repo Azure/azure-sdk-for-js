@@ -56,16 +56,15 @@ export class EndpointDiscoveryRetryPolicy implements RetryPolicy {
       return false;
     }
 
+    if (!this.globalEndpointManager.enableEndpointDiscovery) {
+      return false;
+    }
     if (
       await this.globalPartitionEndpointManager.checkRequestEligibilityAndTryMarkEndpointUnavailableForPartitionKeyRange(
         requestContext,
       )
     ) {
       return true;
-    }
-
-    if (!this.globalEndpointManager.enableEndpointDiscovery) {
-      return false;
     }
     if (this.currentRetryAttemptCount >= this.maxTries) {
       return false;

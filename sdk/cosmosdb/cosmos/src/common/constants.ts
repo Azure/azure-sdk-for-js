@@ -204,8 +204,8 @@ export const Constants = {
   LocationUnavailableExpirationTimeInMs: 5 * 60 * 1000, // 5 minutes
   StalePartitionUnavailabilityRefreshIntervalInMs: 1 * 60 * 1000, // 1 minute
   AllowedPartitionUnavailabilityDurationInMs: 5 * 60 * 1000, // 5 minutes
-  ReadRequestFailureCounterThreshold: 10,
-  WriteRequestFailureCounterThreshold: 5,
+  ReadRequestFailureCountThreshold: 10,
+  WriteRequestFailureCountThreshold: 5,
   ConsecutiveFailureCountResetInterval: 1000 * 60 * 1, // 1 minute
 
   // ServiceDocument Resource

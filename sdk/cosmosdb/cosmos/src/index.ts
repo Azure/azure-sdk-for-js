@@ -161,3 +161,4 @@ export {
   CosmosEncryptedNumberType,
 } from "./encryption/index.js";
 export { GlobalPartitionEndpointManager } from "./globalPartitionEndpointManager.js";
+export { PartitionKeyRangeFailoverInfo } from "./PartitionKeyRangeFailoverInfo.js";

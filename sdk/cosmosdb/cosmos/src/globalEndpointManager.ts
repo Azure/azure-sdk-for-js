@@ -78,6 +78,9 @@ export class GlobalEndpointManager {
     return this.writeableLocations.map((loc) => loc.databaseAccountEndpoint);
   }
 
+  /**
+   * Gets the available read locations from the endpoint cache.
+   */
   public async getAvailableReadLocations(): Promise<ReadonlyArray<Location>> {
     return this.readableLocations.filter((loc) => !loc.unavailable);
   }
