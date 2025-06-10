@@ -52,7 +52,7 @@
     "url": "https://github.com/Azure/azure-sdk-for-js/issues"
   },
   "engines": {
-    "node": ">=18.0.0"
+    "node": ">=20.0.0"
   },
   "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/web-pubsub/web-pubsub/README.md",
   "sideEffects": false,
@@ -75,7 +75,7 @@
     "@azure/eslint-plugin-azure-sdk": "^3.0.0",
     "@azure/identity": "^4.7.0",
     "@types/jsonwebtoken": "^9.0.7",
-    "@types/node": "^18.0.0",
+    "@types/node": "^20.0.0",
     "@types/ws": "^8.5.13",
     "@vitest/browser": "^3.0.9",
     "@vitest/coverage-istanbul": "^3.0.9",
