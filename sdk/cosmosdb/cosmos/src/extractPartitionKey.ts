@@ -39,17 +39,28 @@ export function extractPartitionKeys(
     partitionKeyDefinition.paths &&
     partitionKeyDefinition.paths.length > 0
   ) {
-    if (partitionKeyDefinition.systemKey === true) {
-      return [];
-    }
-
     if (
       partitionKeyDefinition.paths.length === 1 &&
       partitionKeyDefinition.paths[0] === DEFAULT_PARTITION_KEY_PATH
     ) {
-      return [extractPartitionKey(DEFAULT_PARTITION_KEY_PATH, document)];
+      const defaultKey = extractPartitionKey(DEFAULT_PARTITION_KEY_PATH, document);
+      if (defaultKey === undefined) {
+        if (partitionKeyDefinition.systemKey === true) {
+          return [];
+        }
+        logger.warning("Unsupported PartitionKey found.");
+        return undefined;
+      } else if (defaultKey === NullPartitionKeyLiteral || defaultKey === NonePartitionKeyLiteral) {
+        if (partitionKeyDefinition.systemKey === true) {
+          return [];
+        }
+      }
+      return [defaultKey];
     }
 
+    if (partitionKeyDefinition.systemKey === true) {
+      return [];
+    }
     const partitionKeys: PrimitivePartitionKeyValue[] = [];
     partitionKeyDefinition.paths.forEach((path: string) => {
       const obj = extractPartitionKey(path, document);
