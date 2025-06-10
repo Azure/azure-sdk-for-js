@@ -85,11 +85,11 @@ catalogs:
       specifier: ^1.9.0
       version: 1.9.0
     '@opentelemetry/api-logs':
-      specifier: ^0.57.2
-      version: 0.57.2
+      specifier: ^0.200.0
+      version: 0.200.0
     '@opentelemetry/core':
-      specifier: ^1.30.1
-      version: 1.30.1
+      specifier: ^2.0.0
+      version: 2.0.1
     '@opentelemetry/instrumentation':
       specifier: ^0.200.0
       version: 0.200.0
@@ -13194,7 +13194,7 @@ importers:
         version: 1.9.0
       '@opentelemetry/core':
         specifier: catalog:otel
-        version: 1.30.1(@opentelemetry/api@1.9.0)
+        version: 2.0.1(@opentelemetry/api@1.9.0)
       '@opentelemetry/instrumentation':
         specifier: catalog:otel
         version: 0.200.0(@opentelemetry/api@1.9.0)
@@ -17520,10 +17520,10 @@ importers:
         version: 1.9.0
       '@opentelemetry/api-logs':
         specifier: catalog:otel
-        version: 0.57.2
+        version: 0.200.0
       '@opentelemetry/core':
         specifier: catalog:otel
-        version: 1.30.1(@opentelemetry/api@1.9.0)
+        version: 2.0.1(@opentelemetry/api@1.9.0)
       '@opentelemetry/instrumentation':
         specifier: catalog:otel
         version: 0.200.0(@opentelemetry/api@1.9.0)
@@ -17632,10 +17632,10 @@ importers:
         version: 1.9.0
       '@opentelemetry/api-logs':
         specifier: catalog:otel
-        version: 0.57.2
+        version: 0.200.0
       '@opentelemetry/core':
         specifier: catalog:otel
-        version: 1.30.1(@opentelemetry/api@1.9.0)
+        version: 2.0.1(@opentelemetry/api@1.9.0)
       '@opentelemetry/resources':
         specifier: catalog:otel
         version: 2.0.0(@opentelemetry/api@1.9.0)
@@ -17720,7 +17720,7 @@ importers:
         version: 1.9.0
       '@opentelemetry/api-logs':
         specifier: catalog:otel
-        version: 0.57.2
+        version: 0.200.0
       '@opentelemetry/sdk-logs':
         specifier: catalog:otel
         version: 0.200.0(@opentelemetry/api@1.9.0)
@@ -34837,7 +34837,7 @@ snapshots:
   '@opentelemetry/core@2.0.1(@opentelemetry/api@1.9.0)':
     dependencies:
       '@opentelemetry/api': 1.9.0
-      '@opentelemetry/semantic-conventions': 1.30.0
+      '@opentelemetry/semantic-conventions': 1.33.1
 
   '@opentelemetry/exporter-logs-otlp-grpc@0.200.0(@opentelemetry/api@1.9.0)':
     dependencies:
@@ -34983,7 +34983,7 @@ snapshots:
   '@opentelemetry/instrumentation-pg@0.52.0(@opentelemetry/api@1.9.0)':
     dependencies:
       '@opentelemetry/api': 1.9.0
-      '@opentelemetry/core': 2.0.0(@opentelemetry/api@1.9.0)
+      '@opentelemetry/core': 2.0.1(@opentelemetry/api@1.9.0)
       '@opentelemetry/instrumentation': 0.200.0(@opentelemetry/api@1.9.0)
       '@opentelemetry/semantic-conventions': 1.33.1
       '@opentelemetry/sql-common': 0.41.0(@opentelemetry/api@1.9.0)
@@ -35093,7 +35093,7 @@ snapshots:
   '@opentelemetry/resource-detector-azure@0.7.0(@opentelemetry/api@1.9.0)':
     dependencies:
       '@opentelemetry/api': 1.9.0
-      '@opentelemetry/core': 2.0.0(@opentelemetry/api@1.9.0)
+      '@opentelemetry/core': 2.0.1(@opentelemetry/api@1.9.0)
       '@opentelemetry/resources': 2.0.0(@opentelemetry/api@1.9.0)
       '@opentelemetry/semantic-conventions': 1.33.1
 
@@ -35113,7 +35113,7 @@ snapshots:
     dependencies:
       '@opentelemetry/api': 1.9.0
       '@opentelemetry/core': 2.0.1(@opentelemetry/api@1.9.0)
-      '@opentelemetry/semantic-conventions': 1.30.0
+      '@opentelemetry/semantic-conventions': 1.33.1
 
   '@opentelemetry/sdk-logs@0.200.0(@opentelemetry/api@1.9.0)':
     dependencies:
@@ -35219,7 +35219,7 @@ snapshots:
   '@opentelemetry/sql-common@0.41.0(@opentelemetry/api@1.9.0)':
     dependencies:
       '@opentelemetry/api': 1.9.0
-      '@opentelemetry/core': 2.0.0(@opentelemetry/api@1.9.0)
+      '@opentelemetry/core': 2.0.1(@opentelemetry/api@1.9.0)
 
   '@opentelemetry/winston-transport@0.11.0':
     dependencies:
