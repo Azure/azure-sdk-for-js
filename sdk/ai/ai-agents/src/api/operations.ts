@@ -423,7 +423,7 @@ async function* toAsyncIterable(stream: EventMessageStream): AsyncIterable<Agent
 
 function deserializeEventData(event: EventMessage): AgentEventStreamData {
   try {
-    const jsonData = JSON.parse(event.data);  
+    const jsonData = JSON.parse(event.data);
     if (Object.values(RunStreamEvent).includes(event.event as RunStreamEvent)) {
       return threadRunDeserializer(jsonData);
     }
