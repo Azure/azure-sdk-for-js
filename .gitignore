@@ -39,6 +39,7 @@ build/Release
 # Dependency directories
 node_modules/
 jspm_packages/
+.pnpm-store/
 
 # Optional npm cache directory
 .npm
@@ -188,6 +189,7 @@ sdk/template/template-dpg/src/src
 .tshy
 .tshy-build-tmp
 .tshy-build
+sdk/**/src/package.json
 
 # sshkey
 sdk/**/sshKey
@@ -198,3 +200,6 @@ sdk/**/sshKey.pub
 
 # typescript
 *.tsbuildinfo
+
+# turbo
+.turbo
