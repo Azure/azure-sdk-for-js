@@ -1,10 +1,6 @@
 # Release History
 
-## 1.0.0-beta.4 (2025-06-04)
-
-### Breaking Changes
-
-- API version is changed to v1, removing preview features. To use preview features, please use previous beta version.
+## 1.0.0-beta.4 (2025-06-10)
 
 ### Features Added
 
