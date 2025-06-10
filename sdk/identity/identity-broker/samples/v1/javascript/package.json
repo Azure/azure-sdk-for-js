@@ -5,7 +5,7 @@
   "main": "main.js",
   "description": "Azure Identity Brokered Auth Plugin client library samples for JavaScript (Beta)",
   "engines": {
-    "node": ">=18.0.0"
+    "node": ">=20.0.0"
   },
   "repository": {
     "type": "git",

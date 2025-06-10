@@ -30,7 +30,7 @@
   ],
   "repository": "github:Azure/azure-sdk-for-js",
   "engines": {
-    "node": ">=18.0.0"
+    "node": ">=20.0.0"
   },
   "keywords": [
     "azure",
@@ -55,7 +55,7 @@
     "@azure/eslint-plugin-azure-sdk": "^3.0.0",
     "@vitest/coverage-istanbul": "^3.0.9",
     "@vitest/expect": "^3.0.9",
-    "@types/node": "^18.0.0",
+    "@types/node": "^20.0.0",
     "dotenv": "^16.0.0",
     "eslint": "^9.9.0",
     "typescript": "~5.8.2",
