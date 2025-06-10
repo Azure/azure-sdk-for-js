@@ -5355,7 +5355,7 @@ export interface HealthcareFhirResourceDeletedEventData {
   /** Type of HL7 FHIR resource. */
   fhirResourceType: HealthcareFhirResourceType;
   /** Domain name of FHIR account for this resource. */
-  resourceFhirAccount: string;
+  fhirServiceHostName: string;
   /** Id of HL7 FHIR resource. */
   fhirResourceId: string;
   /** VersionId of HL7 FHIR resource. It changes when the resource is created, updated, or deleted(soft-deletion). */
@@ -5367,7 +5367,7 @@ export function healthcareFhirResourceDeletedEventDataDeserializer(
 ): HealthcareFhirResourceDeletedEventData {
   return {
     fhirResourceType: item["resourceType"],
-    resourceFhirAccount: item["resourceFhirAccount"],
+    fhirServiceHostName: item["resourceFhirAccount"],
     fhirResourceId: item["resourceFhirId"],
     fhirResourceVersionId: item["resourceVersionId"],
   };

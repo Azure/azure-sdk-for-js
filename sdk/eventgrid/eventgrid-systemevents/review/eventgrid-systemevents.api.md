@@ -1374,7 +1374,7 @@ export interface HealthcareFhirResourceDeletedEventData {
     fhirResourceId: string;
     fhirResourceType: HealthcareFhirResourceType;
     fhirResourceVersionId: number;
-    resourceFhirAccount: string;
+    fhirServiceHostName: string;
 }
 
 // @public
