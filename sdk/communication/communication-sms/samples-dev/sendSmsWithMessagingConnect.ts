@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 /**
- * @summary Configure Messaging Connect options when sending a message
+ * @summary Configure Messaging Connect options to send a messages via directly customer partner and credentials
  */
 
 import type { SmsSendRequest, SmsSendOptions } from "@azure/communication-sms";

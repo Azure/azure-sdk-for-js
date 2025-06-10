@@ -12,12 +12,12 @@ urlFragment: communication-sms-typescript-beta
 
 These sample programs show how to use the TypeScript client libraries for Azure Communication Services - SMS in some common scenarios.
 
-| **File Name**                                                 | **Description**                                            |
-| ------------------------------------------------------------- | ---------------------------------------------------------- |
-| [sendSms.ts][sendsms]                                         | Send an SMS message to 1 or more recipients                |
-| [sendSmsWithMessagingConnect.ts][sendsmswithmessagingconnect] | Configure Messaging Connect options when sending a message |
-| [sendSmsWithOptions.ts][sendsmswithoptions]                   | Configure SMS options when sending a message               |
-| [usingAadAuth.ts][usingaadauth]                               | Use AAD token credentials when sending a SMS message.      |
+| **File Name**                                                 | **Description**                                                                                      |
+| ------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------- |
+| [sendSms.ts][sendsms]                                         | Send an SMS message to 1 or more recipients                                                          |
+| [sendSmsWithMessagingConnect.ts][sendsmswithmessagingconnect] | Configure Messaging Connect options to send a messages via directly customer partner and credentials |
+| [sendSmsWithOptions.ts][sendsmswithoptions]                   | Configure SMS options when sending a message                                                         |
+| [usingAadAuth.ts][usingaadauth]                               | Use AAD token credentials when sending a SMS message.                                                |
 
 ## Prerequisites
 
