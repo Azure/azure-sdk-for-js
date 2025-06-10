@@ -183,7 +183,7 @@ export type ClientConfigDiagnostic = {
 
 // @public (undocumented)
 export class ClientContext {
-    constructor(cosmosClientOptions: CosmosClientOptions, globalEndpointManager: GlobalEndpointManager, clientConfig: ClientConfigDiagnostic, diagnosticLevel: CosmosDbDiagnosticLevel, globalPartitionEndpointManager: GlobalPartitionEndpointManager);
+    constructor(cosmosClientOptions: CosmosClientOptions, globalEndpointManager: GlobalEndpointManager, clientConfig: ClientConfigDiagnostic, diagnosticLevel: CosmosDbDiagnosticLevel, globalPartitionEndpointManager?: GlobalPartitionEndpointManager);
     // (undocumented)
     batch<T>({ body, path, partitionKey, resourceId, options, diagnosticNode, partitionKeyRangeId, }: {
         body: T;
@@ -629,8 +629,8 @@ export const Constants: {
     LocationUnavailableExpirationTimeInMs: number;
     StalePartitionUnavailabilityRefreshIntervalInMs: number;
     AllowedPartitionUnavailabilityDurationInMs: number;
-    ReadRequestFailureCounterThreshold: number;
-    WriteRequestFailureCounterThreshold: number;
+    ReadRequestFailureCountThreshold: number;
+    WriteRequestFailureCountThreshold: number;
     ConsecutiveFailureCountResetInterval: number;
     ENABLE_MULTIPLE_WRITABLE_LOCATIONS: string;
     DefaultUnavailableLocationExpirationTimeMS: number;
@@ -1304,7 +1304,6 @@ export class GlobalEndpointManager {
     // (undocumented)
     canUseMultipleWriteLocations(resourceType?: ResourceType, operationType?: OperationType): boolean;
     enableEndpointDiscovery: boolean;
-    // (undocumented)
     getAvailableReadLocations(): Promise<ReadonlyArray<Location_2>>;
     getReadEndpoint(diagnosticNode: DiagnosticNodeInternal): Promise<string>;
     // (undocumented)
@@ -1740,6 +1739,25 @@ export interface PartitionKeyRange {
     status: string;
     // (undocumented)
     throughputFraction: number;
+}
+
+// @public
+export class PartitionKeyRangeFailoverInfo {
+    CanCircuitBreakerTriggerPartitionFailOver(isReadOnlyRequest: boolean): Promise<boolean>;
+    // (undocumented)
+    currentEndPoint: string;
+    // (undocumented)
+    firstFailedEndPoint: string;
+    incrementRequestFailureCounts(isReadOnlyRequest: boolean, currentTimeInMiliseconds: number): Promise<void>;
+    snapshotConsecutiveRequestFailureCount(): Promise<{
+        consecutiveReadRequestFailureCount: number;
+        consecutiveWriteRequestFailureCount: number;
+    }>;
+    snapshotPartitionFailoverTimestamps(): Promise<{
+        firstRequestFailureTime: number;
+        lastRequestFailureTime: number;
+    }>;
+    tryMoveNextLocation(endPoints: readonly string[], failedEndPoint: string): Promise<boolean>;
 }
 
 // @public (undocumented)
