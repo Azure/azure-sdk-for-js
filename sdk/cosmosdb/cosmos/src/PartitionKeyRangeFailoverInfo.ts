@@ -52,7 +52,7 @@ export class PartitionKeyRangeFailoverInfo {
    */
   public async incrementRequestFailureCounts(
     isReadOnlyRequest: boolean,
-    currentTimeInMiliseconds: number,
+    currentTimeInMilliseconds: number,
   ): Promise<void> {
     return new Promise<void>((resolve, reject) => {
       this.failureCountSemaphore.take(async () => {
@@ -60,7 +60,7 @@ export class PartitionKeyRangeFailoverInfo {
           const { lastRequestFailureTime } = await this.snapshotPartitionFailoverTimestamps();
 
           if (
-            currentTimeInMiliseconds - lastRequestFailureTime >
+            currentTimeInMilliseconds - lastRequestFailureTime >
             Constants.ConsecutiveFailureCountResetInterval
           ) {
             this.consecutiveReadRequestFailureCount = 0;
@@ -72,7 +72,7 @@ export class PartitionKeyRangeFailoverInfo {
           } else {
             this.consecutiveWriteRequestFailureCount++;
           }
-          this.lastRequestFailureTime = currentTimeInMiliseconds;
+          this.lastRequestFailureTime = currentTimeInMilliseconds;
           return resolve();
         } catch (error) {
           reject(error);

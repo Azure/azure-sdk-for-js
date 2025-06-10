@@ -193,10 +193,10 @@ export class GlobalPartitionEndpointManager {
       return false;
     }
 
-    const currentTimeInMiliseconds = Date.now();
+    const currentTimeInMilliseconds = Date.now();
     await partitionKeyRangeFailoverInfo.incrementRequestFailureCounts(
       isReadRequest(requestContext.operationType),
-      currentTimeInMiliseconds,
+      currentTimeInMilliseconds,
     );
 
     return partitionKeyRangeFailoverInfo.CanCircuitBreakerTriggerPartitionFailOver(

@@ -1748,7 +1748,7 @@ export class PartitionKeyRangeFailoverInfo {
     currentEndPoint: string;
     // (undocumented)
     firstFailedEndPoint: string;
-    incrementRequestFailureCounts(isReadOnlyRequest: boolean, currentTimeInMiliseconds: number): Promise<void>;
+    incrementRequestFailureCounts(isReadOnlyRequest: boolean, currentTimeInMilliseconds: number): Promise<void>;
     snapshotConsecutiveRequestFailureCount(): Promise<{
         consecutiveReadRequestFailureCount: number;
         consecutiveWriteRequestFailureCount: number;
