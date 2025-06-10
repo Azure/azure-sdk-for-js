@@ -6,7 +6,7 @@ The Network Cloud APIs provide management of the Azure Operator Nexus compute re
 
 [Source code](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/networkcloud/arm-networkcloud) |
 [Package (NPM)](https://www.npmjs.com/package/@azure/arm-networkcloud) |
-[API reference documentation](https://learn.microsoft.com/javascript/api/@azure/arm-networkcloud?view=azure-node-preview) |
+[API reference documentation](https://learn.microsoft.com/javascript/api/@azure/arm-networkcloud) |
 [Samples](https://github.com/Azure-Samples/azure-samples-js-management)
 
 ## Getting started
@@ -63,11 +63,11 @@ For browser environments, use the `InteractiveBrowserCredential` from the `@azur
 import { InteractiveBrowserCredential } from "@azure/identity";
 import { NetworkCloud } from "@azure/arm-networkcloud";
 
-const subscriptionId = "00000000-0000-0000-0000-000000000000";
 const credential = new InteractiveBrowserCredential({
   tenantId: "<YOUR_TENANT_ID>",
   clientId: "<YOUR_CLIENT_ID>",
-});
+ });
+const subscriptionId = "00000000-0000-0000-0000-000000000000";
 const client = new NetworkCloud(credential, subscriptionId);
 ```
 
