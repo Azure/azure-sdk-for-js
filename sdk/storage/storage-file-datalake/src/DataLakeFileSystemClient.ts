@@ -186,7 +186,7 @@ export class DataLakeFileSystemClient extends StorageClient {
    * Creates a new file system under the specified account. If the file system with
    * the same name already exists, the operation fails.
    *
-   * @see https://learn.microsoft.com/en-us/rest/api/storageservices/create-container
+   * @see https://learn.microsoft.com/rest/api/storageservices/create-container
    *
    * @param options - Optional. Options when creating file system.
    */
@@ -209,7 +209,7 @@ export class DataLakeFileSystemClient extends StorageClient {
    * Creates a new file system under the specified account. If the file system with
    * the same name already exists, it is not changed.
    *
-   * @see https://learn.microsoft.com/en-us/rest/api/storageservices/create-container
+   * @see https://learn.microsoft.com/rest/api/storageservices/create-container
    *
    * @param options -
    */
@@ -252,7 +252,7 @@ export class DataLakeFileSystemClient extends StorageClient {
   /**
    * Delete current file system.
    *
-   * @see https://learn.microsoft.com/en-us/rest/api/storageservices/delete-container
+   * @see https://learn.microsoft.com/rest/api/storageservices/delete-container
    *
    * @param options - Optional. Options when deleting file system.
    */
@@ -272,7 +272,7 @@ export class DataLakeFileSystemClient extends StorageClient {
   /**
    * Delete current file system if it exists.
    *
-   * @see https://learn.microsoft.com/en-us/rest/api/storageservices/delete-container
+   * @see https://learn.microsoft.com/rest/api/storageservices/delete-container
    *
    * @param options -
    */
@@ -297,7 +297,7 @@ export class DataLakeFileSystemClient extends StorageClient {
    * the `listFileSystems` method of {@link DataLakeServiceClient} using the `includeMetadata` option, which
    * will retain their original casing.
    *
-   * @see https://learn.microsoft.com/en-us/rest/api/storageservices/get-container-properties
+   * @see https://learn.microsoft.com/rest/api/storageservices/get-container-properties
    *
    * @param options - Optional. Options when getting file system properties.
    */
@@ -333,7 +333,7 @@ export class DataLakeFileSystemClient extends StorageClient {
    * If no option provided, or no metadata defined in the parameter, the file system
    * metadata will be removed.
    *
-   * @see https://learn.microsoft.com/en-us/rest/api/storageservices/set-container-metadata
+   * @see https://learn.microsoft.com/rest/api/storageservices/set-container-metadata
    *
    * @param metadata - Replace existing metadata with this value.
    *                              If no value provided the existing metadata will be removed.
@@ -362,7 +362,7 @@ export class DataLakeFileSystemClient extends StorageClient {
    * WARNING: JavaScript Date will potentially lose precision when parsing startsOn and expiresOn strings.
    * For example, new Date("2018-12-31T03:44:23.8827891Z").toISOString() will get "2018-12-31T03:44:23.882Z".
    *
-   * @see https://learn.microsoft.com/en-us/rest/api/storageservices/get-container-acl
+   * @see https://learn.microsoft.com/rest/api/storageservices/get-container-acl
    *
    * @param options - Optional. Options when getting file system access policy.
    */
@@ -400,7 +400,7 @@ export class DataLakeFileSystemClient extends StorageClient {
    * If no access or containerAcl provided, the existing file system ACL will be
    * removed.
    *
-   * @see https://learn.microsoft.com/en-us/rest/api/storageservices/set-container-acl
+   * @see https://learn.microsoft.com/rest/api/storageservices/set-container-acl
    *
    * @param access - Optional. The level of public access to data in the file system.
    * @param fileSystemAcl - Optional. Array of elements each having a unique Id and details of the access policy.
@@ -816,7 +816,7 @@ export class DataLakeFileSystemClient extends StorageClient {
   /**
    * Restores a soft deleted path.
    *
-   * @see https://learn.microsoft.com/en-us/rest/api/storageservices/undelete-blob
+   * @see https://learn.microsoft.com/rest/api/storageservices/undelete-blob
    *
    * @param deletedPath - Required.  The path of the deleted path.
    *
@@ -867,7 +867,7 @@ export class DataLakeFileSystemClient extends StorageClient {
    * Generates a Service Shared Access Signature (SAS) URI based on the client properties
    * and parameters passed in. The SAS is signed by the shared key credential of the client.
    *
-   * @see https://learn.microsoft.com/en-us/rest/api/storageservices/constructing-a-service-sas
+   * @see https://learn.microsoft.com/rest/api/storageservices/constructing-a-service-sas
    *
    * @param options - Optional parameters.
    * @returns The SAS URI consisting of the URI to the resource represented by this client, followed by the generated SAS token.
@@ -898,7 +898,7 @@ export class DataLakeFileSystemClient extends StorageClient {
    * Generates string to sign for a Service Shared Access Signature (SAS) URI based on the client properties
    * and parameters passed in. The SAS is signed by the shared key credential of the client.
    *
-   * @see https://learn.microsoft.com/en-us/rest/api/storageservices/constructing-a-service-sas
+   * @see https://learn.microsoft.com/rest/api/storageservices/constructing-a-service-sas
    *
    * @param options - Optional parameters.
    * @returns The SAS URI consisting of the URI to the resource represented by this client, followed by the generated SAS token.
@@ -924,7 +924,7 @@ export class DataLakeFileSystemClient extends StorageClient {
    * Generates a Service Shared Access Signature (SAS) URI based on the client properties
    * and parameters passed in. The SAS is signed by the input user delegation key.
    *
-   * @see https://learn.microsoft.com/en-us/rest/api/storageservices/constructing-a-service-sas
+   * @see https://learn.microsoft.com/rest/api/storageservices/constructing-a-service-sas
    *
    * @param options - Optional parameters.
    * @param userDelegationKey - Return value of `blobServiceClient.getUserDelegationKey()`
@@ -952,7 +952,7 @@ export class DataLakeFileSystemClient extends StorageClient {
    * Generates string to sign for a Service Shared Access Signature (SAS) URI based on the client properties
    * and parameters passed in. The SAS is signed by the input user delegation key.
    *
-   * @see https://learn.microsoft.com/en-us/rest/api/storageservices/constructing-a-service-sas
+   * @see https://learn.microsoft.com/rest/api/storageservices/constructing-a-service-sas
    *
    * @param options - Optional parameters.
    * @param userDelegationKey - Return value of `blobServiceClient.getUserDelegationKey()`
