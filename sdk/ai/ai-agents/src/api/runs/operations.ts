@@ -144,7 +144,7 @@ export function submitToolOutputsToRun(
       return executeSubmitToolOutputsToRun().then(onFulfilled, onRejected).catch(onRejected);
     },
     async stream(): Promise<AgentEventMessageStream> {
-      return submitToolOutputsToRunStreaming(context, threadId, runId, options);
+      return submitToolOutputsToRunStreaming(context, threadId, runId, toolOutputs, options);
     },
   };
 }

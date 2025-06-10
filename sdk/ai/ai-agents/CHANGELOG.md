@@ -9,6 +9,7 @@
 ### Bugs Fixed
 
 - Fixed an issue with streaming serialization
+- Fixed an issue with streaming using the `.submitToolOutputs` method.
 - Fixed an issue with codeInterpreterWithStreaming sample inconsistently writing file to disk
 
 ## 1.0.0-beta.3 (2025-05-20)
