@@ -94,12 +94,16 @@ export interface AnswerFailed {
 }
 
 // @public
-export interface AudioData {
+interface AudioData_2 {
     data: string;
     isSilent?: boolean;
     participant?: CommunicationIdentifier | undefined;
     timestamp?: Date;
 }
+export { AudioData_2 as AudioData }
+
+// @public
+export type AudioFormat = string;
 
 // @public
 export interface AudioMetadata {
@@ -960,7 +964,7 @@ export interface MuteParticipantResult {
 // @public (undocumented)
 export class OutStreamingData {
     constructor(kind: MediaKind);
-    audioData?: AudioData;
+    audioData?: AudioData_2;
     static getStopAudioForOutbound(): string;
     static getStreamingDataForOutbound(data: string): string;
     kind: MediaKind;
@@ -1139,7 +1143,7 @@ export type RecordingContent = "audio" | "audioVideo";
 export type RecordingFormat = "mp3" | "mp4" | "wav";
 
 // @public
-export type RecordingKind = "azureCommunicationServices" | "teams" | "teamsCompliance";
+export type RecordingKind = string;
 
 // @public
 export interface RecordingResult {
@@ -1425,7 +1429,45 @@ export enum StreamingDataKind {
 }
 
 // @public (undocumented)
-export type StreamingDataResult = TranscriptionMetadata | TranscriptionData | AudioData | AudioMetadata;
+export type StreamingDataResult = TranscriptionMetadata | TranscriptionData | AudioData_2 | AudioMetadata;
+
+// @public
+export interface TeamsPhoneCallDetails {
+    callContext?: string;
+    callSentiment?: string;
+    callTopic?: string;
+    intent?: string;
+    // (undocumented)
+    kind: "teamsPhoneCallDetails";
+    sessionId?: string;
+    suggestedActions?: string;
+    teamsPhoneCallerDetails?: TeamsPhoneCallerDetails;
+    teamsPhoneSourceDetails?: TeamsPhoneSourceDetails;
+    transcriptUrl?: string;
+}
+
+// @public
+export interface TeamsPhoneCallerDetails {
+    additionalCallerInformation?: {
+        [propertyName: string]: string;
+    };
+    caller: CommunicationIdentifier;
+    isAuthenticated?: boolean;
+    name: string;
+    phoneNumber: string;
+    recordId?: string;
+    screenPopUrl?: string;
+}
+
+// @public
+export interface TeamsPhoneSourceDetails {
+    intendedTargets?: {
+        [propertyName: string]: CommunicationIdentifier;
+    };
+    language: string;
+    source: CommunicationIdentifier;
+    status: string;
+}
 
 // @public
 export enum TextFormat {
