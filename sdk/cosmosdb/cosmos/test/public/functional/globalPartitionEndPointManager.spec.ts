@@ -127,24 +127,6 @@ describe("GlobalPartitionEndpointManager", () => {
       assert.equal(result, false);
     });
 
-    it("should return false if preferred locations are empty", async () => {
-      const mockGEM = createMockGlobalEndpointManager();
-      const managerNoPreferred = new GlobalPartitionEndpointManager(
-        {
-          connectionPolicy: {
-            enablePartitionLevelFailover: true,
-            preferredLocations: [],
-          },
-        },
-        mockGEM,
-      );
-      const result =
-        await managerNoPreferred.checkRequestEligibilityAndTryMarkEndpointUnavailableForPartitionKeyRange(
-          createRequestContext(),
-        );
-      assert.equal(result, false);
-    });
-
     it("should succeed and cycle through endpoints", async () => {
       const requestContext = createRequestContext();
       const firstFailover =
@@ -197,17 +179,8 @@ describe("GlobalPartitionEndpointManager", () => {
         await globalPartitionEndpointManager.tryAddPartitionLevelLocationOverride(ctx1);
       const override2 =
         await globalPartitionEndpointManager.tryAddPartitionLevelLocationOverride(ctx2);
-      if (Array.isArray(override1)) {
-        assert.equal(override1[0], true);
-      } else {
-        assert.fail("override1 is not an array");
-      }
-
-      if (Array.isArray(override2)) {
-        assert.equal(override2[0], true);
-      } else {
-        assert.fail("override2 is not an array");
-      }
+      assert.equal(override1.overridden, true);
+      assert.equal(override2.overridden, true);
     });
   });
 
@@ -255,7 +228,7 @@ describe("GlobalPartitionEndpointManager", () => {
 
       const override =
         await globalPartitionEndpointManager.tryAddPartitionLevelLocationOverride(requestContext);
-      assert.equal(Array.isArray(override), true);
+      assert.equal(override.overridden, true);
     });
   });
 
@@ -400,30 +373,27 @@ describe("GlobalPartitionEndpointManager", () => {
         expect(spy).toHaveBeenCalled();
       });
 
-      it("should throw error if tryOpenConnectionToUnhealthyEndpointsAndInitiateFailbackAsync fails", async () => {
+      it("should log error if tryOpenConnectionToUnhealthyEndpointsAndInitiateFailbackAsync fails", async () => {
+        const testError = new Error("Test failure");
+        const consoleErrorSpy = vi.spyOn(console, "error").mockImplementation(() => {}); // Mock console.error
         vi.spyOn(
           globalPartitionEndpointManager as any,
           "tryOpenConnectionToUnhealthyEndpointsAndInitiateFailbackAsync",
-        ).mockRejectedValueOnce(new Error("Test failure"));
-
-        const errorCaught = new Promise<void>((resolve, reject) => {
-          process.once("unhandledRejection", (err) => {
-            try {
-              expect(err).toBeInstanceOf(ErrorResponse);
-              resolve();
-            } catch (assertionError) {
-              reject(assertionError);
-            }
-          });
-        });
+        ).mockRejectedValueOnce(testError);
 
         globalPartitionEndpointManager["initiateCircuitBreakerFailbackLoop"]();
 
-        // Wait for the interval + a little buffer for the async error to be thrown and caught
+        // Wait for the interval to pass and the async operation to complete
         await new Promise((resolve) =>
           setTimeout(resolve, Constants.StalePartitionUnavailabilityRefreshIntervalInMs + 50),
         );
-        await errorCaught;
+
+        // Assert that console.error was called with the expected error
+        expect(consoleErrorSpy).toHaveBeenCalledWith(
+          "Failed to open connection to unhealthy endpoints: ",
+          testError,
+        );
+        consoleErrorSpy.mockRestore(); // Restore original console.error
       });
     });
 

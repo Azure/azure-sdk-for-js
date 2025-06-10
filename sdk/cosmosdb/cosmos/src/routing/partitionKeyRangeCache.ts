@@ -11,7 +11,7 @@ import type { InMemoryCollectionRoutingMap } from "./inMemoryCollectionRoutingMa
 import type { QueryRange } from "./QueryRange.js";
 import type { PartitionKeyDefinition } from "../documents/PartitionKeyDefinition.js";
 import type { PartitionKeyInternal } from "../documents/PartitionKeyInternal.js";
-import { isKeyInRange } from "../utils/batch.js";
+import { binarySearchOnPartitionKeyRanges } from "../utils/batch.js";
 import { hashPartitionKey } from "../utils/hashing/hash.js";
 
 /** @hidden */
@@ -83,24 +83,15 @@ export class PartitionKeyRangeCache {
     partitionKeyDefinition: PartitionKeyDefinition,
     diagnosticNode: DiagnosticNodeInternal,
   ): Promise<string | undefined> {
-    let partitionKeyRangeId: string;
     const hashedPartitionKey = hashPartitionKey(partitionKey, partitionKeyDefinition);
     const partitionKeyRanges = (
       await this.onCollectionRoutingMap(collectionLink, diagnosticNode)
     ).getOrderedParitionKeyRanges();
 
-    for (const partitionKeyRange of partitionKeyRanges) {
-      if (
-        isKeyInRange(
-          partitionKeyRange.minInclusive,
-          partitionKeyRange.maxExclusive,
-          hashedPartitionKey,
-        )
-      ) {
-        partitionKeyRangeId = partitionKeyRange.id;
-        break;
-      }
-    }
+    const partitionKeyRangeId = binarySearchOnPartitionKeyRanges(
+      partitionKeyRanges,
+      hashedPartitionKey,
+    );
     return partitionKeyRangeId;
   }
 }

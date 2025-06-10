@@ -2093,7 +2093,6 @@ export interface RequestContext {
     endpoint?: string;
     // (undocumented)
     globalEndpointManager: GlobalEndpointManager;
-    // (undocumented)
     globalPartitionEndpointManager?: GlobalPartitionEndpointManager;
     // (undocumented)
     headers?: CosmosHeaders_2;

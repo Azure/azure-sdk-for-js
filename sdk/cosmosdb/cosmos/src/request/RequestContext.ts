@@ -35,5 +35,8 @@ export interface RequestContext {
   partitionKey?: PartitionKey;
   pipeline?: Pipeline;
   httpClient?: HttpClient;
+  /**
+   * Global partition endpoint manager instance.
+   */
   globalPartitionEndpointManager?: GlobalPartitionEndpointManager;
 }
