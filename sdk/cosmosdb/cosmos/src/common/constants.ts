@@ -542,9 +542,7 @@ export enum SDKSupportedCapabilities {
 /**
  * @hidden
  */
-export enum HealthStatus {
-  Connected = 100,
-  Unknown = 200,
-  UnhealthyPending = 300,
-  Unhealthy = 400,
+export enum PartitionAvailablilityStatus {
+  Available,
+  Unavailable,
 }

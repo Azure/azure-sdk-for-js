@@ -35,7 +35,7 @@ export class PartitionKeyRangeFailoverInfo {
    * Checks if the circuit breaker can trigger a partition failover based on the failure counts.
    * Returns true if the number of consecutive failures exceeds the defined thresholds for read or write requests.
    */
-  public async CanCircuitBreakerTriggerPartitionFailOver(
+  public async canCircuitBreakerTriggerPartitionFailOver(
     isReadOnlyRequest: boolean,
   ): Promise<boolean> {
     const { consecutiveReadRequestFailureCount, consecutiveWriteRequestFailureCount } =

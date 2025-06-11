@@ -31,7 +31,7 @@ describe("PartitionKeyRangeFailoverInfo", () => {
       await failoverInfo.incrementRequestFailureCounts(true, Date.now());
     }
 
-    const canTrigger = await failoverInfo.CanCircuitBreakerTriggerPartitionFailOver(true);
+    const canTrigger = await failoverInfo.canCircuitBreakerTriggerPartitionFailOver(true);
     assert.isTrue(canTrigger);
   });
 
@@ -40,7 +40,7 @@ describe("PartitionKeyRangeFailoverInfo", () => {
       await failoverInfo.incrementRequestFailureCounts(false, Date.now());
     }
 
-    const canTrigger = await failoverInfo.CanCircuitBreakerTriggerPartitionFailOver(false);
+    const canTrigger = await failoverInfo.canCircuitBreakerTriggerPartitionFailOver(false);
     assert.isTrue(canTrigger);
   });
 

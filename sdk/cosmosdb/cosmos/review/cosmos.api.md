@@ -183,6 +183,7 @@ export type ClientConfigDiagnostic = {
 
 // @public (undocumented)
 export class ClientContext {
+    // Warning: (ae-forgotten-export) The symbol "GlobalPartitionEndpointManager" needs to be exported by the entry point index.d.ts
     constructor(cosmosClientOptions: CosmosClientOptions, globalEndpointManager: GlobalEndpointManager, clientConfig: ClientConfigDiagnostic, diagnosticLevel: CosmosDbDiagnosticLevel, globalPartitionEndpointManager?: GlobalPartitionEndpointManager);
     // (undocumented)
     batch<T>({ body, path, partitionKey, resourceId, options, diagnosticNode, partitionKeyRangeId, }: {
@@ -1322,19 +1323,6 @@ export class GlobalEndpointManager {
     resolveServiceEndpoint(diagnosticNode: DiagnosticNodeInternal, resourceType: ResourceType, operationType: OperationType, startServiceEndpointIndex?: number): Promise<string>;
 }
 
-// @public
-export class GlobalPartitionEndpointManager {
-    checkRequestEligibilityAndTryMarkEndpointUnavailableForPartitionKeyRange(requestContext: RequestContext): Promise<boolean>;
-    // (undocumented)
-    circuitBreakerFailbackBackgroundRefresher: NodeJS.Timeout;
-    // (undocumented)
-    preferredLocationsCount: number;
-    tryAddPartitionLevelLocationOverride(requestContext: RequestContext): Promise<{
-        overridden: boolean;
-        newLocation?: string;
-    }>;
-}
-
 // @public (undocumented)
 export interface GroupByAliasToAggregateType {
     // (undocumented)
@@ -1739,25 +1727,6 @@ export interface PartitionKeyRange {
     status: string;
     // (undocumented)
     throughputFraction: number;
-}
-
-// @public
-export class PartitionKeyRangeFailoverInfo {
-    CanCircuitBreakerTriggerPartitionFailOver(isReadOnlyRequest: boolean): Promise<boolean>;
-    // (undocumented)
-    currentEndPoint: string;
-    // (undocumented)
-    firstFailedEndPoint: string;
-    incrementRequestFailureCounts(isReadOnlyRequest: boolean, currentTimeInMilliseconds: number): Promise<void>;
-    snapshotConsecutiveRequestFailureCount(): Promise<{
-        consecutiveReadRequestFailureCount: number;
-        consecutiveWriteRequestFailureCount: number;
-    }>;
-    snapshotPartitionFailoverTimestamps(): Promise<{
-        firstRequestFailureTime: number;
-        lastRequestFailureTime: number;
-    }>;
-    tryMoveNextLocation(endPoints: readonly string[], failedEndPoint: string): Promise<boolean>;
 }
 
 // @public (undocumented)

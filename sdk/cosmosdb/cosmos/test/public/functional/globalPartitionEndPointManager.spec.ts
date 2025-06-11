@@ -4,14 +4,12 @@
 import { describe, it, assert, beforeEach, afterEach, vi, expect } from "vitest";
 import { GlobalPartitionEndpointManager } from "../../../src/globalPartitionEndpointManager.js";
 import type { GlobalEndpointManager } from "../../../src/globalEndpointManager.js";
-import { HealthStatus, OperationType, ResourceType } from "../../../src/common/index.js";
 import {
-  Constants,
-  ErrorResponse,
-  HTTPMethod,
-  PartitionKeyRangeFailoverInfo,
-  RequestContext,
-} from "../../../src/index.js";
+  PartitionAvailablilityStatus,
+  OperationType,
+  ResourceType,
+} from "../../../src/common/index.js";
+import { Constants, ErrorResponse, HTTPMethod, RequestContext } from "../../../src/index.js";
 import { mock } from "node:test";
 
 const mockReadEndpoints = [
@@ -19,6 +17,7 @@ const mockReadEndpoints = [
   "https://region2.documents.azure.com:443/",
   "https://region3.documents.azure.com:443/",
 ];
+import { PartitionKeyRangeFailoverInfo } from "../../../src/PartitionKeyRangeFailoverInfo.js";
 
 function createMockGlobalEndpointManager(): GlobalEndpointManager {
   return {
@@ -78,34 +77,30 @@ describe("GlobalPartitionEndpointManager", () => {
     });
 
     it("should return false if request context is undefined", async () => {
-      const result =
-        await globalPartitionEndpointManager.checkRequestEligibilityAndTryMarkEndpointUnavailableForPartitionKeyRange(
-          undefined as any,
-        );
+      const result = await globalPartitionEndpointManager.tryPartitionLevelFailover(
+        undefined as any,
+      );
       assert.equal(result, false);
     });
 
     it("should return false if partitionKeyRangeId is missing", async () => {
-      const result =
-        await globalPartitionEndpointManager.checkRequestEligibilityAndTryMarkEndpointUnavailableForPartitionKeyRange(
-          createRequestContext({ partitionKeyRangeId: undefined }),
-        );
+      const result = await globalPartitionEndpointManager.tryPartitionLevelFailover(
+        createRequestContext({ partitionKeyRangeId: undefined }),
+      );
       assert.equal(result, false);
     });
 
     it("should return false if endpoint is missing", async () => {
-      const result =
-        await globalPartitionEndpointManager.checkRequestEligibilityAndTryMarkEndpointUnavailableForPartitionKeyRange(
-          createRequestContext({ endpoint: undefined }),
-        );
+      const result = await globalPartitionEndpointManager.tryPartitionLevelFailover(
+        createRequestContext({ endpoint: undefined }),
+      );
       assert.equal(result, false);
     });
 
     it("should return false if failed endpoint is missing", async () => {
-      const result =
-        await globalPartitionEndpointManager.checkRequestEligibilityAndTryMarkEndpointUnavailableForPartitionKeyRange(
-          createRequestContext({ endpoint: undefined }),
-        );
+      const result = await globalPartitionEndpointManager.tryPartitionLevelFailover(
+        createRequestContext({ endpoint: undefined }),
+      );
       assert.equal(result, false);
     });
 
@@ -120,19 +115,14 @@ describe("GlobalPartitionEndpointManager", () => {
         },
         mockGEM,
       );
-      const result =
-        await managerNoPreferred.checkRequestEligibilityAndTryMarkEndpointUnavailableForPartitionKeyRange(
-          createRequestContext(),
-        );
+      const result = await managerNoPreferred.tryPartitionLevelFailover(createRequestContext());
       assert.equal(result, false);
     });
 
     it("should succeed and cycle through endpoints", async () => {
       const requestContext = createRequestContext();
       const firstFailover =
-        await globalPartitionEndpointManager.checkRequestEligibilityAndTryMarkEndpointUnavailableForPartitionKeyRange(
-          requestContext,
-        );
+        await globalPartitionEndpointManager.tryPartitionLevelFailover(requestContext);
       assert.equal(firstFailover, true);
 
       const result =
@@ -144,18 +134,11 @@ describe("GlobalPartitionEndpointManager", () => {
     it("should clean up after all endpoints have failed", async () => {
       const requestContext = createRequestContext();
       // Fail all locations manually
-      await globalPartitionEndpointManager.checkRequestEligibilityAndTryMarkEndpointUnavailableForPartitionKeyRange(
-        requestContext,
-      ); // Moves to region2
+      await globalPartitionEndpointManager.tryPartitionLevelFailover(requestContext); // Moves to region2
       requestContext.endpoint = mockReadEndpoints[1];
-      await globalPartitionEndpointManager.checkRequestEligibilityAndTryMarkEndpointUnavailableForPartitionKeyRange(
-        requestContext,
-      ); // Moves to region3
+      await globalPartitionEndpointManager.tryPartitionLevelFailover(requestContext); // Moves to region3
       requestContext.endpoint = mockReadEndpoints[2];
-      const result =
-        await globalPartitionEndpointManager.checkRequestEligibilityAndTryMarkEndpointUnavailableForPartitionKeyRange(
-          requestContext,
-        ); // No more locations
+      const result = await globalPartitionEndpointManager.tryPartitionLevelFailover(requestContext); // No more locations
       assert.equal(result, false);
 
       // Should no longer override since failover info is deleted
@@ -168,12 +151,8 @@ describe("GlobalPartitionEndpointManager", () => {
       const ctx1 = createRequestContext({ partitionKeyRangeId: "range1" });
       const ctx2 = createRequestContext({ partitionKeyRangeId: "range2" });
 
-      await globalPartitionEndpointManager.checkRequestEligibilityAndTryMarkEndpointUnavailableForPartitionKeyRange(
-        ctx1,
-      );
-      await globalPartitionEndpointManager.checkRequestEligibilityAndTryMarkEndpointUnavailableForPartitionKeyRange(
-        ctx2,
-      );
+      await globalPartitionEndpointManager.tryPartitionLevelFailover(ctx1);
+      await globalPartitionEndpointManager.tryPartitionLevelFailover(ctx2);
 
       const override1 =
         await globalPartitionEndpointManager.tryAddPartitionLevelLocationOverride(ctx1);
@@ -222,9 +201,7 @@ describe("GlobalPartitionEndpointManager", () => {
 
     it("should return override if failover occurred", async () => {
       const requestContext = createRequestContext();
-      await globalPartitionEndpointManager.checkRequestEligibilityAndTryMarkEndpointUnavailableForPartitionKeyRange(
-        requestContext,
-      );
+      await globalPartitionEndpointManager.tryPartitionLevelFailover(requestContext);
 
       const override =
         await globalPartitionEndpointManager.tryAddPartitionLevelLocationOverride(requestContext);
@@ -440,22 +417,22 @@ describe("GlobalPartitionEndpointManager", () => {
 
       it("backgroundOpenConnectionTask updates health status of unhealthy endpoints", async () => {
         const pkMap = new Map();
-        pkMap.set("0", [mockReadEndpoints[1], HealthStatus.Unhealthy]);
+        pkMap.set("0", [mockReadEndpoints[1], PartitionAvailablilityStatus.Unavailable]);
 
         await (globalPartitionEndpointManager as any).backgroundOpenConnectionTask(pkMap);
         const result = pkMap.get("0");
-        assert.deepEqual(result, [mockReadEndpoints[1], HealthStatus.Connected]);
+        assert.deepEqual(result, [mockReadEndpoints[1], PartitionAvailablilityStatus.Available]);
       });
 
       it("should be idempotent (re-running it doesn't corrupt state)", async () => {
-        const map = new Map<string, [string, HealthStatus]>([
-          ["0", ["https://region2.documents.azure.com", HealthStatus.Connected]],
+        const map = new Map<string, [string, PartitionAvailablilityStatus]>([
+          ["0", ["https://region2.documents.azure.com", PartitionAvailablilityStatus.Available]],
         ]);
 
         await (globalPartitionEndpointManager as any).backgroundOpenConnectionTask(map);
 
         const [_, status] = map.get("0")!;
-        assert.equal(status, HealthStatus.Connected);
+        assert.equal(status, PartitionAvailablilityStatus.Available);
       });
 
       it("tryOpenConnectionToUnhealthyEndpointsAndInitiateFailbackAsync - does not remove if still unhealthy", async () => {
