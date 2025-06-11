@@ -129,7 +129,7 @@ See the "inference" folder in the [package samples][samples] for additional samp
 
 ### Get an authenticated ChatCompletionsClient
 
-Your Azure AI Foundry project may have one or more AI models deployed that support chat completions. These could be OpenAI models, Microsoft models, or models from other providers. Use the code below to get an authenticated Client from the [azure-ai-inference](https://www.npmjs.com/package/@azure-rest/ai-inference) package, and execute a chat completions call.
+Your Azure AI Foundry project may have one or more AI models deployed that support chat completions. These could be OpenAI models, Microsoft models, or models from other providers. Use the code below to get an authenticated Client and execute a chat completions call.
 
 Here we assume `deploymentName` (str) is defined. It's the deployment name of an AI model in your Foundry Project. As shown in the "Models + endpoints" tab, under the "Name" column.
 

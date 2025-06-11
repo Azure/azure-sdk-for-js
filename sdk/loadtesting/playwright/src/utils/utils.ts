@@ -101,7 +101,7 @@ const isTokenExpiringSoon = (expirationTime: number, currentTime: number): boole
 const warnAboutTokenExpiry = (expirationTime: number, currentTime: number): void => {
   const daysToExpiration = Math.ceil((expirationTime * 1000 - currentTime) / Constants.OneDayInMS);
   const expirationDate = new Date(expirationTime * 1000).toLocaleDateString();
-  const expirationWarning = `Warning: The access token used for this test run will expire in ${daysToExpiration} days on ${expirationDate}. Generate a new token from the portal to avoid failures. For a simpler, more secure solution, switch to Microsoft Entra ID and eliminate token management. https://learn.microsoft.com/en-us/entra/identity/`;
+  const expirationWarning = `Warning: The access token used for this test run will expire in ${daysToExpiration} days on ${expirationDate}. Generate a new token from the portal to avoid failures. For a simpler, more secure solution, switch to Microsoft Entra ID and eliminate token management. https://learn.microsoft.com/entra/identity/`;
   console.warn(expirationWarning);
 };
 

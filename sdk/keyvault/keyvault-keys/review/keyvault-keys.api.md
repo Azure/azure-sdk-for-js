@@ -365,7 +365,7 @@ export interface KeyVaultKeyIdentifier {
 }
 
 // @public
-export type KeyWrapAlgorithm = "A128KW" | "A192KW" | "A256KW" | "RSA-OAEP" | "RSA-OAEP-256" | "RSA1_5";
+export type KeyWrapAlgorithm = "A128KW" | "A192KW" | "A256KW" | "RSA-OAEP" | "RSA-OAEP-256" | "RSA1_5" | "CKM_AES_KEY_WRAP" | "CKM_AES_KEY_WRAP_PAD";
 
 // @public
 export enum KnownDeletionRecoveryLevel {
