@@ -95,7 +95,6 @@ export async function main(): Promise<void> {
     }
   }
 
-
   // Delete the assistant when done
   await client.deleteAgent(agent.id);
   console.log(`Deleted agent, agent ID: ${agent.id}`);
