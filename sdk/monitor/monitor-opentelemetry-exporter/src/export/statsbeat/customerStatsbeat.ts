@@ -168,15 +168,20 @@ export class CustomerStatsbeatMetrics extends StatsbeatMetrics {
 
   private itemDropCallback(observableResult: BatchObservableResult): void {
     const counter: CustomerStatsbeat = this.customerStatsbeatCounter;
-    const baseAttributes: CustomerStatsbeatProperties & { "drop.code": DropCode | number } = {
+    const baseAttributes: CustomerStatsbeatProperties & {
+      "drop.code": DropCode | number;
+      telemetry_type: TelemetryType;
+    } = {
       ...this.customerProperties,
       "drop.code": DropCode.UNKNOWN,
+      telemetry_type: TelemetryType.UNKNOWN,
     };
 
-    // For each { drop.code -> count } mapping, call observe, passing the count and attributes that include the drop.code
+    // For each { drop.code, telemetry_type -> count } mapping, call observe, passing the count and attributes that include the drop.code and telemetry_type
     for (let i = 0; i < counter.totalItemDropCount.length; i++) {
       const attributes = { ...baseAttributes };
       attributes["drop.code"] = counter.totalItemDropCount[i]["drop.code"];
+      attributes.telemetry_type = counter.totalItemDropCount[i].telemetry_type;
 
       // Add exception.message only for CLIENT_EXCEPTION drop code
       if (
@@ -196,15 +201,20 @@ export class CustomerStatsbeatMetrics extends StatsbeatMetrics {
 
   private itemRetryCallback(observableResult: BatchObservableResult): void {
     const counter: CustomerStatsbeat = this.customerStatsbeatCounter;
-    const baseAttributes: CustomerStatsbeatProperties & { "retry.code": RetryCode | number } = {
+    const baseAttributes: CustomerStatsbeatProperties & {
+      "retry.code": RetryCode | number;
+      telemetry_type: TelemetryType;
+    } = {
       ...this.customerProperties,
       "retry.code": RetryCode.UNKNOWN,
+      telemetry_type: TelemetryType.UNKNOWN,
     };
 
-    // For each { retry.code -> count } mapping, call observe, passing the count and attributes that include the retry.code
+    // For each { retry.code, telemetry_type -> count } mapping, call observe, passing the count and attributes that include the retry.code and telemetry_type
     for (let i = 0; i < counter.totalItemRetryCount.length; i++) {
       const attributes = { ...baseAttributes };
       attributes["retry.code"] = counter.totalItemRetryCount[i]["retry.code"];
+      attributes.telemetry_type = counter.totalItemRetryCount[i].telemetry_type;
 
       // Add exception.message only for CLIENT_EXCEPTION retry code
       if (
@@ -247,18 +257,23 @@ export class CustomerStatsbeatMetrics extends StatsbeatMetrics {
    * Tracks dropped items
    * @param envelopes - Number of envelopes dropped
    * @param dropCode - The drop code indicating the reason for drop
+   * @param telemetry_type - The type of telemetry being tracked
    * @param exceptionMessage - Optional exception message when dropCode is CLIENT_EXCEPTION
    */
   public countDroppedItems(
     envelopes: number,
     dropCode: DropCode | number,
+    telemetry_type: TelemetryType,
     exceptionMessage?: string,
   ): void {
     const counter: CustomerStatsbeat = this.customerStatsbeatCounter;
 
-    // Check if an entry with the same drop code and exception message already exists
+    // Check if an entry with the same drop code, telemetry type, and exception message already exists
     const existingEntry = counter.totalItemDropCount.find(
-      (entry) => entry["drop.code"] === dropCode && entry["exception.message"] === exceptionMessage,
+      (entry) =>
+        entry["drop.code"] === dropCode &&
+        entry.telemetry_type === telemetry_type &&
+        entry["exception.message"] === exceptionMessage,
     );
 
     if (existingEntry) {
@@ -267,10 +282,12 @@ export class CustomerStatsbeatMetrics extends StatsbeatMetrics {
       const newEntry: {
         count: number;
         "drop.code": DropCode | number;
+        telemetry_type: TelemetryType;
         "exception.message"?: string;
       } = {
         count: envelopes,
         "drop.code": dropCode,
+        telemetry_type,
       };
 
       if (dropCode === DropCode.CLIENT_EXCEPTION && exceptionMessage) {
@@ -284,19 +301,23 @@ export class CustomerStatsbeatMetrics extends StatsbeatMetrics {
    * Tracks retried envelopes
    * @param envelopes - Number of envelopes retried
    * @param retryCode - The retry code indicating the reason for retry
+   * @param telemetry_type - The type of telemetry being tracked
    * @param exceptionMessage - Optional exception message when retryCode is CLIENT_EXCEPTION
    */
   public countRetryItems(
     envelopes: number,
     retryCode: RetryCode | number,
+    telemetry_type: TelemetryType,
     exceptionMessage?: string,
   ): void {
     const counter: CustomerStatsbeat = this.customerStatsbeatCounter;
 
-    // Check if an entry with the same retry code and exception message already exists
+    // Check if an entry with the same retry code, telemetry type, and exception message already exists
     const existingEntry = counter.totalItemRetryCount.find(
       (entry) =>
-        entry["retry.code"] === retryCode && entry["exception.message"] === exceptionMessage,
+        entry["retry.code"] === retryCode &&
+        entry.telemetry_type === telemetry_type &&
+        entry["exception.message"] === exceptionMessage,
     );
 
     if (existingEntry) {
@@ -305,10 +326,12 @@ export class CustomerStatsbeatMetrics extends StatsbeatMetrics {
       const newEntry: {
         count: number;
         "retry.code": RetryCode | number;
+        telemetry_type: TelemetryType;
         "exception.message"?: string;
       } = {
         count: envelopes,
         "retry.code": retryCode,
+        telemetry_type,
       };
 
       if (retryCode === RetryCode.CLIENT_EXCEPTION && exceptionMessage) {

@@ -67,12 +67,14 @@ export class CustomerStatsbeat {
   public totalItemDropCount: {
     count: number;
     "drop.code": DropCode | number;
+    telemetry_type: TelemetryType;
     "exception.message"?: string;
   }[];
 
   public totalItemRetryCount: {
     count: number;
     "retry.code": RetryCode | number;
+    telemetry_type: TelemetryType;
     "exception.message"?: string;
   }[];
 
