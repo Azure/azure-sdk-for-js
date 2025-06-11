@@ -52,12 +52,7 @@ Alternatively, run a single sample with the correct environment variables set (s
 npx dev-tool run vendored cross-env AZURE_ONLINEEXPERIMENTATION_ENDPOINT="<azure onlineexperimentation endpoint>" node dist/experimentMetricsManagement.js
 ```
 
-## Next Steps
-
-Take a look at our [API Documentation][apiref] for more information about the APIs that are available in the clients.
-
 [experimentmetricsmanagement]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/onlineexperimentation/onlineexperimentation-rest/samples/v1-beta/typescript/src/experimentMetricsManagement.ts
-[apiref]: https://learn.microsoft.com/javascript/api/@azure-rest/onlineexperimentation?view=azure-node-preview
 [freesub]: https://azure.microsoft.com/free/
 [package]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/onlineexperimentation/onlineexperimentation-rest/README.md
 [typescript]: https://www.typescriptlang.org/docs/home.html
