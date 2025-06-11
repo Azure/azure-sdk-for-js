@@ -1,5 +1,12 @@
 # Release History
 
+## 1.0.0-beta.9 (2025-06-03)
+
+### Breaking changes
+
+- The `project.datasets.uploadFile` method is updated to take an options bag of type `DatasetUploadOptions`.
+- The `project.datasets.uploadFolder` method is updated to take an options bag of type `DatasetUploadOptions`.
+
 ## 1.0.0-beta.8 (2025-05-21)
 
 ### Bugs Fixed

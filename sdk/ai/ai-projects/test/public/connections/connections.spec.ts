@@ -75,4 +75,10 @@ describe("connections - basic", () => {
       assert.isNotNull(connection.credentials);
     }
   });
+
+  it("get default connection with credentials", async function () {
+    const defaultConnection = await connections.getDefault("AzureOpenAI", true);
+    assert.isNotNull(defaultConnection);
+    assert.isNotNull(defaultConnection.credentials);
+  });
 });
