@@ -26,6 +26,7 @@ import {
   ThreadStreamEvent,
   runStepDeserializer,
   threadMessageDeserializer,
+  ToolOutput,
 } from "../models/models.js";
 import type {
   CreateThreadAndRunOptionalParams,
@@ -55,7 +56,7 @@ import { createSseStream } from "@azure/core-sse";
 import { isNodeLike } from "@azure/core-util";
 import type { IncomingMessage } from "http";
 import { logger } from "../logger.js";
-import { _createRunSend } from "./runs/operations.js";
+import { _createRunSend, _submitToolOutputsToRunSend } from "./runs/operations.js";
 
 export function _createThreadAndRunSend(
   context: Client,
@@ -502,13 +503,12 @@ export async function submitToolOutputsToRunStreaming(
   context: Client,
   threadId: string,
   runId: string,
+  toolOutputs: ToolOutput[],
   options: RunsSubmitToolOutputsToRunOptionalParams = { requestOptions: {} },
 ): Promise<AgentEventMessageStream> {
   const streamOptions = { ...options, stream: true };
 
   return processStream(
-    context
-      .path("/threads/{threadId}/runs/{runId}/submit_tool_outputs", threadId, runId)
-      .post(streamOptions),
+    _submitToolOutputsToRunSend(context, threadId, runId, toolOutputs, streamOptions),
   );
 }
