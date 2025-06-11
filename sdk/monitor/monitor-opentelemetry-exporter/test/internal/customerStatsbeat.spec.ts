@@ -26,14 +26,19 @@ describe("CustomerStatsbeatMetrics", () => {
     it("should store exception.message for CLIENT_EXCEPTION drop code", () => {
       const exceptionMessage = "Network connection timeout";
 
-      customerStatsbeatMetrics.countDroppedItems(5, DropCode.CLIENT_EXCEPTION, TelemetryType.TRACE, exceptionMessage);
+      customerStatsbeatMetrics.countDroppedItems(
+        5,
+        DropCode.CLIENT_EXCEPTION,
+        TelemetryType.TRACE,
+        exceptionMessage,
+      );
 
       const counter = (customerStatsbeatMetrics as any).customerStatsbeatCounter;
       expect(counter.totalItemDropCount).toHaveLength(1);
       expect(counter.totalItemDropCount[0]).toEqual({
         count: 5,
         "drop.code": DropCode.CLIENT_EXCEPTION,
-        "telemetry_type": TelemetryType.TRACE,
+        telemetry_type: TelemetryType.TRACE,
         "exception.message": exceptionMessage,
       });
     });
@@ -46,7 +51,7 @@ describe("CustomerStatsbeatMetrics", () => {
       expect(counter.totalItemDropCount[0]).toEqual({
         count: 3,
         "drop.code": DropCode.CLIENT_EXCEPTION,
-        "telemetry_type": TelemetryType.TRACE,
+        telemetry_type: TelemetryType.TRACE,
       });
       expect(counter.totalItemDropCount[0]).not.toHaveProperty("exception.message");
     });
@@ -66,7 +71,7 @@ describe("CustomerStatsbeatMetrics", () => {
       expect(counter.totalItemDropCount[0]).toEqual({
         count: 2,
         "drop.code": DropCode.NON_RETRYABLE_STATUS_CODE,
-        "telemetry_type": TelemetryType.TRACE,
+        telemetry_type: TelemetryType.TRACE,
       });
       expect(counter.totalItemDropCount[0]).not.toHaveProperty("exception.message");
     });
@@ -74,22 +79,42 @@ describe("CustomerStatsbeatMetrics", () => {
     it("should aggregate counts for same drop code and exception message", () => {
       const exceptionMessage = "Repeated error";
 
-      customerStatsbeatMetrics.countDroppedItems(3, DropCode.CLIENT_EXCEPTION, TelemetryType.TRACE, exceptionMessage);
-      customerStatsbeatMetrics.countDroppedItems(2, DropCode.CLIENT_EXCEPTION, TelemetryType.TRACE, exceptionMessage);
+      customerStatsbeatMetrics.countDroppedItems(
+        3,
+        DropCode.CLIENT_EXCEPTION,
+        TelemetryType.TRACE,
+        exceptionMessage,
+      );
+      customerStatsbeatMetrics.countDroppedItems(
+        2,
+        DropCode.CLIENT_EXCEPTION,
+        TelemetryType.TRACE,
+        exceptionMessage,
+      );
 
       const counter = (customerStatsbeatMetrics as any).customerStatsbeatCounter;
       expect(counter.totalItemDropCount).toHaveLength(1);
       expect(counter.totalItemDropCount[0]).toEqual({
         count: 5,
         "drop.code": DropCode.CLIENT_EXCEPTION,
-        "telemetry_type": TelemetryType.TRACE,
+        telemetry_type: TelemetryType.TRACE,
         "exception.message": exceptionMessage,
       });
     });
 
     it("should create separate entries for different exception messages", () => {
-      customerStatsbeatMetrics.countDroppedItems(2, DropCode.CLIENT_EXCEPTION, TelemetryType.TRACE, "Error A");
-      customerStatsbeatMetrics.countDroppedItems(3, DropCode.CLIENT_EXCEPTION, TelemetryType.DEPENDENCY, "Error B");
+      customerStatsbeatMetrics.countDroppedItems(
+        2,
+        DropCode.CLIENT_EXCEPTION,
+        TelemetryType.TRACE,
+        "Error A",
+      );
+      customerStatsbeatMetrics.countDroppedItems(
+        3,
+        DropCode.CLIENT_EXCEPTION,
+        TelemetryType.DEPENDENCY,
+        "Error B",
+      );
 
       const counter = (customerStatsbeatMetrics as any).customerStatsbeatCounter;
       expect(counter.totalItemDropCount).toHaveLength(2);
@@ -104,13 +129,13 @@ describe("CustomerStatsbeatMetrics", () => {
       expect(errorAEntry).toEqual({
         count: 2,
         "drop.code": DropCode.CLIENT_EXCEPTION,
-        "telemetry_type": TelemetryType.TRACE,
+        telemetry_type: TelemetryType.TRACE,
         "exception.message": "Error A",
       });
       expect(errorBEntry).toEqual({
         count: 3,
         "drop.code": DropCode.CLIENT_EXCEPTION,
-        "telemetry_type": TelemetryType.DEPENDENCY,
+        telemetry_type: TelemetryType.DEPENDENCY,
         "exception.message": "Error B",
       });
     });
@@ -120,14 +145,19 @@ describe("CustomerStatsbeatMetrics", () => {
     it("should store exception.message for CLIENT_EXCEPTION retry code", () => {
       const exceptionMessage = "Retry due to connection error";
 
-      customerStatsbeatMetrics.countRetryItems(3, RetryCode.CLIENT_EXCEPTION, TelemetryType.TRACE, exceptionMessage);
+      customerStatsbeatMetrics.countRetryItems(
+        3,
+        RetryCode.CLIENT_EXCEPTION,
+        TelemetryType.TRACE,
+        exceptionMessage,
+      );
 
       const counter = (customerStatsbeatMetrics as any).customerStatsbeatCounter;
       expect(counter.totalItemRetryCount).toHaveLength(1);
       expect(counter.totalItemRetryCount[0]).toEqual({
         count: 3,
         "retry.code": RetryCode.CLIENT_EXCEPTION,
-        "telemetry_type": TelemetryType.TRACE,
+        telemetry_type: TelemetryType.TRACE,
         "exception.message": exceptionMessage,
       });
     });
@@ -140,7 +170,7 @@ describe("CustomerStatsbeatMetrics", () => {
       expect(counter.totalItemRetryCount[0]).toEqual({
         count: 2,
         "retry.code": RetryCode.CLIENT_EXCEPTION,
-        "telemetry_type": TelemetryType.TRACE,
+        telemetry_type: TelemetryType.TRACE,
       });
       expect(counter.totalItemRetryCount[0]).not.toHaveProperty("exception.message");
     });
@@ -160,7 +190,7 @@ describe("CustomerStatsbeatMetrics", () => {
       expect(counter.totalItemRetryCount[0]).toEqual({
         count: 4,
         "retry.code": RetryCode.RETRYABLE_STATUS_CODE,
-        "telemetry_type": TelemetryType.TRACE,
+        telemetry_type: TelemetryType.TRACE,
       });
       expect(counter.totalItemRetryCount[0]).not.toHaveProperty("exception.message");
     });
@@ -168,15 +198,25 @@ describe("CustomerStatsbeatMetrics", () => {
     it("should aggregate counts for same retry code and exception message", () => {
       const exceptionMessage = "Connection timeout";
 
-      customerStatsbeatMetrics.countRetryItems(2, RetryCode.CLIENT_EXCEPTION, TelemetryType.TRACE, exceptionMessage);
-      customerStatsbeatMetrics.countRetryItems(3, RetryCode.CLIENT_EXCEPTION, TelemetryType.TRACE, exceptionMessage);
+      customerStatsbeatMetrics.countRetryItems(
+        2,
+        RetryCode.CLIENT_EXCEPTION,
+        TelemetryType.TRACE,
+        exceptionMessage,
+      );
+      customerStatsbeatMetrics.countRetryItems(
+        3,
+        RetryCode.CLIENT_EXCEPTION,
+        TelemetryType.TRACE,
+        exceptionMessage,
+      );
 
       const counter = (customerStatsbeatMetrics as any).customerStatsbeatCounter;
       expect(counter.totalItemRetryCount).toHaveLength(1);
       expect(counter.totalItemRetryCount[0]).toEqual({
         count: 5,
         "retry.code": RetryCode.CLIENT_EXCEPTION,
-        "telemetry_type": TelemetryType.TRACE,
+        telemetry_type: TelemetryType.TRACE,
         "exception.message": exceptionMessage,
       });
     });
@@ -185,8 +225,17 @@ describe("CustomerStatsbeatMetrics", () => {
   describe("Observable Callbacks", () => {
     it("should include exception.message in drop count metrics when present", () => {
       // Add entries with different scenarios
-      customerStatsbeatMetrics.countDroppedItems(3, DropCode.CLIENT_EXCEPTION, TelemetryType.TRACE, "Test error");
-      customerStatsbeatMetrics.countDroppedItems(2, DropCode.NON_RETRYABLE_STATUS_CODE, TelemetryType.TRACE);
+      customerStatsbeatMetrics.countDroppedItems(
+        3,
+        DropCode.CLIENT_EXCEPTION,
+        TelemetryType.TRACE,
+        "Test error",
+      );
+      customerStatsbeatMetrics.countDroppedItems(
+        2,
+        DropCode.NON_RETRYABLE_STATUS_CODE,
+        TelemetryType.TRACE,
+      );
 
       const mockObservableResult = {
         observe: vi.fn(),
@@ -217,8 +266,17 @@ describe("CustomerStatsbeatMetrics", () => {
 
     it("should include exception.message in retry count metrics when present", () => {
       // Add entries with different scenarios
-      customerStatsbeatMetrics.countRetryItems(4, RetryCode.CLIENT_EXCEPTION, TelemetryType.TRACE, "Retry error");
-      customerStatsbeatMetrics.countRetryItems(1, RetryCode.RETRYABLE_STATUS_CODE, TelemetryType.TRACE);
+      customerStatsbeatMetrics.countRetryItems(
+        4,
+        RetryCode.CLIENT_EXCEPTION,
+        TelemetryType.TRACE,
+        "Retry error",
+      );
+      customerStatsbeatMetrics.countRetryItems(
+        1,
+        RetryCode.RETRYABLE_STATUS_CODE,
+        TelemetryType.TRACE,
+      );
 
       const mockObservableResult = {
         observe: vi.fn(),
@@ -248,8 +306,18 @@ describe("CustomerStatsbeatMetrics", () => {
     });
 
     it("should reset counts to zero after observation", () => {
-      customerStatsbeatMetrics.countDroppedItems(5, DropCode.CLIENT_EXCEPTION, TelemetryType.TRACE, "Test error");
-      customerStatsbeatMetrics.countRetryItems(3, RetryCode.CLIENT_EXCEPTION, TelemetryType.TRACE, "Retry error");
+      customerStatsbeatMetrics.countDroppedItems(
+        5,
+        DropCode.CLIENT_EXCEPTION,
+        TelemetryType.TRACE,
+        "Test error",
+      );
+      customerStatsbeatMetrics.countRetryItems(
+        3,
+        RetryCode.CLIENT_EXCEPTION,
+        TelemetryType.TRACE,
+        "Retry error",
+      );
 
       const counter = (customerStatsbeatMetrics as any).customerStatsbeatCounter;
       expect(counter.totalItemDropCount[0].count).toBe(5);
@@ -280,7 +348,12 @@ describe("CustomerStatsbeatMetrics", () => {
       const testErrorMessage = "Network connection failed";
 
       // Count dropped items with CLIENT_EXCEPTION and exception message
-      customerStatsbeatMetrics.countDroppedItems(5, DropCode.CLIENT_EXCEPTION, TelemetryType.TRACE, testErrorMessage);
+      customerStatsbeatMetrics.countDroppedItems(
+        5,
+        DropCode.CLIENT_EXCEPTION,
+        TelemetryType.TRACE,
+        testErrorMessage,
+      );
 
       // Verify the internal counter stores the telemetry_type
       const counter = (customerStatsbeatMetrics as any).customerStatsbeatCounter;
@@ -288,7 +361,7 @@ describe("CustomerStatsbeatMetrics", () => {
       expect(counter.totalItemDropCount[0]).toEqual({
         count: 5,
         "drop.code": DropCode.CLIENT_EXCEPTION,
-        "telemetry_type": TelemetryType.TRACE,
+        telemetry_type: TelemetryType.TRACE,
         "exception.message": testErrorMessage,
       });
 
@@ -319,7 +392,12 @@ describe("CustomerStatsbeatMetrics", () => {
       const testErrorMessage = "Connection timeout during retry";
 
       // Count retry items with CLIENT_EXCEPTION and exception message
-      customerStatsbeatMetrics.countRetryItems(3, RetryCode.CLIENT_EXCEPTION, TelemetryType.TRACE, testErrorMessage);
+      customerStatsbeatMetrics.countRetryItems(
+        3,
+        RetryCode.CLIENT_EXCEPTION,
+        TelemetryType.TRACE,
+        testErrorMessage,
+      );
 
       // Verify the internal counter stores the exception message
       const counter = (customerStatsbeatMetrics as any).customerStatsbeatCounter;
@@ -327,7 +405,7 @@ describe("CustomerStatsbeatMetrics", () => {
       expect(counter.totalItemRetryCount[0]).toEqual({
         count: 3,
         "retry.code": RetryCode.CLIENT_EXCEPTION,
-        "telemetry_type": TelemetryType.TRACE,
+        telemetry_type: TelemetryType.TRACE,
         "exception.message": testErrorMessage,
       });
 
@@ -369,7 +447,7 @@ describe("CustomerStatsbeatMetrics", () => {
       expect(counter.totalItemDropCount[0]).toEqual({
         count: 2,
         "drop.code": DropCode.NON_RETRYABLE_STATUS_CODE,
-        "telemetry_type": TelemetryType.TRACE,
+        telemetry_type: TelemetryType.TRACE,
       });
       expect(counter.totalItemDropCount[0]).not.toHaveProperty("exception.message");
 
@@ -399,8 +477,18 @@ describe("CustomerStatsbeatMetrics", () => {
       const error2 = "Authentication failed";
 
       // Add two different CLIENT_EXCEPTION errors
-      customerStatsbeatMetrics.countDroppedItems(3, DropCode.CLIENT_EXCEPTION, TelemetryType.TRACE, error1);
-      customerStatsbeatMetrics.countRetryItems(2, RetryCode.CLIENT_EXCEPTION, TelemetryType.TRACE, error2);
+      customerStatsbeatMetrics.countDroppedItems(
+        3,
+        DropCode.CLIENT_EXCEPTION,
+        TelemetryType.TRACE,
+        error1,
+      );
+      customerStatsbeatMetrics.countRetryItems(
+        2,
+        RetryCode.CLIENT_EXCEPTION,
+        TelemetryType.TRACE,
+        error2,
+      );
 
       const mockObservableResult = {
         observe: vi.fn(),
@@ -448,15 +536,25 @@ describe("CustomerStatsbeatMetrics", () => {
       const testErrorMessage = "Repeated connection error";
 
       // Add the same error twice
-      customerStatsbeatMetrics.countDroppedItems(2, DropCode.CLIENT_EXCEPTION, TelemetryType.TRACE, testErrorMessage);
-      customerStatsbeatMetrics.countDroppedItems(3, DropCode.CLIENT_EXCEPTION, TelemetryType.TRACE, testErrorMessage);
+      customerStatsbeatMetrics.countDroppedItems(
+        2,
+        DropCode.CLIENT_EXCEPTION,
+        TelemetryType.TRACE,
+        testErrorMessage,
+      );
+      customerStatsbeatMetrics.countDroppedItems(
+        3,
+        DropCode.CLIENT_EXCEPTION,
+        TelemetryType.TRACE,
+        testErrorMessage,
+      );
 
       const counter = (customerStatsbeatMetrics as any).customerStatsbeatCounter;
       expect(counter.totalItemDropCount).toHaveLength(1);
       expect(counter.totalItemDropCount[0]).toEqual({
         count: 5, // 2 + 3
         "drop.code": DropCode.CLIENT_EXCEPTION,
-        "telemetry_type": TelemetryType.TRACE,
+        telemetry_type: TelemetryType.TRACE,
         "exception.message": testErrorMessage,
       });
 
