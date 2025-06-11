@@ -136,6 +136,8 @@ export class ChatThreadClient {
    * Updates a thread's properties.
    * @param options - Operation options.
    */
+  // beta release already named this option as UpdateChatThreadPropertiesOptions
+  // eslint-disable-next-line @azure/azure-sdk/ts-naming-options
   public updateProperties(options: UpdateChatThreadPropertiesOptions = {}): Promise<void> {
     return tracingClient.withSpan(
       "ChatThreadClient-UpdateProperties",
