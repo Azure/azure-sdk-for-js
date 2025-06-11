@@ -98,10 +98,7 @@ Retrieve an existing experiment metric by ID.
 
 ```ts snippet:GetExistingMetric
 import { DefaultAzureCredential } from "@azure/identity";
-import {
-  OnlineExperimentationClient,
-  isUnexpected,
-} from "@azure-rest/onlineexperimentation";
+import { OnlineExperimentationClient, isUnexpected } from "@azure-rest/onlineexperimentation";
 
 const endpoint = process.env.AZURE_ONLINEEXPERIMENTATION_ENDPOINT || "<endpoint>";
 const credential = new DefaultAzureCredential();
@@ -446,10 +443,7 @@ Update an existing experiment metric.
 
 ```ts snippet:UpdateExperimentMetric
 import { DefaultAzureCredential } from "@azure/identity";
-import {
-  OnlineExperimentationClient,
-  isUnexpected,
-} from "@azure-rest/onlineexperimentation";
+import { OnlineExperimentationClient, isUnexpected } from "@azure-rest/onlineexperimentation";
 
 const endpoint = process.env.AZURE_ONLINEEXPERIMENTATION_ENDPOINT || "<endpoint>";
 const credential = new DefaultAzureCredential();
@@ -544,10 +538,7 @@ Permanently delete an experiment metric defintion.
 
 ```ts snippet:DeleteExperimentMetric
 import { DefaultAzureCredential } from "@azure/identity";
-import {
-  OnlineExperimentationClient,
-  isUnexpected,
-} from "@azure-rest/onlineexperimentation";
+import { OnlineExperimentationClient, isUnexpected } from "@azure-rest/onlineexperimentation";
 
 const endpoint = process.env.AZURE_ONLINEEXPERIMENTATION_ENDPOINT || "<endpoint>";
 const credential = new DefaultAzureCredential();
