@@ -1,7 +1,7 @@
 /**
  * This is the main configuration file for Rush.
  * For full documentation, please see https://rushjs.io
- */ {
+ */{
   "$schema": "https://developer.microsoft.com/json-schemas/rush/v5/rush.schema.json",
   /**
    * (Required) This specifies the version of the Rush engine to be used in this repo.
@@ -2413,6 +2413,11 @@
     {
       "packageName": "@azure/arm-kubernetesconfiguration-extensiontypes",
       "projectFolder": "sdk/kubernetesconfiguration/arm-kubernetesconfiguration-extensiontypes",
+      "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-kubernetesconfiguration-privatelinkscopes",
+      "projectFolder": "sdk/kubernetesconfiguration/arm-kubernetesconfiguration-privatelinkscopes",
       "versionPolicyName": "management"
     }
   ]
