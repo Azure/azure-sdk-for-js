@@ -40,7 +40,7 @@ async function main() {
     },
     // (Optional) Define an onResponse callback to monitor the progress of polling
     onResponse: (response) => {
-      console.log(`Received response with status: ${response.status}`);
+      console.log(`Received response with status: ${response.parsedBody.status}`);
     },
   });
   console.log(
@@ -57,7 +57,7 @@ async function main() {
       intervalInMs: 2000,
     },
     onResponse: (response) => {
-      console.log(`Received response with status: ${response.status}`);
+      console.log(`Received response with status: ${response.parsedBody.status}`);
     },
   });
   const vectorStoreFile2 = await vectorStoreFilePoller.pollUntilDone({
