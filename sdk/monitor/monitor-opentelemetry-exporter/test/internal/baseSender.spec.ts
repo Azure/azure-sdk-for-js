@@ -739,6 +739,7 @@ describe("BaseSender", () => {
       expect(mockCustomerStatsbeatMetrics.countDroppedItems).toHaveBeenCalledWith(
         1,
         "CLIENT_EXCEPTION",
+        "UNKNOWN",
         "Circular redirect",
       );
     });
@@ -770,6 +771,7 @@ describe("BaseSender", () => {
       expect(mockCustomerStatsbeatMetrics.countDroppedItems).toHaveBeenCalledWith(
         1,
         "CLIENT_EXCEPTION",
+        "TRACE",
       );
     });
 
@@ -793,11 +795,11 @@ describe("BaseSender", () => {
       const result = await testSender.exportEnvelopes(envelopes);
 
       expect(result.code).toBe(ExportResultCode.FAILED);
-      expect(mockCustomerStatsbeatMetrics.countDroppedItems).toHaveBeenCalledWith(1, 400);
+      expect(mockCustomerStatsbeatMetrics.countDroppedItems).toHaveBeenCalledWith(1, 400, "TRACE");
 
       // Verify exception.message is not passed for non-client exceptions
       const call = mockCustomerStatsbeatMetrics.countDroppedItems.mock.calls[0];
-      expect(call.length).toBe(2); // Only code and drop code, no exception message
+      expect(call.length).toBe(3); // code, drop code, and telemetry_type, but no exception message
     });
 
     it("should handle successful export without calling error tracking", async () => {
