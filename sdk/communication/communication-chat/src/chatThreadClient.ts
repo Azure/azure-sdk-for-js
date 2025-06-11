@@ -43,7 +43,7 @@ import type {
   SendMessageOptions,
   SendReadReceiptOptions,
   SendTypingNotificationOptions,
-  UpdatePropertiesOptions,
+  UpdateChatThreadPropertiesOptions,
   UpdateMessageOptions,
   UpdateTopicOptions,
 } from "./models/options.js";
@@ -136,7 +136,7 @@ export class ChatThreadClient {
    * Updates a thread's properties.
    * @param options - Operation options.
    */
-  public updateProperties(options: UpdatePropertiesOptions = {}): Promise<void> {
+  public updateProperties(options: UpdateChatThreadPropertiesOptions = {}): Promise<void> {
     return tracingClient.withSpan(
       "ChatThreadClient-UpdateProperties",
       options,

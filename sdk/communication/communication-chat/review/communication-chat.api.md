@@ -163,7 +163,7 @@ export class ChatThreadClient {
     sendTypingNotification(options?: SendTypingNotificationOptions): Promise<boolean>;
     readonly threadId: string;
     updateMessage(messageId: string, options?: UpdateMessageOptions): Promise<void>;
-    updateProperties(options?: UpdatePropertiesOptions): Promise<void>;
+    updateProperties(options?: UpdateChatThreadPropertiesOptions): Promise<void>;
     updateTopic(topic: string, options?: UpdateTopicOptions): Promise<void>;
 }
 
@@ -321,16 +321,16 @@ export interface ThreadCreationDateRetentionPolicy {
 export { TypingIndicatorReceivedEvent }
 
 // @public
-export interface UpdateMessageOptions extends OperationOptions {
-    content?: string;
-    metadata?: Record<string, string>;
-}
-
-// @public
-export interface UpdatePropertiesOptions extends OperationOptions {
+export interface UpdateChatThreadPropertiesOptions extends OperationOptions {
     metadata?: Record<string, string>;
     retentionPolicy?: ChatRetentionPolicy;
     topic?: string;
+}
+
+// @public
+export interface UpdateMessageOptions extends OperationOptions {
+    content?: string;
+    metadata?: Record<string, string>;
 }
 
 // @public
