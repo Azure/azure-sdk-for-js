@@ -107,15 +107,17 @@ export const getDirectionMappedPackages = (packageNames, action, serviceDirs) =>
     }
   } else {
     // we are in a test task of some kind
-    mappedPackages.push(...fullPackageNames.map((p) => {
-      if (restrictedToPackages.includes(p)) {
-        return ["--only", p];
-      } else if (packageNames.includes(p)) {
-        return ["--impacted-by", p];
-      } else {
-        return ["--only", p];
-      }
-    }));
+    mappedPackages.push(
+      ...fullPackageNames.map((p) => {
+        if (restrictedToPackages.includes(p)) {
+          return ["--only", p];
+        } else if (packageNames.includes(p)) {
+          return ["--impacted-by", p];
+        } else {
+          return ["--only", p];
+        }
+      }),
+    );
   }
 
   return mappedPackages;
