@@ -2508,7 +2508,7 @@ packages:
     version: 0.0.0
 
   '@rush-temp/ai-inference@file:projects/ai-inference.tgz':
-    resolution: {integrity: sha512-7LB68k/B0hQeIdaCaFWspXJ5RjN4foJpn71XVXTJ8/tZgAJKUy09iaxC4ZM99JrwSxZahy1A44X0U9pc42pChw==, tarball: file:projects/ai-inference.tgz}
+    resolution: {integrity: sha512-4HFGQc4crTnrl1dAwH/R91g+Nm7R40XryRYZ5MuVo5NdbcxN6/88H0b9/fVfdiFqrnxRg2EBztwkqWb4pTRyJw==, tarball: file:projects/ai-inference.tgz}
     version: 0.0.0
 
   '@rush-temp/ai-language-conversations@file:projects/ai-language-conversations.tgz':
@@ -2524,7 +2524,7 @@ packages:
     version: 0.0.0
 
   '@rush-temp/ai-projects@file:projects/ai-projects.tgz':
-    resolution: {integrity: sha512-LPGe07VMuqrFhZUp0slNMMxB9IVKneG3Ziy86P8eF6dP9I3pSPcwMMqA+pJz98NxX6QgqIgovJ+LkGCGMfBxfA==, tarball: file:projects/ai-projects.tgz}
+    resolution: {integrity: sha512-KV0Fhzg/LZl+Ua9FydTuedR2iyqcf3RVzKjfclSuShjmZuMZIAt/+cS5nas8Pq1ATRhQxPAO2KSOvviC8NJkeA==, tarball: file:projects/ai-projects.tgz}
     version: 0.0.0
 
   '@rush-temp/ai-text-analytics@file:projects/ai-text-analytics.tgz':
@@ -3748,7 +3748,7 @@ packages:
     version: 0.0.0
 
   '@rush-temp/cosmos@file:projects/cosmos.tgz':
-    resolution: {integrity: sha512-P9XBdzgaAfs1wCf2MMLUeO90x+s/UlmIqNJP3GU/SwfD3SoIgGUCerbgVOwUJLvluUOMlQNkiUxgNcWAA00Mvw==, tarball: file:projects/cosmos.tgz}
+    resolution: {integrity: sha512-BqmteZEh9e/E4f2oIY8S/xI61hPiSN99wWx6RFr6lKZL1QB2vPNvpstc4ShXh5RlMLUhbVX6ju4kNBjEbP2ruQ==, tarball: file:projects/cosmos.tgz}
     version: 0.0.0
 
   '@rush-temp/create-microsoft-playwright-testing@file:projects/create-microsoft-playwright-testing.tgz':
@@ -3924,11 +3924,11 @@ packages:
     version: 0.0.0
 
   '@rush-temp/monitor-opentelemetry@file:projects/monitor-opentelemetry.tgz':
-    resolution: {integrity: sha512-70HTAp/lVGldHOi0Hh6Ocd7Eg9zvmRRf+WcC/uhjOAQLEDM/DLl3zxhew6bKyIEiLxPmh5na35PxgXsTPB6LrA==, tarball: file:projects/monitor-opentelemetry.tgz}
+    resolution: {integrity: sha512-vl3nOHs3teYw51n1s9n/qdbAojwrnJkmFPs3VbYWKOlzYSV/6KM2AvEayoMlNFKb7ZM4Ad7qOfTnFIDX92cc7A==, tarball: file:projects/monitor-opentelemetry.tgz}
     version: 0.0.0
 
   '@rush-temp/monitor-query@file:projects/monitor-query.tgz':
-    resolution: {integrity: sha512-ZRW3T6bfDKeuO/12XAat4YwHFYkijTnJNnrL7OiGUxFHqB/mhu31wIxGcGyqKz/guEPCdXuQYqNU8WeUdnUwag==, tarball: file:projects/monitor-query.tgz}
+    resolution: {integrity: sha512-yXmWCMSCJItdYZJTYsqJgotHs5aHHPY++Y60Uv9zbNHFZ1yFyPnA7YOC9B0LzyuShjecWWidgELQh7T4PmlkrQ==, tarball: file:projects/monitor-query.tgz}
     version: 0.0.0
 
   '@rush-temp/notification-hubs@file:projects/notification-hubs.tgz':
@@ -4004,7 +4004,7 @@ packages:
     version: 0.0.0
 
   '@rush-temp/perf-monitor-opentelemetry@file:projects/perf-monitor-opentelemetry.tgz':
-    resolution: {integrity: sha512-QtV7OPWFzewMKq3h1VoX2C/6kHVk5+XlETk/+8f6JGuu7T6sjC6JFYfVqo1U3wXLGZGrwQkgvanP1pxbyT0kGQ==, tarball: file:projects/perf-monitor-opentelemetry.tgz}
+    resolution: {integrity: sha512-NJ/nbOFv71Z6YjAsxB9mDmx94XnKEK4ZBc97DjpOWd6h3LiqiIxe/yI0K7msPH+9s8vt85N8+CRY7k/bFGI6nA==, tarball: file:projects/perf-monitor-opentelemetry.tgz}
     version: 0.0.0
 
   '@rush-temp/perf-monitor-query@file:projects/perf-monitor-query.tgz':
@@ -20098,6 +20098,8 @@ snapshots:
       dotenv: 16.5.0
       eslint: 9.28.0
       fast-json-stable-stringify: 2.1.0
+      http-proxy-agent: 7.0.2
+      https-proxy-agent: 7.0.6
       nock: 13.5.6
       playwright: 1.52.0
       priorityqueuejs: 2.0.0
