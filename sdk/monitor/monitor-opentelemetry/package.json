@@ -28,7 +28,7 @@
     "update-snippets": "dev-tool run update-snippets"
   },
   "engines": {
-    "node": ">=18.0.0"
+    "node": ">=20.0.0"
   },
   "files": [
     "dist/",
@@ -57,7 +57,7 @@
     "@azure/eslint-plugin-azure-sdk": "^3.0.0",
     "@azure/functions": "^4.5.0",
     "@azure/functions-old": "npm:@azure/functions@3.5.1",
-    "@types/node": "^18.0.0",
+    "@types/node": "^20.0.0",
     "@vitest/coverage-istanbul": "^3.0.3",
     "dotenv": "^16.0.0",
     "eslint": "^9.9.0",

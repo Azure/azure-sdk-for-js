@@ -4,7 +4,7 @@
   "version": "1.0.0",
   "description": "Cookbook for Azure OpenAI client library for JavaScript",
   "engines": {
-    "node": ">=18.0.0"
+    "node": ">=20.0.0"
   },
   "repository": {
     "type": "git",
@@ -31,7 +31,7 @@
     "openai": "^4.42.0",
     "@azure/identity": "^4.2.0",
     "tiktoken-node": "~0.0.6",
-    "mathjs":"^11.0.0",
+    "mathjs": "^11.0.0",
     "dotenv": "latest"
   }
 }
