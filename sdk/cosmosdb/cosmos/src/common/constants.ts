@@ -546,3 +546,11 @@ export enum PartitionAvailablilityStatus {
   Available,
   Unavailable,
 }
+
+/**
+ * @hidden
+ */
+export enum UserAgentFeatureFlags {
+  PerPartitionAutomaticFailover = 1,
+  PerPartitionCircuitBreaker = 2,
+}

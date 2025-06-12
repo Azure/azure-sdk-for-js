@@ -413,6 +413,7 @@ export type DiagnosticDataValue = {
     responseBody: any;
     url: string;
   }>;
+  parititonKeyRangeFailoverInfo: string;
 };
 
 /**

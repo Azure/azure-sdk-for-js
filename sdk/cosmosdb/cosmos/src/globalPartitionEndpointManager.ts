@@ -8,6 +8,7 @@ import {
 } from "./common/index.js";
 import {
   Constants,
+  DiagnosticNodeInternal,
   type CosmosClientOptions,
   type GlobalEndpointManager,
   type RequestContext,
@@ -59,7 +60,10 @@ export class GlobalPartitionEndpointManager {
    * tries to mark the endpoint unavailable for the partition key range. Future
    * requests will be routed to the next location if available.
    */
-  public async tryPartitionLevelFailover(requestContext: RequestContext): Promise<boolean> {
+  public async tryPartitionLevelFailover(
+    requestContext: RequestContext,
+    diagnosticNode: DiagnosticNodeInternal,
+  ): Promise<boolean> {
     if (!(await this.isRequestEligibleForPartitionFailover(requestContext, true))) {
       return false;
     }
@@ -68,13 +72,14 @@ export class GlobalPartitionEndpointManager {
       (this.isRequestEligibleForPartitionLevelCircuitBreaker(requestContext) &&
         (await this.incrementRequestFailureCounterAndCheckIfPartitionCanFailover(requestContext)))
     ) {
-      return this.tryMarkEndpointUnavailableForPartitionKeyRange(requestContext);
+      return this.tryMarkEndpointUnavailableForPartitionKeyRange(requestContext, diagnosticNode);
     }
     return false;
   }
 
   private async tryMarkEndpointUnavailableForPartitionKeyRange(
     requestContext: RequestContext,
+    diagnosticNode: DiagnosticNodeInternal,
   ): Promise<boolean> {
     const partitionKeyRangeId = requestContext.partitionKeyRangeId;
     const failedEndPoint = requestContext.endpoint;
@@ -92,6 +97,7 @@ export class GlobalPartitionEndpointManager {
         failedEndPoint,
         readEndPoints,
         this.partitionKeyRangeToLocationForWrite,
+        diagnosticNode,
       );
     } else if (this.isRequestEligibleForPartitionLevelCircuitBreaker(requestContext)) {
       // For multi master write accounts, since all the regions are treated as write regions, the next locations to fail over
@@ -117,6 +123,7 @@ export class GlobalPartitionEndpointManager {
         failedEndPoint,
         readEndPoints,
         this.partitionKeyRangeToLocationForReadAndWrite,
+        diagnosticNode,
       );
     }
     return false;
@@ -305,6 +312,7 @@ export class GlobalPartitionEndpointManager {
     failedEndPoint: string,
     nextEndPoints: readonly string[],
     partitionKeyRangeToLocation: Map<string, PartitionKeyRangeFailoverInfo>,
+    diagnosticNode: DiagnosticNodeInternal,
   ): Promise<boolean> {
     if (!partitionKeyRangeToLocation.has(partitionKeyRangeId)) {
       // If the partition key range is not already in the map, add it
@@ -315,6 +323,9 @@ export class GlobalPartitionEndpointManager {
 
     // Will return true if it was able to update to a new region
     if (await partitionFailOver.tryMoveNextLocation(nextEndPoints, failedEndPoint)) {
+      diagnosticNode.addData({
+        parititonKeyRangeFailoverInfo: `PartitionKeyRangeId: ${partitionKeyRangeId}, failedLocations: ${partitionFailOver.failedEndPoints}, newLocation: ${partitionFailOver.currentEndPoint}`,
+      });
       return true;
     }
     // All the locations have been tried. Remove the override information

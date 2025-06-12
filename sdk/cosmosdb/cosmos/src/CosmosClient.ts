@@ -5,7 +5,7 @@ import { Offer, Offers } from "./client/Offer/index.js";
 import { ClientContext } from "./ClientContext.js";
 import { parseConnectionString } from "./common/index.js";
 import { Constants } from "./common/constants.js";
-import { getUserAgent } from "./common/platform.js";
+import { addFeatureFlagsToUserAgent, getUserAgent } from "./common/platform.js";
 import type { CosmosClientOptions } from "./CosmosClientOptions.js";
 import type { ClientConfigDiagnostic } from "./CosmosDiagnostics.js";
 import {
@@ -147,7 +147,9 @@ export class CosmosClient {
         optionsOrConnectionString.throughputBucket;
     }
 
-    const userAgent = getUserAgent(optionsOrConnectionString.userAgentSuffix);
+    let userAgent = getUserAgent(optionsOrConnectionString.userAgentSuffix);
+    userAgent = userAgent + addFeatureFlagsToUserAgent(optionsOrConnectionString);
+
     optionsOrConnectionString.defaultHeaders[Constants.HttpHeaders.UserAgent] = userAgent;
     optionsOrConnectionString.defaultHeaders[Constants.HttpHeaders.CustomUserAgent] = userAgent;
 

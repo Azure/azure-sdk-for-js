@@ -118,6 +118,7 @@ export async function execute({
 
       if (overrideResult.overridden && overrideResult.newLocation !== undefined) {
         requestContext.endpoint = overrideResult.newLocation;
+        localDiagnosticNode.recordEndpointResolution(overrideResult.newLocation);
       }
 
       try {

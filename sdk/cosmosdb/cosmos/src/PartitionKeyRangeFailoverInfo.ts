@@ -9,7 +9,7 @@ import semaphore from "semaphore";
  * It tracks the current endpoint, failed endpoints, and the number of consecutive read/write request failures.
  */
 export class PartitionKeyRangeFailoverInfo {
-  private failedEndPoints: string[] = [];
+  public failedEndPoints: string[] = [];
   public currentEndPoint: string;
   public firstFailedEndPoint: string;
 
