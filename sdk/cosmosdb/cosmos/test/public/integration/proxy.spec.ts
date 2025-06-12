@@ -4,12 +4,12 @@
 import * as http from "http";
 import * as net from "net";
 import { URL } from "url";
-import { ProxyAgent } from "proxy-agent";
-import { CosmosClient, CosmosClientOptions } from "../../../src/index.js";
+import { HttpsProxyAgent } from "https-proxy-agent";
+import { CosmosClient, type CosmosClientOptions } from "../../../src/index.js";
 import { endpoint } from "../common/_testConfig.js";
 import { masterKey } from "../common/_fakeTestSecrets.js";
 import { addEntropy } from "../common/TestHelpers.js";
-import { describe, it, beforeAll, afterAll, expect, vi } from "vitest";
+import { describe, it, beforeAll, afterAll, expect } from "vitest";
 
 const isBrowser = new Function("try {return this===window;}catch(e){ return false;}");
 
@@ -22,57 +22,10 @@ interface ProxyServer extends http.Server {
 
 if (!isBrowser()) {
   describe("HTTP Proxy Integration Tests", () => {
-    let proxyServer: ProxyServer;
+    let proxyServer: ProxyServer | null = null;
     let testDatabaseId: string;
 
-    beforeAll(() => {
-      // Create proxy server
-      proxyServer = http.createServer((_req, res) => {
-        res.writeHead(200, { "Content-Type": "text/plain" });
-        res.end();
-      }) as ProxyServer;
-
-      // Handle CONNECT method for HTTPS
-      proxyServer.on(
-        "connect",
-        (req: http.IncomingMessage, clientSocket: net.Socket, head: Buffer) => {
-          try {
-            const serverUrl = new URL(`http://${req.url}`);
-            const serverSocket = net.connect(
-              parseInt(serverUrl.port, 10),
-              serverUrl.hostname,
-              () => {
-                clientSocket.write(
-                  "HTTP/1.1 200 Connection Established\r\n" +
-                    "Proxy-agent: Node.js-Proxy\r\n" +
-                    "\r\n",
-                );
-                serverSocket.write(head);
-                serverSocket.pipe(clientSocket);
-                clientSocket.pipe(serverSocket);
-              },
-            );
-
-            serverSocket.on("error", (err) => {
-              console.error("Server socket error:", err);
-              clientSocket.destroy();
-            });
-          } catch (err) {
-            console.error("Error in proxy connect handler:", err);
-            clientSocket.destroy();
-          }
-        },
-      );
-
-      // Add closeAsync method to properly close the server
-      proxyServer.closeAsync = () =>
-        new Promise<void>((resolve, reject) => {
-          proxyServer.close((err) => {
-            if (err) reject(err);
-            else resolve();
-          });
-        });
-
+    beforeAll(async () => {
       // Generate test database ID once
       testDatabaseId = addEntropy("ProxyTest");
     });
@@ -80,10 +33,63 @@ if (!isBrowser()) {
     afterAll(async () => {
       if (proxyServer) {
         await proxyServer.closeAsync?.();
+        proxyServer = null;
       }
     });
 
-    const createTestClient = (options: Partial<CosmosClientOptions> = {}) => {
+    const createProxyServer = (): ProxyServer => {
+      const server = http.createServer((_req, res) => {
+        res.writeHead(200, { "Content-Type": "text/plain" });
+        res.end();
+      }) as ProxyServer;
+
+      // Handle CONNECT method for HTTPS
+      server.on("connect", (req: http.IncomingMessage, clientSocket: net.Socket, head: Buffer) => {
+        // Parse the host:port from the CONNECT request
+        const [host, port] = req.url!.split(":");
+        const serverSocket = net.connect(Number(port), host, () => {
+          clientSocket.write(
+            "HTTP/1.1 200 Connection Established\r\n" + "Proxy-agent: Node.js-Proxy\r\n" + "\r\n",
+          );
+          if (head && head.length) serverSocket.write(head);
+          serverSocket.pipe(clientSocket);
+          clientSocket.pipe(serverSocket);
+        });
+
+        // Add timeouts and error handling
+        serverSocket.setTimeout(10000, () => {
+          serverSocket.destroy();
+          clientSocket.destroy();
+        });
+        clientSocket.setTimeout(10000, () => {
+          serverSocket.destroy();
+          clientSocket.destroy();
+        });
+
+        serverSocket.on("error", (err) => {
+          console.error("Server socket error:", err);
+          clientSocket.destroy();
+        });
+
+        clientSocket.on("error", (err) => {
+          console.error("Client socket error:", err);
+          serverSocket.destroy();
+        });
+      });
+
+      // Add closeAsync method to properly close the server
+      server.closeAsync = () =>
+        new Promise<void>((resolve, reject) => {
+          server.close((err) => {
+            if (err) reject(err);
+            else resolve();
+          });
+        });
+
+      return server;
+    };
+
+    const createTestClient = (options: Partial<CosmosClientOptions> = {}): CosmosClient => {
       return new CosmosClient({
         endpoint,
         key: masterKey,
@@ -96,35 +102,43 @@ if (!isBrowser()) {
     };
 
     const startProxyServer = (port: number): Promise<void> => {
-      return new Promise((resolve) => {
-        proxyServer.listen(port, "localhost", resolve);
+      return new Promise((resolve, reject) => {
+        if (proxyServer) {
+          proxyServer.listen(port, "localhost", (err?: Error) => {
+            if (err) reject(err);
+            else resolve();
+          });
+        } else {
+          reject(new Error("Proxy server not initialized"));
+        }
       });
     };
 
     it(
       "nativeApi Client Should successfully execute request",
       async () => {
-        // Start the proxy server
-        await startProxyServer(PROXY_PORT);
-
-        // Create a client with proxy configuration
-        const agent = new ProxyAgent({
-          getProxyForUrl: () => `http://localhost:${PROXY_PORT}`,
-        });
-
-        const client = createTestClient({ agent });
+        // Create a new proxy server for this test
+        proxyServer = createProxyServer();
 
         try {
+          // Start the proxy server
+          await startProxyServer(PROXY_PORT);
+
+          // Create a client with proxy configuration using HttpsProxyAgent
+          const agent = new HttpsProxyAgent(`http://localhost:${PROXY_PORT}`);
+          const client = createTestClient({ agent });
+
           // Test a simple operation
           const { database } = await client.databases.create({ id: testDatabaseId });
           expect(database.id).toBe(testDatabaseId);
+
+          // Cleanup database
+          await client.database(testDatabaseId).delete();
         } finally {
-          // Cleanup
-          try {
-            await client.database(testDatabaseId).delete();
-          } catch (error) {
-            // Ignore cleanup errors
-            console.warn("Cleanup failed:", error);
+          // Ensure proxy server is stopped
+          if (proxyServer) {
+            await proxyServer.closeAsync?.();
+            proxyServer = null;
           }
         }
       },
@@ -134,17 +148,21 @@ if (!isBrowser()) {
     it(
       "nativeApi Client Should execute request in error while the proxy setting is not correct",
       async () => {
-        // Don't start the proxy server for this test
-        const invalidPort = 12345; // Use a port that's definitely not in use
-        const agent = new ProxyAgent({
-          getProxyForUrl: () => `http://localhost:${invalidPort}`,
-          // Set a lower timeout for the test to fail faster
-          timeout: 5000,
-        });
-
+        // Use an invalid proxy port that's definitely not in use
+        const invalidPort = 12345;
+        const agent = new HttpsProxyAgent(`http://localhost:${invalidPort}`);
         const client = createTestClient({ agent });
 
-        await expect(client.databases.create({ id: testDatabaseId })).rejects.toThrow();
+        // The request should fail due to proxy connection error
+        // Add a timeout to ensure the test does not hang indefinitely
+        await expect(
+          Promise.race([
+            client.databases.create({ id: testDatabaseId + "_invalid" }),
+            new Promise((_, reject) =>
+              setTimeout(() => reject(new Error("Proxy connection timeout")), 10000),
+            ),
+          ]),
+        ).rejects.toThrow();
       },
       TEST_TIMEOUT_MS,
     );

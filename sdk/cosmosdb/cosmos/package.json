@@ -92,6 +92,7 @@
     "assertion-error": "^2.0.1",
     "dotenv": "^16.0.0",
     "eslint": "^9.9.0",
+    "https-proxy-agent": "^7.0.6",
     "nock": "^13.5.4",
     "playwright": "^1.51.1",
     "typescript": "~5.8.2",
