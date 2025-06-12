@@ -54,10 +54,7 @@ import { DnsResolverManagementClient } from "@azure/arm-dnsresolver";
 import { DefaultAzureCredential } from "@azure/identity";
 
 const subscriptionId = "00000000-0000-0000-0000-000000000000";
-const client = new DnsResolverManagementClient(
-  new DefaultAzureCredential(),
-  subscriptionId
-);
+const client = new DnsResolverManagementClient(new DefaultAzureCredential(), subscriptionId);
 ```
 
 For browser environments, use the `InteractiveBrowserCredential` from the `@azure/identity` package to authenticate.
