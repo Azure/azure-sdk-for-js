@@ -2396,8 +2396,8 @@
       "versionPolicyName": "management"
     },
     {
-      "packageName": "@azure-rest/analytics-onlineexperimentation",
-      "projectFolder": "sdk/onlineexperimentation/analytics-onlineexperimentation-rest",
+      "packageName": "@azure-rest/onlineexperimentation",
+      "projectFolder": "sdk/onlineexperimentation/onlineexperimentation-rest",
       "versionPolicyName": "client"
     },
     {
