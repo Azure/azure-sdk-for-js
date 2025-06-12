@@ -1,8 +1,8 @@
 {
   "extends": "./tsconfig",
   "compilerOptions": {
-    "module": "NodeNext",
-    "moduleResolution": "NodeNext",
+    "module": "esnext",
+    "moduleResolution": "bundler",
     "composite": true
   },
   "include": ["${configDir}/src"]
