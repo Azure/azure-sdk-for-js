@@ -35,17 +35,41 @@ describe("executeActions", () => {
     ]);
   });
 
-
   it("should run lint in appropriate folders", () => {
     executeActions("lint", ["appconfiguration"], [], "azure-app-configuration");
     const packageDir = pathJoin(baseDir, "sdk/appconfiguration/app-configuration");
     assert.deepEqual(vi.mocked(spawnPnpmRun).mock.calls, [[packageDir, "lint"]]);
   });
 
+  it.only("should run test for those impacted by non-restricted package", () => {
+    executeActions("test:node", ["core", "communication"], [], "azure-communication-identity");
+    const packageDir = pathJoin(baseDir, "sdk/appconfiguration/app-configuration");
+    const executeScript = pathJoin(baseDir, "common/scripts/install-run-rush.js");
+    assert.deepEqual(vi.mocked(spawnPnpm).mock.calls, [
+      [
+        baseDir,
+        "run",
+        "--filter",
+        "...@azure/communication-identity",
+        "--filter",
+        "@azure-rest/synapse-access-control",
+        "--filter",
+        "@azure/arm-resources",
+        "--filter",
+        "@azure/identity",
+        "--filter",
+        "@azure/service-bus",
+        "--filter",
+        "@azure/template",
+        "test:node",
+      ],
+    ]);
+  });
+
   it("should handle arbitrary run commands", () => {
     executeActions("foo", ["appconfiguration"], [], "azure-app-configuration");
     assert.deepEqual(vi.mocked(spawnPnpm).mock.calls, [
-      [baseDir, "run", "--filter", "@azure/app-configuration...", "foo",],
+      [baseDir, "run", "--filter", "@azure/app-configuration...", "foo"],
     ]);
   });
 

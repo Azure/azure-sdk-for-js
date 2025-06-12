@@ -69,14 +69,11 @@ describe("getDirectionMappedPackages", () => {
       assert.deepStrictEqual(mapped, ["...@azure/app-configuration"]);
     });
 
-    it("should use --only when testing two or more service dirs", () => {
+    it("should run impacted when testing two or more service dirs for non-restricted packages", () => {
       const changed = ["@azure/app-configuration", "@azure/storage-blob"];
       const mapped = getFilteredPackages(changed, "unit-test", ["appconfiguration", "storage"]);
 
-      assert.deepStrictEqual(mapped, [
-        "@azure/app-configuration",
-        "@azure/storage-blob",
-      ]);
+      assert.deepStrictEqual(mapped, ["...@azure/app-configuration", "...@azure/storage-blob"]);
     });
   });
 });

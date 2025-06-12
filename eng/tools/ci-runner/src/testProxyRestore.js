@@ -10,7 +10,7 @@ import { existsSync, readFileSync } from "node:fs";
 /**
  * Runs test-proxy restore for the given packages.
  *
- * @param {string[]} packages - An array of package names to restore.
+ * @param {{ path: string; name: string;}[]} packages - An array of package names to restore.
  */
 export function runTestProxyRestore(packages) {
   // Get the path to the proxy executable from the environment variable

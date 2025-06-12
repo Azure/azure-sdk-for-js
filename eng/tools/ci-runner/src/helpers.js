@@ -109,7 +109,7 @@ export const getFilteredPackages = (packageNames, action, serviceDirs) => {
   } else {
     mappedPackages.push(
       ...fullPackageNames.map((p) =>
-        isReducedTestScopeEnabled ? `${p}` : `...${p}`,
+        !restrictedToPackages.includes(p) && packageNames.includes(p) ? `...${p}` : p,
       ),
     );
   }
