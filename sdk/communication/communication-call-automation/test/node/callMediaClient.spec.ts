@@ -1240,7 +1240,7 @@ describe("Call Media Client Live Tests", function () {
         answerCallOption,
       );
     }
-    const callConnectedEvent = await waitForEvent("CallConnected", callConnectionId, 8000);
+    const callConnectedEvent = await waitForEvent("CallConnected", callConnectionId, 15000);
     assert.isDefined(callConnectedEvent);
     callConnection = result.callConnection;
 

@@ -30,7 +30,7 @@ import { CallMediaImpl } from "./generated/src/operations/index.js";
 
 import type { CommunicationIdentifier } from "@azure/communication-common";
 import {
-  createCommunicationAuthPolicy,
+  //createCommunicationAuthPolicy,
   serializeCommunicationIdentifier,
 } from "@azure/communication-common";
 
@@ -55,6 +55,7 @@ import type {
 import type { KeyCredential, TokenCredential } from "@azure/core-auth";
 import type { SendDtmfTonesResult } from "./models/responses.js";
 import { randomUUID } from "@azure/core-util";
+import { createCustomCallAutomationApiClient } from "./credential/callAutomationAuthPolicy.js";
 /**
  * CallMedia class represents call media related APIs.
  */
@@ -68,9 +69,14 @@ export class CallMedia {
     credential: KeyCredential | TokenCredential,
     options?: CallAutomationApiClientOptionalParams,
   ) {
-    this.callAutomationApiClient = new CallAutomationApiClient(endpoint, options);
-    const authPolicy = createCommunicationAuthPolicy(credential);
-    this.callAutomationApiClient.pipeline.addPolicy(authPolicy);
+    this.callAutomationApiClient = createCustomCallAutomationApiClient(
+      credential,
+      options,
+      endpoint,
+    );
+    //this.callAutomationApiClient = new CallAutomationApiClient(endpoint, options);
+    //const authPolicy = createCommunicationAuthPolicy(credential);
+    //this.callAutomationApiClient.pipeline.addPolicy(authPolicy);
     this.callConnectionId = callConnectionId;
     this.callMedia = new CallMediaImpl(this.callAutomationApiClient);
   }
