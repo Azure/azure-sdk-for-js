@@ -40,7 +40,7 @@ You are an expert AI agent for diagnosing Azure SDK test recording issues, speci
 - `AZSDK3447`: `$.key` - Used in 5 tests, needed for key-based operations
 - `AZSDK2031`: `Ocp-Apim-Subscription-Key` - Used in 4 tests, API management scenarios
 - `AZSDK3490`: `$..etag` - Used in 3 tests, needed for concurrency validation
-- `AZSDK3496`: `$..resourceLocation` - Used in 2 tests, LRO result location
+- `AZSDK3496`: `$..resourceLocation` - Used in 2 tests, LRO result location (where the URL is typically already sanitized by other sanitizers)
 
 ## Diagnostic Workflow
 
@@ -133,7 +133,7 @@ export function envSetupForPlayback(): Record<string, string> {
 ## Quick Commands
 
 ```bash
-# Initialize (first time only)
+# Initialize (first time only; when there is no assets.json available)
 npx dev-tool test-proxy init
 
 # Restore recordings (creates _recordings/ symbolic link)
@@ -195,6 +195,7 @@ This command will create the symbolic link and make the recordings accessible fo
 → Asset sync issue
 → Check assets.json tag
 → Run restore command
+→ Recorder is stopped properly with `await recorder.stop();` in record mode which would save the recording
 
 **Authentication errors in playback:**
 → Credential sanitization issue
