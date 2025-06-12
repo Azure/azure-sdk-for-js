@@ -1,5 +1,11 @@
 # Release History
 
+## 1.0.0-beta.5 (unreleased)
+
+### Bugs Fixed
+
+- Fixed an issue with event data parsing
+
 ## 1.0.0-beta.4 (2025-06-10)
 
 ### Features Added
