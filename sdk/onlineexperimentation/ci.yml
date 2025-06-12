@@ -31,5 +31,9 @@ extends:
   parameters:
     ServiceDirectory: onlineexperimentation
     Artifacts:
+<<<<<<< HEAD
       - name: azure-rest-onlineexperimentation
+=======
+      - name: azure-app-configuration
+>>>>>>> 24405735ae ([OnlineExperimentation] Removed “analytics” namespace prefix from package name. (#34774))
         safeName: azureonlineexperimentation
