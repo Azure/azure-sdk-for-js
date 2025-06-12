@@ -144,7 +144,7 @@ matrix([[true, false]], async (useAad) => {
 
       let updatedReservationResponse = await client.createOrUpdateReservation(
         {
-          reservationId: getReservationId(),
+          reservationId: reservationId,
         },
         {
           add: updatedPhoneNumbersList,
@@ -165,7 +165,7 @@ matrix([[true, false]], async (useAad) => {
       phoneNumbersList.push(phoneNumbers[1]);
       updatedReservationResponse = await client.createOrUpdateReservation(
         {
-          reservationId: getReservationId(),
+          reservationId: reservationId,
         },
         {
           add: phoneNumbersList,
