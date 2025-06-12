@@ -9,8 +9,7 @@ import {
   OperationType,
   ResourceType,
 } from "../../../src/common/index.js";
-import { Constants, ErrorResponse, HTTPMethod, RequestContext } from "../../../src/index.js";
-import { mock } from "node:test";
+import { Constants, HTTPMethod, RequestContext } from "../../../src/index.js";
 
 const mockReadEndpoints = [
   "https://region1.documents.azure.com:443/",
@@ -18,6 +17,7 @@ const mockReadEndpoints = [
   "https://region3.documents.azure.com:443/",
 ];
 import { PartitionKeyRangeFailoverInfo } from "../../../src/PartitionKeyRangeFailoverInfo.js";
+import { createDummyDiagnosticNode } from "../common/TestHelpers.js";
 
 function createMockGlobalEndpointManager(): GlobalEndpointManager {
   return {
@@ -67,6 +67,8 @@ function createMockGlobalPartitionEndpointManager(
   return globalPartitionEndpointManager;
 }
 
+const diagnosticNode = createDummyDiagnosticNode();
+
 describe("GlobalPartitionEndpointManager", () => {
   describe("tryMarkEndpointUnavailableForPartitionKeyRange", () => {
     let globalPartitionEndpointManager: GlobalPartitionEndpointManager;
@@ -79,6 +81,7 @@ describe("GlobalPartitionEndpointManager", () => {
     it("should return false if request context is undefined", async () => {
       const result = await globalPartitionEndpointManager.tryPartitionLevelFailover(
         undefined as any,
+        diagnosticNode,
       );
       assert.equal(result, false);
     });
@@ -86,6 +89,7 @@ describe("GlobalPartitionEndpointManager", () => {
     it("should return false if partitionKeyRangeId is missing", async () => {
       const result = await globalPartitionEndpointManager.tryPartitionLevelFailover(
         createRequestContext({ partitionKeyRangeId: undefined }),
+        diagnosticNode,
       );
       assert.equal(result, false);
     });
@@ -93,6 +97,7 @@ describe("GlobalPartitionEndpointManager", () => {
     it("should return false if endpoint is missing", async () => {
       const result = await globalPartitionEndpointManager.tryPartitionLevelFailover(
         createRequestContext({ endpoint: undefined }),
+        diagnosticNode,
       );
       assert.equal(result, false);
     });
@@ -100,6 +105,7 @@ describe("GlobalPartitionEndpointManager", () => {
     it("should return false if failed endpoint is missing", async () => {
       const result = await globalPartitionEndpointManager.tryPartitionLevelFailover(
         createRequestContext({ endpoint: undefined }),
+        diagnosticNode,
       );
       assert.equal(result, false);
     });
@@ -115,14 +121,19 @@ describe("GlobalPartitionEndpointManager", () => {
         },
         mockGEM,
       );
-      const result = await managerNoPreferred.tryPartitionLevelFailover(createRequestContext());
+      const result = await managerNoPreferred.tryPartitionLevelFailover(
+        createRequestContext(),
+        diagnosticNode,
+      );
       assert.equal(result, false);
     });
 
     it("should succeed and cycle through endpoints", async () => {
       const requestContext = createRequestContext();
-      const firstFailover =
-        await globalPartitionEndpointManager.tryPartitionLevelFailover(requestContext);
+      const firstFailover = await globalPartitionEndpointManager.tryPartitionLevelFailover(
+        requestContext,
+        diagnosticNode,
+      );
       assert.equal(firstFailover, true);
 
       const result =
@@ -134,11 +145,20 @@ describe("GlobalPartitionEndpointManager", () => {
     it("should clean up after all endpoints have failed", async () => {
       const requestContext = createRequestContext();
       // Fail all locations manually
-      await globalPartitionEndpointManager.tryPartitionLevelFailover(requestContext); // Moves to region2
+      await globalPartitionEndpointManager.tryPartitionLevelFailover(
+        requestContext,
+        diagnosticNode,
+      ); // Moves to region2
       requestContext.endpoint = mockReadEndpoints[1];
-      await globalPartitionEndpointManager.tryPartitionLevelFailover(requestContext); // Moves to region3
+      await globalPartitionEndpointManager.tryPartitionLevelFailover(
+        requestContext,
+        diagnosticNode,
+      ); // Moves to region3
       requestContext.endpoint = mockReadEndpoints[2];
-      const result = await globalPartitionEndpointManager.tryPartitionLevelFailover(requestContext); // No more locations
+      const result = await globalPartitionEndpointManager.tryPartitionLevelFailover(
+        requestContext,
+        diagnosticNode,
+      ); // No more locations
       assert.equal(result, false);
 
       // Should no longer override since failover info is deleted
@@ -151,8 +171,8 @@ describe("GlobalPartitionEndpointManager", () => {
       const ctx1 = createRequestContext({ partitionKeyRangeId: "range1" });
       const ctx2 = createRequestContext({ partitionKeyRangeId: "range2" });
 
-      await globalPartitionEndpointManager.tryPartitionLevelFailover(ctx1);
-      await globalPartitionEndpointManager.tryPartitionLevelFailover(ctx2);
+      await globalPartitionEndpointManager.tryPartitionLevelFailover(ctx1, diagnosticNode);
+      await globalPartitionEndpointManager.tryPartitionLevelFailover(ctx2, diagnosticNode);
 
       const override1 =
         await globalPartitionEndpointManager.tryAddPartitionLevelLocationOverride(ctx1);
@@ -201,7 +221,10 @@ describe("GlobalPartitionEndpointManager", () => {
 
     it("should return override if failover occurred", async () => {
       const requestContext = createRequestContext();
-      await globalPartitionEndpointManager.tryPartitionLevelFailover(requestContext);
+      await globalPartitionEndpointManager.tryPartitionLevelFailover(
+        requestContext,
+        diagnosticNode,
+      );
 
       const override =
         await globalPartitionEndpointManager.tryAddPartitionLevelLocationOverride(requestContext);
