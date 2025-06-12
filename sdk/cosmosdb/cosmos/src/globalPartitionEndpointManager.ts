@@ -324,7 +324,7 @@ export class GlobalPartitionEndpointManager {
     // Will return true if it was able to update to a new region
     if (await partitionFailOver.tryMoveNextLocation(nextEndPoints, failedEndPoint)) {
       diagnosticNode.addData({
-        parititonKeyRangeFailoverInfo: `PartitionKeyRangeId: ${partitionKeyRangeId}, failedLocations: ${partitionFailOver.failedEndPoints}, newLocation: ${partitionFailOver.currentEndPoint}`,
+        partitionKeyRangeFailoverInfo: `PartitionKeyRangeId: ${partitionKeyRangeId}, failedLocations: ${partitionFailOver.failedEndPoints}, newLocation: ${partitionFailOver.currentEndPoint}`,
       });
       return true;
     }
