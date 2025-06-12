@@ -657,8 +657,7 @@ describe("syncUploadFromURL", () => {
     assert.deepStrictEqual(getTagsRes.tags, tags);
   });
 
-  // [Copy source error code] Feature is pending on service side, skip the case for now.
-  it.skip("syncUploadFromURL - should fail with copy source error message", async () => {
+  it("syncUploadFromURL - should fail with copy source error message", async () => {
     const tmr = new Date(recorder.variable("tmr", new Date().toISOString()));
     tmr.setDate(tmr.getDate() + 1);
 
@@ -684,8 +683,7 @@ describe("syncUploadFromURL", () => {
     }
   });
 
-  // [Copy source error code] Feature is pending on service side, skip the case for now.
-  it.skip("stageBlockFromURL - should fail with copy source error message", async () => {
+  it("stageBlockFromURL - should fail with copy source error message", async () => {
     const tmr = new Date(recorder.variable("tmr", new Date().toISOString()));
     tmr.setDate(tmr.getDate() + 1);
 
