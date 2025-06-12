@@ -37,12 +37,12 @@ steps:
 
   - script: |
       node eng/tools/ci-runner/index.js test:node $(ChangedServices) -packages "$(ArtifactPackageNames)" --ci
-    displayName: "Test libraries"
+    displayName: "Test libraries node $(NodeTestVersion)"
     condition: and(succeeded(),eq(variables['TestType'], 'node'))
 
   - script: |
       node eng/tools/ci-runner/index.js test:browser $(ChangedServices) -packages "$(ArtifactPackageNames)" --ci
-    displayName: "Test libraries"
+    displayName: "Test libraries browser $(NodeTestVersion)"
     condition: and(succeeded(),eq(variables['TestType'], 'browser'))
 
   - ${{ if eq(parameters.TestProxy, true) }}:

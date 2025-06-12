@@ -11,10 +11,12 @@ stages:
     jobs:
       - job: BuildAllPackages
         timeoutInMinutes: 120
+        variables:
+          - template: /eng/pipelines/templates/variables/globals.yml
         steps:
           - template: /eng/pipelines/templates/steps/use-node-version.yml
             parameters:
-              NodeVersion: 20.x
+              NodeVersion: $(NODE_VERSION_LTS_ACTIVE)
 
           - template: ./templates/steps/generate-doc.yml
             parameters:
