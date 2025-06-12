@@ -7,8 +7,8 @@
 // @public
 export interface AcsCallEndedBy {
     communicationIdentifier: CommunicationIdentifierModel;
+    kind: AcsCallEndedByKind;
     name: string;
-    type: AcsCallEndedByKind;
 }
 
 // @public
@@ -47,7 +47,7 @@ export interface AcsCallingEvent {
 // @public
 export interface AcsCallParticipant {
     communicationIdentifier?: CommunicationIdentifierModel;
-    role?: AcsCallParticipantRoleKind;
+    role?: AcsCallParticipantKind;
 }
 
 // @public
@@ -63,11 +63,11 @@ export interface AcsCallParticipantEvent extends AcsCallingEvent {
 }
 
 // @public
-export interface AcsCallParticipantRemovedEventData extends AcsCallParticipantEvent {
-}
+export type AcsCallParticipantKind = string;
 
 // @public
-export type AcsCallParticipantRoleKind = string;
+export interface AcsCallParticipantRemovedEventData extends AcsCallParticipantEvent {
+}
 
 // @public
 export interface AcsCallRoom {
@@ -392,6 +392,9 @@ export interface AcsMessageReceivedEventData extends AcsMessageEventData {
 }
 
 // @public
+export type AcsRecordingChannelType = string;
+
+// @public
 export interface AcsRecordingChunkInfo {
     contentLocation?: string;
     deleteLocation?: string;
@@ -402,15 +405,21 @@ export interface AcsRecordingChunkInfo {
 }
 
 // @public
+export type AcsRecordingContentType = string;
+
+// @public
 export interface AcsRecordingFileStatusUpdatedEventData {
-    recordingChannelType: RecordingChannelType;
-    recordingContentType: RecordingContentType;
+    recordingChannelType: AcsRecordingChannelType;
+    recordingContentType: AcsRecordingContentType;
     recordingDurationMs?: number;
-    recordingFormatType: RecordingFormatType;
+    recordingFormatType: AcsRecordingFormatType;
     recordingStartTime: Date;
     recordingStorageInfo: AcsRecordingStorageInfo;
     sessionEndReason?: string;
 }
+
+// @public
+export type AcsRecordingFormatType = string;
 
 // @public
 export interface AcsRecordingStorageInfo {
@@ -751,7 +760,7 @@ export interface ApiManagementCircuitBreakerOpenedEventData {
 
 // @public
 export interface ApiManagementExpiredGatewayToken {
-    expiredAtUtc: Date;
+    expiresOn: Date;
 }
 
 // @public
@@ -812,14 +821,14 @@ export interface ApiManagementGatewayHostnameConfigurationUpdatedEventData {
 
 // @public
 export interface ApiManagementGatewayTokenExpiredEventData {
-    gatewayInfo: ApiManagementGateway;
-    tokenInfo: ApiManagementExpiredGatewayToken;
+    gateway: ApiManagementGateway;
+    token: ApiManagementExpiredGatewayToken;
 }
 
 // @public
 export interface ApiManagementGatewayTokenNearExpiryEventData {
-    gatewayInfo: ApiManagementGateway;
-    tokenInfo: ApiManagementNearExpiryGatewayToken;
+    gateway: ApiManagementGateway;
+    token: ApiManagementNearExpiryGatewayToken;
 }
 
 // @public
@@ -829,7 +838,7 @@ export interface ApiManagementGatewayUpdatedEventData {
 
 // @public
 export interface ApiManagementNearExpiryGatewayToken {
-    expiredAtUtc: Date;
+    expiresOn: Date;
 }
 
 // @public
@@ -1354,18 +1363,18 @@ export interface HealthcareDicomImageUpdatedEventData {
 
 // @public
 export interface HealthcareFhirResourceCreatedEventData {
-    resourceFhirAccount: string;
-    resourceFhirId: string;
-    resourceType: HealthcareFhirResourceType;
-    resourceVersionId: number;
+    fhirResourceId: string;
+    fhirResourceType: HealthcareFhirResourceType;
+    fhirResourceVersionId: number;
+    fhirServiceHostName: string;
 }
 
 // @public
 export interface HealthcareFhirResourceDeletedEventData {
-    resourceFhirAccount: string;
-    resourceFhirId: string;
-    resourceType: HealthcareFhirResourceType;
-    resourceVersionId: number;
+    fhirResourceId: string;
+    fhirResourceType: HealthcareFhirResourceType;
+    fhirResourceVersionId: number;
+    fhirServiceHostName: string;
 }
 
 // @public
@@ -1373,10 +1382,10 @@ export type HealthcareFhirResourceType = string;
 
 // @public
 export interface HealthcareFhirResourceUpdatedEventData {
-    resourceFhirAccount: string;
-    resourceFhirId: string;
-    resourceType: HealthcareFhirResourceType;
-    resourceVersionId: number;
+    fhirResourceId: string;
+    fhirResourceType: HealthcareFhirResourceType;
+    fhirResourceVersionId: number;
+    fhirServiceHostName: string;
 }
 
 // @public
@@ -1554,6 +1563,25 @@ export enum KnownAcsMessageDeliveryStatus {
 }
 
 // @public
+export enum KnownAcsRecordingChannelType {
+    Mixed = "Mixed",
+    Unmixed = "Unmixed"
+}
+
+// @public
+export enum KnownAcsRecordingContentType {
+    Audio = "Audio",
+    AudioVideo = "AudioVideo"
+}
+
+// @public
+export enum KnownAcsRecordingFormatType {
+    Mp3 = "Mp3",
+    Mp4 = "Mp4",
+    Wav = "Wav"
+}
+
+// @public
 export enum KnownAcsRouterJobStatus {
     Assigned = "Assigned",
     Cancelled = "Cancelled",
@@ -1633,6 +1661,7 @@ export enum KnownCommunicationCloudEnvironmentModel {
 // @public
 export enum KnownCommunicationIdentifierModelKind {
     CommunicationUser = "communicationUser",
+    MicrosoftTeamsApp = "microsoftTeamsApp",
     MicrosoftTeamsUser = "microsoftTeamsUser",
     PhoneNumber = "phoneNumber",
     Unknown = "unknown"
@@ -1832,25 +1861,6 @@ export enum KnownHealthcareFhirResourceType {
 }
 
 // @public
-export enum KnownRecordingChannelType {
-    Mixed = "Mixed",
-    Unmixed = "Unmixed"
-}
-
-// @public
-export enum KnownRecordingContentType {
-    Audio = "Audio",
-    AudioVideo = "AudioVideo"
-}
-
-// @public
-export enum KnownRecordingFormatType {
-    Mp3 = "Mp3",
-    Mp4 = "Mp4",
-    Wav = "Wav"
-}
-
-// @public
 export enum KnownServiceApiVersions {
     // (undocumented)
     V20180101 = "2018-01-01",
@@ -2019,15 +2029,6 @@ export interface PolicyInsightsPolicyStateDeletedEventData {
     subscriptionId: string;
     timestamp: Date;
 }
-
-// @public
-export type RecordingChannelType = string;
-
-// @public
-export type RecordingContentType = string;
-
-// @public
-export type RecordingFormatType = string;
 
 // @public
 export interface RedisExportRDBCompletedEventData {
@@ -2462,7 +2463,7 @@ export interface StorageLifecyclePolicyCompletedEventData {
 export interface StorageTaskAssignmentCompletedEventData {
     completedOn: Date;
     status: StorageTaskAssignmentCompletedStatus;
-    summaryReportBlobUri: string;
+    summaryReportBlobUrl: string;
     taskExecutionId?: string;
     taskName?: string;
 }
