@@ -109,9 +109,7 @@ export const getDirectionMappedPackages = (packageNames, action, serviceDirs) =>
     // we are in a test task of some kind
     mappedPackages.push(
       ...fullPackageNames.map((p) => {
-        if (restrictedToPackages.includes(p)) {
-          return ["--only", p];
-        } else if (packageNames.includes(p)) {
+        if (!restrictedToPackages.includes(p) && packageNames.includes(p)) {
           return ["--impacted-by", p];
         } else {
           return ["--only", p];
