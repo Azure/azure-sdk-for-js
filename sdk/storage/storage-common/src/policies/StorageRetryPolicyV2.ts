@@ -10,8 +10,8 @@ import type {
 } from "@azure/core-rest-pipeline";
 import { isRestError, RestError } from "@azure/core-rest-pipeline";
 import { getErrorMessage } from "@azure/core-util";
-import { StorageRetryPolicyType, type StorageRetryOptions } from "../StorageRetryPolicyFactory.js";
-import { URLConstants } from "../utils/constants.js";
+import type { StorageRetryOptions } from "../StorageRetryPolicyFactory.js";
+import { HeaderConstants, URLConstants } from "../utils/constants.js";
 import { delay, setURLHost, setURLParameter } from "../utils/utils.common.js";
 import { logger } from "../log.js";
 
@@ -109,21 +109,21 @@ export function storageRetryPolicy(options: StorageRetryOptions = {}): PipelineP
       }
     }
 
-    // [Copy source error code] Feature is pending on service side, skip retry on copy source error for now.
-    // if (response) {
-    //   // Retry select Copy Source Error Codes.
-    //   if (response?.status >= 400) {
-    //     const copySourceError = response.headers.get(HeaderConstants.X_MS_CopySourceErrorCode);
-    //     if (copySourceError !== undefined) {
-    //       switch (copySourceError) {
-    //         case "InternalError":
-    //         case "OperationTimedOut":
-    //         case "ServerBusy":
-    //           return true;
-    //       }
-    //     }
-    //   }
-    // }
+    if (response) {
+      // Retry select Copy Source Error Codes.
+      if (response?.status >= 400) {
+        const copySourceError = response.headers.get(HeaderConstants.X_MS_CopySourceErrorCode);
+        if (copySourceError !== undefined) {
+          switch (copySourceError)
+          {
+              case "InternalError":
+              case "OperationTimedOut":
+              case "ServerBusy":
+                  return true;
+          }
+        }
+      }
+    }
 
     return false;
   }
