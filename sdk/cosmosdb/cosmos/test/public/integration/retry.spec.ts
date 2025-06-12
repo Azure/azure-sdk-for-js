@@ -40,7 +40,7 @@ if (!isBrowser()) {
         await expect(
           Promise.race([
             client.databases.create({ id: testDatabaseId + "_invalid" }),
-            new Promise((resolveUnused, reject) =>
+            new Promise((_resolve, reject) =>
               setTimeout(() => reject(new Error("Proxy connection timeout")), 10000),
             ),
           ]),
