@@ -29,12 +29,7 @@ export async function getChangedInfo(packageInfoPath, changeInfoPath) {
     const content = await readFile(join(packageInfoPath, file), "utf-8");
     const json = JSON.parse(content);
     result["packages"][json["Name"]] = json;
-
-    // TODO: use IncludedForValidation instead when issue is resolved
     dirPackageMap[json["DirectoryPath"]] = json["Name"];
-    // if (json["IncludedForValidation"]) {
-    //   changedPackages.add(json["Name"]);
-    // }
   }
   const diff = JSON.parse(await readFile(changeInfoPath, "utf-8"));
   result["diff"] = {
@@ -42,7 +37,6 @@ export async function getChangedInfo(packageInfoPath, changeInfoPath) {
     changedServices: diff["ChangedServices"],
   };
 
-  // TODO: remove after IncludedForValidation issue is resolved
   const re = /^(sdk\/.*\/.*\/)/;
   for (const changedFile of diff["ChangedFiles"]) {
     const parts = changedFile.split("/");
