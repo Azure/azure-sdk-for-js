@@ -3,17 +3,6 @@ parameters:
   Artifacts: []
   ServiceDirectory: ''
 steps:
-  - ${{ if ne(parameters.ServiceDirectory, 'auto') }}:
-    - pwsh: |
-        $artifacts = '${{ convertToJson(parameters.Artifacts) }}' | ConvertFrom-Json
-
-        if (!$artifacts) {
-          Write-Host "No artifacts provided on a non-PR build where at least one package must be provided."
-          Write-Host "Check the ci.yml for the service directory `"${{ parameters.ServiceDirectory }}`" for an `"Artifacts`" parameter and ensure it is properly populated."
-          exit 1
-        }
-      displayName: 'Check for valid artifacts'
-
   # Package-Properties folder contains the package properties for all discovered packages that were either A) affected by the PR or
   # B) explicitly present in the service directory. This repo splits the builds into two categories: "mgmt" and "dataplane". While
   # a given directory may contain both, there will be a separate build definition to release the management packages. Due to this
@@ -35,8 +24,16 @@ steps:
         | Where-Object { if($knownArtifacts) { $knownArtifacts -contains $_.Name.Replace(".json", "") } else { $true } }
 
       $pkgNames = $packageProperties | ForEach-Object { $_.Name.Replace(".json", "") }
-
       $setting = $pkgNames -join ","
+
+      if ("${{ parameters.ServiceDirectory }}" -ne "auto" -and !$knownArtifacts) {
+        Write-Host "Release builds must provide a list of artifacts to build, but none were provided."
+        Write-Host "Please provide a list of artifacts in the 'Artifacts' parameter."
+        Write-Host "For the service directory `"${{ parameters.ServiceDirectory }}`" the following packages were found: `n$setting"
+        Write-Host "Please ensure that at least one of these packages is included in the 'Artifacts' parameter."
+        exit 1
+      }
+
       Write-Host "Setting ArtifactPackageNames to: `n$setting"
       Write-Host "##vso[task.setvariable variable=ArtifactPackageNames;]$setting"
     displayName: Resolve Targeted Packages
