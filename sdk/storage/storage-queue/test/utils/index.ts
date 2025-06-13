@@ -1,6 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
+
 import { StorageSharedKeyCredential } from "@azure/storage-blob";
 import { newPipeline } from "../../src/Pipeline.js";
 import { QueueServiceClient } from "../../src/QueueServiceClient.js";
