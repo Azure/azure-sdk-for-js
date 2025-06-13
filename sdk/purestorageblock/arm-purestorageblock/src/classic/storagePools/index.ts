@@ -5,7 +5,7 @@ import { BlockContext } from "../../api/blockContext.js";
 import {
   StoragePool,
   StoragePoolUpdate,
-  StoragePoolHealthInfo,
+  HealthResponse,
   AvsConnection,
   AvsStatus,
   StoragePoolEnableAvsConnectionPost,
@@ -89,7 +89,7 @@ export interface StoragePoolsOperations {
     resourceGroupName: string,
     storagePoolName: string,
     options?: StoragePoolsGetHealthStatusOptionalParams,
-  ) => Promise<StoragePoolHealthInfo>;
+  ) => Promise<HealthResponse>;
   /** List storage pools by Azure subscription ID */
   listBySubscription: (
     options?: StoragePoolsListBySubscriptionOptionalParams,

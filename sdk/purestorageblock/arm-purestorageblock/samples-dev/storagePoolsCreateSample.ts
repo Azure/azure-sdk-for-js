@@ -24,7 +24,7 @@ async function storagePoolsCreate(): Promise<void> {
       provisionedBandwidthMbPerSec: 17,
       avs: {
         avsEnabled: true,
-        clusterResourceId: "zekrdsarbkwcbvpzhmuwoazogziwms",
+        sddcResourceId: "zekrdsarbkwcbvpzhmuwoazogziwms",
       },
       reservationResourceId: "xiowoxnbtcotutcmmrofvgdi",
     },

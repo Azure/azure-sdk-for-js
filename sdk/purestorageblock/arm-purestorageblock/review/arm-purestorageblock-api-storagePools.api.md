@@ -34,7 +34,7 @@ export function getAvsConnection(context: BlockContext, resourceGroupName: strin
 export function getAvsStatus(context: BlockContext, resourceGroupName: string, storagePoolName: string, options?: StoragePoolsGetAvsStatusOptionalParams): Promise<AvsStatus>;
 
 // @public
-export function getHealthStatus(context: BlockContext, resourceGroupName: string, storagePoolName: string, options?: StoragePoolsGetHealthStatusOptionalParams): Promise<StoragePoolHealthInfo>;
+export function getHealthStatus(context: BlockContext, resourceGroupName: string, storagePoolName: string, options?: StoragePoolsGetHealthStatusOptionalParams): Promise<HealthResponse>;
 
 // @public
 export function listByResourceGroup(context: BlockContext, resourceGroupName: string, options?: StoragePoolsListByResourceGroupOptionalParams): PagedAsyncIterableIterator<StoragePool>;

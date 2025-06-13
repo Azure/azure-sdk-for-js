@@ -47,8 +47,8 @@ export interface AvsDiskDetails {
 // @public
 export interface AvsStatus {
     avsEnabled: boolean;
-    clusterResourceId?: string;
     currentConnectionStatus: string;
+    sddcResourceId?: string;
 }
 
 // @public
@@ -134,7 +134,7 @@ export interface AvsVmVolumeUpdateProperties {
 // @public
 export interface AzureVmwareService {
     avsEnabled: boolean;
-    clusterResourceId?: string;
+    sddcResourceId?: string;
 }
 
 // @public
@@ -166,7 +166,7 @@ export type CreatedByType = string;
 
 // @public
 export interface ErrorAdditionalInfo {
-    readonly info?: Record<string, any>;
+    readonly info?: any;
     readonly type?: string;
 }
 
@@ -192,6 +192,12 @@ export interface HealthDetails {
     iopsUsage: IopsUsage;
     space: Space;
     usedCapacityPercentage: number;
+}
+
+// @public
+export interface HealthResponse {
+    alerts: Alert[];
+    health: HealthDetails;
 }
 
 // @public
@@ -434,17 +440,17 @@ export interface Resource {
 export type ResourceProvisioningState = string;
 
 // @public
-export interface ServiceInitializationHandle {
-    clusterResourceId?: string;
-    serviceAccountUsername?: string;
-}
-
-// @public
-export interface ServiceInitializationInfo {
+export interface ServiceInitializationData {
     serviceAccountPassword?: string;
     serviceAccountUsername?: string;
     vSphereCertificate?: string;
     vSphereIp?: string;
+}
+
+// @public
+export interface ServiceInitializationHandle {
+    sddcResourceId?: string;
+    serviceAccountUsername?: string;
 }
 
 // @public
@@ -469,19 +475,13 @@ export interface StoragePool extends TrackedResource {
 
 // @public
 export interface StoragePoolEnableAvsConnectionPost {
-    clusterResourceId: string;
+    sddcResourceId: string;
 }
 
 // @public
 export interface StoragePoolFinalizeAvsConnectionPost {
-    serviceInitializationData?: ServiceInitializationInfo;
+    serviceInitializationData?: ServiceInitializationData;
     serviceInitializationDataEnc?: string;
-}
-
-// @public
-export interface StoragePoolHealthInfo {
-    alerts: Alert[];
-    health: HealthDetails;
 }
 
 // @public
