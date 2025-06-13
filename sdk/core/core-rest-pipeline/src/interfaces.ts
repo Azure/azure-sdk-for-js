@@ -4,6 +4,7 @@
 import type { AbortSignalLike } from "@azure/abort-controller";
 import type { OperationTracingOptions } from "@azure/core-tracing";
 import type { HttpMethods } from "@azure/core-util";
+import type { File } from "node:buffer";
 
 /**
  * A HttpHeaders collection represented as a simple JSON object.

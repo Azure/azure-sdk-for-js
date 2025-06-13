@@ -1,6 +1,13 @@
 {
-  "extends": "../../../tsconfig.lib.json",
+  "references": [
+    { "path": "./tsconfig.src.node.json" },
+    { "path": "./tsconfig.src.browser.json" },
+    { "path": "./tsconfig.src.react-native.json" }
+  ],
+  "include": [],
+  "files": [],
   "compilerOptions": {
-    "lib": ["DOM", "DOM.Iterable"]
+    "composite": true,
+    "lib": []
   }
 }
