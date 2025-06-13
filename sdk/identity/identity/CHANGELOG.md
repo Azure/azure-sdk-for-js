@@ -4,6 +4,8 @@
 
 ### Features Added
 
+- Added support to specify `subscription` ID or name on `AzureCliCredential` error message. [#34801](https://github.com/Azure/azure-sdk-for-js/pull/34801)
+
 ### Breaking Changes
 
 ### Bugs Fixed
