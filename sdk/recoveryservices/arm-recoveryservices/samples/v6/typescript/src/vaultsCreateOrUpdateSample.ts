@@ -6,8 +6,6 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
 import { Vault, RecoveryServicesClient } from "@azure/arm-recoveryservices";
 import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
@@ -16,7 +14,7 @@ import "dotenv/config";
  * This sample demonstrates how to Creates or updates a Recovery Services vault.
  *
  * @summary Creates or updates a Recovery Services vault.
- * x-ms-original-file: specification/recoveryservices/resource-manager/Microsoft.RecoveryServices/stable/2024-04-01/examples/PUTVault.json
+ * x-ms-original-file: specification/recoveryservices/resource-manager/Microsoft.RecoveryServices/stable/2025-02-01/examples/PUTVault.json
  */
 async function createOrUpdateRecoveryServicesVault(): Promise<void> {
   const subscriptionId =
@@ -46,7 +44,7 @@ async function createOrUpdateRecoveryServicesVault(): Promise<void> {
  * This sample demonstrates how to Creates or updates a Recovery Services vault.
  *
  * @summary Creates or updates a Recovery Services vault.
- * x-ms-original-file: specification/recoveryservices/resource-manager/Microsoft.RecoveryServices/stable/2024-04-01/examples/PUTVault_WithMonitoringSettings.json
+ * x-ms-original-file: specification/recoveryservices/resource-manager/Microsoft.RecoveryServices/stable/2025-02-01/examples/PUTVault_WithMonitoringSettings.json
  */
 async function createOrUpdateVaultWithMonitoringSetting(): Promise<void> {
   const subscriptionId =
@@ -89,7 +87,7 @@ async function createOrUpdateVaultWithMonitoringSetting(): Promise<void> {
  * This sample demonstrates how to Creates or updates a Recovery Services vault.
  *
  * @summary Creates or updates a Recovery Services vault.
- * x-ms-original-file: specification/recoveryservices/resource-manager/Microsoft.RecoveryServices/stable/2024-04-01/examples/PUTVault_WithRedundancySettings.json
+ * x-ms-original-file: specification/recoveryservices/resource-manager/Microsoft.RecoveryServices/stable/2025-02-01/examples/PUTVault_WithRedundancySettings.json
  */
 async function createOrUpdateVaultWithRedundancySetting(): Promise<void> {
   const subscriptionId =
@@ -125,7 +123,7 @@ async function createOrUpdateVaultWithRedundancySetting(): Promise<void> {
  * This sample demonstrates how to Creates or updates a Recovery Services vault.
  *
  * @summary Creates or updates a Recovery Services vault.
- * x-ms-original-file: specification/recoveryservices/resource-manager/Microsoft.RecoveryServices/stable/2024-04-01/examples/PUTVault_ResourceGuardEnabled.json
+ * x-ms-original-file: specification/recoveryservices/resource-manager/Microsoft.RecoveryServices/stable/2025-02-01/examples/PUTVault_ResourceGuardEnabled.json
  */
 async function createOrUpdateVaultPerformingCriticalOperationWithMua(): Promise<void> {
   const subscriptionId =
@@ -177,7 +175,7 @@ async function createOrUpdateVaultPerformingCriticalOperationWithMua(): Promise<
  * This sample demonstrates how to Creates or updates a Recovery Services vault.
  *
  * @summary Creates or updates a Recovery Services vault.
- * x-ms-original-file: specification/recoveryservices/resource-manager/Microsoft.RecoveryServices/stable/2024-04-01/examples/PUTVault_WithCMK.json
+ * x-ms-original-file: specification/recoveryservices/resource-manager/Microsoft.RecoveryServices/stable/2025-02-01/examples/PUTVault_WithCMK.json
  */
 async function createOrUpdateVaultWithCustomerManagedKeys(): Promise<void> {
   const subscriptionId =
@@ -226,7 +224,45 @@ async function createOrUpdateVaultWithCustomerManagedKeys(): Promise<void> {
  * This sample demonstrates how to Creates or updates a Recovery Services vault.
  *
  * @summary Creates or updates a Recovery Services vault.
- * x-ms-original-file: specification/recoveryservices/resource-manager/Microsoft.RecoveryServices/stable/2024-04-01/examples/PUTVault_WithUserAssignedIdentity.json
+ * x-ms-original-file: specification/recoveryservices/resource-manager/Microsoft.RecoveryServices/stable/2025-02-01/examples/PUTVault_WithSourceScanConfiguration.json
+ */
+async function createOrUpdateVaultWithSourceScanConfiguration(): Promise<void> {
+  const subscriptionId =
+    process.env["RECOVERYSERVICES_SUBSCRIPTION_ID"] ||
+    "77777777-b0c6-47a2-b37c-d8e65a629c18";
+  const resourceGroupName =
+    process.env["RECOVERYSERVICES_RESOURCE_GROUP"] ||
+    "Default-RecoveryServices-ResourceGroup";
+  const vaultName = "swaggerExample";
+  const vault: Vault = {
+    identity: { type: "SystemAssigned" },
+    location: "West US",
+    properties: {
+      publicNetworkAccess: "Enabled",
+      securitySettings: {
+        sourceScanConfiguration: {
+          sourceScanIdentity: { operationIdentityType: "SystemAssigned" },
+          state: "Enabled",
+        },
+      },
+    },
+    sku: { name: "Standard" },
+  };
+  const credential = new DefaultAzureCredential();
+  const client = new RecoveryServicesClient(credential, subscriptionId);
+  const result = await client.vaults.beginCreateOrUpdateAndWait(
+    resourceGroupName,
+    vaultName,
+    vault,
+  );
+  console.log(result);
+}
+
+/**
+ * This sample demonstrates how to Creates or updates a Recovery Services vault.
+ *
+ * @summary Creates or updates a Recovery Services vault.
+ * x-ms-original-file: specification/recoveryservices/resource-manager/Microsoft.RecoveryServices/stable/2025-02-01/examples/PUTVault_WithUserAssignedIdentity.json
  */
 async function createOrUpdateVaultWithUserAssignedIdentity(): Promise<void> {
   const subscriptionId =
@@ -259,12 +295,13 @@ async function createOrUpdateVaultWithUserAssignedIdentity(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  createOrUpdateRecoveryServicesVault();
-  createOrUpdateVaultWithMonitoringSetting();
-  createOrUpdateVaultWithRedundancySetting();
-  createOrUpdateVaultPerformingCriticalOperationWithMua();
-  createOrUpdateVaultWithCustomerManagedKeys();
-  createOrUpdateVaultWithUserAssignedIdentity();
+  await createOrUpdateRecoveryServicesVault();
+  await createOrUpdateVaultWithMonitoringSetting();
+  await createOrUpdateVaultWithRedundancySetting();
+  await createOrUpdateVaultPerformingCriticalOperationWithMua();
+  await createOrUpdateVaultWithCustomerManagedKeys();
+  await createOrUpdateVaultWithSourceScanConfiguration();
+  await createOrUpdateVaultWithUserAssignedIdentity();
 }
 
 main().catch(console.error);

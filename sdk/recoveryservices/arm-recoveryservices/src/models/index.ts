@@ -578,6 +578,8 @@ export interface SecuritySettings {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly multiUserAuthorization?: MultiUserAuthorization;
+  /** Source scan configuration of vault */
+  sourceScanConfiguration?: SourceScanConfiguration;
 }
 
 /** Immutability Settings of vault */
@@ -591,6 +593,21 @@ export interface SoftDeleteSettings {
   /** Soft delete retention period in days */
   softDeleteRetentionPeriodInDays?: number;
   enhancedSecurityState?: EnhancedSecurityState;
+}
+
+/** Source scan configuration of vault */
+export interface SourceScanConfiguration {
+  state?: State;
+  /** Identity details to be used for an operation */
+  sourceScanIdentity?: AssociatedIdentity;
+}
+
+/** Identity details to be used for an operation */
+export interface AssociatedIdentity {
+  /** Identity type that should be used for an operation. */
+  operationIdentityType?: IdentityType;
+  /** User assigned identity to be used for an operation if operationIdentityType is UserAssigned. */
+  userAssignedIdentity?: string;
 }
 
 /** Identifies the unique system identifier for each Azure resource. */
@@ -1338,6 +1355,45 @@ export enum KnownMultiUserAuthorization {
  * **Disabled**
  */
 export type MultiUserAuthorization = string;
+
+/** Known values of {@link State} that the service accepts. */
+export enum KnownState {
+  /** Invalid */
+  Invalid = "Invalid",
+  /** Enabled */
+  Enabled = "Enabled",
+  /** Disabled */
+  Disabled = "Disabled",
+}
+
+/**
+ * Defines values for State. \
+ * {@link KnownState} can be used interchangeably with State,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Invalid** \
+ * **Enabled** \
+ * **Disabled**
+ */
+export type State = string;
+
+/** Known values of {@link IdentityType} that the service accepts. */
+export enum KnownIdentityType {
+  /** SystemAssigned */
+  SystemAssigned = "SystemAssigned",
+  /** UserAssigned */
+  UserAssigned = "UserAssigned",
+}
+
+/**
+ * Defines values for IdentityType. \
+ * {@link KnownIdentityType} can be used interchangeably with IdentityType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **SystemAssigned** \
+ * **UserAssigned**
+ */
+export type IdentityType = string;
 
 /** Known values of {@link SecureScoreLevel} that the service accepts. */
 export enum KnownSecureScoreLevel {
