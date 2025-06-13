@@ -1,15 +1,56 @@
 # Release History
-
-## 16.0.1 (Unreleased)
-
+    
+## 17.0.0 (2025-06-13)
+    
 ### Features Added
+
+  - Added operation group SiteCertificates
+  - Added Interface DnlResourceNameAvailability
+  - Added Interface DnlResourceNameAvailabilityRequest
+  - Added Interface ErrorPage
+  - Added Interface OutboundVnetRouting
+  - Added Interface RegionalCheckNameAvailabilityOptionalParams
+  - Added Interface SiteCertificatesCreateOrUpdateOptionalParams
+  - Added Interface SiteCertificatesCreateOrUpdateSlotOptionalParams
+  - Added Interface SiteCertificatesDeleteOptionalParams
+  - Added Interface SiteCertificatesDeleteSlotOptionalParams
+  - Added Interface SiteCertificatesGetOptionalParams
+  - Added Interface SiteCertificatesGetSlotOptionalParams
+  - Added Interface SiteCertificatesListNextOptionalParams
+  - Added Interface SiteCertificatesListOptionalParams
+  - Added Interface SiteCertificatesListSlotNextOptionalParams
+  - Added Interface SiteCertificatesListSlotOptionalParams
+  - Added Interface SiteCertificatesUpdateOptionalParams
+  - Added Interface SiteCertificatesUpdateSlotOptionalParams
+  - Added Type Alias RegionalCheckNameAvailabilityResponse
+  - Added Type Alias SiteCertificatesCreateOrUpdateResponse
+  - Added Type Alias SiteCertificatesCreateOrUpdateSlotResponse
+  - Added Type Alias SiteCertificatesGetResponse
+  - Added Type Alias SiteCertificatesGetSlotResponse
+  - Added Type Alias SiteCertificatesListNextResponse
+  - Added Type Alias SiteCertificatesListResponse
+  - Added Type Alias SiteCertificatesListSlotNextResponse
+  - Added Type Alias SiteCertificatesListSlotResponse
+  - Added Type Alias SiteCertificatesUpdateResponse
+  - Added Type Alias SiteCertificatesUpdateSlotResponse
+  - Interface AppServicePlan has a new optional parameter asyncScalingEnabled
+  - Interface Site has a new optional parameter clientAffinityPartitioningEnabled
+  - Interface Site has a new optional parameter clientAffinityProxyEnabled
+  - Interface Site has a new optional parameter outboundVnetRouting
+  - Interface Site has a new optional parameter sshEnabled
+  - Interface SiteConfig has a new optional parameter http20ProxyFlag
+  - Interface SiteConfigResource has a new optional parameter http20ProxyFlag
+  - Interface SiteContainer has a new optional parameter inheritAppSettingsAndConnectionStrings
+  - Interface SitePatchResource has a new optional parameter clientAffinityProxyEnabled
 
 ### Breaking Changes
 
-### Bugs Fixed
-
-### Other Changes
-
+  - Interface Site no longer has parameter vnetBackupRestoreEnabled
+  - Interface Site no longer has parameter vnetContentShareEnabled
+  - Interface Site no longer has parameter vnetImagePullEnabled
+  - Interface Site no longer has parameter vnetRouteAllEnabled
+    
+    
 ## 16.0.0 (2025-02-12)
     
 ### Features Added
