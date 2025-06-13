@@ -46,6 +46,7 @@ steps:
     parameters:
       PackageInfo: $(Build.ArtifactStagingDirectory)/PackageInfo
       Artifacts: ${{ parameters.Artifacts }}
+      ServiceDirectory: ${{ parameters.ServiceDirectory }}
 
   - ${{ if and(eq(variables['System.TeamProject'], 'internal'), in(variables['Build.Reason'], 'IndividualCI', 'BatchedCI')) }}:
     - task: AzureCLI@2
