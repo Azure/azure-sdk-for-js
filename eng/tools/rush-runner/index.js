@@ -6,10 +6,20 @@
 import { exit } from "node:process";
 import { executeActions } from "./src/actions.js";
 import { parseProcessArgs } from "./src/args.js";
+import { getChangedInfo } from "./src/changed.js";
 
-function main() {
-  const { action, serviceDirs, rushParams, artifactNames, ciFlag } = parseProcessArgs();
-  exit(executeActions(action, serviceDirs, rushParams, artifactNames, ciFlag));
+async function main() {
+  const {
+    action,
+    serviceDirs,
+    rushParams,
+    artifactNames,
+    ciFlag,
+    packageInfoPath,
+    changeInfoPath,
+  } = parseProcessArgs();
+  const changedInfo = await getChangedInfo(packageInfoPath, changeInfoPath);
+  exit(executeActions(action, serviceDirs, rushParams, artifactNames, ciFlag, changedInfo));
 }
 
-main();
+main().catch(console.error);
