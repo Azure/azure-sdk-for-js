@@ -5,6 +5,7 @@
 ```ts
 
 import type { HttpClient } from '@azure/core-rest-pipeline';
+import type { PipelinePolicy } from '@azure/core-rest-pipeline';
 
 // @public
 export class BufferScheduler {
@@ -17,6 +18,12 @@ export function getCachedDefaultHttpClient(): HttpClient;
 
 // @public
 export type OutgoingHandler = (body: () => NodeJS.ReadableStream, length: number, offset?: number) => Promise<any>;
+
+// @public
+export function storageRequestFailureDetailsParserPolicy(): PipelinePolicy;
+
+// @public
+export const storageRequestFailureDetailsParserPolicyName = "storageRequestFailureDetailsParserPolicy";
 
 // (No @packageDocumentation comment for this package)
 
