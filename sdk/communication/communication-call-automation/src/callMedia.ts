@@ -55,6 +55,7 @@ import type {
 import type { KeyCredential, TokenCredential } from "@azure/core-auth";
 import type { SendDtmfTonesResult } from "./models/responses.js";
 import { randomUUID } from "@azure/core-util";
+
 /**
  * CallMedia class represents call media related APIs.
  */
