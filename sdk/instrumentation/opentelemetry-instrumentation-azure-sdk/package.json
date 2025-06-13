@@ -1,6 +1,6 @@
 {
   "name": "@azure/opentelemetry-instrumentation-azure-sdk",
-  "version": "1.0.0-beta.9",
+  "version": "1.0.0-beta.10",
   "description": "Instrumentation client for the Azure SDK.",
   "sdk-type": "client",
   "type": "module",
@@ -26,8 +26,8 @@
     "extract-api": "dev-tool run build-package && dev-tool run extract-api",
     "format": "dev-tool run vendored prettier --write --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.ts\" \"test/**/*.ts\" \"*.{js,json}\"",
     "generate:client": "autorest --typescript ./swagger/README.md",
-    "lint": "eslint package.json api-extractor.json README.md src test",
-    "lint:fix": "eslint package.json api-extractor.json README.md src test --fix --fix-type [problem,suggestion]",
+    "lint": "eslint package.json api-extractor.json src test",
+    "lint:fix": "eslint package.json api-extractor.json src test --fix --fix-type [problem,suggestion]",
     "pack": "npm pack 2>&1",
     "test": "npm run test:node && npm run test:browser",
     "test:browser": "npm run clean && dev-tool run build-package && dev-tool run build-test && dev-tool run test:vitest --no-test-proxy --browser",

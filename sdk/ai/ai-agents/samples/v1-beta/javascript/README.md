@@ -19,6 +19,7 @@ These sample programs show how to use the JavaScript client libraries for Azure 
 | [agentsBasics.js][agentsbasics]                                               | demonstrates how to use basic agent operations.                                                                            |
 | [agentsBingGrounding.js][agentsbinggrounding]                                 | demonstrates how to use agent operations with the Grounding with Bing Search tool.                                         |
 | [agentsBingGroundingWithStreaming.js][agentsbinggroundingwithstreaming]       | demonstrates how to use agent operations with the Grounding with Bing Search tool using streaming.                         |
+| [agentsConnectedAgents.js][agentsconnectedagents]                             | This sample demonstrates how to use Agent operations with the Connected Agent tool from the Azure Agents service.          |
 | [agentsFabric.js][agentsfabric]                                               | demonstrates how to use agent operations with the Microsoft Fabric tool.                                                   |
 | [agentsImageInputWithBase64.js][agentsimageinputwithbase64]                   | This sample demonstrates how to use basic agent operations with image input (base64 encoded) for the Azure Agents service. |
 | [agentsImageInputWithFile.js][agentsimageinputwithfile]                       | This sample demonstrates how to use basic agent operations using image file input for the Azure Agents service.            |
@@ -87,6 +88,7 @@ Take a look at our [API Documentation][apiref] for more information about the AP
 [agentsbasics]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/ai/ai-agents/samples/v1-beta/javascript/agentsBasics.js
 [agentsbinggrounding]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/ai/ai-agents/samples/v1-beta/javascript/agentsBingGrounding.js
 [agentsbinggroundingwithstreaming]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/ai/ai-agents/samples/v1-beta/javascript/agentsBingGroundingWithStreaming.js
+[agentsconnectedagents]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/ai/ai-agents/samples/v1-beta/javascript/agentsConnectedAgents.js
 [agentsfabric]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/ai/ai-agents/samples/v1-beta/javascript/agentsFabric.js
 [agentsimageinputwithbase64]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/ai/ai-agents/samples/v1-beta/javascript/agentsImageInputWithBase64.js
 [agentsimageinputwithfile]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/ai/ai-agents/samples/v1-beta/javascript/agentsImageInputWithFile.js

@@ -40,9 +40,9 @@ export function _createAgentEvaluationSend(
   },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "/evaluations/runs:runAgent{?api%2Dversion}",
+    "/evaluations/runs:runAgent{?api-version}",
     {
-      "api%2Dversion": context.apiVersion,
+      "api-version": context.apiVersion,
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,

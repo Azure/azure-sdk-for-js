@@ -59,8 +59,8 @@
     "execute:samples": "echo skipped",
     "extract-api": "dev-tool run build-package && dev-tool run extract-api",
     "format": "dev-tool run vendored prettier --write --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.{ts,cts,mts}\" \"test/**/*.{ts,cts,mts}\" \"*.{js,cjs,mjs,json}\"",
-    "lint": "eslint README.md package.json api-extractor.json src test",
-    "lint:fix": "eslint README.md package.json api-extractor.json src test --fix --fix-type [problem,suggestion]",
+    "lint": "eslint package.json api-extractor.json src test",
+    "lint:fix": "eslint package.json api-extractor.json src test --fix --fix-type [problem,suggestion]",
     "pack": "npm pack 2>&1",
     "test": "npm run test:node && npm run test:browser",
     "test:browser": "npm run clean && dev-tool run build-package && dev-tool run build-test && dev-tool run test:vitest --no-test-proxy --browser",
@@ -70,10 +70,10 @@
   },
   "dependencies": {
     "@azure/abort-controller": "^2.0.0",
-    "@azure/core-auth": "^1.3.0",
+    "@azure/core-auth": "^1.9.0",
     "@azure/core-rest-pipeline": "^1.5.0",
     "@azure/core-tracing": "^1.0.1",
-    "@typespec/ts-http-runtime": "^0.2.2",
+    "@typespec/ts-http-runtime": "^0.2.3",
     "tslib": "^2.6.2"
   },
   "devDependencies": {

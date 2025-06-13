@@ -8,6 +8,7 @@ import { executeActions } from "../src/actions.js";
 import { spawnNode } from "../src/spawn.js";
 import { getBaseDir } from "../src/env.js";
 import { join as pathJoin } from "node:path";
+import { existsSync } from "node:fs";
 
 const baseDir = getBaseDir();
 
@@ -47,6 +48,31 @@ describe("executeActions", () => {
     const packageDir = pathJoin(baseDir, "sdk/appconfiguration/app-configuration");
     const executeScript = pathJoin(baseDir, "common/scripts/install-run-rushx.js");
     assert.deepEqual(vi.mocked(spawnNode).mock.calls, [[packageDir, executeScript, "lint"]]);
+  });
+
+  it("should run test for those impacted by non-restricted package", () => {
+    executeActions("test:node", ["core", "communication"], [], "azure-communication-identity");
+    const packageDir = pathJoin(baseDir, "sdk/appconfiguration/app-configuration");
+    const executeScript = pathJoin(baseDir, "common/scripts/install-run-rush.js");
+    assert.deepEqual(vi.mocked(spawnNode).mock.calls, [
+      [
+        baseDir,
+        "common/scripts/install-run-rush.js",
+        "test:node",
+        "--impacted-by",
+        "@azure/communication-identity",
+        "--only",
+        "@azure-rest/synapse-access-control",
+        "--only",
+        "@azure/arm-resources",
+        "--only",
+        "@azure/identity",
+        "--only",
+        "@azure/service-bus",
+        "--only",
+        "@azure/template",
+      ],
+    ]);
   });
 
   it("should handle arbitrary rush commands", () => {

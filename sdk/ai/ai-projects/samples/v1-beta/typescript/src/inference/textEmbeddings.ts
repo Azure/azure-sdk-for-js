@@ -8,7 +8,7 @@
  */
 
 import { AIProjectClient } from "@azure/ai-projects";
-import { isUnexpected } from "@azure-rest/ai-inference";
+import { isUnexpected } from "@azure/ai-projects/inference";
 import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
 
