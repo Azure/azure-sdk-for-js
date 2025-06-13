@@ -15,6 +15,13 @@ import { ShareClient } from "../src/index.js";
 import { delay, Recorder } from "@azure-tools/test-recorder";
 import { configureStorageClient } from "./utils/index.js";
 import { describe, it, assert, beforeEach, afterEach } from "vitest";
+import {
+  Pipeline,
+  PipelinePolicy,
+  PipelineRequest,
+  PipelineResponse,
+  SendRequest,
+} from "@azure/core-rest-pipeline";
 
 describe("ShareClient", () => {
   let serviceClient: ShareServiceClient;
@@ -718,6 +725,53 @@ describe("ShareClient", () => {
     assert.ok(getRes.accessTierChangeTime);
     assert.deepStrictEqual(getRes.accessTierTransitionState, "pending-from-transactionOptimized");
     assert.equal(getRes.quota, quotaInGB);
+  });
+});
+
+describe("Version error test", () => {
+  let serviceClient: ShareServiceClient;
+  let shareName: string;
+  let shareClient: ShareClient;
+
+  let recorder: Recorder;
+
+  beforeEach(async (ctx) => {
+    recorder = new Recorder(ctx);
+    await recorder.start(recorderEnvSetup);
+    await recorder.addSanitizers({ uriSanitizers }, ["record", "playback"]);
+    serviceClient = getBSU(recorder);
+    shareName = recorder.variable("share", getUniqueName("share"));
+    shareClient = serviceClient.getShareClient(shareName);
+  });
+
+  afterEach(async () => {
+    await recorder.stop();
+  });
+
+  function XMSVersioninjectorPolicy(version: string): PipelinePolicy {
+    return {
+      name: "XMSVersioninjectorPolicy",
+      async sendRequest(request: PipelineRequest, next: SendRequest): Promise<PipelineResponse> {
+        request.headers.set("x-ms-version", version);
+        return next(request);
+      },
+    };
+  }
+
+  it("Invalid service version", async () => {
+    const injector = XMSVersioninjectorPolicy(`3025-01-01`);
+
+    const pipeline: Pipeline = (shareClient as any).storageClientContext.pipeline;
+    pipeline.addPolicy(injector, { afterPhase: "Retry" });
+    try {
+      await shareClient.getProperties();
+    } catch (err) {
+      assert.ok(
+        (err as any).message.startsWith(
+          "The provided service version is not enabled on this storage account. Please see",
+        ),
+      );
+    }
   });
 });
 

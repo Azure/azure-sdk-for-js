@@ -21,7 +21,7 @@ add-credentials: false
 core-http-compat-mode: true
 use-extension:
   "@autorest/typescript": "6.0.42"
-package-version: 12.28.1
+package-version: 12.29.0-beta.1
 ```
 
 ## Customizations for Track 2 Generator
@@ -908,13 +908,4 @@ directive:
     where: $["x-ms-paths"]["/{shareName}/{directory}/{fileName}?comp=range"]["put"]["responses"]["201"]["headers"]
     transform: >
       delete $["x-ms-structured-body"];
-```
-
-### Update service version from "2025-05-05" to "2025-07-05"
-
-```yaml
-directive:
-  - from: swagger-document
-    where: $.parameters.ApiVersionParameter
-    transform: $.enum = [ "2025-07-05" ];
 ```

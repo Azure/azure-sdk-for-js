@@ -20,8 +20,8 @@ disable-async-iterators: true
 add-credentials: false
 core-http-compat-mode: true
 use-extension:
-  "@autorest/typescript": "latest"
-package-version: 12.28.1
+  "@autorest/typescript": "6.0.42"
+package-version: 12.29.0-beta.1
 ```
 
 ## Customizations for Track 2 Generator

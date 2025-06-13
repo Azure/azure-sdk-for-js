@@ -239,12 +239,11 @@ export class StorageRetryPolicy extends BaseRequestPolicy {
       if (response?.status >= 400) {
         const copySourceError = response.headers.get(HeaderConstants.X_MS_CopySourceErrorCode);
         if (copySourceError !== undefined) {
-          switch (copySourceError)
-          {
-              case "InternalError":
-              case "OperationTimedOut":
-              case "ServerBusy":
-                  return true;
+          switch (copySourceError) {
+            case "InternalError":
+            case "OperationTimedOut":
+            case "ServerBusy":
+              return true;
           }
         }
       }
