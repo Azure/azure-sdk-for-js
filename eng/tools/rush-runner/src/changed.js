@@ -21,13 +21,20 @@ export async function getChangedInfo(packageInfoPath, changeInfoPath) {
     );
     return result;
   }
+
+  const changedPackages = new Set();
   const dirPackageMap = new Map();
   const files = await readdir(packageInfoPath);
   for (const file of files) {
     const content = await readFile(join(packageInfoPath, file), "utf-8");
     const json = JSON.parse(content);
     result["packages"][json["Name"]] = json;
+
+    // TODO: use IncludedForValidation instead when issue is resolved
     dirPackageMap[json["DirectoryPath"]] = json["Name"];
+    // if (json["IncludedForValidation"]) {
+    //   changedPackages.add(json["Name"]);
+    // }
   }
   const diff = JSON.parse(await readFile(changeInfoPath, "utf-8"));
   result["diff"] = {
@@ -35,7 +42,7 @@ export async function getChangedInfo(packageInfoPath, changeInfoPath) {
     changedServices: diff["ChangedServices"],
   };
 
-  const changedPackages = new Set();
+  // TODO: remove after IncludedForValidation issue is resolved
   const re = /^(sdk\/.*\/.*\/)/;
   for (const changedFile of diff["ChangedFiles"]) {
     const parts = changedFile.split("/");
@@ -48,5 +55,6 @@ export async function getChangedInfo(packageInfoPath, changeInfoPath) {
 
   console.log(`Changed packages: ${Array.from(changedPackages.keys())}`);
   result["changedPackages"] = changedPackages;
+
   return result;
 }
