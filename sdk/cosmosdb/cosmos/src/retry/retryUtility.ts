@@ -62,6 +62,7 @@ export async function execute({
           endpointDiscoveryRetryPolicy: new EndpointDiscoveryRetryPolicy(
             requestContext.globalEndpointManager,
             requestContext.operationType,
+            requestContext.globalPartitionEndpointManager,
           ),
           resourceThrottleRetryPolicy: new ResourceThrottleRetryPolicy(
             requestContext.connectionPolicy.retryOptions ?? {},
@@ -80,6 +81,8 @@ export async function execute({
             requestContext.resourceType,
             requestContext.operationType,
             requestContext.connectionPolicy.enableEndpointDiscovery,
+            requestContext.connectionPolicy.enablePartitionLevelFailover,
+            requestContext.globalPartitionEndpointManager,
           ),
         };
       }
@@ -104,6 +107,20 @@ export async function execute({
       const startTimeUTCInMs = getCurrentTimestampInMs();
       const correlatedActivityId =
         requestContext.headers[Constants.HttpHeaders.CorrelatedActivityId];
+
+      // Check if partition level location override is needed
+      // This is used to override the partition level location for the request
+      // if there has been a partition level failover
+      const overrideResult =
+        await requestContext.globalPartitionEndpointManager.tryAddPartitionLevelLocationOverride(
+          requestContext,
+        );
+
+      if (overrideResult.overridden && overrideResult.newLocation !== undefined) {
+        requestContext.endpoint = overrideResult.newLocation;
+        localDiagnosticNode.recordEndpointResolution(overrideResult.newLocation);
+      }
+
       try {
         const response = await executeRequest(localDiagnosticNode, requestContext);
         response.headers[Constants.ThrottleRetryCount] =
@@ -146,6 +163,7 @@ export async function execute({
           localDiagnosticNode,
           retryContext,
           requestContext.endpoint,
+          requestContext,
         );
         if (!results) {
           headers[Constants.ThrottleRetryCount] =

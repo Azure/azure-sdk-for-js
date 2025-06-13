@@ -56,7 +56,7 @@ import {
   addDiagnosticChild,
 } from "../../utils/diagnostics.js";
 import { randomUUID } from "@azure/core-util";
-import { readPartitionKeyDefinition } from "../ClientUtils.js";
+import { computePartitionKeyRangeId, readPartitionKeyDefinition } from "../ClientUtils.js";
 import { ChangeFeedIteratorBuilder } from "../ChangeFeed/ChangeFeedIteratorBuilder.js";
 import type { EncryptionQueryBuilder } from "../../encryption/index.js";
 import type { EncryptionSqlParameter } from "../../encryption/EncryptionQueryBuilder.js";
@@ -89,7 +89,7 @@ export class Items {
     public readonly container: Container,
     private readonly clientContext: ClientContext,
   ) {
-    this.partitionKeyRangeCache = new PartitionKeyRangeCache(this.clientContext);
+    this.partitionKeyRangeCache = this.clientContext.partitionKeyRangeCache;
   }
 
   /**
@@ -151,6 +151,16 @@ export class Items {
       innerOptions: FeedOptions,
       correlatedActivityId: string,
     ) => {
+      const pk = convertToInternalPartitionKey(options.partitionKey);
+      const isPartitionLevelFailOverEnabled = this.clientContext.isPartitionLevelFailOverEnabled();
+      const partitionKeyRangeId = await computePartitionKeyRangeId(
+        diagnosticNode,
+        pk,
+        this.partitionKeyRangeCache,
+        isPartitionLevelFailOverEnabled,
+        this.container,
+      );
+
       const response = await this.clientContext.queryFeed({
         path,
         resourceType: ResourceType.item,
@@ -161,6 +171,7 @@ export class Items {
         partitionKey: options.partitionKey,
         diagnosticNode,
         correlatedActivityId: correlatedActivityId,
+        partitionKeyRangeId,
       });
       return response;
     };
@@ -522,6 +533,18 @@ export class Items {
         }
         const path = getPathFromLink(this.container.url, ResourceType.item);
         const id = getIdFromLink(this.container.url);
+
+        const isPartitionLevelFailOverEnabled =
+          this.clientContext.isPartitionLevelFailOverEnabled();
+        const partitionKeyRangeId = await computePartitionKeyRangeId(
+          diagnosticNode,
+          partitionKey,
+          this.partitionKeyRangeCache,
+          isPartitionLevelFailOverEnabled,
+          this.container,
+          partitionKeyDefinition,
+        );
+
         response = await this.clientContext.create<T>({
           body,
           path,
@@ -530,6 +553,7 @@ export class Items {
           diagnosticNode,
           options,
           partitionKey,
+          partitionKeyRangeId,
         });
       } catch (error: any) {
         if (this.clientContext.enableEncryption) {
@@ -676,6 +700,18 @@ export class Items {
 
         const path = getPathFromLink(this.container.url, ResourceType.item);
         const id = getIdFromLink(this.container.url);
+
+        const isPartitionLevelFailOverEnabled =
+          this.clientContext.isPartitionLevelFailOverEnabled();
+        const partitionKeyRangeId = await computePartitionKeyRangeId(
+          diagnosticNode,
+          partitionKey,
+          this.partitionKeyRangeCache,
+          isPartitionLevelFailOverEnabled,
+          this.container,
+          partitionKeyDefinition,
+        );
+
         response = await this.clientContext.upsert<T>({
           body,
           path,
@@ -684,6 +720,7 @@ export class Items {
           options,
           partitionKey,
           diagnosticNode,
+          partitionKeyRangeId,
         });
       } catch (error: any) {
         if (this.clientContext.enableEncryption) {
@@ -1165,6 +1202,16 @@ export class Items {
           );
         }
 
+        const isPartitionLevelFailOverEnabled =
+          this.clientContext.isPartitionLevelFailOverEnabled();
+        const partitionKeyRangeId = await computePartitionKeyRangeId(
+          diagnosticNode,
+          partitionKey,
+          this.partitionKeyRangeCache,
+          isPartitionLevelFailOverEnabled,
+          this.container,
+        );
+
         response = await this.clientContext.batch({
           body: operations,
           partitionKey,
@@ -1172,6 +1219,7 @@ export class Items {
           resourceId: this.container.url,
           options,
           diagnosticNode,
+          partitionKeyRangeId,
         });
       } catch (err: any) {
         if (this.clientContext.enableEncryption) {

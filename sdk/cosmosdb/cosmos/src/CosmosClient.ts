@@ -5,7 +5,7 @@ import { Offer, Offers } from "./client/Offer/index.js";
 import { ClientContext } from "./ClientContext.js";
 import { parseConnectionString } from "./common/index.js";
 import { Constants } from "./common/constants.js";
-import { getUserAgent } from "./common/platform.js";
+import { addFeatureFlagsToUserAgent, getUserAgent } from "./common/platform.js";
 import type { CosmosClientOptions } from "./CosmosClientOptions.js";
 import type { ClientConfigDiagnostic } from "./CosmosDiagnostics.js";
 import {
@@ -22,6 +22,7 @@ import type { RequestOptions } from "./request/index.js";
 import { ResourceResponse } from "./request/index.js";
 import { checkURL } from "./utils/checkURL.js";
 import { getEmptyCosmosDiagnostics, withDiagnostics } from "./utils/diagnostics.js";
+import { GlobalPartitionEndpointManager } from "./globalPartitionEndpointManager.js";
 
 /**
  * Provides a client-side logical representation of the Azure Cosmos DB database account.
@@ -80,6 +81,8 @@ export class CosmosClient {
    * @internal
    */
   private encryptionManager: EncryptionManager;
+  /** @internal */
+  private globalPartitionEndpointManager: GlobalPartitionEndpointManager;
   /**
    * Creates a new {@link CosmosClient} object from a connection string. Your database connection string can be found in the Azure Portal
    */
@@ -144,7 +147,9 @@ export class CosmosClient {
         optionsOrConnectionString.throughputBucket;
     }
 
-    const userAgent = getUserAgent(optionsOrConnectionString.userAgentSuffix);
+    let userAgent = getUserAgent(optionsOrConnectionString.userAgentSuffix);
+    userAgent = userAgent + addFeatureFlagsToUserAgent(optionsOrConnectionString);
+
     optionsOrConnectionString.defaultHeaders[Constants.HttpHeaders.UserAgent] = userAgent;
     optionsOrConnectionString.defaultHeaders[Constants.HttpHeaders.CustomUserAgent] = userAgent;
 
@@ -152,6 +157,11 @@ export class CosmosClient {
       optionsOrConnectionString,
       async (diagnosticNode: DiagnosticNodeInternal, opts: RequestOptions) =>
         this.getDatabaseAccountInternal(diagnosticNode, opts),
+    );
+
+    this.globalPartitionEndpointManager = new GlobalPartitionEndpointManager(
+      optionsOrConnectionString,
+      globalEndpointManager,
     );
 
     this.clientContext = new ClientContext(
@@ -162,6 +172,7 @@ export class CosmosClient {
         optionsOrConnectionString.diagnosticLevel,
         getDiagnosticLevelFromEnvironment(),
       ),
+      this.globalPartitionEndpointManager,
     );
     if (
       optionsOrConnectionString.connectionPolicy?.enableEndpointDiscovery &&
@@ -314,6 +325,7 @@ export class CosmosClient {
       clearTimeout(this.encryptionManager.encryptionKeyStoreProvider.cacheRefresher);
       clearTimeout(this.encryptionManager.protectedDataEncryptionKeyCache.cacheRefresher);
     }
+    clearTimeout(this.globalPartitionEndpointManager.circuitBreakerFailbackBackgroundRefresher);
   }
 
   private async backgroundRefreshEndpointList(
