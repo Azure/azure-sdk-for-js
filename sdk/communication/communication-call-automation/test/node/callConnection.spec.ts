@@ -106,10 +106,10 @@ describe("CallConnection Unit Tests", () => {
     // stub CallConnection
     callConnection = vi.mocked(
       new CallConnection(
-        expect.anything(),
-        expect.anything(),
-        expect.anything(),
-        expect.anything(),
+        "mockCallConnectionId",
+        "https://mock.endpoint.com",
+        { key: "mockKey" },
+        {} as any,
       ),
     );
   });
@@ -453,13 +453,6 @@ describe("CallConnection Live Tests", function () {
 
   afterEach(async function () {
     persistEvents(testName);
-    if (callConnection) {
-      try {
-        await callConnection.hangUp(true);
-      } catch {
-        return;
-      }
-    }
     serviceBusReceivers.forEach((receiver) => {
       receiver.close();
     });
@@ -470,6 +463,13 @@ describe("CallConnection Live Tests", function () {
     serviceBusReceivers.clear();
     incomingCallContexts.clear();
     await recorder.stop();
+    if (callConnection) {
+      try {
+        await callConnection.hangUp(true);
+      } catch {
+        return;
+      }
+    }
   });
 
   it("List all participants", { timeout: 90000 }, async function (ctx) {

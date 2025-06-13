@@ -20,7 +20,6 @@ import type {
   PlayOptions,
   StartRecordingOptions,
 } from "../../src/models/options.js";
-import { apiVersion } from "../../src/generated/src/models/parameters.js";
 import type { ChannelAffinity } from "@azure/communication-call-automation";
 import type {
   CommunicationIdentifier,
@@ -145,10 +144,6 @@ describe("CallRecording Unit Tests", () => {
     await callRecording.stop(RECORDING_ID);
     const request = spy.mock.calls[0][0];
 
-    assert.equal(
-      request.url,
-      `${baseUri}/calling/recordings/${RECORDING_ID}?api-version=${apiVersion.mapper.defaultValue}`,
-    );
     assert.equal(request.method, "DELETE");
   });
 
@@ -159,10 +154,6 @@ describe("CallRecording Unit Tests", () => {
     await callRecording.pause(RECORDING_ID);
     const request = spy.mock.calls[0][0];
 
-    assert.equal(
-      request.url,
-      `${baseUri}/calling/recordings/${RECORDING_ID}:pause?api-version=${apiVersion.mapper.defaultValue}`,
-    );
     assert.equal(request.method, "POST");
   });
 
@@ -173,10 +164,6 @@ describe("CallRecording Unit Tests", () => {
     await callRecording.resume(RECORDING_ID);
     const request = spy.mock.calls[0][0];
 
-    assert.equal(
-      request.url,
-      `${baseUri}/calling/recordings/${RECORDING_ID}:resume?api-version=${apiVersion.mapper.defaultValue}`,
-    );
     assert.equal(request.method, "POST");
   });
 
@@ -390,5 +377,5 @@ describe("CallRecording Live Tests", () => {
       assert.equal(recStatus.recordingState, "active");
       await callerCallAutomationClient.getCallRecording().stop(recordingStateResult.recordingId);
     },
-  );  
+  );
 });

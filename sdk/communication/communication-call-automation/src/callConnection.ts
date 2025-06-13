@@ -3,7 +3,7 @@
 
 import {
   CommunicationIdentifier,
-  //createCommunicationAuthPolicy,
+  createCommunicationAuthPolicy,
 } from "@azure/communication-common";
 import { CallMedia } from "./callMedia.js";
 import {
@@ -49,7 +49,6 @@ import {
   PhoneNumberIdentifierModelConverter,
 } from "./utli/converters.js";
 import { randomUUID } from "@azure/core-util";
-import { createCustomCallAutomationApiClient } from "./credential/callAutomationAuthPolicy.js";
 import type { KeyCredential, TokenCredential } from "@azure/core-auth";
 
 /**
@@ -68,14 +67,9 @@ export class CallConnection {
     credential: KeyCredential | TokenCredential,
     options?: CallAutomationApiClientOptionalParams,
   ) {
-    this.callAutomationApiClient = createCustomCallAutomationApiClient(
-      credential,
-      options,
-      endpoint,
-    );
-    //this.callAutomationApiClient = new CallAutomationApiClient(endpoint, options);
-    //const authPolicy = createCommunicationAuthPolicy(credential);
-    //this.callAutomationApiClient.pipeline.addPolicy(authPolicy);
+    this.callAutomationApiClient = new CallAutomationApiClient(endpoint, options);
+    const authPolicy = createCommunicationAuthPolicy(credential);
+    this.callAutomationApiClient.pipeline.addPolicy(authPolicy);
     this.callConnectionId = callConnectionId;
     this.callConnection = new CallConnectionImpl(this.callAutomationApiClient);
     this.endpoint = endpoint;
