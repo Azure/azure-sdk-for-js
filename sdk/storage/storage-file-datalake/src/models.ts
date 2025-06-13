@@ -144,7 +144,7 @@ export interface CommonGenerateSasUrlOptions {
   /**
    * Optional. The name of the access policy on the container this SAS references if any.
    *
-   * @see https://learn.microsoft.com/en-us/rest/api/storageservices/establishing-a-stored-access-policy
+   * @see https://learn.microsoft.com/rest/api/storageservices/establishing-a-stored-access-policy
    */
   identifier?: string;
 

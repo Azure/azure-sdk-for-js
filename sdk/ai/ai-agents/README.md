@@ -11,7 +11,7 @@ Use the AI Agents client library to:
 [Product documentation](https://aka.ms/azsdk/azure-ai-projects/product-doc)
 | [Samples](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/ai/ai-agents/samples/)
 | [Package (npm)](https://www.npmjs.com/package/@azure/ai-agents)
-| [API reference documentation](https://learn.microsoft.com/javascript/api/overview/azure/ai-projects-readme?view=azure-node-preview)
+| [API reference documentation](https://learn.microsoft.com/javascript/api/overview/azure/ai-agents-readme?view=azure-node-preview)
 
 ## Table of contents
 
@@ -74,7 +74,7 @@ npm install @azure/ai-agents @azure/identity
 
 The `AgentsClient` is used to construct the client. Currently, we recommend that you use the AgentsClient through the [Azure AI Projects Client Library](https://www.npmjs.com/package/@azure/ai-projects) using `client.agents`.
 
-To construct a client:
+To get your project endpoint you can refer this doc: [azure_foundry_service_endpoint]. Below we will assume the environment variable `PROJECT_ENDPOINT` was defined to hold this value:
 
 ```ts snippet:setup
 import { AgentsClient } from "@azure/ai-agents";
@@ -110,7 +110,7 @@ You can use `ToolSet` to do this:
 import { ToolSet } from "@azure/ai-agents";
 
 // Upload file for code interpreter tool
-const filePath1 = "./data/nifty500QuarterlyResults.csv";
+const filePath1 = "./data/syntheticCompanyQuarterlyResults.csv";
 const fileStream1 = fs.createReadStream(filePath1);
 const codeInterpreterFile = await client.files.upload(fileStream1, "assistants", {
   fileName: "myLocalFile",
@@ -182,7 +182,7 @@ Here is an example to upload a file and use it for code interpreter by an Agent:
 ```ts snippet:codeInterpreter
 import { ToolUtility } from "@azure/ai-agents";
 
-const filePath = "./data/nifty500QuarterlyResults.csv";
+const filePath = "./data/syntheticCompanyQuarterlyResults.csv";
 const localFileStream = fs.createReadStream(filePath);
 const localFile = await client.files.upload(localFileStream, "assistants", {
   fileName: "localFile",
@@ -452,7 +452,7 @@ In some scenarios, you might need to assign specific resources to individual thr
 ```ts snippet:threadWithTool
 import { ToolUtility } from "@azure/ai-agents";
 
-const filePath = "./data/nifty500QuarterlyResults.csv";
+const filePath = "./data/syntheticCompanyQuarterlyResults.csv";
 const localFileStream = fs.createReadStream(filePath);
 const file = await client.files.upload(localFileStream, "assistants", {
   fileName: "sample_file_for_upload.csv",
@@ -627,7 +627,7 @@ const run = await client.runs.createAndPoll(thread.id, agent.id, {
     intervalInMs: 2000,
   },
   onResponse: (response): void => {
-    console.log(`Received response with status: ${response.status}`);
+    console.log(`Received response with status: ${response.parsedBody.status}`);
   },
 });
 console.log(`Run finished with status: ${run.status}`);
@@ -661,36 +661,27 @@ const streamEventMessages = await client.runs.create(thread.id, agent.id).stream
 Event handling can be done as follows:
 
 ```ts snippet:eventHandling
-import {
-  RunStreamEvent,
-  ThreadRun,
-  MessageStreamEvent,
-  MessageDeltaChunk,
-  MessageDeltaTextContent,
-  ErrorEvent,
-  DoneEvent,
-} from "@azure/ai-agents";
+import { RunStreamEvent, MessageStreamEvent, ErrorEvent, DoneEvent } from "@azure/ai-agents";
 
 const streamEventMessages = await client.runs.create(thread.id, agent.id).stream();
 
 for await (const eventMessage of streamEventMessages) {
   switch (eventMessage.event) {
     case RunStreamEvent.ThreadRunCreated:
-      console.log(`ThreadRun status: ${(eventMessage.data as ThreadRun).status}`);
+      console.log(`ThreadRun status: ${eventMessage.data.status}`);
       break;
     case MessageStreamEvent.ThreadMessageDelta:
       {
-        const messageDelta = eventMessage.data as MessageDeltaChunk;
+        const messageDelta = eventMessage.data;
         messageDelta.delta.content.forEach((contentPart) => {
           if (contentPart.type === "text") {
-            const textContent = contentPart as MessageDeltaTextContent;
+            const textContent = contentPart;
             const textValue = textContent.text?.value || "No text";
             console.log(`Text delta received:: ${textValue}`);
           }
         });
       }
       break;
-
     case RunStreamEvent.ThreadRunCompleted:
       console.log("Thread Run Completed");
       break;
@@ -844,6 +835,7 @@ additional questions or comments.
 
 <!-- LINKS -->
 
+[azure_foundry_service_endpoint]: https://learn.microsoft.com/azure/ai-foundry/model-inference/how-to/configure-project-connection?pivots=ai-foundry-portal
 [code_of_conduct]: https://opensource.microsoft.com/codeofconduct/
 [entra_id]: https://learn.microsoft.com/azure/ai-services/authentication?tabs=powershell#authenticate-with-microsoft-entra-id
 [azure_identity_npm]: https://www.npmjs.com/package/@azure/identity
