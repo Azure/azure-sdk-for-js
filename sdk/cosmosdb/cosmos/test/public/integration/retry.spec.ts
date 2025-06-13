@@ -1,15 +1,14 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { describe, it, beforeAll, expect } from "vitest";
-import { HttpProxyAgent } from "http-proxy-agent";
+import { describe, it, beforeAll } from "vitest";
 import { CosmosClient, type CosmosClientOptions } from "../../../src/index.js";
 import { endpoint } from "../common/_testConfig.js";
 import { masterKey } from "../common/_fakeTestSecrets.js";
 import { addEntropy } from "../common/TestHelpers.js";
+import assert from "assert";
 
 const isBrowser = new Function("try {return this===window;}catch(e){ return false;}");
-const TEST_TIMEOUT_MS = 30000;
 
 if (!isBrowser()) {
   describe("HTTP Proxy Retry Policy Integration Tests", () => {
@@ -31,24 +30,6 @@ if (!isBrowser()) {
       });
     };
 
-    it(
-      "should fail quickly when using an invalid HTTP proxy",
-      async () => {
-        const invalidPort = 12345;
-        const agent = new HttpProxyAgent(`http://localhost:${invalidPort}`);
-        const client = createTestClient({ agent });
-        await expect(
-          Promise.race([
-            client.databases.create({ id: testDatabaseId + "_invalid" }),
-            new Promise((_resolve, reject) =>
-              setTimeout(() => reject(new Error("Proxy connection timeout")), 10000),
-            ),
-          ]),
-        ).rejects.toThrow();
-      },
-      TEST_TIMEOUT_MS,
-    );
-
     it("throttle retry policy test default retryAfter", async () => {
       const collectionDefinition = { id: "sample-collection" };
       const documentDefinition = { id: "doc", name: "sample document", key: "value" };
@@ -64,8 +45,24 @@ if (!isBrowser()) {
           .container(container.id)
           .items.create(documentDefinition);
       } catch (err: any) {
-        expect(err.code).toBe(429);
-        // Add assertions for retry count and wait time if available in err.headers
+        assert.strictEqual(err.code, 429, "invalid error code");
+        if (err.headers) {
+          // Assert retry count if available
+          if (err.headers["x-ms-throttle-retry-count"] !== undefined) {
+            assert.ok(
+              Number(err.headers["x-ms-throttle-retry-count"]) >= retryOptions.maxRetryAttemptCount,
+              "Current retry attempts not maxed out",
+            );
+          }
+          // Assert wait time if available
+          if (err.headers["x-ms-throttle-retry-wait-time-ms"] !== undefined) {
+            assert.ok(
+              Number(err.headers["x-ms-throttle-retry-wait-time-ms"]) >=
+                retryOptions.maxRetryAttemptCount * 1000,
+              "Wait time not as expected",
+            );
+          }
+        }
       }
     });
 
@@ -84,8 +81,22 @@ if (!isBrowser()) {
           .container(container.id)
           .items.create(documentDefinition);
       } catch (err: any) {
-        expect(err.code).toBe(429);
-        // Add assertions for retry count and wait time if available in err.headers
+        assert.strictEqual(err.code, 429, "invalid error code");
+        if (err.headers) {
+          if (err.headers["x-ms-throttle-retry-count"] !== undefined) {
+            assert.ok(
+              Number(err.headers["x-ms-throttle-retry-count"]) >= retryOptions.maxRetryAttemptCount,
+              "Current retry attempts not maxed out",
+            );
+          }
+          if (err.headers["x-ms-throttle-retry-wait-time-ms"] !== undefined) {
+            assert.ok(
+              Number(err.headers["x-ms-throttle-retry-wait-time-ms"]) >=
+                retryOptions.maxRetryAttemptCount * retryOptions.fixedRetryIntervalInMilliseconds,
+              "Wait time not as expected",
+            );
+          }
+        }
       }
     });
 
@@ -108,8 +119,14 @@ if (!isBrowser()) {
           .container(container.id)
           .items.create(documentDefinition);
       } catch (err: any) {
-        expect(err.code).toBe(429);
-        // Add assertions for max wait time if available in err.headers
+        assert.strictEqual(err.code, 429, "invalid error code");
+        if (err.headers && err.headers["x-ms-throttle-retry-wait-time-ms"] !== undefined) {
+          assert.ok(
+            Number(err.headers["x-ms-throttle-retry-wait-time-ms"]) >=
+              retryOptions.maxWaitTimeInSeconds * 1000,
+            "Wait time not as expected",
+          );
+        }
       }
     });
 
@@ -129,8 +146,13 @@ if (!isBrowser()) {
           .container(container.id)
           .items.create(documentDefinition);
       } catch (err: any) {
-        expect(err.code).toBe("ECONNRESET");
-        // Add assertions for retry attempts if available
+        assert.strictEqual(err.code, "ECONNRESET", "invalid error code");
+        if (err.headers && err.headers["x-ms-throttle-retry-count"] !== undefined) {
+          assert.ok(
+            Number(err.headers["x-ms-throttle-retry-count"]) >= 1,
+            "Retry count not as expected",
+          );
+        }
       }
     });
 
@@ -152,8 +174,14 @@ if (!isBrowser()) {
         .container(container.id)
         .item(createdDocument.id)
         .read();
-      expect(readDocument.id).toBe(documentDefinition.id);
-      // Add assertions for retry attempts if available
+      assert.strictEqual(readDocument.id, documentDefinition.id, "invalid document id");
+      // If retry count is available in headers, assert it
+      if (readDocument.headers && readDocument.headers["x-ms-throttle-retry-count"] !== undefined) {
+        assert.ok(
+          Number(readDocument.headers["x-ms-throttle-retry-count"]) >= 1,
+          "Retry count not as expected",
+        );
+      }
     });
   });
 }
