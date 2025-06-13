@@ -1,6 +1,6 @@
 {
   "name": "@azure-rest/onlineexperimentation",
-  "version": "1.0.0-beta.1",
+  "version": "1.0.0-beta.2",
   "description": "Azure Online Experimentation Service",
   "engines": {
     "node": ">=18.0.0"
@@ -51,7 +51,7 @@
   "//metadata": {
     "constantPaths": [
       {
-        "path": "src/Azure\\sdk-repos\\azure-sdk-for-js\\sdk\\onlineexperimentation\\onlineexperimentation-rest\\generated/onlineExperimentationClient.ts",
+        "path": "src/Azure/sdk-repos/azure-sdk-for-js/sdk/onlineexperimentation/onlineexperimentation-rest/generated/onlineExperimentationClient.ts",
         "prefix": "userAgentInfo"
       }
     ]

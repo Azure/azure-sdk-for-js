@@ -28,7 +28,7 @@ export default function createClient(
   }: OnlineExperimentationClientOptions = {},
 ): OnlineExperimentationClient {
   const endpointUrl = options.endpoint ?? options.baseUrl ?? `${endpointParam}`;
-  const userAgentInfo = `azsdk-js-onlineexperimentation-rest/1.0.0-beta.1`;
+  const userAgentInfo = `azsdk-js-onlineexperimentation-rest/1.0.0-beta.2`;
   const userAgentPrefix =
     options.userAgentOptions && options.userAgentOptions.userAgentPrefix
       ? `${options.userAgentOptions.userAgentPrefix} ${userAgentInfo}`
