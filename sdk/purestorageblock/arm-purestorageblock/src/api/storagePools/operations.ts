@@ -11,8 +11,8 @@ import {
   storagePoolUpdateSerializer,
   _StoragePoolListResult,
   _storagePoolListResultDeserializer,
-  StoragePoolHealthInfo,
-  storagePoolHealthInfoDeserializer,
+  HealthResponse,
+  healthResponseDeserializer,
   AvsConnection,
   avsConnectionDeserializer,
   AvsStatus,
@@ -37,11 +37,11 @@ import {
   StoragePoolsCreateOptionalParams,
   StoragePoolsGetOptionalParams,
 } from "./options.js";
+import { getLongRunningPoller } from "../../static-helpers/pollingHelpers.js";
 import {
   PagedAsyncIterableIterator,
   buildPagedAsyncIterator,
 } from "../../static-helpers/pagingHelpers.js";
-import { getLongRunningPoller } from "../../static-helpers/pollingHelpers.js";
 import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
 import {
   StreamableMethod,
@@ -428,7 +428,7 @@ export function _getHealthStatusSend(
 
 export async function _getHealthStatusDeserialize(
   result: PathUncheckedResponse,
-): Promise<StoragePoolHealthInfo> {
+): Promise<HealthResponse> {
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
@@ -436,7 +436,7 @@ export async function _getHealthStatusDeserialize(
     throw error;
   }
 
-  return storagePoolHealthInfoDeserializer(result.body);
+  return healthResponseDeserializer(result.body);
 }
 
 /** Retrieve health metrics of a storage pool */
@@ -445,7 +445,7 @@ export async function getHealthStatus(
   resourceGroupName: string,
   storagePoolName: string,
   options: StoragePoolsGetHealthStatusOptionalParams = { requestOptions: {} },
-): Promise<StoragePoolHealthInfo> {
+): Promise<HealthResponse> {
   const result = await _getHealthStatusSend(context, resourceGroupName, storagePoolName, options);
   return _getHealthStatusDeserialize(result);
 }

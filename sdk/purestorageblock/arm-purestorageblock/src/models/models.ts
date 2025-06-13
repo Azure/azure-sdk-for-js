@@ -158,21 +158,14 @@ export interface ErrorAdditionalInfo {
   /** The additional info type. */
   readonly type?: string;
   /** The additional info. */
-  readonly info?: Record<string, any>;
+  readonly info?: any;
 }
 
 export function errorAdditionalInfoDeserializer(item: any): ErrorAdditionalInfo {
   return {
     type: item["type"],
-    info: !item["info"] ? item["info"] : _errorAdditionalInfoInfoDeserializer(item["info"]),
+    info: item["info"],
   };
-}
-
-/** model interface _ErrorAdditionalInfoInfo */
-export interface _ErrorAdditionalInfoInfo {}
-
-export function _errorAdditionalInfoInfoDeserializer(item: any): _ErrorAdditionalInfoInfo {
-  return item;
 }
 
 /** Pure Storage cloud service resource type, also called reservation */
@@ -977,13 +970,13 @@ export interface AzureVmwareService {
   /** If true, an AVS SDDC is successfully connected to the storage pool */
   avsEnabled: boolean;
   /** Azure resource ID of the AVS SDDC the storage pool is connected to */
-  clusterResourceId?: string;
+  sddcResourceId?: string;
 }
 
 export function azureVmwareServiceDeserializer(item: any): AzureVmwareService {
   return {
     avsEnabled: item["avsEnabled"],
-    clusterResourceId: item["sddcResourceId"],
+    sddcResourceId: item["sddcResourceId"],
   };
 }
 
@@ -1118,14 +1111,14 @@ export function storagePoolArrayDeserializer(result: Array<StoragePool>): any[] 
 }
 
 /** Health information for a storage pool */
-export interface StoragePoolHealthInfo {
+export interface HealthResponse {
   /** Health metrics */
   health: HealthDetails;
   /** List of health alerts */
   alerts: Alert[];
 }
 
-export function storagePoolHealthInfoDeserializer(item: any): StoragePoolHealthInfo {
+export function healthResponseDeserializer(item: any): HealthResponse {
   return {
     health: healthDetailsDeserializer(item["health"]),
     alerts: alertArrayDeserializer(item["alerts"]),
@@ -1281,14 +1274,14 @@ export function avsConnectionDeserializer(item: any): AvsConnection {
 /** Initialization handle used to configure the AVS SDDC to communicate with the storage pool */
 export interface ServiceInitializationHandle {
   /** Azure resource ID of the AVS SDDC the pool is connecting to */
-  clusterResourceId?: string;
+  sddcResourceId?: string;
   /** Requested service account username */
   serviceAccountUsername?: string;
 }
 
 export function serviceInitializationHandleDeserializer(item: any): ServiceInitializationHandle {
   return {
-    clusterResourceId: item["sddcResourceId"],
+    sddcResourceId: item["sddcResourceId"],
     serviceAccountUsername: item["serviceAccountUsername"],
   };
 }
@@ -1300,27 +1293,27 @@ export interface AvsStatus {
   /** Human-readable current AVS connection status */
   currentConnectionStatus: string;
   /** Azure resource ID of the AVS SDDC the pool is connected to */
-  clusterResourceId?: string;
+  sddcResourceId?: string;
 }
 
 export function avsStatusDeserializer(item: any): AvsStatus {
   return {
     avsEnabled: item["avsEnabled"],
     currentConnectionStatus: item["currentConnectionStatus"],
-    clusterResourceId: item["sddcResourceId"],
+    sddcResourceId: item["sddcResourceId"],
   };
 }
 
 /** EnableAvsConnection payload information */
 export interface StoragePoolEnableAvsConnectionPost {
   /** Azure resource ID of the AVS SDDC to connect to */
-  clusterResourceId: string;
+  sddcResourceId: string;
 }
 
 export function storagePoolEnableAvsConnectionPostSerializer(
   item: StoragePoolEnableAvsConnectionPost,
 ): any {
-  return { sddcResourceId: item["clusterResourceId"] };
+  return { sddcResourceId: item["sddcResourceId"] };
 }
 
 /** FinalizeAvsConnection payload information, either encoded or explicit */
@@ -1328,7 +1321,7 @@ export interface StoragePoolFinalizeAvsConnectionPost {
   /** Encoded AVS connection information */
   serviceInitializationDataEnc?: string;
   /** Explicit AVS connection information */
-  serviceInitializationData?: ServiceInitializationInfo;
+  serviceInitializationData?: ServiceInitializationData;
 }
 
 export function storagePoolFinalizeAvsConnectionPostSerializer(
@@ -1338,12 +1331,12 @@ export function storagePoolFinalizeAvsConnectionPostSerializer(
     serviceInitializationDataEnc: item["serviceInitializationDataEnc"],
     serviceInitializationData: !item["serviceInitializationData"]
       ? item["serviceInitializationData"]
-      : serviceInitializationInfoSerializer(item["serviceInitializationData"]),
+      : serviceInitializationDataSerializer(item["serviceInitializationData"]),
   };
 }
 
 /** Explicit service initialization data */
-export interface ServiceInitializationInfo {
+export interface ServiceInitializationData {
   /** Service account username */
   serviceAccountUsername?: string;
   /** Service account password */
@@ -1354,7 +1347,7 @@ export interface ServiceInitializationInfo {
   vSphereCertificate?: string;
 }
 
-export function serviceInitializationInfoSerializer(item: ServiceInitializationInfo): any {
+export function serviceInitializationDataSerializer(item: ServiceInitializationData): any {
   return {
     serviceAccountUsername: item["serviceAccountUsername"],
     serviceAccountPassword: item["serviceAccountPassword"],
