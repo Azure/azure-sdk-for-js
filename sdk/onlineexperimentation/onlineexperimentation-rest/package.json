@@ -51,7 +51,7 @@
   "//metadata": {
     "constantPaths": [
       {
-        "path": "src/Azure\\sdk-repos\\azure-sdk-for-js\\sdk\\onlineexperimentation\\onlineexperimentation-rest\\generated/onlineExperimentationClient.ts",
+        "path": "src/Azure/sdk-repos/azure-sdk-for-js/sdk/onlineexperimentation/onlineexperimentation-rest/generated/onlineExperimentationClient.ts",
         "prefix": "userAgentInfo"
       }
     ]
