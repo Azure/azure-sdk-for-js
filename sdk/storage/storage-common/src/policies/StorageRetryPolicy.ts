@@ -239,20 +239,11 @@ export class StorageRetryPolicy extends BaseRequestPolicy {
       if (response?.status >= 400) {
         const copySourceError = response.headers.get(HeaderConstants.X_MS_CopySourceErrorCode);
         if (copySourceError !== undefined) {
-<<<<<<< HEAD:sdk/storage/storage-common/src/policies/StorageRetryPolicy.ts
           switch (copySourceError) {
             case "InternalError":
             case "OperationTimedOut":
             case "ServerBusy":
               return true;
-=======
-          switch (copySourceError)
-          {
-              case "InternalError":
-              case "OperationTimedOut":
-              case "ServerBusy":
-                  return true;
->>>>>>> 1beee035c8 ([Storage]Return copy source error code (#34780)):sdk/storage/storage-file-share/src/policies/StorageRetryPolicy.ts
           }
         }
       }
