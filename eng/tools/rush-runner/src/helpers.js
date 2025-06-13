@@ -107,9 +107,15 @@ export const getDirectionMappedPackages = (packageNames, action, serviceDirs) =>
     }
   } else {
     // we are in a test task of some kind
-    const rushCommandFlag = isReducedTestScopeEnabled ? "--only" : "--impacted-by";
-
-    mappedPackages.push(...fullPackageNames.map((p) => [rushCommandFlag, p]));
+    mappedPackages.push(
+      ...fullPackageNames.map((p) => {
+        if (!restrictedToPackages.includes(p) && packageNames.includes(p)) {
+          return ["--impacted-by", p];
+        } else {
+          return ["--only", p];
+        }
+      }),
+    );
   }
 
   return mappedPackages;
