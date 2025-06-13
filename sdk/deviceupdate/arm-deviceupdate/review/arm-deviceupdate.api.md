@@ -15,7 +15,7 @@ export interface Account extends TrackedResource {
     encryption?: Encryption;
     readonly hostName?: string;
     identity?: ManagedServiceIdentity;
-    readonly locations?: Location_2[];
+    readonly locations?: Location[];
     privateEndpointConnections?: PrivateEndpointConnection[];
     readonly provisioningState?: ProvisioningState;
     publicNetworkAccess?: PublicNetworkAccess;
@@ -442,12 +442,11 @@ export enum KnownSku {
 }
 
 // @public (undocumented)
-interface Location_2 {
+export interface Location {
     // (undocumented)
     name?: string;
     role?: Role;
 }
-export { Location_2 as Location }
 
 // @public
 export interface ManagedServiceIdentity {
