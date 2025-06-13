@@ -1,34 +1,30 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { ProtectedDataEncryptionKeyCache } from "./Cache/ProtectedDataEncryptionKeyCache";
-import { KeyEncryptionKeyCache } from "./Cache/KeyEncryptionKeyCache";
-import { EncryptionSettingsCache } from "./Cache/EncryptionSettingsCache";
-import { ClientEncryptionKeyPropertiesCache } from "./Cache/ClientEncryptionKeyPropertiesCache";
-import { EncryptionKeyStoreProvider } from "./EncryptionKeyStoreProvider";
-import { Constants } from "../common/constants";
-import type { EncryptionKeyResolver } from "./EncryptionKeyResolver";
-import { EncryptionTimeToLive } from "./EncryptionTimeToLive";
+import { ProtectedDataEncryptionKeyCache } from "./Cache/ProtectedDataEncryptionKeyCache.js";
+import { KeyEncryptionKeyCache } from "./Cache/KeyEncryptionKeyCache.js";
+import { EncryptionSettingsCache } from "./Cache/EncryptionSettingsCache.js";
+import { ClientEncryptionKeyPropertiesCache } from "./Cache/ClientEncryptionKeyPropertiesCache.js";
+import { EncryptionKeyStoreProvider } from "./EncryptionKeyStoreProvider.js";
+import { Constants } from "../common/constants.js";
+import type { EncryptionKeyResolver } from "./EncryptionKeyResolver/index.js";
 /**
  * Cache manager for encryption related caches.
  * @hidden
  */
 export class EncryptionManager {
-  public cacheTimeToLive: EncryptionTimeToLive;
+  public cacheTimeToLive: number;
   public encryptionKeyStoreProvider: EncryptionKeyStoreProvider;
   public protectedDataEncryptionKeyCache: ProtectedDataEncryptionKeyCache;
   public keyEncryptionKeyCache: KeyEncryptionKeyCache;
   public encryptionSettingsCache: EncryptionSettingsCache;
   public clientEncryptionKeyPropertiesCache: ClientEncryptionKeyPropertiesCache;
 
-  constructor(
-    encryptionKeyResolver: EncryptionKeyResolver,
-    cacheTimeToLive?: EncryptionTimeToLive,
-  ) {
+  constructor(encryptionKeyResolver: EncryptionKeyResolver, cacheTimeToLive?: number) {
     this.cacheTimeToLive =
       cacheTimeToLive !== undefined
         ? cacheTimeToLive
-        : EncryptionTimeToLive.FromHours(Constants.DefaultEncryptionCacheTimeToLiveInHours);
+        : Constants.DefaultEncryptionCacheTimeToLiveInSeconds;
     const cacheTtlInMs = this.getCacheTTlInMs();
     this.encryptionKeyStoreProvider = new EncryptionKeyStoreProvider(
       encryptionKeyResolver,
@@ -44,10 +40,7 @@ export class EncryptionManager {
    * Converts the EncryptionTimeToLive instance to a number (milliseconds).
    */
   private getCacheTTlInMs(): number {
-    if (this.cacheTimeToLive === EncryptionTimeToLive.NoTTL()) {
-      return 0;
-    } else {
-      return Number(this.cacheTimeToLive);
-    }
+    const millisecondsPerSecond = 1000;
+    return Number(this.cacheTimeToLive * millisecondsPerSecond);
   }
 }

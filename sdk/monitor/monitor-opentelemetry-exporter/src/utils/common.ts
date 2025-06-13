@@ -30,7 +30,7 @@ import {
   ATTR_TELEMETRY_SDK_NAME,
   DBSYSTEMVALUES_H2,
 } from "@opentelemetry/semantic-conventions";
-import type { Tags } from "../types.js";
+import { experimentalOpenTelemetryValues, type Tags } from "../types.js";
 import { getInstance } from "../platform/index.js";
 import type { TelemetryItem as Envelope, MetricsData } from "../generated/index.js";
 import { KnownContextTagKeys } from "../generated/index.js";
@@ -286,4 +286,8 @@ export function serializeAttribute(value: AnyValue): string {
 
 export function shouldCreateResourceMetric(): boolean {
   return !(process.env[ENV_OPENTELEMETRY_RESOURCE_METRIC_DISABLED]?.toLowerCase() === "true");
+}
+
+export function isSyntheticSource(attributes: Attributes): boolean {
+  return !!attributes[experimentalOpenTelemetryValues.SYNTHETIC_TYPE];
 }

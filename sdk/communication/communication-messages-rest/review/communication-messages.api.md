@@ -4,11 +4,17 @@
 
 ```ts
 
+import { ChatMessageReceivedEvent } from '@azure/communication-signaling';
+import { ChatThreadPropertiesUpdatedEvent } from '@azure/communication-signaling';
 import type { Client } from '@azure-rest/core-client';
 import type { ClientOptions } from '@azure-rest/core-client';
+import type { CommunicationTokenCredential } from '@azure/communication-common';
+import type { ErrorModel } from '@azure-rest/core-client';
 import type { ErrorResponse } from '@azure-rest/core-client';
 import type { HttpResponse } from '@azure-rest/core-client';
 import type { KeyCredential } from '@azure/core-auth';
+import { ParticipantsAddedEvent } from '@azure/communication-signaling';
+import { ParticipantsRemovedEvent } from '@azure/communication-signaling';
 import type { PathUncheckedResponse } from '@azure-rest/core-client';
 import type { RawHttpHeaders } from '@azure/core-rest-pipeline';
 import type { RawHttpHeadersInput } from '@azure/core-rest-pipeline';
@@ -45,10 +51,153 @@ export interface ActionGroupItem {
     title: string;
 }
 
+// @public (undocumented)
+export interface AddParticipants {
+    post(options: AddParticipantsParameters): StreamableMethod<AddParticipants207Response | AddParticipantsDefaultResponse>;
+}
+
+// @public (undocumented)
+export interface AddParticipants207Headers {
+    "repeatability-result"?: RepeatabilityResultOutput;
+    "x-ms-client-request-id"?: string;
+}
+
+// @public
+export interface AddParticipants207Response extends HttpResponse {
+    // (undocumented)
+    body: AddParticipantsResultOutput;
+    // (undocumented)
+    headers: RawHttpHeaders & AddParticipants207Headers;
+    // (undocumented)
+    status: "207";
+}
+
+// @public (undocumented)
+export interface AddParticipantsBodyParam {
+    body: AddParticipantsOptions;
+}
+
+// @public (undocumented)
+export interface AddParticipantsDefaultHeaders {
+    "x-ms-error-code"?: string;
+}
+
+// @public (undocumented)
+export interface AddParticipantsDefaultResponse extends HttpResponse {
+    // (undocumented)
+    body: ErrorResponse;
+    // (undocumented)
+    headers: RawHttpHeaders & AddParticipantsDefaultHeaders;
+    // (undocumented)
+    status: string;
+}
+
+// @public (undocumented)
+export interface AddParticipantsHeaderParam {
+    // (undocumented)
+    headers?: RawHttpHeadersInput & AddParticipantsHeaders;
+}
+
+// @public (undocumented)
+export interface AddParticipantsHeaders {
+    "Repeatability-First-Sent"?: string;
+    "Repeatability-Request-ID"?: string;
+    "x-ms-client-request-id"?: string;
+}
+
+// @public
+export interface AddParticipantsOptions {
+    participants: Array<ConversationParticipant>;
+}
+
+// @public (undocumented)
+export type AddParticipantsParameters = AddParticipantsHeaderParam & AddParticipantsBodyParam & RequestParameters;
+
+// @public
+export interface AddParticipantsResultOutput {
+    invalidParticipants: Array<UpdateParticipantsResultOutput>;
+}
+
+// @public (undocumented)
+export interface AnalyzeConversation {
+    post(options?: AnalyzeConversationParameters): StreamableMethod<AnalyzeConversation200Response | AnalyzeConversationDefaultResponse>;
+}
+
+// @public (undocumented)
+export interface AnalyzeConversation200Headers {
+    "repeatability-result"?: RepeatabilityResultOutput;
+    "x-ms-client-request-id"?: string;
+}
+
+// @public
+export interface AnalyzeConversation200Response extends HttpResponse {
+    // (undocumented)
+    body: GetConversationThreadAnalysisResultOutput;
+    // (undocumented)
+    headers: RawHttpHeaders & AnalyzeConversation200Headers;
+    // (undocumented)
+    status: "200";
+}
+
+// @public (undocumented)
+export interface AnalyzeConversationDefaultHeaders {
+    "x-ms-error-code"?: string;
+}
+
+// @public (undocumented)
+export interface AnalyzeConversationDefaultResponse extends HttpResponse {
+    // (undocumented)
+    body: ErrorResponse;
+    // (undocumented)
+    headers: RawHttpHeaders & AnalyzeConversationDefaultHeaders;
+    // (undocumented)
+    status: string;
+}
+
+// @public (undocumented)
+export interface AnalyzeConversationHeaderParam {
+    // (undocumented)
+    headers?: RawHttpHeadersInput & AnalyzeConversationHeaders;
+}
+
+// @public (undocumented)
+export interface AnalyzeConversationHeaders {
+    "Repeatability-First-Sent"?: string;
+    "Repeatability-Request-ID"?: string;
+    "x-ms-client-request-id"?: string;
+}
+
+// @public (undocumented)
+export type AnalyzeConversationParameters = AnalyzeConversationHeaderParam & RequestParameters;
+
+// @public
+export interface AudioConversationMessageContent extends ConversationMessageContentParent {
+    kind: "audio";
+    mediaUri: string;
+}
+
+// @public
+export interface AudioConversationMessageContentOutput extends ConversationMessageContentOutputParent {
+    kind: "audio";
+    mediaUri: string;
+}
+
 // @public
 export interface AudioNotificationContent extends NotificationContentParent {
     kind: "audio";
     mediaUri: string;
+}
+
+// @public
+export interface BotContact extends ContactParent {
+    botAppId: string;
+    kind: "bot";
+}
+
+// @public
+export interface BotContactOutput extends ContactOutputParent {
+    botAppId: string;
+    kind: "bot";
 }
 
 // @public
@@ -63,11 +212,145 @@ export interface ButtonSetContent extends MessageContentParent {
     kind: "buttonSet";
 }
 
+// @public (undocumented)
+export type ChatEventId = "chatMessageReceived" | "chatMessageEdited" | "chatMessageDeleted" | "typingIndicatorReceived" | "readReceiptReceived" | "chatThreadCreated" | "chatThreadDeleted" | "chatThreadPropertiesUpdated" | "participantsAdded" | "participantsRemoved" | "realTimeNotificationConnected" | "realTimeNotificationDisconnected";
+
+export { ChatMessageReceivedEvent }
+
+export { ChatThreadPropertiesUpdatedEvent }
+
+// @public
+export interface CommunicationContact extends ContactParent {
+    kind: "communication";
+}
+
+// @public
+export interface CommunicationContactOutput extends ContactOutputParent {
+    kind: "communication";
+}
+
 // @public
 export type CommunicationMessageKind = string;
 
 // @public
+export type CommunicationMessageKindOutput = string;
+
+// @public
 export type CommunicationMessagesChannelOutput = string;
+
+// @public
+export type Contact = ContactParent | CommunicationContact | BotContact | WhatsAppContact;
+
+// @public
+export type ContactOutput = ContactOutputParent | CommunicationContactOutput | BotContactOutput | WhatsAppContactOutput;
+
+// @public
+export interface ContactOutputParent {
+    id: string;
+    // (undocumented)
+    kind: MessagePlatformKindOutput;
+}
+
+// @public
+export interface ContactParent {
+    id: string;
+    // (undocumented)
+    kind: MessagePlatformKind;
+}
+
+// @public
+export interface Conversation {
+    deliveryChannelIds?: string[];
+    outboundDeliveryStrategy?: OutboundDeliveryStrategyKind;
+    participants?: Array<ConversationParticipant>;
+    topic?: string;
+}
+
+// @public (undocumented)
+export interface ConversationEventListener {
+    // (undocumented)
+    off(event: "chatMessageReceived", listener: (e: ChatMessageReceivedEvent) => void): void;
+    // (undocumented)
+    off(event: "chatThreadPropertiesUpdated", listener: (e: ChatThreadPropertiesUpdatedEvent) => void): void;
+    // (undocumented)
+    off(event: "participantsAdded", listener: (e: ParticipantsAddedEvent) => void): void;
+    // (undocumented)
+    off(event: "participantsRemoved", listener: (e: ParticipantsRemovedEvent) => void): void;
+    // (undocumented)
+    on(event: "chatMessageReceived", listener: (e: ChatMessageReceivedEvent) => void): void;
+    // (undocumented)
+    on(event: "chatThreadPropertiesUpdated", listener: (e: ChatThreadPropertiesUpdatedEvent) => void): void;
+    // (undocumented)
+    on(event: "participantsAdded", listener: (e: ParticipantsAddedEvent) => void): void;
+    // (undocumented)
+    on(event: "participantsRemoved", listener: (e: ParticipantsRemovedEvent) => void): void;
+    // (undocumented)
+    on(event: "realTimeNotificationConnected", listener: () => void): void;
+    // (undocumented)
+    on(event: "realTimeNotificationDisconnected", listener: () => void): void;
+    // (undocumented)
+    startRealtimeNotifications(): Promise<void>;
+    // (undocumented)
+    stopRealtimeNotifications(): Promise<void>;
+}
+
+// @public
+export type ConversationMessageContent = ConversationMessageContentParent | TextConversationMessageContent | ImageConversationMessageContent | DocumentConversationMessageContent | VideoConversationMessageContent | AudioConversationMessageContent | TemplateConversationMessageContent;
+
+// @public
+export type ConversationMessageContentOutput = ConversationMessageContentOutputParent | TextConversationMessageContentOutput | ImageConversationMessageContentOutput | DocumentConversationMessageContentOutput | VideoConversationMessageContentOutput | AudioConversationMessageContentOutput | TemplateConversationMessageContentOutput;
+
+// @public
+export interface ConversationMessageContentOutputParent {
+    // (undocumented)
+    kind: CommunicationMessageKindOutput;
+}
+
+// @public
+export interface ConversationMessageContentParent {
+    // (undocumented)
+    kind: CommunicationMessageKind;
+}
+
+// @public
+export interface ConversationMessageItemOutput {
+    createdOn: string;
+    readonly id: string;
+    message: ConversationMessageContentOutput;
+    senderCommunicationIdentifier: string;
+    senderDisplayName?: string;
+    sequenceId?: number;
+}
+
+// @public
+export interface ConversationOutput {
+    deliveryChannelIds?: string[];
+    readonly id: string;
+    outboundDeliveryStrategy?: OutboundDeliveryStrategyKindOutput;
+    participants?: Array<ConversationParticipantOutput>;
+    topic?: string;
+}
+
+// @public
+export type ConversationParticipant = ConversationParticipantParent | InternalConversationParticipant | ExternalConversationParticipant;
+
+// @public
+export type ConversationParticipantOutput = ConversationParticipantOutputParent | InternalConversationParticipantOutput | ExternalConversationParticipantOutput;
+
+// @public
+export interface ConversationParticipantOutputParent {
+    displayName?: string;
+    readonly id: string;
+    // (undocumented)
+    kind: ParticipantKindOutput;
+}
+
+// @public
+export interface ConversationParticipantParent {
+    displayName?: string;
+    // (undocumented)
+    kind: ParticipantKind;
+}
 
 // @public
 function createClient(connectionString: string, options?: ClientOptions): MessagesServiceClient;
@@ -75,6 +358,108 @@ function createClient(connectionString: string, options?: ClientOptions): Messag
 // @public
 function createClient(endpoint: string, credential: KeyCredential | TokenCredential, options?: ClientOptions): MessagesServiceClient;
 export default createClient;
+
+// @public
+export interface CreateConversation201Response extends HttpResponse {
+    // (undocumented)
+    body: ConversationOutput;
+    // (undocumented)
+    status: "201";
+}
+
+// @public (undocumented)
+export interface CreateConversationBodyParam {
+    // (undocumented)
+    body: CreateConversationRequest;
+}
+
+// @public (undocumented)
+export interface CreateConversationDefaultHeaders {
+    "x-ms-error-code"?: string;
+}
+
+// @public (undocumented)
+export interface CreateConversationDefaultResponse extends HttpResponse {
+    // (undocumented)
+    body: ErrorResponse;
+    // (undocumented)
+    headers: RawHttpHeaders & CreateConversationDefaultHeaders;
+    // (undocumented)
+    status: string;
+}
+
+// @public (undocumented)
+export function createConversationEventListener(endpoint: string, credential: CommunicationTokenCredential, options?: MessagesServiceClientOptions): ConversationEventListener;
+
+// @public (undocumented)
+export type CreateConversationParameters = CreateConversationBodyParam & RequestParameters;
+
+// @public
+export interface CreateConversationRequest {
+    conversation: Conversation;
+    initialMessage?: Message;
+}
+
+// @public (undocumented)
+export interface DeleteConversation204Headers {
+    "repeatability-result"?: RepeatabilityResultOutput;
+    "x-ms-client-request-id"?: string;
+}
+
+// @public
+export interface DeleteConversation204Response extends HttpResponse {
+    // (undocumented)
+    headers: RawHttpHeaders & DeleteConversation204Headers;
+    // (undocumented)
+    status: "204";
+}
+
+// @public (undocumented)
+export interface DeleteConversationDefaultHeaders {
+    "x-ms-error-code"?: string;
+}
+
+// @public (undocumented)
+export interface DeleteConversationDefaultResponse extends HttpResponse {
+    // (undocumented)
+    body: ErrorResponse;
+    // (undocumented)
+    headers: RawHttpHeaders & DeleteConversationDefaultHeaders;
+    // (undocumented)
+    status: string;
+}
+
+// @public (undocumented)
+export interface DeleteConversationHeaderParam {
+    // (undocumented)
+    headers?: RawHttpHeadersInput & DeleteConversationHeaders;
+}
+
+// @public (undocumented)
+export interface DeleteConversationHeaders {
+    "Repeatability-First-Sent"?: string;
+    "Repeatability-Request-ID"?: string;
+    "x-ms-client-request-id"?: string;
+}
+
+// @public (undocumented)
+export type DeleteConversationParameters = DeleteConversationHeaderParam & RequestParameters;
+
+// @public
+export interface DocumentConversationMessageContent extends ConversationMessageContentParent {
+    caption?: string;
+    fileName?: string;
+    kind: "document";
+    mediaUri: string;
+}
+
+// @public
+export interface DocumentConversationMessageContentOutput extends ConversationMessageContentOutputParent {
+    caption?: string;
+    fileName?: string;
+    kind: "document";
+    mediaUri: string;
+}
 
 // @public
 export interface DocumentMessageContent extends MessageContentParent {
@@ -91,7 +476,74 @@ export interface DocumentNotificationContent extends NotificationContentParent {
 }
 
 // @public
+export interface ExternalConversationParticipant extends ConversationParticipantParent {
+    contacts: Array<Contact>;
+    kind: "external";
+}
+
+// @public
+export interface ExternalConversationParticipantOutput extends ConversationParticipantOutputParent {
+    contacts: Array<ContactOutput>;
+    kind: "external";
+}
+
+// @public
 export type GetArrayType<T> = T extends Array<infer TData> ? TData : never;
+
+// @public (undocumented)
+export interface GetConversation {
+    delete(options?: DeleteConversationParameters): StreamableMethod<DeleteConversation204Response | DeleteConversationDefaultResponse>;
+    get(options?: GetConversationParameters): StreamableMethod<GetConversation200Response | GetConversationDefaultResponse>;
+}
+
+// @public (undocumented)
+export interface GetConversation200Headers {
+    "x-ms-client-request-id"?: string;
+}
+
+// @public
+export interface GetConversation200Response extends HttpResponse {
+    // (undocumented)
+    body: ConversationOutput;
+    // (undocumented)
+    headers: RawHttpHeaders & GetConversation200Headers;
+    // (undocumented)
+    status: "200";
+}
+
+// @public (undocumented)
+export interface GetConversationDefaultHeaders {
+    "x-ms-error-code"?: string;
+}
+
+// @public (undocumented)
+export interface GetConversationDefaultResponse extends HttpResponse {
+    // (undocumented)
+    body: ErrorResponse;
+    // (undocumented)
+    headers: RawHttpHeaders & GetConversationDefaultHeaders;
+    // (undocumented)
+    status: string;
+}
+
+// @public (undocumented)
+export interface GetConversationHeaderParam {
+    // (undocumented)
+    headers?: RawHttpHeadersInput & GetConversationHeaders;
+}
+
+// @public (undocumented)
+export interface GetConversationHeaders {
+    "x-ms-client-request-id"?: string;
+}
+
+// @public (undocumented)
+export type GetConversationParameters = GetConversationHeaderParam & RequestParameters;
+
+// @public
+export interface GetConversationThreadAnalysisResultOutput {
+    summary: string;
+}
 
 // @public (undocumented)
 export interface GetMedia {
@@ -149,6 +601,20 @@ export type GetPage<TPage> = (pageLink: string) => Promise<{
 }>;
 
 // @public
+export interface ImageConversationMessageContent extends ConversationMessageContentParent {
+    caption?: string;
+    kind: "image";
+    mediaUri: string;
+}
+
+// @public
+export interface ImageConversationMessageContentOutput extends ConversationMessageContentOutputParent {
+    caption?: string;
+    kind: "image";
+    mediaUri: string;
+}
+
+// @public
 export interface ImageMessageContent extends MessageContentParent {
     kind: "image";
     mediaUri: string;
@@ -175,6 +641,18 @@ export interface InteractiveNotificationContent extends NotificationContentParen
     kind: "interactive";
 }
 
+// @public
+export interface InternalConversationParticipant extends ConversationParticipantParent {
+    contact: Contact;
+    kind: "internal";
+}
+
+// @public
+export interface InternalConversationParticipantOutput extends ConversationParticipantOutputParent {
+    contact: ContactOutput;
+    kind: "internal";
+}
+
 // @public (undocumented)
 export function isUnexpected(response: GetMedia200Response | GetMediaDefaultResponse): response is GetMediaDefaultResponse;
 
@@ -184,11 +662,165 @@ export function isUnexpected(response: Send202Response | SendDefaultResponse): r
 // @public (undocumented)
 export function isUnexpected(response: ListTemplates200Response | ListTemplatesDefaultResponse): response is ListTemplatesDefaultResponse;
 
+// @public (undocumented)
+export function isUnexpected(response: AddParticipants207Response | AddParticipantsDefaultResponse): response is AddParticipantsDefaultResponse;
+
+// @public (undocumented)
+export function isUnexpected(response: RemoveParticipants207Response | RemoveParticipantsDefaultResponse): response is RemoveParticipantsDefaultResponse;
+
+// @public (undocumented)
+export function isUnexpected(response: ListConversations200Response | ListConversationsDefaultResponse): response is ListConversationsDefaultResponse;
+
+// @public (undocumented)
+export function isUnexpected(response: CreateConversation201Response | CreateConversationDefaultResponse): response is CreateConversationDefaultResponse;
+
+// @public (undocumented)
+export function isUnexpected(response: ListMessages200Response | ListMessagesDefaultResponse): response is ListMessagesDefaultResponse;
+
+// @public (undocumented)
+export function isUnexpected(response: SendMessage200Response | SendMessageDefaultResponse): response is SendMessageDefaultResponse;
+
+// @public (undocumented)
+export function isUnexpected(response: AnalyzeConversation200Response | AnalyzeConversationDefaultResponse): response is AnalyzeConversationDefaultResponse;
+
+// @public (undocumented)
+export function isUnexpected(response: GetConversation200Response | GetConversationDefaultResponse): response is GetConversationDefaultResponse;
+
+// @public (undocumented)
+export function isUnexpected(response: DeleteConversation204Response | DeleteConversationDefaultResponse): response is DeleteConversationDefaultResponse;
+
+// @public (undocumented)
+export function isUnexpected(response: TerminateConversation200Response | TerminateConversationDefaultResponse): response is TerminateConversationDefaultResponse;
+
 // @public
 export interface LinkContent extends MessageContentParent {
     kind: "url";
     title: string;
     url: string;
+}
+
+// @public (undocumented)
+export interface ListConversations {
+    get(options?: ListConversationsParameters): StreamableMethod<ListConversations200Response | ListConversationsDefaultResponse>;
+    post(options: CreateConversationParameters): StreamableMethod<CreateConversation201Response | CreateConversationDefaultResponse>;
+}
+
+// @public (undocumented)
+export interface ListConversations200Headers {
+    "x-ms-client-request-id"?: string;
+}
+
+// @public
+export interface ListConversations200Response extends HttpResponse {
+    // (undocumented)
+    body: PagedConversationOutput;
+    // (undocumented)
+    headers: RawHttpHeaders & ListConversations200Headers;
+    // (undocumented)
+    status: "200";
+}
+
+// @public (undocumented)
+export interface ListConversationsDefaultHeaders {
+    "x-ms-error-code"?: string;
+}
+
+// @public (undocumented)
+export interface ListConversationsDefaultResponse extends HttpResponse {
+    // (undocumented)
+    body: ErrorResponse;
+    // (undocumented)
+    headers: RawHttpHeaders & ListConversationsDefaultHeaders;
+    // (undocumented)
+    status: string;
+}
+
+// @public (undocumented)
+export interface ListConversationsHeaderParam {
+    // (undocumented)
+    headers?: RawHttpHeadersInput & ListConversationsHeaders;
+}
+
+// @public (undocumented)
+export interface ListConversationsHeaders {
+    "x-ms-client-request-id"?: string;
+}
+
+// @public (undocumented)
+export type ListConversationsParameters = ListConversationsQueryParam & ListConversationsHeaderParam & RequestParameters;
+
+// @public (undocumented)
+export interface ListConversationsQueryParam {
+    // (undocumented)
+    queryParameters?: ListConversationsQueryParamProperties;
+}
+
+// @public (undocumented)
+export interface ListConversationsQueryParamProperties {
+    channelId?: string;
+    maxPageSize?: number;
+    participantId?: string;
+}
+
+// @public (undocumented)
+export interface ListMessages {
+    get(options?: ListMessagesParameters): StreamableMethod<ListMessages200Response | ListMessagesDefaultResponse>;
+}
+
+// @public (undocumented)
+export interface ListMessages200Headers {
+    "x-ms-client-request-id"?: string;
+}
+
+// @public
+export interface ListMessages200Response extends HttpResponse {
+    // (undocumented)
+    body: PagedConversationMessageItemOutput;
+    // (undocumented)
+    headers: RawHttpHeaders & ListMessages200Headers;
+    // (undocumented)
+    status: "200";
+}
+
+// @public (undocumented)
+export interface ListMessagesDefaultHeaders {
+    "x-ms-error-code"?: string;
+}
+
+// @public (undocumented)
+export interface ListMessagesDefaultResponse extends HttpResponse {
+    // (undocumented)
+    body: ErrorResponse;
+    // (undocumented)
+    headers: RawHttpHeaders & ListMessagesDefaultHeaders;
+    // (undocumented)
+    status: string;
+}
+
+// @public (undocumented)
+export interface ListMessagesHeaderParam {
+    // (undocumented)
+    headers?: RawHttpHeadersInput & ListMessagesHeaders;
+}
+
+// @public (undocumented)
+export interface ListMessagesHeaders {
+    "x-ms-client-request-id"?: string;
+}
+
+// @public (undocumented)
+export type ListMessagesParameters = ListMessagesQueryParam & ListMessagesHeaderParam & RequestParameters;
+
+// @public (undocumented)
+export interface ListMessagesQueryParam {
+    // (undocumented)
+    queryParameters?: ListMessagesQueryParamProperties;
+}
+
+// @public (undocumented)
+export interface ListMessagesQueryParamProperties {
+    maxPageSize?: number;
+    participantId?: string;
 }
 
 // @public (undocumented)
@@ -248,7 +880,7 @@ export interface ListTemplatesQueryParam {
 
 // @public (undocumented)
 export interface ListTemplatesQueryParamProperties {
-    maxpagesize?: number;
+    maxPageSize?: number;
 }
 
 // @public @deprecated (undocumented)
@@ -256,6 +888,11 @@ export interface MediaNotificationContent extends NotificationContentParent {
     content?: string;
     kind: "image_v0";
     mediaUri: string;
+}
+
+// @public
+export interface Message {
+    content: string;
 }
 
 // @public
@@ -272,6 +909,12 @@ export interface MessageContentParent {
     // (undocumented)
     kind: MessageContentKind;
 }
+
+// @public
+export type MessagePlatformKind = string;
+
+// @public
+export type MessagePlatformKindOutput = string;
 
 // @public
 export interface MessageReceiptOutput {
@@ -304,6 +947,18 @@ export type MessageTemplateBindings = MessageTemplateBindingsParent | WhatsAppMe
 export type MessageTemplateBindingsKind = string;
 
 // @public
+export type MessageTemplateBindingsKindOutput = string;
+
+// @public
+export type MessageTemplateBindingsOutput = MessageTemplateBindingsOutputParent | WhatsAppMessageTemplateBindingsOutput;
+
+// @public
+export interface MessageTemplateBindingsOutputParent {
+    // (undocumented)
+    kind: MessageTemplateBindingsKindOutput;
+}
+
+// @public
 export interface MessageTemplateBindingsParent {
     // (undocumented)
     kind: MessageTemplateBindingsKind;
@@ -318,7 +973,23 @@ export interface MessageTemplateDocument extends MessageTemplateValueParent {
 }
 
 // @public
+export interface MessageTemplateDocumentOutput extends MessageTemplateValueOutputParent {
+    caption?: string;
+    fileName?: string;
+    kind: "document";
+    url: string;
+}
+
+// @public
 export interface MessageTemplateImage extends MessageTemplateValueParent {
+    caption?: string;
+    fileName?: string;
+    kind: "image";
+    url: string;
+}
+
+// @public
+export interface MessageTemplateImageOutput extends MessageTemplateValueOutputParent {
     caption?: string;
     fileName?: string;
     kind: "image";
@@ -347,7 +1018,31 @@ export interface MessageTemplateLocation extends MessageTemplateValueParent {
 }
 
 // @public
+export interface MessageTemplateLocationOutput extends MessageTemplateValueOutputParent {
+    address?: string;
+    kind: "location";
+    latitude: number;
+    locationName?: string;
+    longitude: number;
+}
+
+// @public
+export interface MessageTemplateOutput {
+    bindings?: MessageTemplateBindingsOutput;
+    language: string;
+    name: string;
+    values?: Array<MessageTemplateValueOutput>;
+}
+
+// @public
 export interface MessageTemplateQuickAction extends MessageTemplateValueParent {
+    kind: "quickAction";
+    payload?: string;
+    text?: string;
+}
+
+// @public
+export interface MessageTemplateQuickActionOutput extends MessageTemplateValueOutputParent {
     kind: "quickAction";
     payload?: string;
     text?: string;
@@ -363,10 +1058,29 @@ export interface MessageTemplateText extends MessageTemplateValueParent {
 }
 
 // @public
+export interface MessageTemplateTextOutput extends MessageTemplateValueOutputParent {
+    kind: "text";
+    text: string;
+}
+
+// @public
 export type MessageTemplateValue = MessageTemplateValueParent | MessageTemplateText | MessageTemplateImage | MessageTemplateDocument | MessageTemplateVideo | MessageTemplateLocation | MessageTemplateQuickAction;
 
 // @public
 export type MessageTemplateValueKind = string;
+
+// @public
+export type MessageTemplateValueKindOutput = string;
+
+// @public
+export type MessageTemplateValueOutput = MessageTemplateValueOutputParent | MessageTemplateTextOutput | MessageTemplateImageOutput | MessageTemplateDocumentOutput | MessageTemplateVideoOutput | MessageTemplateLocationOutput | MessageTemplateQuickActionOutput;
+
+// @public
+export interface MessageTemplateValueOutputParent {
+    // (undocumented)
+    kind: MessageTemplateValueKindOutput;
+    name: string;
+}
 
 // @public
 export interface MessageTemplateValueParent {
@@ -377,6 +1091,14 @@ export interface MessageTemplateValueParent {
 
 // @public
 export interface MessageTemplateVideo extends MessageTemplateValueParent {
+    caption?: string;
+    fileName?: string;
+    kind: "video";
+    url: string;
+}
+
+// @public
+export interface MessageTemplateVideoOutput extends MessageTemplateValueOutputParent {
     caption?: string;
     fileName?: string;
     kind: "video";
@@ -395,10 +1117,28 @@ export interface NotificationContentParent {
 }
 
 // @public
+export type OutboundDeliveryStrategyKind = string;
+
+// @public
+export type OutboundDeliveryStrategyKindOutput = string;
+
+// @public
 export interface PagedAsyncIterableIterator<TElement, TPage = TElement[], TPageSettings = PageSettings> {
     [Symbol.asyncIterator](): PagedAsyncIterableIterator<TElement, TPage, TPageSettings>;
     byPage: (settings?: TPageSettings) => AsyncIterableIterator<TPage>;
     next(): Promise<IteratorResult<TElement>>;
+}
+
+// @public
+export interface PagedConversationMessageItemOutput {
+    nextLink?: string;
+    value: Array<ConversationMessageItemOutput>;
+}
+
+// @public
+export interface PagedConversationOutput {
+    nextLink?: string;
+    value: Array<ConversationOutput>;
 }
 
 // @public
@@ -428,10 +1168,87 @@ export interface PagingOptions<TResponse> {
 }
 
 // @public
+export type ParticipantKind = string;
+
+// @public
+export type ParticipantKindOutput = string;
+
+export { ParticipantsAddedEvent }
+
+export { ParticipantsRemovedEvent }
+
+// @public
 export interface ReactionNotificationContent extends NotificationContentParent {
     emoji: string;
     kind: "reaction";
     messageId: string;
+}
+
+// @public (undocumented)
+export interface RemoveParticipants {
+    post(options: RemoveParticipantsParameters): StreamableMethod<RemoveParticipants207Response | RemoveParticipantsDefaultResponse>;
+}
+
+// @public (undocumented)
+export interface RemoveParticipants207Headers {
+    "repeatability-result"?: RepeatabilityResultOutput;
+    "x-ms-client-request-id"?: string;
+}
+
+// @public
+export interface RemoveParticipants207Response extends HttpResponse {
+    // (undocumented)
+    body: RemoveParticipantsResultOutput;
+    // (undocumented)
+    headers: RawHttpHeaders & RemoveParticipants207Headers;
+    // (undocumented)
+    status: "207";
+}
+
+// @public (undocumented)
+export interface RemoveParticipantsBodyParam {
+    body: RemoveParticipantsOptions;
+}
+
+// @public (undocumented)
+export interface RemoveParticipantsDefaultHeaders {
+    "x-ms-error-code"?: string;
+}
+
+// @public (undocumented)
+export interface RemoveParticipantsDefaultResponse extends HttpResponse {
+    // (undocumented)
+    body: ErrorResponse;
+    // (undocumented)
+    headers: RawHttpHeaders & RemoveParticipantsDefaultHeaders;
+    // (undocumented)
+    status: string;
+}
+
+// @public (undocumented)
+export interface RemoveParticipantsHeaderParam {
+    // (undocumented)
+    headers?: RawHttpHeadersInput & RemoveParticipantsHeaders;
+}
+
+// @public (undocumented)
+export interface RemoveParticipantsHeaders {
+    "Repeatability-First-Sent"?: string;
+    "Repeatability-Request-ID"?: string;
+    "x-ms-client-request-id"?: string;
+}
+
+// @public
+export interface RemoveParticipantsOptions {
+    participantIds: string[];
+}
+
+// @public (undocumented)
+export type RemoveParticipantsParameters = RemoveParticipantsHeaderParam & RemoveParticipantsBodyParam & RequestParameters;
+
+// @public
+export interface RemoveParticipantsResultOutput {
+    invalidParticipants: Array<UpdateParticipantsResultOutput>;
 }
 
 // @public
@@ -442,6 +1259,14 @@ export interface Routes {
     (path: "/messages/streams/{id}", id: string): GetMedia;
     (path: "/messages/notifications:send"): Send;
     (path: "/messages/channels/{channelId}/templates", channelId: string): ListTemplates;
+    (path: "/messages/conversations/{conversationId}/participants:add", conversationId: string): AddParticipants;
+    (path: "/messages/conversations/{conversationId}/participants:remove", conversationId: string): RemoveParticipants;
+    (path: "/messages/conversations"): ListConversations;
+    (path: "/messages/conversations/{conversationId}/messages", conversationId: string): ListMessages;
+    (path: "/messages/conversations/{conversationId}/messages:send", conversationId: string): SendMessage;
+    (path: "/messages/conversations/{conversationId}:analyze", conversationId: string): AnalyzeConversation;
+    (path: "/messages/conversations/{conversationId}", conversationId: string): GetConversation;
+    (path: "/messages/conversations/{conversationId}:terminate", conversationId: string): TerminateConversation;
 }
 
 // @public (undocumented)
@@ -468,6 +1293,17 @@ export interface Send202Response extends HttpResponse {
 // @public (undocumented)
 export interface SendBodyParam {
     body: NotificationContent;
+}
+
+// @public
+export interface SendConversationMessageOptions {
+    outboundDeliveryStrategy?: OutboundDeliveryStrategyKind;
+    request: ConversationMessageContent;
+}
+
+// @public
+export interface SendConversationMessageResultOutput {
+    messageId: string;
 }
 
 // @public (undocumented)
@@ -498,6 +1334,63 @@ export interface SendHeaders {
     "x-ms-client-request-id"?: string;
 }
 
+// @public (undocumented)
+export interface SendMessage {
+    post(options: SendMessageParameters): StreamableMethod<SendMessage200Response | SendMessageDefaultResponse>;
+}
+
+// @public (undocumented)
+export interface SendMessage200Headers {
+    "repeatability-result"?: RepeatabilityResultOutput;
+    "x-ms-client-request-id"?: string;
+}
+
+// @public
+export interface SendMessage200Response extends HttpResponse {
+    // (undocumented)
+    body: SendConversationMessageResultOutput;
+    // (undocumented)
+    headers: RawHttpHeaders & SendMessage200Headers;
+    // (undocumented)
+    status: "200";
+}
+
+// @public (undocumented)
+export interface SendMessageBodyParam {
+    body: SendConversationMessageOptions;
+}
+
+// @public (undocumented)
+export interface SendMessageDefaultHeaders {
+    "x-ms-error-code"?: string;
+}
+
+// @public (undocumented)
+export interface SendMessageDefaultResponse extends HttpResponse {
+    // (undocumented)
+    body: ErrorResponse;
+    // (undocumented)
+    headers: RawHttpHeaders & SendMessageDefaultHeaders;
+    // (undocumented)
+    status: string;
+}
+
+// @public (undocumented)
+export interface SendMessageHeaderParam {
+    // (undocumented)
+    headers?: RawHttpHeadersInput & SendMessageHeaders;
+}
+
+// @public (undocumented)
+export interface SendMessageHeaders {
+    "Repeatability-First-Sent"?: string;
+    "Repeatability-Request-ID"?: string;
+    "x-ms-client-request-id"?: string;
+}
+
+// @public (undocumented)
+export type SendMessageParameters = SendMessageHeaderParam & SendMessageBodyParam & RequestParameters;
+
 // @public
 export interface SendMessageResultOutput {
     receipts: Array<MessageReceiptOutput>;
@@ -513,9 +1406,83 @@ export interface StickerNotificationContent extends NotificationContentParent {
 }
 
 // @public
+export interface TemplateConversationMessageContent extends ConversationMessageContentParent {
+    kind: "template";
+    template: MessageTemplate;
+}
+
+// @public
+export interface TemplateConversationMessageContentOutput extends ConversationMessageContentOutputParent {
+    kind: "template";
+    template: MessageTemplateOutput;
+}
+
+// @public
 export interface TemplateNotificationContent extends NotificationContentParent {
     kind: "template";
     template: MessageTemplate;
+}
+
+// @public (undocumented)
+export interface TerminateConversation {
+    post(options?: TerminateConversationParameters): StreamableMethod<TerminateConversation200Response | TerminateConversationDefaultResponse>;
+}
+
+// @public (undocumented)
+export interface TerminateConversation200Headers {
+    "repeatability-result"?: RepeatabilityResultOutput;
+    "x-ms-client-request-id"?: string;
+}
+
+// @public
+export interface TerminateConversation200Response extends HttpResponse {
+    // (undocumented)
+    headers: RawHttpHeaders & TerminateConversation200Headers;
+    // (undocumented)
+    status: "200";
+}
+
+// @public (undocumented)
+export interface TerminateConversationDefaultHeaders {
+    "x-ms-error-code"?: string;
+}
+
+// @public (undocumented)
+export interface TerminateConversationDefaultResponse extends HttpResponse {
+    // (undocumented)
+    body: ErrorResponse;
+    // (undocumented)
+    headers: RawHttpHeaders & TerminateConversationDefaultHeaders;
+    // (undocumented)
+    status: string;
+}
+
+// @public (undocumented)
+export interface TerminateConversationHeaderParam {
+    // (undocumented)
+    headers?: RawHttpHeadersInput & TerminateConversationHeaders;
+}
+
+// @public (undocumented)
+export interface TerminateConversationHeaders {
+    "Repeatability-First-Sent"?: string;
+    "Repeatability-Request-ID"?: string;
+    "x-ms-client-request-id"?: string;
+}
+
+// @public (undocumented)
+export type TerminateConversationParameters = TerminateConversationHeaderParam & RequestParameters;
+
+// @public
+export interface TextConversationMessageContent extends ConversationMessageContentParent {
+    content: string;
+    kind: "text";
+}
+
+// @public
+export interface TextConversationMessageContentOutput extends ConversationMessageContentOutputParent {
+    content: string;
+    kind: "text";
 }
 
 // @public
@@ -528,6 +1495,26 @@ export interface TextMessageContent extends MessageContentParent {
 export interface TextNotificationContent extends NotificationContentParent {
     content: string;
     kind: "text";
+}
+
+// @public
+export interface UpdateParticipantsResultOutput {
+    error?: ErrorModel;
+    id: string;
+}
+
+// @public
+export interface VideoConversationMessageContent extends ConversationMessageContentParent {
+    caption?: string;
+    kind: "video";
+    mediaUri: string;
+}
+
+// @public
+export interface VideoConversationMessageContentOutput extends ConversationMessageContentOutputParent {
+    caption?: string;
+    kind: "video";
+    mediaUri: string;
 }
 
 // @public
@@ -550,6 +1537,16 @@ export interface WhatsAppButtonActionBindings extends ActionBindingsParent {
 }
 
 // @public
+export interface WhatsAppContact extends ContactParent {
+    kind: "whatsApp";
+}
+
+// @public
+export interface WhatsAppContactOutput extends ContactOutputParent {
+    kind: "whatsApp";
+}
+
+// @public
 export interface WhatsAppListActionBindings extends ActionBindingsParent {
     content: ActionGroupContent;
     kind: "whatsAppListAction";
@@ -557,6 +1554,9 @@ export interface WhatsAppListActionBindings extends ActionBindingsParent {
 
 // @public
 export type WhatsAppMessageButtonSubType = string;
+
+// @public
+export type WhatsAppMessageButtonSubTypeOutput = string;
 
 // @public
 export interface WhatsAppMessageTemplateBindings extends MessageTemplateBindingsParent {
@@ -574,8 +1574,28 @@ export interface WhatsAppMessageTemplateBindingsButton {
 }
 
 // @public
+export interface WhatsAppMessageTemplateBindingsButtonOutput {
+    refValue: string;
+    subType: WhatsAppMessageButtonSubTypeOutput;
+}
+
+// @public
 export interface WhatsAppMessageTemplateBindingsComponent {
     refValue: string;
+}
+
+// @public
+export interface WhatsAppMessageTemplateBindingsComponentOutput {
+    refValue: string;
+}
+
+// @public
+export interface WhatsAppMessageTemplateBindingsOutput extends MessageTemplateBindingsOutputParent {
+    body?: Array<WhatsAppMessageTemplateBindingsComponentOutput>;
+    buttons?: Array<WhatsAppMessageTemplateBindingsButtonOutput>;
+    footer?: Array<WhatsAppMessageTemplateBindingsComponentOutput>;
+    header?: Array<WhatsAppMessageTemplateBindingsComponentOutput>;
+    kind: "whatsApp";
 }
 
 // @public

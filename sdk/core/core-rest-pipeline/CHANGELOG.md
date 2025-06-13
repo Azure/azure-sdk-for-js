@@ -1,6 +1,6 @@
 # Release History
 
-## 1.19.2 (Unreleased)
+## 1.21.1 (Unreleased)
 
 ### Features Added
 
@@ -10,11 +10,27 @@
 
 ### Other Changes
 
+## 1.21.0 (2025-06-05)
+
+### Other Changes
+
+- Export `RestError` and its constructor as an interface [PR #34591](https://github.com/Azure/azure-sdk-for-js/pull/34591)
+
+## 1.20.0 (2025-05-01)
+
+### Features Added
+
+- Add an optional `requestOverrides` property to `PipelineRequest` and `PipelineRequestOptions` [PR #33724](https://github.com/Azure/azure-sdk-for-js/pull/33724).
+
+### Other Changes
+
+- Depend on `@typespec/ts-http-runtime`. [PR #33948](https://github.com/Azure/azure-sdk-for-js/pull/33948)
+
 ## 1.19.1 (2025-03-06)
 
 ### Other Changes
 
-- clear the request timeout timer in `NodeHttpClient` after the response is returned [PR #32891](https://github.com/Azure/azure-sdk-for-js/pull/32891)
+- Clear the request timeout timer in `NodeHttpClient` after the response is returned [PR #32891](https://github.com/Azure/azure-sdk-for-js/pull/32891)
 
 ## 1.19.0 (2025-02-06)
 

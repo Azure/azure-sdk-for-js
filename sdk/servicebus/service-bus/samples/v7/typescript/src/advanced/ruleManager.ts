@@ -9,18 +9,13 @@
  * @summary Demonstrates how to manage subscription-level rules using RuleManager.
  */
 
-import {
-  CorrelationRuleFilter,
-  ServiceBusAdministrationClient,
-  ServiceBusClient,
-  SqlRuleFilter,
-} from "@azure/service-bus";
+import type { CorrelationRuleFilter, SqlRuleFilter } from "@azure/service-bus";
+import { ServiceBusAdministrationClient, ServiceBusClient } from "@azure/service-bus";
 import { DefaultAzureCredential } from "@azure/identity";
 
-import * as dotenv from "dotenv";
-dotenv.config();
+import "dotenv/config";
 
-async function main() {
+async function main(): Promise<void> {
   // Define connection string and related Service Bus entity names here
   const fqdn = process.env.SERVICEBUS_FQDN || "<your-servicebus-namespace>.servicebus.windows.net";
   const credential = new DefaultAzureCredential();
@@ -95,7 +90,7 @@ async function main() {
 
   console.log("Deleting topic...");
   await serviceBusAdminClient.deleteTopic(topicName);
-  client.close();
+  await client.close();
 }
 
 main().catch((err) => {

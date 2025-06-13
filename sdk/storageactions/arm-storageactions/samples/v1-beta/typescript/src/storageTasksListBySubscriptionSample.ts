@@ -25,14 +25,14 @@ async function listStorageTasksBySubscription(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = new StorageActionsManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.storageTasks.listBySubscription()) {
+  for await (const item of client.storageTasks.listBySubscription()) {
     resArray.push(item);
   }
   console.log(resArray);
 }
 
 async function main(): Promise<void> {
-  listStorageTasksBySubscription();
+  await listStorageTasksBySubscription();
 }
 
 main().catch(console.error);

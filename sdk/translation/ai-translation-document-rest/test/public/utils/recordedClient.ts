@@ -1,43 +1,64 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import { Recorder, env } from "@azure-tools/test-recorder";
+
+import { Recorder, type RecorderStartOptions } from "@azure-tools/test-recorder";
 import type { ClientOptions } from "@azure-rest/core-client";
 import type { DocumentTranslationClient } from "../../../src/index.js";
 import { default as createClient } from "../../../src/index.js";
 import type { KeyCredential, TokenCredential } from "@azure/core-auth";
 import { createTestCredential } from "@azure-tools/test-credential";
 import type { TestContext } from "vitest";
+import { getBlobEndpoint, getEndpoint } from "../../utils/injectables.js";
+import * as MOCKS from "../../utils/constants.js";
+
+const recorderEnvSetup: RecorderStartOptions = {
+  envSetupForPlayback: {},
+  sanitizerOptions: {
+    uriSanitizers: [
+      {
+        target: getEndpoint(),
+        value: MOCKS.ENDPOINT,
+      },
+    ],
+    headerSanitizers: [
+      {
+        key: "Ocp-Apim-Subscription-Key",
+        value: MOCKS.KEY,
+      },
+      {
+        key: "Ocp-Apim-Subscription-Region",
+        value: MOCKS.REGION,
+      },
+      {
+        key: "Ocp-Apim-ResourceId",
+        value: MOCKS.RESOURCE_ID,
+      },
+      {
+        key: "operation-location",
+        value: MOCKS.ENDPOINT,
+        target: getEndpoint(),
+      },
+    ],
+    bodySanitizers: [
+      {
+        target: getBlobEndpoint(),
+        value: MOCKS.BLOB_ENDPOINT,
+      },
+    ],
+  },
+  removeCentralSanitizers: [
+    "AZSDK2015",
+    "AZSDK2021",
+    "AZSDK2030",
+    "AZSDK2031",
+    "AZSDK3430",
+    "AZSDK4001",
+  ],
+};
 
 export async function startRecorder(context: TestContext): Promise<Recorder> {
   const recorder = new Recorder(context);
-  await recorder.start({
-    envSetupForPlayback: {
-      DOCUMENT_TRANSLATION_ENDPOINT:
-        "https://fakeEndpoint-doctranslation.cognitiveservices.azure.com",
-      DOCUMENT_TRANSLATION_STORAGE_NAME: "fakestoragename",
-    },
-    removeCentralSanitizers: ["AZSDK2030", "AZSDK3430"],
-  });
-  // SAS token may contain sensitive information
-  await recorder.addSanitizers(
-    {
-      bodyKeySanitizers: [
-        {
-          value: "Sanitized",
-          jsonPath: "$..sourceUrl",
-        },
-        {
-          value: "Sanitized",
-          jsonPath: "$..targetUrl",
-        },
-        {
-          value: "Sanitized",
-          jsonPath: "$..glossaryUrl",
-        },
-      ],
-    },
-    ["record", "playback"],
-  );
+  await recorder.start(recorderEnvSetup);
   return recorder;
 }
 
@@ -48,10 +69,8 @@ export async function createDocumentTranslationClient(options: {
 }): Promise<DocumentTranslationClient> {
   const { recorder, clientOptions = {} } = options;
   const updatedOptions = recorder ? recorder.configureClientOptions(clientOptions) : clientOptions;
-  const endpoint = env.DOCUMENT_TRANSLATION_ENDPOINT ?? "";
   const credentials = options?.testCredential ?? createTestCredential();
-  const client = createClient(endpoint, credentials, updatedOptions);
-  return client;
+  return createClient(getEndpoint(), credentials, updatedOptions);
 }
 
 export async function createDocumentTranslationClientWithEndpointAndCredentials(options: {
@@ -62,6 +81,5 @@ export async function createDocumentTranslationClientWithEndpointAndCredentials(
 }): Promise<DocumentTranslationClient> {
   const { recorder, clientOptions = {} } = options;
   const updatedOptions = recorder ? recorder.configureClientOptions(clientOptions) : clientOptions;
-  const client = createClient(options.endpointParam, options.credentials, updatedOptions);
-  return client;
+  return createClient(options.endpointParam, options.credentials, updatedOptions);
 }

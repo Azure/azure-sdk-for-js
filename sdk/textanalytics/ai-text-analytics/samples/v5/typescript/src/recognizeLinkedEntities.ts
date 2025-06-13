@@ -10,13 +10,14 @@
  * @summary detects entities that have links to more information on the web
  */
 
-import { TextAnalyticsClient, AzureKeyCredential } from "@azure/ai-text-analytics";
+import { TextAnalyticsClient } from "@azure/ai-text-analytics";
+import { DefaultAzureCredential } from "@azure/identity";
 
 // Load the .env file if it exists
 import "dotenv/config";
+
 // You will need to set these environment variables or edit the following values
-const endpoint = process.env["ENDPOINT"] || "<cognitive services endpoint>";
-const apiKey = process.env["TEXT_ANALYTICS_API_KEY"] || "<api key>";
+const endpoint = process.env["LANGUAGE_ENDPOINT"] || "<endpoint>";
 
 const documents = [
   "Microsoft moved its headquarters to Bellevue, Washington in January 1979.",
@@ -26,7 +27,7 @@ const documents = [
 export async function main(): Promise<void> {
   console.log("== Recognize Linked Entities Sample ==");
 
-  const client = new TextAnalyticsClient(endpoint, new AzureKeyCredential(apiKey));
+  const client = new TextAnalyticsClient(endpoint, new DefaultAzureCredential());
 
   const results = await client.recognizeLinkedEntities(documents);
 
@@ -36,12 +37,12 @@ export async function main(): Promise<void> {
       console.log("\tEntities:");
       for (const entity of result.entities) {
         console.log(
-          `\t- Entity ${entity.name}; link ${entity.url}; datasource: ${entity.dataSource}`
+          `\t- Entity ${entity.name}; link ${entity.url}; datasource: ${entity.dataSource}`,
         );
         console.log("\t\tMatches:");
         for (const match of entity.matches) {
           console.log(
-            `\t\t- Entity appears as "${match.text}" (confidence: ${match.confidenceScore}`
+            `\t\t- Entity appears as "${match.text}" (confidence: ${match.confidenceScore}`,
           );
         }
       }

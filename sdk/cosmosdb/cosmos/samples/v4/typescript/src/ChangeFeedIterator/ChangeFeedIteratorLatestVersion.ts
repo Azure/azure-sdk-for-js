@@ -5,18 +5,18 @@
  * @summary Demonstrates using a ChangeFeed in LatestVersion mode for entire container, a partition key, and an epk range
  */
 
-import * as dotenv from "dotenv";
-dotenv.config();
-
-import { finish, handleError, logSampleHeader, logStep } from "../Shared/handleError";
+import "dotenv/config";
+import { finish, handleError, logSampleHeader, logStep } from "../Shared/handleError.js";
+import type {
+  Container,
+  ChangeFeedIteratorOptions,
+  ChangeFeedPullModelIterator,
+} from "@azure/cosmos";
 import {
   CosmosClient,
   PartitionKeyDefinitionVersion,
-  Container,
   StatusCodes,
-  ChangeFeedIteratorOptions,
   ChangeFeedStartFrom,
-  ChangeFeedPullModelIterator,
 } from "@azure/cosmos";
 
 const key = process.env.COSMOS_KEY || "<cosmos key>";
@@ -84,7 +84,7 @@ async function run(): Promise<void> {
   }
 }
 
-async function ingestData(container: Container, initialize: number, end: number) {
+async function ingestData(container: Container, initialize: number, end: number): Promise<void> {
   for (let i = initialize; i <= end; i++) {
     await container.items.create({ id: `item${i}`, name: `sample1`, key: i });
     await container.items.create({ id: `item${i}`, name: `sample2`, key: i });
@@ -98,7 +98,7 @@ async function iterateChangeFeedFromBeginning(
   container: Container,
   options: ChangeFeedIteratorOptions,
 ): Promise<string> {
-  let iterator = container.items.getChangeFeedIterator(options);
+  const iterator = container.items.getChangeFeedIterator(options);
   console.log("fetch changes from beginning");
   return iterateChangeFeed(iterator);
 }

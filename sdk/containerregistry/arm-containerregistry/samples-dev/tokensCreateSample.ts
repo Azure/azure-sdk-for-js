@@ -6,6 +6,8 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
 import {
   Token,
   ContainerRegistryManagementClient,
@@ -17,7 +19,7 @@ import "dotenv/config";
  * This sample demonstrates how to Creates a token for a container registry with the specified parameters.
  *
  * @summary Creates a token for a container registry with the specified parameters.
- * x-ms-original-file: specification/containerregistry/resource-manager/Microsoft.ContainerRegistry/preview/2024-11-01-preview/examples/TokenCreate.json
+ * x-ms-original-file: specification/containerregistry/resource-manager/Microsoft.ContainerRegistry/preview/2025-03-01-preview/examples/TokenCreate.json
  */
 async function tokenCreate(): Promise<void> {
   const subscriptionId =

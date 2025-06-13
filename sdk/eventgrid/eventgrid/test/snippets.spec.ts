@@ -51,7 +51,7 @@ describe("snippets", () => {
     const client = new EventGridPublisherClient(
       "<endpoint>",
       "EventGrid",
-      new AzureKeyCredential("<API Key>"),
+      new DefaultAzureCredential(),
     );
   });
 
@@ -59,7 +59,7 @@ describe("snippets", () => {
     const client = new EventGridPublisherClient(
       "<endpoint>",
       "CloudEvent",
-      new AzureKeyCredential("<API Key>"),
+      new DefaultAzureCredential(),
     );
   });
 
@@ -67,7 +67,7 @@ describe("snippets", () => {
     const client = new EventGridPublisherClient(
       "<endpoint>",
       "Custom",
-      new AzureKeyCredential("<API Key>"),
+      new DefaultAzureCredential(),
     );
   });
 
@@ -75,7 +75,7 @@ describe("snippets", () => {
     const client = new EventGridPublisherClient(
       "<endpoint>",
       "EventGrid",
-      new AzureKeyCredential("<API key>"),
+      new DefaultAzureCredential(),
     );
     // @ts-preserve-whitespace
     await client.send([
@@ -94,7 +94,7 @@ describe("snippets", () => {
     const client = new EventGridPublisherClient(
       "<endpoint>",
       "EventGrid",
-      new AzureKeyCredential("<API key>"),
+      new DefaultAzureCredential(),
     );
     // @ts-preserve-whitespace
     await client.send([

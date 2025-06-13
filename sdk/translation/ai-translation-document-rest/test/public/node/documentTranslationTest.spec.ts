@@ -2,7 +2,6 @@
 // Licensed under the MIT License.
 
 import type { Recorder } from "@azure-tools/test-recorder";
-import { isLiveMode, isPlaybackMode } from "@azure-tools/test-recorder";
 import type {
   DocumentStatusOutput,
   DocumentTranslationClient,
@@ -18,16 +17,7 @@ import {
   startRecorder,
 } from "../utils/recordedClient.js";
 
-import {
-  ONE_TEST_DOCUMENTS,
-  TWO_TEST_DOCUMENTS,
-  createGlossaryContainer,
-  createSourceContainer,
-  createTargetContainer,
-  createTargetContainerWithInfo,
-  downloadDocument,
-  getUniqueName,
-} from "./containerHelper.js";
+import { downloadDocument } from "../../utils/containerHelper.js";
 import {
   createBatchRequest,
   createSourceInput,
@@ -35,12 +25,15 @@ import {
   getTranslationOperationID,
   sleep,
 } from "../utils/testHelper.js";
-import { createTestDocument } from "../utils/TestDocument.js";
 import type { BatchRequest } from "../../../src/models.js";
 import { describe, it, assert, beforeEach, afterEach } from "vitest";
+import { getBlobEndpoint, getContainers, isLiveMode } from "../../utils/injectables.js";
+import { documents3 } from "../../utils/documents.js";
+import { BlobServiceClient } from "@azure/storage-blob";
+import { createTestCredential } from "@azure-tools/test-credential";
 
 export const testPollingOptions = {
-  intervalInMs: isPlaybackMode() ? 0 : undefined,
+  intervalInMs: isLiveMode() ? undefined : 0,
 };
 
 // TODO: Re-record test
@@ -48,6 +41,7 @@ describe("DocumentTranslation tests", () => {
   const retryCount = 10;
   let recorder: Recorder;
   let client: DocumentTranslationClient;
+  const containers = getContainers();
 
   beforeEach(async (ctx) => {
     recorder = await startRecorder(ctx);
@@ -79,9 +73,9 @@ describe("DocumentTranslation tests", () => {
   });
 
   it("Single Source Single Target", async () => {
-    const sourceUrl = await createSourceContainer(recorder, ONE_TEST_DOCUMENTS);
+    const sourceUrl = containers["source-container1"].url;
     const sourceInput = createSourceInput(sourceUrl);
-    const targetUrl = await createTargetContainer(recorder);
+    const targetUrl = containers["target-container1"].url;
     const targetInput = createTargetInput(targetUrl, "fr");
     const batchRequest = createBatchRequest(sourceInput, [targetInput]);
 
@@ -94,19 +88,16 @@ describe("DocumentTranslation tests", () => {
   });
 
   it("Single Source Multiple Targets", async () => {
-    const sourceUrl = await createSourceContainer(recorder, ONE_TEST_DOCUMENTS);
+    const sourceUrl = containers["source-container1"].url;
     const sourceInput = createSourceInput(sourceUrl);
 
-    const containerName1 = recorder.variable("targetContainer1", `target-${getUniqueName()}`);
-    const targetUrl1 = await createTargetContainer(recorder, containerName1);
+    const targetUrl1 = containers["target-container2"].url;
     const targetInput1 = createTargetInput(targetUrl1, "fr");
 
-    const containerName2 = recorder.variable("targetContainer2", `target-${getUniqueName()}`);
-    const targetUrl2 = await createTargetContainer(recorder, containerName2);
+    const targetUrl2 = containers["target-container3"].url;
     const targetInput2 = createTargetInput(targetUrl2, "es");
 
-    const containerName3 = recorder.variable("targetContainer3", `target-${getUniqueName()}`);
-    const targetUrl3 = await createTargetContainer(recorder, containerName3);
+    const targetUrl3 = containers["target-container4"].url;
     const targetInput3 = createTargetInput(targetUrl3, "ar");
 
     const batchRequest = createBatchRequest(sourceInput, [
@@ -124,22 +115,16 @@ describe("DocumentTranslation tests", () => {
   });
 
   it("Multiple Sources Single Target", async () => {
-    const srcContainerName1 = recorder.variable("sourceContainer1", `source-${getUniqueName()}`);
-    const sourceUrl1 = await createSourceContainer(recorder, ONE_TEST_DOCUMENTS, srcContainerName1);
+    const sourceUrl1 = containers["source-container1"].url;
     const sourceInput1 = createSourceInput(sourceUrl1);
 
-    const tgtContainerName1 = recorder.variable("targetContainer1", `target-${getUniqueName()}`);
-    const targetUrl1 = await createTargetContainer(recorder, tgtContainerName1);
+    const targetUrl1 = containers["target-container5"].url;
     const targetInput1 = createTargetInput(targetUrl1, "fr");
     const batchRequest1 = createBatchRequest(sourceInput1, [targetInput1]);
 
-    const srcContainerName2 = recorder.variable("sourceContainer2", `source-${getUniqueName()}`);
-    const sourceInput2 = createSourceInput(
-      await createSourceContainer(recorder, ONE_TEST_DOCUMENTS, srcContainerName2),
-    );
+    const sourceInput2 = createSourceInput(containers["source-container2"].url);
 
-    const tgtContainerName2 = recorder.variable("targetContainer2", `target-${getUniqueName()}`);
-    const targetUrl2 = await createTargetContainer(recorder, tgtContainerName2);
+    const targetUrl2 = containers["target-container6"].url;
     const targetInput2 = createTargetInput(targetUrl2, "es");
     const batchRequest2 = createBatchRequest(sourceInput2, [targetInput2]);
 
@@ -155,10 +140,10 @@ describe("DocumentTranslation tests", () => {
     const documentFilter = {
       prefix: "File",
     };
-    const sourceUrl = await createSourceContainer(recorder, TWO_TEST_DOCUMENTS);
+    const sourceUrl = containers["source-container3"].url;
     const sourceInput = createSourceInput(sourceUrl, undefined, undefined, documentFilter);
 
-    const targetUrl = await createTargetContainer(recorder);
+    const targetUrl = containers["target-container7"].url;
     const targetInput = createTargetInput(targetUrl, "fr");
     const batchRequest = createBatchRequest(sourceInput, [targetInput]);
 
@@ -175,12 +160,12 @@ describe("DocumentTranslation tests", () => {
       suffix: "txt",
     };
     const sourceInput = createSourceInput(
-      await createSourceContainer(recorder, ONE_TEST_DOCUMENTS),
+      containers["source-container1"].url,
       undefined,
       undefined,
       documentFilter,
     );
-    const targetInput = createTargetInput(await createTargetContainer(recorder), "fr");
+    const targetInput = createTargetInput(containers["target-container8"].url, "fr");
     const batchRequest = createBatchRequest(sourceInput, [targetInput]);
 
     // Start translation
@@ -192,10 +177,8 @@ describe("DocumentTranslation tests", () => {
   });
 
   it("Single Source Single Target List Documents", async () => {
-    const sourceInput = createSourceInput(
-      await createSourceContainer(recorder, ONE_TEST_DOCUMENTS),
-    );
-    const targetInput = createTargetInput(await createTargetContainer(recorder), "fr");
+    const sourceInput = createSourceInput(containers["source-container1"].url);
+    const targetInput = createTargetInput(containers["target-container9"].url, "fr");
     const batchRequest = createBatchRequest(sourceInput, [targetInput]);
 
     // Start translation
@@ -213,46 +196,37 @@ describe("DocumentTranslation tests", () => {
       try {
         await sleep(10000);
         retriesLeft--;
-        translationStatus = (await client
-          .path("/document/batches/{id}", operationId)
-          .get()) as GetTranslationStatus200Response;
+        translationStatus = await client.path("/document/batches/{id}", operationId).get();
       } catch (error) {
         console.error("Error during translation status retrieval:", error);
       }
     } while (
       translationStatus &&
-      (translationStatus.body as TranslationStatusOutput).status === "202" &&
+      (translationStatus.body as TranslationStatusOutput).status === "NotStarted" &&
       retriesLeft > 0
     );
     const translationStatusOutput = translationStatus?.body as TranslationStatusOutput;
 
-    if (translationStatusOutput.status === "202") {
-      // get Documents Status
-      const documentResponse = await client
-        .path("/document/batches/{id}/documents", operationId)
-        .get();
-      if (isUnexpected(documentResponse)) {
-        throw "get documents status job error:" + documentResponse.body;
-      }
-      const responseBody = documentResponse.body;
-      for (const documentStatus of responseBody.value) {
-        console.log("documentStatus.status" + documentStatus.status);
-        console.log("translationStatusOutput.status" + translationStatusOutput.status);
-        assert.equal(documentStatus.status, translationStatusOutput.status);
-        assert.equal(
-          documentStatus.characterCharged,
-          translationStatusOutput.summary.totalCharacterCharged,
-        );
-        break;
-      }
+    const documentResponse = await client
+      .path("/document/batches/{id}/documents", operationId)
+      .get();
+    if (isUnexpected(documentResponse)) {
+      throw "get documents status job error:" + documentResponse.body;
+    }
+    const responseBody = documentResponse.body;
+    for (const documentStatus of responseBody.value) {
+      assert.equal(documentStatus.status, translationStatusOutput.status);
+      assert.equal(
+        documentStatus.characterCharged,
+        translationStatusOutput.summary.totalCharacterCharged,
+      );
+      break;
     }
   });
 
   it("Get Document Status", async () => {
-    const sourceInput = createSourceInput(
-      await createSourceContainer(recorder, ONE_TEST_DOCUMENTS),
-    );
-    const targetInput = createTargetInput(await createTargetContainer(recorder), "fr");
+    const sourceInput = createSourceInput(containers["source-container1"].url);
+    const targetInput = createTargetInput(containers["target-container10"].url, "fr");
     const batchRequest = createBatchRequest(sourceInput, [targetInput]);
 
     // Start translation
@@ -285,7 +259,7 @@ describe("DocumentTranslation tests", () => {
 
   it("Wrong Source Right Target", async () => {
     const sourceInput = createSourceInput("https://idont.ex.ist");
-    const targetInput = createTargetInput(await createTargetContainer(recorder), "es");
+    const targetInput = createTargetInput(containers["target-container11"].url, "es");
     const batchRequest = createBatchRequest(sourceInput, [targetInput]);
 
     // Start translation
@@ -323,7 +297,7 @@ describe("DocumentTranslation tests", () => {
   });
 
   it("Right Source Wrong Target", async () => {
-    const sourceUrl = await createSourceContainer(recorder, ONE_TEST_DOCUMENTS);
+    const sourceUrl = containers["source-container1"].url;
     const sourceInput = createSourceInput(sourceUrl);
     const targetInput = createTargetInput("https://idont.ex.ist", "es");
     const batchRequest = createBatchRequest(sourceInput, [targetInput]);
@@ -364,13 +338,9 @@ describe("DocumentTranslation tests", () => {
   });
 
   it("Supported And UnSupported Files", async () => {
-    const documents = [
-      createTestDocument("Document1.txt", "First english test file"),
-      createTestDocument("File2.jpg", "jpg"),
-    ];
-    const sourceUrl = await createSourceContainer(recorder, documents);
+    const sourceUrl = containers["source-container5"].url;
     const sourceInput = createSourceInput(sourceUrl);
-    const targetUrl = await createTargetContainer(recorder);
+    const targetUrl = containers["target-container12"].url;
     const targetInput = createTargetInput(targetUrl, "fr");
     const batchRequest = createBatchRequest(sourceInput, [targetInput]);
 
@@ -386,10 +356,9 @@ describe("DocumentTranslation tests", () => {
   });
 
   it("Empty Document Error", async () => {
-    const documents = [createTestDocument("Document1.txt", "")];
-    const sourceUrl = await createSourceContainer(recorder, documents);
+    const sourceUrl = containers["source-container6"].url;
     const sourceInput = createSourceInput(sourceUrl);
-    const targetUrl = await createTargetContainer(recorder);
+    const targetUrl = containers["target-container13"].url;
     const targetInput = createTargetInput(targetUrl, "fr");
     const batchRequest = createBatchRequest(sourceInput, [targetInput]);
 
@@ -417,9 +386,9 @@ describe("DocumentTranslation tests", () => {
   });
 
   it("Existing File In Target Container", async () => {
-    const sourceUrl = await createSourceContainer(recorder, ONE_TEST_DOCUMENTS);
+    const sourceUrl = containers["source-container1"].url;
     const sourceInput = createSourceInput(sourceUrl);
-    const targetUrl = await createTargetContainer(recorder, undefined, ONE_TEST_DOCUMENTS);
+    const targetUrl = containers["target-container1"].url;
     const targetInput = createTargetInput(targetUrl, "fr");
     const batchRequest = createBatchRequest(sourceInput, [targetInput]);
 
@@ -458,9 +427,9 @@ describe("DocumentTranslation tests", () => {
   });
 
   it("Invalid Document GUID", async () => {
-    const sourceUrl = await createSourceContainer(recorder, ONE_TEST_DOCUMENTS);
+    const sourceUrl = containers["source-container1"].url;
     const sourceInput = createSourceInput(sourceUrl);
-    const targetUrl = await createTargetContainer(recorder);
+    const targetUrl = containers["target-container14"].url;
     const targetInput = createTargetInput(targetUrl, "fr");
     const batchRequest = createBatchRequest(sourceInput, [targetInput]);
 
@@ -486,17 +455,17 @@ describe("DocumentTranslation tests", () => {
   });
 
   it("Document Translation With Glossary", async () => {
-    const sourceUrl = await createSourceContainer(recorder, ONE_TEST_DOCUMENTS);
+    const sourceUrl = containers["source-container1"].url;
     const sourceInput = createSourceInput(sourceUrl);
 
-    const targetContainer = await createTargetContainerWithInfo(recorder);
-    const targetUrl = targetContainer.get("containerUrl") as string;
-    const targetContainerName = targetContainer.get("containerName") as string;
-    const glossaryUrl = await createGlossaryContainer(recorder);
+    const targetContainerName = "target-container15";
+    const targetContainer = containers[targetContainerName];
+    const targetUrl = targetContainer.url;
+    const glossaryUrl = `${containers["source-container4"].url}/${documents3[0].name}`;
 
     const glossaries = [
       {
-        glossaryUrl: glossaryUrl,
+        glossaryUrl,
         format: "csv",
       },
     ];
@@ -512,7 +481,12 @@ describe("DocumentTranslation tests", () => {
     const operationId = getTranslationOperationID(operationLocationUrl);
     assert.isNotNull(operationId);
 
-    const result = downloadDocument(recorder, targetContainerName, "Document1.txt");
+    if (!isLiveMode()) {
+      return;
+    }
+    const blobClient = new BlobServiceClient(getBlobEndpoint(), createTestCredential());
+
+    const result = downloadDocument(blobClient, targetContainerName, "Document1.txt");
     assert.isTrue((await result).includes("glossaryTest"));
   });
 
@@ -572,8 +546,8 @@ describe("DocumentTranslation tests", () => {
     }
 
     // Wait until the operation completes
-    const poller = getLongRunningPoller(client, response, testPollingOptions);
-    const result = await (await poller).pollUntilDone();
+    const poller = await getLongRunningPoller(client, response, testPollingOptions);
+    const result = await poller.pollUntilDone();
     assert.equal(result.status, "200");
 
     return response as StartTranslationDefaultResponse;

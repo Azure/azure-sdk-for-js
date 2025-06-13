@@ -14,6 +14,7 @@ import { TokenCredential } from '@azure/core-auth';
 export class AzureCommunicationTokenCredential implements CommunicationTokenCredential {
     constructor(token: string);
     constructor(refreshOptions: CommunicationTokenRefreshOptions);
+    constructor(entraOptions: EntraCommunicationTokenCredentialOptions);
     dispose(): void;
     getToken(options?: CommunicationGetTokenOptions): Promise<AccessToken>;
 }
@@ -68,6 +69,13 @@ export const deserializeCommunicationIdentifier: (serializedIdentifier: Serializ
 export interface EndpointCredential {
     credential: KeyCredential;
     endpoint: string;
+}
+
+// @public
+export interface EntraCommunicationTokenCredentialOptions {
+    resourceEndpoint: string;
+    scopes?: string[];
+    tokenCredential: TokenCredential;
 }
 
 // @public

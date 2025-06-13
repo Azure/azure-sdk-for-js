@@ -1,13 +1,13 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import type { ChangeFeedIteratorResponse } from "./ChangeFeedIteratorResponse";
-import type { Container, Resource } from "../../client";
-import type { ClientContext } from "../../ClientContext";
-import type { ChangeFeedPullModelIterator } from "./ChangeFeedPullModelIterator";
-import type { ChangeFeedIteratorOptions } from "./ChangeFeedIteratorOptions";
-import { buildChangeFeedIterator } from "./buildChangeFeedIterator";
-import type { PartitionKeyRangeCache } from "../../routing";
-import { ErrorResponse } from "../../request";
+import type { ChangeFeedIteratorResponse } from "./ChangeFeedIteratorResponse.js";
+import type { Container, Resource } from "../../client/index.js";
+import type { ClientContext } from "../../ClientContext.js";
+import type { ChangeFeedPullModelIterator } from "./ChangeFeedPullModelIterator.js";
+import type { ChangeFeedIteratorOptions } from "./ChangeFeedIteratorOptions.js";
+import { buildChangeFeedIterator } from "./buildChangeFeedIterator.js";
+import type { PartitionKeyRangeCache } from "../../routing/index.js";
+import { ErrorResponse } from "../../request/index.js";
 
 /**
  * @hidden

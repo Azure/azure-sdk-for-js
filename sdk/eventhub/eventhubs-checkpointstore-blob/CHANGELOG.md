@@ -1,6 +1,6 @@
 # Release History
 
-## 2.0.0-beta.2 (Unreleased)
+## 2.0.1 (Unreleased)
 
 ### Features Added
 
@@ -9,6 +9,12 @@
 ### Bugs Fixed
 
 ### Other Changes
+
+## 2.0.0 (2025-04-08)
+
+### Features Added
+
+Stable release of the Geographic replication support added in v6.0.0-beta.1.
 
 ## 2.0.0-beta.1 (2025-02-11)
 

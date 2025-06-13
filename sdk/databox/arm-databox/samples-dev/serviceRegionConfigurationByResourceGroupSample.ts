@@ -6,8 +6,12 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import type { RegionConfigurationRequest } from "@azure/arm-databox";
-import { DataBoxManagementClient } from "@azure/arm-databox";
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
+import {
+  RegionConfigurationRequest,
+  DataBoxManagementClient,
+} from "@azure/arm-databox";
 import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
 
@@ -15,14 +19,18 @@ import "dotenv/config";
  * This sample demonstrates how to This API provides configuration details specific to given region/location at Resource group level.
  *
  * @summary This API provides configuration details specific to given region/location at Resource group level.
- * x-ms-original-file: specification/databox/resource-manager/Microsoft.DataBox/stable/2022-12-01/examples/RegionConfigurationByResourceGroup.json
+ * x-ms-original-file: specification/databox/resource-manager/Microsoft.DataBox/stable/2025-02-01/examples/RegionConfigurationByResourceGroup.json
  */
 async function regionConfigurationByResourceGroup(): Promise<void> {
-  const subscriptionId = process.env["DATABOX_SUBSCRIPTION_ID"] || "YourSubscriptionId";
-  const resourceGroupName = process.env["DATABOX_RESOURCE_GROUP"] || "YourResourceGroupName";
+  const subscriptionId =
+    process.env["DATABOX_SUBSCRIPTION_ID"] || "YourSubscriptionId";
+  const resourceGroupName =
+    process.env["DATABOX_RESOURCE_GROUP"] || "YourResourceGroupName";
   const location = "westus";
   const regionConfigurationRequest: RegionConfigurationRequest = {
+    deviceCapabilityRequest: { model: "DataBoxDisk", skuName: "DataBoxDisk" },
     scheduleAvailabilityRequest: {
+      model: "DataBox",
       skuName: "DataBox",
       storageLocation: "westus",
     },

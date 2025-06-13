@@ -7,1670 +7,1933 @@
  */
 
 import {
-    OperationParameter,
-    OperationQueryParameter,
-    OperationURLParameter
+  OperationParameter,
+  OperationURLParameter,
+  OperationQueryParameter,
 } from "@azure/core-client";
 import {
-    AccessInformationCreateParameters as AccessInformationCreateParametersMapper,
-    AccessInformationUpdateParameters as AccessInformationUpdateParametersMapper,
-    ApiCreateOrUpdateParameter as ApiCreateOrUpdateParameterMapper,
-    ApiManagementServiceApplyNetworkConfigurationParameters as ApiManagementServiceApplyNetworkConfigurationParametersMapper,
-    ApiManagementServiceBackupRestoreParameters as ApiManagementServiceBackupRestoreParametersMapper,
-    ApiManagementServiceCheckNameAvailabilityParameters as ApiManagementServiceCheckNameAvailabilityParametersMapper,
-    ApiManagementServiceResource as ApiManagementServiceResourceMapper,
-    ApiManagementServiceUpdateParameters as ApiManagementServiceUpdateParametersMapper,
-    ApiReleaseContract as ApiReleaseContractMapper,
-    ApiUpdateContract as ApiUpdateContractMapper,
-    ApiVersionSetContract as ApiVersionSetContractMapper,
-    ApiVersionSetUpdateParameters as ApiVersionSetUpdateParametersMapper,
-    AssociationContract as AssociationContractMapper,
-    AuthorizationAccessPolicyContract as AuthorizationAccessPolicyContractMapper,
-    AuthorizationConfirmConsentCodeRequestContract as AuthorizationConfirmConsentCodeRequestContractMapper,
-    AuthorizationContract as AuthorizationContractMapper,
-    AuthorizationLoginRequestContract as AuthorizationLoginRequestContractMapper,
-    AuthorizationProviderContract as AuthorizationProviderContractMapper,
-    AuthorizationServerContract as AuthorizationServerContractMapper,
-    AuthorizationServerUpdateContract as AuthorizationServerUpdateContractMapper,
-    BackendContract as BackendContractMapper,
-    BackendReconnectContract as BackendReconnectContractMapper,
-    BackendUpdateParameters as BackendUpdateParametersMapper,
-    CacheContract as CacheContractMapper,
-    CacheUpdateParameters as CacheUpdateParametersMapper,
-    CertificateCreateOrUpdateParameters as CertificateCreateOrUpdateParametersMapper,
-    ConnectivityCheckRequest as ConnectivityCheckRequestMapper,
-    ContentItemContract as ContentItemContractMapper,
-    ContentTypeContract as ContentTypeContractMapper,
-    DeployConfigurationParameters as DeployConfigurationParametersMapper,
-    DiagnosticContract as DiagnosticContractMapper,
-    DocumentationContract as DocumentationContractMapper,
-    DocumentationUpdateContract as DocumentationUpdateContractMapper,
-    EmailTemplateUpdateParameters as EmailTemplateUpdateParametersMapper,
-    GatewayCertificateAuthorityContract as GatewayCertificateAuthorityContractMapper,
-    GatewayContract as GatewayContractMapper,
-    GatewayHostnameConfigurationContract as GatewayHostnameConfigurationContractMapper,
-    GatewayKeyRegenerationRequestContract as GatewayKeyRegenerationRequestContractMapper,
-    GatewayTokenRequestContract as GatewayTokenRequestContractMapper,
-    GlobalSchemaContract as GlobalSchemaContractMapper,
-    GroupCreateParameters as GroupCreateParametersMapper,
-    GroupUpdateParameters as GroupUpdateParametersMapper,
-    IdentityProviderCreateContract as IdentityProviderCreateContractMapper,
-    IdentityProviderUpdateParameters as IdentityProviderUpdateParametersMapper,
-    IssueAttachmentContract as IssueAttachmentContractMapper,
-    IssueCommentContract as IssueCommentContractMapper,
-    IssueContract as IssueContractMapper,
-    IssueUpdateContract as IssueUpdateContractMapper,
-    LoggerContract as LoggerContractMapper,
-    LoggerUpdateContract as LoggerUpdateContractMapper,
-    NamedValueCreateContract as NamedValueCreateContractMapper,
-    NamedValueUpdateParameters as NamedValueUpdateParametersMapper,
-    OpenidConnectProviderContract as OpenidConnectProviderContractMapper,
-    OpenidConnectProviderUpdateContract as OpenidConnectProviderUpdateContractMapper,
-    OperationContract as OperationContractMapper,
-    OperationUpdateContract as OperationUpdateContractMapper,
-    PolicyContract as PolicyContractMapper,
-    PolicyFragmentContract as PolicyFragmentContractMapper,
-    PortalConfigContract as PortalConfigContractMapper,
-    PortalDelegationSettings as PortalDelegationSettingsMapper,
-    PortalRevisionContract as PortalRevisionContractMapper,
-    PortalSigninSettings as PortalSigninSettingsMapper,
-    PortalSignupSettings as PortalSignupSettingsMapper,
-    PrivateEndpointConnectionRequest as PrivateEndpointConnectionRequestMapper,
-    ProductContract as ProductContractMapper,
-    ProductUpdateParameters as ProductUpdateParametersMapper,
-    QuotaCounterValueUpdateContract as QuotaCounterValueUpdateContractMapper,
-    ResolverContract as ResolverContractMapper,
-    ResolverUpdateContract as ResolverUpdateContractMapper,
-    SaveConfigurationParameter as SaveConfigurationParameterMapper,
-    SchemaContract as SchemaContractMapper,
-    SubscriptionCreateParameters as SubscriptionCreateParametersMapper,
-    SubscriptionUpdateParameters as SubscriptionUpdateParametersMapper,
-    TagCreateUpdateParameters as TagCreateUpdateParametersMapper,
-    TagDescriptionCreateParameters as TagDescriptionCreateParametersMapper,
-    UserCreateParameters as UserCreateParametersMapper,
-    UserTokenParameters as UserTokenParametersMapper,
-    UserUpdateParameters as UserUpdateParametersMapper,
-    WikiContract as WikiContractMapper,
-    WikiUpdateContract as WikiUpdateContractMapper
+  ApiManagementGatewayResource as ApiManagementGatewayResourceMapper,
+  ApiManagementGatewayUpdateParameters as ApiManagementGatewayUpdateParametersMapper,
+  ApiCreateOrUpdateParameter as ApiCreateOrUpdateParameterMapper,
+  ApiUpdateContract as ApiUpdateContractMapper,
+  ApiReleaseContract as ApiReleaseContractMapper,
+  OperationContract as OperationContractMapper,
+  OperationUpdateContract as OperationUpdateContractMapper,
+  PolicyContract as PolicyContractMapper,
+  TagCreateUpdateParameters as TagCreateUpdateParametersMapper,
+  ResolverContract as ResolverContractMapper,
+  ResolverUpdateContract as ResolverUpdateContractMapper,
+  SchemaContract as SchemaContractMapper,
+  DiagnosticContract as DiagnosticContractMapper,
+  IssueContract as IssueContractMapper,
+  IssueUpdateContract as IssueUpdateContractMapper,
+  IssueCommentContract as IssueCommentContractMapper,
+  IssueAttachmentContract as IssueAttachmentContractMapper,
+  TagDescriptionCreateParameters as TagDescriptionCreateParametersMapper,
+  WikiContract as WikiContractMapper,
+  WikiUpdateContract as WikiUpdateContractMapper,
+  ApiVersionSetContract as ApiVersionSetContractMapper,
+  ApiVersionSetUpdateParameters as ApiVersionSetUpdateParametersMapper,
+  AuthorizationProviderContract as AuthorizationProviderContractMapper,
+  AuthorizationContract as AuthorizationContractMapper,
+  AuthorizationConfirmConsentCodeRequestContract as AuthorizationConfirmConsentCodeRequestContractMapper,
+  AuthorizationLoginRequestContract as AuthorizationLoginRequestContractMapper,
+  AuthorizationAccessPolicyContract as AuthorizationAccessPolicyContractMapper,
+  AuthorizationServerContract as AuthorizationServerContractMapper,
+  AuthorizationServerUpdateContract as AuthorizationServerUpdateContractMapper,
+  BackendContract as BackendContractMapper,
+  BackendUpdateParameters as BackendUpdateParametersMapper,
+  BackendReconnectContract as BackendReconnectContractMapper,
+  CacheContract as CacheContractMapper,
+  CacheUpdateParameters as CacheUpdateParametersMapper,
+  CertificateCreateOrUpdateParameters as CertificateCreateOrUpdateParametersMapper,
+  ConnectivityCheckRequest as ConnectivityCheckRequestMapper,
+  ContentTypeContract as ContentTypeContractMapper,
+  ContentItemContract as ContentItemContractMapper,
+  ApiManagementServiceBackupRestoreParameters as ApiManagementServiceBackupRestoreParametersMapper,
+  ApiManagementServiceResource as ApiManagementServiceResourceMapper,
+  ApiManagementServiceUpdateParameters as ApiManagementServiceUpdateParametersMapper,
+  MigrateToStv2Contract as MigrateToStv2ContractMapper,
+  ApiManagementServiceCheckNameAvailabilityParameters as ApiManagementServiceCheckNameAvailabilityParametersMapper,
+  ApiManagementServiceApplyNetworkConfigurationParameters as ApiManagementServiceApplyNetworkConfigurationParametersMapper,
+  DocumentationContract as DocumentationContractMapper,
+  DocumentationUpdateContract as DocumentationUpdateContractMapper,
+  EmailTemplateUpdateParameters as EmailTemplateUpdateParametersMapper,
+  ApiManagementGatewayConfigConnectionResource as ApiManagementGatewayConfigConnectionResourceMapper,
+  GatewayContract as GatewayContractMapper,
+  GatewayKeyRegenerationRequestContract as GatewayKeyRegenerationRequestContractMapper,
+  GatewayTokenRequestContract as GatewayTokenRequestContractMapper,
+  GatewayListDebugCredentialsContract as GatewayListDebugCredentialsContractMapper,
+  GatewayListTraceContract as GatewayListTraceContractMapper,
+  GatewayHostnameConfigurationContract as GatewayHostnameConfigurationContractMapper,
+  AssociationContract as AssociationContractMapper,
+  GatewayCertificateAuthorityContract as GatewayCertificateAuthorityContractMapper,
+  GroupCreateParameters as GroupCreateParametersMapper,
+  GroupUpdateParameters as GroupUpdateParametersMapper,
+  IdentityProviderCreateContract as IdentityProviderCreateContractMapper,
+  IdentityProviderUpdateParameters as IdentityProviderUpdateParametersMapper,
+  LoggerContract as LoggerContractMapper,
+  LoggerUpdateContract as LoggerUpdateContractMapper,
+  NamedValueCreateContract as NamedValueCreateContractMapper,
+  NamedValueUpdateParameters as NamedValueUpdateParametersMapper,
+  OpenidConnectProviderContract as OpenidConnectProviderContractMapper,
+  OpenidConnectProviderUpdateContract as OpenidConnectProviderUpdateContractMapper,
+  PolicyFragmentContract as PolicyFragmentContractMapper,
+  PolicyRestrictionContract as PolicyRestrictionContractMapper,
+  PolicyRestrictionUpdateContract as PolicyRestrictionUpdateContractMapper,
+  PortalConfigContract as PortalConfigContractMapper,
+  PortalRevisionContract as PortalRevisionContractMapper,
+  PortalSigninSettings as PortalSigninSettingsMapper,
+  PortalSignupSettings as PortalSignupSettingsMapper,
+  PortalDelegationSettings as PortalDelegationSettingsMapper,
+  PrivateEndpointConnectionRequest as PrivateEndpointConnectionRequestMapper,
+  ProductContract as ProductContractMapper,
+  ProductUpdateParameters as ProductUpdateParametersMapper,
+  ProductApiLinkContract as ProductApiLinkContractMapper,
+  ProductGroupLinkContract as ProductGroupLinkContractMapper,
+  QuotaCounterValueUpdateContract as QuotaCounterValueUpdateContractMapper,
+  GlobalSchemaContract as GlobalSchemaContractMapper,
+  SubscriptionCreateParameters as SubscriptionCreateParametersMapper,
+  SubscriptionUpdateParameters as SubscriptionUpdateParametersMapper,
+  TagApiLinkContract as TagApiLinkContractMapper,
+  TagOperationLinkContract as TagOperationLinkContractMapper,
+  TagProductLinkContract as TagProductLinkContractMapper,
+  AccessInformationCreateParameters as AccessInformationCreateParametersMapper,
+  AccessInformationUpdateParameters as AccessInformationUpdateParametersMapper,
+  DeployConfigurationParameters as DeployConfigurationParametersMapper,
+  SaveConfigurationParameter as SaveConfigurationParameterMapper,
+  UserCreateParameters as UserCreateParametersMapper,
+  UserUpdateParameters as UserUpdateParametersMapper,
+  UserTokenParameters as UserTokenParametersMapper,
+  DiagnosticUpdateContract as DiagnosticUpdateContractMapper,
+  WorkspaceContract as WorkspaceContractMapper,
 } from "../models/mappers.js";
 
-export const accept: OperationParameter = {
-    parameterPath: "accept",
-    mapper: {
-        defaultValue: "application/json",
-        isConstant: true,
-        serializedName: "Accept",
-        type: {
-            name: "String"
-        }
-    }
-};
-
-export const $host: OperationURLParameter = {
-    parameterPath: "$host",
-    mapper: {
-        serializedName: "$host",
-        required: true,
-        xmlName: "$host",
-        type: {
-            name: "String"
-        }
-    },
-    skipEncoding: true
-};
-
-export const resourceGroupName: OperationURLParameter = {
-    parameterPath: "resourceGroupName",
-    mapper: {
-        constraints: {
-            MaxLength: 90,
-            MinLength: 1
-        },
-        serializedName: "resourceGroupName",
-        required: true,
-        xmlName: "resourceGroupName",
-        type: {
-            name: "String"
-        }
-    }
-};
-
-export const serviceName: OperationURLParameter = {
-    parameterPath: "serviceName",
-    mapper: {
-        constraints: {
-            Pattern: new RegExp("^[a-zA-Z](?:[a-zA-Z0-9-]*[a-zA-Z0-9])?$"),
-            MaxLength: 50,
-            MinLength: 1
-        },
-        serializedName: "serviceName",
-        required: true,
-        xmlName: "serviceName",
-        type: {
-            name: "String"
-        }
-    }
-};
-
-export const filter: OperationQueryParameter = {
-    parameterPath: ["options", "filter"],
-    mapper: {
-        serializedName: "$filter",
-        xmlName: "$filter",
-        type: {
-            name: "String"
-        }
-    }
-};
-
-export const top: OperationQueryParameter = {
-    parameterPath: ["options", "top"],
-    mapper: {
-        constraints: {
-            InclusiveMinimum: 1
-        },
-        serializedName: "$top",
-        xmlName: "$top",
-        type: {
-            name: "Number"
-        }
-    }
-};
-
-export const skip: OperationQueryParameter = {
-    parameterPath: ["options", "skip"],
-    mapper: {
-        constraints: {
-            InclusiveMinimum: 0
-        },
-        serializedName: "$skip",
-        xmlName: "$skip",
-        type: {
-            name: "Number"
-        }
-    }
-};
-
-export const tags: OperationQueryParameter = {
-    parameterPath: ["options", "tags"],
-    mapper: {
-        serializedName: "tags",
-        xmlName: "tags",
-        type: {
-            name: "String"
-        }
-    }
-};
-
-export const expandApiVersionSet: OperationQueryParameter = {
-    parameterPath: ["options", "expandApiVersionSet"],
-    mapper: {
-        serializedName: "expandApiVersionSet",
-        xmlName: "expandApiVersionSet",
-        type: {
-            name: "Boolean"
-        }
-    }
-};
-
-export const apiVersion: OperationQueryParameter = {
-    parameterPath: "apiVersion",
-    mapper: {
-        defaultValue: "2022-08-01",
-        isConstant: true,
-        serializedName: "api-version",
-        type: {
-            name: "String"
-        }
-    }
-};
-
-export const subscriptionId: OperationURLParameter = {
-    parameterPath: "subscriptionId",
-    mapper: {
-        constraints: {
-            MinLength: 1
-        },
-        serializedName: "subscriptionId",
-        required: true,
-        xmlName: "subscriptionId",
-        type: {
-            name: "String"
-        }
-    }
-};
-
-export const apiId: OperationURLParameter = {
-    parameterPath: "apiId",
-    mapper: {
-        constraints: {
-            Pattern: new RegExp("^[^*#&+:<>?]+$"),
-            MaxLength: 256,
-            MinLength: 1
-        },
-        serializedName: "apiId",
-        required: true,
-        xmlName: "apiId",
-        type: {
-            name: "String"
-        }
-    }
-};
-
 export const contentType: OperationParameter = {
-    parameterPath: ["options", "contentType"],
-    mapper: {
-        defaultValue: "application/json",
-        isConstant: true,
-        serializedName: "Content-Type",
-        type: {
-            name: "String"
-        }
-    }
+  parameterPath: ["options", "contentType"],
+  mapper: {
+    defaultValue: "application/json",
+    isConstant: true,
+    serializedName: "Content-Type",
+    type: {
+      name: "String",
+    },
+  },
 };
 
 export const parameters: OperationParameter = {
-    parameterPath: "parameters",
-    mapper: ApiCreateOrUpdateParameterMapper
+  parameterPath: "parameters",
+  mapper: ApiManagementGatewayResourceMapper,
 };
 
-export const ifMatch: OperationParameter = {
-    parameterPath: ["options", "ifMatch"],
-    mapper: {
-        serializedName: "If-Match",
-        xmlName: "If-Match",
-        type: {
-            name: "String"
-        }
-    }
+export const accept: OperationParameter = {
+  parameterPath: "accept",
+  mapper: {
+    defaultValue: "application/json",
+    isConstant: true,
+    serializedName: "Accept",
+    type: {
+      name: "String",
+    },
+  },
+};
+
+export const $host: OperationURLParameter = {
+  parameterPath: "$host",
+  mapper: {
+    serializedName: "$host",
+    required: true,
+    xmlName: "$host",
+    type: {
+      name: "String",
+    },
+  },
+  skipEncoding: true,
+};
+
+export const resourceGroupName: OperationURLParameter = {
+  parameterPath: "resourceGroupName",
+  mapper: {
+    constraints: {
+      MaxLength: 90,
+      MinLength: 1,
+    },
+    serializedName: "resourceGroupName",
+    required: true,
+    xmlName: "resourceGroupName",
+    type: {
+      name: "String",
+    },
+  },
+};
+
+export const gatewayName: OperationURLParameter = {
+  parameterPath: "gatewayName",
+  mapper: {
+    constraints: {
+      Pattern: new RegExp("^[a-zA-Z](?:[a-zA-Z0-9-]*[a-zA-Z0-9])?$"),
+      MaxLength: 45,
+      MinLength: 1,
+    },
+    serializedName: "gatewayName",
+    required: true,
+    xmlName: "gatewayName",
+    type: {
+      name: "String",
+    },
+  },
+};
+
+export const apiVersion: OperationQueryParameter = {
+  parameterPath: "apiVersion",
+  mapper: {
+    defaultValue: "2024-05-01",
+    isConstant: true,
+    serializedName: "api-version",
+    type: {
+      name: "String",
+    },
+  },
+};
+
+export const subscriptionId: OperationURLParameter = {
+  parameterPath: "subscriptionId",
+  mapper: {
+    serializedName: "subscriptionId",
+    required: true,
+    xmlName: "subscriptionId",
+    type: {
+      name: "Uuid",
+    },
+  },
 };
 
 export const parameters1: OperationParameter = {
-    parameterPath: "parameters",
-    mapper: ApiUpdateContractMapper
-};
-
-export const ifMatch1: OperationParameter = {
-    parameterPath: "ifMatch",
-    mapper: {
-        serializedName: "If-Match",
-        required: true,
-        xmlName: "If-Match",
-        type: {
-            name: "String"
-        }
-    }
-};
-
-export const deleteRevisions: OperationQueryParameter = {
-    parameterPath: ["options", "deleteRevisions"],
-    mapper: {
-        serializedName: "deleteRevisions",
-        xmlName: "deleteRevisions",
-        type: {
-            name: "Boolean"
-        }
-    }
-};
-
-export const includeNotTaggedApis: OperationQueryParameter = {
-    parameterPath: ["options", "includeNotTaggedApis"],
-    mapper: {
-        serializedName: "includeNotTaggedApis",
-        xmlName: "includeNotTaggedApis",
-        type: {
-            name: "Boolean"
-        }
-    }
+  parameterPath: "parameters",
+  mapper: ApiManagementGatewayUpdateParametersMapper,
 };
 
 export const nextLink: OperationURLParameter = {
-    parameterPath: "nextLink",
-    mapper: {
-        serializedName: "nextLink",
-        required: true,
-        xmlName: "nextLink",
-        type: {
-            name: "String"
-        }
+  parameterPath: "nextLink",
+  mapper: {
+    serializedName: "nextLink",
+    required: true,
+    xmlName: "nextLink",
+    type: {
+      name: "String",
     },
-    skipEncoding: true
+  },
+  skipEncoding: true,
 };
 
-export const apiId1: OperationURLParameter = {
-    parameterPath: "apiId",
-    mapper: {
-        constraints: {
-            MaxLength: 80,
-            MinLength: 1
-        },
-        serializedName: "apiId",
-        required: true,
-        xmlName: "apiId",
-        type: {
-            name: "String"
-        }
-    }
+export const serviceName: OperationURLParameter = {
+  parameterPath: "serviceName",
+  mapper: {
+    constraints: {
+      Pattern: new RegExp("^[a-zA-Z](?:[a-zA-Z0-9-]*[a-zA-Z0-9])?$"),
+      MaxLength: 50,
+      MinLength: 1,
+    },
+    serializedName: "serviceName",
+    required: true,
+    xmlName: "serviceName",
+    type: {
+      name: "String",
+    },
+  },
 };
 
-export const releaseId: OperationURLParameter = {
-    parameterPath: "releaseId",
-    mapper: {
-        constraints: {
-            Pattern: new RegExp("^[^*#&+:<>?]+$"),
-            MaxLength: 80,
-            MinLength: 1
-        },
-        serializedName: "releaseId",
-        required: true,
-        xmlName: "releaseId",
-        type: {
-            name: "String"
-        }
-    }
+export const filter: OperationQueryParameter = {
+  parameterPath: ["options", "filter"],
+  mapper: {
+    serializedName: "$filter",
+    xmlName: "$filter",
+    type: {
+      name: "String",
+    },
+  },
+};
+
+export const top: OperationQueryParameter = {
+  parameterPath: ["options", "top"],
+  mapper: {
+    constraints: {
+      InclusiveMinimum: 1,
+    },
+    serializedName: "$top",
+    xmlName: "$top",
+    type: {
+      name: "Number",
+    },
+  },
+};
+
+export const skip: OperationQueryParameter = {
+  parameterPath: ["options", "skip"],
+  mapper: {
+    constraints: {
+      InclusiveMinimum: 0,
+    },
+    serializedName: "$skip",
+    xmlName: "$skip",
+    type: {
+      name: "Number",
+    },
+  },
+};
+
+export const tags: OperationQueryParameter = {
+  parameterPath: ["options", "tags"],
+  mapper: {
+    serializedName: "tags",
+    xmlName: "tags",
+    type: {
+      name: "String",
+    },
+  },
+};
+
+export const expandApiVersionSet: OperationQueryParameter = {
+  parameterPath: ["options", "expandApiVersionSet"],
+  mapper: {
+    serializedName: "expandApiVersionSet",
+    xmlName: "expandApiVersionSet",
+    type: {
+      name: "Boolean",
+    },
+  },
+};
+
+export const apiId: OperationURLParameter = {
+  parameterPath: "apiId",
+  mapper: {
+    constraints: {
+      Pattern: new RegExp("^[^*#&+:<>?]+$"),
+      MaxLength: 256,
+      MinLength: 1,
+    },
+    serializedName: "apiId",
+    required: true,
+    xmlName: "apiId",
+    type: {
+      name: "String",
+    },
+  },
 };
 
 export const parameters2: OperationParameter = {
-    parameterPath: "parameters",
-    mapper: ApiReleaseContractMapper
+  parameterPath: "parameters",
+  mapper: ApiCreateOrUpdateParameterMapper,
 };
 
-export const operationId: OperationURLParameter = {
-    parameterPath: "operationId",
-    mapper: {
-        constraints: {
-            MaxLength: 80,
-            MinLength: 1
-        },
-        serializedName: "operationId",
-        required: true,
-        xmlName: "operationId",
-        type: {
-            name: "String"
-        }
-    }
+export const ifMatch: OperationParameter = {
+  parameterPath: ["options", "ifMatch"],
+  mapper: {
+    serializedName: "If-Match",
+    xmlName: "If-Match",
+    type: {
+      name: "String",
+    },
+  },
 };
 
 export const parameters3: OperationParameter = {
-    parameterPath: "parameters",
-    mapper: OperationContractMapper
+  parameterPath: "parameters",
+  mapper: ApiUpdateContractMapper,
+};
+
+export const ifMatch1: OperationParameter = {
+  parameterPath: "ifMatch",
+  mapper: {
+    serializedName: "If-Match",
+    required: true,
+    xmlName: "If-Match",
+    type: {
+      name: "String",
+    },
+  },
+};
+
+export const deleteRevisions: OperationQueryParameter = {
+  parameterPath: ["options", "deleteRevisions"],
+  mapper: {
+    serializedName: "deleteRevisions",
+    xmlName: "deleteRevisions",
+    type: {
+      name: "Boolean",
+    },
+  },
+};
+
+export const includeNotTaggedApis: OperationQueryParameter = {
+  parameterPath: ["options", "includeNotTaggedApis"],
+  mapper: {
+    serializedName: "includeNotTaggedApis",
+    xmlName: "includeNotTaggedApis",
+    type: {
+      name: "Boolean",
+    },
+  },
+};
+
+export const apiId1: OperationURLParameter = {
+  parameterPath: "apiId",
+  mapper: {
+    constraints: {
+      MaxLength: 80,
+      MinLength: 1,
+    },
+    serializedName: "apiId",
+    required: true,
+    xmlName: "apiId",
+    type: {
+      name: "String",
+    },
+  },
+};
+
+export const releaseId: OperationURLParameter = {
+  parameterPath: "releaseId",
+  mapper: {
+    constraints: {
+      Pattern: new RegExp("^[^*#&+:<>?]+$"),
+      MaxLength: 80,
+      MinLength: 1,
+    },
+    serializedName: "releaseId",
+    required: true,
+    xmlName: "releaseId",
+    type: {
+      name: "String",
+    },
+  },
 };
 
 export const parameters4: OperationParameter = {
-    parameterPath: "parameters",
-    mapper: OperationUpdateContractMapper
+  parameterPath: "parameters",
+  mapper: ApiReleaseContractMapper,
 };
 
-export const policyId: OperationURLParameter = {
-    parameterPath: "policyId",
-    mapper: {
-        serializedName: "policyId",
-        required: true,
-        xmlName: "policyId",
-        type: {
-            name: "String"
-        }
-    }
-};
-
-export const format: OperationQueryParameter = {
-    parameterPath: ["options", "format"],
-    mapper: {
-        defaultValue: "xml",
-        serializedName: "format",
-        xmlName: "format",
-        type: {
-            name: "String"
-        }
-    }
+export const operationId: OperationURLParameter = {
+  parameterPath: "operationId",
+  mapper: {
+    constraints: {
+      MaxLength: 80,
+      MinLength: 1,
+    },
+    serializedName: "operationId",
+    required: true,
+    xmlName: "operationId",
+    type: {
+      name: "String",
+    },
+  },
 };
 
 export const parameters5: OperationParameter = {
-    parameterPath: "parameters",
-    mapper: PolicyContractMapper
-};
-
-export const tagId: OperationURLParameter = {
-    parameterPath: "tagId",
-    mapper: {
-        constraints: {
-            Pattern: new RegExp("^[^*#&+:<>?]+$"),
-            MaxLength: 80,
-            MinLength: 1
-        },
-        serializedName: "tagId",
-        required: true,
-        xmlName: "tagId",
-        type: {
-            name: "String"
-        }
-    }
-};
-
-export const productId: OperationURLParameter = {
-    parameterPath: "productId",
-    mapper: {
-        constraints: {
-            MaxLength: 256,
-            MinLength: 1
-        },
-        serializedName: "productId",
-        required: true,
-        xmlName: "productId",
-        type: {
-            name: "String"
-        }
-    }
-};
-
-export const scope: OperationQueryParameter = {
-    parameterPath: ["options", "scope"],
-    mapper: {
-        serializedName: "scope",
-        xmlName: "scope",
-        type: {
-            name: "String"
-        }
-    }
+  parameterPath: "parameters",
+  mapper: OperationContractMapper,
 };
 
 export const parameters6: OperationParameter = {
-    parameterPath: "parameters",
-    mapper: TagCreateUpdateParametersMapper
+  parameterPath: "parameters",
+  mapper: OperationUpdateContractMapper,
 };
 
-export const resolverId: OperationURLParameter = {
-    parameterPath: "resolverId",
-    mapper: {
-        constraints: {
-            MaxLength: 80,
-            MinLength: 1
-        },
-        serializedName: "resolverId",
-        required: true,
-        xmlName: "resolverId",
-        type: {
-            name: "String"
-        }
-    }
+export const policyId: OperationURLParameter = {
+  parameterPath: "policyId",
+  mapper: {
+    serializedName: "policyId",
+    required: true,
+    xmlName: "policyId",
+    type: {
+      name: "String",
+    },
+  },
+};
+
+export const format: OperationQueryParameter = {
+  parameterPath: ["options", "format"],
+  mapper: {
+    defaultValue: "xml",
+    serializedName: "format",
+    xmlName: "format",
+    type: {
+      name: "String",
+    },
+  },
 };
 
 export const parameters7: OperationParameter = {
-    parameterPath: "parameters",
-    mapper: ResolverContractMapper
+  parameterPath: "parameters",
+  mapper: PolicyContractMapper,
+};
+
+export const tagId: OperationURLParameter = {
+  parameterPath: "tagId",
+  mapper: {
+    constraints: {
+      Pattern: new RegExp("^[^*#&+:<>?]+$"),
+      MaxLength: 80,
+      MinLength: 1,
+    },
+    serializedName: "tagId",
+    required: true,
+    xmlName: "tagId",
+    type: {
+      name: "String",
+    },
+  },
+};
+
+export const productId: OperationURLParameter = {
+  parameterPath: "productId",
+  mapper: {
+    constraints: {
+      MaxLength: 256,
+      MinLength: 1,
+    },
+    serializedName: "productId",
+    required: true,
+    xmlName: "productId",
+    type: {
+      name: "String",
+    },
+  },
+};
+
+export const scope: OperationQueryParameter = {
+  parameterPath: ["options", "scope"],
+  mapper: {
+    serializedName: "scope",
+    xmlName: "scope",
+    type: {
+      name: "String",
+    },
+  },
 };
 
 export const parameters8: OperationParameter = {
-    parameterPath: "parameters",
-    mapper: ResolverUpdateContractMapper
+  parameterPath: "parameters",
+  mapper: TagCreateUpdateParametersMapper,
 };
 
-export const accept1: OperationParameter = {
-    parameterPath: "accept",
-    mapper: {
-        defaultValue:
-            "application/json, application/vnd.ms-azure-apim.policy+xml, application/vnd.ms-azure-apim.policy.raw+xml",
-        isConstant: true,
-        serializedName: "Accept",
-        type: {
-            name: "String"
-        }
-    }
-};
-
-export const schemaId: OperationURLParameter = {
-    parameterPath: "schemaId",
-    mapper: {
-        constraints: {
-            MaxLength: 80,
-            MinLength: 1
-        },
-        serializedName: "schemaId",
-        required: true,
-        xmlName: "schemaId",
-        type: {
-            name: "String"
-        }
-    }
+export const resolverId: OperationURLParameter = {
+  parameterPath: "resolverId",
+  mapper: {
+    constraints: {
+      MaxLength: 80,
+      MinLength: 1,
+    },
+    serializedName: "resolverId",
+    required: true,
+    xmlName: "resolverId",
+    type: {
+      name: "String",
+    },
+  },
 };
 
 export const parameters9: OperationParameter = {
-    parameterPath: "parameters",
-    mapper: SchemaContractMapper
-};
-
-export const force: OperationQueryParameter = {
-    parameterPath: ["options", "force"],
-    mapper: {
-        serializedName: "force",
-        xmlName: "force",
-        type: {
-            name: "Boolean"
-        }
-    }
-};
-
-export const diagnosticId: OperationURLParameter = {
-    parameterPath: "diagnosticId",
-    mapper: {
-        constraints: {
-            Pattern: new RegExp("^[^*#&+:<>?]+$"),
-            MaxLength: 80,
-            MinLength: 1
-        },
-        serializedName: "diagnosticId",
-        required: true,
-        xmlName: "diagnosticId",
-        type: {
-            name: "String"
-        }
-    }
+  parameterPath: "parameters",
+  mapper: ResolverContractMapper,
 };
 
 export const parameters10: OperationParameter = {
-    parameterPath: "parameters",
-    mapper: DiagnosticContractMapper
+  parameterPath: "parameters",
+  mapper: ResolverUpdateContractMapper,
 };
 
-export const expandCommentsAttachments: OperationQueryParameter = {
-    parameterPath: ["options", "expandCommentsAttachments"],
-    mapper: {
-        serializedName: "expandCommentsAttachments",
-        xmlName: "expandCommentsAttachments",
-        type: {
-            name: "Boolean"
-        }
-    }
+export const accept1: OperationParameter = {
+  parameterPath: "accept",
+  mapper: {
+    defaultValue:
+      "application/json, application/vnd.ms-azure-apim.policy+xml, application/vnd.ms-azure-apim.policy.raw+xml",
+    isConstant: true,
+    serializedName: "Accept",
+    type: {
+      name: "String",
+    },
+  },
 };
 
-export const issueId: OperationURLParameter = {
-    parameterPath: "issueId",
-    mapper: {
-        constraints: {
-            Pattern: new RegExp("^[^*#&+:<>?]+$"),
-            MaxLength: 256,
-            MinLength: 1
-        },
-        serializedName: "issueId",
-        required: true,
-        xmlName: "issueId",
-        type: {
-            name: "String"
-        }
-    }
+export const schemaId: OperationURLParameter = {
+  parameterPath: "schemaId",
+  mapper: {
+    constraints: {
+      MaxLength: 80,
+      MinLength: 1,
+    },
+    serializedName: "schemaId",
+    required: true,
+    xmlName: "schemaId",
+    type: {
+      name: "String",
+    },
+  },
 };
 
 export const parameters11: OperationParameter = {
-    parameterPath: "parameters",
-    mapper: IssueContractMapper
+  parameterPath: "parameters",
+  mapper: SchemaContractMapper,
+};
+
+export const force: OperationQueryParameter = {
+  parameterPath: ["options", "force"],
+  mapper: {
+    serializedName: "force",
+    xmlName: "force",
+    type: {
+      name: "Boolean",
+    },
+  },
+};
+
+export const diagnosticId: OperationURLParameter = {
+  parameterPath: "diagnosticId",
+  mapper: {
+    constraints: {
+      Pattern: new RegExp("^[^*#&+:<>?]+$"),
+      MaxLength: 80,
+      MinLength: 1,
+    },
+    serializedName: "diagnosticId",
+    required: true,
+    xmlName: "diagnosticId",
+    type: {
+      name: "String",
+    },
+  },
 };
 
 export const parameters12: OperationParameter = {
-    parameterPath: "parameters",
-    mapper: IssueUpdateContractMapper
+  parameterPath: "parameters",
+  mapper: DiagnosticContractMapper,
 };
 
-export const commentId: OperationURLParameter = {
-    parameterPath: "commentId",
-    mapper: {
-        constraints: {
-            Pattern: new RegExp("^[^*#&+:<>?]+$"),
-            MaxLength: 256,
-            MinLength: 1
-        },
-        serializedName: "commentId",
-        required: true,
-        xmlName: "commentId",
-        type: {
-            name: "String"
-        }
-    }
+export const expandCommentsAttachments: OperationQueryParameter = {
+  parameterPath: ["options", "expandCommentsAttachments"],
+  mapper: {
+    serializedName: "expandCommentsAttachments",
+    xmlName: "expandCommentsAttachments",
+    type: {
+      name: "Boolean",
+    },
+  },
+};
+
+export const issueId: OperationURLParameter = {
+  parameterPath: "issueId",
+  mapper: {
+    constraints: {
+      Pattern: new RegExp("^[^*#&+:<>?]+$"),
+      MaxLength: 256,
+      MinLength: 1,
+    },
+    serializedName: "issueId",
+    required: true,
+    xmlName: "issueId",
+    type: {
+      name: "String",
+    },
+  },
 };
 
 export const parameters13: OperationParameter = {
-    parameterPath: "parameters",
-    mapper: IssueCommentContractMapper
-};
-
-export const attachmentId: OperationURLParameter = {
-    parameterPath: "attachmentId",
-    mapper: {
-        constraints: {
-            Pattern: new RegExp("^[^*#&+:<>?]+$"),
-            MaxLength: 256,
-            MinLength: 1
-        },
-        serializedName: "attachmentId",
-        required: true,
-        xmlName: "attachmentId",
-        type: {
-            name: "String"
-        }
-    }
+  parameterPath: "parameters",
+  mapper: IssueContractMapper,
 };
 
 export const parameters14: OperationParameter = {
-    parameterPath: "parameters",
-    mapper: IssueAttachmentContractMapper
+  parameterPath: "parameters",
+  mapper: IssueUpdateContractMapper,
 };
 
-export const tagDescriptionId: OperationURLParameter = {
-    parameterPath: "tagDescriptionId",
-    mapper: {
-        constraints: {
-            Pattern: new RegExp("^[^*#&+:<>?]+$"),
-            MaxLength: 80,
-            MinLength: 1
-        },
-        serializedName: "tagDescriptionId",
-        required: true,
-        xmlName: "tagDescriptionId",
-        type: {
-            name: "String"
-        }
-    }
+export const commentId: OperationURLParameter = {
+  parameterPath: "commentId",
+  mapper: {
+    constraints: {
+      Pattern: new RegExp("^[^*#&+:<>?]+$"),
+      MaxLength: 256,
+      MinLength: 1,
+    },
+    serializedName: "commentId",
+    required: true,
+    xmlName: "commentId",
+    type: {
+      name: "String",
+    },
+  },
 };
 
 export const parameters15: OperationParameter = {
-    parameterPath: "parameters",
-    mapper: TagDescriptionCreateParametersMapper
+  parameterPath: "parameters",
+  mapper: IssueCommentContractMapper,
 };
 
-export const includeNotTaggedOperations: OperationQueryParameter = {
-    parameterPath: ["options", "includeNotTaggedOperations"],
-    mapper: {
-        serializedName: "includeNotTaggedOperations",
-        xmlName: "includeNotTaggedOperations",
-        type: {
-            name: "Boolean"
-        }
-    }
+export const attachmentId: OperationURLParameter = {
+  parameterPath: "attachmentId",
+  mapper: {
+    constraints: {
+      Pattern: new RegExp("^[^*#&+:<>?]+$"),
+      MaxLength: 256,
+      MinLength: 1,
+    },
+    serializedName: "attachmentId",
+    required: true,
+    xmlName: "attachmentId",
+    type: {
+      name: "String",
+    },
+  },
 };
 
 export const parameters16: OperationParameter = {
-    parameterPath: "parameters",
-    mapper: WikiContractMapper
+  parameterPath: "parameters",
+  mapper: IssueAttachmentContractMapper,
+};
+
+export const tagDescriptionId: OperationURLParameter = {
+  parameterPath: "tagDescriptionId",
+  mapper: {
+    constraints: {
+      Pattern: new RegExp("^[^*#&+:<>?]+$"),
+      MaxLength: 80,
+      MinLength: 1,
+    },
+    serializedName: "tagDescriptionId",
+    required: true,
+    xmlName: "tagDescriptionId",
+    type: {
+      name: "String",
+    },
+  },
 };
 
 export const parameters17: OperationParameter = {
-    parameterPath: "parameters",
-    mapper: WikiUpdateContractMapper
+  parameterPath: "parameters",
+  mapper: TagDescriptionCreateParametersMapper,
 };
 
-export const format1: OperationQueryParameter = {
-    parameterPath: "format",
-    mapper: {
-        serializedName: "format",
-        required: true,
-        xmlName: "format",
-        type: {
-            name: "String"
-        }
-    }
-};
-
-export const exportParam: OperationQueryParameter = {
-    parameterPath: "exportParam",
-    mapper: {
-        serializedName: "export",
-        required: true,
-        xmlName: "export",
-        type: {
-            name: "String"
-        }
-    }
-};
-
-export const versionSetId: OperationURLParameter = {
-    parameterPath: "versionSetId",
-    mapper: {
-        constraints: {
-            Pattern: new RegExp("^[^*#&+:<>?]+$"),
-            MaxLength: 80,
-            MinLength: 1
-        },
-        serializedName: "versionSetId",
-        required: true,
-        xmlName: "versionSetId",
-        type: {
-            name: "String"
-        }
-    }
+export const includeNotTaggedOperations: OperationQueryParameter = {
+  parameterPath: ["options", "includeNotTaggedOperations"],
+  mapper: {
+    serializedName: "includeNotTaggedOperations",
+    xmlName: "includeNotTaggedOperations",
+    type: {
+      name: "Boolean",
+    },
+  },
 };
 
 export const parameters18: OperationParameter = {
-    parameterPath: "parameters",
-    mapper: ApiVersionSetContractMapper
+  parameterPath: "parameters",
+  mapper: WikiContractMapper,
 };
 
 export const parameters19: OperationParameter = {
-    parameterPath: "parameters",
-    mapper: ApiVersionSetUpdateParametersMapper
+  parameterPath: "parameters",
+  mapper: WikiUpdateContractMapper,
 };
 
-export const authsid: OperationURLParameter = {
-    parameterPath: "authsid",
-    mapper: {
-        constraints: {
-            Pattern: new RegExp("^[^*#&+:<>?]+$"),
-            MaxLength: 80,
-            MinLength: 1
-        },
-        serializedName: "authsid",
-        required: true,
-        xmlName: "authsid",
-        type: {
-            name: "String"
-        }
-    }
+export const format1: OperationQueryParameter = {
+  parameterPath: "format",
+  mapper: {
+    serializedName: "format",
+    required: true,
+    xmlName: "format",
+    type: {
+      name: "String",
+    },
+  },
+};
+
+export const exportParam: OperationQueryParameter = {
+  parameterPath: "exportParam",
+  mapper: {
+    serializedName: "export",
+    required: true,
+    xmlName: "export",
+    type: {
+      name: "String",
+    },
+  },
+};
+
+export const versionSetId: OperationURLParameter = {
+  parameterPath: "versionSetId",
+  mapper: {
+    constraints: {
+      Pattern: new RegExp("^[^*#&+:<>?]+$"),
+      MaxLength: 80,
+      MinLength: 1,
+    },
+    serializedName: "versionSetId",
+    required: true,
+    xmlName: "versionSetId",
+    type: {
+      name: "String",
+    },
+  },
 };
 
 export const parameters20: OperationParameter = {
-    parameterPath: "parameters",
-    mapper: AuthorizationServerContractMapper
+  parameterPath: "parameters",
+  mapper: ApiVersionSetContractMapper,
 };
 
 export const parameters21: OperationParameter = {
-    parameterPath: "parameters",
-    mapper: AuthorizationServerUpdateContractMapper
+  parameterPath: "parameters",
+  mapper: ApiVersionSetUpdateParametersMapper,
 };
 
 export const authorizationProviderId: OperationURLParameter = {
-    parameterPath: "authorizationProviderId",
-    mapper: {
-        constraints: {
-            Pattern: new RegExp("^[^*#&+:<>?]+$"),
-            MaxLength: 256,
-            MinLength: 1
-        },
-        serializedName: "authorizationProviderId",
-        required: true,
-        xmlName: "authorizationProviderId",
-        type: {
-            name: "String"
-        }
-    }
+  parameterPath: "authorizationProviderId",
+  mapper: {
+    constraints: {
+      Pattern: new RegExp("^[^*#&+:<>?]+$"),
+      MaxLength: 256,
+      MinLength: 1,
+    },
+    serializedName: "authorizationProviderId",
+    required: true,
+    xmlName: "authorizationProviderId",
+    type: {
+      name: "String",
+    },
+  },
 };
 
 export const parameters22: OperationParameter = {
-    parameterPath: "parameters",
-    mapper: AuthorizationProviderContractMapper
+  parameterPath: "parameters",
+  mapper: AuthorizationProviderContractMapper,
 };
 
 export const authorizationId: OperationURLParameter = {
-    parameterPath: "authorizationId",
-    mapper: {
-        constraints: {
-            Pattern: new RegExp("^[^*#&+:<>?]+$"),
-            MaxLength: 256,
-            MinLength: 1
-        },
-        serializedName: "authorizationId",
-        required: true,
-        xmlName: "authorizationId",
-        type: {
-            name: "String"
-        }
-    }
+  parameterPath: "authorizationId",
+  mapper: {
+    constraints: {
+      Pattern: new RegExp("^[^*#&+:<>?]+$"),
+      MaxLength: 256,
+      MinLength: 1,
+    },
+    serializedName: "authorizationId",
+    required: true,
+    xmlName: "authorizationId",
+    type: {
+      name: "String",
+    },
+  },
 };
 
 export const parameters23: OperationParameter = {
-    parameterPath: "parameters",
-    mapper: AuthorizationContractMapper
+  parameterPath: "parameters",
+  mapper: AuthorizationContractMapper,
 };
 
 export const parameters24: OperationParameter = {
-    parameterPath: "parameters",
-    mapper: AuthorizationConfirmConsentCodeRequestContractMapper
+  parameterPath: "parameters",
+  mapper: AuthorizationConfirmConsentCodeRequestContractMapper,
 };
 
 export const parameters25: OperationParameter = {
-    parameterPath: "parameters",
-    mapper: AuthorizationLoginRequestContractMapper
+  parameterPath: "parameters",
+  mapper: AuthorizationLoginRequestContractMapper,
 };
 
 export const authorizationAccessPolicyId: OperationURLParameter = {
-    parameterPath: "authorizationAccessPolicyId",
-    mapper: {
-        constraints: {
-            Pattern: new RegExp("^[^*#&+:<>?]+$"),
-            MaxLength: 256,
-            MinLength: 1
-        },
-        serializedName: "authorizationAccessPolicyId",
-        required: true,
-        xmlName: "authorizationAccessPolicyId",
-        type: {
-            name: "String"
-        }
-    }
+  parameterPath: "authorizationAccessPolicyId",
+  mapper: {
+    constraints: {
+      Pattern: new RegExp("^[^*#&+:<>?]+$"),
+      MaxLength: 256,
+      MinLength: 1,
+    },
+    serializedName: "authorizationAccessPolicyId",
+    required: true,
+    xmlName: "authorizationAccessPolicyId",
+    type: {
+      name: "String",
+    },
+  },
 };
 
 export const parameters26: OperationParameter = {
-    parameterPath: "parameters",
-    mapper: AuthorizationAccessPolicyContractMapper
+  parameterPath: "parameters",
+  mapper: AuthorizationAccessPolicyContractMapper,
 };
 
-export const backendId: OperationURLParameter = {
-    parameterPath: "backendId",
-    mapper: {
-        constraints: {
-            MaxLength: 80,
-            MinLength: 1
-        },
-        serializedName: "backendId",
-        required: true,
-        xmlName: "backendId",
-        type: {
-            name: "String"
-        }
-    }
+export const authsid: OperationURLParameter = {
+  parameterPath: "authsid",
+  mapper: {
+    constraints: {
+      Pattern: new RegExp("^[^*#&+:<>?]+$"),
+      MaxLength: 80,
+      MinLength: 1,
+    },
+    serializedName: "authsid",
+    required: true,
+    xmlName: "authsid",
+    type: {
+      name: "String",
+    },
+  },
 };
 
 export const parameters27: OperationParameter = {
-    parameterPath: "parameters",
-    mapper: BackendContractMapper
+  parameterPath: "parameters",
+  mapper: AuthorizationServerContractMapper,
 };
 
 export const parameters28: OperationParameter = {
-    parameterPath: "parameters",
-    mapper: BackendUpdateParametersMapper
+  parameterPath: "parameters",
+  mapper: AuthorizationServerUpdateContractMapper,
+};
+
+export const backendId: OperationURLParameter = {
+  parameterPath: "backendId",
+  mapper: {
+    constraints: {
+      MaxLength: 80,
+      MinLength: 1,
+    },
+    serializedName: "backendId",
+    required: true,
+    xmlName: "backendId",
+    type: {
+      name: "String",
+    },
+  },
 };
 
 export const parameters29: OperationParameter = {
-    parameterPath: ["options", "parameters"],
-    mapper: BackendReconnectContractMapper
-};
-
-export const cacheId: OperationURLParameter = {
-    parameterPath: "cacheId",
-    mapper: {
-        constraints: {
-            Pattern: new RegExp("^[^*#&+:<>?]+$"),
-            MaxLength: 80,
-            MinLength: 1
-        },
-        serializedName: "cacheId",
-        required: true,
-        xmlName: "cacheId",
-        type: {
-            name: "String"
-        }
-    }
+  parameterPath: "parameters",
+  mapper: BackendContractMapper,
 };
 
 export const parameters30: OperationParameter = {
-    parameterPath: "parameters",
-    mapper: CacheContractMapper
+  parameterPath: "parameters",
+  mapper: BackendUpdateParametersMapper,
 };
 
 export const parameters31: OperationParameter = {
-    parameterPath: "parameters",
-    mapper: CacheUpdateParametersMapper
+  parameterPath: ["options", "parameters"],
+  mapper: BackendReconnectContractMapper,
 };
 
-export const isKeyVaultRefreshFailed: OperationQueryParameter = {
-    parameterPath: ["options", "isKeyVaultRefreshFailed"],
-    mapper: {
-        serializedName: "isKeyVaultRefreshFailed",
-        xmlName: "isKeyVaultRefreshFailed",
-        type: {
-            name: "Boolean"
-        }
-    }
-};
-
-export const certificateId: OperationURLParameter = {
-    parameterPath: "certificateId",
-    mapper: {
-        constraints: {
-            Pattern: new RegExp("^[^*#&+:<>?]+$"),
-            MaxLength: 80,
-            MinLength: 1
-        },
-        serializedName: "certificateId",
-        required: true,
-        xmlName: "certificateId",
-        type: {
-            name: "String"
-        }
-    }
+export const cacheId: OperationURLParameter = {
+  parameterPath: "cacheId",
+  mapper: {
+    constraints: {
+      Pattern: new RegExp("^[^*#&+:<>?]+$"),
+      MaxLength: 80,
+      MinLength: 1,
+    },
+    serializedName: "cacheId",
+    required: true,
+    xmlName: "cacheId",
+    type: {
+      name: "String",
+    },
+  },
 };
 
 export const parameters32: OperationParameter = {
-    parameterPath: "parameters",
-    mapper: CertificateCreateOrUpdateParametersMapper
-};
-
-export const connectivityCheckRequestParams: OperationParameter = {
-    parameterPath: "connectivityCheckRequestParams",
-    mapper: ConnectivityCheckRequestMapper
-};
-
-export const contentTypeId: OperationURLParameter = {
-    parameterPath: "contentTypeId",
-    mapper: {
-        constraints: {
-            MaxLength: 80,
-            MinLength: 1
-        },
-        serializedName: "contentTypeId",
-        required: true,
-        xmlName: "contentTypeId",
-        type: {
-            name: "String"
-        }
-    }
+  parameterPath: "parameters",
+  mapper: CacheContractMapper,
 };
 
 export const parameters33: OperationParameter = {
-    parameterPath: "parameters",
-    mapper: ContentTypeContractMapper
+  parameterPath: "parameters",
+  mapper: CacheUpdateParametersMapper,
 };
 
-export const contentItemId: OperationURLParameter = {
-    parameterPath: "contentItemId",
-    mapper: {
-        constraints: {
-            MaxLength: 80,
-            MinLength: 1
-        },
-        serializedName: "contentItemId",
-        required: true,
-        xmlName: "contentItemId",
-        type: {
-            name: "String"
-        }
-    }
+export const isKeyVaultRefreshFailed: OperationQueryParameter = {
+  parameterPath: ["options", "isKeyVaultRefreshFailed"],
+  mapper: {
+    serializedName: "isKeyVaultRefreshFailed",
+    xmlName: "isKeyVaultRefreshFailed",
+    type: {
+      name: "Boolean",
+    },
+  },
+};
+
+export const certificateId: OperationURLParameter = {
+  parameterPath: "certificateId",
+  mapper: {
+    constraints: {
+      Pattern: new RegExp("^[^*#&+:<>?]+$"),
+      MaxLength: 80,
+      MinLength: 1,
+    },
+    serializedName: "certificateId",
+    required: true,
+    xmlName: "certificateId",
+    type: {
+      name: "String",
+    },
+  },
 };
 
 export const parameters34: OperationParameter = {
-    parameterPath: "parameters",
-    mapper: ContentItemContractMapper
+  parameterPath: "parameters",
+  mapper: CertificateCreateOrUpdateParametersMapper,
 };
 
-export const location: OperationURLParameter = {
-    parameterPath: "location",
-    mapper: {
-        serializedName: "location",
-        required: true,
-        xmlName: "location",
-        type: {
-            name: "String"
-        }
-    }
+export const connectivityCheckRequestParams: OperationParameter = {
+  parameterPath: "connectivityCheckRequestParams",
+  mapper: ConnectivityCheckRequestMapper,
+};
+
+export const contentTypeId: OperationURLParameter = {
+  parameterPath: "contentTypeId",
+  mapper: {
+    constraints: {
+      MaxLength: 80,
+      MinLength: 1,
+    },
+    serializedName: "contentTypeId",
+    required: true,
+    xmlName: "contentTypeId",
+    type: {
+      name: "String",
+    },
+  },
 };
 
 export const parameters35: OperationParameter = {
-    parameterPath: "parameters",
-    mapper: ApiManagementServiceBackupRestoreParametersMapper
+  parameterPath: "parameters",
+  mapper: ContentTypeContractMapper,
+};
+
+export const contentItemId: OperationURLParameter = {
+  parameterPath: "contentItemId",
+  mapper: {
+    constraints: {
+      MaxLength: 80,
+      MinLength: 1,
+    },
+    serializedName: "contentItemId",
+    required: true,
+    xmlName: "contentItemId",
+    type: {
+      name: "String",
+    },
+  },
 };
 
 export const parameters36: OperationParameter = {
-    parameterPath: "parameters",
-    mapper: ApiManagementServiceResourceMapper
+  parameterPath: "parameters",
+  mapper: ContentItemContractMapper,
+};
+
+export const location: OperationURLParameter = {
+  parameterPath: "location",
+  mapper: {
+    serializedName: "location",
+    required: true,
+    xmlName: "location",
+    type: {
+      name: "String",
+    },
+  },
 };
 
 export const parameters37: OperationParameter = {
-    parameterPath: "parameters",
-    mapper: ApiManagementServiceUpdateParametersMapper
+  parameterPath: "parameters",
+  mapper: ApiManagementServiceBackupRestoreParametersMapper,
 };
 
 export const parameters38: OperationParameter = {
-    parameterPath: "parameters",
-    mapper: ApiManagementServiceCheckNameAvailabilityParametersMapper
+  parameterPath: "parameters",
+  mapper: ApiManagementServiceResourceMapper,
 };
 
 export const parameters39: OperationParameter = {
-    parameterPath: ["options", "parameters"],
-    mapper: ApiManagementServiceApplyNetworkConfigurationParametersMapper
-};
-
-export const templateName: OperationURLParameter = {
-    parameterPath: "templateName",
-    mapper: {
-        serializedName: "templateName",
-        required: true,
-        xmlName: "templateName",
-        type: {
-            name: "String"
-        }
-    }
+  parameterPath: "parameters",
+  mapper: ApiManagementServiceUpdateParametersMapper,
 };
 
 export const parameters40: OperationParameter = {
-    parameterPath: "parameters",
-    mapper: EmailTemplateUpdateParametersMapper
-};
-
-export const gatewayId: OperationURLParameter = {
-    parameterPath: "gatewayId",
-    mapper: {
-        constraints: {
-            MaxLength: 80,
-            MinLength: 1
-        },
-        serializedName: "gatewayId",
-        required: true,
-        xmlName: "gatewayId",
-        type: {
-            name: "String"
-        }
-    }
+  parameterPath: ["options", "parameters"],
+  mapper: MigrateToStv2ContractMapper,
 };
 
 export const parameters41: OperationParameter = {
-    parameterPath: "parameters",
-    mapper: GatewayContractMapper
+  parameterPath: "parameters",
+  mapper: ApiManagementServiceCheckNameAvailabilityParametersMapper,
 };
 
 export const parameters42: OperationParameter = {
-    parameterPath: "parameters",
-    mapper: GatewayKeyRegenerationRequestContractMapper
-};
-
-export const parameters43: OperationParameter = {
-    parameterPath: "parameters",
-    mapper: GatewayTokenRequestContractMapper
-};
-
-export const hcId: OperationURLParameter = {
-    parameterPath: "hcId",
-    mapper: {
-        constraints: {
-            MaxLength: 80,
-            MinLength: 1
-        },
-        serializedName: "hcId",
-        required: true,
-        xmlName: "hcId",
-        type: {
-            name: "String"
-        }
-    }
-};
-
-export const parameters44: OperationParameter = {
-    parameterPath: "parameters",
-    mapper: GatewayHostnameConfigurationContractMapper
-};
-
-export const parameters45: OperationParameter = {
-    parameterPath: ["options", "parameters"],
-    mapper: AssociationContractMapper
-};
-
-export const parameters46: OperationParameter = {
-    parameterPath: "parameters",
-    mapper: GatewayCertificateAuthorityContractMapper
-};
-
-export const groupId: OperationURLParameter = {
-    parameterPath: "groupId",
-    mapper: {
-        constraints: {
-            MaxLength: 256,
-            MinLength: 1
-        },
-        serializedName: "groupId",
-        required: true,
-        xmlName: "groupId",
-        type: {
-            name: "String"
-        }
-    }
-};
-
-export const parameters47: OperationParameter = {
-    parameterPath: "parameters",
-    mapper: GroupCreateParametersMapper
-};
-
-export const parameters48: OperationParameter = {
-    parameterPath: "parameters",
-    mapper: GroupUpdateParametersMapper
-};
-
-export const userId: OperationURLParameter = {
-    parameterPath: "userId",
-    mapper: {
-        constraints: {
-            MaxLength: 80,
-            MinLength: 1
-        },
-        serializedName: "userId",
-        required: true,
-        xmlName: "userId",
-        type: {
-            name: "String"
-        }
-    }
-};
-
-export const identityProviderName: OperationURLParameter = {
-    parameterPath: "identityProviderName",
-    mapper: {
-        serializedName: "identityProviderName",
-        required: true,
-        xmlName: "identityProviderName",
-        type: {
-            name: "String"
-        }
-    }
-};
-
-export const parameters49: OperationParameter = {
-    parameterPath: "parameters",
-    mapper: IdentityProviderCreateContractMapper
-};
-
-export const parameters50: OperationParameter = {
-    parameterPath: "parameters",
-    mapper: IdentityProviderUpdateParametersMapper
-};
-
-export const loggerId: OperationURLParameter = {
-    parameterPath: "loggerId",
-    mapper: {
-        constraints: {
-            Pattern: new RegExp("^[^*#&+:<>?]+$"),
-            MaxLength: 256
-        },
-        serializedName: "loggerId",
-        required: true,
-        xmlName: "loggerId",
-        type: {
-            name: "String"
-        }
-    }
-};
-
-export const parameters51: OperationParameter = {
-    parameterPath: "parameters",
-    mapper: LoggerContractMapper
-};
-
-export const parameters52: OperationParameter = {
-    parameterPath: "parameters",
-    mapper: LoggerUpdateContractMapper
-};
-
-export const namedValueId: OperationURLParameter = {
-    parameterPath: "namedValueId",
-    mapper: {
-        constraints: {
-            Pattern: new RegExp("^[^*#&+:<>?]+$"),
-            MaxLength: 256
-        },
-        serializedName: "namedValueId",
-        required: true,
-        xmlName: "namedValueId",
-        type: {
-            name: "String"
-        }
-    }
-};
-
-export const parameters53: OperationParameter = {
-    parameterPath: "parameters",
-    mapper: NamedValueCreateContractMapper
-};
-
-export const parameters54: OperationParameter = {
-    parameterPath: "parameters",
-    mapper: NamedValueUpdateParametersMapper
-};
-
-export const locationName: OperationURLParameter = {
-    parameterPath: "locationName",
-    mapper: {
-        constraints: {
-            MinLength: 1
-        },
-        serializedName: "locationName",
-        required: true,
-        xmlName: "locationName",
-        type: {
-            name: "String"
-        }
-    }
-};
-
-export const notificationName: OperationURLParameter = {
-    parameterPath: "notificationName",
-    mapper: {
-        serializedName: "notificationName",
-        required: true,
-        xmlName: "notificationName",
-        type: {
-            name: "String"
-        }
-    }
-};
-
-export const email: OperationURLParameter = {
-    parameterPath: "email",
-    mapper: {
-        serializedName: "email",
-        required: true,
-        xmlName: "email",
-        type: {
-            name: "String"
-        }
-    }
-};
-
-export const opid: OperationURLParameter = {
-    parameterPath: "opid",
-    mapper: {
-        constraints: {
-            Pattern: new RegExp("^[^*#&+:<>?]+$"),
-            MaxLength: 256
-        },
-        serializedName: "opid",
-        required: true,
-        xmlName: "opid",
-        type: {
-            name: "String"
-        }
-    }
-};
-
-export const parameters55: OperationParameter = {
-    parameterPath: "parameters",
-    mapper: OpenidConnectProviderContractMapper
-};
-
-export const parameters56: OperationParameter = {
-    parameterPath: "parameters",
-    mapper: OpenidConnectProviderUpdateContractMapper
-};
-
-export const scope1: OperationQueryParameter = {
-    parameterPath: ["options", "scope"],
-    mapper: {
-        serializedName: "scope",
-        xmlName: "scope",
-        type: {
-            name: "Enum",
-            allowedValues: ["Tenant", "Product", "Api", "Operation", "All"]
-        }
-    }
-};
-
-export const orderby: OperationQueryParameter = {
-    parameterPath: ["options", "orderby"],
-    mapper: {
-        serializedName: "$orderby",
-        xmlName: "$orderby",
-        type: {
-            name: "String"
-        }
-    }
-};
-
-export const id: OperationURLParameter = {
-    parameterPath: "id",
-    mapper: {
-        constraints: {
-            Pattern: new RegExp("(^[\\w]+$)|(^[\\w][\\w\\-]+[\\w]$)"),
-            MaxLength: 80,
-            MinLength: 1
-        },
-        serializedName: "id",
-        required: true,
-        xmlName: "id",
-        type: {
-            name: "String"
-        }
-    }
-};
-
-export const format2: OperationQueryParameter = {
-    parameterPath: ["options", "format"],
-    mapper: {
-        serializedName: "format",
-        xmlName: "format",
-        type: {
-            name: "String"
-        }
-    }
-};
-
-export const parameters57: OperationParameter = {
-    parameterPath: "parameters",
-    mapper: PolicyFragmentContractMapper
-};
-
-export const portalConfigId: OperationURLParameter = {
-    parameterPath: "portalConfigId",
-    mapper: {
-        constraints: {
-            MaxLength: 80,
-            MinLength: 1
-        },
-        serializedName: "portalConfigId",
-        required: true,
-        xmlName: "portalConfigId",
-        type: {
-            name: "String"
-        }
-    }
-};
-
-export const parameters58: OperationParameter = {
-    parameterPath: "parameters",
-    mapper: PortalConfigContractMapper
-};
-
-export const portalRevisionId: OperationURLParameter = {
-    parameterPath: "portalRevisionId",
-    mapper: {
-        constraints: {
-            MaxLength: 256,
-            MinLength: 1
-        },
-        serializedName: "portalRevisionId",
-        required: true,
-        xmlName: "portalRevisionId",
-        type: {
-            name: "String"
-        }
-    }
-};
-
-export const parameters59: OperationParameter = {
-    parameterPath: "parameters",
-    mapper: PortalRevisionContractMapper
-};
-
-export const parameters60: OperationParameter = {
-    parameterPath: "parameters",
-    mapper: PortalSigninSettingsMapper
-};
-
-export const parameters61: OperationParameter = {
-    parameterPath: "parameters",
-    mapper: PortalSignupSettingsMapper
-};
-
-export const parameters62: OperationParameter = {
-    parameterPath: "parameters",
-    mapper: PortalDelegationSettingsMapper
-};
-
-export const privateEndpointConnectionName: OperationURLParameter = {
-    parameterPath: "privateEndpointConnectionName",
-    mapper: {
-        serializedName: "privateEndpointConnectionName",
-        required: true,
-        xmlName: "privateEndpointConnectionName",
-        type: {
-            name: "String"
-        }
-    }
-};
-
-export const privateEndpointConnectionRequest: OperationParameter = {
-    parameterPath: "privateEndpointConnectionRequest",
-    mapper: PrivateEndpointConnectionRequestMapper
-};
-
-export const privateLinkSubResourceName: OperationURLParameter = {
-    parameterPath: "privateLinkSubResourceName",
-    mapper: {
-        serializedName: "privateLinkSubResourceName",
-        required: true,
-        xmlName: "privateLinkSubResourceName",
-        type: {
-            name: "String"
-        }
-    }
-};
-
-export const expandGroups: OperationQueryParameter = {
-    parameterPath: ["options", "expandGroups"],
-    mapper: {
-        serializedName: "expandGroups",
-        xmlName: "expandGroups",
-        type: {
-            name: "Boolean"
-        }
-    }
-};
-
-export const parameters63: OperationParameter = {
-    parameterPath: "parameters",
-    mapper: ProductContractMapper
-};
-
-export const parameters64: OperationParameter = {
-    parameterPath: "parameters",
-    mapper: ProductUpdateParametersMapper
-};
-
-export const deleteSubscriptions: OperationQueryParameter = {
-    parameterPath: ["options", "deleteSubscriptions"],
-    mapper: {
-        serializedName: "deleteSubscriptions",
-        xmlName: "deleteSubscriptions",
-        type: {
-            name: "Boolean"
-        }
-    }
-};
-
-export const includeNotTaggedProducts: OperationQueryParameter = {
-    parameterPath: ["options", "includeNotTaggedProducts"],
-    mapper: {
-        serializedName: "includeNotTaggedProducts",
-        xmlName: "includeNotTaggedProducts",
-        type: {
-            name: "Boolean"
-        }
-    }
-};
-
-export const quotaCounterKey: OperationURLParameter = {
-    parameterPath: "quotaCounterKey",
-    mapper: {
-        serializedName: "quotaCounterKey",
-        required: true,
-        xmlName: "quotaCounterKey",
-        type: {
-            name: "String"
-        }
-    }
-};
-
-export const parameters65: OperationParameter = {
-    parameterPath: "parameters",
-    mapper: QuotaCounterValueUpdateContractMapper
-};
-
-export const quotaPeriodKey: OperationURLParameter = {
-    parameterPath: "quotaPeriodKey",
-    mapper: {
-        serializedName: "quotaPeriodKey",
-        required: true,
-        xmlName: "quotaPeriodKey",
-        type: {
-            name: "String"
-        }
-    }
-};
-
-export const filter1: OperationQueryParameter = {
-    parameterPath: "filter",
-    mapper: {
-        serializedName: "$filter",
-        required: true,
-        xmlName: "$filter",
-        type: {
-            name: "String"
-        }
-    }
-};
-
-export const interval: OperationQueryParameter = {
-    parameterPath: "interval",
-    mapper: {
-        serializedName: "interval",
-        required: true,
-        xmlName: "interval",
-        type: {
-            name: "TimeSpan"
-        }
-    }
-};
-
-export const parameters66: OperationParameter = {
-    parameterPath: "parameters",
-    mapper: GlobalSchemaContractMapper
-};
-
-export const settingsType: OperationURLParameter = {
-    parameterPath: "settingsType",
-    mapper: {
-        serializedName: "settingsType",
-        required: true,
-        xmlName: "settingsType",
-        type: {
-            name: "String"
-        }
-    }
-};
-
-export const sid: OperationURLParameter = {
-    parameterPath: "sid",
-    mapper: {
-        constraints: {
-            Pattern: new RegExp("^[^*#&+:<>?]+$"),
-            MaxLength: 256
-        },
-        serializedName: "sid",
-        required: true,
-        xmlName: "sid",
-        type: {
-            name: "String"
-        }
-    }
-};
-
-export const parameters67: OperationParameter = {
-    parameterPath: "parameters",
-    mapper: SubscriptionCreateParametersMapper
-};
-
-export const notify: OperationQueryParameter = {
-    parameterPath: ["options", "notify"],
-    mapper: {
-        serializedName: "notify",
-        xmlName: "notify",
-        type: {
-            name: "Boolean"
-        }
-    }
-};
-
-export const appType: OperationQueryParameter = {
-    parameterPath: ["options", "appType"],
-    mapper: {
-        serializedName: "appType",
-        xmlName: "appType",
-        type: {
-            name: "String"
-        }
-    }
-};
-
-export const parameters68: OperationParameter = {
-    parameterPath: "parameters",
-    mapper: SubscriptionUpdateParametersMapper
-};
-
-export const accessName: OperationURLParameter = {
-    parameterPath: "accessName",
-    mapper: {
-        serializedName: "accessName",
-        required: true,
-        xmlName: "accessName",
-        type: {
-            name: "String"
-        }
-    }
-};
-
-export const parameters69: OperationParameter = {
-    parameterPath: "parameters",
-    mapper: AccessInformationCreateParametersMapper
-};
-
-export const parameters70: OperationParameter = {
-    parameterPath: "parameters",
-    mapper: AccessInformationUpdateParametersMapper
-};
-
-export const parameters71: OperationParameter = {
-    parameterPath: "parameters",
-    mapper: DeployConfigurationParametersMapper
-};
-
-export const configurationName: OperationURLParameter = {
-    parameterPath: "configurationName",
-    mapper: {
-        serializedName: "configurationName",
-        required: true,
-        xmlName: "configurationName",
-        type: {
-            name: "String"
-        }
-    }
-};
-
-export const parameters72: OperationParameter = {
-    parameterPath: "parameters",
-    mapper: SaveConfigurationParameterMapper
-};
-
-export const parameters73: OperationParameter = {
-    parameterPath: "parameters",
-    mapper: UserCreateParametersMapper
-};
-
-export const parameters74: OperationParameter = {
-    parameterPath: "parameters",
-    mapper: UserUpdateParametersMapper
-};
-
-export const parameters75: OperationParameter = {
-    parameterPath: "parameters",
-    mapper: UserTokenParametersMapper
+  parameterPath: ["options", "parameters"],
+  mapper: ApiManagementServiceApplyNetworkConfigurationParametersMapper,
 };
 
 export const documentationId: OperationURLParameter = {
-    parameterPath: "documentationId",
-    mapper: {
-        constraints: {
-            Pattern: new RegExp("^[^*#&+:<>?]+$"),
-            MaxLength: 256,
-            MinLength: 1
-        },
-        serializedName: "documentationId",
-        required: true,
-        xmlName: "documentationId",
-        type: {
-            name: "String"
-        }
-    }
+  parameterPath: "documentationId",
+  mapper: {
+    constraints: {
+      Pattern: new RegExp("^[^*#&+:<>?]+$"),
+      MaxLength: 256,
+      MinLength: 1,
+    },
+    serializedName: "documentationId",
+    required: true,
+    xmlName: "documentationId",
+    type: {
+      name: "String",
+    },
+  },
+};
+
+export const parameters43: OperationParameter = {
+  parameterPath: "parameters",
+  mapper: DocumentationContractMapper,
+};
+
+export const parameters44: OperationParameter = {
+  parameterPath: "parameters",
+  mapper: DocumentationUpdateContractMapper,
+};
+
+export const templateName: OperationURLParameter = {
+  parameterPath: "templateName",
+  mapper: {
+    serializedName: "templateName",
+    required: true,
+    xmlName: "templateName",
+    type: {
+      name: "String",
+    },
+  },
+};
+
+export const parameters45: OperationParameter = {
+  parameterPath: "parameters",
+  mapper: EmailTemplateUpdateParametersMapper,
+};
+
+export const configConnectionName: OperationURLParameter = {
+  parameterPath: "configConnectionName",
+  mapper: {
+    constraints: {
+      Pattern: new RegExp("^[a-zA-Z](?:[a-zA-Z0-9-]*[a-zA-Z0-9])?$"),
+      MaxLength: 30,
+      MinLength: 1,
+    },
+    serializedName: "configConnectionName",
+    required: true,
+    xmlName: "configConnectionName",
+    type: {
+      name: "String",
+    },
+  },
+};
+
+export const parameters46: OperationParameter = {
+  parameterPath: "parameters",
+  mapper: ApiManagementGatewayConfigConnectionResourceMapper,
+};
+
+export const gatewayId: OperationURLParameter = {
+  parameterPath: "gatewayId",
+  mapper: {
+    constraints: {
+      MaxLength: 80,
+      MinLength: 1,
+    },
+    serializedName: "gatewayId",
+    required: true,
+    xmlName: "gatewayId",
+    type: {
+      name: "String",
+    },
+  },
+};
+
+export const parameters47: OperationParameter = {
+  parameterPath: "parameters",
+  mapper: GatewayContractMapper,
+};
+
+export const parameters48: OperationParameter = {
+  parameterPath: "parameters",
+  mapper: GatewayKeyRegenerationRequestContractMapper,
+};
+
+export const parameters49: OperationParameter = {
+  parameterPath: "parameters",
+  mapper: GatewayTokenRequestContractMapper,
+};
+
+export const parameters50: OperationParameter = {
+  parameterPath: "parameters",
+  mapper: GatewayListDebugCredentialsContractMapper,
+};
+
+export const parameters51: OperationParameter = {
+  parameterPath: "parameters",
+  mapper: GatewayListTraceContractMapper,
+};
+
+export const hcId: OperationURLParameter = {
+  parameterPath: "hcId",
+  mapper: {
+    constraints: {
+      MaxLength: 80,
+      MinLength: 1,
+    },
+    serializedName: "hcId",
+    required: true,
+    xmlName: "hcId",
+    type: {
+      name: "String",
+    },
+  },
+};
+
+export const parameters52: OperationParameter = {
+  parameterPath: "parameters",
+  mapper: GatewayHostnameConfigurationContractMapper,
+};
+
+export const parameters53: OperationParameter = {
+  parameterPath: ["options", "parameters"],
+  mapper: AssociationContractMapper,
+};
+
+export const parameters54: OperationParameter = {
+  parameterPath: "parameters",
+  mapper: GatewayCertificateAuthorityContractMapper,
+};
+
+export const groupId: OperationURLParameter = {
+  parameterPath: "groupId",
+  mapper: {
+    constraints: {
+      MaxLength: 256,
+      MinLength: 1,
+    },
+    serializedName: "groupId",
+    required: true,
+    xmlName: "groupId",
+    type: {
+      name: "String",
+    },
+  },
+};
+
+export const parameters55: OperationParameter = {
+  parameterPath: "parameters",
+  mapper: GroupCreateParametersMapper,
+};
+
+export const parameters56: OperationParameter = {
+  parameterPath: "parameters",
+  mapper: GroupUpdateParametersMapper,
+};
+
+export const userId: OperationURLParameter = {
+  parameterPath: "userId",
+  mapper: {
+    constraints: {
+      MaxLength: 80,
+      MinLength: 1,
+    },
+    serializedName: "userId",
+    required: true,
+    xmlName: "userId",
+    type: {
+      name: "String",
+    },
+  },
+};
+
+export const identityProviderName: OperationURLParameter = {
+  parameterPath: "identityProviderName",
+  mapper: {
+    serializedName: "identityProviderName",
+    required: true,
+    xmlName: "identityProviderName",
+    type: {
+      name: "String",
+    },
+  },
+};
+
+export const parameters57: OperationParameter = {
+  parameterPath: "parameters",
+  mapper: IdentityProviderCreateContractMapper,
+};
+
+export const parameters58: OperationParameter = {
+  parameterPath: "parameters",
+  mapper: IdentityProviderUpdateParametersMapper,
+};
+
+export const loggerId: OperationURLParameter = {
+  parameterPath: "loggerId",
+  mapper: {
+    constraints: {
+      Pattern: new RegExp("^[^*#&+:<>?]+$"),
+      MaxLength: 256,
+    },
+    serializedName: "loggerId",
+    required: true,
+    xmlName: "loggerId",
+    type: {
+      name: "String",
+    },
+  },
+};
+
+export const parameters59: OperationParameter = {
+  parameterPath: "parameters",
+  mapper: LoggerContractMapper,
+};
+
+export const parameters60: OperationParameter = {
+  parameterPath: "parameters",
+  mapper: LoggerUpdateContractMapper,
+};
+
+export const namedValueId: OperationURLParameter = {
+  parameterPath: "namedValueId",
+  mapper: {
+    constraints: {
+      Pattern: new RegExp("^[^*#&+:<>?]+$"),
+      MaxLength: 256,
+    },
+    serializedName: "namedValueId",
+    required: true,
+    xmlName: "namedValueId",
+    type: {
+      name: "String",
+    },
+  },
+};
+
+export const parameters61: OperationParameter = {
+  parameterPath: "parameters",
+  mapper: NamedValueCreateContractMapper,
+};
+
+export const parameters62: OperationParameter = {
+  parameterPath: "parameters",
+  mapper: NamedValueUpdateParametersMapper,
+};
+
+export const locationName: OperationURLParameter = {
+  parameterPath: "locationName",
+  mapper: {
+    constraints: {
+      MinLength: 1,
+    },
+    serializedName: "locationName",
+    required: true,
+    xmlName: "locationName",
+    type: {
+      name: "String",
+    },
+  },
+};
+
+export const notificationName: OperationURLParameter = {
+  parameterPath: "notificationName",
+  mapper: {
+    serializedName: "notificationName",
+    required: true,
+    xmlName: "notificationName",
+    type: {
+      name: "String",
+    },
+  },
+};
+
+export const email: OperationURLParameter = {
+  parameterPath: "email",
+  mapper: {
+    serializedName: "email",
+    required: true,
+    xmlName: "email",
+    type: {
+      name: "String",
+    },
+  },
+};
+
+export const opid: OperationURLParameter = {
+  parameterPath: "opid",
+  mapper: {
+    constraints: {
+      Pattern: new RegExp("^[^*#&+:<>?]+$"),
+      MaxLength: 256,
+    },
+    serializedName: "opid",
+    required: true,
+    xmlName: "opid",
+    type: {
+      name: "String",
+    },
+  },
+};
+
+export const parameters63: OperationParameter = {
+  parameterPath: "parameters",
+  mapper: OpenidConnectProviderContractMapper,
+};
+
+export const parameters64: OperationParameter = {
+  parameterPath: "parameters",
+  mapper: OpenidConnectProviderUpdateContractMapper,
+};
+
+export const scope1: OperationQueryParameter = {
+  parameterPath: ["options", "scope"],
+  mapper: {
+    serializedName: "scope",
+    xmlName: "scope",
+    type: {
+      name: "Enum",
+      allowedValues: ["Tenant", "Product", "Api", "Operation", "All"],
+    },
+  },
+};
+
+export const orderby: OperationQueryParameter = {
+  parameterPath: ["options", "orderby"],
+  mapper: {
+    serializedName: "$orderby",
+    xmlName: "$orderby",
+    type: {
+      name: "String",
+    },
+  },
+};
+
+export const id: OperationURLParameter = {
+  parameterPath: "id",
+  mapper: {
+    constraints: {
+      Pattern: new RegExp("(^[\\w]+$)|(^[\\w][\\w\\-]+[\\w]$)"),
+      MaxLength: 80,
+      MinLength: 1,
+    },
+    serializedName: "id",
+    required: true,
+    xmlName: "id",
+    type: {
+      name: "String",
+    },
+  },
+};
+
+export const format2: OperationQueryParameter = {
+  parameterPath: ["options", "format"],
+  mapper: {
+    serializedName: "format",
+    xmlName: "format",
+    type: {
+      name: "String",
+    },
+  },
+};
+
+export const parameters65: OperationParameter = {
+  parameterPath: "parameters",
+  mapper: PolicyFragmentContractMapper,
+};
+
+export const policyRestrictionId: OperationURLParameter = {
+  parameterPath: "policyRestrictionId",
+  mapper: {
+    constraints: {
+      MaxLength: 80,
+      MinLength: 1,
+    },
+    serializedName: "policyRestrictionId",
+    required: true,
+    xmlName: "policyRestrictionId",
+    type: {
+      name: "String",
+    },
+  },
+};
+
+export const parameters66: OperationParameter = {
+  parameterPath: "parameters",
+  mapper: PolicyRestrictionContractMapper,
+};
+
+export const parameters67: OperationParameter = {
+  parameterPath: "parameters",
+  mapper: PolicyRestrictionUpdateContractMapper,
+};
+
+export const portalConfigId: OperationURLParameter = {
+  parameterPath: "portalConfigId",
+  mapper: {
+    constraints: {
+      MaxLength: 80,
+      MinLength: 1,
+    },
+    serializedName: "portalConfigId",
+    required: true,
+    xmlName: "portalConfigId",
+    type: {
+      name: "String",
+    },
+  },
+};
+
+export const parameters68: OperationParameter = {
+  parameterPath: "parameters",
+  mapper: PortalConfigContractMapper,
+};
+
+export const portalRevisionId: OperationURLParameter = {
+  parameterPath: "portalRevisionId",
+  mapper: {
+    constraints: {
+      MaxLength: 256,
+      MinLength: 1,
+    },
+    serializedName: "portalRevisionId",
+    required: true,
+    xmlName: "portalRevisionId",
+    type: {
+      name: "String",
+    },
+  },
+};
+
+export const parameters69: OperationParameter = {
+  parameterPath: "parameters",
+  mapper: PortalRevisionContractMapper,
+};
+
+export const parameters70: OperationParameter = {
+  parameterPath: "parameters",
+  mapper: PortalSigninSettingsMapper,
+};
+
+export const parameters71: OperationParameter = {
+  parameterPath: "parameters",
+  mapper: PortalSignupSettingsMapper,
+};
+
+export const parameters72: OperationParameter = {
+  parameterPath: "parameters",
+  mapper: PortalDelegationSettingsMapper,
+};
+
+export const privateEndpointConnectionName: OperationURLParameter = {
+  parameterPath: "privateEndpointConnectionName",
+  mapper: {
+    serializedName: "privateEndpointConnectionName",
+    required: true,
+    xmlName: "privateEndpointConnectionName",
+    type: {
+      name: "String",
+    },
+  },
+};
+
+export const privateEndpointConnectionRequest: OperationParameter = {
+  parameterPath: "privateEndpointConnectionRequest",
+  mapper: PrivateEndpointConnectionRequestMapper,
+};
+
+export const privateLinkSubResourceName: OperationURLParameter = {
+  parameterPath: "privateLinkSubResourceName",
+  mapper: {
+    serializedName: "privateLinkSubResourceName",
+    required: true,
+    xmlName: "privateLinkSubResourceName",
+    type: {
+      name: "String",
+    },
+  },
+};
+
+export const expandGroups: OperationQueryParameter = {
+  parameterPath: ["options", "expandGroups"],
+  mapper: {
+    serializedName: "expandGroups",
+    xmlName: "expandGroups",
+    type: {
+      name: "Boolean",
+    },
+  },
+};
+
+export const parameters73: OperationParameter = {
+  parameterPath: "parameters",
+  mapper: ProductContractMapper,
+};
+
+export const parameters74: OperationParameter = {
+  parameterPath: "parameters",
+  mapper: ProductUpdateParametersMapper,
+};
+
+export const deleteSubscriptions: OperationQueryParameter = {
+  parameterPath: ["options", "deleteSubscriptions"],
+  mapper: {
+    serializedName: "deleteSubscriptions",
+    xmlName: "deleteSubscriptions",
+    type: {
+      name: "Boolean",
+    },
+  },
+};
+
+export const includeNotTaggedProducts: OperationQueryParameter = {
+  parameterPath: ["options", "includeNotTaggedProducts"],
+  mapper: {
+    serializedName: "includeNotTaggedProducts",
+    xmlName: "includeNotTaggedProducts",
+    type: {
+      name: "Boolean",
+    },
+  },
+};
+
+export const apiLinkId: OperationURLParameter = {
+  parameterPath: "apiLinkId",
+  mapper: {
+    constraints: {
+      Pattern: new RegExp("^[^*#&+:<>?]+$"),
+      MaxLength: 80,
+      MinLength: 1,
+    },
+    serializedName: "apiLinkId",
+    required: true,
+    xmlName: "apiLinkId",
+    type: {
+      name: "String",
+    },
+  },
+};
+
+export const parameters75: OperationParameter = {
+  parameterPath: "parameters",
+  mapper: ProductApiLinkContractMapper,
+};
+
+export const groupLinkId: OperationURLParameter = {
+  parameterPath: "groupLinkId",
+  mapper: {
+    constraints: {
+      Pattern: new RegExp("^[^*#&+:<>?]+$"),
+      MaxLength: 80,
+      MinLength: 1,
+    },
+    serializedName: "groupLinkId",
+    required: true,
+    xmlName: "groupLinkId",
+    type: {
+      name: "String",
+    },
+  },
 };
 
 export const parameters76: OperationParameter = {
-    parameterPath: "parameters",
-    mapper: DocumentationContractMapper
+  parameterPath: "parameters",
+  mapper: ProductGroupLinkContractMapper,
+};
+
+export const quotaCounterKey: OperationURLParameter = {
+  parameterPath: "quotaCounterKey",
+  mapper: {
+    serializedName: "quotaCounterKey",
+    required: true,
+    xmlName: "quotaCounterKey",
+    type: {
+      name: "String",
+    },
+  },
 };
 
 export const parameters77: OperationParameter = {
-    parameterPath: "parameters",
-    mapper: DocumentationUpdateContractMapper
+  parameterPath: "parameters",
+  mapper: QuotaCounterValueUpdateContractMapper,
+};
+
+export const quotaPeriodKey: OperationURLParameter = {
+  parameterPath: "quotaPeriodKey",
+  mapper: {
+    serializedName: "quotaPeriodKey",
+    required: true,
+    xmlName: "quotaPeriodKey",
+    type: {
+      name: "String",
+    },
+  },
+};
+
+export const filter1: OperationQueryParameter = {
+  parameterPath: "filter",
+  mapper: {
+    serializedName: "$filter",
+    required: true,
+    xmlName: "$filter",
+    type: {
+      name: "String",
+    },
+  },
+};
+
+export const interval: OperationQueryParameter = {
+  parameterPath: "interval",
+  mapper: {
+    serializedName: "interval",
+    required: true,
+    xmlName: "interval",
+    type: {
+      name: "TimeSpan",
+    },
+  },
+};
+
+export const parameters78: OperationParameter = {
+  parameterPath: "parameters",
+  mapper: GlobalSchemaContractMapper,
+};
+
+export const settingsType: OperationURLParameter = {
+  parameterPath: "settingsType",
+  mapper: {
+    serializedName: "settingsType",
+    required: true,
+    xmlName: "settingsType",
+    type: {
+      name: "String",
+    },
+  },
+};
+
+export const sid: OperationURLParameter = {
+  parameterPath: "sid",
+  mapper: {
+    constraints: {
+      Pattern: new RegExp("^[^*#&+:<>?]+$"),
+      MaxLength: 256,
+    },
+    serializedName: "sid",
+    required: true,
+    xmlName: "sid",
+    type: {
+      name: "String",
+    },
+  },
+};
+
+export const parameters79: OperationParameter = {
+  parameterPath: "parameters",
+  mapper: SubscriptionCreateParametersMapper,
+};
+
+export const notify: OperationQueryParameter = {
+  parameterPath: ["options", "notify"],
+  mapper: {
+    serializedName: "notify",
+    xmlName: "notify",
+    type: {
+      name: "Boolean",
+    },
+  },
+};
+
+export const appType: OperationQueryParameter = {
+  parameterPath: ["options", "appType"],
+  mapper: {
+    serializedName: "appType",
+    xmlName: "appType",
+    type: {
+      name: "String",
+    },
+  },
+};
+
+export const parameters80: OperationParameter = {
+  parameterPath: "parameters",
+  mapper: SubscriptionUpdateParametersMapper,
+};
+
+export const parameters81: OperationParameter = {
+  parameterPath: "parameters",
+  mapper: TagApiLinkContractMapper,
+};
+
+export const operationLinkId: OperationURLParameter = {
+  parameterPath: "operationLinkId",
+  mapper: {
+    constraints: {
+      Pattern: new RegExp("^[^*#&+:<>?]+$"),
+      MaxLength: 80,
+      MinLength: 1,
+    },
+    serializedName: "operationLinkId",
+    required: true,
+    xmlName: "operationLinkId",
+    type: {
+      name: "String",
+    },
+  },
+};
+
+export const parameters82: OperationParameter = {
+  parameterPath: "parameters",
+  mapper: TagOperationLinkContractMapper,
+};
+
+export const productLinkId: OperationURLParameter = {
+  parameterPath: "productLinkId",
+  mapper: {
+    constraints: {
+      Pattern: new RegExp("^[^*#&+:<>?]+$"),
+      MaxLength: 80,
+      MinLength: 1,
+    },
+    serializedName: "productLinkId",
+    required: true,
+    xmlName: "productLinkId",
+    type: {
+      name: "String",
+    },
+  },
+};
+
+export const parameters83: OperationParameter = {
+  parameterPath: "parameters",
+  mapper: TagProductLinkContractMapper,
+};
+
+export const accessName: OperationURLParameter = {
+  parameterPath: "accessName",
+  mapper: {
+    serializedName: "accessName",
+    required: true,
+    xmlName: "accessName",
+    type: {
+      name: "String",
+    },
+  },
+};
+
+export const parameters84: OperationParameter = {
+  parameterPath: "parameters",
+  mapper: AccessInformationCreateParametersMapper,
+};
+
+export const parameters85: OperationParameter = {
+  parameterPath: "parameters",
+  mapper: AccessInformationUpdateParametersMapper,
+};
+
+export const parameters86: OperationParameter = {
+  parameterPath: "parameters",
+  mapper: DeployConfigurationParametersMapper,
+};
+
+export const configurationName: OperationURLParameter = {
+  parameterPath: "configurationName",
+  mapper: {
+    serializedName: "configurationName",
+    required: true,
+    xmlName: "configurationName",
+    type: {
+      name: "String",
+    },
+  },
+};
+
+export const parameters87: OperationParameter = {
+  parameterPath: "parameters",
+  mapper: SaveConfigurationParameterMapper,
+};
+
+export const parameters88: OperationParameter = {
+  parameterPath: "parameters",
+  mapper: UserCreateParametersMapper,
+};
+
+export const parameters89: OperationParameter = {
+  parameterPath: "parameters",
+  mapper: UserUpdateParametersMapper,
+};
+
+export const parameters90: OperationParameter = {
+  parameterPath: "parameters",
+  mapper: UserTokenParametersMapper,
+};
+
+export const workspaceId: OperationURLParameter = {
+  parameterPath: "workspaceId",
+  mapper: {
+    constraints: {
+      Pattern: new RegExp("^[^*#&+:<>?]+$"),
+      MaxLength: 80,
+      MinLength: 1,
+    },
+    serializedName: "workspaceId",
+    required: true,
+    xmlName: "workspaceId",
+    type: {
+      name: "String",
+    },
+  },
+};
+
+export const parameters91: OperationParameter = {
+  parameterPath: "parameters",
+  mapper: DiagnosticUpdateContractMapper,
+};
+
+export const parameters92: OperationParameter = {
+  parameterPath: "parameters",
+  mapper: WorkspaceContractMapper,
+};
+
+export const isKeyVaultRefreshFailed1: OperationQueryParameter = {
+  parameterPath: ["options", "isKeyVaultRefreshFailed"],
+  mapper: {
+    serializedName: "isKeyVaultRefreshFailed",
+    xmlName: "isKeyVaultRefreshFailed",
+    type: {
+      name: "String",
+    },
+  },
+};
+
+export const location1: OperationURLParameter = {
+  parameterPath: "location",
+  mapper: {
+    constraints: {
+      MinLength: 1,
+    },
+    serializedName: "location",
+    required: true,
+    xmlName: "location",
+    type: {
+      name: "String",
+    },
+  },
+};
+
+export const operationId1: OperationURLParameter = {
+  parameterPath: "operationId",
+  mapper: {
+    constraints: {
+      MinLength: 1,
+    },
+    serializedName: "operationId",
+    required: true,
+    xmlName: "operationId",
+    type: {
+      name: "String",
+    },
+  },
 };

@@ -1,4 +1,7 @@
-# Azure Identity Plugin for Visual Studio Code Authentication
+# Deprecated. Azure Identity Plugin for Visual Studio Code Authentication
+ 
+**Deprecation notice ⚠️**:  This package has been deprecated, as the `VisualStudioCodeCredential` credential in `@azure/identity` is deprecated. This is because the VS Code Azure Account extension on which this credential relies has been deprecated. Users should use other dev-time credentials, such as `AzureCliCredential`, `AzureDeveloperCliCredential`, or `AzurePowerShellCredential` for their local development needs. See Azure Account extension deprecation notice [here](https://github.com/microsoft/vscode-azure-account/issues/964).
+
 
 This package provides a plugin to the Azure Identity library for JavaScript ([`@azure/identity`](https://npmjs.com/package/@azure/identity)) that enables authentication through the "Azure Account" extension for Visual Studio Code. This plugin provides the dependencies of the `VisualStudioCodeCredential` in `@azure/identity` and enables it for use on its own or as part of `DefaultAzureCredential`.
 

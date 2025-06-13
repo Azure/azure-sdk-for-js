@@ -1,16 +1,16 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import type { RetryPolicy } from "./RetryPolicy";
-import { StatusCodes } from "../common/statusCodes";
-import type { GlobalEndpointManager } from "../globalEndpointManager";
-import { HTTPMethod, isReadRequest } from "../common";
-import type { OperationType, ResourceType } from "../common/constants";
-import { Constants } from "../common/constants";
-import type { RetryContext } from "./RetryContext";
-import type { CosmosHeaders } from "../queryExecutionContext/CosmosHeaders";
-import { TimeoutErrorCode } from "../request/TimeoutError";
-import type { ErrorResponse } from "../request";
-import type { DiagnosticNodeInternal } from "../diagnostics/DiagnosticNodeInternal";
+import type { RetryPolicy } from "./RetryPolicy.js";
+import { StatusCodes } from "../common/statusCodes.js";
+import type { GlobalEndpointManager } from "../globalEndpointManager.js";
+import { HTTPMethod, isReadRequest } from "../common/index.js";
+import type { OperationType, ResourceType } from "../common/constants.js";
+import { Constants } from "../common/constants.js";
+import type { RetryContext } from "./RetryContext.js";
+import type { CosmosHeaders } from "../queryExecutionContext/CosmosHeaders.js";
+import { TimeoutErrorCode } from "../request/TimeoutError.js";
+import type { ErrorResponse } from "../request/index.js";
+import type { DiagnosticNodeInternal } from "../diagnostics/DiagnosticNodeInternal.js";
 
 /**
  * This class TimeoutFailoverRetryPolicy handles retries for read operations

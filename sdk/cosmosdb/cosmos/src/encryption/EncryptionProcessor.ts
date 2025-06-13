@@ -1,16 +1,16 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { EncryptionSettings } from "./EncryptionSettings";
-import type { EncryptionSettingForProperty } from "./EncryptionSettingForProperty";
-import type { AeadAes256CbcHmacSha256Algorithm } from "./AeadAes256CbcHmacSha256Algorithm";
-import type { ContainerDefinition, Database, ItemDefinition } from "../client";
-import type { PartitionKeyInternal } from "../documents";
-import type { TypeMarker } from "./enums/TypeMarker";
-import type { ClientContext } from "../ClientContext";
-import type { ClientEncryptionKeyRequest } from "./ClientEncryptionKey";
-import type { ClientEncryptionKeyProperties } from "./ClientEncryptionKey";
-import type { DiagnosticNodeInternal } from "../diagnostics/DiagnosticNodeInternal";
+import type { EncryptionSettings } from "./EncryptionSettings.js";
+import type { EncryptionSettingForProperty } from "./EncryptionSettingForProperty.js";
+import type { AeadAes256CbcHmacSha256Algorithm } from "./AeadAes256CbcHmacSha256Algorithm/index.js";
+import type { ContainerDefinition, Database, ItemDefinition } from "../client/index.js";
+import type { PartitionKeyInternal } from "../documents/index.js";
+import type { TypeMarker } from "./enums/TypeMarker.js";
+import type { ClientContext } from "../ClientContext.js";
+import type { ClientEncryptionKeyRequest } from "./ClientEncryptionKey/index.js";
+import type { ClientEncryptionKeyProperties } from "./ClientEncryptionKey/index.js";
+import type { DiagnosticNodeInternal } from "../diagnostics/DiagnosticNodeInternal.js";
 import {
   Constants,
   ResourceType,
@@ -18,12 +18,12 @@ import {
   createDeserializer,
   createSerializer,
   extractPath,
-} from "../common";
-import type { RequestOptions } from "../request";
-import { ErrorResponse } from "../request";
-import { withDiagnostics } from "../utils/diagnostics";
-import type { EncryptionManager } from "./EncryptionManager";
-import type { JSONValue } from "../queryExecutionContext";
+} from "../common/index.js";
+import type { RequestOptions } from "../request/index.js";
+import { ErrorResponse } from "../request/index.js";
+import { withDiagnostics } from "../utils/diagnostics.js";
+import type { EncryptionManager } from "./EncryptionManager.js";
+import type { JSONValue } from "../queryExecutionContext/index.js";
 
 export class EncryptionProcessor {
   constructor(
@@ -410,7 +410,9 @@ export class EncryptionProcessor {
       const clientEncryptionKeyProperties: ClientEncryptionKeyProperties = {
         id: response.result.id,
         encryptionAlgorithm: response.result.encryptionAlgorithm,
-        wrappedDataEncryptionKey: Buffer.from(response.result.wrappedDataEncryptionKey, "base64"),
+        wrappedDataEncryptionKey: new Uint8Array(
+          Buffer.from(response.result.wrappedDataEncryptionKey, "base64"),
+        ),
         encryptionKeyWrapMetadata: response.result.keyWrapMetadata,
         etag: response.result._etag,
       };

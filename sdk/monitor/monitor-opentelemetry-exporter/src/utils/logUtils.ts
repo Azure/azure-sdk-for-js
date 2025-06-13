@@ -12,7 +12,12 @@ import type {
   TelemetryExceptionDetails,
 } from "../generated/index.js";
 import { KnownContextTagKeys, KnownSeverityLevel } from "../generated/index.js";
-import { createTagsFromResource, hrTimeToDate, serializeAttribute } from "./common.js";
+import {
+  createTagsFromResource,
+  hrTimeToDate,
+  isSyntheticSource,
+  serializeAttribute,
+} from "./common.js";
 import type { ReadableLogRecord } from "@opentelemetry/sdk-logs";
 import {
   ATTR_EXCEPTION_MESSAGE,
@@ -20,7 +25,8 @@ import {
   ATTR_EXCEPTION_TYPE,
 } from "@opentelemetry/semantic-conventions";
 import type { Measurements, Properties, Tags } from "../types.js";
-import { MaxPropertyLengths } from "../types.js";
+import { httpSemanticValues, legacySemanticValues, MaxPropertyLengths } from "../types.js";
+import type { Attributes } from "@opentelemetry/api";
 import { diag } from "@opentelemetry/api";
 import {
   ApplicationInsightsAvailabilityBaseType,
@@ -36,6 +42,7 @@ import {
   ApplicationInsightsPageViewBaseType,
   ApplicationInsightsPageViewName,
 } from "./constants/applicationinsights.js";
+import { getLocationIp } from "./spanUtils.js";
 
 /**
  * Log to Azure envelope parsing.
@@ -144,6 +151,10 @@ function createTagsFromLog(log: ReadableLogRecord): Tags {
       KnownContextTagKeys.AiOperationName
     ] as string;
   }
+  if (isSyntheticSource(log.attributes as Attributes)) {
+    tags[KnownContextTagKeys.AiOperationSyntheticSource] = "True";
+  }
+  getLocationIp(tags, log.attributes as Attributes);
   return tags;
 }
 
@@ -157,9 +168,8 @@ function createPropertiesFromLog(log: ReadableLogRecord): [Properties, Measureme
         !(
           key.startsWith("_MS.") ||
           key.startsWith("microsoft") ||
-          key === ATTR_EXCEPTION_TYPE ||
-          key === ATTR_EXCEPTION_MESSAGE ||
-          key === ATTR_EXCEPTION_STACKTRACE ||
+          legacySemanticValues.includes(key) ||
+          httpSemanticValues.includes(key as any) ||
           key === (KnownContextTagKeys.AiOperationName as string)
         )
       ) {

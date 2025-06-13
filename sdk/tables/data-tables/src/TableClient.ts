@@ -170,10 +170,6 @@ export class TableClient {
    * import { DefaultAzureCredential } from "@azure/identity";
    * import { TableClient } from "@azure/data-tables";
    *
-   * // DefaultAzureCredential expects the following three environment variables:
-   * // - AZURE_TENANT_ID: The tenant ID in Azure Active Directory
-   * // - AZURE_CLIENT_ID: The application (client) ID registered in the AAD tenant
-   * // - AZURE_CLIENT_SECRET: The client secret for the registered application
    * const credential = new DefaultAzureCredential();
    * const account = "<account name>";
    * const tableName = "<tableName>";
@@ -279,13 +275,14 @@ export class TableClient {
    *
    * ### Example deleting a table
    * ```ts snippet:ReadmeSampleDeleteTable
-   * import { AzureNamedKeyCredential, TableClient } from "@azure/data-tables";
+   * import { DefaultAzureCredential } from "@azure/identity";
+   * import { TableClient } from "@azure/data-tables";
    *
    * const account = "<account>";
    * const accountKey = "<accountkey>";
    * const tableName = "<tableName>";
    *
-   * const credential = new AzureNamedKeyCredential(account, accountKey);
+   * const credential = new DefaultAzureCredential();
    * const client = new TableClient(`https://${account}.table.core.windows.net`, tableName, credential);
    *
    * await client.deleteTable();
@@ -311,13 +308,14 @@ export class TableClient {
    *
    * ### Example creating a table
    * ```ts snippet:ReadmeSampleTableClientCreateTable
-   * import { AzureNamedKeyCredential, TableClient } from "@azure/data-tables";
+   * import { DefaultAzureCredential } from "@azure/identity";
+   * import { TableClient } from "@azure/data-tables";
    *
    * const account = "<account>";
    * const accountKey = "<accountkey>";
    * const tableName = "<tableName>";
    *
-   * const credential = new AzureNamedKeyCredential(account, accountKey);
+   * const credential = new DefaultAzureCredential();
    * const client = new TableClient(`https://${account}.table.core.windows.net`, tableName, credential);
    *
    * // If the table 'newTable' already exists, createTable doesn't throw
@@ -342,13 +340,14 @@ export class TableClient {
    *
    * ### Example getting an entity
    * ```ts snippet:ReadmeSampleGetEntity
-   * import { AzureNamedKeyCredential, TableClient } from "@azure/data-tables";
+   * import { DefaultAzureCredential } from "@azure/identity";
+   * import { TableClient } from "@azure/data-tables";
    *
    * const account = "<account>";
    * const accountKey = "<accountkey>";
    * const tableName = "<tableName>";
    *
-   * const credential = new AzureNamedKeyCredential(account, accountKey);
+   * const credential = new DefaultAzureCredential();
    * const client = new TableClient(`https://${account}.table.core.windows.net`, tableName, credential);
    *
    * const entity = await client.getEntity("<partitionKey>", "<rowKey>");
@@ -361,6 +360,12 @@ export class TableClient {
     // eslint-disable-next-line @azure/azure-sdk/ts-naming-options
     options: GetTableEntityOptions = {},
   ): Promise<GetTableEntityResponse<TableEntityResult<T>>> {
+    if (partitionKey === undefined || partitionKey === null) {
+      throw new Error("The entity's partitionKey cannot be undefined or null.");
+    }
+    if (rowKey === undefined || rowKey === null) {
+      throw new Error("The entity's rowKey cannot be undefined or null.");
+    }
     return tracingClient.withSpan("TableClient.getEntity", options, async (updatedOptions) => {
       let parsedBody: any;
       function onResponse(rawResponse: FullOperationResponse, flatResponse: unknown): void {
@@ -395,13 +400,14 @@ export class TableClient {
    *
    * Example listing entities
    * ```ts snippet:ReadmeSampleListEntities
-   * import { AzureNamedKeyCredential, TableClient } from "@azure/data-tables";
+   * import { DefaultAzureCredential } from "@azure/identity";
+   * import { TableClient } from "@azure/data-tables";
    *
    * const account = "<account>";
    * const accountKey = "<accountkey>";
    * const tableName = "<tableName>";
    *
-   * const credential = new AzureNamedKeyCredential(account, accountKey);
+   * const credential = new DefaultAzureCredential();
    * const client = new TableClient(`https://${account}.table.core.windows.net`, tableName, credential);
    *
    * let i = 0;
@@ -533,13 +539,14 @@ export class TableClient {
    *
    * ### Example creating an entity
    * ```ts snippet:ReadmeSampleCreateEntity
-   * import { AzureNamedKeyCredential, TableClient } from "@azure/data-tables";
+   * import { DefaultAzureCredential } from "@azure/identity";
+   * import { TableClient } from "@azure/data-tables";
    *
    * const account = "<account>";
    * const accountKey = "<accountkey>";
    * const tableName = "<tableName>";
    *
-   * const credential = new AzureNamedKeyCredential(account, accountKey);
+   * const credential = new DefaultAzureCredential();
    * const client = new TableClient(`https://${account}.table.core.windows.net`, tableName, credential);
    *
    * const testEntity = {
@@ -573,13 +580,14 @@ export class TableClient {
    *
    * ### Example deleting an entity
    * ```ts snippet:ReadmeSampleDeleteEntity
-   * import { AzureNamedKeyCredential, TableClient } from "@azure/data-tables";
+   * import { DefaultAzureCredential } from "@azure/identity";
+   * import { TableClient } from "@azure/data-tables";
    *
    * const account = "<account>";
    * const accountKey = "<accountkey>";
    * const tableName = "<tableName>";
    *
-   * const credential = new AzureNamedKeyCredential(account, accountKey);
+   * const credential = new DefaultAzureCredential();
    * const client = new TableClient(`https://${account}.table.core.windows.net`, tableName, credential);
    *
    * // deleteEntity deletes the entity that matches exactly the partitionKey and rowKey
@@ -592,6 +600,12 @@ export class TableClient {
     // eslint-disable-next-line @azure/azure-sdk/ts-naming-options
     options: DeleteTableEntityOptions = {},
   ): Promise<DeleteTableEntityResponse> {
+    if (partitionKey === undefined || partitionKey === null) {
+      throw new Error("The entity's partitionKey cannot be undefined or null.");
+    }
+    if (rowKey === undefined || rowKey === null) {
+      throw new Error("The entity's rowKey cannot be undefined or null.");
+    }
     return tracingClient.withSpan("TableClient.deleteEntity", options, (updatedOptions) => {
       const { etag = "*", ...rest } = updatedOptions;
       const deleteOptions: TableDeleteEntityOptionalParams = {
@@ -617,13 +631,14 @@ export class TableClient {
    *
    * ### Example updating an entity
    * ```ts snippet:ReadmeSampleUpdateEntity
-   * import { AzureNamedKeyCredential, TableClient } from "@azure/data-tables";
+   * import { DefaultAzureCredential } from "@azure/identity";
+   * import { TableClient } from "@azure/data-tables";
    *
    * const account = "<account>";
    * const accountKey = "<accountkey>";
    * const tableName = "<tableName>";
    *
-   * const credential = new AzureNamedKeyCredential(account, accountKey);
+   * const credential = new DefaultAzureCredential();
    * const client = new TableClient(`https://${account}.table.core.windows.net`, tableName, credential);
    *
    * const entity = { partitionKey: "p1", rowKey: "r1", bar: "updatedBar" };
@@ -649,6 +664,12 @@ export class TableClient {
     // eslint-disable-next-line @azure/azure-sdk/ts-naming-options
     options: UpdateTableEntityOptions = {},
   ): Promise<UpdateEntityResponse> {
+    if (entity.partitionKey === undefined || entity.partitionKey === null) {
+      throw new Error("The entity's partitionKey cannot be undefined or null.");
+    }
+    if (entity.rowKey === undefined || entity.rowKey === null) {
+      throw new Error("The entity's rowKey cannot be undefined or null.");
+    }
     return tracingClient.withSpan(
       "TableClient.updateEntity",
       options,
@@ -692,13 +713,14 @@ export class TableClient {
    *
    * ### Example upserting an entity
    * ```ts snippet:ReadmeSampleUpsertEntity
-   * import { AzureNamedKeyCredential, TableClient } from "@azure/data-tables";
+   * import { DefaultAzureCredential } from "@azure/identity";
+   * import { TableClient } from "@azure/data-tables";
    *
    * const account = "<account>";
    * const accountKey = "<accountkey>";
    * const tableName = "<tableName>";
    *
-   * const credential = new AzureNamedKeyCredential(account, accountKey);
+   * const credential = new DefaultAzureCredential();
    * const client = new TableClient(`https://${account}.table.core.windows.net`, tableName, credential);
    *
    * const entity = { partitionKey: "p1", rowKey: "r1", bar: "updatedBar" };
@@ -723,6 +745,13 @@ export class TableClient {
       "TableClient.upsertEntity",
       options,
       async (updatedOptions) => {
+        if (entity.partitionKey === undefined || entity.partitionKey === null) {
+          throw new Error("The entity's partitionKey cannot be undefined or null.");
+        }
+        if (entity.rowKey === undefined || entity.rowKey === null) {
+          throw new Error("The entity's rowKey cannot be undefined or null.");
+        }
+
         const partitionKey = escapeQuotes(entity.partitionKey);
         const rowKey = escapeQuotes(entity.rowKey);
 
@@ -789,13 +818,14 @@ export class TableClient {
    *
    * Example usage:
    * ```ts snippet:ReadmeSampleSubmitTransaction
-   * import { AzureNamedKeyCredential, TableClient, TransactionAction } from "@azure/data-tables";
+   * import { DefaultAzureCredential } from "@azure/identity";
+   * import { TableClient, TransactionAction } from "@azure/data-tables";
    *
    * const account = "<account>";
    * const accountKey = "<accountkey>";
    * const tableName = "<tableName>";
    *
-   * const credential = new AzureNamedKeyCredential(account, accountKey);
+   * const credential = new DefaultAzureCredential();
    * const client = new TableClient(`https://${account}.table.core.windows.net`, tableName, credential);
    *
    * const actions: TransactionAction[] = [
@@ -808,13 +838,14 @@ export class TableClient {
    *
    * Example usage with TableTransaction:
    * ```ts snippet:ReadmeSampleSubmitTransactionWithTableTransaction
-   * import { AzureNamedKeyCredential, TableClient, TableTransaction } from "@azure/data-tables";
+   * import { DefaultAzureCredential } from "@azure/identity";
+   * import { TableClient, TableTransaction } from "@azure/data-tables";
    *
    * const account = "<account>";
    * const accountKey = "<accountkey>";
    * const tableName = "<tableName>";
    *
-   * const credential = new AzureNamedKeyCredential(account, accountKey);
+   * const credential = new DefaultAzureCredential();
    * const client = new TableClient(`https://${account}.table.core.windows.net`, tableName, credential);
    *
    * const transaction = new TableTransaction();

@@ -62,8 +62,8 @@ async function getAGalleryApplicationVersion() {
 }
 
 async function main() {
-  getAGalleryApplicationVersionWithReplicationStatus();
-  getAGalleryApplicationVersion();
+  await getAGalleryApplicationVersionWithReplicationStatus();
+  await getAGalleryApplicationVersion();
 }
 
 main().catch(console.error);

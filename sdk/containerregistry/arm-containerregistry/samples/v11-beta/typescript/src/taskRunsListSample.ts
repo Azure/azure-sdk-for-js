@@ -16,7 +16,7 @@ import "dotenv/config";
  * This sample demonstrates how to Lists all the task runs for a specified container registry.
  *
  * @summary Lists all the task runs for a specified container registry.
- * x-ms-original-file: specification/containerregistry/resource-manager/Microsoft.ContainerRegistry/preview/2019-06-01-preview/examples/TaskRunsList.json
+ * x-ms-original-file: specification/containerregistry/resource-manager/Microsoft.ContainerRegistry/preview/2025-03-01-preview/examples/TaskRunsList.json
  */
 async function taskRunsList(): Promise<void> {
   const subscriptionId =
@@ -31,7 +31,7 @@ async function taskRunsList(): Promise<void> {
     subscriptionId,
   );
   const resArray = new Array();
-  for await (let item of client.taskRuns.list(
+  for await (const item of client.taskRuns.list(
     resourceGroupName,
     registryName,
   )) {

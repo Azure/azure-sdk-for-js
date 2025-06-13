@@ -1,52 +1,47 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { matrix } from "@azure-tools/test-utils-vitest";
-import { assert, describe, beforeEach, it } from "vitest";
+import type { AssistantCreateParams } from "openai/resources/beta/assistants.mjs";
+import { assert, describe } from "vitest";
 import { assertAssistantEquality } from "../utils/asserts.js";
 import { createClientsAndDeployments } from "../utils/createClients.js";
-import { APIVersion, isRateLimitRun, withDeployments } from "../utils/utils.js";
 import type { ClientsAndDeploymentsInfo, Metadata } from "../utils/types.js";
-import type { AssistantCreateParams } from "openai/resources/beta/assistants.mjs";
+import { APIVersion, isRateLimitRun, testWithDeployments } from "../utils/utils.js";
 
-describe("Assistants", () => {
-  matrix([[APIVersion.Preview]] as const, async function (apiVersion: APIVersion) {
-    describe(`[${apiVersion}] Client`, () => {
-      let clientsAndDeployments: ClientsAndDeploymentsInfo;
+describe.each([APIVersion.v2025_03_01_preview])("Assistants [%s]", (apiVersion: APIVersion) => {
+  function createCodeAssistant(deploymentName: string): AssistantCreateParams {
+    return {
+      tools: [{ type: "code_interpreter" as const }],
+      model: deploymentName,
+      name: "JS CI Math Tutor",
+      description: "Math Tutor for Math Problems",
+      instructions: "You are a personal math tutor. Write and run code to answer math questions.",
+      metadata: { foo: "bar" },
+    };
+  }
 
-      function createCodeAssistant(deploymentName: string): AssistantCreateParams {
-        return {
-          tools: [{ type: "code_interpreter" as const }],
-          model: deploymentName,
-          name: "JS CI Math Tutor",
-          description: "Math Tutor for Math Problems",
-          instructions:
-            "You are a personal math tutor. Write and run code to answer math questions.",
-          metadata: { foo: "bar" },
-        };
-      }
+  const clientsAndDeploymentsInfo: ClientsAndDeploymentsInfo = createClientsAndDeployments(
+    apiVersion,
+    { assistants: "true" },
+    {
+      deploymentsToSkip: [
+        "gpt-4o-mini-batch",
+        "gpt-4o-mini-2",
+        "gpt-4o-mini-global-batch",
+        "gpt-35-turbo",
+        "gpt-4-turbo",
+      ],
+    },
+  );
 
-      beforeEach(async () => {
-        clientsAndDeployments = createClientsAndDeployments(
-          apiVersion,
-          { assistants: "true" },
-          {
-            deploymentsToSkip: [
-              "gpt-4o-mini-batch",
-              "gpt-4o-mini-2",
-              "gpt-4o-mini-global-batch",
-              "gpt-35-turbo",
-              "gpt-4-turbo",
-            ],
-          },
-        );
-      });
-
-      describe("all CRUD APIs", function () {
-        it("creates, gets, lists, modifies, and deletes an assistant", async () => {
-          await withDeployments(clientsAndDeployments, async (client, deployment) => {
-            const codeAssistant = createCodeAssistant(deployment);
-            const assistantResponse = await client.beta.assistants.create(codeAssistant);
+  describe("all CRUD APIs", function () {
+    describe("creates, gets, lists, modifies, and deletes an assistant", async () => {
+      await testWithDeployments({
+        clientsAndDeploymentsInfo,
+        run: async (client, deployment) => {
+          const codeAssistant = createCodeAssistant(deployment);
+          const assistantResponse = await client.beta.assistants.create(codeAssistant);
+          try {
             assertAssistantEquality(codeAssistant, assistantResponse);
             const getAssistantResponse = await client.beta.assistants.retrieve(
               assistantResponse.id,
@@ -66,20 +61,28 @@ describe("Assistants", () => {
             const lastID = (oneAssistantList as any).body.last_id;
             assert.equal(firstID, lastID);
             assert.equal(oneAssistantList.data[0].id, firstID);
-
+          } finally {
             const deleteAssistantResponse = await client.beta.assistants.del(assistantResponse.id);
             assert.equal(deleteAssistantResponse.deleted, true);
-          });
-        });
+          }
+        },
+        modelsListToSkip: [
+          { name: "gpt-4.1" }, // 400 The requested deployment 'gpt-4.1' with engine 'gpt-4.1-2025-04-14' cannot be used with this API.
+          { name: "gpt-4.1-nano" }, // 400 The requested deployment 'gpt-4.1-nano' with engine 'gpt-4.1-nano-2025-04-14' cannot be used with this API.
+        ],
+      });
+    });
 
-        it("creates, gets, modifies, and deletes a thread", async () => {
-          await withDeployments(clientsAndDeployments, async (client) => {
-            const metadataValue = "bar";
-            const thread = {
-              metadata: { foo: metadataValue },
-            };
-
-            const threadResponse = await client.beta.threads.create(thread);
+    describe("creates, gets, modifies, and deletes a thread", async () => {
+      await testWithDeployments({
+        clientsAndDeploymentsInfo,
+        run: async (client) => {
+          const metadataValue = "bar";
+          const thread = {
+            metadata: { foo: metadataValue },
+          };
+          const threadResponse = await client.beta.threads.create(thread);
+          try {
             assert.isNotNull(threadResponse.id);
             assert.equal((threadResponse.metadata as unknown as Metadata).foo, metadataValue);
             const getThreadResponse = await client.beta.threads.retrieve(threadResponse.id);
@@ -98,17 +101,23 @@ describe("Assistants", () => {
               (updateThreadResponse.metadata as unknown as Metadata).foo,
               newMetadataValue,
             );
+          } finally {
             const deleteThreadResponse = await client.beta.threads.del(threadResponse.id);
             assert.equal(deleteThreadResponse.deleted, true);
-          });
-        });
+          }
+        },
+      });
+    });
 
-        it("creates, gets, modifies, and lists a message", async () => {
-          await withDeployments(clientsAndDeployments, async (client) => {
-            const thread = {
-              messages: [],
-            };
-            const threadResponse = await client.beta.threads.create(thread);
+    describe("creates, gets, modifies, and lists a message", async () => {
+      await testWithDeployments({
+        clientsAndDeploymentsInfo,
+        run: async (client) => {
+          const thread = {
+            messages: [],
+          };
+          const threadResponse = await client.beta.threads.create(thread);
+          try {
             assert.isNotNull(threadResponse.id);
             const role = "user";
             const content = "explain the fibonacci sequence";
@@ -165,20 +174,31 @@ describe("Assistants", () => {
             const lastID = (oneMessageList as any).body.last_id;
             assert.equal(firstID, lastID);
             assert.equal(oneMessageList.data[0].id, firstID);
-          });
-        });
+          } finally {
+            const deleteThreadResponse = await client.beta.threads.del(threadResponse.id);
+            assert.equal(deleteThreadResponse.deleted, true);
+          }
+        },
+      });
+    });
 
-        it("create, lists, gets, and cancels a run", async () => {
-          await withDeployments(clientsAndDeployments, async (client, deployment) => {
-            const assistant = await client.beta.assistants.create({
+    describe.concurrent("creates, lists, gets, and cancels a run", async () => {
+      await testWithDeployments({
+        clientsAndDeploymentsInfo,
+        run: async (client, deployment) => {
+          const [assistant, thread] = await Promise.all([
+            client.beta.assistants.create({
               model: deployment,
               name: "JS CI Math Tutor",
               instructions:
                 "You are a personal math tutor. Write and run code to answer math questions.",
               tools: [{ type: "code_interpreter" }],
-            });
+            }),
+            client.beta.threads.create(),
+          ]);
+
+          try {
             assert.isNotNull(assistant.id);
-            const thread = await client.beta.threads.create();
             assert.isNotNull(thread.id);
 
             const metadataValue = "bar";
@@ -196,11 +216,8 @@ describe("Assistants", () => {
             assert.equal(run.instructions, instructions);
             assert.equal((run.metadata as unknown as Metadata).foo, metadataValue);
 
-            const runSteps = await client.beta.threads.runs.steps.list(thread.id, run.id);
-            // with no messages, there should be no steps
-            assert.equal(runSteps.data.length, 0);
-            assert.equal((runSteps as any).body.first_id, null);
-            assert.equal((runSteps as any).body.last_id, null);
+            // With no messages, there should be no steps, but sometimes there is a step...
+            // so can't evaluate anything on threads.runs.steps.list
 
             const listLength = 1;
             const list = await client.beta.threads.runs.list(thread.id, { limit: listLength });
@@ -223,22 +240,35 @@ describe("Assistants", () => {
             assert.equal(getRun.assistant_id, assistant.id);
             assert.equal(getRun.instructions, instructions);
             assert.equal((getRun.metadata as unknown as Metadata).foo, metadataValue);
+          } finally {
             const deleteThreadResponse = await client.beta.threads.del(thread.id);
-            assert.equal(deleteThreadResponse.deleted, true);
-
             const deleteAssistantResponse = await client.beta.assistants.del(assistant.id);
+            // All deletes before any asserts
+            assert.equal(deleteThreadResponse.deleted, true);
             assert.equal(deleteAssistantResponse.deleted, true);
-          });
-        });
+          }
+        },
+        acceptableErrors: {
+          messageSubstring: ["400 Cannot cancel run with status"],
+        },
+        modelsListToSkip: [
+          { name: "gpt-4.1" }, // 400 The requested deployment 'gpt-4.1' with engine 'gpt-4.1-2025-04-14' cannot be used with this API.
+          { name: "gpt-4.1-nano" }, // 400 The requested deployment 'gpt-4.1-nano' with engine 'gpt-4.1-nano-2025-04-14' cannot be used with this API.
+        ],
       });
+    });
+  });
 
-      describe(`customer scenarios`, function () {
-        it("create and run code interpreter scenario", async () => {
-          await withDeployments(clientsAndDeployments, async (client, deployment) => {
-            const codeAssistant = createCodeAssistant(deployment);
-            const assistant = await client.beta.assistants.create(codeAssistant);
+  describe(`customer scenarios`, function () {
+    describe("create and run code interpreter scenario", async () => {
+      await testWithDeployments({
+        clientsAndDeploymentsInfo,
+        run: async (client, deployment) => {
+          const codeAssistant = createCodeAssistant(deployment);
+          const assistant = await client.beta.assistants.create(codeAssistant);
+          const thread = await client.beta.threads.create();
+          try {
             assertAssistantEquality(codeAssistant, assistant);
-            const thread = await client.beta.threads.create();
             assert.isNotNull(thread.id);
             const question = "I need to solve the equation '3x + 11 = 14'. Can you help me?";
             const role = "user";
@@ -276,106 +306,120 @@ describe("Assistants", () => {
                 }
               }
             }
+          } finally {
             const deleteThreadResponse = await client.beta.threads.del(thread.id);
-            assert.equal(deleteThreadResponse.deleted, true);
-
             const deleteAssistantResponse = await client.beta.assistants.del(assistant.id);
+            // All deletes before any asserts
+            assert.equal(deleteThreadResponse.deleted, true);
             assert.equal(deleteAssistantResponse.deleted, true);
-          });
-        });
+          }
+        },
+        modelsListToSkip: [
+          { name: "o1" }, // "Sorry, something went wrong" 2025-04-15
+          { name: "o1-preview" }, // "Sorry, something went wrong" 2025-04-15
+          { name: "o1-mini" }, // "Sorry, something went wrong" 2025-04-15
+          { name: "o3-mini" }, // "Sorry, something went wrong" 2025-04-15
+          { name: "gpt-4.1" }, // 400 The requested deployment 'gpt-4.1' with engine 'gpt-4.1-2025-04-14' cannot be used with this API.
+          { name: "gpt-4.1-nano" }, // 400 The requested deployment 'gpt-4.1-nano' with engine 'gpt-4.1-nano-2025-04-14' cannot be used with this API.
+        ],
+      });
+    });
 
-        it("create and run function scenario for assistant", async () => {
-          await withDeployments(clientsAndDeployments, async (client, deployment) => {
-            const favoriteCityFunctionName = "getUserFavoriteCity";
-            const favoriteCityFunctionDescription = "Gets the user's favorite city.";
-            const getFavoriteCity = (): string => "Atlanta, GA";
-            const getUserFavoriteCityTool = {
-              type: "function" as const,
-              function: {
-                name: favoriteCityFunctionName,
-                description: favoriteCityFunctionDescription,
-                parameters: {
-                  type: "object",
-                  properties: {},
-                },
+    describe.sequential("create and run function scenario for assistant", async () => {
+      await testWithDeployments({
+        clientsAndDeploymentsInfo,
+        run: async (client, deployment) => {
+          const favoriteCityFunctionName = "getUserFavoriteCity";
+          const favoriteCityFunctionDescription = "Gets the user's favorite city.";
+          const getFavoriteCity = (): string => "Atlanta, GA";
+          const getUserFavoriteCityTool = {
+            type: "function" as const,
+            function: {
+              name: favoriteCityFunctionName,
+              description: favoriteCityFunctionDescription,
+              parameters: {
+                type: "object",
+                properties: {},
               },
-            };
+            },
+          };
 
-            const getCityNickname = (city: string): string => {
-              switch (city) {
-                case "Atlanta, GA":
-                  return "The ATL";
-                case "Seattle, WA":
-                  return "The Emerald City";
-                case "Los Angeles, CA":
-                  return "LA";
-                default:
-                  return "Unknown";
-              }
-            };
+          const getCityNickname = (city: string): string => {
+            switch (city) {
+              case "Atlanta, GA":
+                return "The ATL";
+              case "Seattle, WA":
+                return "The Emerald City";
+              case "Los Angeles, CA":
+                return "LA";
+              default:
+                return "Unknown";
+            }
+          };
 
-            const getCityNicknameFunctionName = "getCityNickname";
-            const getCityNicknameFunctionDescription =
-              "Gets the nickname for a city, e.g. 'LA' for 'Los Angeles, CA'.";
-            const getCityNicknameTool = {
-              type: "function" as const,
-              function: {
-                name: getCityNicknameFunctionName,
-                description: getCityNicknameFunctionDescription,
-                parameters: {
-                  type: "object",
-                  properties: {
-                    city: {
-                      type: "string",
-                      description: "The city and state, e.g. San Francisco, CA",
-                    },
+          const getCityNicknameFunctionName = "getCityNickname";
+          const getCityNicknameFunctionDescription =
+            "Gets the nickname for a city, e.g. 'LA' for 'Los Angeles, CA'.";
+          const getCityNicknameTool = {
+            type: "function" as const,
+            function: {
+              name: getCityNicknameFunctionName,
+              description: getCityNicknameFunctionDescription,
+              parameters: {
+                type: "object",
+                properties: {
+                  city: {
+                    type: "string",
+                    description: "The city and state, e.g. San Francisco, CA",
                   },
                 },
               },
-            };
+            },
+          };
 
-            let favoriteCityCalled = false;
-            let nicknameCalled = false;
-            const getResolvedToolOutput = (toolCall: {
-              id: string;
-              function?: any;
-            }): { output: string } => {
-              const toolOutput = { tool_call_id: toolCall.id, output: "" };
-              if (toolCall["function"]) {
-                const functionCall = toolCall["function"];
-                const functionName = functionCall.name;
-                const functionArgs = JSON.parse(functionCall["arguments"] ?? {});
-                switch (functionName) {
-                  case favoriteCityFunctionName:
-                    toolOutput.output = getFavoriteCity();
-                    favoriteCityCalled = true;
-                    break;
-                  case getCityNicknameFunctionName:
-                    toolOutput.output = getCityNickname(functionArgs["city"]);
-                    nicknameCalled = true;
-                    break;
-                  default:
-                    toolOutput.output = `Unknown function: ${functionName}`;
-                    break;
-                }
+          let favoriteCityCalled = false;
+          let nicknameCalled = false;
+          const getResolvedToolOutput = (toolCall: {
+            id: string;
+            function?: any;
+          }): { output: string } => {
+            const toolOutput = { tool_call_id: toolCall.id, output: "" };
+            if (toolCall["function"]) {
+              const functionCall = toolCall["function"];
+              const functionName = functionCall.name;
+              const functionArgs = JSON.parse(functionCall["arguments"] ?? {});
+              switch (functionName) {
+                case favoriteCityFunctionName:
+                  toolOutput.output = getFavoriteCity();
+                  favoriteCityCalled = true;
+                  break;
+                case getCityNicknameFunctionName:
+                  toolOutput.output = getCityNickname(functionArgs["city"]);
+                  nicknameCalled = true;
+                  break;
+                default:
+                  toolOutput.output = `Unknown function: ${functionName}`;
+                  break;
               }
+            }
 
-              return toolOutput;
-            };
+            return toolOutput;
+          };
 
-            const instructions = `You are a helpful assistant. Use the provided functions to help answer questions.
+          const instructions = `You are a helpful assistant. Use the provided functions to help answer questions.
               Customize your responses to the user's preferences as much as possible and use friendly
               nicknames for cities whenever possible.
           `;
-            const functionAssistant = {
-              model: deployment,
-              name: "JS SDK Test Assistant - Nickname",
-              instructions,
-              tools: [getUserFavoriteCityTool, getCityNicknameTool],
-            };
-            const assistant = await client.beta.assistants.create(functionAssistant);
+          const functionAssistant = {
+            model: deployment,
+            name: "JS SDK Test Assistant - Nickname",
+            instructions,
+            tools: [getUserFavoriteCityTool, getCityNicknameTool],
+          };
+          const assistant = await client.beta.assistants.create(functionAssistant);
+          const thread = await client.beta.threads.create();
+          try {
             assert.isNotNull(assistant.id);
-            const thread = await client.beta.threads.create();
             assert.isNotNull(thread.id);
             const content = "What's the nickname of my favorite city?";
             const role = "user";
@@ -430,14 +474,22 @@ describe("Assistants", () => {
                 }
               }
             }
-
+          } finally {
             const deleteThreadResponse = await client.beta.threads.del(thread.id);
-            assert.equal(deleteThreadResponse.deleted, true);
-
             const deleteAssistantResponse = await client.beta.assistants.del(assistant.id);
+            // All deletes before any asserts
+            assert.equal(deleteThreadResponse.deleted, true);
             assert.equal(deleteAssistantResponse.deleted, true);
-          });
-        });
+          }
+        },
+        modelsListToSkip: [
+          { name: "o1" }, // "Sorry, something went wrong" 2025-04-15
+          { name: "o1-preview" }, // "Sorry, something went wrong" 2025-04-15
+          { name: "o1-mini" }, // "Sorry, something went wrong" 2025-04-15
+          { name: "o3-mini" }, // "Sorry, something went wrong" 2025-04-15
+          { name: "gpt-4.1" }, // 400 The requested deployment 'gpt-4.1' with engine 'gpt-4.1-2025-04-14' cannot be used with this API.
+          { name: "gpt-4.1-nano" }, // 400 The requested deployment 'gpt-4.1-nano' with engine 'gpt-4.1-nano-2025-04-14' cannot be used with this API.
+        ],
       });
     });
   });

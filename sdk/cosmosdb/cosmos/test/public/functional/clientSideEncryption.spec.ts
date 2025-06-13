@@ -2,22 +2,21 @@
 // Licensed under the MIT License.
 
 import { randomUUID } from "@azure/core-util";
-import type { Suite } from "mocha";
+import { Constants, EncryptionAlgorithm } from "../../../src/index.js";
 import type {
   Database,
   Container,
   ContainerDefinition,
   OperationInput,
   PatchOperation,
-} from "../../../src";
-import {
-  CosmosClient,
   EncryptionKeyWrapMetadata,
   ClientEncryptionPolicy,
-  KeyEncryptionAlgorithm,
   ClientEncryptionIncludedPath,
+} from "../../../src/index.js";
+import {
+  CosmosClient,
+  KeyEncryptionAlgorithm,
   EncryptionType,
-  EncryptionAlgorithm,
   EncryptionKeyResolverName,
   StatusCodes,
   BulkOperationType,
@@ -30,9 +29,9 @@ import {
   ChangeFeedRetentionTimeSpan,
   PartitionKeyKind,
   PermissionMode,
-} from "../../../src";
-import { masterKey } from "../common/_fakeTestSecrets";
-import { endpoint } from "../common/_testConfig";
+} from "../../../src/index.js";
+import { masterKey } from "../common/_fakeTestSecrets.js";
+import { endpoint } from "../common/_testConfig.js";
 import {
   compareMetadata,
   MockKeyVaultEncryptionKeyResolver,
@@ -48,10 +47,11 @@ import {
   testReplaceItem,
   testDeleteItem,
   verifyDiagnostics,
-} from "../common/encryptionTestHelpers";
-import { removeAllDatabases } from "../common/TestHelpers";
-import { assert } from "chai";
-import { EncryptionTimeToLive } from "../../../src/encryption/EncryptionTimeToLive";
+} from "../common/encryptionTestHelpers.js";
+import { removeAllDatabases } from "../common/TestHelpers.js";
+import type { CosmosEncryptedNumber } from "../../../src/encryption/CosmosEncryptedNumber.js";
+import { CosmosEncryptedNumberType } from "../../../src/encryption/CosmosEncryptedNumber.js";
+import { describe, it, assert, beforeEach, beforeAll, afterAll } from "vitest";
 
 let encryptionClient: CosmosClient;
 let metadata1: EncryptionKeyWrapMetadata;
@@ -65,37 +65,37 @@ let clientEncryptionPolicy: ClientEncryptionPolicy;
 
 const testKeyVault = "TESTKEYSTORE_VAULT" as EncryptionKeyResolverName;
 
-describe("ClientSideEncryption", function (this: Suite) {
-  before(async () => {
+describe("ClientSideEncryption", () => {
+  beforeAll(async () => {
     await removeAllDatabases();
     testKeyEncryptionKeyResolver = new MockKeyVaultEncryptionKeyResolver();
-    metadata1 = new EncryptionKeyWrapMetadata(
-      testKeyVault,
-      "key1",
-      "cmkpath1",
-      KeyEncryptionAlgorithm.RSA_OAEP,
-    );
-    metadata2 = new EncryptionKeyWrapMetadata(
-      testKeyVault,
-      "key2",
-      "cmkpath2",
-      KeyEncryptionAlgorithm.RSA_OAEP,
-    );
+    metadata1 = {
+      type: testKeyVault,
+      name: "key1",
+      value: "cmkpath1",
+      algorithm: KeyEncryptionAlgorithm.RSA_OAEP,
+    };
+    metadata2 = {
+      type: testKeyVault,
+      name: "key2",
+      value: "cmkpath2",
+      algorithm: KeyEncryptionAlgorithm.RSA_OAEP,
+    };
     encryptionClient = new CosmosClient({
       endpoint: endpoint,
       key: masterKey,
       clientEncryptionOptions: {
         keyEncryptionKeyResolver: testKeyEncryptionKeyResolver,
-        encryptionKeyTimeToLive: EncryptionTimeToLive.NoTTL(),
+        encryptionKeyTimeToLiveInSeconds: 0,
       },
     });
     database = (await encryptionClient.databases.createIfNotExists({ id: randomUUID() })).database;
-    const revokedKekMetadata = new EncryptionKeyWrapMetadata(
-      testKeyVault,
-      "revokedKek",
-      "revokedcmkpath",
-      KeyEncryptionAlgorithm.RSA_OAEP,
-    );
+    const revokedKekMetadata: EncryptionKeyWrapMetadata = {
+      type: testKeyVault,
+      name: "revokedKek",
+      value: "revokedcmkpath",
+      algorithm: KeyEncryptionAlgorithm.RSA_OAEP,
+    };
     await testCreateClientEncryptionKey(database, "key1", metadata1);
     await testCreateClientEncryptionKey(database, "key2", metadata2);
     await testCreateClientEncryptionKey(database, "keyWithRevokedKek", revokedKekMetadata);
@@ -106,40 +106,35 @@ describe("ClientSideEncryption", function (this: Suite) {
       "/sensitive_DateFormat",
       "/sensitive_FloatFormat",
       "/sensitive_ArrayMultiTypes",
-    ].map(
-      (path) =>
-        new ClientEncryptionIncludedPath(
-          path,
-          "key1",
-          EncryptionType.DETERMINISTIC,
-          EncryptionAlgorithm.AEAD_AES_256_CBC_HMAC_SHA256,
-        ),
-    );
+    ].map((path) => ({
+      path: path,
+      clientEncryptionKeyId: "key1",
+      encryptionType: EncryptionType.DETERMINISTIC,
+      encryptionAlgorithm: EncryptionAlgorithm.AEAD_AES_256_CBC_HMAC_SHA256,
+    }));
     const key2Paths = [
       "/id",
       "/sensitive_DecimalFormat",
       "/sensitive_BoolFormat",
       "/sensitive_IntMultiDimArray",
       "/sensitive_ObjectArrayType",
-    ].map(
-      (path) =>
-        new ClientEncryptionIncludedPath(
-          path,
-          "key2",
-          EncryptionType.DETERMINISTIC,
-          EncryptionAlgorithm.AEAD_AES_256_CBC_HMAC_SHA256,
-        ),
-    );
+    ].map((path) => ({
+      path: path,
+      clientEncryptionKeyId: "key2",
+      encryptionType: EncryptionType.DETERMINISTIC,
+      encryptionAlgorithm: EncryptionAlgorithm.AEAD_AES_256_CBC_HMAC_SHA256,
+    }));
     const paths = key1Paths.concat(key2Paths);
-    paths.push(
-      new ClientEncryptionIncludedPath(
-        "/sensitive_ArrayFormat",
-        "keyWithRevokedKek",
-        EncryptionType.DETERMINISTIC,
-        EncryptionAlgorithm.AEAD_AES_256_CBC_HMAC_SHA256,
-      ),
-    );
-    clientEncryptionPolicy = new ClientEncryptionPolicy(paths, 2);
+    paths.push({
+      path: "/sensitive_ArrayFormat",
+      clientEncryptionKeyId: "keyWithRevokedKek",
+      encryptionType: EncryptionType.DETERMINISTIC,
+      encryptionAlgorithm: EncryptionAlgorithm.AEAD_AES_256_CBC_HMAC_SHA256,
+    });
+    clientEncryptionPolicy = {
+      includedPaths: paths,
+      policyFormatVersion: 2,
+    };
     containerDefinition = {
       id: randomUUID(),
       partitionKey: {
@@ -177,13 +172,15 @@ describe("ClientSideEncryption", function (this: Suite) {
 
   it("create client encryption included paths and policy", async () => {
     // check policy format version
-    let path = new ClientEncryptionIncludedPath(
-      "/id",
-      "key1",
-      EncryptionType.DETERMINISTIC,
-      EncryptionAlgorithm.AEAD_AES_256_CBC_HMAC_SHA256,
-    );
-    let policy = new ClientEncryptionPolicy([path]);
+    let path: ClientEncryptionIncludedPath = {
+      path: "/id",
+      clientEncryptionKeyId: "key1",
+      encryptionType: EncryptionType.DETERMINISTIC,
+      encryptionAlgorithm: EncryptionAlgorithm.AEAD_AES_256_CBC_HMAC_SHA256,
+    };
+    let policy: ClientEncryptionPolicy = {
+      includedPaths: [path],
+    };
     try {
       await database.containers.createIfNotExists({
         id: randomUUID(),
@@ -197,13 +194,17 @@ describe("ClientSideEncryption", function (this: Suite) {
       );
     }
     // check deterministic encryption for id
-    path = new ClientEncryptionIncludedPath(
-      "/id",
-      "key1",
-      EncryptionType.RANDOMIZED,
-      EncryptionAlgorithm.AEAD_AES_256_CBC_HMAC_SHA256,
-    );
-    policy = new ClientEncryptionPolicy([path], 2);
+    path = {
+      path: "/id",
+      clientEncryptionKeyId: "key1",
+      encryptionType: EncryptionType.RANDOMIZED,
+      encryptionAlgorithm: EncryptionAlgorithm.AEAD_AES_256_CBC_HMAC_SHA256,
+    };
+
+    policy = {
+      includedPaths: [path],
+      policyFormatVersion: 2,
+    };
     try {
       await database.containers.createIfNotExists({
         id: randomUUID(),
@@ -217,14 +218,17 @@ describe("ClientSideEncryption", function (this: Suite) {
       );
     }
     // check deterministic encryption for partition key
-    path = new ClientEncryptionIncludedPath(
-      "/address",
-      "key1",
-      EncryptionType.RANDOMIZED,
-      EncryptionAlgorithm.AEAD_AES_256_CBC_HMAC_SHA256,
-    );
-    policy = new ClientEncryptionPolicy([path], 2);
-    const containerDef = {
+    path = {
+      path: "/address",
+      clientEncryptionKeyId: "key1",
+      encryptionType: EncryptionType.RANDOMIZED,
+      encryptionAlgorithm: EncryptionAlgorithm.AEAD_AES_256_CBC_HMAC_SHA256,
+    };
+    policy = {
+      includedPaths: [path],
+      policyFormatVersion: 2,
+    };
+    let containerDef = {
       id: randomUUID(),
       partitionKey: {
         paths: ["/PK", "/address/zip"],
@@ -242,46 +246,78 @@ describe("ClientSideEncryption", function (this: Suite) {
     }
 
     // check invalid path
-    path = new ClientEncryptionIncludedPath(
-      "id",
-      "key1",
-      EncryptionType.DETERMINISTIC,
-      EncryptionAlgorithm.AEAD_AES_256_CBC_HMAC_SHA256,
-    );
+    path = {
+      path: "/id",
+      clientEncryptionKeyId: "key1",
+      encryptionType: EncryptionType.DETERMINISTIC,
+      encryptionAlgorithm: EncryptionAlgorithm.AEAD_AES_256_CBC_HMAC_SHA256,
+    };
+    policy = {
+      includedPaths: [path],
+      policyFormatVersion: 2,
+    };
+    containerDef = {
+      id: randomUUID(),
+      partitionKey: {
+        paths: ["/PK"],
+      },
+      clientEncryptionPolicy: policy,
+    };
     try {
-      new ClientEncryptionPolicy([path]);
+      await database.containers.createIfNotExists(containerDef);
     } catch (err) {
       assert.ok(
         err.message.includes("Path in ClientEncryptionIncludedPath needs to start with '/'"),
       );
     }
     // check for nested path
-    path = new ClientEncryptionIncludedPath(
-      "/address/zip",
-      "key1",
-      EncryptionType.DETERMINISTIC,
-      EncryptionAlgorithm.AEAD_AES_256_CBC_HMAC_SHA256,
-    );
+    path = {
+      path: "/address/zip",
+      clientEncryptionKeyId: "key1",
+      encryptionType: EncryptionType.DETERMINISTIC,
+      encryptionAlgorithm: EncryptionAlgorithm.AEAD_AES_256_CBC_HMAC_SHA256,
+    };
+    policy = {
+      includedPaths: [path],
+    };
+    containerDef = {
+      id: randomUUID(),
+      partitionKey: {
+        paths: ["/PK", "/address/zip"],
+      },
+      clientEncryptionPolicy: policy,
+    };
     try {
-      new ClientEncryptionPolicy([path]);
+      await database.containers.createIfNotExists(containerDef);
     } catch (err) {
       assert.ok(
         err.message.includes("Only top-level paths are currently supported for encryption"),
       );
     }
     // check empty key
-    path = new ClientEncryptionIncludedPath(
-      "/id",
-      "",
-      EncryptionType.DETERMINISTIC,
-      EncryptionAlgorithm.AEAD_AES_256_CBC_HMAC_SHA256,
-    );
+    path = {
+      path: "/id",
+      clientEncryptionKeyId: "",
+      encryptionType: EncryptionType.DETERMINISTIC,
+      encryptionAlgorithm: EncryptionAlgorithm.AEAD_AES_256_CBC_HMAC_SHA256,
+    };
+    policy = {
+      includedPaths: [path],
+      policyFormatVersion: 2,
+    };
+    containerDef = {
+      id: randomUUID(),
+      partitionKey: {
+        paths: ["/PK"],
+      },
+      clientEncryptionPolicy: policy,
+    };
     try {
-      new ClientEncryptionPolicy([path]);
+      await database.containers.createIfNotExists(containerDef);
     } catch (err) {
       assert.ok(
         err.message.includes(
-          "ClientEncryptionKeyId needs to be defined in ClientEncryptionIncludedPath.",
+          "ClientEncryptionKeyId needs to be defined as string type in ClientEncryptionIncludedPath",
         ),
       );
     }
@@ -314,7 +350,7 @@ describe("ClientSideEncryption", function (this: Suite) {
       key: masterKey,
       clientEncryptionOptions: {
         keyEncryptionKeyResolver: testKeyResolver,
-        encryptionKeyTimeToLive: EncryptionTimeToLive.FromMinutes(1),
+        encryptionKeyTimeToLiveInSeconds: 60,
       },
     });
     const newDatabase = newClient.database(database.id);
@@ -406,14 +442,190 @@ describe("ClientSideEncryption", function (this: Suite) {
     clientWithBulk.dispose();
   });
 
+  it("encryption executeBulkOperations API", async () => {
+    const docToCreate = TestDoc.create();
+
+    const { resource: docToReplace } = await testCreateItem(encryptionContainer);
+    docToReplace.nonsensitive = randomUUID();
+    docToReplace.sensitive_StringFormat = randomUUID();
+
+    const { resource: docToUpsert } = await testCreateItem(encryptionContainer);
+    docToUpsert.nonsensitive = randomUUID();
+    docToUpsert.sensitive_StringFormat = randomUUID();
+
+    // doc not created before
+    const docToUpsert2 = TestDoc.create();
+
+    const { resource: docToDelete } = await testCreateItem(encryptionContainer);
+
+    const { resource: docToPatch } = await testCreateItem(encryptionContainer);
+    docToPatch.sensitive_IntFormat = 500;
+
+    const clientWithBulk = new CosmosClient({
+      endpoint: endpoint,
+      key: masterKey,
+      clientEncryptionOptions: {
+        keyEncryptionKeyResolver: new MockKeyVaultEncryptionKeyResolver(),
+      },
+    });
+
+    const databaseWithBulk = clientWithBulk.database(database.id);
+    const encryptionContainerWithBulk = databaseWithBulk.container(encryptionContainer.id);
+    const patchOperation = {
+      operations: [
+        {
+          op: PatchOperationType.replace,
+          path: "/sensitive_IntFormat",
+          value: docToPatch.sensitive_IntFormat,
+        },
+      ],
+    };
+    const operations = [
+      {
+        operationType: BulkOperationType.Create,
+        partitionKey: docToCreate.PK,
+        resourceBody: JSON.parse(JSON.stringify(docToCreate)),
+      },
+      {
+        operationType: BulkOperationType.Upsert,
+        partitionKey: docToUpsert2.PK,
+        resourceBody: JSON.parse(JSON.stringify(docToUpsert2)),
+      },
+      {
+        operationType: BulkOperationType.Replace,
+        partitionKey: docToReplace.PK,
+        id: docToReplace.id,
+        resourceBody: JSON.parse(JSON.stringify(docToReplace)),
+      },
+      {
+        operationType: BulkOperationType.Upsert,
+        partitionKey: docToUpsert.PK,
+        resourceBody: JSON.parse(JSON.stringify(docToUpsert)),
+      },
+      {
+        operationType: BulkOperationType.Delete,
+        id: docToDelete.id,
+        partitionKey: docToDelete.PK,
+      },
+      {
+        operationType: BulkOperationType.Patch,
+        partitionKey: docToPatch.PK,
+        id: docToPatch.id,
+        resourceBody: patchOperation,
+      },
+    ];
+
+    const result = await encryptionContainerWithBulk.items.executeBulkOperations(operations);
+    result.forEach((r) => {
+      assert.isNotNull(r.response.diagnostics);
+      assert.isNotNull(r.response.diagnostics.clientSideRequestStatistics.encryptionDiagnostics);
+      const encryptContent =
+        r.response.diagnostics.clientSideRequestStatistics.encryptionDiagnostics.encryptContent;
+      const decryptContent =
+        r.response.diagnostics.clientSideRequestStatistics.encryptionDiagnostics.decryptContent;
+      assert.isNotNull(encryptContent);
+      assert.isNotNull(encryptContent[Constants.Encryption.DiagnosticsStartTime]);
+      assert.isNotNull(encryptContent[Constants.Encryption.DiagnosticsPropertiesEncryptedCount]);
+      assert.isNotNull(encryptContent[Constants.Encryption.DiagnosticsDuration]);
+      assert.isNotNull(decryptContent);
+      assert.isNotNull(decryptContent[Constants.Encryption.DiagnosticsStartTime]);
+      assert.isNotNull(decryptContent[Constants.Encryption.DiagnosticsPropertiesDecryptedCount]);
+      assert.isNotNull(decryptContent[Constants.Encryption.DiagnosticsDuration]);
+    });
+    // Create
+    assert.equal(StatusCodes.Created, result[0].response.statusCode);
+    verifyExpectedDocResponse(docToCreate, result[0].response.resourceBody);
+    // 12 encrypted field + 1 partition key for create and upsert encryption
+    assert.equal(
+      result[0].response.diagnostics.clientSideRequestStatistics.encryptionDiagnostics
+        .encryptContent[Constants.Encryption.DiagnosticsPropertiesEncryptedCount],
+      13,
+    );
+    assert.equal(
+      result[0].response.diagnostics.clientSideRequestStatistics.encryptionDiagnostics
+        .decryptContent[Constants.Encryption.DiagnosticsPropertiesDecryptedCount],
+      12,
+    );
+
+    // Upsert new item
+    assert.equal(StatusCodes.Created, result[1].response.statusCode);
+    verifyExpectedDocResponse(docToUpsert2, result[1].response.resourceBody);
+    assert.equal(
+      result[1].response.diagnostics.clientSideRequestStatistics.encryptionDiagnostics
+        .encryptContent[Constants.Encryption.DiagnosticsPropertiesEncryptedCount],
+      13,
+    );
+    assert.equal(
+      result[1].response.diagnostics.clientSideRequestStatistics.encryptionDiagnostics
+        .decryptContent[Constants.Encryption.DiagnosticsPropertiesDecryptedCount],
+      12,
+    );
+
+    // Replace
+    assert.equal(StatusCodes.Ok, result[2].response.statusCode);
+    verifyExpectedDocResponse(new TestDoc(docToReplace), result[2].response.resourceBody);
+    // 12 encrypted field + 1 partition key + 1 id for replace encryption
+    assert.equal(
+      result[2].response.diagnostics.clientSideRequestStatistics.encryptionDiagnostics
+        .encryptContent[Constants.Encryption.DiagnosticsPropertiesEncryptedCount],
+      14,
+    );
+    assert.equal(
+      result[2].response.diagnostics.clientSideRequestStatistics.encryptionDiagnostics
+        .decryptContent[Constants.Encryption.DiagnosticsPropertiesDecryptedCount],
+      12,
+    );
+
+    // Upsert existing item
+    assert.equal(StatusCodes.Ok, result[3].response.statusCode);
+    verifyExpectedDocResponse(new TestDoc(docToUpsert), result[3].response.resourceBody);
+    assert.equal(
+      result[3].response.diagnostics.clientSideRequestStatistics.encryptionDiagnostics
+        .encryptContent[Constants.Encryption.DiagnosticsPropertiesEncryptedCount],
+      13,
+    );
+    assert.equal(
+      result[3].response.diagnostics.clientSideRequestStatistics.encryptionDiagnostics
+        .decryptContent[Constants.Encryption.DiagnosticsPropertiesDecryptedCount],
+      12,
+    );
+
+    // Delete
+    assert.equal(StatusCodes.NoContent, result[4].response.statusCode);
+    assert.isNotObject(result[4].response.resourceBody);
+    // 1 partition key + 1 id for delete encryption
+    assert.equal(
+      result[4].response.diagnostics.clientSideRequestStatistics.encryptionDiagnostics
+        .encryptContent[Constants.Encryption.DiagnosticsPropertiesEncryptedCount],
+      2,
+    );
+
+    // Patch
+    assert.equal(StatusCodes.Ok, result[5].response.statusCode);
+    verifyExpectedDocResponse(new TestDoc(docToPatch), result[5].response.resourceBody);
+    // 1 partition key + 1 id + 1 field to patch for patch encryption
+    assert.equal(
+      result[5].response.diagnostics.clientSideRequestStatistics.encryptionDiagnostics
+        .encryptContent[Constants.Encryption.DiagnosticsPropertiesEncryptedCount],
+      3,
+    );
+    assert.equal(
+      result[5].response.diagnostics.clientSideRequestStatistics.encryptionDiagnostics
+        .decryptContent[Constants.Encryption.DiagnosticsPropertiesDecryptedCount],
+      12,
+    );
+
+    clientWithBulk.dispose();
+  });
+
   it("encryption create client encryption key", async () => {
     let cekId = "anotherCek";
-    let cmkpath5 = new EncryptionKeyWrapMetadata(
-      testKeyVault,
-      cekId,
-      "cmkpath5",
-      KeyEncryptionAlgorithm.RSA_OAEP,
-    );
+    let cmkpath5: EncryptionKeyWrapMetadata = {
+      type: testKeyVault,
+      name: cekId,
+      value: "cmkpath5",
+      algorithm: KeyEncryptionAlgorithm.RSA_OAEP,
+    };
     const clientEncryptionKeyProperties = (
       await testCreateClientEncryptionKey(database, cekId, cmkpath5)
     ).clientEncryptionKeyProperties;
@@ -421,12 +633,12 @@ describe("ClientSideEncryption", function (this: Suite) {
     assert.ok(compareMetadata(cmkpath5, clientEncryptionKeyProperties.encryptionKeyWrapMetadata));
 
     // creating another key with same id should fail
-    cmkpath5 = new EncryptionKeyWrapMetadata(
-      testKeyVault,
-      cekId,
-      "testmetadata2",
-      KeyEncryptionAlgorithm.RSA_OAEP,
-    );
+    cmkpath5 = {
+      type: testKeyVault,
+      name: cekId,
+      value: "testmetadata2",
+      algorithm: KeyEncryptionAlgorithm.RSA_OAEP,
+    };
     try {
       await testCreateClientEncryptionKey(database, cekId, cmkpath5);
       assert.fail("creating another key with same encryption key id should fail");
@@ -440,15 +652,15 @@ describe("ClientSideEncryption", function (this: Suite) {
       key: masterKey,
       clientEncryptionOptions: {
         keyEncryptionKeyResolver: new MockKeyVaultEncryptionKeyResolver(),
-        encryptionKeyTimeToLive: EncryptionTimeToLive.NoTTL(),
+        encryptionKeyTimeToLiveInSeconds: 0,
       },
     });
-    let metadata = new EncryptionKeyWrapMetadata(
-      EncryptionKeyResolverName.AzureKeyVault,
-      "key1",
-      "https://testkeyvault.vault.azure.net/keys/testkey/12345678",
-      KeyEncryptionAlgorithm.RSA_OAEP,
-    );
+    let metadata: EncryptionKeyWrapMetadata = {
+      type: EncryptionKeyResolverName.AzureKeyVault,
+      name: "key1",
+      value: "https://testkeyvault.vault.azure.net/keys/testkey/12345678",
+      algorithm: KeyEncryptionAlgorithm.RSA_OAEP,
+    };
     const database1 = (
       await encryptionCosmosClient.databases.createIfNotExists({ id: randomUUID() })
     ).database;
@@ -458,12 +670,12 @@ describe("ClientSideEncryption", function (this: Suite) {
       metadata,
     );
     assert.equal(StatusCodes.Created, clientEncryptionKeyResponse.statusCode);
-    metadata = new EncryptionKeyWrapMetadata(
-      EncryptionKeyResolverName.AzureKeyVault,
-      "key1",
-      "https://testkeyvault.vault.azure.net/keys/testkey/9101112",
-      KeyEncryptionAlgorithm.RSA_OAEP,
-    );
+    metadata = {
+      type: EncryptionKeyResolverName.AzureKeyVault,
+      name: "key1",
+      value: "https://testkeyvault.vault.azure.net/keys/testkey/9101112",
+      algorithm: KeyEncryptionAlgorithm.RSA_OAEP,
+    };
     clientEncryptionKeyResponse = await database1.rewrapClientEncryptionKey(cekId, metadata);
     assert.equal(StatusCodes.Ok, clientEncryptionKeyResponse.statusCode);
     encryptionCosmosClient.dispose();
@@ -471,44 +683,44 @@ describe("ClientSideEncryption", function (this: Suite) {
 
   it("rewrap client encryption key", async () => {
     const cekId = "rewrapkeytest";
-    const metadata = new EncryptionKeyWrapMetadata(
-      testKeyVault,
-      cekId,
-      "cmkpath5",
-      KeyEncryptionAlgorithm.RSA_OAEP,
-    );
+    const metadata: EncryptionKeyWrapMetadata = {
+      type: testKeyVault,
+      name: cekId,
+      value: "cmkpath5",
+      algorithm: KeyEncryptionAlgorithm.RSA_OAEP,
+    };
     let clientEncryptionKeyProperties = (
       await testCreateClientEncryptionKey(database, cekId, metadata)
     ).clientEncryptionKeyProperties;
     assert.ok(
       compareMetadata(
-        new EncryptionKeyWrapMetadata(
-          testKeyVault,
-          cekId,
-          metadata.value,
-          KeyEncryptionAlgorithm.RSA_OAEP,
-        ),
+        {
+          type: testKeyVault,
+          name: cekId,
+          value: metadata.value,
+          algorithm: KeyEncryptionAlgorithm.RSA_OAEP,
+        },
         clientEncryptionKeyProperties.encryptionKeyWrapMetadata,
       ),
     );
-    const updatedMetadata = new EncryptionKeyWrapMetadata(
-      testKeyVault,
-      cekId,
-      "metadata" + "updatedmetadata",
-      KeyEncryptionAlgorithm.RSA_OAEP,
-    );
+    const updatedMetadata: EncryptionKeyWrapMetadata = {
+      type: testKeyVault,
+      name: cekId,
+      value: "metadata" + "updatedmetadata",
+      algorithm: KeyEncryptionAlgorithm.RSA_OAEP,
+    };
     clientEncryptionKeyProperties = (
       await testRewrapClientEncryptionKey(database, cekId, updatedMetadata)
     ).clientEncryptionKeyProperties;
     // check if cek is wrapped with updated metadata
     assert.ok(
       compareMetadata(
-        new EncryptionKeyWrapMetadata(
-          testKeyVault,
-          cekId,
-          updatedMetadata.value,
-          KeyEncryptionAlgorithm.RSA_OAEP,
-        ),
+        {
+          type: testKeyVault,
+          name: cekId,
+          value: updatedMetadata.value,
+          algorithm: KeyEncryptionAlgorithm.RSA_OAEP,
+        },
         clientEncryptionKeyProperties.encryptionKeyWrapMetadata,
       ),
     );
@@ -521,7 +733,7 @@ describe("ClientSideEncryption", function (this: Suite) {
       key: masterKey,
       clientEncryptionOptions: {
         keyEncryptionKeyResolver: testkeyEncryptionKeyResolver,
-        encryptionKeyTimeToLive: EncryptionTimeToLive.NoTTL(),
+        encryptionKeyTimeToLiveInSeconds: 0,
       },
     });
     const testdatabase = client.database(database.id);
@@ -545,27 +757,33 @@ describe("ClientSideEncryption", function (this: Suite) {
         " AND c.sensitive_NestedObjectFormatL1.sensitive_NestedObjectFormatL2.sensitive_DecimalFormatL2 = @sensitive_DecimalFormatL2",
     );
     // null parameters should also work with other add methods
-    queryBuilder.addStringParameter(
+    queryBuilder.addParameter(
       "@sensitive_StringFormat",
       testDoc.sensitive_StringFormat,
       "/sensitive_StringFormat",
     );
-    queryBuilder.addNullParameter("@sensitive_ArrayFormat", "/sensitive_ArrayFormat");
-    queryBuilder.addIntegerParameter(
-      "@sensitive_IntFormat",
-      testDoc.sensitive_IntFormat,
-      "/sensitive_IntFormat",
-    );
-    queryBuilder.addStringParameter(
+    queryBuilder.addParameter("@sensitive_ArrayFormat", null, "/sensitive_ArrayFormat");
+    const intParam: CosmosEncryptedNumber = {
+      value: testDoc.sensitive_IntFormat,
+      numberType: CosmosEncryptedNumberType.Integer,
+    };
+    queryBuilder.addParameter("@sensitive_IntFormat", intParam, "/sensitive_IntFormat");
+    queryBuilder.addParameter(
       "@sensitive_StringFormatL2",
       testDoc.sensitive_NestedObjectFormatL1.sensitive_NestedObjectFormatL2
         .sensitive_StringFormatL2,
       "/sensitive_NestedObjectFormatL1",
     );
-    queryBuilder.addFloatParameter(
+    const decimalParam: CosmosEncryptedNumber = {
+      value:
+        testDoc.sensitive_NestedObjectFormatL1.sensitive_NestedObjectFormatL2
+          .sensitive_DecimalFormatL2,
+      numberType: CosmosEncryptedNumberType.Float,
+    };
+
+    queryBuilder.addParameter(
       "@sensitive_DecimalFormatL2",
-      testDoc.sensitive_NestedObjectFormatL1.sensitive_NestedObjectFormatL2
-        .sensitive_DecimalFormatL2,
+      decimalParam,
       "/sensitive_NestedObjectFormatL1",
     );
 
@@ -588,8 +806,8 @@ describe("ClientSideEncryption", function (this: Suite) {
       "select * from c where c.id = @theId and c.PK = @thePK",
     );
 
-    queryBuilder.addStringParameter("@theId", expectedDoc.id, "/id");
-    queryBuilder.addStringParameter("@thePK", expectedDoc.PK, "/PK");
+    queryBuilder.addParameter("@theId", expectedDoc.id, "/id");
+    queryBuilder.addParameter("@thePK", expectedDoc.PK, "/PK");
 
     await validateQueryResults(encryptionContainer, queryBuilder, expectedDocList);
 
@@ -631,12 +849,12 @@ describe("ClientSideEncryption", function (this: Suite) {
     queryBuilder = new EncryptionQueryBuilder(
       "SELECT * FROM c where array_contains(@sensitive_StringFormat, c.sensitive_StringFormat) AND c.sensitive_NestedObjectFormatL1 = @sensitive_NestedObjectFormatL1",
     );
-    queryBuilder.addArrayParameter(
+    queryBuilder.addParameter(
       "@sensitive_StringFormat",
       arrayOfStringValues,
       "/sensitive_StringFormat",
     );
-    queryBuilder.addObjectParameter(
+    queryBuilder.addParameter(
       "@sensitive_NestedObjectFormatL1",
       testDoc1.sensitive_NestedObjectFormatL1,
       "/sensitive_NestedObjectFormatL1",
@@ -646,14 +864,14 @@ describe("ClientSideEncryption", function (this: Suite) {
     queryBuilder = new EncryptionQueryBuilder(
       "SELECT * FROM c where c.sensitive_BoolFormat = @sensitive_BoolFormat and c.sensitive_FloatFormat = @sensitive_FloatFormat",
     );
-    queryBuilder.addBooleanParameter(
+    queryBuilder.addParameter(
       "@sensitive_BoolFormat",
       testDoc1.sensitive_BoolFormat,
       "/sensitive_BoolFormat",
     );
-    queryBuilder.addFloatParameter(
+    queryBuilder.addParameter(
       "@sensitive_FloatFormat",
-      testDoc1.sensitive_FloatFormat,
+      { value: testDoc1.sensitive_FloatFormat, numberType: CosmosEncryptedNumberType.Float },
       "/sensitive_FloatFormat",
     );
     await validateQueryResults(
@@ -669,10 +887,10 @@ describe("ClientSideEncryption", function (this: Suite) {
     queryBuilder = new EncryptionQueryBuilder(
       "SELECT * FROM c where c.nonsensitive = @nonsensitive and c.sensitive_IntFormat = @sensitive_IntFormat",
     );
-    queryBuilder.addStringParameter("@nonsensitive", testDoc4.nonsensitive, "/nonsensitive");
-    queryBuilder.addIntegerParameter(
+    queryBuilder.addParameter("@nonsensitive", testDoc4.nonsensitive, "/nonsensitive");
+    queryBuilder.addParameter(
       "@sensitive_IntFormat",
-      testDoc4.sensitive_IntFormat,
+      { value: testDoc4.sensitive_IntFormat, numberType: CosmosEncryptedNumberType.Integer },
       "/sensitive_IntFormat",
     );
     await validateQueryResults(encryptionQueryContainer, queryBuilder, [testDoc4]);
@@ -759,7 +977,7 @@ describe("ClientSideEncryption", function (this: Suite) {
     ];
 
     const response = await encryptionContainer.items.batch(operations, partitionKey);
-    verifyDiagnostics(response.diagnostics, true, true, 42, 48);
+    verifyDiagnostics(response.diagnostics, true, true, 41, 48);
     assert.equal(StatusCodes.Ok, response.code);
 
     const doc1 = response.result[0];
@@ -1008,16 +1226,16 @@ describe("ClientSideEncryption", function (this: Suite) {
 
   it("validate Partition Key and ID encryption support", async () => {
     // encrypt string type PK
-    let paths = ["/PK", "/id"].map(
-      (path) =>
-        new ClientEncryptionIncludedPath(
-          path,
-          "key1",
-          EncryptionType.DETERMINISTIC,
-          EncryptionAlgorithm.AEAD_AES_256_CBC_HMAC_SHA256,
-        ),
-    );
-    let policy = new ClientEncryptionPolicy(paths, 2);
+    let paths = ["/PK", "/id"].map((path) => ({
+      path: path,
+      clientEncryptionKeyId: "key1",
+      encryptionType: EncryptionType.DETERMINISTIC,
+      encryptionAlgorithm: EncryptionAlgorithm.AEAD_AES_256_CBC_HMAC_SHA256,
+    }));
+    let policy: ClientEncryptionPolicy = {
+      includedPaths: paths,
+      policyFormatVersion: 2,
+    };
     let containerProperties = {
       id: "StringPKEncContainer",
       partitionKey: {
@@ -1037,16 +1255,16 @@ describe("ClientSideEncryption", function (this: Suite) {
     verifyExpectedDocResponse(testDoc, readResponse.resource);
 
     // encrypt float type PK
-    paths = ["/sensitive_FloatFormat", "/id"].map(
-      (path) =>
-        new ClientEncryptionIncludedPath(
-          path,
-          "key1",
-          EncryptionType.DETERMINISTIC,
-          EncryptionAlgorithm.AEAD_AES_256_CBC_HMAC_SHA256,
-        ),
-    );
-    policy = new ClientEncryptionPolicy(paths, 2);
+    paths = ["/sensitive_FloatFormat", "/id"].map((path) => ({
+      path: path,
+      clientEncryptionKeyId: "key1",
+      encryptionType: EncryptionType.DETERMINISTIC,
+      encryptionAlgorithm: EncryptionAlgorithm.AEAD_AES_256_CBC_HMAC_SHA256,
+    }));
+    policy = {
+      includedPaths: paths,
+      policyFormatVersion: 2,
+    };
     containerProperties = {
       id: "FloatPKEncContainer",
       partitionKey: {
@@ -1067,16 +1285,16 @@ describe("ClientSideEncryption", function (this: Suite) {
     verifyExpectedDocResponse(testDoc, readResponse.resource);
 
     // encrypt boolean type PK
-    paths = ["/sensitive_BoolFormat", "/id"].map(
-      (path) =>
-        new ClientEncryptionIncludedPath(
-          path,
-          "key1",
-          EncryptionType.DETERMINISTIC,
-          EncryptionAlgorithm.AEAD_AES_256_CBC_HMAC_SHA256,
-        ),
-    );
-    policy = new ClientEncryptionPolicy(paths, 2);
+    paths = ["/sensitive_BoolFormat", "/id"].map((path) => ({
+      path: path,
+      clientEncryptionKeyId: "key1",
+      encryptionType: EncryptionType.DETERMINISTIC,
+      encryptionAlgorithm: EncryptionAlgorithm.AEAD_AES_256_CBC_HMAC_SHA256,
+    }));
+    policy = {
+      includedPaths: paths,
+      policyFormatVersion: 2,
+    };
     containerProperties = {
       id: "BoolPKEncContainer",
       partitionKey: {
@@ -1135,14 +1353,17 @@ describe("ClientSideEncryption", function (this: Suite) {
     const queryBuilder = new EncryptionQueryBuilder(
       `SELECT * FROM c where c.sensitive_StringFormat = @sensitive_StringFormat AND c.sensitive_IntFormat = @sensitive_IntFormat`,
     );
-    queryBuilder.addStringParameter(
+    queryBuilder.addParameter(
       "@sensitive_StringFormat",
       testDoc.sensitive_StringFormat,
       "/sensitive_StringFormat",
     );
-    queryBuilder.addIntegerParameter(
+    queryBuilder.addParameter(
       "@sensitive_IntFormat",
-      testDoc.sensitive_IntFormat,
+      {
+        value: testDoc.sensitive_IntFormat,
+        numberType: CosmosEncryptedNumberType.Integer,
+      },
       "/sensitive_IntFormat",
     );
     const expectedDocList = [testDoc];
@@ -1272,16 +1493,16 @@ describe("ClientSideEncryption", function (this: Suite) {
       "/sensitive_IntArray",
       "/sensitive_NestedObjectFormatL1",
       "/sensitive_DoubleFormat",
-    ].map(
-      (path) =>
-        new ClientEncryptionIncludedPath(
-          path,
-          "key1",
-          EncryptionType.DETERMINISTIC,
-          EncryptionAlgorithm.AEAD_AES_256_CBC_HMAC_SHA256,
-        ),
-    );
-    let encryptionPolicy = new ClientEncryptionPolicy(paths, 2);
+    ].map((path) => ({
+      path: path,
+      clientEncryptionKeyId: "key1",
+      encryptionType: EncryptionType.DETERMINISTIC,
+      encryptionAlgorithm: EncryptionAlgorithm.AEAD_AES_256_CBC_HMAC_SHA256,
+    }));
+    let encryptionPolicy = {
+      includedPaths: paths,
+      policyFormatVersion: 2,
+    };
     let containerProperties: ContainerDefinition = {
       id: randomUUID(),
       partitionKey: { paths: ["/sensitive_DoubleFormat"] },
@@ -1307,26 +1528,29 @@ describe("ClientSideEncryption", function (this: Suite) {
     // Client 1 Deletes the Container referenced in Client 2 and Recreate with different policy
     await database.container(encryptionContainerToDelete.id).delete();
     paths = [
-      new ClientEncryptionIncludedPath(
-        "/sensitive_StringFormat",
-        "key1",
-        EncryptionType.DETERMINISTIC,
-        EncryptionAlgorithm.AEAD_AES_256_CBC_HMAC_SHA256,
-      ),
-      new ClientEncryptionIncludedPath(
-        "/sensitive_BoolFormat",
-        "key2",
-        EncryptionType.DETERMINISTIC,
-        EncryptionAlgorithm.AEAD_AES_256_CBC_HMAC_SHA256,
-      ),
-      new ClientEncryptionIncludedPath(
-        "/PK",
-        "key2",
-        EncryptionType.DETERMINISTIC,
-        EncryptionAlgorithm.AEAD_AES_256_CBC_HMAC_SHA256,
-      ),
+      {
+        path: "/sensitive_StringFormat",
+        clientEncryptionKeyId: "key1",
+        encryptionType: EncryptionType.DETERMINISTIC,
+        encryptionAlgorithm: EncryptionAlgorithm.AEAD_AES_256_CBC_HMAC_SHA256,
+      },
+      {
+        path: "/sensitive_BoolFormat",
+        clientEncryptionKeyId: "key2",
+        encryptionType: EncryptionType.DETERMINISTIC,
+        encryptionAlgorithm: EncryptionAlgorithm.AEAD_AES_256_CBC_HMAC_SHA256,
+      },
+      {
+        path: "/PK",
+        clientEncryptionKeyId: "key2",
+        encryptionType: EncryptionType.DETERMINISTIC,
+        encryptionAlgorithm: EncryptionAlgorithm.AEAD_AES_256_CBC_HMAC_SHA256,
+      },
     ];
-    encryptionPolicy = new ClientEncryptionPolicy(paths, 2);
+    encryptionPolicy = {
+      includedPaths: paths,
+      policyFormatVersion: 2,
+    };
     containerProperties = {
       id: encryptionContainerToDelete.id,
       partitionKey: { paths: ["/PK"] },
@@ -1445,16 +1669,16 @@ describe("ClientSideEncryption", function (this: Suite) {
       "/sensitive_IntArray",
       "/sensitive_NestedObjectFormatL1",
       "/sensitive_DoubleFormat",
-    ].map(
-      (path) =>
-        new ClientEncryptionIncludedPath(
-          path,
-          "key1",
-          EncryptionType.DETERMINISTIC,
-          EncryptionAlgorithm.AEAD_AES_256_CBC_HMAC_SHA256,
-        ),
-    );
-    let encryptionPolicy = new ClientEncryptionPolicy(paths, 2);
+    ].map((path) => ({
+      path: path,
+      clientEncryptionKeyId: "key1",
+      encryptionType: EncryptionType.DETERMINISTIC,
+      encryptionAlgorithm: EncryptionAlgorithm.AEAD_AES_256_CBC_HMAC_SHA256,
+    }));
+    let encryptionPolicy = {
+      includedPaths: paths,
+      policyFormatVersion: 2,
+    };
     let containerProperties: ContainerDefinition = {
       id: randomUUID(),
       partitionKey: { paths: ["/sensitive_DoubleFormat"] },
@@ -1480,26 +1704,29 @@ describe("ClientSideEncryption", function (this: Suite) {
     // Client 1 Deletes the Container referenced in Client 2 and Recreate with different policy
     await database.container(encryptionContainerToDelete.id).delete();
     paths = [
-      new ClientEncryptionIncludedPath(
-        "/sensitive_StringFormat",
-        "key1",
-        EncryptionType.DETERMINISTIC,
-        EncryptionAlgorithm.AEAD_AES_256_CBC_HMAC_SHA256,
-      ),
-      new ClientEncryptionIncludedPath(
-        "/sensitive_BoolFormat",
-        "key2",
-        EncryptionType.DETERMINISTIC,
-        EncryptionAlgorithm.AEAD_AES_256_CBC_HMAC_SHA256,
-      ),
-      new ClientEncryptionIncludedPath(
-        "/PK",
-        "key2",
-        EncryptionType.DETERMINISTIC,
-        EncryptionAlgorithm.AEAD_AES_256_CBC_HMAC_SHA256,
-      ),
+      {
+        path: "/sensitive_StringFormat",
+        clientEncryptionKeyId: "key1",
+        encryptionType: EncryptionType.DETERMINISTIC,
+        encryptionAlgorithm: EncryptionAlgorithm.AEAD_AES_256_CBC_HMAC_SHA256,
+      },
+      {
+        path: "/sensitive_BoolFormat",
+        clientEncryptionKeyId: "key2",
+        encryptionType: EncryptionType.DETERMINISTIC,
+        encryptionAlgorithm: EncryptionAlgorithm.AEAD_AES_256_CBC_HMAC_SHA256,
+      },
+      {
+        path: "/PK",
+        clientEncryptionKeyId: "key2",
+        encryptionType: EncryptionType.DETERMINISTIC,
+        encryptionAlgorithm: EncryptionAlgorithm.AEAD_AES_256_CBC_HMAC_SHA256,
+      },
     ];
-    encryptionPolicy = new ClientEncryptionPolicy(paths, 2);
+    encryptionPolicy = {
+      includedPaths: paths,
+      policyFormatVersion: 2,
+    };
     containerProperties = {
       id: encryptionContainerToDelete.id,
       partitionKey: { paths: ["/PK"] },
@@ -1555,16 +1782,16 @@ describe("ClientSideEncryption", function (this: Suite) {
       "/sensitive_IntArray",
       "/sensitive_NestedObjectFormatL1",
       "/sensitive_DoubleFormat",
-    ].map(
-      (path) =>
-        new ClientEncryptionIncludedPath(
-          path,
-          "key1",
-          EncryptionType.DETERMINISTIC,
-          EncryptionAlgorithm.AEAD_AES_256_CBC_HMAC_SHA256,
-        ),
-    );
-    let encryptionPolicy = new ClientEncryptionPolicy(paths, 2);
+    ].map((path) => ({
+      path: path,
+      clientEncryptionKeyId: "key1",
+      encryptionType: EncryptionType.DETERMINISTIC,
+      encryptionAlgorithm: EncryptionAlgorithm.AEAD_AES_256_CBC_HMAC_SHA256,
+    }));
+    let encryptionPolicy = {
+      includedPaths: paths,
+      policyFormatVersion: 2,
+    };
     let containerProperties: ContainerDefinition = {
       id: randomUUID(),
       partitionKey: { paths: ["/sensitive_DoubleFormat"] },
@@ -1590,26 +1817,29 @@ describe("ClientSideEncryption", function (this: Suite) {
     // Client 1 Deletes the Container referenced in Client 2 and Recreate with different policy
     await database.container(encryptionContainerToDelete.id).delete();
     paths = [
-      new ClientEncryptionIncludedPath(
-        "/sensitive_StringFormat",
-        "key1",
-        EncryptionType.DETERMINISTIC,
-        EncryptionAlgorithm.AEAD_AES_256_CBC_HMAC_SHA256,
-      ),
-      new ClientEncryptionIncludedPath(
-        "/sensitive_BoolFormat",
-        "key2",
-        EncryptionType.DETERMINISTIC,
-        EncryptionAlgorithm.AEAD_AES_256_CBC_HMAC_SHA256,
-      ),
-      new ClientEncryptionIncludedPath(
-        "/PK",
-        "key2",
-        EncryptionType.DETERMINISTIC,
-        EncryptionAlgorithm.AEAD_AES_256_CBC_HMAC_SHA256,
-      ),
+      {
+        path: "/sensitive_StringFormat",
+        clientEncryptionKeyId: "key1",
+        encryptionType: EncryptionType.DETERMINISTIC,
+        encryptionAlgorithm: EncryptionAlgorithm.AEAD_AES_256_CBC_HMAC_SHA256,
+      },
+      {
+        path: "/sensitive_BoolFormat",
+        clientEncryptionKeyId: "key2",
+        encryptionType: EncryptionType.DETERMINISTIC,
+        encryptionAlgorithm: EncryptionAlgorithm.AEAD_AES_256_CBC_HMAC_SHA256,
+      },
+      {
+        path: "/PK",
+        clientEncryptionKeyId: "key2",
+        encryptionType: EncryptionType.DETERMINISTIC,
+        encryptionAlgorithm: EncryptionAlgorithm.AEAD_AES_256_CBC_HMAC_SHA256,
+      },
     ];
-    encryptionPolicy = new ClientEncryptionPolicy(paths, 2);
+    encryptionPolicy = {
+      includedPaths: paths,
+      policyFormatVersion: 2,
+    };
     containerProperties = {
       id: encryptionContainerToDelete.id,
       partitionKey: { paths: ["/PK"] },
@@ -1677,16 +1907,16 @@ describe("ClientSideEncryption", function (this: Suite) {
       "/sensitive_IntArray",
       "/sensitive_NestedObjectFormatL1",
       "/sensitive_DoubleFormat",
-    ].map(
-      (path) =>
-        new ClientEncryptionIncludedPath(
-          path,
-          "key1",
-          EncryptionType.DETERMINISTIC,
-          EncryptionAlgorithm.AEAD_AES_256_CBC_HMAC_SHA256,
-        ),
-    );
-    let encryptionPolicy = new ClientEncryptionPolicy(paths, 2);
+    ].map((path) => ({
+      path: path,
+      clientEncryptionKeyId: "key1",
+      encryptionType: EncryptionType.DETERMINISTIC,
+      encryptionAlgorithm: EncryptionAlgorithm.AEAD_AES_256_CBC_HMAC_SHA256,
+    }));
+    let encryptionPolicy = {
+      includedPaths: paths,
+      policyFormatVersion: 2,
+    };
     let containerProperties: ContainerDefinition = {
       id: randomUUID(),
       partitionKey: { paths: ["/sensitive_DoubleFormat"] },
@@ -1712,26 +1942,29 @@ describe("ClientSideEncryption", function (this: Suite) {
     // Client 1 Deletes the Container referenced in Client 2 and Recreate with different policy
     await database.container(encryptionContainerToDelete.id).delete();
     paths = [
-      new ClientEncryptionIncludedPath(
-        "/sensitive_StringFormat",
-        "key1",
-        EncryptionType.DETERMINISTIC,
-        EncryptionAlgorithm.AEAD_AES_256_CBC_HMAC_SHA256,
-      ),
-      new ClientEncryptionIncludedPath(
-        "/sensitive_BoolFormat",
-        "key2",
-        EncryptionType.DETERMINISTIC,
-        EncryptionAlgorithm.AEAD_AES_256_CBC_HMAC_SHA256,
-      ),
-      new ClientEncryptionIncludedPath(
-        "/PK",
-        "key2",
-        EncryptionType.DETERMINISTIC,
-        EncryptionAlgorithm.AEAD_AES_256_CBC_HMAC_SHA256,
-      ),
+      {
+        path: "/sensitive_StringFormat",
+        clientEncryptionKeyId: "key1",
+        encryptionType: EncryptionType.DETERMINISTIC,
+        encryptionAlgorithm: EncryptionAlgorithm.AEAD_AES_256_CBC_HMAC_SHA256,
+      },
+      {
+        path: "/sensitive_BoolFormat",
+        clientEncryptionKeyId: "key2",
+        encryptionType: EncryptionType.DETERMINISTIC,
+        encryptionAlgorithm: EncryptionAlgorithm.AEAD_AES_256_CBC_HMAC_SHA256,
+      },
+      {
+        path: "/PK",
+        clientEncryptionKeyId: "key2",
+        encryptionType: EncryptionType.DETERMINISTIC,
+        encryptionAlgorithm: EncryptionAlgorithm.AEAD_AES_256_CBC_HMAC_SHA256,
+      },
     ];
-    encryptionPolicy = new ClientEncryptionPolicy(paths, 2);
+    encryptionPolicy = {
+      includedPaths: paths,
+      policyFormatVersion: 2,
+    };
     containerProperties = {
       id: encryptionContainerToDelete.id,
       partitionKey: { paths: ["/PK"] },
@@ -1794,21 +2027,149 @@ describe("ClientSideEncryption", function (this: Suite) {
     otherClient.dispose();
   });
 
+  it("encryption validate policy refresh post container delete with executeBulkOperation", async () => {
+    // create a container with 1st client
+    let paths = [
+      "/sensitive_IntArray",
+      "/sensitive_NestedObjectFormatL1",
+      "/sensitive_DoubleFormat",
+    ].map((path) => ({
+      path: path,
+      clientEncryptionKeyId: "key1",
+      encryptionType: EncryptionType.DETERMINISTIC,
+      encryptionAlgorithm: EncryptionAlgorithm.AEAD_AES_256_CBC_HMAC_SHA256,
+    }));
+    let encryptionPolicy = {
+      includedPaths: paths,
+      policyFormatVersion: 2,
+    };
+    let containerProperties: ContainerDefinition = {
+      id: randomUUID(),
+      partitionKey: { paths: ["/sensitive_DoubleFormat"] },
+      clientEncryptionPolicy: encryptionPolicy,
+    };
+    const encryptionContainerToDelete = (await database.containers.create(containerProperties))
+      .container;
+    await encryptionContainerToDelete.initializeEncryption();
+    // create a document with 2nd client on same database and container
+    const otherClient = new CosmosClient({
+      endpoint: endpoint,
+      key: masterKey,
+      clientEncryptionOptions: {
+        keyEncryptionKeyResolver: new MockKeyVaultEncryptionKeyResolver(),
+      },
+    });
+    const otherDatabase = otherClient.database(database.id);
+    const otherEncryptionContainer = otherDatabase.container(encryptionContainerToDelete.id);
+    const testDoc = TestDoc.create();
+    const createResponse = await otherEncryptionContainer.items.create(testDoc);
+    assert.equal(StatusCodes.Created, createResponse.statusCode);
+    verifyExpectedDocResponse(testDoc, createResponse.resource);
+    // Client 1 Deletes the Container referenced in Client 2 and Recreate with different policy
+    await database.container(encryptionContainerToDelete.id).delete();
+    paths = [
+      {
+        path: "/sensitive_StringFormat",
+        clientEncryptionKeyId: "key1",
+        encryptionType: EncryptionType.DETERMINISTIC,
+        encryptionAlgorithm: EncryptionAlgorithm.AEAD_AES_256_CBC_HMAC_SHA256,
+      },
+      {
+        path: "/sensitive_BoolFormat",
+        clientEncryptionKeyId: "key2",
+        encryptionType: EncryptionType.DETERMINISTIC,
+        encryptionAlgorithm: EncryptionAlgorithm.AEAD_AES_256_CBC_HMAC_SHA256,
+      },
+      {
+        path: "/PK",
+        clientEncryptionKeyId: "key2",
+        encryptionType: EncryptionType.DETERMINISTIC,
+        encryptionAlgorithm: EncryptionAlgorithm.AEAD_AES_256_CBC_HMAC_SHA256,
+      },
+    ];
+    encryptionPolicy = {
+      includedPaths: paths,
+      policyFormatVersion: 2,
+    };
+    containerProperties = {
+      id: encryptionContainerToDelete.id,
+      partitionKey: { paths: ["/PK"] },
+      clientEncryptionPolicy: encryptionPolicy,
+    };
+    await database.containers.create(containerProperties);
+    try {
+      await testCreateItem(encryptionContainerToDelete);
+      assert.fail("create operation should fail");
+    } catch (err) {
+      // verifyDiagnostics(err.diagnostics, true, false, 3);
+      assert.ok(
+        err.message.includes(
+          "Operation has failed due to a possible mismatch in Client Encryption Policy configured on the container.",
+        ),
+      );
+    }
+    const docToReplace = (await testCreateItem(encryptionContainerToDelete)).resource;
+    docToReplace.sensitive_StringFormat = "docToBeReplaced";
+    const docToUpsert = (await testCreateItem(encryptionContainerToDelete)).resource;
+    docToUpsert.sensitive_StringFormat = "docToBeUpserted";
+    const docToCreate = TestDoc.create();
+    const operations = [
+      {
+        operationType: BulkOperationType.Upsert,
+        partitionKey: docToUpsert.PK,
+        resourceBody: JSON.parse(JSON.stringify(docToUpsert)),
+      },
+      {
+        operationType: BulkOperationType.Replace,
+        id: docToReplace.id,
+        partitionKey: docToReplace.PK,
+        resourceBody: JSON.parse(JSON.stringify(docToReplace)),
+      },
+      {
+        operationType: BulkOperationType.Create,
+        partitionKey: docToCreate.PK,
+        resourceBody: JSON.parse(JSON.stringify(docToCreate)),
+      },
+    ];
+    try {
+      await otherEncryptionContainer.items.executeBulkOperations(operations);
+      assert.fail("bulk operation should fail");
+    } catch (error) {
+      // verifyDiagnostics(error.diagnostics, true, false, 11, undefined);
+      assert.ok(
+        error.message.includes(
+          "Operation has failed due to a possible mismatch in Client Encryption Policy configured on the container.",
+        ),
+      );
+    }
+    // retry bulk operation with 2nd client
+    const res = await otherEncryptionContainer.items.executeBulkOperations(operations);
+    assert.equal(StatusCodes.Ok, res[0].response?.statusCode);
+    assert.equal(StatusCodes.Ok, res[1].response?.statusCode);
+    assert.equal(StatusCodes.Created, res[2].response?.statusCode);
+    await verifyItemByRead(encryptionContainerToDelete, docToReplace);
+    await testCreateItem(encryptionContainerToDelete);
+    await verifyItemByRead(encryptionContainerToDelete, docToUpsert);
+    // validate if the right policy was used, by reading them all back
+    await otherEncryptionContainer.items.readAll().fetchAll();
+    otherClient.dispose();
+  });
+
   it("encryption validate policy refresh post database delete", async () => {
     const mainCLient = new CosmosClient({
       endpoint: endpoint,
       key: masterKey,
       clientEncryptionOptions: {
         keyEncryptionKeyResolver: new MockKeyVaultEncryptionKeyResolver(),
-        encryptionKeyTimeToLive: EncryptionTimeToLive.FromMinutes(30),
+        encryptionKeyTimeToLiveInSeconds: 1800,
       },
     });
-    let keyWrapMetadata = new EncryptionKeyWrapMetadata(
-      testKeyVault,
-      "myCek",
-      "cmkpath3",
-      KeyEncryptionAlgorithm.RSA_OAEP,
-    );
+    let keyWrapMetadata: EncryptionKeyWrapMetadata = {
+      type: testKeyVault,
+      name: "myCek",
+      value: "cmkpath3",
+      algorithm: KeyEncryptionAlgorithm.RSA_OAEP,
+    };
     let mainDatabase = (await mainCLient.databases.createIfNotExists({ id: "databaseToBeDeleted" }))
       .database;
     await mainDatabase.createClientEncryptionKey(
@@ -1821,16 +2182,15 @@ describe("ClientSideEncryption", function (this: Suite) {
       "/sensitive_StringFormat",
       "/sensitive_ArrayFormat",
       "/sensitive_NestedObjectFormatL1",
-    ].map(
-      (path) =>
-        new ClientEncryptionIncludedPath(
-          path,
-          "myCek",
-          EncryptionType.DETERMINISTIC,
-          EncryptionAlgorithm.AEAD_AES_256_CBC_HMAC_SHA256,
-        ),
-    );
-    const encryptionPolicy = new ClientEncryptionPolicy(originalPaths);
+    ].map((path) => ({
+      path: path,
+      clientEncryptionKeyId: "myCek",
+      encryptionType: EncryptionType.DETERMINISTIC,
+      encryptionAlgorithm: EncryptionAlgorithm.AEAD_AES_256_CBC_HMAC_SHA256,
+    }));
+    const encryptionPolicy = {
+      includedPaths: originalPaths,
+    };
     let containerDef: ContainerDefinition = {
       id: "containerToBeDeleted",
       partitionKey: {
@@ -1849,7 +2209,7 @@ describe("ClientSideEncryption", function (this: Suite) {
       key: masterKey,
       clientEncryptionOptions: {
         keyEncryptionKeyResolver: new MockKeyVaultEncryptionKeyResolver(),
-        encryptionKeyTimeToLive: EncryptionTimeToLive.NoTTL(),
+        encryptionKeyTimeToLiveInSeconds: 0,
       },
     });
     const otherDatabase = otherClient.database(mainDatabase.id);
@@ -1861,12 +2221,12 @@ describe("ClientSideEncryption", function (this: Suite) {
     await mainDatabase.delete();
     mainDatabase = (await mainCLient.databases.createIfNotExists({ id: "databaseToBeDeleted" }))
       .database;
-    keyWrapMetadata = new EncryptionKeyWrapMetadata(
-      testKeyVault,
-      "myCek",
-      "cmkpath4",
-      KeyEncryptionAlgorithm.RSA_OAEP,
-    );
+    keyWrapMetadata = {
+      type: testKeyVault,
+      name: "myCek",
+      value: "cmkpath4",
+      algorithm: KeyEncryptionAlgorithm.RSA_OAEP,
+    };
     await mainDatabase.createClientEncryptionKey(
       keyWrapMetadata.name,
       EncryptionAlgorithm.AEAD_AES_256_CBC_HMAC_SHA256,
@@ -1876,16 +2236,15 @@ describe("ClientSideEncryption", function (this: Suite) {
       "/sensitive_IntArray",
       "/sensitive_DateFormat",
       "/sensitive_BoolFormat",
-    ].map(
-      (path) =>
-        new ClientEncryptionIncludedPath(
-          path,
-          "myCek",
-          EncryptionType.DETERMINISTIC,
-          EncryptionAlgorithm.AEAD_AES_256_CBC_HMAC_SHA256,
-        ),
-    );
-    clientEncryptionPolicy = new ClientEncryptionPolicy(newModifiedPaths);
+    ].map((path) => ({
+      path: path,
+      clientEncryptionKeyId: "myCek",
+      encryptionType: EncryptionType.DETERMINISTIC,
+      encryptionAlgorithm: EncryptionAlgorithm.AEAD_AES_256_CBC_HMAC_SHA256,
+    }));
+    clientEncryptionPolicy = {
+      includedPaths: newModifiedPaths,
+    };
     containerDef = {
       id: encryptionContainerToDelete.id,
       partitionKey: {
@@ -1921,17 +2280,20 @@ describe("ClientSideEncryption", function (this: Suite) {
     // create new container in other client.
     // The test basically validates if the new key created is referenced, Since the other client would have had the old key cached.
     // and here we would not hit the incorrect container rid issue.
-    const newModifiedPath2 = new ClientEncryptionIncludedPath(
-      "/PK",
-      "myCek",
-      EncryptionType.DETERMINISTIC,
-      EncryptionAlgorithm.AEAD_AES_256_CBC_HMAC_SHA256,
-    );
+    const newModifiedPath2 = {
+      path: "/PK",
+      clientEncryptionKeyId: "myCek",
+      encryptionType: EncryptionType.DETERMINISTIC,
+      encryptionAlgorithm: EncryptionAlgorithm.AEAD_AES_256_CBC_HMAC_SHA256,
+    };
     const otherEncryptionContainer2 = (
       await otherDatabase.containers.createIfNotExists({
         id: "otherContainer2",
         partitionKey: "/PK",
-        clientEncryptionPolicy: new ClientEncryptionPolicy([newModifiedPath2], 2),
+        clientEncryptionPolicy: {
+          includedPaths: [newModifiedPath2],
+          policyFormatVersion: 2,
+        },
       })
     ).container;
 
@@ -1942,7 +2304,7 @@ describe("ClientSideEncryption", function (this: Suite) {
       key: masterKey,
       clientEncryptionOptions: {
         keyEncryptionKeyResolver: new MockKeyVaultEncryptionKeyResolver(),
-        encryptionKeyTimeToLive: EncryptionTimeToLive.FromHours(1),
+        encryptionKeyTimeToLiveInSeconds: 120,
       },
     });
     const otherDatabase2 = otherClient2.database(mainDatabase.id);
@@ -1985,7 +2347,7 @@ describe("ClientSideEncryption", function (this: Suite) {
       `SELECT COUNT(c.id), c.PK FROM c WHERE c.PK = @PK GROUP BY c.PK`,
     );
 
-    query.addStringParameter("@PK", partitionKey, "/PK");
+    query.addParameter("@PK", partitionKey, "/PK");
     let iterator = await encryptionContainer.items.getEncryptionQueryIterator(query);
     while (iterator.hasMoreResults()) {
       const response = await iterator.fetchNext();
@@ -1996,9 +2358,9 @@ describe("ClientSideEncryption", function (this: Suite) {
       "SELECT COUNT(c.id), c.sensitive_IntFormat FROM c WHERE c.sensitive_IntFormat = @Sensitive_IntFormat GROUP BY c.sensitive_IntFormat",
     );
 
-    withEncryptedParameter.addIntegerParameter(
+    withEncryptedParameter.addParameter(
       "@Sensitive_IntFormat",
-      testDoc1.sensitive_IntFormat,
+      { value: testDoc1.sensitive_IntFormat, numberType: CosmosEncryptedNumberType.Integer },
       "/sensitive_IntFormat",
     );
 
@@ -2011,21 +2373,30 @@ describe("ClientSideEncryption", function (this: Suite) {
 
   it("should fail creating cep with duplicate path", async () => {
     // duplicate paths in policy
-    const pathdup1 = new ClientEncryptionIncludedPath(
-      "/sensitive_StringFormat",
-      "key2",
-      EncryptionType.DETERMINISTIC,
-      EncryptionAlgorithm.AEAD_AES_256_CBC_HMAC_SHA256,
-    );
-    const pathdup2 = new ClientEncryptionIncludedPath(
-      "/sensitive_StringFormat",
-      "key2",
-      EncryptionType.DETERMINISTIC,
-      EncryptionAlgorithm.AEAD_AES_256_CBC_HMAC_SHA256,
-    );
+    const pathdup1 = {
+      path: "/sensitive_StringFormat",
+      clientEncryptionKeyId: "key2",
+      encryptionType: EncryptionType.DETERMINISTIC,
+      encryptionAlgorithm: EncryptionAlgorithm.AEAD_AES_256_CBC_HMAC_SHA256,
+    };
+    const pathdup2 = {
+      path: "/sensitive_StringFormat",
+      clientEncryptionKeyId: "key2",
+      encryptionType: EncryptionType.DETERMINISTIC,
+      encryptionAlgorithm: EncryptionAlgorithm.AEAD_AES_256_CBC_HMAC_SHA256,
+    };
     const pathsWithDups = [pathdup1, pathdup2];
+    const contDef = {
+      id: "containerWithDups",
+      partitionKey: {
+        paths: ["/PK"],
+      },
+      clientEncryptionPolicy: {
+        includedPaths: pathsWithDups,
+      },
+    };
     try {
-      new ClientEncryptionPolicy(pathsWithDups);
+      await database.containers.create(contDef);
       assert.fail("ClientEncryptionPolicy creation should have failed");
     } catch (err) {
       assert.ok(
@@ -2064,15 +2435,12 @@ describe("ClientSideEncryption", function (this: Suite) {
   });
 
   it("encryption hierarchical partition key test", async () => {
-    const key1Paths = ["/sensitive_LongFormat", "/sensitive_NestedObjectFormatL1"].map(
-      (path) =>
-        new ClientEncryptionIncludedPath(
-          path,
-          "key1",
-          EncryptionType.DETERMINISTIC,
-          EncryptionAlgorithm.AEAD_AES_256_CBC_HMAC_SHA256,
-        ),
-    );
+    const key1Paths = ["/sensitive_LongFormat", "/sensitive_NestedObjectFormatL1"].map((path) => ({
+      path: path,
+      clientEncryptionKeyId: "key1",
+      encryptionType: EncryptionType.DETERMINISTIC,
+      encryptionAlgorithm: EncryptionAlgorithm.AEAD_AES_256_CBC_HMAC_SHA256,
+    }));
     const containerDef = {
       id: "hierarchical_partition_container",
       partitionKey: {
@@ -2083,7 +2451,10 @@ describe("ClientSideEncryption", function (this: Suite) {
         version: 2,
         kind: PartitionKeyKind.MultiHash,
       },
-      clientEncryptionPolicy: new ClientEncryptionPolicy(key1Paths, 2),
+      clientEncryptionPolicy: {
+        includedPaths: key1Paths,
+        policyFormatVersion: 2,
+      },
       throughput: 400,
     };
     const container = (await database.containers.create(containerDef)).container;
@@ -2108,7 +2479,7 @@ describe("ClientSideEncryption", function (this: Suite) {
     query = new EncryptionQueryBuilder(
       "SELECT * FROM c WHERE c.sensitive_StringFormat= @sensitive_StringFormat",
     );
-    query.addStringParameter(
+    query.addParameter(
       "@sensitive_StringFormat",
       testDoc.sensitive_StringFormat,
       "/sensitive_StringFormat",
@@ -2121,9 +2492,9 @@ describe("ClientSideEncryption", function (this: Suite) {
     query = new EncryptionQueryBuilder(
       "SELECT * FROM c WHERE c.sensitive_LongFormat= @sensitive_LongFormat",
     );
-    query.addIntegerParameter(
+    query.addParameter(
       "@sensitive_LongFormat",
-      testDoc.sensitive_LongFormat,
+      { value: testDoc.sensitive_LongFormat, numberType: CosmosEncryptedNumberType.Integer },
       "/sensitive_LongFormat",
     );
     iterator = await container.items.getEncryptionQueryIterator(query);
@@ -2134,7 +2505,7 @@ describe("ClientSideEncryption", function (this: Suite) {
     query = new EncryptionQueryBuilder(
       "SELECT * FROM c WHERE c.sensitive_NestedObjectFormatL1= @sensitive_NestedObjectFormatL1",
     );
-    query.addObjectParameter(
+    query.addParameter(
       "@sensitive_NestedObjectFormatL1",
       testDoc.sensitive_NestedObjectFormatL1,
       "/sensitive_NestedObjectFormatL1",
@@ -2143,6 +2514,219 @@ describe("ClientSideEncryption", function (this: Suite) {
     queryResponse = await iterator.fetchAll();
     assert.equal(queryResponse.resources.length, 1);
     verifyExpectedDocResponse(testDoc, queryResponse.resources[0]);
+    await container.delete();
+  });
+
+  it("encryption hierarchical partition key test with executeBulkOperations", async () => {
+    const key1Paths = ["/sensitive_LongFormat", "/sensitive_NestedObjectFormatL1"].map((path) => ({
+      path: path,
+      clientEncryptionKeyId: "key1",
+      encryptionType: EncryptionType.DETERMINISTIC,
+      encryptionAlgorithm: EncryptionAlgorithm.AEAD_AES_256_CBC_HMAC_SHA256,
+    }));
+    const containerDef = {
+      id: "hierarchical_partition_container",
+      partitionKey: {
+        paths: [
+          "/sensitive_StringFormat",
+          "/sensitive_NestedObjectFormatL1/sensitive_NestedObjectFormatL2/sensitive_StringFormatL2",
+        ],
+        version: 2,
+        kind: PartitionKeyKind.MultiHash,
+      },
+      clientEncryptionPolicy: {
+        includedPaths: key1Paths,
+        policyFormatVersion: 2,
+      },
+      throughput: 400,
+    };
+    const container = (await database.containers.create(containerDef)).container;
+    await container.initializeEncryption();
+
+    const docToCreate = TestDoc.create();
+
+    const { resource: docToReplace } = await testCreateItem(container);
+    docToReplace.nonsensitive = randomUUID();
+
+    const { resource: docToUpsert } = await testCreateItem(container);
+    docToUpsert.nonsensitive = randomUUID();
+
+    // doc not created before
+    const docToUpsert2 = TestDoc.create();
+
+    const { resource: docToDelete } = await testCreateItem(container);
+
+    const { resource: docToPatch } = await testCreateItem(container);
+    docToPatch.nonsensitive = randomUUID();
+
+    const patchOperation = {
+      operations: [
+        {
+          op: PatchOperationType.replace,
+          path: "/nonsensitive",
+          value: docToPatch.nonsensitive,
+        },
+      ],
+    };
+    const operations = [
+      {
+        operationType: BulkOperationType.Create,
+        partitionKey: [
+          docToCreate.sensitive_StringFormat,
+          docToCreate.sensitive_NestedObjectFormatL1.sensitive_NestedObjectFormatL2
+            .sensitive_StringFormatL2,
+        ],
+        resourceBody: JSON.parse(JSON.stringify(docToCreate)),
+      },
+      {
+        operationType: BulkOperationType.Upsert,
+        partitionKey: [
+          docToUpsert2.sensitive_StringFormat,
+          docToUpsert2.sensitive_NestedObjectFormatL1.sensitive_NestedObjectFormatL2
+            .sensitive_StringFormatL2,
+        ],
+        resourceBody: JSON.parse(JSON.stringify(docToUpsert2)),
+      },
+      {
+        operationType: BulkOperationType.Replace,
+        partitionKey: [
+          docToReplace.sensitive_StringFormat,
+          docToReplace.sensitive_NestedObjectFormatL1.sensitive_NestedObjectFormatL2
+            .sensitive_StringFormatL2,
+        ],
+        id: docToReplace.id,
+        resourceBody: JSON.parse(JSON.stringify(docToReplace)),
+      },
+      {
+        operationType: BulkOperationType.Upsert,
+        partitionKey: [
+          docToUpsert.sensitive_StringFormat,
+          docToUpsert.sensitive_NestedObjectFormatL1.sensitive_NestedObjectFormatL2
+            .sensitive_StringFormatL2,
+        ],
+        resourceBody: JSON.parse(JSON.stringify(docToUpsert)),
+      },
+      {
+        operationType: BulkOperationType.Delete,
+        id: docToDelete.id,
+        partitionKey: [
+          docToDelete.sensitive_StringFormat,
+          docToDelete.sensitive_NestedObjectFormatL1.sensitive_NestedObjectFormatL2
+            .sensitive_StringFormatL2,
+        ],
+      },
+      {
+        operationType: BulkOperationType.Patch,
+        partitionKey: [
+          docToPatch.sensitive_StringFormat,
+          docToPatch.sensitive_NestedObjectFormatL1.sensitive_NestedObjectFormatL2
+            .sensitive_StringFormatL2,
+        ],
+        id: docToPatch.id,
+        resourceBody: patchOperation,
+      },
+    ];
+
+    const result = await container.items.executeBulkOperations(operations);
+    result.forEach((r) => {
+      assert.isNotNull(r.response.diagnostics);
+      assert.isNotNull(r.response.diagnostics.clientSideRequestStatistics.encryptionDiagnostics);
+      const encryptContent =
+        r.response.diagnostics.clientSideRequestStatistics.encryptionDiagnostics.encryptContent;
+      const decryptContent =
+        r.response.diagnostics.clientSideRequestStatistics.encryptionDiagnostics.decryptContent;
+      assert.isNotNull(encryptContent);
+      assert.isNotNull(encryptContent[Constants.Encryption.DiagnosticsStartTime]);
+      assert.isNotNull(encryptContent[Constants.Encryption.DiagnosticsPropertiesEncryptedCount]);
+      assert.isNotNull(encryptContent[Constants.Encryption.DiagnosticsDuration]);
+      assert.isNotNull(decryptContent);
+      assert.isNotNull(decryptContent[Constants.Encryption.DiagnosticsStartTime]);
+      assert.isNotNull(decryptContent[Constants.Encryption.DiagnosticsPropertiesDecryptedCount]);
+      assert.isNotNull(decryptContent[Constants.Encryption.DiagnosticsDuration]);
+    });
+    // Create
+    assert.equal(StatusCodes.Created, result[0].response.statusCode);
+    verifyExpectedDocResponse(docToCreate, result[0].response.resourceBody);
+    // 2 encrypted field + 1 partition key for create and upsert encryption
+    assert.equal(
+      result[0].response.diagnostics.clientSideRequestStatistics.encryptionDiagnostics
+        .encryptContent[Constants.Encryption.DiagnosticsPropertiesEncryptedCount],
+      3,
+    );
+    assert.equal(
+      result[0].response.diagnostics.clientSideRequestStatistics.encryptionDiagnostics
+        .decryptContent[Constants.Encryption.DiagnosticsPropertiesDecryptedCount],
+      2,
+    );
+
+    // Upsert new item
+    assert.equal(StatusCodes.Created, result[1].response.statusCode);
+    verifyExpectedDocResponse(docToUpsert2, result[1].response.resourceBody);
+    assert.equal(
+      result[1].response.diagnostics.clientSideRequestStatistics.encryptionDiagnostics
+        .encryptContent[Constants.Encryption.DiagnosticsPropertiesEncryptedCount],
+      3,
+    );
+    assert.equal(
+      result[1].response.diagnostics.clientSideRequestStatistics.encryptionDiagnostics
+        .decryptContent[Constants.Encryption.DiagnosticsPropertiesDecryptedCount],
+      2,
+    );
+
+    // Replace
+    assert.equal(StatusCodes.Ok, result[2].response.statusCode);
+    verifyExpectedDocResponse(new TestDoc(docToReplace), result[2].response.resourceBody);
+    // 2 encrypted field + 1 partition key  for replace encryption
+    assert.equal(
+      result[2].response.diagnostics.clientSideRequestStatistics.encryptionDiagnostics
+        .encryptContent[Constants.Encryption.DiagnosticsPropertiesEncryptedCount],
+      3,
+    );
+    assert.equal(
+      result[2].response.diagnostics.clientSideRequestStatistics.encryptionDiagnostics
+        .decryptContent[Constants.Encryption.DiagnosticsPropertiesDecryptedCount],
+      2,
+    );
+
+    // Upsert existing item
+    assert.equal(StatusCodes.Ok, result[3].response.statusCode);
+    verifyExpectedDocResponse(new TestDoc(docToUpsert), result[3].response.resourceBody);
+    assert.equal(
+      result[3].response.diagnostics.clientSideRequestStatistics.encryptionDiagnostics
+        .encryptContent[Constants.Encryption.DiagnosticsPropertiesEncryptedCount],
+      3,
+    );
+    assert.equal(
+      result[3].response.diagnostics.clientSideRequestStatistics.encryptionDiagnostics
+        .decryptContent[Constants.Encryption.DiagnosticsPropertiesDecryptedCount],
+      2,
+    );
+
+    // Delete
+    assert.equal(StatusCodes.NoContent, result[4].response.statusCode);
+    assert.isNotObject(result[4].response.resourceBody);
+    // 1 partition key for delete encryption
+    assert.equal(
+      result[4].response.diagnostics.clientSideRequestStatistics.encryptionDiagnostics
+        .encryptContent[Constants.Encryption.DiagnosticsPropertiesEncryptedCount],
+      1,
+    );
+
+    // Patch
+    assert.equal(StatusCodes.Ok, result[5].response.statusCode);
+    verifyExpectedDocResponse(new TestDoc(docToPatch), result[5].response.resourceBody);
+    // 1 partition key
+    assert.equal(
+      result[5].response.diagnostics.clientSideRequestStatistics.encryptionDiagnostics
+        .encryptContent[Constants.Encryption.DiagnosticsPropertiesEncryptedCount],
+      1,
+    );
+    assert.equal(
+      result[5].response.diagnostics.clientSideRequestStatistics.encryptionDiagnostics
+        .decryptContent[Constants.Encryption.DiagnosticsPropertiesDecryptedCount],
+      2,
+    );
+    await container.delete();
   });
 
   it("encryption resource token auth restricted", async () => {
@@ -2168,12 +2752,12 @@ describe("ClientSideEncryption", function (this: Suite) {
 
     try {
       const cekId = "testingCekId";
-      const metadata = new EncryptionKeyWrapMetadata(
-        testKeyVault,
-        cekId,
-        "cmkpath5",
-        KeyEncryptionAlgorithm.RSA_OAEP,
-      );
+      const metadata: EncryptionKeyWrapMetadata = {
+        type: testKeyVault,
+        name: cekId,
+        value: "cmkpath5",
+        algorithm: KeyEncryptionAlgorithm.RSA_OAEP,
+      };
       await datbaseForRestrictedUser.createClientEncryptionKey(
         cekId,
         EncryptionAlgorithm.AEAD_AES_256_CBC_HMAC_SHA256,
@@ -2186,12 +2770,12 @@ describe("ClientSideEncryption", function (this: Suite) {
 
     try {
       const cekId = "testingCekId";
-      const metadata = new EncryptionKeyWrapMetadata(
-        testKeyVault,
-        cekId,
-        "cmkpath5" + "updated",
-        KeyEncryptionAlgorithm.RSA_OAEP,
-      );
+      const metadata: EncryptionKeyWrapMetadata = {
+        type: testKeyVault,
+        name: cekId,
+        value: "cmkpath5" + "updated",
+        algorithm: KeyEncryptionAlgorithm.RSA_OAEP,
+      };
       await datbaseForRestrictedUser.rewrapClientEncryptionKey(cekId, metadata);
       assert.fail("RewrapClientEncryptionKey should have failed due to restrictions");
     } catch (err) {
@@ -2207,7 +2791,7 @@ describe("ClientSideEncryption", function (this: Suite) {
       key: masterKey,
       clientEncryptionOptions: {
         keyEncryptionKeyResolver: keyEncryptionKeyResolver,
-        encryptionKeyTimeToLive: EncryptionTimeToLive.NoTTL(),
+        encryptionKeyTimeToLiveInSeconds: 0,
       },
     });
     const testdatabase = encryptionTestClient.database(database.id);
@@ -2215,14 +2799,16 @@ describe("ClientSideEncryption", function (this: Suite) {
     // Once a Dek gets cached and the Kek is revoked, calls to unwrap/wrap keys would fail since KEK is revoked.
     // The Dek should be rewrapped if the KEK is revoked.
     // When an access to KeyVault fails, the Dek is fetched from the backend (force refresh to update the stale DEK) and cache is updated.
-    const pathWithRevokedKek = new ClientEncryptionIncludedPath(
-      "/sensitive_NestedObjectFormatL1",
-      "keyWithRevokedKek",
-      EncryptionType.DETERMINISTIC,
-      EncryptionAlgorithm.AEAD_AES_256_CBC_HMAC_SHA256,
-    );
+    const pathWithRevokedKek = {
+      path: "/sensitive_NestedObjectFormatL1",
+      clientEncryptionKeyId: "keyWithRevokedKek",
+      encryptionType: EncryptionType.DETERMINISTIC,
+      encryptionAlgorithm: EncryptionAlgorithm.AEAD_AES_256_CBC_HMAC_SHA256,
+    };
     const paths = [pathWithRevokedKek];
-    const clientEncryptionPolicyWithRevokedKek = new ClientEncryptionPolicy(paths);
+    const clientEncryptionPolicyWithRevokedKek = {
+      includedPaths: paths,
+    };
     const containerProperties = {
       id: randomUUID(),
       partitionKey: {
@@ -2316,7 +2902,7 @@ describe("ClientSideEncryption", function (this: Suite) {
       key: masterKey,
       clientEncryptionOptions: {
         keyEncryptionKeyResolver: testKeyResolver1,
-        encryptionKeyTimeToLive: EncryptionTimeToLive.NoTTL(),
+        encryptionKeyTimeToLiveInSeconds: 0,
       },
     });
     let newDatabase = newClient.database(database.id);
@@ -2346,7 +2932,8 @@ describe("ClientSideEncryption", function (this: Suite) {
     assert.ok(unwrapCount === 1);
     newClient.dispose();
   });
-  after(async () => {
+
+  afterAll(async () => {
     await removeAllDatabases();
     encryptionClient.dispose();
   });

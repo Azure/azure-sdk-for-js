@@ -693,7 +693,7 @@ export class CallMedia {
     const startTranscriptionRequest: StartTranscriptionRequest = {
       locale: options.locale,
       operationContext: options.operationContext,
-      speechRecognitionModelEndpointId: options.speechRecognitionModelEndpointId,
+      speechModelEndpointId: options.speechRecognitionModelEndpointId,
       operationCallbackUri: options.operationCallbackUrl,
     };
     return this.callMedia.startTranscription(this.callConnectionId, startTranscriptionRequest, {});
@@ -721,7 +721,7 @@ export class CallMedia {
   ): Promise<void> {
     const updateTranscriptionRequest: UpdateTranscriptionRequest = {
       locale: locale,
-      speechRecognitionModelEndpointId: options?.speechRecognitionModelEndpointId,
+      speechModelEndpointId: options?.speechRecognitionModelEndpointId,
       operationContext: options?.operationContext,
       operationCallbackUri: options?.operationCallbackUrl,
     };

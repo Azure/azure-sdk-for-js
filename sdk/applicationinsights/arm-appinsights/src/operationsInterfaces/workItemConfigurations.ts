@@ -19,7 +19,7 @@ import {
   WorkItemConfigurationsGetItemOptionalParams,
   WorkItemConfigurationsGetItemResponse,
   WorkItemConfigurationsUpdateItemOptionalParams,
-  WorkItemConfigurationsUpdateItemResponse
+  WorkItemConfigurationsUpdateItemResponse,
 } from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
@@ -34,7 +34,7 @@ export interface WorkItemConfigurations {
   list(
     resourceGroupName: string,
     resourceName: string,
-    options?: WorkItemConfigurationsListOptionalParams
+    options?: WorkItemConfigurationsListOptionalParams,
   ): PagedAsyncIterableIterator<WorkItemConfiguration>;
   /**
    * Create a work item configuration for an Application Insights component.
@@ -48,7 +48,7 @@ export interface WorkItemConfigurations {
     resourceGroupName: string,
     resourceName: string,
     workItemConfigurationProperties: WorkItemCreateConfiguration,
-    options?: WorkItemConfigurationsCreateOptionalParams
+    options?: WorkItemConfigurationsCreateOptionalParams,
   ): Promise<WorkItemConfigurationsCreateResponse>;
   /**
    * Gets default work item configurations that exist for the application
@@ -59,7 +59,7 @@ export interface WorkItemConfigurations {
   getDefault(
     resourceGroupName: string,
     resourceName: string,
-    options?: WorkItemConfigurationsGetDefaultOptionalParams
+    options?: WorkItemConfigurationsGetDefaultOptionalParams,
   ): Promise<WorkItemConfigurationsGetDefaultResponse>;
   /**
    * Delete a work item configuration of an Application Insights component.
@@ -73,7 +73,7 @@ export interface WorkItemConfigurations {
     resourceGroupName: string,
     resourceName: string,
     workItemConfigId: string,
-    options?: WorkItemConfigurationsDeleteOptionalParams
+    options?: WorkItemConfigurationsDeleteOptionalParams,
   ): Promise<void>;
   /**
    * Gets specified work item configuration for an Application Insights component.
@@ -87,7 +87,7 @@ export interface WorkItemConfigurations {
     resourceGroupName: string,
     resourceName: string,
     workItemConfigId: string,
-    options?: WorkItemConfigurationsGetItemOptionalParams
+    options?: WorkItemConfigurationsGetItemOptionalParams,
   ): Promise<WorkItemConfigurationsGetItemResponse>;
   /**
    * Update a work item configuration for an Application Insights component.
@@ -104,6 +104,6 @@ export interface WorkItemConfigurations {
     resourceName: string,
     workItemConfigId: string,
     workItemConfigurationProperties: WorkItemCreateConfiguration,
-    options?: WorkItemConfigurationsUpdateItemOptionalParams
+    options?: WorkItemConfigurationsUpdateItemOptionalParams,
   ): Promise<WorkItemConfigurationsUpdateItemResponse>;
 }

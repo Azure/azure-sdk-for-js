@@ -1,6 +1,56 @@
 # Release History
 
-## 4.3.0 (2025-03-11)
+## 4.4.1 (2025-05-15)
+
+### Bugs Fixed
+
+[#34346](https://github.com/Azure/azure-sdk-for-js/pull/34346) Fixed an issue where `require` is being used in an ESM context. 
+
+## 4.4.0 (2025-05-13)
+
+### Features Added
+#### New Bulk API (Preview)
+The new `executeBulkOperations` API in the SDK brings significant enhancements for bulk workloads. It removes the previous 100-operation limit, adds operation-level retries for improved resilience, and introduces dynamic congestion control to optimize performance based on real-time system feedback.
+
+Example of using `executeBulkOperations`:
+```js
+const operations: OperationInput[] = [
+    {
+      operationType: BulkOperationType.Create,
+      partitionKey: "pkValue1",
+      resourceBody: { id: "doc1", name: "sample1", key: "key1" },
+    },
+    {
+      operationType: BulkOperationType.Create,
+      partitionKey: "pkValue2",
+      resourceBody: { id: "doc2", name: "sample2", key: "key1" },
+    },
+    // ...more operations
+  ];
+  const response = await container.items.executeBulkOperations(
+    operations,
+  );
+  // process the response
+```
+
+#### Weighted RRF
+Adds WeightedRankFusion query feature and support of component weights for weighted rank fusion in Hybrid Search.
+
+#### Optimized query plan that skips the order by rewrite
+Adds support for the optimized query plan that skips the order by rewrite. 
+This optimization is enabled by default. Use flag `disableHybridSearchQueryPlanOptimization:true` in FeedOptions to disable this feature.
+
+### Bugs Fixed
+#### [#34088](https://github.com/Azure/azure-sdk-for-js/pull/34088) Fix documentation for default values of `useMultipleWriteLocations` and `enableBackgroundEndpointRefreshing`.
+#### [#33869](https://github.com/Azure/azure-sdk-for-js/pull/33869) Fix ChangeFeed Iterator merge
+
+### Other Changes
+#### Migrated the codebase to ESM. This change is internal and should not affect customers.
+#### Migrated tests to vitest.
+#### [#34244](https://github.com/Azure/azure-sdk-for-js/pull/34244) Update murmurHash to use Uint8Array instead of Buffer.
+#### [#33728](https://github.com/Azure/azure-sdk-for-js/pull/33728) Update Entra authentication samples
+
+## 4.3.0 (2025-03-18)
 
 ### Features Added
 #### Client-side Encryption (Preview) [#28760](https://github.com/Azure/azure-sdk-for-js/issues/28760)
@@ -12,31 +62,35 @@ Example of using Client-Side Encryption:
   const keyResolver = new AzureKeyVaultEncryptionKeyResolver(credentials);
   const cosmosClient = new CosmosClient({connectionString: "<ConnectionString>", clientEncryptionOptions: { keyEncryptionKeyResolver: keyResolver }});
   const database = cosmosClient.database("my-database");
-  const metadata = new EncryptionKeyWrapMetadata(
-      EncryptionKeyResolverName.AzureKeyVault, 
-      "akvKey", 
-      "https://<my-key-vault>.vault.azure.net/keys/<key>/<version>",
-      KeyEncryptionAlgorithm.RSA_OAEP);
+  const metadata: EncryptionKeyWrapMetadata = {
+      type: EncryptionKeyResolverName.AzureKeyVault, 
+      name: "akvKey", 
+      value: "https://<my-key-vault>.vault.azure.net/keys/<key>/<version>",
+      algorithm: KeyEncryptionAlgorithm.RSA_OAEP
+  };
 
   await database.createClientEncryptionKey(
       "my-key",
       EncryptionAlgorithm.AEAD_AES_256_CBC_HMAC_SHA256,
       metadata);
 
-  const path1 = new ClientEncryptionIncludedPath(
-    "/property1",
-    "my-key",
-    EncryptionType.DETERMINISTIC,
-    EncryptionAlgorithm.AEAD_AES_256_CBC_HMAC_SHA256,
-  );
-  const path2 = new ClientEncryptionIncludedPath(
-    "/property2",
-    "my-key",
-    EncryptionType.DETERMINISTIC,
-    EncryptionAlgorithm.AEAD_AES_256_CBC_HMAC_SHA256,
-  );
+  const path1 : ClientEncryptionIncludedPath = {
+    path: "/property1",
+    clientEncryptionKeyId: "my-key",
+    encryptionType: EncryptionType.DETERMINISTIC,
+    encryptionAlgorithm: EncryptionAlgorithm.AEAD_AES_256_CBC_HMAC_SHA256,
+  };
+  const path2 : ClientEncryptionIncludedPath = {
+    path: "/property2",
+    clientEncryptionKeyId: "my-key",
+    encryptionType: EncryptionType.DETERMINISTIC,
+    encryptionAlgorithm: EncryptionAlgorithm.AEAD_AES_256_CBC_HMAC_SHA256,
+  };
   const paths = [path1, path2];
-  const clientEncryptionPolicy = new ClientEncryptionPolicy(paths, 2);
+  const clientEncryptionPolicy = {
+      includedPaths: [path],
+      policyFormatVersion: 2,
+  };
   const containerDefinition = {
       id: "my-container",
       partitionKey: {
@@ -107,9 +161,6 @@ Example output of version V2
 ```js
 {"UtilizedIndexes":{"SingleIndexes":[{"IndexSpec":"/Item/?"},{"IndexSpec":"/Price/?"}],"CompositeIndexes":[]},"PotentialIndexes":{"SingleIndexes":[],"CompositeIndexes":[{"IndexSpecs":["/Item ASC","/Price ASC"],"IndexImpactScore":"High"}]}}
 ```
-
-#### Add `contentResponseOnWriteEnabled` in RequestOptions
-`contentResponseOnWriteEnabled` can now be set to false to disable content Response for write operations.
 
 #### Add `connectionString` in CosmosClientOptions
 ConnectionString can now be configured in CosmosClientOptions along with other configurations for client initialization.

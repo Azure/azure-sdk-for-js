@@ -1,11 +1,11 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { DocumentProducer } from "./documentProducer";
-import type { ExecutionContext } from "./ExecutionContext";
-import { ParallelQueryExecutionContextBase } from "./parallelQueryExecutionContextBase";
-import { Response } from "../request";
-import { DiagnosticNodeInternal } from "../diagnostics/DiagnosticNodeInternal";
+import type { DocumentProducer } from "./documentProducer.js";
+import type { ExecutionContext } from "./ExecutionContext.js";
+import { ParallelQueryExecutionContextBase } from "./parallelQueryExecutionContextBase.js";
+import { Response } from "../request/index.js";
+import { DiagnosticNodeInternal } from "../diagnostics/DiagnosticNodeInternal.js";
 
 /**
  * Provides the ParallelQueryExecutionContext.

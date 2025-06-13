@@ -1,20 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import {
-  AnalyzeHealthcareEntitiesSuccessResult,
-  AnalyzeSentimentSuccessResult,
-  AzureKeyCredential,
-  DetectLanguageSuccessResult,
-  ExtractKeyPhrasesActionSuccessResult,
-  ExtractKeyPhrasesSuccessResult,
-  RecognizeCategorizedEntitiesActionSuccessResult,
-  RecognizeCategorizedEntitiesSuccessResult,
-  RecognizeLinkedEntitiesSuccessResult,
-  RecognizePiiEntitiesActionSuccessResult,
-  RecognizePiiEntitiesSuccessResult,
-  TextAnalyticsClient,
-} from "../src/index.js";
+import { AzureKeyCredential, TextAnalyticsClient } from "../src/index.js";
 import { DefaultAzureCredential } from "@azure/identity";
 import { setLogLevel } from "@azure/logger";
 import { describe, it } from "vitest";

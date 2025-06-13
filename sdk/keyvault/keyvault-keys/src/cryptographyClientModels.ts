@@ -35,7 +35,9 @@ export type KeyWrapAlgorithm =
   | "A256KW"
   | "RSA-OAEP"
   | "RSA-OAEP-256"
-  | "RSA1_5";
+  | "RSA1_5"
+  | "CKM_AES_KEY_WRAP"
+  | "CKM_AES_KEY_WRAP_PAD";
 
 /**
  * Result of the {@link encrypt} operation.

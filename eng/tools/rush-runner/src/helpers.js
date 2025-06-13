@@ -54,7 +54,6 @@ export const restrictedToPackages = [
   "@azure-tools/test-perf",
   "@azure-tools/test-recorder",
   "@azure-tools/test-credential",
-  "@azure-tools/test-utils",
   "@azure-tools/test-utils-vitest",
 ];
 
@@ -64,7 +63,7 @@ export const restrictedToPackages = [
  * If the targeted package is one of the restricted packages with a ton of dependents, we only want to run that package
  * and not all of its dependents.
  * @param {string[]} packageNames - An array of strings containing the packages names to run the action on.
- * @param {string} action - The action being performed ("build", "build:test", "build:samples", "unit-test:node", "unit-test:browser"
+ * @param {string} action - The action being performed ("build", "build:samples", "test:node", "test:browser"
  * @param {string[]} serviceDirs - An array of strings containing the serviceDirs affected
  */
 export const getDirectionMappedPackages = (packageNames, action, serviceDirs) => {
@@ -108,9 +107,15 @@ export const getDirectionMappedPackages = (packageNames, action, serviceDirs) =>
     }
   } else {
     // we are in a test task of some kind
-    const rushCommandFlag = isReducedTestScopeEnabled ? "--only" : "--impacted-by";
-
-    mappedPackages.push(...fullPackageNames.map((p) => [rushCommandFlag, p]));
+    mappedPackages.push(
+      ...fullPackageNames.map((p) => {
+        if (!restrictedToPackages.includes(p) && packageNames.includes(p)) {
+          return ["--impacted-by", p];
+        } else {
+          return ["--only", p];
+        }
+      }),
+    );
   }
 
   return mappedPackages;

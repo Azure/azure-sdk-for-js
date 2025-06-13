@@ -9,16 +9,17 @@ import type {
   WebPubSubClientCredential,
   SendToGroupOptions,
   GetClientAccessUrlOptions,
-  WebPubSubClientOptions,
 } from "@azure/web-pubsub-client";
 import { WebPubSubClient } from "@azure/web-pubsub-client";
 import { WebPubSubProtobufReliableProtocol } from "@azure/web-pubsub-client-protobuf";
 import { WebPubSubServiceClient } from "@azure/web-pubsub";
+import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
 
+const endpoint = process.env.WPS_ENDPOINT || "";
 const hubName = "sample_chat";
 const groupName = "testGroup";
-const serviceClient = new WebPubSubServiceClient(process.env.WPS_CONNECTION_STRING!, hubName);
+const serviceClient = new WebPubSubServiceClient(endpoint, new DefaultAzureCredential(), hubName);
 
 const fetchClientAccessUrl = async (_: GetClientAccessUrlOptions): Promise<string> => {
   return (
@@ -33,18 +34,18 @@ async function main(): Promise<void> {
     {
       getClientAccessUrl: fetchClientAccessUrl,
     } as WebPubSubClientCredential,
-    { protocol: WebPubSubProtobufReliableProtocol() } as WebPubSubClientOptions,
+    { protocol: WebPubSubProtobufReliableProtocol() },
   );
 
-  await client.on("connected", (e) => {
+  client.on("connected", (e) => {
     console.log(`Connection ${e.connectionId} is connected.`);
   });
 
-  await client.on("disconnected", (e) => {
+  client.on("disconnected", (e) => {
     console.log(`Connection disconnected: ${e.message}`);
   });
 
-  await client.on("server-message", (e) => {
+  client.on("server-message", (e) => {
     if (e.message.data instanceof ArrayBuffer) {
       console.log(`Received message ${Buffer.from(e.message.data).toString("base64")}`);
     } else {
@@ -52,7 +53,7 @@ async function main(): Promise<void> {
     }
   });
 
-  await client.on("group-message", (e) => {
+  client.on("group-message", (e) => {
     if (e.message.data instanceof ArrayBuffer) {
       console.log(
         `Received message from ${e.message.group} ${Buffer.from(e.message.data).toString(

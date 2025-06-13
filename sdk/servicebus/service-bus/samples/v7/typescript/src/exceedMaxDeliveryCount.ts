@@ -16,9 +16,7 @@ import { ServiceBusClient } from "@azure/service-bus";
 import { DefaultAzureCredential } from "@azure/identity";
 
 // Load the .env file if it exists
-import * as dotenv from "dotenv";
-dotenv.config();
-
+import "dotenv/config";
 // Define connection string and related Service Bus entity names here
 const fqdn = process.env.SERVICEBUS_FQDN || "<your-servicebus-namespace>.servicebus.windows.net";
 const queueName = process.env.QUEUE_NAME || "<queue name>";
@@ -26,7 +24,7 @@ const queueName = process.env.QUEUE_NAME || "<queue name>";
 const credential = new DefaultAzureCredential();
 const sbClient: ServiceBusClient = new ServiceBusClient(fqdn, credential);
 
-export async function main() {
+export async function main(): Promise<void> {
   try {
     await exceedMaxDelivery();
   } finally {
@@ -34,7 +32,7 @@ export async function main() {
   }
 }
 
-async function exceedMaxDelivery() {
+async function exceedMaxDelivery(): Promise<void> {
   const receiver = sbClient.createReceiver(queueName);
 
   while (true) {

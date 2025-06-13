@@ -2,20 +2,13 @@
   "include": [
     {
       "Agent": {
-        "ubuntu-20.04_ManagedHSM": {
+        "ubuntu_ManagedHSM": {
           "OSVmImage": "env:LINUXVMIMAGE",
           "Pool": "env:LINUXPOOL",
           "ArmTemplateParameters": "@{ enableHsm = $true }"
         }
       },
-      "Versions": {
-        "18.x": {
-          "NodeTestVersion": "18.x"
-        },
-        "20.x": {
-          "NodeTestVersion": "20.x"
-        }
-      },
+      "NodeTestVersion": ["env:NODE_VERSION_LTS_MAINTENANCE", "env:NODE_VERSION_LTS_ACTIVE"],
       "TestType": "node"
     }
   ]

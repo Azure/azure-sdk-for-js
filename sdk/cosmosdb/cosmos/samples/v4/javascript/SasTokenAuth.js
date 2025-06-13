@@ -5,14 +5,13 @@
  * @summary Demonstrates using SasTokens for granting scoped access to Cosmos resources. *Private feature*
  */
 
-require("dotenv").config();
-
+require("dotenv/config");
 const {
   CosmosClient,
   createAuthorizationSasToken,
   SasTokenPermissionKind,
 } = require("@azure/cosmos");
-const { handleError, finish, logStep } = require("./Shared/handleError");
+const { handleError, finish, logStep } = require("./Shared/handleError.js");
 const masterKey = process.env.COSMOS_KEY || "<cosmos key>";
 const endpoint = process.env.COSMOS_ENDPOINT || "<cosmos endpoint>";
 const sasToken = "your-sas-token";
