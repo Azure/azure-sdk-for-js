@@ -2,8 +2,7 @@
 // Licensed under the MIT License.
 
 import { PostgresContext } from "../../api/postgresContext.js";
-import { OrganizationResource } from "../../models/models.js";
-import { PgVersionsResult } from "../../models/models/models.js";
+import { OrganizationResource, PgVersionsResult } from "../../models/models.js";
 import {
   OrganizationsGetPostgresVersionsOptionalParams,
   OrganizationsListBySubscriptionOptionalParams,

@@ -45,14 +45,6 @@ export interface ProjectsGetOptionalParams extends OperationOptions {
 export interface ProjectsListOptionalParams extends OperationOptions {
 }
 
-// @public
-export interface ProjectsUpdateOptionalParams extends OperationOptions {
-    updateIntervalInMs?: number;
-}
-
-// @public
-export function update(context: PostgresContext, resourceGroupName: string, organizationName: string, projectName: string, properties: Project, options?: ProjectsUpdateOptionalParams): PollerLike<OperationState<Project>, Project>;
-
 // (No @packageDocumentation comment for this package)
 
 ```
