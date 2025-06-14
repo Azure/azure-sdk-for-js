@@ -378,7 +378,7 @@ export interface Cluster extends Resource {
     infrastructureServiceManager?: boolean;
     managementEndpoint?: string;
     nodeTypes?: NodeTypeDescription[];
-    notifications?: Notification_2[];
+    notifications?: Notification[];
     readonly provisioningState?: ProvisioningState;
     reliabilityLevel?: ReliabilityLevel;
     reverseProxyCertificate?: CertificateDescription;
@@ -524,7 +524,7 @@ export interface ClusterUpdateParameters {
     fabricSettings?: SettingsSectionDescription[];
     infrastructureServiceManager?: boolean;
     nodeTypes?: NodeTypeDescription[];
-    notifications?: Notification_2[];
+    notifications?: Notification[];
     reliabilityLevel?: ReliabilityLevel;
     reverseProxyCertificate?: CertificateDescription;
     sfZonalUpgradeMode?: SfZonalUpgradeMode;
@@ -871,13 +871,12 @@ export interface NodeTypeDescription {
 }
 
 // @public
-interface Notification_2 {
+export interface Notification {
     isEnabled: boolean;
     notificationCategory: NotificationCategory;
     notificationLevel: NotificationLevel;
     notificationTargets: NotificationTarget[];
 }
-export { Notification_2 as Notification }
 
 // @public
 export type NotificationCategory = string;

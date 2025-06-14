@@ -878,7 +878,7 @@ export class ApiManagementClient extends coreClient.ServiceClient {
     beginPerformConnectivityCheckAsync(resourceGroupName: string, serviceName: string, connectivityCheckRequestParams: ConnectivityCheckRequest, options?: PerformConnectivityCheckAsyncOptionalParams): Promise<SimplePollerLike<OperationState<PerformConnectivityCheckAsyncResponse>, PerformConnectivityCheckAsyncResponse>>;
     beginPerformConnectivityCheckAsyncAndWait(resourceGroupName: string, serviceName: string, connectivityCheckRequestParams: ConnectivityCheckRequest, options?: PerformConnectivityCheckAsyncOptionalParams): Promise<PerformConnectivityCheckAsyncResponse>;
     // (undocumented)
-    cache: Cache_2;
+    cache: Cache;
     // (undocumented)
     certificate: Certificate;
     // (undocumented)
@@ -924,7 +924,7 @@ export class ApiManagementClient extends coreClient.ServiceClient {
     // (undocumented)
     networkStatus: NetworkStatus;
     // (undocumented)
-    notification: Notification_2;
+    notification: Notification;
     // (undocumented)
     notificationRecipientEmail: NotificationRecipientEmail;
     // (undocumented)
@@ -3296,7 +3296,7 @@ export interface BodyDiagnosticSettings {
 }
 
 // @public
-interface Cache_2 {
+export interface Cache {
     createOrUpdate(resourceGroupName: string, serviceName: string, cacheId: string, parameters: CacheContract, options?: CacheCreateOrUpdateOptionalParams): Promise<CacheCreateOrUpdateResponse>;
     delete(resourceGroupName: string, serviceName: string, cacheId: string, ifMatch: string, options?: CacheDeleteOptionalParams): Promise<void>;
     get(resourceGroupName: string, serviceName: string, cacheId: string, options?: CacheGetOptionalParams): Promise<CacheGetResponse>;
@@ -3304,7 +3304,6 @@ interface Cache_2 {
     listByService(resourceGroupName: string, serviceName: string, options?: CacheListByServiceOptionalParams): PagedAsyncIterableIterator<CacheContract>;
     update(resourceGroupName: string, serviceName: string, cacheId: string, ifMatch: string, parameters: CacheUpdateParameters, options?: CacheUpdateOptionalParams): Promise<CacheUpdateResponse>;
 }
-export { Cache_2 as Cache }
 
 // @public
 export interface CacheCollection {
@@ -4615,7 +4614,7 @@ export interface GatewayInvalidateDebugCredentialsOptionalParams extends coreCli
 
 // @public
 export interface GatewayKeyRegenerationRequestContract {
-    keyType: KeyType_2;
+    keyType: KeyType;
 }
 
 // @public
@@ -4725,7 +4724,7 @@ export interface GatewayTokenContract {
 // @public
 export interface GatewayTokenRequestContract {
     expiry: Date;
-    keyType: KeyType_2;
+    keyType: KeyType;
 }
 
 // @public
@@ -5478,8 +5477,7 @@ export interface IssueUpdateContractProperties extends IssueContractBaseProperti
 }
 
 // @public
-type KeyType_2 = "primary" | "secondary";
-export { KeyType_2 as KeyType }
+export type KeyType = "primary" | "secondary";
 
 // @public
 export interface KeyVaultContractCreateProperties {
@@ -6403,12 +6401,11 @@ export interface NetworkStatusListByServiceOptionalParams extends coreClient.Ope
 export type NetworkStatusListByServiceResponse = NetworkStatusContractByLocation[];
 
 // @public
-interface Notification_2 {
+export interface Notification {
     createOrUpdate(resourceGroupName: string, serviceName: string, notificationName: NotificationName, options?: NotificationCreateOrUpdateOptionalParams): Promise<NotificationCreateOrUpdateResponse>;
     get(resourceGroupName: string, serviceName: string, notificationName: NotificationName, options?: NotificationGetOptionalParams): Promise<NotificationGetResponse>;
     listByService(resourceGroupName: string, serviceName: string, options?: NotificationListByServiceOptionalParams): PagedAsyncIterableIterator<NotificationContract>;
 }
-export { Notification_2 as Notification }
 
 // @public
 export interface NotificationCollection {
@@ -10065,7 +10062,7 @@ export type UserSubscriptionListResponse = SubscriptionCollection;
 // @public
 export interface UserTokenParameters {
     expiry?: Date;
-    keyType?: KeyType_2;
+    keyType?: KeyType;
 }
 
 // @public
