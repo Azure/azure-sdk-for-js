@@ -31,5 +31,5 @@ extends:
   parameters:
     ServiceDirectory: onlineexperimentation
     Artifacts:
-      - name: azure-app-configuration
+      - name: azure-rest-onlineexperimentation
         safeName: azureonlineexperimentation

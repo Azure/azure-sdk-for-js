@@ -641,7 +641,7 @@ export interface GenerateUpgradedDefinitionParameters {
 
 // @public
 export interface GetCallbackUrlParameters {
-    keyType?: KeyType_2;
+    keyType?: KeyType;
     notAfter?: Date;
 }
 
@@ -1599,8 +1599,7 @@ export interface JsonSchema {
 }
 
 // @public
-type KeyType_2 = string;
-export { KeyType_2 as KeyType }
+export type KeyType = string;
 
 // @public
 export interface KeyVaultKey {
@@ -2270,7 +2269,7 @@ export interface RecurrenceScheduleOccurrence {
 
 // @public
 export interface RegenerateActionParameter {
-    keyType?: KeyType_2;
+    keyType?: KeyType;
 }
 
 // @public

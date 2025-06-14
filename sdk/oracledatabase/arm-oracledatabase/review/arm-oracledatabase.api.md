@@ -4,11 +4,14 @@
 
 ```ts
 
-import * as coreAuth from '@azure/core-auth';
-import * as coreClient from '@azure/core-client';
+import { AbortSignalLike } from '@azure/abort-controller';
+import { ClientOptions } from '@azure-rest/core-client';
+import { OperationOptions } from '@azure-rest/core-client';
 import { OperationState } from '@azure/core-lro';
-import { PagedAsyncIterableIterator } from '@azure/core-paging';
-import { SimplePollerLike } from '@azure/core-lro';
+import { PathUncheckedResponse } from '@azure-rest/core-client';
+import { Pipeline } from '@azure/core-rest-pipeline';
+import { PollerLike } from '@azure/core-lro';
+import { TokenCredential } from '@azure/core-auth';
 
 // @public
 export type ActionType = string;
@@ -23,6 +26,9 @@ export interface ActivationLinks {
 export interface AddRemoveDbNode {
     dbServers: string[];
 }
+
+// @public
+export type AddSubscriptionOperationState = string;
 
 // @public
 export interface AllConnectionStringType {
@@ -51,12 +57,6 @@ export interface AutonomousDatabaseBackup extends ProxyResource {
 export type AutonomousDatabaseBackupLifecycleState = string;
 
 // @public
-export interface AutonomousDatabaseBackupListResult {
-    nextLink?: string;
-    value: AutonomousDatabaseBackup[];
-}
-
-// @public
 export interface AutonomousDatabaseBackupProperties {
     readonly autonomousDatabaseOcid?: string;
     readonly backupType?: AutonomousDatabaseBackupType;
@@ -77,81 +77,36 @@ export interface AutonomousDatabaseBackupProperties {
 }
 
 // @public
-export interface AutonomousDatabaseBackups {
-    beginCreateOrUpdate(resourceGroupName: string, autonomousdatabasename: string, adbbackupid: string, resource: AutonomousDatabaseBackup, options?: AutonomousDatabaseBackupsCreateOrUpdateOptionalParams): Promise<SimplePollerLike<OperationState<AutonomousDatabaseBackupsCreateOrUpdateResponse>, AutonomousDatabaseBackupsCreateOrUpdateResponse>>;
-    beginCreateOrUpdateAndWait(resourceGroupName: string, autonomousdatabasename: string, adbbackupid: string, resource: AutonomousDatabaseBackup, options?: AutonomousDatabaseBackupsCreateOrUpdateOptionalParams): Promise<AutonomousDatabaseBackupsCreateOrUpdateResponse>;
-    beginDelete(resourceGroupName: string, autonomousdatabasename: string, adbbackupid: string, options?: AutonomousDatabaseBackupsDeleteOptionalParams): Promise<SimplePollerLike<OperationState<AutonomousDatabaseBackupsDeleteResponse>, AutonomousDatabaseBackupsDeleteResponse>>;
-    beginDeleteAndWait(resourceGroupName: string, autonomousdatabasename: string, adbbackupid: string, options?: AutonomousDatabaseBackupsDeleteOptionalParams): Promise<AutonomousDatabaseBackupsDeleteResponse>;
-    beginUpdate(resourceGroupName: string, autonomousdatabasename: string, adbbackupid: string, properties: AutonomousDatabaseBackupUpdate, options?: AutonomousDatabaseBackupsUpdateOptionalParams): Promise<SimplePollerLike<OperationState<AutonomousDatabaseBackupsUpdateResponse>, AutonomousDatabaseBackupsUpdateResponse>>;
-    beginUpdateAndWait(resourceGroupName: string, autonomousdatabasename: string, adbbackupid: string, properties: AutonomousDatabaseBackupUpdate, options?: AutonomousDatabaseBackupsUpdateOptionalParams): Promise<AutonomousDatabaseBackupsUpdateResponse>;
-    get(resourceGroupName: string, autonomousdatabasename: string, adbbackupid: string, options?: AutonomousDatabaseBackupsGetOptionalParams): Promise<AutonomousDatabaseBackupsGetResponse>;
-    listByAutonomousDatabase(resourceGroupName: string, autonomousdatabasename: string, options?: AutonomousDatabaseBackupsListByAutonomousDatabaseOptionalParams): PagedAsyncIterableIterator<AutonomousDatabaseBackup>;
-}
-
-// @public
-export interface AutonomousDatabaseBackupsCreateOrUpdateHeaders {
-    retryAfter?: number;
-}
-
-// @public
-export interface AutonomousDatabaseBackupsCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface AutonomousDatabaseBackupsCreateOrUpdateOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
 
 // @public
-export type AutonomousDatabaseBackupsCreateOrUpdateResponse = AutonomousDatabaseBackup;
-
-// @public
-export interface AutonomousDatabaseBackupsDeleteHeaders {
-    location?: string;
-    retryAfter?: number;
-}
-
-// @public
-export interface AutonomousDatabaseBackupsDeleteOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface AutonomousDatabaseBackupsDeleteOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
 
 // @public
-export type AutonomousDatabaseBackupsDeleteResponse = AutonomousDatabaseBackupsDeleteHeaders;
-
-// @public
-export interface AutonomousDatabaseBackupsGetOptionalParams extends coreClient.OperationOptions {
+export interface AutonomousDatabaseBackupsGetOptionalParams extends OperationOptions {
 }
 
 // @public
-export type AutonomousDatabaseBackupsGetResponse = AutonomousDatabaseBackup;
-
-// @public
-export interface AutonomousDatabaseBackupsListByAutonomousDatabaseNextOptionalParams extends coreClient.OperationOptions {
+export interface AutonomousDatabaseBackupsListByParentOptionalParams extends OperationOptions {
 }
 
 // @public
-export type AutonomousDatabaseBackupsListByAutonomousDatabaseNextResponse = AutonomousDatabaseBackupListResult;
-
-// @public
-export interface AutonomousDatabaseBackupsListByAutonomousDatabaseOptionalParams extends coreClient.OperationOptions {
+export interface AutonomousDatabaseBackupsOperations {
+    createOrUpdate: (resourceGroupName: string, autonomousdatabasename: string, adbbackupid: string, resource: AutonomousDatabaseBackup, options?: AutonomousDatabaseBackupsCreateOrUpdateOptionalParams) => PollerLike<OperationState<AutonomousDatabaseBackup>, AutonomousDatabaseBackup>;
+    delete: (resourceGroupName: string, autonomousdatabasename: string, adbbackupid: string, options?: AutonomousDatabaseBackupsDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
+    get: (resourceGroupName: string, autonomousdatabasename: string, adbbackupid: string, options?: AutonomousDatabaseBackupsGetOptionalParams) => Promise<AutonomousDatabaseBackup>;
+    listByParent: (resourceGroupName: string, autonomousdatabasename: string, options?: AutonomousDatabaseBackupsListByParentOptionalParams) => PagedAsyncIterableIterator<AutonomousDatabaseBackup>;
+    update: (resourceGroupName: string, autonomousdatabasename: string, adbbackupid: string, properties: AutonomousDatabaseBackupUpdate, options?: AutonomousDatabaseBackupsUpdateOptionalParams) => PollerLike<OperationState<AutonomousDatabaseBackup>, AutonomousDatabaseBackup>;
 }
 
 // @public
-export type AutonomousDatabaseBackupsListByAutonomousDatabaseResponse = AutonomousDatabaseBackupListResult;
-
-// @public
-export interface AutonomousDatabaseBackupsUpdateHeaders {
-    location?: string;
-    retryAfter?: number;
-}
-
-// @public
-export interface AutonomousDatabaseBackupsUpdateOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface AutonomousDatabaseBackupsUpdateOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
-
-// @public
-export type AutonomousDatabaseBackupsUpdateResponse = AutonomousDatabaseBackup;
 
 // @public
 export type AutonomousDatabaseBackupType = string;
@@ -184,7 +139,7 @@ export interface AutonomousDatabaseBaseProperties {
     cpuCoreCount?: number;
     customerContacts?: CustomerContact[];
     databaseEdition?: DatabaseEditionType;
-    dataBaseType: "Clone" | "Regular";
+    dataBaseType: DataBaseType;
     readonly dataSafeStatus?: DataSafeStatusType;
     dataStorageSizeInGbs?: number;
     dataStorageSizeInTbs?: number;
@@ -222,6 +177,7 @@ export interface AutonomousDatabaseBaseProperties {
     privateEndpointLabel?: string;
     readonly provisionableCpus?: number[];
     readonly provisioningState?: AzureResourceProvisioningState;
+    readonly remoteDisasterRecoveryConfiguration?: DisasterRecoveryConfigurationDetails;
     role?: RoleType;
     scheduledOperations?: ScheduledOperationsType;
     readonly serviceConsoleUrl?: string;
@@ -231,6 +187,7 @@ export interface AutonomousDatabaseBaseProperties {
     readonly timeCreated?: Date;
     readonly timeDataGuardRoleChanged?: string;
     readonly timeDeletionOfFreeAutonomousDatabase?: string;
+    readonly timeDisasterRecoveryRoleChanged?: Date;
     readonly timeLocalDataGuardEnabled?: string;
     readonly timeMaintenanceBegin?: Date;
     readonly timeMaintenanceEnd?: Date;
@@ -245,8 +202,8 @@ export interface AutonomousDatabaseBaseProperties {
     whitelistedIps?: string[];
 }
 
-// @public (undocumented)
-export type AutonomousDatabaseBasePropertiesUnion = AutonomousDatabaseBaseProperties | AutonomousDatabaseCloneProperties | AutonomousDatabaseProperties;
+// @public
+export type AutonomousDatabaseBasePropertiesUnion = AutonomousDatabaseProperties | AutonomousDatabaseCloneProperties | AutonomousDatabaseCrossRegionDisasterRecoveryProperties | AutonomousDatabaseFromBackupTimestampProperties | AutonomousDatabaseBaseProperties;
 
 // @public
 export interface AutonomousDatabaseCharacterSet extends ProxyResource {
@@ -254,42 +211,23 @@ export interface AutonomousDatabaseCharacterSet extends ProxyResource {
 }
 
 // @public
-export interface AutonomousDatabaseCharacterSetListResult {
-    nextLink?: string;
-    value: AutonomousDatabaseCharacterSet[];
-}
-
-// @public
 export interface AutonomousDatabaseCharacterSetProperties {
-    readonly characterSet: string;
+    characterSet: string;
 }
 
 // @public
-export interface AutonomousDatabaseCharacterSets {
-    get(location: string, adbscharsetname: string, options?: AutonomousDatabaseCharacterSetsGetOptionalParams): Promise<AutonomousDatabaseCharacterSetsGetResponse>;
-    listByLocation(location: string, options?: AutonomousDatabaseCharacterSetsListByLocationOptionalParams): PagedAsyncIterableIterator<AutonomousDatabaseCharacterSet>;
+export interface AutonomousDatabaseCharacterSetsGetOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface AutonomousDatabaseCharacterSetsGetOptionalParams extends coreClient.OperationOptions {
+export interface AutonomousDatabaseCharacterSetsListByLocationOptionalParams extends OperationOptions {
 }
 
 // @public
-export type AutonomousDatabaseCharacterSetsGetResponse = AutonomousDatabaseCharacterSet;
-
-// @public
-export interface AutonomousDatabaseCharacterSetsListByLocationNextOptionalParams extends coreClient.OperationOptions {
+export interface AutonomousDatabaseCharacterSetsOperations {
+    get: (location: string, adbscharsetname: string, options?: AutonomousDatabaseCharacterSetsGetOptionalParams) => Promise<AutonomousDatabaseCharacterSet>;
+    listByLocation: (location: string, options?: AutonomousDatabaseCharacterSetsListByLocationOptionalParams) => PagedAsyncIterableIterator<AutonomousDatabaseCharacterSet>;
 }
-
-// @public
-export type AutonomousDatabaseCharacterSetsListByLocationNextResponse = AutonomousDatabaseCharacterSetListResult;
-
-// @public
-export interface AutonomousDatabaseCharacterSetsListByLocationOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type AutonomousDatabaseCharacterSetsListByLocationResponse = AutonomousDatabaseCharacterSetListResult;
 
 // @public
 export interface AutonomousDatabaseCloneProperties extends AutonomousDatabaseBaseProperties {
@@ -305,13 +243,28 @@ export interface AutonomousDatabaseCloneProperties extends AutonomousDatabaseBas
 }
 
 // @public
-export type AutonomousDatabaseLifecycleState = string;
+export interface AutonomousDatabaseCrossRegionDisasterRecoveryProperties extends AutonomousDatabaseBaseProperties {
+    dataBaseType: "CrossRegionDisasterRecovery";
+    isReplicateAutomaticBackups?: boolean;
+    remoteDisasterRecoveryType: DisasterRecoveryType;
+    source: "CrossRegionDisasterRecovery";
+    sourceId: string;
+    sourceLocation?: string;
+    sourceOcid?: string;
+}
 
 // @public
-export interface AutonomousDatabaseListResult {
-    nextLink?: string;
-    value: AutonomousDatabase[];
+export interface AutonomousDatabaseFromBackupTimestampProperties extends AutonomousDatabaseBaseProperties {
+    cloneType: CloneType;
+    dataBaseType: "CloneFromBackupTimestamp";
+    source: "BackupFromTimestamp";
+    sourceId: string;
+    timestamp?: Date;
+    useLatestAvailableBackupTimeStamp?: boolean;
 }
+
+// @public
+export type AutonomousDatabaseLifecycleState = string;
 
 // @public
 export interface AutonomousDatabaseNationalCharacterSet extends ProxyResource {
@@ -319,42 +272,23 @@ export interface AutonomousDatabaseNationalCharacterSet extends ProxyResource {
 }
 
 // @public
-export interface AutonomousDatabaseNationalCharacterSetListResult {
-    nextLink?: string;
-    value: AutonomousDatabaseNationalCharacterSet[];
-}
-
-// @public
 export interface AutonomousDatabaseNationalCharacterSetProperties {
-    readonly characterSet: string;
+    characterSet: string;
 }
 
 // @public
-export interface AutonomousDatabaseNationalCharacterSets {
-    get(location: string, adbsncharsetname: string, options?: AutonomousDatabaseNationalCharacterSetsGetOptionalParams): Promise<AutonomousDatabaseNationalCharacterSetsGetResponse>;
-    listByLocation(location: string, options?: AutonomousDatabaseNationalCharacterSetsListByLocationOptionalParams): PagedAsyncIterableIterator<AutonomousDatabaseNationalCharacterSet>;
+export interface AutonomousDatabaseNationalCharacterSetsGetOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface AutonomousDatabaseNationalCharacterSetsGetOptionalParams extends coreClient.OperationOptions {
+export interface AutonomousDatabaseNationalCharacterSetsListByLocationOptionalParams extends OperationOptions {
 }
 
 // @public
-export type AutonomousDatabaseNationalCharacterSetsGetResponse = AutonomousDatabaseNationalCharacterSet;
-
-// @public
-export interface AutonomousDatabaseNationalCharacterSetsListByLocationNextOptionalParams extends coreClient.OperationOptions {
+export interface AutonomousDatabaseNationalCharacterSetsOperations {
+    get: (location: string, adbsncharsetname: string, options?: AutonomousDatabaseNationalCharacterSetsGetOptionalParams) => Promise<AutonomousDatabaseNationalCharacterSet>;
+    listByLocation: (location: string, options?: AutonomousDatabaseNationalCharacterSetsListByLocationOptionalParams) => PagedAsyncIterableIterator<AutonomousDatabaseNationalCharacterSet>;
 }
-
-// @public
-export type AutonomousDatabaseNationalCharacterSetsListByLocationNextResponse = AutonomousDatabaseNationalCharacterSetListResult;
-
-// @public
-export interface AutonomousDatabaseNationalCharacterSetsListByLocationOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type AutonomousDatabaseNationalCharacterSetsListByLocationResponse = AutonomousDatabaseNationalCharacterSetListResult;
 
 // @public
 export interface AutonomousDatabaseProperties extends AutonomousDatabaseBaseProperties {
@@ -362,157 +296,71 @@ export interface AutonomousDatabaseProperties extends AutonomousDatabaseBaseProp
 }
 
 // @public
-export interface AutonomousDatabases {
-    beginCreateOrUpdate(resourceGroupName: string, autonomousdatabasename: string, resource: AutonomousDatabase, options?: AutonomousDatabasesCreateOrUpdateOptionalParams): Promise<SimplePollerLike<OperationState<AutonomousDatabasesCreateOrUpdateResponse>, AutonomousDatabasesCreateOrUpdateResponse>>;
-    beginCreateOrUpdateAndWait(resourceGroupName: string, autonomousdatabasename: string, resource: AutonomousDatabase, options?: AutonomousDatabasesCreateOrUpdateOptionalParams): Promise<AutonomousDatabasesCreateOrUpdateResponse>;
-    beginDelete(resourceGroupName: string, autonomousdatabasename: string, options?: AutonomousDatabasesDeleteOptionalParams): Promise<SimplePollerLike<OperationState<AutonomousDatabasesDeleteResponse>, AutonomousDatabasesDeleteResponse>>;
-    beginDeleteAndWait(resourceGroupName: string, autonomousdatabasename: string, options?: AutonomousDatabasesDeleteOptionalParams): Promise<AutonomousDatabasesDeleteResponse>;
-    beginFailover(resourceGroupName: string, autonomousdatabasename: string, body: PeerDbDetails, options?: AutonomousDatabasesFailoverOptionalParams): Promise<SimplePollerLike<OperationState<AutonomousDatabasesFailoverResponse>, AutonomousDatabasesFailoverResponse>>;
-    beginFailoverAndWait(resourceGroupName: string, autonomousdatabasename: string, body: PeerDbDetails, options?: AutonomousDatabasesFailoverOptionalParams): Promise<AutonomousDatabasesFailoverResponse>;
-    beginRestore(resourceGroupName: string, autonomousdatabasename: string, body: RestoreAutonomousDatabaseDetails, options?: AutonomousDatabasesRestoreOptionalParams): Promise<SimplePollerLike<OperationState<AutonomousDatabasesRestoreResponse>, AutonomousDatabasesRestoreResponse>>;
-    beginRestoreAndWait(resourceGroupName: string, autonomousdatabasename: string, body: RestoreAutonomousDatabaseDetails, options?: AutonomousDatabasesRestoreOptionalParams): Promise<AutonomousDatabasesRestoreResponse>;
-    beginShrink(resourceGroupName: string, autonomousdatabasename: string, options?: AutonomousDatabasesShrinkOptionalParams): Promise<SimplePollerLike<OperationState<AutonomousDatabasesShrinkResponse>, AutonomousDatabasesShrinkResponse>>;
-    beginShrinkAndWait(resourceGroupName: string, autonomousdatabasename: string, options?: AutonomousDatabasesShrinkOptionalParams): Promise<AutonomousDatabasesShrinkResponse>;
-    beginSwitchover(resourceGroupName: string, autonomousdatabasename: string, body: PeerDbDetails, options?: AutonomousDatabasesSwitchoverOptionalParams): Promise<SimplePollerLike<OperationState<AutonomousDatabasesSwitchoverResponse>, AutonomousDatabasesSwitchoverResponse>>;
-    beginSwitchoverAndWait(resourceGroupName: string, autonomousdatabasename: string, body: PeerDbDetails, options?: AutonomousDatabasesSwitchoverOptionalParams): Promise<AutonomousDatabasesSwitchoverResponse>;
-    beginUpdate(resourceGroupName: string, autonomousdatabasename: string, properties: AutonomousDatabaseUpdate, options?: AutonomousDatabasesUpdateOptionalParams): Promise<SimplePollerLike<OperationState<AutonomousDatabasesUpdateResponse>, AutonomousDatabasesUpdateResponse>>;
-    beginUpdateAndWait(resourceGroupName: string, autonomousdatabasename: string, properties: AutonomousDatabaseUpdate, options?: AutonomousDatabasesUpdateOptionalParams): Promise<AutonomousDatabasesUpdateResponse>;
-    generateWallet(resourceGroupName: string, autonomousdatabasename: string, body: GenerateAutonomousDatabaseWalletDetails, options?: AutonomousDatabasesGenerateWalletOptionalParams): Promise<AutonomousDatabasesGenerateWalletResponse>;
-    get(resourceGroupName: string, autonomousdatabasename: string, options?: AutonomousDatabasesGetOptionalParams): Promise<AutonomousDatabasesGetResponse>;
-    listByResourceGroup(resourceGroupName: string, options?: AutonomousDatabasesListByResourceGroupOptionalParams): PagedAsyncIterableIterator<AutonomousDatabase>;
-    listBySubscription(options?: AutonomousDatabasesListBySubscriptionOptionalParams): PagedAsyncIterableIterator<AutonomousDatabase>;
-}
-
-// @public
-export interface AutonomousDatabasesCreateOrUpdateHeaders {
-    retryAfter?: number;
-}
-
-// @public
-export interface AutonomousDatabasesCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface AutonomousDatabasesChangeDisasterRecoveryConfigurationOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
 
 // @public
-export type AutonomousDatabasesCreateOrUpdateResponse = AutonomousDatabase;
-
-// @public
-export interface AutonomousDatabasesDeleteHeaders {
-    location?: string;
-    retryAfter?: number;
-}
-
-// @public
-export interface AutonomousDatabasesDeleteOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface AutonomousDatabasesCreateOrUpdateOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
 
 // @public
-export type AutonomousDatabasesDeleteResponse = AutonomousDatabasesDeleteHeaders;
-
-// @public
-export interface AutonomousDatabasesFailoverHeaders {
-    location?: string;
-    retryAfter?: number;
-}
-
-// @public
-export interface AutonomousDatabasesFailoverOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface AutonomousDatabasesDeleteOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
 
 // @public
-export type AutonomousDatabasesFailoverResponse = AutonomousDatabase;
-
-// @public
-export interface AutonomousDatabasesGenerateWalletOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type AutonomousDatabasesGenerateWalletResponse = AutonomousDatabaseWalletFile;
-
-// @public
-export interface AutonomousDatabasesGetOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type AutonomousDatabasesGetResponse = AutonomousDatabase;
-
-// @public
-export interface AutonomousDatabasesListByResourceGroupNextOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type AutonomousDatabasesListByResourceGroupNextResponse = AutonomousDatabaseListResult;
-
-// @public
-export interface AutonomousDatabasesListByResourceGroupOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type AutonomousDatabasesListByResourceGroupResponse = AutonomousDatabaseListResult;
-
-// @public
-export interface AutonomousDatabasesListBySubscriptionNextOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type AutonomousDatabasesListBySubscriptionNextResponse = AutonomousDatabaseListResult;
-
-// @public
-export interface AutonomousDatabasesListBySubscriptionOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type AutonomousDatabasesListBySubscriptionResponse = AutonomousDatabaseListResult;
-
-// @public
-export interface AutonomousDatabasesRestoreHeaders {
-    location?: string;
-    retryAfter?: number;
-}
-
-// @public
-export interface AutonomousDatabasesRestoreOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface AutonomousDatabasesFailoverOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
 
 // @public
-export type AutonomousDatabasesRestoreResponse = AutonomousDatabase;
-
-// @public
-export interface AutonomousDatabasesShrinkHeaders {
-    location?: string;
-    retryAfter?: number;
+export interface AutonomousDatabasesGenerateWalletOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface AutonomousDatabasesShrinkOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface AutonomousDatabasesGetOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface AutonomousDatabasesListByResourceGroupOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface AutonomousDatabasesListBySubscriptionOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface AutonomousDatabasesOperations {
+    changeDisasterRecoveryConfiguration: (resourceGroupName: string, autonomousdatabasename: string, body: DisasterRecoveryConfigurationDetails, options?: AutonomousDatabasesChangeDisasterRecoveryConfigurationOptionalParams) => PollerLike<OperationState<AutonomousDatabase>, AutonomousDatabase>;
+    createOrUpdate: (resourceGroupName: string, autonomousdatabasename: string, resource: AutonomousDatabase, options?: AutonomousDatabasesCreateOrUpdateOptionalParams) => PollerLike<OperationState<AutonomousDatabase>, AutonomousDatabase>;
+    delete: (resourceGroupName: string, autonomousdatabasename: string, options?: AutonomousDatabasesDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
+    failover: (resourceGroupName: string, autonomousdatabasename: string, body: PeerDbDetails, options?: AutonomousDatabasesFailoverOptionalParams) => PollerLike<OperationState<AutonomousDatabase>, AutonomousDatabase>;
+    generateWallet: (resourceGroupName: string, autonomousdatabasename: string, body: GenerateAutonomousDatabaseWalletDetails, options?: AutonomousDatabasesGenerateWalletOptionalParams) => Promise<AutonomousDatabaseWalletFile>;
+    get: (resourceGroupName: string, autonomousdatabasename: string, options?: AutonomousDatabasesGetOptionalParams) => Promise<AutonomousDatabase>;
+    listByResourceGroup: (resourceGroupName: string, options?: AutonomousDatabasesListByResourceGroupOptionalParams) => PagedAsyncIterableIterator<AutonomousDatabase>;
+    listBySubscription: (options?: AutonomousDatabasesListBySubscriptionOptionalParams) => PagedAsyncIterableIterator<AutonomousDatabase>;
+    restore: (resourceGroupName: string, autonomousdatabasename: string, body: RestoreAutonomousDatabaseDetails, options?: AutonomousDatabasesRestoreOptionalParams) => PollerLike<OperationState<AutonomousDatabase>, AutonomousDatabase>;
+    shrink: (resourceGroupName: string, autonomousdatabasename: string, options?: AutonomousDatabasesShrinkOptionalParams) => PollerLike<OperationState<AutonomousDatabase>, AutonomousDatabase>;
+    switchover: (resourceGroupName: string, autonomousdatabasename: string, body: PeerDbDetails, options?: AutonomousDatabasesSwitchoverOptionalParams) => PollerLike<OperationState<AutonomousDatabase>, AutonomousDatabase>;
+    update: (resourceGroupName: string, autonomousdatabasename: string, properties: AutonomousDatabaseUpdate, options?: AutonomousDatabasesUpdateOptionalParams) => PollerLike<OperationState<AutonomousDatabase>, AutonomousDatabase>;
+}
+
+// @public
+export interface AutonomousDatabasesRestoreOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
 
 // @public
-export type AutonomousDatabasesShrinkResponse = AutonomousDatabase;
-
-// @public
-export interface AutonomousDatabasesSwitchoverHeaders {
-    location?: string;
-    retryAfter?: number;
-}
-
-// @public
-export interface AutonomousDatabasesSwitchoverOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface AutonomousDatabasesShrinkOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
 
 // @public
-export type AutonomousDatabasesSwitchoverResponse = AutonomousDatabase;
+export interface AutonomousDatabasesSwitchoverOptionalParams extends OperationOptions {
+    updateIntervalInMs?: number;
+}
 
 // @public
 export interface AutonomousDatabaseStandbySummary {
@@ -524,26 +372,14 @@ export interface AutonomousDatabaseStandbySummary {
 }
 
 // @public
-export interface AutonomousDatabasesUpdateHeaders {
-    location?: string;
-    retryAfter?: number;
-}
-
-// @public
-export interface AutonomousDatabasesUpdateOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface AutonomousDatabasesUpdateOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
 
 // @public
-export type AutonomousDatabasesUpdateResponse = AutonomousDatabase;
-
-// @public
 export interface AutonomousDatabaseUpdate {
     properties?: AutonomousDatabaseUpdateProperties;
-    tags?: {
-        [propertyName: string]: string;
-    };
+    tags?: Record<string, string>;
 }
 
 // @public
@@ -574,31 +410,18 @@ export interface AutonomousDatabaseUpdateProperties {
 }
 
 // @public
-export interface AutonomousDatabaseVersions {
-    get(location: string, autonomousdbversionsname: string, options?: AutonomousDatabaseVersionsGetOptionalParams): Promise<AutonomousDatabaseVersionsGetResponse>;
-    listByLocation(location: string, options?: AutonomousDatabaseVersionsListByLocationOptionalParams): PagedAsyncIterableIterator<AutonomousDbVersion>;
+export interface AutonomousDatabaseVersionsGetOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface AutonomousDatabaseVersionsGetOptionalParams extends coreClient.OperationOptions {
+export interface AutonomousDatabaseVersionsListByLocationOptionalParams extends OperationOptions {
 }
 
 // @public
-export type AutonomousDatabaseVersionsGetResponse = AutonomousDbVersion;
-
-// @public
-export interface AutonomousDatabaseVersionsListByLocationNextOptionalParams extends coreClient.OperationOptions {
+export interface AutonomousDatabaseVersionsOperations {
+    get: (location: string, autonomousdbversionsname: string, options?: AutonomousDatabaseVersionsGetOptionalParams) => Promise<AutonomousDbVersion>;
+    listByLocation: (location: string, options?: AutonomousDatabaseVersionsListByLocationOptionalParams) => PagedAsyncIterableIterator<AutonomousDbVersion>;
 }
-
-// @public
-export type AutonomousDatabaseVersionsListByLocationNextResponse = AutonomousDbVersionListResult;
-
-// @public
-export interface AutonomousDatabaseVersionsListByLocationOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type AutonomousDatabaseVersionsListByLocationResponse = AutonomousDbVersionListResult;
 
 // @public
 export interface AutonomousDatabaseWalletFile {
@@ -611,19 +434,13 @@ export interface AutonomousDbVersion extends ProxyResource {
 }
 
 // @public
-export interface AutonomousDbVersionListResult {
-    nextLink?: string;
-    value: AutonomousDbVersion[];
-}
-
-// @public
 export interface AutonomousDbVersionProperties {
-    readonly dbWorkload?: WorkloadType;
-    readonly isDefaultForFree?: boolean;
-    readonly isDefaultForPaid?: boolean;
-    readonly isFreeTierEnabled?: boolean;
-    readonly isPaidEnabled?: boolean;
-    readonly version: string;
+    dbWorkload?: WorkloadType;
+    isDefaultForFree?: boolean;
+    isDefaultForPaid?: boolean;
+    isFreeTierEnabled?: boolean;
+    isPaidEnabled?: boolean;
+    version: string;
 }
 
 // @public
@@ -631,6 +448,11 @@ export type AutonomousMaintenanceScheduleType = string;
 
 // @public
 export type AzureResourceProvisioningState = string;
+
+// @public
+export interface AzureSubscriptions {
+    azureSubscriptionIds: string[];
+}
 
 // @public
 export type CloneType = string;
@@ -654,22 +476,19 @@ export interface CloudExadataInfrastructure extends TrackedResource {
 export type CloudExadataInfrastructureLifecycleState = string;
 
 // @public
-export interface CloudExadataInfrastructureListResult {
-    nextLink?: string;
-    value: CloudExadataInfrastructure[];
-}
-
-// @public
 export interface CloudExadataInfrastructureProperties {
     readonly activatedStorageCount?: number;
     readonly additionalStorageCount?: number;
     readonly availableStorageSizeInGbs?: number;
     computeCount?: number;
+    readonly computeModel?: ComputeModel;
     readonly cpuCount?: number;
     customerContacts?: CustomerContact[];
+    databaseServerType?: string;
     readonly dataStorageSizeInTbs?: number;
     readonly dbNodeStorageSizeInGbs?: number;
     readonly dbServerVersion?: string;
+    readonly definedFileSystemConfiguration?: DefinedFileSystemConfiguration[];
     displayName: string;
     readonly estimatedPatchingTime?: EstimatedPatchingTime;
     readonly lastMaintenanceRunId?: string;
@@ -689,126 +508,59 @@ export interface CloudExadataInfrastructureProperties {
     readonly provisioningState?: AzureResourceProvisioningState;
     shape: string;
     storageCount?: number;
+    storageServerType?: string;
     readonly storageServerVersion?: string;
     readonly timeCreated?: string;
     readonly totalStorageSizeInGbs?: number;
 }
 
 // @public
-export interface CloudExadataInfrastructures {
-    beginAddStorageCapacity(resourceGroupName: string, cloudexadatainfrastructurename: string, options?: CloudExadataInfrastructuresAddStorageCapacityOptionalParams): Promise<SimplePollerLike<OperationState<CloudExadataInfrastructuresAddStorageCapacityResponse>, CloudExadataInfrastructuresAddStorageCapacityResponse>>;
-    beginAddStorageCapacityAndWait(resourceGroupName: string, cloudexadatainfrastructurename: string, options?: CloudExadataInfrastructuresAddStorageCapacityOptionalParams): Promise<CloudExadataInfrastructuresAddStorageCapacityResponse>;
-    beginCreateOrUpdate(resourceGroupName: string, cloudexadatainfrastructurename: string, resource: CloudExadataInfrastructure, options?: CloudExadataInfrastructuresCreateOrUpdateOptionalParams): Promise<SimplePollerLike<OperationState<CloudExadataInfrastructuresCreateOrUpdateResponse>, CloudExadataInfrastructuresCreateOrUpdateResponse>>;
-    beginCreateOrUpdateAndWait(resourceGroupName: string, cloudexadatainfrastructurename: string, resource: CloudExadataInfrastructure, options?: CloudExadataInfrastructuresCreateOrUpdateOptionalParams): Promise<CloudExadataInfrastructuresCreateOrUpdateResponse>;
-    beginDelete(resourceGroupName: string, cloudexadatainfrastructurename: string, options?: CloudExadataInfrastructuresDeleteOptionalParams): Promise<SimplePollerLike<OperationState<CloudExadataInfrastructuresDeleteResponse>, CloudExadataInfrastructuresDeleteResponse>>;
-    beginDeleteAndWait(resourceGroupName: string, cloudexadatainfrastructurename: string, options?: CloudExadataInfrastructuresDeleteOptionalParams): Promise<CloudExadataInfrastructuresDeleteResponse>;
-    beginUpdate(resourceGroupName: string, cloudexadatainfrastructurename: string, properties: CloudExadataInfrastructureUpdate, options?: CloudExadataInfrastructuresUpdateOptionalParams): Promise<SimplePollerLike<OperationState<CloudExadataInfrastructuresUpdateResponse>, CloudExadataInfrastructuresUpdateResponse>>;
-    beginUpdateAndWait(resourceGroupName: string, cloudexadatainfrastructurename: string, properties: CloudExadataInfrastructureUpdate, options?: CloudExadataInfrastructuresUpdateOptionalParams): Promise<CloudExadataInfrastructuresUpdateResponse>;
-    get(resourceGroupName: string, cloudexadatainfrastructurename: string, options?: CloudExadataInfrastructuresGetOptionalParams): Promise<CloudExadataInfrastructuresGetResponse>;
-    listByResourceGroup(resourceGroupName: string, options?: CloudExadataInfrastructuresListByResourceGroupOptionalParams): PagedAsyncIterableIterator<CloudExadataInfrastructure>;
-    listBySubscription(options?: CloudExadataInfrastructuresListBySubscriptionOptionalParams): PagedAsyncIterableIterator<CloudExadataInfrastructure>;
-}
-
-// @public
-export interface CloudExadataInfrastructuresAddStorageCapacityHeaders {
-    location?: string;
-    retryAfter?: number;
-}
-
-// @public
-export interface CloudExadataInfrastructuresAddStorageCapacityOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface CloudExadataInfrastructuresAddStorageCapacityOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
 
 // @public
-export type CloudExadataInfrastructuresAddStorageCapacityResponse = CloudExadataInfrastructure;
-
-// @public
-export interface CloudExadataInfrastructuresCreateOrUpdateHeaders {
-    retryAfter?: number;
-}
-
-// @public
-export interface CloudExadataInfrastructuresCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface CloudExadataInfrastructuresCreateOrUpdateOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
 
 // @public
-export type CloudExadataInfrastructuresCreateOrUpdateResponse = CloudExadataInfrastructure;
-
-// @public
-export interface CloudExadataInfrastructuresDeleteHeaders {
-    location?: string;
-    retryAfter?: number;
-}
-
-// @public
-export interface CloudExadataInfrastructuresDeleteOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface CloudExadataInfrastructuresDeleteOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
 
 // @public
-export type CloudExadataInfrastructuresDeleteResponse = CloudExadataInfrastructuresDeleteHeaders;
-
-// @public
-export interface CloudExadataInfrastructuresGetOptionalParams extends coreClient.OperationOptions {
+export interface CloudExadataInfrastructuresGetOptionalParams extends OperationOptions {
 }
 
 // @public
-export type CloudExadataInfrastructuresGetResponse = CloudExadataInfrastructure;
-
-// @public
-export interface CloudExadataInfrastructuresListByResourceGroupNextOptionalParams extends coreClient.OperationOptions {
+export interface CloudExadataInfrastructuresListByResourceGroupOptionalParams extends OperationOptions {
 }
 
 // @public
-export type CloudExadataInfrastructuresListByResourceGroupNextResponse = CloudExadataInfrastructureListResult;
-
-// @public
-export interface CloudExadataInfrastructuresListByResourceGroupOptionalParams extends coreClient.OperationOptions {
+export interface CloudExadataInfrastructuresListBySubscriptionOptionalParams extends OperationOptions {
 }
 
 // @public
-export type CloudExadataInfrastructuresListByResourceGroupResponse = CloudExadataInfrastructureListResult;
-
-// @public
-export interface CloudExadataInfrastructuresListBySubscriptionNextOptionalParams extends coreClient.OperationOptions {
+export interface CloudExadataInfrastructuresOperations {
+    addStorageCapacity: (resourceGroupName: string, cloudexadatainfrastructurename: string, options?: CloudExadataInfrastructuresAddStorageCapacityOptionalParams) => PollerLike<OperationState<CloudExadataInfrastructure>, CloudExadataInfrastructure>;
+    createOrUpdate: (resourceGroupName: string, cloudexadatainfrastructurename: string, resource: CloudExadataInfrastructure, options?: CloudExadataInfrastructuresCreateOrUpdateOptionalParams) => PollerLike<OperationState<CloudExadataInfrastructure>, CloudExadataInfrastructure>;
+    delete: (resourceGroupName: string, cloudexadatainfrastructurename: string, options?: CloudExadataInfrastructuresDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
+    get: (resourceGroupName: string, cloudexadatainfrastructurename: string, options?: CloudExadataInfrastructuresGetOptionalParams) => Promise<CloudExadataInfrastructure>;
+    listByResourceGroup: (resourceGroupName: string, options?: CloudExadataInfrastructuresListByResourceGroupOptionalParams) => PagedAsyncIterableIterator<CloudExadataInfrastructure>;
+    listBySubscription: (options?: CloudExadataInfrastructuresListBySubscriptionOptionalParams) => PagedAsyncIterableIterator<CloudExadataInfrastructure>;
+    update: (resourceGroupName: string, cloudexadatainfrastructurename: string, properties: CloudExadataInfrastructureUpdate, options?: CloudExadataInfrastructuresUpdateOptionalParams) => PollerLike<OperationState<CloudExadataInfrastructure>, CloudExadataInfrastructure>;
 }
 
 // @public
-export type CloudExadataInfrastructuresListBySubscriptionNextResponse = CloudExadataInfrastructureListResult;
-
-// @public
-export interface CloudExadataInfrastructuresListBySubscriptionOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type CloudExadataInfrastructuresListBySubscriptionResponse = CloudExadataInfrastructureListResult;
-
-// @public
-export interface CloudExadataInfrastructuresUpdateHeaders {
-    location?: string;
-    retryAfter?: number;
-}
-
-// @public
-export interface CloudExadataInfrastructuresUpdateOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface CloudExadataInfrastructuresUpdateOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
-
-// @public
-export type CloudExadataInfrastructuresUpdateResponse = CloudExadataInfrastructure;
 
 // @public
 export interface CloudExadataInfrastructureUpdate {
     properties?: CloudExadataInfrastructureUpdateProperties;
-    tags?: {
-        [propertyName: string]: string;
-    };
+    tags?: Record<string, string>;
     zones?: string[];
 }
 
@@ -830,17 +582,12 @@ export interface CloudVmCluster extends TrackedResource {
 export type CloudVmClusterLifecycleState = string;
 
 // @public
-export interface CloudVmClusterListResult {
-    nextLink?: string;
-    value: CloudVmCluster[];
-}
-
-// @public
 export interface CloudVmClusterProperties {
     backupSubnetCidr?: string;
     cloudExadataInfrastructureId: string;
     clusterName?: string;
     readonly compartmentId?: string;
+    readonly computeModel?: ComputeModel;
     computeNodes?: string[];
     cpuCoreCount: number;
     dataCollectionOptions?: DataCollectionOptions;
@@ -851,6 +598,7 @@ export interface CloudVmClusterProperties {
     readonly diskRedundancy?: DiskRedundancy;
     displayName: string;
     domain?: string;
+    fileSystemConfigurationDetails?: FileSystemConfigurationDetails[];
     giVersion: string;
     hostname: string;
     readonly iormConfigCache?: ExadataIormConfig;
@@ -888,145 +636,63 @@ export interface CloudVmClusterProperties {
 }
 
 // @public
-export interface CloudVmClusters {
-    beginAddVms(resourceGroupName: string, cloudvmclustername: string, body: AddRemoveDbNode, options?: CloudVmClustersAddVmsOptionalParams): Promise<SimplePollerLike<OperationState<CloudVmClustersAddVmsResponse>, CloudVmClustersAddVmsResponse>>;
-    beginAddVmsAndWait(resourceGroupName: string, cloudvmclustername: string, body: AddRemoveDbNode, options?: CloudVmClustersAddVmsOptionalParams): Promise<CloudVmClustersAddVmsResponse>;
-    beginCreateOrUpdate(resourceGroupName: string, cloudvmclustername: string, resource: CloudVmCluster, options?: CloudVmClustersCreateOrUpdateOptionalParams): Promise<SimplePollerLike<OperationState<CloudVmClustersCreateOrUpdateResponse>, CloudVmClustersCreateOrUpdateResponse>>;
-    beginCreateOrUpdateAndWait(resourceGroupName: string, cloudvmclustername: string, resource: CloudVmCluster, options?: CloudVmClustersCreateOrUpdateOptionalParams): Promise<CloudVmClustersCreateOrUpdateResponse>;
-    beginDelete(resourceGroupName: string, cloudvmclustername: string, options?: CloudVmClustersDeleteOptionalParams): Promise<SimplePollerLike<OperationState<CloudVmClustersDeleteResponse>, CloudVmClustersDeleteResponse>>;
-    beginDeleteAndWait(resourceGroupName: string, cloudvmclustername: string, options?: CloudVmClustersDeleteOptionalParams): Promise<CloudVmClustersDeleteResponse>;
-    beginRemoveVms(resourceGroupName: string, cloudvmclustername: string, body: AddRemoveDbNode, options?: CloudVmClustersRemoveVmsOptionalParams): Promise<SimplePollerLike<OperationState<CloudVmClustersRemoveVmsResponse>, CloudVmClustersRemoveVmsResponse>>;
-    beginRemoveVmsAndWait(resourceGroupName: string, cloudvmclustername: string, body: AddRemoveDbNode, options?: CloudVmClustersRemoveVmsOptionalParams): Promise<CloudVmClustersRemoveVmsResponse>;
-    beginUpdate(resourceGroupName: string, cloudvmclustername: string, properties: CloudVmClusterUpdate, options?: CloudVmClustersUpdateOptionalParams): Promise<SimplePollerLike<OperationState<CloudVmClustersUpdateResponse>, CloudVmClustersUpdateResponse>>;
-    beginUpdateAndWait(resourceGroupName: string, cloudvmclustername: string, properties: CloudVmClusterUpdate, options?: CloudVmClustersUpdateOptionalParams): Promise<CloudVmClustersUpdateResponse>;
-    get(resourceGroupName: string, cloudvmclustername: string, options?: CloudVmClustersGetOptionalParams): Promise<CloudVmClustersGetResponse>;
-    listByResourceGroup(resourceGroupName: string, options?: CloudVmClustersListByResourceGroupOptionalParams): PagedAsyncIterableIterator<CloudVmCluster>;
-    listBySubscription(options?: CloudVmClustersListBySubscriptionOptionalParams): PagedAsyncIterableIterator<CloudVmCluster>;
-    listPrivateIpAddresses(resourceGroupName: string, cloudvmclustername: string, body: PrivateIpAddressesFilter, options?: CloudVmClustersListPrivateIpAddressesOptionalParams): Promise<CloudVmClustersListPrivateIpAddressesResponse>;
-}
-
-// @public
-export interface CloudVmClustersAddVmsHeaders {
-    location?: string;
-    retryAfter?: number;
-}
-
-// @public
-export interface CloudVmClustersAddVmsOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface CloudVmClustersAddVmsOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
 
 // @public
-export type CloudVmClustersAddVmsResponse = CloudVmCluster;
-
-// @public
-export interface CloudVmClustersCreateOrUpdateHeaders {
-    retryAfter?: number;
-}
-
-// @public
-export interface CloudVmClustersCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface CloudVmClustersCreateOrUpdateOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
 
 // @public
-export type CloudVmClustersCreateOrUpdateResponse = CloudVmCluster;
-
-// @public
-export interface CloudVmClustersDeleteHeaders {
-    location?: string;
-    retryAfter?: number;
-}
-
-// @public
-export interface CloudVmClustersDeleteOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface CloudVmClustersDeleteOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
 
 // @public
-export type CloudVmClustersDeleteResponse = CloudVmClustersDeleteHeaders;
-
-// @public
-export interface CloudVmClustersGetOptionalParams extends coreClient.OperationOptions {
+export interface CloudVmClustersGetOptionalParams extends OperationOptions {
 }
 
 // @public
-export type CloudVmClustersGetResponse = CloudVmCluster;
-
-// @public
-export interface CloudVmClustersListByResourceGroupNextOptionalParams extends coreClient.OperationOptions {
+export interface CloudVmClustersListByResourceGroupOptionalParams extends OperationOptions {
 }
 
 // @public
-export type CloudVmClustersListByResourceGroupNextResponse = CloudVmClusterListResult;
-
-// @public
-export interface CloudVmClustersListByResourceGroupOptionalParams extends coreClient.OperationOptions {
+export interface CloudVmClustersListBySubscriptionOptionalParams extends OperationOptions {
 }
 
 // @public
-export type CloudVmClustersListByResourceGroupResponse = CloudVmClusterListResult;
-
-// @public
-export interface CloudVmClustersListBySubscriptionNextOptionalParams extends coreClient.OperationOptions {
+export interface CloudVmClustersListPrivateIpAddressesOptionalParams extends OperationOptions {
 }
 
 // @public
-export type CloudVmClustersListBySubscriptionNextResponse = CloudVmClusterListResult;
-
-// @public
-export interface CloudVmClustersListBySubscriptionOptionalParams extends coreClient.OperationOptions {
+export interface CloudVmClustersOperations {
+    addVms: (resourceGroupName: string, cloudvmclustername: string, body: AddRemoveDbNode, options?: CloudVmClustersAddVmsOptionalParams) => PollerLike<OperationState<CloudVmCluster>, CloudVmCluster>;
+    createOrUpdate: (resourceGroupName: string, cloudvmclustername: string, resource: CloudVmCluster, options?: CloudVmClustersCreateOrUpdateOptionalParams) => PollerLike<OperationState<CloudVmCluster>, CloudVmCluster>;
+    delete: (resourceGroupName: string, cloudvmclustername: string, options?: CloudVmClustersDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
+    get: (resourceGroupName: string, cloudvmclustername: string, options?: CloudVmClustersGetOptionalParams) => Promise<CloudVmCluster>;
+    listByResourceGroup: (resourceGroupName: string, options?: CloudVmClustersListByResourceGroupOptionalParams) => PagedAsyncIterableIterator<CloudVmCluster>;
+    listBySubscription: (options?: CloudVmClustersListBySubscriptionOptionalParams) => PagedAsyncIterableIterator<CloudVmCluster>;
+    listPrivateIpAddresses: (resourceGroupName: string, cloudvmclustername: string, body: PrivateIpAddressesFilter, options?: CloudVmClustersListPrivateIpAddressesOptionalParams) => Promise<PrivateIpAddressProperties[]>;
+    removeVms: (resourceGroupName: string, cloudvmclustername: string, body: AddRemoveDbNode, options?: CloudVmClustersRemoveVmsOptionalParams) => PollerLike<OperationState<CloudVmCluster>, CloudVmCluster>;
+    update: (resourceGroupName: string, cloudvmclustername: string, properties: CloudVmClusterUpdate, options?: CloudVmClustersUpdateOptionalParams) => PollerLike<OperationState<CloudVmCluster>, CloudVmCluster>;
 }
 
 // @public
-export type CloudVmClustersListBySubscriptionResponse = CloudVmClusterListResult;
-
-// @public
-export interface CloudVmClustersListPrivateIpAddressesOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type CloudVmClustersListPrivateIpAddressesResponse = PrivateIpAddressProperties[];
-
-// @public
-export interface CloudVmClustersRemoveVmsHeaders {
-    location?: string;
-    retryAfter?: number;
-}
-
-// @public
-export interface CloudVmClustersRemoveVmsOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface CloudVmClustersRemoveVmsOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
 
 // @public
-export type CloudVmClustersRemoveVmsResponse = CloudVmCluster;
-
-// @public
-export interface CloudVmClustersUpdateHeaders {
-    location?: string;
-    retryAfter?: number;
-}
-
-// @public
-export interface CloudVmClustersUpdateOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface CloudVmClustersUpdateOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
-
-// @public
-export type CloudVmClustersUpdateResponse = CloudVmCluster;
 
 // @public
 export interface CloudVmClusterUpdate {
     properties?: CloudVmClusterUpdateProperties;
-    tags?: {
-        [propertyName: string]: string;
-    };
+    tags?: Record<string, string>;
 }
 
 // @public
@@ -1037,6 +703,7 @@ export interface CloudVmClusterUpdateProperties {
     dataStorageSizeInTbs?: number;
     dbNodeStorageSizeInGbs?: number;
     displayName?: string;
+    fileSystemConfigurationDetails?: FileSystemConfigurationDetails[];
     licenseModel?: LicenseModel;
     memorySizeInGbs?: number;
     ocpuCount?: number;
@@ -1072,6 +739,11 @@ export interface ConnectionUrlType {
 export type ConsumerGroup = string;
 
 // @public
+export type ContinuablePage<TElement, TPage = TElement[]> = TPage & {
+    continuationToken?: string;
+};
+
+// @public
 export type CreatedByType = string;
 
 // @public
@@ -1105,7 +777,12 @@ export type DayOfWeekName = string;
 
 // @public
 export interface DayOfWeekUpdate {
-    name?: DayOfWeekName;
+    name: DayOfWeekName;
+}
+
+// @public
+export interface DbActionResponse {
+    provisioningState?: AzureResourceProvisioningState;
 }
 
 // @public
@@ -1129,9 +806,8 @@ export interface DbNodeAction {
 export type DbNodeActionEnum = string;
 
 // @public
-export interface DbNodeListResult {
-    nextLink?: string;
-    value: DbNode[];
+export interface DbNodeDetails {
+    dbNodeId: string;
 }
 
 // @public
@@ -1139,87 +815,57 @@ export type DbNodeMaintenanceType = string;
 
 // @public
 export interface DbNodeProperties {
-    readonly additionalDetails?: string;
-    readonly backupIpId?: string;
-    readonly backupVnic2Id?: string;
-    readonly backupVnicId?: string;
-    readonly cpuCoreCount?: number;
-    readonly dbNodeStorageSizeInGbs?: number;
-    readonly dbServerId?: string;
-    readonly dbSystemId: string;
-    readonly faultDomain?: string;
-    readonly hostIpId?: string;
-    readonly hostname?: string;
-    readonly lifecycleDetails?: string;
-    readonly lifecycleState?: DbNodeProvisioningState;
-    readonly maintenanceType?: DbNodeMaintenanceType;
-    readonly memorySizeInGbs?: number;
-    readonly ocid: string;
+    additionalDetails?: string;
+    backupIpId?: string;
+    backupVnic2Id?: string;
+    backupVnicId?: string;
+    cpuCoreCount?: number;
+    dbNodeStorageSizeInGbs?: number;
+    dbServerId?: string;
+    dbSystemId: string;
+    faultDomain?: string;
+    hostIpId?: string;
+    hostname?: string;
+    lifecycleDetails?: string;
+    lifecycleState: DbNodeProvisioningState;
+    maintenanceType?: DbNodeMaintenanceType;
+    memorySizeInGbs?: number;
+    ocid: string;
     readonly provisioningState?: ResourceProvisioningState;
-    readonly softwareStorageSizeInGb?: number;
-    readonly timeCreated?: Date;
-    readonly timeMaintenanceWindowEnd?: Date;
-    readonly timeMaintenanceWindowStart?: Date;
-    readonly vnic2Id?: string;
-    readonly vnicId?: string;
+    softwareStorageSizeInGb?: number;
+    timeCreated: Date;
+    timeMaintenanceWindowEnd?: Date;
+    timeMaintenanceWindowStart?: Date;
+    vnic2Id?: string;
+    vnicId: string;
 }
 
 // @public
 export type DbNodeProvisioningState = string;
 
 // @public
-export interface DbNodes {
-    beginAction(resourceGroupName: string, cloudvmclustername: string, dbnodeocid: string, body: DbNodeAction, options?: DbNodesActionOptionalParams): Promise<SimplePollerLike<OperationState<DbNodesActionResponse>, DbNodesActionResponse>>;
-    beginActionAndWait(resourceGroupName: string, cloudvmclustername: string, dbnodeocid: string, body: DbNodeAction, options?: DbNodesActionOptionalParams): Promise<DbNodesActionResponse>;
-    get(resourceGroupName: string, cloudvmclustername: string, dbnodeocid: string, options?: DbNodesGetOptionalParams): Promise<DbNodesGetResponse>;
-    listByCloudVmCluster(resourceGroupName: string, cloudvmclustername: string, options?: DbNodesListByCloudVmClusterOptionalParams): PagedAsyncIterableIterator<DbNode>;
-}
-
-// @public
-export interface DbNodesActionHeaders {
-    location?: string;
-    retryAfter?: number;
-}
-
-// @public
-export interface DbNodesActionOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface DbNodesActionOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
 
 // @public
-export type DbNodesActionResponse = DbNode;
-
-// @public
-export interface DbNodesGetOptionalParams extends coreClient.OperationOptions {
+export interface DbNodesGetOptionalParams extends OperationOptions {
 }
 
 // @public
-export type DbNodesGetResponse = DbNode;
-
-// @public
-export interface DbNodesListByCloudVmClusterNextOptionalParams extends coreClient.OperationOptions {
+export interface DbNodesListByParentOptionalParams extends OperationOptions {
 }
 
 // @public
-export type DbNodesListByCloudVmClusterNextResponse = DbNodeListResult;
-
-// @public
-export interface DbNodesListByCloudVmClusterOptionalParams extends coreClient.OperationOptions {
+export interface DbNodesOperations {
+    action: (resourceGroupName: string, cloudvmclustername: string, dbnodeocid: string, body: DbNodeAction, options?: DbNodesActionOptionalParams) => PollerLike<OperationState<DbNode>, DbNode>;
+    get: (resourceGroupName: string, cloudvmclustername: string, dbnodeocid: string, options?: DbNodesGetOptionalParams) => Promise<DbNode>;
+    listByParent: (resourceGroupName: string, cloudvmclustername: string, options?: DbNodesListByParentOptionalParams) => PagedAsyncIterableIterator<DbNode>;
 }
-
-// @public
-export type DbNodesListByCloudVmClusterResponse = DbNodeListResult;
 
 // @public
 export interface DbServer extends ProxyResource {
     properties?: DbServerProperties;
-}
-
-// @public
-export interface DbServerListResult {
-    nextLink?: string;
-    value: DbServer[];
 }
 
 // @public
@@ -1238,6 +884,7 @@ export interface DbServerProperties {
     readonly autonomousVirtualMachineIds?: string[];
     readonly autonomousVmClusterIds?: string[];
     readonly compartmentId?: string;
+    readonly computeModel?: ComputeModel;
     readonly cpuCoreCount?: number;
     readonly dbNodeIds?: string[];
     readonly dbNodeStorageSizeInGbs?: number;
@@ -1261,31 +908,18 @@ export interface DbServerProperties {
 export type DbServerProvisioningState = string;
 
 // @public
-export interface DbServers {
-    get(resourceGroupName: string, cloudexadatainfrastructurename: string, dbserverocid: string, options?: DbServersGetOptionalParams): Promise<DbServersGetResponse>;
-    listByCloudExadataInfrastructure(resourceGroupName: string, cloudexadatainfrastructurename: string, options?: DbServersListByCloudExadataInfrastructureOptionalParams): PagedAsyncIterableIterator<DbServer>;
+export interface DbServersGetOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface DbServersGetOptionalParams extends coreClient.OperationOptions {
+export interface DbServersListByParentOptionalParams extends OperationOptions {
 }
 
 // @public
-export type DbServersGetResponse = DbServer;
-
-// @public
-export interface DbServersListByCloudExadataInfrastructureNextOptionalParams extends coreClient.OperationOptions {
+export interface DbServersOperations {
+    get: (resourceGroupName: string, cloudexadatainfrastructurename: string, dbserverocid: string, options?: DbServersGetOptionalParams) => Promise<DbServer>;
+    listByParent: (resourceGroupName: string, cloudexadatainfrastructurename: string, options?: DbServersListByParentOptionalParams) => PagedAsyncIterableIterator<DbServer>;
 }
-
-// @public
-export type DbServersListByCloudExadataInfrastructureNextResponse = DbServerListResult;
-
-// @public
-export interface DbServersListByCloudExadataInfrastructureOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type DbServersListByCloudExadataInfrastructureResponse = DbServerListResult;
 
 // @public
 export interface DbSystemShape extends ProxyResource {
@@ -1293,61 +927,63 @@ export interface DbSystemShape extends ProxyResource {
 }
 
 // @public
-export interface DbSystemShapeListResult {
-    nextLink?: string;
-    value: DbSystemShape[];
-}
-
-// @public
 export interface DbSystemShapeProperties {
-    readonly availableCoreCount: number;
-    readonly availableCoreCountPerNode?: number;
-    readonly availableDataStorageInTbs?: number;
-    readonly availableDataStoragePerServerInTbs?: number;
-    readonly availableDbNodePerNodeInGbs?: number;
-    readonly availableDbNodeStorageInGbs?: number;
-    readonly availableMemoryInGbs?: number;
-    readonly availableMemoryPerNodeInGbs?: number;
-    readonly coreCountIncrement?: number;
-    readonly maximumNodeCount?: number;
-    readonly maxStorageCount?: number;
-    readonly minCoreCountPerNode?: number;
-    readonly minDataStorageInTbs?: number;
-    readonly minDbNodeStoragePerNodeInGbs?: number;
-    readonly minimumCoreCount?: number;
-    readonly minimumNodeCount?: number;
-    readonly minMemoryPerNodeInGbs?: number;
-    readonly minStorageCount?: number;
-    readonly runtimeMinimumCoreCount?: number;
-    readonly shapeFamily?: string;
+    areServerTypesSupported?: boolean;
+    availableCoreCount: number;
+    availableCoreCountPerNode?: number;
+    availableDataStorageInTbs?: number;
+    availableDataStoragePerServerInTbs?: number;
+    availableDbNodePerNodeInGbs?: number;
+    availableDbNodeStorageInGbs?: number;
+    availableMemoryInGbs?: number;
+    availableMemoryPerNodeInGbs?: number;
+    computeModel?: ComputeModel;
+    coreCountIncrement?: number;
+    displayName?: string;
+    maximumNodeCount?: number;
+    maxStorageCount?: number;
+    minCoreCountPerNode?: number;
+    minDataStorageInTbs?: number;
+    minDbNodeStoragePerNodeInGbs?: number;
+    minimumCoreCount?: number;
+    minimumNodeCount?: number;
+    minMemoryPerNodeInGbs?: number;
+    minStorageCount?: number;
+    runtimeMinimumCoreCount?: number;
+    shapeFamily?: string;
+    shapeName: string;
 }
 
 // @public
-export interface DbSystemShapes {
-    get(location: string, dbsystemshapename: string, options?: DbSystemShapesGetOptionalParams): Promise<DbSystemShapesGetResponse>;
-    listByLocation(location: string, options?: DbSystemShapesListByLocationOptionalParams): PagedAsyncIterableIterator<DbSystemShape>;
+export interface DbSystemShapesGetOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface DbSystemShapesGetOptionalParams extends coreClient.OperationOptions {
+export interface DbSystemShapesListByLocationOptionalParams extends OperationOptions {
+    zone?: string;
 }
 
 // @public
-export type DbSystemShapesGetResponse = DbSystemShape;
-
-// @public
-export interface DbSystemShapesListByLocationNextOptionalParams extends coreClient.OperationOptions {
+export interface DbSystemShapesOperations {
+    get: (location: string, dbsystemshapename: string, options?: DbSystemShapesGetOptionalParams) => Promise<DbSystemShape>;
+    listByLocation: (location: string, options?: DbSystemShapesListByLocationOptionalParams) => PagedAsyncIterableIterator<DbSystemShape>;
 }
 
 // @public
-export type DbSystemShapesListByLocationNextResponse = DbSystemShapeListResult;
-
-// @public
-export interface DbSystemShapesListByLocationOptionalParams extends coreClient.OperationOptions {
+export interface DefinedFileSystemConfiguration {
+    isBackupPartition?: boolean;
+    isResizable?: boolean;
+    minSizeGb?: number;
+    mountPoint?: string;
 }
 
 // @public
-export type DbSystemShapesListByLocationResponse = DbSystemShapeListResult;
+export interface DisasterRecoveryConfigurationDetails {
+    disasterRecoveryType?: DisasterRecoveryType;
+    isReplicateAutomaticBackups?: boolean;
+    isSnapshotStandby?: boolean;
+    timeSnapshotStandbyEnabledTill?: Date;
+}
 
 // @public
 export type DisasterRecoveryType = string;
@@ -1361,52 +997,33 @@ export interface DnsPrivateView extends ProxyResource {
 }
 
 // @public
-export interface DnsPrivateViewListResult {
-    nextLink?: string;
-    value: DnsPrivateView[];
-}
-
-// @public
 export interface DnsPrivateViewProperties {
-    readonly displayName?: string;
-    readonly isProtected: boolean;
-    readonly lifecycleState?: DnsPrivateViewsLifecycleState;
-    readonly ocid: string;
+    displayName: string;
+    isProtected: boolean;
+    lifecycleState: DnsPrivateViewsLifecycleState;
+    ocid: string;
     readonly provisioningState?: ResourceProvisioningState;
-    readonly self: string;
-    readonly timeCreated: Date;
-    readonly timeUpdated: Date;
+    self: string;
+    timeCreated: Date;
+    timeUpdated: Date;
 }
 
 // @public
-export interface DnsPrivateViews {
-    get(location: string, dnsprivateviewocid: string, options?: DnsPrivateViewsGetOptionalParams): Promise<DnsPrivateViewsGetResponse>;
-    listByLocation(location: string, options?: DnsPrivateViewsListByLocationOptionalParams): PagedAsyncIterableIterator<DnsPrivateView>;
+export interface DnsPrivateViewsGetOptionalParams extends OperationOptions {
 }
-
-// @public
-export interface DnsPrivateViewsGetOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type DnsPrivateViewsGetResponse = DnsPrivateView;
 
 // @public
 export type DnsPrivateViewsLifecycleState = string;
 
 // @public
-export interface DnsPrivateViewsListByLocationNextOptionalParams extends coreClient.OperationOptions {
+export interface DnsPrivateViewsListByLocationOptionalParams extends OperationOptions {
 }
 
 // @public
-export type DnsPrivateViewsListByLocationNextResponse = DnsPrivateViewListResult;
-
-// @public
-export interface DnsPrivateViewsListByLocationOptionalParams extends coreClient.OperationOptions {
+export interface DnsPrivateViewsOperations {
+    get: (location: string, dnsprivateviewocid: string, options?: DnsPrivateViewsGetOptionalParams) => Promise<DnsPrivateView>;
+    listByLocation: (location: string, options?: DnsPrivateViewsListByLocationOptionalParams) => PagedAsyncIterableIterator<DnsPrivateView>;
 }
-
-// @public
-export type DnsPrivateViewsListByLocationResponse = DnsPrivateViewListResult;
 
 // @public
 export interface DnsPrivateZone extends ProxyResource {
@@ -1414,58 +1031,39 @@ export interface DnsPrivateZone extends ProxyResource {
 }
 
 // @public
-export interface DnsPrivateZoneListResult {
-    nextLink?: string;
-    value: DnsPrivateZone[];
-}
-
-// @public
 export interface DnsPrivateZoneProperties {
-    readonly isProtected: boolean;
-    readonly lifecycleState?: DnsPrivateZonesLifecycleState;
-    readonly ocid: string;
+    isProtected: boolean;
+    lifecycleState: DnsPrivateZonesLifecycleState;
+    ocid: string;
     readonly provisioningState?: ResourceProvisioningState;
-    readonly self: string;
-    readonly serial: number;
-    readonly timeCreated: Date;
-    readonly version: string;
-    readonly viewId?: string;
-    readonly zoneType: ZoneType;
+    self: string;
+    serial: number;
+    timeCreated: Date;
+    version: string;
+    viewId?: string;
+    zoneType: ZoneType;
 }
 
 // @public
-export interface DnsPrivateZones {
-    get(location: string, dnsprivatezonename: string, options?: DnsPrivateZonesGetOptionalParams): Promise<DnsPrivateZonesGetResponse>;
-    listByLocation(location: string, options?: DnsPrivateZonesListByLocationOptionalParams): PagedAsyncIterableIterator<DnsPrivateZone>;
+export interface DnsPrivateZonesGetOptionalParams extends OperationOptions {
 }
-
-// @public
-export interface DnsPrivateZonesGetOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type DnsPrivateZonesGetResponse = DnsPrivateZone;
 
 // @public
 export type DnsPrivateZonesLifecycleState = string;
 
 // @public
-export interface DnsPrivateZonesListByLocationNextOptionalParams extends coreClient.OperationOptions {
+export interface DnsPrivateZonesListByLocationOptionalParams extends OperationOptions {
 }
 
 // @public
-export type DnsPrivateZonesListByLocationNextResponse = DnsPrivateZoneListResult;
-
-// @public
-export interface DnsPrivateZonesListByLocationOptionalParams extends coreClient.OperationOptions {
+export interface DnsPrivateZonesOperations {
+    get: (location: string, dnsprivatezonename: string, options?: DnsPrivateZonesGetOptionalParams) => Promise<DnsPrivateZone>;
+    listByLocation: (location: string, options?: DnsPrivateZonesListByLocationOptionalParams) => PagedAsyncIterableIterator<DnsPrivateZone>;
 }
-
-// @public
-export type DnsPrivateZonesListByLocationResponse = DnsPrivateZoneListResult;
 
 // @public
 export interface ErrorAdditionalInfo {
-    readonly info?: Record<string, unknown>;
+    readonly info?: any;
     readonly type?: string;
 }
 
@@ -1500,6 +1098,282 @@ export interface ExadataIormConfig {
 }
 
 // @public
+export interface ExadbVmCluster extends TrackedResource {
+    properties?: ExadbVmClusterProperties;
+    zones?: string[];
+}
+
+// @public
+export type ExadbVmClusterLifecycleState = string;
+
+// @public
+export interface ExadbVmClusterProperties {
+    backupSubnetCidr?: string;
+    readonly backupSubnetOcid?: string;
+    clusterName?: string;
+    dataCollectionOptions?: DataCollectionOptions;
+    displayName: string;
+    domain?: string;
+    enabledEcpuCount: number;
+    exascaleDbStorageVaultId: string;
+    readonly giVersion?: string;
+    gridImageOcid?: string;
+    readonly gridImageType?: GridImageType;
+    hostname: string;
+    readonly iormConfigCache?: ExadataIormConfig;
+    licenseModel?: LicenseModel;
+    readonly lifecycleDetails?: string;
+    readonly lifecycleState?: ExadbVmClusterLifecycleState;
+    readonly listenerPort?: number;
+    readonly memorySizeInGbs?: number;
+    nodeCount: number;
+    nsgCidrs?: NsgCidr[];
+    readonly nsgUrl?: string;
+    readonly ocid?: string;
+    readonly ociUrl?: string;
+    privateZoneOcid?: string;
+    readonly provisioningState?: AzureResourceProvisioningState;
+    readonly scanDnsName?: string;
+    readonly scanDnsRecordId?: string;
+    readonly scanIpIds?: string[];
+    scanListenerPortTcp?: number;
+    scanListenerPortTcpSsl?: number;
+    shape: string;
+    readonly snapshotFileSystemStorage?: ExadbVmClusterStorageDetails;
+    sshPublicKeys: string[];
+    subnetId: string;
+    readonly subnetOcid?: string;
+    systemVersion?: string;
+    timeZone?: string;
+    totalEcpuCount: number;
+    readonly totalFileSystemStorage?: ExadbVmClusterStorageDetails;
+    readonly vipIds?: string[];
+    vmFileSystemStorage: ExadbVmClusterStorageDetails;
+    vnetId: string;
+    readonly zoneOcid?: string;
+}
+
+// @public
+export interface ExadbVmClustersCreateOrUpdateOptionalParams extends OperationOptions {
+    updateIntervalInMs?: number;
+}
+
+// @public
+export interface ExadbVmClustersDeleteOptionalParams extends OperationOptions {
+    updateIntervalInMs?: number;
+}
+
+// @public
+export interface ExadbVmClustersGetOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface ExadbVmClustersListByResourceGroupOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface ExadbVmClustersListBySubscriptionOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface ExadbVmClustersOperations {
+    createOrUpdate: (resourceGroupName: string, exadbVmClusterName: string, resource: ExadbVmCluster, options?: ExadbVmClustersCreateOrUpdateOptionalParams) => PollerLike<OperationState<ExadbVmCluster>, ExadbVmCluster>;
+    delete: (resourceGroupName: string, exadbVmClusterName: string, options?: ExadbVmClustersDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
+    get: (resourceGroupName: string, exadbVmClusterName: string, options?: ExadbVmClustersGetOptionalParams) => Promise<ExadbVmCluster>;
+    listByResourceGroup: (resourceGroupName: string, options?: ExadbVmClustersListByResourceGroupOptionalParams) => PagedAsyncIterableIterator<ExadbVmCluster>;
+    listBySubscription: (options?: ExadbVmClustersListBySubscriptionOptionalParams) => PagedAsyncIterableIterator<ExadbVmCluster>;
+    removeVms: (resourceGroupName: string, exadbVmClusterName: string, body: RemoveVirtualMachineFromExadbVmClusterDetails, options?: ExadbVmClustersRemoveVmsOptionalParams) => PollerLike<OperationState<ExadbVmCluster>, ExadbVmCluster>;
+    update: (resourceGroupName: string, exadbVmClusterName: string, properties: ExadbVmClusterUpdate, options?: ExadbVmClustersUpdateOptionalParams) => PollerLike<OperationState<ExadbVmCluster>, ExadbVmCluster>;
+}
+
+// @public
+export interface ExadbVmClustersRemoveVmsOptionalParams extends OperationOptions {
+    updateIntervalInMs?: number;
+}
+
+// @public
+export interface ExadbVmClusterStorageDetails {
+    totalSizeInGbs: number;
+}
+
+// @public
+export interface ExadbVmClustersUpdateOptionalParams extends OperationOptions {
+    updateIntervalInMs?: number;
+}
+
+// @public
+export interface ExadbVmClusterUpdate {
+    properties?: ExadbVmClusterUpdateProperties;
+    tags?: Record<string, string>;
+    zones?: string[];
+}
+
+// @public
+export interface ExadbVmClusterUpdateProperties {
+    nodeCount?: number;
+}
+
+// @public
+export interface ExascaleDbNode extends ProxyResource {
+    properties?: ExascaleDbNodeProperties;
+}
+
+// @public
+export interface ExascaleDbNodeProperties {
+    additionalDetails?: string;
+    cpuCoreCount?: number;
+    dbNodeStorageSizeInGbs?: number;
+    faultDomain?: string;
+    hostname?: string;
+    lifecycleState?: DbNodeProvisioningState;
+    maintenanceType?: string;
+    memorySizeInGbs?: number;
+    ocid: string;
+    softwareStorageSizeInGb?: number;
+    timeMaintenanceWindowEnd?: Date;
+    timeMaintenanceWindowStart?: Date;
+    totalCpuCoreCount?: number;
+}
+
+// @public
+export interface ExascaleDbNodesActionOptionalParams extends OperationOptions {
+    updateIntervalInMs?: number;
+}
+
+// @public
+export interface ExascaleDbNodesGetOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface ExascaleDbNodesListByParentOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface ExascaleDbNodesOperations {
+    action: (resourceGroupName: string, exadbVmClusterName: string, exascaleDbNodeName: string, body: DbNodeAction, options?: ExascaleDbNodesActionOptionalParams) => PollerLike<OperationState<DbActionResponse>, DbActionResponse>;
+    get: (resourceGroupName: string, exadbVmClusterName: string, exascaleDbNodeName: string, options?: ExascaleDbNodesGetOptionalParams) => Promise<ExascaleDbNode>;
+    listByParent: (resourceGroupName: string, exadbVmClusterName: string, options?: ExascaleDbNodesListByParentOptionalParams) => PagedAsyncIterableIterator<ExascaleDbNode>;
+}
+
+// @public
+export interface ExascaleDbStorageDetails {
+    availableSizeInGbs?: number;
+    totalSizeInGbs?: number;
+}
+
+// @public
+export interface ExascaleDbStorageInputDetails {
+    totalSizeInGbs: number;
+}
+
+// @public
+export interface ExascaleDbStorageVault extends TrackedResource {
+    properties?: ExascaleDbStorageVaultProperties;
+    zones?: string[];
+}
+
+// @public
+export type ExascaleDbStorageVaultLifecycleState = string;
+
+// @public
+export interface ExascaleDbStorageVaultProperties {
+    additionalFlashCacheInPercent?: number;
+    description?: string;
+    displayName: string;
+    readonly highCapacityDatabaseStorage?: ExascaleDbStorageDetails;
+    highCapacityDatabaseStorageInput: ExascaleDbStorageInputDetails;
+    readonly lifecycleDetails?: string;
+    readonly lifecycleState?: ExascaleDbStorageVaultLifecycleState;
+    readonly ocid?: string;
+    readonly ociUrl?: string;
+    readonly provisioningState?: AzureResourceProvisioningState;
+    timeZone?: string;
+    readonly vmClusterCount?: number;
+}
+
+// @public
+export interface ExascaleDbStorageVaultsCreateOptionalParams extends OperationOptions {
+    updateIntervalInMs?: number;
+}
+
+// @public
+export interface ExascaleDbStorageVaultsDeleteOptionalParams extends OperationOptions {
+    updateIntervalInMs?: number;
+}
+
+// @public
+export interface ExascaleDbStorageVaultsGetOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface ExascaleDbStorageVaultsListByResourceGroupOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface ExascaleDbStorageVaultsListBySubscriptionOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface ExascaleDbStorageVaultsOperations {
+    create: (resourceGroupName: string, exascaleDbStorageVaultName: string, resource: ExascaleDbStorageVault, options?: ExascaleDbStorageVaultsCreateOptionalParams) => PollerLike<OperationState<ExascaleDbStorageVault>, ExascaleDbStorageVault>;
+    delete: (resourceGroupName: string, exascaleDbStorageVaultName: string, options?: ExascaleDbStorageVaultsDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
+    get: (resourceGroupName: string, exascaleDbStorageVaultName: string, options?: ExascaleDbStorageVaultsGetOptionalParams) => Promise<ExascaleDbStorageVault>;
+    listByResourceGroup: (resourceGroupName: string, options?: ExascaleDbStorageVaultsListByResourceGroupOptionalParams) => PagedAsyncIterableIterator<ExascaleDbStorageVault>;
+    listBySubscription: (options?: ExascaleDbStorageVaultsListBySubscriptionOptionalParams) => PagedAsyncIterableIterator<ExascaleDbStorageVault>;
+    update: (resourceGroupName: string, exascaleDbStorageVaultName: string, properties: ExascaleDbStorageVaultTagsUpdate, options?: ExascaleDbStorageVaultsUpdateOptionalParams) => PollerLike<OperationState<ExascaleDbStorageVault>, ExascaleDbStorageVault>;
+}
+
+// @public
+export interface ExascaleDbStorageVaultsUpdateOptionalParams extends OperationOptions {
+    updateIntervalInMs?: number;
+}
+
+// @public
+export interface ExascaleDbStorageVaultTagsUpdate {
+    tags?: Record<string, string>;
+}
+
+// @public
+export interface FileSystemConfigurationDetails {
+    fileSystemSizeGb?: number;
+    mountPoint?: string;
+}
+
+// @public
+export interface FlexComponent extends ProxyResource {
+    properties?: FlexComponentProperties;
+}
+
+// @public
+export interface FlexComponentProperties {
+    readonly availableCoreCount?: number;
+    readonly availableDbStorageInGbs?: number;
+    readonly availableLocalStorageInGbs?: number;
+    readonly availableMemoryInGbs?: number;
+    readonly computeModel?: string;
+    readonly descriptionSummary?: string;
+    readonly hardwareType?: HardwareType;
+    readonly minimumCoreCount?: number;
+    readonly runtimeMinimumCoreCount?: number;
+    readonly shape?: string;
+}
+
+// @public
+export interface FlexComponentsGetOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface FlexComponentsListByParentOptionalParams extends OperationOptions {
+    shape?: SystemShapes;
+}
+
+// @public
+export interface FlexComponentsOperations {
+    get: (location: string, flexComponentName: string, options?: FlexComponentsGetOptionalParams) => Promise<FlexComponent>;
+    listByParent: (location: string, options?: FlexComponentsListByParentOptionalParams) => PagedAsyncIterableIterator<FlexComponent>;
+}
+
+// @public
 export interface GenerateAutonomousDatabaseWalletDetails {
     generateType?: GenerateType;
     isRegional?: boolean;
@@ -1510,7 +1384,31 @@ export interface GenerateAutonomousDatabaseWalletDetails {
 export type GenerateType = string;
 
 // @public
-export function getContinuationToken(page: unknown): string | undefined;
+export interface GiMinorVersion extends ProxyResource {
+    properties?: GiMinorVersionProperties;
+}
+
+// @public
+export interface GiMinorVersionProperties {
+    gridImageOcid?: string;
+    version: string;
+}
+
+// @public
+export interface GiMinorVersionsGetOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface GiMinorVersionsListByParentOptionalParams extends OperationOptions {
+    shapeFamily?: ShapeFamily;
+    zone?: string;
+}
+
+// @public
+export interface GiMinorVersionsOperations {
+    get: (location: string, giversionname: string, giMinorVersionName: string, options?: GiMinorVersionsGetOptionalParams) => Promise<GiMinorVersion>;
+    listByParent: (location: string, giversionname: string, options?: GiMinorVersionsListByParentOptionalParams) => PagedAsyncIterableIterator<GiMinorVersion>;
+}
 
 // @public
 export interface GiVersion extends ProxyResource {
@@ -1518,42 +1416,31 @@ export interface GiVersion extends ProxyResource {
 }
 
 // @public
-export interface GiVersionListResult {
-    nextLink?: string;
-    value: GiVersion[];
-}
-
-// @public
 export interface GiVersionProperties {
-    readonly version: string;
+    version: string;
 }
 
 // @public
-export interface GiVersions {
-    get(location: string, giversionname: string, options?: GiVersionsGetOptionalParams): Promise<GiVersionsGetResponse>;
-    listByLocation(location: string, options?: GiVersionsListByLocationOptionalParams): PagedAsyncIterableIterator<GiVersion>;
+export interface GiVersionsGetOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface GiVersionsGetOptionalParams extends coreClient.OperationOptions {
+export interface GiVersionsListByLocationOptionalParams extends OperationOptions {
+    shape?: SystemShapes;
+    zone?: string;
 }
 
 // @public
-export type GiVersionsGetResponse = GiVersion;
-
-// @public
-export interface GiVersionsListByLocationNextOptionalParams extends coreClient.OperationOptions {
+export interface GiVersionsOperations {
+    get: (location: string, giversionname: string, options?: GiVersionsGetOptionalParams) => Promise<GiVersion>;
+    listByLocation: (location: string, options?: GiVersionsListByLocationOptionalParams) => PagedAsyncIterableIterator<GiVersion>;
 }
 
 // @public
-export type GiVersionsListByLocationNextResponse = GiVersionListResult;
+export type GridImageType = string;
 
 // @public
-export interface GiVersionsListByLocationOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type GiVersionsListByLocationResponse = GiVersionListResult;
+export type HardwareType = string;
 
 // @public
 export type HostFormatType = string;
@@ -1567,6 +1454,13 @@ export type IormLifecycleState = string;
 // @public
 export enum KnownActionType {
     Internal = "Internal"
+}
+
+// @public
+export enum KnownAddSubscriptionOperationState {
+    Failed = "Failed",
+    Succeeded = "Succeeded",
+    Updating = "Updating"
 }
 
 // @public
@@ -1691,6 +1585,8 @@ export enum KnownDatabaseEditionType {
 // @public
 export enum KnownDataBaseType {
     Clone = "Clone",
+    CloneFromBackupTimestamp = "CloneFromBackupTimestamp",
+    CrossRegionDisasterRecovery = "CrossRegionDisasterRecovery",
     Regular = "Regular"
 }
 
@@ -1788,9 +1684,42 @@ export enum KnownDnsPrivateZonesLifecycleState {
 }
 
 // @public
+export enum KnownExadbVmClusterLifecycleState {
+    Available = "Available",
+    Failed = "Failed",
+    MaintenanceInProgress = "MaintenanceInProgress",
+    Provisioning = "Provisioning",
+    Terminated = "Terminated",
+    Terminating = "Terminating",
+    Updating = "Updating"
+}
+
+// @public
+export enum KnownExascaleDbStorageVaultLifecycleState {
+    Available = "Available",
+    Failed = "Failed",
+    Provisioning = "Provisioning",
+    Terminated = "Terminated",
+    Terminating = "Terminating",
+    Updating = "Updating"
+}
+
+// @public
 export enum KnownGenerateType {
     All = "All",
     Single = "Single"
+}
+
+// @public
+export enum KnownGridImageType {
+    CustomImage = "CustomImage",
+    ReleaseUpdate = "ReleaseUpdate"
+}
+
+// @public
+export enum KnownHardwareType {
+    Cell = "CELL",
+    Compute = "COMPUTE"
 }
 
 // @public
@@ -1942,6 +1871,12 @@ export enum KnownSessionModeType {
 }
 
 // @public
+export enum KnownShapeFamily {
+    Exadata = "EXADATA",
+    ExadbXs = "EXADB_XS"
+}
+
+// @public
 export enum KnownSourceType {
     BackupFromId = "BackupFromId",
     BackupFromTimestamp = "BackupFromTimestamp",
@@ -1960,23 +1895,23 @@ export enum KnownSyntaxFormatType {
 }
 
 // @public
+export enum KnownSystemShapes {
+    ExadataX11M = "Exadata.X11M",
+    ExadataX9M = "Exadata.X9M",
+    ExaDbXs = "ExaDbXS"
+}
+
+// @public
 export enum KnownTlsAuthenticationType {
     Mutual = "Mutual",
     Server = "Server"
 }
 
 // @public
-export enum KnownUpdateAction {
-    NonRollingApply = "NonRollingApply",
-    PreCheck = "PreCheck",
-    RollBack = "RollBack",
-    RollingApply = "RollingApply"
-}
-
-// @public
-export enum KnownValidationStatus {
-    Failed = "Failed",
-    Succeeded = "Succeeded"
+export enum KnownVersions {
+    V20230901 = "2023-09-01",
+    V20240601 = "2024-06-01",
+    V20250301 = "2025-03-01"
 }
 
 // @public
@@ -2065,83 +2000,48 @@ export interface OperationDisplay {
 }
 
 // @public
-export interface OperationListResult {
-    readonly nextLink?: string;
-    readonly value?: Operation[];
-}
-
-// @public
-export interface Operations {
-    list(options?: OperationsListOptionalParams): PagedAsyncIterableIterator<Operation>;
-}
-
-// @public
 export type OperationsInsightsStatusType = string;
 
 // @public
-export interface OperationsListNextOptionalParams extends coreClient.OperationOptions {
+export interface OperationsListOptionalParams extends OperationOptions {
 }
 
 // @public
-export type OperationsListNextResponse = OperationListResult;
-
-// @public
-export interface OperationsListOptionalParams extends coreClient.OperationOptions {
+export interface OperationsOperations {
+    list: (options?: OperationsListOptionalParams) => PagedAsyncIterableIterator<Operation>;
 }
-
-// @public
-export type OperationsListResponse = OperationListResult;
 
 // @public (undocumented)
-export class OracleDatabaseManagementClient extends coreClient.ServiceClient {
-    // (undocumented)
-    $host: string;
-    constructor(credentials: coreAuth.TokenCredential, subscriptionId: string, options?: OracleDatabaseManagementClientOptionalParams);
-    // (undocumented)
-    apiVersion: string;
-    // (undocumented)
-    autonomousDatabaseBackups: AutonomousDatabaseBackups;
-    // (undocumented)
-    autonomousDatabaseCharacterSets: AutonomousDatabaseCharacterSets;
-    // (undocumented)
-    autonomousDatabaseNationalCharacterSets: AutonomousDatabaseNationalCharacterSets;
-    // (undocumented)
-    autonomousDatabases: AutonomousDatabases;
-    // (undocumented)
-    autonomousDatabaseVersions: AutonomousDatabaseVersions;
-    // (undocumented)
-    cloudExadataInfrastructures: CloudExadataInfrastructures;
-    // (undocumented)
-    cloudVmClusters: CloudVmClusters;
-    // (undocumented)
-    dbNodes: DbNodes;
-    // (undocumented)
-    dbServers: DbServers;
-    // (undocumented)
-    dbSystemShapes: DbSystemShapes;
-    // (undocumented)
-    dnsPrivateViews: DnsPrivateViews;
-    // (undocumented)
-    dnsPrivateZones: DnsPrivateZones;
-    // (undocumented)
-    giVersions: GiVersions;
-    // (undocumented)
-    operations: Operations;
-    // (undocumented)
-    oracleSubscriptions: OracleSubscriptions;
-    // (undocumented)
-    subscriptionId: string;
-    // (undocumented)
-    systemVersions: SystemVersions;
-    // (undocumented)
-    virtualNetworkAddresses: VirtualNetworkAddresses;
+export class OracleDatabaseManagementClient {
+    constructor(credential: TokenCredential, subscriptionId: string, options?: OracleDatabaseManagementClientOptionalParams);
+    readonly autonomousDatabaseBackups: AutonomousDatabaseBackupsOperations;
+    readonly autonomousDatabaseCharacterSets: AutonomousDatabaseCharacterSetsOperations;
+    readonly autonomousDatabaseNationalCharacterSets: AutonomousDatabaseNationalCharacterSetsOperations;
+    readonly autonomousDatabases: AutonomousDatabasesOperations;
+    readonly autonomousDatabaseVersions: AutonomousDatabaseVersionsOperations;
+    readonly cloudExadataInfrastructures: CloudExadataInfrastructuresOperations;
+    readonly cloudVmClusters: CloudVmClustersOperations;
+    readonly dbNodes: DbNodesOperations;
+    readonly dbServers: DbServersOperations;
+    readonly dbSystemShapes: DbSystemShapesOperations;
+    readonly dnsPrivateViews: DnsPrivateViewsOperations;
+    readonly dnsPrivateZones: DnsPrivateZonesOperations;
+    readonly exadbVmClusters: ExadbVmClustersOperations;
+    readonly exascaleDbNodes: ExascaleDbNodesOperations;
+    readonly exascaleDbStorageVaults: ExascaleDbStorageVaultsOperations;
+    readonly flexComponents: FlexComponentsOperations;
+    readonly giMinorVersions: GiMinorVersionsOperations;
+    readonly giVersions: GiVersionsOperations;
+    readonly operations: OperationsOperations;
+    readonly oracleSubscriptions: OracleSubscriptionsOperations;
+    readonly pipeline: Pipeline;
+    readonly systemVersions: SystemVersionsOperations;
+    readonly virtualNetworkAddresses: VirtualNetworkAddressesOperations;
 }
 
 // @public
-export interface OracleDatabaseManagementClientOptionalParams extends coreClient.ServiceClientOptions {
-    $host?: string;
+export interface OracleDatabaseManagementClientOptionalParams extends ClientOptions {
     apiVersion?: string;
-    endpoint?: string;
 }
 
 // @public
@@ -2151,16 +2051,13 @@ export interface OracleSubscription extends ProxyResource {
 }
 
 // @public
-export interface OracleSubscriptionListResult {
-    nextLink?: string;
-    value: OracleSubscription[];
-}
-
-// @public
 export interface OracleSubscriptionProperties {
+    readonly addSubscriptionOperationState?: AddSubscriptionOperationState;
+    readonly azureSubscriptionIds?: string[];
     readonly cloudAccountId?: string;
     readonly cloudAccountState?: CloudAccountProvisioningState;
     intent?: Intent;
+    readonly lastOperationStatusDetail?: string;
     productCode?: string;
     readonly provisioningState?: OracleSubscriptionProvisioningState;
     readonly saasSubscriptionId?: string;
@@ -2171,132 +2068,60 @@ export interface OracleSubscriptionProperties {
 export type OracleSubscriptionProvisioningState = string;
 
 // @public
-export interface OracleSubscriptions {
-    beginCreateOrUpdate(resource: OracleSubscription, options?: OracleSubscriptionsCreateOrUpdateOptionalParams): Promise<SimplePollerLike<OperationState<OracleSubscriptionsCreateOrUpdateResponse>, OracleSubscriptionsCreateOrUpdateResponse>>;
-    beginCreateOrUpdateAndWait(resource: OracleSubscription, options?: OracleSubscriptionsCreateOrUpdateOptionalParams): Promise<OracleSubscriptionsCreateOrUpdateResponse>;
-    beginDelete(options?: OracleSubscriptionsDeleteOptionalParams): Promise<SimplePollerLike<OperationState<OracleSubscriptionsDeleteResponse>, OracleSubscriptionsDeleteResponse>>;
-    beginDeleteAndWait(options?: OracleSubscriptionsDeleteOptionalParams): Promise<OracleSubscriptionsDeleteResponse>;
-    beginListActivationLinks(options?: OracleSubscriptionsListActivationLinksOptionalParams): Promise<SimplePollerLike<OperationState<OracleSubscriptionsListActivationLinksResponse>, OracleSubscriptionsListActivationLinksResponse>>;
-    beginListActivationLinksAndWait(options?: OracleSubscriptionsListActivationLinksOptionalParams): Promise<OracleSubscriptionsListActivationLinksResponse>;
-    beginListCloudAccountDetails(options?: OracleSubscriptionsListCloudAccountDetailsOptionalParams): Promise<SimplePollerLike<OperationState<OracleSubscriptionsListCloudAccountDetailsResponse>, OracleSubscriptionsListCloudAccountDetailsResponse>>;
-    beginListCloudAccountDetailsAndWait(options?: OracleSubscriptionsListCloudAccountDetailsOptionalParams): Promise<OracleSubscriptionsListCloudAccountDetailsResponse>;
-    beginListSaasSubscriptionDetails(options?: OracleSubscriptionsListSaasSubscriptionDetailsOptionalParams): Promise<SimplePollerLike<OperationState<OracleSubscriptionsListSaasSubscriptionDetailsResponse>, OracleSubscriptionsListSaasSubscriptionDetailsResponse>>;
-    beginListSaasSubscriptionDetailsAndWait(options?: OracleSubscriptionsListSaasSubscriptionDetailsOptionalParams): Promise<OracleSubscriptionsListSaasSubscriptionDetailsResponse>;
-    beginUpdate(properties: OracleSubscriptionUpdate, options?: OracleSubscriptionsUpdateOptionalParams): Promise<SimplePollerLike<OperationState<OracleSubscriptionsUpdateResponse>, OracleSubscriptionsUpdateResponse>>;
-    beginUpdateAndWait(properties: OracleSubscriptionUpdate, options?: OracleSubscriptionsUpdateOptionalParams): Promise<OracleSubscriptionsUpdateResponse>;
-    get(options?: OracleSubscriptionsGetOptionalParams): Promise<OracleSubscriptionsGetResponse>;
-    listBySubscription(options?: OracleSubscriptionsListBySubscriptionOptionalParams): PagedAsyncIterableIterator<OracleSubscription>;
-}
-
-// @public
-export interface OracleSubscriptionsCreateOrUpdateHeaders {
-    retryAfter?: number;
-}
-
-// @public
-export interface OracleSubscriptionsCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface OracleSubscriptionsAddAzureSubscriptionsOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
 
 // @public
-export type OracleSubscriptionsCreateOrUpdateResponse = OracleSubscription;
-
-// @public
-export interface OracleSubscriptionsDeleteHeaders {
-    location?: string;
-    retryAfter?: number;
-}
-
-// @public
-export interface OracleSubscriptionsDeleteOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface OracleSubscriptionsCreateOrUpdateOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
 
 // @public
-export type OracleSubscriptionsDeleteResponse = OracleSubscriptionsDeleteHeaders;
-
-// @public
-export interface OracleSubscriptionsGetOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type OracleSubscriptionsGetResponse = OracleSubscription;
-
-// @public
-export interface OracleSubscriptionsListActivationLinksHeaders {
-    location?: string;
-    retryAfter?: number;
-}
-
-// @public
-export interface OracleSubscriptionsListActivationLinksOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface OracleSubscriptionsDeleteOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
 
 // @public
-export type OracleSubscriptionsListActivationLinksResponse = ActivationLinks;
-
-// @public
-export interface OracleSubscriptionsListBySubscriptionNextOptionalParams extends coreClient.OperationOptions {
+export interface OracleSubscriptionsGetOptionalParams extends OperationOptions {
 }
 
 // @public
-export type OracleSubscriptionsListBySubscriptionNextResponse = OracleSubscriptionListResult;
-
-// @public
-export interface OracleSubscriptionsListBySubscriptionOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type OracleSubscriptionsListBySubscriptionResponse = OracleSubscriptionListResult;
-
-// @public
-export interface OracleSubscriptionsListCloudAccountDetailsHeaders {
-    location?: string;
-    retryAfter?: number;
-}
-
-// @public
-export interface OracleSubscriptionsListCloudAccountDetailsOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface OracleSubscriptionsListActivationLinksOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
 
 // @public
-export type OracleSubscriptionsListCloudAccountDetailsResponse = CloudAccountDetails;
-
-// @public
-export interface OracleSubscriptionsListSaasSubscriptionDetailsHeaders {
-    location?: string;
-    retryAfter?: number;
+export interface OracleSubscriptionsListBySubscriptionOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface OracleSubscriptionsListSaasSubscriptionDetailsOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface OracleSubscriptionsListCloudAccountDetailsOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
 
 // @public
-export type OracleSubscriptionsListSaasSubscriptionDetailsResponse = SaasSubscriptionDetails;
-
-// @public
-export interface OracleSubscriptionsUpdateHeaders {
-    location?: string;
-    retryAfter?: number;
-}
-
-// @public
-export interface OracleSubscriptionsUpdateOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface OracleSubscriptionsListSaasSubscriptionDetailsOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
 
 // @public
-export type OracleSubscriptionsUpdateResponse = OracleSubscription;
+export interface OracleSubscriptionsOperations {
+    addAzureSubscriptions: (body: AzureSubscriptions, options?: OracleSubscriptionsAddAzureSubscriptionsOptionalParams) => PollerLike<OperationState<void>, void>;
+    createOrUpdate: (resource: OracleSubscription, options?: OracleSubscriptionsCreateOrUpdateOptionalParams) => PollerLike<OperationState<OracleSubscription>, OracleSubscription>;
+    delete: (options?: OracleSubscriptionsDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
+    get: (options?: OracleSubscriptionsGetOptionalParams) => Promise<OracleSubscription>;
+    listActivationLinks: (options?: OracleSubscriptionsListActivationLinksOptionalParams) => PollerLike<OperationState<ActivationLinks>, ActivationLinks>;
+    listBySubscription: (options?: OracleSubscriptionsListBySubscriptionOptionalParams) => PagedAsyncIterableIterator<OracleSubscription>;
+    listCloudAccountDetails: (options?: OracleSubscriptionsListCloudAccountDetailsOptionalParams) => PollerLike<OperationState<CloudAccountDetails>, CloudAccountDetails>;
+    listSaasSubscriptionDetails: (options?: OracleSubscriptionsListSaasSubscriptionDetailsOptionalParams) => PollerLike<OperationState<SaasSubscriptionDetails>, SaasSubscriptionDetails>;
+    update: (properties: OracleSubscriptionUpdate, options?: OracleSubscriptionsUpdateOptionalParams) => PollerLike<OperationState<OracleSubscription>, OracleSubscription>;
+}
+
+// @public
+export interface OracleSubscriptionsUpdateOptionalParams extends OperationOptions {
+    updateIntervalInMs?: number;
+}
 
 // @public
 export interface OracleSubscriptionUpdate {
@@ -2314,11 +2139,25 @@ export interface OracleSubscriptionUpdateProperties {
 export type Origin = string;
 
 // @public
+export interface PagedAsyncIterableIterator<TElement, TPage = TElement[], TPageSettings extends PageSettings = PageSettings> {
+    [Symbol.asyncIterator](): PagedAsyncIterableIterator<TElement, TPage, TPageSettings>;
+    byPage: (settings?: TPageSettings) => AsyncIterableIterator<ContinuablePage<TElement, TPage>>;
+    next(): Promise<IteratorResult<TElement>>;
+}
+
+// @public
+export interface PageSettings {
+    continuationToken?: string;
+}
+
+// @public
 export type PatchingMode = string;
 
 // @public
 export interface PeerDbDetails {
     peerDbId?: string;
+    peerDbLocation?: string;
+    peerDbOcid?: string;
 }
 
 // @public
@@ -2393,6 +2232,11 @@ export type RefreshableModelType = string;
 export type RefreshableStatusType = string;
 
 // @public
+export interface RemoveVirtualMachineFromExadbVmClusterDetails {
+    dbNodes: DbNodeDetails[];
+}
+
+// @public
 export type RepeatCadenceType = string;
 
 // @public
@@ -2409,6 +2253,16 @@ export type ResourceProvisioningState = string;
 // @public
 export interface RestoreAutonomousDatabaseDetails {
     timestamp: Date;
+}
+
+// @public
+export function restorePoller<TResponse extends PathUncheckedResponse, TResult>(client: OracleDatabaseManagementClient, serializedState: string, sourceOperation: (...args: any[]) => PollerLike<OperationState<TResult>, TResult>, options?: RestorePollerOptions<TResult>): PollerLike<OperationState<TResult>, TResult>;
+
+// @public (undocumented)
+export interface RestorePollerOptions<TResult, TResponse extends PathUncheckedResponse = PathUncheckedResponse> extends OperationOptions {
+    abortSignal?: AbortSignalLike;
+    processResponseBody?: (result: TResponse) => Promise<TResult>;
+    updateIntervalInMs?: number;
 }
 
 // @public
@@ -2439,13 +2293,16 @@ export interface ScheduledOperationsType {
 
 // @public
 export interface ScheduledOperationsTypeUpdate {
-    dayOfWeek?: DayOfWeekUpdate;
+    dayOfWeek: DayOfWeekUpdate;
     scheduledStartTime?: string;
     scheduledStopTime?: string;
 }
 
 // @public
 export type SessionModeType = string;
+
+// @public
+export type ShapeFamily = string;
 
 // @public
 export type SourceType = string;
@@ -2464,54 +2321,31 @@ export interface SystemData {
 }
 
 // @public
+export type SystemShapes = string;
+
+// @public
 export interface SystemVersion extends ProxyResource {
     properties?: SystemVersionProperties;
 }
 
 // @public
-export interface SystemVersionListResult {
-    nextLink?: string;
-    value: SystemVersion[];
-}
-
-// @public
 export interface SystemVersionProperties {
-    readonly systemVersion: string;
+    systemVersion: string;
 }
 
 // @public
-export interface SystemVersions {
-    get(location: string, systemversionname: string, options?: SystemVersionsGetOptionalParams): Promise<SystemVersionsGetResponse>;
-    listByLocation(location: string, options?: SystemVersionsListByLocationOptionalParams): PagedAsyncIterableIterator<SystemVersion>;
+export interface SystemVersionsGetOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface SystemVersionsFilter {
-    giVersion: string;
-    isLatestVersion?: boolean;
-    shape: string;
+export interface SystemVersionsListByLocationOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface SystemVersionsGetOptionalParams extends coreClient.OperationOptions {
+export interface SystemVersionsOperations {
+    get: (location: string, systemversionname: string, options?: SystemVersionsGetOptionalParams) => Promise<SystemVersion>;
+    listByLocation: (location: string, options?: SystemVersionsListByLocationOptionalParams) => PagedAsyncIterableIterator<SystemVersion>;
 }
-
-// @public
-export type SystemVersionsGetResponse = SystemVersion;
-
-// @public
-export interface SystemVersionsListByLocationNextOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type SystemVersionsListByLocationNextResponse = SystemVersionListResult;
-
-// @public
-export interface SystemVersionsListByLocationOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type SystemVersionsListByLocationResponse = SystemVersionListResult;
 
 // @public
 export type TlsAuthenticationType = string;
@@ -2519,28 +2353,8 @@ export type TlsAuthenticationType = string;
 // @public
 export interface TrackedResource extends Resource {
     location: string;
-    tags?: {
-        [propertyName: string]: string;
-    };
+    tags?: Record<string, string>;
 }
-
-// @public
-export type UpdateAction = string;
-
-// @public
-export interface ValidationError {
-    code: string;
-    message: string;
-}
-
-// @public
-export interface ValidationResult {
-    error: ValidationError;
-    readonly status: ValidationStatus;
-}
-
-// @public
-export type ValidationStatus = string;
 
 // @public
 export interface VirtualNetworkAddress extends ProxyResource {
@@ -2548,73 +2362,33 @@ export interface VirtualNetworkAddress extends ProxyResource {
 }
 
 // @public
-export interface VirtualNetworkAddresses {
-    beginCreateOrUpdate(resourceGroupName: string, cloudvmclustername: string, virtualnetworkaddressname: string, resource: VirtualNetworkAddress, options?: VirtualNetworkAddressesCreateOrUpdateOptionalParams): Promise<SimplePollerLike<OperationState<VirtualNetworkAddressesCreateOrUpdateResponse>, VirtualNetworkAddressesCreateOrUpdateResponse>>;
-    beginCreateOrUpdateAndWait(resourceGroupName: string, cloudvmclustername: string, virtualnetworkaddressname: string, resource: VirtualNetworkAddress, options?: VirtualNetworkAddressesCreateOrUpdateOptionalParams): Promise<VirtualNetworkAddressesCreateOrUpdateResponse>;
-    beginDelete(resourceGroupName: string, cloudvmclustername: string, virtualnetworkaddressname: string, options?: VirtualNetworkAddressesDeleteOptionalParams): Promise<SimplePollerLike<OperationState<VirtualNetworkAddressesDeleteResponse>, VirtualNetworkAddressesDeleteResponse>>;
-    beginDeleteAndWait(resourceGroupName: string, cloudvmclustername: string, virtualnetworkaddressname: string, options?: VirtualNetworkAddressesDeleteOptionalParams): Promise<VirtualNetworkAddressesDeleteResponse>;
-    get(resourceGroupName: string, cloudvmclustername: string, virtualnetworkaddressname: string, options?: VirtualNetworkAddressesGetOptionalParams): Promise<VirtualNetworkAddressesGetResponse>;
-    listByCloudVmCluster(resourceGroupName: string, cloudvmclustername: string, options?: VirtualNetworkAddressesListByCloudVmClusterOptionalParams): PagedAsyncIterableIterator<VirtualNetworkAddress>;
-}
-
-// @public
-export interface VirtualNetworkAddressesCreateOrUpdateHeaders {
-    retryAfter?: number;
-}
-
-// @public
-export interface VirtualNetworkAddressesCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface VirtualNetworkAddressesCreateOrUpdateOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
 
 // @public
-export type VirtualNetworkAddressesCreateOrUpdateResponse = VirtualNetworkAddress;
-
-// @public
-export interface VirtualNetworkAddressesDeleteHeaders {
-    location?: string;
-    retryAfter?: number;
-}
-
-// @public
-export interface VirtualNetworkAddressesDeleteOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface VirtualNetworkAddressesDeleteOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
 
 // @public
-export type VirtualNetworkAddressesDeleteResponse = VirtualNetworkAddressesDeleteHeaders;
-
-// @public
-export interface VirtualNetworkAddressesGetOptionalParams extends coreClient.OperationOptions {
+export interface VirtualNetworkAddressesGetOptionalParams extends OperationOptions {
 }
 
 // @public
-export type VirtualNetworkAddressesGetResponse = VirtualNetworkAddress;
-
-// @public
-export interface VirtualNetworkAddressesListByCloudVmClusterNextOptionalParams extends coreClient.OperationOptions {
+export interface VirtualNetworkAddressesListByParentOptionalParams extends OperationOptions {
 }
 
 // @public
-export type VirtualNetworkAddressesListByCloudVmClusterNextResponse = VirtualNetworkAddressListResult;
-
-// @public
-export interface VirtualNetworkAddressesListByCloudVmClusterOptionalParams extends coreClient.OperationOptions {
+export interface VirtualNetworkAddressesOperations {
+    createOrUpdate: (resourceGroupName: string, cloudvmclustername: string, virtualnetworkaddressname: string, resource: VirtualNetworkAddress, options?: VirtualNetworkAddressesCreateOrUpdateOptionalParams) => PollerLike<OperationState<VirtualNetworkAddress>, VirtualNetworkAddress>;
+    delete: (resourceGroupName: string, cloudvmclustername: string, virtualnetworkaddressname: string, options?: VirtualNetworkAddressesDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
+    get: (resourceGroupName: string, cloudvmclustername: string, virtualnetworkaddressname: string, options?: VirtualNetworkAddressesGetOptionalParams) => Promise<VirtualNetworkAddress>;
+    listByParent: (resourceGroupName: string, cloudvmclustername: string, options?: VirtualNetworkAddressesListByParentOptionalParams) => PagedAsyncIterableIterator<VirtualNetworkAddress>;
 }
-
-// @public
-export type VirtualNetworkAddressesListByCloudVmClusterResponse = VirtualNetworkAddressListResult;
 
 // @public
 export type VirtualNetworkAddressLifecycleState = string;
-
-// @public
-export interface VirtualNetworkAddressListResult {
-    nextLink?: string;
-    value: VirtualNetworkAddress[];
-}
 
 // @public
 export interface VirtualNetworkAddressProperties {
