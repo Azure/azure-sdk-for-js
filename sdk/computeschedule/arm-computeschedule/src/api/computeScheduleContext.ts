@@ -30,7 +30,7 @@ export function createComputeSchedule(
 ): ComputeScheduleContext {
   const endpointUrl = options.endpoint ?? options.baseUrl ?? "https://management.azure.com";
   const prefixFromOptions = options?.userAgentOptions?.userAgentPrefix;
-  const userAgentInfo = `azsdk-js-arm-computeschedule/1.0.1`;
+  const userAgentInfo = `azsdk-js-arm-computeschedule/1.1.0`;
   const userAgentPrefix = prefixFromOptions
     ? `${prefixFromOptions} azsdk-js-api ${userAgentInfo}`
     : `azsdk-js-api ${userAgentInfo}`;
@@ -44,7 +44,7 @@ export function createComputeSchedule(
   };
   const clientContext = getClient(endpointUrl, credential, updatedOptions);
   clientContext.pipeline.removePolicy({ name: "ApiVersionPolicy" });
-  const apiVersion = options.apiVersion ?? "2024-10-01";
+  const apiVersion = options.apiVersion ?? "2025-05-01";
   clientContext.pipeline.addPolicy({
     name: "ClientApiVersionPolicy",
     sendRequest: (req, next) => {
