@@ -109,6 +109,13 @@ export const ENV_AZURE_MONITOR_PREFIX = "AZURE_MONITOR_PREFIX";
 export const ENV_AZURE_MONITOR_DISTRO_VERSION = "AZURE_MONITOR_DISTRO_VERSION";
 
 /**
+ * Enables the preview version of customer-facing Statsbeat.
+ * @internal
+ */
+export const ENV_APPLICATIONINSIGHTS_STATSBEAT_ENABLED_PREVIEW =
+  "APPLICATIONINSIGHTS_STATSBEAT_ENABLED_PREVIEW";
+
+/**
  * QuickPulse metric counter names.
  * @internal
  */
