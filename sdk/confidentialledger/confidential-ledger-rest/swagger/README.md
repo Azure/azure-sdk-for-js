@@ -15,7 +15,7 @@ license-header: MICROSOFT_MIT_NO_VERSION
 output-folder: ../
 source-code-folder-path: ../generated
 input-file: https://github.com/Azure/azure-rest-api-specs/blob/main/specification/confidentialledger/data-plane/Microsoft.ConfidentialLedger/preview/2024-12-09-preview/confidentialledger.json
-package-version: 1.1.2-beta.2
+package-version: 1.1.2-beta.4
 hide-clients: true
 rest-level-client: true
 security: "AADToken"
