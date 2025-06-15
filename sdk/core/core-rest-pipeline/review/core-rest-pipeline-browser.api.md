@@ -99,24 +99,6 @@ export function createDefaultHttpClient(): HttpClient;
 export function createEmptyPipeline(): Pipeline;
 
 // @public
-export function createFile(content: Uint8Array, name: string, options?: CreateFileOptions): File;
-
-// @public
-export function createFileFromStream(stream: () => ReadableStream<Uint8Array> | NodeJS.ReadableStream, name: string, options?: CreateFileFromStreamOptions): File;
-
-// @public
-export interface CreateFileFromStreamOptions extends CreateFileOptions {
-    size?: number;
-}
-
-// @public
-export interface CreateFileOptions {
-    lastModified?: number;
-    type?: string;
-    webkitRelativePath?: string;
-}
-
-// @public
 export function createHttpHeaders(rawHeaders?: RawHttpHeadersInput): HttpHeaders;
 
 // @public
