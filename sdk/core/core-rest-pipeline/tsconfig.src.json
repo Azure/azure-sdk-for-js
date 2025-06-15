@@ -5,9 +5,5 @@
     { "path": "./tsconfig.src.react-native.json" }
   ],
   "include": [],
-  "files": [],
-  "compilerOptions": {
-    "composite": true,
-    "lib": []
-  }
+  "files": []
 }
