@@ -57,31 +57,39 @@ interface ExportEntry {
   suppressForgottenExportErrors?: boolean;
 }
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-function buildExportConfiguration(packageJson: any): ExportEntry[] | undefined {
-  const exports = packageJson["exports"];
-  if (!exports) {
-    return undefined;
+function buildExportConfiguration(packageJson: {
+  exports: Record<string, Record<string, { types: string }>>;
+}): ExportEntry[] | undefined {
+  const exports = packageJson.exports;
+  if (!exports) return undefined;
+
+  const exportEntries: ExportEntry[] = [];
+
+  for (const [path, entry] of Object.entries(exports)) {
+    if (path === "./package.json") continue;
+    const baseName = path === "." ? "" : path.replace(/^\.\//, "").replace(/\//g, "-") + "-";
+    const common = {
+      path,
+      isSubpath: path !== ".",
+      suppressForgottenExportErrors: path !== ".",
+    };
+    for (const key of Object.keys(entry)) {
+      if (key === "require") continue;
+      else if (key === "import") {
+        exportEntries.push({
+          ...common,
+          baseName: baseName + "node",
+          mainEntryPointFilePath: entry[key].types,
+        });
+      } else {
+        exportEntries.push({
+          ...common,
+          baseName: baseName + key,
+          mainEntryPointFilePath: entry[key].types,
+        });
+      }
+    }
   }
-  const isValidExport = (key: string) => key !== "./package.json";
-
-  const exportEntries: ExportEntry[] = Object.keys(exports)
-    .filter(isValidExport)
-    .map<ExportEntry>((exportPath) => {
-      return {
-        path: exportPath,
-        isSubpath: exportPath !== ".",
-        baseName: exportPath
-          .replace(/^\.\//, "") // remove leading "./"
-          .replace(/\//g, "-"), // replace slashes with hyphens
-
-        // Take either the top-level "types" filepath or - for packages that use tshy - the ESM "types" filepath
-        mainEntryPointFilePath: exports[exportPath].types || exports[exportPath]?.import?.types,
-        suppressForgottenExportErrors: exportPath !== ".",
-      };
-    });
-
-  log.debug(`Detected exports: ${JSON.stringify(exportEntries, null, 2)}`);
   return exportEntries;
 }
 
@@ -150,23 +158,19 @@ export default leafCommand(commandInfo, async (options) => {
     for (const exportEntry of exports) {
       log.info(`Extracting api for export: ${exportEntry.path}`);
 
-      // Leave filenames unchanged for the root export
-      let newApiJsonPath = extractorConfigObject.docModel?.apiJsonFilePath;
-      let newApiReportName = extractorConfigObject.apiReport?.reportFileName;
-
-      if (exportEntry.isSubpath) {
-        // Append the subpath export name to the api.json and api.md file names
-        // e.g. for ./rest export: <unscopedPackageName>.api.json -> <unscopedPackageName>-rest.api.json
-        // e.g. for ./rest export: <unscopedPackageName>.api.md -> <unscopedPackageName>-rest.api.md
-        newApiJsonPath = extractorConfigObject.docModel?.apiJsonFilePath?.replace(
-          ".api.json",
-          `-${exportEntry.baseName}.api.json`,
-        );
-        newApiReportName = extractorConfigObject.apiReport?.reportFileName?.replace(
-          ".api.md",
-          `-${exportEntry.baseName}.api.md`,
-        );
-      }
+      // Append the subpath export name to the api.json and api.md file names
+      // e.g. for ./rest export: <unscopedPackageName>.api.json -> <unscopedPackageName>-rest.api.json
+      // e.g. for ./rest export: <unscopedPackageName>.api.md -> <unscopedPackageName>-rest.api.md
+      const newApiJsonPath = extractorConfigObject.docModel?.apiJsonFilePath?.replace(
+        ".api.json",
+        `-${exportEntry.baseName}.api.json`,
+      );
+      const newApiReportName = extractorConfigObject.apiReport?.reportFileName?.replace(
+        ".api.md",
+        `-${exportEntry.baseName}.api.md`,
+      );
+      log.debug(`  apiJsonFilePath: ${newApiJsonPath}`);
+      log.debug(`  reportFileName: ${newApiReportName}`);
       let newDtsRollupOptions: IConfigDtsRollup = { enabled: false };
 
       const usingTshy = packageJson["tshy"];
@@ -266,10 +270,6 @@ async function loadApiJsonForSubPath(fullPath: string): Promise<ApiJson> {
   return JSON.parse(content) as ApiJson;
 }
 
-/**
- *
- * @returns the full path of -augmented.api.json file.
- */
 async function buildMergedApiJson(
   unscopedPackageName: string,
   reportTempDir: string,
@@ -277,31 +277,52 @@ async function buildMergedApiJson(
   dependencies: Record<string, string>,
   useMerged: boolean = false,
 ) {
-  const mainApiJsonPath = path.join(reportTempDir, `${unscopedPackageName}.api.json`);
+  // Find all unique baseNames for the main entry (not subpaths)
+  const mainEntries = exports?.filter((e) => !e.isSubpath) ?? [];
+  const subpathEntries = exports?.filter((e) => e.isSubpath) ?? [];
 
-  const apiJson = await loadApiJsonForSubPath(mainApiJsonPath);
-  apiJson.metadata.dependencies = dependencies;
-  for (const subpath of exports?.filter((p) => p.isSubpath) ?? []) {
-    const p = path.join(reportTempDir, `${unscopedPackageName}-${subpath.baseName}.api.json`);
-    if (!existsSync(p)) {
-      log.debug(`${p} not there`);
+  // Merge for each main entry (per runtime)
+  for (const mainEntry of mainEntries) {
+    const mainApiJsonPath = path.join(
+      reportTempDir,
+      `${unscopedPackageName}-${mainEntry.baseName}.api.json`,
+    );
+    if (!existsSync(mainApiJsonPath)) {
+      log.debug(`${mainApiJsonPath} not found, skipping.`);
       continue;
     }
 
-    log.debug(`loading api package for "${subpath.baseName}"`);
-    const subpathApiJson = await loadApiJsonForSubPath(p);
-    const entryPoint = subpathApiJson.members.filter((m) => m.kind === "EntryPoint")[0];
-    entryPoint.name = subpath.baseName;
-    entryPoint.canonicalReference = `${entryPoint.canonicalReference}/${subpath.baseName}`;
-    apiJson.members.push(entryPoint);
-    log.debug(`deleting ${p} after merging its entrypoint`);
-    await unlink(p);
-  }
+    const apiJson = await loadApiJsonForSubPath(mainApiJsonPath);
+    apiJson.metadata.dependencies = dependencies;
 
-  const augmentedApiJsonPath = useMerged
-    ? mainApiJsonPath
-    : mainApiJsonPath.replace(".api.json", `.augmented.json`);
-  log.info(`writing merged api to ${augmentedApiJsonPath}`);
-  await writeFile(augmentedApiJsonPath, JSON.stringify(apiJson, undefined, 2));
-  return augmentedApiJsonPath;
+    // Merge all subpaths for this runtime
+    for (const subpath of subpathEntries.filter((e) =>
+      e.baseName.endsWith(mainEntry.baseName.split("-").pop()!),
+    )) {
+      const subApiJsonPath = path.join(
+        reportTempDir,
+        `${unscopedPackageName}-${subpath.baseName}.api.json`,
+      );
+      if (!existsSync(subApiJsonPath)) {
+        log.debug(`${subApiJsonPath} not there`);
+        continue;
+      }
+
+      log.debug(`loading api package for "${subpath.baseName}"`);
+      const subpathApiJson = await loadApiJsonForSubPath(subApiJsonPath);
+      const entryPoint = subpathApiJson.members.find((m) => m.kind === "EntryPoint");
+      if (!entryPoint) continue;
+      entryPoint.name = subpath.baseName;
+      entryPoint.canonicalReference = `${entryPoint.canonicalReference}/${subpath.baseName}`;
+      apiJson.members.push(entryPoint);
+      log.debug(`deleting ${subApiJsonPath} after merging its entrypoint`);
+      await unlink(subApiJsonPath);
+    }
+
+    const augmentedApiJsonPath = useMerged
+      ? mainApiJsonPath
+      : mainApiJsonPath.replace(".api.json", `.augmented.json`);
+    log.info(`writing merged api to ${augmentedApiJsonPath}`);
+    await writeFile(augmentedApiJsonPath, JSON.stringify(apiJson, undefined, 2));
+  }
 }

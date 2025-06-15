@@ -1,14 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-declare global {
-  interface FormData {}
-  interface Blob {}
-  interface File {}
-  interface ReadableStream<R = any> {}
-  interface TransformStream<I = any, O = any> {}
-}
-
 export { AbortError } from "./abort-controller/AbortError.js";
 export {
   createClientLogger,
