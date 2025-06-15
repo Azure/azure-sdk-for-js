@@ -4,6 +4,9 @@
 import type { AbortSignalLike } from "@azure/abort-controller";
 import type { OperationTracingOptions } from "@azure/core-tracing";
 import type { HttpMethods } from "@azure/core-util";
+import type { FormDataValue } from "./interfacesSpecific.js";
+
+export { FormDataValue };
 
 /**
  * A HttpHeaders collection represented as a simple JSON object.
@@ -352,12 +355,6 @@ export interface ProxySettings {
    */
   password?: string;
 }
-
-/**
- * Each form data entry can be a string, Blob, or a File. If you wish to pass a file with a name but do not have
- * access to the File class, you can use the createFile helper to create one.
- */
-export type FormDataValue = string | Blob | File;
 
 /**
  * A simple object that provides form data, as if from a browser form.
