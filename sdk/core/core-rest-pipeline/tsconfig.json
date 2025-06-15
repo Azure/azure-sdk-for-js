@@ -12,5 +12,7 @@
     {
       "path": "./tsconfig.snippets.json"
     }
-  ]
+  ],
+  "include": [],
+  "files": []
 }

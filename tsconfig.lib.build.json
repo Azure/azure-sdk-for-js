@@ -3,6 +3,8 @@
   "compilerOptions": {
     "module": "NodeNext",
     "moduleResolution": "NodeNext",
+    "lib": ["DOM", "DOM.Iterable", "DOM.AsyncIterable", "ES2017"],
+    "jsx": "preserve",
     "composite": true
   },
   "include": ["${configDir}/src"]

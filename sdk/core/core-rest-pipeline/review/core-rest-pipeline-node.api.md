@@ -8,6 +8,7 @@ import type { AbortSignalLike } from '@azure/abort-controller';
 import type { AccessToken } from '@azure/core-auth';
 import { AzureLogger } from '@azure/logger';
 import type { Debugger } from '@azure/logger';
+import type { File as File_2 } from 'node:buffer';
 import type { GetTokenOptions } from '@azure/core-auth';
 import { HttpMethods } from '@azure/core-util';
 import type { OperationTracingOptions } from '@azure/core-tracing';
@@ -99,10 +100,10 @@ export function createDefaultHttpClient(): HttpClient;
 export function createEmptyPipeline(): Pipeline;
 
 // @public
-export function createFile(content: Uint8Array, name: string, options?: CreateFileOptions): File;
+export function createFile(content: Uint8Array, name: string, options?: CreateFileOptions): File_2;
 
 // @public
-export function createFileFromStream(stream: () => ReadableStream<Uint8Array> | NodeJS.ReadableStream, name: string, options?: CreateFileFromStreamOptions): File;
+export function createFileFromStream(stream: () => ReadableStream<Uint8Array> | NodeJS.ReadableStream, name: string, options?: CreateFileFromStreamOptions): File_2;
 
 // @public
 export interface CreateFileFromStreamOptions extends CreateFileOptions {
@@ -163,7 +164,7 @@ export function formDataPolicy(): PipelinePolicy;
 export const formDataPolicyName = "formDataPolicy";
 
 // @public
-export type FormDataValue = string | Blob | File;
+export type FormDataValue = string | Blob | File_2;
 
 // @public @deprecated
 export function getDefaultProxySettings(proxyUrl?: string): ProxySettings | undefined;

@@ -1,0 +1,12 @@
+{
+  "extends": "./tsconfig",
+  "compilerOptions": {
+    "lib": ["DOM", "DOM.Iterable", "DOM.AsyncIterable", "ES2017"],
+    "types": [],
+    "module": "esnext",
+    "moduleResolution": "bundler",
+    "composite": true,
+    "noEmit": true
+  },
+  "include": ["${configDir}/src/**/*-browser.mts"]
+}

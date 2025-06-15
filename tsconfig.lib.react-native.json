@@ -1,0 +1,13 @@
+{
+  "extends": "./tsconfig",
+  "compilerOptions": {
+    "lib": ["DOM", "DOM.Iterable", "DOM.AsyncIterable", "ES2017"],
+    "types": [],
+    "jsx": "preserve",
+    "module": "esnext",
+    "moduleResolution": "bundler",
+    "composite": true,
+    "noEmit": true
+  },
+  "include": ["${configDir}/src/**/*-react-native.mts"]
+}
