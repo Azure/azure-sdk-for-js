@@ -21,15 +21,15 @@
 
 **Coding Guidelines:**
 
-- [TypeScript Guidelines](../documentation/llms/guidelines/introduction.md)
-- [Implementation Guidelines](../documentation/llms/guidelines/implementation.md)
-- [Documentation Guidelines](../documentation/llms/guidelines/documentation.md)
-- [Design and Naming Guidelines](../documentation/llms/guidelines/design.md)
+TypeScript Guidelines: #file:../documentation/llms/guidelines/introduction.md
+Implementation: #file:../documentation/llms/guidelines/implementation.md
+Documentation: #file:../documentation/llms/guidelines/documentation.md
+Design and Naming: #file:../documentation/llms/guidelines/design.md
 
 **Repository Resources:**
 
-- [Testing Guide](../documentation/Quickstart-on-how-to-write-tests.md)
-- [Linting Documentation](../documentation/linting.md)
+Writing tests: #file:../documentation/Quickstart-on-how-to-write-tests.md
+Linting: #file:../documentation/linting.md
 
 ## Repository Structure
 
