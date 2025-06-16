@@ -9,6 +9,15 @@ import {
 
 export { ComputeScheduleClient } from "./computeScheduleClient.js";
 export {
+  Operation,
+  OperationDisplay,
+  KnownOrigin,
+  Origin,
+  KnownActionType,
+  ActionType,
+  ErrorResponse,
+  ErrorDetail,
+  ErrorAdditionalInfo,
   SubmitDeallocateRequest,
   Schedule,
   KnownDeadlineType,
@@ -33,6 +42,11 @@ export {
   ExecuteDeallocateRequest,
   ExecuteHibernateRequest,
   ExecuteStartRequest,
+  ExecuteCreateRequest,
+  ResourceProvisionPayload,
+  CreateResourceOperationResponse,
+  ExecuteDeleteRequest,
+  DeleteResourceOperationResponse,
   GetOperationStatusRequest,
   GetOperationStatusResponse,
   CancelOperationsRequest,
@@ -41,26 +55,22 @@ export {
   GetOperationErrorsResponse,
   OperationErrorsResult,
   OperationErrorDetails,
-  Operation,
-  OperationDisplay,
-  KnownOrigin,
-  Origin,
-  KnownActionType,
-  ActionType,
   KnownVersions,
 } from "./models/index.js";
+export { ComputeScheduleClientOptionalParams } from "./api/index.js";
+export { OperationsListOptionalParams } from "./api/operations/index.js";
 export {
-  ComputeScheduleClientOptionalParams,
   ScheduledActionsVirtualMachinesGetOperationErrorsOptionalParams,
   ScheduledActionsVirtualMachinesCancelOperationsOptionalParams,
   ScheduledActionsVirtualMachinesGetOperationStatusOptionalParams,
+  ScheduledActionsVirtualMachinesExecuteDeleteOptionalParams,
+  ScheduledActionsVirtualMachinesExecuteCreateOptionalParams,
   ScheduledActionsVirtualMachinesExecuteStartOptionalParams,
   ScheduledActionsVirtualMachinesExecuteHibernateOptionalParams,
   ScheduledActionsVirtualMachinesExecuteDeallocateOptionalParams,
   ScheduledActionsVirtualMachinesSubmitStartOptionalParams,
   ScheduledActionsVirtualMachinesSubmitHibernateOptionalParams,
   ScheduledActionsVirtualMachinesSubmitDeallocateOptionalParams,
-  OperationsListOptionalParams,
-} from "./api/index.js";
+} from "./api/scheduledActions/index.js";
 export { OperationsOperations, ScheduledActionsOperations } from "./classic/index.js";
 export { PageSettings, ContinuablePage, PagedAsyncIterableIterator };
