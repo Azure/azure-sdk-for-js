@@ -43,15 +43,14 @@ export function rushRunAll(action, direction, packages, rushParams) {
  * @param {string[]} rushParams - what parameters to pass to rush
  */
 export function rushRunAllWithDirection(action, packagesWithDirection, rushParams, ciFlag) {
+  console.dir({
+    l: `rushRunAllWithDirection - 1`,
+    packagesWithDirection,
+  });
   const invocation = packagesWithDirection.flatMap(([direction, packageName]) => [
     direction,
     packageName,
   ]);
-  console.dir({
-    l: `rushRunAllWithDirection - 1`,
-    packagesWithDirection,
-    invocation,
-  });
 
   // Restore assets for packages that are being 'test'-ed in the CI pipeline
   if (
