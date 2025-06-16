@@ -62,7 +62,7 @@ export class NetworkStatsbeat {
  * @internal
  */
 export class CustomerStatsbeat {
-  public totalItemSuccessCount: { count: number; telemetry_type: TelemetryType }[];
+  public totalItemSuccessCount: Map<TelemetryType, number>;
 
   public totalItemDropCount: {
     count: number;
@@ -79,7 +79,7 @@ export class CustomerStatsbeat {
   }[];
 
   constructor() {
-    this.totalItemSuccessCount = [];
+    this.totalItemSuccessCount = new Map<TelemetryType, number>();
     this.totalItemDropCount = [];
     this.totalItemRetryCount = [];
   }

@@ -157,12 +157,12 @@ export class CustomerStatsbeatMetrics extends StatsbeatMetrics {
     const attributes = { ...this.customerProperties, telemetry_type: TelemetryType.UNKNOWN };
 
     // For each { telemetry_type -> count } mapping, call observe, passing the count and attributes that include the telemetry_type
-    for (let i = 0; i < counter.totalItemSuccessCount.length; i++) {
-      attributes.telemetry_type = counter.totalItemSuccessCount[i].telemetry_type;
-      observableResult.observe(this.itemSuccessCountGauge, counter.totalItemSuccessCount[i].count, {
+    for (const [telemetry_type, count] of counter.totalItemSuccessCount.entries()) {
+      attributes.telemetry_type = telemetry_type;
+      observableResult.observe(this.itemSuccessCountGauge, count, {
         ...attributes,
       });
-      counter.totalItemSuccessCount[i].count = 0;
+      counter.totalItemSuccessCount.set(telemetry_type, 0);
     }
   }
 
@@ -241,16 +241,9 @@ export class CustomerStatsbeatMetrics extends StatsbeatMetrics {
   public countSuccessfulItems(envelopes: number, telemetry_type: TelemetryType): void {
     const counter: CustomerStatsbeat = this.customerStatsbeatCounter;
 
-    // Check if an entry with the same telemetry_type already exists
-    const existingEntry = counter.totalItemSuccessCount.find(
-      (entry) => entry.telemetry_type === telemetry_type,
-    );
-
-    if (existingEntry) {
-      existingEntry.count += envelopes;
-    } else {
-      counter.totalItemSuccessCount.push({ count: envelopes, telemetry_type });
-    }
+    // Get the current count for this telemetry type, or 0 if it doesn't exist
+    const currentCount = counter.totalItemSuccessCount.get(telemetry_type) || 0;
+    counter.totalItemSuccessCount.set(telemetry_type, currentCount + envelopes);
   }
 
   /**

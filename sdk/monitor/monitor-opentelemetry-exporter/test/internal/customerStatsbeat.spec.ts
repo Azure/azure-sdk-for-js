@@ -586,11 +586,8 @@ describe("CustomerStatsbeatMetrics", () => {
       customerStatsbeatMetrics.countSuccessfulItems(10, TelemetryType.CUSTOM_EVENT);
 
       const counter = (customerStatsbeatMetrics as any).customerStatsbeatCounter;
-      expect(counter.totalItemSuccessCount).toHaveLength(1);
-      expect(counter.totalItemSuccessCount[0]).toEqual({
-        count: 10,
-        telemetry_type: TelemetryType.CUSTOM_EVENT,
-      });
+      expect(counter.totalItemSuccessCount.size).toBe(1);
+      expect(counter.totalItemSuccessCount.get(TelemetryType.CUSTOM_EVENT)).toBe(10);
     });
 
     it("should aggregate counts for same telemetry type", () => {
@@ -598,11 +595,8 @@ describe("CustomerStatsbeatMetrics", () => {
       customerStatsbeatMetrics.countSuccessfulItems(3, TelemetryType.TRACE);
 
       const counter = (customerStatsbeatMetrics as any).customerStatsbeatCounter;
-      expect(counter.totalItemSuccessCount).toHaveLength(1);
-      expect(counter.totalItemSuccessCount[0]).toEqual({
-        count: 8,
-        telemetry_type: TelemetryType.TRACE,
-      });
+      expect(counter.totalItemSuccessCount.size).toBe(1);
+      expect(counter.totalItemSuccessCount.get(TelemetryType.TRACE)).toBe(8);
     });
   });
 });
