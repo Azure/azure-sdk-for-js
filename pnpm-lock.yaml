@@ -22,6 +22,31 @@ catalogs:
     '@azure/arm-webpubsub':
       specifier: ^1.2.0
       version: 1.2.0
+  corelkg:
+    '@azure-rest/core-client':
+      specifier: ^2.4.0
+      version: 2.4.0
+    '@azure/abort-controller':
+      specifier: ^2.1.2
+      version: 2.1.2
+    '@azure/core-auth':
+      specifier: ^1.9.0
+      version: 1.9.0
+    '@azure/core-client':
+      specifier: ^1.9.4
+      version: 1.9.4
+    '@azure/core-rest-pipeline':
+      specifier: ^1.21.0
+      version: 1.21.0
+    '@azure/core-tracing':
+      specifier: ^1.2.0
+      version: 1.2.0
+    '@azure/core-util':
+      specifier: ^1.12.0
+      version: 1.12.0
+    '@azure/logger':
+      specifier: ^1.2.0
+      version: 1.2.0
   corelrov2:
     '@azure/core-lro':
       specifier: ^2.0.0
@@ -26226,26 +26251,26 @@ importers:
   sdk/template/template:
     dependencies:
       '@azure/abort-controller':
-        specifier: workspace:^
-        version: link:../../core/abort-controller
+        specifier: catalog:corelkg
+        version: 2.1.2
       '@azure/core-auth':
-        specifier: workspace:^
-        version: link:../../core/core-auth
+        specifier: catalog:corelkg
+        version: 1.9.0
       '@azure/core-client':
-        specifier: workspace:^
-        version: link:../../core/core-client
+        specifier: catalog:corelkg
+        version: 1.9.4
       '@azure/core-lro':
         specifier: catalog:corelrov2
         version: 2.7.2
       '@azure/core-rest-pipeline':
-        specifier: workspace:^
-        version: link:../../core/core-rest-pipeline
+        specifier: catalog:corelkg
+        version: 1.21.0
       '@azure/core-tracing':
-        specifier: workspace:^
-        version: link:../../core/core-tracing
+        specifier: catalog:corelkg
+        version: 1.2.0
       '@azure/logger':
-        specifier: workspace:^
-        version: link:../../core/logger
+        specifier: catalog:corelkg
+        version: 1.2.0
       tslib:
         specifier: 'catalog:'
         version: 2.8.1
@@ -26299,20 +26324,20 @@ importers:
   sdk/template/template-dpg:
     dependencies:
       '@azure-rest/core-client':
-        specifier: workspace:^
-        version: link:../../core/core-client-rest
+        specifier: catalog:corelkg
+        version: 2.4.0
       '@azure/core-auth':
-        specifier: workspace:^
-        version: link:../../core/core-auth
+        specifier: catalog:corelkg
+        version: 1.9.0
       '@azure/core-rest-pipeline':
-        specifier: workspace:^
-        version: link:../../core/core-rest-pipeline
+        specifier: catalog:corelkg
+        version: 1.21.0
       '@azure/core-util':
-        specifier: workspace:^
-        version: link:../../core/core-util
+        specifier: catalog:corelkg
+        version: 1.12.0
       '@azure/logger':
-        specifier: workspace:^
-        version: link:../../core/logger
+        specifier: catalog:corelkg
+        version: 1.2.0
       tslib:
         specifier: 'catalog:'
         version: 2.8.1
@@ -28014,6 +28039,10 @@ packages:
 
   '@azure/core-rest-pipeline@1.20.0':
     resolution: {integrity: sha512-ASoP8uqZBS3H/8N8at/XwFr6vYrRP3syTK0EUjDXQy0Y1/AUS+QeIRThKmTNJO2RggvBBxaXDPM7YoIwDGeA0g==}
+    engines: {node: '>=18.0.0'}
+
+  '@azure/core-rest-pipeline@1.21.0':
+    resolution: {integrity: sha512-a4MBwe/5WKbq9MIxikzgxLBbruC5qlkFYlBdI7Ev50Y7ib5Vo/Jvt5jnJo7NaWeJ908LCHL0S1Us4UMf1VoTfg==}
     engines: {node: '>=18.0.0'}
 
   '@azure/core-sse@2.1.3':
@@ -29733,6 +29762,10 @@ packages:
 
   '@typespec/ts-http-runtime@0.2.2':
     resolution: {integrity: sha512-Gz/Sm64+Sq/vklJu1tt9t+4R2lvnud8NbTD/ZfpZtMiUX7YeVpCA8j6NSW8ptwcoLL+NmYANwqP8DV0q/bwl2w==}
+    engines: {node: '>=18.0.0'}
+
+  '@typespec/ts-http-runtime@0.2.3':
+    resolution: {integrity: sha512-oRhjSzcVjX8ExyaF8hC0zzTqxlVuRlgMHL/Bh4w3xB9+wjbm0FpXylVU/lBrn+kgphwYTrOk3tp+AVShGmlYCg==}
     engines: {node: '>=18.0.0'}
 
   '@vitest/browser@3.2.3':
@@ -33463,6 +33496,18 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
+  '@azure/core-rest-pipeline@1.21.0':
+    dependencies:
+      '@azure/abort-controller': 2.1.2
+      '@azure/core-auth': 1.9.0
+      '@azure/core-tracing': 1.2.0
+      '@azure/core-util': 1.12.0
+      '@azure/logger': 1.2.0
+      '@typespec/ts-http-runtime': 0.2.3
+      tslib: 2.8.1
+    transitivePeerDependencies:
+      - supports-color
+
   '@azure/core-sse@2.1.3':
     dependencies:
       tslib: 2.8.1
@@ -35674,6 +35719,14 @@ snapshots:
       eslint-visitor-keys: 4.2.0
 
   '@typespec/ts-http-runtime@0.2.2':
+    dependencies:
+      http-proxy-agent: 7.0.2
+      https-proxy-agent: 7.0.6
+      tslib: 2.8.1
+    transitivePeerDependencies:
+      - supports-color
+
+  '@typespec/ts-http-runtime@0.2.3':
     dependencies:
       http-proxy-agent: 7.0.2
       https-proxy-agent: 7.0.6
