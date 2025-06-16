@@ -27,7 +27,7 @@ steps:
       Artifacts: ${{ parameters.Artifacts }}
 
   - script: |
-      node eng/tools/ci-runner/index.js build $(ChangedServices) -packages "$(ArtifactPackageNames)" -packageInfo "$(Build.ArtifactStagingDirectory)/PackageInfo" -changeInfo "$(Build.ArtifactStagingDirectory)/diff/diff.json" --verbose -p max
+      node eng/tools/ci-runner/index.js build $(ChangedServices) -packages "$(ArtifactPackageNames)" -packageInfo "$(Build.ArtifactStagingDirectory)/PackageInfo" -changeInfo "$(Build.ArtifactStagingDirectory)/diff/diff.json"
     displayName: "Build libraries"
 
   - template: ../steps/use-node-test-version.yml
@@ -36,12 +36,12 @@ steps:
     - template: /eng/common/testproxy/test-proxy-standalone-tool.yml
 
   - script: |
-      node eng/tools/ci-runner/index.js test:node $(ChangedServices) -packages "$(ArtifactPackageNames)" -packageInfo "$(Build.ArtifactStagingDirectory)/PackageInfo" -changeInfo "$(Build.ArtifactStagingDirectory)/diff/diff.json" --ci --verbose -p max
+      node eng/tools/ci-runner/index.js test:node $(ChangedServices) -packages "$(ArtifactPackageNames)" -packageInfo "$(Build.ArtifactStagingDirectory)/PackageInfo" -changeInfo "$(Build.ArtifactStagingDirectory)/diff/diff.json" --ci
     displayName: "Test libraries node NodeJS $(NodeTestVersion)"
     condition: and(succeeded(),eq(variables['TestType'], 'node'))
 
   - script: |
-      node eng/tools/ci-runner/index.js test:browser $(ChangedServices) -packages "$(ArtifactPackageNames)" -packageInfo "$(Build.ArtifactStagingDirectory)/PackageInfo" -changeInfo "$(Build.ArtifactStagingDirectory)/diff/diff.json" --ci --verbose -p max
+      node eng/tools/ci-runner/index.js test:browser $(ChangedServices) -packages "$(ArtifactPackageNames)" -packageInfo "$(Build.ArtifactStagingDirectory)/PackageInfo" -changeInfo "$(Build.ArtifactStagingDirectory)/diff/diff.json" --ci
     displayName: "Test libraries browser NodeJS $(NodeTestVersion)"
     condition: and(succeeded(),eq(variables['TestType'], 'browser'))
 
