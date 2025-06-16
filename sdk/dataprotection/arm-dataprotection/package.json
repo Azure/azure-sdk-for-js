@@ -5,7 +5,7 @@
   "description": "A generated SDK for DataProtectionClient.",
   "version": "2.1.1",
   "engines": {
-    "node": ">=18.0.0"
+    "node": ">=20.0.0"
   },
   "dependencies": {
     "@azure/abort-controller": "workspace:^",

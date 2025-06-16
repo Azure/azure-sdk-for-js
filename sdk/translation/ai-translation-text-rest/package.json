@@ -31,7 +31,7 @@
     "CHANGELOG.md"
   ],
   "engines": {
-    "node": ">=18.0.0"
+    "node": ">=20.0.0"
   },
   "//sampleConfiguration": {
     "productName": "Azure Text Translation Service",

@@ -5,7 +5,7 @@
   "description": "An isomorphic client library for the Azure Conversational Language Understanding service.",
   "version": "1.0.0-beta.2",
   "engines": {
-    "node": ">=18.0.0"
+    "node": ">=20.0.0"
   },
   "dependencies": {
     "@azure-rest/core-client": "workspace:^",

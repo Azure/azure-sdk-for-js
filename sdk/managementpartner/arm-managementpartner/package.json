@@ -5,7 +5,7 @@
   "description": "A generated SDK for ACEProvisioningManagementPartnerAPI.",
   "version": "3.0.2",
   "engines": {
-    "node": ">=18.0.0"
+    "node": ">=20.0.0"
   },
   "dependencies": {
     "@azure/core-auth": "workspace:^",
