@@ -92,7 +92,7 @@ export class NetworkCloud extends coreClient.ServiceClient {
       credential: credentials,
     };
 
-    const packageDetails = `azsdk-js-arm-networkcloud/1.2.0-beta.1`;
+    const packageDetails = `azsdk-js-arm-networkcloud/1.2.0`;
     const userAgentPrefix =
       options.userAgentOptions && options.userAgentOptions.userAgentPrefix
         ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`
@@ -146,7 +146,7 @@ export class NetworkCloud extends coreClient.ServiceClient {
 
     // Assigning values to Constant parameters
     this.$host = options.$host || "https://management.azure.com";
-    this.apiVersion = options.apiVersion || "2024-10-01-preview";
+    this.apiVersion = options.apiVersion || "2025-02-01";
     this.operations = new OperationsImpl(this);
     this.bareMetalMachines = new BareMetalMachinesImpl(this);
     this.cloudServicesNetworks = new CloudServicesNetworksImpl(this);

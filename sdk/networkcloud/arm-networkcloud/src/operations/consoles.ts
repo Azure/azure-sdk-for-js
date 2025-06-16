@@ -562,7 +562,12 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
     Parameters.virtualMachineName,
     Parameters.consoleName,
   ],
-  headerParameters: [Parameters.accept, Parameters.contentType],
+  headerParameters: [
+    Parameters.accept,
+    Parameters.contentType,
+    Parameters.ifMatch,
+    Parameters.ifNoneMatch,
+  ],
   mediaType: "json",
   serializer,
 };
@@ -594,7 +599,11 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     Parameters.virtualMachineName,
     Parameters.consoleName,
   ],
-  headerParameters: [Parameters.accept],
+  headerParameters: [
+    Parameters.accept,
+    Parameters.ifMatch,
+    Parameters.ifNoneMatch,
+  ],
   serializer,
 };
 const updateOperationSpec: coreClient.OperationSpec = {
@@ -626,7 +635,12 @@ const updateOperationSpec: coreClient.OperationSpec = {
     Parameters.virtualMachineName,
     Parameters.consoleName,
   ],
-  headerParameters: [Parameters.accept, Parameters.contentType],
+  headerParameters: [
+    Parameters.accept,
+    Parameters.contentType,
+    Parameters.ifMatch,
+    Parameters.ifNoneMatch,
+  ],
   mediaType: "json",
   serializer,
 };
