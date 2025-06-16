@@ -277,8 +277,7 @@ export type IdentityType = string;
 export type InfrastructureEncryption = string;
 
 // @public
-type KeyType_2 = string;
-export { KeyType_2 as KeyType }
+export type KeyType = string;
 
 // @public
 export type Kind = string;
@@ -419,7 +418,7 @@ export interface MapsAccountUpdateParameters {
 
 // @public
 export interface MapsKeySpecification {
-    keyType: KeyType_2;
+    keyType: KeyType;
 }
 
 // @public
