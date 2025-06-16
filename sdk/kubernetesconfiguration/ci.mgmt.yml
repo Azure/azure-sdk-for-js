@@ -1,5 +1,5 @@
 # NOTE: Please refer to https://aka.ms/azsdk/engsys/ci-yaml before editing this file.
-
+                
 trigger:
   branches:
     include:
@@ -13,6 +13,7 @@ trigger:
       - sdk/kubernetesconfiguration/arm-kubernetesconfiguration-extensiontypes
       - sdk/kubernetesconfiguration/arm-kubernetesconfiguration-fluxconfigurations
       - sdk/kubernetesconfiguration/arm-kubernetesconfiguration-extensions
+      - sdk/kubernetesconfiguration/arm-kubernetesconfiguration-privatelinkscopes
 pr:
   branches:
     include:
@@ -29,6 +30,7 @@ pr:
       - sdk/kubernetesconfiguration/arm-kubernetesconfiguration-extensiontypes
       - sdk/kubernetesconfiguration/arm-kubernetesconfiguration-fluxconfigurations
       - sdk/kubernetesconfiguration/arm-kubernetesconfiguration-extensions
+      - sdk/kubernetesconfiguration/arm-kubernetesconfiguration-privatelinkscopes
 extends:
   template: /eng/pipelines/templates/stages/archetype-sdk-client.yml
   parameters:
@@ -42,3 +44,5 @@ extends:
         safeName: azurearmkubernetesconfigurationfluxconfigurations
       - name: azure-arm-kubernetesconfiguration-extensions
         safeName: azurearmkubernetesconfigurationextensions
+      - name: azure-arm-kubernetesconfiguration-privatelinkscopes
+        safeName: azurearmkubernetesconfigurationprivatelinkscopes
