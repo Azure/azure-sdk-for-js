@@ -64,23 +64,19 @@ export class NetworkStatsbeat {
 export class CustomerStatsbeat {
   public totalItemSuccessCount: Map<TelemetryType, number>;
 
-  public totalItemDropCount: {
-    count: number;
-    "drop.code": DropCode | number;
-    telemetry_type: TelemetryType;
-    "exception.message"?: string;
-  }[];
+  // Nested Map structure: telemetry_type -> drop.code -> drop.reason -> count
+  public totalItemDropCount: Map<TelemetryType, Map<DropCode | number, Map<string, number>>>;
 
   public totalItemRetryCount: {
     count: number;
     "retry.code": RetryCode | number;
     telemetry_type: TelemetryType;
-    "exception.message"?: string;
+    "drop.reason"?: string;
   }[];
 
   constructor() {
     this.totalItemSuccessCount = new Map<TelemetryType, number>();
-    this.totalItemDropCount = [];
+    this.totalItemDropCount = new Map<TelemetryType, Map<DropCode | number, Map<string, number>>>();
     this.totalItemRetryCount = [];
   }
 }

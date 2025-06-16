@@ -177,25 +177,27 @@ export class CustomerStatsbeatMetrics extends StatsbeatMetrics {
       telemetry_type: TelemetryType.UNKNOWN,
     };
 
-    // For each { drop.code, telemetry_type -> count } mapping, call observe, passing the count and attributes that include the drop.code and telemetry_type
-    for (let i = 0; i < counter.totalItemDropCount.length; i++) {
-      const attributes = { ...baseAttributes };
-      attributes["drop.code"] = counter.totalItemDropCount[i]["drop.code"];
-      attributes.telemetry_type = counter.totalItemDropCount[i].telemetry_type;
+    // Iterate through the nested Map structure: telemetry_type -> drop.code -> reason -> count
+    for (const [telemetryType, dropCodeMap] of counter.totalItemDropCount.entries()) {
+      for (const [dropCode, reasonMap] of dropCodeMap.entries()) {
+        for (const [reason, count] of reasonMap.entries()) {
+          const attributes = { ...baseAttributes };
+          attributes.telemetry_type = telemetryType;
+          attributes["drop.code"] = dropCode;
 
-      // Add exception.message only for CLIENT_EXCEPTION drop code
-      if (
-        counter.totalItemDropCount[i]["drop.code"] === DropCode.CLIENT_EXCEPTION &&
-        counter.totalItemDropCount[i]["exception.message"]
-      ) {
-        (attributes as any)["exception.message"] =
-          counter.totalItemDropCount[i]["exception.message"];
+          // Include drop.reason only for CLIENT_EXCEPTION with a specific reason
+          if (dropCode === DropCode.CLIENT_EXCEPTION && reason !== "default") {
+            (attributes as any)["drop.reason"] = reason;
+          }
+
+          observableResult.observe(this.itemDropCountGauge, count, {
+            ...attributes,
+          });
+
+          // Reset the count to 0
+          reasonMap.set(reason, 0);
+        }
       }
-
-      observableResult.observe(this.itemDropCountGauge, counter.totalItemDropCount[i].count, {
-        ...attributes,
-      });
-      counter.totalItemDropCount[i].count = 0;
     }
   }
 
@@ -216,13 +218,13 @@ export class CustomerStatsbeatMetrics extends StatsbeatMetrics {
       attributes["retry.code"] = counter.totalItemRetryCount[i]["retry.code"];
       attributes.telemetry_type = counter.totalItemRetryCount[i].telemetry_type;
 
-      // Add exception.message only for CLIENT_EXCEPTION retry code
+      // Add drop.reason only for CLIENT_EXCEPTION retry code
       if (
         counter.totalItemRetryCount[i]["retry.code"] === RetryCode.CLIENT_EXCEPTION &&
-        counter.totalItemRetryCount[i]["exception.message"]
+        counter.totalItemRetryCount[i]["drop.reason"]
       ) {
-        (attributes as any)["exception.message"] =
-          counter.totalItemRetryCount[i]["exception.message"];
+        (attributes as any)["drop.reason"] =
+          counter.totalItemRetryCount[i]["drop.reason"];
       }
 
       observableResult.observe(this.itemRetryCountGauge, counter.totalItemRetryCount[i].count, {
@@ -261,34 +263,26 @@ export class CustomerStatsbeatMetrics extends StatsbeatMetrics {
   ): void {
     const counter: CustomerStatsbeat = this.customerStatsbeatCounter;
 
-    // Check if an entry with the same drop code, telemetry type, and exception message already exists
-    const existingEntry = counter.totalItemDropCount.find(
-      (entry) =>
-        entry["drop.code"] === dropCode &&
-        entry.telemetry_type === telemetry_type &&
-        entry["exception.message"] === exceptionMessage,
-    );
-
-    if (existingEntry) {
-      existingEntry.count += envelopes;
-    } else {
-      const newEntry: {
-        count: number;
-        "drop.code": DropCode | number;
-        telemetry_type: TelemetryType;
-        "exception.message"?: string;
-      } = {
-        count: envelopes,
-        "drop.code": dropCode,
-        telemetry_type,
-      };
-
-      if (dropCode === DropCode.CLIENT_EXCEPTION && exceptionMessage) {
-        newEntry["exception.message"] = exceptionMessage;
-      }
-
-      counter.totalItemDropCount.push(newEntry);
+    // Get or create the dropCode map for this telemetry_type
+    let dropCodeMap = counter.totalItemDropCount.get(telemetry_type);
+    if (!dropCodeMap) {
+      dropCodeMap = new Map<DropCode | number, Map<string, number>>();
+      counter.totalItemDropCount.set(telemetry_type, dropCodeMap);
     }
+
+    // Get or create the reason map for this dropCode
+    let reasonMap = dropCodeMap.get(dropCode);
+    if (!reasonMap) {
+      reasonMap = new Map<string, number>();
+      dropCodeMap.set(dropCode, reasonMap);
+    }
+
+    // Use exception message as the reason for CLIENT_EXCEPTION, otherwise use a default key
+    const reason = dropCode === DropCode.CLIENT_EXCEPTION && exceptionMessage ? exceptionMessage : "default";
+
+    // Update the count for this reason
+    const currentCount = reasonMap.get(reason) || 0;
+    reasonMap.set(reason, currentCount + envelopes);
   }
   /**
    * Tracks retried envelopes
@@ -310,7 +304,7 @@ export class CustomerStatsbeatMetrics extends StatsbeatMetrics {
       (entry) =>
         entry["retry.code"] === retryCode &&
         entry.telemetry_type === telemetry_type &&
-        entry["exception.message"] === exceptionMessage,
+        entry["drop.reason"] === exceptionMessage,
     );
 
     if (existingEntry) {
@@ -320,7 +314,7 @@ export class CustomerStatsbeatMetrics extends StatsbeatMetrics {
         count: number;
         "retry.code": RetryCode | number;
         telemetry_type: TelemetryType;
-        "exception.message"?: string;
+        "drop.reason"?: string;
       } = {
         count: envelopes,
         "retry.code": retryCode,
@@ -328,7 +322,7 @@ export class CustomerStatsbeatMetrics extends StatsbeatMetrics {
       };
 
       if (retryCode === RetryCode.CLIENT_EXCEPTION && exceptionMessage) {
-        newEntry["exception.message"] = exceptionMessage;
+        newEntry["drop.reason"] = exceptionMessage;
       }
 
       counter.totalItemRetryCount.push(newEntry);
