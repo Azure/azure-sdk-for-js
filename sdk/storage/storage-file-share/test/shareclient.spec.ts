@@ -112,12 +112,12 @@ describe("ShareClient", () => {
       recorder.variable(shareName, getUniqueName(shareName)),
     );
     await shareClient2.create();
-    
+
     const snapshotResult = await shareClient2.createSnapshot();
     const snapshotClient = shareClient2.withSnapshot(snapshotResult.snapshot!);
     let snapshotDeleteResult = await snapshotClient.deleteIfExists();
     assert.ok(snapshotDeleteResult.succeeded);
-    
+
     snapshotDeleteResult = await snapshotClient.deleteIfExists();
     assert.ok(!snapshotDeleteResult.succeeded);
     assert.equal(snapshotDeleteResult.errorCode, "ShareSnapshotNotFound");
