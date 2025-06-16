@@ -4,7 +4,7 @@
 import { defineConfig, mergeConfig } from "vitest/config";
 import viteConfig from "../../../vitest.shared.config.ts";
 import { fileURLToPath } from "url";
-import path from "path";
+import path from "node:path";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
