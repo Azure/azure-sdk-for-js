@@ -3974,8 +3974,7 @@ export interface KeyInfo {
 }
 
 // @public
-type KeyType_2 = string;
-export { KeyType_2 as KeyType }
+export type KeyType = string;
 
 // @public (undocumented)
 export interface KeyValuePairStringObject {
@@ -5609,7 +5608,7 @@ export type RedundancyMode = "None" | "Manual" | "Failover" | "ActiveActive" | "
 
 // @public
 export interface RegenerateActionParameter {
-    keyType?: KeyType_2;
+    keyType?: KeyType;
 }
 
 // @public

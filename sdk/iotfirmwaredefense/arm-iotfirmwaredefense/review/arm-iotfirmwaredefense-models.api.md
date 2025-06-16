@@ -102,7 +102,7 @@ export interface CryptoCertificateSummaryResource extends SummaryResourcePropert
 }
 
 // @public
-interface CryptoKey_2 {
+export interface CryptoKey {
     cryptoKeyId?: string;
     cryptoKeySize?: number;
     readonly filePaths?: string[];
@@ -113,11 +113,10 @@ interface CryptoKey_2 {
     readonly provisioningState?: ProvisioningState;
     usage?: string[];
 }
-export { CryptoKey_2 as CryptoKey }
 
 // @public
 export interface CryptoKeyResource extends ProxyResource {
-    properties?: CryptoKey_2;
+    properties?: CryptoKey;
 }
 
 // @public
