@@ -5,11 +5,21 @@
 
 import { exit } from "node:process";
 import { executeActions } from "./src/actions.js";
-import { parseArgs } from "./src/args.js";
+import { parseProcessArgs } from "./src/args.js";
+import { getChangedInfo } from "./src/changed.js";
 
-function main() {
-  const { action, serviceDirs, extraParams, artifactNames, ciFlag } = parseArgs();
-  exit(executeActions(action, serviceDirs, extraParams, artifactNames, ciFlag));
+async function main() {
+  const {
+    action,
+    serviceDirs,
+    extraParams,
+    artifactNames,
+    ciFlag,
+    packageInfoPath,
+    changeInfoPath,
+  } = parseProcessArgs();
+  const changedInfo = await getChangedInfo(packageInfoPath, changeInfoPath);
+  exit(executeActions(action, serviceDirs, extraParams, artifactNames, ciFlag, changedInfo));
 }
 
-main();
+main().catch(console.error);

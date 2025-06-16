@@ -50,7 +50,7 @@ describe("executeActions", () => {
         baseDir,
         "run",
         "--filter",
-        "...@azure/communication-identity",
+        "@azure/communication-identity",
         "--filter",
         "@azure-rest/synapse-access-control",
         "--filter",

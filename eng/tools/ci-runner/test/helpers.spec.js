@@ -62,18 +62,31 @@ describe("getDirectionMappedPackages", () => {
       assert.deepStrictEqual(mapped, expected);
     });
 
-    it("it uses --impacted-by when testing a normal package", () => {
-      const changed = ["@azure/app-configuration"];
-      const mapped = getFilteredPackages(changed, "unit-test", ["appconfiguration"]);
+    it("it uses only when testing a normal package", () => {
+      const packages = ["@azure/app-configuration"];
+      const mapped = getFilteredPackages(packages, "unit-test", ["appconfiguration"]);
 
-      assert.deepStrictEqual(mapped, ["...@azure/app-configuration"]);
+      assert.deepStrictEqual(mapped, ["@azure/app-configuration"]);
     });
 
-    it("should run impacted when testing two or more service dirs for non-restricted packages", () => {
-      const changed = ["@azure/app-configuration", "@azure/storage-blob"];
-      const mapped = getFilteredPackages(changed, "unit-test", ["appconfiguration", "storage"]);
+    it("should run only when testing two or more service dirs for non-restricted packages", () => {
+      const packages = ["@azure/app-configuration", "@azure/storage-blob"];
+      const mapped = getFilteredPackages(packages, "unit-test", ["appconfiguration", "storage"]);
 
-      assert.deepStrictEqual(mapped, ["...@azure/app-configuration", "...@azure/storage-blob"]);
+      assert.deepStrictEqual(mapped, ["@azure/app-configuration", "@azure/storage-blob"]);
+    });
+
+    it("should run impacted-by for changed non-restricted package", () => {
+      const packages = ["@azure/app-configuration", "@azure/storage-blob"];
+      const mapped = getFilteredPackages(packages, "test", ["appconfiguration", "storage"], {
+        changedPackages: new Set(["@azure/storage-blob"]),
+        diff: {
+          changedFiles: [], // not used
+          changedServices: [], // not used
+        },
+      });
+
+      assert.deepStrictEqual(mapped, ["@azure/app-configuration", "...@azure/storage-blob"]);
     });
   });
 });

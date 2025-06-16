@@ -66,9 +66,10 @@ export const restrictedToPackages = [
  * @param {string[]} packageNames - An array of strings containing the packages names to run the action on.
  * @param {string} action - The action being performed ("build", "build:test", "build:samples", "unit-test:node", "unit-test:browser"
  * @param {string[]} serviceDirs - An array of strings containing the serviceDirs affected
+ * @param {{changedPackages: Set<string>, diff: { changedFiles: string[], changedServices: string[] }} | undefined} [changedInfo=undefined] - information about changed packages
  * @returns {string[]} - An array of workspace filters
  */
-export const getFilteredPackages = (packageNames, action, serviceDirs) => {
+export const getFilteredPackages = (packageNames, action, serviceDirs, changedInfo) => {
   /** @type {string[]} */
   const mappedPackages = [];
 
@@ -109,7 +110,7 @@ export const getFilteredPackages = (packageNames, action, serviceDirs) => {
   } else {
     mappedPackages.push(
       ...fullPackageNames.map((p) =>
-        !restrictedToPackages.includes(p) && packageNames.includes(p) ? `...${p}` : p,
+        !restrictedToPackages.includes(p) && changedInfo?.changedPackages.has(p) ? `...${p}` : p,
       ),
     );
   }

@@ -12,9 +12,18 @@ import { runAllWithDirection, runInPackageDirs, runGlobalAction } from "./runner
  * @param {string[]} serviceDirs - list of service directories impacted
  * @param {string[]} extraParams - commandline flags to pass
  * @param {string} artifactNames - package names to filter to
+ * @param {boolean|undefined} [ciFlag=undefined] - package names to filter to
+ * @param {{changedPackages: Set<string>, diff: { changedFiles: string[], changedServices: string[] }}|undefined} [changedInfo=undefined] - information about changed packages and files.
  * @returns
  */
-export function executeActions(action, serviceDirs, extraParams, artifactNames, ciFlag) {
+export function executeActions(
+  action,
+  serviceDirs,
+  extraParams,
+  artifactNames,
+  ciFlag,
+  changedInfo,
+) {
   console.dir({
     action,
     serviceDirs,
@@ -40,7 +49,7 @@ export function executeActions(action, serviceDirs, extraParams, artifactNames, 
       case "integration-test":
         exitCode = runAllWithDirection(
           action,
-          getFilteredPackages(packageNames, action, serviceDirs),
+          getFilteredPackages(packageNames, action, serviceDirs, changedInfo),
           extraParams,
           ciFlag,
         );
