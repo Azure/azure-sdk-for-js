@@ -129,7 +129,29 @@ function enabled(namespace: string): boolean {
  * Patterns only have a single wildcard character which is *.
  * The behavior of * is that it matches zero or more other characters.
  */
-function namespaceMatches(namespace: string, pattern: string): boolean {
+function namespaceMatches(namespace: string, patternToMatch: string): boolean {
+  // simple case, no pattern matching required
+  if (patternToMatch.indexOf("*") === -1) {
+    return namespace === patternToMatch;
+  }
+
+  let pattern = patternToMatch;
+
+  // normalize successive * if needed
+  if (patternToMatch.indexOf("**") !== -1) {
+    const patternParts = [];
+    let lastCharacter = "";
+    for (const character of patternToMatch) {
+      if (character === "*" && lastCharacter === "*") {
+        continue;
+      } else {
+        lastCharacter = character;
+        patternParts.push(character);
+      }
+    }
+    pattern = patternParts.join("");
+  }
+
   let namespaceIndex = 0;
   let patternIndex = 0;
   const patternLength = pattern.length;
@@ -145,27 +167,13 @@ function namespaceMatches(namespace: string, pattern: string): boolean {
         // if wildcard is the last character, it will match the remaining namespace string
         return true;
       }
-      let nextPatternChar = pattern[patternIndex];
-      // ignore successive wildcards
-      while (nextPatternChar === "*") {
-        lastWildcard = patternIndex;
-        patternIndex++;
-        // this handles patterns that ends in multiple wildcard characters
-        if (patternIndex === patternLength) {
-          return true;
-        }
-        nextPatternChar = pattern[patternIndex];
-      }
-
       // now we let the wildcard eat characters until we match the next literal in the pattern
-      let nextNamespaceChar = namespace[namespaceIndex];
-      while (nextNamespaceChar !== nextPatternChar) {
+      while (namespace[namespaceIndex] !== pattern[patternIndex]) {
         namespaceIndex++;
         // reached the end of the namespace without a match
         if (namespaceIndex === namespaceLength) {
           return false;
         }
-        nextNamespaceChar = namespace[namespaceIndex];
       }
 
       // now that we have a match, let's try to continue on
