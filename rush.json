@@ -2401,6 +2401,11 @@
       "versionPolicyName": "client"
     },
     {
+      "packageName": "@azure/arm-planetarycomputer",
+      "projectFolder": "sdk/planetarycomputer/arm-planetarycomputer",
+      "versionPolicyName": "management"
+    },
+    {
       "packageName": "@azure/arm-kubernetesconfiguration-extensions",
       "projectFolder": "sdk/kubernetesconfiguration/arm-kubernetesconfiguration-extensions",
       "versionPolicyName": "management"
