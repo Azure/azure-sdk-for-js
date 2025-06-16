@@ -737,12 +737,6 @@ export const DnsSecurityRuleAction: coreClient.CompositeMapper = {
           name: "String",
         },
       },
-      blockResponseCode: {
-        serializedName: "blockResponseCode",
-        type: {
-          name: "String",
-        },
-      },
     },
   },
 };
@@ -915,6 +909,29 @@ export const DnsResolverDomainListResult: coreClient.CompositeMapper = {
       nextLink: {
         serializedName: "nextLink",
         readOnly: true,
+        type: {
+          name: "String",
+        },
+      },
+    },
+  },
+};
+
+export const DnsResolverDomainListBulk: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "DnsResolverDomainListBulk",
+    modelProperties: {
+      storageUrl: {
+        serializedName: "properties.storageUrl",
+        required: true,
+        type: {
+          name: "String",
+        },
+      },
+      action: {
+        serializedName: "properties.action",
+        required: true,
         type: {
           name: "String",
         },
@@ -1262,7 +1279,6 @@ export const DnsResolverDomainList: coreClient.CompositeMapper = {
       },
       domains: {
         serializedName: "properties.domains",
-        required: true,
         type: {
           name: "Sequence",
           element: {
@@ -1270,6 +1286,13 @@ export const DnsResolverDomainList: coreClient.CompositeMapper = {
               name: "String",
             },
           },
+        },
+      },
+      domainsUrl: {
+        serializedName: "properties.domainsUrl",
+        readOnly: true,
+        type: {
+          name: "String",
         },
       },
       provisioningState: {
@@ -1496,6 +1519,21 @@ export const DnsResolverDomainListsDeleteHeaders: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "DnsResolverDomainListsDeleteHeaders",
+    modelProperties: {
+      location: {
+        serializedName: "location",
+        type: {
+          name: "String",
+        },
+      },
+    },
+  },
+};
+
+export const DnsResolverDomainListsBulkHeaders: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "DnsResolverDomainListsBulkHeaders",
     modelProperties: {
       location: {
         serializedName: "location",
