@@ -25,7 +25,7 @@
     "@types/chai": "^5.2.1",
     "@types/chai-as-promised": "^8.0.2",
     "@types/mocha": "^10.0.0",
-    "@types/node": "^18.0.0",
+    "@types/node": "^20.0.0",
     "@types/url-parse": "^1.4.11",
     "@types/uuid": "^10.0.0",
     "buffer": "^6.0.3",

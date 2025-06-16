@@ -5,7 +5,7 @@
   "dependencies": {
     "@azure/identity": "^4.7.0",
     "@azure/keyvault-secrets": "^4.9.0",
-    "@types/node": "^18.0.0",
+    "@types/node": "^20.0.0",
     "cors": "^2.8.5",
     "dotenv": "^16.0.0",
     "express": "^4.21.2"

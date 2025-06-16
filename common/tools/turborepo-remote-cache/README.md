@@ -8,7 +8,7 @@ The cache is implemented using Azure Blob Storage, and it uses the `@azure/stora
 
 ### Prerequisites
 
-- Node.js 18.x or later
+- Node.js 20.x or later
 - Azure Storage account
 - Azure Storage connection string
 

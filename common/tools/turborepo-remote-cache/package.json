@@ -35,12 +35,12 @@
   },
   "devDependencies": {
     "@eslint/js": "^9.24.0",
-    "@types/node": "^22.14.0",
+    "@types/node": "catalog:",
     "@vitest/coverage-istanbul": "^3.1.1",
-    "eslint": "^9.24.0",
+    "eslint": "catalog:",
     "prettier": "^3.5.3",
     "tsx": "catalog:",
-    "typescript": "~5.8.3",
+    "typescript": "catalog:",
     "typescript-eslint": "^8.29.1",
     "vitest": "^3.1.4"
   },
