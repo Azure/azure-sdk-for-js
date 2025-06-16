@@ -191,21 +191,17 @@ function namespaceMatches(namespace: string, patternToMatch: string): boolean {
       // special case: we don't have a literal match, but there is a previous wildcard
       // which we can backtrack to and try having the wildcard eat the match instead
       patternIndex = lastWildcard + 1;
-      // we know the last wildcard was not the final character since we handle that in the earlier branch
-      const nextPatternChar = pattern[patternIndex];
       namespaceIndex = lastWildcardNamespace + 1;
       // we've reached the end of the namespace without a match
       if (namespaceIndex === namespaceLength) {
         return false;
       }
-      let nextNamespaceChar = namespace[namespaceIndex];
       // similar to the previous logic, let's keep going until we find the next literal match
-      while (nextNamespaceChar !== nextPatternChar) {
+      while (namespace[namespaceIndex] !== pattern[patternIndex]) {
         namespaceIndex++;
         if (namespaceIndex === namespaceLength) {
           return false;
         }
-        nextNamespaceChar = namespace[namespaceIndex];
       }
       lastWildcardNamespace = namespaceIndex;
       namespaceIndex++;
