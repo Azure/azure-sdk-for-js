@@ -106,7 +106,7 @@ export type AgentsToolChoiceOption = string | AgentsToolChoiceOptionMode | Agent
 export type AgentsToolChoiceOptionMode = "none" | "auto";
 
 // @public
-export type AgentStreamEvent = string | (ThreadStreamEvent | RunStreamEvent | RunStepStreamEvent | MessageStreamEvent | ErrorEvent_2 | DoneEvent);
+export type AgentStreamEvent = string | (ThreadStreamEvent | RunStreamEvent | RunStepStreamEvent | MessageStreamEvent | ErrorEvent | DoneEvent);
 
 // @public
 export interface AgentThread {
@@ -293,10 +293,9 @@ export enum DoneEvent {
 }
 
 // @public
-enum ErrorEvent_2 {
+export enum ErrorEvent {
     Error = "error"
 }
-export { ErrorEvent_2 as ErrorEvent }
 
 // @public
 export type FileContents = string | NodeJS.ReadableStream | ReadableStream<Uint8Array> | Uint8Array | Blob;
@@ -1441,6 +1440,9 @@ export class ToolSet {
         definition: CodeInterpreterToolDefinition;
         resources: ToolResources;
     };
+    addConnectedAgentTool(id: string, name: string, description: string): {
+        definition: ConnectedAgentToolDefinition;
+    };
     addConnectionTool(toolType: connectionToolType, connectionIds: string[]): {
         definition: ToolDefinition;
     };
@@ -1476,6 +1478,9 @@ export class ToolUtility {
     static createCodeInterpreterTool(fileIds?: string[], dataSources?: Array<VectorStoreDataSource>): {
         definition: CodeInterpreterToolDefinition;
         resources: ToolResources;
+    };
+    static createConnectedAgentTool(id: string, name: string, description: string): {
+        definition: ConnectedAgentToolDefinition;
     };
     static createConnectionTool(toolType: connectionToolType, connectionIds: string[]): {
         definition: ToolDefinitionUnion;

@@ -76,8 +76,8 @@ export interface Catalogs {
     beginCreateOrUpdateAndWait(resourceGroupName: string, catalogName: string, resource: Catalog, options?: CatalogsCreateOrUpdateOptionalParams): Promise<CatalogsCreateOrUpdateResponse>;
     beginDelete(resourceGroupName: string, catalogName: string, options?: CatalogsDeleteOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
     beginDeleteAndWait(resourceGroupName: string, catalogName: string, options?: CatalogsDeleteOptionalParams): Promise<void>;
-    beginUploadImage(resourceGroupName: string, catalogName: string, uploadImageRequest: Image_2, options?: CatalogsUploadImageOptionalParams): Promise<SimplePollerLike<OperationState<CatalogsUploadImageResponse>, CatalogsUploadImageResponse>>;
-    beginUploadImageAndWait(resourceGroupName: string, catalogName: string, uploadImageRequest: Image_2, options?: CatalogsUploadImageOptionalParams): Promise<CatalogsUploadImageResponse>;
+    beginUploadImage(resourceGroupName: string, catalogName: string, uploadImageRequest: Image, options?: CatalogsUploadImageOptionalParams): Promise<SimplePollerLike<OperationState<CatalogsUploadImageResponse>, CatalogsUploadImageResponse>>;
+    beginUploadImageAndWait(resourceGroupName: string, catalogName: string, uploadImageRequest: Image, options?: CatalogsUploadImageOptionalParams): Promise<CatalogsUploadImageResponse>;
     countDevices(resourceGroupName: string, catalogName: string, options?: CatalogsCountDevicesOptionalParams): Promise<CatalogsCountDevicesResponse>;
     get(resourceGroupName: string, catalogName: string, options?: CatalogsGetOptionalParams): Promise<CatalogsGetResponse>;
     listByResourceGroup(resourceGroupName: string, options?: CatalogsListByResourceGroupOptionalParams): PagedAsyncIterableIterator<Catalog>;
@@ -369,7 +369,7 @@ export interface DeploymentListResult {
 
 // @public
 export interface DeploymentProperties {
-    deployedImages?: Image_2[];
+    deployedImages?: Image[];
     readonly deploymentDateUtc?: Date;
     deploymentId?: string;
     readonly provisioningState?: ProvisioningState;
@@ -738,15 +738,14 @@ export interface GenerateCapabilityImageRequest {
 export function getContinuationToken(page: unknown): string | undefined;
 
 // @public
-interface Image_2 extends ProxyResource {
+export interface Image extends ProxyResource {
     properties?: ImageProperties;
 }
-export { Image_2 as Image }
 
 // @public
 export interface ImageListResult {
     readonly nextLink?: string;
-    value: Image_2[];
+    value: Image[];
 }
 
 // @public
@@ -764,12 +763,12 @@ export interface ImageProperties {
 
 // @public
 export interface Images {
-    beginCreateOrUpdate(resourceGroupName: string, catalogName: string, imageName: string, resource: Image_2, options?: ImagesCreateOrUpdateOptionalParams): Promise<SimplePollerLike<OperationState<ImagesCreateOrUpdateResponse>, ImagesCreateOrUpdateResponse>>;
-    beginCreateOrUpdateAndWait(resourceGroupName: string, catalogName: string, imageName: string, resource: Image_2, options?: ImagesCreateOrUpdateOptionalParams): Promise<ImagesCreateOrUpdateResponse>;
+    beginCreateOrUpdate(resourceGroupName: string, catalogName: string, imageName: string, resource: Image, options?: ImagesCreateOrUpdateOptionalParams): Promise<SimplePollerLike<OperationState<ImagesCreateOrUpdateResponse>, ImagesCreateOrUpdateResponse>>;
+    beginCreateOrUpdateAndWait(resourceGroupName: string, catalogName: string, imageName: string, resource: Image, options?: ImagesCreateOrUpdateOptionalParams): Promise<ImagesCreateOrUpdateResponse>;
     beginDelete(resourceGroupName: string, catalogName: string, imageName: string, options?: ImagesDeleteOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
     beginDeleteAndWait(resourceGroupName: string, catalogName: string, imageName: string, options?: ImagesDeleteOptionalParams): Promise<void>;
     get(resourceGroupName: string, catalogName: string, imageName: string, options?: ImagesGetOptionalParams): Promise<ImagesGetResponse>;
-    listByCatalog(resourceGroupName: string, catalogName: string, options?: ImagesListByCatalogOptionalParams): PagedAsyncIterableIterator<Image_2>;
+    listByCatalog(resourceGroupName: string, catalogName: string, options?: ImagesListByCatalogOptionalParams): PagedAsyncIterableIterator<Image>;
 }
 
 // @public
@@ -784,7 +783,7 @@ export interface ImagesCreateOrUpdateOptionalParams extends coreClient.Operation
 }
 
 // @public
-export type ImagesCreateOrUpdateResponse = Image_2;
+export type ImagesCreateOrUpdateResponse = Image;
 
 // @public
 export interface ImagesDeleteHeaders {
@@ -803,7 +802,7 @@ export interface ImagesGetOptionalParams extends coreClient.OperationOptions {
 }
 
 // @public
-export type ImagesGetResponse = Image_2;
+export type ImagesGetResponse = Image;
 
 // @public
 export interface ImagesListByCatalogNextOptionalParams extends coreClient.OperationOptions {
