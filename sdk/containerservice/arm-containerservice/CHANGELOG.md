@@ -1,5 +1,22 @@
 # Release History
     
+## 22.0.0 (2025-06-09)
+    
+### Features Added
+
+  - Added Type Alias UndrainableNodeBehavior
+  - Interface AgentPoolUpgradeSettings has a new optional parameter maxUnavailable
+  - Interface AgentPoolUpgradeSettings has a new optional parameter undrainableNodeBehavior
+  - Interface ManagedClusterAPIServerAccessProfile has a new optional parameter enableVnetIntegration
+  - Interface ManagedClusterAPIServerAccessProfile has a new optional parameter subnetId
+  - Added Enum KnownUndrainableNodeBehavior
+  - Enum KnownOssku has a new value Ubuntu2204
+
+### Breaking Changes
+
+  - Interface ManagedCluster no longer has parameter enablePodSecurityPolicy
+    
+    
 ## 22.0.0-beta.2 (2025-04-25)
 Compared with version 21.6.0
     
