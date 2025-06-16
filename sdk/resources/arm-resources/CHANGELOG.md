@@ -1,5 +1,20 @@
 # Release History
     
+## 7.0.0 (2025-06-10)
+    
+### Breaking Changes
+
+  - Removed operation group DeploymentOperations
+  - Removed operation group Deployments
+  - Class ResourceManagementClient no longer has parameter deploymentOperations
+  - Class ResourceManagementClient no longer has parameter deployments
+  - Removed Enum KnownExpressionEvaluationOptionsScopeType
+  - Removed Enum KnownExtensionConfigPropertyType
+  - Removed Enum KnownLevel
+  - Removed Enum KnownProvisioningState
+  - Removed Enum KnownValidationLevel
+    
+    
 ## 6.1.0 (2025-05-14)
     
 ### Features Added
