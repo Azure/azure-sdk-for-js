@@ -185,8 +185,8 @@ export class CustomerStatsbeatMetrics extends StatsbeatMetrics {
           attributes.telemetry_type = telemetryType;
           attributes["drop.code"] = dropCode;
 
-          // Include drop.reason only for CLIENT_EXCEPTION with a specific reason
-          if (dropCode === DropCode.CLIENT_EXCEPTION && reason !== "default") {
+          // Include drop.reason for all case
+          if (reason) {
             (attributes as any)["drop.reason"] = reason;
           }
 
@@ -218,13 +218,10 @@ export class CustomerStatsbeatMetrics extends StatsbeatMetrics {
       attributes["retry.code"] = counter.totalItemRetryCount[i]["retry.code"];
       attributes.telemetry_type = counter.totalItemRetryCount[i].telemetry_type;
 
-      // Add drop.reason only for CLIENT_EXCEPTION retry code
-      if (
-        counter.totalItemRetryCount[i]["retry.code"] === RetryCode.CLIENT_EXCEPTION &&
-        counter.totalItemRetryCount[i]["drop.reason"]
-      ) {
-        (attributes as any)["drop.reason"] =
-          counter.totalItemRetryCount[i]["drop.reason"];
+      // Add retry.reason if present
+      if (counter.totalItemRetryCount[i]["retry.reason"]) {
+        (attributes as any)["retry.reason"] =
+          counter.totalItemRetryCount[i]["retry.reason"];
       }
 
       observableResult.observe(this.itemRetryCountGauge, counter.totalItemRetryCount[i].count, {
@@ -277,12 +274,125 @@ export class CustomerStatsbeatMetrics extends StatsbeatMetrics {
       dropCodeMap.set(dropCode, reasonMap);
     }
 
-    // Use exception message as the reason for CLIENT_EXCEPTION, otherwise use a default key
-    const reason = dropCode === DropCode.CLIENT_EXCEPTION && exceptionMessage ? exceptionMessage : "default";
+    // Generate a low-cardinality, informative reason description
+    const reason = this.getDropReason(dropCode, exceptionMessage);
 
     // Update the count for this reason
     const currentCount = reasonMap.get(reason) || 0;
     reasonMap.set(reason, currentCount + envelopes);
+  }
+
+  /**
+   * Generates a low-cardinality, informative description for drop reasons
+   * @param dropCode - The drop code (enum value or status code number)
+   * @param exceptionMessage - Optional exception message for CLIENT_EXCEPTION
+   * @returns A descriptive reason string with low cardinality
+   */
+  private getDropReason(dropCode: DropCode | number, exceptionMessage?: string): string {
+    if (dropCode === DropCode.CLIENT_EXCEPTION) {
+      // For client exceptions, derive a low-cardinality reason from the exception message
+      if (exceptionMessage) {
+        return this.categorizeExceptionMessage(exceptionMessage);
+      }
+      return "unknown_exception";
+    }
+
+    // Handle status code drop codes (numeric values)
+    if (typeof dropCode === "number") {
+      return this.categorizeStatusCode(dropCode);
+    }
+
+    // Handle other enum drop codes
+    switch (dropCode) {
+      case DropCode.CLIENT_EXPIRED_DATA:
+        return "expired_data";
+      case DropCode.CLIENT_READONLY:
+        return "readonly_mode";
+      case DropCode.CLIENT_STALE_DATA:
+        return "stale_data";
+      case DropCode.CLIENT_PERSISTENCE_CAPACITY:
+        return "persistence_full";
+      case DropCode.NON_RETRYABLE_STATUS_CODE:
+        return "non_retryable_status";
+      case DropCode.UNKNOWN:
+      default:
+        return "unknown_reason";
+    }
+  }
+
+  /**
+   * Categorizes exception messages into low-cardinality groups
+   * @param exceptionMessage - The exception message to categorize
+   * @returns A low-cardinality category string
+   */
+  private categorizeExceptionMessage(exceptionMessage: string): string {
+    const message = exceptionMessage.toLowerCase();
+    
+    if (message.includes("timeout") || message.includes("timed out")) {
+      return "timeout_exception";
+    }
+    if (message.includes("network") || message.includes("connection")) {
+      return "network_exception";
+    }
+    if (message.includes("auth") || message.includes("unauthorized") || message.includes("forbidden")) {
+      return "auth_exception";
+    }
+    if (message.includes("parsing") || message.includes("parse") || message.includes("invalid")) {
+      return "parsing_exception";
+    }
+    if (message.includes("disk") || message.includes("storage") || message.includes("file")) {
+      return "storage_exception";
+    }
+    if (message.includes("memory") || message.includes("out of memory")) {
+      return "memory_exception";
+    }
+    
+    return "other_exception";
+  }
+
+  /**
+   * Categorizes HTTP status codes into informative descriptions
+   * @param statusCode - The HTTP status code
+   * @returns A descriptive category string
+   */
+  private categorizeStatusCode(statusCode: number): string {
+    if (statusCode >= 400 && statusCode < 500) {
+      switch (statusCode) {
+        case 400:
+          return "bad_request";
+        case 401:
+          return "unauthorized";
+        case 403:
+          return "forbidden";
+        case 404:
+          return "not_found";
+        case 408:
+          return "request_timeout";
+        case 413:
+          return "payload_too_large";
+        case 429:
+          return "too_many_requests";
+        default:
+          return "client_error_4xx";
+      }
+    }
+    
+    if (statusCode >= 500 && statusCode < 600) {
+      switch (statusCode) {
+        case 500:
+          return "internal_server_error";
+        case 502:
+          return "bad_gateway";
+        case 503:
+          return "service_unavailable";
+        case 504:
+          return "gateway_timeout";
+        default:
+          return "server_error_5xx";
+      }
+    }
+    
+    return `status_${statusCode}`;
   }
   /**
    * Tracks retried envelopes
@@ -299,12 +409,15 @@ export class CustomerStatsbeatMetrics extends StatsbeatMetrics {
   ): void {
     const counter: CustomerStatsbeat = this.customerStatsbeatCounter;
 
-    // Check if an entry with the same retry code, telemetry type, and exception message already exists
+    // Generate a low-cardinality reason description for retries
+    const reason = this.getRetryReason(retryCode, exceptionMessage);
+
+    // Check if an entry with the same retry code, telemetry type, and reason already exists
     const existingEntry = counter.totalItemRetryCount.find(
       (entry) =>
         entry["retry.code"] === retryCode &&
         entry.telemetry_type === telemetry_type &&
-        entry["drop.reason"] === exceptionMessage,
+        entry["retry.reason"] === reason,
     );
 
     if (existingEntry) {
@@ -314,18 +427,52 @@ export class CustomerStatsbeatMetrics extends StatsbeatMetrics {
         count: number;
         "retry.code": RetryCode | number;
         telemetry_type: TelemetryType;
-        "drop.reason"?: string;
+        "retry.reason"?: string;
       } = {
         count: envelopes,
         "retry.code": retryCode,
         telemetry_type,
       };
 
-      if (retryCode === RetryCode.CLIENT_EXCEPTION && exceptionMessage) {
-        newEntry["drop.reason"] = exceptionMessage;
+      if (reason) {
+        newEntry["retry.reason"] = reason;
       }
 
       counter.totalItemRetryCount.push(newEntry);
+    }
+  }
+
+  /**
+   * Generates a low-cardinality, informative description for retry reasons
+   * @param retryCode - The retry code (enum value or status code number)
+   * @param exceptionMessage - Optional exception message for CLIENT_EXCEPTION
+   * @returns A descriptive reason string with low cardinality
+   */
+  private getRetryReason(retryCode: RetryCode | number, exceptionMessage?: string): string | undefined {
+    if (retryCode === RetryCode.CLIENT_EXCEPTION) {
+      // For client exceptions, derive a low-cardinality reason from the exception message
+      if (exceptionMessage) {
+        return this.categorizeExceptionMessage(exceptionMessage);
+      }
+      return "unknown_exception";
+    }
+
+    // Handle status code retry codes (numeric values)
+    if (typeof retryCode === "number") {
+      return this.categorizeStatusCode(retryCode);
+    }
+
+    // Handle other enum retry codes
+    switch (retryCode) {
+      case RetryCode.CLIENT_STORAGE_DISABLED:
+        return "storage_disabled";
+      case RetryCode.CLIENT_TIMEOUT:
+        return "client_timeout";
+      case RetryCode.RETRYABLE_STATUS_CODE:
+        return "retryable_status";
+      case RetryCode.UNKNOWN:
+      default:
+        return "unknown_reason";
     }
   }
 }

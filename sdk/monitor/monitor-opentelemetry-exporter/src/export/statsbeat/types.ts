@@ -71,7 +71,7 @@ export class CustomerStatsbeat {
     count: number;
     "retry.code": RetryCode | number;
     telemetry_type: TelemetryType;
-    "drop.reason"?: string;
+    "retry.reason"?: string;
   }[];
 
   constructor() {
