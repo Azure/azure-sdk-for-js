@@ -28,8 +28,7 @@ export function skip(context: ContainerServiceFleetContext, resourceGroupName: s
 export function start(context: ContainerServiceFleetContext, resourceGroupName: string, fleetName: string, updateRunName: string, options?: UpdateRunsStartOptionalParams): PollerLike<OperationState<UpdateRun>, UpdateRun>;
 
 // @public
-function stop_2(context: ContainerServiceFleetContext, resourceGroupName: string, fleetName: string, updateRunName: string, options?: UpdateRunsStopOptionalParams): PollerLike<OperationState<UpdateRun>, UpdateRun>;
-export { stop_2 as stop }
+export function stop(context: ContainerServiceFleetContext, resourceGroupName: string, fleetName: string, updateRunName: string, options?: UpdateRunsStopOptionalParams): PollerLike<OperationState<UpdateRun>, UpdateRun>;
 
 // @public
 export interface UpdateRunsCreateOrUpdateOptionalParams extends OperationOptions {
