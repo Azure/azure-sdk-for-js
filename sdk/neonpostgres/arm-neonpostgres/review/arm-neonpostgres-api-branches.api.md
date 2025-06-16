@@ -30,11 +30,6 @@ export interface BranchesListOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface BranchesUpdateOptionalParams extends OperationOptions {
-    updateIntervalInMs?: number;
-}
-
-// @public
 export function createOrUpdate(context: PostgresContext, resourceGroupName: string, organizationName: string, projectName: string, branchName: string, resource: Branch, options?: BranchesCreateOrUpdateOptionalParams): PollerLike<OperationState<Branch>, Branch>;
 
 // @public
@@ -42,9 +37,6 @@ export function get(context: PostgresContext, resourceGroupName: string, organiz
 
 // @public
 export function list(context: PostgresContext, resourceGroupName: string, organizationName: string, projectName: string, options?: BranchesListOptionalParams): PagedAsyncIterableIterator<Branch>;
-
-// @public
-export function update(context: PostgresContext, resourceGroupName: string, organizationName: string, projectName: string, branchName: string, properties: Branch, options?: BranchesUpdateOptionalParams): PollerLike<OperationState<Branch>, Branch>;
 
 // (No @packageDocumentation comment for this package)
 

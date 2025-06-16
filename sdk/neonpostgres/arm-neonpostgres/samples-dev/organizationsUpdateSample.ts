@@ -10,12 +10,11 @@ import { DefaultAzureCredential } from "@azure/identity";
  * @summary update a OrganizationResource
  * x-ms-original-file: 2025-03-01/Organizations_Update_MaximumSet_Gen.json
  */
-async function organizationsUpdateMaximumSet(): Promise<void> {
+async function organizationsUpdateMaximumSetGeneratedByMaximumSetRuleGeneratedByMaximumSetRule(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "9B8E3300-C5FA-442B-A259-3F6F614D5BD4";
   const client = new PostgresClient(credential, subscriptionId);
-  const result = await client.organizations.update("rgneon", "test-org", {
-    location: "upxxgikyqrbnv",
+  const result = await client.organizations.update("rgneon", "contoso-org", {
     properties: {
       marketplaceDetails: {
         subscriptionId: "yxmkfivp",
@@ -127,13 +126,14 @@ async function organizationsUpdateMaximumSet(): Promise<void> {
         ],
       },
     },
-    tags: { key609: "qyosjypklxtiamqebd" },
+    tags: {},
+    location: "",
   });
   console.log(result);
 }
 
 async function main(): Promise<void> {
-  await organizationsUpdateMaximumSet();
+  await organizationsUpdateMaximumSetGeneratedByMaximumSetRuleGeneratedByMaximumSetRule();
 }
 
 main().catch(console.error);
