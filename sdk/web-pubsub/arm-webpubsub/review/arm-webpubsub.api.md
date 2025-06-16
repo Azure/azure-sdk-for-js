@@ -87,11 +87,10 @@ export interface EventHubEndpoint extends EventListenerEndpoint {
 }
 
 // @public
-interface EventListener_2 {
+export interface EventListener {
     endpoint: EventListenerEndpointUnion;
     filter: EventListenerFilterUnion;
 }
-export { EventListener_2 as EventListener }
 
 // @public
 export interface EventListenerEndpoint {
@@ -132,8 +131,7 @@ export interface IPRule {
 }
 
 // @public
-type KeyType_2 = string;
-export { KeyType_2 as KeyType }
+export type KeyType = string;
 
 // @public
 export enum KnownACLAction {
@@ -409,7 +407,7 @@ export interface ProxyResource extends Resource {
 
 // @public
 export interface RegenerateKeyParameters {
-    keyType?: KeyType_2;
+    keyType?: KeyType;
 }
 
 // @public
@@ -751,7 +749,7 @@ export interface WebPubSubHubList {
 export interface WebPubSubHubProperties {
     anonymousConnectPolicy?: string;
     eventHandlers?: EventHandler[];
-    eventListeners?: EventListener_2[];
+    eventListeners?: EventListener[];
     webSocketKeepAliveIntervalInSeconds?: number;
 }
 
