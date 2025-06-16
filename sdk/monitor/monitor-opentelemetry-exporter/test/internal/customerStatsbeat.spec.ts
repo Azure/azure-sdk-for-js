@@ -167,26 +167,34 @@ describe("CustomerStatsbeatMetrics", () => {
       );
 
       const counter = (customerStatsbeatMetrics as any).customerStatsbeatCounter;
-      expect(counter.totalItemRetryCount).toHaveLength(1);
-      expect(counter.totalItemRetryCount[0]).toEqual({
-        count: 3,
-        "retry.code": RetryCode.CLIENT_EXCEPTION,
-        telemetry_type: TelemetryType.TRACE,
-        "retry.reason": "network_exception",
-      });
+      expect(counter.totalItemRetryCount.size).toBe(1);
+      
+      const retryCodeMap = counter.totalItemRetryCount.get(TelemetryType.TRACE);
+      expect(retryCodeMap).toBeDefined();
+      expect(retryCodeMap.size).toBe(1);
+      
+      const reasonMap = retryCodeMap.get(RetryCode.CLIENT_EXCEPTION);
+      expect(reasonMap).toBeDefined();
+      expect(reasonMap.size).toBe(1);
+      // Should be categorized as "network_exception" instead of raw message
+      expect(reasonMap.get("network_exception")).toBe(3);
     });
 
     it("should not store retry.reason for CLIENT_EXCEPTION when message not provided", () => {
       customerStatsbeatMetrics.countRetryItems(2, RetryCode.CLIENT_EXCEPTION, TelemetryType.TRACE);
 
       const counter = (customerStatsbeatMetrics as any).customerStatsbeatCounter;
-      expect(counter.totalItemRetryCount).toHaveLength(1);
-      expect(counter.totalItemRetryCount[0]).toEqual({
-        count: 2,
-        "retry.code": RetryCode.CLIENT_EXCEPTION,
-        telemetry_type: TelemetryType.TRACE,
-        "retry.reason": "unknown_exception",
-      });
+      expect(counter.totalItemRetryCount.size).toBe(1);
+      
+      const retryCodeMap = counter.totalItemRetryCount.get(TelemetryType.TRACE);
+      expect(retryCodeMap).toBeDefined();
+      expect(retryCodeMap.size).toBe(1);
+      
+      const reasonMap = retryCodeMap.get(RetryCode.CLIENT_EXCEPTION);
+      expect(reasonMap).toBeDefined();
+      expect(reasonMap.size).toBe(1);
+      // Should default to "unknown_exception"
+      expect(reasonMap.get("unknown_exception")).toBe(2);
     });
 
     it("should not store retry.reason for non-CLIENT_EXCEPTION retry codes", () => {
@@ -200,13 +208,17 @@ describe("CustomerStatsbeatMetrics", () => {
       );
 
       const counter = (customerStatsbeatMetrics as any).customerStatsbeatCounter;
-      expect(counter.totalItemRetryCount).toHaveLength(1);
-      expect(counter.totalItemRetryCount[0]).toEqual({
-        count: 4,
-        "retry.code": RetryCode.RETRYABLE_STATUS_CODE,
-        telemetry_type: TelemetryType.TRACE,
-        "retry.reason": "retryable_status",
-      });
+      expect(counter.totalItemRetryCount.size).toBe(1);
+      
+      const retryCodeMap = counter.totalItemRetryCount.get(TelemetryType.TRACE);
+      expect(retryCodeMap).toBeDefined();
+      expect(retryCodeMap.size).toBe(1);
+      
+      const reasonMap = retryCodeMap.get(RetryCode.RETRYABLE_STATUS_CODE);
+      expect(reasonMap).toBeDefined();
+      expect(reasonMap.size).toBe(1);
+      // Should be categorized as "retryable_status"
+      expect(reasonMap.get("retryable_status")).toBe(4);
     });
 
     it("should aggregate counts for same retry code and retry reason", () => {
@@ -226,13 +238,17 @@ describe("CustomerStatsbeatMetrics", () => {
       );
 
       const counter = (customerStatsbeatMetrics as any).customerStatsbeatCounter;
-      expect(counter.totalItemRetryCount).toHaveLength(1);
-      expect(counter.totalItemRetryCount[0]).toEqual({
-        count: 5,
-        "retry.code": RetryCode.CLIENT_EXCEPTION,
-        telemetry_type: TelemetryType.TRACE,
-        "retry.reason": "timeout_exception",
-      });
+      expect(counter.totalItemRetryCount.size).toBe(1);
+      
+      const retryCodeMap = counter.totalItemRetryCount.get(TelemetryType.TRACE);
+      expect(retryCodeMap).toBeDefined();
+      expect(retryCodeMap.size).toBe(1);
+      
+      const reasonMap = retryCodeMap.get(RetryCode.CLIENT_EXCEPTION);
+      expect(reasonMap).toBeDefined();
+      expect(reasonMap.size).toBe(1);
+      // Should aggregate to 5 (2 + 3)
+      expect(reasonMap.get("timeout_exception")).toBe(5);
     });
   });
 
@@ -336,9 +352,12 @@ describe("CustomerStatsbeatMetrics", () => {
       const counter = (customerStatsbeatMetrics as any).customerStatsbeatCounter;
       
       const traceDropCodeMap = counter.totalItemDropCount.get(TelemetryType.TRACE);
-      const traceReasonMap = traceDropCodeMap.get(DropCode.CLIENT_EXCEPTION);
-      expect(traceReasonMap.get("other_exception")).toBe(5);
-      expect(counter.totalItemRetryCount[0].count).toBe(3);
+      const traceDropReasonMap = traceDropCodeMap.get(DropCode.CLIENT_EXCEPTION);
+      expect(traceDropReasonMap.get("other_exception")).toBe(5);
+      
+      const traceRetryCodeMap = counter.totalItemRetryCount.get(TelemetryType.TRACE);
+      const traceRetryReasonMap = traceRetryCodeMap.get(RetryCode.CLIENT_EXCEPTION);
+      expect(traceRetryReasonMap.get("other_exception")).toBe(3);
 
       const mockObservableResult = {
         observe: vi.fn(),
@@ -357,9 +376,12 @@ describe("CustomerStatsbeatMetrics", () => {
 
       // Counts should be reset to zero
       const resetTraceDropCodeMap = counter.totalItemDropCount.get(TelemetryType.TRACE);
-      const resetTraceReasonMap = resetTraceDropCodeMap.get(DropCode.CLIENT_EXCEPTION);
-      expect(resetTraceReasonMap.get("other_exception")).toBe(0);
-      expect(counter.totalItemRetryCount[0].count).toBe(0);
+      const resetTraceDropReasonMap = resetTraceDropCodeMap.get(DropCode.CLIENT_EXCEPTION);
+      expect(resetTraceDropReasonMap.get("other_exception")).toBe(0);
+      
+      const resetTraceRetryCodeMap = counter.totalItemRetryCount.get(TelemetryType.TRACE);
+      const resetTraceRetryReasonMap = resetTraceRetryCodeMap.get(RetryCode.CLIENT_EXCEPTION);
+      expect(resetTraceRetryReasonMap.get("other_exception")).toBe(0);
     });
   });
   describe("Drop Reason Integration Tests", () => {
@@ -421,15 +443,18 @@ describe("CustomerStatsbeatMetrics", () => {
         testErrorMessage,
       );
 
-      // Verify the internal counter stores the exception message
+      // Verify the internal counter stores the exception message in the nested Map structure
       const counter = (customerStatsbeatMetrics as any).customerStatsbeatCounter;
-      expect(counter.totalItemRetryCount).toHaveLength(1);
-      expect(counter.totalItemRetryCount[0]).toEqual({
-        count: 3,
-        "retry.code": RetryCode.CLIENT_EXCEPTION,
-        telemetry_type: TelemetryType.TRACE,
-        "retry.reason": "timeout_exception",
-      });
+      expect(counter.totalItemRetryCount.size).toBe(1);
+      
+      const retryCodeMap = counter.totalItemRetryCount.get(TelemetryType.TRACE);
+      expect(retryCodeMap).toBeDefined();
+      expect(retryCodeMap.size).toBe(1);
+      
+      const reasonMap = retryCodeMap.get(RetryCode.CLIENT_EXCEPTION);
+      expect(reasonMap).toBeDefined();
+      expect(reasonMap.size).toBe(1);
+      expect(reasonMap.get("timeout_exception")).toBe(3);
 
       // Test the observable callback includes retry.reason in attributes
       const mockObservableResult = {

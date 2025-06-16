@@ -212,22 +212,27 @@ export class CustomerStatsbeatMetrics extends StatsbeatMetrics {
       telemetry_type: TelemetryType.UNKNOWN,
     };
 
-    // For each { retry.code, telemetry_type -> count } mapping, call observe, passing the count and attributes that include the retry.code and telemetry_type
-    for (let i = 0; i < counter.totalItemRetryCount.length; i++) {
-      const attributes = { ...baseAttributes };
-      attributes["retry.code"] = counter.totalItemRetryCount[i]["retry.code"];
-      attributes.telemetry_type = counter.totalItemRetryCount[i].telemetry_type;
+    // Iterate through the nested Map structure: telemetry_type -> retry.code -> reason -> count
+    for (const [telemetryType, retryCodeMap] of counter.totalItemRetryCount.entries()) {
+      for (const [retryCode, reasonMap] of retryCodeMap.entries()) {
+        for (const [reason, count] of reasonMap.entries()) {
+          const attributes = { ...baseAttributes };
+          attributes.telemetry_type = telemetryType;
+          attributes["retry.code"] = retryCode;
 
-      // Add retry.reason if present
-      if (counter.totalItemRetryCount[i]["retry.reason"]) {
-        (attributes as any)["retry.reason"] =
-          counter.totalItemRetryCount[i]["retry.reason"];
+          // Include retry.reason for all cases
+          if (reason) {
+            (attributes as any)["retry.reason"] = reason;
+          }
+
+          observableResult.observe(this.itemRetryCountGauge, count, {
+            ...attributes,
+          });
+
+          // Reset the count to 0
+          reasonMap.set(reason, 0);
+        }
       }
-
-      observableResult.observe(this.itemRetryCountGauge, counter.totalItemRetryCount[i].count, {
-        ...attributes,
-      });
-      counter.totalItemRetryCount[i].count = 0;
     }
   }
 
@@ -409,37 +414,26 @@ export class CustomerStatsbeatMetrics extends StatsbeatMetrics {
   ): void {
     const counter: CustomerStatsbeat = this.customerStatsbeatCounter;
 
-    // Generate a low-cardinality reason description for retries
+    // Get or create the retryCode map for this telemetry_type
+    let retryCodeMap = counter.totalItemRetryCount.get(telemetry_type);
+    if (!retryCodeMap) {
+      retryCodeMap = new Map<RetryCode | number, Map<string, number>>();
+      counter.totalItemRetryCount.set(telemetry_type, retryCodeMap);
+    }
+
+    // Get or create the reason map for this retryCode
+    let reasonMap = retryCodeMap.get(retryCode);
+    if (!reasonMap) {
+      reasonMap = new Map<string, number>();
+      retryCodeMap.set(retryCode, reasonMap);
+    }
+
+    // Generate a low-cardinality, informative reason description
     const reason = this.getRetryReason(retryCode, exceptionMessage);
 
-    // Check if an entry with the same retry code, telemetry type, and reason already exists
-    const existingEntry = counter.totalItemRetryCount.find(
-      (entry) =>
-        entry["retry.code"] === retryCode &&
-        entry.telemetry_type === telemetry_type &&
-        entry["retry.reason"] === reason,
-    );
-
-    if (existingEntry) {
-      existingEntry.count += envelopes;
-    } else {
-      const newEntry: {
-        count: number;
-        "retry.code": RetryCode | number;
-        telemetry_type: TelemetryType;
-        "retry.reason"?: string;
-      } = {
-        count: envelopes,
-        "retry.code": retryCode,
-        telemetry_type,
-      };
-
-      if (reason) {
-        newEntry["retry.reason"] = reason;
-      }
-
-      counter.totalItemRetryCount.push(newEntry);
-    }
+    // Update the count for this reason
+    const currentCount = reasonMap.get(reason) || 0;
+    reasonMap.set(reason, currentCount + envelopes);
   }
 
   /**
@@ -448,7 +442,7 @@ export class CustomerStatsbeatMetrics extends StatsbeatMetrics {
    * @param exceptionMessage - Optional exception message for CLIENT_EXCEPTION
    * @returns A descriptive reason string with low cardinality
    */
-  private getRetryReason(retryCode: RetryCode | number, exceptionMessage?: string): string | undefined {
+  private getRetryReason(retryCode: RetryCode | number, exceptionMessage?: string): string {
     if (retryCode === RetryCode.CLIENT_EXCEPTION) {
       // For client exceptions, derive a low-cardinality reason from the exception message
       if (exceptionMessage) {

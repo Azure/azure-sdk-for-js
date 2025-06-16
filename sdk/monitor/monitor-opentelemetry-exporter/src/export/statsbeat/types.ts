@@ -67,17 +67,13 @@ export class CustomerStatsbeat {
   // Nested Map structure: telemetry_type -> drop.code -> drop.reason -> count
   public totalItemDropCount: Map<TelemetryType, Map<DropCode | number, Map<string, number>>>;
 
-  public totalItemRetryCount: {
-    count: number;
-    "retry.code": RetryCode | number;
-    telemetry_type: TelemetryType;
-    "retry.reason"?: string;
-  }[];
+  // Nested Map structure: telemetry_type -> retry.code -> retry.reason -> count
+  public totalItemRetryCount: Map<TelemetryType, Map<RetryCode | number, Map<string, number>>>;
 
   constructor() {
     this.totalItemSuccessCount = new Map<TelemetryType, number>();
     this.totalItemDropCount = new Map<TelemetryType, Map<DropCode | number, Map<string, number>>>();
-    this.totalItemRetryCount = [];
+    this.totalItemRetryCount = new Map<TelemetryType, Map<RetryCode | number, Map<string, number>>>();
   }
 }
 
