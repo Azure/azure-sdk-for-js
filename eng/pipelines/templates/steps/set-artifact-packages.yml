@@ -18,18 +18,25 @@ steps:
       $knownArtifacts = @()
       if ($artifacts) {
         $knownArtifacts = $artifacts | ForEach-Object { $_.name }
+
+        Write-Host "Found the following packages in the 'Artifacts' parameter: $($knownArtifacts -join ', ')"
       }
 
       $packageProperties = Get-ChildItem -Recurse "${{ parameters.PackageInfo }}" *.json `
-        | Where-Object { if($knownArtifacts) { $knownArtifacts -contains $_.Name.Replace(".json", "") } else { $true } }
 
-      $pkgNames = $packageProperties | ForEach-Object { $_.Name.Replace(".json", "") }
+      $visiblePackageProperties = $packageProperties `
+        | ForEach-Object { Get-Content -Raw -Path $_.FullName | ConvertFrom-Json } `
+        | ForEach-Object { $_.ArtifactName }
+
+      Write-Host "Found the following packages in the package properties folder: `n$($visiblePackageProperties -join ', ')"
+
+      $filteredPackageProperties = $packageProperties | Where-Object { if($knownArtifacts) { $knownArtifacts -contains $_.Name.Replace(".json", "") } else { $true } }
+
+      $pkgNames = $filteredPackageProperties | ForEach-Object { $_.Name.Replace(".json", "") }
       $setting = $pkgNames -join ","
 
       if ("${{ parameters.ServiceDirectory }}" -ne "auto" -and !$knownArtifacts) {
         Write-Host "Release builds must provide a list of artifacts to build, but none were provided."
-        Write-Host "Please provide a list of artifacts in the 'Artifacts' parameter."
-        Write-Host "For the service directory `"${{ parameters.ServiceDirectory }}`" the following packages were found: `n$setting"
         Write-Host "Please ensure that at least one of these packages is included in the 'Artifacts' parameter."
         exit 1
       }
