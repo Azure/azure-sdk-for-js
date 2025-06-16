@@ -1062,8 +1062,10 @@ export class ShareClient extends StorageClient {
           ...res,
         };
       } catch (e: any) {
-        if ((e.details?.errorCode === "ShareNotFound")
-          || (e.details?.errorCode === "ShareSnapshotNotFound")) {
+        if (
+          e.details?.errorCode === "ShareNotFound" ||
+          e.details?.errorCode === "ShareSnapshotNotFound"
+        ) {
           return {
             succeeded: false,
             ...e.response?.parsedHeaders,
