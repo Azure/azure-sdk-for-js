@@ -35,11 +35,11 @@ describe("CustomerStatsbeatMetrics", () => {
 
       const counter = (customerStatsbeatMetrics as any).customerStatsbeatCounter;
       expect(counter.totalItemDropCount.size).toBe(1);
-      
+
       const dropCodeMap = counter.totalItemDropCount.get(TelemetryType.TRACE);
       expect(dropCodeMap).toBeDefined();
       expect(dropCodeMap.size).toBe(1);
-      
+
       const reasonMap = dropCodeMap.get(DropCode.CLIENT_EXCEPTION);
       expect(reasonMap).toBeDefined();
       expect(reasonMap.size).toBe(1);
@@ -52,11 +52,11 @@ describe("CustomerStatsbeatMetrics", () => {
 
       const counter = (customerStatsbeatMetrics as any).customerStatsbeatCounter;
       expect(counter.totalItemDropCount.size).toBe(1);
-      
+
       const dropCodeMap = counter.totalItemDropCount.get(TelemetryType.TRACE);
       expect(dropCodeMap).toBeDefined();
       expect(dropCodeMap.size).toBe(1);
-      
+
       const reasonMap = dropCodeMap.get(DropCode.CLIENT_EXCEPTION);
       expect(reasonMap).toBeDefined();
       expect(reasonMap.size).toBe(1);
@@ -76,11 +76,11 @@ describe("CustomerStatsbeatMetrics", () => {
 
       const counter = (customerStatsbeatMetrics as any).customerStatsbeatCounter;
       expect(counter.totalItemDropCount.size).toBe(1);
-      
+
       const dropCodeMap = counter.totalItemDropCount.get(TelemetryType.TRACE);
       expect(dropCodeMap).toBeDefined();
       expect(dropCodeMap.size).toBe(1);
-      
+
       const reasonMap = dropCodeMap.get(DropCode.NON_RETRYABLE_STATUS_CODE);
       expect(reasonMap).toBeDefined();
       expect(reasonMap.size).toBe(1);
@@ -106,11 +106,11 @@ describe("CustomerStatsbeatMetrics", () => {
 
       const counter = (customerStatsbeatMetrics as any).customerStatsbeatCounter;
       expect(counter.totalItemDropCount.size).toBe(1);
-      
+
       const dropCodeMap = counter.totalItemDropCount.get(TelemetryType.TRACE);
       expect(dropCodeMap).toBeDefined();
       expect(dropCodeMap.size).toBe(1);
-      
+
       const reasonMap = dropCodeMap.get(DropCode.CLIENT_EXCEPTION);
       expect(reasonMap).toBeDefined();
       expect(reasonMap.size).toBe(1);
@@ -138,7 +138,7 @@ describe("CustomerStatsbeatMetrics", () => {
       const traceDropCodeMap = counter.totalItemDropCount.get(TelemetryType.TRACE);
       expect(traceDropCodeMap).toBeDefined();
       expect(traceDropCodeMap.size).toBe(1);
-      
+
       const traceReasonMap = traceDropCodeMap.get(DropCode.CLIENT_EXCEPTION);
       expect(traceReasonMap).toBeDefined();
       expect(traceReasonMap.size).toBe(1);
@@ -147,7 +147,7 @@ describe("CustomerStatsbeatMetrics", () => {
       const dependencyDropCodeMap = counter.totalItemDropCount.get(TelemetryType.DEPENDENCY);
       expect(dependencyDropCodeMap).toBeDefined();
       expect(dependencyDropCodeMap.size).toBe(1);
-      
+
       const dependencyReasonMap = dependencyDropCodeMap.get(DropCode.CLIENT_EXCEPTION);
       expect(dependencyReasonMap).toBeDefined();
       expect(dependencyReasonMap.size).toBe(1);
@@ -168,11 +168,11 @@ describe("CustomerStatsbeatMetrics", () => {
 
       const counter = (customerStatsbeatMetrics as any).customerStatsbeatCounter;
       expect(counter.totalItemRetryCount.size).toBe(1);
-      
+
       const retryCodeMap = counter.totalItemRetryCount.get(TelemetryType.TRACE);
       expect(retryCodeMap).toBeDefined();
       expect(retryCodeMap.size).toBe(1);
-      
+
       const reasonMap = retryCodeMap.get(RetryCode.CLIENT_EXCEPTION);
       expect(reasonMap).toBeDefined();
       expect(reasonMap.size).toBe(1);
@@ -185,11 +185,11 @@ describe("CustomerStatsbeatMetrics", () => {
 
       const counter = (customerStatsbeatMetrics as any).customerStatsbeatCounter;
       expect(counter.totalItemRetryCount.size).toBe(1);
-      
+
       const retryCodeMap = counter.totalItemRetryCount.get(TelemetryType.TRACE);
       expect(retryCodeMap).toBeDefined();
       expect(retryCodeMap.size).toBe(1);
-      
+
       const reasonMap = retryCodeMap.get(RetryCode.CLIENT_EXCEPTION);
       expect(reasonMap).toBeDefined();
       expect(reasonMap.size).toBe(1);
@@ -209,11 +209,11 @@ describe("CustomerStatsbeatMetrics", () => {
 
       const counter = (customerStatsbeatMetrics as any).customerStatsbeatCounter;
       expect(counter.totalItemRetryCount.size).toBe(1);
-      
+
       const retryCodeMap = counter.totalItemRetryCount.get(TelemetryType.TRACE);
       expect(retryCodeMap).toBeDefined();
       expect(retryCodeMap.size).toBe(1);
-      
+
       const reasonMap = retryCodeMap.get(RetryCode.RETRYABLE_STATUS_CODE);
       expect(reasonMap).toBeDefined();
       expect(reasonMap.size).toBe(1);
@@ -239,11 +239,11 @@ describe("CustomerStatsbeatMetrics", () => {
 
       const counter = (customerStatsbeatMetrics as any).customerStatsbeatCounter;
       expect(counter.totalItemRetryCount.size).toBe(1);
-      
+
       const retryCodeMap = counter.totalItemRetryCount.get(TelemetryType.TRACE);
       expect(retryCodeMap).toBeDefined();
       expect(retryCodeMap.size).toBe(1);
-      
+
       const reasonMap = retryCodeMap.get(RetryCode.CLIENT_EXCEPTION);
       expect(reasonMap).toBeDefined();
       expect(reasonMap.size).toBe(1);
@@ -350,11 +350,11 @@ describe("CustomerStatsbeatMetrics", () => {
       );
 
       const counter = (customerStatsbeatMetrics as any).customerStatsbeatCounter;
-      
+
       const traceDropCodeMap = counter.totalItemDropCount.get(TelemetryType.TRACE);
       const traceDropReasonMap = traceDropCodeMap.get(DropCode.CLIENT_EXCEPTION);
       expect(traceDropReasonMap.get("other_exception")).toBe(5);
-      
+
       const traceRetryCodeMap = counter.totalItemRetryCount.get(TelemetryType.TRACE);
       const traceRetryReasonMap = traceRetryCodeMap.get(RetryCode.CLIENT_EXCEPTION);
       expect(traceRetryReasonMap.get("other_exception")).toBe(3);
@@ -378,7 +378,7 @@ describe("CustomerStatsbeatMetrics", () => {
       const resetTraceDropCodeMap = counter.totalItemDropCount.get(TelemetryType.TRACE);
       const resetTraceDropReasonMap = resetTraceDropCodeMap.get(DropCode.CLIENT_EXCEPTION);
       expect(resetTraceDropReasonMap.get("other_exception")).toBe(0);
-      
+
       const resetTraceRetryCodeMap = counter.totalItemRetryCount.get(TelemetryType.TRACE);
       const resetTraceRetryReasonMap = resetTraceRetryCodeMap.get(RetryCode.CLIENT_EXCEPTION);
       expect(resetTraceRetryReasonMap.get("other_exception")).toBe(0);
@@ -399,11 +399,11 @@ describe("CustomerStatsbeatMetrics", () => {
       // Verify the internal counter stores the telemetry_type
       const counter = (customerStatsbeatMetrics as any).customerStatsbeatCounter;
       expect(counter.totalItemDropCount.size).toBe(1);
-      
+
       const integrationDropCodeMap = counter.totalItemDropCount.get(TelemetryType.TRACE);
       expect(integrationDropCodeMap).toBeDefined();
       expect(integrationDropCodeMap.size).toBe(1);
-      
+
       const integrationReasonMap = integrationDropCodeMap.get(DropCode.CLIENT_EXCEPTION);
       expect(integrationReasonMap).toBeDefined();
       expect(integrationReasonMap.size).toBe(1);
@@ -446,11 +446,11 @@ describe("CustomerStatsbeatMetrics", () => {
       // Verify the internal counter stores the exception message in the nested Map structure
       const counter = (customerStatsbeatMetrics as any).customerStatsbeatCounter;
       expect(counter.totalItemRetryCount.size).toBe(1);
-      
+
       const retryCodeMap = counter.totalItemRetryCount.get(TelemetryType.TRACE);
       expect(retryCodeMap).toBeDefined();
       expect(retryCodeMap.size).toBe(1);
-      
+
       const reasonMap = retryCodeMap.get(RetryCode.CLIENT_EXCEPTION);
       expect(reasonMap).toBeDefined();
       expect(reasonMap.size).toBe(1);
@@ -492,12 +492,14 @@ describe("CustomerStatsbeatMetrics", () => {
 
       const counter = (customerStatsbeatMetrics as any).customerStatsbeatCounter;
       expect(counter.totalItemDropCount.size).toBe(1);
-      
+
       const nonClientExceptionDropCodeMap = counter.totalItemDropCount.get(TelemetryType.TRACE);
       expect(nonClientExceptionDropCodeMap).toBeDefined();
       expect(nonClientExceptionDropCodeMap.size).toBe(1);
-      
-      const nonClientExceptionReasonMap = nonClientExceptionDropCodeMap.get(DropCode.NON_RETRYABLE_STATUS_CODE);
+
+      const nonClientExceptionReasonMap = nonClientExceptionDropCodeMap.get(
+        DropCode.NON_RETRYABLE_STATUS_CODE,
+      );
       expect(nonClientExceptionReasonMap).toBeDefined();
       expect(nonClientExceptionReasonMap.size).toBe(1);
       expect(nonClientExceptionReasonMap.get("non_retryable_status")).toBe(2);
@@ -602,11 +604,11 @@ describe("CustomerStatsbeatMetrics", () => {
 
       const counter = (customerStatsbeatMetrics as any).customerStatsbeatCounter;
       expect(counter.totalItemDropCount.size).toBe(1);
-      
+
       const aggregateDropCodeMap = counter.totalItemDropCount.get(TelemetryType.TRACE);
       expect(aggregateDropCodeMap).toBeDefined();
       expect(aggregateDropCodeMap.size).toBe(1);
-      
+
       const aggregateReasonMap = aggregateDropCodeMap.get(DropCode.CLIENT_EXCEPTION);
       expect(aggregateReasonMap).toBeDefined();
       expect(aggregateReasonMap.size).toBe(1);

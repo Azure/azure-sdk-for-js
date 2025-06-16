@@ -332,14 +332,18 @@ export class CustomerStatsbeatMetrics extends StatsbeatMetrics {
    */
   private categorizeExceptionMessage(exceptionMessage: string): string {
     const message = exceptionMessage.toLowerCase();
-    
+
     if (message.includes("timeout") || message.includes("timed out")) {
       return "timeout_exception";
     }
     if (message.includes("network") || message.includes("connection")) {
       return "network_exception";
     }
-    if (message.includes("auth") || message.includes("unauthorized") || message.includes("forbidden")) {
+    if (
+      message.includes("auth") ||
+      message.includes("unauthorized") ||
+      message.includes("forbidden")
+    ) {
       return "auth_exception";
     }
     if (message.includes("parsing") || message.includes("parse") || message.includes("invalid")) {
@@ -351,7 +355,7 @@ export class CustomerStatsbeatMetrics extends StatsbeatMetrics {
     if (message.includes("memory") || message.includes("out of memory")) {
       return "memory_exception";
     }
-    
+
     return "other_exception";
   }
 
@@ -381,7 +385,7 @@ export class CustomerStatsbeatMetrics extends StatsbeatMetrics {
           return "client_error_4xx";
       }
     }
-    
+
     if (statusCode >= 500 && statusCode < 600) {
       switch (statusCode) {
         case 500:
@@ -396,7 +400,7 @@ export class CustomerStatsbeatMetrics extends StatsbeatMetrics {
           return "server_error_5xx";
       }
     }
-    
+
     return `status_${statusCode}`;
   }
   /**

@@ -73,7 +73,10 @@ export class CustomerStatsbeat {
   constructor() {
     this.totalItemSuccessCount = new Map<TelemetryType, number>();
     this.totalItemDropCount = new Map<TelemetryType, Map<DropCode | number, Map<string, number>>>();
-    this.totalItemRetryCount = new Map<TelemetryType, Map<RetryCode | number, Map<string, number>>>();
+    this.totalItemRetryCount = new Map<
+      TelemetryType,
+      Map<RetryCode | number, Map<string, number>>
+    >();
   }
 }
 
