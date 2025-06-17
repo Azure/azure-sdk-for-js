@@ -78,6 +78,8 @@ Do `rush update` and `rush build -t .` to install and build the latest dependenc
 
 And you're ready! Now you can use the test recorder in your code, as shown below:
 
+<!-- dev-tool snippets ignore -->
+
 ```typescript
 import { Recorder } from "@azure-tools/test-recorder";
 ```
@@ -411,6 +413,20 @@ Since new resources are likely to get accumulated because some tests would crash
 `@azure-tools/test-recorder` does support running tests in the browser. If you use vitest, as long as your vitest configuration is correct, your tests should work both on NodeJS and in the browsers!
 
 ## Troubleshooting
+
+### 🤖 The test recording agent
+
+We have developed a GitHub Copilot agent which will help you debug recorded test issues. It is based on a custom prompt that provides special information about recordings, and can
+
+- Help you with your sanitizer configuration
+- Help determine whether you have asset sync set up properly
+- Check your recordings for secrets
+
+To get started, say `/test-recording <...query>` to Copilot Chat in Agent mode. Claude Sonnet 4 is the recommended model. For example:
+
+```
+/test-recording my tests are failing in playback mode, but passing in recording mode. Please help fix them!
+```
 
 ### Logging
 

@@ -26,14 +26,14 @@ extends:
         - job: PublishArtifacts
           displayName: 'Download and publish artifacts'
           pool:
-            name: $(WINDOWSPOOL)
-            image: $(WINDOWSVMIMAGE)
-            os: windows
+            name: $(LINUXPOOL)
+            image: $(LINUXVMIMAGE)
+            os: linux
 
           steps:
+          - template: /eng/common/pipelines/templates/steps/sparse-checkout.yml
           - task: AzurePowerShell@5
             displayName: 'Copy from azuresdkpartnerdrops'
-            condition: and(succeeded(), ne(variables['SkipCopyFromPartnerDrops'], 'true'))
             inputs:
               azureSubscription: 'azuresdkpartnerdrops - Storage Partner Drops'
               ScriptType: 'InlineScript'
@@ -56,15 +56,9 @@ extends:
               ArtifactName: 'packages'
               ArtifactPath: $(Artifacts)
 
-        - template: /eng/pipelines/templates/jobs/npm-release-task.yml
+        - template: /eng/common/pipelines/templates/jobs/npm-publish.yml
           parameters:
-            Artifact:
-              name: PartnerDrop
-              path: $(Artifacts)
-            Registry: "https://registry.npmjs.org/"
-            PathToArtifacts: $(Artifacts)
-            VarDependencies:
-              Tag: "${{ parameters.Tag }}"
+            Tag: "${{ parameters.Tag }}"
             Environment: 'none'
             DependsOn:
               - PublishArtifacts

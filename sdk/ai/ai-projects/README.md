@@ -72,7 +72,7 @@ npm install @azure/ai-projects @azure/identity
 
 ### Create and authenticate the client
 
-To construct an `AIProjectsClient` You can refer this doc: [azure_foundry_service_endpoint]. Below we will assume the environment variable `AZURE_AI_PROJECT_ENDPOINT_STRING` was defined to hold this value:
+To construct an `AIProjectsClient`, the `endpoint` can be fetched from [endpoint][ai_project_client_endpoint]. Below we will assume the environment variable `AZURE_AI_PROJECT_ENDPOINT_STRING` was defined to hold this value:
 
 ```ts snippet:setup
 import { AIProjectClient } from "@azure/ai-projects";
@@ -81,6 +81,8 @@ import { DefaultAzureCredential } from "@azure/identity";
 const endpoint = process.env["AZURE_AI_PROJECT_ENDPOINT_STRING"] || "<project endpoint string>";
 const client = new AIProjectClient(endpoint, new DefaultAzureCredential());
 ```
+
+The client uses API version `2025-05-15-preview`, refer to the [API documentation][ai_foundry_data_plane_rest_apis] to learn more about the supported features.
 
 ## Examples
 
@@ -127,7 +129,7 @@ See the "inference" folder in the [package samples][samples] for additional samp
 
 ### Get an authenticated ChatCompletionsClient
 
-Your Azure AI Foundry project may have one or more AI models deployed that support chat completions. These could be OpenAI models, Microsoft models, or models from other providers. Use the code below to get an authenticated Client from the [azure-ai-inference](https://www.npmjs.com/package/@azure-rest/ai-inference) package, and execute a chat completions call.
+Your Azure AI Foundry project may have one or more AI models deployed that support chat completions. These could be OpenAI models, Microsoft models, or models from other providers. Use the code below to get an authenticated Client and execute a chat completions call.
 
 Here we assume `deploymentName` (str) is defined. It's the deployment name of an AI model in your Foundry Project. As shown in the "Models + endpoints" tab, under the "Name" column.
 
@@ -521,6 +523,7 @@ additional questions or comments.
 [azure_sub]: https://azure.microsoft.com/free/
 [evaluators]: https://learn.microsoft.com/azure/ai-studio/how-to/develop/evaluate-sdk
 [evaluator_library]: https://learn.microsoft.com/azure/ai-studio/how-to/evaluate-generative-ai-app#view-and-manage-the-evaluators-in-the-evaluator-library
-[azure_foundry_service_endpoint]: https://learn.microsoft.com/azure/ai-foundry/model-inference/how-to/configure-project-connection?pivots=ai-foundry-portal
 [azure_ai_evaluation]: https://learn.microsoft.com/javascript/api/overview/azure/ai-projects-readme
+[ai_foundry_data_plane_rest_apis]: https://learn.microsoft.com/rest/api/aifoundry/aiprojects/operation-groups?view=rest-aifoundry-aiprojects-2025-05-15-preview
+[ai_project_client_endpoint]: https://learn.microsoft.com/azure/ai-foundry/how-to/develop/sdk-overview?tabs=sync&pivots=programming-language-javascript
 [samples]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/ai/ai-projects/samples

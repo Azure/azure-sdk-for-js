@@ -1,9 +1,9 @@
 {
   "name": "@azure/ai-agents",
-  "version": "1.0.0-beta.3",
+  "version": "1.0.0-beta.4",
   "description": "Azure AI Agents client library.",
   "engines": {
-    "node": ">=18.0.0"
+    "node": ">=20.0.0"
   },
   "sideEffects": false,
   "autoPublish": false,
@@ -84,7 +84,7 @@
     "@opentelemetry/sdk-trace-node": "^1.30.0",
     "@vitest/browser": "^3.0.9",
     "@vitest/coverage-istanbul": "^3.0.9",
-    "@types/node": "^18.0.0",
+    "@types/node": "^20.0.0",
     "dotenv": "^16.0.0",
     "eslint": "^9.9.0",
     "prettier": "^3.2.5",

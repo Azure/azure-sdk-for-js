@@ -2,15 +2,15 @@
 
 These sample programs show how to use the TypeScript client libraries for @azure/arm-onlineexperimentation in some common scenarios.
 
-| **File Name**                                                                                                 | **Description**                                                                                                                                         |
-| ------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| [onlineExperimentWorkspacesCreateOrUpdateSample.ts][onlineexperimentworkspacescreateorupdatesample]           | create an experiment workspace, or update an existing workspace x-ms-original-file: 2025-05-31-preview/OnlineExperimentWorkspaces_CreateOrUpdate.json   |
-| [onlineExperimentWorkspacesDeleteSample.ts][onlineexperimentworkspacesdeletesample]                           | deletes an experiment workspace x-ms-original-file: 2025-05-31-preview/OnlineExperimentWorkspaces_Delete.json                                           |
-| [onlineExperimentWorkspacesGetSample.ts][onlineexperimentworkspacesgetsample]                                 | gets an experiment workspace x-ms-original-file: 2025-05-31-preview/OnlineExperimentWorkspaces_Get.json                                                 |
-| [onlineExperimentWorkspacesListByResourceGroupSample.ts][onlineexperimentworkspaceslistbyresourcegroupsample] | gets all experiment workspaces in a resource group. x-ms-original-file: 2025-05-31-preview/OnlineExperimentWorkspaces_ListByResourceGroup.json          |
-| [onlineExperimentWorkspacesListBySubscriptionSample.ts][onlineexperimentworkspaceslistbysubscriptionsample]   | gets all experiment workspaces in the specified subscription. x-ms-original-file: 2025-05-31-preview/OnlineExperimentWorkspaces_ListBySubscription.json |
-| [onlineExperimentWorkspacesUpdateSample.ts][onlineexperimentworkspacesupdatesample]                           | patch an experiment workspace x-ms-original-file: 2025-05-31-preview/OnlineExperimentWorkspaces_Update.json                                             |
-| [operationsListSample.ts][operationslistsample]                                                               | list the operations for the provider x-ms-original-file: 2025-05-31-preview/OnlineExperimentWorkspaces_OperationsList.json                              |
+| **File Name**                                                                                                           | **Description**                                                                                                                                                          |
+| ----------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| [onlineExperimentationWorkspacesCreateOrUpdateSample.ts][onlineexperimentationworkspacescreateorupdatesample]           | create an online experimentation workspace, or update an existing workspace. x-ms-original-file: 2025-05-31-preview/OnlineExperimentationWorkspaces_CreateOrUpdate.json  |
+| [onlineExperimentationWorkspacesDeleteSample.ts][onlineexperimentationworkspacesdeletesample]                           | deletes an online experimentation workspace. x-ms-original-file: 2025-05-31-preview/OnlineExperimentationWorkspaces_Delete.json                                          |
+| [onlineExperimentationWorkspacesGetSample.ts][onlineexperimentationworkspacesgetsample]                                 | gets an online experimentation workspace. x-ms-original-file: 2025-05-31-preview/OnlineExperimentationWorkspaces_Get.json                                                |
+| [onlineExperimentationWorkspacesListByResourceGroupSample.ts][onlineexperimentationworkspaceslistbyresourcegroupsample] | gets all online experimentation workspaces in a resource group. x-ms-original-file: 2025-05-31-preview/OnlineExperimentationWorkspaces_ListByResourceGroup.json          |
+| [onlineExperimentationWorkspacesListBySubscriptionSample.ts][onlineexperimentationworkspaceslistbysubscriptionsample]   | gets all online experimentation workspaces in the specified subscription. x-ms-original-file: 2025-05-31-preview/OnlineExperimentationWorkspaces_ListBySubscription.json |
+| [onlineExperimentationWorkspacesUpdateSample.ts][onlineexperimentationworkspacesupdatesample]                           | patch an online experimentation workspace. x-ms-original-file: 2025-05-31-preview/OnlineExperimentationWorkspaces_Update.json                                            |
+| [operationsListSample.ts][operationslistsample]                                                                         | list the operations for the provider x-ms-original-file: 2025-05-31-preview/OnlineExperimentationWorkspaces_OperationsList.json                                          |
 
 ## Prerequisites
 
@@ -49,25 +49,25 @@ npm run build
 4. Run whichever samples you like (note that some samples may require additional setup, see the table above):
 
 ```bash
-node dist/onlineExperimentWorkspacesCreateOrUpdateSample.js
+node dist/onlineExperimentationWorkspacesCreateOrUpdateSample.js
 ```
 
 Alternatively, run a single sample with the correct environment variables set (setting up the `.env` file is not required if you do this), for example (cross-platform):
 
 ```bash
-npx dev-tool run vendored cross-env  node dist/onlineExperimentWorkspacesCreateOrUpdateSample.js
+npx dev-tool run vendored cross-env  node dist/onlineExperimentationWorkspacesCreateOrUpdateSample.js
 ```
 
 ## Next Steps
 
 Take a look at our [API Documentation][apiref] for more information about the APIs that are available in the clients.
 
-[onlineexperimentworkspacescreateorupdatesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/onlineexperimentation/arm-onlineexperimentation/samples/v1-beta/typescript/src/onlineExperimentWorkspacesCreateOrUpdateSample.ts
-[onlineexperimentworkspacesdeletesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/onlineexperimentation/arm-onlineexperimentation/samples/v1-beta/typescript/src/onlineExperimentWorkspacesDeleteSample.ts
-[onlineexperimentworkspacesgetsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/onlineexperimentation/arm-onlineexperimentation/samples/v1-beta/typescript/src/onlineExperimentWorkspacesGetSample.ts
-[onlineexperimentworkspaceslistbyresourcegroupsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/onlineexperimentation/arm-onlineexperimentation/samples/v1-beta/typescript/src/onlineExperimentWorkspacesListByResourceGroupSample.ts
-[onlineexperimentworkspaceslistbysubscriptionsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/onlineexperimentation/arm-onlineexperimentation/samples/v1-beta/typescript/src/onlineExperimentWorkspacesListBySubscriptionSample.ts
-[onlineexperimentworkspacesupdatesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/onlineexperimentation/arm-onlineexperimentation/samples/v1-beta/typescript/src/onlineExperimentWorkspacesUpdateSample.ts
+[onlineexperimentationworkspacescreateorupdatesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/onlineexperimentation/arm-onlineexperimentation/samples/v1-beta/typescript/src/onlineExperimentationWorkspacesCreateOrUpdateSample.ts
+[onlineexperimentationworkspacesdeletesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/onlineexperimentation/arm-onlineexperimentation/samples/v1-beta/typescript/src/onlineExperimentationWorkspacesDeleteSample.ts
+[onlineexperimentationworkspacesgetsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/onlineexperimentation/arm-onlineexperimentation/samples/v1-beta/typescript/src/onlineExperimentationWorkspacesGetSample.ts
+[onlineexperimentationworkspaceslistbyresourcegroupsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/onlineexperimentation/arm-onlineexperimentation/samples/v1-beta/typescript/src/onlineExperimentationWorkspacesListByResourceGroupSample.ts
+[onlineexperimentationworkspaceslistbysubscriptionsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/onlineexperimentation/arm-onlineexperimentation/samples/v1-beta/typescript/src/onlineExperimentationWorkspacesListBySubscriptionSample.ts
+[onlineexperimentationworkspacesupdatesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/onlineexperimentation/arm-onlineexperimentation/samples/v1-beta/typescript/src/onlineExperimentationWorkspacesUpdateSample.ts
 [operationslistsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/onlineexperimentation/arm-onlineexperimentation/samples/v1-beta/typescript/src/operationsListSample.ts
 [apiref]: https://learn.microsoft.com/javascript/api/@azure/arm-onlineexperimentation?view=azure-node-preview
 [freesub]: https://azure.microsoft.com/free/

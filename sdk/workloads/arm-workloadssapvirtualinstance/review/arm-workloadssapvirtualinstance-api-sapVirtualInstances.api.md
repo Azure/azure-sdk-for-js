@@ -95,8 +95,7 @@ export interface SAPVirtualInstancesUpdateOptionalParams extends OperationOption
 export function start(context: WorkloadsContext, resourceGroupName: string, sapVirtualInstanceName: string, options?: SAPVirtualInstancesStartOptionalParams): PollerLike<OperationState<OperationStatusResult>, OperationStatusResult>;
 
 // @public
-function stop_2(context: WorkloadsContext, resourceGroupName: string, sapVirtualInstanceName: string, options?: SAPVirtualInstancesStopOptionalParams): PollerLike<OperationState<OperationStatusResult>, OperationStatusResult>;
-export { stop_2 as stop }
+export function stop(context: WorkloadsContext, resourceGroupName: string, sapVirtualInstanceName: string, options?: SAPVirtualInstancesStopOptionalParams): PollerLike<OperationState<OperationStatusResult>, OperationStatusResult>;
 
 // @public
 export function update(context: WorkloadsContext, resourceGroupName: string, sapVirtualInstanceName: string, properties: UpdateSAPVirtualInstanceRequest, options?: SAPVirtualInstancesUpdateOptionalParams): PollerLike<OperationState<SAPVirtualInstance>, SAPVirtualInstance>;
