@@ -175,6 +175,7 @@ stages:
                           CloseAfterOpenForTesting: ${{ parameters.TestPipeline }}
   - stage: Integration
     dependsOn: ${{ parameters.DependsOn }}
+    condition: and(succeeded(), or(eq(variables['SetDevVersion'], 'true'), and(eq(variables['Build.Reason'],'Schedule'), eq(variables['System.TeamProject'], 'internal'))))
     variables:
       - template: /eng/pipelines/templates/variables/globals.yml
       - template: /eng/pipelines/templates/variables/image.yml
@@ -187,11 +188,11 @@ stages:
             Registry: 'https://registry.npmjs.org/'
           ${{ else }}:
             Registry: 'https://pkgs.dev.azure.com/azure-sdk/internal/_packaging/azure-sdk-for-js-pr/npm/registry/'
-          CustomCondition: and(succeeded(), or(eq(variables['SetDevVersion'], 'true'), and(eq(variables['Build.Reason'],'Schedule'), eq(variables['System.TeamProject'], 'internal'))))
           FailOnMissingPackages: false
+          Environment: 'none'
 
       - job: PublishDocsToNightlyBranch
-        condition: and(succeeded(), or(eq(variables['SetDevVersion'], 'true'), and(eq(variables['Build.Reason'],'Schedule'), eq(variables['System.TeamProject'], 'internal'),  ne(variables['Skip.PublishDocs'], 'true'))))
+        condition: and(succeeded(), ne(variables['Skip.PublishDocs'], 'true'))))
         pool:
           name: $(LINUXPOOL)
           image: $(LINUXVMIMAGE)
