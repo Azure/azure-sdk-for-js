@@ -106,7 +106,7 @@ export type AgentsToolChoiceOption = string | AgentsToolChoiceOptionMode | Agent
 export type AgentsToolChoiceOptionMode = "none" | "auto";
 
 // @public
-export type AgentStreamEvent = string | (ThreadStreamEvent | RunStreamEvent | RunStepStreamEvent | MessageStreamEvent | ErrorEvent_2 | DoneEvent);
+export type AgentStreamEvent = string | (ThreadStreamEvent | RunStreamEvent | RunStepStreamEvent | MessageStreamEvent | ErrorEvent | DoneEvent);
 
 // @public
 export interface AgentThread {
@@ -293,10 +293,9 @@ export enum DoneEvent {
 }
 
 // @public
-enum ErrorEvent_2 {
+export enum ErrorEvent {
     Error = "error"
 }
-export { ErrorEvent_2 as ErrorEvent }
 
 // @public
 export type FileContents = string | NodeJS.ReadableStream | ReadableStream<Uint8Array> | Uint8Array | Blob;
