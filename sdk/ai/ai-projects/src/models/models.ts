@@ -1296,6 +1296,7 @@ export function targetConfigUnionDeserializer(item: any): TargetConfigUnion {
 
 /** Azure OpenAI model configuration. The API version would be selected by the service for querying the model. */
 export interface AzureOpenAIModelConfiguration extends TargetConfig {
+  /** Type of the AzureOpenAIModelConfiguration. */
   readonly type: "AzureOpenAIModel";
   /** Deployment name for AOAI model. Example: gpt-4o if in AIServices or connection based `connection_name/deployment_name` (i.e. `my-aoai-connection/gpt-4o`. */
   modelDeploymentName: string;
