@@ -90,6 +90,8 @@ steps:
       ServiceDirectory: ${{parameters.ServiceDirectory}}
 
   - pwsh: |
+      . ./eng/common/scripts/common.ps1
+
       $artifacts = "$(ArtifactPackageNames)".Split(",")
 
       foreach ($artifact in $artifacts)
@@ -99,8 +101,24 @@ steps:
 
         Write-Host "Copying $artifact artifacts to $(Build.ArtifactStagingDirectory)/$artifact"
         New-Item -Type Directory -Force -Name $artifact -Path $(Build.ArtifactStagingDirectory) > $null
-        Copy-Item sdk/$($artifactDetails.ServiceDirectory)/**/$artifact-[0-9]*.[0-9]*.[0-9]*.tgz $(Build.ArtifactStagingDirectory)/$artifact
+
+        $packageFile = (dir sdk/$($artifactDetails.ServiceDirectory)/**/$artifact-[0-9]*.[0-9]*.[0-9]*.tgz)[0]
+        Copy-Item $packageFile $(Build.ArtifactStagingDirectory)/$artifact
         Copy-Item sdk/$($artifactDetails.ServiceDirectory)/**/browser/$artifact-[0-9]*.[0-9]*.[0-9]*.zip $(Build.ArtifactStagingDirectory)/$artifact
+
+        if ($env:SETDEVVERSION -eq 'true' -and $artifactDetails.ArtifactDetails.skipPublishDev -ne $true)
+        {
+          New-Item -Type Directory -Force -Name "packages-dev-publish" -Path $(Agent.TempDirectory) > $null
+          New-Item -Type Directory -Force -Name "packages-dev-publish/$artifact" -Path $(Agent.TempDirectory) > $null
+          $hasSourceChanges = HasPackageSourceCodeChanges $packageFile $(Agent.TempDirectory)/packages-dev-publish/$artifact
+          if ($hasSourceChanges) {
+            Write-Host "There were source code changes for $artifact, so we need to publish"
+            Copy-Item $packageFile $(Agent.TempDirectory)/packages-dev-publish/$artifact
+          }
+          else {
+            Write-Host "No source code changes for $artifact, skipping publish"
+          }
+        }
 
         if ($${{ parameters.IncludeRelease }} -eq $true -and $artifactDetails.ArtifactDetails.skipPublishDocMs -ne $true `
           -and (Get-Content $packageJson -Raw | ConvertFrom-Json).private -ne $true)
@@ -133,6 +151,12 @@ steps:
     parameters:
       ArtifactPath: '$(Build.ArtifactStagingDirectory)'
       ArtifactName: 'packages'
+
+  - template: /eng/common/pipelines/templates/steps/publish-1es-artifact.yml
+    parameters:
+      ArtifactPath: '$(Build.ArtifactStagingDirectory)'
+      ArtifactName: 'packages-dev-publish'
+      CustomCondition: and(succeeded(), eq(variables['SetDevVersion'], 'true'))
 
   - template: /eng/common/pipelines/templates/steps/create-apireview.yml
     parameters:

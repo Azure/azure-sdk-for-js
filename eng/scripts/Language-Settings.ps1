@@ -151,49 +151,92 @@ function IsNPMPackageVersionPublished ($pkgId, $pkgVersion) {
   return $npmVersion -eq $pkgVersion
 }
 
-# make certain to always take the package json closest to the top
-function ResolvePkgJson($workFolder) {
-  $pathsWithComplexity = @()
-  foreach ($file in (Get-ChildItem -Path $workFolder -Recurse -Include "package.json")) {
-    $complexity = ($file.FullName -Split { $_ -eq "/" -or $_ -eq "\" }).Length
-    $pathsWithComplexity += New-Object PSObject -Property @{
-      Path       = $file
-      Complexity = $complexity
+function Get-PackageJsonContentFromPackage($package, $workingDirectory) {
+  $extractedPackageDir = Join-Path $workingDirectory (Split-Path $package -Leaf)
+  New-Item -ItemType "directory" -Path $extractedPackageDir | out-null
+  
+  tar -xzf $package -C $extractedPackageDir
+
+  $packageDirectory = Join-Path $extractedPackageDir "package"
+  $packageJSONContent = Get-Content (Join-Path $packageDirectory "package.json") | ConvertFrom-Json
+  #TODO: Should we clean-up the expanded package?
+
+  # Add the package property to the json object for consumers
+  $packageJSONContent | Add-Member -NotePropertyName "PackageDirectory" -NotePropertyValue $packageDirectory
+  $packageJSONContent | Add-Member -NotePropertyName "PackageRootDirectory" -NotePropertyValue $extractedPackageDir
+
+  return $packageJSONContent
+}
+function NormalizePackageContent($dirName, $version) {
+  function ReplaceText($oldText, $newText, $filePath) {
+    $content = Get-Content -Path $filePath -Raw
+    $newContent = $content -replace $oldText, $newText
+    if ($newContent -ne $content) {
+      Set-Content -Path $filePath -Value $newContent -NoNewLine
+      Write-Host "ReplaceText [$oldText] [$newText] [$filePath]"
     }
   }
 
-  return ($pathsWithComplexity | Sort-Object -Property Complexity)[0].Path
+  foreach ($md in $(dir $dirName -r -i *.md)) {
+    ReplaceText "https://github.com/Azure/azure-sdk-for-js/tree/[^/]*" "" $md.Fullname
+  }
+  foreach ($file in $(dir $dirName -r -i *.js, *.ts, *.json)) {
+    ReplaceText $version "VERSION_REMOVED" $file.Fullname
+  }
+}
+
+function ContainsProductCodeDiff($currentDevPackage, $lastDevPackage, $workingDirectory) {
+  $diffFile = Join-Path $workingDirectory "Change.diff"
+  git diff --output=$diffFile --exit-code $lastDevPackage $currentDevPackage
+  Write-Host "Exit code for git diff = $LastExitCode"
+  if ($LastExitCode -ne 0) {
+    Write-Host "There were differences in the two packages - saved in $diffFile"
+    Write-Host "Contents of $diffFile"
+    Get-Content -Path $diffFile | % { Write-Host $_ }
+    return $true
+  }
+  return $false
+}
+
+function HasPackageSourceCodeChanges($package, $workingDirectory) {
+  $packageBefore = Get-PackageJsonContentFromPackage -package $package -workingDirectory $workingDirectory
+  $name = $packageBefore.name
+
+  $packageAfterName = npm pack $name@dev --pack --pack-destination $workingDirectory 2> error.txt
+  if ($LastExitCode -ne 0) {
+    Write-Verbose (Get-Content -Path error.txt)
+    Write-Verbose "Failed to retrieve package $name@dev.. assuming there is source code changes."
+    return $true
+  }  
+  $packageAfter = Get-PackageJsonContentFromPackage -package $packageAfterName -workingDirectory $workingDirectory
+
+  NormalizePackageContent $packageBefore.PackageRootDirectory $packageBefore.version
+  NormalizePackageContent $packageAfter.PackageRootDirectory  $packageAfter.version
+    
+  $hasChanges = ContainsProductCodeDiff $packageBefore.PackageRootDirectory $packageAfter.PackageRootDirectory $workingDirectory
+
+  return $hasChanges
 }
 
 # Parse out package publishing information given a .tgz npm artifact
 function Get-javascript-PackageInfoFromPackageFile ($pkg, $workingDirectory) {
-  $workFolder = "$workingDirectory$($pkg.Basename)"
-  $origFolder = Get-Location
   $releaseNotes = ""
   $readmeContent = ""
 
-  New-Item -ItemType Directory -Force -Path $workFolder
-  Set-Location $workFolder
-
-  tar -xzf $pkg
-
-  $packageJSON = ResolvePkgJson -workFolder $workFolder | Get-Content | ConvertFrom-Json
+  $packageJSON = Get-PackageJsonContentFromPackage $pkg $workingDirectory
   $pkgId = $packageJSON.name
   $docsReadMeName = $pkgId -replace "^@azure/" , ""
   $pkgVersion = $packageJSON.version
 
-  $changeLogLoc = @(Get-ChildItem -Path $workFolder -Recurse -Include "CHANGELOG.md")[0]
-  if ($changeLogLoc) {
-    $releaseNotes = Get-ChangeLogEntryAsString -ChangeLogLocation $changeLogLoc -VersionString $pkgVersion
+  $changeLogPath = Join-Path $packageJson.PackageDirectory "CHANGELOG.md"
+  if (Test-Path $changeLogPath) {
+    $releaseNotes = Get-ChangeLogEntryAsString -ChangeLogLocation $changeLogPath -VersionString $pkgVersion
   }
 
-  $readmeContentLoc = @(Get-ChildItem -Path $workFolder -Recurse -Include "README.md") | Select-Object -Last 1
-  if ($readmeContentLoc) {
-    $readmeContent = Get-Content -Raw $readmeContentLoc
+  $readmePath = Join-Path $packageJson.PackageDirectory "README.md"
+  if (Test-Path $readmePath) {
+    $readmeContent = Get-Content -Raw $readmePath
   }
-
-  Set-Location $origFolder
-  Remove-Item $workFolder -Force -Recurse -ErrorAction SilentlyContinue
 
   $resultObj = New-Object PSObject -Property @{
     PackageId      = $pkgId
