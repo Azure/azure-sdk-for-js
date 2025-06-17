@@ -13,11 +13,11 @@ import {
   DbSystemShapesListByLocationOptionalParams,
   DbSystemShapesGetOptionalParams,
 } from "./options.js";
-import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
 import {
   PagedAsyncIterableIterator,
   buildPagedAsyncIterator,
 } from "../../static-helpers/pagingHelpers.js";
+import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
 import {
   StreamableMethod,
   PathUncheckedResponse,
@@ -31,12 +31,11 @@ export function _listByLocationSend(
   options: DbSystemShapesListByLocationOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "/subscriptions/{subscriptionId}/providers/Oracle.Database/locations/{location}/dbSystemShapes{?api%2Dversion,zone}",
+    "/subscriptions/{subscriptionId}/providers/Oracle.Database/locations/{location}/dbSystemShapes{?api%2Dversion}",
     {
       subscriptionId: context.subscriptionId,
       location: location,
       "api%2Dversion": context.apiVersion,
-      zone: options?.zone,
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,

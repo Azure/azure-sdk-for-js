@@ -16,8 +16,6 @@ export interface GiVersionsGetOptionalParams extends OperationOptions {
 
 // @public
 export interface GiVersionsListByLocationOptionalParams extends OperationOptions {
-    shape?: SystemShapes;
-    zone?: string;
 }
 
 // @public
