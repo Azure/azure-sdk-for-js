@@ -88,7 +88,7 @@
   },
   "repository": "github:Azure/azure-sdk-for-js",
   "engines": {
-    "node": ">=18.0.0"
+    "node": ">=20.0.0"
   },
   "keywords": [
     "node",
@@ -121,7 +121,7 @@
     "@azure/identity": "^4.7.0",
     "@azure/logger": "^1.1.4",
     "@azure/search-documents": "^12.1.0",
-    "@types/node": "^18.0.0",
+    "@types/node": "^20.0.0",
     "@vitest/browser": "^3.0.9",
     "@vitest/coverage-istanbul": "^3.0.9",
     "dotenv": "^16.0.0",

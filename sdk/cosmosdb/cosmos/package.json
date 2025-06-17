@@ -36,7 +36,7 @@
   },
   "types": "./dist/commonjs/index.d.ts",
   "engines": {
-    "node": ">=18.0.0"
+    "node": ">=20.0.0"
   },
   "scripts": {
     "build": "npm run clean && dev-tool run build-package && dev-tool run extract-api",
@@ -84,7 +84,7 @@
     "@azure/identity": "^4.8.0",
     "@azure/logger": "^1.1.4",
     "@types/debug": "^4.1.4",
-    "@types/node": "^18.0.0",
+    "@types/node": "^20.0.0",
     "@types/priorityqueuejs": "^1.0.1",
     "@types/semaphore": "^1.1.0",
     "@vitest/browser": "^3.0.9",
