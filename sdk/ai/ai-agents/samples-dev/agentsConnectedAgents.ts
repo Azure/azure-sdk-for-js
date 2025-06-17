@@ -6,73 +6,55 @@
  *
  */
 
-import { AgentsClient } from "@azure/ai-agents";
-import { DefaultAzureCredential } from "@azure/identity";
-import { ToolUtility } from "@azure/ai-agents";
-
 import "dotenv/config";
-
-const projectEndpoint = process.env["PROJECT_ENDPOINT"] || "<project endpoint>";
-const modelDeploymentName = process.env["MODEL_DEPLOYMENT_NAME"] || "gpt-4o";
-
+import { createAgentClient } from "./utils/createAgentClient.js";
+import { createThreadWithMessage } from "./utils/createThread.js";
+import { createAndPollThreadRun } from "./utils/createAndPollThreadRun.js";
+import { deleteAgent } from "./utils/deleteAgent.js";
+import { createAgent, createSimpleAgent } from "./utils/createAgent.js";
+import { listThreadMessages } from "./utils/listThreadMessages.js";
+const stockAgentName = "stock-price-agent";
+const stockAgentDescription = "Gets the stock price of a company";
+const stockInstructions =
+  "Your job is to get the stock price of a company. If you don't know the realtime stock price, return the last known stock price.";
+const assistantInstructions =
+  "You are a helpful assistant, and use the connected agent to get stock prices.";
+const messageContent = "Get the stock price of Microsoft.";
 export async function main(): Promise<void> {
   // Create an Azure AI Client
-  const client = new AgentsClient(projectEndpoint, new DefaultAzureCredential());
+  const client = createAgentClient();
 
   const connectedAgentName = "stock_price_bot";
 
-  const stockAgent = await client.createAgent(modelDeploymentName, {
-    name: "stock-price-agent",
-    instructions:
-      "Your job is to get the stock price of a company. If you don't know the realtime stock price, return the last known stock price.",
-  });
-
-  // Initialize Connected Agent tool with the agent id, name, and description
-  const connectedAgentTool = ToolUtility.createConnectedAgentTool(
-    stockAgent.id,
-    connectedAgentName,
-    "Gets the stock price of a company",
-  );
+  const stockAgent = await createSimpleAgent(client, stockAgentName, stockInstructions);
 
   // Create agent with the Connected Agent tool and process assistant run
-  const agent = await client.createAgent(modelDeploymentName, {
-    name: "my-agent",
-    instructions: "You are a helpful assistant, and use the connected agent to get stock prices.",
-    tools: [connectedAgentTool.definition],
-  });
-  console.log(`Created agent, agent ID: ${agent.id}`);
+  const agent = await createAgent(
+    client,
+    [
+      {
+        "connected-agent": {
+          id: stockAgent.id,
+          name: connectedAgentName,
+          description: stockAgentDescription,
+        },
+      },
+    ],
+    undefined,
+    assistantInstructions,
+  );
 
   // Create a thread
-  const thread = await client.threads.create();
-  console.log(`Created thread, thread ID : ${thread.id}`);
-
-  // Create message to thread
-  const message = await client.messages.create(
-    thread.id,
-    "user",
-    "What is the stock price of Microsoft?",
-  );
-  console.log(`Created message, message ID : ${message.id}`);
+  const { thread } = await createThreadWithMessage(client, messageContent);
 
   // Create and poll a run
-  console.log("Creating run...");
-  const run = await client.runs.createAndPoll(thread.id, agent.id, {
-    pollingOptions: {
-      intervalInMs: 2000,
-    },
-    onResponse: (response): void => {
-      console.log(`Received response with status: ${response.parsedBody.status}`);
-    },
-  });
-  console.log(`Run finished with status: ${run.status}`);
+  await createAndPollThreadRun(client, agent.id, thread.id);
 
-  // Delete the agent
-  await client.deleteAgent(agent.id);
-  console.log(`Deleted agent, agent ID: ${agent.id}`);
+  // list all messages in the thread
+  await listThreadMessages(client, thread.id);
 
-  // Delete connected agent
-  await client.deleteAgent(stockAgent.id);
-  console.log(`Deleted connected agent, agent ID: ${stockAgent.id}`);
+  // Delete the agents
+  await deleteAgent(client, [agent.id, stockAgent.id]);
 }
 
 main().catch((error) => {

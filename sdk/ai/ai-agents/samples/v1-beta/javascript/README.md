@@ -39,6 +39,15 @@ These sample programs show how to use the JavaScript client libraries for Azure 
 | [runSteps.js][runsteps]                                                       | demonstrates how to use basic run agent operations.                                                                        |
 | [streaming.js][streaming]                                                     | demonstrates how to use agent operations in streaming.                                                                     |
 | [threads.js][threads]                                                         | demonstrates how to use basic thread agent operations.                                                                     |
+| [utils/createAgent.js][utils_createagent]                                     | Utils for creating an agent, also with tools.                                                                              |
+| [utils/createAgentClient.js][utils_createagentclient]                         | Utils to create an Azure AI Agents client.                                                                                 |
+| [utils/createAndPollThreadRun.js][utils_createandpollthreadrun]               | Utils to create and poll a thread run until it finishes.                                                                   |
+| [utils/createThread.js][utils_createthread]                                   | Utils to create a thread and add messages to it.                                                                           |
+| [utils/createThreadRunStream.js][utils_createthreadrunstream]                 | Creates a thread run stream and processes the events.                                                                      |
+| [utils/createTool.js][utils_createtool]                                       | Utils to create tools for Azure AI Agents.                                                                                 |
+| [utils/deleteAgent.js][utils_deleteagent]                                     | Utils to delete an agent with a given ID or IDs.                                                                           |
+| [utils/listThreadMessages.js][utils_listthreadmessages]                       | Utils to list messages in a thread.                                                                                        |
+| [utils/parseString.js][utils_parsestring]                                     | Utils to parse a JSON string.                                                                                              |
 | [vectorStoreWithFiles.js][vectorstorewithfiles]                               | demonstrates how to create the vector store with the list of files.                                                        |
 | [vectorStoreWithFilesAndPolling.js][vectorstorewithfilesandpolling]           | demonstrates how to create the vector store with the list of files using polling operation.                                |
 | [vectorStores.js][vectorstores]                                               | demonstrates how to create the vector store.                                                                               |
@@ -108,6 +117,15 @@ Take a look at our [API Documentation][apiref] for more information about the AP
 [runsteps]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/ai/ai-agents/samples/v1-beta/javascript/runSteps.js
 [streaming]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/ai/ai-agents/samples/v1-beta/javascript/streaming.js
 [threads]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/ai/ai-agents/samples/v1-beta/javascript/threads.js
+[utils_createagent]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/ai/ai-agents/samples/v1-beta/javascript/utils/createAgent.js
+[utils_createagentclient]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/ai/ai-agents/samples/v1-beta/javascript/utils/createAgentClient.js
+[utils_createandpollthreadrun]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/ai/ai-agents/samples/v1-beta/javascript/utils/createAndPollThreadRun.js
+[utils_createthread]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/ai/ai-agents/samples/v1-beta/javascript/utils/createThread.js
+[utils_createthreadrunstream]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/ai/ai-agents/samples/v1-beta/javascript/utils/createThreadRunStream.js
+[utils_createtool]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/ai/ai-agents/samples/v1-beta/javascript/utils/createTool.js
+[utils_deleteagent]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/ai/ai-agents/samples/v1-beta/javascript/utils/deleteAgent.js
+[utils_listthreadmessages]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/ai/ai-agents/samples/v1-beta/javascript/utils/listThreadMessages.js
+[utils_parsestring]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/ai/ai-agents/samples/v1-beta/javascript/utils/parseString.js
 [vectorstorewithfiles]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/ai/ai-agents/samples/v1-beta/javascript/vectorStoreWithFiles.js
 [vectorstorewithfilesandpolling]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/ai/ai-agents/samples/v1-beta/javascript/vectorStoreWithFilesAndPolling.js
 [vectorstores]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/ai/ai-agents/samples/v1-beta/javascript/vectorStores.js
