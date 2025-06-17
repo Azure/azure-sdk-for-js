@@ -14,7 +14,7 @@ import { join } from "node:path";
  * @returns {{changedPackages: Set<string>, diff: { changedFiles: string[], changedServices: string[] }}}
  */
 export async function getChangedInfo(packageInfoPath, changeInfoPath) {
-  const result = { packages: {} };
+  const result = { packages: {}, changedPackages: new Set() };
   if (!existsSync(packageInfoPath) || !existsSync(changeInfoPath)) {
     console.warn(
       `Package info path (${packageInfoPath}) or change info path (${changeInfoPath}) is not specified or does not exist!`,
@@ -22,7 +22,6 @@ export async function getChangedInfo(packageInfoPath, changeInfoPath) {
     return result;
   }
 
-  const changedPackages = new Set();
   const dirPackageMap = new Map();
   const files = await readdir(packageInfoPath);
   for (const file of files) {
@@ -42,13 +41,12 @@ export async function getChangedInfo(packageInfoPath, changeInfoPath) {
     const parts = changedFile.split("/");
     if (parts.length > 3) {
       if (parts[0] === "sdk" && dirPackageMap[`sdk/${parts[1]}/${parts[2]}`]) {
-        changedPackages.add(dirPackageMap[`sdk/${parts[1]}/${parts[2]}`]);
+        result.changedPackages.add(dirPackageMap[`sdk/${parts[1]}/${parts[2]}`]);
       }
     }
   }
 
-  console.log(`Changed packages: ${Array.from(changedPackages.keys())}`);
-  result["changedPackages"] = changedPackages;
+  console.log(`Changed packages: ${Array.from(result.changedPackages.keys())}`);
 
   return result;
 }
