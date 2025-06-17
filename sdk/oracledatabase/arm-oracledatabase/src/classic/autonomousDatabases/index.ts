@@ -4,7 +4,6 @@
 import { OracleDatabaseManagementContext } from "../../api/oracleDatabaseManagementContext.js";
 import {
   AutonomousDatabase,
-  DisasterRecoveryConfigurationDetails,
   AutonomousDatabaseUpdate,
   PeerDbDetails,
   GenerateAutonomousDatabaseWalletDetails,
@@ -12,7 +11,6 @@ import {
   RestoreAutonomousDatabaseDetails,
 } from "../../models/models.js";
 import {
-  AutonomousDatabasesChangeDisasterRecoveryConfigurationOptionalParams,
   AutonomousDatabasesShrinkOptionalParams,
   AutonomousDatabasesRestoreOptionalParams,
   AutonomousDatabasesGenerateWalletOptionalParams,
@@ -26,7 +24,6 @@ import {
   AutonomousDatabasesListBySubscriptionOptionalParams,
 } from "../../api/autonomousDatabases/options.js";
 import {
-  changeDisasterRecoveryConfiguration,
   shrink,
   restore,
   generateWallet,
@@ -44,13 +41,6 @@ import { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a AutonomousDatabases operations. */
 export interface AutonomousDatabasesOperations {
-  /** Perform ChangeDisasterRecoveryConfiguration action on Autonomous Database */
-  changeDisasterRecoveryConfiguration: (
-    resourceGroupName: string,
-    autonomousdatabasename: string,
-    body: DisasterRecoveryConfigurationDetails,
-    options?: AutonomousDatabasesChangeDisasterRecoveryConfigurationOptionalParams,
-  ) => PollerLike<OperationState<AutonomousDatabase>, AutonomousDatabase>;
   /** This operation shrinks the current allocated storage down to the current actual used data storage. */
   shrink: (
     resourceGroupName: string,
@@ -129,19 +119,6 @@ export interface AutonomousDatabasesOperations {
 
 function _getAutonomousDatabases(context: OracleDatabaseManagementContext) {
   return {
-    changeDisasterRecoveryConfiguration: (
-      resourceGroupName: string,
-      autonomousdatabasename: string,
-      body: DisasterRecoveryConfigurationDetails,
-      options?: AutonomousDatabasesChangeDisasterRecoveryConfigurationOptionalParams,
-    ) =>
-      changeDisasterRecoveryConfiguration(
-        context,
-        resourceGroupName,
-        autonomousdatabasename,
-        body,
-        options,
-      ),
     shrink: (
       resourceGroupName: string,
       autonomousdatabasename: string,

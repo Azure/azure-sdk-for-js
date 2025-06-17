@@ -9,8 +9,6 @@ import {
   AutonomousDatabase,
   autonomousDatabaseSerializer,
   autonomousDatabaseDeserializer,
-  DisasterRecoveryConfigurationDetails,
-  disasterRecoveryConfigurationDetailsSerializer,
   AutonomousDatabaseUpdate,
   autonomousDatabaseUpdateSerializer,
   PeerDbDetails,
@@ -23,7 +21,6 @@ import {
   restoreAutonomousDatabaseDetailsSerializer,
 } from "../../models/models.js";
 import {
-  AutonomousDatabasesChangeDisasterRecoveryConfigurationOptionalParams,
   AutonomousDatabasesShrinkOptionalParams,
   AutonomousDatabasesRestoreOptionalParams,
   AutonomousDatabasesGenerateWalletOptionalParams,
@@ -36,12 +33,12 @@ import {
   AutonomousDatabasesCreateOrUpdateOptionalParams,
   AutonomousDatabasesListBySubscriptionOptionalParams,
 } from "./options.js";
-import { getLongRunningPoller } from "../../static-helpers/pollingHelpers.js";
-import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
 import {
   PagedAsyncIterableIterator,
   buildPagedAsyncIterator,
 } from "../../static-helpers/pagingHelpers.js";
+import { getLongRunningPoller } from "../../static-helpers/pollingHelpers.js";
+import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
 import {
   StreamableMethod,
   PathUncheckedResponse,
@@ -49,81 +46,6 @@ import {
   operationOptionsToRequestParameters,
 } from "@azure-rest/core-client";
 import { PollerLike, OperationState } from "@azure/core-lro";
-
-export function _changeDisasterRecoveryConfigurationSend(
-  context: Client,
-  resourceGroupName: string,
-  autonomousdatabasename: string,
-  body: DisasterRecoveryConfigurationDetails,
-  options: AutonomousDatabasesChangeDisasterRecoveryConfigurationOptionalParams = {
-    requestOptions: {},
-  },
-): StreamableMethod {
-  const path = expandUrlTemplate(
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Oracle.Database/autonomousDatabases/{autonomousdatabasename}/changeDisasterRecoveryConfiguration{?api%2Dversion}",
-    {
-      subscriptionId: context.subscriptionId,
-      resourceGroupName: resourceGroupName,
-      autonomousdatabasename: autonomousdatabasename,
-      "api%2Dversion": context.apiVersion,
-    },
-    {
-      allowReserved: options?.requestOptions?.skipUrlEncoding,
-    },
-  );
-  return context.path(path).post({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
-    body: disasterRecoveryConfigurationDetailsSerializer(body),
-  });
-}
-
-export async function _changeDisasterRecoveryConfigurationDeserialize(
-  result: PathUncheckedResponse,
-): Promise<AutonomousDatabase> {
-  const expectedStatuses = ["202", "200"];
-  if (!expectedStatuses.includes(result.status)) {
-    const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
-    throw error;
-  }
-
-  return autonomousDatabaseDeserializer(result.body);
-}
-
-/** Perform ChangeDisasterRecoveryConfiguration action on Autonomous Database */
-export function changeDisasterRecoveryConfiguration(
-  context: Client,
-  resourceGroupName: string,
-  autonomousdatabasename: string,
-  body: DisasterRecoveryConfigurationDetails,
-  options: AutonomousDatabasesChangeDisasterRecoveryConfigurationOptionalParams = {
-    requestOptions: {},
-  },
-): PollerLike<OperationState<AutonomousDatabase>, AutonomousDatabase> {
-  return getLongRunningPoller(
-    context,
-    _changeDisasterRecoveryConfigurationDeserialize,
-    ["202", "200"],
-    {
-      updateIntervalInMs: options?.updateIntervalInMs,
-      abortSignal: options?.abortSignal,
-      getInitialResponse: () =>
-        _changeDisasterRecoveryConfigurationSend(
-          context,
-          resourceGroupName,
-          autonomousdatabasename,
-          body,
-          options,
-        ),
-      resourceLocationConfig: "location",
-    },
-  ) as PollerLike<OperationState<AutonomousDatabase>, AutonomousDatabase>;
-}
 
 export function _shrinkSend(
   context: Client,

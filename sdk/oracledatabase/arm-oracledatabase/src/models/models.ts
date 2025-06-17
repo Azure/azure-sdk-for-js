@@ -243,8 +243,6 @@ export function cloudExadataInfrastructureDeserializer(item: any): CloudExadataI
 
 /** CloudExadataInfrastructure resource model */
 export interface CloudExadataInfrastructureProperties {
-  /** Defined file system configurations */
-  readonly definedFileSystemConfiguration?: DefinedFileSystemConfiguration[];
   /** Exadata infra ocid */
   readonly ocid?: string;
   /** The number of compute servers for the cloud Exadata infrastructure. */
@@ -307,12 +305,6 @@ export interface CloudExadataInfrastructureProperties {
   readonly monthlyDbServerVersion?: string;
   /** Monthly Storage Server version */
   readonly monthlyStorageServerVersion?: string;
-  /** The database server model type of the cloud Exadata infrastructure resource. */
-  databaseServerType?: string;
-  /** The storage server model type of the cloud Exadata infrastructure resource. */
-  storageServerType?: string;
-  /** The compute model of the Exadata Infrastructure */
-  readonly computeModel?: ComputeModel;
 }
 
 export function cloudExadataInfrastructurePropertiesSerializer(
@@ -329,8 +321,6 @@ export function cloudExadataInfrastructurePropertiesSerializer(
       : customerContactArraySerializer(item["customerContacts"]),
     shape: item["shape"],
     displayName: item["displayName"],
-    databaseServerType: item["databaseServerType"],
-    storageServerType: item["storageServerType"],
   };
 }
 
@@ -338,9 +328,6 @@ export function cloudExadataInfrastructurePropertiesDeserializer(
   item: any,
 ): CloudExadataInfrastructureProperties {
   return {
-    definedFileSystemConfiguration: !item["definedFileSystemConfiguration"]
-      ? item["definedFileSystemConfiguration"]
-      : definedFileSystemConfigurationArrayDeserializer(item["definedFileSystemConfiguration"]),
     ocid: item["ocid"],
     computeCount: item["computeCount"],
     storageCount: item["storageCount"],
@@ -378,40 +365,6 @@ export function cloudExadataInfrastructurePropertiesDeserializer(
     nextMaintenanceRunId: item["nextMaintenanceRunId"],
     monthlyDbServerVersion: item["monthlyDbServerVersion"],
     monthlyStorageServerVersion: item["monthlyStorageServerVersion"],
-    databaseServerType: item["databaseServerType"],
-    storageServerType: item["storageServerType"],
-    computeModel: item["computeModel"],
-  };
-}
-
-export function definedFileSystemConfigurationArrayDeserializer(
-  result: Array<DefinedFileSystemConfiguration>,
-): any[] {
-  return result.map((item) => {
-    return definedFileSystemConfigurationDeserializer(item);
-  });
-}
-
-/** Predefined configurations for the file system */
-export interface DefinedFileSystemConfiguration {
-  /** Checks if the data can be backed up */
-  isBackupPartition?: boolean;
-  /** Checks if the mount path is resizable */
-  isResizable?: boolean;
-  /** Minimum size of mount path in Gb */
-  minSizeGb?: number;
-  /** Mount path for the file system */
-  mountPoint?: string;
-}
-
-export function definedFileSystemConfigurationDeserializer(
-  item: any,
-): DefinedFileSystemConfiguration {
-  return {
-    isBackupPartition: item["isBackupPartition"],
-    isResizable: item["isResizable"],
-    minSizeGb: item["minSizeGb"],
-    mountPoint: item["mountPoint"],
   };
 }
 
@@ -768,24 +721,6 @@ export enum KnownCloudExadataInfrastructureLifecycleState {
  */
 export type CloudExadataInfrastructureLifecycleState = string;
 
-/** Compute model enum */
-export enum KnownComputeModel {
-  /** ECPU model type */
-  Ecpu = "ECPU",
-  /** OCPU model type */
-  Ocpu = "OCPU",
-}
-
-/**
- * Compute model enum \
- * {@link KnownComputeModel} can be used interchangeably with ComputeModel,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **ECPU**: ECPU model type \
- * **OCPU**: OCPU model type
- */
-export type ComputeModel = string;
-
 /** The resource model definition for an Azure Resource Manager tracked top level resource which has 'tags' and a 'location' */
 export interface TrackedResource extends Resource {
   /** Resource tags. */
@@ -1030,8 +965,6 @@ export interface DbServerProperties {
   readonly timeCreated?: Date;
   /** Azure resource provisioning state. */
   readonly provisioningState?: ResourceProvisioningState;
-  /** The compute model of the Exadata Infrastructure */
-  readonly computeModel?: ComputeModel;
 }
 
 export function dbServerPropertiesDeserializer(item: any): DbServerProperties {
@@ -1074,7 +1007,6 @@ export function dbServerPropertiesDeserializer(item: any): DbServerProperties {
     shape: item["shape"],
     timeCreated: !item["timeCreated"] ? item["timeCreated"] : new Date(item["timeCreated"]),
     provisioningState: item["provisioningState"],
-    computeModel: item["computeModel"],
   };
 }
 
@@ -1265,8 +1197,6 @@ export interface CloudVmClusterProperties {
   readonly nodeCount?: number;
   /** The data disk group size to be allocated in GBs per VM. */
   storageSizeInGbs?: number;
-  /** Array of mount path and size. */
-  fileSystemConfigurationDetails?: FileSystemConfigurationDetails[];
   /** The data disk group size to be allocated in TBs. */
   dataStorageSizeInTbs?: number;
   /** The local node storage to be allocated in GBs. */
@@ -1355,16 +1285,11 @@ export interface CloudVmClusterProperties {
   readonly compartmentId?: string;
   /** Cluster subnet ocid */
   readonly subnetOcid?: string;
-  /** The compute model of the VM Cluster. */
-  readonly computeModel?: ComputeModel;
 }
 
 export function cloudVmClusterPropertiesSerializer(item: CloudVmClusterProperties): any {
   return {
     storageSizeInGbs: item["storageSizeInGbs"],
-    fileSystemConfigurationDetails: !item["fileSystemConfigurationDetails"]
-      ? item["fileSystemConfigurationDetails"]
-      : fileSystemConfigurationDetailsArraySerializer(item["fileSystemConfigurationDetails"]),
     dataStorageSizeInTbs: item["dataStorageSizeInTbs"],
     dbNodeStorageSizeInGbs: item["dbNodeStorageSizeInGbs"],
     memorySizeInGbs: item["memorySizeInGbs"],
@@ -1414,9 +1339,6 @@ export function cloudVmClusterPropertiesDeserializer(item: any): CloudVmClusterP
     listenerPort: item["listenerPort"],
     nodeCount: item["nodeCount"],
     storageSizeInGbs: item["storageSizeInGbs"],
-    fileSystemConfigurationDetails: !item["fileSystemConfigurationDetails"]
-      ? item["fileSystemConfigurationDetails"]
-      : fileSystemConfigurationDetailsArrayDeserializer(item["fileSystemConfigurationDetails"]),
     dataStorageSizeInTbs: item["dataStorageSizeInTbs"],
     dbNodeStorageSizeInGbs: item["dbNodeStorageSizeInGbs"],
     memorySizeInGbs: item["memorySizeInGbs"],
@@ -1483,49 +1405,6 @@ export function cloudVmClusterPropertiesDeserializer(item: any): CloudVmClusterP
         }),
     compartmentId: item["compartmentId"],
     subnetOcid: item["subnetOcid"],
-    computeModel: item["computeModel"],
-  };
-}
-
-export function fileSystemConfigurationDetailsArraySerializer(
-  result: Array<FileSystemConfigurationDetails>,
-): any[] {
-  return result.map((item) => {
-    return fileSystemConfigurationDetailsSerializer(item);
-  });
-}
-
-export function fileSystemConfigurationDetailsArrayDeserializer(
-  result: Array<FileSystemConfigurationDetails>,
-): any[] {
-  return result.map((item) => {
-    return fileSystemConfigurationDetailsDeserializer(item);
-  });
-}
-
-/** File configuration options */
-export interface FileSystemConfigurationDetails {
-  /** Mount path */
-  mountPoint?: string;
-  /** Size of the VM */
-  fileSystemSizeGb?: number;
-}
-
-export function fileSystemConfigurationDetailsSerializer(
-  item: FileSystemConfigurationDetails,
-): any {
-  return {
-    mountPoint: item["mountPoint"],
-    fileSystemSizeGb: item["fileSystemSizeGb"],
-  };
-}
-
-export function fileSystemConfigurationDetailsDeserializer(
-  item: any,
-): FileSystemConfigurationDetails {
-  return {
-    mountPoint: item["mountPoint"],
-    fileSystemSizeGb: item["fileSystemSizeGb"],
   };
 }
 
@@ -1801,8 +1680,6 @@ export function cloudVmClusterUpdateSerializer(item: CloudVmClusterUpdate): any 
 export interface CloudVmClusterUpdateProperties {
   /** The data disk group size to be allocated in GBs per VM. */
   storageSizeInGbs?: number;
-  /** Array of mount path and size. */
-  fileSystemConfigurationDetails?: FileSystemConfigurationDetails[];
   /** The data disk group size to be allocated in TBs. */
   dataStorageSizeInTbs?: number;
   /** The local node storage to be allocated in GBs. */
@@ -1830,9 +1707,6 @@ export function cloudVmClusterUpdatePropertiesSerializer(
 ): any {
   return {
     storageSizeInGbs: item["storageSizeInGbs"],
-    fileSystemConfigurationDetails: !item["fileSystemConfigurationDetails"]
-      ? item["fileSystemConfigurationDetails"]
-      : fileSystemConfigurationDetailsArraySerializer(item["fileSystemConfigurationDetails"]),
     dataStorageSizeInTbs: item["dataStorageSizeInTbs"],
     dbNodeStorageSizeInGbs: item["dbNodeStorageSizeInGbs"],
     memorySizeInGbs: item["memorySizeInGbs"],
@@ -2721,62 +2595,6 @@ export function giVersionArrayDeserializer(result: Array<GiVersion>): any[] {
   });
 }
 
-/** The response of a GiMinorVersion list operation. */
-export interface _GiMinorVersionListResult {
-  /** The GiMinorVersion items on this page */
-  value: GiMinorVersion[];
-  /** The link to the next page of items */
-  nextLink?: string;
-}
-
-export function _giMinorVersionListResultDeserializer(item: any): _GiMinorVersionListResult {
-  return {
-    value: giMinorVersionArrayDeserializer(item["value"]),
-    nextLink: item["nextLink"],
-  };
-}
-
-export function giMinorVersionArrayDeserializer(result: Array<GiMinorVersion>): any[] {
-  return result.map((item) => {
-    return giMinorVersionDeserializer(item);
-  });
-}
-
-/** The Oracle Grid Infrastructure (GI) minor version resource definition. */
-export interface GiMinorVersion extends ProxyResource {
-  /** The resource-specific properties for this resource. */
-  properties?: GiMinorVersionProperties;
-}
-
-export function giMinorVersionDeserializer(item: any): GiMinorVersion {
-  return {
-    id: item["id"],
-    name: item["name"],
-    type: item["type"],
-    systemData: !item["systemData"]
-      ? item["systemData"]
-      : systemDataDeserializer(item["systemData"]),
-    properties: !item["properties"]
-      ? item["properties"]
-      : giMinorVersionPropertiesDeserializer(item["properties"]),
-  };
-}
-
-/** The Oracle Grid Infrastructure (GI) minor version properties */
-export interface GiMinorVersionProperties {
-  /** A valid Oracle Grid Infrastructure (GI) software version. */
-  version: string;
-  /** Grid Infrastructure Image Id */
-  gridImageOcid?: string;
-}
-
-export function giMinorVersionPropertiesDeserializer(item: any): GiMinorVersionProperties {
-  return {
-    version: item["version"],
-    gridImageOcid: item["gridImageOcid"],
-  };
-}
-
 /** DbSystemShape resource definition */
 export interface DbSystemShape extends ProxyResource {
   /** The resource-specific properties for this resource. */
@@ -2801,8 +2619,6 @@ export function dbSystemShapeDeserializer(item: any): DbSystemShape {
 export interface DbSystemShapeProperties {
   /** The family of the shape used for the DB system. */
   shapeFamily?: string;
-  /** The shape used for the DB system. */
-  shapeName: string;
   /** The maximum number of CPU cores that can be enabled on the DB system for this shape. */
   availableCoreCount: number;
   /** The minimum number of CPU cores that can be enabled on the DB system for this shape. */
@@ -2841,18 +2657,11 @@ export interface DbSystemShapeProperties {
   maximumNodeCount?: number;
   /** The maximum number of CPU cores per database node that can be enabled for this shape. Only applicable to the flex Exadata shape and ExaCC Elastic shapes. */
   availableCoreCountPerNode?: number;
-  /** The compute model of the Exadata Infrastructure */
-  computeModel?: ComputeModel;
-  /** Indicates if the shape supports database and storage server types */
-  areServerTypesSupported?: boolean;
-  /** The display name of the shape used for the DB system */
-  displayName?: string;
 }
 
 export function dbSystemShapePropertiesDeserializer(item: any): DbSystemShapeProperties {
   return {
     shapeFamily: item["shapeFamily"],
-    shapeName: item["shapeName"],
     availableCoreCount: item["availableCoreCount"],
     minimumCoreCount: item["minimumCoreCount"],
     runtimeMinimumCoreCount: item["runtimeMinimumCoreCount"],
@@ -2872,9 +2681,6 @@ export function dbSystemShapePropertiesDeserializer(item: any): DbSystemShapePro
     minimumNodeCount: item["minimumNodeCount"],
     maximumNodeCount: item["maximumNodeCount"],
     availableCoreCountPerNode: item["availableCoreCountPerNode"],
-    computeModel: item["computeModel"],
-    areServerTypesSupported: item["areServerTypesSupported"],
-    displayName: item["displayName"],
   };
 }
 
@@ -3122,104 +2928,6 @@ export function dnsPrivateZoneArrayDeserializer(result: Array<DnsPrivateZone>): 
   });
 }
 
-/** FlexComponent Resource Definition */
-export interface FlexComponent extends ProxyResource {
-  /** The resource-specific properties for this resource. */
-  properties?: FlexComponentProperties;
-}
-
-export function flexComponentDeserializer(item: any): FlexComponent {
-  return {
-    id: item["id"],
-    name: item["name"],
-    type: item["type"],
-    systemData: !item["systemData"]
-      ? item["systemData"]
-      : systemDataDeserializer(item["systemData"]),
-    properties: !item["properties"]
-      ? item["properties"]
-      : flexComponentPropertiesDeserializer(item["properties"]),
-  };
-}
-
-/** FlexComponent resource model */
-export interface FlexComponentProperties {
-  /** The minimum number of CPU cores that can be enabled on the DB Server for this Flex Component. */
-  readonly minimumCoreCount?: number;
-  /** The maximum number of CPU cores that can be enabled on the DB Server for this Flex Component. */
-  readonly availableCoreCount?: number;
-  /** The maximum storage that can be enabled on the Storage Server for this Flex Component. */
-  readonly availableDbStorageInGbs?: number;
-  /** The runtime minimum number of CPU cores that can be enabled for this Flex Component. */
-  readonly runtimeMinimumCoreCount?: number;
-  /** The name of the DB system shape for this Flex Component. */
-  readonly shape?: string;
-  /** The maximum memory size that can be enabled on the DB Server for this Flex Component. */
-  readonly availableMemoryInGbs?: number;
-  /** The maximum local storage that can be enabled on the DB Server for this Flex Component. */
-  readonly availableLocalStorageInGbs?: number;
-  /** The compute model of the DB Server for this Flex Component. */
-  readonly computeModel?: string;
-  /** The hardware type of the DB (Compute) or Storage (Cell) Server for this Flex Component. */
-  readonly hardwareType?: HardwareType;
-  /** The description summary for this Flex Component. */
-  readonly descriptionSummary?: string;
-}
-
-export function flexComponentPropertiesDeserializer(item: any): FlexComponentProperties {
-  return {
-    minimumCoreCount: item["minimumCoreCount"],
-    availableCoreCount: item["availableCoreCount"],
-    availableDbStorageInGbs: item["availableDbStorageInGbs"],
-    runtimeMinimumCoreCount: item["runtimeMinimumCoreCount"],
-    shape: item["shape"],
-    availableMemoryInGbs: item["availableMemoryInGbs"],
-    availableLocalStorageInGbs: item["availableLocalStorageInGbs"],
-    computeModel: item["computeModel"],
-    hardwareType: item["hardwareType"],
-    descriptionSummary: item["descriptionSummary"],
-  };
-}
-
-/** Hardware Type enum */
-export enum KnownHardwareType {
-  /** Hardware type is Database Server */
-  Compute = "COMPUTE",
-  /** Hardware type is Storage Server */
-  Cell = "CELL",
-}
-
-/**
- * Hardware Type enum \
- * {@link KnownHardwareType} can be used interchangeably with HardwareType,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **COMPUTE**: Hardware type is Database Server \
- * **CELL**: Hardware type is Storage Server
- */
-export type HardwareType = string;
-
-/** The response of a FlexComponent list operation. */
-export interface _FlexComponentListResult {
-  /** The FlexComponent items on this page */
-  value: FlexComponent[];
-  /** The link to the next page of items */
-  nextLink?: string;
-}
-
-export function _flexComponentListResultDeserializer(item: any): _FlexComponentListResult {
-  return {
-    value: flexComponentArrayDeserializer(item["value"]),
-    nextLink: item["nextLink"],
-  };
-}
-
-export function flexComponentArrayDeserializer(result: Array<FlexComponent>): any[] {
-  return result.map((item) => {
-    return flexComponentDeserializer(item);
-  });
-}
-
 /** The response of a AutonomousDatabase list operation. */
 export interface _AutonomousDatabaseListResult {
   /** The AutonomousDatabase items on this page */
@@ -3286,7 +2994,7 @@ export interface AutonomousDatabaseBaseProperties {
   /** Admin password. */
   adminPassword?: string;
   /** Database type to be created. */
-  /** The discriminator possible values: Regular, Clone, CrossRegionDisasterRecovery, CloneFromBackupTimestamp */
+  /** The discriminator possible values: Regular, Clone */
   dataBaseType: DataBaseType;
   /** The maintenance schedule type of the Autonomous Database Serverless. */
   autonomousMaintenanceScheduleType?: AutonomousMaintenanceScheduleType;
@@ -3324,10 +3032,6 @@ export interface AutonomousDatabaseBaseProperties {
   readonly isRemoteDataGuardEnabled?: boolean;
   /** Indicates the local disaster recovery (DR) type of the Autonomous Database Serverless instance.Autonomous Data Guard (ADG) DR type provides business critical DR with a faster recovery time objective (RTO) during failover or switchover.Backup-based DR type provides lower cost DR with a slower RTO during failover or switchover. */
   readonly localDisasterRecoveryType?: DisasterRecoveryType;
-  /** The date and time the Disaster Recovery role was switched for the standby Autonomous Database. */
-  readonly timeDisasterRecoveryRoleChanged?: Date;
-  /** Indicates remote disaster recovery configuration */
-  readonly remoteDisasterRecoveryConfiguration?: DisasterRecoveryConfigurationDetails;
   /** Local Autonomous Disaster Recovery standby database details. */
   readonly localStandbyDb?: AutonomousDatabaseStandbySummary;
   /** Indicates the number of seconds of data loss for a Data Guard failover. */
@@ -3522,14 +3226,6 @@ export function autonomousDatabaseBasePropertiesDeserializer(
     isLocalDataGuardEnabled: item["isLocalDataGuardEnabled"],
     isRemoteDataGuardEnabled: item["isRemoteDataGuardEnabled"],
     localDisasterRecoveryType: item["localDisasterRecoveryType"],
-    timeDisasterRecoveryRoleChanged: !item["timeDisasterRecoveryRoleChanged"]
-      ? item["timeDisasterRecoveryRoleChanged"]
-      : new Date(item["timeDisasterRecoveryRoleChanged"]),
-    remoteDisasterRecoveryConfiguration: !item["remoteDisasterRecoveryConfiguration"]
-      ? item["remoteDisasterRecoveryConfiguration"]
-      : disasterRecoveryConfigurationDetailsDeserializer(
-          item["remoteDisasterRecoveryConfiguration"],
-        ),
     localStandbyDb: !item["localStandbyDb"]
       ? item["localStandbyDb"]
       : autonomousDatabaseStandbySummaryDeserializer(item["localStandbyDb"]),
@@ -3626,8 +3322,6 @@ export function autonomousDatabaseBasePropertiesDeserializer(
 export type AutonomousDatabaseBasePropertiesUnion =
   | AutonomousDatabaseProperties
   | AutonomousDatabaseCloneProperties
-  | AutonomousDatabaseCrossRegionDisasterRecoveryProperties
-  | AutonomousDatabaseFromBackupTimestampProperties
   | AutonomousDatabaseBaseProperties;
 
 export function autonomousDatabaseBasePropertiesUnionSerializer(
@@ -3639,16 +3333,6 @@ export function autonomousDatabaseBasePropertiesUnionSerializer(
 
     case "Clone":
       return autonomousDatabaseClonePropertiesSerializer(item as AutonomousDatabaseCloneProperties);
-
-    case "CrossRegionDisasterRecovery":
-      return autonomousDatabaseCrossRegionDisasterRecoveryPropertiesSerializer(
-        item as AutonomousDatabaseCrossRegionDisasterRecoveryProperties,
-      );
-
-    case "CloneFromBackupTimestamp":
-      return autonomousDatabaseFromBackupTimestampPropertiesSerializer(
-        item as AutonomousDatabaseFromBackupTimestampProperties,
-      );
 
     default:
       return autonomousDatabaseBasePropertiesSerializer(item);
@@ -3667,16 +3351,6 @@ export function autonomousDatabaseBasePropertiesUnionDeserializer(
         item as AutonomousDatabaseCloneProperties,
       );
 
-    case "CrossRegionDisasterRecovery":
-      return autonomousDatabaseCrossRegionDisasterRecoveryPropertiesDeserializer(
-        item as AutonomousDatabaseCrossRegionDisasterRecoveryProperties,
-      );
-
-    case "CloneFromBackupTimestamp":
-      return autonomousDatabaseFromBackupTimestampPropertiesDeserializer(
-        item as AutonomousDatabaseFromBackupTimestampProperties,
-      );
-
     default:
       return autonomousDatabaseBasePropertiesDeserializer(item);
   }
@@ -3688,10 +3362,6 @@ export enum KnownDataBaseType {
   Regular = "Regular",
   /** Clone DB */
   Clone = "Clone",
-  /** Clone DB from backup timestamp */
-  CloneFromBackupTimestamp = "CloneFromBackupTimestamp",
-  /** Cross Region Disaster Recovery */
-  CrossRegionDisasterRecovery = "CrossRegionDisasterRecovery",
 }
 
 /**
@@ -3700,9 +3370,7 @@ export enum KnownDataBaseType {
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
  * **Regular**: Regular DB \
- * **Clone**: Clone DB \
- * **CloneFromBackupTimestamp**: Clone DB from backup timestamp \
- * **CrossRegionDisasterRecovery**: Cross Region Disaster Recovery
+ * **Clone**: Clone DB
  */
 export type DataBaseType = string;
 
@@ -3723,6 +3391,24 @@ export enum KnownAutonomousMaintenanceScheduleType {
  * **Regular**: Regular maintenance schedule
  */
 export type AutonomousMaintenanceScheduleType = string;
+
+/** Compute model enum */
+export enum KnownComputeModel {
+  /** ECPU model type */
+  Ecpu = "ECPU",
+  /** OCPU model type */
+  Ocpu = "OCPU",
+}
+
+/**
+ * Compute model enum \
+ * {@link KnownComputeModel} can be used interchangeably with ComputeModel,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **ECPU**: ECPU model type \
+ * **OCPU**: OCPU model type
+ */
+export type ComputeModel = string;
 
 /** WorkloadType enum */
 export enum KnownWorkloadType {
@@ -3765,44 +3451,6 @@ export enum KnownDisasterRecoveryType {
  * **BackupBased**: Backup based type
  */
 export type DisasterRecoveryType = string;
-
-/** Configurations of a Disaster Recovery Details */
-export interface DisasterRecoveryConfigurationDetails {
-  /** Indicates the disaster recovery (DR) type of the Autonomous Database Serverless instance. Autonomous Data Guard (ADG) DR type provides business critical DR with a faster recovery time objective (RTO) during failover or switchover. Backup-based DR type provides lower cost DR with a slower RTO during failover or switchover. */
-  disasterRecoveryType?: DisasterRecoveryType;
-  /** Time and date stored as an RFC 3339 formatted timestamp string. For example, 2022-01-01T12:00:00.000Z would set a limit for the snapshot standby to be converted back to a cross-region standby database. */
-  timeSnapshotStandbyEnabledTill?: Date;
-  /** Indicates if user wants to convert to a snapshot standby. For example, true would set a standby database to snapshot standby database. False would set a snapshot standby database back to regular standby database. */
-  isSnapshotStandby?: boolean;
-  /** If true, 7 days worth of backups are replicated across regions for Cross-Region ADB or Backup-Based DR between Primary and Standby. If false, the backups taken on the Primary are not replicated to the Standby database. */
-  isReplicateAutomaticBackups?: boolean;
-}
-
-export function disasterRecoveryConfigurationDetailsSerializer(
-  item: DisasterRecoveryConfigurationDetails,
-): any {
-  return {
-    disasterRecoveryType: item["disasterRecoveryType"],
-    timeSnapshotStandbyEnabledTill: !item["timeSnapshotStandbyEnabledTill"]
-      ? item["timeSnapshotStandbyEnabledTill"]
-      : item["timeSnapshotStandbyEnabledTill"].toISOString(),
-    isSnapshotStandby: item["isSnapshotStandby"],
-    isReplicateAutomaticBackups: item["isReplicateAutomaticBackups"],
-  };
-}
-
-export function disasterRecoveryConfigurationDetailsDeserializer(
-  item: any,
-): DisasterRecoveryConfigurationDetails {
-  return {
-    disasterRecoveryType: item["disasterRecoveryType"],
-    timeSnapshotStandbyEnabledTill: !item["timeSnapshotStandbyEnabledTill"]
-      ? item["timeSnapshotStandbyEnabledTill"]
-      : new Date(item["timeSnapshotStandbyEnabledTill"]),
-    isSnapshotStandby: item["isSnapshotStandby"],
-    isReplicateAutomaticBackups: item["isReplicateAutomaticBackups"],
-  };
-}
 
 /** Autonomous Disaster Recovery standby database details. */
 export interface AutonomousDatabaseStandbySummary {
@@ -4463,14 +4111,6 @@ export function autonomousDatabasePropertiesDeserializer(item: any): AutonomousD
     isLocalDataGuardEnabled: item["isLocalDataGuardEnabled"],
     isRemoteDataGuardEnabled: item["isRemoteDataGuardEnabled"],
     localDisasterRecoveryType: item["localDisasterRecoveryType"],
-    timeDisasterRecoveryRoleChanged: !item["timeDisasterRecoveryRoleChanged"]
-      ? item["timeDisasterRecoveryRoleChanged"]
-      : new Date(item["timeDisasterRecoveryRoleChanged"]),
-    remoteDisasterRecoveryConfiguration: !item["remoteDisasterRecoveryConfiguration"]
-      ? item["remoteDisasterRecoveryConfiguration"]
-      : disasterRecoveryConfigurationDetailsDeserializer(
-          item["remoteDisasterRecoveryConfiguration"],
-        ),
     localStandbyDb: !item["localStandbyDb"]
       ? item["localStandbyDb"]
       : autonomousDatabaseStandbySummaryDeserializer(item["localStandbyDb"]),
@@ -4672,14 +4312,6 @@ export function autonomousDatabaseClonePropertiesDeserializer(
     isLocalDataGuardEnabled: item["isLocalDataGuardEnabled"],
     isRemoteDataGuardEnabled: item["isRemoteDataGuardEnabled"],
     localDisasterRecoveryType: item["localDisasterRecoveryType"],
-    timeDisasterRecoveryRoleChanged: !item["timeDisasterRecoveryRoleChanged"]
-      ? item["timeDisasterRecoveryRoleChanged"]
-      : new Date(item["timeDisasterRecoveryRoleChanged"]),
-    remoteDisasterRecoveryConfiguration: !item["remoteDisasterRecoveryConfiguration"]
-      ? item["remoteDisasterRecoveryConfiguration"]
-      : disasterRecoveryConfigurationDetailsDeserializer(
-          item["remoteDisasterRecoveryConfiguration"],
-        ),
     localStandbyDb: !item["localStandbyDb"]
       ? item["localStandbyDb"]
       : autonomousDatabaseStandbySummaryDeserializer(item["localStandbyDb"]),
@@ -4867,428 +4499,6 @@ export enum KnownRefreshableStatusType {
  */
 export type RefreshableStatusType = string;
 
-/** Autonomous Database Cross Region Disaster Recovery resource model. */
-export interface AutonomousDatabaseCrossRegionDisasterRecoveryProperties
-  extends AutonomousDatabaseBaseProperties {
-  /** Database type to be created. */
-  dataBaseType: "CrossRegionDisasterRecovery";
-  /** The source of the database. */
-  source: "CrossRegionDisasterRecovery";
-  /** The Azure ID of the source Autonomous Database that will be used to create a new peer database for the DR association. */
-  sourceId: string;
-  /** The name of the region where source Autonomous Database exists. */
-  sourceLocation?: string;
-  /** The source database ocid */
-  sourceOcid?: string;
-  /** Indicates the cross-region disaster recovery (DR) type of the standby Autonomous Database Serverless instance. Autonomous Data Guard (ADG) DR type provides business critical DR with a faster recovery time objective (RTO) during failover or switchover. Backup-based DR type provides lower cost DR with a slower RTO during failover or switchover. */
-  remoteDisasterRecoveryType: DisasterRecoveryType;
-  /** If true, 7 days worth of backups are replicated across regions for Cross-Region ADB or Backup-Based DR between Primary and Standby. If false, the backups taken on the Primary are not replicated to the Standby database. */
-  isReplicateAutomaticBackups?: boolean;
-}
-
-export function autonomousDatabaseCrossRegionDisasterRecoveryPropertiesSerializer(
-  item: AutonomousDatabaseCrossRegionDisasterRecoveryProperties,
-): any {
-  return {
-    adminPassword: item["adminPassword"],
-    dataBaseType: item["dataBaseType"],
-    autonomousMaintenanceScheduleType: item["autonomousMaintenanceScheduleType"],
-    characterSet: item["characterSet"],
-    computeCount: item["computeCount"],
-    computeModel: item["computeModel"],
-    cpuCoreCount: item["cpuCoreCount"],
-    customerContacts: !item["customerContacts"]
-      ? item["customerContacts"]
-      : customerContactArraySerializer(item["customerContacts"]),
-    dataStorageSizeInTbs: item["dataStorageSizeInTbs"],
-    dataStorageSizeInGbs: item["dataStorageSizeInGbs"],
-    dbVersion: item["dbVersion"],
-    dbWorkload: item["dbWorkload"],
-    displayName: item["displayName"],
-    isAutoScalingEnabled: item["isAutoScalingEnabled"],
-    isAutoScalingForStorageEnabled: item["isAutoScalingForStorageEnabled"],
-    peerDbId: item["peerDbId"],
-    isLocalDataGuardEnabled: item["isLocalDataGuardEnabled"],
-    isMtlsConnectionRequired: item["isMtlsConnectionRequired"],
-    isPreviewVersionWithServiceTermsAccepted: item["isPreviewVersionWithServiceTermsAccepted"],
-    licenseModel: item["licenseModel"],
-    ncharacterSet: item["ncharacterSet"],
-    scheduledOperations: !item["scheduledOperations"]
-      ? item["scheduledOperations"]
-      : scheduledOperationsTypeSerializer(item["scheduledOperations"]),
-    privateEndpointIp: item["privateEndpointIp"],
-    privateEndpointLabel: item["privateEndpointLabel"],
-    subnetId: item["subnetId"],
-    vnetId: item["vnetId"],
-    databaseEdition: item["databaseEdition"],
-    autonomousDatabaseId: item["autonomousDatabaseId"],
-    longTermBackupSchedule: !item["longTermBackupSchedule"]
-      ? item["longTermBackupSchedule"]
-      : longTermBackUpScheduleDetailsSerializer(item["longTermBackupSchedule"]),
-    localAdgAutoFailoverMaxDataLossLimit: item["localAdgAutoFailoverMaxDataLossLimit"],
-    openMode: item["openMode"],
-    permissionLevel: item["permissionLevel"],
-    role: item["role"],
-    backupRetentionPeriodInDays: item["backupRetentionPeriodInDays"],
-    whitelistedIps: !item["whitelistedIps"]
-      ? item["whitelistedIps"]
-      : item["whitelistedIps"].map((p: any) => {
-          return p;
-        }),
-    source: item["source"],
-    sourceId: item["sourceId"],
-    sourceLocation: item["sourceLocation"],
-    sourceOcid: item["sourceOcid"],
-    remoteDisasterRecoveryType: item["remoteDisasterRecoveryType"],
-    isReplicateAutomaticBackups: item["isReplicateAutomaticBackups"],
-  };
-}
-
-export function autonomousDatabaseCrossRegionDisasterRecoveryPropertiesDeserializer(
-  item: any,
-): AutonomousDatabaseCrossRegionDisasterRecoveryProperties {
-  return {
-    adminPassword: item["adminPassword"],
-    dataBaseType: item["dataBaseType"],
-    autonomousMaintenanceScheduleType: item["autonomousMaintenanceScheduleType"],
-    characterSet: item["characterSet"],
-    computeCount: item["computeCount"],
-    computeModel: item["computeModel"],
-    cpuCoreCount: item["cpuCoreCount"],
-    customerContacts: !item["customerContacts"]
-      ? item["customerContacts"]
-      : customerContactArrayDeserializer(item["customerContacts"]),
-    dataStorageSizeInTbs: item["dataStorageSizeInTbs"],
-    dataStorageSizeInGbs: item["dataStorageSizeInGbs"],
-    dbVersion: item["dbVersion"],
-    dbWorkload: item["dbWorkload"],
-    displayName: item["displayName"],
-    isAutoScalingEnabled: item["isAutoScalingEnabled"],
-    isAutoScalingForStorageEnabled: item["isAutoScalingForStorageEnabled"],
-    peerDbIds: !item["peerDbIds"]
-      ? item["peerDbIds"]
-      : item["peerDbIds"].map((p: any) => {
-          return p;
-        }),
-    peerDbId: item["peerDbId"],
-    isLocalDataGuardEnabled: item["isLocalDataGuardEnabled"],
-    isRemoteDataGuardEnabled: item["isRemoteDataGuardEnabled"],
-    localDisasterRecoveryType: item["localDisasterRecoveryType"],
-    timeDisasterRecoveryRoleChanged: !item["timeDisasterRecoveryRoleChanged"]
-      ? item["timeDisasterRecoveryRoleChanged"]
-      : new Date(item["timeDisasterRecoveryRoleChanged"]),
-    remoteDisasterRecoveryConfiguration: !item["remoteDisasterRecoveryConfiguration"]
-      ? item["remoteDisasterRecoveryConfiguration"]
-      : disasterRecoveryConfigurationDetailsDeserializer(
-          item["remoteDisasterRecoveryConfiguration"],
-        ),
-    localStandbyDb: !item["localStandbyDb"]
-      ? item["localStandbyDb"]
-      : autonomousDatabaseStandbySummaryDeserializer(item["localStandbyDb"]),
-    failedDataRecoveryInSeconds: item["failedDataRecoveryInSeconds"],
-    isMtlsConnectionRequired: item["isMtlsConnectionRequired"],
-    isPreviewVersionWithServiceTermsAccepted: item["isPreviewVersionWithServiceTermsAccepted"],
-    licenseModel: item["licenseModel"],
-    ncharacterSet: item["ncharacterSet"],
-    lifecycleDetails: item["lifecycleDetails"],
-    provisioningState: item["provisioningState"],
-    lifecycleState: item["lifecycleState"],
-    scheduledOperations: !item["scheduledOperations"]
-      ? item["scheduledOperations"]
-      : scheduledOperationsTypeDeserializer(item["scheduledOperations"]),
-    privateEndpointIp: item["privateEndpointIp"],
-    privateEndpointLabel: item["privateEndpointLabel"],
-    ociUrl: item["ociUrl"],
-    subnetId: item["subnetId"],
-    vnetId: item["vnetId"],
-    timeCreated: !item["timeCreated"] ? item["timeCreated"] : new Date(item["timeCreated"]),
-    timeMaintenanceBegin: !item["timeMaintenanceBegin"]
-      ? item["timeMaintenanceBegin"]
-      : new Date(item["timeMaintenanceBegin"]),
-    timeMaintenanceEnd: !item["timeMaintenanceEnd"]
-      ? item["timeMaintenanceEnd"]
-      : new Date(item["timeMaintenanceEnd"]),
-    actualUsedDataStorageSizeInTbs: item["actualUsedDataStorageSizeInTbs"],
-    allocatedStorageSizeInTbs: item["allocatedStorageSizeInTbs"],
-    apexDetails: !item["apexDetails"]
-      ? item["apexDetails"]
-      : apexDetailsTypeDeserializer(item["apexDetails"]),
-    availableUpgradeVersions: !item["availableUpgradeVersions"]
-      ? item["availableUpgradeVersions"]
-      : item["availableUpgradeVersions"].map((p: any) => {
-          return p;
-        }),
-    connectionStrings: !item["connectionStrings"]
-      ? item["connectionStrings"]
-      : connectionStringTypeDeserializer(item["connectionStrings"]),
-    connectionUrls: !item["connectionUrls"]
-      ? item["connectionUrls"]
-      : connectionUrlTypeDeserializer(item["connectionUrls"]),
-    dataSafeStatus: item["dataSafeStatus"],
-    databaseEdition: item["databaseEdition"],
-    autonomousDatabaseId: item["autonomousDatabaseId"],
-    inMemoryAreaInGbs: item["inMemoryAreaInGbs"],
-    nextLongTermBackupTimeStamp: !item["nextLongTermBackupTimeStamp"]
-      ? item["nextLongTermBackupTimeStamp"]
-      : new Date(item["nextLongTermBackupTimeStamp"]),
-    longTermBackupSchedule: !item["longTermBackupSchedule"]
-      ? item["longTermBackupSchedule"]
-      : longTermBackUpScheduleDetailsDeserializer(item["longTermBackupSchedule"]),
-    isPreview: item["isPreview"],
-    localAdgAutoFailoverMaxDataLossLimit: item["localAdgAutoFailoverMaxDataLossLimit"],
-    memoryPerOracleComputeUnitInGbs: item["memoryPerOracleComputeUnitInGbs"],
-    openMode: item["openMode"],
-    operationsInsightsStatus: item["operationsInsightsStatus"],
-    permissionLevel: item["permissionLevel"],
-    privateEndpoint: item["privateEndpoint"],
-    provisionableCpus: !item["provisionableCpus"]
-      ? item["provisionableCpus"]
-      : item["provisionableCpus"].map((p: any) => {
-          return p;
-        }),
-    role: item["role"],
-    serviceConsoleUrl: item["serviceConsoleUrl"],
-    sqlWebDeveloperUrl: item["sqlWebDeveloperUrl"],
-    supportedRegionsToCloneTo: !item["supportedRegionsToCloneTo"]
-      ? item["supportedRegionsToCloneTo"]
-      : item["supportedRegionsToCloneTo"].map((p: any) => {
-          return p;
-        }),
-    timeDataGuardRoleChanged: item["timeDataGuardRoleChanged"],
-    timeDeletionOfFreeAutonomousDatabase: item["timeDeletionOfFreeAutonomousDatabase"],
-    timeLocalDataGuardEnabled: item["timeLocalDataGuardEnabled"],
-    timeOfLastFailover: item["timeOfLastFailover"],
-    timeOfLastRefresh: item["timeOfLastRefresh"],
-    timeOfLastRefreshPoint: item["timeOfLastRefreshPoint"],
-    timeOfLastSwitchover: item["timeOfLastSwitchover"],
-    timeReclamationOfFreeAutonomousDatabase: item["timeReclamationOfFreeAutonomousDatabase"],
-    usedDataStorageSizeInGbs: item["usedDataStorageSizeInGbs"],
-    usedDataStorageSizeInTbs: item["usedDataStorageSizeInTbs"],
-    ocid: item["ocid"],
-    backupRetentionPeriodInDays: item["backupRetentionPeriodInDays"],
-    whitelistedIps: !item["whitelistedIps"]
-      ? item["whitelistedIps"]
-      : item["whitelistedIps"].map((p: any) => {
-          return p;
-        }),
-    source: item["source"],
-    sourceId: item["sourceId"],
-    sourceLocation: item["sourceLocation"],
-    sourceOcid: item["sourceOcid"],
-    remoteDisasterRecoveryType: item["remoteDisasterRecoveryType"],
-    isReplicateAutomaticBackups: item["isReplicateAutomaticBackups"],
-  };
-}
-
-/** Autonomous Database From Backup Timestamp resource model. */
-export interface AutonomousDatabaseFromBackupTimestampProperties
-  extends AutonomousDatabaseBaseProperties {
-  /** Database type to be created. */
-  dataBaseType: "CloneFromBackupTimestamp";
-  /** The source of the database. */
-  source: "BackupFromTimestamp";
-  /** The ID of the source Autonomous Database that you will clone to create a new Autonomous Database. */
-  sourceId: string;
-  /** The Autonomous Database clone type. */
-  cloneType: CloneType;
-  /** The timestamp specified for the point-in-time clone of the source Autonomous Database. The timestamp must be in the past. */
-  timestamp?: Date;
-  /** Clone from latest available backup timestamp. */
-  useLatestAvailableBackupTimeStamp?: boolean;
-}
-
-export function autonomousDatabaseFromBackupTimestampPropertiesSerializer(
-  item: AutonomousDatabaseFromBackupTimestampProperties,
-): any {
-  return {
-    adminPassword: item["adminPassword"],
-    dataBaseType: item["dataBaseType"],
-    autonomousMaintenanceScheduleType: item["autonomousMaintenanceScheduleType"],
-    characterSet: item["characterSet"],
-    computeCount: item["computeCount"],
-    computeModel: item["computeModel"],
-    cpuCoreCount: item["cpuCoreCount"],
-    customerContacts: !item["customerContacts"]
-      ? item["customerContacts"]
-      : customerContactArraySerializer(item["customerContacts"]),
-    dataStorageSizeInTbs: item["dataStorageSizeInTbs"],
-    dataStorageSizeInGbs: item["dataStorageSizeInGbs"],
-    dbVersion: item["dbVersion"],
-    dbWorkload: item["dbWorkload"],
-    displayName: item["displayName"],
-    isAutoScalingEnabled: item["isAutoScalingEnabled"],
-    isAutoScalingForStorageEnabled: item["isAutoScalingForStorageEnabled"],
-    peerDbId: item["peerDbId"],
-    isLocalDataGuardEnabled: item["isLocalDataGuardEnabled"],
-    isMtlsConnectionRequired: item["isMtlsConnectionRequired"],
-    isPreviewVersionWithServiceTermsAccepted: item["isPreviewVersionWithServiceTermsAccepted"],
-    licenseModel: item["licenseModel"],
-    ncharacterSet: item["ncharacterSet"],
-    scheduledOperations: !item["scheduledOperations"]
-      ? item["scheduledOperations"]
-      : scheduledOperationsTypeSerializer(item["scheduledOperations"]),
-    privateEndpointIp: item["privateEndpointIp"],
-    privateEndpointLabel: item["privateEndpointLabel"],
-    subnetId: item["subnetId"],
-    vnetId: item["vnetId"],
-    databaseEdition: item["databaseEdition"],
-    autonomousDatabaseId: item["autonomousDatabaseId"],
-    longTermBackupSchedule: !item["longTermBackupSchedule"]
-      ? item["longTermBackupSchedule"]
-      : longTermBackUpScheduleDetailsSerializer(item["longTermBackupSchedule"]),
-    localAdgAutoFailoverMaxDataLossLimit: item["localAdgAutoFailoverMaxDataLossLimit"],
-    openMode: item["openMode"],
-    permissionLevel: item["permissionLevel"],
-    role: item["role"],
-    backupRetentionPeriodInDays: item["backupRetentionPeriodInDays"],
-    whitelistedIps: !item["whitelistedIps"]
-      ? item["whitelistedIps"]
-      : item["whitelistedIps"].map((p: any) => {
-          return p;
-        }),
-    source: item["source"],
-    sourceId: item["sourceId"],
-    cloneType: item["cloneType"],
-    timestamp: !item["timestamp"] ? item["timestamp"] : item["timestamp"].toISOString(),
-    useLatestAvailableBackupTimeStamp: item["useLatestAvailableBackupTimeStamp"],
-  };
-}
-
-export function autonomousDatabaseFromBackupTimestampPropertiesDeserializer(
-  item: any,
-): AutonomousDatabaseFromBackupTimestampProperties {
-  return {
-    adminPassword: item["adminPassword"],
-    dataBaseType: item["dataBaseType"],
-    autonomousMaintenanceScheduleType: item["autonomousMaintenanceScheduleType"],
-    characterSet: item["characterSet"],
-    computeCount: item["computeCount"],
-    computeModel: item["computeModel"],
-    cpuCoreCount: item["cpuCoreCount"],
-    customerContacts: !item["customerContacts"]
-      ? item["customerContacts"]
-      : customerContactArrayDeserializer(item["customerContacts"]),
-    dataStorageSizeInTbs: item["dataStorageSizeInTbs"],
-    dataStorageSizeInGbs: item["dataStorageSizeInGbs"],
-    dbVersion: item["dbVersion"],
-    dbWorkload: item["dbWorkload"],
-    displayName: item["displayName"],
-    isAutoScalingEnabled: item["isAutoScalingEnabled"],
-    isAutoScalingForStorageEnabled: item["isAutoScalingForStorageEnabled"],
-    peerDbIds: !item["peerDbIds"]
-      ? item["peerDbIds"]
-      : item["peerDbIds"].map((p: any) => {
-          return p;
-        }),
-    peerDbId: item["peerDbId"],
-    isLocalDataGuardEnabled: item["isLocalDataGuardEnabled"],
-    isRemoteDataGuardEnabled: item["isRemoteDataGuardEnabled"],
-    localDisasterRecoveryType: item["localDisasterRecoveryType"],
-    timeDisasterRecoveryRoleChanged: !item["timeDisasterRecoveryRoleChanged"]
-      ? item["timeDisasterRecoveryRoleChanged"]
-      : new Date(item["timeDisasterRecoveryRoleChanged"]),
-    remoteDisasterRecoveryConfiguration: !item["remoteDisasterRecoveryConfiguration"]
-      ? item["remoteDisasterRecoveryConfiguration"]
-      : disasterRecoveryConfigurationDetailsDeserializer(
-          item["remoteDisasterRecoveryConfiguration"],
-        ),
-    localStandbyDb: !item["localStandbyDb"]
-      ? item["localStandbyDb"]
-      : autonomousDatabaseStandbySummaryDeserializer(item["localStandbyDb"]),
-    failedDataRecoveryInSeconds: item["failedDataRecoveryInSeconds"],
-    isMtlsConnectionRequired: item["isMtlsConnectionRequired"],
-    isPreviewVersionWithServiceTermsAccepted: item["isPreviewVersionWithServiceTermsAccepted"],
-    licenseModel: item["licenseModel"],
-    ncharacterSet: item["ncharacterSet"],
-    lifecycleDetails: item["lifecycleDetails"],
-    provisioningState: item["provisioningState"],
-    lifecycleState: item["lifecycleState"],
-    scheduledOperations: !item["scheduledOperations"]
-      ? item["scheduledOperations"]
-      : scheduledOperationsTypeDeserializer(item["scheduledOperations"]),
-    privateEndpointIp: item["privateEndpointIp"],
-    privateEndpointLabel: item["privateEndpointLabel"],
-    ociUrl: item["ociUrl"],
-    subnetId: item["subnetId"],
-    vnetId: item["vnetId"],
-    timeCreated: !item["timeCreated"] ? item["timeCreated"] : new Date(item["timeCreated"]),
-    timeMaintenanceBegin: !item["timeMaintenanceBegin"]
-      ? item["timeMaintenanceBegin"]
-      : new Date(item["timeMaintenanceBegin"]),
-    timeMaintenanceEnd: !item["timeMaintenanceEnd"]
-      ? item["timeMaintenanceEnd"]
-      : new Date(item["timeMaintenanceEnd"]),
-    actualUsedDataStorageSizeInTbs: item["actualUsedDataStorageSizeInTbs"],
-    allocatedStorageSizeInTbs: item["allocatedStorageSizeInTbs"],
-    apexDetails: !item["apexDetails"]
-      ? item["apexDetails"]
-      : apexDetailsTypeDeserializer(item["apexDetails"]),
-    availableUpgradeVersions: !item["availableUpgradeVersions"]
-      ? item["availableUpgradeVersions"]
-      : item["availableUpgradeVersions"].map((p: any) => {
-          return p;
-        }),
-    connectionStrings: !item["connectionStrings"]
-      ? item["connectionStrings"]
-      : connectionStringTypeDeserializer(item["connectionStrings"]),
-    connectionUrls: !item["connectionUrls"]
-      ? item["connectionUrls"]
-      : connectionUrlTypeDeserializer(item["connectionUrls"]),
-    dataSafeStatus: item["dataSafeStatus"],
-    databaseEdition: item["databaseEdition"],
-    autonomousDatabaseId: item["autonomousDatabaseId"],
-    inMemoryAreaInGbs: item["inMemoryAreaInGbs"],
-    nextLongTermBackupTimeStamp: !item["nextLongTermBackupTimeStamp"]
-      ? item["nextLongTermBackupTimeStamp"]
-      : new Date(item["nextLongTermBackupTimeStamp"]),
-    longTermBackupSchedule: !item["longTermBackupSchedule"]
-      ? item["longTermBackupSchedule"]
-      : longTermBackUpScheduleDetailsDeserializer(item["longTermBackupSchedule"]),
-    isPreview: item["isPreview"],
-    localAdgAutoFailoverMaxDataLossLimit: item["localAdgAutoFailoverMaxDataLossLimit"],
-    memoryPerOracleComputeUnitInGbs: item["memoryPerOracleComputeUnitInGbs"],
-    openMode: item["openMode"],
-    operationsInsightsStatus: item["operationsInsightsStatus"],
-    permissionLevel: item["permissionLevel"],
-    privateEndpoint: item["privateEndpoint"],
-    provisionableCpus: !item["provisionableCpus"]
-      ? item["provisionableCpus"]
-      : item["provisionableCpus"].map((p: any) => {
-          return p;
-        }),
-    role: item["role"],
-    serviceConsoleUrl: item["serviceConsoleUrl"],
-    sqlWebDeveloperUrl: item["sqlWebDeveloperUrl"],
-    supportedRegionsToCloneTo: !item["supportedRegionsToCloneTo"]
-      ? item["supportedRegionsToCloneTo"]
-      : item["supportedRegionsToCloneTo"].map((p: any) => {
-          return p;
-        }),
-    timeDataGuardRoleChanged: item["timeDataGuardRoleChanged"],
-    timeDeletionOfFreeAutonomousDatabase: item["timeDeletionOfFreeAutonomousDatabase"],
-    timeLocalDataGuardEnabled: item["timeLocalDataGuardEnabled"],
-    timeOfLastFailover: item["timeOfLastFailover"],
-    timeOfLastRefresh: item["timeOfLastRefresh"],
-    timeOfLastRefreshPoint: item["timeOfLastRefreshPoint"],
-    timeOfLastSwitchover: item["timeOfLastSwitchover"],
-    timeReclamationOfFreeAutonomousDatabase: item["timeReclamationOfFreeAutonomousDatabase"],
-    usedDataStorageSizeInGbs: item["usedDataStorageSizeInGbs"],
-    usedDataStorageSizeInTbs: item["usedDataStorageSizeInTbs"],
-    ocid: item["ocid"],
-    backupRetentionPeriodInDays: item["backupRetentionPeriodInDays"],
-    whitelistedIps: !item["whitelistedIps"]
-      ? item["whitelistedIps"]
-      : item["whitelistedIps"].map((p: any) => {
-          return p;
-        }),
-    source: item["source"],
-    sourceId: item["sourceId"],
-    cloneType: item["cloneType"],
-    timestamp: !item["timestamp"] ? item["timestamp"] : new Date(item["timestamp"]),
-    useLatestAvailableBackupTimeStamp: item["useLatestAvailableBackupTimeStamp"],
-  };
-}
-
 /** The type used for update operations of the AutonomousDatabase. */
 export interface AutonomousDatabaseUpdate {
   /** Resource tags. */
@@ -5428,18 +4638,10 @@ export function dayOfWeekUpdateSerializer(item: DayOfWeekUpdate): any {
 export interface PeerDbDetails {
   /** The Azure resource ID of the Disaster Recovery peer database, which is located in a different region from the current peer database. */
   peerDbId?: string;
-  /** Ocid of the Disaster Recovery peer database, which is located in a different region from the current peer database. */
-  peerDbOcid?: string;
-  /** The location of the Disaster Recovery peer database. */
-  peerDbLocation?: string;
 }
 
 export function peerDbDetailsSerializer(item: PeerDbDetails): any {
-  return {
-    peerDbId: item["peerDbId"],
-    peerDbOcid: item["peerDbOcid"],
-    peerDbLocation: item["peerDbLocation"],
-  };
+  return { peerDbId: item["peerDbId"] };
 }
 
 /** Autonomous Database Generate Wallet resource model. */
@@ -5905,765 +5107,12 @@ export function autonomousDbVersionArrayDeserializer(result: Array<AutonomousDbV
   });
 }
 
-/** The response of a ExadbVmCluster list operation. */
-export interface _ExadbVmClusterListResult {
-  /** The ExadbVmCluster items on this page */
-  value: ExadbVmCluster[];
-  /** The link to the next page of items */
-  nextLink?: string;
-}
-
-export function _exadbVmClusterListResultDeserializer(item: any): _ExadbVmClusterListResult {
-  return {
-    value: exadbVmClusterArrayDeserializer(item["value"]),
-    nextLink: item["nextLink"],
-  };
-}
-
-export function exadbVmClusterArraySerializer(result: Array<ExadbVmCluster>): any[] {
-  return result.map((item) => {
-    return exadbVmClusterSerializer(item);
-  });
-}
-
-export function exadbVmClusterArrayDeserializer(result: Array<ExadbVmCluster>): any[] {
-  return result.map((item) => {
-    return exadbVmClusterDeserializer(item);
-  });
-}
-
-/** ExadbVmCluster resource definition */
-export interface ExadbVmCluster extends TrackedResource {
-  /** The resource-specific properties for this resource. */
-  properties?: ExadbVmClusterProperties;
-  /** The availability zones. */
-  zones?: string[];
-}
-
-export function exadbVmClusterSerializer(item: ExadbVmCluster): any {
-  return {
-    tags: item["tags"],
-    location: item["location"],
-    properties: !item["properties"]
-      ? item["properties"]
-      : exadbVmClusterPropertiesSerializer(item["properties"]),
-    zones: !item["zones"]
-      ? item["zones"]
-      : item["zones"].map((p: any) => {
-          return p;
-        }),
-  };
-}
-
-export function exadbVmClusterDeserializer(item: any): ExadbVmCluster {
-  return {
-    tags: item["tags"],
-    location: item["location"],
-    id: item["id"],
-    name: item["name"],
-    type: item["type"],
-    systemData: !item["systemData"]
-      ? item["systemData"]
-      : systemDataDeserializer(item["systemData"]),
-    properties: !item["properties"]
-      ? item["properties"]
-      : exadbVmClusterPropertiesDeserializer(item["properties"]),
-    zones: !item["zones"]
-      ? item["zones"]
-      : item["zones"].map((p: any) => {
-          return p;
-        }),
-  };
-}
-
-/** ExadbVmCluster resource model */
-export interface ExadbVmClusterProperties {
-  /** ExadbVmCluster ocid */
-  readonly ocid?: string;
-  /** The cluster name for Exadata VM cluster on Exascale Infrastructure. The cluster name must begin with an alphabetic character, and may contain hyphens (-). Underscores (_) are not permitted. The cluster name can be no longer than 11 characters and is not case sensitive. */
-  clusterName?: string;
-  /** Client OCI backup subnet CIDR, default is 192.168.252.0/22 */
-  backupSubnetCidr?: string;
-  /** HTTPS link to OCI Network Security Group exposed to Azure Customer via the Azure Interface. */
-  readonly nsgUrl?: string;
-  /** Exadata VM cluster on Exascale Infrastructure provisioning state */
-  readonly provisioningState?: AzureResourceProvisioningState;
-  /** CloudVmCluster lifecycle state */
-  readonly lifecycleState?: ExadbVmClusterLifecycleState;
-  /** VNET for network connectivity */
-  vnetId: string;
-  /** Client subnet */
-  subnetId: string;
-  /** Indicates user preferences for the various diagnostic collection options for the VM cluster/Cloud VM cluster/VMBM DBCS. */
-  dataCollectionOptions?: DataCollectionOptions;
-  /** Display Name */
-  displayName: string;
-  /** A domain name used for the Exadata VM cluster on Exascale Infrastructure */
-  domain?: string;
-  /** The number of ECPUs to enable for an Exadata VM cluster on Exascale Infrastructure. */
-  enabledEcpuCount: number;
-  /** The Azure Resource ID of the Exadata Database Storage Vault. */
-  exascaleDbStorageVaultId: string;
-  /** Grid Setup will be done using this Grid Image OCID. Can be obtained using giMinorVersions API */
-  gridImageOcid?: string;
-  /** The type of Grid Image */
-  readonly gridImageType?: GridImageType;
-  /** Oracle Grid Infrastructure (GI) software version */
-  readonly giVersion?: string;
-  /** The hostname for the  Exadata VM cluster on Exascale Infrastructure. */
-  hostname: string;
-  /** The Oracle license model that applies to the Exadata VM cluster on Exascale Infrastructure. The default is LICENSE_INCLUDED. */
-  licenseModel?: LicenseModel;
-  /** The memory that you want to be allocated in GBs. Memory is calculated based on 11 GB per VM core reserved. */
-  readonly memorySizeInGbs?: number;
-  /** The number of nodes in the Exadata VM cluster on Exascale Infrastructure. */
-  nodeCount: number;
-  /** CIDR blocks for additional NSG ingress rules. The VNET CIDRs used to provision the VM Cluster will be added by default. */
-  nsgCidrs?: NsgCidr[];
-  /** The OCID of the zone the Exadata VM cluster on Exascale Infrastructure is associated with. */
-  readonly zoneOcid?: string;
-  /** The OCID of the zone the Exadata VM cluster on Exascale Infrastructure is associated with. */
-  privateZoneOcid?: string;
-  /** The TCP Single Client Access Name (SCAN) port. The default port is 1521. */
-  scanListenerPortTcp?: number;
-  /** The TCPS Single Client Access Name (SCAN) port. The default port is 2484. */
-  scanListenerPortTcpSsl?: number;
-  /** The port number configured for the listener on the Exadata VM cluster on Exascale Infrastructure. */
-  readonly listenerPort?: number;
-  /** The shape of the Exadata VM cluster on Exascale Infrastructure resource */
-  shape: string;
-  /** The public key portion of one or more key pairs used for SSH access to the Exadata VM cluster on Exascale Infrastructure. */
-  sshPublicKeys: string[];
-  /** Operating system version of the image. */
-  systemVersion?: string;
-  /** The time zone of the Exadata VM cluster on Exascale Infrastructure. For details, see [Exadata Infrastructure Time Zones](/Content/Database/References/timezones.htm). */
-  timeZone?: string;
-  /** The number of Total ECPUs for an Exadata VM cluster on Exascale Infrastructure. */
-  totalEcpuCount: number;
-  /** Filesystem storage details. */
-  vmFileSystemStorage: ExadbVmClusterStorageDetails;
-  /** Additional information about the current lifecycle state. */
-  readonly lifecycleDetails?: string;
-  /** The FQDN of the DNS record for the SCAN IP addresses that are associated with the Exadata VM cluster on Exascale Infrastructure. */
-  readonly scanDnsName?: string;
-  /** The Single Client Access Name (SCAN) IP addresses associated with the Exadata VM cluster on Exascale Infrastructure. SCAN IP addresses are typically used for load balancing and are not assigned to any interface. Oracle Clusterware directs the requests to the appropriate nodes in the cluster. **Note:** For a single-node DB system, this list is empty. */
-  readonly scanIpIds?: string[];
-  /** The OCID of the DNS record for the SCAN IP addresses that are associated with the Exadata VM cluster on Exascale Infrastructure. */
-  readonly scanDnsRecordId?: string;
-  /** Snapshot filesystem storage details. */
-  readonly snapshotFileSystemStorage?: ExadbVmClusterStorageDetails;
-  /** Total file system storage details. */
-  readonly totalFileSystemStorage?: ExadbVmClusterStorageDetails;
-  /** The virtual IP (VIP) addresses associated with the Exadata VM cluster on Exascale Infrastructure. The Cluster Ready Services (CRS) creates and maintains one VIP address for each node in the Exadata Cloud Service instance to enable failover. If one node fails, the VIP is reassigned to another active node in the cluster. **Note:** For a single-node DB system, this list is empty. */
-  readonly vipIds?: string[];
-  /** HTTPS link to OCI resources exposed to Azure Customer via Azure Interface. */
-  readonly ociUrl?: string;
-  /** iormConfigCache details for Exadata VM cluster on Exascale Infrastructure. */
-  readonly iormConfigCache?: ExadataIormConfig;
-  /** Cluster backup subnet ocid */
-  readonly backupSubnetOcid?: string;
-  /** Cluster subnet ocid */
-  readonly subnetOcid?: string;
-}
-
-export function exadbVmClusterPropertiesSerializer(item: ExadbVmClusterProperties): any {
-  return {
-    clusterName: item["clusterName"],
-    backupSubnetCidr: item["backupSubnetCidr"],
-    vnetId: item["vnetId"],
-    subnetId: item["subnetId"],
-    dataCollectionOptions: !item["dataCollectionOptions"]
-      ? item["dataCollectionOptions"]
-      : dataCollectionOptionsSerializer(item["dataCollectionOptions"]),
-    displayName: item["displayName"],
-    domain: item["domain"],
-    enabledEcpuCount: item["enabledEcpuCount"],
-    exascaleDbStorageVaultId: item["exascaleDbStorageVaultId"],
-    gridImageOcid: item["gridImageOcid"],
-    hostname: item["hostname"],
-    licenseModel: item["licenseModel"],
-    nodeCount: item["nodeCount"],
-    nsgCidrs: !item["nsgCidrs"] ? item["nsgCidrs"] : nsgCidrArraySerializer(item["nsgCidrs"]),
-    privateZoneOcid: item["privateZoneOcid"],
-    scanListenerPortTcp: item["scanListenerPortTcp"],
-    scanListenerPortTcpSsl: item["scanListenerPortTcpSsl"],
-    shape: item["shape"],
-    sshPublicKeys: item["sshPublicKeys"].map((p: any) => {
-      return p;
-    }),
-    systemVersion: item["systemVersion"],
-    timeZone: item["timeZone"],
-    totalEcpuCount: item["totalEcpuCount"],
-    vmFileSystemStorage: exadbVmClusterStorageDetailsSerializer(item["vmFileSystemStorage"]),
-  };
-}
-
-export function exadbVmClusterPropertiesDeserializer(item: any): ExadbVmClusterProperties {
-  return {
-    ocid: item["ocid"],
-    clusterName: item["clusterName"],
-    backupSubnetCidr: item["backupSubnetCidr"],
-    nsgUrl: item["nsgUrl"],
-    provisioningState: item["provisioningState"],
-    lifecycleState: item["lifecycleState"],
-    vnetId: item["vnetId"],
-    subnetId: item["subnetId"],
-    dataCollectionOptions: !item["dataCollectionOptions"]
-      ? item["dataCollectionOptions"]
-      : dataCollectionOptionsDeserializer(item["dataCollectionOptions"]),
-    displayName: item["displayName"],
-    domain: item["domain"],
-    enabledEcpuCount: item["enabledEcpuCount"],
-    exascaleDbStorageVaultId: item["exascaleDbStorageVaultId"],
-    gridImageOcid: item["gridImageOcid"],
-    gridImageType: item["gridImageType"],
-    giVersion: item["giVersion"],
-    hostname: item["hostname"],
-    licenseModel: item["licenseModel"],
-    memorySizeInGbs: item["memorySizeInGbs"],
-    nodeCount: item["nodeCount"],
-    nsgCidrs: !item["nsgCidrs"] ? item["nsgCidrs"] : nsgCidrArrayDeserializer(item["nsgCidrs"]),
-    zoneOcid: item["zoneOcid"],
-    privateZoneOcid: item["privateZoneOcid"],
-    scanListenerPortTcp: item["scanListenerPortTcp"],
-    scanListenerPortTcpSsl: item["scanListenerPortTcpSsl"],
-    listenerPort: item["listenerPort"],
-    shape: item["shape"],
-    sshPublicKeys: item["sshPublicKeys"].map((p: any) => {
-      return p;
-    }),
-    systemVersion: item["systemVersion"],
-    timeZone: item["timeZone"],
-    totalEcpuCount: item["totalEcpuCount"],
-    vmFileSystemStorage: exadbVmClusterStorageDetailsDeserializer(item["vmFileSystemStorage"]),
-    lifecycleDetails: item["lifecycleDetails"],
-    scanDnsName: item["scanDnsName"],
-    scanIpIds: !item["scanIpIds"]
-      ? item["scanIpIds"]
-      : item["scanIpIds"].map((p: any) => {
-          return p;
-        }),
-    scanDnsRecordId: item["scanDnsRecordId"],
-    snapshotFileSystemStorage: !item["snapshotFileSystemStorage"]
-      ? item["snapshotFileSystemStorage"]
-      : exadbVmClusterStorageDetailsDeserializer(item["snapshotFileSystemStorage"]),
-    totalFileSystemStorage: !item["totalFileSystemStorage"]
-      ? item["totalFileSystemStorage"]
-      : exadbVmClusterStorageDetailsDeserializer(item["totalFileSystemStorage"]),
-    vipIds: !item["vipIds"]
-      ? item["vipIds"]
-      : item["vipIds"].map((p: any) => {
-          return p;
-        }),
-    ociUrl: item["ociUrl"],
-    iormConfigCache: !item["iormConfigCache"]
-      ? item["iormConfigCache"]
-      : exadataIormConfigDeserializer(item["iormConfigCache"]),
-    backupSubnetOcid: item["backupSubnetOcid"],
-    subnetOcid: item["subnetOcid"],
-  };
-}
-
-/** Exadata VM cluster on Exascale Infrastructure lifecycle state enum */
-export enum KnownExadbVmClusterLifecycleState {
-  /** Indicates that resource in Provisioning state */
-  Provisioning = "Provisioning",
-  /** Indicates that resource in Available state */
-  Available = "Available",
-  /** Indicates that resource in Updating state */
-  Updating = "Updating",
-  /** Indicates that resource in Terminating state */
-  Terminating = "Terminating",
-  /** Indicates that resource in Terminated state */
-  Terminated = "Terminated",
-  /** Indicates that resource Maintenance in progress state */
-  MaintenanceInProgress = "MaintenanceInProgress",
-  /** Indicates that resource in Failed state */
-  Failed = "Failed",
-}
-
-/**
- * Exadata VM cluster on Exascale Infrastructure lifecycle state enum \
- * {@link KnownExadbVmClusterLifecycleState} can be used interchangeably with ExadbVmClusterLifecycleState,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **Provisioning**: Indicates that resource in Provisioning state \
- * **Available**: Indicates that resource in Available state \
- * **Updating**: Indicates that resource in Updating state \
- * **Terminating**: Indicates that resource in Terminating state \
- * **Terminated**: Indicates that resource in Terminated state \
- * **MaintenanceInProgress**: Indicates that resource Maintenance in progress state \
- * **Failed**: Indicates that resource in Failed state
- */
-export type ExadbVmClusterLifecycleState = string;
-
-/** GridImageType enum */
-export enum KnownGridImageType {
-  /** Release update */
-  ReleaseUpdate = "ReleaseUpdate",
-  /** Custom image */
-  CustomImage = "CustomImage",
-}
-
-/**
- * GridImageType enum \
- * {@link KnownGridImageType} can be used interchangeably with GridImageType,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **ReleaseUpdate**: Release update \
- * **CustomImage**: Custom image
- */
-export type GridImageType = string;
-
-/** Storage Details on the Exadata VM cluster. */
-export interface ExadbVmClusterStorageDetails {
-  /** Total Capacity */
-  totalSizeInGbs: number;
-}
-
-export function exadbVmClusterStorageDetailsSerializer(item: ExadbVmClusterStorageDetails): any {
-  return { totalSizeInGbs: item["totalSizeInGbs"] };
-}
-
-export function exadbVmClusterStorageDetailsDeserializer(item: any): ExadbVmClusterStorageDetails {
-  return {
-    totalSizeInGbs: item["totalSizeInGbs"],
-  };
-}
-
-/** The type used for update operations of the ExadbVmCluster. */
-export interface ExadbVmClusterUpdate {
-  /** The availability zones. */
-  zones?: string[];
-  /** Resource tags. */
-  tags?: Record<string, string>;
-  /** The resource-specific properties for this resource. */
-  properties?: ExadbVmClusterUpdateProperties;
-}
-
-export function exadbVmClusterUpdateSerializer(item: ExadbVmClusterUpdate): any {
-  return {
-    zones: !item["zones"]
-      ? item["zones"]
-      : item["zones"].map((p: any) => {
-          return p;
-        }),
-    tags: item["tags"],
-    properties: !item["properties"]
-      ? item["properties"]
-      : exadbVmClusterUpdatePropertiesSerializer(item["properties"]),
-  };
-}
-
-/** The updatable properties of the ExadbVmCluster. */
-export interface ExadbVmClusterUpdateProperties {
-  /** The number of nodes in the Exadata VM cluster on Exascale Infrastructure. */
-  nodeCount?: number;
-}
-
-export function exadbVmClusterUpdatePropertiesSerializer(
-  item: ExadbVmClusterUpdateProperties,
-): any {
-  return { nodeCount: item["nodeCount"] };
-}
-
-/** Details of removing Virtual Machines from the Exadata VM cluster on Exascale Infrastructure. Applies to Exadata Database Service on Exascale Infrastructure only. */
-export interface RemoveVirtualMachineFromExadbVmClusterDetails {
-  /** The list of ExaCS DB nodes for the Exadata VM cluster on Exascale Infrastructure to be removed. */
-  dbNodes: DbNodeDetails[];
-}
-
-export function removeVirtualMachineFromExadbVmClusterDetailsSerializer(
-  item: RemoveVirtualMachineFromExadbVmClusterDetails,
-): any {
-  return { dbNodes: dbNodeDetailsArraySerializer(item["dbNodes"]) };
-}
-
-export function dbNodeDetailsArraySerializer(result: Array<DbNodeDetails>): any[] {
-  return result.map((item) => {
-    return dbNodeDetailsSerializer(item);
-  });
-}
-
-/** Details of the ExaCS Db node. Applies to Exadata Database Service on Exascale Infrastructure only. */
-export interface DbNodeDetails {
-  /** Exascale DbNode Azure Resource ID */
-  dbNodeId: string;
-}
-
-export function dbNodeDetailsSerializer(item: DbNodeDetails): any {
-  return { dbNodeId: item["dbNodeId"] };
-}
-
-/** The DbNode resource belonging to ExadbVmCluster */
-export interface ExascaleDbNode extends ProxyResource {
-  /** The resource-specific properties for this resource. */
-  properties?: ExascaleDbNodeProperties;
-}
-
-export function exascaleDbNodeDeserializer(item: any): ExascaleDbNode {
-  return {
-    id: item["id"],
-    name: item["name"],
-    type: item["type"],
-    systemData: !item["systemData"]
-      ? item["systemData"]
-      : systemDataDeserializer(item["systemData"]),
-    properties: !item["properties"]
-      ? item["properties"]
-      : exascaleDbNodePropertiesDeserializer(item["properties"]),
-  };
-}
-
-/** The properties of DbNodeResource */
-export interface ExascaleDbNodeProperties {
-  /** DbNode OCID */
-  ocid: string;
-  /** Additional information about the planned maintenance. */
-  additionalDetails?: string;
-  /** The number of CPU cores enabled on the Db node. */
-  cpuCoreCount?: number;
-  /** The allocated local node storage in GBs on the Db node. */
-  dbNodeStorageSizeInGbs?: number;
-  /** The name of the Fault Domain the instance is contained in. */
-  faultDomain?: string;
-  /** The host name for the database node. */
-  hostname?: string;
-  /** The current state of the database node. */
-  lifecycleState?: DbNodeProvisioningState;
-  /** The type of database node maintenance. */
-  maintenanceType?: string;
-  /** The allocated memory in GBs on the Db node. */
-  memorySizeInGbs?: number;
-  /** The size (in GB) of the block storage volume allocation for the DB system. This attribute applies only for virtual machine DB systems. */
-  softwareStorageSizeInGb?: number;
-  /** End date and time of maintenance window. */
-  timeMaintenanceWindowEnd?: Date;
-  /** Start date and time of maintenance window. */
-  timeMaintenanceWindowStart?: Date;
-  /** The total number of CPU cores reserved on the Db node. */
-  totalCpuCoreCount?: number;
-}
-
-export function exascaleDbNodePropertiesDeserializer(item: any): ExascaleDbNodeProperties {
-  return {
-    ocid: item["ocid"],
-    additionalDetails: item["additionalDetails"],
-    cpuCoreCount: item["cpuCoreCount"],
-    dbNodeStorageSizeInGbs: item["dbNodeStorageSizeInGbs"],
-    faultDomain: item["faultDomain"],
-    hostname: item["hostname"],
-    lifecycleState: item["lifecycleState"],
-    maintenanceType: item["maintenanceType"],
-    memorySizeInGbs: item["memorySizeInGbs"],
-    softwareStorageSizeInGb: item["softwareStorageSizeInGb"],
-    timeMaintenanceWindowEnd: !item["timeMaintenanceWindowEnd"]
-      ? item["timeMaintenanceWindowEnd"]
-      : new Date(item["timeMaintenanceWindowEnd"]),
-    timeMaintenanceWindowStart: !item["timeMaintenanceWindowStart"]
-      ? item["timeMaintenanceWindowStart"]
-      : new Date(item["timeMaintenanceWindowStart"]),
-    totalCpuCoreCount: item["totalCpuCoreCount"],
-  };
-}
-
-/** The response of a ExascaleDbNode list operation. */
-export interface _ExascaleDbNodeListResult {
-  /** The ExascaleDbNode items on this page */
-  value: ExascaleDbNode[];
-  /** The link to the next page of items */
-  nextLink?: string;
-}
-
-export function _exascaleDbNodeListResultDeserializer(item: any): _ExascaleDbNodeListResult {
-  return {
-    value: exascaleDbNodeArrayDeserializer(item["value"]),
-    nextLink: item["nextLink"],
-  };
-}
-
-export function exascaleDbNodeArrayDeserializer(result: Array<ExascaleDbNode>): any[] {
-  return result.map((item) => {
-    return exascaleDbNodeDeserializer(item);
-  });
-}
-
-/** ExascaleDbNode action response */
-export interface DbActionResponse {
-  /** ExascaleDbNode provisioning state */
-  provisioningState?: AzureResourceProvisioningState;
-}
-
-export function dbActionResponseDeserializer(item: any): DbActionResponse {
-  return {
-    provisioningState: item["provisioningState"],
-  };
-}
-
-/** ExascaleDbStorageVault resource definition */
-export interface ExascaleDbStorageVault extends TrackedResource {
-  /** The resource-specific properties for this resource. */
-  properties?: ExascaleDbStorageVaultProperties;
-  /** The availability zones. */
-  zones?: string[];
-}
-
-export function exascaleDbStorageVaultSerializer(item: ExascaleDbStorageVault): any {
-  return {
-    tags: item["tags"],
-    location: item["location"],
-    properties: !item["properties"]
-      ? item["properties"]
-      : exascaleDbStorageVaultPropertiesSerializer(item["properties"]),
-    zones: !item["zones"]
-      ? item["zones"]
-      : item["zones"].map((p: any) => {
-          return p;
-        }),
-  };
-}
-
-export function exascaleDbStorageVaultDeserializer(item: any): ExascaleDbStorageVault {
-  return {
-    tags: item["tags"],
-    location: item["location"],
-    id: item["id"],
-    name: item["name"],
-    type: item["type"],
-    systemData: !item["systemData"]
-      ? item["systemData"]
-      : systemDataDeserializer(item["systemData"]),
-    properties: !item["properties"]
-      ? item["properties"]
-      : exascaleDbStorageVaultPropertiesDeserializer(item["properties"]),
-    zones: !item["zones"]
-      ? item["zones"]
-      : item["zones"].map((p: any) => {
-          return p;
-        }),
-  };
-}
-
-/** ExascaleDbStorageVault resource model */
-export interface ExascaleDbStorageVaultProperties {
-  /** The size of additional Flash Cache in percentage of High Capacity database storage. */
-  additionalFlashCacheInPercent?: number;
-  /** Exadata Database Storage Vault description. */
-  description?: string;
-  /** The user-friendly name for the Exadata Database Storage Vault. The name does not need to be unique. */
-  displayName: string;
-  /** Create exadata Database Storage Details */
-  highCapacityDatabaseStorageInput: ExascaleDbStorageInputDetails;
-  /** Response exadata Database Storage Details */
-  readonly highCapacityDatabaseStorage?: ExascaleDbStorageDetails;
-  /** The time zone that you want to use for the Exadata Database Storage Vault */
-  timeZone?: string;
-  /** Exadata Database Storage Vault provisioning state */
-  readonly provisioningState?: AzureResourceProvisioningState;
-  /** Exadata Database Storage Vault lifecycle state */
-  readonly lifecycleState?: ExascaleDbStorageVaultLifecycleState;
-  /** Additional information about the current lifecycle state. */
-  readonly lifecycleDetails?: string;
-  /** The number of Exadata VM clusters used the Exadata Database Storage Vault. */
-  readonly vmClusterCount?: number;
-  /** The OCID of the Exadata Database Storage Vault. */
-  readonly ocid?: string;
-  /** HTTPS link to OCI resources exposed to Azure Customer via Azure Interface. */
-  readonly ociUrl?: string;
-}
-
-export function exascaleDbStorageVaultPropertiesSerializer(
-  item: ExascaleDbStorageVaultProperties,
-): any {
-  return {
-    additionalFlashCacheInPercent: item["additionalFlashCacheInPercent"],
-    description: item["description"],
-    displayName: item["displayName"],
-    highCapacityDatabaseStorageInput: exascaleDbStorageInputDetailsSerializer(
-      item["highCapacityDatabaseStorageInput"],
-    ),
-    timeZone: item["timeZone"],
-  };
-}
-
-export function exascaleDbStorageVaultPropertiesDeserializer(
-  item: any,
-): ExascaleDbStorageVaultProperties {
-  return {
-    additionalFlashCacheInPercent: item["additionalFlashCacheInPercent"],
-    description: item["description"],
-    displayName: item["displayName"],
-    highCapacityDatabaseStorageInput: exascaleDbStorageInputDetailsDeserializer(
-      item["highCapacityDatabaseStorageInput"],
-    ),
-    highCapacityDatabaseStorage: !item["highCapacityDatabaseStorage"]
-      ? item["highCapacityDatabaseStorage"]
-      : exascaleDbStorageDetailsDeserializer(item["highCapacityDatabaseStorage"]),
-    timeZone: item["timeZone"],
-    provisioningState: item["provisioningState"],
-    lifecycleState: item["lifecycleState"],
-    lifecycleDetails: item["lifecycleDetails"],
-    vmClusterCount: item["vmClusterCount"],
-    ocid: item["ocid"],
-    ociUrl: item["ociUrl"],
-  };
-}
-
-/** Create exadata Database Storage Details model */
-export interface ExascaleDbStorageInputDetails {
-  /** Total Capacity */
-  totalSizeInGbs: number;
-}
-
-export function exascaleDbStorageInputDetailsSerializer(item: ExascaleDbStorageInputDetails): any {
-  return { totalSizeInGbs: item["totalSizeInGbs"] };
-}
-
-export function exascaleDbStorageInputDetailsDeserializer(
-  item: any,
-): ExascaleDbStorageInputDetails {
-  return {
-    totalSizeInGbs: item["totalSizeInGbs"],
-  };
-}
-
-/** Exadata Database Storage Details */
-export interface ExascaleDbStorageDetails {
-  /** Available Capacity */
-  availableSizeInGbs?: number;
-  /** Total Capacity */
-  totalSizeInGbs?: number;
-}
-
-export function exascaleDbStorageDetailsDeserializer(item: any): ExascaleDbStorageDetails {
-  return {
-    availableSizeInGbs: item["availableSizeInGbs"],
-    totalSizeInGbs: item["totalSizeInGbs"],
-  };
-}
-
-/** Exadata Database Storage Vault lifecycle state enum */
-export enum KnownExascaleDbStorageVaultLifecycleState {
-  /** Indicates that resource in Provisioning state */
-  Provisioning = "Provisioning",
-  /** Indicates that resource in Available state */
-  Available = "Available",
-  /** Indicates that resource in Updating state */
-  Updating = "Updating",
-  /** Indicates that resource in Terminating state */
-  Terminating = "Terminating",
-  /** Indicates that resource in Terminated state */
-  Terminated = "Terminated",
-  /** Indicates that resource in Failed state */
-  Failed = "Failed",
-}
-
-/**
- * Exadata Database Storage Vault lifecycle state enum \
- * {@link KnownExascaleDbStorageVaultLifecycleState} can be used interchangeably with ExascaleDbStorageVaultLifecycleState,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **Provisioning**: Indicates that resource in Provisioning state \
- * **Available**: Indicates that resource in Available state \
- * **Updating**: Indicates that resource in Updating state \
- * **Terminating**: Indicates that resource in Terminating state \
- * **Terminated**: Indicates that resource in Terminated state \
- * **Failed**: Indicates that resource in Failed state
- */
-export type ExascaleDbStorageVaultLifecycleState = string;
-
-/** The type used for updating tags in ExascaleDbStorageVault resources. */
-export interface ExascaleDbStorageVaultTagsUpdate {
-  /** Resource tags. */
-  tags?: Record<string, string>;
-}
-
-export function exascaleDbStorageVaultTagsUpdateSerializer(
-  item: ExascaleDbStorageVaultTagsUpdate,
-): any {
-  return { tags: item["tags"] };
-}
-
-/** The response of a ExascaleDbStorageVault list operation. */
-export interface _ExascaleDbStorageVaultListResult {
-  /** The ExascaleDbStorageVault items on this page */
-  value: ExascaleDbStorageVault[];
-  /** The link to the next page of items */
-  nextLink?: string;
-}
-
-export function _exascaleDbStorageVaultListResultDeserializer(
-  item: any,
-): _ExascaleDbStorageVaultListResult {
-  return {
-    value: exascaleDbStorageVaultArrayDeserializer(item["value"]),
-    nextLink: item["nextLink"],
-  };
-}
-
-export function exascaleDbStorageVaultArraySerializer(
-  result: Array<ExascaleDbStorageVault>,
-): any[] {
-  return result.map((item) => {
-    return exascaleDbStorageVaultSerializer(item);
-  });
-}
-
-export function exascaleDbStorageVaultArrayDeserializer(
-  result: Array<ExascaleDbStorageVault>,
-): any[] {
-  return result.map((item) => {
-    return exascaleDbStorageVaultDeserializer(item);
-  });
-}
-
-/** Allowed values for System Shapes */
-export enum KnownSystemShapes {
-  /** Exadata X9M shape */
-  ExadataX9M = "Exadata.X9M",
-  /** Exadata X11M shape */
-  ExadataX11M = "Exadata.X11M",
-  /** Exadata DB on Exascale Infrastructure shape */
-  ExaDbXs = "ExaDbXS",
-}
-
-/**
- * Allowed values for System Shapes \
- * {@link KnownSystemShapes} can be used interchangeably with SystemShapes,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **Exadata.X9M**: Exadata X9M shape \
- * **Exadata.X11M**: Exadata X11M shape \
- * **ExaDbXS**: Exadata DB on Exascale Infrastructure shape
- */
-export type SystemShapes = string;
-
-/** Allowed values for GI Minor Versions shapeFamily filter */
-export enum KnownShapeFamily {
-  /** Family value for Exadata Shape */
-  Exadata = "EXADATA",
-  /** Family value for Exadb XS Shape */
-  ExadbXs = "EXADB_XS",
-}
-
-/**
- * Allowed values for GI Minor Versions shapeFamily filter \
- * {@link KnownShapeFamily} can be used interchangeably with ShapeFamily,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **EXADATA**: Family value for Exadata Shape \
- * **EXADB_XS**: Family value for Exadb XS Shape
- */
-export type ShapeFamily = string;
-
 /** Versions for API */
 export enum KnownVersions {
   /** 2023-09-01 */
   V20230901 = "2023-09-01",
   /** 2024-06-01 */
   V20240601 = "2024-06-01",
-  /** 2025-03-01 */
-  V20250301 = "2025-03-01",
 }
 
 export function privateIpAddressPropertiesArrayDeserializer(
