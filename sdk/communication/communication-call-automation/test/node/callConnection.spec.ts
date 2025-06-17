@@ -523,15 +523,13 @@ describe("CallConnection Unit Tests", () => {
     );
 
     const targetParticipants = [target.targetParticipant];
-    const options: MoveParticipantsOptions = {
-      fromCall: "source-call-connection-id",
-    };
-    const promiseResult = callConnection.moveParticipants(targetParticipants, options);
+    const fromCall = "source-call-connection-id";
+    const promiseResult = callConnection.moveParticipants(targetParticipants, fromCall);
 
     // asserts
     const result = await promiseResult;
     assert.isNotNull(result);
-    expect(callConnection.moveParticipants).toHaveBeenCalledWith(targetParticipants, options);
+    expect(callConnection.moveParticipants).toHaveBeenCalledWith(targetParticipants, fromCall);
     assert.equal(result, moveParticipantsResultMock);
     assert.equal(result.fromCall, "source-call-connection-id");
     assert.isDefined(result.participants);
@@ -561,17 +559,21 @@ describe("CallConnection Unit Tests", () => {
       target.targetParticipant,
       { communicationUserId: CALL_TARGET_ID_2 },
     ];
+    const fromCall = "source-call-connection-id";
     const options: MoveParticipantsOptions = {
-      fromCall: "source-call-connection-id",
       operationContext: "move-operation-context",
       operationCallbackUrl: "https://callback.example.com",
     };
-    const promiseResult = callConnection.moveParticipants(targetParticipants, options);
+    const promiseResult = callConnection.moveParticipants(targetParticipants, fromCall, options);
 
     // asserts
     const result = await promiseResult;
     assert.isNotNull(result);
-    expect(callConnection.moveParticipants).toHaveBeenCalledWith(targetParticipants, options);
+    expect(callConnection.moveParticipants).toHaveBeenCalledWith(
+      targetParticipants,
+      fromCall,
+      options,
+    );
     assert.equal(result, moveParticipantsResultMock);
     assert.equal(result.fromCall, "source-call-connection-id");
     assert.equal(result.operationContext, "move-operation-context");
@@ -603,15 +605,13 @@ describe("CallConnection Unit Tests", () => {
     );
 
     const targetParticipants = [target.targetParticipant];
-    const options: MoveParticipantsOptions = {
-      fromCall: "source-call-connection-id",
-    };
-    const promiseResult = callConnection.moveParticipants(targetParticipants, options);
+    const fromCall = "source-call-connection-id";
+    const promiseResult = callConnection.moveParticipants(targetParticipants, fromCall);
 
     // asserts
     const result = await promiseResult;
     assert.isNotNull(result);
-    expect(callConnection.moveParticipants).toHaveBeenCalledWith(targetParticipants, options);
+    expect(callConnection.moveParticipants).toHaveBeenCalledWith(targetParticipants, fromCall);
     assert.equal(result, moveParticipantsResultMock);
 
     // Test event processor

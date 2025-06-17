@@ -199,8 +199,6 @@ export interface AddParticipantOptions extends OperationOptions {
 
 /** Options to move participants. */
 export interface MoveParticipantsOptions extends OperationOptions {
-  /** The CallConnectionId for the call you want to move the participant from */
-  fromCall: string;
   /** Used by customers when calling mid-call actions to correlate the request to the response event. */
   operationContext?: string;
   /**

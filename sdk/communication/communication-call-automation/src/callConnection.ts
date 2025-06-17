@@ -426,17 +426,19 @@ export class CallConnection {
    * Move participants to the call
    *
    * @param targetParticipants - The participants to be moved to the call.
-   * @param options - Additional attributes for move participants including fromCall.
+   * @param fromCall - The CallConnectionId for the call you want to move the participant from.
+   * @param options - Additional attributes for move participants.
    */
   public async moveParticipants(
     targetParticipants: CommunicationIdentifier[],
-    options: MoveParticipantsOptions,
+    fromCall: string,
+    options: MoveParticipantsOptions = {},
   ): Promise<MoveParticipantsResult> {
     const moveParticipantsRequest: MoveParticipantsRequest = {
       targetParticipants: targetParticipants.map((participant) =>
         communicationIdentifierModelConverter(participant),
       ),
-      fromCall: options.fromCall,
+      fromCall: fromCall,
       operationContext: options.operationContext ? options.operationContext : randomUUID(),
       operationCallbackUri: options.operationCallbackUrl,
     };
@@ -455,6 +457,7 @@ export class CallConnection {
       participants: result.participants?.map((participant) =>
         callParticipantConverter(participant),
       ),
+      fromCall: fromCall,
       waitForEventProcessor: async (abortSignal, timeoutInMs) => {
         const moveParticipantEventResult: MoveParticipantEventResult = {
           isSuccess: false,

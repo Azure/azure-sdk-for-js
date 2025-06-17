@@ -167,7 +167,7 @@ export class CallConnection {
     getParticipant(targetParticipant: CommunicationIdentifier, options?: GetParticipantOptions): Promise<CallParticipant>;
     hangUp(isForEveryone: boolean, options?: HangUpOptions): Promise<void>;
     listParticipants(options?: GetParticipantOptions): Promise<ListParticipantsResult>;
-    moveParticipants(targetParticipants: CommunicationIdentifier[], options: MoveParticipantsOptions): Promise<MoveParticipantsResult>;
+    moveParticipants(targetParticipants: CommunicationIdentifier[], fromCall: string, options?: MoveParticipantsOptions): Promise<MoveParticipantsResult>;
     muteParticipant(participant: CommunicationIdentifier, options?: MuteParticipantOption): Promise<MuteParticipantResult>;
     removeParticipant(participant: CommunicationIdentifier, options?: RemoveParticipantsOption): Promise<RemoveParticipantResult>;
     transferCallToParticipant(targetParticipant: CommunicationIdentifier, options?: TransferCallToParticipantOptions): Promise<TransferCallResult>;
@@ -969,7 +969,6 @@ export interface MoveParticipantFailed {
 
 // @public
 export interface MoveParticipantsOptions extends OperationOptions {
-    fromCall: string;
     operationCallbackUrl?: string;
     operationContext?: string;
 }
