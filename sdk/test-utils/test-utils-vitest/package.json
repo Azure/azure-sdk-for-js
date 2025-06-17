@@ -45,7 +45,7 @@
     "@azure-tools/test-recorder": "workspace:^",
     "@azure/abort-controller": "workspace:^",
     "@azure/core-rest-pipeline": "workspace:^",
-    "@azure/core-tracing": "workspace:^",
+    "@azure/core-tracing": "catalog:corelkg",
     "@opentelemetry/api": "catalog:otel",
     "tslib": "catalog:",
     "vitest": "catalog:testing"
