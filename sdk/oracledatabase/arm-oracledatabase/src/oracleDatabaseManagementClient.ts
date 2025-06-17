@@ -7,18 +7,6 @@ import {
   OracleDatabaseManagementClientOptionalParams,
 } from "./api/index.js";
 import {
-  ExascaleDbStorageVaultsOperations,
-  _getExascaleDbStorageVaultsOperations,
-} from "./classic/exascaleDbStorageVaults/index.js";
-import {
-  ExascaleDbNodesOperations,
-  _getExascaleDbNodesOperations,
-} from "./classic/exascaleDbNodes/index.js";
-import {
-  ExadbVmClustersOperations,
-  _getExadbVmClustersOperations,
-} from "./classic/exadbVmClusters/index.js";
-import {
   AutonomousDatabaseVersionsOperations,
   _getAutonomousDatabaseVersionsOperations,
 } from "./classic/autonomousDatabaseVersions/index.js";
@@ -39,10 +27,6 @@ import {
   _getAutonomousDatabasesOperations,
 } from "./classic/autonomousDatabases/index.js";
 import {
-  FlexComponentsOperations,
-  _getFlexComponentsOperations,
-} from "./classic/flexComponents/index.js";
-import {
   DnsPrivateZonesOperations,
   _getDnsPrivateZonesOperations,
 } from "./classic/dnsPrivateZones/index.js";
@@ -54,10 +38,6 @@ import {
   DbSystemShapesOperations,
   _getDbSystemShapesOperations,
 } from "./classic/dbSystemShapes/index.js";
-import {
-  GiMinorVersionsOperations,
-  _getGiMinorVersionsOperations,
-} from "./classic/giMinorVersions/index.js";
 import { GiVersionsOperations, _getGiVersionsOperations } from "./classic/giVersions/index.js";
 import { DbNodesOperations, _getDbNodesOperations } from "./classic/dbNodes/index.js";
 import {
@@ -106,9 +86,6 @@ export class OracleDatabaseManagementClient {
       userAgentOptions: { userAgentPrefix },
     });
     this.pipeline = this._client.pipeline;
-    this.exascaleDbStorageVaults = _getExascaleDbStorageVaultsOperations(this._client);
-    this.exascaleDbNodes = _getExascaleDbNodesOperations(this._client);
-    this.exadbVmClusters = _getExadbVmClustersOperations(this._client);
     this.autonomousDatabaseVersions = _getAutonomousDatabaseVersionsOperations(this._client);
     this.autonomousDatabaseNationalCharacterSets =
       _getAutonomousDatabaseNationalCharacterSetsOperations(this._client);
@@ -117,11 +94,9 @@ export class OracleDatabaseManagementClient {
     );
     this.autonomousDatabaseBackups = _getAutonomousDatabaseBackupsOperations(this._client);
     this.autonomousDatabases = _getAutonomousDatabasesOperations(this._client);
-    this.flexComponents = _getFlexComponentsOperations(this._client);
     this.dnsPrivateZones = _getDnsPrivateZonesOperations(this._client);
     this.dnsPrivateViews = _getDnsPrivateViewsOperations(this._client);
     this.dbSystemShapes = _getDbSystemShapesOperations(this._client);
-    this.giMinorVersions = _getGiMinorVersionsOperations(this._client);
     this.giVersions = _getGiVersionsOperations(this._client);
     this.dbNodes = _getDbNodesOperations(this._client);
     this.oracleSubscriptions = _getOracleSubscriptionsOperations(this._client);
@@ -133,12 +108,6 @@ export class OracleDatabaseManagementClient {
     this.operations = _getOperationsOperations(this._client);
   }
 
-  /** The operation groups for exascaleDbStorageVaults */
-  public readonly exascaleDbStorageVaults: ExascaleDbStorageVaultsOperations;
-  /** The operation groups for exascaleDbNodes */
-  public readonly exascaleDbNodes: ExascaleDbNodesOperations;
-  /** The operation groups for exadbVmClusters */
-  public readonly exadbVmClusters: ExadbVmClustersOperations;
   /** The operation groups for autonomousDatabaseVersions */
   public readonly autonomousDatabaseVersions: AutonomousDatabaseVersionsOperations;
   /** The operation groups for autonomousDatabaseNationalCharacterSets */
@@ -149,16 +118,12 @@ export class OracleDatabaseManagementClient {
   public readonly autonomousDatabaseBackups: AutonomousDatabaseBackupsOperations;
   /** The operation groups for autonomousDatabases */
   public readonly autonomousDatabases: AutonomousDatabasesOperations;
-  /** The operation groups for flexComponents */
-  public readonly flexComponents: FlexComponentsOperations;
   /** The operation groups for dnsPrivateZones */
   public readonly dnsPrivateZones: DnsPrivateZonesOperations;
   /** The operation groups for dnsPrivateViews */
   public readonly dnsPrivateViews: DnsPrivateViewsOperations;
   /** The operation groups for dbSystemShapes */
   public readonly dbSystemShapes: DbSystemShapesOperations;
-  /** The operation groups for giMinorVersions */
-  public readonly giMinorVersions: GiMinorVersionsOperations;
   /** The operation groups for giVersions */
   public readonly giVersions: GiVersionsOperations;
   /** The operation groups for dbNodes */

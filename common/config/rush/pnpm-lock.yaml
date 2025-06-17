@@ -603,7 +603,7 @@ importers:
         version: file:projects/arm-operations.tgz(@types/debug@4.1.12)(tsx@4.20.2)(vite@6.3.5(@types/node@22.7.9)(tsx@4.20.2)(yaml@2.8.0))(yaml@2.8.0)
       '@rush-temp/arm-oracledatabase':
         specifier: file:./projects/arm-oracledatabase.tgz
-        version: file:projects/arm-oracledatabase.tgz(@types/debug@4.1.12)(tsx@4.20.2)(vite@6.3.5(@types/node@22.7.9)(tsx@4.20.2)(yaml@2.8.0))(yaml@2.8.0)
+        version: file:projects/arm-oracledatabase.tgz
       '@rush-temp/arm-orbital':
         specifier: file:./projects/arm-orbital.tgz
         version: file:projects/arm-orbital.tgz(@types/debug@4.1.12)(tsx@4.20.2)(vite@6.3.5(@types/node@22.7.9)(tsx@4.20.2)(yaml@2.8.0))(yaml@2.8.0)
@@ -2779,7 +2779,7 @@ packages:
     version: 0.0.0
 
   '@rush-temp/arm-containerservice-1@file:projects/arm-containerservice-1.tgz':
-    resolution: {integrity: sha512-iOt2Q4pXlG+uh5nHFDQR38cLPz9qHyRk3A0hkJIJSsfukwsGUXNgDbGN2RVd2loZ6OFh63B3sc+4NCspEqXCEw==, tarball: file:projects/arm-containerservice-1.tgz}
+    resolution: {integrity: sha512-5M3Hj5ishOO8uY4g+OFBIxL56O2AK+XNNsdfnY3RArMiPKym/QBqsY3F3jW8y8aP6qlW5GETM/r/i1gDDGWXyA==, tarball: file:projects/arm-containerservice-1.tgz}
     version: 0.0.0
 
   '@rush-temp/arm-containerservice@file:projects/arm-containerservice.tgz':
@@ -3275,7 +3275,7 @@ packages:
     version: 0.0.0
 
   '@rush-temp/arm-oracledatabase@file:projects/arm-oracledatabase.tgz':
-    resolution: {integrity: sha512-pPGIQ04pzr8JX2I70mVM+zQw8F3o1fPUbfvYoXOaLYNfz5hpZwLT0ci61bSZv0zBA2KlvSj8BsEk4dpser4Ejw==, tarball: file:projects/arm-oracledatabase.tgz}
+    resolution: {integrity: sha512-RnuBuugi/L9CbfNDsld90dMuWstwG2s/cFu5D1PdQLdTICOPosro4fYGFXRl1Tw+tO81OBK/1I61HKYotSw0Mw==, tarball: file:projects/arm-oracledatabase.tgz}
     version: 0.0.0
 
   '@rush-temp/arm-orbital@file:projects/arm-orbital.tgz':
@@ -15879,40 +15879,15 @@ snapshots:
       - webdriverio
       - yaml
 
-  '@rush-temp/arm-oracledatabase@file:projects/arm-oracledatabase.tgz(@types/debug@4.1.12)(tsx@4.20.2)(vite@6.3.5(@types/node@22.7.9)(tsx@4.20.2)(yaml@2.8.0))(yaml@2.8.0)':
+  '@rush-temp/arm-oracledatabase@file:projects/arm-oracledatabase.tgz':
     dependencies:
-      '@types/node': 20.19.0
-      '@vitest/browser': 3.2.3(playwright@1.53.0)(vite@6.3.5(@types/node@22.7.9)(tsx@4.20.2)(yaml@2.8.0))(vitest@3.2.3)
-      '@vitest/coverage-istanbul': 3.2.3(vitest@3.2.3)
-      dotenv: 16.5.0
+      '@types/node': 18.19.111
       eslint: 9.28.0
-      playwright: 1.53.0
       tslib: 2.8.1
       typescript: 5.8.3
-      vitest: 3.2.3(@types/debug@4.1.12)(@types/node@20.19.0)(@vitest/browser@3.2.3)(tsx@4.20.2)(yaml@2.8.0)
     transitivePeerDependencies:
-      - '@edge-runtime/vm'
-      - '@types/debug'
-      - '@vitest/ui'
-      - bufferutil
-      - happy-dom
       - jiti
-      - jsdom
-      - less
-      - lightningcss
-      - msw
-      - safaridriver
-      - sass
-      - sass-embedded
-      - stylus
-      - sugarss
       - supports-color
-      - terser
-      - tsx
-      - utf-8-validate
-      - vite
-      - webdriverio
-      - yaml
 
   '@rush-temp/arm-orbital@file:projects/arm-orbital.tgz(@types/debug@4.1.12)(tsx@4.20.2)(vite@6.3.5(@types/node@22.7.9)(tsx@4.20.2)(yaml@2.8.0))(yaml@2.8.0)':
     dependencies:

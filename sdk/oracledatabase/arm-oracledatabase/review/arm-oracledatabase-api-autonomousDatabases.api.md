@@ -13,11 +13,6 @@ import { PollerLike } from '@azure/core-lro';
 export function $delete(context: OracleDatabaseManagementContext, resourceGroupName: string, autonomousdatabasename: string, options?: AutonomousDatabasesDeleteOptionalParams): PollerLike<OperationState<void>, void>;
 
 // @public
-export interface AutonomousDatabasesChangeDisasterRecoveryConfigurationOptionalParams extends OperationOptions {
-    updateIntervalInMs?: number;
-}
-
-// @public
 export interface AutonomousDatabasesCreateOrUpdateOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
@@ -67,9 +62,6 @@ export interface AutonomousDatabasesSwitchoverOptionalParams extends OperationOp
 export interface AutonomousDatabasesUpdateOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
-
-// @public
-export function changeDisasterRecoveryConfiguration(context: OracleDatabaseManagementContext, resourceGroupName: string, autonomousdatabasename: string, body: DisasterRecoveryConfigurationDetails, options?: AutonomousDatabasesChangeDisasterRecoveryConfigurationOptionalParams): PollerLike<OperationState<AutonomousDatabase>, AutonomousDatabase>;
 
 // @public
 export function createOrUpdate(context: OracleDatabaseManagementContext, resourceGroupName: string, autonomousdatabasename: string, resource: AutonomousDatabase, options?: AutonomousDatabasesCreateOrUpdateOptionalParams): PollerLike<OperationState<AutonomousDatabase>, AutonomousDatabase>;

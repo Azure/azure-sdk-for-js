@@ -13,7 +13,6 @@ export interface DbSystemShapesGetOptionalParams extends OperationOptions {
 
 // @public
 export interface DbSystemShapesListByLocationOptionalParams extends OperationOptions {
-    zone?: string;
 }
 
 // @public
