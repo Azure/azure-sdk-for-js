@@ -4,7 +4,7 @@
   "version": "1.0.0",
   "description": "Azure Storage File Share client library samples for TypeScript",
   "engines": {
-    "node": ">=18.0.0"
+    "node": ">=20.0.0"
   },
   "scripts": {
     "build": "tsc",
@@ -37,7 +37,7 @@
     "@azure/abort-controller": "^2.1.2"
   },
   "devDependencies": {
-    "@types/node": "^18.0.0",
+    "@types/node": "^20.0.0",
     "typescript": "~5.8.2",
     "rimraf": "latest"
   }
