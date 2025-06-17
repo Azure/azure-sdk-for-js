@@ -96,7 +96,7 @@ export type CredentialType = "ApiKey" | "AAD" | "SAS" | "CustomKeys" | "None";
 
 /** API Key Credential definition */
 export interface ApiKeyCredentials extends BaseCredentials {
-  /** The credentail type */
+  /** The credential type */
   readonly type: "ApiKey";
   /** API Key */
   readonly apiKey?: string;
@@ -1296,7 +1296,6 @@ export function targetConfigUnionDeserializer(item: any): TargetConfigUnion {
 
 /** Azure OpenAI model configuration. The API version would be selected by the service for querying the model. */
 export interface AzureOpenAIModelConfiguration extends TargetConfig {
-  /** Type of the model configuration. */
   readonly type: "AzureOpenAIModel";
   /** Deployment name for AOAI model. Example: gpt-4o if in AIServices or connection based `connection_name/deployment_name` (i.e. `my-aoai-connection/gpt-4o`. */
   modelDeploymentName: string;
