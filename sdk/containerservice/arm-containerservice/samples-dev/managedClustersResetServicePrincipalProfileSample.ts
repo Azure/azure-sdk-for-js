@@ -6,8 +6,9 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
+import type {
+  ManagedClusterServicePrincipalProfile} from "@azure/arm-containerservice";
 import {
-  ManagedClusterServicePrincipalProfile,
   ContainerServiceClient,
 } from "@azure/arm-containerservice";
 import { DefaultAzureCredential } from "@azure/identity";
