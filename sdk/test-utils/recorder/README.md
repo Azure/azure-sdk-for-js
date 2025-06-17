@@ -414,6 +414,20 @@ Since new resources are likely to get accumulated because some tests would crash
 
 ## Troubleshooting
 
+### 🤖 The test recording agent
+
+We have developed a GitHub Copilot agent which will help you debug recorded test issues. It is based on a custom prompt that provides special information about recordings, and can
+
+- Help you with your sanitizer configuration
+- Help determine whether you have asset sync set up properly
+- Check your recordings for secrets
+
+To get started, say `/test-recording <...query>` to Copilot Chat in Agent mode. Claude Sonnet 4 is the recommended model. For example:
+
+```
+/test-recording my tests are failing in playback mode, but passing in recording mode. Please help fix them!
+```
+
 ### Logging
 
 Enabling logging may help uncover useful information about failures. In order to see logs from the recorder client, set the `AZURE_LOG_LEVEL` environment variable to `info`. Alternatively, logging can be enabled at runtime by calling the `setLogLevel` function in the `@azure/logger` package.
