@@ -10,11 +10,11 @@ import {
   _giVersionListResultDeserializer,
 } from "../../models/models.js";
 import { GiVersionsListByLocationOptionalParams, GiVersionsGetOptionalParams } from "./options.js";
-import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
 import {
   PagedAsyncIterableIterator,
   buildPagedAsyncIterator,
 } from "../../static-helpers/pagingHelpers.js";
+import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
 import {
   StreamableMethod,
   PathUncheckedResponse,
@@ -28,13 +28,11 @@ export function _listByLocationSend(
   options: GiVersionsListByLocationOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "/subscriptions/{subscriptionId}/providers/Oracle.Database/locations/{location}/giVersions{?api%2Dversion,shape,zone}",
+    "/subscriptions/{subscriptionId}/providers/Oracle.Database/locations/{location}/giVersions{?api%2Dversion}",
     {
       subscriptionId: context.subscriptionId,
       location: location,
       "api%2Dversion": context.apiVersion,
-      shape: options?.shape,
-      zone: options?.zone,
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,

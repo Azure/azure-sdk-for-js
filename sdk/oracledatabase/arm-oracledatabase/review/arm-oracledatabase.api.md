@@ -177,7 +177,6 @@ export interface AutonomousDatabaseBaseProperties {
     privateEndpointLabel?: string;
     readonly provisionableCpus?: number[];
     readonly provisioningState?: AzureResourceProvisioningState;
-    readonly remoteDisasterRecoveryConfiguration?: DisasterRecoveryConfigurationDetails;
     role?: RoleType;
     scheduledOperations?: ScheduledOperationsType;
     readonly serviceConsoleUrl?: string;
@@ -187,7 +186,6 @@ export interface AutonomousDatabaseBaseProperties {
     readonly timeCreated?: Date;
     readonly timeDataGuardRoleChanged?: string;
     readonly timeDeletionOfFreeAutonomousDatabase?: string;
-    readonly timeDisasterRecoveryRoleChanged?: Date;
     readonly timeLocalDataGuardEnabled?: string;
     readonly timeMaintenanceBegin?: Date;
     readonly timeMaintenanceEnd?: Date;
@@ -203,7 +201,7 @@ export interface AutonomousDatabaseBaseProperties {
 }
 
 // @public
-export type AutonomousDatabaseBasePropertiesUnion = AutonomousDatabaseProperties | AutonomousDatabaseCloneProperties | AutonomousDatabaseCrossRegionDisasterRecoveryProperties | AutonomousDatabaseFromBackupTimestampProperties | AutonomousDatabaseBaseProperties;
+export type AutonomousDatabaseBasePropertiesUnion = AutonomousDatabaseProperties | AutonomousDatabaseCloneProperties | AutonomousDatabaseBaseProperties;
 
 // @public
 export interface AutonomousDatabaseCharacterSet extends ProxyResource {
@@ -243,27 +241,6 @@ export interface AutonomousDatabaseCloneProperties extends AutonomousDatabaseBas
 }
 
 // @public
-export interface AutonomousDatabaseCrossRegionDisasterRecoveryProperties extends AutonomousDatabaseBaseProperties {
-    dataBaseType: "CrossRegionDisasterRecovery";
-    isReplicateAutomaticBackups?: boolean;
-    remoteDisasterRecoveryType: DisasterRecoveryType;
-    source: "CrossRegionDisasterRecovery";
-    sourceId: string;
-    sourceLocation?: string;
-    sourceOcid?: string;
-}
-
-// @public
-export interface AutonomousDatabaseFromBackupTimestampProperties extends AutonomousDatabaseBaseProperties {
-    cloneType: CloneType;
-    dataBaseType: "CloneFromBackupTimestamp";
-    source: "BackupFromTimestamp";
-    sourceId: string;
-    timestamp?: Date;
-    useLatestAvailableBackupTimeStamp?: boolean;
-}
-
-// @public
 export type AutonomousDatabaseLifecycleState = string;
 
 // @public
@@ -293,11 +270,6 @@ export interface AutonomousDatabaseNationalCharacterSetsOperations {
 // @public
 export interface AutonomousDatabaseProperties extends AutonomousDatabaseBaseProperties {
     dataBaseType: "Regular";
-}
-
-// @public
-export interface AutonomousDatabasesChangeDisasterRecoveryConfigurationOptionalParams extends OperationOptions {
-    updateIntervalInMs?: number;
 }
 
 // @public
@@ -333,7 +305,6 @@ export interface AutonomousDatabasesListBySubscriptionOptionalParams extends Ope
 
 // @public
 export interface AutonomousDatabasesOperations {
-    changeDisasterRecoveryConfiguration: (resourceGroupName: string, autonomousdatabasename: string, body: DisasterRecoveryConfigurationDetails, options?: AutonomousDatabasesChangeDisasterRecoveryConfigurationOptionalParams) => PollerLike<OperationState<AutonomousDatabase>, AutonomousDatabase>;
     createOrUpdate: (resourceGroupName: string, autonomousdatabasename: string, resource: AutonomousDatabase, options?: AutonomousDatabasesCreateOrUpdateOptionalParams) => PollerLike<OperationState<AutonomousDatabase>, AutonomousDatabase>;
     delete: (resourceGroupName: string, autonomousdatabasename: string, options?: AutonomousDatabasesDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
     failover: (resourceGroupName: string, autonomousdatabasename: string, body: PeerDbDetails, options?: AutonomousDatabasesFailoverOptionalParams) => PollerLike<OperationState<AutonomousDatabase>, AutonomousDatabase>;
@@ -481,14 +452,11 @@ export interface CloudExadataInfrastructureProperties {
     readonly additionalStorageCount?: number;
     readonly availableStorageSizeInGbs?: number;
     computeCount?: number;
-    readonly computeModel?: ComputeModel;
     readonly cpuCount?: number;
     customerContacts?: CustomerContact[];
-    databaseServerType?: string;
     readonly dataStorageSizeInTbs?: number;
     readonly dbNodeStorageSizeInGbs?: number;
     readonly dbServerVersion?: string;
-    readonly definedFileSystemConfiguration?: DefinedFileSystemConfiguration[];
     displayName: string;
     readonly estimatedPatchingTime?: EstimatedPatchingTime;
     readonly lastMaintenanceRunId?: string;
@@ -508,7 +476,6 @@ export interface CloudExadataInfrastructureProperties {
     readonly provisioningState?: AzureResourceProvisioningState;
     shape: string;
     storageCount?: number;
-    storageServerType?: string;
     readonly storageServerVersion?: string;
     readonly timeCreated?: string;
     readonly totalStorageSizeInGbs?: number;
@@ -587,7 +554,6 @@ export interface CloudVmClusterProperties {
     cloudExadataInfrastructureId: string;
     clusterName?: string;
     readonly compartmentId?: string;
-    readonly computeModel?: ComputeModel;
     computeNodes?: string[];
     cpuCoreCount: number;
     dataCollectionOptions?: DataCollectionOptions;
@@ -598,7 +564,6 @@ export interface CloudVmClusterProperties {
     readonly diskRedundancy?: DiskRedundancy;
     displayName: string;
     domain?: string;
-    fileSystemConfigurationDetails?: FileSystemConfigurationDetails[];
     giVersion: string;
     hostname: string;
     readonly iormConfigCache?: ExadataIormConfig;
@@ -703,7 +668,6 @@ export interface CloudVmClusterUpdateProperties {
     dataStorageSizeInTbs?: number;
     dbNodeStorageSizeInGbs?: number;
     displayName?: string;
-    fileSystemConfigurationDetails?: FileSystemConfigurationDetails[];
     licenseModel?: LicenseModel;
     memorySizeInGbs?: number;
     ocpuCount?: number;
@@ -781,11 +745,6 @@ export interface DayOfWeekUpdate {
 }
 
 // @public
-export interface DbActionResponse {
-    provisioningState?: AzureResourceProvisioningState;
-}
-
-// @public
 export interface DbIormConfig {
     dbName?: string;
     flashCacheLimit?: string;
@@ -804,11 +763,6 @@ export interface DbNodeAction {
 
 // @public
 export type DbNodeActionEnum = string;
-
-// @public
-export interface DbNodeDetails {
-    dbNodeId: string;
-}
 
 // @public
 export type DbNodeMaintenanceType = string;
@@ -884,7 +838,6 @@ export interface DbServerProperties {
     readonly autonomousVirtualMachineIds?: string[];
     readonly autonomousVmClusterIds?: string[];
     readonly compartmentId?: string;
-    readonly computeModel?: ComputeModel;
     readonly cpuCoreCount?: number;
     readonly dbNodeIds?: string[];
     readonly dbNodeStorageSizeInGbs?: number;
@@ -928,7 +881,6 @@ export interface DbSystemShape extends ProxyResource {
 
 // @public
 export interface DbSystemShapeProperties {
-    areServerTypesSupported?: boolean;
     availableCoreCount: number;
     availableCoreCountPerNode?: number;
     availableDataStorageInTbs?: number;
@@ -937,9 +889,7 @@ export interface DbSystemShapeProperties {
     availableDbNodeStorageInGbs?: number;
     availableMemoryInGbs?: number;
     availableMemoryPerNodeInGbs?: number;
-    computeModel?: ComputeModel;
     coreCountIncrement?: number;
-    displayName?: string;
     maximumNodeCount?: number;
     maxStorageCount?: number;
     minCoreCountPerNode?: number;
@@ -951,7 +901,6 @@ export interface DbSystemShapeProperties {
     minStorageCount?: number;
     runtimeMinimumCoreCount?: number;
     shapeFamily?: string;
-    shapeName: string;
 }
 
 // @public
@@ -960,29 +909,12 @@ export interface DbSystemShapesGetOptionalParams extends OperationOptions {
 
 // @public
 export interface DbSystemShapesListByLocationOptionalParams extends OperationOptions {
-    zone?: string;
 }
 
 // @public
 export interface DbSystemShapesOperations {
     get: (location: string, dbsystemshapename: string, options?: DbSystemShapesGetOptionalParams) => Promise<DbSystemShape>;
     listByLocation: (location: string, options?: DbSystemShapesListByLocationOptionalParams) => PagedAsyncIterableIterator<DbSystemShape>;
-}
-
-// @public
-export interface DefinedFileSystemConfiguration {
-    isBackupPartition?: boolean;
-    isResizable?: boolean;
-    minSizeGb?: number;
-    mountPoint?: string;
-}
-
-// @public
-export interface DisasterRecoveryConfigurationDetails {
-    disasterRecoveryType?: DisasterRecoveryType;
-    isReplicateAutomaticBackups?: boolean;
-    isSnapshotStandby?: boolean;
-    timeSnapshotStandbyEnabledTill?: Date;
 }
 
 // @public
@@ -1098,282 +1030,6 @@ export interface ExadataIormConfig {
 }
 
 // @public
-export interface ExadbVmCluster extends TrackedResource {
-    properties?: ExadbVmClusterProperties;
-    zones?: string[];
-}
-
-// @public
-export type ExadbVmClusterLifecycleState = string;
-
-// @public
-export interface ExadbVmClusterProperties {
-    backupSubnetCidr?: string;
-    readonly backupSubnetOcid?: string;
-    clusterName?: string;
-    dataCollectionOptions?: DataCollectionOptions;
-    displayName: string;
-    domain?: string;
-    enabledEcpuCount: number;
-    exascaleDbStorageVaultId: string;
-    readonly giVersion?: string;
-    gridImageOcid?: string;
-    readonly gridImageType?: GridImageType;
-    hostname: string;
-    readonly iormConfigCache?: ExadataIormConfig;
-    licenseModel?: LicenseModel;
-    readonly lifecycleDetails?: string;
-    readonly lifecycleState?: ExadbVmClusterLifecycleState;
-    readonly listenerPort?: number;
-    readonly memorySizeInGbs?: number;
-    nodeCount: number;
-    nsgCidrs?: NsgCidr[];
-    readonly nsgUrl?: string;
-    readonly ocid?: string;
-    readonly ociUrl?: string;
-    privateZoneOcid?: string;
-    readonly provisioningState?: AzureResourceProvisioningState;
-    readonly scanDnsName?: string;
-    readonly scanDnsRecordId?: string;
-    readonly scanIpIds?: string[];
-    scanListenerPortTcp?: number;
-    scanListenerPortTcpSsl?: number;
-    shape: string;
-    readonly snapshotFileSystemStorage?: ExadbVmClusterStorageDetails;
-    sshPublicKeys: string[];
-    subnetId: string;
-    readonly subnetOcid?: string;
-    systemVersion?: string;
-    timeZone?: string;
-    totalEcpuCount: number;
-    readonly totalFileSystemStorage?: ExadbVmClusterStorageDetails;
-    readonly vipIds?: string[];
-    vmFileSystemStorage: ExadbVmClusterStorageDetails;
-    vnetId: string;
-    readonly zoneOcid?: string;
-}
-
-// @public
-export interface ExadbVmClustersCreateOrUpdateOptionalParams extends OperationOptions {
-    updateIntervalInMs?: number;
-}
-
-// @public
-export interface ExadbVmClustersDeleteOptionalParams extends OperationOptions {
-    updateIntervalInMs?: number;
-}
-
-// @public
-export interface ExadbVmClustersGetOptionalParams extends OperationOptions {
-}
-
-// @public
-export interface ExadbVmClustersListByResourceGroupOptionalParams extends OperationOptions {
-}
-
-// @public
-export interface ExadbVmClustersListBySubscriptionOptionalParams extends OperationOptions {
-}
-
-// @public
-export interface ExadbVmClustersOperations {
-    createOrUpdate: (resourceGroupName: string, exadbVmClusterName: string, resource: ExadbVmCluster, options?: ExadbVmClustersCreateOrUpdateOptionalParams) => PollerLike<OperationState<ExadbVmCluster>, ExadbVmCluster>;
-    delete: (resourceGroupName: string, exadbVmClusterName: string, options?: ExadbVmClustersDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
-    get: (resourceGroupName: string, exadbVmClusterName: string, options?: ExadbVmClustersGetOptionalParams) => Promise<ExadbVmCluster>;
-    listByResourceGroup: (resourceGroupName: string, options?: ExadbVmClustersListByResourceGroupOptionalParams) => PagedAsyncIterableIterator<ExadbVmCluster>;
-    listBySubscription: (options?: ExadbVmClustersListBySubscriptionOptionalParams) => PagedAsyncIterableIterator<ExadbVmCluster>;
-    removeVms: (resourceGroupName: string, exadbVmClusterName: string, body: RemoveVirtualMachineFromExadbVmClusterDetails, options?: ExadbVmClustersRemoveVmsOptionalParams) => PollerLike<OperationState<ExadbVmCluster>, ExadbVmCluster>;
-    update: (resourceGroupName: string, exadbVmClusterName: string, properties: ExadbVmClusterUpdate, options?: ExadbVmClustersUpdateOptionalParams) => PollerLike<OperationState<ExadbVmCluster>, ExadbVmCluster>;
-}
-
-// @public
-export interface ExadbVmClustersRemoveVmsOptionalParams extends OperationOptions {
-    updateIntervalInMs?: number;
-}
-
-// @public
-export interface ExadbVmClusterStorageDetails {
-    totalSizeInGbs: number;
-}
-
-// @public
-export interface ExadbVmClustersUpdateOptionalParams extends OperationOptions {
-    updateIntervalInMs?: number;
-}
-
-// @public
-export interface ExadbVmClusterUpdate {
-    properties?: ExadbVmClusterUpdateProperties;
-    tags?: Record<string, string>;
-    zones?: string[];
-}
-
-// @public
-export interface ExadbVmClusterUpdateProperties {
-    nodeCount?: number;
-}
-
-// @public
-export interface ExascaleDbNode extends ProxyResource {
-    properties?: ExascaleDbNodeProperties;
-}
-
-// @public
-export interface ExascaleDbNodeProperties {
-    additionalDetails?: string;
-    cpuCoreCount?: number;
-    dbNodeStorageSizeInGbs?: number;
-    faultDomain?: string;
-    hostname?: string;
-    lifecycleState?: DbNodeProvisioningState;
-    maintenanceType?: string;
-    memorySizeInGbs?: number;
-    ocid: string;
-    softwareStorageSizeInGb?: number;
-    timeMaintenanceWindowEnd?: Date;
-    timeMaintenanceWindowStart?: Date;
-    totalCpuCoreCount?: number;
-}
-
-// @public
-export interface ExascaleDbNodesActionOptionalParams extends OperationOptions {
-    updateIntervalInMs?: number;
-}
-
-// @public
-export interface ExascaleDbNodesGetOptionalParams extends OperationOptions {
-}
-
-// @public
-export interface ExascaleDbNodesListByParentOptionalParams extends OperationOptions {
-}
-
-// @public
-export interface ExascaleDbNodesOperations {
-    action: (resourceGroupName: string, exadbVmClusterName: string, exascaleDbNodeName: string, body: DbNodeAction, options?: ExascaleDbNodesActionOptionalParams) => PollerLike<OperationState<DbActionResponse>, DbActionResponse>;
-    get: (resourceGroupName: string, exadbVmClusterName: string, exascaleDbNodeName: string, options?: ExascaleDbNodesGetOptionalParams) => Promise<ExascaleDbNode>;
-    listByParent: (resourceGroupName: string, exadbVmClusterName: string, options?: ExascaleDbNodesListByParentOptionalParams) => PagedAsyncIterableIterator<ExascaleDbNode>;
-}
-
-// @public
-export interface ExascaleDbStorageDetails {
-    availableSizeInGbs?: number;
-    totalSizeInGbs?: number;
-}
-
-// @public
-export interface ExascaleDbStorageInputDetails {
-    totalSizeInGbs: number;
-}
-
-// @public
-export interface ExascaleDbStorageVault extends TrackedResource {
-    properties?: ExascaleDbStorageVaultProperties;
-    zones?: string[];
-}
-
-// @public
-export type ExascaleDbStorageVaultLifecycleState = string;
-
-// @public
-export interface ExascaleDbStorageVaultProperties {
-    additionalFlashCacheInPercent?: number;
-    description?: string;
-    displayName: string;
-    readonly highCapacityDatabaseStorage?: ExascaleDbStorageDetails;
-    highCapacityDatabaseStorageInput: ExascaleDbStorageInputDetails;
-    readonly lifecycleDetails?: string;
-    readonly lifecycleState?: ExascaleDbStorageVaultLifecycleState;
-    readonly ocid?: string;
-    readonly ociUrl?: string;
-    readonly provisioningState?: AzureResourceProvisioningState;
-    timeZone?: string;
-    readonly vmClusterCount?: number;
-}
-
-// @public
-export interface ExascaleDbStorageVaultsCreateOptionalParams extends OperationOptions {
-    updateIntervalInMs?: number;
-}
-
-// @public
-export interface ExascaleDbStorageVaultsDeleteOptionalParams extends OperationOptions {
-    updateIntervalInMs?: number;
-}
-
-// @public
-export interface ExascaleDbStorageVaultsGetOptionalParams extends OperationOptions {
-}
-
-// @public
-export interface ExascaleDbStorageVaultsListByResourceGroupOptionalParams extends OperationOptions {
-}
-
-// @public
-export interface ExascaleDbStorageVaultsListBySubscriptionOptionalParams extends OperationOptions {
-}
-
-// @public
-export interface ExascaleDbStorageVaultsOperations {
-    create: (resourceGroupName: string, exascaleDbStorageVaultName: string, resource: ExascaleDbStorageVault, options?: ExascaleDbStorageVaultsCreateOptionalParams) => PollerLike<OperationState<ExascaleDbStorageVault>, ExascaleDbStorageVault>;
-    delete: (resourceGroupName: string, exascaleDbStorageVaultName: string, options?: ExascaleDbStorageVaultsDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
-    get: (resourceGroupName: string, exascaleDbStorageVaultName: string, options?: ExascaleDbStorageVaultsGetOptionalParams) => Promise<ExascaleDbStorageVault>;
-    listByResourceGroup: (resourceGroupName: string, options?: ExascaleDbStorageVaultsListByResourceGroupOptionalParams) => PagedAsyncIterableIterator<ExascaleDbStorageVault>;
-    listBySubscription: (options?: ExascaleDbStorageVaultsListBySubscriptionOptionalParams) => PagedAsyncIterableIterator<ExascaleDbStorageVault>;
-    update: (resourceGroupName: string, exascaleDbStorageVaultName: string, properties: ExascaleDbStorageVaultTagsUpdate, options?: ExascaleDbStorageVaultsUpdateOptionalParams) => PollerLike<OperationState<ExascaleDbStorageVault>, ExascaleDbStorageVault>;
-}
-
-// @public
-export interface ExascaleDbStorageVaultsUpdateOptionalParams extends OperationOptions {
-    updateIntervalInMs?: number;
-}
-
-// @public
-export interface ExascaleDbStorageVaultTagsUpdate {
-    tags?: Record<string, string>;
-}
-
-// @public
-export interface FileSystemConfigurationDetails {
-    fileSystemSizeGb?: number;
-    mountPoint?: string;
-}
-
-// @public
-export interface FlexComponent extends ProxyResource {
-    properties?: FlexComponentProperties;
-}
-
-// @public
-export interface FlexComponentProperties {
-    readonly availableCoreCount?: number;
-    readonly availableDbStorageInGbs?: number;
-    readonly availableLocalStorageInGbs?: number;
-    readonly availableMemoryInGbs?: number;
-    readonly computeModel?: string;
-    readonly descriptionSummary?: string;
-    readonly hardwareType?: HardwareType;
-    readonly minimumCoreCount?: number;
-    readonly runtimeMinimumCoreCount?: number;
-    readonly shape?: string;
-}
-
-// @public
-export interface FlexComponentsGetOptionalParams extends OperationOptions {
-}
-
-// @public
-export interface FlexComponentsListByParentOptionalParams extends OperationOptions {
-    shape?: SystemShapes;
-}
-
-// @public
-export interface FlexComponentsOperations {
-    get: (location: string, flexComponentName: string, options?: FlexComponentsGetOptionalParams) => Promise<FlexComponent>;
-    listByParent: (location: string, options?: FlexComponentsListByParentOptionalParams) => PagedAsyncIterableIterator<FlexComponent>;
-}
-
-// @public
 export interface GenerateAutonomousDatabaseWalletDetails {
     generateType?: GenerateType;
     isRegional?: boolean;
@@ -1382,33 +1038,6 @@ export interface GenerateAutonomousDatabaseWalletDetails {
 
 // @public
 export type GenerateType = string;
-
-// @public
-export interface GiMinorVersion extends ProxyResource {
-    properties?: GiMinorVersionProperties;
-}
-
-// @public
-export interface GiMinorVersionProperties {
-    gridImageOcid?: string;
-    version: string;
-}
-
-// @public
-export interface GiMinorVersionsGetOptionalParams extends OperationOptions {
-}
-
-// @public
-export interface GiMinorVersionsListByParentOptionalParams extends OperationOptions {
-    shapeFamily?: ShapeFamily;
-    zone?: string;
-}
-
-// @public
-export interface GiMinorVersionsOperations {
-    get: (location: string, giversionname: string, giMinorVersionName: string, options?: GiMinorVersionsGetOptionalParams) => Promise<GiMinorVersion>;
-    listByParent: (location: string, giversionname: string, options?: GiMinorVersionsListByParentOptionalParams) => PagedAsyncIterableIterator<GiMinorVersion>;
-}
 
 // @public
 export interface GiVersion extends ProxyResource {
@@ -1426,8 +1055,6 @@ export interface GiVersionsGetOptionalParams extends OperationOptions {
 
 // @public
 export interface GiVersionsListByLocationOptionalParams extends OperationOptions {
-    shape?: SystemShapes;
-    zone?: string;
 }
 
 // @public
@@ -1435,12 +1062,6 @@ export interface GiVersionsOperations {
     get: (location: string, giversionname: string, options?: GiVersionsGetOptionalParams) => Promise<GiVersion>;
     listByLocation: (location: string, options?: GiVersionsListByLocationOptionalParams) => PagedAsyncIterableIterator<GiVersion>;
 }
-
-// @public
-export type GridImageType = string;
-
-// @public
-export type HardwareType = string;
 
 // @public
 export type HostFormatType = string;
@@ -1585,8 +1206,6 @@ export enum KnownDatabaseEditionType {
 // @public
 export enum KnownDataBaseType {
     Clone = "Clone",
-    CloneFromBackupTimestamp = "CloneFromBackupTimestamp",
-    CrossRegionDisasterRecovery = "CrossRegionDisasterRecovery",
     Regular = "Regular"
 }
 
@@ -1684,42 +1303,9 @@ export enum KnownDnsPrivateZonesLifecycleState {
 }
 
 // @public
-export enum KnownExadbVmClusterLifecycleState {
-    Available = "Available",
-    Failed = "Failed",
-    MaintenanceInProgress = "MaintenanceInProgress",
-    Provisioning = "Provisioning",
-    Terminated = "Terminated",
-    Terminating = "Terminating",
-    Updating = "Updating"
-}
-
-// @public
-export enum KnownExascaleDbStorageVaultLifecycleState {
-    Available = "Available",
-    Failed = "Failed",
-    Provisioning = "Provisioning",
-    Terminated = "Terminated",
-    Terminating = "Terminating",
-    Updating = "Updating"
-}
-
-// @public
 export enum KnownGenerateType {
     All = "All",
     Single = "Single"
-}
-
-// @public
-export enum KnownGridImageType {
-    CustomImage = "CustomImage",
-    ReleaseUpdate = "ReleaseUpdate"
-}
-
-// @public
-export enum KnownHardwareType {
-    Cell = "CELL",
-    Compute = "COMPUTE"
 }
 
 // @public
@@ -1871,12 +1457,6 @@ export enum KnownSessionModeType {
 }
 
 // @public
-export enum KnownShapeFamily {
-    Exadata = "EXADATA",
-    ExadbXs = "EXADB_XS"
-}
-
-// @public
 export enum KnownSourceType {
     BackupFromId = "BackupFromId",
     BackupFromTimestamp = "BackupFromTimestamp",
@@ -1895,13 +1475,6 @@ export enum KnownSyntaxFormatType {
 }
 
 // @public
-export enum KnownSystemShapes {
-    ExadataX11M = "Exadata.X11M",
-    ExadataX9M = "Exadata.X9M",
-    ExaDbXs = "ExaDbXS"
-}
-
-// @public
 export enum KnownTlsAuthenticationType {
     Mutual = "Mutual",
     Server = "Server"
@@ -1910,8 +1483,7 @@ export enum KnownTlsAuthenticationType {
 // @public
 export enum KnownVersions {
     V20230901 = "2023-09-01",
-    V20240601 = "2024-06-01",
-    V20250301 = "2025-03-01"
+    V20240601 = "2024-06-01"
 }
 
 // @public
@@ -2026,11 +1598,6 @@ export class OracleDatabaseManagementClient {
     readonly dbSystemShapes: DbSystemShapesOperations;
     readonly dnsPrivateViews: DnsPrivateViewsOperations;
     readonly dnsPrivateZones: DnsPrivateZonesOperations;
-    readonly exadbVmClusters: ExadbVmClustersOperations;
-    readonly exascaleDbNodes: ExascaleDbNodesOperations;
-    readonly exascaleDbStorageVaults: ExascaleDbStorageVaultsOperations;
-    readonly flexComponents: FlexComponentsOperations;
-    readonly giMinorVersions: GiMinorVersionsOperations;
     readonly giVersions: GiVersionsOperations;
     readonly operations: OperationsOperations;
     readonly oracleSubscriptions: OracleSubscriptionsOperations;
@@ -2156,8 +1723,6 @@ export type PatchingMode = string;
 // @public
 export interface PeerDbDetails {
     peerDbId?: string;
-    peerDbLocation?: string;
-    peerDbOcid?: string;
 }
 
 // @public
@@ -2232,11 +1797,6 @@ export type RefreshableModelType = string;
 export type RefreshableStatusType = string;
 
 // @public
-export interface RemoveVirtualMachineFromExadbVmClusterDetails {
-    dbNodes: DbNodeDetails[];
-}
-
-// @public
 export type RepeatCadenceType = string;
 
 // @public
@@ -2302,9 +1862,6 @@ export interface ScheduledOperationsTypeUpdate {
 export type SessionModeType = string;
 
 // @public
-export type ShapeFamily = string;
-
-// @public
 export type SourceType = string;
 
 // @public
@@ -2319,9 +1876,6 @@ export interface SystemData {
     lastModifiedBy?: string;
     lastModifiedByType?: CreatedByType;
 }
-
-// @public
-export type SystemShapes = string;
 
 // @public
 export interface SystemVersion extends ProxyResource {

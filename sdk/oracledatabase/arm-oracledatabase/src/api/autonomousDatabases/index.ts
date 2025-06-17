@@ -2,7 +2,6 @@
 // Licensed under the MIT License.
 
 export {
-  changeDisasterRecoveryConfiguration,
   shrink,
   restore,
   generateWallet,
@@ -16,7 +15,6 @@ export {
   listBySubscription,
 } from "./operations.js";
 export {
-  AutonomousDatabasesChangeDisasterRecoveryConfigurationOptionalParams,
   AutonomousDatabasesShrinkOptionalParams,
   AutonomousDatabasesRestoreOptionalParams,
   AutonomousDatabasesGenerateWalletOptionalParams,
