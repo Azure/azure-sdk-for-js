@@ -1611,6 +1611,9 @@ sdk/ai/ai-agents @ganeshyb @glharper @dargilco @jhakulin @ZachhK @bobogogo1990
 # ServiceLabel: %Consumption - RIandShowBack %Service Attention
 #/<NotInRepo>/          @ccmshowbackdevs
 
+# PRLabel: %Mgmt
+sdk/contoso/arm-contoso/ @qiaozha @MaryGao
+
 ###########
 # Config
 ###########
