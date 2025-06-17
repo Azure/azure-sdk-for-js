@@ -152,9 +152,10 @@ function IsNPMPackageVersionPublished ($pkgId, $pkgVersion) {
 }
 
 function Get-PackageJsonContentFromPackage($package, $workingDirectory) {
-  $extractedPackageDir = Join-Path $workingDirectory (Split-Path $package -Leaf)
-  New-Item -ItemType "directory" -Path $extractedPackageDir | out-null
+  $extractedPackageDir = Join-Path $workingDirectory (Split-Path $package -LeafBase)
+  mkdir $extractedPackageDir -Force | Out-Null
   
+  Write-Host "tar -xzf $package -C $extractedPackageDir"
   tar -xzf $package -C $extractedPackageDir
 
   $packageDirectory = Join-Path $extractedPackageDir "package"
@@ -173,14 +174,14 @@ function NormalizePackageContent($dirName, $version) {
     $newContent = $content -replace $oldText, $newText
     if ($newContent -ne $content) {
       Set-Content -Path $filePath -Value $newContent -NoNewLine
-      Write-Host "ReplaceText [$oldText] [$newText] [$filePath]"
+      Write-Verbose "ReplaceText [$oldText] [$newText] [$filePath]"
     }
   }
 
-  foreach ($md in $(dir $dirName -r -i *.md)) {
+  foreach ($md in $(Get-ChildItem $dirName -r -i *.md)) {
     ReplaceText "https://github.com/Azure/azure-sdk-for-js/tree/[^/]*" "" $md.Fullname
   }
-  foreach ($file in $(dir $dirName -r -i *.js, *.ts, *.json)) {
+  foreach ($file in $(Get-ChildItem $dirName -r -i *.js, *.ts, *.json)) {
     ReplaceText $version "VERSION_REMOVED" $file.Fullname
   }
 }
@@ -188,11 +189,11 @@ function NormalizePackageContent($dirName, $version) {
 function ContainsProductCodeDiff($currentDevPackage, $lastDevPackage, $workingDirectory) {
   $diffFile = Join-Path $workingDirectory "Change.diff"
   git diff --output=$diffFile --exit-code $lastDevPackage $currentDevPackage
-  Write-Host "Exit code for git diff = $LastExitCode"
+  Write-Host "Package Diff exited with code $LastExitCode"
   if ($LastExitCode -ne 0) {
     Write-Host "There were differences in the two packages - saved in $diffFile"
     Write-Host "Contents of $diffFile"
-    Get-Content -Path $diffFile | % { Write-Host $_ }
+    Get-Content -Path $diffFile
     return $true
   }
   return $false
@@ -202,13 +203,18 @@ function HasPackageSourceCodeChanges($package, $workingDirectory) {
   $packageBefore = Get-PackageJsonContentFromPackage -package $package -workingDirectory $workingDirectory
   $name = $packageBefore.name
 
-  $packageAfterName = npm pack $name@dev --pack --pack-destination $workingDirectory 2> error.txt
+  $packageAfterName = npm pack $name@dev --pack --pack-destination $workingDirectory 2> $workingDirectory/error.txt
   if ($LastExitCode -ne 0) {
-    Write-Verbose (Get-Content -Path error.txt)
+    Write-Verbose (Get-Content -Path $workingDirectory/error.txt)
     Write-Verbose "Failed to retrieve package $name@dev.. assuming there is source code changes."
     return $true
   }  
-  $packageAfter = Get-PackageJsonContentFromPackage -package $packageAfterName -workingDirectory $workingDirectory
+  $packageAfter = Get-PackageJsonContentFromPackage -package (Join-Path $workingDirectory $packageAfterName) -workingDirectory $workingDirectory
+
+  if (!$packageAfter -or !$packageBefore -or !(Test-Path $packageBefore.PackageRootDirectory) -or !(Test-Path $packageAfter.PackageRootDirectory)) {
+    Write-Host "Failed to retrieve package content for $name@dev or extract the $package content. Assuming there are source code changes."
+    return $true
+  }
 
   NormalizePackageContent $packageBefore.PackageRootDirectory $packageBefore.version
   NormalizePackageContent $packageAfter.PackageRootDirectory  $packageAfter.version
