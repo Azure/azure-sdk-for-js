@@ -51,7 +51,7 @@
     "@azure/core-auth": "workspace:^",
     "@azure/core-client": "workspace:^",
     "@azure/core-rest-pipeline": "workspace:^",
-    "@azure/core-tracing": "workspace:^",
+    "@azure/core-tracing": "catalog:corelkg",
     "@azure/core-util": "workspace:^",
     "@azure/logger": "workspace:^",
     "tslib": "catalog:"

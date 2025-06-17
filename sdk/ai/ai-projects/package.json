@@ -68,7 +68,7 @@
     "@azure/core-paging": "workspace:^",
     "@azure/core-rest-pipeline": "workspace:^",
     "@azure/core-sse": "workspace:^",
-    "@azure/core-tracing": "workspace:^",
+    "@azure/core-tracing": "catalog:corelkg",
     "@azure/core-util": "workspace:^",
     "@azure/logger": "workspace:^",
     "@azure/opentelemetry-instrumentation-azure-sdk": "^1.0.0-beta.7",

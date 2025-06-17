@@ -88,7 +88,7 @@
     "@azure/core-lro": "catalog:corelrov2",
     "@azure/core-paging": "workspace:^",
     "@azure/core-rest-pipeline": "workspace:^",
-    "@azure/core-tracing": "workspace:^",
+    "@azure/core-tracing": "catalog:corelkg",
     "@azure/logger": "workspace:^",
     "tslib": "catalog:"
   },

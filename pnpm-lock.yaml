@@ -882,8 +882,8 @@ importers:
         specifier: workspace:^
         version: link:../../core/core-sse
       '@azure/core-tracing':
-        specifier: workspace:^
-        version: link:../../core/core-tracing
+        specifier: catalog:corelkg
+        version: 1.2.0
       '@azure/core-util':
         specifier: workspace:^
         version: link:../../core/core-util
@@ -973,8 +973,8 @@ importers:
         specifier: workspace:^
         version: link:../../core/core-rest-pipeline
       '@azure/core-tracing':
-        specifier: workspace:^
-        version: link:../../core/core-tracing
+        specifier: catalog:corelkg
+        version: 1.2.0
       '@azure/logger':
         specifier: workspace:^
         version: link:../../core/logger
@@ -1079,8 +1079,8 @@ importers:
         specifier: workspace:^
         version: link:../../core/core-sse
       '@azure/core-tracing':
-        specifier: workspace:^
-        version: link:../../core/core-tracing
+        specifier: catalog:corelkg
+        version: 1.2.0
       '@azure/core-util':
         specifier: workspace:^
         version: link:../../core/core-util
@@ -1612,8 +1612,8 @@ importers:
         specifier: workspace:^
         version: link:../../core/core-rest-pipeline
       '@azure/core-tracing':
-        specifier: workspace:^
-        version: link:../../core/core-tracing
+        specifier: catalog:corelkg
+        version: 1.2.0
       '@azure/core-util':
         specifier: workspace:^
         version: link:../../core/core-util
@@ -2213,8 +2213,8 @@ importers:
         specifier: workspace:^
         version: link:../../core/core-rest-pipeline
       '@azure/core-tracing':
-        specifier: workspace:^
-        version: link:../../core/core-tracing
+        specifier: catalog:corelkg
+        version: 1.2.0
       '@azure/logger':
         specifier: workspace:^
         version: link:../../core/logger
@@ -3475,8 +3475,8 @@ importers:
         specifier: workspace:^
         version: link:../../core/core-rest-pipeline
       '@azure/core-tracing':
-        specifier: workspace:^
-        version: link:../../core/core-tracing
+        specifier: catalog:corelkg
+        version: 1.2.0
       '@azure/core-util':
         specifier: workspace:^
         version: link:../../core/core-util
@@ -3554,8 +3554,8 @@ importers:
         specifier: workspace:^
         version: link:../../core/core-rest-pipeline
       '@azure/core-tracing':
-        specifier: workspace:^
-        version: link:../../core/core-tracing
+        specifier: catalog:corelkg
+        version: 1.2.0
       '@azure/logger':
         specifier: workspace:^
         version: link:../../core/logger
@@ -3923,8 +3923,8 @@ importers:
         specifier: workspace:^
         version: link:../../core/core-rest-pipeline
       '@azure/core-tracing':
-        specifier: workspace:^
-        version: link:../../core/core-tracing
+        specifier: catalog:corelkg
+        version: 1.2.0
       '@azure/logger':
         specifier: workspace:^
         version: link:../../core/logger
@@ -3996,8 +3996,8 @@ importers:
         specifier: workspace:^
         version: link:../../core/core-rest-pipeline
       '@azure/core-tracing':
-        specifier: workspace:^
-        version: link:../../core/core-tracing
+        specifier: catalog:corelkg
+        version: 1.2.0
       '@azure/core-util':
         specifier: workspace:^
         version: link:../../core/core-util
@@ -4090,8 +4090,8 @@ importers:
         specifier: workspace:^
         version: link:../../core/core-rest-pipeline
       '@azure/core-tracing':
-        specifier: workspace:^
-        version: link:../../core/core-tracing
+        specifier: catalog:corelkg
+        version: 1.2.0
       '@azure/logger':
         specifier: workspace:^
         version: link:../../core/logger
@@ -4163,8 +4163,8 @@ importers:
         specifier: workspace:^
         version: link:../../core/core-rest-pipeline
       '@azure/core-tracing':
-        specifier: workspace:^
-        version: link:../../core/core-tracing
+        specifier: catalog:corelkg
+        version: 1.2.0
       '@azure/core-util':
         specifier: workspace:^
         version: link:../../core/core-util
@@ -4315,8 +4315,8 @@ importers:
         specifier: workspace:^
         version: link:../../core/core-rest-pipeline
       '@azure/core-tracing':
-        specifier: workspace:^
-        version: link:../../core/core-tracing
+        specifier: catalog:corelkg
+        version: 1.2.0
       '@azure/logger':
         specifier: workspace:^
         version: link:../../core/logger
@@ -4552,8 +4552,8 @@ importers:
         specifier: workspace:^
         version: link:../../core/core-rest-pipeline
       '@azure/core-tracing':
-        specifier: workspace:^
-        version: link:../../core/core-tracing
+        specifier: catalog:corelkg
+        version: 1.2.0
       '@azure/core-util':
         specifier: workspace:^
         version: link:../../core/core-util
@@ -4634,8 +4634,8 @@ importers:
         specifier: workspace:^
         version: link:../../core/core-rest-pipeline
       '@azure/core-tracing':
-        specifier: workspace:^
-        version: link:../../core/core-tracing
+        specifier: catalog:corelkg
+        version: 1.2.0
       '@azure/logger':
         specifier: workspace:^
         version: link:../../core/logger
@@ -4707,8 +4707,8 @@ importers:
         specifier: workspace:^
         version: link:../../core/core-rest-pipeline
       '@azure/core-tracing':
-        specifier: workspace:^
-        version: link:../../core/core-tracing
+        specifier: catalog:corelkg
+        version: 1.2.0
       '@azure/core-util':
         specifier: workspace:^
         version: link:../../core/core-util
@@ -4789,8 +4789,8 @@ importers:
         specifier: workspace:^
         version: link:../../core/core-rest-pipeline
       '@azure/core-tracing':
-        specifier: workspace:^
-        version: link:../../core/core-tracing
+        specifier: catalog:corelkg
+        version: 1.2.0
       '@azure/logger':
         specifier: workspace:^
         version: link:../../core/logger
@@ -4862,8 +4862,8 @@ importers:
         specifier: workspace:^
         version: link:../../core/core-rest-pipeline
       '@azure/core-tracing':
-        specifier: workspace:^
-        version: link:../../core/core-tracing
+        specifier: catalog:corelkg
+        version: 1.2.0
       '@azure/core-util':
         specifier: workspace:^
         version: link:../../core/core-util
@@ -4944,8 +4944,8 @@ importers:
         specifier: workspace:^
         version: link:../../core/core-rest-pipeline
       '@azure/core-tracing':
-        specifier: workspace:^
-        version: link:../../core/core-tracing
+        specifier: catalog:corelkg
+        version: 1.2.0
       '@azure/logger':
         specifier: workspace:^
         version: link:../../core/logger
@@ -5023,8 +5023,8 @@ importers:
         specifier: workspace:^
         version: link:../../core/core-rest-pipeline
       '@azure/core-tracing':
-        specifier: workspace:^
-        version: link:../../core/core-tracing
+        specifier: catalog:corelkg
+        version: 1.2.0
       '@azure/core-util':
         specifier: workspace:^
         version: link:../../core/core-util
@@ -5934,8 +5934,8 @@ importers:
         specifier: workspace:^
         version: link:../../core/core-rest-pipeline
       '@azure/core-tracing':
-        specifier: workspace:^
-        version: link:../../core/core-tracing
+        specifier: catalog:corelkg
+        version: 1.2.0
       '@azure/logger':
         specifier: workspace:^
         version: link:../../core/logger
@@ -6462,8 +6462,8 @@ importers:
         specifier: workspace:^
         version: link:../core-rest-pipeline
       '@azure/core-tracing':
-        specifier: workspace:^
-        version: link:../core-tracing
+        specifier: catalog:corelkg
+        version: 1.2.0
       '@azure/core-util':
         specifier: workspace:^
         version: link:../core-util
@@ -6517,8 +6517,8 @@ importers:
         specifier: workspace:^
         version: link:../core-rest-pipeline
       '@azure/core-tracing':
-        specifier: workspace:^
-        version: link:../core-tracing
+        specifier: catalog:corelkg
+        version: 1.2.0
       '@typespec/ts-http-runtime':
         specifier: workspace:^
         version: link:../ts-http-runtime
@@ -6686,8 +6686,8 @@ importers:
         specifier: workspace:^
         version: link:../core-auth
       '@azure/core-tracing':
-        specifier: workspace:^
-        version: link:../core-tracing
+        specifier: catalog:corelkg
+        version: 1.2.0
       '@azure/core-util':
         specifier: workspace:^
         version: link:../core-util
@@ -7124,8 +7124,8 @@ importers:
         specifier: workspace:^
         version: link:../../core/core-rest-pipeline
       '@azure/core-tracing':
-        specifier: workspace:^
-        version: link:../../core/core-tracing
+        specifier: catalog:corelkg
+        version: 1.2.0
       '@azure/core-util':
         specifier: workspace:^
         version: link:../../core/core-util
@@ -9190,8 +9190,8 @@ importers:
         specifier: workspace:^
         version: link:../../core/core-rest-pipeline
       '@azure/core-tracing':
-        specifier: workspace:^
-        version: link:../../core/core-tracing
+        specifier: catalog:corelkg
+        version: 1.2.0
       '@azure/core-util':
         specifier: workspace:^
         version: link:../../core/core-util
@@ -10095,8 +10095,8 @@ importers:
         specifier: workspace:^
         version: link:../../core/core-rest-pipeline
       '@azure/core-tracing':
-        specifier: workspace:^
-        version: link:../../core/core-tracing
+        specifier: catalog:corelkg
+        version: 1.2.0
       '@azure/logger':
         specifier: workspace:^
         version: link:../../core/logger
@@ -10220,8 +10220,8 @@ importers:
         specifier: workspace:^
         version: link:../../core/core-rest-pipeline
       '@azure/core-tracing':
-        specifier: workspace:^
-        version: link:../../core/core-tracing
+        specifier: catalog:corelkg
+        version: 1.2.0
       '@azure/core-util':
         specifier: workspace:^
         version: link:../../core/core-util
@@ -10577,8 +10577,8 @@ importers:
         specifier: workspace:^
         version: link:../../core/core-auth
       '@azure/core-tracing':
-        specifier: workspace:^
-        version: link:../../core/core-tracing
+        specifier: catalog:corelkg
+        version: 1.2.0
       '@azure/core-util':
         specifier: workspace:^
         version: link:../../core/core-util
@@ -11335,8 +11335,8 @@ importers:
         specifier: workspace:^
         version: link:../../core/core-rest-pipeline
       '@azure/core-tracing':
-        specifier: workspace:^
-        version: link:../../core/core-tracing
+        specifier: catalog:corelkg
+        version: 1.2.0
       '@azure/logger':
         specifier: workspace:^
         version: link:../../core/logger
@@ -12697,8 +12697,8 @@ importers:
         specifier: workspace:^
         version: link:../../core/core-rest-pipeline
       '@azure/core-tracing':
-        specifier: workspace:^
-        version: link:../../core/core-tracing
+        specifier: catalog:corelkg
+        version: 1.2.0
       '@azure/core-util':
         specifier: workspace:^
         version: link:../../core/core-util
@@ -13197,8 +13197,8 @@ importers:
   sdk/instrumentation/opentelemetry-instrumentation-azure-sdk:
     dependencies:
       '@azure/core-tracing':
-        specifier: workspace:^
-        version: link:../../core/core-tracing
+        specifier: catalog:corelkg
+        version: 1.2.0
       '@azure/logger':
         specifier: workspace:^
         version: link:../../core/logger
@@ -13267,8 +13267,8 @@ importers:
         specifier: workspace:^
         version: link:../../core/core-rest-pipeline
       '@azure/core-tracing':
-        specifier: workspace:^
-        version: link:../../core/core-tracing
+        specifier: catalog:corelkg
+        version: 1.2.0
       '@azure/core-util':
         specifier: workspace:^
         version: link:../../core/core-util
@@ -13791,8 +13791,8 @@ importers:
         specifier: workspace:^
         version: link:../../core/core-rest-pipeline
       '@azure/core-tracing':
-        specifier: workspace:^
-        version: link:../../core/core-tracing
+        specifier: catalog:corelkg
+        version: 1.2.0
       '@azure/core-util':
         specifier: workspace:^
         version: link:../../core/core-util
@@ -13876,8 +13876,8 @@ importers:
         specifier: workspace:^
         version: link:../../core/core-rest-pipeline
       '@azure/core-tracing':
-        specifier: workspace:^
-        version: link:../../core/core-tracing
+        specifier: catalog:corelkg
+        version: 1.2.0
       '@azure/core-util':
         specifier: workspace:^
         version: link:../../core/core-util
@@ -13986,8 +13986,8 @@ importers:
         specifier: workspace:^
         version: link:../../core/core-rest-pipeline
       '@azure/core-tracing':
-        specifier: workspace:^
-        version: link:../../core/core-tracing
+        specifier: catalog:corelkg
+        version: 1.2.0
       '@azure/core-util':
         specifier: workspace:^
         version: link:../../core/core-util
@@ -14053,8 +14053,8 @@ importers:
         specifier: workspace:^
         version: link:../../core/core-rest-pipeline
       '@azure/core-tracing':
-        specifier: workspace:^
-        version: link:../../core/core-tracing
+        specifier: catalog:corelkg
+        version: 1.2.0
       '@azure/core-util':
         specifier: workspace:^
         version: link:../../core/core-util
@@ -14169,8 +14169,8 @@ importers:
         specifier: workspace:^
         version: link:../../core/core-rest-pipeline
       '@azure/core-tracing':
-        specifier: workspace:^
-        version: link:../../core/core-tracing
+        specifier: catalog:corelkg
+        version: 1.2.0
       '@azure/core-util':
         specifier: workspace:^
         version: link:../../core/core-util
@@ -16791,8 +16791,8 @@ importers:
         specifier: workspace:^
         version: link:../../core/core-rest-pipeline
       '@azure/core-tracing':
-        specifier: workspace:^
-        version: link:../../core/core-tracing
+        specifier: catalog:corelkg
+        version: 1.2.0
       '@azure/logger':
         specifier: workspace:^
         version: link:../../core/logger
@@ -17407,8 +17407,8 @@ importers:
         specifier: workspace:^
         version: link:../../core/core-rest-pipeline
       '@azure/core-tracing':
-        specifier: workspace:^
-        version: link:../../core/core-tracing
+        specifier: catalog:corelkg
+        version: 1.2.0
       '@azure/core-util':
         specifier: workspace:^
         version: link:../../core/core-util
@@ -17775,8 +17775,8 @@ importers:
         specifier: workspace:^
         version: link:../../core/core-rest-pipeline
       '@azure/core-tracing':
-        specifier: workspace:^
-        version: link:../../core/core-tracing
+        specifier: catalog:corelkg
+        version: 1.2.0
       '@azure/core-util':
         specifier: workspace:^
         version: link:../../core/core-util
@@ -18735,8 +18735,8 @@ importers:
         specifier: workspace:^
         version: link:../../core/core-rest-pipeline
       '@azure/core-tracing':
-        specifier: workspace:^
-        version: link:../../core/core-tracing
+        specifier: catalog:corelkg
+        version: 1.2.0
       '@azure/core-util':
         specifier: workspace:^
         version: link:../../core/core-util
@@ -20948,8 +20948,8 @@ importers:
         specifier: workspace:^
         version: link:../../core/core-rest-pipeline
       '@azure/core-tracing':
-        specifier: workspace:^
-        version: link:../../core/core-tracing
+        specifier: catalog:corelkg
+        version: 1.2.0
       '@azure/core-util':
         specifier: workspace:^
         version: link:../../core/core-util
@@ -22161,8 +22161,8 @@ importers:
         specifier: workspace:^
         version: link:../../core/core-rest-pipeline
       '@azure/core-tracing':
-        specifier: workspace:^
-        version: link:../../core/core-tracing
+        specifier: catalog:corelkg
+        version: 1.2.0
       '@azure/logger':
         specifier: workspace:^
         version: link:../../core/logger
@@ -22557,8 +22557,8 @@ importers:
         specifier: workspace:^
         version: link:../../core/core-rest-pipeline
       '@azure/core-tracing':
-        specifier: workspace:^
-        version: link:../../core/core-tracing
+        specifier: catalog:corelkg
+        version: 1.2.0
       '@azure/core-util':
         specifier: workspace:^
         version: link:../../core/core-util
@@ -23106,8 +23106,8 @@ importers:
         specifier: workspace:^
         version: link:../../core/core-rest-pipeline
       '@azure/core-tracing':
-        specifier: workspace:^
-        version: link:../../core/core-tracing
+        specifier: catalog:corelkg
+        version: 1.2.0
       '@azure/core-util':
         specifier: workspace:^
         version: link:../../core/core-util
@@ -24269,8 +24269,8 @@ importers:
         specifier: workspace:^
         version: link:../../core/core-rest-pipeline
       '@azure/core-tracing':
-        specifier: workspace:^
-        version: link:../../core/core-tracing
+        specifier: catalog:corelkg
+        version: 1.2.0
       '@azure/core-util':
         specifier: workspace:^
         version: link:../../core/core-util
@@ -24363,8 +24363,8 @@ importers:
         specifier: workspace:^
         version: link:../../core/core-rest-pipeline
       '@azure/core-tracing':
-        specifier: workspace:^
-        version: link:../../core/core-tracing
+        specifier: catalog:corelkg
+        version: 1.2.0
       '@azure/logger':
         specifier: workspace:^
         version: link:../../core/logger
@@ -24519,8 +24519,8 @@ importers:
         specifier: workspace:^
         version: link:../../core/core-rest-pipeline
       '@azure/core-tracing':
-        specifier: workspace:^
-        version: link:../../core/core-tracing
+        specifier: catalog:corelkg
+        version: 1.2.0
       '@azure/core-util':
         specifier: workspace:^
         version: link:../../core/core-util
@@ -24641,8 +24641,8 @@ importers:
         specifier: workspace:^
         version: link:../../core/core-rest-pipeline
       '@azure/core-tracing':
-        specifier: workspace:^
-        version: link:../../core/core-tracing
+        specifier: catalog:corelkg
+        version: 1.2.0
       '@azure/core-util':
         specifier: workspace:^
         version: link:../../core/core-util
@@ -24812,8 +24812,8 @@ importers:
         specifier: workspace:^
         version: link:../../core/core-rest-pipeline
       '@azure/core-tracing':
-        specifier: workspace:^
-        version: link:../../core/core-tracing
+        specifier: catalog:corelkg
+        version: 1.2.0
       '@azure/core-util':
         specifier: workspace:^
         version: link:../../core/core-util
@@ -25635,8 +25635,8 @@ importers:
         specifier: workspace:^
         version: link:../../core/core-rest-pipeline
       '@azure/core-tracing':
-        specifier: workspace:^
-        version: link:../../core/core-tracing
+        specifier: catalog:corelkg
+        version: 1.2.0
       tslib:
         specifier: 'catalog:'
         version: 2.8.1
@@ -25772,8 +25772,8 @@ importers:
         specifier: workspace:^
         version: link:../../core/core-rest-pipeline
       '@azure/core-tracing':
-        specifier: workspace:^
-        version: link:../../core/core-tracing
+        specifier: catalog:corelkg
+        version: 1.2.0
       tslib:
         specifier: 'catalog:'
         version: 2.8.1
@@ -25836,8 +25836,8 @@ importers:
         specifier: workspace:^
         version: link:../../core/core-rest-pipeline
       '@azure/core-tracing':
-        specifier: workspace:^
-        version: link:../../core/core-tracing
+        specifier: catalog:corelkg
+        version: 1.2.0
       tslib:
         specifier: 'catalog:'
         version: 2.8.1
@@ -25897,8 +25897,8 @@ importers:
         specifier: workspace:^
         version: link:../../core/core-rest-pipeline
       '@azure/core-tracing':
-        specifier: workspace:^
-        version: link:../../core/core-tracing
+        specifier: catalog:corelkg
+        version: 1.2.0
       tslib:
         specifier: 'catalog:'
         version: 2.8.1
@@ -25955,8 +25955,8 @@ importers:
         specifier: workspace:^
         version: link:../../core/core-rest-pipeline
       '@azure/core-tracing':
-        specifier: workspace:^
-        version: link:../../core/core-tracing
+        specifier: catalog:corelkg
+        version: 1.2.0
       tslib:
         specifier: 'catalog:'
         version: 2.8.1
@@ -26019,8 +26019,8 @@ importers:
         specifier: workspace:^
         version: link:../../core/core-rest-pipeline
       '@azure/core-tracing':
-        specifier: workspace:^
-        version: link:../../core/core-tracing
+        specifier: catalog:corelkg
+        version: 1.2.0
       '@azure/core-util':
         specifier: workspace:^
         version: link:../../core/core-util
@@ -26572,8 +26572,8 @@ importers:
         specifier: workspace:^
         version: link:../../core/core-rest-pipeline
       '@azure/core-tracing':
-        specifier: workspace:^
-        version: link:../../core/core-tracing
+        specifier: catalog:corelkg
+        version: 1.2.0
       '@opentelemetry/api':
         specifier: catalog:otel
         version: 1.9.0
@@ -26633,8 +26633,8 @@ importers:
         specifier: workspace:^
         version: link:../../core/core-rest-pipeline
       '@azure/core-tracing':
-        specifier: workspace:^
-        version: link:../../core/core-tracing
+        specifier: catalog:corelkg
+        version: 1.2.0
       '@azure/logger':
         specifier: workspace:^
         version: link:../../core/logger
@@ -27386,8 +27386,8 @@ importers:
         specifier: workspace:^
         version: link:../../core/core-rest-pipeline
       '@azure/core-tracing':
-        specifier: workspace:^
-        version: link:../../core/core-tracing
+        specifier: catalog:corelkg
+        version: 1.2.0
       '@azure/logger':
         specifier: workspace:^
         version: link:../../core/logger

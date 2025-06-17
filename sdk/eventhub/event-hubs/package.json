@@ -100,7 +100,7 @@
     "@azure/abort-controller": "workspace:^",
     "@azure/core-amqp": "workspace:^",
     "@azure/core-auth": "workspace:^",
-    "@azure/core-tracing": "workspace:^",
+    "@azure/core-tracing": "catalog:corelkg",
     "@azure/core-util": "workspace:^",
     "@azure/logger": "workspace:^",
     "buffer": "catalog:polyfills",
