@@ -4,21 +4,10 @@
 /**
  * @summary Creates a thread run stream and processes the events.
  */
-import {
-  AgentsClient,
-  MessageStreamEvent,
-  RunStreamEvent,
-  ErrorEvent,
-  DoneEvent,
-  MessageDeltaChunk,
-} from "@azure/ai-agents";
-import { parseString } from "./parseString.js";
+const { MessageStreamEvent, RunStreamEvent, ErrorEvent, DoneEvent } = require("@azure/ai-agents");
+const { parseString } = require("./parseString.js");
 
-export async function createThreadRunStream(
-  client: AgentsClient,
-  agentId: string,
-  threadId: string,
-): Promise<void> {
+async function createThreadRunStream(client, agentId, threadId) {
   const streamEventMessages = await client.runs.create(threadId, agentId).stream();
 
   for await (const eventMessage of streamEventMessages) {
@@ -28,7 +17,7 @@ export async function createThreadRunStream(
         break;
       case MessageStreamEvent.ThreadMessageDelta:
         {
-          const messageDelta = parseString<MessageDeltaChunk>(eventMessage.data);
+          const messageDelta = parseString(eventMessage.data);
 
           messageDelta.delta.content.forEach((contentPart) => {
             if (contentPart.type === "text") {
@@ -51,3 +40,5 @@ export async function createThreadRunStream(
     }
   }
 }
+
+module.exports = { createThreadRunStream };

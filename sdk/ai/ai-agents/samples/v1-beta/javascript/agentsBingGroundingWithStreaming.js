@@ -8,101 +8,35 @@
  * @summary demonstrates how to use agent operations with the Grounding with Bing Search tool using streaming.
  */
 
-const {
-  AgentsClient,
-  DoneEvent,
-  ErrorEvent,
-  MessageStreamEvent,
-  RunStreamEvent,
-  ToolUtility,
-  isOutputOfType,
-} = require("@azure/ai-agents");
-const { DefaultAzureCredential } = require("@azure/identity");
-
 require("dotenv/config");
-
-const projectEndpoint = process.env["PROJECT_ENDPOINT"] || "<project endpoint>";
-const modelDeploymentName = process.env["MODEL_DEPLOYMENT_NAME"] || "gpt-4o";
+const { createAgentClient } = require("./utils/createAgentClient.js");
+const { createAgent } = require("./utils/createAgent.js");
+const { createThreadWithMessage } = require("./utils/createThread.js");
+const { createThreadRunStream } = require("./utils/createThreadRunStream.js");
+const { deleteAgent } = require("./utils/deleteAgent.js");
+const { listThreadMessages } = require("./utils/listThreadMessages.js");
 
 async function main() {
   // Create an Azure AI Client
-  const client = new AgentsClient(projectEndpoint, new DefaultAzureCredential());
-  const connectionId = process.env["AZURE_BING_CONNECTION_ID"] || "<connection-name>";
-
-  // Initialize agent bing tool with the connection id
-  const bingTool = ToolUtility.createBingGroundingTool([{ connectionId: connectionId }]);
+  const client = createAgentClient();
 
   // Create agent with the bing tool and process assistant run
-  const agent = await client.createAgent(modelDeploymentName, {
-    name: "my-agent",
-    instructions: "You are a helpful agent",
-    tools: [bingTool.definition],
-  });
-  console.log(`Created agent, agent ID : ${agent.id}`);
+  const agent = await createAgent(client, ["bing-grounding"]);
 
   // Create thread for communication
-  const thread = await client.threads.create();
-  console.log(`Created thread, thread ID: ${thread.id}`);
-
-  // Create message to thread
-  const message = await client.messages.create(
-    thread.id,
-    "user",
+  const { thread } = await createThreadWithMessage(
+    client,
     "How does wikipedia explain Euler's Identity?",
   );
-  console.log(`Created message, message ID : ${message.id}`);
 
   // Create and process agent run with streaming in thread with tools
-  const streamEventMessages = await client.runs.create(thread.id, agent.id).stream();
-
-  for await (const eventMessage of streamEventMessages) {
-    switch (eventMessage.event) {
-      case RunStreamEvent.ThreadRunCreated:
-        console.log(`ThreadRun status: ${eventMessage.data.status}`);
-        break;
-      case MessageStreamEvent.ThreadMessageDelta:
-        {
-          const messageDelta = eventMessage.data;
-          messageDelta.delta.content.forEach((contentPart) => {
-            if (contentPart.type === "text") {
-              const textContent = contentPart;
-              const textValue = textContent.text?.value || "No text";
-              console.log(`Text delta received:: ${textValue}`);
-            }
-          });
-        }
-        break;
-      case RunStreamEvent.ThreadRunCompleted:
-        console.log("Thread Run Completed");
-        break;
-      case ErrorEvent.Error:
-        console.log(`An error occurred. Data ${eventMessage.data}`);
-        break;
-      case DoneEvent.Done:
-        console.log("Stream completed.");
-        break;
-    }
-  }
+  await createThreadRunStream(client, agent.id, thread.id);
 
   // Delete the assistant when done
-  await client.deleteAgent(agent.id);
-  console.log(`Deleted agent, agent ID: ${agent.id}`);
+  await deleteAgent(client, agent.id);
 
   // Fetch and log all messages
-  console.log(`Messages:`);
-  // Convert the PagedAsyncIterableIterator to an array of messages
-  const messagesArray = [];
-  for await (const m of client.messages.list(thread.id)) {
-    messagesArray.push(m);
-  }
-
-  if (messagesArray.length > 0 && messagesArray[0].content.length > 0) {
-    const agentMessage = messagesArray[0].content[0];
-    if (isOutputOfType(agentMessage, "text")) {
-      const textContent = agentMessage;
-      console.log(`Text Message Content - ${textContent.text.value}`);
-    }
-  }
+  await listThreadMessages(client, thread.id);
 }
 
 main().catch((err) => {

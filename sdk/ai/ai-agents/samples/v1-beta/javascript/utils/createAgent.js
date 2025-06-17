@@ -5,27 +5,16 @@
  * @summary Utils for creating an agent, also with tools.
  */
 
-import type { Agent, AgentsClient, CreateAgentOptionalParams } from "@azure/ai-agents";
-import "dotenv/config";
-import { getTool } from "./createTool.js";
+require("dotenv/config");
+const { getTool } = require("./createTool.js");
 
 const modelDeploymentName = process.env["MODEL_DEPLOYMENT_NAME"] || "gpt-4o";
 // Create an agent
-export async function createAgent(
-  client: AgentsClient,
-  tools: Array<
-    | "azure-ai-search"
-    | "bing-grounding"
-    | { "connected-agent": { id: string; name: string; description: string } }
-  > = [],
-  name?: string,
-  instructions?: string,
-  options: CreateAgentOptionalParams = {},
-): Promise<Agent> {
+async function createAgent(client, tools = [], name, instructions, options = {}) {
   const { tools: agentTools, toolResources } = getTool(tools);
   const instructionsProp = instructions ?? "You are a helpful agent.";
 
-  const nextOptions: CreateAgentOptionalParams = {
+  const nextOptions = {
     ...options,
     tools: [...(options.tools ?? []), ...agentTools],
     toolResources: toolResources ?? options.toolResources,
@@ -39,11 +28,7 @@ export async function createAgent(
   return agent;
 }
 
-export async function createSimpleAgent(
-  client: AgentsClient,
-  name?: string,
-  instructions?: string,
-): Promise<Agent> {
+async function createSimpleAgent(client, name, instructions) {
   const agent = await client.createAgent(modelDeploymentName, {
     name: name ?? "my-agent",
     instructions: instructions ?? "You are helpful agent",
@@ -51,3 +36,5 @@ export async function createSimpleAgent(
   console.log(`Created agent, agent ID : ${agent.id}`);
   return agent;
 }
+
+module.exports = { createAgent, createSimpleAgent };

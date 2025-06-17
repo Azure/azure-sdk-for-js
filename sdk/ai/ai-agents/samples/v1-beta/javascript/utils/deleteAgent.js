@@ -5,8 +5,7 @@
  * @summary Utils to delete an agent with a given ID or IDs.
  */
 
-import type { AgentsClient } from "@azure/ai-agents";
-export async function deleteAgent(client: AgentsClient, agentId: string | string[]): Promise<void> {
+async function deleteAgent(client, agentId) {
   console.log(`Deleting agent with ID: ${agentId}`);
   const ids = Array.isArray(agentId) ? agentId : [agentId];
   for (const id of ids) {
@@ -15,3 +14,5 @@ export async function deleteAgent(client: AgentsClient, agentId: string | string
   }
   console.log(`Agent with ID: ${agentId} deleted successfully.`);
 }
+
+module.exports = { deleteAgent };

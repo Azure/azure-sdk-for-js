@@ -5,15 +5,17 @@
  * @summary Utils to parse a JSON string.
  */
 
-export function parseString<T = object>(input: string): T {
+function parseString(input) {
   if (typeof input !== "string") {
-    return input as unknown as T;
+    return input;
   }
   try {
-    return JSON.parse(input) as T;
+    return JSON.parse(input);
   } catch (e) {
     throw new Error(
       `Failed to parse string: ${input}. Error: ${e instanceof Error ? e.message : String(e)}`,
     );
   }
 }
+
+module.exports = { parseString };

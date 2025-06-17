@@ -4,35 +4,16 @@
 /**
  * @summary Utils to create and poll a thread run until it finishes.
  */
-import {
-  AgentsClient,
-  ThreadRun,
-  isOutputOfType,
-  RunStepToolCallDetails,
-  RunStepAzureAISearchToolCall,
-  RunStepCodeInterpreterToolCall,
-  RunStepFileSearchToolCall,
-  RunStepBingGroundingToolCall,
-  RunStepSharepointToolCall,
-  RunStepMicrosoftFabricToolCall,
-  RunStepBingCustomSearchToolCall,
-  RunStepFunctionToolCall,
-  RunStepOpenAPIToolCall,
-} from "@azure/ai-agents";
+const { isOutputOfType } = require("@azure/ai-agents");
 
-export async function createAndPollThreadRun(
-  client: AgentsClient,
-  agentId: string,
-  threadId: string,
-  withRunStepDetails: boolean = false,
-): Promise<ThreadRun> {
+async function createAndPollThreadRun(client, agentId, threadId, withRunStepDetails = false) {
   // Create and poll a run
   console.log("Creating run...");
   const run = await client.runs.createAndPoll(threadId, agentId, {
     pollingOptions: {
       intervalInMs: 2000,
     },
-    onResponse: (response): void => {
+    onResponse: (response) => {
       const parsedBody =
         typeof response.parsedBody === "object" && response.parsedBody !== null
           ? response.parsedBody
@@ -51,19 +32,19 @@ export async function createAndPollThreadRun(
   for await (const step of runSteps) {
     console.log(`Step ID: ${step.id}, Status: ${step.status}`, JSON.stringify(step, null, 2));
     const stepDetails = step.stepDetails;
-    if (isOutputOfType<RunStepToolCallDetails>(stepDetails, "tool_calls")) {
+    if (isOutputOfType(stepDetails, "tool_calls")) {
       const toolCalls = stepDetails.toolCalls;
       for (const toolCall of toolCalls) {
         console.log(`Tool Call ID: ${toolCall.id}, Tool type: ${toolCall.type}`);
 
-        if (isOutputOfType<RunStepCodeInterpreterToolCall>(toolCall, "code_interpreter")) {
+        if (isOutputOfType(toolCall, "code_interpreter")) {
           const codeInterpreter = toolCall.codeInterpreter;
           if (codeInterpreter) {
             console.log(`Code Interpreter Tool Call input: ${codeInterpreter.input}`);
             console.log(`Code Interpreter Tool Call output: ${codeInterpreter.outputs}`);
           }
         }
-        if (isOutputOfType<RunStepFileSearchToolCall>(toolCall, "file_search")) {
+        if (isOutputOfType(toolCall, "file_search")) {
           const fileSearch = toolCall.fileSearch;
           if (fileSearch) {
             for (const file of fileSearch.results) {
@@ -73,14 +54,14 @@ export async function createAndPollThreadRun(
             }
           }
         }
-        if (isOutputOfType<RunStepBingGroundingToolCall>(toolCall, "bing_grounding")) {
+        if (isOutputOfType(toolCall, "bing_grounding")) {
           const bingGrounding = toolCall.bingGrounding;
           if (bingGrounding) {
             console.log(`Bing Grounding Tool Call: ${bingGrounding}`);
           }
         }
 
-        if (isOutputOfType<RunStepAzureAISearchToolCall>(toolCall, "azure_ai_search")) {
+        if (isOutputOfType(toolCall, "azure_ai_search")) {
           {
             const azureAISearch = toolCall.azureAISearch;
             if (azureAISearch) {
@@ -90,27 +71,27 @@ export async function createAndPollThreadRun(
           }
         }
 
-        if (isOutputOfType<RunStepSharepointToolCall>(toolCall, "sharepoint_grounding")) {
+        if (isOutputOfType(toolCall, "sharepoint_grounding")) {
           const sharePoint = toolCall.sharePoint;
           if (sharePoint) {
             console.log(`SharePoint Tool Call: ${sharePoint}`);
           }
         }
 
-        if (isOutputOfType<RunStepMicrosoftFabricToolCall>(toolCall, "fabric_dataagent")) {
+        if (isOutputOfType(toolCall, "fabric_dataagent")) {
           const microsoftFabric = toolCall.microsoftFabric;
           if (microsoftFabric) {
             console.log(`Microsoft Fabric Tool Call: ${microsoftFabric}`);
           }
         }
-        if (isOutputOfType<RunStepBingCustomSearchToolCall>(toolCall, "bing_custom_search")) {
+        if (isOutputOfType(toolCall, "bing_custom_search")) {
           const bingCustomSearch = toolCall.bingCustomSearch;
           if (bingCustomSearch) {
             console.log(`Bing Custom Search Tool Call: ${bingCustomSearch}`);
           }
         }
 
-        if (isOutputOfType<RunStepFunctionToolCall>(toolCall, "function")) {
+        if (isOutputOfType(toolCall, "function")) {
           const func = toolCall.function;
           if (func) {
             console.log(`Function Tool Call name: ${func.name}`);
@@ -118,7 +99,7 @@ export async function createAndPollThreadRun(
           }
         }
 
-        if (isOutputOfType<RunStepOpenAPIToolCall>(toolCall, "openapi")) {
+        if (isOutputOfType(toolCall, "openapi")) {
           const openAPI = toolCall.openAPI;
           if (openAPI) {
             console.log(`Open API Tool Call: ${openAPI}`);
@@ -129,3 +110,5 @@ export async function createAndPollThreadRun(
   }
   return run;
 }
+
+module.exports = { createAndPollThreadRun };

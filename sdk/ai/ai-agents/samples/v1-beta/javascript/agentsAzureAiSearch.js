@@ -7,102 +7,31 @@
  * @summary demonstrates how to use agent operations with the Azure AI Search tool.
  */
 
-const { AgentsClient, isOutputOfType, ToolUtility } = require("@azure/ai-agents");
-const { DefaultAzureCredential } = require("@azure/identity");
-
 require("dotenv/config");
-
-const projectEndpoint = process.env["PROJECT_ENDPOINT"] || "<project endpoint>";
-const modelDeploymentName = process.env["MODEL_DEPLOYMENT_NAME"] || "gpt-4o";
+const { createAgentClient } = require("./utils/createAgentClient.js");
+const { createAgent } = require("./utils/createAgent.js");
+const { createThreadWithMessage } = require("./utils/createThread.js");
+const { createAndPollThreadRun } = require("./utils/createAndPollThreadRun.js");
+const { deleteAgent } = require("./utils/deleteAgent.js");
+const { listThreadMessages } = require("./utils/listThreadMessages.js");
 
 async function main() {
   // Create an Azure AI Client
-  const client = new AgentsClient(projectEndpoint, new DefaultAzureCredential());
-  const connectionName = process.env["AZURE_AI_SEARCH_CONNECTION_NAME"] || "<connection-name>";
-
-  // Initialize Azure AI Search tool
-  const azureAISearchTool = ToolUtility.createAzureAISearchTool(connectionName, "search-index", {
-    queryType: "simple",
-    topK: 3,
-    filter: "",
-    indexConnectionId: connectionName,
-    indexName: "search-index",
-  });
+  const client = createAgentClient();
 
   // Create agent with the Azure AI search tool
-  const agent = await client.createAgent(modelDeploymentName, {
-    name: "my-agent",
-    instructions: "You are a helpful agent",
-    tools: [azureAISearchTool.definition],
-    toolResources: azureAISearchTool.resources,
-  });
-  console.log(`Created agent, agent ID : ${agent.id}`);
+  const agent = await createAgent(client, ["azure-ai-search"]);
 
-  // Create thread for communication
-  const thread = await client.threads.create();
-  console.log(`Created thread, thread ID: ${thread.id}`);
-
-  // Create message to thread
-  const message = await client.messages.create(
-    thread.id,
-    "user",
-    "What is the temperature rating of the cozynights sleeping bag?",
-  );
-  console.log(`Created message, message ID : ${message.id}`);
+  const { thread } = await createThreadWithMessage(client, "TrekMaster Camping Chair price?");
 
   // Create and poll a run
-  console.log("Creating run...");
-  const run = await client.runs.createAndPoll(thread.id, agent.id, {
-    pollingOptions: {
-      intervalInMs: 2000,
-    },
-    onResponse: (response) => {
-      console.log(`Received response with status: ${response.parsedBody.status}`);
-    },
-  });
-  console.log(`Run finished with status: ${run.status}`);
+  await createAndPollThreadRun(client, agent.id, thread.id, true);
 
-  // Fetch run steps to get the details of agent run
-  const runSteps = await client.runSteps.list(thread.id, run.id);
-
-  for await (const step of runSteps) {
-    console.log(`Step ID: ${step.id}, Status: ${step.status}`);
-    const stepDetails = step.stepDetails;
-    if (isOutputOfType(stepDetails, "tool_calls")) {
-      const toolCalls = stepDetails.toolCalls;
-      for (const toolCall of toolCalls) {
-        console.log(`Tool Call ID: ${toolCall.id}, Tool type: ${toolCall.type}`);
-        if (isOutputOfType(toolCall, "azure_ai_search")) {
-          {
-            const azureAISearch = toolCall.azureAISearch;
-            if (azureAISearch) {
-              console.log(`Azure AI Search Tool Call input: ${azureAISearch.input}`);
-              console.log(`Azure AI Search Tool Call output: ${azureAISearch.output}`);
-            }
-          }
-        }
-      }
-    }
-  }
   // Delete the assistant when done
-  await client.deleteAgent(agent.id);
-  console.log(`Deleted agent, agent ID: ${agent.id}`);
+  await deleteAgent(client, agent.id);
 
   // Fetch and log all messages
-  const messagesIterator = client.messages.list(thread.id);
-  console.log(`Messages:`);
-
-  // Get the first message
-  for await (const m of messagesIterator) {
-    if (m.content.length > 0) {
-      const agentMessage = m.content[0];
-      if (isOutputOfType(agentMessage, "text")) {
-        const textContent = agentMessage;
-        console.log(`Text Message Content - ${textContent.text.value}`);
-      }
-    }
-    break; // Just process the first message
-  }
+  await listThreadMessages(client, thread.id);
 }
 
 main().catch((err) => {

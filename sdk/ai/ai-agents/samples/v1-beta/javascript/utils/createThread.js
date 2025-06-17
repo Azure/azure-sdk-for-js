@@ -5,15 +5,7 @@
  * @summary Utils to create a thread and add messages to it.
  */
 
-import type {
-  AgentThread,
-  AgentsClient,
-  MessageInputContent,
-  MessageRole,
-  ThreadMessage,
-} from "@azure/ai-agents";
-
-export async function createSimpleThread(client: AgentsClient): Promise<AgentThread> {
+async function createSimpleThread(client) {
   // Create a thread
   const thread = await client.threads.create();
   console.log(`Created thread, thread ID : ${thread.id}`);
@@ -30,14 +22,12 @@ export async function createSimpleThread(client: AgentsClient): Promise<AgentThr
   return thread;
 }
 
-export async function createThreadWithMessage(
-  client: AgentsClient,
-  content: MessageInputContent,
-  role: MessageRole = "user",
-): Promise<{ thread: AgentThread; message: ThreadMessage }> {
+async function createThreadWithMessage(client, content, role = "user") {
   const thread = await createSimpleThread(client);
   // Create a message to thread
   const message = await client.messages.create(thread.id, role, content);
   console.log(`Created message, message ID : ${message.id}`);
   return { thread, message };
 }
+
+module.exports = { createSimpleThread, createThreadWithMessage };

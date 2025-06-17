@@ -4,22 +4,13 @@
 /**
  * @summary Utils to create tools for Azure AI Agents.
  */
-import {
-  AzureAISearchToolDefinition,
-  BingGroundingToolDefinition,
-  ToolResources,
-  ToolDefinition,
-  ToolUtility,
-} from "@azure/ai-agents";
-import "dotenv/config";
+const { ToolUtility } = require("@azure/ai-agents");
+require("dotenv/config");
 
 const connectionName = process.env["AZURE_AI_SEARCH_CONNECTION_NAME"] || "<connection-name>";
 const connectionId = process.env["AZURE_BING_CONNECTION_ID"] || "<connection-name>";
 
-export function createAzureAISearchTool(): {
-  definition: AzureAISearchToolDefinition;
-  resources: ToolResources;
-} {
+function createAzureAISearchTool() {
   const azureAISearchTool = ToolUtility.createAzureAISearchTool(
     connectionName,
     "contoso-ai-search",
@@ -35,34 +26,19 @@ export function createAzureAISearchTool(): {
   return azureAISearchTool;
 }
 
-export function createBingGroundingTool(): {
-  definition: BingGroundingToolDefinition;
-} {
+function createBingGroundingTool() {
   // Initialize agent bing tool with the connection id
   const bingTool = ToolUtility.createBingGroundingTool([{ connectionId: connectionId }]);
   return bingTool;
 }
 
-export function createConnectedAgentTool(
-  id: string,
-  name: string,
-  description: string,
-): ToolDefinition {
+function createConnectedAgentTool(id, name, description) {
   return ToolUtility.createConnectedAgentTool(id, name, description).definition;
 }
 
-export function getTool(
-  names: Array<
-    | "azure-ai-search"
-    | "bing-grounding"
-    | { "connected-agent": { id: string; name: string; description: string } }
-  >,
-): {
-  tools: ToolDefinition[];
-  toolResources?: ToolResources | undefined;
-} {
-  const tools: ToolDefinition[] = [];
-  let toolResources: ToolResources | undefined;
+function getTool(names) {
+  const tools = [];
+  let toolResources;
   names.forEach((name) => {
     if (name === "azure-ai-search") {
       const azureAISearchTool = createAzureAISearchTool();
@@ -81,3 +57,10 @@ export function getTool(
   });
   return { tools, toolResources };
 }
+
+module.exports = {
+  createAzureAISearchTool,
+  createBingGroundingTool,
+  createConnectedAgentTool,
+  getTool,
+};

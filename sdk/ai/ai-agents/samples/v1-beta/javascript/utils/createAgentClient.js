@@ -5,14 +5,16 @@
  * @summary Utils to create an Azure AI Agents client.
  */
 
-import { AgentsClient } from "@azure/ai-agents";
-import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
+const { AgentsClient } = require("@azure/ai-agents");
+const { DefaultAzureCredential } = require("@azure/identity");
+require("dotenv/config");
 
 const projectEndpoint = process.env["PROJECT_ENDPOINT"] || "<project endpoint>";
 
-export function createAgentClient(): AgentsClient {
+function createAgentClient() {
   // Create an Azure AI Client
   const client = new AgentsClient(projectEndpoint, new DefaultAzureCredential());
   return client;
 }
+
+module.exports = { createAgentClient };

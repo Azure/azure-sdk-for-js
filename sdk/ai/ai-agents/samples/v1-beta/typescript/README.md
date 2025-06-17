@@ -39,6 +39,15 @@ These sample programs show how to use the TypeScript client libraries for Azure 
 | [runSteps.ts][runsteps]                                                       | demonstrates how to use basic run agent operations.                                                                        |
 | [streaming.ts][streaming]                                                     | demonstrates how to use agent operations in streaming.                                                                     |
 | [threads.ts][threads]                                                         | demonstrates how to use basic thread agent operations.                                                                     |
+| [utils/createAgent.ts][utils_createagent]                                     | Utils for creating an agent, also with tools.                                                                              |
+| [utils/createAgentClient.ts][utils_createagentclient]                         | Utils to create an Azure AI Agents client.                                                                                 |
+| [utils/createAndPollThreadRun.ts][utils_createandpollthreadrun]               | Utils to create and poll a thread run until it finishes.                                                                   |
+| [utils/createThread.ts][utils_createthread]                                   | Utils to create a thread and add messages to it.                                                                           |
+| [utils/createThreadRunStream.ts][utils_createthreadrunstream]                 | Creates a thread run stream and processes the events.                                                                      |
+| [utils/createTool.ts][utils_createtool]                                       | Utils to create tools for Azure AI Agents.                                                                                 |
+| [utils/deleteAgent.ts][utils_deleteagent]                                     | Utils to delete an agent with a given ID or IDs.                                                                           |
+| [utils/listThreadMessages.ts][utils_listthreadmessages]                       | Utils to list messages in a thread.                                                                                        |
+| [utils/parseString.ts][utils_parsestring]                                     | Utils to parse a JSON string.                                                                                              |
 | [vectorStoreWithFiles.ts][vectorstorewithfiles]                               | demonstrates how to create the vector store with the list of files.                                                        |
 | [vectorStoreWithFilesAndPolling.ts][vectorstorewithfilesandpolling]           | demonstrates how to create the vector store with the list of files using polling operation.                                |
 | [vectorStores.ts][vectorstores]                                               | demonstrates how to create the vector store.                                                                               |
@@ -120,6 +129,15 @@ Take a look at our [API Documentation][apiref] for more information about the AP
 [runsteps]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/ai/ai-agents/samples/v1-beta/typescript/src/runSteps.ts
 [streaming]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/ai/ai-agents/samples/v1-beta/typescript/src/streaming.ts
 [threads]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/ai/ai-agents/samples/v1-beta/typescript/src/threads.ts
+[utils_createagent]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/ai/ai-agents/samples/v1-beta/typescript/src/utils/createAgent.ts
+[utils_createagentclient]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/ai/ai-agents/samples/v1-beta/typescript/src/utils/createAgentClient.ts
+[utils_createandpollthreadrun]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/ai/ai-agents/samples/v1-beta/typescript/src/utils/createAndPollThreadRun.ts
+[utils_createthread]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/ai/ai-agents/samples/v1-beta/typescript/src/utils/createThread.ts
+[utils_createthreadrunstream]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/ai/ai-agents/samples/v1-beta/typescript/src/utils/createThreadRunStream.ts
+[utils_createtool]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/ai/ai-agents/samples/v1-beta/typescript/src/utils/createTool.ts
+[utils_deleteagent]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/ai/ai-agents/samples/v1-beta/typescript/src/utils/deleteAgent.ts
+[utils_listthreadmessages]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/ai/ai-agents/samples/v1-beta/typescript/src/utils/listThreadMessages.ts
+[utils_parsestring]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/ai/ai-agents/samples/v1-beta/typescript/src/utils/parseString.ts
 [vectorstorewithfiles]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/ai/ai-agents/samples/v1-beta/typescript/src/vectorStoreWithFiles.ts
 [vectorstorewithfilesandpolling]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/ai/ai-agents/samples/v1-beta/typescript/src/vectorStoreWithFilesAndPolling.ts
 [vectorstores]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/ai/ai-agents/samples/v1-beta/typescript/src/vectorStores.ts
