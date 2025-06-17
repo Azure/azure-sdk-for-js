@@ -59,7 +59,7 @@ describe("executeActions", () => {
         baseDir,
         "common/scripts/install-run-rush.js",
         "test:node",
-        "--impacted-by",
+        "--only",
         "@azure/communication-identity",
         "--only",
         "@azure-rest/synapse-access-control",
