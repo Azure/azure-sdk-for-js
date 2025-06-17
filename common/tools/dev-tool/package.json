@@ -63,7 +63,7 @@
     "tshy": "^2.0.0",
     "tslib": "catalog:",
     "tsx": "catalog:",
-    "typescript": "catalog:",
+    "typescript": "~5.8.2",
     "unzipper": "~0.12.3",
     "yaml": "^2.3.4"
   },

@@ -30,13 +30,13 @@ steps:
     displayName: "Install Pnpm"
 
   - script: |
-      npm install
+      npm ci
     condition: and(succeeded(),eq(variables['SetDevVersion'],'true'))
     workingDirectory: ./eng/tools/eng-package-utils
     displayName: Install eng-package-utils dependencies
 
   - script: |
-      npm install
+      npm ci
     condition: and(succeeded(),eq(variables['SetDevVersion'],'true'))
     workingDirectory: ./eng/tools/versioning
     displayName: Install versioning tool dependencies
