@@ -3,7 +3,6 @@
 
 import * as http from "http";
 import * as net from "net";
-import { URL } from "url";
 import { HttpsProxyAgent } from "https-proxy-agent";
 import { CosmosClient, type CosmosClientOptions } from "../../../src/index.js";
 import { endpoint } from "../common/_testConfig.js";
@@ -21,7 +20,7 @@ interface ProxyServer extends http.Server {
 }
 
 if (!isBrowser()) {
-  describe("HTTP Proxy Integration Tests", () => {
+  describe("Validate http proxy setting in environment variable", () => {
     let proxyServer: ProxyServer | null = null;
     let testDatabaseId: string;
 
@@ -115,7 +114,7 @@ if (!isBrowser()) {
     };
 
     it(
-      "nativeApi Client Should successfully execute request",
+      "nativeApi Client should successfully execute request",
       async () => {
         // Create a new proxy server for this test
         proxyServer = createProxyServer();
@@ -146,7 +145,7 @@ if (!isBrowser()) {
     );
 
     it(
-      "nativeApi Client Should execute request in error while the proxy setting is not correct",
+      "nativeApi Client should execute request in error while the proxy setting is not correct",
       async () => {
         // Use an invalid proxy port that's definitely not in use
         const invalidPort = 12345;
