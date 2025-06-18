@@ -16,7 +16,7 @@ model-date-time-as-string: false
 optional-response-headers: true
 add-credentials: false
 disable-async-iterators: true
-package-version: 1.5.5
+package-version: 1.6.0
 use-extension:
   "@autorest/typescript": "6.0.34"
 tracing-info:
