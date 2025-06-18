@@ -257,7 +257,19 @@ These errors will be thrown by the JS Identity SDK and thus will have no error c
 | Error Code    | Description                                                                                                                                                                                                                           | Mitigation                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           |
 | ------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | No error code | ClientCertificateCredential: Provide either a PEM certificate in string form, or the path to that certificate in the filesystem. To troubleshoot, visit https://aka.ms/azsdk/js/identity/serviceprincipalauthentication/troubleshoot. | The `ClientCertificateCredential` accepts PEM certificates and the path for the certificate needs to be provided(`pfx` certificates aren't supported by the JavaScript library for now). The certificate needs to be associated with your registered app/service principal. To create and associate a certificate with your registered app, follow the instructions [here](https://learn.microsoft.com/entra/identity-platform/howto-create-service-principal-portal#option-1-upload-a-certificate). |
-| No error code | The file at the specified path doesn't contain a PEM-encoded certificate.                                                                                                                                                             | Provide only PEM certificates for `ClientCertificateCredential`. `pfx` certificates aren't supported by the JavaScript library for now.                                                                                                                                                                                                                                                                                                                                                              |
+| No error code | The file at the specified path doesn't contain a PEM-encoded certificate.                                                                                                                                                             | Provide only PEM certificates for `ClientCertificateCredential`. `pfx` certificates aren't supported by the JavaScript library for now. Additionally, ensure that the certificate at the path specified by `AZURE_CLIENT_CERTIFICATE_PATH` contains both the private key and the certificate. Example format: 
+```
+-----BEGIN CERTIFICATE-----
+MIIDfTCCAmWgAwIBAgIUKoqrm/mWZ2EoC/a60vBoAXxoEMEwDQYJKoZIhvcNAQEL
+...
+tjs1jav+97FKR1lLnyGS90e2LjtTjLzqy1O5k8T1+6sv
+-----END CERTIFICATE-----
+-----BEGIN ENCRYPTED PRIVATE KEY-----
+MIIFHDBOBgkqhkiG9w0BBQ0wQTApBgkqhkiG9w0BBQwwHAQIZ6SyJiacCZwCAggA
+...
+UaTp6QTCR5NvDEb3iPNbQw==
+-----END ENCRYPTED PRIVATE KEY-----
+```|
 
 ### Client assertion credential issues
 
