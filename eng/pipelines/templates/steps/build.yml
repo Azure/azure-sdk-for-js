@@ -99,7 +99,7 @@ steps:
         $artifactDetails = Get-Content -Raw $(Build.ArtifactStagingDirectory)/PackageInfo/$artifact.json | ConvertFrom-Json
         $packageJson = Join-Path $(Build.SourcesDirectory) $artifactDetails.DirectoryPath "package.json"
 
-        $stagingArtifactDirectory = $(Build.ArtifactStagingDirectory)/$artifact
+        $stagingArtifactDirectory = "$(Build.ArtifactStagingDirectory)/$artifact"
         Write-Host "Copying $artifact artifacts to $stagingArtifactDirectory"
         mkdir $stagingArtifactDirectory -Force | Out-Null
 
