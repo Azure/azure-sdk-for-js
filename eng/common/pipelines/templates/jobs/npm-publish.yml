@@ -32,7 +32,7 @@ jobs:
       itemPattern: '**/*.tgz'
       targetPath: $(ArtifactPath)
 
-  pool: $(Pool)
+  pool: ${{ parameters.Pool }}
   
   strategy:
     runOnce:
