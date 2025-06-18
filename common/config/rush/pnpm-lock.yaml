@@ -2779,7 +2779,7 @@ packages:
     version: 0.0.0
 
   '@rush-temp/arm-containerservice-1@file:projects/arm-containerservice-1.tgz':
-    resolution: {integrity: sha512-iOt2Q4pXlG+uh5nHFDQR38cLPz9qHyRk3A0hkJIJSsfukwsGUXNgDbGN2RVd2loZ6OFh63B3sc+4NCspEqXCEw==, tarball: file:projects/arm-containerservice-1.tgz}
+    resolution: {integrity: sha512-uaXU7PR/0ZvPJLIfDkykH/2/lx9nyn9AOLdIZF1FfzhRfFjJZYEoGDBJr0Sdtil4DjPlwUNP1QVaIgUH38v+/g==, tarball: file:projects/arm-containerservice-1.tgz}
     version: 0.0.0
 
   '@rush-temp/arm-containerservice@file:projects/arm-containerservice.tgz':
@@ -11571,14 +11571,14 @@ snapshots:
   '@rush-temp/arm-containerservice-1@file:projects/arm-containerservice-1.tgz(@types/debug@4.1.12)(tsx@4.20.2)(vite@6.3.5(@types/node@22.7.9)(tsx@4.20.2)(yaml@2.8.0))(yaml@2.8.0)':
     dependencies:
       '@azure/core-lro': 2.7.2
-      '@types/node': 20.19.0
+      '@types/node': 18.19.111
       '@vitest/browser': 3.2.3(playwright@1.53.0)(vite@6.3.5(@types/node@22.7.9)(tsx@4.20.2)(yaml@2.8.0))(vitest@3.2.3)
       '@vitest/coverage-istanbul': 3.2.3(vitest@3.2.3)
       dotenv: 16.5.0
       playwright: 1.53.0
       tslib: 2.8.1
       typescript: 5.8.3
-      vitest: 3.2.3(@types/debug@4.1.12)(@types/node@20.19.0)(@vitest/browser@3.2.3)(tsx@4.20.2)(yaml@2.8.0)
+      vitest: 3.2.3(@types/debug@4.1.12)(@types/node@18.19.111)(@vitest/browser@3.2.3)(tsx@4.20.2)(yaml@2.8.0)
     transitivePeerDependencies:
       - '@edge-runtime/vm'
       - '@types/debug'
@@ -26878,6 +26878,27 @@ snapshots:
 
   vary@1.1.2: {}
 
+  vite-node@3.2.3(@types/node@18.19.111)(tsx@4.20.2)(yaml@2.8.0):
+    dependencies:
+      cac: 6.7.14
+      debug: 4.4.1
+      es-module-lexer: 1.7.0
+      pathe: 2.0.3
+      vite: 6.3.5(@types/node@18.19.111)(tsx@4.20.2)(yaml@2.8.0)
+    transitivePeerDependencies:
+      - '@types/node'
+      - jiti
+      - less
+      - lightningcss
+      - sass
+      - sass-embedded
+      - stylus
+      - sugarss
+      - supports-color
+      - terser
+      - tsx
+      - yaml
+
   vite-node@3.2.3(@types/node@20.19.0)(tsx@4.19.3)(yaml@2.8.0):
     dependencies:
       cac: 6.7.14
@@ -26941,6 +26962,20 @@ snapshots:
       - tsx
       - yaml
 
+  vite@6.3.5(@types/node@18.19.111)(tsx@4.20.2)(yaml@2.8.0):
+    dependencies:
+      esbuild: 0.25.5
+      fdir: 6.4.6(picomatch@4.0.2)
+      picomatch: 4.0.2
+      postcss: 8.5.5
+      rollup: 4.43.0
+      tinyglobby: 0.2.14
+    optionalDependencies:
+      '@types/node': 18.19.111
+      fsevents: 2.3.3
+      tsx: 4.20.2
+      yaml: 2.8.0
+
   vite@6.3.5(@types/node@20.19.0)(tsx@4.19.3)(yaml@2.8.0):
     dependencies:
       esbuild: 0.25.5
@@ -26982,6 +27017,49 @@ snapshots:
       fsevents: 2.3.3
       tsx: 4.20.2
       yaml: 2.8.0
+
+  vitest@3.2.3(@types/debug@4.1.12)(@types/node@18.19.111)(@vitest/browser@3.2.3)(tsx@4.20.2)(yaml@2.8.0):
+    dependencies:
+      '@types/chai': 5.2.2
+      '@vitest/expect': 3.2.3
+      '@vitest/mocker': 3.2.3(vite@6.3.5(@types/node@22.7.9)(tsx@4.20.2)(yaml@2.8.0))
+      '@vitest/pretty-format': 3.2.3
+      '@vitest/runner': 3.2.3
+      '@vitest/snapshot': 3.2.3
+      '@vitest/spy': 3.2.3
+      '@vitest/utils': 3.2.3
+      chai: 5.2.0
+      debug: 4.4.1
+      expect-type: 1.2.1
+      magic-string: 0.30.17
+      pathe: 2.0.3
+      picomatch: 4.0.2
+      std-env: 3.9.0
+      tinybench: 2.9.0
+      tinyexec: 0.3.2
+      tinyglobby: 0.2.14
+      tinypool: 1.1.0
+      tinyrainbow: 2.0.0
+      vite: 6.3.5(@types/node@18.19.111)(tsx@4.20.2)(yaml@2.8.0)
+      vite-node: 3.2.3(@types/node@18.19.111)(tsx@4.20.2)(yaml@2.8.0)
+      why-is-node-running: 2.3.0
+    optionalDependencies:
+      '@types/debug': 4.1.12
+      '@types/node': 18.19.111
+      '@vitest/browser': 3.2.3(playwright@1.53.0)(vite@6.3.5(@types/node@22.7.9)(tsx@4.20.2)(yaml@2.8.0))(vitest@3.2.3)
+    transitivePeerDependencies:
+      - jiti
+      - less
+      - lightningcss
+      - msw
+      - sass
+      - sass-embedded
+      - stylus
+      - sugarss
+      - supports-color
+      - terser
+      - tsx
+      - yaml
 
   vitest@3.2.3(@types/debug@4.1.12)(@types/node@20.19.0)(@vitest/browser@3.2.3)(tsx@4.19.3)(yaml@2.8.0):
     dependencies:
