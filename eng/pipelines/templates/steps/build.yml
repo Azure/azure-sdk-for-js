@@ -101,7 +101,7 @@ steps:
 
         $stagingArtifactDirectory = "$(Build.ArtifactStagingDirectory)/$artifact"
         Write-Host "Copying $artifact artifacts to $stagingArtifactDirectory"
-        mkdir $stagingArtifactDirectory -Force | Out-Null
+        New-Item -Type Directory $stagingArtifactDirectory -Force | Out-Null
 
         $packageFile = (dir sdk/$($artifactDetails.ServiceDirectory)/**/$artifact-[0-9]*.[0-9]*.[0-9]*.tgz)[0]
         Copy-Item $packageFile $stagingArtifactDirectory
@@ -110,7 +110,7 @@ steps:
         if ($env:SETDEVVERSION -eq 'true' -and $artifactDetails.ArtifactDetails.skipPublishDev -ne $true)
         {
           $stangingDevArtifactDirectory = "$(Agent.TempDirectory)/packages-dev-publish/$artifact"
-          mkdir $stangingDevArtifactDirectory -Force | Out-Null
+          New-Item -Type Directory $stangingDevArtifactDirectory -Force | Out-Null
           $hasSourceChanges = HasPackageSourceCodeChanges $packageFile $stangingDevArtifactDirectory
           if ($hasSourceChanges) {
             Write-Host "There were source code changes for $artifact, so we need to publish"
@@ -124,7 +124,7 @@ steps:
         if ($${{ parameters.IncludeRelease }} -eq $true -and $artifactDetails.ArtifactDetails.skipPublishDocMs -ne $true `
           -and (Get-Content $packageJson -Raw | ConvertFrom-Json).private -ne $true)
         {
-          mkdir $stagingArtifactDirectory/documentation -Force | Out-Null
+          New-Item -Type Directory $stagingArtifactDirectory/documentation -Force | Out-Null
           Copy-Item $(Build.SourcesDirectory)/docGen/$artifact.zip $stagingArtifactDirectory/documentation
         }
         else {

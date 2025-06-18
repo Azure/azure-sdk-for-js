@@ -153,7 +153,7 @@ function IsNPMPackageVersionPublished ($pkgId, $pkgVersion) {
 
 function Get-PackageJsonContentFromPackage($package, $workingDirectory) {
   $extractedPackageDir = Join-Path $workingDirectory (Split-Path $package -LeafBase)
-  mkdir $extractedPackageDir -Force | Out-Null
+  New-Item -Type Directory $extractedPackageDir -Force | Out-Null
   
   Write-Host "tar -xzf $package -C $extractedPackageDir"
   tar -xzf $package -C $extractedPackageDir
