@@ -1,8 +1,13 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { ResourceDetectionConfig } from "@opentelemetry/resources";
-import { Resource, detectResourcesSync, envDetectorSync } from "@opentelemetry/resources";
+import type { ResourceDetectionConfig, Resource } from "@opentelemetry/resources";
+import {
+  defaultResource,
+  detectResources,
+  emptyResource,
+  envDetector,
+} from "@opentelemetry/resources";
 import type {
   BrowserSdkLoaderOptions,
   AzureMonitorOpenTelemetryOptions,
@@ -38,7 +43,7 @@ export class InternalConfig implements AzureMonitorOpenTelemetryOptions {
   /** Enable Performance Counter feature */
   enablePerformanceCounters?: boolean;
 
-  private _resource: Resource = Resource.empty();
+  private _resource: Resource = emptyResource();
 
   public set resource(resource: Resource) {
     this._resource = this._resource.merge(resource);
@@ -152,26 +157,26 @@ export class InternalConfig implements AzureMonitorOpenTelemetryOptions {
   }
 
   private _setDefaultResource(): void {
-    let resource = Resource.default();
+    let resource = defaultResource();
     // Load resource attributes from env
     const detectResourceConfig: ResourceDetectionConfig = {
-      detectors: [envDetectorSync],
+      detectors: [envDetector],
     };
-    const envResource = detectResourcesSync(detectResourceConfig);
-    resource = resource.merge(envResource) as Resource;
+    const envResource = detectResources(detectResourceConfig);
+    resource = resource.merge(envResource);
 
     // Load resource attributes from Azure
-    const azureResource: Resource = detectResourcesSync({
+    const azureResource: Resource = detectResources({
       detectors: [azureAppServiceDetector, azureFunctionsDetector],
     });
-    this._resource = resource.merge(azureResource) as Resource;
+    this._resource = resource.merge(azureResource);
 
-    const vmResource = detectResourcesSync({
+    const vmResource = detectResources({
       detectors: [azureVmDetector],
     });
     if (vmResource.asyncAttributesPending) {
-      vmResource.waitForAsyncAttributes?.().then(() => {
-        this._resource = this._resource.merge(vmResource) as Resource;
+      void vmResource.waitForAsyncAttributes?.().then(() => {
+        this._resource = this._resource.merge(vmResource);
         return;
       });
     }

@@ -13,11 +13,7 @@ import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers.js";
 import * as Parameters from "../models/parameters.js";
 import { CognitiveServicesManagementClient } from "../cognitiveServicesManagementClient.js";
-import {
-  SimplePollerLike,
-  OperationState,
-  createHttpPoller,
-} from "@azure/core-lro";
+import { SimplePollerLike, OperationState, createHttpPoller } from "@azure/core-lro";
 import { createLroSpec } from "../lroImpl.js";
 import {
   CommitmentPlan,
@@ -94,12 +90,7 @@ export class CommitmentPlansImpl implements CommitmentPlans {
         if (settings?.maxPageSize) {
           throw new Error("maxPageSize is not supported by this operation.");
         }
-        return this.listPagingPage(
-          resourceGroupName,
-          accountName,
-          options,
-          settings,
-        );
+        return this.listPagingPage(resourceGroupName, accountName, options, settings);
       },
     };
   }
@@ -120,12 +111,7 @@ export class CommitmentPlansImpl implements CommitmentPlans {
       yield page;
     }
     while (continuationToken) {
-      result = await this._listNext(
-        resourceGroupName,
-        accountName,
-        continuationToken,
-        options,
-      );
+      result = await this._listNext(resourceGroupName, accountName, continuationToken, options);
       continuationToken = result.nextLink;
       let page = result.value || [];
       setContinuationToken(page, continuationToken);
@@ -138,11 +124,7 @@ export class CommitmentPlansImpl implements CommitmentPlans {
     accountName: string,
     options?: CommitmentPlansListOptionalParams,
   ): AsyncIterableIterator<CommitmentPlan> {
-    for await (const page of this.listPagingPage(
-      resourceGroupName,
-      accountName,
-      options,
-    )) {
+    for await (const page of this.listPagingPage(resourceGroupName, accountName, options)) {
       yield* page;
     }
   }
@@ -156,10 +138,7 @@ export class CommitmentPlansImpl implements CommitmentPlans {
     resourceGroupName: string,
     options?: CommitmentPlansListPlansByResourceGroupOptionalParams,
   ): PagedAsyncIterableIterator<CommitmentPlan> {
-    const iter = this.listPlansByResourceGroupPagingAll(
-      resourceGroupName,
-      options,
-    );
+    const iter = this.listPlansByResourceGroupPagingAll(resourceGroupName, options);
     return {
       next() {
         return iter.next();
@@ -171,11 +150,7 @@ export class CommitmentPlansImpl implements CommitmentPlans {
         if (settings?.maxPageSize) {
           throw new Error("maxPageSize is not supported by this operation.");
         }
-        return this.listPlansByResourceGroupPagingPage(
-          resourceGroupName,
-          options,
-          settings,
-        );
+        return this.listPlansByResourceGroupPagingPage(resourceGroupName, options, settings);
       },
     };
   }
@@ -211,10 +186,7 @@ export class CommitmentPlansImpl implements CommitmentPlans {
     resourceGroupName: string,
     options?: CommitmentPlansListPlansByResourceGroupOptionalParams,
   ): AsyncIterableIterator<CommitmentPlan> {
-    for await (const page of this.listPlansByResourceGroupPagingPage(
-      resourceGroupName,
-      options,
-    )) {
+    for await (const page of this.listPlansByResourceGroupPagingPage(resourceGroupName, options)) {
       yield* page;
     }
   }
@@ -257,10 +229,7 @@ export class CommitmentPlansImpl implements CommitmentPlans {
       yield page;
     }
     while (continuationToken) {
-      result = await this._listPlansBySubscriptionNext(
-        continuationToken,
-        options,
-      );
+      result = await this._listPlansBySubscriptionNext(continuationToken, options);
       continuationToken = result.nextLink;
       let page = result.value || [];
       setContinuationToken(page, continuationToken);
@@ -288,11 +257,7 @@ export class CommitmentPlansImpl implements CommitmentPlans {
     commitmentPlanName: string,
     options?: CommitmentPlansListAssociationsOptionalParams,
   ): PagedAsyncIterableIterator<CommitmentPlanAccountAssociation> {
-    const iter = this.listAssociationsPagingAll(
-      resourceGroupName,
-      commitmentPlanName,
-      options,
-    );
+    const iter = this.listAssociationsPagingAll(resourceGroupName, commitmentPlanName, options);
     return {
       next() {
         return iter.next();
@@ -323,11 +288,7 @@ export class CommitmentPlansImpl implements CommitmentPlans {
     let result: CommitmentPlansListAssociationsResponse;
     let continuationToken = settings?.continuationToken;
     if (!continuationToken) {
-      result = await this._listAssociations(
-        resourceGroupName,
-        commitmentPlanName,
-        options,
-      );
+      result = await this._listAssociations(resourceGroupName, commitmentPlanName, options);
       let page = result.value || [];
       continuationToken = result.nextLink;
       setContinuationToken(page, continuationToken);
@@ -450,8 +411,7 @@ export class CommitmentPlansImpl implements CommitmentPlans {
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
@@ -543,8 +503,7 @@ export class CommitmentPlansImpl implements CommitmentPlans {
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
@@ -640,8 +599,7 @@ export class CommitmentPlansImpl implements CommitmentPlans {
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
@@ -730,8 +688,7 @@ export class CommitmentPlansImpl implements CommitmentPlans {
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
@@ -784,11 +741,7 @@ export class CommitmentPlansImpl implements CommitmentPlans {
     commitmentPlanName: string,
     options?: CommitmentPlansDeletePlanOptionalParams,
   ): Promise<void> {
-    const poller = await this.beginDeletePlan(
-      resourceGroupName,
-      commitmentPlanName,
-      options,
-    );
+    const poller = await this.beginDeletePlan(resourceGroupName, commitmentPlanName, options);
     return poller.pollUntilDone();
   }
 
@@ -832,10 +785,7 @@ export class CommitmentPlansImpl implements CommitmentPlans {
   private _listPlansBySubscription(
     options?: CommitmentPlansListPlansBySubscriptionOptionalParams,
   ): Promise<CommitmentPlansListPlansBySubscriptionResponse> {
-    return this.client.sendOperationRequest(
-      { options },
-      listPlansBySubscriptionOperationSpec,
-    );
+    return this.client.sendOperationRequest({ options }, listPlansBySubscriptionOperationSpec);
   }
 
   /**
@@ -914,8 +864,7 @@ export class CommitmentPlansImpl implements CommitmentPlans {
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
@@ -1017,8 +966,7 @@ export class CommitmentPlansImpl implements CommitmentPlans {
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
@@ -1376,11 +1324,7 @@ const listPlansByResourceGroupOperationSpec: coreClient.OperationSpec = {
     },
   },
   queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.resourceGroupName,
-    Parameters.subscriptionId,
-  ],
+  urlParameters: [Parameters.$host, Parameters.resourceGroupName, Parameters.subscriptionId],
   headerParameters: [Parameters.accept],
   serializer,
 };
@@ -1551,11 +1495,7 @@ const listPlansBySubscriptionNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse,
     },
   },
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.nextLink,
-  ],
+  urlParameters: [Parameters.$host, Parameters.subscriptionId, Parameters.nextLink],
   headerParameters: [Parameters.accept],
   serializer,
 };

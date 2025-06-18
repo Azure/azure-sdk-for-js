@@ -1,5 +1,3 @@
-<!-- dev-tool snippets ignore -->
-
 # Release History
 
 ## 6.0.1 (Unreleased)

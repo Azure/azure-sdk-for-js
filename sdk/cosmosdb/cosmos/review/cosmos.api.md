@@ -531,7 +531,7 @@ export const Constants: {
         Location: string;
         Referer: string;
         A_IM: string;
-        PREFER_RETURN_MINIMAL: string;
+        PreferReturnMinimal: string;
         Query: string;
         IsQuery: string;
         IsQueryPlan: string;
@@ -916,8 +916,8 @@ export class DatabaseAccount {
     // @deprecated
     get MediaLink(): string;
     readonly mediaLink: string;
-    readonly readableLocations: Location_2[];
-    readonly writableLocations: Location_2[];
+    readonly readableLocations: Location[];
+    readonly writableLocations: Location[];
 }
 
 // @public (undocumented)
@@ -1136,25 +1136,17 @@ export interface ErrorBody {
     message: string;
 }
 
-// @public (undocumented)
+// @public
 export class ErrorResponse extends Error {
-    // (undocumented)
     [key: string]: any;
-    // (undocumented)
     activityId?: string;
-    // (undocumented)
     body?: ErrorBody;
-    // (undocumented)
     code?: number | string;
-    // (undocumented)
     diagnostics?: CosmosDiagnostics;
-    // (undocumented)
     headers?: CosmosHeaders;
-    // (undocumented)
+    requestCharge?: number;
     retryAfterInMilliseconds?: number;
-    // (undocumented)
     retryAfterInMs?: number;
-    // (undocumented)
     substatus?: number;
 }
 
@@ -1475,7 +1467,7 @@ export enum KeyEncryptionAlgorithm {
 }
 
 // @public
-interface Location_2 {
+export interface Location {
     // (undocumented)
     databaseAccountEndpoint: string;
     // (undocumented)
@@ -1485,7 +1477,6 @@ interface Location_2 {
     // (undocumented)
     unavailable?: boolean;
 }
-export { Location_2 as Location }
 
 // @public
 export interface MetadataLookUpDiagnostic {
@@ -1805,7 +1796,7 @@ export class PermissionResponse extends ResourceResponse<PermissionDefinition & 
 }
 
 // @public
-class Permissions_2 {
+export class Permissions {
     constructor(user: User, clientContext: ClientContext);
     create(body: PermissionDefinition, options?: RequestOptions): Promise<PermissionResponse>;
     query(query: SqlQuerySpec, options?: FeedOptions): QueryIterator<any>;
@@ -1815,16 +1806,14 @@ class Permissions_2 {
     // (undocumented)
     readonly user: User;
 }
-export { Permissions_2 as Permissions }
 
 // @public
-type Plugin_2<T> = (context: RequestContext, diagnosticNode: DiagnosticNodeInternal, next: Next<T>) => Promise<Response_2<T>>;
-export { Plugin_2 as Plugin }
+export type Plugin<T> = (context: RequestContext, diagnosticNode: DiagnosticNodeInternal, next: Next<T>) => Promise<Response_2<T>>;
 
 // @public
 export interface PluginConfig {
     on: keyof typeof PluginOn;
-    plugin: Plugin_2<any>;
+    plugin: Plugin<any>;
 }
 
 // @public
@@ -2084,7 +2073,7 @@ export interface RequestContext {
 }
 
 // @public (undocumented)
-interface RequestInfo_2 {
+export interface RequestInfo {
     // (undocumented)
     headers: CosmosHeaders;
     // (undocumented)
@@ -2096,7 +2085,6 @@ interface RequestInfo_2 {
     // (undocumented)
     verb: HTTPMethod;
 }
-export { RequestInfo_2 as RequestInfo }
 
 // @public
 export interface RequestOptions extends SharedOptions {
@@ -2584,7 +2572,7 @@ export class TimeSpan {
 }
 
 // @public (undocumented)
-export type TokenProvider = (requestInfo: RequestInfo_2) => Promise<string>;
+export type TokenProvider = (requestInfo: RequestInfo) => Promise<string>;
 
 // @public
 export class Trigger {
@@ -2679,7 +2667,7 @@ export class User {
     // (undocumented)
     readonly id: string;
     permission(id: string): Permission;
-    readonly permissions: Permissions_2;
+    readonly permissions: Permissions;
     read(options?: RequestOptions): Promise<UserResponse>;
     replace(body: UserDefinition, options?: RequestOptions): Promise<UserResponse>;
     get url(): string;

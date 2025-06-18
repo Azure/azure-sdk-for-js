@@ -2,15 +2,15 @@
 
 These sample programs show how to use the JavaScript client libraries for @azure/arm-lambdatesthyperexecute in some common scenarios.
 
-| **File Name**                                                                       | **Description**                                                                                                                                    |
-| ----------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------- |
-| [operationsListSample.js][operationslistsample]                                     | list the operations for the provider x-ms-original-file: 2024-02-01-preview/Operations_List_MaximumSet_Gen.json                                    |
-| [organizationsCreateOrUpdateSample.js][organizationscreateorupdatesample]           | create a OrganizationResource x-ms-original-file: 2024-02-01-preview/Organizations_CreateOrUpdate_MaximumSet_Gen.json                              |
-| [organizationsDeleteSample.js][organizationsdeletesample]                           | delete a OrganizationResource x-ms-original-file: 2024-02-01-preview/Organizations_Delete_MaximumSet_Gen.json                                      |
-| [organizationsGetSample.js][organizationsgetsample]                                 | get a OrganizationResource x-ms-original-file: 2024-02-01-preview/Organizations_Get_MaximumSet_Gen.json                                            |
-| [organizationsListByResourceGroupSample.js][organizationslistbyresourcegroupsample] | list OrganizationResource resources by resource group x-ms-original-file: 2024-02-01-preview/Organizations_ListByResourceGroup_MaximumSet_Gen.json |
-| [organizationsListBySubscriptionSample.js][organizationslistbysubscriptionsample]   | list OrganizationResource resources by subscription ID x-ms-original-file: 2024-02-01-preview/Organizations_ListBySubscription_MaximumSet_Gen.json |
-| [organizationsUpdateSample.js][organizationsupdatesample]                           | update a OrganizationResource x-ms-original-file: 2024-02-01-preview/Organizations_Update_MaximumSet_Gen.json                                      |
+| **File Name**                                                                       | **Description**                                                                                                                            |
+| ----------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------ |
+| [operationsListSample.js][operationslistsample]                                     | list the operations for the provider x-ms-original-file: 2024-02-01/Operations_List_MaximumSet_Gen.json                                    |
+| [organizationsCreateOrUpdateSample.js][organizationscreateorupdatesample]           | create a OrganizationResource x-ms-original-file: 2024-02-01/Organizations_CreateOrUpdate_MaximumSet_Gen.json                              |
+| [organizationsDeleteSample.js][organizationsdeletesample]                           | delete a OrganizationResource x-ms-original-file: 2024-02-01/Organizations_Delete_MaximumSet_Gen.json                                      |
+| [organizationsGetSample.js][organizationsgetsample]                                 | get a OrganizationResource x-ms-original-file: 2024-02-01/Organizations_Get_MaximumSet_Gen.json                                            |
+| [organizationsListByResourceGroupSample.js][organizationslistbyresourcegroupsample] | list OrganizationResource resources by resource group x-ms-original-file: 2024-02-01/Organizations_ListByResourceGroup_MaximumSet_Gen.json |
+| [organizationsListBySubscriptionSample.js][organizationslistbysubscriptionsample]   | list OrganizationResource resources by subscription ID x-ms-original-file: 2024-02-01/Organizations_ListBySubscription_MaximumSet_Gen.json |
+| [organizationsUpdateSample.js][organizationsupdatesample]                           | update a OrganizationResource x-ms-original-file: 2024-02-01/Organizations_Update_MaximumSet_Gen.json                                      |
 
 ## Prerequisites
 

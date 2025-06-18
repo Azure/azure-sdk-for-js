@@ -2408,6 +2408,21 @@ export enum KnownEncryptionAlgorithmType {
  */
 export type EncryptionAlgorithmType = string;
 
+/** Known values of {@link FileShareTokenIntent} that the service accepts. */
+export enum KnownFileShareTokenIntent {
+  /** Backup */
+  Backup = "backup",
+}
+
+/**
+ * Defines values for FileShareTokenIntent. \
+ * {@link KnownFileShareTokenIntent} can be used interchangeably with FileShareTokenIntent,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **backup**
+ */
+export type FileShareTokenIntent = string;
+
 /** Known values of {@link BlobExpiryOptions} that the service accepts. */
 export enum KnownBlobExpiryOptions {
   /** NeverExpire */
@@ -3683,6 +3698,8 @@ export interface BlobCopyFromURLOptionalParams
   copySourceAuthorization?: string;
   /** Optional, default 'replace'.  Indicates if source tags should be copied or replaced with the tags specified by x-ms-tags. */
   copySourceTags?: BlobCopySourceTags;
+  /** Valid value is backup */
+  fileRequestIntent?: FileShareTokenIntent;
 }
 
 /** Contains response data for the copyFromURL operation. */
@@ -3924,6 +3941,8 @@ export interface PageBlobUploadPagesFromURLOptionalParams
   sourceContentMD5?: Uint8Array;
   /** Only Bearer type is supported. Credentials should be a valid OAuth access token to copy source. */
   copySourceAuthorization?: string;
+  /** Valid value is backup */
+  fileRequestIntent?: FileShareTokenIntent;
   /** Specify the crc64 calculated for the range of bytes that must be read from the copy source. */
   sourceContentCrc64?: Uint8Array;
 }
@@ -4120,6 +4139,8 @@ export interface AppendBlobAppendBlockFromUrlOptionalParams
   sourceContentMD5?: Uint8Array;
   /** Only Bearer type is supported. Credentials should be a valid OAuth access token to copy source. */
   copySourceAuthorization?: string;
+  /** Valid value is backup */
+  fileRequestIntent?: FileShareTokenIntent;
   /** Specify the transactional md5 for the body, to be validated by the service. */
   transactionalContentMD5?: Uint8Array;
   /** Specify the crc64 calculated for the range of bytes that must be read from the copy source. */
@@ -4219,6 +4240,8 @@ export interface BlockBlobPutBlobFromUrlOptionalParams
   copySourceAuthorization?: string;
   /** Optional, default 'replace'.  Indicates if source tags should be copied or replaced with the tags specified by x-ms-tags. */
   copySourceTags?: BlobCopySourceTags;
+  /** Valid value is backup */
+  fileRequestIntent?: FileShareTokenIntent;
   /** Specify the transactional md5 for the body, to be validated by the service. */
   transactionalContentMD5?: Uint8Array;
   /** Optional, default is true.  Indicates if properties from the source blob should be copied. */
@@ -4269,6 +4292,8 @@ export interface BlockBlobStageBlockFromURLOptionalParams
   sourceContentMD5?: Uint8Array;
   /** Only Bearer type is supported. Credentials should be a valid OAuth access token to copy source. */
   copySourceAuthorization?: string;
+  /** Valid value is backup */
+  fileRequestIntent?: FileShareTokenIntent;
   /** Specify the crc64 calculated for the range of bytes that must be read from the copy source. */
   sourceContentCrc64?: Uint8Array;
   /** Bytes of source data in the specified range. */

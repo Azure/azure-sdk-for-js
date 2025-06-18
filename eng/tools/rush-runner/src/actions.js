@@ -21,9 +21,18 @@ import {
  * @param {string[]} serviceDirs - list of service directories impacted
  * @param {string[]} rushParams - commandline flags to pass directly to rush
  * @param {string} artifactNames - package names to filter to
+ * @param {boolean|undefined} [ciFlag=undefined] - package names to filter to
+ * @param {{changedPackages: Set<string>, diff: { changedFiles: string[], changedServices: string[] }}|undefined} [changedInfo=undefined] - information about changed packages and files.
  * @returns
  */
-export function executeActions(action, serviceDirs, rushParams, artifactNames, ciFlag) {
+export function executeActions(
+  action,
+  serviceDirs,
+  rushParams,
+  artifactNames,
+  ciFlag,
+  changedInfo,
+) {
   const actionComponents = action.toLowerCase().split(":");
 
   console.log(`Packages to build: ${artifactNames}`);
@@ -39,13 +48,14 @@ export function executeActions(action, serviceDirs, rushParams, artifactNames, c
       case "test":
         exitCode = rushRunAllWithDirection(
           action,
-          getDirectionMappedPackages(packageNames, action, serviceDirs),
+          getDirectionMappedPackages(packageNames, action, serviceDirs, changedInfo),
           rushParams,
-          ciFlag
+          ciFlag,
         );
         break;
 
       case "lint":
+      case "update-snippets":
         exitCode = runRushInPackageDirs(action, packageDirs);
         break;
       case "check-format":

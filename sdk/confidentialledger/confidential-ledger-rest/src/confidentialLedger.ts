@@ -15,17 +15,17 @@ export interface ConfidentialLedgerClientOptions extends ClientOptions {
 
 /**
  * Initialize a new instance of `ConfidentialLedgerClient`
- * @param endpoint - The Confidential Ledger URL, for example https://contoso.confidentialledger.azure.com
+ * @param ledgerEndpoint - The Confidential Ledger URL, for example https://contoso.confidentialledger.azure.com
  * @param credentials - uniquely identify client credential
  * @param options - the parameter for all optional parameters
  */
 export default function createClient(
-  endpoint: string,
+  ledgerEndpoint: string,
   credentials: TokenCredential,
-  { apiVersion = "2024-01-26-preview", ...options }: ConfidentialLedgerClientOptions = {},
+  { apiVersion = "2024-12-09-preview", ...options }: ConfidentialLedgerClientOptions = {},
 ): ConfidentialLedgerClient {
-  const endpointUrl = options.endpoint ?? options.baseUrl ?? `${endpoint}`;
-  const userAgentInfo = `azsdk-js-confidential-ledger-rest/1.1.2-beta.1`;
+  const endpointUrl = options.endpoint ?? options.baseUrl ?? `${ledgerEndpoint}`;
+  const userAgentInfo = `azsdk-js-confidential-ledger-rest/1.1.2-beta.3`;
   const userAgentPrefix =
     options.userAgentOptions && options.userAgentOptions.userAgentPrefix
       ? `${options.userAgentOptions.userAgentPrefix} ${userAgentInfo}`
