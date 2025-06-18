@@ -2,7 +2,7 @@
   "extends": "../../../tsconfig.samples.base.json",
   "compilerOptions": {
     "paths": {
-      "@azure/ai-agents": ["./dist/esm"]
+      "@azure-rest/ai-agents": ["./dist/esm"]
     }
   }
 }

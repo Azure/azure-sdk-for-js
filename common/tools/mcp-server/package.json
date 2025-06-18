@@ -17,7 +17,7 @@
     "generate:client": "echo Skipped.",
     "lint": "eslint package.json src test",
     "lint:fix": "eslint package.json src test --fix --fix-type [problem,suggestion]",
-    "pack": "npm pack 2>&1",
+    "pack": "pnpm pack 2>&1",
     "test": "npm run test:node && npm run test:browser",
     "test:browser": "echo Skipped.",
     "test:node": "dev-tool run test:vitest",
@@ -51,15 +51,15 @@
     "zod": "^3.24.3"
   },
   "devDependencies": {
-    "@azure/dev-tool": "^1.0.0",
-    "@azure/eslint-plugin-azure-sdk": "^3.0.0",
-    "@vitest/coverage-istanbul": "^3.0.9",
-    "@vitest/expect": "^3.0.9",
-    "@types/node": "^20.0.0",
-    "dotenv": "^16.0.0",
-    "eslint": "^9.9.0",
-    "typescript": "~5.8.2",
-    "tsx": "4.19.3",
-    "vitest": "^3.0.9"
+    "@azure/dev-tool": "workspace:^",
+    "@azure/eslint-plugin-azure-sdk": "workspace:^",
+    "@vitest/coverage-istanbul": "catalog:testing",
+    "@vitest/expect": "catalog:testing",
+    "@types/node": "catalog:",
+    "dotenv": "catalog:testing",
+    "eslint": "catalog:",
+    "typescript": "catalog:",
+    "tsx": "catalog:",
+    "vitest": "catalog:testing"
   }
 }

@@ -25,6 +25,6 @@
   "dependencies": {
     "@azure/monitor-query": "latest",
     "dotenv": "latest",
-    "@azure/identity": "^4.6.0"
+    "@azure/identity": "^4.10.0"
   }
 }

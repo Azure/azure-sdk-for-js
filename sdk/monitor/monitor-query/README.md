@@ -115,21 +115,37 @@ Each set of metric values is a time series with the following characteristics:
 
 ## Examples
 
-- [Logs query](#logs-query)
-  - [Workspace-centric logs query](#workspace-centric-logs-query)
-  - [Resource-centric logs query](#resource-centric-logs-query)
-  - [Handle logs query response](#handle-logs-query-response)
-- [Batch logs query](#batch-logs-query)
-  - [Handle logs batch query response](#handle-logs-batch-query-response)
-- [Advanced logs query scenarios](#advanced-logs-query-scenarios)
-  - [Set logs query timeout](#set-logs-query-timeout)
-  - [Query multiple workspaces](#query-multiple-workspaces)
-  - [Include statistics](#include-statistics)
-  - [Include visualization](#include-visualization)
-- [Metrics query](#metrics-query)
-  - [Handle metrics query response](#handle-metrics-query-response)
-  - [Example of handling response](#example-of-handling-response)
-  - [Query metrics for multiple resources](#query-metrics-for-multiple-resources)
+- [Azure Monitor Query client library for JavaScript](#azure-monitor-query-client-library-for-javascript)
+  - [Getting started](#getting-started)
+    - [Supported environments](#supported-environments)
+    - [Prerequisites](#prerequisites)
+    - [Install the package](#install-the-package)
+    - [Create the client](#create-the-client)
+      - [Configure client for Azure sovereign cloud](#configure-client-for-azure-sovereign-cloud)
+    - [Execute the query](#execute-the-query)
+  - [Key concepts](#key-concepts)
+    - [Logs query rate limits and throttling](#logs-query-rate-limits-and-throttling)
+    - [Metrics data structure](#metrics-data-structure)
+  - [Examples](#examples)
+    - [Logs query](#logs-query)
+      - [Workspace-centric logs query](#workspace-centric-logs-query)
+      - [Resource-centric logs query](#resource-centric-logs-query)
+      - [Handle logs query response](#handle-logs-query-response)
+    - [Batch logs query](#batch-logs-query)
+      - [Handle logs batch query response](#handle-logs-batch-query-response)
+    - [Advanced logs query scenarios](#advanced-logs-query-scenarios)
+      - [Set logs query timeout](#set-logs-query-timeout)
+      - [Query multiple workspaces](#query-multiple-workspaces)
+      - [Include statistics](#include-statistics)
+      - [Include visualization](#include-visualization)
+    - [Metrics query](#metrics-query)
+      - [Handle metrics query response](#handle-metrics-query-response)
+      - [Example of handling response](#example-of-handling-response)
+      - [Query metrics for multiple resources](#query-metrics-for-multiple-resources)
+  - [Troubleshooting](#troubleshooting)
+  - [Next steps](#next-steps)
+  - [Contributing](#contributing)
+  - [Related projects](#related-projects)
 
 ### Logs query
 
@@ -860,8 +876,8 @@ If you'd like to contribute to this library, please read the [contributing guide
 
 This module's tests are a mixture of live and unit tests, which require you to have an Azure Monitor instance. To execute the tests, you'll need to run:
 
-1. `rush update`
-2. `rush build -t @azure/monitor-query`
+1. `pnpm install`
+2. `pnpm build --filter=@azure/monitor-query...`
 3. `cd into sdk/monitor/monitor-query`
 4. Copy the `sample.env` file to `.env`
 5. Open the `.env` file in an editor and fill in the values.
