@@ -60,7 +60,7 @@ describe("Azure Container Instance Integration test", function () {
 
     const responseBody = JSON.parse(response.bodyAsText || "{}");
     assert.strictEqual(responseBody.test, "user-assigned-managed-identity-success");
-
+  });
 });
 
 function requireEnvVar(name: string): string {

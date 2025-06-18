@@ -127,11 +127,10 @@ function runCommand(command: string, args: string = ""): any {
     console.log(output.toString());
     return output;
   } catch (error: any) {
-    console.error('Command failed:', error.message);
-    console.error('Exit code:', error.status);
-    console.error('stderr:', error.stderr.toString());
+    console.error("Command failed:", error.message);
+    console.error("Exit code:", error.status);
+    console.error("stderr:", error.stderr.toString());
   }
-
 }
 
 function requireEnvVar(name: string): string {
