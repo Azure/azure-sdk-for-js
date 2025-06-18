@@ -53,7 +53,7 @@ export class ClientCertificateCredential implements TokenCredential {
     tenantId: string,
     clientId: string,
     certificatePath: string,
-    options?: ClientCertificateCredentialOptions
+    options?: ClientCertificateCredentialOptions,
   );
   /**
    * Creates an instance of the ClientCertificateCredential with the details
@@ -69,7 +69,7 @@ export class ClientCertificateCredential implements TokenCredential {
     tenantId: string,
     clientId: string,
     configuration: ClientCertificatePEMCertificatePath,
-    options?: ClientCertificateCredentialOptions
+    options?: ClientCertificateCredentialOptions,
   );
   /**
    * Creates an instance of the ClientCertificateCredential with the details
@@ -85,13 +85,13 @@ export class ClientCertificateCredential implements TokenCredential {
     tenantId: string,
     clientId: string,
     configuration: ClientCertificatePEMCertificate,
-    options?: ClientCertificateCredentialOptions
+    options?: ClientCertificateCredentialOptions,
   );
   constructor(
     tenantId: string,
     clientId: string,
     certificatePathOrConfiguration: string | ClientCertificateCredentialPEMConfiguration,
-    options: ClientCertificateCredentialOptions = {}
+    options: ClientCertificateCredentialOptions = {},
   ) {
     if (!tenantId || !clientId) {
       throw new Error(`${credentialName}: tenantId and clientId are required parameters.`);
@@ -99,7 +99,7 @@ export class ClientCertificateCredential implements TokenCredential {
 
     this.tenantId = tenantId;
     this.additionallyAllowedTenantIds = resolveAdditionallyAllowedTenantIds(
-      options?.additionallyAllowedTenants
+      options?.additionallyAllowedTenants,
     );
 
     this.sendCertificateChain = options.sendCertificateChain;
@@ -117,12 +117,12 @@ export class ClientCertificateCredential implements TokenCredential {
       .certificatePath;
     if (!this.certificateConfiguration || !(certificate || certificatePath)) {
       throw new Error(
-        `${credentialName}: Provide either a PEM certificate in string form, or the path to that certificate in the filesystem. To troubleshoot, visit https://aka.ms/azsdk/js/identity/serviceprincipalauthentication/troubleshoot.`
+        `${credentialName}: Provide either a PEM certificate in string form, or the path to that certificate in the filesystem. To troubleshoot, visit https://aka.ms/azsdk/js/identity/serviceprincipalauthentication/troubleshoot.`,
       );
     }
     if (certificate && certificatePath) {
       throw new Error(
-        `${credentialName}: To avoid unexpected behaviors, providing both the contents of a PEM certificate and the path to a PEM certificate is forbidden. To troubleshoot, visit https://aka.ms/azsdk/js/identity/serviceprincipalauthentication/troubleshoot.`
+        `${credentialName}: To avoid unexpected behaviors, providing both the contents of a PEM certificate and the path to a PEM certificate is forbidden. To troubleshoot, visit https://aka.ms/azsdk/js/identity/serviceprincipalauthentication/troubleshoot.`,
       );
     }
     this.msalClient = createMsalClient(clientId, tenantId, {
@@ -146,7 +146,7 @@ export class ClientCertificateCredential implements TokenCredential {
         this.tenantId,
         newOptions,
         this.additionallyAllowedTenantIds,
-        logger
+        logger,
       );
 
       const arrayScopes = Array.isArray(scopes) ? scopes : [scopes];
@@ -158,7 +158,7 @@ export class ClientCertificateCredential implements TokenCredential {
   private async buildClientCertificate(): Promise<CertificateParts> {
     const parts = await parseCertificate(
       this.certificateConfiguration,
-      this.sendCertificateChain ?? false
+      this.sendCertificateChain ?? false,
     );
 
     let privateKey: string;
@@ -195,7 +195,7 @@ export class ClientCertificateCredential implements TokenCredential {
  */
 export async function parseCertificate(
   certificateConfiguration: ClientCertificateCredentialPEMConfiguration,
-  sendCertificateChain: boolean
+  sendCertificateChain: boolean,
 ): Promise<Omit<CertificateParts, "privateKey"> & { certificateContents: string }> {
   const certificate = (certificateConfiguration as ClientCertificatePEMCertificate).certificate;
   const certificatePath = (certificateConfiguration as ClientCertificatePEMCertificatePath)
