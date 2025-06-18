@@ -1026,7 +1026,7 @@ export type AutomationsListResponse = AutomationList;
 
 // @public
 export interface AutomationSource {
-    eventSource?: EventSource;
+    eventSource?: EventSource_2;
     ruleSets?: AutomationRuleSet[];
 }
 
@@ -2704,7 +2704,8 @@ export interface ETag {
 }
 
 // @public
-export type EventSource = string;
+type EventSource_2 = string;
+export { EventSource_2 as EventSource }
 
 // @public
 export interface ExecuteGovernanceRuleParams {

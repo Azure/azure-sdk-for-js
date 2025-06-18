@@ -6,10 +6,9 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
+import type {
+  PrivateLinkResource} from "@azure/arm-containerservice";
 import {
-  PrivateLinkResource,
   ContainerServiceClient,
 } from "@azure/arm-containerservice";
 import { DefaultAzureCredential } from "@azure/identity";
@@ -19,7 +18,7 @@ import "dotenv/config";
  * This sample demonstrates how to Gets the private link service ID for the specified managed cluster.
  *
  * @summary Gets the private link service ID for the specified managed cluster.
- * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/aks/preview/2025-02-02-preview/examples/ResolvePrivateLinkServiceId.json
+ * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/aks/stable/2025-03-01/examples/ResolvePrivateLinkServiceId.json
  */
 async function resolveThePrivateLinkServiceIdForManagedCluster(): Promise<void> {
   const subscriptionId =
