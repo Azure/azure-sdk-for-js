@@ -157,7 +157,7 @@ steps:
     parameters:
       ArtifactPath: '$(Build.ArtifactStagingDirectory)'
       ArtifactName: 'packages-dev-publish'
-      CustomCondition: and(succeeded(), eq(variables['SetDevVersion'], 'true'))
+      CustomCondition: eq(variables['SetDevVersion'], 'true')
 
   - template: /eng/common/pipelines/templates/steps/create-apireview.yml
     parameters:

@@ -190,10 +190,11 @@ function ContainsProductCodeDiff($currentDevPackage, $lastDevPackage, $workingDi
   $diffFile = Join-Path $workingDirectory "Change.diff"
   git diff --output=$diffFile --exit-code $lastDevPackage $currentDevPackage
   Write-Host "Package Diff exited with code $LastExitCode"
-  if ($LastExitCode -ne 0) {
+  if ($LASTEXITCODE -ne 0) {
     Write-Host "There were differences in the two packages - saved in $diffFile"
     Write-Host "Contents of $diffFile"
     Get-Content -Path $diffFile
+    $LASTEXITCODE = 0 # Reset exit code to 0 so that the script can continue
     return $true
   }
   return $false
