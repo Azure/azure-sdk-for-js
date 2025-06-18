@@ -188,7 +188,7 @@ function NormalizePackageContent($dirName, $version) {
 
 function ContainsProductCodeDiff($currentDevPackage, $lastDevPackage, $workingDirectory) {
   $diffFile = Join-Path $workingDirectory "Change.diff"
-  git diff --output=$diffFile --exit-code $lastDevPackage $currentDevPackage
+  git diff --output=$diffFile --exit-code $lastDevPackage $currentDevPackage 2>$null
   Write-Host "Package Diff exited with code $LastExitCode"
   if ($LASTEXITCODE -ne 0) {
     Write-Host "There were differences in the two packages - saved in $diffFile"
