@@ -4,7 +4,7 @@
 import type { AccessToken, GetTokenOptions, TokenCredential } from "@azure/core-auth";
 import type { MsalClient } from "../msal/nodeFlows/msalClient.js";
 import { createMsalClient } from "../msal/nodeFlows/msalClient.js";
-import { createHash, createPrivateKey } from "node:crypto";
+import { createHash, createPrivateKey, createPublicKey } from "node:crypto";
 import {
   processMultiTenantRequest,
   resolveAdditionallyAllowedTenantIds,
@@ -202,6 +202,7 @@ export async function parseCertificate(
   const certificateContents = certificate || (await readFile(certificatePath!, "utf8"));
   const x5c = sendCertificateChain ? certificateContents : undefined;
 
+  // First, try to find certificates (existing behavior)
   const certificatePattern =
     /(-+BEGIN CERTIFICATE-+)(\n\r?|\r\n?)([A-Za-z0-9+/\n\r]+=*)(\n\r?|\r\n?)(-+END CERTIFICATE-+)/g;
   const publicKeys: string[] = [];
@@ -215,24 +216,77 @@ export async function parseCertificate(
     }
   } while (match);
 
-  if (publicKeys.length === 0) {
-    throw new Error("The file at the specified path does not contain a PEM-encoded certificate.");
+  if (publicKeys.length > 0) {
+    // Found certificates, use existing logic
+    const thumbprint = createHash("sha1")
+      .update(Buffer.from(publicKeys[0], "base64"))
+      .digest("hex")
+      .toUpperCase();
+
+    const thumbprintSha256 = createHash("sha256")
+      .update(Buffer.from(publicKeys[0], "base64"))
+      .digest("hex")
+      .toUpperCase();
+
+    return {
+      certificateContents,
+      thumbprintSha256,
+      thumbprint,
+      x5c,
+    };
   }
 
-  const thumbprint = createHash("sha1")
-    .update(Buffer.from(publicKeys[0], "base64"))
-    .digest("hex")
-    .toUpperCase();
+  // If no certificates found, try to find private keys and extract public key for thumbprint
+  const privateKeyPattern =
+    /(-+BEGIN PRIVATE KEY-+)(\n\r?|\r\n?)([A-Za-z0-9+/\n\r]+=*)(\n\r?|\r\n?)(-+END PRIVATE KEY-+)/g;
+  
+  const privateKeyMatch = privateKeyPattern.exec(certificateContents);
+  if (privateKeyMatch) {
+    try {
+      // Extract the full private key block
+      const privateKeyBlock = privateKeyMatch[0];
+      
+      // Create private key object
+      const privateKey = createPrivateKey({
+        key: privateKeyBlock,
+        format: "pem",
+      });
 
-  const thumbprintSha256 = createHash("sha256")
-    .update(Buffer.from(publicKeys[0], "base64"))
-    .digest("hex")
-    .toUpperCase();
+      // Extract public key from private key
+      const publicKey = createPublicKey(privateKey);
+      
+      // Export public key in DER format for thumbprint calculation
+      const publicKeyDer = publicKey.export({
+        format: "der",
+        type: "spki",
+      });
 
-  return {
-    certificateContents,
-    thumbprintSha256,
-    thumbprint,
-    x5c,
-  };
+      // Calculate thumbprints from the public key
+      const thumbprint = createHash("sha1")
+        .update(publicKeyDer)
+        .digest("hex")
+        .toUpperCase();
+
+      const thumbprintSha256 = createHash("sha256")
+        .update(publicKeyDer)
+        .digest("hex")
+        .toUpperCase();
+
+      return {
+        certificateContents,
+        thumbprintSha256,
+        thumbprint,
+        x5c,
+      };
+    } catch (error) {
+      throw new Error(
+        `Unable to process the private key. ${error instanceof Error ? error.message : String(error)}`,
+      );
+    }
+  }
+
+  // If neither certificates nor private keys are found
+  throw new Error(
+    "The file at the specified path does not contain a valid PEM-encoded certificate or private key.",
+  );
 }

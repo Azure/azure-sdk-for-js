@@ -21,7 +21,7 @@ import type { ClientCertificatePEMCertificatePath } from "./clientCertificateCre
 import type { CredentialPersistenceOptions } from "./credentialPersistenceOptions.js";
 import { CredentialUnavailableError } from "../errors.js";
 import type { MultiTenantTokenCredentialOptions } from "./multiTenantTokenCredentialOptions.js";
-import { createHash } from "node:crypto";
+import { createHash, createPrivateKey, createPublicKey } from "node:crypto";
 import { ensureScopes } from "../util/scopeUtils.js";
 import { readFile } from "node:fs/promises";
 import { tracingClient } from "../util/tracing.js";
@@ -257,6 +257,7 @@ export class OnBehalfOfCredential implements TokenCredential {
     const certificateContents = await readFile(certificatePath, "utf8");
     const x5c = sendCertificateChain ? certificateContents : undefined;
 
+    // First, try to find certificates (existing behavior)
     const certificatePattern =
       /(-+BEGIN CERTIFICATE-+)(\n\r?|\r\n?)([A-Za-z0-9+/\n\r]+=*)(\n\r?|\r\n?)(-+END CERTIFICATE-+)/g;
     const publicKeys: string[] = [];
@@ -270,24 +271,78 @@ export class OnBehalfOfCredential implements TokenCredential {
       }
     } while (match);
 
-    if (publicKeys.length === 0) {
-      throw new Error("The file at the specified path does not contain a PEM-encoded certificate.");
+    if (publicKeys.length > 0) {
+      // Found certificates, use existing logic
+      const thumbprint = createHash("sha1")
+        .update(Buffer.from(publicKeys[0], "base64"))
+        .digest("hex")
+        .toUpperCase();
+
+      const thumbprintSha256 = createHash("sha256")
+        .update(Buffer.from(publicKeys[0], "base64"))
+        .digest("hex")
+        .toUpperCase();
+
+      return {
+        certificateContents,
+        thumbprintSha256,
+        thumbprint,
+        x5c,
+      };
     }
-    const thumbprint = createHash("sha1")
-      .update(Buffer.from(publicKeys[0], "base64"))
-      .digest("hex")
-      .toUpperCase();
 
-    const thumbprintSha256 = createHash("sha256")
-      .update(Buffer.from(publicKeys[0], "base64"))
-      .digest("hex")
-      .toUpperCase();
+    // If no certificates found, try to find private keys and extract public key for thumbprint
+    const privateKeyPattern =
+      /(-+BEGIN PRIVATE KEY-+)(\n\r?|\r\n?)([A-Za-z0-9+/\n\r]+=*)(\n\r?|\r\n?)(-+END PRIVATE KEY-+)/g;
+    
+    const privateKeyMatch = privateKeyPattern.exec(certificateContents);
+    if (privateKeyMatch) {
+      try {
+        // Extract the full private key block
+        const privateKeyBlock = privateKeyMatch[0];
+        
+        // Create private key object
+        const privateKey = createPrivateKey({
+          key: privateKeyBlock,
+          format: "pem",
+        });
 
-    return {
-      certificateContents,
-      thumbprintSha256,
-      thumbprint,
-      x5c,
-    };
+        // Extract public key from private key
+        const publicKey = createPublicKey(privateKey);
+        
+        // Export public key in DER format for thumbprint calculation
+        const publicKeyDer = publicKey.export({
+          format: "der",
+          type: "spki",
+        });
+
+        // Calculate thumbprints from the public key
+        const thumbprint = createHash("sha1")
+          .update(publicKeyDer)
+          .digest("hex")
+          .toUpperCase();
+
+        const thumbprintSha256 = createHash("sha256")
+          .update(publicKeyDer)
+          .digest("hex")
+          .toUpperCase();
+
+        return {
+          certificateContents,
+          thumbprintSha256,
+          thumbprint,
+          x5c,
+        };
+      } catch (error) {
+        throw new Error(
+          `Unable to process the private key. ${error instanceof Error ? error.message : String(error)}`,
+        );
+      }
+    }
+
+    // If neither certificates nor private keys are found
+    throw new Error(
+      "The file at the specified path does not contain a valid PEM-encoded certificate or private key.",
+    );
   }
 }

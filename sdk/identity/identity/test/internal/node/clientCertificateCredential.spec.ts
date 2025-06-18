@@ -132,7 +132,7 @@ describe("ClientCertificateCredential (internal)", function () {
     assert.ok(error);
     assert.deepEqual(
       error?.message,
-      `The file at the specified path does not contain a PEM-encoded certificate.`,
+      `The file at the specified path does not contain a valid PEM-encoded certificate or private key.`,
     );
   });
 
