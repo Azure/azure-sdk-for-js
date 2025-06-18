@@ -157,7 +157,7 @@ az container create -g $identityResourceGroup -n $($DeploymentOutputs['IDENTITY_
   --ip-address "Public" `
   --memory "1.0"`
   --os-type "Linux" `
-  --scope $DeploymentOutputs['IDENTITY_STORAGE_ID_2'] `
+  --scope $DeploymentOutputs['IDENTITY_STORAGE_ID_1'] `
   -e IDENTITY_STORAGE_NAME=$storageName1 `
   -e IDENTITY_STORAGE_NAME_2=$storageName2 `
   -e IDENTITY_USER_DEFINED_CLIENT_ID=$userDefinedClientId `
