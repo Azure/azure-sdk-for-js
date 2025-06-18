@@ -192,7 +192,7 @@ stages:
           Environment: 'none'
 
       - job: PublishDocsToNightlyBranch
-        condition: and(succeeded(), ne(variables['Skip.PublishDocs'], 'true'))))
+        condition: and(succeeded(), ne(variables['Skip.PublishDocs'], 'true'))
         pool:
           name: $(LINUXPOOL)
           image: $(LINUXVMIMAGE)
