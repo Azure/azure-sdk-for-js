@@ -72,7 +72,7 @@
     "@azure/abort-controller": "workspace:^",
     "@azure/core-auth": "workspace:^",
     "@azure/core-rest-pipeline": "workspace:^",
-    "@azure/core-tracing": "workspace:^",
+    "@azure/core-tracing": "catalog:corelkg",
     "@typespec/ts-http-runtime": "workspace:^",
     "tslib": "catalog:"
   },

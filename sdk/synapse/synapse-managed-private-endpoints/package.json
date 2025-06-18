@@ -11,7 +11,7 @@
     "@azure/core-client": "workspace:^",
     "@azure/core-paging": "workspace:^",
     "@azure/core-rest-pipeline": "workspace:^",
-    "@azure/core-tracing": "workspace:^",
+    "@azure/core-tracing": "catalog:corelkg",
     "tslib": "catalog:"
   },
   "keywords": [

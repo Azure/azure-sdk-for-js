@@ -73,13 +73,13 @@
   "sideEffects": false,
   "prettier": "@azure/eslint-plugin-azure-sdk/prettier.json",
   "dependencies": {
-    "@azure/abort-controller": "workspace:^",
-    "@azure/core-auth": "workspace:^",
-    "@azure/core-client": "workspace:^",
+    "@azure/abort-controller": "catalog:corelkg",
+    "@azure/core-auth": "catalog:corelkg",
+    "@azure/core-client": "catalog:corelkg",
     "@azure/core-lro": "catalog:corelrov2",
-    "@azure/core-rest-pipeline": "workspace:^",
-    "@azure/core-tracing": "workspace:^",
-    "@azure/logger": "workspace:^",
+    "@azure/core-rest-pipeline": "catalog:corelkg",
+    "@azure/core-tracing": "catalog:corelkg",
+    "@azure/logger": "catalog:corelkg",
     "tslib": "catalog:"
   },
   "devDependencies": {

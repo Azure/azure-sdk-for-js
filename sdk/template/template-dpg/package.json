@@ -121,11 +121,11 @@
     "vitest": "catalog:testing"
   },
   "dependencies": {
-    "@azure-rest/core-client": "workspace:^",
-    "@azure/core-auth": "workspace:^",
-    "@azure/core-rest-pipeline": "workspace:^",
-    "@azure/core-util": "workspace:^",
-    "@azure/logger": "workspace:^",
+    "@azure-rest/core-client": "catalog:corelkg",
+    "@azure/core-auth": "catalog:corelkg",
+    "@azure/core-rest-pipeline": "catalog:corelkg",
+    "@azure/core-util": "catalog:corelkg",
+    "@azure/logger": "catalog:corelkg",
     "tslib": "catalog:"
   },
   "tshy": {

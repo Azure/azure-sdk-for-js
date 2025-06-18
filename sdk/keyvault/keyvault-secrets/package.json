@@ -86,7 +86,7 @@
     "@azure/core-lro": "catalog:corelrov2",
     "@azure/core-paging": "workspace:^",
     "@azure/core-rest-pipeline": "workspace:^",
-    "@azure/core-tracing": "workspace:^",
+    "@azure/core-tracing": "catalog:corelkg",
     "@azure/core-util": "workspace:^",
     "@azure/keyvault-common": "^2.0.0",
     "@azure/logger": "workspace:^",
