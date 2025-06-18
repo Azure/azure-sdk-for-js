@@ -22,4 +22,7 @@ async function main() {
   exit(executeActions(action, serviceDirs, rushParams, artifactNames, ciFlag, changedInfo));
 }
 
-main().catch(console.error);
+main().catch((err) => {
+  console.error(err);
+  process.exit(1);
+});
