@@ -1,3 +1,6 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
+
 // Simple test file for the parseCertificate functionality
 import { parseCertificate } from '../../src/credentials/clientCertificateCredential.js';
 import { describe, it, assert } from "vitest";
