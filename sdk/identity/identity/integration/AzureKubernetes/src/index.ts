@@ -10,11 +10,17 @@ import dotenv from "dotenv";
 dotenv.config();
 const app = express();
 
-// Global variables - will be initialized at startup
-let storageAccount: string;
-let storageAccount2: string;
-let userAssignedClientId: string;
-let azureClientId: string;
+// Initialize environment variables synchronously at startup
+console.log("Initializing environment variables...");
+const storageAccount = requireEnvVar("IDENTITY_STORAGE_NAME");
+const storageAccount2 = requireEnvVar("IDENTITY_STORAGE_NAME_2");
+const userAssignedClientId = requireEnvVar("IDENTITY_USER_DEFINED_CLIENT_ID");
+const azureClientId = requireEnvVar("IDENTITY_USER_DEFINED_CLIENT_ID");
+
+console.log("Environment variables loaded:");
+console.log(`- IDENTITY_STORAGE_NAME: ${storageAccount}`);
+console.log(`- IDENTITY_STORAGE_NAME_2: ${storageAccount2}`);
+console.log(`- IDENTITY_USER_DEFINED_CLIENT_ID: ${userAssignedClientId}`);
 
 // Utility function to test storage access with a credential
 async function testStorageAccess(credential: TokenCredential, storageAccount: string): Promise<void> {
@@ -26,8 +32,9 @@ async function testStorageAccess(credential: TokenCredential, storageAccount: st
     );
 
     // List containers to test authentication
-    await blobServiceClient.getProperties();
-
+    for await (const container of blobServiceClient.listContainers()) {
+      console.log(`Container ${container.name}`);
+    }
   } catch (error: any) {
     console.error(`Error accessing storage account ${storageAccount}:`, error);
     throw error;
@@ -48,7 +55,7 @@ app.get("/managed-identity", async (req: express.Request, res: express.Response)
     const credential = new ManagedIdentityCredential();
     await testStorageAccess(credential, storageAccount);
 
-    res.json({ test: "managed-identity-success" });
+    res.json({ test: "managed-identity-success", success: true });
   } catch (error: any) {
     res.status(500).json({
       test: "managed-identity",
@@ -68,7 +75,7 @@ app.get("/managed-identity/user-assigned", async (req: express.Request, res: exp
     const credential = new ManagedIdentityCredential({ clientId: userAssignedClientId });
     await testStorageAccess(credential, storageAccount2);
 
-    res.json({ test: "user-assigned-managed-identity-success" });
+    res.json({ test: "user-assigned-managed-identity-success", success: true });
   } catch (error: any) {
     res.status(500).json({
       test: "user-assigned-managed-identity",
@@ -91,7 +98,7 @@ app.get("/workload-identity", async (req: express.Request, res: express.Response
 
     await testStorageAccess(credential, storageAccount2);
 
-    res.json({ test: "workload-identity-success" });
+    res.json({ test: "workload-identity-success", success: true });
   } catch (error: any) {
     res.status(500).json({
       test: "workload-identity",
@@ -105,16 +112,6 @@ app.get("/workload-identity", async (req: express.Request, res: express.Response
   }
 });
 
-// Get the port from environment variable or default to 8080
-const port = process.env.FUNCTIONS_CUSTOMHANDLER_PORT || 8080;
-
-app.listen(port, () => {
-  storageAccount = requireEnvVar("IDENTITY_STORAGE_NAME");
-  storageAccount2 = requireEnvVar("IDENTITY_STORAGE_NAME_2");
-  userAssignedClientId = requireEnvVar("IDENTITY_USER_DEFINED_CLIENT_ID");
-  azureClientId = requireEnvVar("IDENTITY_USER_DEFINED_CLIENT_ID");
-});
-
 function requireEnvVar(name: string): string {
   const value = process.env[name];
   if (!value) {
@@ -122,3 +119,11 @@ function requireEnvVar(name: string): string {
   }
   return value;
 }
+
+// Get the port from environment variable or default to 8080
+const port = process.env.FUNCTIONS_CUSTOMHANDLER_PORT || 8080;
+
+app.listen(port, () => {
+  console.log(`Server listening on port ${port}`);
+  console.log("Server started successfully with all environment variables loaded");
+});
