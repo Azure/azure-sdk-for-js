@@ -14,7 +14,6 @@ import type { RestError } from "@azure/core-rest-pipeline";
 import {
   DropCode,
   MAX_STATSBEAT_FAILURES,
-  RetryCode,
   TelemetryType,
   isStatsbeatShutdownStatus,
 } from "../../export/statsbeat/types.js";
@@ -167,9 +166,9 @@ export abstract class BaseSender {
 
           // If we have a partial success, count the succeeded envelopes
           if (breezeResponse.itemsAccepted > 0) {
-            this.networkStatsbeatMetrics?.countSuccess(duration);
             // Count only the successful envelopes (non-undefined)
             if (!this.isStatsbeatSender) {
+              this.networkStatsbeatMetrics?.countSuccess(duration);
               for (const envelope of successfulEnvelopes.filter(Boolean)) {
                 this.customerStatsbeatMetrics?.countSuccessfulItems(
                   1,
@@ -177,8 +176,6 @@ export abstract class BaseSender {
                 );
               }
             }
-            // For network statsbeat we just care that some envelopes were successful
-            this.networkStatsbeatMetrics?.countSuccess(duration);
           }
           if (filteredEnvelopes.length > 0) {
             if (!this.isStatsbeatSender) {
@@ -365,9 +362,9 @@ export abstract class BaseSender {
         this.networkStatsbeatMetrics?.countWriteFailure();
         if (this.disableOfflineStorage && envelopes) {
           for (const envelope of envelopes) {
-            this.customerStatsbeatMetrics?.countRetryItems(
+            this.customerStatsbeatMetrics?.countDroppedItems(
               1,
-              RetryCode.CLIENT_STORAGE_DISABLED,
+              DropCode.CLIENT_STORAGE_DISABLED,
               this.getTelemetryTypeFromEnvelope(envelope as Envelope),
             );
           }

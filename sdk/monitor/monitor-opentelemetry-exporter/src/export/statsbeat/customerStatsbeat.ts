@@ -462,8 +462,6 @@ export class CustomerStatsbeatMetrics extends StatsbeatMetrics {
 
     // Handle other enum retry codes
     switch (retryCode) {
-      case RetryCode.CLIENT_STORAGE_DISABLED:
-        return "storage_disabled";
       case RetryCode.CLIENT_TIMEOUT:
         return "client_timeout";
       case RetryCode.RETRYABLE_STATUS_CODE:

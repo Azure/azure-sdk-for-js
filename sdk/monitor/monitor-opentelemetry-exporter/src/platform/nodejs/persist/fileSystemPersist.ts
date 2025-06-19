@@ -10,7 +10,7 @@ import { confirmDirExists, getShallowDirectorySize } from "./fileSystemHelpers.j
 import type { AzureMonitorExporterOptions } from "../../../config.js";
 import { readdir, readFile, stat, unlink, writeFile } from "node:fs/promises";
 import type { CustomerStatsbeatMetrics } from "../../../export/statsbeat/customerStatsbeat.js";
-import { DropCode, RetryCode, TelemetryType } from "../../../export/statsbeat/types.js";
+import { DropCode, TelemetryType } from "../../../export/statsbeat/types.js";
 
 /**
  * File system persist class.
@@ -184,9 +184,9 @@ export class FileSystemPersist implements PersistentStorage {
       await writeFile(fileFullPath, payload, { mode: 0o600 });
     } catch (writeError: any) {
       // If the envelopes cannot be written to disk, we send customer statsbeat and warn the user
-      this._customerStatsbeatMetrics?.countRetryItems(
+      this._customerStatsbeatMetrics?.countDroppedItems(
         envelopeLength,
-        RetryCode.CLIENT_STORAGE_DISABLED,
+        DropCode.CLIENT_STORAGE_DISABLED,
         TelemetryType.UNKNOWN,
       );
       diag.warn(`Error writing file to persistent file storage`, writeError);
