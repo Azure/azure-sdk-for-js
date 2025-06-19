@@ -8,7 +8,7 @@ import {
   resolveAdditionallyAllowedTenantIds,
 } from "../util/tenantIdUtils.js";
 import { AzureAuthorityHosts } from "../constants.js";
-import { CredentialUnavailableError } from "../errors.js";
+import { AuthenticationError, CredentialUnavailableError } from "../errors.js";
 import { IdentityClient } from "../client/identityClient.js";
 import type { VisualStudioCodeCredentialOptions } from "./visualStudioCodeCredentialOptions.js";
 import type { VSCodeCredentialFinder } from "./visualStudioCodeCredentialPlugin.js";
@@ -16,6 +16,9 @@ import { checkTenantId } from "../util/tenantIdUtils.js";
 import fs from "node:fs";
 import os from "node:os";
 import path from "node:path";
+import { createMsalClient } from "../msal/nodeFlows/msalClient.js";
+import { AuthenticationRecord } from "../msal/types.js";
+import { ensureScopes } from "../util/scopeUtils.js";
 
 const CommonTenantId = "common";
 const AzureAccountClientId = "aebc6443-996d-45c2-90f0-388ff96faa56"; // VSC: 'aebc6443-996d-45c2-90f0-388ff96faa56'
@@ -107,6 +110,8 @@ export class VisualStudioCodeCredential implements TokenCredential {
   private tenantId: string;
   private additionallyAllowedTenantIds: string[];
   private cloudName: VSCodeCloudNames;
+  options: VisualStudioCodeCredentialOptions | undefined;
+  private msalClient: ReturnType<typeof createMsalClient> | undefined;
 
   /**
    * Creates an instance of VisualStudioCodeCredential to use for automatically authenticating via VSCode.
@@ -122,6 +127,7 @@ export class VisualStudioCodeCredential implements TokenCredential {
     // We want to make sure we use the one assigned by the user on the VSCode settings.
     // Or just `AzureCloud` by default.
     this.cloudName = (getPropertyFromVSCode("azure.cloud") || "AzureCloud") as VSCodeCloudNames;
+    this.options = options;
 
     // Picking an authority host based on the cloud name.
     const authorityHost = mapVSCodeAuthorityHosts[this.cloudName];
@@ -145,16 +151,35 @@ export class VisualStudioCodeCredential implements TokenCredential {
     checkUnsupportedTenant(this.tenantId);
   }
 
+  private async loadAndValidateAuthenticationRecord(arg0: string): Promise<AuthenticationRecord> {
+    throw new Error("Function not implemented.");
+  }
   /**
    * Runs preparations for any further getToken request.
    */
   private async prepare(): Promise<void> {
-    // Attempts to load the tenant from the VSCode configuration file.
-    const settingsTenant = getPropertyFromVSCode("azure.tenant");
-    if (settingsTenant) {
-      this.tenantId = settingsTenant;
+    // check if broker is available
+    // check and parse authentication record
+    const tenantId =
+      processMultiTenantRequest(
+        this.tenantId,
+        this.options,
+        this.additionallyAllowedTenantIds,
+        logger,
+      ) || this.tenantId;
+
+    try {
+      await import("@azure/identity-broker"); // check if it exists
+      const authenticationRecord = await this.loadAndValidateAuthenticationRecord("path...");
+      // I think the user is passing all the broker options?
+      this.msalClient = createMsalClient("", tenantId, { ...this.options, authenticationRecord }); // pass authentication record when creating the client
+    } catch (e) {
+      // If we fail to prepare, we log the error and throw it.
+      logger.getToken.info(
+        `Failed to prepare VisualStudioCodeCredential. Error: ${e instanceof Error ? e.message : e}`,
+      );
+      throw new CredentialUnavailableError("...reasons, etc");
     }
-    checkUnsupportedTenant(this.tenantId);
   }
 
   /**
@@ -186,14 +211,13 @@ export class VisualStudioCodeCredential implements TokenCredential {
   ): Promise<AccessToken> {
     await this.prepareOnce();
 
-    const tenantId =
-      processMultiTenantRequest(
-        this.tenantId,
-        options,
-        this.additionallyAllowedTenantIds,
-        logger,
-      ) || this.tenantId;
-
+    // at this point we know the broker works
+    const scopeArray = ensureScopes(scopes);
+    const token = await this.msalClient?.getTokenByInteractiveRequest(scopeArray, options);
+    if (!token) {
+      throw new AuthenticationError("...reasons");
+    }
+    return token;
     if (findCredentials === undefined) {
       throw new CredentialUnavailableError(
         [
