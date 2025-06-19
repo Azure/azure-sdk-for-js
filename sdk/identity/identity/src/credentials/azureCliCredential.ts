@@ -64,18 +64,19 @@ export const cliCredentialInternals = {
     }
     return new Promise((resolve, reject) => {
       try {
-        child_process.execFile(
-          "az",
-          [
-            "account",
-            "get-access-token",
-            "--output",
-            "json",
-            "--resource",
-            resource,
-            ...tenantSection,
-            ...subscriptionSection,
-          ],
+        const args = [
+          "account",
+          "get-access-token",
+          "--output",
+          "json",
+          "--resource",
+          resource,
+          ...tenantSection,
+          ...subscriptionSection,
+        ];
+        const command = ["az", ...args].join(" ");
+        child_process.exec(
+          command,
           { cwd: cliCredentialInternals.getSafeWorkingDir(), timeout },
           (error, stdout, stderr) => {
             resolve({ stdout: stdout, stderr: stderr, error });
