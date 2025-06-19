@@ -82,7 +82,9 @@ export class PlaywrightServiceInitialize {
   };
 
   private installServicePackage = async (): Promise<void> => {
-    const command = this._packageManager.installDevDependencyCommand("@azure/playwright @azure/identity");
+    const command = this._packageManager.installDevDependencyCommand(
+      "@azure/playwright @azure/identity",
+    );
     console.log(`Installing Service package (${command})`);
     await executeCommand(command);
   };
