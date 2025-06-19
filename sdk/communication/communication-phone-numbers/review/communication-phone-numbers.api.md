@@ -107,6 +107,12 @@ export interface ListGeographicAreaCodesOptions extends PhoneNumbersListAreaCode
 export interface ListLocalitiesOptions extends OperationOptions {
     // (undocumented)
     administrativeDivision?: string;
+    // (undocumented)
+    phoneNumberType?: PhoneNumberType;
+}
+
+// @public
+export interface ListMobileAreaCodesOptions extends Omit<PhoneNumbersListAreaCodesOptionalParams, "locality" | "administrativeDivision"> {
 }
 
 // @public
@@ -249,6 +255,7 @@ export class PhoneNumbersClient {
     listAvailableCountries(options?: ListAvailableCountriesOptions): PagedAsyncIterableIterator<PhoneNumberCountry>;
     listAvailableGeographicAreaCodes(countryCode: string, options?: ListGeographicAreaCodesOptions): PagedAsyncIterableIterator<PhoneNumberAreaCode>;
     listAvailableLocalities(countryCode: string, options?: ListLocalitiesOptions): PagedAsyncIterableIterator<PhoneNumberLocality>;
+    listAvailableMobileAreaCodes(countryCode: string, options?: ListMobileAreaCodesOptions): PagedAsyncIterableIterator<PhoneNumberAreaCode>;
     listAvailableOfferings(countryCode: string, options?: ListOfferingsOptions): PagedAsyncIterableIterator<PhoneNumberOffering>;
     listAvailableTollFreeAreaCodes(countryCode: string, options?: ListTollFreeAreaCodesOptions): PagedAsyncIterableIterator<PhoneNumberAreaCode>;
     listPurchasedPhoneNumbers(options?: ListPurchasedPhoneNumbersOptions): PagedAsyncIterableIterator<PurchasedPhoneNumber>;
@@ -318,7 +325,7 @@ export interface PhoneNumbersReservation {
 }
 
 // @public
-export type PhoneNumberType = "geographic" | "tollFree";
+export type PhoneNumberType = "geographic" | "tollFree" | "mobile";
 
 // @public
 export interface PurchasedPhoneNumber {
