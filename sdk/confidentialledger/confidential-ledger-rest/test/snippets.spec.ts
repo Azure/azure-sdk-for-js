@@ -65,6 +65,8 @@ describe("snippets", () => {
     // @ts-preserve-whitespace
     const entry: LedgerEntry = {
       contents: "<content>",
+      collectionId: "my collection", // Optional, defaults to the service's default collection
+      tags: "tag1,tag2", // Optional, multiple tags can be specified using commas
     };
     const ledgerEntry: CreateLedgerEntryParameters = {
       contentType: "application/json",
