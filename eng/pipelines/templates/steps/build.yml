@@ -109,17 +109,18 @@ steps:
 
         if ($env:SETDEVVERSION -eq 'true' -and $artifactDetails.ArtifactDetails.skipPublishDev -ne $true)
         {
-          $stangingDevArtifactDirectory = "$(Agent.TempDirectory)/packages-dev-publish/$artifact"
-          New-Item -Type Directory $stangingDevArtifactDirectory -Force | Out-Null
-          $hasSourceChanges = HasPackageSourceCodeChanges $packageFile $stangingDevArtifactDirectory
+          $stagingDevArtifactDirectory = "$(Agent.TempDirectory)/packages-dev-publish/$artifact"
+          New-Item -Type Directory $stagingDevArtifactDirectory -Force | Out-Null
+          $hasSourceChanges = HasPackageSourceCodeChanges $packageFile $stagingDevArtifactDirectory
           if ($hasSourceChanges) {
             Write-Host "There were source code changes for $artifact, so we need to publish"
-            Copy-Item $packageFile $stangingDevArtifactDirectory
+            Write-Host "Copying $packageFile artifacts to $stagingDevArtifactDirectory"
+            Copy-Item $packageFile $stagingDevArtifactDirectory
           }
           else {
             Write-Host "No source code changes for $artifact, skipping publish"
           }
-          Get-ChildItem $stangingDevArtifactDirectory -Recurse --name
+          Get-ChildItem $stagingDevArtifactDirectory -Recurse -Name
         }
 
         if ($${{ parameters.IncludeRelease }} -eq $true -and $artifactDetails.ArtifactDetails.skipPublishDocMs -ne $true `
@@ -132,7 +133,7 @@ steps:
           Write-Host "Skipping documentation for package $artifact."
         }
 
-        Get-ChildItem $stagingArtifactDirectory -Recurse --name
+        Get-ChildItem $stagingArtifactDirectory -Recurse -Name
       }
     displayName: 'Copy Packages'
 

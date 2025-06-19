@@ -30,7 +30,7 @@ jobs:
     - input: pipelineArtifact
       artifactName: ${{ parameters.ArtifactName }}
       itemPattern: '**/*.tgz'
-      targetPath: $(ArtifactPath)
+      targetPath: $(Pipeline.Workspace)/${{ parameters.ArtifactName }}/
 
   pool: ${{ parameters.Pool }}
   
