@@ -157,10 +157,13 @@ function Get-PackageJsonContentFromPackage($package, $workingDirectory) {
   
   Write-Host "tar -xzf $package -C $extractedPackageDir"
   tar -xzf $package -C $extractedPackageDir
+  if ($LASTEXITCODE -ne 0) {
+    Write-Host "Failed to extract package $package. Please check the package file."
+    return $null
+  }
 
   $packageDirectory = Join-Path $extractedPackageDir "package"
   $packageJSONContent = Get-Content (Join-Path $packageDirectory "package.json") | ConvertFrom-Json
-  #TODO: Should we clean-up the expanded package?
 
   # Add the package property to the json object for consumers
   $packageJSONContent | Add-Member -NotePropertyName "PackageDirectory" -NotePropertyValue $packageDirectory
@@ -187,13 +190,11 @@ function NormalizePackageContent($dirName, $version) {
 }
 
 function ContainsProductCodeDiff($currentDevPackage, $lastDevPackage, $workingDirectory) {
-  $diffFile = Join-Path $workingDirectory "Change.diff"
-  git diff --output=$diffFile --exit-code $lastDevPackage $currentDevPackage 2>$null
-  Write-Host "Package Diff exited with code $LastExitCode"
+  $diffFile = Join-Path $workingDirectory "packagechanges.diff"
+  git diff --output=$diffFile --exit-code $lastDevPackage $currentDevPackage
   if ($LASTEXITCODE -ne 0) {
-    Write-Host "There were differences in the two packages - saved in $diffFile"
-    Write-Host "Contents of $diffFile"
-    Get-Content -Path $diffFile
+    Write-Host "There were changes to the package ($diffFile):"
+    Get-Content -Path $diffFile | Out-Host
     $LASTEXITCODE = 0 # Reset exit code to 0 so that the script can continue
     return $true
   }

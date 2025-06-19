@@ -119,6 +119,7 @@ steps:
           else {
             Write-Host "No source code changes for $artifact, skipping publish"
           }
+          Get-ChildItem $stangingDevArtifactDirectory -Recurse --name
         }
 
         if ($${{ parameters.IncludeRelease }} -eq $true -and $artifactDetails.ArtifactDetails.skipPublishDocMs -ne $true `
@@ -131,7 +132,7 @@ steps:
           Write-Host "Skipping documentation for package $artifact."
         }
 
-        Get-ChildItem $stagingArtifactDirectory -Recurse
+        Get-ChildItem $stagingArtifactDirectory -Recurse --name
       }
     displayName: 'Copy Packages'
 
