@@ -76,10 +76,8 @@ export interface ListGeographicAreaCodesOptions extends PhoneNumbersListAreaCode
 /**
  * Additional options that can be passed to the Mobile area codes request.
  */
-export interface ListMobileAreaCodesOptions extends Omit<
-  PhoneNumbersListAreaCodesOptionalParams,
-  "locality" | "administrativeDivision"
->{}
+export interface ListMobileAreaCodesOptions
+  extends Omit<PhoneNumbersListAreaCodesOptionalParams, "locality" | "administrativeDivision"> {}
 
 /**
  * Additional options that can be passed to the available localities request.

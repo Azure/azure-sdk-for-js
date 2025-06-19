@@ -72,7 +72,9 @@ matrix([[true, false]], async (useAad) => {
     });
 
     it("can list all mobile area codes", { timeout: 60000 }, async () => {
-      const availableLocalities = await client.listAvailableLocalities("IE", { phoneNumberType: "mobile" });
+      const availableLocalities = await client.listAvailableLocalities("IE", {
+        phoneNumberType: "mobile",
+      });
       const locality = await availableLocalities.next();
       const request: PhoneNumbersListAreaCodesOptionalParams = {
         locality: locality.value.localizedName,
