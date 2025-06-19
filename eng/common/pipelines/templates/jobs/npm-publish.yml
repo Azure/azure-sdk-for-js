@@ -95,7 +95,7 @@ jobs:
                   Write-Warning "Could not read package.json from $package"
                   continue;
                 }
-                Write-Host "Verifying tag for $($packageJson.name) version $($packageJson.version)"
+                Write-Host "Verifying tag '$(TagName)' is set for '$($packageJson.name)' version '$($packageJson.version)'"
                 $packageTags = npm view $packageJson.name "dist-tags" -json -silent | ConvertFrom-Json
                 if ($LASTEXITCODE -ne 0 -or !$packageTags) {
                   Write-Warning "Failed to retrieve dist-tags for $packageJson.name. It is possible the package hasn't been indexed yet so ignoring."

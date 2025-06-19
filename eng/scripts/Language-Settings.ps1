@@ -197,9 +197,10 @@ function ContainsProductCodeDiff($currentDevPackage, $lastDevPackage, $workingDi
     Get-Content -Path $diffFile | Out-Host
     $LASTEXITCODE = 0 # Reset exit code to 0 so that the script can continue
 
-    Write-Host "ContainsProductCodeDiff::ExitCode: $LASTEXITCODE"
+    Write-Host "ContainsProductCodeDiff::ExitCodea: $LASTEXITCODE"
     return $true
   }
+  Write-Host "ContainsProductCodeDiff::ExitCodeb: $LASTEXITCODE"
   return $false
 }
 
