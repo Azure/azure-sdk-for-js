@@ -220,13 +220,15 @@ function HasPackageSourceCodeChanges($package, $workingDirectory) {
     Write-Host "Failed to retrieve package content for $name@dev or extract the $package content. Assuming there are source code changes."
     return $true
   }
+  Write-Host "HasPackageSourceCodeChanges::ExitCodea: $LASTEXITCODE"
 
   NormalizePackageContent $packageBefore.PackageRootDirectory $packageBefore.version
   NormalizePackageContent $packageAfter.PackageRootDirectory  $packageAfter.version
-    
+  
+  Write-Host "HasPackageSourceCodeChanges::ExitCodeb: $LASTEXITCODE"
   $hasChanges = ContainsProductCodeDiff $packageBefore.PackageRootDirectory $packageAfter.PackageRootDirectory $workingDirectory
 
-  Write-Host "HasPackageSourceCodeChanges::ExitCode: $LASTEXITCODE"
+  Write-Host "HasPackageSourceCodeChanges::ExitCodec: $LASTEXITCODE"
   return $hasChanges
 }
 
