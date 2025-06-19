@@ -9,7 +9,7 @@ describe("AzureCliCredential (internal)", function () {
   let stdout: string = "";
   let stderr: string = "";
   let azArgs: string[][] = [];
-  let azOptions: { cwd: string; shell: boolean }[] = [];
+  let azOptions: { cwd: string; shell?: boolean }[] = [];
 
   beforeEach(async function () {
     azArgs = [];
@@ -17,7 +17,7 @@ describe("AzureCliCredential (internal)", function () {
     vi.spyOn(child_process, "execFile").mockImplementation(
       (_file, args, options, callback): child_process.ChildProcess => {
         azArgs.push(args as string[]);
-        azOptions.push(options as { cwd: string; shell: boolean });
+        azOptions.push(options as { cwd: string; shell?: boolean });
         if (callback) {
           callback(null, stdout, stderr);
         }
@@ -40,13 +40,13 @@ describe("AzureCliCredential (internal)", function () {
     assert.deepEqual(azArgs, [
       ["account", "get-access-token", "--output", "json", "--resource", "https://service"],
     ]);
-    // Used a working directory, and a shell
+    // Used a working directory, and no shell
     assert.deepEqual(
       {
         cwd: [process.env.SystemRoot, "/bin"].includes(azOptions[0].cwd),
         shell: azOptions[0].shell,
       },
-      { cwd: true, shell: true },
+      { cwd: true, shell: undefined },
     );
   });
 
@@ -70,13 +70,13 @@ describe("AzureCliCredential (internal)", function () {
         "12345678-1234-1234-1234-123456789012",
       ],
     ]);
-    // Used a working directory, and a shell
+    // Used a working directory, and no shell
     assert.deepEqual(
       {
         cwd: [process.env.SystemRoot, "/bin"].includes(azOptions[0].cwd),
         shell: azOptions[0].shell,
       },
-      { cwd: true, shell: true },
+      { cwd: true, shell: undefined },
     );
   });
 
@@ -100,13 +100,13 @@ describe("AzureCliCredential (internal)", function () {
         "12345678-1234-1234-1234-123456789012",
       ],
     ]);
-    // Used a working directory, and a shell
+    // Used a working directory, and no shell
     assert.deepEqual(
       {
         cwd: [process.env.SystemRoot, "/bin"].includes(azOptions[0].cwd),
         shell: azOptions[0].shell,
       },
-      { cwd: true, shell: true },
+      { cwd: true, shell: undefined },
     );
   });
 
@@ -130,13 +130,13 @@ describe("AzureCliCredential (internal)", function () {
         '"12345678-1234-1234-1234-123456789012"',
       ],
     ]);
-    // Used a working directory, and a shell
+    // Used a working directory, and no shell
     assert.deepEqual(
       {
         cwd: [process.env.SystemRoot, "/bin"].includes(azOptions[0].cwd),
         shell: azOptions[0].shell,
       },
-      { cwd: true, shell: true },
+      { cwd: true, shell: undefined },
     );
   });
 
@@ -160,13 +160,13 @@ describe("AzureCliCredential (internal)", function () {
         '"Example of a subscription_string"',
       ],
     ]);
-    // Used a working directory, and a shell
+    // Used a working directory, and no shell
     assert.deepEqual(
       {
         cwd: [process.env.SystemRoot, "/bin"].includes(azOptions[0].cwd),
         shell: azOptions[0].shell,
       },
-      { cwd: true, shell: true },
+      { cwd: true, shell: undefined },
     );
   });
 
@@ -268,13 +268,13 @@ az login --scope https://test.windows.net/.default`;
     assert.deepEqual(azArgs, [
       ["account", "get-access-token", "--output", "json", "--resource", "https://service"],
     ]);
-    // Used a working directory, and a shell
+    // Used a working directory, and no shell
     assert.deepEqual(
       {
         cwd: [process.env.SystemRoot, "/bin"].includes(azOptions[0].cwd),
         shell: azOptions[0].shell,
       },
-      { cwd: true, shell: true },
+      { cwd: true, shell: undefined },
     );
   });
 
@@ -287,14 +287,14 @@ az login --scope https://test.windows.net/.default`;
     assert.deepEqual(azArgs, [
       ["account", "get-access-token", "--output", "json", "--resource", "https://service"],
     ]);
-    // Used a working directory, and a shell
+    // Used a working directory, and no shell
     assert.deepEqual(
       {
         cwd: [process.env.SystemRoot, "/bin"].includes(azOptions[0].cwd),
         shell: azOptions[0].shell,
         timeout: 50,
       },
-      { cwd: true, shell: true, timeout: 50 },
+      { cwd: true, shell: undefined, timeout: 50 },
     );
   });
 

@@ -76,7 +76,7 @@ export const cliCredentialInternals = {
             ...tenantSection,
             ...subscriptionSection,
           ],
-          { cwd: cliCredentialInternals.getSafeWorkingDir(), shell: true, timeout },
+          { cwd: cliCredentialInternals.getSafeWorkingDir(), timeout },
           (error, stdout, stderr) => {
             resolve({ stdout: stdout, stderr: stderr, error });
           },
