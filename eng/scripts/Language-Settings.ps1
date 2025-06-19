@@ -196,6 +196,8 @@ function ContainsProductCodeDiff($currentDevPackage, $lastDevPackage, $workingDi
     Write-Host "There were changes to the package ($diffFile):"
     Get-Content -Path $diffFile | Out-Host
     $LASTEXITCODE = 0 # Reset exit code to 0 so that the script can continue
+
+    Write-Host "ContainsProductCodeDiff::ExitCode: $LASTEXITCODE"
     return $true
   }
   return $false
@@ -223,6 +225,7 @@ function HasPackageSourceCodeChanges($package, $workingDirectory) {
     
   $hasChanges = ContainsProductCodeDiff $packageBefore.PackageRootDirectory $packageAfter.PackageRootDirectory $workingDirectory
 
+  Write-Host "HasPackageSourceCodeChanges::ExitCode: $LASTEXITCODE"
   return $hasChanges
 }
 

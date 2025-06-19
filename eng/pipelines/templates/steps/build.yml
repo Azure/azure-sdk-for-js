@@ -111,7 +111,7 @@ steps:
         {
           $stagingDevArtifactDirectory = "$(Agent.TempDirectory)/packages-dev-publish/$artifact"
           New-Item -Type Directory $stagingDevArtifactDirectory -Force | Out-Null
-          $hasSourceChanges = HasPackageSourceCodeChanges $packageFile $stagingDevArtifactDirectory
+          $hasSourceChanges = HasPackageSourceCodeChanges $packageFile $(Agent.TempDirectory)
           if ($hasSourceChanges) {
             Write-Host "There were source code changes for $artifact, so we need to publish"
             Write-Host "Copying $packageFile artifacts to $stagingDevArtifactDirectory"
@@ -121,6 +121,8 @@ steps:
             Write-Host "No source code changes for $artifact, skipping publish"
           }
           Get-ChildItem $stagingDevArtifactDirectory -Recurse -Name
+
+          Write-Host "packages-dev-publish-Copy::ExitCode: $LASTEXITCODE"
         }
 
         if ($${{ parameters.IncludeRelease }} -eq $true -and $artifactDetails.ArtifactDetails.skipPublishDocMs -ne $true `
@@ -157,7 +159,7 @@ steps:
 
   - template: /eng/common/pipelines/templates/steps/publish-1es-artifact.yml
     parameters:
-      ArtifactPath: '$(Build.ArtifactStagingDirectory)'
+      ArtifactPath: '$(Agent.TempDirectory)/packages-dev-publish'
       ArtifactName: 'packages-dev-publish'
       CustomCondition: eq(variables['SetDevVersion'], 'true')
 
