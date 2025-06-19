@@ -1,6 +1,6 @@
 # Release History
 
-## 0.2.3 (Unreleased)
+## 0.2.4 (Unreleased)
 
 ### Features Added
 
@@ -9,6 +9,16 @@
 ### Bugs Fixed
 
 ### Other Changes
+
+## 0.2.3 (2025-06-10)
+
+### Features Added
+
+- Added `authSchemes` to `PipelineRequestOptions`. [#34587](https://github.com/Azure/azure-sdk-for-js/pull/34587)
+
+### Bugs Fixed
+
+- Fix an issue where `AZURE_LOG_LEVEL` environment variable is not properly respected. [#34444](https://github.com/Azure/azure-sdk-for-js/pull/34444)
 
 ## 0.2.2 (2025-05-01)
 
@@ -23,6 +33,7 @@
 ## 0.2.1 (2025-04-08)
 
 ### Bugs Fixed
+
 - Fix an issue where insecure connection setting was not properly propagated through the client options.
 
 ## 0.2.0 (2025-03-25)

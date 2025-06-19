@@ -1,6 +1,5 @@
 variables:
   DocWardenVersion: '0.5.0'
-  NodeVersion: "18.x"
   OSVmImage: "ubuntu-24.04"
   skipComponentGovernanceDetection: true
   coalesceResultFilter: $[ coalesce(variables['packageGlobFilter'], '**') ]
@@ -9,3 +8,8 @@ variables:
   Codeql.SkipTaskAutoInjection: true
   # Disable warning until issue 21765 and 21766 are closed
   DisableDockerDetector: true
+
+  # Supported versions for testing. These variables are referenced in test matrix files and in pipeline yaml.
+  NODE_VERSION_LTS_CURRENT: '24.x'
+  NODE_VERSION_LTS_ACTIVE: '22.x'
+  NODE_VERSION_LTS_MAINTENANCE: '20.x'

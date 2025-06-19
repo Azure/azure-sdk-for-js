@@ -18,7 +18,7 @@ export class AuthorizationManagementClient extends coreClient.ServiceClient {
     // (undocumented)
     globalAdministrator: GlobalAdministrator;
     // (undocumented)
-    permissions: Permissions_2;
+    permissions: Permissions;
     // (undocumented)
     providerOperationsMetadataOperations: ProviderOperationsMetadataOperations;
     // (undocumented)
@@ -81,11 +81,10 @@ export interface PermissionGetResult {
 }
 
 // @public
-interface Permissions_2 {
+export interface Permissions {
     listForResource(resourceGroupName: string, resourceProviderNamespace: string, parentResourcePath: string, resourceType: string, resourceName: string, options?: PermissionsListForResourceOptionalParams): PagedAsyncIterableIterator<Permission>;
     listForResourceGroup(resourceGroupName: string, options?: PermissionsListForResourceGroupOptionalParams): PagedAsyncIterableIterator<Permission>;
 }
-export { Permissions_2 as Permissions }
 
 // @public
 export interface PermissionsListForResourceGroupNextOptionalParams extends coreClient.OperationOptions {

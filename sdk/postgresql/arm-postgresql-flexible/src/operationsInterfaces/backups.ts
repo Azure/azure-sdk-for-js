@@ -6,9 +6,9 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { SimplePollerLike, OperationState } from "@azure/core-lro";
-import {
+import type { PagedAsyncIterableIterator } from "@azure/core-paging";
+import type { SimplePollerLike, OperationState } from "@azure/core-lro";
+import type {
   ServerBackup,
   BackupsListByServerOptionalParams,
   BackupsCreateOptionalParams,
@@ -45,12 +45,7 @@ export interface Backups {
     serverName: string,
     backupName: string,
     options?: BackupsCreateOptionalParams,
-  ): Promise<
-    SimplePollerLike<
-      OperationState<BackupsCreateResponse>,
-      BackupsCreateResponse
-    >
-  >;
+  ): Promise<SimplePollerLike<OperationState<BackupsCreateResponse>, BackupsCreateResponse>>;
   /**
    * Create a specific backup for PostgreSQL flexible server.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
@@ -76,12 +71,7 @@ export interface Backups {
     serverName: string,
     backupName: string,
     options?: BackupsDeleteOptionalParams,
-  ): Promise<
-    SimplePollerLike<
-      OperationState<BackupsDeleteResponse>,
-      BackupsDeleteResponse
-    >
-  >;
+  ): Promise<SimplePollerLike<OperationState<BackupsDeleteResponse>, BackupsDeleteResponse>>;
   /**
    * Deletes a specific backup.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.

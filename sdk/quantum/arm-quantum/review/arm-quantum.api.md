@@ -18,7 +18,7 @@ export interface ApiKey {
 
 // @public
 export interface APIKeys {
-    keys?: KeyType_2[];
+    keys?: KeyType[];
 }
 
 // @public (undocumented)
@@ -87,8 +87,7 @@ export interface ErrorResponse {
 export function getContinuationToken(page: unknown): string | undefined;
 
 // @public
-type KeyType_2 = string;
-export { KeyType_2 as KeyType }
+export type KeyType = string;
 
 // @public
 export enum KnownCreatedByType {

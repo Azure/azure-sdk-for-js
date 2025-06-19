@@ -371,14 +371,13 @@ export interface PageSettings {
 }
 
 // @public
-interface Performance_2 {
+export interface Performance {
     actual?: number;
     expected?: number;
     expectedValueRange?: ExpectedValueRange;
     metricName?: string;
     unit?: MetricUnit;
 }
-export { Performance_2 as Performance }
 
 // @public
 export type Platform = string;
@@ -460,7 +459,7 @@ export interface WorkloadImpactProperties {
     impactedResourceId: string;
     impactGroupId?: string;
     readonly impactUniqueId?: string;
-    performance?: Performance_2[];
+    performance?: Performance[];
     readonly provisioningState?: ProvisioningState;
     readonly reportedTimeUtc?: Date;
     startDateTime: Date;
