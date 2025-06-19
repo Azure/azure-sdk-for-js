@@ -438,6 +438,9 @@ sdk/ai/ai-agents @ganeshyb @glharper @dargilco @jhakulin @ZachhK @bobogogo1990
 /sdk/compute/arm-compute/      @qiaozha @MaryGao
 
 # PRLabel: %Mgmt
+/sdk/cloudhealth/arm-cloudhealth/      @qiaozha @MaryGao
+
+# PRLabel: %Mgmt
 /sdk/compute/arm-compute-rest/ @qiaozha @MaryGao
 
 # PRLabel: %Mgmt
@@ -814,6 +817,9 @@ sdk/ai/ai-agents @ganeshyb @glharper @dargilco @jhakulin @ZachhK @bobogogo1990
 
 # PRLabel: %Mgmt
 /sdk/policy/arm-policy/ @qiaozha @MaryGao
+
+# PRLabel: %Mgmt
+/sdk/planetarycomputer/arm-planetarycomputer/ @qiaozha @MaryGao
 
 # PRLabel: %Mgmt
 /sdk/policy/arm-policy-profile-2020-09-01-hybrid/ @qiaozha @MaryGao
@@ -1639,6 +1645,8 @@ sdk/ai/ai-agents @ganeshyb @glharper @dargilco @jhakulin @ZachhK @bobogogo1990
 /sdk/**/arm-*/**/tsconfig.json @qiaozha @MaryGao @Azure/azure-sdk-for-js-core
 
 /.scripts/ @mikeharder
+/.scripts/automation_generate.sh @wanlwanl @lirenhe
+/.scripts/automation_init.sh @wanlwanl @lirenhe
 /vitest.shared.config.ts @jeremymeng @deyaaeldeen
 /vitest.browser.shared.config.ts @jeremymeng @deyaaeldeen
 
