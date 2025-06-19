@@ -1,10 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-
-import type { StoragePipelineOptions } from "../../src/index.js";
 import { AnonymousCredential } from "../../src/index.js";
 import { BlobServiceClient } from "../../src/index.js";
-import { newPipeline } from "../../src/index.js";
+import { newPipeline, BlobClientOptions } from "../../src/index.js";
 import { SimpleTokenCredential, configureBlobStorageClient } from "./testutils.common.js";
 import type { TokenCredential } from "@azure/core-auth";
 import type { Recorder } from "@azure-tools/test-recorder";
@@ -19,7 +17,7 @@ export function getGenericBSU(
   recorder: Recorder,
   accountType: string,
   accountNameSuffix: string = "",
-  pipelineOptions: StoragePipelineOptions = {},
+  pipelineOptions: BlobClientOptions = {},
 ): BlobServiceClient {
   const accountNameEnvVar = `${accountType}ACCOUNT_NAME`;
   const accountSASEnvVar = `${accountType}ACCOUNT_SAS`;
@@ -38,9 +36,9 @@ export function getGenericBSU(
   }
 
   const credentials = getGenericCredential();
-  const pipeline = newPipeline(credentials, pipelineOptions);
-  const blobPrimaryURL = `https://${accountName}${accountNameSuffix}.blob.core.windows.net${accountSAS}`;
-  const client = new BlobServiceClient(blobPrimaryURL, pipeline);
+  const pipeline = newPipeline(credentials);
+  const blobPrimaryURL = `https://${accountName}${accountNameSuffix}.blob.preprod.core.windows.net${accountSAS}`;
+  const client = new BlobServiceClient(blobPrimaryURL, pipeline, pipelineOptions);
   configureBlobStorageClient(recorder, client);
   return client;
 }
@@ -90,7 +88,7 @@ export function getTokenBSU(recorder: Recorder): BlobServiceClient {
 
   const credentials = getTokenCredential();
   const pipeline = newPipeline(credentials);
-  const blobPrimaryURL = `https://${accountName}.blob.core.windows.net/`;
+  const blobPrimaryURL = `https://${accountName}.blob.preprod.core.windows.net/`;
   const client = new BlobServiceClient(blobPrimaryURL, pipeline);
   configureBlobStorageClient(recorder, client);
   return client;
@@ -110,7 +108,7 @@ export function getImmutableContainerName(): string {
 
 export function getBSU(
   recorder: Recorder,
-  pipelineOptions: StoragePipelineOptions = {},
+  pipelineOptions: BlobClientOptions = {},
 ): BlobServiceClient {
   return getGenericBSU(recorder, "", undefined, pipelineOptions);
 }
@@ -175,5 +173,5 @@ export function getBrowserFile(name: string, size: number): File {
 }
 
 export function getSASConnectionStringFromEnvironment(): string {
-  return `BlobEndpoint=https://${env.ACCOUNT_NAME}.blob.core.windows.net/;QueueEndpoint=https://${env.ACCOUNT_NAME}.queue.core.windows.net/;FileEndpoint=https://${env.ACCOUNT_NAME}.file.core.windows.net/;TableEndpoint=https://${env.ACCOUNT_NAME}.table.core.windows.net/;SharedAccessSignature=${env.ACCOUNT_SAS}`;
+  return `BlobEndpoint=https://${env.ACCOUNT_NAME}.blob.preprod.core.windows.net/;QueueEndpoint=https://${env.ACCOUNT_NAME}.queue.core.windows.net/;FileEndpoint=https://${env.ACCOUNT_NAME}.file.core.windows.net/;TableEndpoint=https://${env.ACCOUNT_NAME}.table.core.windows.net/;SharedAccessSignature=${env.ACCOUNT_SAS}`;
 }
