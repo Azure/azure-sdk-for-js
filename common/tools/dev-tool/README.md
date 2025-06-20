@@ -18,7 +18,6 @@ It provides a place to centralize scripts, resources, and processes for developm
 - `admin`	run administrative tasks for the repository
   - `create-migration` scaffolds a new migration
   - `stage-migrations` stage migration passes over the whole monorepo
-  - `migrate-package` migrates a package to ESM and vitest
   - `migrate-snippets` migrates a package to the latest snippets standards
   - `migrate-source` migrates a package to the latest source code standards
   - `list` list monorepo elements

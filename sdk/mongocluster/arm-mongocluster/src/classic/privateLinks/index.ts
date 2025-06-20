@@ -1,11 +1,11 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { DocumentDBContext } from "../../api/mongoClusterManagementContext.js";
+import { MongoClusterManagementContext } from "../../api/mongoClusterManagementContext.js";
 import { PrivateLinkResource } from "../../models/models.js";
-import { privateLinksListByMongoCluster } from "../../api/privateLinks/index.js";
+import { PrivateLinksListByMongoClusterOptionalParams } from "../../api/privateLinks/options.js";
+import { listByMongoCluster } from "../../api/privateLinks/operations.js";
 import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
-import { PrivateLinksListByMongoClusterOptionalParams } from "../../models/options.js";
 
 /** Interface representing a PrivateLinks operations. */
 export interface PrivateLinksOperations {
@@ -17,28 +17,20 @@ export interface PrivateLinksOperations {
   ) => PagedAsyncIterableIterator<PrivateLinkResource>;
 }
 
-export function getPrivateLinks(context: DocumentDBContext, subscriptionId: string) {
+function _getPrivateLinks(context: MongoClusterManagementContext) {
   return {
     listByMongoCluster: (
       resourceGroupName: string,
       mongoClusterName: string,
       options?: PrivateLinksListByMongoClusterOptionalParams,
-    ) =>
-      privateLinksListByMongoCluster(
-        context,
-        subscriptionId,
-        resourceGroupName,
-        mongoClusterName,
-        options,
-      ),
+    ) => listByMongoCluster(context, resourceGroupName, mongoClusterName, options),
   };
 }
 
-export function getPrivateLinksOperations(
-  context: DocumentDBContext,
-  subscriptionId: string,
+export function _getPrivateLinksOperations(
+  context: MongoClusterManagementContext,
 ): PrivateLinksOperations {
   return {
-    ...getPrivateLinks(context, subscriptionId),
+    ..._getPrivateLinks(context),
   };
 }

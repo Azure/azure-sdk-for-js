@@ -1040,7 +1040,7 @@ export interface DatabaseAccountCreateUpdateParameters extends ARMResourceProper
     readonly keysMetadata?: DatabaseAccountKeysMetadata;
     keyVaultKeyUri?: string;
     kind?: DatabaseAccountKind;
-    locations: Location_2[];
+    locations: Location[];
     minimalTlsVersion?: MinimalTlsVersion;
     networkAclBypass?: NetworkAclBypass;
     networkAclBypassResourceIds?: string[];
@@ -1082,18 +1082,18 @@ export interface DatabaseAccountGetResults extends ARMResourceProperties {
     readonly keysMetadata?: DatabaseAccountKeysMetadata;
     keyVaultKeyUri?: string;
     kind?: DatabaseAccountKind;
-    readonly locations?: Location_2[];
+    readonly locations?: Location[];
     minimalTlsVersion?: MinimalTlsVersion;
     networkAclBypass?: NetworkAclBypass;
     networkAclBypassResourceIds?: string[];
     readonly privateEndpointConnections?: PrivateEndpointConnection[];
     readonly provisioningState?: string;
     publicNetworkAccess?: PublicNetworkAccess;
-    readonly readLocations?: Location_2[];
+    readonly readLocations?: Location[];
     restoreParameters?: RestoreParameters;
     readonly systemData?: SystemData;
     virtualNetworkRules?: VirtualNetworkRule[];
-    readonly writeLocations?: Location_2[];
+    readonly writeLocations?: Location[];
 }
 
 // @public
@@ -1367,7 +1367,7 @@ export interface DatabaseAccountUpdateParameters {
     readonly keysMetadata?: DatabaseAccountKeysMetadata;
     keyVaultKeyUri?: string;
     location?: string;
-    locations?: Location_2[];
+    locations?: Location[];
     minimalTlsVersion?: MinimalTlsVersion;
     networkAclBypass?: NetworkAclBypass;
     networkAclBypassResourceIds?: string[];
@@ -2261,7 +2261,7 @@ export interface ListDataCenters {
 }
 
 // @public
-interface Location_2 {
+export interface Location {
     readonly documentEndpoint?: string;
     failoverPriority?: number;
     readonly id?: string;
@@ -2269,7 +2269,6 @@ interface Location_2 {
     locationName?: string;
     readonly provisioningState?: string;
 }
-export { Location_2 as Location }
 
 // @public
 export interface LocationGetResult extends ARMProxyResource {

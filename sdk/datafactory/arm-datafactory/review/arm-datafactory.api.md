@@ -1829,13 +1829,12 @@ export interface CreateRunResponse {
 }
 
 // @public
-interface Credential_2 {
+export interface Credential {
     [property: string]: any;
     annotations?: any[];
     description?: string;
     type: "ServicePrincipal" | "ManagedIdentity";
 }
-export { Credential_2 as Credential }
 
 // @public
 export interface CredentialListResponse {
@@ -1901,7 +1900,7 @@ export interface CredentialResource extends SubResource {
 }
 
 // @public (undocumented)
-export type CredentialUnion = Credential_2 | ServicePrincipalCredential | ManagedIdentityCredential;
+export type CredentialUnion = Credential | ServicePrincipalCredential | ManagedIdentityCredential;
 
 // @public
 export interface CustomActivity extends ExecutionActivity {
@@ -5684,7 +5683,7 @@ export interface MagentoSource extends TabularSource {
 }
 
 // @public
-export interface ManagedIdentityCredential extends Credential_2 {
+export interface ManagedIdentityCredential extends Credential {
     resourceId?: string;
     type: "ManagedIdentity";
 }
@@ -7970,7 +7969,7 @@ export interface ServiceNowV2Source extends TabularSource {
 }
 
 // @public
-export interface ServicePrincipalCredential extends Credential_2 {
+export interface ServicePrincipalCredential extends Credential {
     servicePrincipalId?: any;
     servicePrincipalKey?: AzureKeyVaultSecretReference;
     tenant?: any;
