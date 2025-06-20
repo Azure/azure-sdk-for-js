@@ -11,7 +11,7 @@ const logger = createPrinter("git");
  * Uses the git command line to ask whether a path has any tracked, unstaged changes (if they would appear in a git
  * diff).
  *
- * Equivalent to `git --no-pager diff --exit-code --compat-summary HEAD -- <path>`.
+ * Equivalent to `git --no-pager diff --exit-code --compact-summary HEAD -- <path>`.
  *
  * @param treePath - path to a tree to test for a diff (relative or absolute)
  * @returns true if there are any changes to any tracked files
@@ -40,7 +40,7 @@ export function hasDiff(treePath: string): Promise<boolean> {
       });
       command.on("error", reject);
       command.stdout.on("data", (data) => {
-        output.push(data);
+        output.push(data.toString());
       });
     }
   });
