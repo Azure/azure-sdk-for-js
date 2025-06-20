@@ -31,9 +31,18 @@ pr:
       - sdk/storage/arm-storage/
       - sdk/storage/arm-storage-profile-2020-09-01-hybrid
       - sdk/storage/arm-storage
+
+parameters:
+  - name: ReleaseToDevOpsOnly
+    displayName: 'Release package to DevOps feed instead of npmjs.com'
+    type: boolean
+    default: false
+
 extends:
   template: ../../eng/pipelines/templates/stages/archetype-sdk-client.yml
   parameters:
+    ${{ if eq(parameters.ReleaseToDevOpsOnly, true) }}:
+      PublicRegistry: 'https://pkgs.dev.azure.com/azure-sdk/public/_packaging/storage-staging/npm/registry/'
     ServiceDirectory: storage
     Artifacts:
       - name: azure-storage-common
