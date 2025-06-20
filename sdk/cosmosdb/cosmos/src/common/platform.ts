@@ -1,7 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { Constants } from "./constants.js";
+import { CosmosClientOptions } from "../index.js";
+import { Constants, UserAgentFeatureFlags } from "./constants.js";
 
 /**
  * @hidden
@@ -31,4 +32,23 @@ function userAgentDetails(): string {
   }
 
   return userAgentDetail;
+}
+
+/**
+ * @hidden
+ */
+export function addFeatureFlagsToUserAgent(optionsOrConnectionString: CosmosClientOptions): string {
+  let featureFlag = 0;
+
+  if (optionsOrConnectionString.connectionPolicy.enablePartitionLevelFailover) {
+    featureFlag += UserAgentFeatureFlags.PerPartitionAutomaticFailover;
+  }
+  if (
+    optionsOrConnectionString.connectionPolicy.enablePartitionLevelFailover ||
+    optionsOrConnectionString.connectionPolicy.enablePartitionLevelCircuitBreaker
+  ) {
+    featureFlag += UserAgentFeatureFlags.PerPartitionCircuitBreaker;
+  }
+
+  return featureFlag === 0 ? "" : ` F${featureFlag.toString(16).toUpperCase()}`;
 }

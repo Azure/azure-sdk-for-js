@@ -24,6 +24,7 @@ import type { ItemDefinition } from "./ItemDefinition.js";
 import { ItemResponse } from "./ItemResponse.js";
 import { getEmptyCosmosDiagnostics, withDiagnostics } from "../../utils/diagnostics.js";
 import { setPartitionKeyIfUndefined } from "../../extractPartitionKey.js";
+import { computePartitionKeyRangeId } from "../ClientUtils.js";
 
 /**
  * Used to perform operations on a specific item.
@@ -126,6 +127,16 @@ export class Item {
         const path = getPathFromLink(url);
         const id = getIdFromLink(url);
 
+        const isPartitionLevelFailOverEnabled =
+          this.clientContext.isPartitionLevelFailOverEnabled();
+        const partitionKeyRangeId = await computePartitionKeyRangeId(
+          diagnosticNode,
+          partitionKey,
+          this.clientContext.partitionKeyRangeCache,
+          isPartitionLevelFailOverEnabled,
+          this.container,
+        );
+
         response = await this.clientContext.read<T>({
           path,
           resourceType: ResourceType.item,
@@ -133,6 +144,7 @@ export class Item {
           options,
           partitionKey: partitionKey,
           diagnosticNode,
+          partitionKeyRangeId,
         });
       } catch (error: any) {
         if (this.clientContext.enableEncryption) {
@@ -284,6 +296,16 @@ export class Item {
         const path = getPathFromLink(url);
         const id = getIdFromLink(url);
 
+        const isPartitionLevelFailOverEnabled =
+          this.clientContext.isPartitionLevelFailOverEnabled();
+        const partitionKeyRangeId = await computePartitionKeyRangeId(
+          diagnosticNode,
+          partitionKey,
+          this.clientContext.partitionKeyRangeCache,
+          isPartitionLevelFailOverEnabled,
+          this.container,
+        );
+
         response = await this.clientContext.replace<T>({
           body,
           path,
@@ -292,6 +314,7 @@ export class Item {
           options,
           partitionKey: partitionKey,
           diagnosticNode,
+          partitionKeyRangeId,
         });
       } catch (error: any) {
         if (this.clientContext.enableEncryption) {
@@ -399,6 +422,16 @@ export class Item {
         const path = getPathFromLink(url);
         const id = getIdFromLink(url);
 
+        const isPartitionLevelFailOverEnabled =
+          this.clientContext.isPartitionLevelFailOverEnabled();
+        const partitionKeyRangeId = await computePartitionKeyRangeId(
+          diagnosticNode,
+          partitionKey,
+          this.clientContext.partitionKeyRangeCache,
+          isPartitionLevelFailOverEnabled,
+          this.container,
+        );
+
         response = await this.clientContext.delete<T>({
           path,
           resourceType: ResourceType.item,
@@ -406,6 +439,7 @@ export class Item {
           options,
           partitionKey: partitionKey,
           diagnosticNode,
+          partitionKeyRangeId,
         });
       } catch (error: any) {
         if (this.clientContext.enableEncryption) {
@@ -527,6 +561,17 @@ export class Item {
         }
         const path = getPathFromLink(url);
         const id = getIdFromLink(url);
+
+        const isPartitionLevelFailOverEnabled =
+          this.clientContext.isPartitionLevelFailOverEnabled();
+        const partitionKeyRangeId = await computePartitionKeyRangeId(
+          diagnosticNode,
+          partitionKey,
+          this.clientContext.partitionKeyRangeCache,
+          isPartitionLevelFailOverEnabled,
+          this.container,
+        );
+
         response = await this.clientContext.patch<T>({
           body,
           path,
@@ -535,6 +580,7 @@ export class Item {
           options,
           partitionKey: partitionKey,
           diagnosticNode,
+          partitionKeyRangeId,
         });
       } catch (error: any) {
         if (this.clientContext.enableEncryption) {
