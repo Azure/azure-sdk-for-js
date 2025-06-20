@@ -7,7 +7,7 @@ parameters:
 steps:
   - template: /eng/common/pipelines/templates/steps/set-test-pipeline-version.yml
     parameters:
-      PackageNames: '@azure/template, @azure/template-dpg'
+      PackageName: '@azure/template'
       ServiceDirectory: "template"
       TestPipeline: ${{ parameters.TestPipeline }}
 

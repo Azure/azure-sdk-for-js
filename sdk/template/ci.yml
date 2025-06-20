@@ -64,5 +64,3 @@ extends:
         - /.scripts/
         - /common/
         - /eng/
-      - name: azure-template-dpg
-        safeName: azuretemplatedpg
