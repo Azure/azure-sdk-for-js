@@ -13,6 +13,9 @@ import { CustomerStatsbeat, DropCode, RetryCode } from "./types.js";
 import { CustomStatsbeatCounter, STATSBEAT_LANGUAGE, TelemetryType } from "./types.js";
 import { getAttachType } from "../../utils/metricUtils.js";
 import { AzureMonitorStatsbeatExporter } from "./statsbeatExporter.js";
+import { BreezePerformanceCounterNames } from "../../types.js";
+import type { MetricsData } from "../../generated/index.js";
+import type { TelemetryItem as Envelope } from "../../generated/index.js";
 
 /**
  * Class that handles customer-facing statsbeat metrics
@@ -242,12 +245,16 @@ export class CustomerStatsbeatMetrics extends StatsbeatMetrics {
    * @param envelopes - Number of successful envelopes
    * @param telemetry_type - The type of telemetry being tracked
    */
-  public countSuccessfulItems(envelopes: number, telemetry_type: TelemetryType): void {
+  public countSuccessfulItems(envelopes: Envelope[]): void {
     const counter: CustomerStatsbeat = this.customerStatsbeatCounter;
+    let telemetry_type: TelemetryType;
 
     // Get the current count for this telemetry type, or 0 if it doesn't exist
-    const currentCount = counter.totalItemSuccessCount.get(telemetry_type) || 0;
-    counter.totalItemSuccessCount.set(telemetry_type, currentCount + envelopes);
+    for (const envelope of envelopes) {
+      telemetry_type = this.getTelemetryTypeFromEnvelope(envelope);
+      const currentCount = counter.totalItemSuccessCount.get(telemetry_type) || 0;
+      counter.totalItemSuccessCount.set(telemetry_type, currentCount + 1);
+    }
   }
 
   /**
@@ -258,33 +265,36 @@ export class CustomerStatsbeatMetrics extends StatsbeatMetrics {
    * @param exceptionMessage - Optional exception message when dropCode is CLIENT_EXCEPTION
    */
   public countDroppedItems(
-    envelopes: number,
+    envelopes: Envelope[],
     dropCode: DropCode | number,
-    telemetry_type: TelemetryType,
     exceptionMessage?: string,
   ): void {
     const counter: CustomerStatsbeat = this.customerStatsbeatCounter;
+    let telemetry_type: TelemetryType;
 
-    // Get or create the dropCode map for this telemetry_type
-    let dropCodeMap = counter.totalItemDropCount.get(telemetry_type);
-    if (!dropCodeMap) {
-      dropCodeMap = new Map<DropCode | number, Map<string, number>>();
-      counter.totalItemDropCount.set(telemetry_type, dropCodeMap);
+    for (const envelope of envelopes) {
+      telemetry_type = this.getTelemetryTypeFromEnvelope(envelope);
+      // Get or create the dropCode map for this telemetry_type
+      let dropCodeMap = counter.totalItemDropCount.get(telemetry_type);
+      if (!dropCodeMap) {
+        dropCodeMap = new Map<DropCode | number, Map<string, number>>();
+        counter.totalItemDropCount.set(telemetry_type, dropCodeMap);
+      }
+
+      // Get or create the reason map for this dropCode
+      let reasonMap = dropCodeMap.get(dropCode);
+      if (!reasonMap) {
+        reasonMap = new Map<string, number>();
+        dropCodeMap.set(dropCode, reasonMap);
+      }
+
+      // Generate a low-cardinality, informative reason description
+      const reason = this.getDropReason(dropCode, exceptionMessage);
+
+      // Update the count for this reason
+      const currentCount = reasonMap.get(reason) || 0;
+      reasonMap.set(reason, currentCount + 1);
     }
-
-    // Get or create the reason map for this dropCode
-    let reasonMap = dropCodeMap.get(dropCode);
-    if (!reasonMap) {
-      reasonMap = new Map<string, number>();
-      dropCodeMap.set(dropCode, reasonMap);
-    }
-
-    // Generate a low-cardinality, informative reason description
-    const reason = this.getDropReason(dropCode, exceptionMessage);
-
-    // Update the count for this reason
-    const currentCount = reasonMap.get(reason) || 0;
-    reasonMap.set(reason, currentCount + envelopes);
   }
 
   /**
@@ -411,33 +421,36 @@ export class CustomerStatsbeatMetrics extends StatsbeatMetrics {
    * @param exceptionMessage - Optional exception message when retryCode is CLIENT_EXCEPTION
    */
   public countRetryItems(
-    envelopes: number,
+    envelopes: Envelope[],
     retryCode: RetryCode | number,
-    telemetry_type: TelemetryType,
     exceptionMessage?: string,
   ): void {
     const counter: CustomerStatsbeat = this.customerStatsbeatCounter;
+    let telemetry_type: TelemetryType;
 
-    // Get or create the retryCode map for this telemetry_type
-    let retryCodeMap = counter.totalItemRetryCount.get(telemetry_type);
-    if (!retryCodeMap) {
-      retryCodeMap = new Map<RetryCode | number, Map<string, number>>();
-      counter.totalItemRetryCount.set(telemetry_type, retryCodeMap);
+    for (const envelope of envelopes) {
+      telemetry_type = this.getTelemetryTypeFromEnvelope(envelope);
+      // Get or create the retryCode map for this telemetry_type
+      let retryCodeMap = counter.totalItemRetryCount.get(telemetry_type);
+      if (!retryCodeMap) {
+        retryCodeMap = new Map<RetryCode | number, Map<string, number>>();
+        counter.totalItemRetryCount.set(telemetry_type, retryCodeMap);
+      }
+
+      // Get or create the reason map for this retryCode
+      let reasonMap = retryCodeMap.get(retryCode);
+      if (!reasonMap) {
+        reasonMap = new Map<string, number>();
+        retryCodeMap.set(retryCode, reasonMap);
+      }
+
+      // Generate a low-cardinality, informative reason description
+      const reason = this.getRetryReason(retryCode, exceptionMessage);
+
+      // Update the count for this reason
+      const currentCount = reasonMap.get(reason) || 0;
+      reasonMap.set(reason, currentCount + 1);
     }
-
-    // Get or create the reason map for this retryCode
-    let reasonMap = retryCodeMap.get(retryCode);
-    if (!reasonMap) {
-      reasonMap = new Map<string, number>();
-      retryCodeMap.set(retryCode, reasonMap);
-    }
-
-    // Generate a low-cardinality, informative reason description
-    const reason = this.getRetryReason(retryCode, exceptionMessage);
-
-    // Update the count for this reason
-    const currentCount = reasonMap.get(reason) || 0;
-    reasonMap.set(reason, currentCount + envelopes);
   }
 
   /**
@@ -470,5 +483,58 @@ export class CustomerStatsbeatMetrics extends StatsbeatMetrics {
       default:
         return "unknown_reason";
     }
+  }
+
+  /**
+   * Check if a metric name corresponds to a performance counter
+   * @param metricName - The name of the metric to check
+   * @returns true if the metric name is a performance counter, false otherwise
+   */
+  private isPerformanceCounterMetric(metricName: string): boolean {
+    return Object.values(BreezePerformanceCounterNames).includes(
+      metricName as BreezePerformanceCounterNames,
+    );
+  }
+
+  /**
+   * Extract telemetry type from an envelope based on its baseType
+   * @param envelope - The envelope to extract telemetry type from
+   * @returns The corresponding telemetry type
+   */
+  public getTelemetryTypeFromEnvelope(envelope: Envelope): TelemetryType {
+    if (envelope.data && envelope.data.baseType) {
+      switch (envelope.data.baseType) {
+        case "MessageData":
+          return TelemetryType.TRACE;
+        case "AvailabilityData":
+          return TelemetryType.AVAILABILITY;
+        case "TelemetryEventData":
+          return TelemetryType.CUSTOM_EVENT;
+        case "TelemetryExceptionData":
+          return TelemetryType.EXCEPTION;
+        case "PageViewData":
+          return TelemetryType.PAGE_VIEW;
+        case "RemoteDependencyData":
+          return TelemetryType.DEPENDENCY;
+        case "RequestData":
+          return TelemetryType.REQUEST;
+        case "MetricData": {
+          const metricsData = envelope.data.baseData as MetricsData;
+          if (metricsData && metricsData.metrics && metricsData.metrics.length > 0) {
+            // Check if any of the metrics are performance counters
+            const hasPerformanceCounter = metricsData.metrics.some((metric) =>
+              this.isPerformanceCounterMetric(metric.name),
+            );
+            return hasPerformanceCounter
+              ? TelemetryType.PERFORMANCE_COUNTER
+              : TelemetryType.CUSTOM_METRIC;
+          }
+          return TelemetryType.CUSTOM_METRIC;
+        }
+        default:
+          return TelemetryType.UNKNOWN;
+      }
+    }
+    return TelemetryType.UNKNOWN;
   }
 }

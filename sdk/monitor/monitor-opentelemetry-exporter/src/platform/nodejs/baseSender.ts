@@ -3,7 +3,6 @@
 
 import { diag } from "@opentelemetry/api";
 import type { PersistentStorage, SenderResult } from "../../types.js";
-import { BreezePerformanceCounterNames } from "../../types.js";
 import type { AzureMonitorExporterOptions } from "../../config.js";
 import { FileSystemPersist } from "./persist/index.js";
 import type { ExportResult } from "@opentelemetry/core";
@@ -14,12 +13,11 @@ import type { RestError } from "@azure/core-rest-pipeline";
 import {
   DropCode,
   MAX_STATSBEAT_FAILURES,
-  TelemetryType,
   isStatsbeatShutdownStatus,
 } from "../../export/statsbeat/types.js";
 import type { BreezeResponse } from "../../utils/breezeUtils.js";
 import { isRetriable } from "../../utils/breezeUtils.js";
-import type { TelemetryItem as Envelope, MetricsData } from "../../generated/index.js";
+import type { TelemetryItem as Envelope } from "../../generated/index.js";
 import {
   ENV_APPLICATIONINSIGHTS_STATSBEAT_ENABLED_PREVIEW,
   RetriableRestErrorTypes,
@@ -112,15 +110,10 @@ export abstract class BaseSender {
           }, this.batchSendRetryIntervalMs);
           this.retryTimer.unref();
         }
-        // If we are not exportings statsbeat and statsbeat is not disabled -- count success
+        // If we are not exporting statsbeat and statsbeat is not disabled -- count success
         if (!this.isStatsbeatSender) {
           this.networkStatsbeatMetrics?.countSuccess(duration);
-          for (const envelope of envelopes) {
-            this.customerStatsbeatMetrics?.countSuccessfulItems(
-              1,
-              this.getTelemetryTypeFromEnvelope(envelope),
-            );
-          }
+          this.customerStatsbeatMetrics?.countSuccessfulItems(envelopes);
         }
         return { code: ExportResultCode.SUCCESS };
       } else if (statusCode && isRetriable(statusCode)) {
@@ -128,13 +121,7 @@ export abstract class BaseSender {
         if (statusCode === 429 || statusCode === 439) {
           if (!this.isStatsbeatSender) {
             this.networkStatsbeatMetrics?.countThrottle(statusCode);
-            for (const envelope of envelopes) {
-              this.customerStatsbeatMetrics?.countRetryItems(
-                1,
-                statusCode,
-                this.getTelemetryTypeFromEnvelope(envelope),
-              );
-            }
+            this.customerStatsbeatMetrics?.countRetryItems(envelopes, statusCode);
           }
           return {
             code: ExportResultCode.SUCCESS,
@@ -169,24 +156,13 @@ export abstract class BaseSender {
             // Count only the successful envelopes (non-undefined)
             if (!this.isStatsbeatSender) {
               this.networkStatsbeatMetrics?.countSuccess(duration);
-              for (const envelope of successfulEnvelopes.filter(Boolean)) {
-                this.customerStatsbeatMetrics?.countSuccessfulItems(
-                  1,
-                  this.getTelemetryTypeFromEnvelope(envelope),
-                );
-              }
+              this.customerStatsbeatMetrics?.countSuccessfulItems(envelopes);
             }
           }
           if (filteredEnvelopes.length > 0) {
             if (!this.isStatsbeatSender) {
               this.networkStatsbeatMetrics?.countRetry(statusCode);
-              for (const envelope of filteredEnvelopes) {
-                this.customerStatsbeatMetrics?.countRetryItems(
-                  1,
-                  statusCode,
-                  this.getTelemetryTypeFromEnvelope(envelope),
-                );
-              }
+              this.customerStatsbeatMetrics?.countRetryItems(envelopes, statusCode);
             }
             // calls resultCallback(ExportResult) based on result of persister.push
             return await this.persist(filteredEnvelopes);
@@ -195,13 +171,10 @@ export abstract class BaseSender {
           if (!this.isStatsbeatSender) {
             this.networkStatsbeatMetrics?.countFailure(duration, statusCode);
             // Count dropped items for customer statsbeat for non-retriable status codes
-            for (const envelope of successfulEnvelopes.filter(Boolean)) {
-              this.customerStatsbeatMetrics?.countDroppedItems(
-                1,
-                statusCode,
-                this.getTelemetryTypeFromEnvelope(envelope),
-              );
-            }
+            this.customerStatsbeatMetrics?.countDroppedItems(
+              successfulEnvelopes.filter(Boolean),
+              statusCode,
+            );
           }
           return {
             code: ExportResultCode.FAILED,
@@ -210,13 +183,7 @@ export abstract class BaseSender {
           // calls resultCallback(ExportResult) based on result of persister.push
           if (!this.isStatsbeatSender) {
             this.networkStatsbeatMetrics?.countRetry(statusCode);
-            for (const envelope of envelopes) {
-              this.customerStatsbeatMetrics?.countRetryItems(
-                1,
-                statusCode,
-                this.getTelemetryTypeFromEnvelope(envelope),
-              );
-            }
+            this.customerStatsbeatMetrics?.countRetryItems(envelopes, statusCode);
           }
           return await this.persist(envelopes);
         }
@@ -225,24 +192,12 @@ export abstract class BaseSender {
         if (this.networkStatsbeatMetrics && !this.isStatsbeatSender) {
           if (statusCode) {
             this.networkStatsbeatMetrics.countFailure(duration, statusCode);
-            for (const envelope of envelopes) {
-              this.customerStatsbeatMetrics?.countDroppedItems(
-                1,
-                statusCode,
-                this.getTelemetryTypeFromEnvelope(envelope),
-              );
-            }
+            this.customerStatsbeatMetrics?.countDroppedItems(envelopes, statusCode);
           }
         } else {
           // Handles all other status codes or client exceptions for Statsbeat
           this.incrementStatsbeatFailure();
-          for (const envelope of envelopes) {
-            this.customerStatsbeatMetrics?.countDroppedItems(
-              1,
-              DropCode.CLIENT_EXCEPTION,
-              this.getTelemetryTypeFromEnvelope(envelope),
-            );
-          }
+          this.customerStatsbeatMetrics?.countDroppedItems(envelopes, DropCode.CLIENT_EXCEPTION);
         }
         return {
           code: ExportResultCode.FAILED,
@@ -272,14 +227,11 @@ export abstract class BaseSender {
           const redirectError = new Error("Circular redirect");
           if (!this.isStatsbeatSender) {
             this.networkStatsbeatMetrics?.countException(redirectError);
-            for (const envelope of envelopes) {
-              this.customerStatsbeatMetrics?.countDroppedItems(
-                1,
-                DropCode.CLIENT_EXCEPTION,
-                this.getTelemetryTypeFromEnvelope(envelope),
-                redirectError.message,
-              );
-            }
+            this.customerStatsbeatMetrics?.countDroppedItems(
+              envelopes,
+              DropCode.CLIENT_EXCEPTION,
+              redirectError.message,
+            );
           }
           return { code: ExportResultCode.FAILED, error: redirectError };
         }
@@ -289,13 +241,7 @@ export abstract class BaseSender {
         !this.isStatsbeatSender
       ) {
         this.networkStatsbeatMetrics?.countRetry(restError.statusCode);
-        for (const envelope of envelopes) {
-          this.customerStatsbeatMetrics?.countRetryItems(
-            1,
-            restError.statusCode,
-            this.getTelemetryTypeFromEnvelope(envelope),
-          );
-        }
+        this.customerStatsbeatMetrics?.countRetryItems(envelopes, restError.statusCode);
         return this.persist(envelopes);
       } else if (
         restError.statusCode === 400 &&
@@ -316,13 +262,7 @@ export abstract class BaseSender {
       if (this.isRetriableRestError(restError)) {
         if (restError.statusCode && !this.isStatsbeatSender) {
           this.networkStatsbeatMetrics?.countRetry(restError.statusCode);
-          for (const envelope of envelopes) {
-            this.customerStatsbeatMetrics?.countRetryItems(
-              1,
-              restError.statusCode,
-              this.getTelemetryTypeFromEnvelope(envelope),
-            );
-          }
+          this.customerStatsbeatMetrics?.countRetryItems(envelopes, restError.statusCode);
         }
         if (!this.isStatsbeatSender) {
           diag.error(
@@ -361,13 +301,10 @@ export abstract class BaseSender {
       if (!this.isStatsbeatSender) {
         this.networkStatsbeatMetrics?.countWriteFailure();
         if (this.disableOfflineStorage && envelopes) {
-          for (const envelope of envelopes) {
-            this.customerStatsbeatMetrics?.countDroppedItems(
-              1,
-              DropCode.CLIENT_STORAGE_DISABLED,
-              this.getTelemetryTypeFromEnvelope(envelope as Envelope),
-            );
-          }
+          this.customerStatsbeatMetrics?.countDroppedItems(
+            envelopes as Envelope[],
+            DropCode.CLIENT_STORAGE_DISABLED,
+          );
         }
       }
       return { code: ExportResultCode.FAILED, error: ex };
@@ -420,57 +357,5 @@ export abstract class BaseSender {
       return true;
     }
     return false;
-  }
-  /**
-   * Check if a metric name corresponds to a performance counter
-   * @param metricName - The name of the metric to check
-   * @returns true if the metric name is a performance counter, false otherwise
-   */
-  private isPerformanceCounterMetric(metricName: string): boolean {
-    return Object.values(BreezePerformanceCounterNames).includes(
-      metricName as BreezePerformanceCounterNames,
-    );
-  }
-
-  /**
-   * Extract telemetry type from an envelope based on its baseType
-   * @param envelope - The envelope to extract telemetry type from
-   * @returns The corresponding telemetry type
-   */
-  private getTelemetryTypeFromEnvelope(envelope: Envelope): TelemetryType {
-    if (envelope.data && envelope.data.baseType) {
-      switch (envelope.data.baseType) {
-        case "MessageData":
-          return TelemetryType.TRACE;
-        case "AvailabilityData":
-          return TelemetryType.AVAILABILITY;
-        case "TelemetryEventData":
-          return TelemetryType.CUSTOM_EVENT;
-        case "TelemetryExceptionData":
-          return TelemetryType.EXCEPTION;
-        case "PageViewData":
-          return TelemetryType.PAGE_VIEW;
-        case "RemoteDependencyData":
-          return TelemetryType.DEPENDENCY;
-        case "RequestData":
-          return TelemetryType.REQUEST;
-        case "MetricData": {
-          const metricsData = envelope.data.baseData as MetricsData;
-          if (metricsData && metricsData.metrics && metricsData.metrics.length > 0) {
-            // Check if any of the metrics are performance counters
-            const hasPerformanceCounter = metricsData.metrics.some((metric) =>
-              this.isPerformanceCounterMetric(metric.name),
-            );
-            return hasPerformanceCounter
-              ? TelemetryType.PERFORMANCE_COUNTER
-              : TelemetryType.CUSTOM_METRIC;
-          }
-          return TelemetryType.CUSTOM_METRIC;
-        }
-        default:
-          return TelemetryType.UNKNOWN;
-      }
-    }
-    return TelemetryType.UNKNOWN;
   }
 }

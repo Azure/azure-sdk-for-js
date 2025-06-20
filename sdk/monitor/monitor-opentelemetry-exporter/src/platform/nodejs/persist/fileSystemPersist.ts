@@ -11,6 +11,7 @@ import type { AzureMonitorExporterOptions } from "../../../config.js";
 import { readdir, readFile, stat, unlink, writeFile } from "node:fs/promises";
 import type { CustomerStatsbeatMetrics } from "../../../export/statsbeat/customerStatsbeat.js";
 import { DropCode, TelemetryType } from "../../../export/statsbeat/types.js";
+import type { TelemetryItem as Envelope } from "../../../generated/index.js";
 
 /**
  * File system persist class.
@@ -76,8 +77,7 @@ export class FileSystemPersist implements PersistentStorage {
   push(value: unknown[]): Promise<boolean> {
     if (this._enabled) {
       diag.debug("Pushing value to persistent storage", value.toString());
-      const envelopeLength = value.length;
-      return this._storeToDisk(JSON.stringify(value), envelopeLength);
+      return this._storeToDisk(JSON.stringify(value), value as Envelope[]);
     }
     // Only return a false promise if the SDK isn't set to disable offline storage
     if (!this._options?.disableOfflineStorage) {
@@ -148,7 +148,7 @@ export class FileSystemPersist implements PersistentStorage {
    * @param envelopeLength -The length of the telemetry envelope.
    * @returns A promise that resolves to true if the data was stored successfully, false otherwise.
    */
-  private async _storeToDisk(payload: string, envelopeLength: number): Promise<boolean> {
+  private async _storeToDisk(payload: string, envelopes: Envelope[]): Promise<boolean> {
     try {
       await confirmDirExists(this._tempDirectory);
     } catch (error: any) {
@@ -161,7 +161,7 @@ export class FileSystemPersist implements PersistentStorage {
       if (size > this.maxBytesOnDisk) {
         // If the directory size exceeds the max limit, we send customer statsbeat and warn the user
         this._customerStatsbeatMetrics?.countDroppedItems(
-          envelopeLength,
+          envelopes,
           DropCode.CLIENT_PERSISTENCE_CAPACITY,
           TelemetryType.UNKNOWN,
         );
@@ -185,7 +185,7 @@ export class FileSystemPersist implements PersistentStorage {
     } catch (writeError: any) {
       // If the envelopes cannot be written to disk, we send customer statsbeat and warn the user
       this._customerStatsbeatMetrics?.countDroppedItems(
-        envelopeLength,
+        envelopes,
         DropCode.CLIENT_STORAGE_DISABLED,
         TelemetryType.UNKNOWN,
       );
