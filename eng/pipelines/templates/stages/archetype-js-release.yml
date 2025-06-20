@@ -3,8 +3,8 @@ parameters:
   TestPipeline: false
   ArtifactName: packages
   DependsOn: Build
-  Registry: https://registry.npmjs.org/
-  PrivateRegistry: https://pkgs.dev.azure.com/azure-sdk/internal/_packaging/azure-sdk-for-js-pr/npm/registry/
+  PublicRegistry: https://registry.npmjs.org/
+  PublicPublishEnvironment: 'package-publish'
   TargetDocRepoOwner: ''
   TargetDocRepoName: ''
   ServiceDirectory: ''
@@ -66,7 +66,8 @@ stages:
                       DeploymentName: PublishPackage_${{ replace(artifact.name, '-', '_') }}
                       ArtifactName: ${{ parameters.ArtifactName }}
                       ArtifactSubPath: '${{ artifact.name }}'
-                      Registry: 'https://registry.npmjs.org/'
+                      Registry: ${{ parameters.PublicRegistry }}
+                      Environment: ${{ parameters.PublicPublishEnvironment }}
 
               - ${{ if ne(artifact.skipPublishDocMs, 'true') }}:
                   - job: PublishDocs

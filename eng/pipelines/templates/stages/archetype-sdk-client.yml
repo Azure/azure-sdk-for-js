@@ -42,6 +42,12 @@ parameters:
   - name: oneESTemplateTag
     type: string
     default: release
+  - name: PublicRegistry
+    type: string
+    default: 'https://registry.npmjs.org/'
+  - name: PublicPublishEnvironment
+    type: string
+    default: 'package-publish'
 
 extends:
   template: /eng/pipelines/templates/stages/1es-redirect.yml
@@ -85,3 +91,5 @@ extends:
                 TestPipeline: true
               TargetDocRepoOwner: ${{ parameters.TargetDocRepoOwner }}
               TargetDocRepoName: ${{ parameters.TargetDocRepoName }}
+              PublicRegistry: ${{ parameters.PublicRegistry }}
+              PublicPublishEnvironment: ${{ parameters.PublicPublishEnvironment }}
