@@ -8,7 +8,7 @@
 
 ### Bugs Fixed
 
-- Fixed DEP0190 deprecation warning in `AzureCliCredential`. [#34878](https://github.com/Azure/azure-sdk-for-js/pull/34878)
+- Fixed DEP0190 deprecation warning in `AzureCliCredential` and `AzureDeveloperCliCredential`. [#34878](https://github.com/Azure/azure-sdk-for-js/pull/34878)
 
 ### Other Changes
 
