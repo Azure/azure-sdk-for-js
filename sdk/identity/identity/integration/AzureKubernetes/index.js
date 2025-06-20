@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 const { BlobServiceClient } = require("@azure/storage-blob");
-const { ManagedIdentityCredential, WorkloadIdentityCredential } = require("@azure/identity");
+const { ManagedIdentityCredential, WorkloadIdentityCredential, DefaultAzureCredential } = require("@azure/identity");
 
 async function main() {
   const storageAccount = process.env.IDENTITY_STORAGE_NAME_2;
@@ -43,6 +43,35 @@ async function main() {
 
     // The test looks for this line in the output
     console.log("WorkloadIdentity: Successfully authenticated with storage");
+  } catch (e) {
+    console.error(e);
+  }
+
+    try {
+    const blobServiceClient = new BlobServiceClient(
+      blobUrl,
+      new DefaultAzureCredential({
+        workloadIdentityClientId: clientId,
+      }),
+    );
+    await blobServiceClient.getProperties();
+
+    // The test looks for this line in the output
+    console.log("DefaultAzureCredential: Successfully authenticated with storage using workload identity underneath");
+  } catch (e) {
+    console.error(e);
+  }
+      try {
+    const blobServiceClient = new BlobServiceClient(
+      blobUrl,
+      new DefaultAzureCredential({
+        managedIdentityClientId: clientId,
+      }),
+    );
+    await blobServiceClient.getProperties();
+
+    // The test looks for this line in the output
+    console.log("DefaultAzureCredential: Successfully authenticated with storage using managed identity underneath");
   } catch (e) {
     console.error(e);
   }
