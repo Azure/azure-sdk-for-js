@@ -533,6 +533,13 @@ export const ChatParticipant: coreClient.CompositeMapper = {
           name: "DateTime",
         },
       },
+      metadata: {
+        serializedName: "metadata",
+        type: {
+          name: "Dictionary",
+          value: { type: { name: "String" } },
+        },
+      },
     },
   },
 };
@@ -698,6 +705,41 @@ export const CreateChatThreadRequest: coreClient.CompositeMapper = {
           },
         },
       },
+      metadata: {
+        serializedName: "metadata",
+        type: {
+          name: "Dictionary",
+          value: { type: { name: "String" } },
+        },
+      },
+      retentionPolicy: {
+        serializedName: "retentionPolicy",
+        type: {
+          name: "Composite",
+          className: "ChatRetentionPolicy",
+        },
+      },
+    },
+  },
+};
+
+export const ChatRetentionPolicy: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ChatRetentionPolicy",
+    uberParent: "ChatRetentionPolicy",
+    polymorphicDiscriminator: {
+      serializedName: "kind",
+      clientName: "kind",
+    },
+    modelProperties: {
+      kind: {
+        serializedName: "kind",
+        required: true,
+        type: {
+          name: "String",
+        },
+      },
     },
   },
 };
@@ -768,6 +810,20 @@ export const ChatThreadProperties: coreClient.CompositeMapper = {
         serializedName: "deletedOn",
         type: {
           name: "DateTime",
+        },
+      },
+      metadata: {
+        serializedName: "metadata",
+        type: {
+          name: "Dictionary",
+          value: { type: { name: "String" } },
+        },
+      },
+      retentionPolicy: {
+        serializedName: "retentionPolicy",
+        type: {
+          name: "Composite",
+          className: "ChatRetentionPolicy",
         },
       },
     },
@@ -850,6 +906,20 @@ export const UpdateChatThreadRequest: coreClient.CompositeMapper = {
           name: "String",
         },
       },
+      metadata: {
+        serializedName: "metadata",
+        type: {
+          name: "Dictionary",
+          value: { type: { name: "String" } },
+        },
+      },
+      retentionPolicy: {
+        serializedName: "retentionPolicy",
+        type: {
+          name: "Composite",
+          className: "ChatRetentionPolicy",
+        },
+      },
     },
   },
 };
@@ -867,4 +937,43 @@ export const SendTypingNotificationRequest: coreClient.CompositeMapper = {
       },
     },
   },
+};
+
+export const ThreadCreationDateRetentionPolicy: coreClient.CompositeMapper = {
+  serializedName: "threadCreationDate",
+  type: {
+    name: "Composite",
+    className: "ThreadCreationDateRetentionPolicy",
+    uberParent: "ChatRetentionPolicy",
+    polymorphicDiscriminator: ChatRetentionPolicy.type.polymorphicDiscriminator,
+    modelProperties: {
+      ...ChatRetentionPolicy.type.modelProperties,
+      deleteThreadAfterDays: {
+        serializedName: "deleteThreadAfterDays",
+        required: true,
+        type: {
+          name: "Number",
+        },
+      },
+    },
+  },
+};
+
+export const NoneRetentionPolicy: coreClient.CompositeMapper = {
+  serializedName: "none",
+  type: {
+    name: "Composite",
+    className: "NoneRetentionPolicy",
+    uberParent: "ChatRetentionPolicy",
+    polymorphicDiscriminator: ChatRetentionPolicy.type.polymorphicDiscriminator,
+    modelProperties: {
+      ...ChatRetentionPolicy.type.modelProperties,
+    },
+  },
+};
+
+export let discriminators = {
+  ChatRetentionPolicy: ChatRetentionPolicy,
+  "ChatRetentionPolicy.threadCreationDate": ThreadCreationDateRetentionPolicy,
+  "ChatRetentionPolicy.none": NoneRetentionPolicy,
 };

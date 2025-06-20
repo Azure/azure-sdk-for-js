@@ -14,6 +14,7 @@ import type {
   ChatMessageContent,
   ChatMessageReadReceipt,
   ChatParticipant,
+  ChatRetentionPolicy,
   ChatThreadProperties,
   CreateChatThreadResult,
 } from "./models.js";
@@ -129,22 +130,48 @@ export const mapToChatMessagesSdkModelArray = (
 
 /**
  * @internal
+ * Mapping chat retention policy REST model to chat retention policy SDK model
+ */
+export const mapToRetentionPolicySdkModel = (
+  retentionPolicy: RestModel.ChatRetentionPolicyUnion,
+): ChatRetentionPolicy => {
+  if (retentionPolicy.kind === "threadCreationDate") {
+    return retentionPolicy as RestModel.ThreadCreationDateRetentionPolicy;
+  }
+
+  if (retentionPolicy.kind === "none") {
+    return retentionPolicy as RestModel.NoneRetentionPolicy;
+  } else {
+    throw new Error(`Retention Policy ${retentionPolicy.kind} is not supported`);
+  }
+};
+
+/**
+ * @internal
  * Mapping chat thread REST model to chat thread SDK model
  */
 export const mapToChatThreadPropertiesSdkModel = (
   chatThread: RestModel.ChatThreadProperties,
 ): ChatThreadProperties => {
-  const { createdByCommunicationIdentifier, ...rest } = chatThread;
+  const { createdByCommunicationIdentifier, retentionPolicy, ...rest } = chatThread;
+  let result: ChatThreadProperties = { ...rest };
   if (createdByCommunicationIdentifier) {
-    return {
-      ...rest,
+    result = {
+      ...result,
       createdBy: deserializeCommunicationIdentifier(
         createdByCommunicationIdentifier as SerializedCommunicationIdentifier,
       ),
     };
-  } else {
-    return { ...rest };
   }
+
+  if (retentionPolicy) {
+    result = {
+      ...result,
+      retentionPolicy: mapToRetentionPolicySdkModel(retentionPolicy),
+    };
+  }
+
+  return result;
 };
 
 /**
