@@ -39,5 +39,6 @@ https://learn.microsoft.com/javascript/api/@azure/arm-sitemanager?view=azure-nod
 https://learn.microsoft.com/javascript/api/@azure/arm-planetarycomputer?view=azure-node-preview
 https://learn.microsoft.com/javascript/api/@azure/arm-kubernetesconfiguration-fluxconfigurations?view=azure-node-preview
 https://learn.microsoft.com/javascript/api/@azure/arm-kubernetesconfiguration-extensions?view=azure-node-preview
-https://learn.microsoft.com/javascript/api/@azure/arm-kubernetesconfiguration-privatelinkscopes?view=azure-node-preview
+https://learn.microsoft.com/javascript/api/@azure/arm-kubernetesconfiguration-privatelinkscopes?view=azure-node-previewhttps://learn.microsoft.com/javascript/api/@azure/arm-playwright?view=azure-node-preview
+https://learn.microsoft.com/javascript/api/@azure/arm-playwright?view=azure-node-preview
 https://learn.microsoft.com/javascript/api/@azure/arm-cloudhealth?view=azure-node-preview
