@@ -1417,6 +1417,7 @@ export class ItemResponse<T extends ItemDefinition> extends ResourceResponse<T &
 export class Items {
     constructor(container: Container, clientContext: ClientContext);
     batch(operations: OperationInput[], partitionKey?: PartitionKey, options?: RequestOptions): Promise<Response_2<OperationResponse[]>>;
+    // @deprecated
     bulk(operations: OperationInput[], bulkOptions?: BulkOptions, options?: RequestOptions): Promise<BulkOperationResponse>;
     // @deprecated
     changeFeed(partitionKey: PartitionKey, changeFeedOptions?: ChangeFeedOptions): ChangeFeedIterator<any>;
