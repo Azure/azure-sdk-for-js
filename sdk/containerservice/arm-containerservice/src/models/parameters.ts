@@ -19,7 +19,7 @@ import {
   RunCommandRequest as RunCommandRequestMapper,
   RebalanceLoadBalancersRequestBody as RebalanceLoadBalancersRequestBodyMapper,
   MaintenanceConfiguration as MaintenanceConfigurationMapper,
-  Namespace as NamespaceMapper,
+  ManagedNamespace as ManagedNamespaceMapper,
   AgentPool as AgentPoolMapper,
   AgentPoolDeleteMachinesParameter as AgentPoolDeleteMachinesParameterMapper,
   PrivateEndpointConnection as PrivateEndpointConnectionMapper,
@@ -57,7 +57,7 @@ export const $host: OperationURLParameter = {
 export const apiVersion: OperationQueryParameter = {
   parameterPath: "apiVersion",
   mapper: {
-    defaultValue: "2025-02-02-preview",
+    defaultValue: "2025-03-02-preview",
     isConstant: true,
     serializedName: "api-version",
     type: {
@@ -299,15 +299,15 @@ export const parameters5: OperationParameter = {
   mapper: MaintenanceConfigurationMapper,
 };
 
-export const namespaceName: OperationURLParameter = {
-  parameterPath: "namespaceName",
+export const managedNamespaceName: OperationURLParameter = {
+  parameterPath: "managedNamespaceName",
   mapper: {
     constraints: {
       Pattern: new RegExp("[a-z0-9]([-a-z0-9]*[a-z0-9])?"),
       MaxLength: 63,
       MinLength: 1,
     },
-    serializedName: "namespaceName",
+    serializedName: "managedNamespaceName",
     required: true,
     type: {
       name: "String",
@@ -317,7 +317,7 @@ export const namespaceName: OperationURLParameter = {
 
 export const parameters6: OperationParameter = {
   parameterPath: "parameters",
-  mapper: NamespaceMapper,
+  mapper: ManagedNamespaceMapper,
 };
 
 export const agentPoolName: OperationURLParameter = {

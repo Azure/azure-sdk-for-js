@@ -38,7 +38,7 @@ export interface AdvancedNetworkingObservability {
 export interface AdvancedNetworkingSecurity {
     advancedNetworkPolicies?: AdvancedNetworkPolicies;
     enabled?: boolean;
-    transitEncryption?: TransitEncryption;
+    type?: TransitEncryptionType;
 }
 
 // @public
@@ -61,11 +61,12 @@ export interface AgentPool extends SubResource {
     readonly eTag?: string;
     gatewayProfile?: AgentPoolGatewayProfile;
     gpuInstanceProfile?: GPUInstanceProfile;
-    gpuProfile?: AgentPoolGPUProfile;
+    gpuProfile?: GPUProfile;
     hostGroupID?: string;
     kubeletConfig?: KubeletConfig;
     kubeletDiskType?: KubeletDiskType;
     linuxOSConfig?: LinuxOSConfig;
+    localDNSProfile?: LocalDNSProfile;
     maxCount?: number;
     maxPods?: number;
     messageOfTheDay?: string;
@@ -136,12 +137,6 @@ export interface AgentPoolDeleteMachinesParameter {
 // @public
 export interface AgentPoolGatewayProfile {
     publicIPPrefixSize?: number;
-}
-
-// @public (undocumented)
-export interface AgentPoolGPUProfile {
-    driverType?: DriverType;
-    installGPUDriver?: boolean;
 }
 
 // @public
@@ -426,7 +421,7 @@ export class ContainerServiceClient extends coreClient.ServiceClient {
     // (undocumented)
     managedClusterSnapshots: ManagedClusterSnapshots;
     // (undocumented)
-    namespaces: Namespaces;
+    managedNamespaces: ManagedNamespaces;
     // (undocumented)
     operations: Operations;
     // (undocumented)
@@ -619,7 +614,16 @@ export type Format = string;
 export function getContinuationToken(page: unknown): string | undefined;
 
 // @public
+export type GPUDriver = string;
+
+// @public
 export type GPUInstanceProfile = string;
+
+// @public (undocumented)
+export interface GPUProfile {
+    driver?: GPUDriver;
+    driverType?: DriverType;
+}
 
 // @public
 export interface GuardrailsAvailableVersion extends Resource {
@@ -812,6 +816,12 @@ export enum KnownFormat {
 }
 
 // @public
+export enum KnownGPUDriver {
+    Install = "Install",
+    None = "None"
+}
+
+// @public
 export enum KnownGPUInstanceProfile {
     MIG1G = "MIG1g",
     MIG2G = "MIG2g",
@@ -879,6 +889,51 @@ export enum KnownLicenseType {
 export enum KnownLoadBalancerSku {
     Basic = "basic",
     Standard = "standard"
+}
+
+// @public
+export enum KnownLocalDNSForwardDestination {
+    ClusterCoreDNS = "ClusterCoreDNS",
+    VnetDNS = "VnetDNS"
+}
+
+// @public
+export enum KnownLocalDNSForwardPolicy {
+    Random = "Random",
+    RoundRobin = "RoundRobin",
+    Sequential = "Sequential"
+}
+
+// @public
+export enum KnownLocalDNSMode {
+    Disabled = "Disabled",
+    Preferred = "Preferred",
+    Required = "Required"
+}
+
+// @public
+export enum KnownLocalDNSProtocol {
+    ForceTCP = "ForceTCP",
+    PreferUDP = "PreferUDP"
+}
+
+// @public
+export enum KnownLocalDNSQueryLogging {
+    Error = "Error",
+    Log = "Log"
+}
+
+// @public
+export enum KnownLocalDNSServeStale {
+    Disable = "Disable",
+    Immediate = "Immediate",
+    Verify = "Verify"
+}
+
+// @public
+export enum KnownLocalDNSState {
+    Disabled = "Disabled",
+    Enabled = "Enabled"
 }
 
 // @public
@@ -969,6 +1024,12 @@ export enum KnownNodeOSUpgradeChannel {
 }
 
 // @public
+export enum KnownNodeProvisioningDefaultNodePools {
+    Auto = "Auto",
+    None = "None"
+}
+
+// @public
 export enum KnownNodeProvisioningMode {
     Auto = "Auto",
     Manual = "Manual"
@@ -994,6 +1055,8 @@ export enum KnownOssku {
     CBLMariner = "CBLMariner",
     Mariner = "Mariner",
     Ubuntu = "Ubuntu",
+    Ubuntu2204 = "Ubuntu2204",
+    Ubuntu2404 = "Ubuntu2404",
     Windows2019 = "Windows2019",
     Windows2022 = "Windows2022",
     WindowsAnnual = "WindowsAnnual"
@@ -1086,6 +1149,12 @@ export enum KnownScaleSetPriority {
 }
 
 // @public
+export enum KnownSchedulerConfigMode {
+    Default = "Default",
+    ManagedByCRD = "ManagedByCRD"
+}
+
+// @public
 export enum KnownSeccompDefault {
     RuntimeDefault = "RuntimeDefault",
     Unconfined = "Unconfined"
@@ -1104,7 +1173,7 @@ export enum KnownSnapshotType {
 }
 
 // @public
-export enum KnownTransitEncryption {
+export enum KnownTransitEncryptionType {
     None = "None",
     WireGuard = "WireGuard"
 }
@@ -1307,6 +1376,47 @@ export interface LoadBalancersListByManagedClusterOptionalParams extends coreCli
 export type LoadBalancersListByManagedClusterResponse = LoadBalancerListResult;
 
 // @public
+export type LocalDNSForwardDestination = string;
+
+// @public
+export type LocalDNSForwardPolicy = string;
+
+// @public
+export type LocalDNSMode = string;
+
+// @public
+export interface LocalDNSOverrides {
+    cacheDurationInSeconds?: number;
+    forwardDestination?: LocalDNSForwardDestination;
+    forwardPolicy?: LocalDNSForwardPolicy;
+    maxConcurrent?: number;
+    protocol?: LocalDNSProtocol;
+    queryLogging?: LocalDNSQueryLogging;
+    serveStale?: LocalDNSServeStale;
+    serveStaleDurationInSeconds?: number;
+}
+
+// @public
+export interface LocalDNSProfile {
+    kubeDNSOverrides?: LocalDNSOverrides;
+    mode?: LocalDNSMode;
+    readonly state?: LocalDNSState;
+    vnetDNSOverrides?: LocalDNSOverrides;
+}
+
+// @public
+export type LocalDNSProtocol = string;
+
+// @public
+export type LocalDNSQueryLogging = string;
+
+// @public
+export type LocalDNSServeStale = string;
+
+// @public
+export type LocalDNSState = string;
+
+// @public
 export interface Machine extends SubResource {
     readonly properties?: MachineProperties;
 }
@@ -1445,7 +1555,6 @@ export interface ManagedCluster extends TrackedResource {
     diskEncryptionSetID?: string;
     dnsPrefix?: string;
     enableNamespaceResources?: boolean;
-    enablePodSecurityPolicy?: boolean;
     enableRbac?: boolean;
     readonly eTag?: string;
     extendedLocation?: ExtendedLocation;
@@ -1475,6 +1584,7 @@ export interface ManagedCluster extends TrackedResource {
     publicNetworkAccess?: PublicNetworkAccess;
     readonly resourceUID?: string;
     safeguardsProfile?: SafeguardsProfile;
+    schedulerProfile?: SchedulerProfile;
     securityProfile?: ManagedClusterSecurityProfile;
     serviceMeshProfile?: ServiceMeshProfile;
     servicePrincipalProfile?: ManagedClusterServicePrincipalProfile;
@@ -1538,11 +1648,12 @@ export interface ManagedClusterAgentPoolProfileProperties {
     readonly eTag?: string;
     gatewayProfile?: AgentPoolGatewayProfile;
     gpuInstanceProfile?: GPUInstanceProfile;
-    gpuProfile?: AgentPoolGPUProfile;
+    gpuProfile?: GPUProfile;
     hostGroupID?: string;
     kubeletConfig?: KubeletConfig;
     kubeletDiskType?: KubeletDiskType;
     linuxOSConfig?: LinuxOSConfig;
+    localDNSProfile?: LocalDNSProfile;
     maxCount?: number;
     maxPods?: number;
     messageOfTheDay?: string;
@@ -1673,6 +1784,7 @@ export interface ManagedClusterCostAnalysis {
 // @public
 export interface ManagedClusterHttpProxyConfig {
     readonly effectiveNoProxy?: string[];
+    enabled?: boolean;
     httpProxy?: string;
     httpsProxy?: string;
     noProxy?: string[];
@@ -1764,6 +1876,7 @@ export interface ManagedClusterNATGatewayProfile {
 
 // @public (undocumented)
 export interface ManagedClusterNodeProvisioningProfile {
+    defaultNodePools?: NodeProvisioningDefaultNodePools;
     mode?: NodeProvisioningMode;
 }
 
@@ -2496,6 +2609,93 @@ export interface ManagedClusterWorkloadAutoScalerProfileVerticalPodAutoscaler {
     enabled: boolean;
 }
 
+// @public
+export interface ManagedNamespace extends SubResource {
+    readonly eTag?: string;
+    location?: string;
+    properties?: NamespaceProperties;
+    readonly systemData?: SystemData;
+    tags?: {
+        [propertyName: string]: string;
+    };
+}
+
+// @public
+export interface ManagedNamespaceListResult {
+    nextLink?: string;
+    value?: ManagedNamespace[];
+}
+
+// @public
+export interface ManagedNamespaces {
+    beginCreateOrUpdate(resourceGroupName: string, resourceName: string, managedNamespaceName: string, parameters: ManagedNamespace, options?: ManagedNamespacesCreateOrUpdateOptionalParams): Promise<SimplePollerLike<OperationState<ManagedNamespacesCreateOrUpdateResponse>, ManagedNamespacesCreateOrUpdateResponse>>;
+    beginCreateOrUpdateAndWait(resourceGroupName: string, resourceName: string, managedNamespaceName: string, parameters: ManagedNamespace, options?: ManagedNamespacesCreateOrUpdateOptionalParams): Promise<ManagedNamespacesCreateOrUpdateResponse>;
+    beginDelete(resourceGroupName: string, resourceName: string, managedNamespaceName: string, options?: ManagedNamespacesDeleteOptionalParams): Promise<SimplePollerLike<OperationState<ManagedNamespacesDeleteResponse>, ManagedNamespacesDeleteResponse>>;
+    beginDeleteAndWait(resourceGroupName: string, resourceName: string, managedNamespaceName: string, options?: ManagedNamespacesDeleteOptionalParams): Promise<ManagedNamespacesDeleteResponse>;
+    get(resourceGroupName: string, resourceName: string, managedNamespaceName: string, options?: ManagedNamespacesGetOptionalParams): Promise<ManagedNamespacesGetResponse>;
+    listByManagedCluster(resourceGroupName: string, resourceName: string, options?: ManagedNamespacesListByManagedClusterOptionalParams): PagedAsyncIterableIterator<ManagedNamespace>;
+    listCredential(resourceGroupName: string, resourceName: string, managedNamespaceName: string, options?: ManagedNamespacesListCredentialOptionalParams): Promise<ManagedNamespacesListCredentialResponse>;
+    update(resourceGroupName: string, resourceName: string, managedNamespaceName: string, parameters: TagsObject, options?: ManagedNamespacesUpdateOptionalParams): Promise<ManagedNamespacesUpdateResponse>;
+}
+
+// @public
+export interface ManagedNamespacesCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type ManagedNamespacesCreateOrUpdateResponse = ManagedNamespace;
+
+// @public
+export interface ManagedNamespacesDeleteHeaders {
+    location?: string;
+}
+
+// @public
+export interface ManagedNamespacesDeleteOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type ManagedNamespacesDeleteResponse = ManagedNamespacesDeleteHeaders;
+
+// @public
+export interface ManagedNamespacesGetOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type ManagedNamespacesGetResponse = ManagedNamespace;
+
+// @public
+export interface ManagedNamespacesListByManagedClusterNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type ManagedNamespacesListByManagedClusterNextResponse = ManagedNamespaceListResult;
+
+// @public
+export interface ManagedNamespacesListByManagedClusterOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type ManagedNamespacesListByManagedClusterResponse = ManagedNamespaceListResult;
+
+// @public
+export interface ManagedNamespacesListCredentialOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type ManagedNamespacesListCredentialResponse = CredentialResults;
+
+// @public
+export interface ManagedNamespacesUpdateOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type ManagedNamespacesUpdateResponse = ManagedNamespace;
+
 // @public (undocumented)
 export interface ManagedServiceIdentityUserAssignedIdentitiesValue {
     readonly clientId?: string;
@@ -2551,23 +2751,6 @@ export interface MeshUpgradeProfileProperties extends MeshRevision {
 export type Mode = string;
 
 // @public
-export interface Namespace extends SubResource {
-    readonly eTag?: string;
-    location?: string;
-    properties?: NamespaceProperties;
-    readonly systemData?: SystemData;
-    tags?: {
-        [propertyName: string]: string;
-    };
-}
-
-// @public
-export interface NamespaceListResult {
-    nextLink?: string;
-    value?: Namespace[];
-}
-
-// @public
 export interface NamespaceProperties {
     adoptionPolicy?: AdoptionPolicy;
     annotations?: {
@@ -2584,76 +2767,6 @@ export interface NamespaceProperties {
 
 // @public
 export type NamespaceProvisioningState = string;
-
-// @public
-export interface Namespaces {
-    beginCreateOrUpdate(resourceGroupName: string, resourceName: string, namespaceName: string, parameters: Namespace, options?: NamespacesCreateOrUpdateOptionalParams): Promise<SimplePollerLike<OperationState<NamespacesCreateOrUpdateResponse>, NamespacesCreateOrUpdateResponse>>;
-    beginCreateOrUpdateAndWait(resourceGroupName: string, resourceName: string, namespaceName: string, parameters: Namespace, options?: NamespacesCreateOrUpdateOptionalParams): Promise<NamespacesCreateOrUpdateResponse>;
-    beginDelete(resourceGroupName: string, resourceName: string, namespaceName: string, options?: NamespacesDeleteOptionalParams): Promise<SimplePollerLike<OperationState<NamespacesDeleteResponse>, NamespacesDeleteResponse>>;
-    beginDeleteAndWait(resourceGroupName: string, resourceName: string, namespaceName: string, options?: NamespacesDeleteOptionalParams): Promise<NamespacesDeleteResponse>;
-    get(resourceGroupName: string, resourceName: string, namespaceName: string, options?: NamespacesGetOptionalParams): Promise<NamespacesGetResponse>;
-    listByManagedCluster(resourceGroupName: string, resourceName: string, options?: NamespacesListByManagedClusterOptionalParams): PagedAsyncIterableIterator<Namespace>;
-    listCredential(resourceGroupName: string, resourceName: string, namespaceName: string, options?: NamespacesListCredentialOptionalParams): Promise<NamespacesListCredentialResponse>;
-    update(resourceGroupName: string, resourceName: string, namespaceName: string, parameters: TagsObject, options?: NamespacesUpdateOptionalParams): Promise<NamespacesUpdateResponse>;
-}
-
-// @public
-export interface NamespacesCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
-    updateIntervalInMs?: number;
-}
-
-// @public
-export type NamespacesCreateOrUpdateResponse = Namespace;
-
-// @public
-export interface NamespacesDeleteHeaders {
-    location?: string;
-}
-
-// @public
-export interface NamespacesDeleteOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
-    updateIntervalInMs?: number;
-}
-
-// @public
-export type NamespacesDeleteResponse = NamespacesDeleteHeaders;
-
-// @public
-export interface NamespacesGetOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type NamespacesGetResponse = Namespace;
-
-// @public
-export interface NamespacesListByManagedClusterNextOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type NamespacesListByManagedClusterNextResponse = NamespaceListResult;
-
-// @public
-export interface NamespacesListByManagedClusterOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type NamespacesListByManagedClusterResponse = NamespaceListResult;
-
-// @public
-export interface NamespacesListCredentialOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type NamespacesListCredentialResponse = CredentialResults;
-
-// @public
-export interface NamespacesUpdateOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type NamespacesUpdateResponse = Namespace;
 
 // @public
 export type NetworkDataplane = string;
@@ -2704,6 +2817,9 @@ export interface NodeImageVersionsListResult {
 
 // @public
 export type NodeOSUpgradeChannel = string;
+
+// @public
+export type NodeProvisioningDefaultNodePools = string;
 
 // @public
 export type NodeProvisioningMode = string;
@@ -3060,6 +3176,24 @@ export interface Schedule {
 }
 
 // @public
+export type SchedulerConfigMode = string;
+
+// @public
+export interface SchedulerInstanceProfile {
+    schedulerConfigMode?: SchedulerConfigMode;
+}
+
+// @public
+export interface SchedulerProfile {
+    schedulerInstanceProfiles?: SchedulerProfileSchedulerInstanceProfiles;
+}
+
+// @public
+export interface SchedulerProfileSchedulerInstanceProfiles {
+    upstream?: SchedulerInstanceProfile;
+}
+
+// @public
 export type SeccompDefault = string;
 
 // @public
@@ -3232,7 +3366,7 @@ export interface TrackedResource extends Resource {
 }
 
 // @public
-export type TransitEncryption = string;
+export type TransitEncryptionType = string;
 
 // @public
 export interface TrustedAccessRole {
