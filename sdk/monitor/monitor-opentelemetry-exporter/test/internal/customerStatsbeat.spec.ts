@@ -9,7 +9,7 @@ import type { TelemetryItem as Envelope } from "../../src/generated/index.js";
 // Helper function to create mock envelopes for testing
 function createMockEnvelopes(count: number, telemetryType: TelemetryType): Envelope[] {
   const envelopes: Envelope[] = [];
-  
+
   let baseType: string;
   switch (telemetryType) {
     case TelemetryType.TRACE:
@@ -50,12 +50,12 @@ function createMockEnvelopes(count: number, telemetryType: TelemetryType): Envel
       data: {
         baseType: baseType,
         baseData: {
-          version: 2
-        }
-      }
+          version: 2,
+        },
+      },
     });
   }
-  
+
   return envelopes;
 }
 
@@ -101,7 +101,10 @@ describe("CustomerStatsbeatMetrics", () => {
     });
 
     it("should not store drop.reason for CLIENT_EXCEPTION when message not provided", () => {
-      customerStatsbeatMetrics.countDroppedItems(createMockEnvelopes(3, TelemetryType.TRACE), DropCode.CLIENT_EXCEPTION);
+      customerStatsbeatMetrics.countDroppedItems(
+        createMockEnvelopes(3, TelemetryType.TRACE),
+        DropCode.CLIENT_EXCEPTION,
+      );
 
       const counter = (customerStatsbeatMetrics as any).customerStatsbeatCounter;
       expect(counter.totalItemDropCount.size).toBe(1);
@@ -228,7 +231,10 @@ describe("CustomerStatsbeatMetrics", () => {
     });
 
     it("should not store retry.reason for CLIENT_EXCEPTION when message not provided", () => {
-      customerStatsbeatMetrics.countRetryItems(createMockEnvelopes(2, TelemetryType.TRACE), RetryCode.CLIENT_EXCEPTION);
+      customerStatsbeatMetrics.countRetryItems(
+        createMockEnvelopes(2, TelemetryType.TRACE),
+        RetryCode.CLIENT_EXCEPTION,
+      );
 
       const counter = (customerStatsbeatMetrics as any).customerStatsbeatCounter;
       expect(counter.totalItemRetryCount.size).toBe(1);
@@ -670,7 +676,9 @@ describe("CustomerStatsbeatMetrics", () => {
 
   describe("countSuccessfulItems", () => {
     it("should track successful items correctly", () => {
-      customerStatsbeatMetrics.countSuccessfulItems(createMockEnvelopes(10, TelemetryType.CUSTOM_EVENT));
+      customerStatsbeatMetrics.countSuccessfulItems(
+        createMockEnvelopes(10, TelemetryType.CUSTOM_EVENT),
+      );
 
       const counter = (customerStatsbeatMetrics as any).customerStatsbeatCounter;
       expect(counter.totalItemSuccessCount.size).toBe(1);

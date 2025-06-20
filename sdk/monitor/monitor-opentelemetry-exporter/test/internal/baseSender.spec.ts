@@ -588,9 +588,9 @@ describe("BaseSender", () => {
 
       await sender.exportEnvelopes([performanceCounterEnvelope]);
 
-      expect(mockCustomerStatsbeatMetrics.countSuccessfulItems).toHaveBeenCalledWith(
-        [performanceCounterEnvelope]
-      );
+      expect(mockCustomerStatsbeatMetrics.countSuccessfulItems).toHaveBeenCalledWith([
+        performanceCounterEnvelope,
+      ]);
     });
 
     it("should count custom metrics correctly", async () => {
@@ -627,9 +627,9 @@ describe("BaseSender", () => {
 
       await sender.exportEnvelopes([customMetricEnvelope]);
 
-      expect(mockCustomerStatsbeatMetrics.countSuccessfulItems).toHaveBeenCalledWith(
-        [customMetricEnvelope]
-      );
+      expect(mockCustomerStatsbeatMetrics.countSuccessfulItems).toHaveBeenCalledWith([
+        customMetricEnvelope,
+      ]);
     });
 
     it("should handle mixed metrics correctly", async () => {
@@ -671,9 +671,9 @@ describe("BaseSender", () => {
       await sender.exportEnvelopes([mixedMetricEnvelope]);
 
       // Should be counted as performance counter since it contains at least one
-      expect(mockCustomerStatsbeatMetrics.countSuccessfulItems).toHaveBeenCalledWith(
-        [mixedMetricEnvelope]
-      );
+      expect(mockCustomerStatsbeatMetrics.countSuccessfulItems).toHaveBeenCalledWith([
+        mixedMetricEnvelope,
+      ]);
     });
   });
 
