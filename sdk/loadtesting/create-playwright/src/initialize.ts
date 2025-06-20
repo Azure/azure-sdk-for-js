@@ -82,7 +82,9 @@ export class PlaywrightServiceInitialize {
   };
 
   private installServicePackage = async (): Promise<void> => {
-    const command = this._packageManager.installDevDependencyCommand("@azure/playwright");
+    const command = this._packageManager.installDevDependencyCommand(
+      "@azure/playwright @azure/identity",
+    );
     console.log(`Installing Service package (${command})`);
     await executeCommand(command);
   };
@@ -101,11 +103,13 @@ export class PlaywrightServiceInitialize {
 
     const importCommandTypeScript = `import { defineConfig } from '@playwright/test';
 import { getServiceConfig, ServiceOS } from '@azure/playwright';
+import { DefaultAzureCredential } from '@azure/identity';
 import config from '${customerConfigFileName}';
 `;
 
     const importCommandJavaScript = `const { defineConfig } = require('@playwright/test');
 const { getServiceConfig, ServiceOS } = require('@azure/playwright');
+const { DefaultAzureCredential } = require('@azure/identity');
 const config = require('${customerConfigFileName}');
 `;
 
@@ -122,9 +126,9 @@ export default defineConfig(
   config,
   getServiceConfig(config, {
     exposeNetwork: '<loopback>',
-    timeout: 30000,
+    timeout: 3 * 60 * 1000, // 3 minutes
     os: ServiceOS.LINUX,
-    useCloudHostedBrowsers: true
+    credential: new DefaultAzureCredential(),
   })
 );
 `;
