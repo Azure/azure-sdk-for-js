@@ -64,6 +64,12 @@ directive:
       from: AddParticipantFailed
       to: RestAddParticipantFailed
   - rename-model:
+      from: MoveParticipantSucceeded
+      to: RestMoveParticipantSucceeded
+  - rename-model:
+      from: MoveParticipantFailed
+      to: RestMoveParticipantFailed
+  - rename-model:
       from: RemoveParticipantSucceeded
       to: RestRemoveParticipantSucceeded
   - rename-model:

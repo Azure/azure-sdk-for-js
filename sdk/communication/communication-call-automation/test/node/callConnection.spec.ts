@@ -12,17 +12,20 @@ import type {
   AddParticipantResult,
   TransferCallResult,
   RemoveParticipantResult,
+  MoveParticipantsResult,
   MuteParticipantResult,
   CancelAddParticipantOperationResult,
   AddParticipantEventResult,
   TransferCallToParticipantEventResult,
   RemoveParticipantEventResult,
+  MoveParticipantEventResult,
   CancelAddParticipantEventResult,
   CancelAddParticipantSucceeded,
   CreateCallOptions,
   AnswerCallOptions,
   AddParticipantOptions,
   RemoveParticipantsOption,
+  MoveParticipantsOptions,
   CancelAddParticipantOperationOptions,
   TransferCallToParticipantOptions,
 } from "../../src/index.js";
@@ -60,6 +63,7 @@ vi.mock(import("../../src/index.js"), async (importOriginal) => {
   CallConnection.prototype.addParticipant = vi.fn();
   CallConnection.prototype.transferCallToParticipant = vi.fn();
   CallConnection.prototype.removeParticipant = vi.fn();
+  CallConnection.prototype.moveParticipants = vi.fn();
   CallConnection.prototype.muteParticipant = vi.fn();
   CallConnection.prototype.cancelAddParticipantOperation = vi.fn();
 
@@ -501,6 +505,121 @@ describe("CallConnection Unit Tests", () => {
     assert.isNotNull(result);
     expect(callConnection.removeParticipant).toHaveBeenCalledWith(target.targetParticipant);
     assert.equal(result, removeParticipantResultMock);
+  });
+
+  it("MoveParticipants", async () => {
+    // mocks
+    const moveParticipantsResultMock: MoveParticipantsResult = {
+      participants: [{ identifier: target.targetParticipant }],
+      fromCall: "source-call-connection-id",
+      waitForEventProcessor: async () => {
+        return {} as MoveParticipantEventResult;
+      },
+    };
+    callConnection.moveParticipants.mockReturnValue(
+      new Promise((resolve) => {
+        resolve(moveParticipantsResultMock);
+      }),
+    );
+
+    const targetParticipants = [target.targetParticipant];
+    const fromCall = "source-call-connection-id";
+    const promiseResult = callConnection.moveParticipants(targetParticipants, fromCall);
+
+    // asserts
+    const result = await promiseResult;
+    assert.isNotNull(result);
+    expect(callConnection.moveParticipants).toHaveBeenCalledWith(targetParticipants, fromCall);
+    assert.equal(result, moveParticipantsResultMock);
+    assert.equal(result.fromCall, "source-call-connection-id");
+    assert.isDefined(result.participants);
+    assert.equal(result.participants.length, 1);
+  });
+
+  it("MoveParticipantsWithOptions", async () => {
+    // mocks
+    const moveParticipantsResultMock: MoveParticipantsResult = {
+      participants: [
+        { identifier: target.targetParticipant },
+        { identifier: { communicationUserId: CALL_TARGET_ID_2 } },
+      ],
+      fromCall: "source-call-connection-id",
+      operationContext: "move-operation-context",
+      waitForEventProcessor: async () => {
+        return {} as MoveParticipantEventResult;
+      },
+    };
+    callConnection.moveParticipants.mockReturnValue(
+      new Promise((resolve) => {
+        resolve(moveParticipantsResultMock);
+      }),
+    );
+
+    const targetParticipants = [
+      target.targetParticipant,
+      { communicationUserId: CALL_TARGET_ID_2 },
+    ];
+    const fromCall = "source-call-connection-id";
+    const options: MoveParticipantsOptions = {
+      operationContext: "move-operation-context",
+      operationCallbackUrl: "https://callback.example.com",
+    };
+    const promiseResult = callConnection.moveParticipants(targetParticipants, fromCall, options);
+
+    // asserts
+    const result = await promiseResult;
+    assert.isNotNull(result);
+    expect(callConnection.moveParticipants).toHaveBeenCalledWith(
+      targetParticipants,
+      fromCall,
+      options,
+    );
+    assert.equal(result, moveParticipantsResultMock);
+    assert.equal(result.fromCall, "source-call-connection-id");
+    assert.equal(result.operationContext, "move-operation-context");
+    assert.isDefined(result.participants);
+    assert.equal(result.participants.length, 2);
+  });
+
+  it("MoveParticipantsWithSingleParticipant", async () => {
+    // mocks
+    const moveParticipantsResultMock: MoveParticipantsResult = {
+      participants: [{ identifier: target.targetParticipant }],
+      fromCall: "source-call-connection-id",
+      waitForEventProcessor: async () => {
+        return {
+          isSuccess: true,
+          successResult: {
+            kind: "MoveParticipantSucceeded",
+            callConnectionId: "target-call-connection-id",
+            fromCall: "source-call-connection-id",
+            participant: target.targetParticipant,
+          },
+        } as MoveParticipantEventResult;
+      },
+    };
+    callConnection.moveParticipants.mockReturnValue(
+      new Promise((resolve) => {
+        resolve(moveParticipantsResultMock);
+      }),
+    );
+
+    const targetParticipants = [target.targetParticipant];
+    const fromCall = "source-call-connection-id";
+    const promiseResult = callConnection.moveParticipants(targetParticipants, fromCall);
+
+    // asserts
+    const result = await promiseResult;
+    assert.isNotNull(result);
+    expect(callConnection.moveParticipants).toHaveBeenCalledWith(targetParticipants, fromCall);
+    assert.equal(result, moveParticipantsResultMock);
+
+    // Test event processor
+    const eventResult = await result.waitForEventProcessor();
+    assert.isTrue(eventResult.isSuccess);
+    assert.isDefined(eventResult.successResult);
+    assert.equal(eventResult.successResult?.kind, "MoveParticipantSucceeded");
+    assert.equal(eventResult.successResult?.fromCall, "source-call-connection-id");
   });
 
   it("MuteParticipant", async () => {

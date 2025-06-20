@@ -8,6 +8,7 @@ import type {
   CallAutomationApiClient,
   CallAutomationApiClientOptionalParams,
   CustomCallingContextInternal,
+  MoveParticipantsRequest,
   MuteParticipantsRequest,
   RemoveParticipantRequest,
   TransferToParticipantRequest,
@@ -25,6 +26,7 @@ import type {
   GetCallConnectionPropertiesOptions,
   GetParticipantOptions,
   HangUpOptions,
+  MoveParticipantsOptions,
   MuteParticipantOption,
   RemoveParticipantsOption,
   TransferCallToParticipantOptions,
@@ -34,6 +36,7 @@ import type {
   TransferCallResult,
   AddParticipantResult,
   RemoveParticipantResult,
+  MoveParticipantsResult,
   MuteParticipantResult,
   CancelAddParticipantOperationResult,
 } from "./models/responses.js";
@@ -53,6 +56,7 @@ import type {
   AddParticipantEventResult,
   CancelAddParticipantEventResult,
   RemoveParticipantEventResult,
+  MoveParticipantEventResult,
   TransferCallToParticipantEventResult,
 } from "./eventprocessor/eventResponses.js";
 import { createCustomCallAutomationApiClient } from "./credential/callAutomationAuthPolicy.js";
@@ -416,6 +420,77 @@ export class CallConnection {
       },
     };
     return removeParticipantsResult;
+  }
+
+  /**
+   * Move participants to the call
+   *
+   * @param targetParticipants - The participants to be moved to the call.
+   * @param fromCall - The CallConnectionId for the call you want to move the participant from.
+   * @param options - Additional attributes for move participants.
+   */
+  public async moveParticipants(
+    targetParticipants: CommunicationIdentifier[],
+    fromCall: string,
+    options: MoveParticipantsOptions = {},
+  ): Promise<MoveParticipantsResult> {
+    const moveParticipantsRequest: MoveParticipantsRequest = {
+      targetParticipants: targetParticipants.map((participant) =>
+        communicationIdentifierModelConverter(participant),
+      ),
+      fromCall: fromCall,
+      operationContext: options.operationContext ? options.operationContext : randomUUID(),
+      operationCallbackUri: options.operationCallbackUrl,
+    };
+    const optionsInternal = {
+      ...options,
+      repeatabilityFirstSent: new Date(),
+      repeatabilityRequestID: randomUUID(),
+    };
+    const result = await this.callConnection.moveParticipants(
+      this.callConnectionId,
+      moveParticipantsRequest,
+      optionsInternal,
+    );
+    const moveParticipantsResult: MoveParticipantsResult = {
+      ...result,
+      participants: result.participants?.map((participant) =>
+        callParticipantConverter(participant),
+      ),
+      fromCall: fromCall,
+      waitForEventProcessor: async (abortSignal, timeoutInMs) => {
+        const moveParticipantEventResult: MoveParticipantEventResult = {
+          isSuccess: false,
+        };
+        await this.callAutomationEventProcessor.waitForEventProcessor(
+          (event) => {
+            if (
+              event.callConnectionId === this.callConnectionId &&
+              event.kind === "MoveParticipantSucceeded" &&
+              event.operationContext === moveParticipantsRequest.operationContext
+            ) {
+              moveParticipantEventResult.isSuccess = true;
+              moveParticipantEventResult.successResult = event;
+              return true;
+            } else if (
+              event.callConnectionId === this.callConnectionId &&
+              event.kind === "MoveParticipantFailed" &&
+              event.operationContext === moveParticipantsRequest.operationContext
+            ) {
+              moveParticipantEventResult.isSuccess = false;
+              moveParticipantEventResult.failureResult = event;
+              return true;
+            } else {
+              return false;
+            }
+          },
+          abortSignal,
+          timeoutInMs,
+        );
+        return moveParticipantEventResult;
+      },
+    };
+    return moveParticipantsResult;
   }
 
   /**
