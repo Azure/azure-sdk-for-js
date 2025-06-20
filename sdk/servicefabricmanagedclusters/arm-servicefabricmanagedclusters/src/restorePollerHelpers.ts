@@ -1,8 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { ServiceFabricClient } from "./serviceFabricClient.js";
-import { _getDeserialize } from "./api/operationResults/operations.js";
+import { ServiceFabricManagedClustersManagementClient } from "./serviceFabricManagedClustersManagementClient.js";
 import {
   _stopFaultSimulationDeserialize,
   _startFaultSimulationDeserialize,
@@ -68,7 +67,7 @@ export interface RestorePollerOptions<
  * needs to be constructed after the original one is not in scope.
  */
 export function restorePoller<TResponse extends PathUncheckedResponse, TResult>(
-  client: ServiceFabricClient,
+  client: ServiceFabricManagedClustersManagementClient,
   serializedState: string,
   sourceOperation: (...args: any[]) => PollerLike<OperationState<TResult>, TResult>,
   options?: RestorePollerOptions<TResult>,
@@ -111,8 +110,6 @@ interface DeserializationHelper {
 }
 
 const deserializeMap: Record<string, DeserializationHelper> = {
-  "GET /subscriptions/{subscriptionId}/providers/Microsoft.ServiceFabric/locations/{location}/managedClusterOperationResults/{operationId}":
-    { deserializer: _getDeserialize, expectedStatuses: ["200", "202", "204"] },
   "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ServiceFabric/managedClusters/{clusterName}/nodeTypes/{nodeTypeName}/stopFaultSimulation":
     {
       deserializer: _stopFaultSimulationDeserialize,

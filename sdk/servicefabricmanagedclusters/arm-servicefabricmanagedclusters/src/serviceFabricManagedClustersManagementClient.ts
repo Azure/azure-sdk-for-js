@@ -2,9 +2,9 @@
 // Licensed under the MIT License.
 
 import {
-  createServiceFabric,
-  ServiceFabricContext,
-  ServiceFabricClientOptionalParams,
+  createServiceFabricManagedClustersManagement,
+  ServiceFabricManagedClustersManagementContext,
+  ServiceFabricManagedClustersManagementClientOptionalParams,
 } from "./api/index.js";
 import {
   OperationStatusOperations,
@@ -60,10 +60,10 @@ import { OperationsOperations, _getOperationsOperations } from "./classic/operat
 import { Pipeline } from "@azure/core-rest-pipeline";
 import { TokenCredential } from "@azure/core-auth";
 
-export { ServiceFabricClientOptionalParams } from "./api/serviceFabricContext.js";
+export { ServiceFabricManagedClustersManagementClientOptionalParams } from "./api/serviceFabricManagedClustersManagementContext.js";
 
-export class ServiceFabricClient {
-  private _client: ServiceFabricContext;
+export class ServiceFabricManagedClustersManagementClient {
+  private _client: ServiceFabricManagedClustersManagementContext;
   /** The pipeline used by this client to make requests */
   public readonly pipeline: Pipeline;
 
@@ -71,13 +71,13 @@ export class ServiceFabricClient {
   constructor(
     credential: TokenCredential,
     subscriptionId: string,
-    options: ServiceFabricClientOptionalParams = {},
+    options: ServiceFabricManagedClustersManagementClientOptionalParams = {},
   ) {
     const prefixFromOptions = options?.userAgentOptions?.userAgentPrefix;
     const userAgentPrefix = prefixFromOptions
       ? `${prefixFromOptions} azsdk-js-client`
       : `azsdk-js-client`;
-    this._client = createServiceFabric(credential, subscriptionId, {
+    this._client = createServiceFabricManagedClustersManagement(credential, subscriptionId, {
       ...options,
       userAgentOptions: { userAgentPrefix },
     });

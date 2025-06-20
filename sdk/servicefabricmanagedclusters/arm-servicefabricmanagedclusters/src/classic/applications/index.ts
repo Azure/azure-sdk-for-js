@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { ServiceFabricContext } from "../../api/serviceFabricContext.js";
+import { ServiceFabricManagedClustersManagementContext } from "../../api/serviceFabricManagedClustersManagementContext.js";
 import {
   ApplicationResource,
   ApplicationUpdateParameters,
@@ -97,7 +97,7 @@ export interface ApplicationsOperations {
   ) => Promise<ApplicationResource>;
 }
 
-function _getApplications(context: ServiceFabricContext) {
+function _getApplications(context: ServiceFabricManagedClustersManagementContext) {
   return {
     startRollback: (
       resourceGroupName: string,
@@ -154,7 +154,9 @@ function _getApplications(context: ServiceFabricContext) {
   };
 }
 
-export function _getApplicationsOperations(context: ServiceFabricContext): ApplicationsOperations {
+export function _getApplicationsOperations(
+  context: ServiceFabricManagedClustersManagementContext,
+): ApplicationsOperations {
   return {
     ..._getApplications(context),
   };

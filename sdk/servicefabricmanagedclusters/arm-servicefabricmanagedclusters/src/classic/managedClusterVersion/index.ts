@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { ServiceFabricContext } from "../../api/serviceFabricContext.js";
+import { ServiceFabricManagedClustersManagementContext } from "../../api/serviceFabricManagedClustersManagementContext.js";
 import {
   ManagedClusterCodeVersionResult,
   ManagedClusterVersionEnvironment,
@@ -47,7 +47,7 @@ export interface ManagedClusterVersionOperations {
   ) => Promise<ManagedClusterCodeVersionResult>;
 }
 
-function _getManagedClusterVersion(context: ServiceFabricContext) {
+function _getManagedClusterVersion(context: ServiceFabricManagedClustersManagementContext) {
   return {
     listByEnvironment: (
       location: string,
@@ -71,7 +71,7 @@ function _getManagedClusterVersion(context: ServiceFabricContext) {
 }
 
 export function _getManagedClusterVersionOperations(
-  context: ServiceFabricContext,
+  context: ServiceFabricManagedClustersManagementContext,
 ): ManagedClusterVersionOperations {
   return {
     ..._getManagedClusterVersion(context),

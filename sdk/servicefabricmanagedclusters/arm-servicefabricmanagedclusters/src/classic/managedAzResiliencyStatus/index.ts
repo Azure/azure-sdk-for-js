@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { ServiceFabricContext } from "../../api/serviceFabricContext.js";
+import { ServiceFabricManagedClustersManagementContext } from "../../api/serviceFabricManagedClustersManagementContext.js";
 import { ManagedAzResiliencyStatus } from "../../models/models.js";
 import { ManagedAzResiliencyStatusGetOptionalParams } from "../../api/managedAzResiliencyStatus/options.js";
 import { get } from "../../api/managedAzResiliencyStatus/operations.js";
@@ -16,7 +16,7 @@ export interface ManagedAzResiliencyStatusOperations {
   ) => Promise<ManagedAzResiliencyStatus>;
 }
 
-function _getManagedAzResiliencyStatus(context: ServiceFabricContext) {
+function _getManagedAzResiliencyStatus(context: ServiceFabricManagedClustersManagementContext) {
   return {
     get: (
       resourceGroupName: string,
@@ -27,7 +27,7 @@ function _getManagedAzResiliencyStatus(context: ServiceFabricContext) {
 }
 
 export function _getManagedAzResiliencyStatusOperations(
-  context: ServiceFabricContext,
+  context: ServiceFabricManagedClustersManagementContext,
 ): ManagedAzResiliencyStatusOperations {
   return {
     ..._getManagedAzResiliencyStatus(context),

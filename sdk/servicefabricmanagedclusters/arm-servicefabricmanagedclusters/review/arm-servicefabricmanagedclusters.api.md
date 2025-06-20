@@ -336,7 +336,7 @@ export interface EndpointRangeDescription {
 
 // @public
 export interface ErrorAdditionalInfo {
-    readonly info?: Record<string, any>;
+    readonly info?: any;
     readonly type?: string;
 }
 
@@ -1280,12 +1280,11 @@ export interface OperationResult {
 
 // @public
 export interface OperationResultsGetOptionalParams extends OperationOptions {
-    updateIntervalInMs?: number;
 }
 
 // @public
 export interface OperationResultsOperations {
-    get: (location: string, operationId: string, options?: OperationResultsGetOptionalParams) => PollerLike<OperationState<void>, void>;
+    get: (location: string, operationId: string, options?: OperationResultsGetOptionalParams) => Promise<void>;
 }
 
 // @public
@@ -1380,7 +1379,7 @@ export interface ResourceAzStatus {
 }
 
 // @public
-export function restorePoller<TResponse extends PathUncheckedResponse, TResult>(client: ServiceFabricClient, serializedState: string, sourceOperation: (...args: any[]) => PollerLike<OperationState<TResult>, TResult>, options?: RestorePollerOptions<TResult>): PollerLike<OperationState<TResult>, TResult>;
+export function restorePoller<TResponse extends PathUncheckedResponse, TResult>(client: ServiceFabricManagedClustersManagementClient, serializedState: string, sourceOperation: (...args: any[]) => PollerLike<OperationState<TResult>, TResult>, options?: RestorePollerOptions<TResult>): PollerLike<OperationState<TResult>, TResult>;
 
 // @public (undocumented)
 export interface RestorePollerOptions<TResult, TResponse extends PathUncheckedResponse = PathUncheckedResponse> extends OperationOptions {
@@ -1453,8 +1452,8 @@ export interface ServiceEndpoint {
 }
 
 // @public (undocumented)
-export class ServiceFabricClient {
-    constructor(credential: TokenCredential, subscriptionId: string, options?: ServiceFabricClientOptionalParams);
+export class ServiceFabricManagedClustersManagementClient {
+    constructor(credential: TokenCredential, subscriptionId: string, options?: ServiceFabricManagedClustersManagementClientOptionalParams);
     readonly applications: ApplicationsOperations;
     readonly applicationTypes: ApplicationTypesOperations;
     readonly applicationTypeVersions: ApplicationTypeVersionsOperations;
@@ -1474,7 +1473,7 @@ export class ServiceFabricClient {
 }
 
 // @public
-export interface ServiceFabricClientOptionalParams extends ClientOptions {
+export interface ServiceFabricManagedClustersManagementClientOptionalParams extends ClientOptions {
     apiVersion?: string;
 }
 
@@ -1774,11 +1773,11 @@ export interface VmssExtensionProperties {
     autoUpgradeMinorVersion?: boolean;
     enableAutomaticUpgrade?: boolean;
     forceUpdateTag?: string;
-    protectedSettings?: Record<string, any>;
+    protectedSettings?: any;
     provisionAfterExtensions?: string[];
     readonly provisioningState?: string;
     publisher: string;
-    settings?: Record<string, any>;
+    settings?: any;
     setupOrder?: VmssExtensionSetupOrder[];
     type: string;
     typeHandlerVersion: string;

@@ -7,7 +7,7 @@ import { Client, ClientOptions, getClient } from "@azure-rest/core-client";
 import { TokenCredential } from "@azure/core-auth";
 
 /** Service Fabric Managed Clusters Management Client */
-export interface ServiceFabricContext extends Client {
+export interface ServiceFabricManagedClustersManagementContext extends Client {
   /** The API version to use for this operation. */
   /** Known values of {@link KnownVersions} that the service accepts. */
   apiVersion: string;
@@ -16,21 +16,21 @@ export interface ServiceFabricContext extends Client {
 }
 
 /** Optional parameters for the client. */
-export interface ServiceFabricClientOptionalParams extends ClientOptions {
+export interface ServiceFabricManagedClustersManagementClientOptionalParams extends ClientOptions {
   /** The API version to use for this operation. */
   /** Known values of {@link KnownVersions} that the service accepts. */
   apiVersion?: string;
 }
 
 /** Service Fabric Managed Clusters Management Client */
-export function createServiceFabric(
+export function createServiceFabricManagedClustersManagement(
   credential: TokenCredential,
   subscriptionId: string,
-  options: ServiceFabricClientOptionalParams = {},
-): ServiceFabricContext {
+  options: ServiceFabricManagedClustersManagementClientOptionalParams = {},
+): ServiceFabricManagedClustersManagementContext {
   const endpointUrl = options.endpoint ?? options.baseUrl ?? "https://management.azure.com";
   const prefixFromOptions = options?.userAgentOptions?.userAgentPrefix;
-  const userAgentInfo = `azsdk-js-arm-servicefabricmanagedclusters/1.0.0-beta.4`;
+  const userAgentInfo = `azsdk-js-arm-servicefabricmanagedclusters/1.0.0-beta.1`;
   const userAgentPrefix = prefixFromOptions
     ? `${prefixFromOptions} azsdk-js-api ${userAgentInfo}`
     : `azsdk-js-api ${userAgentInfo}`;
@@ -64,5 +64,5 @@ export function createServiceFabric(
     ...clientContext,
     apiVersion,
     subscriptionId,
-  } as ServiceFabricContext;
+  } as ServiceFabricManagedClustersManagementContext;
 }

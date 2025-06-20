@@ -10,7 +10,7 @@ import { OperationState } from '@azure/core-lro';
 import { PollerLike } from '@azure/core-lro';
 
 // @public
-export function $delete(context: ServiceFabricContext, resourceGroupName: string, clusterName: string, applicationTypeName: string, options?: ApplicationTypesDeleteOptionalParams): PollerLike<OperationState<void>, void>;
+export function $delete(context: ServiceFabricManagedClustersManagementContext, resourceGroupName: string, clusterName: string, applicationTypeName: string, options?: ApplicationTypesDeleteOptionalParams): PollerLike<OperationState<void>, void>;
 
 // @public
 export interface ApplicationTypesCreateOrUpdateOptionalParams extends OperationOptions {
@@ -34,16 +34,16 @@ export interface ApplicationTypesUpdateOptionalParams extends OperationOptions {
 }
 
 // @public
-export function createOrUpdate(context: ServiceFabricContext, resourceGroupName: string, clusterName: string, applicationTypeName: string, parameters: ApplicationTypeResource, options?: ApplicationTypesCreateOrUpdateOptionalParams): Promise<ApplicationTypeResource>;
+export function createOrUpdate(context: ServiceFabricManagedClustersManagementContext, resourceGroupName: string, clusterName: string, applicationTypeName: string, parameters: ApplicationTypeResource, options?: ApplicationTypesCreateOrUpdateOptionalParams): Promise<ApplicationTypeResource>;
 
 // @public
-export function get(context: ServiceFabricContext, resourceGroupName: string, clusterName: string, applicationTypeName: string, options?: ApplicationTypesGetOptionalParams): Promise<ApplicationTypeResource>;
+export function get(context: ServiceFabricManagedClustersManagementContext, resourceGroupName: string, clusterName: string, applicationTypeName: string, options?: ApplicationTypesGetOptionalParams): Promise<ApplicationTypeResource>;
 
 // @public
-export function list(context: ServiceFabricContext, resourceGroupName: string, clusterName: string, options?: ApplicationTypesListOptionalParams): PagedAsyncIterableIterator<ApplicationTypeResource>;
+export function list(context: ServiceFabricManagedClustersManagementContext, resourceGroupName: string, clusterName: string, options?: ApplicationTypesListOptionalParams): PagedAsyncIterableIterator<ApplicationTypeResource>;
 
 // @public
-export function update(context: ServiceFabricContext, resourceGroupName: string, clusterName: string, applicationTypeName: string, parameters: ApplicationTypeUpdateParameters, options?: ApplicationTypesUpdateOptionalParams): Promise<ApplicationTypeResource>;
+export function update(context: ServiceFabricManagedClustersManagementContext, resourceGroupName: string, clusterName: string, applicationTypeName: string, parameters: ApplicationTypeUpdateParameters, options?: ApplicationTypesUpdateOptionalParams): Promise<ApplicationTypeResource>;
 
 // (No @packageDocumentation comment for this package)
 

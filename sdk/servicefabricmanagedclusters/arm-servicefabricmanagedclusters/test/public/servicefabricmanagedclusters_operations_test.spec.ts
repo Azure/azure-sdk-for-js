@@ -2,18 +2,14 @@
  * Copyright (c) Microsoft Corporation.
  * Licensed under the MIT License.
  *
-* Changes may cause incorrect behavior and will be lost if the code is regenerated.
+ * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import {
-  env,
-  Recorder,
-  isPlaybackMode,
-} from "@azure-tools/test-recorder";
+import { env, Recorder, isPlaybackMode } from "@azure-tools/test-recorder";
 import { createTestCredential } from "@azure-tools/test-credential";
 import { assert, beforeEach, afterEach, it, describe } from "vitest";
 import { createRecorder } from "./utils/recordedClient.js";
-import { ServiceFabricClient } from "../../src/serviceFabricClient.js";
+import { ServiceFabricManagedClustersManagementClient } from "../../src/serviceFabricManagedClustersManagementClient.js";
 
 export const testPollingOptions = {
   updateIntervalInMs: isPlaybackMode() ? 0 : undefined,
@@ -22,15 +18,19 @@ export const testPollingOptions = {
 describe("servicefabricmanagedclusters test", () => {
   let recorder: Recorder;
   let subscriptionId: string;
-  let client: ServiceFabricClient;
+  let client: ServiceFabricManagedClustersManagementClient;
 
   beforeEach(async (context) => {
     process.env.SystemRoot = process.env.SystemRoot || "C:\\Windows";
     recorder = await createRecorder(context);
-    subscriptionId = env.SUBSCRIPTION_ID || '';
+    subscriptionId = env.SUBSCRIPTION_ID || "";
     // This is an example of how the environment variables are used
     const credential = createTestCredential();
-    client = new ServiceFabricClient(credential, subscriptionId, recorder.configureClientOptions({}));
+    client = new ServiceFabricManagedClustersManagementClient(
+      credential,
+      subscriptionId,
+      recorder.configureClientOptions({}),
+    );
   });
 
   afterEach(async function () {
@@ -44,4 +44,4 @@ describe("servicefabricmanagedclusters test", () => {
     }
     assert.notEqual(resArray.length, 0);
   });
-})
+});

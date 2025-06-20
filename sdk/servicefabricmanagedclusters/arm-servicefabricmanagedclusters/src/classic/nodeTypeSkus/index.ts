@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { ServiceFabricContext } from "../../api/serviceFabricContext.js";
+import { ServiceFabricManagedClustersManagementContext } from "../../api/serviceFabricManagedClustersManagementContext.js";
 import { NodeTypeAvailableSku } from "../../models/models.js";
 import { NodeTypeSkusListOptionalParams } from "../../api/nodeTypeSkus/options.js";
 import { list } from "../../api/nodeTypeSkus/operations.js";
@@ -18,7 +18,7 @@ export interface NodeTypeSkusOperations {
   ) => PagedAsyncIterableIterator<NodeTypeAvailableSku>;
 }
 
-function _getNodeTypeSkus(context: ServiceFabricContext) {
+function _getNodeTypeSkus(context: ServiceFabricManagedClustersManagementContext) {
   return {
     list: (
       resourceGroupName: string,
@@ -29,7 +29,9 @@ function _getNodeTypeSkus(context: ServiceFabricContext) {
   };
 }
 
-export function _getNodeTypeSkusOperations(context: ServiceFabricContext): NodeTypeSkusOperations {
+export function _getNodeTypeSkusOperations(
+  context: ServiceFabricManagedClustersManagementContext,
+): NodeTypeSkusOperations {
   return {
     ..._getNodeTypeSkus(context),
   };

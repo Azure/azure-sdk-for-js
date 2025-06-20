@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { ServiceFabricClient } from "@azure/arm-servicefabricmanagedclusters";
+import { ServiceFabricManagedClustersManagementClient } from "@azure/arm-servicefabricmanagedclusters";
 import { DefaultAzureCredential } from "@azure/identity";
 
 /**
@@ -13,12 +13,13 @@ import { DefaultAzureCredential } from "@azure/identity";
 async function patchAnApplicationTypeVersion(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "00000000-0000-0000-0000-000000000000";
-  const client = new ServiceFabricClient(credential, subscriptionId);
+  const client = new ServiceFabricManagedClustersManagementClient(credential, subscriptionId);
   const result = await client.applicationTypeVersions.update(
     "resRg",
     "myCluster",
     "myAppType",
     "1.0",
+    { tags: { a: "b" } },
   );
   console.log(result);
 }

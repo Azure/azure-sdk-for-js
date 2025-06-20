@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { ServiceFabricClient } from "@azure/arm-servicefabricmanagedclusters";
+import { ServiceFabricManagedClustersManagementClient } from "@azure/arm-servicefabricmanagedclusters";
 import { DefaultAzureCredential } from "@azure/identity";
 
 /**
@@ -13,8 +13,11 @@ import { DefaultAzureCredential } from "@azure/identity";
 async function patchANodeTypeWhileAutoScaling(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "00000000-0000-0000-0000-000000000000";
-  const client = new ServiceFabricClient(credential, subscriptionId);
-  const result = await client.nodeTypes.update("resRg", "myCluster", "BE");
+  const client = new ServiceFabricManagedClustersManagementClient(credential, subscriptionId);
+  const result = await client.nodeTypes.update("resRg", "myCluster", "BE", {
+    sku: { name: "Standard_S0", capacity: 10, tier: "Standard" },
+    tags: { a: "b" },
+  });
   console.log(result);
 }
 
@@ -27,8 +30,10 @@ async function patchANodeTypeWhileAutoScaling(): Promise<void> {
 async function patchANodeType(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "00000000-0000-0000-0000-000000000000";
-  const client = new ServiceFabricClient(credential, subscriptionId);
-  const result = await client.nodeTypes.update("resRg", "myCluster", "BE");
+  const client = new ServiceFabricManagedClustersManagementClient(credential, subscriptionId);
+  const result = await client.nodeTypes.update("resRg", "myCluster", "BE", {
+    tags: { a: "b" },
+  });
   console.log(result);
 }
 

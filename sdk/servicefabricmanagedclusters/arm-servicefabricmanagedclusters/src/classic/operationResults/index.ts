@@ -1,10 +1,9 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { ServiceFabricContext } from "../../api/serviceFabricContext.js";
+import { ServiceFabricManagedClustersManagementContext } from "../../api/serviceFabricManagedClustersManagementContext.js";
 import { OperationResultsGetOptionalParams } from "../../api/operationResults/options.js";
 import { get } from "../../api/operationResults/operations.js";
-import { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a OperationResults operations. */
 export interface OperationResultsOperations {
@@ -13,10 +12,10 @@ export interface OperationResultsOperations {
     location: string,
     operationId: string,
     options?: OperationResultsGetOptionalParams,
-  ) => PollerLike<OperationState<void>, void>;
+  ) => Promise<void>;
 }
 
-function _getOperationResults(context: ServiceFabricContext) {
+function _getOperationResults(context: ServiceFabricManagedClustersManagementContext) {
   return {
     get: (location: string, operationId: string, options?: OperationResultsGetOptionalParams) =>
       get(context, location, operationId, options),
@@ -24,7 +23,7 @@ function _getOperationResults(context: ServiceFabricContext) {
 }
 
 export function _getOperationResultsOperations(
-  context: ServiceFabricContext,
+  context: ServiceFabricManagedClustersManagementContext,
 ): OperationResultsOperations {
   return {
     ..._getOperationResults(context),

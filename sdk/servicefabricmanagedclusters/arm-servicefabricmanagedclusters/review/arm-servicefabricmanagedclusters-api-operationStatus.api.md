@@ -8,7 +8,7 @@ import { Client } from '@azure-rest/core-client';
 import { OperationOptions } from '@azure-rest/core-client';
 
 // @public
-export function get(context: ServiceFabricContext, location: string, operationId: string, options?: OperationStatusGetOptionalParams): Promise<LongRunningOperationResult>;
+export function get(context: ServiceFabricManagedClustersManagementContext, location: string, operationId: string, options?: OperationStatusGetOptionalParams): Promise<LongRunningOperationResult>;
 
 // @public
 export interface OperationStatusGetOptionalParams extends OperationOptions {

@@ -124,21 +124,14 @@ export interface ErrorAdditionalInfo {
   /** The additional info type. */
   readonly type?: string;
   /** The additional info. */
-  readonly info?: Record<string, any>;
+  readonly info?: any;
 }
 
 export function errorAdditionalInfoDeserializer(item: any): ErrorAdditionalInfo {
   return {
     type: item["type"],
-    info: !item["info"] ? item["info"] : _errorAdditionalInfoInfoDeserializer(item["info"]),
+    info: item["info"],
   };
-}
-
-/** model interface _ErrorAdditionalInfoInfo */
-export interface _ErrorAdditionalInfoInfo {}
-
-export function _errorAdditionalInfoInfoDeserializer(item: any): _ErrorAdditionalInfoInfo {
-  return item;
 }
 
 /** The application resource. */
@@ -4558,9 +4551,9 @@ export interface VmssExtensionProperties {
   /** Indicates whether the extension should use a newer minor version if one is available at deployment time. Once deployed, however, the extension will not upgrade minor versions unless redeployed, even with this property set to true. */
   autoUpgradeMinorVersion?: boolean;
   /** Json formatted public settings for the extension. */
-  settings?: Record<string, any>;
+  settings?: any;
   /** The extension can contain either protectedSettings or protectedSettingsFromKeyVault or no protected settings at all. */
-  protectedSettings?: Record<string, any>;
+  protectedSettings?: any;
   /** If a value is provided and is different from the previous value, the extension handler will be forced to update even if the extension configuration has not changed. */
   forceUpdateTag?: string;
   /** Collection of extension names after which this extension needs to be provisioned. */
@@ -4579,12 +4572,8 @@ export function vmssExtensionPropertiesSerializer(item: VmssExtensionProperties)
     type: item["type"],
     typeHandlerVersion: item["typeHandlerVersion"],
     autoUpgradeMinorVersion: item["autoUpgradeMinorVersion"],
-    settings: !item["settings"]
-      ? item["settings"]
-      : _vmssExtensionPropertiesSettingsSerializer(item["settings"]),
-    protectedSettings: !item["protectedSettings"]
-      ? item["protectedSettings"]
-      : _vmssExtensionPropertiesProtectedSettingsSerializer(item["protectedSettings"]),
+    settings: item["settings"],
+    protectedSettings: item["protectedSettings"],
     forceUpdateTag: item["forceUpdateTag"],
     provisionAfterExtensions: !item["provisionAfterExtensions"]
       ? item["provisionAfterExtensions"]
@@ -4606,12 +4595,8 @@ export function vmssExtensionPropertiesDeserializer(item: any): VmssExtensionPro
     type: item["type"],
     typeHandlerVersion: item["typeHandlerVersion"],
     autoUpgradeMinorVersion: item["autoUpgradeMinorVersion"],
-    settings: !item["settings"]
-      ? item["settings"]
-      : _vmssExtensionPropertiesSettingsDeserializer(item["settings"]),
-    protectedSettings: !item["protectedSettings"]
-      ? item["protectedSettings"]
-      : _vmssExtensionPropertiesProtectedSettingsDeserializer(item["protectedSettings"]),
+    settings: item["settings"],
+    protectedSettings: item["protectedSettings"],
     forceUpdateTag: item["forceUpdateTag"],
     provisionAfterExtensions: !item["provisionAfterExtensions"]
       ? item["provisionAfterExtensions"]
@@ -4626,36 +4611,6 @@ export function vmssExtensionPropertiesDeserializer(item: any): VmssExtensionPro
           return p;
         }),
   };
-}
-
-/** model interface _VmssExtensionPropertiesSettings */
-export interface _VmssExtensionPropertiesSettings {}
-
-export function _vmssExtensionPropertiesSettingsSerializer(
-  item: _VmssExtensionPropertiesSettings,
-): any {
-  return item;
-}
-
-export function _vmssExtensionPropertiesSettingsDeserializer(
-  item: any,
-): _VmssExtensionPropertiesSettings {
-  return item;
-}
-
-/** model interface _VmssExtensionPropertiesProtectedSettings */
-export interface _VmssExtensionPropertiesProtectedSettings {}
-
-export function _vmssExtensionPropertiesProtectedSettingsSerializer(
-  item: _VmssExtensionPropertiesProtectedSettings,
-): any {
-  return item;
-}
-
-export function _vmssExtensionPropertiesProtectedSettingsDeserializer(
-  item: any,
-): _VmssExtensionPropertiesProtectedSettings {
-  return item;
 }
 
 /** Vm extension setup order. */

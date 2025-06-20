@@ -10,28 +10,28 @@ import { OperationState } from '@azure/core-lro';
 import { PollerLike } from '@azure/core-lro';
 
 // @public
-export function $delete(context: ServiceFabricContext, resourceGroupName: string, clusterName: string, nodeTypeName: string, options?: NodeTypesDeleteOptionalParams): PollerLike<OperationState<void>, void>;
+export function $delete(context: ServiceFabricManagedClustersManagementContext, resourceGroupName: string, clusterName: string, nodeTypeName: string, options?: NodeTypesDeleteOptionalParams): PollerLike<OperationState<void>, void>;
 
 // @public
-export function createOrUpdate(context: ServiceFabricContext, resourceGroupName: string, clusterName: string, nodeTypeName: string, parameters: NodeType, options?: NodeTypesCreateOrUpdateOptionalParams): PollerLike<OperationState<NodeType>, NodeType>;
+export function createOrUpdate(context: ServiceFabricManagedClustersManagementContext, resourceGroupName: string, clusterName: string, nodeTypeName: string, parameters: NodeType, options?: NodeTypesCreateOrUpdateOptionalParams): PollerLike<OperationState<NodeType>, NodeType>;
 
 // @public
-export function deallocate(context: ServiceFabricContext, resourceGroupName: string, clusterName: string, nodeTypeName: string, parameters: NodeTypeActionParameters, options?: NodeTypesDeallocateOptionalParams): PollerLike<OperationState<void>, void>;
+export function deallocate(context: ServiceFabricManagedClustersManagementContext, resourceGroupName: string, clusterName: string, nodeTypeName: string, parameters: NodeTypeActionParameters, options?: NodeTypesDeallocateOptionalParams): PollerLike<OperationState<void>, void>;
 
 // @public
-export function deleteNode(context: ServiceFabricContext, resourceGroupName: string, clusterName: string, nodeTypeName: string, parameters: NodeTypeActionParameters, options?: NodeTypesDeleteNodeOptionalParams): PollerLike<OperationState<void>, void>;
+export function deleteNode(context: ServiceFabricManagedClustersManagementContext, resourceGroupName: string, clusterName: string, nodeTypeName: string, parameters: NodeTypeActionParameters, options?: NodeTypesDeleteNodeOptionalParams): PollerLike<OperationState<void>, void>;
 
 // @public
-export function get(context: ServiceFabricContext, resourceGroupName: string, clusterName: string, nodeTypeName: string, options?: NodeTypesGetOptionalParams): Promise<NodeType>;
+export function get(context: ServiceFabricManagedClustersManagementContext, resourceGroupName: string, clusterName: string, nodeTypeName: string, options?: NodeTypesGetOptionalParams): Promise<NodeType>;
 
 // @public
-export function getFaultSimulation(context: ServiceFabricContext, resourceGroupName: string, clusterName: string, nodeTypeName: string, parameters: FaultSimulationIdContent, options?: NodeTypesGetFaultSimulationOptionalParams): Promise<FaultSimulation>;
+export function getFaultSimulation(context: ServiceFabricManagedClustersManagementContext, resourceGroupName: string, clusterName: string, nodeTypeName: string, parameters: FaultSimulationIdContent, options?: NodeTypesGetFaultSimulationOptionalParams): Promise<FaultSimulation>;
 
 // @public
-export function listByManagedClusters(context: ServiceFabricContext, resourceGroupName: string, clusterName: string, options?: NodeTypesListByManagedClustersOptionalParams): PagedAsyncIterableIterator<NodeType>;
+export function listByManagedClusters(context: ServiceFabricManagedClustersManagementContext, resourceGroupName: string, clusterName: string, options?: NodeTypesListByManagedClustersOptionalParams): PagedAsyncIterableIterator<NodeType>;
 
 // @public
-export function listFaultSimulation(context: ServiceFabricContext, resourceGroupName: string, clusterName: string, nodeTypeName: string, options?: NodeTypesListFaultSimulationOptionalParams): PagedAsyncIterableIterator<FaultSimulation>;
+export function listFaultSimulation(context: ServiceFabricManagedClustersManagementContext, resourceGroupName: string, clusterName: string, nodeTypeName: string, options?: NodeTypesListFaultSimulationOptionalParams): PagedAsyncIterableIterator<FaultSimulation>;
 
 // @public
 export interface NodeTypesCreateOrUpdateOptionalParams extends OperationOptions {
@@ -105,25 +105,25 @@ export interface NodeTypesUpdateOptionalParams extends OperationOptions {
 }
 
 // @public
-export function redeploy(context: ServiceFabricContext, resourceGroupName: string, clusterName: string, nodeTypeName: string, parameters: NodeTypeActionParameters, options?: NodeTypesRedeployOptionalParams): PollerLike<OperationState<void>, void>;
+export function redeploy(context: ServiceFabricManagedClustersManagementContext, resourceGroupName: string, clusterName: string, nodeTypeName: string, parameters: NodeTypeActionParameters, options?: NodeTypesRedeployOptionalParams): PollerLike<OperationState<void>, void>;
 
 // @public
-export function reimage(context: ServiceFabricContext, resourceGroupName: string, clusterName: string, nodeTypeName: string, parameters: NodeTypeActionParameters, options?: NodeTypesReimageOptionalParams): PollerLike<OperationState<void>, void>;
+export function reimage(context: ServiceFabricManagedClustersManagementContext, resourceGroupName: string, clusterName: string, nodeTypeName: string, parameters: NodeTypeActionParameters, options?: NodeTypesReimageOptionalParams): PollerLike<OperationState<void>, void>;
 
 // @public
-export function restart(context: ServiceFabricContext, resourceGroupName: string, clusterName: string, nodeTypeName: string, parameters: NodeTypeActionParameters, options?: NodeTypesRestartOptionalParams): PollerLike<OperationState<void>, void>;
+export function restart(context: ServiceFabricManagedClustersManagementContext, resourceGroupName: string, clusterName: string, nodeTypeName: string, parameters: NodeTypeActionParameters, options?: NodeTypesRestartOptionalParams): PollerLike<OperationState<void>, void>;
 
 // @public
-export function start(context: ServiceFabricContext, resourceGroupName: string, clusterName: string, nodeTypeName: string, parameters: NodeTypeActionParameters, options?: NodeTypesStartOptionalParams): PollerLike<OperationState<void>, void>;
+export function start(context: ServiceFabricManagedClustersManagementContext, resourceGroupName: string, clusterName: string, nodeTypeName: string, parameters: NodeTypeActionParameters, options?: NodeTypesStartOptionalParams): PollerLike<OperationState<void>, void>;
 
 // @public
-export function startFaultSimulation(context: ServiceFabricContext, resourceGroupName: string, clusterName: string, nodeTypeName: string, parameters: FaultSimulationContentWrapper, options?: NodeTypesStartFaultSimulationOptionalParams): PollerLike<OperationState<FaultSimulation>, FaultSimulation>;
+export function startFaultSimulation(context: ServiceFabricManagedClustersManagementContext, resourceGroupName: string, clusterName: string, nodeTypeName: string, parameters: FaultSimulationContentWrapper, options?: NodeTypesStartFaultSimulationOptionalParams): PollerLike<OperationState<FaultSimulation>, FaultSimulation>;
 
 // @public
-export function stopFaultSimulation(context: ServiceFabricContext, resourceGroupName: string, clusterName: string, nodeTypeName: string, parameters: FaultSimulationIdContent, options?: NodeTypesStopFaultSimulationOptionalParams): PollerLike<OperationState<FaultSimulation>, FaultSimulation>;
+export function stopFaultSimulation(context: ServiceFabricManagedClustersManagementContext, resourceGroupName: string, clusterName: string, nodeTypeName: string, parameters: FaultSimulationIdContent, options?: NodeTypesStopFaultSimulationOptionalParams): PollerLike<OperationState<FaultSimulation>, FaultSimulation>;
 
 // @public
-export function update(context: ServiceFabricContext, resourceGroupName: string, clusterName: string, nodeTypeName: string, parameters: NodeTypeUpdateParameters, options?: NodeTypesUpdateOptionalParams): PollerLike<OperationState<NodeType>, NodeType>;
+export function update(context: ServiceFabricManagedClustersManagementContext, resourceGroupName: string, clusterName: string, nodeTypeName: string, parameters: NodeTypeUpdateParameters, options?: NodeTypesUpdateOptionalParams): PollerLike<OperationState<NodeType>, NodeType>;
 
 // (No @packageDocumentation comment for this package)
 

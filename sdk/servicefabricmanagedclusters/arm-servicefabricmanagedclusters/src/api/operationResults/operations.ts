@@ -1,10 +1,9 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { ServiceFabricContext as Client } from "../index.js";
+import { ServiceFabricManagedClustersManagementContext as Client } from "../index.js";
 import { errorResponseDeserializer } from "../../models/models.js";
 import { OperationResultsGetOptionalParams } from "./options.js";
-import { getLongRunningPoller } from "../../static-helpers/pollingHelpers.js";
 import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
 import {
   StreamableMethod,
@@ -12,7 +11,6 @@ import {
   createRestError,
   operationOptionsToRequestParameters,
 } from "@azure-rest/core-client";
-import { PollerLike, OperationState } from "@azure/core-lro";
 
 export function _getSend(
   context: Client,
@@ -53,16 +51,12 @@ export async function _getDeserialize(result: PathUncheckedResponse): Promise<vo
 }
 
 /** Get long running operation result. */
-export function get(
+export async function get(
   context: Client,
   location: string,
   operationId: string,
   options: OperationResultsGetOptionalParams = { requestOptions: {} },
-): PollerLike<OperationState<void>, void> {
-  return getLongRunningPoller(context, _getDeserialize, ["200", "202", "204"], {
-    updateIntervalInMs: options?.updateIntervalInMs,
-    abortSignal: options?.abortSignal,
-    getInitialResponse: () => _getSend(context, location, operationId, options),
-    resourceLocationConfig: "location",
-  }) as PollerLike<OperationState<void>, void>;
+): Promise<void> {
+  const result = await _getSend(context, location, operationId, options);
+  return _getDeserialize(result);
 }

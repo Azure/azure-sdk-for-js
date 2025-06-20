@@ -7,7 +7,7 @@ import {
   PagedAsyncIterableIterator,
 } from "./static-helpers/pagingHelpers.js";
 
-export { ServiceFabricClient } from "./serviceFabricClient.js";
+export { ServiceFabricManagedClustersManagementClient } from "./serviceFabricManagedClustersManagementClient.js";
 export { restorePoller, RestorePollerOptions } from "./restorePollerHelpers.js";
 export {
   OperationResult,
@@ -214,7 +214,7 @@ export {
   ManagedClusterVersionEnvironment,
   KnownVersions,
 } from "./models/index.js";
-export { ServiceFabricClientOptionalParams } from "./api/index.js";
+export { ServiceFabricManagedClustersManagementClientOptionalParams } from "./api/index.js";
 export {
   ApplicationsStartRollbackOptionalParams,
   ApplicationsResumeUpgradeOptionalParams,

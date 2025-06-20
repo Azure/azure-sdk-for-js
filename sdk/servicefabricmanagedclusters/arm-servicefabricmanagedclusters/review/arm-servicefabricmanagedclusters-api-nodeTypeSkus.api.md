@@ -8,7 +8,7 @@ import { Client } from '@azure-rest/core-client';
 import { OperationOptions } from '@azure-rest/core-client';
 
 // @public
-export function list(context: ServiceFabricContext, resourceGroupName: string, clusterName: string, nodeTypeName: string, options?: NodeTypeSkusListOptionalParams): PagedAsyncIterableIterator<NodeTypeAvailableSku>;
+export function list(context: ServiceFabricManagedClustersManagementContext, resourceGroupName: string, clusterName: string, nodeTypeName: string, options?: NodeTypeSkusListOptionalParams): PagedAsyncIterableIterator<NodeTypeAvailableSku>;
 
 // @public
 export interface NodeTypeSkusListOptionalParams extends OperationOptions {

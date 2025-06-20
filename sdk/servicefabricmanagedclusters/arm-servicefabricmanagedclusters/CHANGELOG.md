@@ -1,6 +1,6 @@
 # Release History
     
-## 1.0.0-beta.4 (2025-05-26)
+## 1.0.0-beta.4 (2025-06-20)
 Compared with version 1.0.0-beta.3
     
 ### Features Added
@@ -67,11 +67,9 @@ Compared with version 1.0.0-beta.3
   - Added Interface PagedAsyncIterableIterator
   - Added Interface PageSettings
   - Added Interface RestorePollerOptions
-  - Added Interface ServiceFabricClientOptionalParams
   - Added Interface TrackedResource
   - Added Interface VmssExtensionProperties
   - Added Interface ZoneFaultSimulationContent
-  - Added Class ServiceFabricClient
   - Added Type Alias ContinuablePage
   - Added Type Alias CreatedByType
   - Added Type Alias FaultKind
@@ -93,7 +91,6 @@ Compared with version 1.0.0-beta.3
   - Interface ManagedClusterCodeVersionResult has a new optional parameter properties
   - Interface NodeType has a new optional parameter properties
   - Interface NodeType has a new optional parameter tags
-  - Interface OperationResultsGetOptionalParams has a new optional parameter updateIntervalInMs
   - Interface ServiceResource has a new optional parameter location
   - Interface ServiceResource has a new optional parameter tags
   - Added Enum KnownCreatedByType
@@ -148,7 +145,7 @@ Compared with version 1.0.0-beta.3
   - Removed operation Services.beginCreateOrUpdateAndWait
   - Removed operation Services.beginDelete
   - Removed operation Services.beginDeleteAndWait
-  - Deleted Class ServiceFabricManagedClustersManagementClient
+  - Class ServiceFabricManagedClustersManagementClient has a new signature
   - Interface ApplicationResource no longer has parameter managedIdentities
   - Interface ApplicationResource no longer has parameter parameters
   - Interface ApplicationResource no longer has parameter provisioningState
@@ -272,6 +269,8 @@ Compared with version 1.0.0-beta.3
   - Interface Resource no longer has parameter etag
   - Interface Resource no longer has parameter location
   - Interface Resource no longer has parameter tags
+  - Interface ServiceFabricManagedClustersManagementClientOptionalParams no longer has parameter $host
+  - Interface ServiceFabricManagedClustersManagementClientOptionalParams no longer has parameter endpoint
   - Interface ServicesCreateOrUpdateOptionalParams no longer has parameter resumeFrom
   - Interface ServicesDeleteOptionalParams no longer has parameter resumeFrom
   - Interface VmssExtension no longer has parameter autoUpgradeMinorVersion
@@ -317,6 +316,11 @@ Compared with version 1.0.0-beta.3
     } to Record<string, string>
   - Type of parameter createdByType of interface SystemData is changed from string to CreatedByType
   - Type of parameter lastModifiedByType of interface SystemData is changed from string to CreatedByType
+  - Class ServiceFabricManagedClustersManagementClient no longer has parameter $host
+  - Class ServiceFabricManagedClustersManagementClient no longer has parameter apiVersion
+  - Class ServiceFabricManagedClustersManagementClient no longer has parameter managedAzResiliencyStatusOperations
+  - Class ServiceFabricManagedClustersManagementClient no longer has parameter managedMaintenanceWindowStatusOperations
+  - Class ServiceFabricManagedClustersManagementClient no longer has parameter subscriptionId
   - Removed Enum KnownUpgradeMode
   - Removed function getContinuationToken
     

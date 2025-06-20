@@ -8,7 +8,7 @@ import { Client } from '@azure-rest/core-client';
 import { OperationOptions } from '@azure-rest/core-client';
 
 // @public
-export function get(context: ServiceFabricContext, resourceGroupName: string, clusterName: string, options?: ManagedAzResiliencyStatusGetOptionalParams): Promise<ManagedAzResiliencyStatus>;
+export function get(context: ServiceFabricManagedClustersManagementContext, resourceGroupName: string, clusterName: string, options?: ManagedAzResiliencyStatusGetOptionalParams): Promise<ManagedAzResiliencyStatus>;
 
 // @public
 export interface ManagedAzResiliencyStatusGetOptionalParams extends OperationOptions {

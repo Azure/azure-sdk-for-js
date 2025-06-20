@@ -3482,7 +3482,7 @@ packages:
     version: 0.0.0
 
   '@rush-temp/arm-servicefabricmanagedclusters@file:projects/arm-servicefabricmanagedclusters.tgz':
-    resolution: {integrity: sha512-RrnaSzqFZ7uMgUXx2XaPOeJ18ub3zK1nee49otShfrGAnTYgeXD5srNL0oAR+LUXFJovQqSFxQEFSl/JB4XfSw==, tarball: file:projects/arm-servicefabricmanagedclusters.tgz}
+    resolution: {integrity: sha512-ZJ+sH48I8OR0AObmxOha44msZudoH2HeTOYx8lWlVeC68rru3t62FTafyOatyd04bCRDnxPvqko69MtpUc/sTQ==, tarball: file:projects/arm-servicefabricmanagedclusters.tgz}
     version: 0.0.0
 
   '@rush-temp/arm-servicefabricmesh@file:projects/arm-servicefabricmesh.tgz':

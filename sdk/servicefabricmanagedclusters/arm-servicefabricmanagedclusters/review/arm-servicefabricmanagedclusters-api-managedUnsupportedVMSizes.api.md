@@ -8,10 +8,10 @@ import { Client } from '@azure-rest/core-client';
 import { OperationOptions } from '@azure-rest/core-client';
 
 // @public
-export function get(context: ServiceFabricContext, location: string, vmSize: string, options?: ManagedUnsupportedVMSizesGetOptionalParams): Promise<ManagedVMSize>;
+export function get(context: ServiceFabricManagedClustersManagementContext, location: string, vmSize: string, options?: ManagedUnsupportedVMSizesGetOptionalParams): Promise<ManagedVMSize>;
 
 // @public
-export function list(context: ServiceFabricContext, location: string, options?: ManagedUnsupportedVMSizesListOptionalParams): PagedAsyncIterableIterator<ManagedVMSize>;
+export function list(context: ServiceFabricManagedClustersManagementContext, location: string, options?: ManagedUnsupportedVMSizesListOptionalParams): PagedAsyncIterableIterator<ManagedVMSize>;
 
 // @public
 export interface ManagedUnsupportedVMSizesGetOptionalParams extends OperationOptions {

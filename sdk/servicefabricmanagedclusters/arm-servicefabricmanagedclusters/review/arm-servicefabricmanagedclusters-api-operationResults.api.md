@@ -6,15 +6,12 @@
 
 import { Client } from '@azure-rest/core-client';
 import { OperationOptions } from '@azure-rest/core-client';
-import { OperationState } from '@azure/core-lro';
-import { PollerLike } from '@azure/core-lro';
 
 // @public
-export function get(context: ServiceFabricContext, location: string, operationId: string, options?: OperationResultsGetOptionalParams): PollerLike<OperationState<void>, void>;
+export function get(context: ServiceFabricManagedClustersManagementContext, location: string, operationId: string, options?: OperationResultsGetOptionalParams): Promise<void>;
 
 // @public
 export interface OperationResultsGetOptionalParams extends OperationOptions {
-    updateIntervalInMs?: number;
 }
 
 // (No @packageDocumentation comment for this package)

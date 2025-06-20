@@ -212,7 +212,7 @@ export interface EndpointRangeDescription {
 
 // @public
 export interface ErrorAdditionalInfo {
-    readonly info?: Record<string, any>;
+    readonly info?: any;
     readonly type?: string;
 }
 
@@ -1321,11 +1321,11 @@ export interface VmssExtensionProperties {
     autoUpgradeMinorVersion?: boolean;
     enableAutomaticUpgrade?: boolean;
     forceUpdateTag?: string;
-    protectedSettings?: Record<string, any>;
+    protectedSettings?: any;
     provisionAfterExtensions?: string[];
     readonly provisioningState?: string;
     publisher: string;
-    settings?: Record<string, any>;
+    settings?: any;
     setupOrder?: VmssExtensionSetupOrder[];
     type: string;
     typeHandlerVersion: string;

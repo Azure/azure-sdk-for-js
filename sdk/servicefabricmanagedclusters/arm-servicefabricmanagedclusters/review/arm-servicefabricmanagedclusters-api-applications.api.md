@@ -10,7 +10,7 @@ import { OperationState } from '@azure/core-lro';
 import { PollerLike } from '@azure/core-lro';
 
 // @public
-export function $delete(context: ServiceFabricContext, resourceGroupName: string, clusterName: string, applicationName: string, options?: ApplicationsDeleteOptionalParams): PollerLike<OperationState<void>, void>;
+export function $delete(context: ServiceFabricManagedClustersManagementContext, resourceGroupName: string, clusterName: string, applicationName: string, options?: ApplicationsDeleteOptionalParams): PollerLike<OperationState<void>, void>;
 
 // @public
 export interface ApplicationsCreateOrUpdateOptionalParams extends OperationOptions {
@@ -50,25 +50,25 @@ export interface ApplicationsUpdateOptionalParams extends OperationOptions {
 }
 
 // @public
-export function createOrUpdate(context: ServiceFabricContext, resourceGroupName: string, clusterName: string, applicationName: string, parameters: ApplicationResource, options?: ApplicationsCreateOrUpdateOptionalParams): PollerLike<OperationState<ApplicationResource>, ApplicationResource>;
+export function createOrUpdate(context: ServiceFabricManagedClustersManagementContext, resourceGroupName: string, clusterName: string, applicationName: string, parameters: ApplicationResource, options?: ApplicationsCreateOrUpdateOptionalParams): PollerLike<OperationState<ApplicationResource>, ApplicationResource>;
 
 // @public
-export function get(context: ServiceFabricContext, resourceGroupName: string, clusterName: string, applicationName: string, options?: ApplicationsGetOptionalParams): Promise<ApplicationResource>;
+export function get(context: ServiceFabricManagedClustersManagementContext, resourceGroupName: string, clusterName: string, applicationName: string, options?: ApplicationsGetOptionalParams): Promise<ApplicationResource>;
 
 // @public
-export function list(context: ServiceFabricContext, resourceGroupName: string, clusterName: string, options?: ApplicationsListOptionalParams): PagedAsyncIterableIterator<ApplicationResource>;
+export function list(context: ServiceFabricManagedClustersManagementContext, resourceGroupName: string, clusterName: string, options?: ApplicationsListOptionalParams): PagedAsyncIterableIterator<ApplicationResource>;
 
 // @public
-export function readUpgrade(context: ServiceFabricContext, resourceGroupName: string, clusterName: string, applicationName: string, options?: ApplicationsReadUpgradeOptionalParams): PollerLike<OperationState<void>, void>;
+export function readUpgrade(context: ServiceFabricManagedClustersManagementContext, resourceGroupName: string, clusterName: string, applicationName: string, options?: ApplicationsReadUpgradeOptionalParams): PollerLike<OperationState<void>, void>;
 
 // @public
-export function resumeUpgrade(context: ServiceFabricContext, resourceGroupName: string, clusterName: string, applicationName: string, parameters: RuntimeResumeApplicationUpgradeParameters, options?: ApplicationsResumeUpgradeOptionalParams): PollerLike<OperationState<void>, void>;
+export function resumeUpgrade(context: ServiceFabricManagedClustersManagementContext, resourceGroupName: string, clusterName: string, applicationName: string, parameters: RuntimeResumeApplicationUpgradeParameters, options?: ApplicationsResumeUpgradeOptionalParams): PollerLike<OperationState<void>, void>;
 
 // @public
-export function startRollback(context: ServiceFabricContext, resourceGroupName: string, clusterName: string, applicationName: string, options?: ApplicationsStartRollbackOptionalParams): PollerLike<OperationState<void>, void>;
+export function startRollback(context: ServiceFabricManagedClustersManagementContext, resourceGroupName: string, clusterName: string, applicationName: string, options?: ApplicationsStartRollbackOptionalParams): PollerLike<OperationState<void>, void>;
 
 // @public
-export function update(context: ServiceFabricContext, resourceGroupName: string, clusterName: string, applicationName: string, parameters: ApplicationUpdateParameters, options?: ApplicationsUpdateOptionalParams): Promise<ApplicationResource>;
+export function update(context: ServiceFabricManagedClustersManagementContext, resourceGroupName: string, clusterName: string, applicationName: string, parameters: ApplicationUpdateParameters, options?: ApplicationsUpdateOptionalParams): Promise<ApplicationResource>;
 
 // (No @packageDocumentation comment for this package)
 

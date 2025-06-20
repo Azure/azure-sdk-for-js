@@ -8,16 +8,16 @@ import { Client } from '@azure-rest/core-client';
 import { OperationOptions } from '@azure-rest/core-client';
 
 // @public
-export function get(context: ServiceFabricContext, location: string, clusterVersion: string, options?: ManagedClusterVersionGetOptionalParams): Promise<ManagedClusterCodeVersionResult>;
+export function get(context: ServiceFabricManagedClustersManagementContext, location: string, clusterVersion: string, options?: ManagedClusterVersionGetOptionalParams): Promise<ManagedClusterCodeVersionResult>;
 
 // @public
-export function getByEnvironment(context: ServiceFabricContext, location: string, environment: ManagedClusterVersionEnvironment, clusterVersion: string, options?: ManagedClusterVersionGetByEnvironmentOptionalParams): Promise<ManagedClusterCodeVersionResult>;
+export function getByEnvironment(context: ServiceFabricManagedClustersManagementContext, location: string, environment: ManagedClusterVersionEnvironment, clusterVersion: string, options?: ManagedClusterVersionGetByEnvironmentOptionalParams): Promise<ManagedClusterCodeVersionResult>;
 
 // @public
-export function list(context: ServiceFabricContext, location: string, options?: ManagedClusterVersionListOptionalParams): Promise<ManagedClusterCodeVersionResult[]>;
+export function list(context: ServiceFabricManagedClustersManagementContext, location: string, options?: ManagedClusterVersionListOptionalParams): Promise<ManagedClusterCodeVersionResult[]>;
 
 // @public
-export function listByEnvironment(context: ServiceFabricContext, location: string, environment: ManagedClusterVersionEnvironment, options?: ManagedClusterVersionListByEnvironmentOptionalParams): Promise<ManagedClusterCodeVersionResult[]>;
+export function listByEnvironment(context: ServiceFabricManagedClustersManagementContext, location: string, environment: ManagedClusterVersionEnvironment, options?: ManagedClusterVersionListByEnvironmentOptionalParams): Promise<ManagedClusterCodeVersionResult[]>;
 
 // @public
 export interface ManagedClusterVersionGetByEnvironmentOptionalParams extends OperationOptions {

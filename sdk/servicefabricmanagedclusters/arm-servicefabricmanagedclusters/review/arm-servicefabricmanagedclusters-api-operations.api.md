@@ -8,7 +8,7 @@ import { Client } from '@azure-rest/core-client';
 import { OperationOptions } from '@azure-rest/core-client';
 
 // @public
-export function list(context: ServiceFabricContext, options?: OperationsListOptionalParams): PagedAsyncIterableIterator<OperationResult>;
+export function list(context: ServiceFabricManagedClustersManagementContext, options?: OperationsListOptionalParams): PagedAsyncIterableIterator<OperationResult>;
 
 // @public
 export interface OperationsListOptionalParams extends OperationOptions {

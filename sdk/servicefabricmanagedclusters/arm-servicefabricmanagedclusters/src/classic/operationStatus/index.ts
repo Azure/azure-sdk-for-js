@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { ServiceFabricContext } from "../../api/serviceFabricContext.js";
+import { ServiceFabricManagedClustersManagementContext } from "../../api/serviceFabricManagedClustersManagementContext.js";
 import { LongRunningOperationResult } from "../../models/models.js";
 import { OperationStatusGetOptionalParams } from "../../api/operationStatus/options.js";
 import { get } from "../../api/operationStatus/operations.js";
@@ -16,7 +16,7 @@ export interface OperationStatusOperations {
   ) => Promise<LongRunningOperationResult>;
 }
 
-function _getOperationStatus(context: ServiceFabricContext) {
+function _getOperationStatus(context: ServiceFabricManagedClustersManagementContext) {
   return {
     get: (location: string, operationId: string, options?: OperationStatusGetOptionalParams) =>
       get(context, location, operationId, options),
@@ -24,7 +24,7 @@ function _getOperationStatus(context: ServiceFabricContext) {
 }
 
 export function _getOperationStatusOperations(
-  context: ServiceFabricContext,
+  context: ServiceFabricManagedClustersManagementContext,
 ): OperationStatusOperations {
   return {
     ..._getOperationStatus(context),

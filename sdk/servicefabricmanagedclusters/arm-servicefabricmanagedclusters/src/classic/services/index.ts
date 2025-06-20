@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { ServiceFabricContext } from "../../api/serviceFabricContext.js";
+import { ServiceFabricManagedClustersManagementContext } from "../../api/serviceFabricManagedClustersManagementContext.js";
 import { ServiceResource, ServiceUpdateParameters } from "../../models/models.js";
 import {
   ServicesListByApplicationsOptionalParams,
@@ -70,7 +70,7 @@ export interface ServicesOperations {
   ) => Promise<ServiceResource>;
 }
 
-function _getServices(context: ServiceFabricContext) {
+function _getServices(context: ServiceFabricManagedClustersManagementContext) {
   return {
     listByApplications: (
       resourceGroupName: string,
@@ -129,7 +129,9 @@ function _getServices(context: ServiceFabricContext) {
   };
 }
 
-export function _getServicesOperations(context: ServiceFabricContext): ServicesOperations {
+export function _getServicesOperations(
+  context: ServiceFabricManagedClustersManagementContext,
+): ServicesOperations {
   return {
     ..._getServices(context),
   };

@@ -10,25 +10,25 @@ import { OperationState } from '@azure/core-lro';
 import { PollerLike } from '@azure/core-lro';
 
 // @public
-export function $delete(context: ServiceFabricContext, resourceGroupName: string, clusterName: string, options?: ManagedClustersDeleteOptionalParams): PollerLike<OperationState<void>, void>;
+export function $delete(context: ServiceFabricManagedClustersManagementContext, resourceGroupName: string, clusterName: string, options?: ManagedClustersDeleteOptionalParams): PollerLike<OperationState<void>, void>;
 
 // @public
-export function createOrUpdate(context: ServiceFabricContext, resourceGroupName: string, clusterName: string, parameters: ManagedCluster, options?: ManagedClustersCreateOrUpdateOptionalParams): PollerLike<OperationState<ManagedCluster>, ManagedCluster>;
+export function createOrUpdate(context: ServiceFabricManagedClustersManagementContext, resourceGroupName: string, clusterName: string, parameters: ManagedCluster, options?: ManagedClustersCreateOrUpdateOptionalParams): PollerLike<OperationState<ManagedCluster>, ManagedCluster>;
 
 // @public
-export function get(context: ServiceFabricContext, resourceGroupName: string, clusterName: string, options?: ManagedClustersGetOptionalParams): Promise<ManagedCluster>;
+export function get(context: ServiceFabricManagedClustersManagementContext, resourceGroupName: string, clusterName: string, options?: ManagedClustersGetOptionalParams): Promise<ManagedCluster>;
 
 // @public
-export function getFaultSimulation(context: ServiceFabricContext, resourceGroupName: string, clusterName: string, parameters: FaultSimulationIdContent, options?: ManagedClustersGetFaultSimulationOptionalParams): Promise<FaultSimulation>;
+export function getFaultSimulation(context: ServiceFabricManagedClustersManagementContext, resourceGroupName: string, clusterName: string, parameters: FaultSimulationIdContent, options?: ManagedClustersGetFaultSimulationOptionalParams): Promise<FaultSimulation>;
 
 // @public
-export function listByResourceGroup(context: ServiceFabricContext, resourceGroupName: string, options?: ManagedClustersListByResourceGroupOptionalParams): PagedAsyncIterableIterator<ManagedCluster>;
+export function listByResourceGroup(context: ServiceFabricManagedClustersManagementContext, resourceGroupName: string, options?: ManagedClustersListByResourceGroupOptionalParams): PagedAsyncIterableIterator<ManagedCluster>;
 
 // @public
-export function listBySubscription(context: ServiceFabricContext, options?: ManagedClustersListBySubscriptionOptionalParams): PagedAsyncIterableIterator<ManagedCluster>;
+export function listBySubscription(context: ServiceFabricManagedClustersManagementContext, options?: ManagedClustersListBySubscriptionOptionalParams): PagedAsyncIterableIterator<ManagedCluster>;
 
 // @public
-export function listFaultSimulation(context: ServiceFabricContext, resourceGroupName: string, clusterName: string, options?: ManagedClustersListFaultSimulationOptionalParams): PagedAsyncIterableIterator<FaultSimulation>;
+export function listFaultSimulation(context: ServiceFabricManagedClustersManagementContext, resourceGroupName: string, clusterName: string, options?: ManagedClustersListFaultSimulationOptionalParams): PagedAsyncIterableIterator<FaultSimulation>;
 
 // @public
 export interface ManagedClustersCreateOrUpdateOptionalParams extends OperationOptions {
@@ -75,13 +75,13 @@ export interface ManagedClustersUpdateOptionalParams extends OperationOptions {
 }
 
 // @public
-export function startFaultSimulation(context: ServiceFabricContext, resourceGroupName: string, clusterName: string, parameters: FaultSimulationContentWrapper, options?: ManagedClustersStartFaultSimulationOptionalParams): PollerLike<OperationState<FaultSimulation>, FaultSimulation>;
+export function startFaultSimulation(context: ServiceFabricManagedClustersManagementContext, resourceGroupName: string, clusterName: string, parameters: FaultSimulationContentWrapper, options?: ManagedClustersStartFaultSimulationOptionalParams): PollerLike<OperationState<FaultSimulation>, FaultSimulation>;
 
 // @public
-export function stopFaultSimulation(context: ServiceFabricContext, resourceGroupName: string, clusterName: string, parameters: FaultSimulationIdContent, options?: ManagedClustersStopFaultSimulationOptionalParams): PollerLike<OperationState<FaultSimulation>, FaultSimulation>;
+export function stopFaultSimulation(context: ServiceFabricManagedClustersManagementContext, resourceGroupName: string, clusterName: string, parameters: FaultSimulationIdContent, options?: ManagedClustersStopFaultSimulationOptionalParams): PollerLike<OperationState<FaultSimulation>, FaultSimulation>;
 
 // @public
-export function update(context: ServiceFabricContext, resourceGroupName: string, clusterName: string, parameters: ManagedClusterUpdateParameters, options?: ManagedClustersUpdateOptionalParams): Promise<ManagedCluster>;
+export function update(context: ServiceFabricManagedClustersManagementContext, resourceGroupName: string, clusterName: string, parameters: ManagedClusterUpdateParameters, options?: ManagedClustersUpdateOptionalParams): Promise<ManagedCluster>;
 
 // (No @packageDocumentation comment for this package)
 

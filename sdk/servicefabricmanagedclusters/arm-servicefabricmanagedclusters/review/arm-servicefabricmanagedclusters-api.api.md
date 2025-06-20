@@ -9,15 +9,15 @@ import { ClientOptions } from '@azure-rest/core-client';
 import { TokenCredential } from '@azure/core-auth';
 
 // @public
-export function createServiceFabric(credential: TokenCredential, subscriptionId: string, options?: ServiceFabricClientOptionalParams): ServiceFabricContext;
+export function createServiceFabricManagedClustersManagement(credential: TokenCredential, subscriptionId: string, options?: ServiceFabricManagedClustersManagementClientOptionalParams): ServiceFabricManagedClustersManagementContext;
 
 // @public
-export interface ServiceFabricClientOptionalParams extends ClientOptions {
+export interface ServiceFabricManagedClustersManagementClientOptionalParams extends ClientOptions {
     apiVersion?: string;
 }
 
 // @public
-export interface ServiceFabricContext extends Client {
+export interface ServiceFabricManagedClustersManagementContext extends Client {
     apiVersion: string;
     subscriptionId: string;
 }

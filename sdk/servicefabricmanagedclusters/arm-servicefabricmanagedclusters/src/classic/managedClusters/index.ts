@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { ServiceFabricContext } from "../../api/serviceFabricContext.js";
+import { ServiceFabricManagedClustersManagementContext } from "../../api/serviceFabricManagedClustersManagementContext.js";
 import {
   ManagedCluster,
   ManagedClusterUpdateParameters,
@@ -107,7 +107,7 @@ export interface ManagedClustersOperations {
   ) => Promise<ManagedCluster>;
 }
 
-function _getManagedClusters(context: ServiceFabricContext) {
+function _getManagedClusters(context: ServiceFabricManagedClustersManagementContext) {
   return {
     stopFaultSimulation: (
       resourceGroupName: string,
@@ -164,7 +164,7 @@ function _getManagedClusters(context: ServiceFabricContext) {
 }
 
 export function _getManagedClustersOperations(
-  context: ServiceFabricContext,
+  context: ServiceFabricManagedClustersManagementContext,
 ): ManagedClustersOperations {
   return {
     ..._getManagedClusters(context),

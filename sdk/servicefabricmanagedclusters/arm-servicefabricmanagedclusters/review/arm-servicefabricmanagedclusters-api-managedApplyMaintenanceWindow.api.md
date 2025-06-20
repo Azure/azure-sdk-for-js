@@ -12,7 +12,7 @@ export interface ManagedApplyMaintenanceWindowPostOptionalParams extends Operati
 }
 
 // @public
-export function post(context: ServiceFabricContext, resourceGroupName: string, clusterName: string, options?: ManagedApplyMaintenanceWindowPostOptionalParams): Promise<void>;
+export function post(context: ServiceFabricManagedClustersManagementContext, resourceGroupName: string, clusterName: string, options?: ManagedApplyMaintenanceWindowPostOptionalParams): Promise<void>;
 
 // (No @packageDocumentation comment for this package)
 

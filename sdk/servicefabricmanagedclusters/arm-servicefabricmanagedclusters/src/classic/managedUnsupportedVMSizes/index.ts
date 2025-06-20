@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { ServiceFabricContext } from "../../api/serviceFabricContext.js";
+import { ServiceFabricManagedClustersManagementContext } from "../../api/serviceFabricManagedClustersManagementContext.js";
 import { ManagedVMSize } from "../../models/models.js";
 import {
   ManagedUnsupportedVMSizesListOptionalParams,
@@ -25,7 +25,7 @@ export interface ManagedUnsupportedVMSizesOperations {
   ) => Promise<ManagedVMSize>;
 }
 
-function _getManagedUnsupportedVMSizes(context: ServiceFabricContext) {
+function _getManagedUnsupportedVMSizes(context: ServiceFabricManagedClustersManagementContext) {
   return {
     list: (location: string, options?: ManagedUnsupportedVMSizesListOptionalParams) =>
       list(context, location, options),
@@ -35,7 +35,7 @@ function _getManagedUnsupportedVMSizes(context: ServiceFabricContext) {
 }
 
 export function _getManagedUnsupportedVMSizesOperations(
-  context: ServiceFabricContext,
+  context: ServiceFabricManagedClustersManagementContext,
 ): ManagedUnsupportedVMSizesOperations {
   return {
     ..._getManagedUnsupportedVMSizes(context),

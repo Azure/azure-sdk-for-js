@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { ServiceFabricContext } from "../../api/serviceFabricContext.js";
+import { ServiceFabricManagedClustersManagementContext } from "../../api/serviceFabricManagedClustersManagementContext.js";
 import {
   FaultSimulationIdContent,
   FaultSimulation,
@@ -171,7 +171,7 @@ export interface NodeTypesOperations {
   ) => Promise<NodeType>;
 }
 
-function _getNodeTypes(context: ServiceFabricContext) {
+function _getNodeTypes(context: ServiceFabricManagedClustersManagementContext) {
   return {
     listFaultSimulation: (
       resourceGroupName: string,
@@ -300,7 +300,9 @@ function _getNodeTypes(context: ServiceFabricContext) {
   };
 }
 
-export function _getNodeTypesOperations(context: ServiceFabricContext): NodeTypesOperations {
+export function _getNodeTypesOperations(
+  context: ServiceFabricManagedClustersManagementContext,
+): NodeTypesOperations {
   return {
     ..._getNodeTypes(context),
   };

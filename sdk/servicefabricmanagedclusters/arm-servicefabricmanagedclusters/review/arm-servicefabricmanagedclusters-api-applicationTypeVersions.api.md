@@ -10,7 +10,7 @@ import { OperationState } from '@azure/core-lro';
 import { PollerLike } from '@azure/core-lro';
 
 // @public
-export function $delete(context: ServiceFabricContext, resourceGroupName: string, clusterName: string, applicationTypeName: string, version: string, options?: ApplicationTypeVersionsDeleteOptionalParams): PollerLike<OperationState<void>, void>;
+export function $delete(context: ServiceFabricManagedClustersManagementContext, resourceGroupName: string, clusterName: string, applicationTypeName: string, version: string, options?: ApplicationTypeVersionsDeleteOptionalParams): PollerLike<OperationState<void>, void>;
 
 // @public
 export interface ApplicationTypeVersionsCreateOrUpdateOptionalParams extends OperationOptions {
@@ -35,16 +35,16 @@ export interface ApplicationTypeVersionsUpdateOptionalParams extends OperationOp
 }
 
 // @public
-export function createOrUpdate(context: ServiceFabricContext, resourceGroupName: string, clusterName: string, applicationTypeName: string, version: string, parameters: ApplicationTypeVersionResource, options?: ApplicationTypeVersionsCreateOrUpdateOptionalParams): PollerLike<OperationState<ApplicationTypeVersionResource>, ApplicationTypeVersionResource>;
+export function createOrUpdate(context: ServiceFabricManagedClustersManagementContext, resourceGroupName: string, clusterName: string, applicationTypeName: string, version: string, parameters: ApplicationTypeVersionResource, options?: ApplicationTypeVersionsCreateOrUpdateOptionalParams): PollerLike<OperationState<ApplicationTypeVersionResource>, ApplicationTypeVersionResource>;
 
 // @public
-export function get(context: ServiceFabricContext, resourceGroupName: string, clusterName: string, applicationTypeName: string, version: string, options?: ApplicationTypeVersionsGetOptionalParams): Promise<ApplicationTypeVersionResource>;
+export function get(context: ServiceFabricManagedClustersManagementContext, resourceGroupName: string, clusterName: string, applicationTypeName: string, version: string, options?: ApplicationTypeVersionsGetOptionalParams): Promise<ApplicationTypeVersionResource>;
 
 // @public
-export function listByApplicationTypes(context: ServiceFabricContext, resourceGroupName: string, clusterName: string, applicationTypeName: string, options?: ApplicationTypeVersionsListByApplicationTypesOptionalParams): PagedAsyncIterableIterator<ApplicationTypeVersionResource>;
+export function listByApplicationTypes(context: ServiceFabricManagedClustersManagementContext, resourceGroupName: string, clusterName: string, applicationTypeName: string, options?: ApplicationTypeVersionsListByApplicationTypesOptionalParams): PagedAsyncIterableIterator<ApplicationTypeVersionResource>;
 
 // @public
-export function update(context: ServiceFabricContext, resourceGroupName: string, clusterName: string, applicationTypeName: string, version: string, parameters: ApplicationTypeVersionUpdateParameters, options?: ApplicationTypeVersionsUpdateOptionalParams): Promise<ApplicationTypeVersionResource>;
+export function update(context: ServiceFabricManagedClustersManagementContext, resourceGroupName: string, clusterName: string, applicationTypeName: string, version: string, parameters: ApplicationTypeVersionUpdateParameters, options?: ApplicationTypeVersionsUpdateOptionalParams): Promise<ApplicationTypeVersionResource>;
 
 // (No @packageDocumentation comment for this package)
 

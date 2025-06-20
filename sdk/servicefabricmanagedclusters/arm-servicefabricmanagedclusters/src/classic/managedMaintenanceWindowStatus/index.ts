@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { ServiceFabricContext } from "../../api/serviceFabricContext.js";
+import { ServiceFabricManagedClustersManagementContext } from "../../api/serviceFabricManagedClustersManagementContext.js";
 import { ManagedMaintenanceWindowStatus } from "../../models/models.js";
 import { ManagedMaintenanceWindowStatusGetOptionalParams } from "../../api/managedMaintenanceWindowStatus/options.js";
 import { get } from "../../api/managedMaintenanceWindowStatus/operations.js";
@@ -16,7 +16,9 @@ export interface ManagedMaintenanceWindowStatusOperations {
   ) => Promise<ManagedMaintenanceWindowStatus>;
 }
 
-function _getManagedMaintenanceWindowStatus(context: ServiceFabricContext) {
+function _getManagedMaintenanceWindowStatus(
+  context: ServiceFabricManagedClustersManagementContext,
+) {
   return {
     get: (
       resourceGroupName: string,
@@ -27,7 +29,7 @@ function _getManagedMaintenanceWindowStatus(context: ServiceFabricContext) {
 }
 
 export function _getManagedMaintenanceWindowStatusOperations(
-  context: ServiceFabricContext,
+  context: ServiceFabricManagedClustersManagementContext,
 ): ManagedMaintenanceWindowStatusOperations {
   return {
     ..._getManagedMaintenanceWindowStatus(context),

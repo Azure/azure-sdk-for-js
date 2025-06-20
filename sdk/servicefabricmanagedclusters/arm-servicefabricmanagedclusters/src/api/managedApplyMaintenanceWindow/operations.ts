@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { ServiceFabricContext as Client } from "../index.js";
+import { ServiceFabricManagedClustersManagementContext as Client } from "../index.js";
 import { errorResponseDeserializer } from "../../models/models.js";
 import { ManagedApplyMaintenanceWindowPostOptionalParams } from "./options.js";
 import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";

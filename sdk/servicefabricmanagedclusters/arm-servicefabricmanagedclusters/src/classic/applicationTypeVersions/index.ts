@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { ServiceFabricContext } from "../../api/serviceFabricContext.js";
+import { ServiceFabricManagedClustersManagementContext } from "../../api/serviceFabricManagedClustersManagementContext.js";
 import {
   ApplicationTypeVersionResource,
   ApplicationTypeVersionUpdateParameters,
@@ -73,7 +73,7 @@ export interface ApplicationTypeVersionsOperations {
   ) => Promise<ApplicationTypeVersionResource>;
 }
 
-function _getApplicationTypeVersions(context: ServiceFabricContext) {
+function _getApplicationTypeVersions(context: ServiceFabricManagedClustersManagementContext) {
   return {
     listByApplicationTypes: (
       resourceGroupName: string,
@@ -134,7 +134,7 @@ function _getApplicationTypeVersions(context: ServiceFabricContext) {
 }
 
 export function _getApplicationTypeVersionsOperations(
-  context: ServiceFabricContext,
+  context: ServiceFabricManagedClustersManagementContext,
 ): ApplicationTypeVersionsOperations {
   return {
     ..._getApplicationTypeVersions(context),
