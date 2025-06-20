@@ -4,6 +4,60 @@
 import { describe, it, expect, vi, beforeEach, afterEach } from "vitest";
 import { CustomerStatsbeatMetrics } from "../../src/export/statsbeat/customerStatsbeat.js";
 import { DropCode, RetryCode, TelemetryType } from "../../src/export/statsbeat/types.js";
+import type { TelemetryItem as Envelope } from "../../src/generated/index.js";
+
+// Helper function to create mock envelopes for testing
+function createMockEnvelopes(count: number, telemetryType: TelemetryType): Envelope[] {
+  const envelopes: Envelope[] = [];
+  
+  let baseType: string;
+  switch (telemetryType) {
+    case TelemetryType.TRACE:
+      baseType = "MessageData";
+      break;
+    case TelemetryType.DEPENDENCY:
+      baseType = "RemoteDependencyData";
+      break;
+    case TelemetryType.REQUEST:
+      baseType = "RequestData";
+      break;
+    case TelemetryType.EXCEPTION:
+      baseType = "TelemetryExceptionData";
+      break;
+    case TelemetryType.CUSTOM_EVENT:
+      baseType = "TelemetryEventData";
+      break;
+    case TelemetryType.CUSTOM_METRIC:
+    case TelemetryType.PERFORMANCE_COUNTER:
+      baseType = "MetricData";
+      break;
+    case TelemetryType.AVAILABILITY:
+      baseType = "AvailabilityData";
+      break;
+    case TelemetryType.PAGE_VIEW:
+      baseType = "PageViewData";
+      break;
+    default:
+      baseType = "MessageData";
+      break;
+  }
+
+  for (let i = 0; i < count; i++) {
+    envelopes.push({
+      name: `Microsoft.ApplicationInsights.${baseType}`,
+      time: new Date(),
+      instrumentationKey: "00000000-0000-0000-0000-000000000000",
+      data: {
+        baseType: baseType,
+        baseData: {
+          version: 2
+        }
+      }
+    });
+  }
+  
+  return envelopes;
+}
 
 describe("CustomerStatsbeatMetrics", () => {
   let customerStatsbeatMetrics: CustomerStatsbeatMetrics;
@@ -27,9 +81,8 @@ describe("CustomerStatsbeatMetrics", () => {
       const exceptionMessage = "Network connection timeout";
 
       customerStatsbeatMetrics.countDroppedItems(
-        5,
+        createMockEnvelopes(5, TelemetryType.TRACE),
         DropCode.CLIENT_EXCEPTION,
-        TelemetryType.TRACE,
         exceptionMessage,
       );
 
@@ -48,7 +101,7 @@ describe("CustomerStatsbeatMetrics", () => {
     });
 
     it("should not store drop.reason for CLIENT_EXCEPTION when message not provided", () => {
-      customerStatsbeatMetrics.countDroppedItems(3, DropCode.CLIENT_EXCEPTION, TelemetryType.TRACE);
+      customerStatsbeatMetrics.countDroppedItems(createMockEnvelopes(3, TelemetryType.TRACE), DropCode.CLIENT_EXCEPTION);
 
       const counter = (customerStatsbeatMetrics as any).customerStatsbeatCounter;
       expect(counter.totalItemDropCount.size).toBe(1);
@@ -68,9 +121,8 @@ describe("CustomerStatsbeatMetrics", () => {
       const exceptionMessage = "Some error message";
 
       customerStatsbeatMetrics.countDroppedItems(
-        2,
+        createMockEnvelopes(2, TelemetryType.TRACE),
         DropCode.NON_RETRYABLE_STATUS_CODE,
-        TelemetryType.TRACE,
         exceptionMessage,
       );
 
@@ -92,15 +144,13 @@ describe("CustomerStatsbeatMetrics", () => {
       const exceptionMessage = "Repeated error";
 
       customerStatsbeatMetrics.countDroppedItems(
-        3,
+        createMockEnvelopes(3, TelemetryType.TRACE),
         DropCode.CLIENT_EXCEPTION,
-        TelemetryType.TRACE,
         exceptionMessage,
       );
       customerStatsbeatMetrics.countDroppedItems(
-        2,
+        createMockEnvelopes(2, TelemetryType.TRACE),
         DropCode.CLIENT_EXCEPTION,
-        TelemetryType.TRACE,
         exceptionMessage,
       );
 
@@ -120,15 +170,13 @@ describe("CustomerStatsbeatMetrics", () => {
 
     it("should create separate entries for different telemetry types", () => {
       customerStatsbeatMetrics.countDroppedItems(
-        2,
+        createMockEnvelopes(2, TelemetryType.TRACE),
         DropCode.CLIENT_EXCEPTION,
-        TelemetryType.TRACE,
         "Error A",
       );
       customerStatsbeatMetrics.countDroppedItems(
-        3,
+        createMockEnvelopes(3, TelemetryType.DEPENDENCY),
         DropCode.CLIENT_EXCEPTION,
-        TelemetryType.DEPENDENCY,
         "Error B",
       );
 
@@ -160,9 +208,8 @@ describe("CustomerStatsbeatMetrics", () => {
       const exceptionMessage = "Retry due to connection error";
 
       customerStatsbeatMetrics.countRetryItems(
-        3,
+        createMockEnvelopes(3, TelemetryType.TRACE),
         RetryCode.CLIENT_EXCEPTION,
-        TelemetryType.TRACE,
         exceptionMessage,
       );
 
@@ -181,7 +228,7 @@ describe("CustomerStatsbeatMetrics", () => {
     });
 
     it("should not store retry.reason for CLIENT_EXCEPTION when message not provided", () => {
-      customerStatsbeatMetrics.countRetryItems(2, RetryCode.CLIENT_EXCEPTION, TelemetryType.TRACE);
+      customerStatsbeatMetrics.countRetryItems(createMockEnvelopes(2, TelemetryType.TRACE), RetryCode.CLIENT_EXCEPTION);
 
       const counter = (customerStatsbeatMetrics as any).customerStatsbeatCounter;
       expect(counter.totalItemRetryCount.size).toBe(1);
@@ -201,9 +248,8 @@ describe("CustomerStatsbeatMetrics", () => {
       const exceptionMessage = "Some retry message";
 
       customerStatsbeatMetrics.countRetryItems(
-        4,
+        createMockEnvelopes(4, TelemetryType.TRACE),
         RetryCode.RETRYABLE_STATUS_CODE,
-        TelemetryType.TRACE,
         exceptionMessage,
       );
 
@@ -225,15 +271,13 @@ describe("CustomerStatsbeatMetrics", () => {
       const exceptionMessage = "Connection timeout";
 
       customerStatsbeatMetrics.countRetryItems(
-        2,
+        createMockEnvelopes(2, TelemetryType.TRACE),
         RetryCode.CLIENT_EXCEPTION,
-        TelemetryType.TRACE,
         exceptionMessage,
       );
       customerStatsbeatMetrics.countRetryItems(
-        3,
+        createMockEnvelopes(3, TelemetryType.TRACE),
         RetryCode.CLIENT_EXCEPTION,
-        TelemetryType.TRACE,
         exceptionMessage,
       );
 
@@ -256,15 +300,13 @@ describe("CustomerStatsbeatMetrics", () => {
     it("should include drop.reason in drop count metrics when present", () => {
       // Add entries with different scenarios
       customerStatsbeatMetrics.countDroppedItems(
-        3,
+        createMockEnvelopes(3, TelemetryType.TRACE),
         DropCode.CLIENT_EXCEPTION,
-        TelemetryType.TRACE,
         "Test error",
       );
       customerStatsbeatMetrics.countDroppedItems(
-        2,
+        createMockEnvelopes(2, TelemetryType.TRACE),
         DropCode.NON_RETRYABLE_STATUS_CODE,
-        TelemetryType.TRACE,
       );
 
       const mockObservableResult = {
@@ -297,15 +339,13 @@ describe("CustomerStatsbeatMetrics", () => {
     it("should include retry.reason in retry count metrics when present", () => {
       // Add entries with different scenarios
       customerStatsbeatMetrics.countRetryItems(
-        4,
+        createMockEnvelopes(4, TelemetryType.TRACE),
         RetryCode.CLIENT_EXCEPTION,
-        TelemetryType.TRACE,
         "Retry error",
       );
       customerStatsbeatMetrics.countRetryItems(
-        1,
+        createMockEnvelopes(1, TelemetryType.TRACE),
         RetryCode.RETRYABLE_STATUS_CODE,
-        TelemetryType.TRACE,
       );
 
       const mockObservableResult = {
@@ -337,15 +377,13 @@ describe("CustomerStatsbeatMetrics", () => {
 
     it("should reset counts to zero after observation", () => {
       customerStatsbeatMetrics.countDroppedItems(
-        5,
+        createMockEnvelopes(5, TelemetryType.TRACE),
         DropCode.CLIENT_EXCEPTION,
-        TelemetryType.TRACE,
         "Test error",
       );
       customerStatsbeatMetrics.countRetryItems(
-        3,
+        createMockEnvelopes(3, TelemetryType.TRACE),
         RetryCode.CLIENT_EXCEPTION,
-        TelemetryType.TRACE,
         "Retry error",
       );
 
@@ -390,9 +428,8 @@ describe("CustomerStatsbeatMetrics", () => {
 
       // Count dropped items with CLIENT_EXCEPTION and exception message
       customerStatsbeatMetrics.countDroppedItems(
-        5,
+        createMockEnvelopes(5, TelemetryType.TRACE),
         DropCode.CLIENT_EXCEPTION,
-        TelemetryType.TRACE,
         testErrorMessage,
       );
 
@@ -437,9 +474,8 @@ describe("CustomerStatsbeatMetrics", () => {
 
       // Count retry items with CLIENT_EXCEPTION and exception message
       customerStatsbeatMetrics.countRetryItems(
-        3,
+        createMockEnvelopes(3, TelemetryType.TRACE),
         RetryCode.CLIENT_EXCEPTION,
-        TelemetryType.TRACE,
         testErrorMessage,
       );
 
@@ -484,9 +520,8 @@ describe("CustomerStatsbeatMetrics", () => {
 
       // Test dropped items with non-CLIENT_EXCEPTION code
       customerStatsbeatMetrics.countDroppedItems(
-        2,
+        createMockEnvelopes(2, TelemetryType.TRACE),
         DropCode.NON_RETRYABLE_STATUS_CODE,
-        TelemetryType.TRACE,
         testErrorMessage,
       );
 
@@ -531,15 +566,13 @@ describe("CustomerStatsbeatMetrics", () => {
 
       // Add two different CLIENT_EXCEPTION errors
       customerStatsbeatMetrics.countDroppedItems(
-        3,
+        createMockEnvelopes(3, TelemetryType.TRACE),
         DropCode.CLIENT_EXCEPTION,
-        TelemetryType.TRACE,
         error1,
       );
       customerStatsbeatMetrics.countRetryItems(
-        2,
+        createMockEnvelopes(2, TelemetryType.TRACE),
         RetryCode.CLIENT_EXCEPTION,
-        TelemetryType.TRACE,
         error2,
       );
 
@@ -590,15 +623,13 @@ describe("CustomerStatsbeatMetrics", () => {
 
       // Add the same error twice
       customerStatsbeatMetrics.countDroppedItems(
-        2,
+        createMockEnvelopes(2, TelemetryType.TRACE),
         DropCode.CLIENT_EXCEPTION,
-        TelemetryType.TRACE,
         testErrorMessage,
       );
       customerStatsbeatMetrics.countDroppedItems(
-        3,
+        createMockEnvelopes(3, TelemetryType.TRACE),
         DropCode.CLIENT_EXCEPTION,
-        TelemetryType.TRACE,
         testErrorMessage,
       );
 
@@ -639,7 +670,7 @@ describe("CustomerStatsbeatMetrics", () => {
 
   describe("countSuccessfulItems", () => {
     it("should track successful items correctly", () => {
-      customerStatsbeatMetrics.countSuccessfulItems(10, TelemetryType.CUSTOM_EVENT);
+      customerStatsbeatMetrics.countSuccessfulItems(createMockEnvelopes(10, TelemetryType.CUSTOM_EVENT));
 
       const counter = (customerStatsbeatMetrics as any).customerStatsbeatCounter;
       expect(counter.totalItemSuccessCount.size).toBe(1);
@@ -647,8 +678,8 @@ describe("CustomerStatsbeatMetrics", () => {
     });
 
     it("should aggregate counts for same telemetry type", () => {
-      customerStatsbeatMetrics.countSuccessfulItems(5, TelemetryType.TRACE);
-      customerStatsbeatMetrics.countSuccessfulItems(3, TelemetryType.TRACE);
+      customerStatsbeatMetrics.countSuccessfulItems(createMockEnvelopes(5, TelemetryType.TRACE));
+      customerStatsbeatMetrics.countSuccessfulItems(createMockEnvelopes(3, TelemetryType.TRACE));
 
       const counter = (customerStatsbeatMetrics as any).customerStatsbeatCounter;
       expect(counter.totalItemSuccessCount.size).toBe(1);
