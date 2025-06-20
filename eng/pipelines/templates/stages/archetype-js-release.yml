@@ -34,7 +34,7 @@ stages:
                   - template: /eng/common/pipelines/templates/steps/retain-run.yml
                   - template: /eng/common/pipelines/templates/steps/set-test-pipeline-version.yml
                     parameters:
-                      PackageName: '@azure/template'
+                      PackageNames: '@azure/template, @azure/template-dpg'
                       ServiceDirectory: template
                       TestPipeline: ${{ parameters.TestPipeline }}
                   - template: /eng/common/pipelines/templates/steps/verify-changelog.yml
@@ -69,7 +69,8 @@ stages:
                       Registry: ${{ parameters.PublicRegistry }}
                       Environment: ${{ parameters.PublicPublishEnvironment }}
 
-              - ${{ if ne(artifact.skipPublishDocMs, 'true') }}:
+              # MsDoc publishing relies on packages being published to npm
+              - ${{ if and(ne(parameters.PublicRegistry, 'https://registry.npmjs.org/'), ne(artifact.skipPublishDocMs, 'true')) }}:
                   - job: PublishDocs
                     displayName: Docs.MS Release
                     condition: and(succeeded(), ne(variables['Skip.PublishDocs'], 'true'))
