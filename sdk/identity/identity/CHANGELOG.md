@@ -5,7 +5,7 @@
 ### Features Added
 
 - Added support to specify `subscription` ID or name on `AzureCliCredential` error message. [#34801](https://github.com/Azure/azure-sdk-for-js/pull/34801)
-
+- Added support in `AzurePowerShellCredential` for the Az.Accounts v5.0.0+ and Az v14.0.0+ breaking change where `Get-AzAccessToken` returns `SecureString PSSecureAccessToken.Token` instead of plaintext `PSAccessToken.Token`. [#34902](https://github.com/Azure/azure-sdk-for-js/pull/34902)
 ### Breaking Changes
 
 ### Bugs Fixed
