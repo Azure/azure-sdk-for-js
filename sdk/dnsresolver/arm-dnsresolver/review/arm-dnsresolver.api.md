@@ -11,10 +11,10 @@ import { PagedAsyncIterableIterator } from '@azure/core-paging';
 import { SimplePollerLike } from '@azure/core-lro';
 
 // @public
-export type ActionType = string;
+export type Action = string;
 
 // @public
-export type BlockResponseCode = string;
+export type ActionType = string;
 
 // @public
 export interface CloudError {
@@ -159,10 +159,17 @@ export interface DnsResolver extends TrackedResource {
 
 // @public
 export interface DnsResolverDomainList extends TrackedResource {
-    domains: string[];
+    domains?: string[];
+    readonly domainsUrl?: string;
     readonly etag?: string;
     readonly provisioningState?: ProvisioningState;
     readonly resourceGuid?: string;
+}
+
+// @public
+export interface DnsResolverDomainListBulk {
+    action: Action;
+    storageUrl: string;
 }
 
 // @public
@@ -181,6 +188,8 @@ export interface DnsResolverDomainListResult {
 
 // @public
 export interface DnsResolverDomainLists {
+    beginBulk(resourceGroupName: string, dnsResolverDomainListName: string, parameters: DnsResolverDomainListBulk, options?: DnsResolverDomainListsBulkOptionalParams): Promise<SimplePollerLike<OperationState<DnsResolverDomainListsBulkResponse>, DnsResolverDomainListsBulkResponse>>;
+    beginBulkAndWait(resourceGroupName: string, dnsResolverDomainListName: string, parameters: DnsResolverDomainListBulk, options?: DnsResolverDomainListsBulkOptionalParams): Promise<DnsResolverDomainListsBulkResponse>;
     beginCreateOrUpdate(resourceGroupName: string, dnsResolverDomainListName: string, parameters: DnsResolverDomainList, options?: DnsResolverDomainListsCreateOrUpdateOptionalParams): Promise<SimplePollerLike<OperationState<DnsResolverDomainListsCreateOrUpdateResponse>, DnsResolverDomainListsCreateOrUpdateResponse>>;
     beginCreateOrUpdateAndWait(resourceGroupName: string, dnsResolverDomainListName: string, parameters: DnsResolverDomainList, options?: DnsResolverDomainListsCreateOrUpdateOptionalParams): Promise<DnsResolverDomainListsCreateOrUpdateResponse>;
     beginDelete(resourceGroupName: string, dnsResolverDomainListName: string, options?: DnsResolverDomainListsDeleteOptionalParams): Promise<SimplePollerLike<OperationState<DnsResolverDomainListsDeleteResponse>, DnsResolverDomainListsDeleteResponse>>;
@@ -191,6 +200,23 @@ export interface DnsResolverDomainLists {
     list(options?: DnsResolverDomainListsListOptionalParams): PagedAsyncIterableIterator<DnsResolverDomainList>;
     listByResourceGroup(resourceGroupName: string, options?: DnsResolverDomainListsListByResourceGroupOptionalParams): PagedAsyncIterableIterator<DnsResolverDomainList>;
 }
+
+// @public
+export interface DnsResolverDomainListsBulkHeaders {
+    // (undocumented)
+    location?: string;
+}
+
+// @public
+export interface DnsResolverDomainListsBulkOptionalParams extends coreClient.OperationOptions {
+    ifMatch?: string;
+    ifNoneMatch?: string;
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type DnsResolverDomainListsBulkResponse = DnsResolverDomainList;
 
 // @public
 export interface DnsResolverDomainListsCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
@@ -658,7 +684,6 @@ export interface DnsSecurityRule extends TrackedResource {
 // @public
 export interface DnsSecurityRuleAction {
     actionType?: ActionType;
-    blockResponseCode?: BlockResponseCode;
 }
 
 // @public
@@ -958,15 +983,16 @@ export interface IpConfiguration {
 }
 
 // @public
+export enum KnownAction {
+    Download = "Download",
+    Upload = "Upload"
+}
+
+// @public
 export enum KnownActionType {
     Alert = "Alert",
     Allow = "Allow",
     Block = "Block"
-}
-
-// @public
-export enum KnownBlockResponseCode {
-    Servfail = "SERVFAIL"
 }
 
 // @public
