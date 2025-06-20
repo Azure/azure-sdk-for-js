@@ -99,4 +99,177 @@ describe("MetricHandler", () => {
       assert.ok(!handler["_standardMetrics"], "Standard metrics loaded");
     });
   });
+
+  describe("OTEL_METRIC_EXPORT_INTERVAL environment variable", () => {
+    it("should use OTEL_METRIC_EXPORT_INTERVAL when set to valid value", () => {
+      // Set the environment variable to a valid interval
+      process.env.OTEL_METRIC_EXPORT_INTERVAL = "5000";
+
+      const metricHandler = new MetricHandler(config, { collectionInterval: 100 });
+      const metricReader = metricHandler.getMetricReader();
+
+      // Access the private _exportInterval property to verify it was set correctly
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-member-access, @typescript-eslint/naming-convention, no-underscore-dangle
+      const exportInterval = (metricReader as any)._exportInterval;
+      assert.strictEqual(
+        exportInterval,
+        5000,
+        "Export interval should be set from environment variable",
+      );
+
+      void metricHandler.shutdown();
+    });
+
+    it("should ignore OTEL_METRIC_EXPORT_INTERVAL when set to invalid value and use options", () => {
+      // Set the environment variable to an invalid value
+      process.env.OTEL_METRIC_EXPORT_INTERVAL = "invalid";
+
+      const metricHandler = new MetricHandler(config, { collectionInterval: 2000 });
+      const metricReader = metricHandler.getMetricReader();
+
+      // Should fall back to options.collectionInterval
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-member-access, @typescript-eslint/naming-convention, no-underscore-dangle
+      const exportInterval = (metricReader as any)._exportInterval;
+      assert.strictEqual(
+        exportInterval,
+        2000,
+        "Export interval should use options when env var is invalid",
+      );
+
+      void metricHandler.shutdown();
+    });
+
+    it("should ignore OTEL_METRIC_EXPORT_INTERVAL when set to negative value and use options", () => {
+      // Set the environment variable to a negative value
+      process.env.OTEL_METRIC_EXPORT_INTERVAL = "-1000";
+
+      const metricHandler = new MetricHandler(config, { collectionInterval: 3000 });
+      const metricReader = metricHandler.getMetricReader();
+
+      // Should fall back to options.collectionInterval
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-member-access, @typescript-eslint/naming-convention, no-underscore-dangle
+      const exportInterval = (metricReader as any)._exportInterval;
+      assert.strictEqual(
+        exportInterval,
+        3000,
+        "Export interval should use options when env var is negative",
+      );
+
+      void metricHandler.shutdown();
+    });
+
+    it("should ignore OTEL_METRIC_EXPORT_INTERVAL when set to zero and use options", () => {
+      // Set the environment variable to zero
+      process.env.OTEL_METRIC_EXPORT_INTERVAL = "0";
+
+      const metricHandler = new MetricHandler(config, { collectionInterval: 4000 });
+      const metricReader = metricHandler.getMetricReader();
+
+      // Should fall back to options.collectionInterval
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-member-access, @typescript-eslint/naming-convention, no-underscore-dangle
+      const exportInterval = (metricReader as any)._exportInterval;
+      assert.strictEqual(
+        exportInterval,
+        4000,
+        "Export interval should use options when env var is zero",
+      );
+
+      void metricHandler.shutdown();
+    });
+
+    it("should use options.collectionInterval when OTEL_METRIC_EXPORT_INTERVAL is not set", () => {
+      // Ensure the environment variable is not set
+      delete process.env.OTEL_METRIC_EXPORT_INTERVAL;
+
+      const metricHandler = new MetricHandler(config, { collectionInterval: 1500 });
+      const metricReader = metricHandler.getMetricReader();
+
+      // Should use options.collectionInterval
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-member-access, @typescript-eslint/naming-convention, no-underscore-dangle
+      const exportInterval = (metricReader as any)._exportInterval;
+      assert.strictEqual(
+        exportInterval,
+        1500,
+        "Export interval should use options when env var is not set",
+      );
+
+      void metricHandler.shutdown();
+    });
+
+    it("should use default interval when neither OTEL_METRIC_EXPORT_INTERVAL nor options are provided", () => {
+      // Ensure the environment variable is not set
+      delete process.env.OTEL_METRIC_EXPORT_INTERVAL;
+
+      const metricHandler = new MetricHandler(config); // No options provided
+      const metricReader = metricHandler.getMetricReader();
+
+      // Should use the default _collectionInterval (60000ms)
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-member-access, @typescript-eslint/naming-convention, no-underscore-dangle
+      const exportInterval = (metricReader as any)._exportInterval;
+      assert.strictEqual(
+        exportInterval,
+        60000,
+        "Export interval should use default when neither env var nor options are provided",
+      );
+
+      void metricHandler.shutdown();
+    });
+
+    it("should prioritize OTEL_METRIC_EXPORT_INTERVAL over options.collectionInterval", () => {
+      // Set both environment variable and options
+      process.env.OTEL_METRIC_EXPORT_INTERVAL = "7500";
+
+      const metricHandler = new MetricHandler(config, { collectionInterval: 1000 });
+      const metricReader = metricHandler.getMetricReader();
+
+      // Should use environment variable over options
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-member-access, @typescript-eslint/naming-convention, no-underscore-dangle
+      const exportInterval = (metricReader as any)._exportInterval;
+      assert.strictEqual(
+        exportInterval,
+        7500,
+        "Export interval should prioritize env var over options",
+      );
+
+      void metricHandler.shutdown();
+    });
+
+    it("should handle OTEL_METRIC_EXPORT_INTERVAL with leading/trailing whitespace", () => {
+      // Set the environment variable with whitespace
+      process.env.OTEL_METRIC_EXPORT_INTERVAL = "  8000  ";
+
+      const metricHandler = new MetricHandler(config, { collectionInterval: 100 });
+      const metricReader = metricHandler.getMetricReader();
+
+      // parseInt should handle whitespace correctly
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-member-access, @typescript-eslint/naming-convention, no-underscore-dangle
+      const exportInterval = (metricReader as any)._exportInterval;
+      assert.strictEqual(
+        exportInterval,
+        8000,
+        "Export interval should handle whitespace in env var",
+      );
+
+      void metricHandler.shutdown();
+    });
+
+    it("should handle OTEL_METRIC_EXPORT_INTERVAL with decimal values by truncating", () => {
+      // Set the environment variable to a decimal value
+      process.env.OTEL_METRIC_EXPORT_INTERVAL = "1500.75";
+
+      const metricHandler = new MetricHandler(config, { collectionInterval: 100 });
+      const metricReader = metricHandler.getMetricReader();
+
+      // parseInt should truncate decimal values
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-member-access, @typescript-eslint/naming-convention, no-underscore-dangle
+      const exportInterval = (metricReader as any)._exportInterval;
+      assert.strictEqual(
+        exportInterval,
+        1500,
+        "Export interval should truncate decimal values from env var",
+      );
+
+      void metricHandler.shutdown();
+    });
+  });
 });
