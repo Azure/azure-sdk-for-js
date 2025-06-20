@@ -15,7 +15,7 @@ export const testPollingOptions = {
   updateIntervalInMs: isPlaybackMode() ? 0 : undefined,
 };
 
-describe.skip("Playwright test", () => {
+describe("Playwright test", () => {
   let recorder: Recorder;
   let subscriptionId: string;
   let client: PlaywrightManagementClient;
@@ -36,7 +36,8 @@ describe.skip("Playwright test", () => {
   afterEach(async function () {
     await recorder.stop();
   });
-  it("operations list test", async function () {
+
+  it.skip("operations list test", async function () {
     const resArray = new Array();
     for await (let item of client.operations.list()) {
       resArray.push(item);
