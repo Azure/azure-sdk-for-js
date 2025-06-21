@@ -2429,6 +2429,11 @@
       "packageName": "@azure/arm-cloudhealth",
       "projectFolder": "sdk/cloudhealth/arm-cloudhealth",
       "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-playwright",
+      "projectFolder": "sdk/playwright/arm-playwright",
+      "versionPolicyName": "management"
     }
   ]
 }
