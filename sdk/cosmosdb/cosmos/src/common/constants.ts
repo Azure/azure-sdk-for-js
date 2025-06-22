@@ -301,6 +301,8 @@ export const Constants = {
   DefaultEncryptionCacheTimeToLiveInSeconds: 7200,
   // Timeout to clear encryption related cache
   EncryptionCacheRefreshIntervalInMs: 60000, // 1 minute
+
+  RequestTimeoutForReads: 2000, // 2 seconds
 };
 
 /**

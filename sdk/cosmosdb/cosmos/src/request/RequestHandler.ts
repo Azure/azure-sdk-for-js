@@ -3,8 +3,8 @@
 
 import type { PipelineResponse } from "@azure/core-rest-pipeline";
 import { createPipelineRequest, createHttpHeaders } from "@azure/core-rest-pipeline";
-import { isReadRequest, prepareURL } from "../common/index.js";
-import { Constants, ResourceType } from "../common/constants.js";
+import { prepareURL } from "../common/index.js";
+import { Constants, OperationType, ResourceType } from "../common/constants.js";
 import { executePlugins, PluginOn } from "../plugins/Plugin.js";
 import * as RetryUtility from "../retry/retryUtility.js";
 import { defaultHttpAgent, defaultHttpsAgent } from "./defaultAgent.js";
@@ -66,9 +66,9 @@ async function httpRequest(
       requestContext.connectionPolicy.enablePartitionLevelCircuitBreaker) &&
     requestContext.partitionKeyRangeId &&
     requestContext.resourceType === ResourceType.item &&
-    isReadRequest(requestContext.operationType)
+    requestContext.operationType === OperationType.Read
   ) {
-    requestContext.connectionPolicy.requestTimeout = 5000; // 5 seconds
+    requestContext.connectionPolicy.requestTimeout = Constants.RequestTimeoutForReads;
     shouldThrow503OnTimeout = true;
   }
 
