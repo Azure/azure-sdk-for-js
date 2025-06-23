@@ -724,6 +724,9 @@ importers:
       '@rush-temp/arm-resources-subscriptions':
         specifier: file:./projects/arm-resources-subscriptions.tgz
         version: file:projects/arm-resources-subscriptions.tgz(@types/debug@4.1.12)(tsx@4.20.2)(vite@6.3.5(@types/node@22.7.9)(tsx@4.20.2)(yaml@2.8.0))(yaml@2.8.0)
+      '@rush-temp/arm-resourcesbicep':
+        specifier: file:./projects/arm-resourcesbicep.tgz
+        version: file:projects/arm-resourcesbicep.tgz(@types/debug@4.1.12)(tsx@4.20.2)(vite@6.3.5(@types/node@22.7.9)(tsx@4.20.2)(yaml@2.8.0))(yaml@2.8.0)
       '@rush-temp/arm-resourcesdeploymentstacks':
         specifier: file:./projects/arm-resourcesdeploymentstacks.tgz
         version: file:projects/arm-resourcesdeploymentstacks.tgz(@types/debug@4.1.12)(tsx@4.20.2)(vite@6.3.5(@types/node@22.7.9)(tsx@4.20.2)(yaml@2.8.0))(yaml@2.8.0)
@@ -2605,7 +2608,7 @@ packages:
     version: 0.0.0
 
   '@rush-temp/arm-appconfiguration@file:projects/arm-appconfiguration.tgz':
-    resolution: {integrity: sha512-UkVVT6xSUJjWMt4S6RQ96lkATAj+sZnMG/LkXBDNd9LiB3pNGagf69iSpPUTNLGkBMVUajC7b/qvQSn9k3RghA==, tarball: file:projects/arm-appconfiguration.tgz}
+    resolution: {integrity: sha512-uz1hizQJMDiXxuYubwc3/CovYO9qDfJ2TEML0X1V3AGERBl/P90VSFISU10pLeKj0Wb+GkT5NMD0jW+1wdQ2uw==, tarball: file:projects/arm-appconfiguration.tgz}
     version: 0.0.0
 
   '@rush-temp/arm-appcontainers@file:projects/arm-appcontainers.tgz':
@@ -3253,7 +3256,7 @@ packages:
     version: 0.0.0
 
   '@rush-temp/arm-networkcloud@file:projects/arm-networkcloud.tgz':
-    resolution: {integrity: sha512-rtcAatKlg6yIIJvOwEv0h2M8eK/H8i9LAyxHBdeMqESkUBhR1a+plH68amwIG++W0p97GG0I5Ims2Mp+pkrw/g==, tarball: file:projects/arm-networkcloud.tgz}
+    resolution: {integrity: sha512-r/5f7Za/op+qhB5f7MZzG61r2b9ICvAZtEQk7quj8sav1oDcSuEJVM+1fWq72oWiEitWkWzqt3NbU2ZDODXHvA==, tarball: file:projects/arm-networkcloud.tgz}
     version: 0.0.0
 
   '@rush-temp/arm-networkfunction@file:projects/arm-networkfunction.tgz':
@@ -3442,6 +3445,10 @@ packages:
 
   '@rush-temp/arm-resources@file:projects/arm-resources.tgz':
     resolution: {integrity: sha512-OmesF9S7ruuBzZi0bqZpxHIf5qEcnmDjS+i+0JJfOSMzg5I290XiQH8JDBigGBOqtX5VddLnkyGs8souxtI4wg==, tarball: file:projects/arm-resources.tgz}
+    version: 0.0.0
+
+  '@rush-temp/arm-resourcesbicep@file:projects/arm-resourcesbicep.tgz':
+    resolution: {integrity: sha512-tDlb1PDyGWeM7YU8PodJbWNpYGMono1GDaCwqRpqt5ra8BswTXkCTznfese+VRg5ZimaGmbAjiITmd3gUElMRQ==, tarball: file:projects/arm-resourcesbicep.tgz}
     version: 0.0.0
 
   '@rush-temp/arm-resourcesdeploymentstacks@file:projects/arm-resourcesdeploymentstacks.tgz':
@@ -17290,6 +17297,41 @@ snapshots:
       '@vitest/browser': 3.2.3(playwright@1.53.0)(vite@6.3.5(@types/node@22.7.9)(tsx@4.20.2)(yaml@2.8.0))(vitest@3.2.3)
       '@vitest/coverage-istanbul': 3.2.3(vitest@3.2.3)
       dotenv: 16.5.0
+      playwright: 1.53.0
+      tslib: 2.8.1
+      typescript: 5.8.3
+      vitest: 3.2.3(@types/debug@4.1.12)(@types/node@20.19.0)(@vitest/browser@3.2.3)(tsx@4.20.2)(yaml@2.8.0)
+    transitivePeerDependencies:
+      - '@edge-runtime/vm'
+      - '@types/debug'
+      - '@vitest/ui'
+      - bufferutil
+      - happy-dom
+      - jiti
+      - jsdom
+      - less
+      - lightningcss
+      - msw
+      - safaridriver
+      - sass
+      - sass-embedded
+      - stylus
+      - sugarss
+      - supports-color
+      - terser
+      - tsx
+      - utf-8-validate
+      - vite
+      - webdriverio
+      - yaml
+
+  '@rush-temp/arm-resourcesbicep@file:projects/arm-resourcesbicep.tgz(@types/debug@4.1.12)(tsx@4.20.2)(vite@6.3.5(@types/node@22.7.9)(tsx@4.20.2)(yaml@2.8.0))(yaml@2.8.0)':
+    dependencies:
+      '@types/node': 20.19.0
+      '@vitest/browser': 3.2.3(playwright@1.53.0)(vite@6.3.5(@types/node@22.7.9)(tsx@4.20.2)(yaml@2.8.0))(vitest@3.2.3)
+      '@vitest/coverage-istanbul': 3.2.3(vitest@3.2.3)
+      dotenv: 16.5.0
+      eslint: 9.28.0
       playwright: 1.53.0
       tslib: 2.8.1
       typescript: 5.8.3
