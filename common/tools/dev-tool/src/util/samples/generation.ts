@@ -81,7 +81,11 @@ async function collect<T>(i: AsyncIterableIterator<T>): Promise<T[]> {
 }
 
 function isValidNpmVersionSpecifier(specifier: string) {
-  return semver.valid(specifier) || ["latest", "dev", "next"].includes(specifier);
+  return (
+    semver.valid(
+      specifier.startsWith("^") || specifier.startsWith("~") ? specifier.substring(1) : specifier,
+    ) || ["latest", "dev", "next"].includes(specifier)
+  );
 }
 
 function resolveDependencyVersion(name: string, specifier: string): string {
