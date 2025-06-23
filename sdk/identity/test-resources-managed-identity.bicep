@@ -145,7 +145,7 @@ resource farm 'Microsoft.Web/serverfarms@2021-03-01' = {
   kind: 'app,linux'
 }
 
-resource web 'Microsoft.Web/sites@2022-09-01' = {
+resource web 'Microsoft.Web/sites@2024-11-01' = {
   name: '${baseName}webapp'
   location: location
   kind: 'app'
@@ -161,7 +161,7 @@ resource web 'Microsoft.Web/sites@2022-09-01' = {
     httpsOnly: true
     keyVaultReferenceIdentity: 'SystemAssigned'
     siteConfig: {
-      linuxFxVersion: 'NODE|18-lts'
+      linuxFxVersion: 'NODE|22-lts'
       http20Enabled: true
       minTlsVersion: '1.2'
       appSettings: [
