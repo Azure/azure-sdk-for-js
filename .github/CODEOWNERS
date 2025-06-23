@@ -897,6 +897,9 @@ sdk/ai/ai-agents @ganeshyb @glharper @dargilco @jhakulin @ZachhK @bobogogo1990
 /sdk/resources/arm-resources/ @qiaozha @MaryGao
 
 # PRLabel: %Mgmt
+/sdk/resources/arm-resourcesbicep/ @qiaozha @MaryGao
+
+# PRLabel: %Mgmt
 /sdk/resources/arm-resources-profile-2020-09-01-hybrid/ @qiaozha @MaryGao
 
 # PRLabel: %Mgmt
