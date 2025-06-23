@@ -205,6 +205,8 @@ export interface ManagedClusterAgentPoolProfileProperties {
   vnetSubnetID?: string;
   /** If omitted, pod IPs are statically assigned on the node subnet (see vnetSubnetID for more details). This is of the form: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworks/{virtualNetworkName}/subnets/{subnetName} */
   podSubnetID?: string;
+  /** The IP allocation mode for pods in the agent pool. Must be used with podSubnetId. The default is 'DynamicIndividual'. */
+  podIPAllocationMode?: PodIPAllocationMode;
   /** The maximum number of pods that can run on a node. */
   maxPods?: number;
   /** The operating system type. The default is Linux. */
@@ -290,6 +292,14 @@ export interface ManagedClusterAgentPoolProfileProperties {
   securityProfile?: AgentPoolSecurityProfile;
   /** GPU settings for the Agent Pool. */
   gpuProfile?: GPUProfile;
+  /** Profile specific to a managed agent pool in Gateway mode. This field cannot be set if agent pool mode is not Gateway. */
+  gatewayProfile?: AgentPoolGatewayProfile;
+  /** Specifications on VirtualMachines agent pool. */
+  virtualMachinesProfile?: VirtualMachinesProfile;
+  /** The status of nodes in a VirtualMachines agent pool. */
+  virtualMachineNodesStatus?: VirtualMachineNodes[];
+  /** Contains read-only information about the Agent Pool. */
+  status?: AgentPoolStatus;
 }
 
 /** Settings for upgrading an agentpool */
@@ -456,6 +466,49 @@ export interface AgentPoolSecurityProfile {
 export interface GPUProfile {
   /** Whether to install GPU drivers. When it's not specified, default is Install. */
   driver?: GPUDriver;
+}
+
+/** Profile of the managed cluster gateway agent pool. */
+export interface AgentPoolGatewayProfile {
+  /** The Gateway agent pool associates one public IPPrefix for each static egress gateway to provide public egress. The size of Public IPPrefix should be selected by the user. Each node in the agent pool is assigned with one IP from the IPPrefix. The IPPrefix size thus serves as a cap on the size of the Gateway agent pool. Due to Azure public IPPrefix size limitation, the valid value range is [28, 31] (/31 = 2 nodes/IPs, /30 = 4 nodes/IPs, /29 = 8 nodes/IPs, /28 = 16 nodes/IPs). The default value is 31. */
+  publicIPPrefixSize?: number;
+}
+
+/** Specifications on VirtualMachines agent pool. */
+export interface VirtualMachinesProfile {
+  /** Specifications on how to scale a VirtualMachines agent pool. */
+  scale?: ScaleProfile;
+}
+
+/** Specifications on how to scale a VirtualMachines agent pool. */
+export interface ScaleProfile {
+  /** Specifications on how to scale the VirtualMachines agent pool to a fixed size. */
+  manual?: ManualScaleProfile[];
+}
+
+/** Specifications on number of machines. */
+export interface ManualScaleProfile {
+  /** VM size that AKS will use when creating and scaling e.g. 'Standard_E4s_v3', 'Standard_E16s_v3' or 'Standard_D16s_v5'. */
+  size?: string;
+  /** Number of nodes. */
+  count?: number;
+}
+
+/** Current status on a group of nodes of the same vm size. */
+export interface VirtualMachineNodes {
+  /** The VM size of the agents used to host this group of nodes. */
+  size?: string;
+  /** Number of nodes. */
+  count?: number;
+}
+
+/** Contains read-only information about the Agent Pool. */
+export interface AgentPoolStatus {
+  /**
+   * Preserves the detailed info of failure. If there was no error, this field is omitted.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly provisioningError?: CloudErrorBody;
 }
 
 /** Profile for Linux VMs in the container service cluster. */
@@ -642,6 +695,8 @@ export interface ContainerServiceNetworkProfile {
   loadBalancerProfile?: ManagedClusterLoadBalancerProfile;
   /** Profile of the cluster NAT gateway. */
   natGatewayProfile?: ManagedClusterNATGatewayProfile;
+  /** The profile for Static Egress Gateway addon. For more details about Static Egress Gateway, see https://aka.ms/aks/static-egress-gateway. */
+  staticEgressGatewayProfile?: ManagedClusterStaticEgressGatewayProfile;
   /** One IPv4 CIDR is expected for single-stack networking. Two CIDRs, one for each IP family (IPv4/IPv6), is expected for dual-stack networking. */
   podCidrs?: string[];
   /** One IPv4 CIDR is expected for single-stack networking. Two CIDRs, one for each IP family (IPv4/IPv6), is expected for dual-stack networking. They must not overlap with any Subnet IP ranges. */
@@ -738,6 +793,12 @@ export interface ManagedClusterNATGatewayProfile {
 export interface ManagedClusterManagedOutboundIPProfile {
   /** The desired number of outbound IPs created/managed by Azure. Allowed values must be in the range of 1 to 16 (inclusive). The default value is 1. */
   count?: number;
+}
+
+/** The Static Egress Gateway addon configuration for the cluster. */
+export interface ManagedClusterStaticEgressGatewayProfile {
+  /** Indicates if Static Egress Gateway addon is enabled or not. */
+  enabled?: boolean;
 }
 
 /** For more details see [managed AAD on AKS](https://docs.microsoft.com/azure/aks/managed-aad). */
@@ -1109,6 +1170,15 @@ export interface ManagedClusterBootstrapProfile {
   artifactSource?: ArtifactSource;
   /** The resource Id of Azure Container Registry. The registry must have private network access, premium SKU and zone redundancy. */
   containerRegistryId?: string;
+}
+
+/** Contains read-only information about the Managed Cluster. */
+export interface ManagedClusterStatus {
+  /**
+   * Preserves the detailed info of failure. If there was no error, this field is omitted.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly provisioningError?: CloudErrorBody;
 }
 
 /** Common fields that are returned in the response for all Azure Resource Manager resources */
@@ -1860,6 +1930,8 @@ export interface AgentPool extends SubResource {
   vnetSubnetID?: string;
   /** If omitted, pod IPs are statically assigned on the node subnet (see vnetSubnetID for more details). This is of the form: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworks/{virtualNetworkName}/subnets/{subnetName} */
   podSubnetID?: string;
+  /** The IP allocation mode for pods in the agent pool. Must be used with podSubnetId. The default is 'DynamicIndividual'. */
+  podIPAllocationMode?: PodIPAllocationMode;
   /** The maximum number of pods that can run on a node. */
   maxPods?: number;
   /** The operating system type. The default is Linux. */
@@ -1945,10 +2017,23 @@ export interface AgentPool extends SubResource {
   securityProfile?: AgentPoolSecurityProfile;
   /** GPU settings for the Agent Pool. */
   gpuProfile?: GPUProfile;
+  /** Profile specific to a managed agent pool in Gateway mode. This field cannot be set if agent pool mode is not Gateway. */
+  gatewayProfile?: AgentPoolGatewayProfile;
+  /** Specifications on VirtualMachines agent pool. */
+  virtualMachinesProfile?: VirtualMachinesProfile;
+  /** The status of nodes in a VirtualMachines agent pool. */
+  virtualMachineNodesStatus?: VirtualMachineNodes[];
+  /** Contains read-only information about the Agent Pool. */
+  status?: AgentPoolStatus;
 }
 
 /** A machine. Contains details about the underlying virtual machine. A machine may be visible here but not in kubectl get nodes; if so it may be because the machine has not been registered with the Kubernetes API Server yet. */
 export interface Machine extends SubResource {
+  /**
+   * The Availability zone in which machine is located.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly zones?: string[];
   /**
    * The properties of the machine
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -2080,6 +2165,8 @@ export interface ManagedCluster extends TrackedResource {
   metricsProfile?: ManagedClusterMetricsProfile;
   /** Profile of the cluster bootstrap configuration. */
   bootstrapProfile?: ManagedClusterBootstrapProfile;
+  /** Contains read-only information about the Managed Cluster. */
+  status?: ManagedClusterStatus;
 }
 
 /** Managed cluster Access Profile. */
@@ -2372,6 +2459,24 @@ export enum KnownWorkloadRuntime {
  */
 export type WorkloadRuntime = string;
 
+/** Known values of {@link PodIPAllocationMode} that the service accepts. */
+export enum KnownPodIPAllocationMode {
+  /** Each node gets allocated with a non-contiguous list of IP addresses assignable to pods. This is better for maximizing a small to medium subnet of size \/16 or smaller. The Azure CNI cluster with dynamic IP allocation defaults to this mode if the customer does not explicitly specify a podIPAllocationMode */
+  DynamicIndividual = "DynamicIndividual",
+  /** Each node is statically allocated CIDR block(s) of size \/28 = 16 IPs per block to satisfy the maxPods per node. Number of CIDR blocks >= (maxPods \/ 16). The block, rather than a single IP, counts against the Azure Vnet Private IP limit of 65K. Therefore block mode is suitable for running larger workloads with more than the current limit of 65K pods in a cluster. This mode is better suited to scale with larger subnets of \/15 or bigger */
+  StaticBlock = "StaticBlock",
+}
+
+/**
+ * Defines values for PodIPAllocationMode. \
+ * {@link KnownPodIPAllocationMode} can be used interchangeably with PodIPAllocationMode,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **DynamicIndividual**: Each node gets allocated with a non-contiguous list of IP addresses assignable to pods. This is better for maximizing a small to medium subnet of size \/16 or smaller. The Azure CNI cluster with dynamic IP allocation defaults to this mode if the customer does not explicitly specify a podIPAllocationMode \
+ * **StaticBlock**: Each node is statically allocated CIDR block(s) of size \/28 = 16 IPs per block to satisfy the maxPods per node. Number of CIDR blocks >= (maxPods \/ 16). The block, rather than a single IP, counts against the Azure Vnet Private IP limit of 65K. Therefore block mode is suitable for running larger workloads with more than the current limit of 65K pods in a cluster. This mode is better suited to scale with larger subnets of \/15 or bigger
+ */
+export type PodIPAllocationMode = string;
+
 /** Known values of {@link OSType} that the service accepts. */
 export enum KnownOSType {
   /** Use Linux. */
@@ -2444,6 +2549,8 @@ export enum KnownAgentPoolType {
   VirtualMachineScaleSets = "VirtualMachineScaleSets",
   /** Use of this is strongly discouraged. */
   AvailabilitySet = "AvailabilitySet",
+  /** Create an Agent Pool backed by a Single Instance VM orchestration mode. */
+  VirtualMachines = "VirtualMachines",
 }
 
 /**
@@ -2452,7 +2559,8 @@ export enum KnownAgentPoolType {
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
  * **VirtualMachineScaleSets**: Create an Agent Pool backed by a Virtual Machine Scale Set. \
- * **AvailabilitySet**: Use of this is strongly discouraged.
+ * **AvailabilitySet**: Use of this is strongly discouraged. \
+ * **VirtualMachines**: Create an Agent Pool backed by a Single Instance VM orchestration mode.
  */
 export type AgentPoolType = string;
 
@@ -2462,6 +2570,8 @@ export enum KnownAgentPoolMode {
   System = "System",
   /** User agent pools are primarily for hosting your application pods. */
   User = "User",
+  /** Gateway agent pools are dedicated to providing static egress IPs to pods. For more details, see https:\//aka.ms\/aks\/static-egress-gateway. */
+  Gateway = "Gateway",
 }
 
 /**
@@ -2470,7 +2580,8 @@ export enum KnownAgentPoolMode {
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
  * **System**: System agent pools are primarily for hosting critical system pods such as CoreDNS and metrics-server. System agent pools osType must be Linux. System agent pools VM SKU must have at least 2vCPUs and 4GB of memory. \
- * **User**: User agent pools are primarily for hosting your application pods.
+ * **User**: User agent pools are primarily for hosting your application pods. \
+ * **Gateway**: Gateway agent pools are dedicated to providing static egress IPs to pods. For more details, see https:\/\/aka.ms\/aks\/static-egress-gateway.
  */
 export type AgentPoolMode = string;
 
