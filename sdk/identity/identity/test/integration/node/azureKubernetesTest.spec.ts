@@ -14,11 +14,8 @@ describe("Azure Kubernetes Integration test", function () {
     const podName = requireEnvVar("IDENTITY_AKS_POD_NAME");
     const pods = runCommand("kubectl", `get pods -o jsonpath='{.items[0].metadata.name}'`);
     assert.include(pods, podName);
-    console.log(`Using pod:  ${podName.substring(0, 10)}`);
-    const loggingPod = runCommand("kubectl", `describe pod ${podName}`);
-    console.log(`Logs for pod ${podName}: ${loggingPod}`);
-    podOutput = runCommand("kubectl", `exec ${podName} -- node /app/index.js`);
 
+    podOutput = runCommand("kubectl", `exec ${podName} -- node /app/index.js`);
   });
 
   it("can authenticate using managed identity", async function (ctx) {
