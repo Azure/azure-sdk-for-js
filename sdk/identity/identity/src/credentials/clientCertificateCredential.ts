@@ -46,6 +46,7 @@ export class ClientCertificateCredential implements TokenCredential {
    * @param tenantId - The Microsoft Entra tenant (directory) ID.
    * @param clientId - The client (application) ID of an App Registration in the tenant.
    * @param certificatePath - The path to a PEM-encoded public/private key certificate on the filesystem.
+   * Ensure that certificate is in PEM format and contains both the public and private keys.
    * @param options - Options for configuring the client which makes the authentication request.
    */
   constructor(
