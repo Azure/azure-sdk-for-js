@@ -3,7 +3,12 @@
 
 import type { CallConnection } from "../callConnection.js";
 import type { CallConnectionProperties, CallParticipant } from "./models.js";
-import type { CallSessionEndReason, ErrorModel, RecordingState, RecordingStorageInfo } from "../generated/src/index.js";
+import type {
+  CallSessionEndReason,
+  ErrorModel,
+  RecordingState,
+  RecordingStorageInfo,
+} from "../generated/src/index.js";
 import type {
   AddParticipantEventResult,
   AnswerCallEventResult,

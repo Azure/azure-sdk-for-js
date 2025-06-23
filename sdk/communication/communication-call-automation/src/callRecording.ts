@@ -188,9 +188,9 @@ export class CallRecording {
       recordingExpirationTime: response.recordingExpirationTime,
       recordingStartTime: response.recordingStartTime,
       recordingStorageInfo: response.recordingStorageInfo,
-      sessionEndReason: response.sessionEndReason
-    }
-    
+      sessionEndReason: response.sessionEndReason,
+    };
+
     return result;
   }
 
