@@ -70,7 +70,7 @@ stages:
                       Environment: ${{ parameters.PublicPublishEnvironment }}
 
               # MsDoc publishing relies on packages being published to npm
-              - ${{ if and(ne(parameters.PublicRegistry, 'https://registry.npmjs.org/'), ne(artifact.skipPublishDocMs, 'true')) }}:
+              - ${{ if and(eq(parameters.PublicRegistry, 'https://registry.npmjs.org/'), ne(artifact.skipPublishDocMs, 'true')) }}:
                   - job: PublishDocs
                     displayName: Docs.MS Release
                     condition: and(succeeded(), ne(variables['Skip.PublishDocs'], 'true'))
