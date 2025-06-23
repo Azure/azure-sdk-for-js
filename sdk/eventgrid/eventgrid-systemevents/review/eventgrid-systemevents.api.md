@@ -922,7 +922,7 @@ export interface AppConfigurationSnapshotModifiedEventData extends AppConfigurat
 
 // @public
 export interface AppEventTypeDetail {
-    action: AppAction;
+    action?: AppAction;
 }
 
 // @public
@@ -930,9 +930,9 @@ export type AppServicePlanAction = string;
 
 // @public
 export interface AppServicePlanEventTypeDetail {
-    action: AppServicePlanAction;
-    stampKind: StampKind;
-    status: AsyncStatus;
+    action?: AppServicePlanAction;
+    stampKind?: StampKind;
+    status?: AsyncStatus;
 }
 
 // @public
@@ -1298,7 +1298,7 @@ export type EventGridMqttClientDisconnectionReason = string;
 // @public
 export interface EventGridMqttClientEventData {
     clientAuthenticationName: string;
-    clientName: string;
+    clientName?: string;
     namespaceName: string;
 }
 
@@ -1858,14 +1858,6 @@ export enum KnownHealthcareFhirResourceType {
     ValueSet = "ValueSet",
     VerificationResult = "VerificationResult",
     VisionPrescription = "VisionPrescription"
-}
-
-// @public
-export enum KnownServiceApiVersions {
-    // (undocumented)
-    V20180101 = "2018-01-01",
-    // (undocumented)
-    V20240101 = "2024-01-01"
 }
 
 // @public
@@ -2711,12 +2703,12 @@ export interface SystemEventNameToEventData {
 // @public
 export interface WebAppServicePlanUpdatedEventData {
     address?: string;
-    appServicePlanEventTypeDetail: AppServicePlanEventTypeDetail;
+    appServicePlanEventTypeDetail?: AppServicePlanEventTypeDetail;
     clientRequestId?: string;
     correlationRequestId?: string;
     name?: string;
     requestId?: string;
-    sku: WebAppServicePlanUpdatedEventDataSku;
+    sku?: WebAppServicePlanUpdatedEventDataSku;
     verb?: string;
 }
 
@@ -2732,7 +2724,7 @@ export interface WebAppServicePlanUpdatedEventDataSku {
 // @public
 export interface WebAppUpdatedEventData {
     address?: string;
-    appEventTypeDetail: AppEventTypeDetail;
+    appEventTypeDetail?: AppEventTypeDetail;
     clientRequestId?: string;
     correlationRequestId?: string;
     name?: string;
@@ -2743,7 +2735,7 @@ export interface WebAppUpdatedEventData {
 // @public
 export interface WebBackupOperationCompletedEventData {
     address?: string;
-    appEventTypeDetail: AppEventTypeDetail;
+    appEventTypeDetail?: AppEventTypeDetail;
     clientRequestId?: string;
     correlationRequestId?: string;
     name?: string;
@@ -2754,7 +2746,7 @@ export interface WebBackupOperationCompletedEventData {
 // @public
 export interface WebBackupOperationFailedEventData {
     address?: string;
-    appEventTypeDetail: AppEventTypeDetail;
+    appEventTypeDetail?: AppEventTypeDetail;
     clientRequestId?: string;
     correlationRequestId?: string;
     name?: string;
@@ -2765,7 +2757,7 @@ export interface WebBackupOperationFailedEventData {
 // @public
 export interface WebBackupOperationStartedEventData {
     address?: string;
-    appEventTypeDetail: AppEventTypeDetail;
+    appEventTypeDetail?: AppEventTypeDetail;
     clientRequestId?: string;
     correlationRequestId?: string;
     name?: string;
@@ -2776,7 +2768,7 @@ export interface WebBackupOperationStartedEventData {
 // @public
 export interface WebRestoreOperationCompletedEventData {
     address?: string;
-    appEventTypeDetail: AppEventTypeDetail;
+    appEventTypeDetail?: AppEventTypeDetail;
     clientRequestId?: string;
     correlationRequestId?: string;
     name?: string;
@@ -2787,7 +2779,7 @@ export interface WebRestoreOperationCompletedEventData {
 // @public
 export interface WebRestoreOperationFailedEventData {
     address?: string;
-    appEventTypeDetail: AppEventTypeDetail;
+    appEventTypeDetail?: AppEventTypeDetail;
     clientRequestId?: string;
     correlationRequestId?: string;
     name?: string;
@@ -2798,7 +2790,7 @@ export interface WebRestoreOperationFailedEventData {
 // @public
 export interface WebRestoreOperationStartedEventData {
     address?: string;
-    appEventTypeDetail: AppEventTypeDetail;
+    appEventTypeDetail?: AppEventTypeDetail;
     clientRequestId?: string;
     correlationRequestId?: string;
     name?: string;
@@ -2809,7 +2801,7 @@ export interface WebRestoreOperationStartedEventData {
 // @public
 export interface WebSlotSwapCompletedEventData {
     address?: string;
-    appEventTypeDetail: AppEventTypeDetail;
+    appEventTypeDetail?: AppEventTypeDetail;
     clientRequestId?: string;
     correlationRequestId?: string;
     name?: string;
@@ -2820,7 +2812,7 @@ export interface WebSlotSwapCompletedEventData {
 // @public
 export interface WebSlotSwapFailedEventData {
     address?: string;
-    appEventTypeDetail: AppEventTypeDetail;
+    appEventTypeDetail?: AppEventTypeDetail;
     clientRequestId?: string;
     correlationRequestId?: string;
     name?: string;
@@ -2831,7 +2823,7 @@ export interface WebSlotSwapFailedEventData {
 // @public
 export interface WebSlotSwapStartedEventData {
     address?: string;
-    appEventTypeDetail: AppEventTypeDetail;
+    appEventTypeDetail?: AppEventTypeDetail;
     clientRequestId?: string;
     correlationRequestId?: string;
     name?: string;
@@ -2842,7 +2834,7 @@ export interface WebSlotSwapStartedEventData {
 // @public
 export interface WebSlotSwapWithPreviewCancelledEventData {
     address?: string;
-    appEventTypeDetail: AppEventTypeDetail;
+    appEventTypeDetail?: AppEventTypeDetail;
     clientRequestId?: string;
     correlationRequestId?: string;
     name?: string;
@@ -2853,7 +2845,7 @@ export interface WebSlotSwapWithPreviewCancelledEventData {
 // @public
 export interface WebSlotSwapWithPreviewStartedEventData {
     address?: string;
-    appEventTypeDetail: AppEventTypeDetail;
+    appEventTypeDetail?: AppEventTypeDetail;
     clientRequestId?: string;
     correlationRequestId?: string;
     name?: string;
