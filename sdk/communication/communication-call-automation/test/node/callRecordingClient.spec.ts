@@ -318,7 +318,7 @@ describe("CallRecording Live Tests", () => {
   });
 
   it(
-    "Creates a call, start recording with call connection id, and hangs up",
+    "Creates a call start and stop recording and get record result then hangs up",
     { timeout: 60000 },
     async function (ctx) {
       const fullTitle: string | undefined =
@@ -372,7 +372,10 @@ describe("CallRecording Live Tests", () => {
 
       const recOptions: StartRecordingOptions = {
         recordingStateCallbackEndpointUrl: callBackUrl,
-        callConnectionId: callConnectionId,
+        callLocator: {
+          id: (await callConnection.getCallConnectionProperties()).serverCallId || "",
+          kind: "serverCallLocator",
+        },
         recordingChannel: "unmixed",
         recordingFormat: "wav",
         recordingContent: "audio",
@@ -389,6 +392,13 @@ describe("CallRecording Live Tests", () => {
         .getState(recordingStateResult.recordingId);
       assert.equal(recStatus.recordingState, "active");
       await callerCallAutomationClient.getCallRecording().stop(recordingStateResult.recordingId);
+      // Delay for 6 seconds, this is to let the recording state change to in-active
+      await new Promise((resolve) => setTimeout(resolve, 6000));
+
+      const recordingResult = await callerCallAutomationClient
+        .getCallRecording()
+        .getRecordingResult(recordingStateResult.recordingId);
+      assert.isDefined(recordingResult);
     },
   );
 });

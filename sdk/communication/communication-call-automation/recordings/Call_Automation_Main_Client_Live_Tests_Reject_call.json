@@ -17,53 +17,6 @@
     "serverCallId": "sanitized",
     "callerDisplayName": "",
     "incomingCallContext": "sanitized",
-    "correlationId": "4cc4fec1-c059-4da4-86d3-6149aadffaa7"
-  },
-  [
-    {
-      "id": "sanitized",
-      "source": "calling/callConnections/0f002180-a2db-486c-8670-b551eda43f27",
-      "type": "Microsoft.Communication.CallDisconnected",
-      "data": {
-        "version": "2024-09-01-preview",
-        "operationContext": "operationContextRejectCall",
-        "resultInformation": {
-          "code": 603,
-          "subCode": 0,
-          "message": "Call ended successfully as it was declined from callee. DiagCode: 603#0.@"
-        },
-        "callConnectionId": "0f002180-a2db-486c-8670-b551eda43f27",
-        "serverCallId": "sanitized",
-        "correlationId": "4cc4fec1-c059-4da4-86d3-6149aadffaa7",
-        "publicEventType": "Microsoft.Communication.CallDisconnected"
-      },
-      "time": "2025-06-04T09:08:28.8456129+00:00",
-      "specversion": "1.0",
-      "datacontenttype": "application/json",
-      "subject": "calling/callConnections/0f002180-a2db-486c-8670-b551eda43f27"
-    }
-  ],
-  [
-    {
-      "id": "sanitized",
-      "source": "calling/callConnections/0f002180-a2db-486c-8670-b551eda43f27",
-      "type": "Microsoft.Communication.CreateCallFailed",
-      "data": {
-        "version": "2024-09-01-preview",
-        "resultInformation": {
-          "code": 603,
-          "subCode": 0,
-          "message": "Call ended successfully as it was declined from callee. DiagCode: 603#0.@"
-        },
-        "callConnectionId": "0f002180-a2db-486c-8670-b551eda43f27",
-        "serverCallId": "sanitized",
-        "correlationId": "4cc4fec1-c059-4da4-86d3-6149aadffaa7",
-        "publicEventType": "Microsoft.Communication.CreateCallFailed"
-      },
-      "time": "2025-06-04T09:08:28.8456129+00:00",
-      "specversion": "1.0",
-      "datacontenttype": "application/json",
-      "subject": "calling/callConnections/0f002180-a2db-486c-8670-b551eda43f27"
-    }
-  ]
+    "correlationId": "d99e862a-a1ea-4fd2-803b-4bb2eca25df9"
+  }
 ]

@@ -5,12 +5,13 @@ import type {
   CallAutomationApiClientOptionalParams,
   StartCallRecordingRequest,
 } from "./generated/src/models/index.js";
-import type { RecordingStateResult } from "./models/responses.js";
+import type { RecordingResult, RecordingStateResult } from "./models/responses.js";
 import type {
   StartRecordingOptions,
   StopRecordingOptions,
   PauseRecordingOptions,
   GetRecordingPropertiesOptions,
+  GetRecordingResultOptions,
   ResumeRecordingOptions,
   DeleteRecordingOptions,
   DownloadRecordingOptions,
@@ -167,6 +168,30 @@ export class CallRecording {
    */
   public async resume(recordingId: string, options: ResumeRecordingOptions = {}): Promise<void> {
     return this.callRecordingImpl.resumeRecording(recordingId, options);
+  }
+
+  /**
+   * Returns call recording result.
+   * @param recordingId - The recordingId associated with the recording.
+   * @param options - Additional request options contains getRecordingProperties api options.
+   */
+  public async getRecordingResult(
+    recordingId: string,
+    options: GetRecordingResultOptions = {},
+  ): Promise<RecordingResult> {
+    const response = await this.callRecordingImpl.getRecordingResult(recordingId, options);
+
+    const result: RecordingResult = {
+      recordingId: response.recordingId!,
+      errors: response.errors,
+      recordingDurationMs: response.recordingDurationMs,
+      recordingExpirationTime: response.recordingExpirationTime,
+      recordingStartTime: response.recordingStartTime,
+      recordingStorageInfo: response.recordingStorageInfo,
+      sessionEndReason: response.sessionEndReason
+    }
+    
+    return result;
   }
 
   /**
