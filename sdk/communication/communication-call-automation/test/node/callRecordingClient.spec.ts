@@ -327,7 +327,7 @@ describe("CallRecording Live Tests", () => {
           : undefined;
       testName = fullTitle
         ? fullTitle.replace(/ /g, "_")
-        : "create_call_start_recording_and_hang_up";
+        : "create_call_start_and_stop_recording_and_get_record_result_then_hang_up";
       await loadPersistedEvents(testName);
 
       const callInvite: CallInvite = { targetParticipant: testUser2 };

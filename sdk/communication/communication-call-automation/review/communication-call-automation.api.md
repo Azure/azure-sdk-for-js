@@ -316,6 +316,7 @@ export class CallRecording {
     downloadStreaming(sourceLocationUrl: string, options?: DownloadRecordingOptions): Promise<NodeJS.ReadableStream>;
     downloadToPath(sourceLocationUrl: string, destinationPath: string, options?: DownloadRecordingOptions): Promise<void>;
     downloadToStream(sourceLocationUrl: string, destinationStream: NodeJS.WritableStream, options?: DownloadRecordingOptions): Promise<void>;
+    getRecordingResult(recordingId: string, options?: GetRecordingResultOptions): Promise<RecordingResult>;
     getState(recordingId: string, options?: GetRecordingPropertiesOptions): Promise<RecordingStateResult>;
     pause(recordingId: string, options?: PauseRecordingOptions): Promise<void>;
     resume(recordingId: string, options?: ResumeRecordingOptions): Promise<void>;
@@ -593,6 +594,9 @@ export type GetParticipantOptions = OperationOptions;
 
 // @public
 export type GetRecordingPropertiesOptions = OperationOptions;
+
+// @public
+export type GetRecordingResultOptions = OperationOptions;
 
 // @public
 export type HangUpOptions = OperationOptions;
@@ -1139,6 +1143,30 @@ export type RecordingFormat = "mp3" | "mp4" | "wav";
 
 // @public
 export type RecordingKind = string;
+
+// @public
+export interface RecordingResult {
+    // Warning: (ae-forgotten-export) The symbol "ErrorModel" needs to be exported by the entry point index.d.ts
+    //
+    // (undocumented)
+    readonly errors?: ErrorModel[];
+    // (undocumented)
+    readonly recordingDurationMs?: number;
+    // (undocumented)
+    readonly recordingExpirationTime?: Date;
+    // (undocumented)
+    recordingId: string;
+    // (undocumented)
+    readonly recordingStartTime?: Date;
+    // Warning: (ae-forgotten-export) The symbol "RecordingStorageInfo" needs to be exported by the entry point index.d.ts
+    //
+    // (undocumented)
+    readonly recordingStorageInfo?: RecordingStorageInfo;
+    // Warning: (ae-forgotten-export) The symbol "CallSessionEndReason" needs to be exported by the entry point index.d.ts
+    //
+    // (undocumented)
+    readonly sessionEndReason?: CallSessionEndReason;
+}
 
 // @public
 export type RecordingState = string;
