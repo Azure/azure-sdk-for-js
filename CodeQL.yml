@@ -1,0 +1,8 @@
+path_classifiers:
+  template:
+    - "sdk/**/templates/**/*.ts"
+  samples:
+    - "sdk/**/samples/**/*.ts"
+    - "sdk/**/sample-dev/**/*.ts"
+  tests:
+    - "sdk/**/test/**/*.ts"
