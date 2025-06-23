@@ -1,17 +1,25 @@
 # Migrating recordings to the `azure-sdk-assets` repository
 
 ## Table of Contents
-- [Background](#background)
-- [Prerequisites](#prerequisites)
-- [New Package - No Recorded Tests](#new-package---no-recorded-tests)
-- [Workflow with Asset Sync enabled](#workflow-with-asset-sync-enabled)
-- [Migration Steps for Existing Recordings](#migration-steps-for-existing-recordings)
-- [Inspecting Recordings](#inspecting-recordings-with-asset-sync-enabled)
-- [Test-Proxy Commands](#test-proxy-commands)
-- [Working Offline](#working-offline)
-- [Troubleshooting](#troubleshooting)
-- [Frequently Asked Questions](#frequently-asked-questions)
-- [Further Reading](#further-reading)
+- [Migrating recordings to the `azure-sdk-assets` repository](#migrating-recordings-to-the-azure-sdk-assets-repository)
+  - [Table of Contents](#table-of-contents)
+  - [Background](#background)
+  - [Prerequisites](#prerequisites)
+  - [New Package - No Recorded Tests](#new-package---no-recorded-tests)
+  - [Workflow with Asset Sync enabled](#workflow-with-asset-sync-enabled)
+  - [Migration Steps for Existing Recordings](#migration-steps-for-existing-recordings)
+  - [Inspecting Recordings with Asset Sync enabled](#inspecting-recordings-with-asset-sync-enabled)
+    - [Through VS Code GIT Source Control UI](#through-vs-code-git-source-control-ui)
+  - [Test-Proxy Commands](#test-proxy-commands)
+  - [Working Offline](#working-offline)
+  - [Troubleshooting](#troubleshooting)
+    - [Error: Permission denied to azure-sdk-assets repository](#error-permission-denied-to-azure-sdk-assets-repository)
+    - [Error: Powershell command not found](#error-powershell-command-not-found)
+    - [Tests fail in playback mode after migration](#tests-fail-in-playback-mode-after-migration)
+    - [Changes not appearing in recordings](#changes-not-appearing-in-recordings)
+    - [Tests work in CI but fail locally](#tests-work-in-ci-but-fail-locally)
+  - [Frequently Asked Questions](#frequently-asked-questions)
+  - [Further Reading](#further-reading)
 
 ## Background
 
