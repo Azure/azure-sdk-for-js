@@ -1,8 +1,6 @@
 path_classifiers:
-  template:
-    - "sdk/**/templates/**/*.ts"
-  samples:
-    - "sdk/**/samples/**/*.ts"
-    - "sdk/**/sample-dev/**/*.ts"
+  api-management:
+    - "sdk/apimanagement/api-management-custom-widgets-tools"
+    - "sdk/apimanagement/api-management-custom-widgets-scaffolder"
   tests:
     - "sdk/**/test/**/*.ts"
