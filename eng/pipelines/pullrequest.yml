@@ -5,6 +5,7 @@ pr:
     - feature/*
     - hotfix/*
     - release/*
+    - feat/pnpm-*
     - pipelinev3*
   paths:
     include:

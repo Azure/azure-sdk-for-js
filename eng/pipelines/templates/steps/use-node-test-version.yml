@@ -7,8 +7,9 @@ steps:
       NodeVersion: $(NodeTestVersion)
 
   # Packages with native dependencies must be reinstalled after changing Node versions
+  # TODO: how to get the symlink paths without version?
   - pwsh: |
-      $nativeDependencySymlinkPaths = "common/temp/node_modules/.pnpm/node_modules/keytar,common/temp/node_modules/.pnpm/node_modules/@azure/msal-node-extensions"
+      $nativeDependencySymlinkPaths = "node_modules/.pnpm/keytar@7.9.0/,sdk/identity/identity-broker/node_modules/@azure/msal-node-extensions"
       $currentLocation = Get-Location
       $dependencySymlinks = $nativeDependencySymlinkPaths.Split(",")
 
