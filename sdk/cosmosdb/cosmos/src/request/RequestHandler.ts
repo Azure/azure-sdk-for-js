@@ -57,7 +57,6 @@ async function httpRequest(
     }
   }
 
-  let shouldThrow503OnTimeout: boolean = false;
   // If the request is a read request and partition level failover or circuit breaker is enabled,
   // set a shorter timeout to allow for quicker failover in case of partition unavailability.
   // This is to ensure that read requests can quickly failover to another partition if the current one is unavailable.
@@ -68,10 +67,11 @@ async function httpRequest(
     requestContext.resourceType === ResourceType.item &&
     requestContext.operationType === OperationType.Read
   ) {
-    requestContext.connectionPolicy.requestTimeout = Constants.RequestTimeoutForReads;
-    shouldThrow503OnTimeout = true;
+    requestContext.connectionPolicy.requestTimeout = Math.min(
+      requestContext.connectionPolicy.requestTimeout,
+      Constants.RequestTimeoutForReads,
+    );
   }
-
   const timeout = setTimeout(() => {
     controller.abort();
   }, requestContext.connectionPolicy.requestTimeout);
@@ -113,12 +113,6 @@ async function httpRequest(
       if (userSignal && userSignal.aborted === true) {
         clearTimeout(timeout);
         throw error;
-      }
-      // If the user didn't cancel, it must be an abort we called due to timeout
-      if (shouldThrow503OnTimeout) {
-        const errorResponse: ErrorResponse = new ErrorResponse();
-        errorResponse.code = 503;
-        throw errorResponse;
       }
       throw new TimeoutError(
         `Timeout Error! Request took more than ${requestContext.connectionPolicy.requestTimeout} ms`,
