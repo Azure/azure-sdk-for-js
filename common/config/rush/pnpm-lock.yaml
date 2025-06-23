@@ -1961,10 +1961,6 @@ packages:
     resolution: {integrity: sha512-8HArjKx+RaAI8uEIgcORbZIPklyh1YLjPSBus8hjRmvLi6DeFzgOcdZ7KwPabKj8mXF8dX0hyfAyGfycz0DbFw==}
     engines: {node: '>=14'}
 
-  '@opentelemetry/api-logs@0.56.0':
-    resolution: {integrity: sha512-Wr39+94UNNG3Ei9nv3pHd4AJ63gq5nSemMRpCd8fPwDL9rN3vK26lzxfH27mw16XzOSO+TpyQwBAMaLxaPWG0g==}
-    engines: {node: '>=14'}
-
   '@opentelemetry/api-logs@0.57.0':
     resolution: {integrity: sha512-l1aJ30CXeauVYaI+btiynHpw341LthkMTv3omi1VJDX14werY2Wmv9n1yudMsq9HuY0m8PvXEVX4d8zxEb+WRg==}
     engines: {node: '>=14'}
@@ -2135,12 +2131,6 @@ packages:
 
   '@opentelemetry/instrumentation@0.53.0':
     resolution: {integrity: sha512-DMwg0hy4wzf7K73JJtl95m/e0boSoWhH07rfvHvYzQtBD3Bmv0Wc1x733vyZBqmFm8OjJD0/pfiUg1W3JjFX0A==}
-    engines: {node: '>=14'}
-    peerDependencies:
-      '@opentelemetry/api': ^1.3.0
-
-  '@opentelemetry/instrumentation@0.56.0':
-    resolution: {integrity: sha512-2KkGBKE+FPXU1F0zKww+stnlUxUTlBvLCiWdP63Z9sqXYeNI/ziNzsxAp4LAdUcTQmXjw1IWgvm5CAb/BHy99w==}
     engines: {node: '>=14'}
     peerDependencies:
       '@opentelemetry/api': ^1.3.0
@@ -2535,7 +2525,7 @@ packages:
     version: 0.0.0
 
   '@rush-temp/ai-projects@file:projects/ai-projects.tgz':
-    resolution: {integrity: sha512-YFOZTB6NwxBthKATwsI3KcV9inv66lyWjOnoV9sgX0lb/vcoIdTq250ppmkt2ffpQVD4TOV4HZXehlyIvog/Bg==, tarball: file:projects/ai-projects.tgz}
+    resolution: {integrity: sha512-2uuR3OeF2EwhPmuTYzS/c2NVT2Jr6qVwgaUWoS32anKECzUbOHIvFSJc9MJXcTLu1Fnj9jQbpkrYprn5cY2pHw==, tarball: file:projects/ai-projects.tgz}
     version: 0.0.0
 
   '@rush-temp/ai-text-analytics@file:projects/ai-text-analytics.tgz':
@@ -2779,7 +2769,7 @@ packages:
     version: 0.0.0
 
   '@rush-temp/arm-containerservice-1@file:projects/arm-containerservice-1.tgz':
-    resolution: {integrity: sha512-iOt2Q4pXlG+uh5nHFDQR38cLPz9qHyRk3A0hkJIJSsfukwsGUXNgDbGN2RVd2loZ6OFh63B3sc+4NCspEqXCEw==, tarball: file:projects/arm-containerservice-1.tgz}
+    resolution: {integrity: sha512-5M3Hj5ishOO8uY4g+OFBIxL56O2AK+XNNsdfnY3RArMiPKym/QBqsY3F3jW8y8aP6qlW5GETM/r/i1gDDGWXyA==, tarball: file:projects/arm-containerservice-1.tgz}
     version: 0.0.0
 
   '@rush-temp/arm-containerservice@file:projects/arm-containerservice.tgz':
@@ -4237,18 +4227,6 @@ packages:
     engines: {node: '>=12', npm: '>=6'}
     peerDependencies:
       '@testing-library/dom': '>=7.21.4'
-
-  '@traceloop/ai-semantic-conventions@0.13.0':
-    resolution: {integrity: sha512-6aAbaZkeezijSBnsKpVnc+MBXwG+ByDK70gZCexSykkwkwhWSFdVeoXkWUBeLt+STFQWjK5EQE087qkaVC3o+w==}
-    engines: {node: '>=14'}
-
-  '@traceloop/instrumentation-langchain@0.13.0':
-    resolution: {integrity: sha512-RqAPpWUCtmXSjp0EEniEbSi2RYWBwqvwZQVzeaCoKTdlKggqIbkvPJwdslNFPrviIU/X2Gol/r7u8lAE2SLLrg==}
-    engines: {node: '>=14'}
-
-  '@traceloop/instrumentation-openai@0.13.0':
-    resolution: {integrity: sha512-ql9ML/zV4uHc5RnrpuismJluYiVDo9TXxIMqz1PSe2uFuzt6d7RDil9tbjXbwNlCfeyIEBGY/UJZCuUYneXUdw==}
-    engines: {node: '>=14'}
 
   '@ts-morph/common@0.27.0':
     resolution: {integrity: sha512-Wf29UqxWDpc+i61k3oIOzcUfQt79PIT9y/MWfAGlrkjg6lBC1hwDECLXPVJAhWjiGbfBCxZd65F/LIZF3+jeJQ==}
@@ -5767,9 +5745,6 @@ packages:
 
   jju@1.4.0:
     resolution: {integrity: sha512-8wb9Yw966OSxApiCt0K3yNJL8pnNeIv+OEq2YMidz4FKP6nonSRoOXc80iXY4JaN2FC11B9qsNmDsm+ZOfMROA==}
-
-  js-tiktoken@1.0.20:
-    resolution: {integrity: sha512-Xlaqhhs8VfCd6Sh7a1cFkZHQbYTLCwVJJWiHVxBYzLPxW0XsoxBy1hitmjkdIjD3Aon5BXLHFwU5O8WUx6HH+A==}
 
   js-tokens@4.0.0:
     resolution: {integrity: sha512-RdJUflcE3cUzKiMqQgsCu06FPu9UdIJO0beYbPhHN4k6apgJtifcoCtT9bcxOpYBtpD2kCM6Sbzg4CausW/PKQ==}
@@ -8394,10 +8369,6 @@ snapshots:
     dependencies:
       '@opentelemetry/api': 1.9.0
 
-  '@opentelemetry/api-logs@0.56.0':
-    dependencies:
-      '@opentelemetry/api': 1.9.0
-
   '@opentelemetry/api-logs@0.57.0':
     dependencies:
       '@opentelemetry/api': 1.9.0
@@ -8629,18 +8600,6 @@ snapshots:
     dependencies:
       '@opentelemetry/api': 1.9.0
       '@opentelemetry/api-logs': 0.53.0
-      '@types/shimmer': 1.2.0
-      import-in-the-middle: 1.14.0
-      require-in-the-middle: 7.5.2
-      semver: 7.7.2
-      shimmer: 1.2.1
-    transitivePeerDependencies:
-      - supports-color
-
-  '@opentelemetry/instrumentation@0.56.0(@opentelemetry/api@1.9.0)':
-    dependencies:
-      '@opentelemetry/api': 1.9.0
-      '@opentelemetry/api-logs': 0.56.0
       '@types/shimmer': 1.2.0
       import-in-the-middle: 1.14.0
       require-in-the-middle: 7.5.2
@@ -9438,14 +9397,9 @@ snapshots:
     dependencies:
       '@azure/storage-blob': 12.27.0
       '@opentelemetry/api': 1.9.0
-      '@opentelemetry/api-logs': 0.200.0
-      '@opentelemetry/exporter-logs-otlp-grpc': 0.200.0(@opentelemetry/api@1.9.0)
-      '@opentelemetry/exporter-trace-otlp-grpc': 0.200.0(@opentelemetry/api@1.9.0)
       '@opentelemetry/instrumentation': 0.57.2(@opentelemetry/api@1.9.0)
-      '@opentelemetry/sdk-logs': 0.200.0(@opentelemetry/api@1.9.0)
-      '@opentelemetry/sdk-trace-node': 1.30.1(@opentelemetry/api@1.9.0)
-      '@traceloop/instrumentation-langchain': 0.13.0(@opentelemetry/api@1.9.0)
-      '@traceloop/instrumentation-openai': 0.13.0(@opentelemetry/api@1.9.0)
+      '@opentelemetry/resources': 2.0.1(@opentelemetry/api@1.9.0)
+      '@opentelemetry/sdk-trace-node': 2.0.1(@opentelemetry/api@1.9.0)
       '@types/node': 20.19.0
       '@vitest/browser': 3.2.3(playwright@1.53.0)(vite@6.3.5(@types/node@22.7.9)(tsx@4.20.2)(yaml@2.8.0))(vitest@3.2.3)
       '@vitest/coverage-istanbul': 3.2.3(vitest@3.2.3)
@@ -23682,33 +23636,6 @@ snapshots:
     dependencies:
       '@testing-library/dom': 10.4.0
 
-  '@traceloop/ai-semantic-conventions@0.13.0':
-    dependencies:
-      '@opentelemetry/api': 1.9.0
-
-  '@traceloop/instrumentation-langchain@0.13.0(@opentelemetry/api@1.9.0)':
-    dependencies:
-      '@opentelemetry/core': 1.30.1(@opentelemetry/api@1.9.0)
-      '@opentelemetry/instrumentation': 0.56.0(@opentelemetry/api@1.9.0)
-      '@opentelemetry/semantic-conventions': 1.34.0
-      '@traceloop/ai-semantic-conventions': 0.13.0
-      tslib: 2.8.1
-    transitivePeerDependencies:
-      - '@opentelemetry/api'
-      - supports-color
-
-  '@traceloop/instrumentation-openai@0.13.0(@opentelemetry/api@1.9.0)':
-    dependencies:
-      '@opentelemetry/core': 1.30.1(@opentelemetry/api@1.9.0)
-      '@opentelemetry/instrumentation': 0.56.0(@opentelemetry/api@1.9.0)
-      '@opentelemetry/semantic-conventions': 1.34.0
-      '@traceloop/ai-semantic-conventions': 0.13.0
-      js-tiktoken: 1.0.20
-      tslib: 2.8.1
-    transitivePeerDependencies:
-      - '@opentelemetry/api'
-      - supports-color
-
   '@ts-morph/common@0.27.0':
     dependencies:
       fast-glob: 3.3.3
@@ -25427,10 +25354,6 @@ snapshots:
       '@pkgjs/parseargs': 0.11.0
 
   jju@1.4.0: {}
-
-  js-tiktoken@1.0.20:
-    dependencies:
-      base64-js: 1.5.1
 
   js-tokens@4.0.0: {}
 
