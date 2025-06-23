@@ -45,7 +45,7 @@
     "node": ">=20.0.0"
   },
   "dependencies": {
-    "tslib": "^2.2.0"
+    "tslib": "catalog:"
   },
   "devDependencies": {
     "@eslint/js": "^9.9.0",
