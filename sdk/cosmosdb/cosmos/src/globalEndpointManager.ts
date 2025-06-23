@@ -79,7 +79,7 @@ export class GlobalEndpointManager {
   }
 
   /**
-   * Gets the read locations from the endpoint cache
+   * Gets the read locations from the endpoint cache.
    */
   public async getReadLocations(): Promise<ReadonlyArray<Location>> {
     return this.readableLocations;
