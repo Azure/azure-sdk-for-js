@@ -174,8 +174,8 @@ export class AzurePowerShellCredential implements TokenCredential {
 
           if ($token.Token -is [System.Security.SecureString]) {
             if ($PSVersionTable.PSVersion.Major -lt 7) {
+              $ssPtr = [System.Runtime.InteropServices.Marshal]::SecureStringToBSTR($token.Token)
               try {
-                $ssPtr = [System.Runtime.InteropServices.Marshal]::SecureStringToBSTR($token.Token)
                 $result | Add-Member -MemberType NoteProperty -Name Token -Value ([System.Runtime.InteropServices.Marshal]::PtrToStringBSTR($ssPtr))
               }
               finally {
