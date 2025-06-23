@@ -2,6 +2,8 @@
 
 ## 1.0.0 (2025-06-26)
 
+### Other Changes
+
 The EventGrid System Events client library is now in GA with this release.
 
 ## 1.0.0-beta.7 (2025-05-14)
