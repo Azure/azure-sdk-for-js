@@ -84,7 +84,7 @@ export class GlobalPartitionEndpointManager {
     const partitionKeyRangeId = requestContext.partitionKeyRangeId;
     const failedEndPoint = requestContext.endpoint;
 
-    const readLocations = await this.globalEndpointManager.getReadLocations();
+    const readLocations = await this.globalEndpointManager.getAvailableReadLocations();
     const readEndPoints: string[] = [];
 
     if (this.isRequestEligibleForPerPartitionAutomaticFailover(requestContext)) {

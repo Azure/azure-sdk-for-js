@@ -1307,10 +1307,10 @@ export class GlobalEndpointManager {
     // (undocumented)
     canUseMultipleWriteLocations(resourceType?: ResourceType, operationType?: OperationType): boolean;
     enableEndpointDiscovery: boolean;
+    getAvailableReadLocations(): Promise<ReadonlyArray<Location_2>>;
     getReadEndpoint(diagnosticNode: DiagnosticNodeInternal): Promise<string>;
     // (undocumented)
     getReadEndpoints(): Promise<ReadonlyArray<string>>;
-    getReadLocations(): Promise<ReadonlyArray<Location_2>>;
     getWriteEndpoint(diagnosticNode: DiagnosticNodeInternal): Promise<string>;
     // (undocumented)
     getWriteEndpoints(): Promise<ReadonlyArray<string>>;

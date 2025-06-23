@@ -79,10 +79,10 @@ export class GlobalEndpointManager {
   }
 
   /**
-   * Gets the read locations from the endpoint cache
+   * Gets the available read locations from the endpoint cache.
    */
-  public async getReadLocations(): Promise<ReadonlyArray<Location>> {
-    return this.readableLocations;
+  public async getAvailableReadLocations(): Promise<ReadonlyArray<Location>> {
+    return this.readableLocations.filter((loc) => !loc.unavailable);
   }
 
   public async markCurrentLocationUnavailableForRead(
