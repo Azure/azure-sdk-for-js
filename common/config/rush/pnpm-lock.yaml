@@ -1390,8 +1390,8 @@ packages:
     resolution: {integrity: sha512-4zdDo8nyt9b+s8aieXHypEvrdS9OYSlvbyJG9tJz/fOpyXH7lbWvB/m/SNueX2b/M8ESeQdLjibzBxMJIQYFUw==}
     engines: {node: '>=8.0.0'}
 
-  '@azure/communication-signaling@1.0.0-beta.33':
-    resolution: {integrity: sha512-WdCmwcK3Y2BHV8MVksXg7o6damflHLT1bOKNL14SftFbnuBLgmUM9Uw/HnkPWkpwrhptYC8jeCMv2XKhWmA4YQ==}
+  '@azure/communication-signaling@1.0.0-beta.34':
+    resolution: {integrity: sha512-nlbkQzD2Jrkwwj01tGETQEj4HV28WXdqIt45DkHtamVeoFFNem/uJIri4dUymzAwgK7c1czGoVobuft8UH5Eig==}
     engines: {node: '>=8.0.0'}
 
   '@azure/core-auth@1.9.0':
@@ -3646,11 +3646,11 @@ packages:
     version: 0.0.0
 
   '@rush-temp/communication-call-automation@file:projects/communication-call-automation.tgz':
-    resolution: {integrity: sha512-EXVw2QpC7/h3kYtUtrDe9O4H1hzzVwCtykpZQ8sETDjk8DNVc0h2sbXjd3tc2H6TE2hajOh/1AZkKr+Tkqtohg==, tarball: file:projects/communication-call-automation.tgz}
+    resolution: {integrity: sha512-Dy+9pivShXXtf1GgF/62f/Up25a5XqghqI9+VPTW0i0N+rduhZNhJjFw128bNfVw4jO2drBB0TjVGDS1xJQUjg==, tarball: file:projects/communication-call-automation.tgz}
     version: 0.0.0
 
   '@rush-temp/communication-chat@file:projects/communication-chat.tgz':
-    resolution: {integrity: sha512-DXsq2FAqVfwBjnGuVUkyCAnRTsnzJMxIqEMJLpLt0zpWkEt+MqVuJ3swGmB1IAIhC8dqLKELYuQWcw+ka6dOpw==, tarball: file:projects/communication-chat.tgz}
+    resolution: {integrity: sha512-YNv4sJz0mdB0CKDGB3y3SQNvz74WhKvNYLLjL/NUCLFHO3te4/1clPoebepihMBKKkEWDGTp/IxuTfO5mF43kw==, tarball: file:projects/communication-chat.tgz}
     version: 0.0.0
 
   '@rush-temp/communication-common@file:projects/communication-common.tgz':
@@ -7622,7 +7622,7 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
-  '@azure/communication-signaling@1.0.0-beta.33':
+  '@azure/communication-signaling@1.0.0-beta.34':
     dependencies:
       '@azure/abort-controller': 1.1.0
       '@azure/core-auth': 1.9.0
@@ -19169,7 +19169,7 @@ snapshots:
   '@rush-temp/communication-chat@file:projects/communication-chat.tgz(@types/debug@4.1.12)(tsx@4.19.4)(vite@6.3.5(@types/node@22.7.9)(tsx@4.19.4)(yaml@2.8.0))(yaml@2.8.0)':
     dependencies:
       '@azure/communication-identity': 1.3.1
-      '@azure/communication-signaling': 1.0.0-beta.33
+      '@azure/communication-signaling': 1.0.0-beta.34
       '@types/node': 20.17.57
       '@vitest/browser': 3.2.0(playwright@1.52.0)(vite@6.3.5(@types/node@22.7.9)(tsx@4.19.4)(yaml@2.8.0))(vitest@3.2.0)
       '@vitest/coverage-istanbul': 3.2.0(vitest@3.2.0)
