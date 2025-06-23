@@ -3874,8 +3874,8 @@ importers:
         specifier: ^2.3.1
         version: link:../communication-common
       '@azure/communication-signaling':
-        specifier: 1.0.0-beta.29
-        version: 1.0.0-beta.29
+        specifier: 1.0.0-beta.34
+        version: 1.0.0-beta.34
       '@azure/core-auth':
         specifier: ^1.9.0
         version: link:../../core/core-auth
@@ -27741,12 +27741,12 @@ packages:
     resolution: {integrity: sha512-S54UTeEM3SbUNGFeGcGQEw64KLUu8CmZi2/2hRu3sy6Rx2i4Y8aL+ITlGC7bOm2v5rKELD5PoXAVYDJxVCJN1w==}
     engines: {node: '>=18.0.0'}
 
-  '@azure/communication-signaling@1.0.0-beta.29':
-    resolution: {integrity: sha512-bTNxJaS000wjtbLlH/nju3Off9uSybYeRVLvx1Y5k3ajb1rqVGUcsIduSEz1JBf+dRQx9pHRDCAEAXs/hOvzpg==}
-    engines: {node: '>=8.0.0'}
-
   '@azure/communication-signaling@1.0.0-beta.31':
     resolution: {integrity: sha512-4zdDo8nyt9b+s8aieXHypEvrdS9OYSlvbyJG9tJz/fOpyXH7lbWvB/m/SNueX2b/M8ESeQdLjibzBxMJIQYFUw==}
+    engines: {node: '>=8.0.0'}
+
+  '@azure/communication-signaling@1.0.0-beta.34':
+    resolution: {integrity: sha512-nlbkQzD2Jrkwwj01tGETQEj4HV28WXdqIt45DkHtamVeoFFNem/uJIri4dUymzAwgK7c1czGoVobuft8UH5Eig==}
     engines: {node: '>=8.0.0'}
 
   '@azure/core-amqp@3.2.0':
@@ -33092,7 +33092,7 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
-  '@azure/communication-signaling@1.0.0-beta.29':
+  '@azure/communication-signaling@1.0.0-beta.31':
     dependencies:
       '@azure/abort-controller': 1.1.0
       '@azure/core-auth': 1.9.0
@@ -33107,7 +33107,7 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
-  '@azure/communication-signaling@1.0.0-beta.31':
+  '@azure/communication-signaling@1.0.0-beta.34':
     dependencies:
       '@azure/abort-controller': 1.1.0
       '@azure/core-auth': 1.9.0
