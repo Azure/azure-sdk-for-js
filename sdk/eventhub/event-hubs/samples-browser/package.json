@@ -29,7 +29,7 @@
   "sideEffects": false,
   "dependencies": {
     "@azure/event-hubs": "^6.0.0",
-    "@azure/identity": "^4.3.0"
+    "@azure/identity": "^4.9.0"
   },
   "devDependencies": {
     "http-server": "^0.12.1",

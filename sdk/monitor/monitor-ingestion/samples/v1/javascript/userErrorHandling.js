@@ -8,8 +8,7 @@
 
 const { DefaultAzureCredential } = require("@azure/identity");
 const { isAggregateLogsUploadError, LogsIngestionClient } = require("@azure/monitor-ingestion");
-
-require("dotenv").config();
+require("dotenv/config");
 
 async function main() {
   const logsIngestionEndpoint = process.env.LOGS_INGESTION_ENDPOINT || "logs_ingestion_endpoint";
@@ -27,8 +26,8 @@ async function main() {
     });
   }
 
-  let failedLogs = [];
-  async function errorCallback(uploadLogsError) {
+  const failedLogs = [];
+  function errorCallback(uploadLogsError) {
     if (
       uploadLogsError.cause.message ===
       "Data collection rule with immutable Id 'immutable-id-123' not found."
@@ -45,7 +44,7 @@ async function main() {
       onError: errorCallback,
     });
   } catch (e) {
-    let aggregateErrors = isAggregateLogsUploadError(e) ? e.errors : [];
+    const aggregateErrors = isAggregateLogsUploadError(e) ? e.errors : [];
     if (aggregateErrors.length > 0) {
       console.log(
         "Some logs have failed to complete ingestion. Number of error batches=",
@@ -65,7 +64,8 @@ async function main() {
       await client.upload(ruleId, "Custom-MyTableRawData", failedLogs, {
         maxConcurrency: 1,
       });
-    } finally {
+    } catch {
+      // Do nothing
     }
   }
 }

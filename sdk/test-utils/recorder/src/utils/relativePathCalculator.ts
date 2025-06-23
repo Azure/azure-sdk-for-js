@@ -32,7 +32,7 @@ function relativePackagePath(): string {
       const expectedRootPath = path.join(currentPath, "..", "..", ".."); // <root>/
       if (
         fs.existsSync(path.join(expectedRootPath, "sdk/")) && // <root>/sdk
-        fs.existsSync(path.join(expectedRootPath, "rush.json")) // <root>/rush.json
+        fs.existsSync(path.join(expectedRootPath, "pnpm-workspace.yaml")) // <root>/pnpm-workspace.yaml
       ) {
         // reached root path
         rootPath = expectedRootPath;

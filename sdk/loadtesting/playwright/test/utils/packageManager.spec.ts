@@ -16,6 +16,7 @@ describe("Package Manager", () => {
   });
 
   it("should return NPM when npm_config_user_agent is not set", () => {
+    vi.stubEnv("npm_config_user_agent", undefined);
     const packageManager = getPackageManager();
     expect(packageManager.runCommand("playwright", "--version")).to.equal(
       "npx playwright --version",
