@@ -26,7 +26,7 @@ describe("Azure Kubernetes Integration test", function () {
     assert.include(
       podOutput,
       "ManagedIdentity: Successfully authenticated with storage",
-      `Expected ${podOutput} to include a ManagedIdentity success message`
+      `Expected ${podOutput} to include a ManagedIdentity success message`,
     );
   });
 
@@ -38,7 +38,7 @@ describe("Azure Kubernetes Integration test", function () {
     assert.include(
       podOutput,
       "WorkloadIdentity: Successfully authenticated with storage",
-      `Expected ${podOutput} to include a WorkloadIdentity success message`
+      `Expected ${podOutput} to include a WorkloadIdentity success message`,
     );
   });
 
@@ -50,7 +50,7 @@ describe("Azure Kubernetes Integration test", function () {
     assert.include(
       podOutput,
       "DefaultAzureCredential: Successfully authenticated with storage using workload identity underneath",
-      `Expected ${podOutput} to include a DefaultAzureCredential with workload identity success message`
+      `Expected ${podOutput} to include a DefaultAzureCredential with workload identity success message`,
     );
   });
 
@@ -62,7 +62,7 @@ describe("Azure Kubernetes Integration test", function () {
     assert.include(
       podOutput,
       "DefaultAzureCredential: Successfully authenticated with storage using managed identity underneath",
-      `Expected ${podOutput} to include a DefaultAzureCredential with managed identity success message`
+      `Expected ${podOutput} to include a DefaultAzureCredential with managed identity success message`,
     );
   });
 });
