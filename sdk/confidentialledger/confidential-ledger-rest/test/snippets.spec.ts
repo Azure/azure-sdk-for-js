@@ -65,6 +65,30 @@ describe("snippets", () => {
     // @ts-preserve-whitespace
     const entry: LedgerEntry = {
       contents: "<content>",
+    };
+    const ledgerEntry: CreateLedgerEntryParameters = {
+      contentType: "application/json",
+      body: entry,
+    };
+    const result = await client.path("/app/transactions").post(ledgerEntry);
+  });
+
+
+  it("ReadmeSamplePostLedgerEntryWithCollectionIdAndTags", async () => {
+    const { ledgerIdentityCertificate } = await getLedgerIdentity(
+      "test-ledger-name",
+      "https://identity.confidential-ledger.core.azure.com",
+    );
+    const credential = new DefaultAzureCredential();
+    // @ts-preserve-whitespace
+    const client = ConfidentialLedger(
+      "https://test-ledger-name.confidential-ledger.azure.com",
+      ledgerIdentityCertificate,
+      credential,
+    );
+    // @ts-preserve-whitespace
+    const entry: LedgerEntry = {
+      contents: "<content>",
       collectionId: "my collection", // Optional, defaults to the service's default collection
       tags: "tag1,tag2", // Optional, multiple tags can be specified using commas
     };
@@ -140,6 +164,23 @@ describe("snippets", () => {
     );
     // @ts-preserve-whitespace
     const getLedgerEntriesParams = { queryParameters: { collectionId: "my collection" } };
+    const ledgerEntries = await client.path("/app/transactions").get(getLedgerEntriesParams);
+  });
+
+  it("ReadmeSampleGetTransactionsForCollectionAndTags", async () => {
+    const { ledgerIdentityCertificate } = await getLedgerIdentity(
+      "test-ledger-name",
+      "https://identity.confidential-ledger.core.azure.com",
+    );
+    const credential = new DefaultAzureCredential();
+    // @ts-preserve-whitespace
+    const client = ConfidentialLedger(
+      "https://test-ledger-name.confidential-ledger.azure.com",
+      ledgerIdentityCertificate,
+      credential,
+    );
+    // @ts-preserve-whitespace
+    const getLedgerEntriesParams = { queryParameters: { collectionId: "my collection", tags: "tag1" } };
     const ledgerEntries = await client.path("/app/transactions").get(getLedgerEntriesParams);
   });
 
