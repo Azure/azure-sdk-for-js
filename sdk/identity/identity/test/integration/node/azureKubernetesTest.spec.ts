@@ -41,6 +41,30 @@ describe("Azure Kubernetes Integration test", function () {
       `Expected ${podOutput} to include a WorkloadIdentity success message`,
     );
   });
+
+  it("can authenticate using default azure credential with workload identity", async function (ctx) {
+    if (!isLiveMode()) {
+      ctx.skip();
+    }
+
+    assert.include(
+      podOutput,
+      "DefaultAzureCredential: Successfully authenticated with storage using workload identity underneath",
+      `Expected ${podOutput} to include a DefaultAzureCredential with workload identity success message`,
+    );
+  });
+
+  it("can authenticate using default azure credential with managed identity", async function (ctx) {
+    if (!isLiveMode()) {
+      ctx.skip();
+    }
+
+    assert.include(
+      podOutput,
+      "DefaultAzureCredential: Successfully authenticated with storage using managed identity underneath",
+      `Expected ${podOutput} to include a DefaultAzureCredential with managed identity success message`,
+    );
+  });
 });
 
 function runCommand(command: string, args: string = ""): string {
