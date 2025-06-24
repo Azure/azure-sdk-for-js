@@ -18,14 +18,14 @@ export class EnvConfig implements AzureMonitorOpenTelemetryOptions {
   /** The maximum number of spans to sample per second. (Default undefined)*/
   public tracesPerSecond?: number;
 
-  private static _instance: EnvConfig;
+  private static instance: EnvConfig;
 
   /** Get Singleton instance */
   public static getInstance(): EnvConfig {
-    if (!EnvConfig._instance) {
-      EnvConfig._instance = new EnvConfig();
+    if (!EnvConfig.instance) {
+      EnvConfig.instance = new EnvConfig();
     }
-    return EnvConfig._instance;
+    return EnvConfig.instance;
   }
 
   /**
