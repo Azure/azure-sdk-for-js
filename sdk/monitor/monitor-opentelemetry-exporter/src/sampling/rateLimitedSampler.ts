@@ -86,7 +86,7 @@ export class RateLimitedSampler implements Sampler {
     const currentNanoTime = this.nanoTimeSupplier();
     this.state = this.updateState(this.state, currentNanoTime);
 
-    let samplingProbability =
+    const samplingProbability =
       (this.state.effectiveWindowNanos * this.targetSpansPerNanosecondLimit) /
       this.state.effectiveWindowCount;
     let samplingPercentage = 100 * Math.min(samplingProbability, 1);
