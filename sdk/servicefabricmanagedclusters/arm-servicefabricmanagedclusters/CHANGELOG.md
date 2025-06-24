@@ -104,6 +104,37 @@ Compared with version 1.0.0-beta.3
   - Enum KnownDiskType has a new value StandardSSDZRS
   - Enum KnownSecurityType has a new value ConfidentialVM
   - Added function restorePoller
+  - Type of parameter serviceTypeHealthPolicyMap of interface ApplicationHealthPolicy is changed from {
+        [propertyName: string]: ServiceTypeHealthPolicy;
+    } to Record<string, ServiceTypeHealthPolicy>
+  - Type of parameter tags of interface ApplicationTypeUpdateParameters is changed from {
+        [propertyName: string]: string;
+    } to Record<string, string>
+  - Type of parameter tags of interface ApplicationTypeVersionUpdateParameters is changed from {
+        [propertyName: string]: string;
+    } to Record<string, string>
+  - Type of parameter tags of interface ApplicationUpdateParameters is changed from {
+        [propertyName: string]: string;
+    } to Record<string, string>
+  - Type of parameter publicIPAddressConfiguration of interface IpConfiguration is changed from IpConfigurationPublicIPAddressConfiguration to IPConfigurationPublicIPAddressConfiguration
+  - Type of parameter tags of interface ManagedClusterUpdateParameters is changed from {
+        [propertyName: string]: string;
+    } to Record<string, string>
+  - Type of parameter userAssignedIdentities of interface ManagedIdentity is changed from {
+        [propertyName: string]: UserAssignedIdentity;
+    } to Record<string, UserAssignedIdentity>
+  - Type of parameter tags of interface NodeTypeUpdateParameters is changed from {
+        [propertyName: string]: string;
+    } to Record<string, string>
+  - Type of parameter partitionScheme of interface Partition is changed from "Named" | "Singleton" | "UniformInt64Range" to PartitionScheme
+  - Type of parameter kind of interface ScalingMechanism is changed from "AddRemoveIncrementalNamedPartition" | "ScalePartitionInstanceCount" to ServiceScalingMechanismKind
+  - Type of parameter kind of interface ScalingTrigger is changed from "AveragePartitionLoadTrigger" | "AverageServiceLoadTrigger" to ServiceScalingTriggerKind
+  - Type of parameter type of interface ServicePlacementPolicy is changed from "InvalidDomain" | "NonPartiallyPlaceService" | "PreferredPrimaryDomain" | "RequiredDomain" | "RequiredDomainDistribution" to ServicePlacementPolicyType
+  - Type of parameter tags of interface ServiceUpdateParameters is changed from {
+        [propertyName: string]: string;
+    } to Record<string, string>
+  - Type of parameter createdByType of interface SystemData is changed from string to CreatedByType
+  - Type of parameter lastModifiedByType of interface SystemData is changed from string to CreatedByType
 
 ### Breaking Changes
 
@@ -285,37 +316,6 @@ Compared with version 1.0.0-beta.3
   - Interface VmssExtension no longer has parameter type
   - Interface VmssExtension no longer has parameter typeHandlerVersion
   - Interface VmssExtension has a new required parameter properties
-  - Type of parameter serviceTypeHealthPolicyMap of interface ApplicationHealthPolicy is changed from {
-        [propertyName: string]: ServiceTypeHealthPolicy;
-    } to Record<string, ServiceTypeHealthPolicy>
-  - Type of parameter tags of interface ApplicationTypeUpdateParameters is changed from {
-        [propertyName: string]: string;
-    } to Record<string, string>
-  - Type of parameter tags of interface ApplicationTypeVersionUpdateParameters is changed from {
-        [propertyName: string]: string;
-    } to Record<string, string>
-  - Type of parameter tags of interface ApplicationUpdateParameters is changed from {
-        [propertyName: string]: string;
-    } to Record<string, string>
-  - Type of parameter publicIPAddressConfiguration of interface IpConfiguration is changed from IpConfigurationPublicIPAddressConfiguration to IPConfigurationPublicIPAddressConfiguration
-  - Type of parameter tags of interface ManagedClusterUpdateParameters is changed from {
-        [propertyName: string]: string;
-    } to Record<string, string>
-  - Type of parameter userAssignedIdentities of interface ManagedIdentity is changed from {
-        [propertyName: string]: UserAssignedIdentity;
-    } to Record<string, UserAssignedIdentity>
-  - Type of parameter tags of interface NodeTypeUpdateParameters is changed from {
-        [propertyName: string]: string;
-    } to Record<string, string>
-  - Type of parameter partitionScheme of interface Partition is changed from "Named" | "Singleton" | "UniformInt64Range" to PartitionScheme
-  - Type of parameter kind of interface ScalingMechanism is changed from "AddRemoveIncrementalNamedPartition" | "ScalePartitionInstanceCount" to ServiceScalingMechanismKind
-  - Type of parameter kind of interface ScalingTrigger is changed from "AveragePartitionLoadTrigger" | "AverageServiceLoadTrigger" to ServiceScalingTriggerKind
-  - Type of parameter type of interface ServicePlacementPolicy is changed from "InvalidDomain" | "NonPartiallyPlaceService" | "PreferredPrimaryDomain" | "RequiredDomain" | "RequiredDomainDistribution" to ServicePlacementPolicyType
-  - Type of parameter tags of interface ServiceUpdateParameters is changed from {
-        [propertyName: string]: string;
-    } to Record<string, string>
-  - Type of parameter createdByType of interface SystemData is changed from string to CreatedByType
-  - Type of parameter lastModifiedByType of interface SystemData is changed from string to CreatedByType
   - Class ServiceFabricManagedClustersManagementClient no longer has parameter $host
   - Class ServiceFabricManagedClustersManagementClient no longer has parameter apiVersion
   - Class ServiceFabricManagedClustersManagementClient no longer has parameter managedAzResiliencyStatusOperations
