@@ -18,7 +18,7 @@ export interface CustomerManagedKeyEncryption {
 
 // @public
 export interface ErrorAdditionalInfo {
-    readonly info?: Record<string, any>;
+    readonly info?: any;
     readonly type?: string;
 }
 
@@ -97,6 +97,27 @@ export enum KnownOrigin {
 }
 
 // @public
+export enum KnownPrivateEndpointConnectionProvisioningState {
+    Creating = "Creating",
+    Deleting = "Deleting",
+    Failed = "Failed",
+    Succeeded = "Succeeded"
+}
+
+// @public
+export enum KnownPrivateEndpointServiceConnectionStatus {
+    Approved = "Approved",
+    Pending = "Pending",
+    Rejected = "Rejected"
+}
+
+// @public
+export enum KnownPublicNetworkAccessType {
+    Disabled = "Disabled",
+    Enabled = "Enabled"
+}
+
+// @public
 export enum KnownResourceProvisioningState {
     Canceled = "Canceled",
     Failed = "Failed",
@@ -105,7 +126,8 @@ export enum KnownResourceProvisioningState {
 
 // @public
 export enum KnownVersions {
-    V20250531Preview = "2025-05-31-preview"
+    V20250531Preview = "2025-05-31-preview",
+    V20250801Preview = "2025-08-01-preview"
 }
 
 // @public
@@ -120,6 +142,39 @@ export interface ManagedServiceIdentity {
 export type ManagedServiceIdentityType = string;
 
 // @public
+export interface OnlineExperimentationWorkspace extends TrackedResource {
+    identity?: ManagedServiceIdentity;
+    properties?: OnlineExperimentationWorkspaceProperties;
+    sku?: OnlineExperimentationWorkspaceSku;
+}
+
+// @public
+export interface OnlineExperimentationWorkspacePatch {
+    identity?: ManagedServiceIdentity;
+    properties?: {
+        logAnalyticsWorkspaceResourceId?: string;
+        logsExporterStorageAccountResourceId?: string;
+        encryption?: ResourceEncryptionConfiguration;
+        publicNetworkAccess?: PublicNetworkAccessType;
+    };
+    sku?: OnlineExperimentationWorkspaceSku;
+    tags?: Record<string, string>;
+}
+
+// @public
+export interface OnlineExperimentationWorkspaceProperties {
+    appConfigurationResourceId: string;
+    encryption?: ResourceEncryptionConfiguration;
+    readonly endpoint?: string;
+    logAnalyticsWorkspaceResourceId: string;
+    logsExporterStorageAccountResourceId: string;
+    readonly privateEndpointConnections?: PrivateEndpointConnection[];
+    readonly provisioningState?: ResourceProvisioningState;
+    publicNetworkAccess?: PublicNetworkAccessType;
+    readonly workspaceId?: string;
+}
+
+// @public
 export interface OnlineExperimentationWorkspaceSku {
     name: OnlineExperimentationWorkspaceSkuName;
     readonly tier?: OnlineExperimentationWorkspaceSkuTier;
@@ -130,24 +185,6 @@ export type OnlineExperimentationWorkspaceSkuName = string;
 
 // @public
 export type OnlineExperimentationWorkspaceSkuTier = string;
-
-// @public
-export interface OnlineExperimentWorkspace extends TrackedResource {
-    identity?: ManagedServiceIdentity;
-    properties?: OnlineExperimentWorkspaceProperties;
-    sku?: OnlineExperimentationWorkspaceSku;
-}
-
-// @public
-export interface OnlineExperimentWorkspaceProperties {
-    appConfigurationResourceId: string;
-    encryption?: ResourceEncryptionConfiguration;
-    readonly endpoint?: string;
-    logAnalyticsWorkspaceResourceId: string;
-    logsExporterStorageAccountResourceId: string;
-    readonly provisioningState?: ResourceProvisioningState;
-    readonly workspaceId?: string;
-}
 
 // @public
 export interface Operation {
@@ -168,6 +205,56 @@ export interface OperationDisplay {
 
 // @public
 export type Origin = string;
+
+// @public
+export interface PrivateEndpoint {
+    readonly id?: string;
+}
+
+// @public
+export interface PrivateEndpointConnection extends ProxyResource {
+    properties?: PrivateEndpointConnectionProperties;
+}
+
+// @public
+export interface PrivateEndpointConnectionProperties {
+    readonly groupIds?: string[];
+    privateEndpoint?: PrivateEndpoint;
+    privateLinkServiceConnectionState: PrivateLinkServiceConnectionState;
+    readonly provisioningState?: PrivateEndpointConnectionProvisioningState;
+}
+
+// @public
+export type PrivateEndpointConnectionProvisioningState = string;
+
+// @public
+export type PrivateEndpointServiceConnectionStatus = string;
+
+// @public
+export interface PrivateLinkResource extends ProxyResource {
+    properties?: PrivateLinkResourceProperties;
+}
+
+// @public
+export interface PrivateLinkResourceProperties {
+    readonly groupId?: string;
+    readonly requiredMembers?: string[];
+    requiredZoneNames?: string[];
+}
+
+// @public
+export interface PrivateLinkServiceConnectionState {
+    actionsRequired?: string;
+    description?: string;
+    status?: PrivateEndpointServiceConnectionStatus;
+}
+
+// @public
+export interface ProxyResource extends Resource {
+}
+
+// @public
+export type PublicNetworkAccessType = string;
 
 // @public
 export interface Resource {
