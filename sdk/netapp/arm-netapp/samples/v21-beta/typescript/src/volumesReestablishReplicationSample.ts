@@ -6,34 +6,30 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
 import {
   ReestablishReplicationRequest,
   NetAppManagementClient,
 } from "@azure/arm-netapp";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Re-establish a previously deleted replication between 2 volumes that have a common ad-hoc or policy-based snapshots
  *
  * @summary Re-establish a previously deleted replication between 2 volumes that have a common ad-hoc or policy-based snapshots
- * x-ms-original-file: specification/netapp/resource-manager/Microsoft.NetApp/preview/2024-07-01-preview/examples/Volumes_ReestablishReplication.json
+ * x-ms-original-file: specification/netapp/resource-manager/Microsoft.NetApp/preview/2025-01-01-preview/examples/Volumes_ReestablishReplication.json
  */
-async function volumesReestablishReplication() {
+async function volumesReestablishReplication(): Promise<void> {
   const subscriptionId =
     process.env["NETAPP_SUBSCRIPTION_ID"] ||
-    "D633CC2E-722B-4AE1-B636-BBD9E4C60ED9";
+    "00000000-0000-0000-0000-000000000000";
   const resourceGroupName = process.env["NETAPP_RESOURCE_GROUP"] || "myRG";
   const accountName = "account1";
   const poolName = "pool1";
   const volumeName = "volume1";
   const body: ReestablishReplicationRequest = {
     sourceVolumeId:
-      "/subscriptions/D633CC2E-722B-4AE1-B636-BBD9E4C60ED9/resourceGroups/mySourceRG/providers/Microsoft.NetApp/netAppAccounts/sourceAccount1/capacityPools/sourcePool1/volumes/sourceVolume1",
+      "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/mySourceRG/providers/Microsoft.NetApp/netAppAccounts/sourceAccount1/capacityPools/sourcePool1/volumes/sourceVolume1",
   };
   const credential = new DefaultAzureCredential();
   const client = new NetAppManagementClient(credential, subscriptionId);
@@ -47,8 +43,8 @@ async function volumesReestablishReplication() {
   console.log(result);
 }
 
-async function main() {
-  volumesReestablishReplication();
+async function main(): Promise<void> {
+  await volumesReestablishReplication();
 }
 
 main().catch(console.error);

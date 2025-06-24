@@ -6,6 +6,7 @@
   "ignorePaths": [
     "**/*-lintReport.html",
     "**/node_modules/**",
+    "**/platform-matrix.json",
     "**/pnpm-lock.yaml",
     "**/recordings/**",
     "*.avro",
@@ -20,6 +21,8 @@
     ".github/CODEOWNERS",
     ".vscode/cspell.json",
     "common/temp/**",
+    "eng/common/**",
+    "eng/pipelines/**",
     "sdk/**/arm-*/**",
     "sdk/agrifood/agrifood-farming-rest/review/*.md",
     "sdk/confidentialledger/confidential-ledger-rest/review/*.md",
@@ -60,6 +63,7 @@
     "Eugps",
     "Fhir",
     "Fnhr",
+    "GLEU",
     "Guids",
     "Hana",
     "IDRG",
@@ -97,7 +101,10 @@
     "Xiaomi",
     "adfs",
     "agrifood",
+    "ansii",
+    "atbash",
     "azsdk",
+    "azureai",
     "centralus",
     "deps",
     "deserialization",
@@ -113,6 +120,7 @@
     "entra",
     "etags",
     "findsimilars",
+    "gleu",
     "hnsw",
     "kusto",
     "lcov",
@@ -168,10 +176,6 @@
   "allowCompoundWords": true,
   "overrides": [
     {
-      "filename": "eng/pipelines",
-      "words": ["azuresdkartifacts", "gdnbaselines", "policheck", "issecret", "dlrw"]
-    },
-    {
       "filename": "eng/tools/rush-runner.js",
       "words": ["Jsons"]
     },
@@ -205,7 +209,9 @@
         "sipx",
         "ssml",
         "unhold",
-        "Unhold"
+        "Unhold",
+        "Gcch",
+        "gcch"
       ]
     },
     {
@@ -275,7 +281,7 @@
       "words": ["Dicom", "Gcch", "gcch"]
     },
     {
-      "filename": "sdk/eventgrid/eventgrid-system-events/review/**/*.md",
+      "filename": "sdk/eventgrid/eventgrid-systemevents/review/**/*.md",
       "words": ["Dicom", "Gcch", "gcch"]
     },
     {

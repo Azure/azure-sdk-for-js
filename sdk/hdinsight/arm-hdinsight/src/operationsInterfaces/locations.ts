@@ -21,7 +21,7 @@ import {
   ClusterCreateRequestValidationParameters,
   LocationsValidateClusterCreateRequestOptionalParams,
   LocationsValidateClusterCreateRequestResponse,
-} from "../models";
+} from "../models/index.js";
 
 /** Interface representing a Locations. */
 export interface Locations {

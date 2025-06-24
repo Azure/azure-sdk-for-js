@@ -2,9 +2,9 @@
 // Licensed under the MIT License.
 import { DocumentAnalysisClient } from "../../../src/index.js";
 import type { Recorder } from "@azure-tools/test-recorder";
-import { assertEnvironmentVariable } from "@azure-tools/test-recorder";
 import { createRecordedClient, testPollingOptions } from "../../utils/recordedClients.js";
 import { describe, it, assert, beforeEach, afterEach } from "vitest";
+import { getTestingContainerSasUrl } from "../../utils/injectables.js";
 
 describe("analysis (browser)", { timeout: 60000 }, () => {
   let client: DocumentAnalysisClient;
@@ -21,9 +21,7 @@ describe("analysis (browser)", { timeout: 60000 }, () => {
   });
 
   it("recognizes receipt from a url", async () => {
-    const testingContainerUrl: string = assertEnvironmentVariable(
-      "FORM_RECOGNIZER_TESTING_CONTAINER_SAS_URL",
-    );
+    const testingContainerUrl = getTestingContainerSasUrl();
     const urlParts = testingContainerUrl.split("?");
     const url = `${urlParts[0]}/contoso-allinone.jpg?${urlParts[1]}`;
 

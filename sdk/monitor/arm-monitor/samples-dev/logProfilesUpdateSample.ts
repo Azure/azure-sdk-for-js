@@ -8,9 +8,7 @@
 import type { LogProfileResourcePatch } from "@azure/arm-monitor";
 import { MonitorClient } from "@azure/arm-monitor";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Updates an existing LogProfilesResource. To update other fields use the CreateOrUpdate method.
@@ -18,7 +16,7 @@ dotenv.config();
  * @summary Updates an existing LogProfilesResource. To update other fields use the CreateOrUpdate method.
  * x-ms-original-file: specification/monitor/resource-manager/Microsoft.Insights/stable/2016-03-01/examples/patchLogProfile.json
  */
-async function patchALogProfile() {
+async function patchALogProfile(): Promise<void> {
   const subscriptionId =
     process.env["MONITOR_SUBSCRIPTION_ID"] || "df602c9c-7aa0-407d-a6fb-eb20c8bd1192";
   const logProfileName = "Rac46PostSwapRG";
@@ -37,7 +35,7 @@ async function patchALogProfile() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   await patchALogProfile();
 }
 

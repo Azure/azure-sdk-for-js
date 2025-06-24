@@ -15,7 +15,7 @@ import {
   IntegrationAccountSessionsCreateOrUpdateOptionalParams,
   IntegrationAccountSessionsCreateOrUpdateResponse,
   IntegrationAccountSessionsDeleteOptionalParams
-} from "../models";
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a IntegrationAccountSessions. */

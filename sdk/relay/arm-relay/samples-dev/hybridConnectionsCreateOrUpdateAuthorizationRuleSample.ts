@@ -8,9 +8,7 @@
 import type { AuthorizationRule } from "@azure/arm-relay";
 import { RelayAPI } from "@azure/arm-relay";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Creates or updates an authorization rule for a hybrid connection.
@@ -18,7 +16,7 @@ dotenv.config();
  * @summary Creates or updates an authorization rule for a hybrid connection.
  * x-ms-original-file: specification/relay/resource-manager/Microsoft.Relay/stable/2017-04-01/examples/HybridConnection/RelayHybridConnectionAuthorizationRuleCreate.json
  */
-async function relayHybridConnectionAuthorizationRuleCreate() {
+async function relayHybridConnectionAuthorizationRuleCreate(): Promise<void> {
   const subscriptionId =
     process.env["RELAY_SUBSCRIPTION_ID"] || "ffffffff-ffff-ffff-ffff-ffffffffffff";
   const resourceGroupName = process.env["RELAY_RESOURCE_GROUP"] || "resourcegroup";
@@ -38,7 +36,7 @@ async function relayHybridConnectionAuthorizationRuleCreate() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   await relayHybridConnectionAuthorizationRuleCreate();
 }
 

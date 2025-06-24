@@ -6,11 +6,9 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
 const { NotificationHubsManagementClient } = require("@azure/arm-notificationhubs");
 const { DefaultAzureCredential } = require("@azure/identity");
-require("dotenv").config();
+require("dotenv/config");
 
 /**
  * This sample demonstrates how to Even though this namespace requires subscription id, resource group and namespace name, it returns a constant payload (for a given namespacE) every time it's called.
@@ -27,8 +25,8 @@ async function privateEndpointConnectionsListGroupIds() {
   const namespaceName = "nh-sdk-ns";
   const credential = new DefaultAzureCredential();
   const client = new NotificationHubsManagementClient(credential, subscriptionId);
-  const resArray = new Array();
-  for await (let item of client.privateEndpointConnections.listGroupIds(
+  const resArray = [];
+  for await (const item of client.privateEndpointConnections.listGroupIds(
     resourceGroupName,
     namespaceName,
   )) {
@@ -38,7 +36,7 @@ async function privateEndpointConnectionsListGroupIds() {
 }
 
 async function main() {
-  privateEndpointConnectionsListGroupIds();
+  await privateEndpointConnectionsListGroupIds();
 }
 
 main().catch(console.error);

@@ -1,17 +1,22 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import type { ClientContext } from "../../ClientContext";
-import type { DiagnosticNodeInternal } from "../../diagnostics/DiagnosticNodeInternal";
-import { getIdFromLink, getPathFromLink, isResourceValid, ResourceType } from "../../common";
-import type { SqlQuerySpec } from "../../queryExecutionContext";
-import { QueryIterator } from "../../queryIterator";
-import type { FeedOptions, RequestOptions } from "../../request";
-import type { Container } from "../Container";
-import type { Resource } from "../Resource";
-import { StoredProcedure } from "./StoredProcedure";
-import type { StoredProcedureDefinition } from "./StoredProcedureDefinition";
-import { StoredProcedureResponse } from "./StoredProcedureResponse";
-import { getEmptyCosmosDiagnostics, withDiagnostics } from "../../utils/diagnostics";
+import type { ClientContext } from "../../ClientContext.js";
+import type { DiagnosticNodeInternal } from "../../diagnostics/DiagnosticNodeInternal.js";
+import {
+  getIdFromLink,
+  getPathFromLink,
+  isResourceValid,
+  ResourceType,
+} from "../../common/index.js";
+import type { SqlQuerySpec } from "../../queryExecutionContext/index.js";
+import { QueryIterator } from "../../queryIterator.js";
+import type { FeedOptions, RequestOptions } from "../../request/index.js";
+import type { Container } from "../Container/index.js";
+import type { Resource } from "../Resource.js";
+import { StoredProcedure } from "./StoredProcedure.js";
+import type { StoredProcedureDefinition } from "./StoredProcedureDefinition.js";
+import { StoredProcedureResponse } from "./StoredProcedureResponse.js";
+import { getEmptyCosmosDiagnostics, withDiagnostics } from "../../utils/diagnostics.js";
 
 /**
  * Operations for creating, upserting, or reading/querying all Stored Procedures.
@@ -32,14 +37,24 @@ export class StoredProcedures {
    * Query all Stored Procedures.
    * @param query - Query configuration for the operation. See {@link SqlQuerySpec} for more info on how to configure a query.
    * @example Read all stored procedures to array.
-   * ```typescript
+   * ```ts snippet:StoredProceduresQueryStoredProcedures
+   * import { CosmosClient, SqlQuerySpec } from "@azure/cosmos";
+   *
+   * const endpoint = "https://your-account.documents.azure.com";
+   * const key = "<database account masterkey>";
+   * const client = new CosmosClient({ endpoint, key });
+   *
+   * const { database } = await client.databases.createIfNotExists({ id: "Test Database" });
+   *
+   * const { container } = await database.containers.createIfNotExists({ id: "Test Container" });
+   *
    * const querySpec: SqlQuerySpec = {
-   *   query: "SELECT * FROM root r WHERE r.id = @sproc",
-   *   parameters: [
-   *     {name: "@sproc", value: "Todo"}
-   *   ]
+   *   query: `SELECT * FROM root r WHERE r.id = @sproc`,
+   *   parameters: [{ name: "@sproc", value: "Todo" }],
    * };
-   * const {body: sprocList} = await containers.storedProcedures.query(querySpec).fetchAll();
+   * const { resources: storedProceduresList } = await container.scripts.storedProcedures
+   *   .query(querySpec)
+   *   .fetchAll();
    * ```
    */
   public query(query: SqlQuerySpec, options?: FeedOptions): QueryIterator<any>;
@@ -47,14 +62,24 @@ export class StoredProcedures {
    * Query all Stored Procedures.
    * @param query - Query configuration for the operation. See {@link SqlQuerySpec} for more info on how to configure a query.
    * @example Read all stored procedures to array.
-   * ```typescript
+   * ```ts snippet:StoredProceduresQueryStoredProcedures
+   * import { CosmosClient, SqlQuerySpec } from "@azure/cosmos";
+   *
+   * const endpoint = "https://your-account.documents.azure.com";
+   * const key = "<database account masterkey>";
+   * const client = new CosmosClient({ endpoint, key });
+   *
+   * const { database } = await client.databases.createIfNotExists({ id: "Test Database" });
+   *
+   * const { container } = await database.containers.createIfNotExists({ id: "Test Container" });
+   *
    * const querySpec: SqlQuerySpec = {
-   *   query: "SELECT * FROM root r WHERE r.id = @sproc",
-   *   parameters: [
-   *     {name: "@sproc", value: "Todo"}
-   *   ]
+   *   query: `SELECT * FROM root r WHERE r.id = @sproc`,
+   *   parameters: [{ name: "@sproc", value: "Todo" }],
    * };
-   * const {body: sprocList} = await containers.storedProcedures.query(querySpec).fetchAll();
+   * const { resources: storedProceduresList } = await container.scripts.storedProcedures
+   *   .query(querySpec)
+   *   .fetchAll();
    * ```
    */
   public query<T>(query: SqlQuerySpec, options?: FeedOptions): QueryIterator<T>;
@@ -78,8 +103,20 @@ export class StoredProcedures {
   /**
    * Read all stored procedures.
    * @example Read all stored procedures to array.
-   * ```typescript
-   * const {body: sprocList} = await containers.storedProcedures.readAll().fetchAll();
+   * ```ts snippet:StoredProceduresReadAll
+   * import { CosmosClient } from "@azure/cosmos";
+   *
+   * const endpoint = "https://your-account.documents.azure.com";
+   * const key = "<database account masterkey>";
+   * const client = new CosmosClient({ endpoint, key });
+   *
+   * const { database } = await client.databases.createIfNotExists({ id: "Test Database" });
+   *
+   * const { container } = await database.containers.createIfNotExists({ id: "Test Container" });
+   *
+   * const { resources: storedProceduresList } = await container.scripts.storedProcedures
+   *   .readAll()
+   *   .fetchAll();
    * ```
    */
   public readAll(options?: FeedOptions): QueryIterator<StoredProcedureDefinition & Resource> {
@@ -94,6 +131,23 @@ export class StoredProcedures {
    * gets executed under ACID transactions on the primary storage partition of the
    * specified container. For additional details,
    * refer to the server-side JavaScript API documentation.
+   * @example
+   * ```ts snippet:StoredProceduresCreate
+   * import { CosmosClient, StoredProcedureDefinition } from "@azure/cosmos";
+   *
+   * const endpoint = "https://your-account.documents.azure.com";
+   * const key = "<database account masterkey>";
+   * const client = new CosmosClient({ endpoint, key });
+   * const { database } = await client.databases.createIfNotExists({ id: "Test Database" });
+   * const { container } = await database.containers.createIfNotExists({ id: "Test Container" });
+   *
+   * const sprocDefinition: StoredProcedureDefinition = {
+   *   id: "sample sproc",
+   *   body: "function () { const x = 10; }",
+   * };
+   *
+   * const { resource: sproc } = await container.scripts.storedProcedures.create(sprocDefinition);
+   * ```
    */
   public async create(
     body: StoredProcedureDefinition,

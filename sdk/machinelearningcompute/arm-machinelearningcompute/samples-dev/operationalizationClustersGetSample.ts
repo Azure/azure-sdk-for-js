@@ -14,7 +14,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * @summary Gets the operationalization cluster resource view. Note that the credentials are not returned by this call. Call ListKeys to get them.
  * x-ms-original-file: specification/machinelearningcompute/resource-manager/Microsoft.MachineLearningCompute/preview/2017-08-01-preview/examples/OperationalizationClusters_Get.json
  */
-async function getOperationalizationCluster() {
+async function getOperationalizationCluster(): Promise<void> {
   const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const resourceGroupName = "myResourceGroup";
   const clusterName = "myCluster";

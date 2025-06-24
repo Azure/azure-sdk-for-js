@@ -7,9 +7,7 @@
  */
 import { SynapseManagementClient } from "@azure/arm-synapse";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Get SQL pool backup information
@@ -17,7 +15,7 @@ dotenv.config();
  * @summary Get SQL pool backup information
  * x-ms-original-file: specification/synapse/resource-manager/Microsoft.Synapse/stable/2021-06-01/examples/ListSqlPoolRestorePoints.json
  */
-async function getAListOfRestorePointsOfASqlAnalyticsPool() {
+async function getAListOfRestorePointsOfASqlAnalyticsPool(): Promise<void> {
   const subscriptionId =
     process.env["SYNAPSE_SUBSCRIPTION_ID"] || "00000000-1111-2222-3333-444444444444";
   const resourceGroupName = process.env["SYNAPSE_RESOURCE_GROUP"] || "Default-SQL-SouthEastAsia";
@@ -36,7 +34,7 @@ async function getAListOfRestorePointsOfASqlAnalyticsPool() {
   console.log(resArray);
 }
 
-async function main() {
+async function main(): Promise<void> {
   await getAListOfRestorePointsOfASqlAnalyticsPool();
 }
 

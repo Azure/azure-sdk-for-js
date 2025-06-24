@@ -9,7 +9,7 @@
 import {
   DomainWhoisGetOptionalParams,
   DomainWhoisGetResponse
-} from "../models";
+} from "../models/index.js";
 
 /** Interface representing a DomainWhois. */
 export interface DomainWhois {

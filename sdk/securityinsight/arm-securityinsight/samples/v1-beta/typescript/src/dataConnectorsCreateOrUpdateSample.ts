@@ -20,9 +20,7 @@ import {
   SecurityInsights
 } from "@azure/arm-securityinsight";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Creates or updates the data connector.
@@ -30,7 +28,7 @@ dotenv.config();
  * @summary Creates or updates the data connector.
  * x-ms-original-file: specification/securityinsights/resource-manager/Microsoft.SecurityInsights/preview/2022-09-01-preview/examples/dataConnectors/CreateAPIPolling.json
  */
-async function createsOrUpdatesAApiPollingDataConnector() {
+async function createsOrUpdatesAApiPollingDataConnector(): Promise<void> {
   const subscriptionId =
     process.env["SECURITYINSIGHT_SUBSCRIPTION_ID"] ||
     "d0cfe6b2-9ac0-4464-9919-dccaee2e48c0";
@@ -151,7 +149,7 @@ async function createsOrUpdatesAApiPollingDataConnector() {
  * @summary Creates or updates the data connector.
  * x-ms-original-file: specification/securityinsights/resource-manager/Microsoft.SecurityInsights/preview/2022-09-01-preview/examples/dataConnectors/CreateDynamics365DataConnetor.json
  */
-async function createsOrUpdatesADynamics365DataConnector() {
+async function createsOrUpdatesADynamics365DataConnector(): Promise<void> {
   const subscriptionId =
     process.env["SECURITYINSIGHT_SUBSCRIPTION_ID"] ||
     "d0cfe6b2-9ac0-4464-9919-dccaee2e48c0";
@@ -182,7 +180,7 @@ async function createsOrUpdatesADynamics365DataConnector() {
  * @summary Creates or updates the data connector.
  * x-ms-original-file: specification/securityinsights/resource-manager/Microsoft.SecurityInsights/preview/2022-09-01-preview/examples/dataConnectors/CreateGenericUI.json
  */
-async function createsOrUpdatesAGenericUiDataConnector() {
+async function createsOrUpdatesAGenericUiDataConnector(): Promise<void> {
   const subscriptionId =
     process.env["SECURITYINSIGHT_SUBSCRIPTION_ID"] ||
     "d0cfe6b2-9ac0-4464-9919-dccaee2e48c0";
@@ -341,7 +339,7 @@ async function createsOrUpdatesAGenericUiDataConnector() {
  * @summary Creates or updates the data connector.
  * x-ms-original-file: specification/securityinsights/resource-manager/Microsoft.SecurityInsights/preview/2022-09-01-preview/examples/dataConnectors/CreateThreatIntelligenceTaxiiDataConnector.json
  */
-async function createsOrUpdatesAThreatIntelligenceTaxiiDataConnector() {
+async function createsOrUpdatesAThreatIntelligenceTaxiiDataConnector(): Promise<void> {
   const subscriptionId =
     process.env["SECURITYINSIGHT_SUBSCRIPTION_ID"] ||
     "d0cfe6b2-9ac0-4464-9919-dccaee2e48c0";
@@ -380,7 +378,7 @@ async function createsOrUpdatesAThreatIntelligenceTaxiiDataConnector() {
  * @summary Creates or updates the data connector.
  * x-ms-original-file: specification/securityinsights/resource-manager/Microsoft.SecurityInsights/preview/2022-09-01-preview/examples/dataConnectors/CreateOfficePowerBIDataConnector.json
  */
-async function createsOrUpdatesAnOfficePowerBiDataConnector() {
+async function createsOrUpdatesAnOfficePowerBiDataConnector(): Promise<void> {
   const subscriptionId =
     process.env["SECURITYINSIGHT_SUBSCRIPTION_ID"] ||
     "d0cfe6b2-9ac0-4464-9919-dccaee2e48c0";
@@ -411,7 +409,7 @@ async function createsOrUpdatesAnOfficePowerBiDataConnector() {
  * @summary Creates or updates the data connector.
  * x-ms-original-file: specification/securityinsights/resource-manager/Microsoft.SecurityInsights/preview/2022-09-01-preview/examples/dataConnectors/CreateOffice365ProjectDataConnetor.json
  */
-async function createsOrUpdatesAnOffice365ProjectDataConnector() {
+async function createsOrUpdatesAnOffice365ProjectDataConnector(): Promise<void> {
   const subscriptionId =
     process.env["SECURITYINSIGHT_SUBSCRIPTION_ID"] ||
     "d0cfe6b2-9ac0-4464-9919-dccaee2e48c0";
@@ -442,7 +440,7 @@ async function createsOrUpdatesAnOffice365ProjectDataConnector() {
  * @summary Creates or updates the data connector.
  * x-ms-original-file: specification/securityinsights/resource-manager/Microsoft.SecurityInsights/preview/2022-09-01-preview/examples/dataConnectors/CreateOfficeDataConnetor.json
  */
-async function createsOrUpdatesAnOffice365DataConnector() {
+async function createsOrUpdatesAnOffice365DataConnector(): Promise<void> {
   const subscriptionId =
     process.env["SECURITYINSIGHT_SUBSCRIPTION_ID"] ||
     "d0cfe6b2-9ac0-4464-9919-dccaee2e48c0";
@@ -477,7 +475,7 @@ async function createsOrUpdatesAnOffice365DataConnector() {
  * @summary Creates or updates the data connector.
  * x-ms-original-file: specification/securityinsights/resource-manager/Microsoft.SecurityInsights/preview/2022-09-01-preview/examples/dataConnectors/CreateThreatIntelligenceDataConnector.json
  */
-async function createsOrUpdatesAnThreatIntelligencePlatformDataConnector() {
+async function createsOrUpdatesAnThreatIntelligencePlatformDataConnector(): Promise<void> {
   const subscriptionId =
     process.env["SECURITYINSIGHT_SUBSCRIPTION_ID"] ||
     "d0cfe6b2-9ac0-4464-9919-dccaee2e48c0";
@@ -502,7 +500,7 @@ async function createsOrUpdatesAnThreatIntelligencePlatformDataConnector() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   createsOrUpdatesAApiPollingDataConnector();
   createsOrUpdatesADynamics365DataConnector();
   createsOrUpdatesAGenericUiDataConnector();

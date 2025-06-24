@@ -10,9 +10,7 @@
 // Licensed under the MIT License.
 import { SqlManagementClient } from "@azure/arm-sql";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Gets the specified version of a job step.
@@ -20,7 +18,7 @@ dotenv.config();
  * @summary Gets the specified version of a job step.
  * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2020-11-01-preview/examples/GetJobStepByVersion.json
  */
-async function getTheSpecifiedVersionOfAJobStep() {
+async function getTheSpecifiedVersionOfAJobStep(): Promise<void> {
   const subscriptionId =
     process.env["SQL_SUBSCRIPTION_ID"] ||
     "00000000-1111-2222-3333-444444444444";
@@ -43,7 +41,7 @@ async function getTheSpecifiedVersionOfAJobStep() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   getTheSpecifiedVersionOfAJobStep();
 }
 

@@ -10,7 +10,7 @@
 // Licensed under the MIT License.
 const { RecoveryServicesBackupClient } = require("@azure/arm-recoveryservicesbackup");
 const { DefaultAzureCredential } = require("@azure/identity");
-require("dotenv").config();
+require("dotenv/config");
 
 /**
  * This sample demonstrates how to Registers the container with Recovery Services vault.
@@ -20,7 +20,7 @@ the operation.
  * @summary Registers the container with Recovery Services vault.
 This is an asynchronous operation. To track the operation status, use location header to call get latest status of
 the operation.
- * x-ms-original-file: specification/recoveryservicesbackup/resource-manager/Microsoft.RecoveryServices/stable/2024-04-01/examples/AzureStorage/ProtectionContainers_Register.json
+ * x-ms-original-file: specification/recoveryservicesbackup/resource-manager/Microsoft.RecoveryServices/stable/2025-02-01/examples/AzureStorage/ProtectionContainers_Register.json
  */
 async function registerAzureStorageProtectionContainers() {
   const subscriptionId =
@@ -52,7 +52,7 @@ async function registerAzureStorageProtectionContainers() {
 }
 
 async function main() {
-  registerAzureStorageProtectionContainers();
+  await registerAzureStorageProtectionContainers();
 }
 
 main().catch(console.error);

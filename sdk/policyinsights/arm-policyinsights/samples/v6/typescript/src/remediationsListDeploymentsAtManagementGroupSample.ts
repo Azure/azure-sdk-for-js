@@ -18,7 +18,7 @@ import "dotenv/config";
  * @summary Gets all deployments for a remediation at management group scope.
  * x-ms-original-file: specification/policyinsights/resource-manager/Microsoft.PolicyInsights/stable/2024-10-01/examples/Remediations_ListDeploymentsManagementGroupScope.json
  */
-async function listDeploymentsForARemediationAtManagementGroupScope() {
+async function listDeploymentsForARemediationAtManagementGroupScope(): Promise<void> {
   const managementGroupId = "financeMg";
   const remediationName = "myRemediation";
   const credential = new DefaultAzureCredential();
@@ -33,7 +33,7 @@ async function listDeploymentsForARemediationAtManagementGroupScope() {
   console.log(resArray);
 }
 
-async function main() {
+async function main(): Promise<void> {
   listDeploymentsForARemediationAtManagementGroupScope();
 }
 

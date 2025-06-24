@@ -10,9 +10,7 @@
 // Licensed under the MIT License.
 import { ActivityLogAlertResource, MonitorClient } from "@azure/arm-monitor";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Create a new Activity Log Alert rule or update an existing one.
@@ -20,7 +18,7 @@ dotenv.config();
  * @summary Create a new Activity Log Alert rule or update an existing one.
  * x-ms-original-file: specification/monitor/resource-manager/Microsoft.Insights/stable/2020-10-01/examples/ActivityLogAlertRule_CreateOrUpdate.json
  */
-async function createOrUpdateAnActivityLogAlertRule() {
+async function createOrUpdateAnActivityLogAlertRule(): Promise<void> {
   const subscriptionId =
     process.env["MONITOR_SUBSCRIPTION_ID"] ||
     "187f412d-1758-44d9-b052-169e2564721d";
@@ -65,7 +63,7 @@ async function createOrUpdateAnActivityLogAlertRule() {
  * @summary Create a new Activity Log Alert rule or update an existing one.
  * x-ms-original-file: specification/monitor/resource-manager/Microsoft.Insights/stable/2020-10-01/examples/ActivityLogAlertRule_CreateOrUpdateRuleWithAnyOfCondition.json
  */
-async function createOrUpdateAnActivityLogAlertRuleWithAnyOfCondition() {
+async function createOrUpdateAnActivityLogAlertRuleWithAnyOfCondition(): Promise<void> {
   const subscriptionId =
     process.env["MONITOR_SUBSCRIPTION_ID"] ||
     "187f412d-1758-44d9-b052-169e2564721d";
@@ -116,7 +114,7 @@ async function createOrUpdateAnActivityLogAlertRuleWithAnyOfCondition() {
  * @summary Create a new Activity Log Alert rule or update an existing one.
  * x-ms-original-file: specification/monitor/resource-manager/Microsoft.Insights/stable/2020-10-01/examples/ActivityLogAlertRule_CreateOrUpdateRuleWithContainsAny.json
  */
-async function createOrUpdateAnActivityLogAlertRuleWithContainsAny() {
+async function createOrUpdateAnActivityLogAlertRuleWithContainsAny(): Promise<void> {
   const subscriptionId =
     process.env["MONITOR_SUBSCRIPTION_ID"] ||
     "187f412d-1758-44d9-b052-169e2564721d";
@@ -159,7 +157,7 @@ async function createOrUpdateAnActivityLogAlertRuleWithContainsAny() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   createOrUpdateAnActivityLogAlertRule();
   createOrUpdateAnActivityLogAlertRuleWithAnyOfCondition();
   createOrUpdateAnActivityLogAlertRuleWithContainsAny();

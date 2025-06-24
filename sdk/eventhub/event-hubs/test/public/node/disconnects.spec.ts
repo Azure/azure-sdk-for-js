@@ -7,9 +7,9 @@ import { describe, it } from "vitest";
 import { createConsumer, createProducer } from "../../utils/clients.js";
 import { isMock } from "../../utils/vars.js";
 
-describe("disconnected", function () {
-  describe("EventHubConsumerClient", function () {
-    it("runtimeInfo work after disconnect", async function () {
+describe("disconnected", () => {
+  describe("EventHubConsumerClient", () => {
+    it("runtimeInfo work after disconnect", async () => {
       const client = createConsumer().consumer;
       const clientConnectionContext = client["_context"];
 
@@ -28,7 +28,7 @@ describe("disconnected", function () {
       await client.close();
     });
 
-    it("should receive after a disconnect", async function () {
+    it("should receive after a disconnect", async () => {
       /**
        * This test validates that an `EventHubConsumerClient.subscribe()` call continues
        * receiving events after a `disconnected` event occurs on the underlying connection.
@@ -127,8 +127,8 @@ describe("disconnected", function () {
     });
   });
 
-  describe("EventHubProducerClient", function () {
-    it("runtimeInfo work after disconnect", async function () {
+  describe("EventHubProducerClient", () => {
+    it("runtimeInfo work after disconnect", async () => {
       const client = createProducer().producer;
       const clientConnectionContext = client["_context"];
 
@@ -147,7 +147,7 @@ describe("disconnected", function () {
       await client.close();
     });
 
-    it("should send after a disconnect", async function () {
+    it("should send after a disconnect", async () => {
       const client = createProducer().producer;
       const clientConnectionContext = client["_context"];
 
@@ -165,7 +165,7 @@ describe("disconnected", function () {
       await client.close();
     });
 
-    it.skipIf(isMock())("should not throw an uncaught exception", async function () {
+    it.skipIf(isMock())("should not throw an uncaught exception", async () => {
       const client = createProducer({
         options: {
           retryOptions: {

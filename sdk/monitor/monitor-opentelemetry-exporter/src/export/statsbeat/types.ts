@@ -1,6 +1,10 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
+/**
+ * Statsbeat class for network telemetry.
+ * @internal
+ */
 export class NetworkStatsbeat {
   public time: number | undefined;
 
@@ -14,7 +18,7 @@ export class NetworkStatsbeat {
 
   public lastRequestCount: number;
 
-  public totalSuccesfulRequestCount: number;
+  public totalSuccessfulRequestCount: number;
 
   public totalReadFailureCount: number;
 
@@ -38,7 +42,7 @@ export class NetworkStatsbeat {
     this.endpoint = endpoint;
     this.host = host;
     this.totalRequestCount = 0;
-    this.totalSuccesfulRequestCount = 0;
+    this.totalSuccessfulRequestCount = 0;
     this.totalReadFailureCount = 0;
     this.totalWriteFailureCount = 0;
     this.totalFailedRequestCount = [];
@@ -53,7 +57,32 @@ export class NetworkStatsbeat {
   }
 }
 
+/**
+ * Statsbeat class for customer-visible telemetry.
+ * @internal
+ */
+export class CustomerStatsbeat {
+  public totalItemSuccessCount: Map<TelemetryType, number>;
+
+  // Nested Map structure: telemetry_type -> drop.code -> drop.reason -> count
+  public totalItemDropCount: Map<TelemetryType, Map<DropCode | number, Map<string, number>>>;
+
+  // Nested Map structure: telemetry_type -> retry.code -> retry.reason -> count
+  public totalItemRetryCount: Map<TelemetryType, Map<RetryCode | number, Map<string, number>>>;
+
+  constructor() {
+    this.totalItemSuccessCount = new Map<TelemetryType, number>();
+    this.totalItemDropCount = new Map<TelemetryType, Map<DropCode | number, Map<string, number>>>();
+    this.totalItemRetryCount = new Map<
+      TelemetryType,
+      Map<RetryCode | number, Map<string, number>>
+    >();
+  }
+}
+
 export const STATSBEAT_LANGUAGE = "node";
+
+export const AZURE_MONITOR_AUTO_ATTACH = "AZURE_MONITOR_AUTO_ATTACH";
 
 export const MAX_STATSBEAT_FAILURES = 3;
 
@@ -64,6 +93,11 @@ export const StatsbeatResourceProvider = {
   vm: "vm",
   unknown: "unknown",
 };
+
+export enum AttachTypeName {
+  INTEGRATED_AUTO = "IntegratedAuto",
+  MANUAL = "Manual",
+}
 
 export enum StatsbeatCounter {
   SUCCESS_COUNT = "Request_Success_Count",
@@ -76,6 +110,12 @@ export enum StatsbeatCounter {
   WRITE_FAILURE_COUNT = "Write_Failure_Count",
   ATTACH = "Attach",
   FEATURE = "Feature",
+}
+
+export enum CustomStatsbeatCounter {
+  ITEM_SUCCESS_COUNT = "preview.item.success.count",
+  ITEM_DROP_COUNT = "preview.item.dropped.count",
+  ITEM_RETRY_COUNT = "preview.item.retry.count",
 }
 
 export const AIMS_URI = "http://169.254.169.254/metadata/instance/compute";
@@ -108,6 +148,43 @@ export interface CommonStatsbeatProperties {
   language: string;
   version: string;
   attach: string;
+}
+
+export interface CustomerStatsbeatProperties {
+  language: string;
+  version: string;
+  computeType: string;
+}
+
+export enum TelemetryType {
+  AVAILABILITY = "AVAILABILITY",
+  CUSTOM_EVENT = "CUSTOM_EVENT",
+  CUSTOM_METRIC = "CUSTOM_METRIC",
+  DEPENDENCY = "DEPENDENCY",
+  EXCEPTION = "EXCEPTION",
+  PAGE_VIEW = "PAGE_VIEW",
+  PERFORMANCE_COUNTER = "PERFORMANCE_COUNTER",
+  REQUEST = "REQUEST",
+  TRACE = "TRACE",
+  UNKNOWN = "UNKNOWN",
+}
+
+export enum DropCode {
+  CLIENT_EXCEPTION = "CLIENT_EXCEPTION",
+  CLIENT_EXPIRED_DATA = "CLIENT_EXPIRED_DATA",
+  CLIENT_READONLY = "CLIENT_READONLY",
+  CLIENT_STALE_DATA = "CLIENT_STALE_DATA",
+  CLIENT_PERSISTENCE_CAPACITY = "CLIENT_PERSISTENCE_CAPACITY",
+  NON_RETRYABLE_STATUS_CODE = "NON_RETRYABLE_STATUS_CODE",
+  CLIENT_STORAGE_DISABLED = "CLIENT_STORAGE_DISABLED",
+  UNKNOWN = "UNKNOWN",
+}
+
+export enum RetryCode {
+  CLIENT_EXCEPTION = "CLIENT_EXCEPTION",
+  CLIENT_TIMEOUT = "CLIENT_TIMEOUT",
+  RETRYABLE_STATUS_CODE = "RETRYABLE_STATUS_CODE",
+  UNKNOWN = "UNKNOWN",
 }
 
 export interface AttachStatsbeatProperties {

@@ -47,7 +47,12 @@ export {
 export { createDefaultHttpClient } from "./defaultHttpClient.js";
 export { createHttpHeaders } from "./httpHeaders.js";
 export { createPipelineRequest, type PipelineRequestOptions } from "./pipelineRequest.js";
-export { RestError, type RestErrorOptions, isRestError } from "./restError.js";
+export {
+  RestError,
+  type RestErrorOptions,
+  type RestErrorConstructor,
+  isRestError,
+} from "./restError.js";
 export {
   decompressResponsePolicy,
   decompressResponsePolicyName,
@@ -79,12 +84,13 @@ export {
   throttlingRetryPolicyName,
   type ThrottlingRetryPolicyOptions,
 } from "./policies/throttlingRetryPolicy.js";
-export { retryPolicy, type RetryPolicyOptions } from "./policies/retryPolicy.js";
-export type {
-  RetryStrategy,
-  RetryInformation,
-  RetryModifiers,
-} from "./retryStrategies/retryStrategy.js";
+export {
+  retryPolicy,
+  type RetryPolicyOptions,
+  type RetryStrategy,
+  type RetryInformation,
+  type RetryModifiers,
+} from "./policies/retryPolicy.js";
 export {
   tracingPolicy,
   tracingPolicyName,
@@ -115,6 +121,7 @@ export {
   type AuxiliaryAuthenticationHeaderPolicyOptions,
   auxiliaryAuthenticationHeaderPolicyName,
 } from "./policies/auxiliaryAuthenticationHeaderPolicy.js";
+export { agentPolicy, agentPolicyName } from "./policies/agentPolicy.js";
 export {
   createFile,
   createFileFromStream,

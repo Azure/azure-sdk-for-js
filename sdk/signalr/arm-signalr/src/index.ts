@@ -7,7 +7,7 @@
  */
 
 /// <reference lib="esnext.asynciterable" />
-export { getContinuationToken } from "./pagingHelper";
-export * from "./models";
-export { SignalRManagementClient } from "./signalRManagementClient";
-export * from "./operationsInterfaces";
+export { getContinuationToken } from "./pagingHelper.js";
+export * from "./models/index.js";
+export { SignalRManagementClient } from "./signalRManagementClient.js";
+export * from "./operationsInterfaces/index.js";

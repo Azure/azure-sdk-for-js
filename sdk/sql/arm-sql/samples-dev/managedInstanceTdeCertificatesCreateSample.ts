@@ -8,9 +8,7 @@
 import type { TdeCertificate } from "@azure/arm-sql";
 import { SqlManagementClient } from "@azure/arm-sql";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Creates a TDE certificate for a given server.
@@ -18,7 +16,7 @@ dotenv.config();
  * @summary Creates a TDE certificate for a given server.
  * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2020-11-01-preview/examples/ManagedInstanceTdeCertificate.json
  */
-async function uploadATdeCertificate() {
+async function uploadATdeCertificate(): Promise<void> {
   const subscriptionId =
     process.env["SQL_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000001";
   const resourceGroupName = process.env["SQL_RESOURCE_GROUP"] || "testtdecert";
@@ -34,7 +32,7 @@ async function uploadATdeCertificate() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   await uploadATdeCertificate();
 }
 

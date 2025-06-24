@@ -1,25 +1,27 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { ChangeFeedIterator } from "../../ChangeFeedIterator";
-import type { ChangeFeedOptions } from "../../ChangeFeedOptions";
-import type { ClientContext } from "../../ClientContext";
+import { ChangeFeedIterator } from "../../ChangeFeedIterator.js";
+import type { ChangeFeedOptions } from "../../ChangeFeedOptions.js";
+import type { ClientContext } from "../../ClientContext.js";
 import {
+  Constants,
+  copyObject,
   getIdFromLink,
   getPathFromLink,
   isItemResourceValid,
   ResourceType,
   StatusCodes,
   SubStatusCodes,
-} from "../../common";
-import { extractPartitionKeys, setPartitionKeyIfUndefined } from "../../extractPartitionKey";
-import type { FetchFunctionCallback, SqlQuerySpec } from "../../queryExecutionContext";
-import { QueryIterator } from "../../queryIterator";
-import type { FeedOptions, RequestOptions, Response } from "../../request";
-import type { Container, PartitionKeyRange } from "../Container";
-import { Item } from "./Item";
-import type { ItemDefinition } from "./ItemDefinition";
-import { ItemResponse } from "./ItemResponse";
+} from "../../common/index.js";
+import { extractPartitionKeys, setPartitionKeyIfUndefined } from "../../extractPartitionKey.js";
+import type { FetchFunctionCallback, SqlQuerySpec } from "../../queryExecutionContext/index.js";
+import { QueryIterator } from "../../queryIterator.js";
+import type { FeedOptions, RequestOptions, Response } from "../../request/index.js";
+import type { Container, PartitionKeyRange } from "../Container/index.js";
+import { Item } from "./Item.js";
+import type { ItemDefinition } from "./ItemDefinition.js";
+import { ItemResponse } from "./ItemResponse.js";
 import type {
   Batch,
   OperationResponse,
@@ -27,32 +29,42 @@ import type {
   BulkOptions,
   BulkOperationResponse,
   Operation,
-} from "../../utils/batch";
+  BulkOperationResult,
+} from "../../utils/batch.js";
 import {
   isKeyInRange,
   prepareOperations,
   decorateBatchOperation,
   splitBatchBasedOnBodySize,
-} from "../../utils/batch";
-import { assertNotUndefined, isPrimitivePartitionKeyValue } from "../../utils/typeChecks";
-import { hashPartitionKey } from "../../utils/hashing/hash";
-import type { PartitionKey, PartitionKeyDefinition } from "../../documents";
-import { PartitionKeyRangeCache, QueryRange } from "../../routing";
+  encryptOperationInput,
+} from "../../utils/batch.js";
+import { assertNotUndefined, isPrimitivePartitionKeyValue } from "../../utils/typeChecks.js";
+import { hashPartitionKey } from "../../utils/hashing/hash.js";
+import { PartitionKeyRangeCache, QueryRange } from "../../routing/index.js";
+import type { PartitionKey, PartitionKeyDefinition } from "../../documents/index.js";
+import { convertToInternalPartitionKey } from "../../documents/index.js";
 import type {
   ChangeFeedPullModelIterator,
   ChangeFeedIteratorOptions,
-} from "../../client/ChangeFeed";
-import { validateChangeFeedIteratorOptions } from "../../client/ChangeFeed/changeFeedUtils";
-import type { DiagnosticNodeInternal } from "../../diagnostics/DiagnosticNodeInternal";
-import { DiagnosticNodeType } from "../../diagnostics/DiagnosticNodeInternal";
+} from "../../client/ChangeFeed/index.js";
+import { validateChangeFeedIteratorOptions } from "../../client/ChangeFeed/changeFeedUtils.js";
+import type { DiagnosticNodeInternal } from "../../diagnostics/DiagnosticNodeInternal.js";
+import { DiagnosticNodeType } from "../../diagnostics/DiagnosticNodeInternal.js";
 import {
   getEmptyCosmosDiagnostics,
   withDiagnostics,
-  addDignosticChild,
-} from "../../utils/diagnostics";
+  addDiagnosticChild,
+} from "../../utils/diagnostics.js";
 import { randomUUID } from "@azure/core-util";
-import { readPartitionKeyDefinition } from "../ClientUtils";
-import { ChangeFeedIteratorBuilder } from "../ChangeFeed/ChangeFeedIteratorBuilder";
+import { readPartitionKeyDefinition } from "../ClientUtils.js";
+import { ChangeFeedIteratorBuilder } from "../ChangeFeed/ChangeFeedIteratorBuilder.js";
+import type { EncryptionQueryBuilder } from "../../encryption/index.js";
+import type { EncryptionSqlParameter } from "../../encryption/EncryptionQueryBuilder.js";
+import type { Resource } from "../Resource.js";
+import { TypeMarker } from "../../encryption/enums/TypeMarker.js";
+import { EncryptionItemQueryIterator } from "../../encryption/EncryptionItemQueryIterator.js";
+import { ErrorResponse } from "../../request/index.js";
+import { BulkHelper } from "../../bulk/BulkHelper.js";
 
 /**
  * @hidden
@@ -85,30 +97,48 @@ export class Items {
    * @param query - Query configuration for the operation. See {@link SqlQuerySpec} for more info on how to configure a query.
    * @param options - Used for modifying the request (for instance, specifying the partition key).
    * @example Read all items to array.
-   * ```typescript
+   * ```ts snippet:ItemsQueryItems
+   * import { CosmosClient, SqlQuerySpec } from "@azure/cosmos";
+   *
+   * const endpoint = "https://your-account.documents.azure.com";
+   * const key = "<database account masterkey>";
+   * const client = new CosmosClient({ endpoint, key });
+   *
+   * const { database } = await client.databases.createIfNotExists({ id: "Test Database" });
+   *
+   * const { container } = await database.containers.createIfNotExists({ id: "Test Container" });
+   *
    * const querySpec: SqlQuerySpec = {
-   *   query: "SELECT * FROM Families f WHERE f.lastName = @lastName",
-   *   parameters: [
-   *     {name: "@lastName", value: "Hendricks"}
-   *   ]
+   *   query: `SELECT * FROM Families f WHERE f.lastName = @lastName`,
+   *   parameters: [{ name: "@lastName", value: "Hendricks" }],
    * };
-   * const {result: items} = await items.query(querySpec).fetchAll();
+   * const { resources: items } = await container.items.query(querySpec).fetchAll();
    * ```
    */
+
+  //
   public query(query: string | SqlQuerySpec, options?: FeedOptions): QueryIterator<any>;
   /**
    * Queries all items.
    * @param query - Query configuration for the operation. See {@link SqlQuerySpec} for more info on how to configure a query.
    * @param options - Used for modifying the request (for instance, specifying the partition key).
    * @example Read all items to array.
-   * ```typescript
+   * ```ts snippet:ItemsQueryItems
+   * import { CosmosClient, SqlQuerySpec } from "@azure/cosmos";
+   *
+   * const endpoint = "https://your-account.documents.azure.com";
+   * const key = "<database account masterkey>";
+   * const client = new CosmosClient({ endpoint, key });
+   *
+   * const { database } = await client.databases.createIfNotExists({ id: "Test Database" });
+   *
+   * const { container } = await database.containers.createIfNotExists({ id: "Test Container" });
+   *
    * const querySpec: SqlQuerySpec = {
-   *   query: "SELECT firstname FROM Families f WHERE f.lastName = @lastName",
-   *   parameters: [
-   *     {name: "@lastName", value: "Hendricks"}
-   *   ]
+   *   query: `SELECT * FROM Families f WHERE f.lastName = @lastName`,
+   *   parameters: [{ name: "@lastName", value: "Hendricks" }],
    * };
-   * const {result: items} = await items.query<{firstName: string}>(querySpec).fetchAll();
+   * const { resources: items } = await container.items.query(querySpec).fetchAll();
    * ```
    */
   public query<T>(query: string | SqlQuerySpec, options?: FeedOptions): QueryIterator<T>;
@@ -134,15 +164,82 @@ export class Items {
       });
       return response;
     };
+    let iterator: QueryIterator<T>;
+    if (this.clientContext.enableEncryption) {
+      iterator = new EncryptionItemQueryIterator(
+        this.clientContext,
+        query,
+        options,
+        fetchFunction,
+        this.container,
+      );
+    } else {
+      iterator = new QueryIterator<T>(
+        this.clientContext,
+        query,
+        options,
+        fetchFunction,
+        this.container.url,
+        ResourceType.item,
+      );
+    }
+    return iterator;
+  }
+  /**
+   * Queries all items in an encrypted container.
+   * @param queryBuilder - Query configuration for the operation. See {@link SqlQuerySpec} for more info on how to build a query on encrypted properties.
+   * @param options - Used for modifying the request (for instance, specifying the partition key).
+   * @example Read all items to array.
+   * ```ts snippet:ItemsQueryEncryptedItems
+   * import { CosmosClient, EncryptionQueryBuilder } from "@azure/cosmos";
+   *
+   * const endpoint = "https://your-account.documents.azure.com";
+   * const key = "<database account masterkey>";
+   * const client = new CosmosClient({ endpoint, key });
+   *
+   * const { database } = await client.databases.createIfNotExists({ id: "Test Database" });
+   *
+   * const { container } = await database.containers.createIfNotExists({ id: "Test Container" });
+   *
+   * const queryBuilder = new EncryptionQueryBuilder(
+   *   `SELECT firstname FROM Families f WHERE f.lastName = @lastName`,
+   * );
+   * queryBuilder.addParameter("@lastName", "Hendricks", "/lastname");
+   * const queryIterator = await container.items.getEncryptionQueryIterator(queryBuilder);
+   * const { resources: items } = await queryIterator.fetchAll();
+   * ```
+   */
+  public async getEncryptionQueryIterator(
+    queryBuilder: EncryptionQueryBuilder,
+    options: FeedOptions = {},
+  ): Promise<QueryIterator<ItemDefinition>> {
+    const encryptionSqlQuerySpec = queryBuilder.toEncryptionSqlQuerySpec();
+    const sqlQuerySpec = await this.buildSqlQuerySpec(encryptionSqlQuerySpec);
+    const iterator = this.query<ItemDefinition>(sqlQuerySpec, options);
+    return iterator;
+  }
 
-    return new QueryIterator(
-      this.clientContext,
-      query,
-      options,
-      fetchFunction,
-      this.container.url,
-      ResourceType.item,
-    );
+  private async buildSqlQuerySpec(encryptionSqlQuerySpec: SqlQuerySpec): Promise<SqlQuerySpec> {
+    let encryptionParameters = encryptionSqlQuerySpec.parameters as EncryptionSqlParameter[];
+    const sqlQuerySpec: SqlQuerySpec = {
+      query: encryptionSqlQuerySpec.query,
+      parameters: [],
+    };
+    // returns copy to avoid encryption of original parameters passed
+    encryptionParameters = copyObject(encryptionParameters);
+    for (const parameter of encryptionParameters) {
+      let value: any;
+      if (parameter.type !== undefined || parameter.type !== TypeMarker.Null) {
+        value = await this.container.encryptionProcessor.encryptQueryParameter(
+          parameter.path,
+          parameter.value,
+          parameter.path === "/id",
+          parameter.type,
+        );
+      }
+      sqlQuerySpec.parameters.push({ name: parameter.name, value: value });
+    }
+    return sqlQuerySpec;
   }
 
   /**
@@ -151,7 +248,7 @@ export class Items {
    * @deprecated Use `getChangeFeedIterator` instead.
    *
    * @example Read from the beginning of the change feed.
-   * ```javascript
+   * ```ts snippet:ignore
    * const iterator = items.readChangeFeed({ startFromBeginning: true });
    * const firstPage = await iterator.fetchNext();
    * const firstPageResults = firstPage.result
@@ -196,7 +293,7 @@ export class Items {
    * Create a `ChangeFeedIterator` to iterate over pages of changes
    * @deprecated Use `getChangeFeedIterator` instead.
    * @example Read from the beginning of the change feed.
-   * ```javascript
+   * ```ts snippet:ignore
    * const iterator = items.readChangeFeed({ startFromBeginning: true });
    * const firstPage = await iterator.fetchNext();
    * const firstPageResults = firstPage.result
@@ -251,6 +348,44 @@ export class Items {
 
   /**
    * Returns an iterator to iterate over pages of changes. The iterator returned can be used to fetch changes for a single partition key, feed range or an entire container.
+   *
+   * @example
+   * ```ts snippet:ReadmeSampleChangeFeedPullModelIteratorPartitionKey
+   * import {
+   *   CosmosClient,
+   *   PartitionKeyDefinitionVersion,
+   *   PartitionKeyKind,
+   *   ChangeFeedStartFrom,
+   * } from "@azure/cosmos";
+   *
+   * const endpoint = "https://your-account.documents.azure.com";
+   * const key = "<database account masterkey>";
+   * const client = new CosmosClient({ endpoint, key });
+   *
+   * const { database } = await client.databases.createIfNotExists({ id: "Test Database" });
+   *
+   * const containerDefinition = {
+   *   id: "Test Database",
+   *   partitionKey: {
+   *     paths: ["/name", "/address/zip"],
+   *     version: PartitionKeyDefinitionVersion.V2,
+   *     kind: PartitionKeyKind.MultiHash,
+   *   },
+   * };
+   * const { container } = await database.containers.createIfNotExists(containerDefinition);
+   *
+   * const partitionKey = "some-partition-Key-value";
+   * const options = {
+   *   changeFeedStartFrom: ChangeFeedStartFrom.Beginning(partitionKey),
+   * };
+   *
+   * const iterator = container.items.getChangeFeedIterator(options);
+   *
+   * while (iterator.hasMoreResults) {
+   *   const response = await iterator.readNext();
+   *   // process this response
+   * }
+   * ```
    */
   public getChangeFeedIterator<T>(
     changeFeedIteratorOptions?: ChangeFeedIteratorOptions,
@@ -273,8 +408,18 @@ export class Items {
    *
    * @param options - Used for modifying the request (for instance, specifying the partition key).
    * @example Read all items to array.
-   * ```typescript
-   * const {body: containerList} = await items.readAll().fetchAll();
+   * ```ts snippet:ItemsReadAll
+   * import { CosmosClient } from "@azure/cosmos";
+   *
+   * const endpoint = "https://your-account.documents.azure.com";
+   * const key = "<database account masterkey>";
+   * const client = new CosmosClient({ endpoint, key });
+   *
+   * const { database } = await client.databases.createIfNotExists({ id: "Test Database" });
+   *
+   * const { container } = await database.containers.createIfNotExists({ id: "Test Container" });
+   *
+   * const { resources: containerList } = await container.items.readAll().fetchAll();
    * ```
    */
   public readAll(options?: FeedOptions): QueryIterator<ItemDefinition>;
@@ -288,8 +433,18 @@ export class Items {
    *
    * @param options - Used for modifying the request (for instance, specifying the partition key).
    * @example Read all items to array.
-   * ```typescript
-   * const {body: containerList} = await items.readAll().fetchAll();
+   * ```ts snippet:ItemsReadAll
+   * import { CosmosClient } from "@azure/cosmos";
+   *
+   * const endpoint = "https://your-account.documents.azure.com";
+   * const key = "<database account masterkey>";
+   * const client = new CosmosClient({ endpoint, key });
+   *
+   * const { database } = await client.databases.createIfNotExists({ id: "Test Database" });
+   *
+   * const { container } = await database.containers.createIfNotExists({ id: "Test Container" });
+   *
+   * const { resources: containerList } = await container.items.readAll().fetchAll();
    * ```
    */
   public readAll<T extends ItemDefinition>(options?: FeedOptions): QueryIterator<T>;
@@ -307,6 +462,23 @@ export class Items {
    *
    * @param body - Represents the body of the item. Can contain any number of user defined properties.
    * @param options - Used for modifying the request (for instance, specifying the partition key).
+   * @example Create an item.
+   * ```ts snippet:ContainerItems
+   * import { CosmosClient } from "@azure/cosmos";
+   *
+   * const endpoint = "https://your-account.documents.azure.com";
+   * const key = "<database account masterkey>";
+   * const client = new CosmosClient({ endpoint, key });
+   *
+   * const { database } = await client.databases.createIfNotExists({ id: "Test Database" });
+   *
+   * const { container } = await database.containers.createIfNotExists({ id: "Test Container" });
+   *
+   * const { resource: createdItem } = await container.items.create({
+   *   id: "<item id>",
+   *   properties: {},
+   * });
+   * ```
    */
   public async create<T extends ItemDefinition = any>(
     body: T,
@@ -323,30 +495,76 @@ export class Items {
         diagnosticNode,
         this.container,
       );
-      const partitionKey = extractPartitionKeys(body, partitionKeyDefinition);
+      let partitionKey = extractPartitionKeys(body, partitionKeyDefinition);
+      let response: Response<T & Resource>;
+      try {
+        if (this.clientContext.enableEncryption) {
+          await this.container.checkAndInitializeEncryption();
+          options.containerRid = this.container._rid;
+          // returns copy to avoid encryption of original body passed
+          body = copyObject(body);
+          diagnosticNode.beginEncryptionDiagnostics(
+            Constants.Encryption.DiagnosticsEncryptOperation,
+          );
+          const { body: encryptedBody, propertiesEncryptedCount } =
+            await this.container.encryptionProcessor.encrypt(body);
+          body = encryptedBody;
+          diagnosticNode.endEncryptionDiagnostics(
+            Constants.Encryption.DiagnosticsEncryptOperation,
+            propertiesEncryptedCount,
+          );
 
-      const err = {};
-      if (!isItemResourceValid(body, err)) {
-        throw err;
+          partitionKey = extractPartitionKeys(body, partitionKeyDefinition);
+        }
+        const err = {};
+        if (!isItemResourceValid(body, err)) {
+          throw err;
+        }
+        const path = getPathFromLink(this.container.url, ResourceType.item);
+        const id = getIdFromLink(this.container.url);
+        response = await this.clientContext.create<T>({
+          body,
+          path,
+          resourceType: ResourceType.item,
+          resourceId: id,
+          diagnosticNode,
+          options,
+          partitionKey,
+        });
+      } catch (error: any) {
+        if (this.clientContext.enableEncryption) {
+          // Todo: internally retry post policy refresh
+          await this.container.throwIfRequestNeedsARetryPostPolicyRefresh(error);
+        }
+        throw error;
       }
 
-      const path = getPathFromLink(this.container.url, ResourceType.item);
-      const id = getIdFromLink(this.container.url);
-
-      const response = await this.clientContext.create<T>({
-        body,
-        path,
-        resourceType: ResourceType.item,
-        resourceId: id,
-        diagnosticNode,
-        options,
-        partitionKey,
-      });
-
+      if (this.clientContext.enableEncryption) {
+        // try block for decrypting response. This is done so that we can throw special error message in case of decryption failure
+        try {
+          diagnosticNode.beginEncryptionDiagnostics(
+            Constants.Encryption.DiagnosticsDecryptOperation,
+          );
+          const { body: decryptedResult, propertiesDecryptedCount } =
+            await this.container.encryptionProcessor.decrypt(response.result);
+          diagnosticNode.endEncryptionDiagnostics(
+            Constants.Encryption.DiagnosticsDecryptOperation,
+            propertiesDecryptedCount,
+          );
+          response.result = decryptedResult;
+          partitionKey = extractPartitionKeys(response.result, partitionKeyDefinition);
+        } catch (error) {
+          const decryptionError = new ErrorResponse(
+            `Item creation was successful but response decryption failed: + ${error.message}`,
+          );
+          decryptionError.code = StatusCodes.ServiceUnavailable;
+          throw decryptionError;
+        }
+      }
       const ref = new Item(
         this.container,
+        (response.result as any).id,
         this.clientContext,
-        response.result ? (response.result as any).id : undefined,
         partitionKey,
       );
       return new ItemResponse(
@@ -382,6 +600,33 @@ export class Items {
    *
    * @param body - Represents the body of the item. Can contain any number of user defined properties.
    * @param options - Used for modifying the request (for instance, specifying the partition key).
+   * @example Upsert an item.
+   * ```ts snippet:ItemsUpsert
+   * import { CosmosClient } from "@azure/cosmos";
+   *
+   * const endpoint = "https://your-account.documents.azure.com";
+   * const key = "<database account masterkey>";
+   * const client = new CosmosClient({ endpoint, key });
+   *
+   * const { database } = await client.databases.createIfNotExists({ id: "Test Database" });
+   *
+   * const { container } = await database.containers.createIfNotExists({ id: "Test Container" });
+   *
+   * const { resource: createdItem1 } = await container.items.create({
+   *   id: "<item id 1>",
+   *   properties: {},
+   * });
+   *
+   * const { resource: upsertItem1 } = await container.items.upsert({
+   *   id: "<item id 1>",
+   *   updated_properties: {},
+   * });
+   *
+   * const { resource: upsertItem2 } = await container.items.upsert({
+   *   id: "<item id 2>",
+   *   properties: {},
+   * });
+   * ```
    */
   public async upsert<T extends ItemDefinition>(
     body: T,
@@ -402,30 +647,77 @@ export class Items {
         diagnosticNode,
         this.container,
       );
-      const partitionKey = extractPartitionKeys(body, partitionKeyDefinition);
+      let partitionKey = extractPartitionKeys(body, partitionKeyDefinition);
+      let response: Response<T & Resource>;
+      try {
+        if (this.clientContext.enableEncryption) {
+          // returns copy to avoid encryption of original body passed
+          body = copyObject(body);
+          options = options || {};
+          await this.container.checkAndInitializeEncryption();
+          options.containerRid = this.container._rid;
+          diagnosticNode.beginEncryptionDiagnostics(
+            Constants.Encryption.DiagnosticsEncryptOperation,
+          );
+          const { body: encryptedBody, propertiesEncryptedCount } =
+            await this.container.encryptionProcessor.encrypt(body);
+          body = encryptedBody;
+          diagnosticNode.endEncryptionDiagnostics(
+            Constants.Encryption.DiagnosticsEncryptOperation,
+            propertiesEncryptedCount,
+          );
+          partitionKey = extractPartitionKeys(body, partitionKeyDefinition);
+        }
 
-      const err = {};
-      if (!isItemResourceValid(body, err)) {
-        throw err;
+        const err = {};
+        if (!isItemResourceValid(body, err)) {
+          throw err;
+        }
+
+        const path = getPathFromLink(this.container.url, ResourceType.item);
+        const id = getIdFromLink(this.container.url);
+        response = await this.clientContext.upsert<T>({
+          body,
+          path,
+          resourceType: ResourceType.item,
+          resourceId: id,
+          options,
+          partitionKey,
+          diagnosticNode,
+        });
+      } catch (error: any) {
+        if (this.clientContext.enableEncryption) {
+          await this.container.throwIfRequestNeedsARetryPostPolicyRefresh(error);
+        }
+        throw error;
       }
-
-      const path = getPathFromLink(this.container.url, ResourceType.item);
-      const id = getIdFromLink(this.container.url);
-
-      const response = await this.clientContext.upsert<T>({
-        body,
-        path,
-        resourceType: ResourceType.item,
-        resourceId: id,
-        options,
-        partitionKey,
-        diagnosticNode,
-      });
+      if (this.clientContext.enableEncryption) {
+        try {
+          // try block for decrypting response. This is done so that we can throw special error message in case of decryption failure
+          diagnosticNode.beginEncryptionDiagnostics(
+            Constants.Encryption.DiagnosticsDecryptOperation,
+          );
+          const { body: decryptedResult, propertiesDecryptedCount } =
+            await this.container.encryptionProcessor.decrypt(response.result);
+          diagnosticNode.endEncryptionDiagnostics(
+            Constants.Encryption.DiagnosticsDecryptOperation,
+            propertiesDecryptedCount,
+          );
+          response.result = decryptedResult;
+          partitionKey = extractPartitionKeys(response.result, partitionKeyDefinition);
+        } catch (error) {
+          const decryptionError = new ErrorResponse(
+            `Item upsert was successful but response decryption failed: + ${error.message}`,
+          );
+          decryptionError.code = StatusCodes.ServiceUnavailable;
+          throw decryptionError;
+        }
+      }
 
       const ref = new Item(
         this.container,
+        (response.result as any).id,
         this.clientContext,
-        response.result ? (response.result as any).id : undefined,
         partitionKey,
       );
       return new ItemResponse(
@@ -441,26 +733,82 @@ export class Items {
 
   /**
    * Execute bulk operations on items.
+   * @param operations - List of operations
+   * @param options - used for modifying the request
+   * @returns list of operation results corresponding to the operations
+   *
+   * @example
+   * ```ts snippet:ItemsExecuteBulkOperations
+   * import { CosmosClient, OperationInput } from "@azure/cosmos";
+   *
+   * const endpoint = "https://your-account.documents.azure.com";
+   * const key = "<database account masterkey>";
+   * const client = new CosmosClient({ endpoint, key });
+   *
+   * const { database } = await client.databases.createIfNotExists({ id: "Test Database" });
+   *
+   * const { container } = await database.containers.createIfNotExists({ id: "Test Container" });
+   *
+   * const operations: OperationInput[] = [
+   *   {
+   *     operationType: "Create",
+   *     resourceBody: { id: "doc1", name: "sample", key: "A" },
+   *   },
+   *   {
+   *     operationType: "Upsert",
+   *     partitionKey: "A",
+   *     resourceBody: { id: "doc2", name: "other", key: "A" },
+   *   },
+   * ];
+   *
+   * await container.items.executeBulkOperations(operations);
+   * ```
+   */
+  public async executeBulkOperations(
+    operations: OperationInput[],
+    options: RequestOptions = {},
+  ): Promise<BulkOperationResult[]> {
+    const bulkHelper = new BulkHelper(
+      this.container,
+      this.clientContext,
+      this.partitionKeyRangeCache,
+      options,
+    );
+    return bulkHelper.execute(operations);
+  }
+
+  /**
+   * Execute bulk operations on items.
    *
    * Bulk takes an array of Operations which are typed based on what the operation does.
    * The choices are: Create, Upsert, Read, Replace, and Delete
    *
    * Usage example:
-   * ```typescript
+   * ```ts snippet:ItemsBulk
+   * import { CosmosClient, OperationInput } from "@azure/cosmos";
+   *
+   * const endpoint = "https://your-account.documents.azure.com";
+   * const key = "<database account masterkey>";
+   * const client = new CosmosClient({ endpoint, key });
+   *
+   * const { database } = await client.databases.createIfNotExists({ id: "Test Database" });
+   *
+   * const { container } = await database.containers.createIfNotExists({ id: "Test Container" });
+   *
    * // partitionKey is optional at the top level if present in the resourceBody
    * const operations: OperationInput[] = [
-   *    {
-   *       operationType: "Create",
-   *       resourceBody: { id: "doc1", name: "sample", key: "A" }
-   *    },
-   *    {
-   *       operationType: "Upsert",
-   *       partitionKey: 'A',
-   *       resourceBody: { id: "doc2", name: "other", key: "A" }
-   *    }
-   * ]
+   *   {
+   *     operationType: "Create",
+   *     resourceBody: { id: "doc1", name: "sample", key: "A" },
+   *   },
+   *   {
+   *     operationType: "Upsert",
+   *     partitionKey: "A",
+   *     resourceBody: { id: "doc2", name: "other", key: "A" },
+   *   },
+   * ];
    *
-   * await database.container.items.bulk(operations)
+   * await container.items.bulk(operations);
    * ```
    *
    * @param operations - List of operations. Limit 100
@@ -481,6 +829,23 @@ export class Items {
         diagnosticNode,
         this.container,
       );
+
+      if (this.clientContext.enableEncryption) {
+        // returns copy to avoid encryption of original operations body passed
+        operations = copyObject(operations);
+        options = options || {};
+        await this.container.checkAndInitializeEncryption();
+        options.containerRid = this.container._rid;
+        diagnosticNode.beginEncryptionDiagnostics(Constants.Encryption.DiagnosticsEncryptOperation);
+        const { operations: encryptedOperations, totalPropertiesEncryptedCount } =
+          await this.bulkBatchEncryptionHelper(operations);
+        operations = encryptedOperations;
+        diagnosticNode.endEncryptionDiagnostics(
+          Constants.Encryption.DiagnosticsEncryptOperation,
+          totalPropertiesEncryptedCount,
+        );
+      }
+
       const batches: Batch[] = partitionKeyRanges.map((keyRange: PartitionKeyRange) => {
         return {
           min: keyRange.minInclusive,
@@ -531,8 +896,9 @@ export class Items {
       if (batch.operations.length > 100) {
         throw new Error("Cannot run bulk request with more than 100 operations per partition");
       }
+      let response: Response<OperationResponse[]>;
       try {
-        const response = await addDignosticChild(
+        response = await addDiagnosticChild(
           async (childNode: DiagnosticNodeInternal) =>
             this.clientContext.bulk({
               body: batch.operations,
@@ -550,6 +916,9 @@ export class Items {
           orderedResponses[batch.indexes[index]] = operationResponse;
         });
       } catch (err: any) {
+        if (this.clientContext.enableEncryption) {
+          await this.container.throwIfRequestNeedsARetryPostPolicyRefresh(err);
+        }
         // In the case of 410 errors, we need to recompute the partition key ranges
         // and redo the batch request, however, 410 errors occur for unsupported
         // partition key types as well since we don't support them, so for now we throw
@@ -599,6 +968,37 @@ export class Items {
         } else {
           throw new Error(`Bulk request errored with: ${err.message}`);
         }
+      }
+      if (response) {
+        try {
+          if (this.clientContext.enableEncryption) {
+            diagnosticNode.beginEncryptionDiagnostics(
+              Constants.Encryption.DiagnosticsDecryptOperation,
+            );
+            let count = 0;
+            for (const result of response.result) {
+              if (result.resourceBody) {
+                const { body, propertiesDecryptedCount } =
+                  await this.container.encryptionProcessor.decrypt(result.resourceBody);
+                result.resourceBody = body;
+                count += propertiesDecryptedCount;
+              }
+            }
+            diagnosticNode.endEncryptionDiagnostics(
+              Constants.Encryption.DiagnosticsDecryptOperation,
+              count,
+            );
+          }
+        } catch (error) {
+          const decryptionError = new ErrorResponse(
+            `Batch response was received but response decryption failed: + ${error.message}`,
+          );
+          decryptionError.code = StatusCodes.ServiceUnavailable;
+          throw decryptionError;
+        }
+        response.result.forEach((operationResponse: OperationResponse, index: number) => {
+          orderedResponses[batch.indexes[index]] = operationResponse;
+        });
       }
     });
   }
@@ -692,20 +1092,30 @@ export class Items {
    * The choices are: Create, Upsert, Read, Replace, and Delete
    *
    * Usage example:
-   * ```typescript
+   * ```ts snippet:ItemsBatch
+   * import { CosmosClient, OperationInput } from "@azure/cosmos";
+   *
+   * const endpoint = "https://your-account.documents.azure.com";
+   * const key = "<database account masterkey>";
+   * const client = new CosmosClient({ endpoint, key });
+   *
+   * const { database } = await client.databases.createIfNotExists({ id: "Test Database" });
+   *
+   * const { container } = await database.containers.createIfNotExists({ id: "Test Container" });
+   *
    * // The partitionKey is a required second argument. If it’s undefined, it defaults to the expected partition key format.
    * const operations: OperationInput[] = [
-   *    {
-   *       operationType: "Create",
-   *       resourceBody: { id: "doc1", name: "sample", key: "A" }
-   *    },
-   *    {
-   *       operationType: "Upsert",
-   *       resourceBody: { id: "doc2", name: "other", key: "A" }
-   *    }
-   * ]
+   *   {
+   *     operationType: "Create",
+   *     resourceBody: { id: "doc1", name: "sample", key: "A" },
+   *   },
+   *   {
+   *     operationType: "Upsert",
+   *     resourceBody: { id: "doc2", name: "other", key: "A" },
+   *   },
+   * ];
    *
-   * await database.container.items.batch(operations, "A")
+   * await container.items.batch(operations, "A");
    * ```
    *
    * @param operations - List of operations. Limit 100
@@ -724,8 +1134,38 @@ export class Items {
       if (operations.length > 100) {
         throw new Error("Cannot run batch request with more than 100 operations per partition");
       }
+      let response: Response<OperationResponse[]>;
       try {
-        const response: Response<OperationResponse[]> = await this.clientContext.batch({
+        if (this.clientContext.enableEncryption) {
+          // returns copy to avoid encryption of original operations body passed
+          operations = copyObject(operations);
+          options = options || {};
+          await this.container.checkAndInitializeEncryption();
+          options.containerRid = this.container._rid;
+          let count = 0;
+          diagnosticNode.beginEncryptionDiagnostics(
+            Constants.Encryption.DiagnosticsEncryptOperation,
+          );
+          if (partitionKey) {
+            const partitionKeyInternal = convertToInternalPartitionKey(partitionKey);
+            const { partitionKeyList, encryptedCount } =
+              await this.container.encryptionProcessor.getEncryptedPartitionKeyValue(
+                partitionKeyInternal,
+              );
+            partitionKey = partitionKeyList;
+            count += encryptedCount;
+          }
+          const { operations: encryptedOperations, totalPropertiesEncryptedCount } =
+            await this.bulkBatchEncryptionHelper(operations);
+          operations = encryptedOperations;
+          count += totalPropertiesEncryptedCount;
+          diagnosticNode.endEncryptionDiagnostics(
+            Constants.Encryption.DiagnosticsEncryptOperation,
+            count,
+          );
+        }
+
+        response = await this.clientContext.batch({
           body: operations,
           partitionKey,
           path,
@@ -733,10 +1173,57 @@ export class Items {
           options,
           diagnosticNode,
         });
-        return response;
       } catch (err: any) {
+        if (this.clientContext.enableEncryption) {
+          await this.container.throwIfRequestNeedsARetryPostPolicyRefresh(err);
+        }
         throw new Error(`Batch request error: ${err.message}`);
       }
+      if (this.clientContext.enableEncryption) {
+        try {
+          diagnosticNode.beginEncryptionDiagnostics(
+            Constants.Encryption.DiagnosticsDecryptOperation,
+          );
+          let count = 0;
+          for (const result of response.result) {
+            if (result.resourceBody) {
+              const { body, propertiesDecryptedCount } =
+                await this.container.encryptionProcessor.decrypt(result.resourceBody);
+              result.resourceBody = body;
+              count += propertiesDecryptedCount;
+            }
+          }
+          diagnosticNode.endEncryptionDiagnostics(
+            Constants.Encryption.DiagnosticsDecryptOperation,
+            count,
+          );
+        } catch (error) {
+          const decryptionError = new ErrorResponse(
+            `Batch response was received but response decryption failed: + ${error.message}`,
+          );
+          decryptionError.code = StatusCodes.ServiceUnavailable;
+          throw decryptionError;
+        }
+      }
+      return response;
     }, this.clientContext);
+  }
+
+  private async bulkBatchEncryptionHelper(
+    operations: OperationInput[],
+  ): Promise<{ operations: OperationInput[]; totalPropertiesEncryptedCount: number }> {
+    let totalPropertiesEncryptedCount = 0;
+    const encryptedOperations: OperationInput[] = [];
+    for (const operation of operations) {
+      const { operation: encryptedOp, totalPropertiesEncryptedCount: updatedCount } =
+        await encryptOperationInput(
+          this.container.encryptionProcessor,
+          operation,
+          totalPropertiesEncryptedCount,
+        );
+      totalPropertiesEncryptedCount = updatedCount;
+      encryptedOperations.push(encryptedOp);
+    }
+    return { operations: encryptedOperations, totalPropertiesEncryptedCount };
   }
 }

@@ -1,8 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { CosmosContainerChildResourceKind } from "../../common/constants";
-import type { CosmosKeyType } from "../../common/constants";
+import type { CosmosContainerChildResourceKind } from "../../common/constants.js";
+import type { CosmosKeyType } from "../../common/constants.js";
 
 export class SasTokenProperties {
   user: string;

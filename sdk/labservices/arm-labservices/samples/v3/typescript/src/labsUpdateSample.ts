@@ -10,9 +10,7 @@
 // Licensed under the MIT License.
 import { LabUpdate, LabServicesClient } from "@azure/arm-labservices";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Operation to update a lab resource.
@@ -20,7 +18,7 @@ dotenv.config();
  * @summary Operation to update a lab resource.
  * x-ms-original-file: specification/labservices/resource-manager/Microsoft.LabServices/stable/2022-08-01/examples/Labs/patchLab.json
  */
-async function patchLab() {
+async function patchLab(): Promise<void> {
   const subscriptionId =
     process.env["LABSERVICES_SUBSCRIPTION_ID"] ||
     "34adfa4f-cedf-4dc0-ba29-b6d1a69ab345";
@@ -38,7 +36,7 @@ async function patchLab() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   patchLab();
 }
 

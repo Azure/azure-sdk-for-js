@@ -8,9 +8,7 @@
 import type { VirtualMachineCreateCheckpoint } from "@azure/arm-scvmm";
 import { ScVmm } from "@azure/arm-scvmm";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Creates a checkpoint in virtual machine instance.
@@ -18,7 +16,7 @@ dotenv.config();
  * @summary Creates a checkpoint in virtual machine instance.
  * x-ms-original-file: specification/scvmm/resource-manager/Microsoft.ScVmm/stable/2023-10-07/examples/VirtualMachineInstances_CreateCheckpoint_MaximumSet_Gen.json
  */
-async function virtualMachineInstancesCreateCheckpointMaximumSet() {
+async function virtualMachineInstancesCreateCheckpointMaximumSet(): Promise<void> {
   const resourceUri = "gtgclehcbsyave";
   const body: VirtualMachineCreateCheckpoint = {
     name: "ilvltf",
@@ -39,7 +37,7 @@ async function virtualMachineInstancesCreateCheckpointMaximumSet() {
  * @summary Creates a checkpoint in virtual machine instance.
  * x-ms-original-file: specification/scvmm/resource-manager/Microsoft.ScVmm/stable/2023-10-07/examples/VirtualMachineInstances_CreateCheckpoint_MinimumSet_Gen.json
  */
-async function virtualMachineInstancesCreateCheckpointMinimumSet() {
+async function virtualMachineInstancesCreateCheckpointMinimumSet(): Promise<void> {
   const resourceUri = "gtgclehcbsyave";
   const body: VirtualMachineCreateCheckpoint = {};
   const credential = new DefaultAzureCredential();
@@ -51,7 +49,7 @@ async function virtualMachineInstancesCreateCheckpointMinimumSet() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   await virtualMachineInstancesCreateCheckpointMaximumSet();
   await virtualMachineInstancesCreateCheckpointMinimumSet();
 }

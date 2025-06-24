@@ -21,10 +21,7 @@ import {
   ConnectionMonitorsUpdateTagsOptionalParams,
   ConnectionMonitorsUpdateTagsResponse,
   ConnectionMonitorsStopOptionalParams,
-  ConnectionMonitorsStartOptionalParams,
-  ConnectionMonitorsQueryOptionalParams,
-  ConnectionMonitorsQueryResponse,
-} from "../models";
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a ConnectionMonitors. */
@@ -155,61 +152,4 @@ export interface ConnectionMonitors {
     connectionMonitorName: string,
     options?: ConnectionMonitorsStopOptionalParams,
   ): Promise<void>;
-  /**
-   * Starts the specified connection monitor.
-   * @param resourceGroupName The name of the resource group containing Network Watcher.
-   * @param networkWatcherName The name of the Network Watcher resource.
-   * @param connectionMonitorName The name of the connection monitor.
-   * @param options The options parameters.
-   */
-  beginStart(
-    resourceGroupName: string,
-    networkWatcherName: string,
-    connectionMonitorName: string,
-    options?: ConnectionMonitorsStartOptionalParams,
-  ): Promise<SimplePollerLike<OperationState<void>, void>>;
-  /**
-   * Starts the specified connection monitor.
-   * @param resourceGroupName The name of the resource group containing Network Watcher.
-   * @param networkWatcherName The name of the Network Watcher resource.
-   * @param connectionMonitorName The name of the connection monitor.
-   * @param options The options parameters.
-   */
-  beginStartAndWait(
-    resourceGroupName: string,
-    networkWatcherName: string,
-    connectionMonitorName: string,
-    options?: ConnectionMonitorsStartOptionalParams,
-  ): Promise<void>;
-  /**
-   * Query a snapshot of the most recent connection states.
-   * @param resourceGroupName The name of the resource group containing Network Watcher.
-   * @param networkWatcherName The name of the Network Watcher resource.
-   * @param connectionMonitorName The name given to the connection monitor.
-   * @param options The options parameters.
-   */
-  beginQuery(
-    resourceGroupName: string,
-    networkWatcherName: string,
-    connectionMonitorName: string,
-    options?: ConnectionMonitorsQueryOptionalParams,
-  ): Promise<
-    SimplePollerLike<
-      OperationState<ConnectionMonitorsQueryResponse>,
-      ConnectionMonitorsQueryResponse
-    >
-  >;
-  /**
-   * Query a snapshot of the most recent connection states.
-   * @param resourceGroupName The name of the resource group containing Network Watcher.
-   * @param networkWatcherName The name of the Network Watcher resource.
-   * @param connectionMonitorName The name given to the connection monitor.
-   * @param options The options parameters.
-   */
-  beginQueryAndWait(
-    resourceGroupName: string,
-    networkWatcherName: string,
-    connectionMonitorName: string,
-    options?: ConnectionMonitorsQueryOptionalParams,
-  ): Promise<ConnectionMonitorsQueryResponse>;
 }

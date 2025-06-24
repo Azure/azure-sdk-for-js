@@ -25,7 +25,7 @@ import {
   GitHubConnectorStatsOperationsImpl,
   GitHubOwnerOperationsImpl,
   OperationsImpl
-} from "./operations";
+} from "./operations/index.js";
 import {
   AzureDevOpsConnectorOperations,
   AzureDevOpsRepoOperations,
@@ -37,8 +37,8 @@ import {
   GitHubConnectorStatsOperations,
   GitHubOwnerOperations,
   Operations
-} from "./operationsInterfaces";
-import { MicrosoftSecurityDevOpsOptionalParams } from "./models";
+} from "./operationsInterfaces/index.js";
+import { MicrosoftSecurityDevOpsOptionalParams } from "./models/index.js";
 
 export class MicrosoftSecurityDevOps extends coreClient.ServiceClient {
   $host: string;

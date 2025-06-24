@@ -10,9 +10,7 @@
 // Licensed under the MIT License.
 import { StorageCacheManagementClient } from "@azure/arm-storagecache";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Tells a storage target to restore its settings to their default values.
@@ -20,7 +18,7 @@ dotenv.config();
  * @summary Tells a storage target to restore its settings to their default values.
  * x-ms-original-file: specification/storagecache/resource-manager/Microsoft.StorageCache/stable/2024-03-01/examples/StorageTargets_RestoreDefaults.json
  */
-async function storageTargetsRestoreDefaults() {
+async function storageTargetsRestoreDefaults(): Promise<void> {
   const subscriptionId =
     process.env["STORAGECACHE_SUBSCRIPTION_ID"] ||
     "00000000-0000-0000-0000-000000000000";
@@ -38,7 +36,7 @@ async function storageTargetsRestoreDefaults() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   storageTargetsRestoreDefaults();
 }
 

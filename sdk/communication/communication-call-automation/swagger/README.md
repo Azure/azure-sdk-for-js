@@ -11,17 +11,18 @@ description: Call Automation Client
 generate-metadata: false
 license-header: MICROSOFT_MIT_NO_VERSION
 output-folder: ../src/generated
+module-kind: esm
 tag: package-2024-09-01-preview
 require:
-  - https://github.com/Azure/azure-rest-api-specs/blob/691fea3efb9ff22b20904e92d5116223f452a3b1/specification/communication/data-plane/CallAutomation/readme.md
-package-version: 1.4.0-beta.2
+  - https://github.com/Azure/azure-rest-api-specs/blob/1a08384511e96c42aaf18edd646baf01e5e5fc84/specification/communication/data-plane/CallAutomation/readme.md
+package-version: 1.3.0-beta.1
 model-date-time-as-string: false
 optional-response-headers: true
 typescript: true
 azure-arm: false
 add-credentials: false
 use-extension:
-  "@autorest/typescript": "latest"
+  "@autorest/typescript": "6.0.34"
 directive:
   - rename-model:
       from: CallParticipant
@@ -144,6 +145,18 @@ directive:
       from: CustomCallingContext
       to: CustomCallingContextInternal
   - rename-model:
+      from: TeamsPhoneCallDetails
+      to: TeamsPhoneCallDetailsInternal
+  - rename-model:
+      from: TeamsPhoneCallerDetails
+      to: TeamsPhoneCallerDetailsInternal
+  - rename-model:
+      from: TeamsPhoneSourceDetails
+      to: TeamsPhoneSourceDetailsInternal
+  - rename-model:
+      from: TranscriptionOptions
+      to: TranscriptionOptionsInternal
+  - rename-model:
       from: TranscriptionStarted
       to: RestTranscriptionStarted
   - rename-model:
@@ -165,14 +178,17 @@ directive:
       from: HoldFailed
       to: RestHoldFailed
   - rename-model:
+      from: IncomingCall
+      to: RestIncomingCall
+  - rename-model:
       from: ConnectFailed
       to: RestConnectFailed
   - rename-model:
-      from: MediaStreamingStarted
-      to: RestMediaStreamingStarted
-  - rename-model:
       from: MediaStreamingStopped
       to: RestMediaStreamingStopped
+  - rename-model:
+      from: MediaStreamingStarted
+      to: RestMediaStreamingStarted
   - rename-model:
       from: MediaStreamingFailed
       to: RestMediaStreamingFailed

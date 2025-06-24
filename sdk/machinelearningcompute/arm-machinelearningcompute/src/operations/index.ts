@@ -6,5 +6,5 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-export * from "./operationalizationClusters";
-export * from "./machineLearningCompute";
+export * from "./operationalizationClusters.js";
+export * from "./machineLearningCompute.js";

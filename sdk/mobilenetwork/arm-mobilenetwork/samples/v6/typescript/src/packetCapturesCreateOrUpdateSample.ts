@@ -13,9 +13,7 @@ import {
   MobileNetworkManagementClient,
 } from "@azure/arm-mobilenetwork";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Creates or updates a packet capture.
@@ -23,7 +21,7 @@ dotenv.config();
  * @summary Creates or updates a packet capture.
  * x-ms-original-file: specification/mobilenetwork/resource-manager/Microsoft.MobileNetwork/stable/2024-04-01/examples/PacketCaptureCreate.json
  */
-async function createPacketCapture() {
+async function createPacketCapture(): Promise<void> {
   const subscriptionId =
     process.env["MOBILENETWORK_SUBSCRIPTION_ID"] ||
     "00000000-0000-0000-0000-000000000000";
@@ -52,7 +50,7 @@ async function createPacketCapture() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   createPacketCapture();
 }
 

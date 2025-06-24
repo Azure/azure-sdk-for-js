@@ -14,7 +14,7 @@ import {
 import {
   AccountResource as AccountResourceMapper,
   AccountPatchResource as AccountPatchResourceMapper
-} from "../models/mappers";
+} from "../models/mappers.js";
 
 export const accept: OperationParameter = {
   parameterPath: "accept",

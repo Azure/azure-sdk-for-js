@@ -15,7 +15,7 @@ import "dotenv/config";
  * @summary Lists available operations.
  * x-ms-original-file: specification/policyinsights/resource-manager/Microsoft.PolicyInsights/stable/2024-10-01/examples/Operations_ListOperations.json
  */
-async function listOperations() {
+async function listOperations(): Promise<void> {
   const subscriptionId =
     process.env["POLICYINSIGHTS_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";
   const credential = new DefaultAzureCredential();
@@ -24,7 +24,7 @@ async function listOperations() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   await listOperations();
 }
 

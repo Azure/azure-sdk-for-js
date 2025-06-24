@@ -16,7 +16,7 @@ import {
   DeletedServersGetResponse,
   DeletedServersRecoverOptionalParams,
   DeletedServersRecoverResponse,
-} from "../models";
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a DeletedServers. */

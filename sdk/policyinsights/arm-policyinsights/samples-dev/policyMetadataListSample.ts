@@ -16,7 +16,7 @@ import "dotenv/config";
  * @summary Get a list of the policy metadata resources.
  * x-ms-original-file: specification/policyinsights/resource-manager/Microsoft.PolicyInsights/stable/2024-10-01/examples/PolicyMetadata_List.json
  */
-async function getCollectionOfPolicyMetadataResources() {
+async function getCollectionOfPolicyMetadataResources(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = new PolicyInsightsClient(credential);
   const resArray = new Array();
@@ -32,7 +32,7 @@ async function getCollectionOfPolicyMetadataResources() {
  * @summary Get a list of the policy metadata resources.
  * x-ms-original-file: specification/policyinsights/resource-manager/Microsoft.PolicyInsights/stable/2024-10-01/examples/PolicyMetadata_List_WithTop.json
  */
-async function getCollectionOfPolicyMetadataResourcesUsingTopQueryParameter() {
+async function getCollectionOfPolicyMetadataResourcesUsingTopQueryParameter(): Promise<void> {
   const top = 1;
   const options: PolicyMetadataListOptionalParams = { top };
   const credential = new DefaultAzureCredential();
@@ -44,7 +44,7 @@ async function getCollectionOfPolicyMetadataResourcesUsingTopQueryParameter() {
   console.log(resArray);
 }
 
-async function main() {
+async function main(): Promise<void> {
   await getCollectionOfPolicyMetadataResources();
   await getCollectionOfPolicyMetadataResourcesUsingTopQueryParameter();
 }

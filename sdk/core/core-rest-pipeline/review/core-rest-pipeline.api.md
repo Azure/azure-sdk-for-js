@@ -31,6 +31,12 @@ export interface Agent {
 }
 
 // @public
+export function agentPolicy(agent?: Agent): PipelinePolicy;
+
+// @public
+export const agentPolicyName = "agentPolicy";
+
+// @public
 export interface AuthorizeRequestOnChallengeOptions {
     getAccessToken: (scopes: string[], options: GetTokenOptions) => Promise<AccessToken | null>;
     logger?: AzureLogger;
@@ -239,6 +245,7 @@ export interface Pipeline {
 
 // @public
 export interface PipelineOptions {
+    agent?: Agent;
     proxyOptions?: ProxySettings;
     redirectOptions?: RedirectPolicyOptions;
     retryOptions?: PipelineRetryOptions;
@@ -272,6 +279,7 @@ export interface PipelineRequest {
     onUploadProgress?: (progress: TransferProgressEvent) => void;
     proxySettings?: ProxySettings;
     requestId: string;
+    requestOverrides?: Record<string, unknown>;
     streamResponseStatusCodes?: Set<number>;
     timeout: number;
     tlsSettings?: TlsSettings;
@@ -283,6 +291,7 @@ export interface PipelineRequest {
 // @public
 export interface PipelineRequestOptions {
     abortSignal?: AbortSignalLike;
+    agent?: Agent;
     allowInsecureConnection?: boolean;
     body?: RequestBodyType;
     disableKeepAlive?: boolean;
@@ -295,8 +304,10 @@ export interface PipelineRequestOptions {
     onUploadProgress?: (progress: TransferProgressEvent) => void;
     proxySettings?: ProxySettings;
     requestId?: string;
+    requestOverrides?: Record<string, unknown>;
     streamResponseStatusCodes?: Set<number>;
     timeout?: number;
+    tlsSettings?: TlsSettings;
     tracingOptions?: OperationTracingOptions;
     url: string;
     withCredentials?: boolean;
@@ -365,17 +376,23 @@ export interface RedirectPolicyOptions {
 export type RequestBodyType = NodeJS.ReadableStream | (() => NodeJS.ReadableStream) | ReadableStream<Uint8Array> | (() => ReadableStream<Uint8Array>) | Blob | ArrayBuffer | ArrayBufferView | FormData | string | null;
 
 // @public
-export class RestError extends Error {
-    constructor(message: string, options?: RestErrorOptions);
-    // (undocumented)
-    [x: symbol]: () => string;
+export interface RestError extends Error {
     code?: string;
     details?: unknown;
-    static readonly PARSE_ERROR: string;
     request?: PipelineRequest;
-    static readonly REQUEST_SEND_ERROR: string;
     response?: PipelineResponse;
     statusCode?: number;
+}
+
+// @public
+export const RestError: RestErrorConstructor;
+
+// @public
+export interface RestErrorConstructor {
+    new (message: string, options?: RestErrorOptions): RestError;
+    readonly PARSE_ERROR: string;
+    readonly prototype: RestError;
+    readonly REQUEST_SEND_ERROR: string;
 }
 
 // @public

@@ -7,9 +7,7 @@
  */
 import { SecurityCenter } from "@azure/arm-security";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Gets a DevOps Configuration.
@@ -17,7 +15,7 @@ dotenv.config();
  * @summary Gets a DevOps Configuration.
  * x-ms-original-file: specification/security/resource-manager/Microsoft.Security/preview/2023-09-01-preview/examples/SecurityConnectorsDevOps/GetDevOpsConfigurations_example.json
  */
-async function getDevOpsConfigurations() {
+async function getDevOpsConfigurations(): Promise<void> {
   const subscriptionId =
     process.env["SECURITY_SUBSCRIPTION_ID"] || "0806e1cd-cfda-4ff8-b99c-2b0af42cffd3";
   const resourceGroupName = process.env["SECURITY_RESOURCE_GROUP"] || "myRg";
@@ -28,7 +26,7 @@ async function getDevOpsConfigurations() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   await getDevOpsConfigurations();
 }
 

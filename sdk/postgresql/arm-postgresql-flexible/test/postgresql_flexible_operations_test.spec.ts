@@ -6,18 +6,14 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import {
-  env,
-  Recorder,
-  RecorderStartOptions,
-  isPlaybackMode,
-} from "@azure-tools/test-recorder";
+import type { RecorderStartOptions } from "@azure-tools/test-recorder";
+import { env, Recorder, isPlaybackMode } from "@azure-tools/test-recorder";
 import { createTestCredential } from "@azure-tools/test-credential";
 import { PostgreSQLManagementFlexibleServerClient } from "../src/postgreSQLManagementFlexibleServerClient.js";
-import { describe, it, beforeEach, afterEach, assert  } from "vitest";
+import { describe, it, beforeEach, afterEach, assert } from "vitest";
 
 const replaceableVariables: Record<string, string> = {
-  SUBSCRIPTION_ID: "azure_subscription_id"
+  SUBSCRIPTION_ID: "azure_subscription_id",
 };
 
 const recorderOptions: RecorderStartOptions = {
@@ -37,22 +33,25 @@ describe("PostgreSQLFlexible test", () => {
   let subscriptionId: string;
   let client: PostgreSQLManagementFlexibleServerClient;
 
-  beforeEach(async function (ctx) {
+  beforeEach(async (ctx) => {
     recorder = new Recorder(ctx);
     await recorder.start(recorderOptions);
-    subscriptionId = env.SUBSCRIPTION_ID || '';
+    subscriptionId = env.SUBSCRIPTION_ID || "";
     // This is an example of how the environment variables are used
     const credential = createTestCredential();
-    client = new PostgreSQLManagementFlexibleServerClient(credential, subscriptionId, recorder.configureClientOptions({}));
-
+    client = new PostgreSQLManagementFlexibleServerClient(
+      credential,
+      subscriptionId,
+      recorder.configureClientOptions({}),
+    );
   });
 
-  afterEach(async function () {
+  afterEach(async () => {
     await recorder.stop();
   });
 
-  it("operation list test", async function () {
+  it("operation list test", async () => {
     const result = await client.operations.list();
     assert.ok(result);
   });
-})
+});

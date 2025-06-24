@@ -10,9 +10,7 @@
 // Licensed under the MIT License.
 import { LogicManagementClient } from "@azure/arm-logic";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Gets an integration account schema.
@@ -20,7 +18,7 @@ dotenv.config();
  * @summary Gets an integration account schema.
  * x-ms-original-file: specification/logic/resource-manager/Microsoft.Logic/stable/2019-05-01/examples/IntegrationAccountSchemas_Get.json
  */
-async function getSchemaByName() {
+async function getSchemaByName(): Promise<void> {
   const subscriptionId =
     process.env["LOGIC_SUBSCRIPTION_ID"] ||
     "34adfa4f-cedf-4dc0-ba29-b6d1a69ab345";
@@ -38,7 +36,7 @@ async function getSchemaByName() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   getSchemaByName();
 }
 

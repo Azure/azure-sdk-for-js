@@ -25,9 +25,7 @@ import {
   SecurityInsights
 } from "@azure/arm-securityinsight";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Get requirements state for a data connector type.
@@ -35,7 +33,7 @@ dotenv.config();
  * @summary Get requirements state for a data connector type.
  * x-ms-original-file: specification/securityinsights/resource-manager/Microsoft.SecurityInsights/preview/2022-09-01-preview/examples/dataConnectors/CheckRequirementsAzureActiveDirectoryNoAuthorization.json
  */
-async function checkRequirementsForAadNoAuthorization() {
+async function checkRequirementsForAadNoAuthorization(): Promise<void> {
   const subscriptionId =
     process.env["SECURITYINSIGHT_SUBSCRIPTION_ID"] ||
     "d0cfe6b2-9ac0-4464-9919-dccaee2e48c0";
@@ -62,7 +60,7 @@ async function checkRequirementsForAadNoAuthorization() {
  * @summary Get requirements state for a data connector type.
  * x-ms-original-file: specification/securityinsights/resource-manager/Microsoft.SecurityInsights/preview/2022-09-01-preview/examples/dataConnectors/CheckRequirementsAzureActiveDirectoryNoLicense.json
  */
-async function checkRequirementsForAadNoLicense() {
+async function checkRequirementsForAadNoLicense(): Promise<void> {
   const subscriptionId =
     process.env["SECURITYINSIGHT_SUBSCRIPTION_ID"] ||
     "d0cfe6b2-9ac0-4464-9919-dccaee2e48c0";
@@ -89,7 +87,7 @@ async function checkRequirementsForAadNoLicense() {
  * @summary Get requirements state for a data connector type.
  * x-ms-original-file: specification/securityinsights/resource-manager/Microsoft.SecurityInsights/preview/2022-09-01-preview/examples/dataConnectors/CheckRequirementsAzureActiveDirectory.json
  */
-async function checkRequirementsForAad() {
+async function checkRequirementsForAad(): Promise<void> {
   const subscriptionId =
     process.env["SECURITYINSIGHT_SUBSCRIPTION_ID"] ||
     "d0cfe6b2-9ac0-4464-9919-dccaee2e48c0";
@@ -116,7 +114,7 @@ async function checkRequirementsForAad() {
  * @summary Get requirements state for a data connector type.
  * x-ms-original-file: specification/securityinsights/resource-manager/Microsoft.SecurityInsights/preview/2022-09-01-preview/examples/dataConnectors/CheckRequirementsAzureSecurityCenter.json
  */
-async function checkRequirementsForAsc() {
+async function checkRequirementsForAsc(): Promise<void> {
   const subscriptionId =
     process.env["SECURITYINSIGHT_SUBSCRIPTION_ID"] ||
     "d0cfe6b2-9ac0-4464-9919-dccaee2e48c0";
@@ -143,7 +141,7 @@ async function checkRequirementsForAsc() {
  * @summary Get requirements state for a data connector type.
  * x-ms-original-file: specification/securityinsights/resource-manager/Microsoft.SecurityInsights/preview/2022-09-01-preview/examples/dataConnectors/CheckRequirementsDynamics365.json
  */
-async function checkRequirementsForDynamics365() {
+async function checkRequirementsForDynamics365(): Promise<void> {
   const subscriptionId =
     process.env["SECURITYINSIGHT_SUBSCRIPTION_ID"] ||
     "d0cfe6b2-9ac0-4464-9919-dccaee2e48c0";
@@ -170,7 +168,7 @@ async function checkRequirementsForDynamics365() {
  * @summary Get requirements state for a data connector type.
  * x-ms-original-file: specification/securityinsights/resource-manager/Microsoft.SecurityInsights/preview/2022-09-01-preview/examples/dataConnectors/CheckRequirementsIoT.json
  */
-async function checkRequirementsForIoT() {
+async function checkRequirementsForIoT(): Promise<void> {
   const subscriptionId =
     process.env["SECURITYINSIGHT_SUBSCRIPTION_ID"] ||
     "d0cfe6b2-9ac0-4464-9919-dccaee2e48c0";
@@ -197,7 +195,7 @@ async function checkRequirementsForIoT() {
  * @summary Get requirements state for a data connector type.
  * x-ms-original-file: specification/securityinsights/resource-manager/Microsoft.SecurityInsights/preview/2022-09-01-preview/examples/dataConnectors/CheckRequirementsMicrosoftCloudAppSecurity.json
  */
-async function checkRequirementsForMcas() {
+async function checkRequirementsForMcas(): Promise<void> {
   const subscriptionId =
     process.env["SECURITYINSIGHT_SUBSCRIPTION_ID"] ||
     "d0cfe6b2-9ac0-4464-9919-dccaee2e48c0";
@@ -224,7 +222,7 @@ async function checkRequirementsForMcas() {
  * @summary Get requirements state for a data connector type.
  * x-ms-original-file: specification/securityinsights/resource-manager/Microsoft.SecurityInsights/preview/2022-09-01-preview/examples/dataConnectors/CheckRequirementsMdatp.json
  */
-async function checkRequirementsForMdatp() {
+async function checkRequirementsForMdatp(): Promise<void> {
   const subscriptionId =
     process.env["SECURITYINSIGHT_SUBSCRIPTION_ID"] ||
     "d0cfe6b2-9ac0-4464-9919-dccaee2e48c0";
@@ -251,7 +249,7 @@ async function checkRequirementsForMdatp() {
  * @summary Get requirements state for a data connector type.
  * x-ms-original-file: specification/securityinsights/resource-manager/Microsoft.SecurityInsights/preview/2022-09-01-preview/examples/dataConnectors/CheckRequirementsMicrosoftThreatIntelligence.json
  */
-async function checkRequirementsForMicrosoftThreatIntelligence() {
+async function checkRequirementsForMicrosoftThreatIntelligence(): Promise<void> {
   const subscriptionId =
     process.env["SECURITYINSIGHT_SUBSCRIPTION_ID"] ||
     "d0cfe6b2-9ac0-4464-9919-dccaee2e48c0";
@@ -278,7 +276,7 @@ async function checkRequirementsForMicrosoftThreatIntelligence() {
  * @summary Get requirements state for a data connector type.
  * x-ms-original-file: specification/securityinsights/resource-manager/Microsoft.SecurityInsights/preview/2022-09-01-preview/examples/dataConnectors/CheckRequirementsMicrosoftThreatProtection.json
  */
-async function checkRequirementsForMicrosoftThreatProtection() {
+async function checkRequirementsForMicrosoftThreatProtection(): Promise<void> {
   const subscriptionId =
     process.env["SECURITYINSIGHT_SUBSCRIPTION_ID"] ||
     "d0cfe6b2-9ac0-4464-9919-dccaee2e48c0";
@@ -305,7 +303,7 @@ async function checkRequirementsForMicrosoftThreatProtection() {
  * @summary Get requirements state for a data connector type.
  * x-ms-original-file: specification/securityinsights/resource-manager/Microsoft.SecurityInsights/preview/2022-09-01-preview/examples/dataConnectors/CheckRequirementsOffice365Project.json
  */
-async function checkRequirementsForOffice365Project() {
+async function checkRequirementsForOffice365Project(): Promise<void> {
   const subscriptionId =
     process.env["SECURITYINSIGHT_SUBSCRIPTION_ID"] ||
     "d0cfe6b2-9ac0-4464-9919-dccaee2e48c0";
@@ -332,7 +330,7 @@ async function checkRequirementsForOffice365Project() {
  * @summary Get requirements state for a data connector type.
  * x-ms-original-file: specification/securityinsights/resource-manager/Microsoft.SecurityInsights/preview/2022-09-01-preview/examples/dataConnectors/CheckRequirementsOfficeATP.json
  */
-async function checkRequirementsForOfficeAtp() {
+async function checkRequirementsForOfficeAtp(): Promise<void> {
   const subscriptionId =
     process.env["SECURITYINSIGHT_SUBSCRIPTION_ID"] ||
     "d0cfe6b2-9ac0-4464-9919-dccaee2e48c0";
@@ -359,7 +357,7 @@ async function checkRequirementsForOfficeAtp() {
  * @summary Get requirements state for a data connector type.
  * x-ms-original-file: specification/securityinsights/resource-manager/Microsoft.SecurityInsights/preview/2022-09-01-preview/examples/dataConnectors/CheckRequirementsOfficeIRM.json
  */
-async function checkRequirementsForOfficeIrm() {
+async function checkRequirementsForOfficeIrm(): Promise<void> {
   const subscriptionId =
     process.env["SECURITYINSIGHT_SUBSCRIPTION_ID"] ||
     "d0cfe6b2-9ac0-4464-9919-dccaee2e48c0";
@@ -386,7 +384,7 @@ async function checkRequirementsForOfficeIrm() {
  * @summary Get requirements state for a data connector type.
  * x-ms-original-file: specification/securityinsights/resource-manager/Microsoft.SecurityInsights/preview/2022-09-01-preview/examples/dataConnectors/CheckRequirementsOfficePowerBI.json
  */
-async function checkRequirementsForOfficePowerBi() {
+async function checkRequirementsForOfficePowerBi(): Promise<void> {
   const subscriptionId =
     process.env["SECURITYINSIGHT_SUBSCRIPTION_ID"] ||
     "d0cfe6b2-9ac0-4464-9919-dccaee2e48c0";
@@ -413,7 +411,7 @@ async function checkRequirementsForOfficePowerBi() {
  * @summary Get requirements state for a data connector type.
  * x-ms-original-file: specification/securityinsights/resource-manager/Microsoft.SecurityInsights/preview/2022-09-01-preview/examples/dataConnectors/CheckRequirementsThreatIntelligenceTaxii.json
  */
-async function checkRequirementsForTiTaxii() {
+async function checkRequirementsForTiTaxii(): Promise<void> {
   const subscriptionId =
     process.env["SECURITYINSIGHT_SUBSCRIPTION_ID"] ||
     "d0cfe6b2-9ac0-4464-9919-dccaee2e48c0";
@@ -440,7 +438,7 @@ async function checkRequirementsForTiTaxii() {
  * @summary Get requirements state for a data connector type.
  * x-ms-original-file: specification/securityinsights/resource-manager/Microsoft.SecurityInsights/preview/2022-09-01-preview/examples/dataConnectors/CheckRequirementsThreatIntelligence.json
  */
-async function checkRequirementsForTi() {
+async function checkRequirementsForTi(): Promise<void> {
   const subscriptionId =
     process.env["SECURITYINSIGHT_SUBSCRIPTION_ID"] ||
     "d0cfe6b2-9ac0-4464-9919-dccaee2e48c0";
@@ -461,7 +459,7 @@ async function checkRequirementsForTi() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   checkRequirementsForAadNoAuthorization();
   checkRequirementsForAadNoLicense();
   checkRequirementsForAad();

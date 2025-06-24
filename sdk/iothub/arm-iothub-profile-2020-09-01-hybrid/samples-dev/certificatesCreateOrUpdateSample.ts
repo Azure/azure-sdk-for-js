@@ -8,9 +8,7 @@
 import type { CertificateBodyDescription } from "@azure/arm-iothub-profile-2020-09-01-hybrid";
 import { IotHubClient } from "@azure/arm-iothub-profile-2020-09-01-hybrid";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Adds new or replaces existing certificate.
@@ -18,7 +16,7 @@ dotenv.config();
  * @summary Adds new or replaces existing certificate.
  * x-ms-original-file: specification/iothub/resource-manager/Microsoft.Devices/preview/2019-07-01-preview/examples/iothub_certificatescreateorupdate.json
  */
-async function certificatesCreateOrUpdate() {
+async function certificatesCreateOrUpdate(): Promise<void> {
   const subscriptionId =
     process.env["IOTHUB_SUBSCRIPTION_ID"] || "91d12660-3dec-467a-be2a-213b5544ddc0";
   const resourceGroupName = process.env["IOTHUB_RESOURCE_GROUP"] || "myResourceGroup";
@@ -38,7 +36,7 @@ async function certificatesCreateOrUpdate() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   await certificatesCreateOrUpdate();
 }
 

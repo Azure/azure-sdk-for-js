@@ -7,9 +7,7 @@
  */
 import { MicrosoftSupport } from "@azure/arm-support";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Lists all the Azure services available for support ticket creation. For **Technical** issues, select the Service Id that maps to the Azure service/product as displayed in the **Services** drop-down list on the Azure portal's [New support request](https://portal.azure.com/#blade/Microsoft_Azure_Support/HelpAndSupportBlade/overview) page. Always use the service and its corresponding problem classification(s) obtained programmatically for support ticket creation. This practice ensures that you always have the most recent set of service and problem classification Ids.
@@ -17,7 +15,7 @@ dotenv.config();
  * @summary Lists all the Azure services available for support ticket creation. For **Technical** issues, select the Service Id that maps to the Azure service/product as displayed in the **Services** drop-down list on the Azure portal's [New support request](https://portal.azure.com/#blade/Microsoft_Azure_Support/HelpAndSupportBlade/overview) page. Always use the service and its corresponding problem classification(s) obtained programmatically for support ticket creation. This practice ensures that you always have the most recent set of service and problem classification Ids.
  * x-ms-original-file: specification/support/resource-manager/Microsoft.Support/stable/2024-04-01/examples/ListServices.json
  */
-async function getsListOfServicesForWhichASupportTicketCanBeCreated() {
+async function getsListOfServicesForWhichASupportTicketCanBeCreated(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = new MicrosoftSupport(credential);
   const resArray = new Array();
@@ -27,7 +25,7 @@ async function getsListOfServicesForWhichASupportTicketCanBeCreated() {
   console.log(resArray);
 }
 
-async function main() {
+async function main(): Promise<void> {
   await getsListOfServicesForWhichASupportTicketCanBeCreated();
 }
 

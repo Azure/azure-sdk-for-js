@@ -15,7 +15,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * @summary Given a list of volume containers to be failed over from a source device, this method returns the eligibility result, as a failover target, for all devices under that resource.
  * x-ms-original-file: specification/storsimple8000series/resource-manager/Microsoft.StorSimple/stable/2017-06-01/examples/DevicesListFailoverTargets.json
  */
-async function devicesListFailoverTargets() {
+async function devicesListFailoverTargets(): Promise<void> {
   const subscriptionId = "4385cf00-2d3a-425a-832f-f4285b1c9dce";
   const sourceDeviceName = "Device05ForSDKTest";
   const resourceGroupName = "ResourceGroupForSDKTest";

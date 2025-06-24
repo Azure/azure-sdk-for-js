@@ -17,7 +17,7 @@ import {
   FluxConfiguration as FluxConfigurationMapper,
   FluxConfigurationPatch as FluxConfigurationPatchMapper,
   SourceControlConfiguration as SourceControlConfigurationMapper
-} from "../models/mappers";
+} from "../models/mappers.js";
 
 export const contentType: OperationParameter = {
   parameterPath: ["options", "contentType"],

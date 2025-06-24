@@ -7,9 +7,7 @@
  */
 import { HybridComputeManagementClient } from "@azure/arm-hybridcompute";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Gets a list of hybrid compute operations.
@@ -17,7 +15,7 @@ dotenv.config();
  * @summary Gets a list of hybrid compute operations.
  * x-ms-original-file: specification/hybridcompute/resource-manager/Microsoft.HybridCompute/preview/2024-07-31-preview/examples/Operations_List.json
  */
-async function listHybridComputeProviderOperations() {
+async function listHybridComputeProviderOperations(): Promise<void> {
   const subscriptionId =
     process.env["HYBRIDCOMPUTE_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";
   const credential = new DefaultAzureCredential();
@@ -29,7 +27,7 @@ async function listHybridComputeProviderOperations() {
   console.log(resArray);
 }
 
-async function main() {
+async function main(): Promise<void> {
   await listHybridComputeProviderOperations();
 }
 

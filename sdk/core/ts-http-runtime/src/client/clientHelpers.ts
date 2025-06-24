@@ -3,77 +3,52 @@
 
 import type { HttpClient } from "../interfaces.js";
 import type { Pipeline } from "../pipeline.js";
-import { bearerTokenAuthenticationPolicy } from "../policies/bearerTokenAuthenticationPolicy.js";
 import { createDefaultHttpClient } from "../defaultHttpClient.js";
 import { createPipelineFromOptions } from "../createPipelineFromOptions.js";
-import type { TokenCredential } from "../auth/tokenCredential.js";
-import { isTokenCredential } from "../auth/tokenCredential.js";
-import type { KeyCredential } from "../auth/keyCredential.js";
-import { isKeyCredential } from "../auth/keyCredential.js";
 import type { ClientOptions } from "./common.js";
 import { apiVersionPolicy } from "./apiVersionPolicy.js";
-import { keyCredentialAuthenticationPolicy } from "./keyCredentialAuthenticationPolicy.js";
+import {
+  isApiKeyCredential,
+  isBasicCredential,
+  isBearerTokenCredential,
+  isOAuth2TokenCredential,
+} from "../auth/credentials.js";
+import { apiKeyAuthenticationPolicy } from "../policies/auth/apiKeyAuthenticationPolicy.js";
+import { basicAuthenticationPolicy } from "../policies/auth/basicAuthenticationPolicy.js";
+import { bearerAuthenticationPolicy } from "../policies/auth/bearerAuthenticationPolicy.js";
+import { oauth2AuthenticationPolicy } from "../policies/auth/oauth2AuthenticationPolicy.js";
 
 let cachedHttpClient: HttpClient | undefined;
 
 /**
- * Optional parameters for adding a credential policy to the pipeline.
- */
-export interface AddCredentialPipelinePolicyOptions {
-  /**
-   * Options related to the client.
-   */
-  clientOptions?: ClientOptions;
-  /**
-   * The credential to use.
-   */
-  credential?: TokenCredential | KeyCredential;
-}
-
-/**
- * Adds a credential policy to the pipeline if a credential is provided. If none is provided, no policy is added.
- */
-export function addCredentialPipelinePolicy(
-  pipeline: Pipeline,
-  endpoint: string,
-  options: AddCredentialPipelinePolicyOptions = {},
-): void {
-  const { credential, clientOptions } = options;
-  if (!credential) {
-    return;
-  }
-
-  if (isTokenCredential(credential)) {
-    const tokenPolicy = bearerTokenAuthenticationPolicy({
-      credential,
-      scopes: clientOptions?.credentials?.scopes ?? `${endpoint}/.default`,
-    });
-    pipeline.addPolicy(tokenPolicy);
-  } else if (isKeyCredential(credential)) {
-    if (!clientOptions?.credentials?.apiKeyHeaderName) {
-      throw new Error(`Missing API Key Header Name`);
-    }
-    const keyPolicy = keyCredentialAuthenticationPolicy(
-      credential,
-      clientOptions?.credentials?.apiKeyHeaderName,
-    );
-    pipeline.addPolicy(keyPolicy);
-  }
-}
-
-/**
  * Creates a default rest pipeline to re-use accross Rest Level Clients
  */
-export function createDefaultPipeline(
-  endpoint: string,
-  credential?: TokenCredential | KeyCredential,
-  options: ClientOptions = {},
-): Pipeline {
+export function createDefaultPipeline(options: ClientOptions = {}): Pipeline {
   const pipeline = createPipelineFromOptions(options);
 
   pipeline.addPolicy(apiVersionPolicy(options));
 
-  addCredentialPipelinePolicy(pipeline, endpoint, { credential, clientOptions: options });
+  const { credential, authSchemes, allowInsecureConnection } = options;
+  if (credential) {
+    if (isApiKeyCredential(credential)) {
+      pipeline.addPolicy(
+        apiKeyAuthenticationPolicy({ authSchemes, credential, allowInsecureConnection }),
+      );
+    } else if (isBasicCredential(credential)) {
+      pipeline.addPolicy(
+        basicAuthenticationPolicy({ authSchemes, credential, allowInsecureConnection }),
+      );
+    } else if (isBearerTokenCredential(credential)) {
+      pipeline.addPolicy(
+        bearerAuthenticationPolicy({ authSchemes, credential, allowInsecureConnection }),
+      );
+    } else if (isOAuth2TokenCredential(credential)) {
+      pipeline.addPolicy(
+        oauth2AuthenticationPolicy({ authSchemes, credential, allowInsecureConnection }),
+      );
+    }
+  }
+
   return pipeline;
 }
 

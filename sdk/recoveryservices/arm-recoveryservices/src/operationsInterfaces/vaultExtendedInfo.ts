@@ -14,7 +14,7 @@ import {
   VaultExtendedInfoCreateOrUpdateResponse,
   VaultExtendedInfoUpdateOptionalParams,
   VaultExtendedInfoUpdateResponse,
-} from "../models";
+} from "../models/index.js";
 
 /** Interface representing a VaultExtendedInfo. */
 export interface VaultExtendedInfo {

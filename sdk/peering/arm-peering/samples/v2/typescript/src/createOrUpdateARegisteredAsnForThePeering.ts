@@ -20,7 +20,7 @@ import {
 } from "@azure/arm-peering";
 import { DefaultAzureCredential } from "@azure/identity";
 
-async function createOrUpdateARegisteredAsnForThePeering() {
+async function createOrUpdateARegisteredAsnForThePeering(): Promise<void> {
   const subscriptionId = "subId";
   const resourceGroupName = "rgName";
   const peeringName = "peeringName";

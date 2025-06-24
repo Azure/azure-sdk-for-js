@@ -11,7 +11,7 @@ import "dotenv/config";
  * @summary Resets the primary of the vpn gateway in the specified resource group.
  * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-05-01/examples/VpnGatewayReset.json
  */
-async function resetVpnGateway() {
+async function resetVpnGateway(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = createNetworkManagementClient(credential);
   const subscriptionId = "";

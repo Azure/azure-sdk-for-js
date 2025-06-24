@@ -7,7 +7,7 @@
  */
 
 /// <reference lib="esnext.asynciterable" />
-export { getContinuationToken } from "./pagingHelper";
-export * from "./models";
-export { StorSimpleManagementClient } from "./storSimpleManagementClient";
-export * from "./operationsInterfaces";
+export { getContinuationToken } from "./pagingHelper.js";
+export * from "./models/index.js";
+export { StorSimpleManagementClient } from "./storSimpleManagementClient.js";
+export * from "./operationsInterfaces/index.js";

@@ -13,9 +13,7 @@ import {
   MySQLManagementFlexibleServerClient,
 } from "@azure/arm-mysql-flexible";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Resets GTID on a server.
@@ -23,7 +21,7 @@ dotenv.config();
  * @summary Resets GTID on a server.
  * x-ms-original-file: specification/mysql/resource-manager/Microsoft.DBforMySQL/FlexibleServers/stable/2023-12-30/examples/ServerResetGtid.json
  */
-async function resetGtidOnAServer() {
+async function resetGtidOnAServer(): Promise<void> {
   const subscriptionId =
     process.env["MYSQL_SUBSCRIPTION_ID"] ||
     "ffffffff-ffff-ffff-ffff-ffffffffffff";
@@ -45,7 +43,7 @@ async function resetGtidOnAServer() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   resetGtidOnAServer();
 }
 

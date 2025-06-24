@@ -102,7 +102,7 @@ describe("Certificates client - restore certificates and recover backups", () =>
     });
   }
 
-  it("can restore a certificate (Malformed Backup Bytes)", async function () {
+  it("can restore a certificate (Malformed Backup Bytes)", async () => {
     const backup = new Uint8Array(4728);
     let error;
     try {

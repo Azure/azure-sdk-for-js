@@ -8,9 +8,7 @@
 import type { LocalRulestacksListSecurityServicesOptionalParams } from "@azure/arm-paloaltonetworksngfw";
 import { PaloAltoNetworksCloudngfw } from "@azure/arm-paloaltonetworksngfw";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to List the security services for rulestack
@@ -18,7 +16,7 @@ dotenv.config();
  * @summary List the security services for rulestack
  * x-ms-original-file: specification/paloaltonetworks/resource-manager/PaloAltoNetworks.Cloudngfw/stable/2023-09-01/examples/LocalRulestacks_listSecurityServices_MaximumSet_Gen.json
  */
-async function localRulestacksListSecurityServicesMaximumSetGen() {
+async function localRulestacksListSecurityServicesMaximumSetGen(): Promise<void> {
   const subscriptionId =
     process.env["PALOALTONETWORKSNGFW_SUBSCRIPTION_ID"] || "2bf4a339-294d-4c25-b0b2-ef649e9f5c27";
   const resourceGroupName = process.env["PALOALTONETWORKSNGFW_RESOURCE_GROUP"] || "rgopenapi";
@@ -47,7 +45,7 @@ async function localRulestacksListSecurityServicesMaximumSetGen() {
  * @summary List the security services for rulestack
  * x-ms-original-file: specification/paloaltonetworks/resource-manager/PaloAltoNetworks.Cloudngfw/stable/2023-09-01/examples/LocalRulestacks_listSecurityServices_MinimumSet_Gen.json
  */
-async function localRulestacksListSecurityServicesMinimumSetGen() {
+async function localRulestacksListSecurityServicesMinimumSetGen(): Promise<void> {
   const subscriptionId =
     process.env["PALOALTONETWORKSNGFW_SUBSCRIPTION_ID"] || "2bf4a339-294d-4c25-b0b2-ef649e9f5c27";
   const resourceGroupName = process.env["PALOALTONETWORKSNGFW_RESOURCE_GROUP"] || "rgopenapi";
@@ -63,7 +61,7 @@ async function localRulestacksListSecurityServicesMinimumSetGen() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   await localRulestacksListSecurityServicesMaximumSetGen();
   await localRulestacksListSecurityServicesMinimumSetGen();
 }

@@ -26,6 +26,7 @@ export { RedirectOptions } from "./policies/redirectOptions.js";
 export { disableKeepAlivePolicyName } from "./policies/disableKeepAlivePolicy.js";
 export { convertHttpClient } from "./httpClientAdapter.js";
 export {
+  Agent,
   WebResourceLike,
   HttpHeadersLike,
   RawHttpHeaders,

@@ -7,9 +7,7 @@
  */
 import { SecurityInsights } from "@azure/arm-securityinsight";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Delete the incident.
@@ -17,7 +15,7 @@ dotenv.config();
  * @summary Delete the incident.
  * x-ms-original-file: specification/securityinsights/resource-manager/Microsoft.SecurityInsights/preview/2022-09-01-preview/examples/incidents/DeleteIncident.json
  */
-async function deleteAnIncident() {
+async function deleteAnIncident(): Promise<void> {
   const subscriptionId =
     process.env["SECURITYINSIGHT_SUBSCRIPTION_ID"] || "d0cfe6b2-9ac0-4464-9919-dccaee2e48c0";
   const resourceGroupName = process.env["SECURITYINSIGHT_RESOURCE_GROUP"] || "myRg";
@@ -29,7 +27,7 @@ async function deleteAnIncident() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   await deleteAnIncident();
 }
 

@@ -10,9 +10,7 @@
 // Licensed under the MIT License.
 import { StorageActionsManagementClient } from "@azure/arm-storageactions";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Lists all of the available Storage Actions Rest API operations.
@@ -20,21 +18,21 @@ dotenv.config();
  * @summary Lists all of the available Storage Actions Rest API operations.
  * x-ms-original-file: specification/storageactions/resource-manager/Microsoft.StorageActions/stable/2023-01-01/examples/misc/OperationsList.json
  */
-async function operationsList() {
+async function operationsList(): Promise<void> {
   const subscriptionId =
     process.env["STORAGEACTIONS_SUBSCRIPTION_ID"] ||
     "00000000-0000-0000-0000-000000000000";
   const credential = new DefaultAzureCredential();
   const client = new StorageActionsManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.operations.list()) {
+  for await (const item of client.operations.list()) {
     resArray.push(item);
   }
   console.log(resArray);
 }
 
-async function main() {
-  operationsList();
+async function main(): Promise<void> {
+  await operationsList();
 }
 
 main().catch(console.error);

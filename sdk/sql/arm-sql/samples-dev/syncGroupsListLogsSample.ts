@@ -7,9 +7,7 @@
  */
 import { SqlManagementClient } from "@azure/arm-sql";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Gets a collection of sync group logs.
@@ -17,7 +15,7 @@ dotenv.config();
  * @summary Gets a collection of sync group logs.
  * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2020-11-01-preview/examples/SyncGroupGetLog.json
  */
-async function getSyncGroupLogs() {
+async function getSyncGroupLogs(): Promise<void> {
   const subscriptionId =
     process.env["SQL_SUBSCRIPTION_ID"] || "00000000-1111-2222-3333-444444444444";
   const resourceGroupName = process.env["SQL_RESOURCE_GROUP"] || "syncgroupcrud-65440";
@@ -44,7 +42,7 @@ async function getSyncGroupLogs() {
   console.log(resArray);
 }
 
-async function main() {
+async function main(): Promise<void> {
   await getSyncGroupLogs();
 }
 

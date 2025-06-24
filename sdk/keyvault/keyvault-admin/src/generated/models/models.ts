@@ -12,7 +12,7 @@ export interface FullBackupOperation {
   /** The start time of the backup operation in UTC */
   startTime?: Date;
   /** The end time of the backup operation in UTC */
-  endTime?: Date;
+  endTime?: Date | null;
   /** Identifier for the full backup operation. */
   jobId?: string;
   /** The Azure blob storage container Uri which contains the full backup */
@@ -25,7 +25,9 @@ export function fullBackupOperationDeserializer(
   return {
     status: item["status"],
     statusDetails: item["statusDetails"],
-    error: !item["error"] ? item["error"] : errorDeserializer(item["error"]),
+    error: !item["error"]
+      ? item["error"]
+      : _fullBackupOperationErrorDeserializer(item["error"]),
     startTime: !item["startTime"]
       ? item["startTime"]
       : new Date(item["startTime"] * 1000),
@@ -60,9 +62,15 @@ export enum KnownOperationStatus {
  * **Failed**: The operation failed.
  */
 export type OperationStatus = string;
+/** Alias for ErrorModel */
+export type ErrorModel = {
+  code?: string;
+  message?: string;
+  innerError?: ErrorModel;
+} | null;
 
-/** The key vault server error. */
-export interface ErrorModel {
+/** model interface _FullBackupOperationError */
+export interface _FullBackupOperationError {
   /** The error code. */
   readonly code?: string;
   /** The error message. */
@@ -71,13 +79,15 @@ export interface ErrorModel {
   readonly innerError?: ErrorModel;
 }
 
-export function errorDeserializer(item: any): ErrorModel {
+export function _fullBackupOperationErrorDeserializer(
+  item: any,
+): _FullBackupOperationError {
   return {
     code: item["code"],
     message: item["message"],
     innerError: !item["innererror"]
       ? item["innererror"]
-      : errorDeserializer(item["innererror"]),
+      : _fullBackupOperationErrorDeserializer(item["innererror"]),
   };
 }
 
@@ -89,7 +99,9 @@ export interface KeyVaultError {
 
 export function keyVaultErrorDeserializer(item: any): KeyVaultError {
   return {
-    error: !item["error"] ? item["error"] : errorDeserializer(item["error"]),
+    error: !item["error"]
+      ? item["error"]
+      : _fullBackupOperationErrorDeserializer(item["error"]),
   };
 }
 
@@ -103,7 +115,7 @@ export interface SASTokenParameter {
   useManagedIdentity?: boolean;
 }
 
-export function sASTokenParameterSerializer(item: SASTokenParameter): any {
+export function sasTokenParameterSerializer(item: SASTokenParameter): any {
   return {
     storageResourceUri: item["storageResourceUri"],
     token: item["token"],
@@ -144,14 +156,16 @@ export interface RestoreOperation {
   /** The start time of the restore operation */
   startTime?: Date;
   /** The end time of the restore operation */
-  endTime?: Date;
+  endTime?: Date | null;
 }
 
 export function restoreOperationDeserializer(item: any): RestoreOperation {
   return {
     status: item["status"],
     statusDetails: item["statusDetails"],
-    error: !item["error"] ? item["error"] : errorDeserializer(item["error"]),
+    error: !item["error"]
+      ? item["error"]
+      : _fullBackupOperationErrorDeserializer(item["error"]),
     jobId: item["jobId"],
     startTime: !item["startTime"]
       ? item["startTime"]
@@ -159,6 +173,23 @@ export function restoreOperationDeserializer(item: any): RestoreOperation {
     endTime: !item["endTime"]
       ? item["endTime"]
       : new Date(item["endTime"] * 1000),
+  };
+}
+
+/** The authentication method and location for the restore operation. */
+export interface RestoreOperationParameters {
+  /** A user-provided SAS token to an Azure blob storage container. */
+  sasTokenParameters: SASTokenParameter;
+  /** The Folder name of the blob where the previous successful full backup was stored */
+  folderToRestore: string;
+}
+
+export function restoreOperationParametersSerializer(
+  item: RestoreOperationParameters,
+): any {
+  return {
+    sasTokenParameters: sasTokenParameterSerializer(item["sasTokenParameters"]),
+    folderToRestore: item["folderToRestore"],
   };
 }
 
@@ -176,42 +207,8 @@ export function preRestoreOperationParametersSerializer(
   return {
     sasTokenParameters: !item["sasTokenParameters"]
       ? item["sasTokenParameters"]
-      : sASTokenParameterSerializer(item["sasTokenParameters"]),
+      : sasTokenParameterSerializer(item["sasTokenParameters"]),
     folderToRestore: item["folderToRestore"],
-  };
-}
-
-/** The authentication method and location for the restore operation. */
-export interface RestoreOperationParameters {
-  /** A user-provided SAS token to an Azure blob storage container. */
-  sasTokenParameters: SASTokenParameter;
-  /** The Folder name of the blob where the previous successful full backup was stored */
-  folderToRestore: string;
-}
-
-export function restoreOperationParametersSerializer(
-  item: RestoreOperationParameters,
-): any {
-  return {
-    sasTokenParameters: sASTokenParameterSerializer(item["sasTokenParameters"]),
-    folderToRestore: item["folderToRestore"],
-  };
-}
-
-/** The authentication method and location for the selective key restore operation. */
-export interface SelectiveKeyRestoreOperationParameters {
-  /** A user-provided SAS token to an Azure blob storage container. */
-  sasTokenParameters: SASTokenParameter;
-  /** The Folder name of the blob where the previous successful full backup was stored */
-  folder: string;
-}
-
-export function selectiveKeyRestoreOperationParametersSerializer(
-  item: SelectiveKeyRestoreOperationParameters,
-): any {
-  return {
-    sasTokenParameters: sASTokenParameterSerializer(item["sasTokenParameters"]),
-    folder: item["folder"],
   };
 }
 
@@ -228,7 +225,7 @@ export interface SelectiveKeyRestoreOperation {
   /** The start time of the restore operation */
   startTime?: Date;
   /** The end time of the restore operation */
-  endTime?: Date;
+  endTime?: Date | null;
 }
 
 export function selectiveKeyRestoreOperationDeserializer(
@@ -237,7 +234,9 @@ export function selectiveKeyRestoreOperationDeserializer(
   return {
     status: item["status"],
     statusDetails: item["statusDetails"],
-    error: !item["error"] ? item["error"] : errorDeserializer(item["error"]),
+    error: !item["error"]
+      ? item["error"]
+      : _fullBackupOperationErrorDeserializer(item["error"]),
     jobId: item["jobId"],
     startTime: !item["startTime"]
       ? item["startTime"]
@@ -245,6 +244,23 @@ export function selectiveKeyRestoreOperationDeserializer(
     endTime: !item["endTime"]
       ? item["endTime"]
       : new Date(item["endTime"] * 1000),
+  };
+}
+
+/** The authentication method and location for the selective key restore operation. */
+export interface SelectiveKeyRestoreOperationParameters {
+  /** A user-provided SAS token to an Azure blob storage container. */
+  sasTokenParameters: SASTokenParameter;
+  /** The Folder name of the blob where the previous successful full backup was stored */
+  folder: string;
+}
+
+export function selectiveKeyRestoreOperationParametersSerializer(
+  item: SelectiveKeyRestoreOperationParameters,
+): any {
+  return {
+    sasTokenParameters: sasTokenParameterSerializer(item["sasTokenParameters"]),
+    folder: item["folder"],
   };
 }
 
@@ -281,7 +297,7 @@ export function settingDeserializer(item: any): Setting {
 /** The type specifier of the value. */
 export enum KnownSettingTypeEnum {
   /** A boolean setting value. */
-  boolean = "boolean",
+  Boolean = "boolean",
 }
 
 /**
@@ -339,7 +355,7 @@ export function roleDefinitionDeserializer(item: any): RoleDefinition {
 /** The role definition type. */
 export enum KnownRoleDefinitionType {
   /** Microsoft-defined role definitions. */
-  "Microsoft.Authorization/roleDefinitions" = "Microsoft.Authorization/roleDefinitions",
+  MicrosoftAuthorizationRoleDefinitions = "Microsoft.Authorization/roleDefinitions",
 }
 
 /**
@@ -766,7 +782,9 @@ export function roleAssignmentArrayDeserializer(
 /** The available API versions. */
 export enum KnownVersions {
   /** The 7.5 API version. */
-  "v7.5" = "7.5",
-  /** The 7.6-preview.1 API version. */
-  "v7.6_preview.1" = "7.6-preview.1",
+  V75 = "7.5",
+  /** The 7.6-preview.2 API version. */
+  V76Preview2 = "7.6-preview.2",
+  /** The 7.6 API version. */
+  V76 = "7.6",
 }

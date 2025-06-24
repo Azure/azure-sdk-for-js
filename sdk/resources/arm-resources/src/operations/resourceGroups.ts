@@ -7,18 +7,18 @@
  */
 
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
-import { setContinuationToken } from "../pagingHelper";
-import { ResourceGroups } from "../operationsInterfaces";
+import { setContinuationToken } from "../pagingHelper.js";
+import { ResourceGroups } from "../operationsInterfaces/index.js";
 import * as coreClient from "@azure/core-client";
-import * as Mappers from "../models/mappers";
-import * as Parameters from "../models/parameters";
-import { ResourceManagementClient } from "../resourceManagementClient";
+import * as Mappers from "../models/mappers.js";
+import * as Parameters from "../models/parameters.js";
+import { ResourceManagementClient } from "../resourceManagementClient.js";
 import {
   SimplePollerLike,
   OperationState,
-  createHttpPoller
+  createHttpPoller,
 } from "@azure/core-lro";
-import { createLroSpec } from "../lroImpl";
+import { createLroSpec } from "../lroImpl.js";
 import {
   ResourceGroup,
   ResourceGroupsListNextOptionalParams,
@@ -37,8 +37,8 @@ import {
   ExportTemplateRequest,
   ResourceGroupsExportTemplateOptionalParams,
   ResourceGroupsExportTemplateResponse,
-  ResourceGroupsListNextResponse
-} from "../models";
+  ResourceGroupsListNextResponse,
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Class containing ResourceGroups operations. */
@@ -58,7 +58,7 @@ export class ResourceGroupsImpl implements ResourceGroups {
    * @param options The options parameters.
    */
   public list(
-    options?: ResourceGroupsListOptionalParams
+    options?: ResourceGroupsListOptionalParams,
   ): PagedAsyncIterableIterator<ResourceGroup> {
     const iter = this.listPagingAll(options);
     return {
@@ -73,13 +73,13 @@ export class ResourceGroupsImpl implements ResourceGroups {
           throw new Error("maxPageSize is not supported by this operation.");
         }
         return this.listPagingPage(options, settings);
-      }
+      },
     };
   }
 
   private async *listPagingPage(
     options?: ResourceGroupsListOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<ResourceGroup[]> {
     let result: ResourceGroupsListResponse;
     let continuationToken = settings?.continuationToken;
@@ -100,7 +100,7 @@ export class ResourceGroupsImpl implements ResourceGroups {
   }
 
   private async *listPagingAll(
-    options?: ResourceGroupsListOptionalParams
+    options?: ResourceGroupsListOptionalParams,
   ): AsyncIterableIterator<ResourceGroup> {
     for await (const page of this.listPagingPage(options)) {
       yield* page;
@@ -114,11 +114,11 @@ export class ResourceGroupsImpl implements ResourceGroups {
    */
   checkExistence(
     resourceGroupName: string,
-    options?: ResourceGroupsCheckExistenceOptionalParams
+    options?: ResourceGroupsCheckExistenceOptionalParams,
   ): Promise<ResourceGroupsCheckExistenceResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, options },
-      checkExistenceOperationSpec
+      checkExistenceOperationSpec,
     );
   }
 
@@ -133,11 +133,11 @@ export class ResourceGroupsImpl implements ResourceGroups {
   createOrUpdate(
     resourceGroupName: string,
     parameters: ResourceGroup,
-    options?: ResourceGroupsCreateOrUpdateOptionalParams
+    options?: ResourceGroupsCreateOrUpdateOptionalParams,
   ): Promise<ResourceGroupsCreateOrUpdateResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, parameters, options },
-      createOrUpdateOperationSpec
+      createOrUpdateOperationSpec,
     );
   }
 
@@ -149,25 +149,24 @@ export class ResourceGroupsImpl implements ResourceGroups {
    */
   async beginDelete(
     resourceGroupName: string,
-    options?: ResourceGroupsDeleteOptionalParams
+    options?: ResourceGroupsDeleteOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<void> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -176,8 +175,8 @@ export class ResourceGroupsImpl implements ResourceGroups {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -185,19 +184,19 @@ export class ResourceGroupsImpl implements ResourceGroups {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
     const lro = createLroSpec({
       sendOperationFn,
       args: { resourceGroupName, options },
-      spec: deleteOperationSpec
+      spec: deleteOperationSpec,
     });
     const poller = await createHttpPoller<void, OperationState<void>>(lro, {
       restoreFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs
+      intervalInMs: options?.updateIntervalInMs,
     });
     await poller.poll();
     return poller;
@@ -211,7 +210,7 @@ export class ResourceGroupsImpl implements ResourceGroups {
    */
   async beginDeleteAndWait(
     resourceGroupName: string,
-    options?: ResourceGroupsDeleteOptionalParams
+    options?: ResourceGroupsDeleteOptionalParams,
   ): Promise<void> {
     const poller = await this.beginDelete(resourceGroupName, options);
     return poller.pollUntilDone();
@@ -224,11 +223,11 @@ export class ResourceGroupsImpl implements ResourceGroups {
    */
   get(
     resourceGroupName: string,
-    options?: ResourceGroupsGetOptionalParams
+    options?: ResourceGroupsGetOptionalParams,
   ): Promise<ResourceGroupsGetResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, options },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 
@@ -243,11 +242,11 @@ export class ResourceGroupsImpl implements ResourceGroups {
   update(
     resourceGroupName: string,
     parameters: ResourceGroupPatchable,
-    options?: ResourceGroupsUpdateOptionalParams
+    options?: ResourceGroupsUpdateOptionalParams,
   ): Promise<ResourceGroupsUpdateResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, parameters, options },
-      updateOperationSpec
+      updateOperationSpec,
     );
   }
 
@@ -260,7 +259,7 @@ export class ResourceGroupsImpl implements ResourceGroups {
   async beginExportTemplate(
     resourceGroupName: string,
     parameters: ExportTemplateRequest,
-    options?: ResourceGroupsExportTemplateOptionalParams
+    options?: ResourceGroupsExportTemplateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<ResourceGroupsExportTemplateResponse>,
@@ -269,21 +268,20 @@ export class ResourceGroupsImpl implements ResourceGroups {
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<ResourceGroupsExportTemplateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -292,8 +290,8 @@ export class ResourceGroupsImpl implements ResourceGroups {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -301,15 +299,15 @@ export class ResourceGroupsImpl implements ResourceGroups {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
     const lro = createLroSpec({
       sendOperationFn,
       args: { resourceGroupName, parameters, options },
-      spec: exportTemplateOperationSpec
+      spec: exportTemplateOperationSpec,
     });
     const poller = await createHttpPoller<
       ResourceGroupsExportTemplateResponse,
@@ -317,7 +315,7 @@ export class ResourceGroupsImpl implements ResourceGroups {
     >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "location"
+      resourceLocationConfig: "location",
     });
     await poller.poll();
     return poller;
@@ -332,12 +330,12 @@ export class ResourceGroupsImpl implements ResourceGroups {
   async beginExportTemplateAndWait(
     resourceGroupName: string,
     parameters: ExportTemplateRequest,
-    options?: ResourceGroupsExportTemplateOptionalParams
+    options?: ResourceGroupsExportTemplateOptionalParams,
   ): Promise<ResourceGroupsExportTemplateResponse> {
     const poller = await this.beginExportTemplate(
       resourceGroupName,
       parameters,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -347,7 +345,7 @@ export class ResourceGroupsImpl implements ResourceGroups {
    * @param options The options parameters.
    */
   private _list(
-    options?: ResourceGroupsListOptionalParams
+    options?: ResourceGroupsListOptionalParams,
   ): Promise<ResourceGroupsListResponse> {
     return this.client.sendOperationRequest({ options }, listOperationSpec);
   }
@@ -359,11 +357,11 @@ export class ResourceGroupsImpl implements ResourceGroups {
    */
   private _listNext(
     nextLink: string,
-    options?: ResourceGroupsListNextOptionalParams
+    options?: ResourceGroupsListNextOptionalParams,
   ): Promise<ResourceGroupsListNextResponse> {
     return this.client.sendOperationRequest(
       { nextLink, options },
-      listNextOperationSpec
+      listNextOperationSpec,
     );
   }
 }
@@ -377,42 +375,42 @@ const checkExistenceOperationSpec: coreClient.OperationSpec = {
     204: {},
     404: {},
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
-    Parameters.resourceGroupName
+    Parameters.resourceGroupName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const createOrUpdateOperationSpec: coreClient.OperationSpec = {
   path: "/subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.ResourceGroup
+      bodyMapper: Mappers.ResourceGroup,
     },
     201: {
-      bodyMapper: Mappers.ResourceGroup
+      bodyMapper: Mappers.ResourceGroup,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   requestBody: Parameters.parameters6,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
-    Parameters.resourceGroupName
+    Parameters.resourceGroupName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const deleteOperationSpec: coreClient.OperationSpec = {
   path: "/subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}",
@@ -423,124 +421,123 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     202: {},
     204: {},
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   queryParameters: [Parameters.apiVersion, Parameters.forceDeletionTypes],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
-    Parameters.resourceGroupName
+    Parameters.resourceGroupName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const getOperationSpec: coreClient.OperationSpec = {
   path: "/subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ResourceGroup
+      bodyMapper: Mappers.ResourceGroup,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
-    Parameters.resourceGroupName
+    Parameters.resourceGroupName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const updateOperationSpec: coreClient.OperationSpec = {
   path: "/subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}",
   httpMethod: "PATCH",
   responses: {
     200: {
-      bodyMapper: Mappers.ResourceGroup
+      bodyMapper: Mappers.ResourceGroup,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   requestBody: Parameters.parameters7,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
-    Parameters.resourceGroupName
+    Parameters.resourceGroupName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const exportTemplateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/exportTemplate",
+  path: "/subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/exportTemplate",
   httpMethod: "POST",
   responses: {
     200: {
-      bodyMapper: Mappers.ResourceGroupExportResult
+      bodyMapper: Mappers.ResourceGroupExportResult,
     },
     201: {
-      bodyMapper: Mappers.ResourceGroupExportResult
+      bodyMapper: Mappers.ResourceGroupExportResult,
     },
     202: {
-      bodyMapper: Mappers.ResourceGroupExportResult
+      bodyMapper: Mappers.ResourceGroupExportResult,
     },
     204: {
-      bodyMapper: Mappers.ResourceGroupExportResult
+      bodyMapper: Mappers.ResourceGroupExportResult,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   requestBody: Parameters.parameters8,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
-    Parameters.resourceGroupName1
+    Parameters.resourceGroupName1,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const listOperationSpec: coreClient.OperationSpec = {
   path: "/subscriptions/{subscriptionId}/resourcegroups",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ResourceGroupListResult
+      bodyMapper: Mappers.ResourceGroupListResult,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   queryParameters: [Parameters.apiVersion, Parameters.filter, Parameters.top],
   urlParameters: [Parameters.$host, Parameters.subscriptionId],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ResourceGroupListResult
+      bodyMapper: Mappers.ResourceGroupListResult,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   urlParameters: [
     Parameters.$host,
     Parameters.nextLink,
-    Parameters.subscriptionId
+    Parameters.subscriptionId,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

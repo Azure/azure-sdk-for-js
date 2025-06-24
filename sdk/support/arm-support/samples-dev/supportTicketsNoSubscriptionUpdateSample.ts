@@ -8,9 +8,7 @@
 import type { UpdateSupportTicket } from "@azure/arm-support";
 import { MicrosoftSupport } from "@azure/arm-support";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to This API allows you to update the severity level, ticket status, and your contact information in the support ticket.<br/><br/>Note: The severity levels cannot be changed if a support ticket is actively being worked upon by an Azure support engineer. In such a case, contact your support engineer to request severity update by adding a new communication using the Communications API.
@@ -18,7 +16,7 @@ dotenv.config();
  * @summary This API allows you to update the severity level, ticket status, and your contact information in the support ticket.<br/><br/>Note: The severity levels cannot be changed if a support ticket is actively being worked upon by an Azure support engineer. In such a case, contact your support engineer to request severity update by adding a new communication using the Communications API.
  * x-ms-original-file: specification/support/resource-manager/Microsoft.Support/stable/2024-04-01/examples/UpdateAdvancedDiagnosticConsentOfSupportTicket.json
  */
-async function updateAdvancedDiagnosticConsentOfASupportTicket() {
+async function updateAdvancedDiagnosticConsentOfASupportTicket(): Promise<void> {
   const supportTicketName = "testticket";
   const updateSupportTicket: UpdateSupportTicket = {
     advancedDiagnosticConsent: "Yes",
@@ -38,7 +36,7 @@ async function updateAdvancedDiagnosticConsentOfASupportTicket() {
  * @summary This API allows you to update the severity level, ticket status, and your contact information in the support ticket.<br/><br/>Note: The severity levels cannot be changed if a support ticket is actively being worked upon by an Azure support engineer. In such a case, contact your support engineer to request severity update by adding a new communication using the Communications API.
  * x-ms-original-file: specification/support/resource-manager/Microsoft.Support/stable/2024-04-01/examples/UpdateContactDetailsOfSupportTicket.json
  */
-async function updateContactDetailsOfASupportTicket() {
+async function updateContactDetailsOfASupportTicket(): Promise<void> {
   const supportTicketName = "testticket";
   const updateSupportTicket: UpdateSupportTicket = {
     contactDetails: {
@@ -68,7 +66,7 @@ async function updateContactDetailsOfASupportTicket() {
  * @summary This API allows you to update the severity level, ticket status, and your contact information in the support ticket.<br/><br/>Note: The severity levels cannot be changed if a support ticket is actively being worked upon by an Azure support engineer. In such a case, contact your support engineer to request severity update by adding a new communication using the Communications API.
  * x-ms-original-file: specification/support/resource-manager/Microsoft.Support/stable/2024-04-01/examples/UpdateSeverityOfSupportTicket.json
  */
-async function updateSeverityOfASupportTicket() {
+async function updateSeverityOfASupportTicket(): Promise<void> {
   const supportTicketName = "testticket";
   const updateSupportTicket: UpdateSupportTicket = { severity: "critical" };
   const credential = new DefaultAzureCredential();
@@ -86,7 +84,7 @@ async function updateSeverityOfASupportTicket() {
  * @summary This API allows you to update the severity level, ticket status, and your contact information in the support ticket.<br/><br/>Note: The severity levels cannot be changed if a support ticket is actively being worked upon by an Azure support engineer. In such a case, contact your support engineer to request severity update by adding a new communication using the Communications API.
  * x-ms-original-file: specification/support/resource-manager/Microsoft.Support/stable/2024-04-01/examples/UpdateStatusOfSupportTicket.json
  */
-async function updateStatusOfASupportTicket() {
+async function updateStatusOfASupportTicket(): Promise<void> {
   const supportTicketName = "testticket";
   const updateSupportTicket: UpdateSupportTicket = { status: "closed" };
   const credential = new DefaultAzureCredential();
@@ -98,7 +96,7 @@ async function updateStatusOfASupportTicket() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   await updateAdvancedDiagnosticConsentOfASupportTicket();
   await updateContactDetailsOfASupportTicket();
   await updateSeverityOfASupportTicket();

@@ -11,7 +11,7 @@ import "dotenv/config";
  * @summary Lists all the rule collections in a security admin configuration, in a paginated format.
  * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-05-01/examples/NetworkManagerAdminRuleCollectionList.json
  */
-async function listSecurityAdminRuleCollections() {
+async function listSecurityAdminRuleCollections(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = createNetworkManagementClient(credential);
   const subscriptionId = "";

@@ -9,7 +9,7 @@
 import {
   SqlPoolColumnsGetOptionalParams,
   SqlPoolColumnsGetResponse
-} from "../models";
+} from "../models/index.js";
 
 /** Interface representing a SqlPoolColumns. */
 export interface SqlPoolColumns {

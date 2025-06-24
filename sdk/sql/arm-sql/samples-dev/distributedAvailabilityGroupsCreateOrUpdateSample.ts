@@ -8,9 +8,7 @@
 import type { DistributedAvailabilityGroup } from "@azure/arm-sql";
 import { SqlManagementClient } from "@azure/arm-sql";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Creates a distributed availability group between Sql On-Prem and Sql Managed Instance.
@@ -18,7 +16,7 @@ dotenv.config();
  * @summary Creates a distributed availability group between Sql On-Prem and Sql Managed Instance.
  * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2021-11-01-preview/examples/DistributedAvailabilityGroupsCreate.json
  */
-async function createADistributedAvailabilityGroup() {
+async function createADistributedAvailabilityGroup(): Promise<void> {
   const subscriptionId =
     process.env["SQL_SUBSCRIPTION_ID"] || "00000000-1111-2222-3333-444444444444";
   const resourceGroupName = process.env["SQL_RESOURCE_GROUP"] || "testrg";
@@ -41,7 +39,7 @@ async function createADistributedAvailabilityGroup() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   await createADistributedAvailabilityGroup();
 }
 

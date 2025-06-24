@@ -6,8 +6,12 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import type { CreateJobValidations } from "@azure/arm-databox";
-import { DataBoxManagementClient } from "@azure/arm-databox";
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
+import {
+  CreateJobValidations,
+  DataBoxManagementClient,
+} from "@azure/arm-databox";
 import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
 
@@ -15,10 +19,11 @@ import "dotenv/config";
  * This sample demonstrates how to This method does all necessary pre-job creation validation under subscription.
  *
  * @summary This method does all necessary pre-job creation validation under subscription.
- * x-ms-original-file: specification/databox/resource-manager/Microsoft.DataBox/stable/2022-12-01/examples/ValidateInputs.json
+ * x-ms-original-file: specification/databox/resource-manager/Microsoft.DataBox/stable/2025-02-01/examples/ValidateInputs.json
  */
 async function validateInputs(): Promise<void> {
-  const subscriptionId = process.env["DATABOX_SUBSCRIPTION_ID"] || "YourSubscriptionId";
+  const subscriptionId =
+    process.env["DATABOX_SUBSCRIPTION_ID"] || "YourSubscriptionId";
   const location = "westus";
   const validationRequest: CreateJobValidations = {
     individualRequestDetails: [
@@ -33,11 +38,13 @@ async function validateInputs(): Promise<void> {
           },
         ],
         deviceType: "DataBox",
+        model: "DataBox",
         transferType: "ImportToAzure",
         validationType: "ValidateDataTransferDetails",
       },
       {
         deviceType: "DataBox",
+        model: "DataBox",
         shippingAddress: {
           addressType: "Commercial",
           city: "XXXX XXXX",
@@ -56,12 +63,18 @@ async function validateInputs(): Promise<void> {
         country: "XX",
         deviceType: "DataBox",
         location: "westus",
+        model: "DataBox",
         transferType: "ImportToAzure",
         validationType: "ValidateSkuAvailability",
       },
-      { deviceType: "DataBox", validationType: "ValidateCreateOrderLimit" },
       {
         deviceType: "DataBox",
+        model: "DataBox",
+        validationType: "ValidateCreateOrderLimit",
+      },
+      {
+        deviceType: "DataBox",
+        model: "DataBox",
         preference: {
           transportPreferences: { preferredShipmentType: "MicrosoftManaged" },
         },
@@ -72,7 +85,10 @@ async function validateInputs(): Promise<void> {
   };
   const credential = new DefaultAzureCredential();
   const client = new DataBoxManagementClient(credential, subscriptionId);
-  const result = await client.service.validateInputs(location, validationRequest);
+  const result = await client.service.validateInputs(
+    location,
+    validationRequest,
+  );
   console.log(result);
 }
 

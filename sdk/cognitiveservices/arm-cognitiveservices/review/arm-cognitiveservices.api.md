@@ -11,6 +11,11 @@ import { PagedAsyncIterableIterator } from '@azure/core-paging';
 import { SimplePollerLike } from '@azure/core-lro';
 
 // @public
+export interface AADAuthTypeConnectionProperties extends ConnectionPropertiesV2 {
+    authType: "AAD";
+}
+
+// @public
 export interface AbusePenalty {
     action?: AbusePenaltyAction;
     expiration?: Date;
@@ -19,6 +24,13 @@ export interface AbusePenalty {
 
 // @public
 export type AbusePenaltyAction = string;
+
+// @public (undocumented)
+export interface AccessKeyAuthTypeConnectionProperties extends ConnectionPropertiesV2 {
+    authType: "AccessKey";
+    // (undocumented)
+    credentials?: ConnectionAccessKey;
+}
 
 // @public
 export interface Account extends AzureEntityResource {
@@ -31,6 +43,112 @@ export interface Account extends AzureEntityResource {
     tags?: {
         [propertyName: string]: string;
     };
+}
+
+// @public
+export interface AccountCapabilityHosts {
+    beginCreateOrUpdate(resourceGroupName: string, accountName: string, capabilityHostName: string, body: CapabilityHost, options?: AccountCapabilityHostsCreateOrUpdateOptionalParams): Promise<SimplePollerLike<OperationState<AccountCapabilityHostsCreateOrUpdateResponse>, AccountCapabilityHostsCreateOrUpdateResponse>>;
+    beginCreateOrUpdateAndWait(resourceGroupName: string, accountName: string, capabilityHostName: string, body: CapabilityHost, options?: AccountCapabilityHostsCreateOrUpdateOptionalParams): Promise<AccountCapabilityHostsCreateOrUpdateResponse>;
+    beginDelete(resourceGroupName: string, accountName: string, capabilityHostName: string, options?: AccountCapabilityHostsDeleteOptionalParams): Promise<SimplePollerLike<OperationState<AccountCapabilityHostsDeleteResponse>, AccountCapabilityHostsDeleteResponse>>;
+    beginDeleteAndWait(resourceGroupName: string, accountName: string, capabilityHostName: string, options?: AccountCapabilityHostsDeleteOptionalParams): Promise<AccountCapabilityHostsDeleteResponse>;
+    get(resourceGroupName: string, accountName: string, capabilityHostName: string, options?: AccountCapabilityHostsGetOptionalParams): Promise<AccountCapabilityHostsGetResponse>;
+}
+
+// @public
+export interface AccountCapabilityHostsCreateOrUpdateHeaders {
+    azureAsyncOperation?: string;
+    xMsAsyncOperationTimeout?: string;
+}
+
+// @public
+export interface AccountCapabilityHostsCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type AccountCapabilityHostsCreateOrUpdateResponse = CapabilityHost;
+
+// @public
+export interface AccountCapabilityHostsDeleteHeaders {
+    location?: string;
+    retryAfter?: number;
+    xMsAsyncOperationTimeout?: string;
+}
+
+// @public
+export interface AccountCapabilityHostsDeleteOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type AccountCapabilityHostsDeleteResponse = AccountCapabilityHostsDeleteHeaders;
+
+// @public
+export interface AccountCapabilityHostsGetOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type AccountCapabilityHostsGetResponse = CapabilityHost;
+
+// @public
+export interface AccountConnection {
+    create(resourceGroupName: string, accountName: string, connectionName: string, options?: AccountConnectionCreateOptionalParams): Promise<AccountConnectionCreateResponse>;
+    delete(resourceGroupName: string, accountName: string, connectionName: string, options?: AccountConnectionDeleteOptionalParams): Promise<void>;
+    get(resourceGroupName: string, accountName: string, connectionName: string, options?: AccountConnectionGetOptionalParams): Promise<AccountConnectionGetResponse>;
+    list(resourceGroupName: string, accountName: string, options?: AccountConnectionListOptionalParams): PagedAsyncIterableIterator<ConnectionPropertiesV2BasicResource>;
+    update(resourceGroupName: string, accountName: string, connectionName: string, options?: AccountConnectionUpdateOptionalParams): Promise<AccountConnectionUpdateResponse>;
+}
+
+// @public
+export interface AccountConnectionCreateOptionalParams extends coreClient.OperationOptions {
+    body?: ConnectionPropertiesV2BasicResource;
+}
+
+// @public
+export type AccountConnectionCreateResponse = ConnectionPropertiesV2BasicResource;
+
+// @public
+export interface AccountConnectionDeleteOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export interface AccountConnectionGetOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type AccountConnectionGetResponse = ConnectionPropertiesV2BasicResource;
+
+// @public
+export interface AccountConnectionListNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type AccountConnectionListNextResponse = ConnectionPropertiesV2BasicResourceArmPaginatedResult;
+
+// @public
+export interface AccountConnectionListOptionalParams extends coreClient.OperationOptions {
+    category?: string;
+    includeAll?: boolean;
+    target?: string;
+}
+
+// @public
+export type AccountConnectionListResponse = ConnectionPropertiesV2BasicResourceArmPaginatedResult;
+
+// @public
+export interface AccountConnectionUpdateOptionalParams extends coreClient.OperationOptions {
+    body?: ConnectionUpdateContent;
+}
+
+// @public
+export type AccountConnectionUpdateResponse = ConnectionPropertiesV2BasicResource;
+
+// @public
+export interface AccountKeyAuthTypeConnectionProperties extends ConnectionPropertiesV2 {
+    authType: "AccountKey";
+    credentials?: ConnectionAccountKey;
 }
 
 // @public
@@ -67,13 +185,16 @@ export interface AccountProperties {
     readonly abusePenalty?: AbusePenalty;
     // (undocumented)
     allowedFqdnList?: string[];
+    allowProjectManagement?: boolean;
     amlWorkspace?: UserOwnedAmlWorkspace;
     apiProperties?: ApiProperties;
+    associatedProjects?: string[];
     readonly callRateLimit?: CallRateLimit;
     readonly capabilities?: SkuCapability[];
     readonly commitmentPlanAssociations?: CommitmentPlanAssociation[];
     customSubDomainName?: string;
     readonly dateCreated?: string;
+    defaultProject?: string;
     readonly deletionDate?: string;
     // (undocumented)
     disableLocalAuth?: boolean;
@@ -88,6 +209,7 @@ export interface AccountProperties {
     locations?: MultiRegionSettings;
     migrationToken?: string;
     networkAcls?: NetworkRuleSet;
+    networkInjections?: NetworkInjections;
     readonly privateEndpointConnections?: PrivateEndpointConnection[];
     readonly provisioningState?: ProvisioningState;
     publicNetworkAccess?: PublicNetworkAccess;
@@ -237,6 +359,12 @@ export type AccountsUpdateResponse = Account;
 export type ActionType = string;
 
 // @public
+export interface ApiKeyAuthConnectionProperties extends ConnectionPropertiesV2 {
+    authType: "ApiKey";
+    credentials?: ConnectionApiKey;
+}
+
+// @public
 export interface ApiKeys {
     key1?: string;
     key2?: string;
@@ -317,6 +445,28 @@ export interface CallRateLimit {
 }
 
 // @public
+export interface CapabilityHost extends ProxyResource {
+    properties: CapabilityHostProperties;
+}
+
+// @public
+export type CapabilityHostKind = string;
+
+// @public (undocumented)
+export interface CapabilityHostProperties extends ResourceBase {
+    aiServicesConnections?: string[];
+    capabilityHostKind?: CapabilityHostKind;
+    customerSubnet?: string;
+    readonly provisioningState?: CapabilityHostProvisioningState;
+    storageConnections?: string[];
+    threadStorageConnections?: string[];
+    vectorStoreConnections?: string[];
+}
+
+// @public
+export type CapabilityHostProvisioningState = string;
+
+// @public
 export interface CapacityConfig {
     allowedValues?: number[];
     default?: number;
@@ -360,6 +510,10 @@ export class CognitiveServicesManagementClient extends coreClient.ServiceClient 
     $host: string;
     constructor(credentials: coreAuth.TokenCredential, subscriptionId: string, options?: CognitiveServicesManagementClientOptionalParams);
     // (undocumented)
+    accountCapabilityHosts: AccountCapabilityHosts;
+    // (undocumented)
+    accountConnection: AccountConnection;
+    // (undocumented)
     accounts: Accounts;
     // (undocumented)
     apiVersion: string;
@@ -392,6 +546,12 @@ export class CognitiveServicesManagementClient extends coreClient.ServiceClient 
     privateEndpointConnections: PrivateEndpointConnections;
     // (undocumented)
     privateLinkResources: PrivateLinkResources;
+    // (undocumented)
+    projectCapabilityHosts: ProjectCapabilityHosts;
+    // (undocumented)
+    projectConnection: ProjectConnection;
+    // (undocumented)
+    projects: Projects;
     // (undocumented)
     raiBlocklistItems: RaiBlocklistItems;
     // (undocumented)
@@ -701,6 +861,136 @@ export interface CommitmentTiersListOptionalParams extends coreClient.OperationO
 // @public
 export type CommitmentTiersListResponse = CommitmentTierListResult;
 
+// @public (undocumented)
+export interface ConnectionAccessKey {
+    // (undocumented)
+    accessKeyId?: string;
+    // (undocumented)
+    secretAccessKey?: string;
+}
+
+// @public
+export interface ConnectionAccountKey {
+    // (undocumented)
+    key?: string;
+}
+
+// @public
+export interface ConnectionApiKey {
+    // (undocumented)
+    key?: string;
+}
+
+// @public
+export type ConnectionAuthType = string;
+
+// @public
+export type ConnectionCategory = string;
+
+// @public
+export type ConnectionGroup = string;
+
+// @public (undocumented)
+export interface ConnectionManagedIdentity {
+    // (undocumented)
+    clientId?: string;
+    // (undocumented)
+    resourceId?: string;
+}
+
+// @public
+export interface ConnectionOAuth2 {
+    authUrl?: string;
+    clientId?: string;
+    // (undocumented)
+    clientSecret?: string;
+    developerToken?: string;
+    // (undocumented)
+    password?: string;
+    refreshToken?: string;
+    tenantId?: string;
+    username?: string;
+}
+
+// @public (undocumented)
+export interface ConnectionPersonalAccessToken {
+    // (undocumented)
+    pat?: string;
+}
+
+// @public
+export interface ConnectionPropertiesV2 {
+    authType: "PAT" | "ManagedIdentity" | "UsernamePassword" | "None" | "SAS" | "AccountKey" | "ServicePrincipal" | "AccessKey" | "ApiKey" | "CustomKeys" | "OAuth2" | "AAD";
+    category?: ConnectionCategory;
+    readonly createdByWorkspaceArmId?: string;
+    // (undocumented)
+    error?: string;
+    // (undocumented)
+    expiryTime?: Date;
+    readonly group?: ConnectionGroup;
+    // (undocumented)
+    isSharedToAll?: boolean;
+    metadata?: {
+        [propertyName: string]: string;
+    };
+    // (undocumented)
+    peRequirement?: ManagedPERequirement;
+    // (undocumented)
+    peStatus?: ManagedPEStatus;
+    // (undocumented)
+    sharedUserList?: string[];
+    // (undocumented)
+    target?: string;
+    // (undocumented)
+    useWorkspaceManagedIdentity?: boolean;
+}
+
+// @public
+export interface ConnectionPropertiesV2BasicResource extends Resource {
+    properties: ConnectionPropertiesV2Union;
+}
+
+// @public (undocumented)
+export interface ConnectionPropertiesV2BasicResourceArmPaginatedResult {
+    // (undocumented)
+    nextLink?: string;
+    // (undocumented)
+    value?: ConnectionPropertiesV2BasicResource[];
+}
+
+// @public (undocumented)
+export type ConnectionPropertiesV2Union = ConnectionPropertiesV2 | PATAuthTypeConnectionProperties | ManagedIdentityAuthTypeConnectionProperties | UsernamePasswordAuthTypeConnectionProperties | NoneAuthTypeConnectionProperties | SASAuthTypeConnectionProperties | AccountKeyAuthTypeConnectionProperties | ServicePrincipalAuthTypeConnectionProperties | AccessKeyAuthTypeConnectionProperties | ApiKeyAuthConnectionProperties | CustomKeysConnectionProperties | OAuth2AuthTypeConnectionProperties | AADAuthTypeConnectionProperties;
+
+// @public (undocumented)
+export interface ConnectionServicePrincipal {
+    // (undocumented)
+    clientId?: string;
+    // (undocumented)
+    clientSecret?: string;
+    // (undocumented)
+    tenantId?: string;
+}
+
+// @public (undocumented)
+export interface ConnectionSharedAccessSignature {
+    // (undocumented)
+    sas?: string;
+}
+
+// @public
+export interface ConnectionUpdateContent {
+    properties?: ConnectionPropertiesV2Union;
+}
+
+// @public (undocumented)
+export interface ConnectionUsernamePassword {
+    // (undocumented)
+    password?: string;
+    securityToken?: string;
+    // (undocumented)
+    username?: string;
+}
+
 // @public
 export type ContentLevel = string;
 
@@ -710,6 +1000,19 @@ export type CreatedByType = string;
 // @public
 export interface CustomBlocklistConfig extends RaiBlocklistConfig {
     source?: RaiPolicyContentSource;
+}
+
+// @public
+export interface CustomKeys {
+    keys?: {
+        [propertyName: string]: string;
+    };
+}
+
+// @public
+export interface CustomKeysConnectionProperties extends ConnectionPropertiesV2 {
+    authType: "CustomKeys";
+    credentials?: CustomKeys;
 }
 
 // @public
@@ -861,6 +1164,7 @@ export interface DeploymentProperties {
     raiPolicyName?: string;
     readonly rateLimits?: ThrottlingRule[];
     scaleSettings?: DeploymentScaleSettings;
+    spilloverDeploymentName?: string;
     versionUpgradeOption?: DeploymentModelVersionUpgradeOption;
 }
 
@@ -1130,6 +1434,21 @@ export enum KnownByPassSelection {
 }
 
 // @public
+export enum KnownCapabilityHostKind {
+    Agents = "Agents"
+}
+
+// @public
+export enum KnownCapabilityHostProvisioningState {
+    Canceled = "Canceled",
+    Creating = "Creating",
+    Deleting = "Deleting",
+    Failed = "Failed",
+    Succeeded = "Succeeded",
+    Updating = "Updating"
+}
+
+// @public
 export enum KnownCommitmentPlanProvisioningState {
     Accepted = "Accepted",
     Canceled = "Canceled",
@@ -1138,6 +1457,142 @@ export enum KnownCommitmentPlanProvisioningState {
     Failed = "Failed",
     Moving = "Moving",
     Succeeded = "Succeeded"
+}
+
+// @public
+export enum KnownConnectionAuthType {
+    AAD = "AAD",
+    AccessKey = "AccessKey",
+    AccountKey = "AccountKey",
+    ApiKey = "ApiKey",
+    CustomKeys = "CustomKeys",
+    ManagedIdentity = "ManagedIdentity",
+    None = "None",
+    OAuth2 = "OAuth2",
+    PAT = "PAT",
+    SAS = "SAS",
+    ServicePrincipal = "ServicePrincipal",
+    UsernamePassword = "UsernamePassword"
+}
+
+// @public
+export enum KnownConnectionCategory {
+    AdlsGen2 = "ADLSGen2",
+    AIServices = "AIServices",
+    AmazonMws = "AmazonMws",
+    AmazonRdsForOracle = "AmazonRdsForOracle",
+    AmazonRdsForSqlServer = "AmazonRdsForSqlServer",
+    AmazonRedshift = "AmazonRedshift",
+    AmazonS3Compatible = "AmazonS3Compatible",
+    ApiKey = "ApiKey",
+    AzureBlob = "AzureBlob",
+    AzureDatabricksDeltaLake = "AzureDatabricksDeltaLake",
+    AzureDataExplorer = "AzureDataExplorer",
+    AzureMariaDb = "AzureMariaDb",
+    AzureMySqlDb = "AzureMySqlDb",
+    AzureOneLake = "AzureOneLake",
+    AzureOpenAI = "AzureOpenAI",
+    AzurePostgresDb = "AzurePostgresDb",
+    AzureSqlDb = "AzureSqlDb",
+    AzureSqlMi = "AzureSqlMi",
+    AzureSynapseAnalytics = "AzureSynapseAnalytics",
+    AzureTableStorage = "AzureTableStorage",
+    BingLLMSearch = "BingLLMSearch",
+    Cassandra = "Cassandra",
+    CognitiveSearch = "CognitiveSearch",
+    CognitiveService = "CognitiveService",
+    Concur = "Concur",
+    ContainerRegistry = "ContainerRegistry",
+    CosmosDb = "CosmosDb",
+    CosmosDbMongoDbApi = "CosmosDbMongoDbApi",
+    Couchbase = "Couchbase",
+    CustomKeys = "CustomKeys",
+    Db2 = "Db2",
+    Drill = "Drill",
+    Dynamics = "Dynamics",
+    DynamicsAx = "DynamicsAx",
+    DynamicsCrm = "DynamicsCrm",
+    Elasticsearch = "Elasticsearch",
+    Eloqua = "Eloqua",
+    FileServer = "FileServer",
+    FtpServer = "FtpServer",
+    GenericContainerRegistry = "GenericContainerRegistry",
+    GenericHttp = "GenericHttp",
+    GenericRest = "GenericRest",
+    Git = "Git",
+    GoogleAdWords = "GoogleAdWords",
+    GoogleBigQuery = "GoogleBigQuery",
+    GoogleCloudStorage = "GoogleCloudStorage",
+    Greenplum = "Greenplum",
+    Hbase = "Hbase",
+    Hdfs = "Hdfs",
+    Hive = "Hive",
+    Hubspot = "Hubspot",
+    Impala = "Impala",
+    Informix = "Informix",
+    Jira = "Jira",
+    Magento = "Magento",
+    ManagedOnlineEndpoint = "ManagedOnlineEndpoint",
+    MariaDb = "MariaDb",
+    Marketo = "Marketo",
+    MicrosoftAccess = "MicrosoftAccess",
+    MongoDbAtlas = "MongoDbAtlas",
+    MongoDbV2 = "MongoDbV2",
+    MySql = "MySql",
+    Netezza = "Netezza",
+    ODataRest = "ODataRest",
+    Odbc = "Odbc",
+    Office365 = "Office365",
+    OpenAI = "OpenAI",
+    Oracle = "Oracle",
+    OracleCloudStorage = "OracleCloudStorage",
+    OracleServiceCloud = "OracleServiceCloud",
+    PayPal = "PayPal",
+    Phoenix = "Phoenix",
+    Pinecone = "Pinecone",
+    PostgreSql = "PostgreSql",
+    Presto = "Presto",
+    PythonFeed = "PythonFeed",
+    QuickBooks = "QuickBooks",
+    Redis = "Redis",
+    Responsys = "Responsys",
+    S3 = "S3",
+    Salesforce = "Salesforce",
+    SalesforceMarketingCloud = "SalesforceMarketingCloud",
+    SalesforceServiceCloud = "SalesforceServiceCloud",
+    SapBw = "SapBw",
+    SapCloudForCustomer = "SapCloudForCustomer",
+    SapEcc = "SapEcc",
+    SapHana = "SapHana",
+    SapOpenHub = "SapOpenHub",
+    SapTable = "SapTable",
+    Serp = "Serp",
+    Serverless = "Serverless",
+    ServiceNow = "ServiceNow",
+    Sftp = "Sftp",
+    SharePointOnlineList = "SharePointOnlineList",
+    Shopify = "Shopify",
+    Snowflake = "Snowflake",
+    Spark = "Spark",
+    SqlServer = "SqlServer",
+    Square = "Square",
+    Sybase = "Sybase",
+    Teradata = "Teradata",
+    Vertica = "Vertica",
+    WebTable = "WebTable",
+    Xero = "Xero",
+    Zoho = "Zoho"
+}
+
+// @public
+export enum KnownConnectionGroup {
+    Azure = "Azure",
+    AzureAI = "AzureAI",
+    Database = "Database",
+    File = "File",
+    GenericProtocol = "GenericProtocol",
+    NoSQL = "NoSQL",
+    ServicesAndApps = "ServicesAndApps"
 }
 
 // @public
@@ -1218,6 +1673,20 @@ export enum KnownKeySource {
 }
 
 // @public
+export enum KnownManagedPERequirement {
+    NotApplicable = "NotApplicable",
+    NotRequired = "NotRequired",
+    Required = "Required"
+}
+
+// @public
+export enum KnownManagedPEStatus {
+    Active = "Active",
+    Inactive = "Inactive",
+    NotApplicable = "NotApplicable"
+}
+
+// @public
 export enum KnownModelLifecycleStatus {
     Deprecated = "Deprecated",
     Deprecating = "Deprecating",
@@ -1263,6 +1732,7 @@ export enum KnownPrivateEndpointServiceConnectionStatus {
 // @public
 export enum KnownProvisioningState {
     Accepted = "Accepted",
+    Canceled = "Canceled",
     Creating = "Creating",
     Deleting = "Deleting",
     Failed = "Failed",
@@ -1319,6 +1789,12 @@ export enum KnownRoutingMethods {
 }
 
 // @public
+export enum KnownScenarioType {
+    Agent = "agent",
+    None = "none"
+}
+
+// @public
 export enum KnownSkuTier {
     Basic = "Basic",
     Enterprise = "Enterprise",
@@ -1356,6 +1832,19 @@ export interface LocationBasedModelCapacitiesListOptionalParams extends coreClie
 
 // @public
 export type LocationBasedModelCapacitiesListResponse = ModelCapacityListResult;
+
+// @public (undocumented)
+export interface ManagedIdentityAuthTypeConnectionProperties extends ConnectionPropertiesV2 {
+    authType: "ManagedIdentity";
+    // (undocumented)
+    credentials?: ConnectionManagedIdentity;
+}
+
+// @public
+export type ManagedPERequirement = string;
+
+// @public
+export type ManagedPEStatus = string;
 
 // @public
 export interface MetricName {
@@ -1472,6 +1961,13 @@ export interface MultiRegionSettings {
     // (undocumented)
     regions?: RegionSetting[];
     routingMethod?: RoutingMethods;
+}
+
+// @public
+export interface NetworkInjections {
+    scenario?: ScenarioType;
+    subnetArmId?: string;
+    useMicrosoftManagedNetwork?: boolean;
 }
 
 // @public
@@ -1592,8 +2088,19 @@ export interface NetworkSecurityPerimeterProfileInfo {
     name?: string;
 }
 
+// @public (undocumented)
+export interface NoneAuthTypeConnectionProperties extends ConnectionPropertiesV2 {
+    authType: "None";
+}
+
 // @public
 export type NspAccessRuleDirection = string;
+
+// @public (undocumented)
+export interface OAuth2AuthTypeConnectionProperties extends ConnectionPropertiesV2 {
+    authType: "OAuth2";
+    credentials?: ConnectionOAuth2;
+}
 
 // @public
 export interface Operation {
@@ -1639,6 +2146,13 @@ export type OperationsListResponse = OperationListResult;
 
 // @public
 export type Origin = string;
+
+// @public (undocumented)
+export interface PATAuthTypeConnectionProperties extends ConnectionPropertiesV2 {
+    authType: "PAT";
+    // (undocumented)
+    credentials?: ConnectionPersonalAccessToken;
+}
 
 // @public
 export interface PatchResourceTags {
@@ -1758,6 +2272,191 @@ export interface PrivateLinkServiceConnectionState {
     description?: string;
     status?: PrivateEndpointServiceConnectionStatus;
 }
+
+// @public
+export interface Project extends AzureEntityResource {
+    identity?: Identity;
+    location?: string;
+    properties?: ProjectProperties;
+    readonly systemData?: SystemData;
+    tags?: {
+        [propertyName: string]: string;
+    };
+}
+
+// @public
+export interface ProjectCapabilityHosts {
+    beginCreateOrUpdate(resourceGroupName: string, accountName: string, projectName: string, capabilityHostName: string, body: CapabilityHost, options?: ProjectCapabilityHostsCreateOrUpdateOptionalParams): Promise<SimplePollerLike<OperationState<ProjectCapabilityHostsCreateOrUpdateResponse>, ProjectCapabilityHostsCreateOrUpdateResponse>>;
+    beginCreateOrUpdateAndWait(resourceGroupName: string, accountName: string, projectName: string, capabilityHostName: string, body: CapabilityHost, options?: ProjectCapabilityHostsCreateOrUpdateOptionalParams): Promise<ProjectCapabilityHostsCreateOrUpdateResponse>;
+    beginDelete(resourceGroupName: string, accountName: string, projectName: string, capabilityHostName: string, options?: ProjectCapabilityHostsDeleteOptionalParams): Promise<SimplePollerLike<OperationState<ProjectCapabilityHostsDeleteResponse>, ProjectCapabilityHostsDeleteResponse>>;
+    beginDeleteAndWait(resourceGroupName: string, accountName: string, projectName: string, capabilityHostName: string, options?: ProjectCapabilityHostsDeleteOptionalParams): Promise<ProjectCapabilityHostsDeleteResponse>;
+    get(resourceGroupName: string, accountName: string, projectName: string, capabilityHostName: string, options?: ProjectCapabilityHostsGetOptionalParams): Promise<ProjectCapabilityHostsGetResponse>;
+}
+
+// @public
+export interface ProjectCapabilityHostsCreateOrUpdateHeaders {
+    azureAsyncOperation?: string;
+    xMsAsyncOperationTimeout?: string;
+}
+
+// @public
+export interface ProjectCapabilityHostsCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type ProjectCapabilityHostsCreateOrUpdateResponse = CapabilityHost;
+
+// @public
+export interface ProjectCapabilityHostsDeleteHeaders {
+    location?: string;
+    retryAfter?: number;
+    xMsAsyncOperationTimeout?: string;
+}
+
+// @public
+export interface ProjectCapabilityHostsDeleteOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type ProjectCapabilityHostsDeleteResponse = ProjectCapabilityHostsDeleteHeaders;
+
+// @public
+export interface ProjectCapabilityHostsGetOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type ProjectCapabilityHostsGetResponse = CapabilityHost;
+
+// @public
+export interface ProjectConnection {
+    create(resourceGroupName: string, accountName: string, projectName: string, connectionName: string, options?: ProjectConnectionCreateOptionalParams): Promise<ProjectConnectionCreateResponse>;
+    delete(resourceGroupName: string, accountName: string, projectName: string, connectionName: string, options?: ProjectConnectionDeleteOptionalParams): Promise<void>;
+    get(resourceGroupName: string, accountName: string, projectName: string, connectionName: string, options?: ProjectConnectionGetOptionalParams): Promise<ProjectConnectionGetResponse>;
+    list(resourceGroupName: string, accountName: string, projectName: string, options?: ProjectConnectionListOptionalParams): PagedAsyncIterableIterator<ConnectionPropertiesV2BasicResource>;
+    update(resourceGroupName: string, accountName: string, projectName: string, connectionName: string, options?: ProjectConnectionUpdateOptionalParams): Promise<ProjectConnectionUpdateResponse>;
+}
+
+// @public
+export interface ProjectConnectionCreateOptionalParams extends coreClient.OperationOptions {
+    body?: ConnectionPropertiesV2BasicResource;
+}
+
+// @public
+export type ProjectConnectionCreateResponse = ConnectionPropertiesV2BasicResource;
+
+// @public
+export interface ProjectConnectionDeleteOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export interface ProjectConnectionGetOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type ProjectConnectionGetResponse = ConnectionPropertiesV2BasicResource;
+
+// @public
+export interface ProjectConnectionListNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type ProjectConnectionListNextResponse = ConnectionPropertiesV2BasicResourceArmPaginatedResult;
+
+// @public
+export interface ProjectConnectionListOptionalParams extends coreClient.OperationOptions {
+    category?: string;
+    includeAll?: boolean;
+    target?: string;
+}
+
+// @public
+export type ProjectConnectionListResponse = ConnectionPropertiesV2BasicResourceArmPaginatedResult;
+
+// @public
+export interface ProjectConnectionUpdateOptionalParams extends coreClient.OperationOptions {
+    body?: ConnectionUpdateContent;
+}
+
+// @public
+export type ProjectConnectionUpdateResponse = ConnectionPropertiesV2BasicResource;
+
+// @public
+export interface ProjectListResult {
+    nextLink?: string;
+    readonly value?: Project[];
+}
+
+// @public
+export interface ProjectProperties {
+    description?: string;
+    displayName?: string;
+    readonly endpoints?: {
+        [propertyName: string]: string;
+    };
+    readonly isDefault?: boolean;
+    readonly provisioningState?: ProvisioningState;
+}
+
+// @public
+export interface Projects {
+    beginCreate(resourceGroupName: string, accountName: string, projectName: string, project: Project, options?: ProjectsCreateOptionalParams): Promise<SimplePollerLike<OperationState<ProjectsCreateResponse>, ProjectsCreateResponse>>;
+    beginCreateAndWait(resourceGroupName: string, accountName: string, projectName: string, project: Project, options?: ProjectsCreateOptionalParams): Promise<ProjectsCreateResponse>;
+    beginDelete(resourceGroupName: string, accountName: string, projectName: string, options?: ProjectsDeleteOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
+    beginDeleteAndWait(resourceGroupName: string, accountName: string, projectName: string, options?: ProjectsDeleteOptionalParams): Promise<void>;
+    beginUpdate(resourceGroupName: string, accountName: string, projectName: string, project: Project, options?: ProjectsUpdateOptionalParams): Promise<SimplePollerLike<OperationState<ProjectsUpdateResponse>, ProjectsUpdateResponse>>;
+    beginUpdateAndWait(resourceGroupName: string, accountName: string, projectName: string, project: Project, options?: ProjectsUpdateOptionalParams): Promise<ProjectsUpdateResponse>;
+    get(resourceGroupName: string, accountName: string, projectName: string, options?: ProjectsGetOptionalParams): Promise<ProjectsGetResponse>;
+    list(resourceGroupName: string, accountName: string, options?: ProjectsListOptionalParams): PagedAsyncIterableIterator<Project>;
+}
+
+// @public
+export interface ProjectsCreateOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type ProjectsCreateResponse = Project;
+
+// @public
+export interface ProjectsDeleteOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export interface ProjectsGetOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type ProjectsGetResponse = Project;
+
+// @public
+export interface ProjectsListNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type ProjectsListNextResponse = ProjectListResult;
+
+// @public
+export interface ProjectsListOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type ProjectsListResponse = ProjectListResult;
+
+// @public
+export interface ProjectsUpdateOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type ProjectsUpdateResponse = Project;
 
 // @public (undocumented)
 export interface ProvisioningIssue {
@@ -2143,6 +2842,14 @@ export interface Resource {
     readonly type?: string;
 }
 
+// @public (undocumented)
+export interface ResourceBase {
+    description?: string;
+    tags?: {
+        [propertyName: string]: string | null;
+    };
+}
+
 // @public
 export type ResourceIdentityType = "None" | "SystemAssigned" | "UserAssigned" | "SystemAssigned, UserAssigned";
 
@@ -2203,6 +2910,23 @@ export type ResourceSkusListResponse = ResourceSkuListResult;
 
 // @public
 export type RoutingMethods = string;
+
+// @public (undocumented)
+export interface SASAuthTypeConnectionProperties extends ConnectionPropertiesV2 {
+    authType: "SAS";
+    // (undocumented)
+    credentials?: ConnectionSharedAccessSignature;
+}
+
+// @public
+export type ScenarioType = string;
+
+// @public (undocumented)
+export interface ServicePrincipalAuthTypeConnectionProperties extends ConnectionPropertiesV2 {
+    authType: "ServicePrincipal";
+    // (undocumented)
+    credentials?: ConnectionServicePrincipal;
+}
 
 // @public
 export interface Sku {
@@ -2321,6 +3045,13 @@ export type UsagesListResponse = UsageListResult;
 export interface UserAssignedIdentity {
     readonly clientId?: string;
     readonly principalId?: string;
+}
+
+// @public (undocumented)
+export interface UsernamePasswordAuthTypeConnectionProperties extends ConnectionPropertiesV2 {
+    authType: "UsernamePassword";
+    // (undocumented)
+    credentials?: ConnectionUsernamePassword;
 }
 
 // @public

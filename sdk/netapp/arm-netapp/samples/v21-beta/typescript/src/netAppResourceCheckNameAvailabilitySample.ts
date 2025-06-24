@@ -6,24 +6,20 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
 import { NetAppManagementClient } from "@azure/arm-netapp";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Check if a resource name is available.
  *
  * @summary Check if a resource name is available.
- * x-ms-original-file: specification/netapp/resource-manager/Microsoft.NetApp/preview/2024-07-01-preview/examples/CheckNameAvailability.json
+ * x-ms-original-file: specification/netapp/resource-manager/Microsoft.NetApp/preview/2025-01-01-preview/examples/CheckNameAvailability.json
  */
-async function checkNameAvailability() {
+async function checkNameAvailability(): Promise<void> {
   const subscriptionId =
     process.env["NETAPP_SUBSCRIPTION_ID"] ||
-    "D633CC2E-722B-4AE1-B636-BBD9E4C60ED9";
+    "00000000-0000-0000-0000-000000000000";
   const location = "eastus";
   const name = "accName";
   const typeParam = "Microsoft.NetApp/netAppAccounts";
@@ -39,8 +35,8 @@ async function checkNameAvailability() {
   console.log(result);
 }
 
-async function main() {
-  checkNameAvailability();
+async function main(): Promise<void> {
+  await checkNameAvailability();
 }
 
 main().catch(console.error);

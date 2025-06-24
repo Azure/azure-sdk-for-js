@@ -15,7 +15,7 @@ See our [support policy](https://github.com/Azure/azure-sdk-for-js/blob/main/SUP
 
 ### Installation
 
-This package is primarily used in generated code and not meant to be consumed directly by end users.
+This package is primarily used in generated code and not meant to be consumed directly by end users. Only top-level exports from this package should be used. Any exports under the `internal` subpath are for private use and stability is not guaranteed.
 
 ## Key concepts
 
@@ -175,5 +175,3 @@ If you run into issues while using this library, please feel free to [file an is
 ## Contributing
 
 If you'd like to contribute to this library, please read the [contributing guide](https://github.com/Azure/azure-sdk-for-js/blob/main/CONTRIBUTING.md) to learn more about how to build and test the code.
-
-![Impressions](https://azure-sdk-impressions.azurewebsites.net/api/impressions/azure-sdk-for-js%2Fsdk%2Fcore%2Fts-http-runtime%2FREADME.png)

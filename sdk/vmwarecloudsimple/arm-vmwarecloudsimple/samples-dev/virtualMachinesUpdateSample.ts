@@ -8,9 +8,7 @@
 import type { PatchPayload } from "@azure/arm-vmwarecloudsimple";
 import { VMwareCloudSimple } from "@azure/arm-vmwarecloudsimple";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Patch virtual machine properties
@@ -18,7 +16,7 @@ dotenv.config();
  * @summary Patch virtual machine properties
  * x-ms-original-file: specification/vmwarecloudsimple/resource-manager/Microsoft.VMwareCloudSimple/stable/2019-04-01/examples/PatchVirtualMachine.json
  */
-async function patchVirtualMachine() {
+async function patchVirtualMachine(): Promise<void> {
   const subscriptionId = process.env["VMWARECLOUDSIMPLE_SUBSCRIPTION_ID"] || "{subscription-id}";
   const resourceGroupName = process.env["VMWARECLOUDSIMPLE_RESOURCE_GROUP"] || "myResourceGroup";
   const virtualMachineName = "myVirtualMachine";
@@ -33,7 +31,7 @@ async function patchVirtualMachine() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   await patchVirtualMachine();
 }
 

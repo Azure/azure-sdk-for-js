@@ -7,9 +7,7 @@
  */
 import { WorkloadsClient } from "@azure/arm-migrationdiscoverysap";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Gets all SAP Migration discovery site resources in a Subscription.
@@ -17,7 +15,7 @@ dotenv.config();
  * @summary Gets all SAP Migration discovery site resources in a Subscription.
  * x-ms-original-file: specification/workloads/resource-manager/Microsoft.Workloads/SAPDiscoverySites/preview/2023-10-01-preview/examples/SAPDiscoverySites_ListBySubscription.json
  */
-async function listSapMigrationDiscoverySiteResourcesInASubscription() {
+async function listSapMigrationDiscoverySiteResourcesInASubscription(): Promise<void> {
   const subscriptionId =
     process.env["MIGRATIONDISCOVERY_SUBSCRIPTION_ID"] || "6d875e77-e412-4d7d-9af4-8895278b4443";
   const credential = new DefaultAzureCredential();
@@ -29,7 +27,7 @@ async function listSapMigrationDiscoverySiteResourcesInASubscription() {
   console.log(resArray);
 }
 
-async function main() {
+async function main(): Promise<void> {
   await listSapMigrationDiscoverySiteResourcesInASubscription();
 }
 

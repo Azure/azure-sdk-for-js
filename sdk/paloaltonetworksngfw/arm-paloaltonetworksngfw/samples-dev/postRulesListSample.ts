@@ -7,9 +7,7 @@
  */
 import { PaloAltoNetworksCloudngfw } from "@azure/arm-paloaltonetworksngfw";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to List PostRulesResource resources by Tenant
@@ -17,7 +15,7 @@ dotenv.config();
  * @summary List PostRulesResource resources by Tenant
  * x-ms-original-file: specification/paloaltonetworks/resource-manager/PaloAltoNetworks.Cloudngfw/stable/2023-09-01/examples/PostRules_List_MaximumSet_Gen.json
  */
-async function postRulesListMaximumSetGen() {
+async function postRulesListMaximumSetGen(): Promise<void> {
   const globalRulestackName = "lrs1";
   const credential = new DefaultAzureCredential();
   const client = new PaloAltoNetworksCloudngfw(credential);
@@ -34,7 +32,7 @@ async function postRulesListMaximumSetGen() {
  * @summary List PostRulesResource resources by Tenant
  * x-ms-original-file: specification/paloaltonetworks/resource-manager/PaloAltoNetworks.Cloudngfw/stable/2023-09-01/examples/PostRules_List_MinimumSet_Gen.json
  */
-async function postRulesListMinimumSetGen() {
+async function postRulesListMinimumSetGen(): Promise<void> {
   const globalRulestackName = "lrs1";
   const credential = new DefaultAzureCredential();
   const client = new PaloAltoNetworksCloudngfw(credential);
@@ -45,7 +43,7 @@ async function postRulesListMinimumSetGen() {
   console.log(resArray);
 }
 
-async function main() {
+async function main(): Promise<void> {
   await postRulesListMaximumSetGen();
   await postRulesListMinimumSetGen();
 }

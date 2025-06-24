@@ -11,9 +11,7 @@ import type {
 } from "@azure/arm-selfhelp";
 import { HelpRP } from "@azure/arm-selfhelp";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Uses ‘stepId’ and ‘responses’ as the trigger to continue the troubleshooting steps for the respective troubleshooter resource name. <br/>Continue API is used to provide inputs that are required for the specific troubleshooter to progress into the next step in the process. This API is used after the Troubleshooter has been created using the Create API.
@@ -21,7 +19,7 @@ dotenv.config();
  * @summary Uses ‘stepId’ and ‘responses’ as the trigger to continue the troubleshooting steps for the respective troubleshooter resource name. <br/>Continue API is used to provide inputs that are required for the specific troubleshooter to progress into the next step in the process. This API is used after the Troubleshooter has been created using the Create API.
  * x-ms-original-file: specification/help/resource-manager/Microsoft.Help/preview/2024-03-01-preview/examples/Troubleshooter_Continue.json
  */
-async function troubleshooterContinue() {
+async function troubleshooterContinue(): Promise<void> {
   const scope =
     "subscriptions/mySubscription/resourcegroups/myresourceGroup/providers/Microsoft.KeyVault/vaults/test-keyvault-rp";
   const troubleshooterName = "abf168ed-1b54-454a-86f6-e4b62253d3b1";
@@ -44,7 +42,7 @@ async function troubleshooterContinue() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   await troubleshooterContinue();
 }
 

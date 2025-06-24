@@ -5,16 +5,13 @@
  * @summary This sample demonstrates operations related to ingestion status.
  */
 
-// Load the .env file if it exists
-import * as dotenv from "dotenv";
-dotenv.config();
-
+import "dotenv/config";
 import {
   MetricsAdvisorKeyCredential,
-  MetricsAdvisorAdministrationClient
+  MetricsAdvisorAdministrationClient,
 } from "@azure/ai-metrics-advisor";
 
-export async function main() {
+export async function main(): Promise<void> {
   // You will need to set these environment variables or edit the following values
   const endpoint = process.env["METRICS_ADVISOR_ENDPOINT"] || "<service endpoint>";
   const subscriptionKey = process.env["METRICS_ADVISOR_SUBSCRIPTION_KEY"] || "<subscription key>";
@@ -39,8 +36,8 @@ async function listIngestionStatus(
   adminClient: MetricsAdvisorAdministrationClient,
   dataFeedId: string,
   startTime: Date,
-  endTime: Date
-) {
+  endTime: Date,
+): Promise<void> {
   console.log("Listing ingestion status...");
   // iterate through all ingestions using for-await-of
   const listIterator = adminClient.listDataFeedIngestionStatus(dataFeedId, startTime, endTime);
@@ -75,8 +72,8 @@ async function listIngestionStatus(
 
 async function getIngestionProgress(
   adminClient: MetricsAdvisorAdministrationClient,
-  dataFeedId: string
-) {
+  dataFeedId: string,
+): Promise<void> {
   console.log("Getting ingestion progress...");
   const result = await adminClient.getDataFeedIngestionProgress(dataFeedId);
   console.log(result);
@@ -86,8 +83,8 @@ async function refreshIngestion(
   adminClient: MetricsAdvisorAdministrationClient,
   dataFeedId: string,
   startTime: Date,
-  endTime: Date
-) {
+  endTime: Date,
+): Promise<void> {
   console.log("Resetting ingestion status...");
   await adminClient.refreshDataFeedIngestion(dataFeedId, startTime, endTime);
 }

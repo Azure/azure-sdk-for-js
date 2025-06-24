@@ -14,7 +14,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * @summary Get Operation status
  * x-ms-original-file: specification/storagesync/resource-manager/Microsoft.StorageSync/stable/2020-09-01/examples/OperationStatus_Get.json
  */
-async function workflowsGet() {
+async function workflowsGet(): Promise<void> {
   const subscriptionId = "52b8da2f-61e0-4a1f-8dde-336911f367fb";
   const resourceGroupName = "SampleResourceGroup_1";
   const locationName = "westus";

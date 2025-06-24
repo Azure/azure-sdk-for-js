@@ -7,9 +7,7 @@
  */
 import { MicrosoftSupport } from "@azure/arm-support";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Lists all chat transcripts for a support ticket
@@ -17,7 +15,7 @@ dotenv.config();
  * @summary Lists all chat transcripts for a support ticket
  * x-ms-original-file: specification/support/resource-manager/Microsoft.Support/stable/2024-04-01/examples/ListChatTranscriptsForSupportTicket.json
  */
-async function listChatTranscriptsForANoSubscriptionSupportTicket() {
+async function listChatTranscriptsForANoSubscriptionSupportTicket(): Promise<void> {
   const supportTicketName = "testticket";
   const credential = new DefaultAzureCredential();
   const client = new MicrosoftSupport(credential);
@@ -28,7 +26,7 @@ async function listChatTranscriptsForANoSubscriptionSupportTicket() {
   console.log(resArray);
 }
 
-async function main() {
+async function main(): Promise<void> {
   await listChatTranscriptsForANoSubscriptionSupportTicket();
 }
 

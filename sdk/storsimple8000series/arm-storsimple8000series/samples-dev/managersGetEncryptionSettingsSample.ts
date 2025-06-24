@@ -14,7 +14,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * @summary Returns the encryption settings of the manager.
  * x-ms-original-file: specification/storsimple8000series/resource-manager/Microsoft.StorSimple/stable/2017-06-01/examples/ManagersGetEncryptionSettings.json
  */
-async function managersGetEncryptionSettings() {
+async function managersGetEncryptionSettings(): Promise<void> {
   const subscriptionId = "d3ebfe71-b7a9-4c57-92b9-68a2afde4de5";
   const resourceGroupName = "ResourceGroupForSDKTest";
   const managerName = "ManagerForSDKTest1";

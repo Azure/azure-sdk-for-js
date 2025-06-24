@@ -14,9 +14,7 @@ import {
   ApplicationClient
 } from "@azure/arm-managedapplications";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Updates an existing managed application.
@@ -24,7 +22,7 @@ dotenv.config();
  * @summary Updates an existing managed application.
  * x-ms-original-file: specification/solutions/resource-manager/Microsoft.Solutions/stable/2021-07-01/examples/updateApplicationById.json
  */
-async function updatesAnExistingManagedApplication() {
+async function updatesAnExistingManagedApplication(): Promise<void> {
   const applicationId =
     "subscriptions/subid/resourceGroups/rg/providers/Microsoft.Solutions/applications/myManagedApplication";
   const parameters: ApplicationPatchable = {
@@ -43,7 +41,7 @@ async function updatesAnExistingManagedApplication() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   updatesAnExistingManagedApplication();
 }
 

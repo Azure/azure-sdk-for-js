@@ -13,9 +13,7 @@ import {
   HybridNetworkManagementClient
 } from "@azure/arm-hybridnetwork";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Update network service design version state.
@@ -23,7 +21,7 @@ dotenv.config();
  * @summary Update network service design version state.
  * x-ms-original-file: specification/hybridnetwork/resource-manager/Microsoft.HybridNetwork/stable/2023-09-01/examples/NetworkServiceDesignVersionUpdateState.json
  */
-async function updateNetworkServiceDesignVersionState() {
+async function updateNetworkServiceDesignVersionState(): Promise<void> {
   const subscriptionId =
     process.env["HYBRIDNETWORK_SUBSCRIPTION_ID"] || "subid";
   const resourceGroupName = process.env["HYBRIDNETWORK_RESOURCE_GROUP"] || "rg";
@@ -45,7 +43,7 @@ async function updateNetworkServiceDesignVersionState() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   updateNetworkServiceDesignVersionState();
 }
 

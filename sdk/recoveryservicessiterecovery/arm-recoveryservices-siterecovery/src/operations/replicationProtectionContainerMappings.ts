@@ -7,18 +7,18 @@
  */
 
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
-import { setContinuationToken } from "../pagingHelper";
-import { ReplicationProtectionContainerMappings } from "../operationsInterfaces";
+import { setContinuationToken } from "../pagingHelper.js";
+import { ReplicationProtectionContainerMappings } from "../operationsInterfaces/index.js";
 import * as coreClient from "@azure/core-client";
-import * as Mappers from "../models/mappers";
-import * as Parameters from "../models/parameters";
-import { SiteRecoveryManagementClient } from "../siteRecoveryManagementClient";
+import * as Mappers from "../models/mappers.js";
+import * as Parameters from "../models/parameters.js";
+import { SiteRecoveryManagementClient } from "../siteRecoveryManagementClient.js";
 import {
   SimplePollerLike,
   OperationState,
   createHttpPoller,
 } from "@azure/core-lro";
-import { createLroSpec } from "../lroImpl";
+import { createLroSpec } from "../lroImpl.js";
 import {
   ProtectionContainerMapping,
   ReplicationProtectionContainerMappingsListByReplicationProtectionContainersNextOptionalParams,
@@ -40,7 +40,7 @@ import {
   ReplicationProtectionContainerMappingsDeleteOptionalParams,
   ReplicationProtectionContainerMappingsListByReplicationProtectionContainersNextResponse,
   ReplicationProtectionContainerMappingsListNextResponse,
-} from "../models";
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Class containing ReplicationProtectionContainerMappings operations. */
@@ -59,23 +59,23 @@ export class ReplicationProtectionContainerMappingsImpl
 
   /**
    * Lists the protection container mappings for a protection container.
-   * @param resourceName The name of the recovery services vault.
    * @param resourceGroupName The name of the resource group where the recovery services vault is
    *                          present.
+   * @param resourceName The name of the recovery services vault.
    * @param fabricName Fabric name.
    * @param protectionContainerName Protection container name.
    * @param options The options parameters.
    */
   public listByReplicationProtectionContainers(
-    resourceName: string,
     resourceGroupName: string,
+    resourceName: string,
     fabricName: string,
     protectionContainerName: string,
     options?: ReplicationProtectionContainerMappingsListByReplicationProtectionContainersOptionalParams,
   ): PagedAsyncIterableIterator<ProtectionContainerMapping> {
     const iter = this.listByReplicationProtectionContainersPagingAll(
-      resourceName,
       resourceGroupName,
+      resourceName,
       fabricName,
       protectionContainerName,
       options,
@@ -92,8 +92,8 @@ export class ReplicationProtectionContainerMappingsImpl
           throw new Error("maxPageSize is not supported by this operation.");
         }
         return this.listByReplicationProtectionContainersPagingPage(
-          resourceName,
           resourceGroupName,
+          resourceName,
           fabricName,
           protectionContainerName,
           options,
@@ -104,8 +104,8 @@ export class ReplicationProtectionContainerMappingsImpl
   }
 
   private async *listByReplicationProtectionContainersPagingPage(
-    resourceName: string,
     resourceGroupName: string,
+    resourceName: string,
     fabricName: string,
     protectionContainerName: string,
     options?: ReplicationProtectionContainerMappingsListByReplicationProtectionContainersOptionalParams,
@@ -115,8 +115,8 @@ export class ReplicationProtectionContainerMappingsImpl
     let continuationToken = settings?.continuationToken;
     if (!continuationToken) {
       result = await this._listByReplicationProtectionContainers(
-        resourceName,
         resourceGroupName,
+        resourceName,
         fabricName,
         protectionContainerName,
         options,
@@ -128,8 +128,8 @@ export class ReplicationProtectionContainerMappingsImpl
     }
     while (continuationToken) {
       result = await this._listByReplicationProtectionContainersNext(
-        resourceName,
         resourceGroupName,
+        resourceName,
         fabricName,
         protectionContainerName,
         continuationToken,
@@ -143,15 +143,15 @@ export class ReplicationProtectionContainerMappingsImpl
   }
 
   private async *listByReplicationProtectionContainersPagingAll(
-    resourceName: string,
     resourceGroupName: string,
+    resourceName: string,
     fabricName: string,
     protectionContainerName: string,
     options?: ReplicationProtectionContainerMappingsListByReplicationProtectionContainersOptionalParams,
   ): AsyncIterableIterator<ProtectionContainerMapping> {
     for await (const page of this.listByReplicationProtectionContainersPagingPage(
-      resourceName,
       resourceGroupName,
+      resourceName,
       fabricName,
       protectionContainerName,
       options,
@@ -162,17 +162,17 @@ export class ReplicationProtectionContainerMappingsImpl
 
   /**
    * Lists the protection container mappings in the vault.
-   * @param resourceName The name of the recovery services vault.
    * @param resourceGroupName The name of the resource group where the recovery services vault is
    *                          present.
+   * @param resourceName The name of the recovery services vault.
    * @param options The options parameters.
    */
   public list(
-    resourceName: string,
     resourceGroupName: string,
+    resourceName: string,
     options?: ReplicationProtectionContainerMappingsListOptionalParams,
   ): PagedAsyncIterableIterator<ProtectionContainerMapping> {
-    const iter = this.listPagingAll(resourceName, resourceGroupName, options);
+    const iter = this.listPagingAll(resourceGroupName, resourceName, options);
     return {
       next() {
         return iter.next();
@@ -185,8 +185,8 @@ export class ReplicationProtectionContainerMappingsImpl
           throw new Error("maxPageSize is not supported by this operation.");
         }
         return this.listPagingPage(
-          resourceName,
           resourceGroupName,
+          resourceName,
           options,
           settings,
         );
@@ -195,15 +195,15 @@ export class ReplicationProtectionContainerMappingsImpl
   }
 
   private async *listPagingPage(
-    resourceName: string,
     resourceGroupName: string,
+    resourceName: string,
     options?: ReplicationProtectionContainerMappingsListOptionalParams,
     settings?: PageSettings,
   ): AsyncIterableIterator<ProtectionContainerMapping[]> {
     let result: ReplicationProtectionContainerMappingsListResponse;
     let continuationToken = settings?.continuationToken;
     if (!continuationToken) {
-      result = await this._list(resourceName, resourceGroupName, options);
+      result = await this._list(resourceGroupName, resourceName, options);
       let page = result.value || [];
       continuationToken = result.nextLink;
       setContinuationToken(page, continuationToken);
@@ -211,8 +211,8 @@ export class ReplicationProtectionContainerMappingsImpl
     }
     while (continuationToken) {
       result = await this._listNext(
-        resourceName,
         resourceGroupName,
+        resourceName,
         continuationToken,
         options,
       );
@@ -224,13 +224,13 @@ export class ReplicationProtectionContainerMappingsImpl
   }
 
   private async *listPagingAll(
-    resourceName: string,
     resourceGroupName: string,
+    resourceName: string,
     options?: ReplicationProtectionContainerMappingsListOptionalParams,
   ): AsyncIterableIterator<ProtectionContainerMapping> {
     for await (const page of this.listPagingPage(
-      resourceName,
       resourceGroupName,
+      resourceName,
       options,
     )) {
       yield* page;
@@ -239,24 +239,24 @@ export class ReplicationProtectionContainerMappingsImpl
 
   /**
    * Lists the protection container mappings for a protection container.
-   * @param resourceName The name of the recovery services vault.
    * @param resourceGroupName The name of the resource group where the recovery services vault is
    *                          present.
+   * @param resourceName The name of the recovery services vault.
    * @param fabricName Fabric name.
    * @param protectionContainerName Protection container name.
    * @param options The options parameters.
    */
   private _listByReplicationProtectionContainers(
-    resourceName: string,
     resourceGroupName: string,
+    resourceName: string,
     fabricName: string,
     protectionContainerName: string,
     options?: ReplicationProtectionContainerMappingsListByReplicationProtectionContainersOptionalParams,
   ): Promise<ReplicationProtectionContainerMappingsListByReplicationProtectionContainersResponse> {
     return this.client.sendOperationRequest(
       {
-        resourceName,
         resourceGroupName,
+        resourceName,
         fabricName,
         protectionContainerName,
         options,
@@ -267,17 +267,17 @@ export class ReplicationProtectionContainerMappingsImpl
 
   /**
    * Gets the details of a protection container mapping.
-   * @param resourceName The name of the recovery services vault.
    * @param resourceGroupName The name of the resource group where the recovery services vault is
    *                          present.
+   * @param resourceName The name of the recovery services vault.
    * @param fabricName Fabric name.
    * @param protectionContainerName Protection container name.
    * @param mappingName Protection Container mapping name.
    * @param options The options parameters.
    */
   get(
-    resourceName: string,
     resourceGroupName: string,
+    resourceName: string,
     fabricName: string,
     protectionContainerName: string,
     mappingName: string,
@@ -285,8 +285,8 @@ export class ReplicationProtectionContainerMappingsImpl
   ): Promise<ReplicationProtectionContainerMappingsGetResponse> {
     return this.client.sendOperationRequest(
       {
-        resourceName,
         resourceGroupName,
+        resourceName,
         fabricName,
         protectionContainerName,
         mappingName,
@@ -298,9 +298,9 @@ export class ReplicationProtectionContainerMappingsImpl
 
   /**
    * The operation to create a protection container mapping.
-   * @param resourceName The name of the recovery services vault.
    * @param resourceGroupName The name of the resource group where the recovery services vault is
    *                          present.
+   * @param resourceName The name of the recovery services vault.
    * @param fabricName Fabric name.
    * @param protectionContainerName Protection container name.
    * @param mappingName Protection container mapping name.
@@ -308,8 +308,8 @@ export class ReplicationProtectionContainerMappingsImpl
    * @param options The options parameters.
    */
   async beginCreate(
-    resourceName: string,
     resourceGroupName: string,
+    resourceName: string,
     fabricName: string,
     protectionContainerName: string,
     mappingName: string,
@@ -362,8 +362,8 @@ export class ReplicationProtectionContainerMappingsImpl
     const lro = createLroSpec({
       sendOperationFn,
       args: {
-        resourceName,
         resourceGroupName,
+        resourceName,
         fabricName,
         protectionContainerName,
         mappingName,
@@ -385,9 +385,9 @@ export class ReplicationProtectionContainerMappingsImpl
 
   /**
    * The operation to create a protection container mapping.
-   * @param resourceName The name of the recovery services vault.
    * @param resourceGroupName The name of the resource group where the recovery services vault is
    *                          present.
+   * @param resourceName The name of the recovery services vault.
    * @param fabricName Fabric name.
    * @param protectionContainerName Protection container name.
    * @param mappingName Protection container mapping name.
@@ -395,8 +395,8 @@ export class ReplicationProtectionContainerMappingsImpl
    * @param options The options parameters.
    */
   async beginCreateAndWait(
-    resourceName: string,
     resourceGroupName: string,
+    resourceName: string,
     fabricName: string,
     protectionContainerName: string,
     mappingName: string,
@@ -404,8 +404,8 @@ export class ReplicationProtectionContainerMappingsImpl
     options?: ReplicationProtectionContainerMappingsCreateOptionalParams,
   ): Promise<ReplicationProtectionContainerMappingsCreateResponse> {
     const poller = await this.beginCreate(
-      resourceName,
       resourceGroupName,
+      resourceName,
       fabricName,
       protectionContainerName,
       mappingName,
@@ -417,17 +417,17 @@ export class ReplicationProtectionContainerMappingsImpl
 
   /**
    * The operation to purge(force delete) a protection container mapping.
-   * @param resourceName The name of the recovery services vault.
    * @param resourceGroupName The name of the resource group where the recovery services vault is
    *                          present.
+   * @param resourceName The name of the recovery services vault.
    * @param fabricName Fabric name.
    * @param protectionContainerName Protection container name.
    * @param mappingName Protection container mapping name.
    * @param options The options parameters.
    */
   async beginPurge(
-    resourceName: string,
     resourceGroupName: string,
+    resourceName: string,
     fabricName: string,
     protectionContainerName: string,
     mappingName: string,
@@ -474,8 +474,8 @@ export class ReplicationProtectionContainerMappingsImpl
     const lro = createLroSpec({
       sendOperationFn,
       args: {
-        resourceName,
         resourceGroupName,
+        resourceName,
         fabricName,
         protectionContainerName,
         mappingName,
@@ -493,25 +493,25 @@ export class ReplicationProtectionContainerMappingsImpl
 
   /**
    * The operation to purge(force delete) a protection container mapping.
-   * @param resourceName The name of the recovery services vault.
    * @param resourceGroupName The name of the resource group where the recovery services vault is
    *                          present.
+   * @param resourceName The name of the recovery services vault.
    * @param fabricName Fabric name.
    * @param protectionContainerName Protection container name.
    * @param mappingName Protection container mapping name.
    * @param options The options parameters.
    */
   async beginPurgeAndWait(
-    resourceName: string,
     resourceGroupName: string,
+    resourceName: string,
     fabricName: string,
     protectionContainerName: string,
     mappingName: string,
     options?: ReplicationProtectionContainerMappingsPurgeOptionalParams,
   ): Promise<void> {
     const poller = await this.beginPurge(
-      resourceName,
       resourceGroupName,
+      resourceName,
       fabricName,
       protectionContainerName,
       mappingName,
@@ -522,9 +522,9 @@ export class ReplicationProtectionContainerMappingsImpl
 
   /**
    * The operation to update protection container mapping.
-   * @param resourceName The name of the recovery services vault.
    * @param resourceGroupName The name of the resource group where the recovery services vault is
    *                          present.
+   * @param resourceName The name of the recovery services vault.
    * @param fabricName Fabric name.
    * @param protectionContainerName Protection container name.
    * @param mappingName Protection container mapping name.
@@ -532,8 +532,8 @@ export class ReplicationProtectionContainerMappingsImpl
    * @param options The options parameters.
    */
   async beginUpdate(
-    resourceName: string,
     resourceGroupName: string,
+    resourceName: string,
     fabricName: string,
     protectionContainerName: string,
     mappingName: string,
@@ -586,8 +586,8 @@ export class ReplicationProtectionContainerMappingsImpl
     const lro = createLroSpec({
       sendOperationFn,
       args: {
-        resourceName,
         resourceGroupName,
+        resourceName,
         fabricName,
         protectionContainerName,
         mappingName,
@@ -609,9 +609,9 @@ export class ReplicationProtectionContainerMappingsImpl
 
   /**
    * The operation to update protection container mapping.
-   * @param resourceName The name of the recovery services vault.
    * @param resourceGroupName The name of the resource group where the recovery services vault is
    *                          present.
+   * @param resourceName The name of the recovery services vault.
    * @param fabricName Fabric name.
    * @param protectionContainerName Protection container name.
    * @param mappingName Protection container mapping name.
@@ -619,8 +619,8 @@ export class ReplicationProtectionContainerMappingsImpl
    * @param options The options parameters.
    */
   async beginUpdateAndWait(
-    resourceName: string,
     resourceGroupName: string,
+    resourceName: string,
     fabricName: string,
     protectionContainerName: string,
     mappingName: string,
@@ -628,8 +628,8 @@ export class ReplicationProtectionContainerMappingsImpl
     options?: ReplicationProtectionContainerMappingsUpdateOptionalParams,
   ): Promise<ReplicationProtectionContainerMappingsUpdateResponse> {
     const poller = await this.beginUpdate(
-      resourceName,
       resourceGroupName,
+      resourceName,
       fabricName,
       protectionContainerName,
       mappingName,
@@ -641,9 +641,9 @@ export class ReplicationProtectionContainerMappingsImpl
 
   /**
    * The operation to delete or remove a protection container mapping.
-   * @param resourceName The name of the recovery services vault.
    * @param resourceGroupName The name of the resource group where the recovery services vault is
    *                          present.
+   * @param resourceName The name of the recovery services vault.
    * @param fabricName Fabric name.
    * @param protectionContainerName Protection container name.
    * @param mappingName Protection container mapping name.
@@ -651,8 +651,8 @@ export class ReplicationProtectionContainerMappingsImpl
    * @param options The options parameters.
    */
   async beginDelete(
-    resourceName: string,
     resourceGroupName: string,
+    resourceName: string,
     fabricName: string,
     protectionContainerName: string,
     mappingName: string,
@@ -700,8 +700,8 @@ export class ReplicationProtectionContainerMappingsImpl
     const lro = createLroSpec({
       sendOperationFn,
       args: {
-        resourceName,
         resourceGroupName,
+        resourceName,
         fabricName,
         protectionContainerName,
         mappingName,
@@ -720,9 +720,9 @@ export class ReplicationProtectionContainerMappingsImpl
 
   /**
    * The operation to delete or remove a protection container mapping.
-   * @param resourceName The name of the recovery services vault.
    * @param resourceGroupName The name of the resource group where the recovery services vault is
    *                          present.
+   * @param resourceName The name of the recovery services vault.
    * @param fabricName Fabric name.
    * @param protectionContainerName Protection container name.
    * @param mappingName Protection container mapping name.
@@ -730,8 +730,8 @@ export class ReplicationProtectionContainerMappingsImpl
    * @param options The options parameters.
    */
   async beginDeleteAndWait(
-    resourceName: string,
     resourceGroupName: string,
+    resourceName: string,
     fabricName: string,
     protectionContainerName: string,
     mappingName: string,
@@ -739,8 +739,8 @@ export class ReplicationProtectionContainerMappingsImpl
     options?: ReplicationProtectionContainerMappingsDeleteOptionalParams,
   ): Promise<void> {
     const poller = await this.beginDelete(
-      resourceName,
       resourceGroupName,
+      resourceName,
       fabricName,
       protectionContainerName,
       mappingName,
@@ -752,27 +752,27 @@ export class ReplicationProtectionContainerMappingsImpl
 
   /**
    * Lists the protection container mappings in the vault.
-   * @param resourceName The name of the recovery services vault.
    * @param resourceGroupName The name of the resource group where the recovery services vault is
    *                          present.
+   * @param resourceName The name of the recovery services vault.
    * @param options The options parameters.
    */
   private _list(
-    resourceName: string,
     resourceGroupName: string,
+    resourceName: string,
     options?: ReplicationProtectionContainerMappingsListOptionalParams,
   ): Promise<ReplicationProtectionContainerMappingsListResponse> {
     return this.client.sendOperationRequest(
-      { resourceName, resourceGroupName, options },
+      { resourceGroupName, resourceName, options },
       listOperationSpec,
     );
   }
 
   /**
    * ListByReplicationProtectionContainersNext
-   * @param resourceName The name of the recovery services vault.
    * @param resourceGroupName The name of the resource group where the recovery services vault is
    *                          present.
+   * @param resourceName The name of the recovery services vault.
    * @param fabricName Fabric name.
    * @param protectionContainerName Protection container name.
    * @param nextLink The nextLink from the previous successful call to the
@@ -780,8 +780,8 @@ export class ReplicationProtectionContainerMappingsImpl
    * @param options The options parameters.
    */
   private _listByReplicationProtectionContainersNext(
-    resourceName: string,
     resourceGroupName: string,
+    resourceName: string,
     fabricName: string,
     protectionContainerName: string,
     nextLink: string,
@@ -789,8 +789,8 @@ export class ReplicationProtectionContainerMappingsImpl
   ): Promise<ReplicationProtectionContainerMappingsListByReplicationProtectionContainersNextResponse> {
     return this.client.sendOperationRequest(
       {
-        resourceName,
         resourceGroupName,
+        resourceName,
         fabricName,
         protectionContainerName,
         nextLink,
@@ -802,20 +802,20 @@ export class ReplicationProtectionContainerMappingsImpl
 
   /**
    * ListNext
-   * @param resourceName The name of the recovery services vault.
    * @param resourceGroupName The name of the resource group where the recovery services vault is
    *                          present.
+   * @param resourceName The name of the recovery services vault.
    * @param nextLink The nextLink from the previous successful call to the List method.
    * @param options The options parameters.
    */
   private _listNext(
-    resourceName: string,
     resourceGroupName: string,
+    resourceName: string,
     nextLink: string,
     options?: ReplicationProtectionContainerMappingsListNextOptionalParams,
   ): Promise<ReplicationProtectionContainerMappingsListNextResponse> {
     return this.client.sendOperationRequest(
-      { resourceName, resourceGroupName, nextLink, options },
+      { resourceGroupName, resourceName, nextLink, options },
       listNextOperationSpec,
     );
   }

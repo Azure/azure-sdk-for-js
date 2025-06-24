@@ -21,7 +21,7 @@ import {
   JitRequestsListBySubscriptionResponse,
   JitRequestsListByResourceGroupOptionalParams,
   JitRequestsListByResourceGroupResponse
-} from "../models";
+} from "../models/index.js";
 
 /** Interface representing a JitRequests. */
 export interface JitRequests {

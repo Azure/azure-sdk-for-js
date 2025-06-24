@@ -16,7 +16,7 @@ import {
   ManagedInstanceLongTermRetentionPoliciesGetResponse,
   ManagedInstanceLongTermRetentionPoliciesCreateOrUpdateOptionalParams,
   ManagedInstanceLongTermRetentionPoliciesCreateOrUpdateResponse,
-} from "../models";
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a ManagedInstanceLongTermRetentionPolicies. */

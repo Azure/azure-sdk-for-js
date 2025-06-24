@@ -14,7 +14,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * @summary Returns oep resource for a given name.
  * x-ms-original-file: specification/oep/resource-manager/Microsoft.OpenEnergyPlatform/preview/2021-06-01-preview/examples/OepResource_Get.json
  */
-async function oepResourceGet() {
+async function oepResourceGet(): Promise<void> {
   const subscriptionId = "0000000-0000-0000-0000-000000000001";
   const resourceGroupName = "DummyResourceGroupName";
   const resourceName = "DummyResourceName";

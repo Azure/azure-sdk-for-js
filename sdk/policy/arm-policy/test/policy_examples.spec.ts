@@ -6,12 +6,8 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import {
-  env,
-  Recorder,
-  RecorderStartOptions,
-  isPlaybackMode,
-} from "@azure-tools/test-recorder";
+import type { RecorderStartOptions } from "@azure-tools/test-recorder";
+import { env, Recorder, isPlaybackMode } from "@azure-tools/test-recorder";
 import { createTestCredential } from "@azure-tools/test-credential";
 import { PolicyClient } from "../src/policyClient.js";
 import { ManagementGroupsAPI } from "@azure/arm-managementgroups";
@@ -21,7 +17,7 @@ const replaceableVariables: Record<string, string> = {
   AZURE_CLIENT_ID: "azure_client_id",
   AZURE_CLIENT_SECRET: "azure_client_secret",
   AZURE_TENANT_ID: "88888888-8888-8888-8888-888888888888",
-  SUBSCRIPTION_ID: "azure_subscription_id"
+  SUBSCRIPTION_ID: "azure_subscription_id",
 };
 
 const recorderOptions: RecorderStartOptions = {
@@ -47,14 +43,14 @@ describe("Policy test", () => {
   let policyAssignmentName: string;
   let managementclient: ManagementGroupsAPI;
 
-  beforeEach(async function (ctx) {
+  beforeEach(async (ctx) => {
     recorder = new Recorder(ctx);
     await recorder.start(recorderOptions);
-    subscriptionId = env.SUBSCRIPTION_ID || '';
+    subscriptionId = env.SUBSCRIPTION_ID || "";
     // This is an example of how the environment variables are used
     const credential = createTestCredential();
     client = new PolicyClient(credential, subscriptionId, recorder.configureClientOptions({}));
-    managementclient = new ManagementGroupsAPI(credential, recorder.configureClientOptions({}))
+    managementclient = new ManagementGroupsAPI(credential, recorder.configureClientOptions({}));
     groupId = "20000000-0001-0000-0000-000000000123";
     policyName = "jspolicy";
     scope = "providers/Microsoft.Management/managementgroups/20000000-0001-0000-0000-000000000123/";
@@ -62,11 +58,11 @@ describe("Policy test", () => {
     client1 = new PolicyClient(credential, recorder.configureClientOptions({}));
   });
 
-  afterEach(async function () {
+  afterEach(async () => {
     await recorder.stop();
   });
 
-  it("policyDefinitions list test", async function () {
+  it("policyDefinitions list test", async () => {
     const result = await client.policyDefinitions.list();
     assert.ok(result);
   });
@@ -74,30 +70,35 @@ describe("Policy test", () => {
   it.skip("policyDefinitions create test", async function () {
     await managementclient.managementGroups.beginCreateOrUpdateAndWait(
       groupId,
-      { name: groupId }, testPollingOptions
-    )
+      { name: groupId },
+      testPollingOptions,
+    );
 
-    const res = await client.policyDefinitions.createOrUpdateAtManagementGroup(policyName, groupId, {
-      policyType: "Custom",
-      description: "Don't create a VM anywhere",
-      policyRule: {
-        if: {
-          allof: [
-            {
-              source: "action",
-              equals: "Microsoft.Compute/virtualMachines/write",
-            },
-            {
-              field: "location",
-              in: ["eastus", "eastus2", "centralus"],
-            },
-          ],
+    const res = await client.policyDefinitions.createOrUpdateAtManagementGroup(
+      policyName,
+      groupId,
+      {
+        policyType: "Custom",
+        description: "Don't create a VM anywhere",
+        policyRule: {
+          if: {
+            allof: [
+              {
+                source: "action",
+                equals: "Microsoft.Compute/virtualMachines/write",
+              },
+              {
+                field: "location",
+                in: ["eastus", "eastus2", "centralus"],
+              },
+            ],
+          },
+          then: {
+            effect: "deny",
+          },
         },
-        then: {
-          effect: "deny",
-        },
-      }
-    })
+      },
+    );
     assert.equal(res.name, policyName);
   });
 
@@ -108,7 +109,7 @@ describe("Policy test", () => {
 
   it.skip("policyDefinitions list test", async function () {
     const resArray = new Array();
-    for await (let item of client.policyDefinitions.listByManagementGroup(groupId)) {
+    for await (const item of client.policyDefinitions.listByManagementGroup(groupId)) {
       resArray.push(item);
     }
     assert.notEqual(resArray.length, 0);
@@ -117,8 +118,8 @@ describe("Policy test", () => {
   it.skip("policyAssignments create test", async function () {
     const definition = await client1.policyDefinitions.getAtManagementGroup(policyName, groupId);
     const res = await client1.policyAssignments.create(scope, policyAssignmentName, {
-      policyDefinitionId: definition.id
-    })
+      policyDefinitionId: definition.id,
+    });
     assert.equal(res.name, policyAssignmentName);
   });
 
@@ -129,7 +130,7 @@ describe("Policy test", () => {
 
   it.skip("policyAssignments list test", async function () {
     const resArray = new Array();
-    for await (let item of client.policyAssignments.list()) {
+    for await (const item of client.policyAssignments.list()) {
       resArray.push(item);
     }
     assert.notEqual(resArray.length, 0);
@@ -138,8 +139,8 @@ describe("Policy test", () => {
   it.skip("policyAssignments list by managementgroup test", async function () {
     const filter = "atScope()";
     const resArray = new Array();
-    for await (let item of client1.policyAssignments.listForManagementGroup(groupId, {
-      filter
+    for await (const item of client1.policyAssignments.listForManagementGroup(groupId, {
+      filter,
     })) {
       resArray.push(item);
     }
@@ -149,7 +150,7 @@ describe("Policy test", () => {
   it.skip("policyAssignments delete test", async function () {
     await client.policyAssignments.delete(scope, policyAssignmentName);
     const resArray = new Array();
-    for await (let item of client.policyAssignments.list()) {
+    for await (const item of client.policyAssignments.list()) {
       resArray.push(item);
     }
     assert.notEqual(resArray.length, 0);

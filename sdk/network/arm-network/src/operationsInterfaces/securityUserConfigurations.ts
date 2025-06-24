@@ -16,7 +16,7 @@ import {
   SecurityUserConfigurationsCreateOrUpdateOptionalParams,
   SecurityUserConfigurationsCreateOrUpdateResponse,
   SecurityUserConfigurationsDeleteOptionalParams,
-} from "../models";
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a SecurityUserConfigurations. */

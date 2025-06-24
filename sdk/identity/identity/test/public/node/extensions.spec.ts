@@ -1,8 +1,10 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
+
 import { DeviceCodeCredential } from "../../../src/index.js";
 import { VisualStudioCodeCredential } from "../../../src/index.js";
-import { describe, it, assert, chai } from "vitest";
+import { describe, it, assert } from "vitest";
+import { AssertionError } from "assertion-error";
 
 /**
  * A helper to assert that a Promise rejects.
@@ -12,13 +14,13 @@ async function assertRejects(p: Promise<unknown>, regexp: RegExp): Promise<void>
     await p;
   } catch (e: any) {
     if (!regexp.test(e.message)) {
-      throw new chai.AssertionError(
+      throw new AssertionError(
         `The input did not match the regular expression ${regexp}. Input:\n\n'${e.message}'`,
       );
     }
     return;
   }
-  throw new chai.AssertionError("Expected the function body to throw.");
+  throw new AssertionError("Expected the function body to throw.");
 }
 
 describe("Plugin API", function () {

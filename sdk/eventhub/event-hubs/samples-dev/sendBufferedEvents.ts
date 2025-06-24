@@ -9,7 +9,8 @@
  * @azsdk-weight 60
  */
 
-import { EventHubBufferedProducerClient, OnSendEventsErrorContext } from "@azure/event-hubs";
+import type { OnSendEventsErrorContext } from "@azure/event-hubs";
+import { EventHubBufferedProducerClient } from "@azure/event-hubs";
 import { DefaultAzureCredential } from "@azure/identity";
 
 // Load the .env file if it exists

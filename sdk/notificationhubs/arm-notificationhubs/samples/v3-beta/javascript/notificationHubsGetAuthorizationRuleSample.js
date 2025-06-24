@@ -6,11 +6,9 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
 const { NotificationHubsManagementClient } = require("@azure/arm-notificationhubs");
 const { DefaultAzureCredential } = require("@azure/identity");
-require("dotenv").config();
+require("dotenv/config");
 
 /**
  * This sample demonstrates how to Gets an authorization rule for a NotificationHub by name.
@@ -37,7 +35,7 @@ async function notificationHubsGetAuthorizationRule() {
 }
 
 async function main() {
-  notificationHubsGetAuthorizationRule();
+  await notificationHubsGetAuthorizationRule();
 }
 
 main().catch(console.error);

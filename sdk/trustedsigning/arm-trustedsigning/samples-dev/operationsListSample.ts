@@ -10,7 +10,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * @summary list the operations for the provider
  * x-ms-original-file: 2024-02-05-preview/Operations_List.json
  */
-async function listTrustedSigningAccountOperations() {
+async function listTrustedSigningAccountOperations(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "00000000-0000-0000-0000-00000000000";
   const client = new CodeSigningClient(credential, subscriptionId);
@@ -22,7 +22,7 @@ async function listTrustedSigningAccountOperations() {
   console.log(resArray);
 }
 
-async function main() {
+async function main(): Promise<void> {
   await listTrustedSigningAccountOperations();
 }
 

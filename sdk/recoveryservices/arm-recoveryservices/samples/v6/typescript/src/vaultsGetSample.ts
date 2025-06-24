@@ -6,21 +6,17 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
 import { RecoveryServicesClient } from "@azure/arm-recoveryservices";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Get the Vault details.
  *
  * @summary Get the Vault details.
- * x-ms-original-file: specification/recoveryservices/resource-manager/Microsoft.RecoveryServices/stable/2024-04-01/examples/GETVault.json
+ * x-ms-original-file: specification/recoveryservices/resource-manager/Microsoft.RecoveryServices/stable/2025-02-01/examples/GETVault.json
  */
-async function getRecoveryServicesResource() {
+async function getRecoveryServicesResource(): Promise<void> {
   const subscriptionId =
     process.env["RECOVERYSERVICES_SUBSCRIPTION_ID"] ||
     "77777777-b0c6-47a2-b37c-d8e65a629c18";
@@ -34,8 +30,8 @@ async function getRecoveryServicesResource() {
   console.log(result);
 }
 
-async function main() {
-  getRecoveryServicesResource();
+async function main(): Promise<void> {
+  await getRecoveryServicesResource();
 }
 
 main().catch(console.error);

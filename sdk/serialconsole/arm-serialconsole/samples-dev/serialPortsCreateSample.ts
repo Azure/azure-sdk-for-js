@@ -15,7 +15,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * @summary Creates or updates a serial port
  * x-ms-original-file: specification/serialconsole/resource-manager/Microsoft.SerialConsole/stable/2018-05-01/examples/CreateSerialPort.json
  */
-async function createANewSerialPortResource() {
+async function createANewSerialPortResource(): Promise<void> {
   const subscriptionId = "00000000-00000-0000-0000-000000000000";
   const resourceGroupName = "myResourceGroup";
   const resourceProviderNamespace = "Microsoft.Compute";

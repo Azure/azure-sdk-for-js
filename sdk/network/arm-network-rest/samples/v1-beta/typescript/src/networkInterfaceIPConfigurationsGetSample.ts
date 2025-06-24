@@ -12,7 +12,7 @@ import "dotenv/config";
  * @summary Gets the specified network interface ip configuration.
  * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-05-01/examples/NetworkInterfaceIPConfigurationGet.json
  */
-async function networkInterfaceIPConfigurationGet() {
+async function networkInterfaceIPConfigurationGet(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = createNetworkManagementClient(credential);
   const subscriptionId = "";

@@ -11,7 +11,7 @@ import {
   SqlPoolMaintenanceWindowsGetResponse,
   MaintenanceWindows,
   SqlPoolMaintenanceWindowsCreateOrUpdateOptionalParams
-} from "../models";
+} from "../models/index.js";
 
 /** Interface representing a SqlPoolMaintenanceWindows. */
 export interface SqlPoolMaintenanceWindows {

@@ -21,7 +21,7 @@ import {
   ContactProfilesImpl,
   AvailableGroundStationsImpl,
   OperationsResultsImpl
-} from "./operations";
+} from "./operations/index.js";
 import {
   Operations,
   Spacecrafts,
@@ -29,8 +29,8 @@ import {
   ContactProfiles,
   AvailableGroundStations,
   OperationsResults
-} from "./operationsInterfaces";
-import { AzureOrbitalOptionalParams } from "./models";
+} from "./operationsInterfaces/index.js";
+import { AzureOrbitalOptionalParams } from "./models/index.js";
 
 export class AzureOrbital extends coreClient.ServiceClient {
   $host: string;

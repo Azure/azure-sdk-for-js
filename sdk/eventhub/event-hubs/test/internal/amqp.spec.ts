@@ -6,8 +6,8 @@ import { Constants } from "@azure/core-amqp";
 import { describe, it } from "vitest";
 import { assert } from "../utils/chai.js";
 
-describe("AMQP message encoding", function () {
-  it("isAmqpAnnotatedMessage", async function () {
+describe("AMQP message encoding", () => {
+  it("isAmqpAnnotatedMessage", async () => {
     assert.isFalse(isAmqpAnnotatedMessage({}));
     assert.isFalse(isAmqpAnnotatedMessage({ body: "hello world" }));
     assert.isFalse(

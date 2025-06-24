@@ -7,9 +7,7 @@
  */
 import { MonitorClient } from "@azure/arm-monitor";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Deletes a data collection rule.
@@ -17,7 +15,7 @@ dotenv.config();
  * @summary Deletes a data collection rule.
  * x-ms-original-file: specification/monitor/resource-manager/Microsoft.Insights/stable/2022-06-01/examples/DataCollectionRulesDelete.json
  */
-async function deleteDataCollectionRule() {
+async function deleteDataCollectionRule(): Promise<void> {
   const subscriptionId =
     process.env["MONITOR_SUBSCRIPTION_ID"] || "703362b3-f278-4e4b-9179-c76eaf41ffc2";
   const resourceGroupName = process.env["MONITOR_RESOURCE_GROUP"] || "myResourceGroup";
@@ -28,7 +26,7 @@ async function deleteDataCollectionRule() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   await deleteDataCollectionRule();
 }
 

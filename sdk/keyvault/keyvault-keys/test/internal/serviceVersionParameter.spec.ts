@@ -43,7 +43,7 @@ describe("The Keys client should set the serviceVersion", () => {
     vi.restoreAllMocks();
   });
 
-  it("it should default to the latest API version", async function () {
+  it("it should default to the latest API version", async () => {
     const client = new KeyClient(keyVaultUrl, credential, {
       httpClient: mockHttpClient,
     });
@@ -51,12 +51,12 @@ describe("The Keys client should set the serviceVersion", () => {
 
     expect(spy).toHaveBeenCalledWith(
       expect.objectContaining({
-        url: `https://keyvaultname.vault.azure.net/keys/keyName/create?api-version=${LATEST_API_VERSION}`,
+        url: `https://keyvaultname.vault.azure.net/keys/keyName/create?api%2Dversion=${LATEST_API_VERSION}`,
       }),
     );
   });
 
-  it("it should allow us to specify an API version from a specific set of versions", async function () {
+  it("it should allow us to specify an API version from a specific set of versions", async () => {
     const client = new KeyClient(keyVaultUrl, credential, {
       serviceVersion: "7.0",
       httpClient: mockHttpClient,
@@ -65,7 +65,7 @@ describe("The Keys client should set the serviceVersion", () => {
 
     expect(spy).toHaveBeenCalledWith(
       expect.objectContaining({
-        url: `https://keyvaultname.vault.azure.net/keys/keyName/create?api-version=7.0`,
+        url: `https://keyvaultname.vault.azure.net/keys/keyName/create?api%2Dversion=7.0`,
       }),
     );
   });

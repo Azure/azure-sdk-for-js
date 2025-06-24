@@ -7,9 +7,7 @@
  */
 import { MicrosoftSupport } from "@azure/arm-support";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Get problem classification details for a specific Azure service.
@@ -17,7 +15,7 @@ dotenv.config();
  * @summary Get problem classification details for a specific Azure service.
  * x-ms-original-file: specification/support/resource-manager/Microsoft.Support/stable/2024-04-01/examples/GetProblemClassification.json
  */
-async function getsDetailsOfProblemClassificationForAzureService() {
+async function getsDetailsOfProblemClassificationForAzureService(): Promise<void> {
   const serviceName = "service_guid";
   const problemClassificationName = "problemClassification_guid";
   const credential = new DefaultAzureCredential();
@@ -26,7 +24,7 @@ async function getsDetailsOfProblemClassificationForAzureService() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   await getsDetailsOfProblemClassificationForAzureService();
 }
 

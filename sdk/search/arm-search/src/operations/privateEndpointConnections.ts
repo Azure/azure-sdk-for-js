@@ -6,14 +6,14 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
-import { setContinuationToken } from "../pagingHelper";
-import { PrivateEndpointConnections } from "../operationsInterfaces";
+import type { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
+import { setContinuationToken } from "../pagingHelper.js";
+import type { PrivateEndpointConnections } from "../operationsInterfaces/index.js";
 import * as coreClient from "@azure/core-client";
-import * as Mappers from "../models/mappers";
-import * as Parameters from "../models/parameters";
-import { SearchManagementClient } from "../searchManagementClient";
-import {
+import * as Mappers from "../models/mappers.js";
+import * as Parameters from "../models/parameters.js";
+import type { SearchManagementClient } from "../searchManagementClient.js";
+import type {
   PrivateEndpointConnection,
   PrivateEndpointConnectionsListByServiceNextOptionalParams,
   PrivateEndpointConnectionsListByServiceOptionalParams,
@@ -25,13 +25,11 @@ import {
   PrivateEndpointConnectionsDeleteOptionalParams,
   PrivateEndpointConnectionsDeleteResponse,
   PrivateEndpointConnectionsListByServiceNextResponse,
-} from "../models";
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Class containing PrivateEndpointConnections operations. */
-export class PrivateEndpointConnectionsImpl
-  implements PrivateEndpointConnections
-{
+export class PrivateEndpointConnectionsImpl implements PrivateEndpointConnections {
   private readonly client: SearchManagementClient;
 
   /**
@@ -55,11 +53,7 @@ export class PrivateEndpointConnectionsImpl
     searchServiceName: string,
     options?: PrivateEndpointConnectionsListByServiceOptionalParams,
   ): PagedAsyncIterableIterator<PrivateEndpointConnection> {
-    const iter = this.listByServicePagingAll(
-      resourceGroupName,
-      searchServiceName,
-      options,
-    );
+    const iter = this.listByServicePagingAll(resourceGroupName, searchServiceName, options);
     return {
       next() {
         return iter.next();
@@ -90,11 +84,7 @@ export class PrivateEndpointConnectionsImpl
     let result: PrivateEndpointConnectionsListByServiceResponse;
     let continuationToken = settings?.continuationToken;
     if (!continuationToken) {
-      result = await this._listByService(
-        resourceGroupName,
-        searchServiceName,
-        options,
-      );
+      result = await this._listByService(resourceGroupName, searchServiceName, options);
       let page = result.value || [];
       continuationToken = result.nextLink;
       setContinuationToken(page, continuationToken);
@@ -276,11 +266,7 @@ const updateOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.privateEndpointConnectionName,
   ],
-  headerParameters: [
-    Parameters.accept,
-    Parameters.clientRequestId,
-    Parameters.contentType,
-  ],
+  headerParameters: [Parameters.accept, Parameters.clientRequestId, Parameters.contentType],
   mediaType: "json",
   serializer,
 };

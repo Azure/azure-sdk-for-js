@@ -21,7 +21,7 @@ import "dotenv/config";
  * @summary Gets all attestations for the resource group.
  * x-ms-original-file: specification/policyinsights/resource-manager/Microsoft.PolicyInsights/stable/2024-10-01/examples/Attestations_ListResourceGroupScope.json
  */
-async function listAttestationsAtResourceGroupScope() {
+async function listAttestationsAtResourceGroupScope(): Promise<void> {
   const subscriptionId =
     process.env["POLICYINSIGHTS_SUBSCRIPTION_ID"] ||
     "35ee058e-5fa0-414c-8145-3ebb8d09b6e2";
@@ -44,7 +44,7 @@ async function listAttestationsAtResourceGroupScope() {
  * @summary Gets all attestations for the resource group.
  * x-ms-original-file: specification/policyinsights/resource-manager/Microsoft.PolicyInsights/stable/2024-10-01/examples/Attestations_ListResourceGroupScope_WithQuery.json
  */
-async function listAttestationsAtResourceGroupScopeWithQueryParameters() {
+async function listAttestationsAtResourceGroupScopeWithQueryParameters(): Promise<void> {
   const subscriptionId =
     process.env["POLICYINSIGHTS_SUBSCRIPTION_ID"] ||
     "35ee058e-5fa0-414c-8145-3ebb8d09b6e2";
@@ -69,7 +69,7 @@ async function listAttestationsAtResourceGroupScopeWithQueryParameters() {
   console.log(resArray);
 }
 
-async function main() {
+async function main(): Promise<void> {
   listAttestationsAtResourceGroupScope();
   listAttestationsAtResourceGroupScopeWithQueryParameters();
 }

@@ -10,7 +10,7 @@ import "dotenv/config";
  * @summary Gets the specified route from a route table.
  * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-05-01/examples/RouteTableRouteGet.json
  */
-async function getRoute() {
+async function getRoute(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = createNetworkManagementClient(credential);
   const subscriptionId = "";

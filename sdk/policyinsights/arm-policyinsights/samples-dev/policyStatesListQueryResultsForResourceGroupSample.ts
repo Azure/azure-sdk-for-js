@@ -16,7 +16,7 @@ import "dotenv/config";
  * @summary Queries policy states for the resources under the resource group.
  * x-ms-original-file: specification/policyinsights/resource-manager/Microsoft.PolicyInsights/stable/2024-10-01/examples/PolicyStates_QueryResourceGroupScope.json
  */
-async function queryLatestAtResourceGroupScope() {
+async function queryLatestAtResourceGroupScope(): Promise<void> {
   const policyStatesResource = "latest";
   const subscriptionId = "fffedd8f-ffff-fffd-fffd-fffed2f84852";
   const resourceGroupName = process.env["POLICYINSIGHTS_RESOURCE_GROUP"] || "myResourceGroup";
@@ -39,7 +39,7 @@ async function queryLatestAtResourceGroupScope() {
  * @summary Queries policy states for the resources under the resource group.
  * x-ms-original-file: specification/policyinsights/resource-manager/Microsoft.PolicyInsights/stable/2024-10-01/examples/PolicyStates_QueryResourceGroupScopeNextLink.json
  */
-async function queryLatestAtResourceGroupScopeWithNextLink() {
+async function queryLatestAtResourceGroupScopeWithNextLink(): Promise<void> {
   const policyStatesResource = "latest";
   const subscriptionId = "fffedd8f-ffff-fffd-fffd-fffed2f84852";
   const resourceGroupName = process.env["POLICYINSIGHTS_RESOURCE_GROUP"] || "myResourceGroup";
@@ -61,7 +61,7 @@ async function queryLatestAtResourceGroupScopeWithNextLink() {
   console.log(resArray);
 }
 
-async function main() {
+async function main(): Promise<void> {
   await queryLatestAtResourceGroupScope();
   await queryLatestAtResourceGroupScopeWithNextLink();
 }

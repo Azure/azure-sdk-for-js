@@ -21,20 +21,19 @@
  * @summary Demonstrates usage of SessionState.
  */
 
-import { ServiceBusClient, ServiceBusMessage } from "@azure/service-bus";
+import type { ServiceBusMessage } from "@azure/service-bus";
+import { ServiceBusClient } from "@azure/service-bus";
 import { DefaultAzureCredential } from "@azure/identity";
 
 // Load the .env file if it exists
-import * as dotenv from "dotenv";
-dotenv.config();
-
+import "dotenv/config";
 // Define connection string and related Service Bus entity names here
 const fqdn = process.env.SERVICEBUS_FQDN || "<your-servicebus-namespace>.servicebus.windows.net";
 const userEventsQueueName = process.env.QUEUE_NAME_WITH_SESSIONS || "<queue name>";
 const credential = new DefaultAzureCredential();
 const sbClient = new ServiceBusClient(fqdn, credential);
 
-export async function main() {
+export async function main(): Promise<void> {
   try {
     await runScenario();
   } finally {
@@ -42,7 +41,7 @@ export async function main() {
   }
 }
 
-async function runScenario() {
+async function runScenario(): Promise<void> {
   // User activity data for Alice and Bob
   const shoppingEventsDataAlice = [
     { event_name: "Add Item", event_details: "Milk" },
@@ -82,7 +81,7 @@ async function runScenario() {
   await getSessionState("bob");
 }
 
-async function getSessionState(sessionId: string) {
+async function getSessionState(sessionId: string): Promise<void> {
   // If receiving from a subscription you can use the acceptSession(topic, subscription, sessionId) overload
   const sessionReceiver = await sbClient.acceptSession(userEventsQueueName, sessionId);
 
@@ -97,7 +96,7 @@ async function getSessionState(sessionId: string) {
   await sessionReceiver.close();
 }
 
-async function sendMessagesForSession(shoppingEvents: any[], sessionId: string) {
+async function sendMessagesForSession(shoppingEvents: any[], sessionId: string): Promise<void> {
   // createSender() can also be used to create a sender for a topic.
   const sender = sbClient.createSender(userEventsQueueName);
 
@@ -112,7 +111,7 @@ async function sendMessagesForSession(shoppingEvents: any[], sessionId: string) 
   await sender.close();
 }
 
-async function processMessageFromSession(sessionId: string) {
+async function processMessageFromSession(sessionId: string): Promise<void> {
   // If receiving from a subscription you can use the acceptSession(topic, subscription, sessionId) overload
   const sessionReceiver = await sbClient.acceptSession(userEventsQueueName, sessionId);
 

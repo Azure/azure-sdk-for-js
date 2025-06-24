@@ -10,13 +10,13 @@
 // Licensed under the MIT License.
 const { KeyVaultManagementClient } = require("@azure/arm-keyvault");
 const { DefaultAzureCredential } = require("@azure/identity");
-require("dotenv").config();
+require("dotenv/config");
 
 /**
  * This sample demonstrates how to Gets the current version of the specified key from the specified key vault.
  *
  * @summary Gets the current version of the specified key from the specified key vault.
- * x-ms-original-file: specification/keyvault/resource-manager/Microsoft.KeyVault/stable/2023-07-01/examples/getKey.json
+ * x-ms-original-file: specification/keyvault/resource-manager/Microsoft.KeyVault/stable/2024-11-01/examples/getKey.json
  */
 async function getAKey() {
   const subscriptionId =
@@ -31,7 +31,7 @@ async function getAKey() {
 }
 
 async function main() {
-  getAKey();
+  await getAKey();
 }
 
 main().catch(console.error);

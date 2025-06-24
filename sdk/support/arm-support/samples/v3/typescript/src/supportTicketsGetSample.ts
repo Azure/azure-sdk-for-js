@@ -10,9 +10,7 @@
 // Licensed under the MIT License.
 import { MicrosoftSupport } from "@azure/arm-support";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Get ticket details for an Azure subscription. Support ticket data is available for 18 months after ticket creation. If a ticket was created more than 18 months ago, a request for data might cause an error.
@@ -20,7 +18,7 @@ dotenv.config();
  * @summary Get ticket details for an Azure subscription. Support ticket data is available for 18 months after ticket creation. If a ticket was created more than 18 months ago, a request for data might cause an error.
  * x-ms-original-file: specification/support/resource-manager/Microsoft.Support/stable/2024-04-01/examples/GetSubscriptionSupportTicketDetails.json
  */
-async function getDetailsOfASubscriptionTicket() {
+async function getDetailsOfASubscriptionTicket(): Promise<void> {
   const subscriptionId =
     process.env["SUPPORT_SUBSCRIPTION_ID"] ||
     "132d901f-189d-4381-9214-fe68e27e05a1";
@@ -31,7 +29,7 @@ async function getDetailsOfASubscriptionTicket() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   getDetailsOfASubscriptionTicket();
 }
 

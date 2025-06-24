@@ -1,14 +1,14 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import type { ClientContext } from "../ClientContext";
-import type { PartitionedQueryExecutionInfo } from "../request/ErrorResponse";
-import type { FeedOptions } from "../request/FeedOptions";
-import type { DocumentProducer } from "./documentProducer";
-import type { ExecutionContext } from "./ExecutionContext";
-import { DiagnosticNodeInternal } from "../diagnostics/DiagnosticNodeInternal";
-import { OrderByDocumentProducerComparator } from "./orderByDocumentProducerComparator";
-import { ParallelQueryExecutionContextBase } from "./parallelQueryExecutionContextBase";
-import type { SqlQuerySpec } from "./SqlQuerySpec";
+import type { ClientContext } from "../ClientContext.js";
+import type { PartitionedQueryExecutionInfo } from "../request/ErrorResponse.js";
+import type { FeedOptions } from "../request/FeedOptions.js";
+import type { DocumentProducer } from "./documentProducer.js";
+import type { ExecutionContext } from "./ExecutionContext.js";
+import { DiagnosticNodeInternal } from "../diagnostics/DiagnosticNodeInternal.js";
+import { OrderByDocumentProducerComparator } from "./orderByDocumentProducerComparator.js";
+import { ParallelQueryExecutionContextBase } from "./parallelQueryExecutionContextBase.js";
+import type { SqlQuerySpec } from "./SqlQuerySpec.js";
 
 /** @hidden */
 export class OrderByQueryExecutionContext

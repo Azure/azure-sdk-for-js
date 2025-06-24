@@ -10,9 +10,7 @@
 // Licensed under the MIT License.
 import { SqlManagementClient } from "@azure/arm-sql";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Synchronizes the DNS server settings used by the managed instances inside the given virtual cluster.
@@ -20,7 +18,7 @@ dotenv.config();
  * @summary Synchronizes the DNS server settings used by the managed instances inside the given virtual cluster.
  * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2022-05-01-preview/examples/UpdateVirtualClusterDnsServers.json
  */
-async function performsUpdateOfDnsServersOnManagedInstance() {
+async function performsUpdateOfDnsServersOnManagedInstance(): Promise<void> {
   const subscriptionId =
     process.env["SQL_SUBSCRIPTION_ID"] ||
     "00000000-1111-2222-3333-444444444444";
@@ -37,7 +35,7 @@ async function performsUpdateOfDnsServersOnManagedInstance() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   performsUpdateOfDnsServersOnManagedInstance();
 }
 

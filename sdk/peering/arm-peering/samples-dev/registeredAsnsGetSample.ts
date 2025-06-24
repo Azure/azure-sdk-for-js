@@ -14,7 +14,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * @summary Gets an existing registered ASN with the specified name under the given subscription, resource group and peering.
  * x-ms-original-file: specification/peering/resource-manager/Microsoft.Peering/stable/2021-06-01/examples/GetRegisteredAsn.json
  */
-async function getARegisteredAsnAssociatedWithThePeering() {
+async function getARegisteredAsnAssociatedWithThePeering(): Promise<void> {
   const subscriptionId = "subId";
   const resourceGroupName = "rgName";
   const peeringName = "peeringName";

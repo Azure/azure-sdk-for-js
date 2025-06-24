@@ -16,7 +16,7 @@ require("dotenv/config");
  * This sample demonstrates how to The operation to get the restore point collection.
  *
  * @summary The operation to get the restore point collection.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-07-01/examples/restorePointExamples/RestorePointCollection_Get.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-11-01/examples/restorePointExamples/RestorePointCollection_Get.json
  */
 async function getARestorePointCollectionButNotTheRestorePointsContainedInTheRestorePointCollection() {
   const subscriptionId = process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
@@ -35,7 +35,7 @@ async function getARestorePointCollectionButNotTheRestorePointsContainedInTheRes
  * This sample demonstrates how to The operation to get the restore point collection.
  *
  * @summary The operation to get the restore point collection.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-07-01/examples/restorePointExamples/RestorePointCollection_Get_WithContainedRestorePoints.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-11-01/examples/restorePointExamples/RestorePointCollection_Get_WithContainedRestorePoints.json
  */
 async function getARestorePointCollectionIncludingTheRestorePointsContainedInTheRestorePointCollection() {
   const subscriptionId = process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
@@ -51,8 +51,8 @@ async function getARestorePointCollectionIncludingTheRestorePointsContainedInThe
 }
 
 async function main() {
-  getARestorePointCollectionButNotTheRestorePointsContainedInTheRestorePointCollection();
-  getARestorePointCollectionIncludingTheRestorePointsContainedInTheRestorePointCollection();
+  await getARestorePointCollectionButNotTheRestorePointsContainedInTheRestorePointCollection();
+  await getARestorePointCollectionIncludingTheRestorePointsContainedInTheRestorePointCollection();
 }
 
 main().catch(console.error);

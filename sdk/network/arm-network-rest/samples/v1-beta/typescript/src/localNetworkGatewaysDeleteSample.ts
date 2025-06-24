@@ -13,7 +13,7 @@ import "dotenv/config";
  * @summary Deletes the specified local network gateway.
  * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-05-01/examples/LocalNetworkGatewayDelete.json
  */
-async function deleteLocalNetworkGateway() {
+async function deleteLocalNetworkGateway(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = createNetworkManagementClient(credential);
   const subscriptionId = "";

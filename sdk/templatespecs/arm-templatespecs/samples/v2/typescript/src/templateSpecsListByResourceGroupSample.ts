@@ -17,7 +17,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * @summary Lists all the Template Specs within the specified resource group.
  * x-ms-original-file: specification/resources/resource-manager/Microsoft.Resources/stable/2021-05-01/examples/TemplateSpecsListByResourceGroup.json
  */
-async function templateSpecsListByResourceGroup() {
+async function templateSpecsListByResourceGroup(): Promise<void> {
   const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const resourceGroupName = "templateSpecRG";
   const credential = new DefaultAzureCredential();

@@ -15,7 +15,7 @@ vi.mock("../src/utils.js", (imported) => {
 import * as utils from "../src/utils.js";
 
 describe("PlaywrightServiceInitialize", () => {
-  let npmConfigUserAgentInitialValue: string | undefined = process.env["npm_config_user_agent"];
+  const npmConfigUserAgentInitialValue: string | undefined = process.env["npm_config_user_agent"];
 
   beforeEach(() => {
     vi.spyOn(console, "error");

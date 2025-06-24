@@ -12,7 +12,7 @@ import {
   RegulatoryComplianceStandardsListOptionalParams,
   RegulatoryComplianceStandardsGetOptionalParams,
   RegulatoryComplianceStandardsGetResponse,
-} from "../models";
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a RegulatoryComplianceStandards. */

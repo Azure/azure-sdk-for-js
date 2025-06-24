@@ -7,9 +7,7 @@
  */
 import { RelayAPI } from "@azure/arm-relay";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Get authorizationRule for a WCF relay by name.
@@ -17,7 +15,7 @@ dotenv.config();
  * @summary Get authorizationRule for a WCF relay by name.
  * x-ms-original-file: specification/relay/resource-manager/Microsoft.Relay/stable/2017-04-01/examples/Relay/RelayAutorizationRuleGet.json
  */
-async function relayAutorizationRuleGet() {
+async function relayAutorizationRuleGet(): Promise<void> {
   const subscriptionId =
     process.env["RELAY_SUBSCRIPTION_ID"] || "ffffffff-ffff-ffff-ffff-ffffffffffff";
   const resourceGroupName = process.env["RELAY_RESOURCE_GROUP"] || "resourcegroup";
@@ -35,7 +33,7 @@ async function relayAutorizationRuleGet() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   await relayAutorizationRuleGet();
 }
 

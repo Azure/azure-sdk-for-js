@@ -7,9 +7,7 @@
  */
 import { VMwareCloudSimple } from "@azure/arm-vmwarecloudsimple";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Returns list of virtual machine templates in region for private cloud
@@ -17,7 +15,7 @@ dotenv.config();
  * @summary Returns list of virtual machine templates in region for private cloud
  * x-ms-original-file: specification/vmwarecloudsimple/resource-manager/Microsoft.VMwareCloudSimple/stable/2019-04-01/examples/ListVirtualMachineTemplates.json
  */
-async function listVirtualMachineTemplates() {
+async function listVirtualMachineTemplates(): Promise<void> {
   const subscriptionId = process.env["VMWARECLOUDSIMPLE_SUBSCRIPTION_ID"] || "{subscription-id}";
   const pcName = "myPrivateCloud";
   const regionId = "westus2";
@@ -36,7 +34,7 @@ async function listVirtualMachineTemplates() {
   console.log(resArray);
 }
 
-async function main() {
+async function main(): Promise<void> {
   await listVirtualMachineTemplates();
 }
 

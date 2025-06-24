@@ -7,11 +7,11 @@
  */
 
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
-import { GuestConfigurationAssignments } from "../operationsInterfaces";
+import { GuestConfigurationAssignments } from "../operationsInterfaces/index.js";
 import * as coreClient from "@azure/core-client";
-import * as Mappers from "../models/mappers";
-import * as Parameters from "../models/parameters";
-import { GuestConfigurationClient } from "../guestConfigurationClient";
+import * as Mappers from "../models/mappers.js";
+import * as Parameters from "../models/parameters.js";
+import { GuestConfigurationClient } from "../guestConfigurationClient.js";
 import {
   GuestConfigurationAssignment,
   GuestConfigurationAssignmentsSubscriptionListOptionalParams,
@@ -25,7 +25,7 @@ import {
   GuestConfigurationAssignmentsGetOptionalParams,
   GuestConfigurationAssignmentsGetResponse,
   GuestConfigurationAssignmentsDeleteOptionalParams,
-} from "../models";
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Class containing GuestConfigurationAssignments operations. */

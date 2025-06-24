@@ -13,17 +13,15 @@ import {
   RecoveryServicesBackupClient,
 } from "@azure/arm-recoveryservicesbackup";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Approve or Reject Private Endpoint requests. This call is made by Backup Admin.
  *
  * @summary Approve or Reject Private Endpoint requests. This call is made by Backup Admin.
- * x-ms-original-file: specification/recoveryservicesbackup/resource-manager/Microsoft.RecoveryServices/stable/2024-04-01/examples/PrivateEndpointConnection/PutPrivateEndpointConnection.json
+ * x-ms-original-file: specification/recoveryservicesbackup/resource-manager/Microsoft.RecoveryServices/stable/2025-02-01/examples/PrivateEndpointConnection/PutPrivateEndpointConnection.json
  */
-async function updatePrivateEndpointConnection() {
+async function updatePrivateEndpointConnection(): Promise<void> {
   const subscriptionId =
     process.env["RECOVERYSERVICESBACKUP_SUBSCRIPTION_ID"] ||
     "04cf684a-d41f-4550-9f70-7708a3a2283b";
@@ -57,8 +55,8 @@ async function updatePrivateEndpointConnection() {
   console.log(result);
 }
 
-async function main() {
-  updatePrivateEndpointConnection();
+async function main(): Promise<void> {
+  await updatePrivateEndpointConnection();
 }
 
 main().catch(console.error);

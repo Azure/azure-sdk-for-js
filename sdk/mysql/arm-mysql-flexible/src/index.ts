@@ -7,7 +7,7 @@
  */
 
 /// <reference lib="esnext.asynciterable" />
-export { getContinuationToken } from "./pagingHelper";
-export * from "./models";
-export { MySQLManagementFlexibleServerClient } from "./mySQLManagementFlexibleServerClient";
-export * from "./operationsInterfaces";
+export { getContinuationToken } from "./pagingHelper.js";
+export * from "./models/index.js";
+export { MySQLManagementFlexibleServerClient } from "./mySQLManagementFlexibleServerClient.js";
+export * from "./operationsInterfaces/index.js";

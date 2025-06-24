@@ -14,7 +14,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * @summary Method that gets called if subscribed for ResourceCreationBegin trigger.
  * x-ms-original-file: specification/oep/resource-manager/Microsoft.OpenEnergyPlatform/preview/2021-06-01-preview/examples/OepResource_Create.json
  */
-async function oepResourceCreate() {
+async function oepResourceCreate(): Promise<void> {
   const subscriptionId = "0000000-0000-0000-0000-000000000001";
   const resourceGroupName = "DummyResourceGroupName";
   const resourceName = "DummyResourceName";

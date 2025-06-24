@@ -9,7 +9,7 @@
 import {
   VMInsightsGetOnboardingStatusOptionalParams,
   VMInsightsGetOnboardingStatusResponse,
-} from "../models";
+} from "../models/index.js";
 
 /** Interface representing a VMInsights. */
 export interface VMInsights {

@@ -6,6 +6,8 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
+/// <reference lib="esnext.asynciterable" />
+export { getContinuationToken } from "./pagingHelper.js";
 export * from "./models/index.js";
 export { IdentityRestClient } from "./identityRestClient.js";
 export * from "./operationsInterfaces/index.js";

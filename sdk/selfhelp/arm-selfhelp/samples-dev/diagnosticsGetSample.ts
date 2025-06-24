@@ -7,9 +7,7 @@
  */
 import { HelpRP } from "@azure/arm-selfhelp";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Get the diagnostics using the 'diagnosticsResourceName' you chose while creating the diagnostic.
@@ -17,7 +15,7 @@ dotenv.config();
  * @summary Get the diagnostics using the 'diagnosticsResourceName' you chose while creating the diagnostic.
  * x-ms-original-file: specification/help/resource-manager/Microsoft.Help/preview/2024-03-01-preview/examples/GetDiagnosticForKeyVaultResource.json
  */
-async function getsADiagnosticForAKeyVaultResource() {
+async function getsADiagnosticForAKeyVaultResource(): Promise<void> {
   const scope =
     "subscriptions/0d0fcd2e-c4fd-4349-8497-200edb3923c6/resourceGroups/myresourceGroup/providers/Microsoft.KeyVault/vaults/test-keyvault-non-read";
   const diagnosticsResourceName = "VMNotWorkingInsight";
@@ -27,7 +25,7 @@ async function getsADiagnosticForAKeyVaultResource() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   await getsADiagnosticForAKeyVaultResource();
 }
 

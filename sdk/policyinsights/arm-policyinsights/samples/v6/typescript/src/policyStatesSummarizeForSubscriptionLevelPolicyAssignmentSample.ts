@@ -18,7 +18,7 @@ import "dotenv/config";
  * @summary Summarizes policy states for the subscription level policy assignment.
  * x-ms-original-file: specification/policyinsights/resource-manager/Microsoft.PolicyInsights/stable/2024-10-01/examples/PolicyStates_SummarizeSubscriptionLevelPolicyAssignmentScope.json
  */
-async function summarizeAtPolicyAssignmentScope() {
+async function summarizeAtPolicyAssignmentScope(): Promise<void> {
   const policyStatesSummaryResource = "latest";
   const subscriptionId = "fffedd8f-ffff-fffd-fffd-fffed2f84852";
   const policyAssignmentName = "ec8f9645-8ecb-4abb-9c0b-5292f19d4003";
@@ -33,7 +33,7 @@ async function summarizeAtPolicyAssignmentScope() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   summarizeAtPolicyAssignmentScope();
 }
 

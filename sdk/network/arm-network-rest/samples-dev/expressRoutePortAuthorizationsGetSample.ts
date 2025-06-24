@@ -11,7 +11,7 @@ import "dotenv/config";
  * @summary Gets the specified authorization from the specified express route port.
  * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-05-01/examples/ExpressRoutePortAuthorizationGet.json
  */
-async function getExpressRoutePortAuthorization() {
+async function getExpressRoutePortAuthorization(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = createNetworkManagementClient(credential);
   const subscriptionId = "";

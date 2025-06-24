@@ -14,9 +14,9 @@ import {
   SendRequest
 } from "@azure/core-rest-pipeline";
 import * as coreAuth from "@azure/core-auth";
-import { PartnerImpl, OperationImpl, PartnersImpl } from "./operations";
-import { Partner, Operation, Partners } from "./operationsInterfaces";
-import { ACEProvisioningManagementPartnerAPIOptionalParams } from "./models";
+import { PartnerImpl, OperationImpl, PartnersImpl } from "./operations/index.js";
+import { Partner, Operation, Partners } from "./operationsInterfaces/index.js";
+import { ACEProvisioningManagementPartnerAPIOptionalParams } from "./models/index.js";
 
 export class ACEProvisioningManagementPartnerAPI extends coreClient.ServiceClient {
   $host: string;

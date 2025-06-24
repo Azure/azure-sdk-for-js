@@ -28,7 +28,7 @@ import {
   JobsBookShipmentPickUpOptionalParams,
   JobsBookShipmentPickUpResponse,
   CancellationReason,
-  JobsCancelOptionalParams
+  JobsCancelOptionalParams,
 } from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
@@ -39,7 +39,7 @@ export interface Jobs {
    * @param options The options parameters.
    */
   list(
-    options?: JobsListOptionalParams
+    options?: JobsListOptionalParams,
   ): PagedAsyncIterableIterator<JobResource>;
   /**
    * Lists all the jobs available under the given resource group.
@@ -48,7 +48,7 @@ export interface Jobs {
    */
   listByResourceGroup(
     resourceGroupName: string,
-    options?: JobsListByResourceGroupOptionalParams
+    options?: JobsListByResourceGroupOptionalParams,
   ): PagedAsyncIterableIterator<JobResource>;
   /**
    * This method gets the unencrypted secrets related to the job.
@@ -60,7 +60,7 @@ export interface Jobs {
   listCredentials(
     resourceGroupName: string,
     jobName: string,
-    options?: JobsListCredentialsOptionalParams
+    options?: JobsListCredentialsOptionalParams,
   ): PagedAsyncIterableIterator<UnencryptedCredentials>;
   /**
    * Request to mark devices for a given job as shipped
@@ -74,7 +74,7 @@ export interface Jobs {
     jobName: string,
     resourceGroupName: string,
     markDevicesShippedRequest: MarkDevicesShippedRequest,
-    options?: JobsMarkDevicesShippedOptionalParams
+    options?: JobsMarkDevicesShippedOptionalParams,
   ): Promise<void>;
   /**
    * Gets information about the specified job.
@@ -86,7 +86,7 @@ export interface Jobs {
   get(
     resourceGroupName: string,
     jobName: string,
-    options?: JobsGetOptionalParams
+    options?: JobsGetOptionalParams,
   ): Promise<JobsGetResponse>;
   /**
    * Creates a new job with the specified parameters. Existing job cannot be updated with this API and
@@ -101,7 +101,7 @@ export interface Jobs {
     resourceGroupName: string,
     jobName: string,
     jobResource: JobResource,
-    options?: JobsCreateOptionalParams
+    options?: JobsCreateOptionalParams,
   ): Promise<
     SimplePollerLike<OperationState<JobsCreateResponse>, JobsCreateResponse>
   >;
@@ -118,7 +118,7 @@ export interface Jobs {
     resourceGroupName: string,
     jobName: string,
     jobResource: JobResource,
-    options?: JobsCreateOptionalParams
+    options?: JobsCreateOptionalParams,
   ): Promise<JobsCreateResponse>;
   /**
    * Deletes a job.
@@ -130,7 +130,7 @@ export interface Jobs {
   beginDelete(
     resourceGroupName: string,
     jobName: string,
-    options?: JobsDeleteOptionalParams
+    options?: JobsDeleteOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Deletes a job.
@@ -142,7 +142,7 @@ export interface Jobs {
   beginDeleteAndWait(
     resourceGroupName: string,
     jobName: string,
-    options?: JobsDeleteOptionalParams
+    options?: JobsDeleteOptionalParams,
   ): Promise<void>;
   /**
    * Updates the properties of an existing job.
@@ -156,7 +156,7 @@ export interface Jobs {
     resourceGroupName: string,
     jobName: string,
     jobResourceUpdateParameter: JobResourceUpdateParameter,
-    options?: JobsUpdateOptionalParams
+    options?: JobsUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<OperationState<JobsUpdateResponse>, JobsUpdateResponse>
   >;
@@ -172,7 +172,7 @@ export interface Jobs {
     resourceGroupName: string,
     jobName: string,
     jobResourceUpdateParameter: JobResourceUpdateParameter,
-    options?: JobsUpdateOptionalParams
+    options?: JobsUpdateOptionalParams,
   ): Promise<JobsUpdateResponse>;
   /**
    * Book shipment pick up.
@@ -186,7 +186,7 @@ export interface Jobs {
     resourceGroupName: string,
     jobName: string,
     shipmentPickUpRequest: ShipmentPickUpRequest,
-    options?: JobsBookShipmentPickUpOptionalParams
+    options?: JobsBookShipmentPickUpOptionalParams,
   ): Promise<JobsBookShipmentPickUpResponse>;
   /**
    * CancelJob.
@@ -200,6 +200,6 @@ export interface Jobs {
     resourceGroupName: string,
     jobName: string,
     cancellationReason: CancellationReason,
-    options?: JobsCancelOptionalParams
+    options?: JobsCancelOptionalParams,
   ): Promise<void>;
 }

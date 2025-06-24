@@ -10,9 +10,7 @@
 // Licensed under the MIT License.
 import { StorageCacheManagementClient } from "@azure/arm-storagecache";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Cancel archiving data from the AML file system.
@@ -20,7 +18,7 @@ dotenv.config();
  * @summary Cancel archiving data from the AML file system.
  * x-ms-original-file: specification/storagecache/resource-manager/Microsoft.StorageCache/stable/2024-03-01/examples/amlFilesystems_CancelArchive.json
  */
-async function amlFilesystemsCancelArchive() {
+async function amlFilesystemsCancelArchive(): Promise<void> {
   const subscriptionId =
     process.env["STORAGECACHE_SUBSCRIPTION_ID"] ||
     "00000000-0000-0000-0000-000000000000";
@@ -36,7 +34,7 @@ async function amlFilesystemsCancelArchive() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   amlFilesystemsCancelArchive();
 }
 

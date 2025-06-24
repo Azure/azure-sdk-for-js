@@ -6,15 +6,15 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { CheckNameAvailability } from "../operationsInterfaces";
+import { CheckNameAvailability } from "../operationsInterfaces/index.js";
 import * as coreClient from "@azure/core-client";
-import * as Mappers from "../models/mappers";
-import * as Parameters from "../models/parameters";
-import { HelpRP } from "../helpRP";
+import * as Mappers from "../models/mappers.js";
+import * as Parameters from "../models/parameters.js";
+import { HelpRP } from "../helpRP.js";
 import {
   CheckNameAvailabilityCheckAvailabilityOptionalParams,
   CheckNameAvailabilityCheckAvailabilityResponse,
-} from "../models";
+} from "../models/index.js";
 
 /** Class containing CheckNameAvailability operations. */
 export class CheckNameAvailabilityImpl implements CheckNameAvailability {

@@ -8,9 +8,7 @@
 import type { GitHubRepo } from "@azure/arm-securitydevops";
 import { MicrosoftSecurityDevOps } from "@azure/arm-securitydevops";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Create or update a monitored GitHub repository.
@@ -18,7 +16,7 @@ dotenv.config();
  * @summary Create or update a monitored GitHub repository.
  * x-ms-original-file: specification/securitydevops/resource-manager/Microsoft.SecurityDevOps/preview/2022-09-01-preview/examples/GitHubRepoCreateOrUpdate.json
  */
-async function gitHubRepoCreateOrUpdate() {
+async function gitHubRepoCreateOrUpdate(): Promise<void> {
   const subscriptionId =
     process.env["SECURITYDEVOPS_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";
   const resourceGroupName = process.env["SECURITYDEVOPS_RESOURCE_GROUP"] || "westusrg";
@@ -38,7 +36,7 @@ async function gitHubRepoCreateOrUpdate() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   await gitHubRepoCreateOrUpdate();
 }
 

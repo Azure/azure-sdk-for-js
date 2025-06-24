@@ -40,7 +40,7 @@ import {
   LocalRulestacksListSecurityServicesOptionalParams,
   LocalRulestacksListSecurityServicesResponse,
   LocalRulestacksRevertOptionalParams
-} from "../models";
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a LocalRulestacks. */

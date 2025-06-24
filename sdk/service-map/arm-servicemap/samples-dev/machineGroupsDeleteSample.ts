@@ -7,9 +7,7 @@
  */
 import { ServiceMap } from "@azure/arm-servicemap";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Deletes the specified Machine Group.
@@ -17,7 +15,7 @@ dotenv.config();
  * @summary Deletes the specified Machine Group.
  * x-ms-original-file: specification/service-map/resource-manager/Microsoft.OperationalInsights/preview/2015-11-01-preview/examples/MachineGroups/SMMachineGroupsDeleteDelete.json
  */
-async function smMachineGroupsDelete() {
+async function smMachineGroupsDelete(): Promise<void> {
   const subscriptionId =
     process.env["SERVICE-MAP_SUBSCRIPTION_ID"] || "63BE4E24-FDF0-4E9C-9342-6A5D5A359722";
   const resourceGroupName = process.env["SERVICE-MAP_RESOURCE_GROUP"] || "rg-sm";
@@ -33,7 +31,7 @@ async function smMachineGroupsDelete() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   await smMachineGroupsDelete();
 }
 

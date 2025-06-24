@@ -1,8 +1,9 @@
-import { readFileSync } from "fs";
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
+
+import { readFileSync } from "node:fs";
 import { AzureKeyCredential } from "@azure/core-auth";
-
 import createFaceClient, { isUnexpected } from "@azure-rest/ai-vision-face";
-
 import "dotenv/config";
 
 /**
@@ -11,7 +12,7 @@ import "dotenv/config";
  * @summary Face detection.
  */
 
-const detectFromImage = async () => {
+async function detectFromImage(): Promise<void> {
   const endpoint = process.env["FACE_ENDPOINT"] ?? "<endpoint>";
   const apikey = process.env["FACE_APIKEY"] ?? "<apikey>";
   const credential = new AzureKeyCredential(apikey);
@@ -36,9 +37,9 @@ const detectFromImage = async () => {
   }
   console.log(`Detect from image: ${filename}`);
   console.log(JSON.stringify(response.body, null, 2));
-};
+}
 
-const detectFromUrl = async () => {
+async function detectFromUrl(): Promise<void> {
   const endpoint = process.env["FACE_ENDPOINT"] ?? "<endpoint>";
   const apikey = process.env["FACE_APIKEY"] ?? "<apikey>";
   const credential = new AzureKeyCredential(apikey);
@@ -63,11 +64,11 @@ const detectFromUrl = async () => {
   }
   console.log(`Detect from URL: ${url}`);
   console.log(JSON.stringify(response.body, null, 2));
-};
+}
 
-const main = async () => {
+async function main(): Promise<void> {
   await detectFromImage();
   await detectFromUrl();
-};
+}
 
 main().catch(console.error);

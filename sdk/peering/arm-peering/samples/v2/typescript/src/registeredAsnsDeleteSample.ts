@@ -17,7 +17,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * @summary Deletes an existing registered ASN with the specified name under the given subscription, resource group and peering.
  * x-ms-original-file: specification/peering/resource-manager/Microsoft.Peering/stable/2021-06-01/examples/DeleteRegisteredAsn.json
  */
-async function deletesARegisteredAsnAssociatedWithThePeering() {
+async function deletesARegisteredAsnAssociatedWithThePeering(): Promise<void> {
   const subscriptionId = "subId";
   const resourceGroupName = "rgName";
   const peeringName = "peeringName";

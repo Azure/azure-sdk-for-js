@@ -20,7 +20,7 @@ describe("chat test suite", () => {
     await recorder.stop();
   });
 
-  it("chat streaming test", async function () {
+  it("chat streaming test", async () => {
     const response = await client
       .path("/chat/completions")
       .post({
@@ -55,7 +55,11 @@ describe("chat test suite", () => {
       const chunks = [];
 
       for await (const chunk of readableStream) {
-        chunks.push(Buffer.from(chunk));
+        if (typeof chunk === "string") {
+          chunks.push(Buffer.from(chunk));
+        } else {
+          chunks.push(Buffer.from(chunk));
+        }
       }
 
       return Buffer.concat(chunks).toString("utf-8");

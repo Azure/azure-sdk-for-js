@@ -8,9 +8,7 @@
 import type { Creator } from "@azure/arm-maps";
 import { AzureMapsManagementClient } from "@azure/arm-maps";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Create or update a Maps Creator resource. Creator resource will manage Azure resources required to populate a custom set of mapping data. It requires an account to exist before it can be created.
@@ -18,7 +16,7 @@ dotenv.config();
  * @summary Create or update a Maps Creator resource. Creator resource will manage Azure resources required to populate a custom set of mapping data. It requires an account to exist before it can be created.
  * x-ms-original-file: specification/maps/resource-manager/Microsoft.Maps/stable/2023-06-01/examples/CreateMapsCreator.json
  */
-async function createCreatorResource() {
+async function createCreatorResource(): Promise<void> {
   const subscriptionId =
     process.env["MAPS_SUBSCRIPTION_ID"] || "21a9967a-e8a9-4656-a70b-96ff1c4d05a0";
   const resourceGroupName = process.env["MAPS_RESOURCE_GROUP"] || "myResourceGroup";
@@ -40,7 +38,7 @@ async function createCreatorResource() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   await createCreatorResource();
 }
 

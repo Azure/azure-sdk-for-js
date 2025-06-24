@@ -6,7 +6,6 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-export * from "./chaosFault.js";
 export * from "./databaseAccounts.js";
 export * from "./operations.js";
 export * from "./database.js";
@@ -20,17 +19,14 @@ export * from "./collectionPartitionRegion.js";
 export * from "./collectionPartition.js";
 export * from "./partitionKeyRangeId.js";
 export * from "./partitionKeyRangeIdRegion.js";
-export * from "./graphResources.js";
 export * from "./sqlResources.js";
 export * from "./mongoDBResources.js";
 export * from "./tableResources.js";
 export * from "./cassandraResources.js";
 export * from "./gremlinResources.js";
 export * from "./locations.js";
-export * from "./dataTransferJobs.js";
 export * from "./cassandraClusters.js";
 export * from "./cassandraDataCenters.js";
-export * from "./networkSecurityPerimeterConfigurations.js";
 export * from "./notebookWorkspaces.js";
 export * from "./privateEndpointConnections.js";
 export * from "./privateLinkResources.js";
@@ -47,7 +43,3 @@ export * from "./restorableGremlinResources.js";
 export * from "./restorableTables.js";
 export * from "./restorableTableResources.js";
 export * from "./service.js";
-export * from "./throughputPools.js";
-export * from "./throughputPool.js";
-export * from "./throughputPoolAccounts.js";
-export * from "./throughputPoolAccount.js";

@@ -7,17 +7,17 @@
  */
 
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
-import { ConnectionMonitors } from "../operationsInterfaces";
+import { ConnectionMonitors } from "../operationsInterfaces/index.js";
 import * as coreClient from "@azure/core-client";
-import * as Mappers from "../models/mappers";
-import * as Parameters from "../models/parameters";
-import { NetworkManagementClient } from "../networkManagementClient";
+import * as Mappers from "../models/mappers.js";
+import * as Parameters from "../models/parameters.js";
+import { NetworkManagementClient } from "../networkManagementClient.js";
 import {
   SimplePollerLike,
   OperationState,
   createHttpPoller,
 } from "@azure/core-lro";
-import { createLroSpec } from "../lroImpl";
+import { createLroSpec } from "../lroImpl.js";
 import {
   ConnectionMonitorResult,
   ConnectionMonitorsListOptionalParams,
@@ -32,10 +32,7 @@ import {
   ConnectionMonitorsUpdateTagsOptionalParams,
   ConnectionMonitorsUpdateTagsResponse,
   ConnectionMonitorsStopOptionalParams,
-  ConnectionMonitorsStartOptionalParams,
-  ConnectionMonitorsQueryOptionalParams,
-  ConnectionMonitorsQueryResponse,
-} from "../models";
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Class containing ConnectionMonitors operations. */
@@ -449,198 +446,6 @@ export class ConnectionMonitorsImpl implements ConnectionMonitors {
   }
 
   /**
-   * Starts the specified connection monitor.
-   * @param resourceGroupName The name of the resource group containing Network Watcher.
-   * @param networkWatcherName The name of the Network Watcher resource.
-   * @param connectionMonitorName The name of the connection monitor.
-   * @param options The options parameters.
-   */
-  async beginStart(
-    resourceGroupName: string,
-    networkWatcherName: string,
-    connectionMonitorName: string,
-    options?: ConnectionMonitorsStartOptionalParams,
-  ): Promise<SimplePollerLike<OperationState<void>, void>> {
-    const directSendOperation = async (
-      args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec,
-    ): Promise<void> => {
-      return this.client.sendOperationRequest(args, spec);
-    };
-    const sendOperationFn = async (
-      args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec,
-    ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
-      const providedCallback = args.options?.onResponse;
-      const callback: coreClient.RawResponseCallback = (
-        rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown,
-      ) => {
-        currentRawResponse = rawResponse;
-        providedCallback?.(rawResponse, flatResponse);
-      };
-      const updatedArgs = {
-        ...args,
-        options: {
-          ...args.options,
-          onResponse: callback,
-        },
-      };
-      const flatResponse = await directSendOperation(updatedArgs, spec);
-      return {
-        flatResponse,
-        rawResponse: {
-          statusCode: currentRawResponse!.status,
-          body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON(),
-        },
-      };
-    };
-
-    const lro = createLroSpec({
-      sendOperationFn,
-      args: {
-        resourceGroupName,
-        networkWatcherName,
-        connectionMonitorName,
-        options,
-      },
-      spec: startOperationSpec,
-    });
-    const poller = await createHttpPoller<void, OperationState<void>>(lro, {
-      restoreFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "location",
-    });
-    await poller.poll();
-    return poller;
-  }
-
-  /**
-   * Starts the specified connection monitor.
-   * @param resourceGroupName The name of the resource group containing Network Watcher.
-   * @param networkWatcherName The name of the Network Watcher resource.
-   * @param connectionMonitorName The name of the connection monitor.
-   * @param options The options parameters.
-   */
-  async beginStartAndWait(
-    resourceGroupName: string,
-    networkWatcherName: string,
-    connectionMonitorName: string,
-    options?: ConnectionMonitorsStartOptionalParams,
-  ): Promise<void> {
-    const poller = await this.beginStart(
-      resourceGroupName,
-      networkWatcherName,
-      connectionMonitorName,
-      options,
-    );
-    return poller.pollUntilDone();
-  }
-
-  /**
-   * Query a snapshot of the most recent connection states.
-   * @param resourceGroupName The name of the resource group containing Network Watcher.
-   * @param networkWatcherName The name of the Network Watcher resource.
-   * @param connectionMonitorName The name given to the connection monitor.
-   * @param options The options parameters.
-   */
-  async beginQuery(
-    resourceGroupName: string,
-    networkWatcherName: string,
-    connectionMonitorName: string,
-    options?: ConnectionMonitorsQueryOptionalParams,
-  ): Promise<
-    SimplePollerLike<
-      OperationState<ConnectionMonitorsQueryResponse>,
-      ConnectionMonitorsQueryResponse
-    >
-  > {
-    const directSendOperation = async (
-      args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec,
-    ): Promise<ConnectionMonitorsQueryResponse> => {
-      return this.client.sendOperationRequest(args, spec);
-    };
-    const sendOperationFn = async (
-      args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec,
-    ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
-      const providedCallback = args.options?.onResponse;
-      const callback: coreClient.RawResponseCallback = (
-        rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown,
-      ) => {
-        currentRawResponse = rawResponse;
-        providedCallback?.(rawResponse, flatResponse);
-      };
-      const updatedArgs = {
-        ...args,
-        options: {
-          ...args.options,
-          onResponse: callback,
-        },
-      };
-      const flatResponse = await directSendOperation(updatedArgs, spec);
-      return {
-        flatResponse,
-        rawResponse: {
-          statusCode: currentRawResponse!.status,
-          body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON(),
-        },
-      };
-    };
-
-    const lro = createLroSpec({
-      sendOperationFn,
-      args: {
-        resourceGroupName,
-        networkWatcherName,
-        connectionMonitorName,
-        options,
-      },
-      spec: queryOperationSpec,
-    });
-    const poller = await createHttpPoller<
-      ConnectionMonitorsQueryResponse,
-      OperationState<ConnectionMonitorsQueryResponse>
-    >(lro, {
-      restoreFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "location",
-    });
-    await poller.poll();
-    return poller;
-  }
-
-  /**
-   * Query a snapshot of the most recent connection states.
-   * @param resourceGroupName The name of the resource group containing Network Watcher.
-   * @param networkWatcherName The name of the Network Watcher resource.
-   * @param connectionMonitorName The name given to the connection monitor.
-   * @param options The options parameters.
-   */
-  async beginQueryAndWait(
-    resourceGroupName: string,
-    networkWatcherName: string,
-    connectionMonitorName: string,
-    options?: ConnectionMonitorsQueryOptionalParams,
-  ): Promise<ConnectionMonitorsQueryResponse> {
-    const poller = await this.beginQuery(
-      resourceGroupName,
-      networkWatcherName,
-      connectionMonitorName,
-      options,
-    );
-    return poller.pollUntilDone();
-  }
-
-  /**
    * Lists all connection monitors for the specified Network Watcher.
    * @param resourceGroupName The name of the resource group containing Network Watcher.
    * @param networkWatcherName The name of the Network Watcher resource.
@@ -680,7 +485,7 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse,
     },
   },
-  requestBody: Parameters.parameters61,
+  requestBody: Parameters.parameters69,
   queryParameters: [Parameters.apiVersion, Parameters.migrate],
   urlParameters: [
     Parameters.$host,
@@ -770,60 +575,6 @@ const stopOperationSpec: coreClient.OperationSpec = {
     201: {},
     202: {},
     204: {},
-    default: {
-      bodyMapper: Mappers.ErrorResponse,
-    },
-  },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.resourceGroupName,
-    Parameters.subscriptionId,
-    Parameters.networkWatcherName,
-    Parameters.connectionMonitorName,
-  ],
-  headerParameters: [Parameters.accept],
-  serializer,
-};
-const startOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkWatchers/{networkWatcherName}/connectionMonitors/{connectionMonitorName}/start",
-  httpMethod: "POST",
-  responses: {
-    200: {},
-    201: {},
-    202: {},
-    204: {},
-    default: {
-      bodyMapper: Mappers.ErrorResponse,
-    },
-  },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.resourceGroupName,
-    Parameters.subscriptionId,
-    Parameters.networkWatcherName,
-    Parameters.connectionMonitorName,
-  ],
-  headerParameters: [Parameters.accept],
-  serializer,
-};
-const queryOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkWatchers/{networkWatcherName}/connectionMonitors/{connectionMonitorName}/query",
-  httpMethod: "POST",
-  responses: {
-    200: {
-      bodyMapper: Mappers.ConnectionMonitorQueryResult,
-    },
-    201: {
-      bodyMapper: Mappers.ConnectionMonitorQueryResult,
-    },
-    202: {
-      bodyMapper: Mappers.ConnectionMonitorQueryResult,
-    },
-    204: {
-      bodyMapper: Mappers.ConnectionMonitorQueryResult,
-    },
     default: {
       bodyMapper: Mappers.ErrorResponse,
     },

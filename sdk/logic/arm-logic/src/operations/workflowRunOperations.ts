@@ -6,15 +6,15 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { WorkflowRunOperations } from "../operationsInterfaces";
+import { WorkflowRunOperations } from "../operationsInterfaces/index.js";
 import * as coreClient from "@azure/core-client";
-import * as Mappers from "../models/mappers";
-import * as Parameters from "../models/parameters";
-import { LogicManagementClient } from "../logicManagementClient";
+import * as Mappers from "../models/mappers.js";
+import * as Parameters from "../models/parameters.js";
+import { LogicManagementClient } from "../logicManagementClient.js";
 import {
   WorkflowRunOperationsGetOptionalParams,
   WorkflowRunOperationsGetResponse
-} from "../models";
+} from "../models/index.js";
 
 /** Class containing WorkflowRunOperations operations. */
 export class WorkflowRunOperationsImpl implements WorkflowRunOperations {

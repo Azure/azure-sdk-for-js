@@ -22,7 +22,7 @@ import {
   MapsImpl,
   SummariesImpl,
   MachineGroupsImpl
-} from "./operations";
+} from "./operations/index.js";
 import {
   Machines,
   Processes,
@@ -31,8 +31,8 @@ import {
   Maps,
   Summaries,
   MachineGroups
-} from "./operationsInterfaces";
-import { ServiceMapOptionalParams } from "./models";
+} from "./operationsInterfaces/index.js";
+import { ServiceMapOptionalParams } from "./models/index.js";
 
 export class ServiceMap extends coreClient.ServiceClient {
   $host: string;

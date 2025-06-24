@@ -7,9 +7,7 @@
  */
 import { IotHubClient } from "@azure/arm-iothub";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Get private endpoint connection properties
@@ -17,7 +15,7 @@ dotenv.config();
  * @summary Get private endpoint connection properties
  * x-ms-original-file: specification/iothub/resource-manager/Microsoft.Devices/stable/2023-06-30/examples/iothub_getprivateendpointconnection.json
  */
-async function privateEndpointConnectionGet() {
+async function privateEndpointConnectionGet(): Promise<void> {
   const subscriptionId =
     process.env["IOTHUB_SUBSCRIPTION_ID"] || "91d12660-3dec-467a-be2a-213b5544ddc0";
   const resourceGroupName = process.env["IOTHUB_RESOURCE_GROUP"] || "myResourceGroup";
@@ -33,7 +31,7 @@ async function privateEndpointConnectionGet() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   await privateEndpointConnectionGet();
 }
 

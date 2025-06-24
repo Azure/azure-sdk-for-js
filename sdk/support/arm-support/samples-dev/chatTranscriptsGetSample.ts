@@ -7,9 +7,7 @@
  */
 import { MicrosoftSupport } from "@azure/arm-support";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Returns chatTranscript details for a support ticket under a subscription.
@@ -17,7 +15,7 @@ dotenv.config();
  * @summary Returns chatTranscript details for a support ticket under a subscription.
  * x-ms-original-file: specification/support/resource-manager/Microsoft.Support/stable/2024-04-01/examples/GetchatTranscriptDetailsForSubscriptionSupportTicket.json
  */
-async function getChatTranscriptDetailsForASubscriptionSupportTicket() {
+async function getChatTranscriptDetailsForASubscriptionSupportTicket(): Promise<void> {
   const subscriptionId =
     process.env["SUPPORT_SUBSCRIPTION_ID"] || "132d901f-189d-4381-9214-fe68e27e05a1";
   const supportTicketName = "testticket";
@@ -28,7 +26,7 @@ async function getChatTranscriptDetailsForASubscriptionSupportTicket() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   await getChatTranscriptDetailsForASubscriptionSupportTicket();
 }
 

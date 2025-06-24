@@ -96,6 +96,15 @@ export interface Deployment {
     };
 }
 
+// @public (undocumented)
+export interface DeploymentDiagnosticsDefinition {
+    readonly additionalInfo?: ErrorAdditionalInfo[];
+    readonly code: string;
+    readonly level: Level;
+    readonly message: string;
+    readonly target?: string;
+}
+
 // @public
 export interface DeploymentExportResult {
     template?: Record<string, unknown>;
@@ -116,6 +125,24 @@ export interface DeploymentExtended {
 // @public
 export interface DeploymentExtendedFilter {
     provisioningState?: string;
+}
+
+// @public (undocumented)
+export interface DeploymentExtensionConfigItem {
+    keyVaultReference?: KeyVaultParameterReference;
+    readonly type?: ExtensionConfigPropertyType;
+    value?: any;
+}
+
+// @public (undocumented)
+export interface DeploymentExtensionDefinition {
+    readonly alias?: string;
+    readonly config?: {
+        [propertyName: string]: DeploymentExtensionConfigItem;
+    };
+    readonly configId?: string;
+    readonly name?: string;
+    readonly version?: string;
 }
 
 // @public
@@ -279,15 +306,29 @@ export interface DeploymentOperationsListResult {
 }
 
 // @public
+export interface DeploymentParameter {
+    reference?: KeyVaultParameterReference;
+    value?: any;
+}
+
+// @public
 export interface DeploymentProperties {
     debugSetting?: DebugSetting;
     expressionEvaluationOptions?: ExpressionEvaluationOptions;
+    extensionConfigs?: {
+        [propertyName: string]: {
+            [propertyName: string]: DeploymentExtensionConfigItem;
+        };
+    };
     mode: DeploymentMode;
     onErrorDeployment?: OnErrorDeployment;
-    parameters?: Record<string, unknown>;
+    parameters?: {
+        [propertyName: string]: DeploymentParameter;
+    };
     parametersLink?: ParametersLink;
     template?: Record<string, unknown>;
     templateLink?: TemplateLink;
+    validationLevel?: ValidationLevel;
 }
 
 // @public
@@ -295,8 +336,10 @@ export interface DeploymentPropertiesExtended {
     readonly correlationId?: string;
     readonly debugSetting?: DebugSetting;
     readonly dependencies?: Dependency[];
+    readonly diagnostics?: DeploymentDiagnosticsDefinition[];
     readonly duration?: string;
     readonly error?: ErrorResponse;
+    readonly extensions?: DeploymentExtensionDefinition[];
     readonly mode?: DeploymentMode;
     readonly onErrorDeployment?: OnErrorDeploymentExtended;
     readonly outputResources?: ResourceReference[];
@@ -309,6 +352,7 @@ export interface DeploymentPropertiesExtended {
     readonly templateLink?: TemplateLink;
     readonly timestamp?: Date;
     readonly validatedResources?: ResourceReference[];
+    validationLevel?: ValidationLevel;
 }
 
 // @public
@@ -784,7 +828,10 @@ export type DeploymentsWhatIfResponse = WhatIfOperationResult;
 // @public
 export interface DeploymentValidateResult {
     readonly error?: ErrorResponse;
+    readonly id?: string;
+    readonly name?: string;
     properties?: DeploymentPropertiesExtended;
+    readonly type?: string;
 }
 
 // @public
@@ -819,8 +866,12 @@ export interface ErrorResponse {
 }
 
 // @public
+export type ExportTemplateOutputFormat = string;
+
+// @public
 export interface ExportTemplateRequest {
     options?: string;
+    outputFormat?: ExportTemplateOutputFormat;
     resources?: string[];
 }
 
@@ -840,6 +891,9 @@ export interface ExtendedLocation {
 
 // @public
 export type ExtendedLocationType = string;
+
+// @public
+export type ExtensionConfigPropertyType = string;
 
 // @public
 export interface GenericResource extends Resource {
@@ -890,6 +944,18 @@ export interface IdentityUserAssignedIdentitiesValue {
 }
 
 // @public
+export interface KeyVaultParameterReference {
+    keyVault: KeyVaultReference;
+    secretName: string;
+    secretVersion?: string;
+}
+
+// @public
+export interface KeyVaultReference {
+    id: string;
+}
+
+// @public
 export enum KnownAliasPathAttributes {
     Modifiable = "Modifiable",
     None = "None"
@@ -908,6 +974,12 @@ export enum KnownAliasPathTokenType {
 }
 
 // @public
+export enum KnownExportTemplateOutputFormat {
+    Bicep = "Bicep",
+    Json = "Json"
+}
+
+// @public
 export enum KnownExpressionEvaluationOptionsScopeType {
     Inner = "Inner",
     NotSpecified = "NotSpecified",
@@ -917,6 +989,24 @@ export enum KnownExpressionEvaluationOptionsScopeType {
 // @public
 export enum KnownExtendedLocationType {
     EdgeZone = "EdgeZone"
+}
+
+// @public
+export enum KnownExtensionConfigPropertyType {
+    Array = "Array",
+    Bool = "Bool",
+    Int = "Int",
+    Object = "Object",
+    SecureObject = "SecureObject",
+    SecureString = "SecureString",
+    String = "String"
+}
+
+// @public
+export enum KnownLevel {
+    Error = "Error",
+    Info = "Info",
+    Warning = "Warning"
 }
 
 // @public
@@ -949,6 +1039,16 @@ export enum KnownTagsPatchOperation {
     Merge = "Merge",
     Replace = "Replace"
 }
+
+// @public
+export enum KnownValidationLevel {
+    Provider = "Provider",
+    ProviderNoRbac = "ProviderNoRbac",
+    Template = "Template"
+}
+
+// @public
+export type Level = string;
 
 // @public
 export interface OnErrorDeployment {
@@ -1235,6 +1335,7 @@ export interface ResourceGroup {
 // @public
 export interface ResourceGroupExportResult {
     error?: ErrorResponse;
+    output?: string;
     template?: Record<string, unknown>;
 }
 
@@ -1293,6 +1394,11 @@ export interface ResourceGroupsCreateOrUpdateOptionalParams extends coreClient.O
 
 // @public
 export type ResourceGroupsCreateOrUpdateResponse = ResourceGroup;
+
+// @public
+export interface ResourceGroupsDeleteHeaders {
+    location?: string;
+}
 
 // @public
 export interface ResourceGroupsDeleteOptionalParams extends coreClient.OperationOptions {
@@ -1354,6 +1460,7 @@ export class ResourceManagementClient extends coreClient.ServiceClient {
     // (undocumented)
     $host: string;
     constructor(credentials: coreAuth.TokenCredential, subscriptionId: string, options?: ResourceManagementClientOptionalParams);
+    constructor(credentials: coreAuth.TokenCredential, options?: ResourceManagementClientOptionalParams);
     // (undocumented)
     apiVersion: string;
     // (undocumented)
@@ -1371,7 +1478,7 @@ export class ResourceManagementClient extends coreClient.ServiceClient {
     // (undocumented)
     resources: Resources;
     // (undocumented)
-    subscriptionId: string;
+    subscriptionId?: string;
     // (undocumented)
     tagsOperations: TagsOperations;
 }
@@ -1394,7 +1501,11 @@ export interface ResourceProviderOperationDisplayProperties {
 
 // @public
 export interface ResourceReference {
+    readonly apiVersion?: string;
+    readonly extension?: DeploymentExtensionDefinition;
     readonly id?: string;
+    readonly identifiers?: Record<string, unknown>;
+    readonly resourceType?: string;
 }
 
 // @public
@@ -1622,7 +1733,14 @@ export interface Tags {
 }
 
 // @public
+export interface TagsCreateOrUpdateAtScopeHeaders {
+    location?: string;
+}
+
+// @public
 export interface TagsCreateOrUpdateAtScopeOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
 }
 
 // @public
@@ -1643,7 +1761,14 @@ export interface TagsCreateOrUpdateValueOptionalParams extends coreClient.Operat
 export type TagsCreateOrUpdateValueResponse = TagValue;
 
 // @public
+export interface TagsDeleteAtScopeHeaders {
+    location?: string;
+}
+
+// @public
 export interface TagsDeleteAtScopeOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
 }
 
 // @public
@@ -1683,15 +1808,18 @@ export interface TagsListResult {
 
 // @public
 export interface TagsOperations {
+    beginCreateOrUpdateAtScope(scope: string, parameters: TagsResource, options?: TagsCreateOrUpdateAtScopeOptionalParams): Promise<SimplePollerLike<OperationState<TagsCreateOrUpdateAtScopeResponse>, TagsCreateOrUpdateAtScopeResponse>>;
+    beginCreateOrUpdateAtScopeAndWait(scope: string, parameters: TagsResource, options?: TagsCreateOrUpdateAtScopeOptionalParams): Promise<TagsCreateOrUpdateAtScopeResponse>;
+    beginDeleteAtScope(scope: string, options?: TagsDeleteAtScopeOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
+    beginDeleteAtScopeAndWait(scope: string, options?: TagsDeleteAtScopeOptionalParams): Promise<void>;
+    beginUpdateAtScope(scope: string, parameters: TagsPatchResource, options?: TagsUpdateAtScopeOptionalParams): Promise<SimplePollerLike<OperationState<TagsUpdateAtScopeResponse>, TagsUpdateAtScopeResponse>>;
+    beginUpdateAtScopeAndWait(scope: string, parameters: TagsPatchResource, options?: TagsUpdateAtScopeOptionalParams): Promise<TagsUpdateAtScopeResponse>;
     createOrUpdate(tagName: string, options?: TagsCreateOrUpdateOptionalParams): Promise<TagsCreateOrUpdateResponse>;
-    createOrUpdateAtScope(scope: string, parameters: TagsResource, options?: TagsCreateOrUpdateAtScopeOptionalParams): Promise<TagsCreateOrUpdateAtScopeResponse>;
     createOrUpdateValue(tagName: string, tagValue: string, options?: TagsCreateOrUpdateValueOptionalParams): Promise<TagsCreateOrUpdateValueResponse>;
     delete(tagName: string, options?: TagsDeleteOptionalParams): Promise<void>;
-    deleteAtScope(scope: string, options?: TagsDeleteAtScopeOptionalParams): Promise<void>;
     deleteValue(tagName: string, tagValue: string, options?: TagsDeleteValueOptionalParams): Promise<void>;
     getAtScope(scope: string, options?: TagsGetAtScopeOptionalParams): Promise<TagsGetAtScopeResponse>;
     list(options?: TagsListOptionalParams): PagedAsyncIterableIterator<TagDetails>;
-    updateAtScope(scope: string, parameters: TagsPatchResource, options?: TagsUpdateAtScopeOptionalParams): Promise<TagsUpdateAtScopeResponse>;
 }
 
 // @public
@@ -1712,7 +1840,14 @@ export interface TagsResource {
 }
 
 // @public
+export interface TagsUpdateAtScopeHeaders {
+    location?: string;
+}
+
+// @public
 export interface TagsUpdateAtScopeOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
 }
 
 // @public
@@ -1727,9 +1862,13 @@ export interface TagValue {
 
 // @public
 export interface TargetResource {
+    apiVersion?: string;
+    extension?: DeploymentExtensionDefinition;
     id?: string;
+    identifiers?: Record<string, unknown>;
     resourceName?: string;
     resourceType?: string;
+    symbolicName?: string;
 }
 
 // @public
@@ -1748,19 +1887,27 @@ export interface TemplateLink {
 }
 
 // @public
+export type ValidationLevel = string;
+
+// @public
 export interface WhatIfChange {
     after?: Record<string, unknown>;
     before?: Record<string, unknown>;
     changeType: ChangeType;
     delta?: WhatIfPropertyChange[];
-    resourceId: string;
+    deploymentId?: string;
+    identifiers?: Record<string, unknown>;
+    resourceId?: string;
+    symbolicName?: string;
     unsupportedReason?: string;
 }
 
 // @public
 export interface WhatIfOperationResult {
     changes?: WhatIfChange[];
+    readonly diagnostics?: DeploymentDiagnosticsDefinition[];
     error?: ErrorResponse;
+    potentialChanges?: WhatIfChange[];
     status?: string;
 }
 

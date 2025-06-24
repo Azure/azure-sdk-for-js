@@ -18,12 +18,12 @@ import "dotenv/config";
 // The prompt to generate the embeddings vector
 const input = ["This is the sample text to be embedded"];
 
-export async function main() {
+export async function main(): Promise<void> {
   console.log("== Get embeddings sample ==");
 
   const scope = "https://cognitiveservices.azure.com/.default";
   const azureADTokenProvider = getBearerTokenProvider(new DefaultAzureCredential(), scope);
-  const apiVersion = "2024-11-01-preview";
+  const apiVersion = "2025-01-01-preview";
   const deployment = "text-embedding-3-large";
   const client = new AzureOpenAI({ azureADTokenProvider, deployment, apiVersion });
   const embeddings = await client.embeddings.create({ input, model: "" });

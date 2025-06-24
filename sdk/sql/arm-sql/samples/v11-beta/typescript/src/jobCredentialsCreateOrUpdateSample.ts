@@ -10,9 +10,7 @@
 // Licensed under the MIT License.
 import { JobCredential, SqlManagementClient } from "@azure/arm-sql";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Creates or updates a job credential.
@@ -20,7 +18,7 @@ dotenv.config();
  * @summary Creates or updates a job credential.
  * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2020-11-01-preview/examples/CreateOrUpdateJobCredential.json
  */
-async function createOrUpdateACredential() {
+async function createOrUpdateACredential(): Promise<void> {
   const subscriptionId =
     process.env["SQL_SUBSCRIPTION_ID"] ||
     "00000000-1111-2222-3333-444444444444";
@@ -44,7 +42,7 @@ async function createOrUpdateACredential() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   createOrUpdateACredential();
 }
 

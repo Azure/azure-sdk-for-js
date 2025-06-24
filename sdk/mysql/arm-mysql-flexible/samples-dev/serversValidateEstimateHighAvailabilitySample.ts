@@ -8,9 +8,7 @@
 import type { HighAvailabilityValidationEstimation } from "@azure/arm-mysql-flexible";
 import { MySQLManagementFlexibleServerClient } from "@azure/arm-mysql-flexible";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Validate a deployment of high availability.
@@ -18,7 +16,7 @@ dotenv.config();
  * @summary Validate a deployment of high availability.
  * x-ms-original-file: specification/mysql/resource-manager/Microsoft.DBforMySQL/FlexibleServers/stable/2023-12-30/examples/ServerValidateEstimateHighAvailability.json
  */
-async function validateAValidationAndEstimationOfHighAvailability() {
+async function validateAValidationAndEstimationOfHighAvailability(): Promise<void> {
   const subscriptionId =
     process.env["MYSQL_SUBSCRIPTION_ID"] || "ffffffff-ffff-ffff-ffff-ffffffffffff";
   const resourceGroupName = process.env["MYSQL_RESOURCE_GROUP"] || "TestGroup";
@@ -36,7 +34,7 @@ async function validateAValidationAndEstimationOfHighAvailability() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   await validateAValidationAndEstimationOfHighAvailability();
 }
 

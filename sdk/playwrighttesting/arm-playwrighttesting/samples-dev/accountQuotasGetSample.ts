@@ -10,7 +10,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * @summary get quota by name for an account.
  * x-ms-original-file: 2024-12-01/AccountQuotas_Get.json
  */
-async function accountQuotasGet() {
+async function accountQuotasGet(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const client = new AzurePlaywrightServiceClient(credential, subscriptionId);
@@ -22,7 +22,7 @@ async function accountQuotasGet() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   await accountQuotasGet();
 }
 

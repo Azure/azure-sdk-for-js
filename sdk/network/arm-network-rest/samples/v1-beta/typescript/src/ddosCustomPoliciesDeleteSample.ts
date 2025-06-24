@@ -13,7 +13,7 @@ import "dotenv/config";
  * @summary Deletes the specified DDoS custom policy.
  * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-05-01/examples/DdosCustomPolicyDelete.json
  */
-async function deleteDDoSCustomPolicy() {
+async function deleteDDoSCustomPolicy(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = createNetworkManagementClient(credential);
   const subscriptionId = "";

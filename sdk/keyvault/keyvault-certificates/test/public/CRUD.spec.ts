@@ -66,6 +66,16 @@ describe("Certificates client - create, read, update and delete", () => {
     expect(pendingCertificate!.properties.name).toEqual(certificateName);
   });
 
+  it("can create a certificate with preserveCertificateOrder", async (ctx) => {
+    const certificateName = testClient.formatName(`${prefix}-${ctx.task.name}-${suffix}`);
+    const poller = await client.beginCreateCertificate(certificateName, basicCertificatePolicy, {
+      ...testPollerProperties,
+      preserveCertificateOrder: true,
+    });
+    const pendingCertificate = poller.getResult(); // Pending certificate
+    expect(pendingCertificate!.properties.preserveCertificateOrder).toEqual(true);
+  });
+
   it("can abort creating a certificate", async function (ctx) {
     const certificateName = testClient.formatName(`${prefix}-${ctx.task.name}-${suffix}`);
     const controller = new AbortController();
@@ -80,7 +90,7 @@ describe("Certificates client - create, read, update and delete", () => {
     });
   });
 
-  it("cannot create a certificate with an empty name", async function () {
+  it("cannot create a certificate with an empty name", async () => {
     const certificateName = "";
     await expect(
       client.beginCreateCertificate(certificateName, basicCertificatePolicy, testPollerProperties),
@@ -438,7 +448,7 @@ describe("Certificates client - create, read, update and delete", () => {
     expect(updated.policy!.issuerName).toEqual("Self");
   });
 
-  it("can read, cancel and delete a certificate's operation", async function () {
+  it("can read, cancel and delete a certificate's operation", async () => {
     const certificateName = recorder.variable(
       "crudcertoperation",
       `crudcertoperation-${Math.floor(Math.random() * 10000)}`,
@@ -479,7 +489,7 @@ describe("Certificates client - create, read, update and delete", () => {
     expect(errorMessage).toMatch(expectedErrorMessage);
   });
 
-  it("can set, read and delete a certificate's contacts", async function () {
+  it("can set, read and delete a certificate's contacts", async () => {
     const contacts = [
       {
         email: "a@a.com",

@@ -53,6 +53,7 @@ export interface AgentPool extends TrackedResource {
     count: number;
     readonly detailedStatus?: AgentPoolDetailedStatus;
     readonly detailedStatusMessage?: string;
+    readonly etag?: string;
     extendedLocation?: ExtendedLocation;
     readonly kubernetesVersion?: string;
     labels?: KubernetesLabel[];
@@ -121,6 +122,8 @@ export interface AgentPoolsCreateOrUpdateHeaders {
 
 // @public
 export interface AgentPoolsCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
+    ifMatch?: string;
+    ifNoneMatch?: string;
     resumeFrom?: string;
     updateIntervalInMs?: number;
 }
@@ -135,6 +138,8 @@ export interface AgentPoolsDeleteHeaders {
 
 // @public
 export interface AgentPoolsDeleteOptionalParams extends coreClient.OperationOptions {
+    ifMatch?: string;
+    ifNoneMatch?: string;
     resumeFrom?: string;
     updateIntervalInMs?: number;
 }
@@ -172,6 +177,8 @@ export interface AgentPoolsUpdateHeaders {
 // @public
 export interface AgentPoolsUpdateOptionalParams extends coreClient.OperationOptions {
     agentPoolUpdateParameters?: AgentPoolPatchParameters;
+    ifMatch?: string;
+    ifNoneMatch?: string;
     resumeFrom?: string;
     updateIntervalInMs?: number;
 }
@@ -184,6 +191,12 @@ export interface AgentPoolUpgradeSettings {
     drainTimeout?: number;
     maxSurge?: string;
     maxUnavailable?: string;
+}
+
+// @public
+export interface AnalyticsOutputSettings {
+    analyticsWorkspaceId?: string;
+    associatedIdentity?: IdentitySelector;
 }
 
 // @public
@@ -213,6 +226,7 @@ export interface BareMetalMachine extends TrackedResource {
     readonly cordonStatus?: BareMetalMachineCordonStatus;
     readonly detailedStatus?: BareMetalMachineDetailedStatus;
     readonly detailedStatusMessage?: string;
+    readonly etag?: string;
     extendedLocation: ExtendedLocation;
     readonly hardwareInventory?: HardwareInventory;
     readonly hardwareValidationStatus?: HardwareValidationStatus;
@@ -279,6 +293,7 @@ export interface BareMetalMachineKeySet extends TrackedResource {
     azureGroupId: string;
     readonly detailedStatus?: BareMetalMachineKeySetDetailedStatus;
     readonly detailedStatusMessage?: string;
+    readonly etag?: string;
     expiration: Date;
     extendedLocation: ExtendedLocation;
     jumpHostsAllowed: string[];
@@ -334,6 +349,8 @@ export interface BareMetalMachineKeySetsCreateOrUpdateHeaders {
 
 // @public
 export interface BareMetalMachineKeySetsCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
+    ifMatch?: string;
+    ifNoneMatch?: string;
     resumeFrom?: string;
     updateIntervalInMs?: number;
 }
@@ -348,6 +365,8 @@ export interface BareMetalMachineKeySetsDeleteHeaders {
 
 // @public
 export interface BareMetalMachineKeySetsDeleteOptionalParams extends coreClient.OperationOptions {
+    ifMatch?: string;
+    ifNoneMatch?: string;
     resumeFrom?: string;
     updateIntervalInMs?: number;
 }
@@ -385,6 +404,8 @@ export interface BareMetalMachineKeySetsUpdateHeaders {
 // @public
 export interface BareMetalMachineKeySetsUpdateOptionalParams extends coreClient.OperationOptions {
     bareMetalMachineKeySetUpdateParameters?: BareMetalMachineKeySetPatchParameters;
+    ifMatch?: string;
+    ifNoneMatch?: string;
     resumeFrom?: string;
     updateIntervalInMs?: number;
 }
@@ -506,6 +527,8 @@ export interface BareMetalMachinesCreateOrUpdateHeaders {
 
 // @public
 export interface BareMetalMachinesCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
+    ifMatch?: string;
+    ifNoneMatch?: string;
     resumeFrom?: string;
     updateIntervalInMs?: number;
 }
@@ -520,6 +543,8 @@ export interface BareMetalMachinesDeleteHeaders {
 
 // @public
 export interface BareMetalMachinesDeleteOptionalParams extends coreClient.OperationOptions {
+    ifMatch?: string;
+    ifNoneMatch?: string;
     resumeFrom?: string;
     updateIntervalInMs?: number;
 }
@@ -702,6 +727,8 @@ export interface BareMetalMachinesUpdateHeaders {
 // @public
 export interface BareMetalMachinesUpdateOptionalParams extends coreClient.OperationOptions {
     bareMetalMachineUpdateParameters?: BareMetalMachinePatchParameters;
+    ifMatch?: string;
+    ifNoneMatch?: string;
     resumeFrom?: string;
     updateIntervalInMs?: number;
 }
@@ -736,6 +763,7 @@ export interface BmcKeySet extends TrackedResource {
     azureGroupId: string;
     readonly detailedStatus?: BmcKeySetDetailedStatus;
     readonly detailedStatusMessage?: string;
+    readonly etag?: string;
     expiration: Date;
     extendedLocation: ExtendedLocation;
     readonly lastValidation?: Date;
@@ -788,6 +816,8 @@ export interface BmcKeySetsCreateOrUpdateHeaders {
 
 // @public
 export interface BmcKeySetsCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
+    ifMatch?: string;
+    ifNoneMatch?: string;
     resumeFrom?: string;
     updateIntervalInMs?: number;
 }
@@ -802,6 +832,8 @@ export interface BmcKeySetsDeleteHeaders {
 
 // @public
 export interface BmcKeySetsDeleteOptionalParams extends coreClient.OperationOptions {
+    ifMatch?: string;
+    ifNoneMatch?: string;
     resumeFrom?: string;
     updateIntervalInMs?: number;
 }
@@ -839,6 +871,8 @@ export interface BmcKeySetsUpdateHeaders {
 // @public
 export interface BmcKeySetsUpdateOptionalParams extends coreClient.OperationOptions {
     bmcKeySetUpdateParameters?: BmcKeySetPatchParameters;
+    ifMatch?: string;
+    ifNoneMatch?: string;
     resumeFrom?: string;
     updateIntervalInMs?: number;
 }
@@ -858,6 +892,7 @@ export interface CloudServicesNetwork extends TrackedResource {
     readonly detailedStatusMessage?: string;
     enableDefaultEgressEndpoints?: CloudServicesNetworkEnableDefaultEgressEndpoints;
     readonly enabledEgressEndpoints?: EgressEndpoint[];
+    readonly etag?: string;
     extendedLocation: ExtendedLocation;
     readonly hybridAksClustersAssociatedIds?: string[];
     readonly interfaceName?: string;
@@ -909,6 +944,8 @@ export interface CloudServicesNetworksCreateOrUpdateHeaders {
 
 // @public
 export interface CloudServicesNetworksCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
+    ifMatch?: string;
+    ifNoneMatch?: string;
     resumeFrom?: string;
     updateIntervalInMs?: number;
 }
@@ -923,6 +960,8 @@ export interface CloudServicesNetworksDeleteHeaders {
 
 // @public
 export interface CloudServicesNetworksDeleteOptionalParams extends coreClient.OperationOptions {
+    ifMatch?: string;
+    ifNoneMatch?: string;
     resumeFrom?: string;
     updateIntervalInMs?: number;
 }
@@ -974,6 +1013,8 @@ export interface CloudServicesNetworksUpdateHeaders {
 // @public
 export interface CloudServicesNetworksUpdateOptionalParams extends coreClient.OperationOptions {
     cloudServicesNetworkUpdateParameters?: CloudServicesNetworkPatchParameters;
+    ifMatch?: string;
+    ifNoneMatch?: string;
     resumeFrom?: string;
     updateIntervalInMs?: number;
 }
@@ -984,6 +1025,7 @@ export type CloudServicesNetworksUpdateResponse = CloudServicesNetwork;
 // @public
 export interface Cluster extends TrackedResource {
     aggregatorOrSingleRackDefinition: RackDefinition;
+    analyticsOutputSettings?: AnalyticsOutputSettings;
     analyticsWorkspaceId?: string;
     readonly availableUpgradeVersions?: ClusterAvailableUpgradeVersion[];
     readonly clusterCapacity?: ClusterCapacity;
@@ -1000,6 +1042,7 @@ export interface Cluster extends TrackedResource {
     computeRackDefinitions?: RackDefinition[];
     readonly detailedStatus?: ClusterDetailedStatus;
     readonly detailedStatusMessage?: string;
+    readonly etag?: string;
     extendedLocation: ExtendedLocation;
     readonly hybridAksExtendedLocation?: ExtendedLocation;
     identity?: ManagedServiceIdentity;
@@ -1009,8 +1052,10 @@ export interface Cluster extends TrackedResource {
     readonly provisioningState?: ClusterProvisioningState;
     runtimeProtectionConfiguration?: RuntimeProtectionConfiguration;
     secretArchive?: ClusterSecretArchive;
+    secretArchiveSettings?: SecretArchiveSettings;
     readonly supportExpiryDate?: string;
     updateStrategy?: ClusterUpdateStrategy;
+    vulnerabilityScanningSettings?: VulnerabilityScanningSettings;
     readonly workloadResourceIds?: string[];
 }
 
@@ -1074,6 +1119,7 @@ export interface ClusterManager extends TrackedResource {
     readonly clusterVersions?: ClusterAvailableVersion[];
     readonly detailedStatus?: ClusterManagerDetailedStatus;
     readonly detailedStatusMessage?: string;
+    readonly etag?: string;
     fabricControllerId: string;
     identity?: ManagedServiceIdentity;
     managedResourceGroupConfiguration?: ManagedResourceGroupConfiguration;
@@ -1124,6 +1170,8 @@ export interface ClusterManagersCreateOrUpdateHeaders {
 
 // @public
 export interface ClusterManagersCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
+    ifMatch?: string;
+    ifNoneMatch?: string;
     resumeFrom?: string;
     updateIntervalInMs?: number;
 }
@@ -1138,6 +1186,8 @@ export interface ClusterManagersDeleteHeaders {
 
 // @public
 export interface ClusterManagersDeleteOptionalParams extends coreClient.OperationOptions {
+    ifMatch?: string;
+    ifNoneMatch?: string;
     resumeFrom?: string;
     updateIntervalInMs?: number;
 }
@@ -1183,6 +1233,8 @@ export type ClusterManagersListBySubscriptionResponse = ClusterManagerList;
 // @public
 export interface ClusterManagersUpdateOptionalParams extends coreClient.OperationOptions {
     clusterManagerUpdateParameters?: ClusterManagerPatchParameters;
+    ifMatch?: string;
+    ifNoneMatch?: string;
 }
 
 // @public
@@ -1195,6 +1247,7 @@ export interface ClusterMetricsConfiguration extends TrackedResource {
     readonly detailedStatusMessage?: string;
     readonly disabledMetrics?: string[];
     enabledMetrics?: string[];
+    readonly etag?: string;
     extendedLocation: ExtendedLocation;
     readonly provisioningState?: ClusterMetricsConfigurationProvisioningState;
 }
@@ -1223,6 +1276,7 @@ export type ClusterMetricsConfigurationProvisioningState = string;
 // @public
 export interface ClusterPatchParameters {
     aggregatorOrSingleRackDefinition?: RackDefinition;
+    analyticsOutputSettings?: AnalyticsOutputSettings;
     clusterLocation?: string;
     clusterServicePrincipal?: ServicePrincipalInformation;
     commandOutputSettings?: CommandOutputSettings;
@@ -1231,10 +1285,12 @@ export interface ClusterPatchParameters {
     identity?: ManagedServiceIdentity;
     runtimeProtectionConfiguration?: RuntimeProtectionConfiguration;
     secretArchive?: ClusterSecretArchive;
+    secretArchiveSettings?: SecretArchiveSettings;
     tags?: {
         [propertyName: string]: string;
     };
     updateStrategy?: ClusterUpdateStrategy;
+    vulnerabilityScanningSettings?: VulnerabilityScanningSettingsPatch;
 }
 
 // @public
@@ -1290,6 +1346,8 @@ export interface ClustersCreateOrUpdateHeaders {
 
 // @public
 export interface ClustersCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
+    ifMatch?: string;
+    ifNoneMatch?: string;
     resumeFrom?: string;
     updateIntervalInMs?: number;
 }
@@ -1304,6 +1362,8 @@ export interface ClustersDeleteHeaders {
 
 // @public
 export interface ClustersDeleteOptionalParams extends coreClient.OperationOptions {
+    ifMatch?: string;
+    ifNoneMatch?: string;
     resumeFrom?: string;
     updateIntervalInMs?: number;
 }
@@ -1394,6 +1454,8 @@ export interface ClustersUpdateHeaders {
 // @public
 export interface ClustersUpdateOptionalParams extends coreClient.OperationOptions {
     clusterUpdateParameters?: ClusterPatchParameters;
+    ifMatch?: string;
+    ifNoneMatch?: string;
     resumeFrom?: string;
     updateIntervalInMs?: number;
 }
@@ -1446,6 +1508,7 @@ interface Console_2 extends TrackedResource {
     readonly detailedStatus?: ConsoleDetailedStatus;
     readonly detailedStatusMessage?: string;
     enabled: ConsoleEnabled;
+    readonly etag?: string;
     expiration?: Date;
     extendedLocation: ExtendedLocation;
     readonly privateLinkServiceId?: string;
@@ -1499,6 +1562,8 @@ export interface ConsolesCreateOrUpdateHeaders {
 
 // @public
 export interface ConsolesCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
+    ifMatch?: string;
+    ifNoneMatch?: string;
     resumeFrom?: string;
     updateIntervalInMs?: number;
 }
@@ -1513,6 +1578,8 @@ export interface ConsolesDeleteHeaders {
 
 // @public
 export interface ConsolesDeleteOptionalParams extends coreClient.OperationOptions {
+    ifMatch?: string;
+    ifNoneMatch?: string;
     resumeFrom?: string;
     updateIntervalInMs?: number;
 }
@@ -1550,6 +1617,8 @@ export interface ConsolesUpdateHeaders {
 // @public
 export interface ConsolesUpdateOptionalParams extends coreClient.OperationOptions {
     consoleUpdateParameters?: ConsolePatchParameters;
+    ifMatch?: string;
+    ifNoneMatch?: string;
     resumeFrom?: string;
     updateIntervalInMs?: number;
 }
@@ -2257,7 +2326,8 @@ export enum KnownOrigin {
 
 // @public
 export enum KnownOsDiskCreateOption {
-    Ephemeral = "Ephemeral"
+    Ephemeral = "Ephemeral",
+    Persistent = "Persistent"
 }
 
 // @public
@@ -2326,6 +2396,7 @@ export enum KnownSkipShutdown {
 // @public
 export enum KnownStorageApplianceDetailedStatus {
     Available = "Available",
+    Degraded = "Degraded",
     Error = "Error",
     Provisioning = "Provisioning"
 }
@@ -2388,7 +2459,8 @@ export enum KnownVirtualMachineDetailedStatus {
 // @public
 export enum KnownVirtualMachineDeviceModelType {
     T1 = "T1",
-    T2 = "T2"
+    T2 = "T2",
+    T3 = "T3"
 }
 
 // @public
@@ -2461,6 +2533,12 @@ export enum KnownVolumeProvisioningState {
 }
 
 // @public
+export enum KnownVulnerabilityScanningSettingsContainerScan {
+    Disabled = "Disabled",
+    Enabled = "Enabled"
+}
+
+// @public
 export enum KnownWorkloadImpact {
     False = "False",
     True = "True"
@@ -2478,6 +2556,7 @@ export interface KubernetesCluster extends TrackedResource {
     controlPlaneNodeConfiguration: ControlPlaneNodeConfiguration;
     readonly detailedStatus?: KubernetesClusterDetailedStatus;
     readonly detailedStatusMessage?: string;
+    readonly etag?: string;
     extendedLocation: ExtendedLocation;
     readonly featureStatuses?: FeatureStatus[];
     initialAgentPoolConfigurations: InitialAgentPoolConfiguration[];
@@ -2496,6 +2575,7 @@ export interface KubernetesClusterFeature extends TrackedResource {
     readonly availabilityLifecycle?: KubernetesClusterFeatureAvailabilityLifecycle;
     readonly detailedStatus?: KubernetesClusterFeatureDetailedStatus;
     readonly detailedStatusMessage?: string;
+    readonly etag?: string;
     options?: StringKeyValuePair[];
     readonly provisioningState?: KubernetesClusterFeatureProvisioningState;
     readonly required?: KubernetesClusterFeatureRequired;
@@ -2547,6 +2627,8 @@ export interface KubernetesClusterFeaturesCreateOrUpdateHeaders {
 
 // @public
 export interface KubernetesClusterFeaturesCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
+    ifMatch?: string;
+    ifNoneMatch?: string;
     resumeFrom?: string;
     updateIntervalInMs?: number;
 }
@@ -2561,6 +2643,8 @@ export interface KubernetesClusterFeaturesDeleteHeaders {
 
 // @public
 export interface KubernetesClusterFeaturesDeleteOptionalParams extends coreClient.OperationOptions {
+    ifMatch?: string;
+    ifNoneMatch?: string;
     resumeFrom?: string;
     updateIntervalInMs?: number;
 }
@@ -2597,6 +2681,8 @@ export interface KubernetesClusterFeaturesUpdateHeaders {
 
 // @public
 export interface KubernetesClusterFeaturesUpdateOptionalParams extends coreClient.OperationOptions {
+    ifMatch?: string;
+    ifNoneMatch?: string;
     kubernetesClusterFeatureUpdateParameters?: KubernetesClusterFeaturePatchParameters;
     resumeFrom?: string;
     updateIntervalInMs?: number;
@@ -2676,6 +2762,8 @@ export interface KubernetesClustersCreateOrUpdateHeaders {
 
 // @public
 export interface KubernetesClustersCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
+    ifMatch?: string;
+    ifNoneMatch?: string;
     resumeFrom?: string;
     updateIntervalInMs?: number;
 }
@@ -2690,6 +2778,8 @@ export interface KubernetesClustersDeleteHeaders {
 
 // @public
 export interface KubernetesClustersDeleteOptionalParams extends coreClient.OperationOptions {
+    ifMatch?: string;
+    ifNoneMatch?: string;
     resumeFrom?: string;
     updateIntervalInMs?: number;
 }
@@ -2754,6 +2844,8 @@ export interface KubernetesClustersUpdateHeaders {
 
 // @public
 export interface KubernetesClustersUpdateOptionalParams extends coreClient.OperationOptions {
+    ifMatch?: string;
+    ifNoneMatch?: string;
     kubernetesClusterUpdateParameters?: KubernetesClusterPatchParameters;
     resumeFrom?: string;
     updateIntervalInMs?: number;
@@ -2783,6 +2875,7 @@ export interface L2Network extends TrackedResource {
     readonly clusterId?: string;
     readonly detailedStatus?: L2NetworkDetailedStatus;
     readonly detailedStatusMessage?: string;
+    readonly etag?: string;
     extendedLocation: ExtendedLocation;
     readonly hybridAksClustersAssociatedIds?: string[];
     hybridAksPluginType?: HybridAksPluginType;
@@ -2836,6 +2929,8 @@ export interface L2NetworksCreateOrUpdateHeaders {
 
 // @public
 export interface L2NetworksCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
+    ifMatch?: string;
+    ifNoneMatch?: string;
     resumeFrom?: string;
     updateIntervalInMs?: number;
 }
@@ -2850,6 +2945,8 @@ export interface L2NetworksDeleteHeaders {
 
 // @public
 export interface L2NetworksDeleteOptionalParams extends coreClient.OperationOptions {
+    ifMatch?: string;
+    ifNoneMatch?: string;
     resumeFrom?: string;
     updateIntervalInMs?: number;
 }
@@ -2894,6 +2991,8 @@ export type L2NetworksListBySubscriptionResponse = L2NetworkList;
 
 // @public
 export interface L2NetworksUpdateOptionalParams extends coreClient.OperationOptions {
+    ifMatch?: string;
+    ifNoneMatch?: string;
     l2NetworkUpdateParameters?: L2NetworkPatchParameters;
 }
 
@@ -2911,6 +3010,7 @@ export interface L3Network extends TrackedResource {
     readonly clusterId?: string;
     readonly detailedStatus?: L3NetworkDetailedStatus;
     readonly detailedStatusMessage?: string;
+    readonly etag?: string;
     extendedLocation: ExtendedLocation;
     readonly hybridAksClustersAssociatedIds?: string[];
     hybridAksIpamEnabled?: HybridAksIpamEnabled;
@@ -2973,6 +3073,8 @@ export interface L3NetworksCreateOrUpdateHeaders {
 
 // @public
 export interface L3NetworksCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
+    ifMatch?: string;
+    ifNoneMatch?: string;
     resumeFrom?: string;
     updateIntervalInMs?: number;
 }
@@ -2987,6 +3089,8 @@ export interface L3NetworksDeleteHeaders {
 
 // @public
 export interface L3NetworksDeleteOptionalParams extends coreClient.OperationOptions {
+    ifMatch?: string;
+    ifNoneMatch?: string;
     resumeFrom?: string;
     updateIntervalInMs?: number;
 }
@@ -3031,6 +3135,8 @@ export type L3NetworksListBySubscriptionResponse = L3NetworkList;
 
 // @public
 export interface L3NetworksUpdateOptionalParams extends coreClient.OperationOptions {
+    ifMatch?: string;
+    ifNoneMatch?: string;
     l3NetworkUpdateParameters?: L3NetworkPatchParameters;
 }
 
@@ -3112,6 +3218,8 @@ export interface MetricsConfigurationsCreateOrUpdateHeaders {
 
 // @public
 export interface MetricsConfigurationsCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
+    ifMatch?: string;
+    ifNoneMatch?: string;
     resumeFrom?: string;
     updateIntervalInMs?: number;
 }
@@ -3126,6 +3234,8 @@ export interface MetricsConfigurationsDeleteHeaders {
 
 // @public
 export interface MetricsConfigurationsDeleteOptionalParams extends coreClient.OperationOptions {
+    ifMatch?: string;
+    ifNoneMatch?: string;
     resumeFrom?: string;
     updateIntervalInMs?: number;
 }
@@ -3162,6 +3272,8 @@ export interface MetricsConfigurationsUpdateHeaders {
 
 // @public
 export interface MetricsConfigurationsUpdateOptionalParams extends coreClient.OperationOptions {
+    ifMatch?: string;
+    ifNoneMatch?: string;
     metricsConfigurationUpdateParameters?: ClusterMetricsConfigurationPatchParameters;
     resumeFrom?: string;
     updateIntervalInMs?: number;
@@ -3355,6 +3467,7 @@ export interface Rack extends TrackedResource {
     readonly clusterId?: string;
     readonly detailedStatus?: RackDetailedStatus;
     readonly detailedStatusMessage?: string;
+    readonly etag?: string;
     extendedLocation: ExtendedLocation;
     readonly provisioningState?: RackProvisioningState;
     rackLocation: string;
@@ -3414,6 +3527,8 @@ export interface RacksCreateOrUpdateHeaders {
 
 // @public
 export interface RacksCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
+    ifMatch?: string;
+    ifNoneMatch?: string;
     resumeFrom?: string;
     updateIntervalInMs?: number;
 }
@@ -3428,6 +3543,8 @@ export interface RacksDeleteHeaders {
 
 // @public
 export interface RacksDeleteOptionalParams extends coreClient.OperationOptions {
+    ifMatch?: string;
+    ifNoneMatch?: string;
     resumeFrom?: string;
     updateIntervalInMs?: number;
 }
@@ -3529,6 +3646,8 @@ export interface RacksUpdateHeaders {
 
 // @public
 export interface RacksUpdateOptionalParams extends coreClient.OperationOptions {
+    ifMatch?: string;
+    ifNoneMatch?: string;
     rackUpdateParameters?: RackPatchParameters;
     resumeFrom?: string;
     updateIntervalInMs?: number;
@@ -3573,6 +3692,12 @@ export interface SecretArchiveReference {
     readonly keyVaultId?: string;
     readonly secretName?: string;
     readonly secretVersion?: string;
+}
+
+// @public
+export interface SecretArchiveSettings {
+    associatedIdentity?: IdentitySelector;
+    vaultUri?: string;
 }
 
 // @public
@@ -3622,6 +3747,7 @@ export interface StorageAppliance extends TrackedResource {
     readonly clusterId?: string;
     readonly detailedStatus?: StorageApplianceDetailedStatus;
     readonly detailedStatusMessage?: string;
+    readonly etag?: string;
     extendedLocation: ExtendedLocation;
     readonly managementIpv4Address?: string;
     readonly manufacturer?: string;
@@ -3694,6 +3820,8 @@ export interface StorageAppliancesCreateOrUpdateHeaders {
 
 // @public
 export interface StorageAppliancesCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
+    ifMatch?: string;
+    ifNoneMatch?: string;
     resumeFrom?: string;
     updateIntervalInMs?: number;
 }
@@ -3708,6 +3836,8 @@ export interface StorageAppliancesDeleteHeaders {
 
 // @public
 export interface StorageAppliancesDeleteOptionalParams extends coreClient.OperationOptions {
+    ifMatch?: string;
+    ifNoneMatch?: string;
     resumeFrom?: string;
     updateIntervalInMs?: number;
 }
@@ -3794,6 +3924,8 @@ export interface StorageAppliancesUpdateHeaders {
 
 // @public
 export interface StorageAppliancesUpdateOptionalParams extends coreClient.OperationOptions {
+    ifMatch?: string;
+    ifNoneMatch?: string;
     resumeFrom?: string;
     storageApplianceUpdateParameters?: StorageAppliancePatchParameters;
     updateIntervalInMs?: number;
@@ -3845,6 +3977,7 @@ export interface TrunkedNetwork extends TrackedResource {
     readonly clusterId?: string;
     readonly detailedStatus?: TrunkedNetworkDetailedStatus;
     readonly detailedStatusMessage?: string;
+    readonly etag?: string;
     extendedLocation: ExtendedLocation;
     readonly hybridAksClustersAssociatedIds?: string[];
     hybridAksPluginType?: HybridAksPluginType;
@@ -3899,6 +4032,8 @@ export interface TrunkedNetworksCreateOrUpdateHeaders {
 
 // @public
 export interface TrunkedNetworksCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
+    ifMatch?: string;
+    ifNoneMatch?: string;
     resumeFrom?: string;
     updateIntervalInMs?: number;
 }
@@ -3913,6 +4048,8 @@ export interface TrunkedNetworksDeleteHeaders {
 
 // @public
 export interface TrunkedNetworksDeleteOptionalParams extends coreClient.OperationOptions {
+    ifMatch?: string;
+    ifNoneMatch?: string;
     resumeFrom?: string;
     updateIntervalInMs?: number;
 }
@@ -3957,6 +4094,8 @@ export type TrunkedNetworksListBySubscriptionResponse = TrunkedNetworkList;
 
 // @public
 export interface TrunkedNetworksUpdateOptionalParams extends coreClient.OperationOptions {
+    ifMatch?: string;
+    ifNoneMatch?: string;
     trunkedNetworkUpdateParameters?: TrunkedNetworkPatchParameters;
 }
 
@@ -3990,9 +4129,11 @@ export interface VirtualMachine extends TrackedResource {
     bootMethod?: VirtualMachineBootMethod;
     cloudServicesNetworkAttachment: NetworkAttachment;
     readonly clusterId?: string;
+    consoleExtendedLocation?: ExtendedLocation;
     cpuCores: number;
     readonly detailedStatus?: VirtualMachineDetailedStatus;
     readonly detailedStatusMessage?: string;
+    readonly etag?: string;
     extendedLocation: ExtendedLocation;
     isolateEmulatorThread?: VirtualMachineIsolateEmulatorThread;
     memorySizeGB: number;
@@ -4096,6 +4237,8 @@ export interface VirtualMachinesCreateOrUpdateHeaders {
 
 // @public
 export interface VirtualMachinesCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
+    ifMatch?: string;
+    ifNoneMatch?: string;
     resumeFrom?: string;
     updateIntervalInMs?: number;
 }
@@ -4110,6 +4253,8 @@ export interface VirtualMachinesDeleteHeaders {
 
 // @public
 export interface VirtualMachinesDeleteOptionalParams extends coreClient.OperationOptions {
+    ifMatch?: string;
+    ifNoneMatch?: string;
     resumeFrom?: string;
     updateIntervalInMs?: number;
 }
@@ -4217,6 +4362,8 @@ export interface VirtualMachinesUpdateHeaders {
 
 // @public
 export interface VirtualMachinesUpdateOptionalParams extends coreClient.OperationOptions {
+    ifMatch?: string;
+    ifNoneMatch?: string;
     resumeFrom?: string;
     updateIntervalInMs?: number;
     virtualMachineUpdateParameters?: VirtualMachinePatchParameters;
@@ -4233,6 +4380,7 @@ export interface Volume extends TrackedResource {
     readonly attachedTo?: string[];
     readonly detailedStatus?: VolumeDetailedStatus;
     readonly detailedStatusMessage?: string;
+    readonly etag?: string;
     extendedLocation: ExtendedLocation;
     readonly provisioningState?: VolumeProvisioningState;
     readonly serialNumber?: string;
@@ -4277,6 +4425,8 @@ export interface VolumesCreateOrUpdateHeaders {
 
 // @public
 export interface VolumesCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
+    ifMatch?: string;
+    ifNoneMatch?: string;
     resumeFrom?: string;
     updateIntervalInMs?: number;
 }
@@ -4291,6 +4441,8 @@ export interface VolumesDeleteHeaders {
 
 // @public
 export interface VolumesDeleteOptionalParams extends coreClient.OperationOptions {
+    ifMatch?: string;
+    ifNoneMatch?: string;
     resumeFrom?: string;
     updateIntervalInMs?: number;
 }
@@ -4335,11 +4487,26 @@ export type VolumesListBySubscriptionResponse = VolumeList;
 
 // @public
 export interface VolumesUpdateOptionalParams extends coreClient.OperationOptions {
+    ifMatch?: string;
+    ifNoneMatch?: string;
     volumeUpdateParameters?: VolumePatchParameters;
 }
 
 // @public
 export type VolumesUpdateResponse = Volume;
+
+// @public
+export interface VulnerabilityScanningSettings {
+    containerScan?: VulnerabilityScanningSettingsContainerScan;
+}
+
+// @public
+export type VulnerabilityScanningSettingsContainerScan = string;
+
+// @public
+export interface VulnerabilityScanningSettingsPatch {
+    containerScan?: VulnerabilityScanningSettingsContainerScan;
+}
 
 // @public
 export type WorkloadImpact = string;

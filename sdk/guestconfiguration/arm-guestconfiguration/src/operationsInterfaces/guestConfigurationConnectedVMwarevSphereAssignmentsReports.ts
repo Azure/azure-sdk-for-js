@@ -11,7 +11,7 @@ import {
   GuestConfigurationConnectedVMwarevSphereAssignmentsReportsListResponse,
   GuestConfigurationConnectedVMwarevSphereAssignmentsReportsGetOptionalParams,
   GuestConfigurationConnectedVMwarevSphereAssignmentsReportsGetResponse,
-} from "../models";
+} from "../models/index.js";
 
 /** Interface representing a GuestConfigurationConnectedVMwarevSphereAssignmentsReports. */
 export interface GuestConfigurationConnectedVMwarevSphereAssignmentsReports {

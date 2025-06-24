@@ -10,13 +10,13 @@
 // Licensed under the MIT License.
 const { ContainerRegistryManagementClient } = require("@azure/arm-containerregistry");
 const { DefaultAzureCredential } = require("@azure/identity");
-require("dotenv").config();
+require("dotenv/config");
 
 /**
  * This sample demonstrates how to Updates a task run with the specified parameters.
  *
  * @summary Updates a task run with the specified parameters.
- * x-ms-original-file: specification/containerregistry/resource-manager/Microsoft.ContainerRegistry/preview/2019-06-01-preview/examples/TaskRunsUpdate.json
+ * x-ms-original-file: specification/containerregistry/resource-manager/Microsoft.ContainerRegistry/preview/2025-03-01-preview/examples/TaskRunsUpdate.json
  */
 async function taskRunsUpdate() {
   const subscriptionId =
@@ -42,13 +42,13 @@ async function taskRunsUpdate() {
     resourceGroupName,
     registryName,
     taskRunName,
-    updateParameters
+    updateParameters,
   );
   console.log(result);
 }
 
 async function main() {
-  taskRunsUpdate();
+  await taskRunsUpdate();
 }
 
 main().catch(console.error);

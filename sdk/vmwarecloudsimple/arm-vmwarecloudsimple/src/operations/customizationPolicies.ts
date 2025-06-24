@@ -7,12 +7,12 @@
  */
 
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
-import { setContinuationToken } from "../pagingHelper";
-import { CustomizationPolicies } from "../operationsInterfaces";
+import { setContinuationToken } from "../pagingHelper.js";
+import { CustomizationPolicies } from "../operationsInterfaces/index.js";
 import * as coreClient from "@azure/core-client";
-import * as Mappers from "../models/mappers";
-import * as Parameters from "../models/parameters";
-import { VMwareCloudSimple } from "../vMwareCloudSimple";
+import * as Mappers from "../models/mappers.js";
+import * as Parameters from "../models/parameters.js";
+import { VMwareCloudSimple } from "../vMwareCloudSimple.js";
 import {
   CustomizationPolicy,
   CustomizationPoliciesListNextOptionalParams,
@@ -21,7 +21,7 @@ import {
   CustomizationPoliciesGetOptionalParams,
   CustomizationPoliciesGetResponse,
   CustomizationPoliciesListNextResponse
-} from "../models";
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Class containing CustomizationPolicies operations. */

@@ -7,9 +7,7 @@
  */
 import { VMwareCloudSimple } from "@azure/arm-vmwarecloudsimple";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Delete dedicated cloud node
@@ -17,7 +15,7 @@ dotenv.config();
  * @summary Delete dedicated cloud node
  * x-ms-original-file: specification/vmwarecloudsimple/resource-manager/Microsoft.VMwareCloudSimple/stable/2019-04-01/examples/DeleteDedicatedCloudNode.json
  */
-async function deleteDedicatedCloudNode() {
+async function deleteDedicatedCloudNode(): Promise<void> {
   const subscriptionId = process.env["VMWARECLOUDSIMPLE_SUBSCRIPTION_ID"] || "{subscription-id}";
   const resourceGroupName = process.env["VMWARECLOUDSIMPLE_RESOURCE_GROUP"] || "myResourceGroup";
   const dedicatedCloudNodeName = "myNode";
@@ -27,7 +25,7 @@ async function deleteDedicatedCloudNode() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   await deleteDedicatedCloudNode();
 }
 

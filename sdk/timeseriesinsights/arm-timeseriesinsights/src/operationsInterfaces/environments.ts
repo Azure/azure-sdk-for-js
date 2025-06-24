@@ -21,7 +21,7 @@ import {
   EnvironmentsListByResourceGroupResponse,
   EnvironmentsListBySubscriptionOptionalParams,
   EnvironmentsListBySubscriptionResponse
-} from "../models";
+} from "../models/index.js";
 
 /** Interface representing a Environments. */
 export interface Environments {

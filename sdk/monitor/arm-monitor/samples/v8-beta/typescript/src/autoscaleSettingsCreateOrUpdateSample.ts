@@ -10,9 +10,7 @@
 // Licensed under the MIT License.
 import { AutoscaleSettingResource, MonitorClient } from "@azure/arm-monitor";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Creates or updates an autoscale setting.
@@ -20,7 +18,7 @@ dotenv.config();
  * @summary Creates or updates an autoscale setting.
  * x-ms-original-file: specification/monitor/resource-manager/Microsoft.Insights/stable/2022-10-01/examples/createOrUpdateAutoscaleSetting.json
  */
-async function createOrUpdateAnAutoscaleSetting() {
+async function createOrUpdateAnAutoscaleSetting(): Promise<void> {
   const subscriptionId =
     process.env["MONITOR_SUBSCRIPTION_ID"] ||
     "b67f7fec-69fc-4974-9099-a26bd6ffeda3";
@@ -159,7 +157,7 @@ async function createOrUpdateAnAutoscaleSetting() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   createOrUpdateAnAutoscaleSetting();
 }
 

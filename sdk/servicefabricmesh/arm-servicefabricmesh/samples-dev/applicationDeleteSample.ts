@@ -7,9 +7,7 @@
  */
 import { ServiceFabricMeshManagementClient } from "@azure/arm-servicefabricmesh";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Deletes the application resource identified by the name.
@@ -17,7 +15,7 @@ dotenv.config();
  * @summary Deletes the application resource identified by the name.
  * x-ms-original-file: specification/servicefabricmesh/resource-manager/Microsoft.ServiceFabricMesh/preview/2018-09-01-preview/examples/applications/delete.json
  */
-async function deleteApplication() {
+async function deleteApplication(): Promise<void> {
   const subscriptionId =
     process.env["SERVICEFABRICMESH_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";
   const resourceGroupName = process.env["SERVICEFABRICMESH_RESOURCE_GROUP"] || "sbz_demo";
@@ -28,7 +26,7 @@ async function deleteApplication() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   await deleteApplication();
 }
 

@@ -11,7 +11,7 @@ import "dotenv/config";
  * @summary Gets all network interfaces in a resource group.
  * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-05-01/examples/NetworkInterfaceList.json
  */
-async function listNetworkInterfacesInResourceGroup() {
+async function listNetworkInterfacesInResourceGroup(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = createNetworkManagementClient(credential);
   const subscriptionId = "";

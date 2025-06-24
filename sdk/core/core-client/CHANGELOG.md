@@ -1,6 +1,6 @@
 # Release History
 
-## 1.9.3 (Unreleased)
+## 1.9.5 (Unreleased)
 
 ### Features Added
 
@@ -9,6 +9,18 @@
 ### Bugs Fixed
 
 ### Other Changes
+
+## 1.9.4 (2025-05-01)
+
+### Other Changes
+
+- Bump dependency `@azure/core-rest-pipeline` to `^1.20.0`. [PR #34151](https://github.com/Azure/azure-sdk-for-js/pull/34151)
+
+## 1.9.3 (2025-03-06)
+
+### Other Changes
+
+- Correctly set the code and message fields in `RestError` in a corner case [PR #33151](https://github.com/Azure/azure-sdk-for-js/pull/33151)
 
 ## 1.9.2 (2024-04-09)
 

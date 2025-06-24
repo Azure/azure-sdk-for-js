@@ -7,18 +7,18 @@
  */
 
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
-import { setContinuationToken } from "../pagingHelper";
-import { VerifierWorkspaces } from "../operationsInterfaces";
+import { setContinuationToken } from "../pagingHelper.js";
+import { VerifierWorkspaces } from "../operationsInterfaces/index.js";
 import * as coreClient from "@azure/core-client";
-import * as Mappers from "../models/mappers";
-import * as Parameters from "../models/parameters";
-import { NetworkManagementClient } from "../networkManagementClient";
+import * as Mappers from "../models/mappers.js";
+import * as Parameters from "../models/parameters.js";
+import { NetworkManagementClient } from "../networkManagementClient.js";
 import {
   SimplePollerLike,
   OperationState,
   createHttpPoller,
 } from "@azure/core-lro";
-import { createLroSpec } from "../lroImpl";
+import { createLroSpec } from "../lroImpl.js";
 import {
   VerifierWorkspace,
   VerifierWorkspacesListNextOptionalParams,
@@ -33,7 +33,7 @@ import {
   VerifierWorkspacesDeleteOptionalParams,
   VerifierWorkspacesDeleteResponse,
   VerifierWorkspacesListNextResponse,
-} from "../models";
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Class containing VerifierWorkspaces operations. */
@@ -394,7 +394,11 @@ const createOperationSpec: coreClient.OperationSpec = {
     Parameters.networkManagerName1,
     Parameters.workspaceName,
   ],
-  headerParameters: [Parameters.accept, Parameters.contentType],
+  headerParameters: [
+    Parameters.accept,
+    Parameters.contentType,
+    Parameters.ifMatch,
+  ],
   mediaType: "json",
   serializer,
 };
@@ -418,7 +422,11 @@ const updateOperationSpec: coreClient.OperationSpec = {
     Parameters.networkManagerName1,
     Parameters.workspaceName,
   ],
-  headerParameters: [Parameters.accept, Parameters.contentType],
+  headerParameters: [
+    Parameters.accept,
+    Parameters.contentType,
+    Parameters.ifMatch,
+  ],
   mediaType: "json",
   serializer,
 };
@@ -450,7 +458,7 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     Parameters.networkManagerName1,
     Parameters.workspaceName,
   ],
-  headerParameters: [Parameters.accept],
+  headerParameters: [Parameters.accept, Parameters.ifMatch],
   serializer,
 };
 const listNextOperationSpec: coreClient.OperationSpec = {

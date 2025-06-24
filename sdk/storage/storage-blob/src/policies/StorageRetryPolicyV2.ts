@@ -10,29 +10,15 @@ import type {
 } from "@azure/core-rest-pipeline";
 import { isRestError, RestError } from "@azure/core-rest-pipeline";
 import { getErrorMessage } from "@azure/core-util";
-import type { StorageRetryOptions } from "../StorageRetryPolicyFactory";
-import { URLConstants } from "../utils/constants";
-import { delay, setURLHost, setURLParameter } from "../utils/utils.common";
-import { logger } from "../log";
+import { StorageRetryPolicyType, type StorageRetryOptions } from "../StorageRetryPolicyFactory.js";
+import { URLConstants } from "../utils/constants.js";
+import { delay, setURLHost, setURLParameter } from "../utils/utils.common.js";
+import { logger } from "../log.js";
 
 /**
  * Name of the {@link storageRetryPolicy}
  */
 export const storageRetryPolicyName = "storageRetryPolicy";
-
-/**
- * RetryPolicy types.
- */
-export enum StorageRetryPolicyType {
-  /**
-   * Exponential retry. Retry time delay grows exponentially.
-   */
-  EXPONENTIAL,
-  /**
-   * Linear retry. Retry time delay grows linearly.
-   */
-  FIXED,
-}
 
 // Default values of StorageRetryOptions
 const DEFAULT_RETRY_OPTIONS = {

@@ -7,9 +7,7 @@
  */
 import { SecurityCenter } from "@azure/arm-security";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Settings about different configurations in Microsoft Defender for Cloud
@@ -17,7 +15,7 @@ dotenv.config();
  * @summary Settings about different configurations in Microsoft Defender for Cloud
  * x-ms-original-file: specification/security/resource-manager/Microsoft.Security/stable/2022-05-01/examples/Settings/GetSettings_example.json
  */
-async function getSettingsOfSubscription() {
+async function getSettingsOfSubscription(): Promise<void> {
   const subscriptionId =
     process.env["SECURITY_SUBSCRIPTION_ID"] || "20ff7fc3-e762-44dd-bd96-b71116dcdc23";
   const credential = new DefaultAzureCredential();
@@ -29,7 +27,7 @@ async function getSettingsOfSubscription() {
   console.log(resArray);
 }
 
-async function main() {
+async function main(): Promise<void> {
   await getSettingsOfSubscription();
 }
 

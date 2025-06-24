@@ -7,9 +7,7 @@
  */
 import { KustoManagementClient } from "@azure/arm-kusto";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Lists all Kusto clusters within a resource group.
@@ -17,7 +15,7 @@ dotenv.config();
  * @summary Lists all Kusto clusters within a resource group.
  * x-ms-original-file: specification/azure-kusto/resource-manager/Microsoft.Kusto/stable/2023-08-15/examples/KustoClustersListByResourceGroup.json
  */
-async function kustoClustersListByResourceGroup() {
+async function kustoClustersListByResourceGroup(): Promise<void> {
   const subscriptionId =
     process.env["KUSTO_SUBSCRIPTION_ID"] || "12345678-1234-1234-1234-123456789098";
   const resourceGroupName = process.env["KUSTO_RESOURCE_GROUP"] || "kustorptest";
@@ -30,7 +28,7 @@ async function kustoClustersListByResourceGroup() {
   console.log(resArray);
 }
 
-async function main() {
+async function main(): Promise<void> {
   await kustoClustersListByResourceGroup();
 }
 

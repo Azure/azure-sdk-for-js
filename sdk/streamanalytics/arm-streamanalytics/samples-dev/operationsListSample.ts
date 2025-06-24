@@ -7,9 +7,7 @@
  */
 import { StreamAnalyticsManagementClient } from "@azure/arm-streamanalytics";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Lists all of the available Stream Analytics related operations.
@@ -17,7 +15,7 @@ dotenv.config();
  * @summary Lists all of the available Stream Analytics related operations.
  * x-ms-original-file: specification/streamanalytics/resource-manager/Microsoft.StreamAnalytics/preview/2021-10-01-preview/examples/Operation_List.json
  */
-async function listAvailableOperationsForTheStreamAnalyticsResourceProvider() {
+async function listAvailableOperationsForTheStreamAnalyticsResourceProvider(): Promise<void> {
   const subscriptionId =
     process.env["STREAMANALYTICS_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";
   const credential = new DefaultAzureCredential();
@@ -29,7 +27,7 @@ async function listAvailableOperationsForTheStreamAnalyticsResourceProvider() {
   console.log(resArray);
 }
 
-async function main() {
+async function main(): Promise<void> {
   await listAvailableOperationsForTheStreamAnalyticsResourceProvider();
 }
 

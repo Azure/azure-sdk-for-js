@@ -10,7 +10,7 @@ import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   ServersMigrationCutoverMigrationOptionalParams,
   ServersMigrationCutoverMigrationResponse,
-} from "../models";
+} from "../models/index.js";
 
 /** Interface representing a ServersMigration. */
 export interface ServersMigration {

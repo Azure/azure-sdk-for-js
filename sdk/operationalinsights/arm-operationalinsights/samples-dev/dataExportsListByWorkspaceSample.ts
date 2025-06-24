@@ -7,9 +7,7 @@
  */
 import { OperationalInsightsManagementClient } from "@azure/arm-operationalinsights";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Lists the data export instances within a workspace.
@@ -17,7 +15,7 @@ dotenv.config();
  * @summary Lists the data export instances within a workspace.
  * x-ms-original-file: specification/operationalinsights/resource-manager/Microsoft.OperationalInsights/stable/2020-08-01/examples/DataExportListByWorkspace.json
  */
-async function dataExportGet() {
+async function dataExportGet(): Promise<void> {
   const subscriptionId =
     process.env["OPERATIONALINSIGHTS_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-00000000000";
   const resourceGroupName = process.env["OPERATIONALINSIGHTS_RESOURCE_GROUP"] || "RgTest1";
@@ -31,7 +29,7 @@ async function dataExportGet() {
   console.log(resArray);
 }
 
-async function main() {
+async function main(): Promise<void> {
   await dataExportGet();
 }
 

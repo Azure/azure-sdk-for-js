@@ -7,19 +7,19 @@
  */
 
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
-import { setContinuationToken } from "../pagingHelper";
-import { StorageTaskAssignmentOperations } from "../operationsInterfaces";
+import { setContinuationToken } from "../pagingHelper.js";
+import { StorageTaskAssignmentOperations } from "../operationsInterfaces/index.js";
 import * as coreClient from "@azure/core-client";
-import * as Mappers from "../models/mappers";
-import * as Parameters from "../models/parameters";
-import { StorageActionsManagementClient } from "../storageActionsManagementClient";
+import * as Mappers from "../models/mappers.js";
+import * as Parameters from "../models/parameters.js";
+import { StorageActionsManagementClient } from "../storageActionsManagementClient.js";
 import {
   StorageTaskAssignment,
   StorageTaskAssignmentListNextOptionalParams,
   StorageTaskAssignmentListOptionalParams,
   StorageTaskAssignmentListResponse,
   StorageTaskAssignmentListNextResponse,
-} from "../models";
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Class containing StorageTaskAssignmentOperations operations. */
@@ -37,7 +37,7 @@ export class StorageTaskAssignmentOperationsImpl
   }
 
   /**
-   * Lists all the storage tasks available under the given resource group.
+   * Lists Resource IDs of the Storage Task Assignments associated with this Storage Task.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param storageTaskName The name of the storage task within the specified resource group. Storage
    *                        task names must be between 3 and 18 characters in length and use numbers and lower-case letters
@@ -119,7 +119,7 @@ export class StorageTaskAssignmentOperationsImpl
   }
 
   /**
-   * Lists all the storage tasks available under the given resource group.
+   * Lists Resource IDs of the Storage Task Assignments associated with this Storage Task.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param storageTaskName The name of the storage task within the specified resource group. Storage
    *                        task names must be between 3 and 18 characters in length and use numbers and lower-case letters

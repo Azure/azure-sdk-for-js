@@ -11,7 +11,7 @@ import "dotenv/config";
  * @summary Lists all the VirtualWANs in a subscription.
  * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-05-01/examples/VirtualWANList.json
  */
-async function virtualWanList() {
+async function virtualWanList(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = createNetworkManagementClient(credential);
   const subscriptionId = "";

@@ -9,7 +9,7 @@
 import {
   VirtualMachineSizesListOptionalParams,
   VirtualMachineSizesListResponse,
-} from "../models";
+} from "../models/index.js";
 
 /** Interface representing a VirtualMachineSizes. */
 export interface VirtualMachineSizes {

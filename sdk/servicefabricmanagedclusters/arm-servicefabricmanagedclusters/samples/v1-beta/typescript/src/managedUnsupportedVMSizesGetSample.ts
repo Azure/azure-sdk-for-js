@@ -10,9 +10,7 @@
 // Licensed under the MIT License.
 import { ServiceFabricManagedClustersManagementClient } from "@azure/arm-servicefabricmanagedclusters";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Get unsupported vm size for Service Fabric Managed Clusters.
@@ -20,7 +18,7 @@ dotenv.config();
  * @summary Get unsupported vm size for Service Fabric Managed Clusters.
  * x-ms-original-file: specification/servicefabricmanagedclusters/resource-manager/Microsoft.ServiceFabric/preview/2024-09-01-preview/examples/managedUnsupportedVMSizesGet_example.json
  */
-async function getUnsupportedVMSizes() {
+async function getUnsupportedVMSizes(): Promise<void> {
   const subscriptionId =
     process.env["SERVICEFABRICMANAGEDCLUSTERS_SUBSCRIPTION_ID"] ||
     "00000000-0000-0000-0000-000000000000";
@@ -35,7 +33,7 @@ async function getUnsupportedVMSizes() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   getUnsupportedVMSizes();
 }
 

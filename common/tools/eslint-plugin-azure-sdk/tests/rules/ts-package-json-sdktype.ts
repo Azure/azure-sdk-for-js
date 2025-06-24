@@ -34,7 +34,7 @@ const examplePackageGood = `{
     "url": "https://github.com/Azure/azure-sdk-for-js/issues"
   },
   "engines": {
-    "node": ">=18.0.0"
+    "node": ">=20.0.0"
   },
   "main": "./dist/index.js",
   "module": "dist-esm/src/index.js",
@@ -108,8 +108,7 @@ const examplePackageGood = `{
     "@azure/dev-tool": "^1.0.0",
     "@azure/eslint-plugin-azure-sdk": "^3.0.0",
     "@azure/identity": "^2.0.1",
-    "@azure/mock-hub": "^1.0.0",
-    "@azure-tools/test-utils": "^1.0.0",
+    "@azure-tools/mock-hub": "^1.0.0",
     "@azure-tools/test-perf": "^1.0.0",
     "@rollup/plugin-commonjs": "11.0.2",
     "@rollup/plugin-inject": "^4.0.0",
@@ -124,7 +123,7 @@ const examplePackageGood = `{
     "@types/debug": "^4.1.4",
     "@types/long": "^4.0.0",
     "@types/mocha": "^10.0.0",
-    "@types/node": "^18.0.0",
+    "@types/node": "^20.0.0",
     "@types/sinon": "^9.0.4",
     "@types/uuid": "^8.0.0",
     "@types/ws": "^7.2.4",
@@ -160,7 +159,7 @@ const examplePackageGood = `{
     "rollup-plugin-terser": "^5.1.1",
     "sinon": "^9.0.2",
     "ts-node": "^10.0.0",
-    "typescript": "~5.7.2",
+    "typescript": "~5.8.2",
     "ws": "^7.1.1",
     "typedoc": "0.15.2"
   }
@@ -186,7 +185,7 @@ const examplePackageBad = `{
     "url": "https://github.com/Azure/azure-sdk-for-js/issues"
   },
   "engines": {
-    "node": ">=18.0.0"
+    "node": ">=20.0.0"
   },
   "main": "./dist/index.js",
   "module": "dist-esm/src/index.js",
@@ -260,8 +259,7 @@ const examplePackageBad = `{
     "@azure/dev-tool": "^1.0.0",
     "@azure/eslint-plugin-azure-sdk": "^3.0.0",
     "@azure/identity": "^2.0.1",
-    "@azure/mock-hub": "^1.0.0",
-    "@azure-tools/test-utils": "^1.0.0",
+    "@azure-tools/mock-hub": "^1.0.0",
     "@azure-tools/test-perf": "^1.0.0",
     "@rollup/plugin-commonjs": "11.0.2",
     "@rollup/plugin-inject": "^4.0.0",
@@ -276,7 +274,7 @@ const examplePackageBad = `{
     "@types/debug": "^4.1.4",
     "@types/long": "^4.0.0",
     "@types/mocha": "^10.0.0",
-    "@types/node": "^18.0.0",
+    "@types/node": "^20.0.0",
     "@types/sinon": "^9.0.4",
     "@types/uuid": "^8.0.0",
     "@types/ws": "^7.2.4",
@@ -312,7 +310,7 @@ const examplePackageBad = `{
     "rollup-plugin-terser": "^5.1.1",
     "sinon": "^9.0.2",
     "ts-node": "^10.0.0",
-    "typescript": "~5.7.2",
+    "typescript": "~5.8.2",
     "ws": "^7.1.1",
     "typedoc": "0.15.2"
   }
@@ -360,7 +358,7 @@ ruleTester.run("ts-package-json-sdktype", rule, {
       errors: [
         {
           message:
-            "unrecognized sdk-type value: clien. Expected one of 'client', 'mgmt', or 'utility.'",
+            "unrecognized sdk-type value: clien. Expected one of 'client', 'mgmt', 'perf-test', or 'utility'.",
         },
       ],
     },
@@ -371,7 +369,7 @@ ruleTester.run("ts-package-json-sdktype", rule, {
       errors: [
         {
           message:
-            "unrecognized sdk-type value: mgm. Expected one of 'client', 'mgmt', or 'utility.'",
+            "unrecognized sdk-type value: mgm. Expected one of 'client', 'mgmt', 'perf-test', or 'utility'.",
         },
       ],
     },
@@ -382,7 +380,7 @@ ruleTester.run("ts-package-json-sdktype", rule, {
       errors: [
         {
           message:
-            "unrecognized sdk-type value: util. Expected one of 'client', 'mgmt', or 'utility.'",
+            "unrecognized sdk-type value: util. Expected one of 'client', 'mgmt', 'perf-test', or 'utility'.",
         },
       ],
     },

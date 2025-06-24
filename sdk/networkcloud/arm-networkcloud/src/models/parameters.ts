@@ -61,7 +61,7 @@ import {
   KubernetesClusterFeaturePatchParameters as KubernetesClusterFeaturePatchParametersMapper,
   Console as ConsoleMapper,
   ConsolePatchParameters as ConsolePatchParametersMapper,
-} from "../models/mappers";
+} from "../models/mappers.js";
 
 export const accept: OperationParameter = {
   parameterPath: "accept",
@@ -90,7 +90,7 @@ export const $host: OperationURLParameter = {
 export const apiVersion: OperationQueryParameter = {
   parameterPath: "apiVersion",
   mapper: {
-    defaultValue: "2024-06-01-preview",
+    defaultValue: "2025-02-01",
     isConstant: true,
     serializedName: "api-version",
     type: {
@@ -166,6 +166,26 @@ export const contentType: OperationParameter = {
 export const bareMetalMachineParameters: OperationParameter = {
   parameterPath: "bareMetalMachineParameters",
   mapper: BareMetalMachineMapper,
+};
+
+export const ifMatch: OperationParameter = {
+  parameterPath: ["options", "ifMatch"],
+  mapper: {
+    serializedName: "If-Match",
+    type: {
+      name: "String",
+    },
+  },
+};
+
+export const ifNoneMatch: OperationParameter = {
+  parameterPath: ["options", "ifNoneMatch"],
+  mapper: {
+    serializedName: "If-None-Match",
+    type: {
+      name: "String",
+    },
+  },
 };
 
 export const bareMetalMachineUpdateParameters: OperationParameter = {

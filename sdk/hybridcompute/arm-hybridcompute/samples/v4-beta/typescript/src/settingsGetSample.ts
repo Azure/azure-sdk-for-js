@@ -10,9 +10,7 @@
 // Licensed under the MIT License.
 import { HybridComputeManagementClient } from "@azure/arm-hybridcompute";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Returns the base Settings for the target resource.
@@ -20,7 +18,7 @@ dotenv.config();
  * @summary Returns the base Settings for the target resource.
  * x-ms-original-file: specification/hybridcompute/resource-manager/Microsoft.HybridCompute/preview/2024-07-31-preview/examples/settings/SettingsGet.json
  */
-async function networkConfigurationsGet() {
+async function networkConfigurationsGet(): Promise<void> {
   const subscriptionId =
     process.env["HYBRIDCOMPUTE_SUBSCRIPTION_ID"] ||
     "00000000-1111-2222-3333-444444444444";
@@ -42,7 +40,7 @@ async function networkConfigurationsGet() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   networkConfigurationsGet();
 }
 

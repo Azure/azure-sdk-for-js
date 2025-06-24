@@ -13,7 +13,7 @@ import "dotenv/config";
  * @summary Creates a vpn connection to a scalable vpn gateway if it doesn't exist else updates the existing connection.
  * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-05-01/examples/VpnConnectionPut.json
  */
-async function vpnConnectionPut() {
+async function vpnConnectionPut(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = createNetworkManagementClient(credential);
   const subscriptionId = "";

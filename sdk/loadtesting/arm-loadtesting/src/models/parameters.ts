@@ -15,7 +15,7 @@ import {
   QuotaBucketRequest as QuotaBucketRequestMapper,
   LoadTestResource as LoadTestResourceMapper,
   LoadTestResourcePatchRequestBody as LoadTestResourcePatchRequestBodyMapper
-} from "../models/mappers";
+} from "../models/mappers.js";
 
 export const accept: OperationParameter = {
   parameterPath: "accept",

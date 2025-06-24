@@ -10,7 +10,7 @@ import {
   ConnectionPolicyName,
   SqlPoolConnectionPoliciesGetOptionalParams,
   SqlPoolConnectionPoliciesGetResponse
-} from "../models";
+} from "../models/index.js";
 
 /** Interface representing a SqlPoolConnectionPolicies. */
 export interface SqlPoolConnectionPolicies {

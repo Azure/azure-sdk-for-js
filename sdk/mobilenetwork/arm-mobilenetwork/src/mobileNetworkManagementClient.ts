@@ -33,7 +33,7 @@ import {
   SlicesImpl,
   ExtendedUeInformationImpl,
   UeInformationImpl,
-} from "./operations";
+} from "./operations/index.js";
 import {
   AttachedDataNetworks,
   DataNetworks,
@@ -53,8 +53,8 @@ import {
   Slices,
   ExtendedUeInformation,
   UeInformation,
-} from "./operationsInterfaces";
-import { MobileNetworkManagementClientOptionalParams } from "./models";
+} from "./operationsInterfaces/index.js";
+import { MobileNetworkManagementClientOptionalParams } from "./models/index.js";
 
 export class MobileNetworkManagementClient extends coreClient.ServiceClient {
   $host: string;

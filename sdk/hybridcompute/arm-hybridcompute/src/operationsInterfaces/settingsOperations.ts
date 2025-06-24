@@ -14,7 +14,7 @@ import {
   SettingsUpdateResponse,
   SettingsPatchOptionalParams,
   SettingsPatchResponse,
-} from "../models";
+} from "../models/index.js";
 
 /** Interface representing a SettingsOperations. */
 export interface SettingsOperations {

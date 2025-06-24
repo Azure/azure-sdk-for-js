@@ -7,9 +7,7 @@
  */
 import { VMwareCloudSimple } from "@azure/arm-vmwarecloudsimple";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Returns list of usage in region
@@ -17,7 +15,7 @@ dotenv.config();
  * @summary Returns list of usage in region
  * x-ms-original-file: specification/vmwarecloudsimple/resource-manager/Microsoft.VMwareCloudSimple/stable/2019-04-01/examples/ListUsages.json
  */
-async function listUsages() {
+async function listUsages(): Promise<void> {
   const subscriptionId = process.env["VMWARECLOUDSIMPLE_SUBSCRIPTION_ID"] || "{subscription-id}";
   const regionId = "westus2";
   const credential = new DefaultAzureCredential();
@@ -29,7 +27,7 @@ async function listUsages() {
   console.log(resArray);
 }
 
-async function main() {
+async function main(): Promise<void> {
   await listUsages();
 }
 

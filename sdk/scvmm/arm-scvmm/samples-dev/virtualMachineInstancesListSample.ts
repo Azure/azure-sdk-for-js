@@ -7,9 +7,7 @@
  */
 import { ScVmm } from "@azure/arm-scvmm";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Lists all of the virtual machine instances within the specified parent resource.
@@ -17,7 +15,7 @@ dotenv.config();
  * @summary Lists all of the virtual machine instances within the specified parent resource.
  * x-ms-original-file: specification/scvmm/resource-manager/Microsoft.ScVmm/stable/2023-10-07/examples/VirtualMachineInstances_List_MaximumSet_Gen.json
  */
-async function virtualMachineInstancesListMaximumSet() {
+async function virtualMachineInstancesListMaximumSet(): Promise<void> {
   const resourceUri = "gtgclehcbsyave";
   const credential = new DefaultAzureCredential();
   const client = new ScVmm(credential);
@@ -34,7 +32,7 @@ async function virtualMachineInstancesListMaximumSet() {
  * @summary Lists all of the virtual machine instances within the specified parent resource.
  * x-ms-original-file: specification/scvmm/resource-manager/Microsoft.ScVmm/stable/2023-10-07/examples/VirtualMachineInstances_List_MinimumSet_Gen.json
  */
-async function virtualMachineInstancesListMinimumSet() {
+async function virtualMachineInstancesListMinimumSet(): Promise<void> {
   const resourceUri = "gtgclehcbsyave";
   const credential = new DefaultAzureCredential();
   const client = new ScVmm(credential);
@@ -45,7 +43,7 @@ async function virtualMachineInstancesListMinimumSet() {
   console.log(resArray);
 }
 
-async function main() {
+async function main(): Promise<void> {
   await virtualMachineInstancesListMaximumSet();
   await virtualMachineInstancesListMinimumSet();
 }

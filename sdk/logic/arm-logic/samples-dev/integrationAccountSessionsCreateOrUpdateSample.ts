@@ -8,9 +8,7 @@
 import type { IntegrationAccountSession } from "@azure/arm-logic";
 import { LogicManagementClient } from "@azure/arm-logic";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Creates or updates an integration account session.
@@ -18,7 +16,7 @@ dotenv.config();
  * @summary Creates or updates an integration account session.
  * x-ms-original-file: specification/logic/resource-manager/Microsoft.Logic/stable/2019-05-01/examples/IntegrationAccountSessions_CreateOrUpdate.json
  */
-async function createOrUpdateAnIntegrationAccountSession() {
+async function createOrUpdateAnIntegrationAccountSession(): Promise<void> {
   const subscriptionId =
     process.env["LOGIC_SUBSCRIPTION_ID"] || "34adfa4f-cedf-4dc0-ba29-b6d1a69ab345";
   const resourceGroupName = process.env["LOGIC_RESOURCE_GROUP"] || "testrg123";
@@ -41,7 +39,7 @@ async function createOrUpdateAnIntegrationAccountSession() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   await createOrUpdateAnIntegrationAccountSession();
 }
 

@@ -7,9 +7,7 @@
  */
 import { QumuloStorage } from "@azure/arm-qumulo";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to List FileSystemResource resources by subscription ID
@@ -17,7 +15,7 @@ dotenv.config();
  * @summary List FileSystemResource resources by subscription ID
  * x-ms-original-file: specification/liftrqumulo/resource-manager/Qumulo.Storage/stable/2024-06-19/examples/FileSystems_ListBySubscription_MaximumSet_Gen.json
  */
-async function fileSystemsListBySubscription() {
+async function fileSystemsListBySubscription(): Promise<void> {
   const subscriptionId =
     process.env["LIFTRQUMULO_SUBSCRIPTION_ID"] || "382E8C7A-AC80-4D70-8580-EFE99537B9B7";
   const credential = new DefaultAzureCredential();
@@ -35,7 +33,7 @@ async function fileSystemsListBySubscription() {
  * @summary List FileSystemResource resources by subscription ID
  * x-ms-original-file: specification/liftrqumulo/resource-manager/Qumulo.Storage/stable/2024-06-19/examples/FileSystems_ListBySubscription_MinimumSet_Gen.json
  */
-async function fileSystemsListBySubscriptionMinimumSetGen() {
+async function fileSystemsListBySubscriptionMinimumSetGen(): Promise<void> {
   const subscriptionId = process.env["LIFTRQUMULO_SUBSCRIPTION_ID"] || "aaaaaaa";
   const credential = new DefaultAzureCredential();
   const client = new QumuloStorage(credential, subscriptionId);
@@ -46,7 +44,7 @@ async function fileSystemsListBySubscriptionMinimumSetGen() {
   console.log(resArray);
 }
 
-async function main() {
+async function main(): Promise<void> {
   await fileSystemsListBySubscription();
   await fileSystemsListBySubscriptionMinimumSetGen();
 }

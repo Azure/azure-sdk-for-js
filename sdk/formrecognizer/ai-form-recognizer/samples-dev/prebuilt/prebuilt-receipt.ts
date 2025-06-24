@@ -706,7 +706,7 @@ export interface ReceiptHotelItemsElement {
 /**
  * The raw model schema.
  */
-function modelInfo() {
+function modelInfo(): any {
   return {
     modelId: "prebuilt-receipt",
     description: "Extract key information from receipts.",

@@ -14,7 +14,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * @summary Backup the iSCSI server now.
  * x-ms-original-file: specification/storsimple1200series/resource-manager/Microsoft.StorSimple/stable/2016-10-01/examples/IscsiServersBackupNow.json
  */
-async function iscsiServersBackupNow() {
+async function iscsiServersBackupNow(): Promise<void> {
   const subscriptionId = "9eb689cd-7243-43b4-b6f6-5c65cb296641";
   const deviceName = "HSDK-0NZI14MDTF";
   const iscsiServerName = "HSDK-0NZI14MDTF";

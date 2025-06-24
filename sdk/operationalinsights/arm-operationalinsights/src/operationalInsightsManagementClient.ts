@@ -32,7 +32,7 @@ import {
   WorkspacesImpl,
   DeletedWorkspacesImpl,
   TablesImpl
-} from "./operations";
+} from "./operations/index.js";
 import {
   QueryPacks,
   Queries,
@@ -56,8 +56,8 @@ import {
   Workspaces,
   DeletedWorkspaces,
   Tables
-} from "./operationsInterfaces";
-import { OperationalInsightsManagementClientOptionalParams } from "./models";
+} from "./operationsInterfaces/index.js";
+import { OperationalInsightsManagementClientOptionalParams } from "./models/index.js";
 
 export class OperationalInsightsManagementClient extends coreClient.ServiceClient {
   $host: string;

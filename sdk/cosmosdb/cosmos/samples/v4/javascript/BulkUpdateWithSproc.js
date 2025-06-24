@@ -5,13 +5,11 @@
  * @summary Bulk Updates documents with a Stored Procedure. Prefer `container.items().bulk()` to this behavior.
  */
 
-require("dotenv").config();
-
-const { logSampleHeader, handleError, finish, logStep } = require("./Shared/handleError");
-// eslint-disable-next-line @typescript-eslint/ban-ts-comment
-// @ts-ignore
+require("dotenv/config");
+const { logSampleHeader, handleError, finish, logStep } = require("./Shared/handleError.js");
 const { CosmosClient } = require("@azure/cosmos");
 const { randomUUID } = require("@azure/core-util");
+
 const key = process.env.COSMOS_KEY || "<cosmos key>";
 const endpoint = process.env.COSMOS_ENDPOINT || "<cosmos endpoint>";
 const databaseId = process.env.COSMOS_DATABASE || "<cosmos database>";

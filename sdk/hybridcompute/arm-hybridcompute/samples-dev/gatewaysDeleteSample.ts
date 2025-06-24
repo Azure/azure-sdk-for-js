@@ -7,9 +7,7 @@
  */
 import { HybridComputeManagementClient } from "@azure/arm-hybridcompute";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to The operation to delete a gateway.
@@ -17,7 +15,7 @@ dotenv.config();
  * @summary The operation to delete a gateway.
  * x-ms-original-file: specification/hybridcompute/resource-manager/Microsoft.HybridCompute/preview/2024-07-31-preview/examples/gateway/Gateway_Delete.json
  */
-async function deleteAGateway() {
+async function deleteAGateway(): Promise<void> {
   const subscriptionId =
     process.env["HYBRIDCOMPUTE_SUBSCRIPTION_ID"] || "ffd506c8-3415-42d3-9612-fdb423fb17df";
   const resourceGroupName = process.env["HYBRIDCOMPUTE_RESOURCE_GROUP"] || "myResourceGroup";
@@ -28,7 +26,7 @@ async function deleteAGateway() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   await deleteAGateway();
 }
 

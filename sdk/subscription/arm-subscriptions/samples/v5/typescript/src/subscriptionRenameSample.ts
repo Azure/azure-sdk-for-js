@@ -17,7 +17,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * @summary The operation to rename a subscription
  * x-ms-original-file: specification/subscription/resource-manager/Microsoft.Subscription/stable/2021-10-01/examples/renameSubscription.json
  */
-async function renameSubscription() {
+async function renameSubscription(): Promise<void> {
   const subscriptionId = "83aa47df-e3e9-49ff-877b-94304bf3d3ad";
   const body: SubscriptionName = { subscriptionName: "Test Sub" };
   const credential = new DefaultAzureCredential();

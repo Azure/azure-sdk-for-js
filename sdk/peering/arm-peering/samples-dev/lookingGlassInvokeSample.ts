@@ -14,7 +14,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * @summary Run looking glass functionality
  * x-ms-original-file: specification/peering/resource-manager/Microsoft.Peering/stable/2021-06-01/examples/LookingGlassInvokeCommand.json
  */
-async function callLookingGlassToExecuteACommand() {
+async function callLookingGlassToExecuteACommand(): Promise<void> {
   const subscriptionId = "subId";
   const command = "Traceroute";
   const sourceType = "AzureRegion";

@@ -17,7 +17,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * @summary Deletes the PostgreSQL Server key with the given name.
  * x-ms-original-file: specification/postgresql/resource-manager/Microsoft.DBforPostgreSQL/stable/2020-01-01/examples/ServerKeyDelete.json
  */
-async function deleteThePostgreSqlServerKey() {
+async function deleteThePostgreSqlServerKey(): Promise<void> {
   const subscriptionId = "ffffffff-ffff-ffff-ffff-ffffffffffff";
   const serverName = "testserver";
   const keyName = "someVault_someKey_01234567890123456789012345678901";

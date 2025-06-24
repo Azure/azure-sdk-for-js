@@ -8,9 +8,7 @@
 import type { UpdateGatewaySettingsParameters } from "@azure/arm-hdinsight";
 import { HDInsightManagementClient } from "@azure/arm-hdinsight";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Configures the gateway settings on the specified cluster.
@@ -18,7 +16,7 @@ dotenv.config();
  * @summary Configures the gateway settings on the specified cluster.
  * x-ms-original-file: specification/hdinsight/resource-manager/Microsoft.HDInsight/preview/2024-08-01-preview/examples/HDI_Clusters_UpdateGatewaySettings_Enable.json
  */
-async function enableHttpConnectivity() {
+async function enableHttpConnectivity(): Promise<void> {
   const subscriptionId = process.env["HDINSIGHT_SUBSCRIPTION_ID"] || "subid";
   const resourceGroupName = process.env["HDINSIGHT_RESOURCE_GROUP"] || "rg1";
   const clusterName = "cluster1";
@@ -37,7 +35,7 @@ async function enableHttpConnectivity() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   await enableHttpConnectivity();
 }
 

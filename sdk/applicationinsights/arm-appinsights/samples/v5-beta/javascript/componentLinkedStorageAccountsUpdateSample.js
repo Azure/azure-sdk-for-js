@@ -6,10 +6,9 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
 const { ApplicationInsightsManagementClient } = require("@azure/arm-appinsights");
 const { DefaultAzureCredential } = require("@azure/identity");
+require("dotenv/config");
 
 /**
  * This sample demonstrates how to Update linked storage accounts for an Application Insights component.
@@ -18,8 +17,10 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * x-ms-original-file: specification/applicationinsights/resource-manager/Microsoft.Insights/preview/2020-03-01-preview/examples/ComponentLinkedStorageAccountsUpdate.json
  */
 async function componentLinkedStorageAccountsUpdate() {
-  const subscriptionId = "86dc51d3-92ed-4d7e-947a-775ea79b4918";
-  const resourceGroupName = "someResourceGroupName";
+  const subscriptionId =
+    process.env["APPLICATIONINSIGHTS_SUBSCRIPTION_ID"] || "86dc51d3-92ed-4d7e-947a-775ea79b4918";
+  const resourceGroupName =
+    process.env["APPLICATIONINSIGHTS_RESOURCE_GROUP"] || "someResourceGroupName";
   const resourceName = "myComponent";
   const storageType = "ServiceProfiler";
   const linkedStorageAccountsProperties = {
@@ -32,9 +33,13 @@ async function componentLinkedStorageAccountsUpdate() {
     resourceGroupName,
     resourceName,
     storageType,
-    linkedStorageAccountsProperties
+    linkedStorageAccountsProperties,
   );
   console.log(result);
 }
 
-componentLinkedStorageAccountsUpdate().catch(console.error);
+async function main() {
+  await componentLinkedStorageAccountsUpdate();
+}
+
+main().catch(console.error);

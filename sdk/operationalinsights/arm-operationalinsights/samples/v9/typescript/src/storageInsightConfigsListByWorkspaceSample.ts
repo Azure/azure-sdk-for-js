@@ -10,9 +10,7 @@
 // Licensed under the MIT License.
 import { OperationalInsightsManagementClient } from "@azure/arm-operationalinsights";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Lists the storage insight instances within a workspace
@@ -20,7 +18,7 @@ dotenv.config();
  * @summary Lists the storage insight instances within a workspace
  * x-ms-original-file: specification/operationalinsights/resource-manager/Microsoft.OperationalInsights/stable/2020-08-01/examples/StorageInsightsListByWorkspace.json
  */
-async function storageInsightsList() {
+async function storageInsightsList(): Promise<void> {
   const subscriptionId =
     process.env["OPERATIONALINSIGHTS_SUBSCRIPTION_ID"] ||
     "00000000-0000-0000-0000-00000000000";
@@ -42,7 +40,7 @@ async function storageInsightsList() {
   console.log(resArray);
 }
 
-async function main() {
+async function main(): Promise<void> {
   storageInsightsList();
 }
 

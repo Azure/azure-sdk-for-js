@@ -10,9 +10,7 @@
 // Licensed under the MIT License.
 import { DiagnosticSettingsResource, MonitorClient } from "@azure/arm-monitor";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Creates or updates diagnostic settings for the specified resource.
@@ -20,7 +18,7 @@ dotenv.config();
  * @summary Creates or updates diagnostic settings for the specified resource.
  * x-ms-original-file: specification/monitor/resource-manager/Microsoft.Insights/preview/2021-05-01-preview/examples/createOrUpdateDiagnosticSetting.json
  */
-async function createsOrUpdatesTheDiagnosticSetting() {
+async function createsOrUpdatesTheDiagnosticSetting(): Promise<void> {
   const resourceUri =
     "subscriptions/1a66ce04-b633-4a0b-b2bc-a912ec8986a6/resourcegroups/viruela1/providers/microsoft.logic/workflows/viruela6";
   const name = "mysetting";
@@ -65,7 +63,7 @@ async function createsOrUpdatesTheDiagnosticSetting() {
  * @summary Creates or updates diagnostic settings for the specified resource.
  * x-ms-original-file: specification/monitor/resource-manager/Microsoft.Insights/preview/2021-05-01-preview/examples/createOrUpdateDiagnosticSettingCategory.json
  */
-async function createsOrUpdatesTheDiagnosticSettingForCategory() {
+async function createsOrUpdatesTheDiagnosticSettingForCategory(): Promise<void> {
   const resourceUri =
     "subscriptions/1a66ce04-b633-4a0b-b2bc-a912ec8986a6/resourcegroups/viruela1/providers/microsoft.logic/workflows/viruela6";
   const name = "mysetting";
@@ -104,7 +102,7 @@ async function createsOrUpdatesTheDiagnosticSettingForCategory() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   createsOrUpdatesTheDiagnosticSetting();
   createsOrUpdatesTheDiagnosticSettingForCategory();
 }

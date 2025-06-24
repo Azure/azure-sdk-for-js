@@ -8,9 +8,7 @@
 import type { LogProfileResource } from "@azure/arm-monitor";
 import { MonitorClient } from "@azure/arm-monitor";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Create or update a log profile in Azure Monitoring REST API.
@@ -18,7 +16,7 @@ dotenv.config();
  * @summary Create or update a log profile in Azure Monitoring REST API.
  * x-ms-original-file: specification/monitor/resource-manager/Microsoft.Insights/stable/2016-03-01/examples/createOrUpdateLogProfile.json
  */
-async function createOrUpdateALogProfile() {
+async function createOrUpdateALogProfile(): Promise<void> {
   const subscriptionId =
     process.env["MONITOR_SUBSCRIPTION_ID"] || "df602c9c-7aa0-407d-a6fb-eb20c8bd1192";
   const logProfileName = "Rac46PostSwapRG";
@@ -38,7 +36,7 @@ async function createOrUpdateALogProfile() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   await createOrUpdateALogProfile();
 }
 

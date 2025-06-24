@@ -18,7 +18,7 @@ import "dotenv/config";
  * @summary Gets all deployments for a remediation at resource group scope.
  * x-ms-original-file: specification/policyinsights/resource-manager/Microsoft.PolicyInsights/stable/2024-10-01/examples/Remediations_ListDeploymentsResourceGroupScope.json
  */
-async function listDeploymentsForARemediationAtResourceGroupScope() {
+async function listDeploymentsForARemediationAtResourceGroupScope(): Promise<void> {
   const subscriptionId =
     process.env["POLICYINSIGHTS_SUBSCRIPTION_ID"] ||
     "35ee058e-5fa0-414c-8145-3ebb8d09b6e2";
@@ -37,7 +37,7 @@ async function listDeploymentsForARemediationAtResourceGroupScope() {
   console.log(resArray);
 }
 
-async function main() {
+async function main(): Promise<void> {
   listDeploymentsForARemediationAtResourceGroupScope();
 }
 

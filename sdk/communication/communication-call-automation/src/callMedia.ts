@@ -155,6 +155,7 @@ export class CallMedia {
       playTo: playTo.map((identifier) => serializeCommunicationIdentifier(identifier)),
       playOptions: {
         loop: false,
+        interruptHoldAudio: false,
       },
       operationContext: options.operationContext ? options.operationContext : randomUUID(),
       operationCallbackUri: options.operationCallbackUrl,
@@ -163,6 +164,13 @@ export class CallMedia {
     if (options.loop !== undefined) {
       playRequest.playOptions = playRequest.playOptions || { loop: false }; // Ensure playOptions is defined
       playRequest.playOptions.loop = options.loop;
+    }
+    if (options.interruptHoldAudio !== undefined) {
+      playRequest.playOptions = playRequest.playOptions || {
+        loop: false,
+        interruptHoldAudio: false,
+      }; // Ensure playOptions is defined
+      playRequest.playOptions.interruptHoldAudio = options.interruptHoldAudio;
     }
     await this.callMedia.play(this.callConnectionId, playRequest, options);
 
@@ -685,7 +693,7 @@ export class CallMedia {
     const startTranscriptionRequest: StartTranscriptionRequest = {
       locale: options.locale,
       operationContext: options.operationContext,
-      speechRecognitionModelEndpointId: options.speechRecognitionModelEndpointId,
+      speechModelEndpointId: options.speechRecognitionModelEndpointId,
       operationCallbackUri: options.operationCallbackUrl,
     };
     return this.callMedia.startTranscription(this.callConnectionId, startTranscriptionRequest, {});
@@ -713,7 +721,7 @@ export class CallMedia {
   ): Promise<void> {
     const updateTranscriptionRequest: UpdateTranscriptionRequest = {
       locale: locale,
-      speechRecognitionModelEndpointId: options?.speechRecognitionModelEndpointId,
+      speechModelEndpointId: options?.speechRecognitionModelEndpointId,
       operationContext: options?.operationContext,
       operationCallbackUri: options?.operationCallbackUrl,
     };

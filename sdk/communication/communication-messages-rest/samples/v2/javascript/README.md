@@ -12,17 +12,17 @@ urlFragment: communication-messages-javascript
 
 These sample programs show how to use the JavaScript client libraries for Azure client library for Azure Communication Messages Services in some common scenarios.
 
-| **File Name**                                                         | **Description**                                                     |
-| --------------------------------------------------------------------- | ------------------------------------------------------------------- |
-| [DownloadMedia.js][downloadmedia]                                     | Download a media file                                               |
-| [GetMessageTemplateList.js][getmessagetemplatelist]                   | Get Template list for a channel                                     |
-| [SendAudioMessage.js][sendaudiomessage]                               | Send a audio message                                                |
-| [SendDocumentMessage.js][senddocumentmessage]                         | Send a document message                                             |
-| [SendImageMessage.js][sendimagemessage]                               | Send an image message                                               |
-| [SendTemplateMessage.js][sendtemplatemessage]                         | Send a template message                                             |
-| [SendTextMessage.js][sendtextmessage]                                 | Send a text message                                                 |
-| [SendTextTemplateMessageUsingAAD.js][sendtexttemplatemessageusingaad] | Use AAD token credentials when sending a whatsapp template message. |
-| [SendVideoMessage.js][sendvideomessage]                               | Send a video message                                                |
+| **File Name**                                                                                             | **Description**                                                     |
+| --------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------- |
+| [DownloadMedia.js][downloadmedia]                                                                         | Download a media file                                               |
+| [GetMessageTemplateList.js][getmessagetemplatelist]                                                       | Get Template list for a channel                                     |
+| [SendAudioMessage.js][sendaudiomessage]                                                                   | Send a audio message                                                |
+| [SendDocumentMessage.js][senddocumentmessage]                                                             | Send a document message                                             |
+| [SendImageMessage.js][sendimagemessage]                                                                   | Send an image message                                               |
+| [SendTemplateMessage.js][sendtemplatemessage]                                                             | Send a template message                                             |
+| [SendTextMessage.js][sendtextmessage]                                                                     | Send a text message                                                 |
+| [SendTextTemplateMessageUsingAAD.js][sendtexttemplatemessageusingaad]                                     | Use AAD token credentials when sending a whatsapp template message. |
+| [SendVideoMessage.js][sendvideomessage]                                                                   | Send a video message                                                |
 
 ## Prerequisites
 
@@ -70,7 +70,6 @@ Take a look at our [API Documentation][apiref] for more information about the AP
 [sendtemplatemessage]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/communication/communication-messages-rest/samples/v2/javascript/SendTemplateMessage.js
 [sendtextmessage]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/communication/communication-messages-rest/samples/v2/javascript/SendTextMessage.js
 [sendtexttemplatemessageusingaad]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/communication/communication-messages-rest/samples/v2/javascript/SendTextTemplateMessageUsingAAD.js
-[sendvideomessage]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/communication/communication-messages-rest/samples/v2/javascript/SendVideoMessage.js
 [apiref]: https://learn.microsoft.com/javascript/api/overview/azure/communication-messages-rest-readme?view=azure-node-latest
 [freesub]: https://azure.microsoft.com/free/
 [package]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/communication/communication-messages-rest/README.md

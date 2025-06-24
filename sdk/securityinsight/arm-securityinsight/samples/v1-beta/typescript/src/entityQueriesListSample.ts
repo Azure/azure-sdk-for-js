@@ -13,9 +13,7 @@ import {
   SecurityInsights
 } from "@azure/arm-securityinsight";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Gets all entity queries.
@@ -23,7 +21,7 @@ dotenv.config();
  * @summary Gets all entity queries.
  * x-ms-original-file: specification/securityinsights/resource-manager/Microsoft.SecurityInsights/preview/2022-09-01-preview/examples/entityQueries/GetEntityQueries.json
  */
-async function getAllEntityQueries() {
+async function getAllEntityQueries(): Promise<void> {
   const subscriptionId =
     process.env["SECURITYINSIGHT_SUBSCRIPTION_ID"] ||
     "d0cfe6b2-9ac0-4464-9919-dccaee2e48c0";
@@ -45,7 +43,7 @@ async function getAllEntityQueries() {
   console.log(resArray);
 }
 
-async function main() {
+async function main(): Promise<void> {
   getAllEntityQueries();
 }
 

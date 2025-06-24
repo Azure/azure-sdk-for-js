@@ -10,9 +10,7 @@
 // Licensed under the MIT License.
 import { VmmServerTagsUpdate, ScVmm } from "@azure/arm-scvmm";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Updates the VmmServers resource.
@@ -20,7 +18,7 @@ dotenv.config();
  * @summary Updates the VmmServers resource.
  * x-ms-original-file: specification/scvmm/resource-manager/Microsoft.ScVmm/stable/2023-10-07/examples/VmmServers_Update_MaximumSet_Gen.json
  */
-async function vmmServersUpdateMaximumSet() {
+async function vmmServersUpdateMaximumSet(): Promise<void> {
   const subscriptionId =
     process.env["SCVMM_SUBSCRIPTION_ID"] ||
     "79332E5A-630B-480F-A266-A941C015AB19";
@@ -45,7 +43,7 @@ async function vmmServersUpdateMaximumSet() {
  * @summary Updates the VmmServers resource.
  * x-ms-original-file: specification/scvmm/resource-manager/Microsoft.ScVmm/stable/2023-10-07/examples/VmmServers_Update_MinimumSet_Gen.json
  */
-async function vmmServersUpdateMinimumSet() {
+async function vmmServersUpdateMinimumSet(): Promise<void> {
   const subscriptionId =
     process.env["SCVMM_SUBSCRIPTION_ID"] ||
     "79332E5A-630B-480F-A266-A941C015AB19";
@@ -62,7 +60,7 @@ async function vmmServersUpdateMinimumSet() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   vmmServersUpdateMaximumSet();
   vmmServersUpdateMinimumSet();
 }

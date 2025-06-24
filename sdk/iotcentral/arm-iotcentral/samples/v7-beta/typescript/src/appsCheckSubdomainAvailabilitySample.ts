@@ -17,7 +17,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * @summary Check if an IoT Central application subdomain is available.
  * x-ms-original-file: specification/iotcentral/resource-manager/Microsoft.IoTCentral/preview/2021-11-01-preview/examples/Apps_CheckSubdomainAvailability.json
  */
-async function appsSubdomainAvailability() {
+async function appsSubdomainAvailability(): Promise<void> {
   const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const operationInputs: OperationInputs = {
     name: "myiotcentralapp",

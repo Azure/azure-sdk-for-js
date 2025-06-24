@@ -18,7 +18,7 @@ import {
   LedgerDigestUploadsCreateOrUpdateResponse,
   LedgerDigestUploadsDisableOptionalParams,
   LedgerDigestUploadsDisableResponse,
-} from "../models";
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a LedgerDigestUploadsOperations. */

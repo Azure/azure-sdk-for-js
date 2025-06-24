@@ -13,7 +13,7 @@ import {
   GetIntegrationRuntimeStopResponse,
   GetIntegrationRuntimeEnableInteractivequeryOptionalParams,
   GetIntegrationRuntimeEnableInteractivequeryResponse
-} from "../models";
+} from "../models/index.js";
 
 /** Interface representing a Get. */
 export interface Get {

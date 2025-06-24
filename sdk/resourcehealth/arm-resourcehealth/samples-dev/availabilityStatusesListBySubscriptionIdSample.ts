@@ -8,9 +8,7 @@
 import type { AvailabilityStatusesListBySubscriptionIdOptionalParams } from "@azure/arm-resourcehealth";
 import { MicrosoftResourceHealth } from "@azure/arm-resourcehealth";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Lists the current availability status for all the resources in the subscription.
@@ -18,7 +16,7 @@ dotenv.config();
  * @summary Lists the current availability status for all the resources in the subscription.
  * x-ms-original-file: specification/resourcehealth/resource-manager/Microsoft.ResourceHealth/preview/2023-10-01-preview/examples/AvailabilityStatuses_ListBySubscriptionId.json
  */
-async function listHealthBySubscriptionId() {
+async function listHealthBySubscriptionId(): Promise<void> {
   const subscriptionId = process.env["RESOURCEHEALTH_SUBSCRIPTION_ID"] || "subscriptionId";
   const expand = "recommendedactions";
   const options: AvailabilityStatusesListBySubscriptionIdOptionalParams = {
@@ -33,7 +31,7 @@ async function listHealthBySubscriptionId() {
   console.log(resArray);
 }
 
-async function main() {
+async function main(): Promise<void> {
   await listHealthBySubscriptionId();
 }
 

@@ -16,6 +16,7 @@ Add this library as a dev dependency in your project.
 
 ### Usage
 
+<!-- dev-tool snippets ignore -->
 ```ts
 import { createTestCredential } from "@azure-tools/test-credential";
 
@@ -44,5 +45,3 @@ Log an issue at https://github.com/Azure/azure-sdk-for-js/issues
 ## Contributing
 
 If you'd like to contribute to this library, please read the [contributing guide](https://github.com/Azure/azure-sdk-for-js/blob/main/CONTRIBUTING.md) to learn more about how to build and test the code.
-
-![Impressions](https://azure-sdk-impressions.azurewebsites.net/api/impressions/azure-sdk-for-js%2Fsdk%2Ftest-utils%2Ftest-credential%2FREADME.png)

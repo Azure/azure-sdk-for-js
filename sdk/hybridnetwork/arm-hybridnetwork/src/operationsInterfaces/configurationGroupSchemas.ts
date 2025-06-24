@@ -23,7 +23,7 @@ import {
   ConfigurationGroupSchemaVersionUpdateState,
   ConfigurationGroupSchemasUpdateStateOptionalParams,
   ConfigurationGroupSchemasUpdateStateResponse
-} from "../models";
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a ConfigurationGroupSchemas. */

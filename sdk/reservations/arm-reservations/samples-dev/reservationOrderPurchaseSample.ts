@@ -8,9 +8,7 @@
 import type { PurchaseRequest } from "@azure/arm-reservations";
 import { AzureReservationAPI } from "@azure/arm-reservations";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Purchase `ReservationOrder` and create resource under the specified URI.
@@ -18,7 +16,7 @@ dotenv.config();
  * @summary Purchase `ReservationOrder` and create resource under the specified URI.
  * x-ms-original-file: specification/reservations/resource-manager/Microsoft.Capacity/stable/2022-11-01/examples/PurchaseReservationOrder.json
  */
-async function purchase() {
+async function purchase(): Promise<void> {
   const reservationOrderId = "a075419f-44cc-497f-b68a-14ee811d48b9";
   const body: PurchaseRequest = {
     appliedScopeType: "Shared",
@@ -40,7 +38,7 @@ async function purchase() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   await purchase();
 }
 

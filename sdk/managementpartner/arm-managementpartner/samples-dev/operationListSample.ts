@@ -7,9 +7,7 @@
  */
 import { ACEProvisioningManagementPartnerAPI } from "@azure/arm-managementpartner";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to List all the operations.
@@ -17,7 +15,7 @@ dotenv.config();
  * @summary List all the operations.
  * x-ms-original-file: specification/managementpartner/resource-manager/Microsoft.ManagementPartner/preview/2018-02-01/examples/GetOperations.json
  */
-async function getOperations() {
+async function getOperations(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = new ACEProvisioningManagementPartnerAPI(credential);
   const resArray = new Array();
@@ -27,7 +25,7 @@ async function getOperations() {
   console.log(resArray);
 }
 
-async function main() {
+async function main(): Promise<void> {
   await getOperations();
 }
 

@@ -48,6 +48,9 @@ const assertThrowsTooManyProperties = (
 };
 
 describe("Identifier model serializer", function () {
+  const resourceId = "bbbcbc1e-9f06-482a-b5d8-20e3f26ef0cd";
+  const tenantId = "45ab2481-1c1c-4005-be24-0ffb879b1130";
+  const userId = "207ffef6-9444-41fb-92ab-20eacaae2768";
   it("can serialize", function () {
     assertSerialize(
       {
@@ -125,6 +128,8 @@ describe("Identifier model serializer", function () {
         rawId: "4:+12345556789",
         phoneNumber: {
           value: "+12345556789",
+          isAnonymous: false,
+          assertedId: undefined,
         },
       },
     );
@@ -134,6 +139,63 @@ describe("Identifier model serializer", function () {
         rawId: "override",
         phoneNumber: {
           value: "+12345556789",
+          isAnonymous: false,
+          assertedId: undefined,
+        },
+      },
+    );
+    assertSerialize(
+      { phoneNumber: "anonymous", isAnonymous: true },
+      {
+        rawId: "4:anonymous",
+        phoneNumber: {
+          value: "anonymous",
+          isAnonymous: true,
+          assertedId: undefined,
+        },
+      },
+    );
+    assertSerialize(
+      { phoneNumber: "+12345556789_123", assertedId: "123" },
+      {
+        rawId: "4:+12345556789_123",
+        phoneNumber: {
+          value: "+12345556789_123",
+          isAnonymous: false,
+          assertedId: "123",
+        },
+      },
+    );
+    assertSerialize(
+      {
+        userId: "207ffef6-9444-41fb-92ab-20eacaae2768",
+        tenantId: "45ab2481-1c1c-4005-be24-0ffb879b1130",
+        resourceId: "bbbcbc1e-9f06-482a-b5d8-20e3f26ef0cd",
+      },
+      {
+        rawId: `8:acs:${resourceId}_${tenantId}_${userId}`,
+        teamsExtensionUser: {
+          userId: "207ffef6-9444-41fb-92ab-20eacaae2768",
+          tenantId: "45ab2481-1c1c-4005-be24-0ffb879b1130",
+          resourceId: "bbbcbc1e-9f06-482a-b5d8-20e3f26ef0cd",
+          cloud: "public",
+        },
+      },
+    );
+    assertSerialize(
+      {
+        userId: "207ffef6-9444-41fb-92ab-20eacaae2768",
+        tenantId: "45ab2481-1c1c-4005-be24-0ffb879b1130",
+        resourceId: "bbbcbc1e-9f06-482a-b5d8-20e3f26ef0cd",
+        cloud: "dod",
+      },
+      {
+        rawId: `8:dod-acs:${resourceId}_${tenantId}_${userId}`,
+        teamsExtensionUser: {
+          userId: "207ffef6-9444-41fb-92ab-20eacaae2768",
+          tenantId: "45ab2481-1c1c-4005-be24-0ffb879b1130",
+          resourceId: "bbbcbc1e-9f06-482a-b5d8-20e3f26ef0cd",
+          cloud: "dod",
         },
       },
     );
@@ -225,12 +287,84 @@ describe("Identifier model serializer", function () {
       },
     );
     assertDeserialize(
-      { phoneNumber: { value: "+1234555000" }, rawId: "4:+1234555000" },
-      { kind: "phoneNumber", phoneNumber: "+1234555000", rawId: "4:+1234555000" },
+      {
+        phoneNumber: {
+          value: "+1234555000",
+        },
+        rawId: "4:+1234555000",
+      },
+      {
+        kind: "phoneNumber",
+        phoneNumber: "+1234555000",
+        rawId: "4:+1234555000",
+        isAnonymous: false,
+        assertedId: undefined,
+      },
     );
     assertDeserialize(
-      { kind: "phoneNumber", phoneNumber: { value: "+1234555000" }, rawId: "4:+1234555000" },
-      { kind: "phoneNumber", phoneNumber: "+1234555000", rawId: "4:+1234555000" },
+      {
+        kind: "phoneNumber",
+        phoneNumber: {
+          value: "+1234555000",
+        },
+        rawId: "4:+1234555000",
+      },
+      {
+        kind: "phoneNumber",
+        phoneNumber: "+1234555000",
+        rawId: "4:+1234555000",
+        isAnonymous: false,
+        assertedId: undefined,
+      },
+    );
+    assertDeserialize(
+      {
+        phoneNumber: {
+          value: "anonymous",
+          isAnonymous: true,
+        },
+        rawId: "4:anonymous",
+      },
+      {
+        kind: "phoneNumber",
+        phoneNumber: "anonymous",
+        rawId: "4:anonymous",
+        isAnonymous: true,
+        assertedId: undefined,
+      },
+    );
+    assertDeserialize(
+      {
+        phoneNumber: {
+          value: "+1234555000_123",
+          isAnonymous: false,
+          assertedId: "123",
+        },
+        rawId: "4:+1234555000",
+      },
+      {
+        kind: "phoneNumber",
+        phoneNumber: "+1234555000_123",
+        rawId: "4:+1234555000",
+        isAnonymous: false,
+        assertedId: "123",
+      },
+    );
+    assertDeserialize(
+      {
+        phoneNumber: {
+          value: "+1234555000_123",
+          assertedId: "123",
+        },
+        rawId: "4:+1234555000",
+      },
+      {
+        kind: "phoneNumber",
+        phoneNumber: "+1234555000_123",
+        rawId: "4:+1234555000",
+        isAnonymous: false,
+        assertedId: "123",
+      },
     );
     assertDeserialize(
       { kind: "phoneNumber", rawId: "4:+1234555000" },
@@ -316,6 +450,56 @@ describe("Identifier model serializer", function () {
       },
     );
     assertDeserialize(
+      {
+        kind: "teamsExtensionUser",
+        rawId: `8:dod-acs:${resourceId}_${tenantId}_${userId}`,
+        teamsExtensionUser: {
+          userId: "207ffef6-9444-41fb-92ab-20eacaae2768",
+          tenantId: "45ab2481-1c1c-4005-be24-0ffb879b1130",
+          resourceId: "bbbcbc1e-9f06-482a-b5d8-20e3f26ef0cd",
+          cloud: "dod",
+        },
+      },
+      {
+        kind: "teamsExtensionUser",
+        userId: "207ffef6-9444-41fb-92ab-20eacaae2768",
+        tenantId: "45ab2481-1c1c-4005-be24-0ffb879b1130",
+        resourceId: "bbbcbc1e-9f06-482a-b5d8-20e3f26ef0cd",
+        cloud: "dod",
+        rawId: `8:dod-acs:${resourceId}_${tenantId}_${userId}`,
+      },
+    );
+    assertDeserialize(
+      {
+        kind: "teamsExtensionUser",
+        rawId: `8:acs:${resourceId}_${tenantId}_${userId}`,
+        teamsExtensionUser: {
+          userId: "207ffef6-9444-41fb-92ab-20eacaae2768",
+          tenantId: "45ab2481-1c1c-4005-be24-0ffb879b1130",
+          resourceId: "bbbcbc1e-9f06-482a-b5d8-20e3f26ef0cd",
+          cloud: "public",
+        },
+      },
+      {
+        kind: "teamsExtensionUser",
+        userId: "207ffef6-9444-41fb-92ab-20eacaae2768",
+        tenantId: "45ab2481-1c1c-4005-be24-0ffb879b1130",
+        resourceId: "bbbcbc1e-9f06-482a-b5d8-20e3f26ef0cd",
+        rawId: `8:acs:${resourceId}_${tenantId}_${userId}`,
+        cloud: "public",
+      },
+    );
+    assertDeserialize(
+      {
+        rawId: `8:acs:${resourceId}_${tenantId}_${userId}`,
+        kind: "teamsExtensionUser",
+      },
+      {
+        kind: "unknown",
+        id: "8:acs:bbbcbc1e-9f06-482a-b5d8-20e3f26ef0cd_45ab2481-1c1c-4005-be24-0ffb879b1130_207ffef6-9444-41fb-92ab-20eacaae2768",
+      },
+    );
+    assertDeserialize(
       { rawId: "48:37691ec4-57fb-4c0f-ae31-32791610cb14" },
       { kind: "unknown", id: "48:37691ec4-57fb-4c0f-ae31-32791610cb14" },
     );
@@ -376,7 +560,36 @@ describe("Identifier model serializer", function () {
       "microsoftTeamsUser",
       "cloud",
     );
-
+    assertThrowsMissingProperty(
+      {
+        teamsExtensionUser: {
+          userId: "37691ec4-57fb-4c0f-ae31-32791610cb14",
+        } as any,
+      },
+      "teamsExtensionUser",
+      "tenantId",
+    );
+    assertThrowsMissingProperty(
+      {
+        teamsExtensionUser: {
+          userId: "37691ec4-57fb-4c0f-ae31-32791610cb14",
+          tenantId: "45ab2481-1c1c-4005-be24-0ffb879b1130",
+        } as any,
+      },
+      "teamsExtensionUser",
+      "resourceId",
+    );
+    assertThrowsMissingProperty(
+      {
+        teamsExtensionUser: {
+          userId: "37691ec4-57fb-4c0f-ae31-32791610cb14",
+          tenantId: "45ab2481-1c1c-4005-be24-0ffb879b1130",
+          resourceId: "bbbcbc1e-9f06-482a-b5d8-20e3f26ef0cd",
+        } as any,
+      },
+      "teamsExtensionUser",
+      "cloud",
+    );
     assert.throws(() => {
       deserializeCommunicationIdentifier({ someProp: true } as any);
     }, `Property rawId is required for identifier of type unknown.`);
@@ -440,6 +653,18 @@ describe("Identifier model serializer", function () {
       },
       phoneNumber: {
         value: "phoneNumber",
+      },
+    });
+    assertThrowsTooManyProperties({
+      rawId: "rawId",
+      teamsExtensionUser: {
+        userId: "37691ec4-57fb-4c0f-ae31-32791610cb14",
+        tenantId: "45ab2481-1c1c-4005-be24-0ffb879b1130",
+        resourceId: "bbbcbc1e-9f06-482a-b5d8-20e3f26ef0cd",
+        cloud: "public",
+      },
+      communicationUser: {
+        id: "8:acs:37691ec4-57fb-4c0f-ae31-32791610cb14",
       },
     });
   });

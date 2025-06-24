@@ -10,13 +10,13 @@
 // Licensed under the MIT License.
 const { ContainerRegistryManagementClient } = require("@azure/arm-containerregistry");
 const { DefaultAzureCredential } = require("@azure/identity");
-require("dotenv").config();
+require("dotenv/config");
 
 /**
  * This sample demonstrates how to Updates a container registry with the specified parameters.
  *
  * @summary Updates a container registry with the specified parameters.
- * x-ms-original-file: specification/containerregistry/resource-manager/Microsoft.ContainerRegistry/preview/2023-11-01-preview/examples/RegistryUpdate.json
+ * x-ms-original-file: specification/containerregistry/resource-manager/Microsoft.ContainerRegistry/preview/2025-03-01-preview/examples/RegistryUpdate.json
  */
 async function registryUpdate() {
   const subscriptionId =
@@ -25,6 +25,7 @@ async function registryUpdate() {
   const registryName = "myRegistry";
   const registryUpdateParameters = {
     adminUserEnabled: true,
+    roleAssignmentMode: "AbacRepositoryPermissions",
     sku: { name: "Standard" },
     tags: { key: "value" },
   };
@@ -33,13 +34,13 @@ async function registryUpdate() {
   const result = await client.registries.beginUpdateAndWait(
     resourceGroupName,
     registryName,
-    registryUpdateParameters
+    registryUpdateParameters,
   );
   console.log(result);
 }
 
 async function main() {
-  registryUpdate();
+  await registryUpdate();
 }
 
 main().catch(console.error);

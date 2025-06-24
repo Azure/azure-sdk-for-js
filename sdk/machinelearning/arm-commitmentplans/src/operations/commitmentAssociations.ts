@@ -7,12 +7,12 @@
  */
 
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
-import { setContinuationToken } from "../pagingHelper";
-import { CommitmentAssociations } from "../operationsInterfaces";
+import { setContinuationToken } from "../pagingHelper.js";
+import { CommitmentAssociations } from "../operationsInterfaces/index.js";
 import * as coreClient from "@azure/core-client";
-import * as Mappers from "../models/mappers";
-import * as Parameters from "../models/parameters";
-import { AzureMLCommitmentPlansManagementClient } from "../azureMLCommitmentPlansManagementClient";
+import * as Mappers from "../models/mappers.js";
+import * as Parameters from "../models/parameters.js";
+import { AzureMLCommitmentPlansManagementClient } from "../azureMLCommitmentPlansManagementClient.js";
 import {
   CommitmentAssociation,
   CommitmentAssociationsListNextOptionalParams,
@@ -24,7 +24,7 @@ import {
   CommitmentAssociationsMoveOptionalParams,
   CommitmentAssociationsMoveResponse,
   CommitmentAssociationsListNextResponse
-} from "../models";
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Class containing CommitmentAssociations operations. */

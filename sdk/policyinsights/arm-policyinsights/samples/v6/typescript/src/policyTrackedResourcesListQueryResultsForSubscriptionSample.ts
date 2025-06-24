@@ -21,7 +21,7 @@ import "dotenv/config";
  * @summary Queries policy tracked resources under the subscription.
  * x-ms-original-file: specification/policyinsights/resource-manager/Microsoft.PolicyInsights/preview/2018-07-01-preview/examples/PolicyTrackedResources_QuerySubscriptionScope.json
  */
-async function queryAtSubscriptionScope() {
+async function queryAtSubscriptionScope(): Promise<void> {
   const subscriptionId =
     process.env["POLICYINSIGHTS_SUBSCRIPTION_ID"] ||
     "fffedd8f-ffff-fffd-fffd-fffed2f84852";
@@ -43,7 +43,7 @@ async function queryAtSubscriptionScope() {
  * @summary Queries policy tracked resources under the subscription.
  * x-ms-original-file: specification/policyinsights/resource-manager/Microsoft.PolicyInsights/preview/2018-07-01-preview/examples/PolicyTrackedResources_QuerySubscriptionScopeWithFilterAndTop.json
  */
-async function queryAtSubscriptionScopeUsingQueryParameters() {
+async function queryAtSubscriptionScopeUsingQueryParameters(): Promise<void> {
   const subscriptionId =
     process.env["POLICYINSIGHTS_SUBSCRIPTION_ID"] ||
     "fffedd8f-ffff-fffd-fffd-fffed2f84852";
@@ -65,7 +65,7 @@ async function queryAtSubscriptionScopeUsingQueryParameters() {
   console.log(resArray);
 }
 
-async function main() {
+async function main(): Promise<void> {
   queryAtSubscriptionScope();
   queryAtSubscriptionScopeUsingQueryParameters();
 }

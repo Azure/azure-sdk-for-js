@@ -10,17 +10,15 @@
 // Licensed under the MIT License.
 import { RecoveryServicesBackupClient } from "@azure/arm-recoveryservicesbackup";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Fetches Vault Encryption config.
  *
  * @summary Fetches Vault Encryption config.
- * x-ms-original-file: specification/recoveryservicesbackup/resource-manager/Microsoft.RecoveryServices/stable/2024-04-01/examples/BackupResourceEncryptionConfig_Get.json
+ * x-ms-original-file: specification/recoveryservicesbackup/resource-manager/Microsoft.RecoveryServices/stable/2025-02-01/examples/BackupResourceEncryptionConfig_Get.json
  */
-async function getVaultEncryptionConfiguration() {
+async function getVaultEncryptionConfiguration(): Promise<void> {
   const subscriptionId =
     process.env["RECOVERYSERVICESBACKUP_SUBSCRIPTION_ID"] ||
     "00000000-0000-0000-0000-000000000000";
@@ -36,8 +34,8 @@ async function getVaultEncryptionConfiguration() {
   console.log(result);
 }
 
-async function main() {
-  getVaultEncryptionConfiguration();
+async function main(): Promise<void> {
+  await getVaultEncryptionConfiguration();
 }
 
 main().catch(console.error);

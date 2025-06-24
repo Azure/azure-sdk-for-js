@@ -31,7 +31,7 @@ import {
   VolumeContainersImpl,
   VolumesImpl,
   StorageAccountCredentialsImpl
-} from "./operations";
+} from "./operations/index.js";
 import {
   Operations,
   Managers,
@@ -49,8 +49,8 @@ import {
   VolumeContainers,
   Volumes,
   StorageAccountCredentials
-} from "./operationsInterfaces";
-import { StorSimple8000SeriesManagementClientOptionalParams } from "./models";
+} from "./operationsInterfaces/index.js";
+import { StorSimple8000SeriesManagementClientOptionalParams } from "./models/index.js";
 
 export class StorSimple8000SeriesManagementClient extends coreClient.ServiceClient {
   $host: string;

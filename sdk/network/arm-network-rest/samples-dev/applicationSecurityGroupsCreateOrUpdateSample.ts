@@ -11,7 +11,7 @@ import "dotenv/config";
  * @summary Creates or updates an application security group.
  * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-05-01/examples/ApplicationSecurityGroupCreate.json
  */
-async function createApplicationSecurityGroup() {
+async function createApplicationSecurityGroup(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = createNetworkManagementClient(credential);
   const subscriptionId = "";

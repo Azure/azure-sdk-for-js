@@ -13,9 +13,9 @@ const expectedEntityPath = "ep";
 const expectedDefaultConsumerGroup = EventHubConsumerClient.defaultConsumerGroupName;
 const commonConnectionString = `Endpoint=sb://${expectedHost}/;SharedAccessKeyName=${expectedSharedAccessKeyName};SharedAccessKey=${expectedSharedAccessKey};EntityPath=${expectedEntityPath}`;
 
-describe("ConnectionConfig", function () {
-  describe("EventHub", function () {
-    it("should fail if connection config does not contain path and the connectionstring also does not contain EntityPath", async function () {
+describe("ConnectionConfig", () => {
+  describe("EventHub", () => {
+    it("should fail if connection config does not contain path and the connectionstring also does not contain EntityPath", async () => {
       const connectionString =
         "Endpoint=sb://hostname.servicebus.windows.net/;SharedAccessKeyName=sakName;SharedAccessKey=sak";
       expect(() => EventHubConnectionConfig.create(connectionString)).to.throw(
@@ -23,7 +23,7 @@ describe("ConnectionConfig", function () {
       );
     });
 
-    it("should correctly populate config properties from an EventHubs connection string and the helper methods should work as expected", async function () {
+    it("should correctly populate config properties from an EventHubs connection string and the helper methods should work as expected", async () => {
       const config = EventHubConnectionConfig.create(commonConnectionString);
       assertConnectionConfig(config, {
         defaultConsumerGroup: expectedDefaultConsumerGroup,
@@ -34,15 +34,15 @@ describe("ConnectionConfig", function () {
       });
     });
 
-    it("requires that Endpoint be present in the connection string", async function () {
+    it("requires that Endpoint be present in the connection string", async () => {
       const connectionString = `Endpoint=sb://a`;
       should.throw(() => {
         EventHubConnectionConfig.create(connectionString);
       }, /must contain EntityPath/);
     });
 
-    describe("setCustomEndpointAddress", async function () {
-      it("overwrites host", async function () {
+    describe("setCustomEndpointAddress", async () => {
+      it("overwrites host", async () => {
         const config = EventHubConnectionConfig.create(commonConnectionString);
         const customHost = "foo.private.endpoint";
         EventHubConnectionConfig.setCustomEndpointAddress(config, `https://${customHost}`);
@@ -51,7 +51,7 @@ describe("ConnectionConfig", function () {
         config.should.not.have.property("port");
       });
 
-      it("overwrites host and port", async function () {
+      it("overwrites host and port", async () => {
         const config = EventHubConnectionConfig.create(commonConnectionString);
         const customHost = "foo.private.endpoint";
         const port = 1111;

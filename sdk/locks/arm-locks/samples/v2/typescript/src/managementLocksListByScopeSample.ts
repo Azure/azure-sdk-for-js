@@ -17,7 +17,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * @summary Gets all the management locks for a scope.
  * x-ms-original-file: specification/resources/resource-manager/Microsoft.Authorization/stable/2020-05-01/examples/ManagementLocks_ListAtScope.json
  */
-async function listManagementLocksAtScope() {
+async function listManagementLocksAtScope(): Promise<void> {
   const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const scope = "subscriptions/subscriptionId";
   const credential = new DefaultAzureCredential();

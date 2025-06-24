@@ -6,24 +6,20 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
 import { SnapshotPolicyPatch, NetAppManagementClient } from "@azure/arm-netapp";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Patch a snapshot policy
  *
  * @summary Patch a snapshot policy
- * x-ms-original-file: specification/netapp/resource-manager/Microsoft.NetApp/preview/2024-07-01-preview/examples/SnapshotPolicies_Update.json
+ * x-ms-original-file: specification/netapp/resource-manager/Microsoft.NetApp/preview/2025-01-01-preview/examples/SnapshotPolicies_Update.json
  */
-async function snapshotPoliciesUpdate() {
+async function snapshotPoliciesUpdate(): Promise<void> {
   const subscriptionId =
     process.env["NETAPP_SUBSCRIPTION_ID"] ||
-    "D633CC2E-722B-4AE1-B636-BBD9E4C60ED9";
+    "00000000-0000-0000-0000-000000000000";
   const resourceGroupName = process.env["NETAPP_RESOURCE_GROUP"] || "myRG";
   const accountName = "account1";
   const snapshotPolicyName = "snapshotPolicyName";
@@ -56,8 +52,8 @@ async function snapshotPoliciesUpdate() {
   console.log(result);
 }
 
-async function main() {
-  snapshotPoliciesUpdate();
+async function main(): Promise<void> {
+  await snapshotPoliciesUpdate();
 }
 
 main().catch(console.error);

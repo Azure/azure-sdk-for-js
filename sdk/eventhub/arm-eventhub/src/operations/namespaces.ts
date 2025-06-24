@@ -38,6 +38,9 @@ import {
   NamespacesGetResponse,
   NamespacesUpdateOptionalParams,
   NamespacesUpdateResponse,
+  FailOver,
+  NamespacesFailoverOptionalParams,
+  NamespacesFailoverResponse,
   NetworkRuleSet,
   NamespacesCreateOrUpdateNetworkRuleSetOptionalParams,
   NamespacesCreateOrUpdateNetworkRuleSetResponse,
@@ -376,6 +379,7 @@ export class NamespacesImpl implements Namespaces {
     >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
+      resourceLocationConfig: "azure-async-operation",
     });
     await poller.poll();
     return poller;
@@ -462,6 +466,7 @@ export class NamespacesImpl implements Namespaces {
     const poller = await createHttpPoller<void, OperationState<void>>(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
+      resourceLocationConfig: "azure-async-operation",
     });
     await poller.poll();
     return poller;
@@ -522,6 +527,101 @@ export class NamespacesImpl implements Namespaces {
       { resourceGroupName, namespaceName, parameters, options },
       updateOperationSpec,
     );
+  }
+
+  /**
+   * GeoDR Failover
+   * @param resourceGroupName Name of the resource group within the azure subscription.
+   * @param namespaceName The Namespace name
+   * @param parameters Parameters for updating a namespace resource.
+   * @param options The options parameters.
+   */
+  async beginFailover(
+    resourceGroupName: string,
+    namespaceName: string,
+    parameters: FailOver,
+    options?: NamespacesFailoverOptionalParams,
+  ): Promise<
+    SimplePollerLike<
+      OperationState<NamespacesFailoverResponse>,
+      NamespacesFailoverResponse
+    >
+  > {
+    const directSendOperation = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec,
+    ): Promise<NamespacesFailoverResponse> => {
+      return this.client.sendOperationRequest(args, spec);
+    };
+    const sendOperationFn = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec,
+    ) => {
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
+      const providedCallback = args.options?.onResponse;
+      const callback: coreClient.RawResponseCallback = (
+        rawResponse: coreClient.FullOperationResponse,
+        flatResponse: unknown,
+      ) => {
+        currentRawResponse = rawResponse;
+        providedCallback?.(rawResponse, flatResponse);
+      };
+      const updatedArgs = {
+        ...args,
+        options: {
+          ...args.options,
+          onResponse: callback,
+        },
+      };
+      const flatResponse = await directSendOperation(updatedArgs, spec);
+      return {
+        flatResponse,
+        rawResponse: {
+          statusCode: currentRawResponse!.status,
+          body: currentRawResponse!.parsedBody,
+          headers: currentRawResponse!.headers.toJSON(),
+        },
+      };
+    };
+
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceGroupName, namespaceName, parameters, options },
+      spec: failoverOperationSpec,
+    });
+    const poller = await createHttpPoller<
+      NamespacesFailoverResponse,
+      OperationState<NamespacesFailoverResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs,
+      resourceLocationConfig: "azure-async-operation",
+    });
+    await poller.poll();
+    return poller;
+  }
+
+  /**
+   * GeoDR Failover
+   * @param resourceGroupName Name of the resource group within the azure subscription.
+   * @param namespaceName The Namespace name
+   * @param parameters Parameters for updating a namespace resource.
+   * @param options The options parameters.
+   */
+  async beginFailoverAndWait(
+    resourceGroupName: string,
+    namespaceName: string,
+    parameters: FailOver,
+    options?: NamespacesFailoverOptionalParams,
+  ): Promise<NamespacesFailoverResponse> {
+    const poller = await this.beginFailover(
+      resourceGroupName,
+      namespaceName,
+      parameters,
+      options,
+    );
+    return poller.pollUntilDone();
   }
 
   /**
@@ -912,6 +1012,38 @@ const updateOperationSpec: coreClient.OperationSpec = {
   mediaType: "json",
   serializer,
 };
+const failoverOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.EventHub/namespaces/{namespaceName}/failover",
+  httpMethod: "POST",
+  responses: {
+    200: {
+      bodyMapper: Mappers.FailOver,
+    },
+    201: {
+      bodyMapper: Mappers.FailOver,
+    },
+    202: {
+      bodyMapper: Mappers.FailOver,
+    },
+    204: {
+      bodyMapper: Mappers.FailOver,
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  requestBody: Parameters.parameters2,
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.namespaceName,
+  ],
+  headerParameters: [Parameters.accept, Parameters.contentType],
+  mediaType: "json",
+  serializer,
+};
 const createOrUpdateNetworkRuleSetOperationSpec: coreClient.OperationSpec = {
   path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.EventHub/namespaces/{namespaceName}/networkRuleSets/default",
   httpMethod: "PUT",
@@ -923,7 +1055,7 @@ const createOrUpdateNetworkRuleSetOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse,
     },
   },
-  requestBody: Parameters.parameters2,
+  requestBody: Parameters.parameters3,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
@@ -1009,7 +1141,7 @@ const createOrUpdateAuthorizationRuleOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse,
     },
   },
-  requestBody: Parameters.parameters3,
+  requestBody: Parameters.parameters4,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
@@ -1098,7 +1230,7 @@ const regenerateKeysOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse,
     },
   },
-  requestBody: Parameters.parameters4,
+  requestBody: Parameters.parameters5,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
@@ -1122,7 +1254,7 @@ const checkNameAvailabilityOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse,
     },
   },
-  requestBody: Parameters.parameters5,
+  requestBody: Parameters.parameters6,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.$host, Parameters.subscriptionId],
   headerParameters: [Parameters.accept, Parameters.contentType],

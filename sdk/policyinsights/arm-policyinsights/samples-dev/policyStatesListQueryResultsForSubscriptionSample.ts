@@ -16,7 +16,7 @@ import "dotenv/config";
  * @summary Queries policy states for the resources under the subscription.
  * x-ms-original-file: specification/policyinsights/resource-manager/Microsoft.PolicyInsights/stable/2024-10-01/examples/PolicyStates_FilterAndAggregateOnly.json
  */
-async function filterAndAggregateOnly() {
+async function filterAndAggregateOnly(): Promise<void> {
   const policyStatesResource = "latest";
   const subscriptionId = "fffedd8f-ffff-fffd-fffd-fffed2f84852";
   const fromParam = new Date("2019-10-05T18:00:00Z");
@@ -46,7 +46,7 @@ async function filterAndAggregateOnly() {
  * @summary Queries policy states for the resources under the subscription.
  * x-ms-original-file: specification/policyinsights/resource-manager/Microsoft.PolicyInsights/stable/2024-10-01/examples/PolicyStates_FilterAndGroupByWithAggregate.json
  */
-async function filterAndGroupWithAggregate() {
+async function filterAndGroupWithAggregate(): Promise<void> {
   const policyStatesResource = "latest";
   const subscriptionId = "fffedd8f-ffff-fffd-fffd-fffed2f84852";
   const top = 2;
@@ -82,7 +82,7 @@ async function filterAndGroupWithAggregate() {
  * @summary Queries policy states for the resources under the subscription.
  * x-ms-original-file: specification/policyinsights/resource-manager/Microsoft.PolicyInsights/stable/2024-10-01/examples/PolicyStates_FilterAndGroupByWithoutAggregate.json
  */
-async function filterAndGroupWithoutAggregate() {
+async function filterAndGroupWithoutAggregate(): Promise<void> {
   const policyStatesResource = "latest";
   const subscriptionId = "fffedd8f-ffff-fffd-fffd-fffed2f84852";
   const top = 2;
@@ -116,7 +116,7 @@ async function filterAndGroupWithoutAggregate() {
  * @summary Queries policy states for the resources under the subscription.
  * x-ms-original-file: specification/policyinsights/resource-manager/Microsoft.PolicyInsights/stable/2024-10-01/examples/PolicyStates_FilterAndMultipleGroups.json
  */
-async function filterAndMultipleGroups() {
+async function filterAndMultipleGroups(): Promise<void> {
   const policyStatesResource = "latest";
   const subscriptionId = "fffedd8f-ffff-fffd-fffd-fffed2f84852";
   const top = 10;
@@ -149,7 +149,7 @@ async function filterAndMultipleGroups() {
  * @summary Queries policy states for the resources under the subscription.
  * x-ms-original-file: specification/policyinsights/resource-manager/Microsoft.PolicyInsights/stable/2024-10-01/examples/PolicyStates_QuerySubscriptionScope.json
  */
-async function queryLatestAtSubscriptionScope() {
+async function queryLatestAtSubscriptionScope(): Promise<void> {
   const policyStatesResource = "latest";
   const subscriptionId = "fffedd8f-ffff-fffd-fffd-fffed2f84852";
   const credential = new DefaultAzureCredential();
@@ -170,7 +170,7 @@ async function queryLatestAtSubscriptionScope() {
  * @summary Queries policy states for the resources under the subscription.
  * x-ms-original-file: specification/policyinsights/resource-manager/Microsoft.PolicyInsights/stable/2024-10-01/examples/PolicyStates_QuerySubscriptionScopeNextLink.json
  */
-async function queryLatestAtSubscriptionScopeWithNextLink() {
+async function queryLatestAtSubscriptionScopeWithNextLink(): Promise<void> {
   const policyStatesResource = "latest";
   const subscriptionId = "fffedd8f-ffff-fffd-fffd-fffed2f84852";
   const skipToken = "WpmWfBSvPhkAK6QD";
@@ -196,7 +196,7 @@ async function queryLatestAtSubscriptionScopeWithNextLink() {
  * @summary Queries policy states for the resources under the subscription.
  * x-ms-original-file: specification/policyinsights/resource-manager/Microsoft.PolicyInsights/stable/2024-10-01/examples/PolicyStates_TimeRangeSortSelectTop.json
  */
-async function timeRangeSortSelectAndLimit() {
+async function timeRangeSortSelectAndLimit(): Promise<void> {
   const policyStatesResource = "latest";
   const subscriptionId = "fffedd8f-ffff-fffd-fffd-fffed2f84852";
   const top = 2;
@@ -226,7 +226,7 @@ async function timeRangeSortSelectAndLimit() {
   console.log(resArray);
 }
 
-async function main() {
+async function main(): Promise<void> {
   await filterAndAggregateOnly();
   await filterAndGroupWithAggregate();
   await filterAndGroupWithoutAggregate();

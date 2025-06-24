@@ -8,6 +8,100 @@
 
 import * as coreClient from "@azure/core-client";
 
+export interface NginxDeploymentApiKeyRequest {
+  /** NOTE: This property will not be serialized. It can only be populated by the server. */
+  readonly id?: string;
+  /** NOTE: This property will not be serialized. It can only be populated by the server. */
+  readonly name?: string;
+  /** NOTE: This property will not be serialized. It can only be populated by the server. */
+  readonly type?: string;
+  properties?: NginxDeploymentApiKeyRequestProperties;
+}
+
+export interface NginxDeploymentApiKeyRequestProperties {
+  /**
+   * Secret text to be used as a Dataplane API Key. This is a write only property that can never be read back, but the first three characters will be returned in the 'hint' property.
+   * This value contains a credential. Consider obscuring before showing to users
+   */
+  secretText?: string;
+  /** The time after which this Dataplane API Key is no longer valid. */
+  endDateTime?: Date;
+}
+
+export interface NginxDeploymentApiKeyResponse {
+  /** NOTE: This property will not be serialized. It can only be populated by the server. */
+  readonly id?: string;
+  /** NOTE: This property will not be serialized. It can only be populated by the server. */
+  readonly name?: string;
+  /** NOTE: This property will not be serialized. It can only be populated by the server. */
+  readonly type?: string;
+  properties?: NginxDeploymentApiKeyResponseProperties;
+}
+
+export interface NginxDeploymentApiKeyResponseProperties {
+  /**
+   * The first three characters of the secret text to help identify it in use. This property is read-only.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly hint?: string;
+  /** The time after which this Dataplane API Key is no longer valid. */
+  endDateTime?: Date;
+}
+
+/** Common error response for all Azure Resource Manager APIs to return error details for failed operations. (This also follows the OData error response format.). */
+export interface ErrorResponse {
+  /** The error object. */
+  error?: ErrorDetail;
+}
+
+/** The error detail. */
+export interface ErrorDetail {
+  /**
+   * The error code.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly code?: string;
+  /**
+   * The error message.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly message?: string;
+  /**
+   * The error target.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly target?: string;
+  /**
+   * The error details.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly details?: ErrorDetail[];
+  /**
+   * The error additional info.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly additionalInfo?: ErrorAdditionalInfo[];
+}
+
+/** The resource management error additional info. */
+export interface ErrorAdditionalInfo {
+  /**
+   * The additional info type.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly type?: string;
+  /**
+   * The additional info.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly info?: Record<string, unknown>;
+}
+
+export interface NginxDeploymentApiKeyListResponse {
+  value?: NginxDeploymentApiKeyResponse[];
+  nextLink?: string;
+}
+
 export interface NginxCertificate {
   /** NOTE: This property will not be serialized. It can only be populated by the server. */
   readonly id?: string;
@@ -60,54 +154,6 @@ export interface SystemData {
   lastModifiedAt?: Date;
 }
 
-export interface ResourceProviderDefaultErrorResponse {
-  /** The error detail. */
-  error?: ErrorDetail;
-}
-
-/** The error detail. */
-export interface ErrorDetail {
-  /**
-   * The error code.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly code?: string;
-  /**
-   * The error message.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly message?: string;
-  /**
-   * The error target.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly target?: string;
-  /**
-   * The error details.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly details?: ErrorDetail[];
-  /**
-   * The error additional info.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly additionalInfo?: ErrorAdditionalInfo[];
-}
-
-/** The resource management error additional info. */
-export interface ErrorAdditionalInfo {
-  /**
-   * The additional info type.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly type?: string;
-  /**
-   * The additional info.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly info?: Record<string, unknown>;
-}
-
 export interface NginxCertificateListResponse {
   value?: NginxCertificate[];
   nextLink?: string;
@@ -116,20 +162,19 @@ export interface NginxCertificateListResponse {
 /** Response of a list operation. */
 export interface NginxConfigurationListResponse {
   /** Results of a list operation. */
-  value?: NginxConfiguration[];
+  value?: NginxConfigurationResponse[];
   /** Link to the next set of results, if any. */
   nextLink?: string;
 }
 
-export interface NginxConfiguration {
+export interface NginxConfigurationResponse {
   /** NOTE: This property will not be serialized. It can only be populated by the server. */
   readonly id?: string;
   /** NOTE: This property will not be serialized. It can only be populated by the server. */
   readonly name?: string;
   /** NOTE: This property will not be serialized. It can only be populated by the server. */
   readonly type?: string;
-  properties?: NginxConfigurationProperties;
-  location?: string;
+  properties?: NginxConfigurationResponseProperties;
   /**
    * Metadata pertaining to creation and last modification of the resource.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -137,11 +182,11 @@ export interface NginxConfiguration {
   readonly systemData?: SystemData;
 }
 
-export interface NginxConfigurationProperties {
+export interface NginxConfigurationResponseProperties {
   /** NOTE: This property will not be serialized. It can only be populated by the server. */
   readonly provisioningState?: ProvisioningState;
   files?: NginxConfigurationFile[];
-  protectedFiles?: NginxConfigurationFile[];
+  protectedFiles?: NginxConfigurationProtectedFileResponse[];
   package?: NginxConfigurationPackage;
   rootFile?: string;
 }
@@ -151,9 +196,49 @@ export interface NginxConfigurationFile {
   virtualPath?: string;
 }
 
+export interface NginxConfigurationProtectedFileResponse {
+  /** The virtual path of the protected file. */
+  virtualPath?: string;
+  /** The hash of the content of the file. This value is used to determine if the file has changed. */
+  contentHash?: string;
+}
+
 export interface NginxConfigurationPackage {
   data?: string;
   protectedFiles?: string[];
+}
+
+export interface NginxConfigurationRequest {
+  /** NOTE: This property will not be serialized. It can only be populated by the server. */
+  readonly id?: string;
+  /** NOTE: This property will not be serialized. It can only be populated by the server. */
+  readonly name?: string;
+  /** NOTE: This property will not be serialized. It can only be populated by the server. */
+  readonly type?: string;
+  properties?: NginxConfigurationRequestProperties;
+  /**
+   * Metadata pertaining to creation and last modification of the resource.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly systemData?: SystemData;
+}
+
+export interface NginxConfigurationRequestProperties {
+  /** NOTE: This property will not be serialized. It can only be populated by the server. */
+  readonly provisioningState?: ProvisioningState;
+  files?: NginxConfigurationFile[];
+  protectedFiles?: NginxConfigurationProtectedFileRequest[];
+  package?: NginxConfigurationPackage;
+  rootFile?: string;
+}
+
+export interface NginxConfigurationProtectedFileRequest {
+  /** The content of the protected file. This value is a PUT only value. If you perform a GET request on this value, it will be empty because it is a protected file. */
+  content?: string;
+  /** The virtual path of the protected file. */
+  virtualPath?: string;
+  /** The hash of the content of the file. This value is used to determine if the file has changed. */
+  contentHash?: string;
 }
 
 /** The request body for creating an analysis for an NGINX configuration. */
@@ -165,7 +250,7 @@ export interface AnalysisCreateConfig {
   /** The root file of the NGINX config file(s). It must match one of the files' filepath. */
   rootFile?: string;
   files?: NginxConfigurationFile[];
-  protectedFiles?: NginxConfigurationFile[];
+  protectedFiles?: NginxConfigurationProtectedFileRequest[];
   package?: NginxConfigurationPackage;
 }
 
@@ -178,6 +263,7 @@ export interface AnalysisResult {
 
 export interface AnalysisResultData {
   errors?: AnalysisDiagnostic[];
+  diagnostics?: DiagnosticItem[];
 }
 
 /** An error object found during the analysis of an NGINX configuration. */
@@ -191,6 +277,23 @@ export interface AnalysisDiagnostic {
   line: number;
   message: string;
   rule: string;
+}
+
+/** A diagnostic is a message associated with an NGINX config. The Analyzer returns diagnostics with a level indicating the importance of the diagnostic with optional category. */
+export interface DiagnosticItem {
+  /** Unique identifier for the diagnostic. */
+  id?: string;
+  directive: string;
+  description: string;
+  /** The filepath of the most relevant config file. */
+  file: string;
+  line: number;
+  message: string;
+  rule: string;
+  /** Warning or Info */
+  level: Level;
+  /** Category of warning like Best-practices, Recommendation, Security etc. */
+  category?: string;
 }
 
 export interface NginxDeployment {
@@ -235,8 +338,6 @@ export interface NginxDeploymentProperties {
   readonly provisioningState?: ProvisioningState;
   /** NOTE: This property will not be serialized. It can only be populated by the server. */
   readonly nginxVersion?: string;
-  /** The managed resource group to deploy VNet injection related network resources. */
-  managedResourceGroup?: string;
   networkProfile?: NginxNetworkProfile;
   /**
    * The IP address of the deployment.
@@ -250,6 +351,13 @@ export interface NginxDeploymentProperties {
   /** Autoupgrade settings of a deployment. */
   autoUpgradeProfile?: AutoUpgradeProfile;
   userProfile?: NginxDeploymentUserProfile;
+  /** Settings for NGINX App Protect (NAP) */
+  nginxAppProtect?: NginxDeploymentPropertiesNginxAppProtect;
+  /**
+   * Dataplane API endpoint for the caller to update the NGINX state of the deployment.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly dataplaneApiEndpoint?: string;
 }
 
 export interface NginxNetworkProfile {
@@ -317,6 +425,63 @@ export interface NginxDeploymentUserProfile {
   preferredEmail?: string;
 }
 
+/** Settings for NGINX App Protect (NAP) */
+export interface NginxDeploymentPropertiesNginxAppProtect {
+  /** Settings for the NGINX App Protect Web Application Firewall (WAF) */
+  webApplicationFirewallSettings: WebApplicationFirewallSettings;
+  /**
+   * The status of the NGINX App Protect Web Application Firewall
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly webApplicationFirewallStatus?: WebApplicationFirewallStatus;
+}
+
+/** Settings for the NGINX App Protect Web Application Firewall (WAF) */
+export interface WebApplicationFirewallSettings {
+  /** The activation state of the WAF. Use 'Enabled' to enable the WAF and 'Disabled' to disable it. */
+  activationState?: ActivationState;
+}
+
+/** The status of the NGINX App Protect Web Application Firewall */
+export interface WebApplicationFirewallStatus {
+  /**
+   * Package containing attack signatures for the NGINX App Protect Web Application Firewall (WAF).
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly attackSignaturesPackage?: WebApplicationFirewallPackage;
+  /**
+   * Package containing bot signatures for the NGINX App Protect Web Application Firewall (WAF).
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly botSignaturesPackage?: WebApplicationFirewallPackage;
+  /**
+   * Package containing threat campaigns for the NGINX App Protect Web Application Firewall (WAF).
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly threatCampaignsPackage?: WebApplicationFirewallPackage;
+  /**
+   * Versions of the NGINX App Protect Web Application Firewall (WAF) components.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly componentVersions?: WebApplicationFirewallComponentVersions;
+}
+
+/** NGINX App Protect Web Application Firewall (WAF) Package. Contains the version and revision date of the package. */
+export interface WebApplicationFirewallPackage {
+  /** The version of the NGINX App Protect Web Application Firewall (WAF) package. */
+  version: string;
+  /** The date and time of the package revision. */
+  revisionDatetime: Date;
+}
+
+/** Versions of the NGINX App Protect Web Application Firewall (WAF) components. */
+export interface WebApplicationFirewallComponentVersions {
+  /** The version of the NGINX App Protect Web Application Firewall (WAF) engine. */
+  wafEngineVersion: string;
+  /** The version of the NGINX App Protect Web Application Firewall (WAF) module for NGINX. */
+  wafNginxVersion: string;
+}
+
 export interface ResourceSku {
   /** Name of the SKU. */
   name: string;
@@ -337,8 +502,17 @@ export interface NginxDeploymentUpdateProperties {
   /** Information on how the deployment will be scaled. */
   scalingProperties?: NginxDeploymentScalingProperties;
   userProfile?: NginxDeploymentUserProfile;
+  networkProfile?: NginxNetworkProfile;
   /** Autoupgrade settings of a deployment. */
   autoUpgradeProfile?: AutoUpgradeProfile;
+  /** Update settings for NGINX App Protect (NAP) */
+  nginxAppProtect?: NginxDeploymentUpdatePropertiesNginxAppProtect;
+}
+
+/** Update settings for NGINX App Protect (NAP) */
+export interface NginxDeploymentUpdatePropertiesNginxAppProtect {
+  /** Settings for the NGINX App Protect Web Application Firewall (WAF) */
+  webApplicationFirewallSettings?: WebApplicationFirewallSettings;
 }
 
 export interface NginxDeploymentListResponse {
@@ -439,6 +613,24 @@ export enum KnownCreatedByType {
  */
 export type CreatedByType = string;
 
+/** Known values of {@link Level} that the service accepts. */
+export enum KnownLevel {
+  /** Info */
+  Info = "Info",
+  /** Warning */
+  Warning = "Warning",
+}
+
+/**
+ * Defines values for Level. \
+ * {@link KnownLevel} can be used interchangeably with Level,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Info** \
+ * **Warning**
+ */
+export type Level = string;
+
 /** Known values of {@link IdentityType} that the service accepts. */
 export enum KnownIdentityType {
   /** SystemAssigned */
@@ -480,6 +672,58 @@ export enum KnownNginxPrivateIPAllocationMethod {
  * **Dynamic**
  */
 export type NginxPrivateIPAllocationMethod = string;
+
+/** Known values of {@link ActivationState} that the service accepts. */
+export enum KnownActivationState {
+  /** Enabled */
+  Enabled = "Enabled",
+  /** Disabled */
+  Disabled = "Disabled",
+}
+
+/**
+ * Defines values for ActivationState. \
+ * {@link KnownActivationState} can be used interchangeably with ActivationState,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Enabled** \
+ * **Disabled**
+ */
+export type ActivationState = string;
+
+/** Optional parameters. */
+export interface ApiKeysCreateOrUpdateOptionalParams
+  extends coreClient.OperationOptions {
+  /** The API Key object containing fields (e.g. secret text, expiration date) to upsert the key. */
+  body?: NginxDeploymentApiKeyRequest;
+}
+
+/** Contains response data for the createOrUpdate operation. */
+export type ApiKeysCreateOrUpdateResponse = NginxDeploymentApiKeyResponse;
+
+/** Optional parameters. */
+export interface ApiKeysDeleteOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Optional parameters. */
+export interface ApiKeysGetOptionalParams extends coreClient.OperationOptions {}
+
+/** Contains response data for the get operation. */
+export type ApiKeysGetResponse = NginxDeploymentApiKeyResponse;
+
+/** Optional parameters. */
+export interface ApiKeysListOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the list operation. */
+export type ApiKeysListResponse = NginxDeploymentApiKeyListResponse;
+
+/** Optional parameters. */
+export interface ApiKeysListNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listNext operation. */
+export type ApiKeysListNextResponse = NginxDeploymentApiKeyListResponse;
 
 /** Optional parameters. */
 export interface CertificatesGetOptionalParams
@@ -537,13 +781,13 @@ export interface ConfigurationsGetOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the get operation. */
-export type ConfigurationsGetResponse = NginxConfiguration;
+export type ConfigurationsGetResponse = NginxConfigurationResponse;
 
 /** Optional parameters. */
 export interface ConfigurationsCreateOrUpdateOptionalParams
   extends coreClient.OperationOptions {
   /** The NGINX configuration */
-  body?: NginxConfiguration;
+  body?: NginxConfigurationRequest;
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
   /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
@@ -551,7 +795,7 @@ export interface ConfigurationsCreateOrUpdateOptionalParams
 }
 
 /** Contains response data for the createOrUpdate operation. */
-export type ConfigurationsCreateOrUpdateResponse = NginxConfiguration;
+export type ConfigurationsCreateOrUpdateResponse = NginxConfigurationResponse;
 
 /** Optional parameters. */
 export interface ConfigurationsDeleteOptionalParams

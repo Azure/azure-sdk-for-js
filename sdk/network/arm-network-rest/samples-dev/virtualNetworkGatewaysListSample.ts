@@ -11,7 +11,7 @@ import "dotenv/config";
  * @summary Gets all virtual network gateways by resource group.
  * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-05-01/examples/VirtualNetworkGatewayList.json
  */
-async function listVirtualNetworkGatewaysinResourceGroup() {
+async function listVirtualNetworkGatewaysinResourceGroup(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = createNetworkManagementClient(credential);
   const subscriptionId = "";
