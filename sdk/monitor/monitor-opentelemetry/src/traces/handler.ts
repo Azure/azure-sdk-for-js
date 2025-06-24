@@ -51,9 +51,9 @@ export class TraceHandler {
     this._metricHandler = metricHandler;
     this._instrumentations = [];
     // Check sampler precedence
-    if (this._config.samplingRequestsPerSecond && this._config.samplingRequestsPerSecond > 0) {
-      // If samplingRequestsPerSecond is set, use RateLimitedSampler
-      this._sampler = new RateLimitedSampler(this._config.samplingRequestsPerSecond);
+    if (this._config.tracesPerSecond && this._config.tracesPerSecond >= 0) {
+      // If tracesPerSecond is set, use RateLimitedSampler
+      this._sampler = new RateLimitedSampler(this._config.tracesPerSecond);
     } else {
       // Otherwise, use PercentageSampler with samplingRatio
       this._sampler = new ApplicationInsightsSampler(this._config.samplingRatio);

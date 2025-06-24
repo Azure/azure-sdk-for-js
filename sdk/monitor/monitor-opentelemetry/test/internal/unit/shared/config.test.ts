@@ -53,11 +53,7 @@ describe("Library/Config", () => {
         "InstrumentationKey=1aa11111-bbbb-1ccc-8ddd-eeeeffff3333;IngestionEndpoint=https://centralus-0.in.applicationinsights.azure.com/",
       );
       assert.deepStrictEqual(config.samplingRatio, 0.3, "Wrong samplingRatio");
-      assert.deepStrictEqual(
-        config.samplingRequestsPerSecond,
-        0.2,
-        "Wrong samplingRequestsPerSecond",
-      );
+      assert.deepStrictEqual(config.tracesPerSecond, 0.2, "Wrong tracesPerSecond");
       assert.deepStrictEqual(
         config.azureMonitorExporterOptions?.disableOfflineStorage,
         true,
@@ -92,7 +88,7 @@ describe("Library/Config", () => {
           disableOfflineStorage: true,
         },
         samplingRatio: 1,
-        samplingRequestsPerSecond: 2,
+        tracesPerSecond: 2,
         instrumentationOptions: {
           http: { enabled: true },
           azureSdk: { enabled: true },
@@ -112,7 +108,7 @@ describe("Library/Config", () => {
           disableOfflineStorage: false,
         },
         samplingRatio: 0.5,
-        samplingRequestsPerSecond: 4,
+        tracesPerSecond: 4,
         instrumentationOptions: {
           http: { enabled: false },
           azureSdk: { enabled: false },
@@ -126,7 +122,7 @@ describe("Library/Config", () => {
 
       const config = new InternalConfig(options);
       assert.strictEqual(config.samplingRatio, jsonOptions.samplingRatio);
-      assert.strictEqual(config.samplingRequestsPerSecond, jsonOptions.samplingRequestsPerSecond);
+      assert.strictEqual(config.tracesPerSecond, jsonOptions.tracesPerSecond);
       assert.strictEqual(
         config.instrumentationOptions?.http?.enabled,
         jsonOptions.instrumentationOptions.http.enabled,
@@ -172,11 +168,7 @@ describe("Library/Config", () => {
     it("Default config", () => {
       const config = new InternalConfig();
       assert.deepStrictEqual(config.samplingRatio, 1, "Wrong samplingRatio");
-      assert.deepStrictEqual(
-        config.samplingRequestsPerSecond,
-        undefined,
-        "Wrong samplingRequestsPerSecond",
-      );
+      assert.deepStrictEqual(config.tracesPerSecond, undefined, "Wrong tracesPerSecond");
       assert.deepStrictEqual(
         config.instrumentationOptions.azureSdk?.enabled,
         false,
