@@ -144,9 +144,9 @@ export class BlobLeaseClient {
    * Establishes and manages a lock on a container for delete operations, or on a blob
    * for write and delete operations.
    * The lock duration can be 15 to 60 seconds, or can be infinite.
-   * @see https://learn.microsoft.com/en-us/rest/api/storageservices/lease-container
+   * @see https://learn.microsoft.com/rest/api/storageservices/lease-container
    * and
-   * @see https://learn.microsoft.com/en-us/rest/api/storageservices/lease-blob
+   * @see https://learn.microsoft.com/rest/api/storageservices/lease-blob
    *
    * @param duration - Must be between 15 to 60 seconds, or infinite (-1)
    * @param options - option to configure lease management operations.
@@ -188,9 +188,9 @@ export class BlobLeaseClient {
 
   /**
    * To change the ID of the lease.
-   * @see https://learn.microsoft.com/en-us/rest/api/storageservices/lease-container
+   * @see https://learn.microsoft.com/rest/api/storageservices/lease-container
    * and
-   * @see https://learn.microsoft.com/en-us/rest/api/storageservices/lease-blob
+   * @see https://learn.microsoft.com/rest/api/storageservices/lease-blob
    *
    * @param proposedLeaseId - the proposed new lease Id.
    * @param options - option to configure lease management operations.
@@ -234,9 +234,9 @@ export class BlobLeaseClient {
   /**
    * To free the lease if it is no longer needed so that another client may
    * immediately acquire a lease against the container or the blob.
-   * @see https://learn.microsoft.com/en-us/rest/api/storageservices/lease-container
+   * @see https://learn.microsoft.com/rest/api/storageservices/lease-container
    * and
-   * @see https://learn.microsoft.com/en-us/rest/api/storageservices/lease-blob
+   * @see https://learn.microsoft.com/rest/api/storageservices/lease-blob
    *
    * @param options - option to configure lease management operations.
    * @returns Response data for release lease operation.
@@ -272,9 +272,9 @@ export class BlobLeaseClient {
 
   /**
    * To renew the lease.
-   * @see https://learn.microsoft.com/en-us/rest/api/storageservices/lease-container
+   * @see https://learn.microsoft.com/rest/api/storageservices/lease-container
    * and
-   * @see https://learn.microsoft.com/en-us/rest/api/storageservices/lease-blob
+   * @see https://learn.microsoft.com/rest/api/storageservices/lease-blob
    *
    * @param options - Optional option to configure lease management operations.
    * @returns Response data for renew lease operation.
@@ -305,9 +305,9 @@ export class BlobLeaseClient {
   /**
    * To end the lease but ensure that another client cannot acquire a new lease
    * until the current lease period has expired.
-   * @see https://learn.microsoft.com/en-us/rest/api/storageservices/lease-container
+   * @see https://learn.microsoft.com/rest/api/storageservices/lease-container
    * and
-   * @see https://learn.microsoft.com/en-us/rest/api/storageservices/lease-blob
+   * @see https://learn.microsoft.com/rest/api/storageservices/lease-blob
    *
    * @param breakPeriod - Break period
    * @param options - Optional options to configure lease management operations.

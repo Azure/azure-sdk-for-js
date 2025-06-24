@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { JwtPayload, VersionInfo } from "../common/types.js";
+import type { AccessTokenClaims, VersionInfo, JwtPayload } from "../common/types.js";
 import {
   Constants,
   InternalEnvironmentVariables,
@@ -79,14 +79,14 @@ export const validateMptPAT = (
     if (!accessToken) {
       validationFailureCallback(ServiceErrorMessageConstants.NO_AUTH_ERROR);
     }
-    const claims = parseJwt<JwtPayload>(accessToken!);
+    const claims = parseJwt<Partial<AccessTokenClaims>>(accessToken!);
     if (!claims.exp) {
       validationFailureCallback(ServiceErrorMessageConstants.INVALID_MPT_PAT_ERROR);
     }
     if (Date.now() >= claims.exp! * 1000) {
       validationFailureCallback(ServiceErrorMessageConstants.EXPIRED_MPT_PAT_ERROR);
     }
-    if (result!.accountId !== claims!.aid) {
+    if (result!.accountId !== claims!.pwid) {
       validationFailureCallback(ServiceErrorMessageConstants.WORKSPACE_MISMATCH_ERROR);
     }
   } catch (err) {
@@ -101,7 +101,7 @@ const isTokenExpiringSoon = (expirationTime: number, currentTime: number): boole
 const warnAboutTokenExpiry = (expirationTime: number, currentTime: number): void => {
   const daysToExpiration = Math.ceil((expirationTime * 1000 - currentTime) / Constants.OneDayInMS);
   const expirationDate = new Date(expirationTime * 1000).toLocaleDateString();
-  const expirationWarning = `Warning: The access token used for this test run will expire in ${daysToExpiration} days on ${expirationDate}. Generate a new token from the portal to avoid failures. For a simpler, more secure solution, switch to Microsoft Entra ID and eliminate token management. https://learn.microsoft.com/en-us/entra/identity/`;
+  const expirationWarning = `Warning: The access token used for this test run will expire in ${daysToExpiration} days on ${expirationDate}. Generate a new token from the portal to avoid failures. For a simpler, more secure solution, switch to Microsoft Entra ID and eliminate token management. https://learn.microsoft.com/entra/identity/`;
   console.warn(expirationWarning);
 };
 
