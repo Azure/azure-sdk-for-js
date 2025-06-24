@@ -1,5 +1,11 @@
 # Release History
 
+## 1.11.2 (Unreleased)
+
+### Other Changes
+
+- Add customer statsbeat feature to feature statsbeat.
+
 ## 1.11.1 (2025-06-09)
 
 ### Other Changes

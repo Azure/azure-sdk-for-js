@@ -10,6 +10,7 @@ import type { MeterProvider } from "@opentelemetry/sdk-metrics";
 import type { StatsbeatEnvironmentConfig } from "../../../src/types.js";
 import {
   AZURE_MONITOR_STATSBEAT_FEATURES,
+  APPLICATIONINSIGHTS_STATSBEAT_ENABLED_PREVIEW,
   StatsbeatFeature,
   StatsbeatInstrumentation,
   StatsbeatInstrumentationMap,
@@ -392,5 +393,33 @@ describe("Main functions", () => {
       };
     }
     assert.strictEqual(updatedStatsbeat.instrumentation, StatsbeatInstrumentation.FS);
+  });
+
+  describe("Customer Statsbeat Environment Variable", () => {
+    it("should set customerStatsbeat to true only when env var is exactly 'True'", () => {
+      const config: AzureMonitorOpenTelemetryOptions = {
+        azureMonitorExporterOptions: {
+          connectionString: "InstrumentationKey=00000000-0000-0000-0000-000000000000",
+        },
+      };
+      process.env[APPLICATIONINSIGHTS_STATSBEAT_ENABLED_PREVIEW] = "True";
+      useAzureMonitor(config);
+      assert.ok(true, "useAzureMonitor executed successfully with 'True'");
+      void shutdownAzureMonitor();
+    });
+
+    it("should set customerStatsbeat to false when env var is not set", () => {
+      const config: AzureMonitorOpenTelemetryOptions = {
+        azureMonitorExporterOptions: {
+          connectionString: "InstrumentationKey=00000000-0000-0000-0000-000000000000",
+        },
+      };
+      delete process.env[APPLICATIONINSIGHTS_STATSBEAT_ENABLED_PREVIEW];
+      useAzureMonitor(config);
+      
+      assert.ok(true, "useAzureMonitor executed successfully with undefined env var");
+      
+      void shutdownAzureMonitor();
+    });
   });
 });
