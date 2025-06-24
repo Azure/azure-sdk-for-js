@@ -6,6 +6,12 @@
 
 - Add RateLimitedSampler.
 
+## 1.11.1 (2025-06-09)
+
+### Other Changes
+
+- Update to using monitor-opentelemetry-exporter beta 32.
+
 ## 1.11.0 (2025-04-16)
 
 ### Features Added

@@ -163,7 +163,6 @@ export type AuthenticationType = (typeof ServiceAuth)[keyof typeof ServiceAuth];
 // Internal APIs
 
 export type JwtPayload = {
-  aid?: string;
   iss?: string;
   sub?: string;
   aud?: string[] | string;
@@ -174,8 +173,7 @@ export type JwtPayload = {
 };
 
 export type AccessTokenClaims = JwtPayload & {
-  aid?: string;
-  accountId?: string;
+  pwid?: string;
 };
 
 export type VersionInfo = {

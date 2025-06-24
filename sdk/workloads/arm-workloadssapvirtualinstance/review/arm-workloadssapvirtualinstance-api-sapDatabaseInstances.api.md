@@ -59,8 +59,7 @@ export interface SAPDatabaseInstancesUpdateOptionalParams extends OperationOptio
 export function start(context: WorkloadsContext, resourceGroupName: string, sapVirtualInstanceName: string, databaseInstanceName: string, options?: SAPDatabaseInstancesStartOptionalParams): PollerLike<OperationState<OperationStatusResult>, OperationStatusResult>;
 
 // @public
-function stop_2(context: WorkloadsContext, resourceGroupName: string, sapVirtualInstanceName: string, databaseInstanceName: string, options?: SAPDatabaseInstancesStopOptionalParams): PollerLike<OperationState<OperationStatusResult>, OperationStatusResult>;
-export { stop_2 as stop }
+export function stop(context: WorkloadsContext, resourceGroupName: string, sapVirtualInstanceName: string, databaseInstanceName: string, options?: SAPDatabaseInstancesStopOptionalParams): PollerLike<OperationState<OperationStatusResult>, OperationStatusResult>;
 
 // @public
 export function update(context: WorkloadsContext, resourceGroupName: string, sapVirtualInstanceName: string, databaseInstanceName: string, properties: UpdateSAPDatabaseInstanceRequest, options?: SAPDatabaseInstancesUpdateOptionalParams): Promise<SAPDatabaseInstance>;

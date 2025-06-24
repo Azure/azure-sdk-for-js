@@ -14,7 +14,7 @@ import { SimplePollerLike } from '@azure/core-lro';
 export interface AccessPolicyEntry {
     applicationId?: string;
     objectId: string;
-    permissions: Permissions_2;
+    permissions: Permissions;
     tenantId: string;
 }
 
@@ -1174,13 +1174,12 @@ export interface OperationsListOptionalParams extends coreClient.OperationOption
 export type OperationsListResponse = OperationListResult;
 
 // @public
-interface Permissions_2 {
+export interface Permissions {
     certificates?: CertificatePermissions[];
     keys?: KeyPermissions[];
     secrets?: SecretPermissions[];
     storage?: StoragePermissions[];
 }
-export { Permissions_2 as Permissions }
 
 // @public
 export interface PrivateEndpoint {
