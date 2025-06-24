@@ -12,6 +12,7 @@
 import {
   RunStreamEvent,
   MessageStreamEvent,
+  MessageImageFileContent,
   DoneEvent,
   ErrorEvent,
   AgentsClient,
@@ -21,7 +22,6 @@ import {
 import { DefaultAzureCredential } from "@azure/identity";
 
 import * as fs from "fs";
-import path from "node:path";
 import "dotenv/config";
 
 const projectEndpoint = process.env["PROJECT_ENDPOINT"] || "<project endpoint>";
@@ -106,67 +106,19 @@ export async function main(): Promise<void> {
 
   // Print the messages from the agent
   const messagesIterator = client.messages.list(thread.id);
-  const messagesArray = [];
   for await (const m of messagesIterator) {
-    messagesArray.push(m);
-  }
-  console.log("Messages:", messagesArray);
-
-  // Get most recent message from the assistant
-  const assistantMessage = messagesArray.find((msg) => msg.role === "assistant");
-  if (assistantMessage && assistantMessage.content && assistantMessage.content.length > 0) {
-    // Look for an image file in the assistant's message
-    const imageFileOutput = assistantMessage.content.find(
-      (content) => content.type === "image_file" && content.imageFile?.fileId,
-    );
-
-    if (imageFileOutput) {
-      try {
-        // Save the newly created file
-        console.log(`Saving new files...`);
-        const imageFile = imageFileOutput.imageFile.fileId;
-        const imageFileName = path.resolve(
-          "./data/ImageFile_" + (await client.files.get(imageFile)).filename,
+    console.log(`Role: ${m.role}, Content: ${m.content}`);
+    if (m.role === "assistant" && m.content.length > 0) {
+      const imageFileOutput = m.content.find((content) =>
+        isOutputOfType<MessageImageFileContent>(content, "image_file"),
+      );
+      if (imageFileOutput) {
+        console.log(
+          `Image file found in assistant's message with file ID: ${imageFileOutput.imageFile.fileId}`,
         );
-        console.log(`Image file name : ${imageFileName}`);
-
-        const fileContent = await client.files.getContent(imageFile).asNodeStream();
-        if (fileContent && fileContent.body) {
-          const chunks = [];
-          for await (const chunk of fileContent.body) {
-            chunks.push(Buffer.isBuffer(chunk) ? chunk : Buffer.from(chunk));
-          }
-          const buffer = Buffer.concat(chunks);
-          fs.writeFileSync(imageFileName, buffer);
-          console.log(`Successfully saved image to ${imageFileName}`);
-        } else {
-          console.error("No file content available in the response");
-        }
-      } catch (error) {
-        console.error("Error saving image file:", error);
       }
-    } else {
-      console.log("No image file found in assistant's message");
     }
-  } else {
-    console.log("No assistant message found");
   }
-
-  // Iterate through messages and print details for each annotation
-  console.log(`Message Details:`);
-  messagesArray.forEach((m) => {
-    console.log(`File Paths:`);
-    if (m.content && m.content.length > 0) {
-      console.log(`Type: ${m.content[0].type}`);
-      if (isOutputOfType(m.content[0], "text")) {
-        const textContent = m.content[0];
-        console.log(`Text: ${textContent.text.value}`);
-      }
-    }
-    console.log(`File ID: ${m.id}`);
-    // firstId and lastId are properties of the paginator, not the messages array
-    // Removing these references as they don't exist in this context
-  });
 
   // Delete the agent once done
   await client.deleteAgent(agent.id);

@@ -70,8 +70,7 @@ async function main() {
   if (!firstMessage.done && firstMessage.value) {
     const agentMessage = firstMessage.value.content[0];
     if (isOutputOfType(agentMessage, "text")) {
-      const textContent = agentMessage;
-      console.log(`Text Message Content - ${textContent.text.value}`);
+      console.log(`Text Message Content - ${agentMessage.text.value}`);
     }
   }
 }

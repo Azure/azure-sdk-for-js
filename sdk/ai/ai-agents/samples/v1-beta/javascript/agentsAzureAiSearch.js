@@ -97,8 +97,7 @@ async function main() {
     if (m.content.length > 0) {
       const agentMessage = m.content[0];
       if (isOutputOfType(agentMessage, "text")) {
-        const textContent = agentMessage;
-        console.log(`Text Message Content - ${textContent.text.value}`);
+        console.log(`Text Message Content - ${agentMessage.text.value}`);
       }
     }
     break; // Just process the first message

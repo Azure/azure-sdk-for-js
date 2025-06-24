@@ -91,16 +91,13 @@ async function main() {
   // Fetch and log all messages
   console.log(`Messages:`);
   // Convert the PagedAsyncIterableIterator to an array of messages
-  const messagesArray = [];
   for await (const m of client.messages.list(thread.id)) {
-    messagesArray.push(m);
-  }
-
-  if (messagesArray.length > 0 && messagesArray[0].content.length > 0) {
-    const agentMessage = messagesArray[0].content[0];
-    if (isOutputOfType(agentMessage, "text")) {
-      const textContent = agentMessage;
-      console.log(`Text Message Content - ${textContent.text.value}`);
+    if (m.content.length > 0) {
+      const agentMessage = m.content[0];
+      if (isOutputOfType(agentMessage, "text")) {
+        console.log(`Text Message Content - ${agentMessage.text.value}`);
+      }
+      break; // Only log the first message content
     }
   }
 }
