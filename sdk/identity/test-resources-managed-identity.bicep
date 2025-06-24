@@ -355,3 +355,4 @@ output IdentityAcrName string = acrResource.name
 output IdentityAcrLoginServer string = acrResource.properties.loginServer
 output IdentityTenantID string = tenantId
 output IdentityClientID string = testApplicationId
+output IdentityFunctionsCustomHandlerPort int = 80

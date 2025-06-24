@@ -6,7 +6,7 @@ import { describe, it, assert, beforeEach, afterEach } from "vitest";
 
 describe("Azure Kubernetes Integration test", function () {
   let podName: string;
-  const port = process.env.FUNCTIONS_CUSTOMHANDLER_PORT;
+  const port = requireEnvVar("IDENTITY_FUNCTIONS_CUSTOMHANDLER_PORT");
 
   beforeEach(async function (ctx) {
     if (!isLiveMode()) {
