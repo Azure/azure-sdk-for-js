@@ -18,6 +18,13 @@ import {
   agentsToolChoiceOptionSerializer,
   ThreadRun,
   threadRunDeserializer,
+  MessageStreamEvent,
+  RunStepStreamEvent,
+  RunStreamEvent,
+  ThreadStreamEvent,
+  runStepDeserializer,
+  threadMessageDeserializer,
+  ToolOutput,
 } from "../models/models.js";
 import {
   CreateThreadAndRunOptionalParams,
@@ -43,12 +50,8 @@ import {
   AgentEventMessageStream,
   AgentEventStreamData,
   AgentRunResponse,
-  MessageStreamEvent,
-  RunStepStreamEvent,
-  RunStreamEvent,
-  ThreadStreamEvent,
 } from "../models/streamingModels.js";
-import {
+import type {
   RunsCreateRunOptionalParams,
   RunsSubmitToolOutputsToRunOptionalParams,
 } from "./runs/options.js";
@@ -56,7 +59,7 @@ import { EventMessageStream, EventMessage, createSseStream } from "@azure/core-s
 import { isNodeLike } from "@azure/core-util";
 import { IncomingMessage } from "http";
 import { logger } from "../logger.js";
-import { _createRunSend } from "./runs/operations.js";
+import { _createRunSend, _submitToolOutputsToRunSend } from "./runs/operations.js";
 
 export function _createThreadAndRunSend(
   context: Client,
@@ -422,11 +425,14 @@ async function* toAsyncIterable(stream: EventMessageStream): AsyncIterable<Agent
 function deserializeEventData(event: EventMessage): AgentEventStreamData {
   try {
     const jsonData = JSON.parse(event.data);
+    if (Object.values(RunStreamEvent).includes(event.event as RunStreamEvent)) {
+      return threadRunDeserializer(jsonData);
+    }
     switch (event.event) {
       case MessageStreamEvent.ThreadMessageDelta:
-        return jsonData;
+        return threadMessageDeserializer(jsonData);
       case RunStepStreamEvent.ThreadRunStepDelta:
-        return jsonData;
+        return runStepDeserializer(jsonData);
       default: {
         for (const { events } of handlers) {
           if (events.includes(event.event)) {
@@ -488,13 +494,12 @@ export async function submitToolOutputsToRunStreaming(
   context: Client,
   threadId: string,
   runId: string,
+  toolOutputs: ToolOutput[],
   options: RunsSubmitToolOutputsToRunOptionalParams = { requestOptions: {} },
 ): Promise<AgentEventMessageStream> {
   const streamOptions = { ...options, stream: true };
 
   return processStream(
-    context
-      .path("/threads/{threadId}/runs/{runId}/submit_tool_outputs", threadId, runId)
-      .post(streamOptions),
+    _submitToolOutputsToRunSend(context, threadId, runId, toolOutputs, streamOptions),
   );
 }

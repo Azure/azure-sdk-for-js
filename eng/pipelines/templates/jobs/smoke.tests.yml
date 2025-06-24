@@ -18,8 +18,8 @@ jobs:
       variables:
         - template: /eng/pipelines/templates/variables/globals.yml
       pool:
-        name: "azsdk-pool-mms-ubuntu-2004-general"
-        vmImage: "MMSUbuntu20.04"
+        name: "azsdk-pool"
+        vmImage: "ubuntu-24.04"
       displayName: Check Smoke Test Eligibility
       steps:
         - template: /eng/pipelines/templates/steps/use-node-version.yml
@@ -55,22 +55,22 @@ jobs:
       condition: and(succeeded(), eq(dependencies.smoke_test_eligibility.outputs['check_smoke_tests.RunSmokeTests'], true))
     strategy:
       matrix:
-        Mac Node18 (AzureCloud):
+        Mac node lts maintenance:
           Pool: Azure Pipelines
           OSVmImage: "macos-latest"
-          NodeTestVersion: "18.x"
-        Windows Node20 (AzureCloud):
-          Pool: "azsdk-pool-mms-win-2022-general"
-          OSVmImage: "MMS2022"
-          NodeTestVersion: "20.x"
-        Linux Node18 (AzureCloud):
-          Pool: "azsdk-pool-mms-ubuntu-2004-general"
-          OSVmImage: "MMSUbuntu20.04"
-          NodeTestVersion: "18.x"
-        Linux Node20 (AzureCloud):
-          Pool: "azsdk-pool-mms-ubuntu-2004-general"
-          OSVmImage: "MMSUbuntu20.04"
-          NodeTestVersion: "20.x"
+          NodeTestVersion: $(NODE_VERSION_LTS_MAINTENANCE)
+        Windows node lts active:
+          Pool: "azsdk-pool"
+          OSVmImage: "windows-2022"
+          NodeTestVersion: $(NODE_VERSION_LTS_ACTIVE)
+        Linux node lts maintenance:
+          Pool: "azsdk-pool"
+          OSVmImage: "ubuntu-24.04"
+          NodeTestVersion: $(NODE_VERSION_LTS_MAINTENANCE)
+        Linux node lts active:
+          Pool: "azsdk-pool"
+          OSVmImage: "ubuntu-24.04"
+          NodeTestVersion: $(NODE_VERSION_LTS_ACTIVE)
 
     pool:
       name: $(Pool)
@@ -95,7 +95,7 @@ jobs:
 
       - pwsh: |
           $(Build.SourcesDirectory)/eng/common/scripts/Import-AzModules.ps1
-           
+
           # TODO: When we re-enable this pipeline we will need to refactor to use federated auth for deployment
           $subscriptionConfiguration = @"
             $(SubscriptionConfiguration)
@@ -120,7 +120,7 @@ jobs:
               exit 1
             }
             $result = $(System.DefaultWorkingDirectory)/eng/scripts/get-npm-tags.ps1 -packageArtifact $packageArtifact -workingDirectory $(System.DefaultWorkingDirectory)/temp
-            $packageInfo = Get-Content -Path "$(Pipeline.Workspace)/${{parameters.ArtifactName}}/PackageInfo/${{parameters.Artifact.name}}.json" 
+            $packageInfo = Get-Content -Path "$(Pipeline.Workspace)/${{parameters.ArtifactName}}/PackageInfo/${{parameters.Artifact.name}}.json"
               | ConvertFrom-Json -AsHashtable
 
             ./Initialize-SmokeTests.ps1 `
