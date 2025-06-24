@@ -187,7 +187,8 @@ export const AzureMonitorSampleRate = "microsoft.sample_rate";
  * Enables the preview version of customer-facing Statsbeat.
  * @internal
  */
-export declare const APPLICATIONINSIGHTS_STATSBEAT_ENABLED_PREVIEW = "APPLICATIONINSIGHTS_STATSBEAT_ENABLED_PREVIEW";
+export declare const APPLICATIONINSIGHTS_STATSBEAT_ENABLED_PREVIEW =
+  "APPLICATIONINSIGHTS_STATSBEAT_ENABLED_PREVIEW";
 
 export enum StatsbeatFeature {
   NONE = 0,

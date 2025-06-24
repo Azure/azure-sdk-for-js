@@ -416,9 +416,9 @@ describe("Main functions", () => {
       };
       delete process.env[APPLICATIONINSIGHTS_STATSBEAT_ENABLED_PREVIEW];
       useAzureMonitor(config);
-      
+
       assert.ok(true, "useAzureMonitor executed successfully with undefined env var");
-      
+
       void shutdownAzureMonitor();
     });
   });
