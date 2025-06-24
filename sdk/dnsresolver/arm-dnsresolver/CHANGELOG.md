@@ -1,6 +1,6 @@
 # Release History
     
-## 2.0.0 (2025-06-11)
+## 1.2.0 (2025-06-11)
     
 ### Features Added
 
@@ -103,9 +103,6 @@
   - Added Enum KnownAction
   - Added Enum KnownActionType
   - Added Enum KnownDnsSecurityRuleState
-
-### Breaking Changes
-
   - Interface DnsForwardingRuleset no longer has parameter systemData
   - Interface DnsResolver no longer has parameter systemData
   - Interface ForwardingRule no longer has parameter systemData
