@@ -6,7 +6,6 @@ import { RateLimitedSampler } from "../../src/sampling/rateLimitedSampler.js";
 import { SamplingDecision } from "@opentelemetry/sdk-trace-base";
 import { context, SpanKind } from "@opentelemetry/api";
 
-
 describe("RateLimitedSampler", () => {
   let sampler: RateLimitedSampler;
 
@@ -55,7 +54,7 @@ describe("RateLimitedSampler", () => {
         "span",
         SpanKind.INTERNAL,
         {},
-        []
+        [],
       );
       assert.equal(result.decision, SamplingDecision.RECORD_AND_SAMPLED);
     });
@@ -67,7 +66,7 @@ describe("RateLimitedSampler", () => {
         "span",
         SpanKind.INTERNAL,
         {},
-        []
+        [],
       );
       assert.equal(result.decision, SamplingDecision.NOT_RECORD);
     });
@@ -80,7 +79,7 @@ describe("RateLimitedSampler", () => {
         "span",
         SpanKind.INTERNAL,
         attrs,
-        []
+        [],
       );
       assert.isDefined((result.attributes as any)["microsoft.sample_rate"]);
       assert.isBelow((result.attributes as any)["microsoft.sample_rate"], 100);

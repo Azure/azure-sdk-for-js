@@ -17,7 +17,7 @@ type RateLimitedSamplerState = {
  * - Implements a rate-limiting sampling strategy based on a specified number of requests per second.
  * - Dynamically adjusts the sampling rate based on the time elapsed since the last sample.
  * - Provides a sampling rate that can be used to determine whether a span should be recorded.
- * @param requestsPerSecond - 
+ * @param requestsPerSecond -
  */
 export class RateLimitedSampler implements Sampler {
   private readonly nanoTimeSupplier: () => number;
@@ -57,7 +57,10 @@ export class RateLimitedSampler implements Sampler {
    * @param currentNanoTime - The current time in nanoseconds.
    * @returns The updated state of the sampler.
    */
-  private updateState(oldState: RateLimitedSamplerState, currentNanoTime: number): RateLimitedSamplerState {
+  private updateState(
+    oldState: RateLimitedSamplerState,
+    currentNanoTime: number,
+  ): RateLimitedSamplerState {
     if (currentNanoTime <= oldState.lastNanoTime) {
       return {
         effectiveWindowCount: oldState.effectiveWindowCount + 1,
@@ -123,7 +126,6 @@ export class RateLimitedSampler implements Sampler {
     // @ts-expect-error unused argument
     links: Link[],
   ): SamplingResult {
-
     let sampleRate = 100;
     // [TODO] Should respect sample rate from parent if available
     sampleRate = this.getSampleRate();
@@ -144,5 +146,4 @@ export class RateLimitedSampler implements Sampler {
   public toString(): string {
     return `RateLimitedSampler{${this.requestsPerSecond}}`;
   }
-
 }

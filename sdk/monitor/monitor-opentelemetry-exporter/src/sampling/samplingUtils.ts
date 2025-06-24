@@ -1,7 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-
 export function getSamplingHashCode(input: string): number {
   const csharpMin = -2147483648;
   const csharpMax = 2147483647;
@@ -24,7 +23,6 @@ export function getSamplingHashCode(input: string): number {
   return (hash / csharpMax) * 100;
 }
 
-
 export function roundDownToNearest(samplingPercentage: number): number {
   if (samplingPercentage === 0) {
     return 0;
@@ -32,7 +30,6 @@ export function roundDownToNearest(samplingPercentage: number): number {
   const itemCount = 100 / samplingPercentage;
   return 100.0 / Math.ceil(itemCount);
 }
-
 
 export function shouldSample(samplingPercentage: number, traceId: string): boolean {
   if (samplingPercentage === 100) {

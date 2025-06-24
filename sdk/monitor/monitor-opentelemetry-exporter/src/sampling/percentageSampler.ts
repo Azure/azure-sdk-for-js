@@ -54,7 +54,6 @@ export class ApplicationInsightsSampler implements Sampler {
     // @ts-expect-error unused argument
     links: Link[],
   ): SamplingResult {
-
     // [TODO] Should respect sample rate from parent if available
     // Only send the sample rate if it's not 100
     if (this._sampleRate !== 100) {
