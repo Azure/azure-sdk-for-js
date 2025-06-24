@@ -35,6 +35,7 @@ export function createAgents(
     loggingOptions: { logger: options.loggingOptions?.logger ?? logger.info },
     credentials: {
       scopes: options.credentials?.scopes ?? ["https://ai.azure.com/.default"],
+      apiKeyHeaderName: options.credentials?.apiKeyHeaderName ?? "x-api-key",
     },
   };
   const clientContext = getClient(endpointParam, credential, updatedOptions);
