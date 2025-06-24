@@ -104,7 +104,7 @@ export class RateLimitedSampler implements Sampler {
    * Checks whether span needs to be created and tracked.
    *
    * @param context - Parent Context which may contain a span.
-   * @param traceId - traceif of the span to be created. It can be different from the
+   * @param traceId - traceId of the span to be created. It can be different from the
    *     traceId in the {@link SpanContext}. Typically in situations when the
    *     span to be created starts a new trace.
    * @param spanName - Name of the span to be created.
