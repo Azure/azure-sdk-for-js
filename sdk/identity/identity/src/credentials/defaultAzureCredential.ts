@@ -287,7 +287,7 @@ export class DefaultAzureCredential extends ChainedTokenCredential {
         default: {
           // If AZURE_TOKEN_CREDENTIALS is set to an unsupported value, throw an error.
           // We will throw an error here to prevent the creation of the DefaultAzureCredential.
-          const errorMessage = `Invalid value for AZURE_TOKEN_CREDENTIALS = ${process.env.AZURE_TOKEN_CREDENTIALS}. Valid values are 'prod' or 'dev'.`;
+          const errorMessage = `Invalid value for AZURE_TOKEN_CREDENTIALS = ${process.env.AZURE_TOKEN_CREDENTIALS}. Valid values are 'prod' or 'dev' or any of these credentials - "EnvironmentCredential" or "ManagedIdentityCredential or "WorkloadIdentityCredential" or "AzureCliCredential" or "AzureDeveloperCliCredential" or "AzurePowershellCredential".`;
           logger.warning(errorMessage);
           throw new Error(errorMessage);
         }
