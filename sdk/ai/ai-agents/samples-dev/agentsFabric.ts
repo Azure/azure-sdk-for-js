@@ -12,6 +12,7 @@ import type { MessageContent, MessageTextContent } from "@azure/ai-agents";
 import { AgentsClient, ToolUtility, isOutputOfType } from "@azure/ai-agents";
 import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
+import { createAndPollDefaultOptions } from "./utils/constants.js";
 
 const projectEndpoint = process.env["PROJECT_ENDPOINT"] || "<project endpoint>";
 const modelDeploymentName = process.env["MODEL_DEPLOYMENT_NAME"] || "gpt-4o";
@@ -47,14 +48,7 @@ export async function main(): Promise<void> {
 
   // Create and poll a run
   console.log("Creating run...");
-  const run = await client.runs.createAndPoll(thread.id, agent.id, {
-    pollingOptions: {
-      intervalInMs: 2000,
-    },
-    onResponse: (response): void => {
-      console.log(`Received response with status: ${response.parsedBody.status}`);
-    },
-  });
+  const run = await client.runs.createAndPoll(thread.id, agent.id, createAndPollDefaultOptions);
   console.log(`Run finished with status: ${run.status}`);
 
   // Delete the agent when done
@@ -69,8 +63,7 @@ export async function main(): Promise<void> {
   for await (const m of messagesIterator) {
     const agentMessage: MessageContent = m.content[0];
     if (isOutputOfType<MessageTextContent>(agentMessage, "text")) {
-      const textContent = agentMessage as MessageTextContent;
-      console.log(`Text Message Content - ${textContent.text.value}`);
+      console.log(`Text Message Content - ${agentMessage.text.value}`);
     }
     break; // Only process the first message
   }
