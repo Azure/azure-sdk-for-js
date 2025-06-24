@@ -2,6 +2,22 @@
 
 This page is to help you write and run tests quickly for Javascript Codegen SDK including high-level and rest-level clients. We firstly show how to run in `record` and `playback` mode and then guide on how to add test cases.
 
+> [!IMPORTANT]  
+> **🤖 Running into issues with your recorded tests? 🤖**
+> 
+> The Recorded Test Agent may be able to help!
+> We have developed a GitHub Copilot agent which will help you debug recorded test issues. It is based on a custom prompt that provides special information about recordings, and can:
+>
+> - Help you set up the recorder correctly
+> - Help you with your sanitizer configuration
+> - Help determine whether you have asset sync set up properly
+> - Check your recordings for secrets
+>
+> To get started, say `/test-recording <...query>` to Copilot Chat in Agent mode. Claude Sonnet 4 is the recommended model. For example:
+> ```
+> /test-recording my tests are failing in playback mode, but passing in recording mode. Please help fix them!
+> ```
+
 # Table of contents
 
 - [Javascript Codegen Quick Start for Test](#javascript-codegen-quick-start-for-test)
