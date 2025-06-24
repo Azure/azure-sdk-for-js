@@ -7,13 +7,14 @@ stages:
 
     pool:
       name: azsdk-pool
-      demands: ImageOverride -equals ubuntu-24.04
+      demands: ImageOverride -equals $(LINUXVMIMAGE)
 
     jobs:
       - job: BuildAllPackages
         timeoutInMinutes: 180
         variables:
           - template: /eng/pipelines/templates/variables/globals.yml
+          - template: /eng/pipelines/templates/variables/image.yml
         steps:
           - template: /eng/pipelines/templates/steps/use-node-version.yml
             parameters:

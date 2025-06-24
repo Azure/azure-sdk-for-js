@@ -6,10 +6,11 @@ jobs:
   displayName: 'Rush update full'
   variables:
   - template: /eng/pipelines/templates/variables/globals.yml
+  - template: /eng/pipelines/templates/variables/image.yml
 
   pool:
     name: azsdk-pool
-    demands: ImageOverride -equals ubuntu-24.04
+    demands: ImageOverride -equals $(LINUXVMIMAGE)
 
   steps:
   - template: /eng/pipelines/templates/steps/common.yml
@@ -35,10 +36,11 @@ jobs:
   displayName: 'Check Package Dependency'
   variables:
   - template: /eng/pipelines/templates/variables/globals.yml
+  - template: /eng/pipelines/templates/variables/image.yml
 
   pool:
     name: azsdk-pool
-    demands: ImageOverride -equals ubuntu-24.04
+    demands: ImageOverride -equals $(LINUXVMIMAGE)
 
   steps:
   - template: /eng/pipelines/templates/steps/common.yml

@@ -19,16 +19,20 @@ pr:
 stages:
 - stage: Run
   variables:
-    skipComponentGovernanceDetection: true
-    nugetMultiFeedWarnLevel: 'none'
-    baseBranchBaseline: ''
+  - name: skipComponentGovernanceDetection
+    value: true
+  - name: nugetMultiFeedWarnLevel
+    value: 'none'
+  - name: baseBranchBaseline
+    value: ''
+  - template: /eng/pipelines/templates/variables/image.yml
 
   jobs:
   - job: Run
     timeoutInMinutes: 120
     pool:
       name: azsdk-pool
-      demands: ImageOverride -equals ubuntu-24.04
+      demands: ImageOverride -equals $(LINUXVMIMAGE)
 
     variables:
       CodeownersLinterVersion: '1.0.0-dev.20240926.2'
