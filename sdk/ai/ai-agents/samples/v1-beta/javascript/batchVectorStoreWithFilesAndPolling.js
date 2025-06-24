@@ -11,6 +11,9 @@ const { AgentsClient } = require("@azure/ai-agents");
 const { DefaultAzureCredential } = require("@azure/identity");
 const { Readable } = require("stream");
 require("dotenv/config");
+const { createAndPollDefaultOptions } = require("./utils/constants.js");
+
+const onDefaultResponse = createAndPollDefaultOptions.onResponse;
 
 const projectEndpoint = process.env["PROJECT_ENDPOINT"] || "<project endpoint>";
 
@@ -46,9 +49,7 @@ async function main() {
   const vectorStoreFileBatch1 = await client.vectorStoreFileBatches.create(vectorStore.id, {
     fileIds: [file1.id, file2.id],
     // (Optional) Define an onResponse callback to monitor the progress of polling
-    onResponse: (response) => {
-      console.log(`Received response with status: ${response.parsedBody.status}`);
-    },
+    onResponse: onDefaultResponse,
   });
   console.log(
     `Created vector store file batch with status ${vectorStoreFileBatch1.status}, vector store file batch ID: ${vectorStoreFileBatch1.id}`,
@@ -60,9 +61,7 @@ async function main() {
   const abortController = new AbortController();
   const vectorStoreFileBatchPoller = client.vectorStoreFileBatches.createAndPoll(vectorStore.id, {
     fileIds: [file1.id, file2.id],
-    onResponse: (response) => {
-      console.log(`Received response with status: ${response.parsedBody.status}`);
-    },
+    onResponse: onDefaultResponse,
   });
   const vectorStoreFileBatch2 = await vectorStoreFileBatchPoller.pollUntilDone({
     abortSignal: abortController.signal,

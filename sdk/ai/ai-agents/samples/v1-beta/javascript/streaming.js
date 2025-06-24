@@ -7,14 +7,9 @@
  * @summary demonstrates how to use agent operations in streaming.
  */
 
-const {
-  AgentsClient,
-  DoneEvent,
-  ErrorEvent,
-  MessageStreamEvent,
-  RunStreamEvent,
-} = require("@azure/ai-agents");
+const { AgentsClient } = require("@azure/ai-agents");
 const { DefaultAzureCredential } = require("@azure/identity");
+const { streamRunEventsProcessor } = require("./utils/streamRunEventsProcessor.js"); // Adjust the import path as necessary
 
 require("dotenv/config");
 
@@ -41,35 +36,8 @@ async function main() {
   console.log(`Created message, thread ID : ${thread.id}`);
 
   const streamEventMessages = await client.runs.create(thread.id, agent.id).stream();
-
-  for await (const eventMessage of streamEventMessages) {
-    switch (eventMessage.event) {
-      case RunStreamEvent.ThreadRunCreated:
-        console.log(`ThreadRun status: ${eventMessage.data.status}`);
-        break;
-      case MessageStreamEvent.ThreadMessageDelta:
-        {
-          const messageDelta = eventMessage.data;
-          messageDelta.delta.content.forEach((contentPart) => {
-            if (contentPart.type === "text") {
-              const textContent = contentPart;
-              const textValue = textContent.text?.value || "No text";
-              console.log(`Text delta received:: ${textValue}`);
-            }
-          });
-        }
-        break;
-      case RunStreamEvent.ThreadRunCompleted:
-        console.log("Thread Run Completed");
-        break;
-      case ErrorEvent.Error:
-        console.log(`An error occurred. Data ${eventMessage.data}`);
-        break;
-      case DoneEvent.Done:
-        console.log("Stream completed.");
-        break;
-    }
-  }
+  console.log("Streaming run events...");
+  await streamRunEventsProcessor(streamEventMessages);
 
   await client.deleteAgent(agent.id);
   console.log(`Delete agent, agent ID : ${agent.id}`);

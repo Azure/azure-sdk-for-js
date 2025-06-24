@@ -11,7 +11,7 @@ const { AgentsClient } = require("@azure/ai-agents");
 const { DefaultAzureCredential } = require("@azure/identity");
 
 require("dotenv/config");
-
+const { createAndPollDefaultOptions } = require("./utils/constants.js");
 const projectEndpoint = process.env["PROJECT_ENDPOINT"] || "<project endpoint>";
 
 async function main() {
@@ -21,13 +21,7 @@ async function main() {
   // Create a vector, which will automatically poll until the operation is complete
   const vectorStore1 = await client.vectorStores.create({
     name: "myVectorStore",
-    pollingOptions: {
-      intervalInMs: 2000,
-    },
-    // (Optional) Define an onResponse callback to monitor the progress of polling
-    onResponse: (response) => {
-      console.log(`Received response with status: ${response.parsedBody.status}`);
-    },
+    ...createAndPollDefaultOptions,
   });
   console.log(
     `Created vector store with status ${vectorStore1.status}, vector store ID: ${vectorStore1.id}`,
@@ -39,12 +33,7 @@ async function main() {
   const abortController = new AbortController();
   const vectorStorePoller = client.vectorStores.createAndPoll({
     name: "myVectorStore",
-    pollingOptions: {
-      intervalInMs: 2000,
-    },
-    onResponse: (response) => {
-      console.log(`Received response with status: ${response.parsedBody.status}`);
-    },
+    ...createAndPollDefaultOptions,
   });
   const vectorStore2 = await vectorStorePoller.pollUntilDone({
     abortSignal: abortController.signal,

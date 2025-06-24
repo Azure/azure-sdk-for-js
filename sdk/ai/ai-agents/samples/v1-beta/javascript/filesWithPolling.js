@@ -11,8 +11,10 @@ const { AgentsClient } = require("@azure/ai-agents");
 const { DefaultAzureCredential } = require("@azure/identity");
 const { Readable } = require("stream");
 require("dotenv/config");
+const { createAndPollDefaultOptions } = require("./utils/constants.js");
 
 const projectEndpoint = process.env["PROJECT_ENDPOINT"] || "<project endpoint>";
+const onResponse = createAndPollDefaultOptions.onResponse;
 
 async function main() {
   // Create an Azure AI Client
@@ -33,9 +35,7 @@ async function main() {
   const file1 = await client.files.upload(readable1, "assistants", {
     fileName: "myPollingFile.txt",
     // (Optional) Define an onResponse callback to monitor the progress of polling
-    onResponse: (response) => {
-      console.log(`Received response with status: ${response.parsedBody.status}`);
-    },
+    onResponse,
   });
   console.log(`Uploaded file with status ${file1.status}, file ID : ${file1.id}`);
 
@@ -45,9 +45,7 @@ async function main() {
   const abortController = new AbortController();
   const filePoller = client.files.uploadAndPoll(readable2, "assistants", {
     fileName: "myPollingFile.txt",
-    onResponse: (response) => {
-      console.log(`Received response with status: ${response.parsedBody.status}`);
-    },
+    onResponse,
   });
   const file2 = await filePoller.pollUntilDone({ abortSignal: abortController.signal });
   console.log(`Uploaded file with status ${file2.status}, file ID: ${file2.id}`);

@@ -10,6 +10,7 @@
 const { AgentsClient } = require("@azure/ai-agents");
 const { DefaultAzureCredential } = require("@azure/identity");
 require("dotenv/config");
+const { createAndPollDefaultOptions } = require("./utils/constants.js");
 
 const projectEndpoint = process.env["PROJECT_ENDPOINT"] || "<project endpoint>";
 const modelDeploymentName = process.env["MODEL_DEPLOYMENT_NAME"] || "gpt-4o";
@@ -35,19 +36,7 @@ async function main() {
 
   // Create and poll a run
   console.log("Creating run...");
-  const run = await client.runs.createAndPoll(thread.id, agent.id, {
-    pollingOptions: {
-      intervalInMs: 2000,
-    },
-    onResponse: (response) => {
-      const parsedBody =
-        typeof response.parsedBody === "object" && response.parsedBody !== null
-          ? response.parsedBody
-          : null;
-      const status = parsedBody && "status" in parsedBody ? parsedBody.status : "unknown";
-      console.log(`Received response with status: ${status}`);
-    },
-  });
+  const run = await client.runs.createAndPoll(thread.id, agent.id, createAndPollDefaultOptions);
   console.log(`Run finished with status: ${run.status}`);
 
   // List run steps

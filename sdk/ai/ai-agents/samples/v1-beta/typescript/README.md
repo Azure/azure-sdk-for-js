@@ -39,6 +39,8 @@ These sample programs show how to use the TypeScript client libraries for Azure 
 | [runSteps.ts][runsteps]                                                       | demonstrates how to use basic run agent operations.                                                                        |
 | [streaming.ts][streaming]                                                     | demonstrates how to use agent operations in streaming.                                                                     |
 | [threads.ts][threads]                                                         | demonstrates how to use basic thread agent operations.                                                                     |
+| [utils/constants.ts][utils_constants]                                         | the constants used in the Azure AI Agents samples.                                                                         |
+| [utils/streamRunEventsProcessor.ts][utils_streamruneventsprocessor]           | This sample demonstrates how to process stream run events from the Azure AI Agents.                                        |
 | [vectorStoreWithFiles.ts][vectorstorewithfiles]                               | demonstrates how to create the vector store with the list of files.                                                        |
 | [vectorStoreWithFilesAndPolling.ts][vectorstorewithfilesandpolling]           | demonstrates how to create the vector store with the list of files using polling operation.                                |
 | [vectorStores.ts][vectorstores]                                               | demonstrates how to create the vector store.                                                                               |
@@ -120,6 +122,8 @@ Take a look at our [API Documentation][apiref] for more information about the AP
 [runsteps]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/ai/ai-agents/samples/v1-beta/typescript/src/runSteps.ts
 [streaming]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/ai/ai-agents/samples/v1-beta/typescript/src/streaming.ts
 [threads]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/ai/ai-agents/samples/v1-beta/typescript/src/threads.ts
+[utils_constants]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/ai/ai-agents/samples/v1-beta/typescript/src/utils/constants.ts
+[utils_streamruneventsprocessor]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/ai/ai-agents/samples/v1-beta/typescript/src/utils/streamRunEventsProcessor.ts
 [vectorstorewithfiles]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/ai/ai-agents/samples/v1-beta/typescript/src/vectorStoreWithFiles.ts
 [vectorstorewithfilesandpolling]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/ai/ai-agents/samples/v1-beta/typescript/src/vectorStoreWithFilesAndPolling.ts
 [vectorstores]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/ai/ai-agents/samples/v1-beta/typescript/src/vectorStores.ts

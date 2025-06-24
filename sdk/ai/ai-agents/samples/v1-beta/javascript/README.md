@@ -39,6 +39,8 @@ These sample programs show how to use the JavaScript client libraries for Azure 
 | [runSteps.js][runsteps]                                                       | demonstrates how to use basic run agent operations.                                                                        |
 | [streaming.js][streaming]                                                     | demonstrates how to use agent operations in streaming.                                                                     |
 | [threads.js][threads]                                                         | demonstrates how to use basic thread agent operations.                                                                     |
+| [utils/constants.js][utils_constants]                                         | the constants used in the Azure AI Agents samples.                                                                         |
+| [utils/streamRunEventsProcessor.js][utils_streamruneventsprocessor]           | This sample demonstrates how to process stream run events from the Azure AI Agents.                                        |
 | [vectorStoreWithFiles.js][vectorstorewithfiles]                               | demonstrates how to create the vector store with the list of files.                                                        |
 | [vectorStoreWithFilesAndPolling.js][vectorstorewithfilesandpolling]           | demonstrates how to create the vector store with the list of files using polling operation.                                |
 | [vectorStores.js][vectorstores]                                               | demonstrates how to create the vector store.                                                                               |
@@ -108,6 +110,8 @@ Take a look at our [API Documentation][apiref] for more information about the AP
 [runsteps]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/ai/ai-agents/samples/v1-beta/javascript/runSteps.js
 [streaming]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/ai/ai-agents/samples/v1-beta/javascript/streaming.js
 [threads]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/ai/ai-agents/samples/v1-beta/javascript/threads.js
+[utils_constants]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/ai/ai-agents/samples/v1-beta/javascript/utils/constants.js
+[utils_streamruneventsprocessor]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/ai/ai-agents/samples/v1-beta/javascript/utils/streamRunEventsProcessor.js
 [vectorstorewithfiles]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/ai/ai-agents/samples/v1-beta/javascript/vectorStoreWithFiles.js
 [vectorstorewithfilesandpolling]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/ai/ai-agents/samples/v1-beta/javascript/vectorStoreWithFilesAndPolling.js
 [vectorstores]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/ai/ai-agents/samples/v1-beta/javascript/vectorStores.js

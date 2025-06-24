@@ -11,6 +11,7 @@ import { AgentsClient } from "@azure/ai-agents";
 import { DefaultAzureCredential } from "@azure/identity";
 import { Readable } from "stream";
 import "dotenv/config";
+import { createAndPollDefaultOptions } from "./utils/constants.js";
 
 const projectEndpoint = process.env["PROJECT_ENDPOINT"] || "<project endpoint>";
 
@@ -35,13 +36,7 @@ export async function main(): Promise<void> {
   // Create vector store file, which will automatically poll until the operation is complete
   const vectorStoreFile1 = await client.vectorStoreFiles.create(vectorStore.id, {
     fileId: file.id,
-    pollingOptions: {
-      intervalInMs: 2000,
-    },
-    // (Optional) Define an onResponse callback to monitor the progress of polling
-    onResponse: (response): void => {
-      console.log(`Received response with status: ${response.parsedBody.status}`);
-    },
+    ...createAndPollDefaultOptions,
   });
   console.log(
     `Created vector store file with status ${vectorStoreFile1.status}, vector store file ID: ${vectorStoreFile1.id}`,
@@ -53,12 +48,7 @@ export async function main(): Promise<void> {
   const abortController = new AbortController();
   const vectorStoreFilePoller = client.vectorStoreFiles.createAndPoll(vectorStore.id, {
     fileId: file.id,
-    pollingOptions: {
-      intervalInMs: 2000,
-    },
-    onResponse: (response): void => {
-      console.log(`Received response with status: ${response.parsedBody.status}`);
-    },
+    ...createAndPollDefaultOptions,
   });
   const vectorStoreFile2 = await vectorStoreFilePoller.pollUntilDone({
     abortSignal: abortController.signal,

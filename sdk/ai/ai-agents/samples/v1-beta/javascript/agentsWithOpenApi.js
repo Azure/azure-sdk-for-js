@@ -11,6 +11,7 @@ const { AgentsClient, isOutputOfType, ToolUtility } = require("@azure/ai-agents"
 const { DefaultAzureCredential } = require("@azure/identity");
 const fs = require("fs");
 require("dotenv/config");
+const { createAndPollDefaultOptions } = require("./utils/constants.js");
 
 const projectEndpoint = process.env["PROJECT_ENDPOINT"] || "<project endpoint>";
 const modelDeploymentName = process.env["MODEL_DEPLOYMENT_NAME"] || "gpt-4o";
@@ -55,26 +56,18 @@ async function main() {
 
   // Create and poll a run
   console.log("Creating run...");
-  const run = await client.runs.createAndPoll(thread.id, agent.id, {
-    pollingOptions: {
-      intervalInMs: 2000,
-    },
-    onResponse: (response) => {
-      console.log(`Received response with status: ${response.parsedBody.status}`);
-    },
-  });
+  const run = await client.runs.createAndPoll(thread.id, agent.id, createAndPollDefaultOptions);
   console.log(`Run finished with status: ${run.status}`);
   // Get most recent message from the assistant
   const messagesIterator = client.messages.list(thread.id);
-  const messages = [];
+
   for await (const m of messagesIterator) {
-    messages.push(m);
-  }
-  const assistantMessage = messages.find((msg) => msg.role === "assistant");
-  if (assistantMessage) {
-    const textContent = assistantMessage.content.find((content) => isOutputOfType(content, "text"));
-    if (textContent) {
-      console.log(`Last message: ${textContent.text.value}`);
+    if (m.role === "assistant") {
+      const textContent = m.content.find((content) => isOutputOfType(content, "text"));
+      if (textContent) {
+        console.log(`Last message: ${textContent.text.value}`);
+      }
+      break;
     }
   }
   // Delete the agent once done

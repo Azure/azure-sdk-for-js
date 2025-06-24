@@ -8,6 +8,7 @@
 import { AgentsClient } from "@azure/ai-agents";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as fs from "fs";
+import { createAndPollDefaultOptions } from "./utils/constants.js";
 
 // Load environment variables
 const projectEndpoint = process.env.PROJECT_ENDPOINT || "<connection-string>";
@@ -79,14 +80,7 @@ export async function main(): Promise<void> {
 
   // Create and poll a run
   console.log("Creating run...");
-  const run = await client.runs.createAndPoll(thread.id, agent.id, {
-    pollingOptions: {
-      intervalInMs: 2000,
-    },
-    onResponse: (response): void => {
-      console.log(`Received response with status: ${response.parsedBody.status}`);
-    },
-  });
+  const run = await client.runs.createAndPoll(thread.id, agent.id, createAndPollDefaultOptions);
   console.log(`Run finished with status: ${run.status}`);
 
   // Delete the agent

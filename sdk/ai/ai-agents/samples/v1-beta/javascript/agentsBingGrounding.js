@@ -12,6 +12,7 @@ const { AgentsClient, ToolUtility, isOutputOfType } = require("@azure/ai-agents"
 const { DefaultAzureCredential } = require("@azure/identity");
 
 require("dotenv/config");
+const { createAndPollDefaultOptions } = require("./utils/constants.js");
 
 const projectEndpoint = process.env["PROJECT_ENDPOINT"] || "<project endpoint>";
 const modelDeploymentName = process.env["MODEL_DEPLOYMENT_NAME"] || "gpt-4o";
@@ -47,14 +48,7 @@ async function main() {
 
   // Create and poll a run
   console.log("Creating run...");
-  const run = await client.runs.createAndPoll(thread.id, agent.id, {
-    pollingOptions: {
-      intervalInMs: 2000,
-    },
-    onResponse: (response) => {
-      console.log(`Received response with status: ${response.parsedBody.status}`);
-    },
-  });
+  const run = await client.runs.createAndPoll(thread.id, agent.id, createAndPollDefaultOptions);
   console.log(`Run finished with status: ${run.status}`);
 
   // Delete the assistant when done
@@ -70,8 +64,7 @@ async function main() {
   if (!firstMessage.done && firstMessage.value) {
     const agentMessage = firstMessage.value.content[0];
     if (isOutputOfType(agentMessage, "text")) {
-      const textContent = agentMessage;
-      console.log(`Text Message Content - ${textContent.text.value}`);
+      console.log(`Text Message Content - ${agentMessage.text.value}`);
     }
   }
 }

@@ -13,6 +13,7 @@ import { DefaultAzureCredential } from "@azure/identity";
 
 import * as fs from "fs";
 import "dotenv/config";
+import { createAndPollDefaultOptions } from "./utils/constants.js";
 
 const projectEndpoint = process.env["PROJECT_ENDPOINT"] || "<project endpoint>";
 const modelDeploymentName = process.env["MODEL_DEPLOYMENT_NAME"] || "gpt-4o";
@@ -62,14 +63,7 @@ export async function main(): Promise<void> {
 
   // Create and poll a run
   console.log("Creating run...");
-  const run = await client.runs.createAndPoll(thread.id, agent.id, {
-    pollingOptions: {
-      intervalInMs: 2000,
-    },
-    onResponse: (response): void => {
-      console.log(`Received response with status: ${response.parsedBody.status}`);
-    },
-  });
+  const run = await client.runs.createAndPoll(thread.id, agent.id, createAndPollDefaultOptions);
   console.log(`Run finished with status: ${run.status}`);
 
   const messages = await client.messages.list(thread.id);
@@ -79,11 +73,9 @@ export async function main(): Promise<void> {
     );
     threadMessage.content.forEach((content: MessageContent) => {
       if (isOutputOfType<MessageTextContent>(content, "text")) {
-        const textContent = content as MessageTextContent;
-        console.log(`Text Message Content - ${textContent.text.value}`);
+        console.log(`Text Message Content - ${content.text.value}`);
       } else if (isOutputOfType<MessageImageFileContent>(content, "image_file")) {
-        const imageContent = content as MessageImageFileContent;
-        console.log(`Image Message Content - ${imageContent.imageFile.fileId}`);
+        console.log(`Image Message Content - ${content.imageFile.fileId}`);
       }
     });
   }
