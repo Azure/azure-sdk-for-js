@@ -1,6 +1,6 @@
 variables:
   DocWardenVersion: '0.5.0'
-  OSVmImage: "ubuntu-20.04"
+  OSVmImage: "ubuntu-24.04"
   skipComponentGovernanceDetection: true
   coalesceResultFilter: $[ coalesce(variables['packageGlobFilter'], '**') ]
   ServiceVersion: ""
