@@ -26,7 +26,8 @@ export function createAtlas(
   subscriptionId: string,
   options: AtlasClientOptionalParams = {},
 ): AtlasContext {
-  const endpointUrl = options.endpoint ?? options.baseUrl ?? "https://management.azure.com";
+  const endpointUrl =
+    options.endpoint ?? options.baseUrl ?? "https://management.azure.com";
   const prefixFromOptions = options?.userAgentOptions?.userAgentPrefix;
   const userAgentInfo = `azsdk-js-arm-mongodbatlas/1.0.0-beta.1`;
   const userAgentPrefix = prefixFromOptions
@@ -42,7 +43,7 @@ export function createAtlas(
   };
   const clientContext = getClient(endpointUrl, credential, updatedOptions);
   clientContext.pipeline.removePolicy({ name: "ApiVersionPolicy" });
-  const apiVersion = options.apiVersion ?? "2024-11-18-preview";
+  const apiVersion = options.apiVersion ?? "2025-06-01";
   clientContext.pipeline.addPolicy({
     name: "ClientApiVersionPolicy",
     sendRequest: (req, next) => {
