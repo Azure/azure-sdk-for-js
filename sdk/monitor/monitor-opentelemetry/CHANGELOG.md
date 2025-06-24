@@ -1,5 +1,11 @@
 # Release History
 
+## 1.12.0 ()
+
+### Features Added
+
+- Add RateLimitedSampler.
+
 ## 1.11.0 (2025-04-16)
 
 ### Features Added

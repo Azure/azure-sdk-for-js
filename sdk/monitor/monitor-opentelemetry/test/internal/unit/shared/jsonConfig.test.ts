@@ -70,6 +70,11 @@ describe("Json Config", () => {
       assert.deepStrictEqual(config.azureMonitorExporterOptions?.storageDirectory, "testPath");
       assert.deepStrictEqual(config.samplingRatio, 0.3, "Wrong samplingRatio");
       assert.deepStrictEqual(
+        config.samplingRequestsPerSecond,
+        0.2,
+        "Wrong samplingRequestsPerSecond",
+      );
+      assert.deepStrictEqual(
         config.instrumentationOptions?.azureSdk?.enabled,
         true,
         "Wrong azureSdk",
@@ -112,6 +117,7 @@ describe("Json Config", () => {
           disableOfflineStorage: true,
         },
         samplingRatio: 1,
+        samplingRequestsPerSecond: 0.8,
         instrumentationOptions: {
           http: { enabled: true },
           azureSdk: { enabled: false },
@@ -127,6 +133,7 @@ describe("Json Config", () => {
       const config = JsonConfig.getInstance();
 
       assert.strictEqual(config.samplingRatio, 1);
+      assert.strictEqual(config.samplingRequestsPerSecond, 0.8);
       assert.strictEqual(config.instrumentationOptions?.http?.enabled, true);
       assert.strictEqual(config.instrumentationOptions?.azureSdk?.enabled, false);
       assert.strictEqual(config.instrumentationOptions?.mongoDb?.enabled, false);

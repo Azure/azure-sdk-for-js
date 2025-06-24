@@ -16,6 +16,8 @@ export interface AzureMonitorOpenTelemetryOptions {
   resource?: Resource;
   /** The rate of telemetry items tracked that should be transmitted (Default 1.0) */
   samplingRatio?: number;
+  /** The maximum number of spans to sample per second. */
+  samplingRequestsPerSecond?: number;
   /** Enable Live Metrics feature (Default false)*/
   enableLiveMetrics?: boolean;
   /** Enable Standard Metrics feature (Default true)*/

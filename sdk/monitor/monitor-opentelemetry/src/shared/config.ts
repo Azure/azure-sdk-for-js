@@ -28,6 +28,8 @@ import {
 export class InternalConfig implements AzureMonitorOpenTelemetryOptions {
   /** The rate of telemetry items tracked that should be transmitted (Default 1.0) */
   public samplingRatio: number;
+  /** The maximum number of spans to sample per second. */
+  public samplingRequestsPerSecond?: number;
   /** Azure Monitor Exporter Configuration */
   public azureMonitorExporterOptions: AzureMonitorExporterOptions;
   /**
@@ -65,6 +67,7 @@ export class InternalConfig implements AzureMonitorOpenTelemetryOptions {
     // Default values
     this.azureMonitorExporterOptions = {};
     this.samplingRatio = 1;
+    this.samplingRequestsPerSecond = undefined;
     this.enableLiveMetrics = true;
     this.enableStandardMetrics = true;
     this.enableTraceBasedSamplingForLogs = false;
@@ -97,6 +100,10 @@ export class InternalConfig implements AzureMonitorOpenTelemetryOptions {
       this.resource = Object.assign(this.resource, options.resource);
       this.samplingRatio =
         options.samplingRatio !== undefined ? options.samplingRatio : this.samplingRatio;
+      this.samplingRequestsPerSecond =
+        options.samplingRequestsPerSecond !== undefined
+          ? options.samplingRequestsPerSecond
+          : this.samplingRequestsPerSecond;
       this.browserSdkLoaderOptions = Object.assign(
         this.browserSdkLoaderOptions,
         options.browserSdkLoaderOptions,
@@ -127,6 +134,10 @@ export class InternalConfig implements AzureMonitorOpenTelemetryOptions {
       const jsonConfig = JsonConfig.getInstance();
       this.samplingRatio =
         jsonConfig.samplingRatio !== undefined ? jsonConfig.samplingRatio : this.samplingRatio;
+      this.samplingRequestsPerSecond =
+        jsonConfig.samplingRequestsPerSecond !== undefined
+          ? jsonConfig.samplingRequestsPerSecond
+          : this.samplingRequestsPerSecond;
       this.browserSdkLoaderOptions = Object.assign(
         this.browserSdkLoaderOptions,
         jsonConfig.browserSdkLoaderOptions,

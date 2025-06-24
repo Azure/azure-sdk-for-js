@@ -20,7 +20,6 @@ import type {
   IsSubscribedResponse,
   PublishResponse,
   RemoteDependency,
-  /* eslint-disable-next-line @typescript-eslint/no-redeclare */
   Request,
   Trace,
   KeyValuePairString,
@@ -769,7 +768,6 @@ export class LiveMetrics {
   }
 
   private parseMetricFilterConfiguration(response: PublishResponse | IsSubscribedResponse): void {
-    // eslint-disable-next-line eqeqeq
     if (!response?.documentStreams || typeof response.documentStreams.forEach !== "function") {
       return;
     }

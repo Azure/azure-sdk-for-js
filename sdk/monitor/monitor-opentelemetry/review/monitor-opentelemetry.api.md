@@ -22,6 +22,7 @@ export interface AzureMonitorOpenTelemetryOptions {
     logRecordProcessors?: LogRecordProcessor[];
     resource?: Resource;
     samplingRatio?: number;
+    samplingRequestsPerSecond?: number;
     spanProcessors?: SpanProcessor[];
 }
 
