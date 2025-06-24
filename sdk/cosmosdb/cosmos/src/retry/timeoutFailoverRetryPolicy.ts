@@ -67,11 +67,6 @@ export class TimeoutFailoverRetryPolicy implements RetryPolicy {
       return false;
     }
 
-    // Check if the error is a timeout error (TimeoutErrorCode) and if it is not a valid HTTP network timeout request
-    if (err.code === TimeoutErrorCode && !this.isValidRequestForTimeoutError()) {
-      return false;
-    }
-
     // Mark the partition as unavailable.
     // Let the Retry logic decide if the request should be retried
     if (requestContext) {
@@ -81,6 +76,10 @@ export class TimeoutFailoverRetryPolicy implements RetryPolicy {
       );
     }
 
+    // Check if the error is a timeout error (TimeoutErrorCode) and if it is not a valid HTTP network timeout request
+    if (err.code === TimeoutErrorCode && !this.isValidRequestForTimeoutError()) {
+      return false;
+    }
     if (!this.enableEndPointDiscovery) {
       return false;
     }
