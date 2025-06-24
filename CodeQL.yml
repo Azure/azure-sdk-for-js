@@ -1,6 +1,0 @@
-path_classifiers:
-  api-management:
-    - "sdk/apimanagement/api-management-custom-widgets-tools"
-    - "sdk/apimanagement/api-management-custom-widgets-scaffolder"
-  tests:
-    - "sdk/**/test/**/*.ts"
