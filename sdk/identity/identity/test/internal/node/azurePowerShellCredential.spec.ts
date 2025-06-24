@@ -360,7 +360,7 @@ CredentialUnavailableError: EnvironmentCredential is unavailable. No underlying 
     );
     assert.include(scriptContent, "if ($PSVersionTable.PSVersion.Major -lt 7)");
 
-    // Verify PowerShell >= 7 handling 
+    // Verify PowerShell >= 7 handling
     assert.include(scriptContent, "ConvertFrom-SecureString -AsPlainText");
     assert.include(scriptContent, "else {");
 
