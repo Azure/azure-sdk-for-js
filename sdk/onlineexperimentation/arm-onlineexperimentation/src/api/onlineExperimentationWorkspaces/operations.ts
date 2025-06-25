@@ -24,8 +24,8 @@ import {
   PagedAsyncIterableIterator,
   buildPagedAsyncIterator,
 } from "../../static-helpers/pagingHelpers.js";
-import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
 import { getLongRunningPoller } from "../../static-helpers/pollingHelpers.js";
+import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
 import {
   StreamableMethod,
   PathUncheckedResponse,
@@ -36,6 +36,7 @@ import { PollerLike, OperationState } from "@azure/core-lro";
 
 export function _listBySubscriptionSend(
   context: Client,
+  apiVersion: string,
   options: OnlineExperimentationWorkspacesListBySubscriptionOptionalParams = {
     requestOptions: {},
   },
@@ -44,7 +45,7 @@ export function _listBySubscriptionSend(
     "/subscriptions/{subscriptionId}/providers/Microsoft.OnlineExperimentation/workspaces{?api%2Dversion}",
     {
       subscriptionId: context.subscriptionId,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": apiVersion,
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -75,13 +76,14 @@ export async function _listBySubscriptionDeserialize(
 /** Gets all online experimentation workspaces in the specified subscription. */
 export function listBySubscription(
   context: Client,
+  apiVersion: string,
   options: OnlineExperimentationWorkspacesListBySubscriptionOptionalParams = {
     requestOptions: {},
   },
 ): PagedAsyncIterableIterator<OnlineExperimentationWorkspace> {
   return buildPagedAsyncIterator(
     context,
-    () => _listBySubscriptionSend(context, options),
+    () => _listBySubscriptionSend(context, apiVersion, options),
     _listBySubscriptionDeserialize,
     ["200"],
     { itemName: "value", nextLinkName: "nextLink" },
@@ -90,6 +92,7 @@ export function listBySubscription(
 
 export function _listByResourceGroupSend(
   context: Client,
+  apiVersion: string,
   resourceGroupName: string,
   options: OnlineExperimentationWorkspacesListByResourceGroupOptionalParams = {
     requestOptions: {},
@@ -100,7 +103,7 @@ export function _listByResourceGroupSend(
     {
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": apiVersion,
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -131,6 +134,7 @@ export async function _listByResourceGroupDeserialize(
 /** Gets all online experimentation workspaces in a resource group. */
 export function listByResourceGroup(
   context: Client,
+  apiVersion: string,
   resourceGroupName: string,
   options: OnlineExperimentationWorkspacesListByResourceGroupOptionalParams = {
     requestOptions: {},
@@ -138,7 +142,7 @@ export function listByResourceGroup(
 ): PagedAsyncIterableIterator<OnlineExperimentationWorkspace> {
   return buildPagedAsyncIterator(
     context,
-    () => _listByResourceGroupSend(context, resourceGroupName, options),
+    () => _listByResourceGroupSend(context, apiVersion, resourceGroupName, options),
     _listByResourceGroupDeserialize,
     ["200"],
     { itemName: "value", nextLinkName: "nextLink" },
@@ -147,6 +151,7 @@ export function listByResourceGroup(
 
 export function _$deleteSend(
   context: Client,
+  apiVersion: string,
   resourceGroupName: string,
   workspaceName: string,
   options: OnlineExperimentationWorkspacesDeleteOptionalParams = {
@@ -159,7 +164,7 @@ export function _$deleteSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       workspaceName: workspaceName,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": apiVersion,
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -193,6 +198,7 @@ export async function _$deleteDeserialize(result: PathUncheckedResponse): Promis
  */
 export function $delete(
   context: Client,
+  apiVersion: string,
   resourceGroupName: string,
   workspaceName: string,
   options: OnlineExperimentationWorkspacesDeleteOptionalParams = {
@@ -202,13 +208,15 @@ export function $delete(
   return getLongRunningPoller(context, _$deleteDeserialize, ["202", "204", "200"], {
     updateIntervalInMs: options?.updateIntervalInMs,
     abortSignal: options?.abortSignal,
-    getInitialResponse: () => _$deleteSend(context, resourceGroupName, workspaceName, options),
+    getInitialResponse: () =>
+      _$deleteSend(context, apiVersion, resourceGroupName, workspaceName, options),
     resourceLocationConfig: "location",
   }) as PollerLike<OperationState<void>, void>;
 }
 
 export function _updateSend(
   context: Client,
+  apiVersion: string,
   resourceGroupName: string,
   workspaceName: string,
   properties: OnlineExperimentationWorkspacePatch,
@@ -222,7 +230,7 @@ export function _updateSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       workspaceName: workspaceName,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": apiVersion,
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -255,6 +263,7 @@ export async function _updateDeserialize(
 /** Patch an online experimentation workspace. */
 export function update(
   context: Client,
+  apiVersion: string,
   resourceGroupName: string,
   workspaceName: string,
   properties: OnlineExperimentationWorkspacePatch,
@@ -266,13 +275,14 @@ export function update(
     updateIntervalInMs: options?.updateIntervalInMs,
     abortSignal: options?.abortSignal,
     getInitialResponse: () =>
-      _updateSend(context, resourceGroupName, workspaceName, properties, options),
+      _updateSend(context, apiVersion, resourceGroupName, workspaceName, properties, options),
     resourceLocationConfig: "location",
   }) as PollerLike<OperationState<OnlineExperimentationWorkspace>, OnlineExperimentationWorkspace>;
 }
 
 export function _createOrUpdateSend(
   context: Client,
+  apiVersion: string,
   resourceGroupName: string,
   workspaceName: string,
   resource: OnlineExperimentationWorkspace,
@@ -286,7 +296,7 @@ export function _createOrUpdateSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       workspaceName: workspaceName,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": apiVersion,
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -319,6 +329,7 @@ export async function _createOrUpdateDeserialize(
 /** Create an online experimentation workspace, or update an existing workspace. */
 export function createOrUpdate(
   context: Client,
+  apiVersion: string,
   resourceGroupName: string,
   workspaceName: string,
   resource: OnlineExperimentationWorkspace,
@@ -330,13 +341,14 @@ export function createOrUpdate(
     updateIntervalInMs: options?.updateIntervalInMs,
     abortSignal: options?.abortSignal,
     getInitialResponse: () =>
-      _createOrUpdateSend(context, resourceGroupName, workspaceName, resource, options),
+      _createOrUpdateSend(context, apiVersion, resourceGroupName, workspaceName, resource, options),
     resourceLocationConfig: "azure-async-operation",
   }) as PollerLike<OperationState<OnlineExperimentationWorkspace>, OnlineExperimentationWorkspace>;
 }
 
 export function _getSend(
   context: Client,
+  apiVersion: string,
   resourceGroupName: string,
   workspaceName: string,
   options: OnlineExperimentationWorkspacesGetOptionalParams = {
@@ -349,7 +361,7 @@ export function _getSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       workspaceName: workspaceName,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": apiVersion,
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -380,12 +392,13 @@ export async function _getDeserialize(
 /** Gets an online experimentation workspace. */
 export async function get(
   context: Client,
+  apiVersion: string,
   resourceGroupName: string,
   workspaceName: string,
   options: OnlineExperimentationWorkspacesGetOptionalParams = {
     requestOptions: {},
   },
 ): Promise<OnlineExperimentationWorkspace> {
-  const result = await _getSend(context, resourceGroupName, workspaceName, options);
+  const result = await _getSend(context, apiVersion, resourceGroupName, workspaceName, options);
   return _getDeserialize(result);
 }
