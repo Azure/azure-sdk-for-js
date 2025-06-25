@@ -29,10 +29,12 @@ import { PollerLike, OperationState } from "@azure/core-lro";
 export interface OnlineExperimentationWorkspacesOperations {
   /** Gets all online experimentation workspaces in the specified subscription. */
   listBySubscription: (
+    apiVersion: string,
     options?: OnlineExperimentationWorkspacesListBySubscriptionOptionalParams,
   ) => PagedAsyncIterableIterator<OnlineExperimentationWorkspace>;
   /** Gets all online experimentation workspaces in a resource group. */
   listByResourceGroup: (
+    apiVersion: string,
     resourceGroupName: string,
     options?: OnlineExperimentationWorkspacesListByResourceGroupOptionalParams,
   ) => PagedAsyncIterableIterator<OnlineExperimentationWorkspace>;
@@ -43,12 +45,14 @@ export interface OnlineExperimentationWorkspacesOperations {
    *         to the operation to override the generated name.
    */
   delete: (
+    apiVersion: string,
     resourceGroupName: string,
     workspaceName: string,
     options?: OnlineExperimentationWorkspacesDeleteOptionalParams,
   ) => PollerLike<OperationState<void>, void>;
   /** Patch an online experimentation workspace. */
   update: (
+    apiVersion: string,
     resourceGroupName: string,
     workspaceName: string,
     properties: OnlineExperimentationWorkspacePatch,
@@ -56,6 +60,7 @@ export interface OnlineExperimentationWorkspacesOperations {
   ) => PollerLike<OperationState<OnlineExperimentationWorkspace>, OnlineExperimentationWorkspace>;
   /** Create an online experimentation workspace, or update an existing workspace. */
   createOrUpdate: (
+    apiVersion: string,
     resourceGroupName: string,
     workspaceName: string,
     resource: OnlineExperimentationWorkspace,
@@ -63,6 +68,7 @@ export interface OnlineExperimentationWorkspacesOperations {
   ) => PollerLike<OperationState<OnlineExperimentationWorkspace>, OnlineExperimentationWorkspace>;
   /** Gets an online experimentation workspace. */
   get: (
+    apiVersion: string,
     resourceGroupName: string,
     workspaceName: string,
     options?: OnlineExperimentationWorkspacesGetOptionalParams,
@@ -72,34 +78,40 @@ export interface OnlineExperimentationWorkspacesOperations {
 function _getOnlineExperimentationWorkspaces(context: OnlineExperimentationContext) {
   return {
     listBySubscription: (
+      apiVersion: string,
       options?: OnlineExperimentationWorkspacesListBySubscriptionOptionalParams,
-    ) => listBySubscription(context, options),
+    ) => listBySubscription(context, apiVersion, options),
     listByResourceGroup: (
+      apiVersion: string,
       resourceGroupName: string,
       options?: OnlineExperimentationWorkspacesListByResourceGroupOptionalParams,
-    ) => listByResourceGroup(context, resourceGroupName, options),
+    ) => listByResourceGroup(context, apiVersion, resourceGroupName, options),
     delete: (
+      apiVersion: string,
       resourceGroupName: string,
       workspaceName: string,
       options?: OnlineExperimentationWorkspacesDeleteOptionalParams,
-    ) => $delete(context, resourceGroupName, workspaceName, options),
+    ) => $delete(context, apiVersion, resourceGroupName, workspaceName, options),
     update: (
+      apiVersion: string,
       resourceGroupName: string,
       workspaceName: string,
       properties: OnlineExperimentationWorkspacePatch,
       options?: OnlineExperimentationWorkspacesUpdateOptionalParams,
-    ) => update(context, resourceGroupName, workspaceName, properties, options),
+    ) => update(context, apiVersion, resourceGroupName, workspaceName, properties, options),
     createOrUpdate: (
+      apiVersion: string,
       resourceGroupName: string,
       workspaceName: string,
       resource: OnlineExperimentationWorkspace,
       options?: OnlineExperimentationWorkspacesCreateOrUpdateOptionalParams,
-    ) => createOrUpdate(context, resourceGroupName, workspaceName, resource, options),
+    ) => createOrUpdate(context, apiVersion, resourceGroupName, workspaceName, resource, options),
     get: (
+      apiVersion: string,
       resourceGroupName: string,
       workspaceName: string,
       options?: OnlineExperimentationWorkspacesGetOptionalParams,
-    ) => get(context, resourceGroupName, workspaceName, options),
+    ) => get(context, apiVersion, resourceGroupName, workspaceName, options),
   };
 }
 
