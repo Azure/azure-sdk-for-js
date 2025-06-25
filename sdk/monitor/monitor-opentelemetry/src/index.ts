@@ -12,6 +12,7 @@ import { LogHandler } from "./logs/index.js";
 import type { StatsbeatFeatures, StatsbeatInstrumentations } from "./types.js";
 import {
   AZURE_MONITOR_OPENTELEMETRY_VERSION,
+  MULTI_IKEY_USED,
   AzureMonitorOpenTelemetryOptions,
   InstrumentationOptions,
   BrowserSdkLoaderOptions,
@@ -52,6 +53,7 @@ export function useAzureMonitor(options?: AzureMonitorOpenTelemetryOptions): voi
     browserSdkLoader: config.browserSdkLoaderOptions.enabled,
     aadHandling: !!config.azureMonitorExporterOptions?.credential,
     diskRetry: !config.azureMonitorExporterOptions?.disableOfflineStorage,
+    multiIkey: !!process.env[MULTI_IKEY_USED],
   };
   getInstance().setStatsbeatFeatures(statsbeatInstrumentations, statsbeatFeatures);
 

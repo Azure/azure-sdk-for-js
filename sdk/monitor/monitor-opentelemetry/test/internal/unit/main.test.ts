@@ -10,6 +10,7 @@ import type { MeterProvider } from "@opentelemetry/sdk-metrics";
 import type { StatsbeatEnvironmentConfig } from "../../../src/types.js";
 import {
   AZURE_MONITOR_STATSBEAT_FEATURES,
+  MULTI_IKEY_USED,
   StatsbeatFeature,
   StatsbeatInstrumentation,
   StatsbeatInstrumentationMap,
@@ -392,5 +393,36 @@ describe("Main functions", () => {
       };
     }
     assert.strictEqual(updatedStatsbeat.instrumentation, StatsbeatInstrumentation.FS);
+  });
+
+  it("should set MULTI_IKEY feature when MULTI_IKEY_USED env var is set", () => {
+    const env = <{ [id: string]: string }>{};
+    env[MULTI_IKEY_USED] = "true";
+    process.env = env;
+    const config: AzureMonitorOpenTelemetryOptions = {
+      azureMonitorExporterOptions: {
+        connectionString: "InstrumentationKey=00000000-0000-0000-0000-000000000000",
+      },
+    };
+    useAzureMonitor(config);
+    const output = JSON.parse(String(process.env["AZURE_MONITOR_STATSBEAT_FEATURES"]));
+    const features = Number(output["feature"]);
+    assert.ok(features & StatsbeatFeature.MULTI_IKEY, "MULTI_IKEY not set");
+    void shutdownAzureMonitor();
+  });
+
+  it("should not set MULTI_IKEY feature when MULTI_IKEY_USED env var is not set", () => {
+    // Ensure the env var is not set
+    delete process.env[MULTI_IKEY_USED];
+    const config: AzureMonitorOpenTelemetryOptions = {
+      azureMonitorExporterOptions: {
+        connectionString: "InstrumentationKey=00000000-0000-0000-0000-000000000000",
+      },
+    };
+    useAzureMonitor(config);
+    const output = JSON.parse(String(process.env["AZURE_MONITOR_STATSBEAT_FEATURES"]));
+    const features = Number(output["feature"]);
+    assert.ok(!(features & StatsbeatFeature.MULTI_IKEY), "MULTI_IKEY is set when it should not be");
+    void shutdownAzureMonitor();
   });
 });

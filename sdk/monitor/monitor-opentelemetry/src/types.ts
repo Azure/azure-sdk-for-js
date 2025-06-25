@@ -69,6 +69,7 @@ export interface StatsbeatFeatures {
   distro?: boolean;
   liveMetrics?: boolean;
   shim?: boolean;
+  multiIkey?: boolean;
 }
 
 /**
@@ -82,6 +83,7 @@ export const StatsbeatFeaturesMap = new Map<string, number>([
   ["distro", 8],
   ["liveMetrics", 16],
   ["shim", 32],
+  ["multiIkey", 128],
 ]);
 
 /**
@@ -181,6 +183,12 @@ export const DEFAULT_LIVEMETRICS_ENDPOINT = "https://global.livediagnostics.moni
  */
 export const AzureMonitorSampleRate = "microsoft.sample_rate";
 
+/**
+ * Environment variable to track multi-ikey usage.
+ * @internal
+ */
+export const MULTI_IKEY_USED = "MULTI_IKEY_USED";
+
 export enum StatsbeatFeature {
   NONE = 0,
   DISK_RETRY = 1,
@@ -189,6 +197,7 @@ export enum StatsbeatFeature {
   DISTRO = 8,
   LIVE_METRICS = 16,
   SHIM = 32,
+  MULTI_IKEY = 128,
 }
 
 export enum StatsbeatInstrumentation {
