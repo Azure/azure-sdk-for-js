@@ -2929,7 +2929,7 @@ packages:
     version: 0.0.0
 
   '@rush-temp/arm-dnsresolver@file:projects/arm-dnsresolver.tgz':
-    resolution: {integrity: sha512-XAZ/xVvZ7oCjbk3bU+6b5lcC8p01nQV7fMQyFLmE+Dje3GWzTBYLULTmD32NJS4TbHUZbYpJ03t3DfVEJt+WrA==, tarball: file:projects/arm-dnsresolver.tgz}
+    resolution: {integrity: sha512-gW9M31f0i20Vf4tgCGDXDvnaXGJh59S8HZbfyATB2NEB2nwPXnlrAJnOChWhq3TqrlWdnWYLEQkZ1h0Wxdjndg==, tarball: file:projects/arm-dnsresolver.tgz}
     version: 0.0.0
 
   '@rush-temp/arm-domainservices@file:projects/arm-domainservices.tgz':
@@ -3489,7 +3489,7 @@ packages:
     version: 0.0.0
 
   '@rush-temp/arm-servicefabricmanagedclusters@file:projects/arm-servicefabricmanagedclusters.tgz':
-    resolution: {integrity: sha512-JAuNCcZ8bnMDXTuFUtNIaB8h8P7yPxFUasXj8Cz2BobKt2a8uMndPcYn07dY07Dhht9P+ko7bOH50S50CBbkTQ==, tarball: file:projects/arm-servicefabricmanagedclusters.tgz}
+    resolution: {integrity: sha512-ZJ+sH48I8OR0AObmxOha44msZudoH2HeTOYx8lWlVeC68rru3t62FTafyOatyd04bCRDnxPvqko69MtpUc/sTQ==, tarball: file:projects/arm-servicefabricmanagedclusters.tgz}
     version: 0.0.0
 
   '@rush-temp/arm-servicefabricmesh@file:projects/arm-servicefabricmesh.tgz':
@@ -17702,11 +17702,11 @@ snapshots:
 
   '@rush-temp/arm-servicefabricmanagedclusters@file:projects/arm-servicefabricmanagedclusters.tgz(@types/debug@4.1.12)(tsx@4.20.3)(vite@6.3.5(@types/node@22.7.9)(tsx@4.20.3)(yaml@2.8.0))(yaml@2.8.0)':
     dependencies:
-      '@azure/core-lro': 2.7.2
       '@types/node': 20.19.1
       '@vitest/browser': 3.2.4(playwright@1.53.1)(vite@6.3.5(@types/node@22.7.9)(tsx@4.20.3)(yaml@2.8.0))(vitest@3.2.4)
       '@vitest/coverage-istanbul': 3.2.4(vitest@3.2.4)
       dotenv: 16.5.0
+      eslint: 9.29.0
       playwright: 1.53.1
       tslib: 2.8.1
       typescript: 5.8.3
