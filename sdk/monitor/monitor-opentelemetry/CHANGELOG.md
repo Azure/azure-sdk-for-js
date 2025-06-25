@@ -1,6 +1,6 @@
 # Release History
 
-## 1.11.2 (Unreleased)
+## 1.11.2 ()
 
 ### Other Changes
 
