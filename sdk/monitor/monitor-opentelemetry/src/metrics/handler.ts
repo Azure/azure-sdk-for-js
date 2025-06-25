@@ -16,7 +16,6 @@ import { PerformanceCounterMetrics } from "./performanceCounters.js";
  * Azure Monitor OpenTelemetry Metric Handler
  */
 export class MetricHandler {
-  private _collectionInterval = 60000; // 60 seconds
   private _azureExporter: AzureMonitorMetricExporter;
   private _metricReader: PeriodicExportingMetricReader;
   private _standardMetrics?: StandardMetrics;
@@ -56,27 +55,9 @@ export class MetricHandler {
       this._views.push({ meterName: "@azure/opentelemetry-instrumentation-redis" });
     }
     this._azureExporter = new AzureMonitorMetricExporter(this._config.azureMonitorExporterOptions);
-
-    // Determine export interval: prioritize OTEL_METRIC_EXPORT_INTERVAL env var, then options, then default
-    let exportIntervalMillis = this._collectionInterval;
-    let useEnvVar = false;
-
-    if (process.env.OTEL_METRIC_EXPORT_INTERVAL) {
-      const envInterval = parseInt(process.env.OTEL_METRIC_EXPORT_INTERVAL, 10);
-      if (!isNaN(envInterval) && envInterval > 0) {
-        exportIntervalMillis = envInterval;
-        useEnvVar = true;
-      }
-    }
-
-    // If env var wasn't used (either doesn't exist or is invalid), try options
-    if (!useEnvVar && options?.collectionInterval) {
-      exportIntervalMillis = options.collectionInterval;
-    }
-
     const metricReaderOptions: PeriodicExportingMetricReaderOptions = {
       exporter: this._azureExporter as any,
-      exportIntervalMillis,
+      exportIntervalMillis: options?.collectionInterval || this._config.metricExportIntervalMillis,
     };
     this._metricReader = new PeriodicExportingMetricReader(metricReaderOptions);
 
