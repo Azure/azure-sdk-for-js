@@ -310,7 +310,7 @@ const client = ConfidentialLedger(
 );
 
 const getLedgerEntriesParams = {
-  queryParameters: { collectionId: "my collection", tags: "tag1" },
+  queryParameters: { collectionId: "my collection", tag: "tag1" },
 };
 const ledgerEntries = await client.path("/app/transactions").get(getLedgerEntriesParams);
 ```
