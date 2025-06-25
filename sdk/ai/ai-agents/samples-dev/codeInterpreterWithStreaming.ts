@@ -12,7 +12,7 @@
 import {
   RunStreamEvent,
   MessageStreamEvent,
-  MessageImageFileContent,
+  MessageTextContent,
   DoneEvent,
   ErrorEvent,
   AgentsClient,
@@ -108,16 +108,6 @@ export async function main(): Promise<void> {
   const messagesIterator = client.messages.list(thread.id);
   for await (const m of messagesIterator) {
     console.log(`Role: ${m.role}, Content: ${m.content}`);
-    if (m.role === "assistant" && m.content.length > 0) {
-      const imageFileOutput = m.content.find((content) =>
-        isOutputOfType<MessageImageFileContent>(content, "image_file"),
-      );
-      if (imageFileOutput) {
-        console.log(
-          `Image file found in assistant's message with file ID: ${imageFileOutput.imageFile.fileId}`,
-        );
-      }
-    }
   }
 
   // Delete the agent once done

@@ -63,7 +63,6 @@ async function main() {
 
   // Fetch and log all messages
   const messagesIterator = client.messages.list(thread.id);
-  console.log(`Messages:`);
 
   // Get the first message
   const firstMessage = await messagesIterator.next();

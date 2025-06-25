@@ -67,7 +67,6 @@ async function main() {
 
   // Fetch and log all messages
   const messagesIterator = await client.messages.list(thread.id);
-  console.log(`Messages:`);
   // Get the first message
   for await (const m of messagesIterator) {
     const agentMessage = m.content[0];

@@ -9,7 +9,7 @@
 
 const { AgentsClient, isOutputOfType, ToolUtility } = require("@azure/ai-agents");
 const { DefaultAzureCredential } = require("@azure/identity");
-const fs = require("fs");
+const fs = require("node:fs");
 require("dotenv/config");
 
 const projectEndpoint = process.env["PROJECT_ENDPOINT"] || "<project endpoint>";

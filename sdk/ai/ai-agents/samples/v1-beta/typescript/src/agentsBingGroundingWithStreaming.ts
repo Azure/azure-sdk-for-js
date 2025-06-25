@@ -89,8 +89,6 @@ export async function main(): Promise<void> {
   await client.deleteAgent(agent.id);
   console.log(`Deleted agent, agent ID: ${agent.id}`);
 
-  // Fetch and log all messages
-  console.log(`Messages:`);
   // Convert the PagedAsyncIterableIterator to an array of messages
   for await (const m of client.messages.list(thread.id)) {
     if (m.content.length > 0) {

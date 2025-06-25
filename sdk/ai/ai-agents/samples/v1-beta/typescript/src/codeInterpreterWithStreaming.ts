@@ -10,7 +10,7 @@
 import {
   RunStreamEvent,
   MessageStreamEvent,
-  MessageImageFileContent,
+  MessageTextContent,
   DoneEvent,
   ErrorEvent,
   AgentsClient,
@@ -19,7 +19,7 @@ import {
 } from "@azure/ai-agents";
 import { DefaultAzureCredential } from "@azure/identity";
 
-import * as fs from "fs";
+import * as fs from "node:fs";
 import "dotenv/config";
 
 const projectEndpoint = process.env["PROJECT_ENDPOINT"] || "<project endpoint>";
@@ -106,16 +106,6 @@ export async function main(): Promise<void> {
   const messagesIterator = client.messages.list(thread.id);
   for await (const m of messagesIterator) {
     console.log(`Role: ${m.role}, Content: ${m.content}`);
-    if (m.role === "assistant" && m.content.length > 0) {
-      const imageFileOutput = m.content.find((content) =>
-        isOutputOfType<MessageImageFileContent>(content, "image_file"),
-      );
-      if (imageFileOutput) {
-        console.log(
-          `Image file found in assistant's message with file ID: ${imageFileOutput.imageFile.fileId}`,
-        );
-      }
-    }
   }
 
   // Delete the agent once done
