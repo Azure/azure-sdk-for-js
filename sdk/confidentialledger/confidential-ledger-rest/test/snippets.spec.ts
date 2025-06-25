@@ -73,7 +73,6 @@ describe("snippets", () => {
     const result = await client.path("/app/transactions").post(ledgerEntry);
   });
 
-
   it("ReadmeSamplePostLedgerEntryWithCollectionIdAndTags", async () => {
     const { ledgerIdentityCertificate } = await getLedgerIdentity(
       "test-ledger-name",
@@ -180,7 +179,9 @@ describe("snippets", () => {
       credential,
     );
     // @ts-preserve-whitespace
-    const getLedgerEntriesParams = { queryParameters: { collectionId: "my collection", tags: "tag1" } };
+    const getLedgerEntriesParams = {
+      queryParameters: { collectionId: "my collection", tags: "tag1" },
+    };
     const ledgerEntries = await client.path("/app/transactions").get(getLedgerEntriesParams);
   });
 
