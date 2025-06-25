@@ -10,6 +10,8 @@
 
 ### Bugs Fixed
 
+- Fixed an issue in `AzurePowerShellCredential` where `-AsPlainText` is not supported in the `ConvertFrom-SecureString` cmdlet in older versions. [#34902](https://github.com/Azure/azure-sdk-for-js/pull/34902)
+
 ### Other Changes
 
 ## 4.10.1 (2025-06-12)
