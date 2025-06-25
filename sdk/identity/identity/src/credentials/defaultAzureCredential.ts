@@ -21,6 +21,7 @@ import type { TokenCredential } from "@azure/core-auth";
 import { WorkloadIdentityCredential } from "./workloadIdentityCredential.js";
 import type { WorkloadIdentityCredentialOptions } from "./workloadIdentityCredentialOptions.js";
 import { credentialLogger } from "../util/logging.js";
+import { VisualStudioCodeCredential } from "./visualStudioCodeCredential.js";
 
 const logger = credentialLogger("DefaultAzureCredential");
 
@@ -172,6 +173,12 @@ export function createEnvironmentCredential(
   return new EnvironmentCredential(options);
 }
 
+export function createDefaultVsCodeCredential(
+  options: DefaultAzureCredentialOptions = {},
+): TokenCredential {
+  return new VisualStudioCodeCredential(options);
+}
+
 /**
  * A no-op credential that logs the reason it was skipped if getToken is called.
  * @internal
@@ -241,6 +248,7 @@ export class DefaultAzureCredential extends ChainedTokenCredential {
       createDefaultAzureCliCredential,
       createDefaultAzurePowershellCredential,
       createDefaultAzureDeveloperCliCredential,
+      createDefaultVsCodeCredential,
     ];
     const prodCredentialFunctions = [
       createEnvironmentCredential,
