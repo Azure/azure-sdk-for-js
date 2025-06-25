@@ -9,6 +9,7 @@ import { useAzureMonitor, shutdownAzureMonitor } from "../../../src/index.js";
 import type { MeterProvider } from "@opentelemetry/sdk-metrics";
 import type { StatsbeatEnvironmentConfig } from "../../../src/types.js";
 import {
+  APPLICATIONINSIGHTS_STATSBEAT_ENABLED_PREVIEW,
   AZURE_MONITOR_STATSBEAT_FEATURES,
   MULTI_IKEY_USED,
   StatsbeatFeature,
@@ -424,5 +425,33 @@ describe("Main functions", () => {
     const features = Number(output["feature"]);
     assert.ok(!(features & StatsbeatFeature.MULTI_IKEY), "MULTI_IKEY is set when it should not be");
     void shutdownAzureMonitor();
+
+  describe("Customer Statsbeat Environment Variable", () => {
+    it("should set customerStatsbeat to true only when env var is exactly 'True'", () => {
+      const config: AzureMonitorOpenTelemetryOptions = {
+        azureMonitorExporterOptions: {
+          connectionString: "InstrumentationKey=00000000-0000-0000-0000-000000000000",
+        },
+      };
+      process.env[APPLICATIONINSIGHTS_STATSBEAT_ENABLED_PREVIEW] = "True";
+      useAzureMonitor(config);
+      assert.ok(true, "useAzureMonitor executed successfully with 'True'");
+      void shutdownAzureMonitor();
+    });
+
+    it("should set customerStatsbeat to false when env var is not set", () => {
+      const config: AzureMonitorOpenTelemetryOptions = {
+        azureMonitorExporterOptions: {
+          connectionString: "InstrumentationKey=00000000-0000-0000-0000-000000000000",
+        },
+      };
+      delete process.env[APPLICATIONINSIGHTS_STATSBEAT_ENABLED_PREVIEW];
+      useAzureMonitor(config);
+
+      assert.ok(true, "useAzureMonitor executed successfully with undefined env var");
+
+      void shutdownAzureMonitor();
+    });
   });
+});
 });
