@@ -293,7 +293,7 @@ const ledgerEntries = await client.path("/app/transactions").get(getLedgerEntrie
 
 ### Get Transactions for a Collection by CollectionId and Tags
 
-```ts snippet:ReadmeSampleGetTransactionsForCollection
+```ts snippet:ReadmeSampleGetTransactionsForCollectionAndTags
 import ConfidentialLedger, { getLedgerIdentity } from "@azure-rest/confidential-ledger";
 import { DefaultAzureCredential } from "@azure/identity";
 
@@ -309,7 +309,9 @@ const client = ConfidentialLedger(
   credential,
 );
 
-const getLedgerEntriesParams = { queryParameters: { collectionId: "my collection", tags: "tag1"} };
+const getLedgerEntriesParams = {
+  queryParameters: { collectionId: "my collection", tags: "tag1" },
+};
 const ledgerEntries = await client.path("/app/transactions").get(getLedgerEntriesParams);
 ```
 
