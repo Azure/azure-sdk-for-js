@@ -328,6 +328,9 @@ export class CallRecording {
 export type CallRejectReason = string;
 
 // @public
+export type CallSessionEndReason = string;
+
+// @public
 export interface CallTransferAccepted {
     callConnectionId: string;
     correlationId: string;
@@ -576,6 +579,13 @@ export enum DtmfTone {
     Three = "three",
     Two = "two",
     Zero = "zero"
+}
+
+// @public
+export interface ErrorModel {
+    code?: string;
+    innerError?: ErrorModel;
+    message?: string;
 }
 
 // @public
@@ -1146,8 +1156,6 @@ export type RecordingKind = string;
 
 // @public
 export interface RecordingResult {
-    // Warning: (ae-forgotten-export) The symbol "ErrorModel" needs to be exported by the entry point index.d.ts
-    //
     // (undocumented)
     readonly errors?: ErrorModel[];
     // (undocumented)
@@ -1158,12 +1166,8 @@ export interface RecordingResult {
     recordingId: string;
     // (undocumented)
     readonly recordingStartTime?: Date;
-    // Warning: (ae-forgotten-export) The symbol "RecordingStorageInfo" needs to be exported by the entry point index.d.ts
-    //
     // (undocumented)
     readonly recordingStorageInfo?: RecordingStorageInfo;
-    // Warning: (ae-forgotten-export) The symbol "CallSessionEndReason" needs to be exported by the entry point index.d.ts
-    //
     // (undocumented)
     readonly sessionEndReason?: CallSessionEndReason;
 }
@@ -1200,6 +1204,12 @@ export interface RecordingStateResult {
 export interface RecordingStorage {
     recordingDestinationContainerUrl?: string;
     recordingStorageKind: RecordingStorageKind;
+}
+
+// @public
+export interface RecordingStorageInfo {
+    // Warning: (ae-forgotten-export) The symbol "RecordingChunkStorageInfo" needs to be exported by the entry point index.d.ts
+    recordingChunks?: RecordingChunkStorageInfo[];
 }
 
 // @public

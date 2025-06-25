@@ -62,6 +62,9 @@ export {
   TranscriptionSubscription,
   MediaStreamingSubscriptionState,
   TranscriptionSubscriptionState,
+  ErrorModel,
+  RecordingStorageInfo,
+  CallSessionEndReason,
 } from "../generated/src/models/index.js";
 
 /** Properties of a call connection */
@@ -211,10 +214,10 @@ export enum RecognizeInputType {
 export interface CallInvite {
   /** The Target's PhoneNumberIdentifier, CommunicationUserIdentifier, MicrosoftTeamsUserIdentifier or MicrosoftTeamsAppIdentifier. */
   readonly targetParticipant:
-    | PhoneNumberIdentifier
-    | CommunicationUserIdentifier
-    | MicrosoftTeamsUserIdentifier
-    | MicrosoftTeamsAppIdentifier;
+  | PhoneNumberIdentifier
+  | CommunicationUserIdentifier
+  | MicrosoftTeamsUserIdentifier
+  | MicrosoftTeamsAppIdentifier;
   /** Caller's phone number identifier. */
   readonly sourceCallIdNumber?: PhoneNumberIdentifier;
   sourceDisplayName?: string;
