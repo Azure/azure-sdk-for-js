@@ -32,10 +32,12 @@ export interface BrokerEnabledOptions {
    * If set to true, broker will be enabled for WAM support on Windows.
    */
   enabled: true;
+  
   /**
    * If set to true, MSA account will be passed through, required for WAM authentication.
    */
   legacyEnableMsaPassthrough?: boolean;
+
   /**
    * Window handle for parent window, required for WAM authentication.
    */

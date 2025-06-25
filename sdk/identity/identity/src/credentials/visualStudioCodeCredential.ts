@@ -2,32 +2,27 @@
 // Licensed under the MIT License.
 
 import type { AccessToken, GetTokenOptions, TokenCredential } from "@azure/core-auth";
-import { credentialLogger, formatError, formatSuccess } from "../util/logging.js";
+import { credentialLogger } from "../util/logging.js";
 import {
   processMultiTenantRequest,
   resolveAdditionallyAllowedTenantIds,
 } from "../util/tenantIdUtils.js";
 import { AzureAuthorityHosts } from "../constants.js";
-import { CredentialUnavailableError } from "../errors.js";
-import { IdentityClient } from "../client/identityClient.js";
+import { AuthenticationError, CredentialUnavailableError } from "../errors.js";
 import type { VisualStudioCodeCredentialOptions } from "./visualStudioCodeCredentialOptions.js";
-import type { VSCodeCredentialFinder } from "./visualStudioCodeCredentialPlugin.js";
 import { checkTenantId } from "../util/tenantIdUtils.js";
 import fs from "node:fs";
 import os from "node:os";
 import path from "node:path";
+import { createMsalClient, MsalClient } from "../msal/nodeFlows/msalClient.js";
+import { AuthenticationRecord } from "../msal/types.js";
+import { ensureScopes } from "../util/scopeUtils.js";
+import { deserializeAuthenticationRecord } from "../msal/utils.js";
+import { useIdentityPlugin } from "../plugins/consumer.js";
 
 const CommonTenantId = "common";
-const AzureAccountClientId = "aebc6443-996d-45c2-90f0-388ff96faa56"; // VSC: 'aebc6443-996d-45c2-90f0-388ff96faa56'
+const VSCodeClientId = "aebc6443-996d-45c2-90f0-388ff96faa56";
 const logger = credentialLogger("VisualStudioCodeCredential");
-
-let findCredentials: VSCodeCredentialFinder | undefined = undefined;
-
-export const vsCodeCredentialControl = {
-  setVsCodeCredentialFinder(finder: VSCodeCredentialFinder): void {
-    findCredentials = finder;
-  },
-};
 
 // Map of unsupported Tenant IDs and the errors we will be throwing.
 const unsupportedTenantIds: Record<string, string> = {
@@ -93,20 +88,15 @@ export function getPropertyFromVSCode(property: string): string | undefined {
  *
  * It's a [known issue](https://github.com/Azure/azure-sdk-for-js/issues/20500) that this credential doesn't
  * work with [Azure Account extension](https://marketplace.visualstudio.com/items?itemName=ms-vscode.azure-account)
- * versions newer than **0.9.11**. A long-term fix to this problem is in progress. In the meantime, consider
+ * versions newer than **0.9.11**. A long-term fix to this problem is in the meantime, consider
  * authenticating with {@link AzureCliCredential}.
- *
- * @deprecated This credential is deprecated because the VS Code Azure Account extension on which this credential
- * relies has been deprecated. Users should use other dev-time credentials, such as {@link AzureCliCredential},
- * {@link AzureDeveloperCliCredential}, or {@link AzurePowerShellCredential} for their
- * local development needs. See Azure Account extension deprecation notice [here](https://github.com/microsoft/vscode-azure-account/issues/964).
- *
  */
 export class VisualStudioCodeCredential implements TokenCredential {
-  private identityClient: IdentityClient;
   private tenantId: string;
   private additionallyAllowedTenantIds: string[];
   private cloudName: VSCodeCloudNames;
+  private msalClient!: MsalClient;
+  private options: VisualStudioCodeCredentialOptions;
 
   /**
    * Creates an instance of VisualStudioCodeCredential to use for automatically authenticating via VSCode.
@@ -119,17 +109,11 @@ export class VisualStudioCodeCredential implements TokenCredential {
    * @param options - Options for configuring the client which makes the authentication request.
    */
   constructor(options?: VisualStudioCodeCredentialOptions) {
+    this.options = options || {};
+
     // We want to make sure we use the one assigned by the user on the VSCode settings.
     // Or just `AzureCloud` by default.
     this.cloudName = (getPropertyFromVSCode("azure.cloud") || "AzureCloud") as VSCodeCloudNames;
-
-    // Picking an authority host based on the cloud name.
-    const authorityHost = mapVSCodeAuthorityHosts[this.cloudName];
-
-    this.identityClient = new IdentityClient({
-      authorityHost,
-      ...options,
-    });
 
     if (options && options.tenantId) {
       checkTenantId(logger, options.tenantId);
@@ -145,17 +129,68 @@ export class VisualStudioCodeCredential implements TokenCredential {
     checkUnsupportedTenant(this.tenantId);
   }
 
+  private async loadBrokerPlugin() {
+    try {
+      // @ts-ignore
+      const { nativeBrokerPlugin } = await import("@azure/identity-broker");
+      return nativeBrokerPlugin;
+    } catch (error) {
+      // Package not installed, return null or fallback
+      logger.info("The @azure/identity-broker package is not installed.");
+      return undefined;
+    }
+  }
+
+  private loadVSCodeAuthRecord(): AuthenticationRecord | undefined {
+    const authRecordPath = path.join(os.homedir(), ".azure", "ms-azuretools.vscode-azureresourcegroups", "authRecord.json");
+
+    if (!fs.existsSync(authRecordPath)) {
+      logger.info(`The Visual Studio Code authentication record file does not exist.`);
+      return undefined;
+    }
+
+    const authRecordContent = fs.readFileSync(authRecordPath, { encoding: 'utf8' });
+    return deserializeAuthenticationRecord(authRecordContent);
+  }
+
   /**
    * Runs preparations for any further getToken request.
    */
   private async prepare(): Promise<void> {
-    // Attempts to load the tenant from the VSCode configuration file.
-    const settingsTenant = getPropertyFromVSCode("azure.tenant");
-    if (settingsTenant) {
-      this.tenantId = settingsTenant;
+    // check if broker is available
+    // check and parse authentication record
+    const tenantId =
+      processMultiTenantRequest(
+        this.tenantId,
+        this.options,
+        this.additionallyAllowedTenantIds,
+        logger,
+      ) || this.tenantId;
+
+    const nativeBrokerPlugin = await this.loadBrokerPlugin();
+    const authenticationRecord = this.loadVSCodeAuthRecord();
+
+    if (!nativeBrokerPlugin || !authenticationRecord) {
+      throw new CredentialUnavailableError("Visual Studio Code Authentication is not available."
+        + " Ensure you have @azure/identity-broker dependency installed, "
+        + " signed into Azure via VS Code, and have Azure Resources Extension installed in VS Code."
+      );
     }
-    checkUnsupportedTenant(this.tenantId);
+
+    useIdentityPlugin(nativeBrokerPlugin);
+
+    const authorityHost = mapVSCodeAuthorityHosts[this.cloudName];
+    this.msalClient = createMsalClient(VSCodeClientId, tenantId, {
+      ...this.options,
+      authorityHost,
+      brokerOptions: {
+        enabled: true,
+        parentWindowHandle: new Uint8Array(0)
+      },
+      authenticationRecord,
+    });
   }
+
 
   /**
    * The promise of the single preparation that will be executed at the first getToken request for an instance of this class.
@@ -186,78 +221,14 @@ export class VisualStudioCodeCredential implements TokenCredential {
   ): Promise<AccessToken> {
     await this.prepareOnce();
 
-    const tenantId =
-      processMultiTenantRequest(
-        this.tenantId,
-        options,
-        this.additionallyAllowedTenantIds,
-        logger,
-      ) || this.tenantId;
-
-    if (findCredentials === undefined) {
-      throw new CredentialUnavailableError(
-        [
-          "No implementation of `VisualStudioCodeCredential` is available.",
-          "You must install the identity-vscode plugin package (`npm install --save-dev @azure/identity-vscode`)",
-          "and enable it by importing `useIdentityPlugin` from `@azure/identity` and calling",
-          "`useIdentityPlugin(vsCodePlugin)` before creating a `VisualStudioCodeCredential`.",
-          "To troubleshoot, visit https://aka.ms/azsdk/js/identity/vscodecredential/troubleshoot.",
-        ].join(" "),
-      );
+    // at this point we know the broker works
+    const scopeArray = ensureScopes(scopes);
+    const token = await this.msalClient.getTokenByInteractiveRequest(scopeArray, options || {});
+    if (!token) {
+      throw new AuthenticationError(400, {
+        error: `VisualStudioCodeCredential authentication failed.`,
+      });
     }
-
-    let scopeString = typeof scopes === "string" ? scopes : scopes.join(" ");
-
-    // Check to make sure the scope we get back is a valid scope
-    if (!scopeString.match(/^[0-9a-zA-Z-.:/]+$/)) {
-      const error = new Error("Invalid scope was specified by the user or calling client");
-      logger.getToken.info(formatError(scopes, error));
-      throw error;
-    }
-
-    if (scopeString.indexOf("offline_access") < 0) {
-      scopeString += " offline_access";
-    }
-
-    // findCredentials returns an array similar to:
-    // [
-    //   {
-    //     account: "",
-    //     password: "",
-    //   },
-    //   /* ... */
-    // ]
-    const credentials = await findCredentials();
-
-    // If we can't find the credential based on the name, we'll pick the first one available.
-    const { password: refreshToken } =
-      credentials.find(({ account }) => account === this.cloudName) ?? credentials[0] ?? {};
-
-    if (refreshToken) {
-      const tokenResponse = await this.identityClient.refreshAccessToken(
-        tenantId,
-        AzureAccountClientId,
-        scopeString,
-        refreshToken,
-        undefined,
-      );
-
-      if (tokenResponse) {
-        logger.getToken.info(formatSuccess(scopes));
-        return tokenResponse.accessToken;
-      } else {
-        const error = new CredentialUnavailableError(
-          "Could not retrieve the token associated with Visual Studio Code. Have you connected using the 'Azure Account' extension recently? To troubleshoot, visit https://aka.ms/azsdk/js/identity/vscodecredential/troubleshoot.",
-        );
-        logger.getToken.info(formatError(scopes, error));
-        throw error;
-      }
-    } else {
-      const error = new CredentialUnavailableError(
-        "Could not retrieve the token associated with Visual Studio Code. Did you connect using the 'Azure Account' extension? To troubleshoot, visit https://aka.ms/azsdk/js/identity/vscodecredential/troubleshoot.",
-      );
-      logger.getToken.info(formatError(scopes, error));
-      throw error;
-    }
+    return token;
   }
 }
