@@ -32,7 +32,7 @@ export interface CustomerManagedKeyEncryption {
 
 // @public
 export interface ErrorAdditionalInfo {
-    readonly info?: Record<string, any>;
+    readonly info?: any;
     readonly type?: string;
 }
 
@@ -111,6 +111,27 @@ export enum KnownOrigin {
 }
 
 // @public
+export enum KnownPrivateEndpointConnectionProvisioningState {
+    Creating = "Creating",
+    Deleting = "Deleting",
+    Failed = "Failed",
+    Succeeded = "Succeeded"
+}
+
+// @public
+export enum KnownPrivateEndpointServiceConnectionStatus {
+    Approved = "Approved",
+    Pending = "Pending",
+    Rejected = "Rejected"
+}
+
+// @public
+export enum KnownPublicNetworkAccessType {
+    Disabled = "Disabled",
+    Enabled = "Enabled"
+}
+
+// @public
 export enum KnownResourceProvisioningState {
     Canceled = "Canceled",
     Failed = "Failed",
@@ -119,7 +140,8 @@ export enum KnownResourceProvisioningState {
 
 // @public
 export enum KnownVersions {
-    V20250531Preview = "2025-05-31-preview"
+    V20250531Preview = "2025-05-31-preview",
+    V20250801Preview = "2025-08-01-preview"
 }
 
 // @public
@@ -139,11 +161,12 @@ export class OnlineExperimentationClient {
     readonly onlineExperimentationWorkspaces: OnlineExperimentationWorkspacesOperations;
     readonly operations: OperationsOperations;
     readonly pipeline: Pipeline;
+    readonly privateEndpointConnections: PrivateEndpointConnectionsOperations;
+    readonly privateLinkResources: PrivateLinkResourcesOperations;
 }
 
 // @public
 export interface OnlineExperimentationClientOptionalParams extends ClientOptions {
-    apiVersion?: string;
 }
 
 // @public
@@ -160,6 +183,7 @@ export interface OnlineExperimentationWorkspacePatch {
         logAnalyticsWorkspaceResourceId?: string;
         logsExporterStorageAccountResourceId?: string;
         encryption?: ResourceEncryptionConfiguration;
+        publicNetworkAccess?: PublicNetworkAccessType;
     };
     sku?: OnlineExperimentationWorkspaceSku;
     tags?: Record<string, string>;
@@ -172,7 +196,9 @@ export interface OnlineExperimentationWorkspaceProperties {
     readonly endpoint?: string;
     logAnalyticsWorkspaceResourceId: string;
     logsExporterStorageAccountResourceId: string;
+    readonly privateEndpointConnections?: PrivateEndpointConnection[];
     readonly provisioningState?: ResourceProvisioningState;
+    publicNetworkAccess?: PublicNetworkAccessType;
     readonly workspaceId?: string;
 }
 
@@ -212,12 +238,12 @@ export interface OnlineExperimentationWorkspacesListBySubscriptionOptionalParams
 
 // @public
 export interface OnlineExperimentationWorkspacesOperations {
-    createOrUpdate: (resourceGroupName: string, workspaceName: string, resource: OnlineExperimentationWorkspace, options?: OnlineExperimentationWorkspacesCreateOrUpdateOptionalParams) => PollerLike<OperationState<OnlineExperimentationWorkspace>, OnlineExperimentationWorkspace>;
-    delete: (resourceGroupName: string, workspaceName: string, options?: OnlineExperimentationWorkspacesDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
-    get: (resourceGroupName: string, workspaceName: string, options?: OnlineExperimentationWorkspacesGetOptionalParams) => Promise<OnlineExperimentationWorkspace>;
-    listByResourceGroup: (resourceGroupName: string, options?: OnlineExperimentationWorkspacesListByResourceGroupOptionalParams) => PagedAsyncIterableIterator<OnlineExperimentationWorkspace>;
-    listBySubscription: (options?: OnlineExperimentationWorkspacesListBySubscriptionOptionalParams) => PagedAsyncIterableIterator<OnlineExperimentationWorkspace>;
-    update: (resourceGroupName: string, workspaceName: string, properties: OnlineExperimentationWorkspacePatch, options?: OnlineExperimentationWorkspacesUpdateOptionalParams) => PollerLike<OperationState<OnlineExperimentationWorkspace>, OnlineExperimentationWorkspace>;
+    createOrUpdate: (apiVersion: string, resourceGroupName: string, workspaceName: string, resource: OnlineExperimentationWorkspace, options?: OnlineExperimentationWorkspacesCreateOrUpdateOptionalParams) => PollerLike<OperationState<OnlineExperimentationWorkspace>, OnlineExperimentationWorkspace>;
+    delete: (apiVersion: string, resourceGroupName: string, workspaceName: string, options?: OnlineExperimentationWorkspacesDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
+    get: (apiVersion: string, resourceGroupName: string, workspaceName: string, options?: OnlineExperimentationWorkspacesGetOptionalParams) => Promise<OnlineExperimentationWorkspace>;
+    listByResourceGroup: (apiVersion: string, resourceGroupName: string, options?: OnlineExperimentationWorkspacesListByResourceGroupOptionalParams) => PagedAsyncIterableIterator<OnlineExperimentationWorkspace>;
+    listBySubscription: (apiVersion: string, options?: OnlineExperimentationWorkspacesListBySubscriptionOptionalParams) => PagedAsyncIterableIterator<OnlineExperimentationWorkspace>;
+    update: (apiVersion: string, resourceGroupName: string, workspaceName: string, properties: OnlineExperimentationWorkspacePatch, options?: OnlineExperimentationWorkspacesUpdateOptionalParams) => PollerLike<OperationState<OnlineExperimentationWorkspace>, OnlineExperimentationWorkspace>;
 }
 
 // @public
@@ -248,7 +274,7 @@ export interface OperationsListOptionalParams extends OperationOptions {
 
 // @public
 export interface OperationsOperations {
-    list: (options?: OperationsListOptionalParams) => PagedAsyncIterableIterator<Operation>;
+    list: (apiVersion: string, options?: OperationsListOptionalParams) => PagedAsyncIterableIterator<Operation>;
 }
 
 // @public
@@ -265,6 +291,95 @@ export interface PagedAsyncIterableIterator<TElement, TPage = TElement[], TPageS
 export interface PageSettings {
     continuationToken?: string;
 }
+
+// @public
+export interface PrivateEndpoint {
+    readonly id?: string;
+}
+
+// @public
+export interface PrivateEndpointConnection extends ProxyResource {
+    properties?: PrivateEndpointConnectionProperties;
+}
+
+// @public
+export interface PrivateEndpointConnectionProperties {
+    readonly groupIds?: string[];
+    privateEndpoint?: PrivateEndpoint;
+    privateLinkServiceConnectionState: PrivateLinkServiceConnectionState;
+    readonly provisioningState?: PrivateEndpointConnectionProvisioningState;
+}
+
+// @public
+export type PrivateEndpointConnectionProvisioningState = string;
+
+// @public
+export interface PrivateEndpointConnectionsDeleteOptionalParams extends OperationOptions {
+    updateIntervalInMs?: number;
+}
+
+// @public
+export interface PrivateEndpointConnectionsGetOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface PrivateEndpointConnectionsListOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface PrivateEndpointConnectionsOperations {
+    delete: (apiVersion: string, resourceGroupName: string, workspaceName: string, privateEndpointConnectionName: string, options?: PrivateEndpointConnectionsDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
+    get: (apiVersion: string, resourceGroupName: string, workspaceName: string, privateEndpointConnectionName: string, options?: PrivateEndpointConnectionsGetOptionalParams) => Promise<PrivateEndpointConnection>;
+    list: (apiVersion: string, resourceGroupName: string, workspaceName: string, options?: PrivateEndpointConnectionsListOptionalParams) => PagedAsyncIterableIterator<PrivateEndpointConnection>;
+    update: (apiVersion: string, resourceGroupName: string, workspaceName: string, privateEndpointConnectionName: string, resource: PrivateEndpointConnection, options?: PrivateEndpointConnectionsUpdateOptionalParams) => Promise<PrivateEndpointConnection>;
+}
+
+// @public
+export interface PrivateEndpointConnectionsUpdateOptionalParams extends OperationOptions {
+}
+
+// @public
+export type PrivateEndpointServiceConnectionStatus = string;
+
+// @public
+export interface PrivateLinkResource extends ProxyResource {
+    properties?: PrivateLinkResourceProperties;
+}
+
+// @public
+export interface PrivateLinkResourceProperties {
+    readonly groupId?: string;
+    readonly requiredMembers?: string[];
+    requiredZoneNames?: string[];
+}
+
+// @public
+export interface PrivateLinkResourcesGetOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface PrivateLinkResourcesListOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface PrivateLinkResourcesOperations {
+    get: (apiVersion: string, resourceGroupName: string, workspaceName: string, privateLinkResourceName: string, options?: PrivateLinkResourcesGetOptionalParams) => Promise<PrivateLinkResource>;
+    list: (apiVersion: string, resourceGroupName: string, workspaceName: string, options?: PrivateLinkResourcesListOptionalParams) => PagedAsyncIterableIterator<PrivateLinkResource>;
+}
+
+// @public
+export interface PrivateLinkServiceConnectionState {
+    actionsRequired?: string;
+    description?: string;
+    status?: PrivateEndpointServiceConnectionStatus;
+}
+
+// @public
+export interface ProxyResource extends Resource {
+}
+
+// @public
+export type PublicNetworkAccessType = string;
 
 // @public
 export interface Resource {
