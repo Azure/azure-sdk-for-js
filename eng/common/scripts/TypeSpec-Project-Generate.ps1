@@ -102,7 +102,7 @@ try {
         "downloadCommandTemplate" = "downloadCommand"
       }
       "relatedTypeSpecProjectFolder" = @(
-        $configuration["directory"]
+        $specSubDirectory
       )
     }
 
@@ -112,6 +112,8 @@ try {
     Write-Host $destJson
 
     $outputJsonPath = Join-Path $tempFolder $fileGenerateOutput
+    Write-Host "Setting ENABLE_LEGACY_SETTINGS_MAPPING environment variable"
+    $env:ENABLE_LEGACY_SETTINGS_MAPPING = 'true'
     Write-Host "Running automation_generate.sh $inputJsonPath $outputJsonPath"
     Invoke-LoggedCommand "sh $RepoRoot/.scripts/automation_generate.sh $inputJsonPath $outputJsonPath"
     # if (Test-Path "Function:$GetEmitterAdditionalOptionsFn") {
