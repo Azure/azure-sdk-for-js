@@ -19,7 +19,7 @@ import {
   MessageTextContent,
   RequiredToolCall,
   ThreadRun,
-} from "@azure/ai-agents";
+} from "../src/index.js";
 import { createProjectsClient } from "./public/utils/createClient.js";
 import { DefaultAzureCredential } from "@azure/identity";
 import { beforeEach, it, describe } from "vitest";
@@ -48,7 +48,7 @@ describe("snippets", function () {
 
   it("toolSet", async function () {
     // Upload file for code interpreter tool
-    const filePath1 = "./data/nifty500QuarterlyResults.csv";
+    const filePath1 = "./data/syntheticCompanyQuarterlyResults.csv";
     const fileStream1 = fs.createReadStream(filePath1);
     const codeInterpreterFile = await client.files.upload(fileStream1, "assistants", {
       fileName: "myLocalFile",
@@ -112,7 +112,7 @@ describe("snippets", function () {
   });
 
   it("codeInterpreter", async function () {
-    const filePath = "./data/nifty500QuarterlyResults.csv";
+    const filePath = "./data/syntheticCompanyQuarterlyResults.csv";
     const localFileStream = fs.createReadStream(filePath);
     const localFile = await client.files.upload(localFileStream, "assistants", {
       fileName: "localFile",
@@ -329,7 +329,7 @@ describe("snippets", function () {
   });
 
   it("threadWithTool", async function () {
-    const filePath = "./data/nifty500QuarterlyResults.csv";
+    const filePath = "./data/syntheticCompanyQuarterlyResults.csv";
     const localFileStream = fs.createReadStream(filePath);
     const file = await client.files.upload(localFileStream, "assistants", {
       fileName: "sample_file_for_upload.csv",
@@ -521,7 +521,7 @@ describe("snippets", function () {
         intervalInMs: 2000,
       },
       onResponse: (response): void => {
-        console.log(`Received response with status: ${response.status}`);
+        console.log(`Received response with status: ${response.parsedBody.status}`);
       },
     });
     console.log(`Run finished with status: ${run.status}`);
@@ -550,21 +550,20 @@ describe("snippets", function () {
     for await (const eventMessage of streamEventMessages) {
       switch (eventMessage.event) {
         case RunStreamEvent.ThreadRunCreated:
-          console.log(`ThreadRun status: ${(eventMessage.data as ThreadRun).status}`);
+          console.log(`ThreadRun status: ${eventMessage.data.status}`);
           break;
         case MessageStreamEvent.ThreadMessageDelta:
           {
-            const messageDelta = eventMessage.data as MessageDeltaChunk;
+            const messageDelta = eventMessage.data;
             messageDelta.delta.content.forEach((contentPart) => {
               if (contentPart.type === "text") {
-                const textContent = contentPart as MessageDeltaTextContent;
+                const textContent = contentPart;
                 const textValue = textContent.text?.value || "No text";
                 console.log(`Text delta received:: ${textValue}`);
               }
             });
           }
           break;
-        // @ts-preserve-whitespace
         case RunStreamEvent.ThreadRunCompleted:
           console.log("Thread Run Completed");
           break;

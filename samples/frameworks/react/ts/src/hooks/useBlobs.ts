@@ -25,7 +25,7 @@ const useBlobs: Hook = () => {
   // Keep a reference to a client for a Blob Container
   // in order to lazy-load it as needed.
   // For more information about Azure Blob Storage container
-  // Please refer to https://learn.microsoft.com/en-us/azure/storage/blobs/storage-blobs-introduction#blob-storage-resources
+  // Please refer to https://learn.microsoft.com/azure/storage/blobs/storage-blobs-introduction#blob-storage-resources
   const instance = useRef<ContainerClient>();
 
   /**

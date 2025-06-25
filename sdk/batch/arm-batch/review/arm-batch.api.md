@@ -505,7 +505,7 @@ export class BatchManagementClient extends coreClient.ServiceClient {
     // (undocumented)
     certificateOperations: CertificateOperations;
     // (undocumented)
-    location: Location_2;
+    location: Location;
     // (undocumented)
     networkSecurityPerimeterOperations: NetworkSecurityPerimeterOperations;
     // (undocumented)
@@ -1053,12 +1053,11 @@ export interface ListPrivateLinkResourcesResult {
 }
 
 // @public
-interface Location_2 {
+export interface Location {
     checkNameAvailability(locationName: string, parameters: CheckNameAvailabilityParameters, options?: LocationCheckNameAvailabilityOptionalParams): Promise<LocationCheckNameAvailabilityResponse>;
     getQuotas(locationName: string, options?: LocationGetQuotasOptionalParams): Promise<LocationGetQuotasResponse>;
     listSupportedVirtualMachineSkus(locationName: string, options?: LocationListSupportedVirtualMachineSkusOptionalParams): PagedAsyncIterableIterator<SupportedSku>;
 }
-export { Location_2 as Location }
 
 // @public
 export interface LocationCheckNameAvailabilityOptionalParams extends coreClient.OperationOptions {

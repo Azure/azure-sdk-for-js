@@ -825,11 +825,10 @@ export interface ExecutionStatistics {
 }
 
 // @public
-interface FileList_2 {
+export interface FileList {
     nextLink?: string;
     value?: ProjectFile[];
 }
-export { FileList_2 as FileList }
 
 // @public
 export interface Files {
@@ -872,14 +871,14 @@ export interface FilesListNextOptionalParams extends coreClient.OperationOptions
 }
 
 // @public
-export type FilesListNextResponse = FileList_2;
+export type FilesListNextResponse = FileList;
 
 // @public
 export interface FilesListOptionalParams extends coreClient.OperationOptions {
 }
 
 // @public
-export type FilesListResponse = FileList_2;
+export type FilesListResponse = FileList;
 
 // @public
 export interface FilesReadOptionalParams extends coreClient.OperationOptions {

@@ -94,13 +94,12 @@ export interface AnswerFailed {
 }
 
 // @public
-interface AudioData_2 {
+export interface AudioData {
     data: string;
     isSilent?: boolean;
     participant?: CommunicationIdentifier | undefined;
     timestamp?: Date;
 }
-export { AudioData_2 as AudioData }
 
 // @public
 export type AudioFormat = string;
@@ -424,27 +423,6 @@ export interface ChoiceResult {
 }
 
 // @public
-export type CommunicationCloudEnvironmentModel = string;
-
-// @public
-export interface CommunicationIdentifierModel {
-    communicationUser?: CommunicationUserIdentifierModel;
-    kind?: CommunicationIdentifierModelKind;
-    microsoftTeamsApp?: MicrosoftTeamsAppIdentifierModel;
-    microsoftTeamsUser?: MicrosoftTeamsUserIdentifierModel;
-    phoneNumber?: PhoneNumberIdentifierModel;
-    rawId?: string;
-}
-
-// @public
-export type CommunicationIdentifierModelKind = string;
-
-// @public
-export interface CommunicationUserIdentifierModel {
-    id: string;
-}
-
-// @public
 export interface ConnectCallEventResult {
     failureResult?: ConnectFailed;
     isSuccess: boolean;
@@ -551,7 +529,7 @@ export interface CreateCallResult {
 }
 
 // @public
-export type CustomCallingContext = (VoipHeader | SipUserToUserHeader | SipCustomHeader)[];
+export type CustomCallingContext = (VoipHeader | SipUserToUserHeader | SipCustomHeader | TeamsPhoneCallDetails)[];
 
 // @public (undocumented)
 export interface CustomCallingContextHeader {
@@ -559,16 +537,6 @@ export interface CustomCallingContextHeader {
     key: string;
     // (undocumented)
     value: string;
-}
-
-// @public
-export interface CustomCallingContextInternal {
-    sipHeaders?: {
-        [propertyName: string]: string;
-    };
-    voipHeaders?: {
-        [propertyName: string]: string;
-    };
 }
 
 // @public
@@ -742,6 +710,7 @@ export enum KnownCommunicationIdentifierModelKind {
     MicrosoftTeamsApp = "microsoftTeamsApp",
     MicrosoftTeamsUser = "microsoftTeamsUser",
     PhoneNumber = "phoneNumber",
+    TeamsExtensionUser = "teamsExtensionUser",
     Unknown = "unknown"
 }
 
@@ -978,19 +947,6 @@ export interface MediaStreamingUpdate {
 }
 
 // @public
-export interface MicrosoftTeamsAppIdentifierModel {
-    appId: string;
-    cloud?: CommunicationCloudEnvironmentModel;
-}
-
-// @public
-export interface MicrosoftTeamsUserIdentifierModel {
-    cloud?: CommunicationCloudEnvironmentModel;
-    isAnonymous?: boolean;
-    userId: string;
-}
-
-// @public
 export interface MuteParticipantOption extends OperationOptions {
     operationContext?: string;
 }
@@ -1003,7 +959,7 @@ export interface MuteParticipantResult {
 // @public (undocumented)
 export class OutStreamingData {
     constructor(kind: MediaKind);
-    audioData?: AudioData_2;
+    audioData?: AudioData;
     static getStopAudioForOutbound(): string;
     static getStreamingDataForOutbound(data: string): string;
     kind: MediaKind;
@@ -1026,11 +982,6 @@ export interface ParticipantsUpdated {
 
 // @public
 export type PauseRecordingOptions = OperationOptions;
-
-// @public
-export interface PhoneNumberIdentifierModel {
-    value: string;
-}
 
 // @public
 export interface PlayCanceled {
@@ -1190,8 +1141,7 @@ export type RecordingFormat = "mp3" | "mp4" | "wav";
 export type RecordingKind = string;
 
 // @public
-type RecordingState_2 = string;
-export { RecordingState_2 as RecordingState }
+export type RecordingState = string;
 
 // @public
 export interface RecordingStateChanged {
@@ -1205,7 +1155,7 @@ export interface RecordingStateChanged {
     serverCallId: string;
     startDateTime?: Date;
     // (undocumented)
-    state?: RecordingState_2;
+    state?: RecordingState;
 }
 
 // @public
@@ -1215,7 +1165,7 @@ export interface RecordingStateResult {
     // (undocumented)
     recordingKind: string;
     // (undocumented)
-    recordingState: RecordingState_2;
+    recordingState: RecordingState;
 }
 
 // @public
@@ -1346,6 +1296,7 @@ export interface SipUserToUserHeader extends CustomCallingContextHeader {
 
 // @public
 export interface SpeechResult {
+    confidence?: number;
     speech?: string;
 }
 
@@ -1448,7 +1399,45 @@ export enum StreamingDataKind {
 }
 
 // @public (undocumented)
-export type StreamingDataResult = TranscriptionMetadata | TranscriptionData | AudioData_2 | AudioMetadata;
+export type StreamingDataResult = TranscriptionMetadata | TranscriptionData | AudioData | AudioMetadata;
+
+// @public
+export interface TeamsPhoneCallDetails {
+    callContext?: string;
+    callSentiment?: string;
+    callTopic?: string;
+    intent?: string;
+    // (undocumented)
+    kind: "teamsPhoneCallDetails";
+    sessionId?: string;
+    suggestedActions?: string;
+    teamsPhoneCallerDetails?: TeamsPhoneCallerDetails;
+    teamsPhoneSourceDetails?: TeamsPhoneSourceDetails;
+    transcriptUrl?: string;
+}
+
+// @public
+export interface TeamsPhoneCallerDetails {
+    additionalCallerInformation?: {
+        [propertyName: string]: string;
+    };
+    caller: CommunicationIdentifier;
+    isAuthenticated?: boolean;
+    name: string;
+    phoneNumber: string;
+    recordId?: string;
+    screenPopUrl?: string;
+}
+
+// @public
+export interface TeamsPhoneSourceDetails {
+    intendedTargets?: {
+        [propertyName: string]: CommunicationIdentifier;
+    };
+    language: string;
+    source: CommunicationIdentifier;
+    status: string;
+}
 
 // @public
 export enum TextFormat {

@@ -1,7 +1,7 @@
 {
   "name": "@azure/identity",
   "sdk-type": "client",
-  "version": "4.10.0",
+  "version": "4.10.2",
   "description": "Provides credential implementations for Azure SDK libraries that can authenticate with Microsoft Entra ID",
   "main": "./dist/commonjs/index.js",
   "module": "./dist/esm/index.js",
@@ -26,8 +26,8 @@
     "execute:samples": "dev-tool samples run samples-dev",
     "extract-api": "dev-tool run build-package && dev-tool run extract-api",
     "format": "dev-tool run vendored prettier --write --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.ts\" \"test/**/*.ts\" \"samples-dev/**/*.ts\" \"*.{js,json}\"",
-    "lint": "eslint README.md package.json api-extractor.json src test",
-    "lint:fix": "eslint README.md package.json api-extractor.json src test --fix --fix-type [problem,suggestion]",
+    "lint": "eslint package.json src test",
+    "lint:fix": "eslint package.json src test --fix --fix-type [problem,suggestion]",
     "pack": "npm pack 2>&1",
     "test": "npm run test:node && npm run test:browser",
     "test:browser": "npm run clean && dev-tool run build-package && dev-tool run build-test && dev-tool run test:vitest --browser",
@@ -51,7 +51,7 @@
     ]
   },
   "engines": {
-    "node": ">=18.0.0"
+    "node": ">=20.0.0"
   },
   "repository": "github:Azure/azure-sdk-for-js",
   "keywords": [
@@ -93,7 +93,7 @@
     "@azure/keyvault-keys": "^4.2.0",
     "@types/jsonwebtoken": "^9.0.0",
     "@types/ms": "^2.1.0",
-    "@types/node": "^18.0.0",
+    "@types/node": "^20.0.0",
     "@vitest/browser": "^3.0.9",
     "@vitest/coverage-istanbul": "^3.0.9",
     "assertion-error": "^2.0.1",
