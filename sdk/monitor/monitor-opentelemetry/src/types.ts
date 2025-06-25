@@ -71,6 +71,7 @@ export interface StatsbeatFeatures {
   distro?: boolean;
   liveMetrics?: boolean;
   shim?: boolean;
+  rateLimitedSampler?: boolean;
 }
 
 /**
@@ -84,6 +85,7 @@ export const StatsbeatFeaturesMap = new Map<string, number>([
   ["distro", 8],
   ["liveMetrics", 16],
   ["shim", 32],
+  ["rateLimitedSampler", 64],
 ]);
 
 /**

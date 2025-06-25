@@ -52,6 +52,7 @@ export function useAzureMonitor(options?: AzureMonitorOpenTelemetryOptions): voi
     browserSdkLoader: config.browserSdkLoaderOptions.enabled,
     aadHandling: !!config.azureMonitorExporterOptions?.credential,
     diskRetry: !config.azureMonitorExporterOptions?.disableOfflineStorage,
+    rateLimitedSampler: !!config.tracesPerSecond,
   };
   getInstance().setStatsbeatFeatures(statsbeatInstrumentations, statsbeatFeatures);
 
