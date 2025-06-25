@@ -2,8 +2,9 @@
 // Licensed under the MIT License.
 
 import { OnlineExperimentationClient } from "./onlineExperimentationClient.js";
+import { _$deleteDeserialize } from "./api/privateEndpointConnections/operations.js";
 import {
-  _$deleteDeserialize,
+  _$deleteDeserialize as _$deleteDeserializeOnlineExperimentationWorkspaces,
   _updateDeserialize,
   _createOrUpdateDeserialize,
 } from "./api/onlineExperimentationWorkspaces/operations.js";
@@ -80,9 +81,14 @@ interface DeserializationHelper {
 }
 
 const deserializeMap: Record<string, DeserializationHelper> = {
-  "DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.OnlineExperimentation/workspaces/{workspaceName}":
+  "DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.OnlineExperimentation/workspaces/{workspaceName}/privateEndpointConnections/{privateEndpointConnectionName}":
     {
       deserializer: _$deleteDeserialize,
+      expectedStatuses: ["202", "204", "200"],
+    },
+  "DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.OnlineExperimentation/workspaces/{workspaceName}":
+    {
+      deserializer: _$deleteDeserializeOnlineExperimentationWorkspaces,
       expectedStatuses: ["202", "204", "200"],
     },
   "PATCH /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.OnlineExperimentation/workspaces/{workspaceName}":
