@@ -57,7 +57,7 @@ export class MetricHandler {
     this._azureExporter = new AzureMonitorMetricExporter(this._config.azureMonitorExporterOptions);
     const metricReaderOptions: PeriodicExportingMetricReaderOptions = {
       exporter: this._azureExporter as any,
-      exportIntervalMillis: options?.collectionInterval || this._config.metricExportIntervalMillis,
+      exportIntervalMillis: this._config.calculateMetricExportInterval(options),
     };
     this._metricReader = new PeriodicExportingMetricReader(metricReaderOptions);
 

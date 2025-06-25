@@ -71,7 +71,7 @@ export class InternalConfig implements AzureMonitorOpenTelemetryOptions {
     this.enableStandardMetrics = true;
     this.enableTraceBasedSamplingForLogs = false;
     this.enablePerformanceCounters = true;
-    this.metricExportIntervalMillis = this._calculateMetricExportInterval();
+    this.metricExportIntervalMillis = this.calculateMetricExportInterval();
     this.instrumentationOptions = {
       http: { enabled: true },
       azureSdk: { enabled: false },
@@ -185,12 +185,12 @@ export class InternalConfig implements AzureMonitorOpenTelemetryOptions {
     }
   }
 
-  private _calculateMetricExportInterval(options?: { collectionInterval: number }): number {
+  public calculateMetricExportInterval(options?: { collectionInterval: number }): number {
     const defaultInterval = 60000; // 60 seconds
-    
+
     // Prioritize OTEL_METRIC_EXPORT_INTERVAL env var
     if (process.env.OTEL_METRIC_EXPORT_INTERVAL) {
-      const envInterval = parseInt(process.env.OTEL_METRIC_EXPORT_INTERVAL, 10);
+      const envInterval = parseInt(process.env.OTEL_METRIC_EXPORT_INTERVAL.trim(), 10);
       if (!isNaN(envInterval) && envInterval > 0) {
         return envInterval;
       }
