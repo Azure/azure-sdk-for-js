@@ -62,7 +62,10 @@ extends:
       policy: M365
       codeql:
         # Exclude api management custom widgets repo and test files from CodeQL analysis
-        excludePathPatterns: [ "sdk/apimanagement/api-management-custom-widgets-tools", "sdk/apimanagement/api-management-custom-widgets-scaffolder", "sdk/**/test/**/*.ts" ]
+        excludePathPatterns: 
+          - sdk/apimanagement/api-management-custom-widgets-tools
+          - sdk/apimanagement/api-management-custom-widgets-scaffolder
+          - sdk/**/test/**/*.ts
         compiled:
           enabled: false
           justificationForDisabling: "CodeQL times our pipelines out by running for hours before being force canceled."
