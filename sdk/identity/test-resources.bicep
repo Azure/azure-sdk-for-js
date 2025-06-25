@@ -68,4 +68,4 @@ output IDENTITY_ACR_NAME string = deployMIResources? managedIdentityModule.outpu
 output IDENTITY_ACR_LOGIN_SERVER string = deployMIResources? managedIdentityModule.outputs.IdentityAcrLoginServer : ''
 output IDENTITY_TENANT_ID string = deployMIResources? managedIdentityModule.outputs.IdentityTenantID : ''
 output IDENTITY_CLIENT_ID string = deployMIResources? managedIdentityModule.outputs.IdentityClientID : ''
-output IDENTITY_FUNCTIONS_CUSTOMHANDLER_PORT int = deployMIResources? managedIdentityModule.outputs.IdentityFunctionsCustomHandlerPort : 8080
+output IDENTITY_FUNCTIONS_CUSTOMHANDLER_PORT string = deployMIResources? managedIdentityModule.outputs.IdentityFunctionsCustomHandlerPort : '80'

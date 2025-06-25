@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 import { isLiveMode } from "@azure-tools/test-recorder";
-import { assert, describe, it } from "vitest";
+import { afterAll, assert, describe, it } from "vitest";
 import { createDefaultHttpClient, createPipelineRequest } from "@azure/core-rest-pipeline";
 import { exec } from "child_process";
 import { promisify } from "util";
@@ -9,6 +9,20 @@ import { promisify } from "util";
 const execAsync = promisify(exec);
 
 describe("Azure Container Instance Integration test", function () {
+
+  afterAll(async function () {
+    const containerName = process.env["IDENTITY_ACI_NAME"];
+    const resourceGroup = process.env["IDENTITY_ACI_RESOURCE_GROUP"];
+    if (containerName && resourceGroup) {
+      try {
+        const { stdout } = await execAsync(`az container logs --resource-group "${resourceGroup}" --name "${containerName}"`);
+        console.log("Container logs:", stdout);
+      } catch (logError) {
+        console.log("Failed to fetch container logs:", logError);
+      }
+    }
+  });
+  
   it("can authenticate using managed identity", async function (ctx) {
     if (!isLiveMode()) {
       ctx.skip();
@@ -19,36 +33,22 @@ describe("Azure Container Instance Integration test", function () {
       return;
     }
     console.log(`Container IP: ${containerIp}`);
+    
+    const client = createDefaultHttpClient();
+    const request = createPipelineRequest({
+      url: `http://${containerIp}`,
+      method: "GET",
+    });
+    request.allowInsecureConnection = true;
+    console.log("Sending request to container", JSON.stringify(request, null, 2));
+    const response = await client.sendRequest(request);
 
-    try {
-      const client = createDefaultHttpClient();
-      const request = createPipelineRequest({
-        url: `http://${containerIp}`,
-        method: "GET",
-      });
-      request.allowInsecureConnection = true;
-      console.log("Sending request to container", JSON.stringify(request, null, 2));
-      const response = await client.sendRequest(request);
-
-      console.log("Receiving", JSON.stringify(response, null, 2));
-      assert.strictEqual(
-        response.status,
-        200,
-        `Expected status code 200, got ${response.status}. Response body: ${response.bodyAsText}`,
-      );
-    } catch (error) {
-      const containerName = process.env["IDENTITY_ACI_NAME"];
-      const resourceGroup = process.env["IDENTITY_ACI_RESOURCE_GROUP"];
-      if (containerName && resourceGroup) {
-        try {
-          const { stdout } = await execAsync(`az container logs --resource-group "${resourceGroup}" --name "${containerName}"`);
-          console.log("Container logs:", stdout);
-        } catch (logError) {
-          console.log("Failed to fetch container logs:", logError);
-        }
-      }
-      throw error;
-    }
+    console.log("Receiving", JSON.stringify(response, null, 2));
+    assert.strictEqual(
+      response.status,
+      200,
+      `Expected status code 200, got ${response.status}. Response body: ${response.bodyAsText}`,
+    );
   });
 
   it("can authenticate using user-assigned managed identity", async function (ctx) {
