@@ -1,6 +1,6 @@
 # Release History
 
-## 1.0.0-beta.5 (unreleased)
+## 1.0.0-beta.5 (2025-06-25)
 
 ### Bugs Fixed
 
