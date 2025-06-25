@@ -1310,7 +1310,7 @@ export class GlobalEndpointManager {
     getReadEndpoint(diagnosticNode: DiagnosticNodeInternal): Promise<string>;
     // (undocumented)
     getReadEndpoints(): Promise<ReadonlyArray<string>>;
-    getReadLocations(): Promise<ReadonlyArray<Location_2>>;
+    getReadLocations(): Promise<ReadonlyArray<Location>>;
     getWriteEndpoint(diagnosticNode: DiagnosticNodeInternal): Promise<string>;
     // (undocumented)
     getWriteEndpoints(): Promise<ReadonlyArray<string>>;
