@@ -1,12 +1,13 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 import { DefaultAzureCredential } from "../../../src/index.js";
-import { createEnvironmentCredential } from "../../../src/credentials/defaultAzureCredential.js";
 import { describe, it, expect, vi, afterEach } from "vitest";
+import * as createFunctionsDac from "../../../src/credentials/defaultAzureCredentialFunctions.js";
 
 describe("DefaultAzureCredential", () => {
   afterEach(() => {
     vi.restoreAllMocks();
+    delete process.env.AZURE_TOKEN_CREDENTIALS;
   });
 
   it("should create a DefaultAzureCredential instance", () => {
@@ -16,21 +17,82 @@ describe("DefaultAzureCredential", () => {
   it("should throw an error if AZURE_TOKEN_CREDENTIALS is set to an unsupported value", () => {
     process.env.AZURE_TOKEN_CREDENTIALS = "randomValue";
     expect(() => new DefaultAzureCredential()).toThrowError(
-      "Invalid value for AZURE_TOKEN_CREDENTIALS = randomValue. Valid values are 'prod' or 'dev'."
+      `Invalid value for AZURE_TOKEN_CREDENTIALS = randomValue. Valid values are 'prod' or 'dev' or any of these credentials - "EnvironmentCredential" or "ManagedIdentityCredential or "WorkloadIdentityCredential" or "AzureCliCredential" or "AzureDeveloperCliCredential" or "AzurePowershellCredential".`
     );
   });
-  it.only("should not throw an error if AZURE_TOKEN_CREDENTIALS is set to a supported value", () => {
+  it("should not throw an error if AZURE_TOKEN_CREDENTIALS is set to a supported value", () => {
     process.env.AZURE_TOKEN_CREDENTIALS = "prod";
     expect(() => new DefaultAzureCredential()).not.toThrowError();
     process.env.AZURE_TOKEN_CREDENTIALS = "dev";
     expect(() => new DefaultAzureCredential()).not.toThrowError();
-    process.env.AZURE_TOKEN_CREDENTIALS = "EnvironmentCredential";
-    // const credential = new DefaultAzureCredential();
-    // expect(credential).toBeInstanceOf(EnvironmentCredential);
-
-    const spy = vi.spyOn(DefaultAzureCredential.prototype as any, createEnvironmentCredential.name);
-    new DefaultAzureCredential();
-    expect(spy).toHaveBeenCalled();
-    spy.mockRestore();
   });
 });
+
+describe("create functions", () => {
+  afterEach(() => {
+    vi.restoreAllMocks;
+    delete process.env.AZURE_TOKEN_CREDENTIALS;
+  });
+
+  it("calls only createEnvironmentCredential when AZURE_TOKEN_CREDENTIALS is 'EnvironmentCredential'", () => {
+    process.env.AZURE_TOKEN_CREDENTIALS = "EnvironmentCredential";
+    const { envSpy, miSpy, wiSpy, cliSpy, devCliSpy, psSpy } = createFunctionSpies();
+
+    new DefaultAzureCredential();
+
+    expect(envSpy).toHaveBeenCalled();
+    expect(miSpy).not.toHaveBeenCalled();
+    expect(wiSpy).not.toHaveBeenCalled();
+    expect(cliSpy).not.toHaveBeenCalled();
+    expect(devCliSpy).not.toHaveBeenCalled();
+    expect(psSpy).not.toHaveBeenCalled();
+  });
+
+  it("calls only createDefaultManagedIdentityCredential when AZURE_TOKEN_CREDENTIALS is 'ManagedIdentityCredential'", () => {
+    process.env.AZURE_TOKEN_CREDENTIALS = "ManagedIdentityCredential";
+    const { envSpy, miSpy, wiSpy, cliSpy, devCliSpy, psSpy } = createFunctionSpies();
+    new DefaultAzureCredential();
+
+    expect(miSpy).toHaveBeenCalled();
+    expect(envSpy).not.toHaveBeenCalled();
+    expect(wiSpy).not.toHaveBeenCalled();
+    expect(cliSpy).not.toHaveBeenCalled();
+    expect(devCliSpy).not.toHaveBeenCalled();
+    expect(psSpy).not.toHaveBeenCalled();
+  });
+
+  it("calls only createDefaultWorkloadIdentityCredential when AZURE_TOKEN_CREDENTIALS is 'WorkloadIdentityCredential'", () => {
+    process.env.AZURE_TOKEN_CREDENTIALS = "WorkloadIdentityCredential";
+    const { envSpy, miSpy, wiSpy, cliSpy, devCliSpy, psSpy } = createFunctionSpies();
+    new DefaultAzureCredential();
+
+    expect(wiSpy).toHaveBeenCalled();
+    expect(envSpy).not.toHaveBeenCalled();
+    expect(miSpy).not.toHaveBeenCalled();
+    expect(cliSpy).not.toHaveBeenCalled();
+    expect(devCliSpy).not.toHaveBeenCalled();
+    expect(psSpy).not.toHaveBeenCalled();
+  });
+  it("calls all prod and dev create functions when AZURE_TOKEN_CREDENTIALS is not set", () => {
+    const { envSpy, miSpy, wiSpy, cliSpy, devCliSpy, psSpy } = createFunctionSpies();
+    new DefaultAzureCredential();
+
+    expect(envSpy).toHaveBeenCalled();
+    expect(miSpy).toHaveBeenCalled();
+    expect(wiSpy).toHaveBeenCalled();
+    expect(cliSpy).toHaveBeenCalled();
+    expect(devCliSpy).toHaveBeenCalled();
+    expect(psSpy).toHaveBeenCalled();
+  });
+});
+
+function createFunctionSpies() {
+  const envSpy = vi.spyOn(createFunctionsDac, "createEnvironmentCredential");
+  const miSpy = vi.spyOn(createFunctionsDac, "createDefaultManagedIdentityCredential");
+  const wiSpy = vi.spyOn(createFunctionsDac, "createDefaultWorkloadIdentityCredential");
+  const cliSpy = vi.spyOn(createFunctionsDac, "createDefaultAzureCliCredential");
+  const devCliSpy = vi.spyOn(createFunctionsDac, "createDefaultAzureDeveloperCliCredential");
+  const psSpy = vi.spyOn(createFunctionsDac, "createDefaultAzurePowershellCredential");
+  // Return all spies for further assertions if needed
+  return { envSpy, miSpy, wiSpy, cliSpy, devCliSpy, psSpy };
+}
