@@ -41,7 +41,11 @@ import {
 import { assertNotUndefined, isPrimitivePartitionKeyValue } from "../../utils/typeChecks.js";
 import { hashPartitionKey } from "../../utils/hashing/hash.js";
 import { PartitionKeyRangeCache, QueryRange } from "../../routing/index.js";
-import type { PartitionKey, PartitionKeyDefinition } from "../../documents/index.js";
+import type {
+  PartitionKey,
+  PartitionKeyDefinition,
+  PartitionKeyInternal,
+} from "../../documents/index.js";
 import { convertToInternalPartitionKey } from "../../documents/index.js";
 import type {
   ChangeFeedPullModelIterator,
@@ -151,11 +155,14 @@ export class Items {
       innerOptions: FeedOptions,
       correlatedActivityId: string,
     ) => {
-      const pk = convertToInternalPartitionKey(options.partitionKey);
+      let internalPartitionKey: PartitionKeyInternal | undefined;
+      if (options.partitionKey) {
+        internalPartitionKey = convertToInternalPartitionKey(options.partitionKey);
+      }
       const isPartitionLevelFailOverEnabled = this.clientContext.isPartitionLevelFailOverEnabled();
       const partitionKeyRangeId = await computePartitionKeyRangeId(
         diagnosticNode,
-        pk,
+        internalPartitionKey,
         this.partitionKeyRangeCache,
         isPartitionLevelFailOverEnabled,
         this.container,
