@@ -2,9 +2,10 @@
 // Licensed under the MIT License.
 
 import { RandomIdGenerator, SamplingDecision } from "@opentelemetry/sdk-trace-base";
-import { ApplicationInsightsSampler } from "../../src/sampling.js";
+import { ApplicationInsightsSampler } from "../../src/sampling/percentageSampler.js";
 import { context, SpanKind } from "@opentelemetry/api";
 import { describe, it, assert } from "vitest";
+import { getSamplingHashCode } from "../../src/sampling/samplingUtils.js";
 
 describe("Library/ApplicationInsightsSampler", () => {
   const idGenerator = new RandomIdGenerator();
@@ -151,9 +152,8 @@ describe("Library/ApplicationInsightsSampler", () => {
       ];
 
       const csharpMax = 2147483647;
-      const sampler = new ApplicationInsightsSampler();
       for (let i = 0; i < testArray.length; ++i) {
-        const res = sampler["_getSamplingHashCode"](<string>testArray[i][0]);
+        const res = getSamplingHashCode(<string>testArray[i][0]);
         assert.equal(res, (<number>testArray[i][1] / csharpMax) * 100);
       }
     });
