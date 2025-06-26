@@ -65,364 +65,364 @@ export function apiCenterApiDefinitionUpdatedEventDataDeserializer(
 /** Schema of the Data property of an EventGridEvent for a Microsoft.ApiManagement.UserCreated event. */
 export interface ApiManagementUserCreatedEventData {
   /** The fully qualified ID of the resource that the compliance state change is for, including the resource name and resource type. Uses the format, `/subscriptions/<SubscriptionID>/resourceGroups/<ResourceGroup>/Microsoft.ApiManagement/service/<ServiceName>/<ResourceType>/<ResourceName>` */
-  resourceUri?: string;
+  resourceUrl?: string;
 }
 
 export function apiManagementUserCreatedEventDataDeserializer(
   item: any,
 ): ApiManagementUserCreatedEventData {
   return {
-    resourceUri: item["resourceUri"],
+    resourceUrl: item["resourceUri"],
   };
 }
 
 /** Schema of the Data property of an EventGridEvent for a Microsoft.ApiManagement.UserUpdated event. */
 export interface ApiManagementUserUpdatedEventData {
   /** The fully qualified ID of the resource that the compliance state change is for, including the resource name and resource type. Uses the format, `/subscriptions/<SubscriptionID>/resourceGroups/<ResourceGroup>/Microsoft.ApiManagement/service/<ServiceName>/<ResourceType>/<ResourceName>` */
-  resourceUri?: string;
+  resourceUrl?: string;
 }
 
 export function apiManagementUserUpdatedEventDataDeserializer(
   item: any,
 ): ApiManagementUserUpdatedEventData {
   return {
-    resourceUri: item["resourceUri"],
+    resourceUrl: item["resourceUri"],
   };
 }
 
 /** Schema of the Data property of an EventGridEvent for a Microsoft.ApiManagement.UserDeleted event. */
 export interface ApiManagementUserDeletedEventData {
   /** The fully qualified ID of the resource that the compliance state change is for, including the resource name and resource type. Uses the format, `/subscriptions/<SubscriptionID>/resourceGroups/<ResourceGroup>/Microsoft.ApiManagement/service/<ServiceName>/<ResourceType>/<ResourceName>` */
-  resourceUri?: string;
+  resourceUrl?: string;
 }
 
 export function apiManagementUserDeletedEventDataDeserializer(
   item: any,
 ): ApiManagementUserDeletedEventData {
   return {
-    resourceUri: item["resourceUri"],
+    resourceUrl: item["resourceUri"],
   };
 }
 
 /** Schema of the Data property of an EventGridEvent for a Microsoft.ApiManagement.SubscriptionCreated event. */
 export interface ApiManagementSubscriptionCreatedEventData {
   /** The fully qualified ID of the resource that the compliance state change is for, including the resource name and resource type. Uses the format, `/subscriptions/<SubscriptionID>/resourceGroups/<ResourceGroup>/Microsoft.ApiManagement/service/<ServiceName>/<ResourceType>/<ResourceName>` */
-  resourceUri?: string;
+  resourceUrl?: string;
 }
 
 export function apiManagementSubscriptionCreatedEventDataDeserializer(
   item: any,
 ): ApiManagementSubscriptionCreatedEventData {
   return {
-    resourceUri: item["resourceUri"],
+    resourceUrl: item["resourceUri"],
   };
 }
 
 /** Schema of the Data property of an EventGridEvent for a Microsoft.ApiManagement.SubscriptionUpdated event. */
 export interface ApiManagementSubscriptionUpdatedEventData {
   /** The fully qualified ID of the resource that the compliance state change is for, including the resource name and resource type. Uses the format, `/subscriptions/<SubscriptionID>/resourceGroups/<ResourceGroup>/Microsoft.ApiManagement/service/<ServiceName>/<ResourceType>/<ResourceName>` */
-  resourceUri?: string;
+  resourceUrl?: string;
 }
 
 export function apiManagementSubscriptionUpdatedEventDataDeserializer(
   item: any,
 ): ApiManagementSubscriptionUpdatedEventData {
   return {
-    resourceUri: item["resourceUri"],
+    resourceUrl: item["resourceUri"],
   };
 }
 
 /** Schema of the Data property of an EventGridEvent for a Microsoft.ApiManagement.SubscriptionDeleted event. */
 export interface ApiManagementSubscriptionDeletedEventData {
   /** The fully qualified ID of the resource that the compliance state change is for, including the resource name and resource type. Uses the format, `/subscriptions/<SubscriptionID>/resourceGroups/<ResourceGroup>/Microsoft.ApiManagement/service/<ServiceName>/<ResourceType>/<ResourceName>` */
-  resourceUri?: string;
+  resourceUrl?: string;
 }
 
 export function apiManagementSubscriptionDeletedEventDataDeserializer(
   item: any,
 ): ApiManagementSubscriptionDeletedEventData {
   return {
-    resourceUri: item["resourceUri"],
+    resourceUrl: item["resourceUri"],
   };
 }
 
 /** Schema of the Data property of an EventGridEvent for a Microsoft.ApiManagement.ProductCreated event. */
 export interface ApiManagementProductCreatedEventData {
   /** The fully qualified ID of the resource that the compliance state change is for, including the resource name and resource type. Uses the format, `/subscriptions/<SubscriptionID>/resourceGroups/<ResourceGroup>/Microsoft.ApiManagement/service/<ServiceName>/<ResourceType>/<ResourceName>` */
-  resourceUri?: string;
+  resourceUrl?: string;
 }
 
 export function apiManagementProductCreatedEventDataDeserializer(
   item: any,
 ): ApiManagementProductCreatedEventData {
   return {
-    resourceUri: item["resourceUri"],
+    resourceUrl: item["resourceUri"],
   };
 }
 
 /** Schema of the Data property of an EventGridEvent for a Microsoft.ApiManagement.ProductUpdated event. */
 export interface ApiManagementProductUpdatedEventData {
   /** The fully qualified ID of the resource that the compliance state change is for, including the resource name and resource type. Uses the format, `/subscriptions/<SubscriptionID>/resourceGroups/<ResourceGroup>/Microsoft.ApiManagement/service/<ServiceName>/<ResourceType>/<ResourceName>` */
-  resourceUri?: string;
+  resourceUrl?: string;
 }
 
 export function apiManagementProductUpdatedEventDataDeserializer(
   item: any,
 ): ApiManagementProductUpdatedEventData {
   return {
-    resourceUri: item["resourceUri"],
+    resourceUrl: item["resourceUri"],
   };
 }
 
 /** Schema of the Data property of an EventGridEvent for a Microsoft.ApiManagement.ProductDeleted event. */
 export interface ApiManagementProductDeletedEventData {
   /** The fully qualified ID of the resource that the compliance state change is for, including the resource name and resource type. Uses the format, `/subscriptions/<SubscriptionID>/resourceGroups/<ResourceGroup>/Microsoft.ApiManagement/service/<ServiceName>/<ResourceType>/<ResourceName>` */
-  resourceUri?: string;
+  resourceUrl?: string;
 }
 
 export function apiManagementProductDeletedEventDataDeserializer(
   item: any,
 ): ApiManagementProductDeletedEventData {
   return {
-    resourceUri: item["resourceUri"],
+    resourceUrl: item["resourceUri"],
   };
 }
 
 /** Schema of the Data property of an EventGridEvent for a Microsoft.ApiManagement.APICreated event. */
 export interface ApiManagementApiCreatedEventData {
   /** The fully qualified ID of the resource that the compliance state change is for, including the resource name and resource type. Uses the format, `/subscriptions/<SubscriptionID>/resourceGroups/<ResourceGroup>/Microsoft.ApiManagement/service/<ServiceName>/<ResourceType>/<ResourceName>` */
-  resourceUri?: string;
+  resourceUrl?: string;
 }
 
 export function apiManagementApiCreatedEventDataDeserializer(
   item: any,
 ): ApiManagementApiCreatedEventData {
   return {
-    resourceUri: item["resourceUri"],
+    resourceUrl: item["resourceUri"],
   };
 }
 
 /** Schema of the Data property of an EventGridEvent for a Microsoft.ApiManagement.APIUpdated event. */
 export interface ApiManagementApiUpdatedEventData {
   /** The fully qualified ID of the resource that the compliance state change is for, including the resource name and resource type. Uses the format, `/subscriptions/<SubscriptionID>/resourceGroups/<ResourceGroup>/Microsoft.ApiManagement/service/<ServiceName>/<ResourceType>/<ResourceName>` */
-  resourceUri?: string;
+  resourceUrl?: string;
 }
 
 export function apiManagementApiUpdatedEventDataDeserializer(
   item: any,
 ): ApiManagementApiUpdatedEventData {
   return {
-    resourceUri: item["resourceUri"],
+    resourceUrl: item["resourceUri"],
   };
 }
 
 /** Schema of the Data property of an EventGridEvent for a Microsoft.ApiManagement.APIDeleted event. */
 export interface ApiManagementApiDeletedEventData {
   /** The fully qualified ID of the resource that the compliance state change is for, including the resource name and resource type. Uses the format, `/subscriptions/<SubscriptionID>/resourceGroups/<ResourceGroup>/Microsoft.ApiManagement/service/<ServiceName>/<ResourceType>/<ResourceName>` */
-  resourceUri?: string;
+  resourceUrl?: string;
 }
 
 export function apiManagementApiDeletedEventDataDeserializer(
   item: any,
 ): ApiManagementApiDeletedEventData {
   return {
-    resourceUri: item["resourceUri"],
+    resourceUrl: item["resourceUri"],
   };
 }
 
 /** Schema of the Data property of an EventGridEvent for a Microsoft.ApiManagement.APIReleaseCreated event. */
 export interface ApiManagementApiReleaseCreatedEventData {
   /** The fully qualified ID of the resource that the compliance state change is for, including the resource name and resource type. Uses the format, `/subscriptions/<SubscriptionID>/resourceGroups/<ResourceGroup>/Microsoft.ApiManagement/service/<ServiceName>/<ResourceType>/<ResourceName>` */
-  resourceUri?: string;
+  resourceUrl?: string;
 }
 
 export function apiManagementApiReleaseCreatedEventDataDeserializer(
   item: any,
 ): ApiManagementApiReleaseCreatedEventData {
   return {
-    resourceUri: item["resourceUri"],
+    resourceUrl: item["resourceUri"],
   };
 }
 
 /** Schema of the Data property of an EventGridEvent for a Microsoft.ApiManagement.APIReleaseUpdated event. */
 export interface ApiManagementApiReleaseUpdatedEventData {
   /** The fully qualified ID of the resource that the compliance state change is for, including the resource name and resource type. Uses the format, `/subscriptions/<SubscriptionID>/resourceGroups/<ResourceGroup>/Microsoft.ApiManagement/service/<ServiceName>/<ResourceType>/<ResourceName>` */
-  resourceUri?: string;
+  resourceUrl?: string;
 }
 
 export function apiManagementApiReleaseUpdatedEventDataDeserializer(
   item: any,
 ): ApiManagementApiReleaseUpdatedEventData {
   return {
-    resourceUri: item["resourceUri"],
+    resourceUrl: item["resourceUri"],
   };
 }
 
 /** Schema of the Data property of an EventGridEvent for a Microsoft.ApiManagement.APIReleaseDeleted event. */
 export interface ApiManagementApiReleaseDeletedEventData {
   /** The fully qualified ID of the resource that the compliance state change is for, including the resource name and resource type. Uses the format, `/subscriptions/<SubscriptionID>/resourceGroups/<ResourceGroup>/Microsoft.ApiManagement/service/<ServiceName>/<ResourceType>/<ResourceName>` */
-  resourceUri?: string;
+  resourceUrl?: string;
 }
 
 export function apiManagementApiReleaseDeletedEventDataDeserializer(
   item: any,
 ): ApiManagementApiReleaseDeletedEventData {
   return {
-    resourceUri: item["resourceUri"],
+    resourceUrl: item["resourceUri"],
   };
 }
 
 /** Schema of the Data property of an EventGridEvent for a Microsoft.ApiManagement.GatewayCreated event. */
 export interface ApiManagementGatewayCreatedEventData {
   /** The fully qualified ID of the resource that the compliance state change is for, including the resource name and resource type. Uses the format, `/subscriptions/<SubscriptionID>/resourceGroups/<ResourceGroup>/Microsoft.ApiManagement/service/<ServiceName>/gateways/<ResourceName>` */
-  resourceUri?: string;
+  resourceUrl?: string;
 }
 
 export function apiManagementGatewayCreatedEventDataDeserializer(
   item: any,
 ): ApiManagementGatewayCreatedEventData {
   return {
-    resourceUri: item["resourceUri"],
+    resourceUrl: item["resourceUri"],
   };
 }
 
 /** Schema of the Data property of an EventGridEvent for a Microsoft.ApiManagement.GatewayUpdated event. */
 export interface ApiManagementGatewayUpdatedEventData {
   /** The fully qualified ID of the resource that the compliance state change is for, including the resource name and resource type. Uses the format, `/subscriptions/<SubscriptionID>/resourceGroups/<ResourceGroup>/Microsoft.ApiManagement/service/<ServiceName>/gateways/<ResourceName>` */
-  resourceUri?: string;
+  resourceUrl?: string;
 }
 
 export function apiManagementGatewayUpdatedEventDataDeserializer(
   item: any,
 ): ApiManagementGatewayUpdatedEventData {
   return {
-    resourceUri: item["resourceUri"],
+    resourceUrl: item["resourceUri"],
   };
 }
 
 /** Schema of the Data property of an EventGridEvent for a Microsoft.ApiManagement.GatewayDeleted event. */
 export interface ApiManagementGatewayDeletedEventData {
   /** The fully qualified ID of the resource that the compliance state change is for, including the resource name and resource type. Uses the format, `/subscriptions/<SubscriptionID>/resourceGroups/<ResourceGroup>/Microsoft.ApiManagement/service/<ServiceName>/gateways/<ResourceName>` */
-  resourceUri?: string;
+  resourceUrl?: string;
 }
 
 export function apiManagementGatewayDeletedEventDataDeserializer(
   item: any,
 ): ApiManagementGatewayDeletedEventData {
   return {
-    resourceUri: item["resourceUri"],
+    resourceUrl: item["resourceUri"],
   };
 }
 
 /** Schema of the Data property of an EventGridEvent for a Microsoft.ApiManagement.GatewayHostnameConfigurationCreated event. */
 export interface ApiManagementGatewayHostnameConfigurationCreatedEventData {
   /** The fully qualified ID of the resource that the compliance state change is for, including the resource name and resource type. Uses the format, `/subscriptions/<SubscriptionID>/resourceGroups/<ResourceGroup>/Microsoft.ApiManagement/service/<ServiceName>/gateways/<GatewayName>/hostnameConfigurations/<ResourceName>` */
-  resourceUri?: string;
+  resourceUrl?: string;
 }
 
 export function apiManagementGatewayHostnameConfigurationCreatedEventDataDeserializer(
   item: any,
 ): ApiManagementGatewayHostnameConfigurationCreatedEventData {
   return {
-    resourceUri: item["resourceUri"],
+    resourceUrl: item["resourceUri"],
   };
 }
 
 /** Schema of the Data property of an EventGridEvent for a Microsoft.ApiManagement.GatewayHostnameConfigurationUpdated event. */
 export interface ApiManagementGatewayHostnameConfigurationUpdatedEventData {
   /** The fully qualified ID of the resource that the compliance state change is for, including the resource name and resource type. Uses the format, `/subscriptions/<SubscriptionID>/resourceGroups/<ResourceGroup>/Microsoft.ApiManagement/service/<ServiceName>/gateways/<GatewayName>/hostnameConfigurations/<ResourceName>` */
-  resourceUri?: string;
+  resourceUrl?: string;
 }
 
 export function apiManagementGatewayHostnameConfigurationUpdatedEventDataDeserializer(
   item: any,
 ): ApiManagementGatewayHostnameConfigurationUpdatedEventData {
   return {
-    resourceUri: item["resourceUri"],
+    resourceUrl: item["resourceUri"],
   };
 }
 
 /** Schema of the Data property of an EventGridEvent for a Microsoft.ApiManagement.GatewayHostnameConfigurationDeleted event. */
 export interface ApiManagementGatewayHostnameConfigurationDeletedEventData {
   /** The fully qualified ID of the resource that the compliance state change is for, including the resource name and resource type. Uses the format, `/subscriptions/<SubscriptionID>/resourceGroups/<ResourceGroup>/Microsoft.ApiManagement/service/<ServiceName>/gateways/<GatewayName>/hostnameConfigurations/<ResourceName>` */
-  resourceUri?: string;
+  resourceUrl?: string;
 }
 
 export function apiManagementGatewayHostnameConfigurationDeletedEventDataDeserializer(
   item: any,
 ): ApiManagementGatewayHostnameConfigurationDeletedEventData {
   return {
-    resourceUri: item["resourceUri"],
+    resourceUrl: item["resourceUri"],
   };
 }
 
 /** Schema of the Data property of an EventGridEvent for a Microsoft.ApiManagement.GatewayCertificateAuthorityCreated event. */
 export interface ApiManagementGatewayCertificateAuthorityCreatedEventData {
   /** The fully qualified ID of the resource that the compliance state change is for, including the resource name and resource type. Uses the format, `/subscriptions/<SubscriptionID>/resourceGroups/<ResourceGroup>/Microsoft.ApiManagement/service/<ServiceName>/gateways/<GatewayName>/certificateAuthorities/<ResourceName>` */
-  resourceUri?: string;
+  resourceUrl?: string;
 }
 
 export function apiManagementGatewayCertificateAuthorityCreatedEventDataDeserializer(
   item: any,
 ): ApiManagementGatewayCertificateAuthorityCreatedEventData {
   return {
-    resourceUri: item["resourceUri"],
+    resourceUrl: item["resourceUri"],
   };
 }
 
 /** Schema of the Data property of an EventGridEvent for a Microsoft.ApiManagement.GatewayCertificateAuthorityUpdated event. */
 export interface ApiManagementGatewayCertificateAuthorityUpdatedEventData {
   /** The fully qualified ID of the resource that the compliance state change is for, including the resource name and resource type. Uses the format, `/subscriptions/<SubscriptionID>/resourceGroups/<ResourceGroup>/Microsoft.ApiManagement/service/<ServiceName>/gateways/<GatewayName>/certificateAuthorities/<ResourceName>` */
-  resourceUri?: string;
+  resourceUrl?: string;
 }
 
 export function apiManagementGatewayCertificateAuthorityUpdatedEventDataDeserializer(
   item: any,
 ): ApiManagementGatewayCertificateAuthorityUpdatedEventData {
   return {
-    resourceUri: item["resourceUri"],
+    resourceUrl: item["resourceUri"],
   };
 }
 
 /** Schema of the Data property of an EventGridEvent for a Microsoft.ApiManagement.GatewayCertificateAuthorityDeleted event. */
 export interface ApiManagementGatewayCertificateAuthorityDeletedEventData {
   /** The fully qualified ID of the resource that the compliance state change is for, including the resource name and resource type. Uses the format, `/subscriptions/<SubscriptionID>/resourceGroups/<ResourceGroup>/Microsoft.ApiManagement/service/<ServiceName>/gateways/<GatewayName>/certificateAuthorities/<ResourceName>` */
-  resourceUri?: string;
+  resourceUrl?: string;
 }
 
 export function apiManagementGatewayCertificateAuthorityDeletedEventDataDeserializer(
   item: any,
 ): ApiManagementGatewayCertificateAuthorityDeletedEventData {
   return {
-    resourceUri: item["resourceUri"],
+    resourceUrl: item["resourceUri"],
   };
 }
 
 /** Schema of the Data property of an EventGridEvent for a Microsoft.ApiManagement.GatewayAPIAdded event. */
 export interface ApiManagementGatewayApiAddedEventData {
   /** The fully qualified ID of the resource that the compliance state change is for, including the resource name and resource type. Uses the format, `/subscriptions/<SubscriptionID>/resourceGroups/<ResourceGroup>/Microsoft.ApiManagement/service/<ServiceName>/gateways/<GatewayName>/apis/<ResourceName>` */
-  resourceUri?: string;
+  resourceUrl?: string;
 }
 
 export function apiManagementGatewayApiAddedEventDataDeserializer(
   item: any,
 ): ApiManagementGatewayApiAddedEventData {
   return {
-    resourceUri: item["resourceUri"],
+    resourceUrl: item["resourceUri"],
   };
 }
 
 /** Schema of the Data property of an EventGridEvent for a Microsoft.ApiManagement.GatewayAPIRemoved event. */
 export interface ApiManagementGatewayApiRemovedEventData {
   /** The fully qualified ID of the resource that the compliance state change is for, including the resource name and resource type. Uses the format, `/subscriptions/<SubscriptionID>/resourceGroups/<ResourceGroup>/Microsoft.ApiManagement/service/<ServiceName>/gateways/<GatewayName>/apis/<ResourceName>` */
-  resourceUri?: string;
+  resourceUrl?: string;
 }
 
 export function apiManagementGatewayApiRemovedEventDataDeserializer(
   item: any,
 ): ApiManagementGatewayApiRemovedEventData {
   return {
-    resourceUri: item["resourceUri"],
+    resourceUrl: item["resourceUri"],
   };
 }
 
@@ -3965,7 +3965,7 @@ export interface ContainerRegistryEventSource {
   /** The IP or hostname and the port of the registry node that generated the event. Generally, this will be resolved by os.Hostname() along with the running port. */
   addr?: string;
   /** The running instance of an application. Changes after each restart. */
-  instanceID?: string;
+  instanceId?: string;
 }
 
 export function containerRegistryEventSourceDeserializer(
@@ -3973,7 +3973,7 @@ export function containerRegistryEventSourceDeserializer(
 ): ContainerRegistryEventSource {
   return {
     addr: item["addr"],
-    instanceID: item["instanceID"],
+    instanceId: item["instanceID"],
   };
 }
 

@@ -713,32 +713,32 @@ export interface ApiCenterApiSpecification {
 
 // @public
 export interface ApiManagementApiCreatedEventData {
-    resourceUri?: string;
+    resourceUrl?: string;
 }
 
 // @public
 export interface ApiManagementApiDeletedEventData {
-    resourceUri?: string;
+    resourceUrl?: string;
 }
 
 // @public
 export interface ApiManagementApiReleaseCreatedEventData {
-    resourceUri?: string;
+    resourceUrl?: string;
 }
 
 // @public
 export interface ApiManagementApiReleaseDeletedEventData {
-    resourceUri?: string;
+    resourceUrl?: string;
 }
 
 // @public
 export interface ApiManagementApiReleaseUpdatedEventData {
-    resourceUri?: string;
+    resourceUrl?: string;
 }
 
 // @public
 export interface ApiManagementApiUpdatedEventData {
-    resourceUri?: string;
+    resourceUrl?: string;
 }
 
 // @public
@@ -771,52 +771,52 @@ export interface ApiManagementGateway {
 
 // @public
 export interface ApiManagementGatewayApiAddedEventData {
-    resourceUri?: string;
+    resourceUrl?: string;
 }
 
 // @public
 export interface ApiManagementGatewayApiRemovedEventData {
-    resourceUri?: string;
+    resourceUrl?: string;
 }
 
 // @public
 export interface ApiManagementGatewayCertificateAuthorityCreatedEventData {
-    resourceUri?: string;
+    resourceUrl?: string;
 }
 
 // @public
 export interface ApiManagementGatewayCertificateAuthorityDeletedEventData {
-    resourceUri?: string;
+    resourceUrl?: string;
 }
 
 // @public
 export interface ApiManagementGatewayCertificateAuthorityUpdatedEventData {
-    resourceUri?: string;
+    resourceUrl?: string;
 }
 
 // @public
 export interface ApiManagementGatewayCreatedEventData {
-    resourceUri?: string;
+    resourceUrl?: string;
 }
 
 // @public
 export interface ApiManagementGatewayDeletedEventData {
-    resourceUri?: string;
+    resourceUrl?: string;
 }
 
 // @public
 export interface ApiManagementGatewayHostnameConfigurationCreatedEventData {
-    resourceUri?: string;
+    resourceUrl?: string;
 }
 
 // @public
 export interface ApiManagementGatewayHostnameConfigurationDeletedEventData {
-    resourceUri?: string;
+    resourceUrl?: string;
 }
 
 // @public
 export interface ApiManagementGatewayHostnameConfigurationUpdatedEventData {
-    resourceUri?: string;
+    resourceUrl?: string;
 }
 
 // @public
@@ -833,7 +833,7 @@ export interface ApiManagementGatewayTokenNearExpiryEventData {
 
 // @public
 export interface ApiManagementGatewayUpdatedEventData {
-    resourceUri?: string;
+    resourceUrl?: string;
 }
 
 // @public
@@ -843,47 +843,47 @@ export interface ApiManagementNearExpiryGatewayToken {
 
 // @public
 export interface ApiManagementProductCreatedEventData {
-    resourceUri?: string;
+    resourceUrl?: string;
 }
 
 // @public
 export interface ApiManagementProductDeletedEventData {
-    resourceUri?: string;
+    resourceUrl?: string;
 }
 
 // @public
 export interface ApiManagementProductUpdatedEventData {
-    resourceUri?: string;
+    resourceUrl?: string;
 }
 
 // @public
 export interface ApiManagementSubscriptionCreatedEventData {
-    resourceUri?: string;
+    resourceUrl?: string;
 }
 
 // @public
 export interface ApiManagementSubscriptionDeletedEventData {
-    resourceUri?: string;
+    resourceUrl?: string;
 }
 
 // @public
 export interface ApiManagementSubscriptionUpdatedEventData {
-    resourceUri?: string;
+    resourceUrl?: string;
 }
 
 // @public
 export interface ApiManagementUserCreatedEventData {
-    resourceUri?: string;
+    resourceUrl?: string;
 }
 
 // @public
 export interface ApiManagementUserDeletedEventData {
-    resourceUri?: string;
+    resourceUrl?: string;
 }
 
 // @public
 export interface ApiManagementUserUpdatedEventData {
-    resourceUri?: string;
+    resourceUrl?: string;
 }
 
 // @public
@@ -1109,7 +1109,7 @@ export interface ContainerRegistryEventRequest {
 // @public
 export interface ContainerRegistryEventSource {
     addr?: string;
-    instanceID?: string;
+    instanceId?: string;
 }
 
 // @public
