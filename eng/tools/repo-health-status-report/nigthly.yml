@@ -7,8 +7,8 @@ jobs:
       - template: /eng/pipelines/templates/variables/image.yml
 
     pool:
-      name: $(LINUXPOOL)
-      demands: $(LinuxImageDemand)
+      name: azsdk-pool
+      demands: ImageOverride -equals ubuntu-24.04
 
     steps:
       - template: /eng/pipelines/templates/steps/common.yml
