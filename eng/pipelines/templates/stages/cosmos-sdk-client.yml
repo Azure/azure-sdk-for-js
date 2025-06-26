@@ -60,6 +60,5 @@ extends:
               DependsOn: Build
               ServiceDirectory: ${{parameters.ServiceDirectory}}
               Artifacts: ${{parameters.Artifacts}}
-              ArtifactName: packages
               TargetDocRepoOwner: ${{ parameters.TargetDocRepoOwner }}
               TargetDocRepoName: ${{ parameters.TargetDocRepoName }}

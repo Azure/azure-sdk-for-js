@@ -4,6 +4,12 @@
 
 - First stable release of Azure AI Agents client library
 
+## 1.0.0-beta.5 (2025-06-25)
+
+### Bugs Fixed
+
+- Fixed an issue with event data parsing
+
 ## 1.0.0-beta.4 (2025-06-10)
 
 ### Features Added

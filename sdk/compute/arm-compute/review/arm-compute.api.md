@@ -3277,14 +3277,13 @@ export type HyperVGenerationType = string;
 export type HyperVGenerationTypes = string;
 
 // @public
-interface Image_2 extends Resource {
+export interface Image extends Resource {
     extendedLocation?: ExtendedLocation;
     hyperVGeneration?: HyperVGenerationTypes;
     readonly provisioningState?: string;
     sourceVirtualMachine?: SubResource;
     storageProfile?: ImageStorageProfile;
 }
-export { Image_2 as Image }
 
 // @public
 export interface ImageDataDisk extends ImageDisk {
@@ -3320,7 +3319,7 @@ export interface ImageDiskReference {
 // @public
 export interface ImageListResult {
     nextLink?: string;
-    value: Image_2[];
+    value: Image[];
 }
 
 // @public
@@ -3349,15 +3348,15 @@ export interface ImageReference extends SubResource {
 
 // @public
 export interface Images {
-    beginCreateOrUpdate(resourceGroupName: string, imageName: string, parameters: Image_2, options?: ImagesCreateOrUpdateOptionalParams): Promise<SimplePollerLike<OperationState<ImagesCreateOrUpdateResponse>, ImagesCreateOrUpdateResponse>>;
-    beginCreateOrUpdateAndWait(resourceGroupName: string, imageName: string, parameters: Image_2, options?: ImagesCreateOrUpdateOptionalParams): Promise<ImagesCreateOrUpdateResponse>;
+    beginCreateOrUpdate(resourceGroupName: string, imageName: string, parameters: Image, options?: ImagesCreateOrUpdateOptionalParams): Promise<SimplePollerLike<OperationState<ImagesCreateOrUpdateResponse>, ImagesCreateOrUpdateResponse>>;
+    beginCreateOrUpdateAndWait(resourceGroupName: string, imageName: string, parameters: Image, options?: ImagesCreateOrUpdateOptionalParams): Promise<ImagesCreateOrUpdateResponse>;
     beginDelete(resourceGroupName: string, imageName: string, options?: ImagesDeleteOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
     beginDeleteAndWait(resourceGroupName: string, imageName: string, options?: ImagesDeleteOptionalParams): Promise<void>;
     beginUpdate(resourceGroupName: string, imageName: string, parameters: ImageUpdate, options?: ImagesUpdateOptionalParams): Promise<SimplePollerLike<OperationState<ImagesUpdateResponse>, ImagesUpdateResponse>>;
     beginUpdateAndWait(resourceGroupName: string, imageName: string, parameters: ImageUpdate, options?: ImagesUpdateOptionalParams): Promise<ImagesUpdateResponse>;
     get(resourceGroupName: string, imageName: string, options?: ImagesGetOptionalParams): Promise<ImagesGetResponse>;
-    list(options?: ImagesListOptionalParams): PagedAsyncIterableIterator<Image_2>;
-    listByResourceGroup(resourceGroupName: string, options?: ImagesListByResourceGroupOptionalParams): PagedAsyncIterableIterator<Image_2>;
+    list(options?: ImagesListOptionalParams): PagedAsyncIterableIterator<Image>;
+    listByResourceGroup(resourceGroupName: string, options?: ImagesListByResourceGroupOptionalParams): PagedAsyncIterableIterator<Image>;
 }
 
 // @public
@@ -3367,7 +3366,7 @@ export interface ImagesCreateOrUpdateOptionalParams extends coreClient.Operation
 }
 
 // @public
-export type ImagesCreateOrUpdateResponse = Image_2;
+export type ImagesCreateOrUpdateResponse = Image;
 
 // @public
 export interface ImagesDeleteOptionalParams extends coreClient.OperationOptions {
@@ -3381,7 +3380,7 @@ export interface ImagesGetOptionalParams extends coreClient.OperationOptions {
 }
 
 // @public
-export type ImagesGetResponse = Image_2;
+export type ImagesGetResponse = Image;
 
 // @public
 export interface ImagesListByResourceGroupNextOptionalParams extends coreClient.OperationOptions {
@@ -3428,7 +3427,7 @@ export interface ImagesUpdateOptionalParams extends coreClient.OperationOptions 
 }
 
 // @public
-export type ImagesUpdateResponse = Image_2;
+export type ImagesUpdateResponse = Image;
 
 // @public
 export interface ImageUpdate extends UpdateResource {
