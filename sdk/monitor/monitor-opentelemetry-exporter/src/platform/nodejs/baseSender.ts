@@ -12,6 +12,7 @@ import { LongIntervalStatsbeatMetrics } from "../../export/statsbeat/longInterva
 import type { RestError } from "@azure/core-rest-pipeline";
 import {
   DropCode,
+  RetryCode,
   MAX_STATSBEAT_FAILURES,
   isStatsbeatShutdownStatus,
 } from "../../export/statsbeat/types.js";
@@ -259,6 +260,22 @@ export abstract class BaseSender {
         this.incrementStatsbeatFailure();
         return { code: ExportResultCode.SUCCESS };
       }
+      
+      // Check for client timeout scenarios and track them in customer statsbeat
+      if (this.customerStatsbeatMetrics?.isTimeoutError(restError) && !this.isStatsbeatSender) {
+        this.customerStatsbeatMetrics?.countRetryItems(
+          envelopes,
+          RetryCode.CLIENT_TIMEOUT,
+          "timeout_exception",
+        );
+        diag.error(
+          "Request timed out. Error message:",
+          restError.message,
+        );
+        return this.persist(envelopes);
+      }
+      
+      // For any general retriable errors
       if (this.isRetriableRestError(restError)) {
         if (restError.statusCode && !this.isStatsbeatSender) {
           this.networkStatsbeatMetrics?.countRetry(restError.statusCode);
