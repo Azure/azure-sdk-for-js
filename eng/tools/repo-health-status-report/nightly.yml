@@ -21,12 +21,13 @@ jobs:
       - script: |
           npm run build
         workingDirectory: $(System.DefaultWorkingDirectory)/eng/tools/repo-health-status-report
-        env:
-          SYSTEM_ACCESSTOKEN: $(System.AccessToken)
         displayName: "Build repo-health-status-report tool"
 
       - script: |
           npm run run-tool
+        env:
+          SYSTEM_ACCESSTOKEN: $(System.AccessToken)
+          GITHUB_TOKEN: $(azuresdk-github-pat)
         workingDirectory: $(System.DefaultWorkingDirectory)/eng/tools/repo-health-status-report
         displayName: "Run repo-health-status-report tool"
 
