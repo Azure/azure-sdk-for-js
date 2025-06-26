@@ -4,6 +4,10 @@
 
 - First stable release of Azure AI Agents client library
 
+### Breaking changes
+
+- `AgentsClient` constructor parameter `credential` type  `KeyCredential | TokenCredential` is update to `TokenCredential`
+
 ## 1.0.0-beta.5 (2025-06-25)
 
 ### Bugs Fixed
