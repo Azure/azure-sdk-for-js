@@ -2,13 +2,15 @@
 // Licensed under the MIT License.
 
 import * as fs from "node:fs";
+import * as fsPromises from "node:fs/promises";
 import * as os from "node:os";
 import * as path from "node:path";
 import { FileSystemPersist } from "../../src/platform/nodejs/persist/fileSystemPersist.js";
 import type { TelemetryItem as Envelope } from "../../src/generated/index.js";
 import { promisify } from "node:util";
 import { FileAccessControl } from "../../src/platform/nodejs/persist/fileAccessControl.js";
-import { describe, it, assert, expect, beforeEach } from "vitest";
+import { describe, it, assert, expect, beforeEach, vi, afterEach } from "vitest";
+import { DropCode } from "../../src/export/statsbeat/types.js";
 
 const statAsync = promisify(fs.stat);
 const readdirAsync = promisify(fs.readdir);
@@ -197,6 +199,202 @@ describe("FileSystemPersist", () => {
       assert.strictEqual(cleanup, true);
       const fileValue = await persister.shift();
       assert.deepStrictEqual(fileValue, null, "File is still present"); // File doesn't exist anymore
+    });
+  });
+
+  describe("#CLIENT_READONLY scenarios", () => {
+    let mockCustomerStatsbeat: any;
+    let originalOSFileProtection: boolean;
+
+    beforeEach(() => {
+      mockCustomerStatsbeat = {
+        countDroppedItems: vi.fn(),
+      };
+      
+      // Store original value and enable file protection for tests
+      originalOSFileProtection = FileAccessControl.OS_PROVIDES_FILE_PROTECTION;
+      FileAccessControl.OS_PROVIDES_FILE_PROTECTION = true;
+    });
+
+    afterEach(() => {
+      vi.restoreAllMocks();
+      // Restore original value
+      FileAccessControl.OS_PROVIDES_FILE_PROTECTION = originalOSFileProtection;
+    });
+
+    it("should call countDroppedItems with CLIENT_READONLY when directory creation fails with EACCES", async () => {
+      const envelope: Envelope = {
+        name: "test",
+        time: new Date(),
+      };
+      const envelopes = [envelope];
+
+      // Mock lstat to throw ENOENT (directory doesn't exist) and mkdir to throw permission error
+      const lstatSpy = vi.spyOn(fsPromises, 'lstat').mockRejectedValue(
+        Object.assign(new Error("No such file or directory"), { code: "ENOENT" })
+      );
+      const mkdirSpy = vi.spyOn(fsPromises, 'mkdir').mockRejectedValue(
+        Object.assign(new Error("Permission denied"), { code: "EACCES" })
+      );
+
+      // Create a persister with offline storage enabled
+      const persister = new FileSystemPersist(instrumentationKey, {}, mockCustomerStatsbeat);
+
+      const success = await persister.push(envelopes);
+
+      // Verify that lstat and mkdir were called
+      expect(lstatSpy).toHaveBeenCalled();
+      expect(mkdirSpy).toHaveBeenCalled();
+      
+      expect(success).toBe(false);
+      expect(mockCustomerStatsbeat.countDroppedItems).toHaveBeenCalledWith(
+        envelopes,
+        DropCode.CLIENT_READONLY,
+      );
+
+      lstatSpy.mockRestore();
+      mkdirSpy.mockRestore();
+    });
+
+    it("should call countDroppedItems with CLIENT_READONLY when directory creation fails with EPERM", async () => {
+      const envelope: Envelope = {
+        name: "test",
+        time: new Date(),
+      };
+      const envelopes = [envelope];
+
+      // Create a persister with offline storage enabled
+      const persister = new FileSystemPersist(instrumentationKey, {}, mockCustomerStatsbeat);
+      
+      // Mock lstat to throw ENOENT (directory doesn't exist) and mkdir to throw permission error
+      const lstatSpy = vi.spyOn(fsPromises, 'lstat').mockRejectedValue(
+        Object.assign(new Error("No such file or directory"), { code: "ENOENT" })
+      );
+      const mkdirSpy = vi.spyOn(fsPromises, 'mkdir').mockRejectedValue(
+        Object.assign(new Error("Operation not permitted"), { code: "EPERM" })
+      );
+
+      const success = await persister.push(envelopes);
+
+      expect(success).toBe(false);
+      expect(mockCustomerStatsbeat.countDroppedItems).toHaveBeenCalledWith(
+        envelopes,
+        DropCode.CLIENT_READONLY,
+      );
+
+      lstatSpy.mockRestore();
+      mkdirSpy.mockRestore();
+    });
+
+    it("should call countDroppedItems with CLIENT_READONLY when file write fails with EACCES", async () => {
+      const envelope: Envelope = {
+        name: "test",
+        time: new Date(),
+      };
+      const envelopes = [envelope];
+
+      // Create a persister with offline storage enabled
+      const persister = new FileSystemPersist(instrumentationKey, {}, mockCustomerStatsbeat);
+      
+      // Mock directory operations to succeed but writeFile to fail with permission error
+      const lstatSpy = vi.spyOn(fsPromises, 'lstat').mockResolvedValue({
+        isDirectory: () => true
+      } as fs.Stats);
+      const statSpy = vi.spyOn(fsPromises, 'stat').mockResolvedValue({
+        isDirectory: () => true,
+        size: 1000
+      } as fs.Stats);
+      const readdirSpy = vi.spyOn(fsPromises, 'readdir').mockResolvedValue([]);
+      const writeFileSpy = vi.spyOn(fsPromises, 'writeFile').mockRejectedValue(
+        Object.assign(new Error("Permission denied"), { code: "EACCES" })
+      );
+
+      const success = await persister.push(envelopes);
+
+      expect(success).toBe(false);
+      expect(mockCustomerStatsbeat.countDroppedItems).toHaveBeenCalledWith(
+        envelopes,
+        DropCode.CLIENT_READONLY,
+      );
+
+      lstatSpy.mockRestore();
+      statSpy.mockRestore();
+      readdirSpy.mockRestore();
+      writeFileSpy.mockRestore();
+    });
+
+    it("should call countDroppedItems with CLIENT_READONLY when file write fails with EPERM", async () => {
+      const envelope: Envelope = {
+        name: "test",
+        time: new Date(),
+      };
+      const envelopes = [envelope];
+
+      // Create a persister with offline storage enabled
+      const persister = new FileSystemPersist(instrumentationKey, {}, mockCustomerStatsbeat);
+      
+      // Mock directory operations to succeed but writeFile to fail with permission error
+      const lstatSpy = vi.spyOn(fsPromises, 'lstat').mockResolvedValue({
+        isDirectory: () => true
+      } as fs.Stats);
+      const statSpy = vi.spyOn(fsPromises, 'stat').mockResolvedValue({
+        isDirectory: () => true,
+        size: 1000
+      } as fs.Stats);
+      const readdirSpy = vi.spyOn(fsPromises, 'readdir').mockResolvedValue([]);
+      const writeFileSpy = vi.spyOn(fsPromises, 'writeFile').mockRejectedValue(
+        Object.assign(new Error("Operation not permitted"), { code: "EPERM" })
+      );
+
+      const success = await persister.push(envelopes);
+
+      expect(success).toBe(false);
+      expect(mockCustomerStatsbeat.countDroppedItems).toHaveBeenCalledWith(
+        envelopes,
+        DropCode.CLIENT_READONLY,
+      );
+
+      lstatSpy.mockRestore();
+      statSpy.mockRestore();
+      readdirSpy.mockRestore();
+      writeFileSpy.mockRestore();
+    });
+
+    it("should call countDroppedItems with CLIENT_STORAGE_DISABLED for non-permission file write errors", async () => {
+      const envelope: Envelope = {
+        name: "test",
+        time: new Date(),
+      };
+      const envelopes = [envelope];
+
+      // Create a persister with offline storage enabled
+      const persister = new FileSystemPersist(instrumentationKey, {}, mockCustomerStatsbeat);
+      
+      // Mock directory operations to succeed but writeFile to fail with generic error
+      const lstatSpy = vi.spyOn(fsPromises, 'lstat').mockResolvedValue({
+        isDirectory: () => true
+      } as fs.Stats);
+      const statSpy = vi.spyOn(fsPromises, 'stat').mockResolvedValue({
+        isDirectory: () => true,
+        size: 1000
+      } as fs.Stats);
+      const readdirSpy = vi.spyOn(fsPromises, 'readdir').mockResolvedValue([]);
+      const writeFileSpy = vi.spyOn(fsPromises, 'writeFile').mockRejectedValue(
+        Object.assign(new Error("Disk full"), { code: "ENOSPC" })
+      );
+
+      const success = await persister.push(envelopes);
+
+      expect(success).toBe(false);
+      expect(mockCustomerStatsbeat.countDroppedItems).toHaveBeenCalledWith(
+        envelopes,
+        DropCode.CLIENT_STORAGE_DISABLED,
+      );
+
+      lstatSpy.mockRestore();
+      statSpy.mockRestore();
+      readdirSpy.mockRestore();
+      writeFileSpy.mockRestore();
     });
   });
 });
