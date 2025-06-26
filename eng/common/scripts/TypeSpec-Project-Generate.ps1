@@ -81,14 +81,14 @@ $tempFolder = "$ProjectDirectory/TempTypeSpecFiles"
 Write-Host "TempTypeSpecFiles folder location: $tempFolder"
 if (Test-Path $tempFolder) {
     Write-Host "Contents of $tempFolder:"
-    Get-ChildItem -Path $tempFolder -Recurse | ForEach-Object {
-        $relativePath = $_.FullName.Substring($tempFolder.Length + 1)
-        if ($_.PSIsContainer) {
-            Write-Host "  [DIR]  $relativePath"
-        } else {
-            Write-Host "  [FILE] $relativePath"
-        }
-    }
+    # Get-ChildItem -Path $tempFolder -Recurse | ForEach-Object {
+    #     $relativePath = $_.FullName.Substring($tempFolder.Length + 1)
+    #     if ($_.PSIsContainer) {
+    #         Write-Host "  [DIR]  $relativePath"
+    #     } else {
+    #         Write-Host "  [FILE] $relativePath"
+    #     }
+    # }
 } else {
     Write-Host "TempTypeSpecFiles folder does not exist: $tempFolder"
 }
