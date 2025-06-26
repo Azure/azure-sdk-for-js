@@ -20,7 +20,13 @@ export async function getAllDevopsBuilds(authToken: string) {
     throw new Error(`Error fetching pipelines: ${response.statusText}`);
   }
 
-  return await response.json();
+  const responseText = await response.text();
+  try {
+    return JSON.parse(responseText);
+  } catch {
+    console.error(responseText);
+    throw new Error(`failed to parse response as json`);
+  }
 }
 
 export function getBuild(pipelineId: number, authToken: string) {
