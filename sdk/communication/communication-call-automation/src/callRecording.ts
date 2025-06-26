@@ -5,7 +5,7 @@ import type {
   CallAutomationApiClientOptionalParams,
   StartCallRecordingRequest,
 } from "./generated/src/models/index.js";
-import type { RecordingResult, RecordingStateResult } from "./models/responses.js";
+import type { RecordingStateResult, RecordingResult } from "./models/responses.js";
 import type {
   StartRecordingOptions,
   StopRecordingOptions,

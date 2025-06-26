@@ -211,16 +211,13 @@ export interface CallIntelligenceOptions {
 export interface CallInvite {
     customCallingContext?: CustomCallingContext;
     readonly sourceCallIdNumber?: PhoneNumberIdentifier;
-    // (undocumented)
     sourceDisplayName?: string;
     readonly targetParticipant: PhoneNumberIdentifier | CommunicationUserIdentifier | MicrosoftTeamsUserIdentifier | MicrosoftTeamsAppIdentifier;
 }
 
 // @public
 export interface CallLocator {
-    // (undocumented)
     id: string;
-    // (undocumented)
     kind: CallLocatorType;
 }
 
@@ -252,7 +249,6 @@ export class CallMedia {
 // @public
 export interface CallMediaRecognizeChoiceOptions extends CallMediaRecognizeOptions {
     choices: RecognitionChoice[];
-    // (undocumented)
     readonly kind: "callMediaRecognizeChoiceOptions";
     speechLanguage?: string;
     speechRecognitionModelEndpointId?: string;
@@ -261,7 +257,6 @@ export interface CallMediaRecognizeChoiceOptions extends CallMediaRecognizeOptio
 // @public
 export interface CallMediaRecognizeDtmfOptions extends CallMediaRecognizeOptions {
     interToneTimeoutInSeconds?: number;
-    // (undocumented)
     readonly kind: "callMediaRecognizeDtmfOptions";
     maxTonesToCollect?: number;
     stopDtmfTones?: DtmfTone[];
@@ -284,7 +279,6 @@ export interface CallMediaRecognizeOptions extends OperationOptions {
 // @public
 export interface CallMediaRecognizeSpeechOptions extends CallMediaRecognizeOptions {
     endSilenceTimeoutInSeconds?: number;
-    // (undocumented)
     readonly kind: "callMediaRecognizeSpeechOptions";
     speechLanguage?: string;
     speechRecognitionModelEndpointId?: string;
@@ -294,7 +288,6 @@ export interface CallMediaRecognizeSpeechOptions extends CallMediaRecognizeOptio
 export interface CallMediaRecognizeSpeechOrDtmfOptions extends CallMediaRecognizeOptions {
     endSilenceTimeoutInSeconds?: number;
     interToneTimeoutInSeconds?: number;
-    // (undocumented)
     readonly kind: "callMediaRecognizeSpeechOrDtmfOptions";
     maxTonesToCollect?: number;
     speechLanguage?: string;
@@ -406,11 +399,9 @@ export interface CancelAllMediaOperationsResult {
     waitForEventProcessor(abortSignal?: AbortSignalLike, timeoutInMs?: number): Promise<CancelAllMediaOperationsEventResult>;
 }
 
-// @public (undocumented)
+// @public
 export enum Channel {
-    // (undocumented)
     Mono = 1,
-    // (undocumented)
     Unknown = 0
 }
 
@@ -535,11 +526,9 @@ export interface CreateCallResult {
 // @public
 export type CustomCallingContext = (VoipHeader | SipUserToUserHeader | SipCustomHeader | TeamsPhoneCallDetails)[];
 
-// @public (undocumented)
+// @public
 export interface CustomCallingContextHeader {
-    // (undocumented)
     key: string;
-    // (undocumented)
     value: string;
 }
 
@@ -590,9 +579,7 @@ export interface ErrorModel {
 
 // @public
 export interface FileSource extends PlaySource {
-    // (undocumented)
     readonly kind: "fileSource";
-    // (undocumented)
     url: string;
 }
 
@@ -970,7 +957,7 @@ export interface MuteParticipantResult {
     operationContext?: string;
 }
 
-// @public (undocumented)
+// @public
 export class OutStreamingData {
     constructor(kind: MediaKind);
     audioData?: AudioData;
@@ -1094,7 +1081,6 @@ export interface PlayToAllOptions extends PlayOptions {
 export interface RecognitionChoice {
     label: string;
     phrases: string[];
-    // (undocumented)
     tone?: DtmfTone;
 }
 
@@ -1156,19 +1142,12 @@ export type RecordingKind = string;
 
 // @public
 export interface RecordingResult {
-    // (undocumented)
     readonly errors?: ErrorModel[];
-    // (undocumented)
     readonly recordingDurationMs?: number;
-    // (undocumented)
     readonly recordingExpirationTime?: Date;
-    // (undocumented)
     recordingId: string;
-    // (undocumented)
     readonly recordingStartTime?: Date;
-    // (undocumented)
     readonly recordingStorageInfo?: RecordingStorageInfo;
-    // (undocumented)
     readonly sessionEndReason?: CallSessionEndReason;
 }
 
@@ -1192,11 +1171,8 @@ export interface RecordingStateChanged {
 
 // @public
 export interface RecordingStateResult {
-    // (undocumented)
     recordingId: string;
-    // (undocumented)
     recordingKind: string;
-    // (undocumented)
     recordingState: RecordingState;
 }
 
@@ -1317,9 +1293,7 @@ export interface SendDtmfTonesResult {
 
 // @public
 export interface SipCustomHeader extends CustomCallingContextHeader {
-    // (undocumented)
     kind: "sipx";
-    // (undocumented)
     sipHeaderPrefix?: SipHeaderPrefix;
 }
 
@@ -1328,7 +1302,6 @@ export type SipHeaderPrefix = "X-" | "X-MS-Custom-";
 
 // @public
 export interface SipUserToUserHeader extends CustomCallingContextHeader {
-    // (undocumented)
     kind: "sipuui";
 }
 
@@ -1340,11 +1313,8 @@ export interface SpeechResult {
 
 // @public
 export interface SsmlSource extends PlaySource {
-    // (undocumented)
     customVoiceEndpointId?: string;
-    // (undocumented)
     readonly kind: "ssmlSource";
-    // (undocumented)
     ssmlText: string;
 }
 
@@ -1398,7 +1368,7 @@ export interface StartTranscriptionOptions extends OperationOptions {
     speechRecognitionModelEndpointId?: string;
 }
 
-// @public (undocumented)
+// @public
 export interface StopAudio {
 }
 
@@ -1424,15 +1394,11 @@ export class StreamingData {
     static parse(data: string | ArrayBuffer): StreamingDataResult;
 }
 
-// @public (undocumented)
+// @public
 export enum StreamingDataKind {
-    // (undocumented)
     AudioData = "AudioData",
-    // (undocumented)
     AudioMetadata = "AudioMetadata",
-    // (undocumented)
     TranscriptionData = "TranscriptionData",
-    // (undocumented)
     TranscriptionMetadata = "TranscriptionMetadata"
 }
 
@@ -1445,7 +1411,6 @@ export interface TeamsPhoneCallDetails {
     callSentiment?: string;
     callTopic?: string;
     intent?: string;
-    // (undocumented)
     kind: "teamsPhoneCallDetails";
     sessionId?: string;
     suggestedActions?: string;
@@ -1484,17 +1449,11 @@ export enum TextFormat {
 
 // @public
 export interface TextSource extends PlaySource {
-    // (undocumented)
     customVoiceEndpointId?: string;
-    // (undocumented)
     readonly kind: "textSource";
-    // (undocumented)
     sourceLocale?: string;
-    // (undocumented)
     text: string;
-    // (undocumented)
     voiceKind?: VoiceKind;
-    // (undocumented)
     voiceName?: string;
 }
 
@@ -1647,7 +1606,6 @@ export enum VoiceKind {
 
 // @public
 export interface VoipHeader extends CustomCallingContextHeader {
-    // (undocumented)
     kind: "voip";
 }
 
