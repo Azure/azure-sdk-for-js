@@ -139,6 +139,30 @@ else {
 
 $tempTypeSpecDir = "$ProjectDirectory/TempTypeSpecFiles"
 New-Item $tempTypeSpecDir -Type Directory -Force | Out-Null
+
+Write-Host "Creating inputJson file"
+    $fileGenerateInput = 'generateInput.json';
+   
+    $file_content = @{
+      "specFolder" = $specCloneDir.Path
+      "headSha" = $configuration["commit"]
+      "repoHttpsUrl" = "https://github.com/$($configuration["repo"])"
+      "changedFiles" = @()
+      "runMode" = "release"
+      "installInstructionInput" = @{
+        "isPublic" = $true
+        "downloadUrlPrefix" = ""
+        "downloadCommandTemplate" = "downloadCommand"
+      }
+      "relatedTypeSpecProjectFolder" = @(
+        $configuration["directory"]
+      )
+    }
+    $inputJsonPath = Join-Path $tempTypeSpecDir $fileGenerateInput
+    $destJson = $file_content | ConvertTo-Json -Depth 10
+    $destJson| Out-File -FilePath $inputJsonPath
+    Write-Host $destJson
+
 CopySpecToProjectIfNeeded `
   -specCloneRoot $specCloneDir `
   -mainSpecDir $specSubDirectory `

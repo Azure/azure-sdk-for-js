@@ -85,33 +85,14 @@ try {
     Push-Location $npmWorkingDir
     NpmInstallForProject $npmWorkingDir
 
-    if ($LASTEXITCODE) { exit $LASTEXITCODE }
-
-    Write-Host "Creating inputJson file"
+    if ($LASTEXITCODE) { exit $LASTEXITCODE }    
     $fileGenerateInput = 'generateInput.json';
     $fileGenerateOutput = 'generateOutput.json';
-    $file_content = @{
-      "specFolder" = "../azure-rest-api-specs"
-      "headSha" = $configuration["commit"]
-      "repoHttpsUrl" = "https://github.com/$($configuration["repo"])"
-      "changedFiles" = @()
-      "runMode" = "release"
-      "installInstructionInput" = @{
-        "isPublic" = $true
-        "downloadUrlPrefix" = ""
-        "downloadCommandTemplate" = "downloadCommand"
-      }
-      "relatedTypeSpecProjectFolder" = @(
-        $configuration["directory"]
-      )
-    }
-
-    $inputJsonPath = Join-Path $tempFolder $fileGenerateInput
-    $destJson = $file_content | ConvertTo-Json -Depth 100
-    $destJson| Out-File -FilePath $inputJsonPath
-    Write-Host $destJson
-
     $outputJsonPath = Join-Path $tempFolder $fileGenerateOutput
+    $inputJsonPath = Join-Path $tempFolder $fileGenerateInput
+
+    Write-Host "Setting ENABLE_LEGACY_SETTINGS_MAPPING environment variable"
+    $env:ENABLE_LEGACY_SETTINGS_MAPPING = 'true'
     Write-Host "Running automation_generate.sh $inputJsonPath $outputJsonPath"
     Invoke-LoggedCommand "sh $RepoRoot/.scripts/automation_generate.sh $inputJsonPath $outputJsonPath"
     # if (Test-Path "Function:$GetEmitterAdditionalOptionsFn") {
