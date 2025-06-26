@@ -14,6 +14,7 @@ import type {
   InstrumentationOptions,
 } from "../types.js";
 import type { AzureMonitorExporterOptions } from "@azure/monitor-opentelemetry-exporter";
+import { EnvConfig } from "./envConfig.js";
 import { JsonConfig } from "./jsonConfig.js";
 import { Logger } from "./logging/index.js";
 import {
@@ -123,11 +124,21 @@ export class InternalConfig implements AzureMonitorOpenTelemetryOptions {
           ? options.enablePerformanceCounters
           : this.enablePerformanceCounters;
     }
-    // JSON configuration will take precedence over other settings
-    this._mergeConfig();
+    // JSON configuration will take precedence over options provided
+    this._mergeJsonConfig();
+    // ENV configuration will take precedence over other configurations
+    this._mergeEnvConfig();
   }
 
-  private _mergeConfig(): void {
+  private _mergeEnvConfig(): void {
+    const envConfig = EnvConfig.getInstance();
+    this.samplingRatio =
+      envConfig.samplingRatio !== undefined ? envConfig.samplingRatio : this.samplingRatio;
+    this.tracesPerSecond =
+      envConfig.tracesPerSecond !== undefined ? envConfig.tracesPerSecond : this.tracesPerSecond;
+  }
+
+  private _mergeJsonConfig(): void {
     try {
       const jsonConfig = JsonConfig.getInstance();
       this.samplingRatio =
