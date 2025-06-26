@@ -1,0 +1,30 @@
+jobs:
+  - job: 'JsRepoHealth'
+    displayName: 'JavaScript Repository Health Stats'
+
+    variables:
+      - template: /eng/pipelines/templates/variables/globals.yml
+      - template: /eng/pipelines/templates/variables/image.yml
+
+    pool:
+      name: $(LINUXPOOL)
+      demands: $(LinuxImageDemand)
+
+    steps:
+      - template: /eng/pipelines/templates/steps/common.yml
+
+      - script: |
+          npm install
+        workingDirectory: $(System.DefaultWorkingDirectory)/eng/tools/repo-health-status-report
+        displayName: "Install repo-health-status-report dependencies"
+
+      - script: |
+          npm run build
+        workingDirectory: $(System.DefaultWorkingDirectory)/eng/tools/repo-health-status-report
+        displayName: "Build repo-health-status-report tool"
+
+      - script: |
+          npm run run-tool
+        workingDirectory: $(System.DefaultWorkingDirectory)/eng/tools/repo-health-status-report
+        displayName: "Run repo-health-status-report tool"
+
