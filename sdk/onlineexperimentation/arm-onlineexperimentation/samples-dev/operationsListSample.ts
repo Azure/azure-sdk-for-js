@@ -8,14 +8,14 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to list the operations for the provider
  *
  * @summary list the operations for the provider
- * x-ms-original-file: 2025-05-31-preview/OnlineExperimentationWorkspaces_OperationsList.json
+ * x-ms-original-file: 2025-08-01-preview/OnlineExperimentationWorkspaces_OperationsList.json
  */
 async function listOnlineExperimentationWorkspacesOperations(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "00000000-0000-0000-0000-00000000000";
   const client = new OnlineExperimentationClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (const item of client.operations.list()) {
+  for await (const item of client.operations.list("2025-08-01-preview")) {
     resArray.push(item);
   }
 
