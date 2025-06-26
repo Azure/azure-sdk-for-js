@@ -81,22 +81,6 @@ $tempFolder = "$ProjectDirectory/TempTypeSpecFiles"
 $npmWorkingDir = Resolve-Path $tempFolder/$innerFolder
 $mainTypeSpecFile = If (Test-Path "$npmWorkingDir/client.*") { Resolve-Path "$npmWorkingDir/client.*" } Else { Resolve-Path "$npmWorkingDir/main.*"}
 
-Write-Host
-
-Write-Host "Displaying all files and subdirectories in $tempFolder:"
-if (Test-Path $tempFolder) {
-    Get-ChildItem -Path $tempFolder -Recurse | ForEach-Object {
-        if ($_.PSIsContainer) {
-            Write-Host "Directory: $($_.FullName)" -ForegroundColor Cyan
-        } else {
-            Write-Host "File: $($_.FullName)" -ForegroundColor Green
-        }
-    }
-} else {
-    Write-Host "Warning: $tempFolder does not exist" -ForegroundColor Yellow
-}
-Write-Host
-
 try {
     Push-Location $npmWorkingDir
     NpmInstallForProject $npmWorkingDir
@@ -117,9 +101,7 @@ try {
         "downloadUrlPrefix" = ""
         "downloadCommandTemplate" = "downloadCommand"
       }
-      "relatedTypeSpecProjectFolder" = @(
-        './'
-      )
+      "relatedTypeSpecProjectFolder" = "['./']"
     }
 
     $inputJsonPath = Join-Path $tempFolder $fileGenerateInput
