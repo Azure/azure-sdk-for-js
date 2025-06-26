@@ -525,6 +525,9 @@ async function main() {
   let token;
   if (runType() !== "unknown") {
     token = process.env["SYSTEM_ACCESSTOKEN"];
+    if (!token) {
+      throw new Error(`using SYSTEM_ACCESSTOKEN but it is not available`);
+    }
   } else {
     const credential = new DefaultAzureCredential();
     token = (await credential.getToken(`${DEVOPS_RESOURCE_UUID}/.default`)).token;
