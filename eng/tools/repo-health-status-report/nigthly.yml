@@ -21,6 +21,8 @@ jobs:
       - script: |
           npm run build
         workingDirectory: $(System.DefaultWorkingDirectory)/eng/tools/repo-health-status-report
+        env:
+          SYSTEM_ACCESSTOKEN: $(System.AccessToken)
         displayName: "Build repo-health-status-report tool"
 
       - script: |
