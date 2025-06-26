@@ -91,7 +91,7 @@ try {
     $fileGenerateInput = 'generateInput.json';
     $fileGenerateOutput = 'generateOutput.json';
     $file_content = @{
-      "specFolder" = "../azure-rest-api-specs"
+      "specFolder" = $tempFolder
       "headSha" = $configuration["commit"]
       "repoHttpsUrl" = "https://github.com/$($configuration["repo"])"
       "changedFiles" = @()
