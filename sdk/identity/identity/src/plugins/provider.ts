@@ -2,7 +2,6 @@
 // Licensed under the MIT License.
 
 import type { TokenCachePersistenceOptions } from "../msal/nodeFlows/tokenCachePersistenceOptions.js";
-import type { VSCodeCredentialFinder } from "../credentials/visualStudioCodeCredentialPlugin.js";
 
 /**
  * The type of an Azure Identity plugin, a function accepting a plugin
@@ -28,13 +27,6 @@ export interface NativeBrokerPluginControl {
 }
 
 /**
- * Plugin context entries for controlling VisualStudioCodeCredential.
- */
-export interface VisualStudioCodeCredentialControl {
-  setVsCodeCredentialFinder(finder: VSCodeCredentialFinder): void;
-}
-
-/**
  * Context options passed to a plugin during initialization.
  *
  * Plugin authors are responsible for casting their plugin context values
@@ -45,5 +37,4 @@ export interface VisualStudioCodeCredentialControl {
 export interface AzurePluginContext {
   cachePluginControl: CachePluginControl;
   nativeBrokerPluginControl: NativeBrokerPluginControl;
-  vsCodeCredentialControl: VisualStudioCodeCredentialControl;
 }
