@@ -101,7 +101,7 @@ try {
         "downloadUrlPrefix" = ""
         "downloadCommandTemplate" = "downloadCommand"
       }
-      "relatedTypeSpecProjectFolder" = "['./']"
+      "relatedTypeSpecProjectFolder" = "./"
     }
 
     $inputJsonPath = Join-Path $tempFolder $fileGenerateInput
