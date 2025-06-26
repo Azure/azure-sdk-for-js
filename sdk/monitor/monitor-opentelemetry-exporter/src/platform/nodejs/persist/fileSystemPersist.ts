@@ -153,12 +153,12 @@ export class FileSystemPersist implements PersistentStorage {
       await confirmDirExists(this._tempDirectory);
     } catch (error: any) {
       // Check if error is due to permission/readonly issues
-      if (error?.code === 'EACCES' || error?.code === 'EPERM') {
-        this._customerStatsbeatMetrics?.countDroppedItems(
-          envelopes,
-          DropCode.CLIENT_READONLY,
+      if (error?.code === "EACCES" || error?.code === "EPERM") {
+        this._customerStatsbeatMetrics?.countDroppedItems(envelopes, DropCode.CLIENT_READONLY);
+        diag.warn(
+          `Permission denied while checking/creating directory: ${this._tempDirectory}`,
+          error?.message,
         );
-        diag.warn(`Permission denied while checking/creating directory: ${this._tempDirectory}`, error?.message);
       } else {
         diag.warn(`Error while checking/creating directory: `, error && error.message);
       }
@@ -192,12 +192,12 @@ export class FileSystemPersist implements PersistentStorage {
       await writeFile(fileFullPath, payload, { mode: 0o600 });
     } catch (writeError: any) {
       // Check if error is due to permission/readonly issues
-      if (writeError?.code === 'EACCES' || writeError?.code === 'EPERM') {
-        this._customerStatsbeatMetrics?.countDroppedItems(
-          envelopes,
-          DropCode.CLIENT_READONLY,
+      if (writeError?.code === "EACCES" || writeError?.code === "EPERM") {
+        this._customerStatsbeatMetrics?.countDroppedItems(envelopes, DropCode.CLIENT_READONLY);
+        diag.warn(
+          `Permission denied while writing file to persistent storage: ${fileFullPath}`,
+          writeError?.message,
         );
-        diag.warn(`Permission denied while writing file to persistent storage: ${fileFullPath}`, writeError?.message);
       } else {
         // If the envelopes cannot be written to disk for other reasons, we send customer statsbeat and warn the user
         this._customerStatsbeatMetrics?.countDroppedItems(

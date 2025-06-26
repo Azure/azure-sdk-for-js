@@ -546,23 +546,23 @@ export class CustomerStatsbeatMetrics extends StatsbeatMetrics {
   public isTimeoutError(error: { code?: string; message?: string }): boolean {
     // Check for various timeout error codes that indicate client timeouts
     const timeoutErrorCodes = [
-      'ETIMEDOUT',      // Connection timed out
-      'ESOCKETTIMEDOUT', // Socket timeout
-      'ECONNRESET',     // Connection reset (often due to timeout)
-      'ENOTFOUND'       // DNS lookup failed/timeout
+      "ETIMEDOUT", // Connection timed out
+      "ESOCKETTIMEDOUT", // Socket timeout
+      "ECONNRESET", // Connection reset (often due to timeout)
+      "ENOTFOUND", // DNS lookup failed/timeout
     ];
-    
+
     if (error && error.code && timeoutErrorCodes.includes(error.code)) {
       return true;
     }
-    
+
     // Also check if the error message contains timeout-related keywords
     if (error && error.message) {
-      const timeoutKeywords = ['timeout', 'timed out', 'connection reset'];
+      const timeoutKeywords = ["timeout", "timed out", "connection reset"];
       const errorMessage = error.message.toLowerCase();
-      return timeoutKeywords.some(keyword => errorMessage.includes(keyword));
+      return timeoutKeywords.some((keyword) => errorMessage.includes(keyword));
     }
-    
+
     return false;
   }
 }
