@@ -49,7 +49,7 @@
   "//metadata": {
     "constantPaths": [
       {
-        "path": "src/generated/src/projectsClient.ts",
+        "path": "src/projectsClient.ts",
         "prefix": "userAgentInfo"
       },
       {
