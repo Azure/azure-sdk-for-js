@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 echo "Before changing directory: $(pwd)"
-cd ../../../..
+cd ../../../../../..
 echo "After changing to azure-sdk root: $(pwd)"
 cd azure-sdk
 echo "After changing to azure-sdk: $(pwd)"
