@@ -78,20 +78,6 @@ $specSubDirectory = $configuration["directory"]
 $innerFolder = Split-Path $specSubDirectory -Leaf
 
 $tempFolder = "$ProjectDirectory/TempTypeSpecFiles"
-Write-Host "TempTypeSpecFiles folder location: $tempFolder"
-if (Test-Path $tempFolder) {
-    Write-Host "Contents of $tempFolder:"
-    # Get-ChildItem -Path $tempFolder -Recurse | ForEach-Object {
-    #     $relativePath = $_.FullName.Substring($tempFolder.Length + 1)
-    #     if ($_.PSIsContainer) {
-    #         Write-Host "  [DIR]  $relativePath"
-    #     } else {
-    #         Write-Host "  [FILE] $relativePath"
-    #     }
-    # }
-} else {
-    Write-Host "TempTypeSpecFiles folder does not exist: $tempFolder"
-}
 $npmWorkingDir = Resolve-Path $tempFolder/$innerFolder
 $mainTypeSpecFile = If (Test-Path "$npmWorkingDir/client.*") { Resolve-Path "$npmWorkingDir/client.*" } Else { Resolve-Path "$npmWorkingDir/main.*"}
 
@@ -99,31 +85,12 @@ try {
     Push-Location $npmWorkingDir
     NpmInstallForProject $npmWorkingDir
 
-    if ($LASTEXITCODE) { exit $LASTEXITCODE }
-
-    Write-Host "Creating inputJson file"
+    if ($LASTEXITCODE) { exit $LASTEXITCODE }    
     $fileGenerateInput = 'generateInput.json';
     $fileGenerateOutput = 'generateOutput.json';
-    $file_content = @{
-      "specFolder" = $tempFolder
-      "headSha" = $configuration["commit"]
-      "repoHttpsUrl" = "https://github.com/$($configuration["repo"])"
-      "changedFiles" = @()
-      "runMode" = "release"
-      "installInstructionInput" = @{
-        "isPublic" = $true
-        "downloadUrlPrefix" = ""
-        "downloadCommandTemplate" = "downloadCommand"
-      }
-      "relatedTypeSpecProjectFolder" = @()
-    }
-
-    $inputJsonPath = Join-Path $tempFolder $fileGenerateInput
-    $destJson = $file_content | ConvertTo-Json -Depth 100
-    $destJson| Out-File -FilePath $inputJsonPath
-    Write-Host $destJson
-
     $outputJsonPath = Join-Path $tempFolder $fileGenerateOutput
+    $inputJsonPath = Join-Path $tempFolder $fileGenerateInput
+
     Write-Host "Setting ENABLE_LEGACY_SETTINGS_MAPPING environment variable"
     $env:ENABLE_LEGACY_SETTINGS_MAPPING = 'true'
     Write-Host "Running automation_generate.sh $inputJsonPath $outputJsonPath"
