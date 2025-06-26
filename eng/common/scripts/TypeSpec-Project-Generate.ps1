@@ -78,6 +78,20 @@ $specSubDirectory = $configuration["directory"]
 $innerFolder = Split-Path $specSubDirectory -Leaf
 
 $tempFolder = "$ProjectDirectory/TempTypeSpecFiles"
+Write-Host "TempTypeSpecFiles folder location: $tempFolder"
+if (Test-Path $tempFolder) {
+    Write-Host "Contents of $tempFolder:"
+    Get-ChildItem -Path $tempFolder -Recurse | ForEach-Object {
+        $relativePath = $_.FullName.Substring($tempFolder.Length + 1)
+        if ($_.PSIsContainer) {
+            Write-Host "  [DIR]  $relativePath"
+        } else {
+            Write-Host "  [FILE] $relativePath ($(($_.Length / 1KB).ToString('F2')) KB)"
+        }
+    }
+} else {
+    Write-Host "TempTypeSpecFiles folder does not exist: $tempFolder"
+}
 $npmWorkingDir = Resolve-Path $tempFolder/$innerFolder
 $mainTypeSpecFile = If (Test-Path "$npmWorkingDir/client.*") { Resolve-Path "$npmWorkingDir/client.*" } Else { Resolve-Path "$npmWorkingDir/main.*"}
 
