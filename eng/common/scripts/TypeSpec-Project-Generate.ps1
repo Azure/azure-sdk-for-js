@@ -118,7 +118,7 @@ try {
         "downloadCommandTemplate" = "downloadCommand"
       }
       "relatedTypeSpecProjectFolder" = @(
-        $specSubDirectory
+        './'
       )
     }
 
