@@ -64,6 +64,9 @@ export {
   TranscriptionSubscriptionState,
   ErrorModel,
   RecordingStorageInfo,
+  RecordingChunkStorageInfo,
+  ChunkEndReason,
+  KnownChunkEndReason,
   CallSessionEndReason,
 } from "../generated/src/models/index.js";
 

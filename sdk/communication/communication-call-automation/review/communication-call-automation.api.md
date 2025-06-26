@@ -418,6 +418,9 @@ export interface ChoiceResult {
 }
 
 // @public
+export type ChunkEndReason = string;
+
+// @public
 export interface ConnectCallEventResult {
     failureResult?: ConnectFailed;
     isSuccess: boolean;
@@ -696,6 +699,15 @@ export enum KnownCallRejectReason {
     Busy = "busy",
     Forbidden = "forbidden",
     None = "none"
+}
+
+// @public
+export enum KnownChunkEndReason {
+    ChunkIsBeingRecorded = "chunkIsBeingRecorded",
+    ChunkMaximumSizeExceeded = "chunkMaximumSizeExceeded",
+    ChunkMaximumTimeExceeded = "chunkMaximumTimeExceeded",
+    ChunkUploadFailure = "chunkUploadFailure",
+    SessionEnded = "sessionEnded"
 }
 
 // @public
@@ -1132,6 +1144,16 @@ export enum RecognizeInputType {
 export type RecordingChannel = "mixed" | "unmixed";
 
 // @public
+export interface RecordingChunkStorageInfo {
+    contentLocation?: string;
+    deleteLocation?: string;
+    documentId?: string;
+    endReason?: ChunkEndReason;
+    index?: number;
+    metadataLocation?: string;
+}
+
+// @public
 export type RecordingContent = "audio" | "audioVideo";
 
 // @public
@@ -1184,7 +1206,6 @@ export interface RecordingStorage {
 
 // @public
 export interface RecordingStorageInfo {
-    // Warning: (ae-forgotten-export) The symbol "RecordingChunkStorageInfo" needs to be exported by the entry point index.d.ts
     recordingChunks?: RecordingChunkStorageInfo[];
 }
 
