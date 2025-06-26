@@ -10,7 +10,7 @@ import { confirmDirExists, getShallowDirectorySize } from "./fileSystemHelpers.j
 import type { AzureMonitorExporterOptions } from "../../../config.js";
 import { readdir, readFile, stat, unlink, writeFile } from "node:fs/promises";
 import type { CustomerStatsbeatMetrics } from "../../../export/statsbeat/customerStatsbeat.js";
-import { DropCode, TelemetryType } from "../../../export/statsbeat/types.js";
+import { DropCode } from "../../../export/statsbeat/types.js";
 import type { TelemetryItem as Envelope } from "../../../generated/index.js";
 
 /**
@@ -152,7 +152,16 @@ export class FileSystemPersist implements PersistentStorage {
     try {
       await confirmDirExists(this._tempDirectory);
     } catch (error: any) {
-      diag.warn(`Error while checking/creating directory: `, error && error.message);
+      // Check if error is due to permission/readonly issues
+      if (error?.code === 'EACCES' || error?.code === 'EPERM') {
+        this._customerStatsbeatMetrics?.countDroppedItems(
+          envelopes,
+          DropCode.CLIENT_READONLY,
+        );
+        diag.warn(`Permission denied while checking/creating directory: ${this._tempDirectory}`, error?.message);
+      } else {
+        diag.warn(`Error while checking/creating directory: `, error && error.message);
+      }
       return false;
     }
 
@@ -163,7 +172,6 @@ export class FileSystemPersist implements PersistentStorage {
         this._customerStatsbeatMetrics?.countDroppedItems(
           envelopes,
           DropCode.CLIENT_PERSISTENCE_CAPACITY,
-          TelemetryType.UNKNOWN,
         );
         diag.warn(
           `Not saving data due to max size limit being met. Directory size in bytes is: ${size}`,
@@ -183,13 +191,21 @@ export class FileSystemPersist implements PersistentStorage {
     try {
       await writeFile(fileFullPath, payload, { mode: 0o600 });
     } catch (writeError: any) {
-      // If the envelopes cannot be written to disk, we send customer statsbeat and warn the user
-      this._customerStatsbeatMetrics?.countDroppedItems(
-        envelopes,
-        DropCode.CLIENT_STORAGE_DISABLED,
-        TelemetryType.UNKNOWN,
-      );
-      diag.warn(`Error writing file to persistent file storage`, writeError);
+      // Check if error is due to permission/readonly issues
+      if (writeError?.code === 'EACCES' || writeError?.code === 'EPERM') {
+        this._customerStatsbeatMetrics?.countDroppedItems(
+          envelopes,
+          DropCode.CLIENT_READONLY,
+        );
+        diag.warn(`Permission denied while writing file to persistent storage: ${fileFullPath}`, writeError?.message);
+      } else {
+        // If the envelopes cannot be written to disk for other reasons, we send customer statsbeat and warn the user
+        this._customerStatsbeatMetrics?.countDroppedItems(
+          envelopes,
+          DropCode.CLIENT_STORAGE_DISABLED,
+        );
+        diag.warn(`Error writing file to persistent file storage`, writeError);
+      }
       return false;
     }
     return true;
