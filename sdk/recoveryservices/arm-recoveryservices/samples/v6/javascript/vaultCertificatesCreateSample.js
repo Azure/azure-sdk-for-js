@@ -6,17 +6,15 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
 const { RecoveryServicesClient } = require("@azure/arm-recoveryservices");
 const { DefaultAzureCredential } = require("@azure/identity");
-require("dotenv").config();
+require("dotenv/config");
 
 /**
  * This sample demonstrates how to Uploads a certificate for a resource.
  *
  * @summary Uploads a certificate for a resource.
- * x-ms-original-file: specification/recoveryservices/resource-manager/Microsoft.RecoveryServices/stable/2024-04-01/examples/PUTVaultCred.json
+ * x-ms-original-file: specification/recoveryservices/resource-manager/Microsoft.RecoveryServices/stable/2025-02-01/examples/PUTVaultCred.json
  */
 async function downloadVaultCredentialFile() {
   const subscriptionId =
@@ -45,7 +43,7 @@ async function downloadVaultCredentialFile() {
 }
 
 async function main() {
-  downloadVaultCredentialFile();
+  await downloadVaultCredentialFile();
 }
 
 main().catch(console.error);

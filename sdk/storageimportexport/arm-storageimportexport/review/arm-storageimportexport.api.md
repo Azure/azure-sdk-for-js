@@ -253,7 +253,7 @@ export interface ListOperationsResponse {
 }
 
 // @public
-interface Location_2 {
+export interface Location {
     additionalShippingInformation?: string;
     alternateLocations?: string[];
     city?: string;
@@ -269,12 +269,11 @@ interface Location_2 {
     supportedCarriers?: string[];
     type?: string;
 }
-export { Location_2 as Location }
 
 // @public
 export interface Locations {
     get(locationName: string, options?: LocationsGetOptionalParams): Promise<LocationsGetResponse>;
-    list(options?: LocationsListOptionalParams): PagedAsyncIterableIterator<Location_2>;
+    list(options?: LocationsListOptionalParams): PagedAsyncIterableIterator<Location>;
 }
 
 // @public
@@ -282,7 +281,7 @@ export interface LocationsGetOptionalParams extends coreClient.OperationOptions 
 }
 
 // @public
-export type LocationsGetResponse = Location_2;
+export type LocationsGetResponse = Location;
 
 // @public
 export interface LocationsListOptionalParams extends coreClient.OperationOptions {
@@ -293,7 +292,7 @@ export type LocationsListResponse = LocationsResponse;
 
 // @public
 export interface LocationsResponse {
-    value?: Location_2[];
+    value?: Location[];
 }
 
 // @public
