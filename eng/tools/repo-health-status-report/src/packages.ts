@@ -10,7 +10,9 @@ export async function getDataplanePackages(): Promise<
   Record<string, { version: string; projectPath: string; serviceDir: string; packageDir: string }>
 > {
   const workspaceRoot = getBaseDir();
-  const sdkPackageJsonFiles = (await glob(`${workspaceRoot}/sdk/*/*/package.json`, {}))
+  const sdkPackageJsonFiles = (
+    await glob(`${workspaceRoot}/sdk/*/*/package.json`, { absolute: false })
+  )
     .filter((file) => !file.includes(`/arm-`) && !file.includes(`\\arm-`))
     .map((file) => file.replaceAll("\\", "/").replaceAll("../", ""));
 
