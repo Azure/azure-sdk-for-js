@@ -1,6 +1,6 @@
 # Release History
 
-## 1.0.0 (unreleased)
+## 1.0.0 (2025-06-26)
 
 - First stable release of Azure AI Agents client library
 
