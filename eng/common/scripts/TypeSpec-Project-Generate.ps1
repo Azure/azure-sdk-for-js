@@ -86,7 +86,7 @@ if (Test-Path $tempFolder) {
         if ($_.PSIsContainer) {
             Write-Host "  [DIR]  $relativePath"
         } else {
-            Write-Host "  [FILE] $relativePath ($(($_.Length / 1KB).ToString('F2')) KB)"
+            Write-Host "  [FILE] $relativePath"
         }
     }
 } else {
