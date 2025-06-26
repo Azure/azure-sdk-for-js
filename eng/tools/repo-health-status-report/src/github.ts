@@ -28,7 +28,7 @@ export async function uploadResultToGitHubJsRepo(csvPath: string) {
   const {
     data: { login },
   } = await octokit.rest.users.getAuthenticated();
-  const path = `/eng/tools/repo-health-status-report/health_report.csv`;
+  const path = `eng/tools/repo-health-status-report/health_report.csv`;
   await octokit.rest.repos.createOrUpdateFileContents({
     owner: login,
     repo: "azure-sdk-for-js",
