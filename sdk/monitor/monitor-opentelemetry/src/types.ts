@@ -70,6 +70,7 @@ export interface StatsbeatFeatures {
   liveMetrics?: boolean;
   shim?: boolean;
   customerStatsbeat?: boolean;
+  multiIkey?: boolean;
 }
 
 /**
@@ -84,6 +85,7 @@ export const StatsbeatFeaturesMap = new Map<string, number>([
   ["liveMetrics", 16],
   ["shim", 32],
   ["customerStatsbeat", 64],
+  ["multiIkey", 128],
 ]);
 
 /**
@@ -199,6 +201,7 @@ export enum StatsbeatFeature {
   LIVE_METRICS = 16,
   SHIM = 32,
   CUSTOMER_STATSBEAT = 64,
+  MULTI_IKEY = 128,
 }
 
 export enum StatsbeatInstrumentation {
