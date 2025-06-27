@@ -141,6 +141,19 @@ export interface OrganizationResource extends TrackedResource {
 }
 
 // @public
+export interface OrganizationResourceUpdate {
+    identity?: ManagedServiceIdentity;
+    properties?: OrganizationResourceUpdateProperties;
+    tags?: Record<string, string>;
+}
+
+// @public
+export interface OrganizationResourceUpdateProperties {
+    partnerProperties?: PartnerProperties;
+    user?: UserDetails;
+}
+
+// @public
 export type Origin = string;
 
 // @public

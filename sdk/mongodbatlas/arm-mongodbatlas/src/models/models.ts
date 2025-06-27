@@ -9,9 +9,7 @@ export interface _OperationListResult {
   nextLink?: string;
 }
 
-export function _operationListResultDeserializer(
-  item: any,
-): _OperationListResult {
+export function _operationListResultDeserializer(item: any): _OperationListResult {
   return {
     value: operationArrayDeserializer(item["value"]),
     nextLink: item["nextLink"],
@@ -42,9 +40,7 @@ export function operationDeserializer(item: any): Operation {
   return {
     name: item["name"],
     isDataAction: item["isDataAction"],
-    display: !item["display"]
-      ? item["display"]
-      : operationDisplayDeserializer(item["display"]),
+    display: !item["display"] ? item["display"] : operationDisplayDeserializer(item["display"]),
     origin: item["origin"],
     actionType: item["actionType"],
   };
@@ -115,9 +111,7 @@ export interface ErrorResponse {
 
 export function errorResponseDeserializer(item: any): ErrorResponse {
   return {
-    error: !item["error"]
-      ? item["error"]
-      : errorDetailDeserializer(item["error"]),
+    error: !item["error"] ? item["error"] : errorDetailDeserializer(item["error"]),
   };
 }
 
@@ -140,26 +134,20 @@ export function errorDetailDeserializer(item: any): ErrorDetail {
     code: item["code"],
     message: item["message"],
     target: item["target"],
-    details: !item["details"]
-      ? item["details"]
-      : errorDetailArrayDeserializer(item["details"]),
+    details: !item["details"] ? item["details"] : errorDetailArrayDeserializer(item["details"]),
     additionalInfo: !item["additionalInfo"]
       ? item["additionalInfo"]
       : errorAdditionalInfoArrayDeserializer(item["additionalInfo"]),
   };
 }
 
-export function errorDetailArrayDeserializer(
-  result: Array<ErrorDetail>,
-): any[] {
+export function errorDetailArrayDeserializer(result: Array<ErrorDetail>): any[] {
   return result.map((item) => {
     return errorDetailDeserializer(item);
   });
 }
 
-export function errorAdditionalInfoArrayDeserializer(
-  result: Array<ErrorAdditionalInfo>,
-): any[] {
+export function errorAdditionalInfoArrayDeserializer(result: Array<ErrorAdditionalInfo>): any[] {
   return result.map((item) => {
     return errorAdditionalInfoDeserializer(item);
   });
@@ -173,9 +161,7 @@ export interface ErrorAdditionalInfo {
   readonly info?: any;
 }
 
-export function errorAdditionalInfoDeserializer(
-  item: any,
-): ErrorAdditionalInfo {
+export function errorAdditionalInfoDeserializer(item: any): ErrorAdditionalInfo {
   return {
     type: item["type"],
     info: item["info"],
@@ -190,9 +176,7 @@ export interface OrganizationResource extends TrackedResource {
   identity?: ManagedServiceIdentity;
 }
 
-export function organizationResourceSerializer(
-  item: OrganizationResource,
-): any {
+export function organizationResourceSerializer(item: OrganizationResource): any {
   return {
     tags: item["tags"],
     location: item["location"],
@@ -205,9 +189,7 @@ export function organizationResourceSerializer(
   };
 }
 
-export function organizationResourceDeserializer(
-  item: any,
-): OrganizationResource {
+export function organizationResourceDeserializer(item: any): OrganizationResource {
   return {
     tags: item["tags"],
     location: item["location"],
@@ -238,9 +220,7 @@ export interface OrganizationProperties {
   partnerProperties?: PartnerProperties;
 }
 
-export function organizationPropertiesSerializer(
-  item: OrganizationProperties,
-): any {
+export function organizationPropertiesSerializer(item: OrganizationProperties): any {
   return {
     marketplace: marketplaceDetailsSerializer(item["marketplace"]),
     user: userDetailsSerializer(item["user"]),
@@ -250,9 +230,7 @@ export function organizationPropertiesSerializer(
   };
 }
 
-export function organizationPropertiesDeserializer(
-  item: any,
-): OrganizationProperties {
+export function organizationPropertiesDeserializer(item: any): OrganizationProperties {
   return {
     marketplace: marketplaceDetailsDeserializer(item["marketplace"]),
     user: userDetailsDeserializer(item["user"]),
@@ -447,18 +425,14 @@ export interface ManagedServiceIdentity {
   userAssignedIdentities?: Record<string, UserAssignedIdentity | null>;
 }
 
-export function managedServiceIdentitySerializer(
-  item: ManagedServiceIdentity,
-): any {
+export function managedServiceIdentitySerializer(item: ManagedServiceIdentity): any {
   return {
     type: item["type"],
     userAssignedIdentities: item["userAssignedIdentities"],
   };
 }
 
-export function managedServiceIdentityDeserializer(
-  item: any,
-): ManagedServiceIdentity {
+export function managedServiceIdentityDeserializer(item: any): ManagedServiceIdentity {
   return {
     principalId: item["principalId"],
     tenantId: item["tenantId"],
@@ -499,15 +473,11 @@ export interface UserAssignedIdentity {
   readonly clientId?: string;
 }
 
-export function userAssignedIdentitySerializer(
-  item: UserAssignedIdentity,
-): any {
+export function userAssignedIdentitySerializer(item: UserAssignedIdentity): any {
   return item;
 }
 
-export function userAssignedIdentityDeserializer(
-  item: any,
-): UserAssignedIdentity {
+export function userAssignedIdentityDeserializer(item: any): UserAssignedIdentity {
   return {
     principalId: item["principalId"],
     clientId: item["clientId"],
@@ -586,9 +556,7 @@ export function systemDataDeserializer(item: any): SystemData {
   return {
     createdBy: item["createdBy"],
     createdByType: item["createdByType"],
-    createdAt: !item["createdAt"]
-      ? item["createdAt"]
-      : new Date(item["createdAt"]),
+    createdAt: !item["createdAt"] ? item["createdAt"] : new Date(item["createdAt"]),
     lastModifiedBy: item["lastModifiedBy"],
     lastModifiedByType: item["lastModifiedByType"],
     lastModifiedAt: !item["lastModifiedAt"]
@@ -621,6 +589,47 @@ export enum KnownCreatedByType {
  */
 export type CreatedByType = string;
 
+/** The type used for update operations of the OrganizationResource. */
+export interface OrganizationResourceUpdate {
+  /** The managed service identities assigned to this resource. */
+  identity?: ManagedServiceIdentity;
+  /** Resource tags. */
+  tags?: Record<string, string>;
+  /** The resource-specific properties for this resource. */
+  properties?: OrganizationResourceUpdateProperties;
+}
+
+export function organizationResourceUpdateSerializer(item: OrganizationResourceUpdate): any {
+  return {
+    identity: !item["identity"]
+      ? item["identity"]
+      : managedServiceIdentitySerializer(item["identity"]),
+    tags: item["tags"],
+    properties: !item["properties"]
+      ? item["properties"]
+      : organizationResourceUpdatePropertiesSerializer(item["properties"]),
+  };
+}
+
+/** The updatable properties of the OrganizationResource. */
+export interface OrganizationResourceUpdateProperties {
+  /** Details of the user. */
+  user?: UserDetails;
+  /** MongoDB properties */
+  partnerProperties?: PartnerProperties;
+}
+
+export function organizationResourceUpdatePropertiesSerializer(
+  item: OrganizationResourceUpdateProperties,
+): any {
+  return {
+    user: !item["user"] ? item["user"] : userDetailsSerializer(item["user"]),
+    partnerProperties: !item["partnerProperties"]
+      ? item["partnerProperties"]
+      : partnerPropertiesSerializer(item["partnerProperties"]),
+  };
+}
+
 /** The response of a OrganizationResource list operation. */
 export interface _OrganizationResourceListResult {
   /** The OrganizationResource items on this page */
@@ -638,17 +647,13 @@ export function _organizationResourceListResultDeserializer(
   };
 }
 
-export function organizationResourceArraySerializer(
-  result: Array<OrganizationResource>,
-): any[] {
+export function organizationResourceArraySerializer(result: Array<OrganizationResource>): any[] {
   return result.map((item) => {
     return organizationResourceSerializer(item);
   });
 }
 
-export function organizationResourceArrayDeserializer(
-  result: Array<OrganizationResource>,
-): any[] {
+export function organizationResourceArrayDeserializer(result: Array<OrganizationResource>): any[] {
   return result.map((item) => {
     return organizationResourceDeserializer(item);
   });

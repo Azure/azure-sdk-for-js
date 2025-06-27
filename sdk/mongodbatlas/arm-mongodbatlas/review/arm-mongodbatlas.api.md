@@ -177,6 +177,19 @@ export interface OrganizationResource extends TrackedResource {
 }
 
 // @public
+export interface OrganizationResourceUpdate {
+    identity?: ManagedServiceIdentity;
+    properties?: OrganizationResourceUpdateProperties;
+    tags?: Record<string, string>;
+}
+
+// @public
+export interface OrganizationResourceUpdateProperties {
+    partnerProperties?: PartnerProperties;
+    user?: UserDetails;
+}
+
+// @public
 export interface OrganizationsCreateOrUpdateOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
@@ -205,7 +218,7 @@ export interface OrganizationsOperations {
     get: (resourceGroupName: string, organizationName: string, options?: OrganizationsGetOptionalParams) => Promise<OrganizationResource>;
     listByResourceGroup: (resourceGroupName: string, options?: OrganizationsListByResourceGroupOptionalParams) => PagedAsyncIterableIterator<OrganizationResource>;
     listBySubscription: (options?: OrganizationsListBySubscriptionOptionalParams) => PagedAsyncIterableIterator<OrganizationResource>;
-    update: (resourceGroupName: string, organizationName: string, properties: OrganizationResource, options?: OrganizationsUpdateOptionalParams) => PollerLike<OperationState<OrganizationResource>, OrganizationResource>;
+    update: (resourceGroupName: string, organizationName: string, properties: OrganizationResourceUpdate, options?: OrganizationsUpdateOptionalParams) => PollerLike<OperationState<OrganizationResource>, OrganizationResource>;
 }
 
 // @public

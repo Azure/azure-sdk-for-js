@@ -38,6 +38,8 @@ export {
   SystemData,
   KnownCreatedByType,
   CreatedByType,
+  OrganizationResourceUpdate,
+  OrganizationResourceUpdateProperties,
   KnownVersions,
 } from "./models/index.js";
 export { AtlasClientOptionalParams } from "./api/index.js";
@@ -50,8 +52,5 @@ export {
   OrganizationsCreateOrUpdateOptionalParams,
   OrganizationsGetOptionalParams,
 } from "./api/organizations/index.js";
-export {
-  OperationsOperations,
-  OrganizationsOperations,
-} from "./classic/index.js";
+export { OperationsOperations, OrganizationsOperations } from "./classic/index.js";
 export { PageSettings, ContinuablePage, PagedAsyncIterableIterator };

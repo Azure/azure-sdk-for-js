@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 import { AtlasContext } from "../../api/atlasContext.js";
-import { OrganizationResource } from "../../models/models.js";
+import { OrganizationResource, OrganizationResourceUpdate } from "../../models/models.js";
 import {
   OrganizationsListBySubscriptionOptionalParams,
   OrganizationsListByResourceGroupOptionalParams,
@@ -48,7 +48,7 @@ export interface OrganizationsOperations {
   update: (
     resourceGroupName: string,
     organizationName: string,
-    properties: OrganizationResource,
+    properties: OrganizationResourceUpdate,
     options?: OrganizationsUpdateOptionalParams,
   ) => PollerLike<OperationState<OrganizationResource>, OrganizationResource>;
   /** Create a OrganizationResource */
@@ -68,9 +68,8 @@ export interface OrganizationsOperations {
 
 function _getOrganizations(context: AtlasContext) {
   return {
-    listBySubscription: (
-      options?: OrganizationsListBySubscriptionOptionalParams,
-    ) => listBySubscription(context, options),
+    listBySubscription: (options?: OrganizationsListBySubscriptionOptionalParams) =>
+      listBySubscription(context, options),
     listByResourceGroup: (
       resourceGroupName: string,
       options?: OrganizationsListByResourceGroupOptionalParams,
@@ -83,23 +82,15 @@ function _getOrganizations(context: AtlasContext) {
     update: (
       resourceGroupName: string,
       organizationName: string,
-      properties: OrganizationResource,
+      properties: OrganizationResourceUpdate,
       options?: OrganizationsUpdateOptionalParams,
-    ) =>
-      update(context, resourceGroupName, organizationName, properties, options),
+    ) => update(context, resourceGroupName, organizationName, properties, options),
     createOrUpdate: (
       resourceGroupName: string,
       organizationName: string,
       resource: OrganizationResource,
       options?: OrganizationsCreateOrUpdateOptionalParams,
-    ) =>
-      createOrUpdate(
-        context,
-        resourceGroupName,
-        organizationName,
-        resource,
-        options,
-      ),
+    ) => createOrUpdate(context, resourceGroupName, organizationName, resource, options),
     get: (
       resourceGroupName: string,
       organizationName: string,
@@ -108,9 +99,7 @@ function _getOrganizations(context: AtlasContext) {
   };
 }
 
-export function _getOrganizationsOperations(
-  context: AtlasContext,
-): OrganizationsOperations {
+export function _getOrganizationsOperations(context: AtlasContext): OrganizationsOperations {
   return {
     ..._getOrganizations(context),
   };
