@@ -7,12 +7,12 @@ import { createHttpHeaders } from "../httpHeaders.js";
 import type {
   BodyPart,
   FormDataMap,
-  FormDataValue,
   PipelineRequest,
   PipelineResponse,
   SendRequest,
 } from "../interfaces.js";
 import type { PipelinePolicy } from "../pipeline.js";
+import type { FormDataValueInternal } from "../interfacesInternal.js";
 
 /**
  * The programmatic identifier of the formDataPolicy.
@@ -23,7 +23,7 @@ function formDataToFormDataMap(formData: FormData): FormDataMap {
   const formDataMap: FormDataMap = {};
   for (const [key, value] of formData.entries()) {
     formDataMap[key] ??= [];
-    (formDataMap[key] as FormDataValue[]).push(value);
+    (formDataMap[key] as FormDataValueInternal[]).push(value as FormDataValueInternal);
   }
   return formDataMap;
 }

@@ -8,18 +8,10 @@ import type {
   PipelineRequest,
   PipelineResponse,
   TransferProgressEvent,
-} from "./interfaces.js";
-import { RestError } from "./restError.js";
+} from "./interfacesWeb.js";
+import { RestError } from "./restErrorWeb.js";
 import { createHttpHeaders } from "./httpHeaders.js";
-import { isNodeReadableStream, isWebReadableStream } from "./util/typeGuards.js";
-
-/**
- * Checks if the body is a Blob or Blob-like
- */
-function isBlob(body: unknown): body is Blob {
-  // File objects count as a type of Blob, so we want to use instanceof explicitly
-  return (typeof Blob === "function" || typeof Blob === "object") && body instanceof Blob;
-}
+import { isBlob, isWebReadableStream } from "./util/typeGuardsWeb.js";
 
 /**
  * A HttpClient implementation that uses window.fetch to send HTTP requests.
@@ -36,10 +28,6 @@ class FetchHttpClient implements HttpClient {
 
     if (isInsecure && !request.allowInsecureConnection) {
       throw new Error(`Cannot connect to ${request.url} while allowInsecureConnection is false.`);
-    }
-
-    if (request.proxySettings) {
-      throw new Error("HTTP proxy is not supported in browser environment");
     }
 
     try {
@@ -114,12 +102,13 @@ async function buildPipelineResponse(
     status: httpResponse.status,
   };
 
-  const bodyStream = isWebReadableStream(httpResponse.body)
-    ? buildBodyStream(httpResponse.body, {
-        onProgress: request.onDownloadProgress,
-        onEnd: abortControllerCleanup,
-      })
-    : httpResponse.body;
+  const bodyStream =
+    httpResponse.body !== null
+      ? buildBodyStream(httpResponse.body, {
+          onProgress: request.onDownloadProgress,
+          onEnd: abortControllerCleanup,
+        })
+      : httpResponse.body;
 
   if (
     // Value of POSITIVE_INFINITY in streamResponseStatusCodes is considered as any status code
@@ -235,10 +224,6 @@ interface BuildRequestBodyResponse {
 
 function buildRequestBody(request: PipelineRequest): BuildRequestBodyResponse {
   const body = typeof request.body === "function" ? request.body() : request.body;
-  if (isNodeReadableStream(body)) {
-    throw new Error("Node streams are not supported in browser environment.");
-  }
-
   return isWebReadableStream(body)
     ? { streaming: true, body: buildBodyStream(body, { onProgress: request.onUploadProgress }) }
     : { streaming: false, body };

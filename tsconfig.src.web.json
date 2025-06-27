@@ -1,12 +1,13 @@
 {
   "extends": "./tsconfig",
   "compilerOptions": {
-    "lib": ["DOM", "DOM.Iterable", "DOM.AsyncIterable", "ES2017"],
+    "lib": ["DOM", "DOM.Iterable", "DOM.AsyncIterable", "ES2018"],
     "types": [],
     "module": "esnext",
     "moduleResolution": "bundler",
     "composite": true,
     "noEmit": true
   },
-  "include": ["${configDir}/src/**/*-browser.mts"]
+  "include": ["${configDir}/src/**/*-browser.mts"],
+  "exclude": ["${configDir}/src/**/*-react-native.mts"]
 }
