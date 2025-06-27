@@ -136,7 +136,7 @@ describe("cancelablePromiseRace", function () {
 
   it("should respect the abort signal supplied", async function () {
     const aborter = new AbortController();
-    setTimeout(() => aborter.abort(), function1Delay / 2);
+    setTimeout(() => { console.log("### aborting the race"); aborter.abort() }, function1Delay / 2);
     let errorThrown = false;
     try {
       await cancelablePromiseRace<[number, string, void]>([function1, function2, function3], {
