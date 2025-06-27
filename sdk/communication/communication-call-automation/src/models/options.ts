@@ -59,7 +59,6 @@ export interface CallMediaRecognizeDtmfOptions extends CallMediaRecognizeOptions
   stopDtmfTones?: DtmfTone[];
   /** Maximum number of DTMF tones to be collected. */
   maxTonesToCollect?: number;
-  /** The kind of recognition options. */
   readonly kind: "callMediaRecognizeDtmfOptions";
 }
 
@@ -71,7 +70,6 @@ export interface CallMediaRecognizeChoiceOptions extends CallMediaRecognizeOptio
   speechLanguage?: string;
   /** Endpoint where the custom model was deployed. */
   speechRecognitionModelEndpointId?: string;
-  /** The kind of recognition options. */
   readonly kind: "callMediaRecognizeChoiceOptions";
 }
 
@@ -83,7 +81,6 @@ export interface CallMediaRecognizeSpeechOptions extends CallMediaRecognizeOptio
   speechLanguage?: string;
   /** Endpoint where the custom model was deployed. */
   speechRecognitionModelEndpointId?: string;
-  /** The kind of recognition options. */
   readonly kind: "callMediaRecognizeSpeechOptions";
 }
 
@@ -101,7 +98,6 @@ export interface CallMediaRecognizeSpeechOrDtmfOptions extends CallMediaRecogniz
   speechLanguage?: string;
   /** Endpoint where the custom model was deployed. */
   speechRecognitionModelEndpointId?: string;
-  /** The kind of recognition options. */
   readonly kind: "callMediaRecognizeSpeechOrDtmfOptions";
 }
 

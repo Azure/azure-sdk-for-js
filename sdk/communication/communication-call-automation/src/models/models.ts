@@ -117,9 +117,7 @@ export interface CallParticipant {
 
 /** The locator used for joining or taking action on a call. */
 export interface CallLocator {
-  /** The identifier of the call locator. */
   id: string;
-  /** The type of call locator. */
   kind: CallLocatorType;
 }
 
@@ -141,35 +139,24 @@ export interface PlaySource {
 
 /** The FileSource model. */
 export interface FileSource extends PlaySource {
-  /** The URL of the file to play. */
   url: string;
-  /** The kind of play source. */
   readonly kind: "fileSource";
 }
 
 /** The TextSource model. */
 export interface TextSource extends PlaySource {
-  /** The text to convert to speech. */
   text: string;
-  /** The locale for text-to-speech. */
   sourceLocale?: string;
-  /** The voice kind (male or female). */
   voiceKind?: VoiceKind;
-  /** The voice name to use. */
   voiceName?: string;
-  /** The custom voice endpoint ID. */
   customVoiceEndpointId?: string;
-  /** The kind of play source. */
   readonly kind: "textSource";
 }
 
 /** The SsmlSource model. */
 export interface SsmlSource extends PlaySource {
-  /** The SSML text for speech synthesis. */
   ssmlText: string;
-  /** The custom voice endpoint ID. */
   customVoiceEndpointId?: string;
-  /** The kind of play source. */
   readonly kind: "ssmlSource";
 }
 
@@ -215,7 +202,6 @@ export interface RecognitionChoice {
   label: string;
   /** List of phrases to recognize */
   phrases: string[];
-  /** The DTMF tone associated with this choice. */
   tone?: DtmfTone;
 }
 
@@ -237,7 +223,6 @@ export interface CallInvite {
     | MicrosoftTeamsAppIdentifier;
   /** Caller's phone number identifier. */
   readonly sourceCallIdNumber?: PhoneNumberIdentifier;
-  /** Display name of the source caller. */
   sourceDisplayName?: string;
   /** Used by customer to send custom context to targets. */
   customCallingContext?: CustomCallingContext;
@@ -277,31 +262,24 @@ export interface RecordingStorage {
   recordingDestinationContainerUrl?: string;
 }
 
-/** Custom calling context header. */
 export interface CustomCallingContextHeader {
-  /** The key of the header. */
   key: string;
-  /** The value of the header. */
   value: string;
 }
 
 /** VOIP header. */
 export interface VoipHeader extends CustomCallingContextHeader {
-  /** The kind of header. */
   kind: "voip";
 }
 
 /** SIP User To User header. */
 export interface SipUserToUserHeader extends CustomCallingContextHeader {
-  /** The kind of header. */
   kind: "sipuui";
 }
 
 /** SIP Custom header. */
 export interface SipCustomHeader extends CustomCallingContextHeader {
-  /** The kind of header. */
   kind: "sipx";
-  /** The SIP header prefix. */
   sipHeaderPrefix?: SipHeaderPrefix;
 }
 
@@ -310,7 +288,6 @@ export type SipHeaderPrefix = "X-" | "X-MS-Custom-";
 
 /** Teams phone call details */
 export interface TeamsPhoneCallDetails {
-  /** The kind of call details. */
   kind: "teamsPhoneCallDetails";
   /** Container for details relating to the original caller of the call */
   teamsPhoneCallerDetails?: TeamsPhoneCallerDetails;

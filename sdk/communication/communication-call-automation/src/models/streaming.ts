@@ -44,7 +44,7 @@ export enum MediaKind {
   StopAudio = "stopAudio",
 }
 
-/** Out streaming Stop Audio Data */
+// Out streaming Stop Audio Data
 export interface StopAudio {}
 
 /**
@@ -110,27 +110,25 @@ export type StreamingDataResult =
   | AudioData
   | AudioMetadata;
 
-/** Enum for different kinds of streaming data in a call automation system */
+// Enum for different kinds of streaming data in a call automation system
 export enum StreamingDataKind {
-  /** Audio data type */
+  // Audio data type
   AudioData = "AudioData",
-  /** Audio metadata type */
+  // Audio metadata type
   AudioMetadata = "AudioMetadata",
-  /** Transcription data type */
+  // Transcription data type
   TranscriptionData = "TranscriptionData",
-  /** Transcription metadata type */
+  // Transcription metadata type
   TranscriptionMetadata = "TranscriptionMetadata",
 }
 
-/** Enum for channel. */
+// Enum for channel.
 export enum Channel {
-  /** Unknown channel type. */
   Unknown = 0,
-  /** Mono channel (single channel). */
   Mono = 1,
 }
 
-/** Base class for Out Streaming Data */
+// Base class for Out Streaming Data
 export class OutStreamingData {
   /** Out streaming data kind ex. StopAudio, AudioData*/
   kind: MediaKind;
@@ -139,7 +137,6 @@ export class OutStreamingData {
   /** Out streaming Stop Audio Data */
   stopAudio?: StopAudio;
 
-  /** Constructor for OutStreamingData */
   constructor(kind: MediaKind) {
     this.kind = kind;
   }
