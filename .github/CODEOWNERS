@@ -136,11 +136,11 @@
 /sdk/digitaltwins/ @sjiherzig @johngallardo @olivakar
 
 # PRLabel: %Event Grid
-/sdk/eventgrid/ @xirzec
+/sdk/eventgrid/ @shankarsama @rajeshka
 
-# AzureSdkOwners: @xirzec
+# AzureSdkOwners: @shankarsama @rajeshka
 # ServiceLabel: %Event Grid
-# ServiceOwners: @robece
+# ServiceOwners: @shankarsama @rajeshka
 
 # PRLabel: %Event Hubs
 /sdk/eventhub/ @xirzec
