@@ -136,7 +136,10 @@ describe("cancelablePromiseRace", function () {
 
   it("should respect the abort signal supplied", async function () {
     const aborter = new AbortController();
-    setTimeout(() => aborter.abort(), function1Delay / 2);
+    setTimeout(() => {
+      console.log("### aborting the race");
+      aborter.abort();
+    }, function1Delay / 2);
     let errorThrown = false;
     try {
       await cancelablePromiseRace<[number, string, void]>([function1, function2, function3], {
@@ -145,6 +148,10 @@ describe("cancelablePromiseRace", function () {
     } catch (error) {
       errorThrown = true;
       assert.strictEqual((error as { message: string }).message, "The operation was aborted.");
+    } finally {
+      console.log(
+        `### finally: function1Aborted=${function1Aborted}, function2Aborted=${function2Aborted}, function3Aborted=${function3Aborted}, aborter.signal.aborted=${aborter.signal.aborted}`,
+      );
     }
     assert.isTrue(errorThrown);
     assert.isTrue(function1Aborted); // checks 1 is aborted
