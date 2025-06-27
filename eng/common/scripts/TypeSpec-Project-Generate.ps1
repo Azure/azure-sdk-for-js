@@ -61,6 +61,8 @@ function NpmInstallForProject([string]$workingDirectory) {
         }
 
         if ($LASTEXITCODE) { exit $LASTEXITCODE }
+        Invoke-LoggedCommand "npm list -g --depth=0 --prefix" -GroupOutput
+        Invoke-LoggedCommand "npm list --depth=0" -GroupOutput
     }
     finally {
         Pop-Location
