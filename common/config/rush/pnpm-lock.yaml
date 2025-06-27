@@ -2544,7 +2544,7 @@ packages:
     version: 0.0.0
 
   '@rush-temp/ai-projects@file:projects/ai-projects.tgz':
-    resolution: {integrity: sha512-YFOZTB6NwxBthKATwsI3KcV9inv66lyWjOnoV9sgX0lb/vcoIdTq250ppmkt2ffpQVD4TOV4HZXehlyIvog/Bg==, tarball: file:projects/ai-projects.tgz}
+    resolution: {integrity: sha512-JQPQpbI7p3F2TT5+mt26c29/nhl1TnuoJU5zB7Tl1Q3rv2p67e2xVbIQuHE/Va0PreT04yO0ZtuRDVD0l4pMOA==, tarball: file:projects/ai-projects.tgz}
     version: 0.0.0
 
   '@rush-temp/ai-text-analytics@file:projects/ai-text-analytics.tgz':
@@ -3552,7 +3552,7 @@ packages:
     version: 0.0.0
 
   '@rush-temp/arm-storageactions@file:projects/arm-storageactions.tgz':
-    resolution: {integrity: sha512-gy/vUQ9ptjAtXf5sRZ5WAsWH9GhdBHWFzGqK0kyYj5432HHAwL3OenrhGeWS7wvA14OGkDVkJNT7zFyKejJ/cw==, tarball: file:projects/arm-storageactions.tgz}
+    resolution: {integrity: sha512-7Tr6ZSDiM2AQwpaUtjqiX+z4rsmhgFX1aCpKzIgeK8egfXhrPFuAwARwpAkg/8pKQYelihhaBa4tRklBVv1RSg==, tarball: file:projects/arm-storageactions.tgz}
     version: 0.0.0
 
   '@rush-temp/arm-storagecache@file:projects/arm-storagecache.tgz':
@@ -18232,11 +18232,12 @@ snapshots:
 
   '@rush-temp/arm-storageactions@file:projects/arm-storageactions.tgz(@types/debug@4.1.12)(tsx@4.20.3)(vite@6.3.5(@types/node@22.7.9)(tsx@4.20.3)(yaml@2.8.0))(yaml@2.8.0)':
     dependencies:
-      '@azure/core-lro': 2.7.2
+      '@azure/arm-cosmosdb': 16.0.0-beta.6
       '@types/node': 20.19.1
       '@vitest/browser': 3.2.4(playwright@1.53.1)(vite@6.3.5(@types/node@22.7.9)(tsx@4.20.3)(yaml@2.8.0))(vitest@3.2.4)
       '@vitest/coverage-istanbul': 3.2.4(vitest@3.2.4)
       dotenv: 16.5.0
+      eslint: 9.29.0
       playwright: 1.53.1
       tslib: 2.8.1
       typescript: 5.8.3
