@@ -2059,7 +2059,7 @@ export interface ResourceActionCancelEventData {
     operationName?: string;
     resourceGroup?: string;
     resourceProvider?: string;
-    resourceUri?: string;
+    resourceUrl?: string;
     status?: string;
     subscriptionId?: string;
     tenantId?: string;
@@ -2074,7 +2074,7 @@ export interface ResourceActionFailureEventData {
     operationName?: string;
     resourceGroup?: string;
     resourceProvider?: string;
-    resourceUri?: string;
+    resourceUrl?: string;
     status?: string;
     subscriptionId?: string;
     tenantId?: string;
@@ -2089,7 +2089,7 @@ export interface ResourceActionSuccessEventData {
     operationName?: string;
     resourceGroup?: string;
     resourceProvider?: string;
-    resourceUri?: string;
+    resourceUrl?: string;
     status?: string;
     subscriptionId?: string;
     tenantId?: string;
@@ -2111,7 +2111,7 @@ export interface ResourceDeleteCancelEventData {
     operationName?: string;
     resourceGroup?: string;
     resourceProvider?: string;
-    resourceUri?: string;
+    resourceUrl?: string;
     status?: string;
     subscriptionId?: string;
     tenantId?: string;
@@ -2126,7 +2126,7 @@ export interface ResourceDeleteFailureEventData {
     operationName?: string;
     resourceGroup?: string;
     resourceProvider?: string;
-    resourceUri?: string;
+    resourceUrl?: string;
     status?: string;
     subscriptionId?: string;
     tenantId?: string;
@@ -2141,7 +2141,7 @@ export interface ResourceDeleteSuccessEventData {
     operationName?: string;
     resourceGroup?: string;
     resourceProvider?: string;
-    resourceUri?: string;
+    resourceUrl?: string;
     status?: string;
     subscriptionId?: string;
     tenantId?: string;
@@ -2215,7 +2215,7 @@ export interface ResourceWriteCancelEventData {
     operationName?: string;
     resourceGroup?: string;
     resourceProvider?: string;
-    resourceUri?: string;
+    resourceUrl?: string;
     status?: string;
     subscriptionId?: string;
     tenantId?: string;
@@ -2230,7 +2230,7 @@ export interface ResourceWriteFailureEventData {
     operationName?: string;
     resourceGroup?: string;
     resourceProvider?: string;
-    resourceUri?: string;
+    resourceUrl?: string;
     status?: string;
     subscriptionId?: string;
     tenantId?: string;
@@ -2245,7 +2245,7 @@ export interface ResourceWriteSuccessEventData {
     operationName?: string;
     resourceGroup?: string;
     resourceProvider?: string;
-    resourceUri?: string;
+    resourceUrl?: string;
     status?: string;
     subscriptionId?: string;
     tenantId?: string;
