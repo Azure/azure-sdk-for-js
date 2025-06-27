@@ -186,12 +186,6 @@ export const DEFAULT_LIVEMETRICS_ENDPOINT = "https://global.livediagnostics.moni
 export const AzureMonitorSampleRate = "microsoft.sample_rate";
 
 /**
- * Environment variable to track multi-ikey usage.
- * @internal
- */
-export const MULTI_IKEY_USED = "MULTI_IKEY_USED";
-
-/**
  * Enables the preview version of customer-facing Statsbeat.
  * @internal
  */
