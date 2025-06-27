@@ -22,7 +22,7 @@ const playwrightServiceGlobalSetupWrapper = async (config: FullConfig): Promise<
   const ciConfigInfo = CIInfoProvider.getCIInfo();
   const TestRunCreatepayload = {
     displayName:
-      process.env[InternalEnvironmentVariables.MPT_SERVICE_RUN_NAME] || getRunName(ciConfigInfo),
+      process.env[InternalEnvironmentVariables.MPT_SERVICE_RUN_NAME] || await getRunName(ciConfigInfo),
     config: getTestRunConfig(config),
     ciConfig: ciConfigInfo,
   };
