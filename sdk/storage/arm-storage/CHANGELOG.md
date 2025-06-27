@@ -1,5 +1,11 @@
 # Release History
 
+## 18.6.0 (2025-066-27)
+
+### Features Added
+
+  - Improve model descriptions
+
 ## 18.5.0 (2025-04-18)
 
 ### Features Added
