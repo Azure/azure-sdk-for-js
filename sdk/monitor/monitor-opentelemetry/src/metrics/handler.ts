@@ -29,7 +29,8 @@ export class MetricHandler {
    * @param config - Distro configuration.
    * @param options - Metric Handler options.
    */
-  constructor(config: InternalConfig, options?: { collectionInterval: number }) {
+  constructor(config: InternalConfig) {
+    const defaultInterval = 60000;
     this._config = config;
     // Adding Views of instrumentations will allow customer to add Metric Readers after, and get access to previously created metrics using the views shared state
     this._views = [];
@@ -57,7 +58,7 @@ export class MetricHandler {
     this._azureExporter = new AzureMonitorMetricExporter(this._config.azureMonitorExporterOptions);
     const metricReaderOptions: PeriodicExportingMetricReaderOptions = {
       exporter: this._azureExporter as any,
-      exportIntervalMillis: this._config.calculateMetricExportInterval(options),
+      exportIntervalMillis: this._config.metricExportIntervalMillis || defaultInterval,
     };
     this._metricReader = new PeriodicExportingMetricReader(metricReaderOptions);
 

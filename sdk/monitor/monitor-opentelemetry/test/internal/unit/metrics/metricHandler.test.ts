@@ -32,9 +32,7 @@ describe("MetricHandler", () => {
   });
 
   function createHandler(): void {
-    handler = new MetricHandler(config, {
-      collectionInterval: 100,
-    });
+    handler = new MetricHandler(config);
     exportStub = vi.spyOn(handler["_azureExporter"], "export").mockImplementation(
       (result: any, resultCallback: any) =>
         new Promise((resolve) => {
@@ -52,7 +50,33 @@ describe("MetricHandler", () => {
   }
 
   it("should observe instruments during collection", async () => {
-    createHandler();
+    // Set a short export interval for this test before creating the handler
+    process.env.OTEL_METRIC_EXPORT_INTERVAL = "200";
+
+    // Create a new config to pick up the environment variable
+    const testConfig = new InternalConfig();
+    if (testConfig.azureMonitorExporterOptions) {
+      testConfig.azureMonitorExporterOptions.connectionString =
+        "InstrumentationKey=1aa11111-bbbb-1ccc-8ddd-eeeeffff3333";
+    }
+
+    // Create handler with the test config
+    handler = new MetricHandler(testConfig);
+    exportStub = vi.spyOn(handler["_azureExporter"], "export").mockImplementation(
+      (result: any, resultCallback: any) =>
+        new Promise((resolve) => {
+          resultCallback({
+            code: ExportResultCode.SUCCESS,
+          });
+          resolve(result);
+        }),
+    );
+    const meterProvider = new MeterProvider({
+      views: handler.getViews(),
+      readers: [handler.getMetricReader()],
+    });
+    MetricsApi.setGlobalMeterProvider(meterProvider);
+
     const counter = MetricsApi.getMeter("testMeter").createCounter("testCounter", {
       description: "testDescription",
     });
@@ -66,6 +90,8 @@ describe("MetricHandler", () => {
     assert.strictEqual(metrics.length, 1, "metrics count");
     assert.strictEqual(metrics[0].descriptor.name, "testCounter");
     assert.strictEqual(metrics[0].descriptor.description, "testDescription");
+    // Clean up environment variable
+    delete process.env.OTEL_METRIC_EXPORT_INTERVAL;
   });
 
   it("should add views", () => {
@@ -105,11 +131,18 @@ describe("MetricHandler", () => {
       // Set the environment variable to a valid interval
       process.env.OTEL_METRIC_EXPORT_INTERVAL = "5000";
 
-      const metricHandler = new MetricHandler(config, { collectionInterval: 100 });
+      // Create a fresh config that will read the updated environment variable
+      const freshConfig = new InternalConfig();
+      if (freshConfig.azureMonitorExporterOptions) {
+        freshConfig.azureMonitorExporterOptions.connectionString =
+          "InstrumentationKey=1aa11111-bbbb-1ccc-8ddd-eeeeffff3333";
+      }
+
+      const metricHandler = new MetricHandler(freshConfig);
       const metricReader = metricHandler.getMetricReader();
 
       // Access the private _exportInterval property to verify it was set correctly
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-member-access, @typescript-eslint/naming-convention, no-underscore-dangle
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-member-access, no-underscore-dangle
       const exportInterval = (metricReader as any)._exportInterval;
       assert.strictEqual(
         exportInterval,
@@ -120,77 +153,97 @@ describe("MetricHandler", () => {
       void metricHandler.shutdown();
     });
 
-    it("should ignore OTEL_METRIC_EXPORT_INTERVAL when set to invalid value and use options", () => {
+    it("should ignore OTEL_METRIC_EXPORT_INTERVAL when set to invalid value and use default", () => {
       // Set the environment variable to an invalid value
       process.env.OTEL_METRIC_EXPORT_INTERVAL = "invalid";
+      const freshConfig = new InternalConfig({
+        azureMonitorExporterOptions: {
+          connectionString: "InstrumentationKey=1aa11111-bbbb-1ccc-8ddd-eeeeffff3333",
+        },
+      });
 
-      const metricHandler = new MetricHandler(config, { collectionInterval: 2000 });
+      const metricHandler = new MetricHandler(freshConfig);
       const metricReader = metricHandler.getMetricReader();
 
-      // Should fall back to options.collectionInterval
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-member-access, @typescript-eslint/naming-convention, no-underscore-dangle
+      // Should use default interval when env var is invalid
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-member-access, no-underscore-dangle
       const exportInterval = (metricReader as any)._exportInterval;
       assert.strictEqual(
         exportInterval,
-        2000,
-        "Export interval should use options when env var is invalid",
+        60000,
+        "Export interval should use default when env var is invalid",
       );
 
       void metricHandler.shutdown();
     });
 
-    it("should ignore OTEL_METRIC_EXPORT_INTERVAL when set to negative value and use options", () => {
+    it("should ignore OTEL_METRIC_EXPORT_INTERVAL when set to negative value and use default", () => {
       // Set the environment variable to a negative value
       process.env.OTEL_METRIC_EXPORT_INTERVAL = "-1000";
+      const freshConfig = new InternalConfig({
+        azureMonitorExporterOptions: {
+          connectionString: "InstrumentationKey=1aa11111-bbbb-1ccc-8ddd-eeeeffff3333",
+        },
+      });
 
-      const metricHandler = new MetricHandler(config, { collectionInterval: 3000 });
+      const metricHandler = new MetricHandler(freshConfig);
       const metricReader = metricHandler.getMetricReader();
 
-      // Should fall back to options.collectionInterval
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-member-access, @typescript-eslint/naming-convention, no-underscore-dangle
+      // Should use default since negative values are invalid
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-member-access, no-underscore-dangle
       const exportInterval = (metricReader as any)._exportInterval;
       assert.strictEqual(
         exportInterval,
-        3000,
-        "Export interval should use options when env var is negative",
+        60000,
+        "Export interval should use default when env var is negative",
       );
 
       void metricHandler.shutdown();
     });
 
-    it("should ignore OTEL_METRIC_EXPORT_INTERVAL when set to zero and use options", () => {
+    it("should ignore OTEL_METRIC_EXPORT_INTERVAL when set to zero and use default", () => {
       // Set the environment variable to zero
       process.env.OTEL_METRIC_EXPORT_INTERVAL = "0";
+      const freshConfig = new InternalConfig({
+        azureMonitorExporterOptions: {
+          connectionString: "InstrumentationKey=1aa11111-bbbb-1ccc-8ddd-eeeeffff3333",
+        },
+      });
 
-      const metricHandler = new MetricHandler(config, { collectionInterval: 4000 });
+      const metricHandler = new MetricHandler(freshConfig);
       const metricReader = metricHandler.getMetricReader();
 
-      // Should fall back to options.collectionInterval
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-member-access, @typescript-eslint/naming-convention, no-underscore-dangle
+      // Should use default since zero is invalid
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-member-access, no-underscore-dangle
       const exportInterval = (metricReader as any)._exportInterval;
       assert.strictEqual(
         exportInterval,
-        4000,
-        "Export interval should use options when env var is zero",
+        60000,
+        "Export interval should use default when env var is zero",
       );
 
       void metricHandler.shutdown();
     });
 
-    it("should use options.collectionInterval when OTEL_METRIC_EXPORT_INTERVAL is not set", () => {
+    it("should use default when OTEL_METRIC_EXPORT_INTERVAL is not set", () => {
       // Ensure the environment variable is not set
       delete process.env.OTEL_METRIC_EXPORT_INTERVAL;
+      const freshConfig = new InternalConfig({
+        azureMonitorExporterOptions: {
+          connectionString: "InstrumentationKey=1aa11111-bbbb-1ccc-8ddd-eeeeffff3333",
+        },
+      });
 
-      const metricHandler = new MetricHandler(config, { collectionInterval: 1500 });
+      const metricHandler = new MetricHandler(freshConfig);
       const metricReader = metricHandler.getMetricReader();
 
-      // Should use options.collectionInterval
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-member-access, @typescript-eslint/naming-convention, no-underscore-dangle
+      // Should use default when env var is not set
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-member-access, no-underscore-dangle
       const exportInterval = (metricReader as any)._exportInterval;
       assert.strictEqual(
         exportInterval,
-        1500,
-        "Export interval should use options when env var is not set",
+        60000,
+        "Export interval should use default when env var is not set",
       );
 
       void metricHandler.shutdown();
@@ -204,7 +257,7 @@ describe("MetricHandler", () => {
       const metricReader = metricHandler.getMetricReader();
 
       // Should use the default _collectionInterval (60000ms)
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-member-access, @typescript-eslint/naming-convention, no-underscore-dangle
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-member-access, no-underscore-dangle
       const exportInterval = (metricReader as any)._exportInterval;
       assert.strictEqual(
         exportInterval,
@@ -215,20 +268,27 @@ describe("MetricHandler", () => {
       void metricHandler.shutdown();
     });
 
-    it("should prioritize OTEL_METRIC_EXPORT_INTERVAL over options.collectionInterval", () => {
+    it("should prioritize OTEL_METRIC_EXPORT_INTERVAL over default", () => {
       // Set both environment variable and options
       process.env.OTEL_METRIC_EXPORT_INTERVAL = "7500";
 
-      const metricHandler = new MetricHandler(config, { collectionInterval: 1000 });
+      // Create a fresh config that will read the updated environment variable
+      const freshConfig = new InternalConfig();
+      if (freshConfig.azureMonitorExporterOptions) {
+        freshConfig.azureMonitorExporterOptions.connectionString =
+          "InstrumentationKey=1aa11111-bbbb-1ccc-8ddd-eeeeffff3333";
+      }
+
+      const metricHandler = new MetricHandler(freshConfig);
       const metricReader = metricHandler.getMetricReader();
 
-      // Should use environment variable over options
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-member-access, @typescript-eslint/naming-convention, no-underscore-dangle
+      // Should use environment variable over default
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-member-access, no-underscore-dangle
       const exportInterval = (metricReader as any)._exportInterval;
       assert.strictEqual(
         exportInterval,
         7500,
-        "Export interval should prioritize env var over options",
+        "Export interval should prioritize env var over default",
       );
 
       void metricHandler.shutdown();
@@ -238,11 +298,18 @@ describe("MetricHandler", () => {
       // Set the environment variable with whitespace
       process.env.OTEL_METRIC_EXPORT_INTERVAL = "  8000  ";
 
-      const metricHandler = new MetricHandler(config, { collectionInterval: 100 });
+      // Create a fresh config that will read the updated environment variable
+      const freshConfig = new InternalConfig();
+      if (freshConfig.azureMonitorExporterOptions) {
+        freshConfig.azureMonitorExporterOptions.connectionString =
+          "InstrumentationKey=1aa11111-bbbb-1ccc-8ddd-eeeeffff3333";
+      }
+
+      const metricHandler = new MetricHandler(freshConfig);
       const metricReader = metricHandler.getMetricReader();
 
       // parseInt should handle whitespace correctly
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-member-access, @typescript-eslint/naming-convention, no-underscore-dangle
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-member-access, no-underscore-dangle
       const exportInterval = (metricReader as any)._exportInterval;
       assert.strictEqual(
         exportInterval,
@@ -257,11 +324,18 @@ describe("MetricHandler", () => {
       // Set the environment variable to a decimal value
       process.env.OTEL_METRIC_EXPORT_INTERVAL = "1500.75";
 
-      const metricHandler = new MetricHandler(config, { collectionInterval: 100 });
+      // Create a fresh config that will read the updated environment variable
+      const freshConfig = new InternalConfig();
+      if (freshConfig.azureMonitorExporterOptions) {
+        freshConfig.azureMonitorExporterOptions.connectionString =
+          "InstrumentationKey=1aa11111-bbbb-1ccc-8ddd-eeeeffff3333";
+      }
+
+      const metricHandler = new MetricHandler(freshConfig);
       const metricReader = metricHandler.getMetricReader();
 
       // parseInt should truncate decimal values
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-member-access, @typescript-eslint/naming-convention, no-underscore-dangle
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-member-access, no-underscore-dangle
       const exportInterval = (metricReader as any)._exportInterval;
       assert.strictEqual(
         exportInterval,
