@@ -289,13 +289,13 @@ export interface StorageTaskAssignment {
 }
 
 // @public
-export interface StorageTaskAssignmentOperations {
-    storageTaskAssignmentList: (resourceGroupName: string, storageTaskName: string, options?: StorageTaskAssignmentStorageTaskAssignmentListOptionalParams) => PagedAsyncIterableIterator<StorageTaskAssignment>;
+export interface StorageTaskAssignmentListOptionalParams extends OperationOptions {
+    maxpagesize?: number;
 }
 
 // @public
-export interface StorageTaskAssignmentStorageTaskAssignmentListOptionalParams extends OperationOptions {
-    maxpagesize?: number;
+export interface StorageTaskAssignmentOperations {
+    list: (resourceGroupName: string, storageTaskName: string, options?: StorageTaskAssignmentListOptionalParams) => PagedAsyncIterableIterator<StorageTaskAssignment>;
 }
 
 // @public

@@ -8,10 +8,10 @@ import { Client } from '@azure-rest/core-client';
 import { OperationOptions } from '@azure-rest/core-client';
 
 // @public
-export function storageTaskAssignmentList(context: StorageActionsManagementContext, resourceGroupName: string, storageTaskName: string, options?: StorageTaskAssignmentStorageTaskAssignmentListOptionalParams): PagedAsyncIterableIterator<StorageTaskAssignment>;
+export function list(context: StorageActionsManagementContext, resourceGroupName: string, storageTaskName: string, options?: StorageTaskAssignmentListOptionalParams): PagedAsyncIterableIterator<StorageTaskAssignment>;
 
 // @public
-export interface StorageTaskAssignmentStorageTaskAssignmentListOptionalParams extends OperationOptions {
+export interface StorageTaskAssignmentListOptionalParams extends OperationOptions {
     maxpagesize?: number;
 }
 

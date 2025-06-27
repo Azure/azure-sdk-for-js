@@ -65,7 +65,7 @@ export {
 } from "./models/index.js";
 export { StorageActionsManagementClientOptionalParams } from "./api/index.js";
 export { OperationsListOptionalParams } from "./api/operations/index.js";
-export { StorageTaskAssignmentStorageTaskAssignmentListOptionalParams } from "./api/storageTaskAssignment/index.js";
+export { StorageTaskAssignmentListOptionalParams } from "./api/storageTaskAssignment/index.js";
 export {
   StorageTasksPreviewActionsOptionalParams,
   StorageTasksListBySubscriptionOptionalParams,

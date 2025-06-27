@@ -8,7 +8,7 @@ import {
   _storageTaskAssignmentsListResultDeserializer,
   StorageTaskAssignment,
 } from "../../models/models.js";
-import { StorageTaskAssignmentStorageTaskAssignmentListOptionalParams } from "./options.js";
+import { StorageTaskAssignmentListOptionalParams } from "./options.js";
 import {
   PagedAsyncIterableIterator,
   buildPagedAsyncIterator,
@@ -21,13 +21,11 @@ import {
   operationOptionsToRequestParameters,
 } from "@azure-rest/core-client";
 
-export function _storageTaskAssignmentListSend(
+export function _listSend(
   context: Client,
   resourceGroupName: string,
   storageTaskName: string,
-  options: StorageTaskAssignmentStorageTaskAssignmentListOptionalParams = {
-    requestOptions: {},
-  },
+  options: StorageTaskAssignmentListOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.StorageActions/storageTasks/{storageTaskName}/storageTaskAssignments{?api%2Dversion,%24maxpagesize}",
@@ -51,7 +49,7 @@ export function _storageTaskAssignmentListSend(
   });
 }
 
-export async function _storageTaskAssignmentListDeserialize(
+export async function _listDeserialize(
   result: PathUncheckedResponse,
 ): Promise<_StorageTaskAssignmentsListResult> {
   const expectedStatuses = ["200"];
@@ -65,18 +63,16 @@ export async function _storageTaskAssignmentListDeserialize(
 }
 
 /** Lists Resource IDs of the Storage Task Assignments associated with this Storage Task. */
-export function storageTaskAssignmentList(
+export function list(
   context: Client,
   resourceGroupName: string,
   storageTaskName: string,
-  options: StorageTaskAssignmentStorageTaskAssignmentListOptionalParams = {
-    requestOptions: {},
-  },
+  options: StorageTaskAssignmentListOptionalParams = { requestOptions: {} },
 ): PagedAsyncIterableIterator<StorageTaskAssignment> {
   return buildPagedAsyncIterator(
     context,
-    () => _storageTaskAssignmentListSend(context, resourceGroupName, storageTaskName, options),
-    _storageTaskAssignmentListDeserialize,
+    () => _listSend(context, resourceGroupName, storageTaskName, options),
+    _listDeserialize,
     ["200"],
     { itemName: "value", nextLinkName: "nextLink" },
   );

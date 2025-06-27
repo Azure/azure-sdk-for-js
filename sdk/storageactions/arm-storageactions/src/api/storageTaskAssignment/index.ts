@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-export { storageTaskAssignmentList } from "./operations.js";
-export { StorageTaskAssignmentStorageTaskAssignmentListOptionalParams } from "./options.js";
+export { list } from "./operations.js";
+export { StorageTaskAssignmentListOptionalParams } from "./options.js";
