@@ -5,7 +5,7 @@
  * @param {string} pipelineId
  * @return {string} - the url to get the latest build for the pipeline
  */
-export function buildUrl(pipelineId) {
+export function buildUrl(pipelineId: string): string {
   return `https://dev.azure.com/azure-sdk/internal/_apis/build/builds?definitions=${pipelineId}&$top=1&queryOrder=finishTimeDescending&reasonFilter=schedule&api-version=7.0`;
 }
 const LIST_BUILDS_URL = "https://dev.azure.com/azure-sdk/internal/_apis/pipelines?api-version=7.0";

@@ -111,7 +111,7 @@ function recordTestResult(
   if (!pipeline[runTaskKind]) {
     pipeline[runTaskKind] = { status: "UNKNOWN" };
   }
-  const unsuccessful = ["failed", "canceled", "abandoned", "skip", "succeededWithIssues"];
+  const unsuccessful = ["failed", "canceled", "abandoned", "skipped", "succeededWithIssues"];
   const old = pipeline[runTaskKind];
   if (task["result"] === "succeeded") {
     if (!unsuccessful.includes(pipeline[runTaskKind].status)) {
@@ -261,7 +261,7 @@ async function getTestsResult(
   token: string,
   pipelineId?: number,
 ) {
-  getBuildResult("tests", pkgName, pipelines, token, pipelineId);
+  await getBuildResult("tests", pkgName, pipelines, token, pipelineId);
 }
 
 async function getWeeklyTestsResult(
@@ -270,7 +270,7 @@ async function getWeeklyTestsResult(
   token: string,
   pipelineId?: number,
 ) {
-  getBuildResult("weeklyTests", pkgName, pipelines, token, pipelineId);
+  await getBuildResult("weeklyTests", pkgName, pipelines, token, pipelineId);
 }
 
 /**
