@@ -85,7 +85,7 @@ $mainTypeSpecFile = If (Test-Path "$npmWorkingDir/client.*") { Resolve-Path "$np
 
 try {
     Push-Location $npmWorkingDir
-    NpmInstallForProject $npmWorkingDir
+    #NpmInstallForProject $npmWorkingDir
 
     if ($LASTEXITCODE) { exit $LASTEXITCODE }    
     $fileGenerateInput = 'generateInput.json';
