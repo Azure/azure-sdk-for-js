@@ -11,7 +11,6 @@ import type { StatsbeatEnvironmentConfig } from "../../../src/types.js";
 import {
   APPLICATIONINSIGHTS_STATSBEAT_ENABLED_PREVIEW,
   AZURE_MONITOR_STATSBEAT_FEATURES,
-  MULTI_IKEY_USED,
   StatsbeatFeature,
   StatsbeatInstrumentation,
   StatsbeatInstrumentationMap,
@@ -396,9 +395,33 @@ describe("Main functions", () => {
     assert.strictEqual(updatedStatsbeat.instrumentation, StatsbeatInstrumentation.FS);
   });
 
-  it("should set MULTI_IKEY feature when MULTI_IKEY_USED env var is set", () => {
+  it("should detect MULTI_IKEY feature when AZURE_MONITOR_STATSBEAT_FEATURES has MULTI_IKEY enabled", () => {
     const env = <{ [id: string]: string }>{};
-    env[MULTI_IKEY_USED] = "true";
+    // Pre-set the AZURE_MONITOR_STATSBEAT_FEATURES with MULTI_IKEY feature enabled
+    env[AZURE_MONITOR_STATSBEAT_FEATURES] = JSON.stringify({
+      feature: StatsbeatFeature.MULTI_IKEY,
+      instrumentation: 0,
+    });
+    process.env = env;
+    const config: AzureMonitorOpenTelemetryOptions = {
+      azureMonitorExporterOptions: {
+        connectionString: "InstrumentationKey=00000000-0000-0000-0000-000000000000",
+      },
+    };
+    useAzureMonitor(config);
+    const output = JSON.parse(String(process.env["AZURE_MONITOR_STATSBEAT_FEATURES"])) as { feature?: number };
+    const features = Number(output["feature"] || 0);
+    assert.ok(features & StatsbeatFeature.MULTI_IKEY, "MULTI_IKEY not detected");
+    void shutdownAzureMonitor();
+  });
+
+  it("should not detect MULTI_IKEY feature when AZURE_MONITOR_STATSBEAT_FEATURES has MULTI_IKEY disabled", () => {
+    const env = <{ [id: string]: string }>{};
+    // Pre-set the AZURE_MONITOR_STATSBEAT_FEATURES with MULTI_IKEY feature disabled
+    env[AZURE_MONITOR_STATSBEAT_FEATURES] = JSON.stringify({
+      feature: StatsbeatFeature.DISTRO, // Different feature, not MULTI_IKEY
+      instrumentation: 0,
+    });
     process.env = env;
     const config: AzureMonitorOpenTelemetryOptions = {
       azureMonitorExporterOptions: {
@@ -408,22 +431,9 @@ describe("Main functions", () => {
     useAzureMonitor(config);
     const output = JSON.parse(String(process.env["AZURE_MONITOR_STATSBEAT_FEATURES"]));
     const features = Number(output["feature"]);
-    assert.ok(features & StatsbeatFeature.MULTI_IKEY, "MULTI_IKEY not set");
-    void shutdownAzureMonitor();
-  });
-
-  it("should not set MULTI_IKEY feature when MULTI_IKEY_USED env var is not set", () => {
-    // Ensure the env var is not set
-    delete process.env[MULTI_IKEY_USED];
-    const config: AzureMonitorOpenTelemetryOptions = {
-      azureMonitorExporterOptions: {
-        connectionString: "InstrumentationKey=00000000-0000-0000-0000-000000000000",
-      },
-    };
-    useAzureMonitor(config);
-    const output = JSON.parse(String(process.env["AZURE_MONITOR_STATSBEAT_FEATURES"]));
-    const features = Number(output["feature"]);
-    assert.ok(!(features & StatsbeatFeature.MULTI_IKEY), "MULTI_IKEY is set when it should not be");
+    // Should have DISTRO and potentially other features, but the MULTI_IKEY detection should not add it
+    // since it wasn't in the environment variable
+    assert.ok(!(features & StatsbeatFeature.MULTI_IKEY), "MULTI_IKEY detected when it should not be");
     void shutdownAzureMonitor();
   });
 
