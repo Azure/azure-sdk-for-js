@@ -25,7 +25,7 @@ export function createAgents(
   options: AgentsClientOptionalParams = {},
 ): AgentsContext {
   const prefixFromOptions = options?.userAgentOptions?.userAgentPrefix;
-  const userAgentInfo = `azsdk-js-ai-agents/1.0.0-beta.4`;
+  const userAgentInfo = `azsdk-js-ai-agents/1.0.0-beta.5`;
   const userAgentPrefix = prefixFromOptions
     ? `${prefixFromOptions} azsdk-js-api ${userAgentInfo}`
     : `azsdk-js-api ${userAgentInfo}`;
