@@ -9,8 +9,8 @@ import { useAzureMonitor, shutdownAzureMonitor } from "../../../src/index.js";
 import type { MeterProvider } from "@opentelemetry/sdk-metrics";
 import type { StatsbeatEnvironmentConfig } from "../../../src/types.js";
 import {
-  APPLICATIONINSIGHTS_STATSBEAT_ENABLED_PREVIEW,
   AZURE_MONITOR_STATSBEAT_FEATURES,
+  APPLICATIONINSIGHTS_STATSBEAT_ENABLED_PREVIEW,
   StatsbeatFeature,
   StatsbeatInstrumentation,
   StatsbeatInstrumentationMap,
