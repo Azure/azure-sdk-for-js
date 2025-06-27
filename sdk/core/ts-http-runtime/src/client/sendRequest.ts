@@ -6,9 +6,11 @@ import type {
   HttpMethods,
   MultipartRequestBody,
   PipelineRequest,
+  PipelineRequestOptions,
   PipelineResponse,
   RequestBodyType,
 } from "../interfaces.js";
+import type { PipelineResponseInternal, RequestBodyTypeInternal } from "../interfacesInternal.js";
 import { isRestError, RestError } from "../restError.js";
 import type { Pipeline } from "../pipeline.js";
 import { createHttpHeaders } from "../httpHeaders.js";
@@ -39,7 +41,7 @@ export async function sendRequest(
   const request = buildPipelineRequest(method, url, options);
 
   try {
-    const response = await pipeline.sendRequest(httpClient, request);
+    const response = (await pipeline.sendRequest(httpClient, request)) as PipelineResponseInternal;
     const headers = response.headers.toJSON();
     const stream = response.readableStreamBody ?? response.browserStreamBody;
     const parsedBody =
@@ -142,11 +144,11 @@ function buildPipelineRequest(
     streamResponseStatusCodes: options.responseAsStream
       ? new Set([Number.POSITIVE_INFINITY])
       : undefined,
-  });
+  } as PipelineRequestOptions);
 }
 
 interface RequestBody {
-  body?: RequestBodyType;
+  body?: RequestBodyTypeInternal;
   multipartBody?: MultipartRequestBody;
 }
 
