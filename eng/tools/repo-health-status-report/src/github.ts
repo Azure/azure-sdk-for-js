@@ -28,14 +28,26 @@ export async function uploadResultToGitHubJsRepo(csvPath: string) {
   const {
     data: { login },
   } = await octokit.rest.users.getAuthenticated();
+
+  const owner = login;
+  const repo = "azure-sdk-for-js";
+  const branch = "js-sdk-health-report";
   const path = `eng/tools/repo-health-status-report/health_report.csv`;
+  let sha = undefined;
+  try {
+    const file = await octokit.rest.repos.getContent({ owner, repo, path, ref: branch });
+    sha = file.data.sha;
+  } catch (error) {
+    if (error.status !== 404) throw error; // Ignore if file doesn't exist
+  }
   await octokit.rest.repos.createOrUpdateFileContents({
-    owner: login,
-    repo: "azure-sdk-for-js",
-    branch: "js-sdk-health-report",
+    owner,
+    repo,
+    branch,
     path,
+    sha,
     message: "Update health report",
-    content: await readFile(csvPath, "utf-8"),
+    content: Buffer.from(await readFile(csvPath, "utf-8")).toString("base64"),
   });
   console.log(`Health report uploaded to azure-sdk-for-js ${path}`);
 }
