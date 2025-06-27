@@ -405,7 +405,9 @@ describe("Main functions", () => {
       },
     };
     useAzureMonitor(config);
-    const output = JSON.parse(String(process.env["AZURE_MONITOR_STATSBEAT_FEATURES"])) as { feature?: number };
+    const output = JSON.parse(String(process.env["AZURE_MONITOR_STATSBEAT_FEATURES"])) as {
+      feature?: number;
+    };
     const features = Number(output["feature"] || 0);
     assert.ok(features & StatsbeatFeature.MULTI_IKEY, "MULTI_IKEY not detected");
     void shutdownAzureMonitor();
@@ -421,9 +423,14 @@ describe("Main functions", () => {
       },
     };
     useAzureMonitor(config);
-    const output = JSON.parse(String(process.env["AZURE_MONITOR_STATSBEAT_FEATURES"])) as { feature?: number };
+    const output = JSON.parse(String(process.env["AZURE_MONITOR_STATSBEAT_FEATURES"])) as {
+      feature?: number;
+    };
     const features = Number(output["feature"] || 0);
-    assert.ok(!(features & StatsbeatFeature.MULTI_IKEY), "MULTI_IKEY detected when it should not be");
+    assert.ok(
+      !(features & StatsbeatFeature.MULTI_IKEY),
+      "MULTI_IKEY detected when it should not be",
+    );
     void shutdownAzureMonitor();
   });
 
@@ -437,9 +444,14 @@ describe("Main functions", () => {
       },
     };
     useAzureMonitor(config);
-    const output = JSON.parse(String(process.env["AZURE_MONITOR_STATSBEAT_FEATURES"])) as { feature?: number };
+    const output = JSON.parse(String(process.env["AZURE_MONITOR_STATSBEAT_FEATURES"])) as {
+      feature?: number;
+    };
     const features = Number(output["feature"] || 0);
-    assert.ok(features & StatsbeatFeature.CUSTOMER_STATSBEAT, "CUSTOMER_STATSBEAT feature should be detected when env var is 'True'");
+    assert.ok(
+      features & StatsbeatFeature.CUSTOMER_STATSBEAT,
+      "CUSTOMER_STATSBEAT feature should be detected when env var is 'True'",
+    );
     assert.ok(features & StatsbeatFeature.DISTRO, "DISTRO feature should also be set");
     void shutdownAzureMonitor();
   });
@@ -454,9 +466,14 @@ describe("Main functions", () => {
       },
     };
     useAzureMonitor(config);
-    const output = JSON.parse(String(process.env["AZURE_MONITOR_STATSBEAT_FEATURES"])) as { feature?: number };
+    const output = JSON.parse(String(process.env["AZURE_MONITOR_STATSBEAT_FEATURES"])) as {
+      feature?: number;
+    };
     const features = Number(output["feature"] || 0);
-    assert.ok(!(features & StatsbeatFeature.CUSTOMER_STATSBEAT), "CUSTOMER_STATSBEAT feature should not be detected when env var is not 'True'");
+    assert.ok(
+      !(features & StatsbeatFeature.CUSTOMER_STATSBEAT),
+      "CUSTOMER_STATSBEAT feature should not be detected when env var is not 'True'",
+    );
     assert.ok(features & StatsbeatFeature.DISTRO, "DISTRO feature should still be set");
     void shutdownAzureMonitor();
   });
@@ -471,9 +488,14 @@ describe("Main functions", () => {
       },
     };
     useAzureMonitor(config);
-    const output = JSON.parse(String(process.env["AZURE_MONITOR_STATSBEAT_FEATURES"])) as { feature?: number };
+    const output = JSON.parse(String(process.env["AZURE_MONITOR_STATSBEAT_FEATURES"])) as {
+      feature?: number;
+    };
     const features = Number(output["feature"] || 0);
-    assert.ok(!(features & StatsbeatFeature.CUSTOMER_STATSBEAT), "CUSTOMER_STATSBEAT feature should not be detected when env var is undefined");
+    assert.ok(
+      !(features & StatsbeatFeature.CUSTOMER_STATSBEAT),
+      "CUSTOMER_STATSBEAT feature should not be detected when env var is undefined",
+    );
     assert.ok(features & StatsbeatFeature.DISTRO, "DISTRO feature should still be set");
     void shutdownAzureMonitor();
   });
