@@ -1178,19 +1178,12 @@ export type RecordingKind = string;
 
 // @public
 export interface RecordingResult {
-    // (undocumented)
     readonly errors?: ErrorModel[];
-    // (undocumented)
     readonly recordingDurationMs?: number;
-    // (undocumented)
     readonly recordingExpirationTime?: Date;
-    // (undocumented)
     recordingId: string;
-    // (undocumented)
     readonly recordingStartTime?: Date;
-    // (undocumented)
     readonly recordingStorageInfo?: RecordingStorageInfo;
-    // (undocumented)
     readonly sessionEndReason?: CallSessionEndReason;
 }
 
@@ -1214,11 +1207,8 @@ export interface RecordingStateChanged {
 
 // @public
 export interface RecordingStateResult {
-    // (undocumented)
     recordingId: string;
-    // (undocumented)
     recordingKind: string;
-    // (undocumented)
     recordingState: RecordingState;
 }
 

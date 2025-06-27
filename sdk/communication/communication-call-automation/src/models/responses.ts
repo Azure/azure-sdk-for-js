@@ -128,19 +128,29 @@ export interface MuteParticipantResult {
 
 /** The response payload for starting a call recording or getting call recording state. */
 export interface RecordingStateResult {
+  /** The unique recording identifier. */
   recordingId: string;
+  /** The kind of recording (e.g., AzureCommunicationServices, Teams). */
   recordingKind: string;
+  /** The current state of the recording. */
   recordingState: RecordingState;
 }
 
 /** The response payload for starting a call recording or getting call recording result. */
 export interface RecordingResult {
+  /** The unique identifier for the recording */
   recordingId: string;
+  /** Container for recording storage information and chunks */
   readonly recordingStorageInfo?: RecordingStorageInfo;
+  /** List of errors that occurred during recording, if any */
   readonly errors?: ErrorModel[];
+  /** The timestamp when the recording started */
   readonly recordingStartTime?: Date;
+  /** The duration of the recording in milliseconds */
   readonly recordingDurationMs?: number;
+  /** The reason why the call session ended */
   readonly sessionEndReason?: CallSessionEndReason;
+  /** The timestamp when the recording will expire */
   readonly recordingExpirationTime?: Date;
 }
 
