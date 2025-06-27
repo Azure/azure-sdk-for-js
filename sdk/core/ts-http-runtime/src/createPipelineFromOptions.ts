@@ -3,9 +3,9 @@
 
 import { type LogPolicyOptions, logPolicy } from "./policies/logPolicy.js";
 import { type Pipeline, createEmptyPipeline } from "./pipeline.js";
-import type { Agent, PipelineRetryOptions, ProxySettings, TlsSettings } from "./interfaces.js";
-import { type RedirectPolicyOptions, redirectPolicy } from "./policies/redirectPolicy.js";
-import { type UserAgentPolicyOptions, userAgentPolicy } from "./policies/userAgentPolicy.js";
+import type { PipelineOptions } from "./interfaces.js";
+import { redirectPolicy } from "./policies/redirectPolicy.js";
+import { userAgentPolicy } from "./policies/userAgentPolicy.js";
 import { decompressResponsePolicy } from "./policies/decompressResponsePolicy.js";
 import { defaultRetryPolicy } from "./policies/defaultRetryPolicy.js";
 import { formDataPolicy } from "./policies/formDataPolicy.js";
@@ -14,53 +14,6 @@ import { proxyPolicy } from "./policies/proxyPolicy.js";
 import { agentPolicy } from "./policies/agentPolicy.js";
 import { tlsPolicy } from "./policies/tlsPolicy.js";
 import { multipartPolicy, multipartPolicyName } from "./policies/multipartPolicy.js";
-
-/**
- * Defines options that are used to configure the HTTP pipeline for
- * an SDK client.
- */
-export interface PipelineOptions {
-  /**
-   * Options that control how to retry failed requests.
-   */
-  retryOptions?: PipelineRetryOptions;
-
-  /**
-   * Options to configure a proxy for outgoing requests.
-   */
-  proxyOptions?: ProxySettings;
-
-  /** Options for configuring Agent instance for outgoing requests */
-  agent?: Agent;
-
-  /** Options for configuring TLS authentication */
-  tlsOptions?: TlsSettings;
-
-  /**
-   * Options for how redirect responses are handled.
-   */
-  redirectOptions?: RedirectPolicyOptions;
-
-  /**
-   * Options for adding user agent details to outgoing requests.
-   */
-  userAgentOptions?: UserAgentPolicyOptions;
-
-  /**
-   * Options for setting common telemetry and tracing info to outgoing requests.
-   */
-  telemetryOptions?: TelemetryOptions;
-}
-
-/**
- * Defines options that are used to configure common telemetry and tracing info
- */
-export interface TelemetryOptions {
-  /**
-   * The name of the header to pass the request ID to.
-   */
-  clientRequestIdHeaderName?: string;
-}
 
 /**
  * Defines options that are used to configure internal options of

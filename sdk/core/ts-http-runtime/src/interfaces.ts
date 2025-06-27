@@ -1,50 +1,39 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
+import type { Blob, Buffer, File } from "node:buffer";
 import type { AuthScheme } from "./auth/schemes.js";
+import type {
+  HttpHeaders,
+  HttpMethods,
+  PipelineRetryOptions,
+  TelemetryOptions,
+  TransferProgressEvent,
+  RedirectPolicyOptions,
+  UserAgentPolicyOptions,
+} from "./interfacesCommon.js";
+export {
+  HttpHeaders,
+  HttpMethods,
+  PipelineRetryOptions,
+  RawHttpHeaders,
+  RawHttpHeadersInput,
+  TelemetryOptions,
+  TransferProgressEvent,
+  RedirectPolicyOptions,
+  UserAgentPolicyOptions,
+} from "./interfacesCommon.js";
 
 /**
- * A HttpHeaders collection represented as a simple JSON object.
+ * Each form data entry can be a string, Blob, or a File. If you wish to pass a file with a name but do not have
+ * access to the File class, you can use the createFile helper to create one.
  */
-export type RawHttpHeaders = { [headerName: string]: string };
+export type FormDataValue = string | Blob | File;
 
 /**
- * A HttpHeaders collection for input, represented as a simple JSON object.
+ * A simple object that provides form data, as if from a browser form.
  */
-export type RawHttpHeadersInput = Record<string, string | number | boolean>;
-
-/**
- * Represents a set of HTTP headers on a request/response.
- * Header names are treated as case insensitive.
- */
-export interface HttpHeaders extends Iterable<[string, string]> {
-  /**
-   * Returns the value of a specific header or undefined if not set.
-   * @param name - The name of the header to retrieve.
-   */
-  get(name: string): string | undefined;
-  /**
-   * Returns true if the specified header exists.
-   * @param name - The name of the header to check.
-   */
-  has(name: string): boolean;
-  /**
-   * Sets a specific header with a given value.
-   * @param name - The name of the header to set.
-   * @param value - The value to use for the header.
-   */
-  set(name: string, value: string | number | boolean): void;
-  /**
-   * Removes a specific header from the collection.
-   * @param name - The name of the header to delete.
-   */
-  delete(name: string): void;
-  /**
-   * Accesses a raw JS object that acts as a simple map
-   * of header names to values.
-   */
-  toJSON(options?: { preserveCase?: boolean }): RawHttpHeaders;
-}
+export type FormDataMap = { [key: string]: FormDataValue | FormDataValue[] };
 
 /**
  * A part of the request body in a multipart request.
@@ -86,15 +75,10 @@ export interface MultipartRequestBody {
 
 /**
  * Types of bodies supported on the request.
- * NodeJS.ReadableStream and () =\> NodeJS.ReadableStream is Node only.
- * Blob, ReadableStream<Uint8Array>, and () =\> ReadableStream<Uint8Array> are browser only.
  */
 export type RequestBodyType =
   | NodeJS.ReadableStream
   | (() => NodeJS.ReadableStream)
-  | ReadableStream<Uint8Array>
-  | (() => ReadableStream<Uint8Array>)
-  | Blob
   | ArrayBuffer
   | ArrayBufferView
   | FormData
@@ -224,22 +208,9 @@ export interface PipelineRequest {
   allowInsecureConnection?: boolean;
 
   /**
-   * NODEJS ONLY
-   *
-   * A Node-only option to provide a custom `http.Agent`/`https.Agent`.
-   * Does nothing when running in the browser.
+   * An option to provide a custom `http.Agent`/`https.Agent`.
    */
   agent?: Agent;
-
-  /**
-   * BROWSER ONLY
-   *
-   * A browser only option to enable browser Streams. If this option is set and a response is a stream
-   * the response will have a property `browserStream` instead of `blobBody` which will be undefined.
-   *
-   * Default value is false
-   */
-  enableBrowserStreams?: boolean;
 
   /** Settings for configuring TLS authentication */
   tlsSettings?: TlsSettings;
@@ -250,7 +221,6 @@ export interface PipelineRequest {
    *
    * For possible valid properties, see
    *   - NodeJS https.request options:  https://nodejs.org/api/http.html#httprequestoptions-callback
-   *   - Browser RequestInit: https://developer.mozilla.org/en-US/docs/Web/API/RequestInit
    *
    * WARNING: Options specified here will override any properties of same names when request is sent by {@link HttpClient}.
    */
@@ -280,24 +250,6 @@ export interface PipelineResponse {
   bodyAsText?: string | null;
 
   /**
-   * BROWSER ONLY
-   *
-   * The response body as a browser Blob.
-   * Always undefined in node.js.
-   */
-  blobBody?: Promise<Blob>;
-
-  /**
-   * BROWSER ONLY
-   *
-   * The response body as a browser ReadableStream.
-   * Always undefined in node.js.
-   */
-  browserStreamBody?: ReadableStream<Uint8Array>;
-
-  /**
-   * NODEJS ONLY
-   *
    * The response body as a node.js Readable stream.
    * Always undefined in the browser.
    */
@@ -321,32 +273,7 @@ export interface HttpClient {
 }
 
 /**
- * Fired in response to upload or download progress.
- */
-export type TransferProgressEvent = {
-  /**
-   * The number of bytes loaded so far.
-   */
-  loadedBytes: number;
-};
-
-// UNBRANDED DIFFERENCE: HttpMethods are defined at the top level in unbranded instead of core-util since we don't
-//                       need to worry about creating a cyclic dependency
-/**
- * Supported HTTP methods to use when making requests.
- */
-export type HttpMethods =
-  | "GET"
-  | "PUT"
-  | "POST"
-  | "DELETE"
-  | "PATCH"
-  | "HEAD"
-  | "OPTIONS"
-  | "TRACE";
-
-/**
- * Options to configure a proxy for outgoing requests (Node.js only).
+ * Options to configure a proxy for outgoing requests.
  */
 export interface ProxySettings {
   /**
@@ -369,40 +296,6 @@ export interface ProxySettings {
    * The password to authenticate with the proxy, if required.
    */
   password?: string;
-}
-
-/**
- * Each form data entry can be a string, Blob, or a File. If you wish to pass a file with a name but do not have
- * access to the File class, you can use the createFile helper to create one.
- */
-export type FormDataValue = string | Blob | File;
-
-/**
- * A simple object that provides form data, as if from a browser form.
- */
-export type FormDataMap = { [key: string]: FormDataValue | FormDataValue[] };
-
-/**
- * Options that control how to retry failed requests.
- */
-export interface PipelineRetryOptions {
-  /**
-   * The maximum number of retry attempts. Defaults to 3.
-   */
-  maxRetries?: number;
-
-  /**
-   * The amount of delay in milliseconds between retry attempts. Defaults to 1000
-   * (1 second). The delay increases exponentially with each retry up to a maximum
-   * specified by maxRetryDelayInMs.
-   */
-  retryDelayInMs?: number;
-
-  /**
-   * The maximum delay in milliseconds allowed before retrying an operation. Defaults
-   * to 64000 (64 seconds).
-   */
-  maxRetryDelayInMs?: number;
 }
 
 /**
@@ -531,4 +424,141 @@ export interface PxfObject {
    * Optional passphrase.
    */
   passphrase?: string | undefined;
+}
+
+/**
+ * Settings to initialize a request.
+ * Almost equivalent to Partial<PipelineRequest>, but url is mandatory.
+ */
+export interface PipelineRequestOptions {
+  /**
+   * The URL to make the request to.
+   */
+  url: string;
+
+  /**
+   * The HTTP method to use when making the request.
+   */
+  method?: HttpMethods;
+
+  /**
+   * The HTTP headers to use when making the request.
+   */
+  headers?: HttpHeaders;
+
+  /**
+   * The number of milliseconds a request can take before automatically being terminated.
+   * If the request is terminated, an `AbortError` is thrown.
+   * Defaults to 0, which disables the timeout.
+   */
+  timeout?: number;
+
+  /**
+   * A unique identifier for the request. Used for logging and tracing.
+   */
+  requestId?: string;
+
+  /**
+   * The HTTP body content (if any)
+   */
+  body?: RequestBodyType;
+
+  /**
+   * Body for a multipart request.
+   */
+  multipartBody?: MultipartRequestBody;
+
+  /**
+   * To simulate a browser form post
+   */
+  formData?: FormDataMap;
+
+  /**
+   * A list of response status codes whose corresponding PipelineResponse body should be treated as a stream.
+   */
+  streamResponseStatusCodes?: Set<number>;
+
+  /**
+   * Proxy configuration.
+   */
+  proxySettings?: ProxySettings;
+
+  /**
+   * If the connection should not be reused.
+   */
+  disableKeepAlive?: boolean;
+
+  /**
+   * Used to abort the request later.
+   */
+  abortSignal?: AbortSignal;
+
+  /**
+   * Callback which fires upon upload progress.
+   */
+  onUploadProgress?: (progress: TransferProgressEvent) => void;
+
+  /** Callback which fires upon download progress. */
+  onDownloadProgress?: (progress: TransferProgressEvent) => void;
+
+  /** Set to true if the request is sent over HTTP instead of HTTPS */
+  allowInsecureConnection?: boolean;
+
+  /**
+   * List of authentication schemes used for this specific request.
+   * These schemes define how the request will be authenticated.
+   *
+   * If values are provided, these schemes override the client level authentication schemes.
+   * If an empty array is provided, it explicitly specifies no authentication for the request.
+   * If not provided at the request level, the client level authentication schemes will be used.
+   */
+  authSchemes?: AuthScheme[];
+
+  /**
+   * Additional options to set on the request. This provides a way to override
+   * existing ones or provide request properties that are not declared.
+   *
+   * For possible valid properties, see
+   *   - NodeJS https.request options:  https://nodejs.org/api/http.html#httprequestoptions-callback
+   *
+   * WARNING: Options specified here will override any properties of same names when request is sent by {@link HttpClient}.
+   */
+  requestOverrides?: Record<string, unknown>;
+}
+
+/**
+ * Defines options that are used to configure the HTTP pipeline for
+ * an SDK client.
+ */
+export interface PipelineOptions {
+  /**
+   * Options that control how to retry failed requests.
+   */
+  retryOptions?: PipelineRetryOptions;
+
+  /**
+   * Options to configure a proxy for outgoing requests.
+   */
+  proxyOptions?: ProxySettings;
+
+  /** Options for configuring Agent instance for outgoing requests */
+  agent?: Agent;
+
+  /** Options for configuring TLS authentication */
+  tlsOptions?: TlsSettings;
+
+  /**
+   * Options for how redirect responses are handled.
+   */
+  redirectOptions?: RedirectPolicyOptions;
+
+  /**
+   * Options for adding user agent details to outgoing requests.
+   */
+  userAgentOptions?: UserAgentPolicyOptions;
+
+  /**
+   * Options for setting common telemetry and tracing info to outgoing requests.
+   */
+  telemetryOptions?: TelemetryOptions;
 }

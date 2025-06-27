@@ -1,5 +1,5 @@
 {
-  "extends": "../../../tsconfig.lib.build.json",
+  "extends": "../../../tsconfig.src.build.json",
   "compilerOptions": {
     "skipLibCheck": true
   }
