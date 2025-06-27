@@ -478,6 +478,9 @@ For detailed troubleshooting steps related to Asset Sync workflow, refer to the 
 - **How do I inspect my recordings?**  
   Inspect recordings in the `.assets` directory at the root of the repository. See [Inspecting Recordings](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/test-utils/recorder/ASSET_SYNC_WORKFLOW.md#inspecting-recordings-with-asset-sync-enabled).
 
+- **Test succeeds in record mode, but why are the recordings not saved?**  
+  Make sure you're stopping the recorder with `await recorder.stop()` at the end of your test.
+
 ### Next steps
 
 All the libraries in the `azure-sdk-for-js` repository leverage test-recorder (v4.x.x). 
