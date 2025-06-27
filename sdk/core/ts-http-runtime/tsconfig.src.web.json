@@ -1,0 +1,34 @@
+{
+  "extends": "../../../tsconfig.src.web.json",
+  "include": [
+    "src/**/*-browser.mts",
+    "src/constants.ts",
+    "src/abort-controller/AbortError.ts",
+    "src/auth/credentials.ts",
+    "src/auth/oauth2Flows.ts",
+    "src/auth/schemes.ts",
+    "src/fetchHttpClient.ts",
+    "src/httpHeaders.ts",
+    "src/interfacesCommon.ts",
+    "src/interfacesWeb.ts",
+    "src/logger/log.common.ts",
+    "src/restErrorWeb.ts",
+    "src/util/bytesEncoding.common.ts",
+    "src/util/delay.ts",
+    "src/util/error.ts",
+    "src/util/object.ts",
+    "src/util/random.ts",
+    "src/util/sanitizer.ts",
+    "src/util/typeGuardsWeb.ts",
+    "src/util/typeGuardsCommon.ts",
+    "src/util/uuidUtils.common.ts"
+  ],
+  "exclude": [
+    "src/**/*-react-native.mts",
+    "src/defaultHttpClient-browser.mts",
+    "src/exports-browser.mts",
+    "src/util/sha256-browser.mts",
+    "src/util/concat-browser.mts",
+    "src/policies"
+  ]
+}

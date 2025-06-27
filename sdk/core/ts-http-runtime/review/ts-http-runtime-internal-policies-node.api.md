@@ -4,6 +4,10 @@
 
 ```ts
 
+import type { Blob as Blob_2 } from 'node:buffer';
+import type { Buffer as Buffer_2 } from 'node:buffer';
+import type { File as File_2 } from 'node:buffer';
+
 // @public
 export function agentPolicy(agent?: Agent): PipelinePolicy;
 
