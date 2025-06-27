@@ -25,11 +25,9 @@ function getOctokit() {
 
 export async function uploadResultToGitHubJsRepo(csvPath: string) {
   const octokit = getOctokit();
-  const {
-    data: { login },
-  } = await octokit.rest.users.getAuthenticated();
+  await octokit.rest.users.getAuthenticated();
 
-  const owner = login;
+  const owner = "Azure";
   const repo = "azure-sdk-for-js";
   const branch = "js-sdk-health-report";
   const path = `eng/tools/repo-health-status-report/health_report.csv`;
