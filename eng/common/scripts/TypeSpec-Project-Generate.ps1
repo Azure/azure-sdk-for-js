@@ -54,7 +54,7 @@ function NpmInstallForProject([string]$workingDirectory) {
         }
 
         if ($usingLockFile) {
-            Invoke-LoggedCommand "npm ci" -GroupOutput
+            Invoke-LoggedCommand "npm ci --verbose" -GroupOutput
         }
         else {
             Invoke-LoggedCommand "npm install" -GroupOutput
