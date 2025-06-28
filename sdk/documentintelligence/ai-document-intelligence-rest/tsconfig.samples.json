@@ -1,8 +1,0 @@
-{
-  "extends": "../../../tsconfig.samples.base.json",
-  "compilerOptions": {
-    "paths": {
-      "@azure-rest/ai-document-intelligence": ["./dist/esm"]
-    }
-  }
-}
