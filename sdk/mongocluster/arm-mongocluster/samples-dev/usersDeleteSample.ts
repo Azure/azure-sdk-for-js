@@ -14,7 +14,11 @@ async function deletesAUserOnAMongoClusterResource(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "ffffffff-ffff-ffff-ffff-ffffffffffff";
   const client = new MongoClusterManagementClient(credential, subscriptionId);
-  await client.users.delete("TestGroup", "myMongoCluster", "uuuuuuuu-uuuu-uuuu-uuuu-uuuuuuuuuuuu");
+  await client.users.delete(
+    "TestGroup",
+    "myMongoCluster",
+    "uuuuuuuu-uuuu-uuuu-uuuu-uuuuuuuuuuuu",
+  );
 }
 
 async function main(): Promise<void> {

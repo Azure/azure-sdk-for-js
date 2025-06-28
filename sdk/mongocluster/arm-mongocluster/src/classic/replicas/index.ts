@@ -27,7 +27,9 @@ function _getReplicas(context: MongoClusterManagementContext) {
   };
 }
 
-export function _getReplicasOperations(context: MongoClusterManagementContext): ReplicasOperations {
+export function _getReplicasOperations(
+  context: MongoClusterManagementContext,
+): ReplicasOperations {
   return {
     ..._getReplicas(context),
   };

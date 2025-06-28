@@ -14,12 +14,17 @@ async function cloudLinksCreateOrUpdate(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const client = new AzureVMwareSolutionAPI(credential, subscriptionId);
-  const result = await client.cloudLinks.createOrUpdate("group1", "cloud1", "cloudLink1", {
-    properties: {
-      linkedCloud:
-        "/subscriptions/12341234-1234-1234-1234-123412341234/resourceGroups/mygroup/providers/Microsoft.AVS/privateClouds/cloud2",
+  const result = await client.cloudLinks.createOrUpdate(
+    "group1",
+    "cloud1",
+    "cloudLink1",
+    {
+      properties: {
+        linkedCloud:
+          "/subscriptions/12341234-1234-1234-1234-123412341234/resourceGroups/mygroup/providers/Microsoft.AVS/privateClouds/cloud2",
+      },
     },
-  });
+  );
   console.log(result);
 }
 

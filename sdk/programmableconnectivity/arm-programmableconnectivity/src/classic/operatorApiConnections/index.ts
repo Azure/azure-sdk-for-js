@@ -2,7 +2,10 @@
 // Licensed under the MIT License.
 
 import { ProgrammableConnectivityContext } from "../../api/programmableConnectivityContext.js";
-import { OperatorApiConnection, OperatorApiConnectionUpdate } from "../../models/models.js";
+import {
+  OperatorApiConnection,
+  OperatorApiConnectionUpdate,
+} from "../../models/models.js";
 import {
   OperatorApiConnectionsListBySubscriptionOptionalParams,
   OperatorApiConnectionsListByResourceGroupOptionalParams,
@@ -68,8 +71,9 @@ export interface OperatorApiConnectionsOperations {
 
 function _getOperatorApiConnections(context: ProgrammableConnectivityContext) {
   return {
-    listBySubscription: (options?: OperatorApiConnectionsListBySubscriptionOptionalParams) =>
-      listBySubscription(context, options),
+    listBySubscription: (
+      options?: OperatorApiConnectionsListBySubscriptionOptionalParams,
+    ) => listBySubscription(context, options),
     listByResourceGroup: (
       resourceGroupName: string,
       options?: OperatorApiConnectionsListByResourceGroupOptionalParams,
@@ -78,19 +82,34 @@ function _getOperatorApiConnections(context: ProgrammableConnectivityContext) {
       resourceGroupName: string,
       operatorApiConnectionName: string,
       options?: OperatorApiConnectionsDeleteOptionalParams,
-    ) => $delete(context, resourceGroupName, operatorApiConnectionName, options),
+    ) =>
+      $delete(context, resourceGroupName, operatorApiConnectionName, options),
     update: (
       resourceGroupName: string,
       operatorApiConnectionName: string,
       properties: OperatorApiConnectionUpdate,
       options?: OperatorApiConnectionsUpdateOptionalParams,
-    ) => update(context, resourceGroupName, operatorApiConnectionName, properties, options),
+    ) =>
+      update(
+        context,
+        resourceGroupName,
+        operatorApiConnectionName,
+        properties,
+        options,
+      ),
     create: (
       resourceGroupName: string,
       operatorApiConnectionName: string,
       resource: OperatorApiConnection,
       options?: OperatorApiConnectionsCreateOptionalParams,
-    ) => create(context, resourceGroupName, operatorApiConnectionName, resource, options),
+    ) =>
+      create(
+        context,
+        resourceGroupName,
+        operatorApiConnectionName,
+        resource,
+        options,
+      ),
     get: (
       resourceGroupName: string,
       operatorApiConnectionName: string,

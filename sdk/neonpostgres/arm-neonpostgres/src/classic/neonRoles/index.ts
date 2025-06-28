@@ -10,7 +10,13 @@ import {
   NeonRolesCreateOrUpdateOptionalParams,
   NeonRolesGetOptionalParams,
 } from "../../api/neonRoles/options.js";
-import { list, $delete, update, createOrUpdate, get } from "../../api/neonRoles/operations.js";
+import {
+  list,
+  $delete,
+  update,
+  createOrUpdate,
+  get,
+} from "../../api/neonRoles/operations.js";
 import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 import { PollerLike, OperationState } from "@azure/core-lro";
 
@@ -77,7 +83,15 @@ function _getNeonRoles(context: PostgresContext) {
       projectName: string,
       branchName: string,
       options?: NeonRolesListOptionalParams,
-    ) => list(context, resourceGroupName, organizationName, projectName, branchName, options),
+    ) =>
+      list(
+        context,
+        resourceGroupName,
+        organizationName,
+        projectName,
+        branchName,
+        options,
+      ),
     delete: (
       resourceGroupName: string,
       organizationName: string,
@@ -153,7 +167,9 @@ function _getNeonRoles(context: PostgresContext) {
   };
 }
 
-export function _getNeonRolesOperations(context: PostgresContext): NeonRolesOperations {
+export function _getNeonRolesOperations(
+  context: PostgresContext,
+): NeonRolesOperations {
   return {
     ..._getNeonRoles(context),
   };

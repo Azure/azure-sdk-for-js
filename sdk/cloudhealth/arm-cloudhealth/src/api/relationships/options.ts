@@ -4,7 +4,8 @@
 import { OperationOptions } from "@azure-rest/core-client";
 
 /** Optional parameters. */
-export interface RelationshipsListByHealthModelOptionalParams extends OperationOptions {
+export interface RelationshipsListByHealthModelOptionalParams
+  extends OperationOptions {
   /** Timestamp to use for the operation. When specified, the version of the resource at this point in time is retrieved. If not specified, the latest version is used. */
   timestamp?: Date;
 }
@@ -13,7 +14,8 @@ export interface RelationshipsListByHealthModelOptionalParams extends OperationO
 export interface RelationshipsDeleteOptionalParams extends OperationOptions {}
 
 /** Optional parameters. */
-export interface RelationshipsCreateOrUpdateOptionalParams extends OperationOptions {}
+export interface RelationshipsCreateOrUpdateOptionalParams
+  extends OperationOptions {}
 
 /** Optional parameters. */
 export interface RelationshipsGetOptionalParams extends OperationOptions {}

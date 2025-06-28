@@ -15,7 +15,8 @@ export interface ConnectionsListOptionalParams extends OperationOptions {
 }
 
 /** Optional parameters. */
-export interface ConnectionsGetWithCredentialsOptionalParams extends OperationOptions {
+export interface ConnectionsGetWithCredentialsOptionalParams
+  extends OperationOptions {
   /** An opaque, globally-unique, client-generated string identifier for the request. */
   clientRequestId?: string;
 }
