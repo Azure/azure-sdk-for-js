@@ -96,6 +96,7 @@ export const mockCustomerStatsbeatMetrics = {
   countSuccessfulItems: vi.fn(),
   countDroppedItems: vi.fn(),
   countRetryItems: vi.fn(),
+  isTimeoutError: vi.fn(),
   shutdown: vi.fn(),
 };
 
@@ -487,6 +488,9 @@ describe("BaseSender", () => {
     it("should count exception for non-retriable errors", async () => {
       const nonRetriableError: any = new Error("Bad request");
       nonRetriableError.statusCode = 400;
+
+      // Mock isTimeoutError to return false so timeout logic isn't triggered
+      mockCustomerStatsbeatMetrics.isTimeoutError.mockReturnValue(false);
 
       sender.sendMock.mockRejectedValue(nonRetriableError);
 
