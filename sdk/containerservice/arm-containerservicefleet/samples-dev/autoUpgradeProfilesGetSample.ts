@@ -14,7 +14,11 @@ async function getsAnAutoUpgradeProfileResource(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const client = new ContainerServiceFleetClient(credential, subscriptionId);
-  const result = await client.autoUpgradeProfiles.get("rg1", "fleet1", "autoupgradeprofile1");
+  const result = await client.autoUpgradeProfiles.get(
+    "rg1",
+    "fleet1",
+    "autoupgradeprofile1",
+  );
   console.log(result);
 }
 
@@ -28,7 +32,11 @@ async function getsAnAutoUpgradeProfileResourceGeneratedByMaximumSetRule(): Prom
   const credential = new DefaultAzureCredential();
   const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const client = new ContainerServiceFleetClient(credential, subscriptionId);
-  const result = await client.autoUpgradeProfiles.get("rgfleets", "fleet1", "autoupgradeprofile1");
+  const result = await client.autoUpgradeProfiles.get(
+    "rgfleets",
+    "fleet1",
+    "autoupgradeprofile1",
+  );
   console.log(result);
 }
 

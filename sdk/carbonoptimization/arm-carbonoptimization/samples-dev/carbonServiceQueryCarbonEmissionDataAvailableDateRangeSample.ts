@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { CarbonOptimizationManagementClient } from "@azure/arm-carbonoptimization";
+import { CarbonClient } from "@azure/arm-carbonoptimization";
 import { DefaultAzureCredential } from "@azure/identity";
 
 /**
@@ -12,8 +12,9 @@ import { DefaultAzureCredential } from "@azure/identity";
  */
 async function carbonServiceQueryCarbonEmissionDataAvailableDateRange(): Promise<void> {
   const credential = new DefaultAzureCredential();
-  const client = new CarbonOptimizationManagementClient(credential);
-  const result = await client.carbonService.queryCarbonEmissionDataAvailableDateRange();
+  const client = new CarbonClient(credential);
+  const result =
+    await client.carbonService.queryCarbonEmissionDataAvailableDateRange();
   console.log(result);
 }
 

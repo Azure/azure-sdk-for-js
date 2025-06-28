@@ -1,4 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-export { createBicep, BicepContext, BicepClientOptionalParams } from "./bicepContext.js";
+export {
+  createBicep,
+  BicepContext,
+  BicepClientOptionalParams,
+} from "./bicepContext.js";

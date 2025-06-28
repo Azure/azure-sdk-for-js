@@ -14,26 +14,31 @@ async function exascaleDbStorageVaultsCreateMaximumSet(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const client = new OracleDatabaseManagementClient(credential, subscriptionId);
-  const result = await client.exascaleDbStorageVaults.create("rgopenapi", "vmClusterName", {
-    properties: {
-      additionalFlashCacheInPercent: 0,
-      description: "dmnvnnduldfmrmkkvvsdtuvmsmruxzzpsfdydgytlckutfozephjygjetrauvbdfcwmti",
-      displayName:
-        "hbsybtelyvhpalemszcvartlhwvskrnpiveqfblvkdihoytqaotdgsgauvgivzaftfgeiwlyeqzssicwrrnlxtsmeakbcsxabjlt",
-      highCapacityDatabaseStorageInput: { totalSizeInGbs: 21 },
-      highCapacityDatabaseStorage: {
-        availableSizeInGbs: 28,
-        totalSizeInGbs: 16,
+  const result = await client.exascaleDbStorageVaults.create(
+    "rgopenapi",
+    "vmClusterName",
+    {
+      properties: {
+        additionalFlashCacheInPercent: 0,
+        description:
+          "dmnvnnduldfmrmkkvvsdtuvmsmruxzzpsfdydgytlckutfozephjygjetrauvbdfcwmti",
+        displayName:
+          "hbsybtelyvhpalemszcvartlhwvskrnpiveqfblvkdihoytqaotdgsgauvgivzaftfgeiwlyeqzssicwrrnlxtsmeakbcsxabjlt",
+        highCapacityDatabaseStorageInput: { totalSizeInGbs: 21 },
+        highCapacityDatabaseStorage: {
+          availableSizeInGbs: 28,
+          totalSizeInGbs: 16,
+        },
+        timeZone:
+          "ltrbozwxjunncicrtzjrpqnqrcjgghohztrdlbfjrbkpenopyldwolslwgrgumjfkyovvkzcuxjujuxtjjzubvqvnhrswnbdgcbslopeofmtepbrrlymqwwszvsglmyuvlcuejshtpokirwklnwpcykhyinjmlqvxtyixlthtdishhmtipbygsayvgqzfrprgppylydlcskbmvwctxifdltippfvsxiughqbojqpqrekxsotnqsk",
+        lifecycleState: "Provisioning",
+        ocid: "ocid1.autonomousdatabase.oc1..aaaaa3klq",
       },
-      timeZone:
-        "ltrbozwxjunncicrtzjrpqnqrcjgghohztrdlbfjrbkpenopyldwolslwgrgumjfkyovvkzcuxjujuxtjjzubvqvnhrswnbdgcbslopeofmtepbrrlymqwwszvsglmyuvlcuejshtpokirwklnwpcykhyinjmlqvxtyixlthtdishhmtipbygsayvgqzfrprgppylydlcskbmvwctxifdltippfvsxiughqbojqpqrekxsotnqsk",
-      lifecycleState: "Provisioning",
-      ocid: "ocid1.autonomousdatabase.oc1..aaaaa3klq",
+      zones: ["qk"],
+      tags: { key7827: "xqi" },
+      location: "ltguhzffucaytqg",
     },
-    zones: ["qk"],
-    tags: { key7827: "xqi" },
-    location: "ltguhzffucaytqg",
-  });
+  );
   console.log(result);
 }
 
