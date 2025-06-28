@@ -4,10 +4,12 @@ This package contains an isomorphic SDK (runs both in Node.js and in browsers) f
 
 The Azure Storage Actions Management API.
 
-[Source code](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/storageactions/arm-storageactions) |
-[Package (NPM)](https://www.npmjs.com/package/@azure/arm-storageactions) |
-[API reference documentation](https://learn.microsoft.com/javascript/api/@azure/arm-storageactions?view=azure-node-preview) |
-[Samples](https://github.com/Azure-Samples/azure-samples-js-management)
+Key links:
+
+- [Source code](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/storageactions/arm-storageactions)
+- [Package (NPM)](https://www.npmjs.com/package/@azure/arm-storageactions)
+- [API reference documentation](https://learn.microsoft.com/javascript/api/@azure/arm-storageactions?view=azure-node-preview)
+- [Samples](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/storageactions/arm-storageactions/samples)
 
 ## Getting started
 
@@ -71,6 +73,7 @@ const credential = new InteractiveBrowserCredential({
 const client = new StorageActionsManagementClient(credential, subscriptionId);
 ```
 
+
 ### JavaScript Bundle
 To use this client library in the browser, first you need to use a bundler. For details on how to do this, please refer to our [bundling documentation](https://aka.ms/AzureSDKBundling).
 
@@ -96,7 +99,7 @@ For more detailed instructions on how to enable logs, you can look at the [@azur
 
 ## Next steps
 
-Please take a look at the [samples](https://github.com/Azure-Samples/azure-samples-js-management) directory for detailed examples on how to use this library.
+Please take a look at the [samples](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/storageactions/arm-storageactions/samples) directory for detailed examples on how to use this library.
 
 ## Contributing
 
@@ -106,9 +109,6 @@ If you'd like to contribute to this library, please read the [contributing guide
 
 - [Microsoft Azure SDK for JavaScript](https://github.com/Azure/azure-sdk-for-js)
 
-
-[azure_cli]: https://learn.microsoft.com/cli/azure
-[azure_sub]: https://azure.microsoft.com/free/
 [azure_sub]: https://azure.microsoft.com/free/
 [azure_portal]: https://portal.azure.com
 [azure_identity]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/identity/identity
