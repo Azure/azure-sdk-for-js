@@ -1,12 +1,13 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 import type { DiagnosticNodeInternal } from "../diagnostics/DiagnosticNodeInternal.js";
-import type { OperationType } from "../common/index.js";
+import { type OperationType } from "../common/index.js";
 import { isReadRequest } from "../common/helper.js";
 import type { GlobalEndpointManager } from "../globalEndpointManager.js";
-import type { ErrorResponse } from "../request/index.js";
+import type { ErrorResponse, RequestContext } from "../request/index.js";
 import type { RetryContext } from "./RetryContext.js";
 import type { RetryPolicy } from "./RetryPolicy.js";
+import { GlobalPartitionEndpointManager } from "../globalPartitionEndpointManager.js";
 
 /**
  * This class implements the retry policy for endpoint discovery.
@@ -29,6 +30,7 @@ export class EndpointDiscoveryRetryPolicy implements RetryPolicy {
   constructor(
     private globalEndpointManager: GlobalEndpointManager,
     private operationType: OperationType,
+    private globalPartitionEndpointManager: GlobalPartitionEndpointManager,
   ) {
     this.maxTries = EndpointDiscoveryRetryPolicy.maxTries;
     this.currentRetryAttemptCount = 0;
@@ -44,6 +46,7 @@ export class EndpointDiscoveryRetryPolicy implements RetryPolicy {
     diagnosticNode: DiagnosticNodeInternal,
     retryContext?: RetryContext,
     locationEndpoint?: string,
+    requestContext?: RequestContext,
   ): Promise<boolean | [boolean, string]> {
     if (!err) {
       return false;
@@ -56,7 +59,14 @@ export class EndpointDiscoveryRetryPolicy implements RetryPolicy {
     if (!this.globalEndpointManager.enableEndpointDiscovery) {
       return false;
     }
-
+    if (
+      await this.globalPartitionEndpointManager.tryPartitionLevelFailover(
+        requestContext,
+        diagnosticNode,
+      )
+    ) {
+      return true;
+    }
     if (this.currentRetryAttemptCount >= this.maxTries) {
       return false;
     }
