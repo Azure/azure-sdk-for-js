@@ -8,6 +8,12 @@
 
 - `AgentsClient` constructor parameter `credential` type  `KeyCredential | TokenCredential` is update to `TokenCredential`
 
+## 1.0.0-beta.6 (2025-06-27)
+
+### Bugs Fixed
+
+- Fixed an issue with event data of `submitToolOutputs` stream mode
+
 ## 1.0.0-beta.5 (2025-06-25)
 
 ### Bugs Fixed

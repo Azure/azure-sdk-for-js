@@ -107,7 +107,7 @@ export function _submitToolOutputsToRunSend(
     },
     body: {
       tool_outputs: toolOutputArraySerializer(toolOutputs),
-      stream: options?.stream,
+      stream: options?.stream ?? false,
     },
   });
 }
