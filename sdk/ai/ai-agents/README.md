@@ -11,7 +11,7 @@ Use the AI Agents client library to:
 [Product documentation](https://aka.ms/azsdk/azure-ai-projects/product-doc)
 | [Samples](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/ai/ai-agents/samples/)
 | [Package (npm)](https://www.npmjs.com/package/@azure/ai-agents)
-| [API reference documentation](https://learn.microsoft.com/javascript/api/overview/azure/ai-agents-readme?view=azure-node-preview)
+| [API reference documentation](https://learn.microsoft.com/javascript/api/overview/azure/ai-agents-readme?view=azure-node-latest)
 
 ## Table of contents
 
@@ -29,7 +29,6 @@ Use the AI Agents client library to:
       - [Bing grounding](#create-agent-with-bing-grounding)
       - [Azure AI Search](#create-agent-with-azure-ai-search)
       - [Function call](#create-agent-with-function-call)
-      - [Fabric Data](#create-an-agent-with-fabric)
     - [Create thread](#create-thread) with
       - [Tool resource](#create-thread-with-tool-resource)
     - [Create message](#create-message) with:
@@ -74,7 +73,7 @@ npm install @azure/ai-agents @azure/identity
 
 The `AgentsClient` is used to construct the client. Currently, we recommend that you use the AgentsClient through the [Azure AI Projects Client Library](https://www.npmjs.com/package/@azure/ai-projects) using `client.agents`.
 
-To get your project endpoint you can refer this doc: [azure_foundry_service_endpoint]. Below we will assume the environment variable `PROJECT_ENDPOINT` was defined to hold this value:
+To get your project endpoint you can refer to the [documentation][azure_foundry_service_endpoint]. Below we will assume the environment variable `PROJECT_ENDPOINT` holds this value.
 
 ```ts snippet:setup
 import { AgentsClient } from "@azure/ai-agents";
@@ -411,29 +410,6 @@ const agent = await client.createAgent("gpt-4o", {
   tools: [openApiTool.definition],
 });
 console.log(`Created agent, agent ID: ${agent.id}`);
-```
-
-#### Create an Agent with Fabric
-
-To enable your Agent to answer queries using Fabric data, use `FabricTool` along with a connection to the Fabric resource.
-
-Here is an example:
-
-```ts snippet:createAgentWithFabric
-import { ToolUtility } from "@azure/ai-agents";
-
-const connectionId = process.env["FABRIC_CONNECTION_ID"] || "<connection-name>";
-
-// Initialize agent Microsoft Fabric tool with the connection id
-const fabricTool = ToolUtility.createFabricTool(connectionId);
-
-// Create agent with the Microsoft Fabric tool and process assistant run
-const agent = await client.createAgent("gpt-4o", {
-  name: "my-agent",
-  instructions: "You are a helpful agent",
-  tools: [fabricTool.definition],
-});
-console.log(`Created agent, agent ID : ${agent.id}`);
 ```
 
 #### Create Thread

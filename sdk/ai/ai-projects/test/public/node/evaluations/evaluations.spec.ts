@@ -25,7 +25,7 @@ describe("evaluations - basic", () => {
   let containerConnectionName: string;
   let evaluationDeploymentName: string;
   const datasetName = "test-eval-dataset";
-  const datasetVersion = "1.4.14";
+  const datasetVersion = "1.4.15";
   const evaluationDisplayName = "Test Evaluation";
 
   beforeEach(async function (context: VitestTestContext) {
