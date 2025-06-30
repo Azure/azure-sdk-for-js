@@ -73,6 +73,7 @@ describe("create functions", () => {
     expect(devCliSpy).not.toHaveBeenCalled();
     expect(psSpy).not.toHaveBeenCalled();
   });
+  
   it("calls all prod and dev create functions when AZURE_TOKEN_CREDENTIALS is not set", () => {
     const { envSpy, miSpy, wiSpy, cliSpy, devCliSpy, psSpy } = createFunctionSpies();
     new DefaultAzureCredential();
