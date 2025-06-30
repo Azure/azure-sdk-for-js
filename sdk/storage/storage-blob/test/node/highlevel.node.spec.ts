@@ -26,6 +26,7 @@ import { Test_CPK_INFO } from "../utils/fakeTestSecrets.js";
 import { streamToBuffer2 } from "../../src/utils/utils.js";
 import { isNodeLike } from "@azure/core-util";
 import { describe, it, assert, beforeEach, afterEach, beforeAll, afterAll } from "vitest";
+import { StorageChecksumAlgorithm } from "../../src/models.js";
 
 describe("Highlevel", () => {
   let containerName: string;
@@ -118,7 +119,7 @@ describe("Highlevel", () => {
     fs.unlinkSync(tempFile);
   });
 
-  it(
+  it.only(
     "uploadFile should success when blob >= BLOCK_BLOB_MAX_UPLOAD_BLOB_BYTES",
     { timeout: timeoutForLargeFileUploadingTest },
     async (ctx) => {
@@ -126,8 +127,9 @@ describe("Highlevel", () => {
         ctx.skip();
       }
       await blockBlobClient.uploadFile(tempFileLarge, {
-        blockSize: 4 * 1024 * 1024,
+        blockSize: 8 * 1024 * 1024,
         concurrency: 20,
+        contentChecksumAlgorithm: StorageChecksumAlgorithm.StorageCrc64
       });
 
       const downloadResponse = await blockBlobClient.download(0);
