@@ -28,7 +28,7 @@ export function createDefaultManagedIdentityCredential(
   options:
     | DefaultAzureCredentialOptions
     | DefaultAzureCredentialResourceIdOptions
-    | DefaultAzureCredentialClientIdOptions = {}
+    | DefaultAzureCredentialClientIdOptions = {},
 ): TokenCredential {
   options.retryOptions ??= {
     maxRetries: 5,
@@ -60,7 +60,7 @@ export function createDefaultManagedIdentityCredential(
 
     return new ManagedIdentityCredential(
       workloadIdentityClientId,
-      workloadIdentityCredentialOptions
+      workloadIdentityCredentialOptions,
     );
   }
 
@@ -84,7 +84,7 @@ export function createDefaultManagedIdentityCredential(
  * @internal
  */
 export function createDefaultWorkloadIdentityCredential(
-  options?: DefaultAzureCredentialOptions | DefaultAzureCredentialClientIdOptions
+  options?: DefaultAzureCredentialOptions | DefaultAzureCredentialClientIdOptions,
 ): TokenCredential {
   const managedIdentityClientId =
     (options as DefaultAzureCredentialClientIdOptions)?.managedIdentityClientId ??
@@ -122,7 +122,7 @@ export function createDefaultWorkloadIdentityCredential(
  * @internal
  */
 export function createDefaultAzureDeveloperCliCredential(
-  options: DefaultAzureCredentialOptions = {}
+  options: DefaultAzureCredentialOptions = {},
 ): TokenCredential {
   const processTimeoutInMs = options.processTimeoutInMs;
   return new AzureDeveloperCliCredential({ processTimeoutInMs, ...options });
@@ -135,7 +135,7 @@ export function createDefaultAzureDeveloperCliCredential(
  * @internal
  */
 export function createDefaultAzureCliCredential(
-  options: DefaultAzureCredentialOptions = {}
+  options: DefaultAzureCredentialOptions = {},
 ): TokenCredential {
   const processTimeoutInMs = options.processTimeoutInMs;
   return new AzureCliCredential({ processTimeoutInMs, ...options });
@@ -148,7 +148,7 @@ export function createDefaultAzureCliCredential(
  * @internal
  */
 export function createDefaultAzurePowershellCredential(
-  options: DefaultAzureCredentialOptions = {}
+  options: DefaultAzureCredentialOptions = {},
 ): TokenCredential {
   const processTimeoutInMs = options.processTimeoutInMs;
   return new AzurePowerShellCredential({ processTimeoutInMs, ...options });
@@ -161,7 +161,7 @@ export function createDefaultAzurePowershellCredential(
  * @internal
  */
 export function createEnvironmentCredential(
-  options: DefaultAzureCredentialOptions = {}
+  options: DefaultAzureCredentialOptions = {},
 ): TokenCredential {
   return new EnvironmentCredential(options);
 }
