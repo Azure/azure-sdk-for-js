@@ -43,7 +43,10 @@ describe("RateLimitedSampler", () => {
     it("returns ~0 for very small requestsPerSecond", () => {
       sampler = new RateLimitedSampler(0.00001);
       const rate = sampler.getSampleRate();
-      assert.ok(rate <= 1, `Expected sample rate to be very low for very small requestsPerSecond, got ${rate}`);
+      assert.ok(
+        rate <= 1,
+        `Expected sample rate to be very low for very small requestsPerSecond, got ${rate}`,
+      );
     });
     it("returns 100 for very large requestsPerSecond after adaptation", async () => {
       sampler = new RateLimitedSampler(1e9);
