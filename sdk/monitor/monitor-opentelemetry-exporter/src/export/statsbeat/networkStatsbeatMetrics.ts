@@ -24,6 +24,7 @@ import { ENV_DISABLE_STATSBEAT } from "../../Declarations/Constants.js";
 import { getAttachType } from "../../utils/metricUtils.js";
 
 export class NetworkStatsbeatMetrics extends StatsbeatMetrics {
+  private static instance: NetworkStatsbeatMetrics | null = null;
   private disableNonEssentialStatsbeat: boolean = !!process.env[ENV_DISABLE_STATSBEAT];
   private commonProperties: CommonStatsbeatProperties;
   private networkProperties: NetworkStatsbeatProperties;
@@ -420,5 +421,16 @@ export class NetworkStatsbeatMetrics extends StatsbeatMetrics {
       diag.debug("Failed to get the short host name.");
     }
     return shortHost;
+  }
+
+  /**
+   * Singleton Network Statsbeat Metrics instance.
+   * @internal
+   */
+  public static getInstance(options: StatsbeatOptions): NetworkStatsbeatMetrics {
+    if (!NetworkStatsbeatMetrics.instance) {
+      NetworkStatsbeatMetrics.instance = new NetworkStatsbeatMetrics(options);
+    }
+    return NetworkStatsbeatMetrics.instance;
   }
 }

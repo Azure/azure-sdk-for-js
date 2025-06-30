@@ -104,7 +104,7 @@ export function _submitToolOutputsToRunSend(
     },
     body: {
       tool_outputs: toolOutputArraySerializer(toolOutputs),
-      stream: false,
+      stream: options?.stream ?? false,
     },
   });
 }
@@ -144,7 +144,7 @@ export function submitToolOutputsToRun(
       return executeSubmitToolOutputsToRun().then(onFulfilled, onRejected).catch(onRejected);
     },
     async stream(): Promise<AgentEventMessageStream> {
-      return submitToolOutputsToRunStreaming(context, threadId, runId, options);
+      return submitToolOutputsToRunStreaming(context, threadId, runId, toolOutputs, options);
     },
   };
 }
@@ -363,6 +363,17 @@ export async function _createRunDeserialize(result: PathUncheckedResponse): Prom
   return threadRunDeserializer(result.body);
 }
 
+/** Creates a new run for an agent thread (internal implementation). */
+export async function createRunInternal(
+  context: Client,
+  threadId: string,
+  assistantId: string,
+  options: RunsCreateRunOptionalParams = { requestOptions: {} },
+): Promise<ThreadRun> {
+  const result = await _createRunSend(context, threadId, assistantId, options);
+  return _createRunDeserialize(result);
+}
+
 /** Creates a new run for an agent thread. */
 export function createRun(
   context: Client,
@@ -371,8 +382,7 @@ export function createRun(
   options: RunsCreateRunOptionalParams = { requestOptions: {} },
 ): AgentRunResponse {
   async function executeCreateRun(): Promise<ThreadRun> {
-    const result = await _createRunSend(context, threadId, assistantId, options);
-    return _createRunDeserialize(result);
+    return createRunInternal(context, threadId, assistantId, options);
   }
 
   return {
@@ -385,6 +395,7 @@ export function createRun(
   };
 }
 
+/** Creates a new run for an agent thread with polling */
 export function createRunAndPoll(
   context: Client,
   threadId: string,
@@ -393,13 +404,17 @@ export function createRunAndPoll(
 ): PollerLike<OperationState<ThreadRun>, ThreadRun> {
   return createPoller<ThreadRun>({
     initOperation: async () => {
-      const runResponse = createRun(context, threadId, assistantId, options);
-      return runResponse;
+      return createRunInternal(context, threadId, assistantId, options);
     },
     pollOperation: async (currentRun: ThreadRun) => {
       return getRun(context, threadId, currentRun.id, options);
     },
     getOperationStatus: getLroOperationStatus,
+    getOperationError: (result: ThreadRun) => {
+      return getLroOperationStatus(result) === "failed" && result.lastError
+        ? new Error(`Operation failed: ${result.lastError.message}`)
+        : undefined;
+    },
     intervalInMs: options.pollingOptions?.intervalInMs,
   });
 }
@@ -409,6 +424,7 @@ function getLroOperationStatus(result: ThreadRun): OperationStatus {
     case "queued":
       return "notStarted";
     case "in_progress":
+      return "running";
     case "requires_action":
       return "running";
     case "completed":

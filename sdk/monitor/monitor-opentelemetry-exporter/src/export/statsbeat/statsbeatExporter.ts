@@ -39,6 +39,24 @@ export class AzureMonitorStatsbeatExporter
   }
 
   /**
+   * Filter out envelopes with zero metric values to prevent exporting zero counts.
+   * This ensures zero counts are observed for internal cleanup but not exported to Azure Monitor.
+   * @param envelopes - Array of telemetry envelopes to filter
+   * @returns Filtered array of envelopes with non-zero metric values
+   */
+  private filterZeroValueMetrics(envelopes: Envelope[]): Envelope[] {
+    return envelopes.filter((envelope) => {
+      // Check if this is a metric envelope
+      if (envelope.data?.baseType === "MetricData" && envelope.data?.baseData?.metrics) {
+        const metrics = envelope.data.baseData.metrics;
+        // Filter out metrics where all values are zero
+        return metrics.some((metric: any) => metric.value !== 0);
+      }
+      return true;
+    });
+  }
+
+  /**
    * Export Statsbeat metrics.
    */
   async export(
@@ -55,9 +73,13 @@ export class AzureMonitorStatsbeatExporter
       this.instrumentationKey,
       true, // isStatsbeat flag passed to create a Statsbeat envelope.
     );
+
+    // Filter out zero-value metrics before export
+    const filteredEnvelopes = this.filterZeroValueMetrics(envelopes);
+
     // Supress tracing until OpenTelemetry Metrics SDK support it
     context.with(suppressTracing(context.active()), async () => {
-      resultCallback(await this._sender.exportEnvelopes(envelopes));
+      resultCallback(await this._sender.exportEnvelopes(filteredEnvelopes));
     });
   }
 

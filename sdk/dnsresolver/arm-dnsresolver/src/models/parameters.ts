@@ -32,6 +32,7 @@ import {
   DnsResolverPolicyVirtualNetworkLinkPatch as DnsResolverPolicyVirtualNetworkLinkPatchMapper,
   DnsResolverDomainList as DnsResolverDomainListMapper,
   DnsResolverDomainListPatch as DnsResolverDomainListPatchMapper,
+  DnsResolverDomainListBulk as DnsResolverDomainListBulkMapper,
 } from "../models/mappers.js";
 
 export const contentType: OperationParameter = {
@@ -115,7 +116,7 @@ export const dnsResolverName: OperationURLParameter = {
 export const apiVersion: OperationQueryParameter = {
   parameterPath: "apiVersion",
   mapper: {
-    defaultValue: "2023-07-01-preview",
+    defaultValue: "2025-05-01",
     isConstant: true,
     serializedName: "api-version",
     type: {
@@ -404,4 +405,9 @@ export const dnsResolverDomainListName: OperationURLParameter = {
 export const parameters19: OperationParameter = {
   parameterPath: "parameters",
   mapper: DnsResolverDomainListPatchMapper,
+};
+
+export const parameters20: OperationParameter = {
+  parameterPath: "parameters",
+  mapper: DnsResolverDomainListBulkMapper,
 };

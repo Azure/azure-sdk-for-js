@@ -4062,7 +4062,7 @@ export interface TriggerReference {
 export interface IntegrationRuntimeComputeProperties {
   /** Describes unknown properties. The value of an unknown property can be of "any" type. */
   [property: string]: any;
-  /** The location for managed integration runtime. The supported regions could be found on https://docs.microsoft.com/en-us/azure/data-factory/data-factory-data-movement-activities */
+  /** The location for managed integration runtime. The supported regions could be found on https://docs.microsoft.com/azure/data-factory/data-factory-data-movement-activities */
   location?: string;
   /** The node size requirement to managed integration runtime. */
   nodeSize?: string;
@@ -7801,7 +7801,7 @@ export interface HDInsightOnDemandLinkedService extends LinkedService {
   dataNodeSize?: any;
   /** Specifies the size of the Zoo Keeper node for the HDInsight cluster. */
   zookeeperNodeSize?: any;
-  /** Custom script actions to run on HDI ondemand cluster once it's up. Please refer to https://docs.microsoft.com/en-us/azure/hdinsight/hdinsight-hadoop-customize-cluster-linux?toc=%2Fen-us%2Fazure%2Fhdinsight%2Fr-server%2FTOC.json&bc=%2Fen-us%2Fazure%2Fbread%2Ftoc.json#understanding-script-actions. */
+  /** Custom script actions to run on HDI ondemand cluster once it's up. Please refer to https://docs.microsoft.com/azure/hdinsight/hdinsight-hadoop-customize-cluster-linux?toc=%2Fen-us%2Fazure%2Fhdinsight%2Fr-server%2FTOC.json&bc=%2Fen-us%2Fazure%2Fbread%2Ftoc.json#understanding-script-actions. */
   scriptActions?: ScriptAction[];
   /** The ARM resource ID for the vNet to which the cluster should be joined after creation. Type: string (or Expression with resultType string). */
   virtualNetworkId?: any;
