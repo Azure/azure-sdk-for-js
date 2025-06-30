@@ -309,6 +309,11 @@ export type PauseRecordingOptions = OperationOptions;
 export type GetRecordingPropertiesOptions = OperationOptions;
 
 /**
+ * Options to get recording result.
+ */
+export type GetRecordingResultOptions = OperationOptions;
+
+/**
  * Options to resume recording.
  */
 export type ResumeRecordingOptions = OperationOptions;
