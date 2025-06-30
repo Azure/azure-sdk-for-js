@@ -34,11 +34,29 @@ export const ServiceEnvironmentVariable = {
   PLAYWRIGHT_SERVICE_URL: "PLAYWRIGHT_SERVICE_URL",
 };
 
+export const GitHubActionsConstants = {
+  GIT_VERSION_COMMAND: "git --version",
+  GIT_REV_PARSE: "git rev-parse --is-inside-work-tree",
+  GIT_COMMIT_MESSAGE_COMMAND: 'git log -1 --pretty=format:"%s"',
+};
+
 export const DefaultConnectOptionsConstants = {
   DEFAULT_TIMEOUT: 30000,
   DEFAULT_SLOW_MO: 0,
   DEFAULT_EXPOSE_NETWORK: "<loopback>",
   DEFAULT_SERVICE_OS: ServiceOS.LINUX,
+};
+
+export const SDKLanguage = {
+  JAVASCRIPT: "JAVASCRIPT",
+  TYPESCRIPT: "TYPESCRIPT",
+  CSHARP: "CSHARP",
+};
+
+export const RunConfigConstants = {
+  TEST_FRAMEWORK_NAME: "PLAYWRIGHT",
+  TEST_SDK_LANGUAGE: SDKLanguage.JAVASCRIPT,
+  TEST_FRAMEWORK_RUNNERNAME: "PLAYWRIGHT",
 };
 
 export const Constants = {

@@ -2,8 +2,9 @@
 // Licensed under the MIT License.
 
 import type { ConnectOptions } from "@playwright/test";
-import type { ServiceAuth, ServiceOS } from "./constants.js";
+import type { ServiceAuth, ServiceOS, SDKLanguage } from "./constants.js";
 import type { TokenCredential } from "@azure/identity";
+import { CIInfo } from "../utils/cIInfoProvider.js";
 
 // Public APIs
 
@@ -185,4 +186,22 @@ export type VersionInfo = {
 export type PackageManager = {
   runCommand: (command: string, args: string) => string;
   getVersionFromStdout: (stdout: string) => string;
+};
+
+export type RunConfig = {
+  framework?: RunFramework;
+  sdkLanguage?: (typeof SDKLanguage)[keyof typeof SDKLanguage];
+  maxWorkers?: number;
+};
+
+export type RunFramework = {
+  name?: string;
+  version?: string;
+  runnerName?: string;
+};
+
+export type TestRunCreatePayload = {
+  displayName: string | Promise<string>;
+  config?: RunConfig;
+  ciConfig?: CIInfo;
 };
