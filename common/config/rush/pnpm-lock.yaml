@@ -1384,10 +1384,6 @@ packages:
     resolution: {integrity: sha512-KxZFSseqIwXlQkQ3jSV9d0O1ccF/VcpVQwCBZsGaSiTBgKjht1c4279543ZdmvXOZyxn5e7ckEwJ8KIFlJ4OZA==}
     engines: {node: '>=14.0.0'}
 
-  '@azure/arm-storage@18.5.0':
-    resolution: {integrity: sha512-eMHYmNn/WP5tCfu39efAV7IkdfdHQ3mE5B9V7Z4BkryetfwFUJokgNkHP5wXDpr0tVh71iqEnHIql/vVE0dqmg==}
-    engines: {node: '>=18.0.0'}
-
   '@azure/communication-common@2.4.0':
     resolution: {integrity: sha512-wwn4AoOgTgoA9OZkO34SKBpQg7/kfcABnzbaYEbc+9bCkBtwwjgMEk6xM+XLEE/uuODZ8q8jidUoNcZHQyP5AQ==}
     engines: {node: '>=18.0.0'}
@@ -2520,7 +2516,7 @@ packages:
     version: 0.0.0
 
   '@rush-temp/ai-document-intelligence@file:projects/ai-document-intelligence.tgz':
-    resolution: {integrity: sha512-3ppkU7nU46iXW6vyvCxL6+03MbsJ6bgzz5keSGxU/Azuxq2RIdlsZ58IcdJByEPOvsKeA0Irb0zEDdJW4bHt4g==, tarball: file:projects/ai-document-intelligence.tgz}
+    resolution: {integrity: sha512-8nuxiHsn1Fwl89pVya2Noxm/N4ypPNlFOn2kBeSz0ZoibKbuBSdrYII+Gjyq1kkY2G+Ms3IFhp+QEONuDolVnQ==, tarball: file:projects/ai-document-intelligence.tgz}
     version: 0.0.0
 
   '@rush-temp/ai-document-translator@file:projects/ai-document-translator.tgz':
@@ -2528,7 +2524,7 @@ packages:
     version: 0.0.0
 
   '@rush-temp/ai-form-recognizer@file:projects/ai-form-recognizer.tgz':
-    resolution: {integrity: sha512-l8sq6m8D3YaNiZZi9OqaJ2HiFm0okrdXzUg+AZllRnA3s5PFHiT5PYqq3Iy+TTVw3i3RMzDLzpAQZlKluC+LZw==, tarball: file:projects/ai-form-recognizer.tgz}
+    resolution: {integrity: sha512-SusFH6dYk6VXvwVHqKsB4qf91681N8qNKFRtjqaRhRQfXMYOxOiXbQU+AORhKzWIo2DcfkEr+cEPAjFJJzwTnA==, tarball: file:projects/ai-form-recognizer.tgz}
     version: 0.0.0
 
   '@rush-temp/ai-inference@file:projects/ai-inference.tgz':
@@ -2684,7 +2680,7 @@ packages:
     version: 0.0.0
 
   '@rush-temp/arm-batch@file:projects/arm-batch.tgz':
-    resolution: {integrity: sha512-v0ZF8C57rnqPP41j1ujW2CwgH9ZXypOBS3jKLfZCnUjN2ikO9DbhNHLyLhxSnnCNo2Ek5vxdvRcWoiWCZzsBMA==, tarball: file:projects/arm-batch.tgz}
+    resolution: {integrity: sha512-PNq8xAP1sHVnK0nTiYX/nFlgTl5iwguEcq6UwWKO+NmNn6kWZMSKhqnKFQIv98nNEoLyNmJZ+0I+4anWT/Ct6w==, tarball: file:projects/arm-batch.tgz}
     version: 0.0.0
 
   '@rush-temp/arm-billing@file:projects/arm-billing.tgz':
@@ -2976,7 +2972,7 @@ packages:
     version: 0.0.0
 
   '@rush-temp/arm-eventhub@file:projects/arm-eventhub.tgz':
-    resolution: {integrity: sha512-/FaGuvwHtUgD5AuCbdAka43BHZ0U3QTtB6sRKrqipDzr1TofQBRF0K54kZos72bYfZtP2L1GDDjN0PlZeZyyBg==, tarball: file:projects/arm-eventhub.tgz}
+    resolution: {integrity: sha512-HcDToc5w4Bl0GxcXUl8OXmWTAIS527+xYmaFfgB+PxQ+/p/6RB7xTttM88swSigKoiRAgEpxUrjCMnXn/ILABA==, tarball: file:projects/arm-eventhub.tgz}
     version: 0.0.0
 
   '@rush-temp/arm-extendedlocation@file:projects/arm-extendedlocation.tgz':
@@ -3224,7 +3220,7 @@ packages:
     version: 0.0.0
 
   '@rush-temp/arm-monitor@file:projects/arm-monitor.tgz':
-    resolution: {integrity: sha512-P4qXicTGr5VnTKILlDQ+mFhfuomvVi2mKJYkG8ynabFXGxGcTp0NEIZx2C2ETMbbPwLT1Bbn5s+J/ih4NBAKhw==, tarball: file:projects/arm-monitor.tgz}
+    resolution: {integrity: sha512-ju2unJ+yc7DUPQlLIc1+XRX+Cr9liVSdNqDOKhtKDHxxWugSw3y/tqx+DVaIkbAdVVLRTBsPPrfVHR/MyDTlVA==, tarball: file:projects/arm-monitor.tgz}
     version: 0.0.0
 
   '@rush-temp/arm-msi@file:projects/arm-msi.tgz':
@@ -3552,7 +3548,7 @@ packages:
     version: 0.0.0
 
   '@rush-temp/arm-storage@file:projects/arm-storage.tgz':
-    resolution: {integrity: sha512-zNSOJI8xpBpysQHs8tixKTtDFJBUSdTDz4+PBwaoGJCIFNZMhtjqFpza6H6x24ktxk10oPC+efsrcI1/2bmXKw==, tarball: file:projects/arm-storage.tgz}
+    resolution: {integrity: sha512-1UB1ZGjV944SF2kXucZMCnfLFXSrd4mjRspUP6NZaL1kv1VtTaYHOPrQzUpRGpSpn5gMzsnFneUdNACYY1HXvA==, tarball: file:projects/arm-storage.tgz}
     version: 0.0.0
 
   '@rush-temp/arm-storageactions@file:projects/arm-storageactions.tgz':
@@ -3796,7 +3792,7 @@ packages:
     version: 0.0.0
 
   '@rush-temp/data-tables@file:projects/data-tables.tgz':
-    resolution: {integrity: sha512-h0zv4dcnxRDlgdoN6HCwaxwSaWotdeRksYCh5eU2oPKz7Vc6hKS5iOY2MSoVUepTxL8HvU+Qrinj2jzIF3Rcaw==, tarball: file:projects/data-tables.tgz}
+    resolution: {integrity: sha512-Z67AFSmrc57IygK9Jsmp3k8VpQyEq9aMqGC8gLO++x0NcXl7OiIqsYhuFPxW8Zx9LIF7FoAMiWLH9sWQWQjvGA==, tarball: file:projects/data-tables.tgz}
     version: 0.0.0
 
   '@rush-temp/defender-easm@file:projects/defender-easm.tgz':
@@ -7612,18 +7608,6 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
-  '@azure/arm-storage@18.5.0':
-    dependencies:
-      '@azure/abort-controller': 2.1.2
-      '@azure/core-auth': 1.9.0
-      '@azure/core-client': 1.9.4
-      '@azure/core-lro': 2.7.2
-      '@azure/core-paging': 1.6.2
-      '@azure/core-rest-pipeline': 1.21.0
-      tslib: 2.8.1
-    transitivePeerDependencies:
-      - supports-color
-
   '@azure/communication-common@2.4.0':
     dependencies:
       '@azure-rest/core-client': 2.4.0
@@ -9203,7 +9187,6 @@ snapshots:
   '@rush-temp/ai-document-intelligence@file:projects/ai-document-intelligence.tgz(@types/debug@4.1.12)(tsx@4.20.3)(vite@6.3.5(@types/node@22.7.9)(tsx@4.20.3)(yaml@2.8.0))(yaml@2.8.0)':
     dependencies:
       '@azure/arm-cognitiveservices': 7.6.0
-      '@azure/arm-storage': 18.5.0
       '@types/node': 20.19.1
       '@vitest/browser': 3.2.4(playwright@1.53.1)(vite@6.3.5(@types/node@22.7.9)(tsx@4.20.3)(yaml@2.8.0))(vitest@3.2.4)
       '@vitest/coverage-istanbul': 3.2.4(vitest@3.2.4)
@@ -9275,7 +9258,6 @@ snapshots:
   '@rush-temp/ai-form-recognizer@file:projects/ai-form-recognizer.tgz(@types/debug@4.1.12)(tsx@4.20.3)(vite@6.3.5(@types/node@22.7.9)(tsx@4.20.3)(yaml@2.8.0))(yaml@2.8.0)':
     dependencies:
       '@azure/arm-cognitiveservices': 7.6.0
-      '@azure/arm-storage': 18.5.0
       '@azure/core-lro': 2.7.2
       '@rollup/plugin-node-resolve': 15.3.1(rollup@4.44.0)
       '@types/node': 20.19.1
@@ -10668,7 +10650,6 @@ snapshots:
 
   '@rush-temp/arm-batch@file:projects/arm-batch.tgz(@types/debug@4.1.12)(tsx@4.20.3)(vite@6.3.5(@types/node@22.7.9)(tsx@4.20.3)(yaml@2.8.0))(yaml@2.8.0)':
     dependencies:
-      '@azure/arm-storage': 18.5.0
       '@azure/core-lro': 2.7.2
       '@types/node': 20.19.1
       '@vitest/browser': 3.2.4(playwright@1.53.1)(vite@6.3.5(@types/node@22.7.9)(tsx@4.20.3)(yaml@2.8.0))(vitest@3.2.4)
@@ -13207,7 +13188,6 @@ snapshots:
   '@rush-temp/arm-eventhub@file:projects/arm-eventhub.tgz(@types/debug@4.1.12)(tsx@4.20.3)(vite@6.3.5(@types/node@22.7.9)(tsx@4.20.3)(yaml@2.8.0))(yaml@2.8.0)':
     dependencies:
       '@azure/arm-network': 32.2.0
-      '@azure/arm-storage': 18.5.0
       '@azure/core-lro': 2.7.2
       '@types/node': 20.19.1
       '@vitest/browser': 3.2.4(playwright@1.53.1)(vite@6.3.5(@types/node@22.7.9)(tsx@4.20.3)(yaml@2.8.0))(vitest@3.2.4)
@@ -15362,7 +15342,6 @@ snapshots:
   '@rush-temp/arm-monitor@file:projects/arm-monitor.tgz(@types/debug@4.1.12)(tsx@4.20.3)(vite@6.3.5(@types/node@22.7.9)(tsx@4.20.3)(yaml@2.8.0))(yaml@2.8.0)':
     dependencies:
       '@azure/arm-eventhub': 5.2.0
-      '@azure/arm-storage': 18.5.0
       '@azure/core-lro': 2.7.2
       '@types/node': 20.19.1
       '@vitest/browser': 3.2.4(playwright@1.53.1)(vite@6.3.5(@types/node@22.7.9)(tsx@4.20.3)(yaml@2.8.0))(vitest@3.2.4)
@@ -18219,14 +18198,14 @@ snapshots:
   '@rush-temp/arm-storage@file:projects/arm-storage.tgz(@types/debug@4.1.12)(tsx@4.20.3)(vite@6.3.5(@types/node@22.7.9)(tsx@4.20.3)(yaml@2.8.0))(yaml@2.8.0)':
     dependencies:
       '@azure/core-lro': 2.7.2
-      '@types/node': 18.19.112
+      '@types/node': 20.19.1
       '@vitest/browser': 3.2.4(playwright@1.53.1)(vite@6.3.5(@types/node@22.7.9)(tsx@4.20.3)(yaml@2.8.0))(vitest@3.2.4)
       '@vitest/coverage-istanbul': 3.2.4(vitest@3.2.4)
       dotenv: 16.5.0
       playwright: 1.53.1
       tslib: 2.8.1
       typescript: 5.8.3
-      vitest: 3.2.4(@types/debug@4.1.12)(@types/node@18.19.112)(@vitest/browser@3.2.4)(tsx@4.20.3)(yaml@2.8.0)
+      vitest: 3.2.4(@types/debug@4.1.12)(@types/node@20.19.1)(@vitest/browser@3.2.4)(tsx@4.20.3)(yaml@2.8.0)
     transitivePeerDependencies:
       - '@edge-runtime/vm'
       - '@types/debug'
@@ -20369,7 +20348,6 @@ snapshots:
 
   '@rush-temp/data-tables@file:projects/data-tables.tgz(@types/debug@4.1.12)(tsx@4.20.3)(vite@6.3.5(@types/node@22.7.9)(tsx@4.20.3)(yaml@2.8.0))(yaml@2.8.0)':
     dependencies:
-      '@azure/arm-storage': 18.5.0
       '@types/node': 20.19.1
       '@vitest/browser': 3.2.4(playwright@1.53.1)(vite@6.3.5(@types/node@22.7.9)(tsx@4.20.3)(yaml@2.8.0))(vitest@3.2.4)
       '@vitest/coverage-istanbul': 3.2.4(vitest@3.2.4)
