@@ -1,5 +1,8 @@
-import { TokenCredential } from "@azure/core-auth";
-import {
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
+
+import type { TokenCredential } from "@azure/core-auth";
+import type {
   DefaultAzureCredentialClientIdOptions,
   DefaultAzureCredentialOptions,
   DefaultAzureCredentialResourceIdOptions,
@@ -14,7 +17,7 @@ import { WorkloadIdentityCredential } from "./workloadIdentityCredential.js";
 import { AzureDeveloperCliCredential } from "./azureDeveloperCliCredential.js";
 import { AzureCliCredential } from "./azureCliCredential.js";
 import { AzurePowerShellCredential } from "./azurePowerShellCredential.js";
-import { WorkloadIdentityCredentialOptions } from "./workloadIdentityCredentialOptions.js";
+import type { WorkloadIdentityCredentialOptions } from "./workloadIdentityCredentialOptions.js";
 /**
  * Creates a {@link ManagedIdentityCredential} from the provided options.
  * @param options - Options to configure the credential.
