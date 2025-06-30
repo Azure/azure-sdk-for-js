@@ -1,8 +1,9 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-
+/* eslint-disable no-only-tests/no-only-tests */
 import type { IndexingPolicy, VectorEmbeddingPolicy } from "../../../src/documents/index.js";
 import {
+  PartitionKeyKind,
   VectorEmbeddingDataType,
   VectorEmbeddingDistanceFunction,
   VectorIndexType,
@@ -11,6 +12,12 @@ import { getTestDatabase } from "../common/TestHelpers.js";
 import type { Database } from "../../../src/client/Database/Database.js";
 import type { Container } from "../../../src/client/index.js";
 import { describe, it, assert, beforeAll, afterAll } from "vitest";
+import { CosmosClient } from "../../../src/CosmosClient.js";
+import type { CreateOperationInput, PluginConfig } from "../../../src/index.js";
+import { PluginOn, ResourceType } from "../../../src/index.js";
+import type { Response } from "../../../src/index.js";
+import { endpoint } from "../common/_testConfig.js";
+import { masterKey } from "../common/_fakeTestSecrets.js";
 
 // Skipping these tests as they are not supported by public emulator
 describe("Vector search feature", async () => {
@@ -691,5 +698,222 @@ describe.skip("Full text search feature", async () => {
     const result = await queryIterator.fetchAll();
     assert(result.resources.length === 2);
     await database.container(containerName).delete();
+  });
+
+  it("should execute a full text query targeting an individual partition via query plan using WHERE clause", async () => {
+    const containerName = "full text search partition where test";
+
+    const { container } = await database.containers.createIfNotExists({
+      id: containerName,
+      partitionKey: { paths: ["/pk"] },
+      indexingPolicy: {
+        includedPaths: [{ path: "/*" }],
+        fullTextIndexes: [{ path: "/text" }],
+      },
+      fullTextPolicy: {
+        defaultLanguage: "en-US",
+        fullTextPaths: [{ path: "/text", language: "en-US" }],
+      },
+      throughput: 12000,
+    });
+
+    // Insert items into different partitions
+    await container.items.create({ id: "1", pk: "A", text: "I like to swim" });
+    await container.items.create({ id: "2", pk: "B", text: "I like to swim" });
+    await container.items.create({ id: "3", pk: "A", text: "I like to run" });
+
+    // Query using WHERE clause on partition key
+    const query = "SELECT * FROM c WHERE c.pk = 'A' AND FullTextContains(c.text, 'swim')";
+    const { resources } = await container.items.query(query).fetchAll();
+    // Should only return items from partition 'A' that match
+    assert.equal(resources.length, 1);
+    assert.equal(resources[0].pk, "A");
+    assert.equal(resources[0].text, "I like to swim");
+
+    await database.container(containerName).delete();
+  });
+
+  it("should execute a cross-partition full text query", async () => {
+    const containerName = "full text search cross partition test";
+    const { container } = await database.containers.createIfNotExists({
+      id: containerName,
+      partitionKey: { paths: ["/pk"] },
+      indexingPolicy: {
+        includedPaths: [{ path: "/*" }],
+        fullTextIndexes: [{ path: "/text" }],
+      },
+      fullTextPolicy: {
+        defaultLanguage: "en-US",
+        fullTextPaths: [{ path: "/text", language: "en-US" }],
+      },
+      throughput: 12000,
+    });
+
+    // Insert items into different partitions
+    await container.items.create({ id: "1", pk: "A", text: "I like to swim" });
+    await container.items.create({ id: "2", pk: "B", text: "I like to swim" });
+    await container.items.create({ id: "3", pk: "C", text: "I like to run" });
+
+    // Query across all partitions for 'swim'
+    const query = "SELECT * FROM c WHERE FullTextContains(c.text, 'swim')";
+    const { resources } = await container.items.query(query, { forceQueryPlan: true }).fetchAll();
+    // Should return items from all partitions that match
+    const pks = resources.map((r) => r.pk);
+    assert.equal(resources.length, 2);
+    assert(pks.includes("A"));
+    assert(pks.includes("B"));
+
+    await database.container(containerName).delete();
+  });
+
+  it("should execute a full text query using hierarchical partition keys", async () => {
+    const containerName = "full text search hierarchical partition test";
+    // Create a container with hierarchical partition keys and full text policy
+    const { container } = await database.containers.createIfNotExists({
+      id: containerName,
+      partitionKey: { paths: ["/country", "/city"], version: 2, kind: PartitionKeyKind.MultiHash },
+      indexingPolicy: {
+        includedPaths: [{ path: "/*" }],
+        fullTextIndexes: [{ path: "/text" }],
+      },
+      fullTextPolicy: {
+        defaultLanguage: "en-US",
+        fullTextPaths: [{ path: "/text", language: "en-US" }],
+      },
+      throughput: 12000,
+    });
+
+    // Insert items into different hierarchical partitions
+    await container.items.create({ id: "1", country: "US", city: "NY", text: "I like to swim" });
+    await container.items.create({ id: "2", country: "US", city: "SF", text: "I like to swim" });
+    await container.items.create({
+      id: "3",
+      country: "CA",
+      city: "Toronto",
+      text: "I like to run",
+    });
+
+    // Query only partition ['US', 'NY'] for 'swim'
+    const query = "SELECT * FROM c WHERE FullTextContains(c.text, 'swim')";
+    const { resources } = await container.items
+      .query(query, { partitionKey: ["US", "NY"] })
+      .fetchAll();
+    // Should only return items from the targeted hierarchical partition
+    assert.equal(resources.length, 1);
+    assert.equal(resources[0].country, "US");
+    assert.equal(resources[0].city, "NY");
+    assert.equal(resources[0].text, "I like to swim");
+
+    await database.container(containerName).delete();
+  });
+
+  it("should use the countIf aggregate with full text search", async () => {
+    const containerName = "full text search countIf test";
+    // Create a container with partition key /pk and full text policy
+    const { container } = await database.containers.createIfNotExists({
+      id: containerName,
+      partitionKey: { paths: ["/pk"] },
+      indexingPolicy: {
+        includedPaths: [{ path: "/*" }],
+        fullTextIndexes: [{ path: "/text" }],
+      },
+      fullTextPolicy: {
+        defaultLanguage: "en-US",
+        fullTextPaths: [{ path: "/text", language: "en-US" }],
+      },
+      throughput: 12000,
+    });
+
+    // Insert items with and without the matching term
+    await container.items.create({ id: "1", pk: "A", text: "I like to swim" });
+    await container.items.create({ id: "2", pk: "B", text: "I like to run" });
+    await container.items.create({ id: "3", pk: "C", text: "I like to swim and run" });
+
+    // Use countIf with FullTextContains
+    const query = "SELECT VALUE countIf(FullTextContains(c.text, 'swim')) FROM c";
+    const { resources } = await container.items.query(query).fetchAll();
+    // Should count items where text contains 'swim' (id 1 and 3)
+    assert.equal(resources[0], 2);
+
+    await database.container(containerName).delete();
+  });
+
+  it("should handle partition split during long-running full text queries", async () => {
+    let numpkRangeRequests = 0;
+    const plugins: PluginConfig[] = [
+      {
+        on: PluginOn.request,
+        plugin: async (context, _diagNode, next) => {
+          if (context.resourceType === ResourceType.pkranges) {
+            let response: Response<any>;
+            if (numpkRangeRequests === 0) {
+              response = {
+                headers: {},
+                result: {
+                  PartitionKeyRanges: [
+                    {
+                      _rid: "RRsbAKHytdECAAAAAAAAUA==",
+                      id: "1",
+                      _etag: '"00000000-0000-0000-683c-819a242201db"',
+                      minInclusive: "",
+                      maxExclusive: "FF",
+                    },
+                  ],
+                },
+              };
+              response.code = 200;
+              numpkRangeRequests++;
+              return response;
+            }
+            numpkRangeRequests++;
+          }
+          const res = await next(context);
+          return res;
+        },
+      },
+    ];
+    const client = new CosmosClient({
+      endpoint: endpoint,
+      key: masterKey,
+      plugins: plugins,
+    });
+
+    // Create a test database and container
+    // eslint-disable-next-line @typescript-eslint/no-shadow
+    const { database } = await client.databases.createIfNotExists({ id: "partitionSplitTestDb" });
+    const { container } = await database.containers.createIfNotExists({
+      id: "partitionSplitTestContainer",
+      partitionKey: { paths: ["/pk"] },
+      indexingPolicy: {
+        includedPaths: [{ path: "/*" }],
+        fullTextIndexes: [{ path: "/text" }],
+      },
+      fullTextPolicy: {
+        defaultLanguage: "en-US",
+        fullTextPaths: [{ path: "/text", language: "en-US" }],
+      },
+      throughput: 1000,
+    });
+    // Replace the for loop with the executeBulkOperations API call:
+    const operations: CreateOperationInput[] = [...Array(50).keys()].map((i) => ({
+      operationType: "Create",
+      partitionKey: `A${i}`,
+      resourceBody: { id: `${i}`, pk: `A${i}`, text: "I like to swim" },
+    }));
+    await container.items.executeBulkOperations(operations);
+    // Start a long-running full text query
+    const query = "SELECT * FROM c WHERE FullTextContains(c.text, 'swim')";
+    const iterator = container.items.query(query, { maxItemCount: 10 });
+
+    let total = 0;
+    while (iterator.hasMoreResults()) {
+      const { resources } = await iterator.fetchNext();
+      total += resources.length;
+    }
+
+    // Assert all items were returned
+    assert.equal(total, 50);
+
+    await database.delete();
   });
 });
