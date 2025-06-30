@@ -91,18 +91,7 @@ await client.sendEvents(cloudEvent);
 
 ---
 
-## 4. Consuming Events
-
-### Old (`@azure/eventgrid`)
-- You may have used utilities to parse `EventGridEvent` or `CloudEvent` from HTTP requests.
-
-### New (`@azure/eventgrid-namespaces`)
-- Use the [CloudEvents SDK for JavaScript](https://www.npmjs.com/package/cloudevents) for parsing, or process the JSON directly.
-- For system events, use types from `@azure/eventgrid-systemevents`.
-
----
-
-## 5. Handling System Events
+## 4. Handling System Events
 
 ### Old (`@azure/eventgrid`)
 ```ts
@@ -127,7 +116,7 @@ function handleStorageEvent(event: StorageBlobCreatedEventData) {
 
 ---
 
-## 6. System Events Helpers
+## 5. System Events Helpers
 
 ### Old (`@azure/eventgrid`)
 ```ts
@@ -138,19 +127,35 @@ import { isSystemEvent, KnownSystemEventTypes, SystemEventNameToEventData } from
 ```ts
 import { isSystemEvent, KnownSystemEventTypes, SystemEventNameToEventData } from "@azure/eventgrid-systemevents";
 ```
+---
 
-## 7. Deserializer
+## 6. Consuming Events
 
-### Old (`@azure/eventgrid`)
-```ts
-import { EventGridDeserializer } from "@azure/eventgrid";
-```
+`EventGridDeserializer.deserializeCloudEvents()` is still available in the new `@azure/eventgrid-namespaces`
+package but `EventGridDeserializer.deserializeEventGridEvents()` is not. `isSystemEvent()` helper can be used
+to assert and narrow down the type of event data.
 
 ### New (`@azure/eventgrid-systemevents`)
-```ts
-import { EventGridDeserializer } from "@azure/eventgrid-namespaces";
-```
 
+```ts
+import { isSystemEvent, KeyVaultSecretNearExpiryEventData } from "@azure/eventgrid-systemevents";
+import { assert, expectTypeOf } from "vitest";
+
+const e = {
+  eventType: "Microsoft.KeyVault.SecretNearExpiry",
+  eventTime: new Date(),
+  id: "id",
+  subject: "subject",
+  dataVersion: "1.0",
+  data: {
+    id: "id",
+    vaultName: "vaultName",
+  },
+};
+const result = isSystemEvent("Microsoft.KeyVault.SecretNearExpiry", e);
+assert.isTrue(result);
+expectTypeOf(e).toMatchTypeOf<KeyVaultSecretNearExpiryEventData>();
+```
 ---
 
 ## 7. Additional Resources
