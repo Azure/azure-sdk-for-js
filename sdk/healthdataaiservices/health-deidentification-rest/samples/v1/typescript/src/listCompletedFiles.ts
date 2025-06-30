@@ -11,8 +11,7 @@ import createClient, {
   paginate,
 } from "@azure-rest/health-deidentification";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-dotenv.config();
+import "dotenv/config";
 
 export async function main(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -31,7 +30,7 @@ export async function main(): Promise<void> {
     targetLocation: { location, prefix: OUTPUT_FOLDER, overwrite: true },
     customizations: {
       redactionFormat: "<{TYPE}>",
-    }
+    },
   };
 
   await client.path("/jobs/{name}", jobName).put({ body: job });

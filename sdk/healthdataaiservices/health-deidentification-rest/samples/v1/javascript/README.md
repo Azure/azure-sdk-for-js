@@ -42,7 +42,7 @@ node createJob.js
 Alternatively, run a single sample with the correct environment variables set (setting up the `.env` file is not required if you do this), for example (cross-platform):
 
 ```bash
-npx dev-tool run vendored cross-env DEID_SERVICE_ENDPOINT="<deid service endpoint>" STORAGE_ACCOUNT_NAME="<storage account name>" STORAGE_CONTAINER_NAME="<storage container name>" node createJob.js
+npx dev-tool run vendored cross-env DEID_SERVICE_ENDPOINT="<deid service endpoint>" STORAGE_ACCOUNT_NAME="<storage account name>" STORAGE_CONTAINER_NAME="<storage container name>" OUTPUT_PREFIX="<output prefix>" node createJob.js
 ```
 
 ## Next Steps
@@ -53,7 +53,7 @@ Take a look at our [API Documentation][apiref] for more information about the AP
 [helloworld]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/healthdataaiservices/health-deidentification-rest/samples/v1/javascript/helloWorld.js
 [listcompletedfiles]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/healthdataaiservices/health-deidentification-rest/samples/v1/javascript/listCompletedFiles.js
 [listjobs]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/healthdataaiservices/health-deidentification-rest/samples/v1/javascript/listJobs.js
-[apiref]: https://docs.microsoft.com/javascript/api/
+[apiref]: https://learn.microsoft.com/javascript/api/
 [freesub]: https://azure.microsoft.com/free/
-[createinstance_de-identificationservice]: https://docs.microsoft.com/javascript/api/
+[createinstance_de-identificationservice]: https://learn.microsoft.com/javascript/api/
 [package]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/healthdataaiservices/health-deidentification-rest/README.md

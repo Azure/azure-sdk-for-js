@@ -1,5 +1,5 @@
 {
-  "name": "@azure-samples/azure-health-deidentification-js",
+  "name": "@azure-samples/health-deidentification-js",
   "private": true,
   "version": "1.0.0",
   "description": "Health Deidentification Service client library samples for JavaScript",

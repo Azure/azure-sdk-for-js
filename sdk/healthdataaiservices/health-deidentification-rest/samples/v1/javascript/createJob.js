@@ -5,34 +5,36 @@
  * @summary This sample demonstrates how to create a job which will deidentify all files within a specific folder of a blob storage container.
  */
 
-const createClient = require("@azure-rest/health-deidentification").default,
-  { isUnexpected } = require("@azure-rest/health-deidentification");
+const DeidentificationClient = require("@azure-rest/health-deidentification").default,
+  { getLongRunningPoller, isUnexpected } = require("@azure-rest/health-deidentification");
 const { DefaultAzureCredential } = require("@azure/identity");
-require("dotenv").config();
+require("dotenv/config");
 
 async function main() {
   const credential = new DefaultAzureCredential();
   const serviceEndpoint =
-    process.env["DEID_SERVICE_ENDPOINT"] || "https://example.api.cac001.deid.azure.com";
+    process.env["DEID_SERVICE_ENDPOINT"] || "https://example.api.deid.azure.com";
   const storageLocation = `https://${process.env["STORAGE_ACCOUNT_NAME"]}.blob.core.windows.net/${process.env["STORAGE_CONTAINER_NAME"]}`;
-  const location = storageLocation || "defaultSasUri";
-  const OUTPUT_FOLDER = "_output";
   const inputPrefix = "example_patient_1";
-  const client = createClient(serviceEndpoint, credential);
-  const jobName = "exampleJob";
-
+  const outputPrefix = process.env["OUTPUT_PREFIX"] || "_output";
+  // @ts-preserve-whitespace
+  const client = DeidentificationClient(serviceEndpoint, credential);
+  const jobName = "sample-job-" + new Date().getTime().toString().slice(-8);
+  // @ts-preserve-whitespace
   const job = {
     operation: "Surrogate",
-    sourceLocation: { location, prefix: inputPrefix },
-    targetLocation: { location, prefix: OUTPUT_FOLDER },
+    sourceLocation: { location: storageLocation, prefix: inputPrefix },
+    targetLocation: { location: storageLocation, prefix: outputPrefix },
   };
   const response = await client.path("/jobs/{name}", jobName).put({ body: job });
-
+  // @ts-preserve-whitespace
   if (isUnexpected(response)) {
     throw response.body.error;
   }
-
-  console.log(response.body);
+  // @ts-preserve-whitespace
+  const poller = await getLongRunningPoller(client, response);
+  const finalOutput = await poller.pollUntilDone();
+  console.log(finalOutput.body);
 }
 
 main().catch((err) => {

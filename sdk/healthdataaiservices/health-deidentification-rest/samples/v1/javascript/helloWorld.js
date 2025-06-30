@@ -8,7 +8,7 @@
 const createClient = require("@azure-rest/health-deidentification").default,
   { isUnexpected } = require("@azure-rest/health-deidentification");
 const { DefaultAzureCredential } = require("@azure/identity");
-require("dotenv").config();
+require("dotenv/config");
 
 async function main() {
   const credential = new DefaultAzureCredential();

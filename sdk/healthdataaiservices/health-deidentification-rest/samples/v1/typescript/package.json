@@ -1,5 +1,5 @@
 {
-  "name": "@azure-samples/azure-health-deidentification-ts",
+  "name": "@azure-samples/health-deidentification-ts",
   "private": true,
   "version": "1.0.0",
   "description": "Health Deidentification Service client library samples for TypeScript",
@@ -36,7 +36,7 @@
   },
   "devDependencies": {
     "@types/node": "^18.0.0",
-    "typescript": "~5.6.2",
+    "typescript": "~5.8.2",
     "rimraf": "latest"
   }
 }

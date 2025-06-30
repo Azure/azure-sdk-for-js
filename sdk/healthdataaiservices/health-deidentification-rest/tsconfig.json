@@ -4,9 +4,10 @@
     "module": "NodeNext",
     "moduleResolution": "NodeNext",
     "rootDir": ".",
-    "skipLibCheck": true
+    "skipLibCheck": true,
+    "paths": { "@azure-rest/health-deidentification": ["./src/index"] }
   },
-  "include": ["src/**/*.ts", "src/**/*.mts", "src/**/*.cts", "test/**/*.ts", "test/**/*.ts"],
+  "include": ["src/**/*.ts", "src/**/*.mts", "src/**/*.cts", "test/**/*.ts", "test/**/*.ts", "samples-dev/**/*.ts"],
   "references": [
     {
       "path": "./tsconfig.src.json"
