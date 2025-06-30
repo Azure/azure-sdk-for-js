@@ -1,13 +1,13 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { getOperationsOperations, OperationsOperations } from "./classic/operations/index.js";
-import { getFleetsOperations, FleetsOperations } from "./classic/fleets/index.js";
 import {
   createAzureFleet,
   AzureFleetContext,
   AzureFleetClientOptionalParams,
 } from "./api/index.js";
+import { FleetsOperations, _getFleetsOperations } from "./classic/fleets/index.js";
+import { OperationsOperations, _getOperationsOperations } from "./classic/operations/index.js";
 import { Pipeline } from "@azure/core-rest-pipeline";
 import { TokenCredential } from "@azure/core-auth";
 
@@ -26,18 +26,18 @@ export class AzureFleetClient {
     const prefixFromOptions = options?.userAgentOptions?.userAgentPrefix;
     const userAgentPrefix = prefixFromOptions
       ? `${prefixFromOptions} azsdk-js-client`
-      : "azsdk-js-client";
-    this._client = createAzureFleet(credential, {
+      : `azsdk-js-client`;
+    this._client = createAzureFleet(credential, subscriptionId, {
       ...options,
       userAgentOptions: { userAgentPrefix },
     });
     this.pipeline = this._client.pipeline;
-    this.operations = getOperationsOperations(this._client);
-    this.fleets = getFleetsOperations(this._client, subscriptionId);
+    this.fleets = _getFleetsOperations(this._client);
+    this.operations = _getOperationsOperations(this._client);
   }
 
-  /** The operation groups for Operations */
-  public readonly operations: OperationsOperations;
-  /** The operation groups for Fleets */
+  /** The operation groups for fleets */
   public readonly fleets: FleetsOperations;
+  /** The operation groups for operations */
+  public readonly operations: OperationsOperations;
 }

@@ -2,43 +2,56 @@
 // Licensed under the MIT License.
 
 import { AzureFleetContext } from "../../api/azureFleetContext.js";
-import {
-  fleetsGet,
-  fleetsCreateOrUpdate,
-  fleetsUpdate,
-  fleetsDelete,
-  fleetsListByResourceGroup,
-  fleetsListBySubscription,
-  fleetsListVirtualMachineScaleSets,
-} from "../../api/fleets/index.js";
-import {
-  FleetsGetOptionalParams,
-  FleetsCreateOrUpdateOptionalParams,
-  FleetsUpdateOptionalParams,
-  FleetsDeleteOptionalParams,
-  FleetsListByResourceGroupOptionalParams,
-  FleetsListBySubscriptionOptionalParams,
-  FleetsListVirtualMachineScaleSetsOptionalParams,
-} from "../../api/options.js";
 import { Fleet, FleetUpdate, VirtualMachineScaleSet } from "../../models/models.js";
+import {
+  FleetsListVirtualMachineScaleSetsOptionalParams,
+  FleetsListBySubscriptionOptionalParams,
+  FleetsListByResourceGroupOptionalParams,
+  FleetsDeleteOptionalParams,
+  FleetsUpdateOptionalParams,
+  FleetsCreateOrUpdateOptionalParams,
+  FleetsGetOptionalParams,
+} from "../../api/fleets/options.js";
+import {
+  listVirtualMachineScaleSets,
+  listBySubscription,
+  listByResourceGroup,
+  $delete,
+  update,
+  createOrUpdate,
+  get,
+} from "../../api/fleets/operations.js";
 import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 import { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a Fleets operations. */
 export interface FleetsOperations {
-  /** Get a Fleet */
-  get: (
+  /** List VirtualMachineScaleSet resources by Fleet */
+  listVirtualMachineScaleSets: (
+    resourceGroupName: string,
+    name: string,
+    options?: FleetsListVirtualMachineScaleSetsOptionalParams,
+  ) => PagedAsyncIterableIterator<VirtualMachineScaleSet>;
+  /** List Fleet resources by subscription ID */
+  listBySubscription: (
+    options?: FleetsListBySubscriptionOptionalParams,
+  ) => PagedAsyncIterableIterator<Fleet>;
+  /** List Fleet resources by resource group */
+  listByResourceGroup: (
+    resourceGroupName: string,
+    options?: FleetsListByResourceGroupOptionalParams,
+  ) => PagedAsyncIterableIterator<Fleet>;
+  /** Delete a Fleet */
+  /**
+   *  @fixme delete is a reserved word that cannot be used as an operation name.
+   *         Please add @clientName("clientName") or @clientName("<JS-Specific-Name>", "javascript")
+   *         to the operation to override the generated name.
+   */
+  delete: (
     resourceGroupName: string,
     fleetName: string,
-    options?: FleetsGetOptionalParams,
-  ) => Promise<Fleet>;
-  /** Create a Fleet */
-  createOrUpdate: (
-    resourceGroupName: string,
-    fleetName: string,
-    resource: Fleet,
-    options?: FleetsCreateOrUpdateOptionalParams,
-  ) => PollerLike<OperationState<Fleet>, Fleet>;
+    options?: FleetsDeleteOptionalParams,
+  ) => PollerLike<OperationState<void>, void>;
   /** Update a Fleet */
   update: (
     resourceGroupName: string,
@@ -46,75 +59,55 @@ export interface FleetsOperations {
     properties: FleetUpdate,
     options?: FleetsUpdateOptionalParams,
   ) => PollerLike<OperationState<Fleet>, Fleet>;
-  /** Delete a Fleet */
-  delete: (
+  /** Create a Fleet */
+  createOrUpdate: (
     resourceGroupName: string,
     fleetName: string,
-    options?: FleetsDeleteOptionalParams,
-  ) => PollerLike<OperationState<void>, void>;
-  /** List Fleet resources by resource group */
-  listByResourceGroup: (
+    resource: Fleet,
+    options?: FleetsCreateOrUpdateOptionalParams,
+  ) => PollerLike<OperationState<Fleet>, Fleet>;
+  /** Get a Fleet */
+  get: (
     resourceGroupName: string,
-    options?: FleetsListByResourceGroupOptionalParams,
-  ) => PagedAsyncIterableIterator<Fleet>;
-  /** List Fleet resources by subscription ID */
-  listBySubscription: (
-    options?: FleetsListBySubscriptionOptionalParams,
-  ) => PagedAsyncIterableIterator<Fleet>;
-  /** List VirtualMachineScaleSet resources by Fleet */
-  listVirtualMachineScaleSets: (
-    resourceGroupName: string,
-    name: string,
-    options?: FleetsListVirtualMachineScaleSetsOptionalParams,
-  ) => PagedAsyncIterableIterator<VirtualMachineScaleSet>;
+    fleetName: string,
+    options?: FleetsGetOptionalParams,
+  ) => Promise<Fleet>;
 }
 
-export function getFleets(context: AzureFleetContext, subscriptionId: string) {
+function _getFleets(context: AzureFleetContext) {
   return {
-    get: (resourceGroupName: string, fleetName: string, options?: FleetsGetOptionalParams) =>
-      fleetsGet(context, subscriptionId, resourceGroupName, fleetName, options),
-    createOrUpdate: (
+    listVirtualMachineScaleSets: (
       resourceGroupName: string,
-      fleetName: string,
-      resource: Fleet,
-      options?: FleetsCreateOrUpdateOptionalParams,
-    ) =>
-      fleetsCreateOrUpdate(
-        context,
-        subscriptionId,
-        resourceGroupName,
-        fleetName,
-        resource,
-        options,
-      ),
+      name: string,
+      options?: FleetsListVirtualMachineScaleSetsOptionalParams,
+    ) => listVirtualMachineScaleSets(context, resourceGroupName, name, options),
+    listBySubscription: (options?: FleetsListBySubscriptionOptionalParams) =>
+      listBySubscription(context, options),
+    listByResourceGroup: (
+      resourceGroupName: string,
+      options?: FleetsListByResourceGroupOptionalParams,
+    ) => listByResourceGroup(context, resourceGroupName, options),
+    delete: (resourceGroupName: string, fleetName: string, options?: FleetsDeleteOptionalParams) =>
+      $delete(context, resourceGroupName, fleetName, options),
     update: (
       resourceGroupName: string,
       fleetName: string,
       properties: FleetUpdate,
       options?: FleetsUpdateOptionalParams,
-    ) => fleetsUpdate(context, subscriptionId, resourceGroupName, fleetName, properties, options),
-    delete: (resourceGroupName: string, fleetName: string, options?: FleetsDeleteOptionalParams) =>
-      fleetsDelete(context, subscriptionId, resourceGroupName, fleetName, options),
-    listByResourceGroup: (
+    ) => update(context, resourceGroupName, fleetName, properties, options),
+    createOrUpdate: (
       resourceGroupName: string,
-      options?: FleetsListByResourceGroupOptionalParams,
-    ) => fleetsListByResourceGroup(context, subscriptionId, resourceGroupName, options),
-    listBySubscription: (options?: FleetsListBySubscriptionOptionalParams) =>
-      fleetsListBySubscription(context, subscriptionId, options),
-    listVirtualMachineScaleSets: (
-      resourceGroupName: string,
-      name: string,
-      options?: FleetsListVirtualMachineScaleSetsOptionalParams,
-    ) =>
-      fleetsListVirtualMachineScaleSets(context, subscriptionId, resourceGroupName, name, options),
+      fleetName: string,
+      resource: Fleet,
+      options?: FleetsCreateOrUpdateOptionalParams,
+    ) => createOrUpdate(context, resourceGroupName, fleetName, resource, options),
+    get: (resourceGroupName: string, fleetName: string, options?: FleetsGetOptionalParams) =>
+      get(context, resourceGroupName, fleetName, options),
   };
 }
 
-export function getFleetsOperations(
-  context: AzureFleetContext,
-  subscriptionId: string,
-): FleetsOperations {
+export function _getFleetsOperations(context: AzureFleetContext): FleetsOperations {
   return {
-    ...getFleets(context, subscriptionId),
+    ..._getFleets(context),
   };
 }

@@ -2,6 +2,15 @@
 // Licensed under the MIT License.
 
 export {
+  Operation,
+  OperationDisplay,
+  KnownOrigin,
+  Origin,
+  KnownActionType,
+  ActionType,
+  ErrorResponse,
+  ErrorDetail,
+  ErrorAdditionalInfo,
   Fleet,
   FleetProperties,
   KnownProvisioningState,
@@ -164,10 +173,5 @@ export {
   ApiError,
   ApiErrorBase,
   InnerError,
-  Operation,
-  OperationDisplay,
-  KnownOrigin,
-  Origin,
-  KnownActionType,
-  ActionType,
+  KnownVersions,
 } from "./models.js";

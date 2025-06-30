@@ -1,8 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { AzureFleetClient } from "@azure/arm-computefleet";
-import { DefaultAzureCredential } from "@azure/identity";
+const { AzureFleetClient } = require("@azure/arm-computefleet");
+const { DefaultAzureCredential } = require("@azure/identity");
 
 /**
  * This sample demonstrates how to create a Fleet
@@ -10,7 +10,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * @summary create a Fleet
  * x-ms-original-file: 2024-11-01/Fleets_CreateOrUpdate.json
  */
-async function fleetsCreateOrUpdate(): Promise<void> {
+async function fleetsCreateOrUpdate() {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "1DC2F28C-A625-4B0E-9748-9885A3C9E9EB";
   const client = new AzureFleetClient(credential, subscriptionId);
@@ -358,7 +358,7 @@ async function fleetsCreateOrUpdate(): Promise<void> {
  * @summary create a Fleet
  * x-ms-original-file: 2024-11-01/Fleets_CreateOrUpdate_MinimumSet.json
  */
-async function fleetsCreateOrUpdateMinimumSet(): Promise<void> {
+async function fleetsCreateOrUpdateMinimumSet() {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "1DC2F28C-A625-4B0E-9748-9885A3C9E9EB";
   const client = new AzureFleetClient(credential, subscriptionId);
@@ -443,7 +443,7 @@ async function fleetsCreateOrUpdateMinimumSet(): Promise<void> {
   console.log(result);
 }
 
-async function main(): Promise<void> {
+async function main() {
   await fleetsCreateOrUpdate();
   await fleetsCreateOrUpdateMinimumSet();
 }
