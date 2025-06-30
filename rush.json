@@ -2434,6 +2434,11 @@
       "packageName": "@azure/arm-resourcesbicep",
       "projectFolder": "sdk/resources/arm-resourcesbicep",
       "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-contoso",
+      "projectFolder": "sdk/contoso/arm-contoso",
+      "versionPolicyName": "management"
     }
   ]
 }
