@@ -241,6 +241,9 @@ importers:
       '@rush-temp/arm-containerservicefleet':
         specifier: file:./projects/arm-containerservicefleet.tgz
         version: file:projects/arm-containerservicefleet.tgz(@types/debug@4.1.12)(tsx@4.20.3)(vite@6.3.5(@types/node@22.7.9)(tsx@4.20.3)(yaml@2.8.0))(yaml@2.8.0)
+      '@rush-temp/arm-contoso':
+        specifier: file:./projects/arm-contoso.tgz
+        version: file:projects/arm-contoso.tgz(@types/debug@4.1.12)(tsx@4.20.3)(vite@6.3.5(@types/node@22.7.9)(tsx@4.20.3)(yaml@2.8.0))(yaml@2.8.0)
       '@rush-temp/arm-cosmosdb':
         specifier: file:./projects/arm-cosmosdb.tgz
         version: file:projects/arm-cosmosdb.tgz(@types/debug@4.1.12)(tsx@4.20.3)(vite@6.3.5(@types/node@22.7.9)(tsx@4.20.3)(yaml@2.8.0))(yaml@2.8.0)
@@ -2544,7 +2547,7 @@ packages:
     version: 0.0.0
 
   '@rush-temp/ai-projects@file:projects/ai-projects.tgz':
-    resolution: {integrity: sha512-YFOZTB6NwxBthKATwsI3KcV9inv66lyWjOnoV9sgX0lb/vcoIdTq250ppmkt2ffpQVD4TOV4HZXehlyIvog/Bg==, tarball: file:projects/ai-projects.tgz}
+    resolution: {integrity: sha512-ydTJj5YTvfF2/XDyH1y+9SEJ39pkn1RU3eA97UMixbwKZ6ouXEHvHFT8gAoBVNakPLLymU3WUgMN6tPnzBOwoA==, tarball: file:projects/ai-projects.tgz}
     version: 0.0.0
 
   '@rush-temp/ai-text-analytics@file:projects/ai-text-analytics.tgz':
@@ -2801,6 +2804,10 @@ packages:
 
   '@rush-temp/arm-containerservicefleet@file:projects/arm-containerservicefleet.tgz':
     resolution: {integrity: sha512-IAOUczq8SdXOWv+v+N5Oilt6xMPwz4K5CTybKJVm4nKkEMRtIUt/h1umtqSS51BIF8Ztpv/A2HobF7iLL3fNLA==, tarball: file:projects/arm-containerservicefleet.tgz}
+    version: 0.0.0
+
+  '@rush-temp/arm-contoso@file:projects/arm-contoso.tgz':
+    resolution: {integrity: sha512-9EQoPABSskFvlatEpaCMtSUqvKeoodEq9NUJreSuQxpEHhOw+kUGPZcyrbLQpnf09bVAUIgUGawbSOYFFgFBGw==, tarball: file:projects/arm-contoso.tgz}
     version: 0.0.0
 
   '@rush-temp/arm-cosmosdb@file:projects/arm-cosmosdb.tgz':
@@ -11694,6 +11701,41 @@ snapshots:
       - yaml
 
   '@rush-temp/arm-containerservicefleet@file:projects/arm-containerservicefleet.tgz(@types/debug@4.1.12)(tsx@4.20.3)(vite@6.3.5(@types/node@22.7.9)(tsx@4.20.3)(yaml@2.8.0))(yaml@2.8.0)':
+    dependencies:
+      '@types/node': 20.19.1
+      '@vitest/browser': 3.2.4(playwright@1.53.1)(vite@6.3.5(@types/node@22.7.9)(tsx@4.20.3)(yaml@2.8.0))(vitest@3.2.4)
+      '@vitest/coverage-istanbul': 3.2.4(vitest@3.2.4)
+      dotenv: 16.5.0
+      eslint: 9.29.0
+      playwright: 1.53.1
+      tslib: 2.8.1
+      typescript: 5.8.3
+      vitest: 3.2.4(@types/debug@4.1.12)(@types/node@20.19.1)(@vitest/browser@3.2.4)(tsx@4.20.3)(yaml@2.8.0)
+    transitivePeerDependencies:
+      - '@edge-runtime/vm'
+      - '@types/debug'
+      - '@vitest/ui'
+      - bufferutil
+      - happy-dom
+      - jiti
+      - jsdom
+      - less
+      - lightningcss
+      - msw
+      - safaridriver
+      - sass
+      - sass-embedded
+      - stylus
+      - sugarss
+      - supports-color
+      - terser
+      - tsx
+      - utf-8-validate
+      - vite
+      - webdriverio
+      - yaml
+
+  '@rush-temp/arm-contoso@file:projects/arm-contoso.tgz(@types/debug@4.1.12)(tsx@4.20.3)(vite@6.3.5(@types/node@22.7.9)(tsx@4.20.3)(yaml@2.8.0))(yaml@2.8.0)':
     dependencies:
       '@types/node': 20.19.1
       '@vitest/browser': 3.2.4(playwright@1.53.1)(vite@6.3.5(@types/node@22.7.9)(tsx@4.20.3)(yaml@2.8.0))(vitest@3.2.4)
