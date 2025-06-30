@@ -120,9 +120,9 @@ export const promptWidgetConfig = async (partial: Partial<WidgetConfig>): Promis
           { name: "TypeScript", value: "typescript" },
         ],
       },
-    ],
+    ] as any,
     partial,
-  );
+  ) as Promise<WidgetConfig>;
 };
 
 export const promptServiceInformation = async (
@@ -158,9 +158,9 @@ export const promptServiceInformation = async (
         type: "input",
         message: fieldIdToName.apiVersion + " (optional; e.g., 2021-08-01)",
       },
-    ],
+    ] as any,
     partial,
-  );
+  ) as Promise<ServiceInformation>;
 };
 
 export const promptMiscConfig = async (partial: Partial<Options>): Promise<Options> => {
@@ -193,7 +193,7 @@ export const promptMiscConfig = async (partial: Partial<Options>): Promise<Optio
           " to be used in Azure Identity InteractiveBrowserCredential class (optional; default is http://localhost:1337)",
         validate: validateMiscConfig.openUrl,
       },
-    ],
+    ] as any,
     partial,
   );
 };
