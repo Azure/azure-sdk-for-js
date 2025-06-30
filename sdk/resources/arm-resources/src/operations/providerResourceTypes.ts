@@ -60,8 +60,8 @@ const listOperationSpec: coreClient.OperationSpec = {
   queryParameters: [Parameters.apiVersion, Parameters.expand],
   urlParameters: [
     Parameters.$host,
-    Parameters.subscriptionId,
     Parameters.resourceProviderNamespace,
+    Parameters.subscriptionId,
   ],
   headerParameters: [Parameters.accept],
   serializer,
