@@ -18,6 +18,7 @@ import { AzureDeveloperCliCredential } from "./azureDeveloperCliCredential.js";
 import { AzureCliCredential } from "./azureCliCredential.js";
 import { AzurePowerShellCredential } from "./azurePowerShellCredential.js";
 import type { WorkloadIdentityCredentialOptions } from "./workloadIdentityCredentialOptions.js";
+
 /**
  * Creates a {@link ManagedIdentityCredential} from the provided options.
  * @param options - Options to configure the credential.
