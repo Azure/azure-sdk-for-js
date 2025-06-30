@@ -119,7 +119,6 @@ export class DefaultAzureCredential extends ChainedTokenCredential {
           credentialFunctions = prodCredentialFunctions;
           break;
         case "environmentcredential":
-          // If AZURE_TOKEN_CREDENTIALS is set to "environmentcredential", use the EnvironmentCredential.
           credentialFunctions = [createEnvironmentCredential];
           break;
         case "workloadidentitycredential":
