@@ -13,7 +13,7 @@ import * as Parameters from "../models/parameters.js";
 import { ServiceFabricMeshManagementClient } from "../serviceFabricMeshManagementClient.js";
 import {
   CodePackageGetContainerLogsOptionalParams,
-  CodePackageGetContainerLogsResponse
+  CodePackageGetContainerLogsResponse,
 } from "../models/index.js";
 
 /** Class containing CodePackage operations. */
@@ -43,7 +43,7 @@ export class CodePackageImpl implements CodePackage {
     serviceResourceName: string,
     replicaName: string,
     codePackageName: string,
-    options?: CodePackageGetContainerLogsOptionalParams
+    options?: CodePackageGetContainerLogsOptionalParams,
   ): Promise<CodePackageGetContainerLogsResponse> {
     return this.client.sendOperationRequest(
       {
@@ -52,9 +52,9 @@ export class CodePackageImpl implements CodePackage {
         serviceResourceName,
         replicaName,
         codePackageName,
-        options
+        options,
       },
-      getContainerLogsOperationSpec
+      getContainerLogsOperationSpec,
     );
   }
 }
@@ -62,16 +62,15 @@ export class CodePackageImpl implements CodePackage {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const getContainerLogsOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ServiceFabricMesh/applications/{applicationResourceName}/services/{serviceResourceName}/replicas/{replicaName}/codePackages/{codePackageName}/logs",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ServiceFabricMesh/applications/{applicationResourceName}/services/{serviceResourceName}/replicas/{replicaName}/codePackages/{codePackageName}/logs",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ContainerLogs
+      bodyMapper: Mappers.ContainerLogs,
     },
     default: {
-      bodyMapper: Mappers.ErrorModel
-    }
+      bodyMapper: Mappers.ErrorModel,
+    },
   },
   queryParameters: [Parameters.apiVersion, Parameters.tail],
   urlParameters: [
@@ -81,8 +80,8 @@ const getContainerLogsOperationSpec: coreClient.OperationSpec = {
     Parameters.applicationResourceName,
     Parameters.serviceResourceName,
     Parameters.replicaName,
-    Parameters.codePackageName
+    Parameters.codePackageName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

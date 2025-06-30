@@ -11,7 +11,7 @@ import {
   ServiceResourceDescription,
   ServiceListOptionalParams,
   ServiceGetOptionalParams,
-  ServiceGetResponse
+  ServiceGetResponse,
 } from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
@@ -27,7 +27,7 @@ export interface Service {
   list(
     resourceGroupName: string,
     applicationResourceName: string,
-    options?: ServiceListOptionalParams
+    options?: ServiceListOptionalParams,
   ): PagedAsyncIterableIterator<ServiceResourceDescription>;
   /**
    * Gets the information about the service resource with the given name. The information include the
@@ -41,6 +41,6 @@ export interface Service {
     resourceGroupName: string,
     applicationResourceName: string,
     serviceResourceName: string,
-    options?: ServiceGetOptionalParams
+    options?: ServiceGetOptionalParams,
   ): Promise<ServiceGetResponse>;
 }

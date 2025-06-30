@@ -15,7 +15,7 @@ import {
   VolumeCreateResponse,
   VolumeGetOptionalParams,
   VolumeGetResponse,
-  VolumeDeleteOptionalParams
+  VolumeDeleteOptionalParams,
 } from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
@@ -29,7 +29,7 @@ export interface Volume {
    */
   listByResourceGroup(
     resourceGroupName: string,
-    options?: VolumeListByResourceGroupOptionalParams
+    options?: VolumeListByResourceGroupOptionalParams,
   ): PagedAsyncIterableIterator<VolumeResourceDescription>;
   /**
    * Gets the information about all volume resources in a given resource group. The information include
@@ -37,7 +37,7 @@ export interface Volume {
    * @param options The options parameters.
    */
   listBySubscription(
-    options?: VolumeListBySubscriptionOptionalParams
+    options?: VolumeListBySubscriptionOptionalParams,
   ): PagedAsyncIterableIterator<VolumeResourceDescription>;
   /**
    * Creates a volume resource with the specified name, description and properties. If a volume resource
@@ -51,7 +51,7 @@ export interface Volume {
     resourceGroupName: string,
     volumeResourceName: string,
     volumeResourceDescription: VolumeResourceDescription,
-    options?: VolumeCreateOptionalParams
+    options?: VolumeCreateOptionalParams,
   ): Promise<VolumeCreateResponse>;
   /**
    * Gets the information about the volume resource with the given name. The information include the
@@ -63,7 +63,7 @@ export interface Volume {
   get(
     resourceGroupName: string,
     volumeResourceName: string,
-    options?: VolumeGetOptionalParams
+    options?: VolumeGetOptionalParams,
   ): Promise<VolumeGetResponse>;
   /**
    * Deletes the volume resource identified by the name.
@@ -74,6 +74,6 @@ export interface Volume {
   delete(
     resourceGroupName: string,
     volumeResourceName: string,
-    options?: VolumeDeleteOptionalParams
+    options?: VolumeDeleteOptionalParams,
   ): Promise<void>;
 }

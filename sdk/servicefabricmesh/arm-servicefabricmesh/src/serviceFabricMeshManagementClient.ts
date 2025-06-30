@@ -11,7 +11,7 @@ import * as coreRestPipeline from "@azure/core-rest-pipeline";
 import {
   PipelineRequest,
   PipelineResponse,
-  SendRequest
+  SendRequest,
 } from "@azure/core-rest-pipeline";
 import * as coreAuth from "@azure/core-auth";
 import {
@@ -24,7 +24,7 @@ import {
   ApplicationImpl,
   ServiceImpl,
   ServiceReplicaImpl,
-  CodePackageImpl
+  CodePackageImpl,
 } from "./operations/index.js";
 import {
   Operations,
@@ -36,7 +36,7 @@ import {
   Application,
   Service,
   ServiceReplica,
-  CodePackage
+  CodePackage,
 } from "./operationsInterfaces/index.js";
 import { ServiceFabricMeshManagementClientOptionalParams } from "./models/index.js";
 
@@ -54,7 +54,7 @@ export class ServiceFabricMeshManagementClient extends coreClient.ServiceClient 
   constructor(
     credentials: coreAuth.TokenCredential,
     subscriptionId: string,
-    options?: ServiceFabricMeshManagementClientOptionalParams
+    options?: ServiceFabricMeshManagementClientOptionalParams,
   ) {
     if (credentials === undefined) {
       throw new Error("'credentials' cannot be null");
@@ -69,7 +69,7 @@ export class ServiceFabricMeshManagementClient extends coreClient.ServiceClient 
     }
     const defaults: ServiceFabricMeshManagementClientOptionalParams = {
       requestContentType: "application/json; charset=utf-8",
-      credential: credentials
+      credential: credentials,
     };
 
     const packageDetails = `azsdk-js-arm-servicefabricmesh/3.0.0-beta.5`;
@@ -82,20 +82,21 @@ export class ServiceFabricMeshManagementClient extends coreClient.ServiceClient 
       ...defaults,
       ...options,
       userAgentOptions: {
-        userAgentPrefix
+        userAgentPrefix,
       },
       endpoint:
-        options.endpoint ?? options.baseUri ?? "https://management.azure.com"
+        options.endpoint ?? options.baseUri ?? "https://management.azure.com",
     };
     super(optionsWithDefaults);
 
     let bearerTokenAuthenticationPolicyFound: boolean = false;
     if (options?.pipeline && options.pipeline.getOrderedPolicies().length > 0) {
-      const pipelinePolicies: coreRestPipeline.PipelinePolicy[] = options.pipeline.getOrderedPolicies();
+      const pipelinePolicies: coreRestPipeline.PipelinePolicy[] =
+        options.pipeline.getOrderedPolicies();
       bearerTokenAuthenticationPolicyFound = pipelinePolicies.some(
         (pipelinePolicy) =>
           pipelinePolicy.name ===
-          coreRestPipeline.bearerTokenAuthenticationPolicyName
+          coreRestPipeline.bearerTokenAuthenticationPolicyName,
       );
     }
     if (
@@ -105,7 +106,7 @@ export class ServiceFabricMeshManagementClient extends coreClient.ServiceClient 
       !bearerTokenAuthenticationPolicyFound
     ) {
       this.pipeline.removePolicy({
-        name: coreRestPipeline.bearerTokenAuthenticationPolicyName
+        name: coreRestPipeline.bearerTokenAuthenticationPolicyName,
       });
       this.pipeline.addPolicy(
         coreRestPipeline.bearerTokenAuthenticationPolicy({
@@ -115,9 +116,9 @@ export class ServiceFabricMeshManagementClient extends coreClient.ServiceClient 
             `${optionsWithDefaults.endpoint}/.default`,
           challengeCallbacks: {
             authorizeRequestOnChallenge:
-              coreClient.authorizeRequestOnClaimChallenge
-          }
-        })
+              coreClient.authorizeRequestOnClaimChallenge,
+          },
+        }),
       );
     }
     // Parameter assignments
@@ -148,7 +149,7 @@ export class ServiceFabricMeshManagementClient extends coreClient.ServiceClient 
       name: "CustomApiVersionPolicy",
       async sendRequest(
         request: PipelineRequest,
-        next: SendRequest
+        next: SendRequest,
       ): Promise<PipelineResponse> {
         const param = request.url.split("?");
         if (param.length > 1) {
@@ -162,7 +163,7 @@ export class ServiceFabricMeshManagementClient extends coreClient.ServiceClient 
           request.url = param[0] + "?" + newParams.join("&");
         }
         return next(request);
-      }
+      },
     };
     this.pipeline.addPolicy(apiVersionPolicy);
   }

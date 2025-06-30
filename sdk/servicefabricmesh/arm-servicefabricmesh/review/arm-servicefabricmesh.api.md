@@ -181,6 +181,11 @@ export type AutoScalingTriggerKind = string;
 export type AutoScalingTriggerUnion = AutoScalingTrigger | AverageLoadScalingTrigger;
 
 // @public
+export interface AvailableOperationDescriptionProperties {
+    serviceSpecification?: ServiceSpecification;
+}
+
+// @public
 export interface AvailableOperationDisplay {
     description?: string;
     operation?: string;
@@ -302,6 +307,18 @@ export interface DiagnosticsSinkProperties {
 
 // @public (undocumented)
 export type DiagnosticsSinkPropertiesUnion = DiagnosticsSinkProperties | AzureInternalMonitoringPipelineSinkDescription;
+
+// @public
+export interface Dimension {
+    // (undocumented)
+    displayName?: string;
+    // (undocumented)
+    internalName?: string;
+    // (undocumented)
+    name?: string;
+    // (undocumented)
+    toBeExportedForShoebox?: boolean;
+}
 
 // @public
 export interface EndpointProperties {
@@ -596,10 +613,68 @@ export interface LocalNetworkResourceProperties extends NetworkResourcePropertie
 }
 
 // @public
+export interface LogSpecification {
+    // (undocumented)
+    blobDuration?: string;
+    // (undocumented)
+    displayName?: string;
+    // (undocumented)
+    logFilterPattern?: string;
+    // (undocumented)
+    name?: string;
+}
+
+// @public
 export interface ManagedProxyResource {
     readonly id?: string;
     name?: string;
     readonly type?: string;
+}
+
+// @public
+export interface MetricAvailability {
+    // (undocumented)
+    blobDuration?: string;
+    // (undocumented)
+    timeGrain?: string;
+}
+
+// @public
+export interface MetricSpecification {
+    // (undocumented)
+    aggregationType?: string;
+    // (undocumented)
+    availabilities?: MetricAvailability[];
+    // (undocumented)
+    category?: string;
+    // (undocumented)
+    dimensions?: Dimension[];
+    // (undocumented)
+    displayDescription?: string;
+    // (undocumented)
+    displayName?: string;
+    // (undocumented)
+    enableRegionalMdmAccount?: boolean;
+    // (undocumented)
+    fillGapWithZero?: boolean;
+    // (undocumented)
+    isInternal?: boolean;
+    // (undocumented)
+    metricFilterPattern?: string;
+    // (undocumented)
+    name?: string;
+    // (undocumented)
+    sourceMdmAccount?: string;
+    // (undocumented)
+    sourceMdmNamespace?: string;
+    // (undocumented)
+    supportedAggregationTypes?: string[];
+    // (undocumented)
+    supportedTimeGrainTypes?: string[];
+    // (undocumented)
+    supportsInstanceLevelAggregation?: boolean;
+    // (undocumented)
+    unit?: string;
 }
 
 // @public
@@ -711,6 +786,7 @@ export interface OperationResult {
     name?: string;
     nextLink?: string;
     origin?: string;
+    properties?: AvailableOperationDescriptionProperties;
 }
 
 // @public
@@ -1087,6 +1163,14 @@ export interface ServiceResourceDescriptionList {
 
 // @public
 export interface ServiceResourceProperties extends ProvisionedResourceProperties, ServiceReplicaProperties, ServiceProperties {
+}
+
+// @public
+export interface ServiceSpecification {
+    // (undocumented)
+    logSpecifications?: LogSpecification[];
+    // (undocumented)
+    metricSpecifications?: MetricSpecification[];
 }
 
 // @public

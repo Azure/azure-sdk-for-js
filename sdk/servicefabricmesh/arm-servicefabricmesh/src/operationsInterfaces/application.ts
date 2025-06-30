@@ -15,7 +15,7 @@ import {
   ApplicationCreateResponse,
   ApplicationGetOptionalParams,
   ApplicationGetResponse,
-  ApplicationDeleteOptionalParams
+  ApplicationDeleteOptionalParams,
 } from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
@@ -29,7 +29,7 @@ export interface Application {
    */
   listByResourceGroup(
     resourceGroupName: string,
-    options?: ApplicationListByResourceGroupOptionalParams
+    options?: ApplicationListByResourceGroupOptionalParams,
   ): PagedAsyncIterableIterator<ApplicationResourceDescription>;
   /**
    * Gets the information about all application resources in a given resource group. The information
@@ -37,7 +37,7 @@ export interface Application {
    * @param options The options parameters.
    */
   listBySubscription(
-    options?: ApplicationListBySubscriptionOptionalParams
+    options?: ApplicationListBySubscriptionOptionalParams,
   ): PagedAsyncIterableIterator<ApplicationResourceDescription>;
   /**
    * Creates an application resource with the specified name, description and properties. If an
@@ -52,7 +52,7 @@ export interface Application {
     resourceGroupName: string,
     applicationResourceName: string,
     applicationResourceDescription: ApplicationResourceDescription,
-    options?: ApplicationCreateOptionalParams
+    options?: ApplicationCreateOptionalParams,
   ): Promise<ApplicationCreateResponse>;
   /**
    * Gets the information about the application resource with the given name. The information include the
@@ -64,7 +64,7 @@ export interface Application {
   get(
     resourceGroupName: string,
     applicationResourceName: string,
-    options?: ApplicationGetOptionalParams
+    options?: ApplicationGetOptionalParams,
   ): Promise<ApplicationGetResponse>;
   /**
    * Deletes the application resource identified by the name.
@@ -75,6 +75,6 @@ export interface Application {
   delete(
     resourceGroupName: string,
     applicationResourceName: string,
-    options?: ApplicationDeleteOptionalParams
+    options?: ApplicationDeleteOptionalParams,
   ): Promise<void>;
 }

@@ -27,7 +27,7 @@ import {
   VolumeGetResponse,
   VolumeDeleteOptionalParams,
   VolumeListByResourceGroupNextResponse,
-  VolumeListBySubscriptionNextResponse
+  VolumeListBySubscriptionNextResponse,
 } from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
@@ -51,7 +51,7 @@ export class VolumeImpl implements Volume {
    */
   public listByResourceGroup(
     resourceGroupName: string,
-    options?: VolumeListByResourceGroupOptionalParams
+    options?: VolumeListByResourceGroupOptionalParams,
   ): PagedAsyncIterableIterator<VolumeResourceDescription> {
     const iter = this.listByResourceGroupPagingAll(resourceGroupName, options);
     return {
@@ -68,16 +68,16 @@ export class VolumeImpl implements Volume {
         return this.listByResourceGroupPagingPage(
           resourceGroupName,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
   private async *listByResourceGroupPagingPage(
     resourceGroupName: string,
     options?: VolumeListByResourceGroupOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<VolumeResourceDescription[]> {
     let result: VolumeListByResourceGroupResponse;
     let continuationToken = settings?.continuationToken;
@@ -92,7 +92,7 @@ export class VolumeImpl implements Volume {
       result = await this._listByResourceGroupNext(
         resourceGroupName,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -103,11 +103,11 @@ export class VolumeImpl implements Volume {
 
   private async *listByResourceGroupPagingAll(
     resourceGroupName: string,
-    options?: VolumeListByResourceGroupOptionalParams
+    options?: VolumeListByResourceGroupOptionalParams,
   ): AsyncIterableIterator<VolumeResourceDescription> {
     for await (const page of this.listByResourceGroupPagingPage(
       resourceGroupName,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -119,7 +119,7 @@ export class VolumeImpl implements Volume {
    * @param options The options parameters.
    */
   public listBySubscription(
-    options?: VolumeListBySubscriptionOptionalParams
+    options?: VolumeListBySubscriptionOptionalParams,
   ): PagedAsyncIterableIterator<VolumeResourceDescription> {
     const iter = this.listBySubscriptionPagingAll(options);
     return {
@@ -134,13 +134,13 @@ export class VolumeImpl implements Volume {
           throw new Error("maxPageSize is not supported by this operation.");
         }
         return this.listBySubscriptionPagingPage(options, settings);
-      }
+      },
     };
   }
 
   private async *listBySubscriptionPagingPage(
     options?: VolumeListBySubscriptionOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<VolumeResourceDescription[]> {
     let result: VolumeListBySubscriptionResponse;
     let continuationToken = settings?.continuationToken;
@@ -161,7 +161,7 @@ export class VolumeImpl implements Volume {
   }
 
   private async *listBySubscriptionPagingAll(
-    options?: VolumeListBySubscriptionOptionalParams
+    options?: VolumeListBySubscriptionOptionalParams,
   ): AsyncIterableIterator<VolumeResourceDescription> {
     for await (const page of this.listBySubscriptionPagingPage(options)) {
       yield* page;
@@ -180,16 +180,16 @@ export class VolumeImpl implements Volume {
     resourceGroupName: string,
     volumeResourceName: string,
     volumeResourceDescription: VolumeResourceDescription,
-    options?: VolumeCreateOptionalParams
+    options?: VolumeCreateOptionalParams,
   ): Promise<VolumeCreateResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
         volumeResourceName,
         volumeResourceDescription,
-        options
+        options,
       },
-      createOperationSpec
+      createOperationSpec,
     );
   }
 
@@ -203,11 +203,11 @@ export class VolumeImpl implements Volume {
   get(
     resourceGroupName: string,
     volumeResourceName: string,
-    options?: VolumeGetOptionalParams
+    options?: VolumeGetOptionalParams,
   ): Promise<VolumeGetResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, volumeResourceName, options },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 
@@ -220,11 +220,11 @@ export class VolumeImpl implements Volume {
   delete(
     resourceGroupName: string,
     volumeResourceName: string,
-    options?: VolumeDeleteOptionalParams
+    options?: VolumeDeleteOptionalParams,
   ): Promise<void> {
     return this.client.sendOperationRequest(
       { resourceGroupName, volumeResourceName, options },
-      deleteOperationSpec
+      deleteOperationSpec,
     );
   }
 
@@ -236,11 +236,11 @@ export class VolumeImpl implements Volume {
    */
   private _listByResourceGroup(
     resourceGroupName: string,
-    options?: VolumeListByResourceGroupOptionalParams
+    options?: VolumeListByResourceGroupOptionalParams,
   ): Promise<VolumeListByResourceGroupResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, options },
-      listByResourceGroupOperationSpec
+      listByResourceGroupOperationSpec,
     );
   }
 
@@ -250,11 +250,11 @@ export class VolumeImpl implements Volume {
    * @param options The options parameters.
    */
   private _listBySubscription(
-    options?: VolumeListBySubscriptionOptionalParams
+    options?: VolumeListBySubscriptionOptionalParams,
   ): Promise<VolumeListBySubscriptionResponse> {
     return this.client.sendOperationRequest(
       { options },
-      listBySubscriptionOperationSpec
+      listBySubscriptionOperationSpec,
     );
   }
 
@@ -267,11 +267,11 @@ export class VolumeImpl implements Volume {
   private _listByResourceGroupNext(
     resourceGroupName: string,
     nextLink: string,
-    options?: VolumeListByResourceGroupNextOptionalParams
+    options?: VolumeListByResourceGroupNextOptionalParams,
   ): Promise<VolumeListByResourceGroupNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, nextLink, options },
-      listByResourceGroupNextOperationSpec
+      listByResourceGroupNextOperationSpec,
     );
   }
 
@@ -282,11 +282,11 @@ export class VolumeImpl implements Volume {
    */
   private _listBySubscriptionNext(
     nextLink: string,
-    options?: VolumeListBySubscriptionNextOptionalParams
+    options?: VolumeListBySubscriptionNextOptionalParams,
   ): Promise<VolumeListBySubscriptionNextResponse> {
     return this.client.sendOperationRequest(
       { nextLink, options },
-      listBySubscriptionNextOperationSpec
+      listBySubscriptionNextOperationSpec,
     );
   }
 }
@@ -294,20 +294,19 @@ export class VolumeImpl implements Volume {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const createOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ServiceFabricMesh/volumes/{volumeResourceName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ServiceFabricMesh/volumes/{volumeResourceName}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.VolumeResourceDescription
+      bodyMapper: Mappers.VolumeResourceDescription,
     },
     201: {
-      bodyMapper: Mappers.VolumeResourceDescription
+      bodyMapper: Mappers.VolumeResourceDescription,
     },
     202: {},
     default: {
-      bodyMapper: Mappers.ErrorModel
-    }
+      bodyMapper: Mappers.ErrorModel,
+    },
   },
   requestBody: Parameters.volumeResourceDescription,
   queryParameters: [Parameters.apiVersion],
@@ -315,130 +314,126 @@ const createOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.volumeResourceName
+    Parameters.volumeResourceName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ServiceFabricMesh/volumes/{volumeResourceName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ServiceFabricMesh/volumes/{volumeResourceName}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.VolumeResourceDescription
+      bodyMapper: Mappers.VolumeResourceDescription,
     },
     default: {
-      bodyMapper: Mappers.ErrorModel
-    }
+      bodyMapper: Mappers.ErrorModel,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.volumeResourceName
+    Parameters.volumeResourceName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const deleteOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ServiceFabricMesh/volumes/{volumeResourceName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ServiceFabricMesh/volumes/{volumeResourceName}",
   httpMethod: "DELETE",
   responses: {
     200: {},
     202: {},
     204: {},
     default: {
-      bodyMapper: Mappers.ErrorModel
-    }
+      bodyMapper: Mappers.ErrorModel,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.volumeResourceName
+    Parameters.volumeResourceName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listByResourceGroupOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ServiceFabricMesh/volumes",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ServiceFabricMesh/volumes",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.VolumeResourceDescriptionList
+      bodyMapper: Mappers.VolumeResourceDescriptionList,
     },
     default: {
-      bodyMapper: Mappers.ErrorModel
-    }
+      bodyMapper: Mappers.ErrorModel,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
-    Parameters.resourceGroupName
+    Parameters.resourceGroupName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listBySubscriptionOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/providers/Microsoft.ServiceFabricMesh/volumes",
+  path: "/subscriptions/{subscriptionId}/providers/Microsoft.ServiceFabricMesh/volumes",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.VolumeResourceDescriptionList
+      bodyMapper: Mappers.VolumeResourceDescriptionList,
     },
     default: {
-      bodyMapper: Mappers.ErrorModel
-    }
+      bodyMapper: Mappers.ErrorModel,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.$host, Parameters.subscriptionId],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listByResourceGroupNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.VolumeResourceDescriptionList
+      bodyMapper: Mappers.VolumeResourceDescriptionList,
     },
     default: {
-      bodyMapper: Mappers.ErrorModel
-    }
+      bodyMapper: Mappers.ErrorModel,
+    },
   },
   urlParameters: [
     Parameters.$host,
     Parameters.nextLink,
     Parameters.subscriptionId,
-    Parameters.resourceGroupName
+    Parameters.resourceGroupName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listBySubscriptionNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.VolumeResourceDescriptionList
+      bodyMapper: Mappers.VolumeResourceDescriptionList,
     },
     default: {
-      bodyMapper: Mappers.ErrorModel
-    }
+      bodyMapper: Mappers.ErrorModel,
+    },
   },
   urlParameters: [
     Parameters.$host,
     Parameters.nextLink,
-    Parameters.subscriptionId
+    Parameters.subscriptionId,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

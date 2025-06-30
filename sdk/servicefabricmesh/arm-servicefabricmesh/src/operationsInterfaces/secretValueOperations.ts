@@ -16,7 +16,7 @@ import {
   SecretValueGetResponse,
   SecretValueDeleteOptionalParams,
   SecretValueListValueOptionalParams,
-  SecretValueListValueResponse
+  SecretValueListValueResponse,
 } from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
@@ -32,7 +32,7 @@ export interface SecretValueOperations {
   list(
     resourceGroupName: string,
     secretResourceName: string,
-    options?: SecretValueListOptionalParams
+    options?: SecretValueListOptionalParams,
   ): PagedAsyncIterableIterator<SecretValueResourceDescription>;
   /**
    * Creates a new value of the specified secret resource. The name of the value is typically the version
@@ -49,7 +49,7 @@ export interface SecretValueOperations {
     secretResourceName: string,
     secretValueResourceName: string,
     secretValueResourceDescription: SecretValueResourceDescription,
-    options?: SecretValueCreateOptionalParams
+    options?: SecretValueCreateOptionalParams,
   ): Promise<SecretValueCreateResponse>;
   /**
    * Get the information about the specified named secret value resources. The information does not
@@ -64,7 +64,7 @@ export interface SecretValueOperations {
     resourceGroupName: string,
     secretResourceName: string,
     secretValueResourceName: string,
-    options?: SecretValueGetOptionalParams
+    options?: SecretValueGetOptionalParams,
   ): Promise<SecretValueGetResponse>;
   /**
    * Deletes the secret value resource identified by the name. The name of the resource is typically the
@@ -79,7 +79,7 @@ export interface SecretValueOperations {
     resourceGroupName: string,
     secretResourceName: string,
     secretValueResourceName: string,
-    options?: SecretValueDeleteOptionalParams
+    options?: SecretValueDeleteOptionalParams,
   ): Promise<void>;
   /**
    * Lists the decrypted value of the specified named value of the secret resource. This is a privileged
@@ -94,6 +94,6 @@ export interface SecretValueOperations {
     resourceGroupName: string,
     secretResourceName: string,
     secretValueResourceName: string,
-    options?: SecretValueListValueOptionalParams
+    options?: SecretValueListValueOptionalParams,
   ): Promise<SecretValueListValueResponse>;
 }

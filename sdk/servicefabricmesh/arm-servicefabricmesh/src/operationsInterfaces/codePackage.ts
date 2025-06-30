@@ -8,7 +8,7 @@
 
 import {
   CodePackageGetContainerLogsOptionalParams,
-  CodePackageGetContainerLogsResponse
+  CodePackageGetContainerLogsResponse,
 } from "../models/index.js";
 
 /** Interface representing a CodePackage. */
@@ -28,6 +28,6 @@ export interface CodePackage {
     serviceResourceName: string,
     replicaName: string,
     codePackageName: string,
-    options?: CodePackageGetContainerLogsOptionalParams
+    options?: CodePackageGetContainerLogsOptionalParams,
   ): Promise<CodePackageGetContainerLogsResponse>;
 }

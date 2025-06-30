@@ -20,7 +20,7 @@ import {
   ServiceReplicaListResponse,
   ServiceReplicaGetOptionalParams,
   ServiceReplicaGetResponse,
-  ServiceReplicaListNextResponse
+  ServiceReplicaListNextResponse,
 } from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
@@ -48,13 +48,13 @@ export class ServiceReplicaImpl implements ServiceReplica {
     resourceGroupName: string,
     applicationResourceName: string,
     serviceResourceName: string,
-    options?: ServiceReplicaListOptionalParams
+    options?: ServiceReplicaListOptionalParams,
   ): PagedAsyncIterableIterator<ServiceReplicaDescription> {
     const iter = this.listPagingAll(
       resourceGroupName,
       applicationResourceName,
       serviceResourceName,
-      options
+      options,
     );
     return {
       next() {
@@ -72,9 +72,9 @@ export class ServiceReplicaImpl implements ServiceReplica {
           applicationResourceName,
           serviceResourceName,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
@@ -83,7 +83,7 @@ export class ServiceReplicaImpl implements ServiceReplica {
     applicationResourceName: string,
     serviceResourceName: string,
     options?: ServiceReplicaListOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<ServiceReplicaDescription[]> {
     let result: ServiceReplicaListResponse;
     let continuationToken = settings?.continuationToken;
@@ -92,7 +92,7 @@ export class ServiceReplicaImpl implements ServiceReplica {
         resourceGroupName,
         applicationResourceName,
         serviceResourceName,
-        options
+        options,
       );
       let page = result.value || [];
       continuationToken = result.nextLink;
@@ -105,7 +105,7 @@ export class ServiceReplicaImpl implements ServiceReplica {
         applicationResourceName,
         serviceResourceName,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -118,13 +118,13 @@ export class ServiceReplicaImpl implements ServiceReplica {
     resourceGroupName: string,
     applicationResourceName: string,
     serviceResourceName: string,
-    options?: ServiceReplicaListOptionalParams
+    options?: ServiceReplicaListOptionalParams,
   ): AsyncIterableIterator<ServiceReplicaDescription> {
     for await (const page of this.listPagingPage(
       resourceGroupName,
       applicationResourceName,
       serviceResourceName,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -144,7 +144,7 @@ export class ServiceReplicaImpl implements ServiceReplica {
     applicationResourceName: string,
     serviceResourceName: string,
     replicaName: string,
-    options?: ServiceReplicaGetOptionalParams
+    options?: ServiceReplicaGetOptionalParams,
   ): Promise<ServiceReplicaGetResponse> {
     return this.client.sendOperationRequest(
       {
@@ -152,9 +152,9 @@ export class ServiceReplicaImpl implements ServiceReplica {
         applicationResourceName,
         serviceResourceName,
         replicaName,
-        options
+        options,
       },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 
@@ -170,16 +170,16 @@ export class ServiceReplicaImpl implements ServiceReplica {
     resourceGroupName: string,
     applicationResourceName: string,
     serviceResourceName: string,
-    options?: ServiceReplicaListOptionalParams
+    options?: ServiceReplicaListOptionalParams,
   ): Promise<ServiceReplicaListResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
         applicationResourceName,
         serviceResourceName,
-        options
+        options,
       },
-      listOperationSpec
+      listOperationSpec,
     );
   }
 
@@ -196,7 +196,7 @@ export class ServiceReplicaImpl implements ServiceReplica {
     applicationResourceName: string,
     serviceResourceName: string,
     nextLink: string,
-    options?: ServiceReplicaListNextOptionalParams
+    options?: ServiceReplicaListNextOptionalParams,
   ): Promise<ServiceReplicaListNextResponse> {
     return this.client.sendOperationRequest(
       {
@@ -204,9 +204,9 @@ export class ServiceReplicaImpl implements ServiceReplica {
         applicationResourceName,
         serviceResourceName,
         nextLink,
-        options
+        options,
       },
-      listNextOperationSpec
+      listNextOperationSpec,
     );
   }
 }
@@ -214,16 +214,15 @@ export class ServiceReplicaImpl implements ServiceReplica {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ServiceFabricMesh/applications/{applicationResourceName}/services/{serviceResourceName}/replicas/{replicaName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ServiceFabricMesh/applications/{applicationResourceName}/services/{serviceResourceName}/replicas/{replicaName}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ServiceReplicaDescription
+      bodyMapper: Mappers.ServiceReplicaDescription,
     },
     default: {
-      bodyMapper: Mappers.ErrorModel
-    }
+      bodyMapper: Mappers.ErrorModel,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -232,22 +231,21 @@ const getOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.applicationResourceName,
     Parameters.serviceResourceName,
-    Parameters.replicaName
+    Parameters.replicaName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ServiceFabricMesh/applications/{applicationResourceName}/services/{serviceResourceName}/replicas",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ServiceFabricMesh/applications/{applicationResourceName}/services/{serviceResourceName}/replicas",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ServiceReplicaDescriptionList
+      bodyMapper: Mappers.ServiceReplicaDescriptionList,
     },
     default: {
-      bodyMapper: Mappers.ErrorModel
-    }
+      bodyMapper: Mappers.ErrorModel,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -255,21 +253,21 @@ const listOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.applicationResourceName,
-    Parameters.serviceResourceName
+    Parameters.serviceResourceName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ServiceReplicaDescriptionList
+      bodyMapper: Mappers.ServiceReplicaDescriptionList,
     },
     default: {
-      bodyMapper: Mappers.ErrorModel
-    }
+      bodyMapper: Mappers.ErrorModel,
+    },
   },
   urlParameters: [
     Parameters.$host,
@@ -277,8 +275,8 @@ const listNextOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.applicationResourceName,
-    Parameters.serviceResourceName
+    Parameters.serviceResourceName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

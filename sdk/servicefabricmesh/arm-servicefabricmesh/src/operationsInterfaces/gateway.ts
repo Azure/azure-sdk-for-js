@@ -15,7 +15,7 @@ import {
   GatewayCreateResponse,
   GatewayGetOptionalParams,
   GatewayGetResponse,
-  GatewayDeleteOptionalParams
+  GatewayDeleteOptionalParams,
 } from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
@@ -29,7 +29,7 @@ export interface Gateway {
    */
   listByResourceGroup(
     resourceGroupName: string,
-    options?: GatewayListByResourceGroupOptionalParams
+    options?: GatewayListByResourceGroupOptionalParams,
   ): PagedAsyncIterableIterator<GatewayResourceDescription>;
   /**
    * Gets the information about all gateway resources in a given resource group. The information include
@@ -37,7 +37,7 @@ export interface Gateway {
    * @param options The options parameters.
    */
   listBySubscription(
-    options?: GatewayListBySubscriptionOptionalParams
+    options?: GatewayListBySubscriptionOptionalParams,
   ): PagedAsyncIterableIterator<GatewayResourceDescription>;
   /**
    * Creates a gateway resource with the specified name, description and properties. If a gateway
@@ -53,7 +53,7 @@ export interface Gateway {
     resourceGroupName: string,
     gatewayResourceName: string,
     gatewayResourceDescription: GatewayResourceDescription,
-    options?: GatewayCreateOptionalParams
+    options?: GatewayCreateOptionalParams,
   ): Promise<GatewayCreateResponse>;
   /**
    * Gets the information about the gateway resource with the given name. The information include the
@@ -65,7 +65,7 @@ export interface Gateway {
   get(
     resourceGroupName: string,
     gatewayResourceName: string,
-    options?: GatewayGetOptionalParams
+    options?: GatewayGetOptionalParams,
   ): Promise<GatewayGetResponse>;
   /**
    * Deletes the gateway resource identified by the name.
@@ -76,6 +76,6 @@ export interface Gateway {
   delete(
     resourceGroupName: string,
     gatewayResourceName: string,
-    options?: GatewayDeleteOptionalParams
+    options?: GatewayDeleteOptionalParams,
   ): Promise<void>;
 }
