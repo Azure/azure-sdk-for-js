@@ -17,7 +17,7 @@ describe("DefaultAzureCredential", () => {
   it("should throw an error if AZURE_TOKEN_CREDENTIALS is set to an unsupported value", () => {
     process.env.AZURE_TOKEN_CREDENTIALS = "randomValue";
     expect(() => new DefaultAzureCredential()).toThrowError(
-      `Invalid value for AZURE_TOKEN_CREDENTIALS = randomValue. Valid values are 'prod' or 'dev' or any of these credentials - "EnvironmentCredential" or "ManagedIdentityCredential or "WorkloadIdentityCredential" or "AzureCliCredential" or "AzureDeveloperCliCredential" or "AzurePowershellCredential".`
+      `Invalid value for AZURE_TOKEN_CREDENTIALS = randomValue. Valid values are 'prod' or 'dev' or any of these credentials - "EnvironmentCredential" or "ManagedIdentityCredential or "WorkloadIdentityCredential" or "AzureCliCredential" or "AzureDeveloperCliCredential" or "AzurePowershellCredential".`,
     );
   });
   it("should not throw an error if AZURE_TOKEN_CREDENTIALS is set to a supported value", () => {
