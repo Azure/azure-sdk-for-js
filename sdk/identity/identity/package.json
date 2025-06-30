@@ -105,6 +105,14 @@
     "typescript": "~5.8.2",
     "vitest": "^3.0.9"
   },
+  "peerDependencies": {
+    "@azure/identity-broker": "^1.2.0"
+  },
+  "peerDependenciesMeta": {
+    "@azure/identity-broker": {
+      "optional": true
+    }
+  },
   "type": "module",
   "tshy": {
     "project": "./tsconfig.src.json",

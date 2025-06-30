@@ -8,10 +8,11 @@ import {
   resolveAdditionallyAllowedTenantIds,
 } from "../util/tenantIdUtils.js";
 import { AzureAuthorityHosts } from "../constants.js";
-import { AuthenticationError, CredentialUnavailableError } from "../errors.js";
+import { CredentialUnavailableError } from "../errors.js";
 import type { VisualStudioCodeCredentialOptions } from "./visualStudioCodeCredentialOptions.js";
 import { checkTenantId } from "../util/tenantIdUtils.js";
-import fs from "node:fs";
+import fs from "node:fs/promises";
+import { readFileSync } from "node:fs";
 import os from "node:os";
 import path from "node:path";
 import { createMsalClient, MsalClient } from "../msal/nodeFlows/msalClient.js";
@@ -58,7 +59,7 @@ export function getPropertyFromVSCode(property: string): string | undefined {
 
   function loadProperty(...pathSegments: string[]): string | undefined {
     const fullPath = path.join(...pathSegments, vsCodeFolder, ...settingsPath);
-    const settings = JSON.parse(fs.readFileSync(fullPath, { encoding: "utf8" }));
+    const settings = JSON.parse(readFileSync(fullPath, { encoding: "utf8" }));
     return settings[property];
   }
 
@@ -134,31 +135,47 @@ export class VisualStudioCodeCredential implements TokenCredential {
       // @ts-ignore
       const { nativeBrokerPlugin } = await import("@azure/identity-broker");
       return nativeBrokerPlugin;
-    } catch (error) {
-      // Package not installed, return null or fallback
-      logger.info("The @azure/identity-broker package is not installed.");
-      return undefined;
+    } catch (error: any) {
+      // Only catch module not found error, let other errors bubble up
+      if (
+        error.code === "ERR_MODULE_NOT_FOUND" ||
+        /Cannot find package.*imported from/.test(error.message)
+      ) {
+        logger.info("The @azure/identity-broker package is not installed.");
+        return undefined;
+      }
+      throw error;
     }
   }
 
-  private loadVSCodeAuthRecord(): AuthenticationRecord | undefined {
-    const authRecordPath = path.join(os.homedir(), ".azure", "ms-azuretools.vscode-azureresourcegroups", "authRecord.json");
+  private async loadVSCodeAuthRecord(): Promise<AuthenticationRecord | undefined> {
+    const authRecordPath = path.join(
+      os.homedir(),
+      ".azure",
+      "ms-azuretools.vscode-azureresourcegroups",
+      "authRecord.json",
+    );
 
-    if (!fs.existsSync(authRecordPath)) {
-      logger.info(`The Visual Studio Code authentication record file does not exist.`);
+    try {
+      await fs.stat(authRecordPath);
+    } catch (error: any) {
+      logger.info(
+        `The Visual Studio Code authentication record file does not exist. Error: ${error.message}`,
+      );
       return undefined;
     }
 
-    const authRecordContent = fs.readFileSync(authRecordPath, { encoding: 'utf8' });
+    const authRecordContent = await fs.readFile(authRecordPath, { encoding: "utf8" });
     return deserializeAuthenticationRecord(authRecordContent);
   }
 
   /**
-   * Runs preparations for any further getToken request.
+   * Runs preparations for any further getToken request:
+   *   - Loads the broker plugin if available.
+   *   - Loads the authentication record from VSCode if available.
+   *   - Creates the MSAL client with the loaded plugin and authentication record.
    */
   private async prepare(): Promise<void> {
-    // check if broker is available
-    // check and parse authentication record
     const tenantId =
       processMultiTenantRequest(
         this.tenantId,
@@ -168,12 +185,13 @@ export class VisualStudioCodeCredential implements TokenCredential {
       ) || this.tenantId;
 
     const nativeBrokerPlugin = await this.loadBrokerPlugin();
-    const authenticationRecord = this.loadVSCodeAuthRecord();
+    const authenticationRecord = await this.loadVSCodeAuthRecord();
 
     if (!nativeBrokerPlugin || !authenticationRecord) {
-      throw new CredentialUnavailableError("Visual Studio Code Authentication is not available."
-        + " Ensure you have @azure/identity-broker dependency installed, "
-        + " signed into Azure via VS Code, and have Azure Resources Extension installed in VS Code."
+      throw new CredentialUnavailableError(
+        "Visual Studio Code Authentication is not available." +
+          " Ensure you have @azure/identity-broker dependency installed, " +
+          " signed into Azure via VS Code, and have Azure Resources Extension installed in VS Code.",
       );
     }
 
@@ -185,12 +203,12 @@ export class VisualStudioCodeCredential implements TokenCredential {
       authorityHost,
       brokerOptions: {
         enabled: true,
-        parentWindowHandle: new Uint8Array(0)
+        parentWindowHandle: new Uint8Array(0),
+        useDefaultBrokerAccount: true,
       },
       authenticationRecord,
     });
   }
-
 
   /**
    * The promise of the single preparation that will be executed at the first getToken request for an instance of this class.
@@ -208,7 +226,7 @@ export class VisualStudioCodeCredential implements TokenCredential {
   }
 
   /**
-   * Returns the token found by searching VSCode's authentication cache or
+   * Returns the token found by searching VSCode's authentication record or
    * returns null if no token could be found.
    *
    * @param scopes - The list of scopes for which the token will have access.
@@ -219,16 +237,9 @@ export class VisualStudioCodeCredential implements TokenCredential {
     scopes: string | string[],
     options?: GetTokenOptions,
   ): Promise<AccessToken> {
+    // Load the plugin and authentication record only once
     await this.prepareOnce();
-
-    // at this point we know the broker works
     const scopeArray = ensureScopes(scopes);
-    const token = await this.msalClient.getTokenByInteractiveRequest(scopeArray, options || {});
-    if (!token) {
-      throw new AuthenticationError(400, {
-        error: `VisualStudioCodeCredential authentication failed.`,
-      });
-    }
-    return token;
+    return this.msalClient.getTokenByInteractiveRequest(scopeArray, options || {});
   }
 }
