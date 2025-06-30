@@ -1,6 +1,6 @@
 # Release History
 
-## 18.6.0 (2025-066-27)
+## 18.6.0 (2025-06-27)
 
 ### Features Added
 
