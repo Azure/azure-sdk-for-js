@@ -125,8 +125,7 @@ export function createDefaultWorkloadIdentityCredential(
 export function createDefaultAzureDeveloperCliCredential(
   options: DefaultAzureCredentialOptions = {},
 ): TokenCredential {
-  const processTimeoutInMs = options.processTimeoutInMs;
-  return new AzureDeveloperCliCredential({ processTimeoutInMs, ...options });
+  return new AzureDeveloperCliCredential({ ...options });
 }
 
 /**
@@ -138,8 +137,7 @@ export function createDefaultAzureDeveloperCliCredential(
 export function createDefaultAzureCliCredential(
   options: DefaultAzureCredentialOptions = {},
 ): TokenCredential {
-  const processTimeoutInMs = options.processTimeoutInMs;
-  return new AzureCliCredential({ processTimeoutInMs, ...options });
+  return new AzureCliCredential({ ...options });
 }
 
 /**
@@ -151,8 +149,7 @@ export function createDefaultAzureCliCredential(
 export function createDefaultAzurePowershellCredential(
   options: DefaultAzureCredentialOptions = {},
 ): TokenCredential {
-  const processTimeoutInMs = options.processTimeoutInMs;
-  return new AzurePowerShellCredential({ processTimeoutInMs, ...options });
+  return new AzurePowerShellCredential({ ...options });
 }
 
 /**
