@@ -174,7 +174,7 @@ export function expandUrlTemplate(
     }
     let op;
     if (["+", "#", ".", "/", ";", "?", "&"].includes(expr[0])) {
-      (op = expr[0]), (expr = expr.slice(1));
+      ((op = expr[0]), (expr = expr.slice(1)));
     }
     const varList = expr.split(/,/g);
     const result = [];

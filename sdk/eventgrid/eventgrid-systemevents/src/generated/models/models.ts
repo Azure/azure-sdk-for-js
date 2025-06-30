@@ -65,364 +65,364 @@ export function apiCenterApiDefinitionUpdatedEventDataDeserializer(
 /** Schema of the Data property of an EventGridEvent for a Microsoft.ApiManagement.UserCreated event. */
 export interface ApiManagementUserCreatedEventData {
   /** The fully qualified ID of the resource that the compliance state change is for, including the resource name and resource type. Uses the format, `/subscriptions/<SubscriptionID>/resourceGroups/<ResourceGroup>/Microsoft.ApiManagement/service/<ServiceName>/<ResourceType>/<ResourceName>` */
-  resourceUri?: string;
+  resourceUrl?: string;
 }
 
 export function apiManagementUserCreatedEventDataDeserializer(
   item: any,
 ): ApiManagementUserCreatedEventData {
   return {
-    resourceUri: item["resourceUri"],
+    resourceUrl: item["resourceUri"],
   };
 }
 
 /** Schema of the Data property of an EventGridEvent for a Microsoft.ApiManagement.UserUpdated event. */
 export interface ApiManagementUserUpdatedEventData {
   /** The fully qualified ID of the resource that the compliance state change is for, including the resource name and resource type. Uses the format, `/subscriptions/<SubscriptionID>/resourceGroups/<ResourceGroup>/Microsoft.ApiManagement/service/<ServiceName>/<ResourceType>/<ResourceName>` */
-  resourceUri?: string;
+  resourceUrl?: string;
 }
 
 export function apiManagementUserUpdatedEventDataDeserializer(
   item: any,
 ): ApiManagementUserUpdatedEventData {
   return {
-    resourceUri: item["resourceUri"],
+    resourceUrl: item["resourceUri"],
   };
 }
 
 /** Schema of the Data property of an EventGridEvent for a Microsoft.ApiManagement.UserDeleted event. */
 export interface ApiManagementUserDeletedEventData {
   /** The fully qualified ID of the resource that the compliance state change is for, including the resource name and resource type. Uses the format, `/subscriptions/<SubscriptionID>/resourceGroups/<ResourceGroup>/Microsoft.ApiManagement/service/<ServiceName>/<ResourceType>/<ResourceName>` */
-  resourceUri?: string;
+  resourceUrl?: string;
 }
 
 export function apiManagementUserDeletedEventDataDeserializer(
   item: any,
 ): ApiManagementUserDeletedEventData {
   return {
-    resourceUri: item["resourceUri"],
+    resourceUrl: item["resourceUri"],
   };
 }
 
 /** Schema of the Data property of an EventGridEvent for a Microsoft.ApiManagement.SubscriptionCreated event. */
 export interface ApiManagementSubscriptionCreatedEventData {
   /** The fully qualified ID of the resource that the compliance state change is for, including the resource name and resource type. Uses the format, `/subscriptions/<SubscriptionID>/resourceGroups/<ResourceGroup>/Microsoft.ApiManagement/service/<ServiceName>/<ResourceType>/<ResourceName>` */
-  resourceUri?: string;
+  resourceUrl?: string;
 }
 
 export function apiManagementSubscriptionCreatedEventDataDeserializer(
   item: any,
 ): ApiManagementSubscriptionCreatedEventData {
   return {
-    resourceUri: item["resourceUri"],
+    resourceUrl: item["resourceUri"],
   };
 }
 
 /** Schema of the Data property of an EventGridEvent for a Microsoft.ApiManagement.SubscriptionUpdated event. */
 export interface ApiManagementSubscriptionUpdatedEventData {
   /** The fully qualified ID of the resource that the compliance state change is for, including the resource name and resource type. Uses the format, `/subscriptions/<SubscriptionID>/resourceGroups/<ResourceGroup>/Microsoft.ApiManagement/service/<ServiceName>/<ResourceType>/<ResourceName>` */
-  resourceUri?: string;
+  resourceUrl?: string;
 }
 
 export function apiManagementSubscriptionUpdatedEventDataDeserializer(
   item: any,
 ): ApiManagementSubscriptionUpdatedEventData {
   return {
-    resourceUri: item["resourceUri"],
+    resourceUrl: item["resourceUri"],
   };
 }
 
 /** Schema of the Data property of an EventGridEvent for a Microsoft.ApiManagement.SubscriptionDeleted event. */
 export interface ApiManagementSubscriptionDeletedEventData {
   /** The fully qualified ID of the resource that the compliance state change is for, including the resource name and resource type. Uses the format, `/subscriptions/<SubscriptionID>/resourceGroups/<ResourceGroup>/Microsoft.ApiManagement/service/<ServiceName>/<ResourceType>/<ResourceName>` */
-  resourceUri?: string;
+  resourceUrl?: string;
 }
 
 export function apiManagementSubscriptionDeletedEventDataDeserializer(
   item: any,
 ): ApiManagementSubscriptionDeletedEventData {
   return {
-    resourceUri: item["resourceUri"],
+    resourceUrl: item["resourceUri"],
   };
 }
 
 /** Schema of the Data property of an EventGridEvent for a Microsoft.ApiManagement.ProductCreated event. */
 export interface ApiManagementProductCreatedEventData {
   /** The fully qualified ID of the resource that the compliance state change is for, including the resource name and resource type. Uses the format, `/subscriptions/<SubscriptionID>/resourceGroups/<ResourceGroup>/Microsoft.ApiManagement/service/<ServiceName>/<ResourceType>/<ResourceName>` */
-  resourceUri?: string;
+  resourceUrl?: string;
 }
 
 export function apiManagementProductCreatedEventDataDeserializer(
   item: any,
 ): ApiManagementProductCreatedEventData {
   return {
-    resourceUri: item["resourceUri"],
+    resourceUrl: item["resourceUri"],
   };
 }
 
 /** Schema of the Data property of an EventGridEvent for a Microsoft.ApiManagement.ProductUpdated event. */
 export interface ApiManagementProductUpdatedEventData {
   /** The fully qualified ID of the resource that the compliance state change is for, including the resource name and resource type. Uses the format, `/subscriptions/<SubscriptionID>/resourceGroups/<ResourceGroup>/Microsoft.ApiManagement/service/<ServiceName>/<ResourceType>/<ResourceName>` */
-  resourceUri?: string;
+  resourceUrl?: string;
 }
 
 export function apiManagementProductUpdatedEventDataDeserializer(
   item: any,
 ): ApiManagementProductUpdatedEventData {
   return {
-    resourceUri: item["resourceUri"],
+    resourceUrl: item["resourceUri"],
   };
 }
 
 /** Schema of the Data property of an EventGridEvent for a Microsoft.ApiManagement.ProductDeleted event. */
 export interface ApiManagementProductDeletedEventData {
   /** The fully qualified ID of the resource that the compliance state change is for, including the resource name and resource type. Uses the format, `/subscriptions/<SubscriptionID>/resourceGroups/<ResourceGroup>/Microsoft.ApiManagement/service/<ServiceName>/<ResourceType>/<ResourceName>` */
-  resourceUri?: string;
+  resourceUrl?: string;
 }
 
 export function apiManagementProductDeletedEventDataDeserializer(
   item: any,
 ): ApiManagementProductDeletedEventData {
   return {
-    resourceUri: item["resourceUri"],
+    resourceUrl: item["resourceUri"],
   };
 }
 
 /** Schema of the Data property of an EventGridEvent for a Microsoft.ApiManagement.APICreated event. */
 export interface ApiManagementApiCreatedEventData {
   /** The fully qualified ID of the resource that the compliance state change is for, including the resource name and resource type. Uses the format, `/subscriptions/<SubscriptionID>/resourceGroups/<ResourceGroup>/Microsoft.ApiManagement/service/<ServiceName>/<ResourceType>/<ResourceName>` */
-  resourceUri?: string;
+  resourceUrl?: string;
 }
 
 export function apiManagementApiCreatedEventDataDeserializer(
   item: any,
 ): ApiManagementApiCreatedEventData {
   return {
-    resourceUri: item["resourceUri"],
+    resourceUrl: item["resourceUri"],
   };
 }
 
 /** Schema of the Data property of an EventGridEvent for a Microsoft.ApiManagement.APIUpdated event. */
 export interface ApiManagementApiUpdatedEventData {
   /** The fully qualified ID of the resource that the compliance state change is for, including the resource name and resource type. Uses the format, `/subscriptions/<SubscriptionID>/resourceGroups/<ResourceGroup>/Microsoft.ApiManagement/service/<ServiceName>/<ResourceType>/<ResourceName>` */
-  resourceUri?: string;
+  resourceUrl?: string;
 }
 
 export function apiManagementApiUpdatedEventDataDeserializer(
   item: any,
 ): ApiManagementApiUpdatedEventData {
   return {
-    resourceUri: item["resourceUri"],
+    resourceUrl: item["resourceUri"],
   };
 }
 
 /** Schema of the Data property of an EventGridEvent for a Microsoft.ApiManagement.APIDeleted event. */
 export interface ApiManagementApiDeletedEventData {
   /** The fully qualified ID of the resource that the compliance state change is for, including the resource name and resource type. Uses the format, `/subscriptions/<SubscriptionID>/resourceGroups/<ResourceGroup>/Microsoft.ApiManagement/service/<ServiceName>/<ResourceType>/<ResourceName>` */
-  resourceUri?: string;
+  resourceUrl?: string;
 }
 
 export function apiManagementApiDeletedEventDataDeserializer(
   item: any,
 ): ApiManagementApiDeletedEventData {
   return {
-    resourceUri: item["resourceUri"],
+    resourceUrl: item["resourceUri"],
   };
 }
 
 /** Schema of the Data property of an EventGridEvent for a Microsoft.ApiManagement.APIReleaseCreated event. */
 export interface ApiManagementApiReleaseCreatedEventData {
   /** The fully qualified ID of the resource that the compliance state change is for, including the resource name and resource type. Uses the format, `/subscriptions/<SubscriptionID>/resourceGroups/<ResourceGroup>/Microsoft.ApiManagement/service/<ServiceName>/<ResourceType>/<ResourceName>` */
-  resourceUri?: string;
+  resourceUrl?: string;
 }
 
 export function apiManagementApiReleaseCreatedEventDataDeserializer(
   item: any,
 ): ApiManagementApiReleaseCreatedEventData {
   return {
-    resourceUri: item["resourceUri"],
+    resourceUrl: item["resourceUri"],
   };
 }
 
 /** Schema of the Data property of an EventGridEvent for a Microsoft.ApiManagement.APIReleaseUpdated event. */
 export interface ApiManagementApiReleaseUpdatedEventData {
   /** The fully qualified ID of the resource that the compliance state change is for, including the resource name and resource type. Uses the format, `/subscriptions/<SubscriptionID>/resourceGroups/<ResourceGroup>/Microsoft.ApiManagement/service/<ServiceName>/<ResourceType>/<ResourceName>` */
-  resourceUri?: string;
+  resourceUrl?: string;
 }
 
 export function apiManagementApiReleaseUpdatedEventDataDeserializer(
   item: any,
 ): ApiManagementApiReleaseUpdatedEventData {
   return {
-    resourceUri: item["resourceUri"],
+    resourceUrl: item["resourceUri"],
   };
 }
 
 /** Schema of the Data property of an EventGridEvent for a Microsoft.ApiManagement.APIReleaseDeleted event. */
 export interface ApiManagementApiReleaseDeletedEventData {
   /** The fully qualified ID of the resource that the compliance state change is for, including the resource name and resource type. Uses the format, `/subscriptions/<SubscriptionID>/resourceGroups/<ResourceGroup>/Microsoft.ApiManagement/service/<ServiceName>/<ResourceType>/<ResourceName>` */
-  resourceUri?: string;
+  resourceUrl?: string;
 }
 
 export function apiManagementApiReleaseDeletedEventDataDeserializer(
   item: any,
 ): ApiManagementApiReleaseDeletedEventData {
   return {
-    resourceUri: item["resourceUri"],
+    resourceUrl: item["resourceUri"],
   };
 }
 
 /** Schema of the Data property of an EventGridEvent for a Microsoft.ApiManagement.GatewayCreated event. */
 export interface ApiManagementGatewayCreatedEventData {
   /** The fully qualified ID of the resource that the compliance state change is for, including the resource name and resource type. Uses the format, `/subscriptions/<SubscriptionID>/resourceGroups/<ResourceGroup>/Microsoft.ApiManagement/service/<ServiceName>/gateways/<ResourceName>` */
-  resourceUri?: string;
+  resourceUrl?: string;
 }
 
 export function apiManagementGatewayCreatedEventDataDeserializer(
   item: any,
 ): ApiManagementGatewayCreatedEventData {
   return {
-    resourceUri: item["resourceUri"],
+    resourceUrl: item["resourceUri"],
   };
 }
 
 /** Schema of the Data property of an EventGridEvent for a Microsoft.ApiManagement.GatewayUpdated event. */
 export interface ApiManagementGatewayUpdatedEventData {
   /** The fully qualified ID of the resource that the compliance state change is for, including the resource name and resource type. Uses the format, `/subscriptions/<SubscriptionID>/resourceGroups/<ResourceGroup>/Microsoft.ApiManagement/service/<ServiceName>/gateways/<ResourceName>` */
-  resourceUri?: string;
+  resourceUrl?: string;
 }
 
 export function apiManagementGatewayUpdatedEventDataDeserializer(
   item: any,
 ): ApiManagementGatewayUpdatedEventData {
   return {
-    resourceUri: item["resourceUri"],
+    resourceUrl: item["resourceUri"],
   };
 }
 
 /** Schema of the Data property of an EventGridEvent for a Microsoft.ApiManagement.GatewayDeleted event. */
 export interface ApiManagementGatewayDeletedEventData {
   /** The fully qualified ID of the resource that the compliance state change is for, including the resource name and resource type. Uses the format, `/subscriptions/<SubscriptionID>/resourceGroups/<ResourceGroup>/Microsoft.ApiManagement/service/<ServiceName>/gateways/<ResourceName>` */
-  resourceUri?: string;
+  resourceUrl?: string;
 }
 
 export function apiManagementGatewayDeletedEventDataDeserializer(
   item: any,
 ): ApiManagementGatewayDeletedEventData {
   return {
-    resourceUri: item["resourceUri"],
+    resourceUrl: item["resourceUri"],
   };
 }
 
 /** Schema of the Data property of an EventGridEvent for a Microsoft.ApiManagement.GatewayHostnameConfigurationCreated event. */
 export interface ApiManagementGatewayHostnameConfigurationCreatedEventData {
   /** The fully qualified ID of the resource that the compliance state change is for, including the resource name and resource type. Uses the format, `/subscriptions/<SubscriptionID>/resourceGroups/<ResourceGroup>/Microsoft.ApiManagement/service/<ServiceName>/gateways/<GatewayName>/hostnameConfigurations/<ResourceName>` */
-  resourceUri?: string;
+  resourceUrl?: string;
 }
 
 export function apiManagementGatewayHostnameConfigurationCreatedEventDataDeserializer(
   item: any,
 ): ApiManagementGatewayHostnameConfigurationCreatedEventData {
   return {
-    resourceUri: item["resourceUri"],
+    resourceUrl: item["resourceUri"],
   };
 }
 
 /** Schema of the Data property of an EventGridEvent for a Microsoft.ApiManagement.GatewayHostnameConfigurationUpdated event. */
 export interface ApiManagementGatewayHostnameConfigurationUpdatedEventData {
   /** The fully qualified ID of the resource that the compliance state change is for, including the resource name and resource type. Uses the format, `/subscriptions/<SubscriptionID>/resourceGroups/<ResourceGroup>/Microsoft.ApiManagement/service/<ServiceName>/gateways/<GatewayName>/hostnameConfigurations/<ResourceName>` */
-  resourceUri?: string;
+  resourceUrl?: string;
 }
 
 export function apiManagementGatewayHostnameConfigurationUpdatedEventDataDeserializer(
   item: any,
 ): ApiManagementGatewayHostnameConfigurationUpdatedEventData {
   return {
-    resourceUri: item["resourceUri"],
+    resourceUrl: item["resourceUri"],
   };
 }
 
 /** Schema of the Data property of an EventGridEvent for a Microsoft.ApiManagement.GatewayHostnameConfigurationDeleted event. */
 export interface ApiManagementGatewayHostnameConfigurationDeletedEventData {
   /** The fully qualified ID of the resource that the compliance state change is for, including the resource name and resource type. Uses the format, `/subscriptions/<SubscriptionID>/resourceGroups/<ResourceGroup>/Microsoft.ApiManagement/service/<ServiceName>/gateways/<GatewayName>/hostnameConfigurations/<ResourceName>` */
-  resourceUri?: string;
+  resourceUrl?: string;
 }
 
 export function apiManagementGatewayHostnameConfigurationDeletedEventDataDeserializer(
   item: any,
 ): ApiManagementGatewayHostnameConfigurationDeletedEventData {
   return {
-    resourceUri: item["resourceUri"],
+    resourceUrl: item["resourceUri"],
   };
 }
 
 /** Schema of the Data property of an EventGridEvent for a Microsoft.ApiManagement.GatewayCertificateAuthorityCreated event. */
 export interface ApiManagementGatewayCertificateAuthorityCreatedEventData {
   /** The fully qualified ID of the resource that the compliance state change is for, including the resource name and resource type. Uses the format, `/subscriptions/<SubscriptionID>/resourceGroups/<ResourceGroup>/Microsoft.ApiManagement/service/<ServiceName>/gateways/<GatewayName>/certificateAuthorities/<ResourceName>` */
-  resourceUri?: string;
+  resourceUrl?: string;
 }
 
 export function apiManagementGatewayCertificateAuthorityCreatedEventDataDeserializer(
   item: any,
 ): ApiManagementGatewayCertificateAuthorityCreatedEventData {
   return {
-    resourceUri: item["resourceUri"],
+    resourceUrl: item["resourceUri"],
   };
 }
 
 /** Schema of the Data property of an EventGridEvent for a Microsoft.ApiManagement.GatewayCertificateAuthorityUpdated event. */
 export interface ApiManagementGatewayCertificateAuthorityUpdatedEventData {
   /** The fully qualified ID of the resource that the compliance state change is for, including the resource name and resource type. Uses the format, `/subscriptions/<SubscriptionID>/resourceGroups/<ResourceGroup>/Microsoft.ApiManagement/service/<ServiceName>/gateways/<GatewayName>/certificateAuthorities/<ResourceName>` */
-  resourceUri?: string;
+  resourceUrl?: string;
 }
 
 export function apiManagementGatewayCertificateAuthorityUpdatedEventDataDeserializer(
   item: any,
 ): ApiManagementGatewayCertificateAuthorityUpdatedEventData {
   return {
-    resourceUri: item["resourceUri"],
+    resourceUrl: item["resourceUri"],
   };
 }
 
 /** Schema of the Data property of an EventGridEvent for a Microsoft.ApiManagement.GatewayCertificateAuthorityDeleted event. */
 export interface ApiManagementGatewayCertificateAuthorityDeletedEventData {
   /** The fully qualified ID of the resource that the compliance state change is for, including the resource name and resource type. Uses the format, `/subscriptions/<SubscriptionID>/resourceGroups/<ResourceGroup>/Microsoft.ApiManagement/service/<ServiceName>/gateways/<GatewayName>/certificateAuthorities/<ResourceName>` */
-  resourceUri?: string;
+  resourceUrl?: string;
 }
 
 export function apiManagementGatewayCertificateAuthorityDeletedEventDataDeserializer(
   item: any,
 ): ApiManagementGatewayCertificateAuthorityDeletedEventData {
   return {
-    resourceUri: item["resourceUri"],
+    resourceUrl: item["resourceUri"],
   };
 }
 
 /** Schema of the Data property of an EventGridEvent for a Microsoft.ApiManagement.GatewayAPIAdded event. */
 export interface ApiManagementGatewayApiAddedEventData {
   /** The fully qualified ID of the resource that the compliance state change is for, including the resource name and resource type. Uses the format, `/subscriptions/<SubscriptionID>/resourceGroups/<ResourceGroup>/Microsoft.ApiManagement/service/<ServiceName>/gateways/<GatewayName>/apis/<ResourceName>` */
-  resourceUri?: string;
+  resourceUrl?: string;
 }
 
 export function apiManagementGatewayApiAddedEventDataDeserializer(
   item: any,
 ): ApiManagementGatewayApiAddedEventData {
   return {
-    resourceUri: item["resourceUri"],
+    resourceUrl: item["resourceUri"],
   };
 }
 
 /** Schema of the Data property of an EventGridEvent for a Microsoft.ApiManagement.GatewayAPIRemoved event. */
 export interface ApiManagementGatewayApiRemovedEventData {
   /** The fully qualified ID of the resource that the compliance state change is for, including the resource name and resource type. Uses the format, `/subscriptions/<SubscriptionID>/resourceGroups/<ResourceGroup>/Microsoft.ApiManagement/service/<ServiceName>/gateways/<GatewayName>/apis/<ResourceName>` */
-  resourceUri?: string;
+  resourceUrl?: string;
 }
 
 export function apiManagementGatewayApiRemovedEventDataDeserializer(
   item: any,
 ): ApiManagementGatewayApiRemovedEventData {
   return {
-    resourceUri: item["resourceUri"],
+    resourceUrl: item["resourceUri"],
   };
 }
 
@@ -3965,7 +3965,7 @@ export interface ContainerRegistryEventSource {
   /** The IP or hostname and the port of the registry node that generated the event. Generally, this will be resolved by os.Hostname() along with the running port. */
   addr?: string;
   /** The running instance of an application. Changes after each restart. */
-  instanceID?: string;
+  instanceId?: string;
 }
 
 export function containerRegistryEventSourceDeserializer(
@@ -3973,7 +3973,7 @@ export function containerRegistryEventSourceDeserializer(
 ): ContainerRegistryEventSource {
   return {
     addr: item["addr"],
-    instanceID: item["instanceID"],
+    instanceId: item["instanceID"],
   };
 }
 
@@ -6122,7 +6122,7 @@ export interface ResourceWriteSuccessEventData {
   /** The resource provider performing the operation. */
   resourceProvider?: string;
   /** The URI of the resource in the operation. */
-  resourceUri?: string;
+  resourceUrl?: string;
   /** The operation that was performed. */
   operationName?: string;
   /** The status of the operation. */
@@ -6145,7 +6145,7 @@ export function resourceWriteSuccessEventDataDeserializer(
     subscriptionId: item["subscriptionId"],
     resourceGroup: item["resourceGroup"],
     resourceProvider: item["resourceProvider"],
-    resourceUri: item["resourceUri"],
+    resourceUrl: item["resourceUri"],
     operationName: item["operationName"],
     status: item["status"],
     authorization: resourceAuthorizationDeserializer(item["authorization"]),
@@ -6209,7 +6209,7 @@ export interface ResourceWriteFailureEventData {
   /** The resource provider performing the operation. */
   resourceProvider?: string;
   /** The URI of the resource in the operation. */
-  resourceUri?: string;
+  resourceUrl?: string;
   /** The operation that was performed. */
   operationName?: string;
   /** The status of the operation. */
@@ -6232,7 +6232,7 @@ export function resourceWriteFailureEventDataDeserializer(
     subscriptionId: item["subscriptionId"],
     resourceGroup: item["resourceGroup"],
     resourceProvider: item["resourceProvider"],
-    resourceUri: item["resourceUri"],
+    resourceUrl: item["resourceUri"],
     operationName: item["operationName"],
     status: item["status"],
     authorization: resourceAuthorizationDeserializer(item["authorization"]),
@@ -6253,7 +6253,7 @@ export interface ResourceWriteCancelEventData {
   /** The resource provider performing the operation. */
   resourceProvider?: string;
   /** The URI of the resource in the operation. */
-  resourceUri?: string;
+  resourceUrl?: string;
   /** The operation that was performed. */
   operationName?: string;
   /** The status of the operation. */
@@ -6276,7 +6276,7 @@ export function resourceWriteCancelEventDataDeserializer(
     subscriptionId: item["subscriptionId"],
     resourceGroup: item["resourceGroup"],
     resourceProvider: item["resourceProvider"],
-    resourceUri: item["resourceUri"],
+    resourceUrl: item["resourceUri"],
     operationName: item["operationName"],
     status: item["status"],
     authorization: resourceAuthorizationDeserializer(item["authorization"]),
@@ -6297,7 +6297,7 @@ export interface ResourceDeleteSuccessEventData {
   /** The resource provider performing the operation. */
   resourceProvider?: string;
   /** The URI of the resource in the operation. */
-  resourceUri?: string;
+  resourceUrl?: string;
   /** The operation that was performed. */
   operationName?: string;
   /** The status of the operation. */
@@ -6320,7 +6320,7 @@ export function resourceDeleteSuccessEventDataDeserializer(
     subscriptionId: item["subscriptionId"],
     resourceGroup: item["resourceGroup"],
     resourceProvider: item["resourceProvider"],
-    resourceUri: item["resourceUri"],
+    resourceUrl: item["resourceUri"],
     operationName: item["operationName"],
     status: item["status"],
     authorization: resourceAuthorizationDeserializer(item["authorization"]),
@@ -6341,7 +6341,7 @@ export interface ResourceDeleteFailureEventData {
   /** The resource provider performing the operation. */
   resourceProvider?: string;
   /** The URI of the resource in the operation. */
-  resourceUri?: string;
+  resourceUrl?: string;
   /** The operation that was performed. */
   operationName?: string;
   /** The status of the operation. */
@@ -6364,7 +6364,7 @@ export function resourceDeleteFailureEventDataDeserializer(
     subscriptionId: item["subscriptionId"],
     resourceGroup: item["resourceGroup"],
     resourceProvider: item["resourceProvider"],
-    resourceUri: item["resourceUri"],
+    resourceUrl: item["resourceUri"],
     operationName: item["operationName"],
     status: item["status"],
     authorization: resourceAuthorizationDeserializer(item["authorization"]),
@@ -6385,7 +6385,7 @@ export interface ResourceDeleteCancelEventData {
   /** The resource provider performing the operation. */
   resourceProvider?: string;
   /** The URI of the resource in the operation. */
-  resourceUri?: string;
+  resourceUrl?: string;
   /** The operation that was performed. */
   operationName?: string;
   /** The status of the operation. */
@@ -6408,7 +6408,7 @@ export function resourceDeleteCancelEventDataDeserializer(
     subscriptionId: item["subscriptionId"],
     resourceGroup: item["resourceGroup"],
     resourceProvider: item["resourceProvider"],
-    resourceUri: item["resourceUri"],
+    resourceUrl: item["resourceUri"],
     operationName: item["operationName"],
     status: item["status"],
     authorization: resourceAuthorizationDeserializer(item["authorization"]),
@@ -6429,7 +6429,7 @@ export interface ResourceActionSuccessEventData {
   /** The resource provider performing the operation. */
   resourceProvider?: string;
   /** The URI of the resource in the operation. */
-  resourceUri?: string;
+  resourceUrl?: string;
   /** The operation that was performed. */
   operationName?: string;
   /** The status of the operation. */
@@ -6452,7 +6452,7 @@ export function resourceActionSuccessEventDataDeserializer(
     subscriptionId: item["subscriptionId"],
     resourceGroup: item["resourceGroup"],
     resourceProvider: item["resourceProvider"],
-    resourceUri: item["resourceUri"],
+    resourceUrl: item["resourceUri"],
     operationName: item["operationName"],
     status: item["status"],
     authorization: resourceAuthorizationDeserializer(item["authorization"]),
@@ -6473,7 +6473,7 @@ export interface ResourceActionFailureEventData {
   /** The resource provider performing the operation. */
   resourceProvider?: string;
   /** The URI of the resource in the operation. */
-  resourceUri?: string;
+  resourceUrl?: string;
   /** The operation that was performed. */
   operationName?: string;
   /** The status of the operation. */
@@ -6496,7 +6496,7 @@ export function resourceActionFailureEventDataDeserializer(
     subscriptionId: item["subscriptionId"],
     resourceGroup: item["resourceGroup"],
     resourceProvider: item["resourceProvider"],
-    resourceUri: item["resourceUri"],
+    resourceUrl: item["resourceUri"],
     operationName: item["operationName"],
     status: item["status"],
     authorization: resourceAuthorizationDeserializer(item["authorization"]),
@@ -6517,7 +6517,7 @@ export interface ResourceActionCancelEventData {
   /** The resource provider performing the operation. */
   resourceProvider?: string;
   /** The URI of the resource in the operation. */
-  resourceUri?: string;
+  resourceUrl?: string;
   /** The operation that was performed. */
   operationName?: string;
   /** The status of the operation. */
@@ -6540,7 +6540,7 @@ export function resourceActionCancelEventDataDeserializer(
     subscriptionId: item["subscriptionId"],
     resourceGroup: item["resourceGroup"],
     resourceProvider: item["resourceProvider"],
-    resourceUri: item["resourceUri"],
+    resourceUrl: item["resourceUri"],
     operationName: item["operationName"],
     status: item["status"],
     authorization: resourceAuthorizationDeserializer(item["authorization"]),
@@ -7309,7 +7309,7 @@ export type StorageTaskAssignmentCompletedStatus = string;
 /** Detail of action on the app. */
 export interface AppEventTypeDetail {
   /** Type of action of the operation. */
-  action: AppAction;
+  action?: AppAction;
 }
 
 export function appEventTypeDetailDeserializer(item: any): AppEventTypeDetail {
@@ -7351,7 +7351,7 @@ export type AppAction = string;
 /** Schema of the Data property of an EventGridEvent for a Microsoft.Web.AppUpdated event. */
 export interface WebAppUpdatedEventData {
   /** Detail of action on the app. */
-  appEventTypeDetail: AppEventTypeDetail;
+  appEventTypeDetail?: AppEventTypeDetail;
   /** name of the web site that had this event. */
   name?: string;
   /** The client request id generated by the app service for the site API operation that triggered this event. */
@@ -7370,9 +7370,9 @@ export function webAppUpdatedEventDataDeserializer(
   item: any,
 ): WebAppUpdatedEventData {
   return {
-    appEventTypeDetail: appEventTypeDetailDeserializer(
-      item["appEventTypeDetail"],
-    ),
+    appEventTypeDetail: !item["appEventTypeDetail"]
+      ? item["appEventTypeDetail"]
+      : appEventTypeDetailDeserializer(item["appEventTypeDetail"]),
     name: item["name"],
     clientRequestId: item["clientRequestId"],
     correlationRequestId: item["correlationRequestId"],
@@ -7385,7 +7385,7 @@ export function webAppUpdatedEventDataDeserializer(
 /** Schema of the Data property of an EventGridEvent for a Microsoft.Web.BackupOperationStarted event. */
 export interface WebBackupOperationStartedEventData {
   /** Detail of action on the app. */
-  appEventTypeDetail: AppEventTypeDetail;
+  appEventTypeDetail?: AppEventTypeDetail;
   /** name of the web site that had this event. */
   name?: string;
   /** The client request id generated by the app service for the site API operation that triggered this event. */
@@ -7404,9 +7404,9 @@ export function webBackupOperationStartedEventDataDeserializer(
   item: any,
 ): WebBackupOperationStartedEventData {
   return {
-    appEventTypeDetail: appEventTypeDetailDeserializer(
-      item["appEventTypeDetail"],
-    ),
+    appEventTypeDetail: !item["appEventTypeDetail"]
+      ? item["appEventTypeDetail"]
+      : appEventTypeDetailDeserializer(item["appEventTypeDetail"]),
     name: item["name"],
     clientRequestId: item["clientRequestId"],
     correlationRequestId: item["correlationRequestId"],
@@ -7419,7 +7419,7 @@ export function webBackupOperationStartedEventDataDeserializer(
 /** Schema of the Data property of an EventGridEvent for a Microsoft.Web.BackupOperationCompleted event. */
 export interface WebBackupOperationCompletedEventData {
   /** Detail of action on the app. */
-  appEventTypeDetail: AppEventTypeDetail;
+  appEventTypeDetail?: AppEventTypeDetail;
   /** name of the web site that had this event. */
   name?: string;
   /** The client request id generated by the app service for the site API operation that triggered this event. */
@@ -7438,9 +7438,9 @@ export function webBackupOperationCompletedEventDataDeserializer(
   item: any,
 ): WebBackupOperationCompletedEventData {
   return {
-    appEventTypeDetail: appEventTypeDetailDeserializer(
-      item["appEventTypeDetail"],
-    ),
+    appEventTypeDetail: !item["appEventTypeDetail"]
+      ? item["appEventTypeDetail"]
+      : appEventTypeDetailDeserializer(item["appEventTypeDetail"]),
     name: item["name"],
     clientRequestId: item["clientRequestId"],
     correlationRequestId: item["correlationRequestId"],
@@ -7453,7 +7453,7 @@ export function webBackupOperationCompletedEventDataDeserializer(
 /** Schema of the Data property of an EventGridEvent for a Microsoft.Web.BackupOperationFailed event. */
 export interface WebBackupOperationFailedEventData {
   /** Detail of action on the app. */
-  appEventTypeDetail: AppEventTypeDetail;
+  appEventTypeDetail?: AppEventTypeDetail;
   /** name of the web site that had this event. */
   name?: string;
   /** The client request id generated by the app service for the site API operation that triggered this event. */
@@ -7472,9 +7472,9 @@ export function webBackupOperationFailedEventDataDeserializer(
   item: any,
 ): WebBackupOperationFailedEventData {
   return {
-    appEventTypeDetail: appEventTypeDetailDeserializer(
-      item["appEventTypeDetail"],
-    ),
+    appEventTypeDetail: !item["appEventTypeDetail"]
+      ? item["appEventTypeDetail"]
+      : appEventTypeDetailDeserializer(item["appEventTypeDetail"]),
     name: item["name"],
     clientRequestId: item["clientRequestId"],
     correlationRequestId: item["correlationRequestId"],
@@ -7487,7 +7487,7 @@ export function webBackupOperationFailedEventDataDeserializer(
 /** Schema of the Data property of an EventGridEvent for a Microsoft.Web.RestoreOperationStarted event. */
 export interface WebRestoreOperationStartedEventData {
   /** Detail of action on the app. */
-  appEventTypeDetail: AppEventTypeDetail;
+  appEventTypeDetail?: AppEventTypeDetail;
   /** name of the web site that had this event. */
   name?: string;
   /** The client request id generated by the app service for the site API operation that triggered this event. */
@@ -7506,9 +7506,9 @@ export function webRestoreOperationStartedEventDataDeserializer(
   item: any,
 ): WebRestoreOperationStartedEventData {
   return {
-    appEventTypeDetail: appEventTypeDetailDeserializer(
-      item["appEventTypeDetail"],
-    ),
+    appEventTypeDetail: !item["appEventTypeDetail"]
+      ? item["appEventTypeDetail"]
+      : appEventTypeDetailDeserializer(item["appEventTypeDetail"]),
     name: item["name"],
     clientRequestId: item["clientRequestId"],
     correlationRequestId: item["correlationRequestId"],
@@ -7521,7 +7521,7 @@ export function webRestoreOperationStartedEventDataDeserializer(
 /** Schema of the Data property of an EventGridEvent for a Microsoft.Web.RestoreOperationCompleted event. */
 export interface WebRestoreOperationCompletedEventData {
   /** Detail of action on the app. */
-  appEventTypeDetail: AppEventTypeDetail;
+  appEventTypeDetail?: AppEventTypeDetail;
   /** name of the web site that had this event. */
   name?: string;
   /** The client request id generated by the app service for the site API operation that triggered this event. */
@@ -7540,9 +7540,9 @@ export function webRestoreOperationCompletedEventDataDeserializer(
   item: any,
 ): WebRestoreOperationCompletedEventData {
   return {
-    appEventTypeDetail: appEventTypeDetailDeserializer(
-      item["appEventTypeDetail"],
-    ),
+    appEventTypeDetail: !item["appEventTypeDetail"]
+      ? item["appEventTypeDetail"]
+      : appEventTypeDetailDeserializer(item["appEventTypeDetail"]),
     name: item["name"],
     clientRequestId: item["clientRequestId"],
     correlationRequestId: item["correlationRequestId"],
@@ -7555,7 +7555,7 @@ export function webRestoreOperationCompletedEventDataDeserializer(
 /** Schema of the Data property of an EventGridEvent for a Microsoft.Web.RestoreOperationFailed event. */
 export interface WebRestoreOperationFailedEventData {
   /** Detail of action on the app. */
-  appEventTypeDetail: AppEventTypeDetail;
+  appEventTypeDetail?: AppEventTypeDetail;
   /** name of the web site that had this event. */
   name?: string;
   /** The client request id generated by the app service for the site API operation that triggered this event. */
@@ -7574,9 +7574,9 @@ export function webRestoreOperationFailedEventDataDeserializer(
   item: any,
 ): WebRestoreOperationFailedEventData {
   return {
-    appEventTypeDetail: appEventTypeDetailDeserializer(
-      item["appEventTypeDetail"],
-    ),
+    appEventTypeDetail: !item["appEventTypeDetail"]
+      ? item["appEventTypeDetail"]
+      : appEventTypeDetailDeserializer(item["appEventTypeDetail"]),
     name: item["name"],
     clientRequestId: item["clientRequestId"],
     correlationRequestId: item["correlationRequestId"],
@@ -7589,7 +7589,7 @@ export function webRestoreOperationFailedEventDataDeserializer(
 /** Schema of the Data property of an EventGridEvent for a Microsoft.Web.SlotSwapStarted event. */
 export interface WebSlotSwapStartedEventData {
   /** Detail of action on the app. */
-  appEventTypeDetail: AppEventTypeDetail;
+  appEventTypeDetail?: AppEventTypeDetail;
   /** name of the web site that had this event. */
   name?: string;
   /** The client request id generated by the app service for the site API operation that triggered this event. */
@@ -7608,9 +7608,9 @@ export function webSlotSwapStartedEventDataDeserializer(
   item: any,
 ): WebSlotSwapStartedEventData {
   return {
-    appEventTypeDetail: appEventTypeDetailDeserializer(
-      item["appEventTypeDetail"],
-    ),
+    appEventTypeDetail: !item["appEventTypeDetail"]
+      ? item["appEventTypeDetail"]
+      : appEventTypeDetailDeserializer(item["appEventTypeDetail"]),
     name: item["name"],
     clientRequestId: item["clientRequestId"],
     correlationRequestId: item["correlationRequestId"],
@@ -7623,7 +7623,7 @@ export function webSlotSwapStartedEventDataDeserializer(
 /** Schema of the Data property of an EventGridEvent for a Microsoft.Web.SlotSwapCompleted event. */
 export interface WebSlotSwapCompletedEventData {
   /** Detail of action on the app. */
-  appEventTypeDetail: AppEventTypeDetail;
+  appEventTypeDetail?: AppEventTypeDetail;
   /** name of the web site that had this event. */
   name?: string;
   /** The client request id generated by the app service for the site API operation that triggered this event. */
@@ -7642,9 +7642,9 @@ export function webSlotSwapCompletedEventDataDeserializer(
   item: any,
 ): WebSlotSwapCompletedEventData {
   return {
-    appEventTypeDetail: appEventTypeDetailDeserializer(
-      item["appEventTypeDetail"],
-    ),
+    appEventTypeDetail: !item["appEventTypeDetail"]
+      ? item["appEventTypeDetail"]
+      : appEventTypeDetailDeserializer(item["appEventTypeDetail"]),
     name: item["name"],
     clientRequestId: item["clientRequestId"],
     correlationRequestId: item["correlationRequestId"],
@@ -7657,7 +7657,7 @@ export function webSlotSwapCompletedEventDataDeserializer(
 /** Schema of the Data property of an EventGridEvent for a Microsoft.Web.SlotSwapFailed event. */
 export interface WebSlotSwapFailedEventData {
   /** Detail of action on the app. */
-  appEventTypeDetail: AppEventTypeDetail;
+  appEventTypeDetail?: AppEventTypeDetail;
   /** name of the web site that had this event. */
   name?: string;
   /** The client request id generated by the app service for the site API operation that triggered this event. */
@@ -7676,9 +7676,9 @@ export function webSlotSwapFailedEventDataDeserializer(
   item: any,
 ): WebSlotSwapFailedEventData {
   return {
-    appEventTypeDetail: appEventTypeDetailDeserializer(
-      item["appEventTypeDetail"],
-    ),
+    appEventTypeDetail: !item["appEventTypeDetail"]
+      ? item["appEventTypeDetail"]
+      : appEventTypeDetailDeserializer(item["appEventTypeDetail"]),
     name: item["name"],
     clientRequestId: item["clientRequestId"],
     correlationRequestId: item["correlationRequestId"],
@@ -7691,7 +7691,7 @@ export function webSlotSwapFailedEventDataDeserializer(
 /** Schema of the Data property of an EventGridEvent for a Microsoft.Web.SlotSwapWithPreviewStarted event. */
 export interface WebSlotSwapWithPreviewStartedEventData {
   /** Detail of action on the app. */
-  appEventTypeDetail: AppEventTypeDetail;
+  appEventTypeDetail?: AppEventTypeDetail;
   /** name of the web site that had this event. */
   name?: string;
   /** The client request id generated by the app service for the site API operation that triggered this event. */
@@ -7710,9 +7710,9 @@ export function webSlotSwapWithPreviewStartedEventDataDeserializer(
   item: any,
 ): WebSlotSwapWithPreviewStartedEventData {
   return {
-    appEventTypeDetail: appEventTypeDetailDeserializer(
-      item["appEventTypeDetail"],
-    ),
+    appEventTypeDetail: !item["appEventTypeDetail"]
+      ? item["appEventTypeDetail"]
+      : appEventTypeDetailDeserializer(item["appEventTypeDetail"]),
     name: item["name"],
     clientRequestId: item["clientRequestId"],
     correlationRequestId: item["correlationRequestId"],
@@ -7725,7 +7725,7 @@ export function webSlotSwapWithPreviewStartedEventDataDeserializer(
 /** Schema of the Data property of an EventGridEvent for a Microsoft.Web.SlotSwapWithPreviewCancelled event. */
 export interface WebSlotSwapWithPreviewCancelledEventData {
   /** Detail of action on the app. */
-  appEventTypeDetail: AppEventTypeDetail;
+  appEventTypeDetail?: AppEventTypeDetail;
   /** name of the web site that had this event. */
   name?: string;
   /** The client request id generated by the app service for the site API operation that triggered this event. */
@@ -7744,9 +7744,9 @@ export function webSlotSwapWithPreviewCancelledEventDataDeserializer(
   item: any,
 ): WebSlotSwapWithPreviewCancelledEventData {
   return {
-    appEventTypeDetail: appEventTypeDetailDeserializer(
-      item["appEventTypeDetail"],
-    ),
+    appEventTypeDetail: !item["appEventTypeDetail"]
+      ? item["appEventTypeDetail"]
+      : appEventTypeDetailDeserializer(item["appEventTypeDetail"]),
     name: item["name"],
     clientRequestId: item["clientRequestId"],
     correlationRequestId: item["correlationRequestId"],
@@ -7759,9 +7759,9 @@ export function webSlotSwapWithPreviewCancelledEventDataDeserializer(
 /** Schema of the Data property of an EventGridEvent for a Microsoft.Web.AppServicePlanUpdated event. */
 export interface WebAppServicePlanUpdatedEventData {
   /** Detail of action on the app service plan. */
-  appServicePlanEventTypeDetail: AppServicePlanEventTypeDetail;
+  appServicePlanEventTypeDetail?: AppServicePlanEventTypeDetail;
   /** sku of app service plan. */
-  sku: WebAppServicePlanUpdatedEventDataSku;
+  sku?: WebAppServicePlanUpdatedEventDataSku;
   /** name of the app service plan that had this event. */
   name?: string;
   /** The client request id generated by the app service for the app service plan API operation that triggered this event. */
@@ -7780,10 +7780,14 @@ export function webAppServicePlanUpdatedEventDataDeserializer(
   item: any,
 ): WebAppServicePlanUpdatedEventData {
   return {
-    appServicePlanEventTypeDetail: appServicePlanEventTypeDetailDeserializer(
-      item["appServicePlanEventTypeDetail"],
-    ),
-    sku: webAppServicePlanUpdatedEventDataSkuDeserializer(item["sku"]),
+    appServicePlanEventTypeDetail: !item["appServicePlanEventTypeDetail"]
+      ? item["appServicePlanEventTypeDetail"]
+      : appServicePlanEventTypeDetailDeserializer(
+          item["appServicePlanEventTypeDetail"],
+        ),
+    sku: !item["sku"]
+      ? item["sku"]
+      : webAppServicePlanUpdatedEventDataSkuDeserializer(item["sku"]),
     name: item["name"],
     clientRequestId: item["clientRequestId"],
     correlationRequestId: item["correlationRequestId"],
@@ -7796,11 +7800,11 @@ export function webAppServicePlanUpdatedEventDataDeserializer(
 /** Detail of action on the app service plan. */
 export interface AppServicePlanEventTypeDetail {
   /** Kind of environment where app service plan is. */
-  stampKind: StampKind;
+  stampKind?: StampKind;
   /** Type of action on the app service plan. */
-  action: AppServicePlanAction;
+  action?: AppServicePlanAction;
   /** Asynchronous operation status of the operation on the app service plan. */
-  status: AsyncStatus;
+  status?: AsyncStatus;
 }
 
 export function appServicePlanEventTypeDetailDeserializer(
@@ -7966,7 +7970,7 @@ export interface EventGridMqttClientEventData {
    */
   clientAuthenticationName: string;
   /** Name of the client resource in the Event Grid namespace. */
-  clientName: string;
+  clientName?: string;
   /** Name of the Event Grid namespace where the MQTT client was created or updated. */
   namespaceName: string;
 }
@@ -8368,10 +8372,4 @@ export function resourceNotificationsContainerServiceEventResourcesScheduledEven
     ),
     apiVersion: item["apiVersion"],
   };
-}
-
-/** Known values of {@link ServiceApiVersions} that the service accepts. */
-export enum KnownServiceApiVersions {
-  V20180101 = "2018-01-01",
-  V20240101 = "2024-01-01",
 }

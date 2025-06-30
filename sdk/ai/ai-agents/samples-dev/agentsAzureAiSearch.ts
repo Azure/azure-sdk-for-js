@@ -97,15 +97,13 @@ export async function main(): Promise<void> {
 
   // Fetch and log all messages
   const messagesIterator = client.messages.list(thread.id);
-  console.log(`Messages:`);
 
   // Get the first message
   for await (const m of messagesIterator) {
     if (m.content.length > 0) {
       const agentMessage: MessageContent = m.content[0];
       if (isOutputOfType<MessageTextContent>(agentMessage, "text")) {
-        const textContent = agentMessage as MessageTextContent;
-        console.log(`Text Message Content - ${textContent.text.value}`);
+        console.log(`Text Message Content - ${agentMessage.text.value}`);
       }
     }
     break; // Just process the first message

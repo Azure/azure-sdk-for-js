@@ -7,7 +7,10 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { VaultUsage, UsagesListByVaultsOptionalParams } from "../models/index.js";
+import {
+  VaultUsage,
+  UsagesListByVaultsOptionalParams,
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a Usages. */

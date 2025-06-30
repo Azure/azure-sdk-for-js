@@ -147,7 +147,7 @@ export async function main(): Promise<void> {
   async function onResponse(response: { parsedBody?: ThreadRun }): Promise<void> {
     if (!response || !response.parsedBody) return;
 
-    const run = response.parsedBody as ThreadRun;
+    const run = response.parsedBody;
     console.log(`Current Run status - ${run.status}, run ID: ${run.id}`);
 
     // Ensure we have a run with requires_action status and required_action object
@@ -198,11 +198,9 @@ export async function main(): Promise<void> {
     );
     threadMessage.content.forEach((content: MessageContent) => {
       if (isOutputOfType<MessageTextContent>(content, "text")) {
-        const textContent = content as MessageTextContent;
-        console.log(`Text Message Content - ${textContent.text.value}`);
+        console.log(`Text Message Content - ${content.text.value}`);
       } else if (isOutputOfType<MessageImageFileContent>(content, "image_file")) {
-        const imageContent = content as MessageImageFileContent;
-        console.log(`Image Message Content - ${imageContent.imageFile.fileId}`);
+        console.log(`Image Message Content - ${content.imageFile.fileId}`);
       }
     });
   }

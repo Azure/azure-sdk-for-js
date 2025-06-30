@@ -18,8 +18,8 @@ jobs:
       variables:
         - template: /eng/pipelines/templates/variables/globals.yml
       pool:
-        name: "azsdk-pool-mms-ubuntu-2004-general"
-        vmImage: "MMSUbuntu20.04"
+        name: "azsdk-pool"
+        vmImage: "ubuntu-24.04"
       displayName: Check Smoke Test Eligibility
       steps:
         - template: /eng/pipelines/templates/steps/use-node-version.yml
@@ -60,16 +60,16 @@ jobs:
           OSVmImage: "macos-latest"
           NodeTestVersion: $(NODE_VERSION_LTS_MAINTENANCE)
         Windows node lts active:
-          Pool: "azsdk-pool-mms-win-2022-general"
-          OSVmImage: "MMS2022"
+          Pool: "azsdk-pool"
+          OSVmImage: "windows-2022"
           NodeTestVersion: $(NODE_VERSION_LTS_ACTIVE)
         Linux node lts maintenance:
-          Pool: "azsdk-pool-mms-ubuntu-2004-general"
-          OSVmImage: "MMSUbuntu20.04"
+          Pool: "azsdk-pool"
+          OSVmImage: "ubuntu-24.04"
           NodeTestVersion: $(NODE_VERSION_LTS_MAINTENANCE)
         Linux node lts active:
-          Pool: "azsdk-pool-mms-ubuntu-2004-general"
-          OSVmImage: "MMSUbuntu20.04"
+          Pool: "azsdk-pool"
+          OSVmImage: "ubuntu-24.04"
           NodeTestVersion: $(NODE_VERSION_LTS_ACTIVE)
 
     pool:

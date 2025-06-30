@@ -1,5 +1,36 @@
 # Release History
     
+## 22.1.0 (2025-06-19)
+    
+### Features Added
+
+  - Added Interface AgentPoolGatewayProfile
+  - Added Interface AgentPoolStatus
+  - Added Interface ManagedClusterStaticEgressGatewayProfile
+  - Added Interface ManagedClusterStatus
+  - Added Interface ManualScaleProfile
+  - Added Interface ScaleProfile
+  - Added Interface VirtualMachineNodes
+  - Added Interface VirtualMachinesProfile
+  - Added Type Alias PodIPAllocationMode
+  - Interface AgentPool has a new optional parameter gatewayProfile
+  - Interface AgentPool has a new optional parameter podIPAllocationMode
+  - Interface AgentPool has a new optional parameter status
+  - Interface AgentPool has a new optional parameter virtualMachineNodesStatus
+  - Interface AgentPool has a new optional parameter virtualMachinesProfile
+  - Interface ContainerServiceNetworkProfile has a new optional parameter staticEgressGatewayProfile
+  - Interface Machine has a new optional parameter zones
+  - Interface ManagedCluster has a new optional parameter status
+  - Interface ManagedClusterAgentPoolProfileProperties has a new optional parameter gatewayProfile
+  - Interface ManagedClusterAgentPoolProfileProperties has a new optional parameter podIPAllocationMode
+  - Interface ManagedClusterAgentPoolProfileProperties has a new optional parameter status
+  - Interface ManagedClusterAgentPoolProfileProperties has a new optional parameter virtualMachineNodesStatus
+  - Interface ManagedClusterAgentPoolProfileProperties has a new optional parameter virtualMachinesProfile
+  - Added Enum KnownPodIPAllocationMode
+  - Enum KnownAgentPoolMode has a new value Gateway
+  - Enum KnownAgentPoolType has a new value VirtualMachines
+    
+    
 ## 23.0.0-beta.1 (2025-06-18)
 Compared with version 22.0.0
     

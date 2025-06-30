@@ -316,6 +316,7 @@ export class CallRecording {
     downloadStreaming(sourceLocationUrl: string, options?: DownloadRecordingOptions): Promise<NodeJS.ReadableStream>;
     downloadToPath(sourceLocationUrl: string, destinationPath: string, options?: DownloadRecordingOptions): Promise<void>;
     downloadToStream(sourceLocationUrl: string, destinationStream: NodeJS.WritableStream, options?: DownloadRecordingOptions): Promise<void>;
+    getRecordingResult(recordingId: string, options?: GetRecordingResultOptions): Promise<RecordingResult>;
     getState(recordingId: string, options?: GetRecordingPropertiesOptions): Promise<RecordingStateResult>;
     pause(recordingId: string, options?: PauseRecordingOptions): Promise<void>;
     resume(recordingId: string, options?: ResumeRecordingOptions): Promise<void>;
@@ -325,6 +326,9 @@ export class CallRecording {
 
 // @public
 export type CallRejectReason = string;
+
+// @public
+export type CallSessionEndReason = string;
 
 // @public
 export interface CallTransferAccepted {
@@ -421,6 +425,9 @@ export interface ChoiceResult {
     label?: string;
     recognizedPhrase?: string;
 }
+
+// @public
+export type ChunkEndReason = string;
 
 // @public
 export interface ConnectCallEventResult {
@@ -578,6 +585,13 @@ export enum DtmfTone {
 }
 
 // @public
+export interface ErrorModel {
+    code?: string;
+    innerError?: ErrorModel;
+    message?: string;
+}
+
+// @public
 export interface FileSource extends PlaySource {
     // (undocumented)
     readonly kind: "fileSource";
@@ -593,6 +607,9 @@ export type GetParticipantOptions = OperationOptions;
 
 // @public
 export type GetRecordingPropertiesOptions = OperationOptions;
+
+// @public
+export type GetRecordingResultOptions = OperationOptions;
 
 // @public
 export type HangUpOptions = OperationOptions;
@@ -695,6 +712,15 @@ export enum KnownCallRejectReason {
     Busy = "busy",
     Forbidden = "forbidden",
     None = "none"
+}
+
+// @public
+export enum KnownChunkEndReason {
+    ChunkIsBeingRecorded = "chunkIsBeingRecorded",
+    ChunkMaximumSizeExceeded = "chunkMaximumSizeExceeded",
+    ChunkMaximumTimeExceeded = "chunkMaximumTimeExceeded",
+    ChunkUploadFailure = "chunkUploadFailure",
+    SessionEnded = "sessionEnded"
 }
 
 // @public
@@ -1132,6 +1158,16 @@ export enum RecognizeInputType {
 export type RecordingChannel = "mixed" | "unmixed";
 
 // @public
+export interface RecordingChunkStorageInfo {
+    contentLocation?: string;
+    deleteLocation?: string;
+    documentId?: string;
+    endReason?: ChunkEndReason;
+    index?: number;
+    metadataLocation?: string;
+}
+
+// @public
 export type RecordingContent = "audio" | "audioVideo";
 
 // @public
@@ -1139,6 +1175,17 @@ export type RecordingFormat = "mp3" | "mp4" | "wav";
 
 // @public
 export type RecordingKind = string;
+
+// @public
+export interface RecordingResult {
+    readonly errors?: ErrorModel[];
+    readonly recordingDurationMs?: number;
+    readonly recordingExpirationTime?: Date;
+    recordingId: string;
+    readonly recordingStartTime?: Date;
+    readonly recordingStorageInfo?: RecordingStorageInfo;
+    readonly sessionEndReason?: CallSessionEndReason;
+}
 
 // @public
 export type RecordingState = string;
@@ -1160,11 +1207,8 @@ export interface RecordingStateChanged {
 
 // @public
 export interface RecordingStateResult {
-    // (undocumented)
     recordingId: string;
-    // (undocumented)
     recordingKind: string;
-    // (undocumented)
     recordingState: RecordingState;
 }
 
@@ -1172,6 +1216,11 @@ export interface RecordingStateResult {
 export interface RecordingStorage {
     recordingDestinationContainerUrl?: string;
     recordingStorageKind: RecordingStorageKind;
+}
+
+// @public
+export interface RecordingStorageInfo {
+    recordingChunks?: RecordingChunkStorageInfo[];
 }
 
 // @public

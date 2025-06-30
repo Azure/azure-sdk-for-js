@@ -2,7 +2,7 @@
 # Copyright (c) Microsoft Corporation.
 # Licensed under the MIT License.
 # ------------------------------------
-ARG NODE_VERSION=20
+ARG NODE_VERSION=18
 
 # docker can't tell when the repo has changed and will therefore cache this layer
 # internal users should provide MCR registry to build via 'docker build . --build-arg REGISTRY="mcr.microsoft.com/mirror/docker/library/"'

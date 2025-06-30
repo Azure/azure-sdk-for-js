@@ -348,5 +348,4 @@ export {
   ResourceNotificationsResourceManagementCreatedOrUpdatedEventData,
   ResourceNotificationsResourceManagementDeletedEventData,
   ResourceNotificationsContainerServiceEventResourcesScheduledEventData,
-  KnownServiceApiVersions,
 } from "./models/index.js";

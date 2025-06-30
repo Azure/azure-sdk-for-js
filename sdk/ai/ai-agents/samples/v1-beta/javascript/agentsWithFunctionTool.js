@@ -188,11 +188,9 @@ async function main() {
     );
     threadMessage.content.forEach((content) => {
       if (isOutputOfType(content, "text")) {
-        const textContent = content;
-        console.log(`Text Message Content - ${textContent.text.value}`);
+        console.log(`Text Message Content - ${content.text.value}`);
       } else if (isOutputOfType(content, "image_file")) {
-        const imageContent = content;
-        console.log(`Image Message Content - ${imageContent.imageFile.fileId}`);
+        console.log(`Image Message Content - ${content.imageFile.fileId}`);
       }
     });
   }

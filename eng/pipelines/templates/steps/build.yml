@@ -90,6 +90,8 @@ steps:
       ServiceDirectory: ${{parameters.ServiceDirectory}}
 
   - pwsh: |
+      . ./eng/common/scripts/common.ps1
+
       $artifacts = "$(ArtifactPackageNames)".Split(",")
 
       foreach ($artifact in $artifacts)
@@ -97,22 +99,41 @@ steps:
         $artifactDetails = Get-Content -Raw $(Build.ArtifactStagingDirectory)/PackageInfo/$artifact.json | ConvertFrom-Json
         $packageJson = Join-Path $(Build.SourcesDirectory) $artifactDetails.DirectoryPath "package.json"
 
-        Write-Host "Copying $artifact artifacts to $(Build.ArtifactStagingDirectory)/$artifact"
-        New-Item -Type Directory -Force -Name $artifact -Path $(Build.ArtifactStagingDirectory) > $null
-        Copy-Item sdk/$($artifactDetails.ServiceDirectory)/**/$artifact-[0-9]*.[0-9]*.[0-9]*.tgz $(Build.ArtifactStagingDirectory)/$artifact
-        Copy-Item sdk/$($artifactDetails.ServiceDirectory)/**/browser/$artifact-[0-9]*.[0-9]*.[0-9]*.zip $(Build.ArtifactStagingDirectory)/$artifact
+        $stagingArtifactDirectory = "$(Build.ArtifactStagingDirectory)/$artifact"
+        Write-Host "Copying $artifact artifacts to $stagingArtifactDirectory"
+        New-Item -Type Directory $stagingArtifactDirectory -Force | Out-Null
+
+        $packageFile = (dir sdk/$($artifactDetails.ServiceDirectory)/**/$artifact-[0-9]*.[0-9]*.[0-9]*.tgz)[0]
+        Copy-Item $packageFile $stagingArtifactDirectory
+        Copy-Item sdk/$($artifactDetails.ServiceDirectory)/**/browser/$artifact-[0-9]*.[0-9]*.[0-9]*.zip $stagingArtifactDirectory
+
+        if ($env:SETDEVVERSION -eq 'true' -and $artifactDetails.ArtifactDetails.skipPublishDev -ne $true)
+        {
+          $stagingDevArtifactDirectory = "$(Agent.TempDirectory)/packages-dev-publish/$artifact"
+          New-Item -Type Directory $stagingDevArtifactDirectory -Force | Out-Null
+          $hasSourceChanges = HasPackageSourceCodeChanges $packageFile $(Agent.TempDirectory)
+          if ($hasSourceChanges) {
+            Write-Host "There were source code changes for $artifact, so we need to publish"
+            Write-Host "Copying $packageFile artifacts to $stagingDevArtifactDirectory"
+            Copy-Item $packageFile $stagingDevArtifactDirectory
+          }
+          else {
+            Write-Host "No source code changes for $artifact, skipping publish"
+          }
+          Get-ChildItem $stagingDevArtifactDirectory -Recurse -Name
+        }
 
         if ($${{ parameters.IncludeRelease }} -eq $true -and $artifactDetails.ArtifactDetails.skipPublishDocMs -ne $true `
           -and (Get-Content $packageJson -Raw | ConvertFrom-Json).private -ne $true)
         {
-          New-Item -Type Directory -Force -Name documentation -Path $(Build.ArtifactStagingDirectory)/$artifact > $null
-          Copy-Item $(Build.SourcesDirectory)/docGen/$artifact.zip $(Build.ArtifactStagingDirectory)/$artifact/documentation
+          New-Item -Type Directory $stagingArtifactDirectory/documentation -Force | Out-Null
+          Copy-Item $(Build.SourcesDirectory)/docGen/$artifact.zip $stagingArtifactDirectory/documentation
         }
         else {
           Write-Host "Skipping documentation for package $artifact."
         }
 
-        Get-ChildItem $(Build.ArtifactStagingDirectory)/$artifact -Recurse
+        Get-ChildItem $stagingArtifactDirectory -Recurse -Name
       }
     displayName: 'Copy Packages'
 
@@ -133,6 +154,12 @@ steps:
     parameters:
       ArtifactPath: '$(Build.ArtifactStagingDirectory)'
       ArtifactName: 'packages'
+
+  - template: /eng/common/pipelines/templates/steps/publish-1es-artifact.yml
+    parameters:
+      ArtifactPath: '$(Agent.TempDirectory)/packages-dev-publish'
+      ArtifactName: 'packages-dev-publish'
+      CustomCondition: eq(variables['SetDevVersion'], 'true')
 
   - template: /eng/common/pipelines/templates/steps/create-apireview.yml
     parameters:

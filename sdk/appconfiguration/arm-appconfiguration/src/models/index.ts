@@ -215,6 +215,8 @@ export interface ConfigurationStoreUpdateParameters {
   enablePurgeProtection?: boolean;
   /** Property specifying the configuration of data plane proxy for Azure Resource Manager (ARM). */
   dataPlaneProxy?: DataPlaneProxyProperties;
+  /** The duration in seconds to retain new key value revisions. Defaults to 604800 (7 days) for Free SKU stores and 2592000 (30 days) for Standard SKU stores and Premium SKU stores. */
+  defaultKeyValueRevisionRetentionPeriodInSeconds?: number;
 }
 
 /** Parameters used for checking whether a resource name is available. */
@@ -778,12 +780,24 @@ export interface ConfigurationStore extends TrackedResource {
   disableLocalAuth?: boolean;
   /** The amount of time in days that the configuration store will be retained when it is soft deleted. */
   softDeleteRetentionInDays?: number;
+  /** The duration in seconds to retain new key value revisions. Defaults to 604800 (7 days) for Free SKU stores and 2592000 (30 days) for Standard SKU stores and Premium SKU stores. */
+  defaultKeyValueRevisionRetentionPeriodInSeconds?: number;
   /** Property specifying whether protection against purge is enabled for this configuration store. */
   enablePurgeProtection?: boolean;
   /** Property specifying the configuration of data plane proxy for Azure Resource Manager (ARM). */
   dataPlaneProxy?: DataPlaneProxyProperties;
   /** Indicates whether the configuration store need to be recovered. */
   createMode?: CreateMode;
+}
+
+/** Defines headers for ConfigurationStores_delete operation. */
+export interface ConfigurationStoresDeleteHeaders {
+  /** URL to query for status of the operation. */
+  azureAsyncOperation?: string;
+  /** URL to query for the operation result */
+  location?: string;
+  /** Indicates how long the client should wait before polling the URL in the Location or Azure-AsyncOperation header. */
+  retryAfter?: number;
 }
 
 /** Defines headers for Replicas_delete operation. */
@@ -1293,10 +1307,7 @@ export type KeyValuesGetResponse = KeyValue;
 
 /** Optional parameters. */
 export interface KeyValuesCreateOrUpdateOptionalParams
-  extends coreClient.OperationOptions {
-  /** The parameters for creating a key-value. */
-  keyValueParameters?: KeyValue;
-}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the createOrUpdate operation. */
 export type KeyValuesCreateOrUpdateResponse = KeyValue;
