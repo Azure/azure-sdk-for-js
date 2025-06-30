@@ -641,13 +641,12 @@ export type EventSerializationType = string;
 export type EventsOutOfOrderPolicy = string;
 
 // @public
-interface External_2 {
+export interface External {
     container?: string;
     path?: string;
     refreshConfiguration?: RefreshConfiguration;
     storageAccount?: StorageAccount;
 }
-export { External_2 as External }
 
 // @public
 export interface FileReferenceInputDataSource extends ReferenceInputDataSource {
@@ -1789,7 +1788,7 @@ export interface StreamingJob extends TrackedResource {
     eventsLateArrivalMaxDelayInSeconds?: number;
     eventsOutOfOrderMaxDelayInSeconds?: number;
     eventsOutOfOrderPolicy?: EventsOutOfOrderPolicy;
-    externals?: External_2;
+    externals?: External;
     functions?: FunctionModel[];
     identity?: Identity;
     inputs?: Input[];

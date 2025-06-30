@@ -3,7 +3,7 @@
   "version": "1.0.0-beta.9",
   "description": "Azure AI Projects client library.",
   "engines": {
-    "node": ">=18.0.0"
+    "node": ">=20.0.0"
   },
   "sideEffects": false,
   "autoPublish": false,
@@ -49,7 +49,7 @@
   "//metadata": {
     "constantPaths": [
       {
-        "path": "src/generated/src/projectsClient.ts",
+        "path": "src/aiProjectClient.ts",
         "prefix": "userAgentInfo"
       },
       {
@@ -59,7 +59,7 @@
     ]
   },
   "dependencies": {
-    "@azure/ai-agents": "1.0.0-beta.3",
+    "@azure/ai-agents": "1.0.0",
     "@azure/abort-controller": "^2.1.2",
     "@azure/core-auth": "^1.6.0",
     "@azure/core-lro": "^3.0.0",
@@ -93,7 +93,7 @@
     "@azure-tools/test-credential": "^2.0.0",
     "@azure-tools/test-recorder": "^4.1.0",
     "@azure-tools/test-utils-vitest": "^1.0.0",
-    "@types/node": "^18.0.0",
+    "@types/node": "^20.0.0",
     "@vitest/browser": "^3.0.9",
     "@vitest/coverage-istanbul": "^3.0.9",
     "dotenv": "^16.0.0",
@@ -113,8 +113,8 @@
     "format": "dev-tool run vendored prettier --write --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.{ts,cts,mts}\" \"test/**/*.{ts,cts,mts}\" \"samples-dev/**/*.{ts,cts,mts}\" \"*.{js,cjs,mjs,json}\" ",
     "generate": "dev-tool run vendored rimraf ./src/generated && dev-tool run vendored mkdirp ./src/generated && npm run copy:yaml && npm run tsp:update && dev-tool run vendored rimraf ./src/generated/test && dev-tool run vendored rimraf ./src/generated/tsp-location.yaml",
     "generate-samples": "dev-tool samples publish -f",
-    "lint": "eslint package.json api-extractor.json src test",
-    "lint:fix": "eslint package.json api-extractor.json src test --fix --fix-type [problem,suggestion]",
+    "lint": "eslint package.json src test",
+    "lint:fix": "eslint package.json src test --fix --fix-type [problem,suggestion]",
     "pack": "npm pack 2>&1",
     "test": "npm run test:node && npm run test:browser",
     "test:browser": "dev-tool run build-test && dev-tool run test:vitest --browser",
