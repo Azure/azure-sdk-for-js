@@ -2544,7 +2544,7 @@ packages:
     version: 0.0.0
 
   '@rush-temp/ai-projects@file:projects/ai-projects.tgz':
-    resolution: {integrity: sha512-YFOZTB6NwxBthKATwsI3KcV9inv66lyWjOnoV9sgX0lb/vcoIdTq250ppmkt2ffpQVD4TOV4HZXehlyIvog/Bg==, tarball: file:projects/ai-projects.tgz}
+    resolution: {integrity: sha512-JQPQpbI7p3F2TT5+mt26c29/nhl1TnuoJU5zB7Tl1Q3rv2p67e2xVbIQuHE/Va0PreT04yO0ZtuRDVD0l4pMOA==, tarball: file:projects/ai-projects.tgz}
     version: 0.0.0
 
   '@rush-temp/ai-text-analytics@file:projects/ai-text-analytics.tgz':
