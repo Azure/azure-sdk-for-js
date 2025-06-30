@@ -37,7 +37,7 @@ export class RateLimitedSampler implements Sampler {
     if (this.requestsPerSecond < 0.0) {
       throw new Error("Limit for sampled spans per second must be nonnegative");
     }
-    const adaptationTimeSeconds = 0.5; // Default to half a second
+    const adaptationTimeSeconds = 0.1;
     this.nanoTimeSupplier = () => Number(process.hrtime.bigint());
     this.inverseAdaptationTimeNanos = 1e-9 / adaptationTimeSeconds;
     this.targetSpansPerNanosecondLimit = 1e-9 * this.requestsPerSecond;

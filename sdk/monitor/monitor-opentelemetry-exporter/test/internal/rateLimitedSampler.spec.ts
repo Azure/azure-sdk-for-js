@@ -40,6 +40,23 @@ describe("RateLimitedSampler", () => {
       const rate = sampler.getSampleRate();
       assert.ok(rate >= 0 && rate <= 100);
     });
+    it("returns ~0 for very small requestsPerSecond", () => {
+      sampler = new RateLimitedSampler(0.00001);
+      const rate = sampler.getSampleRate();
+      assert.ok(rate <= 1, `Expected sample rate to be very low for very small requestsPerSecond, got ${rate}`);
+    });
+    it("returns 100 for very large requestsPerSecond after adaptation", async () => {
+      sampler = new RateLimitedSampler(1e9);
+      await new Promise((resolve) => setTimeout(resolve, 20));
+      let rate = sampler.getSampleRate();
+      await new Promise((resolve) => setTimeout(resolve, 20));
+      rate = sampler.getSampleRate();
+      assert.equal(
+        rate,
+        100,
+        `Expected sample rate to be 100 for very large requestsPerSecond, got ${rate}`,
+      );
+    });
   });
 
   describe("shouldSample", () => {

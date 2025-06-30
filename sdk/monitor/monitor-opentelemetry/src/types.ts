@@ -85,7 +85,7 @@ export const StatsbeatFeaturesMap = new Map<string, number>([
   ["distro", 8],
   ["liveMetrics", 16],
   ["shim", 32],
-  ["rateLimitedSampler", 64],
+  ["rateLimitedSampler", 256],
 ]);
 
 /**
