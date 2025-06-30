@@ -30,7 +30,7 @@ describe("DefaultAzureCredential", () => {
 
 describe("create functions", () => {
   afterEach(() => {
-    vi.restoreAllMocks;
+    vi.restoreAllMocks();
     delete process.env.AZURE_TOKEN_CREDENTIALS;
   });
 
