@@ -46,6 +46,7 @@ export interface AgentPool extends SubResource {
     enableNodePublicIP?: boolean;
     enableUltraSSD?: boolean;
     readonly eTag?: string;
+    gatewayProfile?: AgentPoolGatewayProfile;
     gpuInstanceProfile?: GPUInstanceProfile;
     gpuProfile?: GPUProfile;
     hostGroupID?: string;
@@ -69,6 +70,7 @@ export interface AgentPool extends SubResource {
     osDiskType?: OSDiskType;
     osSKU?: Ossku;
     osType?: OSType;
+    podIPAllocationMode?: PodIPAllocationMode;
     podSubnetID?: string;
     powerState?: PowerState;
     readonly provisioningState?: string;
@@ -78,11 +80,14 @@ export interface AgentPool extends SubResource {
     scaleSetPriority?: ScaleSetPriority;
     securityProfile?: AgentPoolSecurityProfile;
     spotMaxPrice?: number;
+    status?: AgentPoolStatus;
     tags?: {
         [propertyName: string]: string;
     };
     typePropertiesType?: AgentPoolType;
     upgradeSettings?: AgentPoolUpgradeSettings;
+    virtualMachineNodesStatus?: VirtualMachineNodes[];
+    virtualMachinesProfile?: VirtualMachinesProfile;
     vmSize?: string;
     vnetSubnetID?: string;
     windowsProfile?: AgentPoolWindowsProfile;
@@ -107,6 +112,11 @@ export interface AgentPoolAvailableVersionsPropertiesAgentPoolVersionsItem {
 // @public
 export interface AgentPoolDeleteMachinesParameter {
     machineNames: string[];
+}
+
+// @public
+export interface AgentPoolGatewayProfile {
+    publicIPPrefixSize?: number;
 }
 
 // @public
@@ -239,6 +249,11 @@ export interface AgentPoolsListOptionalParams extends coreClient.OperationOption
 
 // @public
 export type AgentPoolsListResponse = AgentPoolListResult;
+
+// @public
+export interface AgentPoolStatus {
+    readonly provisioningError?: CloudErrorBody;
+}
 
 // @public
 export interface AgentPoolsUpgradeNodeImageVersionHeaders {
@@ -393,6 +408,7 @@ export interface ContainerServiceNetworkProfile {
     podCidrs?: string[];
     serviceCidr?: string;
     serviceCidrs?: string[];
+    staticEgressGatewayProfile?: ManagedClusterStaticEgressGatewayProfile;
 }
 
 // @public
@@ -561,6 +577,7 @@ export type KeyVaultNetworkAccessTypes = string;
 
 // @public
 export enum KnownAgentPoolMode {
+    Gateway = "Gateway",
     System = "System",
     User = "User"
 }
@@ -568,6 +585,7 @@ export enum KnownAgentPoolMode {
 // @public
 export enum KnownAgentPoolType {
     AvailabilitySet = "AvailabilitySet",
+    VirtualMachines = "VirtualMachines",
     VirtualMachineScaleSets = "VirtualMachineScaleSets"
 }
 
@@ -783,6 +801,12 @@ export enum KnownOutboundType {
 }
 
 // @public
+export enum KnownPodIPAllocationMode {
+    DynamicIndividual = "DynamicIndividual",
+    StaticBlock = "StaticBlock"
+}
+
+// @public
 export enum KnownPrivateEndpointConnectionProvisioningState {
     Canceled = "Canceled",
     Creating = "Creating",
@@ -953,6 +977,7 @@ export type LoadBalancerSku = string;
 // @public
 export interface Machine extends SubResource {
     readonly properties?: MachineProperties;
+    readonly zones?: string[];
 }
 
 // @public
@@ -1116,6 +1141,7 @@ export interface ManagedCluster extends TrackedResource {
     serviceMeshProfile?: ServiceMeshProfile;
     servicePrincipalProfile?: ManagedClusterServicePrincipalProfile;
     sku?: ManagedClusterSKU;
+    status?: ManagedClusterStatus;
     storageProfile?: ManagedClusterStorageProfile;
     supportPlan?: KubernetesSupportPlan;
     upgradeSettings?: ClusterUpgradeSettings;
@@ -1170,6 +1196,7 @@ export interface ManagedClusterAgentPoolProfileProperties {
     enableNodePublicIP?: boolean;
     enableUltraSSD?: boolean;
     readonly eTag?: string;
+    gatewayProfile?: AgentPoolGatewayProfile;
     gpuInstanceProfile?: GPUInstanceProfile;
     gpuProfile?: GPUProfile;
     hostGroupID?: string;
@@ -1193,6 +1220,7 @@ export interface ManagedClusterAgentPoolProfileProperties {
     osDiskType?: OSDiskType;
     osSKU?: Ossku;
     osType?: OSType;
+    podIPAllocationMode?: PodIPAllocationMode;
     podSubnetID?: string;
     powerState?: PowerState;
     readonly provisioningState?: string;
@@ -1202,11 +1230,14 @@ export interface ManagedClusterAgentPoolProfileProperties {
     scaleSetPriority?: ScaleSetPriority;
     securityProfile?: AgentPoolSecurityProfile;
     spotMaxPrice?: number;
+    status?: AgentPoolStatus;
     tags?: {
         [propertyName: string]: string;
     };
     type?: AgentPoolType;
     upgradeSettings?: AgentPoolUpgradeSettings;
+    virtualMachineNodesStatus?: VirtualMachineNodes[];
+    virtualMachinesProfile?: VirtualMachinesProfile;
     vmSize?: string;
     vnetSubnetID?: string;
     windowsProfile?: AgentPoolWindowsProfile;
@@ -1819,6 +1850,16 @@ export interface ManagedClustersStopOptionalParams extends coreClient.OperationO
 export type ManagedClustersStopResponse = ManagedClustersStopHeaders;
 
 // @public
+export interface ManagedClusterStaticEgressGatewayProfile {
+    enabled?: boolean;
+}
+
+// @public
+export interface ManagedClusterStatus {
+    readonly provisioningError?: CloudErrorBody;
+}
+
+// @public
 export interface ManagedClusterStorageProfile {
     blobCSIDriver?: ManagedClusterStorageProfileBlobCSIDriver;
     diskCSIDriver?: ManagedClusterStorageProfileDiskCSIDriver;
@@ -1894,6 +1935,12 @@ export interface ManagedClusterWorkloadAutoScalerProfileVerticalPodAutoscaler {
 export interface ManagedServiceIdentityUserAssignedIdentitiesValue {
     readonly clientId?: string;
     readonly principalId?: string;
+}
+
+// @public
+export interface ManualScaleProfile {
+    count?: number;
+    size?: string;
 }
 
 // @public
@@ -2006,6 +2053,9 @@ export interface OutboundEnvironmentEndpointCollection {
 
 // @public
 export type OutboundType = string;
+
+// @public
+export type PodIPAllocationMode = string;
 
 // @public
 export interface PortRange {
@@ -2179,6 +2229,11 @@ export interface RunCommandResult {
 
 // @public
 export type ScaleDownMode = string;
+
+// @public
+export interface ScaleProfile {
+    manual?: ManualScaleProfile[];
+}
 
 // @public
 export type ScaleSetEvictionPolicy = string;
@@ -2494,6 +2549,17 @@ export interface UserAssignedIdentity {
     clientId?: string;
     objectId?: string;
     resourceId?: string;
+}
+
+// @public
+export interface VirtualMachineNodes {
+    count?: number;
+    size?: string;
+}
+
+// @public
+export interface VirtualMachinesProfile {
+    scale?: ScaleProfile;
 }
 
 // @public

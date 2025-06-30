@@ -81,6 +81,7 @@ export interface ConfigurationStore extends TrackedResource {
     createMode?: CreateMode;
     readonly creationDate?: Date;
     dataPlaneProxy?: DataPlaneProxyProperties;
+    defaultKeyValueRevisionRetentionPeriodInSeconds?: number;
     disableLocalAuth?: boolean;
     enablePurgeProtection?: boolean;
     encryption?: EncryptionProperties;
@@ -127,6 +128,13 @@ export interface ConfigurationStoresCreateOptionalParams extends coreClient.Oper
 
 // @public
 export type ConfigurationStoresCreateResponse = ConfigurationStore;
+
+// @public
+export interface ConfigurationStoresDeleteHeaders {
+    azureAsyncOperation?: string;
+    location?: string;
+    retryAfter?: number;
+}
 
 // @public
 export interface ConfigurationStoresDeleteOptionalParams extends coreClient.OperationOptions {
@@ -232,6 +240,7 @@ export type ConfigurationStoresUpdateResponse = ConfigurationStore;
 // @public
 export interface ConfigurationStoreUpdateParameters {
     dataPlaneProxy?: DataPlaneProxyProperties;
+    defaultKeyValueRevisionRetentionPeriodInSeconds?: number;
     disableLocalAuth?: boolean;
     enablePurgeProtection?: boolean;
     encryption?: EncryptionProperties;
@@ -355,13 +364,12 @@ export interface KeyValueListResult {
 export interface KeyValues {
     beginDelete(resourceGroupName: string, configStoreName: string, keyValueName: string, options?: KeyValuesDeleteOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
     beginDeleteAndWait(resourceGroupName: string, configStoreName: string, keyValueName: string, options?: KeyValuesDeleteOptionalParams): Promise<void>;
-    createOrUpdate(resourceGroupName: string, configStoreName: string, keyValueName: string, options?: KeyValuesCreateOrUpdateOptionalParams): Promise<KeyValuesCreateOrUpdateResponse>;
+    createOrUpdate(resourceGroupName: string, configStoreName: string, keyValueName: string, keyValueParameters: KeyValue, options?: KeyValuesCreateOrUpdateOptionalParams): Promise<KeyValuesCreateOrUpdateResponse>;
     get(resourceGroupName: string, configStoreName: string, keyValueName: string, options?: KeyValuesGetOptionalParams): Promise<KeyValuesGetResponse>;
 }
 
 // @public
 export interface KeyValuesCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
-    keyValueParameters?: KeyValue;
 }
 
 // @public

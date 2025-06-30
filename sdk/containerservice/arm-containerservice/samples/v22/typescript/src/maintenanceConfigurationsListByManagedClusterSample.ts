@@ -14,7 +14,7 @@ import "dotenv/config";
  * This sample demonstrates how to Gets a list of maintenance configurations in the specified managed cluster.
  *
  * @summary Gets a list of maintenance configurations in the specified managed cluster.
- * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/aks/stable/2025-03-01/examples/MaintenanceConfigurationsList.json
+ * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/aks/stable/2025-04-01/examples/MaintenanceConfigurationsList.json
  */
 async function listMaintenanceConfigurationsByManagedCluster(): Promise<void> {
   const subscriptionId =
@@ -39,7 +39,7 @@ async function listMaintenanceConfigurationsByManagedCluster(): Promise<void> {
  * This sample demonstrates how to Gets a list of maintenance configurations in the specified managed cluster.
  *
  * @summary Gets a list of maintenance configurations in the specified managed cluster.
- * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/aks/stable/2025-03-01/examples/MaintenanceConfigurationsList_MaintenanceWindow.json
+ * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/aks/stable/2025-04-01/examples/MaintenanceConfigurationsList_MaintenanceWindow.json
  */
 async function listMaintenanceConfigurationsConfiguredWithMaintenanceWindowByManagedCluster(): Promise<void> {
   const subscriptionId =

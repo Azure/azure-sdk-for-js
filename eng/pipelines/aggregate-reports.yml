@@ -14,8 +14,8 @@ stages:
 
     pool:
       # AzureFileCopy requires Windows
-      name: azsdk-pool-mms-win-2022-general
-      vmImage: MMS2022
+      name: azsdk-pool
+      demands: ImageOverride -equals windows-2022
 
     jobs:
       - job: GenerateReports
@@ -84,8 +84,8 @@ stages:
 
     pool:
       # Policheck requires Windows
-      name: azsdk-pool-mms-win-2022-general
-      vmImage: MMS2022
+      name: azsdk-pool
+      demands: ImageOverride -equals windows-2022
 
     jobs:
       - job: ComplianceTools

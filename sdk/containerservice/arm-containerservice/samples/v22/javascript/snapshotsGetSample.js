@@ -14,7 +14,7 @@ require("dotenv/config");
  * This sample demonstrates how to Gets a snapshot.
  *
  * @summary Gets a snapshot.
- * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/aks/stable/2025-03-01/examples/SnapshotsGet.json
+ * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/aks/stable/2025-04-01/examples/SnapshotsGet.json
  */
 async function getSnapshot() {
   const subscriptionId =

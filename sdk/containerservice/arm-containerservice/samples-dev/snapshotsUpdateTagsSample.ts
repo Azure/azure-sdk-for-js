@@ -18,7 +18,7 @@ import "dotenv/config";
  * This sample demonstrates how to Updates tags on a snapshot.
  *
  * @summary Updates tags on a snapshot.
- * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/aks/stable/2025-03-01/examples/SnapshotsUpdateTags.json
+ * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/aks/stable/2025-04-01/examples/SnapshotsUpdateTags.json
  */
 async function updateSnapshotTags(): Promise<void> {
   const subscriptionId =
