@@ -13,5 +13,5 @@ export function sanitizeEndpoint(url: string): string {
  * @internal
  */
 export function normalizeEndpoint(endpoint: string): string {
-  return endpoint.split(" ").join("").toLowerCase();
+  return endpoint.replace(/\s+/g, "").toLowerCase();
 }

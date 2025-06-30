@@ -119,9 +119,11 @@ export async function execute({
       if (overrideResult.overridden && overrideResult.newLocation !== undefined) {
         requestContext.endpoint = overrideResult.newLocation;
         localDiagnosticNode.recordEndpointResolution(overrideResult.newLocation);
+        console.log("Overriding endpoint for partition key range");
       }
 
       try {
+        console.log("endpoint:", requestContext.endpoint);
         const response = await executeRequest(localDiagnosticNode, requestContext);
         response.headers[Constants.ThrottleRetryCount] =
           retryPolicies.resourceThrottleRetryPolicy.currentRetryAttemptCount;
@@ -138,6 +140,8 @@ export async function execute({
         if (correlatedActivityId) {
           headers[Constants.HttpHeaders.CorrelatedActivityId] = correlatedActivityId;
         }
+
+        console.log("Received error:", err.code, err.substatusCode);
         if (
           err.code === StatusCodes.ENOTFOUND ||
           err.code === "REQUEST_SEND_ERROR" ||
@@ -186,6 +190,7 @@ export async function execute({
             err.subsstatusCode,
             headers,
           );
+          console.log("sleeping for", retryPolicy.retryAfterInMs, "ms before retrying");
           await sleep(retryPolicy.retryAfterInMs);
           return execute({
             diagnosticNode,
