@@ -57,6 +57,8 @@ export interface OperationResult {
   origin?: string;
   /** The URL to use for getting the next set of results. */
   nextLink?: string;
+  /** Properties of the operation */
+  properties?: AvailableOperationDescriptionProperties;
 }
 
 /** An operation available at the listed Azure resource provider. */
@@ -69,6 +71,64 @@ export interface AvailableOperationDisplay {
   operation?: string;
   /** Description of the available operation. */
   description?: string;
+}
+
+/** Properties available for a Microsoft.Web resource provider operation. */
+export interface AvailableOperationDescriptionProperties {
+  /** Resource metrics service provided by Microsoft.Insights resource provider. */
+  serviceSpecification?: ServiceSpecification;
+}
+
+/** Resource metrics service provided by Microsoft.Insights resource provider. */
+export interface ServiceSpecification {
+  metricSpecifications?: MetricSpecification[];
+  logSpecifications?: LogSpecification[];
+}
+
+/** Definition of a single resource metric. */
+export interface MetricSpecification {
+  name?: string;
+  displayName?: string;
+  displayDescription?: string;
+  unit?: string;
+  aggregationType?: string;
+  supportsInstanceLevelAggregation?: boolean;
+  enableRegionalMdmAccount?: boolean;
+  sourceMdmAccount?: string;
+  sourceMdmNamespace?: string;
+  metricFilterPattern?: string;
+  fillGapWithZero?: boolean;
+  isInternal?: boolean;
+  dimensions?: Dimension[];
+  category?: string;
+  availabilities?: MetricAvailability[];
+  supportedTimeGrainTypes?: string[];
+  supportedAggregationTypes?: string[];
+}
+
+/**
+ * Dimension of a resource metric. For e.g. instance specific HTTP requests for a web app,
+ * where instance name is dimension of the metric HTTP request
+ */
+export interface Dimension {
+  name?: string;
+  displayName?: string;
+  internalName?: string;
+  toBeExportedForShoebox?: boolean;
+}
+
+/** Retention policy of a resource metric. */
+export interface MetricAvailability {
+  timeGrain?: string;
+  blobDuration?: string;
+}
+
+/** Log Definition of a single resource metric. */
+export interface LogSpecification {
+  name?: string;
+  displayName?: string;
+  blobDuration?: string;
+  logFilterPattern?: string;
 }
 
 /** The error details. */
@@ -1033,7 +1093,7 @@ export enum KnownResourceStatus {
   /** Indicates the resource is being deleted. The value is 4. */
   Deleting = "Deleting",
   /** Indicates the resource is not functional due to persistent failures. See statusDetails property for more details. The value is 5. */
-  Failed = "Failed"
+  Failed = "Failed",
 }
 
 /**
@@ -1053,7 +1113,7 @@ export type ResourceStatus = string;
 /** Known values of {@link SecretKind} that the service accepts. */
 export enum KnownSecretKind {
   /** A simple secret resource whose plaintext value is provided by the user. */
-  InlinedValue = "inlinedValue"
+  InlinedValue = "inlinedValue",
 }
 
 /**
@@ -1068,7 +1128,7 @@ export type SecretKind = string;
 /** Known values of {@link VolumeProvider} that the service accepts. */
 export enum KnownVolumeProvider {
   /** Provides volumes that are backed by Azure Files. */
-  SFAzureFile = "SFAzureFile"
+  SFAzureFile = "SFAzureFile",
 }
 
 /**
@@ -1083,7 +1143,7 @@ export type VolumeProvider = string;
 /** Known values of {@link NetworkKind} that the service accepts. */
 export enum KnownNetworkKind {
   /** Indicates a container network local to a single Service Fabric cluster. The value is 1. */
-  Local = "Local"
+  Local = "Local",
 }
 
 /**
@@ -1098,7 +1158,7 @@ export type NetworkKind = string;
 /** Known values of {@link PathMatchType} that the service accepts. */
 export enum KnownPathMatchType {
   /** Prefix */
-  Prefix = "prefix"
+  Prefix = "prefix",
 }
 
 /**
@@ -1113,7 +1173,7 @@ export type PathMatchType = string;
 /** Known values of {@link HeaderMatchType} that the service accepts. */
 export enum KnownHeaderMatchType {
   /** Exact */
-  Exact = "exact"
+  Exact = "exact",
 }
 
 /**
@@ -1130,7 +1190,7 @@ export enum KnownOperatingSystemType {
   /** The required operating system is Linux. */
   Linux = "Linux",
   /** The required operating system is Windows. */
-  Windows = "Windows"
+  Windows = "Windows",
 }
 
 /**
@@ -1146,7 +1206,7 @@ export type OperatingSystemType = string;
 /** Known values of {@link ApplicationScopedVolumeKind} that the service accepts. */
 export enum KnownApplicationScopedVolumeKind {
   /** Provides Service Fabric High Availability Volume Disk */
-  ServiceFabricVolumeDisk = "ServiceFabricVolumeDisk"
+  ServiceFabricVolumeDisk = "ServiceFabricVolumeDisk",
 }
 
 /**
@@ -1161,7 +1221,7 @@ export type ApplicationScopedVolumeKind = string;
 /** Known values of {@link AutoScalingTriggerKind} that the service accepts. */
 export enum KnownAutoScalingTriggerKind {
   /** Indicates that scaling should be performed based on average load of all replicas in the service. */
-  AverageLoad = "AverageLoad"
+  AverageLoad = "AverageLoad",
 }
 
 /**
@@ -1176,7 +1236,7 @@ export type AutoScalingTriggerKind = string;
 /** Known values of {@link AutoScalingMechanismKind} that the service accepts. */
 export enum KnownAutoScalingMechanismKind {
   /** Indicates that scaling should be performed by adding or removing replicas. */
-  AddRemoveReplica = "AddRemoveReplica"
+  AddRemoveReplica = "AddRemoveReplica",
 }
 
 /**
@@ -1199,7 +1259,7 @@ export enum KnownHealthState {
   /** Indicates the health state is at an error level. Error health state should be investigated, as they can impact the correct functionality of the cluster. The value is 3. */
   Error = "Error",
   /** Indicates an unknown health status. The value is 65535. */
-  Unknown = "Unknown"
+  Unknown = "Unknown",
 }
 
 /**
@@ -1220,7 +1280,7 @@ export enum KnownDiagnosticsSinkKind {
   /** Indicates an invalid sink kind. All Service Fabric enumerations have the invalid type. */
   Invalid = "Invalid",
   /** Diagnostics settings for Geneva. */
-  AzureInternalMonitoringPipeline = "AzureInternalMonitoringPipeline"
+  AzureInternalMonitoringPipeline = "AzureInternalMonitoringPipeline",
 }
 
 /**
@@ -1240,7 +1300,7 @@ export enum KnownSizeTypes {
   /** Medium */
   Medium = "Medium",
   /** Large */
-  Large = "Large"
+  Large = "Large",
 }
 
 /**
@@ -1257,7 +1317,7 @@ export type SizeTypes = string;
 /** Known values of {@link AutoScalingMetricKind} that the service accepts. */
 export enum KnownAutoScalingMetricKind {
   /** Indicates that the metric is one of resources, like cpu or memory. */
-  Resource = "Resource"
+  Resource = "Resource",
 }
 
 /**
@@ -1274,7 +1334,7 @@ export enum KnownAutoScalingResourceMetricName {
   /** Indicates that the resource is CPU cores. */
   Cpu = "cpu",
   /** Indicates that the resource is memory in GB. */
-  MemoryInGB = "memoryInGB"
+  MemoryInGB = "memoryInGB",
 }
 
 /**
@@ -1337,14 +1397,16 @@ export interface SecretListByResourceGroupNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByResourceGroupNext operation. */
-export type SecretListByResourceGroupNextResponse = SecretResourceDescriptionList;
+export type SecretListByResourceGroupNextResponse =
+  SecretResourceDescriptionList;
 
 /** Optional parameters. */
 export interface SecretListBySubscriptionNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listBySubscriptionNext operation. */
-export type SecretListBySubscriptionNextResponse = SecretResourceDescriptionList;
+export type SecretListBySubscriptionNextResponse =
+  SecretResourceDescriptionList;
 
 /** Optional parameters. */
 export interface SecretValueCreateOptionalParams
@@ -1421,14 +1483,16 @@ export interface VolumeListByResourceGroupNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByResourceGroupNext operation. */
-export type VolumeListByResourceGroupNextResponse = VolumeResourceDescriptionList;
+export type VolumeListByResourceGroupNextResponse =
+  VolumeResourceDescriptionList;
 
 /** Optional parameters. */
 export interface VolumeListBySubscriptionNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listBySubscriptionNext operation. */
-export type VolumeListBySubscriptionNextResponse = VolumeResourceDescriptionList;
+export type VolumeListBySubscriptionNextResponse =
+  VolumeResourceDescriptionList;
 
 /** Optional parameters. */
 export interface NetworkCreateOptionalParams
@@ -1466,14 +1530,16 @@ export interface NetworkListByResourceGroupNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByResourceGroupNext operation. */
-export type NetworkListByResourceGroupNextResponse = NetworkResourceDescriptionList;
+export type NetworkListByResourceGroupNextResponse =
+  NetworkResourceDescriptionList;
 
 /** Optional parameters. */
 export interface NetworkListBySubscriptionNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listBySubscriptionNext operation. */
-export type NetworkListBySubscriptionNextResponse = NetworkResourceDescriptionList;
+export type NetworkListBySubscriptionNextResponse =
+  NetworkResourceDescriptionList;
 
 /** Optional parameters. */
 export interface GatewayCreateOptionalParams
@@ -1511,14 +1577,16 @@ export interface GatewayListByResourceGroupNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByResourceGroupNext operation. */
-export type GatewayListByResourceGroupNextResponse = GatewayResourceDescriptionList;
+export type GatewayListByResourceGroupNextResponse =
+  GatewayResourceDescriptionList;
 
 /** Optional parameters. */
 export interface GatewayListBySubscriptionNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listBySubscriptionNext operation. */
-export type GatewayListBySubscriptionNextResponse = GatewayResourceDescriptionList;
+export type GatewayListBySubscriptionNextResponse =
+  GatewayResourceDescriptionList;
 
 /** Optional parameters. */
 export interface ApplicationCreateOptionalParams
@@ -1543,28 +1611,32 @@ export interface ApplicationListByResourceGroupOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByResourceGroup operation. */
-export type ApplicationListByResourceGroupResponse = ApplicationResourceDescriptionList;
+export type ApplicationListByResourceGroupResponse =
+  ApplicationResourceDescriptionList;
 
 /** Optional parameters. */
 export interface ApplicationListBySubscriptionOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listBySubscription operation. */
-export type ApplicationListBySubscriptionResponse = ApplicationResourceDescriptionList;
+export type ApplicationListBySubscriptionResponse =
+  ApplicationResourceDescriptionList;
 
 /** Optional parameters. */
 export interface ApplicationListByResourceGroupNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByResourceGroupNext operation. */
-export type ApplicationListByResourceGroupNextResponse = ApplicationResourceDescriptionList;
+export type ApplicationListByResourceGroupNextResponse =
+  ApplicationResourceDescriptionList;
 
 /** Optional parameters. */
 export interface ApplicationListBySubscriptionNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listBySubscriptionNext operation. */
-export type ApplicationListBySubscriptionNextResponse = ApplicationResourceDescriptionList;
+export type ApplicationListBySubscriptionNextResponse =
+  ApplicationResourceDescriptionList;
 
 /** Optional parameters. */
 export interface ServiceGetOptionalParams extends coreClient.OperationOptions {}

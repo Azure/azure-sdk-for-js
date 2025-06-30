@@ -9,7 +9,7 @@
 import {
   OperationParameter,
   OperationURLParameter,
-  OperationQueryParameter
+  OperationQueryParameter,
 } from "@azure/core-client";
 import {
   SecretResourceDescription as SecretResourceDescriptionMapper,
@@ -17,7 +17,7 @@ import {
   VolumeResourceDescription as VolumeResourceDescriptionMapper,
   NetworkResourceDescription as NetworkResourceDescriptionMapper,
   GatewayResourceDescription as GatewayResourceDescriptionMapper,
-  ApplicationResourceDescription as ApplicationResourceDescriptionMapper
+  ApplicationResourceDescription as ApplicationResourceDescriptionMapper,
 } from "../models/mappers.js";
 
 export const accept: OperationParameter = {
@@ -27,9 +27,9 @@ export const accept: OperationParameter = {
     isConstant: true,
     serializedName: "Accept",
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const $host: OperationURLParameter = {
@@ -38,10 +38,10 @@ export const $host: OperationURLParameter = {
     serializedName: "$host",
     required: true,
     type: {
-      name: "String"
-    }
+      name: "String",
+    },
   },
-  skipEncoding: true
+  skipEncoding: true,
 };
 
 export const apiVersion: OperationQueryParameter = {
@@ -51,9 +51,9 @@ export const apiVersion: OperationQueryParameter = {
     isConstant: true,
     serializedName: "api-version",
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const nextLink: OperationURLParameter = {
@@ -62,10 +62,10 @@ export const nextLink: OperationURLParameter = {
     serializedName: "nextLink",
     required: true,
     type: {
-      name: "String"
-    }
+      name: "String",
+    },
   },
-  skipEncoding: true
+  skipEncoding: true,
 };
 
 export const contentType: OperationParameter = {
@@ -75,14 +75,14 @@ export const contentType: OperationParameter = {
     isConstant: true,
     serializedName: "Content-Type",
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const secretResourceDescription: OperationParameter = {
   parameterPath: "secretResourceDescription",
-  mapper: SecretResourceDescriptionMapper
+  mapper: SecretResourceDescriptionMapper,
 };
 
 export const subscriptionId: OperationURLParameter = {
@@ -91,9 +91,9 @@ export const subscriptionId: OperationURLParameter = {
     serializedName: "subscriptionId",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const resourceGroupName: OperationURLParameter = {
@@ -102,9 +102,9 @@ export const resourceGroupName: OperationURLParameter = {
     serializedName: "resourceGroupName",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const secretResourceName: OperationURLParameter = {
@@ -113,15 +113,15 @@ export const secretResourceName: OperationURLParameter = {
     serializedName: "secretResourceName",
     required: true,
     type: {
-      name: "String"
-    }
+      name: "String",
+    },
   },
-  skipEncoding: true
+  skipEncoding: true,
 };
 
 export const secretValueResourceDescription: OperationParameter = {
   parameterPath: "secretValueResourceDescription",
-  mapper: SecretValueResourceDescriptionMapper
+  mapper: SecretValueResourceDescriptionMapper,
 };
 
 export const secretValueResourceName: OperationURLParameter = {
@@ -130,15 +130,15 @@ export const secretValueResourceName: OperationURLParameter = {
     serializedName: "secretValueResourceName",
     required: true,
     type: {
-      name: "String"
-    }
+      name: "String",
+    },
   },
-  skipEncoding: true
+  skipEncoding: true,
 };
 
 export const volumeResourceDescription: OperationParameter = {
   parameterPath: "volumeResourceDescription",
-  mapper: VolumeResourceDescriptionMapper
+  mapper: VolumeResourceDescriptionMapper,
 };
 
 export const volumeResourceName: OperationURLParameter = {
@@ -147,15 +147,15 @@ export const volumeResourceName: OperationURLParameter = {
     serializedName: "volumeResourceName",
     required: true,
     type: {
-      name: "String"
-    }
+      name: "String",
+    },
   },
-  skipEncoding: true
+  skipEncoding: true,
 };
 
 export const networkResourceDescription: OperationParameter = {
   parameterPath: "networkResourceDescription",
-  mapper: NetworkResourceDescriptionMapper
+  mapper: NetworkResourceDescriptionMapper,
 };
 
 export const networkResourceName: OperationURLParameter = {
@@ -164,15 +164,15 @@ export const networkResourceName: OperationURLParameter = {
     serializedName: "networkResourceName",
     required: true,
     type: {
-      name: "String"
-    }
+      name: "String",
+    },
   },
-  skipEncoding: true
+  skipEncoding: true,
 };
 
 export const gatewayResourceDescription: OperationParameter = {
   parameterPath: "gatewayResourceDescription",
-  mapper: GatewayResourceDescriptionMapper
+  mapper: GatewayResourceDescriptionMapper,
 };
 
 export const gatewayResourceName: OperationURLParameter = {
@@ -181,15 +181,15 @@ export const gatewayResourceName: OperationURLParameter = {
     serializedName: "gatewayResourceName",
     required: true,
     type: {
-      name: "String"
-    }
+      name: "String",
+    },
   },
-  skipEncoding: true
+  skipEncoding: true,
 };
 
 export const applicationResourceDescription: OperationParameter = {
   parameterPath: "applicationResourceDescription",
-  mapper: ApplicationResourceDescriptionMapper
+  mapper: ApplicationResourceDescriptionMapper,
 };
 
 export const applicationResourceName: OperationURLParameter = {
@@ -198,10 +198,10 @@ export const applicationResourceName: OperationURLParameter = {
     serializedName: "applicationResourceName",
     required: true,
     type: {
-      name: "String"
-    }
+      name: "String",
+    },
   },
-  skipEncoding: true
+  skipEncoding: true,
 };
 
 export const serviceResourceName: OperationURLParameter = {
@@ -210,10 +210,10 @@ export const serviceResourceName: OperationURLParameter = {
     serializedName: "serviceResourceName",
     required: true,
     type: {
-      name: "String"
-    }
+      name: "String",
+    },
   },
-  skipEncoding: true
+  skipEncoding: true,
 };
 
 export const replicaName: OperationURLParameter = {
@@ -222,10 +222,10 @@ export const replicaName: OperationURLParameter = {
     serializedName: "replicaName",
     required: true,
     type: {
-      name: "String"
-    }
+      name: "String",
+    },
   },
-  skipEncoding: true
+  skipEncoding: true,
 };
 
 export const codePackageName: OperationURLParameter = {
@@ -234,9 +234,9 @@ export const codePackageName: OperationURLParameter = {
     serializedName: "codePackageName",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const tail: OperationQueryParameter = {
@@ -244,7 +244,7 @@ export const tail: OperationQueryParameter = {
   mapper: {
     serializedName: "tail",
     type: {
-      name: "Number"
-    }
-  }
+      name: "Number",
+    },
+  },
 };

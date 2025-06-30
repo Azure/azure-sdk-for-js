@@ -15,7 +15,7 @@ import {
   NetworkCreateResponse,
   NetworkGetOptionalParams,
   NetworkGetResponse,
-  NetworkDeleteOptionalParams
+  NetworkDeleteOptionalParams,
 } from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
@@ -29,7 +29,7 @@ export interface Network {
    */
   listByResourceGroup(
     resourceGroupName: string,
-    options?: NetworkListByResourceGroupOptionalParams
+    options?: NetworkListByResourceGroupOptionalParams,
   ): PagedAsyncIterableIterator<NetworkResourceDescription>;
   /**
    * Gets the information about all network resources in a given resource group. The information include
@@ -37,7 +37,7 @@ export interface Network {
    * @param options The options parameters.
    */
   listBySubscription(
-    options?: NetworkListBySubscriptionOptionalParams
+    options?: NetworkListBySubscriptionOptionalParams,
   ): PagedAsyncIterableIterator<NetworkResourceDescription>;
   /**
    * Creates a network resource with the specified name, description and properties. If a network
@@ -52,7 +52,7 @@ export interface Network {
     resourceGroupName: string,
     networkResourceName: string,
     networkResourceDescription: NetworkResourceDescription,
-    options?: NetworkCreateOptionalParams
+    options?: NetworkCreateOptionalParams,
   ): Promise<NetworkCreateResponse>;
   /**
    * Gets the information about the network resource with the given name. The information include the
@@ -64,7 +64,7 @@ export interface Network {
   get(
     resourceGroupName: string,
     networkResourceName: string,
-    options?: NetworkGetOptionalParams
+    options?: NetworkGetOptionalParams,
   ): Promise<NetworkGetResponse>;
   /**
    * Deletes the network resource identified by the name.
@@ -75,6 +75,6 @@ export interface Network {
   delete(
     resourceGroupName: string,
     networkResourceName: string,
-    options?: NetworkDeleteOptionalParams
+    options?: NetworkDeleteOptionalParams,
   ): Promise<void>;
 }

@@ -20,7 +20,7 @@ import {
   ServiceListResponse,
   ServiceGetOptionalParams,
   ServiceGetResponse,
-  ServiceListNextResponse
+  ServiceListNextResponse,
 } from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
@@ -46,12 +46,12 @@ export class ServiceImpl implements Service {
   public list(
     resourceGroupName: string,
     applicationResourceName: string,
-    options?: ServiceListOptionalParams
+    options?: ServiceListOptionalParams,
   ): PagedAsyncIterableIterator<ServiceResourceDescription> {
     const iter = this.listPagingAll(
       resourceGroupName,
       applicationResourceName,
-      options
+      options,
     );
     return {
       next() {
@@ -68,9 +68,9 @@ export class ServiceImpl implements Service {
           resourceGroupName,
           applicationResourceName,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
@@ -78,7 +78,7 @@ export class ServiceImpl implements Service {
     resourceGroupName: string,
     applicationResourceName: string,
     options?: ServiceListOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<ServiceResourceDescription[]> {
     let result: ServiceListResponse;
     let continuationToken = settings?.continuationToken;
@@ -86,7 +86,7 @@ export class ServiceImpl implements Service {
       result = await this._list(
         resourceGroupName,
         applicationResourceName,
-        options
+        options,
       );
       let page = result.value || [];
       continuationToken = result.nextLink;
@@ -98,7 +98,7 @@ export class ServiceImpl implements Service {
         resourceGroupName,
         applicationResourceName,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -110,12 +110,12 @@ export class ServiceImpl implements Service {
   private async *listPagingAll(
     resourceGroupName: string,
     applicationResourceName: string,
-    options?: ServiceListOptionalParams
+    options?: ServiceListOptionalParams,
   ): AsyncIterableIterator<ServiceResourceDescription> {
     for await (const page of this.listPagingPage(
       resourceGroupName,
       applicationResourceName,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -133,16 +133,16 @@ export class ServiceImpl implements Service {
     resourceGroupName: string,
     applicationResourceName: string,
     serviceResourceName: string,
-    options?: ServiceGetOptionalParams
+    options?: ServiceGetOptionalParams,
   ): Promise<ServiceGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
         applicationResourceName,
         serviceResourceName,
-        options
+        options,
       },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 
@@ -156,11 +156,11 @@ export class ServiceImpl implements Service {
   private _list(
     resourceGroupName: string,
     applicationResourceName: string,
-    options?: ServiceListOptionalParams
+    options?: ServiceListOptionalParams,
   ): Promise<ServiceListResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, applicationResourceName, options },
-      listOperationSpec
+      listOperationSpec,
     );
   }
 
@@ -175,11 +175,11 @@ export class ServiceImpl implements Service {
     resourceGroupName: string,
     applicationResourceName: string,
     nextLink: string,
-    options?: ServiceListNextOptionalParams
+    options?: ServiceListNextOptionalParams,
   ): Promise<ServiceListNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, applicationResourceName, nextLink, options },
-      listNextOperationSpec
+      listNextOperationSpec,
     );
   }
 }
@@ -187,16 +187,15 @@ export class ServiceImpl implements Service {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ServiceFabricMesh/applications/{applicationResourceName}/services/{serviceResourceName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ServiceFabricMesh/applications/{applicationResourceName}/services/{serviceResourceName}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ServiceResourceDescription
+      bodyMapper: Mappers.ServiceResourceDescription,
     },
     default: {
-      bodyMapper: Mappers.ErrorModel
-    }
+      bodyMapper: Mappers.ErrorModel,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -204,51 +203,50 @@ const getOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.applicationResourceName,
-    Parameters.serviceResourceName
+    Parameters.serviceResourceName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ServiceFabricMesh/applications/{applicationResourceName}/services",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ServiceFabricMesh/applications/{applicationResourceName}/services",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ServiceResourceDescriptionList
+      bodyMapper: Mappers.ServiceResourceDescriptionList,
     },
     default: {
-      bodyMapper: Mappers.ErrorModel
-    }
+      bodyMapper: Mappers.ErrorModel,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.applicationResourceName
+    Parameters.applicationResourceName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ServiceResourceDescriptionList
+      bodyMapper: Mappers.ServiceResourceDescriptionList,
     },
     default: {
-      bodyMapper: Mappers.ErrorModel
-    }
+      bodyMapper: Mappers.ErrorModel,
+    },
   },
   urlParameters: [
     Parameters.$host,
     Parameters.nextLink,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.applicationResourceName
+    Parameters.applicationResourceName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

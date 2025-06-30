@@ -11,7 +11,7 @@ import {
   ServiceReplicaDescription,
   ServiceReplicaListOptionalParams,
   ServiceReplicaGetOptionalParams,
-  ServiceReplicaGetResponse
+  ServiceReplicaGetResponse,
 } from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
@@ -29,7 +29,7 @@ export interface ServiceReplica {
     resourceGroupName: string,
     applicationResourceName: string,
     serviceResourceName: string,
-    options?: ServiceReplicaListOptionalParams
+    options?: ServiceReplicaListOptionalParams,
   ): PagedAsyncIterableIterator<ServiceReplicaDescription>;
   /**
    * Gets the information about the service replica with the given name. The information include the
@@ -45,6 +45,6 @@ export interface ServiceReplica {
     applicationResourceName: string,
     serviceResourceName: string,
     replicaName: string,
-    options?: ServiceReplicaGetOptionalParams
+    options?: ServiceReplicaGetOptionalParams,
   ): Promise<ServiceReplicaGetResponse>;
 }

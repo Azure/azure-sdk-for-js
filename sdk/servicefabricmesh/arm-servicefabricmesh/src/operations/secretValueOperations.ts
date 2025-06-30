@@ -25,7 +25,7 @@ import {
   SecretValueDeleteOptionalParams,
   SecretValueListValueOptionalParams,
   SecretValueListValueResponse,
-  SecretValueListNextResponse
+  SecretValueListNextResponse,
 } from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
@@ -51,12 +51,12 @@ export class SecretValueOperationsImpl implements SecretValueOperations {
   public list(
     resourceGroupName: string,
     secretResourceName: string,
-    options?: SecretValueListOptionalParams
+    options?: SecretValueListOptionalParams,
   ): PagedAsyncIterableIterator<SecretValueResourceDescription> {
     const iter = this.listPagingAll(
       resourceGroupName,
       secretResourceName,
-      options
+      options,
     );
     return {
       next() {
@@ -73,9 +73,9 @@ export class SecretValueOperationsImpl implements SecretValueOperations {
           resourceGroupName,
           secretResourceName,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
@@ -83,7 +83,7 @@ export class SecretValueOperationsImpl implements SecretValueOperations {
     resourceGroupName: string,
     secretResourceName: string,
     options?: SecretValueListOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<SecretValueResourceDescription[]> {
     let result: SecretValueListResponse;
     let continuationToken = settings?.continuationToken;
@@ -99,7 +99,7 @@ export class SecretValueOperationsImpl implements SecretValueOperations {
         resourceGroupName,
         secretResourceName,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -111,12 +111,12 @@ export class SecretValueOperationsImpl implements SecretValueOperations {
   private async *listPagingAll(
     resourceGroupName: string,
     secretResourceName: string,
-    options?: SecretValueListOptionalParams
+    options?: SecretValueListOptionalParams,
   ): AsyncIterableIterator<SecretValueResourceDescription> {
     for await (const page of this.listPagingPage(
       resourceGroupName,
       secretResourceName,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -137,7 +137,7 @@ export class SecretValueOperationsImpl implements SecretValueOperations {
     secretResourceName: string,
     secretValueResourceName: string,
     secretValueResourceDescription: SecretValueResourceDescription,
-    options?: SecretValueCreateOptionalParams
+    options?: SecretValueCreateOptionalParams,
   ): Promise<SecretValueCreateResponse> {
     return this.client.sendOperationRequest(
       {
@@ -145,9 +145,9 @@ export class SecretValueOperationsImpl implements SecretValueOperations {
         secretResourceName,
         secretValueResourceName,
         secretValueResourceDescription,
-        options
+        options,
       },
-      createOperationSpec
+      createOperationSpec,
     );
   }
 
@@ -164,16 +164,16 @@ export class SecretValueOperationsImpl implements SecretValueOperations {
     resourceGroupName: string,
     secretResourceName: string,
     secretValueResourceName: string,
-    options?: SecretValueGetOptionalParams
+    options?: SecretValueGetOptionalParams,
   ): Promise<SecretValueGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
         secretResourceName,
         secretValueResourceName,
-        options
+        options,
       },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 
@@ -190,16 +190,16 @@ export class SecretValueOperationsImpl implements SecretValueOperations {
     resourceGroupName: string,
     secretResourceName: string,
     secretValueResourceName: string,
-    options?: SecretValueDeleteOptionalParams
+    options?: SecretValueDeleteOptionalParams,
   ): Promise<void> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
         secretResourceName,
         secretValueResourceName,
-        options
+        options,
       },
-      deleteOperationSpec
+      deleteOperationSpec,
     );
   }
 
@@ -213,11 +213,11 @@ export class SecretValueOperationsImpl implements SecretValueOperations {
   private _list(
     resourceGroupName: string,
     secretResourceName: string,
-    options?: SecretValueListOptionalParams
+    options?: SecretValueListOptionalParams,
   ): Promise<SecretValueListResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, secretResourceName, options },
-      listOperationSpec
+      listOperationSpec,
     );
   }
 
@@ -234,16 +234,16 @@ export class SecretValueOperationsImpl implements SecretValueOperations {
     resourceGroupName: string,
     secretResourceName: string,
     secretValueResourceName: string,
-    options?: SecretValueListValueOptionalParams
+    options?: SecretValueListValueOptionalParams,
   ): Promise<SecretValueListValueResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
         secretResourceName,
         secretValueResourceName,
-        options
+        options,
       },
-      listValueOperationSpec
+      listValueOperationSpec,
     );
   }
 
@@ -258,11 +258,11 @@ export class SecretValueOperationsImpl implements SecretValueOperations {
     resourceGroupName: string,
     secretResourceName: string,
     nextLink: string,
-    options?: SecretValueListNextOptionalParams
+    options?: SecretValueListNextOptionalParams,
   ): Promise<SecretValueListNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, secretResourceName, nextLink, options },
-      listNextOperationSpec
+      listNextOperationSpec,
     );
   }
 }
@@ -270,20 +270,19 @@ export class SecretValueOperationsImpl implements SecretValueOperations {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const createOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ServiceFabricMesh/secrets/{secretResourceName}/values/{secretValueResourceName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ServiceFabricMesh/secrets/{secretResourceName}/values/{secretValueResourceName}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.SecretValueResourceDescription
+      bodyMapper: Mappers.SecretValueResourceDescription,
     },
     201: {
-      bodyMapper: Mappers.SecretValueResourceDescription
+      bodyMapper: Mappers.SecretValueResourceDescription,
     },
     202: {},
     default: {
-      bodyMapper: Mappers.ErrorModel
-    }
+      bodyMapper: Mappers.ErrorModel,
+    },
   },
   requestBody: Parameters.secretValueResourceDescription,
   queryParameters: [Parameters.apiVersion],
@@ -292,23 +291,22 @@ const createOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.secretResourceName,
-    Parameters.secretValueResourceName
+    Parameters.secretValueResourceName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ServiceFabricMesh/secrets/{secretResourceName}/values/{secretValueResourceName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ServiceFabricMesh/secrets/{secretResourceName}/values/{secretValueResourceName}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.SecretValueResourceDescription
+      bodyMapper: Mappers.SecretValueResourceDescription,
     },
     default: {
-      bodyMapper: Mappers.ErrorModel
-    }
+      bodyMapper: Mappers.ErrorModel,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -316,22 +314,21 @@ const getOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.secretResourceName,
-    Parameters.secretValueResourceName
+    Parameters.secretValueResourceName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const deleteOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ServiceFabricMesh/secrets/{secretResourceName}/values/{secretValueResourceName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ServiceFabricMesh/secrets/{secretResourceName}/values/{secretValueResourceName}",
   httpMethod: "DELETE",
   responses: {
     200: {},
     202: {},
     204: {},
     default: {
-      bodyMapper: Mappers.ErrorModel
-    }
+      bodyMapper: Mappers.ErrorModel,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -339,44 +336,21 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.secretResourceName,
-    Parameters.secretValueResourceName
+    Parameters.secretValueResourceName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ServiceFabricMesh/secrets/{secretResourceName}/values",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ServiceFabricMesh/secrets/{secretResourceName}/values",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.SecretValueResourceDescriptionList
+      bodyMapper: Mappers.SecretValueResourceDescriptionList,
     },
     default: {
-      bodyMapper: Mappers.ErrorModel
-    }
-  },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.secretResourceName
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
-};
-const listValueOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ServiceFabricMesh/secrets/{secretResourceName}/values/{secretValueResourceName}/list_value",
-  httpMethod: "POST",
-  responses: {
-    200: {
-      bodyMapper: Mappers.SecretValue
+      bodyMapper: Mappers.ErrorModel,
     },
-    default: {
-      bodyMapper: Mappers.ErrorModel
-    }
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -384,29 +358,50 @@ const listValueOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.secretResourceName,
-    Parameters.secretValueResourceName
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
+};
+const listValueOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ServiceFabricMesh/secrets/{secretResourceName}/values/{secretValueResourceName}/list_value",
+  httpMethod: "POST",
+  responses: {
+    200: {
+      bodyMapper: Mappers.SecretValue,
+    },
+    default: {
+      bodyMapper: Mappers.ErrorModel,
+    },
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.secretResourceName,
+    Parameters.secretValueResourceName,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
 };
 const listNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.SecretValueResourceDescriptionList
+      bodyMapper: Mappers.SecretValueResourceDescriptionList,
     },
     default: {
-      bodyMapper: Mappers.ErrorModel
-    }
+      bodyMapper: Mappers.ErrorModel,
+    },
   },
   urlParameters: [
     Parameters.$host,
     Parameters.nextLink,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.secretResourceName
+    Parameters.secretResourceName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

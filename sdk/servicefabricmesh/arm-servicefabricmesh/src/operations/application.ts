@@ -27,7 +27,7 @@ import {
   ApplicationGetResponse,
   ApplicationDeleteOptionalParams,
   ApplicationListByResourceGroupNextResponse,
-  ApplicationListBySubscriptionNextResponse
+  ApplicationListBySubscriptionNextResponse,
 } from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
@@ -51,7 +51,7 @@ export class ApplicationImpl implements Application {
    */
   public listByResourceGroup(
     resourceGroupName: string,
-    options?: ApplicationListByResourceGroupOptionalParams
+    options?: ApplicationListByResourceGroupOptionalParams,
   ): PagedAsyncIterableIterator<ApplicationResourceDescription> {
     const iter = this.listByResourceGroupPagingAll(resourceGroupName, options);
     return {
@@ -68,16 +68,16 @@ export class ApplicationImpl implements Application {
         return this.listByResourceGroupPagingPage(
           resourceGroupName,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
   private async *listByResourceGroupPagingPage(
     resourceGroupName: string,
     options?: ApplicationListByResourceGroupOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<ApplicationResourceDescription[]> {
     let result: ApplicationListByResourceGroupResponse;
     let continuationToken = settings?.continuationToken;
@@ -92,7 +92,7 @@ export class ApplicationImpl implements Application {
       result = await this._listByResourceGroupNext(
         resourceGroupName,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -103,11 +103,11 @@ export class ApplicationImpl implements Application {
 
   private async *listByResourceGroupPagingAll(
     resourceGroupName: string,
-    options?: ApplicationListByResourceGroupOptionalParams
+    options?: ApplicationListByResourceGroupOptionalParams,
   ): AsyncIterableIterator<ApplicationResourceDescription> {
     for await (const page of this.listByResourceGroupPagingPage(
       resourceGroupName,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -119,7 +119,7 @@ export class ApplicationImpl implements Application {
    * @param options The options parameters.
    */
   public listBySubscription(
-    options?: ApplicationListBySubscriptionOptionalParams
+    options?: ApplicationListBySubscriptionOptionalParams,
   ): PagedAsyncIterableIterator<ApplicationResourceDescription> {
     const iter = this.listBySubscriptionPagingAll(options);
     return {
@@ -134,13 +134,13 @@ export class ApplicationImpl implements Application {
           throw new Error("maxPageSize is not supported by this operation.");
         }
         return this.listBySubscriptionPagingPage(options, settings);
-      }
+      },
     };
   }
 
   private async *listBySubscriptionPagingPage(
     options?: ApplicationListBySubscriptionOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<ApplicationResourceDescription[]> {
     let result: ApplicationListBySubscriptionResponse;
     let continuationToken = settings?.continuationToken;
@@ -161,7 +161,7 @@ export class ApplicationImpl implements Application {
   }
 
   private async *listBySubscriptionPagingAll(
-    options?: ApplicationListBySubscriptionOptionalParams
+    options?: ApplicationListBySubscriptionOptionalParams,
   ): AsyncIterableIterator<ApplicationResourceDescription> {
     for await (const page of this.listBySubscriptionPagingPage(options)) {
       yield* page;
@@ -181,16 +181,16 @@ export class ApplicationImpl implements Application {
     resourceGroupName: string,
     applicationResourceName: string,
     applicationResourceDescription: ApplicationResourceDescription,
-    options?: ApplicationCreateOptionalParams
+    options?: ApplicationCreateOptionalParams,
   ): Promise<ApplicationCreateResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
         applicationResourceName,
         applicationResourceDescription,
-        options
+        options,
       },
-      createOperationSpec
+      createOperationSpec,
     );
   }
 
@@ -204,11 +204,11 @@ export class ApplicationImpl implements Application {
   get(
     resourceGroupName: string,
     applicationResourceName: string,
-    options?: ApplicationGetOptionalParams
+    options?: ApplicationGetOptionalParams,
   ): Promise<ApplicationGetResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, applicationResourceName, options },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 
@@ -221,11 +221,11 @@ export class ApplicationImpl implements Application {
   delete(
     resourceGroupName: string,
     applicationResourceName: string,
-    options?: ApplicationDeleteOptionalParams
+    options?: ApplicationDeleteOptionalParams,
   ): Promise<void> {
     return this.client.sendOperationRequest(
       { resourceGroupName, applicationResourceName, options },
-      deleteOperationSpec
+      deleteOperationSpec,
     );
   }
 
@@ -237,11 +237,11 @@ export class ApplicationImpl implements Application {
    */
   private _listByResourceGroup(
     resourceGroupName: string,
-    options?: ApplicationListByResourceGroupOptionalParams
+    options?: ApplicationListByResourceGroupOptionalParams,
   ): Promise<ApplicationListByResourceGroupResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, options },
-      listByResourceGroupOperationSpec
+      listByResourceGroupOperationSpec,
     );
   }
 
@@ -251,11 +251,11 @@ export class ApplicationImpl implements Application {
    * @param options The options parameters.
    */
   private _listBySubscription(
-    options?: ApplicationListBySubscriptionOptionalParams
+    options?: ApplicationListBySubscriptionOptionalParams,
   ): Promise<ApplicationListBySubscriptionResponse> {
     return this.client.sendOperationRequest(
       { options },
-      listBySubscriptionOperationSpec
+      listBySubscriptionOperationSpec,
     );
   }
 
@@ -268,11 +268,11 @@ export class ApplicationImpl implements Application {
   private _listByResourceGroupNext(
     resourceGroupName: string,
     nextLink: string,
-    options?: ApplicationListByResourceGroupNextOptionalParams
+    options?: ApplicationListByResourceGroupNextOptionalParams,
   ): Promise<ApplicationListByResourceGroupNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, nextLink, options },
-      listByResourceGroupNextOperationSpec
+      listByResourceGroupNextOperationSpec,
     );
   }
 
@@ -283,11 +283,11 @@ export class ApplicationImpl implements Application {
    */
   private _listBySubscriptionNext(
     nextLink: string,
-    options?: ApplicationListBySubscriptionNextOptionalParams
+    options?: ApplicationListBySubscriptionNextOptionalParams,
   ): Promise<ApplicationListBySubscriptionNextResponse> {
     return this.client.sendOperationRequest(
       { nextLink, options },
-      listBySubscriptionNextOperationSpec
+      listBySubscriptionNextOperationSpec,
     );
   }
 }
@@ -295,20 +295,19 @@ export class ApplicationImpl implements Application {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const createOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ServiceFabricMesh/applications/{applicationResourceName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ServiceFabricMesh/applications/{applicationResourceName}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.ApplicationResourceDescription
+      bodyMapper: Mappers.ApplicationResourceDescription,
     },
     201: {
-      bodyMapper: Mappers.ApplicationResourceDescription
+      bodyMapper: Mappers.ApplicationResourceDescription,
     },
     202: {},
     default: {
-      bodyMapper: Mappers.ErrorModel
-    }
+      bodyMapper: Mappers.ErrorModel,
+    },
   },
   requestBody: Parameters.applicationResourceDescription,
   queryParameters: [Parameters.apiVersion],
@@ -316,130 +315,126 @@ const createOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.applicationResourceName
+    Parameters.applicationResourceName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ServiceFabricMesh/applications/{applicationResourceName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ServiceFabricMesh/applications/{applicationResourceName}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ApplicationResourceDescription
+      bodyMapper: Mappers.ApplicationResourceDescription,
     },
     default: {
-      bodyMapper: Mappers.ErrorModel
-    }
+      bodyMapper: Mappers.ErrorModel,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.applicationResourceName
+    Parameters.applicationResourceName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const deleteOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ServiceFabricMesh/applications/{applicationResourceName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ServiceFabricMesh/applications/{applicationResourceName}",
   httpMethod: "DELETE",
   responses: {
     200: {},
     202: {},
     204: {},
     default: {
-      bodyMapper: Mappers.ErrorModel
-    }
+      bodyMapper: Mappers.ErrorModel,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.applicationResourceName
+    Parameters.applicationResourceName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listByResourceGroupOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ServiceFabricMesh/applications",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ServiceFabricMesh/applications",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ApplicationResourceDescriptionList
+      bodyMapper: Mappers.ApplicationResourceDescriptionList,
     },
     default: {
-      bodyMapper: Mappers.ErrorModel
-    }
+      bodyMapper: Mappers.ErrorModel,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
-    Parameters.resourceGroupName
+    Parameters.resourceGroupName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listBySubscriptionOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/providers/Microsoft.ServiceFabricMesh/applications",
+  path: "/subscriptions/{subscriptionId}/providers/Microsoft.ServiceFabricMesh/applications",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ApplicationResourceDescriptionList
+      bodyMapper: Mappers.ApplicationResourceDescriptionList,
     },
     default: {
-      bodyMapper: Mappers.ErrorModel
-    }
+      bodyMapper: Mappers.ErrorModel,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.$host, Parameters.subscriptionId],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listByResourceGroupNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ApplicationResourceDescriptionList
+      bodyMapper: Mappers.ApplicationResourceDescriptionList,
     },
     default: {
-      bodyMapper: Mappers.ErrorModel
-    }
+      bodyMapper: Mappers.ErrorModel,
+    },
   },
   urlParameters: [
     Parameters.$host,
     Parameters.nextLink,
     Parameters.subscriptionId,
-    Parameters.resourceGroupName
+    Parameters.resourceGroupName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listBySubscriptionNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ApplicationResourceDescriptionList
+      bodyMapper: Mappers.ApplicationResourceDescriptionList,
     },
     default: {
-      bodyMapper: Mappers.ErrorModel
-    }
+      bodyMapper: Mappers.ErrorModel,
+    },
   },
   urlParameters: [
     Parameters.$host,
     Parameters.nextLink,
-    Parameters.subscriptionId
+    Parameters.subscriptionId,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

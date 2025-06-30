@@ -15,7 +15,7 @@ import {
   SecretCreateResponse,
   SecretGetOptionalParams,
   SecretGetResponse,
-  SecretDeleteOptionalParams
+  SecretDeleteOptionalParams,
 } from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
@@ -29,7 +29,7 @@ export interface Secret {
    */
   listByResourceGroup(
     resourceGroupName: string,
-    options?: SecretListByResourceGroupOptionalParams
+    options?: SecretListByResourceGroupOptionalParams,
   ): PagedAsyncIterableIterator<SecretResourceDescription>;
   /**
    * Gets the information about all secret resources in a given resource group. The information include
@@ -37,7 +37,7 @@ export interface Secret {
    * @param options The options parameters.
    */
   listBySubscription(
-    options?: SecretListBySubscriptionOptionalParams
+    options?: SecretListBySubscriptionOptionalParams,
   ): PagedAsyncIterableIterator<SecretResourceDescription>;
   /**
    * Creates a secret resource with the specified name, description and properties. If a secret resource
@@ -51,7 +51,7 @@ export interface Secret {
     resourceGroupName: string,
     secretResourceName: string,
     secretResourceDescription: SecretResourceDescription,
-    options?: SecretCreateOptionalParams
+    options?: SecretCreateOptionalParams,
   ): Promise<SecretCreateResponse>;
   /**
    * Gets the information about the secret resource with the given name. The information include the
@@ -63,7 +63,7 @@ export interface Secret {
   get(
     resourceGroupName: string,
     secretResourceName: string,
-    options?: SecretGetOptionalParams
+    options?: SecretGetOptionalParams,
   ): Promise<SecretGetResponse>;
   /**
    * Deletes the secret resource identified by the name.
@@ -74,6 +74,6 @@ export interface Secret {
   delete(
     resourceGroupName: string,
     secretResourceName: string,
-    options?: SecretDeleteOptionalParams
+    options?: SecretDeleteOptionalParams,
   ): Promise<void>;
 }
