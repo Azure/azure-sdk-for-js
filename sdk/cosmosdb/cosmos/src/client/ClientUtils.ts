@@ -22,23 +22,20 @@ export async function computePartitionKeyRangeId(
   container: Container,
   pKDefinition?: PartitionKeyDefinition,
 ): Promise<string | undefined> {
-  let partitionKeyDefinition: PartitionKeyDefinition | undefined = pKDefinition;
-  if (partitionKeyDefinition === undefined) {
-    partitionKeyDefinition = await readPartitionKeyDefinition(diagnosticNode, container);
-  }
   let partitionKeyRangeId: string;
-  if (
-    isPartitionLevelFailOverEnabled &&
-    partitionKey &&
-    partitionKey.length > 0 &&
-    partitionKeyDefinition
-  ) {
-    partitionKeyRangeId = await partitionKeyRangeCache.getPartitionKeyRangeIdFromPartitionKey(
-      container.url,
-      partitionKey,
-      partitionKeyDefinition,
-      diagnosticNode,
-    );
+  if (isPartitionLevelFailOverEnabled) {
+    let partitionKeyDefinition: PartitionKeyDefinition | undefined = pKDefinition;
+    if (partitionKeyDefinition === undefined) {
+      partitionKeyDefinition = await readPartitionKeyDefinition(diagnosticNode, container);
+    }
+    if (partitionKey && partitionKey.length > 0 && partitionKeyDefinition) {
+      partitionKeyRangeId = await partitionKeyRangeCache.getPartitionKeyRangeIdFromPartitionKey(
+        container.url,
+        partitionKey,
+        partitionKeyDefinition,
+        diagnosticNode,
+      );
+    }
   }
   return partitionKeyRangeId;
 }

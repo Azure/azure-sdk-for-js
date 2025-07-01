@@ -11,8 +11,7 @@ import type { InMemoryCollectionRoutingMap } from "./inMemoryCollectionRoutingMa
 import type { QueryRange } from "./QueryRange.js";
 import type { PartitionKeyDefinition } from "../documents/PartitionKeyDefinition.js";
 import type { PartitionKeyInternal } from "../documents/PartitionKeyInternal.js";
-import { binarySearchOnPartitionKeyRanges } from "../utils/batch.js";
-import { hashPartitionKey } from "../utils/hashing/hash.js";
+import { hashPartitionKey, binarySearchOnPartitionKeyRanges } from "../utils/hashing/hash.js";
 
 /** @hidden */
 export class PartitionKeyRangeCache {

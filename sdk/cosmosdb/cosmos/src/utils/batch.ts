@@ -92,28 +92,6 @@ export function isKeyInRange(min: string, max: string, key: string): boolean {
   return isAfterMinInclusive && isBeforeMax;
 }
 
-export function binarySearchOnPartitionKeyRanges(
-  partitionKeyRanges: PartitionKeyRange[],
-  hashedPartitionKey: string,
-): string | undefined {
-  let low = 0;
-  let high = partitionKeyRanges.length - 1;
-
-  while (low <= high) {
-    const mid = Math.floor((low + high) / 2);
-    const range = partitionKeyRanges[mid];
-
-    if (isKeyInRange(range.minInclusive, range.maxExclusive, hashedPartitionKey)) {
-      return range.id;
-    } else if (hashedPartitionKey.localeCompare(range.minInclusive) < 0) {
-      high = mid - 1;
-    } else {
-      low = mid + 1;
-    }
-  }
-  return undefined;
-}
-
 export interface OperationBase {
   partitionKey?: string;
   ifMatch?: string;
