@@ -361,7 +361,7 @@ describe("GlobalPartitionEndpointManager", () => {
       it("should start a background loop and call failback logic periodically", async () => {
         const spy = vi.spyOn(
           globalPartitionEndpointManager as any,
-          "tryOpenConnectionToUnhealthyEndpointsAndInitiateFailbackAsync",
+          "openConnectionToUnhealthyEndpointsWithFailback",
         );
 
         globalPartitionEndpointManager["initiateCircuitBreakerFailbackLoop"]();
@@ -373,12 +373,12 @@ describe("GlobalPartitionEndpointManager", () => {
         expect(spy).toHaveBeenCalled();
       });
 
-      it("should log error if tryOpenConnectionToUnhealthyEndpointsAndInitiateFailbackAsync fails", async () => {
+      it("should log error if openConnectionToUnhealthyEndpointsWithFailback fails", async () => {
         const testError = new Error("Test failure");
         const consoleErrorSpy = vi.spyOn(console, "error").mockImplementation(() => {}); // Mock console.error
         vi.spyOn(
           globalPartitionEndpointManager as any,
-          "tryOpenConnectionToUnhealthyEndpointsAndInitiateFailbackAsync",
+          "openConnectionToUnhealthyEndpointsWithFailback",
         ).mockRejectedValueOnce(testError);
 
         globalPartitionEndpointManager["initiateCircuitBreakerFailbackLoop"]();
@@ -397,8 +397,8 @@ describe("GlobalPartitionEndpointManager", () => {
       });
     });
 
-    describe("tryOpenConnectionToUnhealthyEndpointsAndInitiateFailbackAsync", () => {
-      it("tryOpenConnectionToUnhealthyEndpointsAndInitiateFailbackAsync - no expired entries, no action", async () => {
+    describe("openConnectionToUnhealthyEndpointsWithFailback", () => {
+      it("openConnectionToUnhealthyEndpointsWithFailback - no expired entries, no action", async () => {
         const info = new PartitionKeyRangeFailoverInfo(mockReadEndpoints[1]);
         const recentTime = Date.now();
         (info as any).firstRequestFailureTime = recentTime;
@@ -410,7 +410,7 @@ describe("GlobalPartitionEndpointManager", () => {
 
         await (
           globalPartitionEndpointManager as any
-        ).tryOpenConnectionToUnhealthyEndpointsAndInitiateFailbackAsync();
+        ).openConnectionToUnhealthyEndpointsWithFailback();
         assert.isTrue(
           (globalPartitionEndpointManager as any).partitionKeyRangeToLocationForReadAndWrite.has(
             "0",
@@ -418,7 +418,7 @@ describe("GlobalPartitionEndpointManager", () => {
         );
       });
 
-      it("tryOpenConnectionToUnhealthyEndpointsAndInitiateFailbackAsync - expired entries cleaned up after success", async () => {
+      it("openConnectionToUnhealthyEndpointsWithFailback - expired entries cleaned up after success", async () => {
         const info = new PartitionKeyRangeFailoverInfo(mockReadEndpoints[1]);
         (info as any).firstRequestFailureTime =
           Date.now() - Constants.AllowedPartitionUnavailabilityDurationInMs - 1000;
@@ -430,7 +430,7 @@ describe("GlobalPartitionEndpointManager", () => {
 
         await (
           globalPartitionEndpointManager as any
-        ).tryOpenConnectionToUnhealthyEndpointsAndInitiateFailbackAsync();
+        ).openConnectionToUnhealthyEndpointsWithFailback();
         assert.isFalse(
           (globalPartitionEndpointManager as any).partitionKeyRangeToLocationForReadAndWrite.has(
             "0",
@@ -458,7 +458,7 @@ describe("GlobalPartitionEndpointManager", () => {
         assert.equal(status, PartitionAvailablilityStatus.Available);
       });
 
-      it("tryOpenConnectionToUnhealthyEndpointsAndInitiateFailbackAsync - does not remove if still unhealthy", async () => {
+      it("openConnectionToUnhealthyEndpointsWithFailback - does not remove if still unhealthy", async () => {
         const info = new PartitionKeyRangeFailoverInfo(mockReadEndpoints[1]);
         (info as any).firstRequestFailureTime =
           Date.now() - Constants.AllowedPartitionUnavailabilityDurationInMs - 1000;
@@ -477,7 +477,7 @@ describe("GlobalPartitionEndpointManager", () => {
 
         await (
           globalPartitionEndpointManager as any
-        ).tryOpenConnectionToUnhealthyEndpointsAndInitiateFailbackAsync();
+        ).openConnectionToUnhealthyEndpointsWithFailback();
 
         assert.isTrue(
           (globalPartitionEndpointManager as any).partitionKeyRangeToLocationForReadAndWrite.has(

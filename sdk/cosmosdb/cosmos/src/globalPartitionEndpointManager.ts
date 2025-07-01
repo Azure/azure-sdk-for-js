@@ -353,7 +353,7 @@ export class GlobalPartitionEndpointManager {
     this.circuitBreakerFailbackBackgroundRefresher = setInterval(() => {
       (async () => {
         try {
-          await this.tryOpenConnectionToUnhealthyEndpointsAndInitiateFailbackAsync();
+          await this.openConnectionToUnhealthyEndpointsWithFailback();
         } catch (err) {
           console.error("Failed to open connection to unhealthy endpoints: ", err);
         }
@@ -367,7 +367,7 @@ export class GlobalPartitionEndpointManager {
    * to those locations. If a connection is successfully re-established, it initiates a failback to the original
    * location for the partition key range.
    */
-  private async tryOpenConnectionToUnhealthyEndpointsAndInitiateFailbackAsync(): Promise<void> {
+  private async openConnectionToUnhealthyEndpointsWithFailback(): Promise<void> {
     const pkRangeToEndpointMappings = new Map<string, [string, PartitionAvailablilityStatus]>();
 
     for (const pkRange of this.partitionKeyRangeToLocationForReadAndWrite.keys()) {
