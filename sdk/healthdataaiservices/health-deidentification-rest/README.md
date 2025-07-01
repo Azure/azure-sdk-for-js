@@ -150,7 +150,9 @@ You can create and view job status using the client:
 import { DefaultAzureCredential } from "@azure/identity";
 import DeidentificationClient, {
   DeidentificationJob,
+  DeidentifyDocumentsDefaultResponse,
   isUnexpected,
+  getLongRunningPoller,
 } from "@azure-rest/health-deidentification";
 
 const credential = new DefaultAzureCredential();
@@ -161,20 +163,24 @@ const inputPrefix = "example_patient_1";
 const outputPrefix = process.env["OUTPUT_PREFIX"] || "_output";
 
 const client = DeidentificationClient(serviceEndpoint, credential);
-const jobName = "exampleJob";
+const jobName = "sample-job-" + new Date().getTime().toString().slice(-8);
 
 const job: DeidentificationJob = {
   operation: "Surrogate",
   sourceLocation: { location: storageLocation, prefix: inputPrefix },
   targetLocation: { location: storageLocation, prefix: outputPrefix },
 };
-const response = await client.path("/jobs/{name}", jobName).put({ body: job });
+const response = (await client
+  .path("/jobs/{name}", jobName)
+  .put({ body: job })) as DeidentifyDocumentsDefaultResponse;
 
 if (isUnexpected(response)) {
   throw response.body.error;
 }
 
-console.log(response.body);
+const poller = await getLongRunningPoller(client, response);
+const finalOutput = await poller.pollUntilDone();
+console.log(finalOutput.body);
 ```
 
 ## Next steps
