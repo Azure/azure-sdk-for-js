@@ -1,6 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import type { ClientContext } from "../ClientContext.js";
+import type { ClientContextInternal } from "../ClientContextInternal.js";
 import type { PartitionedQueryExecutionInfo } from "../request/ErrorResponse.js";
 import type { FeedOptions } from "../request/FeedOptions.js";
 import type { DocumentProducer } from "./documentProducer.js";
@@ -30,7 +30,7 @@ export class OrderByQueryExecutionContext
    * @hidden
    */
   constructor(
-    clientContext: ClientContext,
+    clientContext: ClientContextInternal,
     collectionLink: string,
     query: string | SqlQuerySpec,
     options: FeedOptions,

@@ -8,7 +8,7 @@ import {
   DiagnosticNodeInternal,
   DiagnosticNodeType,
 } from "../diagnostics/DiagnosticNodeInternal.js";
-import type { ClientContext } from "../ClientContext.js";
+import type { ClientContextInternal } from "../ClientContextInternal.js";
 import { getCurrentTimestampInMs } from "./time.js";
 import { CosmosDbDiagnosticLevel } from "../diagnostics/CosmosDbDiagnosticLevel.js";
 import { randomUUID } from "@azure/core-util";
@@ -132,7 +132,7 @@ export async function withDiagnostics<
   Callback extends (node: DiagnosticNodeInternal) => Promise<any>,
 >(
   callback: Callback,
-  clientContext: ClientContext,
+  clientContext: ClientContextInternal,
   type: DiagnosticNodeType = DiagnosticNodeType.CLIENT_REQUEST_NODE,
 ): Promise<ExtractPromise<ReturnType<Callback>>> {
   const diagnosticNode = new DiagnosticNodeInternal(clientContext.diagnosticLevel, type, null);

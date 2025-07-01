@@ -3,7 +3,7 @@
 
 import { ChangeFeedIterator } from "../../ChangeFeedIterator.js";
 import type { ChangeFeedOptions } from "../../ChangeFeedOptions.js";
-import type { ClientContext } from "../../ClientContext.js";
+import type { ClientContextInternal } from "../../ClientContextInternal.js";
 import {
   Constants,
   copyObject,
@@ -87,7 +87,7 @@ export class Items {
    */
   constructor(
     public readonly container: Container,
-    private readonly clientContext: ClientContext,
+    private readonly clientContext: ClientContextInternal,
   ) {
     this.partitionKeyRangeCache = new PartitionKeyRangeCache(this.clientContext);
   }

@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 import type { ChangeFeedIteratorResponse } from "./ChangeFeedIteratorResponse.js";
 import type { Container, Resource } from "../../client/index.js";
-import type { ClientContext } from "../../ClientContext.js";
+import type { ClientContextInternal } from "../../ClientContextInternal.js";
 import type { ChangeFeedPullModelIterator } from "./ChangeFeedPullModelIterator.js";
 import type { ChangeFeedIteratorOptions } from "./ChangeFeedIteratorOptions.js";
 import { buildChangeFeedIterator } from "./buildChangeFeedIterator.js";
@@ -24,7 +24,7 @@ export class ChangeFeedIteratorBuilder<T> implements ChangeFeedPullModelIterator
    */
   constructor(
     private cfOptions: ChangeFeedIteratorOptions,
-    private clientContext: ClientContext,
+    private clientContext: ClientContextInternal,
     private container: Container,
     private partitionKeyRangeCache: PartitionKeyRangeCache,
   ) {

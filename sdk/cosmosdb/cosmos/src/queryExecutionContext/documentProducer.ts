@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 import type { PartitionKeyRange, Resource } from "../client/index.js";
-import type { ClientContext } from "../ClientContext.js";
+import type { ClientContextInternal } from "../ClientContextInternal.js";
 import {
   Constants,
   getIdFromLink,
@@ -46,7 +46,7 @@ export class DocumentProducer {
    * @hidden
    */
   constructor(
-    private clientContext: ClientContext,
+    private clientContext: ClientContextInternal,
     collectionLink: string,
     query: SqlQuerySpec,
     targetPartitionKeyRange: PartitionKeyRange,

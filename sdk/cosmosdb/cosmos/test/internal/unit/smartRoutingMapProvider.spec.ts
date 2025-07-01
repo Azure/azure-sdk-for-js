@@ -1,7 +1,7 @@
 ﻿// Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { ClientContext } from "../../../src/ClientContext.js";
+import type { ClientContextInternal } from "../../../src/ClientContextInternal.js";
 import {
   PartitionKeyRangeCache,
   QueryRange,
@@ -34,7 +34,9 @@ describe("Smart Routing Map Provider OverlappingRanges", () => {
     { id: "4", minInclusive: "05C1E9CD673398", maxExclusive: "FF" },
   ];
 
-  const mockedClientContext: ClientContext = new MockedClientContext(partitionKeyRanges) as any;
+  const mockedClientContext: ClientContextInternal = new MockedClientContext(
+    partitionKeyRanges,
+  ) as any;
   const smartRoutingMapProvider = new SmartRoutingMapProvider(mockedClientContext);
   const partitionKeyRangeCache = new PartitionKeyRangeCache(mockedClientContext);
 

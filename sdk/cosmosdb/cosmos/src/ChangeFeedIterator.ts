@@ -4,7 +4,7 @@
 import type { ChangeFeedOptions } from "./ChangeFeedOptions.js";
 import { ChangeFeedResponse } from "./ChangeFeedResponse.js";
 import type { Resource } from "./client/index.js";
-import type { ClientContext } from "./ClientContext.js";
+import type { ClientContextInternal } from "./ClientContextInternal.js";
 import { Constants, ResourceType, StatusCodes } from "./common/index.js";
 import type { DiagnosticNodeInternal } from "./diagnostics/DiagnosticNodeInternal.js";
 import type { PartitionKey } from "./documents/index.js";
@@ -28,7 +28,7 @@ export class ChangeFeedIterator<T> {
    * @internal
    */
   constructor(
-    private clientContext: ClientContext,
+    private clientContext: ClientContextInternal,
     private resourceId: string,
     private resourceLink: string,
     private partitionKey: PartitionKey,

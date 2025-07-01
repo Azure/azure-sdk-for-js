@@ -1,6 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import type { ClientContext } from "../ClientContext.js";
+import type { ClientContextInternal } from "../ClientContextInternal.js";
 import type { Response, FeedOptions } from "../request/index.js";
 import type { PartitionedQueryExecutionInfo, QueryInfo } from "../request/ErrorResponse.js";
 import { ErrorResponse } from "../request/ErrorResponse.js";
@@ -32,7 +32,7 @@ export class PipelinedQueryExecutionContext implements ExecutionContext {
   private nonStreamingOrderBy = false;
 
   constructor(
-    private clientContext: ClientContext,
+    private clientContext: ClientContextInternal,
     private collectionLink: string,
     private query: string | SqlQuerySpec,
     private options: FeedOptions,

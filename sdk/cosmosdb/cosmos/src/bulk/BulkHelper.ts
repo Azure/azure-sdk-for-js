@@ -4,7 +4,7 @@
 import type { RequestOptions } from "../request/RequestOptions.js";
 import { readPartitionKeyDefinition } from "../client/ClientUtils.js";
 import type { Container } from "../client/index.js";
-import type { ClientContext } from "../ClientContext.js";
+import type { ClientContextInternal } from "../ClientContextInternal.js";
 import { Constants, ResourceType } from "../common/constants.js";
 import { sleep, copyObject, getPathFromLink } from "../common/helper.js";
 import { StatusCodes } from "../common/statusCodes.js";
@@ -38,7 +38,7 @@ import { ItemOperationContext, BulkResponse } from "./index.js";
 
 export class BulkHelper {
   private readonly container: Container;
-  private readonly clientContext: ClientContext;
+  private readonly clientContext: ClientContextInternal;
   private readonly partitionKeyRangeCache: PartitionKeyRangeCache;
   private readonly helpersByPartitionKeyRangeId: Map<string, HelperPerPartition>;
   private options: RequestOptions;
@@ -58,7 +58,7 @@ export class BulkHelper {
    */
   constructor(
     container: Container,
-    clientContext: ClientContext,
+    clientContext: ClientContextInternal,
     partitionKeyRangeCache: PartitionKeyRangeCache,
     options: RequestOptions,
   ) {

@@ -107,7 +107,7 @@ export { TokenProvider, RequestInfo } from "./auth.js";
 export { ChangeFeedIterator } from "./ChangeFeedIterator.js";
 export { ChangeFeedOptions } from "./ChangeFeedOptions.js";
 export { ChangeFeedResponse } from "./ChangeFeedResponse.js";
-export { ClientContext } from "./ClientContext.js";
+export { ClientContextInternal as ClientContext } from "./ClientContextInternal.js";
 
 export {
   CosmosDiagnostics,

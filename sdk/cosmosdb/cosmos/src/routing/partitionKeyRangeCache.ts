@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 import { MetadataLookUpType } from "../CosmosDiagnostics.js";
 import type { PartitionKeyRange } from "../client/Container/PartitionKeyRange.js";
-import type { ClientContext } from "../ClientContext.js";
+import type { ClientContextInternal } from "../ClientContextInternal.js";
 import { getIdFromLink } from "../common/helper.js";
 import type { DiagnosticNodeInternal } from "../diagnostics/DiagnosticNodeInternal.js";
 import { withMetadataDiagnostics } from "../utils/diagnostics.js";
@@ -16,7 +16,7 @@ export class PartitionKeyRangeCache {
     [key: string]: Promise<InMemoryCollectionRoutingMap>;
   };
 
-  constructor(private clientContext: ClientContext) {
+  constructor(private clientContext: ClientContextInternal) {
     this.collectionRoutingMapByCollectionId = {};
   }
   /**

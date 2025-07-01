@@ -1,6 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import type { ClientContext } from "../../ClientContext.js";
+import type { ClientContextInternal } from "../../ClientContextInternal.js";
 import {
   Constants,
   getIdFromLink,
@@ -43,7 +43,7 @@ export class Containers {
    */
   constructor(
     public readonly database: Database,
-    private readonly clientContext: ClientContext,
+    private readonly clientContext: ClientContextInternal,
     private encryptionManager?: EncryptionManager,
   ) {}
 

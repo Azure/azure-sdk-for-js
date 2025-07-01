@@ -3,7 +3,7 @@
 import type { InternalChangeFeedIteratorOptions } from "./InternalChangeFeedOptions.js";
 import { ChangeFeedIteratorResponse } from "./ChangeFeedIteratorResponse.js";
 import { Container, Resource } from "../../client/index.js";
-import { ClientContext } from "../../ClientContext.js";
+import { ClientContextInternal } from "../../ClientContextInternal.js";
 import { Constants, copyObject, ResourceType, StatusCodes } from "../../common/index.js";
 import { FeedOptions, Response, ErrorResponse } from "../../request/index.js";
 import { ContinuationTokenForPartitionKey } from "./ContinuationTokenForPartitionKey.js";
@@ -29,7 +29,7 @@ export class ChangeFeedForPartitionKey<T> implements ChangeFeedPullModelIterator
    * @internal
    */
   constructor(
-    private clientContext: ClientContext,
+    private clientContext: ClientContextInternal,
     private container: Container,
     private resourceId: string,
     private resourceLink: string,

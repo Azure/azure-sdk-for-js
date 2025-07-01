@@ -1,6 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import type { ClientContext } from "../../ClientContext.js";
+import type { ClientContextInternal } from "../../ClientContextInternal.js";
 import type { PartitionKey } from "../../documents/index.js";
 import type { PartitionKeyRangeCache } from "../../routing/index.js";
 import { QueryRange } from "../../routing/index.js";
@@ -28,7 +28,7 @@ import { PartitionKeyInternal } from "../../documents/PartitionKeyInternal.js";
 
 export async function buildChangeFeedIterator(
   cfOptions: ChangeFeedIteratorOptions,
-  clientContext: ClientContext,
+  clientContext: ClientContextInternal,
   container: Container,
   partitionKeyRangeCache: PartitionKeyRangeCache,
 ): Promise<any> {

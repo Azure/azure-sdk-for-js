@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 import type { Container } from "../client/index.js";
-import type { ClientContext } from "../ClientContext.js";
+import type { ClientContextInternal } from "../ClientContextInternal.js";
 import { Constants, ResourceType } from "../common/constants.js";
 import {
   DiagnosticNodeInternal,
@@ -20,11 +20,11 @@ import { withDiagnostics } from "../utils/diagnostics.js";
  */
 export class EncryptionItemQueryIterator<Item> extends QueryIterator<Item> {
   private container: Container;
-  private encryptionClientContext: ClientContext;
+  private encryptionClientContext: ClientContextInternal;
   private encryptionOptions: FeedOptions;
 
   constructor(
-    clientContext: ClientContext,
+    clientContext: ClientContextInternal,
     query: SqlQuerySpec | string,
     options: FeedOptions,
     fetchFunctions: FetchFunctionCallback | FetchFunctionCallback[],

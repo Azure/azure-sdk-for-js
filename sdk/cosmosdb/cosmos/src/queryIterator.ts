@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 /// <reference lib="esnext.asynciterable" />
-import type { ClientContext } from "./ClientContext.js";
+import type { ClientContextInternal } from "./ClientContextInternal.js";
 import {
   DiagnosticNodeInternal,
   DiagnosticNodeType,
@@ -55,7 +55,7 @@ export class QueryIterator<T> {
    * @hidden
    */
   constructor(
-    private clientContext: ClientContext,
+    private clientContext: ClientContextInternal,
     private query: SqlQuerySpec | string,
     private options: FeedOptions,
     private fetchFunctions: FetchFunctionCallback | FetchFunctionCallback[],

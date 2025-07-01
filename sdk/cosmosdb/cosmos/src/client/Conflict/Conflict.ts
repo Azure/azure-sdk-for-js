@@ -1,6 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import type { ClientContext } from "../../ClientContext.js";
+import type { ClientContextInternal } from "../../ClientContextInternal.js";
 import { Constants, getIdFromLink, getPathFromLink, ResourceType } from "../../common/index.js";
 import type { RequestOptions } from "../../request/index.js";
 import type { Container } from "../Container/index.js";
@@ -32,7 +32,7 @@ export class Conflict {
   constructor(
     public readonly container: Container,
     public readonly id: string,
-    private readonly clientContext: ClientContext,
+    private readonly clientContext: ClientContextInternal,
     private partitionKey?: PartitionKey,
   ) {
     this.partitionKey = partitionKey;

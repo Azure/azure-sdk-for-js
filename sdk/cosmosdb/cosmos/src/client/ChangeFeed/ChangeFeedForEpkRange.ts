@@ -5,7 +5,7 @@ import { ChangeFeedIteratorResponse } from "./ChangeFeedIteratorResponse.js";
 import type { PartitionKeyRangeCache } from "../../routing/index.js";
 import { QueryRange } from "../../routing/index.js";
 import { FeedRangeQueue } from "./FeedRangeQueue.js";
-import type { ClientContext } from "../../ClientContext.js";
+import type { ClientContextInternal } from "../../ClientContextInternal.js";
 import type { Container, Resource } from "../../client/index.js";
 import { Constants, SubStatusCodes, StatusCodes, ResourceType } from "../../common/index.js";
 import type { Response, FeedOptions } from "../../request/index.js";
@@ -34,7 +34,7 @@ export class ChangeFeedForEpkRange<T> implements ChangeFeedPullModelIterator<T> 
    * @internal
    */
   constructor(
-    private clientContext: ClientContext,
+    private clientContext: ClientContextInternal,
     private container: Container,
     private partitionKeyRangeCache: PartitionKeyRangeCache,
     private resourceId: string,

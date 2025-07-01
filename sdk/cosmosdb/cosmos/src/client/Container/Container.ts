@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { ClientContext } from "../../ClientContext.js";
+import type { ClientContextInternal } from "../../ClientContextInternal.js";
 import {
   Constants,
   createDocumentCollectionUri,
@@ -139,7 +139,7 @@ export class Container {
   constructor(
     public readonly database: Database,
     public readonly id: string,
-    private readonly clientContext: ClientContext,
+    private readonly clientContext: ClientContextInternal,
     private encryptionManager?: EncryptionManager,
     _rid?: string,
   ) {

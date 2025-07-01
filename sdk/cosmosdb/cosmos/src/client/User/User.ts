@@ -1,6 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import type { ClientContext } from "../../ClientContext.js";
+import type { ClientContextInternal } from "../../ClientContextInternal.js";
 import type { DiagnosticNodeInternal } from "../../diagnostics/DiagnosticNodeInternal.js";
 import {
   createUserUri,
@@ -43,7 +43,7 @@ export class User {
   constructor(
     public readonly database: Database,
     public readonly id: string,
-    private readonly clientContext: ClientContext,
+    private readonly clientContext: ClientContextInternal,
   ) {
     this.permissions = new Permissions(this, this.clientContext);
   }

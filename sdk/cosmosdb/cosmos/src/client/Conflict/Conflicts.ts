@@ -1,6 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import type { ClientContext } from "../../ClientContext.js";
+import type { ClientContextInternal } from "../../ClientContextInternal.js";
 import type { DiagnosticNodeInternal } from "../../diagnostics/DiagnosticNodeInternal.js";
 import { getIdFromLink, getPathFromLink, ResourceType } from "../../common/index.js";
 import type { SqlQuerySpec } from "../../queryExecutionContext/index.js";
@@ -18,7 +18,7 @@ import type { ConflictDefinition } from "./ConflictDefinition.js";
 export class Conflicts {
   constructor(
     public readonly container: Container,
-    private readonly clientContext: ClientContext,
+    private readonly clientContext: ClientContextInternal,
   ) {}
 
   /**

@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 import { Database, Databases } from "./client/Database/index.js";
 import { Offer, Offers } from "./client/Offer/index.js";
-import { ClientContext } from "./ClientContext.js";
+import { ClientContextInternal } from "./ClientContextInternal.js";
 import { parseConnectionString } from "./common/index.js";
 import { Constants } from "./common/constants.js";
 import { getUserAgent } from "./common/platform.js";
@@ -74,7 +74,7 @@ export class CosmosClient {
    * Use `.offer(id)` to read, or replace existing offers.
    */
   public readonly offers: Offers;
-  private clientContext: ClientContext;
+  private clientContext: ClientContextInternal;
   private endpointRefresher: NodeJS.Timeout;
   /**
    * @internal
@@ -154,7 +154,7 @@ export class CosmosClient {
         this.getDatabaseAccountInternal(diagnosticNode, opts),
     );
 
-    this.clientContext = new ClientContext(
+    this.clientContext = new ClientContextInternal(
       optionsOrConnectionString,
       globalEndpointManager,
       clientConfig,

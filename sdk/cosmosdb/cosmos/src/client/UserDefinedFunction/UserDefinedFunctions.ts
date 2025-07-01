@@ -1,6 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import type { ClientContext } from "../../ClientContext.js";
+import type { ClientContextInternal } from "../../ClientContextInternal.js";
 import type { DiagnosticNodeInternal } from "../../diagnostics/DiagnosticNodeInternal.js";
 import {
   getIdFromLink,
@@ -30,7 +30,7 @@ export class UserDefinedFunctions {
    */
   constructor(
     public readonly container: Container,
-    private readonly clientContext: ClientContext,
+    private readonly clientContext: ClientContextInternal,
   ) {}
 
   /**

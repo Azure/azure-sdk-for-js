@@ -1,6 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import type { ClientContext } from "../ClientContext.js";
+import type { ClientContextInternal } from "../ClientContextInternal.js";
 import type { HTTPMethod, OperationType, ResourceType } from "../common/index.js";
 import type { Agent } from "../CosmosClientOptions.js";
 import type { ConnectionPolicy, PartitionKey } from "../documents/index.js";
@@ -17,7 +17,7 @@ import type { HttpClient, Pipeline } from "@azure/core-rest-pipeline";
 export interface RequestContext {
   path?: string;
   operationType?: OperationType;
-  client?: ClientContext;
+  client?: ClientContextInternal;
   retryCount?: number;
   resourceType?: ResourceType;
   resourceId?: string;

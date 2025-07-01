@@ -1,6 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import type { ClientContext } from "../../ClientContext.js";
+import type { ClientContextInternal } from "../../ClientContextInternal.js";
 import { ResourceType } from "../../common/index.js";
 import type { CosmosClient } from "../../CosmosClient.js";
 import type { SqlQuerySpec } from "../../queryExecutionContext/index.js";
@@ -21,7 +21,7 @@ export class Offers {
    */
   constructor(
     public readonly client: CosmosClient,
-    private readonly clientContext: ClientContext,
+    private readonly clientContext: ClientContextInternal,
   ) {}
 
   /**

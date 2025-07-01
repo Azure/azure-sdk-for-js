@@ -7,7 +7,7 @@ import type { AeadAes256CbcHmacSha256Algorithm } from "./AeadAes256CbcHmacSha256
 import type { ContainerDefinition, Database, ItemDefinition } from "../client/index.js";
 import type { PartitionKeyInternal } from "../documents/index.js";
 import type { TypeMarker } from "./enums/TypeMarker.js";
-import type { ClientContext } from "../ClientContext.js";
+import type { ClientContextInternal } from "../ClientContextInternal.js";
 import type { ClientEncryptionKeyRequest } from "./ClientEncryptionKey/index.js";
 import type { ClientEncryptionKeyProperties } from "./ClientEncryptionKey/index.js";
 import type { DiagnosticNodeInternal } from "../diagnostics/DiagnosticNodeInternal.js";
@@ -30,7 +30,7 @@ export class EncryptionProcessor {
     private readonly containerId: string,
     public containerRid: string,
     private readonly database: Database,
-    private readonly clientContext: ClientContext,
+    private readonly clientContext: ClientContextInternal,
     private encryptionManager: EncryptionManager,
   ) {}
 

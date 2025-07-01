@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 import PriorityQueue from "priorityqueuejs";
 import semaphore from "semaphore";
-import type { ClientContext } from "../ClientContext.js";
+import type { ClientContextInternal } from "../ClientContextInternal.js";
 import type { AzureLogger } from "@azure/logger";
 import { createClientLogger } from "@azure/logger";
 import { StatusCodes, SubStatusCodes } from "../common/statusCodes.js";
@@ -62,7 +62,7 @@ export abstract class ParallelQueryExecutionContextBase implements ExecutionCont
    * @hidden
    */
   constructor(
-    private clientContext: ClientContext,
+    private clientContext: ClientContextInternal,
     private collectionLink: string,
     private query: string | SqlQuerySpec,
     private options: FeedOptions,

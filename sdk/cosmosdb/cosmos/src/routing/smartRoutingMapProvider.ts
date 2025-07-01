@@ -1,6 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import type { ClientContext } from "../ClientContext.js";
+import type { ClientContextInternal } from "../ClientContextInternal.js";
 import { Constants } from "../common/constants.js";
 import type { DiagnosticNodeInternal } from "../diagnostics/DiagnosticNodeInternal.js";
 import { PartitionKeyRangeCache } from "./partitionKeyRangeCache.js";
@@ -13,7 +13,7 @@ export const PARITIONKEYRANGE = Constants.PartitionKeyRange;
 export class SmartRoutingMapProvider {
   private partitionKeyRangeCache: PartitionKeyRangeCache;
 
-  constructor(clientContext: ClientContext) {
+  constructor(clientContext: ClientContextInternal) {
     this.partitionKeyRangeCache = new PartitionKeyRangeCache(clientContext);
   }
   private static _secondRangeIsAfterFirstRange(range1: QueryRange, range2: QueryRange): boolean {

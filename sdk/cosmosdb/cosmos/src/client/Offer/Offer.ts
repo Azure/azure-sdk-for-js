@@ -1,6 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import type { ClientContext } from "../../ClientContext.js";
+import type { ClientContextInternal } from "../../ClientContextInternal.js";
 import { Constants, isResourceValid, ResourceType } from "../../common/index.js";
 import type { CosmosClient } from "../../CosmosClient.js";
 import { getEmptyCosmosDiagnostics, withDiagnostics } from "../../utils/diagnostics.js";
@@ -29,7 +29,7 @@ export class Offer {
   constructor(
     public readonly client: CosmosClient,
     public readonly id: string,
-    private readonly clientContext: ClientContext,
+    private readonly clientContext: ClientContextInternal,
   ) {}
 
   /**

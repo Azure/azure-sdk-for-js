@@ -1,6 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import type { ClientContext } from "../../ClientContext.js";
+import type { ClientContextInternal } from "../../ClientContextInternal.js";
 import {
   createDatabaseUri,
   getIdFromLink,
@@ -104,7 +104,7 @@ export class Database {
   constructor(
     public readonly client: CosmosClient,
     public readonly id: string,
-    private clientContext: ClientContext,
+    private clientContext: ClientContextInternal,
     private encryptionManager?: EncryptionManager,
     _rid?: string,
   ) {

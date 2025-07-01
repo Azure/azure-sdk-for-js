@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { ClientContext } from "../../ClientContext.js";
+import type { ClientContextInternal } from "../../ClientContextInternal.js";
 import { Constants, isResourceValid, ResourceType, StatusCodes } from "../../common/index.js";
 import type { CosmosClient } from "../../CosmosClient.js";
 import type { FetchFunctionCallback, SqlQuerySpec } from "../../queryExecutionContext/index.js";
@@ -35,7 +35,7 @@ export class Databases {
    */
   constructor(
     public readonly client: CosmosClient,
-    private readonly clientContext: ClientContext,
+    private readonly clientContext: ClientContextInternal,
     private encryptionManager?: EncryptionManager,
   ) {}
 

@@ -3,7 +3,7 @@
 import { StoredProcedures, StoredProcedure } from "../StoredProcedure/index.js";
 import { Trigger, Triggers } from "../Trigger/index.js";
 import { UserDefinedFunction, UserDefinedFunctions } from "../UserDefinedFunction/index.js";
-import type { ClientContext } from "../../ClientContext.js";
+import type { ClientContextInternal } from "../../ClientContextInternal.js";
 import type { Container } from "../Container/Container.js";
 
 export class Scripts {
@@ -13,7 +13,7 @@ export class Scripts {
    */
   constructor(
     public readonly container: Container,
-    private readonly clientContext: ClientContext,
+    private readonly clientContext: ClientContextInternal,
   ) {}
 
   /**
