@@ -1,6 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-/* eslint-disable no-only-tests/no-only-tests */
+
 import type { IndexingPolicy, VectorEmbeddingPolicy } from "../../../src/documents/index.js";
 import {
   PartitionKeyKind,
@@ -566,8 +566,7 @@ async function executeQueryAndVerifyOrder(
   assert.equal(count, size);
 }
 
-// Skipping these tests as they are not supported by public emulator
-describe.skip("Full text search feature", async () => {
+describe("Full text search feature", async () => {
   let database: Database;
 
   beforeAll(async () => {
