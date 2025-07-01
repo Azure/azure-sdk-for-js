@@ -14,7 +14,12 @@ async function placementPoliciesDelete(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const client = new AzureVMwareSolutionAPI(credential, subscriptionId);
-  await client.placementPolicies.delete("group1", "cloud1", "cluster1", "policy1");
+  await client.placementPolicies.delete(
+    "group1",
+    "cloud1",
+    "cluster1",
+    "policy1",
+  );
 }
 
 async function main(): Promise<void> {

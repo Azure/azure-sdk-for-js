@@ -14,7 +14,11 @@ async function avsVmsGet(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "BC47D6CC-AA80-4374-86F8-19D94EC70666";
   const client = new BlockClient(credential, subscriptionId);
-  const result = await client.avsVms.get("rgpurestorage", "storagePoolname", "cbdec-ddbb");
+  const result = await client.avsVms.get(
+    "rgpurestorage",
+    "storagePoolname",
+    "cbdec-ddbb",
+  );
   console.log(result);
 }
 

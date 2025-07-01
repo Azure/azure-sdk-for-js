@@ -14,7 +14,11 @@ async function signalDefinitionsGet(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "4980D7D5-4E07-47AD-AD34-E76C6BC9F061";
   const client = new CloudHealthClient(credential, subscriptionId);
-  const result = await client.signalDefinitions.get("rgopenapi", "myHealthModel", "sig1");
+  const result = await client.signalDefinitions.get(
+    "rgopenapi",
+    "myHealthModel",
+    "sig1",
+  );
   console.log(result);
 }
 

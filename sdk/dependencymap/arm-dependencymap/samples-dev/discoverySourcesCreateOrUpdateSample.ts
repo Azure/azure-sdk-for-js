@@ -18,7 +18,14 @@ async function discoverySourcesCreateOrUpdateGeneratedByMaximumSetRule(): Promis
     "rgdependencyMap",
     "mapsTest1",
     "sourceTest1",
-    { tags: {}, location: "y" },
+    {
+      properties: {
+        sourceType: "DiscoverySourceResourceProperties",
+        sourceId: "wzlrkzumplzjmixbqv",
+      },
+      tags: {},
+      location: "y",
+    },
   );
   console.log(result);
 }

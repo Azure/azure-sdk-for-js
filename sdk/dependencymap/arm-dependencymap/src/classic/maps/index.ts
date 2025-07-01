@@ -123,7 +123,13 @@ function _getMaps(context: DependencyMapContext) {
       body: GetConnectionsForProcessOnFocusedMachineRequest,
       options?: MapsGetConnectionsForProcessOnFocusedMachineOptionalParams,
     ) =>
-      getConnectionsForProcessOnFocusedMachine(context, resourceGroupName, mapName, body, options),
+      getConnectionsForProcessOnFocusedMachine(
+        context,
+        resourceGroupName,
+        mapName,
+        body,
+        options,
+      ),
     getConnectionsWithConnectedMachineForFocusedMachine: (
       resourceGroupName: string,
       mapName: string,
@@ -142,15 +148,25 @@ function _getMaps(context: DependencyMapContext) {
       mapName: string,
       body: GetDependencyViewForFocusedMachineRequest,
       options?: MapsGetDependencyViewForFocusedMachineOptionalParams,
-    ) => getDependencyViewForFocusedMachine(context, resourceGroupName, mapName, body, options),
+    ) =>
+      getDependencyViewForFocusedMachine(
+        context,
+        resourceGroupName,
+        mapName,
+        body,
+        options,
+      ),
     listBySubscription: (options?: MapsListBySubscriptionOptionalParams) =>
       listBySubscription(context, options),
     listByResourceGroup: (
       resourceGroupName: string,
       options?: MapsListByResourceGroupOptionalParams,
     ) => listByResourceGroup(context, resourceGroupName, options),
-    delete: (resourceGroupName: string, mapName: string, options?: MapsDeleteOptionalParams) =>
-      $delete(context, resourceGroupName, mapName, options),
+    delete: (
+      resourceGroupName: string,
+      mapName: string,
+      options?: MapsDeleteOptionalParams,
+    ) => $delete(context, resourceGroupName, mapName, options),
     update: (
       resourceGroupName: string,
       mapName: string,
@@ -163,12 +179,17 @@ function _getMaps(context: DependencyMapContext) {
       resource: MapsResource,
       options?: MapsCreateOrUpdateOptionalParams,
     ) => createOrUpdate(context, resourceGroupName, mapName, resource, options),
-    get: (resourceGroupName: string, mapName: string, options?: MapsGetOptionalParams) =>
-      get(context, resourceGroupName, mapName, options),
+    get: (
+      resourceGroupName: string,
+      mapName: string,
+      options?: MapsGetOptionalParams,
+    ) => get(context, resourceGroupName, mapName, options),
   };
 }
 
-export function _getMapsOperations(context: DependencyMapContext): MapsOperations {
+export function _getMapsOperations(
+  context: DependencyMapContext,
+): MapsOperations {
   return {
     ..._getMaps(context),
   };
