@@ -8,7 +8,6 @@ import type {
   CosmosHeaders,
   DiagnosticNodeInternal,
   ErrorResponse,
-  PartitionKeyRange,
   RequestOptions,
   StatusCode,
 } from "../index.js";

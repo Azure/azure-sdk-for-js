@@ -1,8 +1,10 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
+import { PartitionKeyRange } from "../../client/index.js";
 import type { PartitionKeyDefinition, PrimitivePartitionKeyValue } from "../../documents/index.js";
 import { PartitionKeyDefinitionVersion, PartitionKeyKind } from "../../documents/index.js";
+import { isKeyInRange } from "../batch.js";
 import { hashMultiHashPartitionKey } from "./multiHash.js";
 import { hashV1PartitionKey } from "./v1.js";
 import { hashV2PartitionKey } from "./v2.js";
