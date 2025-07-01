@@ -9,7 +9,6 @@ import { StaticValueAggregator } from "./StaticValueAggregator.js";
 import type { AggregateType } from "../../request/ErrorResponse.js";
 import { MakeListAggregator } from "./MakeListAggregator.js";
 import { MakeSetAggregator } from "./MakeSetAggregator.js";
-import { CountIfAggregator } from "./CountIfAggregator.js";
 
 export function createAggregator(
   aggregateType: AggregateType,
@@ -24,6 +23,7 @@ export function createAggregator(
     case "Average":
       return new AverageAggregator();
     case "Count":
+    case "CountIf":
       return new CountAggregator();
     case "Max":
       return new MaxAggregator();
@@ -35,8 +35,6 @@ export function createAggregator(
       return new MakeListAggregator();
     case "MakeSet":
       return new MakeSetAggregator();
-    case "CountIf":
-      return new CountIfAggregator();
     default:
       return new StaticValueAggregator();
   }
