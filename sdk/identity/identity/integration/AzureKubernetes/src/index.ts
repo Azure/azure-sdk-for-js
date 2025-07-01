@@ -11,16 +11,10 @@ dotenv.config();
 const app = express();
 
 // Initialize environment variables synchronously at startup
-console.log("Initializing environment variables...");
 const storageAccount = requireEnvVar("IDENTITY_STORAGE_NAME");
 const storageAccount2 = requireEnvVar("IDENTITY_STORAGE_NAME_2");
 const userAssignedClientId = requireEnvVar("IDENTITY_USER_DEFINED_CLIENT_ID");
 const azureClientId = requireEnvVar("IDENTITY_USER_DEFINED_CLIENT_ID");
-
-console.log("Environment variables loaded:");
-console.log(`- IDENTITY_STORAGE_NAME: ${storageAccount}`);
-console.log(`- IDENTITY_STORAGE_NAME_2: ${storageAccount2}`);
-console.log(`- IDENTITY_USER_DEFINED_CLIENT_ID: ${userAssignedClientId}`);
 
 // Utility function to test storage access with a credential
 async function testStorageAccess(credential: TokenCredential, storageAccount: string): Promise<void> {
