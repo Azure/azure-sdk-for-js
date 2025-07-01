@@ -7,7 +7,9 @@ export interface DecompileOperationRequest {
   template: string;
 }
 
-export function decompileOperationRequestSerializer(item: DecompileOperationRequest): any {
+export function decompileOperationRequestSerializer(
+  item: DecompileOperationRequest,
+): any {
   return { template: item["template"] };
 }
 
@@ -28,7 +30,9 @@ export function decompileOperationSuccessResponseDeserializer(
   };
 }
 
-export function fileDefinitionArrayDeserializer(result: Array<FileDefinition>): any[] {
+export function fileDefinitionArrayDeserializer(
+  result: Array<FileDefinition>,
+): any[] {
   return result.map((item) => {
     return fileDefinitionDeserializer(item);
   });
@@ -57,7 +61,9 @@ export interface ErrorResponse {
 
 export function errorResponseDeserializer(item: any): ErrorResponse {
   return {
-    error: !item["error"] ? item["error"] : errorDetailDeserializer(item["error"]),
+    error: !item["error"]
+      ? item["error"]
+      : errorDetailDeserializer(item["error"]),
   };
 }
 
@@ -80,20 +86,26 @@ export function errorDetailDeserializer(item: any): ErrorDetail {
     code: item["code"],
     message: item["message"],
     target: item["target"],
-    details: !item["details"] ? item["details"] : errorDetailArrayDeserializer(item["details"]),
+    details: !item["details"]
+      ? item["details"]
+      : errorDetailArrayDeserializer(item["details"]),
     additionalInfo: !item["additionalInfo"]
       ? item["additionalInfo"]
       : errorAdditionalInfoArrayDeserializer(item["additionalInfo"]),
   };
 }
 
-export function errorDetailArrayDeserializer(result: Array<ErrorDetail>): any[] {
+export function errorDetailArrayDeserializer(
+  result: Array<ErrorDetail>,
+): any[] {
   return result.map((item) => {
     return errorDetailDeserializer(item);
   });
 }
 
-export function errorAdditionalInfoArrayDeserializer(result: Array<ErrorAdditionalInfo>): any[] {
+export function errorAdditionalInfoArrayDeserializer(
+  result: Array<ErrorAdditionalInfo>,
+): any[] {
   return result.map((item) => {
     return errorAdditionalInfoDeserializer(item);
   });
@@ -107,7 +119,9 @@ export interface ErrorAdditionalInfo {
   readonly info?: any;
 }
 
-export function errorAdditionalInfoDeserializer(item: any): ErrorAdditionalInfo {
+export function errorAdditionalInfoDeserializer(
+  item: any,
+): ErrorAdditionalInfo {
   return {
     type: item["type"],
     info: item["info"],

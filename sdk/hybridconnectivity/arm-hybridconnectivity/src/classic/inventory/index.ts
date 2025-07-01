@@ -7,7 +7,10 @@ import {
   InventoryListBySolutionConfigurationOptionalParams,
   InventoryGetOptionalParams,
 } from "../../api/inventory/options.js";
-import { listBySolutionConfiguration, get } from "../../api/inventory/operations.js";
+import {
+  inventoryListBySolutionConfiguration,
+  inventoryGet,
+} from "../../api/inventory/operations.js";
 import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 
 /** Interface representing a Inventory operations. */
@@ -33,13 +36,26 @@ function _getInventory(context: HybridConnectivityManagementAPIContext) {
       resourceUri: string,
       solutionConfiguration: string,
       options?: InventoryListBySolutionConfigurationOptionalParams,
-    ) => listBySolutionConfiguration(context, resourceUri, solutionConfiguration, options),
+    ) =>
+      inventoryListBySolutionConfiguration(
+        context,
+        resourceUri,
+        solutionConfiguration,
+        options,
+      ),
     get: (
       resourceUri: string,
       solutionConfiguration: string,
       inventoryId: string,
       options?: InventoryGetOptionalParams,
-    ) => get(context, resourceUri, solutionConfiguration, inventoryId, options),
+    ) =>
+      inventoryGet(
+        context,
+        resourceUri,
+        solutionConfiguration,
+        inventoryId,
+        options,
+      ),
   };
 }
 

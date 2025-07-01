@@ -15,7 +15,6 @@ async function organizationsUpdateMaximumSet(): Promise<void> {
   const subscriptionId = "9B8E3300-C5FA-442B-A259-3F6F614D5BD4";
   const client = new PostgresClient(credential, subscriptionId);
   const result = await client.organizations.update("rgneon", "test-org", {
-    location: "upxxgikyqrbnv",
     properties: {
       marketplaceDetails: {
         subscriptionId: "yxmkfivp",
@@ -75,7 +74,9 @@ async function organizationsUpdateMaximumSet(): Promise<void> {
           roles: [
             {
               entityName: "entity-name",
-              attributes: [{ name: "trhvzyvaqy", value: "evpkgsskyavybxwwssm" }],
+              attributes: [
+                { name: "trhvzyvaqy", value: "evpkgsskyavybxwwssm" },
+              ],
               branchId: "wxbojkmdgaggkfiwqfakdkbyztm",
               permissions: ["myucqecpjriewzohxvadgkhiudnyx"],
               isSuperUser: true,
@@ -84,7 +85,9 @@ async function organizationsUpdateMaximumSet(): Promise<void> {
           databases: [
             {
               entityName: "entity-name",
-              attributes: [{ name: "trhvzyvaqy", value: "evpkgsskyavybxwwssm" }],
+              attributes: [
+                { name: "trhvzyvaqy", value: "evpkgsskyavybxwwssm" },
+              ],
               branchId: "orfdwdmzvfvlnrgussvcvoek",
               ownerName: "odmbeg",
             },
@@ -92,7 +95,9 @@ async function organizationsUpdateMaximumSet(): Promise<void> {
           endpoints: [
             {
               entityName: "entity-name",
-              attributes: [{ name: "trhvzyvaqy", value: "evpkgsskyavybxwwssm" }],
+              attributes: [
+                { name: "trhvzyvaqy", value: "evpkgsskyavybxwwssm" },
+              ],
               projectId: "rtvdeeflqzlrpfzhjqhcsfbldw",
               branchId: "rzsyrhpfbydxtfkpaa",
               endpointType: "read_only",

@@ -22,9 +22,13 @@ export interface AzureLoadTestingClientOptions extends ClientOptions {
 export default function createClient(
   endpointParam: string,
   credentials: TokenCredential,
-  { apiVersion = "2024-12-01-preview", ...options }: AzureLoadTestingClientOptions = {},
+  {
+    apiVersion = "2024-12-01-preview",
+    ...options
+  }: AzureLoadTestingClientOptions = {},
 ): AzureLoadTestingClient {
-  const endpointUrl = options.endpoint ?? options.baseUrl ?? `https://${endpointParam}`;
+  const endpointUrl =
+    options.endpoint ?? options.baseUrl ?? `https://${endpointParam}`;
   const userAgentInfo = `azsdk-js-load-testing-rest/1.0.1`;
   const userAgentPrefix =
     options.userAgentOptions && options.userAgentOptions.userAgentPrefix
@@ -39,10 +43,16 @@ export default function createClient(
       logger: options.loggingOptions?.logger ?? logger.info,
     },
     credentials: {
-      scopes: options.credentials?.scopes ?? ["https://cnt-prod.loadtesting.azure.com/.default"],
+      scopes: options.credentials?.scopes ?? [
+        "https://cnt-prod.loadtesting.azure.com/.default",
+      ],
     },
   };
-  const client = getClient(endpointUrl, credentials, options) as AzureLoadTestingClient;
+  const client = getClient(
+    endpointUrl,
+    credentials,
+    options,
+  ) as AzureLoadTestingClient;
 
   client.pipeline.removePolicy({ name: "ApiVersionPolicy" });
   client.pipeline.addPolicy({

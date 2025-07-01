@@ -34,7 +34,14 @@ function _getScriptPackages(context: AzureVMwareSolutionAPIContext) {
       privateCloudName: string,
       scriptPackageName: string,
       options?: ScriptPackagesGetOptionalParams,
-    ) => get(context, resourceGroupName, privateCloudName, scriptPackageName, options),
+    ) =>
+      get(
+        context,
+        resourceGroupName,
+        privateCloudName,
+        scriptPackageName,
+        options,
+      ),
     list: (
       resourceGroupName: string,
       privateCloudName: string,

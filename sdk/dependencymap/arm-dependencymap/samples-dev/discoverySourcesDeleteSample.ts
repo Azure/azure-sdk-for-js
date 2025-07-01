@@ -14,7 +14,11 @@ async function discoverySourcesDeleteGeneratedByMaximumSetRule(): Promise<void> 
   const credential = new DefaultAzureCredential();
   const subscriptionId = "D6E58BDB-45F1-41EC-A884-1FC945058848";
   const client = new DependencyMapClient(credential, subscriptionId);
-  await client.discoverySources.delete("rgdependencyMap", "mapsTest1", "sourceTest1");
+  await client.discoverySources.delete(
+    "rgdependencyMap",
+    "mapsTest1",
+    "sourceTest1",
+  );
 }
 
 async function main(): Promise<void> {
