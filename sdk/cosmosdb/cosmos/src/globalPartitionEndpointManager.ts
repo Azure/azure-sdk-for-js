@@ -70,7 +70,7 @@ export class GlobalPartitionEndpointManager {
     if (
       this.isRequestEligibleForPerPartitionAutomaticFailover(requestContext) ||
       (this.isRequestEligibleForPartitionLevelCircuitBreaker(requestContext) &&
-        (await this.incrementRequestFailureCounterAndCheckIfPartitionCanFailover(requestContext)))
+        (await this.incrementFailureCounterAndCheckFailover(requestContext)))
     ) {
       return this.tryMarkEndpointUnavailableForPartitionKeyRange(requestContext, diagnosticNode);
     }
@@ -100,14 +100,12 @@ export class GlobalPartitionEndpointManager {
         diagnosticNode,
       );
     } else if (this.isRequestEligibleForPartitionLevelCircuitBreaker(requestContext)) {
-      // For multi master write accounts, since all the regions are treated as write regions, the next locations to fail over
-      // will be the preferred read regions that are configured in the application preferred regions in the CosmosClientOptions.
+      // For the read requests or multi-master write requests, the next locations to fail over will be the preferred locations
+      // configured at the account level plus any other read locations that are not already in the preferred locations.
       if (this.preferredLocations && this.preferredLocations.length > 0) {
         for (const preferredLocation of this.preferredLocations) {
           const location = readLocations.find(
-            (loc) =>
-              loc.unavailable !== true &&
-              normalizeEndpoint(loc.name) === normalizeEndpoint(preferredLocation),
+            (loc) => normalizeEndpoint(loc.name) === normalizeEndpoint(preferredLocation),
           );
           if (location) {
             readEndPoints.push(location.databaseAccountEndpoint);
@@ -181,7 +179,7 @@ export class GlobalPartitionEndpointManager {
    * Increments the failure counter for the specified partition and checks if the partition can fail over.
    * This method is used to determine if a partition should be failed over based on the number of request failures.
    */
-  private async incrementRequestFailureCounterAndCheckIfPartitionCanFailover(
+  private async incrementFailureCounterAndCheckFailover(
     requestContext: RequestContext,
   ): Promise<boolean> {
     const partitionKeyRangeId = requestContext.partitionKeyRangeId;

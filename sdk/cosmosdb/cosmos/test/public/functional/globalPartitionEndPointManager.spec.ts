@@ -232,7 +232,7 @@ describe("GlobalPartitionEndpointManager", () => {
     });
   });
 
-  describe("Circuit Breaker: incrementRequestFailureCounterAndCheckIfPartitionCanFailover", () => {
+  describe("Circuit Breaker: incrementFailureCounterAndCheckFailover", () => {
     let globalPartitionEndpointManager: GlobalPartitionEndpointManager;
     beforeEach(() => {
       const mockGEM = createMockGlobalEndpointManager();
@@ -251,9 +251,9 @@ describe("GlobalPartitionEndpointManager", () => {
         },
         mockGEM,
       );
-      const result = await (
-        manager as any
-      ).incrementRequestFailureCounterAndCheckIfPartitionCanFailover(createRequestContext());
+      const result = await (manager as any).incrementFailureCounterAndCheckFailover(
+        createRequestContext(),
+      );
       assert.equal(result, false);
     });
 
@@ -263,13 +263,13 @@ describe("GlobalPartitionEndpointManager", () => {
       for (let i = 1; i <= 10; i++) {
         const result = await (
           globalPartitionEndpointManager as any
-        ).incrementRequestFailureCounterAndCheckIfPartitionCanFailover(requestContext);
+        ).incrementFailureCounterAndCheckFailover(requestContext);
         assert.equal(result, false);
       }
 
       const finalResult = await (
         globalPartitionEndpointManager as any
-      ).incrementRequestFailureCounterAndCheckIfPartitionCanFailover(requestContext);
+      ).incrementFailureCounterAndCheckFailover(requestContext);
       // Exceeds read threshold (10)
       assert.equal(finalResult, true);
     });
@@ -280,13 +280,13 @@ describe("GlobalPartitionEndpointManager", () => {
       for (let i = 1; i <= 5; i++) {
         const result = await (
           globalPartitionEndpointManager as any
-        ).incrementRequestFailureCounterAndCheckIfPartitionCanFailover(requestContext);
+        ).incrementFailureCounterAndCheckFailover(requestContext);
         assert.equal(result, false);
       }
 
       const finalResult = await (
         globalPartitionEndpointManager as any
-      ).incrementRequestFailureCounterAndCheckIfPartitionCanFailover(requestContext);
+      ).incrementFailureCounterAndCheckFailover(requestContext);
       assert.equal(finalResult, true); // Exceeds write threshold (5)
     });
 
@@ -294,9 +294,9 @@ describe("GlobalPartitionEndpointManager", () => {
       const requestContext = createRequestContext({ operationType: OperationType.Replace });
 
       // Force one failure
-      await (
-        globalPartitionEndpointManager as any
-      ).incrementRequestFailureCounterAndCheckIfPartitionCanFailover(requestContext);
+      await (globalPartitionEndpointManager as any).incrementFailureCounterAndCheckFailover(
+        requestContext,
+      );
 
       // Artificially delay by more than reset window
       const failoverMap = (globalPartitionEndpointManager as any)
@@ -310,7 +310,7 @@ describe("GlobalPartitionEndpointManager", () => {
       // This should reset counter
       const result = await (
         globalPartitionEndpointManager as any
-      ).incrementRequestFailureCounterAndCheckIfPartitionCanFailover(requestContext);
+      ).incrementFailureCounterAndCheckFailover(requestContext);
       assert.equal(result, false); // Count was reset
 
       assert.equal((info as any).consecutiveWriteRequestFailureCount, 1);
@@ -327,17 +327,15 @@ describe("GlobalPartitionEndpointManager", () => {
       });
 
       for (let i = 0; i < 10; i++) {
-        await (
-          globalPartitionEndpointManager as any
-        ).incrementRequestFailureCounterAndCheckIfPartitionCanFailover(ctx1);
+        await (globalPartitionEndpointManager as any).incrementFailureCounterAndCheckFailover(ctx1);
       }
 
       const result1 = await (
         globalPartitionEndpointManager as any
-      ).incrementRequestFailureCounterAndCheckIfPartitionCanFailover(ctx1);
+      ).incrementFailureCounterAndCheckFailover(ctx1);
       const result2 = await (
         globalPartitionEndpointManager as any
-      ).incrementRequestFailureCounterAndCheckIfPartitionCanFailover(ctx2);
+      ).incrementFailureCounterAndCheckFailover(ctx2);
 
       assert.equal(result1, true);
       assert.equal(result2, false);
