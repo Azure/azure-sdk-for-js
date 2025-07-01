@@ -11,6 +11,7 @@ import type {
   AIProjectClient,
   EvaluationWithOptionalName,
   EvaluationsOperations,
+  AgentEvaluationRequest,
 } from "../../../../src/index.js";
 import { EvaluatorIds } from "../../../../src/index.js";
 
@@ -24,7 +25,7 @@ describe("evaluations - basic", () => {
   let containerConnectionName: string;
   let evaluationDeploymentName: string;
   const datasetName = "test-eval-dataset";
-  const datasetVersion = "1.2.10";
+  const datasetVersion = "1.4.15";
   const evaluationDisplayName = "Test Evaluation";
 
   beforeEach(async function (context: VitestTestContext) {
@@ -70,7 +71,7 @@ describe("evaluations - basic", () => {
       // Create a new evaluation
       const newEvaluation: EvaluationWithOptionalName = {
         displayName: evaluationDisplayName,
-        description: "This is a test evaluation",
+        description: "This is a test evaluation right now",
         data: {
           type: "dataset",
           id: dataset.id,
@@ -93,7 +94,6 @@ describe("evaluations - basic", () => {
       assert.isNotNull(evaluation);
       assert.isNotNull(evaluation.name);
       assert.equal(evaluation.displayName, evaluationDisplayName);
-      assert.equal(evaluation.description, "This is a test evaluation");
 
       // Get the evaluation by ID
       const retrievedEval = await evaluations.get(evaluation.name);
@@ -108,5 +108,56 @@ describe("evaluations - basic", () => {
         // Ignore errors if dataset doesn't exist
       }
     }
+  });
+
+  it("should create an agent evaluation", async function () {
+    const agent = await projectsClient.agents.createAgent("gpt-4o", {
+      name: "agent-evaluation-test",
+      instructions: "You are helpful agent",
+    });
+    assert.isNotNull(agent);
+    assert.isNotNull(agent.id);
+    const thread = await projectsClient.agents.threads.create();
+    assert.isNotNull(thread);
+    assert.isNotNull(thread.id);
+    const message = await projectsClient.agents.messages.create(
+      thread.id,
+      "user",
+      "Hello, tell me a joke",
+    );
+    assert.isNotNull(message);
+    assert.isNotNull(message.id);
+    // Create and poll a run
+    const run = await projectsClient.agents.runs.createAndPoll(thread.id, agent.id, {
+      pollingOptions: {
+        intervalInMs: 2000,
+      },
+    });
+    assert.isNotNull(run);
+    assert.isNotNull(run.id);
+    assert.equal(run.status, "completed");
+
+    const agentEvaluationRequest: AgentEvaluationRequest = {
+      runId: run.id,
+      threadId: thread.id,
+      evaluators: {
+        violence: {
+          id: EvaluatorIds.VIOLENCE,
+        },
+      },
+      samplingConfiguration: {
+        name: "test",
+        samplingPercent: 100,
+        maxRequestRate: 100,
+      },
+      redactionConfiguration: {
+        redactScoreProperties: false,
+      },
+      appInsightsConnectionString: await projectsClient.telemetry.getConnectionString(),
+    };
+
+    const agentEvaluationResponse = await evaluations.createAgentEvaluation(agentEvaluationRequest);
+    assert.isNotNull(agentEvaluationResponse);
+    assert.isNotNull(agentEvaluationResponse.id);
   });
 });

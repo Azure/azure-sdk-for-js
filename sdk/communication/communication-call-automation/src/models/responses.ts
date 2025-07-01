@@ -3,7 +3,12 @@
 
 import type { CallConnection } from "../callConnection.js";
 import type { CallConnectionProperties, CallParticipant } from "./models.js";
-import type { RecordingState } from "../generated/src/index.js";
+import type {
+  CallSessionEndReason,
+  ErrorModel,
+  RecordingState,
+  RecordingStorageInfo,
+} from "../generated/src/index.js";
 import type {
   AddParticipantEventResult,
   AnswerCallEventResult,
@@ -16,6 +21,7 @@ import type {
   TransferCallToParticipantEventResult,
   CancelAddParticipantEventResult,
   ConnectCallEventResult,
+  MoveParticipantEventResult,
 } from "../eventprocessor/eventResponses.js";
 import type { AbortSignalLike } from "@azure/abort-controller";
 
@@ -115,6 +121,21 @@ export interface RemoveParticipantResult {
   ): Promise<RemoveParticipantEventResult>;
 }
 
+/** The response payload for moving participants to the call. */
+export interface MoveParticipantsResult {
+  /** List of current participants in the call. */
+  participants?: CallParticipant[];
+  /** The operation context provided by client. */
+  operationContext?: string;
+  /** The CallConnectionId for the call you want to move the participant from */
+  fromCall?: string;
+  /** Waiting for event processor to process the event */
+  waitForEventProcessor(
+    abortSignal?: AbortSignalLike,
+    timeoutInMs?: number,
+  ): Promise<MoveParticipantEventResult>;
+}
+
 /** The response payload for muting participant from the call. */
 export interface MuteParticipantResult {
   /** The operation context provided by client. */
@@ -123,9 +144,30 @@ export interface MuteParticipantResult {
 
 /** The response payload for starting a call recording or getting call recording state. */
 export interface RecordingStateResult {
+  /** The unique recording identifier. */
   recordingId: string;
+  /** The kind of recording (e.g., AzureCommunicationServices, Teams). */
   recordingKind: string;
+  /** The current state of the recording. */
   recordingState: RecordingState;
+}
+
+/** The response payload for starting a call recording or getting call recording result. */
+export interface RecordingResult {
+  /** The unique identifier for the recording */
+  recordingId: string;
+  /** Container for recording storage information and chunks */
+  readonly recordingStorageInfo?: RecordingStorageInfo;
+  /** List of errors that occurred during recording, if any */
+  readonly errors?: ErrorModel[];
+  /** The timestamp when the recording started */
+  readonly recordingStartTime?: Date;
+  /** The duration of the recording in milliseconds */
+  readonly recordingDurationMs?: number;
+  /** The reason why the call session ended */
+  readonly sessionEndReason?: CallSessionEndReason;
+  /** The timestamp when the recording will expire */
+  readonly recordingExpirationTime?: Date;
 }
 
 /** The response payload for starting a call recording or getting call recording state. */

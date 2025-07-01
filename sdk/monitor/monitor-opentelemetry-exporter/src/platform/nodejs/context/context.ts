@@ -1,7 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import * as os from "node:os";
 import { SDK_INFO } from "@opentelemetry/core";
 import { ATTR_TELEMETRY_SDK_VERSION } from "@opentelemetry/semantic-conventions";
 import { KnownContextTagKeys } from "../../../generated/index.js";
@@ -30,12 +29,7 @@ export class Context {
 
   constructor() {
     this.tags = {};
-    this._loadDeviceContext();
     this._loadInternalContext();
-  }
-
-  private _loadDeviceContext(): void {
-    this.tags[KnownContextTagKeys.AiDeviceOsVersion] = os && `${os.type()} ${os.release()}`;
   }
 
   private _loadInternalContext(): void {
