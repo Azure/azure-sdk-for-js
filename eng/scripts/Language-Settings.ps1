@@ -209,6 +209,7 @@ function HasPackageSourceCodeChanges($package, $workingDirectory) {
   if ($LastExitCode -ne 0) {
     Get-Content -Path $workingDirectory/error.txt | Out-Host
     Write-Host "Failed to retrieve package $name@dev.. assuming there is source code changes."
+    $global:LASTEXITCODE = 0 # Reset exit code to 0 so that the script can continue
     return $true
   }  
   $packageAfter = Get-PackageJsonContentFromPackage -package (Join-Path $workingDirectory $packageAfterName) -workingDirectory $workingDirectory
