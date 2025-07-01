@@ -10,7 +10,13 @@ import {
   NeonDatabasesCreateOrUpdateOptionalParams,
   NeonDatabasesGetOptionalParams,
 } from "../../api/neonDatabases/options.js";
-import { list, $delete, update, createOrUpdate, get } from "../../api/neonDatabases/operations.js";
+import {
+  list,
+  $delete,
+  update,
+  createOrUpdate,
+  get,
+} from "../../api/neonDatabases/operations.js";
 import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 import { PollerLike, OperationState } from "@azure/core-lro";
 
@@ -77,7 +83,15 @@ function _getNeonDatabases(context: PostgresContext) {
       projectName: string,
       branchName: string,
       options?: NeonDatabasesListOptionalParams,
-    ) => list(context, resourceGroupName, organizationName, projectName, branchName, options),
+    ) =>
+      list(
+        context,
+        resourceGroupName,
+        organizationName,
+        projectName,
+        branchName,
+        options,
+      ),
     delete: (
       resourceGroupName: string,
       organizationName: string,
@@ -153,7 +167,9 @@ function _getNeonDatabases(context: PostgresContext) {
   };
 }
 
-export function _getNeonDatabasesOperations(context: PostgresContext): NeonDatabasesOperations {
+export function _getNeonDatabasesOperations(
+  context: PostgresContext,
+): NeonDatabasesOperations {
   return {
     ..._getNeonDatabases(context),
   };

@@ -51,7 +51,14 @@ function _getScriptCmdlets(context: AzureVMwareSolutionAPIContext) {
       privateCloudName: string,
       scriptPackageName: string,
       options?: ScriptCmdletsListOptionalParams,
-    ) => list(context, resourceGroupName, privateCloudName, scriptPackageName, options),
+    ) =>
+      list(
+        context,
+        resourceGroupName,
+        privateCloudName,
+        scriptPackageName,
+        options,
+      ),
   };
 }
 

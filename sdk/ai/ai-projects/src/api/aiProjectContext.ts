@@ -10,12 +10,6 @@ export interface AIProjectContext extends Client {
   /** The API version to use for this operation. */
   /** Known values of {@link KnownVersions} that the service accepts. */
   apiVersion: string;
-  /** The endpoint URL used to construct AIProjectClient. */
-  getEndpointUrl(): string;
-  /** The user agent string used to construct AIProjectClient. */
-  getUserAgent(): { userAgentPrefix: string };
-  /** The credential used to construct AIProjectClient. */
-  getCredential(): TokenCredential;
 }
 
 /** Optional parameters for the client. */
@@ -30,9 +24,10 @@ export function createAIProject(
   credential: TokenCredential,
   options: AIProjectClientOptionalParams = {},
 ): AIProjectContext {
-  const endpointUrl = options.endpoint ?? options.baseUrl ?? String(endpointParam);
+  const endpointUrl =
+    options.endpoint ?? options.baseUrl ?? String(endpointParam);
   const prefixFromOptions = options?.userAgentOptions?.userAgentPrefix;
-  const userAgentInfo = `azsdk-js-ai-projects/1.0.0-beta.8`;
+  const userAgentInfo = `azsdk-js-ai-projects/1.0.0-beta.1`;
   const userAgentPrefix = prefixFromOptions
     ? `${prefixFromOptions} azsdk-js-api ${userAgentInfo}`
     : `azsdk-js-api ${userAgentInfo}`;
@@ -41,7 +36,7 @@ export function createAIProject(
     userAgentOptions: { userAgentPrefix },
     loggingOptions: { logger: options.loggingOptions?.logger ?? logger.info },
     credentials: {
-      scopes: options.credentials?.scopes ?? ["https://cognitiveservices.azure.com/.default"],
+      scopes: options.credentials?.scopes ?? ["https://ai.azure.com/.default"],
     },
   };
   const clientContext = getClient(endpointUrl, credential, updatedOptions);
@@ -53,21 +48,14 @@ export function createAIProject(
       // Use the apiVersion defined in request url directly
       // Append one if there is no apiVersion and we have one at client options
       const url = new URL(req.url);
-      const defaultApiVersion = url.searchParams.get("api-version") ?? apiVersion;
-      // remove api-version from url
-      url.searchParams.delete("api-version");
-      // add api-version to url
-      req.url = `${url.toString()}${
-        Array.from(url.searchParams.keys()).length > 0 ? "&" : "?"
-      }api-version=${defaultApiVersion}`;
+      if (!url.searchParams.get("api-version")) {
+        req.url = `${req.url}${
+          Array.from(url.searchParams.keys()).length > 0 ? "&" : "?"
+        }api-version=${apiVersion}`;
+      }
+
       return next(req);
     },
   });
-  return {
-    ...clientContext,
-    apiVersion,
-    getEndpointUrl: () => endpointUrl,
-    getUserAgent: () => ({ userAgentPrefix }),
-    getCredential: () => credential,
-  } as AIProjectContext;
+  return { ...clientContext, apiVersion } as AIProjectContext;
 }

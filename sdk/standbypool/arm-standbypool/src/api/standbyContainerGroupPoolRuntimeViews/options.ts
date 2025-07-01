@@ -8,4 +8,5 @@ export interface StandbyContainerGroupPoolRuntimeViewsListByStandbyPoolOptionalP
   extends OperationOptions {}
 
 /** Optional parameters. */
-export interface StandbyContainerGroupPoolRuntimeViewsGetOptionalParams extends OperationOptions {}
+export interface StandbyContainerGroupPoolRuntimeViewsGetOptionalParams
+  extends OperationOptions {}

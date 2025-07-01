@@ -1,7 +1,11 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-export { listBySubscription, listByResourceGroup, get } from "./operations.js";
+export {
+  solutionTypesListBySubscription,
+  solutionTypesListByResourceGroup,
+  solutionTypesGet,
+} from "./operations.js";
 export {
   SolutionTypesListBySubscriptionOptionalParams,
   SolutionTypesListByResourceGroupOptionalParams,

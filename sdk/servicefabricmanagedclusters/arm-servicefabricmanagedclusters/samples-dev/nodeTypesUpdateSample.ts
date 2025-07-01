@@ -13,7 +13,10 @@ import { DefaultAzureCredential } from "@azure/identity";
 async function patchANodeTypeWhileAutoScaling(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "00000000-0000-0000-0000-000000000000";
-  const client = new ServiceFabricManagedClustersManagementClient(credential, subscriptionId);
+  const client = new ServiceFabricManagedClustersManagementClient(
+    credential,
+    subscriptionId,
+  );
   const result = await client.nodeTypes.update("resRg", "myCluster", "BE", {
     sku: { name: "Standard_S0", capacity: 10, tier: "Standard" },
     tags: { a: "b" },
@@ -30,7 +33,10 @@ async function patchANodeTypeWhileAutoScaling(): Promise<void> {
 async function patchANodeType(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "00000000-0000-0000-0000-000000000000";
-  const client = new ServiceFabricManagedClustersManagementClient(credential, subscriptionId);
+  const client = new ServiceFabricManagedClustersManagementClient(
+    credential,
+    subscriptionId,
+  );
   const result = await client.nodeTypes.update("resRg", "myCluster", "BE", {
     tags: { a: "b" },
   });

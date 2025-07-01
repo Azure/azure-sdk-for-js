@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { CarbonOptimizationManagementContext } from "../../api/carbonOptimizationManagementContext.js";
+import { CarbonContext } from "../../api/carbonContext.js";
 import {
   QueryFilterUnion,
   CarbonEmissionDataListResult,
@@ -29,7 +29,7 @@ export interface CarbonServiceOperations {
   ) => Promise<CarbonEmissionDataListResult>;
 }
 
-function _getCarbonService(context: CarbonOptimizationManagementContext) {
+function _getCarbonService(context: CarbonContext) {
   return {
     queryCarbonEmissionDataAvailableDateRange: (
       options?: CarbonServiceQueryCarbonEmissionDataAvailableDateRangeOptionalParams,
@@ -42,7 +42,7 @@ function _getCarbonService(context: CarbonOptimizationManagementContext) {
 }
 
 export function _getCarbonServiceOperations(
-  context: CarbonOptimizationManagementContext,
+  context: CarbonContext,
 ): CarbonServiceOperations {
   return {
     ..._getCarbonService(context),

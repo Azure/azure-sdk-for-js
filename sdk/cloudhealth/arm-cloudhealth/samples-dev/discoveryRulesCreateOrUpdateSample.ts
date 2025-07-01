@@ -20,7 +20,6 @@ async function discoveryRulesCreateOrUpdate(): Promise<void> {
     "myDiscoveryRule",
     {
       properties: {
-        entityName: "",
         authenticationSetting: "authSetting1",
         displayName: "myDisplayName",
         discoverRelationships: "Enabled",

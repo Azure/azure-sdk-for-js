@@ -9,7 +9,12 @@ import {
   DatastoresGetOptionalParams,
   DatastoresListOptionalParams,
 } from "../../api/datastores/options.js";
-import { $delete, createOrUpdate, get, list } from "../../api/datastores/operations.js";
+import {
+  $delete,
+  createOrUpdate,
+  get,
+  list,
+} from "../../api/datastores/operations.js";
 import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 import { PollerLike, OperationState } from "@azure/core-lro";
 
@@ -62,7 +67,15 @@ function _getDatastores(context: AzureVMwareSolutionAPIContext) {
       clusterName: string,
       datastoreName: string,
       options?: DatastoresDeleteOptionalParams,
-    ) => $delete(context, resourceGroupName, privateCloudName, clusterName, datastoreName, options),
+    ) =>
+      $delete(
+        context,
+        resourceGroupName,
+        privateCloudName,
+        clusterName,
+        datastoreName,
+        options,
+      ),
     createOrUpdate: (
       resourceGroupName: string,
       privateCloudName: string,
@@ -86,13 +99,22 @@ function _getDatastores(context: AzureVMwareSolutionAPIContext) {
       clusterName: string,
       datastoreName: string,
       options?: DatastoresGetOptionalParams,
-    ) => get(context, resourceGroupName, privateCloudName, clusterName, datastoreName, options),
+    ) =>
+      get(
+        context,
+        resourceGroupName,
+        privateCloudName,
+        clusterName,
+        datastoreName,
+        options,
+      ),
     list: (
       resourceGroupName: string,
       privateCloudName: string,
       clusterName: string,
       options?: DatastoresListOptionalParams,
-    ) => list(context, resourceGroupName, privateCloudName, clusterName, options),
+    ) =>
+      list(context, resourceGroupName, privateCloudName, clusterName, options),
   };
 }
 

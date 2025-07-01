@@ -14,9 +14,12 @@ async function stopTheDatabaseInstanceOfTheSAPSystem(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "8e17e36c-42e9-4cd5-a078-7b44883414e0";
   const client = new WorkloadsClient(credential, subscriptionId);
-  const result = await client.sapDatabaseInstances.stop("test-rg", "X00", "db0", {
-    body: { softStopTimeoutSeconds: 0 },
-  });
+  const result = await client.sapDatabaseInstances.stop(
+    "test-rg",
+    "X00",
+    "db0",
+    { body: { softStopTimeoutSeconds: 0 } },
+  );
   console.log(result);
 }
 
@@ -30,9 +33,12 @@ async function softStopTheDatabaseInstanceOfTheSAPSystem(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "8e17e36c-42e9-4cd5-a078-7b44883414e0";
   const client = new WorkloadsClient(credential, subscriptionId);
-  const result = await client.sapDatabaseInstances.stop("test-rg", "X00", "db0", {
-    body: { softStopTimeoutSeconds: 300 },
-  });
+  const result = await client.sapDatabaseInstances.stop(
+    "test-rg",
+    "X00",
+    "db0",
+    { body: { softStopTimeoutSeconds: 300 } },
+  );
   console.log(result);
 }
 
@@ -46,9 +52,12 @@ async function softStopTheDatabaseInstanceOfTheSAPSystemAndTheUnderlyingVirtualM
   const credential = new DefaultAzureCredential();
   const subscriptionId = "8e17e36c-42e9-4cd5-a078-7b44883414e0";
   const client = new WorkloadsClient(credential, subscriptionId);
-  const result = await client.sapDatabaseInstances.stop("test-rg", "X00", "db0", {
-    body: { deallocateVm: true, softStopTimeoutSeconds: 300 },
-  });
+  const result = await client.sapDatabaseInstances.stop(
+    "test-rg",
+    "X00",
+    "db0",
+    { body: { deallocateVm: true, softStopTimeoutSeconds: 300 } },
+  );
   console.log(result);
 }
 
@@ -62,9 +71,12 @@ async function stopTheDatabaseInstanceOfTheSAPSystemAndTheUnderlyingVirtualMachi
   const credential = new DefaultAzureCredential();
   const subscriptionId = "8e17e36c-42e9-4cd5-a078-7b44883414e0";
   const client = new WorkloadsClient(credential, subscriptionId);
-  const result = await client.sapDatabaseInstances.stop("test-rg", "X00", "db0", {
-    body: { deallocateVm: true, softStopTimeoutSeconds: 0 },
-  });
+  const result = await client.sapDatabaseInstances.stop(
+    "test-rg",
+    "X00",
+    "db0",
+    { body: { deallocateVm: true, softStopTimeoutSeconds: 0 } },
+  );
   console.log(result);
 }
 

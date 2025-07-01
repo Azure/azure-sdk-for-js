@@ -1,7 +1,13 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-export { listByEndpointResource, $delete, update, createOrupdate, get } from "./operations.js";
+export {
+  serviceConfigurationsListByEndpointResource,
+  serviceConfigurationsDelete,
+  serviceConfigurationsUpdate,
+  serviceConfigurationsCreateOrupdate,
+  serviceConfigurationsGet,
+} from "./operations.js";
 export {
   ServiceConfigurationsListByEndpointResourceOptionalParams,
   ServiceConfigurationsDeleteOptionalParams,

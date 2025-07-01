@@ -4,7 +4,9 @@
 import { OperationOptions } from "@azure-rest/core-client";
 
 /** Optional parameters. */
-export interface ProvisionedNetworksGetOptionalParams extends OperationOptions {}
+export interface ProvisionedNetworksGetOptionalParams
+  extends OperationOptions {}
 
 /** Optional parameters. */
-export interface ProvisionedNetworksListOptionalParams extends OperationOptions {}
+export interface ProvisionedNetworksListOptionalParams
+  extends OperationOptions {}
