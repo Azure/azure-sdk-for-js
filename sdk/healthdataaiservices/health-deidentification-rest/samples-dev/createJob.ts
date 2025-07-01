@@ -36,7 +36,7 @@ export async function main(): Promise<void> {
   }
   // @ts-preserve-whitespace
   const poller = await getLongRunningPoller(client, response);
-  const finalOutput =  await poller.pollUntilDone();
+  const finalOutput = await poller.pollUntilDone();
   console.log(finalOutput.body);
 }
 

@@ -3,7 +3,11 @@
 
 import type { DeidentificationContent } from "../src/index.js";
 import DeidentificationClient, {
-  DeidentificationJob, DeidentifyDocumentsDefaultResponse, getLongRunningPoller, isUnexpected } from "../src/index.js";
+  DeidentificationJob,
+  DeidentifyDocumentsDefaultResponse,
+  getLongRunningPoller,
+  isUnexpected,
+} from "../src/index.js";
 import { DefaultAzureCredential } from "@azure/identity";
 import { setLogLevel } from "@azure/logger";
 import { describe, it } from "vitest";
@@ -11,13 +15,15 @@ import { describe, it } from "vitest";
 describe("snippets", () => {
   it("CreateClient", async () => {
     const credential = new DefaultAzureCredential();
-    const serviceEndpoint = process.env.DEID_SERVICE_ENDPOINT || "https://example.api.deid.azure.com";
+    const serviceEndpoint =
+      process.env.DEID_SERVICE_ENDPOINT || "https://example.api.deid.azure.com";
     const client = DeidentificationClient(serviceEndpoint, credential);
   });
 
   it("DeidentifyText", async () => {
     const credential = new DefaultAzureCredential();
-    const serviceEndpoint = process.env.DEID_SERVICE_ENDPOINT || "https://example.api.deid.azure.com";
+    const serviceEndpoint =
+      process.env.DEID_SERVICE_ENDPOINT || "https://example.api.deid.azure.com";
     const client = DeidentificationClient(serviceEndpoint, credential);
     // @ts-preserve-whitespace
     const content: DeidentificationContent = {
@@ -49,14 +55,16 @@ describe("snippets", () => {
       sourceLocation: { location: storageLocation, prefix: inputPrefix },
       targetLocation: { location: storageLocation, prefix: outputPrefix },
     };
-    const response = await client.path("/jobs/{name}", jobName).put({ body: job }) as DeidentifyDocumentsDefaultResponse;
+    const response = (await client
+      .path("/jobs/{name}", jobName)
+      .put({ body: job })) as DeidentifyDocumentsDefaultResponse;
     // @ts-preserve-whitespace
     if (isUnexpected(response)) {
       throw response.body.error;
     }
     // @ts-preserve-whitespace
     const poller = await getLongRunningPoller(client, response);
-    const finalOutput =  await poller.pollUntilDone();
+    const finalOutput = await poller.pollUntilDone();
     console.log(finalOutput.body);
   });
 
