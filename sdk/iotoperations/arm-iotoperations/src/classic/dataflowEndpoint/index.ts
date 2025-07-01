@@ -2,120 +2,110 @@
 // Licensed under the MIT License.
 
 import { IoTOperationsContext } from "../../api/ioTOperationsContext.js";
-import {
-  dataflowEndpointGet,
-  dataflowEndpointCreateOrUpdate,
-  dataflowEndpointDelete,
-  dataflowEndpointListByResourceGroup,
-} from "../../api/dataflowEndpoint/index.js";
 import { DataflowEndpointResource } from "../../models/models.js";
+import {
+  DataflowEndpointListByResourceGroupOptionalParams,
+  DataflowEndpointDeleteOptionalParams,
+  DataflowEndpointCreateOrUpdateOptionalParams,
+  DataflowEndpointGetOptionalParams,
+} from "../../api/dataflowEndpoint/options.js";
+import {
+  listByResourceGroup,
+  $delete,
+  createOrUpdate,
+  get,
+} from "../../api/dataflowEndpoint/operations.js";
 import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 import { PollerLike, OperationState } from "@azure/core-lro";
-import {
-  DataflowEndpointGetOptionalParams,
-  DataflowEndpointCreateOrUpdateOptionalParams,
-  DataflowEndpointDeleteOptionalParams,
-  DataflowEndpointListByResourceGroupOptionalParams,
-} from "../../api/options.js";
 
 /** Interface representing a DataflowEndpoint operations. */
 export interface DataflowEndpointOperations {
-  /** Get a DataflowEndpointResource */
-  get: (
+  /** List DataflowEndpointResource resources by InstanceResource */
+  listByResourceGroup: (
+    apiVersion: string,
+    resourceGroupName: string,
+    instanceName: string,
+    options?: DataflowEndpointListByResourceGroupOptionalParams,
+  ) => PagedAsyncIterableIterator<DataflowEndpointResource>;
+  /** Delete a DataflowEndpointResource */
+  /**
+   *  @fixme delete is a reserved word that cannot be used as an operation name.
+   *         Please add @clientName("clientName") or @clientName("<JS-Specific-Name>", "javascript")
+   *         to the operation to override the generated name.
+   */
+  delete: (
+    apiVersion: string,
     resourceGroupName: string,
     instanceName: string,
     dataflowEndpointName: string,
-    options?: DataflowEndpointGetOptionalParams,
-  ) => Promise<DataflowEndpointResource>;
+    options?: DataflowEndpointDeleteOptionalParams,
+  ) => PollerLike<OperationState<void>, void>;
   /** Create a DataflowEndpointResource */
   createOrUpdate: (
+    apiVersion: string,
     resourceGroupName: string,
     instanceName: string,
     dataflowEndpointName: string,
     resource: DataflowEndpointResource,
     options?: DataflowEndpointCreateOrUpdateOptionalParams,
   ) => PollerLike<OperationState<DataflowEndpointResource>, DataflowEndpointResource>;
-  /** Delete a DataflowEndpointResource */
-  delete: (
+  /** Get a DataflowEndpointResource */
+  get: (
+    apiVersion: string,
     resourceGroupName: string,
     instanceName: string,
     dataflowEndpointName: string,
-    options?: DataflowEndpointDeleteOptionalParams,
-  ) => PollerLike<OperationState<void>, void>;
-  /** List DataflowEndpointResource resources by InstanceResource */
-  listByResourceGroup: (
-    resourceGroupName: string,
-    instanceName: string,
-    options?: DataflowEndpointListByResourceGroupOptionalParams,
-  ) => PagedAsyncIterableIterator<DataflowEndpointResource>;
+    options?: DataflowEndpointGetOptionalParams,
+  ) => Promise<DataflowEndpointResource>;
 }
 
-export function getDataflowEndpoint(context: IoTOperationsContext, subscriptionId: string) {
+function _getDataflowEndpoint(context: IoTOperationsContext) {
   return {
-    get: (
+    listByResourceGroup: (
+      apiVersion: string,
+      resourceGroupName: string,
+      instanceName: string,
+      options?: DataflowEndpointListByResourceGroupOptionalParams,
+    ) => listByResourceGroup(context, apiVersion, resourceGroupName, instanceName, options),
+    delete: (
+      apiVersion: string,
       resourceGroupName: string,
       instanceName: string,
       dataflowEndpointName: string,
-      options?: DataflowEndpointGetOptionalParams,
+      options?: DataflowEndpointDeleteOptionalParams,
     ) =>
-      dataflowEndpointGet(
-        context,
-        subscriptionId,
-        resourceGroupName,
-        instanceName,
-        dataflowEndpointName,
-        options,
-      ),
+      $delete(context, apiVersion, resourceGroupName, instanceName, dataflowEndpointName, options),
     createOrUpdate: (
+      apiVersion: string,
       resourceGroupName: string,
       instanceName: string,
       dataflowEndpointName: string,
       resource: DataflowEndpointResource,
       options?: DataflowEndpointCreateOrUpdateOptionalParams,
     ) =>
-      dataflowEndpointCreateOrUpdate(
+      createOrUpdate(
         context,
-        subscriptionId,
+        apiVersion,
         resourceGroupName,
         instanceName,
         dataflowEndpointName,
         resource,
         options,
       ),
-    delete: (
+    get: (
+      apiVersion: string,
       resourceGroupName: string,
       instanceName: string,
       dataflowEndpointName: string,
-      options?: DataflowEndpointDeleteOptionalParams,
-    ) =>
-      dataflowEndpointDelete(
-        context,
-        subscriptionId,
-        resourceGroupName,
-        instanceName,
-        dataflowEndpointName,
-        options,
-      ),
-    listByResourceGroup: (
-      resourceGroupName: string,
-      instanceName: string,
-      options?: DataflowEndpointListByResourceGroupOptionalParams,
-    ) =>
-      dataflowEndpointListByResourceGroup(
-        context,
-        subscriptionId,
-        resourceGroupName,
-        instanceName,
-        options,
-      ),
+      options?: DataflowEndpointGetOptionalParams,
+    ) => get(context, apiVersion, resourceGroupName, instanceName, dataflowEndpointName, options),
   };
 }
 
-export function getDataflowEndpointOperations(
+export function _getDataflowEndpointOperations(
   context: IoTOperationsContext,
-  subscriptionId: string,
 ): DataflowEndpointOperations {
   return {
-    ...getDataflowEndpoint(context, subscriptionId),
+    ..._getDataflowEndpoint(context),
   };
 }

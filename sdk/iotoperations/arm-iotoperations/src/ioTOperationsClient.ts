@@ -1,35 +1,35 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { getOperationsOperations, OperationsOperations } from "./classic/operations/index.js";
-import { getInstanceOperations, InstanceOperations } from "./classic/instance/index.js";
-import { getBrokerOperations, BrokerOperations } from "./classic/broker/index.js";
-import {
-  getBrokerListenerOperations,
-  BrokerListenerOperations,
-} from "./classic/brokerListener/index.js";
-import {
-  getBrokerAuthenticationOperations,
-  BrokerAuthenticationOperations,
-} from "./classic/brokerAuthentication/index.js";
-import {
-  getBrokerAuthorizationOperations,
-  BrokerAuthorizationOperations,
-} from "./classic/brokerAuthorization/index.js";
-import {
-  getDataflowProfileOperations,
-  DataflowProfileOperations,
-} from "./classic/dataflowProfile/index.js";
-import { getDataflowOperations, DataflowOperations } from "./classic/dataflow/index.js";
-import {
-  getDataflowEndpointOperations,
-  DataflowEndpointOperations,
-} from "./classic/dataflowEndpoint/index.js";
 import {
   createIoTOperations,
   IoTOperationsContext,
   IoTOperationsClientOptionalParams,
 } from "./api/index.js";
+import {
+  DataflowEndpointOperations,
+  _getDataflowEndpointOperations,
+} from "./classic/dataflowEndpoint/index.js";
+import { DataflowOperations, _getDataflowOperations } from "./classic/dataflow/index.js";
+import {
+  DataflowProfileOperations,
+  _getDataflowProfileOperations,
+} from "./classic/dataflowProfile/index.js";
+import {
+  BrokerAuthorizationOperations,
+  _getBrokerAuthorizationOperations,
+} from "./classic/brokerAuthorization/index.js";
+import {
+  BrokerAuthenticationOperations,
+  _getBrokerAuthenticationOperations,
+} from "./classic/brokerAuthentication/index.js";
+import {
+  BrokerListenerOperations,
+  _getBrokerListenerOperations,
+} from "./classic/brokerListener/index.js";
+import { BrokerOperations, _getBrokerOperations } from "./classic/broker/index.js";
+import { InstanceOperations, _getInstanceOperations } from "./classic/instance/index.js";
+import { OperationsOperations, _getOperationsOperations } from "./classic/operations/index.js";
 import { Pipeline } from "@azure/core-rest-pipeline";
 import { TokenCredential } from "@azure/core-auth";
 
@@ -50,38 +50,38 @@ export class IoTOperationsClient {
     const userAgentPrefix = prefixFromOptions
       ? `${prefixFromOptions} azsdk-js-client`
       : `azsdk-js-client`;
-    this._client = createIoTOperations(credential, {
+    this._client = createIoTOperations(credential, subscriptionId, {
       ...options,
       userAgentOptions: { userAgentPrefix },
     });
     this.pipeline = this._client.pipeline;
-    this.operations = getOperationsOperations(this._client);
-    this.instance = getInstanceOperations(this._client, subscriptionId);
-    this.broker = getBrokerOperations(this._client, subscriptionId);
-    this.brokerListener = getBrokerListenerOperations(this._client, subscriptionId);
-    this.brokerAuthentication = getBrokerAuthenticationOperations(this._client, subscriptionId);
-    this.brokerAuthorization = getBrokerAuthorizationOperations(this._client, subscriptionId);
-    this.dataflowProfile = getDataflowProfileOperations(this._client, subscriptionId);
-    this.dataflow = getDataflowOperations(this._client, subscriptionId);
-    this.dataflowEndpoint = getDataflowEndpointOperations(this._client, subscriptionId);
+    this.dataflowEndpoint = _getDataflowEndpointOperations(this._client);
+    this.dataflow = _getDataflowOperations(this._client);
+    this.dataflowProfile = _getDataflowProfileOperations(this._client);
+    this.brokerAuthorization = _getBrokerAuthorizationOperations(this._client);
+    this.brokerAuthentication = _getBrokerAuthenticationOperations(this._client);
+    this.brokerListener = _getBrokerListenerOperations(this._client);
+    this.broker = _getBrokerOperations(this._client);
+    this.instance = _getInstanceOperations(this._client);
+    this.operations = _getOperationsOperations(this._client);
   }
 
-  /** The operation groups for Operations */
-  public readonly operations: OperationsOperations;
-  /** The operation groups for Instance */
-  public readonly instance: InstanceOperations;
-  /** The operation groups for Broker */
-  public readonly broker: BrokerOperations;
-  /** The operation groups for BrokerListener */
-  public readonly brokerListener: BrokerListenerOperations;
-  /** The operation groups for BrokerAuthentication */
-  public readonly brokerAuthentication: BrokerAuthenticationOperations;
-  /** The operation groups for BrokerAuthorization */
-  public readonly brokerAuthorization: BrokerAuthorizationOperations;
-  /** The operation groups for DataflowProfile */
-  public readonly dataflowProfile: DataflowProfileOperations;
-  /** The operation groups for Dataflow */
-  public readonly dataflow: DataflowOperations;
-  /** The operation groups for DataflowEndpoint */
+  /** The operation groups for dataflowEndpoint */
   public readonly dataflowEndpoint: DataflowEndpointOperations;
+  /** The operation groups for dataflow */
+  public readonly dataflow: DataflowOperations;
+  /** The operation groups for dataflowProfile */
+  public readonly dataflowProfile: DataflowProfileOperations;
+  /** The operation groups for brokerAuthorization */
+  public readonly brokerAuthorization: BrokerAuthorizationOperations;
+  /** The operation groups for brokerAuthentication */
+  public readonly brokerAuthentication: BrokerAuthenticationOperations;
+  /** The operation groups for brokerListener */
+  public readonly brokerListener: BrokerListenerOperations;
+  /** The operation groups for broker */
+  public readonly broker: BrokerOperations;
+  /** The operation groups for instance */
+  public readonly instance: InstanceOperations;
+  /** The operation groups for operations */
+  public readonly operations: OperationsOperations;
 }

@@ -2,34 +2,49 @@
 // Licensed under the MIT License.
 
 import { IoTOperationsContext } from "../../api/ioTOperationsContext.js";
-import {
-  brokerAuthenticationGet,
-  brokerAuthenticationCreateOrUpdate,
-  brokerAuthenticationDelete,
-  brokerAuthenticationListByResourceGroup,
-} from "../../api/brokerAuthentication/index.js";
 import { BrokerAuthenticationResource } from "../../models/models.js";
+import {
+  BrokerAuthenticationListByResourceGroupOptionalParams,
+  BrokerAuthenticationDeleteOptionalParams,
+  BrokerAuthenticationCreateOrUpdateOptionalParams,
+  BrokerAuthenticationGetOptionalParams,
+} from "../../api/brokerAuthentication/options.js";
+import {
+  listByResourceGroup,
+  $delete,
+  createOrUpdate,
+  get,
+} from "../../api/brokerAuthentication/operations.js";
 import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 import { PollerLike, OperationState } from "@azure/core-lro";
-import {
-  BrokerAuthenticationGetOptionalParams,
-  BrokerAuthenticationCreateOrUpdateOptionalParams,
-  BrokerAuthenticationDeleteOptionalParams,
-  BrokerAuthenticationListByResourceGroupOptionalParams,
-} from "../../api/options.js";
 
 /** Interface representing a BrokerAuthentication operations. */
 export interface BrokerAuthenticationOperations {
-  /** Get a BrokerAuthenticationResource */
-  get: (
+  /** List BrokerAuthenticationResource resources by BrokerResource */
+  listByResourceGroup: (
+    apiVersion: string,
+    resourceGroupName: string,
+    instanceName: string,
+    brokerName: string,
+    options?: BrokerAuthenticationListByResourceGroupOptionalParams,
+  ) => PagedAsyncIterableIterator<BrokerAuthenticationResource>;
+  /** Delete a BrokerAuthenticationResource */
+  /**
+   *  @fixme delete is a reserved word that cannot be used as an operation name.
+   *         Please add @clientName("clientName") or @clientName("<JS-Specific-Name>", "javascript")
+   *         to the operation to override the generated name.
+   */
+  delete: (
+    apiVersion: string,
     resourceGroupName: string,
     instanceName: string,
     brokerName: string,
     authenticationName: string,
-    options?: BrokerAuthenticationGetOptionalParams,
-  ) => Promise<BrokerAuthenticationResource>;
+    options?: BrokerAuthenticationDeleteOptionalParams,
+  ) => PollerLike<OperationState<void>, void>;
   /** Create a BrokerAuthenticationResource */
   createOrUpdate: (
+    apiVersion: string,
     resourceGroupName: string,
     instanceName: string,
     brokerName: string,
@@ -37,35 +52,45 @@ export interface BrokerAuthenticationOperations {
     resource: BrokerAuthenticationResource,
     options?: BrokerAuthenticationCreateOrUpdateOptionalParams,
   ) => PollerLike<OperationState<BrokerAuthenticationResource>, BrokerAuthenticationResource>;
-  /** Delete a BrokerAuthenticationResource */
-  delete: (
+  /** Get a BrokerAuthenticationResource */
+  get: (
+    apiVersion: string,
     resourceGroupName: string,
     instanceName: string,
     brokerName: string,
     authenticationName: string,
-    options?: BrokerAuthenticationDeleteOptionalParams,
-  ) => PollerLike<OperationState<void>, void>;
-  /** List BrokerAuthenticationResource resources by BrokerResource */
-  listByResourceGroup: (
-    resourceGroupName: string,
-    instanceName: string,
-    brokerName: string,
-    options?: BrokerAuthenticationListByResourceGroupOptionalParams,
-  ) => PagedAsyncIterableIterator<BrokerAuthenticationResource>;
+    options?: BrokerAuthenticationGetOptionalParams,
+  ) => Promise<BrokerAuthenticationResource>;
 }
 
-export function getBrokerAuthentication(context: IoTOperationsContext, subscriptionId: string) {
+function _getBrokerAuthentication(context: IoTOperationsContext) {
   return {
-    get: (
+    listByResourceGroup: (
+      apiVersion: string,
+      resourceGroupName: string,
+      instanceName: string,
+      brokerName: string,
+      options?: BrokerAuthenticationListByResourceGroupOptionalParams,
+    ) =>
+      listByResourceGroup(
+        context,
+        apiVersion,
+        resourceGroupName,
+        instanceName,
+        brokerName,
+        options,
+      ),
+    delete: (
+      apiVersion: string,
       resourceGroupName: string,
       instanceName: string,
       brokerName: string,
       authenticationName: string,
-      options?: BrokerAuthenticationGetOptionalParams,
+      options?: BrokerAuthenticationDeleteOptionalParams,
     ) =>
-      brokerAuthenticationGet(
+      $delete(
         context,
-        subscriptionId,
+        apiVersion,
         resourceGroupName,
         instanceName,
         brokerName,
@@ -73,6 +98,7 @@ export function getBrokerAuthentication(context: IoTOperationsContext, subscript
         options,
       ),
     createOrUpdate: (
+      apiVersion: string,
       resourceGroupName: string,
       instanceName: string,
       brokerName: string,
@@ -80,9 +106,9 @@ export function getBrokerAuthentication(context: IoTOperationsContext, subscript
       resource: BrokerAuthenticationResource,
       options?: BrokerAuthenticationCreateOrUpdateOptionalParams,
     ) =>
-      brokerAuthenticationCreateOrUpdate(
+      createOrUpdate(
         context,
-        subscriptionId,
+        apiVersion,
         resourceGroupName,
         instanceName,
         brokerName,
@@ -90,44 +116,30 @@ export function getBrokerAuthentication(context: IoTOperationsContext, subscript
         resource,
         options,
       ),
-    delete: (
+    get: (
+      apiVersion: string,
       resourceGroupName: string,
       instanceName: string,
       brokerName: string,
       authenticationName: string,
-      options?: BrokerAuthenticationDeleteOptionalParams,
+      options?: BrokerAuthenticationGetOptionalParams,
     ) =>
-      brokerAuthenticationDelete(
+      get(
         context,
-        subscriptionId,
+        apiVersion,
         resourceGroupName,
         instanceName,
         brokerName,
         authenticationName,
         options,
       ),
-    listByResourceGroup: (
-      resourceGroupName: string,
-      instanceName: string,
-      brokerName: string,
-      options?: BrokerAuthenticationListByResourceGroupOptionalParams,
-    ) =>
-      brokerAuthenticationListByResourceGroup(
-        context,
-        subscriptionId,
-        resourceGroupName,
-        instanceName,
-        brokerName,
-        options,
-      ),
   };
 }
 
-export function getBrokerAuthenticationOperations(
+export function _getBrokerAuthenticationOperations(
   context: IoTOperationsContext,
-  subscriptionId: string,
 ): BrokerAuthenticationOperations {
   return {
-    ...getBrokerAuthentication(context, subscriptionId),
+    ..._getBrokerAuthentication(context),
   };
 }
