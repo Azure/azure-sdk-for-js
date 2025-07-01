@@ -9,6 +9,7 @@ Azure Cosmos DB is a globally distributed, multi-model database service that sup
 - Create and modify containers to store collections of JSON documents
 - Create, read, update, and delete the items (JSON documents) in your containers
 - Query the documents in your database using SQL-like syntax
+- Added to trigger build
 
 Key links:
 
