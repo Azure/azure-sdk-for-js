@@ -1,8 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/* eslint-disable @typescript-eslint/no-non-null-asserted-optional-chain */
-
 import { VisualStudioCodeCredential } from "../../../src/index.js";
 import { CredentialUnavailableError } from "../../../src/errors.js";
 import fs from "node:fs/promises";

@@ -130,6 +130,9 @@ export class VisualStudioCodeCredential implements TokenCredential {
     checkUnsupportedTenant(this.tenantId);
   }
 
+  /**
+   * Load the broker plugin from @azure/identity-broker package.
+   */
   private async loadBrokerPlugin() {
     try {
       // @ts-ignore
@@ -148,6 +151,9 @@ export class VisualStudioCodeCredential implements TokenCredential {
     }
   }
 
+  /**
+   * Load the VS Code authentication record from the user's home directory.
+   */
   private async loadVSCodeAuthRecord(): Promise<AuthenticationRecord | undefined> {
     const authRecordPath = path.join(
       os.homedir(),
@@ -190,7 +196,7 @@ export class VisualStudioCodeCredential implements TokenCredential {
     if (!nativeBrokerPlugin || !authenticationRecord) {
       throw new CredentialUnavailableError(
         "Visual Studio Code Authentication is not available." +
-          " Ensure you have @azure/identity-broker dependency installed, " +
+          " Ensure you have @azure/identity-broker dependency installed," +
           " signed into Azure via VS Code, and have Azure Resources Extension installed in VS Code.",
       );
     }
