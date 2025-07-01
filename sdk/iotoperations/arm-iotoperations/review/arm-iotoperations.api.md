@@ -72,10 +72,10 @@ export type BrokerAuthenticationMethod = string;
 
 // @public
 export interface BrokerAuthenticationOperations {
-    createOrUpdate: (resourceGroupName: string, instanceName: string, brokerName: string, authenticationName: string, resource: BrokerAuthenticationResource, options?: BrokerAuthenticationCreateOrUpdateOptionalParams) => PollerLike<OperationState<BrokerAuthenticationResource>, BrokerAuthenticationResource>;
-    delete: (resourceGroupName: string, instanceName: string, brokerName: string, authenticationName: string, options?: BrokerAuthenticationDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
-    get: (resourceGroupName: string, instanceName: string, brokerName: string, authenticationName: string, options?: BrokerAuthenticationGetOptionalParams) => Promise<BrokerAuthenticationResource>;
-    listByResourceGroup: (resourceGroupName: string, instanceName: string, brokerName: string, options?: BrokerAuthenticationListByResourceGroupOptionalParams) => PagedAsyncIterableIterator<BrokerAuthenticationResource>;
+    createOrUpdate: (apiVersion: string, resourceGroupName: string, instanceName: string, brokerName: string, authenticationName: string, resource: BrokerAuthenticationResource, options?: BrokerAuthenticationCreateOrUpdateOptionalParams) => PollerLike<OperationState<BrokerAuthenticationResource>, BrokerAuthenticationResource>;
+    delete: (apiVersion: string, resourceGroupName: string, instanceName: string, brokerName: string, authenticationName: string, options?: BrokerAuthenticationDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
+    get: (apiVersion: string, resourceGroupName: string, instanceName: string, brokerName: string, authenticationName: string, options?: BrokerAuthenticationGetOptionalParams) => Promise<BrokerAuthenticationResource>;
+    listByResourceGroup: (apiVersion: string, resourceGroupName: string, instanceName: string, brokerName: string, options?: BrokerAuthenticationListByResourceGroupOptionalParams) => PagedAsyncIterableIterator<BrokerAuthenticationResource>;
 }
 
 // @public
@@ -148,10 +148,10 @@ export interface BrokerAuthorizationListByResourceGroupOptionalParams extends Op
 
 // @public
 export interface BrokerAuthorizationOperations {
-    createOrUpdate: (resourceGroupName: string, instanceName: string, brokerName: string, authorizationName: string, resource: BrokerAuthorizationResource, options?: BrokerAuthorizationCreateOrUpdateOptionalParams) => PollerLike<OperationState<BrokerAuthorizationResource>, BrokerAuthorizationResource>;
-    delete: (resourceGroupName: string, instanceName: string, brokerName: string, authorizationName: string, options?: BrokerAuthorizationDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
-    get: (resourceGroupName: string, instanceName: string, brokerName: string, authorizationName: string, options?: BrokerAuthorizationGetOptionalParams) => Promise<BrokerAuthorizationResource>;
-    listByResourceGroup: (resourceGroupName: string, instanceName: string, brokerName: string, options?: BrokerAuthorizationListByResourceGroupOptionalParams) => PagedAsyncIterableIterator<BrokerAuthorizationResource>;
+    createOrUpdate: (apiVersion: string, resourceGroupName: string, instanceName: string, brokerName: string, authorizationName: string, resource: BrokerAuthorizationResource, options?: BrokerAuthorizationCreateOrUpdateOptionalParams) => PollerLike<OperationState<BrokerAuthorizationResource>, BrokerAuthorizationResource>;
+    delete: (apiVersion: string, resourceGroupName: string, instanceName: string, brokerName: string, authorizationName: string, options?: BrokerAuthorizationDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
+    get: (apiVersion: string, resourceGroupName: string, instanceName: string, brokerName: string, authorizationName: string, options?: BrokerAuthorizationGetOptionalParams) => Promise<BrokerAuthorizationResource>;
+    listByResourceGroup: (apiVersion: string, resourceGroupName: string, instanceName: string, brokerName: string, options?: BrokerAuthorizationListByResourceGroupOptionalParams) => PagedAsyncIterableIterator<BrokerAuthorizationResource>;
 }
 
 // @public
@@ -212,10 +212,10 @@ export interface BrokerListenerListByResourceGroupOptionalParams extends Operati
 
 // @public
 export interface BrokerListenerOperations {
-    createOrUpdate: (resourceGroupName: string, instanceName: string, brokerName: string, listenerName: string, resource: BrokerListenerResource, options?: BrokerListenerCreateOrUpdateOptionalParams) => PollerLike<OperationState<BrokerListenerResource>, BrokerListenerResource>;
-    delete: (resourceGroupName: string, instanceName: string, brokerName: string, listenerName: string, options?: BrokerListenerDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
-    get: (resourceGroupName: string, instanceName: string, brokerName: string, listenerName: string, options?: BrokerListenerGetOptionalParams) => Promise<BrokerListenerResource>;
-    listByResourceGroup: (resourceGroupName: string, instanceName: string, brokerName: string, options?: BrokerListenerListByResourceGroupOptionalParams) => PagedAsyncIterableIterator<BrokerListenerResource>;
+    createOrUpdate: (apiVersion: string, resourceGroupName: string, instanceName: string, brokerName: string, listenerName: string, resource: BrokerListenerResource, options?: BrokerListenerCreateOrUpdateOptionalParams) => PollerLike<OperationState<BrokerListenerResource>, BrokerListenerResource>;
+    delete: (apiVersion: string, resourceGroupName: string, instanceName: string, brokerName: string, listenerName: string, options?: BrokerListenerDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
+    get: (apiVersion: string, resourceGroupName: string, instanceName: string, brokerName: string, listenerName: string, options?: BrokerListenerGetOptionalParams) => Promise<BrokerListenerResource>;
+    listByResourceGroup: (apiVersion: string, resourceGroupName: string, instanceName: string, brokerName: string, options?: BrokerListenerListByResourceGroupOptionalParams) => PagedAsyncIterableIterator<BrokerListenerResource>;
 }
 
 // @public
@@ -237,10 +237,10 @@ export type BrokerMemoryProfile = string;
 
 // @public
 export interface BrokerOperations {
-    createOrUpdate: (resourceGroupName: string, instanceName: string, brokerName: string, resource: BrokerResource, options?: BrokerCreateOrUpdateOptionalParams) => PollerLike<OperationState<BrokerResource>, BrokerResource>;
-    delete: (resourceGroupName: string, instanceName: string, brokerName: string, options?: BrokerDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
-    get: (resourceGroupName: string, instanceName: string, brokerName: string, options?: BrokerGetOptionalParams) => Promise<BrokerResource>;
-    listByResourceGroup: (resourceGroupName: string, instanceName: string, options?: BrokerListByResourceGroupOptionalParams) => PagedAsyncIterableIterator<BrokerResource>;
+    createOrUpdate: (apiVersion: string, resourceGroupName: string, instanceName: string, brokerName: string, resource: BrokerResource, options?: BrokerCreateOrUpdateOptionalParams) => PollerLike<OperationState<BrokerResource>, BrokerResource>;
+    delete: (apiVersion: string, resourceGroupName: string, instanceName: string, brokerName: string, options?: BrokerDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
+    get: (apiVersion: string, resourceGroupName: string, instanceName: string, brokerName: string, options?: BrokerGetOptionalParams) => Promise<BrokerResource>;
+    listByResourceGroup: (apiVersion: string, resourceGroupName: string, instanceName: string, options?: BrokerListByResourceGroupOptionalParams) => PagedAsyncIterableIterator<BrokerResource>;
 }
 
 // @public
@@ -567,10 +567,10 @@ export interface DataflowEndpointMqttAuthentication {
 
 // @public
 export interface DataflowEndpointOperations {
-    createOrUpdate: (resourceGroupName: string, instanceName: string, dataflowEndpointName: string, resource: DataflowEndpointResource, options?: DataflowEndpointCreateOrUpdateOptionalParams) => PollerLike<OperationState<DataflowEndpointResource>, DataflowEndpointResource>;
-    delete: (resourceGroupName: string, instanceName: string, dataflowEndpointName: string, options?: DataflowEndpointDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
-    get: (resourceGroupName: string, instanceName: string, dataflowEndpointName: string, options?: DataflowEndpointGetOptionalParams) => Promise<DataflowEndpointResource>;
-    listByResourceGroup: (resourceGroupName: string, instanceName: string, options?: DataflowEndpointListByResourceGroupOptionalParams) => PagedAsyncIterableIterator<DataflowEndpointResource>;
+    createOrUpdate: (apiVersion: string, resourceGroupName: string, instanceName: string, dataflowEndpointName: string, resource: DataflowEndpointResource, options?: DataflowEndpointCreateOrUpdateOptionalParams) => PollerLike<OperationState<DataflowEndpointResource>, DataflowEndpointResource>;
+    delete: (apiVersion: string, resourceGroupName: string, instanceName: string, dataflowEndpointName: string, options?: DataflowEndpointDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
+    get: (apiVersion: string, resourceGroupName: string, instanceName: string, dataflowEndpointName: string, options?: DataflowEndpointGetOptionalParams) => Promise<DataflowEndpointResource>;
+    listByResourceGroup: (apiVersion: string, resourceGroupName: string, instanceName: string, options?: DataflowEndpointListByResourceGroupOptionalParams) => PagedAsyncIterableIterator<DataflowEndpointResource>;
 }
 
 // @public
@@ -613,10 +613,10 @@ export interface DataflowOperation {
 
 // @public
 export interface DataflowOperations {
-    createOrUpdate: (resourceGroupName: string, instanceName: string, dataflowProfileName: string, dataflowName: string, resource: DataflowResource, options?: DataflowCreateOrUpdateOptionalParams) => PollerLike<OperationState<DataflowResource>, DataflowResource>;
-    delete: (resourceGroupName: string, instanceName: string, dataflowProfileName: string, dataflowName: string, options?: DataflowDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
-    get: (resourceGroupName: string, instanceName: string, dataflowProfileName: string, dataflowName: string, options?: DataflowGetOptionalParams) => Promise<DataflowResource>;
-    listByResourceGroup: (resourceGroupName: string, instanceName: string, dataflowProfileName: string, options?: DataflowListByResourceGroupOptionalParams) => PagedAsyncIterableIterator<DataflowResource>;
+    createOrUpdate: (apiVersion: string, resourceGroupName: string, instanceName: string, dataflowProfileName: string, dataflowName: string, resource: DataflowResource, options?: DataflowCreateOrUpdateOptionalParams) => PollerLike<OperationState<DataflowResource>, DataflowResource>;
+    delete: (apiVersion: string, resourceGroupName: string, instanceName: string, dataflowProfileName: string, dataflowName: string, options?: DataflowDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
+    get: (apiVersion: string, resourceGroupName: string, instanceName: string, dataflowProfileName: string, dataflowName: string, options?: DataflowGetOptionalParams) => Promise<DataflowResource>;
+    listByResourceGroup: (apiVersion: string, resourceGroupName: string, instanceName: string, dataflowProfileName: string, options?: DataflowListByResourceGroupOptionalParams) => PagedAsyncIterableIterator<DataflowResource>;
 }
 
 // @public
@@ -639,10 +639,10 @@ export interface DataflowProfileListByResourceGroupOptionalParams extends Operat
 
 // @public
 export interface DataflowProfileOperations {
-    createOrUpdate: (resourceGroupName: string, instanceName: string, dataflowProfileName: string, resource: DataflowProfileResource, options?: DataflowProfileCreateOrUpdateOptionalParams) => PollerLike<OperationState<DataflowProfileResource>, DataflowProfileResource>;
-    delete: (resourceGroupName: string, instanceName: string, dataflowProfileName: string, options?: DataflowProfileDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
-    get: (resourceGroupName: string, instanceName: string, dataflowProfileName: string, options?: DataflowProfileGetOptionalParams) => Promise<DataflowProfileResource>;
-    listByResourceGroup: (resourceGroupName: string, instanceName: string, options?: DataflowProfileListByResourceGroupOptionalParams) => PagedAsyncIterableIterator<DataflowProfileResource>;
+    createOrUpdate: (apiVersion: string, resourceGroupName: string, instanceName: string, dataflowProfileName: string, resource: DataflowProfileResource, options?: DataflowProfileCreateOrUpdateOptionalParams) => PollerLike<OperationState<DataflowProfileResource>, DataflowProfileResource>;
+    delete: (apiVersion: string, resourceGroupName: string, instanceName: string, dataflowProfileName: string, options?: DataflowProfileDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
+    get: (apiVersion: string, resourceGroupName: string, instanceName: string, dataflowProfileName: string, options?: DataflowProfileGetOptionalParams) => Promise<DataflowProfileResource>;
+    listByResourceGroup: (apiVersion: string, resourceGroupName: string, instanceName: string, options?: DataflowProfileListByResourceGroupOptionalParams) => PagedAsyncIterableIterator<DataflowProfileResource>;
 }
 
 // @public
@@ -699,6 +699,26 @@ export interface DiskBackedMessageBuffer {
 export type EndpointType = string;
 
 // @public
+export interface ErrorAdditionalInfo {
+    readonly info?: any;
+    readonly type?: string;
+}
+
+// @public
+export interface ErrorDetail {
+    readonly additionalInfo?: ErrorAdditionalInfo[];
+    readonly code?: string;
+    readonly details?: ErrorDetail[];
+    readonly message?: string;
+    readonly target?: string;
+}
+
+// @public
+export interface ErrorResponse {
+    error?: ErrorDetail;
+}
+
+// @public
 export interface ExtendedLocation {
     name: string;
     type: ExtendedLocationType;
@@ -735,6 +755,15 @@ export interface InstanceDeleteOptionalParams extends OperationOptions {
 }
 
 // @public
+export interface InstanceFeature {
+    mode?: InstanceFeatureMode;
+    settings?: Record<string, OperationalMode>;
+}
+
+// @public
+export type InstanceFeatureMode = string;
+
+// @public
 export interface InstanceGetOptionalParams extends OperationOptions {
 }
 
@@ -748,12 +777,12 @@ export interface InstanceListBySubscriptionOptionalParams extends OperationOptio
 
 // @public
 export interface InstanceOperations {
-    createOrUpdate: (resourceGroupName: string, instanceName: string, resource: InstanceResource, options?: InstanceCreateOrUpdateOptionalParams) => PollerLike<OperationState<InstanceResource>, InstanceResource>;
-    delete: (resourceGroupName: string, instanceName: string, options?: InstanceDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
-    get: (resourceGroupName: string, instanceName: string, options?: InstanceGetOptionalParams) => Promise<InstanceResource>;
-    listByResourceGroup: (resourceGroupName: string, options?: InstanceListByResourceGroupOptionalParams) => PagedAsyncIterableIterator<InstanceResource>;
-    listBySubscription: (options?: InstanceListBySubscriptionOptionalParams) => PagedAsyncIterableIterator<InstanceResource>;
-    update: (resourceGroupName: string, instanceName: string, properties: InstancePatchModel, options?: InstanceUpdateOptionalParams) => Promise<InstanceResource>;
+    createOrUpdate: (apiVersion: string, resourceGroupName: string, instanceName: string, resource: InstanceResource, options?: InstanceCreateOrUpdateOptionalParams) => PollerLike<OperationState<InstanceResource>, InstanceResource>;
+    delete: (apiVersion: string, resourceGroupName: string, instanceName: string, options?: InstanceDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
+    get: (apiVersion: string, resourceGroupName: string, instanceName: string, options?: InstanceGetOptionalParams) => Promise<InstanceResource>;
+    listByResourceGroup: (apiVersion: string, resourceGroupName: string, options?: InstanceListByResourceGroupOptionalParams) => PagedAsyncIterableIterator<InstanceResource>;
+    listBySubscription: (apiVersion: string, options?: InstanceListBySubscriptionOptionalParams) => PagedAsyncIterableIterator<InstanceResource>;
+    update: (apiVersion: string, resourceGroupName: string, instanceName: string, properties: InstancePatchModel, options?: InstanceUpdateOptionalParams) => Promise<InstanceResource>;
 }
 
 // @public
@@ -765,6 +794,7 @@ export interface InstancePatchModel {
 // @public
 export interface InstanceProperties {
     description?: string;
+    features?: Record<string, InstanceFeature>;
     readonly provisioningState?: ProvisioningState;
     schemaRegistryRef: SchemaRegistryRef;
     readonly version?: string;
@@ -798,7 +828,6 @@ export class IoTOperationsClient {
 
 // @public
 export interface IoTOperationsClientOptionalParams extends ClientOptions {
-    apiVersion?: string;
 }
 
 // @public
@@ -942,6 +971,13 @@ export enum KnownFilterType {
 }
 
 // @public
+export enum KnownInstanceFeatureMode {
+    Disabled = "Disabled",
+    Preview = "Preview",
+    Stable = "Stable"
+}
+
+// @public
 export enum KnownKafkaAuthMethod {
     Anonymous = "Anonymous",
     Sasl = "Sasl",
@@ -1076,7 +1112,8 @@ export enum KnownTransformationSerializationFormat {
 
 // @public
 export enum KnownVersions {
-    "V2024-11-01" = "2024-11-01"
+    "V2024-11-01" = "2024-11-01",
+    V20250401 = "2025-04-01"
 }
 
 // @public
@@ -1128,8 +1165,8 @@ export type MqttRetainType = string;
 
 // @public
 export interface Operation {
-    actionType?: ActionType;
-    readonly display?: OperationDisplay;
+    readonly actionType?: ActionType;
+    display?: OperationDisplay;
     readonly isDataAction?: boolean;
     readonly name?: string;
     readonly origin?: Origin;
@@ -1152,7 +1189,7 @@ export interface OperationsListOptionalParams extends OperationOptions {
 
 // @public
 export interface OperationsOperations {
-    list: (options?: OperationsListOptionalParams) => PagedAsyncIterableIterator<Operation>;
+    list: (apiVersion: string, options?: OperationsListOptionalParams) => PagedAsyncIterableIterator<Operation>;
 }
 
 // @public

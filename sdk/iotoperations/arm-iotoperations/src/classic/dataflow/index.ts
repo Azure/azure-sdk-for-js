@@ -2,34 +2,49 @@
 // Licensed under the MIT License.
 
 import { IoTOperationsContext } from "../../api/ioTOperationsContext.js";
-import {
-  dataflowGet,
-  dataflowCreateOrUpdate,
-  dataflowDelete,
-  dataflowListByResourceGroup,
-} from "../../api/dataflow/index.js";
 import { DataflowResource } from "../../models/models.js";
+import {
+  DataflowListByResourceGroupOptionalParams,
+  DataflowDeleteOptionalParams,
+  DataflowCreateOrUpdateOptionalParams,
+  DataflowGetOptionalParams,
+} from "../../api/dataflow/options.js";
+import {
+  listByResourceGroup,
+  $delete,
+  createOrUpdate,
+  get,
+} from "../../api/dataflow/operations.js";
 import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 import { PollerLike, OperationState } from "@azure/core-lro";
-import {
-  DataflowGetOptionalParams,
-  DataflowCreateOrUpdateOptionalParams,
-  DataflowDeleteOptionalParams,
-  DataflowListByResourceGroupOptionalParams,
-} from "../../api/options.js";
 
 /** Interface representing a Dataflow operations. */
 export interface DataflowOperations {
-  /** Get a DataflowResource */
-  get: (
+  /** List DataflowResource resources by DataflowProfileResource */
+  listByResourceGroup: (
+    apiVersion: string,
+    resourceGroupName: string,
+    instanceName: string,
+    dataflowProfileName: string,
+    options?: DataflowListByResourceGroupOptionalParams,
+  ) => PagedAsyncIterableIterator<DataflowResource>;
+  /** Delete a DataflowResource */
+  /**
+   *  @fixme delete is a reserved word that cannot be used as an operation name.
+   *         Please add @clientName("clientName") or @clientName("<JS-Specific-Name>", "javascript")
+   *         to the operation to override the generated name.
+   */
+  delete: (
+    apiVersion: string,
     resourceGroupName: string,
     instanceName: string,
     dataflowProfileName: string,
     dataflowName: string,
-    options?: DataflowGetOptionalParams,
-  ) => Promise<DataflowResource>;
+    options?: DataflowDeleteOptionalParams,
+  ) => PollerLike<OperationState<void>, void>;
   /** Create a DataflowResource */
   createOrUpdate: (
+    apiVersion: string,
     resourceGroupName: string,
     instanceName: string,
     dataflowProfileName: string,
@@ -37,35 +52,45 @@ export interface DataflowOperations {
     resource: DataflowResource,
     options?: DataflowCreateOrUpdateOptionalParams,
   ) => PollerLike<OperationState<DataflowResource>, DataflowResource>;
-  /** Delete a DataflowResource */
-  delete: (
+  /** Get a DataflowResource */
+  get: (
+    apiVersion: string,
     resourceGroupName: string,
     instanceName: string,
     dataflowProfileName: string,
     dataflowName: string,
-    options?: DataflowDeleteOptionalParams,
-  ) => PollerLike<OperationState<void>, void>;
-  /** List DataflowResource resources by DataflowProfileResource */
-  listByResourceGroup: (
-    resourceGroupName: string,
-    instanceName: string,
-    dataflowProfileName: string,
-    options?: DataflowListByResourceGroupOptionalParams,
-  ) => PagedAsyncIterableIterator<DataflowResource>;
+    options?: DataflowGetOptionalParams,
+  ) => Promise<DataflowResource>;
 }
 
-export function getDataflow(context: IoTOperationsContext, subscriptionId: string) {
+function _getDataflow(context: IoTOperationsContext) {
   return {
-    get: (
+    listByResourceGroup: (
+      apiVersion: string,
+      resourceGroupName: string,
+      instanceName: string,
+      dataflowProfileName: string,
+      options?: DataflowListByResourceGroupOptionalParams,
+    ) =>
+      listByResourceGroup(
+        context,
+        apiVersion,
+        resourceGroupName,
+        instanceName,
+        dataflowProfileName,
+        options,
+      ),
+    delete: (
+      apiVersion: string,
       resourceGroupName: string,
       instanceName: string,
       dataflowProfileName: string,
       dataflowName: string,
-      options?: DataflowGetOptionalParams,
+      options?: DataflowDeleteOptionalParams,
     ) =>
-      dataflowGet(
+      $delete(
         context,
-        subscriptionId,
+        apiVersion,
         resourceGroupName,
         instanceName,
         dataflowProfileName,
@@ -73,6 +98,7 @@ export function getDataflow(context: IoTOperationsContext, subscriptionId: strin
         options,
       ),
     createOrUpdate: (
+      apiVersion: string,
       resourceGroupName: string,
       instanceName: string,
       dataflowProfileName: string,
@@ -80,9 +106,9 @@ export function getDataflow(context: IoTOperationsContext, subscriptionId: strin
       resource: DataflowResource,
       options?: DataflowCreateOrUpdateOptionalParams,
     ) =>
-      dataflowCreateOrUpdate(
+      createOrUpdate(
         context,
-        subscriptionId,
+        apiVersion,
         resourceGroupName,
         instanceName,
         dataflowProfileName,
@@ -90,44 +116,28 @@ export function getDataflow(context: IoTOperationsContext, subscriptionId: strin
         resource,
         options,
       ),
-    delete: (
+    get: (
+      apiVersion: string,
       resourceGroupName: string,
       instanceName: string,
       dataflowProfileName: string,
       dataflowName: string,
-      options?: DataflowDeleteOptionalParams,
+      options?: DataflowGetOptionalParams,
     ) =>
-      dataflowDelete(
+      get(
         context,
-        subscriptionId,
+        apiVersion,
         resourceGroupName,
         instanceName,
         dataflowProfileName,
         dataflowName,
         options,
       ),
-    listByResourceGroup: (
-      resourceGroupName: string,
-      instanceName: string,
-      dataflowProfileName: string,
-      options?: DataflowListByResourceGroupOptionalParams,
-    ) =>
-      dataflowListByResourceGroup(
-        context,
-        subscriptionId,
-        resourceGroupName,
-        instanceName,
-        dataflowProfileName,
-        options,
-      ),
   };
 }
 
-export function getDataflowOperations(
-  context: IoTOperationsContext,
-  subscriptionId: string,
-): DataflowOperations {
+export function _getDataflowOperations(context: IoTOperationsContext): DataflowOperations {
   return {
-    ...getDataflow(context, subscriptionId),
+    ..._getDataflow(context),
   };
 }

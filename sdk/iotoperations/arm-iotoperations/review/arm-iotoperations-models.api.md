@@ -503,6 +503,26 @@ export interface DiskBackedMessageBuffer {
 export type EndpointType = string;
 
 // @public
+export interface ErrorAdditionalInfo {
+    readonly info?: any;
+    readonly type?: string;
+}
+
+// @public
+export interface ErrorDetail {
+    readonly additionalInfo?: ErrorAdditionalInfo[];
+    readonly code?: string;
+    readonly details?: ErrorDetail[];
+    readonly message?: string;
+    readonly target?: string;
+}
+
+// @public
+export interface ErrorResponse {
+    error?: ErrorDetail;
+}
+
+// @public
 export interface ExtendedLocation {
     name: string;
     type: ExtendedLocationType;
@@ -529,6 +549,15 @@ export interface GenerateResourceLimits {
 }
 
 // @public
+export interface InstanceFeature {
+    mode?: InstanceFeatureMode;
+    settings?: Record<string, OperationalMode>;
+}
+
+// @public
+export type InstanceFeatureMode = string;
+
+// @public
 export interface InstancePatchModel {
     identity?: ManagedServiceIdentity;
     tags?: Record<string, string>;
@@ -537,6 +566,7 @@ export interface InstancePatchModel {
 // @public
 export interface InstanceProperties {
     description?: string;
+    features?: Record<string, InstanceFeature>;
     readonly provisioningState?: ProvisioningState;
     schemaRegistryRef: SchemaRegistryRef;
     readonly version?: string;
@@ -690,6 +720,13 @@ export enum KnownFilterType {
 }
 
 // @public
+export enum KnownInstanceFeatureMode {
+    Disabled = "Disabled",
+    Preview = "Preview",
+    Stable = "Stable"
+}
+
+// @public
 export enum KnownKafkaAuthMethod {
     Anonymous = "Anonymous",
     Sasl = "Sasl",
@@ -824,7 +861,8 @@ export enum KnownTransformationSerializationFormat {
 
 // @public
 export enum KnownVersions {
-    "V2024-11-01" = "2024-11-01"
+    "V2024-11-01" = "2024-11-01",
+    V20250401 = "2025-04-01"
 }
 
 // @public
@@ -876,8 +914,8 @@ export type MqttRetainType = string;
 
 // @public
 export interface Operation {
-    actionType?: ActionType;
-    readonly display?: OperationDisplay;
+    readonly actionType?: ActionType;
+    display?: OperationDisplay;
     readonly isDataAction?: boolean;
     readonly name?: string;
     readonly origin?: Origin;
