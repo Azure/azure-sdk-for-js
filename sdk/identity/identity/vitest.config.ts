@@ -14,5 +14,10 @@ export default mergeConfig(
         exclude: ["test/manual-integration/**/*.ts", "test/manual/**/*.ts"]
       }
     },
+    resolve: {
+      alias: {
+        "@azure/identity-broker": "virtual:@azure/identity-broker"
+      }
+    },
   }),
 );
