@@ -153,6 +153,19 @@ const client = new KeyClient(vaultUrl, credential);
 
 A relatively common scenario involves authenticating using a user-assigned managed identity for an Azure resource. Explore the [example on Authenticating a user-assigned managed identity with DefaultAzureCredential](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/identity/identity/samples/AzureIdentityExamples.md#authenticating-a-user-assigned-managed-identity-with-defaultazurecredential) to see how this is made a relatively straightforward task that can be configured using environment variables or in code.
 
+### Authenticate with Visual Studio Code via `DefaultAzureCredential`
+
+`DefaultAzureCredential` can automatically use the signed-in user from Visual Studio Code to authenticate your application during local development. Before using Visual Studio Code authentication, ensure you have:
+
+1. **Azure Resources Extension**: Install the [Azure Resources extension](https://marketplace.visualstudio.com/items?itemName=ms-azuretools.vscode-azureresourcegroups) in Visual Studio Code
+2. **Signed in to Azure**: Use the `Azure: Sign In` command in VS Code 
+3. **Broker package**: Install the `@azure/identity-broker` package in your project:
+```bash
+npm install @azure/identity-broker
+```
+
+Once these prerequisites are met, `DefaultAzureCredential` will automatically detect and use VS Code authentication when running locally.
+
 ### Define a custom authentication flow with `ChainedTokenCredential`
 
 While `DefaultAzureCredential` is generally the quickest way to get started developing applications for Azure, more advanced users may want to customize the credentials considered when authenticating. The `ChainedTokenCredential` enables users to combine multiple credential instances to define a customized chain of credentials. This example demonstrates creating a `ChainedTokenCredential` that attempts to authenticate using two differently configured instances of `ClientSecretCredential`, to then authenticate the `KeyClient` from the [@azure/keyvault-keys](https://www.npmjs.com/package/@azure/keyvault-keys):

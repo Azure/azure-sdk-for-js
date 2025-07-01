@@ -31,13 +31,17 @@ describe("VisualStudioCodeCredential (internal)", function () {
     });
 
     it("should throw CredentialUnavailableError when broker plugin is not available", async function () {
-      const loadBrokerPluginSpy = vi.spyOn(credential as any, "loadBrokerPlugin").mockResolvedValue(undefined);
-      const loadVSCodeAuthRecordSpy = vi.spyOn(credential as any, "loadVSCodeAuthRecord").mockResolvedValue({
-        homeAccountId: "test",
-        environment: "test",
-        tenantId: "test",
-        username: "test"
-      });
+      const loadBrokerPluginSpy = vi
+        .spyOn(credential as any, "loadBrokerPlugin")
+        .mockResolvedValue(undefined);
+      const loadVSCodeAuthRecordSpy = vi
+        .spyOn(credential as any, "loadVSCodeAuthRecord")
+        .mockResolvedValue({
+          homeAccountId: "test",
+          environment: "test",
+          tenantId: "test",
+          username: "test",
+        });
 
       const prepare = (credential as any).prepare.bind(credential);
 
@@ -54,8 +58,8 @@ describe("VisualStudioCodeCredential (internal)", function () {
         Object.assign(new Error("ENOENT: no such file or directory"), {
           code: "ENOENT",
           errno: -2,
-          syscall: "stat"
-        })
+          syscall: "stat",
+        }),
       );
 
       const loadVSCodeAuthRecord = (credential as any).loadVSCodeAuthRecord.bind(credential);
@@ -70,7 +74,7 @@ describe("VisualStudioCodeCredential (internal)", function () {
       const readFileSpy = vi.spyOn(fs, "readFile").mockRejectedValue(new Error("Cannot read file"));
 
       const loadVSCodeAuthRecord = (credential as any).loadVSCodeAuthRecord.bind(credential);
-      
+
       // The method should throw when readFile fails, not return undefined
       await expect(loadVSCodeAuthRecord()).rejects.toThrow("Cannot read file");
 
@@ -79,8 +83,12 @@ describe("VisualStudioCodeCredential (internal)", function () {
     });
 
     it("should throw CredentialUnavailableError when auth record is not available", async function () {
-      const loadBrokerPluginSpy = vi.spyOn(credential as any, "loadBrokerPlugin").mockResolvedValue({ type: "mock-plugin" });
-      const loadVSCodeAuthRecordSpy = vi.spyOn(credential as any, "loadVSCodeAuthRecord").mockResolvedValue(undefined);
+      const loadBrokerPluginSpy = vi
+        .spyOn(credential as any, "loadBrokerPlugin")
+        .mockResolvedValue({ type: "mock-plugin" });
+      const loadVSCodeAuthRecordSpy = vi
+        .spyOn(credential as any, "loadVSCodeAuthRecord")
+        .mockResolvedValue(undefined);
 
       const prepare = (credential as any).prepare.bind(credential);
 
