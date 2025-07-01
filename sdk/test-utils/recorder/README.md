@@ -142,7 +142,7 @@ For further understanding, please read the [ASSET_SYNC_WORKFLOW.md](https://gith
 
 Inside a vitest test (either in the `beforeEach` or in the test body itself), you will need to instantiate the `Recorder` as below to leverage its functionalities.
 
-```js
+```ts
 let recorder: Recorder;
 
 beforeEach(async function (context) {
@@ -152,13 +152,13 @@ beforeEach(async function (context) {
 
 The client being tested needs to add the recording policy that redirects requests to the test-proxy tool first before they go to the service. This is done by simply passing the client options bag through the `recorder.configureClientOptions` helper:
 
-```js
+```ts
 const client = new MyServiceClient(/** args **/, recorder.configureClientOptions(/** client options **/));
 ```
 
 Recording starts with the `recorder.start()` method.
 
-```js
+```ts
 await recorder.start(/** recorderOptions go here **/);
 ```
 
@@ -168,7 +168,7 @@ Any requests that are made using the above `client (MyServiceClient)` will be re
 
 Likewise, in `playback` mode, the saved responses are utilized by the test-proxy tool when the requests are redirected to it instead of reaching the service.
 
-```js
+```ts
 await recorder.stop();
 ```
 
@@ -341,7 +341,7 @@ We try our best to make sure the sensitive information is not leaked anywhere wi
 
 `envSetupForPlayback` expects key-value pairs, with keys signifying the names of the environment variables, and the values would be the fake ones that you'd like to map/swap the originals with.
 
-```js
+```ts
   envSetupForPlayback: {
     TABLES_URL: "https://fakeaccount.table.core.windows.net",
   }
