@@ -366,8 +366,6 @@ export class GlobalPartitionEndpointManager {
    * location for the partition key range.
    */
   private async openConnectionToUnhealthyEndpointsWithFailback(): Promise<void> {
-    const pkRangeToEndpointMappings = new Map<string, [string, PartitionAvailablilityStatus]>();
-
     for (const pkRange of this.partitionKeyRangeToLocationForReadAndWrite.keys()) {
       const partitionFailover = this.partitionKeyRangeToLocationForReadAndWrite.get(pkRange);
       if (!partitionFailover) continue;
@@ -380,41 +378,10 @@ export class GlobalPartitionEndpointManager {
         now.getTime() - firstRequestFailureTime >
         Constants.AllowedPartitionUnavailabilityDurationInMs
       ) {
-        const originalFailedLocation = partitionFailover.firstFailedEndPoint;
-        pkRangeToEndpointMappings.set(pkRange, [
-          originalFailedLocation,
-          PartitionAvailablilityStatus.Unavailable,
-        ]);
+        // Un-deterministically marking the original failed endpoint for the PkRange back to healthy.
+        // Initiate Failback to the original failed location.
+        this.partitionKeyRangeToLocationForReadAndWrite.delete(pkRange);
       }
     }
-
-    if (pkRangeToEndpointMappings.size > 0) {
-      this.backgroundOpenConnectionTask(pkRangeToEndpointMappings);
-
-      for (const pkRange of pkRangeToEndpointMappings.keys()) {
-        const [_, currentHealthState] = pkRangeToEndpointMappings.get(pkRange);
-        if (currentHealthState === PartitionAvailablilityStatus.Available) {
-          // Initiate Failback to the original failed location.
-          this.partitionKeyRangeToLocationForReadAndWrite.delete(pkRange);
-        }
-      }
-    }
-  }
-
-  /**
-   * Attempts to mark the unhealthy endpoints for a faulty partition to healthy state, un-deterministically. This is done
-   * specifically for the gateway mode to get the faulty partition failed back to the original location.
-   */
-  private backgroundOpenConnectionTask(
-    pkRangeToEndpointMappings: Map<string, [string, PartitionAvailablilityStatus]>,
-  ): Promise<void> {
-    for (const [pkRange, [originalFailedLocation, _]] of pkRangeToEndpointMappings) {
-      // Un-deterministically marking the original failed endpoint for the PkRange back to healthy.
-      pkRangeToEndpointMappings.set(pkRange, [
-        originalFailedLocation,
-        PartitionAvailablilityStatus.Available,
-      ]);
-    }
-    return;
   }
 }

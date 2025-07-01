@@ -23,7 +23,7 @@ function createMockGlobalEndpointManager(): GlobalEndpointManager {
   return {
     getReadEndpoints: async () => mockReadEndpoints,
     getAvailableReadEndpoints: async () => mockReadEndpoints,
-    getAvailableReadLocations: async () => [
+    getReadLocations: async () => [
       { name: "region1", databaseAccountEndpoint: "https://region1.documents.azure.com:443/" },
       { name: "region2", databaseAccountEndpoint: "https://region2.documents.azure.com:443/" },
       { name: "region3", databaseAccountEndpoint: "https://region3.documents.azure.com:443/" },
@@ -434,55 +434,6 @@ describe("GlobalPartitionEndpointManager", () => {
             "0",
           ),
         );
-      });
-
-      it("backgroundOpenConnectionTask updates health status of unhealthy endpoints", async () => {
-        const pkMap = new Map();
-        pkMap.set("0", [mockReadEndpoints[1], PartitionAvailablilityStatus.Unavailable]);
-
-        await (globalPartitionEndpointManager as any).backgroundOpenConnectionTask(pkMap);
-        const result = pkMap.get("0");
-        assert.deepEqual(result, [mockReadEndpoints[1], PartitionAvailablilityStatus.Available]);
-      });
-
-      it("should be idempotent (re-running it doesn't corrupt state)", async () => {
-        const map = new Map<string, [string, PartitionAvailablilityStatus]>([
-          ["0", ["https://region2.documents.azure.com", PartitionAvailablilityStatus.Available]],
-        ]);
-
-        await (globalPartitionEndpointManager as any).backgroundOpenConnectionTask(map);
-
-        const [_, status] = map.get("0")!;
-        assert.equal(status, PartitionAvailablilityStatus.Available);
-      });
-
-      it("openConnectionToUnhealthyEndpointsWithFailback - does not remove if still unhealthy", async () => {
-        const info = new PartitionKeyRangeFailoverInfo(mockReadEndpoints[1]);
-        (info as any).firstRequestFailureTime =
-          Date.now() - Constants.AllowedPartitionUnavailabilityDurationInMs - 1000;
-
-        (globalPartitionEndpointManager as any).partitionKeyRangeToLocationForReadAndWrite.set(
-          "0",
-          info,
-        );
-
-        const backgroundTaskSpy = vi
-          .spyOn(globalPartitionEndpointManager as any, "backgroundOpenConnectionTask")
-          .mockImplementation(async (map: Map<string, [string, string]>) => {
-            // Mark it as still unhealthy
-            map.set("0", [mockReadEndpoints[1], "Unhealthy"]);
-          });
-
-        await (
-          globalPartitionEndpointManager as any
-        ).openConnectionToUnhealthyEndpointsWithFailback();
-
-        assert.isTrue(
-          (globalPartitionEndpointManager as any).partitionKeyRangeToLocationForReadAndWrite.has(
-            "0",
-          ),
-        );
-        expect(backgroundTaskSpy).toHaveBeenCalledOnce();
       });
     });
   });
