@@ -16,11 +16,11 @@ import {
   VirtualMachinesGetOptionalParams,
   VirtualMachinesListOptionalParams,
 } from "./options.js";
-import { getLongRunningPoller } from "../../static-helpers/pollingHelpers.js";
 import {
   PagedAsyncIterableIterator,
   buildPagedAsyncIterator,
 } from "../../static-helpers/pagingHelpers.js";
+import { getLongRunningPoller } from "../../static-helpers/pollingHelpers.js";
 import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
 import {
   StreamableMethod,
@@ -55,18 +55,22 @@ export function _restrictMovementSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).post({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
-    body: virtualMachineRestrictMovementSerializer(restrictMovementParameter),
-  });
+  return context
+    .path(path)
+    .post({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      headers: {
+        accept: "application/json",
+        ...options.requestOptions?.headers,
+      },
+      body: virtualMachineRestrictMovementSerializer(restrictMovementParameter),
+    });
 }
 
-export async function _restrictMovementDeserialize(result: PathUncheckedResponse): Promise<void> {
+export async function _restrictMovementDeserialize(
+  result: PathUncheckedResponse,
+): Promise<void> {
   const expectedStatuses = ["202", "200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
@@ -89,21 +93,26 @@ export function restrictMovement(
     requestOptions: {},
   },
 ): PollerLike<OperationState<void>, void> {
-  return getLongRunningPoller(context, _restrictMovementDeserialize, ["202", "200"], {
-    updateIntervalInMs: options?.updateIntervalInMs,
-    abortSignal: options?.abortSignal,
-    getInitialResponse: () =>
-      _restrictMovementSend(
-        context,
-        resourceGroupName,
-        privateCloudName,
-        clusterName,
-        virtualMachineId,
-        restrictMovementParameter,
-        options,
-      ),
-    resourceLocationConfig: "location",
-  }) as PollerLike<OperationState<void>, void>;
+  return getLongRunningPoller(
+    context,
+    _restrictMovementDeserialize,
+    ["202", "200"],
+    {
+      updateIntervalInMs: options?.updateIntervalInMs,
+      abortSignal: options?.abortSignal,
+      getInitialResponse: () =>
+        _restrictMovementSend(
+          context,
+          resourceGroupName,
+          privateCloudName,
+          clusterName,
+          virtualMachineId,
+          restrictMovementParameter,
+          options,
+        ),
+      resourceLocationConfig: "location",
+    },
+  ) as PollerLike<OperationState<void>, void>;
 }
 
 export function _getSend(
@@ -128,16 +137,20 @@ export function _getSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).get({
-    ...operationOptionsToRequestParameters(options),
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
-  });
+  return context
+    .path(path)
+    .get({
+      ...operationOptionsToRequestParameters(options),
+      headers: {
+        accept: "application/json",
+        ...options.requestOptions?.headers,
+      },
+    });
 }
 
-export async function _getDeserialize(result: PathUncheckedResponse): Promise<VirtualMachine> {
+export async function _getDeserialize(
+  result: PathUncheckedResponse,
+): Promise<VirtualMachine> {
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
@@ -188,13 +201,15 @@ export function _listSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).get({
-    ...operationOptionsToRequestParameters(options),
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
-  });
+  return context
+    .path(path)
+    .get({
+      ...operationOptionsToRequestParameters(options),
+      headers: {
+        accept: "application/json",
+        ...options.requestOptions?.headers,
+      },
+    });
 }
 
 export async function _listDeserialize(
@@ -220,7 +235,14 @@ export function list(
 ): PagedAsyncIterableIterator<VirtualMachine> {
   return buildPagedAsyncIterator(
     context,
-    () => _listSend(context, resourceGroupName, privateCloudName, clusterName, options),
+    () =>
+      _listSend(
+        context,
+        resourceGroupName,
+        privateCloudName,
+        clusterName,
+        options,
+      ),
     _listDeserialize,
     ["200"],
     { itemName: "value", nextLinkName: "nextLink" },

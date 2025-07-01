@@ -10,7 +10,10 @@ import {
   _SummaryResourceListResult,
   _summaryResourceListResultDeserializer,
 } from "../../models/models.js";
-import { SummariesListByFirmwareOptionalParams, SummariesGetOptionalParams } from "./options.js";
+import {
+  SummariesListByFirmwareOptionalParams,
+  SummariesGetOptionalParams,
+} from "./options.js";
 import {
   PagedAsyncIterableIterator,
   buildPagedAsyncIterator,
@@ -43,13 +46,15 @@ export function _listByFirmwareSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).get({
-    ...operationOptionsToRequestParameters(options),
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
-  });
+  return context
+    .path(path)
+    .get({
+      ...operationOptionsToRequestParameters(options),
+      headers: {
+        accept: "application/json",
+        ...options.requestOptions?.headers,
+      },
+    });
 }
 
 export async function _listByFirmwareDeserialize(
@@ -75,7 +80,14 @@ export function listByFirmware(
 ): PagedAsyncIterableIterator<SummaryResource> {
   return buildPagedAsyncIterator(
     context,
-    () => _listByFirmwareSend(context, resourceGroupName, workspaceName, firmwareId, options),
+    () =>
+      _listByFirmwareSend(
+        context,
+        resourceGroupName,
+        workspaceName,
+        firmwareId,
+        options,
+      ),
     _listByFirmwareDeserialize,
     ["200"],
     { itemName: "value", nextLinkName: "nextLink" },
@@ -104,16 +116,20 @@ export function _getSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).get({
-    ...operationOptionsToRequestParameters(options),
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
-  });
+  return context
+    .path(path)
+    .get({
+      ...operationOptionsToRequestParameters(options),
+      headers: {
+        accept: "application/json",
+        ...options.requestOptions?.headers,
+      },
+    });
 }
 
-export async function _getDeserialize(result: PathUncheckedResponse): Promise<SummaryResource> {
+export async function _getDeserialize(
+  result: PathUncheckedResponse,
+): Promise<SummaryResource> {
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);

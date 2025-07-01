@@ -7,7 +7,10 @@ import {
   LocationsCheckQuotaAvailabilityOptionalParams,
   LocationsCheckTrialAvailabilityOptionalParams,
 } from "../../api/locations/options.js";
-import { checkQuotaAvailability, checkTrialAvailability } from "../../api/locations/operations.js";
+import {
+  checkQuotaAvailability,
+  checkTrialAvailability,
+} from "../../api/locations/operations.js";
 
 /** Interface representing a Locations operations. */
 export interface LocationsOperations {

@@ -14,7 +14,11 @@ async function discoveryRulesDelete(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const client = new CloudHealthClient(credential, subscriptionId);
-  await client.discoveryRules.delete("my-resource-group", "my-health-model", "my-discovery-rule");
+  await client.discoveryRules.delete(
+    "my-resource-group",
+    "my-health-model",
+    "my-discovery-rule",
+  );
 }
 
 async function main(): Promise<void> {

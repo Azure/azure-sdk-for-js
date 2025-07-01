@@ -107,20 +107,36 @@ export interface ManagedClustersOperations {
   ) => Promise<ManagedCluster>;
 }
 
-function _getManagedClusters(context: ServiceFabricManagedClustersManagementContext) {
+function _getManagedClusters(
+  context: ServiceFabricManagedClustersManagementContext,
+) {
   return {
     stopFaultSimulation: (
       resourceGroupName: string,
       clusterName: string,
       parameters: FaultSimulationIdContent,
       options?: ManagedClustersStopFaultSimulationOptionalParams,
-    ) => stopFaultSimulation(context, resourceGroupName, clusterName, parameters, options),
+    ) =>
+      stopFaultSimulation(
+        context,
+        resourceGroupName,
+        clusterName,
+        parameters,
+        options,
+      ),
     startFaultSimulation: (
       resourceGroupName: string,
       clusterName: string,
       parameters: FaultSimulationContentWrapper,
       options?: ManagedClustersStartFaultSimulationOptionalParams,
-    ) => startFaultSimulation(context, resourceGroupName, clusterName, parameters, options),
+    ) =>
+      startFaultSimulation(
+        context,
+        resourceGroupName,
+        clusterName,
+        parameters,
+        options,
+      ),
     listFaultSimulation: (
       resourceGroupName: string,
       clusterName: string,
@@ -131,9 +147,17 @@ function _getManagedClusters(context: ServiceFabricManagedClustersManagementCont
       clusterName: string,
       parameters: FaultSimulationIdContent,
       options?: ManagedClustersGetFaultSimulationOptionalParams,
-    ) => getFaultSimulation(context, resourceGroupName, clusterName, parameters, options),
-    listBySubscription: (options?: ManagedClustersListBySubscriptionOptionalParams) =>
-      listBySubscription(context, options),
+    ) =>
+      getFaultSimulation(
+        context,
+        resourceGroupName,
+        clusterName,
+        parameters,
+        options,
+      ),
+    listBySubscription: (
+      options?: ManagedClustersListBySubscriptionOptionalParams,
+    ) => listBySubscription(context, options),
     listByResourceGroup: (
       resourceGroupName: string,
       options?: ManagedClustersListByResourceGroupOptionalParams,
@@ -154,7 +178,14 @@ function _getManagedClusters(context: ServiceFabricManagedClustersManagementCont
       clusterName: string,
       parameters: ManagedCluster,
       options?: ManagedClustersCreateOrUpdateOptionalParams,
-    ) => createOrUpdate(context, resourceGroupName, clusterName, parameters, options),
+    ) =>
+      createOrUpdate(
+        context,
+        resourceGroupName,
+        clusterName,
+        parameters,
+        options,
+      ),
     get: (
       resourceGroupName: string,
       clusterName: string,

@@ -2,14 +2,14 @@
 // Licensed under the MIT License.
 
 import MessagesServiceClient from "./messagesServiceClient.js";
-export * from "./conversationEventListener.js";
-export * from "./signaling/events.js";
-export * from "./generated/src/messagesServiceClient.js";
-export * from "./generated/src/parameters.js";
-export * from "./generated/src/responses.js";
-export * from "./generated/src/clientDefinitions.js";
-export * from "./generated/src/isUnexpected.js";
-export * from "./generated/src/models.js";
-export * from "./generated/src/outputModels.js";
-export * from "./generated/src/paginateHelper.js";
+
+export * from "./messagesServiceClient.js";
+export * from "./parameters.js";
+export * from "./responses.js";
+export * from "./clientDefinitions.js";
+export * from "./isUnexpected.js";
+export * from "./models.js";
+export * from "./outputModels.js";
+export * from "./paginateHelper.js";
+
 export default MessagesServiceClient;

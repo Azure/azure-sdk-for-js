@@ -16,7 +16,8 @@ export interface ServiceFabricManagedClustersManagementContext extends Client {
 }
 
 /** Optional parameters for the client. */
-export interface ServiceFabricManagedClustersManagementClientOptionalParams extends ClientOptions {
+export interface ServiceFabricManagedClustersManagementClientOptionalParams
+  extends ClientOptions {
   /** The API version to use for this operation. */
   /** Known values of {@link KnownVersions} that the service accepts. */
   apiVersion?: string;
@@ -28,7 +29,8 @@ export function createServiceFabricManagedClustersManagement(
   subscriptionId: string,
   options: ServiceFabricManagedClustersManagementClientOptionalParams = {},
 ): ServiceFabricManagedClustersManagementContext {
-  const endpointUrl = options.endpoint ?? options.baseUrl ?? "https://management.azure.com";
+  const endpointUrl =
+    options.endpoint ?? options.baseUrl ?? "https://management.azure.com";
   const prefixFromOptions = options?.userAgentOptions?.userAgentPrefix;
   const userAgentInfo = `azsdk-js-arm-servicefabricmanagedclusters/1.0.0-beta.1`;
   const userAgentPrefix = prefixFromOptions

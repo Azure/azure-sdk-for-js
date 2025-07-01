@@ -11,7 +11,10 @@ import {
   _getDiscoverySourcesOperations,
 } from "./classic/discoverySources/index.js";
 import { MapsOperations, _getMapsOperations } from "./classic/maps/index.js";
-import { OperationsOperations, _getOperationsOperations } from "./classic/operations/index.js";
+import {
+  OperationsOperations,
+  _getOperationsOperations,
+} from "./classic/operations/index.js";
 import { Pipeline } from "@azure/core-rest-pipeline";
 import { TokenCredential } from "@azure/core-auth";
 

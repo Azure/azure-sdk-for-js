@@ -4,15 +4,6 @@
 import { OperationOptions } from "@azure-rest/core-client";
 
 /** Optional parameters. */
-export interface ExperimentsExecutionDetailsOptionalParams extends OperationOptions {}
-
-/** Optional parameters. */
-export interface ExperimentsListAllExecutionsOptionalParams extends OperationOptions {}
-
-/** Optional parameters. */
-export interface ExperimentsGetExecutionOptionalParams extends OperationOptions {}
-
-/** Optional parameters. */
 export interface ExperimentsStartOptionalParams extends OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
@@ -53,7 +44,8 @@ export interface ExperimentsUpdateOptionalParams extends OperationOptions {
 }
 
 /** Optional parameters. */
-export interface ExperimentsCreateOrUpdateOptionalParams extends OperationOptions {
+export interface ExperimentsCreateOrUpdateOptionalParams
+  extends OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
 }

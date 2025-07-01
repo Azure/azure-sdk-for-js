@@ -10,7 +10,9 @@ import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.j
 /** Interface representing a Operations operations. */
 export interface OperationsOperations {
   /** List the operations for the provider */
-  list: (options?: OperationsListOptionalParams) => PagedAsyncIterableIterator<Operation>;
+  list: (
+    options?: OperationsListOptionalParams,
+  ) => PagedAsyncIterableIterator<Operation>;
 }
 
 function _getOperations(context: CloudHealthContext) {
@@ -19,7 +21,9 @@ function _getOperations(context: CloudHealthContext) {
   };
 }
 
-export function _getOperationsOperations(context: CloudHealthContext): OperationsOperations {
+export function _getOperationsOperations(
+  context: CloudHealthContext,
+): OperationsOperations {
   return {
     ..._getOperations(context),
   };

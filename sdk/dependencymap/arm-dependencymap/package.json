@@ -17,35 +17,16 @@
       "./api/operations": "./src/api/operations/index.ts",
       "./models": "./src/models/index.ts"
     },
-    "dialects": [
-      "esm",
-      "commonjs"
-    ],
-    "esmDialects": [
-      "browser",
-      "react-native"
-    ],
+    "dialects": ["esm", "commonjs"],
+    "esmDialects": ["browser", "react-native"],
     "selfLink": false,
     "project": "./tsconfig.src.json"
   },
   "type": "module",
-  "keywords": [
-    "node",
-    "azure",
-    "cloud",
-    "typescript",
-    "browser",
-    "isomorphic"
-  ],
+  "keywords": ["node", "azure", "cloud", "typescript", "browser", "isomorphic"],
   "author": "Microsoft Corporation",
   "license": "MIT",
-  "files": [
-    "dist/",
-    "README.md",
-    "LICENSE",
-    "review/",
-    "CHANGELOG.md"
-  ],
+  "files": ["dist/", "README.md", "LICENSE", "review/", "CHANGELOG.md"],
   "sdk-type": "mgmt",
   "repository": "github:Azure/azure-sdk-for-js",
   "bugs": {
@@ -107,9 +88,7 @@
   },
   "//sampleConfiguration": {
     "productName": "@azure/arm-dependencymap",
-    "productSlugs": [
-      "azure"
-    ],
+    "productSlugs": ["azure"],
     "disableDocsMs": true,
     "apiRefLink": "https://learn.microsoft.com/javascript/api/@azure/arm-dependencymap?view=azure-node-preview"
   },
