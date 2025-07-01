@@ -15,10 +15,15 @@ export interface OperationResultsOperations {
   ) => Promise<void>;
 }
 
-function _getOperationResults(context: ServiceFabricManagedClustersManagementContext) {
+function _getOperationResults(
+  context: ServiceFabricManagedClustersManagementContext,
+) {
   return {
-    get: (location: string, operationId: string, options?: OperationResultsGetOptionalParams) =>
-      get(context, location, operationId, options),
+    get: (
+      location: string,
+      operationId: string,
+      options?: OperationResultsGetOptionalParams,
+    ) => get(context, location, operationId, options),
   };
 }
 

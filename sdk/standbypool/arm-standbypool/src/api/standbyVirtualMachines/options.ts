@@ -8,4 +8,5 @@ export interface StandbyVirtualMachinesListByStandbyVirtualMachinePoolResourceOp
   extends OperationOptions {}
 
 /** Optional parameters. */
-export interface StandbyVirtualMachinesGetOptionalParams extends OperationOptions {}
+export interface StandbyVirtualMachinesGetOptionalParams
+  extends OperationOptions {}

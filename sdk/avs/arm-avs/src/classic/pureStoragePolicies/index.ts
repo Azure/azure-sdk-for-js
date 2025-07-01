@@ -9,7 +9,12 @@ import {
   PureStoragePoliciesGetOptionalParams,
   PureStoragePoliciesListOptionalParams,
 } from "../../api/pureStoragePolicies/options.js";
-import { $delete, createOrUpdate, get, list } from "../../api/pureStoragePolicies/operations.js";
+import {
+  $delete,
+  createOrUpdate,
+  get,
+  list,
+} from "../../api/pureStoragePolicies/operations.js";
 import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 import { PollerLike, OperationState } from "@azure/core-lro";
 
@@ -57,7 +62,14 @@ function _getPureStoragePolicies(context: AzureVMwareSolutionAPIContext) {
       privateCloudName: string,
       storagePolicyName: string,
       options?: PureStoragePoliciesDeleteOptionalParams,
-    ) => $delete(context, resourceGroupName, privateCloudName, storagePolicyName, options),
+    ) =>
+      $delete(
+        context,
+        resourceGroupName,
+        privateCloudName,
+        storagePolicyName,
+        options,
+      ),
     createOrUpdate: (
       resourceGroupName: string,
       privateCloudName: string,
@@ -78,7 +90,14 @@ function _getPureStoragePolicies(context: AzureVMwareSolutionAPIContext) {
       privateCloudName: string,
       storagePolicyName: string,
       options?: PureStoragePoliciesGetOptionalParams,
-    ) => get(context, resourceGroupName, privateCloudName, storagePolicyName, options),
+    ) =>
+      get(
+        context,
+        resourceGroupName,
+        privateCloudName,
+        storagePolicyName,
+        options,
+      ),
     list: (
       resourceGroupName: string,
       privateCloudName: string,

@@ -9,7 +9,12 @@ import {
   CloudLinksGetOptionalParams,
   CloudLinksListOptionalParams,
 } from "../../api/cloudLinks/options.js";
-import { $delete, createOrUpdate, get, list } from "../../api/cloudLinks/operations.js";
+import {
+  $delete,
+  createOrUpdate,
+  get,
+  list,
+} from "../../api/cloudLinks/operations.js";
 import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 import { PollerLike, OperationState } from "@azure/core-lro";
 
@@ -57,7 +62,14 @@ function _getCloudLinks(context: AzureVMwareSolutionAPIContext) {
       privateCloudName: string,
       cloudLinkName: string,
       options?: CloudLinksDeleteOptionalParams,
-    ) => $delete(context, resourceGroupName, privateCloudName, cloudLinkName, options),
+    ) =>
+      $delete(
+        context,
+        resourceGroupName,
+        privateCloudName,
+        cloudLinkName,
+        options,
+      ),
     createOrUpdate: (
       resourceGroupName: string,
       privateCloudName: string,
@@ -78,7 +90,8 @@ function _getCloudLinks(context: AzureVMwareSolutionAPIContext) {
       privateCloudName: string,
       cloudLinkName: string,
       options?: CloudLinksGetOptionalParams,
-    ) => get(context, resourceGroupName, privateCloudName, cloudLinkName, options),
+    ) =>
+      get(context, resourceGroupName, privateCloudName, cloudLinkName, options),
     list: (
       resourceGroupName: string,
       privateCloudName: string,
