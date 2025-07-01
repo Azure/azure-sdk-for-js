@@ -3,9 +3,9 @@
 
 import { HybridConnectivityManagementAPIContext as Client } from "../index.js";
 import {
+  errorResponseDeserializer,
   SolutionTypeResource,
   solutionTypeResourceDeserializer,
-  errorResponseDeserializer,
   _SolutionTypeResourceListResult,
   _solutionTypeResourceListResultDeserializer,
 } from "../../models/models.js";
@@ -26,32 +26,34 @@ import {
   operationOptionsToRequestParameters,
 } from "@azure-rest/core-client";
 
-export function _listBySubscriptionSend(
+export function _solutionTypesListBySubscriptionSend(
   context: Client,
   options: SolutionTypesListBySubscriptionOptionalParams = {
     requestOptions: {},
   },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "/subscriptions/{subscriptionId}/providers/Microsoft.HybridConnectivity/solutionTypes{?api-version}",
+    "/subscriptions/{subscriptionId}/providers/Microsoft.HybridConnectivity/solutionTypes{?api%2Dversion}",
     {
       subscriptionId: context.subscriptionId,
-      "api-version": context.apiVersion,
+      "api%2Dversion": context.apiVersion,
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).get({
-    ...operationOptionsToRequestParameters(options),
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
-  });
+  return context
+    .path(path)
+    .get({
+      ...operationOptionsToRequestParameters(options),
+      headers: {
+        accept: "application/json",
+        ...options.requestOptions?.headers,
+      },
+    });
 }
 
-export async function _listBySubscriptionDeserialize(
+export async function _solutionTypesListBySubscriptionDeserialize(
   result: PathUncheckedResponse,
 ): Promise<_SolutionTypeResourceListResult> {
   const expectedStatuses = ["200"];
@@ -65,7 +67,7 @@ export async function _listBySubscriptionDeserialize(
 }
 
 /** List SolutionTypeResource resources by subscription ID */
-export function listBySubscription(
+export function solutionTypesListBySubscription(
   context: Client,
   options: SolutionTypesListBySubscriptionOptionalParams = {
     requestOptions: {},
@@ -73,14 +75,14 @@ export function listBySubscription(
 ): PagedAsyncIterableIterator<SolutionTypeResource> {
   return buildPagedAsyncIterator(
     context,
-    () => _listBySubscriptionSend(context, options),
-    _listBySubscriptionDeserialize,
+    () => _solutionTypesListBySubscriptionSend(context, options),
+    _solutionTypesListBySubscriptionDeserialize,
     ["200"],
     { itemName: "value", nextLinkName: "nextLink" },
   );
 }
 
-export function _listByResourceGroupSend(
+export function _solutionTypesListByResourceGroupSend(
   context: Client,
   resourceGroupName: string,
   options: SolutionTypesListByResourceGroupOptionalParams = {
@@ -88,26 +90,28 @@ export function _listByResourceGroupSend(
   },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HybridConnectivity/solutionTypes{?api-version}",
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HybridConnectivity/solutionTypes{?api%2Dversion}",
     {
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
-      "api-version": context.apiVersion,
+      "api%2Dversion": context.apiVersion,
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).get({
-    ...operationOptionsToRequestParameters(options),
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
-  });
+  return context
+    .path(path)
+    .get({
+      ...operationOptionsToRequestParameters(options),
+      headers: {
+        accept: "application/json",
+        ...options.requestOptions?.headers,
+      },
+    });
 }
 
-export async function _listByResourceGroupDeserialize(
+export async function _solutionTypesListByResourceGroupDeserialize(
   result: PathUncheckedResponse,
 ): Promise<_SolutionTypeResourceListResult> {
   const expectedStatuses = ["200"];
@@ -121,7 +125,7 @@ export async function _listByResourceGroupDeserialize(
 }
 
 /** List SolutionTypeResource resources by resource group */
-export function listByResourceGroup(
+export function solutionTypesListByResourceGroup(
   context: Client,
   resourceGroupName: string,
   options: SolutionTypesListByResourceGroupOptionalParams = {
@@ -130,41 +134,48 @@ export function listByResourceGroup(
 ): PagedAsyncIterableIterator<SolutionTypeResource> {
   return buildPagedAsyncIterator(
     context,
-    () => _listByResourceGroupSend(context, resourceGroupName, options),
-    _listByResourceGroupDeserialize,
+    () =>
+      _solutionTypesListByResourceGroupSend(
+        context,
+        resourceGroupName,
+        options,
+      ),
+    _solutionTypesListByResourceGroupDeserialize,
     ["200"],
     { itemName: "value", nextLinkName: "nextLink" },
   );
 }
 
-export function _getSend(
+export function _solutionTypesGetSend(
   context: Client,
   resourceGroupName: string,
   solutionType: string,
   options: SolutionTypesGetOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HybridConnectivity/solutionTypes/{solutionType}{?api-version}",
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HybridConnectivity/solutionTypes/{solutionType}{?api%2Dversion}",
     {
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       solutionType: solutionType,
-      "api-version": context.apiVersion,
+      "api%2Dversion": context.apiVersion,
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).get({
-    ...operationOptionsToRequestParameters(options),
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
-  });
+  return context
+    .path(path)
+    .get({
+      ...operationOptionsToRequestParameters(options),
+      headers: {
+        accept: "application/json",
+        ...options.requestOptions?.headers,
+      },
+    });
 }
 
-export async function _getDeserialize(
+export async function _solutionTypesGetDeserialize(
   result: PathUncheckedResponse,
 ): Promise<SolutionTypeResource> {
   const expectedStatuses = ["200"];
@@ -178,12 +189,17 @@ export async function _getDeserialize(
 }
 
 /** Get a SolutionTypeResource */
-export async function get(
+export async function solutionTypesGet(
   context: Client,
   resourceGroupName: string,
   solutionType: string,
   options: SolutionTypesGetOptionalParams = { requestOptions: {} },
 ): Promise<SolutionTypeResource> {
-  const result = await _getSend(context, resourceGroupName, solutionType, options);
-  return _getDeserialize(result);
+  const result = await _solutionTypesGetSend(
+    context,
+    resourceGroupName,
+    solutionType,
+    options,
+  );
+  return _solutionTypesGetDeserialize(result);
 }

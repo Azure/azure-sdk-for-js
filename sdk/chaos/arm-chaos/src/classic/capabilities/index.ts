@@ -9,7 +9,12 @@ import {
   CapabilitiesCreateOrUpdateOptionalParams,
   CapabilitiesGetOptionalParams,
 } from "../../api/capabilities/options.js";
-import { list, $delete, createOrUpdate, get } from "../../api/capabilities/operations.js";
+import {
+  list,
+  $delete,
+  createOrUpdate,
+  get,
+} from "../../api/capabilities/operations.js";
 import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 
 /** Interface representing a Capabilities operations. */

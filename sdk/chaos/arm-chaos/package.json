@@ -21,26 +21,13 @@
       "./api/experiments": "./src/api/experiments/index.ts",
       "./models": "./src/models/index.ts"
     },
-    "dialects": [
-      "esm",
-      "commonjs"
-    ],
-    "esmDialects": [
-      "browser",
-      "react-native"
-    ],
+    "dialects": ["esm", "commonjs"],
+    "esmDialects": ["browser", "react-native"],
     "selfLink": false,
     "project": "./tsconfig.src.json"
   },
   "type": "module",
-  "keywords": [
-    "node",
-    "azure",
-    "cloud",
-    "typescript",
-    "browser",
-    "isomorphic"
-  ],
+  "keywords": ["node", "azure", "cloud", "typescript", "browser", "isomorphic"],
   "author": "Microsoft Corporation",
   "license": "MIT",
   "files": [
@@ -70,7 +57,7 @@
     "@azure-rest/core-client": "^2.1.0",
     "@azure/abort-controller": "^2.1.2",
     "@azure/core-auth": "^1.9.0",
-    "@azure/core-lro": "^3.0.0",
+    "@azure/core-lro": "^3.1.0",
     "@azure/core-rest-pipeline": "^1.20.0",
     "@azure/core-util": "^1.12.0",
     "@azure/logger": "^1.2.0",
@@ -113,9 +100,7 @@
   },
   "//sampleConfiguration": {
     "productName": "@azure/arm-chaos",
-    "productSlugs": [
-      "azure"
-    ],
+    "productSlugs": ["azure"],
     "disableDocsMs": true,
     "apiRefLink": "https://learn.microsoft.com/javascript/api/@azure/arm-chaos?view=azure-node-preview"
   },

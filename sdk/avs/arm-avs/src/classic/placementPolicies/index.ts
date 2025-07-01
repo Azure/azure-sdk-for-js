@@ -128,13 +128,21 @@ function _getPlacementPolicies(context: AzureVMwareSolutionAPIContext) {
       placementPolicyName: string,
       options?: PlacementPoliciesGetOptionalParams,
     ) =>
-      get(context, resourceGroupName, privateCloudName, clusterName, placementPolicyName, options),
+      get(
+        context,
+        resourceGroupName,
+        privateCloudName,
+        clusterName,
+        placementPolicyName,
+        options,
+      ),
     list: (
       resourceGroupName: string,
       privateCloudName: string,
       clusterName: string,
       options?: PlacementPoliciesListOptionalParams,
-    ) => list(context, resourceGroupName, privateCloudName, clusterName, options),
+    ) =>
+      list(context, resourceGroupName, privateCloudName, clusterName, options),
   };
 }
 
