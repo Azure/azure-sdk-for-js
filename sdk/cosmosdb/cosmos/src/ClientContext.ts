@@ -43,7 +43,7 @@ export class ClientContext {
   public partitionKeyDefinitionCache: { [containerUrl: string]: any }; // TODO: PartitionKeyDefinitionCache
   /** boolean flag to support operations with client-side encryption */
   public enableEncryption: boolean = false;
-  private clientCOntextInternal: ClientContextInternal;
+  private clientContextInternal: ClientContextInternal;
   public constructor(
     private cosmosClientOptions: CosmosClientOptions,
     private globalEndpointManager: GlobalEndpointManager,
@@ -95,7 +95,7 @@ export class ClientContext {
     partitionKey?: PartitionKey;
     diagnosticNode: DiagnosticNodeInternal;
   }): Promise<Response<T & Resource>> {
-    return this.clientCOntextInternal.read<T>({
+    return this.clientContextInternal.read<T>({
       path,
       resourceType,
       resourceId,
@@ -132,7 +132,7 @@ export class ClientContext {
     endEpk?: string | undefined;
     correlatedActivityId?: string;
   }): Promise<Response<T & Resource>> {
-    return this.clientCOntextInternal.queryFeed<T>({
+    return this.clientContextInternal.queryFeed<T>({
       path,
       resourceType,
       resourceId,
@@ -157,7 +157,7 @@ export class ClientContext {
     diagnosticNode: DiagnosticNodeInternal,
     correlatedActivityId?: string,
   ): Promise<Response<PartitionedQueryExecutionInfo>> {
-    return this.clientCOntextInternal.getQueryPlan(
+    return this.clientContextInternal.getQueryPlan(
       path,
       resourceType,
       resourceId,
@@ -173,7 +173,7 @@ export class ClientContext {
     query?: string | SqlQuerySpec,
     options?: FeedOptions,
   ): QueryIterator<PartitionKeyRange> {
-    return this.clientCOntextInternal.queryPartitionKeyRanges(collectionLink, query, options);
+    return this.clientContextInternal.queryPartitionKeyRanges(collectionLink, query, options);
   }
 
   public async delete<T>({
@@ -193,7 +193,7 @@ export class ClientContext {
     method?: HTTPMethod;
     diagnosticNode: DiagnosticNodeInternal;
   }): Promise<Response<T & Resource>> {
-    return this.clientCOntextInternal.delete<T>({
+    return this.clientContextInternal.delete<T>({
       path,
       resourceType,
       resourceId,
@@ -221,7 +221,7 @@ export class ClientContext {
     partitionKey?: PartitionKey;
     diagnosticNode: DiagnosticNodeInternal;
   }): Promise<Response<T & Resource>> {
-    return this.clientCOntextInternal.patch<T>({
+    return this.clientContextInternal.patch<T>({
       body,
       path,
       resourceType,
@@ -249,7 +249,7 @@ export class ClientContext {
     options?: RequestOptions;
     partitionKey?: PartitionKey;
   }): Promise<Response<T & U & Resource>> {
-    return this.clientCOntextInternal.create<T, U>({
+    return this.clientContextInternal.create<T, U>({
       body,
       path,
       resourceType,
@@ -277,7 +277,7 @@ export class ClientContext {
     partitionKey?: PartitionKey;
     diagnosticNode: DiagnosticNodeInternal;
   }): Promise<Response<T & Resource>> {
-    return this.clientCOntextInternal.replace<T>({
+    return this.clientContextInternal.replace<T>({
       body,
       path,
       resourceType,
@@ -305,7 +305,7 @@ export class ClientContext {
     partitionKey?: PartitionKey;
     diagnosticNode: DiagnosticNodeInternal;
   }): Promise<Response<T & U & Resource>> {
-    return this.clientCOntextInternal.upsert<T, U>({
+    return this.clientContextInternal.upsert<T, U>({
       body,
       path,
       resourceType,
@@ -329,7 +329,7 @@ export class ClientContext {
     partitionKey?: PartitionKey;
     diagnosticNode: DiagnosticNodeInternal;
   }): Promise<Response<T>> {
-    return this.clientCOntextInternal.execute<T>({
+    return this.clientContextInternal.execute<T>({
       sprocLink,
       params,
       options,
@@ -347,7 +347,7 @@ export class ClientContext {
     diagnosticNode: DiagnosticNodeInternal,
     options: RequestOptions = {},
   ): Promise<Response<DatabaseAccount>> {
-    return this.clientCOntextInternal.getDatabaseAccount(diagnosticNode, options);
+    return this.clientContextInternal.getDatabaseAccount(diagnosticNode, options);
   }
 
   public getWriteEndpoint(diagnosticNode: DiagnosticNodeInternal): Promise<string> {
@@ -381,7 +381,7 @@ export class ClientContext {
     options?: RequestOptions;
     diagnosticNode: DiagnosticNodeInternal;
   }): Promise<Response<any>> {
-    return this.clientCOntextInternal.batch<T>({
+    return this.clientContextInternal.batch<T>({
       body,
       path,
       partitionKey,
@@ -408,7 +408,7 @@ export class ClientContext {
     options?: RequestOptions;
     diagnosticNode: DiagnosticNodeInternal;
   }): Promise<Response<any>> {
-    return this.clientCOntextInternal.bulk<T>({
+    return this.clientContextInternal.bulk<T>({
       body,
       path,
       partitionKeyRangeId,
@@ -458,23 +458,20 @@ export class ClientContext {
   }
 
   public getClientConfig(): ClientConfigDiagnostic {
-    return this.clientConfig;
+    return this.clientContextInternal.getClientConfig();
   }
 
   /**
    * @internal
    */
   public refreshUserAgent(hostFramework: string): void {
-    const updatedUserAgent = getUserAgent(this.cosmosClientOptions.userAgentSuffix, hostFramework);
-    this.cosmosClientOptions.defaultHeaders[Constants.HttpHeaders.UserAgent] = updatedUserAgent;
-    this.cosmosClientOptions.defaultHeaders[Constants.HttpHeaders.CustomUserAgent] =
-      updatedUserAgent;
+    return this.clientContextInternal.refreshUserAgent(hostFramework);
   }
 
   /**
    * @internal
    */
   public getRetryOptions(): RetryOptions {
-    return this.connectionPolicy.retryOptions;
+    return this.clientContextInternal.getRetryOptions();
   }
 }
