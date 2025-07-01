@@ -2,99 +2,102 @@
 // Licensed under the MIT License.
 
 import { IoTOperationsContext } from "../../api/ioTOperationsContext.js";
-import {
-  brokerGet,
-  brokerCreateOrUpdate,
-  brokerDelete,
-  brokerListByResourceGroup,
-} from "../../api/broker/index.js";
 import { BrokerResource } from "../../models/models.js";
+import {
+  BrokerListByResourceGroupOptionalParams,
+  BrokerDeleteOptionalParams,
+  BrokerCreateOrUpdateOptionalParams,
+  BrokerGetOptionalParams,
+} from "../../api/broker/options.js";
+import { listByResourceGroup, $delete, createOrUpdate, get } from "../../api/broker/operations.js";
 import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 import { PollerLike, OperationState } from "@azure/core-lro";
-import {
-  BrokerGetOptionalParams,
-  BrokerCreateOrUpdateOptionalParams,
-  BrokerDeleteOptionalParams,
-  BrokerListByResourceGroupOptionalParams,
-} from "../../api/options.js";
 
 /** Interface representing a Broker operations. */
 export interface BrokerOperations {
-  /** Get a BrokerResource */
-  get: (
+  /** List BrokerResource resources by InstanceResource */
+  listByResourceGroup: (
+    apiVersion: string,
+    resourceGroupName: string,
+    instanceName: string,
+    options?: BrokerListByResourceGroupOptionalParams,
+  ) => PagedAsyncIterableIterator<BrokerResource>;
+  /** Delete a BrokerResource */
+  /**
+   *  @fixme delete is a reserved word that cannot be used as an operation name.
+   *         Please add @clientName("clientName") or @clientName("<JS-Specific-Name>", "javascript")
+   *         to the operation to override the generated name.
+   */
+  delete: (
+    apiVersion: string,
     resourceGroupName: string,
     instanceName: string,
     brokerName: string,
-    options?: BrokerGetOptionalParams,
-  ) => Promise<BrokerResource>;
+    options?: BrokerDeleteOptionalParams,
+  ) => PollerLike<OperationState<void>, void>;
   /** Create a BrokerResource */
   createOrUpdate: (
+    apiVersion: string,
     resourceGroupName: string,
     instanceName: string,
     brokerName: string,
     resource: BrokerResource,
     options?: BrokerCreateOrUpdateOptionalParams,
   ) => PollerLike<OperationState<BrokerResource>, BrokerResource>;
-  /** Delete a BrokerResource */
-  delete: (
+  /** Get a BrokerResource */
+  get: (
+    apiVersion: string,
     resourceGroupName: string,
     instanceName: string,
     brokerName: string,
-    options?: BrokerDeleteOptionalParams,
-  ) => PollerLike<OperationState<void>, void>;
-  /** List BrokerResource resources by InstanceResource */
-  listByResourceGroup: (
-    resourceGroupName: string,
-    instanceName: string,
-    options?: BrokerListByResourceGroupOptionalParams,
-  ) => PagedAsyncIterableIterator<BrokerResource>;
+    options?: BrokerGetOptionalParams,
+  ) => Promise<BrokerResource>;
 }
 
-export function getBroker(context: IoTOperationsContext, subscriptionId: string) {
+function _getBroker(context: IoTOperationsContext) {
   return {
-    get: (
+    listByResourceGroup: (
+      apiVersion: string,
+      resourceGroupName: string,
+      instanceName: string,
+      options?: BrokerListByResourceGroupOptionalParams,
+    ) => listByResourceGroup(context, apiVersion, resourceGroupName, instanceName, options),
+    delete: (
+      apiVersion: string,
       resourceGroupName: string,
       instanceName: string,
       brokerName: string,
-      options?: BrokerGetOptionalParams,
-    ) => brokerGet(context, subscriptionId, resourceGroupName, instanceName, brokerName, options),
+      options?: BrokerDeleteOptionalParams,
+    ) => $delete(context, apiVersion, resourceGroupName, instanceName, brokerName, options),
     createOrUpdate: (
+      apiVersion: string,
       resourceGroupName: string,
       instanceName: string,
       brokerName: string,
       resource: BrokerResource,
       options?: BrokerCreateOrUpdateOptionalParams,
     ) =>
-      brokerCreateOrUpdate(
+      createOrUpdate(
         context,
-        subscriptionId,
+        apiVersion,
         resourceGroupName,
         instanceName,
         brokerName,
         resource,
         options,
       ),
-    delete: (
+    get: (
+      apiVersion: string,
       resourceGroupName: string,
       instanceName: string,
       brokerName: string,
-      options?: BrokerDeleteOptionalParams,
-    ) =>
-      brokerDelete(context, subscriptionId, resourceGroupName, instanceName, brokerName, options),
-    listByResourceGroup: (
-      resourceGroupName: string,
-      instanceName: string,
-      options?: BrokerListByResourceGroupOptionalParams,
-    ) =>
-      brokerListByResourceGroup(context, subscriptionId, resourceGroupName, instanceName, options),
+      options?: BrokerGetOptionalParams,
+    ) => get(context, apiVersion, resourceGroupName, instanceName, brokerName, options),
   };
 }
 
-export function getBrokerOperations(
-  context: IoTOperationsContext,
-  subscriptionId: string,
-): BrokerOperations {
+export function _getBrokerOperations(context: IoTOperationsContext): BrokerOperations {
   return {
-    ...getBroker(context, subscriptionId),
+    ..._getBroker(context),
   };
 }

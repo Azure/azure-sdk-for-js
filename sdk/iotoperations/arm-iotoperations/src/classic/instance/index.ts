@@ -2,109 +2,116 @@
 // Licensed under the MIT License.
 
 import { IoTOperationsContext } from "../../api/ioTOperationsContext.js";
-import {
-  instanceGet,
-  instanceCreateOrUpdate,
-  instanceUpdate,
-  instanceDelete,
-  instanceListByResourceGroup,
-  instanceListBySubscription,
-} from "../../api/instance/index.js";
 import { InstanceResource, InstancePatchModel } from "../../models/models.js";
+import {
+  InstanceListBySubscriptionOptionalParams,
+  InstanceListByResourceGroupOptionalParams,
+  InstanceDeleteOptionalParams,
+  InstanceUpdateOptionalParams,
+  InstanceCreateOrUpdateOptionalParams,
+  InstanceGetOptionalParams,
+} from "../../api/instance/options.js";
+import {
+  listBySubscription,
+  listByResourceGroup,
+  $delete,
+  update,
+  createOrUpdate,
+  get,
+} from "../../api/instance/operations.js";
 import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 import { PollerLike, OperationState } from "@azure/core-lro";
-import {
-  InstanceGetOptionalParams,
-  InstanceCreateOrUpdateOptionalParams,
-  InstanceUpdateOptionalParams,
-  InstanceDeleteOptionalParams,
-  InstanceListByResourceGroupOptionalParams,
-  InstanceListBySubscriptionOptionalParams,
-} from "../../api/options.js";
 
 /** Interface representing a Instance operations. */
 export interface InstanceOperations {
-  /** Get a InstanceResource */
-  get: (
+  /** List InstanceResource resources by subscription ID */
+  listBySubscription: (
+    apiVersion: string,
+    options?: InstanceListBySubscriptionOptionalParams,
+  ) => PagedAsyncIterableIterator<InstanceResource>;
+  /** List InstanceResource resources by resource group */
+  listByResourceGroup: (
+    apiVersion: string,
+    resourceGroupName: string,
+    options?: InstanceListByResourceGroupOptionalParams,
+  ) => PagedAsyncIterableIterator<InstanceResource>;
+  /** Delete a InstanceResource */
+  /**
+   *  @fixme delete is a reserved word that cannot be used as an operation name.
+   *         Please add @clientName("clientName") or @clientName("<JS-Specific-Name>", "javascript")
+   *         to the operation to override the generated name.
+   */
+  delete: (
+    apiVersion: string,
     resourceGroupName: string,
     instanceName: string,
-    options?: InstanceGetOptionalParams,
-  ) => Promise<InstanceResource>;
-  /** Create a InstanceResource */
-  createOrUpdate: (
-    resourceGroupName: string,
-    instanceName: string,
-    resource: InstanceResource,
-    options?: InstanceCreateOrUpdateOptionalParams,
-  ) => PollerLike<OperationState<InstanceResource>, InstanceResource>;
+    options?: InstanceDeleteOptionalParams,
+  ) => PollerLike<OperationState<void>, void>;
   /** Update a InstanceResource */
   update: (
+    apiVersion: string,
     resourceGroupName: string,
     instanceName: string,
     properties: InstancePatchModel,
     options?: InstanceUpdateOptionalParams,
   ) => Promise<InstanceResource>;
-  /** Delete a InstanceResource */
-  delete: (
+  /** Create a InstanceResource */
+  createOrUpdate: (
+    apiVersion: string,
     resourceGroupName: string,
     instanceName: string,
-    options?: InstanceDeleteOptionalParams,
-  ) => PollerLike<OperationState<void>, void>;
-  /** List InstanceResource resources by resource group */
-  listByResourceGroup: (
+    resource: InstanceResource,
+    options?: InstanceCreateOrUpdateOptionalParams,
+  ) => PollerLike<OperationState<InstanceResource>, InstanceResource>;
+  /** Get a InstanceResource */
+  get: (
+    apiVersion: string,
     resourceGroupName: string,
-    options?: InstanceListByResourceGroupOptionalParams,
-  ) => PagedAsyncIterableIterator<InstanceResource>;
-  /** List InstanceResource resources by subscription ID */
-  listBySubscription: (
-    options?: InstanceListBySubscriptionOptionalParams,
-  ) => PagedAsyncIterableIterator<InstanceResource>;
+    instanceName: string,
+    options?: InstanceGetOptionalParams,
+  ) => Promise<InstanceResource>;
 }
 
-export function getInstance(context: IoTOperationsContext, subscriptionId: string) {
+function _getInstance(context: IoTOperationsContext) {
   return {
-    get: (resourceGroupName: string, instanceName: string, options?: InstanceGetOptionalParams) =>
-      instanceGet(context, subscriptionId, resourceGroupName, instanceName, options),
-    createOrUpdate: (
+    listBySubscription: (apiVersion: string, options?: InstanceListBySubscriptionOptionalParams) =>
+      listBySubscription(context, apiVersion, options),
+    listByResourceGroup: (
+      apiVersion: string,
+      resourceGroupName: string,
+      options?: InstanceListByResourceGroupOptionalParams,
+    ) => listByResourceGroup(context, apiVersion, resourceGroupName, options),
+    delete: (
+      apiVersion: string,
       resourceGroupName: string,
       instanceName: string,
-      resource: InstanceResource,
-      options?: InstanceCreateOrUpdateOptionalParams,
-    ) =>
-      instanceCreateOrUpdate(
-        context,
-        subscriptionId,
-        resourceGroupName,
-        instanceName,
-        resource,
-        options,
-      ),
+      options?: InstanceDeleteOptionalParams,
+    ) => $delete(context, apiVersion, resourceGroupName, instanceName, options),
     update: (
+      apiVersion: string,
       resourceGroupName: string,
       instanceName: string,
       properties: InstancePatchModel,
       options?: InstanceUpdateOptionalParams,
-    ) =>
-      instanceUpdate(context, subscriptionId, resourceGroupName, instanceName, properties, options),
-    delete: (
+    ) => update(context, apiVersion, resourceGroupName, instanceName, properties, options),
+    createOrUpdate: (
+      apiVersion: string,
       resourceGroupName: string,
       instanceName: string,
-      options?: InstanceDeleteOptionalParams,
-    ) => instanceDelete(context, subscriptionId, resourceGroupName, instanceName, options),
-    listByResourceGroup: (
+      resource: InstanceResource,
+      options?: InstanceCreateOrUpdateOptionalParams,
+    ) => createOrUpdate(context, apiVersion, resourceGroupName, instanceName, resource, options),
+    get: (
+      apiVersion: string,
       resourceGroupName: string,
-      options?: InstanceListByResourceGroupOptionalParams,
-    ) => instanceListByResourceGroup(context, subscriptionId, resourceGroupName, options),
-    listBySubscription: (options?: InstanceListBySubscriptionOptionalParams) =>
-      instanceListBySubscription(context, subscriptionId, options),
+      instanceName: string,
+      options?: InstanceGetOptionalParams,
+    ) => get(context, apiVersion, resourceGroupName, instanceName, options),
   };
 }
 
-export function getInstanceOperations(
-  context: IoTOperationsContext,
-  subscriptionId: string,
-): InstanceOperations {
+export function _getInstanceOperations(context: IoTOperationsContext): InstanceOperations {
   return {
-    ...getInstance(context, subscriptionId),
+    ..._getInstance(context),
   };
 }

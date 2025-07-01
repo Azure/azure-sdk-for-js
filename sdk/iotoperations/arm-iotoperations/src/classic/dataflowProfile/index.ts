@@ -2,120 +2,110 @@
 // Licensed under the MIT License.
 
 import { IoTOperationsContext } from "../../api/ioTOperationsContext.js";
-import {
-  dataflowProfileGet,
-  dataflowProfileCreateOrUpdate,
-  dataflowProfileDelete,
-  dataflowProfileListByResourceGroup,
-} from "../../api/dataflowProfile/index.js";
 import { DataflowProfileResource } from "../../models/models.js";
+import {
+  DataflowProfileListByResourceGroupOptionalParams,
+  DataflowProfileDeleteOptionalParams,
+  DataflowProfileCreateOrUpdateOptionalParams,
+  DataflowProfileGetOptionalParams,
+} from "../../api/dataflowProfile/options.js";
+import {
+  listByResourceGroup,
+  $delete,
+  createOrUpdate,
+  get,
+} from "../../api/dataflowProfile/operations.js";
 import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 import { PollerLike, OperationState } from "@azure/core-lro";
-import {
-  DataflowProfileGetOptionalParams,
-  DataflowProfileCreateOrUpdateOptionalParams,
-  DataflowProfileDeleteOptionalParams,
-  DataflowProfileListByResourceGroupOptionalParams,
-} from "../../api/options.js";
 
 /** Interface representing a DataflowProfile operations. */
 export interface DataflowProfileOperations {
-  /** Get a DataflowProfileResource */
-  get: (
+  /** List DataflowProfileResource resources by InstanceResource */
+  listByResourceGroup: (
+    apiVersion: string,
+    resourceGroupName: string,
+    instanceName: string,
+    options?: DataflowProfileListByResourceGroupOptionalParams,
+  ) => PagedAsyncIterableIterator<DataflowProfileResource>;
+  /** Delete a DataflowProfileResource */
+  /**
+   *  @fixme delete is a reserved word that cannot be used as an operation name.
+   *         Please add @clientName("clientName") or @clientName("<JS-Specific-Name>", "javascript")
+   *         to the operation to override the generated name.
+   */
+  delete: (
+    apiVersion: string,
     resourceGroupName: string,
     instanceName: string,
     dataflowProfileName: string,
-    options?: DataflowProfileGetOptionalParams,
-  ) => Promise<DataflowProfileResource>;
+    options?: DataflowProfileDeleteOptionalParams,
+  ) => PollerLike<OperationState<void>, void>;
   /** Create a DataflowProfileResource */
   createOrUpdate: (
+    apiVersion: string,
     resourceGroupName: string,
     instanceName: string,
     dataflowProfileName: string,
     resource: DataflowProfileResource,
     options?: DataflowProfileCreateOrUpdateOptionalParams,
   ) => PollerLike<OperationState<DataflowProfileResource>, DataflowProfileResource>;
-  /** Delete a DataflowProfileResource */
-  delete: (
+  /** Get a DataflowProfileResource */
+  get: (
+    apiVersion: string,
     resourceGroupName: string,
     instanceName: string,
     dataflowProfileName: string,
-    options?: DataflowProfileDeleteOptionalParams,
-  ) => PollerLike<OperationState<void>, void>;
-  /** List DataflowProfileResource resources by InstanceResource */
-  listByResourceGroup: (
-    resourceGroupName: string,
-    instanceName: string,
-    options?: DataflowProfileListByResourceGroupOptionalParams,
-  ) => PagedAsyncIterableIterator<DataflowProfileResource>;
+    options?: DataflowProfileGetOptionalParams,
+  ) => Promise<DataflowProfileResource>;
 }
 
-export function getDataflowProfile(context: IoTOperationsContext, subscriptionId: string) {
+function _getDataflowProfile(context: IoTOperationsContext) {
   return {
-    get: (
+    listByResourceGroup: (
+      apiVersion: string,
+      resourceGroupName: string,
+      instanceName: string,
+      options?: DataflowProfileListByResourceGroupOptionalParams,
+    ) => listByResourceGroup(context, apiVersion, resourceGroupName, instanceName, options),
+    delete: (
+      apiVersion: string,
       resourceGroupName: string,
       instanceName: string,
       dataflowProfileName: string,
-      options?: DataflowProfileGetOptionalParams,
+      options?: DataflowProfileDeleteOptionalParams,
     ) =>
-      dataflowProfileGet(
-        context,
-        subscriptionId,
-        resourceGroupName,
-        instanceName,
-        dataflowProfileName,
-        options,
-      ),
+      $delete(context, apiVersion, resourceGroupName, instanceName, dataflowProfileName, options),
     createOrUpdate: (
+      apiVersion: string,
       resourceGroupName: string,
       instanceName: string,
       dataflowProfileName: string,
       resource: DataflowProfileResource,
       options?: DataflowProfileCreateOrUpdateOptionalParams,
     ) =>
-      dataflowProfileCreateOrUpdate(
+      createOrUpdate(
         context,
-        subscriptionId,
+        apiVersion,
         resourceGroupName,
         instanceName,
         dataflowProfileName,
         resource,
         options,
       ),
-    delete: (
+    get: (
+      apiVersion: string,
       resourceGroupName: string,
       instanceName: string,
       dataflowProfileName: string,
-      options?: DataflowProfileDeleteOptionalParams,
-    ) =>
-      dataflowProfileDelete(
-        context,
-        subscriptionId,
-        resourceGroupName,
-        instanceName,
-        dataflowProfileName,
-        options,
-      ),
-    listByResourceGroup: (
-      resourceGroupName: string,
-      instanceName: string,
-      options?: DataflowProfileListByResourceGroupOptionalParams,
-    ) =>
-      dataflowProfileListByResourceGroup(
-        context,
-        subscriptionId,
-        resourceGroupName,
-        instanceName,
-        options,
-      ),
+      options?: DataflowProfileGetOptionalParams,
+    ) => get(context, apiVersion, resourceGroupName, instanceName, dataflowProfileName, options),
   };
 }
 
-export function getDataflowProfileOperations(
+export function _getDataflowProfileOperations(
   context: IoTOperationsContext,
-  subscriptionId: string,
 ): DataflowProfileOperations {
   return {
-    ...getDataflowProfile(context, subscriptionId),
+    ..._getDataflowProfile(context),
   };
 }
