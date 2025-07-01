@@ -22,6 +22,8 @@ export type CallAutomationEvent =
   | AddParticipantFailed
   | RemoveParticipantSucceeded
   | RemoveParticipantFailed
+  | MoveParticipantSucceeded
+  | MoveParticipantFailed
   | CallConnected
   | CallDisconnected
   | CallTransferAccepted
@@ -141,6 +143,46 @@ export interface RemoveParticipantFailed {
   participant?: CommunicationIdentifier;
   /** kind of this event. */
   kind: "RemoveParticipantFailed";
+}
+
+/** The participant successfully moved event. */
+export interface MoveParticipantSucceeded {
+  /** The CallConnectionId for the call you want to move the participant from */
+  fromCall?: string;
+  /** Call connection ID. */
+  callConnectionId: string;
+  /** Server call ID. */
+  serverCallId: string;
+  /** Correlation ID for event to call correlation. Also called ChainId for skype chain ID. */
+  correlationId: string;
+  /** Used this to correlate the request to the response event. */
+  operationContext?: string;
+  /** Contains the resulting SIP code/sub-code and message. */
+  resultInformation?: ResultInformation;
+  /** The participant in the call. */
+  participant?: CommunicationIdentifier;
+  /** kind of this event. */
+  kind: "MoveParticipantSucceeded";
+}
+
+/** The failed to move participant event. */
+export interface MoveParticipantFailed {
+  /** The CallConnectionId for the call you want to move the participant from */
+  fromCall?: string;
+  /** Call connection ID. */
+  callConnectionId: string;
+  /** Server call ID. */
+  serverCallId: string;
+  /** Correlation ID for event to call correlation. Also called ChainId for skype chain ID. */
+  correlationId: string;
+  /** Used this to correlate the request to the response event. */
+  operationContext?: string;
+  /** Contains the resulting SIP code/sub-code and message. */
+  resultInformation?: ResultInformation;
+  /** The participant in the call. */
+  participant?: CommunicationIdentifier;
+  /** kind of this event. */
+  kind: "MoveParticipantFailed";
 }
 
 /** Event when call was established. */
