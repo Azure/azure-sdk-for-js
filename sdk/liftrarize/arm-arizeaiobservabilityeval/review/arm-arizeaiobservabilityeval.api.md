@@ -102,7 +102,8 @@ export enum KnownSingleSignOnType {
 
 // @public
 export enum KnownVersions {
-    V20241001Preview = "2024-10-01-preview"
+    // (undocumented)
+    V20241001 = "2024-10-01"
 }
 
 // @public
@@ -178,7 +179,7 @@ export interface OperationsOperations {
 // @public
 export interface OrganizationProperties {
     marketplace: MarketplaceDetails;
-    partnerProperties?: PartnerProperties;
+    partnerProperties: PartnerProperties;
     readonly provisioningState?: ResourceProvisioningState;
     singleSignOnProperties?: SingleSignOnPropertiesV2;
     user: UserDetails;

@@ -1,8 +1,9 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import { AgentsContext } from "../../api/agentsContext.js";
-import { VectorStoreFile, VectorStoreFileDeletionStatus } from "../../models/models.js";
-import {
+
+import type { AgentsContext } from "../../api/agentsContext.js";
+import type { VectorStoreFile, VectorStoreFileDeletionStatus } from "../../models/models.js";
+import type {
   VectorStoreFilesDeleteVectorStoreFileOptionalParams,
   VectorStoreFilesGetVectorStoreFileOptionalParams,
   VectorStoreFilesCreateVectorStoreFileOptionalParams,
@@ -15,8 +16,8 @@ import {
   listVectorStoreFiles,
   createVectorStoreFileAndPoll,
 } from "../../api/vectorStoreFiles/operations.js";
-import { OperationState, PollerLike } from "@azure/core-lro";
-import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import type { OperationState, PollerLike } from "@azure/core-lro";
+import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 
 /** Interface representing a VectorStoreFiles operations. */
 export interface VectorStoreFilesOperations {

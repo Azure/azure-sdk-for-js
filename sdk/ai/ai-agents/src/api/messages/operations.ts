@@ -3,6 +3,7 @@
 
 import { AgentsContext as Client } from "../index.js";
 import {
+  agentV1ErrorDeserializer,
   MessageRole,
   MessageInputContent,
   messageInputContentSerializer,
@@ -63,7 +64,9 @@ export async function _updateMessageDeserialize(
 ): Promise<ThreadMessage> {
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
-    throw createRestError(result);
+    const error = createRestError(result);
+    error.details = agentV1ErrorDeserializer(result.body);
+    throw error;
   }
 
   return threadMessageDeserializer(result.body);
@@ -111,7 +114,9 @@ export async function _getMessageDeserialize(
 ): Promise<ThreadMessage> {
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
-    throw createRestError(result);
+    const error = createRestError(result);
+    error.details = agentV1ErrorDeserializer(result.body);
+    throw error;
   }
 
   return threadMessageDeserializer(result.body);
@@ -223,7 +228,9 @@ export async function _createMessageDeserialize(
 ): Promise<ThreadMessage> {
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
-    throw createRestError(result);
+    const error = createRestError(result);
+    error.details = agentV1ErrorDeserializer(result.body);
+    throw error;
   }
 
   return threadMessageDeserializer(result.body);

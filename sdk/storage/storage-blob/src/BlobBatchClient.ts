@@ -49,7 +49,7 @@ export declare type BlobBatchSetBlobsAccessTierResponse = BlobBatchSubmitBatchRe
 /**
  * A BlobBatchClient allows you to make batched requests to the Azure Storage Blob service.
  *
- * @see https://learn.microsoft.com/en-us/rest/api/storageservices/blob-batch
+ * @see https://learn.microsoft.com/rest/api/storageservices/blob-batch
  */
 export class BlobBatchClient {
   private serviceOrContainerContext: Service | Container;
@@ -124,9 +124,9 @@ export class BlobBatchClient {
   /**
    * Create multiple delete operations to mark the specified blobs or snapshots for deletion.
    * Note that in order to delete a blob, you must delete all of its snapshots.
-   * You can delete both at the same time. See [delete operation details](https://learn.microsoft.com/en-us/rest/api/storageservices/delete-blob).
+   * You can delete both at the same time. See [delete operation details](https://learn.microsoft.com/rest/api/storageservices/delete-blob).
    * The operations will be authenticated and authorized with specified credential.
-   * See [blob batch authorization details](https://learn.microsoft.com/en-us/rest/api/storageservices/blob-batch#authorization).
+   * See [blob batch authorization details](https://learn.microsoft.com/rest/api/storageservices/blob-batch#authorization).
    *
    * @param urls - The urls of the blob resources to delete.
    * @param credential -  Such as AnonymousCredential, StorageSharedKeyCredential or any credential from the `@azure/identity` package to authenticate requests to the service. You can also provide an object that implements the TokenCredential interface. If not specified, AnonymousCredential is used.
@@ -143,9 +143,9 @@ export class BlobBatchClient {
   /**
    * Create multiple delete operations to mark the specified blobs or snapshots for deletion.
    * Note that in order to delete a blob, you must delete all of its snapshots.
-   * You can delete both at the same time. See [delete operation details](https://learn.microsoft.com/en-us/rest/api/storageservices/delete-blob).
+   * You can delete both at the same time. See [delete operation details](https://learn.microsoft.com/rest/api/storageservices/delete-blob).
    * The operation(subrequest) will be authenticated and authorized with specified credential.
-   * See [blob batch authorization details](https://learn.microsoft.com/en-us/rest/api/storageservices/blob-batch#authorization).
+   * See [blob batch authorization details](https://learn.microsoft.com/rest/api/storageservices/blob-batch#authorization).
    *
    * @param blobClients - The BlobClients for the blobs to delete.
    * @param options -
@@ -187,9 +187,9 @@ export class BlobBatchClient {
    * storage only). A premium page blob's tier determines the allowed size, IOPS,
    * and bandwidth of the blob. A block blob's tier determines Hot/Cool/Archive
    * storage type. This operation does not update the blob's ETag.
-   * See [set blob tier details](https://learn.microsoft.com/en-us/rest/api/storageservices/set-blob-tier).
+   * See [set blob tier details](https://learn.microsoft.com/rest/api/storageservices/set-blob-tier).
    * The operation(subrequest) will be authenticated and authorized
-   * with specified credential.See [blob batch authorization details](https://learn.microsoft.com/en-us/rest/api/storageservices/blob-batch#authorization).
+   * with specified credential.See [blob batch authorization details](https://learn.microsoft.com/rest/api/storageservices/blob-batch#authorization).
    *
    * @param urls - The urls of the blob resource to delete.
    * @param credential -  Such as AnonymousCredential, StorageSharedKeyCredential or any credential from the `@azure/identity` package to authenticate requests to the service. You can also provide an object that implements the TokenCredential interface. If not specified, AnonymousCredential is used.
@@ -212,9 +212,9 @@ export class BlobBatchClient {
    * storage only). A premium page blob's tier determines the allowed size, IOPS,
    * and bandwidth of the blob. A block blob's tier determines Hot/Cool/Archive
    * storage type. This operation does not update the blob's ETag.
-   * See [set blob tier details](https://learn.microsoft.com/en-us/rest/api/storageservices/set-blob-tier).
+   * See [set blob tier details](https://learn.microsoft.com/rest/api/storageservices/set-blob-tier).
    * The operation(subrequest) will be authenticated and authorized
-   * with specified credential.See [blob batch authorization details](https://learn.microsoft.com/en-us/rest/api/storageservices/blob-batch#authorization).
+   * with specified credential.See [blob batch authorization details](https://learn.microsoft.com/rest/api/storageservices/blob-batch#authorization).
    *
    * @param blobClients - The BlobClients for the blobs which should have a new tier set.
    * @param tier -
@@ -319,7 +319,7 @@ export class BlobBatchClient {
    * console.log(batchResp.subResponsesSucceededCount);
    * ```
    *
-   * @see https://learn.microsoft.com/en-us/rest/api/storageservices/blob-batch
+   * @see https://learn.microsoft.com/rest/api/storageservices/blob-batch
    *
    * @param batchRequest - A set of Delete or SetTier operations.
    * @param options -

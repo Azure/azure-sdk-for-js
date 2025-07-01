@@ -28,6 +28,13 @@ const sanitizerOptions: SanitizerOptions = {
       fakeConnString: envSetupForPlayback["COMMUNICATION_LIVETEST_STATIC_CONNECTION_STRING"],
     },
   ],
+  uriSanitizers: [
+    {
+      regex: true,
+      target: `https://(.*).communication.azure.com`,
+      value: "sanitized",
+    },
+  ],
   generalSanitizers: [
     { regex: true, target: `"access_token"\\s?:\\s?"[^"]*"`, value: `"access_token":"sanitized"` },
     {
