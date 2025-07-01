@@ -1,16 +1,12 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { Pipeline } from "@azure/core-rest-pipeline";
-import { bearerTokenAuthenticationPolicy, createEmptyPipeline } from "@azure/core-rest-pipeline";
 import type { PartitionKeyRange } from "./client/Container/PartitionKeyRange.js";
 import type { Resource } from "./client/Resource.js";
-import { Constants, HTTPMethod, ResourceType } from "./common/constants.js";
+import { HTTPMethod, ResourceType } from "./common/constants.js";
 import { parseLink } from "./common/helper.js";
-import type { CosmosClientOptions } from "./CosmosClientOptions.js";
-import type { ConnectionPolicy, PartitionKey } from "./documents/index.js";
+import type { PartitionKey } from "./documents/index.js";
 import { DatabaseAccount } from "./documents/index.js";
-import type { GlobalEndpointManager } from "./globalEndpointManager.js";
 import type { SqlQuerySpec } from "./queryExecutionContext/index.js";
 import { QueryIterator } from "./queryIterator.js";
 import type { FeedOptions, RequestOptions, Response } from "./request/index.js";
@@ -18,7 +14,6 @@ import type { PartitionedQueryExecutionInfo } from "./request/ErrorResponse.js";
 import { SessionContainer } from "./session/sessionContainer.js";
 import type { SessionContext } from "./session/SessionContext.js";
 import type { BulkOptions } from "./utils/batch.js";
-import { sanitizeEndpoint } from "./utils/checkURL.js";
 import type { ClientConfigDiagnostic, CosmosDiagnostics } from "./CosmosDiagnostics.js";
 import type { DiagnosticNodeInternal } from "./diagnostics/DiagnosticNodeInternal.js";
 import type { DiagnosticWriter } from "./diagnostics/DiagnosticWriter.js";
@@ -26,9 +21,8 @@ import { LogDiagnosticWriter, NoOpDiagnosticWriter } from "./diagnostics/Diagnos
 import type { DiagnosticFormatter } from "./diagnostics/DiagnosticFormatter.js";
 import { DefaultDiagnosticFormatter } from "./diagnostics/DiagnosticFormatter.js";
 import { CosmosDbDiagnosticLevel } from "./diagnostics/CosmosDbDiagnosticLevel.js";
-import { getUserAgent } from "./common/platform.js";
 import type { RetryOptions } from "./retry/retryOptions.js";
-import { ClientContextInternal } from "./ClientContextInternal.js";
+import type { ClientContextInternal } from "./ClientContextInternal.js";
 
 /**
  * @hidden
@@ -36,46 +30,15 @@ import { ClientContextInternal } from "./ClientContextInternal.js";
  */
 export class ClientContext {
   private readonly sessionContainer: SessionContainer;
-  private connectionPolicy: ConnectionPolicy;
-  private pipeline: Pipeline;
   private diagnosticWriter: DiagnosticWriter;
   private diagnosticFormatter: DiagnosticFormatter;
   public partitionKeyDefinitionCache: { [containerUrl: string]: any }; // TODO: PartitionKeyDefinitionCache
   /** boolean flag to support operations with client-side encryption */
   public enableEncryption: boolean = false;
   private clientContextInternal: ClientContextInternal;
-  public constructor(
-    private cosmosClientOptions: CosmosClientOptions,
-    private globalEndpointManager: GlobalEndpointManager,
-    private clientConfig: ClientConfigDiagnostic,
-    public diagnosticLevel: CosmosDbDiagnosticLevel,
-  ) {
-    if (cosmosClientOptions.clientEncryptionOptions) {
-      this.enableEncryption = true;
-    }
-    this.connectionPolicy = cosmosClientOptions.connectionPolicy;
+  public constructor(public diagnosticLevel: CosmosDbDiagnosticLevel) {
     this.sessionContainer = new SessionContainer();
     this.partitionKeyDefinitionCache = {};
-    this.pipeline = null;
-    if (cosmosClientOptions.aadCredentials) {
-      this.pipeline = createEmptyPipeline();
-      const hrefEndpoint = sanitizeEndpoint(cosmosClientOptions.endpoint);
-      const scope = `${hrefEndpoint}/.default`;
-      this.pipeline.addPolicy(
-        bearerTokenAuthenticationPolicy({
-          credential: cosmosClientOptions.aadCredentials,
-          scopes: scope,
-          challengeCallbacks: {
-            async authorizeRequest({ request, getAccessToken }) {
-              const tokenResponse = await getAccessToken([scope], {});
-              const AUTH_PREFIX = `type=aad&ver=1.0&sig=`;
-              const authorizationToken = `${AUTH_PREFIX}${tokenResponse.token}`;
-              request.headers.set("Authorization", authorizationToken);
-            },
-          },
-        }),
-      );
-    }
     this.initializeDiagnosticSettings(diagnosticLevel);
   }
 
@@ -351,19 +314,19 @@ export class ClientContext {
   }
 
   public getWriteEndpoint(diagnosticNode: DiagnosticNodeInternal): Promise<string> {
-    return this.globalEndpointManager.getWriteEndpoint(diagnosticNode);
+    return this.clientContextInternal.getWriteEndpoint(diagnosticNode);
   }
 
   public getReadEndpoint(diagnosticNode: DiagnosticNodeInternal): Promise<string> {
-    return this.globalEndpointManager.getReadEndpoint(diagnosticNode);
+    return this.clientContextInternal.getReadEndpoint(diagnosticNode);
   }
 
   public getWriteEndpoints(): Promise<readonly string[]> {
-    return this.globalEndpointManager.getWriteEndpoints();
+    return this.clientContextInternal.getWriteEndpoints();
   }
 
   public getReadEndpoints(): Promise<readonly string[]> {
-    return this.globalEndpointManager.getReadEndpoints();
+    return this.clientContextInternal.getReadEndpoints();
   }
 
   public async batch<T>({
