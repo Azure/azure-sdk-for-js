@@ -12,7 +12,7 @@ import {
 describe("urlHelpers", () => {
   describe("buildUrl", () => {
     it("should return the correct build URL", () => {
-      const pipelineId = "2470";
+      const pipelineId = 2470;
       const expectedUrl = `https://dev.azure.com/azure-sdk/internal/_apis/build/builds?definitions=${pipelineId}&$top=1&queryOrder=finishTimeDescending&reasonFilter=schedule&api-version=7.0`;
       assert.equal(buildUrl(pipelineId), expectedUrl);
       console.log(buildUrl(pipelineId));
@@ -21,7 +21,7 @@ describe("urlHelpers", () => {
 
   describe("buildTimelineUrl", () => {
     it("should return the correct timeline URL", () => {
-      const buildId = "4825727";
+      const buildId = 4825727;
       const expectedUrl = `https://dev.azure.com/azure-sdk/internal/_apis/build/builds/${buildId}/Timeline?api-version=7.0`;
       assert.equal(buildTimelineUrl(buildId), expectedUrl);
       console.log(buildTimelineUrl(buildId));

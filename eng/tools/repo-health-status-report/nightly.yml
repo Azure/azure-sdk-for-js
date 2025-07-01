@@ -14,7 +14,7 @@ jobs:
       - template: /eng/pipelines/templates/steps/common.yml
 
       - script: |
-          npm install
+          npm ci
         workingDirectory: $(System.DefaultWorkingDirectory)/eng/tools/repo-health-status-report
         displayName: "Install repo-health-status-report dependencies"
 
