@@ -1,5 +1,11 @@
 # Release History
 
+## 1.0.0-beta.33 ()
+
+### Bugs Fixed
+
+- Fix auto-detection of RP environment for azure functions.
+
 ## 1.0.0-beta.32 (2025-06-09)
 
 ### Features Added
