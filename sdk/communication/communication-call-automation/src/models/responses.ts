@@ -21,6 +21,7 @@ import type {
   TransferCallToParticipantEventResult,
   CancelAddParticipantEventResult,
   ConnectCallEventResult,
+  MoveParticipantEventResult,
 } from "../eventprocessor/eventResponses.js";
 import type { AbortSignalLike } from "@azure/abort-controller";
 
@@ -118,6 +119,21 @@ export interface RemoveParticipantResult {
     abortSignal?: AbortSignalLike,
     timeoutInMs?: number,
   ): Promise<RemoveParticipantEventResult>;
+}
+
+/** The response payload for moving participants to the call. */
+export interface MoveParticipantsResult {
+  /** List of current participants in the call. */
+  participants?: CallParticipant[];
+  /** The operation context provided by client. */
+  operationContext?: string;
+  /** The CallConnectionId for the call you want to move the participant from */
+  fromCall?: string;
+  /** Waiting for event processor to process the event */
+  waitForEventProcessor(
+    abortSignal?: AbortSignalLike,
+    timeoutInMs?: number,
+  ): Promise<MoveParticipantEventResult>;
 }
 
 /** The response payload for muting participant from the call. */
