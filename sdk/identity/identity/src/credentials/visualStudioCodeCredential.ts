@@ -125,11 +125,11 @@ export class VisualStudioCodeCredential implements TokenCredential {
   }
 
   /**
-   * Load the broker plugin from @azure/identity-broker package.
+   * Load the broker plugin from \@azure/identity-broker package.
    */
   private async loadBrokerPlugin() {
     try {
-      // @ts-ignore
+      // @ts-expect-error
       const { nativeBrokerPlugin } = await import("@azure/identity-broker");
       return nativeBrokerPlugin;
     } catch (error: any) {
@@ -153,7 +153,12 @@ export class VisualStudioCodeCredential implements TokenCredential {
     const azureDirs = [".azure", ".Azure"];
 
     for (const azureDir of azureDirs) {
-      const authPath = path.join(homedir, azureDir, "ms-azuretools.vscode-azureresourcegroups", "authRecord.json");
+      const authPath = path.join(
+        homedir,
+        azureDir,
+        "ms-azuretools.vscode-azureresourcegroups",
+        "authRecord.json",
+      );
       try {
         await fs.access(authPath);
         return authPath;
@@ -256,7 +261,7 @@ export class VisualStudioCodeCredential implements TokenCredential {
       throw new CredentialUnavailableError(
         "Visual Studio Code Authentication failed to initialize." +
         " The MSAL client could not be created. Ensure you have @azure/identity-broker dependency installed," +
-        " signed into Azure via VS Code, and have Azure Resources Extension installed in VS Code."
+        " signed into Azure via VS Code, and have Azure Resources Extension installed in VS Code.",
       );
     }
 
