@@ -1,6 +1,7 @@
 # Release History
 
 ## 2.0.0 (2025-06-06)
+
 Extending scope with inferences for scoring and assessment, quality measure and clinical guidance
 
 ### Features Added
@@ -39,6 +40,7 @@ Extending scope with inferences for scoring and assessment, quality measure and 
 ## 1.0.0 (2024-08-15)
 
  - GA release
+ 
  
  ### Features Added
 - Added sample code for all Inference types
