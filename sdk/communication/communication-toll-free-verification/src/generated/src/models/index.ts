@@ -37,6 +37,10 @@ export interface CampaignBrief {
   attachments?: CampaignBriefAttachmentSummary[];
   optInDetails?: OptInDetails;
   multipleNumbersJustification?: string;
+  /** URL to the privacy policy associated with the campaign. */
+  privacyPolicyUrl?: string;
+  /** URL to the terms and conditions associated with the campaign. */
+  termsAndConditionsUrl?: string;
 }
 
 /** Holds a note about a Campaign Brief that has gone thru stages of review process. */

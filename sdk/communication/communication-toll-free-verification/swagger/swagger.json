@@ -767,6 +767,16 @@
         },
         "multipleNumbersJustification": {
           "type": "string"
+        },
+        "privacyPolicyUrl": {
+          "description": "URL to the privacy policy associated with the campaign.",
+          "type": "string",
+          "format": "uri"
+        },
+        "termsAndConditionsUrl": {
+          "description": "URL to the terms and conditions associated with the campaign.",
+          "type": "string",
+          "format": "uri"
         }
       }
     },

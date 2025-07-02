@@ -125,6 +125,18 @@ export const CampaignBrief: coreClient.CompositeMapper = {
           name: "String",
         },
       },
+      privacyPolicyUrl: {
+        serializedName: "privacyPolicyUrl",
+        type: {
+          name: "String",
+        },
+      },
+      termsAndConditionsUrl: {
+        serializedName: "termsAndConditionsUrl",
+        type: {
+          name: "String",
+        },
+      },
     },
   },
 };

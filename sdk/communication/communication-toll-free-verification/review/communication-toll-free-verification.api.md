@@ -63,10 +63,12 @@ export interface CampaignBrief {
     // (undocumented)
     optInDetails?: OptInDetails;
     phoneNumbers?: string[];
+    privacyPolicyUrl?: string;
     reviewNotes?: ReviewNote[];
     status?: CampaignBriefStatus;
     statusUpdatedDate?: Date;
     submissionDate?: Date;
+    termsAndConditionsUrl?: string;
     // (undocumented)
     useCaseInfo?: UseCaseInfo;
 }
