@@ -32,17 +32,18 @@ param (
 )
 
 if (!$AdditionalParameters['deployMIResources']) {
-    Write-Host "Skipping post-provisioning script because resources weren't deployed"
-    return
+  Write-Host "Skipping post-provisioning script because resources weren't deployed"
+  return
 }
 
 $MIClientId = $DeploymentOutputs['IDENTITY_USER_DEFINED_CLIENT_ID']
 $MIName = $DeploymentOutputs['IDENTITY_USER_DEFINED_IDENTITY_NAME']
 $saAccountName = 'workload-identity-sa'
 $podName = $DeploymentOutputs['IDENTITY_AKS_POD_NAME']
+$storageName1 = $DeploymentOutputs['IDENTITY_STORAGE_NAME_1']
 $storageName2 = $DeploymentOutputs['IDENTITY_STORAGE_NAME_2']
 $userDefinedClientId = $DeploymentOutputs['IDENTITY_USER_DEFINED_CLIENT_ID']
-
+$identityResourceGroup = $DeploymentOutputs['IDENTITY_RESOURCE_GROUP']
 $ErrorActionPreference = 'Continue'
 $PSNativeCommandUseErrorActionPreference = $true
 
@@ -125,10 +126,14 @@ spec:
   - name: $podName
     image: $image
     env:
+    - name: IDENTITY_STORAGE_NAME
+      value: "$storageName1"
     - name: IDENTITY_STORAGE_NAME_2
       value: "$storageName2"
     - name: IDENTITY_USER_DEFINED_CLIENT_ID
       value: "$userDefinedClientId"
+    - name: FUNCTIONS_CUSTOMHANDLER_PORT
+      value: "80"
     ports:
     - containerPort: 80
   nodeSelector:
@@ -141,3 +146,24 @@ Set-Content -Path "$workingFolder/kubeconfig.yaml" -Value $kubeConfig
 # Apply the config
 kubectl apply -f "$workingFolder/kubeconfig.yaml" --overwrite=true
 Write-Host "Applied kubeconfig.yaml"
+
+Write-Host "Deploying Azure Container Instance"
+Write-Host "Creating Azure Container Instance $identityResourceGroup"
+az container create -g $identityResourceGroup -n $($DeploymentOutputs['IDENTITY_CONTAINER_INSTANCE_NAME']) --image $image `
+  --acr-identity $DeploymentOutputs['IDENTITY_USER_DEFINED_IDENTITY'] `
+  --assign-identity [system] $DeploymentOutputs['IDENTITY_USER_DEFINED_IDENTITY'] `
+  --role "Storage Blob Data Reader" `
+  --cpu "1" `
+  --ip-address "Public" `
+  --memory "1.0"`
+  --os-type "Linux" `
+  --scope $DeploymentOutputs['IDENTITY_STORAGE_ID_1'] `
+  -e IDENTITY_STORAGE_NAME=$storageName1 `
+  -e IDENTITY_STORAGE_NAME_2=$storageName2 `
+  -e IDENTITY_USER_DEFINED_CLIENT_ID=$userDefinedClientId `
+  -e FUNCTIONS_CUSTOMHANDLER_PORT=80
+
+Write-Host "Container instance created"
+$aciIP = az container show -g $identityResourceGroup -n $DeploymentOutputs['IDENTITY_CONTAINER_INSTANCE_NAME'] --query ipAddress.ip --output tsv
+Write-Host "##vso[task.setvariable variable=IDENTITY_ACI_IP;]$aciIP"
+Write-Host "Deployed Azure Container Instance"
