@@ -1,6 +1,12 @@
 # Release History
 
+## 4.11.0-beta.1 (Unreleased)
+
+### Features Added
+
 ## 4.10.2 (Unreleased)
+
+- **Visual Studio Code Credential** has been re-enabled and now supports **broker authentication** using the Azure account signed in via Visual Studio Code. [#34985](https://github.com/Azure/azure-sdk-for-js/pull/34985)
 
 ### Features Added
 
