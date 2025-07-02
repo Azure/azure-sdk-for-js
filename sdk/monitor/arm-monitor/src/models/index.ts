@@ -23,10 +23,7 @@ export type MetricAlertCriteriaUnion =
   | MetricAlertSingleResourceMultipleMetricCriteria
   | WebtestLocationAvailabilityCriteria
   | MetricAlertMultipleResourceMultipleMetricCriteria;
-export type MultiMetricCriteriaUnion =
-  | MultiMetricCriteria
-  | MetricCriteria
-  | DynamicMetricCriteria;
+export type MultiMetricCriteriaUnion = MultiMetricCriteria | MetricCriteria | DynamicMetricCriteria;
 
 /** Represents collection of metric namespaces. */
 export interface MetricNamespaceCollection {
@@ -881,9 +878,9 @@ export interface IncidentListResult {
 export interface RuleCondition {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   odataType:
-  | "Microsoft.Azure.Management.Insights.Models.ThresholdRuleCondition"
-  | "Microsoft.Azure.Management.Insights.Models.LocationThresholdRuleCondition"
-  | "Microsoft.Azure.Management.Insights.Models.ManagementEventRuleCondition";
+    | "Microsoft.Azure.Management.Insights.Models.ThresholdRuleCondition"
+    | "Microsoft.Azure.Management.Insights.Models.LocationThresholdRuleCondition"
+    | "Microsoft.Azure.Management.Insights.Models.ManagementEventRuleCondition";
   /** the resource from which the rule collects its data. For this type dataSource will always be of type RuleMetricDataSource. */
   dataSource?: RuleDataSourceUnion;
 }
@@ -892,8 +889,8 @@ export interface RuleCondition {
 export interface RuleDataSource {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   odataType:
-  | "Microsoft.Azure.Management.Insights.Models.RuleMetricDataSource"
-  | "Microsoft.Azure.Management.Insights.Models.RuleManagementEventDataSource";
+    | "Microsoft.Azure.Management.Insights.Models.RuleMetricDataSource"
+    | "Microsoft.Azure.Management.Insights.Models.RuleManagementEventDataSource";
   /** the resource identifier of the resource the rule monitors. **NOTE**: this property cannot be updated for an existing rule. */
   resourceUri?: string;
   /** the legacy resource identifier of the resource the rule monitors. **NOTE**: this property cannot be updated for an existing rule. */
@@ -908,8 +905,8 @@ export interface RuleDataSource {
 export interface RuleAction {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   odataType:
-  | "Microsoft.Azure.Management.Insights.Models.RuleEmailAction"
-  | "Microsoft.Azure.Management.Insights.Models.RuleWebhookAction";
+    | "Microsoft.Azure.Management.Insights.Models.RuleEmailAction"
+    | "Microsoft.Azure.Management.Insights.Models.RuleWebhookAction";
 }
 
 /** An azure resource object */
@@ -1740,9 +1737,9 @@ export interface MetricAlertResourceCollection {
 export interface MetricAlertCriteria {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   odataType:
-  | "Microsoft.Azure.Monitor.SingleResourceMultipleMetricCriteria"
-  | "Microsoft.Azure.Monitor.WebtestLocationAvailabilityCriteria"
-  | "Microsoft.Azure.Monitor.MultipleResourceMultipleMetricCriteria";
+    | "Microsoft.Azure.Monitor.SingleResourceMultipleMetricCriteria"
+    | "Microsoft.Azure.Monitor.WebtestLocationAvailabilityCriteria"
+    | "Microsoft.Azure.Monitor.MultipleResourceMultipleMetricCriteria";
   /** Describes unknown properties. The value of an unknown property can be of "any" type. */
   [property: string]: any;
 }
@@ -3131,15 +3128,13 @@ export interface DynamicThresholdFailingPeriods {
 }
 
 /** Resource properties */
-export interface AzureMonitorWorkspaceResourceProperties
-  extends AzureMonitorWorkspace { }
+export interface AzureMonitorWorkspaceResourceProperties extends AzureMonitorWorkspace {}
 
 /** Properties related to the metrics container in the Azure Monitor Workspace */
-export interface AzureMonitorWorkspaceMetrics extends Metrics { }
+export interface AzureMonitorWorkspaceMetrics extends Metrics {}
 
 /** The Data Collection Rule and Endpoint used for ingestion by default. */
-export interface AzureMonitorWorkspaceDefaultIngestionSettings
-  extends IngestionSettings { }
+export interface AzureMonitorWorkspaceDefaultIngestionSettings extends IngestionSettings {}
 
 /** The private endpoint connection resource. */
 export interface PrivateEndpointConnection extends Resource {
@@ -3157,14 +3152,13 @@ export interface PrivateEndpointConnection extends Resource {
 }
 
 /** Metadata pertaining to creation and last modification of the resource. */
-export interface DataCollectionEndpointResourceSystemData extends SystemData { }
+export interface DataCollectionEndpointResourceSystemData extends SystemData {}
 
 /** Metadata pertaining to creation and last modification of the resource. */
-export interface DataCollectionRuleAssociationProxyOnlyResourceSystemData
-  extends SystemData { }
+export interface DataCollectionRuleAssociationProxyOnlyResourceSystemData extends SystemData {}
 
 /** Metadata pertaining to creation and last modification of the resource. */
-export interface DataCollectionRuleResourceSystemData extends SystemData { }
+export interface DataCollectionRuleResourceSystemData extends SystemData {}
 
 /** The resource model definition for an Azure Resource Manager tracked top level resource which has 'tags' and a 'location' */
 export interface TrackedResource extends ResourceAutoGenerated {
@@ -3341,8 +3335,7 @@ export interface DiagnosticSettingsResource extends ResourceAutoGenerated5 {
 }
 
 /** The diagnostic settings category resource. */
-export interface DiagnosticSettingsCategoryResource
-  extends ResourceAutoGenerated5 {
+export interface DiagnosticSettingsCategoryResource extends ResourceAutoGenerated5 {
   /**
    * The system metadata related to this resource.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -3355,8 +3348,7 @@ export interface DiagnosticSettingsCategoryResource
 }
 
 /** The Private Endpoint Connection resource. */
-export interface PrivateEndpointConnectionAutoGenerated
-  extends ResourceAutoGenerated5 {
+export interface PrivateEndpointConnectionAutoGenerated extends ResourceAutoGenerated5 {
   /** The resource of private end point. */
   privateEndpoint?: PrivateEndpointAutoGenerated;
   /** A collection of information about the state of the connection between service consumer and provider. */
@@ -3390,7 +3382,7 @@ export interface PrivateLinkResource extends ResourceAutoGenerated5 {
 }
 
 /** The resource model definition for a Azure Resource Manager proxy resource. It will not have tags and a location */
-export interface ProxyResourceAutoGenerated extends ResourceAutoGenerated5 { }
+export interface ProxyResourceAutoGenerated extends ResourceAutoGenerated5 {}
 
 /** An action group resource. */
 export interface ActionGroupResource extends AzureResource {
@@ -3441,8 +3433,7 @@ export interface TenantActionGroupResource extends AzureResource {
 }
 
 /** Specifies the metric alert criteria for a single resource that has multiple metric criteria. */
-export interface MetricAlertSingleResourceMultipleMetricCriteria
-  extends MetricAlertCriteria {
+export interface MetricAlertSingleResourceMultipleMetricCriteria extends MetricAlertCriteria {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   odataType: "Microsoft.Azure.Monitor.SingleResourceMultipleMetricCriteria";
   /** The list of metric criteria for this 'all of' operation. */
@@ -3450,8 +3441,7 @@ export interface MetricAlertSingleResourceMultipleMetricCriteria
 }
 
 /** Specifies the metric alert rule criteria for a web test resource. */
-export interface WebtestLocationAvailabilityCriteria
-  extends MetricAlertCriteria {
+export interface WebtestLocationAvailabilityCriteria extends MetricAlertCriteria {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   odataType: "Microsoft.Azure.Monitor.WebtestLocationAvailabilityCriteria";
   /** The Application Insights web test Id. */
@@ -3463,8 +3453,7 @@ export interface WebtestLocationAvailabilityCriteria
 }
 
 /** Specifies the metric alert criteria for multiple resource that has multiple metric criteria. */
-export interface MetricAlertMultipleResourceMultipleMetricCriteria
-  extends MetricAlertCriteria {
+export interface MetricAlertMultipleResourceMultipleMetricCriteria extends MetricAlertCriteria {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   odataType: "Microsoft.Azure.Monitor.MultipleResourceMultipleMetricCriteria";
   /** the list of multiple metric criteria for this 'all of' operation. */
@@ -3549,80 +3538,72 @@ export interface ActivityLogAlertResource extends AzureResourceAutoGenerated {
 }
 
 /** Resource properties. */
-export interface DataCollectionEndpointResourceProperties
-  extends DataCollectionEndpoint { }
+export interface DataCollectionEndpointResourceProperties extends DataCollectionEndpoint {}
 
 /** The endpoint used by clients to access their configuration. */
 export interface DataCollectionEndpointConfigurationAccess
-  extends ConfigurationAccessEndpointSpec { }
+  extends ConfigurationAccessEndpointSpec {}
 
 /** The endpoint used by clients to ingest logs. */
-export interface DataCollectionEndpointLogsIngestion
-  extends LogsIngestionEndpointSpec { }
+export interface DataCollectionEndpointLogsIngestion extends LogsIngestionEndpointSpec {}
 
 /** The endpoint used by clients to ingest metrics. */
-export interface DataCollectionEndpointMetricsIngestion
-  extends MetricsIngestionEndpointSpec { }
+export interface DataCollectionEndpointMetricsIngestion extends MetricsIngestionEndpointSpec {}
 
 /** Network access control rules for the endpoints. */
-export interface DataCollectionEndpointNetworkAcls extends NetworkRuleSet { }
+export interface DataCollectionEndpointNetworkAcls extends NetworkRuleSet {}
 
 /** Failover configuration on this endpoint. This property is READ-ONLY. */
-export interface DataCollectionEndpointFailoverConfiguration
-  extends FailoverConfigurationSpec { }
+export interface DataCollectionEndpointFailoverConfiguration extends FailoverConfigurationSpec {}
 
 /** Metadata for the resource. This property is READ-ONLY. */
-export interface DataCollectionEndpointMetadata extends Metadata { }
+export interface DataCollectionEndpointMetadata extends Metadata {}
 
 /** Metadata about the resource */
-export interface DataCollectionRuleAssociationMetadata extends Metadata { }
+export interface DataCollectionRuleAssociationMetadata extends Metadata {}
 
 /** Metadata about the resource */
-export interface DataCollectionRuleMetadata extends Metadata { }
+export interface DataCollectionRuleMetadata extends Metadata {}
 
 /** Managed service identity of the resource. */
-export interface DataCollectionEndpointResourceIdentity
-  extends ManagedServiceIdentity { }
+export interface DataCollectionEndpointResourceIdentity extends ManagedServiceIdentity {}
 
 /** Managed Service Identity. */
-export interface ResourceForUpdateIdentity extends ManagedServiceIdentity { }
+export interface ResourceForUpdateIdentity extends ManagedServiceIdentity {}
 
 /** Managed service identity of the resource. */
-export interface DataCollectionRuleResourceIdentity
-  extends ManagedServiceIdentity { }
+export interface DataCollectionRuleResourceIdentity extends ManagedServiceIdentity {}
 
 /** Resource properties. */
 export interface DataCollectionRuleAssociationProxyOnlyResourceProperties
-  extends DataCollectionRuleAssociation { }
+  extends DataCollectionRuleAssociation {}
 
 /** Resource properties. */
-export interface DataCollectionRuleResourceProperties
-  extends DataCollectionRule { }
+export interface DataCollectionRuleResourceProperties extends DataCollectionRule {}
 
 /**
  * The specification of data sources.
  * This property is optional and can be omitted if the rule is meant to be used via direct calls to the provisioned endpoint.
  */
-export interface DataCollectionRuleDataSources extends DataSourcesSpec { }
+export interface DataCollectionRuleDataSources extends DataSourcesSpec {}
 
 /** The log files specific settings. */
-export interface LogFilesDataSourceSettings extends LogFileSettings { }
+export interface LogFilesDataSourceSettings extends LogFileSettings {}
 
 /** Text settings */
-export interface LogFileSettingsText extends LogFileTextSettings { }
+export interface LogFileSettingsText extends LogFileTextSettings {}
 
 /** Specifications of pull based data sources */
-export interface DataSourcesSpecDataImports extends DataImportSources { }
+export interface DataSourcesSpecDataImports extends DataImportSources {}
 
 /** Definition of Event Hub configuration. */
-export interface DataImportSourcesEventHub extends EventHubDataSource { }
+export interface DataImportSourcesEventHub extends EventHubDataSource {}
 
 /** The specification of destinations. */
-export interface DataCollectionRuleDestinations extends DestinationsSpec { }
+export interface DataCollectionRuleDestinations extends DestinationsSpec {}
 
 /** Azure Monitor Metrics destination. */
-export interface DestinationsSpecAzureMonitorMetrics
-  extends AzureMonitorMetricsDestination { }
+export interface DestinationsSpecAzureMonitorMetrics extends AzureMonitorMetricsDestination {}
 
 /** Criterion to filter metrics. */
 export interface MetricCriteria extends MultiMetricCriteria {
@@ -3688,8 +3669,7 @@ export interface AzureMonitorWorkspaceResource extends TrackedResource {
 }
 
 /** An Azure Monitor PrivateLinkScope definition. */
-export interface AzureMonitorPrivateLinkScope
-  extends TrackedResourceAutoGenerated {
+export interface AzureMonitorPrivateLinkScope extends TrackedResourceAutoGenerated {
   /**
    * System data
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -4919,25 +4899,13 @@ export enum KnownDynamicThresholdSensitivity {
  */
 export type DynamicThresholdSensitivity = string;
 /** Defines values for AggregationType. */
-export type AggregationType =
-  | "None"
-  | "Average"
-  | "Count"
-  | "Minimum"
-  | "Maximum"
-  | "Total";
+export type AggregationType = "None" | "Average" | "Count" | "Minimum" | "Maximum" | "Total";
 /** Defines values for ResultType. */
 export type ResultType = "Data" | "Metadata";
 /** Defines values for MetricStatisticType. */
 export type MetricStatisticType = "Average" | "Min" | "Max" | "Sum" | "Count";
 /** Defines values for TimeAggregationType. */
-export type TimeAggregationType =
-  | "Average"
-  | "Minimum"
-  | "Maximum"
-  | "Total"
-  | "Count"
-  | "Last";
+export type TimeAggregationType = "Average" | "Minimum" | "Maximum" | "Total" | "Count" | "Last";
 /** Defines values for ComparisonOperationType. */
 export type ComparisonOperationType =
   | "Equals"
@@ -4965,19 +4933,11 @@ export type RecurrenceFrequency =
   | "Month"
   | "Year";
 /** Defines values for PredictiveAutoscalePolicyScaleMode. */
-export type PredictiveAutoscalePolicyScaleMode =
-  | "Disabled"
-  | "ForecastOnly"
-  | "Enabled";
+export type PredictiveAutoscalePolicyScaleMode = "Disabled" | "ForecastOnly" | "Enabled";
 /** Defines values for ReceiverStatus. */
 export type ReceiverStatus = "NotSpecified" | "Enabled" | "Disabled";
 /** Defines values for EventLevel. */
-export type EventLevel =
-  | "Critical"
-  | "Error"
-  | "Warning"
-  | "Informational"
-  | "Verbose";
+export type EventLevel = "Critical" | "Error" | "Warning" | "Informational" | "Verbose";
 /** Defines values for IdentityType. */
 export type IdentityType = "SystemAssigned" | "UserAssigned" | "None";
 /** Defines values for ConditionOperator. */
@@ -4988,16 +4948,10 @@ export type ConditionOperator =
   | "LessThanOrEqual"
   | "Equals";
 /** Defines values for TimeAggregationOperator. */
-export type TimeAggregationOperator =
-  | "Average"
-  | "Minimum"
-  | "Maximum"
-  | "Total"
-  | "Last";
+export type TimeAggregationOperator = "Average" | "Minimum" | "Maximum" | "Total" | "Last";
 
 /** Optional parameters. */
-export interface MetricNamespacesListOptionalParams
-  extends coreClient.OperationOptions {
+export interface MetricNamespacesListOptionalParams extends coreClient.OperationOptions {
   /** The ISO 8601 conform Date start time from which to query for metric namespaces. */
   startTime?: string;
 }
@@ -5017,8 +4971,7 @@ export type MetricDefinitionsListAtSubscriptionScopeResponse =
   SubscriptionScopeMetricDefinitionCollection;
 
 /** Optional parameters. */
-export interface MetricDefinitionsListOptionalParams
-  extends coreClient.OperationOptions {
+export interface MetricDefinitionsListOptionalParams extends coreClient.OperationOptions {
   /** Metric namespace where the metrics you want reside. */
   metricnamespace?: string;
 }
@@ -5027,8 +4980,7 @@ export interface MetricDefinitionsListOptionalParams
 export type MetricDefinitionsListResponse = MetricDefinitionCollection;
 
 /** Optional parameters. */
-export interface MetricsListAtSubscriptionScopeOptionalParams
-  extends coreClient.OperationOptions {
+export interface MetricsListAtSubscriptionScopeOptionalParams extends coreClient.OperationOptions {
   /** Metric namespace where the metrics you want reside. */
   metricnamespace?: string;
   /** The timespan of the query. It is a string with the following format 'startDateTime_ISO/endDateTime_ISO'. */
@@ -5167,7 +5119,7 @@ export type MetricsListResponse = Response;
 
 /** Optional parameters. */
 export interface AzureMonitorWorkspacesListByResourceGroupOptionalParams
-  extends coreClient.OperationOptions { }
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByResourceGroup operation. */
 export type AzureMonitorWorkspacesListByResourceGroupResponse =
@@ -5175,41 +5127,35 @@ export type AzureMonitorWorkspacesListByResourceGroupResponse =
 
 /** Optional parameters. */
 export interface AzureMonitorWorkspacesListBySubscriptionOptionalParams
-  extends coreClient.OperationOptions { }
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listBySubscription operation. */
 export type AzureMonitorWorkspacesListBySubscriptionResponse =
   AzureMonitorWorkspaceResourceListResult;
 
 /** Optional parameters. */
-export interface AzureMonitorWorkspacesGetOptionalParams
-  extends coreClient.OperationOptions { }
+export interface AzureMonitorWorkspacesGetOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the get operation. */
 export type AzureMonitorWorkspacesGetResponse = AzureMonitorWorkspaceResource;
 
 /** Optional parameters. */
-export interface AzureMonitorWorkspacesCreateOptionalParams
-  extends coreClient.OperationOptions { }
+export interface AzureMonitorWorkspacesCreateOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the create operation. */
-export type AzureMonitorWorkspacesCreateResponse =
-  AzureMonitorWorkspaceResource;
+export type AzureMonitorWorkspacesCreateResponse = AzureMonitorWorkspaceResource;
 
 /** Optional parameters. */
-export interface AzureMonitorWorkspacesUpdateOptionalParams
-  extends coreClient.OperationOptions {
+export interface AzureMonitorWorkspacesUpdateOptionalParams extends coreClient.OperationOptions {
   /** The payload */
   azureMonitorWorkspaceProperties?: AzureMonitorWorkspaceResourceForUpdate;
 }
 
 /** Contains response data for the update operation. */
-export type AzureMonitorWorkspacesUpdateResponse =
-  AzureMonitorWorkspaceResource;
+export type AzureMonitorWorkspacesUpdateResponse = AzureMonitorWorkspaceResource;
 
 /** Optional parameters. */
-export interface AzureMonitorWorkspacesDeleteOptionalParams
-  extends coreClient.OperationOptions {
+export interface AzureMonitorWorkspacesDeleteOptionalParams extends coreClient.OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
   /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
@@ -5217,12 +5163,11 @@ export interface AzureMonitorWorkspacesDeleteOptionalParams
 }
 
 /** Contains response data for the delete operation. */
-export type AzureMonitorWorkspacesDeleteResponse =
-  AzureMonitorWorkspacesDeleteHeaders;
+export type AzureMonitorWorkspacesDeleteResponse = AzureMonitorWorkspacesDeleteHeaders;
 
 /** Optional parameters. */
 export interface AzureMonitorWorkspacesListByResourceGroupNextOptionalParams
-  extends coreClient.OperationOptions { }
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByResourceGroupNext operation. */
 export type AzureMonitorWorkspacesListByResourceGroupNextResponse =
@@ -5230,246 +5175,210 @@ export type AzureMonitorWorkspacesListByResourceGroupNextResponse =
 
 /** Optional parameters. */
 export interface AzureMonitorWorkspacesListBySubscriptionNextOptionalParams
-  extends coreClient.OperationOptions { }
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listBySubscriptionNext operation. */
 export type AzureMonitorWorkspacesListBySubscriptionNextResponse =
   AzureMonitorWorkspaceResourceListResult;
 
 /** Optional parameters. */
-export interface MonitorOperationsListOptionalParams
-  extends coreClient.OperationOptions { }
+export interface MonitorOperationsListOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the list operation. */
 export type MonitorOperationsListResponse = OperationListResult;
 
 /** Optional parameters. */
-export interface MonitorOperationsListNextOptionalParams
-  extends coreClient.OperationOptions { }
+export interface MonitorOperationsListNextOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
 export type MonitorOperationsListNextResponse = OperationListResult;
 
 /** Optional parameters. */
 export interface AutoscaleSettingsListByResourceGroupOptionalParams
-  extends coreClient.OperationOptions { }
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByResourceGroup operation. */
-export type AutoscaleSettingsListByResourceGroupResponse =
-  AutoscaleSettingResourceCollection;
+export type AutoscaleSettingsListByResourceGroupResponse = AutoscaleSettingResourceCollection;
 
 /** Optional parameters. */
 export interface AutoscaleSettingsCreateOrUpdateOptionalParams
-  extends coreClient.OperationOptions { }
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the createOrUpdate operation. */
 export type AutoscaleSettingsCreateOrUpdateResponse = AutoscaleSettingResource;
 
 /** Optional parameters. */
-export interface AutoscaleSettingsDeleteOptionalParams
-  extends coreClient.OperationOptions { }
+export interface AutoscaleSettingsDeleteOptionalParams extends coreClient.OperationOptions {}
 
 /** Optional parameters. */
-export interface AutoscaleSettingsGetOptionalParams
-  extends coreClient.OperationOptions { }
+export interface AutoscaleSettingsGetOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the get operation. */
 export type AutoscaleSettingsGetResponse = AutoscaleSettingResource;
 
 /** Optional parameters. */
-export interface AutoscaleSettingsUpdateOptionalParams
-  extends coreClient.OperationOptions { }
+export interface AutoscaleSettingsUpdateOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the update operation. */
 export type AutoscaleSettingsUpdateResponse = AutoscaleSettingResource;
 
 /** Optional parameters. */
 export interface AutoscaleSettingsListBySubscriptionOptionalParams
-  extends coreClient.OperationOptions { }
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listBySubscription operation. */
-export type AutoscaleSettingsListBySubscriptionResponse =
-  AutoscaleSettingResourceCollection;
+export type AutoscaleSettingsListBySubscriptionResponse = AutoscaleSettingResourceCollection;
 
 /** Optional parameters. */
 export interface AutoscaleSettingsListByResourceGroupNextOptionalParams
-  extends coreClient.OperationOptions { }
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByResourceGroupNext operation. */
-export type AutoscaleSettingsListByResourceGroupNextResponse =
-  AutoscaleSettingResourceCollection;
+export type AutoscaleSettingsListByResourceGroupNextResponse = AutoscaleSettingResourceCollection;
 
 /** Optional parameters. */
 export interface AutoscaleSettingsListBySubscriptionNextOptionalParams
-  extends coreClient.OperationOptions { }
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listBySubscriptionNext operation. */
-export type AutoscaleSettingsListBySubscriptionNextResponse =
-  AutoscaleSettingResourceCollection;
+export type AutoscaleSettingsListBySubscriptionNextResponse = AutoscaleSettingResourceCollection;
 
 /** Optional parameters. */
-export interface PredictiveMetricGetOptionalParams
-  extends coreClient.OperationOptions { }
+export interface PredictiveMetricGetOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the get operation. */
 export type PredictiveMetricGetResponse = PredictiveResponse;
 
 /** Optional parameters. */
-export interface OperationsListOptionalParams
-  extends coreClient.OperationOptions { }
+export interface OperationsListOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the list operation. */
 export type OperationsListResponse = OperationListResultAutoGenerated;
 
 /** Optional parameters. */
-export interface AlertRuleIncidentsGetOptionalParams
-  extends coreClient.OperationOptions { }
+export interface AlertRuleIncidentsGetOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the get operation. */
 export type AlertRuleIncidentsGetResponse = Incident;
 
 /** Optional parameters. */
 export interface AlertRuleIncidentsListByAlertRuleOptionalParams
-  extends coreClient.OperationOptions { }
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByAlertRule operation. */
 export type AlertRuleIncidentsListByAlertRuleResponse = IncidentListResult;
 
 /** Optional parameters. */
-export interface AlertRulesCreateOrUpdateOptionalParams
-  extends coreClient.OperationOptions { }
+export interface AlertRulesCreateOrUpdateOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the createOrUpdate operation. */
 export type AlertRulesCreateOrUpdateResponse = AlertRuleResource;
 
 /** Optional parameters. */
-export interface AlertRulesDeleteOptionalParams
-  extends coreClient.OperationOptions { }
+export interface AlertRulesDeleteOptionalParams extends coreClient.OperationOptions {}
 
 /** Optional parameters. */
-export interface AlertRulesGetOptionalParams
-  extends coreClient.OperationOptions { }
+export interface AlertRulesGetOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the get operation. */
 export type AlertRulesGetResponse = AlertRuleResource;
 
 /** Optional parameters. */
-export interface AlertRulesUpdateOptionalParams
-  extends coreClient.OperationOptions { }
+export interface AlertRulesUpdateOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the update operation. */
 export type AlertRulesUpdateResponse = AlertRuleResource;
 
 /** Optional parameters. */
-export interface AlertRulesListByResourceGroupOptionalParams
-  extends coreClient.OperationOptions { }
+export interface AlertRulesListByResourceGroupOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByResourceGroup operation. */
 export type AlertRulesListByResourceGroupResponse = AlertRuleResourceCollection;
 
 /** Optional parameters. */
-export interface AlertRulesListBySubscriptionOptionalParams
-  extends coreClient.OperationOptions { }
+export interface AlertRulesListBySubscriptionOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the listBySubscription operation. */
 export type AlertRulesListBySubscriptionResponse = AlertRuleResourceCollection;
 
 /** Optional parameters. */
-export interface LogProfilesDeleteOptionalParams
-  extends coreClient.OperationOptions { }
+export interface LogProfilesDeleteOptionalParams extends coreClient.OperationOptions {}
 
 /** Optional parameters. */
-export interface LogProfilesGetOptionalParams
-  extends coreClient.OperationOptions { }
+export interface LogProfilesGetOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the get operation. */
 export type LogProfilesGetResponse = LogProfileResource;
 
 /** Optional parameters. */
-export interface LogProfilesCreateOrUpdateOptionalParams
-  extends coreClient.OperationOptions { }
+export interface LogProfilesCreateOrUpdateOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the createOrUpdate operation. */
 export type LogProfilesCreateOrUpdateResponse = LogProfileResource;
 
 /** Optional parameters. */
-export interface LogProfilesUpdateOptionalParams
-  extends coreClient.OperationOptions { }
+export interface LogProfilesUpdateOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the update operation. */
 export type LogProfilesUpdateResponse = LogProfileResource;
 
 /** Optional parameters. */
-export interface LogProfilesListOptionalParams
-  extends coreClient.OperationOptions { }
+export interface LogProfilesListOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the list operation. */
 export type LogProfilesListResponse = LogProfileCollection;
 
 /** Optional parameters. */
-export interface DiagnosticSettingsGetOptionalParams
-  extends coreClient.OperationOptions { }
+export interface DiagnosticSettingsGetOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the get operation. */
 export type DiagnosticSettingsGetResponse = DiagnosticSettingsResource;
 
 /** Optional parameters. */
 export interface DiagnosticSettingsCreateOrUpdateOptionalParams
-  extends coreClient.OperationOptions { }
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the createOrUpdate operation. */
-export type DiagnosticSettingsCreateOrUpdateResponse =
-  DiagnosticSettingsResource;
+export type DiagnosticSettingsCreateOrUpdateResponse = DiagnosticSettingsResource;
 
 /** Optional parameters. */
-export interface DiagnosticSettingsDeleteOptionalParams
-  extends coreClient.OperationOptions { }
+export interface DiagnosticSettingsDeleteOptionalParams extends coreClient.OperationOptions {}
 
 /** Optional parameters. */
-export interface DiagnosticSettingsListOptionalParams
-  extends coreClient.OperationOptions { }
+export interface DiagnosticSettingsListOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the list operation. */
-export type DiagnosticSettingsListResponse =
-  DiagnosticSettingsResourceCollection;
+export type DiagnosticSettingsListResponse = DiagnosticSettingsResourceCollection;
 
 /** Optional parameters. */
-export interface DiagnosticSettingsCategoryGetOptionalParams
-  extends coreClient.OperationOptions { }
+export interface DiagnosticSettingsCategoryGetOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the get operation. */
-export type DiagnosticSettingsCategoryGetResponse =
-  DiagnosticSettingsCategoryResource;
+export type DiagnosticSettingsCategoryGetResponse = DiagnosticSettingsCategoryResource;
 
 /** Optional parameters. */
-export interface DiagnosticSettingsCategoryListOptionalParams
-  extends coreClient.OperationOptions { }
+export interface DiagnosticSettingsCategoryListOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the list operation. */
-export type DiagnosticSettingsCategoryListResponse =
-  DiagnosticSettingsCategoryResourceCollection;
+export type DiagnosticSettingsCategoryListResponse = DiagnosticSettingsCategoryResourceCollection;
 
 /** Optional parameters. */
-export interface ActionGroupsCreateOrUpdateOptionalParams
-  extends coreClient.OperationOptions { }
+export interface ActionGroupsCreateOrUpdateOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the createOrUpdate operation. */
 export type ActionGroupsCreateOrUpdateResponse = ActionGroupResource;
 
 /** Optional parameters. */
-export interface ActionGroupsGetOptionalParams
-  extends coreClient.OperationOptions { }
+export interface ActionGroupsGetOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the get operation. */
 export type ActionGroupsGetResponse = ActionGroupResource;
 
 /** Optional parameters. */
-export interface ActionGroupsDeleteOptionalParams
-  extends coreClient.OperationOptions { }
+export interface ActionGroupsDeleteOptionalParams extends coreClient.OperationOptions {}
 
 /** Optional parameters. */
-export interface ActionGroupsUpdateOptionalParams
-  extends coreClient.OperationOptions { }
+export interface ActionGroupsUpdateOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the update operation. */
 export type ActionGroupsUpdateResponse = ActionGroupResource;
@@ -5489,7 +5398,7 @@ export type ActionGroupsCreateNotificationsAtActionGroupResourceLevelResponse =
 
 /** Optional parameters. */
 export interface ActionGroupsGetTestNotificationsAtActionGroupResourceLevelOptionalParams
-  extends coreClient.OperationOptions { }
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the getTestNotificationsAtActionGroupResourceLevel operation. */
 export type ActionGroupsGetTestNotificationsAtActionGroupResourceLevelResponse =
@@ -5497,55 +5406,49 @@ export type ActionGroupsGetTestNotificationsAtActionGroupResourceLevelResponse =
 
 /** Optional parameters. */
 export interface ActionGroupsListBySubscriptionIdOptionalParams
-  extends coreClient.OperationOptions { }
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listBySubscriptionId operation. */
 export type ActionGroupsListBySubscriptionIdResponse = ActionGroupList;
 
 /** Optional parameters. */
 export interface ActionGroupsListByResourceGroupOptionalParams
-  extends coreClient.OperationOptions { }
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByResourceGroup operation. */
 export type ActionGroupsListByResourceGroupResponse = ActionGroupList;
 
 /** Optional parameters. */
-export interface ActionGroupsEnableReceiverOptionalParams
-  extends coreClient.OperationOptions { }
+export interface ActionGroupsEnableReceiverOptionalParams extends coreClient.OperationOptions {}
 
 /** Optional parameters. */
 export interface TenantActionGroupsCreateOrUpdateOptionalParams
-  extends coreClient.OperationOptions { }
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the createOrUpdate operation. */
-export type TenantActionGroupsCreateOrUpdateResponse =
-  TenantActionGroupResource;
+export type TenantActionGroupsCreateOrUpdateResponse = TenantActionGroupResource;
 
 /** Optional parameters. */
-export interface TenantActionGroupsGetOptionalParams
-  extends coreClient.OperationOptions { }
+export interface TenantActionGroupsGetOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the get operation. */
 export type TenantActionGroupsGetResponse = TenantActionGroupResource;
 
 /** Optional parameters. */
-export interface TenantActionGroupsDeleteOptionalParams
-  extends coreClient.OperationOptions { }
+export interface TenantActionGroupsDeleteOptionalParams extends coreClient.OperationOptions {}
 
 /** Optional parameters. */
-export interface TenantActionGroupsUpdateOptionalParams
-  extends coreClient.OperationOptions { }
+export interface TenantActionGroupsUpdateOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the update operation. */
 export type TenantActionGroupsUpdateResponse = TenantActionGroupResource;
 
 /** Optional parameters. */
 export interface TenantActionGroupsListByManagementGroupIdOptionalParams
-  extends coreClient.OperationOptions { }
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByManagementGroupId operation. */
-export type TenantActionGroupsListByManagementGroupIdResponse =
-  TenantActionGroupList;
+export type TenantActionGroupsListByManagementGroupIdResponse = TenantActionGroupList;
 
 /** Optional parameters. */
 export interface CreateNotificationsAtTenantActionGroupResourceLevelOptionalParams
@@ -5562,15 +5465,14 @@ export type CreateNotificationsAtTenantActionGroupResourceLevelResponse =
 
 /** Optional parameters. */
 export interface GetTestNotificationsAtTenantActionGroupResourceLevelOptionalParams
-  extends coreClient.OperationOptions { }
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the getTestNotificationsAtTenantActionGroupResourceLevel operation. */
 export type GetTestNotificationsAtTenantActionGroupResourceLevelResponse =
   TestNotificationDetailsResponseAutoGenerated;
 
 /** Optional parameters. */
-export interface ActivityLogsListOptionalParams
-  extends coreClient.OperationOptions {
+export interface ActivityLogsListOptionalParams extends coreClient.OperationOptions {
   /** Used to fetch events with only the given properties.<br>The **$select** argument is a comma separated list of property names to be returned. Possible values are: *authorization*, *claims*, *correlationId*, *description*, *eventDataId*, *eventName*, *eventTimestamp*, *httpRequest*, *level*, *operationId*, *operationName*, *properties*, *resourceGroupName*, *resourceProviderName*, *resourceId*, *status*, *submissionTimestamp*, *subStatus*, *subscriptionId* */
   select?: string;
 }
@@ -5579,22 +5481,19 @@ export interface ActivityLogsListOptionalParams
 export type ActivityLogsListResponse = EventDataCollection;
 
 /** Optional parameters. */
-export interface ActivityLogsListNextOptionalParams
-  extends coreClient.OperationOptions { }
+export interface ActivityLogsListNextOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
 export type ActivityLogsListNextResponse = EventDataCollection;
 
 /** Optional parameters. */
-export interface EventCategoriesListOptionalParams
-  extends coreClient.OperationOptions { }
+export interface EventCategoriesListOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the list operation. */
 export type EventCategoriesListResponse = EventCategoryCollection;
 
 /** Optional parameters. */
-export interface TenantActivityLogsListOptionalParams
-  extends coreClient.OperationOptions {
+export interface TenantActivityLogsListOptionalParams extends coreClient.OperationOptions {
   /** Reduces the set of data collected. <br>The **$filter** is very restricted and allows only the following patterns.<br>- List events for a resource group: $filter=eventTimestamp ge '<Start Time>' and eventTimestamp le '<End Time>' and eventChannels eq 'Admin, Operation' and resourceGroupName eq '<ResourceGroupName>'.<br>- List events for resource: $filter=eventTimestamp ge '<Start Time>' and eventTimestamp le '<End Time>' and eventChannels eq 'Admin, Operation' and resourceUri eq '<ResourceURI>'.<br>- List events for a subscription: $filter=eventTimestamp ge '<Start Time>' and eventTimestamp le '<End Time>' and eventChannels eq 'Admin, Operation'.<br>- List events for a resource provider: $filter=eventTimestamp ge '<Start Time>' and eventTimestamp le '<End Time>' and eventChannels eq 'Admin, Operation' and resourceProvider eq '<ResourceProviderName>'.<br>- List events for a correlation Id: api-version=2014-04-01&$filter=eventTimestamp ge '2014-07-16T04:36:37.6407898Z' and eventTimestamp le '2014-07-20T04:36:37.6407898Z' and eventChannels eq 'Admin, Operation' and correlationId eq '<CorrelationID>'.<br>**NOTE**: No other syntax is allowed. */
   filter?: string;
   /** Used to fetch events with only the given properties.<br>The **$select** argument is a comma separated list of property names to be returned. Possible values are: *authorization*, *claims*, *correlationId*, *description*, *eventDataId*, *eventName*, *eventTimestamp*, *httpRequest*, *level*, *operationId*, *operationName*, *properties*, *resourceGroupName*, *resourceProviderName*, *resourceId*, *status*, *submissionTimestamp*, *subStatus*, *subscriptionId* */
@@ -5605,15 +5504,13 @@ export interface TenantActivityLogsListOptionalParams
 export type TenantActivityLogsListResponse = EventDataCollection;
 
 /** Optional parameters. */
-export interface TenantActivityLogsListNextOptionalParams
-  extends coreClient.OperationOptions { }
+export interface TenantActivityLogsListNextOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
 export type TenantActivityLogsListNextResponse = EventDataCollection;
 
 /** Optional parameters. */
-export interface BaselinesListOptionalParams
-  extends coreClient.OperationOptions {
+export interface BaselinesListOptionalParams extends coreClient.OperationOptions {
   /** Metric namespace to query metric definitions for. */
   metricnamespace?: string;
   /** The timespan of the query. It is a string with the following format 'startDateTime_ISO/endDateTime_ISO'. */
@@ -5636,105 +5533,90 @@ export interface BaselinesListOptionalParams
 export type BaselinesListResponse = MetricBaselinesResponse;
 
 /** Optional parameters. */
-export interface MetricAlertsListBySubscriptionOptionalParams
-  extends coreClient.OperationOptions { }
+export interface MetricAlertsListBySubscriptionOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the listBySubscription operation. */
-export type MetricAlertsListBySubscriptionResponse =
-  MetricAlertResourceCollection;
+export type MetricAlertsListBySubscriptionResponse = MetricAlertResourceCollection;
 
 /** Optional parameters. */
 export interface MetricAlertsListByResourceGroupOptionalParams
-  extends coreClient.OperationOptions { }
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByResourceGroup operation. */
-export type MetricAlertsListByResourceGroupResponse =
-  MetricAlertResourceCollection;
+export type MetricAlertsListByResourceGroupResponse = MetricAlertResourceCollection;
 
 /** Optional parameters. */
-export interface MetricAlertsGetOptionalParams
-  extends coreClient.OperationOptions { }
+export interface MetricAlertsGetOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the get operation. */
 export type MetricAlertsGetResponse = MetricAlertResource;
 
 /** Optional parameters. */
-export interface MetricAlertsCreateOrUpdateOptionalParams
-  extends coreClient.OperationOptions { }
+export interface MetricAlertsCreateOrUpdateOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the createOrUpdate operation. */
 export type MetricAlertsCreateOrUpdateResponse = MetricAlertResource;
 
 /** Optional parameters. */
-export interface MetricAlertsUpdateOptionalParams
-  extends coreClient.OperationOptions { }
+export interface MetricAlertsUpdateOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the update operation. */
 export type MetricAlertsUpdateResponse = MetricAlertResource;
 
 /** Optional parameters. */
-export interface MetricAlertsDeleteOptionalParams
-  extends coreClient.OperationOptions { }
+export interface MetricAlertsDeleteOptionalParams extends coreClient.OperationOptions {}
 
 /** Optional parameters. */
-export interface MetricAlertsStatusListOptionalParams
-  extends coreClient.OperationOptions { }
+export interface MetricAlertsStatusListOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the list operation. */
 export type MetricAlertsStatusListResponse = MetricAlertStatusCollection;
 
 /** Optional parameters. */
-export interface MetricAlertsStatusListByNameOptionalParams
-  extends coreClient.OperationOptions { }
+export interface MetricAlertsStatusListByNameOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByName operation. */
 export type MetricAlertsStatusListByNameResponse = MetricAlertStatusCollection;
 
 /** Optional parameters. */
 export interface ScheduledQueryRulesListBySubscriptionOptionalParams
-  extends coreClient.OperationOptions { }
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listBySubscription operation. */
-export type ScheduledQueryRulesListBySubscriptionResponse =
-  ScheduledQueryRuleResourceCollection;
+export type ScheduledQueryRulesListBySubscriptionResponse = ScheduledQueryRuleResourceCollection;
 
 /** Optional parameters. */
 export interface ScheduledQueryRulesListByResourceGroupOptionalParams
-  extends coreClient.OperationOptions { }
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByResourceGroup operation. */
-export type ScheduledQueryRulesListByResourceGroupResponse =
-  ScheduledQueryRuleResourceCollection;
+export type ScheduledQueryRulesListByResourceGroupResponse = ScheduledQueryRuleResourceCollection;
 
 /** Optional parameters. */
-export interface ScheduledQueryRulesGetOptionalParams
-  extends coreClient.OperationOptions { }
+export interface ScheduledQueryRulesGetOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the get operation. */
 export type ScheduledQueryRulesGetResponse = ScheduledQueryRuleResource;
 
 /** Optional parameters. */
 export interface ScheduledQueryRulesCreateOrUpdateOptionalParams
-  extends coreClient.OperationOptions { }
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the createOrUpdate operation. */
-export type ScheduledQueryRulesCreateOrUpdateResponse =
-  ScheduledQueryRuleResource;
+export type ScheduledQueryRulesCreateOrUpdateResponse = ScheduledQueryRuleResource;
 
 /** Optional parameters. */
-export interface ScheduledQueryRulesUpdateOptionalParams
-  extends coreClient.OperationOptions { }
+export interface ScheduledQueryRulesUpdateOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the update operation. */
 export type ScheduledQueryRulesUpdateResponse = ScheduledQueryRuleResource;
 
 /** Optional parameters. */
-export interface ScheduledQueryRulesDeleteOptionalParams
-  extends coreClient.OperationOptions { }
+export interface ScheduledQueryRulesDeleteOptionalParams extends coreClient.OperationOptions {}
 
 /** Optional parameters. */
 export interface ScheduledQueryRulesListBySubscriptionNextOptionalParams
-  extends coreClient.OperationOptions { }
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listBySubscriptionNext operation. */
 export type ScheduledQueryRulesListBySubscriptionNextResponse =
@@ -5742,38 +5624,33 @@ export type ScheduledQueryRulesListBySubscriptionNextResponse =
 
 /** Optional parameters. */
 export interface ScheduledQueryRulesListByResourceGroupNextOptionalParams
-  extends coreClient.OperationOptions { }
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByResourceGroupNext operation. */
 export type ScheduledQueryRulesListByResourceGroupNextResponse =
   ScheduledQueryRuleResourceCollection;
 
 /** Optional parameters. */
-export interface VMInsightsGetOnboardingStatusOptionalParams
-  extends coreClient.OperationOptions { }
+export interface VMInsightsGetOnboardingStatusOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the getOnboardingStatus operation. */
 export type VMInsightsGetOnboardingStatusResponse = VMInsightsOnboardingStatus;
 
 /** Optional parameters. */
-export interface PrivateLinkScopesListOptionalParams
-  extends coreClient.OperationOptions { }
+export interface PrivateLinkScopesListOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the list operation. */
-export type PrivateLinkScopesListResponse =
-  AzureMonitorPrivateLinkScopeListResult;
+export type PrivateLinkScopesListResponse = AzureMonitorPrivateLinkScopeListResult;
 
 /** Optional parameters. */
 export interface PrivateLinkScopesListByResourceGroupOptionalParams
-  extends coreClient.OperationOptions { }
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByResourceGroup operation. */
-export type PrivateLinkScopesListByResourceGroupResponse =
-  AzureMonitorPrivateLinkScopeListResult;
+export type PrivateLinkScopesListByResourceGroupResponse = AzureMonitorPrivateLinkScopeListResult;
 
 /** Optional parameters. */
-export interface PrivateLinkScopesDeleteOptionalParams
-  extends coreClient.OperationOptions {
+export interface PrivateLinkScopesDeleteOptionalParams extends coreClient.OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
   /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
@@ -5781,38 +5658,33 @@ export interface PrivateLinkScopesDeleteOptionalParams
 }
 
 /** Optional parameters. */
-export interface PrivateLinkScopesGetOptionalParams
-  extends coreClient.OperationOptions { }
+export interface PrivateLinkScopesGetOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the get operation. */
 export type PrivateLinkScopesGetResponse = AzureMonitorPrivateLinkScope;
 
 /** Optional parameters. */
 export interface PrivateLinkScopesCreateOrUpdateOptionalParams
-  extends coreClient.OperationOptions { }
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the createOrUpdate operation. */
-export type PrivateLinkScopesCreateOrUpdateResponse =
-  AzureMonitorPrivateLinkScope;
+export type PrivateLinkScopesCreateOrUpdateResponse = AzureMonitorPrivateLinkScope;
 
 /** Optional parameters. */
-export interface PrivateLinkScopesUpdateTagsOptionalParams
-  extends coreClient.OperationOptions { }
+export interface PrivateLinkScopesUpdateTagsOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the updateTags operation. */
 export type PrivateLinkScopesUpdateTagsResponse = AzureMonitorPrivateLinkScope;
 
 /** Optional parameters. */
-export interface PrivateLinkScopesListNextOptionalParams
-  extends coreClient.OperationOptions { }
+export interface PrivateLinkScopesListNextOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
-export type PrivateLinkScopesListNextResponse =
-  AzureMonitorPrivateLinkScopeListResult;
+export type PrivateLinkScopesListNextResponse = AzureMonitorPrivateLinkScopeListResult;
 
 /** Optional parameters. */
 export interface PrivateLinkScopesListByResourceGroupNextOptionalParams
-  extends coreClient.OperationOptions { }
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByResourceGroupNext operation. */
 export type PrivateLinkScopesListByResourceGroupNextResponse =
@@ -5820,33 +5692,29 @@ export type PrivateLinkScopesListByResourceGroupNextResponse =
 
 /** Optional parameters. */
 export interface PrivateLinkScopeOperationStatusGetOptionalParams
-  extends coreClient.OperationOptions { }
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the get operation. */
 export type PrivateLinkScopeOperationStatusGetResponse = OperationStatus;
 
 /** Optional parameters. */
 export interface PrivateLinkResourcesListByPrivateLinkScopeOptionalParams
-  extends coreClient.OperationOptions { }
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByPrivateLinkScope operation. */
-export type PrivateLinkResourcesListByPrivateLinkScopeResponse =
-  PrivateLinkResourceListResult;
+export type PrivateLinkResourcesListByPrivateLinkScopeResponse = PrivateLinkResourceListResult;
 
 /** Optional parameters. */
-export interface PrivateLinkResourcesGetOptionalParams
-  extends coreClient.OperationOptions { }
+export interface PrivateLinkResourcesGetOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the get operation. */
 export type PrivateLinkResourcesGetResponse = PrivateLinkResource;
 
 /** Optional parameters. */
-export interface PrivateEndpointConnectionsGetOptionalParams
-  extends coreClient.OperationOptions { }
+export interface PrivateEndpointConnectionsGetOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the get operation. */
-export type PrivateEndpointConnectionsGetResponse =
-  PrivateEndpointConnectionAutoGenerated;
+export type PrivateEndpointConnectionsGetResponse = PrivateEndpointConnectionAutoGenerated;
 
 /** Optional parameters. */
 export interface PrivateEndpointConnectionsCreateOrUpdateOptionalParams
@@ -5872,15 +5740,14 @@ export interface PrivateEndpointConnectionsDeleteOptionalParams
 
 /** Optional parameters. */
 export interface PrivateEndpointConnectionsListByPrivateLinkScopeOptionalParams
-  extends coreClient.OperationOptions { }
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByPrivateLinkScope operation. */
 export type PrivateEndpointConnectionsListByPrivateLinkScopeResponse =
   PrivateEndpointConnectionListResult;
 
 /** Optional parameters. */
-export interface PrivateLinkScopedResourcesGetOptionalParams
-  extends coreClient.OperationOptions { }
+export interface PrivateLinkScopedResourcesGetOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the get operation. */
 export type PrivateLinkScopedResourcesGetResponse = ScopedResource;
@@ -5908,76 +5775,71 @@ export interface PrivateLinkScopedResourcesDeleteOptionalParams
 
 /** Optional parameters. */
 export interface PrivateLinkScopedResourcesListByPrivateLinkScopeOptionalParams
-  extends coreClient.OperationOptions { }
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByPrivateLinkScope operation. */
-export type PrivateLinkScopedResourcesListByPrivateLinkScopeResponse =
-  ScopedResourceListResult;
+export type PrivateLinkScopedResourcesListByPrivateLinkScopeResponse = ScopedResourceListResult;
 
 /** Optional parameters. */
 export interface PrivateLinkScopedResourcesListByPrivateLinkScopeNextOptionalParams
-  extends coreClient.OperationOptions { }
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByPrivateLinkScopeNext operation. */
-export type PrivateLinkScopedResourcesListByPrivateLinkScopeNextResponse =
-  ScopedResourceListResult;
+export type PrivateLinkScopedResourcesListByPrivateLinkScopeNextResponse = ScopedResourceListResult;
 
 /** Optional parameters. */
 export interface ActivityLogAlertsCreateOrUpdateOptionalParams
-  extends coreClient.OperationOptions { }
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the createOrUpdate operation. */
 export type ActivityLogAlertsCreateOrUpdateResponse = ActivityLogAlertResource;
 
 /** Optional parameters. */
-export interface ActivityLogAlertsGetOptionalParams
-  extends coreClient.OperationOptions { }
+export interface ActivityLogAlertsGetOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the get operation. */
 export type ActivityLogAlertsGetResponse = ActivityLogAlertResource;
 
 /** Optional parameters. */
-export interface ActivityLogAlertsDeleteOptionalParams
-  extends coreClient.OperationOptions { }
+export interface ActivityLogAlertsDeleteOptionalParams extends coreClient.OperationOptions {}
 
 /** Optional parameters. */
-export interface ActivityLogAlertsUpdateOptionalParams
-  extends coreClient.OperationOptions { }
+export interface ActivityLogAlertsUpdateOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the update operation. */
 export type ActivityLogAlertsUpdateResponse = ActivityLogAlertResource;
 
 /** Optional parameters. */
 export interface ActivityLogAlertsListBySubscriptionIdOptionalParams
-  extends coreClient.OperationOptions { }
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listBySubscriptionId operation. */
 export type ActivityLogAlertsListBySubscriptionIdResponse = AlertRuleList;
 
 /** Optional parameters. */
 export interface ActivityLogAlertsListByResourceGroupOptionalParams
-  extends coreClient.OperationOptions { }
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByResourceGroup operation. */
 export type ActivityLogAlertsListByResourceGroupResponse = AlertRuleList;
 
 /** Optional parameters. */
 export interface ActivityLogAlertsListBySubscriptionIdNextOptionalParams
-  extends coreClient.OperationOptions { }
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listBySubscriptionIdNext operation. */
 export type ActivityLogAlertsListBySubscriptionIdNextResponse = AlertRuleList;
 
 /** Optional parameters. */
 export interface ActivityLogAlertsListByResourceGroupNextOptionalParams
-  extends coreClient.OperationOptions { }
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByResourceGroupNext operation. */
 export type ActivityLogAlertsListByResourceGroupNextResponse = AlertRuleList;
 
 /** Optional parameters. */
 export interface DataCollectionEndpointsListByResourceGroupOptionalParams
-  extends coreClient.OperationOptions { }
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByResourceGroup operation. */
 export type DataCollectionEndpointsListByResourceGroupResponse =
@@ -5985,48 +5847,42 @@ export type DataCollectionEndpointsListByResourceGroupResponse =
 
 /** Optional parameters. */
 export interface DataCollectionEndpointsListBySubscriptionOptionalParams
-  extends coreClient.OperationOptions { }
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listBySubscription operation. */
 export type DataCollectionEndpointsListBySubscriptionResponse =
   DataCollectionEndpointResourceListResult;
 
 /** Optional parameters. */
-export interface DataCollectionEndpointsGetOptionalParams
-  extends coreClient.OperationOptions { }
+export interface DataCollectionEndpointsGetOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the get operation. */
 export type DataCollectionEndpointsGetResponse = DataCollectionEndpointResource;
 
 /** Optional parameters. */
-export interface DataCollectionEndpointsCreateOptionalParams
-  extends coreClient.OperationOptions {
+export interface DataCollectionEndpointsCreateOptionalParams extends coreClient.OperationOptions {
   /** The payload */
   body?: DataCollectionEndpointResource;
 }
 
 /** Contains response data for the create operation. */
-export type DataCollectionEndpointsCreateResponse =
-  DataCollectionEndpointResource;
+export type DataCollectionEndpointsCreateResponse = DataCollectionEndpointResource;
 
 /** Optional parameters. */
-export interface DataCollectionEndpointsUpdateOptionalParams
-  extends coreClient.OperationOptions {
+export interface DataCollectionEndpointsUpdateOptionalParams extends coreClient.OperationOptions {
   /** The payload */
   body?: ResourceForUpdate;
 }
 
 /** Contains response data for the update operation. */
-export type DataCollectionEndpointsUpdateResponse =
-  DataCollectionEndpointResource;
+export type DataCollectionEndpointsUpdateResponse = DataCollectionEndpointResource;
 
 /** Optional parameters. */
-export interface DataCollectionEndpointsDeleteOptionalParams
-  extends coreClient.OperationOptions { }
+export interface DataCollectionEndpointsDeleteOptionalParams extends coreClient.OperationOptions {}
 
 /** Optional parameters. */
 export interface DataCollectionEndpointsListByResourceGroupNextOptionalParams
-  extends coreClient.OperationOptions { }
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByResourceGroupNext operation. */
 export type DataCollectionEndpointsListByResourceGroupNextResponse =
@@ -6034,7 +5890,7 @@ export type DataCollectionEndpointsListByResourceGroupNextResponse =
 
 /** Optional parameters. */
 export interface DataCollectionEndpointsListBySubscriptionNextOptionalParams
-  extends coreClient.OperationOptions { }
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listBySubscriptionNext operation. */
 export type DataCollectionEndpointsListBySubscriptionNextResponse =
@@ -6042,7 +5898,7 @@ export type DataCollectionEndpointsListBySubscriptionNextResponse =
 
 /** Optional parameters. */
 export interface DataCollectionRuleAssociationsListByResourceOptionalParams
-  extends coreClient.OperationOptions { }
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByResource operation. */
 export type DataCollectionRuleAssociationsListByResourceResponse =
@@ -6050,7 +5906,7 @@ export type DataCollectionRuleAssociationsListByResourceResponse =
 
 /** Optional parameters. */
 export interface DataCollectionRuleAssociationsListByRuleOptionalParams
-  extends coreClient.OperationOptions { }
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByRule operation. */
 export type DataCollectionRuleAssociationsListByRuleResponse =
@@ -6058,7 +5914,7 @@ export type DataCollectionRuleAssociationsListByRuleResponse =
 
 /** Optional parameters. */
 export interface DataCollectionRuleAssociationsListByDataCollectionEndpointOptionalParams
-  extends coreClient.OperationOptions { }
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByDataCollectionEndpoint operation. */
 export type DataCollectionRuleAssociationsListByDataCollectionEndpointResponse =
@@ -6066,7 +5922,7 @@ export type DataCollectionRuleAssociationsListByDataCollectionEndpointResponse =
 
 /** Optional parameters. */
 export interface DataCollectionRuleAssociationsGetOptionalParams
-  extends coreClient.OperationOptions { }
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the get operation. */
 export type DataCollectionRuleAssociationsGetResponse =
@@ -6085,11 +5941,11 @@ export type DataCollectionRuleAssociationsCreateResponse =
 
 /** Optional parameters. */
 export interface DataCollectionRuleAssociationsDeleteOptionalParams
-  extends coreClient.OperationOptions { }
+  extends coreClient.OperationOptions {}
 
 /** Optional parameters. */
 export interface DataCollectionRuleAssociationsListByResourceNextOptionalParams
-  extends coreClient.OperationOptions { }
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByResourceNext operation. */
 export type DataCollectionRuleAssociationsListByResourceNextResponse =
@@ -6097,7 +5953,7 @@ export type DataCollectionRuleAssociationsListByResourceNextResponse =
 
 /** Optional parameters. */
 export interface DataCollectionRuleAssociationsListByRuleNextOptionalParams
-  extends coreClient.OperationOptions { }
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByRuleNext operation. */
 export type DataCollectionRuleAssociationsListByRuleNextResponse =
@@ -6105,7 +5961,7 @@ export type DataCollectionRuleAssociationsListByRuleNextResponse =
 
 /** Optional parameters. */
 export interface DataCollectionRuleAssociationsListByDataCollectionEndpointNextOptionalParams
-  extends coreClient.OperationOptions { }
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByDataCollectionEndpointNext operation. */
 export type DataCollectionRuleAssociationsListByDataCollectionEndpointNextResponse =
@@ -6113,30 +5969,26 @@ export type DataCollectionRuleAssociationsListByDataCollectionEndpointNextRespon
 
 /** Optional parameters. */
 export interface DataCollectionRulesListByResourceGroupOptionalParams
-  extends coreClient.OperationOptions { }
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByResourceGroup operation. */
-export type DataCollectionRulesListByResourceGroupResponse =
-  DataCollectionRuleResourceListResult;
+export type DataCollectionRulesListByResourceGroupResponse = DataCollectionRuleResourceListResult;
 
 /** Optional parameters. */
 export interface DataCollectionRulesListBySubscriptionOptionalParams
-  extends coreClient.OperationOptions { }
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listBySubscription operation. */
-export type DataCollectionRulesListBySubscriptionResponse =
-  DataCollectionRuleResourceListResult;
+export type DataCollectionRulesListBySubscriptionResponse = DataCollectionRuleResourceListResult;
 
 /** Optional parameters. */
-export interface DataCollectionRulesGetOptionalParams
-  extends coreClient.OperationOptions { }
+export interface DataCollectionRulesGetOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the get operation. */
 export type DataCollectionRulesGetResponse = DataCollectionRuleResource;
 
 /** Optional parameters. */
-export interface DataCollectionRulesCreateOptionalParams
-  extends coreClient.OperationOptions {
+export interface DataCollectionRulesCreateOptionalParams extends coreClient.OperationOptions {
   /** The payload */
   body?: DataCollectionRuleResource;
 }
@@ -6145,8 +5997,7 @@ export interface DataCollectionRulesCreateOptionalParams
 export type DataCollectionRulesCreateResponse = DataCollectionRuleResource;
 
 /** Optional parameters. */
-export interface DataCollectionRulesUpdateOptionalParams
-  extends coreClient.OperationOptions {
+export interface DataCollectionRulesUpdateOptionalParams extends coreClient.OperationOptions {
   /** The payload */
   body?: ResourceForUpdate;
 }
@@ -6155,12 +6006,11 @@ export interface DataCollectionRulesUpdateOptionalParams
 export type DataCollectionRulesUpdateResponse = DataCollectionRuleResource;
 
 /** Optional parameters. */
-export interface DataCollectionRulesDeleteOptionalParams
-  extends coreClient.OperationOptions { }
+export interface DataCollectionRulesDeleteOptionalParams extends coreClient.OperationOptions {}
 
 /** Optional parameters. */
 export interface DataCollectionRulesListByResourceGroupNextOptionalParams
-  extends coreClient.OperationOptions { }
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByResourceGroupNext operation. */
 export type DataCollectionRulesListByResourceGroupNextResponse =
@@ -6168,15 +6018,14 @@ export type DataCollectionRulesListByResourceGroupNextResponse =
 
 /** Optional parameters. */
 export interface DataCollectionRulesListBySubscriptionNextOptionalParams
-  extends coreClient.OperationOptions { }
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listBySubscriptionNext operation. */
 export type DataCollectionRulesListBySubscriptionNextResponse =
   DataCollectionRuleResourceListResult;
 
 /** Optional parameters. */
-export interface MonitorClientOptionalParams
-  extends coreClient.ServiceClientOptions {
+export interface MonitorClientOptionalParams extends coreClient.ServiceClientOptions {
   /** server parameter */
   $host?: string;
   /** Overrides client endpoint. */
