@@ -14,22 +14,40 @@ describe("Azure Container Instance Integration test", function () {
   async function getContainerLogs(): Promise<void> {
     const containerName = process.env["IDENTITY_CONTAINER_INSTANCE_NAME"];
     const resourceGroup = process.env["IDENTITY_RESOURCE_GROUP"];
-    console.log("Container Name:", containerName);
-    console.log("Resource Group:", resourceGroup);
     if (containerName && resourceGroup) {
       try {
-        console.log(`Fetching logs for container: ${containerName} in resource group: ${resourceGroup}`);
+        // First, check if we're already logged in
+        try {
+          await execAsync('az account show');
+        } catch (authError: any) {
+          if (authError.message.includes('az login')) {
+            try {
+              // Try to login using service principal if environment variables are available
+              const clientId = process.env["AZURE_CLIENT_ID"];
+              const clientSecret = process.env["AZURE_CLIENT_SECRET"];
+              const tenantId = process.env["AZURE_TENANT_ID"];
+
+              if (clientId && clientSecret && tenantId) {
+                await execAsync(`az login --service-principal -u "${clientId}" -p "${clientSecret}" --tenant "${tenantId}"`);
+              } else {
+                return;
+              }
+            } catch (loginError: any) {
+              return;
+            }
+          } else {
+            throw authError;
+          }
+        }
+
         const { stdout, stderr } = await execAsync(`az container logs --resource-group "${resourceGroup}" --name "${containerName}"`);
         console.log(stdout);
         if (stderr) {
           console.log(stderr);
         }
       } catch (logError: any) {
-        console.log("Failed to fetch container logs:", logError.message);
-        console.log("Error details:", logError);
+        // Silent failure for log collection
       }
-    } else {
-      console.log(`Container name or resource group not available for log collection. IDENTITY_CONTAINER_INSTANCE_NAME: ${process.env["IDENTITY_CONTAINER_INSTANCE_NAME"]}, IDENTITY_RESOURCE_GROUP: ${process.env["IDENTITY_RESOURCE_GROUP"]}`);
     }
   }
 
@@ -42,7 +60,6 @@ describe("Azure Container Instance Integration test", function () {
       ctx.skip("set IDENTITY_ACI_IP to run this test");
       return;
     }
-    console.log(`Container IP: ${containerIp}`);
 
     try {
       const client = createDefaultHttpClient();
@@ -51,17 +68,14 @@ describe("Azure Container Instance Integration test", function () {
         method: "GET",
       });
       request.allowInsecureConnection = true;
-      console.log("Sending request to container", JSON.stringify(request, null, 2));
       const response = await client.sendRequest(request);
 
-      console.log("Receiving", JSON.stringify(response, null, 2));
       assert.strictEqual(
         response.status,
         200,
         `Expected status code 200, got ${response.status}. Response body: ${response.bodyAsText}`,
       );
     } catch (error) {
-      console.log("Test failed, collecting container logs...");
       await getContainerLogs();
       throw error;
     }
@@ -84,10 +98,8 @@ describe("Azure Container Instance Integration test", function () {
         method: "GET",
       });
       request.allowInsecureConnection = true;
-      console.log("Testing user-assigned managed identity authentication...");
       const response = await client.sendRequest(request);
 
-      console.log("User-assigned managed identity response:", response.bodyAsText);
       assert.strictEqual(
         response.status,
         200,
@@ -97,7 +109,6 @@ describe("Azure Container Instance Integration test", function () {
       const responseBody = JSON.parse(response.bodyAsText || "{}");
       assert.strictEqual(responseBody.test, "user-assigned-managed-identity-success");
     } catch (error) {
-      console.log("User-assigned managed identity test failed, collecting container logs...");
       await getContainerLogs();
       throw error;
     }
@@ -120,22 +131,17 @@ describe("Azure Container Instance Integration test", function () {
         method: "GET",
       });
       request.allowInsecureConnection = true;
-      console.log("Testing system-assigned managed identity authentication...");
       const response = await client.sendRequest(request);
-
-      console.log("System-assigned managed identity response:", response.bodyAsText);
 
       // Even if we get a 500 error, we want to see what the error details are
       if (response.status !== 200) {
-        console.log(`Got status ${response.status}, checking error details...`);
         await getContainerLogs();
 
         // Try to parse the error response
         try {
-          const errorBody = JSON.parse(response.bodyAsText || "{}");
-          console.log("Error details from response:", JSON.stringify(errorBody, null, 2));
+          JSON.parse(response.bodyAsText || "{}");
         } catch (parseError) {
-          console.log("Could not parse error response as JSON:", response.bodyAsText);
+          // Silent failure for JSON parsing
         }
       }
 
@@ -148,7 +154,6 @@ describe("Azure Container Instance Integration test", function () {
       const responseBody = JSON.parse(response.bodyAsText || "{}");
       assert.strictEqual(responseBody.test, "managed-identity-success");
     } catch (error) {
-      console.log("System-assigned managed identity test failed, collecting container logs...");
       await getContainerLogs();
       throw error;
     }
