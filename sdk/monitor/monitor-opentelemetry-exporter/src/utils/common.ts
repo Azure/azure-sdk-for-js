@@ -291,3 +291,17 @@ export function shouldCreateResourceMetric(): boolean {
 export function isSyntheticSource(attributes: Attributes): boolean {
   return !!attributes[experimentalOpenTelemetryValues.SYNTHETIC_TYPE];
 }
+
+/**
+ * Get prefix resource provider, vm will considered as "unknown RP"
+ * Web App: "a"
+ * Function App: "f"
+ * non-Web and non-Function APP: "u" (unknown)
+ */
+export const isAppService = (): boolean => {
+  return process.env.WEBSITE_SITE_NAME && !process.env.FUNCTIONS_WORKER_RUNTIME ? true : false;
+};
+
+export const isFunctionApp = (): boolean => {
+  return process.env.FUNCTIONS_WORKER_RUNTIME ? true : false;
+};
