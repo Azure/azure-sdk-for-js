@@ -2534,7 +2534,7 @@ packages:
     version: 0.0.0
 
   '@rush-temp/ai-projects@file:projects/ai-projects.tgz':
-    resolution: {integrity: sha512-kjEIvTEnvrLXNKTvPH9BcfJVYvMAT1Rku7m8KMcesqLsQN1GNB8EHbozMGxm3nEa2toigNbuZf7mclxEe1gpWg==, tarball: file:projects/ai-projects.tgz}
+    resolution: {integrity: sha512-LUgvWDa+Nj+PX+bEDNR+Sfg5Qh1YZCUp5JBEzCtBoBuwi+bpVb7uNz83jBnpKFayN67eCi4pk1bEWyltFDZlqw==, tarball: file:projects/ai-projects.tgz}
     version: 0.0.0
 
   '@rush-temp/ai-text-analytics@file:projects/ai-text-analytics.tgz':
@@ -9413,6 +9413,7 @@ snapshots:
 
   '@rush-temp/ai-projects@file:projects/ai-projects.tgz(@types/debug@4.1.12)(tsx@4.20.3)(vite@6.3.5(@types/node@22.7.9)(tsx@4.20.3)(yaml@2.8.0))(ws@8.18.2)(yaml@2.8.0)(zod@3.25.67)':
     dependencies:
+      '@azure/opentelemetry-instrumentation-azure-sdk': 1.0.0-beta.7
       '@azure/storage-blob': 12.27.0
       '@opentelemetry/api': 1.9.0
       '@opentelemetry/instrumentation': 0.57.2(@opentelemetry/api@1.9.0)
