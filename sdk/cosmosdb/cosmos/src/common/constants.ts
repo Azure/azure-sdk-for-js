@@ -206,7 +206,7 @@ export const Constants = {
   AllowedPartitionUnavailabilityDurationInMs: 5 * 60 * 1000, // 5 minutes
   ReadRequestFailureCountThreshold: 10,
   WriteRequestFailureCountThreshold: 5,
-  ConsecutiveFailureCountResetInterval: 1000 * 60 * 1, // 1 minute
+  ConsecutiveFailureCountResetIntervalInMS: 1000 * 60 * 1, // 1 minute
 
   // ServiceDocument Resource
   ENABLE_MULTIPLE_WRITABLE_LOCATIONS: "enableMultipleWriteLocations",
@@ -302,7 +302,7 @@ export const Constants = {
   // Timeout to clear encryption related cache
   EncryptionCacheRefreshIntervalInMs: 60000, // 1 minute
 
-  RequestTimeoutForReads: 2000, // 2 seconds
+  RequestTimeoutForReadsInMs: 2000, // 2 seconds
 };
 
 /**

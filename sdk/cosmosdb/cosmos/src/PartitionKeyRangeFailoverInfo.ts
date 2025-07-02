@@ -61,7 +61,7 @@ export class PartitionKeyRangeFailoverInfo {
 
           if (
             currentTimeInMilliseconds - lastRequestFailureTime >
-            Constants.ConsecutiveFailureCountResetInterval
+            Constants.ConsecutiveFailureCountResetIntervalInMS
           ) {
             this.consecutiveReadRequestFailureCount = 0;
             this.consecutiveWriteRequestFailureCount = 0;

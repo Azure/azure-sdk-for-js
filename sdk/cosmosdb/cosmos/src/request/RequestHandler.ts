@@ -69,7 +69,7 @@ async function httpRequest(
   ) {
     requestContext.connectionPolicy.requestTimeout = Math.min(
       requestContext.connectionPolicy.requestTimeout,
-      Constants.RequestTimeoutForReads,
+      Constants.RequestTimeoutForReadsInMs,
     );
   }
   const timeout = setTimeout(() => {

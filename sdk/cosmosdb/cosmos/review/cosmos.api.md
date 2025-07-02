@@ -632,7 +632,7 @@ export const Constants: {
     AllowedPartitionUnavailabilityDurationInMs: number;
     ReadRequestFailureCountThreshold: number;
     WriteRequestFailureCountThreshold: number;
-    ConsecutiveFailureCountResetInterval: number;
+    ConsecutiveFailureCountResetIntervalInMS: number;
     ENABLE_MULTIPLE_WRITABLE_LOCATIONS: string;
     DefaultUnavailableLocationExpirationTimeMS: number;
     ThrottleRetryCount: string;
@@ -694,7 +694,7 @@ export const Constants: {
     ChangeFeedIfNoneMatchStartFromNowHeader: string;
     DefaultEncryptionCacheTimeToLiveInSeconds: number;
     EncryptionCacheRefreshIntervalInMs: number;
-    RequestTimeoutForReads: number;
+    RequestTimeoutForReadsInMs: number;
 };
 
 // @public
