@@ -148,13 +148,10 @@ describe("cancelablePromiseRace", function () {
 
   it("should respect the abort signal supplied", async function () {
     const aborter = new AbortController();
-    console.log(`### setting aborter timeout. ${new Date().toISOString()}`);
+    const startTime = Date.now();
     setTimeout(() => {
-      console.log("### setTimeout Callback aborting the race");
+      console.log(`### setTimeout Callback at ${Date.now() - startTime}ms, aborting the operation`);
       aborter.abort();
-      console.log(
-        `### setTimeout Callback aborter.signal.aborted=${aborter.signal.aborted} after ${function1Delay / 2}ms`,
-      );
     }, function1Delay / 2);
     let errorThrown = false;
     try {
@@ -166,7 +163,7 @@ describe("cancelablePromiseRace", function () {
       assert.strictEqual((error as { message: string }).message, "The operation was aborted.");
     } finally {
       console.log(
-        `### finally: function1Aborted=${function1Aborted}, function2Aborted=${function2Aborted}, function3Aborted=${function3Aborted}, aborter.signal.aborted=${aborter.signal.aborted}`,
+        `### finally: function1Aborted=${function1Aborted}, function2Aborted=${function2Aborted}, function3Aborted=${function3Aborted}, aborter.signal.aborted=${aborter.signal.aborted}, at ${Date.now() - startTime}ms`,
       );
     }
     assert.isTrue(errorThrown);
