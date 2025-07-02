@@ -615,7 +615,8 @@
     {
       "packageName": "@azure/identity-broker",
       "projectFolder": "sdk/identity/identity-broker",
-      "versionPolicyName": "client"
+      "versionPolicyName": "client",
+      "decoupledLocalDependencies": ["@azure/identity"]
     },
     {
       "packageName": "@azure/keyvault-common",
