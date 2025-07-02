@@ -6,9 +6,8 @@ import { platform } from "os";
 
 /**
  * Global setup for Vitest that runs before any modules are imported.
- * This ensures system dependencies are available before keytar/libsecret is loaded.
  */
-export default function setup() {
+export default function setup(): void {
   // Only run on Linux
   if (platform() === "linux") {
     // Try to install the dependency
@@ -18,7 +17,7 @@ export default function setup() {
         timeout: 60000
       });
     } catch (error) {
-      console.error("❌ Failed to install libsecret-1-0 automatically");
+      console.error("Failed to install libsecret-1-0 automatically");
     }
   }
 }
