@@ -61,7 +61,10 @@ describe("cancelablePromiseRace", function () {
     let token: ReturnType<typeof setTimeout>;
     return createAbortablePromise(
       (resolve) => {
-        token = setTimeout(resolve, function1Delay);
+        token = setTimeout(() => {
+          console.log(`### function1 resolving after ${function1Delay}ms`);
+          resolve();
+        }, function1Delay);
       },
       {
         cleanupBeforeAbort: () => {
@@ -77,7 +80,10 @@ describe("cancelablePromiseRace", function () {
     let token: ReturnType<typeof setTimeout>;
     return createAbortablePromise(
       (reject) => {
-        token = setTimeout(() => reject(function2Message), function2Delay);
+        token = setTimeout(() => {
+          console.log(`### function2 rejecting after ${function2Delay}ms`);
+          reject(function2Message);
+        }, function2Delay);
       },
       {
         cleanupBeforeAbort: () => {
@@ -95,8 +101,14 @@ describe("cancelablePromiseRace", function () {
       (resolve, reject) => {
         token =
           Math.random() < 0.5
-            ? setTimeout(resolve, function3Delay)
-            : setTimeout(() => reject(function3Message), function3Delay);
+            ? setTimeout(() => {
+                console.log(`### function3 resolving after ${function3Delay}ms`);
+                resolve();
+              }, function3Delay)
+            : setTimeout(() => {
+                console.log(`### function3 rejecting after ${function3Delay}ms`);
+                reject(function3Message);
+              }, function3Delay);
       },
       {
         cleanupBeforeAbort: () => {
@@ -136,7 +148,14 @@ describe("cancelablePromiseRace", function () {
 
   it("should respect the abort signal supplied", async function () {
     const aborter = new AbortController();
-    setTimeout(() => aborter.abort(), function1Delay / 2);
+    console.log(`### setting aborter timeout. ${new Date().toISOString()}`);
+    setTimeout(() => {
+      console.log("### setTimeout Callback aborting the race");
+      aborter.abort();
+      console.log(
+        `### setTimeout Callback aborter.signal.aborted=${aborter.signal.aborted} after ${function1Delay / 2}ms`,
+      );
+    }, function1Delay / 2);
     let errorThrown = false;
     try {
       await cancelablePromiseRace<[number, string, void]>([function1, function2, function3], {
@@ -145,6 +164,10 @@ describe("cancelablePromiseRace", function () {
     } catch (error) {
       errorThrown = true;
       assert.strictEqual((error as { message: string }).message, "The operation was aborted.");
+    } finally {
+      console.log(
+        `### finally: function1Aborted=${function1Aborted}, function2Aborted=${function2Aborted}, function3Aborted=${function3Aborted}, aborter.signal.aborted=${aborter.signal.aborted}`,
+      );
     }
     assert.isTrue(errorThrown);
     assert.isTrue(function1Aborted); // checks 1 is aborted
