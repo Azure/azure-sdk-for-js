@@ -13,7 +13,7 @@ export default mergeConfig(
   viteConfig,
   defineConfig({
     test: {
-      setupFiles: [path.resolve(__dirname, "test/utils/setup.ts")],
+      globalSetup: [path.resolve(__dirname, "test/utils/globalSetup.ts")],
     },
   })
 );
