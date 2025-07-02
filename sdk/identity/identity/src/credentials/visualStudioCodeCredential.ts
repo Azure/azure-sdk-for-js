@@ -10,6 +10,7 @@ import {
 import { AzureAuthorityHosts } from "../constants.js";
 import { CredentialUnavailableError } from "../errors.js";
 import type { VisualStudioCodeCredentialOptions } from "./visualStudioCodeCredentialOptions.js";
+import type { VSCodeCredentialFinder } from "./visualStudioCodeCredentialPlugin.js";
 import { checkTenantId } from "../util/tenantIdUtils.js";
 import fs from "node:fs/promises";
 import { readFileSync } from "node:fs";
@@ -24,6 +25,14 @@ import { useIdentityPlugin } from "../plugins/consumer.js";
 const CommonTenantId = "common";
 const VSCodeClientId = "aebc6443-996d-45c2-90f0-388ff96faa56";
 const logger = credentialLogger("VisualStudioCodeCredential");
+
+let findCredentials: VSCodeCredentialFinder | undefined = undefined;
+
+export const vsCodeCredentialControl = {
+  setVsCodeCredentialFinder(finder: VSCodeCredentialFinder): void {
+    findCredentials = finder;
+  },
+};
 
 // Map of unsupported Tenant IDs and the errors we will be throwing.
 const unsupportedTenantIds: Record<string, string> = {
@@ -207,8 +216,8 @@ export class VisualStudioCodeCredential implements TokenCredential {
     if (!nativeBrokerPlugin || !authenticationRecord) {
       throw new CredentialUnavailableError(
         "Visual Studio Code Authentication is not available." +
-        " Ensure you have @azure/identity-broker dependency installed," +
-        " signed into Azure via VS Code, and have Azure Resources Extension installed in VS Code.",
+          " Ensure you have @azure/identity-broker dependency installed," +
+          " signed into Azure via VS Code, and have Azure Resources Extension installed in VS Code.",
       );
     }
 
@@ -260,8 +269,8 @@ export class VisualStudioCodeCredential implements TokenCredential {
     if (!this.msalClient) {
       throw new CredentialUnavailableError(
         "Visual Studio Code Authentication failed to initialize." +
-        " The MSAL client could not be created. Ensure you have @azure/identity-broker dependency installed," +
-        " signed into Azure via VS Code, and have Azure Resources Extension installed in VS Code.",
+          " The MSAL client could not be created. Ensure you have @azure/identity-broker dependency installed," +
+          " signed into Azure via VS Code, and have Azure Resources Extension installed in VS Code.",
       );
     }
 
