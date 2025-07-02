@@ -32,9 +32,7 @@ export class StatsbeatMetrics {
     } else if (process.env.WEBSITE_SITE_NAME && !process.env.FUNCTIONS_WORKER_RUNTIME) {
       // Web apps
       this.resourceProvider = StatsbeatResourceProvider.appsvc;
-      if (process.env.WEBSITE_SITE_NAME) {
-        this.resourceIdentifier = process.env.WEBSITE_SITE_NAME;
-      }
+      this.resourceIdentifier = process.env.WEBSITE_SITE_NAME;
       if (process.env.WEBSITE_HOME_STAMPNAME) {
         this.resourceIdentifier += "/" + process.env.WEBSITE_HOME_STAMPNAME;
       }
