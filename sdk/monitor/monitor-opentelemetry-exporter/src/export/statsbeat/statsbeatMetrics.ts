@@ -15,7 +15,6 @@ import {
   StatsbeatResourceProvider,
 } from "./types.js";
 import * as os from "node:os";
-import { isAppService, isFunctionApp } from "../../../src/utils/common.js";
 
 export class StatsbeatMetrics {
   protected resourceProvider: string = StatsbeatResourceProvider.unknown;
@@ -30,7 +29,7 @@ export class StatsbeatMetrics {
       // AKS
       this.resourceProvider = StatsbeatResourceProvider.aks;
       this.resourceIdentifier = process.env.AKS_ARM_NAMESPACE_ID;
-    } else if (isAppService()) {
+    } else if (process.env.WEBSITE_SITE_NAME && !process.env.FUNCTIONS_WORKER_RUNTIME) {
       // Web apps
       this.resourceProvider = StatsbeatResourceProvider.appsvc;
       if (process.env.WEBSITE_SITE_NAME) {
@@ -39,7 +38,7 @@ export class StatsbeatMetrics {
       if (process.env.WEBSITE_HOME_STAMPNAME) {
         this.resourceIdentifier += "/" + process.env.WEBSITE_HOME_STAMPNAME;
       }
-    } else if (isFunctionApp()) {
+    } else if (process.env.FUNCTIONS_WORKER_RUNTIME) {
       // Function apps
       this.resourceProvider = StatsbeatResourceProvider.functions;
       if (process.env.WEBSITE_HOSTNAME) {
