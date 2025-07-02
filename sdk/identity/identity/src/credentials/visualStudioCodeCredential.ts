@@ -217,8 +217,8 @@ export class VisualStudioCodeCredential implements TokenCredential {
     if (!nativeBrokerPlugin || !authenticationRecord) {
       throw new CredentialUnavailableError(
         "Visual Studio Code Authentication is not available." +
-        " Ensure you have @azure/identity-broker dependency installed," +
-        " signed into Azure via VS Code, and have Azure Resources Extension installed in VS Code.",
+          " Ensure you have @azure/identity-broker dependency installed," +
+          " signed into Azure via VS Code, and have Azure Resources Extension installed in VS Code.",
       );
     }
 
@@ -270,8 +270,8 @@ export class VisualStudioCodeCredential implements TokenCredential {
     if (!this.msalClient) {
       throw new CredentialUnavailableError(
         "Visual Studio Code Authentication failed to initialize." +
-        " The MSAL client could not be created. Ensure you have @azure/identity-broker dependency installed," +
-        " signed into Azure via VS Code, and have Azure Resources Extension installed in VS Code.",
+          " The MSAL client could not be created. Ensure you have @azure/identity-broker dependency installed," +
+          " signed into Azure via VS Code, and have Azure Resources Extension installed in VS Code.",
       );
     }
 
