@@ -298,10 +298,10 @@ export function isSyntheticSource(attributes: Attributes): boolean {
  * Function App: "f"
  * non-Web and non-Function APP: "u" (unknown)
  */
-export const isAppService = (): boolean => {
+export function isAppService(): boolean {
   return process.env.WEBSITE_SITE_NAME && !process.env.FUNCTIONS_WORKER_RUNTIME ? true : false;
 };
 
-export const isFunctionApp = (): boolean => {
+export function isFunctionApp(): boolean {
   return process.env.FUNCTIONS_WORKER_RUNTIME ? true : false;
 };
