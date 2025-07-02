@@ -139,6 +139,8 @@ export class VisualStudioCodeCredential implements TokenCredential {
       const { nativeBrokerPlugin } = await import("@azure/identity-broker");
       return nativeBrokerPlugin;
     } catch (error: any) {
+      console.error("got an error, skipping...");
+      console.error(error);
       return undefined;
       // // Only catch module not found error, let other errors bubble up
       // if (
