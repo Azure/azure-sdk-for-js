@@ -136,11 +136,11 @@
 /sdk/digitaltwins/ @sjiherzig @johngallardo @olivakar
 
 # PRLabel: %Event Grid
-/sdk/eventgrid/ @xirzec
+/sdk/eventgrid/ @shankarsama @rajeshka
 
-# AzureSdkOwners: @xirzec
+# AzureSdkOwners: @shankarsama @rajeshka
 # ServiceLabel: %Event Grid
-# ServiceOwners: @robece
+# ServiceOwners: @shankarsama @rajeshka
 
 # PRLabel: %Event Hubs
 /sdk/eventhub/ @xirzec
@@ -259,19 +259,19 @@
 /sdk/openai/ @mikhail @trrwilson @deyaaeldeen @minhanh-phan
 
 # PRLabel: %AI Model Inference
-sdk/ai/ai-inference-rest @glharper @dargilco @jhakulin
+/sdk/ai/ai-inference-rest @glharper @dargilco @jhakulin
 
 # ServiceLabel: %AI Model Inference
 # ServiceOwners: @glharper @dargilco
 
 # PRLLabel: %AI Projects
-sdk/ai/ai-projects @ganeshyb @glharper @dargilco @jhakulin @ZachhK @bobogogo1990
+/sdk/ai/ai-projects @ganeshyb @glharper @dargilco @jhakulin @ZachhK @bobogogo1990
 
 # ServiceLabel: %AI Projects
 # ServiceOwners: @ganeshyb @glharper @dargilco @jhakulin @ZachhK @bobogogo1990
 
 # PRLLabel: %AI Agents
-sdk/ai/ai-agents @ganeshyb @glharper @dargilco @jhakulin @ZachhK @bobogogo1990
+/sdk/ai/ai-agents @ganeshyb @glharper @dargilco @jhakulin @ZachhK @bobogogo1990
 
 # ServiceLabel: %AI Agents
 # ServiceOwners: @ganeshyb @glharper @dargilco @jhakulin @ZachhK @bobogogo1990
@@ -895,6 +895,9 @@ sdk/ai/ai-agents @ganeshyb @glharper @dargilco @jhakulin @ZachhK @bobogogo1990
 
 # PRLabel: %Mgmt
 /sdk/resources/arm-resources/ @qiaozha @MaryGao
+
+# PRLabel: %Mgmt
+/sdk/resources/arm-resourcesbicep/ @qiaozha @MaryGao
 
 # PRLabel: %Mgmt
 /sdk/resources/arm-resources-profile-2020-09-01-hybrid/ @qiaozha @MaryGao
