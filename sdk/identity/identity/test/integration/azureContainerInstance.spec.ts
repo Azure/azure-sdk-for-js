@@ -12,25 +12,24 @@ describe("Azure Container Instance Integration test", function () {
 
   // Helper function to get container logs
   async function getContainerLogs(): Promise<void> {
-    const containerName = process.env["IDENTITY_ACI_NAME"];
-    const resourceGroup = process.env["IDENTITY_ACI_RESOURCE_GROUP"];
+    const containerName = process.env["IDENTITY_CONTAINER_INSTANCE_NAME"];
+    const resourceGroup = process.env["IDENTITY_RESOURCE_GROUP"];
+    console.log("Container Name:", containerName);
+    console.log("Resource Group:", resourceGroup);
     if (containerName && resourceGroup) {
       try {
         console.log(`Fetching logs for container: ${containerName} in resource group: ${resourceGroup}`);
         const { stdout, stderr } = await execAsync(`az container logs --resource-group "${resourceGroup}" --name "${containerName}"`);
-        console.log("=== Container logs ===");
         console.log(stdout);
         if (stderr) {
-          console.log("=== Container stderr ===");
           console.log(stderr);
         }
-        console.log("=== End container logs ===");
       } catch (logError: any) {
         console.log("Failed to fetch container logs:", logError.message);
         console.log("Error details:", logError);
       }
     } else {
-      console.log("Container name or resource group not available for log collection");
+      console.log(`Container name or resource group not available for log collection. IDENTITY_CONTAINER_INSTANCE_NAME: ${process.env["IDENTITY_CONTAINER_INSTANCE_NAME"]}, IDENTITY_RESOURCE_GROUP: ${process.env["IDENTITY_RESOURCE_GROUP"]}`);
     }
   }
 
