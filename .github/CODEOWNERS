@@ -1620,6 +1620,9 @@
 # ServiceLabel: %Consumption - RIandShowBack %Service Attention
 #/<NotInRepo>/          @ccmshowbackdevs
 
+# PRLabel: %Mgmt
+sdk/help/arm-help/ @qiaozha @MaryGao
+
 ###########
 # Config
 ###########
