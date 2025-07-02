@@ -7,6 +7,8 @@ import {
   msalNodeFlowNativeBrokerControl,
 } from "../msal/nodeFlows/msalPlugins.js";
 
+import { vsCodeCredentialControl } from "../credentials/visualStudioCodeCredential.js";
+
 /**
  * The context passed to an Identity plugin. This contains objects that
  * plugins can use to set backend implementations.
@@ -15,6 +17,7 @@ import {
 const pluginContext: AzurePluginContext = {
   cachePluginControl: msalNodeFlowCacheControl,
   nativeBrokerPluginControl: msalNodeFlowNativeBrokerControl,
+  vsCodeCredentialControl: vsCodeCredentialControl,
 };
 
 /**
