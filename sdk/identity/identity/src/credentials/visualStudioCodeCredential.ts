@@ -26,6 +26,7 @@ const CommonTenantId = "common";
 const VSCodeClientId = "aebc6443-996d-45c2-90f0-388ff96faa56";
 const logger = credentialLogger("VisualStudioCodeCredential");
 
+// @ts-expect-error TS6133: Path kept for compatibility reason
 let findCredentials: VSCodeCredentialFinder | undefined = undefined;
 
 export const vsCodeCredentialControl = {
@@ -138,7 +139,7 @@ export class VisualStudioCodeCredential implements TokenCredential {
    */
   private async loadBrokerPlugin() {
     try {
-      // @ts-expect-error
+      // @ts-expect-error - Dynamically import the broker plugin
       const { nativeBrokerPlugin } = await import("@azure/identity-broker");
       return nativeBrokerPlugin;
     } catch (error: any) {
@@ -216,8 +217,8 @@ export class VisualStudioCodeCredential implements TokenCredential {
     if (!nativeBrokerPlugin || !authenticationRecord) {
       throw new CredentialUnavailableError(
         "Visual Studio Code Authentication is not available." +
-          " Ensure you have @azure/identity-broker dependency installed," +
-          " signed into Azure via VS Code, and have Azure Resources Extension installed in VS Code.",
+        " Ensure you have @azure/identity-broker dependency installed," +
+        " signed into Azure via VS Code, and have Azure Resources Extension installed in VS Code.",
       );
     }
 
@@ -269,8 +270,8 @@ export class VisualStudioCodeCredential implements TokenCredential {
     if (!this.msalClient) {
       throw new CredentialUnavailableError(
         "Visual Studio Code Authentication failed to initialize." +
-          " The MSAL client could not be created. Ensure you have @azure/identity-broker dependency installed," +
-          " signed into Azure via VS Code, and have Azure Resources Extension installed in VS Code.",
+        " The MSAL client could not be created. Ensure you have @azure/identity-broker dependency installed," +
+        " signed into Azure via VS Code, and have Azure Resources Extension installed in VS Code.",
       );
     }
 
