@@ -14,22 +14,18 @@
   - Added Interface ExperimentProperties
   - Added Interface ManagedServiceIdentity
   - Added Interface OperationStatusResult
-  - Added Interface PagedAsyncIterableIterator
   - Added Interface PageSettings
   - Added Interface ProxyResource
-  - Added Interface RestorePollerOptions
   - Added Interface TargetTypeProperties
-  - Added Type Alias ContinuablePage
   - Added Type Alias ExperimentActionType
   - Added Type Alias ManagedServiceIdentityType
   - Interface Capability has a new optional parameter properties
   - Interface CapabilityType has a new optional parameter properties
   - Interface ExperimentExecution has a new optional parameter properties
+  - Interface Experiment Execution has a new optional parameter systemData
   - Interface ExperimentExecutionDetails has a new optional parameter properties
-  - Interface ExperimentExecutionDetailsProperties has a new optional parameter startedAt
-  - Interface ExperimentExecutionDetailsProperties has a new optional parameter status
-  - Interface ExperimentExecutionDetailsProperties has a new optional parameter stoppedAt
   - Interface Resource has a new optional parameter systemData
+  - Interface TrackedResource has a new optional parameter systemData- 
   - Added Enum KnownExperimentActionType
   - Added Enum KnownManagedServiceIdentityType
   - Added Enum KnownVersions

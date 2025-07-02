@@ -83,6 +83,5 @@ extends:
               Artifacts: ${{ parameters.Artifacts }}
               ${{ if eq(parameters.ServiceDirectory, 'template') }}:
                 TestPipeline: true
-              ArtifactName: packages
               TargetDocRepoOwner: ${{ parameters.TargetDocRepoOwner }}
               TargetDocRepoName: ${{ parameters.TargetDocRepoName }}
