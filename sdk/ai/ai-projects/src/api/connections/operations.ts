@@ -7,18 +7,17 @@ import {
   connectionDeserializer,
   _PagedConnection,
   _pagedConnectionDeserializer,
-  ConnectionType,
 } from "../../models/models.js";
 import {
   ConnectionsListOptionalParams,
   ConnectionsGetWithCredentialsOptionalParams,
   ConnectionsGetOptionalParams,
 } from "./options.js";
-import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
 import {
   PagedAsyncIterableIterator,
   buildPagedAsyncIterator,
 } from "../../static-helpers/pagingHelpers.js";
+import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
 import {
   StreamableMethod,
   PathUncheckedResponse,
@@ -31,9 +30,9 @@ export function _listSend(
   options: ConnectionsListOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "/connections{?api-version,connectionType,defaultConnection}",
+    "/connections{?api%2Dversion,connectionType,defaultConnection}",
     {
-      "api-version": context.apiVersion,
+      "api%2Dversion": context.apiVersion,
       connectionType: options?.connectionType,
       defaultConnection: options?.defaultConnection,
     },
@@ -82,10 +81,10 @@ export function _getWithCredentialsSend(
   options: ConnectionsGetWithCredentialsOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "/connections/{name}/getConnectionWithCredentials{?api-version}",
+    "/connections/{name}/getConnectionWithCredentials{?api%2Dversion}",
     {
       name: name,
-      "api-version": context.apiVersion,
+      "api%2Dversion": context.apiVersion,
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -130,10 +129,10 @@ export function _getSend(
   options: ConnectionsGetOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "/connections/{name}{?api-version}",
+    "/connections/{name}{?api%2Dversion}",
     {
       name: name,
-      "api-version": context.apiVersion,
+      "api%2Dversion": context.apiVersion,
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -164,46 +163,8 @@ export async function _getDeserialize(result: PathUncheckedResponse): Promise<Co
 export async function get(
   context: Client,
   name: string,
-  includeCredentials?: boolean,
   options: ConnectionsGetOptionalParams = { requestOptions: {} },
 ): Promise<Connection> {
-  if (includeCredentials) {
-    return getWithCredentials(context, name, options);
-  }
   const result = await _getSend(context, name, options);
   return _getDeserialize(result);
-}
-
-/**
- * Get the default connection for a given connection type.
- *
- * @param context - The AIProjectContext client
- * @param connectionType - The type of the connection. Required.
- * @param includeCredentials - Whether to include credentials in the response. Default is false.
- * @returns A Connection object
- * @throws Error if no default connection is found for the given type.
- */
-export async function getDefault(
-  context: Client,
-  connectionType: ConnectionType,
-  includeCredentials: boolean = false,
-): Promise<Connection> {
-  const listOptions = {
-    connectionType,
-    defaultConnection: true,
-  };
-
-  // Use the list function to find default connections of the specified type
-  const connections = list(context, listOptions);
-
-  // Find the first default connection
-  for await (const connection of connections) {
-    if (includeCredentials) {
-      // If credentials are requested, get the connection with credentials
-      return getWithCredentials(context, connection.name);
-    }
-    return connection;
-  }
-
-  throw new Error(`No default connection found for type: ${connectionType}.`);
 }

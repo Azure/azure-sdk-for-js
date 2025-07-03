@@ -4,4 +4,5 @@
 import { OperationOptions } from "@azure-rest/core-client";
 
 /** Optional parameters. */
-export interface SbomComponentsListByFirmwareOptionalParams extends OperationOptions {}
+export interface SbomComponentsListByFirmwareOptionalParams
+  extends OperationOptions {}

@@ -13,10 +13,12 @@ export interface ApplicationTypesDeleteOptionalParams extends OperationOptions {
 }
 
 /** Optional parameters. */
-export interface ApplicationTypesUpdateOptionalParams extends OperationOptions {}
+export interface ApplicationTypesUpdateOptionalParams
+  extends OperationOptions {}
 
 /** Optional parameters. */
-export interface ApplicationTypesCreateOrUpdateOptionalParams extends OperationOptions {}
+export interface ApplicationTypesCreateOrUpdateOptionalParams
+  extends OperationOptions {}
 
 /** Optional parameters. */
 export interface ApplicationTypesGetOptionalParams extends OperationOptions {}

@@ -19,9 +19,6 @@ export function cancel(context: ChaosManagementContext, resourceGroupName: strin
 export function createOrUpdate(context: ChaosManagementContext, resourceGroupName: string, experimentName: string, resource: Experiment, options?: ExperimentsCreateOrUpdateOptionalParams): PollerLike<OperationState<Experiment>, Experiment>;
 
 // @public
-export function executionDetails(context: ChaosManagementContext, resourceGroupName: string, experimentName: string, executionId: string, options?: ExperimentsExecutionDetailsOptionalParams): Promise<ExperimentExecutionDetails>;
-
-// @public
 export interface ExperimentsCancelOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
@@ -37,19 +34,7 @@ export interface ExperimentsDeleteOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface ExperimentsExecutionDetailsOptionalParams extends OperationOptions {
-}
-
-// @public
-export interface ExperimentsGetExecutionOptionalParams extends OperationOptions {
-}
-
-// @public
 export interface ExperimentsGetOptionalParams extends OperationOptions {
-}
-
-// @public
-export interface ExperimentsListAllExecutionsOptionalParams extends OperationOptions {
 }
 
 // @public
@@ -78,16 +63,10 @@ export interface ExperimentsUpdateOptionalParams extends OperationOptions {
 export function get(context: ChaosManagementContext, resourceGroupName: string, experimentName: string, options?: ExperimentsGetOptionalParams): Promise<Experiment>;
 
 // @public
-export function getExecution(context: ChaosManagementContext, resourceGroupName: string, experimentName: string, executionId: string, options?: ExperimentsGetExecutionOptionalParams): Promise<ExperimentExecution>;
-
-// @public
 export function list(context: ChaosManagementContext, resourceGroupName: string, options?: ExperimentsListOptionalParams): PagedAsyncIterableIterator<Experiment>;
 
 // @public
 export function listAll(context: ChaosManagementContext, options?: ExperimentsListAllOptionalParams): PagedAsyncIterableIterator<Experiment>;
-
-// @public
-export function listAllExecutions(context: ChaosManagementContext, resourceGroupName: string, experimentName: string, options?: ExperimentsListAllExecutionsOptionalParams): PagedAsyncIterableIterator<ExperimentExecution>;
 
 // @public
 export function start(context: ChaosManagementContext, resourceGroupName: string, experimentName: string, options?: ExperimentsStartOptionalParams): PollerLike<OperationState<void>, void>;

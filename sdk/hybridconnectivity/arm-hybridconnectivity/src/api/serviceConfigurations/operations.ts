@@ -31,7 +31,7 @@ import {
   operationOptionsToRequestParameters,
 } from "@azure-rest/core-client";
 
-export function _listByEndpointResourceSend(
+export function _serviceConfigurationsListByEndpointResourceSend(
   context: Client,
   resourceUri: string,
   endpointName: string,
@@ -40,26 +40,28 @@ export function _listByEndpointResourceSend(
   },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "/{+resourceUri}/providers/Microsoft.HybridConnectivity/endpoints/{+endpointName}/serviceConfigurations{?api-version}",
+    "/{+resourceUri}/providers/Microsoft.HybridConnectivity/endpoints/{+endpointName}/serviceConfigurations{?api%2Dversion}",
     {
       resourceUri: resourceUri,
       endpointName: endpointName,
-      "api-version": context.apiVersion,
+      "api%2Dversion": context.apiVersion,
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).get({
-    ...operationOptionsToRequestParameters(options),
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
-  });
+  return context
+    .path(path)
+    .get({
+      ...operationOptionsToRequestParameters(options),
+      headers: {
+        accept: "application/json",
+        ...options.requestOptions?.headers,
+      },
+    });
 }
 
-export async function _listByEndpointResourceDeserialize(
+export async function _serviceConfigurationsListByEndpointResourceDeserialize(
   result: PathUncheckedResponse,
 ): Promise<_ServiceConfigurationList> {
   const expectedStatuses = ["200"];
@@ -73,7 +75,7 @@ export async function _listByEndpointResourceDeserialize(
 }
 
 /** API to enumerate registered services in service configurations under a Endpoint Resource */
-export function listByEndpointResource(
+export function serviceConfigurationsListByEndpointResource(
   context: Client,
   resourceUri: string,
   endpointName: string,
@@ -83,14 +85,20 @@ export function listByEndpointResource(
 ): PagedAsyncIterableIterator<ServiceConfigurationResource> {
   return buildPagedAsyncIterator(
     context,
-    () => _listByEndpointResourceSend(context, resourceUri, endpointName, options),
-    _listByEndpointResourceDeserialize,
+    () =>
+      _serviceConfigurationsListByEndpointResourceSend(
+        context,
+        resourceUri,
+        endpointName,
+        options,
+      ),
+    _serviceConfigurationsListByEndpointResourceDeserialize,
     ["200"],
     { itemName: "value", nextLinkName: "nextLink" },
   );
 }
 
-export function _$deleteSend(
+export function _serviceConfigurationsDeleteSend(
   context: Client,
   resourceUri: string,
   endpointName: string,
@@ -98,27 +106,31 @@ export function _$deleteSend(
   options: ServiceConfigurationsDeleteOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "/{+resourceUri}/providers/Microsoft.HybridConnectivity/endpoints/{+endpointName}/serviceConfigurations/{+serviceConfigurationName}{?api-version}",
+    "/{+resourceUri}/providers/Microsoft.HybridConnectivity/endpoints/{+endpointName}/serviceConfigurations/{+serviceConfigurationName}{?api%2Dversion}",
     {
       resourceUri: resourceUri,
       endpointName: endpointName,
       serviceConfigurationName: serviceConfigurationName,
-      "api-version": context.apiVersion,
+      "api%2Dversion": context.apiVersion,
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).delete({
-    ...operationOptionsToRequestParameters(options),
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
-  });
+  return context
+    .path(path)
+    .delete({
+      ...operationOptionsToRequestParameters(options),
+      headers: {
+        accept: "application/json",
+        ...options.requestOptions?.headers,
+      },
+    });
 }
 
-export async function _$deleteDeserialize(result: PathUncheckedResponse): Promise<void> {
+export async function _serviceConfigurationsDeleteDeserialize(
+  result: PathUncheckedResponse,
+): Promise<void> {
   const expectedStatuses = ["200", "204"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
@@ -130,29 +142,24 @@ export async function _$deleteDeserialize(result: PathUncheckedResponse): Promis
 }
 
 /** Deletes the service details to the target resource. */
-/**
- *  @fixme delete is a reserved word that cannot be used as an operation name.
- *         Please add @clientName("clientName") or @clientName("<JS-Specific-Name>", "javascript")
- *         to the operation to override the generated name.
- */
-export async function $delete(
+export async function serviceConfigurationsDelete(
   context: Client,
   resourceUri: string,
   endpointName: string,
   serviceConfigurationName: string,
   options: ServiceConfigurationsDeleteOptionalParams = { requestOptions: {} },
 ): Promise<void> {
-  const result = await _$deleteSend(
+  const result = await _serviceConfigurationsDeleteSend(
     context,
     resourceUri,
     endpointName,
     serviceConfigurationName,
     options,
   );
-  return _$deleteDeserialize(result);
+  return _serviceConfigurationsDeleteDeserialize(result);
 }
 
-export function _updateSend(
+export function _serviceConfigurationsUpdateSend(
   context: Client,
   resourceUri: string,
   endpointName: string,
@@ -161,29 +168,33 @@ export function _updateSend(
   options: ServiceConfigurationsUpdateOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "/{+resourceUri}/providers/Microsoft.HybridConnectivity/endpoints/{+endpointName}/serviceConfigurations/{+serviceConfigurationName}{?api-version}",
+    "/{+resourceUri}/providers/Microsoft.HybridConnectivity/endpoints/{+endpointName}/serviceConfigurations/{+serviceConfigurationName}{?api%2Dversion}",
     {
       resourceUri: resourceUri,
       endpointName: endpointName,
       serviceConfigurationName: serviceConfigurationName,
-      "api-version": context.apiVersion,
+      "api%2Dversion": context.apiVersion,
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).patch({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
-    body: serviceConfigurationResourcePatchSerializer(serviceConfigurationResource),
-  });
+  return context
+    .path(path)
+    .patch({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      headers: {
+        accept: "application/json",
+        ...options.requestOptions?.headers,
+      },
+      body: serviceConfigurationResourcePatchSerializer(
+        serviceConfigurationResource,
+      ),
+    });
 }
 
-export async function _updateDeserialize(
+export async function _serviceConfigurationsUpdateDeserialize(
   result: PathUncheckedResponse,
 ): Promise<ServiceConfigurationResource> {
   const expectedStatuses = ["200"];
@@ -197,7 +208,7 @@ export async function _updateDeserialize(
 }
 
 /** Update the service details in the service configurations of the target resource. */
-export async function update(
+export async function serviceConfigurationsUpdate(
   context: Client,
   resourceUri: string,
   endpointName: string,
@@ -205,7 +216,7 @@ export async function update(
   serviceConfigurationResource: ServiceConfigurationResourcePatch,
   options: ServiceConfigurationsUpdateOptionalParams = { requestOptions: {} },
 ): Promise<ServiceConfigurationResource> {
-  const result = await _updateSend(
+  const result = await _serviceConfigurationsUpdateSend(
     context,
     resourceUri,
     endpointName,
@@ -213,10 +224,10 @@ export async function update(
     serviceConfigurationResource,
     options,
   );
-  return _updateDeserialize(result);
+  return _serviceConfigurationsUpdateDeserialize(result);
 }
 
-export function _createOrupdateSend(
+export function _serviceConfigurationsCreateOrupdateSend(
   context: Client,
   resourceUri: string,
   endpointName: string,
@@ -227,29 +238,33 @@ export function _createOrupdateSend(
   },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "/{+resourceUri}/providers/Microsoft.HybridConnectivity/endpoints/{+endpointName}/serviceConfigurations/{+serviceConfigurationName}{?api-version}",
+    "/{+resourceUri}/providers/Microsoft.HybridConnectivity/endpoints/{+endpointName}/serviceConfigurations/{+serviceConfigurationName}{?api%2Dversion}",
     {
       resourceUri: resourceUri,
       endpointName: endpointName,
       serviceConfigurationName: serviceConfigurationName,
-      "api-version": context.apiVersion,
+      "api%2Dversion": context.apiVersion,
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).put({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
-    body: serviceConfigurationResourceSerializer(serviceConfigurationResource),
-  });
+  return context
+    .path(path)
+    .put({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      headers: {
+        accept: "application/json",
+        ...options.requestOptions?.headers,
+      },
+      body: serviceConfigurationResourceSerializer(
+        serviceConfigurationResource,
+      ),
+    });
 }
 
-export async function _createOrupdateDeserialize(
+export async function _serviceConfigurationsCreateOrupdateDeserialize(
   result: PathUncheckedResponse,
 ): Promise<ServiceConfigurationResource> {
   const expectedStatuses = ["200", "201"];
@@ -263,7 +278,7 @@ export async function _createOrupdateDeserialize(
 }
 
 /** Create or update a service in serviceConfiguration for the endpoint resource. */
-export async function createOrupdate(
+export async function serviceConfigurationsCreateOrupdate(
   context: Client,
   resourceUri: string,
   endpointName: string,
@@ -273,7 +288,7 @@ export async function createOrupdate(
     requestOptions: {},
   },
 ): Promise<ServiceConfigurationResource> {
-  const result = await _createOrupdateSend(
+  const result = await _serviceConfigurationsCreateOrupdateSend(
     context,
     resourceUri,
     endpointName,
@@ -281,10 +296,10 @@ export async function createOrupdate(
     serviceConfigurationResource,
     options,
   );
-  return _createOrupdateDeserialize(result);
+  return _serviceConfigurationsCreateOrupdateDeserialize(result);
 }
 
-export function _getSend(
+export function _serviceConfigurationsGetSend(
   context: Client,
   resourceUri: string,
   endpointName: string,
@@ -292,27 +307,29 @@ export function _getSend(
   options: ServiceConfigurationsGetOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "/{+resourceUri}/providers/Microsoft.HybridConnectivity/endpoints/{+endpointName}/serviceConfigurations/{+serviceConfigurationName}{?api-version}",
+    "/{+resourceUri}/providers/Microsoft.HybridConnectivity/endpoints/{+endpointName}/serviceConfigurations/{+serviceConfigurationName}{?api%2Dversion}",
     {
       resourceUri: resourceUri,
       endpointName: endpointName,
       serviceConfigurationName: serviceConfigurationName,
-      "api-version": context.apiVersion,
+      "api%2Dversion": context.apiVersion,
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).get({
-    ...operationOptionsToRequestParameters(options),
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
-  });
+  return context
+    .path(path)
+    .get({
+      ...operationOptionsToRequestParameters(options),
+      headers: {
+        accept: "application/json",
+        ...options.requestOptions?.headers,
+      },
+    });
 }
 
-export async function _getDeserialize(
+export async function _serviceConfigurationsGetDeserialize(
   result: PathUncheckedResponse,
 ): Promise<ServiceConfigurationResource> {
   const expectedStatuses = ["200"];
@@ -326,19 +343,19 @@ export async function _getDeserialize(
 }
 
 /** Gets the details about the service to the resource. */
-export async function get(
+export async function serviceConfigurationsGet(
   context: Client,
   resourceUri: string,
   endpointName: string,
   serviceConfigurationName: string,
   options: ServiceConfigurationsGetOptionalParams = { requestOptions: {} },
 ): Promise<ServiceConfigurationResource> {
-  const result = await _getSend(
+  const result = await _serviceConfigurationsGetSend(
     context,
     resourceUri,
     endpointName,
     serviceConfigurationName,
     options,
   );
-  return _getDeserialize(result);
+  return _serviceConfigurationsGetDeserialize(result);
 }

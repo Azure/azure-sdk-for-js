@@ -20,9 +20,6 @@ export {
   SASCredentials,
   NoAuthenticationCredentials,
   Evaluation,
-  EvaluatorId,
-  EvaluatorIds,
-  EvaluationWithOptionalName,
   InputData,
   InputDataUnion,
   InputDataset,
@@ -64,7 +61,7 @@ export {
   PendingUploadType,
   KnownVersions,
 } from "./models/index.js";
-export { AIProjectClientOptionalParams, DatasetUploadOptions } from "./api/index.js";
+export { AIProjectClientOptionalParams } from "./api/index.js";
 export {
   ConnectionsListOptionalParams,
   ConnectionsGetWithCredentialsOptionalParams,
@@ -101,7 +98,6 @@ export {
   RedTeamsListOptionalParams,
   RedTeamsGetOptionalParams,
 } from "./api/redTeams/index.js";
-export { TelemetryOperations, EnableTelemetryType } from "./classic/telemetry/index.js";
 export {
   ConnectionsOperations,
   DatasetsOperations,
