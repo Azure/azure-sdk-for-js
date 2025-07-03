@@ -35,6 +35,7 @@ import { PollerLike, OperationState } from "@azure/core-lro";
 
 export function _$deleteSend(
   context: Client,
+  apiVersion: string,
   resourceGroupName: string,
   privateCloudName: string,
   clusterName: string,
@@ -49,7 +50,7 @@ export function _$deleteSend(
       privateCloudName: privateCloudName,
       clusterName: clusterName,
       placementPolicyName: placementPolicyName,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": apiVersion,
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -83,6 +84,7 @@ export async function _$deleteDeserialize(result: PathUncheckedResponse): Promis
  */
 export function $delete(
   context: Client,
+  apiVersion: string,
   resourceGroupName: string,
   privateCloudName: string,
   clusterName: string,
@@ -95,6 +97,7 @@ export function $delete(
     getInitialResponse: () =>
       _$deleteSend(
         context,
+        apiVersion,
         resourceGroupName,
         privateCloudName,
         clusterName,
@@ -107,6 +110,7 @@ export function $delete(
 
 export function _updateSend(
   context: Client,
+  apiVersion: string,
   resourceGroupName: string,
   privateCloudName: string,
   clusterName: string,
@@ -122,7 +126,7 @@ export function _updateSend(
       privateCloudName: privateCloudName,
       clusterName: clusterName,
       placementPolicyName: placementPolicyName,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": apiVersion,
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -153,6 +157,7 @@ export async function _updateDeserialize(result: PathUncheckedResponse): Promise
 /** Update a PlacementPolicy */
 export function update(
   context: Client,
+  apiVersion: string,
   resourceGroupName: string,
   privateCloudName: string,
   clusterName: string,
@@ -166,6 +171,7 @@ export function update(
     getInitialResponse: () =>
       _updateSend(
         context,
+        apiVersion,
         resourceGroupName,
         privateCloudName,
         clusterName,
@@ -179,6 +185,7 @@ export function update(
 
 export function _createOrUpdateSend(
   context: Client,
+  apiVersion: string,
   resourceGroupName: string,
   privateCloudName: string,
   clusterName: string,
@@ -196,7 +203,7 @@ export function _createOrUpdateSend(
       privateCloudName: privateCloudName,
       clusterName: clusterName,
       placementPolicyName: placementPolicyName,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": apiVersion,
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -229,6 +236,7 @@ export async function _createOrUpdateDeserialize(
 /** Create a PlacementPolicy */
 export function createOrUpdate(
   context: Client,
+  apiVersion: string,
   resourceGroupName: string,
   privateCloudName: string,
   clusterName: string,
@@ -244,6 +252,7 @@ export function createOrUpdate(
     getInitialResponse: () =>
       _createOrUpdateSend(
         context,
+        apiVersion,
         resourceGroupName,
         privateCloudName,
         clusterName,
@@ -257,6 +266,7 @@ export function createOrUpdate(
 
 export function _getSend(
   context: Client,
+  apiVersion: string,
   resourceGroupName: string,
   privateCloudName: string,
   clusterName: string,
@@ -271,7 +281,7 @@ export function _getSend(
       privateCloudName: privateCloudName,
       clusterName: clusterName,
       placementPolicyName: placementPolicyName,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": apiVersion,
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -300,6 +310,7 @@ export async function _getDeserialize(result: PathUncheckedResponse): Promise<Pl
 /** Get a PlacementPolicy */
 export async function get(
   context: Client,
+  apiVersion: string,
   resourceGroupName: string,
   privateCloudName: string,
   clusterName: string,
@@ -308,6 +319,7 @@ export async function get(
 ): Promise<PlacementPolicy> {
   const result = await _getSend(
     context,
+    apiVersion,
     resourceGroupName,
     privateCloudName,
     clusterName,
@@ -319,6 +331,7 @@ export async function get(
 
 export function _listSend(
   context: Client,
+  apiVersion: string,
   resourceGroupName: string,
   privateCloudName: string,
   clusterName: string,
@@ -331,7 +344,7 @@ export function _listSend(
       resourceGroupName: resourceGroupName,
       privateCloudName: privateCloudName,
       clusterName: clusterName,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": apiVersion,
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -362,6 +375,7 @@ export async function _listDeserialize(
 /** List PlacementPolicy resources by Cluster */
 export function list(
   context: Client,
+  apiVersion: string,
   resourceGroupName: string,
   privateCloudName: string,
   clusterName: string,
@@ -369,7 +383,7 @@ export function list(
 ): PagedAsyncIterableIterator<PlacementPolicy> {
   return buildPagedAsyncIterator(
     context,
-    () => _listSend(context, resourceGroupName, privateCloudName, clusterName, options),
+    () => _listSend(context, apiVersion, resourceGroupName, privateCloudName, clusterName, options),
     _listDeserialize,
     ["200"],
     { itemName: "value", nextLinkName: "nextLink" },

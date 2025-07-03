@@ -24,6 +24,7 @@ import {
 
 export function _checkQuotaAvailabilitySend(
   context: Client,
+  apiVersion: string,
   location: string,
   options: LocationsCheckQuotaAvailabilityOptionalParams = {
     requestOptions: {},
@@ -34,7 +35,7 @@ export function _checkQuotaAvailabilitySend(
     {
       subscriptionId: context.subscriptionId,
       location: location,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": apiVersion,
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -65,17 +66,19 @@ export async function _checkQuotaAvailabilityDeserialize(
 /** Return quota for subscription by region */
 export async function checkQuotaAvailability(
   context: Client,
+  apiVersion: string,
   location: string,
   options: LocationsCheckQuotaAvailabilityOptionalParams = {
     requestOptions: {},
   },
 ): Promise<Quota> {
-  const result = await _checkQuotaAvailabilitySend(context, location, options);
+  const result = await _checkQuotaAvailabilitySend(context, apiVersion, location, options);
   return _checkQuotaAvailabilityDeserialize(result);
 }
 
 export function _checkTrialAvailabilitySend(
   context: Client,
+  apiVersion: string,
   location: string,
   options: LocationsCheckTrialAvailabilityOptionalParams = {
     requestOptions: {},
@@ -86,7 +89,7 @@ export function _checkTrialAvailabilitySend(
     {
       subscriptionId: context.subscriptionId,
       location: location,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": apiVersion,
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -119,11 +122,12 @@ export async function _checkTrialAvailabilityDeserialize(
 /** Return trial status for subscription by region */
 export async function checkTrialAvailability(
   context: Client,
+  apiVersion: string,
   location: string,
   options: LocationsCheckTrialAvailabilityOptionalParams = {
     requestOptions: {},
   },
 ): Promise<Trial> {
-  const result = await _checkTrialAvailabilitySend(context, location, options);
+  const result = await _checkTrialAvailabilitySend(context, apiVersion, location, options);
   return _checkTrialAvailabilityDeserialize(result);
 }

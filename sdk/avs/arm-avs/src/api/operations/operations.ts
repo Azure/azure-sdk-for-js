@@ -23,12 +23,13 @@ import {
 
 export function _listSend(
   context: Client,
+  apiVersion: string,
   options: OperationsListOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
     "/providers/Microsoft.AVS/operations{?api%2Dversion}",
     {
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": apiVersion,
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -59,11 +60,12 @@ export async function _listDeserialize(
 /** List the operations for the provider */
 export function list(
   context: Client,
+  apiVersion: string,
   options: OperationsListOptionalParams = { requestOptions: {} },
 ): PagedAsyncIterableIterator<Operation> {
   return buildPagedAsyncIterator(
     context,
-    () => _listSend(context, options),
+    () => _listSend(context, apiVersion, options),
     _listDeserialize,
     ["200"],
     { itemName: "value", nextLinkName: "nextLink" },

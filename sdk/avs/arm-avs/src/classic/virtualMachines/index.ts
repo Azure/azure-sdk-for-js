@@ -16,6 +16,7 @@ import { PollerLike, OperationState } from "@azure/core-lro";
 export interface VirtualMachinesOperations {
   /** Enable or disable DRS-driven VM movement restriction */
   restrictMovement: (
+    apiVersion: string,
     resourceGroupName: string,
     privateCloudName: string,
     clusterName: string,
@@ -25,6 +26,7 @@ export interface VirtualMachinesOperations {
   ) => PollerLike<OperationState<void>, void>;
   /** Get a VirtualMachine */
   get: (
+    apiVersion: string,
     resourceGroupName: string,
     privateCloudName: string,
     clusterName: string,
@@ -33,6 +35,7 @@ export interface VirtualMachinesOperations {
   ) => Promise<VirtualMachine>;
   /** List VirtualMachine resources by Cluster */
   list: (
+    apiVersion: string,
     resourceGroupName: string,
     privateCloudName: string,
     clusterName: string,
@@ -43,6 +46,7 @@ export interface VirtualMachinesOperations {
 function _getVirtualMachines(context: AzureVMwareSolutionAPIContext) {
   return {
     restrictMovement: (
+      apiVersion: string,
       resourceGroupName: string,
       privateCloudName: string,
       clusterName: string,
@@ -52,6 +56,7 @@ function _getVirtualMachines(context: AzureVMwareSolutionAPIContext) {
     ) =>
       restrictMovement(
         context,
+        apiVersion,
         resourceGroupName,
         privateCloudName,
         clusterName,
@@ -60,18 +65,29 @@ function _getVirtualMachines(context: AzureVMwareSolutionAPIContext) {
         options,
       ),
     get: (
+      apiVersion: string,
       resourceGroupName: string,
       privateCloudName: string,
       clusterName: string,
       virtualMachineId: string,
       options?: VirtualMachinesGetOptionalParams,
-    ) => get(context, resourceGroupName, privateCloudName, clusterName, virtualMachineId, options),
+    ) =>
+      get(
+        context,
+        apiVersion,
+        resourceGroupName,
+        privateCloudName,
+        clusterName,
+        virtualMachineId,
+        options,
+      ),
     list: (
+      apiVersion: string,
       resourceGroupName: string,
       privateCloudName: string,
       clusterName: string,
       options?: VirtualMachinesListOptionalParams,
-    ) => list(context, resourceGroupName, privateCloudName, clusterName, options),
+    ) => list(context, apiVersion, resourceGroupName, privateCloudName, clusterName, options),
   };
 }
 

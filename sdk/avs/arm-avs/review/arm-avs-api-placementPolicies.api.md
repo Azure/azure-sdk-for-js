@@ -10,16 +10,16 @@ import { OperationState } from '@azure/core-lro';
 import { PollerLike } from '@azure/core-lro';
 
 // @public
-export function $delete(context: AzureVMwareSolutionAPIContext, resourceGroupName: string, privateCloudName: string, clusterName: string, placementPolicyName: string, options?: PlacementPoliciesDeleteOptionalParams): PollerLike<OperationState<void>, void>;
+export function $delete(context: AzureVMwareSolutionAPIContext, apiVersion: string, resourceGroupName: string, privateCloudName: string, clusterName: string, placementPolicyName: string, options?: PlacementPoliciesDeleteOptionalParams): PollerLike<OperationState<void>, void>;
 
 // @public
-export function createOrUpdate(context: AzureVMwareSolutionAPIContext, resourceGroupName: string, privateCloudName: string, clusterName: string, placementPolicyName: string, placementPolicy: PlacementPolicy, options?: PlacementPoliciesCreateOrUpdateOptionalParams): PollerLike<OperationState<PlacementPolicy>, PlacementPolicy>;
+export function createOrUpdate(context: AzureVMwareSolutionAPIContext, apiVersion: string, resourceGroupName: string, privateCloudName: string, clusterName: string, placementPolicyName: string, placementPolicy: PlacementPolicy, options?: PlacementPoliciesCreateOrUpdateOptionalParams): PollerLike<OperationState<PlacementPolicy>, PlacementPolicy>;
 
 // @public
-export function get(context: AzureVMwareSolutionAPIContext, resourceGroupName: string, privateCloudName: string, clusterName: string, placementPolicyName: string, options?: PlacementPoliciesGetOptionalParams): Promise<PlacementPolicy>;
+export function get(context: AzureVMwareSolutionAPIContext, apiVersion: string, resourceGroupName: string, privateCloudName: string, clusterName: string, placementPolicyName: string, options?: PlacementPoliciesGetOptionalParams): Promise<PlacementPolicy>;
 
 // @public
-export function list(context: AzureVMwareSolutionAPIContext, resourceGroupName: string, privateCloudName: string, clusterName: string, options?: PlacementPoliciesListOptionalParams): PagedAsyncIterableIterator<PlacementPolicy>;
+export function list(context: AzureVMwareSolutionAPIContext, apiVersion: string, resourceGroupName: string, privateCloudName: string, clusterName: string, options?: PlacementPoliciesListOptionalParams): PagedAsyncIterableIterator<PlacementPolicy>;
 
 // @public
 export interface PlacementPoliciesCreateOrUpdateOptionalParams extends OperationOptions {
@@ -45,7 +45,7 @@ export interface PlacementPoliciesUpdateOptionalParams extends OperationOptions 
 }
 
 // @public
-export function update(context: AzureVMwareSolutionAPIContext, resourceGroupName: string, privateCloudName: string, clusterName: string, placementPolicyName: string, placementPolicyUpdate: PlacementPolicyUpdate, options?: PlacementPoliciesUpdateOptionalParams): PollerLike<OperationState<PlacementPolicy>, PlacementPolicy>;
+export function update(context: AzureVMwareSolutionAPIContext, apiVersion: string, resourceGroupName: string, privateCloudName: string, clusterName: string, placementPolicyName: string, placementPolicyUpdate: PlacementPolicyUpdate, options?: PlacementPoliciesUpdateOptionalParams): PollerLike<OperationState<PlacementPolicy>, PlacementPolicy>;
 
 // (No @packageDocumentation comment for this package)
 

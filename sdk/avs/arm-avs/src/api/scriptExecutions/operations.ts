@@ -33,6 +33,7 @@ import { PollerLike, OperationState } from "@azure/core-lro";
 
 export function _getExecutionLogsSend(
   context: Client,
+  apiVersion: string,
   resourceGroupName: string,
   privateCloudName: string,
   scriptExecutionName: string,
@@ -47,7 +48,7 @@ export function _getExecutionLogsSend(
       resourceGroupName: resourceGroupName,
       privateCloudName: privateCloudName,
       scriptExecutionName: scriptExecutionName,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": apiVersion,
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -81,6 +82,7 @@ export async function _getExecutionLogsDeserialize(
 /** Return the logs for a script execution resource */
 export async function getExecutionLogs(
   context: Client,
+  apiVersion: string,
   resourceGroupName: string,
   privateCloudName: string,
   scriptExecutionName: string,
@@ -90,6 +92,7 @@ export async function getExecutionLogs(
 ): Promise<ScriptExecution> {
   const result = await _getExecutionLogsSend(
     context,
+    apiVersion,
     resourceGroupName,
     privateCloudName,
     scriptExecutionName,
@@ -100,6 +103,7 @@ export async function getExecutionLogs(
 
 export function _$deleteSend(
   context: Client,
+  apiVersion: string,
   resourceGroupName: string,
   privateCloudName: string,
   scriptExecutionName: string,
@@ -112,7 +116,7 @@ export function _$deleteSend(
       resourceGroupName: resourceGroupName,
       privateCloudName: privateCloudName,
       scriptExecutionName: scriptExecutionName,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": apiVersion,
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -146,6 +150,7 @@ export async function _$deleteDeserialize(result: PathUncheckedResponse): Promis
  */
 export function $delete(
   context: Client,
+  apiVersion: string,
   resourceGroupName: string,
   privateCloudName: string,
   scriptExecutionName: string,
@@ -155,13 +160,21 @@ export function $delete(
     updateIntervalInMs: options?.updateIntervalInMs,
     abortSignal: options?.abortSignal,
     getInitialResponse: () =>
-      _$deleteSend(context, resourceGroupName, privateCloudName, scriptExecutionName, options),
+      _$deleteSend(
+        context,
+        apiVersion,
+        resourceGroupName,
+        privateCloudName,
+        scriptExecutionName,
+        options,
+      ),
     resourceLocationConfig: "location",
   }) as PollerLike<OperationState<void>, void>;
 }
 
 export function _createOrUpdateSend(
   context: Client,
+  apiVersion: string,
   resourceGroupName: string,
   privateCloudName: string,
   scriptExecutionName: string,
@@ -177,7 +190,7 @@ export function _createOrUpdateSend(
       resourceGroupName: resourceGroupName,
       privateCloudName: privateCloudName,
       scriptExecutionName: scriptExecutionName,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": apiVersion,
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -210,6 +223,7 @@ export async function _createOrUpdateDeserialize(
 /** Create a ScriptExecution */
 export function createOrUpdate(
   context: Client,
+  apiVersion: string,
   resourceGroupName: string,
   privateCloudName: string,
   scriptExecutionName: string,
@@ -224,6 +238,7 @@ export function createOrUpdate(
     getInitialResponse: () =>
       _createOrUpdateSend(
         context,
+        apiVersion,
         resourceGroupName,
         privateCloudName,
         scriptExecutionName,
@@ -236,6 +251,7 @@ export function createOrUpdate(
 
 export function _getSend(
   context: Client,
+  apiVersion: string,
   resourceGroupName: string,
   privateCloudName: string,
   scriptExecutionName: string,
@@ -248,7 +264,7 @@ export function _getSend(
       resourceGroupName: resourceGroupName,
       privateCloudName: privateCloudName,
       scriptExecutionName: scriptExecutionName,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": apiVersion,
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -277,6 +293,7 @@ export async function _getDeserialize(result: PathUncheckedResponse): Promise<Sc
 /** Get a ScriptExecution */
 export async function get(
   context: Client,
+  apiVersion: string,
   resourceGroupName: string,
   privateCloudName: string,
   scriptExecutionName: string,
@@ -284,6 +301,7 @@ export async function get(
 ): Promise<ScriptExecution> {
   const result = await _getSend(
     context,
+    apiVersion,
     resourceGroupName,
     privateCloudName,
     scriptExecutionName,
@@ -294,6 +312,7 @@ export async function get(
 
 export function _listSend(
   context: Client,
+  apiVersion: string,
   resourceGroupName: string,
   privateCloudName: string,
   options: ScriptExecutionsListOptionalParams = { requestOptions: {} },
@@ -304,7 +323,7 @@ export function _listSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       privateCloudName: privateCloudName,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": apiVersion,
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -335,13 +354,14 @@ export async function _listDeserialize(
 /** List ScriptExecution resources by PrivateCloud */
 export function list(
   context: Client,
+  apiVersion: string,
   resourceGroupName: string,
   privateCloudName: string,
   options: ScriptExecutionsListOptionalParams = { requestOptions: {} },
 ): PagedAsyncIterableIterator<ScriptExecution> {
   return buildPagedAsyncIterator(
     context,
-    () => _listSend(context, resourceGroupName, privateCloudName, options),
+    () => _listSend(context, apiVersion, resourceGroupName, privateCloudName, options),
     _listDeserialize,
     ["200"],
     { itemName: "value", nextLinkName: "nextLink" },

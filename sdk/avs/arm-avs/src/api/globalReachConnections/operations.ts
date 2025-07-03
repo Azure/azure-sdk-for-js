@@ -32,6 +32,7 @@ import { PollerLike, OperationState } from "@azure/core-lro";
 
 export function _$deleteSend(
   context: Client,
+  apiVersion: string,
   resourceGroupName: string,
   privateCloudName: string,
   globalReachConnectionName: string,
@@ -44,7 +45,7 @@ export function _$deleteSend(
       resourceGroupName: resourceGroupName,
       privateCloudName: privateCloudName,
       globalReachConnectionName: globalReachConnectionName,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": apiVersion,
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -78,6 +79,7 @@ export async function _$deleteDeserialize(result: PathUncheckedResponse): Promis
  */
 export function $delete(
   context: Client,
+  apiVersion: string,
   resourceGroupName: string,
   privateCloudName: string,
   globalReachConnectionName: string,
@@ -89,6 +91,7 @@ export function $delete(
     getInitialResponse: () =>
       _$deleteSend(
         context,
+        apiVersion,
         resourceGroupName,
         privateCloudName,
         globalReachConnectionName,
@@ -100,6 +103,7 @@ export function $delete(
 
 export function _createOrUpdateSend(
   context: Client,
+  apiVersion: string,
   resourceGroupName: string,
   privateCloudName: string,
   globalReachConnectionName: string,
@@ -115,7 +119,7 @@ export function _createOrUpdateSend(
       resourceGroupName: resourceGroupName,
       privateCloudName: privateCloudName,
       globalReachConnectionName: globalReachConnectionName,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": apiVersion,
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -148,6 +152,7 @@ export async function _createOrUpdateDeserialize(
 /** Create a GlobalReachConnection */
 export function createOrUpdate(
   context: Client,
+  apiVersion: string,
   resourceGroupName: string,
   privateCloudName: string,
   globalReachConnectionName: string,
@@ -162,6 +167,7 @@ export function createOrUpdate(
     getInitialResponse: () =>
       _createOrUpdateSend(
         context,
+        apiVersion,
         resourceGroupName,
         privateCloudName,
         globalReachConnectionName,
@@ -174,6 +180,7 @@ export function createOrUpdate(
 
 export function _getSend(
   context: Client,
+  apiVersion: string,
   resourceGroupName: string,
   privateCloudName: string,
   globalReachConnectionName: string,
@@ -186,7 +193,7 @@ export function _getSend(
       resourceGroupName: resourceGroupName,
       privateCloudName: privateCloudName,
       globalReachConnectionName: globalReachConnectionName,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": apiVersion,
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -217,6 +224,7 @@ export async function _getDeserialize(
 /** Get a GlobalReachConnection */
 export async function get(
   context: Client,
+  apiVersion: string,
   resourceGroupName: string,
   privateCloudName: string,
   globalReachConnectionName: string,
@@ -224,6 +232,7 @@ export async function get(
 ): Promise<GlobalReachConnection> {
   const result = await _getSend(
     context,
+    apiVersion,
     resourceGroupName,
     privateCloudName,
     globalReachConnectionName,
@@ -234,6 +243,7 @@ export async function get(
 
 export function _listSend(
   context: Client,
+  apiVersion: string,
   resourceGroupName: string,
   privateCloudName: string,
   options: GlobalReachConnectionsListOptionalParams = { requestOptions: {} },
@@ -244,7 +254,7 @@ export function _listSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       privateCloudName: privateCloudName,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": apiVersion,
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -275,13 +285,14 @@ export async function _listDeserialize(
 /** List GlobalReachConnection resources by PrivateCloud */
 export function list(
   context: Client,
+  apiVersion: string,
   resourceGroupName: string,
   privateCloudName: string,
   options: GlobalReachConnectionsListOptionalParams = { requestOptions: {} },
 ): PagedAsyncIterableIterator<GlobalReachConnection> {
   return buildPagedAsyncIterator(
     context,
-    () => _listSend(context, resourceGroupName, privateCloudName, options),
+    () => _listSend(context, apiVersion, resourceGroupName, privateCloudName, options),
     _listDeserialize,
     ["200"],
     { itemName: "value", nextLinkName: "nextLink" },

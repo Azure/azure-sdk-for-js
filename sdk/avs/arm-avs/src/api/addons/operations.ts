@@ -32,6 +32,7 @@ import { PollerLike, OperationState } from "@azure/core-lro";
 
 export function _$deleteSend(
   context: Client,
+  apiVersion: string,
   resourceGroupName: string,
   privateCloudName: string,
   addonName: string,
@@ -44,7 +45,7 @@ export function _$deleteSend(
       resourceGroupName: resourceGroupName,
       privateCloudName: privateCloudName,
       addonName: addonName,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": apiVersion,
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -78,6 +79,7 @@ export async function _$deleteDeserialize(result: PathUncheckedResponse): Promis
  */
 export function $delete(
   context: Client,
+  apiVersion: string,
   resourceGroupName: string,
   privateCloudName: string,
   addonName: string,
@@ -87,13 +89,14 @@ export function $delete(
     updateIntervalInMs: options?.updateIntervalInMs,
     abortSignal: options?.abortSignal,
     getInitialResponse: () =>
-      _$deleteSend(context, resourceGroupName, privateCloudName, addonName, options),
+      _$deleteSend(context, apiVersion, resourceGroupName, privateCloudName, addonName, options),
     resourceLocationConfig: "location",
   }) as PollerLike<OperationState<void>, void>;
 }
 
 export function _createOrUpdateSend(
   context: Client,
+  apiVersion: string,
   resourceGroupName: string,
   privateCloudName: string,
   addonName: string,
@@ -107,7 +110,7 @@ export function _createOrUpdateSend(
       resourceGroupName: resourceGroupName,
       privateCloudName: privateCloudName,
       addonName: addonName,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": apiVersion,
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -138,6 +141,7 @@ export async function _createOrUpdateDeserialize(result: PathUncheckedResponse):
 /** Create a Addon */
 export function createOrUpdate(
   context: Client,
+  apiVersion: string,
   resourceGroupName: string,
   privateCloudName: string,
   addonName: string,
@@ -148,13 +152,22 @@ export function createOrUpdate(
     updateIntervalInMs: options?.updateIntervalInMs,
     abortSignal: options?.abortSignal,
     getInitialResponse: () =>
-      _createOrUpdateSend(context, resourceGroupName, privateCloudName, addonName, addon, options),
+      _createOrUpdateSend(
+        context,
+        apiVersion,
+        resourceGroupName,
+        privateCloudName,
+        addonName,
+        addon,
+        options,
+      ),
     resourceLocationConfig: "azure-async-operation",
   }) as PollerLike<OperationState<Addon>, Addon>;
 }
 
 export function _getSend(
   context: Client,
+  apiVersion: string,
   resourceGroupName: string,
   privateCloudName: string,
   addonName: string,
@@ -167,7 +180,7 @@ export function _getSend(
       resourceGroupName: resourceGroupName,
       privateCloudName: privateCloudName,
       addonName: addonName,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": apiVersion,
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -196,17 +209,26 @@ export async function _getDeserialize(result: PathUncheckedResponse): Promise<Ad
 /** Get a Addon */
 export async function get(
   context: Client,
+  apiVersion: string,
   resourceGroupName: string,
   privateCloudName: string,
   addonName: string,
   options: AddonsGetOptionalParams = { requestOptions: {} },
 ): Promise<Addon> {
-  const result = await _getSend(context, resourceGroupName, privateCloudName, addonName, options);
+  const result = await _getSend(
+    context,
+    apiVersion,
+    resourceGroupName,
+    privateCloudName,
+    addonName,
+    options,
+  );
   return _getDeserialize(result);
 }
 
 export function _listSend(
   context: Client,
+  apiVersion: string,
   resourceGroupName: string,
   privateCloudName: string,
   options: AddonsListOptionalParams = { requestOptions: {} },
@@ -217,7 +239,7 @@ export function _listSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       privateCloudName: privateCloudName,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": apiVersion,
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -246,13 +268,14 @@ export async function _listDeserialize(result: PathUncheckedResponse): Promise<_
 /** List Addon resources by PrivateCloud */
 export function list(
   context: Client,
+  apiVersion: string,
   resourceGroupName: string,
   privateCloudName: string,
   options: AddonsListOptionalParams = { requestOptions: {} },
 ): PagedAsyncIterableIterator<Addon> {
   return buildPagedAsyncIterator(
     context,
-    () => _listSend(context, resourceGroupName, privateCloudName, options),
+    () => _listSend(context, apiVersion, resourceGroupName, privateCloudName, options),
     _listDeserialize,
     ["200"],
     { itemName: "value", nextLinkName: "nextLink" },

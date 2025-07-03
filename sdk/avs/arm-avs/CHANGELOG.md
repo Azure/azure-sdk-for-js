@@ -1,6 +1,7 @@
 # Release History
     
-## 7.0.0 (2025-06-05)
+## 7.0.0-beta.1 (2025-07-03)
+Compared with version 6.0.0
     
 ### Features Added
 
@@ -255,6 +256,7 @@
   - Interface AuthorizationsCreateOrUpdateOptionalParams no longer has parameter resumeFrom
   - Interface AuthorizationsDeleteOptionalParams no longer has parameter resumeFrom
   - Interface AzureVMwareSolutionAPIOptionalParams no longer has parameter $host
+  - Interface AzureVMwareSolutionAPIOptionalParams no longer has parameter apiVersion
   - Interface AzureVMwareSolutionAPIOptionalParams no longer has parameter endpoint
   - Interface CloudLink no longer has parameter linkedCloud
   - Interface CloudLink no longer has parameter provisioningState

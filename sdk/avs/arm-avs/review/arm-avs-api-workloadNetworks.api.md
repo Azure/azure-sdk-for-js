@@ -10,124 +10,124 @@ import { OperationState } from '@azure/core-lro';
 import { PollerLike } from '@azure/core-lro';
 
 // @public
-export function createDhcp(context: AzureVMwareSolutionAPIContext, resourceGroupName: string, privateCloudName: string, dhcpId: string, workloadNetworkDhcp: WorkloadNetworkDhcp, options?: WorkloadNetworksCreateDhcpOptionalParams): PollerLike<OperationState<WorkloadNetworkDhcp>, WorkloadNetworkDhcp>;
+export function createDhcp(context: AzureVMwareSolutionAPIContext, apiVersion: string, resourceGroupName: string, privateCloudName: string, dhcpId: string, workloadNetworkDhcp: WorkloadNetworkDhcp, options?: WorkloadNetworksCreateDhcpOptionalParams): PollerLike<OperationState<WorkloadNetworkDhcp>, WorkloadNetworkDhcp>;
 
 // @public
-export function createDnsService(context: AzureVMwareSolutionAPIContext, resourceGroupName: string, privateCloudName: string, dnsServiceId: string, workloadNetworkDnsService: WorkloadNetworkDnsService, options?: WorkloadNetworksCreateDnsServiceOptionalParams): PollerLike<OperationState<WorkloadNetworkDnsService>, WorkloadNetworkDnsService>;
+export function createDnsService(context: AzureVMwareSolutionAPIContext, apiVersion: string, resourceGroupName: string, privateCloudName: string, dnsServiceId: string, workloadNetworkDnsService: WorkloadNetworkDnsService, options?: WorkloadNetworksCreateDnsServiceOptionalParams): PollerLike<OperationState<WorkloadNetworkDnsService>, WorkloadNetworkDnsService>;
 
 // @public
-export function createDnsZone(context: AzureVMwareSolutionAPIContext, resourceGroupName: string, privateCloudName: string, dnsZoneId: string, workloadNetworkDnsZone: WorkloadNetworkDnsZone, options?: WorkloadNetworksCreateDnsZoneOptionalParams): PollerLike<OperationState<WorkloadNetworkDnsZone>, WorkloadNetworkDnsZone>;
+export function createDnsZone(context: AzureVMwareSolutionAPIContext, apiVersion: string, resourceGroupName: string, privateCloudName: string, dnsZoneId: string, workloadNetworkDnsZone: WorkloadNetworkDnsZone, options?: WorkloadNetworksCreateDnsZoneOptionalParams): PollerLike<OperationState<WorkloadNetworkDnsZone>, WorkloadNetworkDnsZone>;
 
 // @public
-export function createPortMirroring(context: AzureVMwareSolutionAPIContext, resourceGroupName: string, privateCloudName: string, portMirroringId: string, workloadNetworkPortMirroring: WorkloadNetworkPortMirroring, options?: WorkloadNetworksCreatePortMirroringOptionalParams): PollerLike<OperationState<WorkloadNetworkPortMirroring>, WorkloadNetworkPortMirroring>;
+export function createPortMirroring(context: AzureVMwareSolutionAPIContext, apiVersion: string, resourceGroupName: string, privateCloudName: string, portMirroringId: string, workloadNetworkPortMirroring: WorkloadNetworkPortMirroring, options?: WorkloadNetworksCreatePortMirroringOptionalParams): PollerLike<OperationState<WorkloadNetworkPortMirroring>, WorkloadNetworkPortMirroring>;
 
 // @public
-export function createPublicIP(context: AzureVMwareSolutionAPIContext, resourceGroupName: string, privateCloudName: string, publicIPId: string, workloadNetworkPublicIP: WorkloadNetworkPublicIP, options?: WorkloadNetworksCreatePublicIPOptionalParams): PollerLike<OperationState<WorkloadNetworkPublicIP>, WorkloadNetworkPublicIP>;
+export function createPublicIP(context: AzureVMwareSolutionAPIContext, apiVersion: string, resourceGroupName: string, privateCloudName: string, publicIPId: string, workloadNetworkPublicIP: WorkloadNetworkPublicIP, options?: WorkloadNetworksCreatePublicIPOptionalParams): PollerLike<OperationState<WorkloadNetworkPublicIP>, WorkloadNetworkPublicIP>;
 
 // @public
-export function createSegments(context: AzureVMwareSolutionAPIContext, resourceGroupName: string, privateCloudName: string, segmentId: string, workloadNetworkSegment: WorkloadNetworkSegment, options?: WorkloadNetworksCreateSegmentsOptionalParams): PollerLike<OperationState<WorkloadNetworkSegment>, WorkloadNetworkSegment>;
+export function createSegments(context: AzureVMwareSolutionAPIContext, apiVersion: string, resourceGroupName: string, privateCloudName: string, segmentId: string, workloadNetworkSegment: WorkloadNetworkSegment, options?: WorkloadNetworksCreateSegmentsOptionalParams): PollerLike<OperationState<WorkloadNetworkSegment>, WorkloadNetworkSegment>;
 
 // @public
-export function createVMGroup(context: AzureVMwareSolutionAPIContext, resourceGroupName: string, privateCloudName: string, vmGroupId: string, workloadNetworkVMGroup: WorkloadNetworkVMGroup, options?: WorkloadNetworksCreateVMGroupOptionalParams): PollerLike<OperationState<WorkloadNetworkVMGroup>, WorkloadNetworkVMGroup>;
+export function createVMGroup(context: AzureVMwareSolutionAPIContext, apiVersion: string, resourceGroupName: string, privateCloudName: string, vmGroupId: string, workloadNetworkVMGroup: WorkloadNetworkVMGroup, options?: WorkloadNetworksCreateVMGroupOptionalParams): PollerLike<OperationState<WorkloadNetworkVMGroup>, WorkloadNetworkVMGroup>;
 
 // @public
-export function deleteDhcp(context: AzureVMwareSolutionAPIContext, resourceGroupName: string, privateCloudName: string, dhcpId: string, options?: WorkloadNetworksDeleteDhcpOptionalParams): PollerLike<OperationState<void>, void>;
+export function deleteDhcp(context: AzureVMwareSolutionAPIContext, apiVersion: string, resourceGroupName: string, privateCloudName: string, dhcpId: string, options?: WorkloadNetworksDeleteDhcpOptionalParams): PollerLike<OperationState<void>, void>;
 
 // @public
-export function deleteDnsService(context: AzureVMwareSolutionAPIContext, resourceGroupName: string, dnsServiceId: string, privateCloudName: string, options?: WorkloadNetworksDeleteDnsServiceOptionalParams): PollerLike<OperationState<void>, void>;
+export function deleteDnsService(context: AzureVMwareSolutionAPIContext, apiVersion: string, resourceGroupName: string, dnsServiceId: string, privateCloudName: string, options?: WorkloadNetworksDeleteDnsServiceOptionalParams): PollerLike<OperationState<void>, void>;
 
 // @public
-export function deleteDnsZone(context: AzureVMwareSolutionAPIContext, resourceGroupName: string, dnsZoneId: string, privateCloudName: string, options?: WorkloadNetworksDeleteDnsZoneOptionalParams): PollerLike<OperationState<void>, void>;
+export function deleteDnsZone(context: AzureVMwareSolutionAPIContext, apiVersion: string, resourceGroupName: string, dnsZoneId: string, privateCloudName: string, options?: WorkloadNetworksDeleteDnsZoneOptionalParams): PollerLike<OperationState<void>, void>;
 
 // @public
-export function deletePortMirroring(context: AzureVMwareSolutionAPIContext, resourceGroupName: string, portMirroringId: string, privateCloudName: string, options?: WorkloadNetworksDeletePortMirroringOptionalParams): PollerLike<OperationState<void>, void>;
+export function deletePortMirroring(context: AzureVMwareSolutionAPIContext, apiVersion: string, resourceGroupName: string, portMirroringId: string, privateCloudName: string, options?: WorkloadNetworksDeletePortMirroringOptionalParams): PollerLike<OperationState<void>, void>;
 
 // @public
-export function deletePublicIP(context: AzureVMwareSolutionAPIContext, resourceGroupName: string, publicIPId: string, privateCloudName: string, options?: WorkloadNetworksDeletePublicIPOptionalParams): PollerLike<OperationState<void>, void>;
+export function deletePublicIP(context: AzureVMwareSolutionAPIContext, apiVersion: string, resourceGroupName: string, publicIPId: string, privateCloudName: string, options?: WorkloadNetworksDeletePublicIPOptionalParams): PollerLike<OperationState<void>, void>;
 
 // @public
-export function deleteSegment(context: AzureVMwareSolutionAPIContext, resourceGroupName: string, privateCloudName: string, segmentId: string, options?: WorkloadNetworksDeleteSegmentOptionalParams): PollerLike<OperationState<void>, void>;
+export function deleteSegment(context: AzureVMwareSolutionAPIContext, apiVersion: string, resourceGroupName: string, privateCloudName: string, segmentId: string, options?: WorkloadNetworksDeleteSegmentOptionalParams): PollerLike<OperationState<void>, void>;
 
 // @public
-export function deleteVMGroup(context: AzureVMwareSolutionAPIContext, resourceGroupName: string, vmGroupId: string, privateCloudName: string, options?: WorkloadNetworksDeleteVMGroupOptionalParams): PollerLike<OperationState<void>, void>;
+export function deleteVMGroup(context: AzureVMwareSolutionAPIContext, apiVersion: string, resourceGroupName: string, vmGroupId: string, privateCloudName: string, options?: WorkloadNetworksDeleteVMGroupOptionalParams): PollerLike<OperationState<void>, void>;
 
 // @public
-export function get(context: AzureVMwareSolutionAPIContext, resourceGroupName: string, privateCloudName: string, options?: WorkloadNetworksGetOptionalParams): Promise<WorkloadNetwork>;
+export function get(context: AzureVMwareSolutionAPIContext, apiVersion: string, resourceGroupName: string, privateCloudName: string, options?: WorkloadNetworksGetOptionalParams): Promise<WorkloadNetwork>;
 
 // @public
-export function getDhcp(context: AzureVMwareSolutionAPIContext, resourceGroupName: string, dhcpId: string, privateCloudName: string, options?: WorkloadNetworksGetDhcpOptionalParams): Promise<WorkloadNetworkDhcp>;
+export function getDhcp(context: AzureVMwareSolutionAPIContext, apiVersion: string, resourceGroupName: string, dhcpId: string, privateCloudName: string, options?: WorkloadNetworksGetDhcpOptionalParams): Promise<WorkloadNetworkDhcp>;
 
 // @public
-export function getDnsService(context: AzureVMwareSolutionAPIContext, resourceGroupName: string, privateCloudName: string, dnsServiceId: string, options?: WorkloadNetworksGetDnsServiceOptionalParams): Promise<WorkloadNetworkDnsService>;
+export function getDnsService(context: AzureVMwareSolutionAPIContext, apiVersion: string, resourceGroupName: string, privateCloudName: string, dnsServiceId: string, options?: WorkloadNetworksGetDnsServiceOptionalParams): Promise<WorkloadNetworkDnsService>;
 
 // @public
-export function getDnsZone(context: AzureVMwareSolutionAPIContext, resourceGroupName: string, privateCloudName: string, dnsZoneId: string, options?: WorkloadNetworksGetDnsZoneOptionalParams): Promise<WorkloadNetworkDnsZone>;
+export function getDnsZone(context: AzureVMwareSolutionAPIContext, apiVersion: string, resourceGroupName: string, privateCloudName: string, dnsZoneId: string, options?: WorkloadNetworksGetDnsZoneOptionalParams): Promise<WorkloadNetworkDnsZone>;
 
 // @public
-export function getGateway(context: AzureVMwareSolutionAPIContext, resourceGroupName: string, privateCloudName: string, gatewayId: string, options?: WorkloadNetworksGetGatewayOptionalParams): Promise<WorkloadNetworkGateway>;
+export function getGateway(context: AzureVMwareSolutionAPIContext, apiVersion: string, resourceGroupName: string, privateCloudName: string, gatewayId: string, options?: WorkloadNetworksGetGatewayOptionalParams): Promise<WorkloadNetworkGateway>;
 
 // @public
-export function getPortMirroring(context: AzureVMwareSolutionAPIContext, resourceGroupName: string, privateCloudName: string, portMirroringId: string, options?: WorkloadNetworksGetPortMirroringOptionalParams): Promise<WorkloadNetworkPortMirroring>;
+export function getPortMirroring(context: AzureVMwareSolutionAPIContext, apiVersion: string, resourceGroupName: string, privateCloudName: string, portMirroringId: string, options?: WorkloadNetworksGetPortMirroringOptionalParams): Promise<WorkloadNetworkPortMirroring>;
 
 // @public
-export function getPublicIP(context: AzureVMwareSolutionAPIContext, resourceGroupName: string, privateCloudName: string, publicIPId: string, options?: WorkloadNetworksGetPublicIPOptionalParams): Promise<WorkloadNetworkPublicIP>;
+export function getPublicIP(context: AzureVMwareSolutionAPIContext, apiVersion: string, resourceGroupName: string, privateCloudName: string, publicIPId: string, options?: WorkloadNetworksGetPublicIPOptionalParams): Promise<WorkloadNetworkPublicIP>;
 
 // @public
-export function getSegment(context: AzureVMwareSolutionAPIContext, resourceGroupName: string, privateCloudName: string, segmentId: string, options?: WorkloadNetworksGetSegmentOptionalParams): Promise<WorkloadNetworkSegment>;
+export function getSegment(context: AzureVMwareSolutionAPIContext, apiVersion: string, resourceGroupName: string, privateCloudName: string, segmentId: string, options?: WorkloadNetworksGetSegmentOptionalParams): Promise<WorkloadNetworkSegment>;
 
 // @public
-export function getVirtualMachine(context: AzureVMwareSolutionAPIContext, resourceGroupName: string, privateCloudName: string, virtualMachineId: string, options?: WorkloadNetworksGetVirtualMachineOptionalParams): Promise<WorkloadNetworkVirtualMachine>;
+export function getVirtualMachine(context: AzureVMwareSolutionAPIContext, apiVersion: string, resourceGroupName: string, privateCloudName: string, virtualMachineId: string, options?: WorkloadNetworksGetVirtualMachineOptionalParams): Promise<WorkloadNetworkVirtualMachine>;
 
 // @public
-export function getVMGroup(context: AzureVMwareSolutionAPIContext, resourceGroupName: string, privateCloudName: string, vmGroupId: string, options?: WorkloadNetworksGetVMGroupOptionalParams): Promise<WorkloadNetworkVMGroup>;
+export function getVMGroup(context: AzureVMwareSolutionAPIContext, apiVersion: string, resourceGroupName: string, privateCloudName: string, vmGroupId: string, options?: WorkloadNetworksGetVMGroupOptionalParams): Promise<WorkloadNetworkVMGroup>;
 
 // @public
-export function list(context: AzureVMwareSolutionAPIContext, resourceGroupName: string, privateCloudName: string, options?: WorkloadNetworksListOptionalParams): PagedAsyncIterableIterator<WorkloadNetwork>;
+export function list(context: AzureVMwareSolutionAPIContext, apiVersion: string, resourceGroupName: string, privateCloudName: string, options?: WorkloadNetworksListOptionalParams): PagedAsyncIterableIterator<WorkloadNetwork>;
 
 // @public
-export function listDhcp(context: AzureVMwareSolutionAPIContext, resourceGroupName: string, privateCloudName: string, options?: WorkloadNetworksListDhcpOptionalParams): PagedAsyncIterableIterator<WorkloadNetworkDhcp>;
+export function listDhcp(context: AzureVMwareSolutionAPIContext, apiVersion: string, resourceGroupName: string, privateCloudName: string, options?: WorkloadNetworksListDhcpOptionalParams): PagedAsyncIterableIterator<WorkloadNetworkDhcp>;
 
 // @public
-export function listDnsServices(context: AzureVMwareSolutionAPIContext, resourceGroupName: string, privateCloudName: string, options?: WorkloadNetworksListDnsServicesOptionalParams): PagedAsyncIterableIterator<WorkloadNetworkDnsService>;
+export function listDnsServices(context: AzureVMwareSolutionAPIContext, apiVersion: string, resourceGroupName: string, privateCloudName: string, options?: WorkloadNetworksListDnsServicesOptionalParams): PagedAsyncIterableIterator<WorkloadNetworkDnsService>;
 
 // @public
-export function listDnsZones(context: AzureVMwareSolutionAPIContext, resourceGroupName: string, privateCloudName: string, options?: WorkloadNetworksListDnsZonesOptionalParams): PagedAsyncIterableIterator<WorkloadNetworkDnsZone>;
+export function listDnsZones(context: AzureVMwareSolutionAPIContext, apiVersion: string, resourceGroupName: string, privateCloudName: string, options?: WorkloadNetworksListDnsZonesOptionalParams): PagedAsyncIterableIterator<WorkloadNetworkDnsZone>;
 
 // @public
-export function listGateways(context: AzureVMwareSolutionAPIContext, resourceGroupName: string, privateCloudName: string, options?: WorkloadNetworksListGatewaysOptionalParams): PagedAsyncIterableIterator<WorkloadNetworkGateway>;
+export function listGateways(context: AzureVMwareSolutionAPIContext, apiVersion: string, resourceGroupName: string, privateCloudName: string, options?: WorkloadNetworksListGatewaysOptionalParams): PagedAsyncIterableIterator<WorkloadNetworkGateway>;
 
 // @public
-export function listPortMirroring(context: AzureVMwareSolutionAPIContext, resourceGroupName: string, privateCloudName: string, options?: WorkloadNetworksListPortMirroringOptionalParams): PagedAsyncIterableIterator<WorkloadNetworkPortMirroring>;
+export function listPortMirroring(context: AzureVMwareSolutionAPIContext, apiVersion: string, resourceGroupName: string, privateCloudName: string, options?: WorkloadNetworksListPortMirroringOptionalParams): PagedAsyncIterableIterator<WorkloadNetworkPortMirroring>;
 
 // @public
-export function listPublicIPs(context: AzureVMwareSolutionAPIContext, resourceGroupName: string, privateCloudName: string, options?: WorkloadNetworksListPublicIPsOptionalParams): PagedAsyncIterableIterator<WorkloadNetworkPublicIP>;
+export function listPublicIPs(context: AzureVMwareSolutionAPIContext, apiVersion: string, resourceGroupName: string, privateCloudName: string, options?: WorkloadNetworksListPublicIPsOptionalParams): PagedAsyncIterableIterator<WorkloadNetworkPublicIP>;
 
 // @public
-export function listSegments(context: AzureVMwareSolutionAPIContext, resourceGroupName: string, privateCloudName: string, options?: WorkloadNetworksListSegmentsOptionalParams): PagedAsyncIterableIterator<WorkloadNetworkSegment>;
+export function listSegments(context: AzureVMwareSolutionAPIContext, apiVersion: string, resourceGroupName: string, privateCloudName: string, options?: WorkloadNetworksListSegmentsOptionalParams): PagedAsyncIterableIterator<WorkloadNetworkSegment>;
 
 // @public
-export function listVirtualMachines(context: AzureVMwareSolutionAPIContext, resourceGroupName: string, privateCloudName: string, options?: WorkloadNetworksListVirtualMachinesOptionalParams): PagedAsyncIterableIterator<WorkloadNetworkVirtualMachine>;
+export function listVirtualMachines(context: AzureVMwareSolutionAPIContext, apiVersion: string, resourceGroupName: string, privateCloudName: string, options?: WorkloadNetworksListVirtualMachinesOptionalParams): PagedAsyncIterableIterator<WorkloadNetworkVirtualMachine>;
 
 // @public
-export function listVMGroups(context: AzureVMwareSolutionAPIContext, resourceGroupName: string, privateCloudName: string, options?: WorkloadNetworksListVMGroupsOptionalParams): PagedAsyncIterableIterator<WorkloadNetworkVMGroup>;
+export function listVMGroups(context: AzureVMwareSolutionAPIContext, apiVersion: string, resourceGroupName: string, privateCloudName: string, options?: WorkloadNetworksListVMGroupsOptionalParams): PagedAsyncIterableIterator<WorkloadNetworkVMGroup>;
 
 // @public
-export function updateDhcp(context: AzureVMwareSolutionAPIContext, resourceGroupName: string, privateCloudName: string, dhcpId: string, workloadNetworkDhcp: WorkloadNetworkDhcp, options?: WorkloadNetworksUpdateDhcpOptionalParams): PollerLike<OperationState<WorkloadNetworkDhcp>, WorkloadNetworkDhcp>;
+export function updateDhcp(context: AzureVMwareSolutionAPIContext, apiVersion: string, resourceGroupName: string, privateCloudName: string, dhcpId: string, workloadNetworkDhcp: WorkloadNetworkDhcp, options?: WorkloadNetworksUpdateDhcpOptionalParams): PollerLike<OperationState<WorkloadNetworkDhcp>, WorkloadNetworkDhcp>;
 
 // @public
-export function updateDnsService(context: AzureVMwareSolutionAPIContext, resourceGroupName: string, privateCloudName: string, dnsServiceId: string, workloadNetworkDnsService: WorkloadNetworkDnsService, options?: WorkloadNetworksUpdateDnsServiceOptionalParams): PollerLike<OperationState<WorkloadNetworkDnsService>, WorkloadNetworkDnsService>;
+export function updateDnsService(context: AzureVMwareSolutionAPIContext, apiVersion: string, resourceGroupName: string, privateCloudName: string, dnsServiceId: string, workloadNetworkDnsService: WorkloadNetworkDnsService, options?: WorkloadNetworksUpdateDnsServiceOptionalParams): PollerLike<OperationState<WorkloadNetworkDnsService>, WorkloadNetworkDnsService>;
 
 // @public
-export function updateDnsZone(context: AzureVMwareSolutionAPIContext, resourceGroupName: string, privateCloudName: string, dnsZoneId: string, workloadNetworkDnsZone: WorkloadNetworkDnsZone, options?: WorkloadNetworksUpdateDnsZoneOptionalParams): PollerLike<OperationState<WorkloadNetworkDnsZone>, WorkloadNetworkDnsZone>;
+export function updateDnsZone(context: AzureVMwareSolutionAPIContext, apiVersion: string, resourceGroupName: string, privateCloudName: string, dnsZoneId: string, workloadNetworkDnsZone: WorkloadNetworkDnsZone, options?: WorkloadNetworksUpdateDnsZoneOptionalParams): PollerLike<OperationState<WorkloadNetworkDnsZone>, WorkloadNetworkDnsZone>;
 
 // @public
-export function updatePortMirroring(context: AzureVMwareSolutionAPIContext, resourceGroupName: string, privateCloudName: string, portMirroringId: string, workloadNetworkPortMirroring: WorkloadNetworkPortMirroring, options?: WorkloadNetworksUpdatePortMirroringOptionalParams): PollerLike<OperationState<WorkloadNetworkPortMirroring>, WorkloadNetworkPortMirroring>;
+export function updatePortMirroring(context: AzureVMwareSolutionAPIContext, apiVersion: string, resourceGroupName: string, privateCloudName: string, portMirroringId: string, workloadNetworkPortMirroring: WorkloadNetworkPortMirroring, options?: WorkloadNetworksUpdatePortMirroringOptionalParams): PollerLike<OperationState<WorkloadNetworkPortMirroring>, WorkloadNetworkPortMirroring>;
 
 // @public
-export function updateSegments(context: AzureVMwareSolutionAPIContext, resourceGroupName: string, privateCloudName: string, segmentId: string, workloadNetworkSegment: WorkloadNetworkSegment, options?: WorkloadNetworksUpdateSegmentsOptionalParams): PollerLike<OperationState<WorkloadNetworkSegment>, WorkloadNetworkSegment>;
+export function updateSegments(context: AzureVMwareSolutionAPIContext, apiVersion: string, resourceGroupName: string, privateCloudName: string, segmentId: string, workloadNetworkSegment: WorkloadNetworkSegment, options?: WorkloadNetworksUpdateSegmentsOptionalParams): PollerLike<OperationState<WorkloadNetworkSegment>, WorkloadNetworkSegment>;
 
 // @public
-export function updateVMGroup(context: AzureVMwareSolutionAPIContext, resourceGroupName: string, privateCloudName: string, vmGroupId: string, workloadNetworkVMGroup: WorkloadNetworkVMGroup, options?: WorkloadNetworksUpdateVMGroupOptionalParams): PollerLike<OperationState<WorkloadNetworkVMGroup>, WorkloadNetworkVMGroup>;
+export function updateVMGroup(context: AzureVMwareSolutionAPIContext, apiVersion: string, resourceGroupName: string, privateCloudName: string, vmGroupId: string, workloadNetworkVMGroup: WorkloadNetworkVMGroup, options?: WorkloadNetworksUpdateVMGroupOptionalParams): PollerLike<OperationState<WorkloadNetworkVMGroup>, WorkloadNetworkVMGroup>;
 
 // @public
 export interface WorkloadNetworksCreateDhcpOptionalParams extends OperationOptions {

@@ -22,6 +22,7 @@ export interface AuthorizationsOperations {
    *         to the operation to override the generated name.
    */
   delete: (
+    apiVersion: string,
     resourceGroupName: string,
     privateCloudName: string,
     authorizationName: string,
@@ -29,6 +30,7 @@ export interface AuthorizationsOperations {
   ) => PollerLike<OperationState<void>, void>;
   /** Create a ExpressRouteAuthorization */
   createOrUpdate: (
+    apiVersion: string,
     resourceGroupName: string,
     privateCloudName: string,
     authorizationName: string,
@@ -37,6 +39,7 @@ export interface AuthorizationsOperations {
   ) => PollerLike<OperationState<ExpressRouteAuthorization>, ExpressRouteAuthorization>;
   /** Get a ExpressRouteAuthorization */
   get: (
+    apiVersion: string,
     resourceGroupName: string,
     privateCloudName: string,
     authorizationName: string,
@@ -44,6 +47,7 @@ export interface AuthorizationsOperations {
   ) => Promise<ExpressRouteAuthorization>;
   /** List ExpressRouteAuthorization resources by PrivateCloud */
   list: (
+    apiVersion: string,
     resourceGroupName: string,
     privateCloudName: string,
     options?: AuthorizationsListOptionalParams,
@@ -53,12 +57,15 @@ export interface AuthorizationsOperations {
 function _getAuthorizations(context: AzureVMwareSolutionAPIContext) {
   return {
     delete: (
+      apiVersion: string,
       resourceGroupName: string,
       privateCloudName: string,
       authorizationName: string,
       options?: AuthorizationsDeleteOptionalParams,
-    ) => $delete(context, resourceGroupName, privateCloudName, authorizationName, options),
+    ) =>
+      $delete(context, apiVersion, resourceGroupName, privateCloudName, authorizationName, options),
     createOrUpdate: (
+      apiVersion: string,
       resourceGroupName: string,
       privateCloudName: string,
       authorizationName: string,
@@ -67,6 +74,7 @@ function _getAuthorizations(context: AzureVMwareSolutionAPIContext) {
     ) =>
       createOrUpdate(
         context,
+        apiVersion,
         resourceGroupName,
         privateCloudName,
         authorizationName,
@@ -74,16 +82,18 @@ function _getAuthorizations(context: AzureVMwareSolutionAPIContext) {
         options,
       ),
     get: (
+      apiVersion: string,
       resourceGroupName: string,
       privateCloudName: string,
       authorizationName: string,
       options?: AuthorizationsGetOptionalParams,
-    ) => get(context, resourceGroupName, privateCloudName, authorizationName, options),
+    ) => get(context, apiVersion, resourceGroupName, privateCloudName, authorizationName, options),
     list: (
+      apiVersion: string,
       resourceGroupName: string,
       privateCloudName: string,
       options?: AuthorizationsListOptionalParams,
-    ) => list(context, resourceGroupName, privateCloudName, options),
+    ) => list(context, apiVersion, resourceGroupName, privateCloudName, options),
   };
 }
 

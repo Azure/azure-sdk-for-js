@@ -11,6 +11,7 @@ import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.j
 export interface HostsOperations {
   /** Get a Host */
   get: (
+    apiVersion: string,
     resourceGroupName: string,
     privateCloudName: string,
     clusterName: string,
@@ -19,6 +20,7 @@ export interface HostsOperations {
   ) => Promise<Host>;
   /** List Host resources by Cluster */
   list: (
+    apiVersion: string,
     resourceGroupName: string,
     privateCloudName: string,
     clusterName: string,
@@ -29,18 +31,21 @@ export interface HostsOperations {
 function _getHosts(context: AzureVMwareSolutionAPIContext) {
   return {
     get: (
+      apiVersion: string,
       resourceGroupName: string,
       privateCloudName: string,
       clusterName: string,
       hostId: string,
       options?: HostsGetOptionalParams,
-    ) => get(context, resourceGroupName, privateCloudName, clusterName, hostId, options),
+    ) =>
+      get(context, apiVersion, resourceGroupName, privateCloudName, clusterName, hostId, options),
     list: (
+      apiVersion: string,
       resourceGroupName: string,
       privateCloudName: string,
       clusterName: string,
       options?: HostsListOptionalParams,
-    ) => list(context, resourceGroupName, privateCloudName, clusterName, options),
+    ) => list(context, apiVersion, resourceGroupName, privateCloudName, clusterName, options),
   };
 }
 

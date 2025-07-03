@@ -32,6 +32,7 @@ import { PollerLike, OperationState } from "@azure/core-lro";
 
 export function _restrictMovementSend(
   context: Client,
+  apiVersion: string,
   resourceGroupName: string,
   privateCloudName: string,
   clusterName: string,
@@ -49,7 +50,7 @@ export function _restrictMovementSend(
       privateCloudName: privateCloudName,
       clusterName: clusterName,
       virtualMachineId: virtualMachineId,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": apiVersion,
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -80,6 +81,7 @@ export async function _restrictMovementDeserialize(result: PathUncheckedResponse
 /** Enable or disable DRS-driven VM movement restriction */
 export function restrictMovement(
   context: Client,
+  apiVersion: string,
   resourceGroupName: string,
   privateCloudName: string,
   clusterName: string,
@@ -95,6 +97,7 @@ export function restrictMovement(
     getInitialResponse: () =>
       _restrictMovementSend(
         context,
+        apiVersion,
         resourceGroupName,
         privateCloudName,
         clusterName,
@@ -108,6 +111,7 @@ export function restrictMovement(
 
 export function _getSend(
   context: Client,
+  apiVersion: string,
   resourceGroupName: string,
   privateCloudName: string,
   clusterName: string,
@@ -122,7 +126,7 @@ export function _getSend(
       privateCloudName: privateCloudName,
       clusterName: clusterName,
       virtualMachineId: virtualMachineId,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": apiVersion,
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -151,6 +155,7 @@ export async function _getDeserialize(result: PathUncheckedResponse): Promise<Vi
 /** Get a VirtualMachine */
 export async function get(
   context: Client,
+  apiVersion: string,
   resourceGroupName: string,
   privateCloudName: string,
   clusterName: string,
@@ -159,6 +164,7 @@ export async function get(
 ): Promise<VirtualMachine> {
   const result = await _getSend(
     context,
+    apiVersion,
     resourceGroupName,
     privateCloudName,
     clusterName,
@@ -170,6 +176,7 @@ export async function get(
 
 export function _listSend(
   context: Client,
+  apiVersion: string,
   resourceGroupName: string,
   privateCloudName: string,
   clusterName: string,
@@ -182,7 +189,7 @@ export function _listSend(
       resourceGroupName: resourceGroupName,
       privateCloudName: privateCloudName,
       clusterName: clusterName,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": apiVersion,
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -213,6 +220,7 @@ export async function _listDeserialize(
 /** List VirtualMachine resources by Cluster */
 export function list(
   context: Client,
+  apiVersion: string,
   resourceGroupName: string,
   privateCloudName: string,
   clusterName: string,
@@ -220,7 +228,7 @@ export function list(
 ): PagedAsyncIterableIterator<VirtualMachine> {
   return buildPagedAsyncIterator(
     context,
-    () => _listSend(context, resourceGroupName, privateCloudName, clusterName, options),
+    () => _listSend(context, apiVersion, resourceGroupName, privateCloudName, clusterName, options),
     _listDeserialize,
     ["200"],
     { itemName: "value", nextLinkName: "nextLink" },

@@ -8,10 +8,10 @@ import { Client } from '@azure-rest/core-client';
 import { OperationOptions } from '@azure-rest/core-client';
 
 // @public
-export function get(context: AzureVMwareSolutionAPIContext, resourceGroupName: string, privateCloudName: string, scriptPackageName: string, options?: ScriptPackagesGetOptionalParams): Promise<ScriptPackage>;
+export function get(context: AzureVMwareSolutionAPIContext, apiVersion: string, resourceGroupName: string, privateCloudName: string, scriptPackageName: string, options?: ScriptPackagesGetOptionalParams): Promise<ScriptPackage>;
 
 // @public
-export function list(context: AzureVMwareSolutionAPIContext, resourceGroupName: string, privateCloudName: string, options?: ScriptPackagesListOptionalParams): PagedAsyncIterableIterator<ScriptPackage>;
+export function list(context: AzureVMwareSolutionAPIContext, apiVersion: string, resourceGroupName: string, privateCloudName: string, options?: ScriptPackagesListOptionalParams): PagedAsyncIterableIterator<ScriptPackage>;
 
 // @public
 export interface ScriptPackagesGetOptionalParams extends OperationOptions {

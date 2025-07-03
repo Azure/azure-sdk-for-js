@@ -41,6 +41,7 @@ import { PollerLike, OperationState } from "@azure/core-lro";
 
 export function _listAdminCredentialsSend(
   context: Client,
+  apiVersion: string,
   resourceGroupName: string,
   privateCloudName: string,
   options: PrivateCloudsListAdminCredentialsOptionalParams = {
@@ -53,7 +54,7 @@ export function _listAdminCredentialsSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       privateCloudName: privateCloudName,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": apiVersion,
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -84,6 +85,7 @@ export async function _listAdminCredentialsDeserialize(
 /** List the admin credentials for the private cloud */
 export async function listAdminCredentials(
   context: Client,
+  apiVersion: string,
   resourceGroupName: string,
   privateCloudName: string,
   options: PrivateCloudsListAdminCredentialsOptionalParams = {
@@ -92,6 +94,7 @@ export async function listAdminCredentials(
 ): Promise<AdminCredentials> {
   const result = await _listAdminCredentialsSend(
     context,
+    apiVersion,
     resourceGroupName,
     privateCloudName,
     options,
@@ -101,6 +104,7 @@ export async function listAdminCredentials(
 
 export function _rotateNsxtPasswordSend(
   context: Client,
+  apiVersion: string,
   resourceGroupName: string,
   privateCloudName: string,
   options: PrivateCloudsRotateNsxtPasswordOptionalParams = {
@@ -113,7 +117,7 @@ export function _rotateNsxtPasswordSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       privateCloudName: privateCloudName,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": apiVersion,
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -142,6 +146,7 @@ export async function _rotateNsxtPasswordDeserialize(result: PathUncheckedRespon
 /** Rotate the NSX-T Manager password */
 export function rotateNsxtPassword(
   context: Client,
+  apiVersion: string,
   resourceGroupName: string,
   privateCloudName: string,
   options: PrivateCloudsRotateNsxtPasswordOptionalParams = {
@@ -152,13 +157,14 @@ export function rotateNsxtPassword(
     updateIntervalInMs: options?.updateIntervalInMs,
     abortSignal: options?.abortSignal,
     getInitialResponse: () =>
-      _rotateNsxtPasswordSend(context, resourceGroupName, privateCloudName, options),
+      _rotateNsxtPasswordSend(context, apiVersion, resourceGroupName, privateCloudName, options),
     resourceLocationConfig: "location",
   }) as PollerLike<OperationState<void>, void>;
 }
 
 export function _rotateVcenterPasswordSend(
   context: Client,
+  apiVersion: string,
   resourceGroupName: string,
   privateCloudName: string,
   options: PrivateCloudsRotateVcenterPasswordOptionalParams = {
@@ -171,7 +177,7 @@ export function _rotateVcenterPasswordSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       privateCloudName: privateCloudName,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": apiVersion,
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -202,6 +208,7 @@ export async function _rotateVcenterPasswordDeserialize(
 /** Rotate the vCenter password */
 export function rotateVcenterPassword(
   context: Client,
+  apiVersion: string,
   resourceGroupName: string,
   privateCloudName: string,
   options: PrivateCloudsRotateVcenterPasswordOptionalParams = {
@@ -212,13 +219,14 @@ export function rotateVcenterPassword(
     updateIntervalInMs: options?.updateIntervalInMs,
     abortSignal: options?.abortSignal,
     getInitialResponse: () =>
-      _rotateVcenterPasswordSend(context, resourceGroupName, privateCloudName, options),
+      _rotateVcenterPasswordSend(context, apiVersion, resourceGroupName, privateCloudName, options),
     resourceLocationConfig: "location",
   }) as PollerLike<OperationState<void>, void>;
 }
 
 export function _$deleteSend(
   context: Client,
+  apiVersion: string,
   resourceGroupName: string,
   privateCloudName: string,
   options: PrivateCloudsDeleteOptionalParams = { requestOptions: {} },
@@ -229,7 +237,7 @@ export function _$deleteSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       privateCloudName: privateCloudName,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": apiVersion,
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -263,6 +271,7 @@ export async function _$deleteDeserialize(result: PathUncheckedResponse): Promis
  */
 export function $delete(
   context: Client,
+  apiVersion: string,
   resourceGroupName: string,
   privateCloudName: string,
   options: PrivateCloudsDeleteOptionalParams = { requestOptions: {} },
@@ -270,13 +279,15 @@ export function $delete(
   return getLongRunningPoller(context, _$deleteDeserialize, ["200", "202", "204"], {
     updateIntervalInMs: options?.updateIntervalInMs,
     abortSignal: options?.abortSignal,
-    getInitialResponse: () => _$deleteSend(context, resourceGroupName, privateCloudName, options),
+    getInitialResponse: () =>
+      _$deleteSend(context, apiVersion, resourceGroupName, privateCloudName, options),
     resourceLocationConfig: "location",
   }) as PollerLike<OperationState<void>, void>;
 }
 
 export function _updateSend(
   context: Client,
+  apiVersion: string,
   resourceGroupName: string,
   privateCloudName: string,
   privateCloudUpdate: PrivateCloudUpdate,
@@ -288,7 +299,7 @@ export function _updateSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       privateCloudName: privateCloudName,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": apiVersion,
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -319,6 +330,7 @@ export async function _updateDeserialize(result: PathUncheckedResponse): Promise
 /** Update a PrivateCloud */
 export function update(
   context: Client,
+  apiVersion: string,
   resourceGroupName: string,
   privateCloudName: string,
   privateCloudUpdate: PrivateCloudUpdate,
@@ -328,13 +340,21 @@ export function update(
     updateIntervalInMs: options?.updateIntervalInMs,
     abortSignal: options?.abortSignal,
     getInitialResponse: () =>
-      _updateSend(context, resourceGroupName, privateCloudName, privateCloudUpdate, options),
+      _updateSend(
+        context,
+        apiVersion,
+        resourceGroupName,
+        privateCloudName,
+        privateCloudUpdate,
+        options,
+      ),
     resourceLocationConfig: "location",
   }) as PollerLike<OperationState<PrivateCloud>, PrivateCloud>;
 }
 
 export function _createOrUpdateSend(
   context: Client,
+  apiVersion: string,
   resourceGroupName: string,
   privateCloudName: string,
   privateCloud: PrivateCloud,
@@ -346,7 +366,7 @@ export function _createOrUpdateSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       privateCloudName: privateCloudName,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": apiVersion,
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -379,6 +399,7 @@ export async function _createOrUpdateDeserialize(
 /** Create a PrivateCloud */
 export function createOrUpdate(
   context: Client,
+  apiVersion: string,
   resourceGroupName: string,
   privateCloudName: string,
   privateCloud: PrivateCloud,
@@ -388,13 +409,21 @@ export function createOrUpdate(
     updateIntervalInMs: options?.updateIntervalInMs,
     abortSignal: options?.abortSignal,
     getInitialResponse: () =>
-      _createOrUpdateSend(context, resourceGroupName, privateCloudName, privateCloud, options),
+      _createOrUpdateSend(
+        context,
+        apiVersion,
+        resourceGroupName,
+        privateCloudName,
+        privateCloud,
+        options,
+      ),
     resourceLocationConfig: "azure-async-operation",
   }) as PollerLike<OperationState<PrivateCloud>, PrivateCloud>;
 }
 
 export function _getSend(
   context: Client,
+  apiVersion: string,
   resourceGroupName: string,
   privateCloudName: string,
   options: PrivateCloudsGetOptionalParams = { requestOptions: {} },
@@ -405,7 +434,7 @@ export function _getSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       privateCloudName: privateCloudName,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": apiVersion,
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -434,16 +463,18 @@ export async function _getDeserialize(result: PathUncheckedResponse): Promise<Pr
 /** Get a PrivateCloud */
 export async function get(
   context: Client,
+  apiVersion: string,
   resourceGroupName: string,
   privateCloudName: string,
   options: PrivateCloudsGetOptionalParams = { requestOptions: {} },
 ): Promise<PrivateCloud> {
-  const result = await _getSend(context, resourceGroupName, privateCloudName, options);
+  const result = await _getSend(context, apiVersion, resourceGroupName, privateCloudName, options);
   return _getDeserialize(result);
 }
 
 export function _listInSubscriptionSend(
   context: Client,
+  apiVersion: string,
   options: PrivateCloudsListInSubscriptionOptionalParams = {
     requestOptions: {},
   },
@@ -452,7 +483,7 @@ export function _listInSubscriptionSend(
     "/subscriptions/{subscriptionId}/providers/Microsoft.AVS/privateClouds{?api%2Dversion}",
     {
       subscriptionId: context.subscriptionId,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": apiVersion,
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -483,13 +514,14 @@ export async function _listInSubscriptionDeserialize(
 /** List PrivateCloud resources by subscription ID */
 export function listInSubscription(
   context: Client,
+  apiVersion: string,
   options: PrivateCloudsListInSubscriptionOptionalParams = {
     requestOptions: {},
   },
 ): PagedAsyncIterableIterator<PrivateCloud> {
   return buildPagedAsyncIterator(
     context,
-    () => _listInSubscriptionSend(context, options),
+    () => _listInSubscriptionSend(context, apiVersion, options),
     _listInSubscriptionDeserialize,
     ["200"],
     { itemName: "value", nextLinkName: "nextLink" },
@@ -498,6 +530,7 @@ export function listInSubscription(
 
 export function _listSend(
   context: Client,
+  apiVersion: string,
   resourceGroupName: string,
   options: PrivateCloudsListOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
@@ -506,7 +539,7 @@ export function _listSend(
     {
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": apiVersion,
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -535,12 +568,13 @@ export async function _listDeserialize(result: PathUncheckedResponse): Promise<_
 /** List PrivateCloud resources by resource group */
 export function list(
   context: Client,
+  apiVersion: string,
   resourceGroupName: string,
   options: PrivateCloudsListOptionalParams = { requestOptions: {} },
 ): PagedAsyncIterableIterator<PrivateCloud> {
   return buildPagedAsyncIterator(
     context,
-    () => _listSend(context, resourceGroupName, options),
+    () => _listSend(context, apiVersion, resourceGroupName, options),
     _listDeserialize,
     ["200"],
     { itemName: "value", nextLinkName: "nextLink" },

@@ -24,6 +24,7 @@ import { PollerLike, OperationState } from "@azure/core-lro";
 export interface ScriptExecutionsOperations {
   /** Return the logs for a script execution resource */
   getExecutionLogs: (
+    apiVersion: string,
     resourceGroupName: string,
     privateCloudName: string,
     scriptExecutionName: string,
@@ -36,6 +37,7 @@ export interface ScriptExecutionsOperations {
    *         to the operation to override the generated name.
    */
   delete: (
+    apiVersion: string,
     resourceGroupName: string,
     privateCloudName: string,
     scriptExecutionName: string,
@@ -43,6 +45,7 @@ export interface ScriptExecutionsOperations {
   ) => PollerLike<OperationState<void>, void>;
   /** Create a ScriptExecution */
   createOrUpdate: (
+    apiVersion: string,
     resourceGroupName: string,
     privateCloudName: string,
     scriptExecutionName: string,
@@ -51,6 +54,7 @@ export interface ScriptExecutionsOperations {
   ) => PollerLike<OperationState<ScriptExecution>, ScriptExecution>;
   /** Get a ScriptExecution */
   get: (
+    apiVersion: string,
     resourceGroupName: string,
     privateCloudName: string,
     scriptExecutionName: string,
@@ -58,6 +62,7 @@ export interface ScriptExecutionsOperations {
   ) => Promise<ScriptExecution>;
   /** List ScriptExecution resources by PrivateCloud */
   list: (
+    apiVersion: string,
     resourceGroupName: string,
     privateCloudName: string,
     options?: ScriptExecutionsListOptionalParams,
@@ -67,19 +72,37 @@ export interface ScriptExecutionsOperations {
 function _getScriptExecutions(context: AzureVMwareSolutionAPIContext) {
   return {
     getExecutionLogs: (
+      apiVersion: string,
       resourceGroupName: string,
       privateCloudName: string,
       scriptExecutionName: string,
       options?: ScriptExecutionsGetExecutionLogsOptionalParams,
     ) =>
-      getExecutionLogs(context, resourceGroupName, privateCloudName, scriptExecutionName, options),
+      getExecutionLogs(
+        context,
+        apiVersion,
+        resourceGroupName,
+        privateCloudName,
+        scriptExecutionName,
+        options,
+      ),
     delete: (
+      apiVersion: string,
       resourceGroupName: string,
       privateCloudName: string,
       scriptExecutionName: string,
       options?: ScriptExecutionsDeleteOptionalParams,
-    ) => $delete(context, resourceGroupName, privateCloudName, scriptExecutionName, options),
+    ) =>
+      $delete(
+        context,
+        apiVersion,
+        resourceGroupName,
+        privateCloudName,
+        scriptExecutionName,
+        options,
+      ),
     createOrUpdate: (
+      apiVersion: string,
       resourceGroupName: string,
       privateCloudName: string,
       scriptExecutionName: string,
@@ -88,6 +111,7 @@ function _getScriptExecutions(context: AzureVMwareSolutionAPIContext) {
     ) =>
       createOrUpdate(
         context,
+        apiVersion,
         resourceGroupName,
         privateCloudName,
         scriptExecutionName,
@@ -95,16 +119,19 @@ function _getScriptExecutions(context: AzureVMwareSolutionAPIContext) {
         options,
       ),
     get: (
+      apiVersion: string,
       resourceGroupName: string,
       privateCloudName: string,
       scriptExecutionName: string,
       options?: ScriptExecutionsGetOptionalParams,
-    ) => get(context, resourceGroupName, privateCloudName, scriptExecutionName, options),
+    ) =>
+      get(context, apiVersion, resourceGroupName, privateCloudName, scriptExecutionName, options),
     list: (
+      apiVersion: string,
       resourceGroupName: string,
       privateCloudName: string,
       options?: ScriptExecutionsListOptionalParams,
-    ) => list(context, resourceGroupName, privateCloudName, options),
+    ) => list(context, apiVersion, resourceGroupName, privateCloudName, options),
   };
 }
 

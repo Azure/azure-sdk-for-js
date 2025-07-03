@@ -10,7 +10,7 @@ import { OperationState } from '@azure/core-lro';
 import { PollerLike } from '@azure/core-lro';
 
 // @public
-export function $delete(context: AzureVMwareSolutionAPIContext, resourceGroupName: string, privateCloudName: string, cloudLinkName: string, options?: CloudLinksDeleteOptionalParams): PollerLike<OperationState<void>, void>;
+export function $delete(context: AzureVMwareSolutionAPIContext, apiVersion: string, resourceGroupName: string, privateCloudName: string, cloudLinkName: string, options?: CloudLinksDeleteOptionalParams): PollerLike<OperationState<void>, void>;
 
 // @public
 export interface CloudLinksCreateOrUpdateOptionalParams extends OperationOptions {
@@ -31,13 +31,13 @@ export interface CloudLinksListOptionalParams extends OperationOptions {
 }
 
 // @public
-export function createOrUpdate(context: AzureVMwareSolutionAPIContext, resourceGroupName: string, privateCloudName: string, cloudLinkName: string, cloudLink: CloudLink, options?: CloudLinksCreateOrUpdateOptionalParams): PollerLike<OperationState<CloudLink>, CloudLink>;
+export function createOrUpdate(context: AzureVMwareSolutionAPIContext, apiVersion: string, resourceGroupName: string, privateCloudName: string, cloudLinkName: string, cloudLink: CloudLink, options?: CloudLinksCreateOrUpdateOptionalParams): PollerLike<OperationState<CloudLink>, CloudLink>;
 
 // @public
-export function get(context: AzureVMwareSolutionAPIContext, resourceGroupName: string, privateCloudName: string, cloudLinkName: string, options?: CloudLinksGetOptionalParams): Promise<CloudLink>;
+export function get(context: AzureVMwareSolutionAPIContext, apiVersion: string, resourceGroupName: string, privateCloudName: string, cloudLinkName: string, options?: CloudLinksGetOptionalParams): Promise<CloudLink>;
 
 // @public
-export function list(context: AzureVMwareSolutionAPIContext, resourceGroupName: string, privateCloudName: string, options?: CloudLinksListOptionalParams): PagedAsyncIterableIterator<CloudLink>;
+export function list(context: AzureVMwareSolutionAPIContext, apiVersion: string, resourceGroupName: string, privateCloudName: string, options?: CloudLinksListOptionalParams): PagedAsyncIterableIterator<CloudLink>;
 
 // (No @packageDocumentation comment for this package)
 

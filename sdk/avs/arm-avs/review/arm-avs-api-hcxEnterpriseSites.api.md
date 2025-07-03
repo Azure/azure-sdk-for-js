@@ -8,13 +8,13 @@ import { Client } from '@azure-rest/core-client';
 import { OperationOptions } from '@azure-rest/core-client';
 
 // @public
-export function $delete(context: AzureVMwareSolutionAPIContext, resourceGroupName: string, privateCloudName: string, hcxEnterpriseSiteName: string, options?: HcxEnterpriseSitesDeleteOptionalParams): Promise<void>;
+export function $delete(context: AzureVMwareSolutionAPIContext, apiVersion: string, resourceGroupName: string, privateCloudName: string, hcxEnterpriseSiteName: string, options?: HcxEnterpriseSitesDeleteOptionalParams): Promise<void>;
 
 // @public
-export function createOrUpdate(context: AzureVMwareSolutionAPIContext, resourceGroupName: string, privateCloudName: string, hcxEnterpriseSiteName: string, hcxEnterpriseSite: HcxEnterpriseSite, options?: HcxEnterpriseSitesCreateOrUpdateOptionalParams): Promise<HcxEnterpriseSite>;
+export function createOrUpdate(context: AzureVMwareSolutionAPIContext, apiVersion: string, resourceGroupName: string, privateCloudName: string, hcxEnterpriseSiteName: string, hcxEnterpriseSite: HcxEnterpriseSite, options?: HcxEnterpriseSitesCreateOrUpdateOptionalParams): Promise<HcxEnterpriseSite>;
 
 // @public
-export function get(context: AzureVMwareSolutionAPIContext, resourceGroupName: string, privateCloudName: string, hcxEnterpriseSiteName: string, options?: HcxEnterpriseSitesGetOptionalParams): Promise<HcxEnterpriseSite>;
+export function get(context: AzureVMwareSolutionAPIContext, apiVersion: string, resourceGroupName: string, privateCloudName: string, hcxEnterpriseSiteName: string, options?: HcxEnterpriseSitesGetOptionalParams): Promise<HcxEnterpriseSite>;
 
 // @public
 export interface HcxEnterpriseSitesCreateOrUpdateOptionalParams extends OperationOptions {
@@ -33,7 +33,7 @@ export interface HcxEnterpriseSitesListOptionalParams extends OperationOptions {
 }
 
 // @public
-export function list(context: AzureVMwareSolutionAPIContext, resourceGroupName: string, privateCloudName: string, options?: HcxEnterpriseSitesListOptionalParams): PagedAsyncIterableIterator<HcxEnterpriseSite>;
+export function list(context: AzureVMwareSolutionAPIContext, apiVersion: string, resourceGroupName: string, privateCloudName: string, options?: HcxEnterpriseSitesListOptionalParams): PagedAsyncIterableIterator<HcxEnterpriseSite>;
 
 // (No @packageDocumentation comment for this package)
 

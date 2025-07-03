@@ -24,6 +24,7 @@ import {
 
 export function _getSend(
   context: Client,
+  apiVersion: string,
   resourceGroupName: string,
   privateCloudName: string,
   scriptPackageName: string,
@@ -38,7 +39,7 @@ export function _getSend(
       privateCloudName: privateCloudName,
       scriptPackageName: scriptPackageName,
       scriptCmdletName: scriptCmdletName,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": apiVersion,
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -67,6 +68,7 @@ export async function _getDeserialize(result: PathUncheckedResponse): Promise<Sc
 /** Get a ScriptCmdlet */
 export async function get(
   context: Client,
+  apiVersion: string,
   resourceGroupName: string,
   privateCloudName: string,
   scriptPackageName: string,
@@ -75,6 +77,7 @@ export async function get(
 ): Promise<ScriptCmdlet> {
   const result = await _getSend(
     context,
+    apiVersion,
     resourceGroupName,
     privateCloudName,
     scriptPackageName,
@@ -86,6 +89,7 @@ export async function get(
 
 export function _listSend(
   context: Client,
+  apiVersion: string,
   resourceGroupName: string,
   privateCloudName: string,
   scriptPackageName: string,
@@ -98,7 +102,7 @@ export function _listSend(
       resourceGroupName: resourceGroupName,
       privateCloudName: privateCloudName,
       scriptPackageName: scriptPackageName,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": apiVersion,
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -127,6 +131,7 @@ export async function _listDeserialize(result: PathUncheckedResponse): Promise<_
 /** List ScriptCmdlet resources by ScriptPackage */
 export function list(
   context: Client,
+  apiVersion: string,
   resourceGroupName: string,
   privateCloudName: string,
   scriptPackageName: string,
@@ -134,7 +139,15 @@ export function list(
 ): PagedAsyncIterableIterator<ScriptCmdlet> {
   return buildPagedAsyncIterator(
     context,
-    () => _listSend(context, resourceGroupName, privateCloudName, scriptPackageName, options),
+    () =>
+      _listSend(
+        context,
+        apiVersion,
+        resourceGroupName,
+        privateCloudName,
+        scriptPackageName,
+        options,
+      ),
     _listDeserialize,
     ["200"],
     { itemName: "value", nextLinkName: "nextLink" },

@@ -22,6 +22,7 @@ export interface PureStoragePoliciesOperations {
    *         to the operation to override the generated name.
    */
   delete: (
+    apiVersion: string,
     resourceGroupName: string,
     privateCloudName: string,
     storagePolicyName: string,
@@ -29,6 +30,7 @@ export interface PureStoragePoliciesOperations {
   ) => PollerLike<OperationState<void>, void>;
   /** Create a PureStoragePolicy */
   createOrUpdate: (
+    apiVersion: string,
     resourceGroupName: string,
     privateCloudName: string,
     storagePolicyName: string,
@@ -37,6 +39,7 @@ export interface PureStoragePoliciesOperations {
   ) => PollerLike<OperationState<PureStoragePolicy>, PureStoragePolicy>;
   /** Get a PureStoragePolicy */
   get: (
+    apiVersion: string,
     resourceGroupName: string,
     privateCloudName: string,
     storagePolicyName: string,
@@ -44,6 +47,7 @@ export interface PureStoragePoliciesOperations {
   ) => Promise<PureStoragePolicy>;
   /** List PureStoragePolicy resources by PrivateCloud */
   list: (
+    apiVersion: string,
     resourceGroupName: string,
     privateCloudName: string,
     options?: PureStoragePoliciesListOptionalParams,
@@ -53,12 +57,15 @@ export interface PureStoragePoliciesOperations {
 function _getPureStoragePolicies(context: AzureVMwareSolutionAPIContext) {
   return {
     delete: (
+      apiVersion: string,
       resourceGroupName: string,
       privateCloudName: string,
       storagePolicyName: string,
       options?: PureStoragePoliciesDeleteOptionalParams,
-    ) => $delete(context, resourceGroupName, privateCloudName, storagePolicyName, options),
+    ) =>
+      $delete(context, apiVersion, resourceGroupName, privateCloudName, storagePolicyName, options),
     createOrUpdate: (
+      apiVersion: string,
       resourceGroupName: string,
       privateCloudName: string,
       storagePolicyName: string,
@@ -67,6 +74,7 @@ function _getPureStoragePolicies(context: AzureVMwareSolutionAPIContext) {
     ) =>
       createOrUpdate(
         context,
+        apiVersion,
         resourceGroupName,
         privateCloudName,
         storagePolicyName,
@@ -74,16 +82,18 @@ function _getPureStoragePolicies(context: AzureVMwareSolutionAPIContext) {
         options,
       ),
     get: (
+      apiVersion: string,
       resourceGroupName: string,
       privateCloudName: string,
       storagePolicyName: string,
       options?: PureStoragePoliciesGetOptionalParams,
-    ) => get(context, resourceGroupName, privateCloudName, storagePolicyName, options),
+    ) => get(context, apiVersion, resourceGroupName, privateCloudName, storagePolicyName, options),
     list: (
+      apiVersion: string,
       resourceGroupName: string,
       privateCloudName: string,
       options?: PureStoragePoliciesListOptionalParams,
-    ) => list(context, resourceGroupName, privateCloudName, options),
+    ) => list(context, apiVersion, resourceGroupName, privateCloudName, options),
   };
 }
 

@@ -67,10 +67,10 @@ export interface AddonsListOptionalParams extends OperationOptions {
 
 // @public
 export interface AddonsOperations {
-    createOrUpdate: (resourceGroupName: string, privateCloudName: string, addonName: string, addon: Addon, options?: AddonsCreateOrUpdateOptionalParams) => PollerLike<OperationState<Addon>, Addon>;
-    delete: (resourceGroupName: string, privateCloudName: string, addonName: string, options?: AddonsDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
-    get: (resourceGroupName: string, privateCloudName: string, addonName: string, options?: AddonsGetOptionalParams) => Promise<Addon>;
-    list: (resourceGroupName: string, privateCloudName: string, options?: AddonsListOptionalParams) => PagedAsyncIterableIterator<Addon>;
+    createOrUpdate: (apiVersion: string, resourceGroupName: string, privateCloudName: string, addonName: string, addon: Addon, options?: AddonsCreateOrUpdateOptionalParams) => PollerLike<OperationState<Addon>, Addon>;
+    delete: (apiVersion: string, resourceGroupName: string, privateCloudName: string, addonName: string, options?: AddonsDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
+    get: (apiVersion: string, resourceGroupName: string, privateCloudName: string, addonName: string, options?: AddonsGetOptionalParams) => Promise<Addon>;
+    list: (apiVersion: string, resourceGroupName: string, privateCloudName: string, options?: AddonsListOptionalParams) => PagedAsyncIterableIterator<Addon>;
 }
 
 // @public
@@ -122,10 +122,10 @@ export interface AuthorizationsListOptionalParams extends OperationOptions {
 
 // @public
 export interface AuthorizationsOperations {
-    createOrUpdate: (resourceGroupName: string, privateCloudName: string, authorizationName: string, authorization: ExpressRouteAuthorization, options?: AuthorizationsCreateOrUpdateOptionalParams) => PollerLike<OperationState<ExpressRouteAuthorization>, ExpressRouteAuthorization>;
-    delete: (resourceGroupName: string, privateCloudName: string, authorizationName: string, options?: AuthorizationsDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
-    get: (resourceGroupName: string, privateCloudName: string, authorizationName: string, options?: AuthorizationsGetOptionalParams) => Promise<ExpressRouteAuthorization>;
-    list: (resourceGroupName: string, privateCloudName: string, options?: AuthorizationsListOptionalParams) => PagedAsyncIterableIterator<ExpressRouteAuthorization>;
+    createOrUpdate: (apiVersion: string, resourceGroupName: string, privateCloudName: string, authorizationName: string, authorization: ExpressRouteAuthorization, options?: AuthorizationsCreateOrUpdateOptionalParams) => PollerLike<OperationState<ExpressRouteAuthorization>, ExpressRouteAuthorization>;
+    delete: (apiVersion: string, resourceGroupName: string, privateCloudName: string, authorizationName: string, options?: AuthorizationsDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
+    get: (apiVersion: string, resourceGroupName: string, privateCloudName: string, authorizationName: string, options?: AuthorizationsGetOptionalParams) => Promise<ExpressRouteAuthorization>;
+    list: (apiVersion: string, resourceGroupName: string, privateCloudName: string, options?: AuthorizationsListOptionalParams) => PagedAsyncIterableIterator<ExpressRouteAuthorization>;
 }
 
 // @public
@@ -170,7 +170,6 @@ export class AzureVMwareSolutionAPI {
 
 // @public
 export interface AzureVMwareSolutionAPIOptionalParams extends ClientOptions {
-    apiVersion?: string;
 }
 
 // @public
@@ -216,10 +215,10 @@ export interface CloudLinksListOptionalParams extends OperationOptions {
 
 // @public
 export interface CloudLinksOperations {
-    createOrUpdate: (resourceGroupName: string, privateCloudName: string, cloudLinkName: string, cloudLink: CloudLink, options?: CloudLinksCreateOrUpdateOptionalParams) => PollerLike<OperationState<CloudLink>, CloudLink>;
-    delete: (resourceGroupName: string, privateCloudName: string, cloudLinkName: string, options?: CloudLinksDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
-    get: (resourceGroupName: string, privateCloudName: string, cloudLinkName: string, options?: CloudLinksGetOptionalParams) => Promise<CloudLink>;
-    list: (resourceGroupName: string, privateCloudName: string, options?: CloudLinksListOptionalParams) => PagedAsyncIterableIterator<CloudLink>;
+    createOrUpdate: (apiVersion: string, resourceGroupName: string, privateCloudName: string, cloudLinkName: string, cloudLink: CloudLink, options?: CloudLinksCreateOrUpdateOptionalParams) => PollerLike<OperationState<CloudLink>, CloudLink>;
+    delete: (apiVersion: string, resourceGroupName: string, privateCloudName: string, cloudLinkName: string, options?: CloudLinksDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
+    get: (apiVersion: string, resourceGroupName: string, privateCloudName: string, cloudLinkName: string, options?: CloudLinksGetOptionalParams) => Promise<CloudLink>;
+    list: (apiVersion: string, resourceGroupName: string, privateCloudName: string, options?: CloudLinksListOptionalParams) => PagedAsyncIterableIterator<CloudLink>;
 }
 
 // @public
@@ -267,12 +266,12 @@ export interface ClustersListZonesOptionalParams extends OperationOptions {
 
 // @public
 export interface ClustersOperations {
-    createOrUpdate: (resourceGroupName: string, privateCloudName: string, clusterName: string, cluster: Cluster, options?: ClustersCreateOrUpdateOptionalParams) => PollerLike<OperationState<Cluster>, Cluster>;
-    delete: (resourceGroupName: string, privateCloudName: string, clusterName: string, options?: ClustersDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
-    get: (resourceGroupName: string, privateCloudName: string, clusterName: string, options?: ClustersGetOptionalParams) => Promise<Cluster>;
-    list: (resourceGroupName: string, privateCloudName: string, options?: ClustersListOptionalParams) => PagedAsyncIterableIterator<Cluster>;
-    listZones: (resourceGroupName: string, privateCloudName: string, clusterName: string, options?: ClustersListZonesOptionalParams) => Promise<ClusterZoneList>;
-    update: (resourceGroupName: string, privateCloudName: string, clusterName: string, clusterUpdate: ClusterUpdate, options?: ClustersUpdateOptionalParams) => PollerLike<OperationState<Cluster>, Cluster>;
+    createOrUpdate: (apiVersion: string, resourceGroupName: string, privateCloudName: string, clusterName: string, cluster: Cluster, options?: ClustersCreateOrUpdateOptionalParams) => PollerLike<OperationState<Cluster>, Cluster>;
+    delete: (apiVersion: string, resourceGroupName: string, privateCloudName: string, clusterName: string, options?: ClustersDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
+    get: (apiVersion: string, resourceGroupName: string, privateCloudName: string, clusterName: string, options?: ClustersGetOptionalParams) => Promise<Cluster>;
+    list: (apiVersion: string, resourceGroupName: string, privateCloudName: string, options?: ClustersListOptionalParams) => PagedAsyncIterableIterator<Cluster>;
+    listZones: (apiVersion: string, resourceGroupName: string, privateCloudName: string, clusterName: string, options?: ClustersListZonesOptionalParams) => Promise<ClusterZoneList>;
+    update: (apiVersion: string, resourceGroupName: string, privateCloudName: string, clusterName: string, clusterUpdate: ClusterUpdate, options?: ClustersUpdateOptionalParams) => PollerLike<OperationState<Cluster>, Cluster>;
 }
 
 // @public
@@ -349,10 +348,10 @@ export interface DatastoresListOptionalParams extends OperationOptions {
 
 // @public
 export interface DatastoresOperations {
-    createOrUpdate: (resourceGroupName: string, privateCloudName: string, clusterName: string, datastoreName: string, datastore: Datastore, options?: DatastoresCreateOrUpdateOptionalParams) => PollerLike<OperationState<Datastore>, Datastore>;
-    delete: (resourceGroupName: string, privateCloudName: string, clusterName: string, datastoreName: string, options?: DatastoresDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
-    get: (resourceGroupName: string, privateCloudName: string, clusterName: string, datastoreName: string, options?: DatastoresGetOptionalParams) => Promise<Datastore>;
-    list: (resourceGroupName: string, privateCloudName: string, clusterName: string, options?: DatastoresListOptionalParams) => PagedAsyncIterableIterator<Datastore>;
+    createOrUpdate: (apiVersion: string, resourceGroupName: string, privateCloudName: string, clusterName: string, datastoreName: string, datastore: Datastore, options?: DatastoresCreateOrUpdateOptionalParams) => PollerLike<OperationState<Datastore>, Datastore>;
+    delete: (apiVersion: string, resourceGroupName: string, privateCloudName: string, clusterName: string, datastoreName: string, options?: DatastoresDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
+    get: (apiVersion: string, resourceGroupName: string, privateCloudName: string, clusterName: string, datastoreName: string, options?: DatastoresGetOptionalParams) => Promise<Datastore>;
+    list: (apiVersion: string, resourceGroupName: string, privateCloudName: string, clusterName: string, options?: DatastoresListOptionalParams) => PagedAsyncIterableIterator<Datastore>;
 }
 
 // @public
@@ -497,10 +496,10 @@ export interface GlobalReachConnectionsListOptionalParams extends OperationOptio
 
 // @public
 export interface GlobalReachConnectionsOperations {
-    createOrUpdate: (resourceGroupName: string, privateCloudName: string, globalReachConnectionName: string, globalReachConnection: GlobalReachConnection, options?: GlobalReachConnectionsCreateOrUpdateOptionalParams) => PollerLike<OperationState<GlobalReachConnection>, GlobalReachConnection>;
-    delete: (resourceGroupName: string, privateCloudName: string, globalReachConnectionName: string, options?: GlobalReachConnectionsDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
-    get: (resourceGroupName: string, privateCloudName: string, globalReachConnectionName: string, options?: GlobalReachConnectionsGetOptionalParams) => Promise<GlobalReachConnection>;
-    list: (resourceGroupName: string, privateCloudName: string, options?: GlobalReachConnectionsListOptionalParams) => PagedAsyncIterableIterator<GlobalReachConnection>;
+    createOrUpdate: (apiVersion: string, resourceGroupName: string, privateCloudName: string, globalReachConnectionName: string, globalReachConnection: GlobalReachConnection, options?: GlobalReachConnectionsCreateOrUpdateOptionalParams) => PollerLike<OperationState<GlobalReachConnection>, GlobalReachConnection>;
+    delete: (apiVersion: string, resourceGroupName: string, privateCloudName: string, globalReachConnectionName: string, options?: GlobalReachConnectionsDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
+    get: (apiVersion: string, resourceGroupName: string, privateCloudName: string, globalReachConnectionName: string, options?: GlobalReachConnectionsGetOptionalParams) => Promise<GlobalReachConnection>;
+    list: (apiVersion: string, resourceGroupName: string, privateCloudName: string, options?: GlobalReachConnectionsListOptionalParams) => PagedAsyncIterableIterator<GlobalReachConnection>;
 }
 
 // @public
@@ -539,10 +538,10 @@ export interface HcxEnterpriseSitesListOptionalParams extends OperationOptions {
 
 // @public
 export interface HcxEnterpriseSitesOperations {
-    createOrUpdate: (resourceGroupName: string, privateCloudName: string, hcxEnterpriseSiteName: string, hcxEnterpriseSite: HcxEnterpriseSite, options?: HcxEnterpriseSitesCreateOrUpdateOptionalParams) => Promise<HcxEnterpriseSite>;
-    delete: (resourceGroupName: string, privateCloudName: string, hcxEnterpriseSiteName: string, options?: HcxEnterpriseSitesDeleteOptionalParams) => Promise<void>;
-    get: (resourceGroupName: string, privateCloudName: string, hcxEnterpriseSiteName: string, options?: HcxEnterpriseSitesGetOptionalParams) => Promise<HcxEnterpriseSite>;
-    list: (resourceGroupName: string, privateCloudName: string, options?: HcxEnterpriseSitesListOptionalParams) => PagedAsyncIterableIterator<HcxEnterpriseSite>;
+    createOrUpdate: (apiVersion: string, resourceGroupName: string, privateCloudName: string, hcxEnterpriseSiteName: string, hcxEnterpriseSite: HcxEnterpriseSite, options?: HcxEnterpriseSitesCreateOrUpdateOptionalParams) => Promise<HcxEnterpriseSite>;
+    delete: (apiVersion: string, resourceGroupName: string, privateCloudName: string, hcxEnterpriseSiteName: string, options?: HcxEnterpriseSitesDeleteOptionalParams) => Promise<void>;
+    get: (apiVersion: string, resourceGroupName: string, privateCloudName: string, hcxEnterpriseSiteName: string, options?: HcxEnterpriseSitesGetOptionalParams) => Promise<HcxEnterpriseSite>;
+    list: (apiVersion: string, resourceGroupName: string, privateCloudName: string, options?: HcxEnterpriseSitesListOptionalParams) => PagedAsyncIterableIterator<HcxEnterpriseSite>;
 }
 
 // @public
@@ -589,8 +588,8 @@ export interface HostsListOptionalParams extends OperationOptions {
 
 // @public
 export interface HostsOperations {
-    get: (resourceGroupName: string, privateCloudName: string, clusterName: string, hostId: string, options?: HostsGetOptionalParams) => Promise<Host>;
-    list: (resourceGroupName: string, privateCloudName: string, clusterName: string, options?: HostsListOptionalParams) => PagedAsyncIterableIterator<Host>;
+    get: (apiVersion: string, resourceGroupName: string, privateCloudName: string, clusterName: string, hostId: string, options?: HostsGetOptionalParams) => Promise<Host>;
+    list: (apiVersion: string, resourceGroupName: string, privateCloudName: string, clusterName: string, options?: HostsListOptionalParams) => PagedAsyncIterableIterator<Host>;
 }
 
 // @public
@@ -644,10 +643,10 @@ export interface IscsiPathsListByPrivateCloudOptionalParams extends OperationOpt
 
 // @public
 export interface IscsiPathsOperations {
-    createOrUpdate: (resourceGroupName: string, privateCloudName: string, resource: IscsiPath, options?: IscsiPathsCreateOrUpdateOptionalParams) => PollerLike<OperationState<IscsiPath>, IscsiPath>;
-    delete: (resourceGroupName: string, privateCloudName: string, options?: IscsiPathsDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
-    get: (resourceGroupName: string, privateCloudName: string, options?: IscsiPathsGetOptionalParams) => Promise<IscsiPath>;
-    listByPrivateCloud: (resourceGroupName: string, privateCloudName: string, options?: IscsiPathsListByPrivateCloudOptionalParams) => PagedAsyncIterableIterator<IscsiPath>;
+    createOrUpdate: (apiVersion: string, resourceGroupName: string, privateCloudName: string, resource: IscsiPath, options?: IscsiPathsCreateOrUpdateOptionalParams) => PollerLike<OperationState<IscsiPath>, IscsiPath>;
+    delete: (apiVersion: string, resourceGroupName: string, privateCloudName: string, options?: IscsiPathsDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
+    get: (apiVersion: string, resourceGroupName: string, privateCloudName: string, options?: IscsiPathsGetOptionalParams) => Promise<IscsiPath>;
+    listByPrivateCloud: (apiVersion: string, resourceGroupName: string, privateCloudName: string, options?: IscsiPathsListByPrivateCloudOptionalParams) => PagedAsyncIterableIterator<IscsiPath>;
 }
 
 // @public
@@ -1221,8 +1220,8 @@ export interface LocationsCheckTrialAvailabilityOptionalParams extends Operation
 
 // @public
 export interface LocationsOperations {
-    checkQuotaAvailability: (location: string, options?: LocationsCheckQuotaAvailabilityOptionalParams) => Promise<Quota>;
-    checkTrialAvailability: (location: string, options?: LocationsCheckTrialAvailabilityOptionalParams) => Promise<Trial>;
+    checkQuotaAvailability: (apiVersion: string, location: string, options?: LocationsCheckQuotaAvailabilityOptionalParams) => Promise<Quota>;
+    checkTrialAvailability: (apiVersion: string, location: string, options?: LocationsCheckTrialAvailabilityOptionalParams) => Promise<Trial>;
 }
 
 // @public
@@ -1268,7 +1267,7 @@ export interface OperationsListOptionalParams extends OperationOptions {
 
 // @public
 export interface OperationsOperations {
-    list: (options?: OperationsListOptionalParams) => PagedAsyncIterableIterator<Operation>;
+    list: (apiVersion: string, options?: OperationsListOptionalParams) => PagedAsyncIterableIterator<Operation>;
 }
 
 // @public
@@ -1309,11 +1308,11 @@ export interface PlacementPoliciesListOptionalParams extends OperationOptions {
 
 // @public
 export interface PlacementPoliciesOperations {
-    createOrUpdate: (resourceGroupName: string, privateCloudName: string, clusterName: string, placementPolicyName: string, placementPolicy: PlacementPolicy, options?: PlacementPoliciesCreateOrUpdateOptionalParams) => PollerLike<OperationState<PlacementPolicy>, PlacementPolicy>;
-    delete: (resourceGroupName: string, privateCloudName: string, clusterName: string, placementPolicyName: string, options?: PlacementPoliciesDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
-    get: (resourceGroupName: string, privateCloudName: string, clusterName: string, placementPolicyName: string, options?: PlacementPoliciesGetOptionalParams) => Promise<PlacementPolicy>;
-    list: (resourceGroupName: string, privateCloudName: string, clusterName: string, options?: PlacementPoliciesListOptionalParams) => PagedAsyncIterableIterator<PlacementPolicy>;
-    update: (resourceGroupName: string, privateCloudName: string, clusterName: string, placementPolicyName: string, placementPolicyUpdate: PlacementPolicyUpdate, options?: PlacementPoliciesUpdateOptionalParams) => PollerLike<OperationState<PlacementPolicy>, PlacementPolicy>;
+    createOrUpdate: (apiVersion: string, resourceGroupName: string, privateCloudName: string, clusterName: string, placementPolicyName: string, placementPolicy: PlacementPolicy, options?: PlacementPoliciesCreateOrUpdateOptionalParams) => PollerLike<OperationState<PlacementPolicy>, PlacementPolicy>;
+    delete: (apiVersion: string, resourceGroupName: string, privateCloudName: string, clusterName: string, placementPolicyName: string, options?: PlacementPoliciesDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
+    get: (apiVersion: string, resourceGroupName: string, privateCloudName: string, clusterName: string, placementPolicyName: string, options?: PlacementPoliciesGetOptionalParams) => Promise<PlacementPolicy>;
+    list: (apiVersion: string, resourceGroupName: string, privateCloudName: string, clusterName: string, options?: PlacementPoliciesListOptionalParams) => PagedAsyncIterableIterator<PlacementPolicy>;
+    update: (apiVersion: string, resourceGroupName: string, privateCloudName: string, clusterName: string, placementPolicyName: string, placementPolicyUpdate: PlacementPolicyUpdate, options?: PlacementPoliciesUpdateOptionalParams) => PollerLike<OperationState<PlacementPolicy>, PlacementPolicy>;
 }
 
 // @public
@@ -1438,15 +1437,15 @@ export interface PrivateCloudsListOptionalParams extends OperationOptions {
 
 // @public
 export interface PrivateCloudsOperations {
-    createOrUpdate: (resourceGroupName: string, privateCloudName: string, privateCloud: PrivateCloud, options?: PrivateCloudsCreateOrUpdateOptionalParams) => PollerLike<OperationState<PrivateCloud>, PrivateCloud>;
-    delete: (resourceGroupName: string, privateCloudName: string, options?: PrivateCloudsDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
-    get: (resourceGroupName: string, privateCloudName: string, options?: PrivateCloudsGetOptionalParams) => Promise<PrivateCloud>;
-    list: (resourceGroupName: string, options?: PrivateCloudsListOptionalParams) => PagedAsyncIterableIterator<PrivateCloud>;
-    listAdminCredentials: (resourceGroupName: string, privateCloudName: string, options?: PrivateCloudsListAdminCredentialsOptionalParams) => Promise<AdminCredentials>;
-    listInSubscription: (options?: PrivateCloudsListInSubscriptionOptionalParams) => PagedAsyncIterableIterator<PrivateCloud>;
-    rotateNsxtPassword: (resourceGroupName: string, privateCloudName: string, options?: PrivateCloudsRotateNsxtPasswordOptionalParams) => PollerLike<OperationState<void>, void>;
-    rotateVcenterPassword: (resourceGroupName: string, privateCloudName: string, options?: PrivateCloudsRotateVcenterPasswordOptionalParams) => PollerLike<OperationState<void>, void>;
-    update: (resourceGroupName: string, privateCloudName: string, privateCloudUpdate: PrivateCloudUpdate, options?: PrivateCloudsUpdateOptionalParams) => PollerLike<OperationState<PrivateCloud>, PrivateCloud>;
+    createOrUpdate: (apiVersion: string, resourceGroupName: string, privateCloudName: string, privateCloud: PrivateCloud, options?: PrivateCloudsCreateOrUpdateOptionalParams) => PollerLike<OperationState<PrivateCloud>, PrivateCloud>;
+    delete: (apiVersion: string, resourceGroupName: string, privateCloudName: string, options?: PrivateCloudsDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
+    get: (apiVersion: string, resourceGroupName: string, privateCloudName: string, options?: PrivateCloudsGetOptionalParams) => Promise<PrivateCloud>;
+    list: (apiVersion: string, resourceGroupName: string, options?: PrivateCloudsListOptionalParams) => PagedAsyncIterableIterator<PrivateCloud>;
+    listAdminCredentials: (apiVersion: string, resourceGroupName: string, privateCloudName: string, options?: PrivateCloudsListAdminCredentialsOptionalParams) => Promise<AdminCredentials>;
+    listInSubscription: (apiVersion: string, options?: PrivateCloudsListInSubscriptionOptionalParams) => PagedAsyncIterableIterator<PrivateCloud>;
+    rotateNsxtPassword: (apiVersion: string, resourceGroupName: string, privateCloudName: string, options?: PrivateCloudsRotateNsxtPasswordOptionalParams) => PollerLike<OperationState<void>, void>;
+    rotateVcenterPassword: (apiVersion: string, resourceGroupName: string, privateCloudName: string, options?: PrivateCloudsRotateVcenterPasswordOptionalParams) => PollerLike<OperationState<void>, void>;
+    update: (apiVersion: string, resourceGroupName: string, privateCloudName: string, privateCloudUpdate: PrivateCloudUpdate, options?: PrivateCloudsUpdateOptionalParams) => PollerLike<OperationState<PrivateCloud>, PrivateCloud>;
 }
 
 // @public
@@ -1508,8 +1507,8 @@ export interface ProvisionedNetworksListOptionalParams extends OperationOptions 
 
 // @public
 export interface ProvisionedNetworksOperations {
-    get: (resourceGroupName: string, privateCloudName: string, provisionedNetworkName: string, options?: ProvisionedNetworksGetOptionalParams) => Promise<ProvisionedNetwork>;
-    list: (resourceGroupName: string, privateCloudName: string, options?: ProvisionedNetworksListOptionalParams) => PagedAsyncIterableIterator<ProvisionedNetwork>;
+    get: (apiVersion: string, resourceGroupName: string, privateCloudName: string, provisionedNetworkName: string, options?: ProvisionedNetworksGetOptionalParams) => Promise<ProvisionedNetwork>;
+    list: (apiVersion: string, resourceGroupName: string, privateCloudName: string, options?: ProvisionedNetworksListOptionalParams) => PagedAsyncIterableIterator<ProvisionedNetwork>;
 }
 
 // @public
@@ -1546,10 +1545,10 @@ export interface PureStoragePoliciesListOptionalParams extends OperationOptions 
 
 // @public
 export interface PureStoragePoliciesOperations {
-    createOrUpdate: (resourceGroupName: string, privateCloudName: string, storagePolicyName: string, resource: PureStoragePolicy, options?: PureStoragePoliciesCreateOrUpdateOptionalParams) => PollerLike<OperationState<PureStoragePolicy>, PureStoragePolicy>;
-    delete: (resourceGroupName: string, privateCloudName: string, storagePolicyName: string, options?: PureStoragePoliciesDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
-    get: (resourceGroupName: string, privateCloudName: string, storagePolicyName: string, options?: PureStoragePoliciesGetOptionalParams) => Promise<PureStoragePolicy>;
-    list: (resourceGroupName: string, privateCloudName: string, options?: PureStoragePoliciesListOptionalParams) => PagedAsyncIterableIterator<PureStoragePolicy>;
+    createOrUpdate: (apiVersion: string, resourceGroupName: string, privateCloudName: string, storagePolicyName: string, resource: PureStoragePolicy, options?: PureStoragePoliciesCreateOrUpdateOptionalParams) => PollerLike<OperationState<PureStoragePolicy>, PureStoragePolicy>;
+    delete: (apiVersion: string, resourceGroupName: string, privateCloudName: string, storagePolicyName: string, options?: PureStoragePoliciesDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
+    get: (apiVersion: string, resourceGroupName: string, privateCloudName: string, storagePolicyName: string, options?: PureStoragePoliciesGetOptionalParams) => Promise<PureStoragePolicy>;
+    list: (apiVersion: string, resourceGroupName: string, privateCloudName: string, options?: PureStoragePoliciesListOptionalParams) => PagedAsyncIterableIterator<PureStoragePolicy>;
 }
 
 // @public
@@ -1688,8 +1687,8 @@ export interface ScriptCmdletsListOptionalParams extends OperationOptions {
 
 // @public
 export interface ScriptCmdletsOperations {
-    get: (resourceGroupName: string, privateCloudName: string, scriptPackageName: string, scriptCmdletName: string, options?: ScriptCmdletsGetOptionalParams) => Promise<ScriptCmdlet>;
-    list: (resourceGroupName: string, privateCloudName: string, scriptPackageName: string, options?: ScriptCmdletsListOptionalParams) => PagedAsyncIterableIterator<ScriptCmdlet>;
+    get: (apiVersion: string, resourceGroupName: string, privateCloudName: string, scriptPackageName: string, scriptCmdletName: string, options?: ScriptCmdletsGetOptionalParams) => Promise<ScriptCmdlet>;
+    list: (apiVersion: string, resourceGroupName: string, privateCloudName: string, scriptPackageName: string, options?: ScriptCmdletsListOptionalParams) => PagedAsyncIterableIterator<ScriptCmdlet>;
 }
 
 // @public
@@ -1756,11 +1755,11 @@ export interface ScriptExecutionsListOptionalParams extends OperationOptions {
 
 // @public
 export interface ScriptExecutionsOperations {
-    createOrUpdate: (resourceGroupName: string, privateCloudName: string, scriptExecutionName: string, scriptExecution: ScriptExecution, options?: ScriptExecutionsCreateOrUpdateOptionalParams) => PollerLike<OperationState<ScriptExecution>, ScriptExecution>;
-    delete: (resourceGroupName: string, privateCloudName: string, scriptExecutionName: string, options?: ScriptExecutionsDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
-    get: (resourceGroupName: string, privateCloudName: string, scriptExecutionName: string, options?: ScriptExecutionsGetOptionalParams) => Promise<ScriptExecution>;
-    getExecutionLogs: (resourceGroupName: string, privateCloudName: string, scriptExecutionName: string, options?: ScriptExecutionsGetExecutionLogsOptionalParams) => Promise<ScriptExecution>;
-    list: (resourceGroupName: string, privateCloudName: string, options?: ScriptExecutionsListOptionalParams) => PagedAsyncIterableIterator<ScriptExecution>;
+    createOrUpdate: (apiVersion: string, resourceGroupName: string, privateCloudName: string, scriptExecutionName: string, scriptExecution: ScriptExecution, options?: ScriptExecutionsCreateOrUpdateOptionalParams) => PollerLike<OperationState<ScriptExecution>, ScriptExecution>;
+    delete: (apiVersion: string, resourceGroupName: string, privateCloudName: string, scriptExecutionName: string, options?: ScriptExecutionsDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
+    get: (apiVersion: string, resourceGroupName: string, privateCloudName: string, scriptExecutionName: string, options?: ScriptExecutionsGetOptionalParams) => Promise<ScriptExecution>;
+    getExecutionLogs: (apiVersion: string, resourceGroupName: string, privateCloudName: string, scriptExecutionName: string, options?: ScriptExecutionsGetExecutionLogsOptionalParams) => Promise<ScriptExecution>;
+    list: (apiVersion: string, resourceGroupName: string, privateCloudName: string, options?: ScriptExecutionsListOptionalParams) => PagedAsyncIterableIterator<ScriptExecution>;
 }
 
 // @public
@@ -1793,8 +1792,8 @@ export interface ScriptPackagesListOptionalParams extends OperationOptions {
 
 // @public
 export interface ScriptPackagesOperations {
-    get: (resourceGroupName: string, privateCloudName: string, scriptPackageName: string, options?: ScriptPackagesGetOptionalParams) => Promise<ScriptPackage>;
-    list: (resourceGroupName: string, privateCloudName: string, options?: ScriptPackagesListOptionalParams) => PagedAsyncIterableIterator<ScriptPackage>;
+    get: (apiVersion: string, resourceGroupName: string, privateCloudName: string, scriptPackageName: string, options?: ScriptPackagesGetOptionalParams) => Promise<ScriptPackage>;
+    list: (apiVersion: string, resourceGroupName: string, privateCloudName: string, options?: ScriptPackagesListOptionalParams) => PagedAsyncIterableIterator<ScriptPackage>;
 }
 
 // @public
@@ -1839,7 +1838,7 @@ export interface SkusListOptionalParams extends OperationOptions {
 
 // @public
 export interface SkusOperations {
-    list: (options?: SkusListOptionalParams) => PagedAsyncIterableIterator<ResourceSku>;
+    list: (apiVersion: string, options?: SkusListOptionalParams) => PagedAsyncIterableIterator<ResourceSku>;
 }
 
 // @public
@@ -1913,9 +1912,9 @@ export interface VirtualMachinesListOptionalParams extends OperationOptions {
 
 // @public
 export interface VirtualMachinesOperations {
-    get: (resourceGroupName: string, privateCloudName: string, clusterName: string, virtualMachineId: string, options?: VirtualMachinesGetOptionalParams) => Promise<VirtualMachine>;
-    list: (resourceGroupName: string, privateCloudName: string, clusterName: string, options?: VirtualMachinesListOptionalParams) => PagedAsyncIterableIterator<VirtualMachine>;
-    restrictMovement: (resourceGroupName: string, privateCloudName: string, clusterName: string, virtualMachineId: string, restrictMovementParameter: VirtualMachineRestrictMovement, options?: VirtualMachinesRestrictMovementOptionalParams) => PollerLike<OperationState<void>, void>;
+    get: (apiVersion: string, resourceGroupName: string, privateCloudName: string, clusterName: string, virtualMachineId: string, options?: VirtualMachinesGetOptionalParams) => Promise<VirtualMachine>;
+    list: (apiVersion: string, resourceGroupName: string, privateCloudName: string, clusterName: string, options?: VirtualMachinesListOptionalParams) => PagedAsyncIterableIterator<VirtualMachine>;
+    restrictMovement: (apiVersion: string, resourceGroupName: string, privateCloudName: string, clusterName: string, virtualMachineId: string, restrictMovementParameter: VirtualMachineRestrictMovement, options?: VirtualMachinesRestrictMovementOptionalParams) => PollerLike<OperationState<void>, void>;
 }
 
 // @public
@@ -2263,46 +2262,46 @@ export interface WorkloadNetworksListVMGroupsOptionalParams extends OperationOpt
 
 // @public
 export interface WorkloadNetworksOperations {
-    createDhcp: (resourceGroupName: string, privateCloudName: string, dhcpId: string, workloadNetworkDhcp: WorkloadNetworkDhcp, options?: WorkloadNetworksCreateDhcpOptionalParams) => PollerLike<OperationState<WorkloadNetworkDhcp>, WorkloadNetworkDhcp>;
-    createDnsService: (resourceGroupName: string, privateCloudName: string, dnsServiceId: string, workloadNetworkDnsService: WorkloadNetworkDnsService, options?: WorkloadNetworksCreateDnsServiceOptionalParams) => PollerLike<OperationState<WorkloadNetworkDnsService>, WorkloadNetworkDnsService>;
-    createDnsZone: (resourceGroupName: string, privateCloudName: string, dnsZoneId: string, workloadNetworkDnsZone: WorkloadNetworkDnsZone, options?: WorkloadNetworksCreateDnsZoneOptionalParams) => PollerLike<OperationState<WorkloadNetworkDnsZone>, WorkloadNetworkDnsZone>;
-    createPortMirroring: (resourceGroupName: string, privateCloudName: string, portMirroringId: string, workloadNetworkPortMirroring: WorkloadNetworkPortMirroring, options?: WorkloadNetworksCreatePortMirroringOptionalParams) => PollerLike<OperationState<WorkloadNetworkPortMirroring>, WorkloadNetworkPortMirroring>;
-    createPublicIP: (resourceGroupName: string, privateCloudName: string, publicIPId: string, workloadNetworkPublicIP: WorkloadNetworkPublicIP, options?: WorkloadNetworksCreatePublicIPOptionalParams) => PollerLike<OperationState<WorkloadNetworkPublicIP>, WorkloadNetworkPublicIP>;
-    createSegments: (resourceGroupName: string, privateCloudName: string, segmentId: string, workloadNetworkSegment: WorkloadNetworkSegment, options?: WorkloadNetworksCreateSegmentsOptionalParams) => PollerLike<OperationState<WorkloadNetworkSegment>, WorkloadNetworkSegment>;
-    createVMGroup: (resourceGroupName: string, privateCloudName: string, vmGroupId: string, workloadNetworkVMGroup: WorkloadNetworkVMGroup, options?: WorkloadNetworksCreateVMGroupOptionalParams) => PollerLike<OperationState<WorkloadNetworkVMGroup>, WorkloadNetworkVMGroup>;
-    deleteDhcp: (resourceGroupName: string, privateCloudName: string, dhcpId: string, options?: WorkloadNetworksDeleteDhcpOptionalParams) => PollerLike<OperationState<void>, void>;
-    deleteDnsService: (resourceGroupName: string, dnsServiceId: string, privateCloudName: string, options?: WorkloadNetworksDeleteDnsServiceOptionalParams) => PollerLike<OperationState<void>, void>;
-    deleteDnsZone: (resourceGroupName: string, dnsZoneId: string, privateCloudName: string, options?: WorkloadNetworksDeleteDnsZoneOptionalParams) => PollerLike<OperationState<void>, void>;
-    deletePortMirroring: (resourceGroupName: string, portMirroringId: string, privateCloudName: string, options?: WorkloadNetworksDeletePortMirroringOptionalParams) => PollerLike<OperationState<void>, void>;
-    deletePublicIP: (resourceGroupName: string, publicIPId: string, privateCloudName: string, options?: WorkloadNetworksDeletePublicIPOptionalParams) => PollerLike<OperationState<void>, void>;
-    deleteSegment: (resourceGroupName: string, privateCloudName: string, segmentId: string, options?: WorkloadNetworksDeleteSegmentOptionalParams) => PollerLike<OperationState<void>, void>;
-    deleteVMGroup: (resourceGroupName: string, vmGroupId: string, privateCloudName: string, options?: WorkloadNetworksDeleteVMGroupOptionalParams) => PollerLike<OperationState<void>, void>;
-    get: (resourceGroupName: string, privateCloudName: string, options?: WorkloadNetworksGetOptionalParams) => Promise<WorkloadNetwork>;
-    getDhcp: (resourceGroupName: string, dhcpId: string, privateCloudName: string, options?: WorkloadNetworksGetDhcpOptionalParams) => Promise<WorkloadNetworkDhcp>;
-    getDnsService: (resourceGroupName: string, privateCloudName: string, dnsServiceId: string, options?: WorkloadNetworksGetDnsServiceOptionalParams) => Promise<WorkloadNetworkDnsService>;
-    getDnsZone: (resourceGroupName: string, privateCloudName: string, dnsZoneId: string, options?: WorkloadNetworksGetDnsZoneOptionalParams) => Promise<WorkloadNetworkDnsZone>;
-    getGateway: (resourceGroupName: string, privateCloudName: string, gatewayId: string, options?: WorkloadNetworksGetGatewayOptionalParams) => Promise<WorkloadNetworkGateway>;
-    getPortMirroring: (resourceGroupName: string, privateCloudName: string, portMirroringId: string, options?: WorkloadNetworksGetPortMirroringOptionalParams) => Promise<WorkloadNetworkPortMirroring>;
-    getPublicIP: (resourceGroupName: string, privateCloudName: string, publicIPId: string, options?: WorkloadNetworksGetPublicIPOptionalParams) => Promise<WorkloadNetworkPublicIP>;
-    getSegment: (resourceGroupName: string, privateCloudName: string, segmentId: string, options?: WorkloadNetworksGetSegmentOptionalParams) => Promise<WorkloadNetworkSegment>;
-    getVirtualMachine: (resourceGroupName: string, privateCloudName: string, virtualMachineId: string, options?: WorkloadNetworksGetVirtualMachineOptionalParams) => Promise<WorkloadNetworkVirtualMachine>;
-    getVMGroup: (resourceGroupName: string, privateCloudName: string, vmGroupId: string, options?: WorkloadNetworksGetVMGroupOptionalParams) => Promise<WorkloadNetworkVMGroup>;
-    list: (resourceGroupName: string, privateCloudName: string, options?: WorkloadNetworksListOptionalParams) => PagedAsyncIterableIterator<WorkloadNetwork>;
-    listDhcp: (resourceGroupName: string, privateCloudName: string, options?: WorkloadNetworksListDhcpOptionalParams) => PagedAsyncIterableIterator<WorkloadNetworkDhcp>;
-    listDnsServices: (resourceGroupName: string, privateCloudName: string, options?: WorkloadNetworksListDnsServicesOptionalParams) => PagedAsyncIterableIterator<WorkloadNetworkDnsService>;
-    listDnsZones: (resourceGroupName: string, privateCloudName: string, options?: WorkloadNetworksListDnsZonesOptionalParams) => PagedAsyncIterableIterator<WorkloadNetworkDnsZone>;
-    listGateways: (resourceGroupName: string, privateCloudName: string, options?: WorkloadNetworksListGatewaysOptionalParams) => PagedAsyncIterableIterator<WorkloadNetworkGateway>;
-    listPortMirroring: (resourceGroupName: string, privateCloudName: string, options?: WorkloadNetworksListPortMirroringOptionalParams) => PagedAsyncIterableIterator<WorkloadNetworkPortMirroring>;
-    listPublicIPs: (resourceGroupName: string, privateCloudName: string, options?: WorkloadNetworksListPublicIPsOptionalParams) => PagedAsyncIterableIterator<WorkloadNetworkPublicIP>;
-    listSegments: (resourceGroupName: string, privateCloudName: string, options?: WorkloadNetworksListSegmentsOptionalParams) => PagedAsyncIterableIterator<WorkloadNetworkSegment>;
-    listVirtualMachines: (resourceGroupName: string, privateCloudName: string, options?: WorkloadNetworksListVirtualMachinesOptionalParams) => PagedAsyncIterableIterator<WorkloadNetworkVirtualMachine>;
-    listVMGroups: (resourceGroupName: string, privateCloudName: string, options?: WorkloadNetworksListVMGroupsOptionalParams) => PagedAsyncIterableIterator<WorkloadNetworkVMGroup>;
-    updateDhcp: (resourceGroupName: string, privateCloudName: string, dhcpId: string, workloadNetworkDhcp: WorkloadNetworkDhcp, options?: WorkloadNetworksUpdateDhcpOptionalParams) => PollerLike<OperationState<WorkloadNetworkDhcp>, WorkloadNetworkDhcp>;
-    updateDnsService: (resourceGroupName: string, privateCloudName: string, dnsServiceId: string, workloadNetworkDnsService: WorkloadNetworkDnsService, options?: WorkloadNetworksUpdateDnsServiceOptionalParams) => PollerLike<OperationState<WorkloadNetworkDnsService>, WorkloadNetworkDnsService>;
-    updateDnsZone: (resourceGroupName: string, privateCloudName: string, dnsZoneId: string, workloadNetworkDnsZone: WorkloadNetworkDnsZone, options?: WorkloadNetworksUpdateDnsZoneOptionalParams) => PollerLike<OperationState<WorkloadNetworkDnsZone>, WorkloadNetworkDnsZone>;
-    updatePortMirroring: (resourceGroupName: string, privateCloudName: string, portMirroringId: string, workloadNetworkPortMirroring: WorkloadNetworkPortMirroring, options?: WorkloadNetworksUpdatePortMirroringOptionalParams) => PollerLike<OperationState<WorkloadNetworkPortMirroring>, WorkloadNetworkPortMirroring>;
-    updateSegments: (resourceGroupName: string, privateCloudName: string, segmentId: string, workloadNetworkSegment: WorkloadNetworkSegment, options?: WorkloadNetworksUpdateSegmentsOptionalParams) => PollerLike<OperationState<WorkloadNetworkSegment>, WorkloadNetworkSegment>;
-    updateVMGroup: (resourceGroupName: string, privateCloudName: string, vmGroupId: string, workloadNetworkVMGroup: WorkloadNetworkVMGroup, options?: WorkloadNetworksUpdateVMGroupOptionalParams) => PollerLike<OperationState<WorkloadNetworkVMGroup>, WorkloadNetworkVMGroup>;
+    createDhcp: (apiVersion: string, resourceGroupName: string, privateCloudName: string, dhcpId: string, workloadNetworkDhcp: WorkloadNetworkDhcp, options?: WorkloadNetworksCreateDhcpOptionalParams) => PollerLike<OperationState<WorkloadNetworkDhcp>, WorkloadNetworkDhcp>;
+    createDnsService: (apiVersion: string, resourceGroupName: string, privateCloudName: string, dnsServiceId: string, workloadNetworkDnsService: WorkloadNetworkDnsService, options?: WorkloadNetworksCreateDnsServiceOptionalParams) => PollerLike<OperationState<WorkloadNetworkDnsService>, WorkloadNetworkDnsService>;
+    createDnsZone: (apiVersion: string, resourceGroupName: string, privateCloudName: string, dnsZoneId: string, workloadNetworkDnsZone: WorkloadNetworkDnsZone, options?: WorkloadNetworksCreateDnsZoneOptionalParams) => PollerLike<OperationState<WorkloadNetworkDnsZone>, WorkloadNetworkDnsZone>;
+    createPortMirroring: (apiVersion: string, resourceGroupName: string, privateCloudName: string, portMirroringId: string, workloadNetworkPortMirroring: WorkloadNetworkPortMirroring, options?: WorkloadNetworksCreatePortMirroringOptionalParams) => PollerLike<OperationState<WorkloadNetworkPortMirroring>, WorkloadNetworkPortMirroring>;
+    createPublicIP: (apiVersion: string, resourceGroupName: string, privateCloudName: string, publicIPId: string, workloadNetworkPublicIP: WorkloadNetworkPublicIP, options?: WorkloadNetworksCreatePublicIPOptionalParams) => PollerLike<OperationState<WorkloadNetworkPublicIP>, WorkloadNetworkPublicIP>;
+    createSegments: (apiVersion: string, resourceGroupName: string, privateCloudName: string, segmentId: string, workloadNetworkSegment: WorkloadNetworkSegment, options?: WorkloadNetworksCreateSegmentsOptionalParams) => PollerLike<OperationState<WorkloadNetworkSegment>, WorkloadNetworkSegment>;
+    createVMGroup: (apiVersion: string, resourceGroupName: string, privateCloudName: string, vmGroupId: string, workloadNetworkVMGroup: WorkloadNetworkVMGroup, options?: WorkloadNetworksCreateVMGroupOptionalParams) => PollerLike<OperationState<WorkloadNetworkVMGroup>, WorkloadNetworkVMGroup>;
+    deleteDhcp: (apiVersion: string, resourceGroupName: string, privateCloudName: string, dhcpId: string, options?: WorkloadNetworksDeleteDhcpOptionalParams) => PollerLike<OperationState<void>, void>;
+    deleteDnsService: (apiVersion: string, resourceGroupName: string, dnsServiceId: string, privateCloudName: string, options?: WorkloadNetworksDeleteDnsServiceOptionalParams) => PollerLike<OperationState<void>, void>;
+    deleteDnsZone: (apiVersion: string, resourceGroupName: string, dnsZoneId: string, privateCloudName: string, options?: WorkloadNetworksDeleteDnsZoneOptionalParams) => PollerLike<OperationState<void>, void>;
+    deletePortMirroring: (apiVersion: string, resourceGroupName: string, portMirroringId: string, privateCloudName: string, options?: WorkloadNetworksDeletePortMirroringOptionalParams) => PollerLike<OperationState<void>, void>;
+    deletePublicIP: (apiVersion: string, resourceGroupName: string, publicIPId: string, privateCloudName: string, options?: WorkloadNetworksDeletePublicIPOptionalParams) => PollerLike<OperationState<void>, void>;
+    deleteSegment: (apiVersion: string, resourceGroupName: string, privateCloudName: string, segmentId: string, options?: WorkloadNetworksDeleteSegmentOptionalParams) => PollerLike<OperationState<void>, void>;
+    deleteVMGroup: (apiVersion: string, resourceGroupName: string, vmGroupId: string, privateCloudName: string, options?: WorkloadNetworksDeleteVMGroupOptionalParams) => PollerLike<OperationState<void>, void>;
+    get: (apiVersion: string, resourceGroupName: string, privateCloudName: string, options?: WorkloadNetworksGetOptionalParams) => Promise<WorkloadNetwork>;
+    getDhcp: (apiVersion: string, resourceGroupName: string, dhcpId: string, privateCloudName: string, options?: WorkloadNetworksGetDhcpOptionalParams) => Promise<WorkloadNetworkDhcp>;
+    getDnsService: (apiVersion: string, resourceGroupName: string, privateCloudName: string, dnsServiceId: string, options?: WorkloadNetworksGetDnsServiceOptionalParams) => Promise<WorkloadNetworkDnsService>;
+    getDnsZone: (apiVersion: string, resourceGroupName: string, privateCloudName: string, dnsZoneId: string, options?: WorkloadNetworksGetDnsZoneOptionalParams) => Promise<WorkloadNetworkDnsZone>;
+    getGateway: (apiVersion: string, resourceGroupName: string, privateCloudName: string, gatewayId: string, options?: WorkloadNetworksGetGatewayOptionalParams) => Promise<WorkloadNetworkGateway>;
+    getPortMirroring: (apiVersion: string, resourceGroupName: string, privateCloudName: string, portMirroringId: string, options?: WorkloadNetworksGetPortMirroringOptionalParams) => Promise<WorkloadNetworkPortMirroring>;
+    getPublicIP: (apiVersion: string, resourceGroupName: string, privateCloudName: string, publicIPId: string, options?: WorkloadNetworksGetPublicIPOptionalParams) => Promise<WorkloadNetworkPublicIP>;
+    getSegment: (apiVersion: string, resourceGroupName: string, privateCloudName: string, segmentId: string, options?: WorkloadNetworksGetSegmentOptionalParams) => Promise<WorkloadNetworkSegment>;
+    getVirtualMachine: (apiVersion: string, resourceGroupName: string, privateCloudName: string, virtualMachineId: string, options?: WorkloadNetworksGetVirtualMachineOptionalParams) => Promise<WorkloadNetworkVirtualMachine>;
+    getVMGroup: (apiVersion: string, resourceGroupName: string, privateCloudName: string, vmGroupId: string, options?: WorkloadNetworksGetVMGroupOptionalParams) => Promise<WorkloadNetworkVMGroup>;
+    list: (apiVersion: string, resourceGroupName: string, privateCloudName: string, options?: WorkloadNetworksListOptionalParams) => PagedAsyncIterableIterator<WorkloadNetwork>;
+    listDhcp: (apiVersion: string, resourceGroupName: string, privateCloudName: string, options?: WorkloadNetworksListDhcpOptionalParams) => PagedAsyncIterableIterator<WorkloadNetworkDhcp>;
+    listDnsServices: (apiVersion: string, resourceGroupName: string, privateCloudName: string, options?: WorkloadNetworksListDnsServicesOptionalParams) => PagedAsyncIterableIterator<WorkloadNetworkDnsService>;
+    listDnsZones: (apiVersion: string, resourceGroupName: string, privateCloudName: string, options?: WorkloadNetworksListDnsZonesOptionalParams) => PagedAsyncIterableIterator<WorkloadNetworkDnsZone>;
+    listGateways: (apiVersion: string, resourceGroupName: string, privateCloudName: string, options?: WorkloadNetworksListGatewaysOptionalParams) => PagedAsyncIterableIterator<WorkloadNetworkGateway>;
+    listPortMirroring: (apiVersion: string, resourceGroupName: string, privateCloudName: string, options?: WorkloadNetworksListPortMirroringOptionalParams) => PagedAsyncIterableIterator<WorkloadNetworkPortMirroring>;
+    listPublicIPs: (apiVersion: string, resourceGroupName: string, privateCloudName: string, options?: WorkloadNetworksListPublicIPsOptionalParams) => PagedAsyncIterableIterator<WorkloadNetworkPublicIP>;
+    listSegments: (apiVersion: string, resourceGroupName: string, privateCloudName: string, options?: WorkloadNetworksListSegmentsOptionalParams) => PagedAsyncIterableIterator<WorkloadNetworkSegment>;
+    listVirtualMachines: (apiVersion: string, resourceGroupName: string, privateCloudName: string, options?: WorkloadNetworksListVirtualMachinesOptionalParams) => PagedAsyncIterableIterator<WorkloadNetworkVirtualMachine>;
+    listVMGroups: (apiVersion: string, resourceGroupName: string, privateCloudName: string, options?: WorkloadNetworksListVMGroupsOptionalParams) => PagedAsyncIterableIterator<WorkloadNetworkVMGroup>;
+    updateDhcp: (apiVersion: string, resourceGroupName: string, privateCloudName: string, dhcpId: string, workloadNetworkDhcp: WorkloadNetworkDhcp, options?: WorkloadNetworksUpdateDhcpOptionalParams) => PollerLike<OperationState<WorkloadNetworkDhcp>, WorkloadNetworkDhcp>;
+    updateDnsService: (apiVersion: string, resourceGroupName: string, privateCloudName: string, dnsServiceId: string, workloadNetworkDnsService: WorkloadNetworkDnsService, options?: WorkloadNetworksUpdateDnsServiceOptionalParams) => PollerLike<OperationState<WorkloadNetworkDnsService>, WorkloadNetworkDnsService>;
+    updateDnsZone: (apiVersion: string, resourceGroupName: string, privateCloudName: string, dnsZoneId: string, workloadNetworkDnsZone: WorkloadNetworkDnsZone, options?: WorkloadNetworksUpdateDnsZoneOptionalParams) => PollerLike<OperationState<WorkloadNetworkDnsZone>, WorkloadNetworkDnsZone>;
+    updatePortMirroring: (apiVersion: string, resourceGroupName: string, privateCloudName: string, portMirroringId: string, workloadNetworkPortMirroring: WorkloadNetworkPortMirroring, options?: WorkloadNetworksUpdatePortMirroringOptionalParams) => PollerLike<OperationState<WorkloadNetworkPortMirroring>, WorkloadNetworkPortMirroring>;
+    updateSegments: (apiVersion: string, resourceGroupName: string, privateCloudName: string, segmentId: string, workloadNetworkSegment: WorkloadNetworkSegment, options?: WorkloadNetworksUpdateSegmentsOptionalParams) => PollerLike<OperationState<WorkloadNetworkSegment>, WorkloadNetworkSegment>;
+    updateVMGroup: (apiVersion: string, resourceGroupName: string, privateCloudName: string, vmGroupId: string, workloadNetworkVMGroup: WorkloadNetworkVMGroup, options?: WorkloadNetworksUpdateVMGroupOptionalParams) => PollerLike<OperationState<WorkloadNetworkVMGroup>, WorkloadNetworkVMGroup>;
 }
 
 // @public

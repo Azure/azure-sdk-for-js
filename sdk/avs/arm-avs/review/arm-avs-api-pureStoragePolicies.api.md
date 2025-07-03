@@ -10,16 +10,16 @@ import { OperationState } from '@azure/core-lro';
 import { PollerLike } from '@azure/core-lro';
 
 // @public
-export function $delete(context: AzureVMwareSolutionAPIContext, resourceGroupName: string, privateCloudName: string, storagePolicyName: string, options?: PureStoragePoliciesDeleteOptionalParams): PollerLike<OperationState<void>, void>;
+export function $delete(context: AzureVMwareSolutionAPIContext, apiVersion: string, resourceGroupName: string, privateCloudName: string, storagePolicyName: string, options?: PureStoragePoliciesDeleteOptionalParams): PollerLike<OperationState<void>, void>;
 
 // @public
-export function createOrUpdate(context: AzureVMwareSolutionAPIContext, resourceGroupName: string, privateCloudName: string, storagePolicyName: string, resource: PureStoragePolicy, options?: PureStoragePoliciesCreateOrUpdateOptionalParams): PollerLike<OperationState<PureStoragePolicy>, PureStoragePolicy>;
+export function createOrUpdate(context: AzureVMwareSolutionAPIContext, apiVersion: string, resourceGroupName: string, privateCloudName: string, storagePolicyName: string, resource: PureStoragePolicy, options?: PureStoragePoliciesCreateOrUpdateOptionalParams): PollerLike<OperationState<PureStoragePolicy>, PureStoragePolicy>;
 
 // @public
-export function get(context: AzureVMwareSolutionAPIContext, resourceGroupName: string, privateCloudName: string, storagePolicyName: string, options?: PureStoragePoliciesGetOptionalParams): Promise<PureStoragePolicy>;
+export function get(context: AzureVMwareSolutionAPIContext, apiVersion: string, resourceGroupName: string, privateCloudName: string, storagePolicyName: string, options?: PureStoragePoliciesGetOptionalParams): Promise<PureStoragePolicy>;
 
 // @public
-export function list(context: AzureVMwareSolutionAPIContext, resourceGroupName: string, privateCloudName: string, options?: PureStoragePoliciesListOptionalParams): PagedAsyncIterableIterator<PureStoragePolicy>;
+export function list(context: AzureVMwareSolutionAPIContext, apiVersion: string, resourceGroupName: string, privateCloudName: string, options?: PureStoragePoliciesListOptionalParams): PagedAsyncIterableIterator<PureStoragePolicy>;
 
 // @public
 export interface PureStoragePoliciesCreateOrUpdateOptionalParams extends OperationOptions {

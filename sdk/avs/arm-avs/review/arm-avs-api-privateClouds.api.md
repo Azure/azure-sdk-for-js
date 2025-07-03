@@ -10,22 +10,22 @@ import { OperationState } from '@azure/core-lro';
 import { PollerLike } from '@azure/core-lro';
 
 // @public
-export function $delete(context: AzureVMwareSolutionAPIContext, resourceGroupName: string, privateCloudName: string, options?: PrivateCloudsDeleteOptionalParams): PollerLike<OperationState<void>, void>;
+export function $delete(context: AzureVMwareSolutionAPIContext, apiVersion: string, resourceGroupName: string, privateCloudName: string, options?: PrivateCloudsDeleteOptionalParams): PollerLike<OperationState<void>, void>;
 
 // @public
-export function createOrUpdate(context: AzureVMwareSolutionAPIContext, resourceGroupName: string, privateCloudName: string, privateCloud: PrivateCloud, options?: PrivateCloudsCreateOrUpdateOptionalParams): PollerLike<OperationState<PrivateCloud>, PrivateCloud>;
+export function createOrUpdate(context: AzureVMwareSolutionAPIContext, apiVersion: string, resourceGroupName: string, privateCloudName: string, privateCloud: PrivateCloud, options?: PrivateCloudsCreateOrUpdateOptionalParams): PollerLike<OperationState<PrivateCloud>, PrivateCloud>;
 
 // @public
-export function get(context: AzureVMwareSolutionAPIContext, resourceGroupName: string, privateCloudName: string, options?: PrivateCloudsGetOptionalParams): Promise<PrivateCloud>;
+export function get(context: AzureVMwareSolutionAPIContext, apiVersion: string, resourceGroupName: string, privateCloudName: string, options?: PrivateCloudsGetOptionalParams): Promise<PrivateCloud>;
 
 // @public
-export function list(context: AzureVMwareSolutionAPIContext, resourceGroupName: string, options?: PrivateCloudsListOptionalParams): PagedAsyncIterableIterator<PrivateCloud>;
+export function list(context: AzureVMwareSolutionAPIContext, apiVersion: string, resourceGroupName: string, options?: PrivateCloudsListOptionalParams): PagedAsyncIterableIterator<PrivateCloud>;
 
 // @public
-export function listAdminCredentials(context: AzureVMwareSolutionAPIContext, resourceGroupName: string, privateCloudName: string, options?: PrivateCloudsListAdminCredentialsOptionalParams): Promise<AdminCredentials>;
+export function listAdminCredentials(context: AzureVMwareSolutionAPIContext, apiVersion: string, resourceGroupName: string, privateCloudName: string, options?: PrivateCloudsListAdminCredentialsOptionalParams): Promise<AdminCredentials>;
 
 // @public
-export function listInSubscription(context: AzureVMwareSolutionAPIContext, options?: PrivateCloudsListInSubscriptionOptionalParams): PagedAsyncIterableIterator<PrivateCloud>;
+export function listInSubscription(context: AzureVMwareSolutionAPIContext, apiVersion: string, options?: PrivateCloudsListInSubscriptionOptionalParams): PagedAsyncIterableIterator<PrivateCloud>;
 
 // @public
 export interface PrivateCloudsCreateOrUpdateOptionalParams extends OperationOptions {
@@ -69,13 +69,13 @@ export interface PrivateCloudsUpdateOptionalParams extends OperationOptions {
 }
 
 // @public
-export function rotateNsxtPassword(context: AzureVMwareSolutionAPIContext, resourceGroupName: string, privateCloudName: string, options?: PrivateCloudsRotateNsxtPasswordOptionalParams): PollerLike<OperationState<void>, void>;
+export function rotateNsxtPassword(context: AzureVMwareSolutionAPIContext, apiVersion: string, resourceGroupName: string, privateCloudName: string, options?: PrivateCloudsRotateNsxtPasswordOptionalParams): PollerLike<OperationState<void>, void>;
 
 // @public
-export function rotateVcenterPassword(context: AzureVMwareSolutionAPIContext, resourceGroupName: string, privateCloudName: string, options?: PrivateCloudsRotateVcenterPasswordOptionalParams): PollerLike<OperationState<void>, void>;
+export function rotateVcenterPassword(context: AzureVMwareSolutionAPIContext, apiVersion: string, resourceGroupName: string, privateCloudName: string, options?: PrivateCloudsRotateVcenterPasswordOptionalParams): PollerLike<OperationState<void>, void>;
 
 // @public
-export function update(context: AzureVMwareSolutionAPIContext, resourceGroupName: string, privateCloudName: string, privateCloudUpdate: PrivateCloudUpdate, options?: PrivateCloudsUpdateOptionalParams): PollerLike<OperationState<PrivateCloud>, PrivateCloud>;
+export function update(context: AzureVMwareSolutionAPIContext, apiVersion: string, resourceGroupName: string, privateCloudName: string, privateCloudUpdate: PrivateCloudUpdate, options?: PrivateCloudsUpdateOptionalParams): PollerLike<OperationState<PrivateCloud>, PrivateCloud>;
 
 // (No @packageDocumentation comment for this package)
 

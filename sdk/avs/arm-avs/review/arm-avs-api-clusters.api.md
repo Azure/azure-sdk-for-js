@@ -10,7 +10,7 @@ import { OperationState } from '@azure/core-lro';
 import { PollerLike } from '@azure/core-lro';
 
 // @public
-export function $delete(context: AzureVMwareSolutionAPIContext, resourceGroupName: string, privateCloudName: string, clusterName: string, options?: ClustersDeleteOptionalParams): PollerLike<OperationState<void>, void>;
+export function $delete(context: AzureVMwareSolutionAPIContext, apiVersion: string, resourceGroupName: string, privateCloudName: string, clusterName: string, options?: ClustersDeleteOptionalParams): PollerLike<OperationState<void>, void>;
 
 // @public
 export interface ClustersCreateOrUpdateOptionalParams extends OperationOptions {
@@ -40,19 +40,19 @@ export interface ClustersUpdateOptionalParams extends OperationOptions {
 }
 
 // @public
-export function createOrUpdate(context: AzureVMwareSolutionAPIContext, resourceGroupName: string, privateCloudName: string, clusterName: string, cluster: Cluster, options?: ClustersCreateOrUpdateOptionalParams): PollerLike<OperationState<Cluster>, Cluster>;
+export function createOrUpdate(context: AzureVMwareSolutionAPIContext, apiVersion: string, resourceGroupName: string, privateCloudName: string, clusterName: string, cluster: Cluster, options?: ClustersCreateOrUpdateOptionalParams): PollerLike<OperationState<Cluster>, Cluster>;
 
 // @public
-export function get(context: AzureVMwareSolutionAPIContext, resourceGroupName: string, privateCloudName: string, clusterName: string, options?: ClustersGetOptionalParams): Promise<Cluster>;
+export function get(context: AzureVMwareSolutionAPIContext, apiVersion: string, resourceGroupName: string, privateCloudName: string, clusterName: string, options?: ClustersGetOptionalParams): Promise<Cluster>;
 
 // @public
-export function list(context: AzureVMwareSolutionAPIContext, resourceGroupName: string, privateCloudName: string, options?: ClustersListOptionalParams): PagedAsyncIterableIterator<Cluster>;
+export function list(context: AzureVMwareSolutionAPIContext, apiVersion: string, resourceGroupName: string, privateCloudName: string, options?: ClustersListOptionalParams): PagedAsyncIterableIterator<Cluster>;
 
 // @public
-export function listZones(context: AzureVMwareSolutionAPIContext, resourceGroupName: string, privateCloudName: string, clusterName: string, options?: ClustersListZonesOptionalParams): Promise<ClusterZoneList>;
+export function listZones(context: AzureVMwareSolutionAPIContext, apiVersion: string, resourceGroupName: string, privateCloudName: string, clusterName: string, options?: ClustersListZonesOptionalParams): Promise<ClusterZoneList>;
 
 // @public
-export function update(context: AzureVMwareSolutionAPIContext, resourceGroupName: string, privateCloudName: string, clusterName: string, clusterUpdate: ClusterUpdate, options?: ClustersUpdateOptionalParams): PollerLike<OperationState<Cluster>, Cluster>;
+export function update(context: AzureVMwareSolutionAPIContext, apiVersion: string, resourceGroupName: string, privateCloudName: string, clusterName: string, clusterUpdate: ClusterUpdate, options?: ClustersUpdateOptionalParams): PollerLike<OperationState<Cluster>, Cluster>;
 
 // (No @packageDocumentation comment for this package)
 

@@ -32,6 +32,7 @@ import { PollerLike, OperationState } from "@azure/core-lro";
 
 export function _$deleteSend(
   context: Client,
+  apiVersion: string,
   resourceGroupName: string,
   privateCloudName: string,
   options: IscsiPathsDeleteOptionalParams = { requestOptions: {} },
@@ -42,7 +43,7 @@ export function _$deleteSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       privateCloudName: privateCloudName,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": apiVersion,
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -76,6 +77,7 @@ export async function _$deleteDeserialize(result: PathUncheckedResponse): Promis
  */
 export function $delete(
   context: Client,
+  apiVersion: string,
   resourceGroupName: string,
   privateCloudName: string,
   options: IscsiPathsDeleteOptionalParams = { requestOptions: {} },
@@ -83,13 +85,15 @@ export function $delete(
   return getLongRunningPoller(context, _$deleteDeserialize, ["200", "202", "204"], {
     updateIntervalInMs: options?.updateIntervalInMs,
     abortSignal: options?.abortSignal,
-    getInitialResponse: () => _$deleteSend(context, resourceGroupName, privateCloudName, options),
+    getInitialResponse: () =>
+      _$deleteSend(context, apiVersion, resourceGroupName, privateCloudName, options),
     resourceLocationConfig: "location",
   }) as PollerLike<OperationState<void>, void>;
 }
 
 export function _createOrUpdateSend(
   context: Client,
+  apiVersion: string,
   resourceGroupName: string,
   privateCloudName: string,
   resource: IscsiPath,
@@ -101,7 +105,7 @@ export function _createOrUpdateSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       privateCloudName: privateCloudName,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": apiVersion,
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -134,6 +138,7 @@ export async function _createOrUpdateDeserialize(
 /** Create a IscsiPath */
 export function createOrUpdate(
   context: Client,
+  apiVersion: string,
   resourceGroupName: string,
   privateCloudName: string,
   resource: IscsiPath,
@@ -143,13 +148,21 @@ export function createOrUpdate(
     updateIntervalInMs: options?.updateIntervalInMs,
     abortSignal: options?.abortSignal,
     getInitialResponse: () =>
-      _createOrUpdateSend(context, resourceGroupName, privateCloudName, resource, options),
+      _createOrUpdateSend(
+        context,
+        apiVersion,
+        resourceGroupName,
+        privateCloudName,
+        resource,
+        options,
+      ),
     resourceLocationConfig: "azure-async-operation",
   }) as PollerLike<OperationState<IscsiPath>, IscsiPath>;
 }
 
 export function _getSend(
   context: Client,
+  apiVersion: string,
   resourceGroupName: string,
   privateCloudName: string,
   options: IscsiPathsGetOptionalParams = { requestOptions: {} },
@@ -160,7 +173,7 @@ export function _getSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       privateCloudName: privateCloudName,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": apiVersion,
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -189,16 +202,18 @@ export async function _getDeserialize(result: PathUncheckedResponse): Promise<Is
 /** Get a IscsiPath */
 export async function get(
   context: Client,
+  apiVersion: string,
   resourceGroupName: string,
   privateCloudName: string,
   options: IscsiPathsGetOptionalParams = { requestOptions: {} },
 ): Promise<IscsiPath> {
-  const result = await _getSend(context, resourceGroupName, privateCloudName, options);
+  const result = await _getSend(context, apiVersion, resourceGroupName, privateCloudName, options);
   return _getDeserialize(result);
 }
 
 export function _listByPrivateCloudSend(
   context: Client,
+  apiVersion: string,
   resourceGroupName: string,
   privateCloudName: string,
   options: IscsiPathsListByPrivateCloudOptionalParams = { requestOptions: {} },
@@ -209,7 +224,7 @@ export function _listByPrivateCloudSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       privateCloudName: privateCloudName,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": apiVersion,
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -240,13 +255,15 @@ export async function _listByPrivateCloudDeserialize(
 /** List IscsiPath resources by PrivateCloud */
 export function listByPrivateCloud(
   context: Client,
+  apiVersion: string,
   resourceGroupName: string,
   privateCloudName: string,
   options: IscsiPathsListByPrivateCloudOptionalParams = { requestOptions: {} },
 ): PagedAsyncIterableIterator<IscsiPath> {
   return buildPagedAsyncIterator(
     context,
-    () => _listByPrivateCloudSend(context, resourceGroupName, privateCloudName, options),
+    () =>
+      _listByPrivateCloudSend(context, apiVersion, resourceGroupName, privateCloudName, options),
     _listByPrivateCloudDeserialize,
     ["200"],
     { itemName: "value", nextLinkName: "nextLink" },

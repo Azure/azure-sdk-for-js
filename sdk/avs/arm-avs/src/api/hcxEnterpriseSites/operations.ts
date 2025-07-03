@@ -30,6 +30,7 @@ import {
 
 export function _$deleteSend(
   context: Client,
+  apiVersion: string,
   resourceGroupName: string,
   privateCloudName: string,
   hcxEnterpriseSiteName: string,
@@ -42,7 +43,7 @@ export function _$deleteSend(
       resourceGroupName: resourceGroupName,
       privateCloudName: privateCloudName,
       hcxEnterpriseSiteName: hcxEnterpriseSiteName,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": apiVersion,
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -76,6 +77,7 @@ export async function _$deleteDeserialize(result: PathUncheckedResponse): Promis
  */
 export async function $delete(
   context: Client,
+  apiVersion: string,
   resourceGroupName: string,
   privateCloudName: string,
   hcxEnterpriseSiteName: string,
@@ -83,6 +85,7 @@ export async function $delete(
 ): Promise<void> {
   const result = await _$deleteSend(
     context,
+    apiVersion,
     resourceGroupName,
     privateCloudName,
     hcxEnterpriseSiteName,
@@ -93,6 +96,7 @@ export async function $delete(
 
 export function _createOrUpdateSend(
   context: Client,
+  apiVersion: string,
   resourceGroupName: string,
   privateCloudName: string,
   hcxEnterpriseSiteName: string,
@@ -108,7 +112,7 @@ export function _createOrUpdateSend(
       resourceGroupName: resourceGroupName,
       privateCloudName: privateCloudName,
       hcxEnterpriseSiteName: hcxEnterpriseSiteName,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": apiVersion,
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -141,6 +145,7 @@ export async function _createOrUpdateDeserialize(
 /** Create a HcxEnterpriseSite */
 export async function createOrUpdate(
   context: Client,
+  apiVersion: string,
   resourceGroupName: string,
   privateCloudName: string,
   hcxEnterpriseSiteName: string,
@@ -151,6 +156,7 @@ export async function createOrUpdate(
 ): Promise<HcxEnterpriseSite> {
   const result = await _createOrUpdateSend(
     context,
+    apiVersion,
     resourceGroupName,
     privateCloudName,
     hcxEnterpriseSiteName,
@@ -162,6 +168,7 @@ export async function createOrUpdate(
 
 export function _getSend(
   context: Client,
+  apiVersion: string,
   resourceGroupName: string,
   privateCloudName: string,
   hcxEnterpriseSiteName: string,
@@ -174,7 +181,7 @@ export function _getSend(
       resourceGroupName: resourceGroupName,
       privateCloudName: privateCloudName,
       hcxEnterpriseSiteName: hcxEnterpriseSiteName,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": apiVersion,
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -203,6 +210,7 @@ export async function _getDeserialize(result: PathUncheckedResponse): Promise<Hc
 /** Get a HcxEnterpriseSite */
 export async function get(
   context: Client,
+  apiVersion: string,
   resourceGroupName: string,
   privateCloudName: string,
   hcxEnterpriseSiteName: string,
@@ -210,6 +218,7 @@ export async function get(
 ): Promise<HcxEnterpriseSite> {
   const result = await _getSend(
     context,
+    apiVersion,
     resourceGroupName,
     privateCloudName,
     hcxEnterpriseSiteName,
@@ -220,6 +229,7 @@ export async function get(
 
 export function _listSend(
   context: Client,
+  apiVersion: string,
   resourceGroupName: string,
   privateCloudName: string,
   options: HcxEnterpriseSitesListOptionalParams = { requestOptions: {} },
@@ -230,7 +240,7 @@ export function _listSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       privateCloudName: privateCloudName,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": apiVersion,
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -261,13 +271,14 @@ export async function _listDeserialize(
 /** List HcxEnterpriseSite resources by PrivateCloud */
 export function list(
   context: Client,
+  apiVersion: string,
   resourceGroupName: string,
   privateCloudName: string,
   options: HcxEnterpriseSitesListOptionalParams = { requestOptions: {} },
 ): PagedAsyncIterableIterator<HcxEnterpriseSite> {
   return buildPagedAsyncIterator(
     context,
-    () => _listSend(context, resourceGroupName, privateCloudName, options),
+    () => _listSend(context, apiVersion, resourceGroupName, privateCloudName, options),
     _listDeserialize,
     ["200"],
     { itemName: "value", nextLinkName: "nextLink" },
