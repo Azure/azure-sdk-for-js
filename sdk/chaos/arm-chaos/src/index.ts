@@ -92,9 +92,11 @@ export {
   CapabilityTypesGetOptionalParams,
 } from "./api/capabilityTypes/index.js";
 export {
-  ExperimentsExecutionDetailsOptionalParams,
-  ExperimentsListAllExecutionsOptionalParams,
-  ExperimentsGetExecutionOptionalParams,
+  ExperimentExecutionsGetExecutionDetailsOptionalParams,
+  ExperimentExecutionsListAllExecutionsOptionalParams,
+  ExperimentExecutionsGetExecutionOptionalParams,
+} from "./api/experimentExecutions/index.js";
+export {
   ExperimentsStartOptionalParams,
   ExperimentsCancelOptionalParams,
   ExperimentsListAllOptionalParams,
@@ -104,7 +106,7 @@ export {
   ExperimentsCreateOrUpdateOptionalParams,
   ExperimentsGetOptionalParams,
 } from "./api/experiments/index.js";
-export { OperationsListAllOptionalParams } from "./api/operations/index.js";
+export { OperationsListOptionalParams } from "./api/operations/index.js";
 export { OperationStatusesGetOptionalParams } from "./api/operationStatuses/index.js";
 export {
   TargetsListOptionalParams,
@@ -119,6 +121,7 @@ export {
 export {
   CapabilitiesOperations,
   CapabilityTypesOperations,
+  ExperimentExecutionsOperations,
   ExperimentsOperations,
   OperationsOperations,
   OperationStatusesOperations,

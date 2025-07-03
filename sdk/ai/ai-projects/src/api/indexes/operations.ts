@@ -1,6 +1,5 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-/* eslint-disable tsdoc/syntax */
 
 import { AIProjectContext as Client } from "../index.js";
 import {
@@ -17,11 +16,11 @@ import {
   IndexesListOptionalParams,
   IndexesListVersionsOptionalParams,
 } from "./options.js";
-import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
 import {
   PagedAsyncIterableIterator,
   buildPagedAsyncIterator,
 } from "../../static-helpers/pagingHelpers.js";
+import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
 import {
   StreamableMethod,
   PathUncheckedResponse,
@@ -32,16 +31,16 @@ import {
 export function _createOrUpdateSend(
   context: Client,
   name: string,
-  version: string,
   body: IndexUnion,
+  version: string,
   options: IndexesCreateOrUpdateOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "/indexes/{name}/versions/{version}{?api-version}",
+    "/indexes/{name}/versions/{version}{?api%2Dversion}",
     {
       name: name,
       version: version,
-      "api-version": context.apiVersion,
+      "api%2Dversion": context.apiVersion,
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -73,11 +72,11 @@ export async function _createOrUpdateDeserialize(
 export async function createOrUpdate(
   context: Client,
   name: string,
-  version: string,
   body: IndexUnion,
+  version: string,
   options: IndexesCreateOrUpdateOptionalParams = { requestOptions: {} },
 ): Promise<IndexUnion> {
-  const result = await _createOrUpdateSend(context, name, version, body, options);
+  const result = await _createOrUpdateSend(context, name, body, version, options);
   return _createOrUpdateDeserialize(result);
 }
 
@@ -88,11 +87,11 @@ export function _$deleteSend(
   options: IndexesDeleteOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "/indexes/{name}/versions/{version}{?api-version}",
+    "/indexes/{name}/versions/{version}{?api%2Dversion}",
     {
       name: name,
       version: version,
-      "api-version": context.apiVersion,
+      "api%2Dversion": context.apiVersion,
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -139,11 +138,11 @@ export function _getSend(
   options: IndexesGetOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "/indexes/{name}/versions/{version}{?api-version}",
+    "/indexes/{name}/versions/{version}{?api%2Dversion}",
     {
       name: name,
       version: version,
-      "api-version": context.apiVersion,
+      "api%2Dversion": context.apiVersion,
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -183,9 +182,9 @@ export function _listSend(
   options: IndexesListOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "/indexes{?api-version}",
+    "/indexes{?api%2Dversion}",
     {
-      "api-version": context.apiVersion,
+      "api%2Dversion": context.apiVersion,
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -229,10 +228,10 @@ export function _listVersionsSend(
   options: IndexesListVersionsOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "/indexes/{name}/versions{?api-version}",
+    "/indexes/{name}/versions{?api%2Dversion}",
     {
       name: name,
-      "api-version": context.apiVersion,
+      "api%2Dversion": context.apiVersion,
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,

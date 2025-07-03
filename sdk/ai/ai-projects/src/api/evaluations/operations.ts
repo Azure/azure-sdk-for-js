@@ -4,7 +4,6 @@
 import { AIProjectContext as Client } from "../index.js";
 import {
   Evaluation,
-  EvaluationWithOptionalName,
   evaluationSerializer,
   evaluationDeserializer,
   _PagedEvaluation,
@@ -20,11 +19,11 @@ import {
   EvaluationsListOptionalParams,
   EvaluationsGetOptionalParams,
 } from "./options.js";
-import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
 import {
   PagedAsyncIterableIterator,
   buildPagedAsyncIterator,
 } from "../../static-helpers/pagingHelpers.js";
+import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
 import {
   StreamableMethod,
   PathUncheckedResponse,
@@ -40,9 +39,9 @@ export function _createAgentEvaluationSend(
   },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "/evaluations/runs:runAgent{?api-version}",
+    "/evaluations/runs:runAgent{?api%2Dversion}",
     {
-      "api-version": context.apiVersion,
+      "api%2Dversion": context.apiVersion,
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -84,13 +83,13 @@ export async function createAgentEvaluation(
 
 export function _createSend(
   context: Client,
-  evaluation: EvaluationWithOptionalName,
+  evaluation: Evaluation,
   options: EvaluationsCreateOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "/evaluations/runs:run{?api-version}",
+    "/evaluations/runs:run{?api%2Dversion}",
     {
-      "api-version": context.apiVersion,
+      "api%2Dversion": context.apiVersion,
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -119,7 +118,7 @@ export async function _createDeserialize(result: PathUncheckedResponse): Promise
 /** Creates an evaluation run. */
 export async function create(
   context: Client,
-  evaluation: EvaluationWithOptionalName,
+  evaluation: Evaluation,
   options: EvaluationsCreateOptionalParams = { requestOptions: {} },
 ): Promise<Evaluation> {
   const result = await _createSend(context, evaluation, options);
@@ -131,9 +130,9 @@ export function _listSend(
   options: EvaluationsListOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "/evaluations/runs{?api-version}",
+    "/evaluations/runs{?api%2Dversion}",
     {
-      "api-version": context.apiVersion,
+      "api%2Dversion": context.apiVersion,
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -180,10 +179,10 @@ export function _getSend(
   options: EvaluationsGetOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "/evaluations/runs/{name}{?api-version}",
+    "/evaluations/runs/{name}{?api%2Dversion}",
     {
       name: name,
-      "api-version": context.apiVersion,
+      "api%2Dversion": context.apiVersion,
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,

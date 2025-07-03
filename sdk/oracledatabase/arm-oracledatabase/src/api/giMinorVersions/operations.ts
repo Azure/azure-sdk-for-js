@@ -13,11 +13,11 @@ import {
   GiMinorVersionsGetOptionalParams,
   GiMinorVersionsListByParentOptionalParams,
 } from "./options.js";
-import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
 import {
   PagedAsyncIterableIterator,
   buildPagedAsyncIterator,
 } from "../../static-helpers/pagingHelpers.js";
+import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
 import {
   StreamableMethod,
   PathUncheckedResponse,
@@ -45,16 +45,20 @@ export function _getSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).get({
-    ...operationOptionsToRequestParameters(options),
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
-  });
+  return context
+    .path(path)
+    .get({
+      ...operationOptionsToRequestParameters(options),
+      headers: {
+        accept: "application/json",
+        ...options.requestOptions?.headers,
+      },
+    });
 }
 
-export async function _getDeserialize(result: PathUncheckedResponse): Promise<GiMinorVersion> {
+export async function _getDeserialize(
+  result: PathUncheckedResponse,
+): Promise<GiMinorVersion> {
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
@@ -73,7 +77,13 @@ export async function get(
   giMinorVersionName: string,
   options: GiMinorVersionsGetOptionalParams = { requestOptions: {} },
 ): Promise<GiMinorVersion> {
-  const result = await _getSend(context, location, giversionname, giMinorVersionName, options);
+  const result = await _getSend(
+    context,
+    location,
+    giversionname,
+    giMinorVersionName,
+    options,
+  );
   return _getDeserialize(result);
 }
 
@@ -97,13 +107,15 @@ export function _listByParentSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).get({
-    ...operationOptionsToRequestParameters(options),
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
-  });
+  return context
+    .path(path)
+    .get({
+      ...operationOptionsToRequestParameters(options),
+      headers: {
+        accept: "application/json",
+        ...options.requestOptions?.headers,
+      },
+    });
 }
 
 export async function _listByParentDeserialize(

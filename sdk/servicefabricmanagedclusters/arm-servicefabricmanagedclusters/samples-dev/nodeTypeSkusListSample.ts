@@ -13,9 +13,16 @@ import { DefaultAzureCredential } from "@azure/identity";
 async function listANodeTypeSKUs(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "00000000-0000-0000-0000-000000000000";
-  const client = new ServiceFabricManagedClustersManagementClient(credential, subscriptionId);
+  const client = new ServiceFabricManagedClustersManagementClient(
+    credential,
+    subscriptionId,
+  );
   const resArray = new Array();
-  for await (const item of client.nodeTypeSkus.list("resRg", "myCluster", "BE")) {
+  for await (const item of client.nodeTypeSkus.list(
+    "resRg",
+    "myCluster",
+    "BE",
+  )) {
     resArray.push(item);
   }
 
