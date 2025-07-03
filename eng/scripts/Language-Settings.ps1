@@ -451,7 +451,7 @@ function Update-javascript-GeneratedSdks([string]$PackageDirectoriesFile) {
       if ($LASTEXITCODE) {
         $directoriesWithErrors += $directory
         if ($isManagementSdk) {
-          $errorStatistics.ManagementSdkTypeSpecGenerateFailure += $directory
+          $errorStatistics.ManagementSdkTypeSpecGenerateFailure += $tspDirectory
         }
         continue
       }
