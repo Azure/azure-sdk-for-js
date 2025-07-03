@@ -249,6 +249,8 @@ describe("GlobalPartitionEndpointManager", () => {
       );
       const result = await (manager as any).incrementFailureCounterAndCheckFailover(
         createRequestContext(),
+        false,
+        false,
       );
       assert.equal(result, false);
     });
@@ -259,13 +261,13 @@ describe("GlobalPartitionEndpointManager", () => {
       for (let i = 1; i <= 10; i++) {
         const result = await (
           globalPartitionEndpointManager as any
-        ).incrementFailureCounterAndCheckFailover(requestContext);
+        ).incrementFailureCounterAndCheckFailover(requestContext, false, true);
         assert.equal(result, false);
       }
 
       const finalResult = await (
         globalPartitionEndpointManager as any
-      ).incrementFailureCounterAndCheckFailover(requestContext);
+      ).incrementFailureCounterAndCheckFailover(requestContext, false, true);
       // Exceeds read threshold (10)
       assert.equal(finalResult, true);
     });
@@ -276,13 +278,13 @@ describe("GlobalPartitionEndpointManager", () => {
       for (let i = 1; i <= 5; i++) {
         const result = await (
           globalPartitionEndpointManager as any
-        ).incrementFailureCounterAndCheckFailover(requestContext);
+        ).incrementFailureCounterAndCheckFailover(requestContext, false, true);
         assert.equal(result, false);
       }
 
       const finalResult = await (
         globalPartitionEndpointManager as any
-      ).incrementFailureCounterAndCheckFailover(requestContext);
+      ).incrementFailureCounterAndCheckFailover(requestContext, false, true);
       assert.equal(finalResult, true); // Exceeds write threshold (5)
     });
 
@@ -292,6 +294,8 @@ describe("GlobalPartitionEndpointManager", () => {
       // Force one failure
       await (globalPartitionEndpointManager as any).incrementFailureCounterAndCheckFailover(
         requestContext,
+        false,
+        true,
       );
 
       // Artificially delay by more than reset window
@@ -306,7 +310,7 @@ describe("GlobalPartitionEndpointManager", () => {
       // This should reset counter
       const result = await (
         globalPartitionEndpointManager as any
-      ).incrementFailureCounterAndCheckFailover(requestContext);
+      ).incrementFailureCounterAndCheckFailover(requestContext, false, true);
       assert.equal(result, false); // Count was reset
 
       assert.equal((info as any).consecutiveWriteRequestFailureCount, 1);
@@ -323,15 +327,19 @@ describe("GlobalPartitionEndpointManager", () => {
       });
 
       for (let i = 0; i < 10; i++) {
-        await (globalPartitionEndpointManager as any).incrementFailureCounterAndCheckFailover(ctx1);
+        await (globalPartitionEndpointManager as any).incrementFailureCounterAndCheckFailover(
+          ctx1,
+          false,
+          true,
+        );
       }
 
       const result1 = await (
         globalPartitionEndpointManager as any
-      ).incrementFailureCounterAndCheckFailover(ctx1);
+      ).incrementFailureCounterAndCheckFailover(ctx1, false, true);
       const result2 = await (
         globalPartitionEndpointManager as any
-      ).incrementFailureCounterAndCheckFailover(ctx2);
+      ).incrementFailureCounterAndCheckFailover(ctx2, false, true);
 
       assert.equal(result1, true);
       assert.equal(result2, false);
