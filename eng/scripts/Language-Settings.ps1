@@ -421,7 +421,9 @@ function Update-javascript-GeneratedSdks([string]$PackageDirectoriesFile) {
   # Define a list of directories to skip for better maintainability
   $directoriesToSkip = @(
     "ai/ai-inference-rest",
-    "contentsafety/ai-content-safety-rest"
+    "contentsafety/ai-content-safety-rest",
+    "batch/batch-rest",
+    "documentintelligence/ai-document-intelligence-rest"
     # Add more directories to skip here as needed
   )
 
