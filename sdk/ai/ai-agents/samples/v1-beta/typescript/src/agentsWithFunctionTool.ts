@@ -147,7 +147,7 @@ export async function main(): Promise<void> {
   async function onResponse(response: { parsedBody?: ThreadRun }): Promise<void> {
     if (!response || !response.parsedBody) return;
 
-    const run = response.parsedBody as ThreadRun;
+    const run = response.parsedBody;
     console.log(`Current Run status - ${run.status}, run ID: ${run.id}`);
 
     // Ensure we have a run with requires_action status and required_action object
