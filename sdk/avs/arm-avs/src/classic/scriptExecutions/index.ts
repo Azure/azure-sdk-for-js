@@ -72,13 +72,26 @@ function _getScriptExecutions(context: AzureVMwareSolutionAPIContext) {
       scriptExecutionName: string,
       options?: ScriptExecutionsGetExecutionLogsOptionalParams,
     ) =>
-      getExecutionLogs(context, resourceGroupName, privateCloudName, scriptExecutionName, options),
+      getExecutionLogs(
+        context,
+        resourceGroupName,
+        privateCloudName,
+        scriptExecutionName,
+        options,
+      ),
     delete: (
       resourceGroupName: string,
       privateCloudName: string,
       scriptExecutionName: string,
       options?: ScriptExecutionsDeleteOptionalParams,
-    ) => $delete(context, resourceGroupName, privateCloudName, scriptExecutionName, options),
+    ) =>
+      $delete(
+        context,
+        resourceGroupName,
+        privateCloudName,
+        scriptExecutionName,
+        options,
+      ),
     createOrUpdate: (
       resourceGroupName: string,
       privateCloudName: string,
@@ -99,7 +112,14 @@ function _getScriptExecutions(context: AzureVMwareSolutionAPIContext) {
       privateCloudName: string,
       scriptExecutionName: string,
       options?: ScriptExecutionsGetOptionalParams,
-    ) => get(context, resourceGroupName, privateCloudName, scriptExecutionName, options),
+    ) =>
+      get(
+        context,
+        resourceGroupName,
+        privateCloudName,
+        scriptExecutionName,
+        options,
+      ),
     list: (
       resourceGroupName: string,
       privateCloudName: string,

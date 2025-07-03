@@ -4,16 +4,19 @@
 import { OperationOptions } from "@azure-rest/core-client";
 
 /** Optional parameters. */
-export interface PrivateCloudsListAdminCredentialsOptionalParams extends OperationOptions {}
+export interface PrivateCloudsListAdminCredentialsOptionalParams
+  extends OperationOptions {}
 
 /** Optional parameters. */
-export interface PrivateCloudsRotateNsxtPasswordOptionalParams extends OperationOptions {
+export interface PrivateCloudsRotateNsxtPasswordOptionalParams
+  extends OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
 }
 
 /** Optional parameters. */
-export interface PrivateCloudsRotateVcenterPasswordOptionalParams extends OperationOptions {
+export interface PrivateCloudsRotateVcenterPasswordOptionalParams
+  extends OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
 }
@@ -31,7 +34,8 @@ export interface PrivateCloudsUpdateOptionalParams extends OperationOptions {
 }
 
 /** Optional parameters. */
-export interface PrivateCloudsCreateOrUpdateOptionalParams extends OperationOptions {
+export interface PrivateCloudsCreateOrUpdateOptionalParams
+  extends OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
 }
@@ -40,7 +44,8 @@ export interface PrivateCloudsCreateOrUpdateOptionalParams extends OperationOpti
 export interface PrivateCloudsGetOptionalParams extends OperationOptions {}
 
 /** Optional parameters. */
-export interface PrivateCloudsListInSubscriptionOptionalParams extends OperationOptions {}
+export interface PrivateCloudsListInSubscriptionOptionalParams
+  extends OperationOptions {}
 
 /** Optional parameters. */
 export interface PrivateCloudsListOptionalParams extends OperationOptions {}

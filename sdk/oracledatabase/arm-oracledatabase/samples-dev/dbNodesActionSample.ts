@@ -14,9 +14,12 @@ async function dbNodesAction(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const client = new OracleDatabaseManagementClient(credential, subscriptionId);
-  const result = await client.dbNodes.action("rg000", "cluster1", "ocid1....aaaaaa", {
-    action: "Start",
-  });
+  const result = await client.dbNodes.action(
+    "rg000",
+    "cluster1",
+    "ocid1....aaaaaa",
+    { action: "Start" },
+  );
   console.log(result);
 }
 

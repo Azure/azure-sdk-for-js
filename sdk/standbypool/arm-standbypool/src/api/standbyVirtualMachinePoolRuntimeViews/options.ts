@@ -8,4 +8,5 @@ export interface StandbyVirtualMachinePoolRuntimeViewsListByStandbyPoolOptionalP
   extends OperationOptions {}
 
 /** Optional parameters. */
-export interface StandbyVirtualMachinePoolRuntimeViewsGetOptionalParams extends OperationOptions {}
+export interface StandbyVirtualMachinePoolRuntimeViewsGetOptionalParams
+  extends OperationOptions {}

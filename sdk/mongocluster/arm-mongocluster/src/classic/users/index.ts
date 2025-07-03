@@ -9,7 +9,12 @@ import {
   UsersCreateOrUpdateOptionalParams,
   UsersGetOptionalParams,
 } from "../../api/users/options.js";
-import { listByMongoCluster, $delete, createOrUpdate, get } from "../../api/users/operations.js";
+import {
+  listByMongoCluster,
+  $delete,
+  createOrUpdate,
+  get,
+} from "../../api/users/operations.js";
 import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 import { PollerLike, OperationState } from "@azure/core-lro";
 
@@ -56,20 +61,30 @@ function _getUsers(context: MongoClusterManagementContext) {
       resourceGroupName: string,
       mongoClusterName: string,
       options?: UsersListByMongoClusterOptionalParams,
-    ) => listByMongoCluster(context, resourceGroupName, mongoClusterName, options),
+    ) =>
+      listByMongoCluster(context, resourceGroupName, mongoClusterName, options),
     delete: (
       resourceGroupName: string,
       mongoClusterName: string,
       userName: string,
       options?: UsersDeleteOptionalParams,
-    ) => $delete(context, resourceGroupName, mongoClusterName, userName, options),
+    ) =>
+      $delete(context, resourceGroupName, mongoClusterName, userName, options),
     createOrUpdate: (
       resourceGroupName: string,
       mongoClusterName: string,
       userName: string,
       resource: User,
       options?: UsersCreateOrUpdateOptionalParams,
-    ) => createOrUpdate(context, resourceGroupName, mongoClusterName, userName, resource, options),
+    ) =>
+      createOrUpdate(
+        context,
+        resourceGroupName,
+        mongoClusterName,
+        userName,
+        resource,
+        options,
+      ),
     get: (
       resourceGroupName: string,
       mongoClusterName: string,
@@ -79,7 +94,9 @@ function _getUsers(context: MongoClusterManagementContext) {
   };
 }
 
-export function _getUsersOperations(context: MongoClusterManagementContext): UsersOperations {
+export function _getUsersOperations(
+  context: MongoClusterManagementContext,
+): UsersOperations {
   return {
     ..._getUsers(context),
   };

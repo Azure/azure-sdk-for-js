@@ -8,12 +8,12 @@ import {
   _operationListResultDeserializer,
   Operation,
 } from "../../models/models.js";
-import { OperationsListAllOptionalParams } from "./options.js";
-import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
+import { OperationsListOptionalParams } from "./options.js";
 import {
   PagedAsyncIterableIterator,
   buildPagedAsyncIterator,
 } from "../../static-helpers/pagingHelpers.js";
+import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
 import {
   StreamableMethod,
   PathUncheckedResponse,
@@ -21,9 +21,9 @@ import {
   operationOptionsToRequestParameters,
 } from "@azure-rest/core-client";
 
-export function _listAllSend(
+export function _listSend(
   context: Client,
-  options: OperationsListAllOptionalParams = { requestOptions: {} },
+  options: OperationsListOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
     "/providers/Microsoft.Chaos/operations{?api%2Dversion}",
@@ -34,16 +34,18 @@ export function _listAllSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).get({
-    ...operationOptionsToRequestParameters(options),
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
-  });
+  return context
+    .path(path)
+    .get({
+      ...operationOptionsToRequestParameters(options),
+      headers: {
+        accept: "application/json",
+        ...options.requestOptions?.headers,
+      },
+    });
 }
 
-export async function _listAllDeserialize(
+export async function _listDeserialize(
   result: PathUncheckedResponse,
 ): Promise<_OperationListResult> {
   const expectedStatuses = ["200"];
@@ -57,14 +59,14 @@ export async function _listAllDeserialize(
 }
 
 /** List the operations for the provider */
-export function listAll(
+export function list(
   context: Client,
-  options: OperationsListAllOptionalParams = { requestOptions: {} },
+  options: OperationsListOptionalParams = { requestOptions: {} },
 ): PagedAsyncIterableIterator<Operation> {
   return buildPagedAsyncIterator(
     context,
-    () => _listAllSend(context, options),
-    _listAllDeserialize,
+    () => _listSend(context, options),
+    _listDeserialize,
     ["200"],
     { itemName: "value", nextLinkName: "nextLink" },
   );

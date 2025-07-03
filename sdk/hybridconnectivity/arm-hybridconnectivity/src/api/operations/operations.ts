@@ -3,10 +3,10 @@
 
 import { HybridConnectivityManagementAPIContext as Client } from "../index.js";
 import {
-  errorResponseDeserializer,
   _OperationListResult,
   _operationListResultDeserializer,
   Operation,
+  errorResponseDeserializer,
 } from "../../models/models.js";
 import { OperationsListOptionalParams } from "./options.js";
 import {
@@ -21,29 +21,31 @@ import {
   operationOptionsToRequestParameters,
 } from "@azure-rest/core-client";
 
-export function _listSend(
+export function _operationsListSend(
   context: Client,
   options: OperationsListOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "/providers/Microsoft.HybridConnectivity/operations{?api-version}",
+    "/providers/Microsoft.HybridConnectivity/operations{?api%2Dversion}",
     {
-      "api-version": context.apiVersion,
+      "api%2Dversion": context.apiVersion,
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).get({
-    ...operationOptionsToRequestParameters(options),
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
-  });
+  return context
+    .path(path)
+    .get({
+      ...operationOptionsToRequestParameters(options),
+      headers: {
+        accept: "application/json",
+        ...options.requestOptions?.headers,
+      },
+    });
 }
 
-export async function _listDeserialize(
+export async function _operationsListDeserialize(
   result: PathUncheckedResponse,
 ): Promise<_OperationListResult> {
   const expectedStatuses = ["200"];
@@ -57,14 +59,14 @@ export async function _listDeserialize(
 }
 
 /** List the operations for the provider */
-export function list(
+export function operationsList(
   context: Client,
   options: OperationsListOptionalParams = { requestOptions: {} },
 ): PagedAsyncIterableIterator<Operation> {
   return buildPagedAsyncIterator(
     context,
-    () => _listSend(context, options),
-    _listDeserialize,
+    () => _operationsListSend(context, options),
+    _operationsListDeserialize,
     ["200"],
     { itemName: "value", nextLinkName: "nextLink" },
   );

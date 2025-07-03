@@ -42,7 +42,7 @@ import {
   operationOptionsToRequestParameters,
 } from "@azure-rest/core-client";
 
-export function _listManagedProxyDetailsSend(
+export function _endpointsListManagedProxyDetailsSend(
   context: Client,
   resourceUri: string,
   endpointName: string,
@@ -52,28 +52,30 @@ export function _listManagedProxyDetailsSend(
   },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "/{+resourceUri}/providers/Microsoft.HybridConnectivity/endpoints/{+endpointName}/listManagedProxyDetails{?api-version}",
+    "/{+resourceUri}/providers/Microsoft.HybridConnectivity/endpoints/{+endpointName}/listManagedProxyDetails{?api%2Dversion}",
     {
       resourceUri: resourceUri,
       endpointName: endpointName,
-      "api-version": context.apiVersion,
+      "api%2Dversion": context.apiVersion,
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).post({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
-    body: managedProxyRequestSerializer(managedProxyRequest),
-  });
+  return context
+    .path(path)
+    .post({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      headers: {
+        accept: "application/json",
+        ...options.requestOptions?.headers,
+      },
+      body: managedProxyRequestSerializer(managedProxyRequest),
+    });
 }
 
-export async function _listManagedProxyDetailsDeserialize(
+export async function _endpointsListManagedProxyDetailsDeserialize(
   result: PathUncheckedResponse,
 ): Promise<ManagedProxyResource> {
   const expectedStatuses = ["200"];
@@ -87,7 +89,7 @@ export async function _listManagedProxyDetailsDeserialize(
 }
 
 /** Fetches the managed proxy details */
-export async function listManagedProxyDetails(
+export async function endpointsListManagedProxyDetails(
   context: Client,
   resourceUri: string,
   endpointName: string,
@@ -96,17 +98,17 @@ export async function listManagedProxyDetails(
     requestOptions: {},
   },
 ): Promise<ManagedProxyResource> {
-  const result = await _listManagedProxyDetailsSend(
+  const result = await _endpointsListManagedProxyDetailsSend(
     context,
     resourceUri,
     endpointName,
     managedProxyRequest,
     options,
   );
-  return _listManagedProxyDetailsDeserialize(result);
+  return _endpointsListManagedProxyDetailsDeserialize(result);
 }
 
-export function _listIngressGatewayCredentialsSend(
+export function _endpointsListIngressGatewayCredentialsSend(
   context: Client,
   resourceUri: string,
   endpointName: string,
@@ -115,33 +117,35 @@ export function _listIngressGatewayCredentialsSend(
   },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "/{+resourceUri}/providers/Microsoft.HybridConnectivity/endpoints/{+endpointName}/listIngressGatewayCredentials{?api-version,expiresin}",
+    "/{+resourceUri}/providers/Microsoft.HybridConnectivity/endpoints/{+endpointName}/listIngressGatewayCredentials{?api%2Dversion,expiresin}",
     {
       resourceUri: resourceUri,
       endpointName: endpointName,
-      "api-version": context.apiVersion,
+      "api%2Dversion": context.apiVersion,
       expiresin: options?.expiresin,
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).post({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
-    body: !options["listIngressGatewayCredentialsRequest"]
-      ? options["listIngressGatewayCredentialsRequest"]
-      : listIngressGatewayCredentialsRequestSerializer(
-          options["listIngressGatewayCredentialsRequest"],
-        ),
-  });
+  return context
+    .path(path)
+    .post({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      headers: {
+        accept: "application/json",
+        ...options.requestOptions?.headers,
+      },
+      body: !options["listIngressGatewayCredentialsRequest"]
+        ? options["listIngressGatewayCredentialsRequest"]
+        : listIngressGatewayCredentialsRequestSerializer(
+            options["listIngressGatewayCredentialsRequest"],
+          ),
+    });
 }
 
-export async function _listIngressGatewayCredentialsDeserialize(
+export async function _endpointsListIngressGatewayCredentialsDeserialize(
   result: PathUncheckedResponse,
 ): Promise<IngressGatewayResource> {
   const expectedStatuses = ["200"];
@@ -155,7 +159,7 @@ export async function _listIngressGatewayCredentialsDeserialize(
 }
 
 /** Gets the ingress gateway endpoint credentials */
-export async function listIngressGatewayCredentials(
+export async function endpointsListIngressGatewayCredentials(
   context: Client,
   resourceUri: string,
   endpointName: string,
@@ -163,47 +167,49 @@ export async function listIngressGatewayCredentials(
     requestOptions: {},
   },
 ): Promise<IngressGatewayResource> {
-  const result = await _listIngressGatewayCredentialsSend(
+  const result = await _endpointsListIngressGatewayCredentialsSend(
     context,
     resourceUri,
     endpointName,
     options,
   );
-  return _listIngressGatewayCredentialsDeserialize(result);
+  return _endpointsListIngressGatewayCredentialsDeserialize(result);
 }
 
-export function _listCredentialsSend(
+export function _endpointsListCredentialsSend(
   context: Client,
   resourceUri: string,
   endpointName: string,
   options: EndpointsListCredentialsOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "/{+resourceUri}/providers/Microsoft.HybridConnectivity/endpoints/{+endpointName}/listCredentials{?api-version,expiresin}",
+    "/{+resourceUri}/providers/Microsoft.HybridConnectivity/endpoints/{+endpointName}/listCredentials{?api%2Dversion,expiresin}",
     {
       resourceUri: resourceUri,
       endpointName: endpointName,
-      "api-version": context.apiVersion,
+      "api%2Dversion": context.apiVersion,
       expiresin: options?.expiresin,
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).post({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
-    body: !options["listCredentialsRequest"]
-      ? options["listCredentialsRequest"]
-      : listCredentialsRequestSerializer(options["listCredentialsRequest"]),
-  });
+  return context
+    .path(path)
+    .post({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      headers: {
+        accept: "application/json",
+        ...options.requestOptions?.headers,
+      },
+      body: !options["listCredentialsRequest"]
+        ? options["listCredentialsRequest"]
+        : listCredentialsRequestSerializer(options["listCredentialsRequest"]),
+    });
 }
 
-export async function _listCredentialsDeserialize(
+export async function _endpointsListCredentialsDeserialize(
   result: PathUncheckedResponse,
 ): Promise<EndpointAccessResource> {
   const expectedStatuses = ["200"];
@@ -217,41 +223,50 @@ export async function _listCredentialsDeserialize(
 }
 
 /** Gets the endpoint access credentials to the resource. */
-export async function listCredentials(
+export async function endpointsListCredentials(
   context: Client,
   resourceUri: string,
   endpointName: string,
   options: EndpointsListCredentialsOptionalParams = { requestOptions: {} },
 ): Promise<EndpointAccessResource> {
-  const result = await _listCredentialsSend(context, resourceUri, endpointName, options);
-  return _listCredentialsDeserialize(result);
+  const result = await _endpointsListCredentialsSend(
+    context,
+    resourceUri,
+    endpointName,
+    options,
+  );
+  return _endpointsListCredentialsDeserialize(result);
 }
 
-export function _listSend(
+export function _endpointsListSend(
   context: Client,
   resourceUri: string,
   options: EndpointsListOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "/{+resourceUri}/providers/Microsoft.HybridConnectivity/endpoints{?api-version}",
+    "/{+resourceUri}/providers/Microsoft.HybridConnectivity/endpoints{?api%2Dversion}",
     {
       resourceUri: resourceUri,
-      "api-version": context.apiVersion,
+      "api%2Dversion": context.apiVersion,
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).get({
-    ...operationOptionsToRequestParameters(options),
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
-  });
+  return context
+    .path(path)
+    .get({
+      ...operationOptionsToRequestParameters(options),
+      headers: {
+        accept: "application/json",
+        ...options.requestOptions?.headers,
+      },
+    });
 }
 
-export async function _listDeserialize(result: PathUncheckedResponse): Promise<_EndpointsList> {
+export async function _endpointsListDeserialize(
+  result: PathUncheckedResponse,
+): Promise<_EndpointsList> {
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
@@ -263,47 +278,51 @@ export async function _listDeserialize(result: PathUncheckedResponse): Promise<_
 }
 
 /** List of endpoints to the target resource. */
-export function list(
+export function endpointsList(
   context: Client,
   resourceUri: string,
   options: EndpointsListOptionalParams = { requestOptions: {} },
 ): PagedAsyncIterableIterator<EndpointResource> {
   return buildPagedAsyncIterator(
     context,
-    () => _listSend(context, resourceUri, options),
-    _listDeserialize,
+    () => _endpointsListSend(context, resourceUri, options),
+    _endpointsListDeserialize,
     ["200"],
     { itemName: "value", nextLinkName: "nextLink" },
   );
 }
 
-export function _$deleteSend(
+export function _endpointsDeleteSend(
   context: Client,
   resourceUri: string,
   endpointName: string,
   options: EndpointsDeleteOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "/{+resourceUri}/providers/Microsoft.HybridConnectivity/endpoints/{+endpointName}{?api-version}",
+    "/{+resourceUri}/providers/Microsoft.HybridConnectivity/endpoints/{+endpointName}{?api%2Dversion}",
     {
       resourceUri: resourceUri,
       endpointName: endpointName,
-      "api-version": context.apiVersion,
+      "api%2Dversion": context.apiVersion,
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).delete({
-    ...operationOptionsToRequestParameters(options),
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
-  });
+  return context
+    .path(path)
+    .delete({
+      ...operationOptionsToRequestParameters(options),
+      headers: {
+        accept: "application/json",
+        ...options.requestOptions?.headers,
+      },
+    });
 }
 
-export async function _$deleteDeserialize(result: PathUncheckedResponse): Promise<void> {
+export async function _endpointsDeleteDeserialize(
+  result: PathUncheckedResponse,
+): Promise<void> {
   const expectedStatuses = ["200", "204"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
@@ -315,22 +334,22 @@ export async function _$deleteDeserialize(result: PathUncheckedResponse): Promis
 }
 
 /** Deletes the endpoint access to the target resource. */
-/**
- *  @fixme delete is a reserved word that cannot be used as an operation name.
- *         Please add @clientName("clientName") or @clientName("<JS-Specific-Name>", "javascript")
- *         to the operation to override the generated name.
- */
-export async function $delete(
+export async function endpointsDelete(
   context: Client,
   resourceUri: string,
   endpointName: string,
   options: EndpointsDeleteOptionalParams = { requestOptions: {} },
 ): Promise<void> {
-  const result = await _$deleteSend(context, resourceUri, endpointName, options);
-  return _$deleteDeserialize(result);
+  const result = await _endpointsDeleteSend(
+    context,
+    resourceUri,
+    endpointName,
+    options,
+  );
+  return _endpointsDeleteDeserialize(result);
 }
 
-export function _updateSend(
+export function _endpointsUpdateSend(
   context: Client,
   resourceUri: string,
   endpointName: string,
@@ -338,28 +357,32 @@ export function _updateSend(
   options: EndpointsUpdateOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "/{+resourceUri}/providers/Microsoft.HybridConnectivity/endpoints/{+endpointName}{?api-version}",
+    "/{+resourceUri}/providers/Microsoft.HybridConnectivity/endpoints/{+endpointName}{?api%2Dversion}",
     {
       resourceUri: resourceUri,
       endpointName: endpointName,
-      "api-version": context.apiVersion,
+      "api%2Dversion": context.apiVersion,
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).patch({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
-    body: endpointResourceSerializer(endpointResource),
-  });
+  return context
+    .path(path)
+    .patch({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      headers: {
+        accept: "application/json",
+        ...options.requestOptions?.headers,
+      },
+      body: endpointResourceSerializer(endpointResource),
+    });
 }
 
-export async function _updateDeserialize(result: PathUncheckedResponse): Promise<EndpointResource> {
+export async function _endpointsUpdateDeserialize(
+  result: PathUncheckedResponse,
+): Promise<EndpointResource> {
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
@@ -371,18 +394,24 @@ export async function _updateDeserialize(result: PathUncheckedResponse): Promise
 }
 
 /** Update the endpoint to the target resource. */
-export async function update(
+export async function endpointsUpdate(
   context: Client,
   resourceUri: string,
   endpointName: string,
   endpointResource: EndpointResource,
   options: EndpointsUpdateOptionalParams = { requestOptions: {} },
 ): Promise<EndpointResource> {
-  const result = await _updateSend(context, resourceUri, endpointName, endpointResource, options);
-  return _updateDeserialize(result);
+  const result = await _endpointsUpdateSend(
+    context,
+    resourceUri,
+    endpointName,
+    endpointResource,
+    options,
+  );
+  return _endpointsUpdateDeserialize(result);
 }
 
-export function _createOrUpdateSend(
+export function _endpointsCreateOrUpdateSend(
   context: Client,
   resourceUri: string,
   endpointName: string,
@@ -390,28 +419,30 @@ export function _createOrUpdateSend(
   options: EndpointsCreateOrUpdateOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "/{+resourceUri}/providers/Microsoft.HybridConnectivity/endpoints/{+endpointName}{?api-version}",
+    "/{+resourceUri}/providers/Microsoft.HybridConnectivity/endpoints/{+endpointName}{?api%2Dversion}",
     {
       resourceUri: resourceUri,
       endpointName: endpointName,
-      "api-version": context.apiVersion,
+      "api%2Dversion": context.apiVersion,
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).put({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
-    body: endpointResourceSerializer(endpointResource),
-  });
+  return context
+    .path(path)
+    .put({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      headers: {
+        accept: "application/json",
+        ...options.requestOptions?.headers,
+      },
+      body: endpointResourceSerializer(endpointResource),
+    });
 }
 
-export async function _createOrUpdateDeserialize(
+export async function _endpointsCreateOrUpdateDeserialize(
   result: PathUncheckedResponse,
 ): Promise<EndpointResource> {
   const expectedStatuses = ["200"];
@@ -425,50 +456,54 @@ export async function _createOrUpdateDeserialize(
 }
 
 /** Create or update the endpoint to the target resource. */
-export async function createOrUpdate(
+export async function endpointsCreateOrUpdate(
   context: Client,
   resourceUri: string,
   endpointName: string,
   endpointResource: EndpointResource,
   options: EndpointsCreateOrUpdateOptionalParams = { requestOptions: {} },
 ): Promise<EndpointResource> {
-  const result = await _createOrUpdateSend(
+  const result = await _endpointsCreateOrUpdateSend(
     context,
     resourceUri,
     endpointName,
     endpointResource,
     options,
   );
-  return _createOrUpdateDeserialize(result);
+  return _endpointsCreateOrUpdateDeserialize(result);
 }
 
-export function _getSend(
+export function _endpointsGetSend(
   context: Client,
   resourceUri: string,
   endpointName: string,
   options: EndpointsGetOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "/{+resourceUri}/providers/Microsoft.HybridConnectivity/endpoints/{+endpointName}{?api-version}",
+    "/{+resourceUri}/providers/Microsoft.HybridConnectivity/endpoints/{+endpointName}{?api%2Dversion}",
     {
       resourceUri: resourceUri,
       endpointName: endpointName,
-      "api-version": context.apiVersion,
+      "api%2Dversion": context.apiVersion,
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).get({
-    ...operationOptionsToRequestParameters(options),
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
-  });
+  return context
+    .path(path)
+    .get({
+      ...operationOptionsToRequestParameters(options),
+      headers: {
+        accept: "application/json",
+        ...options.requestOptions?.headers,
+      },
+    });
 }
 
-export async function _getDeserialize(result: PathUncheckedResponse): Promise<EndpointResource> {
+export async function _endpointsGetDeserialize(
+  result: PathUncheckedResponse,
+): Promise<EndpointResource> {
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
@@ -480,12 +515,17 @@ export async function _getDeserialize(result: PathUncheckedResponse): Promise<En
 }
 
 /** Gets the endpoint to the resource. */
-export async function get(
+export async function endpointsGet(
   context: Client,
   resourceUri: string,
   endpointName: string,
   options: EndpointsGetOptionalParams = { requestOptions: {} },
 ): Promise<EndpointResource> {
-  const result = await _getSend(context, resourceUri, endpointName, options);
-  return _getDeserialize(result);
+  const result = await _endpointsGetSend(
+    context,
+    resourceUri,
+    endpointName,
+    options,
+  );
+  return _endpointsGetDeserialize(result);
 }

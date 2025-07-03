@@ -2,7 +2,7 @@
   "extends": "../../../tsconfig.samples.base.json",
   "compilerOptions": {
     "paths": {
-      "@azure/arm-dependencymap": ["./dist/esm"]
+      "MicrosoftDependencyMapManagementService": ["./dist/esm"]
     }
   }
 }

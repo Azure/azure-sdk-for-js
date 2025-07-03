@@ -4,7 +4,8 @@
 import { OperationOptions } from "@azure-rest/core-client";
 
 /** Optional parameters. */
-export interface AvsVmVolumesListByAvsVmOptionalParams extends OperationOptions {}
+export interface AvsVmVolumesListByAvsVmOptionalParams
+  extends OperationOptions {}
 
 /** Optional parameters. */
 export interface AvsVmVolumesDeleteOptionalParams extends OperationOptions {

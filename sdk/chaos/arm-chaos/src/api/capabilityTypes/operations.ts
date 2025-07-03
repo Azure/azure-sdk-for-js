@@ -9,12 +9,15 @@ import {
   _CapabilityTypeListResult,
   _capabilityTypeListResultDeserializer,
 } from "../../models/models.js";
-import { CapabilityTypesListOptionalParams, CapabilityTypesGetOptionalParams } from "./options.js";
-import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
+import {
+  CapabilityTypesListOptionalParams,
+  CapabilityTypesGetOptionalParams,
+} from "./options.js";
 import {
   PagedAsyncIterableIterator,
   buildPagedAsyncIterator,
 } from "../../static-helpers/pagingHelpers.js";
+import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
 import {
   StreamableMethod,
   PathUncheckedResponse,
@@ -41,13 +44,15 @@ export function _listSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).get({
-    ...operationOptionsToRequestParameters(options),
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
-  });
+  return context
+    .path(path)
+    .get({
+      ...operationOptionsToRequestParameters(options),
+      headers: {
+        accept: "application/json",
+        ...options.requestOptions?.headers,
+      },
+    });
 }
 
 export async function _listDeserialize(
@@ -99,16 +104,20 @@ export function _getSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).get({
-    ...operationOptionsToRequestParameters(options),
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
-  });
+  return context
+    .path(path)
+    .get({
+      ...operationOptionsToRequestParameters(options),
+      headers: {
+        accept: "application/json",
+        ...options.requestOptions?.headers,
+      },
+    });
 }
 
-export async function _getDeserialize(result: PathUncheckedResponse): Promise<CapabilityType> {
+export async function _getDeserialize(
+  result: PathUncheckedResponse,
+): Promise<CapabilityType> {
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
@@ -127,6 +136,12 @@ export async function get(
   capabilityTypeName: string,
   options: CapabilityTypesGetOptionalParams = { requestOptions: {} },
 ): Promise<CapabilityType> {
-  const result = await _getSend(context, location, targetTypeName, capabilityTypeName, options);
+  const result = await _getSend(
+    context,
+    location,
+    targetTypeName,
+    capabilityTypeName,
+    options,
+  );
   return _getDeserialize(result);
 }

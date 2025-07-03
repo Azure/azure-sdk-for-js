@@ -15,7 +15,9 @@ async function healthModelsListByResourceGroup(): Promise<void> {
   const subscriptionId = "4980D7D5-4E07-47AD-AD34-E76C6BC9F061";
   const client = new CloudHealthClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (const item of client.healthModels.listByResourceGroup("rgopenapi")) {
+  for await (const item of client.healthModels.listByResourceGroup(
+    "rgopenapi",
+  )) {
     resArray.push(item);
   }
 

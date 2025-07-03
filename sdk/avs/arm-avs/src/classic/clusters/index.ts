@@ -2,7 +2,11 @@
 // Licensed under the MIT License.
 
 import { AzureVMwareSolutionAPIContext } from "../../api/azureVMwareSolutionAPIContext.js";
-import { Cluster, ClusterUpdate, ClusterZoneList } from "../../models/models.js";
+import {
+  Cluster,
+  ClusterUpdate,
+  ClusterZoneList,
+} from "../../models/models.js";
 import {
   ClustersListZonesOptionalParams,
   ClustersDeleteOptionalParams,
@@ -81,20 +85,42 @@ function _getClusters(context: AzureVMwareSolutionAPIContext) {
       privateCloudName: string,
       clusterName: string,
       options?: ClustersListZonesOptionalParams,
-    ) => listZones(context, resourceGroupName, privateCloudName, clusterName, options),
+    ) =>
+      listZones(
+        context,
+        resourceGroupName,
+        privateCloudName,
+        clusterName,
+        options,
+      ),
     delete: (
       resourceGroupName: string,
       privateCloudName: string,
       clusterName: string,
       options?: ClustersDeleteOptionalParams,
-    ) => $delete(context, resourceGroupName, privateCloudName, clusterName, options),
+    ) =>
+      $delete(
+        context,
+        resourceGroupName,
+        privateCloudName,
+        clusterName,
+        options,
+      ),
     update: (
       resourceGroupName: string,
       privateCloudName: string,
       clusterName: string,
       clusterUpdate: ClusterUpdate,
       options?: ClustersUpdateOptionalParams,
-    ) => update(context, resourceGroupName, privateCloudName, clusterName, clusterUpdate, options),
+    ) =>
+      update(
+        context,
+        resourceGroupName,
+        privateCloudName,
+        clusterName,
+        clusterUpdate,
+        options,
+      ),
     createOrUpdate: (
       resourceGroupName: string,
       privateCloudName: string,
@@ -102,13 +128,21 @@ function _getClusters(context: AzureVMwareSolutionAPIContext) {
       cluster: Cluster,
       options?: ClustersCreateOrUpdateOptionalParams,
     ) =>
-      createOrUpdate(context, resourceGroupName, privateCloudName, clusterName, cluster, options),
+      createOrUpdate(
+        context,
+        resourceGroupName,
+        privateCloudName,
+        clusterName,
+        cluster,
+        options,
+      ),
     get: (
       resourceGroupName: string,
       privateCloudName: string,
       clusterName: string,
       options?: ClustersGetOptionalParams,
-    ) => get(context, resourceGroupName, privateCloudName, clusterName, options),
+    ) =>
+      get(context, resourceGroupName, privateCloudName, clusterName, options),
     list: (
       resourceGroupName: string,
       privateCloudName: string,
@@ -117,7 +151,9 @@ function _getClusters(context: AzureVMwareSolutionAPIContext) {
   };
 }
 
-export function _getClustersOperations(context: AzureVMwareSolutionAPIContext): ClustersOperations {
+export function _getClustersOperations(
+  context: AzureVMwareSolutionAPIContext,
+): ClustersOperations {
   return {
     ..._getClusters(context),
   };
