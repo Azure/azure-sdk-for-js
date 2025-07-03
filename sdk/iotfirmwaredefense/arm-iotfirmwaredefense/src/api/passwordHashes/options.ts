@@ -4,4 +4,5 @@
 import { OperationOptions } from "@azure-rest/core-client";
 
 /** Optional parameters. */
-export interface PasswordHashesListByFirmwareOptionalParams extends OperationOptions {}
+export interface PasswordHashesListByFirmwareOptionalParams
+  extends OperationOptions {}

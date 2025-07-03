@@ -9,7 +9,9 @@ export interface _OperationListResult {
   nextLink?: string;
 }
 
-export function _operationListResultDeserializer(item: any): _OperationListResult {
+export function _operationListResultDeserializer(
+  item: any,
+): _OperationListResult {
   return {
     value: operationArrayDeserializer(item["value"]),
     nextLink: item["nextLink"],
@@ -40,7 +42,9 @@ export function operationDeserializer(item: any): Operation {
   return {
     name: item["name"],
     isDataAction: item["isDataAction"],
-    display: !item["display"] ? item["display"] : operationDisplayDeserializer(item["display"]),
+    display: !item["display"]
+      ? item["display"]
+      : operationDisplayDeserializer(item["display"]),
     origin: item["origin"],
     actionType: item["actionType"],
   };
@@ -111,7 +115,9 @@ export interface ErrorResponse {
 
 export function errorResponseDeserializer(item: any): ErrorResponse {
   return {
-    error: !item["error"] ? item["error"] : errorDetailDeserializer(item["error"]),
+    error: !item["error"]
+      ? item["error"]
+      : errorDetailDeserializer(item["error"]),
   };
 }
 
@@ -134,20 +140,26 @@ export function errorDetailDeserializer(item: any): ErrorDetail {
     code: item["code"],
     message: item["message"],
     target: item["target"],
-    details: !item["details"] ? item["details"] : errorDetailArrayDeserializer(item["details"]),
+    details: !item["details"]
+      ? item["details"]
+      : errorDetailArrayDeserializer(item["details"]),
     additionalInfo: !item["additionalInfo"]
       ? item["additionalInfo"]
       : errorAdditionalInfoArrayDeserializer(item["additionalInfo"]),
   };
 }
 
-export function errorDetailArrayDeserializer(result: Array<ErrorDetail>): any[] {
+export function errorDetailArrayDeserializer(
+  result: Array<ErrorDetail>,
+): any[] {
   return result.map((item) => {
     return errorDetailDeserializer(item);
   });
 }
 
-export function errorAdditionalInfoArrayDeserializer(result: Array<ErrorAdditionalInfo>): any[] {
+export function errorAdditionalInfoArrayDeserializer(
+  result: Array<ErrorAdditionalInfo>,
+): any[] {
   return result.map((item) => {
     return errorAdditionalInfoDeserializer(item);
   });
@@ -158,21 +170,16 @@ export interface ErrorAdditionalInfo {
   /** The additional info type. */
   readonly type?: string;
   /** The additional info. */
-  readonly info?: Record<string, any>;
+  readonly info?: any;
 }
 
-export function errorAdditionalInfoDeserializer(item: any): ErrorAdditionalInfo {
+export function errorAdditionalInfoDeserializer(
+  item: any,
+): ErrorAdditionalInfo {
   return {
     type: item["type"],
-    info: !item["info"] ? item["info"] : _errorAdditionalInfoInfoDeserializer(item["info"]),
+    info: item["info"],
   };
-}
-
-/** model interface _ErrorAdditionalInfoInfo */
-export interface _ErrorAdditionalInfoInfo {}
-
-export function _errorAdditionalInfoInfoDeserializer(item: any): _ErrorAdditionalInfoInfo {
-  return item;
 }
 
 /** Shared query filter parameter to configure carbon emissions data queries for all different report type defined in ReportTypeEnum. */
@@ -234,13 +241,19 @@ export type QueryFilterUnion =
 export function queryFilterUnionSerializer(item: QueryFilterUnion): any {
   switch (item.reportType) {
     case "OverallSummaryReport":
-      return overallSummaryReportQueryFilterSerializer(item as OverallSummaryReportQueryFilter);
+      return overallSummaryReportQueryFilterSerializer(
+        item as OverallSummaryReportQueryFilter,
+      );
 
     case "MonthlySummaryReport":
-      return monthlySummaryReportQueryFilterSerializer(item as MonthlySummaryReportQueryFilter);
+      return monthlySummaryReportQueryFilterSerializer(
+        item as MonthlySummaryReportQueryFilter,
+      );
 
     case "TopItemsSummaryReport":
-      return topItemsSummaryReportQueryFilterSerializer(item as TopItemsSummaryReportQueryFilter);
+      return topItemsSummaryReportQueryFilterSerializer(
+        item as TopItemsSummaryReportQueryFilter,
+      );
 
     case "TopItemsMonthlySummaryReport":
       return topItemsMonthlySummaryReportQueryFilterSerializer(
@@ -514,7 +527,9 @@ export interface ItemDetailsQueryFilter extends QueryFilter {
   skipToken?: string;
 }
 
-export function itemDetailsQueryFilterSerializer(item: ItemDetailsQueryFilter): any {
+export function itemDetailsQueryFilterSerializer(
+  item: ItemDetailsQueryFilter,
+): any {
   return {
     reportType: item["reportType"],
     dateRange: dateRangeSerializer(item["dateRange"]),
@@ -605,13 +620,17 @@ export interface CarbonEmissionDataListResult {
   subscriptionAccessDecisionList?: SubscriptionAccessDecision[];
 }
 
-export function carbonEmissionDataListResultDeserializer(item: any): CarbonEmissionDataListResult {
+export function carbonEmissionDataListResultDeserializer(
+  item: any,
+): CarbonEmissionDataListResult {
   return {
     value: carbonEmissionDataUnionArrayDeserializer(item["value"]),
     skipToken: item["skipToken"],
     subscriptionAccessDecisionList: !item["subscriptionAccessDecisionList"]
       ? item["subscriptionAccessDecisionList"]
-      : subscriptionAccessDecisionArrayDeserializer(item["subscriptionAccessDecisionList"]),
+      : subscriptionAccessDecisionArrayDeserializer(
+          item["subscriptionAccessDecisionList"],
+        ),
   };
 }
 
@@ -643,7 +662,8 @@ export function carbonEmissionDataDeserializer(item: any): CarbonEmissionData {
     dataType: item["dataType"],
     latestMonthEmissions: item["latestMonthEmissions"],
     previousMonthEmissions: item["previousMonthEmissions"],
-    monthOverMonthEmissionsChangeRatio: item["monthOverMonthEmissionsChangeRatio"],
+    monthOverMonthEmissionsChangeRatio:
+      item["monthOverMonthEmissionsChangeRatio"],
     monthlyEmissionsChangeValue: item["monthlyEmissionsChangeValue"],
   };
 }
@@ -663,13 +683,19 @@ export type CarbonEmissionDataUnion =
   | ResourceGroupCarbonEmissionItemDetailData
   | CarbonEmissionData;
 
-export function carbonEmissionDataUnionDeserializer(item: any): CarbonEmissionDataUnion {
+export function carbonEmissionDataUnionDeserializer(
+  item: any,
+): CarbonEmissionDataUnion {
   switch (item.dataType) {
     case "OverallSummaryData":
-      return carbonEmissionOverallSummaryDataDeserializer(item as CarbonEmissionOverallSummaryData);
+      return carbonEmissionOverallSummaryDataDeserializer(
+        item as CarbonEmissionOverallSummaryData,
+      );
 
     case "MonthlySummaryData":
-      return carbonEmissionMonthlySummaryDataDeserializer(item as CarbonEmissionMonthlySummaryData);
+      return carbonEmissionMonthlySummaryDataDeserializer(
+        item as CarbonEmissionMonthlySummaryData,
+      );
 
     case "TopItemsSummaryData":
       return carbonEmissionTopItemsSummaryDataDeserializer(
@@ -702,7 +728,9 @@ export function carbonEmissionDataUnionDeserializer(item: any): CarbonEmissionDa
       );
 
     case "ItemDetailsData":
-      return carbonEmissionItemDetailDataDeserializer(item as CarbonEmissionItemDetailData);
+      return carbonEmissionItemDetailDataDeserializer(
+        item as CarbonEmissionItemDetailData,
+      );
 
     case "ResourceItemDetailsData":
       return resourceCarbonEmissionItemDetailDataDeserializer(
@@ -777,7 +805,8 @@ export function carbonEmissionOverallSummaryDataDeserializer(
     dataType: item["dataType"],
     latestMonthEmissions: item["latestMonthEmissions"],
     previousMonthEmissions: item["previousMonthEmissions"],
-    monthOverMonthEmissionsChangeRatio: item["monthOverMonthEmissionsChangeRatio"],
+    monthOverMonthEmissionsChangeRatio:
+      item["monthOverMonthEmissionsChangeRatio"],
     monthlyEmissionsChangeValue: item["monthlyEmissionsChangeValue"],
   };
 }
@@ -799,7 +828,8 @@ export function carbonEmissionMonthlySummaryDataDeserializer(
     dataType: item["dataType"],
     latestMonthEmissions: item["latestMonthEmissions"],
     previousMonthEmissions: item["previousMonthEmissions"],
-    monthOverMonthEmissionsChangeRatio: item["monthOverMonthEmissionsChangeRatio"],
+    monthOverMonthEmissionsChangeRatio:
+      item["monthOverMonthEmissionsChangeRatio"],
     monthlyEmissionsChangeValue: item["monthlyEmissionsChangeValue"],
     date: item["date"],
     carbonIntensity: item["carbonIntensity"],
@@ -823,7 +853,8 @@ export function carbonEmissionTopItemsSummaryDataDeserializer(
     dataType: item["dataType"],
     latestMonthEmissions: item["latestMonthEmissions"],
     previousMonthEmissions: item["previousMonthEmissions"],
-    monthOverMonthEmissionsChangeRatio: item["monthOverMonthEmissionsChangeRatio"],
+    monthOverMonthEmissionsChangeRatio:
+      item["monthOverMonthEmissionsChangeRatio"],
     monthlyEmissionsChangeValue: item["monthlyEmissionsChangeValue"],
     itemName: item["itemName"],
     categoryType: item["categoryType"],
@@ -831,7 +862,8 @@ export function carbonEmissionTopItemsSummaryDataDeserializer(
 }
 
 /** Response for Top Items For Resource Category */
-export interface ResourceCarbonEmissionTopItemsSummaryData extends CarbonEmissionData {
+export interface ResourceCarbonEmissionTopItemsSummaryData
+  extends CarbonEmissionData {
   /** Data for the top items carbon emissions summary report specific to resource category */
   dataType: "ResourceTopItemsSummaryData";
   /** The resource name of the resource for the Resource Category. */
@@ -853,7 +885,8 @@ export function resourceCarbonEmissionTopItemsSummaryDataDeserializer(
     dataType: item["dataType"],
     latestMonthEmissions: item["latestMonthEmissions"],
     previousMonthEmissions: item["previousMonthEmissions"],
-    monthOverMonthEmissionsChangeRatio: item["monthOverMonthEmissionsChangeRatio"],
+    monthOverMonthEmissionsChangeRatio:
+      item["monthOverMonthEmissionsChangeRatio"],
     monthlyEmissionsChangeValue: item["monthlyEmissionsChangeValue"],
     itemName: item["itemName"],
     categoryType: item["categoryType"],
@@ -864,7 +897,8 @@ export function resourceCarbonEmissionTopItemsSummaryDataDeserializer(
 }
 
 /** Response for Top Items For ResourceGroup */
-export interface ResourceGroupCarbonEmissionTopItemsSummaryData extends CarbonEmissionData {
+export interface ResourceGroupCarbonEmissionTopItemsSummaryData
+  extends CarbonEmissionData {
   /** Resource group top items summary data */
   dataType: "ResourceGroupTopItemsSummaryData";
   /** The resourceGroup name of the resource for ResourceGroup Category */
@@ -884,7 +918,8 @@ export function resourceGroupCarbonEmissionTopItemsSummaryDataDeserializer(
     dataType: item["dataType"],
     latestMonthEmissions: item["latestMonthEmissions"],
     previousMonthEmissions: item["previousMonthEmissions"],
-    monthOverMonthEmissionsChangeRatio: item["monthOverMonthEmissionsChangeRatio"],
+    monthOverMonthEmissionsChangeRatio:
+      item["monthOverMonthEmissionsChangeRatio"],
     monthlyEmissionsChangeValue: item["monthlyEmissionsChangeValue"],
     itemName: item["itemName"],
     categoryType: item["categoryType"],
@@ -894,7 +929,8 @@ export function resourceGroupCarbonEmissionTopItemsSummaryDataDeserializer(
 }
 
 /** Response for Top Items Carbon Emissions by Month */
-export interface CarbonEmissionTopItemMonthlySummaryData extends CarbonEmissionData {
+export interface CarbonEmissionTopItemMonthlySummaryData
+  extends CarbonEmissionData {
   /** Top items Monthly summary data */
   dataType: "TopItemsMonthlySummaryData";
   /** Item name, it can be resource name, resource type name, location, resource group name or subscriptionId. It depends on category type. */
@@ -912,7 +948,8 @@ export function carbonEmissionTopItemMonthlySummaryDataDeserializer(
     dataType: item["dataType"],
     latestMonthEmissions: item["latestMonthEmissions"],
     previousMonthEmissions: item["previousMonthEmissions"],
-    monthOverMonthEmissionsChangeRatio: item["monthOverMonthEmissionsChangeRatio"],
+    monthOverMonthEmissionsChangeRatio:
+      item["monthOverMonthEmissionsChangeRatio"],
     monthlyEmissionsChangeValue: item["monthlyEmissionsChangeValue"],
     itemName: item["itemName"],
     categoryType: item["categoryType"],
@@ -921,7 +958,8 @@ export function carbonEmissionTopItemMonthlySummaryDataDeserializer(
 }
 
 /** Response for top items carbon emissions by month for resource */
-export interface ResourceCarbonEmissionTopItemMonthlySummaryData extends CarbonEmissionData {
+export interface ResourceCarbonEmissionTopItemMonthlySummaryData
+  extends CarbonEmissionData {
   /** Resource top items Monthly summary data */
   dataType: "ResourceTopItemsMonthlySummaryData";
   /** The resource name of resource for Resource Category */
@@ -945,7 +983,8 @@ export function resourceCarbonEmissionTopItemMonthlySummaryDataDeserializer(
     dataType: item["dataType"],
     latestMonthEmissions: item["latestMonthEmissions"],
     previousMonthEmissions: item["previousMonthEmissions"],
-    monthOverMonthEmissionsChangeRatio: item["monthOverMonthEmissionsChangeRatio"],
+    monthOverMonthEmissionsChangeRatio:
+      item["monthOverMonthEmissionsChangeRatio"],
     monthlyEmissionsChangeValue: item["monthlyEmissionsChangeValue"],
     itemName: item["itemName"],
     categoryType: item["categoryType"],
@@ -957,7 +996,8 @@ export function resourceCarbonEmissionTopItemMonthlySummaryDataDeserializer(
 }
 
 /** Response for top items carbon emissions by month for resource group */
-export interface ResourceGroupCarbonEmissionTopItemMonthlySummaryData extends CarbonEmissionData {
+export interface ResourceGroupCarbonEmissionTopItemMonthlySummaryData
+  extends CarbonEmissionData {
   /** Resource group top items Monthly summary data */
   dataType: "ResourceGroupTopItemsMonthlySummaryData";
   /** It's resource group name for ResourceGroup category */
@@ -979,7 +1019,8 @@ export function resourceGroupCarbonEmissionTopItemMonthlySummaryDataDeserializer
     dataType: item["dataType"],
     latestMonthEmissions: item["latestMonthEmissions"],
     previousMonthEmissions: item["previousMonthEmissions"],
-    monthOverMonthEmissionsChangeRatio: item["monthOverMonthEmissionsChangeRatio"],
+    monthOverMonthEmissionsChangeRatio:
+      item["monthOverMonthEmissionsChangeRatio"],
     monthlyEmissionsChangeValue: item["monthlyEmissionsChangeValue"],
     itemName: item["itemName"],
     categoryType: item["categoryType"],
@@ -999,12 +1040,15 @@ export interface CarbonEmissionItemDetailData extends CarbonEmissionData {
   categoryType: CategoryTypeEnum;
 }
 
-export function carbonEmissionItemDetailDataDeserializer(item: any): CarbonEmissionItemDetailData {
+export function carbonEmissionItemDetailDataDeserializer(
+  item: any,
+): CarbonEmissionItemDetailData {
   return {
     dataType: item["dataType"],
     latestMonthEmissions: item["latestMonthEmissions"],
     previousMonthEmissions: item["previousMonthEmissions"],
-    monthOverMonthEmissionsChangeRatio: item["monthOverMonthEmissionsChangeRatio"],
+    monthOverMonthEmissionsChangeRatio:
+      item["monthOverMonthEmissionsChangeRatio"],
     monthlyEmissionsChangeValue: item["monthlyEmissionsChangeValue"],
     itemName: item["itemName"],
     categoryType: item["categoryType"],
@@ -1012,7 +1056,8 @@ export function carbonEmissionItemDetailDataDeserializer(item: any): CarbonEmiss
 }
 
 /** Response for Resource detailed carbon emissions */
-export interface ResourceCarbonEmissionItemDetailData extends CarbonEmissionData {
+export interface ResourceCarbonEmissionItemDetailData
+  extends CarbonEmissionData {
   /** ResourceGroup's item details data */
   dataType: "ResourceItemDetailsData";
   /** It's resource name. */
@@ -1038,7 +1083,8 @@ export function resourceCarbonEmissionItemDetailDataDeserializer(
     dataType: item["dataType"],
     latestMonthEmissions: item["latestMonthEmissions"],
     previousMonthEmissions: item["previousMonthEmissions"],
-    monthOverMonthEmissionsChangeRatio: item["monthOverMonthEmissionsChangeRatio"],
+    monthOverMonthEmissionsChangeRatio:
+      item["monthOverMonthEmissionsChangeRatio"],
     monthlyEmissionsChangeValue: item["monthlyEmissionsChangeValue"],
     itemName: item["itemName"],
     categoryType: item["categoryType"],
@@ -1051,7 +1097,8 @@ export function resourceCarbonEmissionItemDetailDataDeserializer(
 }
 
 /** Response for Resource Group detailed carbon emissions */
-export interface ResourceGroupCarbonEmissionItemDetailData extends CarbonEmissionData {
+export interface ResourceGroupCarbonEmissionItemDetailData
+  extends CarbonEmissionData {
   /** ResourceGroup item details data */
   dataType: "ResourceGroupItemDetailsData";
   /** It's resource group name */
@@ -1071,7 +1118,8 @@ export function resourceGroupCarbonEmissionItemDetailDataDeserializer(
     dataType: item["dataType"],
     latestMonthEmissions: item["latestMonthEmissions"],
     previousMonthEmissions: item["previousMonthEmissions"],
-    monthOverMonthEmissionsChangeRatio: item["monthOverMonthEmissionsChangeRatio"],
+    monthOverMonthEmissionsChangeRatio:
+      item["monthOverMonthEmissionsChangeRatio"],
     monthlyEmissionsChangeValue: item["monthlyEmissionsChangeValue"],
     itemName: item["itemName"],
     categoryType: item["categoryType"],
@@ -1098,7 +1146,9 @@ export interface SubscriptionAccessDecision {
   denialReason?: string;
 }
 
-export function subscriptionAccessDecisionDeserializer(item: any): SubscriptionAccessDecision {
+export function subscriptionAccessDecisionDeserializer(
+  item: any,
+): SubscriptionAccessDecision {
   return {
     subscriptionId: item["subscriptionId"],
     decision: item["decision"],

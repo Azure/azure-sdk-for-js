@@ -316,7 +316,10 @@ export {
   HcxEnterpriseSitesGetOptionalParams,
   HcxEnterpriseSitesListOptionalParams,
 } from "./api/hcxEnterpriseSites/index.js";
-export { HostsGetOptionalParams, HostsListOptionalParams } from "./api/hosts/index.js";
+export {
+  HostsGetOptionalParams,
+  HostsListOptionalParams,
+} from "./api/hosts/index.js";
 export {
   IscsiPathsDeleteOptionalParams,
   IscsiPathsCreateOrUpdateOptionalParams,
