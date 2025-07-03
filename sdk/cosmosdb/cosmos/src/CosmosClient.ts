@@ -147,7 +147,7 @@ export class CosmosClient {
         optionsOrConnectionString.throughputBucket;
     }
 
-    const userAgent = getUserAgent(optionsOrConnectionString.userAgentSuffix);
+    const userAgent = getUserAgent(optionsOrConnectionString);
     optionsOrConnectionString.defaultHeaders[Constants.HttpHeaders.UserAgent] = userAgent;
     optionsOrConnectionString.defaultHeaders[Constants.HttpHeaders.CustomUserAgent] = userAgent;
 

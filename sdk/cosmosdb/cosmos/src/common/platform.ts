@@ -8,16 +8,15 @@ import { Constants, UserAgentFeatureFlags } from "./constants.js";
  * @hidden
  */
 export function getUserAgent(
-  suffix?: string,
-  hostFramework?: string,
   optionsOrConnectionString?: CosmosClientOptions,
+  hostFramework?: string,
 ): string {
   let ua = `${userAgentDetails()} ${Constants.SDKName}/${Constants.SDKVersion}`;
   if (hostFramework) {
     ua = ua + " " + hostFramework;
   }
-  if (suffix) {
-    ua = ua + " " + suffix;
+  if (optionsOrConnectionString && optionsOrConnectionString.userAgentSuffix) {
+    ua = ua + " " + optionsOrConnectionString.userAgentSuffix;
   }
   if (optionsOrConnectionString) {
     ua = ua + addFeatureFlagsToUserAgent(optionsOrConnectionString);

@@ -47,7 +47,9 @@ export class GlobalPartitionEndpointManager {
 
     this.preferredLocations = options.connectionPolicy.preferredLocations;
     this.preferredLocationsCount = this.preferredLocations ? this.preferredLocations.length : 0;
-    this.initiateCircuitBreakerFailbackLoop();
+    if (this.enablePartitionLevelCircuitBreaker) {
+      this.initiateCircuitBreakerFailbackLoop();
+    }
   }
 
   /**
