@@ -4,7 +4,6 @@
 import { AIProjectContext as Client } from "../index.js";
 import {
   Evaluation,
-  EvaluationWithOptionalName,
   evaluationSerializer,
   evaluationDeserializer,
   _PagedEvaluation,
@@ -20,11 +19,11 @@ import {
   EvaluationsListOptionalParams,
   EvaluationsGetOptionalParams,
 } from "./options.js";
-import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
 import {
   PagedAsyncIterableIterator,
   buildPagedAsyncIterator,
 } from "../../static-helpers/pagingHelpers.js";
+import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
 import {
   StreamableMethod,
   PathUncheckedResponse,
@@ -40,23 +39,25 @@ export function _createAgentEvaluationSend(
   },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "/evaluations/runs:runAgent{?api-version}",
+    "/evaluations/runs:runAgent{?api%2Dversion}",
     {
-      "api-version": context.apiVersion,
+      "api%2Dversion": context.apiVersion,
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).post({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
-    body: agentEvaluationRequestSerializer(evaluation),
-  });
+  return context
+    .path(path)
+    .post({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      headers: {
+        accept: "application/json",
+        ...options.requestOptions?.headers,
+      },
+      body: agentEvaluationRequestSerializer(evaluation),
+    });
 }
 
 export async function _createAgentEvaluationDeserialize(
@@ -84,30 +85,34 @@ export async function createAgentEvaluation(
 
 export function _createSend(
   context: Client,
-  evaluation: EvaluationWithOptionalName,
+  evaluation: Evaluation,
   options: EvaluationsCreateOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "/evaluations/runs:run{?api-version}",
+    "/evaluations/runs:run{?api%2Dversion}",
     {
-      "api-version": context.apiVersion,
+      "api%2Dversion": context.apiVersion,
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).post({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
-    body: evaluationSerializer(evaluation),
-  });
+  return context
+    .path(path)
+    .post({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      headers: {
+        accept: "application/json",
+        ...options.requestOptions?.headers,
+      },
+      body: evaluationSerializer(evaluation),
+    });
 }
 
-export async function _createDeserialize(result: PathUncheckedResponse): Promise<Evaluation> {
+export async function _createDeserialize(
+  result: PathUncheckedResponse,
+): Promise<Evaluation> {
   const expectedStatuses = ["201"];
   if (!expectedStatuses.includes(result.status)) {
     throw createRestError(result);
@@ -119,7 +124,7 @@ export async function _createDeserialize(result: PathUncheckedResponse): Promise
 /** Creates an evaluation run. */
 export async function create(
   context: Client,
-  evaluation: EvaluationWithOptionalName,
+  evaluation: Evaluation,
   options: EvaluationsCreateOptionalParams = { requestOptions: {} },
 ): Promise<Evaluation> {
   const result = await _createSend(context, evaluation, options);
@@ -131,27 +136,31 @@ export function _listSend(
   options: EvaluationsListOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "/evaluations/runs{?api-version}",
+    "/evaluations/runs{?api%2Dversion}",
     {
-      "api-version": context.apiVersion,
+      "api%2Dversion": context.apiVersion,
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).get({
-    ...operationOptionsToRequestParameters(options),
-    headers: {
-      ...(options?.clientRequestId !== undefined
-        ? { "x-ms-client-request-id": options?.clientRequestId }
-        : {}),
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
-  });
+  return context
+    .path(path)
+    .get({
+      ...operationOptionsToRequestParameters(options),
+      headers: {
+        ...(options?.clientRequestId !== undefined
+          ? { "x-ms-client-request-id": options?.clientRequestId }
+          : {}),
+        accept: "application/json",
+        ...options.requestOptions?.headers,
+      },
+    });
 }
 
-export async function _listDeserialize(result: PathUncheckedResponse): Promise<_PagedEvaluation> {
+export async function _listDeserialize(
+  result: PathUncheckedResponse,
+): Promise<_PagedEvaluation> {
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     throw createRestError(result);
@@ -180,28 +189,32 @@ export function _getSend(
   options: EvaluationsGetOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "/evaluations/runs/{name}{?api-version}",
+    "/evaluations/runs/{name}{?api%2Dversion}",
     {
       name: name,
-      "api-version": context.apiVersion,
+      "api%2Dversion": context.apiVersion,
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).get({
-    ...operationOptionsToRequestParameters(options),
-    headers: {
-      ...(options?.clientRequestId !== undefined
-        ? { "x-ms-client-request-id": options?.clientRequestId }
-        : {}),
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
-  });
+  return context
+    .path(path)
+    .get({
+      ...operationOptionsToRequestParameters(options),
+      headers: {
+        ...(options?.clientRequestId !== undefined
+          ? { "x-ms-client-request-id": options?.clientRequestId }
+          : {}),
+        accept: "application/json",
+        ...options.requestOptions?.headers,
+      },
+    });
 }
 
-export async function _getDeserialize(result: PathUncheckedResponse): Promise<Evaluation> {
+export async function _getDeserialize(
+  result: PathUncheckedResponse,
+): Promise<Evaluation> {
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     throw createRestError(result);

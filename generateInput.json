@@ -1,0 +1,15 @@
+{
+  "installInstructionInput": {
+    "isPublic": true,
+    "downloadUrlPrefix": "",
+    "downloadCommandTemplate": "downloadCommand"
+  },
+  "relatedTypeSpecProjectFolder": [
+    "specification/ai/Azure.AI.Projects"
+  ],
+  "changedFiles": [],
+  "specFolder": "/mnt/vss/_work/1/s/sparse-spec/ai-projects",
+  "repoHttpsUrl": "https://github.com/Azure/azure-rest-api-specs",
+  "runMode": "release",
+  "headSha": "1976e9181448dbf869a2e2dc5266bda5d950fddb"
+}
