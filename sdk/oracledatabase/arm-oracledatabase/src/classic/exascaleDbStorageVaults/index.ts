@@ -2,7 +2,10 @@
 // Licensed under the MIT License.
 
 import { OracleDatabaseManagementContext } from "../../api/oracleDatabaseManagementContext.js";
-import { ExascaleDbStorageVault, ExascaleDbStorageVaultTagsUpdate } from "../../models/models.js";
+import {
+  ExascaleDbStorageVault,
+  ExascaleDbStorageVaultTagsUpdate,
+} from "../../models/models.js";
 import {
   ExascaleDbStorageVaultsListBySubscriptionOptionalParams,
   ExascaleDbStorageVaultsListByResourceGroupOptionalParams,
@@ -50,14 +53,20 @@ export interface ExascaleDbStorageVaultsOperations {
     exascaleDbStorageVaultName: string,
     properties: ExascaleDbStorageVaultTagsUpdate,
     options?: ExascaleDbStorageVaultsUpdateOptionalParams,
-  ) => PollerLike<OperationState<ExascaleDbStorageVault>, ExascaleDbStorageVault>;
+  ) => PollerLike<
+    OperationState<ExascaleDbStorageVault>,
+    ExascaleDbStorageVault
+  >;
   /** Create a ExascaleDbStorageVault */
   create: (
     resourceGroupName: string,
     exascaleDbStorageVaultName: string,
     resource: ExascaleDbStorageVault,
     options?: ExascaleDbStorageVaultsCreateOptionalParams,
-  ) => PollerLike<OperationState<ExascaleDbStorageVault>, ExascaleDbStorageVault>;
+  ) => PollerLike<
+    OperationState<ExascaleDbStorageVault>,
+    ExascaleDbStorageVault
+  >;
   /** Get a ExascaleDbStorageVault */
   get: (
     resourceGroupName: string,
@@ -68,8 +77,9 @@ export interface ExascaleDbStorageVaultsOperations {
 
 function _getExascaleDbStorageVaults(context: OracleDatabaseManagementContext) {
   return {
-    listBySubscription: (options?: ExascaleDbStorageVaultsListBySubscriptionOptionalParams) =>
-      listBySubscription(context, options),
+    listBySubscription: (
+      options?: ExascaleDbStorageVaultsListBySubscriptionOptionalParams,
+    ) => listBySubscription(context, options),
     listByResourceGroup: (
       resourceGroupName: string,
       options?: ExascaleDbStorageVaultsListByResourceGroupOptionalParams,
@@ -78,19 +88,34 @@ function _getExascaleDbStorageVaults(context: OracleDatabaseManagementContext) {
       resourceGroupName: string,
       exascaleDbStorageVaultName: string,
       options?: ExascaleDbStorageVaultsDeleteOptionalParams,
-    ) => $delete(context, resourceGroupName, exascaleDbStorageVaultName, options),
+    ) =>
+      $delete(context, resourceGroupName, exascaleDbStorageVaultName, options),
     update: (
       resourceGroupName: string,
       exascaleDbStorageVaultName: string,
       properties: ExascaleDbStorageVaultTagsUpdate,
       options?: ExascaleDbStorageVaultsUpdateOptionalParams,
-    ) => update(context, resourceGroupName, exascaleDbStorageVaultName, properties, options),
+    ) =>
+      update(
+        context,
+        resourceGroupName,
+        exascaleDbStorageVaultName,
+        properties,
+        options,
+      ),
     create: (
       resourceGroupName: string,
       exascaleDbStorageVaultName: string,
       resource: ExascaleDbStorageVault,
       options?: ExascaleDbStorageVaultsCreateOptionalParams,
-    ) => create(context, resourceGroupName, exascaleDbStorageVaultName, resource, options),
+    ) =>
+      create(
+        context,
+        resourceGroupName,
+        exascaleDbStorageVaultName,
+        resource,
+        options,
+      ),
     get: (
       resourceGroupName: string,
       exascaleDbStorageVaultName: string,

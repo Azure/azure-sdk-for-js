@@ -14,7 +14,11 @@ async function entitiesGet(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "4980D7D5-4E07-47AD-AD34-E76C6BC9F061";
   const client = new CloudHealthClient(credential, subscriptionId);
-  const result = await client.entities.get("rgopenapi", "myHealthModel", "entity1");
+  const result = await client.entities.get(
+    "rgopenapi",
+    "myHealthModel",
+    "entity1",
+  );
   console.log(result);
 }
 

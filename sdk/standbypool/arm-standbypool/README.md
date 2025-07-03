@@ -45,13 +45,13 @@ To use the [DefaultAzureCredential][defaultazurecredential] provider shown below
 npm install @azure/identity
 ```
 
-You will also need to **register a new AAD application and grant access to Azure StandbyPool** by assigning the suitable role to your service principal (note: roles such as `"Owner"` will not grant the necessary permissions).
+You will also need to **register a new AAD application and grant access to Azure StandbyPoolManagement** by assigning the suitable role to your service principal (note: roles such as `"Owner"` will not grant the necessary permissions).
 
 For more information about how to create an Azure AD Application check out [this guide](https://learn.microsoft.com/azure/active-directory/develop/howto-create-service-principal-portal).
 
 Using Node.js and Node-like environments, you can use the `DefaultAzureCredential` class to authenticate the client.
 
-```ts snippet:ReadmeSampleCreateClient_Node
+```ts 
 import { StandbyPoolManagementClient } from "@azure/arm-standbypool";
 import { DefaultAzureCredential } from "@azure/identity";
 
@@ -61,15 +61,16 @@ const client = new StandbyPoolManagementClient(new DefaultAzureCredential(), sub
 
 For browser environments, use the `InteractiveBrowserCredential` from the `@azure/identity` package to authenticate.
 
-```ts snippet:ReadmeSampleCreateClient_Browser
+```ts 
 import { InteractiveBrowserCredential } from "@azure/identity";
 import { StandbyPoolManagementClient } from "@azure/arm-standbypool";
 
-const subscriptionId = "00000000-0000-0000-0000-000000000000";
 const credential = new InteractiveBrowserCredential({
   tenantId: "<YOUR_TENANT_ID>",
   clientId: "<YOUR_CLIENT_ID>",
-});
+ });
+
+const subscriptionId = "00000000-0000-0000-0000-000000000000";
 const client = new StandbyPoolManagementClient(credential, subscriptionId);
 ```
 
@@ -89,7 +90,7 @@ To use this client library in the browser, first you need to use a bundler. For 
 
 Enabling logging may help uncover useful information about failures. In order to see a log of HTTP requests and responses, set the `AZURE_LOG_LEVEL` environment variable to `info`. Alternatively, logging can be enabled at runtime by calling `setLogLevel` in the `@azure/logger`:
 
-```ts snippet:SetLogLevel
+```ts 
 import { setLogLevel } from "@azure/logger";
 
 setLogLevel("info");

@@ -60,13 +60,21 @@ function _getRelationships(context: CloudHealthContext) {
       resourceGroupName: string,
       healthModelName: string,
       options?: RelationshipsListByHealthModelOptionalParams,
-    ) => listByHealthModel(context, resourceGroupName, healthModelName, options),
+    ) =>
+      listByHealthModel(context, resourceGroupName, healthModelName, options),
     delete: (
       resourceGroupName: string,
       healthModelName: string,
       relationshipName: string,
       options?: RelationshipsDeleteOptionalParams,
-    ) => $delete(context, resourceGroupName, healthModelName, relationshipName, options),
+    ) =>
+      $delete(
+        context,
+        resourceGroupName,
+        healthModelName,
+        relationshipName,
+        options,
+      ),
     createOrUpdate: (
       resourceGroupName: string,
       healthModelName: string,
@@ -87,11 +95,20 @@ function _getRelationships(context: CloudHealthContext) {
       healthModelName: string,
       relationshipName: string,
       options?: RelationshipsGetOptionalParams,
-    ) => get(context, resourceGroupName, healthModelName, relationshipName, options),
+    ) =>
+      get(
+        context,
+        resourceGroupName,
+        healthModelName,
+        relationshipName,
+        options,
+      ),
   };
 }
 
-export function _getRelationshipsOperations(context: CloudHealthContext): RelationshipsOperations {
+export function _getRelationshipsOperations(
+  context: CloudHealthContext,
+): RelationshipsOperations {
   return {
     ..._getRelationships(context),
   };

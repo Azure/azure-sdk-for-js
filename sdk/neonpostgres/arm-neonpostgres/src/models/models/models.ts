@@ -48,8 +48,12 @@ export function projectPropertiesSerializer(item: ProjectProperties): any {
     defaultEndpointSettings: !item["defaultEndpointSettings"]
       ? item["defaultEndpointSettings"]
       : defaultEndpointSettingsSerializer(item["defaultEndpointSettings"]),
-    branch: !item["branch"] ? item["branch"] : branchPropertiesSerializer(item["branch"]),
-    roles: !item["roles"] ? item["roles"] : neonRolePropertiesArraySerializer(item["roles"]),
+    branch: !item["branch"]
+      ? item["branch"]
+      : branchPropertiesSerializer(item["branch"]),
+    roles: !item["roles"]
+      ? item["roles"]
+      : neonRolePropertiesArraySerializer(item["roles"]),
     databases: !item["databases"]
       ? item["databases"]
       : neonDatabasePropertiesArraySerializer(item["databases"]),
@@ -75,8 +79,12 @@ export function projectPropertiesDeserializer(item: any): ProjectProperties {
     defaultEndpointSettings: !item["defaultEndpointSettings"]
       ? item["defaultEndpointSettings"]
       : defaultEndpointSettingsDeserializer(item["defaultEndpointSettings"]),
-    branch: !item["branch"] ? item["branch"] : branchPropertiesDeserializer(item["branch"]),
-    roles: !item["roles"] ? item["roles"] : neonRolePropertiesArrayDeserializer(item["roles"]),
+    branch: !item["branch"]
+      ? item["branch"]
+      : branchPropertiesDeserializer(item["branch"]),
+    roles: !item["roles"]
+      ? item["roles"]
+      : neonRolePropertiesArrayDeserializer(item["roles"]),
     databases: !item["databases"]
       ? item["databases"]
       : neonDatabasePropertiesArrayDeserializer(item["databases"]),
@@ -125,14 +133,18 @@ export interface DefaultEndpointSettings {
   autoscalingLimitMaxCu: number;
 }
 
-export function defaultEndpointSettingsSerializer(item: DefaultEndpointSettings): any {
+export function defaultEndpointSettingsSerializer(
+  item: DefaultEndpointSettings,
+): any {
   return {
     autoscalingLimitMinCu: item["autoscalingLimitMinCu"],
     autoscalingLimitMaxCu: item["autoscalingLimitMaxCu"],
   };
 }
 
-export function defaultEndpointSettingsDeserializer(item: any): DefaultEndpointSettings {
+export function defaultEndpointSettingsDeserializer(
+  item: any,
+): DefaultEndpointSettings {
   return {
     autoscalingLimitMinCu: item["autoscalingLimitMinCu"],
     autoscalingLimitMaxCu: item["autoscalingLimitMaxCu"],
@@ -177,7 +189,9 @@ export function branchPropertiesSerializer(item: BranchProperties): any {
     parentId: item["parentId"],
     roleName: item["roleName"],
     databaseName: item["databaseName"],
-    roles: !item["roles"] ? item["roles"] : neonRolePropertiesArraySerializer(item["roles"]),
+    roles: !item["roles"]
+      ? item["roles"]
+      : neonRolePropertiesArraySerializer(item["roles"]),
     databases: !item["databases"]
       ? item["databases"]
       : neonDatabasePropertiesArraySerializer(item["databases"]),
@@ -200,7 +214,9 @@ export function branchPropertiesDeserializer(item: any): BranchProperties {
     parentId: item["parentId"],
     roleName: item["roleName"],
     databaseName: item["databaseName"],
-    roles: !item["roles"] ? item["roles"] : neonRolePropertiesArrayDeserializer(item["roles"]),
+    roles: !item["roles"]
+      ? item["roles"]
+      : neonRolePropertiesArrayDeserializer(item["roles"]),
     databases: !item["databases"]
       ? item["databases"]
       : neonDatabasePropertiesArrayDeserializer(item["databases"]),
@@ -210,13 +226,17 @@ export function branchPropertiesDeserializer(item: any): BranchProperties {
   };
 }
 
-export function neonRolePropertiesArraySerializer(result: Array<NeonRoleProperties>): any[] {
+export function neonRolePropertiesArraySerializer(
+  result: Array<NeonRoleProperties>,
+): any[] {
   return result.map((item) => {
     return neonRolePropertiesSerializer(item);
   });
 }
 
-export function neonRolePropertiesArrayDeserializer(result: Array<NeonRoleProperties>): any[] {
+export function neonRolePropertiesArrayDeserializer(
+  result: Array<NeonRoleProperties>,
+): any[] {
   return result.map((item) => {
     return neonRolePropertiesDeserializer(item);
   });
@@ -311,7 +331,9 @@ export interface NeonDatabaseProperties {
   ownerName?: string;
 }
 
-export function neonDatabasePropertiesSerializer(item: NeonDatabaseProperties): any {
+export function neonDatabasePropertiesSerializer(
+  item: NeonDatabaseProperties,
+): any {
   return {
     entityName: item["entityName"],
     attributes: !item["attributes"]
@@ -322,7 +344,9 @@ export function neonDatabasePropertiesSerializer(item: NeonDatabaseProperties): 
   };
 }
 
-export function neonDatabasePropertiesDeserializer(item: any): NeonDatabaseProperties {
+export function neonDatabasePropertiesDeserializer(
+  item: any,
+): NeonDatabaseProperties {
   return {
     entityId: item["entityId"],
     entityName: item["entityName"],
@@ -336,13 +360,17 @@ export function neonDatabasePropertiesDeserializer(item: any): NeonDatabasePrope
   };
 }
 
-export function endpointPropertiesArraySerializer(result: Array<EndpointProperties>): any[] {
+export function endpointPropertiesArraySerializer(
+  result: Array<EndpointProperties>,
+): any[] {
   return result.map((item) => {
     return endpointPropertiesSerializer(item);
   });
 }
 
-export function endpointPropertiesArrayDeserializer(result: Array<EndpointProperties>): any[] {
+export function endpointPropertiesArrayDeserializer(
+  result: Array<EndpointProperties>,
+): any[] {
   return result.map((item) => {
     return endpointPropertiesDeserializer(item);
   });
@@ -471,7 +499,9 @@ export interface ConnectionUriProperties {
   readonly connectionStringUri?: string;
 }
 
-export function connectionUriPropertiesSerializer(item: ConnectionUriProperties): any {
+export function connectionUriPropertiesSerializer(
+  item: ConnectionUriProperties,
+): any {
   return {
     projectId: item["projectId"],
     branchId: item["branchId"],
@@ -482,7 +512,9 @@ export function connectionUriPropertiesSerializer(item: ConnectionUriProperties)
   };
 }
 
-export function connectionUriPropertiesDeserializer(item: any): ConnectionUriProperties {
+export function connectionUriPropertiesDeserializer(
+  item: any,
+): ConnectionUriProperties {
   return {
     projectId: item["projectId"],
     branchId: item["branchId"],

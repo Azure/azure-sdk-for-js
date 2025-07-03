@@ -94,7 +94,8 @@ export interface DeleteMetricHeaderParam {
   headers?: RawHttpHeadersInput & DeleteMetricHeaders;
 }
 
-export type DeleteMetricParameters = DeleteMetricHeaderParam & RequestParameters;
+export type DeleteMetricParameters = DeleteMetricHeaderParam &
+  RequestParameters;
 
 export interface ListMetricsHeaders {
   /** An opaque, globally-unique, client-generated string identifier for the request. */

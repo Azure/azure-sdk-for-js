@@ -2,7 +2,10 @@
 // Licensed under the MIT License.
 
 import { OracleDatabaseManagementContext } from "../../api/oracleDatabaseManagementContext.js";
-import { AutonomousDatabaseBackup, AutonomousDatabaseBackupUpdate } from "../../models/models.js";
+import {
+  AutonomousDatabaseBackup,
+  AutonomousDatabaseBackupUpdate,
+} from "../../models/models.js";
 import {
   AutonomousDatabaseBackupsListByParentOptionalParams,
   AutonomousDatabaseBackupsUpdateOptionalParams,
@@ -35,7 +38,10 @@ export interface AutonomousDatabaseBackupsOperations {
     adbbackupid: string,
     properties: AutonomousDatabaseBackupUpdate,
     options?: AutonomousDatabaseBackupsUpdateOptionalParams,
-  ) => PollerLike<OperationState<AutonomousDatabaseBackup>, AutonomousDatabaseBackup>;
+  ) => PollerLike<
+    OperationState<AutonomousDatabaseBackup>,
+    AutonomousDatabaseBackup
+  >;
   /** Delete a AutonomousDatabaseBackup */
   /**
    *  @fixme delete is a reserved word that cannot be used as an operation name.
@@ -62,16 +68,22 @@ export interface AutonomousDatabaseBackupsOperations {
     adbbackupid: string,
     resource: AutonomousDatabaseBackup,
     options?: AutonomousDatabaseBackupsCreateOrUpdateOptionalParams,
-  ) => PollerLike<OperationState<AutonomousDatabaseBackup>, AutonomousDatabaseBackup>;
+  ) => PollerLike<
+    OperationState<AutonomousDatabaseBackup>,
+    AutonomousDatabaseBackup
+  >;
 }
 
-function _getAutonomousDatabaseBackups(context: OracleDatabaseManagementContext) {
+function _getAutonomousDatabaseBackups(
+  context: OracleDatabaseManagementContext,
+) {
   return {
     listByParent: (
       resourceGroupName: string,
       autonomousdatabasename: string,
       options?: AutonomousDatabaseBackupsListByParentOptionalParams,
-    ) => listByParent(context, resourceGroupName, autonomousdatabasename, options),
+    ) =>
+      listByParent(context, resourceGroupName, autonomousdatabasename, options),
     update: (
       resourceGroupName: string,
       autonomousdatabasename: string,
@@ -79,19 +91,40 @@ function _getAutonomousDatabaseBackups(context: OracleDatabaseManagementContext)
       properties: AutonomousDatabaseBackupUpdate,
       options?: AutonomousDatabaseBackupsUpdateOptionalParams,
     ) =>
-      update(context, resourceGroupName, autonomousdatabasename, adbbackupid, properties, options),
+      update(
+        context,
+        resourceGroupName,
+        autonomousdatabasename,
+        adbbackupid,
+        properties,
+        options,
+      ),
     delete: (
       resourceGroupName: string,
       autonomousdatabasename: string,
       adbbackupid: string,
       options?: AutonomousDatabaseBackupsDeleteOptionalParams,
-    ) => $delete(context, resourceGroupName, autonomousdatabasename, adbbackupid, options),
+    ) =>
+      $delete(
+        context,
+        resourceGroupName,
+        autonomousdatabasename,
+        adbbackupid,
+        options,
+      ),
     get: (
       resourceGroupName: string,
       autonomousdatabasename: string,
       adbbackupid: string,
       options?: AutonomousDatabaseBackupsGetOptionalParams,
-    ) => get(context, resourceGroupName, autonomousdatabasename, adbbackupid, options),
+    ) =>
+      get(
+        context,
+        resourceGroupName,
+        autonomousdatabasename,
+        adbbackupid,
+        options,
+      ),
     createOrUpdate: (
       resourceGroupName: string,
       autonomousdatabasename: string,

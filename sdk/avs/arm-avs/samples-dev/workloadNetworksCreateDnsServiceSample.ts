@@ -14,16 +14,21 @@ async function workloadNetworksCreateDnsService(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const client = new AzureVMwareSolutionAPI(credential, subscriptionId);
-  const result = await client.workloadNetworks.createDnsService("group1", "cloud1", "dnsService1", {
-    properties: {
-      displayName: "dnsService1",
-      dnsServiceIp: "5.5.5.5",
-      defaultDnsZone: "defaultDnsZone1",
-      fqdnZones: ["fqdnZone1"],
-      logLevel: "INFO",
-      revision: 1,
+  const result = await client.workloadNetworks.createDnsService(
+    "group1",
+    "cloud1",
+    "dnsService1",
+    {
+      properties: {
+        displayName: "dnsService1",
+        dnsServiceIp: "5.5.5.5",
+        defaultDnsZone: "defaultDnsZone1",
+        fqdnZones: ["fqdnZone1"],
+        logLevel: "INFO",
+        revision: 1,
+      },
     },
-  });
+  );
   console.log(result);
 }
 
