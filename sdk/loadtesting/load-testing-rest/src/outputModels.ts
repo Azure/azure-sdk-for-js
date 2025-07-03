@@ -413,7 +413,10 @@ export interface FunctionFlexConsumptionTargetResourceConfigurationsOutput
    */
   kind: "FunctionsFlexConsumption";
   /** A map of configurations for a Function app using Flex Consumption Plan. */
-  configurations?: Record<string, FunctionFlexConsumptionResourceConfigurationOutput>;
+  configurations?: Record<
+    string,
+    FunctionFlexConsumptionResourceConfigurationOutput
+  >;
 }
 
 /** Resource configuration instance for a Flex Consumption based Azure Function App. */
@@ -979,7 +982,8 @@ export interface HourlyRecurrenceOutput extends RecurrenceOutputParent {
 }
 
 /** Recurrence model when frequency is set as MonthlyByDays . */
-export interface MonthlyRecurrenceByWeekDaysOutput extends RecurrenceOutputParent {
+export interface MonthlyRecurrenceByWeekDaysOutput
+  extends RecurrenceOutputParent {
   /** Frequency of the month recurrence. */
   frequency: "MonthlyByDays";
   /** Specific days of the week when the recurrence should repeat. */
@@ -1046,7 +1050,8 @@ export interface NotificationRuleOutputParent {
 }
 
 /** Tests Notification rule model. */
-export interface TestsNotificationRuleOutput extends NotificationRuleOutputParent {
+export interface TestsNotificationRuleOutput
+  extends NotificationRuleOutputParent {
   /** Scope of type Tests. */
   scope: "Tests";
   /** The test ids to include. If not provided, notification will be sent for all testIds. */
@@ -1125,7 +1130,9 @@ export type RecurrenceOutput =
   | RecurrenceWithCronOutput
   | WeeklyRecurrenceOutput;
 /** Notification rule model. */
-export type NotificationRuleOutput = NotificationRuleOutputParent | TestsNotificationRuleOutput;
+export type NotificationRuleOutput =
+  | NotificationRuleOutputParent
+  | TestsNotificationRuleOutput;
 /** The notification event filter for Tests scope. */
 export type TestsNotificationEventFilterOutput =
   | TestsNotificationEventFilterOutputParent

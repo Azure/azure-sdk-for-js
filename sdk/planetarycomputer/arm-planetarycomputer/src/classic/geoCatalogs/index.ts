@@ -68,8 +68,9 @@ export interface GeoCatalogsOperations {
 
 function _getGeoCatalogs(context: SpatioContext) {
   return {
-    listBySubscription: (options?: GeoCatalogsListBySubscriptionOptionalParams) =>
-      listBySubscription(context, options),
+    listBySubscription: (
+      options?: GeoCatalogsListBySubscriptionOptionalParams,
+    ) => listBySubscription(context, options),
     listByResourceGroup: (
       resourceGroupName: string,
       options?: GeoCatalogsListByResourceGroupOptionalParams,
@@ -91,12 +92,17 @@ function _getGeoCatalogs(context: SpatioContext) {
       resource: GeoCatalog,
       options?: GeoCatalogsCreateOptionalParams,
     ) => create(context, resourceGroupName, catalogName, resource, options),
-    get: (resourceGroupName: string, catalogName: string, options?: GeoCatalogsGetOptionalParams) =>
-      get(context, resourceGroupName, catalogName, options),
+    get: (
+      resourceGroupName: string,
+      catalogName: string,
+      options?: GeoCatalogsGetOptionalParams,
+    ) => get(context, resourceGroupName, catalogName, options),
   };
 }
 
-export function _getGeoCatalogsOperations(context: SpatioContext): GeoCatalogsOperations {
+export function _getGeoCatalogsOperations(
+  context: SpatioContext,
+): GeoCatalogsOperations {
   return {
     ..._getGeoCatalogs(context),
   };

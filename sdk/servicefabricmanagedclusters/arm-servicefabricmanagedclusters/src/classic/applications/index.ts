@@ -97,14 +97,23 @@ export interface ApplicationsOperations {
   ) => Promise<ApplicationResource>;
 }
 
-function _getApplications(context: ServiceFabricManagedClustersManagementContext) {
+function _getApplications(
+  context: ServiceFabricManagedClustersManagementContext,
+) {
   return {
     startRollback: (
       resourceGroupName: string,
       clusterName: string,
       applicationName: string,
       options?: ApplicationsStartRollbackOptionalParams,
-    ) => startRollback(context, resourceGroupName, clusterName, applicationName, options),
+    ) =>
+      startRollback(
+        context,
+        resourceGroupName,
+        clusterName,
+        applicationName,
+        options,
+      ),
     resumeUpgrade: (
       resourceGroupName: string,
       clusterName: string,
@@ -112,13 +121,27 @@ function _getApplications(context: ServiceFabricManagedClustersManagementContext
       parameters: RuntimeResumeApplicationUpgradeParameters,
       options?: ApplicationsResumeUpgradeOptionalParams,
     ) =>
-      resumeUpgrade(context, resourceGroupName, clusterName, applicationName, parameters, options),
+      resumeUpgrade(
+        context,
+        resourceGroupName,
+        clusterName,
+        applicationName,
+        parameters,
+        options,
+      ),
     readUpgrade: (
       resourceGroupName: string,
       clusterName: string,
       applicationName: string,
       options?: ApplicationsReadUpgradeOptionalParams,
-    ) => readUpgrade(context, resourceGroupName, clusterName, applicationName, options),
+    ) =>
+      readUpgrade(
+        context,
+        resourceGroupName,
+        clusterName,
+        applicationName,
+        options,
+      ),
     list: (
       resourceGroupName: string,
       clusterName: string,
@@ -129,14 +152,29 @@ function _getApplications(context: ServiceFabricManagedClustersManagementContext
       clusterName: string,
       applicationName: string,
       options?: ApplicationsDeleteOptionalParams,
-    ) => $delete(context, resourceGroupName, clusterName, applicationName, options),
+    ) =>
+      $delete(
+        context,
+        resourceGroupName,
+        clusterName,
+        applicationName,
+        options,
+      ),
     update: (
       resourceGroupName: string,
       clusterName: string,
       applicationName: string,
       parameters: ApplicationUpdateParameters,
       options?: ApplicationsUpdateOptionalParams,
-    ) => update(context, resourceGroupName, clusterName, applicationName, parameters, options),
+    ) =>
+      update(
+        context,
+        resourceGroupName,
+        clusterName,
+        applicationName,
+        parameters,
+        options,
+      ),
     createOrUpdate: (
       resourceGroupName: string,
       clusterName: string,
@@ -144,7 +182,14 @@ function _getApplications(context: ServiceFabricManagedClustersManagementContext
       parameters: ApplicationResource,
       options?: ApplicationsCreateOrUpdateOptionalParams,
     ) =>
-      createOrUpdate(context, resourceGroupName, clusterName, applicationName, parameters, options),
+      createOrUpdate(
+        context,
+        resourceGroupName,
+        clusterName,
+        applicationName,
+        parameters,
+        options,
+      ),
     get: (
       resourceGroupName: string,
       clusterName: string,

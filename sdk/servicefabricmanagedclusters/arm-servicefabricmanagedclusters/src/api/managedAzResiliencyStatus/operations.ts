@@ -34,13 +34,15 @@ export function _getSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).post({
-    ...operationOptionsToRequestParameters(options),
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
-  });
+  return context
+    .path(path)
+    .post({
+      ...operationOptionsToRequestParameters(options),
+      headers: {
+        accept: "application/json",
+        ...options.requestOptions?.headers,
+      },
+    });
 }
 
 export async function _getDeserialize(
@@ -63,6 +65,11 @@ export async function get(
   clusterName: string,
   options: ManagedAzResiliencyStatusGetOptionalParams = { requestOptions: {} },
 ): Promise<ManagedAzResiliencyStatus> {
-  const result = await _getSend(context, resourceGroupName, clusterName, options);
+  const result = await _getSend(
+    context,
+    resourceGroupName,
+    clusterName,
+    options,
+  );
   return _getDeserialize(result);
 }

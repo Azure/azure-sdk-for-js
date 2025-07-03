@@ -14,7 +14,11 @@ async function getsAFirewallRuleOnAMongoClusterResource(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "ffffffff-ffff-ffff-ffff-ffffffffffff";
   const client = new MongoClusterManagementClient(credential, subscriptionId);
-  const result = await client.firewallRules.get("TestGroup", "myMongoCluster", "rule1");
+  const result = await client.firewallRules.get(
+    "TestGroup",
+    "myMongoCluster",
+    "rule1",
+  );
   console.log(result);
 }
 

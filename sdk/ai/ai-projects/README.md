@@ -1,529 +1,109 @@
-# Azure AI Projects client library for JavaScript
+# Azure AIProject client library for JavaScript
 
-The AI Projects client library provides easy access to resources in your Azure AI Foundry project.
-Use it to:
+This package contains an isomorphic SDK (runs both in Node.js and in browsers) for Azure AIProject client.
 
-- **Create and run Agents** using the `.agents` property on the client.
-- **Get an AzureOpenAI client** using the `.inference.azureOpenAI` method.
-- **Enumerate AI Models** deployed to your Foundry Project using the `.deployments` operations.
-- **Enumerate connected Azure resources** in your Foundry project using the `.connections` operations.
-- **Upload documents and create Datasets** to reference them using the `.datasets` operations.
-- **Create and enumerate Search Indexes** using the `.indexes` operations.
-- **Get an Azure AI Inference client** for chat completions, text or image embeddings using the `.inference` operations.
-- **Read a Prompty file or string** and render messages for inference clients, using the `PromptTemplate` class.
-- **Run Evaluations** to assess the performance of generative AI applications, using the `evaluations` operations.
-- **Enable OpenTelemetry tracing** using the `enable_telemetry` function.
+Azure AI Projects Client
 
-[Product documentation](https://aka.ms/azsdk/azure-ai-projects/product-doc)
-| [Samples](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/ai/ai-projects/samples)
-| [Package (npm)](https://www.npmjs.com/package/@azure/ai-projects)
-| [API reference documentation](https://learn.microsoft.com/javascript/api/overview/azure/ai-projects-readme?view=azure-node-preview)
-| [SDK source code](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/ai/ai-projects)
+Key links:
 
-## Table of contents
-
-- [Getting started](#getting-started)
-  - [Prerequisite](#prerequisite)
-  - [Authorization](#authorization)
-  - [Install the package](#install-the-package)
-- [Key concepts](#key-concepts)
-  - [Create and authenticate the client](#create-and-authenticate-the-client)
-- [Examples](#examples)
-  - [Performing Agent operations](#performing-agent-operations)
-  - [Get an authenticated AzureOpenAI client](#get-an-authenticated-azureopenai-client)
-  - [Get an authenticated ChatCompletionsClient](#get-an-authenticated-chatcompletionsclient)
-  - [Deployments operations](#deployments-operations)
-  - [Connections operations](#connections-operations)
-  - [Dataset operations](#dataset-operations)
-  - [Indexes operations](#indexes-operations)
-  - [Evaluation](#evaluation)
-    - [Evaluator](#evaluator)
-    - [Run Evaluation in the cloud](#run-evaluation-in-the-cloud)
-    - [Example Remote Evaluation](#example-remote-evaluation)
-- [Troubleshooting](#troubleshooting)
-  - [Exceptions](#exceptions)
-  - [Reporting issues](#reporting-issues)
-- [Next steps](#next-steps)
-- [Contributing](#contributing)
+- [Source code](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/ai/ai-projects)
+- [Package (NPM)](https://www.npmjs.com/package/@azure/ai-projects)
+- [API reference documentation](https://learn.microsoft.com/javascript/api/@azure/ai-projects?view=azure-node-preview)
 
 ## Getting started
 
-### Prerequisite
+### Currently supported environments
 
 - [LTS versions of Node.js](https://github.com/nodejs/release#release-schedule)
+- Latest versions of Safari, Chrome, Edge and Firefox.
+
+See our [support policy](https://github.com/Azure/azure-sdk-for-js/blob/main/SUPPORT.md) for more details.
+
+### Prerequisites
+
 - An [Azure subscription][azure_sub].
-- A [project in Azure AI Foundry](https://learn.microsoft.com/azure/ai-studio/how-to/create-projects?tabs=ai-studio).
 
-### Authorization
+### Install the `@azure/ai-projects` package
 
-- [Entra ID][entra_id] is needed to authenticate the client. Your application needs an object that implements the [TokenCredential](https://learn.microsoft.com/javascript/api/@azure/core-auth/tokencredential) interface. Code samples here use [DefaultAzureCredential][default_azure_credential]. To get that working, you will need:
-  - The `Contributor` role. Role assigned can be done via the "Access Control (IAM)" tab of your Azure AI Project resource in the Azure portal. Learn more about role assignments [here](https://learn.microsoft.com/azure/role-based-access-control/role-assignments-portal).
-  - [Azure CLI](https://learn.microsoft.com/cli/azure/install-azure-cli) installed.
-  - You are logged into your Azure account by running `az login`.
-  - Note that if you have multiple Azure subscriptions, the subscription that contains your Azure AI Project resource must be your default subscription. Run `az account list --output table` to list all your subscription and see which one is the default. Run `az account set --subscription "Your Subscription ID or Name"` to change your default subscription.
-
-### Install the package
+Install the Azure AIProject client library for JavaScript with `npm`:
 
 ```bash
-npm install @azure/ai-projects @azure/identity
+npm install @azure/ai-projects
 ```
 
-## Key concepts
+### Create and authenticate a `AIProjectClient`
 
-### Create and authenticate the client
+To create a client object to access the Azure AIProject API, you will need the `endpoint` of your Azure AIProject resource and a `credential`. The Azure AIProject client can use Azure Active Directory credentials to authenticate.
+You can find the endpoint for your Azure AIProject resource in the [Azure Portal][azure_portal].
 
-To construct an `AIProjectsClient`, the `endpoint` can be fetched from [endpoint][ai_project_client_endpoint]. Below we will assume the environment variable `AZURE_AI_PROJECT_ENDPOINT_STRING` was defined to hold this value:
+You can authenticate with Azure Active Directory using a credential from the [@azure/identity][azure_identity] library or [an existing AAD Token](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/identity/identity/samples/AzureIdentityExamples.md#authenticating-with-a-pre-fetched-access-token).
 
-```ts snippet:setup
+To use the [DefaultAzureCredential][defaultazurecredential] provider shown below, or other credential providers provided with the Azure SDK, please install the `@azure/identity` package:
+
+```bash
+npm install @azure/identity
+```
+
+You will also need to **register a new AAD application and grant access to Azure AIProject** by assigning the suitable role to your service principal (note: roles such as `"Owner"` will not grant the necessary permissions).
+
+For more information about how to create an Azure AD Application check out [this guide](https://learn.microsoft.com/azure/active-directory/develop/howto-create-service-principal-portal).
+
+Using Node.js and Node-like environments, you can use the `DefaultAzureCredential` class to authenticate the client.
+
+```ts snippet:ReadmeSampleCreateClient_Node
 import { AIProjectClient } from "@azure/ai-projects";
 import { DefaultAzureCredential } from "@azure/identity";
 
-const endpoint = process.env["AZURE_AI_PROJECT_ENDPOINT_STRING"] || "<project endpoint string>";
-const client = new AIProjectClient(endpoint, new DefaultAzureCredential());
+const client = new AIProjectClient("<endpoint>", new DefaultAzureCredential());
 ```
 
-The client uses API version `2025-05-15-preview`, refer to the [API documentation][ai_foundry_data_plane_rest_apis] to learn more about the supported features.
+For browser environments, use the `InteractiveBrowserCredential` from the `@azure/identity` package to authenticate.
 
-## Examples
+```ts snippet:ReadmeSampleCreateClient_Browser
+import { InteractiveBrowserCredential } from "@azure/identity";
+import { AIProjectClient } from "@azure/ai-projects";
 
-### Performing Agent operations
-
-The `.agents` property on the `AIProjectClient` gives you access to an authenticated `AgentsClient` from the `azure-ai-agents` package. Below we show how to create an agent and delete it. To see what you can do with the `agent` you created, see the [many samples](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/ai/ai-agents/samples) associated with the `azure-ai-agents` package.
-
-```ts snippet:agentsSample
-const agent = await project.agents.createAgent("gpt-4o", {
-  name: "my-agent",
-  instructions: "You are a helpful agent",
-});
-console.log(`Created agent, agent ID : ${agent.id}`);
-
-// Do something with your Agent!
-// See samples here https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/ai/ai-agents/samples
-await project.agents.deleteAgent(agent.id);
-console.log(`Deleted agent, agent ID: ${agent.id}`);
+const credential = new InteractiveBrowserCredential({
+  tenantId: "<YOUR_TENANT_ID>",
+  clientId: "<YOUR_CLIENT_ID>"
+ });
+const client = new AIProjectClient("<endpoint>", credential);
 ```
 
-### Get an authenticated AzureOpenAI client
 
-Your Azure AI Foundry project may have one or more OpenAI models deployed that support chat completions. Use the code below to get an authenticated [AzureOpenAI](https://github.com/openai/openai-python?tab=readme-ov-file#microsoft-azure-openai) from the [openai](https://pypi.org/project/openai/) package, and execute a chat completions call.
+### JavaScript Bundle
+To use this client library in the browser, first you need to use a bundler. For details on how to do this, please refer to our [bundling documentation](https://aka.ms/AzureSDKBundling).
 
-Run the code below. Here we assume `deploymentName` (str) is defined. It's the deployment name of an AI model in your Foundry Project. As shown in the "Models + endpoints" tab, under the "Name" column.
+## Key concepts
 
-Update the `api_version` value with one found in the "Data plane - inference" row [in this table](https://learn.microsoft.com/azure/ai-services/openai/reference#api-specs).
+### AIProjectClient
 
-You also have the option (not shown) to explicitly specify the Azure OpenAI connection name in your AI Foundry Project, which the `inference.azureOpenAI` method will use to get the inference endpoint and authentication credentials. If not present the default Azure OpenAI connection will be used.
-
-```ts snippet:openAI
-const client = await project.inference.azureOpenAI({
-  // The API version should match the version of the Azure OpenAI resource.
-  apiVersion: "2024-10-21",
-});
-const response = await client.chat.completions.create({
-  model: deploymentName,
-  messages: [{ role: "user", content: "How many feet are in a mile?" }],
-});
-console.log("response = ", JSON.stringify(response, null, 2));
-```
-
-See the "inference" folder in the [package samples][samples] for additional samples.
-
-### Get an authenticated ChatCompletionsClient
-
-Your Azure AI Foundry project may have one or more AI models deployed that support chat completions. These could be OpenAI models, Microsoft models, or models from other providers. Use the code below to get an authenticated Client and execute a chat completions call.
-
-Here we assume `deploymentName` (str) is defined. It's the deployment name of an AI model in your Foundry Project. As shown in the "Models + endpoints" tab, under the "Name" column.
-
-```ts snippet:chatCompletions
-const client = project.inference.chatCompletions();
-const response = await client.post({
-  body: {
-    model: deploymentName,
-    messages: [{ role: "user", content: "How many feet are in a mile?" }],
-  },
-});
-console.log(response.body.choices[0].message.content);
-```
-
-See the "inference" folder in the [package samples][samples] for additional samples.
-
-### Deployments operations
-
-The code below shows some Deployments operations, which allow you to enumerate the AI models deployed to your AI Foundry Projects. These models can be seen in the "Models + endpoints" tab in your AI Foundry Project. Full samples can be found under the "deployment" folder in the [package samples][samples].
-
-```ts snippet:deployments
-import { ModelDeployment } from "@azure/ai-projects";
-
-const modelPublisher = process.env["MODEL_PUBLISHER"] || "<model publisher>";
-console.log("List all deployments:");
-const deployments: ModelDeployment[] = [];
-const properties: Array<Record<string, string>> = [];
-
-for await (const deployment of project.deployments.list()) {
-  // Check if this is a ModelDeployment (has the required properties)
-  if (
-    deployment.type === "ModelDeployment" &&
-    "modelName" in deployment &&
-    "modelPublisher" in deployment &&
-    "modelVersion" in deployment
-  ) {
-    deployments.push(deployment);
-    properties.push({
-      name: deployment.name,
-      modelPublisher: deployment.modelPublisher,
-      modelName: deployment.modelName,
-    });
-  }
-}
-console.log(`Retrieved deployments: ${JSON.stringify(properties, null, 2)}`);
-
-// List all deployments by a specific model publisher (assuming we have one from the list)
-console.log(`List all deployments by the model publisher '${modelPublisher}':`);
-const filteredDeployments: ModelDeployment[] = [];
-for await (const deployment of project.deployments.list({
-  modelPublisher,
-})) {
-  // Check if this is a ModelDeployment
-  if (
-    deployment.type === "ModelDeployment" &&
-    "modelName" in deployment &&
-    "modelPublisher" in deployment &&
-    "modelVersion" in deployment
-  ) {
-    filteredDeployments.push(deployment);
-  }
-}
-console.log(
-  `Retrieved ${filteredDeployments.length} deployments from model publisher '${modelPublisher}'`,
-);
-
-// Get a single deployment by name
-if (deployments.length > 0) {
-  const deploymentName = deployments[0].name;
-  console.log(`Get a single deployment named '${deploymentName}':`);
-  const singleDeployment = await project.deployments.get(deploymentName);
-  console.log(`Retrieved deployment: ${JSON.stringify(singleDeployment, null, 2)}`);
-}
-```
-
-### Connections operations
-
-The code below shows some Connection operations, which allow you to enumerate the Azure Resources connected to your AI Foundry Projects. These connections can be seen in the "Management Center", in the "Connected resources" tab in your AI Foundry Project. Full samples can be found under the "connections" folder in the [package samples][samples].
-
-```ts snippet:connections
-import { Connection } from "@azure/ai-projects";
-
-// List the details of all the connections
-const connections: Connection[] = [];
-const connectionNames: string[] = [];
-for await (const connection of project.connections.list()) {
-  connections.push(connection);
-  connectionNames.push(connection.name);
-}
-console.log(`Retrieved connections: ${connectionNames}`);
-
-// Get the details of a connection, without credentials
-const connectionName = connections[0].name;
-const connection = await project.connections.get(connectionName);
-console.log(`Retrieved connection ${JSON.stringify(connection, null, 2)}`);
-
-const connectionWithCredentials = await project.connections.getWithCredentials(connectionName);
-console.log(
-  `Retrieved connection with credentials ${JSON.stringify(connectionWithCredentials, null, 2)}`,
-);
-
-// List all connections of a specific type
-const azureAIConnections: Connection[] = [];
-for await (const azureOpenAIConnection of project.connections.list({
-  connectionType: "AzureOpenAI",
-  defaultConnection: true,
-})) {
-  azureAIConnections.push(azureOpenAIConnection);
-}
-console.log(`Retrieved ${azureAIConnections.length} Azure OpenAI connections`);
-
-// Get the details of a default connection
-const defaultConnection = await project.connections.getDefault("AzureOpenAI", true);
-console.log(`Retrieved default connection ${JSON.stringify(defaultConnection, null, 2)}`);
-```
-
-### Dataset operations
-
-The code below shows some Dataset operations. Full samples can be found under the "datasets"
-folder in the [package samples][samples].
-
-```ts snippet:datasets
-import { DatasetVersionUnion } from "@azure/ai-projects";
-
-const VERSION1 = "1.0";
-const VERSION2 = "2.0";
-const VERSION3 = "3.0";
-
-// sample files to use in the demonstration
-const sampleFolder = "sample_folder";
-// Create a unique dataset name for this sample run
-const datasetName = `sample-dataset-basic`;
-console.log("Upload a single file and create a new Dataset to reference the file.");
-console.log("Here we explicitly specify the dataset version.");
-
-const dataset1 = await project.datasets.uploadFile(
-  datasetName,
-  VERSION1,
-  path.join(__dirname, sampleFolder, "sample_file1.txt"),
-);
-console.log("Dataset1 created:", JSON.stringify(dataset1, null, 2));
-
-const credential = project.datasets.getCredentials(dataset1.name, dataset1.version, {});
-console.log("Credential for the dataset:", credential);
-console.log(
-  "Upload all files in a folder (including subfolders) to the existing Dataset to reference the folder.",
-);
-console.log("Here again we explicitly specify a new dataset version");
-const dataset2 = await project.datasets.uploadFolder(
-  datasetName,
-  VERSION2,
-  path.join(__dirname, sampleFolder),
-);
-console.log("Dataset2 created:", JSON.stringify(dataset2, null, 2));
-console.log(
-  "Upload a single file to the existing dataset, while letting the service increment the version",
-);
-const dataset3 = await project.datasets.uploadFile(
-  datasetName,
-  VERSION3,
-  path.join(__dirname, sampleFolder, "sample_file2.txt"),
-);
-console.log("Dataset3 created:", JSON.stringify(dataset3, null, 2));
-
-console.log("Get an existing Dataset version `1`:");
-const datasetVersion1 = await project.datasets.get(datasetName, VERSION1);
-console.log("Dataset version 1:", JSON.stringify(datasetVersion1, null, 2));
-console.log(`Listing all versions of the Dataset named '${datasetName}':`);
-const datasetVersions = await project.datasets.listVersions(datasetName);
-for await (const version of datasetVersions) {
-  console.log("List versions:", version);
-}
-console.log("List latest versions of all Datasets:");
-const latestDatasets = project.datasets.list();
-for await (const dataset of latestDatasets) {
-  console.log("List datasets:", dataset);
-}
-// List the details of all the datasets
-const datasets = project.datasets.listVersions(datasetName);
-const allDatasets: DatasetVersionUnion[] = [];
-for await (const dataset of datasets) {
-  allDatasets.push(dataset);
-}
-console.log(`Retrieved ${allDatasets.length} datasets`);
-console.log("Delete all Datasets created above:");
-await project.datasets.delete(datasetName, VERSION1);
-await project.datasets.delete(datasetName, VERSION2);
-await project.datasets.delete(datasetName, dataset3.version);
-console.log("All specified Datasets have been deleted.");
-```
-
-### Indexes operations
-
-The code below shows some Indexes operations. Full samples can be found under the "indexes"
-folder in the [package samples][samples].
-
-```ts snippet:indexes
-import { AzureAISearchIndex } from "@azure/ai-projects";
-
-const indexName = "sample-index";
-const version = "1";
-const azureAIConnectionConfig: AzureAISearchIndex = {
-  name: indexName,
-  type: "AzureSearch",
-  version,
-  indexName,
-  connectionName: "sample-connection",
-};
-
-// Create a new Index
-const newIndex = await project.indexes.createOrUpdate(indexName, version, azureAIConnectionConfig);
-console.log("Created a new Index:", newIndex);
-console.log(`Get an existing Index version '${version}':`);
-const index = await project.indexes.get(indexName, version);
-console.log(index);
-console.log(`Listing all versions of the Index named '${indexName}':`);
-const indexVersions = project.indexes.listVersions(indexName);
-for await (const indexVersion of indexVersions) {
-  console.log(indexVersion);
-}
-console.log("List all Indexes:");
-const allIndexes = project.indexes.list();
-for await (const i of allIndexes) {
-  console.log("Index:", i);
-}
-console.log("Delete the Index versions created above:");
-await project.indexes.delete(indexName, version);
-```
-
-### Evaluation
-
-Evaluation in Azure AI Project client library is designed to assess the performance of generative AI applications in the cloud. The output of Generative AI application is quantitively measured with mathematical based metrics, AI-assisted quality and safety metrics. Metrics are defined as evaluators. Built-in or custom evaluators can provide comprehensive insights into the application's capabilities and limitations.
-
-#### Evaluator
-
-Evaluators are custom or prebuilt classes or functions that are designed to measure the quality of the outputs from language models or generative AI applications.
-
-Evaluators are made available via [azure-ai-evaluation][azure_ai_evaluation] SDK for local experience and also in [Evaluator Library][evaluator_library] in Azure AI Foundry for using them in the cloud.
-
-More details on built-in and custom evaluators can be found [here][evaluators].
-
-#### Run Evaluation in the cloud
-
-To run evaluation in the cloud the following are needed:
-
-- Evaluators
-- Data to be evaluated
-- [Optional] Azure Open AI model.
-
-##### Evaluators
-
-For running evaluator in the cloud, evaluator `ID` is needed. To get it via code you use [azure-ai-evaluation][azure_ai_evaluation]
-
-```ts snippet:datasetUpload
-import { DatasetVersion } from "@azure/ai-projects";
-
-const dataset: DatasetVersion = await project.datasets.uploadFile(
-  "jss-eval-sample-dataset",
-  "1",
-  "./samples_folder/sample_data_evaluation.jsonl",
-);
-```
-
-##### Data to be evaluated
-
-Evaluation in the cloud supports data in form of `jsonl` file. Data can be uploaded via the helper method `upload_file` on the project client.
-
-```ts snippet:datasetUpload
-import { DatasetVersion } from "@azure/ai-projects";
-
-const dataset: DatasetVersion = await project.datasets.uploadFile(
-  "jss-eval-sample-dataset",
-  "1",
-  "./samples_folder/sample_data_evaluation.jsonl",
-);
-```
-
-##### [Optional] Azure OpenAI Model
-
-Azure AI Foundry project comes with a default Azure Open AI endpoint which can be easily accessed using following code. This gives you the endpoint details for you Azure OpenAI endpoint. Some of the evaluators need model that supports chat completion.
-
-```ts snippet:getDefault
-const defaultConnection = await project.connections.getDefault("AzureOpenAI");
-```
-
-##### Example Remote Evaluation
-
-```ts snippet:evaluations
-import { EvaluationWithOptionalName, EvaluatorIds, Evaluation } from "@azure/ai-projects";
-
-const newEvaluation: EvaluationWithOptionalName = {
-  displayName: "Evaluation 1",
-  description: "This is a test evaluation",
-  data: {
-    type: "dataset",
-    id: "data-id", // dataset.name
-  },
-  evaluators: {
-    relevance: {
-      id: EvaluatorIds.RELEVANCE,
-      initParams: {
-        deploymentName: "gpt-4o-mini",
-      },
-      dataMapping: {
-        query: "${data.query}",
-        response: "${data.response}",
-      },
-    },
-  },
-};
-const evalResp = await project.evaluations.create(newEvaluation);
-console.log("Create a new evaluation:", JSON.stringify(evalResp, null, 2));
-// get the evaluation by ID
-const eval2 = await project.evaluations.get(evalResp.name);
-console.log("Get the evaluation by ID:", eval2);
-
-const evaluations: Evaluation[] = [];
-const evaluationNames: string[] = [];
-for await (const evaluation of project.evaluations.list()) {
-  evaluations.push(evaluation);
-  evaluationNames.push(evaluation.displayName ?? "");
-}
-console.log("List of evaluation display names:", evaluationNames);
-
-// This is temporary, as interface recommend the name of the evaluation
-const name = evaluations[0].name;
-const evaluation = await project.evaluations.get(name);
-console.log("Get an evaluation by ID:", JSON.stringify(evaluation, null, 2));
-```
-
-NOTE: For running evaluators locally refer to [Evaluate with the Azure AI Evaluation SDK][evaluators].
+`AIProjectClient` is the primary interface for developers using the Azure AIProject client library. Explore the methods on this client object to understand the different features of the Azure AIProject service that you can access.
 
 ## Troubleshooting
 
-### Exceptions
+### Logging
 
-Client methods that make service calls raise an [RestError](https://learn.microsoft.com/javascript/api/%40azure/core-rest-pipeline/resterror) for a non-success HTTP status code response from the service. The exception's `code` will hold the HTTP response status code. The exception's `error.message` contains a detailed message that may be helpful in diagnosing the issue:
+Enabling logging may help uncover useful information about failures. In order to see a log of HTTP requests and responses, set the `AZURE_LOG_LEVEL` environment variable to `info`. Alternatively, logging can be enabled at runtime by calling `setLogLevel` in the `@azure/logger`:
 
-```ts snippet:exceptions
-import { isRestError } from "@azure/core-rest-pipeline";
+```ts snippet:SetLogLevel
+import { setLogLevel } from "@azure/logger";
 
-try {
-  const result = await project.connections.list();
-} catch (e) {
-  if (isRestError(e)) {
-    console.log(`Status code: ${e.code}`);
-    console.log(e.message);
-  } else {
-    console.error(e);
-  }
-}
+setLogLevel("info");
 ```
 
-For example, when you provide wrong credentials:
+For more detailed instructions on how to enable logs, you can look at the [@azure/logger package docs](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/core/logger).
 
-```text
-Status code: 401 (Unauthorized)
-Operation returned an invalid status 'Unauthorized'
-```
-
-### Reporting issues
-
-To report issues with the client library, or request additional features, please open a GitHub issue [here](https://github.com/Azure/azure-sdk-for-js/issues)
-
-## Next steps
-
-Have a look at the [package samples](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/ai/ai-projects/samples) folder, containing fully runnable code.
 
 ## Contributing
 
-This project welcomes contributions and suggestions. Most contributions require
-you to agree to a Contributor License Agreement (CLA) declaring that you have
-the right to, and actually do, grant us the rights to use your contribution.
-For details, visit https://cla.microsoft.com.
+If you'd like to contribute to this library, please read the [contributing guide](https://github.com/Azure/azure-sdk-for-js/blob/main/CONTRIBUTING.md) to learn more about how to build and test the code.
 
-When you submit a pull request, a CLA-bot will automatically determine whether
-you need to provide a CLA and decorate the PR appropriately (e.g., label,
-comment). Simply follow the instructions provided by the bot. You will only
-need to do this once across all repos using our CLA.
+## Related projects
 
-This project has adopted the
-[Microsoft Open Source Code of Conduct][code_of_conduct]. For more information,
-see the Code of Conduct FAQ or contact opencode@microsoft.com with any
-additional questions or comments.
+- [Microsoft Azure SDK for JavaScript](https://github.com/Azure/azure-sdk-for-js)
 
-<!-- LINKS -->
-
-[code_of_conduct]: https://opensource.microsoft.com/codeofconduct/
-[entra_id]: https://learn.microsoft.com/azure/ai-services/authentication?tabs=powershell#authenticate-with-microsoft-entra-id
-[default_azure_credential]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/identity/identity#defaultazurecredential
 [azure_sub]: https://azure.microsoft.com/free/
-[evaluators]: https://learn.microsoft.com/azure/ai-studio/how-to/develop/evaluate-sdk
-[evaluator_library]: https://learn.microsoft.com/azure/ai-studio/how-to/evaluate-generative-ai-app#view-and-manage-the-evaluators-in-the-evaluator-library
-[azure_ai_evaluation]: https://learn.microsoft.com/javascript/api/overview/azure/ai-projects-readme
-[ai_foundry_data_plane_rest_apis]: https://learn.microsoft.com/rest/api/aifoundry/aiprojects/operation-groups?view=rest-aifoundry-aiprojects-2025-05-15-preview
-[ai_project_client_endpoint]: https://learn.microsoft.com/azure/ai-foundry/how-to/develop/sdk-overview?tabs=sync&pivots=programming-language-javascript
-[samples]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/ai/ai-projects/samples
+[azure_portal]: https://portal.azure.com
+[azure_identity]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/identity/identity
+[defaultazurecredential]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/identity/identity#defaultazurecredential

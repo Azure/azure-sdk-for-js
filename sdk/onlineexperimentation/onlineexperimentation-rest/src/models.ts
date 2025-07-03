@@ -31,7 +31,8 @@ export interface ExperimentMetricDefinitionParent {
 }
 
 /** The definition of an EventCount metric definition. Counts the occurrences of a specified event. */
-export interface EventCountMetricDefinition extends ExperimentMetricDefinitionParent {
+export interface EventCountMetricDefinition
+  extends ExperimentMetricDefinitionParent {
   /** The type of metric. */
   type: "EventCount";
   /** Event to observe. */
@@ -47,7 +48,8 @@ export interface ObservedEvent {
 }
 
 /** The definition of a UserCount metric definition. Counts unique users who encounter a specified event. */
-export interface UserCountMetricDefinition extends ExperimentMetricDefinitionParent {
+export interface UserCountMetricDefinition
+  extends ExperimentMetricDefinitionParent {
   /** The type of metric. */
   type: "UserCount";
   /** Event to observe. */
@@ -55,7 +57,8 @@ export interface UserCountMetricDefinition extends ExperimentMetricDefinitionPar
 }
 
 /** The definition of an EventRate metric definition. Calculates the percentage of events satisfying a specified condition. */
-export interface EventRateMetricDefinition extends ExperimentMetricDefinitionParent {
+export interface EventRateMetricDefinition
+  extends ExperimentMetricDefinitionParent {
   /** The type of metric. */
   type: "EventRate";
   /** Event to observe as the rate denominator. */
@@ -65,7 +68,8 @@ export interface EventRateMetricDefinition extends ExperimentMetricDefinitionPar
 }
 
 /** The definition of a UserRate metric definition. Calculates the percentage of users who encounter a start event and subsequently an end event. Users must encounter events in the specified order. */
-export interface UserRateMetricDefinition extends ExperimentMetricDefinitionParent {
+export interface UserRateMetricDefinition
+  extends ExperimentMetricDefinitionParent {
   /** The type of metric. */
   type: "UserRate";
   /** The start event to observe as the rate denominator. */
@@ -93,7 +97,8 @@ export interface AggregatedValue {
 }
 
 /** The definition of an Average metric definition. Calculates the average value of a specified event property. */
-export interface AverageMetricDefinition extends ExperimentMetricDefinitionParent {
+export interface AverageMetricDefinition
+  extends ExperimentMetricDefinitionParent {
   /** The type of metric. */
   type: "Average";
   /** The value to aggregate. */
@@ -101,7 +106,8 @@ export interface AverageMetricDefinition extends ExperimentMetricDefinitionParen
 }
 
 /** The definition of a Percentile metric definition. Calculates a specified percentile of an event property. */
-export interface PercentileMetricDefinition extends ExperimentMetricDefinitionParent {
+export interface PercentileMetricDefinition
+  extends ExperimentMetricDefinitionParent {
   /** The type of metric. */
   type: "Percentile";
   /** The value to aggregate, including the event name and property to measure. */
