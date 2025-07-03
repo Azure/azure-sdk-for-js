@@ -128,16 +128,20 @@ export function _deleteVMGroupSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).delete({
-    ...operationOptionsToRequestParameters(options),
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
-  });
+  return context
+    .path(path)
+    .delete({
+      ...operationOptionsToRequestParameters(options),
+      headers: {
+        accept: "application/json",
+        ...options.requestOptions?.headers,
+      },
+    });
 }
 
-export async function _deleteVMGroupDeserialize(result: PathUncheckedResponse): Promise<void> {
+export async function _deleteVMGroupDeserialize(
+  result: PathUncheckedResponse,
+): Promise<void> {
   const expectedStatuses = ["200", "202", "204"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
@@ -156,13 +160,24 @@ export function deleteVMGroup(
   privateCloudName: string,
   options: WorkloadNetworksDeleteVMGroupOptionalParams = { requestOptions: {} },
 ): PollerLike<OperationState<void>, void> {
-  return getLongRunningPoller(context, _deleteVMGroupDeserialize, ["200", "202", "204"], {
-    updateIntervalInMs: options?.updateIntervalInMs,
-    abortSignal: options?.abortSignal,
-    getInitialResponse: () =>
-      _deleteVMGroupSend(context, resourceGroupName, vmGroupId, privateCloudName, options),
-    resourceLocationConfig: "location",
-  }) as PollerLike<OperationState<void>, void>;
+  return getLongRunningPoller(
+    context,
+    _deleteVMGroupDeserialize,
+    ["200", "202", "204"],
+    {
+      updateIntervalInMs: options?.updateIntervalInMs,
+      abortSignal: options?.abortSignal,
+      getInitialResponse: () =>
+        _deleteVMGroupSend(
+          context,
+          resourceGroupName,
+          vmGroupId,
+          privateCloudName,
+          options,
+        ),
+      resourceLocationConfig: "location",
+    },
+  ) as PollerLike<OperationState<void>, void>;
 }
 
 export function _updateVMGroupSend(
@@ -186,15 +201,17 @@ export function _updateVMGroupSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).patch({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
-    body: workloadNetworkVMGroupSerializer(workloadNetworkVMGroup),
-  });
+  return context
+    .path(path)
+    .patch({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      headers: {
+        accept: "application/json",
+        ...options.requestOptions?.headers,
+      },
+      body: workloadNetworkVMGroupSerializer(workloadNetworkVMGroup),
+    });
 }
 
 export async function _updateVMGroupDeserialize(
@@ -219,20 +236,28 @@ export function updateVMGroup(
   workloadNetworkVMGroup: WorkloadNetworkVMGroup,
   options: WorkloadNetworksUpdateVMGroupOptionalParams = { requestOptions: {} },
 ): PollerLike<OperationState<WorkloadNetworkVMGroup>, WorkloadNetworkVMGroup> {
-  return getLongRunningPoller(context, _updateVMGroupDeserialize, ["200", "202"], {
-    updateIntervalInMs: options?.updateIntervalInMs,
-    abortSignal: options?.abortSignal,
-    getInitialResponse: () =>
-      _updateVMGroupSend(
-        context,
-        resourceGroupName,
-        privateCloudName,
-        vmGroupId,
-        workloadNetworkVMGroup,
-        options,
-      ),
-    resourceLocationConfig: "location",
-  }) as PollerLike<OperationState<WorkloadNetworkVMGroup>, WorkloadNetworkVMGroup>;
+  return getLongRunningPoller(
+    context,
+    _updateVMGroupDeserialize,
+    ["200", "202"],
+    {
+      updateIntervalInMs: options?.updateIntervalInMs,
+      abortSignal: options?.abortSignal,
+      getInitialResponse: () =>
+        _updateVMGroupSend(
+          context,
+          resourceGroupName,
+          privateCloudName,
+          vmGroupId,
+          workloadNetworkVMGroup,
+          options,
+        ),
+      resourceLocationConfig: "location",
+    },
+  ) as PollerLike<
+    OperationState<WorkloadNetworkVMGroup>,
+    WorkloadNetworkVMGroup
+  >;
 }
 
 export function _createVMGroupSend(
@@ -256,15 +281,17 @@ export function _createVMGroupSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).put({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
-    body: workloadNetworkVMGroupSerializer(workloadNetworkVMGroup),
-  });
+  return context
+    .path(path)
+    .put({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      headers: {
+        accept: "application/json",
+        ...options.requestOptions?.headers,
+      },
+      body: workloadNetworkVMGroupSerializer(workloadNetworkVMGroup),
+    });
 }
 
 export async function _createVMGroupDeserialize(
@@ -289,20 +316,28 @@ export function createVMGroup(
   workloadNetworkVMGroup: WorkloadNetworkVMGroup,
   options: WorkloadNetworksCreateVMGroupOptionalParams = { requestOptions: {} },
 ): PollerLike<OperationState<WorkloadNetworkVMGroup>, WorkloadNetworkVMGroup> {
-  return getLongRunningPoller(context, _createVMGroupDeserialize, ["200", "201"], {
-    updateIntervalInMs: options?.updateIntervalInMs,
-    abortSignal: options?.abortSignal,
-    getInitialResponse: () =>
-      _createVMGroupSend(
-        context,
-        resourceGroupName,
-        privateCloudName,
-        vmGroupId,
-        workloadNetworkVMGroup,
-        options,
-      ),
-    resourceLocationConfig: "azure-async-operation",
-  }) as PollerLike<OperationState<WorkloadNetworkVMGroup>, WorkloadNetworkVMGroup>;
+  return getLongRunningPoller(
+    context,
+    _createVMGroupDeserialize,
+    ["200", "201"],
+    {
+      updateIntervalInMs: options?.updateIntervalInMs,
+      abortSignal: options?.abortSignal,
+      getInitialResponse: () =>
+        _createVMGroupSend(
+          context,
+          resourceGroupName,
+          privateCloudName,
+          vmGroupId,
+          workloadNetworkVMGroup,
+          options,
+        ),
+      resourceLocationConfig: "azure-async-operation",
+    },
+  ) as PollerLike<
+    OperationState<WorkloadNetworkVMGroup>,
+    WorkloadNetworkVMGroup
+  >;
 }
 
 export function _getVMGroupSend(
@@ -325,13 +360,15 @@ export function _getVMGroupSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).get({
-    ...operationOptionsToRequestParameters(options),
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
-  });
+  return context
+    .path(path)
+    .get({
+      ...operationOptionsToRequestParameters(options),
+      headers: {
+        accept: "application/json",
+        ...options.requestOptions?.headers,
+      },
+    });
 }
 
 export async function _getVMGroupDeserialize(
@@ -383,13 +420,15 @@ export function _listVMGroupsSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).get({
-    ...operationOptionsToRequestParameters(options),
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
-  });
+  return context
+    .path(path)
+    .get({
+      ...operationOptionsToRequestParameters(options),
+      headers: {
+        accept: "application/json",
+        ...options.requestOptions?.headers,
+      },
+    });
 }
 
 export async function _listVMGroupsDeserialize(
@@ -414,7 +453,8 @@ export function listVMGroups(
 ): PagedAsyncIterableIterator<WorkloadNetworkVMGroup> {
   return buildPagedAsyncIterator(
     context,
-    () => _listVMGroupsSend(context, resourceGroupName, privateCloudName, options),
+    () =>
+      _listVMGroupsSend(context, resourceGroupName, privateCloudName, options),
     _listVMGroupsDeserialize,
     ["200"],
     { itemName: "value", nextLinkName: "nextLink" },
@@ -443,13 +483,15 @@ export function _getVirtualMachineSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).get({
-    ...operationOptionsToRequestParameters(options),
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
-  });
+  return context
+    .path(path)
+    .get({
+      ...operationOptionsToRequestParameters(options),
+      headers: {
+        accept: "application/json",
+        ...options.requestOptions?.headers,
+      },
+    });
 }
 
 export async function _getVirtualMachineDeserialize(
@@ -505,13 +547,15 @@ export function _listVirtualMachinesSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).get({
-    ...operationOptionsToRequestParameters(options),
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
-  });
+  return context
+    .path(path)
+    .get({
+      ...operationOptionsToRequestParameters(options),
+      headers: {
+        accept: "application/json",
+        ...options.requestOptions?.headers,
+      },
+    });
 }
 
 export async function _listVirtualMachinesDeserialize(
@@ -538,7 +582,13 @@ export function listVirtualMachines(
 ): PagedAsyncIterableIterator<WorkloadNetworkVirtualMachine> {
   return buildPagedAsyncIterator(
     context,
-    () => _listVirtualMachinesSend(context, resourceGroupName, privateCloudName, options),
+    () =>
+      _listVirtualMachinesSend(
+        context,
+        resourceGroupName,
+        privateCloudName,
+        options,
+      ),
     _listVirtualMachinesDeserialize,
     ["200"],
     { itemName: "value", nextLinkName: "nextLink" },
@@ -565,16 +615,20 @@ export function _deleteSegmentSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).delete({
-    ...operationOptionsToRequestParameters(options),
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
-  });
+  return context
+    .path(path)
+    .delete({
+      ...operationOptionsToRequestParameters(options),
+      headers: {
+        accept: "application/json",
+        ...options.requestOptions?.headers,
+      },
+    });
 }
 
-export async function _deleteSegmentDeserialize(result: PathUncheckedResponse): Promise<void> {
+export async function _deleteSegmentDeserialize(
+  result: PathUncheckedResponse,
+): Promise<void> {
   const expectedStatuses = ["200", "202", "204"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
@@ -593,13 +647,24 @@ export function deleteSegment(
   segmentId: string,
   options: WorkloadNetworksDeleteSegmentOptionalParams = { requestOptions: {} },
 ): PollerLike<OperationState<void>, void> {
-  return getLongRunningPoller(context, _deleteSegmentDeserialize, ["200", "202", "204"], {
-    updateIntervalInMs: options?.updateIntervalInMs,
-    abortSignal: options?.abortSignal,
-    getInitialResponse: () =>
-      _deleteSegmentSend(context, resourceGroupName, privateCloudName, segmentId, options),
-    resourceLocationConfig: "location",
-  }) as PollerLike<OperationState<void>, void>;
+  return getLongRunningPoller(
+    context,
+    _deleteSegmentDeserialize,
+    ["200", "202", "204"],
+    {
+      updateIntervalInMs: options?.updateIntervalInMs,
+      abortSignal: options?.abortSignal,
+      getInitialResponse: () =>
+        _deleteSegmentSend(
+          context,
+          resourceGroupName,
+          privateCloudName,
+          segmentId,
+          options,
+        ),
+      resourceLocationConfig: "location",
+    },
+  ) as PollerLike<OperationState<void>, void>;
 }
 
 export function _updateSegmentsSend(
@@ -625,15 +690,17 @@ export function _updateSegmentsSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).patch({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
-    body: workloadNetworkSegmentSerializer(workloadNetworkSegment),
-  });
+  return context
+    .path(path)
+    .patch({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      headers: {
+        accept: "application/json",
+        ...options.requestOptions?.headers,
+      },
+      body: workloadNetworkSegmentSerializer(workloadNetworkSegment),
+    });
 }
 
 export async function _updateSegmentsDeserialize(
@@ -660,20 +727,28 @@ export function updateSegments(
     requestOptions: {},
   },
 ): PollerLike<OperationState<WorkloadNetworkSegment>, WorkloadNetworkSegment> {
-  return getLongRunningPoller(context, _updateSegmentsDeserialize, ["200", "202"], {
-    updateIntervalInMs: options?.updateIntervalInMs,
-    abortSignal: options?.abortSignal,
-    getInitialResponse: () =>
-      _updateSegmentsSend(
-        context,
-        resourceGroupName,
-        privateCloudName,
-        segmentId,
-        workloadNetworkSegment,
-        options,
-      ),
-    resourceLocationConfig: "location",
-  }) as PollerLike<OperationState<WorkloadNetworkSegment>, WorkloadNetworkSegment>;
+  return getLongRunningPoller(
+    context,
+    _updateSegmentsDeserialize,
+    ["200", "202"],
+    {
+      updateIntervalInMs: options?.updateIntervalInMs,
+      abortSignal: options?.abortSignal,
+      getInitialResponse: () =>
+        _updateSegmentsSend(
+          context,
+          resourceGroupName,
+          privateCloudName,
+          segmentId,
+          workloadNetworkSegment,
+          options,
+        ),
+      resourceLocationConfig: "location",
+    },
+  ) as PollerLike<
+    OperationState<WorkloadNetworkSegment>,
+    WorkloadNetworkSegment
+  >;
 }
 
 export function _createSegmentsSend(
@@ -699,15 +774,17 @@ export function _createSegmentsSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).put({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
-    body: workloadNetworkSegmentSerializer(workloadNetworkSegment),
-  });
+  return context
+    .path(path)
+    .put({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      headers: {
+        accept: "application/json",
+        ...options.requestOptions?.headers,
+      },
+      body: workloadNetworkSegmentSerializer(workloadNetworkSegment),
+    });
 }
 
 export async function _createSegmentsDeserialize(
@@ -734,20 +811,28 @@ export function createSegments(
     requestOptions: {},
   },
 ): PollerLike<OperationState<WorkloadNetworkSegment>, WorkloadNetworkSegment> {
-  return getLongRunningPoller(context, _createSegmentsDeserialize, ["200", "201"], {
-    updateIntervalInMs: options?.updateIntervalInMs,
-    abortSignal: options?.abortSignal,
-    getInitialResponse: () =>
-      _createSegmentsSend(
-        context,
-        resourceGroupName,
-        privateCloudName,
-        segmentId,
-        workloadNetworkSegment,
-        options,
-      ),
-    resourceLocationConfig: "azure-async-operation",
-  }) as PollerLike<OperationState<WorkloadNetworkSegment>, WorkloadNetworkSegment>;
+  return getLongRunningPoller(
+    context,
+    _createSegmentsDeserialize,
+    ["200", "201"],
+    {
+      updateIntervalInMs: options?.updateIntervalInMs,
+      abortSignal: options?.abortSignal,
+      getInitialResponse: () =>
+        _createSegmentsSend(
+          context,
+          resourceGroupName,
+          privateCloudName,
+          segmentId,
+          workloadNetworkSegment,
+          options,
+        ),
+      resourceLocationConfig: "azure-async-operation",
+    },
+  ) as PollerLike<
+    OperationState<WorkloadNetworkSegment>,
+    WorkloadNetworkSegment
+  >;
 }
 
 export function _getSegmentSend(
@@ -770,13 +855,15 @@ export function _getSegmentSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).get({
-    ...operationOptionsToRequestParameters(options),
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
-  });
+  return context
+    .path(path)
+    .get({
+      ...operationOptionsToRequestParameters(options),
+      headers: {
+        accept: "application/json",
+        ...options.requestOptions?.headers,
+      },
+    });
 }
 
 export async function _getSegmentDeserialize(
@@ -828,13 +915,15 @@ export function _listSegmentsSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).get({
-    ...operationOptionsToRequestParameters(options),
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
-  });
+  return context
+    .path(path)
+    .get({
+      ...operationOptionsToRequestParameters(options),
+      headers: {
+        accept: "application/json",
+        ...options.requestOptions?.headers,
+      },
+    });
 }
 
 export async function _listSegmentsDeserialize(
@@ -859,7 +948,8 @@ export function listSegments(
 ): PagedAsyncIterableIterator<WorkloadNetworkSegment> {
   return buildPagedAsyncIterator(
     context,
-    () => _listSegmentsSend(context, resourceGroupName, privateCloudName, options),
+    () =>
+      _listSegmentsSend(context, resourceGroupName, privateCloudName, options),
     _listSegmentsDeserialize,
     ["200"],
     { itemName: "value", nextLinkName: "nextLink" },
@@ -888,16 +978,20 @@ export function _deletePublicIPSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).delete({
-    ...operationOptionsToRequestParameters(options),
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
-  });
+  return context
+    .path(path)
+    .delete({
+      ...operationOptionsToRequestParameters(options),
+      headers: {
+        accept: "application/json",
+        ...options.requestOptions?.headers,
+      },
+    });
 }
 
-export async function _deletePublicIPDeserialize(result: PathUncheckedResponse): Promise<void> {
+export async function _deletePublicIPDeserialize(
+  result: PathUncheckedResponse,
+): Promise<void> {
   const expectedStatuses = ["200", "202", "204"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
@@ -918,13 +1012,24 @@ export function deletePublicIP(
     requestOptions: {},
   },
 ): PollerLike<OperationState<void>, void> {
-  return getLongRunningPoller(context, _deletePublicIPDeserialize, ["200", "202", "204"], {
-    updateIntervalInMs: options?.updateIntervalInMs,
-    abortSignal: options?.abortSignal,
-    getInitialResponse: () =>
-      _deletePublicIPSend(context, resourceGroupName, publicIPId, privateCloudName, options),
-    resourceLocationConfig: "location",
-  }) as PollerLike<OperationState<void>, void>;
+  return getLongRunningPoller(
+    context,
+    _deletePublicIPDeserialize,
+    ["200", "202", "204"],
+    {
+      updateIntervalInMs: options?.updateIntervalInMs,
+      abortSignal: options?.abortSignal,
+      getInitialResponse: () =>
+        _deletePublicIPSend(
+          context,
+          resourceGroupName,
+          publicIPId,
+          privateCloudName,
+          options,
+        ),
+      resourceLocationConfig: "location",
+    },
+  ) as PollerLike<OperationState<void>, void>;
 }
 
 export function _createPublicIPSend(
@@ -950,15 +1055,17 @@ export function _createPublicIPSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).put({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
-    body: workloadNetworkPublicIPSerializer(workloadNetworkPublicIP),
-  });
+  return context
+    .path(path)
+    .put({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      headers: {
+        accept: "application/json",
+        ...options.requestOptions?.headers,
+      },
+      body: workloadNetworkPublicIPSerializer(workloadNetworkPublicIP),
+    });
 }
 
 export async function _createPublicIPDeserialize(
@@ -984,21 +1091,32 @@ export function createPublicIP(
   options: WorkloadNetworksCreatePublicIPOptionalParams = {
     requestOptions: {},
   },
-): PollerLike<OperationState<WorkloadNetworkPublicIP>, WorkloadNetworkPublicIP> {
-  return getLongRunningPoller(context, _createPublicIPDeserialize, ["200", "201"], {
-    updateIntervalInMs: options?.updateIntervalInMs,
-    abortSignal: options?.abortSignal,
-    getInitialResponse: () =>
-      _createPublicIPSend(
-        context,
-        resourceGroupName,
-        privateCloudName,
-        publicIPId,
-        workloadNetworkPublicIP,
-        options,
-      ),
-    resourceLocationConfig: "azure-async-operation",
-  }) as PollerLike<OperationState<WorkloadNetworkPublicIP>, WorkloadNetworkPublicIP>;
+): PollerLike<
+  OperationState<WorkloadNetworkPublicIP>,
+  WorkloadNetworkPublicIP
+> {
+  return getLongRunningPoller(
+    context,
+    _createPublicIPDeserialize,
+    ["200", "201"],
+    {
+      updateIntervalInMs: options?.updateIntervalInMs,
+      abortSignal: options?.abortSignal,
+      getInitialResponse: () =>
+        _createPublicIPSend(
+          context,
+          resourceGroupName,
+          privateCloudName,
+          publicIPId,
+          workloadNetworkPublicIP,
+          options,
+        ),
+      resourceLocationConfig: "azure-async-operation",
+    },
+  ) as PollerLike<
+    OperationState<WorkloadNetworkPublicIP>,
+    WorkloadNetworkPublicIP
+  >;
 }
 
 export function _getPublicIPSend(
@@ -1021,13 +1139,15 @@ export function _getPublicIPSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).get({
-    ...operationOptionsToRequestParameters(options),
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
-  });
+  return context
+    .path(path)
+    .get({
+      ...operationOptionsToRequestParameters(options),
+      headers: {
+        accept: "application/json",
+        ...options.requestOptions?.headers,
+      },
+    });
 }
 
 export async function _getPublicIPDeserialize(
@@ -1079,13 +1199,15 @@ export function _listPublicIPsSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).get({
-    ...operationOptionsToRequestParameters(options),
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
-  });
+  return context
+    .path(path)
+    .get({
+      ...operationOptionsToRequestParameters(options),
+      headers: {
+        accept: "application/json",
+        ...options.requestOptions?.headers,
+      },
+    });
 }
 
 export async function _listPublicIPsDeserialize(
@@ -1110,7 +1232,8 @@ export function listPublicIPs(
 ): PagedAsyncIterableIterator<WorkloadNetworkPublicIP> {
   return buildPagedAsyncIterator(
     context,
-    () => _listPublicIPsSend(context, resourceGroupName, privateCloudName, options),
+    () =>
+      _listPublicIPsSend(context, resourceGroupName, privateCloudName, options),
     _listPublicIPsDeserialize,
     ["200"],
     { itemName: "value", nextLinkName: "nextLink" },
@@ -1139,13 +1262,15 @@ export function _deletePortMirroringSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).delete({
-    ...operationOptionsToRequestParameters(options),
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
-  });
+  return context
+    .path(path)
+    .delete({
+      ...operationOptionsToRequestParameters(options),
+      headers: {
+        accept: "application/json",
+        ...options.requestOptions?.headers,
+      },
+    });
 }
 
 export async function _deletePortMirroringDeserialize(
@@ -1171,19 +1296,24 @@ export function deletePortMirroring(
     requestOptions: {},
   },
 ): PollerLike<OperationState<void>, void> {
-  return getLongRunningPoller(context, _deletePortMirroringDeserialize, ["200", "202", "204"], {
-    updateIntervalInMs: options?.updateIntervalInMs,
-    abortSignal: options?.abortSignal,
-    getInitialResponse: () =>
-      _deletePortMirroringSend(
-        context,
-        resourceGroupName,
-        portMirroringId,
-        privateCloudName,
-        options,
-      ),
-    resourceLocationConfig: "location",
-  }) as PollerLike<OperationState<void>, void>;
+  return getLongRunningPoller(
+    context,
+    _deletePortMirroringDeserialize,
+    ["200", "202", "204"],
+    {
+      updateIntervalInMs: options?.updateIntervalInMs,
+      abortSignal: options?.abortSignal,
+      getInitialResponse: () =>
+        _deletePortMirroringSend(
+          context,
+          resourceGroupName,
+          portMirroringId,
+          privateCloudName,
+          options,
+        ),
+      resourceLocationConfig: "location",
+    },
+  ) as PollerLike<OperationState<void>, void>;
 }
 
 export function _updatePortMirroringSend(
@@ -1209,15 +1339,19 @@ export function _updatePortMirroringSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).patch({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
-    body: workloadNetworkPortMirroringSerializer(workloadNetworkPortMirroring),
-  });
+  return context
+    .path(path)
+    .patch({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      headers: {
+        accept: "application/json",
+        ...options.requestOptions?.headers,
+      },
+      body: workloadNetworkPortMirroringSerializer(
+        workloadNetworkPortMirroring,
+      ),
+    });
 }
 
 export async function _updatePortMirroringDeserialize(
@@ -1243,21 +1377,32 @@ export function updatePortMirroring(
   options: WorkloadNetworksUpdatePortMirroringOptionalParams = {
     requestOptions: {},
   },
-): PollerLike<OperationState<WorkloadNetworkPortMirroring>, WorkloadNetworkPortMirroring> {
-  return getLongRunningPoller(context, _updatePortMirroringDeserialize, ["200", "202"], {
-    updateIntervalInMs: options?.updateIntervalInMs,
-    abortSignal: options?.abortSignal,
-    getInitialResponse: () =>
-      _updatePortMirroringSend(
-        context,
-        resourceGroupName,
-        privateCloudName,
-        portMirroringId,
-        workloadNetworkPortMirroring,
-        options,
-      ),
-    resourceLocationConfig: "location",
-  }) as PollerLike<OperationState<WorkloadNetworkPortMirroring>, WorkloadNetworkPortMirroring>;
+): PollerLike<
+  OperationState<WorkloadNetworkPortMirroring>,
+  WorkloadNetworkPortMirroring
+> {
+  return getLongRunningPoller(
+    context,
+    _updatePortMirroringDeserialize,
+    ["200", "202"],
+    {
+      updateIntervalInMs: options?.updateIntervalInMs,
+      abortSignal: options?.abortSignal,
+      getInitialResponse: () =>
+        _updatePortMirroringSend(
+          context,
+          resourceGroupName,
+          privateCloudName,
+          portMirroringId,
+          workloadNetworkPortMirroring,
+          options,
+        ),
+      resourceLocationConfig: "location",
+    },
+  ) as PollerLike<
+    OperationState<WorkloadNetworkPortMirroring>,
+    WorkloadNetworkPortMirroring
+  >;
 }
 
 export function _createPortMirroringSend(
@@ -1283,15 +1428,19 @@ export function _createPortMirroringSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).put({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
-    body: workloadNetworkPortMirroringSerializer(workloadNetworkPortMirroring),
-  });
+  return context
+    .path(path)
+    .put({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      headers: {
+        accept: "application/json",
+        ...options.requestOptions?.headers,
+      },
+      body: workloadNetworkPortMirroringSerializer(
+        workloadNetworkPortMirroring,
+      ),
+    });
 }
 
 export async function _createPortMirroringDeserialize(
@@ -1317,21 +1466,32 @@ export function createPortMirroring(
   options: WorkloadNetworksCreatePortMirroringOptionalParams = {
     requestOptions: {},
   },
-): PollerLike<OperationState<WorkloadNetworkPortMirroring>, WorkloadNetworkPortMirroring> {
-  return getLongRunningPoller(context, _createPortMirroringDeserialize, ["200", "201"], {
-    updateIntervalInMs: options?.updateIntervalInMs,
-    abortSignal: options?.abortSignal,
-    getInitialResponse: () =>
-      _createPortMirroringSend(
-        context,
-        resourceGroupName,
-        privateCloudName,
-        portMirroringId,
-        workloadNetworkPortMirroring,
-        options,
-      ),
-    resourceLocationConfig: "azure-async-operation",
-  }) as PollerLike<OperationState<WorkloadNetworkPortMirroring>, WorkloadNetworkPortMirroring>;
+): PollerLike<
+  OperationState<WorkloadNetworkPortMirroring>,
+  WorkloadNetworkPortMirroring
+> {
+  return getLongRunningPoller(
+    context,
+    _createPortMirroringDeserialize,
+    ["200", "201"],
+    {
+      updateIntervalInMs: options?.updateIntervalInMs,
+      abortSignal: options?.abortSignal,
+      getInitialResponse: () =>
+        _createPortMirroringSend(
+          context,
+          resourceGroupName,
+          privateCloudName,
+          portMirroringId,
+          workloadNetworkPortMirroring,
+          options,
+        ),
+      resourceLocationConfig: "azure-async-operation",
+    },
+  ) as PollerLike<
+    OperationState<WorkloadNetworkPortMirroring>,
+    WorkloadNetworkPortMirroring
+  >;
 }
 
 export function _getPortMirroringSend(
@@ -1356,13 +1516,15 @@ export function _getPortMirroringSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).get({
-    ...operationOptionsToRequestParameters(options),
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
-  });
+  return context
+    .path(path)
+    .get({
+      ...operationOptionsToRequestParameters(options),
+      headers: {
+        accept: "application/json",
+        ...options.requestOptions?.headers,
+      },
+    });
 }
 
 export async function _getPortMirroringDeserialize(
@@ -1418,13 +1580,15 @@ export function _listPortMirroringSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).get({
-    ...operationOptionsToRequestParameters(options),
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
-  });
+  return context
+    .path(path)
+    .get({
+      ...operationOptionsToRequestParameters(options),
+      headers: {
+        accept: "application/json",
+        ...options.requestOptions?.headers,
+      },
+    });
 }
 
 export async function _listPortMirroringDeserialize(
@@ -1451,7 +1615,13 @@ export function listPortMirroring(
 ): PagedAsyncIterableIterator<WorkloadNetworkPortMirroring> {
   return buildPagedAsyncIterator(
     context,
-    () => _listPortMirroringSend(context, resourceGroupName, privateCloudName, options),
+    () =>
+      _listPortMirroringSend(
+        context,
+        resourceGroupName,
+        privateCloudName,
+        options,
+      ),
     _listPortMirroringDeserialize,
     ["200"],
     { itemName: "value", nextLinkName: "nextLink" },
@@ -1478,13 +1648,15 @@ export function _getGatewaySend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).get({
-    ...operationOptionsToRequestParameters(options),
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
-  });
+  return context
+    .path(path)
+    .get({
+      ...operationOptionsToRequestParameters(options),
+      headers: {
+        accept: "application/json",
+        ...options.requestOptions?.headers,
+      },
+    });
 }
 
 export async function _getGatewayDeserialize(
@@ -1536,13 +1708,15 @@ export function _listGatewaysSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).get({
-    ...operationOptionsToRequestParameters(options),
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
-  });
+  return context
+    .path(path)
+    .get({
+      ...operationOptionsToRequestParameters(options),
+      headers: {
+        accept: "application/json",
+        ...options.requestOptions?.headers,
+      },
+    });
 }
 
 export async function _listGatewaysDeserialize(
@@ -1567,7 +1741,8 @@ export function listGateways(
 ): PagedAsyncIterableIterator<WorkloadNetworkGateway> {
   return buildPagedAsyncIterator(
     context,
-    () => _listGatewaysSend(context, resourceGroupName, privateCloudName, options),
+    () =>
+      _listGatewaysSend(context, resourceGroupName, privateCloudName, options),
     _listGatewaysDeserialize,
     ["200"],
     { itemName: "value", nextLinkName: "nextLink" },
@@ -1594,16 +1769,20 @@ export function _deleteDnsZoneSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).delete({
-    ...operationOptionsToRequestParameters(options),
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
-  });
+  return context
+    .path(path)
+    .delete({
+      ...operationOptionsToRequestParameters(options),
+      headers: {
+        accept: "application/json",
+        ...options.requestOptions?.headers,
+      },
+    });
 }
 
-export async function _deleteDnsZoneDeserialize(result: PathUncheckedResponse): Promise<void> {
+export async function _deleteDnsZoneDeserialize(
+  result: PathUncheckedResponse,
+): Promise<void> {
   const expectedStatuses = ["200", "202", "204"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
@@ -1622,13 +1801,24 @@ export function deleteDnsZone(
   privateCloudName: string,
   options: WorkloadNetworksDeleteDnsZoneOptionalParams = { requestOptions: {} },
 ): PollerLike<OperationState<void>, void> {
-  return getLongRunningPoller(context, _deleteDnsZoneDeserialize, ["200", "202", "204"], {
-    updateIntervalInMs: options?.updateIntervalInMs,
-    abortSignal: options?.abortSignal,
-    getInitialResponse: () =>
-      _deleteDnsZoneSend(context, resourceGroupName, dnsZoneId, privateCloudName, options),
-    resourceLocationConfig: "location",
-  }) as PollerLike<OperationState<void>, void>;
+  return getLongRunningPoller(
+    context,
+    _deleteDnsZoneDeserialize,
+    ["200", "202", "204"],
+    {
+      updateIntervalInMs: options?.updateIntervalInMs,
+      abortSignal: options?.abortSignal,
+      getInitialResponse: () =>
+        _deleteDnsZoneSend(
+          context,
+          resourceGroupName,
+          dnsZoneId,
+          privateCloudName,
+          options,
+        ),
+      resourceLocationConfig: "location",
+    },
+  ) as PollerLike<OperationState<void>, void>;
 }
 
 export function _updateDnsZoneSend(
@@ -1652,15 +1842,17 @@ export function _updateDnsZoneSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).patch({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
-    body: workloadNetworkDnsZoneSerializer(workloadNetworkDnsZone),
-  });
+  return context
+    .path(path)
+    .patch({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      headers: {
+        accept: "application/json",
+        ...options.requestOptions?.headers,
+      },
+      body: workloadNetworkDnsZoneSerializer(workloadNetworkDnsZone),
+    });
 }
 
 export async function _updateDnsZoneDeserialize(
@@ -1685,20 +1877,28 @@ export function updateDnsZone(
   workloadNetworkDnsZone: WorkloadNetworkDnsZone,
   options: WorkloadNetworksUpdateDnsZoneOptionalParams = { requestOptions: {} },
 ): PollerLike<OperationState<WorkloadNetworkDnsZone>, WorkloadNetworkDnsZone> {
-  return getLongRunningPoller(context, _updateDnsZoneDeserialize, ["200", "202"], {
-    updateIntervalInMs: options?.updateIntervalInMs,
-    abortSignal: options?.abortSignal,
-    getInitialResponse: () =>
-      _updateDnsZoneSend(
-        context,
-        resourceGroupName,
-        privateCloudName,
-        dnsZoneId,
-        workloadNetworkDnsZone,
-        options,
-      ),
-    resourceLocationConfig: "location",
-  }) as PollerLike<OperationState<WorkloadNetworkDnsZone>, WorkloadNetworkDnsZone>;
+  return getLongRunningPoller(
+    context,
+    _updateDnsZoneDeserialize,
+    ["200", "202"],
+    {
+      updateIntervalInMs: options?.updateIntervalInMs,
+      abortSignal: options?.abortSignal,
+      getInitialResponse: () =>
+        _updateDnsZoneSend(
+          context,
+          resourceGroupName,
+          privateCloudName,
+          dnsZoneId,
+          workloadNetworkDnsZone,
+          options,
+        ),
+      resourceLocationConfig: "location",
+    },
+  ) as PollerLike<
+    OperationState<WorkloadNetworkDnsZone>,
+    WorkloadNetworkDnsZone
+  >;
 }
 
 export function _createDnsZoneSend(
@@ -1722,15 +1922,17 @@ export function _createDnsZoneSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).put({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
-    body: workloadNetworkDnsZoneSerializer(workloadNetworkDnsZone),
-  });
+  return context
+    .path(path)
+    .put({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      headers: {
+        accept: "application/json",
+        ...options.requestOptions?.headers,
+      },
+      body: workloadNetworkDnsZoneSerializer(workloadNetworkDnsZone),
+    });
 }
 
 export async function _createDnsZoneDeserialize(
@@ -1755,20 +1957,28 @@ export function createDnsZone(
   workloadNetworkDnsZone: WorkloadNetworkDnsZone,
   options: WorkloadNetworksCreateDnsZoneOptionalParams = { requestOptions: {} },
 ): PollerLike<OperationState<WorkloadNetworkDnsZone>, WorkloadNetworkDnsZone> {
-  return getLongRunningPoller(context, _createDnsZoneDeserialize, ["200", "201"], {
-    updateIntervalInMs: options?.updateIntervalInMs,
-    abortSignal: options?.abortSignal,
-    getInitialResponse: () =>
-      _createDnsZoneSend(
-        context,
-        resourceGroupName,
-        privateCloudName,
-        dnsZoneId,
-        workloadNetworkDnsZone,
-        options,
-      ),
-    resourceLocationConfig: "azure-async-operation",
-  }) as PollerLike<OperationState<WorkloadNetworkDnsZone>, WorkloadNetworkDnsZone>;
+  return getLongRunningPoller(
+    context,
+    _createDnsZoneDeserialize,
+    ["200", "201"],
+    {
+      updateIntervalInMs: options?.updateIntervalInMs,
+      abortSignal: options?.abortSignal,
+      getInitialResponse: () =>
+        _createDnsZoneSend(
+          context,
+          resourceGroupName,
+          privateCloudName,
+          dnsZoneId,
+          workloadNetworkDnsZone,
+          options,
+        ),
+      resourceLocationConfig: "azure-async-operation",
+    },
+  ) as PollerLike<
+    OperationState<WorkloadNetworkDnsZone>,
+    WorkloadNetworkDnsZone
+  >;
 }
 
 export function _getDnsZoneSend(
@@ -1791,13 +2001,15 @@ export function _getDnsZoneSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).get({
-    ...operationOptionsToRequestParameters(options),
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
-  });
+  return context
+    .path(path)
+    .get({
+      ...operationOptionsToRequestParameters(options),
+      headers: {
+        accept: "application/json",
+        ...options.requestOptions?.headers,
+      },
+    });
 }
 
 export async function _getDnsZoneDeserialize(
@@ -1849,13 +2061,15 @@ export function _listDnsZonesSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).get({
-    ...operationOptionsToRequestParameters(options),
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
-  });
+  return context
+    .path(path)
+    .get({
+      ...operationOptionsToRequestParameters(options),
+      headers: {
+        accept: "application/json",
+        ...options.requestOptions?.headers,
+      },
+    });
 }
 
 export async function _listDnsZonesDeserialize(
@@ -1880,7 +2094,8 @@ export function listDnsZones(
 ): PagedAsyncIterableIterator<WorkloadNetworkDnsZone> {
   return buildPagedAsyncIterator(
     context,
-    () => _listDnsZonesSend(context, resourceGroupName, privateCloudName, options),
+    () =>
+      _listDnsZonesSend(context, resourceGroupName, privateCloudName, options),
     _listDnsZonesDeserialize,
     ["200"],
     { itemName: "value", nextLinkName: "nextLink" },
@@ -1909,16 +2124,20 @@ export function _deleteDnsServiceSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).delete({
-    ...operationOptionsToRequestParameters(options),
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
-  });
+  return context
+    .path(path)
+    .delete({
+      ...operationOptionsToRequestParameters(options),
+      headers: {
+        accept: "application/json",
+        ...options.requestOptions?.headers,
+      },
+    });
 }
 
-export async function _deleteDnsServiceDeserialize(result: PathUncheckedResponse): Promise<void> {
+export async function _deleteDnsServiceDeserialize(
+  result: PathUncheckedResponse,
+): Promise<void> {
   const expectedStatuses = ["200", "202", "204"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
@@ -1939,13 +2158,24 @@ export function deleteDnsService(
     requestOptions: {},
   },
 ): PollerLike<OperationState<void>, void> {
-  return getLongRunningPoller(context, _deleteDnsServiceDeserialize, ["200", "202", "204"], {
-    updateIntervalInMs: options?.updateIntervalInMs,
-    abortSignal: options?.abortSignal,
-    getInitialResponse: () =>
-      _deleteDnsServiceSend(context, resourceGroupName, dnsServiceId, privateCloudName, options),
-    resourceLocationConfig: "location",
-  }) as PollerLike<OperationState<void>, void>;
+  return getLongRunningPoller(
+    context,
+    _deleteDnsServiceDeserialize,
+    ["200", "202", "204"],
+    {
+      updateIntervalInMs: options?.updateIntervalInMs,
+      abortSignal: options?.abortSignal,
+      getInitialResponse: () =>
+        _deleteDnsServiceSend(
+          context,
+          resourceGroupName,
+          dnsServiceId,
+          privateCloudName,
+          options,
+        ),
+      resourceLocationConfig: "location",
+    },
+  ) as PollerLike<OperationState<void>, void>;
 }
 
 export function _updateDnsServiceSend(
@@ -1971,15 +2201,17 @@ export function _updateDnsServiceSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).patch({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
-    body: workloadNetworkDnsServiceSerializer(workloadNetworkDnsService),
-  });
+  return context
+    .path(path)
+    .patch({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      headers: {
+        accept: "application/json",
+        ...options.requestOptions?.headers,
+      },
+      body: workloadNetworkDnsServiceSerializer(workloadNetworkDnsService),
+    });
 }
 
 export async function _updateDnsServiceDeserialize(
@@ -2005,21 +2237,32 @@ export function updateDnsService(
   options: WorkloadNetworksUpdateDnsServiceOptionalParams = {
     requestOptions: {},
   },
-): PollerLike<OperationState<WorkloadNetworkDnsService>, WorkloadNetworkDnsService> {
-  return getLongRunningPoller(context, _updateDnsServiceDeserialize, ["200", "202"], {
-    updateIntervalInMs: options?.updateIntervalInMs,
-    abortSignal: options?.abortSignal,
-    getInitialResponse: () =>
-      _updateDnsServiceSend(
-        context,
-        resourceGroupName,
-        privateCloudName,
-        dnsServiceId,
-        workloadNetworkDnsService,
-        options,
-      ),
-    resourceLocationConfig: "location",
-  }) as PollerLike<OperationState<WorkloadNetworkDnsService>, WorkloadNetworkDnsService>;
+): PollerLike<
+  OperationState<WorkloadNetworkDnsService>,
+  WorkloadNetworkDnsService
+> {
+  return getLongRunningPoller(
+    context,
+    _updateDnsServiceDeserialize,
+    ["200", "202"],
+    {
+      updateIntervalInMs: options?.updateIntervalInMs,
+      abortSignal: options?.abortSignal,
+      getInitialResponse: () =>
+        _updateDnsServiceSend(
+          context,
+          resourceGroupName,
+          privateCloudName,
+          dnsServiceId,
+          workloadNetworkDnsService,
+          options,
+        ),
+      resourceLocationConfig: "location",
+    },
+  ) as PollerLike<
+    OperationState<WorkloadNetworkDnsService>,
+    WorkloadNetworkDnsService
+  >;
 }
 
 export function _createDnsServiceSend(
@@ -2045,15 +2288,17 @@ export function _createDnsServiceSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).put({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
-    body: workloadNetworkDnsServiceSerializer(workloadNetworkDnsService),
-  });
+  return context
+    .path(path)
+    .put({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      headers: {
+        accept: "application/json",
+        ...options.requestOptions?.headers,
+      },
+      body: workloadNetworkDnsServiceSerializer(workloadNetworkDnsService),
+    });
 }
 
 export async function _createDnsServiceDeserialize(
@@ -2079,21 +2324,32 @@ export function createDnsService(
   options: WorkloadNetworksCreateDnsServiceOptionalParams = {
     requestOptions: {},
   },
-): PollerLike<OperationState<WorkloadNetworkDnsService>, WorkloadNetworkDnsService> {
-  return getLongRunningPoller(context, _createDnsServiceDeserialize, ["200", "201"], {
-    updateIntervalInMs: options?.updateIntervalInMs,
-    abortSignal: options?.abortSignal,
-    getInitialResponse: () =>
-      _createDnsServiceSend(
-        context,
-        resourceGroupName,
-        privateCloudName,
-        dnsServiceId,
-        workloadNetworkDnsService,
-        options,
-      ),
-    resourceLocationConfig: "azure-async-operation",
-  }) as PollerLike<OperationState<WorkloadNetworkDnsService>, WorkloadNetworkDnsService>;
+): PollerLike<
+  OperationState<WorkloadNetworkDnsService>,
+  WorkloadNetworkDnsService
+> {
+  return getLongRunningPoller(
+    context,
+    _createDnsServiceDeserialize,
+    ["200", "201"],
+    {
+      updateIntervalInMs: options?.updateIntervalInMs,
+      abortSignal: options?.abortSignal,
+      getInitialResponse: () =>
+        _createDnsServiceSend(
+          context,
+          resourceGroupName,
+          privateCloudName,
+          dnsServiceId,
+          workloadNetworkDnsService,
+          options,
+        ),
+      resourceLocationConfig: "azure-async-operation",
+    },
+  ) as PollerLike<
+    OperationState<WorkloadNetworkDnsService>,
+    WorkloadNetworkDnsService
+  >;
 }
 
 export function _getDnsServiceSend(
@@ -2116,13 +2372,15 @@ export function _getDnsServiceSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).get({
-    ...operationOptionsToRequestParameters(options),
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
-  });
+  return context
+    .path(path)
+    .get({
+      ...operationOptionsToRequestParameters(options),
+      headers: {
+        accept: "application/json",
+        ...options.requestOptions?.headers,
+      },
+    });
 }
 
 export async function _getDnsServiceDeserialize(
@@ -2176,13 +2434,15 @@ export function _listDnsServicesSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).get({
-    ...operationOptionsToRequestParameters(options),
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
-  });
+  return context
+    .path(path)
+    .get({
+      ...operationOptionsToRequestParameters(options),
+      headers: {
+        accept: "application/json",
+        ...options.requestOptions?.headers,
+      },
+    });
 }
 
 export async function _listDnsServicesDeserialize(
@@ -2209,7 +2469,13 @@ export function listDnsServices(
 ): PagedAsyncIterableIterator<WorkloadNetworkDnsService> {
   return buildPagedAsyncIterator(
     context,
-    () => _listDnsServicesSend(context, resourceGroupName, privateCloudName, options),
+    () =>
+      _listDnsServicesSend(
+        context,
+        resourceGroupName,
+        privateCloudName,
+        options,
+      ),
     _listDnsServicesDeserialize,
     ["200"],
     { itemName: "value", nextLinkName: "nextLink" },
@@ -2236,16 +2502,20 @@ export function _deleteDhcpSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).delete({
-    ...operationOptionsToRequestParameters(options),
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
-  });
+  return context
+    .path(path)
+    .delete({
+      ...operationOptionsToRequestParameters(options),
+      headers: {
+        accept: "application/json",
+        ...options.requestOptions?.headers,
+      },
+    });
 }
 
-export async function _deleteDhcpDeserialize(result: PathUncheckedResponse): Promise<void> {
+export async function _deleteDhcpDeserialize(
+  result: PathUncheckedResponse,
+): Promise<void> {
   const expectedStatuses = ["200", "202", "204"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
@@ -2264,13 +2534,24 @@ export function deleteDhcp(
   dhcpId: string,
   options: WorkloadNetworksDeleteDhcpOptionalParams = { requestOptions: {} },
 ): PollerLike<OperationState<void>, void> {
-  return getLongRunningPoller(context, _deleteDhcpDeserialize, ["200", "202", "204"], {
-    updateIntervalInMs: options?.updateIntervalInMs,
-    abortSignal: options?.abortSignal,
-    getInitialResponse: () =>
-      _deleteDhcpSend(context, resourceGroupName, privateCloudName, dhcpId, options),
-    resourceLocationConfig: "location",
-  }) as PollerLike<OperationState<void>, void>;
+  return getLongRunningPoller(
+    context,
+    _deleteDhcpDeserialize,
+    ["200", "202", "204"],
+    {
+      updateIntervalInMs: options?.updateIntervalInMs,
+      abortSignal: options?.abortSignal,
+      getInitialResponse: () =>
+        _deleteDhcpSend(
+          context,
+          resourceGroupName,
+          privateCloudName,
+          dhcpId,
+          options,
+        ),
+      resourceLocationConfig: "location",
+    },
+  ) as PollerLike<OperationState<void>, void>;
 }
 
 export function _updateDhcpSend(
@@ -2294,15 +2575,17 @@ export function _updateDhcpSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).patch({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
-    body: workloadNetworkDhcpSerializer(workloadNetworkDhcp),
-  });
+  return context
+    .path(path)
+    .patch({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      headers: {
+        accept: "application/json",
+        ...options.requestOptions?.headers,
+      },
+      body: workloadNetworkDhcpSerializer(workloadNetworkDhcp),
+    });
 }
 
 export async function _updateDhcpDeserialize(
@@ -2364,15 +2647,17 @@ export function _createDhcpSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).put({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
-    body: workloadNetworkDhcpSerializer(workloadNetworkDhcp),
-  });
+  return context
+    .path(path)
+    .put({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      headers: {
+        accept: "application/json",
+        ...options.requestOptions?.headers,
+      },
+      body: workloadNetworkDhcpSerializer(workloadNetworkDhcp),
+    });
 }
 
 export async function _createDhcpDeserialize(
@@ -2433,13 +2718,15 @@ export function _getDhcpSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).get({
-    ...operationOptionsToRequestParameters(options),
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
-  });
+  return context
+    .path(path)
+    .get({
+      ...operationOptionsToRequestParameters(options),
+      headers: {
+        accept: "application/json",
+        ...options.requestOptions?.headers,
+      },
+    });
 }
 
 export async function _getDhcpDeserialize(
@@ -2463,7 +2750,13 @@ export async function getDhcp(
   privateCloudName: string,
   options: WorkloadNetworksGetDhcpOptionalParams = { requestOptions: {} },
 ): Promise<WorkloadNetworkDhcp> {
-  const result = await _getDhcpSend(context, resourceGroupName, dhcpId, privateCloudName, options);
+  const result = await _getDhcpSend(
+    context,
+    resourceGroupName,
+    dhcpId,
+    privateCloudName,
+    options,
+  );
   return _getDhcpDeserialize(result);
 }
 
@@ -2485,13 +2778,15 @@ export function _listDhcpSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).get({
-    ...operationOptionsToRequestParameters(options),
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
-  });
+  return context
+    .path(path)
+    .get({
+      ...operationOptionsToRequestParameters(options),
+      headers: {
+        accept: "application/json",
+        ...options.requestOptions?.headers,
+      },
+    });
 }
 
 export async function _listDhcpDeserialize(
@@ -2541,16 +2836,20 @@ export function _getSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).get({
-    ...operationOptionsToRequestParameters(options),
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
-  });
+  return context
+    .path(path)
+    .get({
+      ...operationOptionsToRequestParameters(options),
+      headers: {
+        accept: "application/json",
+        ...options.requestOptions?.headers,
+      },
+    });
 }
 
-export async function _getDeserialize(result: PathUncheckedResponse): Promise<WorkloadNetwork> {
+export async function _getDeserialize(
+  result: PathUncheckedResponse,
+): Promise<WorkloadNetwork> {
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
@@ -2568,7 +2867,12 @@ export async function get(
   privateCloudName: string,
   options: WorkloadNetworksGetOptionalParams = { requestOptions: {} },
 ): Promise<WorkloadNetwork> {
-  const result = await _getSend(context, resourceGroupName, privateCloudName, options);
+  const result = await _getSend(
+    context,
+    resourceGroupName,
+    privateCloudName,
+    options,
+  );
   return _getDeserialize(result);
 }
 
@@ -2590,13 +2894,15 @@ export function _listSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).get({
-    ...operationOptionsToRequestParameters(options),
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
-  });
+  return context
+    .path(path)
+    .get({
+      ...operationOptionsToRequestParameters(options),
+      headers: {
+        accept: "application/json",
+        ...options.requestOptions?.headers,
+      },
+    });
 }
 
 export async function _listDeserialize(

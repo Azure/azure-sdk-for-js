@@ -8,4 +8,5 @@ export interface CarbonServiceQueryCarbonEmissionDataAvailableDateRangeOptionalP
   extends OperationOptions {}
 
 /** Optional parameters. */
-export interface CarbonServiceQueryCarbonEmissionReportsOptionalParams extends OperationOptions {}
+export interface CarbonServiceQueryCarbonEmissionReportsOptionalParams
+  extends OperationOptions {}

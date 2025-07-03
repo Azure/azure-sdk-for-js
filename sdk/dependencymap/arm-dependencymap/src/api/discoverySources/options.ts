@@ -4,7 +4,8 @@
 import { OperationOptions } from "@azure-rest/core-client";
 
 /** Optional parameters. */
-export interface DiscoverySourcesListByMapsResourceOptionalParams extends OperationOptions {}
+export interface DiscoverySourcesListByMapsResourceOptionalParams
+  extends OperationOptions {}
 
 /** Optional parameters. */
 export interface DiscoverySourcesDeleteOptionalParams extends OperationOptions {
@@ -19,7 +20,8 @@ export interface DiscoverySourcesUpdateOptionalParams extends OperationOptions {
 }
 
 /** Optional parameters. */
-export interface DiscoverySourcesCreateOrUpdateOptionalParams extends OperationOptions {
+export interface DiscoverySourcesCreateOrUpdateOptionalParams
+  extends OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
 }

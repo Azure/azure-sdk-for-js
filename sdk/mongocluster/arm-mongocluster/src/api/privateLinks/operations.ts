@@ -41,13 +41,15 @@ export function _listByMongoClusterSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).get({
-    ...operationOptionsToRequestParameters(options),
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
-  });
+  return context
+    .path(path)
+    .get({
+      ...operationOptionsToRequestParameters(options),
+      headers: {
+        accept: "application/json",
+        ...options.requestOptions?.headers,
+      },
+    });
 }
 
 export async function _listByMongoClusterDeserialize(
@@ -74,7 +76,13 @@ export function listByMongoCluster(
 ): PagedAsyncIterableIterator<PrivateLinkResource> {
   return buildPagedAsyncIterator(
     context,
-    () => _listByMongoClusterSend(context, resourceGroupName, mongoClusterName, options),
+    () =>
+      _listByMongoClusterSend(
+        context,
+        resourceGroupName,
+        mongoClusterName,
+        options,
+      ),
     _listByMongoClusterDeserialize,
     ["200"],
     { itemName: "value", nextLinkName: "nextLink" },

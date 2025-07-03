@@ -28,7 +28,9 @@ export interface AutonomousDatabaseNationalCharacterSetsOperations {
   ) => Promise<AutonomousDatabaseNationalCharacterSet>;
 }
 
-function _getAutonomousDatabaseNationalCharacterSets(context: OracleDatabaseManagementContext) {
+function _getAutonomousDatabaseNationalCharacterSets(
+  context: OracleDatabaseManagementContext,
+) {
   return {
     listByLocation: (
       location: string,

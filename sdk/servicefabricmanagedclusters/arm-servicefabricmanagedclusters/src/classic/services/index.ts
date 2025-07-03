@@ -2,7 +2,10 @@
 // Licensed under the MIT License.
 
 import { ServiceFabricManagedClustersManagementContext } from "../../api/serviceFabricManagedClustersManagementContext.js";
-import { ServiceResource, ServiceUpdateParameters } from "../../models/models.js";
+import {
+  ServiceResource,
+  ServiceUpdateParameters,
+} from "../../models/models.js";
 import {
   ServicesListByApplicationsOptionalParams,
   ServicesDeleteOptionalParams,
@@ -77,14 +80,29 @@ function _getServices(context: ServiceFabricManagedClustersManagementContext) {
       clusterName: string,
       applicationName: string,
       options?: ServicesListByApplicationsOptionalParams,
-    ) => listByApplications(context, resourceGroupName, clusterName, applicationName, options),
+    ) =>
+      listByApplications(
+        context,
+        resourceGroupName,
+        clusterName,
+        applicationName,
+        options,
+      ),
     delete: (
       resourceGroupName: string,
       clusterName: string,
       applicationName: string,
       serviceName: string,
       options?: ServicesDeleteOptionalParams,
-    ) => $delete(context, resourceGroupName, clusterName, applicationName, serviceName, options),
+    ) =>
+      $delete(
+        context,
+        resourceGroupName,
+        clusterName,
+        applicationName,
+        serviceName,
+        options,
+      ),
     update: (
       resourceGroupName: string,
       clusterName: string,
@@ -125,7 +143,15 @@ function _getServices(context: ServiceFabricManagedClustersManagementContext) {
       applicationName: string,
       serviceName: string,
       options?: ServicesGetOptionalParams,
-    ) => get(context, resourceGroupName, clusterName, applicationName, serviceName, options),
+    ) =>
+      get(
+        context,
+        resourceGroupName,
+        clusterName,
+        applicationName,
+        serviceName,
+        options,
+      ),
   };
 }
 

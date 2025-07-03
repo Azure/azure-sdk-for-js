@@ -82,7 +82,9 @@ export interface SiteAddressProperties {
   postalCode?: string;
 }
 
-export function siteAddressPropertiesSerializer(item: SiteAddressProperties): any {
+export function siteAddressPropertiesSerializer(
+  item: SiteAddressProperties,
+): any {
   return {
     streetAddress1: item["streetAddress1"],
     streetAddress2: item["streetAddress2"],
@@ -93,7 +95,9 @@ export function siteAddressPropertiesSerializer(item: SiteAddressProperties): an
   };
 }
 
-export function siteAddressPropertiesDeserializer(item: any): SiteAddressProperties {
+export function siteAddressPropertiesDeserializer(
+  item: any,
+): SiteAddressProperties {
   return {
     streetAddress1: item["streetAddress1"],
     streetAddress2: item["streetAddress2"],
@@ -190,7 +194,9 @@ export function systemDataDeserializer(item: any): SystemData {
   return {
     createdBy: item["createdBy"],
     createdByType: item["createdByType"],
-    createdAt: !item["createdAt"] ? item["createdAt"] : new Date(item["createdAt"]),
+    createdAt: !item["createdAt"]
+      ? item["createdAt"]
+      : new Date(item["createdAt"]),
     lastModifiedBy: item["lastModifiedBy"],
     lastModifiedByType: item["lastModifiedByType"],
     lastModifiedAt: !item["lastModifiedAt"]
@@ -231,7 +237,9 @@ export interface ErrorResponse {
 
 export function errorResponseDeserializer(item: any): ErrorResponse {
   return {
-    error: !item["error"] ? item["error"] : errorDetailDeserializer(item["error"]),
+    error: !item["error"]
+      ? item["error"]
+      : errorDetailDeserializer(item["error"]),
   };
 }
 
@@ -254,20 +262,26 @@ export function errorDetailDeserializer(item: any): ErrorDetail {
     code: item["code"],
     message: item["message"],
     target: item["target"],
-    details: !item["details"] ? item["details"] : errorDetailArrayDeserializer(item["details"]),
+    details: !item["details"]
+      ? item["details"]
+      : errorDetailArrayDeserializer(item["details"]),
     additionalInfo: !item["additionalInfo"]
       ? item["additionalInfo"]
       : errorAdditionalInfoArrayDeserializer(item["additionalInfo"]),
   };
 }
 
-export function errorDetailArrayDeserializer(result: Array<ErrorDetail>): any[] {
+export function errorDetailArrayDeserializer(
+  result: Array<ErrorDetail>,
+): any[] {
   return result.map((item) => {
     return errorDetailDeserializer(item);
   });
 }
 
-export function errorAdditionalInfoArrayDeserializer(result: Array<ErrorAdditionalInfo>): any[] {
+export function errorAdditionalInfoArrayDeserializer(
+  result: Array<ErrorAdditionalInfo>,
+): any[] {
   return result.map((item) => {
     return errorAdditionalInfoDeserializer(item);
   });
@@ -278,21 +292,16 @@ export interface ErrorAdditionalInfo {
   /** The additional info type. */
   readonly type?: string;
   /** The additional info. */
-  readonly info?: Record<string, any>;
+  readonly info?: any;
 }
 
-export function errorAdditionalInfoDeserializer(item: any): ErrorAdditionalInfo {
+export function errorAdditionalInfoDeserializer(
+  item: any,
+): ErrorAdditionalInfo {
   return {
     type: item["type"],
-    info: !item["info"] ? item["info"] : _errorAdditionalInfoInfoDeserializer(item["info"]),
+    info: item["info"],
   };
-}
-
-/** model interface _ErrorAdditionalInfoInfo */
-export interface _ErrorAdditionalInfoInfo {}
-
-export function _errorAdditionalInfoInfoDeserializer(item: any): _ErrorAdditionalInfoInfo {
-  return item;
 }
 
 /** The type used for update operations of the Site. */
@@ -321,7 +330,9 @@ export interface SiteUpdateProperties {
   labels?: Record<string, string>;
 }
 
-export function siteUpdatePropertiesSerializer(item: SiteUpdateProperties): any {
+export function siteUpdatePropertiesSerializer(
+  item: SiteUpdateProperties,
+): any {
   return {
     displayName: item["displayName"],
     description: item["description"],

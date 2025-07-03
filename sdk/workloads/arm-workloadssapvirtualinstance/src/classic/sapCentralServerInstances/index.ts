@@ -77,7 +77,10 @@ export interface SAPCentralServerInstancesOperations {
     centralInstanceName: string,
     resource: SAPCentralServerInstance,
     options?: SAPCentralServerInstancesCreateOptionalParams,
-  ) => PollerLike<OperationState<SAPCentralServerInstance>, SAPCentralServerInstance>;
+  ) => PollerLike<
+    OperationState<SAPCentralServerInstance>,
+    SAPCentralServerInstance
+  >;
   /** Gets the SAP Central Services Instance resource. */
   get: (
     resourceGroupName: string,
@@ -94,13 +97,27 @@ function _getSAPCentralServerInstances(context: WorkloadsContext) {
       sapVirtualInstanceName: string,
       centralInstanceName: string,
       options?: SAPCentralServerInstancesStopOptionalParams,
-    ) => stop(context, resourceGroupName, sapVirtualInstanceName, centralInstanceName, options),
+    ) =>
+      stop(
+        context,
+        resourceGroupName,
+        sapVirtualInstanceName,
+        centralInstanceName,
+        options,
+      ),
     start: (
       resourceGroupName: string,
       sapVirtualInstanceName: string,
       centralInstanceName: string,
       options?: SAPCentralServerInstancesStartOptionalParams,
-    ) => start(context, resourceGroupName, sapVirtualInstanceName, centralInstanceName, options),
+    ) =>
+      start(
+        context,
+        resourceGroupName,
+        sapVirtualInstanceName,
+        centralInstanceName,
+        options,
+      ),
     list: (
       resourceGroupName: string,
       sapVirtualInstanceName: string,
@@ -111,7 +128,14 @@ function _getSAPCentralServerInstances(context: WorkloadsContext) {
       sapVirtualInstanceName: string,
       centralInstanceName: string,
       options?: SAPCentralServerInstancesDeleteOptionalParams,
-    ) => $delete(context, resourceGroupName, sapVirtualInstanceName, centralInstanceName, options),
+    ) =>
+      $delete(
+        context,
+        resourceGroupName,
+        sapVirtualInstanceName,
+        centralInstanceName,
+        options,
+      ),
     update: (
       resourceGroupName: string,
       sapVirtualInstanceName: string,
@@ -147,7 +171,14 @@ function _getSAPCentralServerInstances(context: WorkloadsContext) {
       sapVirtualInstanceName: string,
       centralInstanceName: string,
       options?: SAPCentralServerInstancesGetOptionalParams,
-    ) => get(context, resourceGroupName, sapVirtualInstanceName, centralInstanceName, options),
+    ) =>
+      get(
+        context,
+        resourceGroupName,
+        sapVirtualInstanceName,
+        centralInstanceName,
+        options,
+      ),
   };
 }
 
