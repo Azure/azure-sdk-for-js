@@ -12,13 +12,15 @@ export interface OnlineExperimentationWorkspacesListByResourceGroupOptionalParam
   extends OperationOptions {}
 
 /** Optional parameters. */
-export interface OnlineExperimentationWorkspacesDeleteOptionalParams extends OperationOptions {
+export interface OnlineExperimentationWorkspacesDeleteOptionalParams
+  extends OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
 }
 
 /** Optional parameters. */
-export interface OnlineExperimentationWorkspacesUpdateOptionalParams extends OperationOptions {
+export interface OnlineExperimentationWorkspacesUpdateOptionalParams
+  extends OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
 }
@@ -31,4 +33,5 @@ export interface OnlineExperimentationWorkspacesCreateOrUpdateOptionalParams
 }
 
 /** Optional parameters. */
-export interface OnlineExperimentationWorkspacesGetOptionalParams extends OperationOptions {}
+export interface OnlineExperimentationWorkspacesGetOptionalParams
+  extends OperationOptions {}

@@ -14,7 +14,10 @@ async function storagePoolsGet(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "BC47D6CC-AA80-4374-86F8-19D94EC70666";
   const client = new BlockClient(credential, subscriptionId);
-  const result = await client.storagePools.get("rgpurestorage", "storagePoolname");
+  const result = await client.storagePools.get(
+    "rgpurestorage",
+    "storagePoolname",
+  );
   console.log(result);
 }
 

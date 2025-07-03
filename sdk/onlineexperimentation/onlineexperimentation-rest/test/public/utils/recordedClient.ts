@@ -1,18 +1,18 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { Recorder } from "@azure-tools/test-recorder";
-import type { VitestTestContext } from "@azure-tools/test-recorder";
-import { env } from "@azure-tools/test-recorder";
-import { createTestCredential } from "@azure-tools/test-credential";
-import type { ClientOptions } from "@azure-rest/core-client";
-import { OnlineExperimentationClient } from "../../../src/index.js";
+import {
+  Recorder,
+  RecorderStartOptions,
+  VitestTestContext,
+} from "@azure-tools/test-recorder";
 
 const replaceableVariables: Record<string, string> = {
-  AZURE_ONLINEEXPERIMENTATION_ENDPOINT: "https://workspaceId.eastus2.exp.azure.net",
-  AZURE_CLIENT_ID: "azure_client_id",
-  AZURE_CLIENT_SECRET: "azure_client_secret",
-  AZURE_TENANT_ID: "88888888-8888-8888-8888-888888888888",
+  SUBSCRIPTION_ID: "azure_subscription_id",
+};
+
+const recorderEnvSetup: RecorderStartOptions = {
+  envSetupForPlayback: replaceableVariables,
 };
 
 /**
@@ -20,34 +20,10 @@ const replaceableVariables: Record<string, string> = {
  * Should be called first in the test suite to make sure environment variables are
  * read before they are being used.
  */
-export async function createRecorder(context: VitestTestContext): Promise<Recorder> {
+export async function createRecorder(
+  context: VitestTestContext,
+): Promise<Recorder> {
   const recorder = new Recorder(context);
-  await recorder.start({
-    envSetupForPlayback: replaceableVariables,
-    removeCentralSanitizers: [
-      "AZSDK3430", // don't sanitize "id" property in request body
-    ],
-  });
+  await recorder.start(recorderEnvSetup);
   return recorder;
-}
-
-/**
- * Creates a client for online experimentation service
- */
-export function createClient(
-  recorder?: Recorder,
-  options?: ClientOptions,
-): ReturnType<typeof OnlineExperimentationClient> {
-  const endpoint = env.AZURE_ONLINEEXPERIMENTATION_ENDPOINT ?? "";
-  const testCredential = createTestCredential();
-
-  const client = OnlineExperimentationClient(
-    endpoint,
-    testCredential,
-    recorder?.configureClientOptions(
-      options ?? { credentials: { scopes: ["https://exp.azure.net/.default"] } },
-    ),
-  );
-
-  return client;
 }

@@ -25,7 +25,7 @@ import {
   operationOptionsToRequestParameters,
 } from "@azure-rest/core-client";
 
-export function _listBySolutionConfigurationSend(
+export function _inventoryListBySolutionConfigurationSend(
   context: Client,
   resourceUri: string,
   solutionConfiguration: string,
@@ -34,26 +34,28 @@ export function _listBySolutionConfigurationSend(
   },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "/{+resourceUri}/providers/Microsoft.HybridConnectivity/solutionConfigurations/{solutionConfiguration}/inventory{?api-version}",
+    "/{+resourceUri}/providers/Microsoft.HybridConnectivity/solutionConfigurations/{solutionConfiguration}/inventory{?api%2Dversion}",
     {
       resourceUri: resourceUri,
       solutionConfiguration: solutionConfiguration,
-      "api-version": context.apiVersion,
+      "api%2Dversion": context.apiVersion,
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).get({
-    ...operationOptionsToRequestParameters(options),
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
-  });
+  return context
+    .path(path)
+    .get({
+      ...operationOptionsToRequestParameters(options),
+      headers: {
+        accept: "application/json",
+        ...options.requestOptions?.headers,
+      },
+    });
 }
 
-export async function _listBySolutionConfigurationDeserialize(
+export async function _inventoryListBySolutionConfigurationDeserialize(
   result: PathUncheckedResponse,
 ): Promise<_InventoryResourceListResult> {
   const expectedStatuses = ["200"];
@@ -67,7 +69,7 @@ export async function _listBySolutionConfigurationDeserialize(
 }
 
 /** List InventoryResource resources by SolutionConfiguration */
-export function listBySolutionConfiguration(
+export function inventoryListBySolutionConfiguration(
   context: Client,
   resourceUri: string,
   solutionConfiguration: string,
@@ -77,14 +79,20 @@ export function listBySolutionConfiguration(
 ): PagedAsyncIterableIterator<InventoryResource> {
   return buildPagedAsyncIterator(
     context,
-    () => _listBySolutionConfigurationSend(context, resourceUri, solutionConfiguration, options),
-    _listBySolutionConfigurationDeserialize,
+    () =>
+      _inventoryListBySolutionConfigurationSend(
+        context,
+        resourceUri,
+        solutionConfiguration,
+        options,
+      ),
+    _inventoryListBySolutionConfigurationDeserialize,
     ["200"],
     { itemName: "value", nextLinkName: "nextLink" },
   );
 }
 
-export function _getSend(
+export function _inventoryGetSend(
   context: Client,
   resourceUri: string,
   solutionConfiguration: string,
@@ -92,27 +100,31 @@ export function _getSend(
   options: InventoryGetOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "/{+resourceUri}/providers/Microsoft.HybridConnectivity/solutionConfigurations/{solutionConfiguration}/inventory/{inventoryId}{?api-version}",
+    "/{+resourceUri}/providers/Microsoft.HybridConnectivity/solutionConfigurations/{solutionConfiguration}/inventory/{inventoryId}{?api%2Dversion}",
     {
       resourceUri: resourceUri,
       solutionConfiguration: solutionConfiguration,
       inventoryId: inventoryId,
-      "api-version": context.apiVersion,
+      "api%2Dversion": context.apiVersion,
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).get({
-    ...operationOptionsToRequestParameters(options),
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
-  });
+  return context
+    .path(path)
+    .get({
+      ...operationOptionsToRequestParameters(options),
+      headers: {
+        accept: "application/json",
+        ...options.requestOptions?.headers,
+      },
+    });
 }
 
-export async function _getDeserialize(result: PathUncheckedResponse): Promise<InventoryResource> {
+export async function _inventoryGetDeserialize(
+  result: PathUncheckedResponse,
+): Promise<InventoryResource> {
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
@@ -124,13 +136,19 @@ export async function _getDeserialize(result: PathUncheckedResponse): Promise<In
 }
 
 /** Get a InventoryResource */
-export async function get(
+export async function inventoryGet(
   context: Client,
   resourceUri: string,
   solutionConfiguration: string,
   inventoryId: string,
   options: InventoryGetOptionalParams = { requestOptions: {} },
 ): Promise<InventoryResource> {
-  const result = await _getSend(context, resourceUri, solutionConfiguration, inventoryId, options);
-  return _getDeserialize(result);
+  const result = await _inventoryGetSend(
+    context,
+    resourceUri,
+    solutionConfiguration,
+    inventoryId,
+    options,
+  );
+  return _inventoryGetDeserialize(result);
 }

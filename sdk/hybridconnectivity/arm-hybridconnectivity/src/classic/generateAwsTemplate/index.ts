@@ -4,7 +4,7 @@
 import { HybridConnectivityManagementAPIContext } from "../../api/hybridConnectivityManagementAPIContext.js";
 import { GenerateAwsTemplateRequest } from "../../models/models.js";
 import { GenerateAwsTemplatePostOptionalParams } from "../../api/generateAwsTemplate/options.js";
-import { post } from "../../api/generateAwsTemplate/operations.js";
+import { generateAwsTemplatePost } from "../../api/generateAwsTemplate/operations.js";
 
 /** Interface representing a GenerateAwsTemplate operations. */
 export interface GenerateAwsTemplateOperations {
@@ -15,12 +15,14 @@ export interface GenerateAwsTemplateOperations {
   ) => Promise<Record<string, any>>;
 }
 
-function _getGenerateAwsTemplate(context: HybridConnectivityManagementAPIContext) {
+function _getGenerateAwsTemplate(
+  context: HybridConnectivityManagementAPIContext,
+) {
   return {
     post: (
       generateAwsTemplateRequest: GenerateAwsTemplateRequest,
       options?: GenerateAwsTemplatePostOptionalParams,
-    ) => post(context, generateAwsTemplateRequest, options),
+    ) => generateAwsTemplatePost(context, generateAwsTemplateRequest, options),
   };
 }
 

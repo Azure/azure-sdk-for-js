@@ -1,8 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-/* eslint-disable tsdoc/syntax */
 
-import { AIProjectClientOptionalParams, AIProjectContext } from "../../api/aiProjectContext.js";
+import { AIProjectContext } from "../../api/aiProjectContext.js";
 import {
   DatasetVersionUnion,
   PendingUploadRequest,
@@ -26,10 +25,7 @@ import {
   get,
   list,
   listVersions,
-  uploadFile,
-  uploadFolder,
 } from "../../api/datasets/operations.js";
-import { DatasetUploadOptions } from "../../api/index.js";
 import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 
 /** Interface representing a Datasets operations. */
@@ -43,15 +39,15 @@ export interface DatasetsOperations {
   /** Start a new or get an existing pending upload of a dataset for a specific version. */
   pendingUpload: (
     name: string,
-    version: string,
     body: PendingUploadRequest,
+    version: string,
     options?: DatasetsPendingUploadOptionalParams,
   ) => Promise<PendingUploadResponse>;
   /** Create a new or update an existing DatasetVersion with the given version id */
   createOrUpdate: (
     name: string,
-    version: string,
     body: DatasetVersionUnion,
+    version: string,
     options?: DatasetsCreateOrUpdateOptionalParams,
   ) => Promise<DatasetVersionUnion>;
   /** Delete the specific version of the DatasetVersion */
@@ -74,26 +70,9 @@ export interface DatasetsOperations {
     name: string,
     options?: DatasetsListVersionsOptionalParams,
   ) => PagedAsyncIterableIterator<DatasetVersionUnion>;
-  /** Upload a file to the DatasetVersion */
-  uploadFile: (
-    name: string,
-    version: string,
-    filePath: string,
-    options?: DatasetUploadOptions,
-  ) => Promise<DatasetVersionUnion>;
-  /** Upload a folder to the DatasetVersion */
-  uploadFolder: (
-    name: string,
-    version: string,
-    folderPath: string,
-    options?: DatasetUploadOptions,
-  ) => Promise<DatasetVersionUnion>;
 }
 
-function _getDatasets(
-  context: AIProjectContext,
-  projectOptions: AIProjectClientOptionalParams = {},
-) {
+function _getDatasets(context: AIProjectContext) {
   return {
     getCredentials: (
       name: string,
@@ -102,16 +81,16 @@ function _getDatasets(
     ) => getCredentials(context, name, version, options),
     pendingUpload: (
       name: string,
-      version: string,
       body: PendingUploadRequest,
+      version: string,
       options?: DatasetsPendingUploadOptionalParams,
-    ) => pendingUpload(context, name, version, body, options),
+    ) => pendingUpload(context, name, body, version, options),
     createOrUpdate: (
       name: string,
-      version: string,
       body: DatasetVersionUnion,
+      version: string,
       options?: DatasetsCreateOrUpdateOptionalParams,
-    ) => createOrUpdate(context, name, version, body, options),
+    ) => createOrUpdate(context, name, body, version, options),
     delete: (name: string, version: string, options?: DatasetsDeleteOptionalParams) =>
       $delete(context, name, version, options),
     get: (name: string, version: string, options?: DatasetsGetOptionalParams) =>
@@ -119,22 +98,11 @@ function _getDatasets(
     list: (options?: DatasetsListOptionalParams) => list(context, options),
     listVersions: (name: string, options?: DatasetsListVersionsOptionalParams) =>
       listVersions(context, name, options),
-    uploadFile: (name: string, version: string, filePath: string, options?: DatasetUploadOptions) =>
-      uploadFile(context, name, version, filePath, { ...options, projectOptions }),
-    uploadFolder: (
-      name: string,
-      version: string,
-      folderPath: string,
-      options?: DatasetUploadOptions,
-    ) => uploadFolder(context, name, version, folderPath, { ...options, projectOptions }),
   };
 }
 
-export function _getDatasetsOperations(
-  context: AIProjectContext,
-  projectOptions: AIProjectClientOptionalParams = {},
-): DatasetsOperations {
+export function _getDatasetsOperations(context: AIProjectContext): DatasetsOperations {
   return {
-    ..._getDatasets(context, projectOptions),
+    ..._getDatasets(context),
   };
 }

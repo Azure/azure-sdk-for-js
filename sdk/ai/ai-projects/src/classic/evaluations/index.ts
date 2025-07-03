@@ -2,12 +2,7 @@
 // Licensed under the MIT License.
 
 import { AIProjectContext } from "../../api/aiProjectContext.js";
-import {
-  Evaluation,
-  EvaluationWithOptionalName,
-  AgentEvaluationRequest,
-  AgentEvaluation,
-} from "../../models/models.js";
+import { Evaluation, AgentEvaluationRequest, AgentEvaluation } from "../../models/models.js";
 import {
   EvaluationsCreateAgentEvaluationOptionalParams,
   EvaluationsCreateOptionalParams,
@@ -26,7 +21,7 @@ export interface EvaluationsOperations {
   ) => Promise<AgentEvaluation>;
   /** Creates an evaluation run. */
   create: (
-    evaluation: EvaluationWithOptionalName,
+    evaluation: Evaluation,
     options?: EvaluationsCreateOptionalParams,
   ) => Promise<Evaluation>;
   /** List evaluation runs */
@@ -41,7 +36,7 @@ function _getEvaluations(context: AIProjectContext) {
       evaluation: AgentEvaluationRequest,
       options?: EvaluationsCreateAgentEvaluationOptionalParams,
     ) => createAgentEvaluation(context, evaluation, options),
-    create: (evaluation: EvaluationWithOptionalName, options?: EvaluationsCreateOptionalParams) =>
+    create: (evaluation: Evaluation, options?: EvaluationsCreateOptionalParams) =>
       create(context, evaluation, options),
     list: (options?: EvaluationsListOptionalParams) => list(context, options),
     get: (name: string, options?: EvaluationsGetOptionalParams) => get(context, name, options),

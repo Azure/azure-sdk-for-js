@@ -39,5 +39,8 @@ export {
   CopilotSettingsGetOptionalParams,
 } from "./api/copilotSettings/index.js";
 export { OperationsListOptionalParams } from "./api/operations/index.js";
-export { CopilotSettingsOperations, OperationsOperations } from "./classic/index.js";
+export {
+  CopilotSettingsOperations,
+  OperationsOperations,
+} from "./classic/index.js";
 export { PageSettings, ContinuablePage, PagedAsyncIterableIterator };
