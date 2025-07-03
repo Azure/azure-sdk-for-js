@@ -407,6 +407,8 @@ function GetExistingPackageVersions ($PackageName, $GroupId = $null) {
 
 function Update-javascript-GeneratedSdks([string]$PackageDirectoriesFile) {
   # Check if ai-inference-rest directory exists and run sh command to inspect it
+  Write-Host "Update-javascript-GeneratedSdks"
+  Write-Host $RepoRoot
   $aiInferenceRestPath = "$RepoRoot/sdk"
   if (Test-Path $aiInferenceRestPath) {
     Write-Host "Found ai-inference-rest directory, inspecting contents..." -ForegroundColor Cyan
