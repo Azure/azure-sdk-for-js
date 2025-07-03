@@ -3212,7 +3212,7 @@ packages:
     version: 0.0.0
 
   '@rush-temp/arm-mongodbatlas@file:projects/arm-mongodbatlas.tgz':
-    resolution: {integrity: sha512-BXQ6KxdjS5f+jlE7ugFcDZ9lCkMbVkLZRkj9YRvAPfCdXPgzUQcOFzk81RA7VOCRioLXv5No3mYKWH//H0CiGg==, tarball: file:projects/arm-mongodbatlas.tgz}
+    resolution: {integrity: sha512-jVf2k2x2Y2Jxbuxxdkxo7LU+hj51tEn1du0O0jm+ocPZFPUhtsNfU+G51tCCt3y9sp6yporat+tosSNirPxDAg==, tarball: file:projects/arm-mongodbatlas.tgz}
     version: 0.0.0
 
   '@rush-temp/arm-monitor-profile-2020-09-01-hybrid@file:projects/arm-monitor-profile-2020-09-01-hybrid.tgz':

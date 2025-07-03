@@ -52,7 +52,7 @@ export interface OrganizationsUpdateOptionalParams extends OperationOptions {
 }
 
 // @public
-export function update(context: AtlasContext, resourceGroupName: string, organizationName: string, properties: OrganizationResource, options?: OrganizationsUpdateOptionalParams): PollerLike<OperationState<OrganizationResource>, OrganizationResource>;
+export function update(context: AtlasContext, resourceGroupName: string, organizationName: string, properties: OrganizationResourceUpdate, options?: OrganizationsUpdateOptionalParams): PollerLike<OperationState<OrganizationResource>, OrganizationResource>;
 
 // (No @packageDocumentation comment for this package)
 
