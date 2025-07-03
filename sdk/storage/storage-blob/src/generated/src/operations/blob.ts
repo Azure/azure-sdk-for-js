@@ -459,6 +459,7 @@ const downloadOperationSpec: coreClient.OperationSpec = {
     Parameters.range,
     Parameters.rangeGetContentMD5,
     Parameters.rangeGetContentCRC64,
+    Parameters.structuredBodyType,
     Parameters.encryptionKey,
     Parameters.encryptionKeySha256,
     Parameters.encryptionAlgorithm,

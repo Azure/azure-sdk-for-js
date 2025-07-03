@@ -357,7 +357,11 @@ const updateOperationSpec: coreClient.OperationSpec = {
     Parameters.contentLength,
     Parameters.contentMD5,
     Parameters.structuredBodyType,
+<<<<<<< HEAD
     Parameters.structuredContentLength,
+=======
+    Parameters.structuredContentLength
+>>>>>>> 259011ff37 ([Storage]Content validation)
   ],
   mediaType: "binary",
   serializer,

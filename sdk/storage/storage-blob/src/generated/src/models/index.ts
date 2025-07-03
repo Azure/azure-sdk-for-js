@@ -1069,6 +1069,10 @@ export interface BlobDownloadHeaders {
   immutabilityPolicyMode?: BlobImmutabilityPolicyMode;
   /** Indicates if a legal hold is present on the blob. */
   legalHold?: boolean;
+  /** Indicates the response body contains a structured message and specifies the message schema version and properties. */
+  structuredBodyType?: string;
+  /** The length of the blob/file content inside the message body when the response body is returned as a structured message. Will always be smaller than Content-Length. */
+  structuredContentLength?: number;
   /** Error Code */
   errorCode?: string;
   /** If the request is to read a specified range and the x-ms-range-get-content-crc64 is set to true, then the request returns a crc64 for the range, as long as the range size is less than or equal to 4 MB. If both x-ms-range-get-content-crc64 & x-ms-range-get-content-md5 is specified in the same request, it will fail with 400(Bad Request). */
@@ -1802,6 +1806,8 @@ export interface PageBlobUploadPagesHeaders {
   encryptionKeySha256?: string;
   /** Returns the name of the encryption scope used to encrypt the blob contents and application metadata.  Note that the absence of this header implies use of the default account encryption scope. */
   encryptionScope?: string;
+  /** Indicates the structured message body was accepted and mirrors back the message schema version and properties. */
+  structuredBodyType?: string;
   /** Error Code */
   errorCode?: string;
 }
@@ -2063,6 +2069,8 @@ export interface AppendBlobAppendBlockHeaders {
   encryptionKeySha256?: string;
   /** Returns the name of the encryption scope used to encrypt the blob contents and application metadata.  Note that the absence of this header implies use of the default account encryption scope. */
   encryptionScope?: string;
+  /** Indicates the structured message body was accepted and mirrors back the message schema version and properties. */
+  structuredBodyType?: string;
   /** Error Code */
   errorCode?: string;
 }
@@ -2156,6 +2164,8 @@ export interface BlockBlobUploadHeaders {
   encryptionKeySha256?: string;
   /** Returns the name of the encryption scope used to encrypt the blob contents and application metadata.  Note that the absence of this header implies use of the default account encryption scope. */
   encryptionScope?: string;
+  /** Indicates the structured message body was accepted and mirrors back the message schema version and properties. */
+  structuredBodyType?: string;
   /** Error Code */
   errorCode?: string;
 }
@@ -2220,6 +2230,8 @@ export interface BlockBlobStageBlockHeaders {
   encryptionKeySha256?: string;
   /** Returns the name of the encryption scope used to encrypt the blob contents and application metadata.  Note that the absence of this header implies use of the default account encryption scope. */
   encryptionScope?: string;
+  /** Indicates the structured message body was accepted and mirrors back the message schema version and properties. */
+  structuredBodyType?: string;
   /** Error Code */
   errorCode?: string;
 }
@@ -3377,6 +3389,8 @@ export interface BlobDownloadOptionalParams
   rangeGetContentMD5?: boolean;
   /** When set to true and specified together with the Range, the service returns the CRC64 hash for the range, as long as the range is less than or equal to 4 MB in size. */
   rangeGetContentCRC64?: boolean;
+  /** Specifies the response content should be returned as a structured message and specifies the message schema version and properties. */
+  structuredBodyType?: string;
 }
 
 /** Contains response data for the download operation. */
@@ -3918,12 +3932,16 @@ export interface PageBlobUploadPagesOptionalParams
   requestId?: string;
   /** Return only the bytes of the blob in the specified range. */
   range?: string;
+  /** Required if the request body is a structured message. Specifies the message schema version and properties. */
+  structuredBodyType?: string;
   /** Optional. Version 2019-07-07 and later.  Specifies the name of the encryption scope to use to encrypt the data provided in the request. If not specified, encryption is performed with the default account encryption scope.  For more information, see Encryption at Rest for Azure Storage Services. */
   encryptionScope?: string;
   /** Specify the transactional md5 for the body, to be validated by the service. */
   transactionalContentMD5?: Uint8Array;
   /** Specify the transactional crc64 for the body, to be validated by the service. */
   transactionalContentCrc64?: Uint8Array;
+  /** Required if the request body is a structured message. Specifies the length of the blob/file content inside the message body. Will always be smaller than Content-Length. */
+  structuredContentLength?: number;
 }
 
 /** Contains response data for the uploadPages operation. */
@@ -4140,12 +4158,16 @@ export interface AppendBlobAppendBlockOptionalParams
   timeoutInSeconds?: number;
   /** Provides a client-generated, opaque value with a 1 KB character limit that is recorded in the analytics logs when storage analytics logging is enabled. */
   requestId?: string;
+  /** Required if the request body is a structured message. Specifies the message schema version and properties. */
+  structuredBodyType?: string;
   /** Optional. Version 2019-07-07 and later.  Specifies the name of the encryption scope to use to encrypt the data provided in the request. If not specified, encryption is performed with the default account encryption scope.  For more information, see Encryption at Rest for Azure Storage Services. */
   encryptionScope?: string;
   /** Specify the transactional md5 for the body, to be validated by the service. */
   transactionalContentMD5?: Uint8Array;
   /** Specify the transactional crc64 for the body, to be validated by the service. */
   transactionalContentCrc64?: Uint8Array;
+  /** Required if the request body is a structured message. Specifies the length of the blob/file content inside the message body. Will always be smaller than Content-Length. */
+  structuredContentLength?: number;
 }
 
 /** Contains response data for the appendBlock operation. */
@@ -4223,6 +4245,8 @@ export interface BlockBlobUploadOptionalParams
   requestId?: string;
   /** Optional. Specifies a user-defined name-value pair associated with the blob. If no name-value pairs are specified, the operation will copy the metadata from the source blob or file to the destination blob. If one or more name-value pairs are specified, the destination blob is created with the specified metadata, and metadata is not copied from the source blob or file. Note that beginning with version 2009-09-19, metadata names must adhere to the naming rules for C# identifiers. See Naming and Referencing Containers, Blobs, and Metadata for more information. */
   metadata?: { [propertyName: string]: string };
+  /** Required if the request body is a structured message. Specifies the message schema version and properties. */
+  structuredBodyType?: string;
   /** Specifies the date time when the blobs immutability policy is set to expire. */
   immutabilityPolicyExpiry?: Date;
   /** Specifies the immutability policy mode to set on the blob. */
@@ -4239,6 +4263,8 @@ export interface BlockBlobUploadOptionalParams
   transactionalContentMD5?: Uint8Array;
   /** Specify the transactional crc64 for the body, to be validated by the service. */
   transactionalContentCrc64?: Uint8Array;
+  /** Required if the request body is a structured message. Specifies the length of the blob/file content inside the message body. Will always be smaller than Content-Length. */
+  structuredContentLength?: number;
 }
 
 /** Contains response data for the upload operation. */
@@ -4297,12 +4323,16 @@ export interface BlockBlobStageBlockOptionalParams
   timeoutInSeconds?: number;
   /** Provides a client-generated, opaque value with a 1 KB character limit that is recorded in the analytics logs when storage analytics logging is enabled. */
   requestId?: string;
+  /** Required if the request body is a structured message. Specifies the message schema version and properties. */
+  structuredBodyType?: string;
   /** Optional. Version 2019-07-07 and later.  Specifies the name of the encryption scope to use to encrypt the data provided in the request. If not specified, encryption is performed with the default account encryption scope.  For more information, see Encryption at Rest for Azure Storage Services. */
   encryptionScope?: string;
   /** Specify the transactional md5 for the body, to be validated by the service. */
   transactionalContentMD5?: Uint8Array;
   /** Specify the transactional crc64 for the body, to be validated by the service. */
   transactionalContentCrc64?: Uint8Array;
+  /** Required if the request body is a structured message. Specifies the length of the blob/file content inside the message body. Will always be smaller than Content-Length. */
+  structuredContentLength?: number;
 }
 
 /** Contains response data for the stageBlock operation. */

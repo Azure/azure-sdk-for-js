@@ -104,6 +104,7 @@ import type {
 } from "./generatedModels.js";
 import type {
   FileRenameHeaders,
+  FileUploadRangeOptionalParams,
   ListFilesAndDirectoriesSegmentResponse as GeneratedListFilesAndDirectoriesSegmentResponse,
   ListHandlesResponse as GeneratedListHandlesResponse,
 } from "./generated/src/models/index.js";
@@ -136,6 +137,7 @@ import {
   asSharePermission,
   parseOctalFileMode,
   toOctalFileMode,
+  setUploadChecksumParameters,
 } from "./utils/utils.common.js";
 import { Credential, UserDelegationKey } from "@azure/storage-common";
 import { StorageSharedKeyCredential } from "@azure/storage-common";
@@ -147,7 +149,7 @@ import type { PageSettings, PagedAsyncIterableIterator } from "@azure/core-pagin
 import { FileDownloadResponse } from "./FileDownloadResponse.js";
 import type { Range } from "./Range.js";
 import { rangeToString } from "./Range.js";
-import type {
+import {
   CloseHandlesInfo,
   FileAndDirectoryCreateCommonOptions,
   FileAndDirectorySetPropertiesCommonOptions,
@@ -159,6 +161,7 @@ import type {
   ShareClientConfig,
   FilePosixProperties,
   TimeNowType,
+  StorageChecksumAlgorithm,
 } from "./models.js";
 import {
   fileAttributesToString,
@@ -190,6 +193,11 @@ import type { SasIPRange } from "./SasIPRange.js";
 import type { FileSASPermissions } from "./FileSASPermissions.js";
 import type { ListFilesIncludeType } from "./generated/src/index.js";
 import { Readable } from "node:stream";
+import {
+  StorageCRC64Calculator,
+  structuredMessageDecodingBrowser,
+  structuredMessageDecodingStream,
+} from "@azure/storage-common";
 
 export { ShareClientOptions, ShareClientConfig } from "./models.js";
 
@@ -3157,6 +3165,11 @@ export interface FileDownloadOptions extends CommonOptions {
   rangeGetContentMD5?: boolean;
 
   /**
+   *
+   */
+  contentChecksumAlgorithm?: StorageChecksumAlgorithm;
+
+  /**
    * Download progress updating event handler.
    */
   onProgress?: (progress: TransferProgressEvent) => void;
@@ -3201,6 +3214,10 @@ export interface FileUploadRangeOptions extends CommonOptions {
    * By default, the value will be set as Now.
    */
   fileLastWrittenMode?: FileLastWrittenMode;
+  /**
+   *
+   */
+  contentChecksumAlgorithm?: StorageChecksumAlgorithm;
 }
 
 /**
@@ -3660,6 +3677,10 @@ export interface FileUploadStreamOptions extends CommonOptions {
    * Lease access conditions.
    */
   leaseAccessConditions?: LeaseAccessConditions;
+  /**
+   *
+   */
+  contentChecksumAlgorithm?: StorageChecksumAlgorithm;
 }
 
 /**
@@ -3705,6 +3726,11 @@ export interface FileParallelUploadOptions extends CommonOptions {
    * Lease access conditions.
    */
   leaseAccessConditions?: LeaseAccessConditions;
+
+  /**
+   *
+   */
+  contentChecksumAlgorithm?: StorageChecksumAlgorithm;
 }
 
 /**
@@ -3753,6 +3779,11 @@ export interface FileDownloadToBufferOptions extends CommonOptions {
    * Lease access conditions.
    */
   leaseAccessConditions?: LeaseAccessConditions;
+
+  /**
+   *
+   */
+  contentChecksumAlgorithm?: StorageChecksumAlgorithm;
 }
 
 /**
@@ -4201,6 +4232,19 @@ export class ShareFileClient extends StorageClient {
     options: FileDownloadOptions = {},
   ): Promise<FileDownloadResponseModel> {
     return tracingClient.withSpan("ShareFileClient-download", options, async (updatedOptions) => {
+      let contentChecksumAlgorithm =
+        options.contentChecksumAlgorithm ??
+        this.shareClientConfig?.downloadContentChecksumAlgorithm;
+      if (
+        contentChecksumAlgorithm === undefined ||
+        contentChecksumAlgorithm === StorageChecksumAlgorithm.Auto
+      ) {
+        contentChecksumAlgorithm = StorageChecksumAlgorithm.Customized;
+      }
+
+      if (contentChecksumAlgorithm === StorageChecksumAlgorithm.StorageCrc64) {
+        await StorageCRC64Calculator.init();
+      }
       if (updatedOptions.rangeGetContentMD5 && offset === 0 && count === undefined) {
         throw new RangeError(`rangeGetContentMD5 only works with partial data downloading`);
       }
@@ -4213,6 +4257,10 @@ export class ShareFileClient extends StorageClient {
         },
         range: downloadFullFile ? undefined : rangeToString({ offset, count }),
         ...this.shareClientConfig,
+        structuredBodyType:
+          contentChecksumAlgorithm === StorageChecksumAlgorithm.StorageCrc64
+            ? "XSM/1.0; properties=crc64"
+            : undefined,
       });
 
       const res = assertResponse<RawFileDownloadResponse, FileDownloadHeaders>({
@@ -4228,6 +4276,9 @@ export class ShareFileClient extends StorageClient {
 
       // Return browser response immediately
       if (!isNodeLike) {
+        if (contentChecksumAlgorithm === StorageChecksumAlgorithm.StorageCrc64) {
+          res.blobBody = structuredMessageDecodingBrowser(await res.blobBody!);
+        }
         return res;
       }
 
@@ -4245,12 +4296,17 @@ export class ShareFileClient extends StorageClient {
         throw new RangeError(`File download response doesn't contain valid content length header`);
       }
 
+      const contentLength =
+        contentChecksumAlgorithm === StorageChecksumAlgorithm.StorageCrc64
+          ? res.structuredContentLength!
+          : res.contentLength!;
+
       return new FileDownloadResponse(
         res,
         async (start: number): Promise<NodeJS.ReadableStream> => {
           const updatedDownloadOptions: FileDownloadOptionalParams = {
             range: rangeToString({
-              count: offset + res.contentLength! - start,
+              count: offset + contentLength - start,
               offset: start,
             }),
           };
@@ -4266,15 +4322,24 @@ export class ShareFileClient extends StorageClient {
             ...updatedOptions,
             ...updatedDownloadOptions,
             ...this.shareClientConfig, // TODO: confirm whether this is needed
+            structuredBodyType:
+              contentChecksumAlgorithm === StorageChecksumAlgorithm.StorageCrc64
+                ? "XSM/1.0; properties=crc64"
+                : undefined,
           });
 
           if (!(downloadRes.etag === res.etag)) {
             throw new Error("File has been modified concurrently");
           }
-          return downloadRes.readableStreamBody!;
+
+          if (contentChecksumAlgorithm === StorageChecksumAlgorithm.StorageCrc64) {
+            return structuredMessageDecodingStream(downloadRes.readableStreamBody!, {});
+          } else {
+            return downloadRes.readableStreamBody!;
+          }
         },
         offset,
-        res.contentLength!,
+        contentLength,
         {
           maxRetryRequests: updatedOptions.maxRetryRequests,
           onProgress: updatedOptions.onProgress,
@@ -4647,19 +4712,29 @@ export class ShareFileClient extends StorageClient {
           throw new RangeError(`offset must be < ${FILE_RANGE_MAX_SIZE_BYTES} bytes`);
         }
 
+        const parameters: FileUploadRangeOptionalParams = {
+          ...updatedOptions,
+          requestOptions: {
+            onUploadProgress: updatedOptions.onProgress,
+          },
+          ...this.shareClientConfig,
+        };
+        const uploadBodyParameters = await setUploadChecksumParameters(
+          body,
+          contentLength,
+          parameters,
+          options,
+          this.shareClientConfig?.uploadContentChecksumAlgorithm,
+        );
+
+        parameters.body = uploadBodyParameters.body;
+
         return assertResponse<FileUploadRangeHeaders, FileUploadRangeHeaders>(
           await this.context.uploadRange(
             rangeToString({ count: contentLength, offset }),
             "update",
-            contentLength,
-            {
-              ...updatedOptions,
-              requestOptions: {
-                onUploadProgress: updatedOptions.onProgress,
-              },
-              body,
-              ...this.shareClientConfig,
-            },
+            uploadBodyParameters.contentLength,
+            parameters,
           ),
         );
       },
@@ -5052,6 +5127,7 @@ export class ShareFileClient extends StorageClient {
               abortSignal: options.abortSignal,
               leaseAccessConditions: options.leaseAccessConditions,
               tracingOptions: updatedOptions.tracingOptions,
+              contentChecksumAlgorithm: options.contentChecksumAlgorithm,
             });
             // Update progress after block is successfully uploaded to server, in case of block trying
             transferProgress += contentLength;
@@ -5201,6 +5277,7 @@ export class ShareFileClient extends StorageClient {
               maxRetryRequests: options.maxRetryRequestsPerRange,
               leaseAccessConditions: options.leaseAccessConditions,
               tracingOptions: updatedOptions.tracingOptions,
+              contentChecksumAlgorithm: options.contentChecksumAlgorithm,
             });
             const stream = response.readableStreamBody!;
             await streamToBuffer(stream, buffer!, off - offset, chunkEnd - offset);
@@ -5289,6 +5366,7 @@ export class ShareFileClient extends StorageClient {
               abortSignal: options.abortSignal,
               leaseAccessConditions: options.leaseAccessConditions,
               tracingOptions: updatedOptions.tracingOptions,
+              contentChecksumAlgorithm: options.contentChecksumAlgorithm,
             });
 
             // Update progress after block is successfully uploaded to server, in case of block trying
