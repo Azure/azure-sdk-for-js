@@ -224,6 +224,7 @@ describe("Service Utils", () => {
     });
     vi.mocked(populateValuesFromServiceUrl).mockReturnValue({
       region: "",
+      domain: "playwright.microsoft.com",
       accountId: "eastasia_8bda26b5-300f-4f4f-810d-eae055e4a69b",
     });
     const exitStub = vi.mocked(process.exit).mockImplementation(() => {
@@ -257,6 +258,7 @@ describe("Service Utils", () => {
     vi.mocked(parseJwt).mockReturnValue({ exp: thirtyDaysFromNow });
     vi.mocked(populateValuesFromServiceUrl).mockReturnValue({
       region: "eastus",
+      domain: "playwright.microsoft.com",
       accountId: "123456789",
     });
 
@@ -275,6 +277,7 @@ describe("Service Utils", () => {
     });
     vi.mocked(populateValuesFromServiceUrl).mockReturnValue({
       region: "",
+      domain: "playwright.microsoft.com",
       accountId: "eastasia_8bda26b5-300f-4f4f-810d-eae055e4a69b",
     });
 
@@ -291,7 +294,11 @@ describe("Service Utils", () => {
       "wss://eastus.api.playwright.microsoft.com/accounts/wrong-id/browsers";
     const result = localPopulateValuesFromServiceUrl();
 
-    expect(result).to.deep.equal({ region: "eastus", accountId: "wrong-id" });
+    expect(result).to.deep.equal({
+      region: "eastus",
+      domain: "playwright.microsoft.com",
+      accountId: "wrong-id",
+    });
     expect(exitStub).not.toHaveBeenCalled();
 
     delete process.env["PLAYWRIGHT_SERVICE_URL"];
@@ -524,14 +531,18 @@ describe("Service Utils", () => {
     expect(process.env[InternalEnvironmentVariables.MPT_PLAYWRIGHT_VERSION]).to.equal(mockVersion);
   });
 
-  it("should return region and accountId from a valid service URL", async () => {
+  it("should return region, domain and accountId from a valid service URL", async () => {
     const { populateValuesFromServiceUrl: localPopulateValuesFromServiceUrl } =
       await vi.importActual<typeof import("../../src/utils/utils.js")>("../../src/utils/utils.js");
     process.env["PLAYWRIGHT_SERVICE_URL"] =
       "wss://eastus.api.playwright.microsoft.com/accounts/1234/browsers";
 
     const result = localPopulateValuesFromServiceUrl();
-    expect(result).to.deep.equal({ region: "eastus", accountId: "1234" });
+    expect(result).to.deep.equal({
+      region: "eastus",
+      domain: "playwright.microsoft.com",
+      accountId: "1234",
+    });
 
     delete process.env["PLAYWRIGHT_SERVICE_URL"];
   });

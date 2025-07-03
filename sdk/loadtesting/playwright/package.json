@@ -75,6 +75,7 @@
     "@azure-tools/test-utils-vitest": "^1.0.0",
     "@azure/dev-tool": "^1.0.0",
     "@azure/eslint-plugin-azure-sdk": "^3.0.0",
+    "@azure/core-rest-pipeline": "^1.18.0",
     "@playwright/test": "^1.51.1",
     "@types/debug": "^4.1.12",
     "@types/node": "^20.12.12",
