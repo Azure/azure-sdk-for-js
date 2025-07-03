@@ -1403,7 +1403,7 @@ export function avsStorageContainerPropertiesDeserializer(
 }
 
 /** The resource model definition for a Azure Resource Manager proxy resource. It will not have tags and a location */
-export interface ProxyResource extends Resource {}
+export interface ProxyResource extends Resource { }
 
 export function proxyResourceDeserializer(item: any): ProxyResource {
   return {
@@ -1852,5 +1852,5 @@ export function avsVmVolumeArrayDeserializer(result: Array<AvsVmVolume>): any[] 
 /** Supported versions for PureStorage.Block. */
 export enum KnownVersions {
   /** Version 1 stable */
-  V1Stable = "2024-11-01",
+  V20241101 = "2024-11-01",
 }

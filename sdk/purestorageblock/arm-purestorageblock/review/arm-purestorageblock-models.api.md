@@ -270,7 +270,7 @@ export enum KnownUsageSeverity {
 
 // @public
 export enum KnownVersions {
-    V1Stable = "2024-11-01"
+    V20241101 = "2024-11-01"
 }
 
 // @public
