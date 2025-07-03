@@ -409,9 +409,16 @@ function Update-javascript-GeneratedSdks([string]$PackageDirectoriesFile) {
   $moduleFolders = Get-Content $PackageDirectoriesFile | ConvertFrom-Json
 
   $directoriesWithErrors = @()
+  
+  # Error categorization for Management SDKs
+  $managementSdkErrors = @{
+    NoTspLocationYaml = @()
+    TypeSpecGenerateFailure = @()
+  }
 
   foreach ($directory in $moduleFolders) {
     $directoryPath = "$RepoRoot/sdk/$directory"
+    $isManagementSdk = $directory.Contains("/resource-manager/") -or $directory.Contains(".Management")
 
     if (Test-Path "$directoryPath/tsp-location.yaml") {
       Write-Host 'Generating project under folder ' -ForegroundColor Green -NoNewline
@@ -428,12 +435,45 @@ function Update-javascript-GeneratedSdks([string]$PackageDirectoriesFile) {
       & $RepoRoot/eng/common/scripts/TypeSpec-Project-Generate.ps1 $directoryPath
       if ($LASTEXITCODE) {
         $directoriesWithErrors += $directory
+        if ($isManagementSdk) {
+          $managementSdkErrors.TypeSpecGenerateFailure += $directory
+        }
         continue
       }
     }
     else {
       Write-Host "No tsp-location.yaml found in $directory"
+      if ($isManagementSdk) {
+        $managementSdkErrors.NoTspLocationYaml += $directory
+      }
     }
+  }
+
+  # Display Management SDK error statistics
+  if ($managementSdkErrors.NoTspLocationYaml.Count -gt 0 -or $managementSdkErrors.TypeSpecGenerateFailure.Count -gt 0) {
+    Write-Host ""
+    Write-Host "Management SDK Error Statistics:" -ForegroundColor Cyan
+    Write-Host "================================" -ForegroundColor Cyan
+    
+    if ($managementSdkErrors.NoTspLocationYaml.Count -gt 0) {
+      Write-Host "No tsp-location.yaml found ($($managementSdkErrors.NoTspLocationYaml.Count) directories):" -ForegroundColor Yellow
+      foreach ($directory in $managementSdkErrors.NoTspLocationYaml) {
+        Write-Host "  - $directory"
+      }
+      Write-Host ""
+    }
+    
+    if ($managementSdkErrors.TypeSpecGenerateFailure.Count -gt 0) {
+      Write-Host "TypeSpec-Project-Generate.ps1 failures ($($managementSdkErrors.TypeSpecGenerateFailure.Count) directories):" -ForegroundColor Red
+      foreach ($directory in $managementSdkErrors.TypeSpecGenerateFailure) {
+        Write-Host "  - $directory"
+      }
+      Write-Host ""
+    }
+    
+    $totalManagementErrors = $managementSdkErrors.NoTspLocationYaml.Count + $managementSdkErrors.TypeSpecGenerateFailure.Count
+    Write-Host "Total Management SDK errors: $totalManagementErrors" -ForegroundColor Magenta
+    Write-Host ""
   }
 
   if ($directoriesWithErrors.Count -gt 0) {
