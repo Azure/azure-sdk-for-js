@@ -27,7 +27,7 @@ export interface Agent {
 }
 
 // @public (undocumented)
-export type AggregateType = "Average" | "Count" | "Max" | "Min" | "Sum" | "MakeSet" | "MakeList";
+export type AggregateType = "Average" | "Count" | "Max" | "Min" | "Sum" | "MakeSet" | "MakeList" | "CountIf";
 
 // @public
 export class AzureKeyVaultEncryptionKeyResolver implements EncryptionKeyResolver {
