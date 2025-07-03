@@ -407,7 +407,7 @@ function GetExistingPackageVersions ($PackageName, $GroupId = $null) {
 
 function Update-javascript-GeneratedSdks([string]$PackageDirectoriesFile) {
   # Check if ai-inference-rest directory exists and run sh command to inspect it
-  $aiInferenceRestPath = "$RepoRoot/sdk/ai-inference-rest"
+  $aiInferenceRestPath = "$RepoRoot/sdk"
   if (Test-Path $aiInferenceRestPath) {
     Write-Host "Found ai-inference-rest directory, inspecting contents..." -ForegroundColor Cyan
     try {
@@ -416,7 +416,7 @@ function Update-javascript-GeneratedSdks([string]$PackageDirectoriesFile) {
       Invoke-Expression $shCommand
     }
     catch {
-      Write-Host "Warning: Failed to run sh command on ai-inference-rest directory: $($_.Exception.Message)" -ForegroundColor Yellow
+      Write-Host "Warning: Failed to run sh command on sdk directory: $($_.Exception.Message)" -ForegroundColor Yellow
     }
     Write-Host ""
   }
