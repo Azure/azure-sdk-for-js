@@ -10,19 +10,19 @@ import { OperationState } from '@azure/core-lro';
 import { PollerLike } from '@azure/core-lro';
 
 // @public
-export function $delete(context: OnlineExperimentationContext, resourceGroupName: string, workspaceName: string, options?: OnlineExperimentationWorkspacesDeleteOptionalParams): PollerLike<OperationState<void>, void>;
+export function $delete(context: OnlineExperimentationContext, apiVersion: string, resourceGroupName: string, workspaceName: string, options?: OnlineExperimentationWorkspacesDeleteOptionalParams): PollerLike<OperationState<void>, void>;
 
 // @public
-export function createOrUpdate(context: OnlineExperimentationContext, resourceGroupName: string, workspaceName: string, resource: OnlineExperimentationWorkspace, options?: OnlineExperimentationWorkspacesCreateOrUpdateOptionalParams): PollerLike<OperationState<OnlineExperimentationWorkspace>, OnlineExperimentationWorkspace>;
+export function createOrUpdate(context: OnlineExperimentationContext, apiVersion: string, resourceGroupName: string, workspaceName: string, resource: OnlineExperimentationWorkspace, options?: OnlineExperimentationWorkspacesCreateOrUpdateOptionalParams): PollerLike<OperationState<OnlineExperimentationWorkspace>, OnlineExperimentationWorkspace>;
 
 // @public
-export function get(context: OnlineExperimentationContext, resourceGroupName: string, workspaceName: string, options?: OnlineExperimentationWorkspacesGetOptionalParams): Promise<OnlineExperimentationWorkspace>;
+export function get(context: OnlineExperimentationContext, apiVersion: string, resourceGroupName: string, workspaceName: string, options?: OnlineExperimentationWorkspacesGetOptionalParams): Promise<OnlineExperimentationWorkspace>;
 
 // @public
-export function listByResourceGroup(context: OnlineExperimentationContext, resourceGroupName: string, options?: OnlineExperimentationWorkspacesListByResourceGroupOptionalParams): PagedAsyncIterableIterator<OnlineExperimentationWorkspace>;
+export function listByResourceGroup(context: OnlineExperimentationContext, apiVersion: string, resourceGroupName: string, options?: OnlineExperimentationWorkspacesListByResourceGroupOptionalParams): PagedAsyncIterableIterator<OnlineExperimentationWorkspace>;
 
 // @public
-export function listBySubscription(context: OnlineExperimentationContext, options?: OnlineExperimentationWorkspacesListBySubscriptionOptionalParams): PagedAsyncIterableIterator<OnlineExperimentationWorkspace>;
+export function listBySubscription(context: OnlineExperimentationContext, apiVersion: string, options?: OnlineExperimentationWorkspacesListBySubscriptionOptionalParams): PagedAsyncIterableIterator<OnlineExperimentationWorkspace>;
 
 // @public
 export interface OnlineExperimentationWorkspacesCreateOrUpdateOptionalParams extends OperationOptions {
@@ -52,7 +52,7 @@ export interface OnlineExperimentationWorkspacesUpdateOptionalParams extends Ope
 }
 
 // @public
-export function update(context: OnlineExperimentationContext, resourceGroupName: string, workspaceName: string, properties: OnlineExperimentationWorkspacePatch, options?: OnlineExperimentationWorkspacesUpdateOptionalParams): PollerLike<OperationState<OnlineExperimentationWorkspace>, OnlineExperimentationWorkspace>;
+export function update(context: OnlineExperimentationContext, apiVersion: string, resourceGroupName: string, workspaceName: string, properties: OnlineExperimentationWorkspacePatch, options?: OnlineExperimentationWorkspacesUpdateOptionalParams): PollerLike<OperationState<OnlineExperimentationWorkspace>, OnlineExperimentationWorkspace>;
 
 // (No @packageDocumentation comment for this package)
 
