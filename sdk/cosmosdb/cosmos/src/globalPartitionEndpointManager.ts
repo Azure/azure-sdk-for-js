@@ -64,68 +64,26 @@ export class GlobalPartitionEndpointManager {
     if (!(await this.isRequestEligibleForPartitionFailover(requestContext, true))) {
       return false;
     }
+
+    const isRequestEligibleForPerPartitionAutomaticFailover =
+      this.isRequestEligibleForPerPartitionAutomaticFailover(requestContext);
+    const isRequestEligibleForPartitionLevelCircuitBreaker =
+      this.isRequestEligibleForPartitionLevelCircuitBreaker(requestContext);
+
     if (
-      this.isRequestEligibleForPerPartitionAutomaticFailover(requestContext) ||
-      (this.isRequestEligibleForPartitionLevelCircuitBreaker(requestContext) &&
-        (await this.incrementFailureCounterAndCheckFailover(requestContext)))
+      isRequestEligibleForPerPartitionAutomaticFailover ||
+      (isRequestEligibleForPartitionLevelCircuitBreaker &&
+        (await this.incrementFailureCounterAndCheckFailover(
+          requestContext,
+          isRequestEligibleForPerPartitionAutomaticFailover,
+          isRequestEligibleForPartitionLevelCircuitBreaker,
+        )))
     ) {
-      return this.tryMarkEndpointUnavailableForPartitionKeyRange(requestContext, diagnosticNode);
-    }
-    return false;
-  }
-
-  private async tryMarkEndpointUnavailableForPartitionKeyRange(
-    requestContext: RequestContext,
-    diagnosticNode: DiagnosticNodeInternal,
-  ): Promise<boolean> {
-    const partitionKeyRangeId = requestContext.partitionKeyRangeId;
-    const failedEndPoint = requestContext.endpoint;
-
-    const readLocations = await this.globalEndpointManager.getReadLocations();
-    const readEndPoints: string[] = [];
-
-    if (this.isRequestEligibleForPerPartitionAutomaticFailover(requestContext)) {
-      // For any single master write accounts, the next locations to fail over will be the read regions configured at the account level.
-      for (const location of readLocations) {
-        readEndPoints.push(location.databaseAccountEndpoint);
-      }
-      return this.tryAddOrUpdatePartitionFailoverInfoAndMoveToNextLocation(
-        partitionKeyRangeId,
-        failedEndPoint,
-        readEndPoints,
-        this.partitionKeyRangeToLocationForWrite,
+      return this.tryMarkEndpointUnavailableForPartitionKeyRange(
+        requestContext,
         diagnosticNode,
-      );
-    } else if (this.isRequestEligibleForPartitionLevelCircuitBreaker(requestContext)) {
-      // For the read requests or multi-master write requests, the next locations to fail over will be the preferred locations
-      // configured at the account level plus any other read locations that are not already in the preferred locations.
-      if (this.preferredLocations && this.preferredLocations.length > 0) {
-        for (const preferredLocation of this.preferredLocations) {
-          const location = readLocations.find(
-            (loc) => normalizeEndpoint(loc.name) === normalizeEndpoint(preferredLocation),
-          );
-          if (location) {
-            readEndPoints.push(location.databaseAccountEndpoint);
-          }
-        }
-
-        // Add the rest of the locations not already added
-        for (const location of readLocations) {
-          if (!readEndPoints.includes(location.databaseAccountEndpoint)) {
-            readEndPoints.push(location.databaseAccountEndpoint);
-          }
-        }
-      } else {
-        for (const location of readLocations) {
-          readEndPoints.push(location.databaseAccountEndpoint);
-        }
-      }
-      return this.tryAddOrUpdatePartitionFailoverInfoAndMoveToNextLocation(
-        partitionKeyRangeId,
-        failedEndPoint,
-        readEndPoints,
-        this.partitionKeyRangeToLocationForReadAndWrite,
-        diagnosticNode,
+        isRequestEligibleForPerPartitionAutomaticFailover,
+        isRequestEligibleForPartitionLevelCircuitBreaker,
       );
     }
     return false;
@@ -172,18 +130,79 @@ export class GlobalPartitionEndpointManager {
     return { overridden: false };
   }
 
+  private async tryMarkEndpointUnavailableForPartitionKeyRange(
+    requestContext: RequestContext,
+    diagnosticNode: DiagnosticNodeInternal,
+    isRequestEligibleForPerPartitionAutomaticFailover: boolean,
+    isRequestEligibleForPartitionLevelCircuitBreaker: boolean,
+  ): Promise<boolean> {
+    const partitionKeyRangeId = requestContext.partitionKeyRangeId;
+    const failedEndPoint = requestContext.endpoint;
+
+    const readLocations = await this.globalEndpointManager.getReadLocations();
+    const readEndPoints: string[] = [];
+
+    if (isRequestEligibleForPerPartitionAutomaticFailover) {
+      // For any single master write accounts, the next locations to fail over will be the read regions configured at the account level.
+      for (const location of readLocations) {
+        readEndPoints.push(location.databaseAccountEndpoint);
+      }
+      return this.tryAddOrUpdatePartitionFailoverInfoAndMoveToNextLocation(
+        partitionKeyRangeId,
+        failedEndPoint,
+        readEndPoints,
+        this.partitionKeyRangeToLocationForWrite,
+        diagnosticNode,
+      );
+    } else if (isRequestEligibleForPartitionLevelCircuitBreaker) {
+      // For the read requests or multi-master write requests, the next locations to fail over will be the preferred locations
+      // configured at the account level plus any other read locations that are not already in the preferred locations.
+      if (this.preferredLocations && this.preferredLocations.length > 0) {
+        for (const preferredLocation of this.preferredLocations) {
+          const location = readLocations.find(
+            (loc) => normalizeEndpoint(loc.name) === normalizeEndpoint(preferredLocation),
+          );
+          if (location) {
+            readEndPoints.push(location.databaseAccountEndpoint);
+          }
+        }
+
+        // Add the rest of the locations not already added
+        for (const location of readLocations) {
+          if (!readEndPoints.includes(location.databaseAccountEndpoint)) {
+            readEndPoints.push(location.databaseAccountEndpoint);
+          }
+        }
+      } else {
+        for (const location of readLocations) {
+          readEndPoints.push(location.databaseAccountEndpoint);
+        }
+      }
+      return this.tryAddOrUpdatePartitionFailoverInfoAndMoveToNextLocation(
+        partitionKeyRangeId,
+        failedEndPoint,
+        readEndPoints,
+        this.partitionKeyRangeToLocationForReadAndWrite,
+        diagnosticNode,
+      );
+    }
+    return false;
+  }
+
   /**
    * Increments the failure counter for the specified partition and checks if the partition can fail over.
    * This method is used to determine if a partition should be failed over based on the number of request failures.
    */
   private async incrementFailureCounterAndCheckFailover(
     requestContext: RequestContext,
+    isRequestEligibleForPerPartitionAutomaticFailover: boolean,
+    isRequestEligibleForPartitionLevelCircuitBreaker: boolean,
   ): Promise<boolean> {
     const partitionKeyRangeId = requestContext.partitionKeyRangeId;
     const failedEndPoint = requestContext.endpoint;
     let partitionKeyRangeFailoverInfo: PartitionKeyRangeFailoverInfo;
 
-    if (this.isRequestEligibleForPerPartitionAutomaticFailover(requestContext)) {
+    if (isRequestEligibleForPerPartitionAutomaticFailover) {
       if (!this.partitionKeyRangeToLocationForWrite.has(partitionKeyRangeId)) {
         // If the partition key range is not already in the map, add it
         const failoverInfo = new PartitionKeyRangeFailoverInfo(failedEndPoint);
@@ -191,7 +210,7 @@ export class GlobalPartitionEndpointManager {
       }
       partitionKeyRangeFailoverInfo =
         this.partitionKeyRangeToLocationForWrite.get(partitionKeyRangeId);
-    } else if (this.isRequestEligibleForPartitionLevelCircuitBreaker(requestContext)) {
+    } else if (isRequestEligibleForPartitionLevelCircuitBreaker) {
       if (!this.partitionKeyRangeToLocationForReadAndWrite.has(partitionKeyRangeId)) {
         // If the partition key range is not already in the map, add it
         const failoverInfo = new PartitionKeyRangeFailoverInfo(failedEndPoint);
