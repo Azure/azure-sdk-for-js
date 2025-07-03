@@ -340,7 +340,7 @@ describe("#AzureMonitorStatsbeatExporter", () => {
           process.env = newEnv;
 
           await statsbeat["getResourceProvider"]();
-          
+
           process.env = originalEnv;
           assert.strictEqual(statsbeat["resourceProvider"], "appsvc");
           assert.strictEqual(statsbeat["resourceIdentifier"], "my-test-webapp");
@@ -354,7 +354,7 @@ describe("#AzureMonitorStatsbeatExporter", () => {
           process.env = newEnv;
 
           await statsbeat["getResourceProvider"]();
-          
+
           process.env = originalEnv;
           assert.strictEqual(statsbeat["resourceProvider"], "appsvc");
           assert.strictEqual(statsbeat["resourceIdentifier"], "my-test-webapp/waws-prod-test-001");
@@ -368,7 +368,7 @@ describe("#AzureMonitorStatsbeatExporter", () => {
           process.env = newEnv;
 
           await statsbeat["getResourceProvider"]();
-          
+
           process.env = originalEnv;
           // When no specific environment variables are set, it falls back to VM detection
           assert.strictEqual(statsbeat["resourceProvider"], "vm");
@@ -385,7 +385,7 @@ describe("#AzureMonitorStatsbeatExporter", () => {
           process.env = newEnv;
 
           await statsbeat["getResourceProvider"]();
-          
+
           process.env = originalEnv;
           assert.strictEqual(statsbeat["resourceProvider"], "functions");
           assert.strictEqual(statsbeat["resourceIdentifier"], "my-function-app.azurewebsites.net");
@@ -393,7 +393,7 @@ describe("#AzureMonitorStatsbeatExporter", () => {
 
         it("should detect Azure Functions with different worker runtimes", async () => {
           const runtimes = ["node", "python", "dotnet", "java", "powershell"];
-          
+
           for (const runtime of runtimes) {
             const newEnv = <{ [id: string]: string }>{};
             newEnv["WEBSITE_SITE_NAME"] = `my-${runtime}-function`;
@@ -405,11 +405,14 @@ describe("#AzureMonitorStatsbeatExporter", () => {
             // Create a new instance for each test to avoid state pollution
             const testStatsbeat = NetworkStatsbeatMetrics.getInstance(options);
             await testStatsbeat["getResourceProvider"]();
-            
+
             process.env = originalEnv;
             assert.strictEqual(testStatsbeat["resourceProvider"], "functions");
-            assert.strictEqual(testStatsbeat["resourceIdentifier"], `my-${runtime}-function.azurewebsites.net`);
-            
+            assert.strictEqual(
+              testStatsbeat["resourceIdentifier"],
+              `my-${runtime}-function.azurewebsites.net`,
+            );
+
             await testStatsbeat.shutdown();
           }
         });
@@ -423,7 +426,7 @@ describe("#AzureMonitorStatsbeatExporter", () => {
           process.env = newEnv;
 
           await statsbeat["getResourceProvider"]();
-          
+
           process.env = originalEnv;
           // Should be detected as App Service instead
           assert.strictEqual(statsbeat["resourceProvider"], "appsvc");
@@ -446,11 +449,11 @@ describe("#AzureMonitorStatsbeatExporter", () => {
           };
           const testStatsbeat = NetworkStatsbeatMetrics.getInstance(testOptions);
           await testStatsbeat["getResourceProvider"]();
-          
+
           process.env = originalEnv;
           assert.strictEqual(testStatsbeat["resourceProvider"], "functions");
           assert.strictEqual(testStatsbeat["resourceIdentifier"], "my-function-app");
-          
+
           await testStatsbeat.shutdown();
         });
       });
@@ -458,16 +461,20 @@ describe("#AzureMonitorStatsbeatExporter", () => {
       describe("Priority and edge cases", () => {
         it("should prioritize AKS detection over App Service", async () => {
           const newEnv = <{ [id: string]: string }>{};
-          newEnv["AKS_ARM_NAMESPACE_ID"] = "/subscriptions/test/resourceGroups/test/providers/Microsoft.ContainerService/managedClusters/test-aks";
+          newEnv["AKS_ARM_NAMESPACE_ID"] =
+            "/subscriptions/test/resourceGroups/test/providers/Microsoft.ContainerService/managedClusters/test-aks";
           newEnv["WEBSITE_SITE_NAME"] = "my-webapp";
           const originalEnv = process.env;
           process.env = newEnv;
 
           await statsbeat["getResourceProvider"]();
-          
+
           process.env = originalEnv;
           assert.strictEqual(statsbeat["resourceProvider"], "aks");
-          assert.strictEqual(statsbeat["resourceIdentifier"], "/subscriptions/test/resourceGroups/test/providers/Microsoft.ContainerService/managedClusters/test-aks");
+          assert.strictEqual(
+            statsbeat["resourceIdentifier"],
+            "/subscriptions/test/resourceGroups/test/providers/Microsoft.ContainerService/managedClusters/test-aks",
+          );
         });
 
         it("should prioritize Functions detection over App Service when both conditions are met", async () => {
@@ -480,7 +487,7 @@ describe("#AzureMonitorStatsbeatExporter", () => {
           process.env = newEnv;
 
           await statsbeat["getResourceProvider"]();
-          
+
           process.env = originalEnv;
           // Should be detected as Functions, not App Service
           assert.strictEqual(statsbeat["resourceProvider"], "functions");
@@ -495,7 +502,7 @@ describe("#AzureMonitorStatsbeatExporter", () => {
           process.env = newEnv;
 
           await statsbeat["getResourceProvider"]();
-          
+
           process.env = originalEnv;
           // With empty environment variables, it falls through to VM detection
           assert.strictEqual(statsbeat["resourceProvider"], "vm");
