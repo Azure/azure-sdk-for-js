@@ -36,8 +36,8 @@ try {
     if ($LASTEXITCODE) { exit $LASTEXITCODE }    
     $fileGenerateInput = 'generateInput.json';
     $fileGenerateOutput = 'generateOutput.json';
-    $outputJsonPath = Join-Path $tempFolder $fileGenerateOutput
-    $inputJsonPath = Join-Path $tempFolder $fileGenerateInput
+    $outputJsonPath = Join-Path $RepoRoot $fileGenerateOutput
+    $inputJsonPath = Join-Path $RepoRoot $fileGenerateInput
 
     Write-Host "Running automation_generate.sh $inputJsonPath $outputJsonPath"
     Invoke-LoggedCommand "sh .scripts/automation_generate.sh $inputJsonPath $outputJsonPath"
