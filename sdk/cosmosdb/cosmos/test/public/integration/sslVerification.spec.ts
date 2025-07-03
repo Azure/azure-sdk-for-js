@@ -2,6 +2,7 @@
 // Licensed under the MIT License.
 
 import { CosmosClient } from "../../../src/index.js";
+import { conditionalDescribe } from "../common/conditionalTest.js";
 import { getTestDatabase } from "../common/TestHelpers.js";
 import https from "node:https";
 import { describe, it, assert } from "vitest";
@@ -10,7 +11,7 @@ const endpoint = "https://localhost:8081";
 const masterKey =
   "C2y6yDjf5/R+ob0N8A7Cgv30VRDJIWEHLM+4QDU5DE2nQ9nDuVTqobD4b8mGGyPMbIZnqyMsEcaGQy67XIw/Jw==";
 
-describe("Validate SSL verification check for emulator #nosignoff", () => {
+conditionalDescribe("Validate SSL verification check for emulator #nosignoff", () => {
   it("should throw exception", async () => {
     try {
       const client = new CosmosClient({

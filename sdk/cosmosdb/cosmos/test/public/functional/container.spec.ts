@@ -24,6 +24,7 @@ import {
 import { SpatialType } from "../../../src/index.js";
 import { GeospatialType } from "../../../src/index.js";
 import { describe, it, assert, beforeEach, beforeAll } from "vitest";
+import { conditionalIt } from "../common/conditionalTest.js";
 
 describe("Containers", { timeout: 10000 }, () => {
   beforeEach(async () => {
@@ -752,22 +753,25 @@ describe("Reading items using container", () => {
 });
 
 describe("container.deleteAllItemsForPartitionKey", () => {
-  it("should delete all items for partition key value", async () => {
+  conditionalIt("should delete all items for partition key value", async () => {
     const container = await getTestContainer("container", undefined, { partitionKey: "/pk" });
     await testDeleteAllItemsForPartitionKey(container);
   });
 
-  it("should delete all items for partition key value in multi partition container", async () => {
-    //  multi partition container
-    const container = await getTestContainer("container", undefined, {
-      partitionKey: {
-        paths: ["/pk"],
-        version: 2,
-      },
-      throughput: 10500,
-    });
-    await testDeleteAllItemsForPartitionKey(container);
-  });
+  conditionalIt(
+    "should delete all items for partition key value in multi partition container",
+    async () => {
+      //  multi partition container
+      const container = await getTestContainer("container", undefined, {
+        partitionKey: {
+          paths: ["/pk"],
+          version: 2,
+        },
+        throughput: 10500,
+      });
+      await testDeleteAllItemsForPartitionKey(container);
+    },
+  );
 
   async function testDeleteAllItemsForPartitionKey(container: Container): Promise<void> {
     const { resource: create1 } = await container.items.create({
