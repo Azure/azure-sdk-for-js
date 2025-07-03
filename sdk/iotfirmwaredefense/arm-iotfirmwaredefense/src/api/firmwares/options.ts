@@ -4,7 +4,8 @@
 import { OperationOptions } from "@azure-rest/core-client";
 
 /** Optional parameters. */
-export interface FirmwaresListByWorkspaceOptionalParams extends OperationOptions {}
+export interface FirmwaresListByWorkspaceOptionalParams
+  extends OperationOptions {}
 
 /** Optional parameters. */
 export interface FirmwaresDeleteOptionalParams extends OperationOptions {}

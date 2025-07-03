@@ -48,13 +48,15 @@ export function _listByMongoClusterSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).get({
-    ...operationOptionsToRequestParameters(options),
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
-  });
+  return context
+    .path(path)
+    .get({
+      ...operationOptionsToRequestParameters(options),
+      headers: {
+        accept: "application/json",
+        ...options.requestOptions?.headers,
+      },
+    });
 }
 
 export async function _listByMongoClusterDeserialize(
@@ -79,7 +81,13 @@ export function listByMongoCluster(
 ): PagedAsyncIterableIterator<User> {
   return buildPagedAsyncIterator(
     context,
-    () => _listByMongoClusterSend(context, resourceGroupName, mongoClusterName, options),
+    () =>
+      _listByMongoClusterSend(
+        context,
+        resourceGroupName,
+        mongoClusterName,
+        options,
+      ),
     _listByMongoClusterDeserialize,
     ["200"],
     { itemName: "value", nextLinkName: "nextLink" },
@@ -106,16 +114,20 @@ export function _$deleteSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).delete({
-    ...operationOptionsToRequestParameters(options),
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
-  });
+  return context
+    .path(path)
+    .delete({
+      ...operationOptionsToRequestParameters(options),
+      headers: {
+        accept: "application/json",
+        ...options.requestOptions?.headers,
+      },
+    });
 }
 
-export async function _$deleteDeserialize(result: PathUncheckedResponse): Promise<void> {
+export async function _$deleteDeserialize(
+  result: PathUncheckedResponse,
+): Promise<void> {
   const expectedStatuses = ["202", "204", "200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
@@ -139,13 +151,24 @@ export function $delete(
   userName: string,
   options: UsersDeleteOptionalParams = { requestOptions: {} },
 ): PollerLike<OperationState<void>, void> {
-  return getLongRunningPoller(context, _$deleteDeserialize, ["202", "204", "200"], {
-    updateIntervalInMs: options?.updateIntervalInMs,
-    abortSignal: options?.abortSignal,
-    getInitialResponse: () =>
-      _$deleteSend(context, resourceGroupName, mongoClusterName, userName, options),
-    resourceLocationConfig: "location",
-  }) as PollerLike<OperationState<void>, void>;
+  return getLongRunningPoller(
+    context,
+    _$deleteDeserialize,
+    ["202", "204", "200"],
+    {
+      updateIntervalInMs: options?.updateIntervalInMs,
+      abortSignal: options?.abortSignal,
+      getInitialResponse: () =>
+        _$deleteSend(
+          context,
+          resourceGroupName,
+          mongoClusterName,
+          userName,
+          options,
+        ),
+      resourceLocationConfig: "location",
+    },
+  ) as PollerLike<OperationState<void>, void>;
 }
 
 export function _createOrUpdateSend(
@@ -169,18 +192,22 @@ export function _createOrUpdateSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).put({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
-    body: userSerializer(resource),
-  });
+  return context
+    .path(path)
+    .put({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      headers: {
+        accept: "application/json",
+        ...options.requestOptions?.headers,
+      },
+      body: userSerializer(resource),
+    });
 }
 
-export async function _createOrUpdateDeserialize(result: PathUncheckedResponse): Promise<User> {
+export async function _createOrUpdateDeserialize(
+  result: PathUncheckedResponse,
+): Promise<User> {
   const expectedStatuses = ["200", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
@@ -200,20 +227,25 @@ export function createOrUpdate(
   resource: User,
   options: UsersCreateOrUpdateOptionalParams = { requestOptions: {} },
 ): PollerLike<OperationState<User>, User> {
-  return getLongRunningPoller(context, _createOrUpdateDeserialize, ["200", "201"], {
-    updateIntervalInMs: options?.updateIntervalInMs,
-    abortSignal: options?.abortSignal,
-    getInitialResponse: () =>
-      _createOrUpdateSend(
-        context,
-        resourceGroupName,
-        mongoClusterName,
-        userName,
-        resource,
-        options,
-      ),
-    resourceLocationConfig: "azure-async-operation",
-  }) as PollerLike<OperationState<User>, User>;
+  return getLongRunningPoller(
+    context,
+    _createOrUpdateDeserialize,
+    ["200", "201"],
+    {
+      updateIntervalInMs: options?.updateIntervalInMs,
+      abortSignal: options?.abortSignal,
+      getInitialResponse: () =>
+        _createOrUpdateSend(
+          context,
+          resourceGroupName,
+          mongoClusterName,
+          userName,
+          resource,
+          options,
+        ),
+      resourceLocationConfig: "azure-async-operation",
+    },
+  ) as PollerLike<OperationState<User>, User>;
 }
 
 export function _getSend(
@@ -236,16 +268,20 @@ export function _getSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).get({
-    ...operationOptionsToRequestParameters(options),
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
-  });
+  return context
+    .path(path)
+    .get({
+      ...operationOptionsToRequestParameters(options),
+      headers: {
+        accept: "application/json",
+        ...options.requestOptions?.headers,
+      },
+    });
 }
 
-export async function _getDeserialize(result: PathUncheckedResponse): Promise<User> {
+export async function _getDeserialize(
+  result: PathUncheckedResponse,
+): Promise<User> {
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
@@ -264,6 +300,12 @@ export async function get(
   userName: string,
   options: UsersGetOptionalParams = { requestOptions: {} },
 ): Promise<User> {
-  const result = await _getSend(context, resourceGroupName, mongoClusterName, userName, options);
+  const result = await _getSend(
+    context,
+    resourceGroupName,
+    mongoClusterName,
+    userName,
+    options,
+  );
   return _getDeserialize(result);
 }

@@ -51,13 +51,15 @@ export function _listBySchedulerSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).get({
-    ...operationOptionsToRequestParameters(options),
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
-  });
+  return context
+    .path(path)
+    .get({
+      ...operationOptionsToRequestParameters(options),
+      headers: {
+        accept: "application/json",
+        ...options.requestOptions?.headers,
+      },
+    });
 }
 
 export async function _listBySchedulerDeserialize(
@@ -84,7 +86,8 @@ export function listByScheduler(
 ): PagedAsyncIterableIterator<RetentionPolicy> {
   return buildPagedAsyncIterator(
     context,
-    () => _listBySchedulerSend(context, resourceGroupName, schedulerName, options),
+    () =>
+      _listBySchedulerSend(context, resourceGroupName, schedulerName, options),
     _listBySchedulerDeserialize,
     ["200"],
     { itemName: "value", nextLinkName: "nextLink" },
@@ -109,16 +112,20 @@ export function _$deleteSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).delete({
-    ...operationOptionsToRequestParameters(options),
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
-  });
+  return context
+    .path(path)
+    .delete({
+      ...operationOptionsToRequestParameters(options),
+      headers: {
+        accept: "application/json",
+        ...options.requestOptions?.headers,
+      },
+    });
 }
 
-export async function _$deleteDeserialize(result: PathUncheckedResponse): Promise<void> {
+export async function _$deleteDeserialize(
+  result: PathUncheckedResponse,
+): Promise<void> {
   const expectedStatuses = ["202", "204", "200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
@@ -141,12 +148,18 @@ export function $delete(
   schedulerName: string,
   options: RetentionPoliciesDeleteOptionalParams = { requestOptions: {} },
 ): PollerLike<OperationState<void>, void> {
-  return getLongRunningPoller(context, _$deleteDeserialize, ["202", "204", "200"], {
-    updateIntervalInMs: options?.updateIntervalInMs,
-    abortSignal: options?.abortSignal,
-    getInitialResponse: () => _$deleteSend(context, resourceGroupName, schedulerName, options),
-    resourceLocationConfig: "location",
-  }) as PollerLike<OperationState<void>, void>;
+  return getLongRunningPoller(
+    context,
+    _$deleteDeserialize,
+    ["202", "204", "200"],
+    {
+      updateIntervalInMs: options?.updateIntervalInMs,
+      abortSignal: options?.abortSignal,
+      getInitialResponse: () =>
+        _$deleteSend(context, resourceGroupName, schedulerName, options),
+      resourceLocationConfig: "location",
+    },
+  ) as PollerLike<OperationState<void>, void>;
 }
 
 export function _updateSend(
@@ -168,18 +181,22 @@ export function _updateSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).patch({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
-    body: retentionPolicySerializer(properties),
-  });
+  return context
+    .path(path)
+    .patch({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      headers: {
+        accept: "application/json",
+        ...options.requestOptions?.headers,
+      },
+      body: retentionPolicySerializer(properties),
+    });
 }
 
-export async function _updateDeserialize(result: PathUncheckedResponse): Promise<RetentionPolicy> {
+export async function _updateDeserialize(
+  result: PathUncheckedResponse,
+): Promise<RetentionPolicy> {
   const expectedStatuses = ["200", "202"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
@@ -202,7 +219,13 @@ export function update(
     updateIntervalInMs: options?.updateIntervalInMs,
     abortSignal: options?.abortSignal,
     getInitialResponse: () =>
-      _updateSend(context, resourceGroupName, schedulerName, properties, options),
+      _updateSend(
+        context,
+        resourceGroupName,
+        schedulerName,
+        properties,
+        options,
+      ),
     resourceLocationConfig: "location",
   }) as PollerLike<OperationState<RetentionPolicy>, RetentionPolicy>;
 }
@@ -228,15 +251,17 @@ export function _createOrReplaceSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).put({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
-    body: retentionPolicySerializer(resource),
-  });
+  return context
+    .path(path)
+    .put({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      headers: {
+        accept: "application/json",
+        ...options.requestOptions?.headers,
+      },
+      body: retentionPolicySerializer(resource),
+    });
 }
 
 export async function _createOrReplaceDeserialize(
@@ -262,13 +287,24 @@ export function createOrReplace(
     requestOptions: {},
   },
 ): PollerLike<OperationState<RetentionPolicy>, RetentionPolicy> {
-  return getLongRunningPoller(context, _createOrReplaceDeserialize, ["200", "201"], {
-    updateIntervalInMs: options?.updateIntervalInMs,
-    abortSignal: options?.abortSignal,
-    getInitialResponse: () =>
-      _createOrReplaceSend(context, resourceGroupName, schedulerName, resource, options),
-    resourceLocationConfig: "azure-async-operation",
-  }) as PollerLike<OperationState<RetentionPolicy>, RetentionPolicy>;
+  return getLongRunningPoller(
+    context,
+    _createOrReplaceDeserialize,
+    ["200", "201"],
+    {
+      updateIntervalInMs: options?.updateIntervalInMs,
+      abortSignal: options?.abortSignal,
+      getInitialResponse: () =>
+        _createOrReplaceSend(
+          context,
+          resourceGroupName,
+          schedulerName,
+          resource,
+          options,
+        ),
+      resourceLocationConfig: "azure-async-operation",
+    },
+  ) as PollerLike<OperationState<RetentionPolicy>, RetentionPolicy>;
 }
 
 export function _getSend(
@@ -289,16 +325,20 @@ export function _getSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).get({
-    ...operationOptionsToRequestParameters(options),
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
-  });
+  return context
+    .path(path)
+    .get({
+      ...operationOptionsToRequestParameters(options),
+      headers: {
+        accept: "application/json",
+        ...options.requestOptions?.headers,
+      },
+    });
 }
 
-export async function _getDeserialize(result: PathUncheckedResponse): Promise<RetentionPolicy> {
+export async function _getDeserialize(
+  result: PathUncheckedResponse,
+): Promise<RetentionPolicy> {
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
@@ -316,6 +356,11 @@ export async function get(
   schedulerName: string,
   options: RetentionPoliciesGetOptionalParams = { requestOptions: {} },
 ): Promise<RetentionPolicy> {
-  const result = await _getSend(context, resourceGroupName, schedulerName, options);
+  const result = await _getSend(
+    context,
+    resourceGroupName,
+    schedulerName,
+    options,
+  );
   return _getDeserialize(result);
 }

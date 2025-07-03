@@ -39,11 +39,11 @@ import {
   NodeTypesCreateOrUpdateOptionalParams,
   NodeTypesGetOptionalParams,
 } from "./options.js";
-import { getLongRunningPoller } from "../../static-helpers/pollingHelpers.js";
 import {
   PagedAsyncIterableIterator,
   buildPagedAsyncIterator,
 } from "../../static-helpers/pagingHelpers.js";
+import { getLongRunningPoller } from "../../static-helpers/pollingHelpers.js";
 import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
 import {
   StreamableMethod,
@@ -73,13 +73,15 @@ export function _listFaultSimulationSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).post({
-    ...operationOptionsToRequestParameters(options),
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
-  });
+  return context
+    .path(path)
+    .post({
+      ...operationOptionsToRequestParameters(options),
+      headers: {
+        accept: "application/json",
+        ...options.requestOptions?.headers,
+      },
+    });
 }
 
 export async function _listFaultSimulationDeserialize(
@@ -105,7 +107,14 @@ export function listFaultSimulation(
 ): PagedAsyncIterableIterator<FaultSimulation> {
   return buildPagedAsyncIterator(
     context,
-    () => _listFaultSimulationSend(context, resourceGroupName, clusterName, nodeTypeName, options),
+    () =>
+      _listFaultSimulationSend(
+        context,
+        resourceGroupName,
+        clusterName,
+        nodeTypeName,
+        options,
+      ),
     _listFaultSimulationDeserialize,
     ["200"],
     { itemName: "value", nextLinkName: "nextLink" },
@@ -133,15 +142,17 @@ export function _getFaultSimulationSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).post({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
-    body: faultSimulationIdContentSerializer(parameters),
-  });
+  return context
+    .path(path)
+    .post({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      headers: {
+        accept: "application/json",
+        ...options.requestOptions?.headers,
+      },
+      body: faultSimulationIdContentSerializer(parameters),
+    });
 }
 
 export async function _getFaultSimulationDeserialize(
@@ -198,15 +209,17 @@ export function _stopFaultSimulationSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).post({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
-    body: faultSimulationIdContentSerializer(parameters),
-  });
+  return context
+    .path(path)
+    .post({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      headers: {
+        accept: "application/json",
+        ...options.requestOptions?.headers,
+      },
+      body: faultSimulationIdContentSerializer(parameters),
+    });
 }
 
 export async function _stopFaultSimulationDeserialize(
@@ -231,20 +244,25 @@ export function stopFaultSimulation(
   parameters: FaultSimulationIdContent,
   options: NodeTypesStopFaultSimulationOptionalParams = { requestOptions: {} },
 ): PollerLike<OperationState<FaultSimulation>, FaultSimulation> {
-  return getLongRunningPoller(context, _stopFaultSimulationDeserialize, ["202", "200"], {
-    updateIntervalInMs: options?.updateIntervalInMs,
-    abortSignal: options?.abortSignal,
-    getInitialResponse: () =>
-      _stopFaultSimulationSend(
-        context,
-        resourceGroupName,
-        clusterName,
-        nodeTypeName,
-        parameters,
-        options,
-      ),
-    resourceLocationConfig: "location",
-  }) as PollerLike<OperationState<FaultSimulation>, FaultSimulation>;
+  return getLongRunningPoller(
+    context,
+    _stopFaultSimulationDeserialize,
+    ["202", "200"],
+    {
+      updateIntervalInMs: options?.updateIntervalInMs,
+      abortSignal: options?.abortSignal,
+      getInitialResponse: () =>
+        _stopFaultSimulationSend(
+          context,
+          resourceGroupName,
+          clusterName,
+          nodeTypeName,
+          parameters,
+          options,
+        ),
+      resourceLocationConfig: "location",
+    },
+  ) as PollerLike<OperationState<FaultSimulation>, FaultSimulation>;
 }
 
 export function _startFaultSimulationSend(
@@ -268,15 +286,17 @@ export function _startFaultSimulationSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).post({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
-    body: faultSimulationContentWrapperSerializer(parameters),
-  });
+  return context
+    .path(path)
+    .post({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      headers: {
+        accept: "application/json",
+        ...options.requestOptions?.headers,
+      },
+      body: faultSimulationContentWrapperSerializer(parameters),
+    });
 }
 
 export async function _startFaultSimulationDeserialize(
@@ -301,20 +321,25 @@ export function startFaultSimulation(
   parameters: FaultSimulationContentWrapper,
   options: NodeTypesStartFaultSimulationOptionalParams = { requestOptions: {} },
 ): PollerLike<OperationState<FaultSimulation>, FaultSimulation> {
-  return getLongRunningPoller(context, _startFaultSimulationDeserialize, ["202", "200"], {
-    updateIntervalInMs: options?.updateIntervalInMs,
-    abortSignal: options?.abortSignal,
-    getInitialResponse: () =>
-      _startFaultSimulationSend(
-        context,
-        resourceGroupName,
-        clusterName,
-        nodeTypeName,
-        parameters,
-        options,
-      ),
-    resourceLocationConfig: "location",
-  }) as PollerLike<OperationState<FaultSimulation>, FaultSimulation>;
+  return getLongRunningPoller(
+    context,
+    _startFaultSimulationDeserialize,
+    ["202", "200"],
+    {
+      updateIntervalInMs: options?.updateIntervalInMs,
+      abortSignal: options?.abortSignal,
+      getInitialResponse: () =>
+        _startFaultSimulationSend(
+          context,
+          resourceGroupName,
+          clusterName,
+          nodeTypeName,
+          parameters,
+          options,
+        ),
+      resourceLocationConfig: "location",
+    },
+  ) as PollerLike<OperationState<FaultSimulation>, FaultSimulation>;
 }
 
 export function _startSend(
@@ -338,18 +363,22 @@ export function _startSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).post({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
-    body: nodeTypeActionParametersSerializer(parameters),
-  });
+  return context
+    .path(path)
+    .post({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      headers: {
+        accept: "application/json",
+        ...options.requestOptions?.headers,
+      },
+      body: nodeTypeActionParametersSerializer(parameters),
+    });
 }
 
-export async function _startDeserialize(result: PathUncheckedResponse): Promise<void> {
+export async function _startDeserialize(
+  result: PathUncheckedResponse,
+): Promise<void> {
   const expectedStatuses = ["202", "200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
@@ -373,7 +402,14 @@ export function start(
     updateIntervalInMs: options?.updateIntervalInMs,
     abortSignal: options?.abortSignal,
     getInitialResponse: () =>
-      _startSend(context, resourceGroupName, clusterName, nodeTypeName, parameters, options),
+      _startSend(
+        context,
+        resourceGroupName,
+        clusterName,
+        nodeTypeName,
+        parameters,
+        options,
+      ),
     resourceLocationConfig: "location",
   }) as PollerLike<OperationState<void>, void>;
 }
@@ -399,18 +435,22 @@ export function _restartSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).post({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
-    body: nodeTypeActionParametersSerializer(parameters),
-  });
+  return context
+    .path(path)
+    .post({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      headers: {
+        accept: "application/json",
+        ...options.requestOptions?.headers,
+      },
+      body: nodeTypeActionParametersSerializer(parameters),
+    });
 }
 
-export async function _restartDeserialize(result: PathUncheckedResponse): Promise<void> {
+export async function _restartDeserialize(
+  result: PathUncheckedResponse,
+): Promise<void> {
   const expectedStatuses = ["202", "200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
@@ -434,7 +474,14 @@ export function restart(
     updateIntervalInMs: options?.updateIntervalInMs,
     abortSignal: options?.abortSignal,
     getInitialResponse: () =>
-      _restartSend(context, resourceGroupName, clusterName, nodeTypeName, parameters, options),
+      _restartSend(
+        context,
+        resourceGroupName,
+        clusterName,
+        nodeTypeName,
+        parameters,
+        options,
+      ),
     resourceLocationConfig: "location",
   }) as PollerLike<OperationState<void>, void>;
 }
@@ -460,18 +507,22 @@ export function _reimageSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).post({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
-    body: nodeTypeActionParametersSerializer(parameters),
-  });
+  return context
+    .path(path)
+    .post({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      headers: {
+        accept: "application/json",
+        ...options.requestOptions?.headers,
+      },
+      body: nodeTypeActionParametersSerializer(parameters),
+    });
 }
 
-export async function _reimageDeserialize(result: PathUncheckedResponse): Promise<void> {
+export async function _reimageDeserialize(
+  result: PathUncheckedResponse,
+): Promise<void> {
   const expectedStatuses = ["202", "200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
@@ -495,7 +546,14 @@ export function reimage(
     updateIntervalInMs: options?.updateIntervalInMs,
     abortSignal: options?.abortSignal,
     getInitialResponse: () =>
-      _reimageSend(context, resourceGroupName, clusterName, nodeTypeName, parameters, options),
+      _reimageSend(
+        context,
+        resourceGroupName,
+        clusterName,
+        nodeTypeName,
+        parameters,
+        options,
+      ),
     resourceLocationConfig: "location",
   }) as PollerLike<OperationState<void>, void>;
 }
@@ -521,18 +579,22 @@ export function _redeploySend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).post({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
-    body: nodeTypeActionParametersSerializer(parameters),
-  });
+  return context
+    .path(path)
+    .post({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      headers: {
+        accept: "application/json",
+        ...options.requestOptions?.headers,
+      },
+      body: nodeTypeActionParametersSerializer(parameters),
+    });
 }
 
-export async function _redeployDeserialize(result: PathUncheckedResponse): Promise<void> {
+export async function _redeployDeserialize(
+  result: PathUncheckedResponse,
+): Promise<void> {
   const expectedStatuses = ["202", "200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
@@ -556,7 +618,14 @@ export function redeploy(
     updateIntervalInMs: options?.updateIntervalInMs,
     abortSignal: options?.abortSignal,
     getInitialResponse: () =>
-      _redeploySend(context, resourceGroupName, clusterName, nodeTypeName, parameters, options),
+      _redeploySend(
+        context,
+        resourceGroupName,
+        clusterName,
+        nodeTypeName,
+        parameters,
+        options,
+      ),
     resourceLocationConfig: "location",
   }) as PollerLike<OperationState<void>, void>;
 }
@@ -582,18 +651,22 @@ export function _deleteNodeSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).post({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
-    body: nodeTypeActionParametersSerializer(parameters),
-  });
+  return context
+    .path(path)
+    .post({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      headers: {
+        accept: "application/json",
+        ...options.requestOptions?.headers,
+      },
+      body: nodeTypeActionParametersSerializer(parameters),
+    });
 }
 
-export async function _deleteNodeDeserialize(result: PathUncheckedResponse): Promise<void> {
+export async function _deleteNodeDeserialize(
+  result: PathUncheckedResponse,
+): Promise<void> {
   const expectedStatuses = ["202", "200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
@@ -617,7 +690,14 @@ export function deleteNode(
     updateIntervalInMs: options?.updateIntervalInMs,
     abortSignal: options?.abortSignal,
     getInitialResponse: () =>
-      _deleteNodeSend(context, resourceGroupName, clusterName, nodeTypeName, parameters, options),
+      _deleteNodeSend(
+        context,
+        resourceGroupName,
+        clusterName,
+        nodeTypeName,
+        parameters,
+        options,
+      ),
     resourceLocationConfig: "location",
   }) as PollerLike<OperationState<void>, void>;
 }
@@ -643,18 +723,22 @@ export function _deallocateSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).post({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
-    body: nodeTypeActionParametersSerializer(parameters),
-  });
+  return context
+    .path(path)
+    .post({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      headers: {
+        accept: "application/json",
+        ...options.requestOptions?.headers,
+      },
+      body: nodeTypeActionParametersSerializer(parameters),
+    });
 }
 
-export async function _deallocateDeserialize(result: PathUncheckedResponse): Promise<void> {
+export async function _deallocateDeserialize(
+  result: PathUncheckedResponse,
+): Promise<void> {
   const expectedStatuses = ["202", "200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
@@ -678,7 +762,14 @@ export function deallocate(
     updateIntervalInMs: options?.updateIntervalInMs,
     abortSignal: options?.abortSignal,
     getInitialResponse: () =>
-      _deallocateSend(context, resourceGroupName, clusterName, nodeTypeName, parameters, options),
+      _deallocateSend(
+        context,
+        resourceGroupName,
+        clusterName,
+        nodeTypeName,
+        parameters,
+        options,
+      ),
     resourceLocationConfig: "location",
   }) as PollerLike<OperationState<void>, void>;
 }
@@ -703,13 +794,15 @@ export function _listByManagedClustersSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).get({
-    ...operationOptionsToRequestParameters(options),
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
-  });
+  return context
+    .path(path)
+    .get({
+      ...operationOptionsToRequestParameters(options),
+      headers: {
+        accept: "application/json",
+        ...options.requestOptions?.headers,
+      },
+    });
 }
 
 export async function _listByManagedClustersDeserialize(
@@ -736,7 +829,13 @@ export function listByManagedClusters(
 ): PagedAsyncIterableIterator<NodeType> {
   return buildPagedAsyncIterator(
     context,
-    () => _listByManagedClustersSend(context, resourceGroupName, clusterName, options),
+    () =>
+      _listByManagedClustersSend(
+        context,
+        resourceGroupName,
+        clusterName,
+        options,
+      ),
     _listByManagedClustersDeserialize,
     ["200"],
     { itemName: "value", nextLinkName: "nextLink" },
@@ -763,16 +862,20 @@ export function _$deleteSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).delete({
-    ...operationOptionsToRequestParameters(options),
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
-  });
+  return context
+    .path(path)
+    .delete({
+      ...operationOptionsToRequestParameters(options),
+      headers: {
+        accept: "application/json",
+        ...options.requestOptions?.headers,
+      },
+    });
 }
 
-export async function _$deleteDeserialize(result: PathUncheckedResponse): Promise<void> {
+export async function _$deleteDeserialize(
+  result: PathUncheckedResponse,
+): Promise<void> {
   const expectedStatuses = ["202", "204", "200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
@@ -796,13 +899,24 @@ export function $delete(
   nodeTypeName: string,
   options: NodeTypesDeleteOptionalParams = { requestOptions: {} },
 ): PollerLike<OperationState<void>, void> {
-  return getLongRunningPoller(context, _$deleteDeserialize, ["202", "204", "200"], {
-    updateIntervalInMs: options?.updateIntervalInMs,
-    abortSignal: options?.abortSignal,
-    getInitialResponse: () =>
-      _$deleteSend(context, resourceGroupName, clusterName, nodeTypeName, options),
-    resourceLocationConfig: "location",
-  }) as PollerLike<OperationState<void>, void>;
+  return getLongRunningPoller(
+    context,
+    _$deleteDeserialize,
+    ["202", "204", "200"],
+    {
+      updateIntervalInMs: options?.updateIntervalInMs,
+      abortSignal: options?.abortSignal,
+      getInitialResponse: () =>
+        _$deleteSend(
+          context,
+          resourceGroupName,
+          clusterName,
+          nodeTypeName,
+          options,
+        ),
+      resourceLocationConfig: "location",
+    },
+  ) as PollerLike<OperationState<void>, void>;
 }
 
 export function _updateSend(
@@ -826,18 +940,22 @@ export function _updateSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).patch({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
-    body: nodeTypeUpdateParametersSerializer(parameters),
-  });
+  return context
+    .path(path)
+    .patch({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      headers: {
+        accept: "application/json",
+        ...options.requestOptions?.headers,
+      },
+      body: nodeTypeUpdateParametersSerializer(parameters),
+    });
 }
 
-export async function _updateDeserialize(result: PathUncheckedResponse): Promise<NodeType> {
+export async function _updateDeserialize(
+  result: PathUncheckedResponse,
+): Promise<NodeType> {
   const expectedStatuses = ["200", "202"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
@@ -861,7 +979,14 @@ export function update(
     updateIntervalInMs: options?.updateIntervalInMs,
     abortSignal: options?.abortSignal,
     getInitialResponse: () =>
-      _updateSend(context, resourceGroupName, clusterName, nodeTypeName, parameters, options),
+      _updateSend(
+        context,
+        resourceGroupName,
+        clusterName,
+        nodeTypeName,
+        parameters,
+        options,
+      ),
     resourceLocationConfig: "location",
   }) as PollerLike<OperationState<NodeType>, NodeType>;
 }
@@ -887,18 +1012,22 @@ export function _createOrUpdateSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).put({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
-    body: nodeTypeSerializer(parameters),
-  });
+  return context
+    .path(path)
+    .put({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      headers: {
+        accept: "application/json",
+        ...options.requestOptions?.headers,
+      },
+      body: nodeTypeSerializer(parameters),
+    });
 }
 
-export async function _createOrUpdateDeserialize(result: PathUncheckedResponse): Promise<NodeType> {
+export async function _createOrUpdateDeserialize(
+  result: PathUncheckedResponse,
+): Promise<NodeType> {
   const expectedStatuses = ["200", "202"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
@@ -918,20 +1047,25 @@ export function createOrUpdate(
   parameters: NodeType,
   options: NodeTypesCreateOrUpdateOptionalParams = { requestOptions: {} },
 ): PollerLike<OperationState<NodeType>, NodeType> {
-  return getLongRunningPoller(context, _createOrUpdateDeserialize, ["200", "202"], {
-    updateIntervalInMs: options?.updateIntervalInMs,
-    abortSignal: options?.abortSignal,
-    getInitialResponse: () =>
-      _createOrUpdateSend(
-        context,
-        resourceGroupName,
-        clusterName,
-        nodeTypeName,
-        parameters,
-        options,
-      ),
-    resourceLocationConfig: "location",
-  }) as PollerLike<OperationState<NodeType>, NodeType>;
+  return getLongRunningPoller(
+    context,
+    _createOrUpdateDeserialize,
+    ["200", "202"],
+    {
+      updateIntervalInMs: options?.updateIntervalInMs,
+      abortSignal: options?.abortSignal,
+      getInitialResponse: () =>
+        _createOrUpdateSend(
+          context,
+          resourceGroupName,
+          clusterName,
+          nodeTypeName,
+          parameters,
+          options,
+        ),
+      resourceLocationConfig: "location",
+    },
+  ) as PollerLike<OperationState<NodeType>, NodeType>;
 }
 
 export function _getSend(
@@ -954,16 +1088,20 @@ export function _getSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).get({
-    ...operationOptionsToRequestParameters(options),
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
-  });
+  return context
+    .path(path)
+    .get({
+      ...operationOptionsToRequestParameters(options),
+      headers: {
+        accept: "application/json",
+        ...options.requestOptions?.headers,
+      },
+    });
 }
 
-export async function _getDeserialize(result: PathUncheckedResponse): Promise<NodeType> {
+export async function _getDeserialize(
+  result: PathUncheckedResponse,
+): Promise<NodeType> {
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
@@ -982,6 +1120,12 @@ export async function get(
   nodeTypeName: string,
   options: NodeTypesGetOptionalParams = { requestOptions: {} },
 ): Promise<NodeType> {
-  const result = await _getSend(context, resourceGroupName, clusterName, nodeTypeName, options);
+  const result = await _getSend(
+    context,
+    resourceGroupName,
+    clusterName,
+    nodeTypeName,
+    options,
+  );
   return _getDeserialize(result);
 }

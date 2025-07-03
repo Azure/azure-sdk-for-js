@@ -15,7 +15,9 @@ export interface ManagedApplyMaintenanceWindowOperations {
   ) => Promise<void>;
 }
 
-function _getManagedApplyMaintenanceWindow(context: ServiceFabricManagedClustersManagementContext) {
+function _getManagedApplyMaintenanceWindow(
+  context: ServiceFabricManagedClustersManagementContext,
+) {
   return {
     post: (
       resourceGroupName: string,

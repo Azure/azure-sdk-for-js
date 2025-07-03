@@ -4,7 +4,8 @@
 import { OperationOptions } from "@azure-rest/core-client";
 
 /** Optional parameters. */
-export interface TaskHubsListBySchedulerOptionalParams extends OperationOptions {}
+export interface TaskHubsListBySchedulerOptionalParams
+  extends OperationOptions {}
 
 /** Optional parameters. */
 export interface TaskHubsDeleteOptionalParams extends OperationOptions {

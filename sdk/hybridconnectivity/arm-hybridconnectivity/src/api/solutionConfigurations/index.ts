@@ -1,7 +1,14 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-export { syncNow, list, $delete, update, createOrUpdate, get } from "./operations.js";
+export {
+  solutionConfigurationsSyncNow,
+  solutionConfigurationsList,
+  solutionConfigurationsDelete,
+  solutionConfigurationsUpdate,
+  solutionConfigurationsCreateOrUpdate,
+  solutionConfigurationsGet,
+} from "./operations.js";
 export {
   SolutionConfigurationsSyncNowOptionalParams,
   SolutionConfigurationsListOptionalParams,
