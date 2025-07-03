@@ -27,8 +27,10 @@ export interface DnsPrivateViewsOperations {
 
 function _getDnsPrivateViews(context: OracleDatabaseManagementContext) {
   return {
-    listByLocation: (location: string, options?: DnsPrivateViewsListByLocationOptionalParams) =>
-      listByLocation(context, location, options),
+    listByLocation: (
+      location: string,
+      options?: DnsPrivateViewsListByLocationOptionalParams,
+    ) => listByLocation(context, location, options),
     get: (
       location: string,
       dnsprivateviewocid: string,

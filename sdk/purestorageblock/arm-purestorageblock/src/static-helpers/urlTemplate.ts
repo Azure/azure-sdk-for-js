@@ -46,7 +46,10 @@ function isDefined(val: any) {
 }
 
 function getNamedAndIfEmpty(op?: string): [boolean, string] {
-  return [!!op && [";", "?", "&"].includes(op), !!op && ["?", "&"].includes(op) ? "=" : ""];
+  return [
+    !!op && [";", "?", "&"].includes(op),
+    !!op && ["?", "&"].includes(op) ? "=" : "",
+  ];
 }
 
 function getFirstOrSep(op?: string, isFirst = false) {

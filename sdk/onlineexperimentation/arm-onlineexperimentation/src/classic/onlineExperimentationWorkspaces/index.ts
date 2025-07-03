@@ -53,14 +53,20 @@ export interface OnlineExperimentationWorkspacesOperations {
     workspaceName: string,
     properties: OnlineExperimentationWorkspacePatch,
     options?: OnlineExperimentationWorkspacesUpdateOptionalParams,
-  ) => PollerLike<OperationState<OnlineExperimentationWorkspace>, OnlineExperimentationWorkspace>;
+  ) => PollerLike<
+    OperationState<OnlineExperimentationWorkspace>,
+    OnlineExperimentationWorkspace
+  >;
   /** Create an online experimentation workspace, or update an existing workspace. */
   createOrUpdate: (
     resourceGroupName: string,
     workspaceName: string,
     resource: OnlineExperimentationWorkspace,
     options?: OnlineExperimentationWorkspacesCreateOrUpdateOptionalParams,
-  ) => PollerLike<OperationState<OnlineExperimentationWorkspace>, OnlineExperimentationWorkspace>;
+  ) => PollerLike<
+    OperationState<OnlineExperimentationWorkspace>,
+    OnlineExperimentationWorkspace
+  >;
   /** Gets an online experimentation workspace. */
   get: (
     resourceGroupName: string,
@@ -69,7 +75,9 @@ export interface OnlineExperimentationWorkspacesOperations {
   ) => Promise<OnlineExperimentationWorkspace>;
 }
 
-function _getOnlineExperimentationWorkspaces(context: OnlineExperimentationContext) {
+function _getOnlineExperimentationWorkspaces(
+  context: OnlineExperimentationContext,
+) {
   return {
     listBySubscription: (
       options?: OnlineExperimentationWorkspacesListBySubscriptionOptionalParams,
@@ -94,7 +102,14 @@ function _getOnlineExperimentationWorkspaces(context: OnlineExperimentationConte
       workspaceName: string,
       resource: OnlineExperimentationWorkspace,
       options?: OnlineExperimentationWorkspacesCreateOrUpdateOptionalParams,
-    ) => createOrUpdate(context, resourceGroupName, workspaceName, resource, options),
+    ) =>
+      createOrUpdate(
+        context,
+        resourceGroupName,
+        workspaceName,
+        resource,
+        options,
+      ),
     get: (
       resourceGroupName: string,
       workspaceName: string,

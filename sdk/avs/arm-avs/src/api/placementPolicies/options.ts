@@ -4,19 +4,22 @@
 import { OperationOptions } from "@azure-rest/core-client";
 
 /** Optional parameters. */
-export interface PlacementPoliciesDeleteOptionalParams extends OperationOptions {
+export interface PlacementPoliciesDeleteOptionalParams
+  extends OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
 }
 
 /** Optional parameters. */
-export interface PlacementPoliciesUpdateOptionalParams extends OperationOptions {
+export interface PlacementPoliciesUpdateOptionalParams
+  extends OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
 }
 
 /** Optional parameters. */
-export interface PlacementPoliciesCreateOrUpdateOptionalParams extends OperationOptions {
+export interface PlacementPoliciesCreateOrUpdateOptionalParams
+  extends OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
 }

@@ -41,13 +41,15 @@ export function _listByFirmwareSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).get({
-    ...operationOptionsToRequestParameters(options),
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
-  });
+  return context
+    .path(path)
+    .get({
+      ...operationOptionsToRequestParameters(options),
+      headers: {
+        accept: "application/json",
+        ...options.requestOptions?.headers,
+      },
+    });
 }
 
 export async function _listByFirmwareDeserialize(
@@ -73,7 +75,14 @@ export function listByFirmware(
 ): PagedAsyncIterableIterator<PasswordHashResource> {
   return buildPagedAsyncIterator(
     context,
-    () => _listByFirmwareSend(context, resourceGroupName, workspaceName, firmwareId, options),
+    () =>
+      _listByFirmwareSend(
+        context,
+        resourceGroupName,
+        workspaceName,
+        firmwareId,
+        options,
+      ),
     _listByFirmwareDeserialize,
     ["200"],
     { itemName: "value", nextLinkName: "nextLink" },

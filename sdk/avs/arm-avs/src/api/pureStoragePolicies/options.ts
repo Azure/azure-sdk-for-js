@@ -4,19 +4,23 @@
 import { OperationOptions } from "@azure-rest/core-client";
 
 /** Optional parameters. */
-export interface PureStoragePoliciesDeleteOptionalParams extends OperationOptions {
+export interface PureStoragePoliciesDeleteOptionalParams
+  extends OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
 }
 
 /** Optional parameters. */
-export interface PureStoragePoliciesCreateOrUpdateOptionalParams extends OperationOptions {
+export interface PureStoragePoliciesCreateOrUpdateOptionalParams
+  extends OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
 }
 
 /** Optional parameters. */
-export interface PureStoragePoliciesGetOptionalParams extends OperationOptions {}
+export interface PureStoragePoliciesGetOptionalParams
+  extends OperationOptions {}
 
 /** Optional parameters. */
-export interface PureStoragePoliciesListOptionalParams extends OperationOptions {}
+export interface PureStoragePoliciesListOptionalParams
+  extends OperationOptions {}

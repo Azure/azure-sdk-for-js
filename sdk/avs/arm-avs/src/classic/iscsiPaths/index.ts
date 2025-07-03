@@ -64,7 +64,14 @@ function _getIscsiPaths(context: AzureVMwareSolutionAPIContext) {
       privateCloudName: string,
       resource: IscsiPath,
       options?: IscsiPathsCreateOrUpdateOptionalParams,
-    ) => createOrUpdate(context, resourceGroupName, privateCloudName, resource, options),
+    ) =>
+      createOrUpdate(
+        context,
+        resourceGroupName,
+        privateCloudName,
+        resource,
+        options,
+      ),
     get: (
       resourceGroupName: string,
       privateCloudName: string,
@@ -74,7 +81,8 @@ function _getIscsiPaths(context: AzureVMwareSolutionAPIContext) {
       resourceGroupName: string,
       privateCloudName: string,
       options?: IscsiPathsListByPrivateCloudOptionalParams,
-    ) => listByPrivateCloud(context, resourceGroupName, privateCloudName, options),
+    ) =>
+      listByPrivateCloud(context, resourceGroupName, privateCloudName, options),
   };
 }
 
