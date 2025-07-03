@@ -110,6 +110,7 @@ import { PollerLike, OperationState } from "@azure/core-lro";
 
 export function _deleteVMGroupSend(
   context: Client,
+  apiVersion: string,
   resourceGroupName: string,
   vmGroupId: string,
   privateCloudName: string,
@@ -122,7 +123,7 @@ export function _deleteVMGroupSend(
       resourceGroupName: resourceGroupName,
       vmGroupId: vmGroupId,
       privateCloudName: privateCloudName,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": apiVersion,
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -151,6 +152,7 @@ export async function _deleteVMGroupDeserialize(result: PathUncheckedResponse): 
 /** Delete a WorkloadNetworkVMGroup */
 export function deleteVMGroup(
   context: Client,
+  apiVersion: string,
   resourceGroupName: string,
   vmGroupId: string,
   privateCloudName: string,
@@ -160,13 +162,21 @@ export function deleteVMGroup(
     updateIntervalInMs: options?.updateIntervalInMs,
     abortSignal: options?.abortSignal,
     getInitialResponse: () =>
-      _deleteVMGroupSend(context, resourceGroupName, vmGroupId, privateCloudName, options),
+      _deleteVMGroupSend(
+        context,
+        apiVersion,
+        resourceGroupName,
+        vmGroupId,
+        privateCloudName,
+        options,
+      ),
     resourceLocationConfig: "location",
   }) as PollerLike<OperationState<void>, void>;
 }
 
 export function _updateVMGroupSend(
   context: Client,
+  apiVersion: string,
   resourceGroupName: string,
   privateCloudName: string,
   vmGroupId: string,
@@ -180,7 +190,7 @@ export function _updateVMGroupSend(
       resourceGroupName: resourceGroupName,
       privateCloudName: privateCloudName,
       vmGroupId: vmGroupId,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": apiVersion,
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -213,6 +223,7 @@ export async function _updateVMGroupDeserialize(
 /** Update a WorkloadNetworkVMGroup */
 export function updateVMGroup(
   context: Client,
+  apiVersion: string,
   resourceGroupName: string,
   privateCloudName: string,
   vmGroupId: string,
@@ -225,6 +236,7 @@ export function updateVMGroup(
     getInitialResponse: () =>
       _updateVMGroupSend(
         context,
+        apiVersion,
         resourceGroupName,
         privateCloudName,
         vmGroupId,
@@ -237,6 +249,7 @@ export function updateVMGroup(
 
 export function _createVMGroupSend(
   context: Client,
+  apiVersion: string,
   resourceGroupName: string,
   privateCloudName: string,
   vmGroupId: string,
@@ -250,7 +263,7 @@ export function _createVMGroupSend(
       resourceGroupName: resourceGroupName,
       privateCloudName: privateCloudName,
       vmGroupId: vmGroupId,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": apiVersion,
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -283,6 +296,7 @@ export async function _createVMGroupDeserialize(
 /** Create a WorkloadNetworkVMGroup */
 export function createVMGroup(
   context: Client,
+  apiVersion: string,
   resourceGroupName: string,
   privateCloudName: string,
   vmGroupId: string,
@@ -295,6 +309,7 @@ export function createVMGroup(
     getInitialResponse: () =>
       _createVMGroupSend(
         context,
+        apiVersion,
         resourceGroupName,
         privateCloudName,
         vmGroupId,
@@ -307,6 +322,7 @@ export function createVMGroup(
 
 export function _getVMGroupSend(
   context: Client,
+  apiVersion: string,
   resourceGroupName: string,
   privateCloudName: string,
   vmGroupId: string,
@@ -319,7 +335,7 @@ export function _getVMGroupSend(
       resourceGroupName: resourceGroupName,
       privateCloudName: privateCloudName,
       vmGroupId: vmGroupId,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": apiVersion,
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -350,6 +366,7 @@ export async function _getVMGroupDeserialize(
 /** Get a WorkloadNetworkVMGroup */
 export async function getVMGroup(
   context: Client,
+  apiVersion: string,
   resourceGroupName: string,
   privateCloudName: string,
   vmGroupId: string,
@@ -357,6 +374,7 @@ export async function getVMGroup(
 ): Promise<WorkloadNetworkVMGroup> {
   const result = await _getVMGroupSend(
     context,
+    apiVersion,
     resourceGroupName,
     privateCloudName,
     vmGroupId,
@@ -367,6 +385,7 @@ export async function getVMGroup(
 
 export function _listVMGroupsSend(
   context: Client,
+  apiVersion: string,
   resourceGroupName: string,
   privateCloudName: string,
   options: WorkloadNetworksListVMGroupsOptionalParams = { requestOptions: {} },
@@ -377,7 +396,7 @@ export function _listVMGroupsSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       privateCloudName: privateCloudName,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": apiVersion,
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -408,13 +427,14 @@ export async function _listVMGroupsDeserialize(
 /** List WorkloadNetworkVMGroup resources by WorkloadNetwork */
 export function listVMGroups(
   context: Client,
+  apiVersion: string,
   resourceGroupName: string,
   privateCloudName: string,
   options: WorkloadNetworksListVMGroupsOptionalParams = { requestOptions: {} },
 ): PagedAsyncIterableIterator<WorkloadNetworkVMGroup> {
   return buildPagedAsyncIterator(
     context,
-    () => _listVMGroupsSend(context, resourceGroupName, privateCloudName, options),
+    () => _listVMGroupsSend(context, apiVersion, resourceGroupName, privateCloudName, options),
     _listVMGroupsDeserialize,
     ["200"],
     { itemName: "value", nextLinkName: "nextLink" },
@@ -423,6 +443,7 @@ export function listVMGroups(
 
 export function _getVirtualMachineSend(
   context: Client,
+  apiVersion: string,
   resourceGroupName: string,
   privateCloudName: string,
   virtualMachineId: string,
@@ -437,7 +458,7 @@ export function _getVirtualMachineSend(
       resourceGroupName: resourceGroupName,
       privateCloudName: privateCloudName,
       virtualMachineId: virtualMachineId,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": apiVersion,
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -468,6 +489,7 @@ export async function _getVirtualMachineDeserialize(
 /** Get a WorkloadNetworkVirtualMachine */
 export async function getVirtualMachine(
   context: Client,
+  apiVersion: string,
   resourceGroupName: string,
   privateCloudName: string,
   virtualMachineId: string,
@@ -477,6 +499,7 @@ export async function getVirtualMachine(
 ): Promise<WorkloadNetworkVirtualMachine> {
   const result = await _getVirtualMachineSend(
     context,
+    apiVersion,
     resourceGroupName,
     privateCloudName,
     virtualMachineId,
@@ -487,6 +510,7 @@ export async function getVirtualMachine(
 
 export function _listVirtualMachinesSend(
   context: Client,
+  apiVersion: string,
   resourceGroupName: string,
   privateCloudName: string,
   options: WorkloadNetworksListVirtualMachinesOptionalParams = {
@@ -499,7 +523,7 @@ export function _listVirtualMachinesSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       privateCloudName: privateCloudName,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": apiVersion,
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -530,6 +554,7 @@ export async function _listVirtualMachinesDeserialize(
 /** List WorkloadNetworkVirtualMachine resources by WorkloadNetwork */
 export function listVirtualMachines(
   context: Client,
+  apiVersion: string,
   resourceGroupName: string,
   privateCloudName: string,
   options: WorkloadNetworksListVirtualMachinesOptionalParams = {
@@ -538,7 +563,8 @@ export function listVirtualMachines(
 ): PagedAsyncIterableIterator<WorkloadNetworkVirtualMachine> {
   return buildPagedAsyncIterator(
     context,
-    () => _listVirtualMachinesSend(context, resourceGroupName, privateCloudName, options),
+    () =>
+      _listVirtualMachinesSend(context, apiVersion, resourceGroupName, privateCloudName, options),
     _listVirtualMachinesDeserialize,
     ["200"],
     { itemName: "value", nextLinkName: "nextLink" },
@@ -547,6 +573,7 @@ export function listVirtualMachines(
 
 export function _deleteSegmentSend(
   context: Client,
+  apiVersion: string,
   resourceGroupName: string,
   privateCloudName: string,
   segmentId: string,
@@ -559,7 +586,7 @@ export function _deleteSegmentSend(
       resourceGroupName: resourceGroupName,
       privateCloudName: privateCloudName,
       segmentId: segmentId,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": apiVersion,
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -588,6 +615,7 @@ export async function _deleteSegmentDeserialize(result: PathUncheckedResponse): 
 /** Delete a WorkloadNetworkSegment */
 export function deleteSegment(
   context: Client,
+  apiVersion: string,
   resourceGroupName: string,
   privateCloudName: string,
   segmentId: string,
@@ -597,13 +625,21 @@ export function deleteSegment(
     updateIntervalInMs: options?.updateIntervalInMs,
     abortSignal: options?.abortSignal,
     getInitialResponse: () =>
-      _deleteSegmentSend(context, resourceGroupName, privateCloudName, segmentId, options),
+      _deleteSegmentSend(
+        context,
+        apiVersion,
+        resourceGroupName,
+        privateCloudName,
+        segmentId,
+        options,
+      ),
     resourceLocationConfig: "location",
   }) as PollerLike<OperationState<void>, void>;
 }
 
 export function _updateSegmentsSend(
   context: Client,
+  apiVersion: string,
   resourceGroupName: string,
   privateCloudName: string,
   segmentId: string,
@@ -619,7 +655,7 @@ export function _updateSegmentsSend(
       resourceGroupName: resourceGroupName,
       privateCloudName: privateCloudName,
       segmentId: segmentId,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": apiVersion,
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -652,6 +688,7 @@ export async function _updateSegmentsDeserialize(
 /** Update a WorkloadNetworkSegment */
 export function updateSegments(
   context: Client,
+  apiVersion: string,
   resourceGroupName: string,
   privateCloudName: string,
   segmentId: string,
@@ -666,6 +703,7 @@ export function updateSegments(
     getInitialResponse: () =>
       _updateSegmentsSend(
         context,
+        apiVersion,
         resourceGroupName,
         privateCloudName,
         segmentId,
@@ -678,6 +716,7 @@ export function updateSegments(
 
 export function _createSegmentsSend(
   context: Client,
+  apiVersion: string,
   resourceGroupName: string,
   privateCloudName: string,
   segmentId: string,
@@ -693,7 +732,7 @@ export function _createSegmentsSend(
       resourceGroupName: resourceGroupName,
       privateCloudName: privateCloudName,
       segmentId: segmentId,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": apiVersion,
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -726,6 +765,7 @@ export async function _createSegmentsDeserialize(
 /** Create a WorkloadNetworkSegment */
 export function createSegments(
   context: Client,
+  apiVersion: string,
   resourceGroupName: string,
   privateCloudName: string,
   segmentId: string,
@@ -740,6 +780,7 @@ export function createSegments(
     getInitialResponse: () =>
       _createSegmentsSend(
         context,
+        apiVersion,
         resourceGroupName,
         privateCloudName,
         segmentId,
@@ -752,6 +793,7 @@ export function createSegments(
 
 export function _getSegmentSend(
   context: Client,
+  apiVersion: string,
   resourceGroupName: string,
   privateCloudName: string,
   segmentId: string,
@@ -764,7 +806,7 @@ export function _getSegmentSend(
       resourceGroupName: resourceGroupName,
       privateCloudName: privateCloudName,
       segmentId: segmentId,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": apiVersion,
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -795,6 +837,7 @@ export async function _getSegmentDeserialize(
 /** Get a WorkloadNetworkSegment */
 export async function getSegment(
   context: Client,
+  apiVersion: string,
   resourceGroupName: string,
   privateCloudName: string,
   segmentId: string,
@@ -802,6 +845,7 @@ export async function getSegment(
 ): Promise<WorkloadNetworkSegment> {
   const result = await _getSegmentSend(
     context,
+    apiVersion,
     resourceGroupName,
     privateCloudName,
     segmentId,
@@ -812,6 +856,7 @@ export async function getSegment(
 
 export function _listSegmentsSend(
   context: Client,
+  apiVersion: string,
   resourceGroupName: string,
   privateCloudName: string,
   options: WorkloadNetworksListSegmentsOptionalParams = { requestOptions: {} },
@@ -822,7 +867,7 @@ export function _listSegmentsSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       privateCloudName: privateCloudName,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": apiVersion,
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -853,13 +898,14 @@ export async function _listSegmentsDeserialize(
 /** List WorkloadNetworkSegment resources by WorkloadNetwork */
 export function listSegments(
   context: Client,
+  apiVersion: string,
   resourceGroupName: string,
   privateCloudName: string,
   options: WorkloadNetworksListSegmentsOptionalParams = { requestOptions: {} },
 ): PagedAsyncIterableIterator<WorkloadNetworkSegment> {
   return buildPagedAsyncIterator(
     context,
-    () => _listSegmentsSend(context, resourceGroupName, privateCloudName, options),
+    () => _listSegmentsSend(context, apiVersion, resourceGroupName, privateCloudName, options),
     _listSegmentsDeserialize,
     ["200"],
     { itemName: "value", nextLinkName: "nextLink" },
@@ -868,6 +914,7 @@ export function listSegments(
 
 export function _deletePublicIPSend(
   context: Client,
+  apiVersion: string,
   resourceGroupName: string,
   publicIPId: string,
   privateCloudName: string,
@@ -882,7 +929,7 @@ export function _deletePublicIPSend(
       resourceGroupName: resourceGroupName,
       publicIPId: publicIPId,
       privateCloudName: privateCloudName,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": apiVersion,
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -911,6 +958,7 @@ export async function _deletePublicIPDeserialize(result: PathUncheckedResponse):
 /** Delete a WorkloadNetworkPublicIP */
 export function deletePublicIP(
   context: Client,
+  apiVersion: string,
   resourceGroupName: string,
   publicIPId: string,
   privateCloudName: string,
@@ -922,13 +970,21 @@ export function deletePublicIP(
     updateIntervalInMs: options?.updateIntervalInMs,
     abortSignal: options?.abortSignal,
     getInitialResponse: () =>
-      _deletePublicIPSend(context, resourceGroupName, publicIPId, privateCloudName, options),
+      _deletePublicIPSend(
+        context,
+        apiVersion,
+        resourceGroupName,
+        publicIPId,
+        privateCloudName,
+        options,
+      ),
     resourceLocationConfig: "location",
   }) as PollerLike<OperationState<void>, void>;
 }
 
 export function _createPublicIPSend(
   context: Client,
+  apiVersion: string,
   resourceGroupName: string,
   privateCloudName: string,
   publicIPId: string,
@@ -944,7 +1000,7 @@ export function _createPublicIPSend(
       resourceGroupName: resourceGroupName,
       privateCloudName: privateCloudName,
       publicIPId: publicIPId,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": apiVersion,
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -977,6 +1033,7 @@ export async function _createPublicIPDeserialize(
 /** Create a WorkloadNetworkPublicIP */
 export function createPublicIP(
   context: Client,
+  apiVersion: string,
   resourceGroupName: string,
   privateCloudName: string,
   publicIPId: string,
@@ -991,6 +1048,7 @@ export function createPublicIP(
     getInitialResponse: () =>
       _createPublicIPSend(
         context,
+        apiVersion,
         resourceGroupName,
         privateCloudName,
         publicIPId,
@@ -1003,6 +1061,7 @@ export function createPublicIP(
 
 export function _getPublicIPSend(
   context: Client,
+  apiVersion: string,
   resourceGroupName: string,
   privateCloudName: string,
   publicIPId: string,
@@ -1015,7 +1074,7 @@ export function _getPublicIPSend(
       resourceGroupName: resourceGroupName,
       privateCloudName: privateCloudName,
       publicIPId: publicIPId,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": apiVersion,
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -1046,6 +1105,7 @@ export async function _getPublicIPDeserialize(
 /** Get a WorkloadNetworkPublicIP */
 export async function getPublicIP(
   context: Client,
+  apiVersion: string,
   resourceGroupName: string,
   privateCloudName: string,
   publicIPId: string,
@@ -1053,6 +1113,7 @@ export async function getPublicIP(
 ): Promise<WorkloadNetworkPublicIP> {
   const result = await _getPublicIPSend(
     context,
+    apiVersion,
     resourceGroupName,
     privateCloudName,
     publicIPId,
@@ -1063,6 +1124,7 @@ export async function getPublicIP(
 
 export function _listPublicIPsSend(
   context: Client,
+  apiVersion: string,
   resourceGroupName: string,
   privateCloudName: string,
   options: WorkloadNetworksListPublicIPsOptionalParams = { requestOptions: {} },
@@ -1073,7 +1135,7 @@ export function _listPublicIPsSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       privateCloudName: privateCloudName,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": apiVersion,
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -1104,13 +1166,14 @@ export async function _listPublicIPsDeserialize(
 /** List WorkloadNetworkPublicIP resources by WorkloadNetwork */
 export function listPublicIPs(
   context: Client,
+  apiVersion: string,
   resourceGroupName: string,
   privateCloudName: string,
   options: WorkloadNetworksListPublicIPsOptionalParams = { requestOptions: {} },
 ): PagedAsyncIterableIterator<WorkloadNetworkPublicIP> {
   return buildPagedAsyncIterator(
     context,
-    () => _listPublicIPsSend(context, resourceGroupName, privateCloudName, options),
+    () => _listPublicIPsSend(context, apiVersion, resourceGroupName, privateCloudName, options),
     _listPublicIPsDeserialize,
     ["200"],
     { itemName: "value", nextLinkName: "nextLink" },
@@ -1119,6 +1182,7 @@ export function listPublicIPs(
 
 export function _deletePortMirroringSend(
   context: Client,
+  apiVersion: string,
   resourceGroupName: string,
   portMirroringId: string,
   privateCloudName: string,
@@ -1133,7 +1197,7 @@ export function _deletePortMirroringSend(
       resourceGroupName: resourceGroupName,
       portMirroringId: portMirroringId,
       privateCloudName: privateCloudName,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": apiVersion,
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -1164,6 +1228,7 @@ export async function _deletePortMirroringDeserialize(
 /** Delete a WorkloadNetworkPortMirroring */
 export function deletePortMirroring(
   context: Client,
+  apiVersion: string,
   resourceGroupName: string,
   portMirroringId: string,
   privateCloudName: string,
@@ -1177,6 +1242,7 @@ export function deletePortMirroring(
     getInitialResponse: () =>
       _deletePortMirroringSend(
         context,
+        apiVersion,
         resourceGroupName,
         portMirroringId,
         privateCloudName,
@@ -1188,6 +1254,7 @@ export function deletePortMirroring(
 
 export function _updatePortMirroringSend(
   context: Client,
+  apiVersion: string,
   resourceGroupName: string,
   privateCloudName: string,
   portMirroringId: string,
@@ -1203,7 +1270,7 @@ export function _updatePortMirroringSend(
       resourceGroupName: resourceGroupName,
       privateCloudName: privateCloudName,
       portMirroringId: portMirroringId,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": apiVersion,
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -1236,6 +1303,7 @@ export async function _updatePortMirroringDeserialize(
 /** Update a WorkloadNetworkPortMirroring */
 export function updatePortMirroring(
   context: Client,
+  apiVersion: string,
   resourceGroupName: string,
   privateCloudName: string,
   portMirroringId: string,
@@ -1250,6 +1318,7 @@ export function updatePortMirroring(
     getInitialResponse: () =>
       _updatePortMirroringSend(
         context,
+        apiVersion,
         resourceGroupName,
         privateCloudName,
         portMirroringId,
@@ -1262,6 +1331,7 @@ export function updatePortMirroring(
 
 export function _createPortMirroringSend(
   context: Client,
+  apiVersion: string,
   resourceGroupName: string,
   privateCloudName: string,
   portMirroringId: string,
@@ -1277,7 +1347,7 @@ export function _createPortMirroringSend(
       resourceGroupName: resourceGroupName,
       privateCloudName: privateCloudName,
       portMirroringId: portMirroringId,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": apiVersion,
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -1310,6 +1380,7 @@ export async function _createPortMirroringDeserialize(
 /** Create a WorkloadNetworkPortMirroring */
 export function createPortMirroring(
   context: Client,
+  apiVersion: string,
   resourceGroupName: string,
   privateCloudName: string,
   portMirroringId: string,
@@ -1324,6 +1395,7 @@ export function createPortMirroring(
     getInitialResponse: () =>
       _createPortMirroringSend(
         context,
+        apiVersion,
         resourceGroupName,
         privateCloudName,
         portMirroringId,
@@ -1336,6 +1408,7 @@ export function createPortMirroring(
 
 export function _getPortMirroringSend(
   context: Client,
+  apiVersion: string,
   resourceGroupName: string,
   privateCloudName: string,
   portMirroringId: string,
@@ -1350,7 +1423,7 @@ export function _getPortMirroringSend(
       resourceGroupName: resourceGroupName,
       privateCloudName: privateCloudName,
       portMirroringId: portMirroringId,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": apiVersion,
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -1381,6 +1454,7 @@ export async function _getPortMirroringDeserialize(
 /** Get a WorkloadNetworkPortMirroring */
 export async function getPortMirroring(
   context: Client,
+  apiVersion: string,
   resourceGroupName: string,
   privateCloudName: string,
   portMirroringId: string,
@@ -1390,6 +1464,7 @@ export async function getPortMirroring(
 ): Promise<WorkloadNetworkPortMirroring> {
   const result = await _getPortMirroringSend(
     context,
+    apiVersion,
     resourceGroupName,
     privateCloudName,
     portMirroringId,
@@ -1400,6 +1475,7 @@ export async function getPortMirroring(
 
 export function _listPortMirroringSend(
   context: Client,
+  apiVersion: string,
   resourceGroupName: string,
   privateCloudName: string,
   options: WorkloadNetworksListPortMirroringOptionalParams = {
@@ -1412,7 +1488,7 @@ export function _listPortMirroringSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       privateCloudName: privateCloudName,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": apiVersion,
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -1443,6 +1519,7 @@ export async function _listPortMirroringDeserialize(
 /** List WorkloadNetworkPortMirroring resources by WorkloadNetwork */
 export function listPortMirroring(
   context: Client,
+  apiVersion: string,
   resourceGroupName: string,
   privateCloudName: string,
   options: WorkloadNetworksListPortMirroringOptionalParams = {
@@ -1451,7 +1528,7 @@ export function listPortMirroring(
 ): PagedAsyncIterableIterator<WorkloadNetworkPortMirroring> {
   return buildPagedAsyncIterator(
     context,
-    () => _listPortMirroringSend(context, resourceGroupName, privateCloudName, options),
+    () => _listPortMirroringSend(context, apiVersion, resourceGroupName, privateCloudName, options),
     _listPortMirroringDeserialize,
     ["200"],
     { itemName: "value", nextLinkName: "nextLink" },
@@ -1460,6 +1537,7 @@ export function listPortMirroring(
 
 export function _getGatewaySend(
   context: Client,
+  apiVersion: string,
   resourceGroupName: string,
   privateCloudName: string,
   gatewayId: string,
@@ -1472,7 +1550,7 @@ export function _getGatewaySend(
       resourceGroupName: resourceGroupName,
       privateCloudName: privateCloudName,
       gatewayId: gatewayId,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": apiVersion,
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -1503,6 +1581,7 @@ export async function _getGatewayDeserialize(
 /** Get a WorkloadNetworkGateway */
 export async function getGateway(
   context: Client,
+  apiVersion: string,
   resourceGroupName: string,
   privateCloudName: string,
   gatewayId: string,
@@ -1510,6 +1589,7 @@ export async function getGateway(
 ): Promise<WorkloadNetworkGateway> {
   const result = await _getGatewaySend(
     context,
+    apiVersion,
     resourceGroupName,
     privateCloudName,
     gatewayId,
@@ -1520,6 +1600,7 @@ export async function getGateway(
 
 export function _listGatewaysSend(
   context: Client,
+  apiVersion: string,
   resourceGroupName: string,
   privateCloudName: string,
   options: WorkloadNetworksListGatewaysOptionalParams = { requestOptions: {} },
@@ -1530,7 +1611,7 @@ export function _listGatewaysSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       privateCloudName: privateCloudName,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": apiVersion,
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -1561,13 +1642,14 @@ export async function _listGatewaysDeserialize(
 /** List WorkloadNetworkGateway resources by WorkloadNetwork */
 export function listGateways(
   context: Client,
+  apiVersion: string,
   resourceGroupName: string,
   privateCloudName: string,
   options: WorkloadNetworksListGatewaysOptionalParams = { requestOptions: {} },
 ): PagedAsyncIterableIterator<WorkloadNetworkGateway> {
   return buildPagedAsyncIterator(
     context,
-    () => _listGatewaysSend(context, resourceGroupName, privateCloudName, options),
+    () => _listGatewaysSend(context, apiVersion, resourceGroupName, privateCloudName, options),
     _listGatewaysDeserialize,
     ["200"],
     { itemName: "value", nextLinkName: "nextLink" },
@@ -1576,6 +1658,7 @@ export function listGateways(
 
 export function _deleteDnsZoneSend(
   context: Client,
+  apiVersion: string,
   resourceGroupName: string,
   dnsZoneId: string,
   privateCloudName: string,
@@ -1588,7 +1671,7 @@ export function _deleteDnsZoneSend(
       resourceGroupName: resourceGroupName,
       dnsZoneId: dnsZoneId,
       privateCloudName: privateCloudName,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": apiVersion,
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -1617,6 +1700,7 @@ export async function _deleteDnsZoneDeserialize(result: PathUncheckedResponse): 
 /** Delete a WorkloadNetworkDnsZone */
 export function deleteDnsZone(
   context: Client,
+  apiVersion: string,
   resourceGroupName: string,
   dnsZoneId: string,
   privateCloudName: string,
@@ -1626,13 +1710,21 @@ export function deleteDnsZone(
     updateIntervalInMs: options?.updateIntervalInMs,
     abortSignal: options?.abortSignal,
     getInitialResponse: () =>
-      _deleteDnsZoneSend(context, resourceGroupName, dnsZoneId, privateCloudName, options),
+      _deleteDnsZoneSend(
+        context,
+        apiVersion,
+        resourceGroupName,
+        dnsZoneId,
+        privateCloudName,
+        options,
+      ),
     resourceLocationConfig: "location",
   }) as PollerLike<OperationState<void>, void>;
 }
 
 export function _updateDnsZoneSend(
   context: Client,
+  apiVersion: string,
   resourceGroupName: string,
   privateCloudName: string,
   dnsZoneId: string,
@@ -1646,7 +1738,7 @@ export function _updateDnsZoneSend(
       resourceGroupName: resourceGroupName,
       privateCloudName: privateCloudName,
       dnsZoneId: dnsZoneId,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": apiVersion,
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -1679,6 +1771,7 @@ export async function _updateDnsZoneDeserialize(
 /** Update a WorkloadNetworkDnsZone */
 export function updateDnsZone(
   context: Client,
+  apiVersion: string,
   resourceGroupName: string,
   privateCloudName: string,
   dnsZoneId: string,
@@ -1691,6 +1784,7 @@ export function updateDnsZone(
     getInitialResponse: () =>
       _updateDnsZoneSend(
         context,
+        apiVersion,
         resourceGroupName,
         privateCloudName,
         dnsZoneId,
@@ -1703,6 +1797,7 @@ export function updateDnsZone(
 
 export function _createDnsZoneSend(
   context: Client,
+  apiVersion: string,
   resourceGroupName: string,
   privateCloudName: string,
   dnsZoneId: string,
@@ -1716,7 +1811,7 @@ export function _createDnsZoneSend(
       resourceGroupName: resourceGroupName,
       privateCloudName: privateCloudName,
       dnsZoneId: dnsZoneId,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": apiVersion,
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -1749,6 +1844,7 @@ export async function _createDnsZoneDeserialize(
 /** Create a WorkloadNetworkDnsZone */
 export function createDnsZone(
   context: Client,
+  apiVersion: string,
   resourceGroupName: string,
   privateCloudName: string,
   dnsZoneId: string,
@@ -1761,6 +1857,7 @@ export function createDnsZone(
     getInitialResponse: () =>
       _createDnsZoneSend(
         context,
+        apiVersion,
         resourceGroupName,
         privateCloudName,
         dnsZoneId,
@@ -1773,6 +1870,7 @@ export function createDnsZone(
 
 export function _getDnsZoneSend(
   context: Client,
+  apiVersion: string,
   resourceGroupName: string,
   privateCloudName: string,
   dnsZoneId: string,
@@ -1785,7 +1883,7 @@ export function _getDnsZoneSend(
       resourceGroupName: resourceGroupName,
       privateCloudName: privateCloudName,
       dnsZoneId: dnsZoneId,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": apiVersion,
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -1816,6 +1914,7 @@ export async function _getDnsZoneDeserialize(
 /** Get a WorkloadNetworkDnsZone */
 export async function getDnsZone(
   context: Client,
+  apiVersion: string,
   resourceGroupName: string,
   privateCloudName: string,
   dnsZoneId: string,
@@ -1823,6 +1922,7 @@ export async function getDnsZone(
 ): Promise<WorkloadNetworkDnsZone> {
   const result = await _getDnsZoneSend(
     context,
+    apiVersion,
     resourceGroupName,
     privateCloudName,
     dnsZoneId,
@@ -1833,6 +1933,7 @@ export async function getDnsZone(
 
 export function _listDnsZonesSend(
   context: Client,
+  apiVersion: string,
   resourceGroupName: string,
   privateCloudName: string,
   options: WorkloadNetworksListDnsZonesOptionalParams = { requestOptions: {} },
@@ -1843,7 +1944,7 @@ export function _listDnsZonesSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       privateCloudName: privateCloudName,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": apiVersion,
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -1874,13 +1975,14 @@ export async function _listDnsZonesDeserialize(
 /** List WorkloadNetworkDnsZone resources by WorkloadNetwork */
 export function listDnsZones(
   context: Client,
+  apiVersion: string,
   resourceGroupName: string,
   privateCloudName: string,
   options: WorkloadNetworksListDnsZonesOptionalParams = { requestOptions: {} },
 ): PagedAsyncIterableIterator<WorkloadNetworkDnsZone> {
   return buildPagedAsyncIterator(
     context,
-    () => _listDnsZonesSend(context, resourceGroupName, privateCloudName, options),
+    () => _listDnsZonesSend(context, apiVersion, resourceGroupName, privateCloudName, options),
     _listDnsZonesDeserialize,
     ["200"],
     { itemName: "value", nextLinkName: "nextLink" },
@@ -1889,6 +1991,7 @@ export function listDnsZones(
 
 export function _deleteDnsServiceSend(
   context: Client,
+  apiVersion: string,
   resourceGroupName: string,
   dnsServiceId: string,
   privateCloudName: string,
@@ -1903,7 +2006,7 @@ export function _deleteDnsServiceSend(
       resourceGroupName: resourceGroupName,
       dnsServiceId: dnsServiceId,
       privateCloudName: privateCloudName,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": apiVersion,
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -1932,6 +2035,7 @@ export async function _deleteDnsServiceDeserialize(result: PathUncheckedResponse
 /** Delete a WorkloadNetworkDnsService */
 export function deleteDnsService(
   context: Client,
+  apiVersion: string,
   resourceGroupName: string,
   dnsServiceId: string,
   privateCloudName: string,
@@ -1943,13 +2047,21 @@ export function deleteDnsService(
     updateIntervalInMs: options?.updateIntervalInMs,
     abortSignal: options?.abortSignal,
     getInitialResponse: () =>
-      _deleteDnsServiceSend(context, resourceGroupName, dnsServiceId, privateCloudName, options),
+      _deleteDnsServiceSend(
+        context,
+        apiVersion,
+        resourceGroupName,
+        dnsServiceId,
+        privateCloudName,
+        options,
+      ),
     resourceLocationConfig: "location",
   }) as PollerLike<OperationState<void>, void>;
 }
 
 export function _updateDnsServiceSend(
   context: Client,
+  apiVersion: string,
   resourceGroupName: string,
   privateCloudName: string,
   dnsServiceId: string,
@@ -1965,7 +2077,7 @@ export function _updateDnsServiceSend(
       resourceGroupName: resourceGroupName,
       privateCloudName: privateCloudName,
       dnsServiceId: dnsServiceId,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": apiVersion,
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -1998,6 +2110,7 @@ export async function _updateDnsServiceDeserialize(
 /** Update a WorkloadNetworkDnsService */
 export function updateDnsService(
   context: Client,
+  apiVersion: string,
   resourceGroupName: string,
   privateCloudName: string,
   dnsServiceId: string,
@@ -2012,6 +2125,7 @@ export function updateDnsService(
     getInitialResponse: () =>
       _updateDnsServiceSend(
         context,
+        apiVersion,
         resourceGroupName,
         privateCloudName,
         dnsServiceId,
@@ -2024,6 +2138,7 @@ export function updateDnsService(
 
 export function _createDnsServiceSend(
   context: Client,
+  apiVersion: string,
   resourceGroupName: string,
   privateCloudName: string,
   dnsServiceId: string,
@@ -2039,7 +2154,7 @@ export function _createDnsServiceSend(
       resourceGroupName: resourceGroupName,
       privateCloudName: privateCloudName,
       dnsServiceId: dnsServiceId,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": apiVersion,
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -2072,6 +2187,7 @@ export async function _createDnsServiceDeserialize(
 /** Create a WorkloadNetworkDnsService */
 export function createDnsService(
   context: Client,
+  apiVersion: string,
   resourceGroupName: string,
   privateCloudName: string,
   dnsServiceId: string,
@@ -2086,6 +2202,7 @@ export function createDnsService(
     getInitialResponse: () =>
       _createDnsServiceSend(
         context,
+        apiVersion,
         resourceGroupName,
         privateCloudName,
         dnsServiceId,
@@ -2098,6 +2215,7 @@ export function createDnsService(
 
 export function _getDnsServiceSend(
   context: Client,
+  apiVersion: string,
   resourceGroupName: string,
   privateCloudName: string,
   dnsServiceId: string,
@@ -2110,7 +2228,7 @@ export function _getDnsServiceSend(
       resourceGroupName: resourceGroupName,
       privateCloudName: privateCloudName,
       dnsServiceId: dnsServiceId,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": apiVersion,
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -2141,6 +2259,7 @@ export async function _getDnsServiceDeserialize(
 /** Get a WorkloadNetworkDnsService */
 export async function getDnsService(
   context: Client,
+  apiVersion: string,
   resourceGroupName: string,
   privateCloudName: string,
   dnsServiceId: string,
@@ -2148,6 +2267,7 @@ export async function getDnsService(
 ): Promise<WorkloadNetworkDnsService> {
   const result = await _getDnsServiceSend(
     context,
+    apiVersion,
     resourceGroupName,
     privateCloudName,
     dnsServiceId,
@@ -2158,6 +2278,7 @@ export async function getDnsService(
 
 export function _listDnsServicesSend(
   context: Client,
+  apiVersion: string,
   resourceGroupName: string,
   privateCloudName: string,
   options: WorkloadNetworksListDnsServicesOptionalParams = {
@@ -2170,7 +2291,7 @@ export function _listDnsServicesSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       privateCloudName: privateCloudName,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": apiVersion,
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -2201,6 +2322,7 @@ export async function _listDnsServicesDeserialize(
 /** List WorkloadNetworkDnsService resources by WorkloadNetwork */
 export function listDnsServices(
   context: Client,
+  apiVersion: string,
   resourceGroupName: string,
   privateCloudName: string,
   options: WorkloadNetworksListDnsServicesOptionalParams = {
@@ -2209,7 +2331,7 @@ export function listDnsServices(
 ): PagedAsyncIterableIterator<WorkloadNetworkDnsService> {
   return buildPagedAsyncIterator(
     context,
-    () => _listDnsServicesSend(context, resourceGroupName, privateCloudName, options),
+    () => _listDnsServicesSend(context, apiVersion, resourceGroupName, privateCloudName, options),
     _listDnsServicesDeserialize,
     ["200"],
     { itemName: "value", nextLinkName: "nextLink" },
@@ -2218,6 +2340,7 @@ export function listDnsServices(
 
 export function _deleteDhcpSend(
   context: Client,
+  apiVersion: string,
   resourceGroupName: string,
   privateCloudName: string,
   dhcpId: string,
@@ -2230,7 +2353,7 @@ export function _deleteDhcpSend(
       resourceGroupName: resourceGroupName,
       privateCloudName: privateCloudName,
       dhcpId: dhcpId,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": apiVersion,
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -2259,6 +2382,7 @@ export async function _deleteDhcpDeserialize(result: PathUncheckedResponse): Pro
 /** Delete a WorkloadNetworkDhcp */
 export function deleteDhcp(
   context: Client,
+  apiVersion: string,
   resourceGroupName: string,
   privateCloudName: string,
   dhcpId: string,
@@ -2268,13 +2392,14 @@ export function deleteDhcp(
     updateIntervalInMs: options?.updateIntervalInMs,
     abortSignal: options?.abortSignal,
     getInitialResponse: () =>
-      _deleteDhcpSend(context, resourceGroupName, privateCloudName, dhcpId, options),
+      _deleteDhcpSend(context, apiVersion, resourceGroupName, privateCloudName, dhcpId, options),
     resourceLocationConfig: "location",
   }) as PollerLike<OperationState<void>, void>;
 }
 
 export function _updateDhcpSend(
   context: Client,
+  apiVersion: string,
   resourceGroupName: string,
   privateCloudName: string,
   dhcpId: string,
@@ -2288,7 +2413,7 @@ export function _updateDhcpSend(
       resourceGroupName: resourceGroupName,
       privateCloudName: privateCloudName,
       dhcpId: dhcpId,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": apiVersion,
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -2321,6 +2446,7 @@ export async function _updateDhcpDeserialize(
 /** Update a WorkloadNetworkDhcp */
 export function updateDhcp(
   context: Client,
+  apiVersion: string,
   resourceGroupName: string,
   privateCloudName: string,
   dhcpId: string,
@@ -2333,6 +2459,7 @@ export function updateDhcp(
     getInitialResponse: () =>
       _updateDhcpSend(
         context,
+        apiVersion,
         resourceGroupName,
         privateCloudName,
         dhcpId,
@@ -2345,6 +2472,7 @@ export function updateDhcp(
 
 export function _createDhcpSend(
   context: Client,
+  apiVersion: string,
   resourceGroupName: string,
   privateCloudName: string,
   dhcpId: string,
@@ -2358,7 +2486,7 @@ export function _createDhcpSend(
       resourceGroupName: resourceGroupName,
       privateCloudName: privateCloudName,
       dhcpId: dhcpId,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": apiVersion,
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -2391,6 +2519,7 @@ export async function _createDhcpDeserialize(
 /** Create a WorkloadNetworkDhcp */
 export function createDhcp(
   context: Client,
+  apiVersion: string,
   resourceGroupName: string,
   privateCloudName: string,
   dhcpId: string,
@@ -2403,6 +2532,7 @@ export function createDhcp(
     getInitialResponse: () =>
       _createDhcpSend(
         context,
+        apiVersion,
         resourceGroupName,
         privateCloudName,
         dhcpId,
@@ -2415,6 +2545,7 @@ export function createDhcp(
 
 export function _getDhcpSend(
   context: Client,
+  apiVersion: string,
   resourceGroupName: string,
   dhcpId: string,
   privateCloudName: string,
@@ -2427,7 +2558,7 @@ export function _getDhcpSend(
       resourceGroupName: resourceGroupName,
       dhcpId: dhcpId,
       privateCloudName: privateCloudName,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": apiVersion,
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -2458,17 +2589,26 @@ export async function _getDhcpDeserialize(
 /** Get a WorkloadNetworkDhcp */
 export async function getDhcp(
   context: Client,
+  apiVersion: string,
   resourceGroupName: string,
   dhcpId: string,
   privateCloudName: string,
   options: WorkloadNetworksGetDhcpOptionalParams = { requestOptions: {} },
 ): Promise<WorkloadNetworkDhcp> {
-  const result = await _getDhcpSend(context, resourceGroupName, dhcpId, privateCloudName, options);
+  const result = await _getDhcpSend(
+    context,
+    apiVersion,
+    resourceGroupName,
+    dhcpId,
+    privateCloudName,
+    options,
+  );
   return _getDhcpDeserialize(result);
 }
 
 export function _listDhcpSend(
   context: Client,
+  apiVersion: string,
   resourceGroupName: string,
   privateCloudName: string,
   options: WorkloadNetworksListDhcpOptionalParams = { requestOptions: {} },
@@ -2479,7 +2619,7 @@ export function _listDhcpSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       privateCloudName: privateCloudName,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": apiVersion,
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -2510,13 +2650,14 @@ export async function _listDhcpDeserialize(
 /** List WorkloadNetworkDhcp resources by WorkloadNetwork */
 export function listDhcp(
   context: Client,
+  apiVersion: string,
   resourceGroupName: string,
   privateCloudName: string,
   options: WorkloadNetworksListDhcpOptionalParams = { requestOptions: {} },
 ): PagedAsyncIterableIterator<WorkloadNetworkDhcp> {
   return buildPagedAsyncIterator(
     context,
-    () => _listDhcpSend(context, resourceGroupName, privateCloudName, options),
+    () => _listDhcpSend(context, apiVersion, resourceGroupName, privateCloudName, options),
     _listDhcpDeserialize,
     ["200"],
     { itemName: "value", nextLinkName: "nextLink" },
@@ -2525,6 +2666,7 @@ export function listDhcp(
 
 export function _getSend(
   context: Client,
+  apiVersion: string,
   resourceGroupName: string,
   privateCloudName: string,
   options: WorkloadNetworksGetOptionalParams = { requestOptions: {} },
@@ -2535,7 +2677,7 @@ export function _getSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       privateCloudName: privateCloudName,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": apiVersion,
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -2564,16 +2706,18 @@ export async function _getDeserialize(result: PathUncheckedResponse): Promise<Wo
 /** Get a WorkloadNetwork */
 export async function get(
   context: Client,
+  apiVersion: string,
   resourceGroupName: string,
   privateCloudName: string,
   options: WorkloadNetworksGetOptionalParams = { requestOptions: {} },
 ): Promise<WorkloadNetwork> {
-  const result = await _getSend(context, resourceGroupName, privateCloudName, options);
+  const result = await _getSend(context, apiVersion, resourceGroupName, privateCloudName, options);
   return _getDeserialize(result);
 }
 
 export function _listSend(
   context: Client,
+  apiVersion: string,
   resourceGroupName: string,
   privateCloudName: string,
   options: WorkloadNetworksListOptionalParams = { requestOptions: {} },
@@ -2584,7 +2728,7 @@ export function _listSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       privateCloudName: privateCloudName,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": apiVersion,
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -2615,13 +2759,14 @@ export async function _listDeserialize(
 /** List WorkloadNetwork resources by PrivateCloud */
 export function list(
   context: Client,
+  apiVersion: string,
   resourceGroupName: string,
   privateCloudName: string,
   options: WorkloadNetworksListOptionalParams = { requestOptions: {} },
 ): PagedAsyncIterableIterator<WorkloadNetwork> {
   return buildPagedAsyncIterator(
     context,
-    () => _listSend(context, resourceGroupName, privateCloudName, options),
+    () => _listSend(context, apiVersion, resourceGroupName, privateCloudName, options),
     _listDeserialize,
     ["200"],
     { itemName: "value", nextLinkName: "nextLink" },

@@ -10,13 +10,13 @@ import { OperationState } from '@azure/core-lro';
 import { PollerLike } from '@azure/core-lro';
 
 // @public
-export function $delete(context: AzureVMwareSolutionAPIContext, resourceGroupName: string, privateCloudName: string, options?: IscsiPathsDeleteOptionalParams): PollerLike<OperationState<void>, void>;
+export function $delete(context: AzureVMwareSolutionAPIContext, apiVersion: string, resourceGroupName: string, privateCloudName: string, options?: IscsiPathsDeleteOptionalParams): PollerLike<OperationState<void>, void>;
 
 // @public
-export function createOrUpdate(context: AzureVMwareSolutionAPIContext, resourceGroupName: string, privateCloudName: string, resource: IscsiPath, options?: IscsiPathsCreateOrUpdateOptionalParams): PollerLike<OperationState<IscsiPath>, IscsiPath>;
+export function createOrUpdate(context: AzureVMwareSolutionAPIContext, apiVersion: string, resourceGroupName: string, privateCloudName: string, resource: IscsiPath, options?: IscsiPathsCreateOrUpdateOptionalParams): PollerLike<OperationState<IscsiPath>, IscsiPath>;
 
 // @public
-export function get(context: AzureVMwareSolutionAPIContext, resourceGroupName: string, privateCloudName: string, options?: IscsiPathsGetOptionalParams): Promise<IscsiPath>;
+export function get(context: AzureVMwareSolutionAPIContext, apiVersion: string, resourceGroupName: string, privateCloudName: string, options?: IscsiPathsGetOptionalParams): Promise<IscsiPath>;
 
 // @public
 export interface IscsiPathsCreateOrUpdateOptionalParams extends OperationOptions {
@@ -37,7 +37,7 @@ export interface IscsiPathsListByPrivateCloudOptionalParams extends OperationOpt
 }
 
 // @public
-export function listByPrivateCloud(context: AzureVMwareSolutionAPIContext, resourceGroupName: string, privateCloudName: string, options?: IscsiPathsListByPrivateCloudOptionalParams): PagedAsyncIterableIterator<IscsiPath>;
+export function listByPrivateCloud(context: AzureVMwareSolutionAPIContext, apiVersion: string, resourceGroupName: string, privateCloudName: string, options?: IscsiPathsListByPrivateCloudOptionalParams): PagedAsyncIterableIterator<IscsiPath>;
 
 // (No @packageDocumentation comment for this package)
 

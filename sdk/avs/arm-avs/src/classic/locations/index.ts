@@ -13,11 +13,13 @@ import { checkQuotaAvailability, checkTrialAvailability } from "../../api/locati
 export interface LocationsOperations {
   /** Return quota for subscription by region */
   checkQuotaAvailability: (
+    apiVersion: string,
     location: string,
     options?: LocationsCheckQuotaAvailabilityOptionalParams,
   ) => Promise<Quota>;
   /** Return trial status for subscription by region */
   checkTrialAvailability: (
+    apiVersion: string,
     location: string,
     options?: LocationsCheckTrialAvailabilityOptionalParams,
   ) => Promise<Trial>;
@@ -26,13 +28,15 @@ export interface LocationsOperations {
 function _getLocations(context: AzureVMwareSolutionAPIContext) {
   return {
     checkQuotaAvailability: (
+      apiVersion: string,
       location: string,
       options?: LocationsCheckQuotaAvailabilityOptionalParams,
-    ) => checkQuotaAvailability(context, location, options),
+    ) => checkQuotaAvailability(context, apiVersion, location, options),
     checkTrialAvailability: (
+      apiVersion: string,
       location: string,
       options?: LocationsCheckTrialAvailabilityOptionalParams,
-    ) => checkTrialAvailability(context, location, options),
+    ) => checkTrialAvailability(context, apiVersion, location, options),
   };
 }
 

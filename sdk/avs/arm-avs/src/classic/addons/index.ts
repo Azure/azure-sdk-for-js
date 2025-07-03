@@ -22,6 +22,7 @@ export interface AddonsOperations {
    *         to the operation to override the generated name.
    */
   delete: (
+    apiVersion: string,
     resourceGroupName: string,
     privateCloudName: string,
     addonName: string,
@@ -29,6 +30,7 @@ export interface AddonsOperations {
   ) => PollerLike<OperationState<void>, void>;
   /** Create a Addon */
   createOrUpdate: (
+    apiVersion: string,
     resourceGroupName: string,
     privateCloudName: string,
     addonName: string,
@@ -37,6 +39,7 @@ export interface AddonsOperations {
   ) => PollerLike<OperationState<Addon>, Addon>;
   /** Get a Addon */
   get: (
+    apiVersion: string,
     resourceGroupName: string,
     privateCloudName: string,
     addonName: string,
@@ -44,6 +47,7 @@ export interface AddonsOperations {
   ) => Promise<Addon>;
   /** List Addon resources by PrivateCloud */
   list: (
+    apiVersion: string,
     resourceGroupName: string,
     privateCloudName: string,
     options?: AddonsListOptionalParams,
@@ -53,29 +57,42 @@ export interface AddonsOperations {
 function _getAddons(context: AzureVMwareSolutionAPIContext) {
   return {
     delete: (
+      apiVersion: string,
       resourceGroupName: string,
       privateCloudName: string,
       addonName: string,
       options?: AddonsDeleteOptionalParams,
-    ) => $delete(context, resourceGroupName, privateCloudName, addonName, options),
+    ) => $delete(context, apiVersion, resourceGroupName, privateCloudName, addonName, options),
     createOrUpdate: (
+      apiVersion: string,
       resourceGroupName: string,
       privateCloudName: string,
       addonName: string,
       addon: Addon,
       options?: AddonsCreateOrUpdateOptionalParams,
-    ) => createOrUpdate(context, resourceGroupName, privateCloudName, addonName, addon, options),
+    ) =>
+      createOrUpdate(
+        context,
+        apiVersion,
+        resourceGroupName,
+        privateCloudName,
+        addonName,
+        addon,
+        options,
+      ),
     get: (
+      apiVersion: string,
       resourceGroupName: string,
       privateCloudName: string,
       addonName: string,
       options?: AddonsGetOptionalParams,
-    ) => get(context, resourceGroupName, privateCloudName, addonName, options),
+    ) => get(context, apiVersion, resourceGroupName, privateCloudName, addonName, options),
     list: (
+      apiVersion: string,
       resourceGroupName: string,
       privateCloudName: string,
       options?: AddonsListOptionalParams,
-    ) => list(context, resourceGroupName, privateCloudName, options),
+    ) => list(context, apiVersion, resourceGroupName, privateCloudName, options),
   };
 }
 

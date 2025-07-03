@@ -22,6 +22,7 @@ export interface GlobalReachConnectionsOperations {
    *         to the operation to override the generated name.
    */
   delete: (
+    apiVersion: string,
     resourceGroupName: string,
     privateCloudName: string,
     globalReachConnectionName: string,
@@ -29,6 +30,7 @@ export interface GlobalReachConnectionsOperations {
   ) => PollerLike<OperationState<void>, void>;
   /** Create a GlobalReachConnection */
   createOrUpdate: (
+    apiVersion: string,
     resourceGroupName: string,
     privateCloudName: string,
     globalReachConnectionName: string,
@@ -37,6 +39,7 @@ export interface GlobalReachConnectionsOperations {
   ) => PollerLike<OperationState<GlobalReachConnection>, GlobalReachConnection>;
   /** Get a GlobalReachConnection */
   get: (
+    apiVersion: string,
     resourceGroupName: string,
     privateCloudName: string,
     globalReachConnectionName: string,
@@ -44,6 +47,7 @@ export interface GlobalReachConnectionsOperations {
   ) => Promise<GlobalReachConnection>;
   /** List GlobalReachConnection resources by PrivateCloud */
   list: (
+    apiVersion: string,
     resourceGroupName: string,
     privateCloudName: string,
     options?: GlobalReachConnectionsListOptionalParams,
@@ -53,12 +57,22 @@ export interface GlobalReachConnectionsOperations {
 function _getGlobalReachConnections(context: AzureVMwareSolutionAPIContext) {
   return {
     delete: (
+      apiVersion: string,
       resourceGroupName: string,
       privateCloudName: string,
       globalReachConnectionName: string,
       options?: GlobalReachConnectionsDeleteOptionalParams,
-    ) => $delete(context, resourceGroupName, privateCloudName, globalReachConnectionName, options),
+    ) =>
+      $delete(
+        context,
+        apiVersion,
+        resourceGroupName,
+        privateCloudName,
+        globalReachConnectionName,
+        options,
+      ),
     createOrUpdate: (
+      apiVersion: string,
       resourceGroupName: string,
       privateCloudName: string,
       globalReachConnectionName: string,
@@ -67,6 +81,7 @@ function _getGlobalReachConnections(context: AzureVMwareSolutionAPIContext) {
     ) =>
       createOrUpdate(
         context,
+        apiVersion,
         resourceGroupName,
         privateCloudName,
         globalReachConnectionName,
@@ -74,16 +89,26 @@ function _getGlobalReachConnections(context: AzureVMwareSolutionAPIContext) {
         options,
       ),
     get: (
+      apiVersion: string,
       resourceGroupName: string,
       privateCloudName: string,
       globalReachConnectionName: string,
       options?: GlobalReachConnectionsGetOptionalParams,
-    ) => get(context, resourceGroupName, privateCloudName, globalReachConnectionName, options),
+    ) =>
+      get(
+        context,
+        apiVersion,
+        resourceGroupName,
+        privateCloudName,
+        globalReachConnectionName,
+        options,
+      ),
     list: (
+      apiVersion: string,
       resourceGroupName: string,
       privateCloudName: string,
       options?: GlobalReachConnectionsListOptionalParams,
-    ) => list(context, resourceGroupName, privateCloudName, options),
+    ) => list(context, apiVersion, resourceGroupName, privateCloudName, options),
   };
 }
 

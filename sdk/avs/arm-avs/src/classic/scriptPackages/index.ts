@@ -14,6 +14,7 @@ import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.j
 export interface ScriptPackagesOperations {
   /** Get a ScriptPackage */
   get: (
+    apiVersion: string,
     resourceGroupName: string,
     privateCloudName: string,
     scriptPackageName: string,
@@ -21,6 +22,7 @@ export interface ScriptPackagesOperations {
   ) => Promise<ScriptPackage>;
   /** List ScriptPackage resources by PrivateCloud */
   list: (
+    apiVersion: string,
     resourceGroupName: string,
     privateCloudName: string,
     options?: ScriptPackagesListOptionalParams,
@@ -30,16 +32,18 @@ export interface ScriptPackagesOperations {
 function _getScriptPackages(context: AzureVMwareSolutionAPIContext) {
   return {
     get: (
+      apiVersion: string,
       resourceGroupName: string,
       privateCloudName: string,
       scriptPackageName: string,
       options?: ScriptPackagesGetOptionalParams,
-    ) => get(context, resourceGroupName, privateCloudName, scriptPackageName, options),
+    ) => get(context, apiVersion, resourceGroupName, privateCloudName, scriptPackageName, options),
     list: (
+      apiVersion: string,
       resourceGroupName: string,
       privateCloudName: string,
       options?: ScriptPackagesListOptionalParams,
-    ) => list(context, resourceGroupName, privateCloudName, options),
+    ) => list(context, apiVersion, resourceGroupName, privateCloudName, options),
   };
 }
 

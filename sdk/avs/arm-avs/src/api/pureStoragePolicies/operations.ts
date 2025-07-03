@@ -32,6 +32,7 @@ import { PollerLike, OperationState } from "@azure/core-lro";
 
 export function _$deleteSend(
   context: Client,
+  apiVersion: string,
   resourceGroupName: string,
   privateCloudName: string,
   storagePolicyName: string,
@@ -44,7 +45,7 @@ export function _$deleteSend(
       resourceGroupName: resourceGroupName,
       privateCloudName: privateCloudName,
       storagePolicyName: storagePolicyName,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": apiVersion,
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -78,6 +79,7 @@ export async function _$deleteDeserialize(result: PathUncheckedResponse): Promis
  */
 export function $delete(
   context: Client,
+  apiVersion: string,
   resourceGroupName: string,
   privateCloudName: string,
   storagePolicyName: string,
@@ -87,13 +89,21 @@ export function $delete(
     updateIntervalInMs: options?.updateIntervalInMs,
     abortSignal: options?.abortSignal,
     getInitialResponse: () =>
-      _$deleteSend(context, resourceGroupName, privateCloudName, storagePolicyName, options),
+      _$deleteSend(
+        context,
+        apiVersion,
+        resourceGroupName,
+        privateCloudName,
+        storagePolicyName,
+        options,
+      ),
     resourceLocationConfig: "location",
   }) as PollerLike<OperationState<void>, void>;
 }
 
 export function _createOrUpdateSend(
   context: Client,
+  apiVersion: string,
   resourceGroupName: string,
   privateCloudName: string,
   storagePolicyName: string,
@@ -109,7 +119,7 @@ export function _createOrUpdateSend(
       resourceGroupName: resourceGroupName,
       privateCloudName: privateCloudName,
       storagePolicyName: storagePolicyName,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": apiVersion,
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -142,6 +152,7 @@ export async function _createOrUpdateDeserialize(
 /** Create a PureStoragePolicy */
 export function createOrUpdate(
   context: Client,
+  apiVersion: string,
   resourceGroupName: string,
   privateCloudName: string,
   storagePolicyName: string,
@@ -156,6 +167,7 @@ export function createOrUpdate(
     getInitialResponse: () =>
       _createOrUpdateSend(
         context,
+        apiVersion,
         resourceGroupName,
         privateCloudName,
         storagePolicyName,
@@ -168,6 +180,7 @@ export function createOrUpdate(
 
 export function _getSend(
   context: Client,
+  apiVersion: string,
   resourceGroupName: string,
   privateCloudName: string,
   storagePolicyName: string,
@@ -180,7 +193,7 @@ export function _getSend(
       resourceGroupName: resourceGroupName,
       privateCloudName: privateCloudName,
       storagePolicyName: storagePolicyName,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": apiVersion,
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -209,6 +222,7 @@ export async function _getDeserialize(result: PathUncheckedResponse): Promise<Pu
 /** Get a PureStoragePolicy */
 export async function get(
   context: Client,
+  apiVersion: string,
   resourceGroupName: string,
   privateCloudName: string,
   storagePolicyName: string,
@@ -216,6 +230,7 @@ export async function get(
 ): Promise<PureStoragePolicy> {
   const result = await _getSend(
     context,
+    apiVersion,
     resourceGroupName,
     privateCloudName,
     storagePolicyName,
@@ -226,6 +241,7 @@ export async function get(
 
 export function _listSend(
   context: Client,
+  apiVersion: string,
   resourceGroupName: string,
   privateCloudName: string,
   options: PureStoragePoliciesListOptionalParams = { requestOptions: {} },
@@ -236,7 +252,7 @@ export function _listSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       privateCloudName: privateCloudName,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": apiVersion,
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -267,13 +283,14 @@ export async function _listDeserialize(
 /** List PureStoragePolicy resources by PrivateCloud */
 export function list(
   context: Client,
+  apiVersion: string,
   resourceGroupName: string,
   privateCloudName: string,
   options: PureStoragePoliciesListOptionalParams = { requestOptions: {} },
 ): PagedAsyncIterableIterator<PureStoragePolicy> {
   return buildPagedAsyncIterator(
     context,
-    () => _listSend(context, resourceGroupName, privateCloudName, options),
+    () => _listSend(context, apiVersion, resourceGroupName, privateCloudName, options),
     _listDeserialize,
     ["200"],
     { itemName: "value", nextLinkName: "nextLink" },

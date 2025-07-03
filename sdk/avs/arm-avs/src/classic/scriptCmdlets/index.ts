@@ -14,6 +14,7 @@ import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.j
 export interface ScriptCmdletsOperations {
   /** Get a ScriptCmdlet */
   get: (
+    apiVersion: string,
     resourceGroupName: string,
     privateCloudName: string,
     scriptPackageName: string,
@@ -22,6 +23,7 @@ export interface ScriptCmdletsOperations {
   ) => Promise<ScriptCmdlet>;
   /** List ScriptCmdlet resources by ScriptPackage */
   list: (
+    apiVersion: string,
     resourceGroupName: string,
     privateCloudName: string,
     scriptPackageName: string,
@@ -32,6 +34,7 @@ export interface ScriptCmdletsOperations {
 function _getScriptCmdlets(context: AzureVMwareSolutionAPIContext) {
   return {
     get: (
+      apiVersion: string,
       resourceGroupName: string,
       privateCloudName: string,
       scriptPackageName: string,
@@ -40,6 +43,7 @@ function _getScriptCmdlets(context: AzureVMwareSolutionAPIContext) {
     ) =>
       get(
         context,
+        apiVersion,
         resourceGroupName,
         privateCloudName,
         scriptPackageName,
@@ -47,11 +51,12 @@ function _getScriptCmdlets(context: AzureVMwareSolutionAPIContext) {
         options,
       ),
     list: (
+      apiVersion: string,
       resourceGroupName: string,
       privateCloudName: string,
       scriptPackageName: string,
       options?: ScriptCmdletsListOptionalParams,
-    ) => list(context, resourceGroupName, privateCloudName, scriptPackageName, options),
+    ) => list(context, apiVersion, resourceGroupName, privateCloudName, scriptPackageName, options),
   };
 }
 

@@ -10,19 +10,19 @@ import { OperationState } from '@azure/core-lro';
 import { PollerLike } from '@azure/core-lro';
 
 // @public
-export function $delete(context: AzureVMwareSolutionAPIContext, resourceGroupName: string, privateCloudName: string, scriptExecutionName: string, options?: ScriptExecutionsDeleteOptionalParams): PollerLike<OperationState<void>, void>;
+export function $delete(context: AzureVMwareSolutionAPIContext, apiVersion: string, resourceGroupName: string, privateCloudName: string, scriptExecutionName: string, options?: ScriptExecutionsDeleteOptionalParams): PollerLike<OperationState<void>, void>;
 
 // @public
-export function createOrUpdate(context: AzureVMwareSolutionAPIContext, resourceGroupName: string, privateCloudName: string, scriptExecutionName: string, scriptExecution: ScriptExecution, options?: ScriptExecutionsCreateOrUpdateOptionalParams): PollerLike<OperationState<ScriptExecution>, ScriptExecution>;
+export function createOrUpdate(context: AzureVMwareSolutionAPIContext, apiVersion: string, resourceGroupName: string, privateCloudName: string, scriptExecutionName: string, scriptExecution: ScriptExecution, options?: ScriptExecutionsCreateOrUpdateOptionalParams): PollerLike<OperationState<ScriptExecution>, ScriptExecution>;
 
 // @public
-export function get(context: AzureVMwareSolutionAPIContext, resourceGroupName: string, privateCloudName: string, scriptExecutionName: string, options?: ScriptExecutionsGetOptionalParams): Promise<ScriptExecution>;
+export function get(context: AzureVMwareSolutionAPIContext, apiVersion: string, resourceGroupName: string, privateCloudName: string, scriptExecutionName: string, options?: ScriptExecutionsGetOptionalParams): Promise<ScriptExecution>;
 
 // @public
-export function getExecutionLogs(context: AzureVMwareSolutionAPIContext, resourceGroupName: string, privateCloudName: string, scriptExecutionName: string, options?: ScriptExecutionsGetExecutionLogsOptionalParams): Promise<ScriptExecution>;
+export function getExecutionLogs(context: AzureVMwareSolutionAPIContext, apiVersion: string, resourceGroupName: string, privateCloudName: string, scriptExecutionName: string, options?: ScriptExecutionsGetExecutionLogsOptionalParams): Promise<ScriptExecution>;
 
 // @public
-export function list(context: AzureVMwareSolutionAPIContext, resourceGroupName: string, privateCloudName: string, options?: ScriptExecutionsListOptionalParams): PagedAsyncIterableIterator<ScriptExecution>;
+export function list(context: AzureVMwareSolutionAPIContext, apiVersion: string, resourceGroupName: string, privateCloudName: string, options?: ScriptExecutionsListOptionalParams): PagedAsyncIterableIterator<ScriptExecution>;
 
 // @public
 export interface ScriptExecutionsCreateOrUpdateOptionalParams extends OperationOptions {

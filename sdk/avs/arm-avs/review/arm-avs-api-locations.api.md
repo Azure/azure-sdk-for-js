@@ -8,10 +8,10 @@ import { Client } from '@azure-rest/core-client';
 import { OperationOptions } from '@azure-rest/core-client';
 
 // @public
-export function checkQuotaAvailability(context: AzureVMwareSolutionAPIContext, location: string, options?: LocationsCheckQuotaAvailabilityOptionalParams): Promise<Quota>;
+export function checkQuotaAvailability(context: AzureVMwareSolutionAPIContext, apiVersion: string, location: string, options?: LocationsCheckQuotaAvailabilityOptionalParams): Promise<Quota>;
 
 // @public
-export function checkTrialAvailability(context: AzureVMwareSolutionAPIContext, location: string, options?: LocationsCheckTrialAvailabilityOptionalParams): Promise<Trial>;
+export function checkTrialAvailability(context: AzureVMwareSolutionAPIContext, apiVersion: string, location: string, options?: LocationsCheckTrialAvailabilityOptionalParams): Promise<Trial>;
 
 // @public
 export interface LocationsCheckQuotaAvailabilityOptionalParams extends OperationOptions {

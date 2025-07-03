@@ -8,7 +8,7 @@ import { Client } from '@azure-rest/core-client';
 import { OperationOptions } from '@azure-rest/core-client';
 
 // @public
-export function get(context: AzureVMwareSolutionAPIContext, resourceGroupName: string, privateCloudName: string, clusterName: string, hostId: string, options?: HostsGetOptionalParams): Promise<Host>;
+export function get(context: AzureVMwareSolutionAPIContext, apiVersion: string, resourceGroupName: string, privateCloudName: string, clusterName: string, hostId: string, options?: HostsGetOptionalParams): Promise<Host>;
 
 // @public
 export interface HostsGetOptionalParams extends OperationOptions {
@@ -19,7 +19,7 @@ export interface HostsListOptionalParams extends OperationOptions {
 }
 
 // @public
-export function list(context: AzureVMwareSolutionAPIContext, resourceGroupName: string, privateCloudName: string, clusterName: string, options?: HostsListOptionalParams): PagedAsyncIterableIterator<Host>;
+export function list(context: AzureVMwareSolutionAPIContext, apiVersion: string, resourceGroupName: string, privateCloudName: string, clusterName: string, options?: HostsListOptionalParams): PagedAsyncIterableIterator<Host>;
 
 // (No @packageDocumentation comment for this package)
 

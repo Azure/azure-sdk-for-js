@@ -23,13 +23,14 @@ import {
 
 export function _listSend(
   context: Client,
+  apiVersion: string,
   options: SkusListOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
     "/subscriptions/{subscriptionId}/providers/Microsoft.AVS/skus{?api%2Dversion}",
     {
       subscriptionId: context.subscriptionId,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": apiVersion,
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -58,11 +59,12 @@ export async function _listDeserialize(result: PathUncheckedResponse): Promise<_
 /** A list of SKUs. */
 export function list(
   context: Client,
+  apiVersion: string,
   options: SkusListOptionalParams = { requestOptions: {} },
 ): PagedAsyncIterableIterator<ResourceSku> {
   return buildPagedAsyncIterator(
     context,
-    () => _listSend(context, options),
+    () => _listSend(context, apiVersion, options),
     _listDeserialize,
     ["200"],
     { itemName: "value", nextLinkName: "nextLink" },

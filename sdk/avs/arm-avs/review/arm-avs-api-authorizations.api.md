@@ -10,7 +10,7 @@ import { OperationState } from '@azure/core-lro';
 import { PollerLike } from '@azure/core-lro';
 
 // @public
-export function $delete(context: AzureVMwareSolutionAPIContext, resourceGroupName: string, privateCloudName: string, authorizationName: string, options?: AuthorizationsDeleteOptionalParams): PollerLike<OperationState<void>, void>;
+export function $delete(context: AzureVMwareSolutionAPIContext, apiVersion: string, resourceGroupName: string, privateCloudName: string, authorizationName: string, options?: AuthorizationsDeleteOptionalParams): PollerLike<OperationState<void>, void>;
 
 // @public
 export interface AuthorizationsCreateOrUpdateOptionalParams extends OperationOptions {
@@ -31,13 +31,13 @@ export interface AuthorizationsListOptionalParams extends OperationOptions {
 }
 
 // @public
-export function createOrUpdate(context: AzureVMwareSolutionAPIContext, resourceGroupName: string, privateCloudName: string, authorizationName: string, authorization: ExpressRouteAuthorization, options?: AuthorizationsCreateOrUpdateOptionalParams): PollerLike<OperationState<ExpressRouteAuthorization>, ExpressRouteAuthorization>;
+export function createOrUpdate(context: AzureVMwareSolutionAPIContext, apiVersion: string, resourceGroupName: string, privateCloudName: string, authorizationName: string, authorization: ExpressRouteAuthorization, options?: AuthorizationsCreateOrUpdateOptionalParams): PollerLike<OperationState<ExpressRouteAuthorization>, ExpressRouteAuthorization>;
 
 // @public
-export function get(context: AzureVMwareSolutionAPIContext, resourceGroupName: string, privateCloudName: string, authorizationName: string, options?: AuthorizationsGetOptionalParams): Promise<ExpressRouteAuthorization>;
+export function get(context: AzureVMwareSolutionAPIContext, apiVersion: string, resourceGroupName: string, privateCloudName: string, authorizationName: string, options?: AuthorizationsGetOptionalParams): Promise<ExpressRouteAuthorization>;
 
 // @public
-export function list(context: AzureVMwareSolutionAPIContext, resourceGroupName: string, privateCloudName: string, options?: AuthorizationsListOptionalParams): PagedAsyncIterableIterator<ExpressRouteAuthorization>;
+export function list(context: AzureVMwareSolutionAPIContext, apiVersion: string, resourceGroupName: string, privateCloudName: string, options?: AuthorizationsListOptionalParams): PagedAsyncIterableIterator<ExpressRouteAuthorization>;
 
 // (No @packageDocumentation comment for this package)
 

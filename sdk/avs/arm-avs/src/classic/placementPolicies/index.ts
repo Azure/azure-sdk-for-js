@@ -29,6 +29,7 @@ export interface PlacementPoliciesOperations {
    *         to the operation to override the generated name.
    */
   delete: (
+    apiVersion: string,
     resourceGroupName: string,
     privateCloudName: string,
     clusterName: string,
@@ -37,6 +38,7 @@ export interface PlacementPoliciesOperations {
   ) => PollerLike<OperationState<void>, void>;
   /** Update a PlacementPolicy */
   update: (
+    apiVersion: string,
     resourceGroupName: string,
     privateCloudName: string,
     clusterName: string,
@@ -46,6 +48,7 @@ export interface PlacementPoliciesOperations {
   ) => PollerLike<OperationState<PlacementPolicy>, PlacementPolicy>;
   /** Create a PlacementPolicy */
   createOrUpdate: (
+    apiVersion: string,
     resourceGroupName: string,
     privateCloudName: string,
     clusterName: string,
@@ -55,6 +58,7 @@ export interface PlacementPoliciesOperations {
   ) => PollerLike<OperationState<PlacementPolicy>, PlacementPolicy>;
   /** Get a PlacementPolicy */
   get: (
+    apiVersion: string,
     resourceGroupName: string,
     privateCloudName: string,
     clusterName: string,
@@ -63,6 +67,7 @@ export interface PlacementPoliciesOperations {
   ) => Promise<PlacementPolicy>;
   /** List PlacementPolicy resources by Cluster */
   list: (
+    apiVersion: string,
     resourceGroupName: string,
     privateCloudName: string,
     clusterName: string,
@@ -73,6 +78,7 @@ export interface PlacementPoliciesOperations {
 function _getPlacementPolicies(context: AzureVMwareSolutionAPIContext) {
   return {
     delete: (
+      apiVersion: string,
       resourceGroupName: string,
       privateCloudName: string,
       clusterName: string,
@@ -81,6 +87,7 @@ function _getPlacementPolicies(context: AzureVMwareSolutionAPIContext) {
     ) =>
       $delete(
         context,
+        apiVersion,
         resourceGroupName,
         privateCloudName,
         clusterName,
@@ -88,6 +95,7 @@ function _getPlacementPolicies(context: AzureVMwareSolutionAPIContext) {
         options,
       ),
     update: (
+      apiVersion: string,
       resourceGroupName: string,
       privateCloudName: string,
       clusterName: string,
@@ -97,6 +105,7 @@ function _getPlacementPolicies(context: AzureVMwareSolutionAPIContext) {
     ) =>
       update(
         context,
+        apiVersion,
         resourceGroupName,
         privateCloudName,
         clusterName,
@@ -105,6 +114,7 @@ function _getPlacementPolicies(context: AzureVMwareSolutionAPIContext) {
         options,
       ),
     createOrUpdate: (
+      apiVersion: string,
       resourceGroupName: string,
       privateCloudName: string,
       clusterName: string,
@@ -114,6 +124,7 @@ function _getPlacementPolicies(context: AzureVMwareSolutionAPIContext) {
     ) =>
       createOrUpdate(
         context,
+        apiVersion,
         resourceGroupName,
         privateCloudName,
         clusterName,
@@ -122,19 +133,29 @@ function _getPlacementPolicies(context: AzureVMwareSolutionAPIContext) {
         options,
       ),
     get: (
+      apiVersion: string,
       resourceGroupName: string,
       privateCloudName: string,
       clusterName: string,
       placementPolicyName: string,
       options?: PlacementPoliciesGetOptionalParams,
     ) =>
-      get(context, resourceGroupName, privateCloudName, clusterName, placementPolicyName, options),
+      get(
+        context,
+        apiVersion,
+        resourceGroupName,
+        privateCloudName,
+        clusterName,
+        placementPolicyName,
+        options,
+      ),
     list: (
+      apiVersion: string,
       resourceGroupName: string,
       privateCloudName: string,
       clusterName: string,
       options?: PlacementPoliciesListOptionalParams,
-    ) => list(context, resourceGroupName, privateCloudName, clusterName, options),
+    ) => list(context, apiVersion, resourceGroupName, privateCloudName, clusterName, options),
   };
 }
 

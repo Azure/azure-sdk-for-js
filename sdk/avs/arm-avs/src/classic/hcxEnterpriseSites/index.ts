@@ -21,6 +21,7 @@ export interface HcxEnterpriseSitesOperations {
    *         to the operation to override the generated name.
    */
   delete: (
+    apiVersion: string,
     resourceGroupName: string,
     privateCloudName: string,
     hcxEnterpriseSiteName: string,
@@ -28,6 +29,7 @@ export interface HcxEnterpriseSitesOperations {
   ) => Promise<void>;
   /** Create a HcxEnterpriseSite */
   createOrUpdate: (
+    apiVersion: string,
     resourceGroupName: string,
     privateCloudName: string,
     hcxEnterpriseSiteName: string,
@@ -36,6 +38,7 @@ export interface HcxEnterpriseSitesOperations {
   ) => Promise<HcxEnterpriseSite>;
   /** Get a HcxEnterpriseSite */
   get: (
+    apiVersion: string,
     resourceGroupName: string,
     privateCloudName: string,
     hcxEnterpriseSiteName: string,
@@ -43,6 +46,7 @@ export interface HcxEnterpriseSitesOperations {
   ) => Promise<HcxEnterpriseSite>;
   /** List HcxEnterpriseSite resources by PrivateCloud */
   list: (
+    apiVersion: string,
     resourceGroupName: string,
     privateCloudName: string,
     options?: HcxEnterpriseSitesListOptionalParams,
@@ -52,12 +56,22 @@ export interface HcxEnterpriseSitesOperations {
 function _getHcxEnterpriseSites(context: AzureVMwareSolutionAPIContext) {
   return {
     delete: (
+      apiVersion: string,
       resourceGroupName: string,
       privateCloudName: string,
       hcxEnterpriseSiteName: string,
       options?: HcxEnterpriseSitesDeleteOptionalParams,
-    ) => $delete(context, resourceGroupName, privateCloudName, hcxEnterpriseSiteName, options),
+    ) =>
+      $delete(
+        context,
+        apiVersion,
+        resourceGroupName,
+        privateCloudName,
+        hcxEnterpriseSiteName,
+        options,
+      ),
     createOrUpdate: (
+      apiVersion: string,
       resourceGroupName: string,
       privateCloudName: string,
       hcxEnterpriseSiteName: string,
@@ -66,6 +80,7 @@ function _getHcxEnterpriseSites(context: AzureVMwareSolutionAPIContext) {
     ) =>
       createOrUpdate(
         context,
+        apiVersion,
         resourceGroupName,
         privateCloudName,
         hcxEnterpriseSiteName,
@@ -73,16 +88,19 @@ function _getHcxEnterpriseSites(context: AzureVMwareSolutionAPIContext) {
         options,
       ),
     get: (
+      apiVersion: string,
       resourceGroupName: string,
       privateCloudName: string,
       hcxEnterpriseSiteName: string,
       options?: HcxEnterpriseSitesGetOptionalParams,
-    ) => get(context, resourceGroupName, privateCloudName, hcxEnterpriseSiteName, options),
+    ) =>
+      get(context, apiVersion, resourceGroupName, privateCloudName, hcxEnterpriseSiteName, options),
     list: (
+      apiVersion: string,
       resourceGroupName: string,
       privateCloudName: string,
       options?: HcxEnterpriseSitesListOptionalParams,
-    ) => list(context, resourceGroupName, privateCloudName, options),
+    ) => list(context, apiVersion, resourceGroupName, privateCloudName, options),
   };
 }
 

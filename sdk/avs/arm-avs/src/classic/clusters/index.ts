@@ -26,6 +26,7 @@ import { PollerLike, OperationState } from "@azure/core-lro";
 export interface ClustersOperations {
   /** List hosts by zone in a cluster */
   listZones: (
+    apiVersion: string,
     resourceGroupName: string,
     privateCloudName: string,
     clusterName: string,
@@ -38,6 +39,7 @@ export interface ClustersOperations {
    *         to the operation to override the generated name.
    */
   delete: (
+    apiVersion: string,
     resourceGroupName: string,
     privateCloudName: string,
     clusterName: string,
@@ -45,6 +47,7 @@ export interface ClustersOperations {
   ) => PollerLike<OperationState<void>, void>;
   /** Update a Cluster */
   update: (
+    apiVersion: string,
     resourceGroupName: string,
     privateCloudName: string,
     clusterName: string,
@@ -53,6 +56,7 @@ export interface ClustersOperations {
   ) => PollerLike<OperationState<Cluster>, Cluster>;
   /** Create a Cluster */
   createOrUpdate: (
+    apiVersion: string,
     resourceGroupName: string,
     privateCloudName: string,
     clusterName: string,
@@ -61,6 +65,7 @@ export interface ClustersOperations {
   ) => PollerLike<OperationState<Cluster>, Cluster>;
   /** Get a Cluster */
   get: (
+    apiVersion: string,
     resourceGroupName: string,
     privateCloudName: string,
     clusterName: string,
@@ -68,6 +73,7 @@ export interface ClustersOperations {
   ) => Promise<Cluster>;
   /** List Cluster resources by PrivateCloud */
   list: (
+    apiVersion: string,
     resourceGroupName: string,
     privateCloudName: string,
     options?: ClustersListOptionalParams,
@@ -77,43 +83,66 @@ export interface ClustersOperations {
 function _getClusters(context: AzureVMwareSolutionAPIContext) {
   return {
     listZones: (
+      apiVersion: string,
       resourceGroupName: string,
       privateCloudName: string,
       clusterName: string,
       options?: ClustersListZonesOptionalParams,
-    ) => listZones(context, resourceGroupName, privateCloudName, clusterName, options),
+    ) => listZones(context, apiVersion, resourceGroupName, privateCloudName, clusterName, options),
     delete: (
+      apiVersion: string,
       resourceGroupName: string,
       privateCloudName: string,
       clusterName: string,
       options?: ClustersDeleteOptionalParams,
-    ) => $delete(context, resourceGroupName, privateCloudName, clusterName, options),
+    ) => $delete(context, apiVersion, resourceGroupName, privateCloudName, clusterName, options),
     update: (
+      apiVersion: string,
       resourceGroupName: string,
       privateCloudName: string,
       clusterName: string,
       clusterUpdate: ClusterUpdate,
       options?: ClustersUpdateOptionalParams,
-    ) => update(context, resourceGroupName, privateCloudName, clusterName, clusterUpdate, options),
+    ) =>
+      update(
+        context,
+        apiVersion,
+        resourceGroupName,
+        privateCloudName,
+        clusterName,
+        clusterUpdate,
+        options,
+      ),
     createOrUpdate: (
+      apiVersion: string,
       resourceGroupName: string,
       privateCloudName: string,
       clusterName: string,
       cluster: Cluster,
       options?: ClustersCreateOrUpdateOptionalParams,
     ) =>
-      createOrUpdate(context, resourceGroupName, privateCloudName, clusterName, cluster, options),
+      createOrUpdate(
+        context,
+        apiVersion,
+        resourceGroupName,
+        privateCloudName,
+        clusterName,
+        cluster,
+        options,
+      ),
     get: (
+      apiVersion: string,
       resourceGroupName: string,
       privateCloudName: string,
       clusterName: string,
       options?: ClustersGetOptionalParams,
-    ) => get(context, resourceGroupName, privateCloudName, clusterName, options),
+    ) => get(context, apiVersion, resourceGroupName, privateCloudName, clusterName, options),
     list: (
+      apiVersion: string,
       resourceGroupName: string,
       privateCloudName: string,
       options?: ClustersListOptionalParams,
-    ) => list(context, resourceGroupName, privateCloudName, options),
+    ) => list(context, apiVersion, resourceGroupName, privateCloudName, options),
   };
 }
 

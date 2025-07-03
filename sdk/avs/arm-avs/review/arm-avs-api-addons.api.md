@@ -10,7 +10,7 @@ import { OperationState } from '@azure/core-lro';
 import { PollerLike } from '@azure/core-lro';
 
 // @public
-export function $delete(context: AzureVMwareSolutionAPIContext, resourceGroupName: string, privateCloudName: string, addonName: string, options?: AddonsDeleteOptionalParams): PollerLike<OperationState<void>, void>;
+export function $delete(context: AzureVMwareSolutionAPIContext, apiVersion: string, resourceGroupName: string, privateCloudName: string, addonName: string, options?: AddonsDeleteOptionalParams): PollerLike<OperationState<void>, void>;
 
 // @public
 export interface AddonsCreateOrUpdateOptionalParams extends OperationOptions {
@@ -31,13 +31,13 @@ export interface AddonsListOptionalParams extends OperationOptions {
 }
 
 // @public
-export function createOrUpdate(context: AzureVMwareSolutionAPIContext, resourceGroupName: string, privateCloudName: string, addonName: string, addon: Addon, options?: AddonsCreateOrUpdateOptionalParams): PollerLike<OperationState<Addon>, Addon>;
+export function createOrUpdate(context: AzureVMwareSolutionAPIContext, apiVersion: string, resourceGroupName: string, privateCloudName: string, addonName: string, addon: Addon, options?: AddonsCreateOrUpdateOptionalParams): PollerLike<OperationState<Addon>, Addon>;
 
 // @public
-export function get(context: AzureVMwareSolutionAPIContext, resourceGroupName: string, privateCloudName: string, addonName: string, options?: AddonsGetOptionalParams): Promise<Addon>;
+export function get(context: AzureVMwareSolutionAPIContext, apiVersion: string, resourceGroupName: string, privateCloudName: string, addonName: string, options?: AddonsGetOptionalParams): Promise<Addon>;
 
 // @public
-export function list(context: AzureVMwareSolutionAPIContext, resourceGroupName: string, privateCloudName: string, options?: AddonsListOptionalParams): PagedAsyncIterableIterator<Addon>;
+export function list(context: AzureVMwareSolutionAPIContext, apiVersion: string, resourceGroupName: string, privateCloudName: string, options?: AddonsListOptionalParams): PagedAsyncIterableIterator<Addon>;
 
 // (No @packageDocumentation comment for this package)
 

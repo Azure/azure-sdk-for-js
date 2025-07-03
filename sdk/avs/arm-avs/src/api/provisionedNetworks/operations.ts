@@ -27,6 +27,7 @@ import {
 
 export function _getSend(
   context: Client,
+  apiVersion: string,
   resourceGroupName: string,
   privateCloudName: string,
   provisionedNetworkName: string,
@@ -39,7 +40,7 @@ export function _getSend(
       resourceGroupName: resourceGroupName,
       privateCloudName: privateCloudName,
       provisionedNetworkName: provisionedNetworkName,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": apiVersion,
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -68,6 +69,7 @@ export async function _getDeserialize(result: PathUncheckedResponse): Promise<Pr
 /** Get a ProvisionedNetwork */
 export async function get(
   context: Client,
+  apiVersion: string,
   resourceGroupName: string,
   privateCloudName: string,
   provisionedNetworkName: string,
@@ -75,6 +77,7 @@ export async function get(
 ): Promise<ProvisionedNetwork> {
   const result = await _getSend(
     context,
+    apiVersion,
     resourceGroupName,
     privateCloudName,
     provisionedNetworkName,
@@ -85,6 +88,7 @@ export async function get(
 
 export function _listSend(
   context: Client,
+  apiVersion: string,
   resourceGroupName: string,
   privateCloudName: string,
   options: ProvisionedNetworksListOptionalParams = { requestOptions: {} },
@@ -95,7 +99,7 @@ export function _listSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       privateCloudName: privateCloudName,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": apiVersion,
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -126,13 +130,14 @@ export async function _listDeserialize(
 /** List ProvisionedNetwork resources by PrivateCloud */
 export function list(
   context: Client,
+  apiVersion: string,
   resourceGroupName: string,
   privateCloudName: string,
   options: ProvisionedNetworksListOptionalParams = { requestOptions: {} },
 ): PagedAsyncIterableIterator<ProvisionedNetwork> {
   return buildPagedAsyncIterator(
     context,
-    () => _listSend(context, resourceGroupName, privateCloudName, options),
+    () => _listSend(context, apiVersion, resourceGroupName, privateCloudName, options),
     _listDeserialize,
     ["200"],
     { itemName: "value", nextLinkName: "nextLink" },

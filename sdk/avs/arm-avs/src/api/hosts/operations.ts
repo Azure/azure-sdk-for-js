@@ -24,6 +24,7 @@ import {
 
 export function _getSend(
   context: Client,
+  apiVersion: string,
   resourceGroupName: string,
   privateCloudName: string,
   clusterName: string,
@@ -38,7 +39,7 @@ export function _getSend(
       privateCloudName: privateCloudName,
       clusterName: clusterName,
       hostId: hostId,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": apiVersion,
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -67,6 +68,7 @@ export async function _getDeserialize(result: PathUncheckedResponse): Promise<Ho
 /** Get a Host */
 export async function get(
   context: Client,
+  apiVersion: string,
   resourceGroupName: string,
   privateCloudName: string,
   clusterName: string,
@@ -75,6 +77,7 @@ export async function get(
 ): Promise<Host> {
   const result = await _getSend(
     context,
+    apiVersion,
     resourceGroupName,
     privateCloudName,
     clusterName,
@@ -86,6 +89,7 @@ export async function get(
 
 export function _listSend(
   context: Client,
+  apiVersion: string,
   resourceGroupName: string,
   privateCloudName: string,
   clusterName: string,
@@ -98,7 +102,7 @@ export function _listSend(
       resourceGroupName: resourceGroupName,
       privateCloudName: privateCloudName,
       clusterName: clusterName,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": apiVersion,
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -127,6 +131,7 @@ export async function _listDeserialize(result: PathUncheckedResponse): Promise<_
 /** List Host resources by Cluster */
 export function list(
   context: Client,
+  apiVersion: string,
   resourceGroupName: string,
   privateCloudName: string,
   clusterName: string,
@@ -134,7 +139,7 @@ export function list(
 ): PagedAsyncIterableIterator<Host> {
   return buildPagedAsyncIterator(
     context,
-    () => _listSend(context, resourceGroupName, privateCloudName, clusterName, options),
+    () => _listSend(context, apiVersion, resourceGroupName, privateCloudName, clusterName, options),
     _listDeserialize,
     ["200"],
     { itemName: "value", nextLinkName: "nextLink" },

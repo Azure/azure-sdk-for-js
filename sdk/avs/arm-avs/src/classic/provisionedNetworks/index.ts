@@ -14,6 +14,7 @@ import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.j
 export interface ProvisionedNetworksOperations {
   /** Get a ProvisionedNetwork */
   get: (
+    apiVersion: string,
     resourceGroupName: string,
     privateCloudName: string,
     provisionedNetworkName: string,
@@ -21,6 +22,7 @@ export interface ProvisionedNetworksOperations {
   ) => Promise<ProvisionedNetwork>;
   /** List ProvisionedNetwork resources by PrivateCloud */
   list: (
+    apiVersion: string,
     resourceGroupName: string,
     privateCloudName: string,
     options?: ProvisionedNetworksListOptionalParams,
@@ -30,16 +32,26 @@ export interface ProvisionedNetworksOperations {
 function _getProvisionedNetworks(context: AzureVMwareSolutionAPIContext) {
   return {
     get: (
+      apiVersion: string,
       resourceGroupName: string,
       privateCloudName: string,
       provisionedNetworkName: string,
       options?: ProvisionedNetworksGetOptionalParams,
-    ) => get(context, resourceGroupName, privateCloudName, provisionedNetworkName, options),
+    ) =>
+      get(
+        context,
+        apiVersion,
+        resourceGroupName,
+        privateCloudName,
+        provisionedNetworkName,
+        options,
+      ),
     list: (
+      apiVersion: string,
       resourceGroupName: string,
       privateCloudName: string,
       options?: ProvisionedNetworksListOptionalParams,
-    ) => list(context, resourceGroupName, privateCloudName, options),
+    ) => list(context, apiVersion, resourceGroupName, privateCloudName, options),
   };
 }
 

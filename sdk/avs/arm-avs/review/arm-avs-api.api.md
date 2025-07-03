@@ -10,13 +10,11 @@ import { TokenCredential } from '@azure/core-auth';
 
 // @public (undocumented)
 export interface AzureVMwareSolutionAPIContext extends Client {
-    apiVersion: string;
     subscriptionId: string;
 }
 
 // @public
 export interface AzureVMwareSolutionAPIOptionalParams extends ClientOptions {
-    apiVersion?: string;
 }
 
 // @public (undocumented)

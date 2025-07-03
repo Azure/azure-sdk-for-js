@@ -8,10 +8,10 @@ import { Client } from '@azure-rest/core-client';
 import { OperationOptions } from '@azure-rest/core-client';
 
 // @public
-export function get(context: AzureVMwareSolutionAPIContext, resourceGroupName: string, privateCloudName: string, provisionedNetworkName: string, options?: ProvisionedNetworksGetOptionalParams): Promise<ProvisionedNetwork>;
+export function get(context: AzureVMwareSolutionAPIContext, apiVersion: string, resourceGroupName: string, privateCloudName: string, provisionedNetworkName: string, options?: ProvisionedNetworksGetOptionalParams): Promise<ProvisionedNetwork>;
 
 // @public
-export function list(context: AzureVMwareSolutionAPIContext, resourceGroupName: string, privateCloudName: string, options?: ProvisionedNetworksListOptionalParams): PagedAsyncIterableIterator<ProvisionedNetwork>;
+export function list(context: AzureVMwareSolutionAPIContext, apiVersion: string, resourceGroupName: string, privateCloudName: string, options?: ProvisionedNetworksListOptionalParams): PagedAsyncIterableIterator<ProvisionedNetwork>;
 
 // @public
 export interface ProvisionedNetworksGetOptionalParams extends OperationOptions {

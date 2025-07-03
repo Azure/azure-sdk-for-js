@@ -8,7 +8,7 @@ import { Client } from '@azure-rest/core-client';
 import { OperationOptions } from '@azure-rest/core-client';
 
 // @public
-export function list(context: AzureVMwareSolutionAPIContext, options?: SkusListOptionalParams): PagedAsyncIterableIterator<ResourceSku>;
+export function list(context: AzureVMwareSolutionAPIContext, apiVersion: string, options?: SkusListOptionalParams): PagedAsyncIterableIterator<ResourceSku>;
 
 // @public
 export interface SkusListOptionalParams extends OperationOptions {

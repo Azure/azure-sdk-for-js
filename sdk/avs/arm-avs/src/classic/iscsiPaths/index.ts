@@ -27,12 +27,14 @@ export interface IscsiPathsOperations {
    *         to the operation to override the generated name.
    */
   delete: (
+    apiVersion: string,
     resourceGroupName: string,
     privateCloudName: string,
     options?: IscsiPathsDeleteOptionalParams,
   ) => PollerLike<OperationState<void>, void>;
   /** Create a IscsiPath */
   createOrUpdate: (
+    apiVersion: string,
     resourceGroupName: string,
     privateCloudName: string,
     resource: IscsiPath,
@@ -40,12 +42,14 @@ export interface IscsiPathsOperations {
   ) => PollerLike<OperationState<IscsiPath>, IscsiPath>;
   /** Get a IscsiPath */
   get: (
+    apiVersion: string,
     resourceGroupName: string,
     privateCloudName: string,
     options?: IscsiPathsGetOptionalParams,
   ) => Promise<IscsiPath>;
   /** List IscsiPath resources by PrivateCloud */
   listByPrivateCloud: (
+    apiVersion: string,
     resourceGroupName: string,
     privateCloudName: string,
     options?: IscsiPathsListByPrivateCloudOptionalParams,
@@ -55,26 +59,31 @@ export interface IscsiPathsOperations {
 function _getIscsiPaths(context: AzureVMwareSolutionAPIContext) {
   return {
     delete: (
+      apiVersion: string,
       resourceGroupName: string,
       privateCloudName: string,
       options?: IscsiPathsDeleteOptionalParams,
-    ) => $delete(context, resourceGroupName, privateCloudName, options),
+    ) => $delete(context, apiVersion, resourceGroupName, privateCloudName, options),
     createOrUpdate: (
+      apiVersion: string,
       resourceGroupName: string,
       privateCloudName: string,
       resource: IscsiPath,
       options?: IscsiPathsCreateOrUpdateOptionalParams,
-    ) => createOrUpdate(context, resourceGroupName, privateCloudName, resource, options),
+    ) =>
+      createOrUpdate(context, apiVersion, resourceGroupName, privateCloudName, resource, options),
     get: (
+      apiVersion: string,
       resourceGroupName: string,
       privateCloudName: string,
       options?: IscsiPathsGetOptionalParams,
-    ) => get(context, resourceGroupName, privateCloudName, options),
+    ) => get(context, apiVersion, resourceGroupName, privateCloudName, options),
     listByPrivateCloud: (
+      apiVersion: string,
       resourceGroupName: string,
       privateCloudName: string,
       options?: IscsiPathsListByPrivateCloudOptionalParams,
-    ) => listByPrivateCloud(context, resourceGroupName, privateCloudName, options),
+    ) => listByPrivateCloud(context, apiVersion, resourceGroupName, privateCloudName, options),
   };
 }
 

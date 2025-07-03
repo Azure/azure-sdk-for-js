@@ -22,6 +22,7 @@ export interface DatastoresOperations {
    *         to the operation to override the generated name.
    */
   delete: (
+    apiVersion: string,
     resourceGroupName: string,
     privateCloudName: string,
     clusterName: string,
@@ -30,6 +31,7 @@ export interface DatastoresOperations {
   ) => PollerLike<OperationState<void>, void>;
   /** Create a Datastore */
   createOrUpdate: (
+    apiVersion: string,
     resourceGroupName: string,
     privateCloudName: string,
     clusterName: string,
@@ -39,6 +41,7 @@ export interface DatastoresOperations {
   ) => PollerLike<OperationState<Datastore>, Datastore>;
   /** Get a Datastore */
   get: (
+    apiVersion: string,
     resourceGroupName: string,
     privateCloudName: string,
     clusterName: string,
@@ -47,6 +50,7 @@ export interface DatastoresOperations {
   ) => Promise<Datastore>;
   /** List Datastore resources by Cluster */
   list: (
+    apiVersion: string,
     resourceGroupName: string,
     privateCloudName: string,
     clusterName: string,
@@ -57,13 +61,24 @@ export interface DatastoresOperations {
 function _getDatastores(context: AzureVMwareSolutionAPIContext) {
   return {
     delete: (
+      apiVersion: string,
       resourceGroupName: string,
       privateCloudName: string,
       clusterName: string,
       datastoreName: string,
       options?: DatastoresDeleteOptionalParams,
-    ) => $delete(context, resourceGroupName, privateCloudName, clusterName, datastoreName, options),
+    ) =>
+      $delete(
+        context,
+        apiVersion,
+        resourceGroupName,
+        privateCloudName,
+        clusterName,
+        datastoreName,
+        options,
+      ),
     createOrUpdate: (
+      apiVersion: string,
       resourceGroupName: string,
       privateCloudName: string,
       clusterName: string,
@@ -73,6 +88,7 @@ function _getDatastores(context: AzureVMwareSolutionAPIContext) {
     ) =>
       createOrUpdate(
         context,
+        apiVersion,
         resourceGroupName,
         privateCloudName,
         clusterName,
@@ -81,18 +97,29 @@ function _getDatastores(context: AzureVMwareSolutionAPIContext) {
         options,
       ),
     get: (
+      apiVersion: string,
       resourceGroupName: string,
       privateCloudName: string,
       clusterName: string,
       datastoreName: string,
       options?: DatastoresGetOptionalParams,
-    ) => get(context, resourceGroupName, privateCloudName, clusterName, datastoreName, options),
+    ) =>
+      get(
+        context,
+        apiVersion,
+        resourceGroupName,
+        privateCloudName,
+        clusterName,
+        datastoreName,
+        options,
+      ),
     list: (
+      apiVersion: string,
       resourceGroupName: string,
       privateCloudName: string,
       clusterName: string,
       options?: DatastoresListOptionalParams,
-    ) => list(context, resourceGroupName, privateCloudName, clusterName, options),
+    ) => list(context, apiVersion, resourceGroupName, privateCloudName, clusterName, options),
   };
 }
 

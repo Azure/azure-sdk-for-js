@@ -32,18 +32,21 @@ import { PollerLike, OperationState } from "@azure/core-lro";
 export interface PrivateCloudsOperations {
   /** List the admin credentials for the private cloud */
   listAdminCredentials: (
+    apiVersion: string,
     resourceGroupName: string,
     privateCloudName: string,
     options?: PrivateCloudsListAdminCredentialsOptionalParams,
   ) => Promise<AdminCredentials>;
   /** Rotate the NSX-T Manager password */
   rotateNsxtPassword: (
+    apiVersion: string,
     resourceGroupName: string,
     privateCloudName: string,
     options?: PrivateCloudsRotateNsxtPasswordOptionalParams,
   ) => PollerLike<OperationState<void>, void>;
   /** Rotate the vCenter password */
   rotateVcenterPassword: (
+    apiVersion: string,
     resourceGroupName: string,
     privateCloudName: string,
     options?: PrivateCloudsRotateVcenterPasswordOptionalParams,
@@ -55,12 +58,14 @@ export interface PrivateCloudsOperations {
    *         to the operation to override the generated name.
    */
   delete: (
+    apiVersion: string,
     resourceGroupName: string,
     privateCloudName: string,
     options?: PrivateCloudsDeleteOptionalParams,
   ) => PollerLike<OperationState<void>, void>;
   /** Update a PrivateCloud */
   update: (
+    apiVersion: string,
     resourceGroupName: string,
     privateCloudName: string,
     privateCloudUpdate: PrivateCloudUpdate,
@@ -68,6 +73,7 @@ export interface PrivateCloudsOperations {
   ) => PollerLike<OperationState<PrivateCloud>, PrivateCloud>;
   /** Create a PrivateCloud */
   createOrUpdate: (
+    apiVersion: string,
     resourceGroupName: string,
     privateCloudName: string,
     privateCloud: PrivateCloud,
@@ -75,16 +81,19 @@ export interface PrivateCloudsOperations {
   ) => PollerLike<OperationState<PrivateCloud>, PrivateCloud>;
   /** Get a PrivateCloud */
   get: (
+    apiVersion: string,
     resourceGroupName: string,
     privateCloudName: string,
     options?: PrivateCloudsGetOptionalParams,
   ) => Promise<PrivateCloud>;
   /** List PrivateCloud resources by subscription ID */
   listInSubscription: (
+    apiVersion: string,
     options?: PrivateCloudsListInSubscriptionOptionalParams,
   ) => PagedAsyncIterableIterator<PrivateCloud>;
   /** List PrivateCloud resources by resource group */
   list: (
+    apiVersion: string,
     resourceGroupName: string,
     options?: PrivateCloudsListOptionalParams,
   ) => PagedAsyncIterableIterator<PrivateCloud>;
@@ -93,46 +102,67 @@ export interface PrivateCloudsOperations {
 function _getPrivateClouds(context: AzureVMwareSolutionAPIContext) {
   return {
     listAdminCredentials: (
+      apiVersion: string,
       resourceGroupName: string,
       privateCloudName: string,
       options?: PrivateCloudsListAdminCredentialsOptionalParams,
-    ) => listAdminCredentials(context, resourceGroupName, privateCloudName, options),
+    ) => listAdminCredentials(context, apiVersion, resourceGroupName, privateCloudName, options),
     rotateNsxtPassword: (
+      apiVersion: string,
       resourceGroupName: string,
       privateCloudName: string,
       options?: PrivateCloudsRotateNsxtPasswordOptionalParams,
-    ) => rotateNsxtPassword(context, resourceGroupName, privateCloudName, options),
+    ) => rotateNsxtPassword(context, apiVersion, resourceGroupName, privateCloudName, options),
     rotateVcenterPassword: (
+      apiVersion: string,
       resourceGroupName: string,
       privateCloudName: string,
       options?: PrivateCloudsRotateVcenterPasswordOptionalParams,
-    ) => rotateVcenterPassword(context, resourceGroupName, privateCloudName, options),
+    ) => rotateVcenterPassword(context, apiVersion, resourceGroupName, privateCloudName, options),
     delete: (
+      apiVersion: string,
       resourceGroupName: string,
       privateCloudName: string,
       options?: PrivateCloudsDeleteOptionalParams,
-    ) => $delete(context, resourceGroupName, privateCloudName, options),
+    ) => $delete(context, apiVersion, resourceGroupName, privateCloudName, options),
     update: (
+      apiVersion: string,
       resourceGroupName: string,
       privateCloudName: string,
       privateCloudUpdate: PrivateCloudUpdate,
       options?: PrivateCloudsUpdateOptionalParams,
-    ) => update(context, resourceGroupName, privateCloudName, privateCloudUpdate, options),
+    ) =>
+      update(context, apiVersion, resourceGroupName, privateCloudName, privateCloudUpdate, options),
     createOrUpdate: (
+      apiVersion: string,
       resourceGroupName: string,
       privateCloudName: string,
       privateCloud: PrivateCloud,
       options?: PrivateCloudsCreateOrUpdateOptionalParams,
-    ) => createOrUpdate(context, resourceGroupName, privateCloudName, privateCloud, options),
+    ) =>
+      createOrUpdate(
+        context,
+        apiVersion,
+        resourceGroupName,
+        privateCloudName,
+        privateCloud,
+        options,
+      ),
     get: (
+      apiVersion: string,
       resourceGroupName: string,
       privateCloudName: string,
       options?: PrivateCloudsGetOptionalParams,
-    ) => get(context, resourceGroupName, privateCloudName, options),
-    listInSubscription: (options?: PrivateCloudsListInSubscriptionOptionalParams) =>
-      listInSubscription(context, options),
-    list: (resourceGroupName: string, options?: PrivateCloudsListOptionalParams) =>
-      list(context, resourceGroupName, options),
+    ) => get(context, apiVersion, resourceGroupName, privateCloudName, options),
+    listInSubscription: (
+      apiVersion: string,
+      options?: PrivateCloudsListInSubscriptionOptionalParams,
+    ) => listInSubscription(context, apiVersion, options),
+    list: (
+      apiVersion: string,
+      resourceGroupName: string,
+      options?: PrivateCloudsListOptionalParams,
+    ) => list(context, apiVersion, resourceGroupName, options),
   };
 }
 
