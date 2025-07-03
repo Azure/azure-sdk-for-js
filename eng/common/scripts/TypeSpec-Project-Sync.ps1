@@ -213,7 +213,7 @@ Write-Host "Creating inputJson file"
         $configuration["directory"]
       )
     }
-    $inputJsonPath = Join-Path $tempTypeSpecDir $fileGenerateInput
+    $inputJsonPath = Join-Path $RepoRoot $fileGenerateInput
     $destJson = $file_content | ConvertTo-Json -Depth 10
     $destJson| Out-File -FilePath $inputJsonPath
     Write-Host $destJson
