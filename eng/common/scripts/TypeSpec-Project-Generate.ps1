@@ -69,7 +69,7 @@ finally {
 }
 
 $shouldCleanUp = !$SaveInputs
-if ($shouldCleanUp) {
+if ($shouldCleanUp -and (Test-Path $tempFolder)) {
     Remove-Item $tempFolder -Recurse -Force
 }
 exit 0
