@@ -92,6 +92,60 @@ function GetSpecCloneDir([string]$projectName) {
   return $createResult
 }
 
+function NpmInstallForProject([string]$workingDirectory) {
+    Push-Location $workingDirectory
+    try {
+        $currentDur = Resolve-Path "."
+        Write-Host "Generating from $currentDur"
+
+        if (Test-Path "package.json") {
+            Write-Host "Removing existing package.json"
+            Remove-Item -Path "package.json" -Force
+        }
+
+        if (Test-Path ".npmrc") {
+            Write-Host "Removing existing .nprc"
+            Remove-Item -Path ".npmrc" -Force
+        }
+
+        if (Test-Path "node_modules") {
+            Write-Host "Removing existing node_modules"
+            Remove-Item -Path "node_modules" -Force -Recurse
+        }
+
+        if (Test-Path "package-lock.json") {
+            Write-Host "Removing existing package-lock.json"
+            Remove-Item -Path "package-lock.json" -Force
+        }
+
+        $replacementPackageJson = Join-Path $PSScriptRoot "../../emitter-package.json"
+
+        Write-Host("Copying package.json from $replacementPackageJson")
+        Copy-Item -Path $replacementPackageJson -Destination "package.json" -Force
+        $emitterPackageLock = Join-Path $PSScriptRoot "../../emitter-package-lock.json"
+        $usingLockFile = Test-Path $emitterPackageLock
+
+        if ($usingLockFile) {
+            Write-Host("Copying package-lock.json from $emitterPackageLock")
+            Copy-Item -Path $emitterPackageLock -Destination "package-lock.json" -Force
+        }
+
+        if ($usingLockFile) {
+            Invoke-LoggedCommand "npm ci" -GroupOutput
+        }
+        else {
+            Invoke-LoggedCommand "npm install" -GroupOutput
+        }
+
+        if ($LASTEXITCODE) { exit $LASTEXITCODE }
+        Invoke-LoggedCommand "npm list -g --depth=0 --prefix" -GroupOutput
+        Invoke-LoggedCommand "npm list --depth=0" -GroupOutput
+    }
+    finally {
+        Pop-Location
+    }
+}
+
 Write-Host "##[group]TypeSpec-Project-Sync"
 $typespecConfigurationFile = Resolve-Path "$ProjectDirectory/tsp-location.yaml"
 Write-Host "Reading configuration from $typespecConfigurationFile"
@@ -126,6 +180,7 @@ elseif ($configuration["repo"] -and $configuration["commit"]) {
     Write-Host "git checkout commit: $commit"
     git checkout $configuration["commit"]
     if ($LASTEXITCODE) { exit $LASTEXITCODE }
+    NpmInstallForProject $specCloneDir.Path
   }
   finally {
     Pop-Location
@@ -139,6 +194,30 @@ else {
 
 $tempTypeSpecDir = "$ProjectDirectory/TempTypeSpecFiles"
 New-Item $tempTypeSpecDir -Type Directory -Force | Out-Null
+
+Write-Host "Creating inputJson file"
+    $fileGenerateInput = 'generateInput.json';
+   
+    $file_content = @{
+      "specFolder" = $specCloneDir.Path
+      "headSha" = $configuration["commit"]
+      "repoHttpsUrl" = "https://github.com/$($configuration["repo"])"
+      "changedFiles" = @()
+      "runMode" = "release"
+      "installInstructionInput" = @{
+        "isPublic" = $true
+        "downloadUrlPrefix" = ""
+        "downloadCommandTemplate" = "downloadCommand"
+      }
+      "relatedTypeSpecProjectFolder" = @(
+        $configuration["directory"]
+      )
+    }
+    $inputJsonPath = Join-Path $tempTypeSpecDir $fileGenerateInput
+    $destJson = $file_content | ConvertTo-Json -Depth 10
+    $destJson| Out-File -FilePath $inputJsonPath
+    Write-Host $destJson
+
 CopySpecToProjectIfNeeded `
   -specCloneRoot $specCloneDir `
   -mainSpecDir $specSubDirectory `
