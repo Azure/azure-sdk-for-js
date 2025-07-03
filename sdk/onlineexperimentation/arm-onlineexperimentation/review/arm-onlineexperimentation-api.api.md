@@ -13,12 +13,10 @@ export function createOnlineExperimentation(credential: TokenCredential, subscri
 
 // @public
 export interface OnlineExperimentationClientOptionalParams extends ClientOptions {
-    apiVersion?: string;
 }
 
 // @public
 export interface OnlineExperimentationContext extends Client {
-    apiVersion: string;
     subscriptionId: string;
 }
 
