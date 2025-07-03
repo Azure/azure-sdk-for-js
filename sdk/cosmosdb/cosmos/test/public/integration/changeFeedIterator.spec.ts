@@ -22,6 +22,7 @@ import { FeedRangeInternal } from "../../../src/client/ChangeFeed/FeedRange.js";
 import { getCurrentTimestampInMs } from "../../../src/utils/time.js";
 import { StatusCodes } from "../../../src/common/statusCodes.js";
 import { describe, it, assert, beforeAll, afterAll } from "vitest";
+import { conditionalDescribe } from "../common/conditionalTest.js";
 
 describe("Change Feed Iterator", { timeout: 20000 }, () => {
   // delete all databases and create sample database
@@ -211,7 +212,7 @@ describe("Change Feed Iterator", { timeout: 20000 }, () => {
     });
   });
 
-  describe("test changefeed for one prefix partition key", () => {
+  conditionalDescribe("test changefeed for one prefix partition key", () => {
     let container: Container;
 
     beforeAll(async () => {
@@ -463,7 +464,7 @@ describe("Change Feed Iterator", { timeout: 20000 }, () => {
     });
   });
 
-  describe("test changefeed for entire container", () => {
+  conditionalDescribe("test changefeed for entire container", () => {
     let container: Container;
 
     beforeAll(async () => {
@@ -587,7 +588,7 @@ describe("Change Feed Iterator", { timeout: 20000 }, () => {
   });
 });
 
-describe("test changefeed for feed range", () => {
+conditionalDescribe("test changefeed for feed range", () => {
   let container: Container;
 
   beforeAll(async () => {
@@ -702,7 +703,7 @@ describe("test changefeed for feed range", () => {
   });
 });
 
-describe("test changefeed allVersionsAndDeletes mode for entire container", () => {
+conditionalDescribe("test changefeed allVersionsAndDeletes mode for entire container", () => {
   let container: Container;
 
   beforeAll(async () => {
@@ -846,7 +847,7 @@ describe("test changefeed allVersionsAndDeletes mode for entire container", () =
   });
 });
 
-describe("test changefeed allVersionsAndDeletes mode for a feed range", () => {
+conditionalDescribe("test changefeed allVersionsAndDeletes mode for a feed range", () => {
   let container: Container;
 
   beforeAll(async () => {
@@ -991,7 +992,7 @@ describe("test changefeed allVersionsAndDeletes mode for a feed range", () => {
   });
 });
 
-describe("test changefeed allVersionsAndDeletes mode for a partition key", () => {
+conditionalDescribe("test changefeed allVersionsAndDeletes mode for a partition key", () => {
   let container: Container;
 
   beforeAll(async () => {
@@ -1136,7 +1137,7 @@ describe("test changefeed allVersionsAndDeletes mode for a partition key", () =>
   });
 });
 
-describe("test changefeed allVersionsAndDeletes mode for a prefix partition key", () => {
+conditionalDescribe("test changefeed allVersionsAndDeletes mode for a prefix partition key", () => {
   let container: Container;
 
   beforeAll(async () => {
