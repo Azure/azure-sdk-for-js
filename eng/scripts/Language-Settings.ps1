@@ -408,21 +408,6 @@ function GetExistingPackageVersions ($PackageName, $GroupId = $null) {
 function Update-javascript-GeneratedSdks([string]$PackageDirectoriesFile) {
   # Check if ai-inference-rest directory exists and run sh command to inspect it
   Write-Host "Update-javascript-GeneratedSdks"
-  Write-Host $RepoRoot
-  $aiInferenceRestPath = "$RepoRoot/sdk/ai/ai-inference-rest"
-  if (Test-Path $aiInferenceRestPath) {
-    Write-Host "Found ai-inference-rest directory, inspecting contents..." -ForegroundColor Cyan
-    try {
-      $shCommand = "ls -la `"$aiInferenceRestPath`""
-      Write-Host "Running: $shCommand" -ForegroundColor Green
-      Invoke-Expression $shCommand
-    }
-    catch {
-      Write-Host "Warning: Failed to run sh command on ai-inference-rest directory: $($_.Exception.Message)" -ForegroundColor Yellow
-    }
-    Write-Host ""
-  }
-
   $moduleFolders = Get-Content $PackageDirectoriesFile | ConvertFrom-Json
 
   $directoriesWithErrors = @()
@@ -433,7 +418,20 @@ function Update-javascript-GeneratedSdks([string]$PackageDirectoriesFile) {
     ManagementSdkTypeSpecGenerateFailure = @()  # Management SDKs that fail TypeSpec generation
   }
 
+  # Define a list of directories to skip for better maintainability
+  $directoriesToSkip = @(
+    "ai/ai-inference-rest",
+    "contentsafety/ai-content-safety-rest"
+    # Add more directories to skip here as needed
+  )
+
   foreach ($directory in $moduleFolders) {
+    # Skip specific directories that should not be processed
+    if ($directoriesToSkip -contains $directory) {
+      Write-Host "Skipping $directory directory" -ForegroundColor Yellow
+      continue
+    }
+    
     $directoryPath = "$RepoRoot/sdk/$directory"
     $isManagementSdk = $false
     
