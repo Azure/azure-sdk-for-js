@@ -6,7 +6,7 @@ Deployments Client
 
 [Source code](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/resources/arm-resourcesdeployments) |
 [Package (NPM)](https://www.npmjs.com/package/@azure/arm-resourcesdeployments) |
-[API reference documentation](https://learn.microsoft.com/javascript/api/@azure/arm-resourcesdeployments) |
+[API reference documentation](https://learn.microsoft.com/javascript/api/@azure/arm-resourcesdeployments?view=azure-node-preview) |
 [Samples](https://github.com/Azure-Samples/azure-samples-js-management)
 
 ## Getting started
