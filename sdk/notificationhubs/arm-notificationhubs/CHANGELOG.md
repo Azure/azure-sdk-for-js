@@ -1,15 +1,15 @@
 # Release History
     
-## 3.0.0-beta.2 (2025-07-02)
+## 3.0.0-beta.2 (2025-07-03)
 Compared with version 2.1.0
     
 ### Features Added
-
   - Added operation group PrivateEndpointConnectionsOperations
   - Added operation NamespacesOperations.delete
   - Added operation NamespacesOperations.getPnsCredentials
   - Added operation NamespacesOperations.update
   - Added operation NotificationHubsOperations.update
+  - Added Class NotificationHubsClient
   - Added Interface AdmCredentialProperties
   - Added Interface ApnsCredentialProperties
   - Added Interface Availability
@@ -34,7 +34,6 @@ Compared with version 2.1.0
   - Added Interface NotificationHubsClientOptionalParams
   - Added Interface NotificationHubsUpdateOptionalParams
   - Added Interface OperationProperties
-  - Added Interface PagedAsyncIterableIterator
   - Added Interface PageSettings
   - Added Interface PnsCredentials
   - Added Interface PolicyKeyResource
@@ -53,15 +52,37 @@ Compared with version 2.1.0
   - Added Interface RegistrationResult
   - Added Interface RemotePrivateEndpointConnection
   - Added Interface RemotePrivateLinkServiceConnectionState
-  - Added Interface RestorePollerOptions
   - Added Interface ServiceSpecification
   - Added Interface SystemData
   - Added Interface TrackedResource
   - Added Interface WnsCredentialProperties
   - Added Interface XiaomiCredential
   - Added Interface XiaomiCredentialProperties
-  - Added Class NotificationHubsClient
-  - Added Type Alias ContinuablePage
+  - Interface CheckAvailabilityResult has a new optional parameter systemData
+  - Interface DebugSendResponse has a new optional parameter properties
+  - Interface DebugSendResponse has a new optional parameter systemData
+  - Interface ErrorResponse has a new optional parameter error
+  - Interface NamespacePatchParameters has a new optional parameter properties
+  - Interface NamespaceResource has a new optional parameter properties
+  - Interface NamespaceResource has a new optional parameter systemData
+  - Interface NamespacesCreateOrUpdateOptionalParams has a new optional parameter updateIntervalInMs
+  - Interface NamespacesListAllOptionalParams has a new optional parameter skipToken
+  - Interface NamespacesListAllOptionalParams has a new optional parameter top
+  - Interface NamespacesListOptionalParams has a new optional parameter skipToken
+  - Interface NamespacesListOptionalParams has a new optional parameter top
+  - Interface NotificationHubPatchParameters has a new optional parameter properties
+  - Interface NotificationHubResource has a new optional parameter properties
+  - Interface NotificationHubResource has a new optional parameter systemData
+  - Interface NotificationHubsListOptionalParams has a new optional parameter skipToken
+  - Interface NotificationHubsListOptionalParams has a new optional parameter top
+  - Interface Operation has a new optional parameter isDataAction
+  - Interface Operation has a new optional parameter properties
+  - Interface OperationDisplay has a new optional parameter description
+  - Interface PnsCredentialsResource has a new optional parameter properties
+  - Interface PnsCredentialsResource has a new optional parameter systemData
+  - Interface Resource has a new optional parameter systemData
+  - Interface SharedAccessAuthorizationRuleResource has a new optional parameter properties
+  - Interface SharedAccessAuthorizationRuleResource has a new optional parameter systemData
   - Added Type Alias CreatedByType
   - Added Type Alias NamespaceStatus
   - Added Type Alias OperationProvisioningState
@@ -71,37 +92,6 @@ Compared with version 2.1.0
   - Added Type Alias PublicNetworkAccess
   - Added Type Alias ReplicationRegion
   - Added Type Alias ZoneRedundancyPreference
-  - Interface CheckAvailabilityResult has a new optional parameter location
-  - Interface CheckAvailabilityResult has a new optional parameter sku
-  - Interface CheckAvailabilityResult has a new optional parameter tags
-  - Interface DebugSendResponse has a new optional parameter location
-  - Interface DebugSendResponse has a new optional parameter properties
-  - Interface DebugSendResponse has a new optional parameter tags
-  - Interface ErrorResponse has a new optional parameter error
-  - Interface NamespacePatchParameters has a new optional parameter properties
-  - Interface NamespaceResource has a new optional parameter properties
-  - Interface NamespacesCreateOrUpdateOptionalParams has a new optional parameter updateIntervalInMs
-  - Interface NamespacesListAllOptionalParams has a new optional parameter skipToken
-  - Interface NamespacesListAllOptionalParams has a new optional parameter top
-  - Interface NamespacesListOptionalParams has a new optional parameter skipToken
-  - Interface NamespacesListOptionalParams has a new optional parameter top
-  - Interface NotificationHubPatchParameters has a new optional parameter properties
-  - Interface NotificationHubPatchParameters has a new optional parameter sku
-  - Interface NotificationHubPatchParameters has a new optional parameter tags
-  - Interface NotificationHubResource has a new optional parameter properties
-  - Interface NotificationHubResource has a new optional parameter sku
-  - Interface NotificationHubsListOptionalParams has a new optional parameter skipToken
-  - Interface NotificationHubsListOptionalParams has a new optional parameter top
-  - Interface Operation has a new optional parameter isDataAction
-  - Interface Operation has a new optional parameter properties
-  - Interface OperationDisplay has a new optional parameter description
-  - Interface PnsCredentialsResource has a new optional parameter location
-  - Interface PnsCredentialsResource has a new optional parameter properties
-  - Interface PnsCredentialsResource has a new optional parameter tags
-  - Interface Resource has a new optional parameter systemData
-  - Interface SharedAccessAuthorizationRuleResource has a new optional parameter location
-  - Interface SharedAccessAuthorizationRuleResource has a new optional parameter properties
-  - Interface SharedAccessAuthorizationRuleResource has a new optional parameter tags
   - Added Enum KnownAccessRights
   - Added Enum KnownCreatedByType
   - Added Enum KnownNamespaceStatus
@@ -114,15 +104,34 @@ Compared with version 2.1.0
   - Added Enum KnownReplicationRegion
   - Added Enum KnownVersions
   - Added Enum KnownZoneRedundancyPreference
-  - Added function restorePoller
-
 ### Breaking Changes
-
   - Removed operation Namespaces.beginDelete
   - Removed operation Namespaces.beginDeleteAndWait
   - Removed operation Namespaces.patch
   - Removed operation NotificationHubs.patch
+  - Operation Namespaces.createOrUpdateAuthorizationRule has a new signature
+  - Operation NotificationHubs.createOrUpdateAuthorizationRule has a new signature
   - Deleted Class NotificationHubsManagementClient
+  - Removed Interface NamespaceCreateOrUpdateParameters
+  - Removed Interface NamespaceListResult
+  - Removed Interface NamespacesPatchOptionalParams
+  - Removed Interface NotificationHubCreateOrUpdateParameters
+  - Removed Interface NotificationHubListResult
+  - Removed Interface NotificationHubsManagementClientOptionalParams
+  - Removed Interface NotificationHubsPatchOptionalParams
+  - Removed Interface OperationListResult
+  - Removed Interface PolicykeyResource
+  - Removed Interface SharedAccessAuthorizationRuleCreateOrUpdateParameters
+  - Removed Interface SharedAccessAuthorizationRuleListResult
+  - Removed Interface SubResource
+  - Interface AdmCredential has a new required parameter properties
+  - Interface ApnsCredential has a new required parameter properties
+  - Interface BaiduCredential has a new required parameter properties
+  - Interface GcmCredential has a new required parameter properties
+  - Interface MpnsCredential has a new required parameter properties
+  - Interface WnsCredential has a new required parameter properties
+  - Type of parameter createdTime of interface SharedAccessAuthorizationRuleProperties is changed from string to Date
+  - Type of parameter modifiedTime of interface SharedAccessAuthorizationRuleProperties is changed from string to Date
   - Interface AdmCredential no longer has parameter authTokenUrl
   - Interface AdmCredential no longer has parameter clientId
   - Interface AdmCredential no longer has parameter clientSecret
@@ -140,6 +149,7 @@ Compared with version 2.1.0
   - Interface DebugSendResponse no longer has parameter failure
   - Interface DebugSendResponse no longer has parameter results
   - Interface DebugSendResponse no longer has parameter success
+  - Interface DebugSendResponse no longer has parameter sku
   - Interface ErrorResponse no longer has parameter code
   - Interface ErrorResponse no longer has parameter message
   - Interface GcmCredential no longer has parameter gcmEndpoint
@@ -172,6 +182,10 @@ Compared with version 2.1.0
   - Interface NotificationHubPatchParameters no longer has parameter namePropertiesName
   - Interface NotificationHubPatchParameters no longer has parameter registrationTtl
   - Interface NotificationHubPatchParameters no longer has parameter wnsCredential
+  - Interface NotificationHubPatchParameters no longer has parameter id
+  - Interface NotificationHubPatchParameters no longer has parameter location
+  - Interface NotificationHubPatchParameters no longer has parameter name
+  - Interface NotificationHubPatchParameters no longer has parameter type
   - Interface NotificationHubResource no longer has parameter admCredential
   - Interface NotificationHubResource no longer has parameter apnsCredential
   - Interface NotificationHubResource no longer has parameter authorizationRules
@@ -188,6 +202,7 @@ Compared with version 2.1.0
   - Interface PnsCredentialsResource no longer has parameter gcmCredential
   - Interface PnsCredentialsResource no longer has parameter mpnsCredential
   - Interface PnsCredentialsResource no longer has parameter wnsCredential
+  - Interface PnsCredentialsResource no longer has parameter sku
   - Interface Resource no longer has parameter location
   - Interface Resource no longer has parameter sku
   - Interface Resource no longer has parameter tags
@@ -200,26 +215,48 @@ Compared with version 2.1.0
   - Interface SharedAccessAuthorizationRuleResource no longer has parameter revision
   - Interface SharedAccessAuthorizationRuleResource no longer has parameter rights
   - Interface SharedAccessAuthorizationRuleResource no longer has parameter secondaryKey
+  - Interface SharedAccessAuthorizationRuleResource no longer has parameter sku
   - Interface WnsCredential no longer has parameter packageSid
   - Interface WnsCredential no longer has parameter secretKey
   - Interface WnsCredential no longer has parameter windowsLiveEndpoint
-  - Interface AdmCredential has a new required parameter properties
-  - Interface ApnsCredential has a new required parameter properties
-  - Interface BaiduCredential has a new required parameter properties
-  - Interface GcmCredential has a new required parameter properties
-  - Interface MpnsCredential has a new required parameter properties
-  - Interface NamespaceResource has a new required parameter sku
-  - Interface WnsCredential has a new required parameter properties
+  - Parameter location of interface NamespaceResource is now required
+  - Parameter sku of interface NamespaceResource is now required
+  - Parameter location of interface NotificationHubResource is now required
   - Parameter rights of interface SharedAccessAuthorizationRuleProperties is now required
-  - Type of parameter tags of interface CheckAvailabilityParameters is changed from {
-        [propertyName: string]: string;
-    } to Record<string, string>
-  - Type of parameter tags of interface NamespacePatchParameters is changed from {
-        [propertyName: string]: string;
-    } to Record<string, string>
-  - Type of parameter createdTime of interface SharedAccessAuthorizationRuleProperties is changed from string to Date
-  - Type of parameter modifiedTime of interface SharedAccessAuthorizationRuleProperties is changed from string to Date
+  - Removed Type Alias NamespacesCheckAvailabilityResponse
+  - Removed Type Alias NamespacesCreateOrUpdateAuthorizationRuleResponse
+  - Removed Type Alias NamespacesCreateOrUpdateResponse
+  - Removed Type Alias NamespacesGetAuthorizationRuleResponse
+  - Removed Type Alias NamespacesGetResponse
+  - Removed Type Alias NamespacesListAllNextResponse
+  - Removed Type Alias NamespacesListAllResponse
+  - Removed Type Alias NamespacesListAuthorizationRulesNextResponse
+  - Removed Type Alias NamespacesListAuthorizationRulesResponse
+  - Removed Type Alias NamespacesListKeysResponse
+  - Removed Type Alias NamespacesListNextResponse
+  - Removed Type Alias NamespacesListResponse
+  - Removed Type Alias NamespacesPatchResponse
+  - Removed Type Alias NamespacesRegenerateKeysResponse
+  - Removed Type Alias NotificationHubsCheckNotificationHubAvailabilityResponse
+  - Removed Type Alias NotificationHubsCreateOrUpdateAuthorizationRuleResponse
+  - Removed Type Alias NotificationHubsCreateOrUpdateResponse
+  - Removed Type Alias NotificationHubsDebugSendResponse
+  - Removed Type Alias NotificationHubsGetAuthorizationRuleResponse
+  - Removed Type Alias NotificationHubsGetPnsCredentialsResponse
+  - Removed Type Alias NotificationHubsGetResponse
+  - Removed Type Alias NotificationHubsListAuthorizationRulesNextResponse
+  - Removed Type Alias NotificationHubsListAuthorizationRulesResponse
+  - Removed Type Alias NotificationHubsListKeysResponse
+  - Removed Type Alias NotificationHubsListNextResponse
+  - Removed Type Alias NotificationHubsListResponse
+  - Removed Type Alias NotificationHubsPatchResponse
+  - Removed Type Alias NotificationHubsRegenerateKeysResponse
+  - Removed Type Alias OperationsListNextResponse
+  - Removed Type Alias OperationsListResponse
+  - Type alias "AccessRights" has been changed
+  - Type alias "NamespaceType" has been changed
   - Removed function getContinuationToken
+
     
     
 ## 3.0.0-beta.1 (2024-03-18)
