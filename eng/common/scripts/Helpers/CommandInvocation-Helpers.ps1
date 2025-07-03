@@ -38,9 +38,13 @@ function Invoke-LoggedCommand
           } else {
               Write-Host "Command failed to execute ($duration): $Command`n"
           }
+          # Set global LASTEXITCODE so calling scripts can check it
+          $global:LASTEXITCODE = $LastExitCode
       }
       else {
           Write-Host "Command succeeded ($duration)`n"
+          # Clear LASTEXITCODE on success
+          $global:LASTEXITCODE = 0
       }
     }
     finally {
