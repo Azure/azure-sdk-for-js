@@ -15,58 +15,6 @@ $ErrorActionPreference = "Stop"
 . $PSScriptRoot/common.ps1
 Install-ModuleIfNotInstalled "powershell-yaml" "0.4.7" | Import-Module
 
-function NpmInstallForProject([string]$workingDirectory) {
-    Push-Location $workingDirectory
-    try {
-        $currentDur = Resolve-Path "."
-        Write-Host "Generating from $currentDur"
-
-        if (Test-Path "package.json") {
-            Write-Host "Removing existing package.json"
-            Remove-Item -Path "package.json" -Force
-        }
-
-        if (Test-Path ".npmrc") {
-            Write-Host "Removing existing .nprc"
-            Remove-Item -Path ".npmrc" -Force
-        }
-
-        if (Test-Path "node_modules") {
-            Write-Host "Removing existing node_modules"
-            Remove-Item -Path "node_modules" -Force -Recurse
-        }
-
-        if (Test-Path "package-lock.json") {
-            Write-Host "Removing existing package-lock.json"
-            Remove-Item -Path "package-lock.json" -Force
-        }
-
-        $replacementPackageJson = Join-Path $PSScriptRoot "../../emitter-package.json"
-
-        Write-Host("Copying package.json from $replacementPackageJson")
-        Copy-Item -Path $replacementPackageJson -Destination "package.json" -Force
-        $emitterPackageLock = Join-Path $PSScriptRoot "../../emitter-package-lock.json"
-        $usingLockFile = Test-Path $emitterPackageLock
-
-        if ($usingLockFile) {
-            Write-Host("Copying package-lock.json from $emitterPackageLock")
-            Copy-Item -Path $emitterPackageLock -Destination "package-lock.json" -Force
-        }
-
-        if ($usingLockFile) {
-            Invoke-LoggedCommand "npm ci" -GroupOutput
-        }
-        else {
-            Invoke-LoggedCommand "npm install" -GroupOutput
-        }
-
-        if ($LASTEXITCODE) { exit $LASTEXITCODE }
-    }
-    finally {
-        Pop-Location
-    }
-}
-
 $resolvedProjectDirectory = Resolve-Path $ProjectDirectory
 $emitterName = &$GetEmitterNameFn
 $typespecConfigurationFile = Resolve-Path "$ProjectDirectory/tsp-location.yaml"
@@ -82,19 +30,18 @@ $npmWorkingDir = Resolve-Path $tempFolder/$innerFolder
 $mainTypeSpecFile = If (Test-Path "$npmWorkingDir/client.*") { Resolve-Path "$npmWorkingDir/client.*" } Else { Resolve-Path "$npmWorkingDir/main.*"}
 
 try {
-    Push-Location $npmWorkingDir
+    Push-Location $RepoRoot
     #NpmInstallForProject $npmWorkingDir
 
     if ($LASTEXITCODE) { exit $LASTEXITCODE }    
     $fileGenerateInput = 'generateInput.json';
     $fileGenerateOutput = 'generateOutput.json';
-    $outputJsonPath = Join-Path $tempFolder $fileGenerateOutput
-    $inputJsonPath = Join-Path $tempFolder $fileGenerateInput
+    $outputJsonPath = Join-Path $RepoRoot $fileGenerateOutput
+    $inputJsonPath = Join-Path $RepoRoot $fileGenerateInput
 
-    Write-Host "Setting ENABLE_LEGACY_SETTINGS_MAPPING environment variable"
-    $env:ENABLE_LEGACY_SETTINGS_MAPPING = 'true'
     Write-Host "Running automation_generate.sh $inputJsonPath $outputJsonPath"
-    Invoke-LoggedCommand "sh $RepoRoot/.scripts/automation_generate.sh $inputJsonPath $outputJsonPath"
+    Invoke-LoggedCommand "sh .scripts/automation_generate.sh $inputJsonPath $outputJsonPath"
+    if ($LASTEXITCODE) { exit $LASTEXITCODE }
     # if (Test-Path "Function:$GetEmitterAdditionalOptionsFn") {
     #     $emitterAdditionalOptions = &$GetEmitterAdditionalOptionsFn $resolvedProjectDirectory
     #     if ($emitterAdditionalOptions.Length -gt 0) {
@@ -115,15 +62,13 @@ try {
 
     # Write-Host($typespecCompileCommand)
     # Invoke-Expression $typespecCompileCommand
-
-    if ($LASTEXITCODE) { exit $LASTEXITCODE }
 }
 finally {
     Pop-Location
 }
 
 $shouldCleanUp = !$SaveInputs
-if ($shouldCleanUp) {
+if ($shouldCleanUp -and (Test-Path $tempFolder)) {
     Remove-Item $tempFolder -Recurse -Force
 }
 exit 0
