@@ -288,6 +288,17 @@ export class DataLakeAclChangeFailedError extends Error {
     innerError: RestError | Error;
 }
 
+// @public (undocumented)
+export interface DataLakeClientConfig {
+    // (undocumented)
+    downloadContentChecksumAlgorithm?: StorageChecksumAlgorithm;
+    // (undocumented)
+    uploadContentChecksumAlgorithm?: StorageChecksumAlgorithm;
+}
+
+// @public (undocumented)
+export type DataLakeClientOptions = StoragePipelineOptions & DataLakeClientConfig;
+
 // @public
 export class DataLakeDirectoryClient extends DataLakePathClient {
     create(resourceType: PathResourceTypeModel, options?: PathCreateOptions): Promise<PathCreateResponse>;
@@ -304,8 +315,8 @@ export class DataLakeDirectoryClient extends DataLakePathClient {
 
 // @public
 export class DataLakeFileClient extends DataLakePathClient {
-    constructor(url: string, credential?: StorageSharedKeyCredential | AnonymousCredential | TokenCredential, options?: StoragePipelineOptions);
-    constructor(url: string, pipeline: Pipeline);
+    constructor(url: string, credential?: StorageSharedKeyCredential | AnonymousCredential | TokenCredential, options?: DataLakeClientOptions);
+    constructor(url: string, pipeline: Pipeline, options?: DataLakeClientConfig);
     append(body: HttpRequestBody, offset: number, length: number, options?: FileAppendOptions): Promise<FileAppendResponse>;
     create(resourceType: PathResourceTypeModel, options?: PathCreateOptions): Promise<PathCreateResponse>;
     create(options?: FileCreateOptions): Promise<FileCreateResponse>;
@@ -331,8 +342,8 @@ export class DataLakeFileClient extends DataLakePathClient {
 //
 // @public
 export class DataLakeFileSystemClient extends StorageClient {
-    constructor(url: string, credential?: StorageSharedKeyCredential | AnonymousCredential | TokenCredential, options?: StoragePipelineOptions);
-    constructor(url: string, pipeline: Pipeline);
+    constructor(url: string, credential?: StorageSharedKeyCredential | AnonymousCredential | TokenCredential, options?: DataLakeClientOptions);
+    constructor(url: string, pipeline: Pipeline, options?: DataLakeClientConfig);
     create(options?: FileSystemCreateOptions): Promise<FileSystemCreateResponse>;
     createIfNotExists(options?: FileSystemCreateOptions): Promise<FileSystemCreateIfNotExistsResponse>;
     delete(options?: FileSystemDeleteOptions): Promise<FileSystemDeleteResponse>;
@@ -376,8 +387,8 @@ export class DataLakeLeaseClient {
 
 // @public
 export class DataLakePathClient extends StorageClient {
-    constructor(url: string, credential?: StorageSharedKeyCredential | AnonymousCredential | TokenCredential, options?: StoragePipelineOptions);
-    constructor(url: string, pipeline: Pipeline);
+    constructor(url: string, credential?: StorageSharedKeyCredential | AnonymousCredential | TokenCredential, options?: DataLakeClientOptions);
+    constructor(url: string, pipeline: Pipeline, options?: DataLakeClientConfig);
     create(resourceType: PathResourceTypeModel, options?: PathCreateOptions): Promise<PathCreateResponse>;
     createIfNotExists(resourceType: PathResourceTypeModel, options?: PathCreateIfNotExistsOptions): Promise<PathCreateIfNotExistsResponse>;
     delete(recursive?: boolean, options?: PathDeleteOptions): Promise<PathDeleteResponse>;
@@ -448,9 +459,9 @@ export interface DataLakeSASSignatureValues {
 
 // @public
 export class DataLakeServiceClient extends StorageClient {
-    constructor(url: string, credential?: StorageSharedKeyCredential | AnonymousCredential | TokenCredential, options?: StoragePipelineOptions);
-    constructor(url: string, pipeline: Pipeline);
-    static fromConnectionString(connectionString: string, options?: StoragePipelineOptions): DataLakeServiceClient;
+    constructor(url: string, credential?: StorageSharedKeyCredential | AnonymousCredential | TokenCredential, options?: DataLakeClientOptions);
+    constructor(url: string, pipeline: Pipeline, options?: DataLakeClientConfig);
+    static fromConnectionString(connectionString: string, options?: DataLakeClientOptions): DataLakeServiceClient;
     generateAccountSasUrl(expiresOn?: Date, permissions?: AccountSASPermissions, resourceTypes?: string, options?: ServiceGenerateAccountSasUrlOptions): string;
     generateSasStringToSign(expiresOn?: Date, permissions?: AccountSASPermissions, resourceTypes?: string, options?: ServiceGenerateAccountSasUrlOptions): string;
     getFileSystemClient(fileSystemName: string): DataLakeFileSystemClient;
@@ -532,6 +543,8 @@ export interface FileAppendOptions extends CommonOptions {
     abortSignal?: AbortSignalLike;
     // (undocumented)
     conditions?: LeaseAccessConditions;
+    // (undocumented)
+    contentChecksumAlgorithm?: StorageChecksumAlgorithm;
     customerProvidedKey?: CpkInfo;
     flush?: boolean;
     // Warning: (ae-forgotten-export) The symbol "LeaseAction" needs to be exported by the entry point index.d.ts
@@ -598,6 +611,8 @@ export interface FileParallelUploadOptions extends CommonOptions {
     chunkSize?: number;
     close?: boolean;
     conditions?: DataLakeRequestConditions;
+    // (undocumented)
+    contentChecksumAlgorithm?: StorageChecksumAlgorithm;
     customerProvidedKey?: CpkInfo;
     encryptionContext?: string;
     maxConcurrency?: number;
@@ -719,6 +734,8 @@ export interface FileReadHeaders {
     permissions?: PathPermissions;
     // (undocumented)
     requestId?: string;
+    structuredBodyType?: string;
+    structuredContentLength?: number;
     // (undocumented)
     version?: string;
 }
@@ -729,6 +746,8 @@ export interface FileReadOptions extends CommonOptions {
     abortSignal?: AbortSignalLike;
     // (undocumented)
     conditions?: DataLakeRequestConditions;
+    // (undocumented)
+    contentChecksumAlgorithm?: StorageChecksumAlgorithm;
     customerProvidedKey?: CpkInfo;
     // (undocumented)
     maxRetryRequests?: number;
@@ -752,6 +771,8 @@ export interface FileReadToBufferOptions extends CommonOptions {
     chunkSize?: number;
     concurrency?: number;
     conditions?: DataLakeRequestConditions;
+    // (undocumented)
+    contentChecksumAlgorithm?: StorageChecksumAlgorithm;
     customerProvidedKey?: CpkInfo;
     maxRetryRequestsPerChunk?: number;
     onProgress?: (progress: TransferProgressEvent) => void;
@@ -1264,6 +1285,7 @@ export interface PathAppendDataHeaders {
     isServerEncrypted?: boolean;
     leaseRenewed?: boolean;
     requestId?: string;
+    structuredBodyType?: string;
     version?: string;
     xMsContentCrc64?: Uint8Array;
 }
@@ -1594,6 +1616,8 @@ export interface PathHttpHeaders {
     contentMD5?: Uint8Array;
     // (undocumented)
     contentType?: string;
+    // (undocumented)
+    transactionalContentHash?: Uint8Array;
 }
 
 // @public (undocumented)
@@ -2019,6 +2043,17 @@ export interface SignedIdentifier<T> {
 export { StorageBrowserPolicy }
 
 export { StorageBrowserPolicyFactory }
+
+// @public (undocumented)
+export enum StorageChecksumAlgorithm {
+    Auto = 0,
+    // (undocumented)
+    Customized = 2,
+    // (undocumented)
+    None = 1,
+    // (undocumented)
+    StorageCrc64 = 3
+}
 
 // @public
 export enum StorageDataLakeAudience {

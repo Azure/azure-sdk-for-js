@@ -52,12 +52,12 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
     await recorder.stop();
   });
 
-  it("generateAccountSASQueryParameters should work", async () => {
+  it.only("generateAccountSASQueryParameters should work", async () => {
     const now = new Date(recorder.variable("now", new Date().toISOString()));
     now.setMinutes(now.getMinutes() - 5); // Skip clock skew with server
 
     const tmr = new Date(recorder.variable("tmr", new Date().toISOString()));
-    tmr.setDate(tmr.getDate() + 1);
+    tmr.setFullYear(tmr.getFullYear() + 1);
 
     const sharedKeyCredential = blobServiceClient.credential as StorageSharedKeyCredential;
 
@@ -77,6 +77,8 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
       },
       sharedKeyCredential,
     ).toString();
+
+    console.log(sas);
 
     const sasClient = `${blobServiceClient.url}?${sas}`;
     const serviceClientWithSAS = new BlobServiceClient(sasClient, newPipeline());

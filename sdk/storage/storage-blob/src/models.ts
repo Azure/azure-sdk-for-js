@@ -13,6 +13,7 @@ import type {
   BlobDownloadResponseModel,
 } from "./generatedModels.js";
 import { EncryptionAlgorithmAES25 } from "./utils/constants.js";
+import { StoragePipelineOptions } from "./Pipeline.js";
 
 /**
  * Blob tags.
@@ -391,3 +392,33 @@ export interface PollerLikeWithCancellation<TState extends PollOperationState<TR
    */
   toString(): string;
 }
+
+export enum StorageChecksumAlgorithm {
+  /**
+   * Recommended. Allow the library to choose an algorithm. Different library versions may
+   * make different choices. //TODO: Auto should be CRC64
+   */
+  Auto = 0,
+
+  /*
+   * No selected algorithm. Do not calculate or request checksums. // This should be default.
+   */
+  None = 1,
+
+  /*
+   * Customer provided checksum
+   */
+  Customized = 2,
+
+  /*
+   * Azure Storage custom 64 bit CRC.
+   */
+  StorageCrc64 = 3,
+}
+
+export interface BlobClientConfig {
+  uploadContentChecksumAlgorithm?: StorageChecksumAlgorithm;
+  downloadContentChecksumAlgorithm?: StorageChecksumAlgorithm;
+}
+
+export type BlobClientOptions = StoragePipelineOptions & BlobClientConfig;

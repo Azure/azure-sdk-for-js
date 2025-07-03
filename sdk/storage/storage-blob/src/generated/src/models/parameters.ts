@@ -762,6 +762,17 @@ export const rangeGetContentCRC64: OperationParameter = {
   },
 };
 
+export const structuredBodyType: OperationParameter = {
+  parameterPath: ["options", "structuredBodyType"],
+  mapper: {
+    serializedName: "x-ms-structured-body",
+    xmlName: "x-ms-structured-body",
+    type: {
+      name: "String",
+    },
+  },
+};
+
 export const encryptionKey: OperationParameter = {
   parameterPath: ["options", "cpkInfo", "encryptionKey"],
   mapper: {
@@ -1559,6 +1570,17 @@ export const ifSequenceNumberEqualTo: OperationParameter = {
   mapper: {
     serializedName: "x-ms-if-sequence-number-eq",
     xmlName: "x-ms-if-sequence-number-eq",
+    type: {
+      name: "Number",
+    },
+  },
+};
+
+export const structuredContentLength: OperationParameter = {
+  parameterPath: ["options", "structuredContentLength"],
+  mapper: {
+    serializedName: "x-ms-structured-content-length",
+    xmlName: "x-ms-structured-content-length",
     type: {
       name: "Number",
     },

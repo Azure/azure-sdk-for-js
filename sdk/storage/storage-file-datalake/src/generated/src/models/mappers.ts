@@ -1946,6 +1946,48 @@ export const PathGetPropertiesHeaders: coreClient.CompositeMapper = {
           name: "DateTimeRfc1123",
         },
       },
+      isServerEncrypted: {
+        serializedName: "x-ms-server-encrypted",
+        xmlName: "x-ms-server-encrypted",
+        type: {
+          name: "Boolean"
+        }
+      },
+      encryptionKeySha256: {
+        serializedName: "x-ms-encryption-key-sha256",
+        xmlName: "x-ms-encryption-key-sha256",
+        type: {
+          name: "String"
+        }
+      },
+      encryptionContext: {
+        serializedName: "x-ms-encryption-context",
+        xmlName: "x-ms-encryption-context",
+        type: {
+          name: "String"
+        }
+      },
+      encryptionScope: {
+        serializedName: "x-ms-encryption-scope",
+        xmlName: "x-ms-encryption-scope",
+        type: {
+          name: "String"
+        }
+      },
+      creationTime: {
+        serializedName: "x-ms-creation-time",
+        xmlName: "x-ms-creation-time",
+        type: {
+          name: "DateTimeRfc1123"
+        }
+      },
+      expiresOn: {
+        serializedName: "x-ms-expiry-time",
+        xmlName: "x-ms-expiry-time",
+        type: {
+          name: "DateTimeRfc1123"
+        }
+      },
       errorCode: {
         serializedName: "x-ms-error-code",
         xmlName: "x-ms-error-code",
@@ -2399,11 +2441,26 @@ export const PathAppendDataHeaders: coreClient.CompositeMapper = {
         serializedName: "x-ms-lease-renewed",
         xmlName: "x-ms-lease-renewed",
         type: {
+<<<<<<< HEAD
           name: "Boolean",
         },
       },
     },
   },
+=======
+          name: "Boolean"
+        }
+      },
+      structuredBodyType: {
+        serializedName: "x-ms-structured-body",
+        xmlName: "x-ms-structured-body",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+>>>>>>> 259011ff37 ([Storage]Content validation)
 };
 
 export const PathAppendDataExceptionHeaders: coreClient.CompositeMapper = {

@@ -900,29 +900,6 @@ directive:
       $.properties.SignedExpiry["x-ms-client-name"] = "signedExpiresOn";
 ```
 
-### Remove structured body parameters.
-
-```yaml
-directive:
-  - from: swagger-document
-    where: $["x-ms-paths"]["/{shareName}/{directory}/{fileName}"]["get"]
-    transform: >
-      $["parameters"] = $["parameters"].filter(function(param) { return false == param['$ref'].endsWith("#/parameters/StructuredBodyGet")});
-  - from: swagger-document
-    where: $["x-ms-paths"]["/{shareName}/{directory}/{fileName}"]["get"]["responses"]["200"]["headers"]
-    transform: >
-      delete $["x-ms-structured-body"];
-      delete $["x-ms-structured-content-length"];
-  - from: swagger-document
-    where: $["x-ms-paths"]["/{shareName}/{directory}/{fileName}?comp=range"]["put"]
-    transform: >
-      $["parameters"] = $["parameters"].filter(function(param) { return (typeof param['$ref'] === "undefined") || (false == param['$ref'].endsWith("#/parameters/StructuredBodyPut") && false == param['$ref'].endsWith("#/parameters/StructuredContentLength"))});
-  - from: swagger-document
-    where: $["x-ms-paths"]["/{shareName}/{directory}/{fileName}?comp=range"]["put"]["responses"]["201"]["headers"]
-    transform: >
-      delete $["x-ms-structured-body"];
-```
-
 ### Remove EnableSmbDirectoryLease
 
 ```yaml

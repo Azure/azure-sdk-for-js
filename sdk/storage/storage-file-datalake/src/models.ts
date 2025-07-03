@@ -60,6 +60,7 @@ import type { SasIPRange } from "./sas/SasIPRange.js";
 import type { SASProtocol } from "./sas/SASQueryParameters.js";
 import type { CommonOptions } from "./StorageClient.js";
 import type { UserDelegationKey } from "@azure/storage-common";
+import type { StoragePipelineOptions } from "./Pipeline.js";
 
 export {
   type LeaseAccessConditions,
@@ -1001,6 +1002,7 @@ export interface PathHttpHeaders {
   contentDisposition?: string;
   contentType?: string;
   contentMD5?: Uint8Array;
+  transactionalContentHash?: Uint8Array;
 }
 
 export interface PathSetHttpHeadersHeaders {
@@ -1153,6 +1155,10 @@ export interface FileReadOptions extends CommonOptions {
   abortSignal?: AbortSignalLike;
   rangeGetContentMD5?: boolean;
   rangeGetContentCrc64?: boolean;
+  /**
+   *
+   */
+  contentChecksumAlgorithm?: StorageChecksumAlgorithm;
   conditions?: DataLakeRequestConditions;
   onProgress?: (progress: TransferProgressEvent) => void;
   maxRetryRequests?: number;
@@ -1209,6 +1215,10 @@ export interface FileReadHeaders {
    * POSIX access control rights on files and directories.
    */
   acl: PathAccessControlItem[];
+  /** Indicates the response body contains a structured message and specifies the message schema version and properties. */
+  structuredBodyType?: string;
+  /** The length of the blob/file content inside the message body when the response body is returned as a structured message. Will always be smaller than Content-Length. */
+  structuredContentLength?: number;
 }
 
 export type FileReadResponse = WithResponse<
@@ -1232,6 +1242,8 @@ export interface FileAppendOptions extends CommonOptions {
    * If file should be flushed automatically after the append
    */
   flush?: boolean;
+
+  contentChecksumAlgorithm?: StorageChecksumAlgorithm;
   /**
    * Proposed lease ID, in a GUID string format. The Blob service returns 400 (Invalid request) if the proposed lease ID is not in the correct format. See Guid Constructor (String) for a list of valid GUID string formats.
    * */
@@ -1342,6 +1354,8 @@ export interface FileParallelUploadOptions extends CommonOptions {
    */
   close?: boolean;
 
+  contentChecksumAlgorithm?: StorageChecksumAlgorithm;
+
   // For parallel transfer control.
 
   /**
@@ -1402,6 +1416,10 @@ export interface FileReadToBufferOptions extends CommonOptions {
    * because they doesn't emit network errors. Default value is 5.
    */
   maxRetryRequestsPerChunk?: number;
+  /**
+   *
+   */
+  contentChecksumAlgorithm?: StorageChecksumAlgorithm;
 
   /**
    * chunkSize is size of data every request trying to read.
@@ -1599,6 +1617,36 @@ export enum StorageDataLakeAudience {
 export function getDataLakeServiceAccountAudience(storageAccountName: string): string {
   return `https://${storageAccountName}.dfs.core.windows.net/.default`;
 }
+
+export enum StorageChecksumAlgorithm {
+  /**
+   * Recommended. Allow the library to choose an algorithm. Different library versions may
+   * make different choices.
+   */
+  Auto = 0,
+
+  /*
+   * No selected algorithm. Do not calculate or request checksums.
+   */
+  None = 1,
+
+  /*
+   * Customer provided checksum
+   */
+  Customized = 2,
+
+  /*
+   * Azure Storage custom 64 bit CRC.
+   */
+  StorageCrc64 = 3,
+}
+
+export interface DataLakeClientConfig {
+  uploadContentChecksumAlgorithm?: StorageChecksumAlgorithm;
+  downloadContentChecksumAlgorithm?: StorageChecksumAlgorithm;
+}
+
+export type DataLakeClientOptions = StoragePipelineOptions & DataLakeClientConfig;
 
 /** *********************************************************/
 /** DataLakeLeaseClient option and response related models */

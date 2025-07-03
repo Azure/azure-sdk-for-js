@@ -10,7 +10,7 @@ import fs from "node:fs";
 import path from "node:path";
 
 import { DataLakeServiceClient } from "../../src/DataLakeServiceClient.js";
-import type { StoragePipelineOptions } from "../../src/index.js";
+import type { DataLakeClientOptions, StoragePipelineOptions } from "../../src/index.js";
 import { newPipeline, StorageSharedKeyCredential } from "../../src/index.js";
 import {
   getUniqueName,
@@ -99,7 +99,7 @@ export function getGenericDataLakeServiceClient(
   recorder: Recorder,
   accountType: string,
   accountNameSuffix: string = "",
-  pipelineOptions: StoragePipelineOptions = {},
+  pipelineOptions: DataLakeClientOptions = {},
 ): DataLakeServiceClient {
   if (
     env.STORAGE_CONNECTION_STRING &&
@@ -111,8 +111,8 @@ export function getGenericDataLakeServiceClient(
   } else {
     const credential = getGenericCredential(accountType);
     const pipeline = newPipeline(credential, pipelineOptions);
-    const dfsPrimaryURL = `https://${credential.accountName}${accountNameSuffix}.dfs.core.windows.net/`;
-    const client = new DataLakeServiceClient(dfsPrimaryURL, pipeline);
+    const dfsPrimaryURL = `https://${credential.accountName}${accountNameSuffix}.dfs.preprod.core.windows.net/`;
+    const client = new DataLakeServiceClient(dfsPrimaryURL, pipeline, pipelineOptions);
     configureStorageClient(recorder, client);
     return client;
   }
@@ -136,7 +136,7 @@ export function getTokenDataLakeServiceClient(recorder: Recorder): DataLakeServi
 
 export function getDataLakeServiceClient(
   recorder: Recorder,
-  pipelineOptions: StoragePipelineOptions = {},
+  pipelineOptions: DataLakeClientOptions = {},
 ): DataLakeServiceClient {
   return getGenericDataLakeServiceClient(recorder, "DFS_", undefined, pipelineOptions);
 }

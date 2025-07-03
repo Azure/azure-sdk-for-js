@@ -490,4 +490,13 @@ describe("BlockBlobClient", () => {
     const result = await blockBlobClient.download();
     assert.deepStrictEqual(await bodyToString(result), content);
   });
+
+  it("Structured message testing", async () => {
+    const content = "blob content";
+
+    await blockBlobClient.upload(content, content.length);
+
+    const result = await blockBlobClient.download();
+    assert.deepStrictEqual(await bodyToString(result), content);
+  });
 });

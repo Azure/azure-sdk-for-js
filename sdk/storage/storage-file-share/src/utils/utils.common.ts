@@ -17,10 +17,17 @@ import type {
   ListFilesAndDirectoriesSegmentResponse,
   ListHandlesResponse,
 } from "../generatedModels.js";
-import type { HttpAuthorization, NfsFileMode, PosixRolePermissions } from "../models.js";
+import {
+  HttpAuthorization,
+  NfsFileMode,
+  PosixRolePermissions,
+  StorageChecksumAlgorithm,
+} from "../models.js";
 import { HeaderConstants, PathStylePorts, URLConstants } from "./constants.js";
 import { isNodeLike } from "@azure/core-util";
 import type { HttpHeadersLike, WebResourceLike } from "@azure/core-http-compat";
+import { HttpRequestBody } from "../Pipeline.js";
+import { StorageCRC64Calculator, structuredMessageEncoding } from "@azure/storage-common";
 
 /**
  * Reserved URL characters must be properly escaped for Storage services like Blob or File.
@@ -1030,5 +1037,54 @@ export function parseSymbolicRolePermissions(input: string): {
   return {
     rolePermissions,
     setSticky,
+  };
+}
+
+interface UploadChecksumParametersLike {
+  contentMD5?: Uint8Array;
+  transactionalContentCrc64?: Uint8Array;
+  contentChecksumAlgorithm?: StorageChecksumAlgorithm;
+  structuredBodyType?: string;
+  structuredContentLength?: number;
+}
+
+interface UploadCheckSumBody {
+  contentChecksumAlgorithm?: StorageChecksumAlgorithm;
+  body: HttpRequestBody;
+  contentLength: number;
+}
+
+export async function setUploadChecksumParameters(
+  body: HttpRequestBody,
+  contentLength: number,
+  parameters: UploadChecksumParametersLike,
+  uploadOptions: UploadChecksumParametersLike,
+  configContentChecksumAlgorithm?: StorageChecksumAlgorithm,
+): Promise<UploadCheckSumBody> {
+  let contentChecksumAlgorithm =
+    uploadOptions.contentChecksumAlgorithm ?? configContentChecksumAlgorithm;
+  if (contentChecksumAlgorithm === undefined || StorageChecksumAlgorithm.Auto) {
+    contentChecksumAlgorithm = StorageChecksumAlgorithm.Customized;
+  }
+
+  let bodyInfo = undefined;
+  if (contentChecksumAlgorithm === StorageChecksumAlgorithm.Customized) {
+    parameters.contentMD5 = uploadOptions.contentMD5;
+    parameters.transactionalContentCrc64 = uploadOptions.transactionalContentCrc64;
+  } else if (contentChecksumAlgorithm === StorageChecksumAlgorithm.StorageCrc64) {
+    await StorageCRC64Calculator.init();
+    bodyInfo = await structuredMessageEncoding(body, contentLength);
+    parameters.structuredBodyType = "XSM/1.0; properties=crc64";
+    parameters.structuredContentLength = contentLength;
+  }
+
+  return {
+    body:
+      contentChecksumAlgorithm === StorageChecksumAlgorithm.StorageCrc64 ? bodyInfo!.body : body,
+    contentLength:
+      contentChecksumAlgorithm === StorageChecksumAlgorithm.StorageCrc64
+        ? bodyInfo!.encoded_content_length
+        : contentLength,
+    contentChecksumAlgorithm: contentChecksumAlgorithm,
   };
 }

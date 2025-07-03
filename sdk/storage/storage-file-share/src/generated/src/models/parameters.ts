@@ -1016,9 +1016,160 @@ export const allowSourceTrailingDot: OperationParameter = {
     serializedName: "x-ms-source-allow-trailing-dot",
     xmlName: "x-ms-source-allow-trailing-dot",
     type: {
+<<<<<<< HEAD
       name: "Boolean",
     },
   },
+=======
+      name: "Boolean"
+    }
+  }
+};
+
+export const fileContentLength: OperationParameter = {
+  parameterPath: "fileContentLength",
+  mapper: {
+    serializedName: "x-ms-content-length",
+    required: true,
+    xmlName: "x-ms-content-length",
+    type: {
+      name: "Number"
+    }
+  }
+};
+
+export const fileTypeConstant: OperationParameter = {
+  parameterPath: "fileTypeConstant",
+  mapper: {
+    defaultValue: "file",
+    isConstant: true,
+    serializedName: "x-ms-type",
+    type: {
+      name: "String"
+    }
+  }
+};
+
+export const fileContentType: OperationParameter = {
+  parameterPath: ["options", "fileHttpHeaders", "fileContentType"],
+  mapper: {
+    serializedName: "x-ms-content-type",
+    xmlName: "x-ms-content-type",
+    type: {
+      name: "String"
+    }
+  }
+};
+
+export const fileContentEncoding: OperationParameter = {
+  parameterPath: ["options", "fileHttpHeaders", "fileContentEncoding"],
+  mapper: {
+    serializedName: "x-ms-content-encoding",
+    xmlName: "x-ms-content-encoding",
+    type: {
+      name: "String"
+    }
+  }
+};
+
+export const fileContentLanguage: OperationParameter = {
+  parameterPath: ["options", "fileHttpHeaders", "fileContentLanguage"],
+  mapper: {
+    serializedName: "x-ms-content-language",
+    xmlName: "x-ms-content-language",
+    type: {
+      name: "String"
+    }
+  }
+};
+
+export const fileCacheControl: OperationParameter = {
+  parameterPath: ["options", "fileHttpHeaders", "fileCacheControl"],
+  mapper: {
+    serializedName: "x-ms-cache-control",
+    xmlName: "x-ms-cache-control",
+    type: {
+      name: "String"
+    }
+  }
+};
+
+export const fileContentMD5: OperationParameter = {
+  parameterPath: ["options", "fileHttpHeaders", "fileContentMD5"],
+  mapper: {
+    serializedName: "x-ms-content-md5",
+    xmlName: "x-ms-content-md5",
+    type: {
+      name: "ByteArray"
+    }
+  }
+};
+
+export const fileContentDisposition: OperationParameter = {
+  parameterPath: ["options", "fileHttpHeaders", "fileContentDisposition"],
+  mapper: {
+    serializedName: "x-ms-content-disposition",
+    xmlName: "x-ms-content-disposition",
+    type: {
+      name: "String"
+    }
+  }
+};
+
+export const nfsFileType: OperationParameter = {
+  parameterPath: ["options", "nfsFileType"],
+  mapper: {
+    serializedName: "x-ms-file-file-type",
+    xmlName: "x-ms-file-file-type",
+    type: {
+      name: "String"
+    }
+  }
+};
+
+export const range: OperationParameter = {
+  parameterPath: ["options", "range"],
+  mapper: {
+    serializedName: "x-ms-range",
+    xmlName: "x-ms-range",
+    type: {
+      name: "String"
+    }
+  }
+};
+
+export const rangeGetContentMD5: OperationParameter = {
+  parameterPath: ["options", "rangeGetContentMD5"],
+  mapper: {
+    serializedName: "x-ms-range-get-content-md5",
+    xmlName: "x-ms-range-get-content-md5",
+    type: {
+      name: "Boolean"
+    }
+  }
+};
+
+export const structuredBodyType: OperationParameter = {
+  parameterPath: ["options", "structuredBodyType"],
+  mapper: {
+    serializedName: "x-ms-structured-body",
+    xmlName: "x-ms-structured-body",
+    type: {
+      name: "String"
+    }
+  }
+};
+
+export const fileContentLength1: OperationParameter = {
+  parameterPath: ["options", "fileContentLength"],
+  mapper: {
+    serializedName: "x-ms-content-length",
+    xmlName: "x-ms-content-length",
+    type: {
+      name: "Number"
+    }
+  }
+>>>>>>> 259011ff37 ([Storage]Content validation)
 };
 
 export const contentType2: OperationParameter = {
@@ -1272,6 +1423,17 @@ export const fileLastWrittenMode: OperationParameter = {
       allowedValues: ["Now", "Preserve"],
     },
   },
+};
+
+export const structuredContentLength: OperationParameter = {
+  parameterPath: ["options", "structuredContentLength"],
+  mapper: {
+    serializedName: "x-ms-structured-content-length",
+    xmlName: "x-ms-structured-content-length",
+    type: {
+      name: "Number"
+    }
+  }
 };
 
 export const copySource: OperationParameter = {
