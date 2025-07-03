@@ -42,6 +42,51 @@ try {
     Write-Host "Running automation_generate.sh $inputJsonPath $outputJsonPath"
     Invoke-LoggedCommand "sh .scripts/automation_generate.sh $inputJsonPath $outputJsonPath"
     if ($LASTEXITCODE) { exit $LASTEXITCODE }
+    
+    # Check if the output file was generated
+    if (-not (Test-Path $outputJsonPath)) {
+        Write-Host "##[error]Expected output file $outputJsonPath was not generated"
+        exit 1
+    }
+    
+    Write-Host "Parsing generateOutput.json"
+    try {
+        $generateOutput = Get-Content -Path $outputJsonPath -Raw | ConvertFrom-Json
+        Write-Host "Successfully parsed generateOutput.json"
+        
+        # Validate the structure
+        if (-not $generateOutput.packages) {
+            Write-Host "##[error]generateOutput.json does not contain 'packages' property"
+            exit 1
+        }
+        
+        if ($generateOutput.packages.Count -eq 0) {
+            Write-Host "##[warning]No packages found in generateOutput.json"
+        } else {
+            Write-Host "Found $($generateOutput.packages.Count) package(s) in generateOutput.json"
+            
+            # Check if all packages succeeded
+            $failedPackages = @()
+            foreach ($package in $generateOutput.packages) {
+                Write-Host "Package: $($package.packageName) v$($package.version) - Result: $($package.result)"
+                if ($package.result -ne "succeeded") {
+                    $failedPackages += $package.packageName
+                }
+            }
+            
+            if ($failedPackages.Count -gt 0) {
+                Write-Host "##[error]The following packages failed to generate: $($failedPackages -join ', ')"
+                exit 1
+            }
+            
+            Write-Host "All packages generated successfully"
+        }
+    }
+    catch {
+        Write-Host "##[error]Failed to parse generateOutput.json: $($_.Exception.Message)"
+        exit 1
+    }
+    
     # if (Test-Path "Function:$GetEmitterAdditionalOptionsFn") {
     #     $emitterAdditionalOptions = &$GetEmitterAdditionalOptionsFn $resolvedProjectDirectory
     #     if ($emitterAdditionalOptions.Length -gt 0) {
