@@ -48,7 +48,7 @@ export function getGenericBSU(
 
   const credentials = new StorageSharedKeyCredential(accountName, accountKey);
   const pipeline = newPipeline(credentials, config);
-  const filePrimaryURL = `https://${accountName}${accountNameSuffix}.file.core.windows.net/`;
+  const filePrimaryURL = `https://${accountName}${accountNameSuffix}.file.preprod.core.windows.net/`;
   const client = new ShareServiceClient(filePrimaryURL, pipeline, config);
   configureStorageClient(recorder, client);
   return client;

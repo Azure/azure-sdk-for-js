@@ -59,7 +59,7 @@ export class PathOperationsImpl implements PathOperations {
    * Create or rename a file or directory.    By default, the destination is overwritten and if the
    * destination already exists and has a lease the lease is broken.  This operation supports conditional
    * HTTP requests.  For more information, see [Specifying Conditional Headers for Blob Service
-   * Operations](https://docs.microsoft.com/en-us/rest/api/storageservices/specifying-conditional-headers-for-blob-service-operations).
+   * Operations](https://learn.microsoft.com/rest/api/storageservices/specifying-conditional-headers-for-blob-service-operations).
    *  To fail if the destination already exists, use a conditional request with If-None-Match: "*".
    * @param options The options parameters.
    */
@@ -73,7 +73,7 @@ export class PathOperationsImpl implements PathOperations {
    * appended to a file. Concurrent writes to the same file using multiple clients are not supported.
    * This operation supports conditional HTTP requests. For more information, see [Specifying Conditional
    * Headers for Blob Service
-   * Operations](https://docs.microsoft.com/en-us/rest/api/storageservices/specifying-conditional-headers-for-blob-service-operations).
+   * Operations](https://learn.microsoft.com/rest/api/storageservices/specifying-conditional-headers-for-blob-service-operations).
    * @param action The action must be "append" to upload data to be appended to a file, "flush" to flush
    *               previously uploaded data to a file, "setProperties" to set the properties of a file or directory,
    *               "setAccessControl" to set the owner, group, permissions, or access control list for a file or
@@ -103,7 +103,7 @@ export class PathOperationsImpl implements PathOperations {
    * Create and manage a lease to restrict write and delete access to the path. This operation supports
    * conditional HTTP requests.  For more information, see [Specifying Conditional Headers for Blob
    * Service
-   * Operations](https://docs.microsoft.com/en-us/rest/api/storageservices/specifying-conditional-headers-for-blob-service-operations).
+   * Operations](https://learn.microsoft.com/rest/api/storageservices/specifying-conditional-headers-for-blob-service-operations).
    * @param xMsLeaseAction There are five lease actions: "acquire", "break", "change", "renew", and
    *                       "release". Use "acquire" and specify the "x-ms-proposed-lease-id" and "x-ms-lease-duration" to
    *                       acquire a new lease. Use "break" to break an existing lease. When a lease is broken, the lease break
@@ -129,7 +129,7 @@ export class PathOperationsImpl implements PathOperations {
    * Read the contents of a file.  For read operations, range requests are supported. This operation
    * supports conditional HTTP requests.  For more information, see [Specifying Conditional Headers for
    * Blob Service
-   * Operations](https://docs.microsoft.com/en-us/rest/api/storageservices/specifying-conditional-headers-for-blob-service-operations).
+   * Operations](https://learn.microsoft.com/rest/api/storageservices/specifying-conditional-headers-for-blob-service-operations).
    * @param options The options parameters.
    */
   read(options?: PathReadOptionalParams): Promise<PathReadResponse> {
@@ -141,7 +141,7 @@ export class PathOperationsImpl implements PathOperations {
    * system defined properties for a path. Get Access Control List returns the access control list for a
    * path. This operation supports conditional HTTP requests.  For more information, see [Specifying
    * Conditional Headers for Blob Service
-   * Operations](https://docs.microsoft.com/en-us/rest/api/storageservices/specifying-conditional-headers-for-blob-service-operations).
+   * Operations](https://learn.microsoft.com/rest/api/storageservices/specifying-conditional-headers-for-blob-service-operations).
    * @param options The options parameters.
    */
   getProperties(
@@ -156,7 +156,7 @@ export class PathOperationsImpl implements PathOperations {
   /**
    * Delete the file or directory. This operation supports conditional HTTP requests.  For more
    * information, see [Specifying Conditional Headers for Blob Service
-   * Operations](https://docs.microsoft.com/en-us/rest/api/storageservices/specifying-conditional-headers-for-blob-service-operations).
+   * Operations](https://learn.microsoft.com/rest/api/storageservices/specifying-conditional-headers-for-blob-service-operations).
    * @param options The options parameters.
    */
   delete(options?: PathDeleteOptionalParams): Promise<PathDeleteResponse> {
@@ -355,7 +355,9 @@ const updateOperationSpec: coreClient.OperationSpec = {
     Parameters.contentType1,
     Parameters.accept2,
     Parameters.contentLength,
-    Parameters.contentMD5
+    Parameters.contentMD5,
+    Parameters.structuredBodyType,
+    Parameters.structuredContentLength
   ],
   mediaType: "binary",
   serializer
@@ -634,6 +636,8 @@ const appendDataOperationSpec: coreClient.OperationSpec = {
     Parameters.leaseDuration,
     Parameters.accept2,
     Parameters.contentLength,
+    Parameters.structuredBodyType,
+    Parameters.structuredContentLength,
     Parameters.leaseAction,
     Parameters.contentType2,
     Parameters.transactionalContentHash,

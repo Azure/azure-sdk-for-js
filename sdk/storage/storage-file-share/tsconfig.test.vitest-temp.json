@@ -1,0 +1,47 @@
+{
+  "compilerOptions": {
+    "target": "es2023",
+    "module": "nodenext",
+    "lib": ["DOM"],
+    "declaration": true,
+    "declarationMap": true,
+    "inlineSources": true,
+    "sourceMap": true,
+    "importHelpers": true,
+    "strict": true,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+    "noImplicitReturns": true,
+    "noFallthroughCasesInSwitch": true,
+    "moduleResolution": "nodenext",
+    "esModuleInterop": true,
+    "composite": true,
+    "noEmit": true,
+    "skipLibCheck": true,
+    "noImplicitAny": true,
+    "noImplicitThis": true,
+    "strictNullChecks": true,
+    "strictFunctionTypes": true,
+    "strictBindCallApply": true,
+    "strictPropertyInitialization": true,
+    "strictBuiltinIteratorReturn": true,
+    "alwaysStrict": true,
+    "useUnknownInCatchVariables": true,
+    "useDefineForClassFields": true,
+    "allowSyntheticDefaultImports": true,
+    "moduleDetection": "force",
+    "resolvePackageJsonExports": true,
+    "resolvePackageJsonImports": true,
+    "emitDeclarationOnly": false,
+    "incremental": true,
+    "tsBuildInfoFile": "D:/repo/JS/another/main/azure-sdk-for-js/common/temp/node_modules/.pnpm/vitest@3.1.3_@types+debug@4.1.12_@types+node@18.19.101_@vitest+browser@3.1.3_tsx@4.19.4_yaml@2.8.0/node_modules/vitest/dist/chunks/tsconfig.test.tmp.tsbuildinfo"
+  },
+  "include": [
+    "D:/repo/JS/another/main/azure-sdk-for-js/sdk/storage/storage-file-share/test",
+    "D:/repo/JS/another/main/azure-sdk-for-js/sdk/storage/storage-file-share/src"
+  ],
+  "exclude": [
+    "D:/repo/JS/another/main/azure-sdk-for-js/sdk/storage/storage-file-share/test/stress",
+    "D:/repo/JS/another/main/azure-sdk-for-js/sdk/storage/storage-file-share/test/snippets.spec.ts"
+  ]
+}

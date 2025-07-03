@@ -629,6 +629,8 @@ export interface FileDownloadHeaders {
     };
     posixProperties?: FilePosixProperties;
     requestId?: string;
+    structuredBodyType?: string;
+    structuredContentLength?: number;
     version?: string;
 }
 
@@ -639,12 +641,17 @@ export interface FileDownloadOptionalParams extends coreClient.OperationOptions 
     leaseAccessConditions?: LeaseAccessConditions;
     range?: string;
     rangeGetContentMD5?: boolean;
+    structuredBodyType?: string;
     timeoutInSeconds?: number;
 }
 
 // @public
 export interface FileDownloadOptions extends CommonOptions {
     abortSignal?: AbortSignalLike;
+    // Warning: (ae-forgotten-export) The symbol "StorageChecksumAlgorithm" needs to be exported by the entry point index.d.ts
+    //
+    // (undocumented)
+    contentChecksumAlgorithm?: StorageChecksumAlgorithm;
     leaseAccessConditions?: LeaseAccessConditions;
     maxRetryRequests?: number;
     onProgress?: (progress: TransferProgressEvent) => void;
@@ -658,6 +665,8 @@ export type FileDownloadResponseModel = WithResponse<RawFileDownloadResponse, Fi
 export interface FileDownloadToBufferOptions extends CommonOptions {
     abortSignal?: AbortSignalLike;
     concurrency?: number;
+    // (undocumented)
+    contentChecksumAlgorithm?: StorageChecksumAlgorithm;
     leaseAccessConditions?: LeaseAccessConditions;
     maxRetryRequestsPerRange?: number;
     onProgress?: (progress: TransferProgressEvent) => void;
@@ -840,6 +849,8 @@ export interface FileListHandlesSegmentOptions extends CommonOptions {
 export interface FileParallelUploadOptions extends CommonOptions {
     abortSignal?: AbortSignalLike;
     concurrency?: number;
+    // (undocumented)
+    contentChecksumAlgorithm?: StorageChecksumAlgorithm;
     fileHttpHeaders?: FileHttpHeaders;
     leaseAccessConditions?: LeaseAccessConditions;
     metadata?: Metadata;
@@ -1118,12 +1129,15 @@ export interface FileUploadRangeHeaders {
     isServerEncrypted?: boolean;
     lastModified?: Date;
     requestId?: string;
+    structuredBodyType?: string;
     version?: string;
 }
 
 // @public
 export interface FileUploadRangeOptions extends CommonOptions {
     abortSignal?: AbortSignalLike;
+    // (undocumented)
+    contentChecksumAlgorithm?: StorageChecksumAlgorithm;
     contentMD5?: Uint8Array;
     fileLastWrittenMode?: FileLastWrittenMode;
     leaseAccessConditions?: LeaseAccessConditions;
@@ -1136,6 +1150,8 @@ export type FileUploadRangeResponse = WithResponse<FileUploadRangeHeaders, FileU
 // @public
 export interface FileUploadStreamOptions extends CommonOptions {
     abortSignal?: AbortSignalLike;
+    // (undocumented)
+    contentChecksumAlgorithm?: StorageChecksumAlgorithm;
     fileHttpHeaders?: FileHttpHeaders;
     leaseAccessConditions?: LeaseAccessConditions;
     metadata?: Metadata;
@@ -1581,7 +1597,11 @@ export class ShareClient extends StorageClient {
 export interface ShareClientConfig {
     allowSourceTrailingDot?: boolean;
     allowTrailingDot?: boolean;
+    // (undocumented)
+    downloadContentChecksumAlgorithm?: StorageChecksumAlgorithm;
     fileRequestIntent?: ShareTokenIntent;
+    // (undocumented)
+    uploadContentChecksumAlgorithm?: StorageChecksumAlgorithm;
 }
 
 // @public (undocumented)

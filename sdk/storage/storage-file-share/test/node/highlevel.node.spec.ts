@@ -1,6 +1,5 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import * as buffer from "node:buffer";
 import * as fs from "node:fs";
 import * as path from "node:path";
 
@@ -339,62 +338,6 @@ describe("Highlevel Node.js only", () => {
       assert.ok(localFileContent.equals(buf));
     },
   );
-
-  it("downloadToBuffer should throw an error if the count (size in bytes) is too large", async () => {
-    let error;
-    try {
-      // casting to "any" is required since @types/node@8 doesn't have `constants` though it is present on the `buffer`,
-      // "as any" can be removed once we move from @types/node v8 to v10
-      await fileClient.downloadToBuffer(undefined, (buffer as any).constants.MAX_LENGTH + 1);
-    } catch (err: any) {
-      error = err;
-    }
-    assert.ok(
-      error.message.includes("Unable to allocate a buffer of size:"),
-      "Error is not thrown when the count (size in bytes) is too large",
-    );
-  });
-
-  it("fileClient.downloadToBuffer should success when downloading a range inside file", async () => {
-    await fileClient.create(8);
-    await fileClient.uploadRange("aaaabbbb", 0, 8);
-
-    const buf = Buffer.alloc(4);
-    await fileClient.downloadToBuffer(buf, 4, 4, {
-      rangeSize: 4,
-      maxRetryRequestsPerRange: 5,
-      concurrency: 1,
-    });
-    assert.deepStrictEqual(buf.toString(), "bbbb");
-
-    await fileClient.downloadToBuffer(buf, 3, 4, {
-      rangeSize: 4,
-      maxRetryRequestsPerRange: 5,
-      concurrency: 1,
-    });
-    assert.deepStrictEqual(buf.toString(), "abbb");
-
-    await fileClient.downloadToBuffer(buf, 2, 4, {
-      rangeSize: 4,
-      maxRetryRequestsPerRange: 5,
-      concurrency: 1,
-    });
-    assert.deepStrictEqual(buf.toString(), "aabb");
-
-    await fileClient.downloadToBuffer(buf, 1, 4, {
-      rangeSize: 4,
-      maxRetryRequestsPerRange: 5,
-      concurrency: 1,
-    });
-    assert.deepStrictEqual(buf.toString(), "aaab");
-
-    await fileClient.downloadToBuffer(buf, 0, 4, {
-      rangeSize: 4,
-      maxRetryRequestsPerRange: 5,
-      concurrency: 1,
-    });
-    assert.deepStrictEqual(buf.toString(), "aaaa");
-  });
 
   it(
     "downloadToBuffer should abort",

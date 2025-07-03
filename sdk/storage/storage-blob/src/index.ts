@@ -31,6 +31,8 @@ export * from "./credentials/StorageSharedKeyCredential.js";
 export { SasIPRange } from "./sas/SasIPRange.js";
 export { Range } from "./Range.js";
 export {
+  BlobClientOptions,
+  BlobClientConfig,
   BlockBlobTier,
   PremiumPageBlobTier,
   Tags,
