@@ -11,8 +11,8 @@ trigger:
       - feature/v4
   paths:
     include:
-      - sdk/playwrighttesting/arm-playwrighttesting
-      - sdk/playwrighttesting/ci.mgmt.yml
+      - sdk/playwright/arm-playwright
+      - sdk/playwright/ci.mgmt.yml
 pr:
   branches:
     include:
@@ -24,12 +24,12 @@ pr:
       - feature/v4
   paths:
     include:
-      - sdk/playwrighttesting/arm-playwrighttesting
-      - sdk/playwrighttesting/ci.mgmt.yml
+      - sdk/playwright/arm-playwright
+      - sdk/playwright/ci.mgmt.yml
 extends:
   template: /eng/pipelines/templates/stages/archetype-sdk-client.yml
   parameters:
-    ServiceDirectory: playwrighttesting
+    ServiceDirectory: playwright
     Artifacts:
-      - name: azure-arm-playwrighttesting
-        safeName: azurearmplaywrighttesting
+      - name: azure-arm-playwright
+        safeName: azurearmplaywright
