@@ -409,11 +409,33 @@ function Update-javascript-GeneratedSdks([string]$PackageDirectoriesFile) {
   $moduleFolders = Get-Content $PackageDirectoriesFile | ConvertFrom-Json
 
   $directoriesWithErrors = @()
+  
+  # Error categorization
+  $errorStatistics = @{
+    NoTspLocationYaml = @()  # All directories without tsp-location.yaml
+    ManagementSdkTypeSpecGenerateFailure = @()  # Management SDKs that fail TypeSpec generation
+  }
 
   foreach ($directory in $moduleFolders) {
     $directoryPath = "$RepoRoot/sdk/$directory"
+    $isManagementSdk = $false
+    
+    # Check if tsp-location.yaml exists and read the directory field to determine if it's a Management SDK
+    $tspLocationPath = "$directoryPath/tsp-location.yaml"
+    if (Test-Path $tspLocationPath) {
+      try {
+        $tspContent = Get-Content $tspLocationPath -Raw
+        # Parse YAML to extract directory field using ConvertFrom-Yaml
+        $tspData = $tspContent | ConvertFrom-Yaml
+        if ($tspData.directory) {
+          $tspDirectory = $tspData.directory
+          $isManagementSdk = $tspDirectory.Contains("/resource-manager/") -or $tspDirectory.Contains(".Management")
+        }
+      }
+      catch {
+        Write-Host "Warning: Failed to parse tsp-location.yaml in $directory" -ForegroundColor Yellow
+      }
 
-    if (Test-Path "$directoryPath/tsp-location.yaml") {
       Write-Host 'Generating project under folder ' -ForegroundColor Green -NoNewline
       Write-Host "$directory" -ForegroundColor Yellow
 
@@ -428,12 +450,45 @@ function Update-javascript-GeneratedSdks([string]$PackageDirectoriesFile) {
       & $RepoRoot/eng/common/scripts/TypeSpec-Project-Generate.ps1 $directoryPath
       if ($LASTEXITCODE) {
         $directoriesWithErrors += $directory
+        if ($isManagementSdk) {
+          $errorStatistics.ManagementSdkTypeSpecGenerateFailure += $tspDirectory
+        }
         continue
       }
     }
     else {
       Write-Host "No tsp-location.yaml found in $directory"
+      # Add all directories without tsp-location.yaml to the statistics
+      $errorStatistics.NoTspLocationYaml += $directory
     }
+  }
+
+  # Display error statistics
+  if ($errorStatistics.NoTspLocationYaml.Count -gt 0 -or $errorStatistics.ManagementSdkTypeSpecGenerateFailure.Count -gt 0) {
+    Write-Host ""
+    Write-Host "Error Statistics:" -ForegroundColor Cyan
+    Write-Host "=================" -ForegroundColor Cyan
+    
+    if ($errorStatistics.NoTspLocationYaml.Count -gt 0) {
+      Write-Host "No tsp-location.yaml found ($($errorStatistics.NoTspLocationYaml.Count) directories):" -ForegroundColor Yellow
+      foreach ($directory in $errorStatistics.NoTspLocationYaml) {
+        Write-Host "  - $directory"
+      }
+      Write-Host ""
+    }
+    
+    if ($errorStatistics.ManagementSdkTypeSpecGenerateFailure.Count -gt 0) {
+      Write-Host "Management SDK TypeSpec-Project-Generate.ps1 failures ($($errorStatistics.ManagementSdkTypeSpecGenerateFailure.Count) directories):" -ForegroundColor Red
+      foreach ($directory in $errorStatistics.ManagementSdkTypeSpecGenerateFailure) {
+        Write-Host "  - $directory"
+      }
+      Write-Host ""
+    }
+    
+    Write-Host "Summary:" -ForegroundColor Magenta
+    Write-Host "  - Missing tsp-location.yaml: $($errorStatistics.NoTspLocationYaml.Count)" -ForegroundColor Magenta
+    Write-Host "  - Management SDK generation failures: $($errorStatistics.ManagementSdkTypeSpecGenerateFailure.Count)" -ForegroundColor Magenta
+    Write-Host ""
   }
 
   if ($directoriesWithErrors.Count -gt 0) {
