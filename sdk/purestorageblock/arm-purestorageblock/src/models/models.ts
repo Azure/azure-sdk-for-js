@@ -1403,7 +1403,7 @@ export function avsStorageContainerPropertiesDeserializer(
 }
 
 /** The resource model definition for a Azure Resource Manager proxy resource. It will not have tags and a location */
-export interface ProxyResource extends Resource { }
+export interface ProxyResource extends Resource {}
 
 export function proxyResourceDeserializer(item: any): ProxyResource {
   return {
