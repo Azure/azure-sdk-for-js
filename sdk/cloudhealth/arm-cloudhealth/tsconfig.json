@@ -5,9 +5,6 @@
     },
     {
       "path": "./tsconfig.samples.json"
-    },
-    {
-      "path": "./tsconfig.test.json"
     }
   ]
 }

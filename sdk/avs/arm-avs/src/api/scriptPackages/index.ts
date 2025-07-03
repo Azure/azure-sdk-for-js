@@ -2,4 +2,7 @@
 // Licensed under the MIT License.
 
 export { get, list } from "./operations.js";
-export { ScriptPackagesGetOptionalParams, ScriptPackagesListOptionalParams } from "./options.js";
+export {
+  ScriptPackagesGetOptionalParams,
+  ScriptPackagesListOptionalParams,
+} from "./options.js";

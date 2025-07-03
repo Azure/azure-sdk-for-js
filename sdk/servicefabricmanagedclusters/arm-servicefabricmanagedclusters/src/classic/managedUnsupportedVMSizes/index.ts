@@ -25,12 +25,19 @@ export interface ManagedUnsupportedVMSizesOperations {
   ) => Promise<ManagedVMSize>;
 }
 
-function _getManagedUnsupportedVMSizes(context: ServiceFabricManagedClustersManagementContext) {
+function _getManagedUnsupportedVMSizes(
+  context: ServiceFabricManagedClustersManagementContext,
+) {
   return {
-    list: (location: string, options?: ManagedUnsupportedVMSizesListOptionalParams) =>
-      list(context, location, options),
-    get: (location: string, vmSize: string, options?: ManagedUnsupportedVMSizesGetOptionalParams) =>
-      get(context, location, vmSize, options),
+    list: (
+      location: string,
+      options?: ManagedUnsupportedVMSizesListOptionalParams,
+    ) => list(context, location, options),
+    get: (
+      location: string,
+      vmSize: string,
+      options?: ManagedUnsupportedVMSizesGetOptionalParams,
+    ) => get(context, location, vmSize, options),
   };
 }
 

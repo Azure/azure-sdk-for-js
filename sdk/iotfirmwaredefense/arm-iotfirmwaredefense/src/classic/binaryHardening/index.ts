@@ -25,7 +25,14 @@ function _getBinaryHardening(context: IoTFirmwareDefenseContext) {
       workspaceName: string,
       firmwareId: string,
       options?: BinaryHardeningListByFirmwareOptionalParams,
-    ) => listByFirmware(context, resourceGroupName, workspaceName, firmwareId, options),
+    ) =>
+      listByFirmware(
+        context,
+        resourceGroupName,
+        workspaceName,
+        firmwareId,
+        options,
+      ),
   };
 }
 

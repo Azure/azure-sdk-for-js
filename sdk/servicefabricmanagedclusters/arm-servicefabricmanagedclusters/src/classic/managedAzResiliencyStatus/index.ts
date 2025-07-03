@@ -16,7 +16,9 @@ export interface ManagedAzResiliencyStatusOperations {
   ) => Promise<ManagedAzResiliencyStatus>;
 }
 
-function _getManagedAzResiliencyStatus(context: ServiceFabricManagedClustersManagementContext) {
+function _getManagedAzResiliencyStatus(
+  context: ServiceFabricManagedClustersManagementContext,
+) {
   return {
     get: (
       resourceGroupName: string,

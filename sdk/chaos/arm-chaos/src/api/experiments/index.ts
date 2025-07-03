@@ -2,9 +2,6 @@
 // Licensed under the MIT License.
 
 export {
-  executionDetails,
-  listAllExecutions,
-  getExecution,
   start,
   cancel,
   listAll,
@@ -15,9 +12,6 @@ export {
   get,
 } from "./operations.js";
 export {
-  ExperimentsExecutionDetailsOptionalParams,
-  ExperimentsListAllExecutionsOptionalParams,
-  ExperimentsGetExecutionOptionalParams,
   ExperimentsStartOptionalParams,
   ExperimentsCancelOptionalParams,
   ExperimentsListAllOptionalParams,

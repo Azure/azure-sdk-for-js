@@ -9,7 +9,10 @@ import {
   ScriptCmdlet,
   scriptCmdletDeserializer,
 } from "../../models/models.js";
-import { ScriptCmdletsGetOptionalParams, ScriptCmdletsListOptionalParams } from "./options.js";
+import {
+  ScriptCmdletsGetOptionalParams,
+  ScriptCmdletsListOptionalParams,
+} from "./options.js";
 import {
   PagedAsyncIterableIterator,
   buildPagedAsyncIterator,
@@ -44,16 +47,20 @@ export function _getSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).get({
-    ...operationOptionsToRequestParameters(options),
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
-  });
+  return context
+    .path(path)
+    .get({
+      ...operationOptionsToRequestParameters(options),
+      headers: {
+        accept: "application/json",
+        ...options.requestOptions?.headers,
+      },
+    });
 }
 
-export async function _getDeserialize(result: PathUncheckedResponse): Promise<ScriptCmdlet> {
+export async function _getDeserialize(
+  result: PathUncheckedResponse,
+): Promise<ScriptCmdlet> {
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
@@ -104,16 +111,20 @@ export function _listSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).get({
-    ...operationOptionsToRequestParameters(options),
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
-  });
+  return context
+    .path(path)
+    .get({
+      ...operationOptionsToRequestParameters(options),
+      headers: {
+        accept: "application/json",
+        ...options.requestOptions?.headers,
+      },
+    });
 }
 
-export async function _listDeserialize(result: PathUncheckedResponse): Promise<_ScriptCmdletsList> {
+export async function _listDeserialize(
+  result: PathUncheckedResponse,
+): Promise<_ScriptCmdletsList> {
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
@@ -134,7 +145,14 @@ export function list(
 ): PagedAsyncIterableIterator<ScriptCmdlet> {
   return buildPagedAsyncIterator(
     context,
-    () => _listSend(context, resourceGroupName, privateCloudName, scriptPackageName, options),
+    () =>
+      _listSend(
+        context,
+        resourceGroupName,
+        privateCloudName,
+        scriptPackageName,
+        options,
+      ),
     _listDeserialize,
     ["200"],
     { itemName: "value", nextLinkName: "nextLink" },

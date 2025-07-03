@@ -14,13 +14,18 @@ async function workloadNetworksCreateVMGroup(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const client = new AzureVMwareSolutionAPI(credential, subscriptionId);
-  const result = await client.workloadNetworks.createVMGroup("group1", "cloud1", "vmGroup1", {
-    properties: {
-      displayName: "vmGroup1",
-      members: ["564d43da-fefc-2a3b-1d92-42855622fa50"],
-      revision: 1,
+  const result = await client.workloadNetworks.createVMGroup(
+    "group1",
+    "cloud1",
+    "vmGroup1",
+    {
+      properties: {
+        displayName: "vmGroup1",
+        members: ["564d43da-fefc-2a3b-1d92-42855622fa50"],
+        revision: 1,
+      },
     },
-  });
+  );
   console.log(result);
 }
 

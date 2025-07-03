@@ -15,7 +15,10 @@ async function relationshipsListByHealthModel(): Promise<void> {
   const subscriptionId = "4980D7D5-4E07-47AD-AD34-E76C6BC9F061";
   const client = new CloudHealthClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (const item of client.relationships.listByHealthModel("rgopenapi", "model1")) {
+  for await (const item of client.relationships.listByHealthModel(
+    "rgopenapi",
+    "model1",
+  )) {
     resArray.push(item);
   }
 

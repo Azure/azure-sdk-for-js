@@ -16,11 +16,11 @@ import {
   DatastoresGetOptionalParams,
   DatastoresListOptionalParams,
 } from "./options.js";
-import { getLongRunningPoller } from "../../static-helpers/pollingHelpers.js";
 import {
   PagedAsyncIterableIterator,
   buildPagedAsyncIterator,
 } from "../../static-helpers/pagingHelpers.js";
+import { getLongRunningPoller } from "../../static-helpers/pollingHelpers.js";
 import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
 import {
   StreamableMethod,
@@ -52,16 +52,20 @@ export function _$deleteSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).delete({
-    ...operationOptionsToRequestParameters(options),
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
-  });
+  return context
+    .path(path)
+    .delete({
+      ...operationOptionsToRequestParameters(options),
+      headers: {
+        accept: "application/json",
+        ...options.requestOptions?.headers,
+      },
+    });
 }
 
-export async function _$deleteDeserialize(result: PathUncheckedResponse): Promise<void> {
+export async function _$deleteDeserialize(
+  result: PathUncheckedResponse,
+): Promise<void> {
   const expectedStatuses = ["200", "202", "204"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
@@ -86,20 +90,25 @@ export function $delete(
   datastoreName: string,
   options: DatastoresDeleteOptionalParams = { requestOptions: {} },
 ): PollerLike<OperationState<void>, void> {
-  return getLongRunningPoller(context, _$deleteDeserialize, ["200", "202", "204"], {
-    updateIntervalInMs: options?.updateIntervalInMs,
-    abortSignal: options?.abortSignal,
-    getInitialResponse: () =>
-      _$deleteSend(
-        context,
-        resourceGroupName,
-        privateCloudName,
-        clusterName,
-        datastoreName,
-        options,
-      ),
-    resourceLocationConfig: "location",
-  }) as PollerLike<OperationState<void>, void>;
+  return getLongRunningPoller(
+    context,
+    _$deleteDeserialize,
+    ["200", "202", "204"],
+    {
+      updateIntervalInMs: options?.updateIntervalInMs,
+      abortSignal: options?.abortSignal,
+      getInitialResponse: () =>
+        _$deleteSend(
+          context,
+          resourceGroupName,
+          privateCloudName,
+          clusterName,
+          datastoreName,
+          options,
+        ),
+      resourceLocationConfig: "location",
+    },
+  ) as PollerLike<OperationState<void>, void>;
 }
 
 export function _createOrUpdateSend(
@@ -125,15 +134,17 @@ export function _createOrUpdateSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).put({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
-    body: datastoreSerializer(datastore),
-  });
+  return context
+    .path(path)
+    .put({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      headers: {
+        accept: "application/json",
+        ...options.requestOptions?.headers,
+      },
+      body: datastoreSerializer(datastore),
+    });
 }
 
 export async function _createOrUpdateDeserialize(
@@ -159,21 +170,26 @@ export function createOrUpdate(
   datastore: Datastore,
   options: DatastoresCreateOrUpdateOptionalParams = { requestOptions: {} },
 ): PollerLike<OperationState<Datastore>, Datastore> {
-  return getLongRunningPoller(context, _createOrUpdateDeserialize, ["200", "201"], {
-    updateIntervalInMs: options?.updateIntervalInMs,
-    abortSignal: options?.abortSignal,
-    getInitialResponse: () =>
-      _createOrUpdateSend(
-        context,
-        resourceGroupName,
-        privateCloudName,
-        clusterName,
-        datastoreName,
-        datastore,
-        options,
-      ),
-    resourceLocationConfig: "azure-async-operation",
-  }) as PollerLike<OperationState<Datastore>, Datastore>;
+  return getLongRunningPoller(
+    context,
+    _createOrUpdateDeserialize,
+    ["200", "201"],
+    {
+      updateIntervalInMs: options?.updateIntervalInMs,
+      abortSignal: options?.abortSignal,
+      getInitialResponse: () =>
+        _createOrUpdateSend(
+          context,
+          resourceGroupName,
+          privateCloudName,
+          clusterName,
+          datastoreName,
+          datastore,
+          options,
+        ),
+      resourceLocationConfig: "azure-async-operation",
+    },
+  ) as PollerLike<OperationState<Datastore>, Datastore>;
 }
 
 export function _getSend(
@@ -198,16 +214,20 @@ export function _getSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).get({
-    ...operationOptionsToRequestParameters(options),
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
-  });
+  return context
+    .path(path)
+    .get({
+      ...operationOptionsToRequestParameters(options),
+      headers: {
+        accept: "application/json",
+        ...options.requestOptions?.headers,
+      },
+    });
 }
 
-export async function _getDeserialize(result: PathUncheckedResponse): Promise<Datastore> {
+export async function _getDeserialize(
+  result: PathUncheckedResponse,
+): Promise<Datastore> {
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
@@ -258,16 +278,20 @@ export function _listSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).get({
-    ...operationOptionsToRequestParameters(options),
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
-  });
+  return context
+    .path(path)
+    .get({
+      ...operationOptionsToRequestParameters(options),
+      headers: {
+        accept: "application/json",
+        ...options.requestOptions?.headers,
+      },
+    });
 }
 
-export async function _listDeserialize(result: PathUncheckedResponse): Promise<_DatastoreList> {
+export async function _listDeserialize(
+  result: PathUncheckedResponse,
+): Promise<_DatastoreList> {
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
@@ -288,7 +312,14 @@ export function list(
 ): PagedAsyncIterableIterator<Datastore> {
   return buildPagedAsyncIterator(
     context,
-    () => _listSend(context, resourceGroupName, privateCloudName, clusterName, options),
+    () =>
+      _listSend(
+        context,
+        resourceGroupName,
+        privateCloudName,
+        clusterName,
+        options,
+      ),
     _listDeserialize,
     ["200"],
     { itemName: "value", nextLinkName: "nextLink" },

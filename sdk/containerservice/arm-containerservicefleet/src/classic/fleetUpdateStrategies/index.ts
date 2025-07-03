@@ -67,7 +67,14 @@ function _getFleetUpdateStrategies(context: ContainerServiceFleetContext) {
       fleetName: string,
       updateStrategyName: string,
       options?: FleetUpdateStrategiesDeleteOptionalParams,
-    ) => $delete(context, resourceGroupName, fleetName, updateStrategyName, options),
+    ) =>
+      $delete(
+        context,
+        resourceGroupName,
+        fleetName,
+        updateStrategyName,
+        options,
+      ),
     createOrUpdate: (
       resourceGroupName: string,
       fleetName: string,
@@ -75,13 +82,21 @@ function _getFleetUpdateStrategies(context: ContainerServiceFleetContext) {
       resource: FleetUpdateStrategy,
       options?: FleetUpdateStrategiesCreateOrUpdateOptionalParams,
     ) =>
-      createOrUpdate(context, resourceGroupName, fleetName, updateStrategyName, resource, options),
+      createOrUpdate(
+        context,
+        resourceGroupName,
+        fleetName,
+        updateStrategyName,
+        resource,
+        options,
+      ),
     get: (
       resourceGroupName: string,
       fleetName: string,
       updateStrategyName: string,
       options?: FleetUpdateStrategiesGetOptionalParams,
-    ) => get(context, resourceGroupName, fleetName, updateStrategyName, options),
+    ) =>
+      get(context, resourceGroupName, fleetName, updateStrategyName, options),
   };
 }
 

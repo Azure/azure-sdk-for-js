@@ -13,7 +13,6 @@ export {
   SASCredentials,
   NoAuthenticationCredentials,
   Evaluation,
-  EvaluationWithOptionalName,
   InputData,
   InputDataUnion,
   InputDataset,
@@ -55,5 +54,3 @@ export {
   PendingUploadType,
   KnownVersions,
 } from "./models.js";
-
-export { EvaluatorId, EvaluatorIds } from "./evaluations.js";
