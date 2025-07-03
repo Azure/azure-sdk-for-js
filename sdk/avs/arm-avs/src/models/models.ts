@@ -9,14 +9,18 @@ export interface _WorkloadNetworkList {
   nextLink?: string;
 }
 
-export function _workloadNetworkListDeserializer(item: any): _WorkloadNetworkList {
+export function _workloadNetworkListDeserializer(
+  item: any,
+): _WorkloadNetworkList {
   return {
     value: workloadNetworkArrayDeserializer(item["value"]),
     nextLink: item["nextLink"],
   };
 }
 
-export function workloadNetworkArrayDeserializer(result: Array<WorkloadNetwork>): any[] {
+export function workloadNetworkArrayDeserializer(
+  result: Array<WorkloadNetwork>,
+): any[] {
   return result.map((item) => {
     return workloadNetworkDeserializer(item);
   });
@@ -48,7 +52,9 @@ export interface WorkloadNetworkProperties {
   readonly provisioningState?: WorkloadNetworkProvisioningState;
 }
 
-export function workloadNetworkPropertiesDeserializer(item: any): WorkloadNetworkProperties {
+export function workloadNetworkPropertiesDeserializer(
+  item: any,
+): WorkloadNetworkProperties {
   return {
     provisioningState: item["provisioningState"],
   };
@@ -149,7 +155,9 @@ export function systemDataDeserializer(item: any): SystemData {
   return {
     createdBy: item["createdBy"],
     createdByType: item["createdByType"],
-    createdAt: !item["createdAt"] ? item["createdAt"] : new Date(item["createdAt"]),
+    createdAt: !item["createdAt"]
+      ? item["createdAt"]
+      : new Date(item["createdAt"]),
     lastModifiedBy: item["lastModifiedBy"],
     lastModifiedByType: item["lastModifiedByType"],
     lastModifiedAt: !item["lastModifiedAt"]
@@ -190,7 +198,9 @@ export interface ErrorResponse {
 
 export function errorResponseDeserializer(item: any): ErrorResponse {
   return {
-    error: !item["error"] ? item["error"] : errorDetailDeserializer(item["error"]),
+    error: !item["error"]
+      ? item["error"]
+      : errorDetailDeserializer(item["error"]),
   };
 }
 
@@ -213,20 +223,26 @@ export function errorDetailDeserializer(item: any): ErrorDetail {
     code: item["code"],
     message: item["message"],
     target: item["target"],
-    details: !item["details"] ? item["details"] : errorDetailArrayDeserializer(item["details"]),
+    details: !item["details"]
+      ? item["details"]
+      : errorDetailArrayDeserializer(item["details"]),
     additionalInfo: !item["additionalInfo"]
       ? item["additionalInfo"]
       : errorAdditionalInfoArrayDeserializer(item["additionalInfo"]),
   };
 }
 
-export function errorDetailArrayDeserializer(result: Array<ErrorDetail>): any[] {
+export function errorDetailArrayDeserializer(
+  result: Array<ErrorDetail>,
+): any[] {
   return result.map((item) => {
     return errorDetailDeserializer(item);
   });
 }
 
-export function errorAdditionalInfoArrayDeserializer(result: Array<ErrorAdditionalInfo>): any[] {
+export function errorAdditionalInfoArrayDeserializer(
+  result: Array<ErrorAdditionalInfo>,
+): any[] {
   return result.map((item) => {
     return errorAdditionalInfoDeserializer(item);
   });
@@ -240,7 +256,9 @@ export interface ErrorAdditionalInfo {
   readonly info?: any;
 }
 
-export function errorAdditionalInfoDeserializer(item: any): ErrorAdditionalInfo {
+export function errorAdditionalInfoDeserializer(
+  item: any,
+): ErrorAdditionalInfo {
   return {
     type: item["type"],
     info: item["info"],
@@ -255,20 +273,26 @@ export interface _WorkloadNetworkDhcpList {
   nextLink?: string;
 }
 
-export function _workloadNetworkDhcpListDeserializer(item: any): _WorkloadNetworkDhcpList {
+export function _workloadNetworkDhcpListDeserializer(
+  item: any,
+): _WorkloadNetworkDhcpList {
   return {
     value: workloadNetworkDhcpArrayDeserializer(item["value"]),
     nextLink: item["nextLink"],
   };
 }
 
-export function workloadNetworkDhcpArraySerializer(result: Array<WorkloadNetworkDhcp>): any[] {
+export function workloadNetworkDhcpArraySerializer(
+  result: Array<WorkloadNetworkDhcp>,
+): any[] {
   return result.map((item) => {
     return workloadNetworkDhcpSerializer(item);
   });
 }
 
-export function workloadNetworkDhcpArrayDeserializer(result: Array<WorkloadNetworkDhcp>): any[] {
+export function workloadNetworkDhcpArrayDeserializer(
+  result: Array<WorkloadNetworkDhcp>,
+): any[] {
   return result.map((item) => {
     return workloadNetworkDhcpDeserializer(item);
   });
@@ -288,7 +312,9 @@ export function workloadNetworkDhcpSerializer(item: WorkloadNetworkDhcp): any {
   };
 }
 
-export function workloadNetworkDhcpDeserializer(item: any): WorkloadNetworkDhcp {
+export function workloadNetworkDhcpDeserializer(
+  item: any,
+): WorkloadNetworkDhcp {
   return {
     id: item["id"],
     name: item["name"],
@@ -320,7 +346,9 @@ export interface WorkloadNetworkDhcpEntity {
   revision?: number;
 }
 
-export function workloadNetworkDhcpEntitySerializer(item: WorkloadNetworkDhcpEntity): any {
+export function workloadNetworkDhcpEntitySerializer(
+  item: WorkloadNetworkDhcpEntity,
+): any {
   return {
     dhcpType: item["dhcpType"],
     displayName: item["displayName"],
@@ -328,7 +356,9 @@ export function workloadNetworkDhcpEntitySerializer(item: WorkloadNetworkDhcpEnt
   };
 }
 
-export function workloadNetworkDhcpEntityDeserializer(item: any): WorkloadNetworkDhcpEntity {
+export function workloadNetworkDhcpEntityDeserializer(
+  item: any,
+): WorkloadNetworkDhcpEntity {
   return {
     dhcpType: item["dhcpType"],
     displayName: item["displayName"],
@@ -353,10 +383,14 @@ export function workloadNetworkDhcpEntityUnionSerializer(
 ): any {
   switch (item.dhcpType) {
     case "SERVER":
-      return workloadNetworkDhcpServerSerializer(item as WorkloadNetworkDhcpServer);
+      return workloadNetworkDhcpServerSerializer(
+        item as WorkloadNetworkDhcpServer,
+      );
 
     case "RELAY":
-      return workloadNetworkDhcpRelaySerializer(item as WorkloadNetworkDhcpRelay);
+      return workloadNetworkDhcpRelaySerializer(
+        item as WorkloadNetworkDhcpRelay,
+      );
 
     default:
       return workloadNetworkDhcpEntitySerializer(item);
@@ -368,10 +402,14 @@ export function workloadNetworkDhcpEntityUnionDeserializer(
 ): WorkloadNetworkDhcpEntityUnion {
   switch (item.dhcpType) {
     case "SERVER":
-      return workloadNetworkDhcpServerDeserializer(item as WorkloadNetworkDhcpServer);
+      return workloadNetworkDhcpServerDeserializer(
+        item as WorkloadNetworkDhcpServer,
+      );
 
     case "RELAY":
-      return workloadNetworkDhcpRelayDeserializer(item as WorkloadNetworkDhcpRelay);
+      return workloadNetworkDhcpRelayDeserializer(
+        item as WorkloadNetworkDhcpRelay,
+      );
 
     default:
       return workloadNetworkDhcpEntityDeserializer(item);
@@ -434,7 +472,9 @@ export interface WorkloadNetworkDhcpServer extends WorkloadNetworkDhcpEntity {
   dhcpType: "SERVER";
 }
 
-export function workloadNetworkDhcpServerSerializer(item: WorkloadNetworkDhcpServer): any {
+export function workloadNetworkDhcpServerSerializer(
+  item: WorkloadNetworkDhcpServer,
+): any {
   return {
     dhcpType: item["dhcpType"],
     displayName: item["displayName"],
@@ -444,7 +484,9 @@ export function workloadNetworkDhcpServerSerializer(item: WorkloadNetworkDhcpSer
   };
 }
 
-export function workloadNetworkDhcpServerDeserializer(item: any): WorkloadNetworkDhcpServer {
+export function workloadNetworkDhcpServerDeserializer(
+  item: any,
+): WorkloadNetworkDhcpServer {
   return {
     dhcpType: item["dhcpType"],
     displayName: item["displayName"],
@@ -468,7 +510,9 @@ export interface WorkloadNetworkDhcpRelay extends WorkloadNetworkDhcpEntity {
   dhcpType: "RELAY";
 }
 
-export function workloadNetworkDhcpRelaySerializer(item: WorkloadNetworkDhcpRelay): any {
+export function workloadNetworkDhcpRelaySerializer(
+  item: WorkloadNetworkDhcpRelay,
+): any {
   return {
     dhcpType: item["dhcpType"],
     displayName: item["displayName"],
@@ -481,7 +525,9 @@ export function workloadNetworkDhcpRelaySerializer(item: WorkloadNetworkDhcpRela
   };
 }
 
-export function workloadNetworkDhcpRelayDeserializer(item: any): WorkloadNetworkDhcpRelay {
+export function workloadNetworkDhcpRelayDeserializer(
+  item: any,
+): WorkloadNetworkDhcpRelay {
   return {
     dhcpType: item["dhcpType"],
     displayName: item["displayName"],
@@ -539,7 +585,9 @@ export interface WorkloadNetworkDnsService extends ProxyResource {
   properties?: WorkloadNetworkDnsServiceProperties;
 }
 
-export function workloadNetworkDnsServiceSerializer(item: WorkloadNetworkDnsService): any {
+export function workloadNetworkDnsServiceSerializer(
+  item: WorkloadNetworkDnsService,
+): any {
   return {
     properties: !item["properties"]
       ? item["properties"]
@@ -547,7 +595,9 @@ export function workloadNetworkDnsServiceSerializer(item: WorkloadNetworkDnsServ
   };
 }
 
-export function workloadNetworkDnsServiceDeserializer(item: any): WorkloadNetworkDnsService {
+export function workloadNetworkDnsServiceDeserializer(
+  item: any,
+): WorkloadNetworkDnsService {
   return {
     id: item["id"],
     name: item["name"],
@@ -700,7 +750,9 @@ export interface _WorkloadNetworkDnsZonesList {
   nextLink?: string;
 }
 
-export function _workloadNetworkDnsZonesListDeserializer(item: any): _WorkloadNetworkDnsZonesList {
+export function _workloadNetworkDnsZonesListDeserializer(
+  item: any,
+): _WorkloadNetworkDnsZonesList {
   return {
     value: workloadNetworkDnsZoneArrayDeserializer(item["value"]),
     nextLink: item["nextLink"],
@@ -729,7 +781,9 @@ export interface WorkloadNetworkDnsZone extends ProxyResource {
   properties?: WorkloadNetworkDnsZoneProperties;
 }
 
-export function workloadNetworkDnsZoneSerializer(item: WorkloadNetworkDnsZone): any {
+export function workloadNetworkDnsZoneSerializer(
+  item: WorkloadNetworkDnsZone,
+): any {
   return {
     properties: !item["properties"]
       ? item["properties"]
@@ -737,7 +791,9 @@ export function workloadNetworkDnsZoneSerializer(item: WorkloadNetworkDnsZone): 
   };
 }
 
-export function workloadNetworkDnsZoneDeserializer(item: any): WorkloadNetworkDnsZone {
+export function workloadNetworkDnsZoneDeserializer(
+  item: any,
+): WorkloadNetworkDnsZone {
   return {
     id: item["id"],
     name: item["name"],
@@ -850,7 +906,9 @@ export interface _WorkloadNetworkGatewayList {
   nextLink?: string;
 }
 
-export function _workloadNetworkGatewayListDeserializer(item: any): _WorkloadNetworkGatewayList {
+export function _workloadNetworkGatewayListDeserializer(
+  item: any,
+): _WorkloadNetworkGatewayList {
   return {
     value: workloadNetworkGatewayArrayDeserializer(item["value"]),
     nextLink: item["nextLink"],
@@ -871,7 +929,9 @@ export interface WorkloadNetworkGateway extends ProxyResource {
   properties?: WorkloadNetworkGatewayProperties;
 }
 
-export function workloadNetworkGatewayDeserializer(item: any): WorkloadNetworkGateway {
+export function workloadNetworkGatewayDeserializer(
+  item: any,
+): WorkloadNetworkGateway {
   return {
     id: item["id"],
     name: item["name"],
@@ -944,7 +1004,9 @@ export interface WorkloadNetworkPortMirroring extends ProxyResource {
   properties?: WorkloadNetworkPortMirroringProperties;
 }
 
-export function workloadNetworkPortMirroringSerializer(item: WorkloadNetworkPortMirroring): any {
+export function workloadNetworkPortMirroringSerializer(
+  item: WorkloadNetworkPortMirroring,
+): any {
   return {
     properties: !item["properties"]
       ? item["properties"]
@@ -952,7 +1014,9 @@ export function workloadNetworkPortMirroringSerializer(item: WorkloadNetworkPort
   };
 }
 
-export function workloadNetworkPortMirroringDeserializer(item: any): WorkloadNetworkPortMirroring {
+export function workloadNetworkPortMirroringDeserializer(
+  item: any,
+): WorkloadNetworkPortMirroring {
   return {
     id: item["id"],
     name: item["name"],
@@ -1118,7 +1182,9 @@ export interface WorkloadNetworkPublicIP extends ProxyResource {
   properties?: WorkloadNetworkPublicIPProperties;
 }
 
-export function workloadNetworkPublicIPSerializer(item: WorkloadNetworkPublicIP): any {
+export function workloadNetworkPublicIPSerializer(
+  item: WorkloadNetworkPublicIP,
+): any {
   return {
     properties: !item["properties"]
       ? item["properties"]
@@ -1126,7 +1192,9 @@ export function workloadNetworkPublicIPSerializer(item: WorkloadNetworkPublicIP)
   };
 }
 
-export function workloadNetworkPublicIPDeserializer(item: any): WorkloadNetworkPublicIP {
+export function workloadNetworkPublicIPDeserializer(
+  item: any,
+): WorkloadNetworkPublicIP {
   return {
     id: item["id"],
     name: item["name"],
@@ -1210,7 +1278,9 @@ export interface _WorkloadNetworkSegmentsList {
   nextLink?: string;
 }
 
-export function _workloadNetworkSegmentsListDeserializer(item: any): _WorkloadNetworkSegmentsList {
+export function _workloadNetworkSegmentsListDeserializer(
+  item: any,
+): _WorkloadNetworkSegmentsList {
   return {
     value: workloadNetworkSegmentArrayDeserializer(item["value"]),
     nextLink: item["nextLink"],
@@ -1239,7 +1309,9 @@ export interface WorkloadNetworkSegment extends ProxyResource {
   properties?: WorkloadNetworkSegmentProperties;
 }
 
-export function workloadNetworkSegmentSerializer(item: WorkloadNetworkSegment): any {
+export function workloadNetworkSegmentSerializer(
+  item: WorkloadNetworkSegment,
+): any {
   return {
     properties: !item["properties"]
       ? item["properties"]
@@ -1247,7 +1319,9 @@ export function workloadNetworkSegmentSerializer(item: WorkloadNetworkSegment): 
   };
 }
 
-export function workloadNetworkSegmentDeserializer(item: any): WorkloadNetworkSegment {
+export function workloadNetworkSegmentDeserializer(
+  item: any,
+): WorkloadNetworkSegment {
   return {
     id: item["id"],
     name: item["name"],
@@ -1318,7 +1392,9 @@ export interface WorkloadNetworkSegmentSubnet {
   gatewayAddress?: string;
 }
 
-export function workloadNetworkSegmentSubnetSerializer(item: WorkloadNetworkSegmentSubnet): any {
+export function workloadNetworkSegmentSubnetSerializer(
+  item: WorkloadNetworkSegmentSubnet,
+): any {
   return {
     dhcpRanges: !item["dhcpRanges"]
       ? item["dhcpRanges"]
@@ -1329,7 +1405,9 @@ export function workloadNetworkSegmentSubnetSerializer(item: WorkloadNetworkSegm
   };
 }
 
-export function workloadNetworkSegmentSubnetDeserializer(item: any): WorkloadNetworkSegmentSubnet {
+export function workloadNetworkSegmentSubnetDeserializer(
+  item: any,
+): WorkloadNetworkSegmentSubnet {
   return {
     dhcpRanges: !item["dhcpRanges"]
       ? item["dhcpRanges"]
@@ -1506,7 +1584,9 @@ export interface _WorkloadNetworkVMGroupsList {
   nextLink?: string;
 }
 
-export function _workloadNetworkVMGroupsListDeserializer(item: any): _WorkloadNetworkVMGroupsList {
+export function _workloadNetworkVMGroupsListDeserializer(
+  item: any,
+): _WorkloadNetworkVMGroupsList {
   return {
     value: workloadNetworkVMGroupArrayDeserializer(item["value"]),
     nextLink: item["nextLink"],
@@ -1535,7 +1615,9 @@ export interface WorkloadNetworkVMGroup extends ProxyResource {
   properties?: WorkloadNetworkVMGroupProperties;
 }
 
-export function workloadNetworkVMGroupSerializer(item: WorkloadNetworkVMGroup): any {
+export function workloadNetworkVMGroupSerializer(
+  item: WorkloadNetworkVMGroup,
+): any {
   return {
     properties: !item["properties"]
       ? item["properties"]
@@ -1543,7 +1625,9 @@ export function workloadNetworkVMGroupSerializer(item: WorkloadNetworkVMGroup): 
   };
 }
 
-export function workloadNetworkVMGroupDeserializer(item: any): WorkloadNetworkVMGroup {
+export function workloadNetworkVMGroupDeserializer(
+  item: any,
+): WorkloadNetworkVMGroup {
   return {
     id: item["id"],
     name: item["name"],
@@ -1657,7 +1741,9 @@ export interface _OperationListResult {
   nextLink?: string;
 }
 
-export function _operationListResultDeserializer(item: any): _OperationListResult {
+export function _operationListResultDeserializer(
+  item: any,
+): _OperationListResult {
   return {
     value: operationArrayDeserializer(item["value"]),
     nextLink: item["nextLink"],
@@ -1688,7 +1774,9 @@ export function operationDeserializer(item: any): Operation {
   return {
     name: item["name"],
     isDataAction: item["isDataAction"],
-    display: !item["display"] ? item["display"] : operationDisplayDeserializer(item["display"]),
+    display: !item["display"]
+      ? item["display"]
+      : operationDisplayDeserializer(item["display"]),
     origin: item["origin"],
     actionType: item["actionType"],
   };
@@ -1872,13 +1960,17 @@ export function _privateCloudListDeserializer(item: any): _PrivateCloudList {
   };
 }
 
-export function privateCloudArraySerializer(result: Array<PrivateCloud>): any[] {
+export function privateCloudArraySerializer(
+  result: Array<PrivateCloud>,
+): any[] {
   return result.map((item) => {
     return privateCloudSerializer(item);
   });
 }
 
-export function privateCloudArrayDeserializer(result: Array<PrivateCloud>): any[] {
+export function privateCloudArrayDeserializer(
+  result: Array<PrivateCloud>,
+): any[] {
   return result.map((item) => {
     return privateCloudDeserializer(item);
   });
@@ -2003,7 +2095,9 @@ export interface PrivateCloudProperties {
   dnsZoneType?: DnsZoneType;
 }
 
-export function privateCloudPropertiesSerializer(item: PrivateCloudProperties): any {
+export function privateCloudPropertiesSerializer(
+  item: PrivateCloudProperties,
+): any {
   return {
     managementCluster: managementClusterSerializer(item["managementCluster"]),
     internet: item["internet"],
@@ -2013,13 +2107,17 @@ export function privateCloudPropertiesSerializer(item: PrivateCloudProperties): 
     availability: !item["availability"]
       ? item["availability"]
       : availabilityPropertiesSerializer(item["availability"]),
-    encryption: !item["encryption"] ? item["encryption"] : encryptionSerializer(item["encryption"]),
+    encryption: !item["encryption"]
+      ? item["encryption"]
+      : encryptionSerializer(item["encryption"]),
     extendedNetworkBlocks: !item["extendedNetworkBlocks"]
       ? item["extendedNetworkBlocks"]
       : item["extendedNetworkBlocks"].map((p: any) => {
           return p;
         }),
-    circuit: !item["circuit"] ? item["circuit"] : circuitSerializer(item["circuit"]),
+    circuit: !item["circuit"]
+      ? item["circuit"]
+      : circuitSerializer(item["circuit"]),
     networkBlock: item["networkBlock"],
     vcenterPassword: item["vcenterPassword"],
     nsxtPassword: item["nsxtPassword"],
@@ -2031,7 +2129,9 @@ export function privateCloudPropertiesSerializer(item: PrivateCloudProperties): 
   };
 }
 
-export function privateCloudPropertiesDeserializer(item: any): PrivateCloudProperties {
+export function privateCloudPropertiesDeserializer(
+  item: any,
+): PrivateCloudProperties {
   return {
     managementCluster: managementClusterDeserializer(item["managementCluster"]),
     internet: item["internet"],
@@ -2050,8 +2150,12 @@ export function privateCloudPropertiesDeserializer(item: any): PrivateCloudPrope
           return p;
         }),
     provisioningState: item["provisioningState"],
-    circuit: !item["circuit"] ? item["circuit"] : circuitDeserializer(item["circuit"]),
-    endpoints: !item["endpoints"] ? item["endpoints"] : endpointsDeserializer(item["endpoints"]),
+    circuit: !item["circuit"]
+      ? item["circuit"]
+      : circuitDeserializer(item["circuit"]),
+    endpoints: !item["endpoints"]
+      ? item["endpoints"]
+      : endpointsDeserializer(item["endpoints"]),
     networkBlock: item["networkBlock"],
     managementNetwork: item["managementNetwork"],
     provisioningNetwork: item["provisioningNetwork"],
@@ -2162,13 +2266,17 @@ export enum KnownInternetEnum {
  */
 export type InternetEnum = string;
 
-export function identitySourceArraySerializer(result: Array<IdentitySource>): any[] {
+export function identitySourceArraySerializer(
+  result: Array<IdentitySource>,
+): any[] {
   return result.map((item) => {
     return identitySourceSerializer(item);
   });
 }
 
-export function identitySourceArrayDeserializer(result: Array<IdentitySource>): any[] {
+export function identitySourceArrayDeserializer(
+  result: Array<IdentitySource>,
+): any[] {
   return result.map((item) => {
     return identitySourceDeserializer(item);
   });
@@ -2262,7 +2370,9 @@ export interface AvailabilityProperties {
   secondaryZone?: number;
 }
 
-export function availabilityPropertiesSerializer(item: AvailabilityProperties): any {
+export function availabilityPropertiesSerializer(
+  item: AvailabilityProperties,
+): any {
   return {
     strategy: item["strategy"],
     zone: item["zone"],
@@ -2270,7 +2380,9 @@ export function availabilityPropertiesSerializer(item: AvailabilityProperties): 
   };
 }
 
-export function availabilityPropertiesDeserializer(item: any): AvailabilityProperties {
+export function availabilityPropertiesDeserializer(
+  item: any,
+): AvailabilityProperties {
   return {
     strategy: item["strategy"],
     zone: item["zone"],
@@ -2356,7 +2468,9 @@ export interface EncryptionKeyVaultProperties {
   readonly versionType?: EncryptionVersionType;
 }
 
-export function encryptionKeyVaultPropertiesSerializer(item: EncryptionKeyVaultProperties): any {
+export function encryptionKeyVaultPropertiesSerializer(
+  item: EncryptionKeyVaultProperties,
+): any {
   return {
     keyName: item["keyName"],
     keyVersion: item["keyVersion"],
@@ -2364,7 +2478,9 @@ export function encryptionKeyVaultPropertiesSerializer(item: EncryptionKeyVaultP
   };
 }
 
-export function encryptionKeyVaultPropertiesDeserializer(item: any): EncryptionKeyVaultProperties {
+export function encryptionKeyVaultPropertiesDeserializer(
+  item: any,
+): EncryptionKeyVaultProperties {
   return {
     keyName: item["keyName"],
     keyVersion: item["keyVersion"],
@@ -2545,11 +2661,15 @@ export interface PrivateCloudIdentity {
   type: ResourceIdentityType;
 }
 
-export function privateCloudIdentitySerializer(item: PrivateCloudIdentity): any {
+export function privateCloudIdentitySerializer(
+  item: PrivateCloudIdentity,
+): any {
   return { type: item["type"] };
 }
 
-export function privateCloudIdentityDeserializer(item: any): PrivateCloudIdentity {
+export function privateCloudIdentityDeserializer(
+  item: any,
+): PrivateCloudIdentity {
   return {
     principalId: item["principalId"],
     tenantId: item["tenantId"],
@@ -2648,7 +2768,9 @@ export interface PrivateCloudUpdateProperties {
   dnsZoneType?: DnsZoneType;
 }
 
-export function privateCloudUpdatePropertiesSerializer(item: PrivateCloudUpdateProperties): any {
+export function privateCloudUpdatePropertiesSerializer(
+  item: PrivateCloudUpdateProperties,
+): any {
   return {
     managementCluster: !item["managementCluster"]
       ? item["managementCluster"]
@@ -2660,7 +2782,9 @@ export function privateCloudUpdatePropertiesSerializer(item: PrivateCloudUpdateP
     availability: !item["availability"]
       ? item["availability"]
       : availabilityPropertiesSerializer(item["availability"]),
-    encryption: !item["encryption"] ? item["encryption"] : encryptionSerializer(item["encryption"]),
+    encryption: !item["encryption"]
+      ? item["encryption"]
+      : encryptionSerializer(item["encryption"]),
     extendedNetworkBlocks: !item["extendedNetworkBlocks"]
       ? item["extendedNetworkBlocks"]
       : item["extendedNetworkBlocks"].map((p: any) => {
@@ -2815,7 +2939,9 @@ export interface ClusterUpdateProperties {
   hosts?: string[];
 }
 
-export function clusterUpdatePropertiesSerializer(item: ClusterUpdateProperties): any {
+export function clusterUpdatePropertiesSerializer(
+  item: ClusterUpdateProperties,
+): any {
   return {
     clusterSize: item["clusterSize"],
     hosts: !item["hosts"]
@@ -2834,11 +2960,15 @@ export interface ClusterZoneList {
 
 export function clusterZoneListDeserializer(item: any): ClusterZoneList {
   return {
-    zones: !item["zones"] ? item["zones"] : clusterZoneArrayDeserializer(item["zones"]),
+    zones: !item["zones"]
+      ? item["zones"]
+      : clusterZoneArrayDeserializer(item["zones"]),
   };
 }
 
-export function clusterZoneArrayDeserializer(result: Array<ClusterZone>): any[] {
+export function clusterZoneArrayDeserializer(
+  result: Array<ClusterZone>,
+): any[] {
   return result.map((item) => {
     return clusterZoneDeserializer(item);
   });
@@ -2951,7 +3081,9 @@ export function datastorePropertiesSerializer(item: DatastoreProperties): any {
   };
 }
 
-export function datastorePropertiesDeserializer(item: any): DatastoreProperties {
+export function datastorePropertiesDeserializer(
+  item: any,
+): DatastoreProperties {
   return {
     provisioningState: item["provisioningState"],
     netAppVolume: !item["netAppVolume"]
@@ -3148,20 +3280,26 @@ export interface _HcxEnterpriseSiteList {
   nextLink?: string;
 }
 
-export function _hcxEnterpriseSiteListDeserializer(item: any): _HcxEnterpriseSiteList {
+export function _hcxEnterpriseSiteListDeserializer(
+  item: any,
+): _HcxEnterpriseSiteList {
   return {
     value: hcxEnterpriseSiteArrayDeserializer(item["value"]),
     nextLink: item["nextLink"],
   };
 }
 
-export function hcxEnterpriseSiteArraySerializer(result: Array<HcxEnterpriseSite>): any[] {
+export function hcxEnterpriseSiteArraySerializer(
+  result: Array<HcxEnterpriseSite>,
+): any[] {
   return result.map((item) => {
     return hcxEnterpriseSiteSerializer(item);
   });
 }
 
-export function hcxEnterpriseSiteArrayDeserializer(result: Array<HcxEnterpriseSite>): any[] {
+export function hcxEnterpriseSiteArrayDeserializer(
+  result: Array<HcxEnterpriseSite>,
+): any[] {
   return result.map((item) => {
     return hcxEnterpriseSiteDeserializer(item);
   });
@@ -3205,11 +3343,15 @@ export interface HcxEnterpriseSiteProperties {
   readonly status?: HcxEnterpriseSiteStatus;
 }
 
-export function hcxEnterpriseSitePropertiesSerializer(item: HcxEnterpriseSiteProperties): any {
+export function hcxEnterpriseSitePropertiesSerializer(
+  item: HcxEnterpriseSiteProperties,
+): any {
   return item;
 }
 
-export function hcxEnterpriseSitePropertiesDeserializer(item: any): HcxEnterpriseSiteProperties {
+export function hcxEnterpriseSitePropertiesDeserializer(
+  item: any,
+): HcxEnterpriseSiteProperties {
   return {
     provisioningState: item["provisioningState"],
     activationKey: item["activationKey"],
@@ -3301,7 +3443,9 @@ export interface ExpressRouteAuthorization extends ProxyResource {
   properties?: ExpressRouteAuthorizationProperties;
 }
 
-export function expressRouteAuthorizationSerializer(item: ExpressRouteAuthorization): any {
+export function expressRouteAuthorizationSerializer(
+  item: ExpressRouteAuthorization,
+): any {
   return {
     properties: !item["properties"]
       ? item["properties"]
@@ -3309,7 +3453,9 @@ export function expressRouteAuthorizationSerializer(item: ExpressRouteAuthorizat
   };
 }
 
-export function expressRouteAuthorizationDeserializer(item: any): ExpressRouteAuthorization {
+export function expressRouteAuthorizationDeserializer(
+  item: any,
+): ExpressRouteAuthorization {
   return {
     id: item["id"],
     name: item["name"],
@@ -3384,14 +3530,18 @@ export interface _GlobalReachConnectionList {
   nextLink?: string;
 }
 
-export function _globalReachConnectionListDeserializer(item: any): _GlobalReachConnectionList {
+export function _globalReachConnectionListDeserializer(
+  item: any,
+): _GlobalReachConnectionList {
   return {
     value: globalReachConnectionArrayDeserializer(item["value"]),
     nextLink: item["nextLink"],
   };
 }
 
-export function globalReachConnectionArraySerializer(result: Array<GlobalReachConnection>): any[] {
+export function globalReachConnectionArraySerializer(
+  result: Array<GlobalReachConnection>,
+): any[] {
   return result.map((item) => {
     return globalReachConnectionSerializer(item);
   });
@@ -3411,7 +3561,9 @@ export interface GlobalReachConnection extends ProxyResource {
   properties?: GlobalReachConnectionProperties;
 }
 
-export function globalReachConnectionSerializer(item: GlobalReachConnection): any {
+export function globalReachConnectionSerializer(
+  item: GlobalReachConnection,
+): any {
   return {
     properties: !item["properties"]
       ? item["properties"]
@@ -3419,7 +3571,9 @@ export function globalReachConnectionSerializer(item: GlobalReachConnection): an
   };
 }
 
-export function globalReachConnectionDeserializer(item: any): GlobalReachConnection {
+export function globalReachConnectionDeserializer(
+  item: any,
+): GlobalReachConnection {
   return {
     id: item["id"],
     name: item["name"],
@@ -3598,7 +3752,9 @@ export function cloudLinkPropertiesSerializer(item: CloudLinkProperties): any {
   return { linkedCloud: item["linkedCloud"] };
 }
 
-export function cloudLinkPropertiesDeserializer(item: any): CloudLinkProperties {
+export function cloudLinkPropertiesDeserializer(
+  item: any,
+): CloudLinkProperties {
   return {
     provisioningState: item["provisioningState"],
     status: item["status"],
@@ -3737,7 +3893,9 @@ export type AddonPropertiesUnion =
   | AddonArcProperties
   | AddonProperties;
 
-export function addonPropertiesUnionSerializer(item: AddonPropertiesUnion): any {
+export function addonPropertiesUnionSerializer(
+  item: AddonPropertiesUnion,
+): any {
   switch (item.addonType) {
     case "SRM":
       return addonSrmPropertiesSerializer(item as AddonSrmProperties);
@@ -3756,7 +3914,9 @@ export function addonPropertiesUnionSerializer(item: AddonPropertiesUnion): any 
   }
 }
 
-export function addonPropertiesUnionDeserializer(item: any): AddonPropertiesUnion {
+export function addonPropertiesUnionDeserializer(
+  item: any,
+): AddonPropertiesUnion {
   switch (item.addonType) {
     case "SRM":
       return addonSrmPropertiesDeserializer(item as AddonSrmProperties);
@@ -3927,14 +4087,18 @@ export interface _VirtualMachinesList {
   nextLink?: string;
 }
 
-export function _virtualMachinesListDeserializer(item: any): _VirtualMachinesList {
+export function _virtualMachinesListDeserializer(
+  item: any,
+): _VirtualMachinesList {
   return {
     value: virtualMachineArrayDeserializer(item["value"]),
     nextLink: item["nextLink"],
   };
 }
 
-export function virtualMachineArrayDeserializer(result: Array<VirtualMachine>): any[] {
+export function virtualMachineArrayDeserializer(
+  result: Array<VirtualMachine>,
+): any[] {
   return result.map((item) => {
     return virtualMachineDeserializer(item);
   });
@@ -3974,7 +4138,9 @@ export interface VirtualMachineProperties {
   readonly restrictMovement?: VirtualMachineRestrictMovementState;
 }
 
-export function virtualMachinePropertiesDeserializer(item: any): VirtualMachineProperties {
+export function virtualMachinePropertiesDeserializer(
+  item: any,
+): VirtualMachineProperties {
   return {
     provisioningState: item["provisioningState"],
     displayName: item["displayName"],
@@ -4043,20 +4209,26 @@ export interface _PlacementPoliciesList {
   nextLink?: string;
 }
 
-export function _placementPoliciesListDeserializer(item: any): _PlacementPoliciesList {
+export function _placementPoliciesListDeserializer(
+  item: any,
+): _PlacementPoliciesList {
   return {
     value: placementPolicyArrayDeserializer(item["value"]),
     nextLink: item["nextLink"],
   };
 }
 
-export function placementPolicyArraySerializer(result: Array<PlacementPolicy>): any[] {
+export function placementPolicyArraySerializer(
+  result: Array<PlacementPolicy>,
+): any[] {
   return result.map((item) => {
     return placementPolicySerializer(item);
   });
 }
 
-export function placementPolicyArrayDeserializer(result: Array<PlacementPolicy>): any[] {
+export function placementPolicyArrayDeserializer(
+  result: Array<PlacementPolicy>,
+): any[] {
   return result.map((item) => {
     return placementPolicyDeserializer(item);
   });
@@ -4103,7 +4275,9 @@ export interface PlacementPolicyProperties {
   readonly provisioningState?: PlacementPolicyProvisioningState;
 }
 
-export function placementPolicyPropertiesSerializer(item: PlacementPolicyProperties): any {
+export function placementPolicyPropertiesSerializer(
+  item: PlacementPolicyProperties,
+): any {
   return {
     type: item["type"],
     state: item["state"],
@@ -4111,7 +4285,9 @@ export function placementPolicyPropertiesSerializer(item: PlacementPolicyPropert
   };
 }
 
-export function placementPolicyPropertiesDeserializer(item: any): PlacementPolicyProperties {
+export function placementPolicyPropertiesDeserializer(
+  item: any,
+): PlacementPolicyProperties {
   return {
     type: item["type"],
     state: item["state"],
@@ -4131,10 +4307,14 @@ export function placementPolicyPropertiesUnionSerializer(
 ): any {
   switch (item.type) {
     case "VmVm":
-      return vmPlacementPolicyPropertiesSerializer(item as VmPlacementPolicyProperties);
+      return vmPlacementPolicyPropertiesSerializer(
+        item as VmPlacementPolicyProperties,
+      );
 
     case "VmHost":
-      return vmHostPlacementPolicyPropertiesSerializer(item as VmHostPlacementPolicyProperties);
+      return vmHostPlacementPolicyPropertiesSerializer(
+        item as VmHostPlacementPolicyProperties,
+      );
 
     default:
       return placementPolicyPropertiesSerializer(item);
@@ -4146,10 +4326,14 @@ export function placementPolicyPropertiesUnionDeserializer(
 ): PlacementPolicyPropertiesUnion {
   switch (item.type) {
     case "VmVm":
-      return vmPlacementPolicyPropertiesDeserializer(item as VmPlacementPolicyProperties);
+      return vmPlacementPolicyPropertiesDeserializer(
+        item as VmPlacementPolicyProperties,
+      );
 
     case "VmHost":
-      return vmHostPlacementPolicyPropertiesDeserializer(item as VmHostPlacementPolicyProperties);
+      return vmHostPlacementPolicyPropertiesDeserializer(
+        item as VmHostPlacementPolicyProperties,
+      );
 
     default:
       return placementPolicyPropertiesDeserializer(item);
@@ -4230,7 +4414,9 @@ export interface VmPlacementPolicyProperties extends PlacementPolicyProperties {
   type: "VmVm";
 }
 
-export function vmPlacementPolicyPropertiesSerializer(item: VmPlacementPolicyProperties): any {
+export function vmPlacementPolicyPropertiesSerializer(
+  item: VmPlacementPolicyProperties,
+): any {
   return {
     type: item["type"],
     state: item["state"],
@@ -4242,7 +4428,9 @@ export function vmPlacementPolicyPropertiesSerializer(item: VmPlacementPolicyPro
   };
 }
 
-export function vmPlacementPolicyPropertiesDeserializer(item: any): VmPlacementPolicyProperties {
+export function vmPlacementPolicyPropertiesDeserializer(
+  item: any,
+): VmPlacementPolicyProperties {
   return {
     type: item["type"],
     state: item["state"],
@@ -4274,7 +4462,8 @@ export enum KnownAffinityType {
 export type AffinityType = string;
 
 /** VM-Host placement policy properties */
-export interface VmHostPlacementPolicyProperties extends PlacementPolicyProperties {
+export interface VmHostPlacementPolicyProperties
+  extends PlacementPolicyProperties {
   /** Virtual machine members list */
   vmMembers: string[];
   /** Host members list */
@@ -4370,7 +4559,9 @@ export interface PlacementPolicyUpdate {
   properties?: PlacementPolicyUpdateProperties;
 }
 
-export function placementPolicyUpdateSerializer(item: PlacementPolicyUpdate): any {
+export function placementPolicyUpdateSerializer(
+  item: PlacementPolicyUpdate,
+): any {
   return {
     properties: !item["properties"]
       ? item["properties"]
@@ -4420,14 +4611,18 @@ export interface _ScriptPackagesList {
   nextLink?: string;
 }
 
-export function _scriptPackagesListDeserializer(item: any): _ScriptPackagesList {
+export function _scriptPackagesListDeserializer(
+  item: any,
+): _ScriptPackagesList {
   return {
     value: scriptPackageArrayDeserializer(item["value"]),
     nextLink: item["nextLink"],
   };
 }
 
-export function scriptPackageArrayDeserializer(result: Array<ScriptPackage>): any[] {
+export function scriptPackageArrayDeserializer(
+  result: Array<ScriptPackage>,
+): any[] {
   return result.map((item) => {
     return scriptPackageDeserializer(item);
   });
@@ -4467,7 +4662,9 @@ export interface ScriptPackageProperties {
   readonly uri?: string;
 }
 
-export function scriptPackagePropertiesDeserializer(item: any): ScriptPackageProperties {
+export function scriptPackagePropertiesDeserializer(
+  item: any,
+): ScriptPackageProperties {
   return {
     provisioningState: item["provisioningState"],
     description: item["description"],
@@ -4513,7 +4710,9 @@ export function _scriptCmdletsListDeserializer(item: any): _ScriptCmdletsList {
   };
 }
 
-export function scriptCmdletArrayDeserializer(result: Array<ScriptCmdlet>): any[] {
+export function scriptCmdletArrayDeserializer(
+  result: Array<ScriptCmdlet>,
+): any[] {
   return result.map((item) => {
     return scriptCmdletDeserializer(item);
   });
@@ -4553,7 +4752,9 @@ export interface ScriptCmdletProperties {
   readonly parameters?: ScriptParameter[];
 }
 
-export function scriptCmdletPropertiesDeserializer(item: any): ScriptCmdletProperties {
+export function scriptCmdletPropertiesDeserializer(
+  item: any,
+): ScriptCmdletProperties {
   return {
     provisioningState: item["provisioningState"],
     description: item["description"],
@@ -4604,7 +4805,9 @@ export enum KnownScriptCmdletAudience {
  */
 export type ScriptCmdletAudience = string;
 
-export function scriptParameterArrayDeserializer(result: Array<ScriptParameter>): any[] {
+export function scriptParameterArrayDeserializer(
+  result: Array<ScriptParameter>,
+): any[] {
   return result.map((item) => {
     return scriptParameterDeserializer(item);
   });
@@ -4714,20 +4917,26 @@ export interface _ScriptExecutionsList {
   nextLink?: string;
 }
 
-export function _scriptExecutionsListDeserializer(item: any): _ScriptExecutionsList {
+export function _scriptExecutionsListDeserializer(
+  item: any,
+): _ScriptExecutionsList {
   return {
     value: scriptExecutionArrayDeserializer(item["value"]),
     nextLink: item["nextLink"],
   };
 }
 
-export function scriptExecutionArraySerializer(result: Array<ScriptExecution>): any[] {
+export function scriptExecutionArraySerializer(
+  result: Array<ScriptExecution>,
+): any[] {
   return result.map((item) => {
     return scriptExecutionSerializer(item);
   });
 }
 
-export function scriptExecutionArrayDeserializer(result: Array<ScriptExecution>): any[] {
+export function scriptExecutionArrayDeserializer(
+  result: Array<ScriptExecution>,
+): any[] {
   return result.map((item) => {
     return scriptExecutionDeserializer(item);
   });
@@ -4801,7 +5010,9 @@ export interface ScriptExecutionProperties {
   readonly errors?: string[];
 }
 
-export function scriptExecutionPropertiesSerializer(item: ScriptExecutionProperties): any {
+export function scriptExecutionPropertiesSerializer(
+  item: ScriptExecutionProperties,
+): any {
   return {
     scriptCmdletId: item["scriptCmdletId"],
     parameters: !item["parameters"]
@@ -4820,11 +5031,15 @@ export function scriptExecutionPropertiesSerializer(item: ScriptExecutionPropert
         }),
     namedOutputs: !item["namedOutputs"]
       ? item["namedOutputs"]
-      : _scriptExecutionPropertiesNamedOutputRecordSerializer(item["namedOutputs"]),
+      : _scriptExecutionPropertiesNamedOutputRecordSerializer(
+          item["namedOutputs"],
+        ),
   };
 }
 
-export function scriptExecutionPropertiesDeserializer(item: any): ScriptExecutionProperties {
+export function scriptExecutionPropertiesDeserializer(
+  item: any,
+): ScriptExecutionProperties {
   return {
     scriptCmdletId: item["scriptCmdletId"],
     parameters: !item["parameters"]
@@ -4832,13 +5047,21 @@ export function scriptExecutionPropertiesDeserializer(item: any): ScriptExecutio
       : scriptExecutionParameterUnionArrayDeserializer(item["parameters"]),
     hiddenParameters: !item["hiddenParameters"]
       ? item["hiddenParameters"]
-      : scriptExecutionParameterUnionArrayDeserializer(item["hiddenParameters"]),
+      : scriptExecutionParameterUnionArrayDeserializer(
+          item["hiddenParameters"],
+        ),
     failureReason: item["failureReason"],
     timeout: item["timeout"],
     retention: item["retention"],
-    submittedAt: !item["submittedAt"] ? item["submittedAt"] : new Date(item["submittedAt"]),
-    startedAt: !item["startedAt"] ? item["startedAt"] : new Date(item["startedAt"]),
-    finishedAt: !item["finishedAt"] ? item["finishedAt"] : new Date(item["finishedAt"]),
+    submittedAt: !item["submittedAt"]
+      ? item["submittedAt"]
+      : new Date(item["submittedAt"]),
+    startedAt: !item["startedAt"]
+      ? item["startedAt"]
+      : new Date(item["startedAt"]),
+    finishedAt: !item["finishedAt"]
+      ? item["finishedAt"]
+      : new Date(item["finishedAt"]),
     provisioningState: item["provisioningState"],
     output: !item["output"]
       ? item["output"]
@@ -4847,7 +5070,9 @@ export function scriptExecutionPropertiesDeserializer(item: any): ScriptExecutio
         }),
     namedOutputs: !item["namedOutputs"]
       ? item["namedOutputs"]
-      : _scriptExecutionPropertiesNamedOutputRecordDeserializer(item["namedOutputs"]),
+      : _scriptExecutionPropertiesNamedOutputRecordDeserializer(
+          item["namedOutputs"],
+        ),
     information: !item["information"]
       ? item["information"]
       : item["information"].map((p: any) => {
@@ -4891,11 +5116,15 @@ export interface ScriptExecutionParameter {
   name: string;
 }
 
-export function scriptExecutionParameterSerializer(item: ScriptExecutionParameter): any {
+export function scriptExecutionParameterSerializer(
+  item: ScriptExecutionParameter,
+): any {
   return { type: item["type"], name: item["name"] };
 }
 
-export function scriptExecutionParameterDeserializer(item: any): ScriptExecutionParameter {
+export function scriptExecutionParameterDeserializer(
+  item: any,
+): ScriptExecutionParameter {
   return {
     type: item["type"],
     name: item["name"],
@@ -4909,7 +5138,9 @@ export type ScriptExecutionParameterUnion =
   | PSCredentialExecutionParameter
   | ScriptExecutionParameter;
 
-export function scriptExecutionParameterUnionSerializer(item: ScriptExecutionParameterUnion): any {
+export function scriptExecutionParameterUnionSerializer(
+  item: ScriptExecutionParameterUnion,
+): any {
   switch (item.type) {
     case "SecureValue":
       return scriptSecureStringExecutionParameterSerializer(
@@ -4917,10 +5148,14 @@ export function scriptExecutionParameterUnionSerializer(item: ScriptExecutionPar
       );
 
     case "Value":
-      return scriptStringExecutionParameterSerializer(item as ScriptStringExecutionParameter);
+      return scriptStringExecutionParameterSerializer(
+        item as ScriptStringExecutionParameter,
+      );
 
     case "Credential":
-      return psCredentialExecutionParameterSerializer(item as PSCredentialExecutionParameter);
+      return psCredentialExecutionParameterSerializer(
+        item as PSCredentialExecutionParameter,
+      );
 
     default:
       return scriptExecutionParameterSerializer(item);
@@ -4937,10 +5172,14 @@ export function scriptExecutionParameterUnionDeserializer(
       );
 
     case "Value":
-      return scriptStringExecutionParameterDeserializer(item as ScriptStringExecutionParameter);
+      return scriptStringExecutionParameterDeserializer(
+        item as ScriptStringExecutionParameter,
+      );
 
     case "Credential":
-      return psCredentialExecutionParameterDeserializer(item as PSCredentialExecutionParameter);
+      return psCredentialExecutionParameterDeserializer(
+        item as PSCredentialExecutionParameter,
+      );
 
     default:
       return scriptExecutionParameterDeserializer(item);
@@ -4966,7 +5205,8 @@ export enum KnownScriptExecutionParameterType {
 export type ScriptExecutionParameterType = string;
 
 /** a plain text value execution parameter */
-export interface ScriptSecureStringExecutionParameter extends ScriptExecutionParameter {
+export interface ScriptSecureStringExecutionParameter
+  extends ScriptExecutionParameter {
   /** A secure value for the passed parameter, not to be stored in logs */
   secureValue?: string;
   /** The type of execution parameter */
@@ -4994,7 +5234,8 @@ export function scriptSecureStringExecutionParameterDeserializer(
 }
 
 /** a plain text value execution parameter */
-export interface ScriptStringExecutionParameter extends ScriptExecutionParameter {
+export interface ScriptStringExecutionParameter
+  extends ScriptExecutionParameter {
   /** The value for the passed parameter */
   value?: string;
   /** The type of execution parameter */
@@ -5018,7 +5259,8 @@ export function scriptStringExecutionParameterDeserializer(
 }
 
 /** a powershell credential object */
-export interface PSCredentialExecutionParameter extends ScriptExecutionParameter {
+export interface PSCredentialExecutionParameter
+  extends ScriptExecutionParameter {
   /** username for login */
   username?: string;
   /** password for login */
@@ -5132,7 +5374,9 @@ export interface _IscsiPathListResult {
   nextLink?: string;
 }
 
-export function _iscsiPathListResultDeserializer(item: any): _IscsiPathListResult {
+export function _iscsiPathListResultDeserializer(
+  item: any,
+): _IscsiPathListResult {
   return {
     value: iscsiPathArrayDeserializer(item["value"]),
     nextLink: item["nextLink"],
@@ -5191,7 +5435,9 @@ export function iscsiPathPropertiesSerializer(item: IscsiPathProperties): any {
   return { networkBlock: item["networkBlock"] };
 }
 
-export function iscsiPathPropertiesDeserializer(item: any): IscsiPathProperties {
+export function iscsiPathPropertiesDeserializer(
+  item: any,
+): IscsiPathProperties {
   return {
     provisioningState: item["provisioningState"],
     networkBlock: item["networkBlock"],
@@ -5318,13 +5564,17 @@ export type HostPropertiesUnion =
   | SpecializedHostProperties
   | HostProperties;
 
-export function hostPropertiesUnionDeserializer(item: any): HostPropertiesUnion {
+export function hostPropertiesUnionDeserializer(
+  item: any,
+): HostPropertiesUnion {
   switch (item.kind) {
     case "General":
       return generalHostPropertiesDeserializer(item as GeneralHostProperties);
 
     case "Specialized":
-      return specializedHostPropertiesDeserializer(item as SpecializedHostProperties);
+      return specializedHostPropertiesDeserializer(
+        item as SpecializedHostProperties,
+      );
 
     default:
       return hostPropertiesDeserializer(item);
@@ -5392,7 +5642,9 @@ export interface GeneralHostProperties extends HostProperties {
   kind: "General";
 }
 
-export function generalHostPropertiesDeserializer(item: any): GeneralHostProperties {
+export function generalHostPropertiesDeserializer(
+  item: any,
+): GeneralHostProperties {
   return {
     kind: item["kind"],
     provisioningState: item["provisioningState"],
@@ -5410,7 +5662,9 @@ export interface SpecializedHostProperties extends HostProperties {
   kind: "Specialized";
 }
 
-export function specializedHostPropertiesDeserializer(item: any): SpecializedHostProperties {
+export function specializedHostPropertiesDeserializer(
+  item: any,
+): SpecializedHostProperties {
   return {
     kind: item["kind"],
     provisioningState: item["provisioningState"],
@@ -5439,7 +5693,9 @@ export function _provisionedNetworkListResultDeserializer(
   };
 }
 
-export function provisionedNetworkArrayDeserializer(result: Array<ProvisionedNetwork>): any[] {
+export function provisionedNetworkArrayDeserializer(
+  result: Array<ProvisionedNetwork>,
+): any[] {
   return result.map((item) => {
     return provisionedNetworkDeserializer(item);
   });
@@ -5475,7 +5731,9 @@ export interface ProvisionedNetworkProperties {
   readonly networkType?: ProvisionedNetworkTypes;
 }
 
-export function provisionedNetworkPropertiesDeserializer(item: any): ProvisionedNetworkProperties {
+export function provisionedNetworkPropertiesDeserializer(
+  item: any,
+): ProvisionedNetworkProperties {
   return {
     provisioningState: item["provisioningState"],
     addressPrefix: item["addressPrefix"],
@@ -5552,7 +5810,9 @@ export function _pagedResourceSkuDeserializer(item: any): _PagedResourceSku {
   };
 }
 
-export function resourceSkuArrayDeserializer(result: Array<ResourceSku>): any[] {
+export function resourceSkuArrayDeserializer(
+  result: Array<ResourceSku>,
+): any[] {
   return result.map((item) => {
     return resourceSkuDeserializer(item);
   });
@@ -5590,11 +5850,15 @@ export function resourceSkuDeserializer(item: any): ResourceSku {
     locations: item["locations"].map((p: any) => {
       return p;
     }),
-    locationInfo: resourceSkuLocationInfoArrayDeserializer(item["locationInfo"]),
+    locationInfo: resourceSkuLocationInfoArrayDeserializer(
+      item["locationInfo"],
+    ),
     capabilities: !item["capabilities"]
       ? item["capabilities"]
       : resourceSkuCapabilitiesArrayDeserializer(item["capabilities"]),
-    restrictions: resourceSkuRestrictionsArrayDeserializer(item["restrictions"]),
+    restrictions: resourceSkuRestrictionsArrayDeserializer(
+      item["restrictions"],
+    ),
   };
 }
 
@@ -5634,7 +5898,9 @@ export interface ResourceSkuLocationInfo {
   zoneDetails: ResourceSkuZoneDetails[];
 }
 
-export function resourceSkuLocationInfoDeserializer(item: any): ResourceSkuLocationInfo {
+export function resourceSkuLocationInfoDeserializer(
+  item: any,
+): ResourceSkuLocationInfo {
   return {
     location: item["location"],
     zones: item["zones"].map((p: any) => {
@@ -5660,12 +5926,16 @@ export interface ResourceSkuZoneDetails {
   capabilities: ResourceSkuCapabilities[];
 }
 
-export function resourceSkuZoneDetailsDeserializer(item: any): ResourceSkuZoneDetails {
+export function resourceSkuZoneDetailsDeserializer(
+  item: any,
+): ResourceSkuZoneDetails {
   return {
     name: item["name"].map((p: any) => {
       return p;
     }),
-    capabilities: resourceSkuCapabilitiesArrayDeserializer(item["capabilities"]),
+    capabilities: resourceSkuCapabilitiesArrayDeserializer(
+      item["capabilities"],
+    ),
   };
 }
 
@@ -5685,7 +5955,9 @@ export interface ResourceSkuCapabilities {
   value: string;
 }
 
-export function resourceSkuCapabilitiesDeserializer(item: any): ResourceSkuCapabilities {
+export function resourceSkuCapabilitiesDeserializer(
+  item: any,
+): ResourceSkuCapabilities {
   return {
     name: item["name"],
     value: item["value"],
@@ -5712,13 +5984,17 @@ export interface ResourceSkuRestrictions {
   reasonCode?: ResourceSkuRestrictionsReasonCode;
 }
 
-export function resourceSkuRestrictionsDeserializer(item: any): ResourceSkuRestrictions {
+export function resourceSkuRestrictionsDeserializer(
+  item: any,
+): ResourceSkuRestrictions {
   return {
     type: item["type"],
     values: item["values"].map((p: any) => {
       return p;
     }),
-    restrictionInfo: resourceSkuRestrictionInfoDeserializer(item["restrictionInfo"]),
+    restrictionInfo: resourceSkuRestrictionInfoDeserializer(
+      item["restrictionInfo"],
+    ),
     reasonCode: item["reasonCode"],
   };
 }
@@ -5749,7 +6025,9 @@ export interface ResourceSkuRestrictionInfo {
   zones?: string[];
 }
 
-export function resourceSkuRestrictionInfoDeserializer(item: any): ResourceSkuRestrictionInfo {
+export function resourceSkuRestrictionInfoDeserializer(
+  item: any,
+): ResourceSkuRestrictionInfo {
   return {
     locations: !item["locations"]
       ? item["locations"]
@@ -5790,20 +6068,26 @@ export interface _PureStoragePolicyListResult {
   nextLink?: string;
 }
 
-export function _pureStoragePolicyListResultDeserializer(item: any): _PureStoragePolicyListResult {
+export function _pureStoragePolicyListResultDeserializer(
+  item: any,
+): _PureStoragePolicyListResult {
   return {
     value: pureStoragePolicyArrayDeserializer(item["value"]),
     nextLink: item["nextLink"],
   };
 }
 
-export function pureStoragePolicyArraySerializer(result: Array<PureStoragePolicy>): any[] {
+export function pureStoragePolicyArraySerializer(
+  result: Array<PureStoragePolicy>,
+): any[] {
   return result.map((item) => {
     return pureStoragePolicySerializer(item);
   });
 }
 
-export function pureStoragePolicyArrayDeserializer(result: Array<PureStoragePolicy>): any[] {
+export function pureStoragePolicyArrayDeserializer(
+  result: Array<PureStoragePolicy>,
+): any[] {
   return result.map((item) => {
     return pureStoragePolicyDeserializer(item);
   });
@@ -5847,14 +6131,18 @@ export interface PureStoragePolicyProperties {
   readonly provisioningState?: PureStoragePolicyProvisioningState;
 }
 
-export function pureStoragePolicyPropertiesSerializer(item: PureStoragePolicyProperties): any {
+export function pureStoragePolicyPropertiesSerializer(
+  item: PureStoragePolicyProperties,
+): any {
   return {
     storagePolicyDefinition: item["storagePolicyDefinition"],
     storagePoolId: item["storagePoolId"],
   };
 }
 
-export function pureStoragePolicyPropertiesDeserializer(item: any): PureStoragePolicyProperties {
+export function pureStoragePolicyPropertiesDeserializer(
+  item: any,
+): PureStoragePolicyProperties {
   return {
     storagePolicyDefinition: item["storagePolicyDefinition"],
     storagePoolId: item["storagePoolId"],

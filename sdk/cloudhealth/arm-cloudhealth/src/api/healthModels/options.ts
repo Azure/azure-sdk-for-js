@@ -4,10 +4,12 @@
 import { OperationOptions } from "@azure-rest/core-client";
 
 /** Optional parameters. */
-export interface HealthModelsListBySubscriptionOptionalParams extends OperationOptions {}
+export interface HealthModelsListBySubscriptionOptionalParams
+  extends OperationOptions {}
 
 /** Optional parameters. */
-export interface HealthModelsListByResourceGroupOptionalParams extends OperationOptions {}
+export interface HealthModelsListByResourceGroupOptionalParams
+  extends OperationOptions {}
 
 /** Optional parameters. */
 export interface HealthModelsDeleteOptionalParams extends OperationOptions {

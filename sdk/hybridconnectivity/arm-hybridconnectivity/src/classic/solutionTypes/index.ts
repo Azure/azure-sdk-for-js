@@ -9,9 +9,9 @@ import {
   SolutionTypesGetOptionalParams,
 } from "../../api/solutionTypes/options.js";
 import {
-  listBySubscription,
-  listByResourceGroup,
-  get,
+  solutionTypesListBySubscription,
+  solutionTypesListByResourceGroup,
+  solutionTypesGet,
 } from "../../api/solutionTypes/operations.js";
 import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 
@@ -36,17 +36,18 @@ export interface SolutionTypesOperations {
 
 function _getSolutionTypes(context: HybridConnectivityManagementAPIContext) {
   return {
-    listBySubscription: (options?: SolutionTypesListBySubscriptionOptionalParams) =>
-      listBySubscription(context, options),
+    listBySubscription: (
+      options?: SolutionTypesListBySubscriptionOptionalParams,
+    ) => solutionTypesListBySubscription(context, options),
     listByResourceGroup: (
       resourceGroupName: string,
       options?: SolutionTypesListByResourceGroupOptionalParams,
-    ) => listByResourceGroup(context, resourceGroupName, options),
+    ) => solutionTypesListByResourceGroup(context, resourceGroupName, options),
     get: (
       resourceGroupName: string,
       solutionType: string,
       options?: SolutionTypesGetOptionalParams,
-    ) => get(context, resourceGroupName, solutionType, options),
+    ) => solutionTypesGet(context, resourceGroupName, solutionType, options),
   };
 }
 

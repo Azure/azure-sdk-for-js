@@ -14,7 +14,11 @@ async function workloadNetworksDeletePortMirroring(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const client = new AzureVMwareSolutionAPI(credential, subscriptionId);
-  await client.workloadNetworks.deletePortMirroring("group1", "portMirroring1", "cloud1");
+  await client.workloadNetworks.deletePortMirroring(
+    "group1",
+    "portMirroring1",
+    "cloud1",
+  );
 }
 
 async function main(): Promise<void> {

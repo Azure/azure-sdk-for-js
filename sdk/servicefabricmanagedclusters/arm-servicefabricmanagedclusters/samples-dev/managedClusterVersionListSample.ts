@@ -13,7 +13,10 @@ import { DefaultAzureCredential } from "@azure/identity";
 async function listClusterVersions(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "00000000-0000-0000-0000-000000000000";
-  const client = new ServiceFabricManagedClustersManagementClient(credential, subscriptionId);
+  const client = new ServiceFabricManagedClustersManagementClient(
+    credential,
+    subscriptionId,
+  );
   const result = await client.managedClusterVersion.list("eastus");
   console.log(result);
 }

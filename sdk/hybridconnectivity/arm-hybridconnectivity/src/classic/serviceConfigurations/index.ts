@@ -14,11 +14,11 @@ import {
   ServiceConfigurationsGetOptionalParams,
 } from "../../api/serviceConfigurations/options.js";
 import {
-  listByEndpointResource,
-  $delete,
-  update,
-  createOrupdate,
-  get,
+  serviceConfigurationsListByEndpointResource,
+  serviceConfigurationsDelete,
+  serviceConfigurationsUpdate,
+  serviceConfigurationsCreateOrupdate,
+  serviceConfigurationsGet,
 } from "../../api/serviceConfigurations/operations.js";
 import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 
@@ -31,11 +31,6 @@ export interface ServiceConfigurationsOperations {
     options?: ServiceConfigurationsListByEndpointResourceOptionalParams,
   ) => PagedAsyncIterableIterator<ServiceConfigurationResource>;
   /** Deletes the service details to the target resource. */
-  /**
-   *  @fixme delete is a reserved word that cannot be used as an operation name.
-   *         Please add @clientName("clientName") or @clientName("<JS-Specific-Name>", "javascript")
-   *         to the operation to override the generated name.
-   */
   delete: (
     resourceUri: string,
     endpointName: string,
@@ -67,19 +62,34 @@ export interface ServiceConfigurationsOperations {
   ) => Promise<ServiceConfigurationResource>;
 }
 
-function _getServiceConfigurations(context: HybridConnectivityManagementAPIContext) {
+function _getServiceConfigurations(
+  context: HybridConnectivityManagementAPIContext,
+) {
   return {
     listByEndpointResource: (
       resourceUri: string,
       endpointName: string,
       options?: ServiceConfigurationsListByEndpointResourceOptionalParams,
-    ) => listByEndpointResource(context, resourceUri, endpointName, options),
+    ) =>
+      serviceConfigurationsListByEndpointResource(
+        context,
+        resourceUri,
+        endpointName,
+        options,
+      ),
     delete: (
       resourceUri: string,
       endpointName: string,
       serviceConfigurationName: string,
       options?: ServiceConfigurationsDeleteOptionalParams,
-    ) => $delete(context, resourceUri, endpointName, serviceConfigurationName, options),
+    ) =>
+      serviceConfigurationsDelete(
+        context,
+        resourceUri,
+        endpointName,
+        serviceConfigurationName,
+        options,
+      ),
     update: (
       resourceUri: string,
       endpointName: string,
@@ -87,7 +97,7 @@ function _getServiceConfigurations(context: HybridConnectivityManagementAPIConte
       serviceConfigurationResource: ServiceConfigurationResourcePatch,
       options?: ServiceConfigurationsUpdateOptionalParams,
     ) =>
-      update(
+      serviceConfigurationsUpdate(
         context,
         resourceUri,
         endpointName,
@@ -102,7 +112,7 @@ function _getServiceConfigurations(context: HybridConnectivityManagementAPIConte
       serviceConfigurationResource: ServiceConfigurationResource,
       options?: ServiceConfigurationsCreateOrupdateOptionalParams,
     ) =>
-      createOrupdate(
+      serviceConfigurationsCreateOrupdate(
         context,
         resourceUri,
         endpointName,
@@ -115,7 +125,14 @@ function _getServiceConfigurations(context: HybridConnectivityManagementAPIConte
       endpointName: string,
       serviceConfigurationName: string,
       options?: ServiceConfigurationsGetOptionalParams,
-    ) => get(context, resourceUri, endpointName, serviceConfigurationName, options),
+    ) =>
+      serviceConfigurationsGet(
+        context,
+        resourceUri,
+        endpointName,
+        serviceConfigurationName,
+        options,
+      ),
   };
 }
 
