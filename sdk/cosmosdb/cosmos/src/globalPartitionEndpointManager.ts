@@ -219,6 +219,8 @@ export class GlobalPartitionEndpointManager {
       }
       partitionKeyRangeFailoverInfo =
         this.partitionKeyRangeToLocationForReadAndWrite.get(partitionKeyRangeId);
+    } else {
+      return false;
     }
 
     assertNotUndefined(
