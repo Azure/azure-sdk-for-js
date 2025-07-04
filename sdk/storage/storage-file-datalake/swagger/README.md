@@ -12,7 +12,7 @@ enable-xml: true
 generate-metadata: false
 license-header: MICROSOFT_MIT_NO_VERSION
 output-folder: ../src/generated
-input-file: https://raw.githubusercontent.com/Azure/azure-rest-api-specs/688a906172823628e75b19ea8964d998cb7560fd/specification/storage/data-plane/Azure.Storage.Files.DataLake/preview/2023-05-03/DataLakeStorage.json
+input-file: https://raw.githubusercontent.com/Azure/azure-rest-api-specs/8349cda1de1a7b721e6b25f0777863796136db96/specification/storage/data-plane/Azure.Storage.Files.DataLake/stable/2025-05-05/DataLakeStorage.json
 model-date-time-as-string: true
 optional-response-headers: true
 v3: true
@@ -348,7 +348,7 @@ directive:
       ];
 ```
 
-### Update service version from "2023-05-03" to "2025-07-05"
+### Update service version from "2025-05-05" to "2025-07-05"
 
 ```yaml
 directive:
