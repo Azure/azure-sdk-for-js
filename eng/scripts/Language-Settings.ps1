@@ -426,7 +426,7 @@ function Update-javascript-GeneratedSdks([string]$PackageDirectoriesFile) {
     "documentintelligence/ai-document-intelligence-rest",
     "computeschedule/arm-computeschedule",
     "devcenter/developer-devcenter-rest",
-    "face/ai-vision-face-rest",
+    "face/ai-vision-face-rest"
     # Add more directories to skip here as needed
   )
 
