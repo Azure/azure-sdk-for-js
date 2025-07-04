@@ -3,38 +3,31 @@
 ## 4.0.0 (2025-07-04)
     
 ### Features Added
-
   - Added operation PrivateZonesOperations.createOrUpdate
   - Added operation PrivateZonesOperations.delete
   - Added operation PrivateZonesOperations.update
   - Added operation VirtualNetworkLinksOperations.createOrUpdate
   - Added operation VirtualNetworkLinksOperations.delete
   - Added operation VirtualNetworkLinksOperations.update
+  - Added Class NetworkClient
   - Added Interface NetworkClientOptionalParams
-  - Added Interface PagedAsyncIterableIterator
   - Added Interface PageSettings
   - Added Interface PrivateZoneProperties
   - Added Interface RecordSetProperties
-  - Added Interface RestorePollerOptions
   - Added Interface SystemData
   - Added Interface VirtualNetworkLinkProperties
-  - Added Class NetworkClient
-  - Added Type Alias ContinuablePage
-  - Added Type Alias CreatedByType
-  - Interface PrivateZone has a new optional parameter location
   - Interface PrivateZone has a new optional parameter properties
-  - Interface PrivateZone has a new optional parameter tags
+  - Interface PrivateZone has a new optional parameter systemData
+  - Interface ProxyResource has a new optional parameter systemData
   - Interface RecordSet has a new optional parameter properties
+  - Interface RecordSet has a new optional parameter systemData
   - Interface Resource has a new optional parameter systemData
-  - Interface VirtualNetworkLink has a new optional parameter location
   - Interface VirtualNetworkLink has a new optional parameter properties
-  - Interface VirtualNetworkLink has a new optional parameter tags
+  - Interface VirtualNetworkLink has a new optional parameter systemData
+  - Added Type Alias CreatedByType
   - Added Enum KnownCreatedByType
   - Added Enum KnownVersions
-  - Added function restorePoller
-
 ### Breaking Changes
-
   - Removed operation PrivateZones.beginCreateOrUpdate
   - Removed operation PrivateZones.beginCreateOrUpdateAndWait
   - Removed operation PrivateZones.beginDelete
@@ -48,6 +41,11 @@
   - Removed operation VirtualNetworkLinks.beginUpdate
   - Removed operation VirtualNetworkLinks.beginUpdateAndWait
   - Deleted Class PrivateDnsManagementClient
+  - Removed Interface PrivateDnsManagementClientOptionalParams
+  - Removed Interface PrivateZoneListResult
+  - Removed Interface RecordSetListResult
+  - Removed Interface TrackedResource
+  - Removed Interface VirtualNetworkLinkListResult
   - Interface PrivateZone no longer has parameter internalId
   - Interface PrivateZone no longer has parameter maxNumberOfRecordSets
   - Interface PrivateZone no longer has parameter maxNumberOfVirtualNetworkLinks
@@ -79,7 +77,27 @@
   - Interface VirtualNetworkLinksCreateOrUpdateOptionalParams no longer has parameter resumeFrom
   - Interface VirtualNetworkLinksDeleteOptionalParams no longer has parameter resumeFrom
   - Interface VirtualNetworkLinksUpdateOptionalParams no longer has parameter resumeFrom
+  - Removed Type Alias PrivateZonesCreateOrUpdateResponse
+  - Removed Type Alias PrivateZonesGetResponse
+  - Removed Type Alias PrivateZonesListByResourceGroupNextResponse
+  - Removed Type Alias PrivateZonesListByResourceGroupResponse
+  - Removed Type Alias PrivateZonesListNextResponse
+  - Removed Type Alias PrivateZonesListResponse
+  - Removed Type Alias PrivateZonesUpdateResponse
+  - Removed Type Alias RecordSetsCreateOrUpdateResponse
+  - Removed Type Alias RecordSetsGetResponse
+  - Removed Type Alias RecordSetsListByTypeNextResponse
+  - Removed Type Alias RecordSetsListByTypeResponse
+  - Removed Type Alias RecordSetsListNextResponse
+  - Removed Type Alias RecordSetsListResponse
+  - Removed Type Alias RecordSetsUpdateResponse
+  - Removed Type Alias VirtualNetworkLinksCreateOrUpdateResponse
+  - Removed Type Alias VirtualNetworkLinksGetResponse
+  - Removed Type Alias VirtualNetworkLinksListNextResponse
+  - Removed Type Alias VirtualNetworkLinksListResponse
+  - Removed Type Alias VirtualNetworkLinksUpdateResponse
   - Removed function getContinuationToken
+
     
     
 ## 3.3.0 (2024-09-12)
