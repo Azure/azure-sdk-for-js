@@ -29,6 +29,7 @@ export {
   AnonymousCredential,
   AnonymousCredentialPolicy,
   Credential,
+  BaseRequestPolicy,
   CredentialPolicy,
   StorageBrowserPolicy,
   StorageBrowserPolicyFactory,
