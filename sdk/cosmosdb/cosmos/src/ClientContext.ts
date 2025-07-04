@@ -138,9 +138,7 @@ export class ClientContext {
       });
 
       request.headers = await this.buildHeaders(request);
-      if (partitionKeyRangeId) {
-        request.partitionKeyRangeId = partitionKeyRangeId;
-      }
+      request.partitionKeyRangeId = partitionKeyRangeId;
       if (resourceType === ResourceType.clientencryptionkey) {
         request.headers[HttpHeaders.AllowCachedReadsHeader] = true;
         if (options.databaseRid) {
@@ -361,9 +359,7 @@ export class ClientContext {
         resourceType,
       });
       request.headers = await this.buildHeaders(request);
-      if (partitionKeyRangeId) {
-        request.partitionKeyRangeId = partitionKeyRangeId;
-      }
+      request.partitionKeyRangeId = partitionKeyRangeId;
       this.applySessionToken(request);
       // deleteResource will use WriteEndpoint since it uses DELETE operation
       request.endpoint = await this.globalEndpointManager.resolveServiceEndpoint(
@@ -425,9 +421,7 @@ export class ClientContext {
         resourceType,
       });
       request.headers = await this.buildHeaders(request);
-      if (partitionKeyRangeId) {
-        request.partitionKeyRangeId = partitionKeyRangeId;
-      }
+      request.partitionKeyRangeId = partitionKeyRangeId;
       this.applySessionToken(request);
 
       // patch will use WriteEndpoint
@@ -486,10 +480,7 @@ export class ClientContext {
         resourceType,
       });
       request.headers = await this.buildHeaders(request);
-      if (partitionKeyRangeId) {
-        request.partitionKeyRangeId = partitionKeyRangeId;
-      }
-
+      request.partitionKeyRangeId = partitionKeyRangeId;
       // create will use WriteEndpoint since it uses POST operation
       this.applySessionToken(request);
 
@@ -595,9 +586,7 @@ export class ClientContext {
         resourceType,
       });
       request.headers = await this.buildHeaders(request);
-      if (partitionKeyRangeId) {
-        request.partitionKeyRangeId = partitionKeyRangeId;
-      }
+      request.partitionKeyRangeId = partitionKeyRangeId;
       this.applySessionToken(request);
 
       // replace will use WriteEndpoint since it uses PUT operation
@@ -656,9 +645,7 @@ export class ClientContext {
         resourceType,
       });
       request.headers = await this.buildHeaders(request);
-      if (partitionKeyRangeId) {
-        request.partitionKeyRangeId = partitionKeyRangeId;
-      }
+      request.partitionKeyRangeId = partitionKeyRangeId;
       request.headers[HttpHeaders.IsUpsert] = true;
       this.applySessionToken(request);
 
@@ -721,9 +708,7 @@ export class ClientContext {
       resourceType: ResourceType.sproc,
     });
     request.headers = await this.buildHeaders(request);
-    if (partitionKeyRangeId) {
-      request.partitionKeyRangeId = partitionKeyRangeId;
-    }
+    request.partitionKeyRangeId = partitionKeyRangeId;
     // executeStoredProcedure will use WriteEndpoint since it uses POST operation
     request.endpoint = await this.globalEndpointManager.resolveServiceEndpoint(
       diagnosticNode,
@@ -831,9 +816,7 @@ export class ClientContext {
         resourceType: ResourceType.item,
       });
       request.headers = await this.buildHeaders(request);
-      if (partitionKeyRangeId) {
-        request.partitionKeyRangeId = partitionKeyRangeId;
-      }
+      request.partitionKeyRangeId = partitionKeyRangeId;
       request.headers[HttpHeaders.IsBatchRequest] = true;
       request.headers[HttpHeaders.IsBatchAtomic] = true;
 
@@ -1028,7 +1011,7 @@ export class ClientContext {
     pipeline?: Pipeline;
     plugins: PluginConfig[];
     httpClient?: HttpClient;
-    globalPartitionEndpointManager: GlobalPartitionEndpointManager;
+    globalPartitionEndpointManager?: GlobalPartitionEndpointManager;
   } {
     return {
       globalEndpointManager: this.globalEndpointManager,

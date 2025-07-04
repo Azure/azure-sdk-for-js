@@ -26,7 +26,7 @@ export class GlobalPartitionEndpointManager {
   private enablePartitionLevelCircuitBreaker: boolean;
   private preferredLocations: string[];
   public preferredLocationsCount: number;
-  circuitBreakerFailbackBackgroundRefresher: NodeJS.Timeout;
+  private circuitBreakerFailbackBackgroundRefresher: NodeJS.Timeout;
 
   /**
    * @internal
@@ -96,9 +96,10 @@ export class GlobalPartitionEndpointManager {
    */
   public async tryAddPartitionLevelLocationOverride(
     requestContext: RequestContext,
-  ): Promise<{ overridden: boolean; newLocation?: string }> {
+    diagnosticNode: DiagnosticNodeInternal,
+  ): Promise<void> {
     if (!(await this.isRequestEligibleForPartitionFailover(requestContext, false))) {
-      return { overridden: false };
+      return;
     }
 
     const partitionKeyRangeId = requestContext.partitionKeyRangeId;
@@ -106,10 +107,9 @@ export class GlobalPartitionEndpointManager {
     if (this.isRequestEligibleForPerPartitionAutomaticFailover(requestContext)) {
       if (this.partitionKeyRangeToLocationForWrite.has(partitionKeyRangeId)) {
         const partitionFailOver = this.partitionKeyRangeToLocationForWrite.get(partitionKeyRangeId);
-        return {
-          overridden: true,
-          newLocation: partitionFailOver.currentEndPoint,
-        };
+        requestContext.endpoint = partitionFailOver.currentEndPoint;
+        diagnosticNode.recordEndpointResolution(requestContext.endpoint);
+        return;
       }
     } else if (this.isRequestEligibleForPartitionLevelCircuitBreaker(requestContext)) {
       if (this.partitionKeyRangeToLocationForReadAndWrite.has(partitionKeyRangeId)) {
@@ -121,14 +121,22 @@ export class GlobalPartitionEndpointManager {
             isReadRequest(requestContext.operationType),
           );
         if (canCircuitBreakerTriggerPartitionFailOver) {
-          return {
-            overridden: true,
-            newLocation: partitionFailOver.currentEndPoint,
-          };
+          requestContext.endpoint = partitionFailOver.currentEndPoint;
+          diagnosticNode.recordEndpointResolution(requestContext.endpoint);
+          return;
         }
       }
     }
-    return { overridden: false };
+  }
+
+  /**
+   * This method clears the background refresher for circuit breaker failback
+   * and stops the periodic checks for unhealthy endpoints.
+   */
+  public dispose(): void {
+    if (this.circuitBreakerFailbackBackgroundRefresher) {
+      clearTimeout(this.circuitBreakerFailbackBackgroundRefresher);
+    }
   }
 
   private async tryMarkEndpointUnavailableForPartitionKeyRange(

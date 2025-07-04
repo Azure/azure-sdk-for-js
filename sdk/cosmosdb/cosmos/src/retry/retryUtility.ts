@@ -108,17 +108,14 @@ export async function execute({
       const correlatedActivityId =
         requestContext.headers[Constants.HttpHeaders.CorrelatedActivityId];
 
-      // Check if partition level location override is needed
-      // This is used to override the partition level location for the request
-      // if there has been a partition level failover
-      const overrideResult =
+      if (requestContext.globalPartitionEndpointManager) {
+        // Try partition level location override
+        // This is used to override the partition level location for the request
+        // if there has been a partition level failover
         await requestContext.globalPartitionEndpointManager.tryAddPartitionLevelLocationOverride(
           requestContext,
+          localDiagnosticNode,
         );
-
-      if (overrideResult.newLocation !== undefined) {
-        requestContext.endpoint = overrideResult.newLocation;
-        localDiagnosticNode.recordEndpointResolution(overrideResult.newLocation);
       }
 
       try {

@@ -17,7 +17,6 @@ describe("PartitionKeyRangeFailoverInfo", () => {
     const timestamps = await failoverInfo.snapshotPartitionFailoverTimestamps();
 
     assert.equal(failoverInfo.currentEndPoint, initialEndpoint);
-    assert.equal(failoverInfo.firstFailedEndPoint, initialEndpoint);
     assert.deepEqual(snapshot, {
       consecutiveReadRequestFailureCount: 0,
       consecutiveWriteRequestFailureCount: 0,

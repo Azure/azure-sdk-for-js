@@ -36,7 +36,7 @@ export class TimeoutFailoverRetryPolicy implements RetryPolicy {
     private operationType: OperationType,
     private enableEndPointDiscovery: boolean,
     private enablePartitionLevelFailover: boolean,
-    private globalPartitionEndpointManager: GlobalPartitionEndpointManager,
+    private globalPartitionEndpointManager?: GlobalPartitionEndpointManager,
   ) {}
 
   /**
@@ -69,7 +69,7 @@ export class TimeoutFailoverRetryPolicy implements RetryPolicy {
 
     // Mark the partition as unavailable.
     // Let the Retry logic decide if the request should be retried
-    if (requestContext) {
+    if (requestContext && this.globalPartitionEndpointManager) {
       await this.globalPartitionEndpointManager.tryPartitionLevelFailover(
         requestContext,
         diagnosticNode,

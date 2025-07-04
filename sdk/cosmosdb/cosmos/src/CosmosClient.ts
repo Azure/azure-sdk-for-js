@@ -157,10 +157,15 @@ export class CosmosClient {
         this.getDatabaseAccountInternal(diagnosticNode, opts),
     );
 
-    this.globalPartitionEndpointManager = new GlobalPartitionEndpointManager(
-      optionsOrConnectionString,
-      globalEndpointManager,
-    );
+    if (
+      optionsOrConnectionString.connectionPolicy.enablePartitionLevelFailover ||
+      optionsOrConnectionString.connectionPolicy.enablePartitionLevelCircuitBreaker
+    ) {
+      this.globalPartitionEndpointManager = new GlobalPartitionEndpointManager(
+        optionsOrConnectionString,
+        globalEndpointManager,
+      );
+    }
 
     this.clientContext = new ClientContext(
       optionsOrConnectionString,
@@ -323,7 +328,9 @@ export class CosmosClient {
       clearTimeout(this.encryptionManager.encryptionKeyStoreProvider.cacheRefresher);
       clearTimeout(this.encryptionManager.protectedDataEncryptionKeyCache.cacheRefresher);
     }
-    clearTimeout(this.globalPartitionEndpointManager.circuitBreakerFailbackBackgroundRefresher);
+    if (this.globalPartitionEndpointManager) {
+      this.globalPartitionEndpointManager.dispose();
+    }
   }
 
   private async backgroundRefreshEndpointList(

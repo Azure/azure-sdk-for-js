@@ -11,7 +11,6 @@ import semaphore from "semaphore";
 export class PartitionKeyRangeFailoverInfo {
   public failedEndPoints: string[] = [];
   public currentEndPoint: string;
-  public firstFailedEndPoint: string;
 
   private consecutiveReadRequestFailureCount: number = 0;
   private consecutiveWriteRequestFailureCount: number = 0;
@@ -26,7 +25,6 @@ export class PartitionKeyRangeFailoverInfo {
    */
   constructor(currentEndpoint: string) {
     this.currentEndPoint = currentEndpoint;
-    this.firstFailedEndPoint = currentEndpoint;
     this.failureCountSemaphore = semaphore(1);
     this.tryMoveNextLocationSemaphore = semaphore(1);
   }
