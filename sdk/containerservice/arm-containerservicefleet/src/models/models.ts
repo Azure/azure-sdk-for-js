@@ -160,21 +160,14 @@ export interface ErrorAdditionalInfo {
   /** The additional info type. */
   readonly type?: string;
   /** The additional info. */
-  readonly info?: Record<string, any>;
+  readonly info?: any;
 }
 
 export function errorAdditionalInfoDeserializer(item: any): ErrorAdditionalInfo {
   return {
     type: item["type"],
-    info: !item["info"] ? item["info"] : _errorAdditionalInfoInfoDeserializer(item["info"]),
+    info: item["info"],
   };
-}
-
-/** model interface _ErrorAdditionalInfoInfo */
-export interface _ErrorAdditionalInfoInfo {}
-
-export function _errorAdditionalInfoInfoDeserializer(item: any): _ErrorAdditionalInfoInfo {
-  return item;
 }
 
 /** The Fleet resource. */
@@ -461,10 +454,10 @@ export function userAssignedIdentityRecordDeserializer(
 
 /** User assigned identity properties */
 export interface UserAssignedIdentity {
-  /** The client ID of the assigned identity. */
-  readonly clientId?: string;
   /** The principal ID of the assigned identity. */
   readonly principalId?: string;
+  /** The client ID of the assigned identity. */
+  readonly clientId?: string;
 }
 
 export function userAssignedIdentitySerializer(item: UserAssignedIdentity): any {
@@ -473,8 +466,8 @@ export function userAssignedIdentitySerializer(item: UserAssignedIdentity): any 
 
 export function userAssignedIdentityDeserializer(item: any): UserAssignedIdentity {
   return {
-    clientId: item["clientId"],
     principalId: item["principalId"],
+    clientId: item["clientId"],
   };
 }
 

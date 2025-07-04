@@ -7,7 +7,7 @@ import {
   PagedAsyncIterableIterator,
 } from "./static-helpers/pagingHelpers.js";
 
-export { CarbonOptimizationManagementClient } from "./carbonOptimizationManagementClient.js";
+export { CarbonClient } from "./carbonClient.js";
 export {
   Operation,
   OperationDisplay,
@@ -58,7 +58,7 @@ export {
   CarbonEmissionDataAvailableDateRange,
   KnownVersions,
 } from "./models/index.js";
-export { CarbonOptimizationManagementClientOptionalParams } from "./api/index.js";
+export { CarbonClientOptionalParams } from "./api/index.js";
 export {
   CarbonServiceQueryCarbonEmissionDataAvailableDateRangeOptionalParams,
   CarbonServiceQueryCarbonEmissionReportsOptionalParams,

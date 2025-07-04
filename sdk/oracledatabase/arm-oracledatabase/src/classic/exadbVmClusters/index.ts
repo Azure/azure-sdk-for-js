@@ -86,7 +86,8 @@ function _getExadbVmClusters(context: OracleDatabaseManagementContext) {
       exadbVmClusterName: string,
       body: RemoveVirtualMachineFromExadbVmClusterDetails,
       options?: ExadbVmClustersRemoveVmsOptionalParams,
-    ) => removeVms(context, resourceGroupName, exadbVmClusterName, body, options),
+    ) =>
+      removeVms(context, resourceGroupName, exadbVmClusterName, body, options),
     listByResourceGroup: (
       resourceGroupName: string,
       options?: ExadbVmClustersListByResourceGroupOptionalParams,
@@ -101,7 +102,14 @@ function _getExadbVmClusters(context: OracleDatabaseManagementContext) {
       exadbVmClusterName: string,
       properties: ExadbVmClusterUpdate,
       options?: ExadbVmClustersUpdateOptionalParams,
-    ) => update(context, resourceGroupName, exadbVmClusterName, properties, options),
+    ) =>
+      update(
+        context,
+        resourceGroupName,
+        exadbVmClusterName,
+        properties,
+        options,
+      ),
     get: (
       resourceGroupName: string,
       exadbVmClusterName: string,
@@ -112,9 +120,17 @@ function _getExadbVmClusters(context: OracleDatabaseManagementContext) {
       exadbVmClusterName: string,
       resource: ExadbVmCluster,
       options?: ExadbVmClustersCreateOrUpdateOptionalParams,
-    ) => createOrUpdate(context, resourceGroupName, exadbVmClusterName, resource, options),
-    listBySubscription: (options?: ExadbVmClustersListBySubscriptionOptionalParams) =>
-      listBySubscription(context, options),
+    ) =>
+      createOrUpdate(
+        context,
+        resourceGroupName,
+        exadbVmClusterName,
+        resource,
+        options,
+      ),
+    listBySubscription: (
+      options?: ExadbVmClustersListBySubscriptionOptionalParams,
+    ) => listBySubscription(context, options),
   };
 }
 

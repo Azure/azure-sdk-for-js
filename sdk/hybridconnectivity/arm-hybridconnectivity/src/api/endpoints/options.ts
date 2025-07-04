@@ -8,10 +8,12 @@ import {
 import { OperationOptions } from "@azure-rest/core-client";
 
 /** Optional parameters. */
-export interface EndpointsListManagedProxyDetailsOptionalParams extends OperationOptions {}
+export interface EndpointsListManagedProxyDetailsOptionalParams
+  extends OperationOptions {}
 
 /** Optional parameters. */
-export interface EndpointsListIngressGatewayCredentialsOptionalParams extends OperationOptions {
+export interface EndpointsListIngressGatewayCredentialsOptionalParams
+  extends OperationOptions {
   /** The is how long the endpoint access token is valid (in seconds). */
   expiresin?: number;
   /** Object of type ListIngressGatewayCredentialsRequest */
@@ -19,7 +21,8 @@ export interface EndpointsListIngressGatewayCredentialsOptionalParams extends Op
 }
 
 /** Optional parameters. */
-export interface EndpointsListCredentialsOptionalParams extends OperationOptions {
+export interface EndpointsListCredentialsOptionalParams
+  extends OperationOptions {
   /** The is how long the endpoint access token is valid (in seconds). */
   expiresin?: number;
   /** Object of type ListCredentialsRequest */
@@ -36,7 +39,8 @@ export interface EndpointsDeleteOptionalParams extends OperationOptions {}
 export interface EndpointsUpdateOptionalParams extends OperationOptions {}
 
 /** Optional parameters. */
-export interface EndpointsCreateOrUpdateOptionalParams extends OperationOptions {}
+export interface EndpointsCreateOrUpdateOptionalParams
+  extends OperationOptions {}
 
 /** Optional parameters. */
 export interface EndpointsGetOptionalParams extends OperationOptions {}

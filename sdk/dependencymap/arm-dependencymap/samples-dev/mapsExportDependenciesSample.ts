@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { DependencyMapClient } from "@azure/arm-dependencymap";
+import { DependencyMapClient } from "MicrosoftDependencyMapManagementService";
 import { DefaultAzureCredential } from "@azure/identity";
 
 /**

@@ -71,13 +71,15 @@ export function _repairAvsConnectionSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).post({
-    ...operationOptionsToRequestParameters(options),
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
-  });
+  return context
+    .path(path)
+    .post({
+      ...operationOptionsToRequestParameters(options),
+      headers: {
+        accept: "application/json",
+        ...options.requestOptions?.headers,
+      },
+    });
 }
 
 export async function _repairAvsConnectionDeserialize(
@@ -102,13 +104,23 @@ export function repairAvsConnection(
     requestOptions: {},
   },
 ): PollerLike<OperationState<void>, void> {
-  return getLongRunningPoller(context, _repairAvsConnectionDeserialize, ["202", "200"], {
-    updateIntervalInMs: options?.updateIntervalInMs,
-    abortSignal: options?.abortSignal,
-    getInitialResponse: () =>
-      _repairAvsConnectionSend(context, resourceGroupName, storagePoolName, options),
-    resourceLocationConfig: "location",
-  }) as PollerLike<OperationState<void>, void>;
+  return getLongRunningPoller(
+    context,
+    _repairAvsConnectionDeserialize,
+    ["202", "200"],
+    {
+      updateIntervalInMs: options?.updateIntervalInMs,
+      abortSignal: options?.abortSignal,
+      getInitialResponse: () =>
+        _repairAvsConnectionSend(
+          context,
+          resourceGroupName,
+          storagePoolName,
+          options,
+        ),
+      resourceLocationConfig: "location",
+    },
+  ) as PollerLike<OperationState<void>, void>;
 }
 
 export function _finalizeAvsConnectionSend(
@@ -132,15 +144,17 @@ export function _finalizeAvsConnectionSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).post({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
-    body: storagePoolFinalizeAvsConnectionPostSerializer(properties),
-  });
+  return context
+    .path(path)
+    .post({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      headers: {
+        accept: "application/json",
+        ...options.requestOptions?.headers,
+      },
+      body: storagePoolFinalizeAvsConnectionPostSerializer(properties),
+    });
 }
 
 export async function _finalizeAvsConnectionDeserialize(
@@ -166,13 +180,24 @@ export function finalizeAvsConnection(
     requestOptions: {},
   },
 ): PollerLike<OperationState<void>, void> {
-  return getLongRunningPoller(context, _finalizeAvsConnectionDeserialize, ["202", "200"], {
-    updateIntervalInMs: options?.updateIntervalInMs,
-    abortSignal: options?.abortSignal,
-    getInitialResponse: () =>
-      _finalizeAvsConnectionSend(context, resourceGroupName, storagePoolName, properties, options),
-    resourceLocationConfig: "location",
-  }) as PollerLike<OperationState<void>, void>;
+  return getLongRunningPoller(
+    context,
+    _finalizeAvsConnectionDeserialize,
+    ["202", "200"],
+    {
+      updateIntervalInMs: options?.updateIntervalInMs,
+      abortSignal: options?.abortSignal,
+      getInitialResponse: () =>
+        _finalizeAvsConnectionSend(
+          context,
+          resourceGroupName,
+          storagePoolName,
+          properties,
+          options,
+        ),
+      resourceLocationConfig: "location",
+    },
+  ) as PollerLike<OperationState<void>, void>;
 }
 
 export function _disableAvsConnectionSend(
@@ -195,13 +220,15 @@ export function _disableAvsConnectionSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).post({
-    ...operationOptionsToRequestParameters(options),
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
-  });
+  return context
+    .path(path)
+    .post({
+      ...operationOptionsToRequestParameters(options),
+      headers: {
+        accept: "application/json",
+        ...options.requestOptions?.headers,
+      },
+    });
 }
 
 export async function _disableAvsConnectionDeserialize(
@@ -226,13 +253,23 @@ export function disableAvsConnection(
     requestOptions: {},
   },
 ): PollerLike<OperationState<void>, void> {
-  return getLongRunningPoller(context, _disableAvsConnectionDeserialize, ["202", "200"], {
-    updateIntervalInMs: options?.updateIntervalInMs,
-    abortSignal: options?.abortSignal,
-    getInitialResponse: () =>
-      _disableAvsConnectionSend(context, resourceGroupName, storagePoolName, options),
-    resourceLocationConfig: "location",
-  }) as PollerLike<OperationState<void>, void>;
+  return getLongRunningPoller(
+    context,
+    _disableAvsConnectionDeserialize,
+    ["202", "200"],
+    {
+      updateIntervalInMs: options?.updateIntervalInMs,
+      abortSignal: options?.abortSignal,
+      getInitialResponse: () =>
+        _disableAvsConnectionSend(
+          context,
+          resourceGroupName,
+          storagePoolName,
+          options,
+        ),
+      resourceLocationConfig: "location",
+    },
+  ) as PollerLike<OperationState<void>, void>;
 }
 
 export function _enableAvsConnectionSend(
@@ -256,15 +293,17 @@ export function _enableAvsConnectionSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).post({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
-    body: storagePoolEnableAvsConnectionPostSerializer(properties),
-  });
+  return context
+    .path(path)
+    .post({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      headers: {
+        accept: "application/json",
+        ...options.requestOptions?.headers,
+      },
+      body: storagePoolEnableAvsConnectionPostSerializer(properties),
+    });
 }
 
 export async function _enableAvsConnectionDeserialize(
@@ -290,13 +329,24 @@ export function enableAvsConnection(
     requestOptions: {},
   },
 ): PollerLike<OperationState<void>, void> {
-  return getLongRunningPoller(context, _enableAvsConnectionDeserialize, ["202", "200"], {
-    updateIntervalInMs: options?.updateIntervalInMs,
-    abortSignal: options?.abortSignal,
-    getInitialResponse: () =>
-      _enableAvsConnectionSend(context, resourceGroupName, storagePoolName, properties, options),
-    resourceLocationConfig: "location",
-  }) as PollerLike<OperationState<void>, void>;
+  return getLongRunningPoller(
+    context,
+    _enableAvsConnectionDeserialize,
+    ["202", "200"],
+    {
+      updateIntervalInMs: options?.updateIntervalInMs,
+      abortSignal: options?.abortSignal,
+      getInitialResponse: () =>
+        _enableAvsConnectionSend(
+          context,
+          resourceGroupName,
+          storagePoolName,
+          properties,
+          options,
+        ),
+      resourceLocationConfig: "location",
+    },
+  ) as PollerLike<OperationState<void>, void>;
 }
 
 export function _getAvsStatusSend(
@@ -317,16 +367,20 @@ export function _getAvsStatusSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).post({
-    ...operationOptionsToRequestParameters(options),
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
-  });
+  return context
+    .path(path)
+    .post({
+      ...operationOptionsToRequestParameters(options),
+      headers: {
+        accept: "application/json",
+        ...options.requestOptions?.headers,
+      },
+    });
 }
 
-export async function _getAvsStatusDeserialize(result: PathUncheckedResponse): Promise<AvsStatus> {
+export async function _getAvsStatusDeserialize(
+  result: PathUncheckedResponse,
+): Promise<AvsStatus> {
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
@@ -344,7 +398,12 @@ export async function getAvsStatus(
   storagePoolName: string,
   options: StoragePoolsGetAvsStatusOptionalParams = { requestOptions: {} },
 ): Promise<AvsStatus> {
-  const result = await _getAvsStatusSend(context, resourceGroupName, storagePoolName, options);
+  const result = await _getAvsStatusSend(
+    context,
+    resourceGroupName,
+    storagePoolName,
+    options,
+  );
   return _getAvsStatusDeserialize(result);
 }
 
@@ -366,13 +425,15 @@ export function _getAvsConnectionSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).post({
-    ...operationOptionsToRequestParameters(options),
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
-  });
+  return context
+    .path(path)
+    .post({
+      ...operationOptionsToRequestParameters(options),
+      headers: {
+        accept: "application/json",
+        ...options.requestOptions?.headers,
+      },
+    });
 }
 
 export async function _getAvsConnectionDeserialize(
@@ -395,7 +456,12 @@ export async function getAvsConnection(
   storagePoolName: string,
   options: StoragePoolsGetAvsConnectionOptionalParams = { requestOptions: {} },
 ): Promise<AvsConnection> {
-  const result = await _getAvsConnectionSend(context, resourceGroupName, storagePoolName, options);
+  const result = await _getAvsConnectionSend(
+    context,
+    resourceGroupName,
+    storagePoolName,
+    options,
+  );
   return _getAvsConnectionDeserialize(result);
 }
 
@@ -417,13 +483,15 @@ export function _getHealthStatusSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).post({
-    ...operationOptionsToRequestParameters(options),
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
-  });
+  return context
+    .path(path)
+    .post({
+      ...operationOptionsToRequestParameters(options),
+      headers: {
+        accept: "application/json",
+        ...options.requestOptions?.headers,
+      },
+    });
 }
 
 export async function _getHealthStatusDeserialize(
@@ -446,7 +514,12 @@ export async function getHealthStatus(
   storagePoolName: string,
   options: StoragePoolsGetHealthStatusOptionalParams = { requestOptions: {} },
 ): Promise<StoragePoolHealthInfo> {
-  const result = await _getHealthStatusSend(context, resourceGroupName, storagePoolName, options);
+  const result = await _getHealthStatusSend(
+    context,
+    resourceGroupName,
+    storagePoolName,
+    options,
+  );
   return _getHealthStatusDeserialize(result);
 }
 
@@ -466,13 +539,15 @@ export function _listBySubscriptionSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).get({
-    ...operationOptionsToRequestParameters(options),
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
-  });
+  return context
+    .path(path)
+    .get({
+      ...operationOptionsToRequestParameters(options),
+      headers: {
+        accept: "application/json",
+        ...options.requestOptions?.headers,
+      },
+    });
 }
 
 export async function _listBySubscriptionDeserialize(
@@ -522,13 +597,15 @@ export function _listByResourceGroupSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).get({
-    ...operationOptionsToRequestParameters(options),
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
-  });
+  return context
+    .path(path)
+    .get({
+      ...operationOptionsToRequestParameters(options),
+      headers: {
+        accept: "application/json",
+        ...options.requestOptions?.headers,
+      },
+    });
 }
 
 export async function _listByResourceGroupDeserialize(
@@ -579,16 +656,20 @@ export function _$deleteSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).delete({
-    ...operationOptionsToRequestParameters(options),
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
-  });
+  return context
+    .path(path)
+    .delete({
+      ...operationOptionsToRequestParameters(options),
+      headers: {
+        accept: "application/json",
+        ...options.requestOptions?.headers,
+      },
+    });
 }
 
-export async function _$deleteDeserialize(result: PathUncheckedResponse): Promise<void> {
+export async function _$deleteDeserialize(
+  result: PathUncheckedResponse,
+): Promise<void> {
   const expectedStatuses = ["202", "204", "200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
@@ -611,12 +692,18 @@ export function $delete(
   storagePoolName: string,
   options: StoragePoolsDeleteOptionalParams = { requestOptions: {} },
 ): PollerLike<OperationState<void>, void> {
-  return getLongRunningPoller(context, _$deleteDeserialize, ["202", "204", "200"], {
-    updateIntervalInMs: options?.updateIntervalInMs,
-    abortSignal: options?.abortSignal,
-    getInitialResponse: () => _$deleteSend(context, resourceGroupName, storagePoolName, options),
-    resourceLocationConfig: "location",
-  }) as PollerLike<OperationState<void>, void>;
+  return getLongRunningPoller(
+    context,
+    _$deleteDeserialize,
+    ["202", "204", "200"],
+    {
+      updateIntervalInMs: options?.updateIntervalInMs,
+      abortSignal: options?.abortSignal,
+      getInitialResponse: () =>
+        _$deleteSend(context, resourceGroupName, storagePoolName, options),
+      resourceLocationConfig: "location",
+    },
+  ) as PollerLike<OperationState<void>, void>;
 }
 
 export function _updateSend(
@@ -638,18 +725,22 @@ export function _updateSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).patch({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
-    body: storagePoolUpdateSerializer(properties),
-  });
+  return context
+    .path(path)
+    .patch({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      headers: {
+        accept: "application/json",
+        ...options.requestOptions?.headers,
+      },
+      body: storagePoolUpdateSerializer(properties),
+    });
 }
 
-export async function _updateDeserialize(result: PathUncheckedResponse): Promise<StoragePool> {
+export async function _updateDeserialize(
+  result: PathUncheckedResponse,
+): Promise<StoragePool> {
   const expectedStatuses = ["200", "202"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
@@ -672,7 +763,13 @@ export function update(
     updateIntervalInMs: options?.updateIntervalInMs,
     abortSignal: options?.abortSignal,
     getInitialResponse: () =>
-      _updateSend(context, resourceGroupName, storagePoolName, properties, options),
+      _updateSend(
+        context,
+        resourceGroupName,
+        storagePoolName,
+        properties,
+        options,
+      ),
     resourceLocationConfig: "location",
   }) as PollerLike<OperationState<StoragePool>, StoragePool>;
 }
@@ -696,18 +793,22 @@ export function _createSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).put({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
-    body: storagePoolSerializer(resource),
-  });
+  return context
+    .path(path)
+    .put({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      headers: {
+        accept: "application/json",
+        ...options.requestOptions?.headers,
+      },
+      body: storagePoolSerializer(resource),
+    });
 }
 
-export async function _createDeserialize(result: PathUncheckedResponse): Promise<StoragePool> {
+export async function _createDeserialize(
+  result: PathUncheckedResponse,
+): Promise<StoragePool> {
   const expectedStatuses = ["200", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
@@ -730,7 +831,13 @@ export function create(
     updateIntervalInMs: options?.updateIntervalInMs,
     abortSignal: options?.abortSignal,
     getInitialResponse: () =>
-      _createSend(context, resourceGroupName, storagePoolName, resource, options),
+      _createSend(
+        context,
+        resourceGroupName,
+        storagePoolName,
+        resource,
+        options,
+      ),
     resourceLocationConfig: "azure-async-operation",
   }) as PollerLike<OperationState<StoragePool>, StoragePool>;
 }
@@ -753,16 +860,20 @@ export function _getSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).get({
-    ...operationOptionsToRequestParameters(options),
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
-  });
+  return context
+    .path(path)
+    .get({
+      ...operationOptionsToRequestParameters(options),
+      headers: {
+        accept: "application/json",
+        ...options.requestOptions?.headers,
+      },
+    });
 }
 
-export async function _getDeserialize(result: PathUncheckedResponse): Promise<StoragePool> {
+export async function _getDeserialize(
+  result: PathUncheckedResponse,
+): Promise<StoragePool> {
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
@@ -780,6 +891,11 @@ export async function get(
   storagePoolName: string,
   options: StoragePoolsGetOptionalParams = { requestOptions: {} },
 ): Promise<StoragePool> {
-  const result = await _getSend(context, resourceGroupName, storagePoolName, options);
+  const result = await _getSend(
+    context,
+    resourceGroupName,
+    storagePoolName,
+    options,
+  );
   return _getDeserialize(result);
 }

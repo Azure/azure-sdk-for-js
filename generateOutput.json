@@ -1,0 +1,24 @@
+{
+  "packages": [
+    {
+      "packageName": "default",
+      "version": "",
+      "language": "JavaScript",
+      "path": [
+        "rush.json",
+        "common/config/rush/pnpm-lock.yaml"
+      ],
+      "apiViewArtifact": "",
+      "packageFolder": "",
+      "typespecProject": [],
+      "artifacts": [],
+      "changelog": {
+        "content": "",
+        "hasBreakingChange": false,
+        "breakingChangeItems": []
+      },
+      "result": "failed"
+    }
+  ],
+  "language": "JavaScript"
+}

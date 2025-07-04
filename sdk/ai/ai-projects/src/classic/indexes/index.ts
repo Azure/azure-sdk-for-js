@@ -1,6 +1,5 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-/* eslint-disable tsdoc/syntax */
 
 import { AIProjectContext } from "../../api/aiProjectContext.js";
 import { IndexUnion } from "../../models/models.js";
@@ -19,8 +18,8 @@ export interface IndexesOperations {
   /** Create a new or update an existing Index with the given version id */
   createOrUpdate: (
     name: string,
-    version: string,
     body: IndexUnion,
+    version: string,
     options?: IndexesCreateOrUpdateOptionalParams,
   ) => Promise<IndexUnion>;
   /** Delete the specific version of the Index */
@@ -45,10 +44,10 @@ function _getIndexes(context: AIProjectContext) {
   return {
     createOrUpdate: (
       name: string,
-      version: string,
       body: IndexUnion,
+      version: string,
       options?: IndexesCreateOrUpdateOptionalParams,
-    ) => createOrUpdate(context, name, version, body, options),
+    ) => createOrUpdate(context, name, body, version, options),
     delete: (name: string, version: string, options?: IndexesDeleteOptionalParams) =>
       $delete(context, name, version, options),
     get: (name: string, version: string, options?: IndexesGetOptionalParams) =>
