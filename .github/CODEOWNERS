@@ -900,6 +900,9 @@
 /sdk/resources/arm-resourcesbicep/ @qiaozha @MaryGao
 
 # PRLabel: %Mgmt
+/sdk/resources/arm-resourcesdeployments/ @qiaozha @MaryGao
+
+# PRLabel: %Mgmt
 /sdk/resources/arm-resources-profile-2020-09-01-hybrid/ @qiaozha @MaryGao
 
 # PRLabel: %Mgmt
