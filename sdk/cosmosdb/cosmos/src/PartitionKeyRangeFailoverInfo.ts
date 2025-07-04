@@ -9,8 +9,8 @@ import semaphore from "semaphore";
  * It tracks the current endpoint, failed endpoints, and the number of consecutive read/write request failures.
  */
 export class PartitionKeyRangeFailoverInfo {
-  public failedEndPoints: string[] = [];
-  public currentEndPoint: string;
+  private failedEndPoints: string[] = [];
+  private currentEndPoint: string;
 
   private consecutiveReadRequestFailureCount: number = 0;
   private consecutiveWriteRequestFailureCount: number = 0;
@@ -147,5 +147,15 @@ export class PartitionKeyRangeFailoverInfo {
         }
       });
     });
+  }
+
+  /* Returns the list of failed endpoints in the partition key range failover info. */
+  public getFailedEndPoints(): string[] {
+    return this.failedEndPoints;
+  }
+
+  /** Returns the current endpoint being used for partition key range operations.*/
+  public getCurrentEndPoint(): string {
+    return this.currentEndPoint;
   }
 }

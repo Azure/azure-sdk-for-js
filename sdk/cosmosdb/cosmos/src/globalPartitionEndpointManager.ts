@@ -107,7 +107,7 @@ export class GlobalPartitionEndpointManager {
     if (this.isRequestEligibleForPerPartitionAutomaticFailover(requestContext)) {
       if (this.partitionKeyRangeToLocationForWrite.has(partitionKeyRangeId)) {
         const partitionFailOver = this.partitionKeyRangeToLocationForWrite.get(partitionKeyRangeId);
-        requestContext.endpoint = partitionFailOver.currentEndPoint;
+        requestContext.endpoint = partitionFailOver.getCurrentEndPoint();
         diagnosticNode.recordEndpointResolution(requestContext.endpoint);
         return;
       }
@@ -121,7 +121,7 @@ export class GlobalPartitionEndpointManager {
             isReadRequest(requestContext.operationType),
           );
         if (canCircuitBreakerTriggerPartitionFailOver) {
-          requestContext.endpoint = partitionFailOver.currentEndPoint;
+          requestContext.endpoint = partitionFailOver.getCurrentEndPoint();
           diagnosticNode.recordEndpointResolution(requestContext.endpoint);
           return;
         }
@@ -357,7 +357,7 @@ export class GlobalPartitionEndpointManager {
     // Will return true if it was able to update to a new region
     if (await partitionFailOver.tryMoveNextLocation(nextEndPoints, failedEndPoint)) {
       diagnosticNode.addData({
-        partitionKeyRangeFailoverInfo: `PartitionKeyRangeId: ${partitionKeyRangeId}, failedLocations: ${partitionFailOver.failedEndPoints}, newLocation: ${partitionFailOver.currentEndPoint}`,
+        partitionKeyRangeFailoverInfo: `PartitionKeyRangeId: ${partitionKeyRangeId}, failedLocations: ${partitionFailOver.getFailedEndPoints()}, newLocation: ${partitionFailOver.getCurrentEndPoint()}`,
       });
       return true;
     }

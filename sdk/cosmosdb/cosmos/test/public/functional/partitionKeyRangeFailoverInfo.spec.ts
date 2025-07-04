@@ -16,7 +16,7 @@ describe("PartitionKeyRangeFailoverInfo", () => {
     const snapshot = await failoverInfo.snapshotConsecutiveRequestFailureCount();
     const timestamps = await failoverInfo.snapshotPartitionFailoverTimestamps();
 
-    assert.equal(failoverInfo.currentEndPoint, initialEndpoint);
+    assert.equal(failoverInfo.getCurrentEndPoint(), initialEndpoint);
     assert.deepEqual(snapshot, {
       consecutiveReadRequestFailureCount: 0,
       consecutiveWriteRequestFailureCount: 0,
@@ -66,7 +66,7 @@ describe("PartitionKeyRangeFailoverInfo", () => {
 
     const result = await failoverInfo.tryMoveNextLocation(nextEndpoints, initialEndpoint);
     assert.isTrue(result);
-    assert.equal(failoverInfo.currentEndPoint, "https://region2.documents.azure.com");
+    assert.equal(failoverInfo.getCurrentEndPoint(), "https://region2.documents.azure.com");
   });
 
   it("TryMoveNextLocation should skip already failed endpoints", async () => {
