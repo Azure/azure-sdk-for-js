@@ -1,0 +1,4 @@
+directory: specification/privatedns/PrivateDNS.Management
+commit: eb58b813c709c6b1df4f10cf312ca786b1b096b4
+repo: Azure/azure-rest-api-specs
+additionalDirectories: 
