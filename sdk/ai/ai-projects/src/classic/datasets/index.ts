@@ -44,14 +44,14 @@ export interface DatasetsOperations {
   pendingUpload: (
     name: string,
     version: string,
-    body: PendingUploadRequest,
+    pendingUploadRequest: PendingUploadRequest,
     options?: DatasetsPendingUploadOptionalParams,
   ) => Promise<PendingUploadResponse>;
   /** Create a new or update an existing DatasetVersion with the given version id */
   createOrUpdate: (
     name: string,
     version: string,
-    body: DatasetVersionUnion,
+    datasetVersion: DatasetVersionUnion,
     options?: DatasetsCreateOrUpdateOptionalParams,
   ) => Promise<DatasetVersionUnion>;
   /** Delete the specific version of the DatasetVersion */
@@ -103,15 +103,15 @@ function _getDatasets(
     pendingUpload: (
       name: string,
       version: string,
-      body: PendingUploadRequest,
+      pendingUploadRequest: PendingUploadRequest,
       options?: DatasetsPendingUploadOptionalParams,
-    ) => pendingUpload(context, name, version, body, options),
+    ) => pendingUpload(context, name, version, pendingUploadRequest, options),
     createOrUpdate: (
       name: string,
       version: string,
-      body: DatasetVersionUnion,
+      datasetVersion: DatasetVersionUnion,
       options?: DatasetsCreateOrUpdateOptionalParams,
-    ) => createOrUpdate(context, name, version, body, options),
+    ) => createOrUpdate(context, name, version, datasetVersion, options),
     delete: (name: string, version: string, options?: DatasetsDeleteOptionalParams) =>
       $delete(context, name, version, options),
     get: (name: string, version: string, options?: DatasetsGetOptionalParams) =>
