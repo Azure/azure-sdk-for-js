@@ -15,11 +15,11 @@ export function getUserAgent(
   if (hostFramework) {
     ua = ua + " " + hostFramework;
   }
-  if (optionsOrConnectionString && optionsOrConnectionString.userAgentSuffix) {
-    ua = ua + " " + optionsOrConnectionString.userAgentSuffix;
-  }
   if (optionsOrConnectionString) {
     ua = ua + addFeatureFlagsToUserAgent(optionsOrConnectionString);
+  }
+  if (optionsOrConnectionString && optionsOrConnectionString.userAgentSuffix) {
+    ua = ua + " " + optionsOrConnectionString.userAgentSuffix;
   }
   return ua;
 }
@@ -45,14 +45,16 @@ function userAgentDetails(): string {
 export function addFeatureFlagsToUserAgent(optionsOrConnectionString: CosmosClientOptions): string {
   let featureFlag = 0;
 
-  if (optionsOrConnectionString.connectionPolicy.enablePartitionLevelFailover) {
-    featureFlag += UserAgentFeatureFlags.PerPartitionAutomaticFailover;
-  }
-  if (
-    optionsOrConnectionString.connectionPolicy.enablePartitionLevelFailover ||
-    optionsOrConnectionString.connectionPolicy.enablePartitionLevelCircuitBreaker
-  ) {
-    featureFlag += UserAgentFeatureFlags.PerPartitionCircuitBreaker;
+  if (optionsOrConnectionString.connectionPolicy) {
+    if (optionsOrConnectionString.connectionPolicy.enablePartitionLevelFailover) {
+      featureFlag += UserAgentFeatureFlags.PerPartitionAutomaticFailover;
+    }
+    if (
+      optionsOrConnectionString.connectionPolicy.enablePartitionLevelFailover ||
+      optionsOrConnectionString.connectionPolicy.enablePartitionLevelCircuitBreaker
+    ) {
+      featureFlag += UserAgentFeatureFlags.PerPartitionCircuitBreaker;
+    }
   }
 
   return featureFlag === 0 ? "" : ` F${featureFlag.toString(16).toUpperCase()}`;

@@ -10,6 +10,7 @@ import {
 } from "./index.js";
 import { PartitionKeyRangeFailoverInfo } from "./PartitionKeyRangeFailoverInfo.js";
 import { normalizeEndpoint } from "./utils/checkURL.js";
+import { assertNotUndefined } from "./utils/typeChecks.js";
 
 /**
  * @hidden
@@ -220,9 +221,10 @@ export class GlobalPartitionEndpointManager {
         this.partitionKeyRangeToLocationForReadAndWrite.get(partitionKeyRangeId);
     }
 
-    if (!partitionKeyRangeFailoverInfo) {
-      return false;
-    }
+    assertNotUndefined(
+      partitionKeyRangeFailoverInfo,
+      "partitionKeyRangeFailoverInfo should be set if failover flags are true.",
+    );
 
     const currentTimeInMilliseconds = Date.now();
     await partitionKeyRangeFailoverInfo.incrementRequestFailureCounts(
