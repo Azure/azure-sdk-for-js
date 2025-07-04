@@ -5,7 +5,6 @@
 ```ts
 
 import { ClientOptions } from '@azure-rest/core-client';
-import type { KeyCredential } from '@azure/core-auth';
 import { OperationOptions } from '@azure-rest/core-client';
 import { OperationState } from '@azure/core-lro';
 import type { Pipeline } from '@azure/core-rest-pipeline';
@@ -57,7 +56,7 @@ export type AgentRunResponse = PromiseLike<ThreadRun> & {
 
 // @public (undocumented)
 export class AgentsClient {
-    constructor(endpointParam: string, credential: KeyCredential | TokenCredential, options?: AgentsClientOptionalParams);
+    constructor(endpointParam: string, credential: TokenCredential, options?: AgentsClientOptionalParams);
     createAgent(model: string, options?: CreateAgentOptionalParams): Promise<Agent>;
     deleteAgent(assistantId: string, options?: DeleteAgentOptionalParams): Promise<AgentDeletionStatus>;
     readonly files: FilesOperations;
@@ -86,7 +85,7 @@ export interface AgentsNamedToolChoice {
 }
 
 // @public
-export type AgentsNamedToolChoiceType = "function" | "code_interpreter" | "file_search" | "bing_grounding" | "fabric_dataagent" | "sharepoint_grounding" | "azure_ai_search" | "bing_custom_search" | "connected_agent";
+export type AgentsNamedToolChoiceType = "function" | "code_interpreter" | "file_search" | "bing_grounding" | "fabric_dataagent" | "sharepoint_grounding" | "azure_ai_search" | "bing_custom_search" | "connected_agent" | "deep_research";
 
 // @public
 export interface AgentsResponseFormat {
@@ -106,7 +105,7 @@ export type AgentsToolChoiceOption = string | AgentsToolChoiceOptionMode | Agent
 export type AgentsToolChoiceOptionMode = "none" | "auto";
 
 // @public
-export type AgentStreamEvent = string | (ThreadStreamEvent | RunStreamEvent | RunStepStreamEvent | MessageStreamEvent | ErrorEvent | DoneEvent);
+export type AgentStreamEvent = string | ThreadStreamEvent | RunStreamEvent | RunStepStreamEvent | MessageStreamEvent | ErrorEvent | DoneEvent;
 
 // @public
 export interface AgentThread {
@@ -138,13 +137,13 @@ export interface AISearchIndexResource {
 export type AzureAISearchQueryType = "simple" | "semantic" | "vector" | "vector_simple_hybrid" | "vector_semantic_hybrid";
 
 // @public
-export interface AzureAISearchResource {
-    indexList?: AISearchIndexResource[];
+export interface AzureAISearchToolDefinition extends ToolDefinition {
+    type: "azure_ai_search";
 }
 
 // @public
-export interface AzureAISearchToolDefinition extends ToolDefinition {
-    type: "azure_ai_search";
+export interface AzureAISearchToolResource {
+    indexList?: AISearchIndexResource[];
 }
 
 // @public
@@ -183,14 +182,14 @@ export interface BingCustomSearchConfiguration {
 }
 
 // @public
-export interface BingCustomSearchConfigurationList {
-    searchConfigurations: BingCustomSearchConfiguration[];
+export interface BingCustomSearchToolDefinition extends ToolDefinition {
+    bingCustomSearch: BingCustomSearchToolParameters;
+    type: "bing_custom_search";
 }
 
 // @public
-export interface BingCustomSearchToolDefinition extends ToolDefinition {
-    bingCustomSearch: BingCustomSearchConfigurationList;
-    type: "bing_custom_search";
+export interface BingCustomSearchToolParameters {
+    searchConfigurations: BingCustomSearchConfiguration[];
 }
 
 // @public
@@ -277,10 +276,27 @@ export interface CreateThreadAndRunOptionalParams extends OperationOptions {
     temperature?: number | null;
     thread?: AgentThreadCreationOptions;
     toolChoice?: AgentsToolChoiceOption | null;
-    toolResources?: UpdateToolResourcesOptions | null;
+    toolResources?: ToolResources | null;
     tools?: ToolDefinitionUnion[] | null;
     topP?: number | null;
     truncationStrategy?: TruncationObject | null;
+}
+
+// @public
+export interface DeepResearchBingGroundingConnection {
+    connectionId: string;
+}
+
+// @public
+export interface DeepResearchDetails {
+    deepResearchBingGroundingConnections: DeepResearchBingGroundingConnection[];
+    deepResearchModel: string;
+}
+
+// @public
+export interface DeepResearchToolDefinition extends ToolDefinition {
+    deepResearch: DeepResearchDetails;
+    type: "deep_research";
 }
 
 // @public
@@ -288,13 +304,14 @@ export interface DeleteAgentOptionalParams extends OperationOptions {
 }
 
 // @public
-export enum DoneEvent {
-    Done = "done"
-}
+export type DoneEvent = "done";
 
 // @public
-export enum ErrorEvent {
-    Error = "error"
+export type ErrorEvent = "error";
+
+// @public
+export interface FabricDataAgentToolParameters {
+    connectionList?: ToolConnection[];
 }
 
 // @public
@@ -326,7 +343,7 @@ export interface FileListResponse {
 }
 
 // @public
-export type FilePurpose = "fine-tune" | "fine-tune-results" | "assistants" | "assistants_output" | "batch" | "batch_output" | "vision";
+export type FilePurpose = "assistants" | "assistants_output" | "vision";
 
 // @public
 export interface FilesDeleteFileOptionalParams extends OperationOptions {
@@ -433,9 +450,9 @@ export function isOutputOfType<T extends {
 
 // @public
 export enum KnownVersions {
-    _20250515Preview = "2025-05-15-preview",
     V1 = "v1",
-    V20250501 = "2025-05-01"
+    V20250501 = "2025-05-01",
+    V20250515Preview = "2025-05-15-preview"
 }
 
 // @public
@@ -661,13 +678,17 @@ export interface MessagesOperations {
 export type MessageStatus = "in_progress" | "incomplete" | "completed";
 
 // @public
-export enum MessageStreamEvent {
-    ThreadMessageCompleted = "thread.message.completed",
-    ThreadMessageCreated = "thread.message.created",
-    ThreadMessageDelta = "thread.message.delta",
-    ThreadMessageIncomplete = "thread.message.incomplete",
-    ThreadMessageInProgress = "thread.message.in_progress"
-}
+export type MessageStreamEvent =
+/** Event emitted when a message is created */
+"thread.message.created"
+/** Event emitted when a message is in progress */
+| "thread.message.in_progress"
+/** Event emitted when a message delta is received */
+| "thread.message.delta"
+/** Event emitted when a message is completed */
+| "thread.message.completed"
+/** Event emitted when a message is incomplete */
+| "thread.message.incomplete";
 
 // @public
 export interface MessagesUpdateMessageOptionalParams extends OperationOptions {
@@ -738,7 +759,7 @@ export interface MessageTextUrlCitationDetails {
 
 // @public
 export interface MicrosoftFabricToolDefinition extends ToolDefinition {
-    fabricDataagent: ToolConnectionList;
+    fabricDataagent: FabricDataAgentToolParameters;
     type: "fabric_dataagent";
 }
 
@@ -774,6 +795,7 @@ export interface OpenApiFunctionDefinition {
     auth: OpenApiAuthDetailsUnion;
     defaultParams?: string[];
     description?: string;
+    readonly functions?: FunctionDefinition[];
     name: string;
     spec: any;
 }
@@ -1018,6 +1040,18 @@ export interface RunStepCompletionUsage {
 }
 
 // @public
+export interface RunStepDeepResearchToolCall extends RunStepToolCall {
+    deepResearch: RunStepDeepResearchToolCallDetails;
+    type: "deep_research";
+}
+
+// @public
+export interface RunStepDeepResearchToolCallDetails {
+    input: string;
+    output?: string;
+}
+
+// @public
 export interface RunStepDelta {
     stepDetails?: RunStepDeltaDetailUnion;
 }
@@ -1224,15 +1258,21 @@ export interface RunStepsOperations {
 export type RunStepStatus = "in_progress" | "cancelled" | "failed" | "completed" | "expired";
 
 // @public
-export enum RunStepStreamEvent {
-    ThreadRunStepCancelled = "thread.run.step.cancelled",
-    ThreadRunStepCompleted = "thread.run.step.completed",
-    ThreadRunStepCreated = "thread.run.step.created",
-    ThreadRunStepDelta = "thread.run.step.delta",
-    ThreadRunStepExpired = "thread.run.step.expired",
-    ThreadRunStepFailed = "thread.run.step.failed",
-    ThreadRunStepInProgress = "thread.run.step.in_progress"
-}
+export type RunStepStreamEvent =
+/** Event emitted when a run step is created */
+"thread.run.step.created"
+/** Event emitted when a run step is in progress */
+| "thread.run.step.in_progress"
+/** Event emitted when a run step delta is received */
+| "thread.run.step.delta"
+/** Event emitted when a run step is completed */
+| "thread.run.step.completed"
+/** Event emitted when a run step has failed */
+| "thread.run.step.failed"
+/** Event emitted when a run step has been cancelled */
+| "thread.run.step.cancelled"
+/** Event emitted when a run step has expired */
+| "thread.run.step.expired";
 
 // @public
 export interface RunStepToolCall {
@@ -1247,24 +1287,33 @@ export interface RunStepToolCallDetails extends RunStepDetails {
 }
 
 // @public
-export type RunStepToolCallUnion = RunStepCodeInterpreterToolCall | RunStepFileSearchToolCall | RunStepBingGroundingToolCall | RunStepAzureAISearchToolCall | RunStepSharepointToolCall | RunStepMicrosoftFabricToolCall | RunStepBingCustomSearchToolCall | RunStepFunctionToolCall | RunStepOpenAPIToolCall | RunStepToolCall;
+export type RunStepToolCallUnion = RunStepCodeInterpreterToolCall | RunStepFileSearchToolCall | RunStepBingGroundingToolCall | RunStepAzureAISearchToolCall | RunStepSharepointToolCall | RunStepMicrosoftFabricToolCall | RunStepBingCustomSearchToolCall | RunStepFunctionToolCall | RunStepOpenAPIToolCall | RunStepDeepResearchToolCall | RunStepToolCall;
 
 // @public
 export type RunStepType = "message_creation" | "tool_calls";
 
 // @public
-export enum RunStreamEvent {
-    ThreadRunCancelled = "thread.run.cancelled",
-    ThreadRunCancelling = "thread.run.cancelling",
-    ThreadRunCompleted = "thread.run.completed",
-    ThreadRunCreated = "thread.run.created",
-    ThreadRunExpired = "thread.run.expired",
-    ThreadRunFailed = "thread.run.failed",
-    ThreadRunIncomplete = "thread.run.incomplete",
-    ThreadRunInProgress = "thread.run.in_progress",
-    ThreadRunQueued = "thread.run.queued",
-    ThreadRunRequiresAction = "thread.run.requires_action"
-}
+export type RunStreamEvent =
+/** Event emitted when a run is created */
+"thread.run.created"
+/** Event emitted when a run is queued */
+| "thread.run.queued"
+/** Event emitted when a run is in progress */
+| "thread.run.in_progress"
+/** Event emitted when a run requires action */
+| "thread.run.requires_action"
+/** Event emitted when a run is completed */
+| "thread.run.completed"
+/** Event emitted when a run is incomplete */
+| "thread.run.incomplete"
+/** Event emitted when a run has failed */
+| "thread.run.failed"
+/** Event emitted when a run is being cancelled */
+| "thread.run.cancelling"
+/** Event emitted when a run has been cancelled */
+| "thread.run.cancelled"
+/** Event emitted when a run has expired */
+| "thread.run.expired";
 
 // @public
 export interface RunsUpdateRunOptionalParams extends OperationOptions {
@@ -1272,8 +1321,13 @@ export interface RunsUpdateRunOptionalParams extends OperationOptions {
 }
 
 // @public
+export interface SharepointGroundingToolParameters {
+    connectionList?: ToolConnection[];
+}
+
+// @public
 export interface SharepointToolDefinition extends ToolDefinition {
-    sharepointGrounding: ToolConnectionList;
+    sharepointGrounding: SharepointGroundingToolParameters;
     type: "sharepoint_grounding";
 }
 
@@ -1346,7 +1400,7 @@ export interface ThreadRun {
     temperature?: number | null;
     threadId: string;
     toolChoice: AgentsToolChoiceOption | null;
-    toolResources?: UpdateToolResourcesOptions | null;
+    toolResources?: ToolResources | null;
     tools: ToolDefinitionUnion[];
     topP?: number | null;
     truncationStrategy: TruncationObject | null;
@@ -1386,9 +1440,7 @@ export interface ThreadsOperations {
 }
 
 // @public
-export enum ThreadStreamEvent {
-    Created = "thread.created"
-}
+export type ThreadStreamEvent = "thread.created";
 
 // @public
 export interface ThreadsUpdateThreadOptionalParams extends OperationOptions {
@@ -1402,17 +1454,12 @@ export interface ToolConnection {
 }
 
 // @public
-export interface ToolConnectionList {
-    connectionList?: ToolConnection[];
-}
-
-// @public
 export interface ToolDefinition {
     type: string;
 }
 
 // @public
-export type ToolDefinitionUnion = CodeInterpreterToolDefinition | FileSearchToolDefinition | FunctionToolDefinition | BingGroundingToolDefinition | MicrosoftFabricToolDefinition | SharepointToolDefinition | AzureAISearchToolDefinition | OpenApiToolDefinition | BingCustomSearchToolDefinition | ConnectedAgentToolDefinition | AzureFunctionToolDefinition | ToolDefinition;
+export type ToolDefinitionUnion = CodeInterpreterToolDefinition | FileSearchToolDefinition | FunctionToolDefinition | BingGroundingToolDefinition | MicrosoftFabricToolDefinition | SharepointToolDefinition | AzureAISearchToolDefinition | OpenApiToolDefinition | BingCustomSearchToolDefinition | ConnectedAgentToolDefinition | DeepResearchToolDefinition | AzureFunctionToolDefinition | ToolDefinition;
 
 // @public
 export interface ToolOutput {
@@ -1422,7 +1469,7 @@ export interface ToolOutput {
 
 // @public
 export interface ToolResources {
-    azureAISearch?: AzureAISearchResource;
+    azureAISearch?: AzureAISearchToolResource;
     codeInterpreter?: CodeInterpreterToolResource;
     fileSearch?: FileSearchToolResource;
 }
@@ -1527,23 +1574,6 @@ export interface UpdateAgentOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface UpdateCodeInterpreterToolResourceOptions {
-    fileIds?: string[];
-}
-
-// @public
-export interface UpdateFileSearchToolResourceOptions {
-    vectorStoreIds?: string[];
-}
-
-// @public
-export interface UpdateToolResourcesOptions {
-    azureAISearch?: AzureAISearchResource;
-    codeInterpreter?: UpdateCodeInterpreterToolResourceOptions;
-    fileSearch?: UpdateFileSearchToolResourceOptions;
-}
-
-// @public
 export interface VectorStore {
     createdAt: Date;
     expiresAfter?: VectorStoreExpirationPolicy;
@@ -1608,12 +1638,7 @@ export interface VectorStoreDataSource {
 }
 
 // @public
-export enum VectorStoreDataSourceAssetType {
-    // (undocumented)
-    IdAsset = "id_asset",
-    // (undocumented)
-    UriAsset = "uri_asset"
-}
+export type VectorStoreDataSourceAssetType = "uri_asset" | "id_asset";
 
 // @public
 export interface VectorStoreDeletionStatus {

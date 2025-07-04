@@ -35,10 +35,10 @@ export function _getFileContentSend(
   options: FilesGetFileContentOptionalParams = { requestOptions: {} },
 ): StreamableMethod<string | Uint8Array> {
   const path = expandUrlTemplate(
-    "/files/{fileId}/content{?api%2Dversion}",
+    "/files/{fileId}/content{?api-version}",
     {
       fileId: fileId,
-      "api%2Dversion": context.apiVersion,
+      "api-version": context.apiVersion,
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -69,10 +69,10 @@ export function _getFileSend(
   options: FilesGetFileOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "/files/{fileId}{?api%2Dversion}",
+    "/files/{fileId}{?api-version}",
     {
       fileId: fileId,
-      "api%2Dversion": context.apiVersion,
+      "api-version": context.apiVersion,
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -160,7 +160,16 @@ export function _uploadFileSend(
   },
   options: FilesUploadFileOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
-  return context.path("/files").post({
+  const path = expandUrlTemplate(
+    "/files{?api-version}",
+    {
+      "api-version": context.apiVersion,
+    },
+    {
+      allowReserved: options?.requestOptions?.skipUrlEncoding,
+    },
+  );
+  return context.path(path).post({
     ...operationOptionsToRequestParameters(options),
     contentType: "multipart/form-data",
     headers: {

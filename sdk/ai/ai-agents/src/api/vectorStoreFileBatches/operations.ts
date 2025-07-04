@@ -38,15 +38,29 @@ export function _listVectorStoreFileBatchFilesSend(
     requestOptions: {},
   },
 ): StreamableMethod {
-  return context
-    .path("/vector_stores/{vectorStoreId}/file_batches/{batchId}/files", vectorStoreId, batchId)
-    .get({
-      ...operationOptionsToRequestParameters(options),
-      headers: {
-        accept: "application/json",
-        ...options.requestOptions?.headers,
-      },
-    });
+  const path = expandUrlTemplate(
+    "/vector_stores/{vectorStoreId}/file_batches/{batchId}/files{?filter,api-version,limit,order,after,before}",
+    {
+      vectorStoreId: vectorStoreId,
+      batchId: batchId,
+      filter: options?.filter,
+      "api-version": context.apiVersion,
+      limit: options?.limit,
+      order: options?.order,
+      after: options?.after,
+      before: options?.before,
+    },
+    {
+      allowReserved: options?.requestOptions?.skipUrlEncoding,
+    },
+  );
+  return context.path(path).get({
+    ...operationOptionsToRequestParameters(options),
+    headers: {
+      accept: "application/json",
+      ...options.requestOptions?.headers,
+    },
+  });
 }
 
 export async function _listVectorStoreFileBatchFilesDeserialize(
