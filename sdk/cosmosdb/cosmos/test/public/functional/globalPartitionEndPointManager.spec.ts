@@ -132,10 +132,12 @@ describe("GlobalPartitionEndpointManager", () => {
       );
       assert.equal(firstFailover, true);
 
-      const result =
-        await globalPartitionEndpointManager.tryAddPartitionLevelLocationOverride(requestContext);
-      assert.equal(result.overridden, true);
-      assert.notEqual(result.newLocation, requestContext.endpoint);
+      await globalPartitionEndpointManager.tryAddPartitionLevelLocationOverride(
+        requestContext,
+        diagnosticNode,
+      );
+      const previousEndpoint = requestContext.endpoint;
+      assert.notEqual(previousEndpoint, requestContext.endpoint);
     });
 
     it("should clean up after all endpoints have failed", async () => {
@@ -158,9 +160,12 @@ describe("GlobalPartitionEndpointManager", () => {
       assert.equal(result, false);
 
       // Should no longer override since failover info is deleted
-      const override =
-        await globalPartitionEndpointManager.tryAddPartitionLevelLocationOverride(requestContext);
-      assert.equal(override.overridden, false);
+      const previousEndpoint = requestContext.endpoint;
+      await globalPartitionEndpointManager.tryAddPartitionLevelLocationOverride(
+        requestContext,
+        diagnosticNode,
+      );
+      assert.equal(previousEndpoint, requestContext.endpoint);
     });
 
     it("handles multiple partitionKeyRangeIds independently", async () => {
@@ -170,12 +175,19 @@ describe("GlobalPartitionEndpointManager", () => {
       await globalPartitionEndpointManager.tryPartitionLevelFailover(ctx1, diagnosticNode);
       await globalPartitionEndpointManager.tryPartitionLevelFailover(ctx2, diagnosticNode);
 
-      const override1 =
-        await globalPartitionEndpointManager.tryAddPartitionLevelLocationOverride(ctx1);
-      const override2 =
-        await globalPartitionEndpointManager.tryAddPartitionLevelLocationOverride(ctx2);
-      assert.equal(override1.overridden, true);
-      assert.equal(override2.overridden, true);
+      await globalPartitionEndpointManager.tryAddPartitionLevelLocationOverride(
+        ctx1,
+        diagnosticNode,
+      );
+      await globalPartitionEndpointManager.tryAddPartitionLevelLocationOverride(
+        ctx2,
+        diagnosticNode,
+      );
+      const previousCTX1Endpoint = ctx1.endpoint;
+      const previousCTX2Endpoint = ctx2.endpoint;
+
+      assert.notEqual(previousCTX1Endpoint, ctx1.endpoint);
+      assert.notEqual(previousCTX2Endpoint, ctx2.endpoint);
     });
   });
 
@@ -187,44 +199,48 @@ describe("GlobalPartitionEndpointManager", () => {
       globalPartitionEndpointManager = createMockGlobalPartitionEndpointManager(mockGEM);
     });
 
-    it("should return false if request context is missing", async () => {
-      const result =
-        await globalPartitionEndpointManager.tryAddPartitionLevelLocationOverride(undefined);
-      assert.equal(result.overridden, false);
-    });
-
-    it("should return false for read requests", async () => {
-      const result = await globalPartitionEndpointManager.tryAddPartitionLevelLocationOverride(
-        createRequestContext({ operationType: OperationType.Read }),
+    it("should not throw if request context is missing", async () => {
+      await globalPartitionEndpointManager.tryAddPartitionLevelLocationOverride(
+        undefined,
+        diagnosticNode,
       );
-      assert.equal(result.overridden, false);
+      // No assertion needed – just ensure it doesn't throw
     });
 
-    it("should return false if partitionKeyRangeId is missing", async () => {
-      const result = await globalPartitionEndpointManager.tryAddPartitionLevelLocationOverride(
-        createRequestContext({ partitionKeyRangeId: undefined }),
-      );
-      assert.equal(result.overridden, false);
-    });
+    it("should not override endpoint for read requests", async () => {
+      const requestContext = createRequestContext({ operationType: OperationType.Read });
+      const originalEndpoint = requestContext.endpoint;
 
-    it("should return false if no override present", async () => {
-      const result =
-        await globalPartitionEndpointManager.tryAddPartitionLevelLocationOverride(
-          createRequestContext(),
-        );
-      assert.equal(result.overridden, false);
-    });
-
-    it("should return override if failover occurred", async () => {
-      const requestContext = createRequestContext();
-      await globalPartitionEndpointManager.tryPartitionLevelFailover(
+      await globalPartitionEndpointManager.tryAddPartitionLevelLocationOverride(
         requestContext,
         diagnosticNode,
       );
 
-      const override =
-        await globalPartitionEndpointManager.tryAddPartitionLevelLocationOverride(requestContext);
-      assert.equal(override.overridden, true);
+      assert.equal(requestContext.endpoint, originalEndpoint);
+    });
+
+    it("should not override endpoint if partitionKeyRangeId is missing", async () => {
+      const requestContext = createRequestContext({ partitionKeyRangeId: undefined });
+      const originalEndpoint = requestContext.endpoint;
+
+      await globalPartitionEndpointManager.tryAddPartitionLevelLocationOverride(
+        requestContext,
+        diagnosticNode,
+      );
+
+      assert.equal(requestContext.endpoint, originalEndpoint);
+    });
+
+    it("should not override endpoint if no override present", async () => {
+      const requestContext = createRequestContext();
+      const originalEndpoint = requestContext.endpoint;
+
+      await globalPartitionEndpointManager.tryAddPartitionLevelLocationOverride(
+        requestContext,
+        diagnosticNode,
+      );
+
+      assert.equal(requestContext.endpoint, originalEndpoint);
     });
   });
 
