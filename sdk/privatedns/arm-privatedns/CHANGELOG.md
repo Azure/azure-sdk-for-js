@@ -1,15 +1,87 @@
 # Release History
-
-## 3.3.1 (Unreleased)
-
+    
+## 4.0.0 (2025-07-04)
+    
 ### Features Added
+
+  - Added operation PrivateZonesOperations.createOrUpdate
+  - Added operation PrivateZonesOperations.delete
+  - Added operation PrivateZonesOperations.update
+  - Added operation VirtualNetworkLinksOperations.createOrUpdate
+  - Added operation VirtualNetworkLinksOperations.delete
+  - Added operation VirtualNetworkLinksOperations.update
+  - Added Interface NetworkClientOptionalParams
+  - Added Interface PagedAsyncIterableIterator
+  - Added Interface PageSettings
+  - Added Interface PrivateZoneProperties
+  - Added Interface RecordSetProperties
+  - Added Interface RestorePollerOptions
+  - Added Interface SystemData
+  - Added Interface VirtualNetworkLinkProperties
+  - Added Class NetworkClient
+  - Added Type Alias ContinuablePage
+  - Added Type Alias CreatedByType
+  - Interface PrivateZone has a new optional parameter location
+  - Interface PrivateZone has a new optional parameter properties
+  - Interface PrivateZone has a new optional parameter tags
+  - Interface RecordSet has a new optional parameter properties
+  - Interface Resource has a new optional parameter systemData
+  - Interface VirtualNetworkLink has a new optional parameter location
+  - Interface VirtualNetworkLink has a new optional parameter properties
+  - Interface VirtualNetworkLink has a new optional parameter tags
+  - Added Enum KnownCreatedByType
+  - Added Enum KnownVersions
+  - Added function restorePoller
 
 ### Breaking Changes
 
-### Bugs Fixed
-
-### Other Changes
-
+  - Removed operation PrivateZones.beginCreateOrUpdate
+  - Removed operation PrivateZones.beginCreateOrUpdateAndWait
+  - Removed operation PrivateZones.beginDelete
+  - Removed operation PrivateZones.beginDeleteAndWait
+  - Removed operation PrivateZones.beginUpdate
+  - Removed operation PrivateZones.beginUpdateAndWait
+  - Removed operation VirtualNetworkLinks.beginCreateOrUpdate
+  - Removed operation VirtualNetworkLinks.beginCreateOrUpdateAndWait
+  - Removed operation VirtualNetworkLinks.beginDelete
+  - Removed operation VirtualNetworkLinks.beginDeleteAndWait
+  - Removed operation VirtualNetworkLinks.beginUpdate
+  - Removed operation VirtualNetworkLinks.beginUpdateAndWait
+  - Deleted Class PrivateDnsManagementClient
+  - Interface PrivateZone no longer has parameter internalId
+  - Interface PrivateZone no longer has parameter maxNumberOfRecordSets
+  - Interface PrivateZone no longer has parameter maxNumberOfVirtualNetworkLinks
+  - Interface PrivateZone no longer has parameter maxNumberOfVirtualNetworkLinksWithRegistration
+  - Interface PrivateZone no longer has parameter numberOfRecordSets
+  - Interface PrivateZone no longer has parameter numberOfVirtualNetworkLinks
+  - Interface PrivateZone no longer has parameter numberOfVirtualNetworkLinksWithRegistration
+  - Interface PrivateZone no longer has parameter provisioningState
+  - Interface PrivateZonesCreateOrUpdateOptionalParams no longer has parameter resumeFrom
+  - Interface PrivateZonesDeleteOptionalParams no longer has parameter resumeFrom
+  - Interface PrivateZonesUpdateOptionalParams no longer has parameter resumeFrom
+  - Interface RecordSet no longer has parameter aaaaRecords
+  - Interface RecordSet no longer has parameter aRecords
+  - Interface RecordSet no longer has parameter cnameRecord
+  - Interface RecordSet no longer has parameter fqdn
+  - Interface RecordSet no longer has parameter isAutoRegistered
+  - Interface RecordSet no longer has parameter metadata
+  - Interface RecordSet no longer has parameter mxRecords
+  - Interface RecordSet no longer has parameter ptrRecords
+  - Interface RecordSet no longer has parameter soaRecord
+  - Interface RecordSet no longer has parameter srvRecords
+  - Interface RecordSet no longer has parameter ttl
+  - Interface RecordSet no longer has parameter txtRecords
+  - Interface VirtualNetworkLink no longer has parameter provisioningState
+  - Interface VirtualNetworkLink no longer has parameter registrationEnabled
+  - Interface VirtualNetworkLink no longer has parameter resolutionPolicy
+  - Interface VirtualNetworkLink no longer has parameter virtualNetwork
+  - Interface VirtualNetworkLink no longer has parameter virtualNetworkLinkState
+  - Interface VirtualNetworkLinksCreateOrUpdateOptionalParams no longer has parameter resumeFrom
+  - Interface VirtualNetworkLinksDeleteOptionalParams no longer has parameter resumeFrom
+  - Interface VirtualNetworkLinksUpdateOptionalParams no longer has parameter resumeFrom
+  - Removed function getContinuationToken
+    
+    
 ## 3.3.0 (2024-09-12)
     
 ### Features Added
