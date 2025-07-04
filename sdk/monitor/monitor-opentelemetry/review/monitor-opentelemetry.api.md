@@ -23,6 +23,7 @@ export interface AzureMonitorOpenTelemetryOptions {
     resource?: Resource;
     samplingRatio?: number;
     spanProcessors?: SpanProcessor[];
+    tracesPerSecond?: number;
 }
 
 // @public
