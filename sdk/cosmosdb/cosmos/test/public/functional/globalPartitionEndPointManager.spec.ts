@@ -131,12 +131,11 @@ describe("GlobalPartitionEndpointManager", () => {
         diagnosticNode,
       );
       assert.equal(firstFailover, true);
-
+      const previousEndpoint = requestContext.endpoint;
       await globalPartitionEndpointManager.tryAddPartitionLevelLocationOverride(
         requestContext,
         diagnosticNode,
       );
-      const previousEndpoint = requestContext.endpoint;
       assert.notEqual(previousEndpoint, requestContext.endpoint);
     });
 
@@ -174,7 +173,8 @@ describe("GlobalPartitionEndpointManager", () => {
 
       await globalPartitionEndpointManager.tryPartitionLevelFailover(ctx1, diagnosticNode);
       await globalPartitionEndpointManager.tryPartitionLevelFailover(ctx2, diagnosticNode);
-
+      const previousCTX1Endpoint = ctx1.endpoint;
+      const previousCTX2Endpoint = ctx2.endpoint;
       await globalPartitionEndpointManager.tryAddPartitionLevelLocationOverride(
         ctx1,
         diagnosticNode,
@@ -183,9 +183,6 @@ describe("GlobalPartitionEndpointManager", () => {
         ctx2,
         diagnosticNode,
       );
-      const previousCTX1Endpoint = ctx1.endpoint;
-      const previousCTX2Endpoint = ctx2.endpoint;
-
       assert.notEqual(previousCTX1Endpoint, ctx1.endpoint);
       assert.notEqual(previousCTX2Endpoint, ctx2.endpoint);
     });
