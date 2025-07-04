@@ -137,7 +137,7 @@ export interface Extension extends Element {
 export interface Quantity extends Element {
   /** Numerical value (with implicit precision) */
   value?: number;
-  /** \< | \<= | \>= | \> - how to understand the value */
+  /** < | <= | >= | > - how to understand the value */
   comparator?: string;
   /** Unit representation */
   unit?: string;
@@ -361,18 +361,20 @@ export interface ContactPoint {
   period?: Period;
 }
 
-/** A resource with narrative, extensions, and contained resources Based on [FHIR DomainResource](https://www.hl7.org/fhir/domainresource.html) */
+/**
+ * A resource with narrative, extensions, and contained resources
+ * Based on [FHIR DomainResource](https://www.hl7.org/fhir/domainresource.html)
+ */
 export interface DomainResourceParent extends Resource {
-  /** Contained, inline Resources   */
+  /** Text summary of the resource, for human interpretation */
+  text?: Narrative;
+  /** Contained, inline Resources */
   contained?: Array<Resource>;
   /** Additional Content defined by implementations */
   extension?: Array<Extension>;
   /** Extensions that cannot be ignored */
   modifierExtension?: Array<Extension>;
-  /** resourceType */
   resourceType: string;
-  /** Text summary of the resource, for human interpretation */
-  text?: Narrative;
 }
 
 /**
@@ -751,12 +753,9 @@ export interface RadiologyInsightsPatientResult {
  *   - RadiologyProcedure
  *   - FollowupCommunication
  */
-
-/** An inference made by the Radiology Insights model regarding a patient. - AgeMismatch - SexMismatch - LateralityDiscrepancy - CompleteOrderDiscrepancy - LimitedOrderDiscrepancy - Finding - CriticalResult - FollowupRecommendation - RadiologyProcedure - FollowupCommunication */
 export interface RadiologyInsightsInferenceParent {
   /** Additional Content defined by implementations */
   extension?: Array<Extension>;
-  /** The kind of inference */
   kind: string;
 }
 
@@ -775,7 +774,8 @@ export interface SexMismatchInference extends RadiologyInsightsInferenceParent {
 }
 
 /** A laterality mismatch occurs when there is a discrepancy between the clinical documentation and the ordered procedure (orderLateralityMismatch), a contradiction within the clinical document (textLateralityContradiction), or when no laterality is mentioned (textLateralityMissing). */
-export interface LateralityDiscrepancyInference extends RadiologyInsightsInferenceParent {
+export interface LateralityDiscrepancyInference
+  extends RadiologyInsightsInferenceParent {
   /** Inference type. */
   kind: "lateralityDiscrepancy";
   /** Laterality indication : SNOMED CT code for laterality qualifier value. */
@@ -789,7 +789,8 @@ export interface LateralityDiscrepancyInference extends RadiologyInsightsInferen
 }
 
 /** A complete order discrepancy is shown when one or more body parts and/or measurements that should be in the document (because there is a complete order) are not present. */
-export interface CompleteOrderDiscrepancyInference extends RadiologyInsightsInferenceParent {
+export interface CompleteOrderDiscrepancyInference
+  extends RadiologyInsightsInferenceParent {
   /** Inference type. */
   kind: "completeOrderDiscrepancy";
   /** Order type : CPT ultrasound complete code for abdomen, retroperitoneal, pelvis or breast. */
@@ -801,7 +802,8 @@ export interface CompleteOrderDiscrepancyInference extends RadiologyInsightsInfe
 }
 
 /** A limited order discrepancy occurs when there is a limited order, but all body parts and measurements that are needed for a complete order are present in the document. */
-export interface LimitedOrderDiscrepancyInference extends RadiologyInsightsInferenceParent {
+export interface LimitedOrderDiscrepancyInference
+  extends RadiologyInsightsInferenceParent {
   /** Inference type. */
   kind: "limitedOrderDiscrepancy";
   /** Order type : CPT ultrasound complete code for abdomen, retroperitoneal, pelvis or breast. */
@@ -821,7 +823,8 @@ export interface FindingInference extends RadiologyInsightsInferenceParent {
 }
 
 /** Critical results refer to findings of utmost importance that may require timely attention due to their potential impact on patient care. */
-export interface CriticalResultInference extends RadiologyInsightsInferenceParent {
+export interface CriticalResultInference
+  extends RadiologyInsightsInferenceParent {
   /** Inference type. */
   kind: "criticalResult";
   /** The complete Critical Result, as outlined below, will be reused for the recommendation. */
@@ -837,7 +840,8 @@ export interface CriticalResult {
 }
 
 /** Radiology procedures are the specific imaging studies or examinations ordered for the patient, extracted from the document information and text. */
-export interface RadiologyProcedureInference extends RadiologyInsightsInferenceParent {
+export interface RadiologyProcedureInference
+  extends RadiologyInsightsInferenceParent {
   /** Inference type. */
   kind: "radiologyProcedure";
   /** LOINC codes for the procedure. */
@@ -871,7 +875,8 @@ export interface RadiologyCodeWithTypes {
 }
 
 /** Follow-up recommendations offer guidance to healthcare providers on managing and monitoring patients based on the findings of imaging studies. */
-export interface FollowupRecommendationInference extends RadiologyInsightsInferenceParent {
+export interface FollowupRecommendationInference
+  extends RadiologyInsightsInferenceParent {
   /** Inference type. */
   kind: "followupRecommendation";
   /** Date and time are displayed when the procedure is recommended to be done at a specific point in time. */
@@ -912,12 +917,12 @@ export interface RecommendationFinding {
 export interface ProcedureRecommendationParent {
   /** Additional Content defined by implementations */
   extension?: Array<Extension>;
-  /** The kind of procedure recommendation eg. generic or imaging */
   kind: string;
 }
 
 /** Generic procedure information. */
-export interface GenericProcedureRecommendation extends ProcedureRecommendationParent {
+export interface GenericProcedureRecommendation
+  extends ProcedureRecommendationParent {
   /** Procedure type : generic. */
   kind: "genericProcedureRecommendation";
   /** Procedure modality : SNOMED CT code. */
@@ -927,7 +932,8 @@ export interface GenericProcedureRecommendation extends ProcedureRecommendationP
 }
 
 /** Imaging procedures. */
-export interface ImagingProcedureRecommendation extends ProcedureRecommendationParent {
+export interface ImagingProcedureRecommendation
+  extends ProcedureRecommendationParent {
   /** Procedure type : imaging. */
   kind: "imagingProcedureRecommendation";
   /** LOINC codes for the procedure. */
@@ -937,7 +943,8 @@ export interface ImagingProcedureRecommendation extends ProcedureRecommendationP
 }
 
 /** Follow-up communication involves the exchange of important information, recommendations, or updates between radiologists and other healthcare professionals involved in a patient's care. */
-export interface FollowupCommunicationInference extends RadiologyInsightsInferenceParent {
+export interface FollowupCommunicationInference
+  extends RadiologyInsightsInferenceParent {
   /** Inference type. */
   kind: "followupCommunication";
   /** Communication date and time. */
@@ -949,7 +956,8 @@ export interface FollowupCommunicationInference extends RadiologyInsightsInferen
 }
 
 /** Identifies and highlights Risk, Scoring, Assessment and Classifications and correspondent values dictated in a report, e.g. 'BIRADS 5' */
-export interface ScoringAndAssessmentInference extends RadiologyInsightsInferenceParent {
+export interface ScoringAndAssessmentInference
+  extends RadiologyInsightsInferenceParent {
   /** Inference type. */
   kind: "scoringAndAssessment";
   /**
@@ -1011,7 +1019,8 @@ export interface PresentGuidanceInformation {
 }
 
 /** A QualityMeasure inference captures the  MIPS ('measure based incentive payment system') quality measure criteria in the document that are used to measure the data completeness. */
-export interface QualityMeasureInference extends RadiologyInsightsInferenceParent {
+export interface QualityMeasureInference
+  extends RadiologyInsightsInferenceParent {
   /** Inference type. */
   kind: "qualityMeasure";
   /** The denominator, which identifies the QualityMeasure kind. */
@@ -1036,7 +1045,11 @@ export interface RadiologyInsightsJob {
  * A resource with narrative, extensions, and contained resources
  * Based on [FHIR DomainResource](https://www.hl7.org/fhir/domainresource.html)
  */
-export type DomainResource = DomainResourceParent | Observation | Condition | ResearchStudy;
+export type DomainResource =
+  | DomainResourceParent
+  | Observation
+  | Condition
+  | ResearchStudy;
 /**
  * An inference made by the Radiology Insights model regarding a patient.
  *   - AgeMismatch

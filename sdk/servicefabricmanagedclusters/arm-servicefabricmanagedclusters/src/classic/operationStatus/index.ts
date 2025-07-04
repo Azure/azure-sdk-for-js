@@ -16,10 +16,15 @@ export interface OperationStatusOperations {
   ) => Promise<LongRunningOperationResult>;
 }
 
-function _getOperationStatus(context: ServiceFabricManagedClustersManagementContext) {
+function _getOperationStatus(
+  context: ServiceFabricManagedClustersManagementContext,
+) {
   return {
-    get: (location: string, operationId: string, options?: OperationStatusGetOptionalParams) =>
-      get(context, location, operationId, options),
+    get: (
+      location: string,
+      operationId: string,
+      options?: OperationStatusGetOptionalParams,
+    ) => get(context, location, operationId, options),
   };
 }
 

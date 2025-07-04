@@ -1,7 +1,5 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-/* eslint-disable @typescript-eslint/explicit-module-boundary-types */
-/* eslint-disable @typescript-eslint/naming-convention */
 
 /** Response from the list and get connections operations */
 export interface Connection {
@@ -21,6 +19,18 @@ export interface Connection {
   readonly metadata: Record<string, string>;
 }
 
+export function connectionDeserializer(item: any): Connection {
+  return {
+    name: item["name"],
+    id: item["id"],
+    type: item["type"],
+    target: item["target"],
+    isDefault: item["isDefault"],
+    credentials: baseCredentialsUnionDeserializer(item["credentials"]),
+    metadata: item["metadata"],
+  };
+}
+
 /** The Type (or category) of the connection */
 export type ConnectionType =
   | "AzureOpenAI"
@@ -38,20 +48,6 @@ export interface BaseCredentials {
   /** The type of credential used by the connection */
   /** The discriminator possible values: ApiKey, AAD, CustomKeys, SAS, None */
   readonly type: CredentialType;
-}
-
-export function connectionDeserializer(item: any): Connection {
-  return {
-    name: item["name"],
-    id: item["id"],
-    type: item["type"],
-    target: item["target"],
-    metadata: item["metadata"],
-    isDefault: item["isDefault"],
-    credentials: item["credentials"]
-      ? baseCredentialsUnionDeserializer(item["credentials"])
-      : { type: "None" },
-  };
 }
 
 export function baseCredentialsDeserializer(item: any): BaseCredentials {
@@ -96,7 +92,7 @@ export type CredentialType = "ApiKey" | "AAD" | "SAS" | "CustomKeys" | "None";
 
 /** API Key Credential definition */
 export interface ApiKeyCredentials extends BaseCredentials {
-  /** The credentail type */
+  /** The credential type */
   readonly type: "ApiKey";
   /** API Key */
   readonly apiKey?: string;
@@ -204,11 +200,7 @@ export interface Evaluation {
   evaluators: Record<string, EvaluatorConfiguration>;
 }
 
-/** optional id property for Evaluation, which shouldbe used for create operation */
-export type EvaluationWithOptionalName = Omit<Evaluation, "name"> & { name?: string };
-
-// optional name property
-export function evaluationSerializer(item: EvaluationWithOptionalName): any {
+export function evaluationSerializer(item: Evaluation): any {
   return {
     data: inputDataUnionSerializer(item["data"]),
     displayName: item["displayName"],
@@ -262,9 +254,7 @@ export function inputDataUnionSerializer(item: InputDataUnion): any {
   }
 }
 
-export function inputDataUnionDeserializer(_item: any): InputDataUnion {
-  const item = _item || {};
-
+export function inputDataUnionDeserializer(item: any): InputDataUnion {
   switch (item.type) {
     case "dataset":
       return inputDatasetDeserializer(item as InputDataset);
@@ -276,7 +266,6 @@ export function inputDataUnionDeserializer(_item: any): InputDataUnion {
 
 /** Dataset as source for evaluation. */
 export interface InputDataset extends InputData {
-  /** Type of the data */
   type: "dataset";
   /** Evaluation input data */
   id: string;
@@ -1296,7 +1285,6 @@ export function targetConfigUnionDeserializer(item: any): TargetConfigUnion {
 
 /** Azure OpenAI model configuration. The API version would be selected by the service for querying the model. */
 export interface AzureOpenAIModelConfiguration extends TargetConfig {
-  /** Type of the model configuration. */
   readonly type: "AzureOpenAIModel";
   /** Deployment name for AOAI model. Example: gpt-4o if in AIServices or connection based `connection_name/deployment_name` (i.e. `my-aoai-connection/gpt-4o`. */
   modelDeploymentName: string;

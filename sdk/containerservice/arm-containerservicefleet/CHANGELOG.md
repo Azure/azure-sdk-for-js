@@ -1,5 +1,12 @@
 # Release History
     
+## 3.0.0 (2025-07-04)
+    
+### Breaking Changes
+
+  - Type of parameter info of interface ErrorAdditionalInfo is changed from Record<string, any> to any
+    
+    
 ## 2.0.0 (2025-04-16)
     
 ### Features Added

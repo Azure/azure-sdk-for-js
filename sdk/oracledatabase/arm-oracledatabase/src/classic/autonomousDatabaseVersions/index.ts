@@ -7,7 +7,10 @@ import {
   AutonomousDatabaseVersionsListByLocationOptionalParams,
   AutonomousDatabaseVersionsGetOptionalParams,
 } from "../../api/autonomousDatabaseVersions/options.js";
-import { listByLocation, get } from "../../api/autonomousDatabaseVersions/operations.js";
+import {
+  listByLocation,
+  get,
+} from "../../api/autonomousDatabaseVersions/operations.js";
 import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 
 /** Interface representing a AutonomousDatabaseVersions operations. */
@@ -25,7 +28,9 @@ export interface AutonomousDatabaseVersionsOperations {
   ) => Promise<AutonomousDbVersion>;
 }
 
-function _getAutonomousDatabaseVersions(context: OracleDatabaseManagementContext) {
+function _getAutonomousDatabaseVersions(
+  context: OracleDatabaseManagementContext,
+) {
   return {
     listByLocation: (
       location: string,

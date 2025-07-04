@@ -4,15 +4,9 @@
 
 ```ts
 
-import { AgentsClient } from '@azure/ai-agents';
-import type { AzureOpenAI } from 'openai';
 import { ClientOptions } from '@azure-rest/core-client';
-import type { GetChatCompletions } from '@azure-rest/ai-inference';
-import type { GetEmbeddings } from '@azure-rest/ai-inference';
-import type { GetImageEmbeddings } from '@azure-rest/ai-inference';
-import type { ModelClientOptions } from '@azure-rest/ai-inference';
 import { OperationOptions } from '@azure-rest/core-client';
-import type { Pipeline } from '@azure/core-rest-pipeline';
+import { Pipeline } from '@azure/core-rest-pipeline';
 import { TokenCredential } from '@azure/core-auth';
 
 // @public
@@ -59,23 +53,16 @@ export interface AgentEvaluationSamplingConfiguration {
     samplingPercent: number;
 }
 
-// @public
+// @public (undocumented)
 export class AIProjectClient {
     constructor(endpointParam: string, credential: TokenCredential, options?: AIProjectClientOptionalParams);
-    get agents(): AgentsClient;
     readonly connections: ConnectionsOperations;
     readonly datasets: DatasetsOperations;
     readonly deployments: DeploymentsOperations;
-    readonly enableTelemetry: EnableTelemetryType;
     readonly evaluations: EvaluationsOperations;
-    static fromEndpoint(endpoint: string, credential: TokenCredential, options?: AIProjectClientOptionalParams): AIProjectClient;
-    getEndpointUrl(): string;
     readonly indexes: IndexesOperations;
-    // Warning: (ae-forgotten-export) The symbol "InferenceOperations" needs to be exported by the entry point index.d.ts
-    readonly inference: InferenceOperations;
     readonly pipeline: Pipeline;
     readonly redTeams: RedTeamsOperations;
-    readonly telemetry: TelemetryOperations;
 }
 
 // @public
@@ -108,6 +95,7 @@ export interface AzureAISearchIndex extends Index {
 // @public
 export interface AzureOpenAIModelConfiguration extends TargetConfig {
     modelDeploymentName: string;
+    // (undocumented)
     readonly type: "AzureOpenAIModel";
 }
 
@@ -156,8 +144,7 @@ export interface ConnectionsListOptionalParams extends OperationOptions {
 
 // @public
 export interface ConnectionsOperations {
-    get: (name: string, includeCredentials?: boolean, options?: ConnectionsGetOptionalParams) => Promise<Connection>;
-    getDefault: (connectionType: ConnectionType, includeCredentials?: boolean) => Promise<Connection>;
+    get: (name: string, options?: ConnectionsGetOptionalParams) => Promise<Connection>;
     getWithCredentials: (name: string, options?: ConnectionsGetWithCredentialsOptionalParams) => Promise<Connection>;
     list: (options?: ConnectionsListOptionalParams) => PagedAsyncIterableIterator<Connection>;
 }
@@ -215,15 +202,13 @@ export interface DatasetsListVersionsOptionalParams extends OperationOptions {
 
 // @public
 export interface DatasetsOperations {
-    createOrUpdate: (name: string, version: string, body: DatasetVersionUnion, options?: DatasetsCreateOrUpdateOptionalParams) => Promise<DatasetVersionUnion>;
+    createOrUpdate: (name: string, body: DatasetVersionUnion, version: string, options?: DatasetsCreateOrUpdateOptionalParams) => Promise<DatasetVersionUnion>;
     delete: (name: string, version: string, options?: DatasetsDeleteOptionalParams) => Promise<void>;
     get: (name: string, version: string, options?: DatasetsGetOptionalParams) => Promise<DatasetVersionUnion>;
     getCredentials: (name: string, version: string, options?: DatasetsGetCredentialsOptionalParams) => Promise<AssetCredentialResponse>;
     list: (options?: DatasetsListOptionalParams) => PagedAsyncIterableIterator<DatasetVersionUnion>;
     listVersions: (name: string, options?: DatasetsListVersionsOptionalParams) => PagedAsyncIterableIterator<DatasetVersionUnion>;
-    pendingUpload: (name: string, version: string, body: PendingUploadRequest, options?: DatasetsPendingUploadOptionalParams) => Promise<PendingUploadResponse>;
-    uploadFile: (name: string, version: string, filePath: string, options?: DatasetUploadOptions) => Promise<DatasetVersionUnion>;
-    uploadFolder: (name: string, version: string, folderPath: string, options?: DatasetUploadOptions) => Promise<DatasetVersionUnion>;
+    pendingUpload: (name: string, body: PendingUploadRequest, version: string, options?: DatasetsPendingUploadOptionalParams) => Promise<PendingUploadResponse>;
 }
 
 // @public
@@ -232,12 +217,6 @@ export interface DatasetsPendingUploadOptionalParams extends OperationOptions {
 
 // @public
 export type DatasetType = "uri_file" | "uri_folder";
-
-// @public
-export interface DatasetUploadOptions {
-    connectionName?: string;
-    filePattern?: RegExp;
-}
 
 // @public
 export interface DatasetVersion {
@@ -293,9 +272,6 @@ export interface EmbeddingConfiguration {
 }
 
 // @public
-export type EnableTelemetryType = (destination?: string) => void;
-
-// @public
 export interface EntraIDCredentials extends BaseCredentials {
     readonly type: "AAD";
 }
@@ -332,16 +308,11 @@ export interface EvaluationsListOptionalParams extends OperationOptions {
 
 // @public
 export interface EvaluationsOperations {
-    create: (evaluation: EvaluationWithOptionalName, options?: EvaluationsCreateOptionalParams) => Promise<Evaluation>;
+    create: (evaluation: Evaluation, options?: EvaluationsCreateOptionalParams) => Promise<Evaluation>;
     createAgentEvaluation: (evaluation: AgentEvaluationRequest, options?: EvaluationsCreateAgentEvaluationOptionalParams) => Promise<AgentEvaluation>;
     get: (name: string, options?: EvaluationsGetOptionalParams) => Promise<Evaluation>;
     list: (options?: EvaluationsListOptionalParams) => PagedAsyncIterableIterator<Evaluation>;
 }
-
-// @public
-export type EvaluationWithOptionalName = Omit<Evaluation, "name"> & {
-    name?: string;
-};
 
 // @public
 export interface EvaluatorConfiguration {
@@ -349,35 +320,6 @@ export interface EvaluatorConfiguration {
     id: string;
     initParams?: Record<string, any>;
 }
-
-// @public
-export type EvaluatorId = (typeof EvaluatorIds)[keyof typeof EvaluatorIds];
-
-// @public
-export const EvaluatorIds: {
-    readonly RELEVANCE: "azureai://built-in/evaluators/relevance";
-    readonly HATE_UNFAIRNESS: "azureai://built-in/evaluators/hate_unfairness";
-    readonly VIOLENCE: "azureai://built-in/evaluators/violence";
-    readonly GROUNDEDNESS: "azureai://built-in/evaluators/groundedness";
-    readonly GROUNDEDNESS_PRO: "azureai://built-in/evaluators/groundedness_pro";
-    readonly BLUE_SCORE: "azureai://built-in/evaluators/blue_score";
-    readonly CODE_VULNERABILITY: "azureai://built-in/evaluators/code_vulnerability";
-    readonly COHERENCE: "azureai://built-in/evaluators/coherence";
-    readonly CONTENT_SAFETY: "azureai://built-in/evaluators/content_safety";
-    readonly F1_SCORE: "azureai://built-in/evaluators/f1_score";
-    readonly FLUENCY: "azureai://built-in/evaluators/fluency";
-    readonly GLEU_SCORE: "azureai://built-in/evaluators/gleu_score";
-    readonly INDIRECT_ATTACK: "azureai://built-in/evaluators/indirect_attack";
-    readonly METEOR_SCORE: "azureai://built-in/evaluators/meteor_score";
-    readonly PROTECTED_MATERIAL: "azureai://built-in/evaluators/protected_material";
-    readonly RETRIEVAL: "azureai://built-in/evaluators/retrieval";
-    readonly ROUGE_SCORE: "azureai://built-in/evaluators/rouge_score";
-    readonly SELF_HARM: "azureai://built-in/evaluators/self_harm";
-    readonly SEXUAL: "azureai://built-in/evaluators/sexual";
-    readonly SIMILARITY_SCORE: "azureai://built-in/evaluators/similarity_score";
-    readonly UNGROUNDED_ATTRIBUTES: "azureai://built-in/evaluators/ungrounded_attributes";
-    readonly RESPONSE_COMPLETENESS: "azureai://built-in/evaluators/response_completeness";
-};
 
 // @public
 export interface FieldMapping {
@@ -431,7 +373,7 @@ export interface IndexesListVersionsOptionalParams extends OperationOptions {
 
 // @public
 export interface IndexesOperations {
-    createOrUpdate: (name: string, version: string, body: IndexUnion, options?: IndexesCreateOrUpdateOptionalParams) => Promise<IndexUnion>;
+    createOrUpdate: (name: string, body: IndexUnion, version: string, options?: IndexesCreateOrUpdateOptionalParams) => Promise<IndexUnion>;
     delete: (name: string, version: string, options?: IndexesDeleteOptionalParams) => Promise<void>;
     get: (name: string, version: string, options?: IndexesGetOptionalParams) => Promise<IndexUnion>;
     list: (options?: IndexesListOptionalParams) => PagedAsyncIterableIterator<IndexUnion>;
@@ -452,6 +394,7 @@ export interface InputData {
 // @public
 export interface InputDataset extends InputData {
     id: string;
+    // (undocumented)
     type: "dataset";
 }
 
@@ -583,11 +526,6 @@ export interface TargetConfig {
 
 // @public
 export type TargetConfigUnion = AzureOpenAIModelConfiguration | TargetConfig;
-
-// @public
-export interface TelemetryOperations {
-    getConnectionString: () => Promise<string>;
-}
 
 // (No @packageDocumentation comment for this package)
 
