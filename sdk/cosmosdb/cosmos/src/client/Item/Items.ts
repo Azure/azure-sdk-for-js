@@ -779,6 +779,7 @@ export class Items {
 
   /**
    * Execute bulk operations on items.
+   * @deprecated Use `executeBulkOperations` instead.
    *
    * Bulk takes an array of Operations which are typed based on what the operation does.
    * The choices are: Create, Upsert, Read, Replace, and Delete
