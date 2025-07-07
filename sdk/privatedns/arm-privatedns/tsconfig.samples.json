@@ -2,9 +2,7 @@
   "extends": "../../../tsconfig.samples.base.json",
   "compilerOptions": {
     "paths": {
-      "@azure/arm-privatedns": [
-        "./dist/esm"
-      ]
+      "@azure/arm-privatedns": ["./dist/esm"]
     }
   }
 }
