@@ -4,7 +4,6 @@
 import type { DiagnosticNodeInternal } from "../diagnostics/DiagnosticNodeInternal.js";
 import type { PartitionKeyDefinition, PartitionKeyInternal } from "../documents/index.js";
 import { PartitionKeyRangeCache } from "../routing/partitionKeyRangeCache.js";
-import { isNonePartitionKeyValue, isNullPartitionKeyValue } from "../utils/typeChecks.js";
 import type { Container } from "./Container/index.js";
 
 export async function readPartitionKeyDefinition(
