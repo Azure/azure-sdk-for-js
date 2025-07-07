@@ -150,14 +150,12 @@ function createApiDiff(
   if (!hasChanges) {
     return undefined;
   }
-  const preamble = [
-    `# API Report Diff for ${runtime} runtime`,
-    ``,
-    `This file contains only the differences from the Node.js API.`,
-    `For the complete API surface, see the corresponding -node.api.md file.`,
-    ``,
-  ];
-  return [...preamble, `\`\`\``, ...diff, `\`\`\``].join("\n");
+  const preamble = `# API Report Diff for ${runtime} runtime
+
+This file contains only the differences from the Node.js API.
+For the complete API surface, see the corresponding -node.api.md file.
+`;
+  return [preamble, `\`\`\``, ...diff, `\`\`\``].join("\n");
 }
 
 async function extractApiForEntry(
