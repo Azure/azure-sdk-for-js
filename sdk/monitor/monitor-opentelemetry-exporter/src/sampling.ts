@@ -68,13 +68,9 @@ export class ApplicationInsightsSampler implements Sampler {
       // If the parent span is valid and not remote, we can use its sample rate
       const parentSampleRate = Number((parentSpan as any).attributes?.[AzureMonitorSampleRate]);
       if (!isNaN(parentSampleRate)) {
-        this._sampleRate = Number(parentSampleRate);
+        this._sampleRate = parentSampleRate;
       }
-      if ((parentSpanContext.traceFlags & TraceFlags.SAMPLED) === TraceFlags.SAMPLED) {
-        isSampledIn = true;
-      } else {
-        isSampledIn = false;
-      }
+      isSampledIn = (parentSpanContext.traceFlags & TraceFlags.SAMPLED) === TraceFlags.SAMPLED;
     } else {
       // If no parent sampling result, we use the local sampling logic
       if (this._sampleRate === 100) {
