@@ -49,6 +49,12 @@ export class EnvConfig implements AzureMonitorOpenTelemetryOptions {
           }
         }
       }
+      // Not supported sampler
+      else {
+        Logger.getInstance().warn(
+          `Unsupported value for OTEL_TRACES_SAMPLER: ${envSampler}. Supported values are: ${RATE_LIMITED_SAMPLER}, ${FIXED_PERCENTAGE_SAMPLER}.`,
+        );
+      }
     }
   }
 }
