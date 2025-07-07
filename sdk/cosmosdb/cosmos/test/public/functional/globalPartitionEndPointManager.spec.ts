@@ -125,14 +125,14 @@ describe("GlobalPartitionEndpointManager", () => {
     });
 
     it("should succeed and cycle through endpoints", async () => {
-      const requestContext = createRequestContext();
+      let requestContext = createRequestContext();
       const firstFailover = await globalPartitionEndpointManager.tryPartitionLevelFailover(
         requestContext,
         diagnosticNode,
       );
       assert.equal(firstFailover, true);
       const previousEndpoint = requestContext.endpoint;
-      await globalPartitionEndpointManager.tryAddPartitionLevelLocationOverride(
+      requestContext = await globalPartitionEndpointManager.tryAddPartitionLevelLocationOverride(
         requestContext,
         diagnosticNode,
       );
@@ -140,7 +140,7 @@ describe("GlobalPartitionEndpointManager", () => {
     });
 
     it("should clean up after all endpoints have failed", async () => {
-      const requestContext = createRequestContext();
+      let requestContext = createRequestContext();
       // Fail all locations manually
       await globalPartitionEndpointManager.tryPartitionLevelFailover(
         requestContext,
@@ -160,7 +160,7 @@ describe("GlobalPartitionEndpointManager", () => {
 
       // Should no longer override since failover info is deleted
       const previousEndpoint = requestContext.endpoint;
-      await globalPartitionEndpointManager.tryAddPartitionLevelLocationOverride(
+      requestContext = await globalPartitionEndpointManager.tryAddPartitionLevelLocationOverride(
         requestContext,
         diagnosticNode,
       );
@@ -168,18 +168,18 @@ describe("GlobalPartitionEndpointManager", () => {
     });
 
     it("handles multiple partitionKeyRangeIds independently", async () => {
-      const ctx1 = createRequestContext({ partitionKeyRangeId: "range1" });
-      const ctx2 = createRequestContext({ partitionKeyRangeId: "range2" });
+      let ctx1 = createRequestContext({ partitionKeyRangeId: "range1" });
+      let ctx2 = createRequestContext({ partitionKeyRangeId: "range2" });
 
       await globalPartitionEndpointManager.tryPartitionLevelFailover(ctx1, diagnosticNode);
       await globalPartitionEndpointManager.tryPartitionLevelFailover(ctx2, diagnosticNode);
       const previousCTX1Endpoint = ctx1.endpoint;
       const previousCTX2Endpoint = ctx2.endpoint;
-      await globalPartitionEndpointManager.tryAddPartitionLevelLocationOverride(
+      ctx1 = await globalPartitionEndpointManager.tryAddPartitionLevelLocationOverride(
         ctx1,
         diagnosticNode,
       );
-      await globalPartitionEndpointManager.tryAddPartitionLevelLocationOverride(
+      ctx2 = await globalPartitionEndpointManager.tryAddPartitionLevelLocationOverride(
         ctx2,
         diagnosticNode,
       );
@@ -205,10 +205,10 @@ describe("GlobalPartitionEndpointManager", () => {
     });
 
     it("should not override endpoint for read requests", async () => {
-      const requestContext = createRequestContext({ operationType: OperationType.Read });
+      let requestContext = createRequestContext({ operationType: OperationType.Read });
       const originalEndpoint = requestContext.endpoint;
 
-      await globalPartitionEndpointManager.tryAddPartitionLevelLocationOverride(
+      requestContext = await globalPartitionEndpointManager.tryAddPartitionLevelLocationOverride(
         requestContext,
         diagnosticNode,
       );
@@ -217,10 +217,10 @@ describe("GlobalPartitionEndpointManager", () => {
     });
 
     it("should not override endpoint if partitionKeyRangeId is missing", async () => {
-      const requestContext = createRequestContext({ partitionKeyRangeId: undefined });
+      let requestContext = createRequestContext({ partitionKeyRangeId: undefined });
       const originalEndpoint = requestContext.endpoint;
 
-      await globalPartitionEndpointManager.tryAddPartitionLevelLocationOverride(
+      requestContext = await globalPartitionEndpointManager.tryAddPartitionLevelLocationOverride(
         requestContext,
         diagnosticNode,
       );
@@ -229,10 +229,10 @@ describe("GlobalPartitionEndpointManager", () => {
     });
 
     it("should not override endpoint if no override present", async () => {
-      const requestContext = createRequestContext();
+      let requestContext = createRequestContext();
       const originalEndpoint = requestContext.endpoint;
 
-      await globalPartitionEndpointManager.tryAddPartitionLevelLocationOverride(
+      requestContext = await globalPartitionEndpointManager.tryAddPartitionLevelLocationOverride(
         requestContext,
         diagnosticNode,
       );

@@ -27,20 +27,7 @@ export async function computePartitionKeyRangeId(
   if (isPartitionLevelFailOverEnabled) {
     const partitionKeyDefinition =
       pKDefinition ?? (await readPartitionKeyDefinition(diagnosticNode, container));
-    if (
-      partitionKeyDefinition &&
-      partitionKey &&
-      partitionKey.length > 0 &&
-      !isNullPartitionKeyValue(partitionKey) &&
-      !isNonePartitionKeyValue(partitionKey) &&
-      !partitionKey.some(
-        (key) =>
-          isNullPartitionKeyValue(key) ||
-          isNonePartitionKeyValue(key) ||
-          key === undefined ||
-          key === "",
-      )
-    ) {
+    if (partitionKeyDefinition && partitionKey && partitionKey.length > 0) {
       partitionKeyRangeId = await partitionKeyRangeCache.getPartitionKeyRangeIdFromPartitionKey(
         container.url,
         partitionKey,

@@ -38,10 +38,6 @@ describe("computePartitionKeyRangeId edge case handling", () => {
     { name: "undefined", partitionKey: undefined },
     { name: "null", partitionKey: null },
     { name: "empty array", partitionKey: [] },
-    { name: "[null]", partitionKey: [null] },
-    { name: "[undefined]", partitionKey: [undefined] },
-    { name: "[{}]", partitionKey: [{}] },
-    { name: '[""]', partitionKey: [""] },
     { name: '["key1"]', partitionKey: ["key1"] },
     { name: "[123]", partitionKey: [123] },
   ];

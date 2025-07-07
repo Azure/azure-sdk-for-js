@@ -97,9 +97,9 @@ export class GlobalPartitionEndpointManager {
   public async tryAddPartitionLevelLocationOverride(
     requestContext: RequestContext,
     diagnosticNode: DiagnosticNodeInternal,
-  ): Promise<void> {
+  ): Promise<RequestContext> {
     if (!(await this.isRequestEligibleForPartitionFailover(requestContext, false))) {
-      return;
+      return requestContext;
     }
 
     const partitionKeyRangeId = requestContext.partitionKeyRangeId;
@@ -109,7 +109,7 @@ export class GlobalPartitionEndpointManager {
         const partitionFailOver = this.partitionKeyRangeToLocationForWrite.get(partitionKeyRangeId);
         requestContext.endpoint = partitionFailOver.getCurrentEndPoint();
         diagnosticNode.recordEndpointResolution(requestContext.endpoint);
-        return;
+        return requestContext;
       }
     } else if (this.isRequestEligibleForPartitionLevelCircuitBreaker(requestContext)) {
       if (this.partitionKeyRangeToLocationForReadAndWrite.has(partitionKeyRangeId)) {
@@ -123,10 +123,11 @@ export class GlobalPartitionEndpointManager {
         if (canCircuitBreakerTriggerPartitionFailOver) {
           requestContext.endpoint = partitionFailOver.getCurrentEndPoint();
           diagnosticNode.recordEndpointResolution(requestContext.endpoint);
-          return;
+          return requestContext;
         }
       }
     }
+    return requestContext;
   }
 
   /**

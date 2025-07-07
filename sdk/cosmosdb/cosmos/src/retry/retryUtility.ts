@@ -112,10 +112,11 @@ export async function execute({
         // Try partition level location override
         // This is used to override the partition level location for the request
         // if there has been a partition level failover
-        await requestContext.globalPartitionEndpointManager.tryAddPartitionLevelLocationOverride(
-          requestContext,
-          localDiagnosticNode,
-        );
+        requestContext =
+          await requestContext.globalPartitionEndpointManager.tryAddPartitionLevelLocationOverride(
+            requestContext,
+            localDiagnosticNode,
+          );
       }
 
       try {
