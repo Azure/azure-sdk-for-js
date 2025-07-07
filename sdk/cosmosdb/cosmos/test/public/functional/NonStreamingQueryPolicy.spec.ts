@@ -713,13 +713,20 @@ describe("Full text search feature", async () => {
         defaultLanguage: "en-US",
         fullTextPaths: [{ path: "/text", language: "en-US" }],
       },
-      throughput: 12000,
+      throughput: 25000,
     });
 
     // Insert items into different partitions
-    await container.items.create({ id: "1", pk: "A", text: "I like to swim" });
-    await container.items.create({ id: "2", pk: "B", text: "I like to swim" });
-    await container.items.create({ id: "3", pk: "A", text: "I like to run" });
+    const responseA1 = await container.items.create({ id: "1", pk: "A", text: "I like to swim" });
+    const responseZ = await container.items.create({ id: "2", pk: "Z", text: "I like to swim" });
+    const responseA2 = await container.items.create({ id: "3", pk: "A", text: "I like to run" });
+
+    // Ensure items are going to different partitions
+    const pkRangeIdA1 = responseA1.headers["x-ms-documentdb-partitionkeyrangeid"];
+    const pkRangeIdZ = responseZ.headers["x-ms-documentdb-partitionkeyrangeid"];
+    const pkRangeIdA2 = responseA2.headers["x-ms-documentdb-partitionkeyrangeid"];
+    assert.notEqual(pkRangeIdA1, pkRangeIdZ);
+    assert.equal(pkRangeIdA1, pkRangeIdA2); // Both A items
 
     // Query using WHERE clause on partition key
     const query = "SELECT * FROM c WHERE c.pk = 'A' AND FullTextContains(c.text, 'swim')";
@@ -745,13 +752,21 @@ describe("Full text search feature", async () => {
         defaultLanguage: "en-US",
         fullTextPaths: [{ path: "/text", language: "en-US" }],
       },
-      throughput: 12000,
+      throughput: 25000,
     });
 
     // Insert items into different partitions
-    await container.items.create({ id: "1", pk: "A", text: "I like to swim" });
-    await container.items.create({ id: "2", pk: "B", text: "I like to swim" });
-    await container.items.create({ id: "3", pk: "C", text: "I like to run" });
+    const responseA = await container.items.create({ id: "1", pk: "A", text: "I like to swim" });
+    const responseZ = await container.items.create({ id: "2", pk: "Z", text: "I like to swim" });
+    const responseM = await container.items.create({ id: "3", pk: "M", text: "I like to run" });
+
+    // Ensure items are going to different partitions
+    const pkRangeIdA = responseA.headers["x-ms-documentdb-partitionkeyrangeid"];
+    const pkRangeIdZ = responseZ.headers["x-ms-documentdb-partitionkeyrangeid"];
+    const pkRangeIdM = responseM.headers["x-ms-documentdb-partitionkeyrangeid"];
+    assert.notEqual(pkRangeIdA, pkRangeIdZ);
+    assert.notEqual(pkRangeIdA, pkRangeIdM);
+    assert.notEqual(pkRangeIdZ, pkRangeIdM);
 
     // Query across all partitions for 'swim'
     const query = "SELECT * FROM c WHERE FullTextContains(c.text, 'swim')";
@@ -760,7 +775,7 @@ describe("Full text search feature", async () => {
     const pks = resources.map((r) => r.pk);
     assert.equal(resources.length, 2);
     assert(pks.includes("A"));
-    assert(pks.includes("B"));
+    assert(pks.includes("Z"));
 
     await database.container(containerName).delete();
   });
