@@ -2,14 +2,14 @@
 // Licensed under the MIT License.
 
 /**
- * Computes a deterministic hash code from a string input (typically a trace ID) 
+ * Computes a deterministic hash code from a string input (typically a trace ID)
  * and returns a value between 0 and 100 for sampling decisions.
- * 
+ *
  * This function replicates the C# hash algorithm used in Application Insights
  * to ensure consistent sampling decisions across different SDKs and languages.
  * The same trace ID will always produce the same hash value, enabling
  * distributed sampling where all spans in a trace are sampled consistently.
- * 
+ *
  * @param input - The input string to hash (usually a trace ID)
  * @returns A number between 0 and 100 representing the hash-based sampling score
  */
