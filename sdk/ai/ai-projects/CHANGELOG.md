@@ -2,7 +2,7 @@
 
 ## 1.0.0 (2025-07-08)
 
-## Breaking changes
+### Breaking changes
 
 - remove `project.redTeams`
 - remove `project.evaluations`
