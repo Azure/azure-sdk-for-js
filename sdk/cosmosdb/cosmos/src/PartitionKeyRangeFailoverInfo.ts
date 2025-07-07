@@ -86,7 +86,7 @@ export class PartitionKeyRangeFailoverInfo {
    * Returns a snapshot of the current consecutive request failure counts for read and write requests.
    * This method is used to retrieve the current state of failure counts without modifying them.
    */
-  public async snapshotConsecutiveRequestFailureCount(): Promise<{
+  private async snapshotConsecutiveRequestFailureCount(): Promise<{
     consecutiveReadRequestFailureCount: number;
     consecutiveWriteRequestFailureCount: number;
   }> {

@@ -15,7 +15,7 @@ describe("PartitionKeyRangeFailoverInfo", () => {
   });
 
   it("initializes correctly", async () => {
-    const snapshot = await failoverInfo.snapshotConsecutiveRequestFailureCount();
+    const snapshot = await failoverInfo["snapshotConsecutiveRequestFailureCount"]();
     const timestamps = await failoverInfo.snapshotPartitionFailoverTimestamps();
 
     assert.equal(failoverInfo.getCurrentEndPoint(), initialEndpoint);
@@ -49,13 +49,13 @@ describe("PartitionKeyRangeFailoverInfo", () => {
     const initialTime = Date.now();
     await failoverInfo.incrementRequestFailureCounts(true, initialTime);
 
-    const initialSnapshot = await failoverInfo.snapshotConsecutiveRequestFailureCount();
+    const initialSnapshot = await failoverInfo["snapshotConsecutiveRequestFailureCount"]();
     assert.equal(initialSnapshot.consecutiveReadRequestFailureCount, 1);
 
     // Should reset counters
     await failoverInfo.incrementRequestFailureCounts(true, initialTime + 1000 * 60 * 1 + 1);
 
-    const snapshot = await failoverInfo.snapshotConsecutiveRequestFailureCount();
+    const snapshot = await failoverInfo["snapshotConsecutiveRequestFailureCount"]();
     assert.equal(snapshot.consecutiveReadRequestFailureCount, 1);
   });
 
@@ -108,14 +108,14 @@ describe("PartitionKeyRangeFailoverInfo", () => {
     await failoverInfo.incrementRequestFailureCounts(true, Date.now());
     await failoverInfo.incrementRequestFailureCounts(false, Date.now());
 
-    const counts = await failoverInfo.snapshotConsecutiveRequestFailureCount();
+    const counts = await failoverInfo["snapshotConsecutiveRequestFailureCount"]();
     assert.equal(counts.consecutiveReadRequestFailureCount, 1);
     assert.equal(counts.consecutiveWriteRequestFailureCount, 1);
 
     await failoverInfo.incrementRequestFailureCounts(true, Date.now());
     await failoverInfo.incrementRequestFailureCounts(false, Date.now());
 
-    const counts2 = await failoverInfo.snapshotConsecutiveRequestFailureCount();
+    const counts2 = await failoverInfo["snapshotConsecutiveRequestFailureCount"]();
     assert.equal(counts2.consecutiveReadRequestFailureCount, 2);
     assert.equal(counts2.consecutiveWriteRequestFailureCount, 2);
   });
@@ -123,13 +123,13 @@ describe("PartitionKeyRangeFailoverInfo", () => {
   it("incrementRequestFailureCounts returns accurate counts", async () => {
     await failoverInfo.incrementRequestFailureCounts(false, Date.now());
 
-    const counts = await failoverInfo.snapshotConsecutiveRequestFailureCount();
+    const counts = await failoverInfo["snapshotConsecutiveRequestFailureCount"]();
     assert.equal(counts.consecutiveWriteRequestFailureCount, 1);
 
     (failoverInfo as any).lastRequestFailureTime = new Date(Date.now() - 1000 * 61);
     // The count should be reset first then incremented
     await failoverInfo.incrementRequestFailureCounts(false, Date.now());
-    const counts2 = await failoverInfo.snapshotConsecutiveRequestFailureCount();
+    const counts2 = await failoverInfo["snapshotConsecutiveRequestFailureCount"]();
     assert.equal(counts2.consecutiveWriteRequestFailureCount, 1);
   });
 
