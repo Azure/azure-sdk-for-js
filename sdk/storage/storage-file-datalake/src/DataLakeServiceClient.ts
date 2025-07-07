@@ -11,7 +11,7 @@ import type {
   ServiceSetPropertiesResponse,
 } from "@azure/storage-blob";
 import { BlobServiceClient } from "@azure/storage-blob";
-import type { Pipeline, StoragePipelineOptions } from "./Pipeline.js";
+import type { Pipeline } from "./Pipeline.js";
 import { isPipelineLike, newPipeline } from "./Pipeline.js";
 import { AnonymousCredential } from "@azure/storage-blob";
 import { StorageSharedKeyCredential } from "./credentials/StorageSharedKeyCredential.js";
@@ -23,6 +23,8 @@ import type {
   ServiceListFileSystemsSegmentResponse,
   ServiceUndeleteFileSystemOptions,
   FileSystemUndeleteResponse,
+  DataLakeClientOptions,
+  DataLakeClientConfig,
 } from "./models.js";
 import { StorageClient } from "./StorageClient.js";
 import {
@@ -75,7 +77,7 @@ export class DataLakeServiceClient extends StorageClient {
     connectionString: string,
     // Legacy, no way to fix the eslint error without breaking. Disable the rule for this line.
     /* eslint-disable-next-line @azure/azure-sdk/ts-naming-options */
-    options?: StoragePipelineOptions,
+    options?: DataLakeClientOptions,
   ): DataLakeServiceClient {
     options = options || {};
     const extractedCreds = extractConnectionStringParts(connectionString);
@@ -89,7 +91,7 @@ export class DataLakeServiceClient extends StorageClient {
           options.proxyOptions = getDefaultProxySettings(extractedCreds.proxyUri);
         }
         const pipeline = newPipeline(sharedKeyCredential, options);
-        return new DataLakeServiceClient(toDfsEndpointUrl(extractedCreds.url), pipeline);
+        return new DataLakeServiceClient(toDfsEndpointUrl(extractedCreds.url), pipeline, options);
       } else {
         throw new Error("Account connection string is only supported in Node.js environment");
       }
@@ -98,6 +100,7 @@ export class DataLakeServiceClient extends StorageClient {
       return new DataLakeServiceClient(
         toDfsEndpointUrl(extractedCreds.url) + "?" + extractedCreds.accountSas,
         pipeline,
+        options,
       );
     } else {
       throw new Error(
@@ -120,7 +123,7 @@ export class DataLakeServiceClient extends StorageClient {
     credential?: StorageSharedKeyCredential | AnonymousCredential | TokenCredential,
     // Legacy, no way to fix the eslint error without breaking. Disable the rule for this line.
     /* eslint-disable-next-line @azure/azure-sdk/ts-naming-options */
-    options?: StoragePipelineOptions,
+    options?: DataLakeClientOptions,
   );
 
   /**
@@ -132,7 +135,7 @@ export class DataLakeServiceClient extends StorageClient {
    * @param pipeline - Call newPipeline() to create a default
    *                            pipeline, or provide a customized pipeline.
    */
-  public constructor(url: string, pipeline: Pipeline);
+  public constructor(url: string, pipeline: Pipeline, options?: DataLakeClientConfig);
 
   public constructor(
     url: string,
@@ -143,10 +146,10 @@ export class DataLakeServiceClient extends StorageClient {
       | Pipeline,
     // Legacy, no way to fix the eslint error without breaking. Disable the rule for this line.
     /* eslint-disable-next-line @azure/azure-sdk/ts-naming-options */
-    options?: StoragePipelineOptions,
+    options?: DataLakeClientOptions,
   ) {
     if (isPipelineLike(credentialOrPipeline)) {
-      super(url, credentialOrPipeline);
+      super(url, credentialOrPipeline, options);
     } else {
       let credential;
       if (credentialOrPipeline === undefined) {
@@ -156,7 +159,7 @@ export class DataLakeServiceClient extends StorageClient {
       }
 
       const pipeline = newPipeline(credential, options);
-      super(url, pipeline);
+      super(url, pipeline, options);
     }
 
     // this.serviceContext = new Service(this.storageClientContext);
@@ -174,6 +177,7 @@ export class DataLakeServiceClient extends StorageClient {
     return new DataLakeFileSystemClient(
       appendToURLPath(this.url, encodeURIComponent(fileSystemName)),
       this.pipeline,
+      this.dataLakeClientConfig,
     );
   }
 

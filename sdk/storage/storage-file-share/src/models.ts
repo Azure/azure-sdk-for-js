@@ -346,6 +346,29 @@ export interface ShareProtocols {
   nfsEnabled?: boolean;
 }
 
+export enum StorageChecksumAlgorithm {
+  /**
+   * Recommended. Allow the library to choose an algorithm. Different library versions may
+   * make different choices.
+   */
+  Auto = 0,
+
+  /*
+   * No selected algorithm. Do not calculate or request checksums.
+   */
+  None = 1,
+
+  /*
+   * Customer provided checksum
+   */
+  Customized = 2,
+
+  /*
+   * Azure Storage custom 64 bit CRC.
+   */
+  StorageCrc64 = 3,
+}
+
 export interface ShareClientConfig {
   /**
    * The Files OAuth over REST feature requires special permissions to be included in the role definition to use
@@ -362,6 +385,8 @@ export interface ShareClientConfig {
   allowTrailingDot?: boolean;
   /** If true, the trailing dot will not be trimmed from the source URI. */
   allowSourceTrailingDot?: boolean;
+  uploadContentChecksumAlgorithm?: StorageChecksumAlgorithm;
+  downloadContentChecksumAlgorithm?: StorageChecksumAlgorithm;
 }
 
 export type ShareClientOptions = StoragePipelineOptions & ShareClientConfig;
