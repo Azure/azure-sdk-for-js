@@ -19,6 +19,7 @@ import type { SqlQuerySpec } from "./SqlQuerySpec.js";
 import type { DiagnosticNodeInternal } from "../diagnostics/DiagnosticNodeInternal.js";
 import { NonStreamingOrderByDistinctEndpointComponent } from "./EndpointComponent/NonStreamingOrderByDistinctEndpointComponent.js";
 import { NonStreamingOrderByEndpointComponent } from "./EndpointComponent/NonStreamingOrderByEndpointComponent.js";
+import type { PartitionKeyRange } from "../index.js";
 
 /** @hidden */
 export class PipelinedQueryExecutionContext implements ExecutionContext {
@@ -30,7 +31,8 @@ export class PipelinedQueryExecutionContext implements ExecutionContext {
   private static DEFAULT_PAGE_SIZE = 10;
   private static DEFAULT_MAX_VECTOR_SEARCH_BUFFER_SIZE = 50000;
   private nonStreamingOrderBy = false;
-
+  private partitionKeyRangeMap: Map<string, { indexes: number[]; continuationToken: string | null, partitionKeyRange?: PartitionKeyRange }> = new Map();
+  private continuationToken: string = "";
   constructor(
     private clientContext: ClientContext,
     private collectionLink: string,
@@ -169,9 +171,12 @@ export class PipelinedQueryExecutionContext implements ExecutionContext {
   public hasMoreResults(): boolean {
     return this.fetchBuffer.length !== 0 || this.endpoint.hasMoreResults();
   }
-
+  // TODO: make contract of fetchMore to be consistent as other internal ones
   public async fetchMore(diagnosticNode: DiagnosticNodeInternal): Promise<Response<any>> {
     this.fetchMoreRespHeaders = getInitialHeader();
+    if (this.options.enableQueryControl) {
+      return this._enableQueryControlFetchMoreImplementation(diagnosticNode);
+    }
     return this._fetchMoreImplementation(diagnosticNode);
   }
 
@@ -185,8 +190,9 @@ export class PipelinedQueryExecutionContext implements ExecutionContext {
         return { result: temp, headers: this.fetchMoreRespHeaders };
       } else {
         const response = await this.endpoint.fetchMore(diagnosticNode);
+        const bufferedResults = response.result.buffer;
         mergeHeaders(this.fetchMoreRespHeaders, response.headers);
-        if (response === undefined || response.result === undefined) {
+        if (response === undefined || response.result === undefined || bufferedResults === undefined) {
           if (this.fetchBuffer.length > 0) {
             const temp = this.fetchBuffer;
             this.fetchBuffer = [];
@@ -196,18 +202,18 @@ export class PipelinedQueryExecutionContext implements ExecutionContext {
           }
         }
         this.fetchBuffer.push(...response.result);
-
-        if (this.options.enableQueryControl) {
-          if (this.fetchBuffer.length >= this.pageSize) {
-            const temp = this.fetchBuffer.slice(0, this.pageSize);
-            this.fetchBuffer = this.fetchBuffer.slice(this.pageSize);
-            return { result: temp, headers: this.fetchMoreRespHeaders };
-          } else {
-            const temp = this.fetchBuffer;
-            this.fetchBuffer = [];
-            return { result: temp, headers: this.fetchMoreRespHeaders };
-          }
-        }
+        // TODO: This section can be removed
+        // if (this.options.enableQueryControl) {
+        //   if (this.fetchBuffer.length >= this.pageSize) {
+        //     const temp = this.fetchBuffer.slice(0, this.pageSize);
+        //     this.fetchBuffer = this.fetchBuffer.slice(this.pageSize);
+        //     return { result: temp, headers: this.fetchMoreRespHeaders };
+        //   } else {
+        //     const temp = this.fetchBuffer;
+        //     this.fetchBuffer = [];
+        //     return { result: temp, headers: this.fetchMoreRespHeaders };
+        //   }
+        // }
         // Recursively fetch more results to ensure the pageSize number of results are returned
         // to maintain compatibility with the previous implementation
         return this._fetchMoreImplementation(diagnosticNode);
@@ -219,6 +225,54 @@ export class PipelinedQueryExecutionContext implements ExecutionContext {
         throw err;
       }
     }
+  }
+
+  // TODO: would be called when enableQUeryCOntrol is true
+  private async _enableQueryControlFetchMoreImplementation(
+    diagnosticNode: DiagnosticNodeInternal
+  ): Promise<Response<any>> {
+      if(this.partitionKeyRangeMap.size > 0) {
+        const endIndex = this.fetchBufferEndIndexForCurrentPage();
+        const temp = this.fetchBuffer.slice(0, endIndex);
+        this.fetchBuffer = this.fetchBuffer.slice(endIndex);
+        console.log("continuationToken", this.continuationToken);
+        return { result: temp, headers: this.fetchMoreRespHeaders };
+      }else {
+        this.continuationToken = "";
+        this.partitionKeyRangeMap.clear();
+        this.fetchBuffer = [];
+
+        const response = await this.endpoint.fetchMore(diagnosticNode);
+        const result = response.result;
+        const bufferedResults = result.buffer;
+        const partitionKeyRangeMap = result.partitionKeyRangeMap;
+        // add partitionKeyRangeMap to the class variable with
+        this.partitionKeyRangeMap = partitionKeyRangeMap;
+        this.fetchBuffer = bufferedResults;
+        mergeHeaders(this.fetchMoreRespHeaders, response.headers);
+        const endIndex = this.fetchBufferEndIndexForCurrentPage();
+        const temp = this.fetchBuffer.slice(0, endIndex);
+        this.fetchBuffer = this.fetchBuffer.slice(endIndex);
+        return { result: temp, headers: this.fetchMoreRespHeaders };
+      }
+  }
+
+  private fetchBufferEndIndexForCurrentPage(): number {
+    // TODO: update later
+    let endIndex = 0;
+
+    for (const [_, value] of this.partitionKeyRangeMap) {
+      const { indexes } = value;
+      const size = indexes[1] - indexes[0] + 1; // inclusive range
+      if (endIndex + size >= this.pageSize) {
+        break;
+      }
+      // TODO: check for edge cases of continuation token
+      this.continuationToken += value.continuationToken ? value.continuationToken : "";
+      endIndex = indexes[1];
+    }
+
+    return endIndex;
   }
 
   private calculateVectorSearchBufferSize(queryInfo: QueryInfo, options: FeedOptions): number {

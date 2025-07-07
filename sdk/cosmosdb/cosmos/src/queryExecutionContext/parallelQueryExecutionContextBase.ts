@@ -19,6 +19,7 @@ import {
   DiagnosticNodeInternal,
   DiagnosticNodeType,
 } from "../diagnostics/DiagnosticNodeInternal.js";
+import { PartitionKeyRange } from "../client/index.js";
 
 /** @hidden */
 const logger: AzureLogger = createClientLogger("parallelQueryExecutionContextBase");
@@ -43,6 +44,11 @@ export abstract class ParallelQueryExecutionContextBase implements ExecutionCont
   private bufferedDocumentProducersQueue: PriorityQueue<DocumentProducer>;
   // TODO: update type of buffer from any --> generic can be used here
   private buffer: any[];
+  // a data structure  to hold indexes of buffer wrt to partition key ranges, like index 0-21 belong to partition key range 1, index 22-45 belong to partition key range 2, etc.
+  // along partition key range it will also hold continuation token for that partition key range
+  // patch id + doc range + continuation token
+  // e.g. { 0: { indexes: [0, 21], continuationToken: "token" } }
+  private patchToRangeMapping: Map<string, { indexes: number[]; continuationToken: string | null, partitionKeyRange?: PartitionKeyRange }> = new Map();
   private sem: any;
   private diagnosticNodeWrapper: {
     consumed: boolean;
@@ -343,12 +349,15 @@ export abstract class ParallelQueryExecutionContextBase implements ExecutionCont
         // draing the entire buffer object and return that in result of return object
         const bufferedResults = this.buffer;
         this.buffer = [];
+        // reset the patchToRangeMapping
+        const patchToRangeMapping = this.patchToRangeMapping;
+        this.patchToRangeMapping = new Map<string, { indexes: number[]; continuationToken: string | null, partitionKeyRange?: PartitionKeyRange }>();
 
         // release the lock before returning
         this.sem.leave();
-        // invoke the callback on the item
+                
         return resolve({
-          result: bufferedResults,
+          result: { buffer: bufferedResults, partitionKeyRangeMap: patchToRangeMapping },
           headers: this._getAndResetActiveResponseHeaders(),
         });
       });
@@ -486,18 +495,34 @@ export abstract class ParallelQueryExecutionContextBase implements ExecutionCont
           resolve();
           return;
         }
-
         try {
+          let patchCounter = 0;
           if (isOrderBy) {
+            let documentProducer; // used to track the last document producer
             while (
               this.unfilledDocumentProducersQueue.isEmpty() &&
               this.bufferedDocumentProducersQueue.size() > 0
             ) {
-              const documentProducer = this.bufferedDocumentProducersQueue.deq();
+              documentProducer = this.bufferedDocumentProducersQueue.deq();
               const { result, headers } = await documentProducer.fetchNextItem();
               this._mergeWithActiveResponseHeaders(headers);
+              
               if (result) {
                 this.buffer.push(result);
+                if (documentProducer.targetPartitionKeyRange.id !== this.patchToRangeMapping.get(patchCounter.toString())?.partitionKeyRange?.id) {
+                  patchCounter++;
+                  this.patchToRangeMapping.set(patchCounter.toString(), {
+                    indexes: [this.buffer.length - 1, this.buffer.length - 1],
+                    partitionKeyRange: documentProducer.targetPartitionKeyRange,
+                    continuationToken: documentProducer.continuationToken,
+                  });
+                } else {
+                  const currentPatch = this.patchToRangeMapping.get(patchCounter.toString());
+                  if (currentPatch) {
+                    currentPatch.indexes[1] = this.buffer.length - 1;
+                    currentPatch.continuationToken = documentProducer.continuationToken;
+                  }
+                }
               }
               if (documentProducer.peakNextItem() !== undefined) {
                 this.bufferedDocumentProducersQueue.enq(documentProducer);
@@ -515,6 +540,13 @@ export abstract class ParallelQueryExecutionContextBase implements ExecutionCont
               if (result) {
                 this.buffer.push(...result);
               }
+              // add a marker to this. buffer stating the cpartition key range and continuation token
+              this.patchToRangeMapping.set(patchCounter.toString(), {
+                indexes: [this.buffer.length - result.length, this.buffer.length - 1],
+                partitionKeyRange: documentProducer.targetPartitionKeyRange,
+                continuationToken: documentProducer.continuationToken,
+              });
+              patchCounter++;
               if (documentProducer.hasMoreResults()) {
                 this.unfilledDocumentProducersQueue.enq(documentProducer);
               }

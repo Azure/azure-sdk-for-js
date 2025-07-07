@@ -28,7 +28,13 @@ export class ParallelQueryExecutionContext
     docProd1: DocumentProducer,
     docProd2: DocumentProducer,
   ): number {
-    return docProd1.generation - docProd2.generation;
+    const a = docProd1.targetPartitionKeyRange.minInclusive;
+    const b = docProd2.targetPartitionKeyRange.minInclusive;
+    // Sort empty string first, then lexicographically
+    if (a === b) return 0;
+    if (a === "") return -1;
+    if (b === "") return 1;
+    return a < b ? -1 : 1;
   }
 
   /**
@@ -44,6 +50,8 @@ export class ParallelQueryExecutionContext
       await this.fillBufferFromBufferQueue();
 
       // Drain buffered items
+      // TODO: remove it, but idea is create some kind of seperations in the buffer such that it will be easier to identify
+      // which items belong to which partition, maybe an map of partiion id to data can be returned along with contiuation data
       return this.drainBufferedItems();
     } catch (error) {
       // Handle any errors that occur during fetching
