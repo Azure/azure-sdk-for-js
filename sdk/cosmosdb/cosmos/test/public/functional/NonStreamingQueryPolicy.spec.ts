@@ -3,7 +3,6 @@
 
 import type { IndexingPolicy, VectorEmbeddingPolicy } from "../../../src/documents/index.js";
 import {
-  PartitionKeyKind,
   VectorEmbeddingDataType,
   VectorEmbeddingDistanceFunction,
   VectorIndexType,
@@ -12,12 +11,6 @@ import { getTestDatabase } from "../common/TestHelpers.js";
 import type { Database } from "../../../src/client/Database/Database.js";
 import type { Container } from "../../../src/client/index.js";
 import { describe, it, assert, beforeAll, afterAll } from "vitest";
-import { CosmosClient } from "../../../src/CosmosClient.js";
-import type { CreateOperationInput, PluginConfig } from "../../../src/index.js";
-import { PluginOn, ResourceType } from "../../../src/index.js";
-import type { Response } from "../../../src/index.js";
-import { endpoint } from "../common/_testConfig.js";
-import { masterKey } from "../common/_fakeTestSecrets.js";
 
 // Skipping these tests as they are not supported by public emulator
 describe("Vector search feature", async () => {

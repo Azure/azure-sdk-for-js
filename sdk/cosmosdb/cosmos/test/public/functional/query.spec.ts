@@ -1,7 +1,12 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { ContainerDefinition, FeedOptions } from "../../../src/index.js";
+import type {
+  ContainerDefinition,
+  CreateOperationInput,
+  FeedOptions,
+  PluginConfig,
+} from "../../../src/index.js";
 import { CosmosClient } from "../../../src/index.js";
 import type { Container } from "../../../src/index.js";
 import { endpoint } from "../common/_testConfig.js";
@@ -16,7 +21,7 @@ import { PartitionKeyDefinitionVersion, PartitionKeyKind } from "../../../src/do
 import { describe, it, assert, beforeAll, afterAll } from "vitest";
 import type { Database } from "../../../src/client/Database/Database.js";
 import { PluginOn, ResourceType } from "../../../src/index.js";
-import { OperationType } from "../../../src/index.js";
+import type { Response } from "../../../src/index.js";
 
 const client = new CosmosClient({
   endpoint,
@@ -649,7 +654,7 @@ describe("Queries", { timeout: 10000 }, () => {
   });
 });
 
-describe("Full Text Search (streaming queries)", () => {
+describe("Full Text Search queries", () => {
   let database: Database;
   const dbName = `fts-query-db`;
 
@@ -681,6 +686,7 @@ describe("Full Text Search (streaming queries)", () => {
         throughput: 25000,
       });
       container = result.container;
+      // Create items in different partitions
       const responseA1 = await container.items.create({ id: "1", pk: "A", text: "I like to swim" });
       const responseZ = await container.items.create({ id: "2", pk: "Z", text: "I like to swim" });
       const responseA2 = await container.items.create({ id: "3", pk: "A", text: "I like to run" });
@@ -689,6 +695,7 @@ describe("Full Text Search (streaming queries)", () => {
       const pkRangeIdA2 = responseA2.headers["x-ms-documentdb-partitionkeyrangeid"];
       assert.notEqual(pkRangeIdA1, pkRangeIdZ);
       assert.equal(pkRangeIdA1, pkRangeIdA2);
+
       const query = "SELECT * FROM c WHERE c.pk = 'A' AND FullTextContains(c.text, 'swim')";
       const { resources } = await container.items.query(query).fetchAll();
       assert.equal(resources.length, 1);
@@ -717,6 +724,8 @@ describe("Full Text Search (streaming queries)", () => {
         throughput: 25000,
       });
       container = result.container;
+
+      // Create items in different partitions
       const responseA = await container.items.create({ id: "1", pk: "A", text: "I like to swim" });
       const responseZ = await container.items.create({ id: "2", pk: "Z", text: "I like to swim" });
       const responseM = await container.items.create({ id: "3", pk: "M", text: "I like to run" });
@@ -726,6 +735,7 @@ describe("Full Text Search (streaming queries)", () => {
       assert.notEqual(pkRangeIdA, pkRangeIdZ);
       assert.notEqual(pkRangeIdA, pkRangeIdM);
       assert.notEqual(pkRangeIdZ, pkRangeIdM);
+
       const query = "SELECT * FROM c WHERE FullTextContains(c.text, 'swim')";
       const { resources } = await container.items.query(query, { forceQueryPlan: true }).fetchAll();
       const pks = resources.map((r: any) => r.pk);
@@ -809,72 +819,81 @@ describe("Full Text Search (streaming queries)", () => {
   });
 
   it("should handle partition split during long-running full text queries", async () => {
-    let splitDatabase;
-    try {
-      let numpkRangeRequests = 0;
-      const plugins = [
-        {
-          on: PluginOn.request,
-          plugin: async (context: any, _diagNode: any, next: any) => {
-            if (context.resourceType === ResourceType.pkranges) {
-              let response;
-              if (numpkRangeRequests === 0) {
-                response = {
-                  headers: {},
-                  result: {
-                    PartitionKeyRanges: [
-                      {
-                        _rid: "RRsbAKHytdECAAAAAAAAUA==",
-                        id: "1",
-                        _etag: '"00000000-0000-0000-683c-819a242201db"',
-                        minInclusive: "",
-                        maxExclusive: "FF",
-                      },
-                    ],
-                  },
-                };
-                numpkRangeRequests++;
-                return response;
-              }
+    let numpkRangeRequests = 0;
+    const plugins: PluginConfig[] = [
+      {
+        on: PluginOn.request,
+        plugin: async (context, _diagNode, next) => {
+          if (context.resourceType === ResourceType.pkranges) {
+            let response: Response<any>;
+            if (numpkRangeRequests === 0) {
+              response = {
+                headers: {},
+                result: {
+                  PartitionKeyRanges: [
+                    {
+                      _rid: "RRsbAKHytdECAAAAAAAAUA==",
+                      id: "1",
+                      _etag: '"00000000-0000-0000-683c-819a242201db"',
+                      minInclusive: "",
+                      maxExclusive: "FF",
+                    },
+                  ],
+                },
+              };
+              response.code = 200;
               numpkRangeRequests++;
+              return response;
             }
-            const res = await next(context);
-            return res;
-          },
+            numpkRangeRequests++;
+          }
+          const res = await next(context);
+          return res;
         },
-      ];
-      const splitClient = new CosmosClient({ endpoint, key: masterKey, plugins });
-      const result = await splitClient.databases.createIfNotExists({ id: "partitionSplitTestDb" });
-      splitDatabase = result.database;
-      const { container } = await splitDatabase.containers.createIfNotExists({
-        id: "partitionSplitTestContainer",
-        partitionKey: { paths: ["/pk"] },
-        indexingPolicy: {
-          includedPaths: [{ path: "/*" }],
-          fullTextIndexes: [{ path: "/text" }],
-        },
-        fullTextPolicy: {
-          defaultLanguage: "en-US",
-          fullTextPaths: [{ path: "/text", language: "en-US" }],
-        },
-        throughput: 1000,
-      });
-      const operations = [...Array(50).keys()].map((i) => ({
-        operationType: OperationType.Create,
-        partitionKey: `A${i}`,
-        resourceBody: { id: `${i}`, pk: `A${i}`, text: "I like to swim" },
-      })) as any;
-      await container.items.executeBulkOperations(operations);
-      const query = "SELECT * FROM c WHERE FullTextContains(c.text, 'swim')";
-      const iterator = container.items.query(query, { maxItemCount: 10 });
-      let total = 0;
-      while (iterator.hasMoreResults()) {
-        const { resources } = await iterator.fetchNext();
-        total += resources.length;
-      }
-      assert.equal(total, 50);
-    } finally {
-      if (splitDatabase) await splitDatabase.delete();
+      },
+    ];
+    const client1 = new CosmosClient({
+      endpoint: endpoint,
+      key: masterKey,
+      plugins: plugins,
+    });
+
+    // Create a test database and container
+    // eslint-disable-next-line @typescript-eslint/no-shadow
+    const { database } = await client1.databases.createIfNotExists({ id: "partitionSplitTestDb" });
+    const { container } = await database.containers.createIfNotExists({
+      id: "partitionSplitTestContainer",
+      partitionKey: { paths: ["/pk"] },
+      indexingPolicy: {
+        includedPaths: [{ path: "/*" }],
+        fullTextIndexes: [{ path: "/text" }],
+      },
+      fullTextPolicy: {
+        defaultLanguage: "en-US",
+        fullTextPaths: [{ path: "/text", language: "en-US" }],
+      },
+      throughput: 1000,
+    });
+    // Replace the for loop with the executeBulkOperations API call:
+    const operations: CreateOperationInput[] = [...Array(50).keys()].map((i) => ({
+      operationType: "Create",
+      partitionKey: `A${i}`,
+      resourceBody: { id: `${i}`, pk: `A${i}`, text: "I like to swim" },
+    }));
+    await container.items.executeBulkOperations(operations);
+    // Start a long-running full text query
+    const query = "SELECT * FROM c WHERE FullTextContains(c.text, 'swim')";
+    const iterator = container.items.query(query, { maxItemCount: 10 });
+
+    let total = 0;
+    while (iterator.hasMoreResults()) {
+      const { resources } = await iterator.fetchNext();
+      total += resources.length;
     }
+
+    // Assert all items were returned
+    assert.equal(total, 50);
+
+    await database.delete();
   });
 });
