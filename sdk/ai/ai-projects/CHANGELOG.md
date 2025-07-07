@@ -1,5 +1,12 @@
 # Release History
 
+## 1.0.0 (2025-07-08)
+
+## Breaking changes
+
+- remove `project.redTeams`
+- remove `project.evaluations`
+
 ## 1.0.0-beta.10 (2025-07-02)
 
 ### Breaking changes
