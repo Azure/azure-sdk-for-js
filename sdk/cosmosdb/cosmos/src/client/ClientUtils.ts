@@ -4,6 +4,7 @@
 import type { DiagnosticNodeInternal } from "../diagnostics/DiagnosticNodeInternal.js";
 import type { PartitionKeyDefinition, PartitionKeyInternal } from "../documents/index.js";
 import { PartitionKeyRangeCache } from "../routing/partitionKeyRangeCache.js";
+import { isNonePartitionKeyValue, isNullPartitionKeyValue } from "../utils/typeChecks.js";
 import type { Container } from "./Container/index.js";
 
 export async function readPartitionKeyDefinition(
@@ -24,11 +25,22 @@ export async function computePartitionKeyRangeId(
 ): Promise<string | undefined> {
   let partitionKeyRangeId: string;
   if (isPartitionLevelFailOverEnabled) {
-    let partitionKeyDefinition: PartitionKeyDefinition | undefined = pKDefinition;
-    if (partitionKeyDefinition === undefined) {
-      partitionKeyDefinition = await readPartitionKeyDefinition(diagnosticNode, container);
-    }
-    if (partitionKey && partitionKey.length > 0 && partitionKeyDefinition) {
+    const partitionKeyDefinition =
+      pKDefinition ?? (await readPartitionKeyDefinition(diagnosticNode, container));
+    if (
+      partitionKeyDefinition &&
+      partitionKey &&
+      partitionKey.length > 0 &&
+      !isNullPartitionKeyValue(partitionKey) &&
+      !isNonePartitionKeyValue(partitionKey) &&
+      !partitionKey.some(
+        (key) =>
+          isNullPartitionKeyValue(key) ||
+          isNonePartitionKeyValue(key) ||
+          key === undefined ||
+          key === "",
+      )
+    ) {
       partitionKeyRangeId = await partitionKeyRangeCache.getPartitionKeyRangeIdFromPartitionKey(
         container.url,
         partitionKey,

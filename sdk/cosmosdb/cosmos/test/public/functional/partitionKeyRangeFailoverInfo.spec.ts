@@ -3,10 +3,12 @@
 
 import { describe, it, beforeEach, assert } from "vitest";
 import { PartitionKeyRangeFailoverInfo } from "../../../src/PartitionKeyRangeFailoverInfo.js";
+import { createDummyDiagnosticNode } from "../common/TestHelpers.js";
 
 describe("PartitionKeyRangeFailoverInfo", () => {
   const initialEndpoint = "https://region1.documents.azure.com";
   let failoverInfo: PartitionKeyRangeFailoverInfo;
+  const diagnosticNode = createDummyDiagnosticNode();
 
   beforeEach(() => {
     failoverInfo = new PartitionKeyRangeFailoverInfo(initialEndpoint);
@@ -64,7 +66,12 @@ describe("PartitionKeyRangeFailoverInfo", () => {
       "https://region3.documents.azure.com",
     ];
 
-    const result = await failoverInfo.tryMoveNextLocation(nextEndpoints, initialEndpoint);
+    const result = await failoverInfo.tryMoveNextLocation(
+      nextEndpoints,
+      initialEndpoint,
+      diagnosticNode,
+      "fakeRangeId",
+    );
     assert.isTrue(result);
     assert.equal(failoverInfo.getCurrentEndPoint(), "https://region2.documents.azure.com");
   });
@@ -72,10 +79,17 @@ describe("PartitionKeyRangeFailoverInfo", () => {
   it("TryMoveNextLocation should skip already failed endpoints", async () => {
     const nextEndpoints = [initialEndpoint, "https://region2.documents.azure.com"];
 
-    await failoverInfo.tryMoveNextLocation(nextEndpoints, initialEndpoint);
+    await failoverInfo.tryMoveNextLocation(
+      nextEndpoints,
+      initialEndpoint,
+      diagnosticNode,
+      "fakeRangeId",
+    );
     const result = await failoverInfo.tryMoveNextLocation(
       nextEndpoints,
       "https://region2.documents.azure.com",
+      diagnosticNode,
+      "fakeRangeId",
     );
     assert.isFalse(result);
   });
@@ -84,6 +98,8 @@ describe("PartitionKeyRangeFailoverInfo", () => {
     const result = await failoverInfo.tryMoveNextLocation(
       ["https://region2.documents.azure.com"],
       "https://region2.documents.azure.com",
+      diagnosticNode,
+      "fakeRangeId",
     );
     assert.isTrue(result);
   });

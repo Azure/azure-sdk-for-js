@@ -1,6 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import { Constants } from "./index.js";
+import { Constants, DiagnosticNodeInternal } from "./index.js";
 import semaphore from "semaphore";
 
 /**
@@ -119,6 +119,8 @@ export class PartitionKeyRangeFailoverInfo {
   public async tryMoveNextLocation(
     endPoints: readonly string[],
     failedEndPoint: string,
+    diagnosticNode: DiagnosticNodeInternal,
+    partitionKeyRangeId: string,
   ): Promise<boolean> {
     if (failedEndPoint !== this.currentEndPoint) {
       return true;
@@ -139,6 +141,9 @@ export class PartitionKeyRangeFailoverInfo {
             this.currentEndPoint = endpoint;
             return resolve(true);
           }
+          diagnosticNode.addData({
+            partitionKeyRangeFailoverInfo: `PartitionKeyRangeId: ${partitionKeyRangeId}, failedLocations: ${this.failedEndPoints}, newLocation: ${this.currentEndPoint}`,
+          });
           return resolve(false);
         } catch (err) {
           reject(err);
@@ -147,11 +152,6 @@ export class PartitionKeyRangeFailoverInfo {
         }
       });
     });
-  }
-
-  /* Returns the list of failed endpoints in the partition key range failover info. */
-  public getFailedEndPoints(): string[] {
-    return this.failedEndPoints;
   }
 
   /** Returns the current endpoint being used for partition key range operations.*/

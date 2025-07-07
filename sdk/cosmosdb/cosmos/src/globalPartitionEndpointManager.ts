@@ -355,10 +355,14 @@ export class GlobalPartitionEndpointManager {
     const partitionFailOver = partitionKeyRangeToLocation.get(partitionKeyRangeId);
 
     // Will return true if it was able to update to a new region
-    if (await partitionFailOver.tryMoveNextLocation(nextEndPoints, failedEndPoint)) {
-      diagnosticNode.addData({
-        partitionKeyRangeFailoverInfo: `PartitionKeyRangeId: ${partitionKeyRangeId}, failedLocations: ${partitionFailOver.getFailedEndPoints()}, newLocation: ${partitionFailOver.getCurrentEndPoint()}`,
-      });
+    if (
+      await partitionFailOver.tryMoveNextLocation(
+        nextEndPoints,
+        failedEndPoint,
+        diagnosticNode,
+        partitionKeyRangeId,
+      )
+    ) {
       return true;
     }
     // All the locations have been tried. Remove the override information
