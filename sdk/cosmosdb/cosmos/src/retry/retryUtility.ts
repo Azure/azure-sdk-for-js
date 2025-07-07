@@ -122,7 +122,6 @@ export async function execute({
           headers[Constants.HttpHeaders.CorrelatedActivityId] = correlatedActivityId;
         }
         if (
-          err.code === StatusCodes.ENOTFOUND ||
           err.code === "REQUEST_SEND_ERROR" ||
           (err.code === StatusCodes.Forbidden &&
             (err.substatus === SubStatusCodes.DatabaseAccountNotFound ||
