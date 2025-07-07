@@ -83,20 +83,6 @@ export class PartitionKeyRangeFailoverInfo {
   }
 
   /**
-   * Returns a snapshot of the current consecutive request failure counts for read and write requests.
-   * This method is used to retrieve the current state of failure counts without modifying them.
-   */
-  private async snapshotConsecutiveRequestFailureCount(): Promise<{
-    consecutiveReadRequestFailureCount: number;
-    consecutiveWriteRequestFailureCount: number;
-  }> {
-    return {
-      consecutiveReadRequestFailureCount: this.consecutiveReadRequestFailureCount,
-      consecutiveWriteRequestFailureCount: this.consecutiveWriteRequestFailureCount,
-    };
-  }
-
-  /**
    * Returns a snapshot of the first and last request failure timestamps.
    * This method is used to retrieve the current state of failure timestamps without modifying them.
    */
@@ -157,5 +143,19 @@ export class PartitionKeyRangeFailoverInfo {
   /** Returns the current endpoint being used for partition key range operations.*/
   public getCurrentEndPoint(): string {
     return this.currentEndPoint;
+  }
+
+  /**
+   * Returns a snapshot of the current consecutive request failure counts for read and write requests.
+   * This method is used to retrieve the current state of failure counts without modifying them.
+   */
+  private async snapshotConsecutiveRequestFailureCount(): Promise<{
+    consecutiveReadRequestFailureCount: number;
+    consecutiveWriteRequestFailureCount: number;
+  }> {
+    return {
+      consecutiveReadRequestFailureCount: this.consecutiveReadRequestFailureCount,
+      consecutiveWriteRequestFailureCount: this.consecutiveWriteRequestFailureCount,
+    };
   }
 }

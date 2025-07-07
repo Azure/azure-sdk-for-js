@@ -22,7 +22,7 @@ export async function computePartitionKeyRangeId(
   container: Container,
   pKDefinition?: PartitionKeyDefinition,
 ): Promise<string | undefined> {
-  let partitionKeyRangeId: string;
+  let partitionKeyRangeId: string | undefined = undefined;
   if (isPartitionLevelFailOverEnabled) {
     const partitionKeyDefinition =
       pKDefinition ?? (await readPartitionKeyDefinition(diagnosticNode, container));
