@@ -2,6 +2,10 @@
 
 ## 1.0.0-beta.33 ()
 
+### Bugs Fixed
+
+- Fix auto-detection of RP environment for azure functions.
+
 ### Other Changes
 
 - Respect parent sampling result in ApplicationInsightsSampler.

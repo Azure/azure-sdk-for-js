@@ -25,6 +25,8 @@ import type {
   RecognizeFailed,
   RemoveParticipantSucceeded,
   RemoveParticipantFailed,
+  MoveParticipantSucceeded,
+  MoveParticipantFailed,
   ContinuousDtmfRecognitionToneReceived,
   ContinuousDtmfRecognitionToneFailed,
   ContinuousDtmfRecognitionStopped,
@@ -91,6 +93,16 @@ export function parseCallAutomationEvent(
     case "Microsoft.Communication.RemoveParticipantFailed":
       callbackEvent = { kind: "RemoveParticipantFailed" } as RemoveParticipantFailed;
       parsed.participant = communicationIdentifierConverter(data.participant);
+      break;
+    case "Microsoft.Communication.MoveParticipantSucceeded":
+      callbackEvent = { kind: "MoveParticipantSucceeded" } as MoveParticipantSucceeded;
+      parsed.participant = communicationIdentifierConverter(data.participant);
+      parsed.fromCall = data.fromCall;
+      break;
+    case "Microsoft.Communication.MoveParticipantFailed":
+      callbackEvent = { kind: "MoveParticipantFailed" } as MoveParticipantFailed;
+      parsed.participant = communicationIdentifierConverter(data.participant);
+      parsed.fromCall = data.fromCall;
       break;
     case "Microsoft.Communication.CallConnected":
       callbackEvent = { kind: "CallConnected" } as CallConnected;

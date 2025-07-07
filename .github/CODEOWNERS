@@ -136,11 +136,11 @@
 /sdk/digitaltwins/ @sjiherzig @johngallardo @olivakar
 
 # PRLabel: %Event Grid
-/sdk/eventgrid/ @xirzec
+/sdk/eventgrid/ @shankarsama @rajeshka
 
-# AzureSdkOwners: @xirzec
+# AzureSdkOwners: @shankarsama @rajeshka
 # ServiceLabel: %Event Grid
-# ServiceOwners: @robece
+# ServiceOwners: @shankarsama @rajeshka
 
 # PRLabel: %Event Hubs
 /sdk/eventhub/ @xirzec
@@ -1061,8 +1061,8 @@
 # PRLabel: %Monitor
 /sdk/monitor/monitor-ingestion/ @srnagar @lmolkova @Azure/azure-sdk-write-monitor-data-plane
 
-/sdk/monitor/monitor-opentelemetry @hectorhdzg @rads-1996 @Karlie-777 @MSNev @JacksonWeber
-/sdk/monitor/monitor-opentelemetry-exporter @hectorhdzg @rads-1996 @Karlie-777 @MSNev @JacksonWeber
+/sdk/monitor/monitor-opentelemetry @hectorhdzg @rads-1996 @Karlie-777 @MSNev @JacksonWeber @lzchen @jeremydvoss
+/sdk/monitor/monitor-opentelemetry-exporter @hectorhdzg @rads-1996 @Karlie-777 @MSNev @JacksonWeber @lzchen @jeremydvoss
 
 /sdk/monitor/monitor-query/ @srnagar @lmolkova @Azure/azure-sdk-write-monitor-data-plane
 /sdk/monitor/perf-tests/ @srnagar @Azure/azure-sdk-write-monitor-data-plane
