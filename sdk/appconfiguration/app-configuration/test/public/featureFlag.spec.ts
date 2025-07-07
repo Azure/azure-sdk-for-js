@@ -26,6 +26,7 @@ describe("AppConfigurationClient - FeatureFlag", () => {
       baseSetting = {
         value: {
           conditions: {
+            requirementType: "Any",
             clientFilters: [
               {
                 name: "Microsoft.TimeWindow",
@@ -54,6 +55,25 @@ describe("AppConfigurationClient - FeatureFlag", () => {
           enabled: false,
           description: "I'm a description",
           displayName: "for display",
+          variants: {
+            "variant1": { "configuration": { "color": "blue" } },
+            "variant2": { "configuration": { "color": "red" } }
+          },
+          allocation: {
+            default: "variant1",
+            user: [
+              {
+                variant: "variant2",
+                users: ["user1", "user2"]
+              }
+            ]
+          },
+          telemetry: {
+            enabled: true,
+            metadata: {
+              "key1": "value1"
+            }
+          }
         },
         isReadOnly: false,
         key: `${
@@ -93,6 +113,12 @@ describe("AppConfigurationClient - FeatureFlag", () => {
       );
       assert.equal(featureFlagValue.description, expected.value.description);
       assert.equal(featureFlagValue.enabled, expected.value.enabled);
+      assert.deepEqual(featureFlagValue.variants, expected.value.variants, 
+        "variants from the response from get request is not as expected");
+      assert.deepEqual(featureFlagValue.allocation, expected.value.allocation,
+        "allocation from the response from get request is not as expected");
+      assert.deepEqual(featureFlagValue.telemetry, expected.value.telemetry,
+        "telemetry from the response from get request is not as expected");
       assert.equal(actual.isReadOnly, expected.isReadOnly);
       assert.equal(actual.label, expected.label);
       assert.equal(actual.contentType, expected.contentType);
