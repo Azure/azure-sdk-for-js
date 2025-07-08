@@ -3354,7 +3354,7 @@ packages:
     version: 0.0.0
 
   '@rush-temp/arm-purestorageblock@file:projects/arm-purestorageblock.tgz':
-    resolution: {integrity: sha512-mgsICZgT36+5KMVjuxzQ5IU/S3z6nIC1OYdPcGk3d6gnkGGI9ES8vTZqk7uvFoFUhjoQolqIQDTPkHecROcZ1A==, tarball: file:projects/arm-purestorageblock.tgz}
+    resolution: {integrity: sha512-osmbnrJPp5F5Z6hjZ7IycM2xG0v1cse+5QWQ9TTcpbcVQxpZUpM1yZD0UQ1pUkO5amceC8LP5DdgGZBgFi26QA==, tarball: file:projects/arm-purestorageblock.tgz}
     version: 0.0.0
 
   '@rush-temp/arm-purview@file:projects/arm-purview.tgz':
@@ -3790,7 +3790,7 @@ packages:
     version: 0.0.0
 
   '@rush-temp/dev-tool@file:projects/dev-tool.tgz':
-    resolution: {integrity: sha512-EyjvrozxcpF0t5ycOnGuC/irOy0IqteAPS9fw/RRSxohHzJcv9JkigA2f3uq/61vP7Oi93UxvlthR/KstO/Neg==, tarball: file:projects/dev-tool.tgz}
+    resolution: {integrity: sha512-L50oa91VmFgvnChjZFO/gELy9NbmruH9n7tKKJhf3tDtEtgFbVtA9U2ZfV+suno+ehlRA5CGVZV0EiDxVtvMQQ==, tarball: file:projects/dev-tool.tgz}
     version: 0.0.0
 
   '@rush-temp/developer-devcenter@file:projects/developer-devcenter.tgz':
@@ -5063,6 +5063,10 @@ packages:
   detect-libc@2.0.4:
     resolution: {integrity: sha512-3UDv+G9CsCKO1WKMGw9fwq/SWJYbI0c5Y7LU1AXYoDdbhE2AHQ6N6Nb34sG8Fj7T5APy8qXDCKuuIHd1BR0tVA==}
     engines: {node: '>=8'}
+
+  diff@8.0.2:
+    resolution: {integrity: sha512-sSuxWU5j5SR9QQji/o2qMvqRNYRDOcBTgsJ/DeCf4iSN4gW+gNMXM7wFIP+fdXZxoNiAnHUTGjCr+TSWXdRDKg==}
+    engines: {node: '>=0.3.1'}
 
   dir-glob@3.0.1:
     resolution: {integrity: sha512-WkrWp9GR4KXfKGYzOLmTuGVi1UWFfws377n9cc55/tb6DuqyF6pcQ5AbiHEshaDpY9v6oaSr2XCDidGmMwdzIA==}
@@ -20394,6 +20398,7 @@ snapshots:
       chalk: 4.1.2
       concurrently: 8.2.2
       cross-env: 7.0.3
+      diff: 8.0.2
       dotenv: 16.5.0
       eslint: 9.29.0
       express: 5.1.0
@@ -24680,6 +24685,8 @@ snapshots:
   destroy@1.2.0: {}
 
   detect-libc@2.0.4: {}
+
+  diff@8.0.2: {}
 
   dir-glob@3.0.1:
     dependencies:

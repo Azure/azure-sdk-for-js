@@ -11,9 +11,10 @@ import {
   ConsoleMessageId,
   ExtractorMessage,
 } from "@microsoft/api-extractor";
+import { createTwoFilesPatch, parsePatch } from "diff";
 import { leafCommand, makeCommandInfo } from "../../framework/command";
 import { createPrinter } from "../../util/printer";
-import path from "path";
+import path from "node:path";
 import { readFile, writeFile, unlink, mkdir, rm } from "node:fs/promises";
 import { ProjectInfo, resolveProject } from "../../util/resolveProject";
 
@@ -127,35 +128,27 @@ function extractApi(
   return result.succeeded;
 }
 
-// TODO: explore better diff algorithms that consider changes at the definition level instead of the line level
 function createApiDiff(
   nodeContent: string,
   runtimeContent: string,
   runtime: string,
 ): string | undefined {
-  const nodeLines = nodeContent.split("\n");
-  const runtimeLines = runtimeContent.split("\n");
-  const diff: string[] = [];
-  const maxLength = Math.max(nodeLines.length, runtimeLines.length);
-  let hasChanges = false;
-  for (let i = 0; i < maxLength; i++) {
-    const nodeLine = nodeLines[i] || "";
-    const runtimeLine = runtimeLines[i] || "";
-    if (nodeLine !== runtimeLine) {
-      hasChanges = true;
-      diff.push(`- ${nodeLine}`);
-      diff.push(`+ ${runtimeLine}`);
-    }
-  }
-  if (!hasChanges) {
-    return undefined;
-  }
+  const diff = createTwoFilesPatch("NodeJS", runtime, nodeContent, runtimeContent);
+  const parsed = parsePatch(diff);
+  const hasRealChanges = parsed.some((file) =>
+    file.hunks.some((hunk) =>
+      hunk.lines.some((line) => line.startsWith("+") || line.startsWith("-")),
+    ),
+  );
+
+  if (!hasRealChanges) return undefined;
   const preamble = `# API Report Diff for ${runtime} runtime
 
 This file contains only the differences from the Node.js API.
 For the complete API surface, see the corresponding -node.api.md file.
 `;
-  return [preamble, `\`\`\``, ...diff, `\`\`\``].join("\n");
+
+  return [preamble, "```diff", diff, "```"].join("\n");
 }
 
 async function extractApiForEntry(
