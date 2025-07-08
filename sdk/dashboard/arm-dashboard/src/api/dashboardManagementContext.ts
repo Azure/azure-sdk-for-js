@@ -30,7 +30,7 @@ export function createDashboardManagement(
 ): DashboardManagementContext {
   const endpointUrl = options.endpoint ?? options.baseUrl ?? "https://management.azure.com";
   const prefixFromOptions = options?.userAgentOptions?.userAgentPrefix;
-  const userAgentInfo = `azsdk-js-arm-dashboard/1.0.0-beta.1`;
+  const userAgentInfo = `azsdk-js-arm-dashboard/2.0.0-beta.1`;
   const userAgentPrefix = prefixFromOptions
     ? `${prefixFromOptions} azsdk-js-api ${userAgentInfo}`
     : `azsdk-js-api ${userAgentInfo}`;
