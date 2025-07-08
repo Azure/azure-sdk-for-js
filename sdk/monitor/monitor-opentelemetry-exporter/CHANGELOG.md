@@ -6,6 +6,10 @@
 
 - Track CLIENT_READONLY and CLIENT_TIMEOUT customer statsbeat.
 
+### Bugs Fixed
+
+- Fix auto-detection of RP environment for azure functions.
+
 ## 1.0.0-beta.32 (2025-06-09)
 
 ### Features Added

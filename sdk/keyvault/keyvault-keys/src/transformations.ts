@@ -9,7 +9,7 @@ import type {
   KeyBundle,
   KeyItem,
   LifetimeActions,
-} from "./generated/models/index.js";
+} from "./generated/src/models/index.js";
 import { parseKeyVaultKeyIdentifier } from "./identifier.js";
 import type {
   DeletedKey,
@@ -19,7 +19,7 @@ import type {
   KeyRotationPolicyProperties,
   KeyVaultKey,
 } from "./keysModels.js";
-import type { PagedAsyncIterableIterator, PageSettings } from "./generated/index.js";
+import type { PagedAsyncIterableIterator, PageSettings } from "./generated/src/index.js";
 import type { OperationOptions } from "@azure-rest/core-client";
 
 /**
