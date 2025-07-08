@@ -424,16 +424,28 @@ function Update-javascript-GeneratedSdks([string]$PackageDirectoriesFile) {
       Write-Host "$directory" -ForegroundColor Yellow
 
       Write-Host "Calling TypeSpec-Project-Sync.ps1 for $directory"
-      & $RepoRoot/eng/common/scripts/TypeSpec-Project-Sync.ps1 $directoryPath
-      if ($LASTEXITCODE -ne 0) {        
-        Write-Host "##[error]TypeSpec-Project-Sync.ps1 failed for $directory with exit code $LASTEXITCODE" -ForegroundColor Red
+      $syncResult = & $RepoRoot/eng/common/scripts/TypeSpec-Project-Sync.ps1 $directoryPath
+      $syncExitCode = $LASTEXITCODE
+      
+      if ($syncExitCode -ne 0) {        
+        Write-Host "##[error]TypeSpec-Project-Sync.ps1 failed for $directory with exit code $syncExitCode" -ForegroundColor Red
+        if ($syncResult) {
+          Write-Host "Script output: $syncResult" -ForegroundColor Yellow
+        }
         $directoriesWithErrors += $directory
         continue
       }
 
       Write-Host "Calling TypeSpec-Project-Generate.ps1 for $directory"
-      & $RepoRoot/eng/common/scripts/TypeSpec-Project-Generate.ps1 $directoryPath
-      if ($LASTEXITCODE -ne 0) {       
+      $generateResult = & $RepoRoot/eng/common/scripts/TypeSpec-Project-Generate.ps1 $directoryPath
+      $generateExitCode = $LASTEXITCODE
+      
+      if ($generateExitCode -ne 0) {       
+        Write-Host "##[error]TypeSpec-Project-Generate.ps1 failed for $directory with exit code $generateExitCode" -ForegroundColor Red
+        if ($generateResult) {
+          Write-Host "Script output: $generateResult" -ForegroundColor Yellow
+        }
+        $directoriesWithErrors += $directory
         $errorStatistics.ManagementSdkTypeSpecGenerateFailure += $directory
         continue
       }
