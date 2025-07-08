@@ -56,15 +56,17 @@ export function _generateUploadUrlSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).post({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
-    body: generateUploadUrlRequestSerializer(body),
-  });
+  return context
+    .path(path)
+    .post({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      headers: {
+        accept: "application/json",
+        ...options.requestOptions?.headers,
+      },
+      body: generateUploadUrlRequestSerializer(body),
+    });
 }
 
 export async function _generateUploadUrlDeserialize(
@@ -112,13 +114,15 @@ export function _listBySubscriptionSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).get({
-    ...operationOptionsToRequestParameters(options),
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
-  });
+  return context
+    .path(path)
+    .get({
+      ...operationOptionsToRequestParameters(options),
+      headers: {
+        accept: "application/json",
+        ...options.requestOptions?.headers,
+      },
+    });
 }
 
 export async function _listBySubscriptionDeserialize(
@@ -164,13 +168,15 @@ export function _listByResourceGroupSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).get({
-    ...operationOptionsToRequestParameters(options),
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
-  });
+  return context
+    .path(path)
+    .get({
+      ...operationOptionsToRequestParameters(options),
+      headers: {
+        accept: "application/json",
+        ...options.requestOptions?.headers,
+      },
+    });
 }
 
 export async function _listByResourceGroupDeserialize(
@@ -219,16 +225,20 @@ export function _$deleteSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).delete({
-    ...operationOptionsToRequestParameters(options),
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
-  });
+  return context
+    .path(path)
+    .delete({
+      ...operationOptionsToRequestParameters(options),
+      headers: {
+        accept: "application/json",
+        ...options.requestOptions?.headers,
+      },
+    });
 }
 
-export async function _$deleteDeserialize(result: PathUncheckedResponse): Promise<void> {
+export async function _$deleteDeserialize(
+  result: PathUncheckedResponse,
+): Promise<void> {
   const expectedStatuses = ["200", "204"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
@@ -251,7 +261,12 @@ export async function $delete(
   workspaceName: string,
   options: WorkspacesDeleteOptionalParams = { requestOptions: {} },
 ): Promise<void> {
-  const result = await _$deleteSend(context, resourceGroupName, workspaceName, options);
+  const result = await _$deleteSend(
+    context,
+    resourceGroupName,
+    workspaceName,
+    options,
+  );
   return _$deleteDeserialize(result);
 }
 
@@ -274,18 +289,22 @@ export function _updateSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).patch({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
-    body: workspaceUpdateSerializer(properties),
-  });
+  return context
+    .path(path)
+    .patch({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      headers: {
+        accept: "application/json",
+        ...options.requestOptions?.headers,
+      },
+      body: workspaceUpdateSerializer(properties),
+    });
 }
 
-export async function _updateDeserialize(result: PathUncheckedResponse): Promise<Workspace> {
+export async function _updateDeserialize(
+  result: PathUncheckedResponse,
+): Promise<Workspace> {
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
@@ -304,7 +323,13 @@ export async function update(
   properties: WorkspaceUpdate,
   options: WorkspacesUpdateOptionalParams = { requestOptions: {} },
 ): Promise<Workspace> {
-  const result = await _updateSend(context, resourceGroupName, workspaceName, properties, options);
+  const result = await _updateSend(
+    context,
+    resourceGroupName,
+    workspaceName,
+    properties,
+    options,
+  );
   return _updateDeserialize(result);
 }
 
@@ -327,18 +352,22 @@ export function _createSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).put({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
-    body: workspaceSerializer(resource),
-  });
+  return context
+    .path(path)
+    .put({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      headers: {
+        accept: "application/json",
+        ...options.requestOptions?.headers,
+      },
+      body: workspaceSerializer(resource),
+    });
 }
 
-export async function _createDeserialize(result: PathUncheckedResponse): Promise<Workspace> {
+export async function _createDeserialize(
+  result: PathUncheckedResponse,
+): Promise<Workspace> {
   const expectedStatuses = ["200", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
@@ -357,7 +386,13 @@ export async function create(
   resource: Workspace,
   options: WorkspacesCreateOptionalParams = { requestOptions: {} },
 ): Promise<Workspace> {
-  const result = await _createSend(context, resourceGroupName, workspaceName, resource, options);
+  const result = await _createSend(
+    context,
+    resourceGroupName,
+    workspaceName,
+    resource,
+    options,
+  );
   return _createDeserialize(result);
 }
 
@@ -379,16 +414,20 @@ export function _getSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).get({
-    ...operationOptionsToRequestParameters(options),
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
-  });
+  return context
+    .path(path)
+    .get({
+      ...operationOptionsToRequestParameters(options),
+      headers: {
+        accept: "application/json",
+        ...options.requestOptions?.headers,
+      },
+    });
 }
 
-export async function _getDeserialize(result: PathUncheckedResponse): Promise<Workspace> {
+export async function _getDeserialize(
+  result: PathUncheckedResponse,
+): Promise<Workspace> {
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
@@ -406,6 +445,11 @@ export async function get(
   workspaceName: string,
   options: WorkspacesGetOptionalParams = { requestOptions: {} },
 ): Promise<Workspace> {
-  const result = await _getSend(context, resourceGroupName, workspaceName, options);
+  const result = await _getSend(
+    context,
+    resourceGroupName,
+    workspaceName,
+    options,
+  );
   return _getDeserialize(result);
 }

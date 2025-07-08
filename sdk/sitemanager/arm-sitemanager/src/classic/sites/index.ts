@@ -66,8 +66,11 @@ function _getSites(context: EdgeContext) {
       resourceGroupName: string,
       options?: SitesListByResourceGroupOptionalParams,
     ) => listByResourceGroup(context, resourceGroupName, options),
-    delete: (resourceGroupName: string, siteName: string, options?: SitesDeleteOptionalParams) =>
-      $delete(context, resourceGroupName, siteName, options),
+    delete: (
+      resourceGroupName: string,
+      siteName: string,
+      options?: SitesDeleteOptionalParams,
+    ) => $delete(context, resourceGroupName, siteName, options),
     update: (
       resourceGroupName: string,
       siteName: string,
@@ -79,9 +82,13 @@ function _getSites(context: EdgeContext) {
       siteName: string,
       resource: Site,
       options?: SitesCreateOrUpdateOptionalParams,
-    ) => createOrUpdate(context, resourceGroupName, siteName, resource, options),
-    get: (resourceGroupName: string, siteName: string, options?: SitesGetOptionalParams) =>
-      get(context, resourceGroupName, siteName, options),
+    ) =>
+      createOrUpdate(context, resourceGroupName, siteName, resource, options),
+    get: (
+      resourceGroupName: string,
+      siteName: string,
+      options?: SitesGetOptionalParams,
+    ) => get(context, resourceGroupName, siteName, options),
   };
 }
 

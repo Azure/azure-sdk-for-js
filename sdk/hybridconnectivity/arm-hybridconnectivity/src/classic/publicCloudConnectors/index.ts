@@ -3,9 +3,9 @@
 
 import { HybridConnectivityManagementAPIContext } from "../../api/hybridConnectivityManagementAPIContext.js";
 import {
-  OperationStatusResult,
   PublicCloudConnector,
   PublicCloudConnectorUpdate,
+  OperationStatusResult,
 } from "../../models/models.js";
 import {
   PublicCloudConnectorsTestPermissionsOptionalParams,
@@ -17,13 +17,13 @@ import {
   PublicCloudConnectorsGetOptionalParams,
 } from "../../api/publicCloudConnectors/options.js";
 import {
-  testPermissions,
-  listBySubscription,
-  listByResourceGroup,
-  $delete,
-  update,
-  createOrUpdate,
-  get,
+  publicCloudConnectorsTestPermissions,
+  publicCloudConnectorsListBySubscription,
+  publicCloudConnectorsListByResourceGroup,
+  publicCloudConnectorsDelete,
+  publicCloudConnectorsUpdate,
+  publicCloudConnectorsCreateOrUpdate,
+  publicCloudConnectorsGet,
 } from "../../api/publicCloudConnectors/operations.js";
 import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 import { PollerLike, OperationState } from "@azure/core-lro";
@@ -46,11 +46,6 @@ export interface PublicCloudConnectorsOperations {
     options?: PublicCloudConnectorsListByResourceGroupOptionalParams,
   ) => PagedAsyncIterableIterator<PublicCloudConnector>;
   /** Delete a PublicCloudConnector */
-  /**
-   *  @fixme delete is a reserved word that cannot be used as an operation name.
-   *         Please add @clientName("clientName") or @clientName("<JS-Specific-Name>", "javascript")
-   *         to the operation to override the generated name.
-   */
   delete: (
     resourceGroupName: string,
     publicCloudConnector: string,
@@ -78,41 +73,81 @@ export interface PublicCloudConnectorsOperations {
   ) => Promise<PublicCloudConnector>;
 }
 
-function _getPublicCloudConnectors(context: HybridConnectivityManagementAPIContext) {
+function _getPublicCloudConnectors(
+  context: HybridConnectivityManagementAPIContext,
+) {
   return {
     testPermissions: (
       resourceGroupName: string,
       publicCloudConnector: string,
       options?: PublicCloudConnectorsTestPermissionsOptionalParams,
-    ) => testPermissions(context, resourceGroupName, publicCloudConnector, options),
-    listBySubscription: (options?: PublicCloudConnectorsListBySubscriptionOptionalParams) =>
-      listBySubscription(context, options),
+    ) =>
+      publicCloudConnectorsTestPermissions(
+        context,
+        resourceGroupName,
+        publicCloudConnector,
+        options,
+      ),
+    listBySubscription: (
+      options?: PublicCloudConnectorsListBySubscriptionOptionalParams,
+    ) => publicCloudConnectorsListBySubscription(context, options),
     listByResourceGroup: (
       resourceGroupName: string,
       options?: PublicCloudConnectorsListByResourceGroupOptionalParams,
-    ) => listByResourceGroup(context, resourceGroupName, options),
+    ) =>
+      publicCloudConnectorsListByResourceGroup(
+        context,
+        resourceGroupName,
+        options,
+      ),
     delete: (
       resourceGroupName: string,
       publicCloudConnector: string,
       options?: PublicCloudConnectorsDeleteOptionalParams,
-    ) => $delete(context, resourceGroupName, publicCloudConnector, options),
+    ) =>
+      publicCloudConnectorsDelete(
+        context,
+        resourceGroupName,
+        publicCloudConnector,
+        options,
+      ),
     update: (
       resourceGroupName: string,
       publicCloudConnector: string,
       properties: PublicCloudConnectorUpdate,
       options?: PublicCloudConnectorsUpdateOptionalParams,
-    ) => update(context, resourceGroupName, publicCloudConnector, properties, options),
+    ) =>
+      publicCloudConnectorsUpdate(
+        context,
+        resourceGroupName,
+        publicCloudConnector,
+        properties,
+        options,
+      ),
     createOrUpdate: (
       resourceGroupName: string,
       publicCloudConnector: string,
       resource: PublicCloudConnector,
       options?: PublicCloudConnectorsCreateOrUpdateOptionalParams,
-    ) => createOrUpdate(context, resourceGroupName, publicCloudConnector, resource, options),
+    ) =>
+      publicCloudConnectorsCreateOrUpdate(
+        context,
+        resourceGroupName,
+        publicCloudConnector,
+        resource,
+        options,
+      ),
     get: (
       resourceGroupName: string,
       publicCloudConnector: string,
       options?: PublicCloudConnectorsGetOptionalParams,
-    ) => get(context, resourceGroupName, publicCloudConnector, options),
+    ) =>
+      publicCloudConnectorsGet(
+        context,
+        resourceGroupName,
+        publicCloudConnector,
+        options,
+      ),
   };
 }
 
