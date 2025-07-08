@@ -6,6 +6,12 @@
 
 - **Visual Studio Code Credential** has been re-enabled and now supports **broker authentication** using the Azure account signed in via Visual Studio Code. [#34985](https://github.com/Azure/azure-sdk-for-js/pull/34985)
 
+### Breaking Changes
+
+### Bugs Fixed
+
+### Other Changes
+
 ## 4.10.2 (2025-07-02)
 
 ### Bugs Fixed
