@@ -859,26 +859,26 @@ describe("Full Text Search queries", () => {
           defaultLanguage: "en-US",
           fullTextPaths: [{ path: "/text", language: "en-US" }],
         },
-        throughput: 25000,
+        throughput: 30000,
       });
       container = result.container;
-      // Create items in different partitions
+      // Create items in different partitions using diverse partition key values
       const response1 = await container.items.create({
         id: "1",
         country: "US",
-        city: "NY",
+        city: "NewYork",
         text: "I like to swim and play",
       });
       const response2 = await container.items.create({
         id: "2",
-        country: "US",
-        city: "SF",
+        country: "India",
+        city: "Delhi",
         text: "I like to swim and run",
       });
       const response3 = await container.items.create({
         id: "3",
-        country: "CA",
-        city: "Toronto",
+        country: "Australia",
+        city: "Sidney",
         text: "I like to run",
       });
 
@@ -894,15 +894,15 @@ describe("Full Text Search queries", () => {
       let { resources } = await container.items.query(query).fetchAll();
       assert.equal(resources.length, 1);
       assert.equal(resources[0].country, "US");
-      assert.equal(resources[0].city, "NY");
+      assert.equal(resources[0].city, "NewYork");
       assert.equal(resources[0].text, "I like to swim and play");
 
       // FullTextContainsAll with hierarchical partition keys
       query = "SELECT * FROM c WHERE FullTextContainsAll(c.text, 'swim', 'run')";
       resources = (await container.items.query(query).fetchAll()).resources;
       assert.equal(resources.length, 1);
-      assert.equal(resources[0].country, "US");
-      assert.equal(resources[0].city, "SF");
+      assert.equal(resources[0].country, "India");
+      assert.equal(resources[0].city, "Delhi");
       assert.equal(resources[0].text, "I like to swim and run");
 
       // FullTextContainsAny with hierarchical partition keys
@@ -910,9 +910,9 @@ describe("Full Text Search queries", () => {
       resources = (await container.items.query(query).fetchAll()).resources;
       assert.equal(resources.length, 3);
       const pks = resources.map((r: any) => `${r.country}-${r.city}`);
-      assert(pks.includes("US-NY"));
-      assert(pks.includes("US-SF"));
-      assert(pks.includes("CA-Toronto"));
+      assert(pks.includes("US-NewYork"));
+      assert(pks.includes("India-Delhi"));
+      assert(pks.includes("Australia-Sidney"));
     } finally {
       if (container) await container.delete();
     }
