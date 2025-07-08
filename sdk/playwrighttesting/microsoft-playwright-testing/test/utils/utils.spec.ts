@@ -570,8 +570,7 @@ describe("Service Utils", () => {
       "wss://eastus.api.playwright.microsoft.com/accounts/1234/browsers";
 
     const result = localPopulateValuesFromServiceUrl();
-    expect(result).to.deep.equal({ region: "eastus", domain: "playwright.microsoft.com", accountId: "1234" });
-
+    expect(result).to.deep.equal({ region: "eastus", accountId: "1234" });
     delete process.env["PLAYWRIGHT_SERVICE_URL"];
   });
 
