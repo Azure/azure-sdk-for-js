@@ -11,55 +11,66 @@ export interface AutonomousDatabasesChangeDisasterRecoveryConfigurationOptionalP
 }
 
 /** Optional parameters. */
-export interface AutonomousDatabasesShrinkOptionalParams extends OperationOptions {
+export interface AutonomousDatabasesShrinkOptionalParams
+  extends OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
 }
 
 /** Optional parameters. */
-export interface AutonomousDatabasesRestoreOptionalParams extends OperationOptions {
+export interface AutonomousDatabasesRestoreOptionalParams
+  extends OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
 }
 
 /** Optional parameters. */
-export interface AutonomousDatabasesGenerateWalletOptionalParams extends OperationOptions {}
+export interface AutonomousDatabasesGenerateWalletOptionalParams
+  extends OperationOptions {}
 
 /** Optional parameters. */
-export interface AutonomousDatabasesFailoverOptionalParams extends OperationOptions {
+export interface AutonomousDatabasesFailoverOptionalParams
+  extends OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
 }
 
 /** Optional parameters. */
-export interface AutonomousDatabasesSwitchoverOptionalParams extends OperationOptions {
+export interface AutonomousDatabasesSwitchoverOptionalParams
+  extends OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
 }
 
 /** Optional parameters. */
-export interface AutonomousDatabasesListByResourceGroupOptionalParams extends OperationOptions {}
+export interface AutonomousDatabasesListByResourceGroupOptionalParams
+  extends OperationOptions {}
 
 /** Optional parameters. */
-export interface AutonomousDatabasesUpdateOptionalParams extends OperationOptions {
+export interface AutonomousDatabasesUpdateOptionalParams
+  extends OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
 }
 
 /** Optional parameters. */
-export interface AutonomousDatabasesDeleteOptionalParams extends OperationOptions {
+export interface AutonomousDatabasesDeleteOptionalParams
+  extends OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
 }
 
 /** Optional parameters. */
-export interface AutonomousDatabasesGetOptionalParams extends OperationOptions {}
+export interface AutonomousDatabasesGetOptionalParams
+  extends OperationOptions {}
 
 /** Optional parameters. */
-export interface AutonomousDatabasesCreateOrUpdateOptionalParams extends OperationOptions {
+export interface AutonomousDatabasesCreateOrUpdateOptionalParams
+  extends OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
 }
 
 /** Optional parameters. */
-export interface AutonomousDatabasesListBySubscriptionOptionalParams extends OperationOptions {}
+export interface AutonomousDatabasesListBySubscriptionOptionalParams
+  extends OperationOptions {}

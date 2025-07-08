@@ -4,10 +4,12 @@
 import { OperationOptions } from "@azure-rest/core-client";
 
 /** Optional parameters. */
-export interface InstancesListBySubscriptionOptionalParams extends OperationOptions {}
+export interface InstancesListBySubscriptionOptionalParams
+  extends OperationOptions {}
 
 /** Optional parameters. */
-export interface InstancesListByResourceGroupOptionalParams extends OperationOptions {}
+export interface InstancesListByResourceGroupOptionalParams
+  extends OperationOptions {}
 
 /** Optional parameters. */
 export interface InstancesDeleteOptionalParams extends OperationOptions {
@@ -19,7 +21,8 @@ export interface InstancesDeleteOptionalParams extends OperationOptions {
 export interface InstancesUpdateOptionalParams extends OperationOptions {}
 
 /** Optional parameters. */
-export interface InstancesCreateOrUpdateOptionalParams extends OperationOptions {
+export interface InstancesCreateOrUpdateOptionalParams
+  extends OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
 }
