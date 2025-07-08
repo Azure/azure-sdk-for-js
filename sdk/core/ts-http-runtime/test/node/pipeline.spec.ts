@@ -20,7 +20,7 @@ vi.mock("https", async () => {
 });
 
 import type { Agent } from "node:http";
-import * as https from "node:https";
+import https from "node:https";
 
 describe("HttpsPipeline", function () {
   describe("Agent creation", function () {

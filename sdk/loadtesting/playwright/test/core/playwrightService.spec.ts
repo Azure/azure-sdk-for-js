@@ -14,7 +14,7 @@ import { PlaywrightServiceConfig } from "../../src/common/playwrightServiceConfi
 import { describe, it, expect, beforeEach, afterEach, vi } from "vitest";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
-import * as process from "node:process";
+import process from "node:process";
 import { parseJwt } from "../../src/utils/parseJwt.js";
 
 vi.mock("../../src/utils/parseJwt.js", async (importActual) => {
