@@ -571,6 +571,7 @@ describe("Service Utils", () => {
 
     const result = localPopulateValuesFromServiceUrl();
     expect(result).to.deep.equal({ region: "eastus", accountId: "1234" });
+
     delete process.env["PLAYWRIGHT_SERVICE_URL"];
   });
 
