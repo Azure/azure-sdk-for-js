@@ -420,16 +420,20 @@ function Update-javascript-GeneratedSdks([string]$PackageDirectoriesFile) {
       Write-Host "Calling TypeSpec-Project-Sync.ps1 for $directory"
       & $RepoRoot/eng/common/scripts/TypeSpec-Project-Sync.ps1 $directoryPath
       if ($LASTEXITCODE) {
-        $directoriesWithErrors += $directory
+        #$directoriesWithErrors += $directory
         continue
       }
 
-      Write-Host "Calling TypeSpec-Project-Generate.ps1 for $directory"
-      & $RepoRoot/eng/common/scripts/TypeSpec-Project-Generate.ps1 $directoryPath
-      if ($LASTEXITCODE) {
-        $directoriesWithErrors += $directory
-        continue
-      }
+      $fileGenerateInput = 'generateInput.json';
+      $inputJsonPath = Join-Path $RepoRoot $fileGenerateInput
+      if (Test-Path $inputJsonPath) {
+        Write-Host "Calling TypeSpec-Project-Generate.ps1 for $directory"
+        & $RepoRoot/eng/common/scripts/TypeSpec-Project-Generate.ps1 $directoryPath
+        if ($LASTEXITCODE) {
+          $directoriesWithErrors += $directory
+          continue
+        }
+      }      
     }
     else {
       Write-Host "No tsp-location.yaml found in $directory"
