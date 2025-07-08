@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { CarbonOptimizationManagementContext } from "../../api/carbonOptimizationManagementContext.js";
+import { CarbonContext } from "../../api/carbonContext.js";
 import { Operation } from "../../models/models.js";
 import { OperationsListOptionalParams } from "../../api/operations/options.js";
 import { list } from "../../api/operations/operations.js";
@@ -13,15 +13,13 @@ export interface OperationsOperations {
   list: (options?: OperationsListOptionalParams) => PagedAsyncIterableIterator<Operation>;
 }
 
-function _getOperations(context: CarbonOptimizationManagementContext) {
+function _getOperations(context: CarbonContext) {
   return {
     list: (options?: OperationsListOptionalParams) => list(context, options),
   };
 }
 
-export function _getOperationsOperations(
-  context: CarbonOptimizationManagementContext,
-): OperationsOperations {
+export function _getOperationsOperations(context: CarbonContext): OperationsOperations {
   return {
     ..._getOperations(context),
   };

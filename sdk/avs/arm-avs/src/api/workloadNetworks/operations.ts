@@ -270,7 +270,7 @@ export function _createVMGroupSend(
 export async function _createVMGroupDeserialize(
   result: PathUncheckedResponse,
 ): Promise<WorkloadNetworkVMGroup> {
-  const expectedStatuses = ["200", "201"];
+  const expectedStatuses = ["200", "201", "202"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = errorResponseDeserializer(result.body);
@@ -289,7 +289,7 @@ export function createVMGroup(
   workloadNetworkVMGroup: WorkloadNetworkVMGroup,
   options: WorkloadNetworksCreateVMGroupOptionalParams = { requestOptions: {} },
 ): PollerLike<OperationState<WorkloadNetworkVMGroup>, WorkloadNetworkVMGroup> {
-  return getLongRunningPoller(context, _createVMGroupDeserialize, ["200", "201"], {
+  return getLongRunningPoller(context, _createVMGroupDeserialize, ["200", "201", "202"], {
     updateIntervalInMs: options?.updateIntervalInMs,
     abortSignal: options?.abortSignal,
     getInitialResponse: () =>
@@ -713,7 +713,7 @@ export function _createSegmentsSend(
 export async function _createSegmentsDeserialize(
   result: PathUncheckedResponse,
 ): Promise<WorkloadNetworkSegment> {
-  const expectedStatuses = ["200", "201"];
+  const expectedStatuses = ["200", "201", "202"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = errorResponseDeserializer(result.body);
@@ -734,7 +734,7 @@ export function createSegments(
     requestOptions: {},
   },
 ): PollerLike<OperationState<WorkloadNetworkSegment>, WorkloadNetworkSegment> {
-  return getLongRunningPoller(context, _createSegmentsDeserialize, ["200", "201"], {
+  return getLongRunningPoller(context, _createSegmentsDeserialize, ["200", "201", "202"], {
     updateIntervalInMs: options?.updateIntervalInMs,
     abortSignal: options?.abortSignal,
     getInitialResponse: () =>
@@ -964,7 +964,7 @@ export function _createPublicIPSend(
 export async function _createPublicIPDeserialize(
   result: PathUncheckedResponse,
 ): Promise<WorkloadNetworkPublicIP> {
-  const expectedStatuses = ["200", "201"];
+  const expectedStatuses = ["200", "201", "202"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = errorResponseDeserializer(result.body);
@@ -985,7 +985,7 @@ export function createPublicIP(
     requestOptions: {},
   },
 ): PollerLike<OperationState<WorkloadNetworkPublicIP>, WorkloadNetworkPublicIP> {
-  return getLongRunningPoller(context, _createPublicIPDeserialize, ["200", "201"], {
+  return getLongRunningPoller(context, _createPublicIPDeserialize, ["200", "201", "202"], {
     updateIntervalInMs: options?.updateIntervalInMs,
     abortSignal: options?.abortSignal,
     getInitialResponse: () =>
@@ -1297,7 +1297,7 @@ export function _createPortMirroringSend(
 export async function _createPortMirroringDeserialize(
   result: PathUncheckedResponse,
 ): Promise<WorkloadNetworkPortMirroring> {
-  const expectedStatuses = ["200", "201"];
+  const expectedStatuses = ["200", "201", "202"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = errorResponseDeserializer(result.body);
@@ -1318,7 +1318,7 @@ export function createPortMirroring(
     requestOptions: {},
   },
 ): PollerLike<OperationState<WorkloadNetworkPortMirroring>, WorkloadNetworkPortMirroring> {
-  return getLongRunningPoller(context, _createPortMirroringDeserialize, ["200", "201"], {
+  return getLongRunningPoller(context, _createPortMirroringDeserialize, ["200", "201", "202"], {
     updateIntervalInMs: options?.updateIntervalInMs,
     abortSignal: options?.abortSignal,
     getInitialResponse: () =>
@@ -1736,7 +1736,7 @@ export function _createDnsZoneSend(
 export async function _createDnsZoneDeserialize(
   result: PathUncheckedResponse,
 ): Promise<WorkloadNetworkDnsZone> {
-  const expectedStatuses = ["200", "201"];
+  const expectedStatuses = ["200", "201", "202"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = errorResponseDeserializer(result.body);
@@ -1755,7 +1755,7 @@ export function createDnsZone(
   workloadNetworkDnsZone: WorkloadNetworkDnsZone,
   options: WorkloadNetworksCreateDnsZoneOptionalParams = { requestOptions: {} },
 ): PollerLike<OperationState<WorkloadNetworkDnsZone>, WorkloadNetworkDnsZone> {
-  return getLongRunningPoller(context, _createDnsZoneDeserialize, ["200", "201"], {
+  return getLongRunningPoller(context, _createDnsZoneDeserialize, ["200", "201", "202"], {
     updateIntervalInMs: options?.updateIntervalInMs,
     abortSignal: options?.abortSignal,
     getInitialResponse: () =>
@@ -2059,7 +2059,7 @@ export function _createDnsServiceSend(
 export async function _createDnsServiceDeserialize(
   result: PathUncheckedResponse,
 ): Promise<WorkloadNetworkDnsService> {
-  const expectedStatuses = ["200", "201"];
+  const expectedStatuses = ["200", "201", "202"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = errorResponseDeserializer(result.body);
@@ -2080,7 +2080,7 @@ export function createDnsService(
     requestOptions: {},
   },
 ): PollerLike<OperationState<WorkloadNetworkDnsService>, WorkloadNetworkDnsService> {
-  return getLongRunningPoller(context, _createDnsServiceDeserialize, ["200", "201"], {
+  return getLongRunningPoller(context, _createDnsServiceDeserialize, ["200", "201", "202"], {
     updateIntervalInMs: options?.updateIntervalInMs,
     abortSignal: options?.abortSignal,
     getInitialResponse: () =>
@@ -2378,7 +2378,7 @@ export function _createDhcpSend(
 export async function _createDhcpDeserialize(
   result: PathUncheckedResponse,
 ): Promise<WorkloadNetworkDhcp> {
-  const expectedStatuses = ["200", "201"];
+  const expectedStatuses = ["200", "201", "202"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = errorResponseDeserializer(result.body);
@@ -2397,7 +2397,7 @@ export function createDhcp(
   workloadNetworkDhcp: WorkloadNetworkDhcp,
   options: WorkloadNetworksCreateDhcpOptionalParams = { requestOptions: {} },
 ): PollerLike<OperationState<WorkloadNetworkDhcp>, WorkloadNetworkDhcp> {
-  return getLongRunningPoller(context, _createDhcpDeserialize, ["200", "201"], {
+  return getLongRunningPoller(context, _createDhcpDeserialize, ["200", "201", "202"], {
     updateIntervalInMs: options?.updateIntervalInMs,
     abortSignal: options?.abortSignal,
     getInitialResponse: () =>

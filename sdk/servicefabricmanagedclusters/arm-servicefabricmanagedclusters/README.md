@@ -56,10 +56,7 @@ import { ServiceFabricManagedClustersManagementClient } from "@azure/arm-service
 import { DefaultAzureCredential } from "@azure/identity";
 
 const subscriptionId = "00000000-0000-0000-0000-000000000000";
-const client = new ServiceFabricManagedClustersManagementClient(
-  new DefaultAzureCredential(),
-  subscriptionId,
-);
+const client = new ServiceFabricManagedClustersManagementClient(new DefaultAzureCredential(), subscriptionId);
 ```
 
 For browser environments, use the `InteractiveBrowserCredential` from the `@azure/identity` package to authenticate.
@@ -71,7 +68,8 @@ import { ServiceFabricManagedClustersManagementClient } from "@azure/arm-service
 const credential = new InteractiveBrowserCredential({
   tenantId: "<YOUR_TENANT_ID>",
   clientId: "<YOUR_CLIENT_ID>",
-});
+ });
+
 const subscriptionId = "00000000-0000-0000-0000-000000000000";
 const client = new ServiceFabricManagedClustersManagementClient(credential, subscriptionId);
 ```

@@ -9,17 +9,17 @@ import { ClientOptions } from '@azure-rest/core-client';
 import { TokenCredential } from '@azure/core-auth';
 
 // @public
-export interface CarbonOptimizationManagementClientOptionalParams extends ClientOptions {
+export interface CarbonClientOptionalParams extends ClientOptions {
     apiVersion?: string;
 }
 
 // @public
-export interface CarbonOptimizationManagementContext extends Client {
+export interface CarbonContext extends Client {
     apiVersion: string;
 }
 
 // @public
-export function createCarbonOptimizationManagement(credential: TokenCredential, options?: CarbonOptimizationManagementClientOptionalParams): CarbonOptimizationManagementContext;
+export function createCarbon(credential: TokenCredential, options?: CarbonClientOptionalParams): CarbonContext;
 
 // (No @packageDocumentation comment for this package)
 

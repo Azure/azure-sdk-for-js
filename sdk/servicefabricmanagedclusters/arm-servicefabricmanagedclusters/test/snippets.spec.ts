@@ -2,7 +2,10 @@
 // Licensed under the MIT License.
 
 import { ServiceFabricManagedClustersManagementClient } from "../src/index.js";
-import { DefaultAzureCredential, InteractiveBrowserCredential } from "@azure/identity";
+import {
+  DefaultAzureCredential,
+  InteractiveBrowserCredential,
+} from "@azure/identity";
 import { setLogLevel } from "@azure/logger";
 import { describe, it } from "vitest";
 
@@ -21,7 +24,10 @@ describe("snippets", () => {
       clientId: "<YOUR_CLIENT_ID>",
     });
     const subscriptionId = "00000000-0000-0000-0000-000000000000";
-    const client = new ServiceFabricManagedClustersManagementClient(credential, subscriptionId);
+    const client = new ServiceFabricManagedClustersManagementClient(
+      credential,
+      subscriptionId,
+    );
   });
 
   it("SetLogLevel", async () => {
