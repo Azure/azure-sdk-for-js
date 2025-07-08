@@ -7,7 +7,7 @@ import { credentialLogger } from "./logging.js";
 const logger = credentialLogger("VisualStudioCodeHelpers");
 
 /**
- * Load the broker plugin from @azure/identity-broker package.
+ * Load the broker plugin from \@azure/identity-broker package.
  * @returns The native broker plugin if available, undefined otherwise.
  */
 export function loadBrokerPlugin(): ReturnType<typeof require> {

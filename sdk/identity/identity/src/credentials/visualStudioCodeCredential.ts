@@ -15,7 +15,8 @@ import { checkTenantId } from "../util/tenantIdUtils.js";
 import { readFileSync } from "node:fs";
 import os from "node:os";
 import path from "node:path";
-import { createMsalClient, MsalClient } from "../msal/nodeFlows/msalClient.js";
+import type { MsalClient } from "../msal/nodeFlows/msalClient.js";
+import { createMsalClient } from "../msal/nodeFlows/msalClient.js";
 import { ensureScopes } from "../util/scopeUtils.js";
 import { useIdentityPlugin } from "../plugins/consumer.js";
 import {
