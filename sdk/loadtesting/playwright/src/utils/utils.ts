@@ -26,6 +26,8 @@ import { exec } from "child_process";
 export { getPlaywrightVersion } from "./getPlaywrightVersion.js";
 export { parseJwt } from "./parseJwt.js";
 
+// const playwrightServiceConfig = new PlaywrightServiceConfig();
+
 export const exitWithFailureMessage = (error: { key: string; message: string }): never => {
   console.log();
   console.error(error.message);
@@ -210,17 +212,14 @@ export const getTestRunConfig = (config: FullConfig): RunConfig => {
 export function getTestRunApiUrl(): string {
   const result = populateValuesFromServiceUrl();
   const runId = process.env[InternalEnvironmentVariables.MPT_SERVICE_RUN_ID];
-  const apiVersion = "2024-09-01-preview";
 
   if (!result?.region || !result?.domain || !result?.accountId) {
-    throw new Error(
-      "Missing required environment variables: PLAYWRIGHT_REGION, DOMAIN, or WORKSPACE_ID.",
-    );
+    exitWithFailureMessage(ServiceErrorMessageConstants.NO_SERVICE_URL_ERROR);
   }
-  const baseUrl = `https://${result.region}.reporting.api.${result.domain}/playwrightworkspaces/${result.accountId}/test-runs`;
+  const baseUrl = `https://${result?.region}.reporting.api.${result?.domain}/playwrightworkspaces/${result?.accountId}/test-runs`;
   const url = runId ? `${baseUrl}/${runId}` : baseUrl;
 
-  return `${url}?api-version=${apiVersion}`;
+  return `${url}?api-version=${Constants.LatestAPIVersion}`;
 }
 
 export function isNullOrEmpty(str: string | null | undefined): boolean {
@@ -265,7 +264,7 @@ export async function getRunName(ciInfo: CIInfo): Promise<string> {
     const gitCommitMessage = await runCommand(GitHubActionsConstants.GIT_COMMIT_MESSAGE_COMMAND);
     return gitCommitMessage;
   } catch (err) {
-    coreLogger.error(`\nError in getting git commit message: ${err}.`);
+    coreLogger.error(`Error in getting git commit message: ${err}.`);
     return "";
   }
 }

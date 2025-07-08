@@ -7,7 +7,8 @@ import {
   InternalEnvironmentVariables,
 } from "./constants.js";
 import type { PlaywrightServiceAdditionalOptions, OsType } from "./types.js";
-import { getAndSetRunId } from "../utils/utils.js";
+import { getAndSetRunId, getRunName } from "../utils/utils.js";
+import { CIInfoProvider } from "../utils/cIInfoProvider.js";
 
 class PlaywrightServiceConfig {
   public serviceOs: OsType;
@@ -27,6 +28,13 @@ class PlaywrightServiceConfig {
     this.exposeNetwork = DefaultConnectOptionsConstants.DEFAULT_EXPOSE_NETWORK;
     this.apiVersion =
       process.env[InternalEnvironmentVariables.MPT_API_VERSION] || Constants.LatestAPIVersion;
+  }
+
+  public async initialize(): Promise<void> {
+    if (!this.runName) {
+      const ciConfigInfo = CIInfoProvider.getCIInfo();
+      this.runName = await getRunName(ciConfigInfo);
+    }
   }
 
   setOptions = (options?: PlaywrightServiceAdditionalOptions): void => {

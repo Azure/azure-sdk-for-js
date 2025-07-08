@@ -45,6 +45,7 @@ export const DefaultConnectOptionsConstants = {
   DEFAULT_SLOW_MO: 0,
   DEFAULT_EXPOSE_NETWORK: "<loopback>",
   DEFAULT_SERVICE_OS: ServiceOS.LINUX,
+  DEFAULT_SERVICE_AUTH_TYPE: ServiceAuth.ENTRA_ID,
 };
 
 export const SDKLanguage = {
@@ -64,6 +65,7 @@ export const Constants = {
   OneDayInMS: 24 * 60 * 60 * 1000,
   MinimumSupportedPlaywrightVersion: "1.47.0",
   LatestAPIVersion: "2025-07-01-preview",
+  HTTP_CALL_TIMEOUT: 10000,
 };
 
 export const InternalEnvironmentVariables = {

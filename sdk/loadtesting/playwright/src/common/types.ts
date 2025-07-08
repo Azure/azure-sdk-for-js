@@ -201,7 +201,7 @@ export type RunFramework = {
 };
 
 export type TestRunCreatePayload = {
-  displayName: string | Promise<string>;
+  displayName: string;
   config?: RunConfig;
   ciConfig?: CIInfo;
 };

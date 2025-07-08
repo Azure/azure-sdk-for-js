@@ -10,8 +10,7 @@ import {
   createPipelineFromOptions,
 } from "@azure/core-rest-pipeline";
 import { coreLogger } from "../common/logger.js";
-
-const HTTP_CALL_TIMEOUT = 70000;
+import { Constants } from "./constants.js";
 
 export class HttpService {
   public async callAPI(
@@ -39,7 +38,7 @@ export class HttpService {
         "x-ms-client-request-id": `${randomUUID()}`,
         "x-correlation-id": correlationId,
       }),
-      timeout: HTTP_CALL_TIMEOUT,
+      timeout: Constants.HTTP_CALL_TIMEOUT,
     });
 
     if (data) {

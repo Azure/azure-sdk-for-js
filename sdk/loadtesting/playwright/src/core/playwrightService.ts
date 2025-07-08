@@ -1,9 +1,14 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { InternalEnvironmentVariables, ServiceAuth } from "../common/constants.js";
+import {
+  DefaultConnectOptionsConstants,
+  InternalEnvironmentVariables,
+  ServiceAuth,
+} from "../common/constants.js";
 import customerConfig from "../common/customerConfig.js";
 import { PlaywrightServiceConfig } from "../common/playwrightServiceConfig.js";
+import { ServiceConfig } from "../common/serviceConfig.js";
 import playwrightServiceEntra from "./playwrightServiceEntra.js";
 import type { PlaywrightServiceAdditionalOptions, BrowserConnectOptions } from "../common/types.js";
 import {
@@ -118,30 +123,31 @@ const getServiceConfig = (
 
   const playwrightServiceConfig = new PlaywrightServiceConfig();
   playwrightServiceConfig.setOptions(options);
+  ServiceConfig.instance.serviceAuthType =
+    options?.serviceAuthType || DefaultConnectOptionsConstants.DEFAULT_SERVICE_AUTH_TYPE;
 
   const globalFunctions: any = {};
 
   if (options?.serviceAuthType === ServiceAuth.ACCESS_TOKEN) {
     // mpt PAT requested and set by the customer, no need to setup entra lifecycle handlers
     validateMptPAT(exitWithFailureMessage);
-  } else {
-    // If multiple global file is supported, append playwright-service global setup/teardown with customer provided global setup/teardown
-    if (isMultipleGlobalFileSupported) {
-      globalFunctions.globalSetup = [] as string[];
-      globalFunctions.globalTeardown = [] as string[];
-      if (customerConfig.globalSetup) {
-        globalFunctions.globalSetup.push(...(customerConfig.globalSetup as string[]));
-      }
-      if (customerConfig.globalTeardown) {
-        globalFunctions.globalTeardown.push(...(customerConfig.globalTeardown as string[]));
-      }
-      globalFunctions.globalSetup.push(globalPaths.setup);
-      globalFunctions.globalTeardown.push(globalPaths.teardown);
-    } else {
-      // If multiple global file is not supported, wrap playwright-service global setup/teardown with customer provided global setup/teardown
-      globalFunctions.globalSetup = globalPaths.setup;
-      globalFunctions.globalTeardown = globalPaths.teardown;
+  }
+  // If multiple global file is supported, append playwright-service global setup/teardown with customer provided global setup/teardown
+  if (isMultipleGlobalFileSupported) {
+    globalFunctions.globalSetup = [] as string[];
+    globalFunctions.globalTeardown = [] as string[];
+    if (customerConfig.globalSetup) {
+      globalFunctions.globalSetup.push(...(customerConfig.globalSetup as string[]));
     }
+    if (customerConfig.globalTeardown) {
+      globalFunctions.globalTeardown.push(...(customerConfig.globalTeardown as string[]));
+    }
+    globalFunctions.globalSetup.push(globalPaths.setup);
+    globalFunctions.globalTeardown.push(globalPaths.teardown);
+  } else {
+    // If multiple global file is not supported, wrap playwright-service global setup/teardown with customer provided global setup/teardown
+    globalFunctions.globalSetup = globalPaths.setup;
+    globalFunctions.globalTeardown = globalPaths.teardown;
   }
   performOneTimeOperation(options);
   if (options?.useCloudHostedBrowsers === false) {
