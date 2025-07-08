@@ -16,7 +16,8 @@ export interface EndpointsUpdateOptionalParams extends OperationOptions {
 }
 
 /** Optional parameters. */
-export interface EndpointsCreateOrUpdateOptionalParams extends OperationOptions {
+export interface EndpointsCreateOrUpdateOptionalParams
+  extends OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
 }

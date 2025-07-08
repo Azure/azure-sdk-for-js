@@ -1,0 +1,15 @@
+{
+  "repoHttpsUrl": "https://github.com/Azure/azure-rest-api-specs",
+  "relatedTypeSpecProjectFolder": [
+    "specification/workloads/Workloads.SAPVirtualInstance.Management"
+  ],
+  "runMode": "release",
+  "installInstructionInput": {
+    "downloadUrlPrefix": "",
+    "downloadCommandTemplate": "downloadCommand",
+    "isPublic": true
+  },
+  "changedFiles": [],
+  "specFolder": "/mnt/vss/_work/1/s/sparse-spec/arm-workloadssapvirtualinstance",
+  "headSha": "f64de7d291a120f37e84c1c90dea62a886f45eb9"
+}
