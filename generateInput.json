@@ -1,0 +1,15 @@
+{
+  "specFolder": "/mnt/vss/_work/1/s/sparse-spec/arm-containerservicefleet",
+  "installInstructionInput": {
+    "downloadCommandTemplate": "downloadCommand",
+    "isPublic": true,
+    "downloadUrlPrefix": ""
+  },
+  "relatedTypeSpecProjectFolder": [
+    "specification/containerservice/Fleet.Management"
+  ],
+  "runMode": "release",
+  "headSha": "734445e0b59147a65865cd88b5674ddb5e62f9ba",
+  "repoHttpsUrl": "https://github.com/Azure/azure-rest-api-specs",
+  "changedFiles": []
+}
