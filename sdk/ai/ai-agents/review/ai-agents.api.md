@@ -43,11 +43,19 @@ export interface AgentEventMessage {
 }
 
 // @public
-export interface AgentEventMessageStream extends AsyncDisposable, AsyncIterable<AgentEventMessage> {
-}
+export interface AgentEventMessageStream
+extends AsyncDisposable,
+AsyncIterable<AgentEventMessage> {}
 
 // @public
-export type AgentEventStreamData = AgentThread | ThreadRun | RunStep | ThreadMessage | MessageDeltaChunk | RunStepDeltaChunk | string;
+export type AgentEventStreamData =
+| AgentThread
+| ThreadRun
+| RunStep
+| ThreadMessage
+| MessageDeltaChunk
+| RunStepDeltaChunk
+| string;
 
 // @public
 export type AgentRunResponse = PromiseLike<ThreadRun> & {
@@ -315,7 +323,12 @@ export interface FabricDataAgentToolParameters {
 }
 
 // @public
-export type FileContents = string | NodeJS.ReadableStream | ReadableStream<Uint8Array> | Uint8Array | Blob;
+export type FileContents =
+| string
+| NodeJS.ReadableStream
+| ReadableStream<Uint8Array>
+| Uint8Array
+| Blob;
 
 // @public
 export interface FileDeletionStatus {
@@ -396,10 +409,21 @@ export interface FilesListFilesOptionalParams extends OperationOptions {
 export interface FilesOperations {
     delete: (fileId: string, options?: FilesDeleteFileOptionalParams) => Promise<FileDeletionStatus>;
     get: (fileId: string, options?: FilesGetFileOptionalParams) => Promise<FileInfo>;
-    getContent: (fileId: string, options?: FilesGetFileContentOptionalParams) => StreamableMethod<string | Uint8Array>;
+    getContent: (
+    fileId: string,
+    options?: FilesGetFileContentOptionalParams,
+    ) => StreamableMethod<string | Uint8Array>;
     list: (options?: FilesListFilesOptionalParams) => Promise<FileListResponse>;
-    upload: (file: ReadableStream<Uint8Array> | NodeJS.ReadableStream, purpose: FilePurpose, options: FilesUploadFileOptionalParams) => Promise<FileInfo>;
-    uploadAndPoll: (file: ReadableStream<Uint8Array> | NodeJS.ReadableStream, purpose: FilePurpose, options: FilesUploadFileOptionalParams) => PollerLike<OperationState<FileInfo>, FileInfo>;
+    upload: (
+    file: ReadableStream<Uint8Array> | NodeJS.ReadableStream,
+    purpose: FilePurpose,
+    options: FilesUploadFileOptionalParams,
+    ) => Promise<FileInfo>;
+    uploadAndPoll: (
+    file: ReadableStream<Uint8Array> | NodeJS.ReadableStream,
+    purpose: FilePurpose,
+    options: FilesUploadFileOptionalParams,
+    ) => PollerLike<OperationState<FileInfo>, FileInfo>;
 }
 
 // @public
@@ -654,8 +678,7 @@ export interface MessagesCreateMessageOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface MessagesGetMessageOptionalParams extends OperationOptions {
-}
+export interface MessagesGetMessageOptionalParams extends OperationOptions {}
 
 // @public
 export interface MessagesListMessagesOptionalParams extends OperationOptions {
@@ -668,10 +691,26 @@ export interface MessagesListMessagesOptionalParams extends OperationOptions {
 
 // @public
 export interface MessagesOperations {
-    create: (threadId: string, role: MessageRole, content: MessageInputContent, options?: MessagesCreateMessageOptionalParams) => Promise<ThreadMessage>;
-    get: (threadId: string, messageId: string, options?: MessagesGetMessageOptionalParams) => Promise<ThreadMessage>;
-    list: (threadId: string, options?: MessagesListMessagesOptionalParams) => PagedAsyncIterableIterator<ThreadMessage>;
-    update: (threadId: string, messageId: string, options?: MessagesUpdateMessageOptionalParams) => Promise<ThreadMessage>;
+    create: (
+    threadId: string,
+    role: MessageRole,
+    content: MessageInputContent,
+    options?: MessagesCreateMessageOptionalParams,
+    ) => Promise<ThreadMessage>;
+    get: (
+    threadId: string,
+    messageId: string,
+    options?: MessagesGetMessageOptionalParams,
+    ) => Promise<ThreadMessage>;
+    list: (
+    threadId: string,
+    options?: MessagesListMessagesOptionalParams,
+    ) => PagedAsyncIterableIterator<ThreadMessage>;
+    update: (
+    threadId: string,
+    messageId: string,
+    options?: MessagesUpdateMessageOptionalParams,
+    ) => Promise<ThreadMessage>;
 }
 
 // @public
@@ -1433,7 +1472,10 @@ export interface ThreadsListThreadsOptionalParams extends OperationOptions {
 // @public
 export interface ThreadsOperations {
     create: (options?: ThreadsCreateThreadOptionalParams) => Promise<AgentThread>;
-    delete: (threadId: string, options?: ThreadsDeleteThreadOptionalParams) => Promise<ThreadDeletionStatus>;
+    delete: (
+    threadId: string,
+    options?: ThreadsDeleteThreadOptionalParams,
+    ) => Promise<ThreadDeletionStatus>;
     get: (threadId: string, options?: ThreadsGetThreadOptionalParams) => Promise<AgentThread>;
     list: (options?: ThreadsListThreadsOptionalParams) => PagedAsyncIterableIterator<AgentThread>;
     update: (threadId: string, options?: ThreadsUpdateThreadOptionalParams) => Promise<AgentThread>;
@@ -1740,19 +1782,19 @@ export interface VectorStoreFileError {
 export type VectorStoreFileErrorCode = "server_error" | "invalid_file" | "unsupported_file";
 
 // @public
-export interface VectorStoreFilesCreateVectorStoreFileOptionalParams extends OperationOptions, PollingOptionsParams {
+export interface VectorStoreFilesCreateVectorStoreFileOptionalParams
+extends OperationOptions,
+PollingOptionsParams {
     chunkingStrategy?: VectorStoreChunkingStrategyRequestUnion;
     dataSource?: VectorStoreDataSource;
     fileId?: string;
 }
 
 // @public
-export interface VectorStoreFilesDeleteVectorStoreFileOptionalParams extends OperationOptions {
-}
+export interface VectorStoreFilesDeleteVectorStoreFileOptionalParams extends OperationOptions {}
 
 // @public
-export interface VectorStoreFilesGetVectorStoreFileOptionalParams extends OperationOptions {
-}
+export interface VectorStoreFilesGetVectorStoreFileOptionalParams extends OperationOptions {}
 
 // @public
 export interface VectorStoreFilesListVectorStoreFilesOptionalParams extends OperationOptions {
@@ -1779,7 +1821,9 @@ export type VectorStoreFileStatus = "in_progress" | "completed" | "failed" | "ca
 export type VectorStoreFileStatusFilter = "in_progress" | "completed" | "failed" | "cancelled";
 
 // @public
-export interface VectorStoresCreateVectorStoreOptionalParams extends OperationOptions, PollingOptionsParams {
+export interface VectorStoresCreateVectorStoreOptionalParams
+extends OperationOptions,
+PollingOptionsParams {
     chunkingStrategy?: VectorStoreChunkingStrategyRequestUnion;
     expiresAfter?: VectorStoreExpirationPolicy;
     fileIds?: string[];
@@ -1789,12 +1833,10 @@ export interface VectorStoresCreateVectorStoreOptionalParams extends OperationOp
 }
 
 // @public
-export interface VectorStoresDeleteVectorStoreOptionalParams extends OperationOptions {
-}
+export interface VectorStoresDeleteVectorStoreOptionalParams extends OperationOptions {}
 
 // @public
-export interface VectorStoresGetVectorStoreOptionalParams extends OperationOptions {
-}
+export interface VectorStoresGetVectorStoreOptionalParams extends OperationOptions {}
 
 // @public
 export interface VectorStoresListVectorStoresOptionalParams extends OperationOptions {
@@ -1814,11 +1856,24 @@ export interface VectorStoresModifyVectorStoreOptionalParams extends OperationOp
 // @public
 export interface VectorStoresOperations {
     create: (options?: VectorStoresCreateVectorStoreOptionalParams) => Promise<VectorStore>;
-    createAndPoll(options?: VectorStoresCreateVectorStoreOptionalParams): PollerLike<OperationState<VectorStore>, VectorStore>;
-    delete: (vectorStoreId: string, options?: VectorStoresDeleteVectorStoreOptionalParams) => Promise<VectorStoreDeletionStatus>;
-    get: (vectorStoreId: string, options?: VectorStoresGetVectorStoreOptionalParams) => Promise<VectorStore>;
-    list: (options?: VectorStoresListVectorStoresOptionalParams) => PagedAsyncIterableIterator<VectorStore>;
-    update: (vectorStoreId: string, options?: VectorStoresModifyVectorStoreOptionalParams) => Promise<VectorStore>;
+    createAndPoll(
+    options?: VectorStoresCreateVectorStoreOptionalParams,
+    ): PollerLike<OperationState<VectorStore>, VectorStore>;
+    delete: (
+    vectorStoreId: string,
+    options?: VectorStoresDeleteVectorStoreOptionalParams,
+    ) => Promise<VectorStoreDeletionStatus>;
+    get: (
+    vectorStoreId: string,
+    options?: VectorStoresGetVectorStoreOptionalParams,
+    ) => Promise<VectorStore>;
+    list: (
+    options?: VectorStoresListVectorStoresOptionalParams,
+    ) => PagedAsyncIterableIterator<VectorStore>;
+    update: (
+    vectorStoreId: string,
+    options?: VectorStoresModifyVectorStoreOptionalParams,
+    ) => Promise<VectorStore>;
 }
 
 // @public
