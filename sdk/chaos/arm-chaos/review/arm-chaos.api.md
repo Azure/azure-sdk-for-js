@@ -139,6 +139,7 @@ export class ChaosManagementClient {
     constructor(credential: TokenCredential, subscriptionId: string, options?: ChaosManagementClientOptionalParams);
     readonly capabilities: CapabilitiesOperations;
     readonly capabilityTypes: CapabilityTypesOperations;
+    readonly experimentExecutions: ExperimentExecutionsOperations;
     readonly experiments: ExperimentsOperations;
     readonly operations: OperationsOperations;
     readonly operationStatuses: OperationStatusesOperations;
@@ -225,7 +226,7 @@ export interface DiscreteAction extends ChaosExperimentAction {
 
 // @public
 export interface ErrorAdditionalInfo {
-    readonly info?: Record<string, any>;
+    readonly info?: any;
     readonly type?: string;
 }
 
@@ -303,6 +304,25 @@ export interface ExperimentExecutionProperties {
 }
 
 // @public
+export interface ExperimentExecutionsGetExecutionDetailsOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface ExperimentExecutionsGetExecutionOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface ExperimentExecutionsListAllExecutionsOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface ExperimentExecutionsOperations {
+    getExecution: (resourceGroupName: string, experimentName: string, executionId: string, options?: ExperimentExecutionsGetExecutionOptionalParams) => Promise<ExperimentExecution>;
+    getExecutionDetails: (resourceGroupName: string, experimentName: string, executionId: string, options?: ExperimentExecutionsGetExecutionDetailsOptionalParams) => Promise<ExperimentExecutionDetails>;
+    listAllExecutions: (resourceGroupName: string, experimentName: string, options?: ExperimentExecutionsListAllExecutionsOptionalParams) => PagedAsyncIterableIterator<ExperimentExecution>;
+}
+
+// @public
 export interface ExperimentProperties {
     readonly provisioningState?: ProvisioningState;
     selectors: ChaosTargetSelectorUnion[];
@@ -325,19 +345,7 @@ export interface ExperimentsDeleteOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface ExperimentsExecutionDetailsOptionalParams extends OperationOptions {
-}
-
-// @public
-export interface ExperimentsGetExecutionOptionalParams extends OperationOptions {
-}
-
-// @public
 export interface ExperimentsGetOptionalParams extends OperationOptions {
-}
-
-// @public
-export interface ExperimentsListAllExecutionsOptionalParams extends OperationOptions {
 }
 
 // @public
@@ -357,12 +365,9 @@ export interface ExperimentsOperations {
     cancel: (resourceGroupName: string, experimentName: string, options?: ExperimentsCancelOptionalParams) => PollerLike<OperationState<void>, void>;
     createOrUpdate: (resourceGroupName: string, experimentName: string, resource: Experiment, options?: ExperimentsCreateOrUpdateOptionalParams) => PollerLike<OperationState<Experiment>, Experiment>;
     delete: (resourceGroupName: string, experimentName: string, options?: ExperimentsDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
-    executionDetails: (resourceGroupName: string, experimentName: string, executionId: string, options?: ExperimentsExecutionDetailsOptionalParams) => Promise<ExperimentExecutionDetails>;
     get: (resourceGroupName: string, experimentName: string, options?: ExperimentsGetOptionalParams) => Promise<Experiment>;
-    getExecution: (resourceGroupName: string, experimentName: string, executionId: string, options?: ExperimentsGetExecutionOptionalParams) => Promise<ExperimentExecution>;
     list: (resourceGroupName: string, options?: ExperimentsListOptionalParams) => PagedAsyncIterableIterator<Experiment>;
     listAll: (options?: ExperimentsListAllOptionalParams) => PagedAsyncIterableIterator<Experiment>;
-    listAllExecutions: (resourceGroupName: string, experimentName: string, options?: ExperimentsListAllExecutionsOptionalParams) => PagedAsyncIterableIterator<ExperimentExecution>;
     start: (resourceGroupName: string, experimentName: string, options?: ExperimentsStartOptionalParams) => PollerLike<OperationState<void>, void>;
     update: (resourceGroupName: string, experimentName: string, properties: ExperimentUpdate, options?: ExperimentsUpdateOptionalParams) => PollerLike<OperationState<Experiment>, Experiment>;
 }
@@ -490,12 +495,12 @@ export interface OperationDisplay {
 }
 
 // @public
-export interface OperationsListAllOptionalParams extends OperationOptions {
+export interface OperationsListOptionalParams extends OperationOptions {
 }
 
 // @public
 export interface OperationsOperations {
-    listAll: (options?: OperationsListAllOptionalParams) => PagedAsyncIterableIterator<Operation>;
+    list: (options?: OperationsListOptionalParams) => PagedAsyncIterableIterator<Operation>;
 }
 
 // @public

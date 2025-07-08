@@ -91,7 +91,8 @@ function _getUpdateRuns(context: ContainerServiceFleetContext) {
       updateRunName: string,
       body: SkipProperties,
       options?: UpdateRunsSkipOptionalParams,
-    ) => skip(context, resourceGroupName, fleetName, updateRunName, body, options),
+    ) =>
+      skip(context, resourceGroupName, fleetName, updateRunName, body, options),
     stop: (
       resourceGroupName: string,
       fleetName: string,
@@ -121,7 +122,15 @@ function _getUpdateRuns(context: ContainerServiceFleetContext) {
       updateRunName: string,
       resource: UpdateRun,
       options?: UpdateRunsCreateOrUpdateOptionalParams,
-    ) => createOrUpdate(context, resourceGroupName, fleetName, updateRunName, resource, options),
+    ) =>
+      createOrUpdate(
+        context,
+        resourceGroupName,
+        fleetName,
+        updateRunName,
+        resource,
+        options,
+      ),
     get: (
       resourceGroupName: string,
       fleetName: string,
