@@ -191,21 +191,13 @@ export class FileSystemPersist implements PersistentStorage {
     try {
       await writeFile(fileFullPath, payload, { mode: 0o600 });
     } catch (writeError: any) {
-      // Check if error is due to permission/readonly issues
-      if (writeError?.code === "EACCES" || writeError?.code === "EPERM") {
-        this._customerStatsbeatMetrics?.countDroppedItems(envelopes, DropCode.CLIENT_READONLY);
-        diag.warn(
-          `Permission denied while writing file to persistent storage: ${fileFullPath}`,
-          writeError?.message,
-        );
-      } else {
-        // If the envelopes cannot be written to disk for other reasons, we send customer statsbeat and warn the user
-        this._customerStatsbeatMetrics?.countDroppedItems(
-          envelopes,
-          DropCode.CLIENT_STORAGE_DISABLED,
-        );
-        diag.warn(`Error writing file to persistent file storage`, writeError);
-      }
+      // If the envelopes cannot be written to disk for other reasons, we send customer statsbeat and warn the user
+      this._customerStatsbeatMetrics?.countDroppedItems(
+        envelopes,
+        DropCode.CLIENT_EXCEPTION,
+        writeError?.message,
+      );
+      diag.warn(`Error writing file to persistent file storage`, writeError);
       return false;
     }
     return true;
