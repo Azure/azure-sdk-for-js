@@ -195,6 +195,14 @@ else {
 $tempTypeSpecDir = "$ProjectDirectory/TempTypeSpecFiles"
 New-Item $tempTypeSpecDir -Type Directory -Force | Out-Null
 
+$specSubDirectory = $configuration["directory"]
+if ($specSubDirectory) {
+  $isManagementSdk = $specSubDirectory.Contains("/resource-manager/") -or $specSubDirectory.Contains(".Management")
+  if($isManagementSdk -eq $false) {
+    Write-Host "This is not a management SDK, skipping TypeSpec project sync." -ForegroundColor Yellow
+    exit 100
+  }
+}
  # Look for tspconfig.yaml and main.tsp
 $tspConfigPath = Join-Path $specCloneDir.Path "tspconfig.yaml"
 $mainTspPath = Join-Path $specCloneDir.Path "main.tsp"
