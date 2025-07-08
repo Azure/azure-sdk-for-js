@@ -191,7 +191,7 @@ export class FileSystemPersist implements PersistentStorage {
     try {
       await writeFile(fileFullPath, payload, { mode: 0o600 });
     } catch (writeError: any) {
-      // If the envelopes cannot be written to disk for other reasons, we send customer statsbeat and warn the user
+      // If the envelopes cannot be written to disk, we send customer statsbeat and warn the user
       this._customerStatsbeatMetrics?.countDroppedItems(
         envelopes,
         DropCode.CLIENT_EXCEPTION,
