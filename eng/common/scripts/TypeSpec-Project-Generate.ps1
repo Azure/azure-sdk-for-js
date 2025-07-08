@@ -15,58 +15,6 @@ $ErrorActionPreference = "Stop"
 . $PSScriptRoot/common.ps1
 Install-ModuleIfNotInstalled "powershell-yaml" "0.4.7" | Import-Module
 
-function NpmInstallForProject([string]$workingDirectory) {
-    Push-Location $workingDirectory
-    try {
-        $currentDur = Resolve-Path "."
-        Write-Host "Generating from $currentDur"
-
-        if (Test-Path "package.json") {
-            Write-Host "Removing existing package.json"
-            Remove-Item -Path "package.json" -Force
-        }
-
-        if (Test-Path ".npmrc") {
-            Write-Host "Removing existing .nprc"
-            Remove-Item -Path ".npmrc" -Force
-        }
-
-        if (Test-Path "node_modules") {
-            Write-Host "Removing existing node_modules"
-            Remove-Item -Path "node_modules" -Force -Recurse
-        }
-
-        if (Test-Path "package-lock.json") {
-            Write-Host "Removing existing package-lock.json"
-            Remove-Item -Path "package-lock.json" -Force
-        }
-
-        $replacementPackageJson = Join-Path $PSScriptRoot "../../emitter-package.json"
-
-        Write-Host("Copying package.json from $replacementPackageJson")
-        Copy-Item -Path $replacementPackageJson -Destination "package.json" -Force
-        $emitterPackageLock = Join-Path $PSScriptRoot "../../emitter-package-lock.json"
-        $usingLockFile = Test-Path $emitterPackageLock
-
-        if ($usingLockFile) {
-            Write-Host("Copying package-lock.json from $emitterPackageLock")
-            Copy-Item -Path $emitterPackageLock -Destination "package-lock.json" -Force
-        }
-
-        if ($usingLockFile) {
-            Invoke-LoggedCommand "npm ci"
-        }
-        else {
-            Invoke-LoggedCommand "npm install"
-        }
-
-        if ($LASTEXITCODE) { exit $LASTEXITCODE }
-    }
-    finally {
-        Pop-Location
-    }
-}
-
 $resolvedProjectDirectory = Resolve-Path $ProjectDirectory
 $emitterName = &$GetEmitterNameFn
 $typespecConfigurationFile = Resolve-Path "$ProjectDirectory/tsp-location.yaml"
@@ -82,40 +30,90 @@ $npmWorkingDir = Resolve-Path $tempFolder/$innerFolder
 $mainTypeSpecFile = If (Test-Path "$npmWorkingDir/client.*") { Resolve-Path "$npmWorkingDir/client.*" } Else { Resolve-Path "$npmWorkingDir/main.*"}
 
 try {
-    Push-Location $npmWorkingDir
-    NpmInstallForProject $npmWorkingDir
+    Push-Location $RepoRoot
+    #NpmInstallForProject $npmWorkingDir
 
+    if ($LASTEXITCODE) { exit $LASTEXITCODE }    
+    $fileGenerateInput = 'generateInput.json';
+    $fileGenerateOutput = 'generateOutput.json';
+    $outputJsonPath = Join-Path $RepoRoot $fileGenerateOutput
+    $inputJsonPath = Join-Path $RepoRoot $fileGenerateInput
+
+    Write-Host "Running automation_generate.sh $inputJsonPath $outputJsonPath"
+    Invoke-LoggedCommand "sh .scripts/automation_generate.sh $inputJsonPath $outputJsonPath"
     if ($LASTEXITCODE) { exit $LASTEXITCODE }
-
-    if (Test-Path "Function:$GetEmitterAdditionalOptionsFn") {
-        $emitterAdditionalOptions = &$GetEmitterAdditionalOptionsFn $resolvedProjectDirectory
-        if ($emitterAdditionalOptions.Length -gt 0) {
-            $emitterAdditionalOptions = " $emitterAdditionalOptions"
+    
+    # Check if the output file was generated
+    if (-not (Test-Path $outputJsonPath)) {
+        Write-Host "##[error]Expected output file $outputJsonPath was not generated"
+        exit 1
+    }
+    
+    Write-Host "Parsing generateOutput.json"
+    try {
+        $generateOutput = Get-Content -Path $outputJsonPath -Raw | ConvertFrom-Json
+        Write-Host "Successfully parsed generateOutput.json"
+        
+        # Validate the structure
+        if (-not $generateOutput.packages) {
+            Write-Host "##[error]generateOutput.json does not contain 'packages' property"
+            exit 1
+        }
+        
+        if ($generateOutput.packages.Count -eq 0) {
+            Write-Host "##[warning]No packages found in generateOutput.json"
+        } else {
+            Write-Host "Found $($generateOutput.packages.Count) package(s) in generateOutput.json"
+            
+            # Check if all packages succeeded
+            $failedPackages = @()
+            foreach ($package in $generateOutput.packages) {
+                Write-Host "Package: $($package.packageName) v$($package.version) - Result: $($package.result)"
+                if ($package.result -ne "succeeded") {
+                    $failedPackages += $package.packageName
+                }
+            }
+            
+            if ($failedPackages.Count -gt 0) {
+                Write-Host "##[error]The following packages failed to generate: $($failedPackages -join ', ')"
+                exit 1
+            }
+            
+            Write-Host "All packages generated successfully"
         }
     }
-    $typespecCompileCommand = "npx tsp compile $mainTypeSpecFile --emit $emitterName$emitterAdditionalOptions"
-    if ($TypespecAdditionalOptions) {
-        $options = $TypespecAdditionalOptions.Split(";");
-        foreach ($option in $options) {
-            $typespecCompileCommand += " --option $emitterName.$option"
-        }
+    catch {
+        Write-Host "##[error]Failed to parse generateOutput.json: $($_.Exception.Message)"
+        exit 1
     }
+    
+    # if (Test-Path "Function:$GetEmitterAdditionalOptionsFn") {
+    #     $emitterAdditionalOptions = &$GetEmitterAdditionalOptionsFn $resolvedProjectDirectory
+    #     if ($emitterAdditionalOptions.Length -gt 0) {
+    #         $emitterAdditionalOptions = " $emitterAdditionalOptions"
+    #     }
+    # }
+    # $typespecCompileCommand = "npx tsp compile $mainTypeSpecFile --emit $emitterName$emitterAdditionalOptions"
+    # if ($TypespecAdditionalOptions) {
+    #     $options = $TypespecAdditionalOptions.Split(";");
+    #     foreach ($option in $options) {
+    #         $typespecCompileCommand += " --option $emitterName.$option"
+    #     }
+    # }
 
-    if ($SaveInputs) {
-        $typespecCompileCommand += " --option $emitterName.save-inputs=true"
-    }
+    # if ($SaveInputs) {
+    #     $typespecCompileCommand += " --option $emitterName.save-inputs=true"
+    # }
 
-    Write-Host($typespecCompileCommand)
-    Invoke-Expression $typespecCompileCommand
-
-    if ($LASTEXITCODE) { exit $LASTEXITCODE }
+    # Write-Host($typespecCompileCommand)
+    # Invoke-Expression $typespecCompileCommand
 }
 finally {
     Pop-Location
 }
 
 $shouldCleanUp = !$SaveInputs
-if ($shouldCleanUp) {
+if ($shouldCleanUp -and (Test-Path $tempFolder)) {
     Remove-Item $tempFolder -Recurse -Force
 }
 exit 0
