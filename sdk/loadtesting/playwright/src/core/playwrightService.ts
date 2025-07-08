@@ -8,7 +8,6 @@ import {
 } from "../common/constants.js";
 import customerConfig from "../common/customerConfig.js";
 import { PlaywrightServiceConfig } from "../common/playwrightServiceConfig.js";
-import { ServiceConfig } from "../common/serviceConfig.js";
 import playwrightServiceEntra from "./playwrightServiceEntra.js";
 import type { PlaywrightServiceAdditionalOptions, BrowserConnectOptions } from "../common/types.js";
 import {
@@ -121,9 +120,9 @@ const getServiceConfig = (
     }
   }
 
-  const playwrightServiceConfig = new PlaywrightServiceConfig();
+  const playwrightServiceConfig = PlaywrightServiceConfig.instance;
   playwrightServiceConfig.setOptions(options);
-  ServiceConfig.instance.serviceAuthType =
+  playwrightServiceConfig.serviceAuthType =
     options?.serviceAuthType || DefaultConnectOptionsConstants.DEFAULT_SERVICE_AUTH_TYPE;
 
   const globalFunctions: any = {};

@@ -18,7 +18,7 @@ export async function initializePlaywrightServiceTestRun(config: FullConfig): Pr
 
   const ciConfigInfo = CIInfoProvider.getCIInfo();
 
-  const playwrightServiceConfig = new PlaywrightServiceConfig();
+  const playwrightServiceConfig = PlaywrightServiceConfig.instance;
 
   const testRunCreatePayload = {
     displayName: playwrightServiceConfig.runName,
