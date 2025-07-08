@@ -409,6 +409,7 @@ function Update-javascript-GeneratedSdks([string]$PackageDirectoriesFile) {
   $moduleFolders = Get-Content $PackageDirectoriesFile | ConvertFrom-Json
 
   $directoriesWithErrors = @()
+  $directoriesWithSuccess = @()
 
   foreach ($directory in $moduleFolders) {
     $directoryPath = "$RepoRoot/sdk/$directory"
@@ -432,6 +433,8 @@ function Update-javascript-GeneratedSdks([string]$PackageDirectoriesFile) {
         if ($LASTEXITCODE) {
           $directoriesWithErrors += $directory
           continue
+        } else {
+          $directoriesWithSuccess += $directory
         }
       }      
     }
@@ -446,5 +449,12 @@ function Update-javascript-GeneratedSdks([string]$PackageDirectoriesFile) {
       Write-Host "  $directory"
     }
     exit 1
+  }
+
+  if ($directoriesWithSuccess.Count -gt 0) {
+    Write-Host "##[success]Generation succeeded in $($directoriesWithSuccess.Count) directories:"
+    foreach ($directory in $directoriesWithSuccess) {
+      Write-Host "  $directory"
+    }
   }
 }

@@ -138,8 +138,8 @@ function NpmInstallForProject([string]$workingDirectory) {
         }
 
         if ($LASTEXITCODE) { exit $LASTEXITCODE }
-        Invoke-LoggedCommand "npm list -g --depth=0 --prefix" -GroupOutput
-        Invoke-LoggedCommand "npm list --depth=0" -GroupOutput
+        #Invoke-LoggedCommand "npm list -g --depth=0 --prefix" -GroupOutput
+        #Invoke-LoggedCommand "npm list --depth=0" -GroupOutput
     }
     finally {
         Pop-Location
@@ -199,6 +199,8 @@ CopySpecToProjectIfNeeded `
   -mainSpecDir $specSubDirectory `
   -dest $tempTypeSpecDir `
   -specAdditionalSubDirectories $configuration["additionalDirectories"]
+
+Write-Host "##[endgroup]"
 
 if ($specSubDirectory) {
   $isManagementSdk = $specSubDirectory.Contains("/resource-manager/") -or $specSubDirectory.Contains(".Management")
@@ -282,5 +284,4 @@ $destJson = $file_content | ConvertTo-Json -Depth 10
 $destJson| Out-File -FilePath $inputJsonPath
 Write-Host $destJson
 
-Write-Host "##[endgroup]"
 exit 0
