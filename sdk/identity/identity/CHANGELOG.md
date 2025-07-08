@@ -4,21 +4,17 @@
 
 ### Features Added
 
-## 4.10.2 (Unreleased)
-
 - **Visual Studio Code Credential** has been re-enabled and now supports **broker authentication** using the Azure account signed in via Visual Studio Code. [#34985](https://github.com/Azure/azure-sdk-for-js/pull/34985)
 
-### Features Added
-
-- Added support to specify `subscription` ID or name on `AzureCliCredential` error message. [#34801](https://github.com/Azure/azure-sdk-for-js/pull/34801)
-
-### Breaking Changes
+## 4.10.2 (2025-07-02)
 
 ### Bugs Fixed
 
 - Fixed an issue in `AzurePowerShellCredential` where `-AsPlainText` is not supported in the `ConvertFrom-SecureString` cmdlet in older versions. [#34902](https://github.com/Azure/azure-sdk-for-js/pull/34902)
 
 ### Other Changes
+
+- Added support to specify `subscription` ID or name on `AzureCliCredential` error message. [#34801](https://github.com/Azure/azure-sdk-for-js/pull/34801)
 
 ## 4.10.1 (2025-06-12)
 

@@ -1,5 +1,11 @@
 # Release History
 
+## 1.0.0-beta.10 (2025-07-02)
+
+### Breaking changes
+
+- remove `project.enableTelemetry` method.
+
 ## 1.0.0-beta.9 (2025-06-03)
 
 ### Breaking changes
