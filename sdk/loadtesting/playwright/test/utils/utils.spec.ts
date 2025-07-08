@@ -3,6 +3,7 @@
 
 import {
   Constants,
+  GitHubActionsConstants,
   InternalEnvironmentVariables,
   ServiceEnvironmentVariable,
 } from "../../src/common/constants.js";
@@ -19,6 +20,7 @@ import {
   warnIfAccessTokenCloseToExpiry,
   fetchOrValidateAccessToken,
   populateValuesFromServiceUrl,
+  getRunName,
 } from "../../src/utils/utils.js";
 import * as packageManager from "../../src/utils/packageManager.js";
 import { describe, it, expect, vi, beforeEach, afterEach } from "vitest";
@@ -27,6 +29,36 @@ import { getPlaywrightVersion } from "../../src/utils/getPlaywrightVersion.js";
 import { parseJwt } from "../../src/utils/parseJwt.js";
 import { EntraIdAccessToken } from "../../src/common/entraIdAccessToken.js";
 import { createEntraIdAccessToken } from "../../src/common/entraIdAccessToken.js";
+import { CI_PROVIDERS } from "../../src/utils/cIInfoProvider.js";
+import * as childProcess from "node:child_process";
+
+vi.mock("child_process", async (importOriginal) => {
+  const actual = await importOriginal<typeof import("child_process")>();
+  return {
+    ...actual,
+    exec: vi.fn((command, callback) => {
+      if (command === GitHubActionsConstants.GIT_VERSION_COMMAND) {
+        callback(null, "git version 2.37.1", "");
+      } else if (command === GitHubActionsConstants.GIT_REV_PARSE) {
+        callback(null, "true", "");
+      } else if (command === GitHubActionsConstants.GIT_COMMIT_MESSAGE_COMMAND) {
+        callback(null, "Test commit message", "");
+      } else {
+        callback(new Error(`Command not mocked: ${command}`), "", "");
+      }
+      return {} as childProcess.ChildProcess;
+    }),
+    execSync: vi.fn((command) => {
+      if (command.includes("playwright --version")) {
+        return Buffer.from("1.42.0");
+      } else if (command === "echo") {
+        return Buffer.from("Version 1.2.3");
+      } else {
+        throw new Error(`Command not mocked: ${command}`);
+      }
+    }),
+  };
+});
 
 vi.mock("../../src/common/entraIdAccessToken.js", async (importActual) => {
   const actual = await importActual<typeof import("../../src/common/entraIdAccessToken.js")>();
@@ -565,5 +597,103 @@ describe("Service Utils", () => {
     const result = localPopulateValuesFromServiceUrl();
 
     expect(result).toBeNull();
+  });
+
+  it("should return PR information when in GitHub PR context", async () => {
+    // Save original env vars
+    const originalEnv = { ...process.env };
+
+    // Setup GitHub PR environment variables
+    process.env["GITHUB_EVENT_NAME"] = "pull_request";
+    process.env["GITHUB_REF_NAME"] = "123/merge";
+    process.env["GITHUB_REPOSITORY"] = "Azure/test-repo";
+
+    const ciInfo = {
+      provider: CI_PROVIDERS.GITHUB,
+    };
+
+    try {
+      const result = await getRunName(ciInfo);
+      expect(result).toBe("PR# 123 on Repo: Azure/test-repo (Azure/test-repo/pull/123)");
+    } finally {
+      // Restore env vars
+      for (const key in process.env) {
+        if (!originalEnv[key]) {
+          delete process.env[key];
+        } else {
+          process.env[key] = originalEnv[key];
+        }
+      }
+    }
+  });
+
+  it("should return git commit message when not in GitHub PR context", async () => {
+    // Setup non-PR context
+    const ciInfo = {
+      provider: CI_PROVIDERS.DEFAULT,
+    };
+
+    const result = await getRunName(ciInfo);
+    expect(result).toBe("Test commit message");
+  });
+
+  it("should return empty string when not inside a git repository", async () => {
+    const ciInfo = {
+      provider: CI_PROVIDERS.DEFAULT,
+    };
+
+    // Create a new mock implementation for this test only
+    vi.mocked(childProcess.exec).mockImplementation(
+      (command: any, options: any, callback?: any) => {
+        // Handle the case where callback is the second argument
+        const cb = typeof options === "function" ? options : callback;
+
+        if (command === GitHubActionsConstants.GIT_VERSION_COMMAND) {
+          setTimeout(() => cb(null, "git version 2.37.1", ""), 0);
+        } else if (command === GitHubActionsConstants.GIT_REV_PARSE) {
+          setTimeout(() => cb(null, "false", ""), 0); // Not inside a git repository
+        } else {
+          setTimeout(() => cb(new Error(`Command not mocked: ${command}`), "", ""), 0);
+        }
+        return {} as childProcess.ChildProcess;
+      },
+    );
+
+    const result = await getRunName(ciInfo);
+    expect(result).toBe("");
+
+    // Restore the mock
+    vi.resetAllMocks();
+  });
+
+  it("should return empty string when git command throws an error", async () => {
+    const ciInfo = {
+      provider: CI_PROVIDERS.DEFAULT,
+    };
+
+    // Create a new mock implementation for this test only
+    vi.mocked(childProcess.exec).mockImplementation(
+      (command: any, options: any, callback?: any) => {
+        // Handle the case where callback is the second argument
+        const cb = typeof options === "function" ? options : callback;
+
+        if (command === GitHubActionsConstants.GIT_VERSION_COMMAND) {
+          setTimeout(() => cb(null, "git version 2.37.1", ""), 0);
+        } else if (command === GitHubActionsConstants.GIT_REV_PARSE) {
+          setTimeout(() => cb(null, "true", ""), 0);
+        } else if (command === GitHubActionsConstants.GIT_COMMIT_MESSAGE_COMMAND) {
+          setTimeout(() => cb(new Error("Command failed"), "", "stderr output"), 0);
+        } else {
+          setTimeout(() => cb(new Error(`Command not mocked: ${command}`), "", ""), 0);
+        }
+        return {} as childProcess.ChildProcess;
+      },
+    );
+
+    const result = await getRunName(ciInfo);
+    expect(result).toBe("");
+
+    // Restore the mock
+    vi.resetAllMocks();
   });
 });

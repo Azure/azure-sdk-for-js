@@ -21,7 +21,10 @@ export async function initializePlaywrightServiceTestRun(config: FullConfig): Pr
   const playwrightServiceConfig = PlaywrightServiceConfig.instance;
 
   const testRunCreatePayload = {
-    displayName: playwrightServiceConfig.runName,
+    displayName:
+      playwrightServiceConfig.runName === ""
+        ? playwrightServiceConfig.runId
+        : playwrightServiceConfig.runName,
     config: getTestRunConfig(config),
     ciConfig: ciConfigInfo,
   };
