@@ -195,6 +195,64 @@ else {
 $tempTypeSpecDir = "$ProjectDirectory/TempTypeSpecFiles"
 New-Item $tempTypeSpecDir -Type Directory -Force | Out-Null
 
+ # Look for tspconfig.yaml and main.tsp
+$tspConfigPath = Join-Path $specCloneDir.Path "tspconfig.yaml"
+$mainTspPath = Join-Path $specCloneDir.Path "main.tsp"
+if (!(Test-Path $tspConfigPath)) {
+  Write-Host "No tspconfig.yaml found at $tspConfigPath"
+  exit 100
+}
+try {
+  Write-Host "Found tspconfig.yaml at $tspConfigPath"
+  $tspConfig = Get-Content $tspConfigPath -Raw | ConvertFrom-Yaml
+  
+  # Check if it's a modular library
+  $isModularLibrary = $false
+  if ($tspConfig.options -and 
+      $tspConfig.options.'@azure-tools/typespec-ts' -and 
+      $tspConfig.options.'@azure-tools/typespec-ts'.'is-modular-library') {
+    $isModularLibrary = $tspConfig.options.'@azure-tools/typespec-ts'.'is-modular-library'
+    Write-Host "is-modular-library setting found: $isModularLibrary" -ForegroundColor Green
+  }
+  
+  # Check if it's a management package by looking for "armProviderNamespace" in main.tsp
+  $isMgmtPackage = $false
+  if (Test-Path $mainTspPath) {
+    $mainTspContent = Get-Content $mainTspPath -Raw
+    if ($mainTspContent -match "armProviderNamespace") {
+      $isMgmtPackage = $true
+      Write-Host "main.tsp contains 'armProviderNamespace', this is a management package" -ForegroundColor Green
+    }
+  }
+  
+  # Determine if it's a management plane modular client
+  if ($isMgmtPackage) {
+    if ($null -eq $isModularLibrary) {
+      $isManagementPlaneModularClient = $true
+      Write-Host "This is a management plane modular client (by default for management packages)" -ForegroundColor Cyan
+    } else {
+      $isManagementPlaneModularClient = $isModularLibrary
+      Write-Host "This is a management plane modular client: $isModularLibrary" -ForegroundColor Cyan
+    }
+  } elseif ($isModularLibrary -eq $true) {
+    $isManagementPlaneModularClient = $true
+    Write-Host "This is a management plane modular client (explicitly set in tspconfig.yaml)" -ForegroundColor Cyan
+  } else {
+    $isManagementPlaneModularClient = $false
+    Write-Host "This is NOT a management plane modular client" -ForegroundColor Yellow
+  }
+} catch {
+  Write-Host "Failed to parse tspconfig.yaml: $_" -ForegroundColor Yellow
+}
+
+if ($isManagementPlaneModularClient -ne $true) {
+  Write-Host "Skipping $directory because it is not a management plane modular client" -ForegroundColor Yellow
+  return 100
+}
+
+
+
+
 Write-Host "Creating inputJson file"
     $fileGenerateInput = 'generateInput.json';
    
