@@ -24,11 +24,11 @@ import {
   ExadbVmClustersListBySubscriptionOptionalParams,
 } from "./options.js";
 import { getLongRunningPoller } from "../../static-helpers/pollingHelpers.js";
-import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
 import {
   PagedAsyncIterableIterator,
   buildPagedAsyncIterator,
 } from "../../static-helpers/pagingHelpers.js";
+import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
 import {
   StreamableMethod,
   PathUncheckedResponse,
@@ -56,15 +56,17 @@ export function _removeVmsSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).post({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
-    body: removeVirtualMachineFromExadbVmClusterDetailsSerializer(body),
-  });
+  return context
+    .path(path)
+    .post({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      headers: {
+        accept: "application/json",
+        ...options.requestOptions?.headers,
+      },
+      body: removeVirtualMachineFromExadbVmClusterDetailsSerializer(body),
+    });
 }
 
 export async function _removeVmsDeserialize(
@@ -92,7 +94,13 @@ export function removeVms(
     updateIntervalInMs: options?.updateIntervalInMs,
     abortSignal: options?.abortSignal,
     getInitialResponse: () =>
-      _removeVmsSend(context, resourceGroupName, exadbVmClusterName, body, options),
+      _removeVmsSend(
+        context,
+        resourceGroupName,
+        exadbVmClusterName,
+        body,
+        options,
+      ),
     resourceLocationConfig: "location",
   }) as PollerLike<OperationState<ExadbVmCluster>, ExadbVmCluster>;
 }
@@ -115,13 +123,15 @@ export function _listByResourceGroupSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).get({
-    ...operationOptionsToRequestParameters(options),
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
-  });
+  return context
+    .path(path)
+    .get({
+      ...operationOptionsToRequestParameters(options),
+      headers: {
+        accept: "application/json",
+        ...options.requestOptions?.headers,
+      },
+    });
 }
 
 export async function _listByResourceGroupDeserialize(
@@ -172,16 +182,20 @@ export function _$deleteSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).delete({
-    ...operationOptionsToRequestParameters(options),
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
-  });
+  return context
+    .path(path)
+    .delete({
+      ...operationOptionsToRequestParameters(options),
+      headers: {
+        accept: "application/json",
+        ...options.requestOptions?.headers,
+      },
+    });
 }
 
-export async function _$deleteDeserialize(result: PathUncheckedResponse): Promise<void> {
+export async function _$deleteDeserialize(
+  result: PathUncheckedResponse,
+): Promise<void> {
   const expectedStatuses = ["202", "204", "200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
@@ -204,12 +218,18 @@ export function $delete(
   exadbVmClusterName: string,
   options: ExadbVmClustersDeleteOptionalParams = { requestOptions: {} },
 ): PollerLike<OperationState<void>, void> {
-  return getLongRunningPoller(context, _$deleteDeserialize, ["202", "204", "200"], {
-    updateIntervalInMs: options?.updateIntervalInMs,
-    abortSignal: options?.abortSignal,
-    getInitialResponse: () => _$deleteSend(context, resourceGroupName, exadbVmClusterName, options),
-    resourceLocationConfig: "location",
-  }) as PollerLike<OperationState<void>, void>;
+  return getLongRunningPoller(
+    context,
+    _$deleteDeserialize,
+    ["202", "204", "200"],
+    {
+      updateIntervalInMs: options?.updateIntervalInMs,
+      abortSignal: options?.abortSignal,
+      getInitialResponse: () =>
+        _$deleteSend(context, resourceGroupName, exadbVmClusterName, options),
+      resourceLocationConfig: "location",
+    },
+  ) as PollerLike<OperationState<void>, void>;
 }
 
 export function _updateSend(
@@ -231,18 +251,22 @@ export function _updateSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).patch({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
-    body: exadbVmClusterUpdateSerializer(properties),
-  });
+  return context
+    .path(path)
+    .patch({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      headers: {
+        accept: "application/json",
+        ...options.requestOptions?.headers,
+      },
+      body: exadbVmClusterUpdateSerializer(properties),
+    });
 }
 
-export async function _updateDeserialize(result: PathUncheckedResponse): Promise<ExadbVmCluster> {
+export async function _updateDeserialize(
+  result: PathUncheckedResponse,
+): Promise<ExadbVmCluster> {
   const expectedStatuses = ["200", "202"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
@@ -265,7 +289,13 @@ export function update(
     updateIntervalInMs: options?.updateIntervalInMs,
     abortSignal: options?.abortSignal,
     getInitialResponse: () =>
-      _updateSend(context, resourceGroupName, exadbVmClusterName, properties, options),
+      _updateSend(
+        context,
+        resourceGroupName,
+        exadbVmClusterName,
+        properties,
+        options,
+      ),
     resourceLocationConfig: "location",
   }) as PollerLike<OperationState<ExadbVmCluster>, ExadbVmCluster>;
 }
@@ -288,16 +318,20 @@ export function _getSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).get({
-    ...operationOptionsToRequestParameters(options),
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
-  });
+  return context
+    .path(path)
+    .get({
+      ...operationOptionsToRequestParameters(options),
+      headers: {
+        accept: "application/json",
+        ...options.requestOptions?.headers,
+      },
+    });
 }
 
-export async function _getDeserialize(result: PathUncheckedResponse): Promise<ExadbVmCluster> {
+export async function _getDeserialize(
+  result: PathUncheckedResponse,
+): Promise<ExadbVmCluster> {
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
@@ -315,7 +349,12 @@ export async function get(
   exadbVmClusterName: string,
   options: ExadbVmClustersGetOptionalParams = { requestOptions: {} },
 ): Promise<ExadbVmCluster> {
-  const result = await _getSend(context, resourceGroupName, exadbVmClusterName, options);
+  const result = await _getSend(
+    context,
+    resourceGroupName,
+    exadbVmClusterName,
+    options,
+  );
   return _getDeserialize(result);
 }
 
@@ -338,15 +377,17 @@ export function _createOrUpdateSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).put({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
-    body: exadbVmClusterSerializer(resource),
-  });
+  return context
+    .path(path)
+    .put({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      headers: {
+        accept: "application/json",
+        ...options.requestOptions?.headers,
+      },
+      body: exadbVmClusterSerializer(resource),
+    });
 }
 
 export async function _createOrUpdateDeserialize(
@@ -370,13 +411,24 @@ export function createOrUpdate(
   resource: ExadbVmCluster,
   options: ExadbVmClustersCreateOrUpdateOptionalParams = { requestOptions: {} },
 ): PollerLike<OperationState<ExadbVmCluster>, ExadbVmCluster> {
-  return getLongRunningPoller(context, _createOrUpdateDeserialize, ["200", "201"], {
-    updateIntervalInMs: options?.updateIntervalInMs,
-    abortSignal: options?.abortSignal,
-    getInitialResponse: () =>
-      _createOrUpdateSend(context, resourceGroupName, exadbVmClusterName, resource, options),
-    resourceLocationConfig: "azure-async-operation",
-  }) as PollerLike<OperationState<ExadbVmCluster>, ExadbVmCluster>;
+  return getLongRunningPoller(
+    context,
+    _createOrUpdateDeserialize,
+    ["200", "201"],
+    {
+      updateIntervalInMs: options?.updateIntervalInMs,
+      abortSignal: options?.abortSignal,
+      getInitialResponse: () =>
+        _createOrUpdateSend(
+          context,
+          resourceGroupName,
+          exadbVmClusterName,
+          resource,
+          options,
+        ),
+      resourceLocationConfig: "azure-async-operation",
+    },
+  ) as PollerLike<OperationState<ExadbVmCluster>, ExadbVmCluster>;
 }
 
 export function _listBySubscriptionSend(
@@ -395,13 +447,15 @@ export function _listBySubscriptionSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).get({
-    ...operationOptionsToRequestParameters(options),
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
-  });
+  return context
+    .path(path)
+    .get({
+      ...operationOptionsToRequestParameters(options),
+      headers: {
+        accept: "application/json",
+        ...options.requestOptions?.headers,
+      },
+    });
 }
 
 export async function _listBySubscriptionDeserialize(
