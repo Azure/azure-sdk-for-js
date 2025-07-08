@@ -56,15 +56,15 @@ function Split-Items([array]$Items) {
 # ensure the output directory exists
 New-Item -ItemType Directory -Path $OutputDirectory -Force | Out-Null
 
-if (Test-Path "Function:$GetDirectoriesForGenerationFn") {
-  $directoriesForGeneration = &$GetDirectoriesForGenerationFn -OnlyTypeSpec $OnlyTypespec
-}
-else {
+# if (Test-Path "Function:$GetDirectoriesForGenerationFn") {
+#   $directoriesForGeneration = &$GetDirectoriesForGenerationFn -OnlyTypeSpec $OnlyTypespec
+# }
+# else {
   $directoriesForGeneration = Get-ChildItem "$RepoRoot/sdk" -Directory | Get-ChildItem -Directory
   if ($OnlyTypespec) {
     $directoriesForGeneration = $directoriesForGeneration | Where-Object { Test-Path "$_/tsp-location.yaml" }
   }
-}
+# }
 
 [array]$packageDirectories = $directoriesForGeneration
 | Sort-Object -Property FullName
