@@ -425,14 +425,15 @@ function Update-javascript-GeneratedSdks([string]$PackageDirectoriesFile) {
 
       Write-Host "Calling TypeSpec-Project-Sync.ps1 for $directory"
       & $RepoRoot/eng/common/scripts/TypeSpec-Project-Sync.ps1 $directoryPath
-      if ($LASTEXITCODE) {        
-          $directoriesWithErrors += $directory
+      if ($LASTEXITCODE -ne 0) {        
+        Write-Host "##[error]TypeSpec-Project-Sync.ps1 failed for $directory with exit code $LASTEXITCODE" -ForegroundColor Red
+        $directoriesWithErrors += $directory
         continue
       }
 
       Write-Host "Calling TypeSpec-Project-Generate.ps1 for $directory"
       & $RepoRoot/eng/common/scripts/TypeSpec-Project-Generate.ps1 $directoryPath
-      if ($LASTEXITCODE) {       
+      if ($LASTEXITCODE -ne 0) {       
         $errorStatistics.ManagementSdkTypeSpecGenerateFailure += $directory
         continue
       }
