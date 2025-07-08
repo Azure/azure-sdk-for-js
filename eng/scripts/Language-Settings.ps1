@@ -406,6 +406,8 @@ function GetExistingPackageVersions ($PackageName, $GroupId = $null) {
 }
 
 function Update-javascript-GeneratedSdks([string]$PackageDirectoriesFile) {
+  # Check if ai-inference-rest directory exists and run sh command to inspect it
+  Write-Host "Update-javascript-GeneratedSdks"
   $moduleFolders = Get-Content $PackageDirectoriesFile | ConvertFrom-Json
 
   $directoriesWithErrors = @()
@@ -436,6 +438,11 @@ function Update-javascript-GeneratedSdks([string]$PackageDirectoriesFile) {
         Write-Host "Warning: Failed to parse tsp-location.yaml in $directory" -ForegroundColor Yellow
       }
 
+      if ($isManagementSdk -ne $true) {
+        Write-Host "Skipping $directory because it is not a Management SDK" -ForegroundColor Yellow
+        continue
+      }
+
       Write-Host 'Generating project under folder ' -ForegroundColor Green -NoNewline
       Write-Host "$directory" -ForegroundColor Yellow
 
@@ -445,6 +452,7 @@ function Update-javascript-GeneratedSdks([string]$PackageDirectoriesFile) {
         $directoriesWithErrors += $directory
         continue
       }
+      
 
       Write-Host "Calling TypeSpec-Project-Generate.ps1 for $directory"
       & $RepoRoot/eng/common/scripts/TypeSpec-Project-Generate.ps1 $directoryPath
