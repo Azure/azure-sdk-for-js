@@ -1,5 +1,27 @@
 # Release History
     
+## 3.0.0 (2025-07-08)
+    
+### Features Added
+  - Added operation group ExperimentExecutionsOperations
+  - Added operation OperationsOperations.list
+  - Added Interface ExperimentExecutionsGetExecutionDetailsOptionalParams
+  - Added Interface ExperimentExecutionsGetExecutionOptionalParams
+  - Added Interface ExperimentExecutionsListAllExecutionsOptionalParams
+  - Added Interface OperationsListOptionalParams
+### Breaking Changes
+  - Removed operation ExperimentsOperations.executionDetails
+  - Removed operation ExperimentsOperations.getExecution
+  - Removed operation ExperimentsOperations.listAllExecutions
+  - Removed operation OperationsOperations.listAll
+  - Removed Interface ExperimentsExecutionDetailsOptionalParams
+  - Removed Interface ExperimentsGetExecutionOptionalParams
+  - Removed Interface ExperimentsListAllExecutionsOptionalParams
+  - Removed Interface OperationsListAllOptionalParams
+  - Type of parameter info of interface ErrorAdditionalInfo is changed from Record<string, any> to any
+
+    
+    
 ## 2.0.0 (2025-05-27)
     
 ### Features Added

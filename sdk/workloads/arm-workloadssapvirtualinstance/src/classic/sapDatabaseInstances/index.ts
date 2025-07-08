@@ -94,13 +94,27 @@ function _getSAPDatabaseInstances(context: WorkloadsContext) {
       sapVirtualInstanceName: string,
       databaseInstanceName: string,
       options?: SAPDatabaseInstancesStopOptionalParams,
-    ) => stop(context, resourceGroupName, sapVirtualInstanceName, databaseInstanceName, options),
+    ) =>
+      stop(
+        context,
+        resourceGroupName,
+        sapVirtualInstanceName,
+        databaseInstanceName,
+        options,
+      ),
     start: (
       resourceGroupName: string,
       sapVirtualInstanceName: string,
       databaseInstanceName: string,
       options?: SAPDatabaseInstancesStartOptionalParams,
-    ) => start(context, resourceGroupName, sapVirtualInstanceName, databaseInstanceName, options),
+    ) =>
+      start(
+        context,
+        resourceGroupName,
+        sapVirtualInstanceName,
+        databaseInstanceName,
+        options,
+      ),
     list: (
       resourceGroupName: string,
       sapVirtualInstanceName: string,
@@ -111,7 +125,14 @@ function _getSAPDatabaseInstances(context: WorkloadsContext) {
       sapVirtualInstanceName: string,
       databaseInstanceName: string,
       options?: SAPDatabaseInstancesDeleteOptionalParams,
-    ) => $delete(context, resourceGroupName, sapVirtualInstanceName, databaseInstanceName, options),
+    ) =>
+      $delete(
+        context,
+        resourceGroupName,
+        sapVirtualInstanceName,
+        databaseInstanceName,
+        options,
+      ),
     update: (
       resourceGroupName: string,
       sapVirtualInstanceName: string,
@@ -147,7 +168,14 @@ function _getSAPDatabaseInstances(context: WorkloadsContext) {
       sapVirtualInstanceName: string,
       databaseInstanceName: string,
       options?: SAPDatabaseInstancesGetOptionalParams,
-    ) => get(context, resourceGroupName, sapVirtualInstanceName, databaseInstanceName, options),
+    ) =>
+      get(
+        context,
+        resourceGroupName,
+        sapVirtualInstanceName,
+        databaseInstanceName,
+        options,
+      ),
   };
 }
 

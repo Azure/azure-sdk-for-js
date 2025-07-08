@@ -15,7 +15,9 @@ async function geoCatalogsListByResourceGroup(): Promise<void> {
   const subscriptionId = "cd9b6cdf-dcf0-4dca-ab19-82be07b74704";
   const client = new SpatioClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (const item of client.geoCatalogs.listByResourceGroup("MyResourceGroup")) {
+  for await (const item of client.geoCatalogs.listByResourceGroup(
+    "MyResourceGroup",
+  )) {
     resArray.push(item);
   }
 

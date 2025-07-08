@@ -13,8 +13,16 @@ import { DefaultAzureCredential } from "@azure/identity";
 async function getAnApplicationTypeVersion(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "00000000-0000-0000-0000-000000000000";
-  const client = new ServiceFabricManagedClustersManagementClient(credential, subscriptionId);
-  const result = await client.applicationTypeVersions.get("resRg", "myCluster", "myAppType", "1.0");
+  const client = new ServiceFabricManagedClustersManagementClient(
+    credential,
+    subscriptionId,
+  );
+  const result = await client.applicationTypeVersions.get(
+    "resRg",
+    "myCluster",
+    "myAppType",
+    "1.0",
+  );
   console.log(result);
 }
 

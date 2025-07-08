@@ -4,7 +4,8 @@
 import { OperationOptions } from "@azure-rest/core-client";
 
 /** Optional parameters. */
-export interface FleetMembersListByFleetOptionalParams extends OperationOptions {}
+export interface FleetMembersListByFleetOptionalParams
+  extends OperationOptions {}
 
 /** Optional parameters. */
 export interface FleetMembersDeleteOptionalParams extends OperationOptions {
@@ -15,7 +16,8 @@ export interface FleetMembersDeleteOptionalParams extends OperationOptions {
 }
 
 /** Optional parameters. */
-export interface FleetMembersUpdateAsyncOptionalParams extends OperationOptions {
+export interface FleetMembersUpdateAsyncOptionalParams
+  extends OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
   /** The request should only proceed if an entity matches this string. */
