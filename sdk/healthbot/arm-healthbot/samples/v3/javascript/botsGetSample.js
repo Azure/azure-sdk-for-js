@@ -6,9 +6,9 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { HealthbotClient } from "@azure/arm-healthbot";
-import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
+const { HealthbotClient } = require("@azure/arm-healthbot");
+const { DefaultAzureCredential } = require("@azure/identity");
+require("dotenv/config");
 
 /**
  * This sample demonstrates how to Get a HealthBot.
@@ -16,10 +16,9 @@ import "dotenv/config";
  * @summary Get a HealthBot.
  * x-ms-original-file: specification/healthbot/resource-manager/Microsoft.HealthBot/stable/2025-05-25/examples/ResourceInfoGet.json
  */
-async function resourceInfoGet(): Promise<void> {
+async function resourceInfoGet() {
   const subscriptionId = process.env["HEALTHBOT_SUBSCRIPTION_ID"] || "subid";
-  const resourceGroupName =
-    process.env["HEALTHBOT_RESOURCE_GROUP"] || "healthbotClient";
+  const resourceGroupName = process.env["HEALTHBOT_RESOURCE_GROUP"] || "healthbotClient";
   const botName = "samplebotname";
   const credential = new DefaultAzureCredential();
   const client = new HealthbotClient(credential, subscriptionId);
@@ -27,7 +26,7 @@ async function resourceInfoGet(): Promise<void> {
   console.log(result);
 }
 
-async function main(): Promise<void> {
+async function main() {
   await resourceInfoGet();
 }
 

@@ -6,9 +6,9 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { HealthbotClient } from "@azure/arm-healthbot";
-import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
+const { HealthbotClient } = require("@azure/arm-healthbot");
+const { DefaultAzureCredential } = require("@azure/identity");
+require("dotenv/config");
 
 /**
  * This sample demonstrates how to Returns all the resources of a particular type belonging to a resource group
@@ -16,11 +16,9 @@ import "dotenv/config";
  * @summary Returns all the resources of a particular type belonging to a resource group
  * x-ms-original-file: specification/healthbot/resource-manager/Microsoft.HealthBot/stable/2025-05-25/examples/ListBotsByResourceGroup.json
  */
-async function listBotsByResourceGroup(): Promise<void> {
-  const subscriptionId =
-    process.env["HEALTHBOT_SUBSCRIPTION_ID"] || "subscription-id";
-  const resourceGroupName =
-    process.env["HEALTHBOT_RESOURCE_GROUP"] || "OneResourceGroupName";
+async function listBotsByResourceGroup() {
+  const subscriptionId = process.env["HEALTHBOT_SUBSCRIPTION_ID"] || "subscription-id";
+  const resourceGroupName = process.env["HEALTHBOT_RESOURCE_GROUP"] || "OneResourceGroupName";
   const credential = new DefaultAzureCredential();
   const client = new HealthbotClient(credential, subscriptionId);
   const resArray = new Array();
@@ -30,7 +28,7 @@ async function listBotsByResourceGroup(): Promise<void> {
   console.log(resArray);
 }
 
-async function main(): Promise<void> {
+async function main() {
   await listBotsByResourceGroup();
 }
 

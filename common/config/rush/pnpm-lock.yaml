@@ -3018,7 +3018,7 @@ packages:
     version: 0.0.0
 
   '@rush-temp/arm-healthbot@file:projects/arm-healthbot.tgz':
-    resolution: {integrity: sha512-CUTTiP+CsS2CltasbXZCXMblCNbatJnj9goookKgDsoWf38mvTE7uEIC4vd/aB7tfdf7GjQXzeZyfQgdjFFGIg==, tarball: file:projects/arm-healthbot.tgz}
+    resolution: {integrity: sha512-nSA1QeEORcpEwYGhfxpp/9X3iJkmJ/FuIo3Kx9318/VlMSCxNAduyCMLp76M3CV6j2QoHpMebUw49/1+2Q3WoQ==, tarball: file:projects/arm-healthbot.tgz}
     version: 0.0.0
 
   '@rush-temp/arm-healthcareapis@file:projects/arm-healthcareapis.tgz':
@@ -13611,6 +13611,7 @@ snapshots:
       '@types/node': 20.19.1
       '@vitest/browser': 3.2.4(playwright@1.53.1)(vite@6.3.5(@types/node@22.7.9)(tsx@4.20.3)(yaml@2.8.0))(vitest@3.2.4)
       '@vitest/coverage-istanbul': 3.2.4(vitest@3.2.4)
+      dotenv: 16.5.0
       playwright: 1.53.1
       tslib: 2.8.1
       typescript: 5.8.3
