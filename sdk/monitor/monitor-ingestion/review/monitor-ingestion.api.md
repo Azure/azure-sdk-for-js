@@ -4,51 +4,34 @@
 
 ```ts
 
-import type { CommonClientOptions } from '@azure/core-client';
-import type { OperationOptions } from '@azure/core-client';
-import type { TokenCredential } from '@azure/core-auth';
+import { ClientOptions } from '@azure-rest/core-client';
+import { OperationOptions } from '@azure-rest/core-client';
+import { Pipeline } from '@azure/core-rest-pipeline';
+import { TokenCredential } from '@azure/core-auth';
 
 // @public
-export class AggregateLogsUploadError extends Error {
-    constructor(errors: LogsUploadFailure[], errorMessage?: string);
-    errors: LogsUploadFailure[];
+export enum KnownVersions {
+    V20230101 = "2023-01-01"
 }
 
-// @public
-export const AggregateLogsUploadErrorName = "AggregateLogsUploadError";
-
-// @public
-export function isAggregateLogsUploadError(e: unknown): e is AggregateLogsUploadError;
-
-// @public
-export enum KnownMonitorAudience {
-    AzureChina = "https://monitor.azure.cn",
-    AzureGovernment = "https://monitor.azure.us",
-    AzurePublicCloud = "https://monitor.azure.com"
-}
-
-// @public
+// @public (undocumented)
 export class LogsIngestionClient {
-    constructor(endpoint: string, tokenCredential: TokenCredential, options?: LogsIngestionClientOptions);
-    upload(ruleId: string, streamName: string, logs: Record<string, unknown>[], options?: LogsUploadOptions): Promise<void>;
+    constructor(endpointParam: string, credential: TokenCredential, options?: LogsIngestionClientOptionalParams);
+    readonly pipeline: Pipeline;
+    upload(ruleId: string, streamName: string, body: Record<string, any>[], options?: UploadOptionalParams): Promise<void>;
 }
 
 // @public
-export interface LogsIngestionClientOptions extends CommonClientOptions {
+export interface LogsIngestionClientOptionalParams extends ClientOptions {
     apiVersion?: string;
-    audience?: string;
 }
 
 // @public
-export interface LogsUploadFailure {
-    cause: Error;
-    failedLogs: Record<string, unknown>[];
+export interface UploadOptionalParams extends OperationOptions {
+    clientRequestId?: string;
+    contentEncoding?: string;
 }
 
-// @public
-export interface LogsUploadOptions extends OperationOptions {
-    maxConcurrency?: number;
-    onError?: (uploadLogsError: LogsUploadFailure) => void;
-}
+// (No @packageDocumentation comment for this package)
 
 ```
