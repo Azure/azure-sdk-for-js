@@ -66,7 +66,6 @@ export class AIProjectClient {
     readonly connections: ConnectionsOperations;
     readonly datasets: DatasetsOperations;
     readonly deployments: DeploymentsOperations;
-    readonly enableTelemetry: EnableTelemetryType;
     readonly evaluations: EvaluationsOperations;
     static fromEndpoint(endpoint: string, credential: TokenCredential, options?: AIProjectClientOptionalParams): AIProjectClient;
     getEndpointUrl(): string;
@@ -215,13 +214,13 @@ export interface DatasetsListVersionsOptionalParams extends OperationOptions {
 
 // @public
 export interface DatasetsOperations {
-    createOrUpdate: (name: string, version: string, body: DatasetVersionUnion, options?: DatasetsCreateOrUpdateOptionalParams) => Promise<DatasetVersionUnion>;
+    createOrUpdate: (name: string, version: string, datasetVersion: DatasetVersionUnion, options?: DatasetsCreateOrUpdateOptionalParams) => Promise<DatasetVersionUnion>;
     delete: (name: string, version: string, options?: DatasetsDeleteOptionalParams) => Promise<void>;
     get: (name: string, version: string, options?: DatasetsGetOptionalParams) => Promise<DatasetVersionUnion>;
     getCredentials: (name: string, version: string, options?: DatasetsGetCredentialsOptionalParams) => Promise<AssetCredentialResponse>;
     list: (options?: DatasetsListOptionalParams) => PagedAsyncIterableIterator<DatasetVersionUnion>;
     listVersions: (name: string, options?: DatasetsListVersionsOptionalParams) => PagedAsyncIterableIterator<DatasetVersionUnion>;
-    pendingUpload: (name: string, version: string, body: PendingUploadRequest, options?: DatasetsPendingUploadOptionalParams) => Promise<PendingUploadResponse>;
+    pendingUpload: (name: string, version: string, pendingUploadRequest: PendingUploadRequest, options?: DatasetsPendingUploadOptionalParams) => Promise<PendingUploadResponse>;
     uploadFile: (name: string, version: string, filePath: string, options?: DatasetUploadOptions) => Promise<DatasetVersionUnion>;
     uploadFolder: (name: string, version: string, folderPath: string, options?: DatasetUploadOptions) => Promise<DatasetVersionUnion>;
 }
@@ -291,9 +290,6 @@ export interface EmbeddingConfiguration {
     embeddingField: string;
     modelDeploymentName: string;
 }
-
-// @public
-export type EnableTelemetryType = (destination?: string) => void;
 
 // @public
 export interface EntraIDCredentials extends BaseCredentials {
@@ -431,7 +427,7 @@ export interface IndexesListVersionsOptionalParams extends OperationOptions {
 
 // @public
 export interface IndexesOperations {
-    createOrUpdate: (name: string, version: string, body: IndexUnion, options?: IndexesCreateOrUpdateOptionalParams) => Promise<IndexUnion>;
+    createOrUpdate: (name: string, version: string, index: IndexUnion, options?: IndexesCreateOrUpdateOptionalParams) => Promise<IndexUnion>;
     delete: (name: string, version: string, options?: IndexesDeleteOptionalParams) => Promise<void>;
     get: (name: string, version: string, options?: IndexesGetOptionalParams) => Promise<IndexUnion>;
     list: (options?: IndexesListOptionalParams) => PagedAsyncIterableIterator<IndexUnion>;

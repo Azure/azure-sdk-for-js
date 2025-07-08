@@ -74,6 +74,7 @@ describe("hybridQueryExecutionContext", () => {
   const context = new HybridQueryExecutionContext(
     clientContext,
     collectionLink,
+    "",
     options,
     partitionedQueryExecutionInfo,
     correlatedActivityId,
