@@ -22,6 +22,8 @@ import { WorkloadIdentityCredential } from "./workloadIdentityCredential.js";
 import type { WorkloadIdentityCredentialOptions } from "./workloadIdentityCredentialOptions.js";
 import { credentialLogger } from "../util/logging.js";
 import { VisualStudioCodeCredential } from "./visualStudioCodeCredential.js";
+import { isVSCodeAuthRecordAvailable } from "../util/visualStudioCodeHelpers.js";
+import { loadBrokerPlugin } from "../util/loadBroker.js";
 
 const logger = credentialLogger("DefaultAzureCredential");
 
@@ -174,7 +176,7 @@ export function createEnvironmentCredential(
 }
 
 /**
- * Creates an {@link EnvironmentCredential} from the provided options.
+ * Creates a {@link VisualStudioCodeCredential} from the provided options.
  * @param options - Options to configure the credential.
  *
  * @internal
@@ -255,8 +257,12 @@ export class DefaultAzureCredential extends ChainedTokenCredential {
       createDefaultAzureCliCredential,
       createDefaultAzurePowershellCredential,
       createDefaultAzureDeveloperCliCredential,
-      createDefaultVisualStudioCodeCredential,
     ];
+    // Only add VisualStudioCodeCredential if the broker plugin is available and the VS Code auth record is present
+    if (loadBrokerPlugin() && isVSCodeAuthRecordAvailable()) {
+      devCredentialFunctions.push(createDefaultVisualStudioCodeCredential);
+    }
+
     const prodCredentialFunctions = [
       createEnvironmentCredential,
       createDefaultWorkloadIdentityCredential,

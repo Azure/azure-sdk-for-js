@@ -14,13 +14,5 @@ export default mergeConfig(
         exclude: ["test/manual-integration/**/*.ts", "test/manual/**/*.ts"]
       }
     },
-    optimizeDeps: {
-      exclude: ['@azure/identity-broker']
-    },
-    build: {
-      rollupOptions: {
-        external: ['@azure/identity-broker']
-      }
-    }
   }),
 );

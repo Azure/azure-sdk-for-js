@@ -12,16 +12,17 @@ import { CredentialUnavailableError } from "../errors.js";
 import type { VisualStudioCodeCredentialOptions } from "./visualStudioCodeCredentialOptions.js";
 import type { VSCodeCredentialFinder } from "./visualStudioCodeCredentialPlugin.js";
 import { checkTenantId } from "../util/tenantIdUtils.js";
-import fs from "node:fs/promises";
 import { readFileSync } from "node:fs";
 import os from "node:os";
 import path from "node:path";
 import { createMsalClient, MsalClient } from "../msal/nodeFlows/msalClient.js";
-import { AuthenticationRecord } from "../msal/types.js";
 import { ensureScopes } from "../util/scopeUtils.js";
-import { deserializeAuthenticationRecord } from "../msal/utils.js";
 import { useIdentityPlugin } from "../plugins/consumer.js";
-
+import {
+  isVSCodeAuthRecordAvailable,
+  loadVSCodeAuthRecord,
+} from "../util/visualStudioCodeHelpers.js";
+import { loadBrokerPlugin } from "../util/loadBroker.js";
 const CommonTenantId = "common";
 const VSCodeClientId = "aebc6443-996d-45c2-90f0-388ff96faa56";
 const logger = credentialLogger("VisualStudioCodeCredential");
@@ -135,68 +136,6 @@ export class VisualStudioCodeCredential implements TokenCredential {
   }
 
   /**
-   * Load the broker plugin from \@azure/identity-broker package.
-   */
-  private async loadBrokerPlugin() {
-    try {
-      // @ts-expect-error - Dynamically import the broker plugin
-      const { nativeBrokerPlugin } = await import("@azure/identity-broker");
-      return nativeBrokerPlugin;
-    } catch (error: any) {
-      // Only catch module not found error, let other errors bubble up
-      if (
-        error.code === "ERR_MODULE_NOT_FOUND" ||
-        /Cannot find package.*imported from/.test(error.message)
-      ) {
-        logger.info("The @azure/identity-broker package is not installed.");
-        return undefined;
-      }
-      throw error;
-    }
-  }
-
-  /**
-   * Finds the path to the VS Code authentication record file, checking both .azure and .Azure directories.
-   */
-  private async findAuthRecordPath(): Promise<string | undefined> {
-    const homedir = os.homedir();
-    const azureDirs = [".azure", ".Azure"];
-
-    for (const azureDir of azureDirs) {
-      const authPath = path.join(
-        homedir,
-        azureDir,
-        "ms-azuretools.vscode-azureresourcegroups",
-        "authRecord.json",
-      );
-      try {
-        await fs.access(authPath);
-        return authPath;
-      } catch {
-        continue;
-      }
-    }
-    return undefined;
-  }
-
-  /**
-   * Load the VS Code authentication record from the user's home directory.
-   */
-  private async loadVSCodeAuthRecord(): Promise<AuthenticationRecord | undefined> {
-    const authRecordPath = await this.findAuthRecordPath();
-
-    if (!authRecordPath) {
-      logger.info(
-        "The Visual Studio Code authentication record file does not exist in either .azure or .Azure directory.",
-      );
-      return undefined;
-    }
-
-    const authRecordContent = await fs.readFile(authRecordPath, { encoding: "utf8" });
-    return deserializeAuthenticationRecord(authRecordContent);
-  }
-
-  /**
    * Runs preparations for any further getToken request:
    *   - Loads the broker plugin if available.
    *   - Loads the authentication record from VSCode if available.
@@ -211,10 +150,10 @@ export class VisualStudioCodeCredential implements TokenCredential {
         logger,
       ) || this.tenantId;
 
-    const nativeBrokerPlugin = await this.loadBrokerPlugin();
-    const authenticationRecord = await this.loadVSCodeAuthRecord();
+    const nativeBrokerPlugin = loadBrokerPlugin();
+    const hasAuthRecord = isVSCodeAuthRecordAvailable();
 
-    if (!nativeBrokerPlugin || !authenticationRecord) {
+    if (!nativeBrokerPlugin || !hasAuthRecord) {
       throw new CredentialUnavailableError(
         "Visual Studio Code Authentication is not available." +
           " Ensure you have @azure/identity-broker dependency installed," +
@@ -222,6 +161,7 @@ export class VisualStudioCodeCredential implements TokenCredential {
       );
     }
 
+    const authenticationRecord = await loadVSCodeAuthRecord();
     useIdentityPlugin(nativeBrokerPlugin);
 
     const authorityHost = mapVSCodeAuthorityHosts[this.cloudName];

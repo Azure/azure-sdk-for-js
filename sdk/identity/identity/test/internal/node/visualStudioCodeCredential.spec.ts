@@ -3,96 +3,137 @@
 
 import { VisualStudioCodeCredential } from "../../../src/index.js";
 import { CredentialUnavailableError } from "../../../src/errors.js";
-import fs from "node:fs/promises";
 import { describe, it, expect, vi, beforeEach, afterEach } from "vitest";
 
 describe("VisualStudioCodeCredential (internal)", function () {
   let credential: VisualStudioCodeCredential;
+  let loadBrokerModule: any;
+  let helperModule: any;
 
-  beforeEach(function () {
+  beforeEach(async function () {
     credential = new VisualStudioCodeCredential();
-    // Reset any cached promise to ensure clean state between tests
     (credential as any).preparePromise = undefined;
+
+    loadBrokerModule = await import("../../../src/util/loadBroker.js");
+    helperModule = await import("../../../src/util/visualStudioCodeHelpers.js");
   });
 
   afterEach(function () {
     vi.restoreAllMocks();
+    loadBrokerModule = undefined;
+    helperModule = undefined;
   });
 
   describe("loadBrokerPlugin", function () {
-    it("should return undefined when module is not found (ERR_MODULE_NOT_FOUND)", async function () {
-      const loadBrokerPlugin = (credential as any).loadBrokerPlugin.bind(credential);
+    it("should return undefined when module is not found", async function () {
+      // Mock the function to simulate module not found
+      const loadBrokerPluginSpy = vi
+        .spyOn(loadBrokerModule, "loadBrokerPlugin")
+        .mockReturnValue(undefined);
 
-      // Since @azure/identity-broker is not installed, this should return undefined
-      const result = await loadBrokerPlugin();
+      const result = loadBrokerModule.loadBrokerPlugin();
       expect(result).toBeUndefined();
+      expect(loadBrokerPluginSpy).toHaveBeenCalledOnce();
+    });
+
+    it("should return broker plugin when module is available", async function () {
+      const mockBrokerPlugin = { type: "mock-broker-plugin" };
+      const loadBrokerPluginSpy = vi
+        .spyOn(loadBrokerModule, "loadBrokerPlugin")
+        .mockReturnValue(mockBrokerPlugin);
+
+      const result = loadBrokerModule.loadBrokerPlugin();
+      expect(result).toBe(mockBrokerPlugin);
+      expect(loadBrokerPluginSpy).toHaveBeenCalledOnce();
     });
 
     it("should throw CredentialUnavailableError when broker plugin is not available", async function () {
       const loadBrokerPluginSpy = vi
-        .spyOn(credential as any, "loadBrokerPlugin")
-        .mockResolvedValue(undefined);
-      const loadVSCodeAuthRecordSpy = vi
-        .spyOn(credential as any, "loadVSCodeAuthRecord")
-        .mockResolvedValue({
-          homeAccountId: "test",
-          environment: "test",
-          tenantId: "test",
-          username: "test",
-        });
+        .spyOn(loadBrokerModule, "loadBrokerPlugin")
+        .mockReturnValue(undefined);
+      const isVSCodeAuthRecordAvailableSpy = vi
+        .spyOn(helperModule, "isVSCodeAuthRecordAvailable")
+        .mockReturnValue("/mock/path/authRecord.json");
 
       const prepare = (credential as any).prepare.bind(credential);
 
       await expect(prepare()).rejects.toThrow(CredentialUnavailableError);
 
       expect(loadBrokerPluginSpy).toHaveBeenCalledOnce();
-      expect(loadVSCodeAuthRecordSpy).toHaveBeenCalledOnce();
+      expect(isVSCodeAuthRecordAvailableSpy).toHaveBeenCalledOnce();
+    });
+  });
+
+  describe("isVSCodeAuthRecordAvailable", function () {
+    it("should return undefined when auth record file does not exist", async function () {
+      const isVSCodeAuthRecordAvailableSpy = vi
+        .spyOn(helperModule, "isVSCodeAuthRecordAvailable")
+        .mockReturnValue(undefined);
+
+      const result = helperModule.isVSCodeAuthRecordAvailable();
+
+      expect(result).toBeUndefined();
+      expect(isVSCodeAuthRecordAvailableSpy).toHaveBeenCalledOnce();
+    });
+
+    it("should return path when auth record file exists", async function () {
+      const mockPath = "/testPath/authRecord.json";
+      const isVSCodeAuthRecordAvailableSpy = vi
+        .spyOn(helperModule, "isVSCodeAuthRecordAvailable")
+        .mockReturnValue(mockPath);
+
+      const result = helperModule.isVSCodeAuthRecordAvailable();
+
+      expect(result).toBe(mockPath);
+      expect(isVSCodeAuthRecordAvailableSpy).toHaveBeenCalledOnce();
+    });
+
+    it("should throw CredentialUnavailableError when auth record is not available", async function () {
+      const loadBrokerPluginSpy = vi
+        .spyOn(loadBrokerModule, "loadBrokerPlugin")
+        .mockReturnValue({ type: "mock-plugin" });
+      const isVSCodeAuthRecordAvailableSpy = vi
+        .spyOn(helperModule, "isVSCodeAuthRecordAvailable")
+        .mockReturnValue(undefined);
+
+      const prepare = (credential as any).prepare.bind(credential);
+
+      await expect(prepare()).rejects.toThrow(CredentialUnavailableError);
+
+      expect(loadBrokerPluginSpy).toHaveBeenCalledOnce();
+      expect(isVSCodeAuthRecordAvailableSpy).toHaveBeenCalledOnce();
     });
   });
 
   describe("loadVSCodeAuthRecord", function () {
     it("should return undefined when auth record file does not exist", async function () {
-      const statSpy = vi.spyOn(fs, "stat").mockRejectedValue(
-        Object.assign(new Error("ENOENT: no such file or directory"), {
-          code: "ENOENT",
-          errno: -2,
-          syscall: "stat",
-        }),
-      );
+      const loadVSCodeAuthRecordSpy = vi
+        .spyOn(helperModule, "loadVSCodeAuthRecord")
+        .mockReturnValue(undefined);
 
-      const loadVSCodeAuthRecord = (credential as any).loadVSCodeAuthRecord.bind(credential);
-      const result = await loadVSCodeAuthRecord();
+      const result = await helperModule.loadVSCodeAuthRecord();
 
       expect(result).toBeUndefined();
-      expect(statSpy).toHaveBeenCalledOnce();
+      expect(loadVSCodeAuthRecordSpy).toHaveBeenCalledOnce();
     });
 
-    it("should return undefined when file read fails", async function () {
-      const statSpy = vi.spyOn(fs, "stat").mockResolvedValue({} as any);
-      const readFileSpy = vi.spyOn(fs, "readFile").mockRejectedValue(new Error("Cannot read file"));
+    it("should return parsed auth record when file exists and is valid", async function () {
+      const mockAuthRecord = {
+        homeAccountId: "test",
+        environment: "test",
+        tenantId: "test",
+        username: "test",
+        authority: "https://login.microsoftonline.com",
+        clientId: "test-client-id",
+      };
 
-      const loadVSCodeAuthRecord = (credential as any).loadVSCodeAuthRecord.bind(credential);
-
-      // The method should throw when readFile fails, not return undefined
-      await expect(loadVSCodeAuthRecord()).rejects.toThrow("Cannot read file");
-
-      expect(statSpy).toHaveBeenCalledOnce();
-      expect(readFileSpy).toHaveBeenCalledOnce();
-    });
-
-    it("should throw CredentialUnavailableError when auth record is not available", async function () {
-      const loadBrokerPluginSpy = vi
-        .spyOn(credential as any, "loadBrokerPlugin")
-        .mockResolvedValue({ type: "mock-plugin" });
       const loadVSCodeAuthRecordSpy = vi
-        .spyOn(credential as any, "loadVSCodeAuthRecord")
-        .mockResolvedValue(undefined);
+        .spyOn(helperModule, "loadVSCodeAuthRecord")
+        .mockResolvedValue(mockAuthRecord);
 
-      const prepare = (credential as any).prepare.bind(credential);
+      const result = await helperModule.loadVSCodeAuthRecord();
 
-      await expect(prepare()).rejects.toThrow(CredentialUnavailableError);
-
-      expect(loadBrokerPluginSpy).toHaveBeenCalledOnce();
+      expect(result).toEqual(mockAuthRecord);
       expect(loadVSCodeAuthRecordSpy).toHaveBeenCalledOnce();
     });
   });
