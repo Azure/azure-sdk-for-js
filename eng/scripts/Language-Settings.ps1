@@ -423,26 +423,15 @@ function Update-javascript-GeneratedSdks([string]$PackageDirectoriesFile) {
     # Check if tsp-location.yaml exists and read the directory field to determine if it's a Management SDK
     $tspLocationPath = "$directoryPath/tsp-location.yaml"
     if (Test-Path $tspLocationPath) {
-      try {
-        $tspContent = Get-Content $tspLocationPath -Raw
-        # Parse YAML to extract directory field using ConvertFrom-Yaml
-        $tspData = $tspContent | ConvertFrom-Yaml
-        if ($tspData.directory) {
-          $tspDirectory = $tspData.directory
-          $isManagementSdk = $tspDirectory.Contains("/resource-manager/") -or $tspDirectory.Contains(".Management")
-        }
-      }
-      catch {
-        Write-Host "Warning: Failed to parse tsp-location.yaml in $directory" -ForegroundColor Yellow
-      }
-
       Write-Host 'Generating project under folder ' -ForegroundColor Green -NoNewline
       Write-Host "$directory" -ForegroundColor Yellow
 
       Write-Host "Calling TypeSpec-Project-Sync.ps1 for $directory"
       & $RepoRoot/eng/common/scripts/TypeSpec-Project-Sync.ps1 $directoryPath
       if ($LASTEXITCODE) {
-        $directoriesWithErrors += $directory
+        if($LASTEXITCODE -ne 100) {
+          $directoriesWithErrors += $directory
+        }        
         continue
       }
 
