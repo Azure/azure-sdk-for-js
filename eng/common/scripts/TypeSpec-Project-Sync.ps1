@@ -202,7 +202,22 @@ else {
 # Safely list the contents of the spec directory
 Write-Host "Listing contents of $($specCloneDir.Path):"
 if (Test-Path $specCloneDir.Path) {
+  # List top-level items
+  Write-Host "Top-level items:"
   Get-ChildItem -Path $specCloneDir.Path -Force | ForEach-Object { Write-Host "  $($_.Name)" }
+  
+  # List the spec directory and its contents recursively
+  if (Test-Path (Join-Path $specCloneDir.Path $specSubDirectory)) {
+    Write-Host "Contents of spec directory ($specSubDirectory):"
+    Get-ChildItem -Path (Join-Path $specCloneDir.Path $specSubDirectory) -Recurse -Force | 
+      ForEach-Object { 
+        # Get relative path from the base directory
+        $relativePath = $_.FullName.Substring($specCloneDir.Path.Length + 1)
+        Write-Host "  $relativePath" 
+      }
+  } else {
+    Write-Host "Spec directory $specSubDirectory does not exist in $($specCloneDir.Path)"
+  }
 } else {
   Write-Host "  Directory does not exist"
 }
