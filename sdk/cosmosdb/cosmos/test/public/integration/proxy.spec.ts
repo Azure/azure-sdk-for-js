@@ -103,7 +103,7 @@ if (!isBrowser()) {
     const startProxyServer = (port: number): Promise<void> => {
       return new Promise((resolve, reject) => {
         if (proxyServer) {
-          proxyServer.listen(port, "localhost", (err?: Error) => {
+          proxyServer.listen(port, "127.0.0.1", (err?: Error) => {
             if (err) reject(err);
             else resolve();
           });
@@ -124,7 +124,7 @@ if (!isBrowser()) {
           await startProxyServer(PROXY_PORT);
 
           // Create a client with proxy configuration using HttpsProxyAgent
-          const agent = new HttpsProxyAgent(`http://localhost:${PROXY_PORT}`);
+          const agent = new HttpsProxyAgent(`http://127.0.0.1:${PROXY_PORT}`);
           const client = createTestClient({ agent });
 
           // Test a simple operation
@@ -149,7 +149,7 @@ if (!isBrowser()) {
       async () => {
         // Use an invalid proxy port that's definitely not in use
         const invalidPort = 12345;
-        const agent = new HttpsProxyAgent(`http://localhost:${invalidPort}`);
+        const agent = new HttpsProxyAgent(`http://127.0.0.1:${invalidPort}`);
         const client = createTestClient({ agent });
 
         // The request should fail due to proxy connection error
