@@ -28,8 +28,10 @@ vi.mock("../../src/utils/parseJwt.js", async (importActual) => {
 vi.mock("node:process", async (importActual) => {
   const actual = await importActual<typeof import("node:process")>();
   return {
-    ...actual,
-    exit: vi.fn(),
+    default: {
+      ...(actual as any).default,
+      exit: vi.fn(),
+    },
   };
 });
 
