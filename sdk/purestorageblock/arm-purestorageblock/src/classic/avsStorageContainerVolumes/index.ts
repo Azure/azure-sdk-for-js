@@ -2,7 +2,10 @@
 // Licensed under the MIT License.
 
 import { BlockContext } from "../../api/blockContext.js";
-import { AvsStorageContainerVolumeUpdate, AvsStorageContainerVolume } from "../../models/models.js";
+import {
+  AvsStorageContainerVolumeUpdate,
+  AvsStorageContainerVolume,
+} from "../../models/models.js";
 import {
   AvsStorageContainerVolumesListByAvsStorageContainerOptionalParams,
   AvsStorageContainerVolumesDeleteOptionalParams,
@@ -56,7 +59,10 @@ export interface AvsStorageContainerVolumesOperations {
     volumeId: string,
     properties: AvsStorageContainerVolumeUpdate,
     options?: AvsStorageContainerVolumesUpdateOptionalParams,
-  ) => PollerLike<OperationState<AvsStorageContainerVolume>, AvsStorageContainerVolume>;
+  ) => PollerLike<
+    OperationState<AvsStorageContainerVolume>,
+    AvsStorageContainerVolume
+  >;
 }
 
 function _getAvsStorageContainerVolumes(context: BlockContext) {
@@ -81,14 +87,29 @@ function _getAvsStorageContainerVolumes(context: BlockContext) {
       volumeId: string,
       options?: AvsStorageContainerVolumesDeleteOptionalParams,
     ) =>
-      $delete(context, resourceGroupName, storagePoolName, storageContainerName, volumeId, options),
+      $delete(
+        context,
+        resourceGroupName,
+        storagePoolName,
+        storageContainerName,
+        volumeId,
+        options,
+      ),
     get: (
       resourceGroupName: string,
       storagePoolName: string,
       storageContainerName: string,
       volumeId: string,
       options?: AvsStorageContainerVolumesGetOptionalParams,
-    ) => get(context, resourceGroupName, storagePoolName, storageContainerName, volumeId, options),
+    ) =>
+      get(
+        context,
+        resourceGroupName,
+        storagePoolName,
+        storageContainerName,
+        volumeId,
+        options,
+      ),
     update: (
       resourceGroupName: string,
       storagePoolName: string,

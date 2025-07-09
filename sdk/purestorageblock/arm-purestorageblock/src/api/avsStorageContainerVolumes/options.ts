@@ -8,16 +8,19 @@ export interface AvsStorageContainerVolumesListByAvsStorageContainerOptionalPara
   extends OperationOptions {}
 
 /** Optional parameters. */
-export interface AvsStorageContainerVolumesDeleteOptionalParams extends OperationOptions {
+export interface AvsStorageContainerVolumesDeleteOptionalParams
+  extends OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
 }
 
 /** Optional parameters. */
-export interface AvsStorageContainerVolumesGetOptionalParams extends OperationOptions {}
+export interface AvsStorageContainerVolumesGetOptionalParams
+  extends OperationOptions {}
 
 /** Optional parameters. */
-export interface AvsStorageContainerVolumesUpdateOptionalParams extends OperationOptions {
+export interface AvsStorageContainerVolumesUpdateOptionalParams
+  extends OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
 }

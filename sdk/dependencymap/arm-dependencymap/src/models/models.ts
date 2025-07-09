@@ -9,7 +9,9 @@ export interface _OperationListResult {
   nextLink?: string;
 }
 
-export function _operationListResultDeserializer(item: any): _OperationListResult {
+export function _operationListResultDeserializer(
+  item: any,
+): _OperationListResult {
   return {
     value: operationArrayDeserializer(item["value"]),
     nextLink: item["nextLink"],
@@ -40,7 +42,9 @@ export function operationDeserializer(item: any): Operation {
   return {
     name: item["name"],
     isDataAction: item["isDataAction"],
-    display: !item["display"] ? item["display"] : operationDisplayDeserializer(item["display"]),
+    display: !item["display"]
+      ? item["display"]
+      : operationDisplayDeserializer(item["display"]),
     origin: item["origin"],
     actionType: item["actionType"],
   };
@@ -68,40 +72,9 @@ export function operationDisplayDeserializer(item: any): OperationDisplay {
 }
 
 /** The intended executor of the operation; as in Resource Based Access Control (RBAC) and audit logs UX. Default value is "user,system" */
-export enum KnownOrigin {
-  /** Indicates the operation is initiated by a user. */
-  User = "user",
-  /** Indicates the operation is initiated by a system. */
-  System = "system",
-  /** Indicates the operation is initiated by a user or system. */
-  UserSystem = "user,system",
-}
-
-/**
- * The intended executor of the operation; as in Resource Based Access Control (RBAC) and audit logs UX. Default value is "user,system" \
- * {@link KnownOrigin} can be used interchangeably with Origin,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **user**: Indicates the operation is initiated by a user. \
- * **system**: Indicates the operation is initiated by a system. \
- * **user,system**: Indicates the operation is initiated by a user or system.
- */
-export type Origin = string;
-
+export type Origin = "user" | "system" | "user,system";
 /** Extensible enum. Indicates the action type. "Internal" refers to actions that are for internal only APIs. */
-export enum KnownActionType {
-  /** Actions are for internal-only APIs. */
-  Internal = "Internal",
-}
-
-/**
- * Extensible enum. Indicates the action type. "Internal" refers to actions that are for internal only APIs. \
- * {@link KnownActionType} can be used interchangeably with ActionType,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **Internal**: Actions are for internal-only APIs.
- */
-export type ActionType = string;
+export type ActionType = "Internal";
 
 /** Common error response for all Azure Resource Manager APIs to return error details for failed operations. */
 export interface ErrorResponse {
@@ -111,7 +84,9 @@ export interface ErrorResponse {
 
 export function errorResponseDeserializer(item: any): ErrorResponse {
   return {
-    error: !item["error"] ? item["error"] : errorDetailDeserializer(item["error"]),
+    error: !item["error"]
+      ? item["error"]
+      : errorDetailDeserializer(item["error"]),
   };
 }
 
@@ -134,20 +109,26 @@ export function errorDetailDeserializer(item: any): ErrorDetail {
     code: item["code"],
     message: item["message"],
     target: item["target"],
-    details: !item["details"] ? item["details"] : errorDetailArrayDeserializer(item["details"]),
+    details: !item["details"]
+      ? item["details"]
+      : errorDetailArrayDeserializer(item["details"]),
     additionalInfo: !item["additionalInfo"]
       ? item["additionalInfo"]
       : errorAdditionalInfoArrayDeserializer(item["additionalInfo"]),
   };
 }
 
-export function errorDetailArrayDeserializer(result: Array<ErrorDetail>): any[] {
+export function errorDetailArrayDeserializer(
+  result: Array<ErrorDetail>,
+): any[] {
   return result.map((item) => {
     return errorDetailDeserializer(item);
   });
 }
 
-export function errorAdditionalInfoArrayDeserializer(result: Array<ErrorAdditionalInfo>): any[] {
+export function errorAdditionalInfoArrayDeserializer(
+  result: Array<ErrorAdditionalInfo>,
+): any[] {
   return result.map((item) => {
     return errorAdditionalInfoDeserializer(item);
   });
@@ -158,21 +139,16 @@ export interface ErrorAdditionalInfo {
   /** The additional info type. */
   readonly type?: string;
   /** The additional info. */
-  readonly info?: Record<string, any>;
+  readonly info?: any;
 }
 
-export function errorAdditionalInfoDeserializer(item: any): ErrorAdditionalInfo {
+export function errorAdditionalInfoDeserializer(
+  item: any,
+): ErrorAdditionalInfo {
   return {
     type: item["type"],
-    info: !item["info"] ? item["info"] : _errorAdditionalInfoInfoDeserializer(item["info"]),
+    info: item["info"],
   };
-}
-
-/** model interface _ErrorAdditionalInfoInfo */
-export interface _ErrorAdditionalInfoInfo {}
-
-export function _errorAdditionalInfoInfoDeserializer(item: any): _ErrorAdditionalInfoInfo {
-  return item;
 }
 
 /** A Maps resource */
@@ -213,48 +189,29 @@ export interface MapsResourceProperties {
   readonly provisioningState?: ProvisioningState;
 }
 
-export function mapsResourcePropertiesSerializer(item: MapsResourceProperties): any {
+export function mapsResourcePropertiesSerializer(
+  item: MapsResourceProperties,
+): any {
   return item;
 }
 
-export function mapsResourcePropertiesDeserializer(item: any): MapsResourceProperties {
+export function mapsResourcePropertiesDeserializer(
+  item: any,
+): MapsResourceProperties {
   return {
     provisioningState: item["provisioningState"],
   };
 }
 
 /** Provisioning state of the resource */
-export enum KnownProvisioningState {
-  /** Resource has been created. */
-  Succeeded = "Succeeded",
-  /** Resource creation failed. */
-  Failed = "Failed",
-  /** Resource creation was canceled. */
-  Canceled = "Canceled",
-  /** This state indicates that the resource is being provisioned. */
-  Provisioning = "Provisioning",
-  /** This state indicates that the resource is being updated. */
-  Updating = "Updating",
-  /** This state indicates that the resource is being deleted. */
-  Deleting = "Deleting",
-  /** This state indicates that the operation on the resource has been accepted. */
-  Accepted = "Accepted",
-}
-
-/**
- * Provisioning state of the resource \
- * {@link KnownProvisioningState} can be used interchangeably with ProvisioningState,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **Succeeded**: Resource has been created. \
- * **Failed**: Resource creation failed. \
- * **Canceled**: Resource creation was canceled. \
- * **Provisioning**: This state indicates that the resource is being provisioned. \
- * **Updating**: This state indicates that the resource is being updated. \
- * **Deleting**: This state indicates that the resource is being deleted. \
- * **Accepted**: This state indicates that the operation on the resource has been accepted.
- */
-export type ProvisioningState = string;
+export type ProvisioningState =
+  | "Succeeded"
+  | "Failed"
+  | "Canceled"
+  | "Provisioning"
+  | "Updating"
+  | "Deleting"
+  | "Accepted";
 
 /** The resource model definition for an Azure Resource Manager tracked top level resource which has 'tags' and a 'location' */
 export interface TrackedResource extends Resource {
@@ -328,7 +285,9 @@ export function systemDataDeserializer(item: any): SystemData {
   return {
     createdBy: item["createdBy"],
     createdByType: item["createdByType"],
-    createdAt: !item["createdAt"] ? item["createdAt"] : new Date(item["createdAt"]),
+    createdAt: !item["createdAt"]
+      ? item["createdAt"]
+      : new Date(item["createdAt"]),
     lastModifiedBy: item["lastModifiedBy"],
     lastModifiedByType: item["lastModifiedByType"],
     lastModifiedAt: !item["lastModifiedAt"]
@@ -338,28 +297,7 @@ export function systemDataDeserializer(item: any): SystemData {
 }
 
 /** The kind of entity that created the resource. */
-export enum KnownCreatedByType {
-  /** The entity was created by a user. */
-  User = "User",
-  /** The entity was created by an application. */
-  Application = "Application",
-  /** The entity was created by a managed identity. */
-  ManagedIdentity = "ManagedIdentity",
-  /** The entity was created by a key. */
-  Key = "Key",
-}
-
-/**
- * The kind of entity that created the resource. \
- * {@link KnowncreatedByType} can be used interchangeably with createdByType,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **User**: The entity was created by a user. \
- * **Application**: The entity was created by an application. \
- * **ManagedIdentity**: The entity was created by a managed identity. \
- * **Key**: The entity was created by a key.
- */
-export type CreatedByType = string;
+export type CreatedByType = "User" | "Application" | "ManagedIdentity" | "Key";
 
 /** The type used for updating tags in MapsResource resources. */
 export interface MapsResourceTagsUpdate {
@@ -367,7 +305,9 @@ export interface MapsResourceTagsUpdate {
   tags?: Record<string, string>;
 }
 
-export function mapsResourceTagsUpdateSerializer(item: MapsResourceTagsUpdate): any {
+export function mapsResourceTagsUpdateSerializer(
+  item: MapsResourceTagsUpdate,
+): any {
   return { tags: item["tags"] };
 }
 
@@ -379,20 +319,26 @@ export interface _MapsResourceListResult {
   nextLink?: string;
 }
 
-export function _mapsResourceListResultDeserializer(item: any): _MapsResourceListResult {
+export function _mapsResourceListResultDeserializer(
+  item: any,
+): _MapsResourceListResult {
   return {
     value: mapsResourceArrayDeserializer(item["value"]),
     nextLink: item["nextLink"],
   };
 }
 
-export function mapsResourceArraySerializer(result: Array<MapsResource>): any[] {
+export function mapsResourceArraySerializer(
+  result: Array<MapsResource>,
+): any[] {
   return result.map((item) => {
     return mapsResourceSerializer(item);
   });
 }
 
-export function mapsResourceArrayDeserializer(result: Array<MapsResource>): any[] {
+export function mapsResourceArrayDeserializer(
+  result: Array<MapsResource>,
+): any[] {
   return result.map((item) => {
     return mapsResourceDeserializer(item);
   });
@@ -429,7 +375,9 @@ export function dependencyMapVisualizationFilterSerializer(
   item: DependencyMapVisualizationFilter,
 ): any {
   return {
-    dateTime: !item["dateTime"] ? item["dateTime"] : dateTimeFilterSerializer(item["dateTime"]),
+    dateTime: !item["dateTime"]
+      ? item["dateTime"]
+      : dateTimeFilterSerializer(item["dateTime"]),
     processNameFilter: !item["processNameFilter"]
       ? item["processNameFilter"]
       : processNameFilterSerializer(item["processNameFilter"]),
@@ -473,22 +421,7 @@ export function processNameFilterSerializer(item: ProcessNameFilter): any {
 }
 
 /** Operator enum for process name filter */
-export enum KnownProcessNameFilterOperator {
-  /** Operator to include items in the result */
-  Contains = "contains",
-  /** Operator to exclude items in the result */
-  NotContains = "notContains",
-}
-
-/**
- * Operator enum for process name filter \
- * {@link KnownProcessNameFilterOperator} can be used interchangeably with ProcessNameFilterOperator,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **contains**: Operator to include items in the result \
- * **notContains**: Operator to exclude items in the result
- */
-export type ProcessNameFilterOperator = string;
+export type ProcessNameFilterOperator = "contains" | "notContains";
 
 /** GetConnectionsWithConnectedMachineForFocusedMachine request model */
 export interface GetConnectionsWithConnectedMachineForFocusedMachineRequest {
@@ -542,7 +475,9 @@ export interface ExportDependenciesRequest {
   filters?: DependencyMapVisualizationFilter;
 }
 
-export function exportDependenciesRequestSerializer(item: ExportDependenciesRequest): any {
+export function exportDependenciesRequestSerializer(
+  item: ExportDependenciesRequest,
+): any {
   return {
     focusedMachineId: item["focusedMachineId"],
     filters: !item["filters"]
@@ -557,7 +492,9 @@ export interface DiscoverySourceResource extends TrackedResource {
   properties?: DiscoverySourceResourcePropertiesUnion;
 }
 
-export function discoverySourceResourceSerializer(item: DiscoverySourceResource): any {
+export function discoverySourceResourceSerializer(
+  item: DiscoverySourceResource,
+): any {
   return {
     tags: item["tags"],
     location: item["location"],
@@ -567,7 +504,9 @@ export function discoverySourceResourceSerializer(item: DiscoverySourceResource)
   };
 }
 
-export function discoverySourceResourceDeserializer(item: any): DiscoverySourceResource {
+export function discoverySourceResourceDeserializer(
+  item: any,
+): DiscoverySourceResource {
   return {
     tags: item["tags"],
     location: item["location"],
@@ -644,19 +583,7 @@ export function discoverySourceResourcePropertiesUnionDeserializer(
 }
 
 /** Source type of the discoverySource */
-export enum KnownSourceType {
-  /** OffAzure source type */
-  OffAzure = "OffAzure",
-}
-
-/**
- * Source type of the discoverySource \
- * {@link KnownSourceType} can be used interchangeably with SourceType,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **OffAzure**: OffAzure source type
- */
-export type SourceType = string;
+export type SourceType = "OffAzure";
 
 /** OffAzure discovery source resource properties */
 export interface OffAzureDiscoverySourceResourceProperties

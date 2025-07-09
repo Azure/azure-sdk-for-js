@@ -16,7 +16,6 @@ async function organizationsUpdateMaximumSet(): Promise<void> {
   const client = new AtlasClient(credential, subscriptionId);
   const result = await client.organizations.update("rgopenapi", "U.1-:7", {
     tags: {},
-    location: "",
     properties: {
       user: {
         firstName: "btyhwmlbzzihjfimviefebg",
@@ -30,14 +29,6 @@ async function organizationsUpdateMaximumSet(): Promise<void> {
         organizationId: "vugtqrobendjkinziswxlqueouo",
         redirectUrl: "cbxwtehraetlluocdihfgchvjzockn",
         organizationName: "U.1-:7",
-      },
-      marketplace: {
-        subscriptionId,
-        offerDetails: {
-          publisherId: "",
-          offerId: "",
-          planId: "",
-        },
       },
     },
     identity: { type: "None", userAssignedIdentities: {} },

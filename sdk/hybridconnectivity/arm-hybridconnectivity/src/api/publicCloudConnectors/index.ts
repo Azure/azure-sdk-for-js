@@ -2,13 +2,13 @@
 // Licensed under the MIT License.
 
 export {
-  testPermissions,
-  listBySubscription,
-  listByResourceGroup,
-  $delete,
-  update,
-  createOrUpdate,
-  get,
+  publicCloudConnectorsTestPermissions,
+  publicCloudConnectorsListBySubscription,
+  publicCloudConnectorsListByResourceGroup,
+  publicCloudConnectorsDelete,
+  publicCloudConnectorsUpdate,
+  publicCloudConnectorsCreateOrUpdate,
+  publicCloudConnectorsGet,
 } from "./operations.js";
 export {
   PublicCloudConnectorsTestPermissionsOptionalParams,

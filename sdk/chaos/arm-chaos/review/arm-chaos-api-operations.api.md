@@ -8,10 +8,10 @@ import { Client } from '@azure-rest/core-client';
 import { OperationOptions } from '@azure-rest/core-client';
 
 // @public
-export function listAll(context: ChaosManagementContext, options?: OperationsListAllOptionalParams): PagedAsyncIterableIterator<Operation>;
+export function list(context: ChaosManagementContext, options?: OperationsListOptionalParams): PagedAsyncIterableIterator<Operation>;
 
 // @public
-export interface OperationsListAllOptionalParams extends OperationOptions {
+export interface OperationsListOptionalParams extends OperationOptions {
 }
 
 // (No @packageDocumentation comment for this package)

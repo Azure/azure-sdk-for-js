@@ -32,11 +32,11 @@ import {
   ManagedClustersCreateOrUpdateOptionalParams,
   ManagedClustersGetOptionalParams,
 } from "./options.js";
-import { getLongRunningPoller } from "../../static-helpers/pollingHelpers.js";
 import {
   PagedAsyncIterableIterator,
   buildPagedAsyncIterator,
 } from "../../static-helpers/pagingHelpers.js";
+import { getLongRunningPoller } from "../../static-helpers/pollingHelpers.js";
 import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
 import {
   StreamableMethod,
@@ -67,15 +67,17 @@ export function _stopFaultSimulationSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).post({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
-    body: faultSimulationIdContentSerializer(parameters),
-  });
+  return context
+    .path(path)
+    .post({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      headers: {
+        accept: "application/json",
+        ...options.requestOptions?.headers,
+      },
+      body: faultSimulationIdContentSerializer(parameters),
+    });
 }
 
 export async function _stopFaultSimulationDeserialize(
@@ -101,13 +103,24 @@ export function stopFaultSimulation(
     requestOptions: {},
   },
 ): PollerLike<OperationState<FaultSimulation>, FaultSimulation> {
-  return getLongRunningPoller(context, _stopFaultSimulationDeserialize, ["202", "200"], {
-    updateIntervalInMs: options?.updateIntervalInMs,
-    abortSignal: options?.abortSignal,
-    getInitialResponse: () =>
-      _stopFaultSimulationSend(context, resourceGroupName, clusterName, parameters, options),
-    resourceLocationConfig: "location",
-  }) as PollerLike<OperationState<FaultSimulation>, FaultSimulation>;
+  return getLongRunningPoller(
+    context,
+    _stopFaultSimulationDeserialize,
+    ["202", "200"],
+    {
+      updateIntervalInMs: options?.updateIntervalInMs,
+      abortSignal: options?.abortSignal,
+      getInitialResponse: () =>
+        _stopFaultSimulationSend(
+          context,
+          resourceGroupName,
+          clusterName,
+          parameters,
+          options,
+        ),
+      resourceLocationConfig: "location",
+    },
+  ) as PollerLike<OperationState<FaultSimulation>, FaultSimulation>;
 }
 
 export function _startFaultSimulationSend(
@@ -131,15 +144,17 @@ export function _startFaultSimulationSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).post({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
-    body: faultSimulationContentWrapperSerializer(parameters),
-  });
+  return context
+    .path(path)
+    .post({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      headers: {
+        accept: "application/json",
+        ...options.requestOptions?.headers,
+      },
+      body: faultSimulationContentWrapperSerializer(parameters),
+    });
 }
 
 export async function _startFaultSimulationDeserialize(
@@ -165,13 +180,24 @@ export function startFaultSimulation(
     requestOptions: {},
   },
 ): PollerLike<OperationState<FaultSimulation>, FaultSimulation> {
-  return getLongRunningPoller(context, _startFaultSimulationDeserialize, ["202", "200"], {
-    updateIntervalInMs: options?.updateIntervalInMs,
-    abortSignal: options?.abortSignal,
-    getInitialResponse: () =>
-      _startFaultSimulationSend(context, resourceGroupName, clusterName, parameters, options),
-    resourceLocationConfig: "location",
-  }) as PollerLike<OperationState<FaultSimulation>, FaultSimulation>;
+  return getLongRunningPoller(
+    context,
+    _startFaultSimulationDeserialize,
+    ["202", "200"],
+    {
+      updateIntervalInMs: options?.updateIntervalInMs,
+      abortSignal: options?.abortSignal,
+      getInitialResponse: () =>
+        _startFaultSimulationSend(
+          context,
+          resourceGroupName,
+          clusterName,
+          parameters,
+          options,
+        ),
+      resourceLocationConfig: "location",
+    },
+  ) as PollerLike<OperationState<FaultSimulation>, FaultSimulation>;
 }
 
 export function _listFaultSimulationSend(
@@ -194,13 +220,15 @@ export function _listFaultSimulationSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).post({
-    ...operationOptionsToRequestParameters(options),
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
-  });
+  return context
+    .path(path)
+    .post({
+      ...operationOptionsToRequestParameters(options),
+      headers: {
+        accept: "application/json",
+        ...options.requestOptions?.headers,
+      },
+    });
 }
 
 export async function _listFaultSimulationDeserialize(
@@ -227,7 +255,13 @@ export function listFaultSimulation(
 ): PagedAsyncIterableIterator<FaultSimulation> {
   return buildPagedAsyncIterator(
     context,
-    () => _listFaultSimulationSend(context, resourceGroupName, clusterName, options),
+    () =>
+      _listFaultSimulationSend(
+        context,
+        resourceGroupName,
+        clusterName,
+        options,
+      ),
     _listFaultSimulationDeserialize,
     ["200"],
     { itemName: "value", nextLinkName: "nextLink" },
@@ -255,15 +289,17 @@ export function _getFaultSimulationSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).post({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
-    body: faultSimulationIdContentSerializer(parameters),
-  });
+  return context
+    .path(path)
+    .post({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      headers: {
+        accept: "application/json",
+        ...options.requestOptions?.headers,
+      },
+      body: faultSimulationIdContentSerializer(parameters),
+    });
 }
 
 export async function _getFaultSimulationDeserialize(
@@ -315,13 +351,15 @@ export function _listBySubscriptionSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).get({
-    ...operationOptionsToRequestParameters(options),
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
-  });
+  return context
+    .path(path)
+    .get({
+      ...operationOptionsToRequestParameters(options),
+      headers: {
+        accept: "application/json",
+        ...options.requestOptions?.headers,
+      },
+    });
 }
 
 export async function _listBySubscriptionDeserialize(
@@ -371,13 +409,15 @@ export function _listByResourceGroupSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).get({
-    ...operationOptionsToRequestParameters(options),
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
-  });
+  return context
+    .path(path)
+    .get({
+      ...operationOptionsToRequestParameters(options),
+      headers: {
+        accept: "application/json",
+        ...options.requestOptions?.headers,
+      },
+    });
 }
 
 export async function _listByResourceGroupDeserialize(
@@ -428,16 +468,20 @@ export function _$deleteSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).delete({
-    ...operationOptionsToRequestParameters(options),
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
-  });
+  return context
+    .path(path)
+    .delete({
+      ...operationOptionsToRequestParameters(options),
+      headers: {
+        accept: "application/json",
+        ...options.requestOptions?.headers,
+      },
+    });
 }
 
-export async function _$deleteDeserialize(result: PathUncheckedResponse): Promise<void> {
+export async function _$deleteDeserialize(
+  result: PathUncheckedResponse,
+): Promise<void> {
   const expectedStatuses = ["202", "204", "200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
@@ -460,12 +504,18 @@ export function $delete(
   clusterName: string,
   options: ManagedClustersDeleteOptionalParams = { requestOptions: {} },
 ): PollerLike<OperationState<void>, void> {
-  return getLongRunningPoller(context, _$deleteDeserialize, ["202", "204", "200"], {
-    updateIntervalInMs: options?.updateIntervalInMs,
-    abortSignal: options?.abortSignal,
-    getInitialResponse: () => _$deleteSend(context, resourceGroupName, clusterName, options),
-    resourceLocationConfig: "location",
-  }) as PollerLike<OperationState<void>, void>;
+  return getLongRunningPoller(
+    context,
+    _$deleteDeserialize,
+    ["202", "204", "200"],
+    {
+      updateIntervalInMs: options?.updateIntervalInMs,
+      abortSignal: options?.abortSignal,
+      getInitialResponse: () =>
+        _$deleteSend(context, resourceGroupName, clusterName, options),
+      resourceLocationConfig: "location",
+    },
+  ) as PollerLike<OperationState<void>, void>;
 }
 
 export function _updateSend(
@@ -487,18 +537,22 @@ export function _updateSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).patch({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
-    body: managedClusterUpdateParametersSerializer(parameters),
-  });
+  return context
+    .path(path)
+    .patch({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      headers: {
+        accept: "application/json",
+        ...options.requestOptions?.headers,
+      },
+      body: managedClusterUpdateParametersSerializer(parameters),
+    });
 }
 
-export async function _updateDeserialize(result: PathUncheckedResponse): Promise<ManagedCluster> {
+export async function _updateDeserialize(
+  result: PathUncheckedResponse,
+): Promise<ManagedCluster> {
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
@@ -517,7 +571,13 @@ export async function update(
   parameters: ManagedClusterUpdateParameters,
   options: ManagedClustersUpdateOptionalParams = { requestOptions: {} },
 ): Promise<ManagedCluster> {
-  const result = await _updateSend(context, resourceGroupName, clusterName, parameters, options);
+  const result = await _updateSend(
+    context,
+    resourceGroupName,
+    clusterName,
+    parameters,
+    options,
+  );
   return _updateDeserialize(result);
 }
 
@@ -540,15 +600,17 @@ export function _createOrUpdateSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).put({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
-    body: managedClusterSerializer(parameters),
-  });
+  return context
+    .path(path)
+    .put({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      headers: {
+        accept: "application/json",
+        ...options.requestOptions?.headers,
+      },
+      body: managedClusterSerializer(parameters),
+    });
 }
 
 export async function _createOrUpdateDeserialize(
@@ -572,13 +634,24 @@ export function createOrUpdate(
   parameters: ManagedCluster,
   options: ManagedClustersCreateOrUpdateOptionalParams = { requestOptions: {} },
 ): PollerLike<OperationState<ManagedCluster>, ManagedCluster> {
-  return getLongRunningPoller(context, _createOrUpdateDeserialize, ["200", "202"], {
-    updateIntervalInMs: options?.updateIntervalInMs,
-    abortSignal: options?.abortSignal,
-    getInitialResponse: () =>
-      _createOrUpdateSend(context, resourceGroupName, clusterName, parameters, options),
-    resourceLocationConfig: "location",
-  }) as PollerLike<OperationState<ManagedCluster>, ManagedCluster>;
+  return getLongRunningPoller(
+    context,
+    _createOrUpdateDeserialize,
+    ["200", "202"],
+    {
+      updateIntervalInMs: options?.updateIntervalInMs,
+      abortSignal: options?.abortSignal,
+      getInitialResponse: () =>
+        _createOrUpdateSend(
+          context,
+          resourceGroupName,
+          clusterName,
+          parameters,
+          options,
+        ),
+      resourceLocationConfig: "location",
+    },
+  ) as PollerLike<OperationState<ManagedCluster>, ManagedCluster>;
 }
 
 export function _getSend(
@@ -599,16 +672,20 @@ export function _getSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).get({
-    ...operationOptionsToRequestParameters(options),
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
-  });
+  return context
+    .path(path)
+    .get({
+      ...operationOptionsToRequestParameters(options),
+      headers: {
+        accept: "application/json",
+        ...options.requestOptions?.headers,
+      },
+    });
 }
 
-export async function _getDeserialize(result: PathUncheckedResponse): Promise<ManagedCluster> {
+export async function _getDeserialize(
+  result: PathUncheckedResponse,
+): Promise<ManagedCluster> {
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
@@ -626,6 +703,11 @@ export async function get(
   clusterName: string,
   options: ManagedClustersGetOptionalParams = { requestOptions: {} },
 ): Promise<ManagedCluster> {
-  const result = await _getSend(context, resourceGroupName, clusterName, options);
+  const result = await _getSend(
+    context,
+    resourceGroupName,
+    clusterName,
+    options,
+  );
   return _getDeserialize(result);
 }

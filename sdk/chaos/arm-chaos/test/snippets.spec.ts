@@ -8,7 +8,8 @@ import { describe, it } from "vitest";
 
 describe("snippets", () => {
   it("ReadmeSampleCreateClient_Node", async () => {
-    const client = new ChaosManagementClient(new DefaultAzureCredential());
+    const subscriptionId = "00000000-0000-0000-0000-000000000000";
+    const client = new ChaosManagementClient(new DefaultAzureCredential(), subscriptionId);
   });
 
   it("ReadmeSampleCreateClient_Browser", async () => {
@@ -16,7 +17,8 @@ describe("snippets", () => {
       tenantId: "<YOUR_TENANT_ID>",
       clientId: "<YOUR_CLIENT_ID>",
     });
-    const client = new ChaosManagementClient(credential);
+    const subscriptionId = "00000000-0000-0000-0000-000000000000";
+    const client = new ChaosManagementClient(credential, subscriptionId);
   });
 
   it("SetLogLevel", async () => {

@@ -15,7 +15,10 @@ async function listTheReplicasLinkedToAMongoClusterResource(): Promise<void> {
   const subscriptionId = "ffffffff-ffff-ffff-ffff-ffffffffffff";
   const client = new MongoClusterManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (const item of client.replicas.listByParent("TestGroup", "myMongoCluster")) {
+  for await (const item of client.replicas.listByParent(
+    "TestGroup",
+    "myMongoCluster",
+  )) {
     resArray.push(item);
   }
 

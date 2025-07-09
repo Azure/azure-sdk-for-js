@@ -35,8 +35,8 @@ import {
   PagedAsyncIterableIterator,
   buildPagedAsyncIterator,
 } from "../../static-helpers/pagingHelpers.js";
-import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
 import { getLongRunningPoller } from "../../static-helpers/pollingHelpers.js";
+import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
 import {
   StreamableMethod,
   PathUncheckedResponse,
@@ -64,18 +64,22 @@ export function _promoteSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).post({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
-    body: promoteReplicaRequestSerializer(body),
-  });
+  return context
+    .path(path)
+    .post({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      headers: {
+        accept: "application/json",
+        ...options.requestOptions?.headers,
+      },
+      body: promoteReplicaRequestSerializer(body),
+    });
 }
 
-export async function _promoteDeserialize(result: PathUncheckedResponse): Promise<void> {
+export async function _promoteDeserialize(
+  result: PathUncheckedResponse,
+): Promise<void> {
   const expectedStatuses = ["202", "200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
@@ -122,15 +126,17 @@ export function _checkNameAvailabilitySend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).post({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
-    body: checkNameAvailabilityRequestSerializer(body),
-  });
+  return context
+    .path(path)
+    .post({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      headers: {
+        accept: "application/json",
+        ...options.requestOptions?.headers,
+      },
+      body: checkNameAvailabilityRequestSerializer(body),
+    });
 }
 
 export async function _checkNameAvailabilityDeserialize(
@@ -155,7 +161,12 @@ export async function checkNameAvailability(
     requestOptions: {},
   },
 ): Promise<CheckNameAvailabilityResponse> {
-  const result = await _checkNameAvailabilitySend(context, location, body, options);
+  const result = await _checkNameAvailabilitySend(
+    context,
+    location,
+    body,
+    options,
+  );
   return _checkNameAvailabilityDeserialize(result);
 }
 
@@ -179,13 +190,15 @@ export function _listConnectionStringsSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).post({
-    ...operationOptionsToRequestParameters(options),
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
-  });
+  return context
+    .path(path)
+    .post({
+      ...operationOptionsToRequestParameters(options),
+      headers: {
+        accept: "application/json",
+        ...options.requestOptions?.headers,
+      },
+    });
 }
 
 export async function _listConnectionStringsDeserialize(
@@ -233,13 +246,15 @@ export function _listSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).get({
-    ...operationOptionsToRequestParameters(options),
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
-  });
+  return context
+    .path(path)
+    .get({
+      ...operationOptionsToRequestParameters(options),
+      headers: {
+        accept: "application/json",
+        ...options.requestOptions?.headers,
+      },
+    });
 }
 
 export async function _listDeserialize(
@@ -287,13 +302,15 @@ export function _listByResourceGroupSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).get({
-    ...operationOptionsToRequestParameters(options),
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
-  });
+  return context
+    .path(path)
+    .get({
+      ...operationOptionsToRequestParameters(options),
+      headers: {
+        accept: "application/json",
+        ...options.requestOptions?.headers,
+      },
+    });
 }
 
 export async function _listByResourceGroupDeserialize(
@@ -344,16 +361,20 @@ export function _$deleteSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).delete({
-    ...operationOptionsToRequestParameters(options),
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
-  });
+  return context
+    .path(path)
+    .delete({
+      ...operationOptionsToRequestParameters(options),
+      headers: {
+        accept: "application/json",
+        ...options.requestOptions?.headers,
+      },
+    });
 }
 
-export async function _$deleteDeserialize(result: PathUncheckedResponse): Promise<void> {
+export async function _$deleteDeserialize(
+  result: PathUncheckedResponse,
+): Promise<void> {
   const expectedStatuses = ["202", "204", "200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
@@ -376,12 +397,18 @@ export function $delete(
   mongoClusterName: string,
   options: MongoClustersDeleteOptionalParams = { requestOptions: {} },
 ): PollerLike<OperationState<void>, void> {
-  return getLongRunningPoller(context, _$deleteDeserialize, ["202", "204", "200"], {
-    updateIntervalInMs: options?.updateIntervalInMs,
-    abortSignal: options?.abortSignal,
-    getInitialResponse: () => _$deleteSend(context, resourceGroupName, mongoClusterName, options),
-    resourceLocationConfig: "location",
-  }) as PollerLike<OperationState<void>, void>;
+  return getLongRunningPoller(
+    context,
+    _$deleteDeserialize,
+    ["202", "204", "200"],
+    {
+      updateIntervalInMs: options?.updateIntervalInMs,
+      abortSignal: options?.abortSignal,
+      getInitialResponse: () =>
+        _$deleteSend(context, resourceGroupName, mongoClusterName, options),
+      resourceLocationConfig: "location",
+    },
+  ) as PollerLike<OperationState<void>, void>;
 }
 
 export function _updateSend(
@@ -403,18 +430,22 @@ export function _updateSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).patch({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
-    body: mongoClusterUpdateSerializer(properties),
-  });
+  return context
+    .path(path)
+    .patch({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      headers: {
+        accept: "application/json",
+        ...options.requestOptions?.headers,
+      },
+      body: mongoClusterUpdateSerializer(properties),
+    });
 }
 
-export async function _updateDeserialize(result: PathUncheckedResponse): Promise<MongoCluster> {
+export async function _updateDeserialize(
+  result: PathUncheckedResponse,
+): Promise<MongoCluster> {
   const expectedStatuses = ["200", "202"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
@@ -437,7 +468,13 @@ export function update(
     updateIntervalInMs: options?.updateIntervalInMs,
     abortSignal: options?.abortSignal,
     getInitialResponse: () =>
-      _updateSend(context, resourceGroupName, mongoClusterName, properties, options),
+      _updateSend(
+        context,
+        resourceGroupName,
+        mongoClusterName,
+        properties,
+        options,
+      ),
     resourceLocationConfig: "location",
   }) as PollerLike<OperationState<MongoCluster>, MongoCluster>;
 }
@@ -461,21 +498,23 @@ export function _createOrUpdateSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).put({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
-    body: mongoClusterSerializer(resource),
-  });
+  return context
+    .path(path)
+    .put({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      headers: {
+        accept: "application/json",
+        ...options.requestOptions?.headers,
+      },
+      body: mongoClusterSerializer(resource),
+    });
 }
 
 export async function _createOrUpdateDeserialize(
   result: PathUncheckedResponse,
 ): Promise<MongoCluster> {
-  const expectedStatuses = ["200", "201"];
+  const expectedStatuses = ["200", "201", "202"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = errorResponseDeserializer(result.body);
@@ -493,13 +532,24 @@ export function createOrUpdate(
   resource: MongoCluster,
   options: MongoClustersCreateOrUpdateOptionalParams = { requestOptions: {} },
 ): PollerLike<OperationState<MongoCluster>, MongoCluster> {
-  return getLongRunningPoller(context, _createOrUpdateDeserialize, ["200", "201"], {
-    updateIntervalInMs: options?.updateIntervalInMs,
-    abortSignal: options?.abortSignal,
-    getInitialResponse: () =>
-      _createOrUpdateSend(context, resourceGroupName, mongoClusterName, resource, options),
-    resourceLocationConfig: "azure-async-operation",
-  }) as PollerLike<OperationState<MongoCluster>, MongoCluster>;
+  return getLongRunningPoller(
+    context,
+    _createOrUpdateDeserialize,
+    ["200", "201", "202"],
+    {
+      updateIntervalInMs: options?.updateIntervalInMs,
+      abortSignal: options?.abortSignal,
+      getInitialResponse: () =>
+        _createOrUpdateSend(
+          context,
+          resourceGroupName,
+          mongoClusterName,
+          resource,
+          options,
+        ),
+      resourceLocationConfig: "azure-async-operation",
+    },
+  ) as PollerLike<OperationState<MongoCluster>, MongoCluster>;
 }
 
 export function _getSend(
@@ -520,16 +570,20 @@ export function _getSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).get({
-    ...operationOptionsToRequestParameters(options),
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
-  });
+  return context
+    .path(path)
+    .get({
+      ...operationOptionsToRequestParameters(options),
+      headers: {
+        accept: "application/json",
+        ...options.requestOptions?.headers,
+      },
+    });
 }
 
-export async function _getDeserialize(result: PathUncheckedResponse): Promise<MongoCluster> {
+export async function _getDeserialize(
+  result: PathUncheckedResponse,
+): Promise<MongoCluster> {
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
@@ -547,6 +601,11 @@ export async function get(
   mongoClusterName: string,
   options: MongoClustersGetOptionalParams = { requestOptions: {} },
 ): Promise<MongoCluster> {
-  const result = await _getSend(context, resourceGroupName, mongoClusterName, options);
+  const result = await _getSend(
+    context,
+    resourceGroupName,
+    mongoClusterName,
+    options,
+  );
   return _getDeserialize(result);
 }

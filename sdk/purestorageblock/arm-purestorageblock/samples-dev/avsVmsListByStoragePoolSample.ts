@@ -15,7 +15,10 @@ async function avsVmsListByStoragePool(): Promise<void> {
   const subscriptionId = "BC47D6CC-AA80-4374-86F8-19D94EC70666";
   const client = new BlockClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (const item of client.avsVms.listByStoragePool("rgpurestorage", "storagePoolname")) {
+  for await (const item of client.avsVms.listByStoragePool(
+    "rgpurestorage",
+    "storagePoolname",
+  )) {
     resArray.push(item);
   }
 

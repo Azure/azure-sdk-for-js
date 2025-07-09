@@ -68,8 +68,9 @@ export interface SchedulersOperations {
 
 function _getSchedulers(context: DurableTaskContext) {
   return {
-    listBySubscription: (options?: SchedulersListBySubscriptionOptionalParams) =>
-      listBySubscription(context, options),
+    listBySubscription: (
+      options?: SchedulersListBySubscriptionOptionalParams,
+    ) => listBySubscription(context, options),
     listByResourceGroup: (
       resourceGroupName: string,
       options?: SchedulersListByResourceGroupOptionalParams,
@@ -90,7 +91,14 @@ function _getSchedulers(context: DurableTaskContext) {
       schedulerName: string,
       resource: Scheduler,
       options?: SchedulersCreateOrUpdateOptionalParams,
-    ) => createOrUpdate(context, resourceGroupName, schedulerName, resource, options),
+    ) =>
+      createOrUpdate(
+        context,
+        resourceGroupName,
+        schedulerName,
+        resource,
+        options,
+      ),
     get: (
       resourceGroupName: string,
       schedulerName: string,
@@ -99,7 +107,9 @@ function _getSchedulers(context: DurableTaskContext) {
   };
 }
 
-export function _getSchedulersOperations(context: DurableTaskContext): SchedulersOperations {
+export function _getSchedulersOperations(
+  context: DurableTaskContext,
+): SchedulersOperations {
   return {
     ..._getSchedulers(context),
   };

@@ -61,13 +61,21 @@ function _getFirewallRules(context: MongoClusterManagementContext) {
       resourceGroupName: string,
       mongoClusterName: string,
       options?: FirewallRulesListByMongoClusterOptionalParams,
-    ) => listByMongoCluster(context, resourceGroupName, mongoClusterName, options),
+    ) =>
+      listByMongoCluster(context, resourceGroupName, mongoClusterName, options),
     delete: (
       resourceGroupName: string,
       mongoClusterName: string,
       firewallRuleName: string,
       options?: FirewallRulesDeleteOptionalParams,
-    ) => $delete(context, resourceGroupName, mongoClusterName, firewallRuleName, options),
+    ) =>
+      $delete(
+        context,
+        resourceGroupName,
+        mongoClusterName,
+        firewallRuleName,
+        options,
+      ),
     createOrUpdate: (
       resourceGroupName: string,
       mongoClusterName: string,
@@ -88,7 +96,14 @@ function _getFirewallRules(context: MongoClusterManagementContext) {
       mongoClusterName: string,
       firewallRuleName: string,
       options?: FirewallRulesGetOptionalParams,
-    ) => get(context, resourceGroupName, mongoClusterName, firewallRuleName, options),
+    ) =>
+      get(
+        context,
+        resourceGroupName,
+        mongoClusterName,
+        firewallRuleName,
+        options,
+      ),
   };
 }
 

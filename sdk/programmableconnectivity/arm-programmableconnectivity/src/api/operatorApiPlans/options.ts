@@ -4,7 +4,8 @@
 import { OperationOptions } from "@azure-rest/core-client";
 
 /** Optional parameters. */
-export interface OperatorApiPlansListBySubscriptionOptionalParams extends OperationOptions {
+export interface OperatorApiPlansListBySubscriptionOptionalParams
+  extends OperationOptions {
   /** An optional OData based filter expression to apply on the operation. */
   filter?: string;
   /** An optional query parameter which specifies the maximum number of records to be returned. */

@@ -14,7 +14,10 @@ async function deleteAnOnlineExperimentationWorkspace(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "fa5fc227-a624-475e-b696-cdd604c735bc";
   const client = new OnlineExperimentationClient(credential, subscriptionId);
-  await client.onlineExperimentationWorkspaces.delete("res9871", "expworkspace3");
+  await client.onlineExperimentationWorkspaces.delete(
+    "res9871",
+    "expworkspace3",
+  );
 }
 
 async function main(): Promise<void> {

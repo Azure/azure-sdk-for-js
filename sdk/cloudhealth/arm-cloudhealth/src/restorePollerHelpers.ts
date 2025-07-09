@@ -88,7 +88,10 @@ const deserializeMap: Record<string, DeserializationHelper> = {
   "PATCH /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.CloudHealth/healthmodels/{healthModelName}":
     { deserializer: _updateDeserialize, expectedStatuses: ["200", "202"] },
   "PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.CloudHealth/healthmodels/{healthModelName}":
-    { deserializer: _createDeserialize, expectedStatuses: ["200", "201"] },
+    {
+      deserializer: _createDeserialize,
+      expectedStatuses: ["200", "201", "202"],
+    },
 };
 
 function getDeserializationHelper(
