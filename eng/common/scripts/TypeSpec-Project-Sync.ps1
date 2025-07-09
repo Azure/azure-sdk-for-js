@@ -192,13 +192,15 @@ else {
   exit 1
 }
 
-$tempTypeSpecDir = "$ProjectDirectory/TempTypeSpecFiles"
-New-Item $tempTypeSpecDir -Type Directory -Force | Out-Null
-CopySpecToProjectIfNeeded `
-  -specCloneRoot $specCloneDir `
-  -mainSpecDir $specSubDirectory `
-  -dest $tempTypeSpecDir `
-  -specAdditionalSubDirectories $configuration["additionalDirectories"]
+Invoke-LoggedCommand `ls -a $specCloneDir.Path` -GroupOutput
+
+# $tempTypeSpecDir = "$ProjectDirectory/TempTypeSpecFiles"
+# New-Item $tempTypeSpecDir -Type Directory -Force | Out-Null
+# CopySpecToProjectIfNeeded `
+#   -specCloneRoot $specCloneDir `
+#   -mainSpecDir $specSubDirectory `
+#   -dest $tempTypeSpecDir `
+#   -specAdditionalSubDirectories $configuration["additionalDirectories"]
 
 Write-Host "##[endgroup]"
 

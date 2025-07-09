@@ -22,26 +22,21 @@ $typespecConfigurationFile = Resolve-Path "$ProjectDirectory/tsp-location.yaml"
 Write-Host "Reading configuration from $typespecConfigurationFile"
 $configuration = Get-Content -Path $typespecConfigurationFile -Raw | ConvertFrom-Yaml
 
-$specSubDirectory = $configuration["directory"]
-$innerFolder = Split-Path $specSubDirectory -Leaf
+# $specSubDirectory = $configuration["directory"]
+# $innerFolder = Split-Path $specSubDirectory -Leaf
 
-$tempFolder = "$ProjectDirectory/TempTypeSpecFiles"
-$npmWorkingDir = Resolve-Path $tempFolder/$innerFolder
-$mainTypeSpecFile = If (Test-Path "$npmWorkingDir/client.*") { Resolve-Path "$npmWorkingDir/client.*" } Else { Resolve-Path "$npmWorkingDir/main.*"}
+# $tempFolder = "$ProjectDirectory/TempTypeSpecFiles"
+# $npmWorkingDir = Resolve-Path $tempFolder/$innerFolder
+# $mainTypeSpecFile = If (Test-Path "$npmWorkingDir/client.*") { Resolve-Path "$npmWorkingDir/client.*" } Else { Resolve-Path "$npmWorkingDir/main.*"}
+$fileGenerateInput = 'generateInput.json';
+$fileGenerateOutput = 'generateOutput.json';
+$outputJsonPath = Join-Path $RepoRoot $fileGenerateOutput
+$inputJsonPath = Join-Path $RepoRoot $fileGenerateInput
 
 try {
     Push-Location $RepoRoot
-    #NpmInstallForProject $npmWorkingDir
-
-    if ($LASTEXITCODE) { exit $LASTEXITCODE }    
-    $fileGenerateInput = 'generateInput.json';
-    $fileGenerateOutput = 'generateOutput.json';
-    $outputJsonPath = Join-Path $RepoRoot $fileGenerateOutput
-    $inputJsonPath = Join-Path $RepoRoot $fileGenerateInput
-
     if (-not (Test-Path $inputJsonPath)) {
         Write-Host "##[error]Input file $inputJsonPath does not exist. Please ensure it is generated before running this script."
-        exit 1
     }
     
     Write-Host "Running automation_generate.sh $inputJsonPath $outputJsonPath"
@@ -72,8 +67,8 @@ finally {
     Pop-Location
 }
 
-$shouldCleanUp = !$SaveInputs
-if ($shouldCleanUp -and (Test-Path $tempFolder)) {
-    Remove-Item $tempFolder -Recurse -Force
-}
+# $shouldCleanUp = !$SaveInputs
+# if ($shouldCleanUp -and (Test-Path $tempFolder)) {
+#     Remove-Item $tempFolder -Recurse -Force
+# }
 exit 0
