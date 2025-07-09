@@ -388,6 +388,7 @@ export class QueryIterator<T> {
     this.queryExecutionContext = new HybridQueryExecutionContext(
       this.clientContext,
       this.resourceLink,
+      this.query,
       this.options,
       queryPlan,
       this.correlatedActivityId,

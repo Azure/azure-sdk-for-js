@@ -1400,6 +1400,10 @@ packages:
     resolution: {integrity: sha512-nlbkQzD2Jrkwwj01tGETQEj4HV28WXdqIt45DkHtamVeoFFNem/uJIri4dUymzAwgK7c1czGoVobuft8UH5Eig==}
     engines: {node: '>=8.0.0'}
 
+  '@azure/core-amqp@4.3.6':
+    resolution: {integrity: sha512-M8nP/DtrJI5SxlGCweijHSCHq70g1SXdJP1KVweoKRPiBVHbRcmCn9ExGbfUwHor/sKHqqVG7DAzPf0+bOtRSw==}
+    engines: {node: '>=18.0.0'}
+
   '@azure/core-auth@1.9.0':
     resolution: {integrity: sha512-FPwHpZywuyasDSLMqJ6fhbOK3TqUdviZNF8OqRGA4W5Ewib2lEEZ+pBsYcBa88B2NGO/SEnYPGhyBqNlE8ilSw==}
     engines: {node: '>=18.0.0'}
@@ -1517,6 +1521,10 @@ packages:
 
   '@azure/search-documents@12.1.0':
     resolution: {integrity: sha512-IzD+hfqGqFtXymHXm4RzrZW2MsSH2M7RLmZsKaKVi7SUxbeYTUeX+ALk8gVzkM8ykb7EzlDLWCNErKfAa57rYQ==}
+    engines: {node: '>=18.0.0'}
+
+  '@azure/service-bus@7.9.5':
+    resolution: {integrity: sha512-R5Af+4jtZZII2snLomaddMyElFtTCBRZp2qERPlP8PuISLU87eFYFM7xWzxjNd0yeiyQUBkamx/ZhOC8eWhCHA==}
     engines: {node: '>=18.0.0'}
 
   '@azure/storage-blob@12.27.0':
@@ -1970,10 +1978,6 @@ packages:
     resolution: {integrity: sha512-8HArjKx+RaAI8uEIgcORbZIPklyh1YLjPSBus8hjRmvLi6DeFzgOcdZ7KwPabKj8mXF8dX0hyfAyGfycz0DbFw==}
     engines: {node: '>=14'}
 
-  '@opentelemetry/api-logs@0.56.0':
-    resolution: {integrity: sha512-Wr39+94UNNG3Ei9nv3pHd4AJ63gq5nSemMRpCd8fPwDL9rN3vK26lzxfH27mw16XzOSO+TpyQwBAMaLxaPWG0g==}
-    engines: {node: '>=14'}
-
   '@opentelemetry/api-logs@0.57.0':
     resolution: {integrity: sha512-l1aJ30CXeauVYaI+btiynHpw341LthkMTv3omi1VJDX14werY2Wmv9n1yudMsq9HuY0m8PvXEVX4d8zxEb+WRg==}
     engines: {node: '>=14'}
@@ -2144,12 +2148,6 @@ packages:
 
   '@opentelemetry/instrumentation@0.53.0':
     resolution: {integrity: sha512-DMwg0hy4wzf7K73JJtl95m/e0boSoWhH07rfvHvYzQtBD3Bmv0Wc1x733vyZBqmFm8OjJD0/pfiUg1W3JjFX0A==}
-    engines: {node: '>=14'}
-    peerDependencies:
-      '@opentelemetry/api': ^1.3.0
-
-  '@opentelemetry/instrumentation@0.56.0':
-    resolution: {integrity: sha512-2KkGBKE+FPXU1F0zKww+stnlUxUTlBvLCiWdP63Z9sqXYeNI/ziNzsxAp4LAdUcTQmXjw1IWgvm5CAb/BHy99w==}
     engines: {node: '>=14'}
     peerDependencies:
       '@opentelemetry/api': ^1.3.0
@@ -2544,7 +2542,7 @@ packages:
     version: 0.0.0
 
   '@rush-temp/ai-projects@file:projects/ai-projects.tgz':
-    resolution: {integrity: sha512-83qodHUfxUp2R5q6yKceafGLscEBe2SiUMdPeoSI3dSUkLit93QiRQMni3Rrtmk1vkKta4z2dYK9UQSpm8u/yg==, tarball: file:projects/ai-projects.tgz}
+    resolution: {integrity: sha512-LUgvWDa+Nj+PX+bEDNR+Sfg5Qh1YZCUp5JBEzCtBoBuwi+bpVb7uNz83jBnpKFayN67eCi4pk1bEWyltFDZlqw==, tarball: file:projects/ai-projects.tgz}
     version: 0.0.0
 
   '@rush-temp/ai-text-analytics@file:projects/ai-text-analytics.tgz':
@@ -3028,7 +3026,7 @@ packages:
     version: 0.0.0
 
   '@rush-temp/arm-healthdataaiservices@file:projects/arm-healthdataaiservices.tgz':
-    resolution: {integrity: sha512-7fXlTSNPtPfgXYTf56hq2kCqX0cCV32g3h3F5kQ5Fl5BXQtDXmPps9zaqMcM0pfu/juhlUKvhSyc9Z6OQ8NNhQ==, tarball: file:projects/arm-healthdataaiservices.tgz}
+    resolution: {integrity: sha512-ncFSxPr2dOSv8Zo3M9PFoj9btfnOZR6ZAecLBNlVIsOUvsLp2FJNSPZhCcabifZk6MUyt9hstX/NtdCu9xW0kg==, tarball: file:projects/arm-healthdataaiservices.tgz}
     version: 0.0.0
 
   '@rush-temp/arm-hybridcompute@file:projects/arm-hybridcompute.tgz':
@@ -3212,7 +3210,7 @@ packages:
     version: 0.0.0
 
   '@rush-temp/arm-mongodbatlas@file:projects/arm-mongodbatlas.tgz':
-    resolution: {integrity: sha512-jVf2k2x2Y2Jxbuxxdkxo7LU+hj51tEn1du0O0jm+ocPZFPUhtsNfU+G51tCCt3y9sp6yporat+tosSNirPxDAg==, tarball: file:projects/arm-mongodbatlas.tgz}
+    resolution: {integrity: sha512-BXQ6KxdjS5f+jlE7ugFcDZ9lCkMbVkLZRkj9YRvAPfCdXPgzUQcOFzk81RA7VOCRioLXv5No3mYKWH//H0CiGg==, tarball: file:projects/arm-mongodbatlas.tgz}
     version: 0.0.0
 
   '@rush-temp/arm-monitor-profile-2020-09-01-hybrid@file:projects/arm-monitor-profile-2020-09-01-hybrid.tgz':
@@ -3364,7 +3362,7 @@ packages:
     version: 0.0.0
 
   '@rush-temp/arm-purestorageblock@file:projects/arm-purestorageblock.tgz':
-    resolution: {integrity: sha512-mgsICZgT36+5KMVjuxzQ5IU/S3z6nIC1OYdPcGk3d6gnkGGI9ES8vTZqk7uvFoFUhjoQolqIQDTPkHecROcZ1A==, tarball: file:projects/arm-purestorageblock.tgz}
+    resolution: {integrity: sha512-osmbnrJPp5F5Z6hjZ7IycM2xG0v1cse+5QWQ9TTcpbcVQxpZUpM1yZD0UQ1pUkO5amceC8LP5DdgGZBgFi26QA==, tarball: file:projects/arm-purestorageblock.tgz}
     version: 0.0.0
 
   '@rush-temp/arm-purview@file:projects/arm-purview.tgz':
@@ -3668,7 +3666,7 @@ packages:
     version: 0.0.0
 
   '@rush-temp/communication-call-automation@file:projects/communication-call-automation.tgz':
-    resolution: {integrity: sha512-Dy+9pivShXXtf1GgF/62f/Up25a5XqghqI9+VPTW0i0N+rduhZNhJjFw128bNfVw4jO2drBB0TjVGDS1xJQUjg==, tarball: file:projects/communication-call-automation.tgz}
+    resolution: {integrity: sha512-I0zgNgLqZ1VHp23Bivht//RlOqvJ89MDP1DjFyzOamswaMlHOcZkJFZsUjOtRQtUVdQgx2R5h6HIeOc2i35zwg==, tarball: file:projects/communication-call-automation.tgz}
     version: 0.0.0
 
   '@rush-temp/communication-chat@file:projects/communication-chat.tgz':
@@ -3800,7 +3798,7 @@ packages:
     version: 0.0.0
 
   '@rush-temp/dev-tool@file:projects/dev-tool.tgz':
-    resolution: {integrity: sha512-EyjvrozxcpF0t5ycOnGuC/irOy0IqteAPS9fw/RRSxohHzJcv9JkigA2f3uq/61vP7Oi93UxvlthR/KstO/Neg==, tarball: file:projects/dev-tool.tgz}
+    resolution: {integrity: sha512-2nsXBRduJ8ZQtnnRjbI3opINLA6rP/ewBstHaJvqfXWMZ+qoiw8pLO5B1KKtcziQgH1HOUUuLu2DMmpa3ZnE/g==, tarball: file:projects/dev-tool.tgz}
     version: 0.0.0
 
   '@rush-temp/developer-devcenter@file:projects/developer-devcenter.tgz':
@@ -3812,7 +3810,7 @@ packages:
     version: 0.0.0
 
   '@rush-temp/eslint-plugin-azure-sdk@file:projects/eslint-plugin-azure-sdk.tgz':
-    resolution: {integrity: sha512-8wuo+qYluK4mMhCD/IgVb8oYxoHUBoGW8XY6R9T/cB/5/vDdOfcNfGEj94I/OM+FFEU8Uu5tLlpHJ7BzVjBhgw==, tarball: file:projects/eslint-plugin-azure-sdk.tgz}
+    resolution: {integrity: sha512-aJe6w6T/fEohPnCKOOsxKWQlhFhLkXJbTTszDgIsDldHSAigdhRgF686MhhF3W5wK/7tmzXXJJL8LYjk77+y3A==, tarball: file:projects/eslint-plugin-azure-sdk.tgz}
     version: 0.0.0
 
   '@rush-temp/event-hubs@file:projects/event-hubs.tgz':
@@ -3828,7 +3826,7 @@ packages:
     version: 0.0.0
 
   '@rush-temp/eventgrid@file:projects/eventgrid.tgz':
-    resolution: {integrity: sha512-wAOZSWO3LuPUPQT0jLI5YJch5EAy9+J+a8HM6s9ud5Nzq0SJ8pKg1zcVVY2bGuKcQfMkAjSNHu9cU53tekVQMw==, tarball: file:projects/eventgrid.tgz}
+    resolution: {integrity: sha512-qAPYAADk4bADCRy8hG9ETlXpU+mEOkpYx0G05qGmNGmID4wxF1npXe4Xr0SsnbRrhnEWP3Z1aIweOtoShhnQXw==, tarball: file:projects/eventgrid.tgz}
     version: 0.0.0
 
   '@rush-temp/eventhubs-checkpointstore-blob@file:projects/eventhubs-checkpointstore-blob.tgz':
@@ -4056,7 +4054,7 @@ packages:
     version: 0.0.0
 
   '@rush-temp/perf-service-bus@file:projects/perf-service-bus.tgz':
-    resolution: {integrity: sha512-O8Q+PEL2j425mOpPVspH/9NNUXAtxbJJlOdu2QJkyIxvpCIQTDbZQ3ZdtIDcWS9dfZxm6pB5v9m9mzlBtbo3dA==, tarball: file:projects/perf-service-bus.tgz}
+    resolution: {integrity: sha512-J54lbdMK2rcKRYsLw3//3T5smeb52LxJWcu3GGS08NQnPASN4FEzI1U+mm3uffdDKyML/X23wg44fE5UC0Y2qQ==, tarball: file:projects/perf-service-bus.tgz}
     version: 0.0.0
 
   '@rush-temp/perf-storage-blob@file:projects/perf-storage-blob.tgz':
@@ -4258,18 +4256,6 @@ packages:
     engines: {node: '>=12', npm: '>=6'}
     peerDependencies:
       '@testing-library/dom': '>=7.21.4'
-
-  '@traceloop/ai-semantic-conventions@0.13.0':
-    resolution: {integrity: sha512-6aAbaZkeezijSBnsKpVnc+MBXwG+ByDK70gZCexSykkwkwhWSFdVeoXkWUBeLt+STFQWjK5EQE087qkaVC3o+w==}
-    engines: {node: '>=14'}
-
-  '@traceloop/instrumentation-langchain@0.13.0':
-    resolution: {integrity: sha512-RqAPpWUCtmXSjp0EEniEbSi2RYWBwqvwZQVzeaCoKTdlKggqIbkvPJwdslNFPrviIU/X2Gol/r7u8lAE2SLLrg==}
-    engines: {node: '>=14'}
-
-  '@traceloop/instrumentation-openai@0.13.0':
-    resolution: {integrity: sha512-ql9ML/zV4uHc5RnrpuismJluYiVDo9TXxIMqz1PSe2uFuzt6d7RDil9tbjXbwNlCfeyIEBGY/UJZCuUYneXUdw==}
-    engines: {node: '>=14'}
 
   '@ts-morph/common@0.27.0':
     resolution: {integrity: sha512-Wf29UqxWDpc+i61k3oIOzcUfQt79PIT9y/MWfAGlrkjg6lBC1hwDECLXPVJAhWjiGbfBCxZd65F/LIZF3+jeJQ==}
@@ -5505,6 +5491,11 @@ packages:
     resolution: {integrity: sha512-7Bv8RF0k6xjo7d4A/PxYLbUCfb6c+Vpd2/mB2yRDlew7Jb5hEXiCD9ibfO7wpk8i4sevK6DFny9h7EYbM3/sHg==}
     hasBin: true
 
+  glob@11.0.3:
+    resolution: {integrity: sha512-2Nim7dha1KVkaiF4q6Dj+ngPPMdfvLJEOpZk/jKiUAkqKebpGAWQXAq9z1xu9HKu5lWfqw/FASuccEjyznjPaA==}
+    engines: {node: 20 || >=22}
+    hasBin: true
+
   glob@7.2.3:
     resolution: {integrity: sha512-nFR0zLpU2YCaRxwoCJvL6UvCH2JFyFVIvwTLsIf21AuHlMskA1hhTdk+LlYJtOlYt9v6dvszD2BGRqBL+iQK9Q==}
     deprecated: Glob versions prior to v9 are no longer supported
@@ -5783,11 +5774,12 @@ packages:
   jackspeak@3.4.3:
     resolution: {integrity: sha512-OGlZQpz2yfahA/Rd1Y8Cd9SIEsqvXkLVoSw/cgwhnhFMDbsQFeZYoJJ7bIZBS9BcamUW96asq/npPWugM+RQBw==}
 
+  jackspeak@4.1.1:
+    resolution: {integrity: sha512-zptv57P3GpL+O0I7VdMJNBZCu+BPHVQUk55Ft8/QCJjTVxrnJHuVuX/0Bl2A6/+2oyR/ZMEuFKwmzqqZ/U5nPQ==}
+    engines: {node: 20 || >=22}
+
   jju@1.4.0:
     resolution: {integrity: sha512-8wb9Yw966OSxApiCt0K3yNJL8pnNeIv+OEq2YMidz4FKP6nonSRoOXc80iXY4JaN2FC11B9qsNmDsm+ZOfMROA==}
-
-  js-tiktoken@1.0.20:
-    resolution: {integrity: sha512-Xlaqhhs8VfCd6Sh7a1cFkZHQbYTLCwVJJWiHVxBYzLPxW0XsoxBy1hitmjkdIjD3Aon5BXLHFwU5O8WUx6HH+A==}
 
   js-tokens@4.0.0:
     resolution: {integrity: sha512-RdJUflcE3cUzKiMqQgsCu06FPu9UdIJO0beYbPhHN4k6apgJtifcoCtT9bcxOpYBtpD2kCM6Sbzg4CausW/PKQ==}
@@ -5958,6 +5950,10 @@ packages:
 
   lru-cache@10.4.3:
     resolution: {integrity: sha512-JNAzZcXrCt42VGLuYz0zfAzDfAvJWW6AfYlDBQyDV5DClI2m5sAmK+OIO7s59XfsRsWHp02jAJrRadPRGTt6SQ==}
+
+  lru-cache@11.1.0:
+    resolution: {integrity: sha512-QIXZUBJUx+2zHUdQujWejBkcD9+cs94tLn0+YL8UrCh+D5sCXZ4c7LaEH48pNwRY3MLDgqUFyhlCyjJPf1WP0A==}
+    engines: {node: 20 || >=22}
 
   lru-cache@5.1.1:
     resolution: {integrity: sha512-KpNARQA3Iwv+jTA0utUVVbrh+Jlrr1Fv0e56GGzAFOXN7dk/FviaDW8LHmK52DlcH4WP2n6gI8vN1aesBFgo9w==}
@@ -6398,6 +6394,10 @@ packages:
     resolution: {integrity: sha512-Xa4Nw17FS9ApQFJ9umLiJS4orGjm7ZzwUrwamcGQuHSzDyth9boKDaycYdDcZDuqYATXw4HFXgaqWTctW/v1HA==}
     engines: {node: '>=16 || 14 >=14.18'}
 
+  path-scurry@2.0.0:
+    resolution: {integrity: sha512-ypGJsmGtdXUOeM5u93TyeIEfEhM6s+ljAhrk5vAvSx8uyY/02OvrZnA0YNGUrPXfpJMgI1ODd3nwz8Npx4O4cg==}
+    engines: {node: 20 || >=22}
+
   path-to-regexp@0.1.12:
     resolution: {integrity: sha512-RA1GjUVMnvYFxuqovrEqZoxxW5NUZqbwKtYz/Tt7nXerk0LbLblQmrsgdeOxV5SFHf0UDggjS/bSeOZwt1pmEQ==}
 
@@ -6625,9 +6625,9 @@ packages:
     resolution: {integrity: sha512-pb/MYmXstAkysRFx8piNI1tGFNQIFA3vkE3Gq4EuA1dF6gHp/+vgZqsCGJapvy8N3Q+4o7FwvquPJcnZ7RYy4g==}
     engines: {node: '>=4'}
 
-  resolve-import@1.4.6:
-    resolution: {integrity: sha512-CIw9e64QcKcCFUj9+KxUCJPy8hYofv6eVfo3U9wdhCm2E4IjvFnZ6G4/yIC4yP3f11+h6uU5b3LdS7O64LgqrA==}
-    engines: {node: 16 >=16.17.0 || 18 >= 18.6.0 || >=20}
+  resolve-import@2.0.0:
+    resolution: {integrity: sha512-jpKjLibLuc8D1XEV2+7zb0aqN7I8d12u89g/v6IsgCzdVlccMQJq4TKkPw5fbhHdxhm7nbVtN+KvOTnjFf+nEA==}
+    engines: {node: 20 || >=22}
 
   resolve-pkg-maps@1.0.0:
     resolution: {integrity: sha512-seS2Tj26TBVOC2NIc2rOe2y2ZO7efxITtLZcGSOnHHNOQ7CkiUBfw0Iw2ck6xkIhPwLhKNLS8BO+hEpngQlqzw==}
@@ -6653,6 +6653,11 @@ packages:
 
   rimraf@5.0.10:
     resolution: {integrity: sha512-l0OE8wL34P4nJH/H2ffoaniAokM2qSmrtXHmlpvYr5AVVX8msAyW0l8NVJFDxlSK4u3Uh/f41cQheDVdnYijwQ==}
+    hasBin: true
+
+  rimraf@6.0.1:
+    resolution: {integrity: sha512-9dkvaxAsk/xNXSJzMgFqqMCuFgt2+KsOFek3TMLfo8NCPfWpBmqwyNn5Y+NX56QUYfCtsyhF3ayiboEoUmJk/A==}
+    engines: {node: 20 || >=22}
     hasBin: true
 
   rollup-plugin-copy@3.5.0:
@@ -6926,9 +6931,9 @@ packages:
     resolution: {integrity: sha512-ot0WnXS9fgdkgIcePe6RHNk1WA8+muPa6cSjeR3V8K27q9BB1rTE3R1p7Hv0z1ZyAc8s6Vvv8DIyWf681MAt0w==}
     engines: {node: '>= 0.4'}
 
-  sync-content@1.0.2:
-    resolution: {integrity: sha512-znd3rYiiSxU3WteWyS9a6FXkTA/Wjk8WQsOyzHbineeL837dLn3DA4MRhsIX3qGcxDMH6+uuFV4axztssk7wEQ==}
-    engines: {node: '>=14'}
+  sync-content@2.0.1:
+    resolution: {integrity: sha512-NI1mo514yFhr8pV/5Etvgh+pSBUIpoAKoiBIUwALVlQQNAwb40bTw8hhPFaip/dvv0GhpHVOq0vq8iY02ppLTg==}
+    engines: {node: 20 || >=22}
     hasBin: true
 
   tapable@2.2.2:
@@ -7046,9 +7051,9 @@ packages:
   ts-morph@26.0.0:
     resolution: {integrity: sha512-ztMO++owQnz8c/gIENcM9XfCEzgoGphTv+nKpYNM1bgsdOVC/jRZuEBf6N+mLLDNg68Kl+GgUZfOySaRiG1/Ug==}
 
-  tshy@2.0.1:
-    resolution: {integrity: sha512-U5fC+3pMaGfmULhPTVpxKMd62AcX13yfsFrjhAP/daTLG6LFRLIuxqYOmkejJ4MT/s5bEa29+1Jy/9mXkMiMfA==}
-    engines: {node: 16 >=16.17 || 18 >=18.15.0 || >=20.6.1}
+  tshy@3.0.2:
+    resolution: {integrity: sha512-8GkWnAfmNXxl8iDTZ1o2H4jdaj9H7HeDKkr5qd0ZhQBCNA41D3xqTyg2Ycs51VCfmjJ5e+0v9AUmD6ylAI9Bgw==}
+    engines: {node: 20 || >=22}
     hasBin: true
 
   tslib@2.8.1:
@@ -7289,8 +7294,9 @@ packages:
       jsdom:
         optional: true
 
-  walk-up-path@3.0.1:
-    resolution: {integrity: sha512-9YlCL/ynK3CTlrSRrDxZvUauLzAswPCrsaCgilqFevUYpeEW0/3ScEjaa3kbW/T0ghhkEr7mv+fpjqn1Y1YuTA==}
+  walk-up-path@4.0.0:
+    resolution: {integrity: sha512-3hu+tD8YzSLGuFYtPRb48vdhKMi0KQV5sn+uWr8+7dMEq/2G/dtLrdDinkLjqq5TIbIBjYJ4Ax/n3YiaW7QM8A==}
+    engines: {node: 20 || >=22}
 
   wcwidth@1.0.1:
     resolution: {integrity: sha512-XHPEwS0q6TaxcvG85+8EYkbiCux2XtWG2mkc47Ng2A77BQu9+DqIOJldST4HgPkuea7dvKSj5VgX3P1d4rW8Tg==}
@@ -7668,6 +7674,21 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
+  '@azure/core-amqp@4.3.6':
+    dependencies:
+      '@azure/abort-controller': 2.1.2
+      '@azure/core-auth': 1.9.0
+      '@azure/core-util': 1.12.0
+      '@azure/logger': 1.2.0
+      buffer: 6.0.3
+      events: 3.3.0
+      process: 0.11.10
+      rhea: 3.0.4
+      rhea-promise: 3.0.3
+      tslib: 2.8.1
+    transitivePeerDependencies:
+      - supports-color
+
   '@azure/core-auth@1.9.0':
     dependencies:
       '@azure/abort-controller': 2.1.2
@@ -7914,6 +7935,29 @@ snapshots:
       '@azure/core-util': 1.12.0
       '@azure/logger': 1.2.0
       events: 3.3.0
+      tslib: 2.8.1
+    transitivePeerDependencies:
+      - supports-color
+
+  '@azure/service-bus@7.9.5':
+    dependencies:
+      '@azure/abort-controller': 1.1.0
+      '@azure/core-amqp': 4.3.6
+      '@azure/core-auth': 1.9.0
+      '@azure/core-client': 1.9.4
+      '@azure/core-paging': 1.6.2
+      '@azure/core-rest-pipeline': 1.21.0
+      '@azure/core-tracing': 1.2.0
+      '@azure/core-util': 1.12.0
+      '@azure/core-xml': 1.4.5
+      '@azure/logger': 1.2.0
+      '@types/is-buffer': 2.0.2
+      buffer: 6.0.3
+      is-buffer: 2.0.5
+      jssha: 3.3.1
+      long: 5.3.2
+      process: 0.11.10
+      rhea-promise: 3.0.3
       tslib: 2.8.1
     transitivePeerDependencies:
       - supports-color
@@ -8412,10 +8456,6 @@ snapshots:
     dependencies:
       '@opentelemetry/api': 1.9.0
 
-  '@opentelemetry/api-logs@0.56.0':
-    dependencies:
-      '@opentelemetry/api': 1.9.0
-
   '@opentelemetry/api-logs@0.57.0':
     dependencies:
       '@opentelemetry/api': 1.9.0
@@ -8647,18 +8687,6 @@ snapshots:
     dependencies:
       '@opentelemetry/api': 1.9.0
       '@opentelemetry/api-logs': 0.53.0
-      '@types/shimmer': 1.2.0
-      import-in-the-middle: 1.14.2
-      require-in-the-middle: 7.5.2
-      semver: 7.7.2
-      shimmer: 1.2.1
-    transitivePeerDependencies:
-      - supports-color
-
-  '@opentelemetry/instrumentation@0.56.0(@opentelemetry/api@1.9.0)':
-    dependencies:
-      '@opentelemetry/api': 1.9.0
-      '@opentelemetry/api-logs': 0.56.0
       '@types/shimmer': 1.2.0
       import-in-the-middle: 1.14.2
       require-in-the-middle: 7.5.2
@@ -9454,16 +9482,11 @@ snapshots:
 
   '@rush-temp/ai-projects@file:projects/ai-projects.tgz(@types/debug@4.1.12)(tsx@4.20.3)(vite@6.3.5(@types/node@22.7.9)(tsx@4.20.3)(yaml@2.8.0))(ws@8.18.2)(yaml@2.8.0)(zod@3.25.67)':
     dependencies:
+      '@azure/opentelemetry-instrumentation-azure-sdk': 1.0.0-beta.7
       '@azure/storage-blob': 12.27.0
       '@opentelemetry/api': 1.9.0
-      '@opentelemetry/api-logs': 0.200.0
-      '@opentelemetry/exporter-logs-otlp-grpc': 0.200.0(@opentelemetry/api@1.9.0)
-      '@opentelemetry/exporter-trace-otlp-grpc': 0.200.0(@opentelemetry/api@1.9.0)
       '@opentelemetry/instrumentation': 0.57.2(@opentelemetry/api@1.9.0)
-      '@opentelemetry/sdk-logs': 0.200.0(@opentelemetry/api@1.9.0)
-      '@opentelemetry/sdk-trace-node': 1.30.1(@opentelemetry/api@1.9.0)
-      '@traceloop/instrumentation-langchain': 0.13.0(@opentelemetry/api@1.9.0)
-      '@traceloop/instrumentation-openai': 0.13.0(@opentelemetry/api@1.9.0)
+      '@opentelemetry/sdk-trace-node': 2.0.1(@opentelemetry/api@1.9.0)
       '@types/node': 20.19.1
       '@vitest/browser': 3.2.4(playwright@1.53.1)(vite@6.3.5(@types/node@22.7.9)(tsx@4.20.3)(yaml@2.8.0))(vitest@3.2.4)
       '@vitest/coverage-istanbul': 3.2.4(vitest@3.2.4)
@@ -13676,12 +13699,14 @@ snapshots:
 
   '@rush-temp/arm-healthdataaiservices@file:projects/arm-healthdataaiservices.tgz(@types/debug@4.1.12)(tsx@4.20.3)(vite@6.3.5(@types/node@22.7.9)(tsx@4.20.3)(yaml@2.8.0))(yaml@2.8.0)':
     dependencies:
+      '@microsoft/api-extractor': 7.52.8(@types/node@20.19.1)
       '@types/node': 20.19.1
       '@vitest/browser': 3.2.4(playwright@1.53.1)(vite@6.3.5(@types/node@22.7.9)(tsx@4.20.3)(yaml@2.8.0))(vitest@3.2.4)
       '@vitest/coverage-istanbul': 3.2.4(vitest@3.2.4)
       dotenv: 16.5.0
       eslint: 9.29.0
       playwright: 1.53.1
+      tshy: 3.0.2
       tslib: 2.8.1
       typescript: 5.8.3
       vitest: 3.2.4(@types/debug@4.1.12)(@types/node@20.19.1)(@vitest/browser@3.2.4)(tsx@4.20.3)(yaml@2.8.0)
@@ -19240,6 +19265,7 @@ snapshots:
   '@rush-temp/communication-call-automation@file:projects/communication-call-automation.tgz(@types/debug@4.1.12)(tsx@4.20.3)(vite@6.3.5(@types/node@22.7.9)(tsx@4.20.3)(yaml@2.8.0))(yaml@2.8.0)':
     dependencies:
       '@azure/communication-identity': 1.3.1
+      '@azure/service-bus': 7.9.5
       '@types/node': 20.19.1
       '@vitest/browser': 3.2.4(playwright@1.53.1)(vite@6.3.5(@types/node@22.7.9)(tsx@4.20.3)(yaml@2.8.0))(vitest@3.2.4)
       '@vitest/coverage-istanbul': 3.2.4(vitest@3.2.4)
@@ -20451,7 +20477,7 @@ snapshots:
       strip-json-comments: 5.0.2
       tar: 7.4.3
       ts-morph: 26.0.0
-      tshy: 2.0.1
+      tshy: 3.0.2
       tslib: 2.8.1
       tsx: 4.19.3
       typescript: 5.8.3
@@ -20574,7 +20600,7 @@ snapshots:
       playwright: 1.53.1
       prettier: 3.6.0
       rimraf: 5.0.10
-      tshy: 2.0.1
+      tshy: 3.0.2
       tslib: 2.8.1
       typescript: 5.8.3
       typescript-eslint: 8.34.1(eslint@9.29.0)(typescript@5.8.3)
@@ -20728,6 +20754,7 @@ snapshots:
 
   '@rush-temp/eventgrid@file:projects/eventgrid.tgz(@types/debug@4.1.12)(tsx@4.20.3)(vite@6.3.5(@types/node@22.7.9)(tsx@4.20.3)(yaml@2.8.0))(yaml@2.8.0)':
     dependencies:
+      '@azure/service-bus': 7.9.5
       '@types/node': 20.19.1
       '@vitest/browser': 3.2.4(playwright@1.53.1)(vite@6.3.5(@types/node@22.7.9)(tsx@4.20.3)(yaml@2.8.0))(vitest@3.2.4)
       '@vitest/coverage-istanbul': 3.2.4(vitest@3.2.4)
@@ -22372,6 +22399,7 @@ snapshots:
 
   '@rush-temp/perf-service-bus@file:projects/perf-service-bus.tgz':
     dependencies:
+      '@azure/service-bus': 7.9.5
       '@types/node': 20.19.1
       dotenv: 16.5.0
       eslint: 9.29.0
@@ -23804,33 +23832,6 @@ snapshots:
   '@testing-library/user-event@14.6.1(@testing-library/dom@10.4.0)':
     dependencies:
       '@testing-library/dom': 10.4.0
-
-  '@traceloop/ai-semantic-conventions@0.13.0':
-    dependencies:
-      '@opentelemetry/api': 1.9.0
-
-  '@traceloop/instrumentation-langchain@0.13.0(@opentelemetry/api@1.9.0)':
-    dependencies:
-      '@opentelemetry/core': 1.30.1(@opentelemetry/api@1.9.0)
-      '@opentelemetry/instrumentation': 0.56.0(@opentelemetry/api@1.9.0)
-      '@opentelemetry/semantic-conventions': 1.34.0
-      '@traceloop/ai-semantic-conventions': 0.13.0
-      tslib: 2.8.1
-    transitivePeerDependencies:
-      - '@opentelemetry/api'
-      - supports-color
-
-  '@traceloop/instrumentation-openai@0.13.0(@opentelemetry/api@1.9.0)':
-    dependencies:
-      '@opentelemetry/core': 1.30.1(@opentelemetry/api@1.9.0)
-      '@opentelemetry/instrumentation': 0.56.0(@opentelemetry/api@1.9.0)
-      '@opentelemetry/semantic-conventions': 1.34.0
-      '@traceloop/ai-semantic-conventions': 0.13.0
-      js-tiktoken: 1.0.20
-      tslib: 2.8.1
-    transitivePeerDependencies:
-      - '@opentelemetry/api'
-      - supports-color
 
   '@ts-morph/common@0.27.0':
     dependencies:
@@ -25267,6 +25268,15 @@ snapshots:
       package-json-from-dist: 1.0.1
       path-scurry: 1.11.1
 
+  glob@11.0.3:
+    dependencies:
+      foreground-child: 3.3.1
+      jackspeak: 4.1.1
+      minimatch: 10.0.3
+      minipass: 7.1.2
+      package-json-from-dist: 1.0.1
+      path-scurry: 2.0.0
+
   glob@7.2.3:
     dependencies:
       fs.realpath: 1.0.0
@@ -25547,11 +25557,11 @@ snapshots:
     optionalDependencies:
       '@pkgjs/parseargs': 0.11.0
 
-  jju@1.4.0: {}
-
-  js-tiktoken@1.0.20:
+  jackspeak@4.1.1:
     dependencies:
-      base64-js: 1.5.1
+      '@isaacs/cliui': 8.0.2
+
+  jju@1.4.0: {}
 
   js-tokens@4.0.0: {}
 
@@ -25734,6 +25744,8 @@ snapshots:
   loupe@3.1.4: {}
 
   lru-cache@10.4.3: {}
+
+  lru-cache@11.1.0: {}
 
   lru-cache@5.1.1:
     dependencies:
@@ -26139,6 +26151,11 @@ snapshots:
       lru-cache: 10.4.3
       minipass: 7.1.2
 
+  path-scurry@2.0.0:
+    dependencies:
+      lru-cache: 11.1.0
+      minipass: 7.1.2
+
   path-to-regexp@0.1.12: {}
 
   path-to-regexp@8.2.0: {}
@@ -26380,10 +26397,10 @@ snapshots:
 
   resolve-from@4.0.0: {}
 
-  resolve-import@1.4.6:
+  resolve-import@2.0.0:
     dependencies:
-      glob: 10.4.5
-      walk-up-path: 3.0.1
+      glob: 11.0.3
+      walk-up-path: 4.0.0
 
   resolve-pkg-maps@1.0.0: {}
 
@@ -26417,6 +26434,11 @@ snapshots:
   rimraf@5.0.10:
     dependencies:
       glob: 10.4.5
+
+  rimraf@6.0.1:
+    dependencies:
+      glob: 11.0.3
+      package-json-from-dist: 1.0.1
 
   rollup-plugin-copy@3.5.0:
     dependencies:
@@ -26731,12 +26753,13 @@ snapshots:
 
   supports-preserve-symlinks-flag@1.0.0: {}
 
-  sync-content@1.0.2:
+  sync-content@2.0.1:
     dependencies:
-      glob: 10.4.5
+      glob: 11.0.3
       mkdirp: 3.0.1
-      path-scurry: 1.11.1
-      rimraf: 5.0.10
+      path-scurry: 2.0.0
+      rimraf: 6.0.1
+      tshy: 3.0.2
 
   tapable@2.2.2: {}
 
@@ -26848,19 +26871,19 @@ snapshots:
       '@ts-morph/common': 0.27.0
       code-block-writer: 13.0.3
 
-  tshy@2.0.1:
+  tshy@3.0.2:
     dependencies:
       chalk: 5.4.1
       chokidar: 3.6.0
       foreground-child: 3.3.1
-      minimatch: 9.0.5
+      minimatch: 10.0.3
       mkdirp: 3.0.1
       polite-json: 5.0.0
-      resolve-import: 1.4.6
-      rimraf: 5.0.10
-      sync-content: 1.0.2
+      resolve-import: 2.0.0
+      rimraf: 6.0.1
+      sync-content: 2.0.1
       typescript: 5.8.3
-      walk-up-path: 3.0.1
+      walk-up-path: 4.0.0
 
   tslib@2.8.1: {}
 
@@ -27233,7 +27256,7 @@ snapshots:
       - tsx
       - yaml
 
-  walk-up-path@3.0.1: {}
+  walk-up-path@4.0.0: {}
 
   wcwidth@1.0.1:
     dependencies:
