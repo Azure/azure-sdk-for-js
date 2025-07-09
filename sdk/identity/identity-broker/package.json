@@ -17,7 +17,7 @@
     "lint": "eslint package.json src test",
     "lint:fix": "eslint package.json src test --fix --fix-type [problem,suggestion]",
     "pack": "npm pack 2>&1",
-    "test": "npm run test:node && npm run test:browser",
+    "test": "npm run test:node",
     "test:browser": "echo skipped",
     "test:node": "dev-tool run test:vitest -- --test-timeout 300000",
     "test:node:esm": "dev-tool run test:vitest --esm",
@@ -66,10 +66,8 @@
     "@azure/eslint-plugin-azure-sdk": "^3.0.0",
     "@azure/logger": "^1.0.4",
     "@types/node": "^20.0.0",
-    "@vitest/browser": "^3.0.9",
     "@vitest/coverage-istanbul": "^3.0.9",
     "eslint": "^9.9.0",
-    "playwright": "^1.48.2",
     "typescript": "~5.8.2",
     "vitest": "^3.0.9"
   },
@@ -93,20 +91,12 @@
       "esm",
       "commonjs"
     ],
-    "esmDialects": [
-      "browser"
-    ],
     "selfLink": false,
     "project": "./tsconfig.src.json"
   },
-  "browser": "./dist/browser/index.js",
   "exports": {
     "./package.json": "./package.json",
     ".": {
-      "browser": {
-        "types": "./dist/browser/index.d.ts",
-        "default": "./dist/browser/index.js"
-      },
       "import": {
         "types": "./dist/esm/index.d.ts",
         "default": "./dist/esm/index.js"
