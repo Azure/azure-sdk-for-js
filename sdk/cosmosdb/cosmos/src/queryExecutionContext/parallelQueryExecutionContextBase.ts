@@ -173,7 +173,6 @@ export abstract class ParallelQueryExecutionContextBase implements ExecutionCont
   private _getAndResetActiveResponseHeaders(): CosmosHeaders {
     const ret = this.respHeaders;
     this.respHeaders = getInitialHeader();
-    console.log("Response Headers: ", ret);
     return ret;
   }
 
