@@ -47,10 +47,23 @@ describe("extractPartitionKey", () => {
       const result = extractPartitionKeys(document, partitionKeyDefinition);
       assert.deepEqual(result, ["some value"]);
     });
+    // add a test case for Hierarchical partition key paths
+    it("should return [value] for hierarchical partition key paths", () => {
+      const hierarchicalPartitionKeyDefinition = { paths: ["/a", "/bc", "/d"] };
+      const document = { a: "a", bc: "bc", d: "d" };
+      const result = extractPartitionKeys(document, hierarchicalPartitionKeyDefinition);
+      assert.deepEqual(result, ["a", "bc", "d"]);
+    });
 
     it("should handle default partition key path with valid value", () => {
       const document = { _partitionKey: "test-value" };
       const result = extractPartitionKeys(document, defaultPartitionKeyDefinition);
+      assert.deepEqual(result, ["test-value"]);
+    });
+
+    it("should handle migrated partition key path with valid value", () => {
+      const document = { _partitionKey: "test-value" };
+      const result = extractPartitionKeys(document, migratedPartitionKeyDefinition);
       assert.deepEqual(result, ["test-value"]);
     });
 
