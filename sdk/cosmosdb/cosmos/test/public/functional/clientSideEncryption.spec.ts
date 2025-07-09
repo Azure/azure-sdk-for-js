@@ -52,7 +52,7 @@ import { removeAllDatabases } from "../common/TestHelpers.js";
 import type { CosmosEncryptedNumber } from "../../../src/encryption/CosmosEncryptedNumber.js";
 import { CosmosEncryptedNumberType } from "../../../src/encryption/CosmosEncryptedNumber.js";
 import { describe, it, assert, beforeEach, beforeAll, afterAll } from "vitest";
-import { conditionalIt } from "../common/conditionalTest.js";
+import { skipTestForSignOff } from "../common/TestHelpers.js";
 
 let encryptionClient: CosmosClient;
 let metadata1: EncryptionKeyWrapMetadata;
@@ -1411,7 +1411,7 @@ describe("ClientSideEncryption", () => {
     verifyExpectedDocResponse(testDoc1, response.result[0]);
   });
 
-  conditionalIt("encryption change feed with allVersionsAndDeletes", async () => {
+  it.skipIf(skipTestForSignOff)("encryption change feed with allVersionsAndDeletes", async () => {
     const newClient = new CosmosClient({
       endpoint: endpoint,
       key: masterKey,
@@ -2874,7 +2874,7 @@ describe("ClientSideEncryption", () => {
     verifyDiagnostics(replaceResponse.diagnostics, true, true, 14, 12);
   });
 
-  conditionalIt("encryption delete all items in a partition key", async () => {
+  it.skipIf(skipTestForSignOff)("encryption delete all items in a partition key", async () => {
     const testDoc1 = new TestDoc((await testCreateItem(encryptionContainer, "pk1")).resource);
     const testDoc2 = new TestDoc((await testCreateItem(encryptionContainer, "pk2")).resource);
     const testDoc3 = new TestDoc((await testCreateItem(encryptionContainer, "pk1")).resource);

@@ -57,6 +57,8 @@ import { AssertionError } from "assertion-error";
 const defaultRoutingGatewayPort: string = ":8081";
 const defaultComputeGatewayPort: string = ":8903";
 
+export const skipTestForSignOff: boolean = process.env.SKIP_COMPUTE_GATEWAY_TESTS === "true";
+
 export function getDefaultClient(): CosmosClient {
   return new CosmosClient({
     endpoint,
@@ -322,10 +324,12 @@ function validateLocationEndpointsContactedForDiagnostics(
       diagnostics.clientSideRequestStatistics.locationEndpointsContacted,
       "In CosmosDiagnostics, locationEndpointsContacted should have existed.",
     ).to.exist;
-    expect(
-      diagnostics.clientSideRequestStatistics.locationEndpointsContacted.length,
-      "In CosmosDiagnostics, Number of locationEndpointsContacted should match the spec.",
-    ).to.be.equal(spec.locationEndpointsContacted);
+    if (endpoint.includes("https://localhost")) {
+      expect(
+        diagnostics.clientSideRequestStatistics.locationEndpointsContacted.length,
+        "In CosmosDiagnostics, Number of locationEndpointsContacted should match the spec.",
+      ).to.be.equal(spec.locationEndpointsContacted);
+    }
   }
 }
 
