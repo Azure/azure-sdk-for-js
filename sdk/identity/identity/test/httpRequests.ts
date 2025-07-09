@@ -24,15 +24,19 @@ import { vi } from "vitest";
 vi.mock("node:https", async () => {
   const actual = await vi.importActual("node:https");
   return {
-    ...actual,
-    request: vi.fn(),
+    default: {
+      ...(actual as any).default,
+      request: vi.fn(),
+    }
   };
 });
 vi.mock("node:http", async () => {
   const actual = await vi.importActual("node:http");
   return {
-    ...actual,
-    request: vi.fn(),
+    default: {
+      ...(actual as any).default,
+      request: vi.fn(),
+    }
   };
 });
 

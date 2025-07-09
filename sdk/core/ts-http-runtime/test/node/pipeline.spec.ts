@@ -11,11 +11,13 @@ import { createHttpHeaders } from "../../src/httpHeaders.js";
 import { createNodeHttpClient } from "../../src/nodeHttpClient.js";
 import { createPipelineFromOptions } from "../../src/createPipelineFromOptions.js";
 
-vi.mock("https", async () => {
-  const actual = await vi.importActual("https");
+vi.mock("node:https", async () => {
+  const actual = await vi.importActual("node:https");
   return {
-    ...actual,
-    request: vi.fn(),
+    default: {
+      ...(actual as any).default,
+      request: vi.fn(),
+    }
   };
 });
 
