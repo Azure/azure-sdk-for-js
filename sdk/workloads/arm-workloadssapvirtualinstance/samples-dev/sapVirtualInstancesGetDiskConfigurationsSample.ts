@@ -14,14 +14,17 @@ async function sapDiskConfigurationsForInputEnvironmentNonProd(): Promise<void> 
   const credential = new DefaultAzureCredential();
   const subscriptionId = "8e17e36c-42e9-4cd5-a078-7b44883414e0";
   const client = new WorkloadsClient(credential, subscriptionId);
-  const result = await client.sapVirtualInstances.getDiskConfigurations("centralus", {
-    appLocation: "eastus",
-    sapProduct: "S4HANA",
-    environment: "NonProd",
-    databaseType: "HANA",
-    deploymentType: "ThreeTier",
-    dbVmSku: "Standard_M32ts",
-  });
+  const result = await client.sapVirtualInstances.getDiskConfigurations(
+    "centralus",
+    {
+      appLocation: "eastus",
+      sapProduct: "S4HANA",
+      environment: "NonProd",
+      databaseType: "HANA",
+      deploymentType: "ThreeTier",
+      dbVmSku: "Standard_M32ts",
+    },
+  );
   console.log(result);
 }
 
@@ -35,14 +38,17 @@ async function sapDiskConfigurationsForInputEnvironmentProd(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "8e17e36c-42e9-4cd5-a078-7b44883414e0";
   const client = new WorkloadsClient(credential, subscriptionId);
-  const result = await client.sapVirtualInstances.getDiskConfigurations("centralus", {
-    appLocation: "eastus",
-    sapProduct: "S4HANA",
-    environment: "Prod",
-    databaseType: "HANA",
-    deploymentType: "ThreeTier",
-    dbVmSku: "Standard_M32ts",
-  });
+  const result = await client.sapVirtualInstances.getDiskConfigurations(
+    "centralus",
+    {
+      appLocation: "eastus",
+      sapProduct: "S4HANA",
+      environment: "Prod",
+      databaseType: "HANA",
+      deploymentType: "ThreeTier",
+      dbVmSku: "Standard_M32ts",
+    },
+  );
   console.log(result);
 }
 

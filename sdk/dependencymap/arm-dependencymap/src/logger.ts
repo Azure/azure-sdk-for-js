@@ -2,4 +2,6 @@
 // Licensed under the MIT License.
 
 import { createClientLogger } from "@azure/logger";
-export const logger = createClientLogger("arm-dependencymap");
+export const logger = createClientLogger(
+  "MicrosoftDependencyMapManagementService",
+);

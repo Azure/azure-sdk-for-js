@@ -10,7 +10,10 @@ import {
   OrganizationsOperations,
   _getOrganizationsOperations,
 } from "./classic/organizations/index.js";
-import { OperationsOperations, _getOperationsOperations } from "./classic/operations/index.js";
+import {
+  OperationsOperations,
+  _getOperationsOperations,
+} from "./classic/operations/index.js";
 import { Pipeline } from "@azure/core-rest-pipeline";
 import { TokenCredential } from "@azure/core-auth";
 

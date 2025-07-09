@@ -30,7 +30,9 @@ export interface _OperationListResult {
   nextLink?: string;
 }
 
-export function _operationListResultDeserializer(item: any): _OperationListResult {
+export function _operationListResultDeserializer(
+  item: any,
+): _OperationListResult {
   return {
     value: operationArrayDeserializer(item["value"]),
     nextLink: item["nextLink"],
@@ -61,7 +63,9 @@ export function operationDeserializer(item: any): Operation {
   return {
     name: item["name"],
     isDataAction: item["isDataAction"],
-    display: !item["display"] ? item["display"] : operationDisplayDeserializer(item["display"]),
+    display: !item["display"]
+      ? item["display"]
+      : operationDisplayDeserializer(item["display"]),
     origin: item["origin"],
     actionType: item["actionType"],
   };
@@ -132,7 +136,9 @@ export interface ErrorResponse {
 
 export function errorResponseDeserializer(item: any): ErrorResponse {
   return {
-    error: !item["error"] ? item["error"] : errorDetailDeserializer(item["error"]),
+    error: !item["error"]
+      ? item["error"]
+      : errorDetailDeserializer(item["error"]),
   };
 }
 
@@ -155,20 +161,26 @@ export function errorDetailDeserializer(item: any): ErrorDetail {
     code: item["code"],
     message: item["message"],
     target: item["target"],
-    details: !item["details"] ? item["details"] : errorDetailArrayDeserializer(item["details"]),
+    details: !item["details"]
+      ? item["details"]
+      : errorDetailArrayDeserializer(item["details"]),
     additionalInfo: !item["additionalInfo"]
       ? item["additionalInfo"]
       : errorAdditionalInfoArrayDeserializer(item["additionalInfo"]),
   };
 }
 
-export function errorDetailArrayDeserializer(result: Array<ErrorDetail>): any[] {
+export function errorDetailArrayDeserializer(
+  result: Array<ErrorDetail>,
+): any[] {
   return result.map((item) => {
     return errorDetailDeserializer(item);
   });
 }
 
-export function errorAdditionalInfoArrayDeserializer(result: Array<ErrorAdditionalInfo>): any[] {
+export function errorAdditionalInfoArrayDeserializer(
+  result: Array<ErrorAdditionalInfo>,
+): any[] {
   return result.map((item) => {
     return errorAdditionalInfoDeserializer(item);
   });
@@ -179,21 +191,16 @@ export interface ErrorAdditionalInfo {
   /** The additional info type. */
   readonly type?: string;
   /** The additional info. */
-  readonly info?: Record<string, any>;
+  readonly info?: any;
 }
 
-export function errorAdditionalInfoDeserializer(item: any): ErrorAdditionalInfo {
+export function errorAdditionalInfoDeserializer(
+  item: any,
+): ErrorAdditionalInfo {
   return {
     type: item["type"],
-    info: !item["info"] ? item["info"] : _errorAdditionalInfoInfoDeserializer(item["info"]),
+    info: item["info"],
   };
-}
-
-/** model interface _ErrorAdditionalInfoInfo */
-export interface _ErrorAdditionalInfoInfo {}
-
-export function _errorAdditionalInfoInfoDeserializer(item: any): _ErrorAdditionalInfoInfo {
-  return item;
 }
 
 /** Organization Resource by Neon */
@@ -202,7 +209,9 @@ export interface OrganizationResource extends TrackedResource {
   properties?: OrganizationProperties;
 }
 
-export function organizationResourceSerializer(item: OrganizationResource): any {
+export function organizationResourceSerializer(
+  item: OrganizationResource,
+): any {
   return {
     tags: item["tags"],
     location: item["location"],
@@ -212,7 +221,9 @@ export function organizationResourceSerializer(item: OrganizationResource): any 
   };
 }
 
-export function organizationResourceDeserializer(item: any): OrganizationResource {
+export function organizationResourceDeserializer(
+  item: any,
+): OrganizationResource {
   return {
     tags: item["tags"],
     location: item["location"],
@@ -244,29 +255,41 @@ export interface OrganizationProperties {
   projectProperties?: ProjectProperties;
 }
 
-export function organizationPropertiesSerializer(item: OrganizationProperties): any {
+export function organizationPropertiesSerializer(
+  item: OrganizationProperties,
+): any {
   return {
-    marketplaceDetails: marketplaceDetailsSerializer(item["marketplaceDetails"]),
+    marketplaceDetails: marketplaceDetailsSerializer(
+      item["marketplaceDetails"],
+    ),
     userDetails: userDetailsSerializer(item["userDetails"]),
     companyDetails: companyDetailsSerializer(item["companyDetails"]),
     partnerOrganizationProperties: !item["partnerOrganizationProperties"]
       ? item["partnerOrganizationProperties"]
-      : partnerOrganizationPropertiesSerializer(item["partnerOrganizationProperties"]),
+      : partnerOrganizationPropertiesSerializer(
+          item["partnerOrganizationProperties"],
+        ),
     projectProperties: !item["projectProperties"]
       ? item["projectProperties"]
       : projectPropertiesSerializer(item["projectProperties"]),
   };
 }
 
-export function organizationPropertiesDeserializer(item: any): OrganizationProperties {
+export function organizationPropertiesDeserializer(
+  item: any,
+): OrganizationProperties {
   return {
-    marketplaceDetails: marketplaceDetailsDeserializer(item["marketplaceDetails"]),
+    marketplaceDetails: marketplaceDetailsDeserializer(
+      item["marketplaceDetails"],
+    ),
     userDetails: userDetailsDeserializer(item["userDetails"]),
     companyDetails: companyDetailsDeserializer(item["companyDetails"]),
     provisioningState: item["provisioningState"],
     partnerOrganizationProperties: !item["partnerOrganizationProperties"]
       ? item["partnerOrganizationProperties"]
-      : partnerOrganizationPropertiesDeserializer(item["partnerOrganizationProperties"]),
+      : partnerOrganizationPropertiesDeserializer(
+          item["partnerOrganizationProperties"],
+        ),
     projectProperties: !item["projectProperties"]
       ? item["projectProperties"]
       : projectPropertiesDeserializer(item["projectProperties"]),
@@ -464,7 +487,9 @@ export interface PartnerOrganizationProperties {
   singleSignOnProperties?: SingleSignOnProperties;
 }
 
-export function partnerOrganizationPropertiesSerializer(item: PartnerOrganizationProperties): any {
+export function partnerOrganizationPropertiesSerializer(
+  item: PartnerOrganizationProperties,
+): any {
   return {
     organizationId: item["organizationId"],
     organizationName: item["organizationName"],
@@ -498,7 +523,9 @@ export interface SingleSignOnProperties {
   aadDomains?: string[];
 }
 
-export function singleSignOnPropertiesSerializer(item: SingleSignOnProperties): any {
+export function singleSignOnPropertiesSerializer(
+  item: SingleSignOnProperties,
+): any {
   return {
     singleSignOnState: item["singleSignOnState"],
     enterpriseAppId: item["enterpriseAppId"],
@@ -511,7 +538,9 @@ export function singleSignOnPropertiesSerializer(item: SingleSignOnProperties): 
   };
 }
 
-export function singleSignOnPropertiesDeserializer(item: any): SingleSignOnProperties {
+export function singleSignOnPropertiesDeserializer(
+  item: any,
+): SingleSignOnProperties {
   return {
     singleSignOnState: item["singleSignOnState"],
     enterpriseAppId: item["enterpriseAppId"],
@@ -617,7 +646,9 @@ export function systemDataDeserializer(item: any): SystemData {
   return {
     createdBy: item["createdBy"],
     createdByType: item["createdByType"],
-    createdAt: !item["createdAt"] ? item["createdAt"] : new Date(item["createdAt"]),
+    createdAt: !item["createdAt"]
+      ? item["createdAt"]
+      : new Date(item["createdAt"]),
     lastModifiedBy: item["lastModifiedBy"],
     lastModifiedByType: item["lastModifiedByType"],
     lastModifiedAt: !item["lastModifiedAt"]
@@ -667,13 +698,17 @@ export function _organizationResourceListResultDeserializer(
   };
 }
 
-export function organizationResourceArraySerializer(result: Array<OrganizationResource>): any[] {
+export function organizationResourceArraySerializer(
+  result: Array<OrganizationResource>,
+): any[] {
   return result.map((item) => {
     return organizationResourceSerializer(item);
   });
 }
 
-export function organizationResourceArrayDeserializer(result: Array<OrganizationResource>): any[] {
+export function organizationResourceArrayDeserializer(
+  result: Array<OrganizationResource>,
+): any[] {
   return result.map((item) => {
     return organizationResourceDeserializer(item);
   });
@@ -898,20 +933,26 @@ export interface _NeonDatabaseListResult {
   nextLink?: string;
 }
 
-export function _neonDatabaseListResultDeserializer(item: any): _NeonDatabaseListResult {
+export function _neonDatabaseListResultDeserializer(
+  item: any,
+): _NeonDatabaseListResult {
   return {
     value: neonDatabaseArrayDeserializer(item["value"]),
     nextLink: item["nextLink"],
   };
 }
 
-export function neonDatabaseArraySerializer(result: Array<NeonDatabase>): any[] {
+export function neonDatabaseArraySerializer(
+  result: Array<NeonDatabase>,
+): any[] {
   return result.map((item) => {
     return neonDatabaseSerializer(item);
   });
 }
 
-export function neonDatabaseArrayDeserializer(result: Array<NeonDatabase>): any[] {
+export function neonDatabaseArrayDeserializer(
+  result: Array<NeonDatabase>,
+): any[] {
   return result.map((item) => {
     return neonDatabaseDeserializer(item);
   });
@@ -953,7 +994,9 @@ export interface _NeonRoleListResult {
   nextLink?: string;
 }
 
-export function _neonRoleListResultDeserializer(item: any): _NeonRoleListResult {
+export function _neonRoleListResultDeserializer(
+  item: any,
+): _NeonRoleListResult {
   return {
     value: neonRoleArrayDeserializer(item["value"]),
     nextLink: item["nextLink"],
@@ -1008,7 +1051,9 @@ export interface _EndpointListResult {
   nextLink?: string;
 }
 
-export function _endpointListResultDeserializer(item: any): _EndpointListResult {
+export function _endpointListResultDeserializer(
+  item: any,
+): _EndpointListResult {
   return {
     value: endpointArrayDeserializer(item["value"]),
     nextLink: item["nextLink"],

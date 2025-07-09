@@ -9,17 +9,20 @@ export interface SAPVirtualInstancesGetAvailabilityZoneDetailsOptionalParams
   extends OperationOptions {}
 
 /** Optional parameters. */
-export interface SAPVirtualInstancesGetDiskConfigurationsOptionalParams extends OperationOptions {}
+export interface SAPVirtualInstancesGetDiskConfigurationsOptionalParams
+  extends OperationOptions {}
 
 /** Optional parameters. */
-export interface SAPVirtualInstancesGetSapSupportedSkuOptionalParams extends OperationOptions {}
+export interface SAPVirtualInstancesGetSapSupportedSkuOptionalParams
+  extends OperationOptions {}
 
 /** Optional parameters. */
 export interface SAPVirtualInstancesGetSizingRecommendationsOptionalParams
   extends OperationOptions {}
 
 /** Optional parameters. */
-export interface SAPVirtualInstancesStopOptionalParams extends OperationOptions {
+export interface SAPVirtualInstancesStopOptionalParams
+  extends OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
   /** The Virtual Instance for SAP solutions resource stop request body. */
@@ -27,7 +30,8 @@ export interface SAPVirtualInstancesStopOptionalParams extends OperationOptions 
 }
 
 /** Optional parameters. */
-export interface SAPVirtualInstancesStartOptionalParams extends OperationOptions {
+export interface SAPVirtualInstancesStartOptionalParams
+  extends OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
   /** The Virtual Instance for SAP solutions resource start request body. */
@@ -35,28 +39,34 @@ export interface SAPVirtualInstancesStartOptionalParams extends OperationOptions
 }
 
 /** Optional parameters. */
-export interface SAPVirtualInstancesListBySubscriptionOptionalParams extends OperationOptions {}
+export interface SAPVirtualInstancesListBySubscriptionOptionalParams
+  extends OperationOptions {}
 
 /** Optional parameters. */
-export interface SAPVirtualInstancesListByResourceGroupOptionalParams extends OperationOptions {}
+export interface SAPVirtualInstancesListByResourceGroupOptionalParams
+  extends OperationOptions {}
 
 /** Optional parameters. */
-export interface SAPVirtualInstancesDeleteOptionalParams extends OperationOptions {
+export interface SAPVirtualInstancesDeleteOptionalParams
+  extends OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
 }
 
 /** Optional parameters. */
-export interface SAPVirtualInstancesUpdateOptionalParams extends OperationOptions {
+export interface SAPVirtualInstancesUpdateOptionalParams
+  extends OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
 }
 
 /** Optional parameters. */
-export interface SAPVirtualInstancesCreateOptionalParams extends OperationOptions {
+export interface SAPVirtualInstancesCreateOptionalParams
+  extends OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
 }
 
 /** Optional parameters. */
-export interface SAPVirtualInstancesGetOptionalParams extends OperationOptions {}
+export interface SAPVirtualInstancesGetOptionalParams
+  extends OperationOptions {}

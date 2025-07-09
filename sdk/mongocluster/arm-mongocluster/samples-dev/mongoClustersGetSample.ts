@@ -14,7 +14,10 @@ async function getsAMongoClusterResource(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "ffffffff-ffff-ffff-ffff-ffffffffffff";
   const client = new MongoClusterManagementClient(credential, subscriptionId);
-  const result = await client.mongoClusters.get("TestResourceGroup", "myMongoCluster");
+  const result = await client.mongoClusters.get(
+    "TestResourceGroup",
+    "myMongoCluster",
+  );
   console.log(result);
 }
 

@@ -13,11 +13,11 @@ import {
   AutonomousDatabaseNationalCharacterSetsListByLocationOptionalParams,
   AutonomousDatabaseNationalCharacterSetsGetOptionalParams,
 } from "./options.js";
-import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
 import {
   PagedAsyncIterableIterator,
   buildPagedAsyncIterator,
 } from "../../static-helpers/pagingHelpers.js";
+import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
 import {
   StreamableMethod,
   PathUncheckedResponse,
@@ -43,13 +43,15 @@ export function _listByLocationSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).get({
-    ...operationOptionsToRequestParameters(options),
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
-  });
+  return context
+    .path(path)
+    .get({
+      ...operationOptionsToRequestParameters(options),
+      headers: {
+        accept: "application/json",
+        ...options.requestOptions?.headers,
+      },
+    });
 }
 
 export async function _listByLocationDeserialize(
@@ -62,7 +64,9 @@ export async function _listByLocationDeserialize(
     throw error;
   }
 
-  return _autonomousDatabaseNationalCharacterSetListResultDeserializer(result.body);
+  return _autonomousDatabaseNationalCharacterSetListResultDeserializer(
+    result.body,
+  );
 }
 
 /** List AutonomousDatabaseNationalCharacterSet resources by SubscriptionLocationResource */
@@ -102,13 +106,15 @@ export function _getSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).get({
-    ...operationOptionsToRequestParameters(options),
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
-  });
+  return context
+    .path(path)
+    .get({
+      ...operationOptionsToRequestParameters(options),
+      headers: {
+        accept: "application/json",
+        ...options.requestOptions?.headers,
+      },
+    });
 }
 
 export async function _getDeserialize(
