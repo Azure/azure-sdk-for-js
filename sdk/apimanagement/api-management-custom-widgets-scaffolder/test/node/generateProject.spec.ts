@@ -12,7 +12,7 @@ vi.mock("node:fs/promises", async () => {
       ...(actual as any).default,
       mkdir: vi.fn(),
       writeFile: vi.fn(),
-    }
+    },
   };
 });
 

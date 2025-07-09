@@ -12,7 +12,7 @@ vi.mock("node:https", async () => {
     default: {
       ...(actual as any).default,
       request: vi.fn(),
-    }
+    },
   };
 });
 

@@ -27,7 +27,7 @@ vi.mock("node:https", async () => {
     default: {
       ...(actual as any).default,
       request: vi.fn(),
-    }
+    },
   };
 });
 vi.mock("node:http", async () => {
@@ -36,7 +36,7 @@ vi.mock("node:http", async () => {
     default: {
       ...(actual as any).default,
       request: vi.fn(),
-    }
+    },
   };
 });
 

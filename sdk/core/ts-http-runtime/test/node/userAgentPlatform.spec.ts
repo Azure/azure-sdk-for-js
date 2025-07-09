@@ -12,7 +12,7 @@ describe("userAgentPlatform", () => {
       default: {
         ...(actual as any).default,
         versions: {},
-      }
+      },
     };
   });
 
