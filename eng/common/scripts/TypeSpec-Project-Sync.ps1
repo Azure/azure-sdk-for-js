@@ -156,6 +156,13 @@ $projectName = $pieces[$pieces.Count - 2]
 
 $specSubDirectory = $configuration["directory"]
 
+# Check if the specSubDirectory is provided
+$isManagementSdk = $specSubDirectory.Contains("/resource-manager/") -or $specSubDirectory.Contains(".Management")
+if($isManagementSdk -eq $false) {
+  Write-Host "This is not a management SDK, skipping TypeSpec project sync." -ForegroundColor Yellow
+  exit 1
+}
+
 # use local spec repo if provided
 if ($LocalSpecRepoPath) {
   $specCloneDir = $LocalSpecRepoPath
@@ -210,14 +217,7 @@ if (Test-Path $specCloneDir.Path) {
 
 Write-Host "##[endgroup]"
 
-if ($specSubDirectory) {
-  $isManagementSdk = $specSubDirectory.Contains("/resource-manager/") -or $specSubDirectory.Contains(".Management")
-  if($isManagementSdk -eq $false) {
-    Write-Host "This is not a management SDK, skipping TypeSpec project sync." -ForegroundColor Yellow
-    exit 1
-  }
-}
- # Look for tspconfig.yaml and main.tsp
+# Look for tspconfig.yaml and main.tsp
 $sourcePath = Join-Path $specCloneDir.Path $specSubDirectory
 $tspConfigPath = Join-Path $sourcePath "tspconfig.yaml"
 $mainTspPath = Join-Path $sourcePath "main.tsp"
