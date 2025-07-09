@@ -1,7 +1,11 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { createBicep, BicepContext, BicepClientOptionalParams } from "./api/index.js";
+import {
+  createBicep,
+  BicepContext,
+  BicepClientOptionalParams,
+} from "./api/index.js";
 import {
   DecompileOperationGroupOperations,
   _getDecompileOperationGroupOperations,
@@ -31,7 +35,9 @@ export class BicepClient {
       userAgentOptions: { userAgentPrefix },
     });
     this.pipeline = this._client.pipeline;
-    this.decompileOperationGroup = _getDecompileOperationGroupOperations(this._client);
+    this.decompileOperationGroup = _getDecompileOperationGroupOperations(
+      this._client,
+    );
   }
 
   /** The operation groups for decompileOperationGroup */

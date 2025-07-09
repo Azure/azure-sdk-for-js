@@ -53,13 +53,15 @@ export function _listSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).get({
-    ...operationOptionsToRequestParameters(options),
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
-  });
+  return context
+    .path(path)
+    .get({
+      ...operationOptionsToRequestParameters(options),
+      headers: {
+        accept: "application/json",
+        ...options.requestOptions?.headers,
+      },
+    });
 }
 
 export async function _listDeserialize(
@@ -86,7 +88,15 @@ export function list(
 ): PagedAsyncIterableIterator<NeonRole> {
   return buildPagedAsyncIterator(
     context,
-    () => _listSend(context, resourceGroupName, organizationName, projectName, branchName, options),
+    () =>
+      _listSend(
+        context,
+        resourceGroupName,
+        organizationName,
+        projectName,
+        branchName,
+        options,
+      ),
     _listDeserialize,
     ["200"],
     { itemName: "value", nextLinkName: "nextLink" },
@@ -117,16 +127,20 @@ export function _$deleteSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).delete({
-    ...operationOptionsToRequestParameters(options),
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
-  });
+  return context
+    .path(path)
+    .delete({
+      ...operationOptionsToRequestParameters(options),
+      headers: {
+        accept: "application/json",
+        ...options.requestOptions?.headers,
+      },
+    });
 }
 
-export async function _$deleteDeserialize(result: PathUncheckedResponse): Promise<void> {
+export async function _$deleteDeserialize(
+  result: PathUncheckedResponse,
+): Promise<void> {
   const expectedStatuses = ["200", "204"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
@@ -189,18 +203,22 @@ export function _updateSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).patch({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
-    body: neonRoleSerializer(properties),
-  });
+  return context
+    .path(path)
+    .patch({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      headers: {
+        accept: "application/json",
+        ...options.requestOptions?.headers,
+      },
+      body: neonRoleSerializer(properties),
+    });
 }
 
-export async function _updateDeserialize(result: PathUncheckedResponse): Promise<NeonRole> {
+export async function _updateDeserialize(
+  result: PathUncheckedResponse,
+): Promise<NeonRole> {
   const expectedStatuses = ["200", "202"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
@@ -265,19 +283,23 @@ export function _createOrUpdateSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).put({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
-    body: neonRoleSerializer(resource),
-  });
+  return context
+    .path(path)
+    .put({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      headers: {
+        accept: "application/json",
+        ...options.requestOptions?.headers,
+      },
+      body: neonRoleSerializer(resource),
+    });
 }
 
-export async function _createOrUpdateDeserialize(result: PathUncheckedResponse): Promise<NeonRole> {
-  const expectedStatuses = ["200", "201"];
+export async function _createOrUpdateDeserialize(
+  result: PathUncheckedResponse,
+): Promise<NeonRole> {
+  const expectedStatuses = ["200", "201", "202"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = errorResponseDeserializer(result.body);
@@ -298,22 +320,27 @@ export function createOrUpdate(
   resource: NeonRole,
   options: NeonRolesCreateOrUpdateOptionalParams = { requestOptions: {} },
 ): PollerLike<OperationState<NeonRole>, NeonRole> {
-  return getLongRunningPoller(context, _createOrUpdateDeserialize, ["200", "201"], {
-    updateIntervalInMs: options?.updateIntervalInMs,
-    abortSignal: options?.abortSignal,
-    getInitialResponse: () =>
-      _createOrUpdateSend(
-        context,
-        resourceGroupName,
-        organizationName,
-        projectName,
-        branchName,
-        neonRoleName,
-        resource,
-        options,
-      ),
-    resourceLocationConfig: "azure-async-operation",
-  }) as PollerLike<OperationState<NeonRole>, NeonRole>;
+  return getLongRunningPoller(
+    context,
+    _createOrUpdateDeserialize,
+    ["200", "201", "202"],
+    {
+      updateIntervalInMs: options?.updateIntervalInMs,
+      abortSignal: options?.abortSignal,
+      getInitialResponse: () =>
+        _createOrUpdateSend(
+          context,
+          resourceGroupName,
+          organizationName,
+          projectName,
+          branchName,
+          neonRoleName,
+          resource,
+          options,
+        ),
+      resourceLocationConfig: "azure-async-operation",
+    },
+  ) as PollerLike<OperationState<NeonRole>, NeonRole>;
 }
 
 export function _getSend(
@@ -340,16 +367,20 @@ export function _getSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).get({
-    ...operationOptionsToRequestParameters(options),
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
-  });
+  return context
+    .path(path)
+    .get({
+      ...operationOptionsToRequestParameters(options),
+      headers: {
+        accept: "application/json",
+        ...options.requestOptions?.headers,
+      },
+    });
 }
 
-export async function _getDeserialize(result: PathUncheckedResponse): Promise<NeonRole> {
+export async function _getDeserialize(
+  result: PathUncheckedResponse,
+): Promise<NeonRole> {
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);

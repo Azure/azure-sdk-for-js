@@ -2,14 +2,14 @@
 // Licensed under the MIT License.
 
 export {
-  listManagedProxyDetails,
-  listIngressGatewayCredentials,
-  listCredentials,
-  list,
-  $delete,
-  update,
-  createOrUpdate,
-  get,
+  endpointsListManagedProxyDetails,
+  endpointsListIngressGatewayCredentials,
+  endpointsListCredentials,
+  endpointsList,
+  endpointsDelete,
+  endpointsUpdate,
+  endpointsCreateOrUpdate,
+  endpointsGet,
 } from "./operations.js";
 export {
   EndpointsListManagedProxyDetailsOptionalParams,

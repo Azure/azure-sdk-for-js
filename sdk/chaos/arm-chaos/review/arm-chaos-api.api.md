@@ -13,13 +13,13 @@ export interface ChaosManagementClientOptionalParams extends ClientOptions {
     apiVersion?: string;
 }
 
-// @public (undocumented)
+// @public
 export interface ChaosManagementContext extends Client {
     apiVersion: string;
     subscriptionId: string;
 }
 
-// @public (undocumented)
+// @public
 export function createChaosManagement(credential: TokenCredential, subscriptionId: string, options?: ChaosManagementClientOptionalParams): ChaosManagementContext;
 
 // (No @packageDocumentation comment for this package)

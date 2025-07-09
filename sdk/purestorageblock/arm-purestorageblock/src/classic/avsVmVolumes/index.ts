@@ -9,7 +9,12 @@ import {
   AvsVmVolumesGetOptionalParams,
   AvsVmVolumesUpdateOptionalParams,
 } from "../../api/avsVmVolumes/options.js";
-import { listByAvsVm, $delete, get, update } from "../../api/avsVmVolumes/operations.js";
+import {
+  listByAvsVm,
+  $delete,
+  get,
+  update,
+} from "../../api/avsVmVolumes/operations.js";
 import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 import { PollerLike, OperationState } from "@azure/core-lro";
 
@@ -61,21 +66,44 @@ function _getAvsVmVolumes(context: BlockContext) {
       storagePoolName: string,
       avsVmId: string,
       options?: AvsVmVolumesListByAvsVmOptionalParams,
-    ) => listByAvsVm(context, resourceGroupName, storagePoolName, avsVmId, options),
+    ) =>
+      listByAvsVm(
+        context,
+        resourceGroupName,
+        storagePoolName,
+        avsVmId,
+        options,
+      ),
     delete: (
       resourceGroupName: string,
       storagePoolName: string,
       avsVmId: string,
       volumeId: string,
       options?: AvsVmVolumesDeleteOptionalParams,
-    ) => $delete(context, resourceGroupName, storagePoolName, avsVmId, volumeId, options),
+    ) =>
+      $delete(
+        context,
+        resourceGroupName,
+        storagePoolName,
+        avsVmId,
+        volumeId,
+        options,
+      ),
     get: (
       resourceGroupName: string,
       storagePoolName: string,
       avsVmId: string,
       volumeId: string,
       options?: AvsVmVolumesGetOptionalParams,
-    ) => get(context, resourceGroupName, storagePoolName, avsVmId, volumeId, options),
+    ) =>
+      get(
+        context,
+        resourceGroupName,
+        storagePoolName,
+        avsVmId,
+        volumeId,
+        options,
+      ),
     update: (
       resourceGroupName: string,
       storagePoolName: string,
@@ -84,11 +112,21 @@ function _getAvsVmVolumes(context: BlockContext) {
       properties: AvsVmVolumeUpdate,
       options?: AvsVmVolumesUpdateOptionalParams,
     ) =>
-      update(context, resourceGroupName, storagePoolName, avsVmId, volumeId, properties, options),
+      update(
+        context,
+        resourceGroupName,
+        storagePoolName,
+        avsVmId,
+        volumeId,
+        properties,
+        options,
+      ),
   };
 }
 
-export function _getAvsVmVolumesOperations(context: BlockContext): AvsVmVolumesOperations {
+export function _getAvsVmVolumesOperations(
+  context: BlockContext,
+): AvsVmVolumesOperations {
   return {
     ..._getAvsVmVolumes(context),
   };

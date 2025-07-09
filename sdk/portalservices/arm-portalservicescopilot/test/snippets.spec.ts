@@ -2,7 +2,10 @@
 // Licensed under the MIT License.
 
 import { PortalServicesClient } from "../src/index.js";
-import { DefaultAzureCredential, InteractiveBrowserCredential } from "@azure/identity";
+import {
+  DefaultAzureCredential,
+  InteractiveBrowserCredential,
+} from "@azure/identity";
 import { setLogLevel } from "@azure/logger";
 import { describe, it } from "vitest";
 
