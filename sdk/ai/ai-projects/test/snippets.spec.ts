@@ -2,6 +2,7 @@
 // Licensed under the MIT License.
 
 import type { VitestTestContext } from "@azure-tools/test-recorder";
+import ModelClient from "@azure-rest/ai-inference";
 import { AIProjectClient, DatasetVersion } from "../src/index.js";
 import type {
   AzureAISearchIndex,
@@ -55,7 +56,14 @@ describe("snippets", function () {
   });
 
   it("chatCompletions", async function () {
-    const client = project.inference.chatCompletions();
+    const parsedUrl = new URL(endpoint);
+    const inferenceEndpoint = `https://${parsedUrl.hostname}/models`;
+    const modelClient = ModelClient(inferenceEndpoint, new DefaultAzureCredential(), {
+      credentials: {
+        scopes: ["https://cognitiveservices.azure.com/.default"],
+      },
+    });
+    const client = modelClient.path("/chat/completions");
     const response = await client.post({
       body: {
         model: deploymentName,

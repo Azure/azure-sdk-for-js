@@ -128,6 +128,8 @@ Here we assume `deploymentName` (str) is defined. It's the deployment name of an
 
 ```ts snippet:chatCompletions
 import ModelClient from "@azure-rest/ai-inference";
+import { DefaultAzureCredential } from "@azure/identity";
+
 const parsedUrl = new URL(endpoint);
 const inferenceEndpoint = `https://${parsedUrl.hostname}/models`;
 const modelClient = ModelClient(inferenceEndpoint, new DefaultAzureCredential(), {
