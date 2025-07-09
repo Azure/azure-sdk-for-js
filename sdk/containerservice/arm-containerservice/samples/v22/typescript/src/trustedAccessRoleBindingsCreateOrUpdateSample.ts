@@ -6,8 +6,9 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
+import type {
+  TrustedAccessRoleBinding} from "@azure/arm-containerservice";
 import {
-  TrustedAccessRoleBinding,
   ContainerServiceClient,
 } from "@azure/arm-containerservice";
 import { DefaultAzureCredential } from "@azure/identity";
@@ -17,7 +18,7 @@ import "dotenv/config";
  * This sample demonstrates how to Create or update a trusted access role binding
  *
  * @summary Create or update a trusted access role binding
- * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/aks/stable/2025-03-01/examples/TrustedAccessRoleBindings_CreateOrUpdate.json
+ * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/aks/stable/2025-04-01/examples/TrustedAccessRoleBindings_CreateOrUpdate.json
  */
 async function createOrUpdateATrustedAccessRoleBinding(): Promise<void> {
   const subscriptionId =

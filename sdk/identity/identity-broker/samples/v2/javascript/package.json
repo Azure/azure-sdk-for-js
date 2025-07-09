@@ -29,7 +29,7 @@
     "@azure/identity-broker": "./azure-identity-broker-1.1.0-beta.1.tgz",
     "dotenv": "latest",
     "@azure/identity": "./azure-identity-4.5.0-beta.3",
-    "electron": "^27.0.0",
+    "electron": "^37.0.0",
     "@azure/logger": "^1.0.4",
     "@azure/abort-controller": "2.1.2",
     "@azure/core-client": "1.9.2",
