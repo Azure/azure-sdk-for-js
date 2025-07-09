@@ -18,7 +18,7 @@ const MIN_DELAY_FOR_410_MS = 3000;
 
 /**
  * An additional policy that retries on 404 and 410 errors. The default retry policy does not retry on
- * 404s or 410s, but the IMDS endpoint can return these when the token is not yet available or when 
+ * 404s or 410s, but the IMDS endpoint can return these when the token is not yet available or when
  * the identity is still being set up. This policy will retry on 404s and 410s with an exponential backoff.
  * For 410 responses, it uses a minimum 3-second initial delay to ensure at least 70 seconds total duration.
  *
@@ -36,9 +36,10 @@ export function imdsRetryPolicy(msiRetryConfig: MSIConfiguration["retryConfig"])
           }
 
           // For 410 responses, use a minimum 3-second delay to ensure at least 70 seconds total retry duration
-          const initialDelayMs = response?.status === 410 
-            ? Math.max(MIN_DELAY_FOR_410_MS, msiRetryConfig.startDelayInMs)
-            : msiRetryConfig.startDelayInMs;
+          const initialDelayMs =
+            response?.status === 410
+              ? Math.max(MIN_DELAY_FOR_410_MS, msiRetryConfig.startDelayInMs)
+              : msiRetryConfig.startDelayInMs;
 
           return calculateRetryDelay(retryCount, {
             retryDelayInMs: initialDelayMs,

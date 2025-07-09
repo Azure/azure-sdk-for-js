@@ -135,7 +135,7 @@ describe("imdsRetryPolicy", () => {
 
     const policy = imdsRetryPolicy(configWithSmallDelay);
     const pipelineRequest: PipelineRequest = {
-      url: "https://example.com", 
+      url: "https://example.com",
       method: "GET",
       headers: createHttpHeaders(),
       timeout: 100,
@@ -177,7 +177,7 @@ describe("imdsRetryPolicy", () => {
 
     const policy = imdsRetryPolicy(configWithSmallDelay);
     const pipelineRequest: PipelineRequest = {
-      url: "https://example.com", 
+      url: "https://example.com",
       method: "GET",
       headers: createHttpHeaders(),
       timeout: 100,
@@ -205,7 +205,7 @@ describe("imdsRetryPolicy", () => {
       // Expected to fail after retries
     }
 
-    // Should retry once (total attempts = maxRetries + 1) 
+    // Should retry once (total attempts = maxRetries + 1)
     assert.strictEqual(sendRequestCount, configWithSmallDelay.maxRetries + 1);
   });
 
@@ -213,7 +213,7 @@ describe("imdsRetryPolicy", () => {
     const policy = imdsRetryPolicy(mockRetryConfig);
     const pipelineRequest: PipelineRequest = {
       url: "https://example.com",
-      method: "GET", 
+      method: "GET",
       headers: createHttpHeaders(),
       timeout: 100,
       requestId: "test",
@@ -234,7 +234,9 @@ describe("imdsRetryPolicy", () => {
       throw new RestError("Internal Server Error", { statusCode: 500, request, response });
     };
 
-    await expect(policy.sendRequest(pipelineRequest, sendRequest)).rejects.toThrow("Internal Server Error");
+    await expect(policy.sendRequest(pipelineRequest, sendRequest)).rejects.toThrow(
+      "Internal Server Error",
+    );
     assert.strictEqual(sendRequestCount, 1); // Should not retry
   });
 });
