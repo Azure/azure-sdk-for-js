@@ -5,7 +5,7 @@ import type { Recorder, VitestTestContext } from "@azure-tools/test-recorder";
 import { assertEnvironmentVariable } from "@azure-tools/test-recorder";
 import { createRecorder, createProjectsClient } from "../../utils/createClient.js";
 import { assert, beforeEach, afterEach, it, describe } from "vitest";
-import * as path from "path";
+import path from "node:path";
 import { fileURLToPath } from "url";
 import type {
   AIProjectClient,
