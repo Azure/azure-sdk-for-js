@@ -57,7 +57,9 @@ export interface MongoClustersOperations {
     options?: MongoClustersListConnectionStringsOptionalParams,
   ) => Promise<ListConnectionStringsResult>;
   /** List all the mongo clusters in a given subscription. */
-  list: (options?: MongoClustersListOptionalParams) => PagedAsyncIterableIterator<MongoCluster>;
+  list: (
+    options?: MongoClustersListOptionalParams,
+  ) => PagedAsyncIterableIterator<MongoCluster>;
   /** List all the mongo clusters in a given resource group. */
   listByResourceGroup: (
     resourceGroupName: string,
@@ -113,7 +115,13 @@ function _getMongoClusters(context: MongoClusterManagementContext) {
       resourceGroupName: string,
       mongoClusterName: string,
       options?: MongoClustersListConnectionStringsOptionalParams,
-    ) => listConnectionStrings(context, resourceGroupName, mongoClusterName, options),
+    ) =>
+      listConnectionStrings(
+        context,
+        resourceGroupName,
+        mongoClusterName,
+        options,
+      ),
     list: (options?: MongoClustersListOptionalParams) => list(context, options),
     listByResourceGroup: (
       resourceGroupName: string,
@@ -129,13 +137,21 @@ function _getMongoClusters(context: MongoClusterManagementContext) {
       mongoClusterName: string,
       properties: MongoClusterUpdate,
       options?: MongoClustersUpdateOptionalParams,
-    ) => update(context, resourceGroupName, mongoClusterName, properties, options),
+    ) =>
+      update(context, resourceGroupName, mongoClusterName, properties, options),
     createOrUpdate: (
       resourceGroupName: string,
       mongoClusterName: string,
       resource: MongoCluster,
       options?: MongoClustersCreateOrUpdateOptionalParams,
-    ) => createOrUpdate(context, resourceGroupName, mongoClusterName, resource, options),
+    ) =>
+      createOrUpdate(
+        context,
+        resourceGroupName,
+        mongoClusterName,
+        resource,
+        options,
+      ),
     get: (
       resourceGroupName: string,
       mongoClusterName: string,

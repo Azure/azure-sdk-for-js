@@ -4,7 +4,8 @@
 import { OperationOptions } from "@azure-rest/core-client";
 
 /** Optional parameters. */
-export interface ProjectsGetConnectionUriOptionalParams extends OperationOptions {}
+export interface ProjectsGetConnectionUriOptionalParams
+  extends OperationOptions {}
 
 /** Optional parameters. */
 export interface ProjectsListOptionalParams extends OperationOptions {}

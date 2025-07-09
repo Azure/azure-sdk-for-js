@@ -7,7 +7,10 @@ import {
   OperatorApiPlansListBySubscriptionOptionalParams,
   OperatorApiPlansGetOptionalParams,
 } from "../../api/operatorApiPlans/options.js";
-import { listBySubscription, get } from "../../api/operatorApiPlans/operations.js";
+import {
+  listBySubscription,
+  get,
+} from "../../api/operatorApiPlans/operations.js";
 import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 
 /** Interface representing a OperatorApiPlans operations. */
@@ -25,10 +28,13 @@ export interface OperatorApiPlansOperations {
 
 function _getOperatorApiPlans(context: ProgrammableConnectivityContext) {
   return {
-    listBySubscription: (options?: OperatorApiPlansListBySubscriptionOptionalParams) =>
-      listBySubscription(context, options),
-    get: (operatorApiPlanName: string, options?: OperatorApiPlansGetOptionalParams) =>
-      get(context, operatorApiPlanName, options),
+    listBySubscription: (
+      options?: OperatorApiPlansListBySubscriptionOptionalParams,
+    ) => listBySubscription(context, options),
+    get: (
+      operatorApiPlanName: string,
+      options?: OperatorApiPlansGetOptionalParams,
+    ) => get(context, operatorApiPlanName, options),
   };
 }
 

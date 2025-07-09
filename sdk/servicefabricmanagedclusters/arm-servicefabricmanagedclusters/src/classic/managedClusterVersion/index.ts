@@ -47,7 +47,9 @@ export interface ManagedClusterVersionOperations {
   ) => Promise<ManagedClusterCodeVersionResult>;
 }
 
-function _getManagedClusterVersion(context: ServiceFabricManagedClustersManagementContext) {
+function _getManagedClusterVersion(
+  context: ServiceFabricManagedClustersManagementContext,
+) {
   return {
     listByEnvironment: (
       location: string,
@@ -59,9 +61,12 @@ function _getManagedClusterVersion(context: ServiceFabricManagedClustersManageme
       environment: ManagedClusterVersionEnvironment,
       clusterVersion: string,
       options?: ManagedClusterVersionGetByEnvironmentOptionalParams,
-    ) => getByEnvironment(context, location, environment, clusterVersion, options),
-    list: (location: string, options?: ManagedClusterVersionListOptionalParams) =>
-      list(context, location, options),
+    ) =>
+      getByEnvironment(context, location, environment, clusterVersion, options),
+    list: (
+      location: string,
+      options?: ManagedClusterVersionListOptionalParams,
+    ) => list(context, location, options),
     get: (
       location: string,
       clusterVersion: string,
