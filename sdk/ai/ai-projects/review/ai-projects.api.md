@@ -21,7 +21,6 @@ export class AIProjectClient {
     static fromEndpoint(endpoint: string, credential: TokenCredential, options?: AIProjectClientOptionalParams): AIProjectClient;
     getEndpointUrl(): string;
     readonly indexes: IndexesOperations;
-    // Warning: (ae-forgotten-export) The symbol "InferenceOperations" needs to be exported by the entry point index.d.ts
     readonly inference: InferenceOperations;
     readonly pipeline: Pipeline;
     readonly telemetry: TelemetryOperations;
@@ -49,6 +48,14 @@ export interface AzureAISearchIndex extends Index {
     fieldMapping?: FieldMapping;
     indexName: string;
     type: "AzureSearch";
+}
+
+// @public
+export interface AzureOpenAIClientOptions {
+    apiVersion?: string;
+    connectionName?: string;
+    connectionOptions?: ConnectionsGetOptionalParams;
+    connectionSecretOptions?: ConnectionsGetWithCredentialsOptionalParams;
 }
 
 // @public
@@ -301,6 +308,11 @@ export type IndexType = "AzureSearch" | "CosmosDBNoSqlVectorStore" | "ManagedAzu
 
 // @public
 export type IndexUnion = AzureAISearchIndex | ManagedAzureAISearchIndex | CosmosDBIndex | Index;
+
+// @public
+export interface InferenceOperations {
+    azureOpenAI: (options?: AzureOpenAIClientOptions) => Promise<AzureOpenAI>;
+}
 
 // @public
 export enum KnownVersions {
