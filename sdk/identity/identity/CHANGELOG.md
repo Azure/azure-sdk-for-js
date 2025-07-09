@@ -5,6 +5,7 @@
 ### Features Added
 
 - Added support to specify `subscription` ID or name on `AzureCliCredential` error message. [#34801](https://github.com/Azure/azure-sdk-for-js/pull/34801)
+- Added HTTP 410 status code handling to `ManagedIdentityCredential` retry policy with minimum 70-second total retry duration to meet Azure IMDS service requirements. [#34961](https://github.com/Azure/azure-sdk-for-js/issues/34961)
 
 ### Breaking Changes
 
