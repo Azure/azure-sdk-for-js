@@ -57,8 +57,6 @@ import { AssertionError } from "assertion-error";
 const defaultRoutingGatewayPort: string = ":8081";
 const defaultComputeGatewayPort: string = ":8903";
 
-export const skipTestForSignOff: boolean = process.env.SKIP_COMPUTE_GATEWAY_TESTS === "true";
-
 export function getDefaultClient(): CosmosClient {
   return new CosmosClient({
     endpoint,
@@ -324,6 +322,8 @@ function validateLocationEndpointsContactedForDiagnostics(
       diagnostics.clientSideRequestStatistics.locationEndpointsContacted,
       "In CosmosDiagnostics, locationEndpointsContacted should have existed.",
     ).to.exist;
+    // This check is only reliable for emulator (always contacts only 1 endpoint).
+    // For staging/prod accounts with multiple regions, the number of endpoints contacted will vary.
     if (endpoint.includes("https://localhost")) {
       expect(
         diagnostics.clientSideRequestStatistics.locationEndpointsContacted.length,

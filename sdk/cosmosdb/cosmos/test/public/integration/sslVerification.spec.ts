@@ -2,7 +2,8 @@
 // Licensed under the MIT License.
 
 import { CosmosClient } from "../../../src/index.js";
-import { getTestDatabase, skipTestForSignOff } from "../common/TestHelpers.js";
+import { skipTestForSignOff } from "../common/_testConfig.js";
+import { getTestDatabase } from "../common/TestHelpers.js";
 import https from "node:https";
 import { describe, it, assert } from "vitest";
 

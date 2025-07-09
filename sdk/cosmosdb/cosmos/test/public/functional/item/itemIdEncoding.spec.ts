@@ -2,12 +2,12 @@
 // Licensed under the MIT License.
 
 import type { Container, CosmosClient } from "../../../../src/index.js";
+import { skipTestForSignOff } from "../../common/_testConfig.js";
 import {
   getTestContainer,
   removeAllDatabases,
   getDefaultClient,
   getDefaultComputeGatewayClient,
-  skipTestForSignOff,
 } from "../../common/TestHelpers.js";
 import { describe, it, assert, beforeEach } from "vitest";
 

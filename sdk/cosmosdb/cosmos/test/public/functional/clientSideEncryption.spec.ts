@@ -31,7 +31,7 @@ import {
   PermissionMode,
 } from "../../../src/index.js";
 import { masterKey } from "../common/_fakeTestSecrets.js";
-import { endpoint } from "../common/_testConfig.js";
+import { endpoint, skipTestForSignOff } from "../common/_testConfig.js";
 import {
   compareMetadata,
   MockKeyVaultEncryptionKeyResolver,
@@ -52,7 +52,6 @@ import { removeAllDatabases } from "../common/TestHelpers.js";
 import type { CosmosEncryptedNumber } from "../../../src/encryption/CosmosEncryptedNumber.js";
 import { CosmosEncryptedNumberType } from "../../../src/encryption/CosmosEncryptedNumber.js";
 import { describe, it, assert, beforeEach, beforeAll, afterAll } from "vitest";
-import { skipTestForSignOff } from "../common/TestHelpers.js";
 
 let encryptionClient: CosmosClient;
 let metadata1: EncryptionKeyWrapMetadata;

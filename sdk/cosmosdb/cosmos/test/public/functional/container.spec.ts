@@ -20,11 +20,11 @@ import {
   assertThrowsAsync,
   addEntropy,
   testForDiagnostics,
-  skipTestForSignOff,
 } from "../common/TestHelpers.js";
 import { SpatialType } from "../../../src/index.js";
 import { GeospatialType } from "../../../src/index.js";
 import { describe, it, assert, beforeEach, beforeAll } from "vitest";
+import { skipTestForSignOff } from "../common/_testConfig.js";
 
 describe("Containers", { timeout: 10000 }, () => {
   beforeEach(async () => {

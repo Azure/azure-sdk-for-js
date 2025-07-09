@@ -17,12 +17,12 @@ import {
   changeFeedAllVersionsInsertItems,
   changeFeedAllVersionsUpsertItems,
   changeFeedAllVersionsDeleteItems,
-  skipTestForSignOff,
 } from "../common/TestHelpers.js";
 import { FeedRangeInternal } from "../../../src/client/ChangeFeed/FeedRange.js";
 import { getCurrentTimestampInMs } from "../../../src/utils/time.js";
 import { StatusCodes } from "../../../src/common/statusCodes.js";
 import { describe, it, assert, beforeAll, afterAll } from "vitest";
+import { skipTestForSignOff } from "../common/_testConfig.js";
 
 describe("Change Feed Iterator", { timeout: 20000 }, () => {
   // delete all databases and create sample database
