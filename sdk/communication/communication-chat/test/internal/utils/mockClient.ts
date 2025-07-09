@@ -9,6 +9,8 @@ import type { ChatParticipant } from "../../../src/index.js";
 import { ChatClient, ChatThreadClient } from "../../../src/index.js";
 import type { CommunicationIdentifierModel } from "../../../src/generated/src/index.js";
 import { baseUri, generateToken } from "../../public/utils/connectionUtils.js";
+import type { SignalingClient } from "@azure/communication-signaling";
+import { EventEmitter } from "events";
 
 export const mockCommunicationIdentifier: CommunicationIdentifierModel = {
   communicationUser: { id: "id" },
@@ -149,4 +151,30 @@ export const createChatThreadClient = (
       httpClient: mockHttpClient,
     },
   );
+};
+
+// Mock SignalingClient for Node.js testing
+class MockSignalingClient extends EventEmitter implements SignalingClient {
+  public start(): Promise<void> {
+    return Promise.resolve();
+  }
+
+  public stop(): Promise<void> {
+    return Promise.resolve();
+  }
+
+  public dispose(): void {
+    // Mock implementation
+  }
+}
+
+export const createChatClientWithSignaling = (mockHttpClient: HttpClient): ChatClient => {
+  const client = new ChatClient(baseUri, new AzureCommunicationTokenCredential(generateToken()), {
+    httpClient: mockHttpClient,
+  });
+  
+  // Inject mock signaling client for testing purposes
+  (client as any).signalingClient = new MockSignalingClient();
+  
+  return client;
 };
