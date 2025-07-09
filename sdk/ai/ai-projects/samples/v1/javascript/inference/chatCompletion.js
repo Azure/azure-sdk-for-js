@@ -7,20 +7,24 @@
  * Get the chat completions for the provided chat messages.
  */
 
-const { AIProjectClient } = require("@azure/ai-projects");
-const { isUnexpected } = require("@azure/ai-projects/inference");
 const { DefaultAzureCredential } = require("@azure/identity");
 const { createRestError } = require("@azure-rest/core-client");
+const ModelClient = require("@azure-rest/ai-inference").default,
+  { isUnexpected } = require("@azure-rest/ai-inference");
 require("dotenv/config");
 
 const endpoint = process.env["AZURE_AI_PROJECT_ENDPOINT_STRING"] || "<project endpoint string>";
 const deploymentName = process.env["DEPLOYMENT_NAME"] || "<deployment name>";
 
 async function main() {
-  const project = new AIProjectClient(endpoint, new DefaultAzureCredential({}));
-  const client = project.inference.chatCompletions({
-    apiVersion: "2024-05-01-preview",
+  const parsedUrl = new URL(endpoint);
+  const inferenceEndpoint = `https://${parsedUrl.hostname}/models`;
+  const modelClient = ModelClient(inferenceEndpoint, new DefaultAzureCredential(), {
+    credentials: {
+      scopes: ["https://cognitiveservices.azure.com/.default"],
+    },
   });
+  const client = modelClient.path("/chat/completions");
   const response = await client.post({
     body: {
       model: deploymentName,

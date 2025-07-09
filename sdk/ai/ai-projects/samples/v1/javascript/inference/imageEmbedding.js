@@ -7,10 +7,10 @@
  * Get the image embeddings for a given image.
  */
 const path = require("path");
-const fs = require("fs");
+const { readFile } = require("node:fs/promises");
 const { fileURLToPath } = require("url");
-const { AIProjectClient } = require("@azure/ai-projects");
-const { isUnexpected } = require("@azure/ai-projects/inference");
+const ModelClient = require("@azure-rest/ai-inference").default,
+  { isUnexpected } = require("@azure-rest/ai-inference");
 const { DefaultAzureCredential } = require("@azure/identity");
 require("dotenv/config");
 
@@ -20,15 +20,20 @@ const __dirname = path.dirname(__filename);
 const endpoint = process.env["AZURE_AI_PROJECT_ENDPOINT_STRING"] || "<project endpoint string>";
 const deploymentName =
   process.env["IMAGE_EMBEDDING_DEPLOYMENT_NAME"] || "<embedding deployment name>";
+
 async function main() {
-  const project = new AIProjectClient(endpoint, new DefaultAzureCredential(), {
-    apiVersion: "2024-05-01-preview",
+  const parsedUrl = new URL(endpoint);
+  const inferenceEndpoint = `https://${parsedUrl.hostname}/models`;
+  const modelClient = ModelClient(inferenceEndpoint, new DefaultAzureCredential(), {
+    credentials: {
+      scopes: ["https://cognitiveservices.azure.com/.default"],
+    },
   });
-  const client = project.inference.imageEmbeddings();
+  const client = modelClient.path("/images/embeddings");
   const imagePath = path.resolve(__dirname, "sample1.png");
   const ext = path.extname(imagePath).slice(1); // e.g., 'png', 'jpg', 'jpeg'
   const mineType = `image/${ext === "jpg" ? "jpeg" : ext}`;
-  const imageBuffer = fs.readFileSync(imagePath);
+  const imageBuffer = await readFile(imagePath);
   // base64 url encoded image
   const base64Data = imageBuffer.toString("base64");
   const imageUrl = `data:${mineType};base64,${base64Data}`;

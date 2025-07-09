@@ -11,7 +11,6 @@ Use it to:
 - **Create and enumerate Search Indexes** using the `.indexes` operations.
 - **Get an Azure AI Inference client** for chat completions, text or image embeddings using the `.inference` operations.
 - **Read a Prompty file or string** and render messages for inference clients, using the `PromptTemplate` class.
-- **Run Evaluations** to assess the performance of generative AI applications, using the `evaluations` operations.
 - **Enable OpenTelemetry tracing** using the `enable_telemetry` function.
 
 [Product documentation](https://aka.ms/azsdk/azure-ai-projects/product-doc)
@@ -36,10 +35,6 @@ Use it to:
   - [Connections operations](#connections-operations)
   - [Dataset operations](#dataset-operations)
   - [Indexes operations](#indexes-operations)
-  - [Evaluation](#evaluation)
-    - [Evaluator](#evaluator)
-    - [Run Evaluation in the cloud](#run-evaluation-in-the-cloud)
-    - [Example Remote Evaluation](#example-remote-evaluation)
 - [Troubleshooting](#troubleshooting)
   - [Exceptions](#exceptions)
   - [Reporting issues](#reporting-issues)
@@ -359,109 +354,6 @@ console.log("Delete the Index versions created above:");
 await project.indexes.delete(indexName, version);
 ```
 
-### Evaluation
-
-Evaluation in Azure AI Project client library is designed to assess the performance of generative AI applications in the cloud. The output of Generative AI application is quantitively measured with mathematical based metrics, AI-assisted quality and safety metrics. Metrics are defined as evaluators. Built-in or custom evaluators can provide comprehensive insights into the application's capabilities and limitations.
-
-#### Evaluator
-
-Evaluators are custom or prebuilt classes or functions that are designed to measure the quality of the outputs from language models or generative AI applications.
-
-Evaluators are made available via [azure-ai-evaluation][azure_ai_evaluation] SDK for local experience and also in [Evaluator Library][evaluator_library] in Azure AI Foundry for using them in the cloud.
-
-More details on built-in and custom evaluators can be found [here][evaluators].
-
-#### Run Evaluation in the cloud
-
-To run evaluation in the cloud the following are needed:
-
-- Evaluators
-- Data to be evaluated
-- [Optional] Azure Open AI model.
-
-##### Evaluators
-
-For running evaluator in the cloud, evaluator `ID` is needed. To get it via code you use [azure-ai-evaluation][azure_ai_evaluation]
-
-```ts snippet:datasetUpload
-import { DatasetVersion } from "@azure/ai-projects";
-
-const dataset: DatasetVersion = await project.datasets.uploadFile(
-  "jss-eval-sample-dataset",
-  "1",
-  "./samples_folder/sample_data_evaluation.jsonl",
-);
-```
-
-##### Data to be evaluated
-
-Evaluation in the cloud supports data in form of `jsonl` file. Data can be uploaded via the helper method `upload_file` on the project client.
-
-```ts snippet:datasetUpload
-import { DatasetVersion } from "@azure/ai-projects";
-
-const dataset: DatasetVersion = await project.datasets.uploadFile(
-  "jss-eval-sample-dataset",
-  "1",
-  "./samples_folder/sample_data_evaluation.jsonl",
-);
-```
-
-##### [Optional] Azure OpenAI Model
-
-Azure AI Foundry project comes with a default Azure Open AI endpoint which can be easily accessed using following code. This gives you the endpoint details for you Azure OpenAI endpoint. Some of the evaluators need model that supports chat completion.
-
-```ts snippet:getDefault
-const defaultConnection = await project.connections.getDefault("AzureOpenAI");
-```
-
-##### Example Remote Evaluation
-
-```ts snippet:evaluations
-import { EvaluationWithOptionalName, EvaluatorIds, Evaluation } from "@azure/ai-projects";
-
-const newEvaluation: EvaluationWithOptionalName = {
-  displayName: "Evaluation 1",
-  description: "This is a test evaluation",
-  data: {
-    type: "dataset",
-    id: "data-id", // dataset.name
-  },
-  evaluators: {
-    relevance: {
-      id: EvaluatorIds.RELEVANCE,
-      initParams: {
-        deploymentName: "gpt-4o-mini",
-      },
-      dataMapping: {
-        query: "${data.query}",
-        response: "${data.response}",
-      },
-    },
-  },
-};
-const evalResp = await project.evaluations.create(newEvaluation);
-console.log("Create a new evaluation:", JSON.stringify(evalResp, null, 2));
-// get the evaluation by ID
-const eval2 = await project.evaluations.get(evalResp.name);
-console.log("Get the evaluation by ID:", eval2);
-
-const evaluations: Evaluation[] = [];
-const evaluationNames: string[] = [];
-for await (const evaluation of project.evaluations.list()) {
-  evaluations.push(evaluation);
-  evaluationNames.push(evaluation.displayName ?? "");
-}
-console.log("List of evaluation display names:", evaluationNames);
-
-// This is temporary, as interface recommend the name of the evaluation
-const name = evaluations[0].name;
-const evaluation = await project.evaluations.get(name);
-console.log("Get an evaluation by ID:", JSON.stringify(evaluation, null, 2));
-```
-
-NOTE: For running evaluators locally refer to [Evaluate with the Azure AI Evaluation SDK][evaluators].
-
 ## Troubleshooting
 
 ### Exceptions
@@ -523,7 +415,6 @@ additional questions or comments.
 [azure_sub]: https://azure.microsoft.com/free/
 [evaluators]: https://learn.microsoft.com/azure/ai-studio/how-to/develop/evaluate-sdk
 [evaluator_library]: https://learn.microsoft.com/azure/ai-studio/how-to/evaluate-generative-ai-app#view-and-manage-the-evaluators-in-the-evaluator-library
-[azure_ai_evaluation]: https://learn.microsoft.com/javascript/api/overview/azure/ai-projects-readme
 [ai_foundry_data_plane_rest_apis]: https://learn.microsoft.com/rest/api/aifoundry/aiprojects/operation-groups?view=rest-aifoundry-aiprojects-2025-05-15-preview
 [ai_project_client_endpoint]: https://learn.microsoft.com/azure/ai-foundry/how-to/develop/sdk-overview?tabs=sync&pivots=programming-language-javascript
 [samples]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/ai/ai-projects/samples

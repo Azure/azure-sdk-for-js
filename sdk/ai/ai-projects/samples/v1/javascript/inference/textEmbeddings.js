@@ -7,19 +7,24 @@
  * Get the text embeddings for arrays of given texts.
  */
 
-const { AIProjectClient } = require("@azure/ai-projects");
-const { isUnexpected } = require("@azure/ai-projects/inference");
+const ModelClient = require("@azure-rest/ai-inference").default,
+  { isUnexpected } = require("@azure-rest/ai-inference");
 const { DefaultAzureCredential } = require("@azure/identity");
 require("dotenv/config");
 
 const endpoint = process.env["AZURE_AI_PROJECT_ENDPOINT_STRING"] || "<project endpoint string>";
 const embeddingDeploymentName =
   process.env["EMBEDDING_DEPLOYMENT_NAME"] || "<embedding deployment name>";
+
 async function main() {
-  const project = new AIProjectClient(endpoint, new DefaultAzureCredential());
-  const client = project.inference.embeddings({
-    apiVersion: "2024-05-01-preview",
+  const parsedUrl = new URL(endpoint);
+  const inferenceEndpoint = `https://${parsedUrl.hostname}/models`;
+  const modelClient = ModelClient(inferenceEndpoint, new DefaultAzureCredential(), {
+    credentials: {
+      scopes: ["https://cognitiveservices.azure.com/.default"],
+    },
   });
+  const client = modelClient.path("/embeddings");
   const response = await client.post({
     body: {
       model: embeddingDeploymentName,
