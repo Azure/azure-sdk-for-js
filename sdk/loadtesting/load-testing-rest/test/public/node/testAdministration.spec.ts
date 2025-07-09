@@ -104,7 +104,11 @@ describe("Test Administration Operations", () => {
       throw fileUploadResult.body.error;
     }
 
-    const fileValidatePoller = await getLongRunningPoller(client, fileUploadResult, testPollingOptions);
+    const fileValidatePoller = await getLongRunningPoller(
+      client,
+      fileUploadResult,
+      testPollingOptions,
+    );
     await fileValidatePoller.pollUntilDone({
       abortSignal: AbortSignal.timeout(60000), // timeout of 60 seconds
     });
@@ -213,7 +217,11 @@ describe("Test Profile Administration Operations", () => {
       throw fileUploadResult.body.error;
     }
 
-    const fileValidatePoller = await getLongRunningPoller(client, fileUploadResult, testPollingOptions);
+    const fileValidatePoller = await getLongRunningPoller(
+      client,
+      fileUploadResult,
+      testPollingOptions,
+    );
     await fileValidatePoller.pollUntilDone({
       abortSignal: AbortSignal.timeout(60000), // timeout of 60 seconds
     });

@@ -65,7 +65,11 @@ describe("Test Run Operations", () => {
       throw fileUploadResult.body.error;
     }
 
-    const fileValidatePoller = await getLongRunningPoller(client, fileUploadResult, testPollingOptions);
+    const fileValidatePoller = await getLongRunningPoller(
+      client,
+      fileUploadResult,
+      testPollingOptions,
+    );
     await fileValidatePoller.pollUntilDone({
       abortSignal: AbortSignal.timeout(60000), // timeout of 60 seconds
     });
@@ -125,7 +129,11 @@ describe("Test Run Operations", () => {
       throw testRunCreationResult.body.error;
     }
 
-    const testRunPoller = await getLongRunningPoller(client, testRunCreationResult, testPollingOptions);
+    const testRunPoller = await getLongRunningPoller(
+      client,
+      testRunCreationResult,
+      testPollingOptions,
+    );
     await testRunPoller.pollUntilDone({
       abortSignal: AbortSignal.timeout(600000),
     });
@@ -238,7 +246,11 @@ describe("Test Profile Run Operations", () => {
       throw fileUploadResult.body.error;
     }
 
-    const fileValidatePoller = await getLongRunningPoller(client, fileUploadResult, testPollingOptions);
+    const fileValidatePoller = await getLongRunningPoller(
+      client,
+      fileUploadResult,
+      testPollingOptions,
+    );
     await fileValidatePoller.pollUntilDone({
       abortSignal: AbortSignal.timeout(60000), // timeout of 60 seconds
     });
@@ -297,7 +309,11 @@ describe("Test Profile Run Operations", () => {
       throw testProfileRunCreationResult.body.error;
     }
 
-    const testProfileRunPoller = await getLongRunningPoller(client, testProfileRunCreationResult, testPollingOptions);
+    const testProfileRunPoller = await getLongRunningPoller(
+      client,
+      testProfileRunCreationResult,
+      testPollingOptions,
+    );
     const polledResult = await testProfileRunPoller.pollUntilDone({
       abortSignal: AbortSignal.timeout(1200000),
     });
