@@ -9,8 +9,6 @@ Use it to:
 - **Enumerate connected Azure resources** in your Foundry project using the `.connections` operations.
 - **Upload documents and create Datasets** to reference them using the `.datasets` operations.
 - **Create and enumerate Search Indexes** using the `.indexes` operations.
-- **Get an Azure AI Inference client** for chat completions, text or image embeddings using the `.inference` operations.
-- **Read a Prompty file or string** and render messages for inference clients, using the `PromptTemplate` class.
 - **Enable OpenTelemetry tracing** using the `enable_telemetry` function.
 
 [Product documentation](https://aka.ms/azsdk/azure-ai-projects/product-doc)
@@ -129,7 +127,15 @@ Your Azure AI Foundry project may have one or more AI models deployed that suppo
 Here we assume `deploymentName` (str) is defined. It's the deployment name of an AI model in your Foundry Project. As shown in the "Models + endpoints" tab, under the "Name" column.
 
 ```ts snippet:chatCompletions
-const client = project.inference.chatCompletions();
+import ModelClient from "@azure-rest/ai-inference";
+const parsedUrl = new URL(endpoint);
+const inferenceEndpoint = `https://${parsedUrl.hostname}/models`;
+const modelClient = ModelClient(inferenceEndpoint, new DefaultAzureCredential(), {
+  credentials: {
+    scopes: ["https://cognitiveservices.azure.com/.default"],
+  },
+});
+const client = modelClient.path("/chat/completions");
 const response = await client.post({
   body: {
     model: deploymentName,
