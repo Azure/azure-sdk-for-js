@@ -137,7 +137,6 @@ export class DocumentProducer {
     return false;
   }
 
-
   private _updateStates(err: any, allFetched: boolean): void {
     if (err) {
       this.err = err;
@@ -202,7 +201,7 @@ export class DocumentProducer {
         headerResponse[Constants.HttpHeaders.QueryMetrics][this.targetPartitionKeyRange.id] =
           queryMetrics;
       }
-      return headerResponse
+      return headerResponse;
     } catch (err: any) {
       if (DocumentProducer._needPartitionKeyRangeCacheRefresh(err)) {
         // Split just happend
@@ -301,7 +300,6 @@ export class DocumentProducer {
   /**
    * Retrieve the current element on the DocumentProducer.
    */
-  // TODO: remove headers from the response
   private current(): Response<any> {
     // If something is buffered just give that
     if (this.fetchResults.length > 0) {

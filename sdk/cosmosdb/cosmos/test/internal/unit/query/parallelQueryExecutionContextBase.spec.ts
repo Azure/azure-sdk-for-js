@@ -344,62 +344,6 @@ describe("parallelQueryExecutionContextBase", () => {
       assert.equal(context["buffer"].length, 2);
       assert.equal(context["respHeaders"]["x-ms-request-charge"], "3.5");
     });
-
-    it("should correctly compute RU when initial response from document processors is empty", async () => {
-      const options: FeedOptions = { maxItemCount: 10, maxDegreeOfParallelism: 2 };
-      const clientContext = createTestClientContext(cosmosClientOptions, diagnosticLevel); // Mock ClientContext instance
-
-      const mockPartitionKeyRange1 = createMockPartitionKeyRange("0", "", "AA");
-      const mockPartitionKeyRange2 = createMockPartitionKeyRange("1", "AA", "BB");
-      const mockPartitionKeyRange3 = createMockPartitionKeyRange("2", "BB", "FF");
-
-      const fetchAllInternalStub = vi.fn().mockResolvedValue({
-        resources: [mockPartitionKeyRange1, mockPartitionKeyRange2, mockPartitionKeyRange3],
-        headers: { "x-ms-request-charge": "1.23" },
-        code: 200,
-      });
-      vi.spyOn(clientContext, "queryPartitionKeyRanges").mockReturnValue({
-        fetchAllInternal: fetchAllInternalStub, // Add fetchAllInternal to mimic expected structure
-      } as unknown as QueryIterator<PartitionKeyRange>);
-
-      // Define a mock document (resource) returned from queryFeed
-      // const mockDocument1 = createMockDocument(
-      //   "sample-id-1",
-      //   "Sample Document 1",
-      //   "This is the first sample document",
-      // );
-      // const mockDocument2 = createMockDocument(
-      //   "sample-id-2",
-      //   "Sample Document 2",
-      //   "This is the second sample document",
-      // );
-      // Define a stub for queryFeed in clientContext
-
-      vi.spyOn(clientContext, "queryFeed").mockResolvedValue({
-        result: [] as unknown as Resource, // Add result to mimic expected structure
-        headers: {
-          "x-ms-request-charge": "3.5", // Example RU charge
-          "x-ms-continuation": "token-for-next-page", // Continuation token for pagination
-        },
-        code: 200, // Optional status code
-      });
-
-      const context = new TestParallelQueryExecutionContext(
-        clientContext,
-        collectionLink,
-        query,
-        options,
-        partitionedQueryExecutionInfo,
-        correlatedActivityId,
-      );
-      await (context as any).bufferDocumentProducers(createDummyDiagnosticNode());
-
-      // Call fillBufferFromBufferQueue
-      await (context as any).fillBufferFromBufferQueue();
-
-      assert.equal(context["buffer"].length, 0);
-      assert.equal(context["respHeaders"]["x-ms-request-charge"], "7.0");
-    });
   });
 
   describe("drainBufferedItems", () => {
@@ -489,118 +433,57 @@ describe("parallelQueryExecutionContextBase", () => {
       }
     });
   });
+
+  describe("parallelQueryExecutionContextBase RU Consumption", () => {
+    it("should correctly compute RU when initial response from document processors is empty", async () => {
+      const tempOptions: FeedOptions = { maxItemCount: 10, maxDegreeOfParallelism: 2 };
+      const tempClientContext = createTestClientContext(cosmosClientOptions, diagnosticLevel); // Mock ClientContext instance
+
+      const mockPartitionKeyRange1 = createMockPartitionKeyRange("0", "", "AA");
+      const mockPartitionKeyRange2 = createMockPartitionKeyRange("1", "AA", "BB");
+      const mockPartitionKeyRange3 = createMockPartitionKeyRange("2", "BB", "FF");
+
+      const fetchAllInternalStub = vi.fn().mockResolvedValue({
+        resources: [mockPartitionKeyRange1, mockPartitionKeyRange2, mockPartitionKeyRange3],
+        headers: { "x-ms-request-charge": "1.23" },
+        code: 200,
+      });
+      vi.spyOn(tempClientContext, "queryPartitionKeyRanges").mockReturnValue({
+        fetchAllInternal: fetchAllInternalStub, // Add fetchAllInternal to mimic expected structure
+      } as unknown as QueryIterator<PartitionKeyRange>);
+
+      vi.spyOn(tempClientContext, "queryFeed").mockResolvedValue({
+        result: [] as unknown as Resource, // Add result to mimic expected structure
+        headers: {
+          "x-ms-request-charge": "3.5", // Example RU charge
+          "x-ms-continuation": "token-for-next-page", // Continuation token for pagination
+        },
+        code: 200, // Optional status code
+      });
+
+      const tempContext = new TestParallelQueryExecutionContext(
+        tempClientContext,
+        collectionLink,
+        query,
+        tempOptions,
+        partitionedQueryExecutionInfo,
+        correlatedActivityId,
+      );
+      await (tempContext as any).bufferDocumentProducers(createDummyDiagnosticNode());
+
+      // Call fillBufferFromBufferQueue
+      await (tempContext as any).fillBufferFromBufferQueue();
+      const result = await (tempContext as any).drainBufferedItems();
+
+      assert.equal(result.result.length, 0);
+      assert.equal(result.headers["x-ms-request-charge"], "7.0");
+
+      await (tempContext as any).bufferDocumentProducers(createDummyDiagnosticNode());
+      await (tempContext as any).fillBufferFromBufferQueue();
+      const result2 = await (tempContext as any).drainBufferedItems();
+
+      assert.equal(result2.result.length, 0);
+      assert.equal(result2.headers["x-ms-request-charge"], "7.0");
+    });
+  });
 });
-
-// write a test case checking ru values from a partition returning empty respose but ru consumed from it
-// create a set up of container with 5 partition key ranges and select * from c query is made to it and some RU is consumed
-// make it's accounted well in test
-// describe("parallelQueryExecutionContextBase RU Consumption", () => {
-//   const collectionLink = "/dbs/testDb/colls/testCollection"; // Sample collection link
-//   const query = "SELECT * FROM c"; // Example query string or SqlQuerySpec object
-//   const queryInfo: QueryInfo = {
-//     orderBy: ["Ascending"],
-//     rewrittenQuery: "SELECT * FROM c",
-//   } as QueryInfo;
-//   const partitionedQueryExecutionInfo = {
-//     queryRanges: [
-//       {
-//         min: "00",
-//         max: "AA",
-//         isMinInclusive: true, // Whether the minimum value is inclusive
-//         isMaxInclusive: false,
-//       },
-//       {
-//         min: "AA",
-//         max: "BB",
-//         isMinInclusive: true, // Whether the minimum value is inclusive
-//         isMaxInclusive: false,
-//       },
-//       {
-//         min: "BB",
-//         max: "FF",
-//         isMinInclusive: true, // Whether the minimum value is inclusive
-//         isMaxInclusive: false,
-//       },
-//     ],
-//     queryInfo: queryInfo,
-//     partitionedQueryExecutionInfoVersion: 1,
-//   };
-//   const correlatedActivityId = "sample-activity-id"; // Example correlated activity ID
-//   // Mock dependencies for ClientContext
-//   const cosmosClientOptions = {
-//     endpoint: "https://your-cosmos-db.documents.azure.com:443/",
-//     key: "your-cosmos-db-key",
-//     userAgentSuffix: "MockClient",
-//   };
-
-//   const diagnosticLevel = CosmosDbDiagnosticLevel.info;
-
-//   it("should consume RU from a partition returning empty response", async () => {
-//     const options: FeedOptions = { maxItemCount: 10, maxDegreeOfParallelism: 2 };
-//     const clientContext = createTestClientContext(cosmosClientOptions, diagnosticLevel); // Mock ClientContext instance
-
-//     initializeMockPartitionKeyRanges(createMockPartitionKeyRange, clientContext, [
-//       ["", "AA"],
-//       ["AA", "BB"],
-//       ["BB", "FF"],
-//     ]);
-
-//     // Define a mock document (resource) returned from queryFeed
-//     const mockDocument1 = createMockDocument(
-//       "sample-id-1",
-//       "Sample Document 1",
-//       "This is the first sample document",
-//     );
-//     const mockDocument2 = createMockDocument(
-//       "sample-id-2",
-//       "Sample Document 2",
-//       "This is the second sample document",
-//     );
-
-//     // Define a stub for queryFeed in clientContext
-//     vi.spyOn(clientContext, "queryFeed").mockResolvedValue({
-//       result: [mockDocument1, mockDocument2] as unknown as Resource, // Add result to mimic expected structure
-//       headers: {
-//         "x-ms-request-charge": "3.5", // Example RU charge
-//         "x-ms-continuation": "token-for-next-page", // Continuation token for pagination
-//       },
-//       code: 200, // Optional status code
-//     });
-
-//     // Create mock instance of TestParallelQueryExecutionContext
-//     const context = new TestParallelQueryExecutionContext(
-//       clientContext,
-//       collectionLink,
-//       query,
-//       options,
-//       partitionedQueryExecutionInfo,
-//       correlatedActivityId,
-//     );
-//     context["options"] = options;
-
-//     // Call bufferDocumentProducers
-//     await context["bufferDocumentProducers"](createDummyDiagnosticNode());
-
-//     // Simulate a partition returning an empty response but consuming RU
-//     const emptyResponseHeaders = {
-//       "x-ms-request-charge": "1.0", // RU consumed from this partition
-//       "x-ms-continuation": "token-for-next-page", // Continuation token for pagination
-//     };
-
-//     // Mock the bufferMore method to return an empty response with RU consumed
-//     const documentProducer = context["bufferedDocumentProducersQueue"].peek();
-//     vi.spyOn(documentProducer, "bufferMore").mockResolvedValue({
-//       result: [],
-//       headers: emptyResponseHeaders,
-//     });
-
-//     // Call bufferMore to simulate fetching from the partition
-//     const diagnosticNode = createDummyDiagnosticNode();
-//     const headers = await documentProducer.bufferMore(diagnosticNode);
-
-//     // Verify that RU was consumed
-//     assert.equal(headers.headers["x-ms-request-charge"], "1.0");
-//     assert.equal(context["bufferedDocumentProducersQueue"].size(), 1);
-//     assert.equal(context["buffer"].length, 0); // No documents in buffer since response was empty
-//   });
-// });

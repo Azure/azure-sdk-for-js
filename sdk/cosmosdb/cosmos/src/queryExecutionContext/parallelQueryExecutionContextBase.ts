@@ -173,6 +173,7 @@ export abstract class ParallelQueryExecutionContextBase implements ExecutionCont
   private _getAndResetActiveResponseHeaders(): CosmosHeaders {
     const ret = this.respHeaders;
     this.respHeaders = getInitialHeader();
+    console.log("Response Headers: ", ret);
     return ret;
   }
 
@@ -420,7 +421,8 @@ export abstract class ParallelQueryExecutionContextBase implements ExecutionCont
               await this.headerSemaphore.take(() => {
                 this._mergeWithActiveResponseHeaders(headers); // Merge the returned headers
                 this.headerSemaphore.leave();
-              });              // if buffer of document producer is filled, add it to the buffered document producers queue
+              });
+              // if buffer of document producer is filled, add it to the buffered document producers queue
               const nextItem = documentProducer.peakNextItem();
               if (nextItem !== undefined) {
                 this.bufferedDocumentProducersQueue.enq(documentProducer);
