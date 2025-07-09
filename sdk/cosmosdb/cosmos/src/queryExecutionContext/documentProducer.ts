@@ -31,7 +31,6 @@ export class DocumentProducer {
   public previousContinuationToken: string;
   public continuationToken: string;
   public generation: number = 0;
-  private respHeaders: CosmosHeaders;
   private internalExecutionContext: DefaultQueryExecutionContext;
   public startEpk: string;
   public endEpk: string;
@@ -67,7 +66,6 @@ export class DocumentProducer {
 
     this.previousContinuationToken = undefined;
     this.continuationToken = undefined;
-    this.respHeaders = getInitialHeader();
 
     this.internalExecutionContext = new DefaultQueryExecutionContext(
       options,
@@ -139,11 +137,6 @@ export class DocumentProducer {
     return false;
   }
 
-  private _getAndResetActiveResponseHeaders(): CosmosHeaders {
-    const ret = this.respHeaders;
-    this.respHeaders = getInitialHeader();
-    return ret;
-  }
 
   private _updateStates(err: any, allFetched: boolean): void {
     if (err) {
@@ -173,7 +166,7 @@ export class DocumentProducer {
   /**
    * Fetches and bufferes the next page of results in internal buffer
    */
-  public async bufferMore(diagnosticNode: DiagnosticNodeInternal): Promise<void> {
+  public async bufferMore(diagnosticNode: DiagnosticNodeInternal): Promise<CosmosHeaders> {
     if (this.err) {
       throw this.err;
     }
@@ -185,6 +178,7 @@ export class DocumentProducer {
       this._updateStates(undefined, resources === undefined);
       if (resources !== undefined) {
         // add fetched header to the 1st element in the buffer
+        // TODO: can be removed once we have a way to pass headers in the fetch function
         let addHeaderToFetchResult = true;
         resources.forEach((element: any) => {
           this.fetchResults.push(
@@ -208,14 +202,14 @@ export class DocumentProducer {
         headerResponse[Constants.HttpHeaders.QueryMetrics][this.targetPartitionKeyRange.id] =
           queryMetrics;
       }
-      mergeHeaders(this.respHeaders, headerResponse);
+      return headerResponse
     } catch (err: any) {
       if (DocumentProducer._needPartitionKeyRangeCacheRefresh(err)) {
         // Split just happend
         // Buffer the error so the execution context can still get the feedResponses in the itemBuffer
         const bufferedError = new FetchResult(undefined, err);
         this.fetchResults.push(bufferedError);
-        mergeHeaders(this.respHeaders, err.headers);
+        return err.headers;
       } else {
         this._updateStates(err, err.resources === undefined);
         throw err;
@@ -259,7 +253,7 @@ export class DocumentProducer {
       throw this.err;
     }
     if (this.allFetched) {
-      return { result: undefined, headers: this._getAndResetActiveResponseHeaders() };
+      return { result: undefined, headers: getInitialHeader() };
     }
     try {
       const { result, headers } = this.current();
@@ -282,7 +276,7 @@ export class DocumentProducer {
       throw this.err;
     }
     if (this.allFetched) {
-      return { result: undefined, headers: this._getAndResetActiveResponseHeaders() };
+      return { result: undefined, headers: getInitialHeader() };
     }
     const resources: any[] = [];
     const resHeaders: CosmosHeaders = getInitialHeader();
@@ -307,6 +301,7 @@ export class DocumentProducer {
   /**
    * Retrieve the current element on the DocumentProducer.
    */
+  // TODO: remove headers from the response
   private current(): Response<any> {
     // If something is buffered just give that
     if (this.fetchResults.length > 0) {
@@ -316,15 +311,15 @@ export class DocumentProducer {
         case FetchResultType.Done:
           return {
             result: undefined,
-            headers: this._getAndResetActiveResponseHeaders(),
+            headers: getInitialHeader(),
           };
         case FetchResultType.Exception:
-          fetchResult.error.headers = this._getAndResetActiveResponseHeaders();
+          fetchResult.error.headers = getInitialHeader();
           throw fetchResult.error;
         case FetchResultType.Result:
           return {
             result: fetchResult.feedResponse,
-            headers: this._getAndResetActiveResponseHeaders(),
+            headers: getInitialHeader(),
           };
       }
     }
@@ -333,11 +328,11 @@ export class DocumentProducer {
     if (this.allFetched) {
       return {
         result: undefined,
-        headers: this._getAndResetActiveResponseHeaders(),
+        headers: getInitialHeader(),
       };
     }
 
     // If the internal buffer is empty, return empty result
-    return { result: [], headers: this._getAndResetActiveResponseHeaders() };
+    return { result: [], headers: getInitialHeader() };
   }
 }
