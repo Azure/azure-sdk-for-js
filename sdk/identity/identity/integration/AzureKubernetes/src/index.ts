@@ -39,7 +39,6 @@ app.get("/", (req: express.Request, res: express.Response) => {
   });
 });
 
-// Test user-assigned managed identity
 app.get("/managed-identity/user-assigned", async (req: express.Request, res: express.Response) => {
   try {
     const credential = new ManagedIdentityCredential({ clientId: userAssignedClientId });

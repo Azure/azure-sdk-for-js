@@ -14,13 +14,10 @@ WORKDIR /app
 
 COPY . .
 
-# Install the latest nightly build of identity
 RUN npm install --no-package-lock
 
-# Build the identity package
 RUN npm run build
 
-# Remove unnecessary files to reduce image size
 FROM ${REGISTRY}node:${NODE_VERSION}-alpine
 WORKDIR /app
 
@@ -28,8 +25,6 @@ WORKDIR /app
 COPY --from=builder /app/dist ./dist
 COPY --from=builder /app/package.json ./
 
-# Install only production dependencies
 RUN npm install --only=production
 
-# Start the app
 CMD ["node", "dist/index.js"]
