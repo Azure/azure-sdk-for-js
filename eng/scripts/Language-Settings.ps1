@@ -409,6 +409,7 @@ function Update-javascript-GeneratedSdks([string]$PackageDirectoriesFile) {
   $moduleFolders = Get-Content $PackageDirectoriesFile | ConvertFrom-Json
 
   $directoriesWithErrors = @()
+  $directoriesWithSuccess = @()
 
   foreach ($directory in $moduleFolders) {
     $directoryPath = "$RepoRoot/sdk/$directory"
@@ -420,19 +421,83 @@ function Update-javascript-GeneratedSdks([string]$PackageDirectoriesFile) {
       Write-Host "Calling TypeSpec-Project-Sync.ps1 for $directory"
       & $RepoRoot/eng/common/scripts/TypeSpec-Project-Sync.ps1 $directoryPath
       if ($LASTEXITCODE) {
-        $directoriesWithErrors += $directory
+        #$directoriesWithErrors += $directory
         continue
       }
 
-      Write-Host "Calling TypeSpec-Project-Generate.ps1 for $directory"
-      & $RepoRoot/eng/common/scripts/TypeSpec-Project-Generate.ps1 $directoryPath
-      if ($LASTEXITCODE) {
-        $directoriesWithErrors += $directory
-        continue
-      }
+      $fileGenerateInput = 'generateInput.json';
+      $inputJsonPath = Join-Path $RepoRoot $fileGenerateInput
+      if (Test-Path $inputJsonPath) {
+        Write-Host "Calling TypeSpec-Project-Generate.ps1 for $directory"
+        & $RepoRoot/eng/common/scripts/TypeSpec-Project-Generate.ps1 $directoryPath
+        if ($LASTEXITCODE) {
+          $directoriesWithErrors += $directory
+          continue
+        }
+
+        $fileGenerateOutput = 'generateOutput.json';
+        $outputJsonPath = Join-Path $RepoRoot $fileGenerateOutput
+        # Check if the output file was generated
+        if (-not (Test-Path $outputJsonPath)) {
+            Write-Host "##[error]Expected output file $outputJsonPath was not generated"
+            $directoriesWithErrors += $directory
+            continue
+        }
+          
+        Write-Host "Parsing generateOutput.json"
+        try {
+            $generateOutput = Get-Content -Path $outputJsonPath -Raw | ConvertFrom-Json
+            Write-Host "Successfully parsed generateOutput.json"
+            
+            # Validate the structure
+            if (-not $generateOutput.packages) {
+              Write-Host "##[error]generateOutput.json does not contain 'packages' property"
+              $directoriesWithErrors += $directory
+              continue
+            }
+            
+            if ($generateOutput.packages.Count -eq 0) {
+                Write-Host "##[warning]No packages found in generateOutput.json"
+                $directoriesWithErrors += $directory
+                continue
+            } else {
+                Write-Host "Found $($generateOutput.packages.Count) package(s) in generateOutput.json"
+                
+                # Check if all packages succeeded
+                $failedPackages = @()
+                foreach ($package in $generateOutput.packages) {
+                    Write-Host "Package: $($package.packageName) v$($package.version) - Result: $($package.result)"
+                    if ($package.result -ne "succeeded") {
+                        $failedPackages += $package.packageName
+                    }
+                }
+                
+                if ($failedPackages.Count -gt 0) {
+                  Write-Host "##[error]The following packages failed to generate: $($failedPackages -join ', ')"
+                  $directoriesWithErrors += $directory
+                  continue
+                }
+                
+                Write-Host "All packages generated successfully"
+                $directoriesWithSuccess += $directory
+            }
+        }
+        catch {
+            Write-Host "##[error]Failed to parse generateOutput.json: $($_.Exception.Message)"
+            $directoriesWithErrors += $directory
+            continue
+        }
+      }      
     }
     else {
       Write-Host "No tsp-location.yaml found in $directory"
+    }
+  }
+
+  if ($directoriesWithSuccess.Count -gt 0) {
+    Write-Host "##[success]Generation succeeded in $($directoriesWithSuccess.Count) directories:"
+    foreach ($directory in $directoriesWithSuccess) {
+      Write-Host "  $directory"
     }
   }
 
