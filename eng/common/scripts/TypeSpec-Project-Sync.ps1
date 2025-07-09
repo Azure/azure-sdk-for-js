@@ -192,7 +192,13 @@ else {
   exit 1
 }
 
-Invoke-LoggedCommand `ls -a $specCloneDir.Path` -GroupOutput
+# Safely list the contents of the spec directory
+Write-Host "Listing contents of $($specCloneDir.Path):"
+if (Test-Path $specCloneDir.Path) {
+  Get-ChildItem -Path $specCloneDir.Path -Force | ForEach-Object { Write-Host "  $($_.Name)" }
+} else {
+  Write-Host "  Directory does not exist"
+}
 
 # $tempTypeSpecDir = "$ProjectDirectory/TempTypeSpecFiles"
 # New-Item $tempTypeSpecDir -Type Directory -Force | Out-Null
@@ -260,7 +266,7 @@ try {
 
 if ($isManagementPlaneModularClient -ne $true) {
   Write-Host "Skipping $directory because it is not a management plane modular client" -ForegroundColor Yellow
-  return 1
+  exit 1
 }
 
 Write-Host "Creating inputJson file"
