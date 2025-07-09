@@ -1,5 +1,15 @@
 # Release History
 
+## 7.10.0-beta.3 (Unreleased)
+
+### Features Added
+
+### Breaking Changes
+
+### Bugs Fixed
+
+### Other Changes
+
 ## 7.10.0-beta.2 (2025-07-09)
 
 ### Features Added
@@ -29,12 +39,6 @@ async function test() {
 - Upgrade dependency `@azure/abort-controller` version to `^2.1.2`.
 - Remove port number from fully qualified namespace.
 
-## 7.10.0-beta.1 (2024-05-07)
-
-### Features Added
-
-- Add support to delete messages from an entity in batches using receiver method `deleteMessages()`. The target messages can be constrained to a fixed count, limited to only those earlier than a given date, or unconstrained such that all messages are deleted.
-
 ## 7.9.5 (2024-06-11)
 
 ### Bugs Fixed
@@ -44,6 +48,12 @@ async function test() {
 ### Other Changes
 
 - Wait up to max wait time for draining credit when receiving messages [PR #28604](https://github.com/Azure/azure-sdk-for-js/pull/28604)
+
+## 7.10.0-beta.1 (2024-05-07)
+
+### Features Added
+
+- Add support to delete messages from an entity in batches using receiver method `deleteMessages()`. The target messages can be constrained to a fixed count, limited to only those earlier than a given date, or unconstrained such that all messages are deleted.
 
 ## 7.9.4 (2024-02-06)
 
