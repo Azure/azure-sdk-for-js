@@ -34,7 +34,10 @@ export interface CloudExadataInfrastructuresOperations {
     resourceGroupName: string,
     cloudexadatainfrastructurename: string,
     options?: CloudExadataInfrastructuresAddStorageCapacityOptionalParams,
-  ) => PollerLike<OperationState<CloudExadataInfrastructure>, CloudExadataInfrastructure>;
+  ) => PollerLike<
+    OperationState<CloudExadataInfrastructure>,
+    CloudExadataInfrastructure
+  >;
   /** List CloudExadataInfrastructure resources by resource group */
   listByResourceGroup: (
     resourceGroupName: string,
@@ -57,7 +60,10 @@ export interface CloudExadataInfrastructuresOperations {
     cloudexadatainfrastructurename: string,
     properties: CloudExadataInfrastructureUpdate,
     options?: CloudExadataInfrastructuresUpdateOptionalParams,
-  ) => PollerLike<OperationState<CloudExadataInfrastructure>, CloudExadataInfrastructure>;
+  ) => PollerLike<
+    OperationState<CloudExadataInfrastructure>,
+    CloudExadataInfrastructure
+  >;
   /** Get a CloudExadataInfrastructure */
   get: (
     resourceGroupName: string,
@@ -70,20 +76,31 @@ export interface CloudExadataInfrastructuresOperations {
     cloudexadatainfrastructurename: string,
     resource: CloudExadataInfrastructure,
     options?: CloudExadataInfrastructuresCreateOrUpdateOptionalParams,
-  ) => PollerLike<OperationState<CloudExadataInfrastructure>, CloudExadataInfrastructure>;
+  ) => PollerLike<
+    OperationState<CloudExadataInfrastructure>,
+    CloudExadataInfrastructure
+  >;
   /** List CloudExadataInfrastructure resources by subscription ID */
   listBySubscription: (
     options?: CloudExadataInfrastructuresListBySubscriptionOptionalParams,
   ) => PagedAsyncIterableIterator<CloudExadataInfrastructure>;
 }
 
-function _getCloudExadataInfrastructures(context: OracleDatabaseManagementContext) {
+function _getCloudExadataInfrastructures(
+  context: OracleDatabaseManagementContext,
+) {
   return {
     addStorageCapacity: (
       resourceGroupName: string,
       cloudexadatainfrastructurename: string,
       options?: CloudExadataInfrastructuresAddStorageCapacityOptionalParams,
-    ) => addStorageCapacity(context, resourceGroupName, cloudexadatainfrastructurename, options),
+    ) =>
+      addStorageCapacity(
+        context,
+        resourceGroupName,
+        cloudexadatainfrastructurename,
+        options,
+      ),
     listByResourceGroup: (
       resourceGroupName: string,
       options?: CloudExadataInfrastructuresListByResourceGroupOptionalParams,
@@ -92,27 +109,48 @@ function _getCloudExadataInfrastructures(context: OracleDatabaseManagementContex
       resourceGroupName: string,
       cloudexadatainfrastructurename: string,
       options?: CloudExadataInfrastructuresDeleteOptionalParams,
-    ) => $delete(context, resourceGroupName, cloudexadatainfrastructurename, options),
+    ) =>
+      $delete(
+        context,
+        resourceGroupName,
+        cloudexadatainfrastructurename,
+        options,
+      ),
     update: (
       resourceGroupName: string,
       cloudexadatainfrastructurename: string,
       properties: CloudExadataInfrastructureUpdate,
       options?: CloudExadataInfrastructuresUpdateOptionalParams,
-    ) => update(context, resourceGroupName, cloudexadatainfrastructurename, properties, options),
+    ) =>
+      update(
+        context,
+        resourceGroupName,
+        cloudexadatainfrastructurename,
+        properties,
+        options,
+      ),
     get: (
       resourceGroupName: string,
       cloudexadatainfrastructurename: string,
       options?: CloudExadataInfrastructuresGetOptionalParams,
-    ) => get(context, resourceGroupName, cloudexadatainfrastructurename, options),
+    ) =>
+      get(context, resourceGroupName, cloudexadatainfrastructurename, options),
     createOrUpdate: (
       resourceGroupName: string,
       cloudexadatainfrastructurename: string,
       resource: CloudExadataInfrastructure,
       options?: CloudExadataInfrastructuresCreateOrUpdateOptionalParams,
     ) =>
-      createOrUpdate(context, resourceGroupName, cloudexadatainfrastructurename, resource, options),
-    listBySubscription: (options?: CloudExadataInfrastructuresListBySubscriptionOptionalParams) =>
-      listBySubscription(context, options),
+      createOrUpdate(
+        context,
+        resourceGroupName,
+        cloudexadatainfrastructurename,
+        resource,
+        options,
+      ),
+    listBySubscription: (
+      options?: CloudExadataInfrastructuresListBySubscriptionOptionalParams,
+    ) => listBySubscription(context, options),
   };
 }
 

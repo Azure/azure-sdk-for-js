@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { CarbonOptimizationManagementContext as Client } from "../index.js";
+import { CarbonContext as Client } from "../index.js";
 import {
   _OperationListResult,
   _operationListResultDeserializer,

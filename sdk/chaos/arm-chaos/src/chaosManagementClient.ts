@@ -21,6 +21,10 @@ import {
   CapabilitiesOperations,
   _getCapabilitiesOperations,
 } from "./classic/capabilities/index.js";
+import {
+  ExperimentExecutionsOperations,
+  _getExperimentExecutionsOperations,
+} from "./classic/experimentExecutions/index.js";
 import { ExperimentsOperations, _getExperimentsOperations } from "./classic/experiments/index.js";
 import { Pipeline } from "@azure/core-rest-pipeline";
 import { TokenCredential } from "@azure/core-auth";
@@ -32,6 +36,7 @@ export class ChaosManagementClient {
   /** The pipeline used by this client to make requests */
   public readonly pipeline: Pipeline;
 
+  /** Chaos Management Client */
   constructor(
     credential: TokenCredential,
     subscriptionId: string,
@@ -52,6 +57,7 @@ export class ChaosManagementClient {
     this.operations = _getOperationsOperations(this._client);
     this.capabilityTypes = _getCapabilityTypesOperations(this._client);
     this.capabilities = _getCapabilitiesOperations(this._client);
+    this.experimentExecutions = _getExperimentExecutionsOperations(this._client);
     this.experiments = _getExperimentsOperations(this._client);
   }
 
@@ -67,6 +73,8 @@ export class ChaosManagementClient {
   public readonly capabilityTypes: CapabilityTypesOperations;
   /** The operation groups for capabilities */
   public readonly capabilities: CapabilitiesOperations;
+  /** The operation groups for experimentExecutions */
+  public readonly experimentExecutions: ExperimentExecutionsOperations;
   /** The operation groups for experiments */
   public readonly experiments: ExperimentsOperations;
 }

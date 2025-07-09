@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { DependencyMapClient } from "@azure/arm-dependencymap";
+import { DependencyMapClient } from "MicrosoftDependencyMapManagementService";
 import { DefaultAzureCredential } from "@azure/identity";
 
 /**
@@ -18,7 +18,14 @@ async function discoverySourcesCreateOrUpdateGeneratedByMaximumSetRule(): Promis
     "rgdependencyMap",
     "mapsTest1",
     "sourceTest1",
-    { tags: {}, location: "y" },
+    {
+      properties: {
+        sourceType: "DiscoverySourceResourceProperties",
+        sourceId: "wzlrkzumplzjmixbqv",
+      },
+      tags: {},
+      location: "y",
+    },
   );
   console.log(result);
 }

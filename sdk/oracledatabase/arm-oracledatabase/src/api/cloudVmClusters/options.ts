@@ -4,10 +4,12 @@
 import { OperationOptions } from "@azure-rest/core-client";
 
 /** Optional parameters. */
-export interface CloudVmClustersListPrivateIpAddressesOptionalParams extends OperationOptions {}
+export interface CloudVmClustersListPrivateIpAddressesOptionalParams
+  extends OperationOptions {}
 
 /** Optional parameters. */
-export interface CloudVmClustersRemoveVmsOptionalParams extends OperationOptions {
+export interface CloudVmClustersRemoveVmsOptionalParams
+  extends OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
 }
@@ -19,7 +21,8 @@ export interface CloudVmClustersAddVmsOptionalParams extends OperationOptions {
 }
 
 /** Optional parameters. */
-export interface CloudVmClustersListByResourceGroupOptionalParams extends OperationOptions {}
+export interface CloudVmClustersListByResourceGroupOptionalParams
+  extends OperationOptions {}
 
 /** Optional parameters. */
 export interface CloudVmClustersDeleteOptionalParams extends OperationOptions {
@@ -37,10 +40,12 @@ export interface CloudVmClustersUpdateOptionalParams extends OperationOptions {
 export interface CloudVmClustersGetOptionalParams extends OperationOptions {}
 
 /** Optional parameters. */
-export interface CloudVmClustersCreateOrUpdateOptionalParams extends OperationOptions {
+export interface CloudVmClustersCreateOrUpdateOptionalParams
+  extends OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
 }
 
 /** Optional parameters. */
-export interface CloudVmClustersListBySubscriptionOptionalParams extends OperationOptions {}
+export interface CloudVmClustersListBySubscriptionOptionalParams
+  extends OperationOptions {}
