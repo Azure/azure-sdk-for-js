@@ -12,6 +12,7 @@ import { LongIntervalStatsbeatMetrics } from "../../export/statsbeat/longInterva
 import type { RestError } from "@azure/core-rest-pipeline";
 import {
   DropCode,
+  RetryCode,
   MAX_STATSBEAT_FAILURES,
   isStatsbeatShutdownStatus,
 } from "../../export/statsbeat/types.js";
@@ -259,23 +260,29 @@ export abstract class BaseSender {
         this.incrementStatsbeatFailure();
         return { code: ExportResultCode.SUCCESS };
       }
-      if (this.isRetriableRestError(restError)) {
-        if (restError.statusCode && !this.isStatsbeatSender) {
+
+      // For retriable REST errors
+      if (this.isRetriableRestError(restError) && !this.isStatsbeatSender) {
+        if (this.customerStatsbeatMetrics?.isTimeoutError(restError) && !this.isStatsbeatSender) {
+          this.customerStatsbeatMetrics?.countRetryItems(
+            envelopes,
+            RetryCode.CLIENT_TIMEOUT,
+            "timeout_exception",
+          );
+          diag.error("Request timed out. Error message:", restError.message);
+        } else if (restError.statusCode) {
           this.networkStatsbeatMetrics?.countRetry(restError.statusCode);
           this.customerStatsbeatMetrics?.countRetryItems(envelopes, restError.statusCode);
         }
-        if (!this.isStatsbeatSender) {
-          diag.error(
-            "Retrying due to transient client side error. Error message:",
-            restError.message,
-          );
-        }
+        diag.error(
+          "Retrying due to transient client side error. Error message:",
+          restError.message,
+        );
         return this.persist(envelopes);
       }
+      // For non-retriable REST errors or client exceptions
       if (!this.isStatsbeatSender) {
         this.networkStatsbeatMetrics?.countException(restError);
-      }
-      if (!this.isStatsbeatSender) {
         diag.error(
           "Envelopes could not be exported and are not retriable. Error message:",
           restError.message,
