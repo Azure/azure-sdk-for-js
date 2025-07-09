@@ -32,16 +32,20 @@ export function _postSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).post({
-    ...operationOptionsToRequestParameters(options),
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
-  });
+  return context
+    .path(path)
+    .post({
+      ...operationOptionsToRequestParameters(options),
+      headers: {
+        accept: "application/json",
+        ...options.requestOptions?.headers,
+      },
+    });
 }
 
-export async function _postDeserialize(result: PathUncheckedResponse): Promise<void> {
+export async function _postDeserialize(
+  result: PathUncheckedResponse,
+): Promise<void> {
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
@@ -61,6 +65,11 @@ export async function post(
     requestOptions: {},
   },
 ): Promise<void> {
-  const result = await _postSend(context, resourceGroupName, clusterName, options);
+  const result = await _postSend(
+    context,
+    resourceGroupName,
+    clusterName,
+    options,
+  );
   return _postDeserialize(result);
 }

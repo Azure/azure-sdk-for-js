@@ -1,7 +1,11 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { createEdge, EdgeContext, EdgeClientOptionalParams } from "./api/index.js";
+import {
+  createEdge,
+  EdgeContext,
+  EdgeClientOptionalParams,
+} from "./api/index.js";
 import {
   SitesByServiceGroupOperations,
   _getSitesByServiceGroupOperations,

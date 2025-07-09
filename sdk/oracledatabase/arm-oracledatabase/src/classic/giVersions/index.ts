@@ -27,10 +27,15 @@ export interface GiVersionsOperations {
 
 function _getGiVersions(context: OracleDatabaseManagementContext) {
   return {
-    listByLocation: (location: string, options?: GiVersionsListByLocationOptionalParams) =>
-      listByLocation(context, location, options),
-    get: (location: string, giversionname: string, options?: GiVersionsGetOptionalParams) =>
-      get(context, location, giversionname, options),
+    listByLocation: (
+      location: string,
+      options?: GiVersionsListByLocationOptionalParams,
+    ) => listByLocation(context, location, options),
+    get: (
+      location: string,
+      giversionname: string,
+      options?: GiVersionsGetOptionalParams,
+    ) => get(context, location, giversionname, options),
   };
 }
 

@@ -14,7 +14,11 @@ async function autonomousDatabasesUpdate(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const client = new OracleDatabaseManagementClient(credential, subscriptionId);
-  const result = await client.autonomousDatabases.update("rg000", "databasedb1", {});
+  const result = await client.autonomousDatabases.update(
+    "rg000",
+    "databasedb1",
+    {},
+  );
   console.log(result);
 }
 

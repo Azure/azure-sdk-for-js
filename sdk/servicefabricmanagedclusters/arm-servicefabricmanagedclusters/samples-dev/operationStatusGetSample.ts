@@ -13,8 +13,14 @@ import { DefaultAzureCredential } from "@azure/identity";
 async function errorResponseDescribingWhyTheOperationFailed(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "00000000-0000-0000-0000-000000000000";
-  const client = new ServiceFabricManagedClustersManagementClient(credential, subscriptionId);
-  const result = await client.operationStatus.get("eastus", "00000000-0000-0000-0000-000000001234");
+  const client = new ServiceFabricManagedClustersManagementClient(
+    credential,
+    subscriptionId,
+  );
+  const result = await client.operationStatus.get(
+    "eastus",
+    "00000000-0000-0000-0000-000000001234",
+  );
   console.log(result);
 }
 
@@ -27,8 +33,14 @@ async function errorResponseDescribingWhyTheOperationFailed(): Promise<void> {
 async function okTheRequestHasSucceeded(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "00000000-0000-0000-0000-000000000000";
-  const client = new ServiceFabricManagedClustersManagementClient(credential, subscriptionId);
-  const result = await client.operationStatus.get("eastus", "00000000-0000-0000-0000-000000001234");
+  const client = new ServiceFabricManagedClustersManagementClient(
+    credential,
+    subscriptionId,
+  );
+  const result = await client.operationStatus.get(
+    "eastus",
+    "00000000-0000-0000-0000-000000001234",
+  );
   console.log(result);
 }
 
