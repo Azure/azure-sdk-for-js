@@ -2,7 +2,10 @@
 // Licensed under the MIT License.
 
 import { ServiceFabricManagedClustersManagementContext } from "../../api/serviceFabricManagedClustersManagementContext.js";
-import { ApplicationTypeResource, ApplicationTypeUpdateParameters } from "../../models/models.js";
+import {
+  ApplicationTypeResource,
+  ApplicationTypeUpdateParameters,
+} from "../../models/models.js";
 import {
   ApplicationTypesListOptionalParams,
   ApplicationTypesDeleteOptionalParams,
@@ -65,7 +68,9 @@ export interface ApplicationTypesOperations {
   ) => Promise<ApplicationTypeResource>;
 }
 
-function _getApplicationTypes(context: ServiceFabricManagedClustersManagementContext) {
+function _getApplicationTypes(
+  context: ServiceFabricManagedClustersManagementContext,
+) {
   return {
     list: (
       resourceGroupName: string,
@@ -77,14 +82,29 @@ function _getApplicationTypes(context: ServiceFabricManagedClustersManagementCon
       clusterName: string,
       applicationTypeName: string,
       options?: ApplicationTypesDeleteOptionalParams,
-    ) => $delete(context, resourceGroupName, clusterName, applicationTypeName, options),
+    ) =>
+      $delete(
+        context,
+        resourceGroupName,
+        clusterName,
+        applicationTypeName,
+        options,
+      ),
     update: (
       resourceGroupName: string,
       clusterName: string,
       applicationTypeName: string,
       parameters: ApplicationTypeUpdateParameters,
       options?: ApplicationTypesUpdateOptionalParams,
-    ) => update(context, resourceGroupName, clusterName, applicationTypeName, parameters, options),
+    ) =>
+      update(
+        context,
+        resourceGroupName,
+        clusterName,
+        applicationTypeName,
+        parameters,
+        options,
+      ),
     createOrUpdate: (
       resourceGroupName: string,
       clusterName: string,
@@ -105,7 +125,14 @@ function _getApplicationTypes(context: ServiceFabricManagedClustersManagementCon
       clusterName: string,
       applicationTypeName: string,
       options?: ApplicationTypesGetOptionalParams,
-    ) => get(context, resourceGroupName, clusterName, applicationTypeName, options),
+    ) =>
+      get(
+        context,
+        resourceGroupName,
+        clusterName,
+        applicationTypeName,
+        options,
+      ),
   };
 }
 

@@ -6,8 +6,14 @@ import {
   WeightsAndBiasesContext,
   WeightsAndBiasesClientOptionalParams,
 } from "./api/index.js";
-import { InstancesOperations, _getInstancesOperations } from "./classic/instances/index.js";
-import { OperationsOperations, _getOperationsOperations } from "./classic/operations/index.js";
+import {
+  InstancesOperations,
+  _getInstancesOperations,
+} from "./classic/instances/index.js";
+import {
+  OperationsOperations,
+  _getOperationsOperations,
+} from "./classic/operations/index.js";
 import { Pipeline } from "@azure/core-rest-pipeline";
 import { TokenCredential } from "@azure/core-auth";
 

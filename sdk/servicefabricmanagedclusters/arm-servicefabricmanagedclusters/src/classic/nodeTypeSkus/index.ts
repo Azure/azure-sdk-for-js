@@ -18,7 +18,9 @@ export interface NodeTypeSkusOperations {
   ) => PagedAsyncIterableIterator<NodeTypeAvailableSku>;
 }
 
-function _getNodeTypeSkus(context: ServiceFabricManagedClustersManagementContext) {
+function _getNodeTypeSkus(
+  context: ServiceFabricManagedClustersManagementContext,
+) {
   return {
     list: (
       resourceGroupName: string,

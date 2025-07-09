@@ -13,7 +13,10 @@ import { DefaultAzureCredential } from "@azure/identity";
 async function redeployAllNodesByUpgradeDomain(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "00000000-0000-0000-0000-000000000000";
-  const client = new ServiceFabricManagedClustersManagementClient(credential, subscriptionId);
+  const client = new ServiceFabricManagedClustersManagementClient(
+    credential,
+    subscriptionId,
+  );
   await client.nodeTypes.redeploy("resRg", "myCluster", "BE", {
     updateType: "ByUpgradeDomain",
   });
@@ -28,7 +31,10 @@ async function redeployAllNodesByUpgradeDomain(): Promise<void> {
 async function redeployNodes(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "00000000-0000-0000-0000-000000000000";
-  const client = new ServiceFabricManagedClustersManagementClient(credential, subscriptionId);
+  const client = new ServiceFabricManagedClustersManagementClient(
+    credential,
+    subscriptionId,
+  );
   await client.nodeTypes.redeploy("resRg", "myCluster", "BE", {
     nodes: ["BE_0", "BE_1"],
   });

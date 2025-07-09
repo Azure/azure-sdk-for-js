@@ -13,10 +13,16 @@ import { DefaultAzureCredential } from "@azure/identity";
 async function patchAnApplicationType(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "00000000-0000-0000-0000-000000000000";
-  const client = new ServiceFabricManagedClustersManagementClient(credential, subscriptionId);
-  const result = await client.applicationTypes.update("resRg", "myCluster", "myAppType", {
-    tags: { a: "b" },
-  });
+  const client = new ServiceFabricManagedClustersManagementClient(
+    credential,
+    subscriptionId,
+  );
+  const result = await client.applicationTypes.update(
+    "resRg",
+    "myCluster",
+    "myAppType",
+    { tags: { a: "b" } },
+  );
   console.log(result);
 }
 

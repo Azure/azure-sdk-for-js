@@ -2,16 +2,8 @@
 // Licensed under the MIT License.
 
 import { ChaosManagementContext } from "../../api/chaosManagementContext.js";
+import { Experiment, ExperimentUpdate } from "../../models/models.js";
 import {
-  Experiment,
-  ExperimentUpdate,
-  ExperimentExecution,
-  ExperimentExecutionDetails,
-} from "../../models/models.js";
-import {
-  ExperimentsExecutionDetailsOptionalParams,
-  ExperimentsListAllExecutionsOptionalParams,
-  ExperimentsGetExecutionOptionalParams,
   ExperimentsStartOptionalParams,
   ExperimentsCancelOptionalParams,
   ExperimentsListAllOptionalParams,
@@ -22,9 +14,6 @@ import {
   ExperimentsGetOptionalParams,
 } from "../../api/experiments/options.js";
 import {
-  executionDetails,
-  listAllExecutions,
-  getExecution,
   start,
   cancel,
   listAll,
@@ -39,26 +28,6 @@ import { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a Experiments operations. */
 export interface ExperimentsOperations {
-  /** Execution details of an experiment resource. */
-  executionDetails: (
-    resourceGroupName: string,
-    experimentName: string,
-    executionId: string,
-    options?: ExperimentsExecutionDetailsOptionalParams,
-  ) => Promise<ExperimentExecutionDetails>;
-  /** Get a list of executions of an Experiment resource. */
-  listAllExecutions: (
-    resourceGroupName: string,
-    experimentName: string,
-    options?: ExperimentsListAllExecutionsOptionalParams,
-  ) => PagedAsyncIterableIterator<ExperimentExecution>;
-  /** Get an execution of an Experiment resource. */
-  getExecution: (
-    resourceGroupName: string,
-    experimentName: string,
-    executionId: string,
-    options?: ExperimentsGetExecutionOptionalParams,
-  ) => Promise<ExperimentExecution>;
   /** Start a Experiment resource. */
   start: (
     resourceGroupName: string,
@@ -113,23 +82,6 @@ export interface ExperimentsOperations {
 
 function _getExperiments(context: ChaosManagementContext) {
   return {
-    executionDetails: (
-      resourceGroupName: string,
-      experimentName: string,
-      executionId: string,
-      options?: ExperimentsExecutionDetailsOptionalParams,
-    ) => executionDetails(context, resourceGroupName, experimentName, executionId, options),
-    listAllExecutions: (
-      resourceGroupName: string,
-      experimentName: string,
-      options?: ExperimentsListAllExecutionsOptionalParams,
-    ) => listAllExecutions(context, resourceGroupName, experimentName, options),
-    getExecution: (
-      resourceGroupName: string,
-      experimentName: string,
-      executionId: string,
-      options?: ExperimentsGetExecutionOptionalParams,
-    ) => getExecution(context, resourceGroupName, experimentName, executionId, options),
     start: (
       resourceGroupName: string,
       experimentName: string,

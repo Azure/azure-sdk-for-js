@@ -4,8 +4,6 @@
 import { HybridConnectivityManagementAPIContext as Client } from "../index.js";
 import {
   errorResponseDeserializer,
-  OperationStatusResult,
-  operationStatusResultDeserializer,
   PublicCloudConnector,
   publicCloudConnectorSerializer,
   publicCloudConnectorDeserializer,
@@ -13,6 +11,8 @@ import {
   publicCloudConnectorUpdateSerializer,
   _PublicCloudConnectorListResult,
   _publicCloudConnectorListResultDeserializer,
+  OperationStatusResult,
+  operationStatusResultDeserializer,
 } from "../../models/models.js";
 import {
   PublicCloudConnectorsTestPermissionsOptionalParams,
@@ -37,7 +37,7 @@ import {
 } from "@azure-rest/core-client";
 import { PollerLike, OperationState } from "@azure/core-lro";
 
-export function _testPermissionsSend(
+export function _publicCloudConnectorsTestPermissionsSend(
   context: Client,
   resourceGroupName: string,
   publicCloudConnector: string,
@@ -46,27 +46,29 @@ export function _testPermissionsSend(
   },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HybridConnectivity/publicCloudConnectors/{publicCloudConnector}/testPermissions{?api-version}",
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HybridConnectivity/publicCloudConnectors/{publicCloudConnector}/testPermissions{?api%2Dversion}",
     {
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       publicCloudConnector: publicCloudConnector,
-      "api-version": context.apiVersion,
+      "api%2Dversion": context.apiVersion,
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).post({
-    ...operationOptionsToRequestParameters(options),
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
-  });
+  return context
+    .path(path)
+    .post({
+      ...operationOptionsToRequestParameters(options),
+      headers: {
+        accept: "application/json",
+        ...options.requestOptions?.headers,
+      },
+    });
 }
 
-export async function _testPermissionsDeserialize(
+export async function _publicCloudConnectorsTestPermissionsDeserialize(
   result: PathUncheckedResponse,
 ): Promise<OperationStatusResult> {
   const expectedStatuses = ["202", "200"];
@@ -80,7 +82,7 @@ export async function _testPermissionsDeserialize(
 }
 
 /** A long-running resource action. */
-export function testPermissions(
+export function publicCloudConnectorsTestPermissions(
   context: Client,
   resourceGroupName: string,
   publicCloudConnector: string,
@@ -88,41 +90,53 @@ export function testPermissions(
     requestOptions: {},
   },
 ): PollerLike<OperationState<OperationStatusResult>, OperationStatusResult> {
-  return getLongRunningPoller(context, _testPermissionsDeserialize, ["202", "200"], {
-    updateIntervalInMs: options?.updateIntervalInMs,
-    abortSignal: options?.abortSignal,
-    getInitialResponse: () =>
-      _testPermissionsSend(context, resourceGroupName, publicCloudConnector, options),
-    resourceLocationConfig: "location",
-  }) as PollerLike<OperationState<OperationStatusResult>, OperationStatusResult>;
+  return getLongRunningPoller(
+    context,
+    _publicCloudConnectorsTestPermissionsDeserialize,
+    ["202", "200"],
+    {
+      updateIntervalInMs: options?.updateIntervalInMs,
+      abortSignal: options?.abortSignal,
+      getInitialResponse: () =>
+        _publicCloudConnectorsTestPermissionsSend(
+          context,
+          resourceGroupName,
+          publicCloudConnector,
+          options,
+        ),
+      resourceLocationConfig: "location",
+    },
+  ) as PollerLike<OperationState<OperationStatusResult>, OperationStatusResult>;
 }
 
-export function _listBySubscriptionSend(
+export function _publicCloudConnectorsListBySubscriptionSend(
   context: Client,
   options: PublicCloudConnectorsListBySubscriptionOptionalParams = {
     requestOptions: {},
   },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "/subscriptions/{subscriptionId}/providers/Microsoft.HybridConnectivity/publicCloudConnectors{?api-version}",
+    "/subscriptions/{subscriptionId}/providers/Microsoft.HybridConnectivity/publicCloudConnectors{?api%2Dversion}",
     {
       subscriptionId: context.subscriptionId,
-      "api-version": context.apiVersion,
+      "api%2Dversion": context.apiVersion,
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).get({
-    ...operationOptionsToRequestParameters(options),
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
-  });
+  return context
+    .path(path)
+    .get({
+      ...operationOptionsToRequestParameters(options),
+      headers: {
+        accept: "application/json",
+        ...options.requestOptions?.headers,
+      },
+    });
 }
 
-export async function _listBySubscriptionDeserialize(
+export async function _publicCloudConnectorsListBySubscriptionDeserialize(
   result: PathUncheckedResponse,
 ): Promise<_PublicCloudConnectorListResult> {
   const expectedStatuses = ["200"];
@@ -136,7 +150,7 @@ export async function _listBySubscriptionDeserialize(
 }
 
 /** List PublicCloudConnector resources by subscription ID */
-export function listBySubscription(
+export function publicCloudConnectorsListBySubscription(
   context: Client,
   options: PublicCloudConnectorsListBySubscriptionOptionalParams = {
     requestOptions: {},
@@ -144,14 +158,14 @@ export function listBySubscription(
 ): PagedAsyncIterableIterator<PublicCloudConnector> {
   return buildPagedAsyncIterator(
     context,
-    () => _listBySubscriptionSend(context, options),
-    _listBySubscriptionDeserialize,
+    () => _publicCloudConnectorsListBySubscriptionSend(context, options),
+    _publicCloudConnectorsListBySubscriptionDeserialize,
     ["200"],
     { itemName: "value", nextLinkName: "nextLink" },
   );
 }
 
-export function _listByResourceGroupSend(
+export function _publicCloudConnectorsListByResourceGroupSend(
   context: Client,
   resourceGroupName: string,
   options: PublicCloudConnectorsListByResourceGroupOptionalParams = {
@@ -159,26 +173,28 @@ export function _listByResourceGroupSend(
   },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HybridConnectivity/publicCloudConnectors{?api-version}",
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HybridConnectivity/publicCloudConnectors{?api%2Dversion}",
     {
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
-      "api-version": context.apiVersion,
+      "api%2Dversion": context.apiVersion,
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).get({
-    ...operationOptionsToRequestParameters(options),
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
-  });
+  return context
+    .path(path)
+    .get({
+      ...operationOptionsToRequestParameters(options),
+      headers: {
+        accept: "application/json",
+        ...options.requestOptions?.headers,
+      },
+    });
 }
 
-export async function _listByResourceGroupDeserialize(
+export async function _publicCloudConnectorsListByResourceGroupDeserialize(
   result: PathUncheckedResponse,
 ): Promise<_PublicCloudConnectorListResult> {
   const expectedStatuses = ["200"];
@@ -192,7 +208,7 @@ export async function _listByResourceGroupDeserialize(
 }
 
 /** List PublicCloudConnector resources by resource group */
-export function listByResourceGroup(
+export function publicCloudConnectorsListByResourceGroup(
   context: Client,
   resourceGroupName: string,
   options: PublicCloudConnectorsListByResourceGroupOptionalParams = {
@@ -201,41 +217,50 @@ export function listByResourceGroup(
 ): PagedAsyncIterableIterator<PublicCloudConnector> {
   return buildPagedAsyncIterator(
     context,
-    () => _listByResourceGroupSend(context, resourceGroupName, options),
-    _listByResourceGroupDeserialize,
+    () =>
+      _publicCloudConnectorsListByResourceGroupSend(
+        context,
+        resourceGroupName,
+        options,
+      ),
+    _publicCloudConnectorsListByResourceGroupDeserialize,
     ["200"],
     { itemName: "value", nextLinkName: "nextLink" },
   );
 }
 
-export function _$deleteSend(
+export function _publicCloudConnectorsDeleteSend(
   context: Client,
   resourceGroupName: string,
   publicCloudConnector: string,
   options: PublicCloudConnectorsDeleteOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HybridConnectivity/publicCloudConnectors/{publicCloudConnector}{?api-version}",
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HybridConnectivity/publicCloudConnectors/{publicCloudConnector}{?api%2Dversion}",
     {
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       publicCloudConnector: publicCloudConnector,
-      "api-version": context.apiVersion,
+      "api%2Dversion": context.apiVersion,
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).delete({
-    ...operationOptionsToRequestParameters(options),
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
-  });
+  return context
+    .path(path)
+    .delete({
+      ...operationOptionsToRequestParameters(options),
+      headers: {
+        accept: "application/json",
+        ...options.requestOptions?.headers,
+      },
+    });
 }
 
-export async function _$deleteDeserialize(result: PathUncheckedResponse): Promise<void> {
+export async function _publicCloudConnectorsDeleteDeserialize(
+  result: PathUncheckedResponse,
+): Promise<void> {
   const expectedStatuses = ["200", "204"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
@@ -247,22 +272,22 @@ export async function _$deleteDeserialize(result: PathUncheckedResponse): Promis
 }
 
 /** Delete a PublicCloudConnector */
-/**
- *  @fixme delete is a reserved word that cannot be used as an operation name.
- *         Please add @clientName("clientName") or @clientName("<JS-Specific-Name>", "javascript")
- *         to the operation to override the generated name.
- */
-export async function $delete(
+export async function publicCloudConnectorsDelete(
   context: Client,
   resourceGroupName: string,
   publicCloudConnector: string,
   options: PublicCloudConnectorsDeleteOptionalParams = { requestOptions: {} },
 ): Promise<void> {
-  const result = await _$deleteSend(context, resourceGroupName, publicCloudConnector, options);
-  return _$deleteDeserialize(result);
+  const result = await _publicCloudConnectorsDeleteSend(
+    context,
+    resourceGroupName,
+    publicCloudConnector,
+    options,
+  );
+  return _publicCloudConnectorsDeleteDeserialize(result);
 }
 
-export function _updateSend(
+export function _publicCloudConnectorsUpdateSend(
   context: Client,
   resourceGroupName: string,
   publicCloudConnector: string,
@@ -270,29 +295,31 @@ export function _updateSend(
   options: PublicCloudConnectorsUpdateOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HybridConnectivity/publicCloudConnectors/{publicCloudConnector}{?api-version}",
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HybridConnectivity/publicCloudConnectors/{publicCloudConnector}{?api%2Dversion}",
     {
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       publicCloudConnector: publicCloudConnector,
-      "api-version": context.apiVersion,
+      "api%2Dversion": context.apiVersion,
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).patch({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
-    body: publicCloudConnectorUpdateSerializer(properties),
-  });
+  return context
+    .path(path)
+    .patch({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      headers: {
+        accept: "application/json",
+        ...options.requestOptions?.headers,
+      },
+      body: publicCloudConnectorUpdateSerializer(properties),
+    });
 }
 
-export async function _updateDeserialize(
+export async function _publicCloudConnectorsUpdateDeserialize(
   result: PathUncheckedResponse,
 ): Promise<PublicCloudConnector> {
   const expectedStatuses = ["200"];
@@ -306,24 +333,24 @@ export async function _updateDeserialize(
 }
 
 /** Update a PublicCloudConnector */
-export async function update(
+export async function publicCloudConnectorsUpdate(
   context: Client,
   resourceGroupName: string,
   publicCloudConnector: string,
   properties: PublicCloudConnectorUpdate,
   options: PublicCloudConnectorsUpdateOptionalParams = { requestOptions: {} },
 ): Promise<PublicCloudConnector> {
-  const result = await _updateSend(
+  const result = await _publicCloudConnectorsUpdateSend(
     context,
     resourceGroupName,
     publicCloudConnector,
     properties,
     options,
   );
-  return _updateDeserialize(result);
+  return _publicCloudConnectorsUpdateDeserialize(result);
 }
 
-export function _createOrUpdateSend(
+export function _publicCloudConnectorsCreateOrUpdateSend(
   context: Client,
   resourceGroupName: string,
   publicCloudConnector: string,
@@ -333,32 +360,34 @@ export function _createOrUpdateSend(
   },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HybridConnectivity/publicCloudConnectors/{publicCloudConnector}{?api-version}",
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HybridConnectivity/publicCloudConnectors/{publicCloudConnector}{?api%2Dversion}",
     {
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       publicCloudConnector: publicCloudConnector,
-      "api-version": context.apiVersion,
+      "api%2Dversion": context.apiVersion,
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).put({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
-    body: publicCloudConnectorSerializer(resource),
-  });
+  return context
+    .path(path)
+    .put({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      headers: {
+        accept: "application/json",
+        ...options.requestOptions?.headers,
+      },
+      body: publicCloudConnectorSerializer(resource),
+    });
 }
 
-export async function _createOrUpdateDeserialize(
+export async function _publicCloudConnectorsCreateOrUpdateDeserialize(
   result: PathUncheckedResponse,
 ): Promise<PublicCloudConnector> {
-  const expectedStatuses = ["200", "201"];
+  const expectedStatuses = ["200", "201", "202"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = errorResponseDeserializer(result.body);
@@ -369,7 +398,7 @@ export async function _createOrUpdateDeserialize(
 }
 
 /** Create a PublicCloudConnector */
-export function createOrUpdate(
+export function publicCloudConnectorsCreateOrUpdate(
   context: Client,
   resourceGroupName: string,
   publicCloudConnector: string,
@@ -378,43 +407,56 @@ export function createOrUpdate(
     requestOptions: {},
   },
 ): PollerLike<OperationState<PublicCloudConnector>, PublicCloudConnector> {
-  return getLongRunningPoller(context, _createOrUpdateDeserialize, ["200", "201"], {
-    updateIntervalInMs: options?.updateIntervalInMs,
-    abortSignal: options?.abortSignal,
-    getInitialResponse: () =>
-      _createOrUpdateSend(context, resourceGroupName, publicCloudConnector, resource, options),
-    resourceLocationConfig: "azure-async-operation",
-  }) as PollerLike<OperationState<PublicCloudConnector>, PublicCloudConnector>;
+  return getLongRunningPoller(
+    context,
+    _publicCloudConnectorsCreateOrUpdateDeserialize,
+    ["200", "201", "202"],
+    {
+      updateIntervalInMs: options?.updateIntervalInMs,
+      abortSignal: options?.abortSignal,
+      getInitialResponse: () =>
+        _publicCloudConnectorsCreateOrUpdateSend(
+          context,
+          resourceGroupName,
+          publicCloudConnector,
+          resource,
+          options,
+        ),
+      resourceLocationConfig: "azure-async-operation",
+    },
+  ) as PollerLike<OperationState<PublicCloudConnector>, PublicCloudConnector>;
 }
 
-export function _getSend(
+export function _publicCloudConnectorsGetSend(
   context: Client,
   resourceGroupName: string,
   publicCloudConnector: string,
   options: PublicCloudConnectorsGetOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HybridConnectivity/publicCloudConnectors/{publicCloudConnector}{?api-version}",
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HybridConnectivity/publicCloudConnectors/{publicCloudConnector}{?api%2Dversion}",
     {
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       publicCloudConnector: publicCloudConnector,
-      "api-version": context.apiVersion,
+      "api%2Dversion": context.apiVersion,
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).get({
-    ...operationOptionsToRequestParameters(options),
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
-  });
+  return context
+    .path(path)
+    .get({
+      ...operationOptionsToRequestParameters(options),
+      headers: {
+        accept: "application/json",
+        ...options.requestOptions?.headers,
+      },
+    });
 }
 
-export async function _getDeserialize(
+export async function _publicCloudConnectorsGetDeserialize(
   result: PathUncheckedResponse,
 ): Promise<PublicCloudConnector> {
   const expectedStatuses = ["200"];
@@ -428,12 +470,17 @@ export async function _getDeserialize(
 }
 
 /** Get a PublicCloudConnector */
-export async function get(
+export async function publicCloudConnectorsGet(
   context: Client,
   resourceGroupName: string,
   publicCloudConnector: string,
   options: PublicCloudConnectorsGetOptionalParams = { requestOptions: {} },
 ): Promise<PublicCloudConnector> {
-  const result = await _getSend(context, resourceGroupName, publicCloudConnector, options);
-  return _getDeserialize(result);
+  const result = await _publicCloudConnectorsGetSend(
+    context,
+    resourceGroupName,
+    publicCloudConnector,
+    options,
+  );
+  return _publicCloudConnectorsGetDeserialize(result);
 }

@@ -58,8 +58,14 @@ import {
   GiMinorVersionsOperations,
   _getGiMinorVersionsOperations,
 } from "./classic/giMinorVersions/index.js";
-import { GiVersionsOperations, _getGiVersionsOperations } from "./classic/giVersions/index.js";
-import { DbNodesOperations, _getDbNodesOperations } from "./classic/dbNodes/index.js";
+import {
+  GiVersionsOperations,
+  _getGiVersionsOperations,
+} from "./classic/giVersions/index.js";
+import {
+  DbNodesOperations,
+  _getDbNodesOperations,
+} from "./classic/dbNodes/index.js";
 import {
   OracleSubscriptionsOperations,
   _getOracleSubscriptionsOperations,
@@ -76,12 +82,18 @@ import {
   CloudVmClustersOperations,
   _getCloudVmClustersOperations,
 } from "./classic/cloudVmClusters/index.js";
-import { DbServersOperations, _getDbServersOperations } from "./classic/dbServers/index.js";
+import {
+  DbServersOperations,
+  _getDbServersOperations,
+} from "./classic/dbServers/index.js";
 import {
   CloudExadataInfrastructuresOperations,
   _getCloudExadataInfrastructuresOperations,
 } from "./classic/cloudExadataInfrastructures/index.js";
-import { OperationsOperations, _getOperationsOperations } from "./classic/operations/index.js";
+import {
+  OperationsOperations,
+  _getOperationsOperations,
+} from "./classic/operations/index.js";
 import { Pipeline } from "@azure/core-rest-pipeline";
 import { TokenCredential } from "@azure/core-auth";
 
@@ -106,16 +118,21 @@ export class OracleDatabaseManagementClient {
       userAgentOptions: { userAgentPrefix },
     });
     this.pipeline = this._client.pipeline;
-    this.exascaleDbStorageVaults = _getExascaleDbStorageVaultsOperations(this._client);
-    this.exascaleDbNodes = _getExascaleDbNodesOperations(this._client);
-    this.exadbVmClusters = _getExadbVmClustersOperations(this._client);
-    this.autonomousDatabaseVersions = _getAutonomousDatabaseVersionsOperations(this._client);
-    this.autonomousDatabaseNationalCharacterSets =
-      _getAutonomousDatabaseNationalCharacterSetsOperations(this._client);
-    this.autonomousDatabaseCharacterSets = _getAutonomousDatabaseCharacterSetsOperations(
+    this.exascaleDbStorageVaults = _getExascaleDbStorageVaultsOperations(
       this._client,
     );
-    this.autonomousDatabaseBackups = _getAutonomousDatabaseBackupsOperations(this._client);
+    this.exascaleDbNodes = _getExascaleDbNodesOperations(this._client);
+    this.exadbVmClusters = _getExadbVmClustersOperations(this._client);
+    this.autonomousDatabaseVersions = _getAutonomousDatabaseVersionsOperations(
+      this._client,
+    );
+    this.autonomousDatabaseNationalCharacterSets =
+      _getAutonomousDatabaseNationalCharacterSetsOperations(this._client);
+    this.autonomousDatabaseCharacterSets =
+      _getAutonomousDatabaseCharacterSetsOperations(this._client);
+    this.autonomousDatabaseBackups = _getAutonomousDatabaseBackupsOperations(
+      this._client,
+    );
     this.autonomousDatabases = _getAutonomousDatabasesOperations(this._client);
     this.flexComponents = _getFlexComponentsOperations(this._client);
     this.dnsPrivateZones = _getDnsPrivateZonesOperations(this._client);
@@ -126,10 +143,13 @@ export class OracleDatabaseManagementClient {
     this.dbNodes = _getDbNodesOperations(this._client);
     this.oracleSubscriptions = _getOracleSubscriptionsOperations(this._client);
     this.systemVersions = _getSystemVersionsOperations(this._client);
-    this.virtualNetworkAddresses = _getVirtualNetworkAddressesOperations(this._client);
+    this.virtualNetworkAddresses = _getVirtualNetworkAddressesOperations(
+      this._client,
+    );
     this.cloudVmClusters = _getCloudVmClustersOperations(this._client);
     this.dbServers = _getDbServersOperations(this._client);
-    this.cloudExadataInfrastructures = _getCloudExadataInfrastructuresOperations(this._client);
+    this.cloudExadataInfrastructures =
+      _getCloudExadataInfrastructuresOperations(this._client);
     this.operations = _getOperationsOperations(this._client);
   }
 

@@ -155,7 +155,7 @@ const deserializeMap: Record<string, DeserializationHelper> = {
   "PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AVS/privateClouds/{privateCloudName}/pureStoragePolicies/{storagePolicyName}":
     {
       deserializer: _createOrUpdateDeserialize,
-      expectedStatuses: ["200", "201"],
+      expectedStatuses: ["200", "201", "202"],
     },
   "DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AVS/privateClouds/{privateCloudName}/iscsiPaths/default":
     {
@@ -165,7 +165,7 @@ const deserializeMap: Record<string, DeserializationHelper> = {
   "PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AVS/privateClouds/{privateCloudName}/iscsiPaths/default":
     {
       deserializer: _createOrUpdateDeserializeIscsiPaths,
-      expectedStatuses: ["200", "201"],
+      expectedStatuses: ["200", "201", "202"],
     },
   "DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AVS/privateClouds/{privateCloudName}/scriptExecutions/{scriptExecutionName}":
     {
@@ -175,7 +175,7 @@ const deserializeMap: Record<string, DeserializationHelper> = {
   "PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AVS/privateClouds/{privateCloudName}/scriptExecutions/{scriptExecutionName}":
     {
       deserializer: _createOrUpdateDeserializeScriptExecutions,
-      expectedStatuses: ["200", "201"],
+      expectedStatuses: ["200", "201", "202"],
     },
   "DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AVS/privateClouds/{privateCloudName}/clusters/{clusterName}/placementPolicies/{placementPolicyName}":
     {
@@ -187,7 +187,7 @@ const deserializeMap: Record<string, DeserializationHelper> = {
   "PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AVS/privateClouds/{privateCloudName}/clusters/{clusterName}/placementPolicies/{placementPolicyName}":
     {
       deserializer: _createOrUpdateDeserializePlacementPolicies,
-      expectedStatuses: ["200", "201"],
+      expectedStatuses: ["200", "201", "202"],
     },
   "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AVS/privateClouds/{privateCloudName}/clusters/{clusterName}/virtualMachines/{virtualMachineId}/restrictMovement":
     {
@@ -202,7 +202,7 @@ const deserializeMap: Record<string, DeserializationHelper> = {
   "PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AVS/privateClouds/{privateCloudName}/addons/{addonName}":
     {
       deserializer: _createOrUpdateDeserializeAddons,
-      expectedStatuses: ["200", "201"],
+      expectedStatuses: ["200", "201", "202"],
     },
   "DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AVS/privateClouds/{privateCloudName}/cloudLinks/{cloudLinkName}":
     {
@@ -212,7 +212,7 @@ const deserializeMap: Record<string, DeserializationHelper> = {
   "PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AVS/privateClouds/{privateCloudName}/cloudLinks/{cloudLinkName}":
     {
       deserializer: _createOrUpdateDeserializeCloudLinks,
-      expectedStatuses: ["200", "201"],
+      expectedStatuses: ["200", "201", "202"],
     },
   "DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AVS/privateClouds/{privateCloudName}/globalReachConnections/{globalReachConnectionName}":
     {
@@ -222,7 +222,7 @@ const deserializeMap: Record<string, DeserializationHelper> = {
   "PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AVS/privateClouds/{privateCloudName}/globalReachConnections/{globalReachConnectionName}":
     {
       deserializer: _createOrUpdateDeserializeGlobalReachConnections,
-      expectedStatuses: ["200", "201"],
+      expectedStatuses: ["200", "201", "202"],
     },
   "DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AVS/privateClouds/{privateCloudName}/authorizations/{authorizationName}":
     {
@@ -232,7 +232,7 @@ const deserializeMap: Record<string, DeserializationHelper> = {
   "PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AVS/privateClouds/{privateCloudName}/authorizations/{authorizationName}":
     {
       deserializer: _createOrUpdateDeserializeAuthorizations,
-      expectedStatuses: ["200", "201"],
+      expectedStatuses: ["200", "201", "202"],
     },
   "DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AVS/privateClouds/{privateCloudName}/clusters/{clusterName}/datastores/{datastoreName}":
     {
@@ -242,7 +242,7 @@ const deserializeMap: Record<string, DeserializationHelper> = {
   "PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AVS/privateClouds/{privateCloudName}/clusters/{clusterName}/datastores/{datastoreName}":
     {
       deserializer: _createOrUpdateDeserializeDatastores,
-      expectedStatuses: ["200", "201"],
+      expectedStatuses: ["200", "201", "202"],
     },
   "DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AVS/privateClouds/{privateCloudName}/clusters/{clusterName}":
     {
@@ -252,12 +252,12 @@ const deserializeMap: Record<string, DeserializationHelper> = {
   "PATCH /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AVS/privateClouds/{privateCloudName}/clusters/{clusterName}":
     {
       deserializer: _updateDeserializeClusters,
-      expectedStatuses: ["200", "201"],
+      expectedStatuses: ["200", "201", "202"],
     },
   "PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AVS/privateClouds/{privateCloudName}/clusters/{clusterName}":
     {
       deserializer: _createOrUpdateDeserializeClusters,
-      expectedStatuses: ["200", "201"],
+      expectedStatuses: ["200", "201", "202"],
     },
   "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AVS/privateClouds/{privateCloudName}/rotateNsxtPassword":
     {
@@ -277,12 +277,12 @@ const deserializeMap: Record<string, DeserializationHelper> = {
   "PATCH /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AVS/privateClouds/{privateCloudName}":
     {
       deserializer: _updateDeserializePrivateClouds,
-      expectedStatuses: ["200", "201"],
+      expectedStatuses: ["200", "201", "202"],
     },
   "PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AVS/privateClouds/{privateCloudName}":
     {
       deserializer: _createOrUpdateDeserializePrivateClouds,
-      expectedStatuses: ["200", "201"],
+      expectedStatuses: ["200", "201", "202"],
     },
   "DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AVS/privateClouds/{privateCloudName}/workloadNetworks/default/vmGroups/{vmGroupId}":
     {
@@ -297,7 +297,7 @@ const deserializeMap: Record<string, DeserializationHelper> = {
   "PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AVS/privateClouds/{privateCloudName}/workloadNetworks/default/vmGroups/{vmGroupId}":
     {
       deserializer: _createVMGroupDeserialize,
-      expectedStatuses: ["200", "201"],
+      expectedStatuses: ["200", "201", "202"],
     },
   "DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AVS/privateClouds/{privateCloudName}/workloadNetworks/default/segments/{segmentId}":
     {
@@ -312,7 +312,7 @@ const deserializeMap: Record<string, DeserializationHelper> = {
   "PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AVS/privateClouds/{privateCloudName}/workloadNetworks/default/segments/{segmentId}":
     {
       deserializer: _createSegmentsDeserialize,
-      expectedStatuses: ["200", "201"],
+      expectedStatuses: ["200", "201", "202"],
     },
   "DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AVS/privateClouds/{privateCloudName}/workloadNetworks/default/publicIPs/{publicIPId}":
     {
@@ -322,7 +322,7 @@ const deserializeMap: Record<string, DeserializationHelper> = {
   "PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AVS/privateClouds/{privateCloudName}/workloadNetworks/default/publicIPs/{publicIPId}":
     {
       deserializer: _createPublicIPDeserialize,
-      expectedStatuses: ["200", "201"],
+      expectedStatuses: ["200", "201", "202"],
     },
   "DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AVS/privateClouds/{privateCloudName}/workloadNetworks/default/portMirroringProfiles/{portMirroringId}":
     {
@@ -337,7 +337,7 @@ const deserializeMap: Record<string, DeserializationHelper> = {
   "PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AVS/privateClouds/{privateCloudName}/workloadNetworks/default/portMirroringProfiles/{portMirroringId}":
     {
       deserializer: _createPortMirroringDeserialize,
-      expectedStatuses: ["200", "201"],
+      expectedStatuses: ["200", "201", "202"],
     },
   "DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AVS/privateClouds/{privateCloudName}/workloadNetworks/default/dnsZones/{dnsZoneId}":
     {
@@ -352,7 +352,7 @@ const deserializeMap: Record<string, DeserializationHelper> = {
   "PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AVS/privateClouds/{privateCloudName}/workloadNetworks/default/dnsZones/{dnsZoneId}":
     {
       deserializer: _createDnsZoneDeserialize,
-      expectedStatuses: ["200", "201"],
+      expectedStatuses: ["200", "201", "202"],
     },
   "DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AVS/privateClouds/{privateCloudName}/workloadNetworks/default/dnsServices/{dnsServiceId}":
     {
@@ -367,7 +367,7 @@ const deserializeMap: Record<string, DeserializationHelper> = {
   "PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AVS/privateClouds/{privateCloudName}/workloadNetworks/default/dnsServices/{dnsServiceId}":
     {
       deserializer: _createDnsServiceDeserialize,
-      expectedStatuses: ["200", "201"],
+      expectedStatuses: ["200", "201", "202"],
     },
   "DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AVS/privateClouds/{privateCloudName}/workloadNetworks/default/dhcpConfigurations/{dhcpId}":
     {
@@ -377,7 +377,10 @@ const deserializeMap: Record<string, DeserializationHelper> = {
   "PATCH /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AVS/privateClouds/{privateCloudName}/workloadNetworks/default/dhcpConfigurations/{dhcpId}":
     { deserializer: _updateDhcpDeserialize, expectedStatuses: ["200", "202"] },
   "PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AVS/privateClouds/{privateCloudName}/workloadNetworks/default/dhcpConfigurations/{dhcpId}":
-    { deserializer: _createDhcpDeserialize, expectedStatuses: ["200", "201"] },
+    {
+      deserializer: _createDhcpDeserialize,
+      expectedStatuses: ["200", "201", "202"],
+    },
 };
 
 function getDeserializationHelper(

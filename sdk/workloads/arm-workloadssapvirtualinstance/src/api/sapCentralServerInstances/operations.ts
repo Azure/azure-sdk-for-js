@@ -25,11 +25,11 @@ import {
   SAPCentralServerInstancesCreateOptionalParams,
   SAPCentralServerInstancesGetOptionalParams,
 } from "./options.js";
-import { getLongRunningPoller } from "../../static-helpers/pollingHelpers.js";
 import {
   PagedAsyncIterableIterator,
   buildPagedAsyncIterator,
 } from "../../static-helpers/pagingHelpers.js";
+import { getLongRunningPoller } from "../../static-helpers/pollingHelpers.js";
 import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
 import {
   StreamableMethod,
@@ -59,15 +59,19 @@ export function _stopSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).post({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
-    body: !options["body"] ? options["body"] : stopRequestSerializer(options["body"]),
-  });
+  return context
+    .path(path)
+    .post({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      headers: {
+        accept: "application/json",
+        ...options.requestOptions?.headers,
+      },
+      body: !options["body"]
+        ? options["body"]
+        : stopRequestSerializer(options["body"]),
+    });
 }
 
 export async function _stopDeserialize(
@@ -95,9 +99,18 @@ export function stop(
     updateIntervalInMs: options?.updateIntervalInMs,
     abortSignal: options?.abortSignal,
     getInitialResponse: () =>
-      _stopSend(context, resourceGroupName, sapVirtualInstanceName, centralInstanceName, options),
+      _stopSend(
+        context,
+        resourceGroupName,
+        sapVirtualInstanceName,
+        centralInstanceName,
+        options,
+      ),
     resourceLocationConfig: "location",
-  }) as PollerLike<OperationState<OperationStatusResult>, OperationStatusResult>;
+  }) as PollerLike<
+    OperationState<OperationStatusResult>,
+    OperationStatusResult
+  >;
 }
 
 export function _startSend(
@@ -122,15 +135,19 @@ export function _startSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).post({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
-    body: !options["body"] ? options["body"] : startRequestSerializer(options["body"]),
-  });
+  return context
+    .path(path)
+    .post({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      headers: {
+        accept: "application/json",
+        ...options.requestOptions?.headers,
+      },
+      body: !options["body"]
+        ? options["body"]
+        : startRequestSerializer(options["body"]),
+    });
 }
 
 export async function _startDeserialize(
@@ -160,9 +177,18 @@ export function start(
     updateIntervalInMs: options?.updateIntervalInMs,
     abortSignal: options?.abortSignal,
     getInitialResponse: () =>
-      _startSend(context, resourceGroupName, sapVirtualInstanceName, centralInstanceName, options),
+      _startSend(
+        context,
+        resourceGroupName,
+        sapVirtualInstanceName,
+        centralInstanceName,
+        options,
+      ),
     resourceLocationConfig: "location",
-  }) as PollerLike<OperationState<OperationStatusResult>, OperationStatusResult>;
+  }) as PollerLike<
+    OperationState<OperationStatusResult>,
+    OperationStatusResult
+  >;
 }
 
 export function _listSend(
@@ -183,13 +209,15 @@ export function _listSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).get({
-    ...operationOptionsToRequestParameters(options),
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
-  });
+  return context
+    .path(path)
+    .get({
+      ...operationOptionsToRequestParameters(options),
+      headers: {
+        accept: "application/json",
+        ...options.requestOptions?.headers,
+      },
+    });
 }
 
 export async function _listDeserialize(
@@ -214,7 +242,8 @@ export function list(
 ): PagedAsyncIterableIterator<SAPCentralServerInstance> {
   return buildPagedAsyncIterator(
     context,
-    () => _listSend(context, resourceGroupName, sapVirtualInstanceName, options),
+    () =>
+      _listSend(context, resourceGroupName, sapVirtualInstanceName, options),
     _listDeserialize,
     ["200"],
     { itemName: "value", nextLinkName: "nextLink" },
@@ -243,16 +272,20 @@ export function _$deleteSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).delete({
-    ...operationOptionsToRequestParameters(options),
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
-  });
+  return context
+    .path(path)
+    .delete({
+      ...operationOptionsToRequestParameters(options),
+      headers: {
+        accept: "application/json",
+        ...options.requestOptions?.headers,
+      },
+    });
 }
 
-export async function _$deleteDeserialize(result: PathUncheckedResponse): Promise<void> {
+export async function _$deleteDeserialize(
+  result: PathUncheckedResponse,
+): Promise<void> {
   const expectedStatuses = ["202", "204", "200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
@@ -278,19 +311,24 @@ export function $delete(
     requestOptions: {},
   },
 ): PollerLike<OperationState<void>, void> {
-  return getLongRunningPoller(context, _$deleteDeserialize, ["202", "204", "200"], {
-    updateIntervalInMs: options?.updateIntervalInMs,
-    abortSignal: options?.abortSignal,
-    getInitialResponse: () =>
-      _$deleteSend(
-        context,
-        resourceGroupName,
-        sapVirtualInstanceName,
-        centralInstanceName,
-        options,
-      ),
-    resourceLocationConfig: "location",
-  }) as PollerLike<OperationState<void>, void>;
+  return getLongRunningPoller(
+    context,
+    _$deleteDeserialize,
+    ["202", "204", "200"],
+    {
+      updateIntervalInMs: options?.updateIntervalInMs,
+      abortSignal: options?.abortSignal,
+      getInitialResponse: () =>
+        _$deleteSend(
+          context,
+          resourceGroupName,
+          sapVirtualInstanceName,
+          centralInstanceName,
+          options,
+        ),
+      resourceLocationConfig: "location",
+    },
+  ) as PollerLike<OperationState<void>, void>;
 }
 
 export function _updateSend(
@@ -316,15 +354,17 @@ export function _updateSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).patch({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
-    body: updateSAPCentralInstanceRequestSerializer(properties),
-  });
+  return context
+    .path(path)
+    .patch({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      headers: {
+        accept: "application/json",
+        ...options.requestOptions?.headers,
+      },
+      body: updateSAPCentralInstanceRequestSerializer(properties),
+    });
 }
 
 export async function _updateDeserialize(
@@ -385,21 +425,23 @@ export function _createSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).put({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
-    body: sapCentralServerInstanceSerializer(resource),
-  });
+  return context
+    .path(path)
+    .put({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      headers: {
+        accept: "application/json",
+        ...options.requestOptions?.headers,
+      },
+      body: sapCentralServerInstanceSerializer(resource),
+    });
 }
 
 export async function _createDeserialize(
   result: PathUncheckedResponse,
 ): Promise<SAPCentralServerInstance> {
-  const expectedStatuses = ["200", "201"];
+  const expectedStatuses = ["200", "201", "202"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = errorResponseDeserializer(result.body);
@@ -419,21 +461,32 @@ export function create(
   options: SAPCentralServerInstancesCreateOptionalParams = {
     requestOptions: {},
   },
-): PollerLike<OperationState<SAPCentralServerInstance>, SAPCentralServerInstance> {
-  return getLongRunningPoller(context, _createDeserialize, ["200", "201"], {
-    updateIntervalInMs: options?.updateIntervalInMs,
-    abortSignal: options?.abortSignal,
-    getInitialResponse: () =>
-      _createSend(
-        context,
-        resourceGroupName,
-        sapVirtualInstanceName,
-        centralInstanceName,
-        resource,
-        options,
-      ),
-    resourceLocationConfig: "azure-async-operation",
-  }) as PollerLike<OperationState<SAPCentralServerInstance>, SAPCentralServerInstance>;
+): PollerLike<
+  OperationState<SAPCentralServerInstance>,
+  SAPCentralServerInstance
+> {
+  return getLongRunningPoller(
+    context,
+    _createDeserialize,
+    ["200", "201", "202"],
+    {
+      updateIntervalInMs: options?.updateIntervalInMs,
+      abortSignal: options?.abortSignal,
+      getInitialResponse: () =>
+        _createSend(
+          context,
+          resourceGroupName,
+          sapVirtualInstanceName,
+          centralInstanceName,
+          resource,
+          options,
+        ),
+      resourceLocationConfig: "azure-async-operation",
+    },
+  ) as PollerLike<
+    OperationState<SAPCentralServerInstance>,
+    SAPCentralServerInstance
+  >;
 }
 
 export function _getSend(
@@ -456,13 +509,15 @@ export function _getSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).get({
-    ...operationOptionsToRequestParameters(options),
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
-  });
+  return context
+    .path(path)
+    .get({
+      ...operationOptionsToRequestParameters(options),
+      headers: {
+        accept: "application/json",
+        ...options.requestOptions?.headers,
+      },
+    });
 }
 
 export async function _getDeserialize(

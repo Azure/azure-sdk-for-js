@@ -14,7 +14,10 @@ async function storagePoolsRepairAvsConnection(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "BC47D6CC-AA80-4374-86F8-19D94EC70666";
   const client = new BlockClient(credential, subscriptionId);
-  await client.storagePools.repairAvsConnection("rgpurestorage", "storagePoolname");
+  await client.storagePools.repairAvsConnection(
+    "rgpurestorage",
+    "storagePoolname",
+  );
 }
 
 async function main(): Promise<void> {
