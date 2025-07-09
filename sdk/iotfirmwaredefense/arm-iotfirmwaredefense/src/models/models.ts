@@ -9,7 +9,9 @@ export interface _OperationListResult {
   nextLink?: string;
 }
 
-export function _operationListResultDeserializer(item: any): _OperationListResult {
+export function _operationListResultDeserializer(
+  item: any,
+): _OperationListResult {
   return {
     value: operationArrayDeserializer(item["value"]),
     nextLink: item["nextLink"],
@@ -40,7 +42,9 @@ export function operationDeserializer(item: any): Operation {
   return {
     name: item["name"],
     isDataAction: item["isDataAction"],
-    display: !item["display"] ? item["display"] : operationDisplayDeserializer(item["display"]),
+    display: !item["display"]
+      ? item["display"]
+      : operationDisplayDeserializer(item["display"]),
     origin: item["origin"],
     actionType: item["actionType"],
   };
@@ -111,7 +115,9 @@ export interface ErrorResponse {
 
 export function errorResponseDeserializer(item: any): ErrorResponse {
   return {
-    error: !item["error"] ? item["error"] : errorDetailDeserializer(item["error"]),
+    error: !item["error"]
+      ? item["error"]
+      : errorDetailDeserializer(item["error"]),
   };
 }
 
@@ -134,20 +140,26 @@ export function errorDetailDeserializer(item: any): ErrorDetail {
     code: item["code"],
     message: item["message"],
     target: item["target"],
-    details: !item["details"] ? item["details"] : errorDetailArrayDeserializer(item["details"]),
+    details: !item["details"]
+      ? item["details"]
+      : errorDetailArrayDeserializer(item["details"]),
     additionalInfo: !item["additionalInfo"]
       ? item["additionalInfo"]
       : errorAdditionalInfoArrayDeserializer(item["additionalInfo"]),
   };
 }
 
-export function errorDetailArrayDeserializer(result: Array<ErrorDetail>): any[] {
+export function errorDetailArrayDeserializer(
+  result: Array<ErrorDetail>,
+): any[] {
   return result.map((item) => {
     return errorDetailDeserializer(item);
   });
 }
 
-export function errorAdditionalInfoArrayDeserializer(result: Array<ErrorAdditionalInfo>): any[] {
+export function errorAdditionalInfoArrayDeserializer(
+  result: Array<ErrorAdditionalInfo>,
+): any[] {
   return result.map((item) => {
     return errorAdditionalInfoDeserializer(item);
   });
@@ -158,21 +170,16 @@ export interface ErrorAdditionalInfo {
   /** The additional info type. */
   readonly type?: string;
   /** The additional info. */
-  readonly info?: Record<string, any>;
+  readonly info?: any;
 }
 
-export function errorAdditionalInfoDeserializer(item: any): ErrorAdditionalInfo {
+export function errorAdditionalInfoDeserializer(
+  item: any,
+): ErrorAdditionalInfo {
   return {
     type: item["type"],
-    info: !item["info"] ? item["info"] : _errorAdditionalInfoInfoDeserializer(item["info"]),
+    info: item["info"],
   };
-}
-
-/** model interface _ErrorAdditionalInfoInfo */
-export interface _ErrorAdditionalInfoInfo {}
-
-export function _errorAdditionalInfoInfoDeserializer(item: any): _ErrorAdditionalInfoInfo {
-  return item;
 }
 
 /** Firmware definition */
@@ -283,13 +290,17 @@ export enum KnownStatus {
  */
 export type Status = string;
 
-export function statusMessageArraySerializer(result: Array<StatusMessage>): any[] {
+export function statusMessageArraySerializer(
+  result: Array<StatusMessage>,
+): any[] {
   return result.map((item) => {
     return statusMessageSerializer(item);
   });
 }
 
-export function statusMessageArrayDeserializer(result: Array<StatusMessage>): any[] {
+export function statusMessageArrayDeserializer(
+  result: Array<StatusMessage>,
+): any[] {
   return result.map((item) => {
     return statusMessageDeserializer(item);
   });
@@ -409,7 +420,9 @@ export function systemDataDeserializer(item: any): SystemData {
   return {
     createdBy: item["createdBy"],
     createdByType: item["createdByType"],
-    createdAt: !item["createdAt"] ? item["createdAt"] : new Date(item["createdAt"]),
+    createdAt: !item["createdAt"]
+      ? item["createdAt"]
+      : new Date(item["createdAt"]),
     lastModifiedBy: item["lastModifiedBy"],
     lastModifiedByType: item["lastModifiedByType"],
     lastModifiedAt: !item["lastModifiedAt"]
@@ -448,7 +461,9 @@ export interface FirmwareUpdateDefinition {
   properties?: FirmwareProperties;
 }
 
-export function firmwareUpdateDefinitionSerializer(item: FirmwareUpdateDefinition): any {
+export function firmwareUpdateDefinitionSerializer(
+  item: FirmwareUpdateDefinition,
+): any {
   return {
     properties: !item["properties"]
       ? item["properties"]
@@ -464,7 +479,9 @@ export interface _FirmwareListResult {
   nextLink?: string;
 }
 
-export function _firmwareListResultDeserializer(item: any): _FirmwareListResult {
+export function _firmwareListResultDeserializer(
+  item: any,
+): _FirmwareListResult {
   return {
     value: firmwareArrayDeserializer(item["value"]),
     nextLink: item["nextLink"],
@@ -529,7 +546,9 @@ export function workspacePropertiesSerializer(item: WorkspaceProperties): any {
   return item;
 }
 
-export function workspacePropertiesDeserializer(item: any): WorkspaceProperties {
+export function workspacePropertiesDeserializer(
+  item: any,
+): WorkspaceProperties {
   return {
     provisioningState: item["provisioningState"],
   };
@@ -620,7 +639,9 @@ export interface _WorkspaceListResult {
   nextLink?: string;
 }
 
-export function _workspaceListResultDeserializer(item: any): _WorkspaceListResult {
+export function _workspaceListResultDeserializer(
+  item: any,
+): _WorkspaceListResult {
   return {
     value: workspaceArrayDeserializer(item["value"]),
     nextLink: item["nextLink"],
@@ -645,7 +666,9 @@ export interface GenerateUploadUrlRequest {
   firmwareId?: string;
 }
 
-export function generateUploadUrlRequestSerializer(item: GenerateUploadUrlRequest): any {
+export function generateUploadUrlRequestSerializer(
+  item: GenerateUploadUrlRequest,
+): any {
   return { firmwareId: item["firmwareId"] };
 }
 
@@ -692,7 +715,9 @@ export interface BinaryHardeningResource extends ProxyResource {
   properties?: BinaryHardeningResult;
 }
 
-export function binaryHardeningResourceDeserializer(item: any): BinaryHardeningResource {
+export function binaryHardeningResourceDeserializer(
+  item: any,
+): BinaryHardeningResource {
   return {
     id: item["id"],
     name: item["name"],
@@ -726,7 +751,9 @@ export interface BinaryHardeningResult {
   readonly provisioningState?: ProvisioningState;
 }
 
-export function binaryHardeningResultDeserializer(item: any): BinaryHardeningResult {
+export function binaryHardeningResultDeserializer(
+  item: any,
+): BinaryHardeningResult {
   return {
     binaryHardeningId: item["binaryHardeningId"],
     securityHardeningFeatures: !item["securityHardeningFeatures"]
@@ -755,7 +782,9 @@ export interface BinaryHardeningFeatures {
   stripped?: boolean;
 }
 
-export function binaryHardeningFeaturesDeserializer(item: any): BinaryHardeningFeatures {
+export function binaryHardeningFeaturesDeserializer(
+  item: any,
+): BinaryHardeningFeatures {
   return {
     noExecute: item["noExecute"],
     positionIndependentExecutable: item["positionIndependentExecutable"],
@@ -814,7 +843,9 @@ export interface CryptoCertificateResource extends ProxyResource {
   properties?: CryptoCertificate;
 }
 
-export function cryptoCertificateResourceDeserializer(item: any): CryptoCertificateResource {
+export function cryptoCertificateResourceDeserializer(
+  item: any,
+): CryptoCertificateResource {
   return {
     id: item["id"],
     name: item["name"],
@@ -881,8 +912,12 @@ export function cryptoCertificateDeserializer(item: any): CryptoCertificate {
     subject: !item["subject"]
       ? item["subject"]
       : cryptoCertificateEntityDeserializer(item["subject"]),
-    issuer: !item["issuer"] ? item["issuer"] : cryptoCertificateEntityDeserializer(item["issuer"]),
-    issuedDate: !item["issuedDate"] ? item["issuedDate"] : new Date(item["issuedDate"]),
+    issuer: !item["issuer"]
+      ? item["issuer"]
+      : cryptoCertificateEntityDeserializer(item["issuer"]),
+    issuedDate: !item["issuedDate"]
+      ? item["issuedDate"]
+      : new Date(item["issuedDate"]),
     expirationDate: !item["expirationDate"]
       ? item["expirationDate"]
       : new Date(item["expirationDate"]),
@@ -903,7 +938,9 @@ export function cryptoCertificateDeserializer(item: any): CryptoCertificate {
       : item["filePaths"].map((p: any) => {
           return p;
         }),
-    pairedKey: !item["pairedKey"] ? item["pairedKey"] : pairedKeyDeserializer(item["pairedKey"]),
+    pairedKey: !item["pairedKey"]
+      ? item["pairedKey"]
+      : pairedKeyDeserializer(item["pairedKey"]),
     isExpired: item["isExpired"],
     isSelfSigned: item["isSelfSigned"],
     isWeakSignature: item["isWeakSignature"],
@@ -926,7 +963,9 @@ export interface CryptoCertificateEntity {
   country?: string;
 }
 
-export function cryptoCertificateEntityDeserializer(item: any): CryptoCertificateEntity {
+export function cryptoCertificateEntityDeserializer(
+  item: any,
+): CryptoCertificateEntity {
   return {
     commonName: item["commonName"],
     organization: item["organization"],
@@ -1019,14 +1058,18 @@ export interface _CryptoKeyResourceListResult {
   nextLink?: string;
 }
 
-export function _cryptoKeyResourceListResultDeserializer(item: any): _CryptoKeyResourceListResult {
+export function _cryptoKeyResourceListResultDeserializer(
+  item: any,
+): _CryptoKeyResourceListResult {
   return {
     value: cryptoKeyResourceArrayDeserializer(item["value"]),
     nextLink: item["nextLink"],
   };
 }
 
-export function cryptoKeyResourceArrayDeserializer(result: Array<CryptoKeyResource>): any[] {
+export function cryptoKeyResourceArrayDeserializer(
+  result: Array<CryptoKeyResource>,
+): any[] {
   return result.map((item) => {
     return cryptoKeyResourceDeserializer(item);
   });
@@ -1090,7 +1133,9 @@ export function cryptoKeyDeserializer(item: any): CryptoKey {
       : item["filePaths"].map((p: any) => {
           return p;
         }),
-    pairedKey: !item["pairedKey"] ? item["pairedKey"] : pairedKeyDeserializer(item["pairedKey"]),
+    pairedKey: !item["pairedKey"]
+      ? item["pairedKey"]
+      : pairedKeyDeserializer(item["pairedKey"]),
     isShortKeySize: item["isShortKeySize"],
     provisioningState: item["provisioningState"],
   };
@@ -1122,14 +1167,18 @@ export interface _CveResourceListResult {
   nextLink?: string;
 }
 
-export function _cveResourceListResultDeserializer(item: any): _CveResourceListResult {
+export function _cveResourceListResultDeserializer(
+  item: any,
+): _CveResourceListResult {
   return {
     value: cveResourceArrayDeserializer(item["value"]),
     nextLink: item["nextLink"],
   };
 }
 
-export function cveResourceArrayDeserializer(result: Array<CveResource>): any[] {
+export function cveResourceArrayDeserializer(
+  result: Array<CveResource>,
+): any[] {
   return result.map((item) => {
     return cveResourceDeserializer(item);
   });
@@ -1196,7 +1245,9 @@ export function cveResultDeserializer(item: any): CveResult {
     cvssScores: !item["cvssScores"]
       ? item["cvssScores"]
       : cvssScoreArrayDeserializer(item["cvssScores"]),
-    links: !item["links"] ? item["links"] : cveLinkArrayDeserializer(item["links"]),
+    links: !item["links"]
+      ? item["links"]
+      : cveLinkArrayDeserializer(item["links"]),
     description: item["description"],
     provisioningState: item["provisioningState"],
   };
@@ -1261,7 +1312,9 @@ export function _passwordHashResourceListResultDeserializer(
   };
 }
 
-export function passwordHashResourceArrayDeserializer(result: Array<PasswordHashResource>): any[] {
+export function passwordHashResourceArrayDeserializer(
+  result: Array<PasswordHashResource>,
+): any[] {
   return result.map((item) => {
     return passwordHashResourceDeserializer(item);
   });
@@ -1273,7 +1326,9 @@ export interface PasswordHashResource extends ProxyResource {
   properties?: PasswordHash;
 }
 
-export function passwordHashResourceDeserializer(item: any): PasswordHashResource {
+export function passwordHashResourceDeserializer(
+  item: any,
+): PasswordHashResource {
   return {
     id: item["id"],
     name: item["name"],
@@ -1351,7 +1406,9 @@ export interface SbomComponentResource extends ProxyResource {
   properties?: SbomComponent;
 }
 
-export function sbomComponentResourceDeserializer(item: any): SbomComponentResource {
+export function sbomComponentResourceDeserializer(
+  item: any,
+): SbomComponentResource {
   return {
     id: item["id"],
     name: item["name"],
@@ -1425,7 +1482,9 @@ export interface SummaryResourceProperties {
   readonly provisioningState?: ProvisioningState;
 }
 
-export function summaryResourcePropertiesDeserializer(item: any): SummaryResourceProperties {
+export function summaryResourcePropertiesDeserializer(
+  item: any,
+): SummaryResourceProperties {
   return {
     summaryType: item["summaryType"],
     provisioningState: item["provisioningState"],
@@ -1452,13 +1511,19 @@ export function summaryResourcePropertiesUnionDeserializer(
       return cveSummaryDeserializer(item as CveSummary);
 
     case "BinaryHardening":
-      return binaryHardeningSummaryResourceDeserializer(item as BinaryHardeningSummaryResource);
+      return binaryHardeningSummaryResourceDeserializer(
+        item as BinaryHardeningSummaryResource,
+      );
 
     case "CryptoCertificate":
-      return cryptoCertificateSummaryResourceDeserializer(item as CryptoCertificateSummaryResource);
+      return cryptoCertificateSummaryResourceDeserializer(
+        item as CryptoCertificateSummaryResource,
+      );
 
     case "CryptoKey":
-      return cryptoKeySummaryResourceDeserializer(item as CryptoKeySummaryResource);
+      return cryptoKeySummaryResourceDeserializer(
+        item as CryptoKeySummaryResource,
+      );
 
     default:
       return summaryResourcePropertiesDeserializer(item);
@@ -1555,7 +1620,8 @@ export function cveSummaryDeserializer(item: any): CveSummary {
 }
 
 /** Properties for a binary hardening analysis summary. */
-export interface BinaryHardeningSummaryResource extends SummaryResourceProperties {
+export interface BinaryHardeningSummaryResource
+  extends SummaryResourceProperties {
   /** Total number of binaries that were analyzed */
   totalFiles?: number;
   /** Total number of analyzed files that were found to have a nonexecutable stack */
@@ -1580,7 +1646,8 @@ export function binaryHardeningSummaryResourceDeserializer(
     provisioningState: item["provisioningState"],
     totalFiles: item["totalFiles"],
     notExecutableStackCount: item["notExecutableStackCount"],
-    positionIndependentExecutableCount: item["positionIndependentExecutableCount"],
+    positionIndependentExecutableCount:
+      item["positionIndependentExecutableCount"],
     relocationReadOnlyCount: item["relocationReadOnlyCount"],
     stackCanaryCount: item["stackCanaryCount"],
     strippedBinaryCount: item["strippedBinaryCount"],
@@ -1588,7 +1655,8 @@ export function binaryHardeningSummaryResourceDeserializer(
 }
 
 /** Properties for cryptographic certificate summary. */
-export interface CryptoCertificateSummaryResource extends SummaryResourceProperties {
+export interface CryptoCertificateSummaryResource
+  extends SummaryResourceProperties {
   /** Total number of certificates found. */
   totalCertificateCount?: number;
   /** Total number of paired private keys found for the certificates. */
@@ -1639,7 +1707,9 @@ export interface CryptoKeySummaryResource extends SummaryResourceProperties {
   summaryType: "CryptoKey";
 }
 
-export function cryptoKeySummaryResourceDeserializer(item: any): CryptoKeySummaryResource {
+export function cryptoKeySummaryResourceDeserializer(
+  item: any,
+): CryptoKeySummaryResource {
   return {
     summaryType: item["summaryType"],
     provisioningState: item["provisioningState"],
@@ -1659,14 +1729,18 @@ export interface _SummaryResourceListResult {
   nextLink?: string;
 }
 
-export function _summaryResourceListResultDeserializer(item: any): _SummaryResourceListResult {
+export function _summaryResourceListResultDeserializer(
+  item: any,
+): _SummaryResourceListResult {
   return {
     value: summaryResourceArrayDeserializer(item["value"]),
     nextLink: item["nextLink"],
   };
 }
 
-export function summaryResourceArrayDeserializer(result: Array<SummaryResource>): any[] {
+export function summaryResourceArrayDeserializer(
+  result: Array<SummaryResource>,
+): any[] {
   return result.map((item) => {
     return summaryResourceDeserializer(item);
   });
@@ -1702,7 +1776,9 @@ export interface UsageMetricProperties {
   readonly provisioningState?: ProvisioningState;
 }
 
-export function usageMetricPropertiesDeserializer(item: any): UsageMetricProperties {
+export function usageMetricPropertiesDeserializer(
+  item: any,
+): UsageMetricProperties {
   return {
     monthlyFirmwareUploadCount: item["monthlyFirmwareUploadCount"],
     totalFirmwareCount: item["totalFirmwareCount"],
@@ -1718,14 +1794,18 @@ export interface _UsageMetricListResult {
   nextLink?: string;
 }
 
-export function _usageMetricListResultDeserializer(item: any): _UsageMetricListResult {
+export function _usageMetricListResultDeserializer(
+  item: any,
+): _UsageMetricListResult {
   return {
     value: usageMetricArrayDeserializer(item["value"]),
     nextLink: item["nextLink"],
   };
 }
 
-export function usageMetricArrayDeserializer(result: Array<UsageMetric>): any[] {
+export function usageMetricArrayDeserializer(
+  result: Array<UsageMetric>,
+): any[] {
   return result.map((item) => {
     return usageMetricDeserializer(item);
   });
@@ -1734,5 +1814,5 @@ export function usageMetricArrayDeserializer(result: Array<UsageMetric>): any[] 
 /** The available API versions. */
 export enum KnownVersions {
   /** The 2025-04-01 API version. */
-  V20250401Preview = "2025-04-01-preview",
+  V20240807 = "2025-04-01-preview",
 }

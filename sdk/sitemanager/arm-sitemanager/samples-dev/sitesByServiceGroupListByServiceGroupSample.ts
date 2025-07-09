@@ -15,7 +15,9 @@ async function sitesByServiceGroupListByServiceGroupGeneratedByMaximumSetRule():
   const subscriptionId = "00000000-0000-0000-0000-00000000000";
   const client = new EdgeClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (const item of client.sitesByServiceGroup.listByServiceGroup("string")) {
+  for await (const item of client.sitesByServiceGroup.listByServiceGroup(
+    "string",
+  )) {
     resArray.push(item);
   }
 

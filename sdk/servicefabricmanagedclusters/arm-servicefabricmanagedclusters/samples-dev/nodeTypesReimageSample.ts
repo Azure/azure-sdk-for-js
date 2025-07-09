@@ -13,7 +13,10 @@ import { DefaultAzureCredential } from "@azure/identity";
 async function reimageAllNodesByUpgradeDomain(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "00000000-0000-0000-0000-000000000000";
-  const client = new ServiceFabricManagedClustersManagementClient(credential, subscriptionId);
+  const client = new ServiceFabricManagedClustersManagementClient(
+    credential,
+    subscriptionId,
+  );
   await client.nodeTypes.reimage("resRg", "myCluster", "BE", {
     updateType: "ByUpgradeDomain",
   });
@@ -28,7 +31,10 @@ async function reimageAllNodesByUpgradeDomain(): Promise<void> {
 async function reimageNodes(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "00000000-0000-0000-0000-000000000000";
-  const client = new ServiceFabricManagedClustersManagementClient(credential, subscriptionId);
+  const client = new ServiceFabricManagedClustersManagementClient(
+    credential,
+    subscriptionId,
+  );
   await client.nodeTypes.reimage("resRg", "myCluster", "BE", {
     nodes: ["BE_0", "BE_3"],
   });
