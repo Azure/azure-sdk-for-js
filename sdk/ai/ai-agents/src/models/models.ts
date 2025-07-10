@@ -4783,7 +4783,6 @@ export const RunStepStreamEventValues: RunStepStreamEvent[] = [
   "thread.run.step.expired",
 ];
 
-
 /** Message operation related streaming events */
 export type MessageStreamEvent =
   /** Event emitted when a message is created */
