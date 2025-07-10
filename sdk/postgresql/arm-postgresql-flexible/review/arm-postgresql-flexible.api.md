@@ -1965,7 +1965,7 @@ export interface Server extends TrackedResource {
     sku?: Sku;
     sourceServerResourceId?: string;
     readonly state?: ServerState;
-    storage?: Storage_2;
+    storage?: Storage;
     version?: ServerVersion;
 }
 
@@ -2017,7 +2017,7 @@ export interface ServerForUpdate {
     replica?: Replica;
     replicationRole?: ReplicationRole;
     sku?: Sku;
-    storage?: Storage_2;
+    storage?: Storage;
     tags?: {
         [propertyName: string]: string;
     };
@@ -2308,7 +2308,7 @@ export type SslMode = string;
 export type StartDataMigrationEnum = string;
 
 // @public
-interface Storage_2 {
+export interface Storage {
     autoGrow?: StorageAutoGrow;
     iops?: number;
     storageSizeGB?: number;
@@ -2316,7 +2316,6 @@ interface Storage_2 {
     tier?: AzureManagedDiskPerformanceTiers;
     type?: StorageType;
 }
-export { Storage_2 as Storage }
 
 // @public
 export type StorageAutoGrow = string;

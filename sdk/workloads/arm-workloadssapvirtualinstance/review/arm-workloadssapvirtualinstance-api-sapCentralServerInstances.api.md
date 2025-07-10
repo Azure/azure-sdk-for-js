@@ -59,8 +59,7 @@ export interface SAPCentralServerInstancesUpdateOptionalParams extends Operation
 export function start(context: WorkloadsContext, resourceGroupName: string, sapVirtualInstanceName: string, centralInstanceName: string, options?: SAPCentralServerInstancesStartOptionalParams): PollerLike<OperationState<OperationStatusResult>, OperationStatusResult>;
 
 // @public
-function stop_2(context: WorkloadsContext, resourceGroupName: string, sapVirtualInstanceName: string, centralInstanceName: string, options?: SAPCentralServerInstancesStopOptionalParams): PollerLike<OperationState<OperationStatusResult>, OperationStatusResult>;
-export { stop_2 as stop }
+export function stop(context: WorkloadsContext, resourceGroupName: string, sapVirtualInstanceName: string, centralInstanceName: string, options?: SAPCentralServerInstancesStopOptionalParams): PollerLike<OperationState<OperationStatusResult>, OperationStatusResult>;
 
 // @public
 export function update(context: WorkloadsContext, resourceGroupName: string, sapVirtualInstanceName: string, centralInstanceName: string, properties: UpdateSAPCentralInstanceRequest, options?: SAPCentralServerInstancesUpdateOptionalParams): Promise<SAPCentralServerInstance>;

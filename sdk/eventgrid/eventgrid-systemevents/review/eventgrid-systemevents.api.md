@@ -7,8 +7,8 @@
 // @public
 export interface AcsCallEndedBy {
     communicationIdentifier: CommunicationIdentifierModel;
+    kind: AcsCallEndedByKind;
     name: string;
-    type: AcsCallEndedByKind;
 }
 
 // @public
@@ -47,7 +47,7 @@ export interface AcsCallingEvent {
 // @public
 export interface AcsCallParticipant {
     communicationIdentifier?: CommunicationIdentifierModel;
-    role?: AcsCallParticipantRoleKind;
+    role?: AcsCallParticipantKind;
 }
 
 // @public
@@ -63,11 +63,11 @@ export interface AcsCallParticipantEvent extends AcsCallingEvent {
 }
 
 // @public
-export interface AcsCallParticipantRemovedEventData extends AcsCallParticipantEvent {
-}
+export type AcsCallParticipantKind = string;
 
 // @public
-export type AcsCallParticipantRoleKind = string;
+export interface AcsCallParticipantRemovedEventData extends AcsCallParticipantEvent {
+}
 
 // @public
 export interface AcsCallRoom {
@@ -392,6 +392,9 @@ export interface AcsMessageReceivedEventData extends AcsMessageEventData {
 }
 
 // @public
+export type AcsRecordingChannelType = string;
+
+// @public
 export interface AcsRecordingChunkInfo {
     contentLocation?: string;
     deleteLocation?: string;
@@ -402,15 +405,21 @@ export interface AcsRecordingChunkInfo {
 }
 
 // @public
+export type AcsRecordingContentType = string;
+
+// @public
 export interface AcsRecordingFileStatusUpdatedEventData {
-    recordingChannelType: RecordingChannelType;
-    recordingContentType: RecordingContentType;
+    recordingChannelType: AcsRecordingChannelType;
+    recordingContentType: AcsRecordingContentType;
     recordingDurationMs?: number;
-    recordingFormatType: RecordingFormatType;
+    recordingFormatType: AcsRecordingFormatType;
     recordingStartTime: Date;
     recordingStorageInfo: AcsRecordingStorageInfo;
     sessionEndReason?: string;
 }
+
+// @public
+export type AcsRecordingFormatType = string;
 
 // @public
 export interface AcsRecordingStorageInfo {
@@ -704,32 +713,32 @@ export interface ApiCenterApiSpecification {
 
 // @public
 export interface ApiManagementApiCreatedEventData {
-    resourceUri?: string;
+    resourceUrl?: string;
 }
 
 // @public
 export interface ApiManagementApiDeletedEventData {
-    resourceUri?: string;
+    resourceUrl?: string;
 }
 
 // @public
 export interface ApiManagementApiReleaseCreatedEventData {
-    resourceUri?: string;
+    resourceUrl?: string;
 }
 
 // @public
 export interface ApiManagementApiReleaseDeletedEventData {
-    resourceUri?: string;
+    resourceUrl?: string;
 }
 
 // @public
 export interface ApiManagementApiReleaseUpdatedEventData {
-    resourceUri?: string;
+    resourceUrl?: string;
 }
 
 // @public
 export interface ApiManagementApiUpdatedEventData {
-    resourceUri?: string;
+    resourceUrl?: string;
 }
 
 // @public
@@ -751,7 +760,7 @@ export interface ApiManagementCircuitBreakerOpenedEventData {
 
 // @public
 export interface ApiManagementExpiredGatewayToken {
-    expiredAtUtc: Date;
+    expiresOn: Date;
 }
 
 // @public
@@ -762,119 +771,119 @@ export interface ApiManagementGateway {
 
 // @public
 export interface ApiManagementGatewayApiAddedEventData {
-    resourceUri?: string;
+    resourceUrl?: string;
 }
 
 // @public
 export interface ApiManagementGatewayApiRemovedEventData {
-    resourceUri?: string;
+    resourceUrl?: string;
 }
 
 // @public
 export interface ApiManagementGatewayCertificateAuthorityCreatedEventData {
-    resourceUri?: string;
+    resourceUrl?: string;
 }
 
 // @public
 export interface ApiManagementGatewayCertificateAuthorityDeletedEventData {
-    resourceUri?: string;
+    resourceUrl?: string;
 }
 
 // @public
 export interface ApiManagementGatewayCertificateAuthorityUpdatedEventData {
-    resourceUri?: string;
+    resourceUrl?: string;
 }
 
 // @public
 export interface ApiManagementGatewayCreatedEventData {
-    resourceUri?: string;
+    resourceUrl?: string;
 }
 
 // @public
 export interface ApiManagementGatewayDeletedEventData {
-    resourceUri?: string;
+    resourceUrl?: string;
 }
 
 // @public
 export interface ApiManagementGatewayHostnameConfigurationCreatedEventData {
-    resourceUri?: string;
+    resourceUrl?: string;
 }
 
 // @public
 export interface ApiManagementGatewayHostnameConfigurationDeletedEventData {
-    resourceUri?: string;
+    resourceUrl?: string;
 }
 
 // @public
 export interface ApiManagementGatewayHostnameConfigurationUpdatedEventData {
-    resourceUri?: string;
+    resourceUrl?: string;
 }
 
 // @public
 export interface ApiManagementGatewayTokenExpiredEventData {
-    gatewayInfo: ApiManagementGateway;
-    tokenInfo: ApiManagementExpiredGatewayToken;
+    gateway: ApiManagementGateway;
+    token: ApiManagementExpiredGatewayToken;
 }
 
 // @public
 export interface ApiManagementGatewayTokenNearExpiryEventData {
-    gatewayInfo: ApiManagementGateway;
-    tokenInfo: ApiManagementNearExpiryGatewayToken;
+    gateway: ApiManagementGateway;
+    token: ApiManagementNearExpiryGatewayToken;
 }
 
 // @public
 export interface ApiManagementGatewayUpdatedEventData {
-    resourceUri?: string;
+    resourceUrl?: string;
 }
 
 // @public
 export interface ApiManagementNearExpiryGatewayToken {
-    expiredAtUtc: Date;
+    expiresOn: Date;
 }
 
 // @public
 export interface ApiManagementProductCreatedEventData {
-    resourceUri?: string;
+    resourceUrl?: string;
 }
 
 // @public
 export interface ApiManagementProductDeletedEventData {
-    resourceUri?: string;
+    resourceUrl?: string;
 }
 
 // @public
 export interface ApiManagementProductUpdatedEventData {
-    resourceUri?: string;
+    resourceUrl?: string;
 }
 
 // @public
 export interface ApiManagementSubscriptionCreatedEventData {
-    resourceUri?: string;
+    resourceUrl?: string;
 }
 
 // @public
 export interface ApiManagementSubscriptionDeletedEventData {
-    resourceUri?: string;
+    resourceUrl?: string;
 }
 
 // @public
 export interface ApiManagementSubscriptionUpdatedEventData {
-    resourceUri?: string;
+    resourceUrl?: string;
 }
 
 // @public
 export interface ApiManagementUserCreatedEventData {
-    resourceUri?: string;
+    resourceUrl?: string;
 }
 
 // @public
 export interface ApiManagementUserDeletedEventData {
-    resourceUri?: string;
+    resourceUrl?: string;
 }
 
 // @public
 export interface ApiManagementUserUpdatedEventData {
-    resourceUri?: string;
+    resourceUrl?: string;
 }
 
 // @public
@@ -913,7 +922,7 @@ export interface AppConfigurationSnapshotModifiedEventData extends AppConfigurat
 
 // @public
 export interface AppEventTypeDetail {
-    action: AppAction;
+    action?: AppAction;
 }
 
 // @public
@@ -921,9 +930,9 @@ export type AppServicePlanAction = string;
 
 // @public
 export interface AppServicePlanEventTypeDetail {
-    action: AppServicePlanAction;
-    stampKind: StampKind;
-    status: AsyncStatus;
+    action?: AppServicePlanAction;
+    stampKind?: StampKind;
+    status?: AsyncStatus;
 }
 
 // @public
@@ -1100,7 +1109,7 @@ export interface ContainerRegistryEventRequest {
 // @public
 export interface ContainerRegistryEventSource {
     addr?: string;
-    instanceID?: string;
+    instanceId?: string;
 }
 
 // @public
@@ -1289,7 +1298,7 @@ export type EventGridMqttClientDisconnectionReason = string;
 // @public
 export interface EventGridMqttClientEventData {
     clientAuthenticationName: string;
-    clientName: string;
+    clientName?: string;
     namespaceName: string;
 }
 
@@ -1354,18 +1363,18 @@ export interface HealthcareDicomImageUpdatedEventData {
 
 // @public
 export interface HealthcareFhirResourceCreatedEventData {
-    resourceFhirAccount: string;
-    resourceFhirId: string;
-    resourceType: HealthcareFhirResourceType;
-    resourceVersionId: number;
+    fhirResourceId: string;
+    fhirResourceType: HealthcareFhirResourceType;
+    fhirResourceVersionId: number;
+    fhirServiceHostName: string;
 }
 
 // @public
 export interface HealthcareFhirResourceDeletedEventData {
-    resourceFhirAccount: string;
-    resourceFhirId: string;
-    resourceType: HealthcareFhirResourceType;
-    resourceVersionId: number;
+    fhirResourceId: string;
+    fhirResourceType: HealthcareFhirResourceType;
+    fhirResourceVersionId: number;
+    fhirServiceHostName: string;
 }
 
 // @public
@@ -1373,10 +1382,10 @@ export type HealthcareFhirResourceType = string;
 
 // @public
 export interface HealthcareFhirResourceUpdatedEventData {
-    resourceFhirAccount: string;
-    resourceFhirId: string;
-    resourceType: HealthcareFhirResourceType;
-    resourceVersionId: number;
+    fhirResourceId: string;
+    fhirResourceType: HealthcareFhirResourceType;
+    fhirResourceVersionId: number;
+    fhirServiceHostName: string;
 }
 
 // @public
@@ -1554,6 +1563,25 @@ export enum KnownAcsMessageDeliveryStatus {
 }
 
 // @public
+export enum KnownAcsRecordingChannelType {
+    Mixed = "Mixed",
+    Unmixed = "Unmixed"
+}
+
+// @public
+export enum KnownAcsRecordingContentType {
+    Audio = "Audio",
+    AudioVideo = "AudioVideo"
+}
+
+// @public
+export enum KnownAcsRecordingFormatType {
+    Mp3 = "Mp3",
+    Mp4 = "Mp4",
+    Wav = "Wav"
+}
+
+// @public
 export enum KnownAcsRouterJobStatus {
     Assigned = "Assigned",
     Cancelled = "Cancelled",
@@ -1633,6 +1661,7 @@ export enum KnownCommunicationCloudEnvironmentModel {
 // @public
 export enum KnownCommunicationIdentifierModelKind {
     CommunicationUser = "communicationUser",
+    MicrosoftTeamsApp = "microsoftTeamsApp",
     MicrosoftTeamsUser = "microsoftTeamsUser",
     PhoneNumber = "phoneNumber",
     Unknown = "unknown"
@@ -1832,33 +1861,6 @@ export enum KnownHealthcareFhirResourceType {
 }
 
 // @public
-export enum KnownRecordingChannelType {
-    Mixed = "Mixed",
-    Unmixed = "Unmixed"
-}
-
-// @public
-export enum KnownRecordingContentType {
-    Audio = "Audio",
-    AudioVideo = "AudioVideo"
-}
-
-// @public
-export enum KnownRecordingFormatType {
-    Mp3 = "Mp3",
-    Mp4 = "Mp4",
-    Wav = "Wav"
-}
-
-// @public
-export enum KnownServiceApiVersions {
-    // (undocumented)
-    V20180101 = "2018-01-01",
-    // (undocumented)
-    V20240101 = "2024-01-01"
-}
-
-// @public
 export enum KnownStampKind {
     AseV1 = "AseV1",
     AseV2 = "AseV2",
@@ -2021,15 +2023,6 @@ export interface PolicyInsightsPolicyStateDeletedEventData {
 }
 
 // @public
-export type RecordingChannelType = string;
-
-// @public
-export type RecordingContentType = string;
-
-// @public
-export type RecordingFormatType = string;
-
-// @public
 export interface RedisExportRDBCompletedEventData {
     name?: string;
     status?: string;
@@ -2066,7 +2059,7 @@ export interface ResourceActionCancelEventData {
     operationName?: string;
     resourceGroup?: string;
     resourceProvider?: string;
-    resourceUri?: string;
+    resourceUrl?: string;
     status?: string;
     subscriptionId?: string;
     tenantId?: string;
@@ -2081,7 +2074,7 @@ export interface ResourceActionFailureEventData {
     operationName?: string;
     resourceGroup?: string;
     resourceProvider?: string;
-    resourceUri?: string;
+    resourceUrl?: string;
     status?: string;
     subscriptionId?: string;
     tenantId?: string;
@@ -2096,7 +2089,7 @@ export interface ResourceActionSuccessEventData {
     operationName?: string;
     resourceGroup?: string;
     resourceProvider?: string;
-    resourceUri?: string;
+    resourceUrl?: string;
     status?: string;
     subscriptionId?: string;
     tenantId?: string;
@@ -2118,7 +2111,7 @@ export interface ResourceDeleteCancelEventData {
     operationName?: string;
     resourceGroup?: string;
     resourceProvider?: string;
-    resourceUri?: string;
+    resourceUrl?: string;
     status?: string;
     subscriptionId?: string;
     tenantId?: string;
@@ -2133,7 +2126,7 @@ export interface ResourceDeleteFailureEventData {
     operationName?: string;
     resourceGroup?: string;
     resourceProvider?: string;
-    resourceUri?: string;
+    resourceUrl?: string;
     status?: string;
     subscriptionId?: string;
     tenantId?: string;
@@ -2148,7 +2141,7 @@ export interface ResourceDeleteSuccessEventData {
     operationName?: string;
     resourceGroup?: string;
     resourceProvider?: string;
-    resourceUri?: string;
+    resourceUrl?: string;
     status?: string;
     subscriptionId?: string;
     tenantId?: string;
@@ -2222,7 +2215,7 @@ export interface ResourceWriteCancelEventData {
     operationName?: string;
     resourceGroup?: string;
     resourceProvider?: string;
-    resourceUri?: string;
+    resourceUrl?: string;
     status?: string;
     subscriptionId?: string;
     tenantId?: string;
@@ -2237,7 +2230,7 @@ export interface ResourceWriteFailureEventData {
     operationName?: string;
     resourceGroup?: string;
     resourceProvider?: string;
-    resourceUri?: string;
+    resourceUrl?: string;
     status?: string;
     subscriptionId?: string;
     tenantId?: string;
@@ -2252,7 +2245,7 @@ export interface ResourceWriteSuccessEventData {
     operationName?: string;
     resourceGroup?: string;
     resourceProvider?: string;
-    resourceUri?: string;
+    resourceUrl?: string;
     status?: string;
     subscriptionId?: string;
     tenantId?: string;
@@ -2462,7 +2455,7 @@ export interface StorageLifecyclePolicyCompletedEventData {
 export interface StorageTaskAssignmentCompletedEventData {
     completedOn: Date;
     status: StorageTaskAssignmentCompletedStatus;
-    summaryReportBlobUri: string;
+    summaryReportBlobUrl: string;
     taskExecutionId?: string;
     taskName?: string;
 }
@@ -2660,7 +2653,7 @@ export interface SystemEventNameToEventData {
     "Microsoft.Maps.GeofenceEntered": MapsGeofenceEnteredEventData;
     "Microsoft.Maps.GeofenceExited": MapsGeofenceExitedEventData;
     "Microsoft.Maps.GeofenceResult": MapsGeofenceResultEventData;
-    "Microsoft.PolicyInsights.PolicyStateChanged ": PolicyInsightsPolicyStateChangedEventData;
+    "Microsoft.PolicyInsights.PolicyStateChanged": PolicyInsightsPolicyStateChangedEventData;
     "Microsoft.PolicyInsights.PolicyStateCreated": PolicyInsightsPolicyStateCreatedEventData;
     "Microsoft.PolicyInsights.PolicyStateDeleted": PolicyInsightsPolicyStateDeletedEventData;
     "Microsoft.ResourceNotifications.HealthResources.AvailabilityStatusChanged": ResourceNotificationsHealthResourcesAvailabilityStatusChangedEventData;
@@ -2710,12 +2703,12 @@ export interface SystemEventNameToEventData {
 // @public
 export interface WebAppServicePlanUpdatedEventData {
     address?: string;
-    appServicePlanEventTypeDetail: AppServicePlanEventTypeDetail;
+    appServicePlanEventTypeDetail?: AppServicePlanEventTypeDetail;
     clientRequestId?: string;
     correlationRequestId?: string;
     name?: string;
     requestId?: string;
-    sku: WebAppServicePlanUpdatedEventDataSku;
+    sku?: WebAppServicePlanUpdatedEventDataSku;
     verb?: string;
 }
 
@@ -2731,7 +2724,7 @@ export interface WebAppServicePlanUpdatedEventDataSku {
 // @public
 export interface WebAppUpdatedEventData {
     address?: string;
-    appEventTypeDetail: AppEventTypeDetail;
+    appEventTypeDetail?: AppEventTypeDetail;
     clientRequestId?: string;
     correlationRequestId?: string;
     name?: string;
@@ -2742,7 +2735,7 @@ export interface WebAppUpdatedEventData {
 // @public
 export interface WebBackupOperationCompletedEventData {
     address?: string;
-    appEventTypeDetail: AppEventTypeDetail;
+    appEventTypeDetail?: AppEventTypeDetail;
     clientRequestId?: string;
     correlationRequestId?: string;
     name?: string;
@@ -2753,7 +2746,7 @@ export interface WebBackupOperationCompletedEventData {
 // @public
 export interface WebBackupOperationFailedEventData {
     address?: string;
-    appEventTypeDetail: AppEventTypeDetail;
+    appEventTypeDetail?: AppEventTypeDetail;
     clientRequestId?: string;
     correlationRequestId?: string;
     name?: string;
@@ -2764,7 +2757,7 @@ export interface WebBackupOperationFailedEventData {
 // @public
 export interface WebBackupOperationStartedEventData {
     address?: string;
-    appEventTypeDetail: AppEventTypeDetail;
+    appEventTypeDetail?: AppEventTypeDetail;
     clientRequestId?: string;
     correlationRequestId?: string;
     name?: string;
@@ -2775,7 +2768,7 @@ export interface WebBackupOperationStartedEventData {
 // @public
 export interface WebRestoreOperationCompletedEventData {
     address?: string;
-    appEventTypeDetail: AppEventTypeDetail;
+    appEventTypeDetail?: AppEventTypeDetail;
     clientRequestId?: string;
     correlationRequestId?: string;
     name?: string;
@@ -2786,7 +2779,7 @@ export interface WebRestoreOperationCompletedEventData {
 // @public
 export interface WebRestoreOperationFailedEventData {
     address?: string;
-    appEventTypeDetail: AppEventTypeDetail;
+    appEventTypeDetail?: AppEventTypeDetail;
     clientRequestId?: string;
     correlationRequestId?: string;
     name?: string;
@@ -2797,7 +2790,7 @@ export interface WebRestoreOperationFailedEventData {
 // @public
 export interface WebRestoreOperationStartedEventData {
     address?: string;
-    appEventTypeDetail: AppEventTypeDetail;
+    appEventTypeDetail?: AppEventTypeDetail;
     clientRequestId?: string;
     correlationRequestId?: string;
     name?: string;
@@ -2808,7 +2801,7 @@ export interface WebRestoreOperationStartedEventData {
 // @public
 export interface WebSlotSwapCompletedEventData {
     address?: string;
-    appEventTypeDetail: AppEventTypeDetail;
+    appEventTypeDetail?: AppEventTypeDetail;
     clientRequestId?: string;
     correlationRequestId?: string;
     name?: string;
@@ -2819,7 +2812,7 @@ export interface WebSlotSwapCompletedEventData {
 // @public
 export interface WebSlotSwapFailedEventData {
     address?: string;
-    appEventTypeDetail: AppEventTypeDetail;
+    appEventTypeDetail?: AppEventTypeDetail;
     clientRequestId?: string;
     correlationRequestId?: string;
     name?: string;
@@ -2830,7 +2823,7 @@ export interface WebSlotSwapFailedEventData {
 // @public
 export interface WebSlotSwapStartedEventData {
     address?: string;
-    appEventTypeDetail: AppEventTypeDetail;
+    appEventTypeDetail?: AppEventTypeDetail;
     clientRequestId?: string;
     correlationRequestId?: string;
     name?: string;
@@ -2841,7 +2834,7 @@ export interface WebSlotSwapStartedEventData {
 // @public
 export interface WebSlotSwapWithPreviewCancelledEventData {
     address?: string;
-    appEventTypeDetail: AppEventTypeDetail;
+    appEventTypeDetail?: AppEventTypeDetail;
     clientRequestId?: string;
     correlationRequestId?: string;
     name?: string;
@@ -2852,7 +2845,7 @@ export interface WebSlotSwapWithPreviewCancelledEventData {
 // @public
 export interface WebSlotSwapWithPreviewStartedEventData {
     address?: string;
-    appEventTypeDetail: AppEventTypeDetail;
+    appEventTypeDetail?: AppEventTypeDetail;
     clientRequestId?: string;
     correlationRequestId?: string;
     name?: string;

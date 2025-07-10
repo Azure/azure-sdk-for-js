@@ -7,10 +7,9 @@
  * Get the image embeddings for a given image.
  */
 import * as path from "path";
-import * as fs from "fs";
+import { readFile } from "node:fs/promises";
 import { fileURLToPath } from "url";
-import { AIProjectClient } from "@azure/ai-projects";
-import { isUnexpected } from "@azure/ai-projects/inference";
+import ModelClient, { isUnexpected } from "@azure-rest/ai-inference";
 import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
 
@@ -20,15 +19,20 @@ const __dirname = path.dirname(__filename);
 const endpoint = process.env["AZURE_AI_PROJECT_ENDPOINT_STRING"] || "<project endpoint string>";
 const deploymentName =
   process.env["IMAGE_EMBEDDING_DEPLOYMENT_NAME"] || "<embedding deployment name>";
+
 export async function main(): Promise<void> {
-  const project = new AIProjectClient(endpoint, new DefaultAzureCredential(), {
-    apiVersion: "2024-05-01-preview",
+  const parsedUrl = new URL(endpoint);
+  const inferenceEndpoint = `https://${parsedUrl.hostname}/models`;
+  const modelClient = ModelClient(inferenceEndpoint, new DefaultAzureCredential(), {
+    credentials: {
+      scopes: ["https://cognitiveservices.azure.com/.default"],
+    },
   });
-  const client = project.inference.imageEmbeddings();
+  const client = modelClient.path("/images/embeddings");
   const imagePath = path.resolve(__dirname, "sample1.png");
   const ext = path.extname(imagePath).slice(1); // e.g., 'png', 'jpg', 'jpeg'
   const mineType = `image/${ext === "jpg" ? "jpeg" : ext}`;
-  const imageBuffer = fs.readFileSync(imagePath);
+  const imageBuffer = await readFile(imagePath);
   // base64 url encoded image
   const base64Data = imageBuffer.toString("base64");
   const imageUrl = `data:${mineType};base64,${base64Data}`;

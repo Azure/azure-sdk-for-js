@@ -29,7 +29,7 @@ export interface AgeMismatchInferenceOutput extends RadiologyInsightsInferenceOu
 }
 
 // @public
-export interface Annotation extends Element_2 {
+export interface Annotation extends Element {
     authorString?: string;
     text: string;
     time?: string;
@@ -71,7 +71,7 @@ export type ClinicalDocumentType = string;
 export type ClinicalDocumentTypeOutput = string;
 
 // @public
-export interface CodeableConcept extends Element_2 {
+export interface CodeableConcept extends Element {
     coding?: Array<Coding>;
     text?: string;
 }
@@ -83,7 +83,7 @@ export interface CodeableConceptOutput extends ElementOutput {
 }
 
 // @public
-export interface Coding extends Element_2 {
+export interface Coding extends Element {
     code?: string;
     display?: string;
     system?: string;
@@ -119,7 +119,7 @@ export interface Condition extends DomainResourceParent {
     abatementAge?: Quantity;
     abatementDateTime?: string;
     abatementPeriod?: Period;
-    abatementRange?: Range_2;
+    abatementRange?: Range;
     abatementString?: string;
     bodySite?: Array<CodeableConcept>;
     category?: Array<CodeableConcept>;
@@ -131,7 +131,7 @@ export interface Condition extends DomainResourceParent {
     onsetAge?: Quantity;
     onsetDateTime?: string;
     onsetPeriod?: Period;
-    onsetRange?: Range_2;
+    onsetRange?: Range;
     onsetString?: string;
     recordedDate?: string;
     resourceType: "Condition";
@@ -179,7 +179,7 @@ export interface ConditionStageOutput {
 }
 
 // @public
-export interface ContactDetail extends Element_2 {
+export interface ContactDetail extends Element {
     name?: string;
     telecom?: Array<ContactPoint>;
 }
@@ -361,8 +361,7 @@ export type DocumentContentSourceType = string;
 export type DocumentContentSourceTypeOutput = string;
 
 // @public
-type DocumentType_2 = string;
-export { DocumentType_2 as DocumentType }
+export type DocumentType = string;
 
 // @public
 export type DocumentTypeOutput = string;
@@ -392,11 +391,10 @@ export interface DomainResourceParent extends Resource {
 }
 
 // @public
-interface Element_2 {
+export interface Element {
     extension?: Array<Extension>;
     id?: string;
 }
-export { Element_2 as Element }
 
 // @public
 export interface ElementOutput {
@@ -411,7 +409,7 @@ export type EncounterClass = string;
 export type EncounterClassOutput = string;
 
 // @public
-export interface Extension extends Element_2 {
+export interface Extension extends Element {
     url: string;
     valueBoolean?: boolean;
     valueCodeableConcept?: CodeableConcept;
@@ -419,7 +417,7 @@ export interface Extension extends Element_2 {
     valueInteger?: number;
     valuePeriod?: Period;
     valueQuantity?: Quantity;
-    valueRange?: Range_2;
+    valueRange?: Range;
     valueRatio?: Ratio;
     valueReference?: Reference;
     valueSampledData?: SampledData;
@@ -635,7 +633,7 @@ export interface HealthInsightsErrorResponseOutput {
 }
 
 // @public
-export interface Identifier extends Element_2 {
+export interface Identifier extends Element {
     assigner?: Reference;
     period?: Period;
     system?: string;
@@ -761,7 +759,7 @@ export interface MetaOutput {
 }
 
 // @public
-export interface Narrative extends Element_2 {
+export interface Narrative extends Element {
     div: string;
     status: string;
 }
@@ -800,7 +798,7 @@ export interface Observation extends DomainResourceParent {
     valueInteger?: number;
     valuePeriod?: Period;
     valueQuantity?: Quantity;
-    valueRange?: Range_2;
+    valueRange?: Range;
     valueRatio?: Ratio;
     valueSampledData?: SampledData;
     valueString?: string;
@@ -808,7 +806,7 @@ export interface Observation extends DomainResourceParent {
 }
 
 // @public
-export interface ObservationComponent extends Element_2 {
+export interface ObservationComponent extends Element {
     code: CodeableConcept;
     dataAbsentReason?: CodeableConcept;
     interpretation?: Array<CodeableConcept>;
@@ -819,7 +817,7 @@ export interface ObservationComponent extends Element_2 {
     valueInteger?: number;
     valuePeriod?: Period;
     valueQuantity?: Quantity;
-    valueRange?: Range_2;
+    valueRange?: Range;
     valueRatio?: Ratio;
     valueReference?: Reference;
     valueSampledData?: SampledData;
@@ -884,7 +882,7 @@ export interface ObservationOutput extends DomainResourceOutputParent {
 
 // @public
 export interface ObservationReferenceRange {
-    age?: Range_2;
+    age?: Range;
     appliesTo?: Array<CodeableConcept>;
     high?: Quantity;
     low?: Quantity;
@@ -946,7 +944,7 @@ export interface PatientDocument {
     id: string;
     language?: string;
     specialtyType?: SpecialtyType;
-    type: DocumentType_2;
+    type: DocumentType;
 }
 
 // @public
@@ -999,7 +997,7 @@ export type PatientSex = string;
 export type PatientSexOutput = string;
 
 // @public
-export interface Period extends Element_2 {
+export interface Period extends Element {
     end?: string;
     start?: string;
 }
@@ -1085,7 +1083,7 @@ export type QualityMeasureType = string;
 export type QualityMeasureTypeOutput = string;
 
 // @public
-export interface Quantity extends Element_2 {
+export interface Quantity extends Element {
     code?: string;
     comparator?: string;
     system?: string;
@@ -1242,11 +1240,10 @@ export interface RadiologyProcedureInferenceOutput extends RadiologyInsightsInfe
 }
 
 // @public
-interface Range_2 extends Element_2 {
+export interface Range extends Element {
     high?: Quantity;
     low?: Quantity;
 }
-export { Range_2 as Range }
 
 // @public
 export interface RangeOutput extends ElementOutput {
@@ -1255,7 +1252,7 @@ export interface RangeOutput extends ElementOutput {
 }
 
 // @public
-export interface Ratio extends Element_2 {
+export interface Ratio extends Element {
     denominator?: Quantity;
     numerator?: Quantity;
 }
@@ -1289,7 +1286,7 @@ export type RecommendationFindingStatusType = string;
 export type RecommendationFindingStatusTypeOutput = string;
 
 // @public
-export interface Reference extends Element_2 {
+export interface Reference extends Element {
     display?: string;
     identifier?: Identifier;
     reference?: string;
@@ -1404,7 +1401,7 @@ export interface Routes {
 }
 
 // @public
-export interface SampledData extends Element_2 {
+export interface SampledData extends Element {
     data?: string;
     dimensions: number;
     factor?: number;

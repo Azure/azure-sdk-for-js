@@ -44,8 +44,8 @@ extends:
       # Turn off the build warnings caused by disabling some sdl checks
       createAdoIssuesForJustificationsForDisablement: false
       sourceAnalysisPool:
-        name: azsdk-pool-mms-win-2022-general
-        image: azsdk-pool-mms-win-2022-1espt
+        name: azsdk-pool
+        image: windows-2022
         os: windows
       sourceRepositoriesToScan:
         exclude:
@@ -61,6 +61,8 @@ extends:
         break: true
       policy: M365
       codeql:
+        # Exclude api management custom widgets repo and test files from CodeQL analysis
+        excludePathPatterns: "sdk/apimanagement/api-management-custom-widgets-tools, sdk/apimanagement/api-management-custom-widgets-scaffolder, sdk/**/test/**/*.ts"
         compiled:
           enabled: false
           justificationForDisabling: "CodeQL times our pipelines out by running for hours before being force canceled."

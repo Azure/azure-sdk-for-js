@@ -986,7 +986,7 @@ export interface CodelessUiConnectorConfigProperties {
     graphQueries: CodelessUiConnectorConfigPropertiesGraphQueriesItem[];
     graphQueriesTableName: string;
     instructionSteps: CodelessUiConnectorConfigPropertiesInstructionStepsItem[];
-    permissions: Permissions_2;
+    permissions: Permissions;
     publisher: string;
     sampleQueries: CodelessUiConnectorConfigPropertiesSampleQueriesItem[];
     title: string;
@@ -4227,11 +4227,10 @@ export type OwnerType = string;
 export type PermissionProviderScope = string;
 
 // @public
-interface Permissions_2 {
+export interface Permissions {
     customs?: PermissionsCustomsItem[];
     resourceProvider?: PermissionsResourceProviderItem[];
 }
-export { Permissions_2 as Permissions }
 
 // @public (undocumented)
 export interface PermissionsCustomsItem extends Customs {

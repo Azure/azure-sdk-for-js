@@ -6,6 +6,7 @@
   "ignorePaths": [
     "**/*-lintReport.html",
     "**/node_modules/**",
+    "**/platform-matrix.json",
     "**/pnpm-lock.yaml",
     "**/recordings/**",
     "*.avro",
@@ -20,6 +21,8 @@
     ".github/CODEOWNERS",
     ".vscode/cspell.json",
     "common/temp/**",
+    "eng/common/**",
+    "eng/pipelines/**",
     "sdk/**/arm-*/**",
     "sdk/agrifood/agrifood-farming-rest/review/*.md",
     "sdk/confidentialledger/confidential-ledger-rest/review/*.md",
@@ -173,10 +176,6 @@
   "allowCompoundWords": true,
   "overrides": [
     {
-      "filename": "eng/pipelines",
-      "words": ["azuresdkartifacts", "gdnbaselines", "policheck", "issecret", "dlrw"]
-    },
-    {
       "filename": "eng/tools/rush-runner.js",
       "words": ["Jsons"]
     },
@@ -303,7 +302,7 @@
       ]
     },
     {
-      "filename": "sdk/healthdataaiservices/azure-health-deidentification/**",
+      "filename": "sdk/healthdataaiservices/health-deidentification-rest/**",
       "words": [
         "deid",
         "deidservices",

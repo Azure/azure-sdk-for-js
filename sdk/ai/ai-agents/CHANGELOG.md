@@ -1,5 +1,37 @@
 # Release History
 
+## 1.0.0 (2025-06-29)
+
+- First stable release of Azure AI Agents client library
+
+### Breaking changes
+
+- `AgentsClient` constructor parameter `credential` type  `KeyCredential | TokenCredential` is update to `TokenCredential`
+
+## 1.0.0-beta.6 (2025-06-27)
+
+### Bugs Fixed
+
+- Fixed an issue with event data of `submitToolOutputs` stream mode
+
+## 1.0.0-beta.5 (2025-06-25)
+
+### Bugs Fixed
+
+- Fixed an issue with event data parsing
+
+## 1.0.0-beta.4 (2025-06-10)
+
+### Features Added
+
+- Adding connected agents sample
+
+### Bugs Fixed
+
+- Fixed an issue with streaming serialization
+- Fixed an issue with streaming using the `.submitToolOutputs` method.
+- Fixed an issue with codeInterpreterWithStreaming sample inconsistently writing file to disk
+
 ## 1.0.0-beta.3 (2025-05-20)
 
 ### Features Added
