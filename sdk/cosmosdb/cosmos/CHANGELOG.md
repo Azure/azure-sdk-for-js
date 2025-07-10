@@ -30,7 +30,7 @@ const client = new CosmosClient({
 
 ### Features Added
 
-#### New Bulk API (Preview)
+- New Bulk API (Preview)
 
 The new `executeBulkOperations` API in the SDK brings significant enhancements for bulk workloads. It removes the previous 100-operation limit, adds operation-level retries for improved resilience, and introduces dynamic congestion control to optimize performance based on real-time system feedback.
 
@@ -56,11 +56,11 @@ const operations: OperationInput[] = [
   // process the response
 ```
 
-#### Weighted RRF
+- Weighted RRF
 
 Adds WeightedRankFusion query feature and support of component weights for weighted rank fusion in Hybrid Search.
 
-#### Optimized query plan that skips the order by rewrite
+- Optimized query plan that skips the order by rewrite
 
 Adds support for the optimized query plan that skips the order by rewrite.
 This optimization is enabled by default. Use flag `disableHybridSearchQueryPlanOptimization:true` in FeedOptions to disable this feature.
