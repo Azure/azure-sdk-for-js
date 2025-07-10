@@ -7,57 +7,9 @@
 import { AgentsClient } from '@azure/ai-agents';
 import type { AzureOpenAI } from 'openai';
 import { ClientOptions } from '@azure-rest/core-client';
-import type { GetChatCompletions } from '@azure-rest/ai-inference';
-import type { GetEmbeddings } from '@azure-rest/ai-inference';
-import type { GetImageEmbeddings } from '@azure-rest/ai-inference';
-import type { ModelClientOptions } from '@azure-rest/ai-inference';
 import { OperationOptions } from '@azure-rest/core-client';
 import type { Pipeline } from '@azure/core-rest-pipeline';
 import { TokenCredential } from '@azure/core-auth';
-
-// @public
-export interface AgentEvaluation {
-    error?: string;
-    id: string;
-    result?: AgentEvaluationResult[];
-    status: string;
-}
-
-// @public
-export interface AgentEvaluationRedactionConfiguration {
-    redactScoreProperties?: boolean;
-}
-
-// @public
-export interface AgentEvaluationRequest {
-    appInsightsConnectionString: string;
-    evaluators: Record<string, EvaluatorConfiguration>;
-    redactionConfiguration?: AgentEvaluationRedactionConfiguration;
-    runId: string;
-    samplingConfiguration?: AgentEvaluationSamplingConfiguration;
-    threadId?: string;
-}
-
-// @public
-export interface AgentEvaluationResult {
-    additionalDetails?: Record<string, string>;
-    error?: string;
-    evaluator: string;
-    evaluatorId: string;
-    reason?: string;
-    runId: string;
-    score: number;
-    status: string;
-    threadId?: string;
-    version?: string;
-}
-
-// @public
-export interface AgentEvaluationSamplingConfiguration {
-    maxRequestRate: number;
-    name: string;
-    samplingPercent: number;
-}
 
 // @public
 export class AIProjectClient {
@@ -66,14 +18,11 @@ export class AIProjectClient {
     readonly connections: ConnectionsOperations;
     readonly datasets: DatasetsOperations;
     readonly deployments: DeploymentsOperations;
-    readonly evaluations: EvaluationsOperations;
     static fromEndpoint(endpoint: string, credential: TokenCredential, options?: AIProjectClientOptionalParams): AIProjectClient;
     getEndpointUrl(): string;
     readonly indexes: IndexesOperations;
-    // Warning: (ae-forgotten-export) The symbol "InferenceOperations" needs to be exported by the entry point index.d.ts
     readonly inference: InferenceOperations;
     readonly pipeline: Pipeline;
-    readonly redTeams: RedTeamsOperations;
     readonly telemetry: TelemetryOperations;
 }
 
@@ -94,9 +43,6 @@ export interface AssetCredentialResponse {
 }
 
 // @public
-export type AttackStrategy = "easy" | "moderate" | "difficult" | "ascii_art" | "ascii_smuggler" | "atbash" | "base64" | "binary" | "caesar" | "character_space" | "jailbreak" | "ansii_attack" | "character_swap" | "suffix_append" | "string_join" | "unicode_confusable" | "unicode_substitution" | "diacritic" | "flip" | "leetspeak" | "rot13" | "morse" | "url" | "baseline";
-
-// @public
 export interface AzureAISearchIndex extends Index {
     connectionName: string;
     fieldMapping?: FieldMapping;
@@ -105,9 +51,11 @@ export interface AzureAISearchIndex extends Index {
 }
 
 // @public
-export interface AzureOpenAIModelConfiguration extends TargetConfig {
-    modelDeploymentName: string;
-    readonly type: "AzureOpenAIModel";
+export interface AzureOpenAIClientOptions {
+    apiVersion?: string;
+    connectionName?: string;
+    connectionOptions?: ConnectionsGetOptionalParams;
+    connectionSecretOptions?: ConnectionsGetWithCredentialsOptionalParams;
 }
 
 // @public
@@ -297,85 +245,6 @@ export interface EntraIDCredentials extends BaseCredentials {
 }
 
 // @public
-export interface Evaluation {
-    data: InputDataUnion;
-    description?: string;
-    displayName?: string;
-    evaluators: Record<string, EvaluatorConfiguration>;
-    readonly name: string;
-    properties?: Record<string, string>;
-    readonly status?: string;
-    tags?: Record<string, string>;
-}
-
-// @public
-export interface EvaluationsCreateAgentEvaluationOptionalParams extends OperationOptions {
-}
-
-// @public
-export interface EvaluationsCreateOptionalParams extends OperationOptions {
-}
-
-// @public
-export interface EvaluationsGetOptionalParams extends OperationOptions {
-    clientRequestId?: string;
-}
-
-// @public
-export interface EvaluationsListOptionalParams extends OperationOptions {
-    clientRequestId?: string;
-}
-
-// @public
-export interface EvaluationsOperations {
-    create: (evaluation: EvaluationWithOptionalName, options?: EvaluationsCreateOptionalParams) => Promise<Evaluation>;
-    createAgentEvaluation: (evaluation: AgentEvaluationRequest, options?: EvaluationsCreateAgentEvaluationOptionalParams) => Promise<AgentEvaluation>;
-    get: (name: string, options?: EvaluationsGetOptionalParams) => Promise<Evaluation>;
-    list: (options?: EvaluationsListOptionalParams) => PagedAsyncIterableIterator<Evaluation>;
-}
-
-// @public
-export type EvaluationWithOptionalName = Omit<Evaluation, "name"> & {
-    name?: string;
-};
-
-// @public
-export interface EvaluatorConfiguration {
-    dataMapping?: Record<string, string>;
-    id: string;
-    initParams?: Record<string, any>;
-}
-
-// @public
-export type EvaluatorId = (typeof EvaluatorIds)[keyof typeof EvaluatorIds];
-
-// @public
-export const EvaluatorIds: {
-    readonly RELEVANCE: "azureai://built-in/evaluators/relevance";
-    readonly HATE_UNFAIRNESS: "azureai://built-in/evaluators/hate_unfairness";
-    readonly VIOLENCE: "azureai://built-in/evaluators/violence";
-    readonly GROUNDEDNESS: "azureai://built-in/evaluators/groundedness";
-    readonly GROUNDEDNESS_PRO: "azureai://built-in/evaluators/groundedness_pro";
-    readonly BLUE_SCORE: "azureai://built-in/evaluators/blue_score";
-    readonly CODE_VULNERABILITY: "azureai://built-in/evaluators/code_vulnerability";
-    readonly COHERENCE: "azureai://built-in/evaluators/coherence";
-    readonly CONTENT_SAFETY: "azureai://built-in/evaluators/content_safety";
-    readonly F1_SCORE: "azureai://built-in/evaluators/f1_score";
-    readonly FLUENCY: "azureai://built-in/evaluators/fluency";
-    readonly GLEU_SCORE: "azureai://built-in/evaluators/gleu_score";
-    readonly INDIRECT_ATTACK: "azureai://built-in/evaluators/indirect_attack";
-    readonly METEOR_SCORE: "azureai://built-in/evaluators/meteor_score";
-    readonly PROTECTED_MATERIAL: "azureai://built-in/evaluators/protected_material";
-    readonly RETRIEVAL: "azureai://built-in/evaluators/retrieval";
-    readonly ROUGE_SCORE: "azureai://built-in/evaluators/rouge_score";
-    readonly SELF_HARM: "azureai://built-in/evaluators/self_harm";
-    readonly SEXUAL: "azureai://built-in/evaluators/sexual";
-    readonly SIMILARITY_SCORE: "azureai://built-in/evaluators/similarity_score";
-    readonly UNGROUNDED_ATTRIBUTES: "azureai://built-in/evaluators/ungrounded_attributes";
-    readonly RESPONSE_COMPLETENESS: "azureai://built-in/evaluators/response_completeness";
-};
-
-// @public
 export interface FieldMapping {
     contentFields: string[];
     filepathField?: string;
@@ -441,23 +310,14 @@ export type IndexType = "AzureSearch" | "CosmosDBNoSqlVectorStore" | "ManagedAzu
 export type IndexUnion = AzureAISearchIndex | ManagedAzureAISearchIndex | CosmosDBIndex | Index;
 
 // @public
-export interface InputData {
-    type: string;
+export interface InferenceOperations {
+    azureOpenAI: (options?: AzureOpenAIClientOptions) => Promise<AzureOpenAI>;
 }
-
-// @public
-export interface InputDataset extends InputData {
-    id: string;
-    type: "dataset";
-}
-
-// @public
-export type InputDataUnion = InputDataset | InputData;
 
 // @public
 export enum KnownVersions {
-    V20250501 = "2025-05-01",
-    V20250515Preview = "2025-05-15-preview"
+    V1 = "v1",
+    V20250501 = "2025-05-01"
 }
 
 // @public
@@ -513,45 +373,6 @@ export interface PendingUploadResponse {
 export type PendingUploadType = "None" | "BlobReference";
 
 // @public
-export interface RedTeam {
-    applicationScenario?: string;
-    attackStrategies?: AttackStrategy[];
-    displayName?: string;
-    readonly name: string;
-    numTurns?: number;
-    properties?: Record<string, string>;
-    riskCategories?: RiskCategory[];
-    simulationOnly?: boolean;
-    readonly status?: string;
-    tags?: Record<string, string>;
-    target: TargetConfigUnion;
-}
-
-// @public
-export interface RedTeamsCreateOptionalParams extends OperationOptions {
-}
-
-// @public
-export interface RedTeamsGetOptionalParams extends OperationOptions {
-    clientRequestId?: string;
-}
-
-// @public
-export interface RedTeamsListOptionalParams extends OperationOptions {
-    clientRequestId?: string;
-}
-
-// @public
-export interface RedTeamsOperations {
-    create: (redTeam: RedTeam, options?: RedTeamsCreateOptionalParams) => Promise<RedTeam>;
-    get: (name: string, options?: RedTeamsGetOptionalParams) => Promise<RedTeam>;
-    list: (options?: RedTeamsListOptionalParams) => PagedAsyncIterableIterator<RedTeam>;
-}
-
-// @public
-export type RiskCategory = "HateUnfairness" | "Violence" | "Sexual" | "SelfHarm";
-
-// @public
 export interface SasCredential {
     readonly sasUri: string;
     readonly type: "SAS";
@@ -571,14 +392,6 @@ export interface Sku {
     size: string;
     tier: string;
 }
-
-// @public
-export interface TargetConfig {
-    type: string;
-}
-
-// @public
-export type TargetConfigUnion = AzureOpenAIModelConfiguration | TargetConfig;
 
 // @public
 export interface TelemetryOperations {
