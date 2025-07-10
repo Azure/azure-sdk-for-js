@@ -62,6 +62,25 @@ export interface HealthBotProperties {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly botManagementPortalLink?: string;
+  /** KeyVault properties for the resource encryption. */
+  keyVaultProperties?: KeyVaultProperties;
+  /**
+   * The access control method for the Azure Health Bot resource.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly accessControlMethod?: string;
+}
+
+/** Properties of the key vault. */
+export interface KeyVaultProperties {
+  /** The name of the key vault key. */
+  keyName: string;
+  /** The version of the key vault key. */
+  keyVersion?: string;
+  /** The Uri of the key vault. */
+  keyVaultUri: string;
+  /** The user assigned identity (ARM resource id) that has access to the key. */
+  userIdentity?: string;
 }
 
 /** The resource model definition for a ARM tracked top level resource */
@@ -155,6 +174,8 @@ export interface ErrorAdditionalInfo {
 
 /** Parameters for updating a Azure Health Bot. */
 export interface HealthBotUpdateParameters {
+  /** Properties of Azure Health Bot. */
+  properties?: HealthBotProperties;
   /** Tags for a Azure Health Bot. */
   tags?: { [propertyName: string]: string };
   /** SKU of the Azure Health Bot. */
@@ -162,6 +183,20 @@ export interface HealthBotUpdateParameters {
   /** The identity of the Azure Health Bot. */
   identity?: Identity;
   location?: string;
+}
+
+/** Health Bot Keys Response. */
+export interface HealthBotKeysResponse {
+  /** Array of Azure Health Bot Secrets. */
+  secrets?: HealthBotKey[];
+}
+
+/** An entry of HealthBotKeysResponse */
+export interface HealthBotKey {
+  /** The name of the key. */
+  keyName?: string;
+  /** The value of the key. */
+  value?: string;
 }
 
 /** The list of Azure Health Bot operation response. */
@@ -248,7 +283,7 @@ export enum KnownIdentityType {
   /** ManagedIdentity */
   ManagedIdentity = "ManagedIdentity",
   /** Key */
-  Key = "Key"
+  Key = "Key",
 }
 
 /**
@@ -263,7 +298,7 @@ export enum KnownIdentityType {
  */
 export type IdentityType = string;
 /** Defines values for SkuName. */
-export type SkuName = "F0" | "S1" | "C0";
+export type SkuName = "F0" | "S1" | "C0" | "PES" | "C1";
 /** Defines values for ResourceIdentityType. */
 export type ResourceIdentityType =
   | "SystemAssigned"
@@ -289,7 +324,12 @@ export interface BotsGetOptionalParams extends coreClient.OperationOptions {}
 export type BotsGetResponse = HealthBot;
 
 /** Optional parameters. */
-export interface BotsUpdateOptionalParams extends coreClient.OperationOptions {}
+export interface BotsUpdateOptionalParams extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
 
 /** Contains response data for the update operation. */
 export type BotsUpdateResponse = HealthBot;
@@ -301,6 +341,20 @@ export interface BotsDeleteOptionalParams extends coreClient.OperationOptions {
   /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
   resumeFrom?: string;
 }
+
+/** Optional parameters. */
+export interface BotsListSecretsOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listSecrets operation. */
+export type BotsListSecretsResponse = HealthBotKeysResponse;
+
+/** Optional parameters. */
+export interface BotsRegenerateApiJwtSecretOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the regenerateApiJwtSecret operation. */
+export type BotsRegenerateApiJwtSecretResponse = HealthBotKey;
 
 /** Optional parameters. */
 export interface BotsListByResourceGroupOptionalParams

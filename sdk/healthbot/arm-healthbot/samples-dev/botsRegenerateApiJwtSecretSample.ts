@@ -11,19 +11,19 @@ import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
 
 /**
- * This sample demonstrates how to Delete a HealthBot.
+ * This sample demonstrates how to Regenerate the API JWT Secret of a HealthBot.
  *
- * @summary Delete a HealthBot.
- * x-ms-original-file: specification/healthbot/resource-manager/Microsoft.HealthBot/stable/2025-05-25/examples/ResourceDeletionDelete.json
+ * @summary Regenerate the API JWT Secret of a HealthBot.
+ * x-ms-original-file: specification/healthbot/resource-manager/Microsoft.HealthBot/stable/2025-05-25/examples/RegenerateApiJwtSecret.json
  */
-async function botDelete(): Promise<void> {
+async function botRegenerateApiJwtSecret(): Promise<void> {
   const subscriptionId = process.env["HEALTHBOT_SUBSCRIPTION_ID"] || "subid";
   const resourceGroupName =
     process.env["HEALTHBOT_RESOURCE_GROUP"] || "healthbotClient";
   const botName = "samplebotname";
   const credential = new DefaultAzureCredential();
   const client = new HealthbotClient(credential, subscriptionId);
-  const result = await client.bots.beginDeleteAndWait(
+  const result = await client.bots.regenerateApiJwtSecret(
     resourceGroupName,
     botName,
   );
@@ -31,7 +31,7 @@ async function botDelete(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  await botDelete();
+  await botRegenerateApiJwtSecret();
 }
 
 main().catch(console.error);

@@ -6,9 +6,9 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { HealthbotClient } from "@azure/arm-healthbot";
-import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
+const { HealthbotClient } = require("@azure/arm-healthbot");
+const { DefaultAzureCredential } = require("@azure/identity");
+require("dotenv/config");
 
 /**
  * This sample demonstrates how to Lists all the available Azure Health Bot operations.
@@ -16,10 +16,9 @@ import "dotenv/config";
  * @summary Lists all the available Azure Health Bot operations.
  * x-ms-original-file: specification/healthbot/resource-manager/Microsoft.HealthBot/stable/2025-05-25/examples/GetOperations.json
  */
-async function getOperations(): Promise<void> {
+async function getOperations() {
   const subscriptionId =
-    process.env["HEALTHBOT_SUBSCRIPTION_ID"] ||
-    "00000000-0000-0000-0000-000000000000";
+    process.env["HEALTHBOT_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";
   const credential = new DefaultAzureCredential();
   const client = new HealthbotClient(credential, subscriptionId);
   const resArray = new Array();
@@ -29,7 +28,7 @@ async function getOperations(): Promise<void> {
   console.log(resArray);
 }
 
-async function main(): Promise<void> {
+async function main() {
   await getOperations();
 }
 
