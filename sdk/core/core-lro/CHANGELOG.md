@@ -1,12 +1,6 @@
 # Release History
 
-## 3.2.1 (Unreleased)
-
-### Features Added
-
-### Breaking Changes
-
-### Bugs Fixed
+## 3.3.0 (2025-07-10)
 
 ### Other Changes
 
