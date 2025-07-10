@@ -73,7 +73,7 @@
 
 # PRLabel: %Communication - Call Automation
 # ServiceLabel: %Communication - Call Automation
-/sdk/communication/communication-call-automation/ @minwoolee-msft @juntuchen-msft @khannavikas
+/sdk/communication/communication-call-automation/ @minwoolee-msft @juntuchen-msft @khannavikas @v-dharmarajv
 
 # PRLabel: %Communication - Identity
 # ServiceLabel: %Communication - Identity
