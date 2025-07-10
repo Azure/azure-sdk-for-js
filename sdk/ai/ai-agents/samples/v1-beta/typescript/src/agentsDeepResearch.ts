@@ -9,7 +9,6 @@
  * For more information see the Deep Research Tool document: https://aka.ms/agents-deep-research
  *
  * @summary demonstrates how to use agent operations with the Deep Research tool.
- *
  */
 
 import type {
