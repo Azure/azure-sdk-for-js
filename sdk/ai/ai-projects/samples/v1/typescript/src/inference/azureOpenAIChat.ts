@@ -18,7 +18,7 @@ export async function main(): Promise<void> {
 
   const client = await project.inference.azureOpenAI({
     // The API version should match the version of the Azure OpenAI resource.
-    apiVersion: "2025-01-01",
+    apiVersion: "2024-10-21",
   });
   const response = await client.chat.completions.create({
     model: deploymentName,
