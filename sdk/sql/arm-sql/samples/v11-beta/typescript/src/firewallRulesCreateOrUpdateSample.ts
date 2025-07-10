@@ -10,9 +10,7 @@
 // Licensed under the MIT License.
 import { FirewallRule, SqlManagementClient } from "@azure/arm-sql";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Creates or updates a firewall rule.
@@ -20,7 +18,7 @@ dotenv.config();
  * @summary Creates or updates a firewall rule.
  * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2020-11-01-preview/examples/FirewallRuleCreate.json
  */
-async function createAFirewallRuleMaxOrMin() {
+async function createAFirewallRuleMaxOrMin(): Promise<void> {
   const subscriptionId =
     process.env["SQL_SUBSCRIPTION_ID"] ||
     "00000000-1111-2222-3333-444444444444";
@@ -49,7 +47,7 @@ async function createAFirewallRuleMaxOrMin() {
  * @summary Creates or updates a firewall rule.
  * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2020-11-01-preview/examples/FirewallRuleUpdate.json
  */
-async function updateAFirewallRuleMaxOrMin() {
+async function updateAFirewallRuleMaxOrMin(): Promise<void> {
   const subscriptionId =
     process.env["SQL_SUBSCRIPTION_ID"] ||
     "00000000-1111-2222-3333-444444444444";
@@ -72,7 +70,7 @@ async function updateAFirewallRuleMaxOrMin() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   createAFirewallRuleMaxOrMin();
   updateAFirewallRuleMaxOrMin();
 }

@@ -11,7 +11,7 @@ import "dotenv/config";
  * @summary Creates or updates scope connection from Network Manager
  * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-05-01/examples/NetworkManagerScopeConnectionPut.json
  */
-async function createOrUpdateNetworkManagerScopeConnection() {
+async function createOrUpdateNetworkManagerScopeConnection(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = createNetworkManagementClient(credential);
   const subscriptionId = "";

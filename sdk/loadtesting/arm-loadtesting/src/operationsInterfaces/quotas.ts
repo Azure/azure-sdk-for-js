@@ -15,7 +15,7 @@ import {
   QuotaBucketRequest,
   QuotasCheckAvailabilityOptionalParams,
   QuotasCheckAvailabilityResponse
-} from "../models";
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a Quotas. */

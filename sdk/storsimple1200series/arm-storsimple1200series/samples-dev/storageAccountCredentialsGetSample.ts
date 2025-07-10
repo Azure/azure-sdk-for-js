@@ -14,7 +14,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * @summary Returns the properties of the specified storage account credential name.
  * x-ms-original-file: specification/storsimple1200series/resource-manager/Microsoft.StorSimple/stable/2016-10-01/examples/StorageAccountCredentialsGet.json
  */
-async function storageAccountCredentialsGet() {
+async function storageAccountCredentialsGet(): Promise<void> {
   const subscriptionId = "9eb689cd-7243-43b4-b6f6-5c65cb296641";
   const credentialName = "SacForSDKTest";
   const resourceGroupName = "ResourceGroupForSDKTest";

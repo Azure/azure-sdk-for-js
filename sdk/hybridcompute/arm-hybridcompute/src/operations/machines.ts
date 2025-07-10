@@ -7,18 +7,18 @@
  */
 
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
-import { setContinuationToken } from "../pagingHelper";
-import { Machines } from "../operationsInterfaces";
+import { setContinuationToken } from "../pagingHelper.js";
+import { Machines } from "../operationsInterfaces/index.js";
 import * as coreClient from "@azure/core-client";
-import * as Mappers from "../models/mappers";
-import * as Parameters from "../models/parameters";
-import { HybridComputeManagementClient } from "../hybridComputeManagementClient";
+import * as Mappers from "../models/mappers.js";
+import * as Parameters from "../models/parameters.js";
+import { HybridComputeManagementClient } from "../hybridComputeManagementClient.js";
 import {
   SimplePollerLike,
   OperationState,
   createHttpPoller,
 } from "@azure/core-lro";
-import { createLroSpec } from "../lroImpl";
+import { createLroSpec } from "../lroImpl.js";
 import {
   Machine,
   MachinesListByResourceGroupNextOptionalParams,
@@ -28,6 +28,7 @@ import {
   MachinesListBySubscriptionOptionalParams,
   MachinesListBySubscriptionResponse,
   MachinesDeleteOptionalParams,
+  MachinesDeleteResponse,
   MachinesGetOptionalParams,
   MachinesGetResponse,
   MachinesAssessPatchesOptionalParams,
@@ -37,7 +38,7 @@ import {
   MachinesInstallPatchesResponse,
   MachinesListByResourceGroupNextResponse,
   MachinesListBySubscriptionNextResponse,
-} from "../models";
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Class containing Machines operations. */
@@ -183,15 +184,87 @@ export class MachinesImpl implements Machines {
    * @param machineName The name of the hybrid machine.
    * @param options The options parameters.
    */
-  delete(
+  async beginDelete(
     resourceGroupName: string,
     machineName: string,
     options?: MachinesDeleteOptionalParams,
-  ): Promise<void> {
-    return this.client.sendOperationRequest(
-      { resourceGroupName, machineName, options },
-      deleteOperationSpec,
+  ): Promise<
+    SimplePollerLike<
+      OperationState<MachinesDeleteResponse>,
+      MachinesDeleteResponse
+    >
+  > {
+    const directSendOperation = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec,
+    ): Promise<MachinesDeleteResponse> => {
+      return this.client.sendOperationRequest(args, spec);
+    };
+    const sendOperationFn = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec,
+    ) => {
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
+      const providedCallback = args.options?.onResponse;
+      const callback: coreClient.RawResponseCallback = (
+        rawResponse: coreClient.FullOperationResponse,
+        flatResponse: unknown,
+      ) => {
+        currentRawResponse = rawResponse;
+        providedCallback?.(rawResponse, flatResponse);
+      };
+      const updatedArgs = {
+        ...args,
+        options: {
+          ...args.options,
+          onResponse: callback,
+        },
+      };
+      const flatResponse = await directSendOperation(updatedArgs, spec);
+      return {
+        flatResponse,
+        rawResponse: {
+          statusCode: currentRawResponse!.status,
+          body: currentRawResponse!.parsedBody,
+          headers: currentRawResponse!.headers.toJSON(),
+        },
+      };
+    };
+
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceGroupName, machineName, options },
+      spec: deleteOperationSpec,
+    });
+    const poller = await createHttpPoller<
+      MachinesDeleteResponse,
+      OperationState<MachinesDeleteResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs,
+    });
+    await poller.poll();
+    return poller;
+  }
+
+  /**
+   * The operation to delete a hybrid machine.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param machineName The name of the hybrid machine.
+   * @param options The options parameters.
+   */
+  async beginDeleteAndWait(
+    resourceGroupName: string,
+    machineName: string,
+    options?: MachinesDeleteOptionalParams,
+  ): Promise<MachinesDeleteResponse> {
+    const poller = await this.beginDelete(
+      resourceGroupName,
+      machineName,
+      options,
     );
+    return poller.pollUntilDone();
   }
 
   /**
@@ -465,8 +538,18 @@ const deleteOperationSpec: coreClient.OperationSpec = {
   path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HybridCompute/machines/{machineName}",
   httpMethod: "DELETE",
   responses: {
-    200: {},
-    204: {},
+    200: {
+      headersMapper: Mappers.MachinesDeleteHeaders,
+    },
+    201: {
+      headersMapper: Mappers.MachinesDeleteHeaders,
+    },
+    202: {
+      headersMapper: Mappers.MachinesDeleteHeaders,
+    },
+    204: {
+      headersMapper: Mappers.MachinesDeleteHeaders,
+    },
     default: {
       bodyMapper: Mappers.ErrorResponse,
     },

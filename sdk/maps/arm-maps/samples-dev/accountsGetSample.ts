@@ -7,9 +7,7 @@
  */
 import { AzureMapsManagementClient } from "@azure/arm-maps";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Get a Maps Account.
@@ -17,7 +15,7 @@ dotenv.config();
  * @summary Get a Maps Account.
  * x-ms-original-file: specification/maps/resource-manager/Microsoft.Maps/stable/2023-06-01/examples/GetAccount.json
  */
-async function getAccount() {
+async function getAccount(): Promise<void> {
   const subscriptionId =
     process.env["MAPS_SUBSCRIPTION_ID"] || "21a9967a-e8a9-4656-a70b-96ff1c4d05a0";
   const resourceGroupName = process.env["MAPS_RESOURCE_GROUP"] || "myResourceGroup";
@@ -28,7 +26,7 @@ async function getAccount() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   await getAccount();
 }
 

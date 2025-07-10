@@ -18,5 +18,6 @@ add-credentials: true
 package-version: 1.1.1
 hide-clients: true
 use-extension:
-  "@autorest/typescript": "6.0.0-beta.15"
+  "@autorest/typescript": "6.0.34"
+module-kind: esm
 ```

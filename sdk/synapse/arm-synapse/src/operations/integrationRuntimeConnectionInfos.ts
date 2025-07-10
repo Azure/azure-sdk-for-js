@@ -6,15 +6,15 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { IntegrationRuntimeConnectionInfos } from "../operationsInterfaces";
+import { IntegrationRuntimeConnectionInfos } from "../operationsInterfaces/index.js";
 import * as coreClient from "@azure/core-client";
-import * as Mappers from "../models/mappers";
-import * as Parameters from "../models/parameters";
-import { SynapseManagementClient } from "../synapseManagementClient";
+import * as Mappers from "../models/mappers.js";
+import * as Parameters from "../models/parameters.js";
+import { SynapseManagementClient } from "../synapseManagementClient.js";
 import {
   IntegrationRuntimeConnectionInfosGetOptionalParams,
   IntegrationRuntimeConnectionInfosGetResponse
-} from "../models";
+} from "../models/index.js";
 
 /** Class containing IntegrationRuntimeConnectionInfos operations. */
 export class IntegrationRuntimeConnectionInfosImpl

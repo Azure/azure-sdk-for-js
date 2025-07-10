@@ -10,9 +10,7 @@
 // Licensed under the MIT License.
 import { HybridContainerServiceClient } from "@azure/arm-hybridcontainerservice";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Gets the specified virtual network resource
@@ -20,7 +18,7 @@ dotenv.config();
  * @summary Gets the specified virtual network resource
  * x-ms-original-file: specification/hybridaks/resource-manager/Microsoft.HybridContainerService/stable/2024-01-01/examples/GetVirtualNetwork.json
  */
-async function getVirtualNetwork() {
+async function getVirtualNetwork(): Promise<void> {
   const subscriptionId =
     process.env["HYBRIDCONTAINERSERVICE_SUBSCRIPTION_ID"] ||
     "a3e42606-29b1-4d7d-b1d9-9ff6b9d3c71b";
@@ -37,7 +35,7 @@ async function getVirtualNetwork() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   getVirtualNetwork();
 }
 

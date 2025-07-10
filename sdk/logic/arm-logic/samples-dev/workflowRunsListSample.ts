@@ -7,9 +7,7 @@
  */
 import { LogicManagementClient } from "@azure/arm-logic";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Gets a list of workflow runs.
@@ -17,7 +15,7 @@ dotenv.config();
  * @summary Gets a list of workflow runs.
  * x-ms-original-file: specification/logic/resource-manager/Microsoft.Logic/stable/2019-05-01/examples/WorkflowRuns_List.json
  */
-async function listWorkflowRuns() {
+async function listWorkflowRuns(): Promise<void> {
   const subscriptionId =
     process.env["LOGIC_SUBSCRIPTION_ID"] || "34adfa4f-cedf-4dc0-ba29-b6d1a69ab345";
   const resourceGroupName = process.env["LOGIC_RESOURCE_GROUP"] || "test-resource-group";
@@ -31,7 +29,7 @@ async function listWorkflowRuns() {
   console.log(resArray);
 }
 
-async function main() {
+async function main(): Promise<void> {
   await listWorkflowRuns();
 }
 

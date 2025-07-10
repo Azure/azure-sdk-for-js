@@ -7,9 +7,7 @@
  */
 import { ImageBuilderClient } from "@azure/arm-imagebuilder";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Gets information about the VM image templates associated with the specified resource group.
@@ -17,7 +15,7 @@ dotenv.config();
  * @summary Gets information about the VM image templates associated with the specified resource group.
  * x-ms-original-file: specification/imagebuilder/resource-manager/Microsoft.VirtualMachineImages/stable/2024-02-01/examples/ListImageTemplatesByRg.json
  */
-async function listImagesByResourceGroup() {
+async function listImagesByResourceGroup(): Promise<void> {
   const subscriptionId = process.env["IMAGEBUILDER_SUBSCRIPTION_ID"] || "{subscription-id}";
   const resourceGroupName = process.env["IMAGEBUILDER_RESOURCE_GROUP"] || "myResourceGroup";
   const credential = new DefaultAzureCredential();
@@ -31,7 +29,7 @@ async function listImagesByResourceGroup() {
   console.log(resArray);
 }
 
-async function main() {
+async function main(): Promise<void> {
   await listImagesByResourceGroup();
 }
 

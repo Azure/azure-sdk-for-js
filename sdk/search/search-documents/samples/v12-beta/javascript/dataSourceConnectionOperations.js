@@ -7,8 +7,7 @@
 
 const { DefaultAzureCredential } = require("@azure/identity");
 const { SearchIndexerClient } = require("@azure/search-documents");
-
-require("dotenv").config();
+require("dotenv/config");
 
 const endpoint = process.env.ENDPOINT || "";
 const connectionString = process.env.CONNECTION_STRING || "";

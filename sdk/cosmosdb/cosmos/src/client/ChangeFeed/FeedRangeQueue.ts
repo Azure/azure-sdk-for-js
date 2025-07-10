@@ -1,6 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import { ChangeFeedRange } from "./ChangeFeedRange";
+import { ChangeFeedRange } from "./ChangeFeedRange.js";
 /**
  * @hidden
  * A queue for iterating over specified Epk ranges and fetch change feed for the given epk ranges.

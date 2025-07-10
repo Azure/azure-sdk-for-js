@@ -7,9 +7,7 @@
  */
 import { SynapseManagementClient } from "@azure/arm-synapse";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Returns a list of privateLinkHubs in a subscription
@@ -17,7 +15,7 @@ dotenv.config();
  * @summary Returns a list of privateLinkHubs in a subscription
  * x-ms-original-file: specification/synapse/resource-manager/Microsoft.Synapse/stable/2021-06-01/examples/ListPrivateLinkHubsInSubscription.json
  */
-async function listPrivateLinkHubsInSubscription() {
+async function listPrivateLinkHubsInSubscription(): Promise<void> {
   const subscriptionId =
     process.env["SYNAPSE_SUBSCRIPTION_ID"] || "00000000-1111-2222-3333-444444444444";
   const credential = new DefaultAzureCredential();
@@ -29,7 +27,7 @@ async function listPrivateLinkHubsInSubscription() {
   console.log(resArray);
 }
 
-async function main() {
+async function main(): Promise<void> {
   await listPrivateLinkHubsInSubscription();
 }
 

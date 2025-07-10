@@ -13,7 +13,7 @@ import "dotenv/config";
  * @summary Lists all the vpnServerConfigurations in a resource group.
  * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-05-01/examples/VpnServerConfigurationListByResourceGroup.json
  */
-async function vpnServerConfigurationListByResourceGroup() {
+async function vpnServerConfigurationListByResourceGroup(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = createNetworkManagementClient(credential);
   const subscriptionId = "";

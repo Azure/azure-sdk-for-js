@@ -6,21 +6,17 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
 import { StorageManagementClient } from "@azure/arm-storage";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Fetch the report summary of all the storage task assignments and instances in an account
  *
  * @summary Fetch the report summary of all the storage task assignments and instances in an account
- * x-ms-original-file: specification/storage/resource-manager/Microsoft.Storage/stable/2023-05-01/examples/storageTaskAssignmentsList/ListStorageTaskAssignmentsInstancesReportSummary.json
+ * x-ms-original-file: specification/storage/resource-manager/Microsoft.Storage/stable/2024-01-01/examples/storageTaskAssignmentsList/ListStorageTaskAssignmentsInstancesReportSummary.json
  */
-async function listStorageTaskAssignmentsInstancesReportSummary() {
+async function listStorageTaskAssignmentsInstancesReportSummary(): Promise<void> {
   const subscriptionId =
     process.env["STORAGE_SUBSCRIPTION_ID"] ||
     "1f31ba14-ce16-4281-b9b4-3e78da6e1616";
@@ -29,7 +25,7 @@ async function listStorageTaskAssignmentsInstancesReportSummary() {
   const credential = new DefaultAzureCredential();
   const client = new StorageManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.storageTaskAssignmentsInstancesReport.list(
+  for await (const item of client.storageTaskAssignmentsInstancesReport.list(
     resourceGroupName,
     accountName,
   )) {
@@ -38,8 +34,8 @@ async function listStorageTaskAssignmentsInstancesReportSummary() {
   console.log(resArray);
 }
 
-async function main() {
-  listStorageTaskAssignmentsInstancesReportSummary();
+async function main(): Promise<void> {
+  await listStorageTaskAssignmentsInstancesReportSummary();
 }
 
 main().catch(console.error);

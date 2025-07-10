@@ -10,24 +10,24 @@ import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import {
   TargetComputeSize,
   TargetComputeSizesListByReplicationProtectedItemsOptionalParams,
-} from "../models";
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a TargetComputeSizes. */
 export interface TargetComputeSizes {
   /**
    * Lists the available target compute sizes for a replication protected item.
-   * @param resourceName The name of the recovery services vault.
    * @param resourceGroupName The name of the resource group where the recovery services vault is
    *                          present.
+   * @param resourceName The name of the recovery services vault.
    * @param fabricName Fabric name.
    * @param protectionContainerName protection container name.
    * @param replicatedProtectedItemName Replication protected item name.
    * @param options The options parameters.
    */
   listByReplicationProtectedItems(
-    resourceName: string,
     resourceGroupName: string,
+    resourceName: string,
     fabricName: string,
     protectionContainerName: string,
     replicatedProtectedItemName: string,

@@ -196,13 +196,17 @@ export class MetricsAdvisorClient {
    * Creates an instance of MetricsAdvisorClient.
    *
    * Example usage:
-   * ```ts
-   * import { MetricsAdvisorClient, MetricsAdvisorKeyCredential } from "@azure/ai-metrics-advisor";
+   * ```ts snippet:ReadmeSampleCreateClient_KeyCredential
+   * import {
+   *   MetricsAdvisorKeyCredential,
+   *   MetricsAdvisorClient,
+   *   MetricsAdvisorAdministrationClient,
+   * } from "@azure/ai-metrics-advisor";
    *
-   * const client = new MetricsAdvisorClient(
-   *    "<service endpoint>",
-   *    new MetricsAdvisorKeyCredential("<subscription key>", "<api key>")
-   * );
+   * const credential = new MetricsAdvisorKeyCredential("<subscription Key>", "<API key>");
+   *
+   * const client = new MetricsAdvisorClient("<endpoint>", credential);
+   * const adminClient = new MetricsAdvisorAdministrationClient("<endpoint>", credential);
    * ```
    * @param endpointUrl - Url to an Azure Metrics Advisor service endpoint
    * @param credential - Used to authenticate requests to the service.
@@ -331,49 +335,41 @@ export class MetricsAdvisorClient {
    *
    * Example using `for await` syntax:
    *
-   * ```js
-   * const client = new MetricsAdvisorClient(endpoint,
-   *   new MetricsAdvisorKeyCredential(subscriptionKey, apiKey)
+   * ```ts snippet:MetricsAdvisorClientListAlerts
+   * import { DefaultAzureCredential } from "@azure/identity";
+   * import { MetricsAdvisorClient } from "@azure/ai-metrics-advisor";
+   *
+   * const credential = new DefaultAzureCredential();
+   * const client = new MetricsAdvisorClient("<endpoint>", credential);
+   *
+   * const alerts = client.listAlerts(
+   *   "<alert config id>",
+   *   new Date(Date.UTC(2020, 8, 1)),
+   *   new Date(Date.UTC(2020, 8, 12)),
+   *   "AnomalyTime",
    * );
-   * const alerts = client.listAlerts(alertConfigId,
-   *   startTime, endTime, timeMode
-   * );
-   * let i = 1;
+   *
+   * // Iterate via for-await-of
    * for await (const alert of alerts) {
-   *   console.log(`alert ${i++}:`);
-   *   console.log(alert);
+   *   console.log(alert.id);
+   * }
+   *
+   * // Iterate via generator
+   * const iter = alerts[Symbol.asyncIterator]();
+   * let { done, value } = await iter.next();
+   * while (!done) {
+   *   console.log(value.id);
+   *   ({ done, value } = await iter.next());
+   * }
+   *
+   * // Iterate by page
+   * for await (const page of alerts.byPage()) {
+   *   for (const alert of page) {
+   *     console.log(alert.id);
+   *   }
    * }
    * ```
    *
-   * Example using `iter.next()`:
-   *
-   * ```js
-   * let iter = client.listAlerts(alertConfigId, startTime, endTime, timeMode);
-   * let result = await iter.next();
-   * while (!result.done) {
-   *   console.log(` alert - ${result.value.id}`);
-   *   result = await iter.next();
-   * }
-   * ```
-   *
-   * Example using `byPage()`:
-   *
-   * ```js
-   * const pages = client.listAlerts(alertConfigId, startTime, endTime, timeMode)
-   *   .byPage({ maxPageSize: 10 });
-   * let page = await pages.next();
-   * let i = 1;
-   * while (!page.done) {
-   *  if (page.value) {
-   *    console.log(`-- page ${i++}`);
-   *    for (const alert of page.value) {
-   *      console.log(`${alert}`);
-   *    }
-   *  }
-   *  page = await pages.next();
-   * }
-   *
-   * ```
    * @param alertConfigId - Anomaly alerting configuration unique id
    * @param startTime - The start of time range to query alert items for alerting configuration
    * @param endTime - The end of time range to query alert items for alerting configuration
@@ -525,45 +521,38 @@ export class MetricsAdvisorClient {
    *
    * Example using `for await` syntax:
    *
-   * ```js
-   * const client = new MetricsAdvisorClient(endpoint,
-   *   new MetricsAdvisorKeyCredential(subscriptionKey, apiKey));
-   * const anamolyList = client.listAnomaliesForAlert({alertConfigId, id: alertId});
-   * let i = 1;
-   * for await (const anamoly of anamolyList){
-   *  console.log(`anamoly ${i++}:`);
-   *  console.log(anamoly);
+   * ```ts snippet:MetricsAdvisorClientListAnomaliesForAlert
+   * import { DefaultAzureCredential } from "@azure/identity";
+   * import { MetricsAdvisorClient } from "@azure/ai-metrics-advisor";
+   *
+   * const credential = new DefaultAzureCredential();
+   * const client = new MetricsAdvisorClient("<endpoint>", credential);
+   *
+   * const alertConfigId = "<alert config id>";
+   * const alertId = "<alert id>";
+   * const anamolyList = client.listAnomaliesForAlert({ alertConfigId, id: alertId });
+   *
+   * // Iterate via for-await-of
+   * for await (const anomaly of anamolyList) {
+   *   console.log(anomaly.severity);
+   * }
+   *
+   * // Iterate via generator
+   * const iter = anamolyList[Symbol.asyncIterator]();
+   * let { done, value } = await iter.next();
+   * while (!done) {
+   *   console.log(value.severity);
+   *   ({ done, value } = await iter.next());
+   * }
+   *
+   * // Iterate by page
+   * for await (const page of anamolyList.byPage()) {
+   *   for (const anomaly of page) {
+   *     console.log(anomaly.severity);
+   *   }
    * }
    * ```
    *
-   * Example using `iter.next()`:
-   *
-   * ```js
-   * let iter = client.listAnomaliesForAlert({alertConfigId, id: alertId});
-   * let result = await iter.next();
-   * while (!result.done) {
-   *   console.log(` anamoly - ${result.value.metricId}, ${result.value.detectionConfigurationId} `);
-   *   result = await iter.next();
-   * }
-   * ```
-   *
-   * Example using `byPage()`:
-   *
-   * ```js
-   * const pages = client.listAnomaliesForAlert({alertConfigId, id: alertId}).byPage({ maxPageSize: 10 });
-   * let page = await pages.next();
-   * let i = 1;
-   * while (!page.done) {
-   *  if (page.value) {
-   *    console.log(`-- page ${i++}`);
-   *    for (const anomaly of page.value) {
-   *      console.log(`${anomaly}`);
-   *    }
-   *  }
-   *  page = await pages.next();
-   * }
-   *
-   * ```
    * @param alert - Anomaly alert containing alertConfigId and id
    * @param options - The options parameter.
    */
@@ -704,45 +693,38 @@ export class MetricsAdvisorClient {
    *
    * Example using `for await` syntax:
    *
-   * ```js
-   * const client = new MetricsAdvisorClient(endpoint,
-   *   new MetricsAdvisorKeyCredential(subscriptionKey, apiKey));
-   * const incidentList = client.listIncidentsForAlert(anomalyAlert);
-   * let i = 1;
-   * for await (const incident of incidentList){
-   *   console.log(`incident ${i++}:`);
-   *   console.log(incident);
+   * ```ts snippet:MetricsAdvisorClientListIncidentsForAlert
+   * import { DefaultAzureCredential } from "@azure/identity";
+   * import { MetricsAdvisorClient } from "@azure/ai-metrics-advisor";
+   *
+   * const credential = new DefaultAzureCredential();
+   * const client = new MetricsAdvisorClient("<endpoint>", credential);
+   *
+   * const alertConfigId = "<alert config id>";
+   * const alertId = "<alert id>";
+   * const incidentList = client.listIncidentsForAlert({ alertConfigId, id: alertId });
+   *
+   * // Iterate via for-await-of
+   * for await (const incident of incidentList) {
+   *   console.log(incident.rootDimensionKey);
+   * }
+   *
+   * // Iterate via generator
+   * const iter = incidentList[Symbol.asyncIterator]();
+   * let { done, value } = await iter.next();
+   * while (!done) {
+   *   console.log(value.rootDimensionKey);
+   *   ({ done, value } = await iter.next());
+   * }
+   *
+   * // Iterate by page
+   * for await (const page of incidentList.byPage()) {
+   *   for (const incident of page) {
+   *     console.log(incident.rootDimensionKey);
+   *   }
    * }
    * ```
    *
-   * Example using `iter.next()`:
-   *
-   * ```js
-   * let iter = client.listIncidentsForAlert(anomalyAlert);
-   * let result = await iter.next();
-   * while (!result.done) {
-   *   console.log(` incident - ${result.value.id}`);
-   *   console.dir(result.value);
-   *   result = await iter.next();
-   * }
-   * ```
-   *
-   * Example using `byPage()`:
-   *
-   * ```js
-   * const pages = client.listIncidentsForAlert(anomalyAlert).byPage({ maxPageSize: 10 });
-   * let page = await pages.next();
-   * let i = 1;
-   * while (!page.done) {
-   *  if (page.value) {
-   *    console.log(`-- page ${i++}`);
-   *    for (const incident of page.value) {
-   *      console.dir(incident);
-   *    }
-   *  }
-   *  page = await pages.next();
-   * }
-   * ```
    * @param alert - Anomaly alert containing alertConfigId and id
    * @param options - The options parameter.
    */
@@ -936,47 +918,40 @@ export class MetricsAdvisorClient {
    *
    * Example using `for await` syntax:
    *
-   * ```js
-   * const client = new MetricsAdvisorClient(endpoint,
-   *   new MetricsAdvisorKeyCredential(subscriptionKey, apiKey));
-   * const anomalies = client.listAnomaliesForDetectionConfiguration(detectionConfigId, startTime, endTime);
-   * let i = 1;
+   * ```ts snippet:MetricsAdvisorClientListAnomaliesForDetectionConfiguration
+   * import { DefaultAzureCredential } from "@azure/identity";
+   * import { MetricsAdvisorClient } from "@azure/ai-metrics-advisor";
+   *
+   * const credential = new DefaultAzureCredential();
+   * const client = new MetricsAdvisorClient("<endpoint>", credential);
+   *
+   * const anomalies = client.listAnomaliesForDetectionConfiguration(
+   *   "<detection config id>",
+   *   new Date(Date.UTC(2020, 8, 1)),
+   *   new Date(Date.UTC(2020, 8, 12)),
+   * );
+   *
+   * // Iterate via for-await-of
    * for await (const anomaly of anomalies) {
-   *   console.log(`anomaly ${i++}:`);
-   *   console.log(anomaly);
+   *   console.log(anomaly.severity);
+   * }
+   *
+   * // Iterate via generator
+   * const iter = anomalies[Symbol.asyncIterator]();
+   * let { done, value } = await iter.next();
+   * while (!done) {
+   *   console.log(value.severity);
+   *   ({ done, value } = await iter.next());
+   * }
+   *
+   * // Iterate by page
+   * for await (const page of anomalies.byPage()) {
+   *   for (const anomaly of page) {
+   *     console.log(anomaly.severity);
+   *   }
    * }
    * ```
    *
-   * Example using `iter.next()`:
-   *
-   * ```js
-   * let iter = client.listAnomaliesForDetectionConfiguration(detectionConfigId, startTime, endTime);
-   * let result = await iter.next();
-   * while (!result.done) {
-   *   console.log(` anomaly - ${result.value.severity} ${result.value.status}`);
-   *   console.dir(result.value);
-   *   result = await iter.next();
-   * }
-   * ```
-   *
-   * Example using `byPage()`:
-   *
-   * ```js
-   * const pages = client.listAnomaliesForDetectionConfiguration(detectionConfigId, startTime, endTime)
-   *   .byPage({ maxPageSize: 10 });
-   * let page = await pages.next();
-   * let i = 1;
-   * while (!page.done) {
-   *  if (page.value) {
-   *    console.log(`-- page ${i++}`);
-   *    for (const anomaly of page.value) {
-   *      console.dir(anomaly);
-   *    }
-   *  }
-   *  page = await pages.next();
-   * }
-   *
-   * ```
    * @param detectionConfigId - Anomaly detection configuration id
    * @param startTime - The start of time range to query anomalies
    * @param endTime - The end of time range to query anomalies
@@ -1110,51 +1085,41 @@ export class MetricsAdvisorClient {
    *
    * Example using `for await` syntax:
    *
-   * ```js
-   * const client = new MetricsAdvisorClient(endpoint,
-   *   new MetricsAdvisorKeyCredential(subscriptionKey, apiKey));
-   * const dimensionValues = client
-   *   .listAnomalyDimensionValues(detectionConfigId, startTime, endTime, dimensionName);
-   * let i = 1;
-   * for await (const dv of dimensionValues) {
-   *   console.log(`dimension value ${i++}: ${dv}`);
-   * ```
+   * ```ts snippet:MetricsAdvisorClientListAnomalyDimensionValues
+   * import { DefaultAzureCredential } from "@azure/identity";
+   * import { MetricsAdvisorClient } from "@azure/ai-metrics-advisor";
    *
-   * Example using `iter.next()`:
+   * const credential = new DefaultAzureCredential();
+   * const client = new MetricsAdvisorClient("<endpoint>", credential);
    *
-   * ```js
-   * let iter = client
-   *   .listAnomalyDimensionValues(detectionConfigId, startTime, endTime, dimensionName);
-   * let result = await iter.next();
-   * while (!result.done) {
-   *   console.log(` dimension value - '${result.value}'`);
-   *   result = await iter.next();
+   * const dimensionValues = client.listAnomalyDimensionValues(
+   *   "<detection config id>",
+   *   new Date(Date.UTC(2020, 8, 1)),
+   *   new Date(Date.UTC(2020, 8, 12)),
+   *   "city",
+   * );
+   *
+   * // Iterate via for-await-of
+   * for await (const dimensionValue of dimensionValues) {
+   *   console.log(dimensionValue);
    * }
-   * ```
    *
-   * Example using `byPage()`:
+   * // Iterate via generator
+   * const iter = dimensionValues[Symbol.asyncIterator]();
+   * let { done, value } = await iter.next();
+   * while (!done) {
+   *   console.log(value);
+   *   ({ done, value } = await iter.next());
+   * }
    *
-   * ```js
-   * const pages = client
-   *   .listAnomalyDimensionValues(
-   *     detectionConfigId,
-   *     startTime,
-   *     endTime,
-   *     dimensionName
-   *   )
-   *   .byPage({ maxPageSize: 10 });
-   * let page = await pages.next();
-   * let i = 1;
-   * while (!page.done) {
-   *   if (page.value) {
-   *     console.log(`-- page ${i++}`);
-   *     for (const dv of page.value) {
-   *       console.log(` dimension value - '${result.value}'`);
-   *     }
+   * // Iterate by page
+   * for await (const page of dimensionValues.byPage()) {
+   *   for (const dimensionValue of page) {
+   *     console.log(dimensionValue);
    *   }
-   *   page = await pages.next();
    * }
    * ```
+   *
    * @param detectionConfigId - Anomaly detection configuration id
    * @param dimensionName - Name of the dimension for anomaly detection config
    * @param startTime - The start of time range to query anomalies
@@ -1314,47 +1279,40 @@ export class MetricsAdvisorClient {
    *
    * Example using `for await` syntax:
    *
-   * ```js
-   * const client = new MetricsAdvisorClient(endpoint,
-   *   new MetricsAdvisorKeyCredential(subscriptionKey, apiKey));
-   * const incidentList = client
-   *   .listIncidentsForDetectionConfiguration(detectionConfigId, startTime, endTime);
-   * let i = 1;
-   * for await (const incident of incidentList){
-   *  console.log(`incident ${i++}:`);
-   *  console.log(incident);
+   * ```ts snippet:MetricsAdvisorClientListIncidentsForDetectionConfiguration
+   * import { DefaultAzureCredential } from "@azure/identity";
+   * import { MetricsAdvisorClient } from "@azure/ai-metrics-advisor";
+   *
+   * const credential = new DefaultAzureCredential();
+   * const client = new MetricsAdvisorClient("<endpoint>", credential);
+   *
+   * const incidentList = client.listIncidentsForDetectionConfiguration(
+   *   "<detection config id>",
+   *   new Date(Date.UTC(2020, 8, 1)),
+   *   new Date(Date.UTC(2020, 8, 12)),
+   * );
+   *
+   * // Iterate via for-await-of
+   * for await (const incident of incidentList) {
+   *   console.log(incident.rootDimensionKey);
+   * }
+   *
+   * // Iterate via generator
+   * const iter = incidentList[Symbol.asyncIterator]();
+   * let { done, value } = await iter.next();
+   * while (!done) {
+   *   console.log(value.rootDimensionKey);
+   *   ({ done, value } = await iter.next());
+   * }
+   *
+   * // Iterate by page
+   * for await (const page of incidentList.byPage()) {
+   *   for (const incident of page) {
+   *     console.log(incident.rootDimensionKey);
+   *   }
    * }
    * ```
    *
-   * Example using `iter.next()`:
-   *
-   * ```js
-   * let iter = client.listIncidentsForDetectionConfiguration(detectionConfigId, startTime, endTime);
-   * let result = await iter.next();
-   * while (!result.done) {
-   *   console.log(` incident - ${result.value.id}`);
-   *   console.dir(result.value);
-   *   result = await iter.next();
-   * }
-   * ```
-   *
-   * Example using `byPage()`:
-   *
-   * ```js
-   * const pages = client.listIncidentsForDetectionConfiguration(detectionConfigId, startTime, endTime)
-   *   .byPage({ maxPageSize: 10 });
-   * let page = await pages.next();
-   * let i = 1;
-   * while (!page.done) {
-   *  if (page.value) {
-   *    console.log(`-- page ${i++}`);
-   *    for (const incident of page.value) {
-   *      console.dir(incident);
-   *    }
-   *  }
-   *  page = await pages.next();
-   * }
-   * ```
    * @param detectionConfigId - Anomaly detection configuration id
    * @param startTime - The start of time range to query for incidents
    * @param endTime - The end of time range to query for incidents
@@ -1569,46 +1527,36 @@ export class MetricsAdvisorClient {
    *
    * Example using `for await` syntax:
    *
-   * ```js
-   * const client = new MetricsAdvisorClient(endpoint,
-   *   new MetricsAdvisorKeyCredential(subscriptionKey, apiKey));
-   * const feedbacks = client.listFeedback(metricId);
-   * let i = 1;
-   * for await (const f of feedbacks){
-   *  console.log(`feedback ${i++}:`);
-   *  console.log(f);
+   * ```ts snippet:MetricsAdvisorClientListFeedback
+   * import { DefaultAzureCredential } from "@azure/identity";
+   * import { MetricsAdvisorClient } from "@azure/ai-metrics-advisor";
+   *
+   * const credential = new DefaultAzureCredential();
+   * const client = new MetricsAdvisorClient("<endpoint>", credential);
+   *
+   * const feedbacks = client.listFeedback("<metric id>");
+   *
+   * // Iterate via for-await-of
+   * for await (const feedback of feedbacks) {
+   *   console.log(feedback.feedbackType);
+   * }
+   *
+   * // Iterate via generator
+   * const iter = feedbacks[Symbol.asyncIterator]();
+   * let { done, value } = await iter.next();
+   * while (!done) {
+   *   console.log(value.feedbackType);
+   *   ({ done, value } = await iter.next());
+   * }
+   *
+   * // Iterate by page
+   * for await (const page of feedbacks.byPage()) {
+   *   for (const feedback of page) {
+   *     console.log(feedback.feedbackType);
+   *   }
    * }
    * ```
    *
-   * Example using `iter.next()`:
-   *
-   * ```js
-   * let iter = client.listFeedback(metricId);
-   * let result = await iter.next();
-   * while (!result.done) {
-   *   console.log(` feedback - ${result.value.id}`);
-   *   console.dir(result.value);
-   *   result = await iter.next();
-   * }
-   * ```
-   *
-   * Example using `byPage()`:
-   *
-   * ```js
-   * const pages = client.listFeedback(metricId)
-   *   .byPage({ maxPageSize: 10 });
-   * let page = await pages.next();
-   * let i = 1;
-   * while (!page.done) {
-   *  if (page.value) {
-   *    console.log(`-- page ${i++}`);
-   *    for (const f of page.value) {
-   *      console.dir(f);
-   *    }
-   *  }
-   *  page = await pages.next();
-   * }
-   * ```
    * @param metricId - Metric id
    * @param options - The options parameter
    */
@@ -1760,45 +1708,39 @@ export class MetricsAdvisorClient {
    *
    * Example using `for await` syntax:
    *
-   * ```js
-   * const client = new MetricsAdvisorClient(endpoint,
-   *   new MetricsAdvisorKeyCredential(subscriptionKey, apiKey));
-   * const definitions = client.listMetricSeriesDefinitions(metricId, activeSince);
-   * let i = 1;
-   * for await (const definition of definitions){
-   *  console.log(`definition ${i++}:`);
-   *  console.log(definition);
+   * ```ts snippet:MetricsAdvisorClientListMetricSeriesDefinitions
+   * import { DefaultAzureCredential } from "@azure/identity";
+   * import { MetricsAdvisorClient } from "@azure/ai-metrics-advisor";
+   *
+   * const credential = new DefaultAzureCredential();
+   * const client = new MetricsAdvisorClient("<endpoint>", credential);
+   *
+   * const definitions = client.listMetricSeriesDefinitions(
+   *   "<metric id>",
+   *   new Date(Date.UTC(2020, 8, 1)),
+   * );
+   *
+   * // Iterate via for-await-of
+   * for await (const definition of definitions) {
+   *   console.log(definition.seriesKey);
    * }
-   * ```
    *
-   * Example using `iter.next()`:
-   *
-   * ```js
-   * let iter = client.listMetricSeriesDefinitions(metricId, activeSince);
-   * let result = await iter.next();
-   * while (!result.done) {
-   *   console.log(` definition - ${result.value.metricId} ${result.value.dimension}`);
-   *   console.dir(result.value);
-   *   result = await iter.next();
+   * // Iterate via generator
+   * const iter = definitions[Symbol.asyncIterator]();
+   * let { done, value } = await iter.next();
+   * while (!done) {
+   *   console.log(value.seriesKey);
+   *   ({ done, value } = await iter.next());
    * }
-   * ```
    *
-   * Example using `byPage()`:
-   *
-   * ```js
-   * const pages = client.listMetricSeriesDefinitions(metricId, activeSince).byPage({ maxPageSize: 10 });
-   * let page = await pages.next();
-   * let i = 1;
-   * while (!page.done) {
-   *   if (page.value) {
-   *     console.log(`-- page ${i++}`);
-   *     for (const definition of page.value) {
-   *       console.dir(definition);
-   *     }
+   * // Iterate by page
+   * for await (const page of definitions.byPage()) {
+   *   for (const definition of page) {
+   *     console.log(definition.seriesKey);
    *   }
-   *   page = await pages.next();
    * }
    * ```
+   *
    * @param metricId - Metric id
    * @param activeSince - Definitions of series ingested after this time are returned
    * @param options - The options parameter.
@@ -1910,45 +1852,36 @@ export class MetricsAdvisorClient {
    *
    * Example using `for await` syntax:
    *
-   * ```js
-   * const client = new MetricsAdvisorClient(endpoint,
-   *   new MetricsAdvisorKeyCredential(subscriptionKey, apiKey));
-   * const values = client.listMetricDimensionValues(metricId, dimensionName);
-   * let i = 1;
-   * for await (const v of values){
-   *   console.log(`dimension value ${i++}:`);
-   *   console.log(v);
+   * ```ts snippet:MetricsAdvisorClientListMetricDimensionValues
+   * import { DefaultAzureCredential } from "@azure/identity";
+   * import { MetricsAdvisorClient } from "@azure/ai-metrics-advisor";
+   *
+   * const credential = new DefaultAzureCredential();
+   * const client = new MetricsAdvisorClient("<endpoint>", credential);
+   *
+   * const dimensionValues = client.listMetricDimensionValues("<metric id>", "city");
+   *
+   * // Iterate via for-await-of
+   * for await (const dimensionValue of dimensionValues) {
+   *   console.log(dimensionValue);
    * }
-   * ```
    *
-   * Example using `iter.next()`:
-   *
-   * ```js
-   * let iter = client.listMetricDimensionValues(metricId, dimensionName);
-   * let result = await iter.next();
-   * while (!result.done) {
-   *   console.log(` dimension value - ${result.value}`);
-   *   console.dir(result.value);
-   *   result = await iter.next();
+   * // Iterate via generator
+   * const iter = dimensionValues[Symbol.asyncIterator]();
+   * let { done, value } = await iter.next();
+   * while (!done) {
+   *   console.log(value);
+   *   ({ done, value } = await iter.next());
    * }
-   * ```
    *
-   * Example using `byPage()`:
-   *
-   * ```js
-   * const pages = client.listMetricDimensionValues(metricId, dimensionName).byPage({ maxPageSize: 10 });
-   * let page = await pages.next();
-   * let i = 1;
-   * while (!page.done) {
-   *   if (page.value) {
-   *     console.log(`-- page ${i++}`);
-   *     for (const dv of page.value) {
-   *       console.dir(dv);
-   *     }
+   * // Iterate by page
+   * for await (const page of dimensionValues.byPage()) {
+   *   for (const dimensionValue of page) {
+   *     console.log(dimensionValue);
    *   }
-   *   page = await pages.next();
    * }
    * ```
+   *
    * @param metricId - Anomaly detection configuration id
    * @param dimensionName - Name of the dimension to list value
    * @param options - The options parameter.
@@ -2078,46 +2011,40 @@ export class MetricsAdvisorClient {
    *
    * Example using `for await` syntax:
    *
-   * ```js
-   * const client = new MetricsAdvisorClient(endpoint,
-   *   new MetricsAdvisorKeyCredential(subscriptionKey, apiKey));
-   * const statusList = client.listMetricEnrichmentStatus(metricId, startTime, endTime);
-   * let i = 1;
-   * for await (const status of statusList){
-   *   console.log(`enrichment status ${i++}:`);
-   *   console.log(status);
+   * ```ts snippet:MetricsAdvisorClientListMetricEnrichmentStatus
+   * import { DefaultAzureCredential } from "@azure/identity";
+   * import { MetricsAdvisorClient } from "@azure/ai-metrics-advisor";
+   *
+   * const credential = new DefaultAzureCredential();
+   * const client = new MetricsAdvisorClient("<endpoint>", credential);
+   *
+   * const statusList = client.listMetricEnrichmentStatus(
+   *   "<metric id>",
+   *   new Date(Date.UTC(2020, 8, 1)),
+   *   new Date(Date.UTC(2020, 8, 12)),
+   * );
+   *
+   * // Iterate via for-await-of
+   * for await (const status of statusList) {
+   *   console.log(status.status);
+   * }
+   *
+   * // Iterate via generator
+   * const iter = statusList[Symbol.asyncIterator]();
+   * let { done, value } = await iter.next();
+   * while (!done) {
+   *   console.log(value.status);
+   *   ({ done, value } = await iter.next());
+   * }
+   *
+   * // Iterate by page
+   * for await (const page of statusList.byPage()) {
+   *   for (const status of page) {
+   *     console.log(status.status);
+   *   }
    * }
    * ```
    *
-   * Example using `iter.next()`:
-   *
-   * ```js
-   * let iter = client.listMetricEnrichmentStatus(metricId, startTime, endTime);
-   * let result = await iter.next();
-   * while (!result.done) {
-   *   console.log(` enrichment status - ${result.value.status} ${result.value.message}`);
-   *   console.dir(result.value);
-   *   result = await iter.next();
-   * }
-   * ```
-   *
-   * Example using `byPage()`:
-   *
-   * ```js
-   * const pages = client.listMetricEnrichmentStatus(metricId, startTime, endTime)
-   *   .byPage({ maxPageSize: 10 });
-   * let page = await pages.next();
-   * let i = 1;
-   * while (!page.done) {
-   *  if (page.value) {
-   *    console.log(`-- page ${i++}`);
-   *    for (const status of page.value) {
-   *      console.dir(status);
-   *    }
-   *  }
-   *  page = await pages.next();
-   * }
-   * ```
    * @param metricId - Metric id
    * @param startTime - The start of time range to query for enrichment status
    * @param endTime - The end of time range to query for enrichment status

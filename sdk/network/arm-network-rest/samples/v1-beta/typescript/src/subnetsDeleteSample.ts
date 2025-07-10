@@ -13,7 +13,7 @@ import "dotenv/config";
  * @summary Deletes the specified subnet.
  * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-05-01/examples/SubnetDelete.json
  */
-async function deleteSubnet() {
+async function deleteSubnet(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = createNetworkManagementClient(credential);
   const subscriptionId = "";

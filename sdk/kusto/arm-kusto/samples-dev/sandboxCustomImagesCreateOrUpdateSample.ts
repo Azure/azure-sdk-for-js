@@ -46,10 +46,8 @@ async function kustoSandboxCustomImagesCreateOrUpdate(): Promise<void> {
  */
 async function kustoSandboxCustomImagesCreateOrUpdateWithCustomBaseImage(): Promise<void> {
   const subscriptionId =
-    process.env["KUSTO_SUBSCRIPTION_ID"] ||
-    "12345678-1234-1234-1234-123456789098";
-  const resourceGroupName =
-    process.env["KUSTO_RESOURCE_GROUP"] || "kustorptest";
+    process.env["KUSTO_SUBSCRIPTION_ID"] || "12345678-1234-1234-1234-123456789098";
+  const resourceGroupName = process.env["KUSTO_RESOURCE_GROUP"] || "kustorptest";
   const clusterName = "kustoCluster";
   const sandboxCustomImageName = "customImage2";
   const parameters: SandboxCustomImage = {
@@ -76,10 +74,8 @@ async function kustoSandboxCustomImagesCreateOrUpdateWithCustomBaseImage(): Prom
  */
 async function kustoSandboxCustomImagesCreateOrUpdateWithManagedBaseImage(): Promise<void> {
   const subscriptionId =
-    process.env["KUSTO_SUBSCRIPTION_ID"] ||
-    "12345678-1234-1234-1234-123456789098";
-  const resourceGroupName =
-    process.env["KUSTO_RESOURCE_GROUP"] || "kustorptest";
+    process.env["KUSTO_SUBSCRIPTION_ID"] || "12345678-1234-1234-1234-123456789098";
+  const resourceGroupName = process.env["KUSTO_RESOURCE_GROUP"] || "kustorptest";
   const clusterName = "kustoCluster";
   const sandboxCustomImageName = "customImage2";
   const parameters: SandboxCustomImage = {

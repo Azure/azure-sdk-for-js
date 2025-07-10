@@ -7,19 +7,19 @@
  */
 
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
-import { setContinuationToken } from "../pagingHelper";
-import { AvailableClusterPoolVersions } from "../operationsInterfaces";
+import { setContinuationToken } from "../pagingHelper.js";
+import { AvailableClusterPoolVersions } from "../operationsInterfaces/index.js";
 import * as coreClient from "@azure/core-client";
-import * as Mappers from "../models/mappers";
-import * as Parameters from "../models/parameters";
-import { HDInsightContainersManagementClient } from "../hDInsightContainersManagementClient";
+import * as Mappers from "../models/mappers.js";
+import * as Parameters from "../models/parameters.js";
+import { HDInsightContainersManagementClient } from "../hDInsightContainersManagementClient.js";
 import {
   ClusterPoolVersion,
   AvailableClusterPoolVersionsListByLocationNextOptionalParams,
   AvailableClusterPoolVersionsListByLocationOptionalParams,
   AvailableClusterPoolVersionsListByLocationResponse,
   AvailableClusterPoolVersionsListByLocationNextResponse,
-} from "../models";
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Class containing AvailableClusterPoolVersions operations. */

@@ -26,7 +26,7 @@ import {
   SqlPoolsResumeResponse,
   ResourceMoveDefinition,
   SqlPoolsRenameOptionalParams
-} from "../models";
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a SqlPools. */

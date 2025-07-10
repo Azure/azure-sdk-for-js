@@ -7,9 +7,7 @@
  */
 import { SourceControlConfigurationClient } from "@azure/arm-kubernetesconfiguration";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to List all Extensions in the cluster.
@@ -17,7 +15,7 @@ dotenv.config();
  * @summary List all Extensions in the cluster.
  * x-ms-original-file: specification/kubernetesconfiguration/resource-manager/Microsoft.KubernetesConfiguration/stable/2023-05-01/examples/ListExtensions.json
  */
-async function listExtensions() {
+async function listExtensions(): Promise<void> {
   const subscriptionId = process.env["KUBERNETESCONFIGURATION_SUBSCRIPTION_ID"] || "subId1";
   const resourceGroupName = process.env["KUBERNETESCONFIGURATION_RESOURCE_GROUP"] || "rg1";
   const clusterRp = "Microsoft.Kubernetes";
@@ -37,7 +35,7 @@ async function listExtensions() {
   console.log(resArray);
 }
 
-async function main() {
+async function main(): Promise<void> {
   await listExtensions();
 }
 

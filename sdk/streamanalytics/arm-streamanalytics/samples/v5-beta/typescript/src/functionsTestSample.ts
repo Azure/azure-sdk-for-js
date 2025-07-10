@@ -10,9 +10,7 @@
 // Licensed under the MIT License.
 import { StreamAnalyticsManagementClient } from "@azure/arm-streamanalytics";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Tests if the information provided for a function is valid. This can range from testing the connection to the underlying web service behind the function or making sure the function code provided is syntactically correct.
@@ -20,7 +18,7 @@ dotenv.config();
  * @summary Tests if the information provided for a function is valid. This can range from testing the connection to the underlying web service behind the function or making sure the function code provided is syntactically correct.
  * x-ms-original-file: specification/streamanalytics/resource-manager/Microsoft.StreamAnalytics/preview/2021-10-01-preview/examples/Function_Test_JavaScript.json
  */
-async function testTheConnectionForAJavaScriptFunction() {
+async function testTheConnectionForAJavaScriptFunction(): Promise<void> {
   const subscriptionId =
     process.env["STREAMANALYTICS_SUBSCRIPTION_ID"] ||
     "56b5e0a9-b645-407d-99b0-c64f86013e3d";
@@ -47,7 +45,7 @@ async function testTheConnectionForAJavaScriptFunction() {
  * @summary Tests if the information provided for a function is valid. This can range from testing the connection to the underlying web service behind the function or making sure the function code provided is syntactically correct.
  * x-ms-original-file: specification/streamanalytics/resource-manager/Microsoft.StreamAnalytics/preview/2021-10-01-preview/examples/Function_Test_AzureML.json
  */
-async function testTheConnectionForAnAzureMlFunction() {
+async function testTheConnectionForAnAzureMlFunction(): Promise<void> {
   const subscriptionId =
     process.env["STREAMANALYTICS_SUBSCRIPTION_ID"] ||
     "56b5e0a9-b645-407d-99b0-c64f86013e3d";
@@ -68,7 +66,7 @@ async function testTheConnectionForAnAzureMlFunction() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   testTheConnectionForAJavaScriptFunction();
   testTheConnectionForAnAzureMlFunction();
 }

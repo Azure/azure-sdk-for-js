@@ -14,7 +14,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * @summary Returns the properties of the specified manager name.
  * x-ms-original-file: specification/storsimple1200series/resource-manager/Microsoft.StorSimple/stable/2016-10-01/examples/ManagersGet.json
  */
-async function managersGet() {
+async function managersGet(): Promise<void> {
   const subscriptionId = "9eb689cd-7243-43b4-b6f6-5c65cb296641";
   const resourceGroupName = "ResourceGroupForSDKTest";
   const managerName = "hManagerForSDKTest";

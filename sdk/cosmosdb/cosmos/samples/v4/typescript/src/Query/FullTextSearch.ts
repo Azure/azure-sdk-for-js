@@ -5,15 +5,16 @@
  * @summary Demonstrates full text search queries.
  */
 
-import * as dotenv from "dotenv";
-dotenv.config();
+import "dotenv/config";
+import { finish, handleError, logSampleHeader } from "./../Shared/handleError.js";
+import type { IndexingPolicy } from "@azure/cosmos";
+import { CosmosClient } from "@azure/cosmos";
 
-import { finish, handleError, logSampleHeader } from "./../Shared/handleError";
-import { CosmosClient, IndexingPolicy } from "@azure/cosmos";
 const key = process.env.COSMOS_KEY || "<cosmos key>";
 const endpoint = process.env.COSMOS_ENDPOINT || "<cosmos endpoint>";
 const databaseId = process.env.COSMOS_DATABASE || "<cosmos database>";
 const containerId = process.env.COSMOS_CONTAINER || "<cosmos container>";
+
 logSampleHeader("Full Text Search Queries");
 
 // Establish a new instance of the CosmosClient to be used throughout this demo
@@ -64,20 +65,34 @@ async function run(): Promise<void> {
   }
 
   //  Run full text search queries using full text score ranking
-  let query = "SELECT TOP 3 c.text1 FROM c ORDER BY RANK FullTextScore(c.text1, ['artist'])";
+  let query = "SELECT TOP 3 c.text1 FROM c ORDER BY RANK FullTextScore(c.text1, 'artist')";
   let response = await container.items.query(query, { forceQueryPlan: true }).fetchAll();
   console.log("Response: ", response.resources);
 
   //  Run full text search queries with full text contains
   query =
-    "SELECT TOP 3 c.text1 FROM c WHERE FullTextContains(c.text1, 'artist') ORDER BY RANK RRF (FullTextScore(c.text1, ['movies']),FullTextScore(c.text1, ['music']))";
+    "SELECT TOP 3 c.text1 FROM c WHERE FullTextContains(c.text1, 'artist') ORDER BY RANK RRF (FullTextScore(c.text1, 'movies'),FullTextScore(c.text1, 'music'))";
   response = await container.items.query(query, { forceQueryPlan: true }).fetchAll();
   console.log("Response: ", response.resources);
 
   // Run hybrid search queries using RRF ranking wth vector distances
   query =
-    "SELECT TOP 3 c.text1 FROM c ORDER BY RANK RRF(FullTextScore(c.text1, ['music']), VectorDistance(c.vector, [1, 2, 3]))";
+    "SELECT TOP 3 c.text1 FROM c ORDER BY RANK RRF(FullTextScore(c.text1, 'music'), VectorDistance(c.vector, [1, 2, 3]))";
   response = await container.items.query(query, { forceQueryPlan: true }).fetchAll();
+  console.log("Response: ", response.resources);
+
+  // Run hybrid search queries using Weighted RRF ranking
+  query =
+    "SELECT TOP 3 c.text1 FROM c WHERE FullTextContains(c.text1, 'artist') ORDER BY RANK RRF (FullTextScore(c.text1, 'movies'),FullTextScore(c.text1, 'music'), [0.1, 0.2])";
+  response = await container.items.query(query, { forceQueryPlan: true }).fetchAll();
+  console.log("Response: ", response.resources);
+
+  // Run hybrid search queries using RRF ranking without query plan optimization
+  query =
+    "SELECT TOP 3 c.text1 FROM c WHERE FullTextContains(c.text1, 'artist') ORDER BY RANK RRF (FullTextScore(c.text1, 'movies'),FullTextScore(c.text1, 'music'))";
+  response = await container.items
+    .query(query, { forceQueryPlan: true, disableHybridSearchQueryPlanOptimization: true })
+    .fetchAll();
   console.log("Response: ", response.resources);
 
   await finish();

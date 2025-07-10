@@ -1,17 +1,16 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import assert from "assert";
-import type { Suite } from "mocha";
+
 import type {
   Container,
   ContainerDefinition,
   ContainerRequest,
+  Database,
   ItemDefinition,
-  OperationInput,
   PatchOperation,
   RequestOptions,
-} from "../../../../src";
-import { CosmosClient, StatusCodes } from "../../../../src";
+} from "../../../../src/index.js";
+import { CosmosClient } from "../../../../src/index.js";
 import {
   bulkDeleteItems,
   bulkInsertItems,
@@ -20,18 +19,21 @@ import {
   bulkReplaceItems,
   createOrUpsertItem,
   getTestDatabase,
-  removeAllDatabases,
   replaceOrUpsertItem,
   addEntropy,
   getTestContainer,
   testForDiagnostics,
-} from "../../common/TestHelpers";
-import { endpoint } from "../../common/_testConfig";
-import { masterKey } from "../../common/_fakeTestSecrets";
-import type { PartitionKey, PartitionKeyDefinition } from "../../../../src/documents";
-import { PartitionKeyDefinitionVersion, PartitionKeyKind } from "../../../../src/documents";
-import { PriorityLevel } from "../../../../src/documents/PriorityLevel";
-import { getCurrentTimestampInMs } from "../../../../src/utils/time";
+} from "../../common/TestHelpers.js";
+import { endpoint } from "../../common/_testConfig.js";
+import { masterKey } from "../../common/_fakeTestSecrets.js";
+import type { PartitionKey, PartitionKeyDefinition } from "../../../../src/documents/index.js";
+import {
+  PartitionKeyDefinitionVersion,
+  PartitionKeyKind,
+} from "../../../../src/documents/index.js";
+import { PriorityLevel } from "../../../../src/documents/PriorityLevel.js";
+import { getCurrentTimestampInMs } from "../../../../src/utils/time.js";
+import { describe, it, assert, beforeEach, beforeAll, afterAll } from "vitest";
 
 /**
  * Tests Item api.
@@ -74,12 +76,12 @@ type CRUDTestDataSet = {
   propertyToCheck?: string[];
 };
 
-function extractNestedPropertyFromObject(obj: any, paths: string[] = []) {
+function extractNestedPropertyFromObject(obj: any, paths: string[] = []): void {
   paths.reduce((ob: any, path: string) => {
     if (ob !== null && ob !== undefined && typeof ob === "object") {
       return ob[path];
     } else {
-      throw new Error(`The property ${path} doesn't exisit in object`);
+      throw new Error(`The property ${path} doesn't exist in object`);
     }
   }, obj);
 }
@@ -190,11 +192,8 @@ async function CRUDTestRunner(dataset: CRUDTestDataSet, isUpsertTest: boolean): 
   // update document
 }
 
-describe("Item CRUD hierarchical partition", function (this: Suite) {
-  beforeEach(async function () {
-    await removeAllDatabases();
-  });
-  it("hierarchycal partitions", async function () {
+describe("Item CRUD hierarchical partition", () => {
+  it("hierarchycal partitions", async () => {
     const dbName = "hierarchical partition db";
     const database = await getTestDatabase(dbName);
     const containerDef = {
@@ -236,485 +235,463 @@ describe("Item CRUD hierarchical partition", function (this: Suite) {
       beforeCreateDocumentsCount + 1,
       "create should increase the number of documents",
     );
+    if (container) {
+      await container.database.delete();
+    }
   });
 });
 
-describe("Create, Upsert, Read, Update, Replace, Delete Operations on Item", function (this: Suite) {
-  this.timeout(process.env.MOCHA_TIMEOUT || 10000);
-  beforeEach(async function () {
-    await removeAllDatabases();
-  });
+describe(
+  "Create, Upsert, Read, Update, Replace, Delete Operations on Item",
+  { timeout: 10000 },
+  () => {
+    async function multiplePartitionCRUDTest(dataset: MultiCRUDTestDataSet): Promise<void> {
+      const database = await getTestDatabase(dataset.dbName);
+      const { resource: containerdef } = await database.containers.create(
+        { ...dataset.containerDef, partitionKey: dataset.partitinKeyDef },
+        dataset.containerRequestOps,
+      );
+      const container = database.container(containerdef.id);
+      let returnedDocuments = await bulkInsertItems(container, dataset.documents);
 
-  async function multipelPartitionCRUDTest(dataset: MultiCRUDTestDataSet): Promise<void> {
-    const database = await getTestDatabase(dataset.dbName);
-    const { resource: containerdef } = await database.containers.create(
-      { ...dataset.containerDef, partitionKey: dataset.partitinKeyDef },
-      dataset.containerRequestOps,
-    );
-    const container = database.container(containerdef.id);
-    let returnedDocuments = await bulkInsertItems(container, dataset.documents);
+      assert.equal(returnedDocuments.length, dataset.documents.length);
+      returnedDocuments.sort(function (doc1, doc2) {
+        return doc1.id.localeCompare(doc2.id);
+      });
+      await bulkReadItems(container, returnedDocuments, dataset.partitinKeyDef);
+      const { resources: successDocuments } = await container.items.readAll().fetchAll();
+      assert(successDocuments !== undefined, "error reading documents");
+      assert.equal(
+        successDocuments.length,
+        returnedDocuments.length,
+        "Expected " + returnedDocuments.length + " documents to be successfully read",
+      );
+      successDocuments.sort(function (doc1, doc2) {
+        return doc1.id.localeCompare(doc2.id);
+      });
+      assert.equal(
+        JSON.stringify(successDocuments),
+        JSON.stringify(returnedDocuments),
+        "Unexpected documents are returned",
+      );
+      returnedDocuments.forEach(function (document) {
+        document.prop ? ++document.prop : null;
+      });
+      const newReturnedDocuments = await bulkReplaceItems(
+        container,
+        returnedDocuments,
+        dataset.partitinKeyDef,
+      );
+      returnedDocuments = newReturnedDocuments;
+      await bulkQueryItemsWithPartitionKey(
+        container,
+        returnedDocuments,
+        dataset.singleDocFetchQuery,
+        dataset.parameterGenerator,
+      );
+      const querySpec = {
+        query: "SELECT * FROM Root",
+      };
+      const { resources: results } = await container.items
+        .query<ItemDefinition>(querySpec, { enableScanInQuery: true })
+        .fetchAll();
+      assert(results !== undefined, "error querying documents");
+      results.sort(function (doc1, doc2) {
+        return doc1.id.localeCompare(doc2.id);
+      });
+      assert.equal(
+        results.length,
+        returnedDocuments.length,
+        "Expected " + returnedDocuments.length + " documents to be successfully queried",
+      );
+      assert.equal(
+        JSON.stringify(results),
+        JSON.stringify(returnedDocuments),
+        "Unexpected query results",
+      );
 
-    assert.equal(returnedDocuments.length, dataset.documents.length);
-    returnedDocuments.sort(function (doc1, doc2) {
-      return doc1.id.localeCompare(doc2.id);
-    });
-    await bulkReadItems(container, returnedDocuments, dataset.partitinKeyDef);
-    const { resources: successDocuments } = await container.items.readAll().fetchAll();
-    assert(successDocuments !== undefined, "error reading documents");
-    assert.equal(
-      successDocuments.length,
-      returnedDocuments.length,
-      "Expected " + returnedDocuments.length + " documents to be succesfully read",
-    );
-    successDocuments.sort(function (doc1, doc2) {
-      return doc1.id.localeCompare(doc2.id);
-    });
-    assert.equal(
-      JSON.stringify(successDocuments),
-      JSON.stringify(returnedDocuments),
-      "Unexpected documents are returned",
-    );
-    returnedDocuments.forEach(function (document) {
-      document.prop ? ++document.prop : null; // eslint-disable-line no-unused-expressions
-    });
-    const newReturnedDocuments = await bulkReplaceItems(
-      container,
-      returnedDocuments,
-      dataset.partitinKeyDef,
-    );
-    returnedDocuments = newReturnedDocuments;
-    await bulkQueryItemsWithPartitionKey(
-      container,
-      returnedDocuments,
-      dataset.singleDocFetchQuery,
-      dataset.parameterGenerator,
-    );
-    const querySpec = {
-      query: "SELECT * FROM Root",
+      await bulkDeleteItems(container, returnedDocuments, dataset.partitinKeyDef);
+    }
+
+    const dataSetForDefaultSinglePhysicalPartition: CRUDTestDataSet = {
+      containerDef: { id: "default container with single physical partition" },
+      itemDef: {
+        name: "sample document",
+        foo: "bar",
+        key: "value",
+        replace: "new property",
+      },
+      replaceItemDef: {
+        name: "replaced document",
+        foo: "not bar",
+        key: "value",
+        replace: "new property",
+      },
+      originalItemPartitionKey: undefined,
+      replacedItemPartitionKey: undefined,
+      propertyToCheck: ["name"],
     };
-    const { resources: results } = await container.items
-      .query<ItemDefinition>(querySpec, { enableScanInQuery: true })
-      .fetchAll();
-    assert(results !== undefined, "error querying documents");
-    results.sort(function (doc1, doc2) {
-      return doc1.id.localeCompare(doc2.id);
-    });
-    assert.equal(
-      results.length,
-      returnedDocuments.length,
-      "Expected " + returnedDocuments.length + " documents to be succesfully queried",
-    );
-    assert.equal(
-      JSON.stringify(results),
-      JSON.stringify(returnedDocuments),
-      "Unexpected query results",
-    );
 
-    await bulkDeleteItems(container, returnedDocuments, dataset.partitinKeyDef);
-  }
+    const dataSetForDefaultMultiplePhysicalPartition1: CRUDTestDataSet = {
+      ...dataSetForDefaultSinglePhysicalPartition,
+      itemDef: {
+        _partitionKey: "aswww", // For second physical partition
+        name: "sample document",
+        foo: "bar",
+        key: "value",
+        replace: "new property",
+      },
+      replaceItemDef: {
+        _partitionKey: "aswww", // For second physical partition
+        name: "replaced document",
+        foo: "not bar",
+        key: "value",
+        replace: "new property",
+      },
+      containerDef: {
+        id: "default container with multiple physical partition",
+        throughput: 12000,
+      },
+      originalItemPartitionKey: "aswww",
+      replacedItemPartitionKey: "aswww",
+    };
 
-  const dataSetForDefaultSinglePhysicalPartition: CRUDTestDataSet = {
-    containerDef: { id: "default container with single physical partition" },
-    itemDef: {
-      name: "sample document",
-      foo: "bar",
-      key: "value",
-      replace: "new property",
-    },
-    replaceItemDef: {
-      name: "replaced document",
-      foo: "not bar",
-      key: "value",
-      replace: "new property",
-    },
-    originalItemPartitionKey: undefined,
-    replacedItemPartitionKey: undefined,
-    propertyToCheck: ["name"],
-  };
+    const dataSetForDefaultMultiplePhysicalPartition2: CRUDTestDataSet = {
+      ...dataSetForDefaultSinglePhysicalPartition,
+      itemDef: {
+        _partitionKey: "asdfadsf", // For second physical partition
+        name: "sample document",
+        foo: "bar",
+        key: "value",
+        replace: "new property",
+      },
+      replaceItemDef: {
+        _partitionKey: "asdfadsf", // For second physical partition
+        name: "replaced document",
+        foo: "not bar",
+        key: "value",
+        replace: "new property",
+      },
+      containerDef: {
+        id: "default container with multiple physical partition",
+        throughput: 12000,
+      },
+      originalItemPartitionKey: "asdfadsf",
+      replacedItemPartitionKey: "asdfadsf",
+    };
 
-  const dataSetForDefaultMultiplePhysicalPartition1: CRUDTestDataSet = {
-    ...dataSetForDefaultSinglePhysicalPartition,
-    itemDef: {
-      _partitionKey: "aswww", // For second physical partition
-      name: "sample document",
-      foo: "bar",
-      key: "value",
-      replace: "new property",
-    },
-    replaceItemDef: {
-      _partitionKey: "aswww", // For second physical partition
-      name: "replaced document",
-      foo: "not bar",
-      key: "value",
-      replace: "new property",
-    },
-    containerDef: {
-      id: "default container with multiple physical partition",
-      throughput: 12000,
-    },
-    originalItemPartitionKey: "aswww",
-    replacedItemPartitionKey: "aswww",
-  };
-
-  const dataSetForDefaultMultiplePhysicalPartition2: CRUDTestDataSet = {
-    ...dataSetForDefaultSinglePhysicalPartition,
-    itemDef: {
-      _partitionKey: "asdfadsf", // For second physical partition
-      name: "sample document",
-      foo: "bar",
-      key: "value",
-      replace: "new property",
-    },
-    replaceItemDef: {
-      _partitionKey: "asdfadsf", // For second physical partition
-      name: "replaced document",
-      foo: "not bar",
-      key: "value",
-      replace: "new property",
-    },
-    containerDef: {
-      id: "default container with multiple physical partition",
-      throughput: 12000,
-    },
-    originalItemPartitionKey: "asdfadsf",
-    replacedItemPartitionKey: "asdfadsf",
-  };
-
-  const dataSetForHierarchicalPartitionKey: CRUDTestDataSet = {
-    containerDef: {
-      id: "sample container",
-      partitionKey: {
+    const dataSetForHierarchicalPartitionKey: CRUDTestDataSet = {
+      containerDef: {
+        id: "sample container",
+        partitionKey: {
+          paths: ["/key", "/key2"],
+          version: PartitionKeyDefinitionVersion.V2,
+          kind: PartitionKeyKind.MultiHash,
+        },
+      },
+      itemDef: {
+        name: "sample document",
+        foo: "bar",
+        key2: "value2",
+        key: "value",
+        replace: "new property",
+      },
+      replaceItemDef: {
+        name: "replaced document",
+        foo: "not bar",
+        key2: "value2",
+        key: "value",
+        replace: "new property",
+      },
+      originalItemPartitionKey: ["value", "value2"],
+      replacedItemPartitionKey: ["value", "value2"],
+    };
+    const multiCrudDataset1: MultiCRUDTestDataSet = {
+      dbName: "db1",
+      partitinKeyDef: {
+        paths: ["/key"],
+      },
+      containerDef: {
+        id: "col1",
+      },
+      documents: [
+        { id: "document1" },
+        { id: "document2", key: null, key2: null, prop: 1 },
+        { id: "document3", key: false, key2: false, prop: 1 },
+        { id: "document4", key: true, key2: true, prop: 1 },
+        { id: "document5", key: 1, key2: 1, prop: 1 },
+        { id: "document6", key: "A", key2: "A", prop: 1 },
+        { id: "document7", key: "", key2: "", prop: 1 },
+      ],
+      containerRequestOps: {
+        offerThroughput: 12000,
+      },
+      singleDocFetchQuery: "SELECT * FROM root r WHERE r.key=@key",
+      parameterGenerator: (doc: any) => {
+        return [
+          {
+            name: "@key",
+            value: doc["key"],
+          },
+        ];
+      },
+    };
+    const multiCrudDatasetWithHierarchicalPartition: MultiCRUDTestDataSet = {
+      dbName: "db1",
+      partitinKeyDef: {
         paths: ["/key", "/key2"],
         version: PartitionKeyDefinitionVersion.V2,
         kind: PartitionKeyKind.MultiHash,
       },
-    },
-    itemDef: {
-      name: "sample document",
-      foo: "bar",
-      key2: "value2",
-      key: "value",
-      replace: "new property",
-    },
-    replaceItemDef: {
-      name: "replaced document",
-      foo: "not bar",
-      key2: "value2",
-      key: "value",
-      replace: "new property",
-    },
-    originalItemPartitionKey: ["value", "value2"],
-    replacedItemPartitionKey: ["value", "value2"],
-  };
-  const multiCrudDataset1: MultiCRUDTestDataSet = {
-    dbName: "db1",
-    partitinKeyDef: {
-      paths: ["/key"],
-    },
-    containerDef: {
-      id: "col1",
-    },
-    documents: [
-      { id: "document1" },
-      { id: "document2", key: null, key2: null, prop: 1 },
-      { id: "document3", key: false, key2: false, prop: 1 },
-      { id: "document4", key: true, key2: true, prop: 1 },
-      { id: "document5", key: 1, key2: 1, prop: 1 },
-      { id: "document6", key: "A", key2: "A", prop: 1 },
-      { id: "document7", key: "", key2: "", prop: 1 },
-    ],
-    containerRequestOps: {
-      offerThroughput: 12000,
-    },
-    singleDocFetchQuery: "SELECT * FROM root r WHERE r.key=@key",
-    parameterGenerator: (doc: any) => {
-      return [
-        {
-          name: "@key",
-          value: doc["key"],
-        },
-      ];
-    },
-  };
-  const multiCrudDatasetWithHierarchicalPartition: MultiCRUDTestDataSet = {
-    dbName: "db1",
-    partitinKeyDef: {
-      paths: ["/key", "/key2"],
-      version: PartitionKeyDefinitionVersion.V2,
-      kind: PartitionKeyKind.MultiHash,
-    },
-    containerDef: {
-      id: "col1",
-    },
-    documents: [
-      { id: "document1" },
-      { id: "document2", key: null, key2: null, prop: 1 },
-      { id: "document3", key: false, key2: false, prop: 1 },
-      { id: "document4", key: true, key2: true, prop: 1 },
-      { id: "document5", key: 1, key2: 1, prop: 1 },
-      { id: "document6", key: "A", key2: "A", prop: 1 },
-      { id: "document7", key: "", key2: "", prop: 1 },
-    ],
-    containerRequestOps: {
-      offerThroughput: 12000,
-    },
-    singleDocFetchQuery: "SELECT * FROM root r WHERE r.key=@key and r.key2=@key2",
-    parameterGenerator: (doc: any) => {
-      return [
-        {
-          name: "@key",
-          value: doc["key"],
-        },
-        {
-          name: "@key2",
-          value: doc["key2"],
-        },
-      ];
-    },
-  };
+      containerDef: {
+        id: "col1",
+      },
+      documents: [
+        { id: "document1" },
+        { id: "document2", key: null, key2: null, prop: 1 },
+        { id: "document3", key: false, key2: false, prop: 1 },
+        { id: "document4", key: true, key2: true, prop: 1 },
+        { id: "document5", key: 1, key2: 1, prop: 1 },
+        { id: "document6", key: "A", key2: "A", prop: 1 },
+        { id: "document7", key: "", key2: "", prop: 1 },
+      ],
+      containerRequestOps: {
+        offerThroughput: 12000,
+      },
+      singleDocFetchQuery: "SELECT * FROM root r WHERE r.key=@key and r.key2=@key2",
+      parameterGenerator: (doc: any) => {
+        return [
+          {
+            name: "@key",
+            value: doc["key"],
+          },
+          {
+            name: "@key2",
+            value: doc["key2"],
+          },
+        ];
+      },
+    };
 
-  describe("V1 Container", async () => {
-    describe("Single Partition Container", async () => {
-      it("Should do document CRUD operations successfully : container with default partition key", async function () {
-        await CRUDTestRunner(dataSetForDefaultSinglePhysicalPartition, false);
-      });
+    describe("V1 Container", async () => {
+      describe("Single Partition Container", async () => {
+        it("Should do document CRUD operations successfully : container with default partition key", async () => {
+          await CRUDTestRunner(dataSetForDefaultSinglePhysicalPartition, false);
+        });
 
-      it("Should do document CRUD operations successfully with upsert : container with default partition key", async function () {
-        await CRUDTestRunner(dataSetForDefaultSinglePhysicalPartition, true);
-      });
+        it("Should do document CRUD operations successfully with upsert : container with default partition key", async () => {
+          await CRUDTestRunner(dataSetForDefaultSinglePhysicalPartition, true);
+        });
 
-      it("Should do document CRUD operations successfully : container with default partition key, multiple physical partitions", async function () {
-        await CRUDTestRunner(dataSetForDefaultMultiplePhysicalPartition1, false);
-        await CRUDTestRunner(dataSetForDefaultMultiplePhysicalPartition2, false);
-      });
+        it("Should do document CRUD operations successfully : container with default partition key, multiple physical partitions", async () => {
+          await CRUDTestRunner(dataSetForDefaultMultiplePhysicalPartition1, false);
+          await CRUDTestRunner(dataSetForDefaultMultiplePhysicalPartition2, false);
+        });
 
-      it("Should do document CRUD operations successfully with upsert: container with default partition key, multiple physical partitions", async function () {
-        await CRUDTestRunner(dataSetForDefaultMultiplePhysicalPartition1, true);
-        await CRUDTestRunner(dataSetForDefaultMultiplePhysicalPartition2, true);
+        it("Should do document CRUD operations successfully with upsert: container with default partition key, multiple physical partitions", async () => {
+          await CRUDTestRunner(dataSetForDefaultMultiplePhysicalPartition1, true);
+          await CRUDTestRunner(dataSetForDefaultMultiplePhysicalPartition2, true);
+        });
       });
     });
-  });
 
-  describe("V2 Container", async () => {
-    describe("Multi Partition Container", async () => {
-      it("Should do document CRUD operations successfully : container with hierarchical partition key", async function () {
-        await CRUDTestRunner(dataSetForHierarchicalPartitionKey, false);
-      });
-      it("Should do document CRUD operations successfully with upsert : container with hierarchical partition key", async function () {
-        await CRUDTestRunner(dataSetForHierarchicalPartitionKey, true);
+    describe("V2 Container", async () => {
+      describe("Multi Partition Container", async () => {
+        it("Should do document CRUD operations successfully : container with hierarchical partition key", async () => {
+          await CRUDTestRunner(dataSetForHierarchicalPartitionKey, false);
+        });
+        it("Should do document CRUD operations successfully with upsert : container with hierarchical partition key", async () => {
+          await CRUDTestRunner(dataSetForHierarchicalPartitionKey, true);
+        });
       });
     });
-  });
 
-  it("Document CRUD over multiple partition: Single partition key", async function () {
-    await multipelPartitionCRUDTest(multiCrudDataset1);
-  });
+    it("Document CRUD over multiple partition: Single partition key", async () => {
+      await multiplePartitionCRUDTest(multiCrudDataset1);
+    });
 
-  it("Document CRUD over multiple partition : Hierarchical partitions", async function () {
-    await multipelPartitionCRUDTest(multiCrudDatasetWithHierarchicalPartition);
-  });
+    it("Document CRUD over multiple partition : Hierarchical partitions", async () => {
+      await multiplePartitionCRUDTest(multiCrudDatasetWithHierarchicalPartition);
+    });
 
-  it("Should auto generate an id for a collection partitioned on id", async function () {
-    // https://github.com/Azure/azure-sdk-for-js/issues/9734
-    const container = await getTestContainer("db1", undefined, { partitionKey: "/id" });
-    const { resource } = await container.items.create({});
-    assert.ok(resource.id);
-  });
-
-  it("should not return payload in write operations response when contentResponseOnWriteEnable is false", async function () {
-    const container = await getTestContainer("db1", undefined, { partitionKey: "/id" });
-    const options = { contentResponseOnWriteEnabled: false };
-    const createResponse = await container.items.create({ id: "1", key: "A" }, options);
-    assert.equal(createResponse.resource, null);
-    assert.equal(createResponse.statusCode, StatusCodes.Created);
-
-    const upsertResponse = await container.items.upsert({ id: "1", key: "B" }, options);
-    assert.equal(upsertResponse.resource, null);
-    assert.equal(upsertResponse.statusCode, StatusCodes.Ok);
-
-    const replaceResponse = await container.item("1", "1").replace({ id: "1", key: "C" }, options);
-    assert.equal(replaceResponse.resource, null);
-    assert.equal(replaceResponse.statusCode, StatusCodes.Ok);
-
-    const batchOperations: OperationInput[] = [
-      {
-        operationType: "Create",
-        resourceBody: { id: "2", key: "D" },
-      },
-    ];
-    const batchResponse = await container.items.batch(batchOperations, "2", options);
-    assert.equal(batchResponse.result[0].resourceBody, undefined);
-    assert.equal(batchResponse.code, StatusCodes.Ok);
-
-    const operations: PatchOperation[] = [
-      {
-        op: "replace",
-        path: "/key",
-        value: "b",
-      },
-    ];
-    const patchResponse = await container.item("1", "1").patch(operations, options);
-    assert.equal(patchResponse.resource, null);
-    assert.equal(patchResponse.statusCode, StatusCodes.Ok);
-
-    const deleteResponse = await container.item("2", "2").delete(options);
-    assert.equal(deleteResponse.resource, null);
-    assert.equal(deleteResponse.statusCode, StatusCodes.NoContent);
-    await container.delete();
-  });
-
-  describe("Upsert when collection partitioned on id", async () => {
-    // https://github.com/Azure/azure-sdk-for-js/issues/21383
-    it("should create a new resource if /id is not passed", async function () {
+    it("Should auto generate an id for a collection partitioned on id", async () => {
+      // https://github.com/Azure/azure-sdk-for-js/issues/9734
       const container = await getTestContainer("db1", undefined, { partitionKey: "/id" });
-      const { resource: resource } = await container.items.upsert({ key1: 0, key2: 0 });
+      const { resource } = await container.items.create({});
       assert.ok(resource.id);
     });
 
-    it("should create a new resource if /id is passed and resource doesn't exist", async function () {
-      const container = await getTestContainer("db1", undefined, { partitionKey: "/id" });
-      const { resource: resource } = await container.items.upsert({
-        id: "1ee929e0-40aa-4143-978c-8415914056d4",
-        key1: 0,
-        key2: 0,
+    describe("Upsert when collection partitioned on id", async () => {
+      // https://github.com/Azure/azure-sdk-for-js/issues/21383
+      it("should create a new resource if /id is not passed", async () => {
+        const container = await getTestContainer("db1", undefined, { partitionKey: "/id" });
+        const { resource: resource } = await container.items.upsert({ key1: 0, key2: 0 });
+        assert.ok(resource.id);
+        if (container) {
+          await container.database.delete();
+        }
       });
-      assert.ok(resource.id);
-    });
-    it("should update a resource if /id is passed and exists in container", async function () {
-      const container = await getTestContainer("db1", undefined, { partitionKey: "/id" });
-      const { resource: resource1 } = await container.items.upsert({ key1: 0, key2: 1 });
-      assert.ok(resource1.id);
 
-      const { resource: resource2 } = await container.items.upsert({
-        id: resource1.id,
-        key1: 0,
-        key2: 2,
+      it("should create a new resource if /id is passed and resource doesn't exist", async () => {
+        const container = await getTestContainer("db1", undefined, { partitionKey: "/id" });
+        const { resource: resource } = await container.items.upsert({
+          id: "1ee929e0-40aa-4143-978c-8415914056d4",
+          key1: 0,
+          key2: 0,
+        });
+        assert.ok(resource.id);
+        if (container) {
+          await container.database.delete();
+        }
       });
-      assert.strictEqual(resource1.id, resource2.id);
-    });
-  });
+      it("should update a resource if /id is passed and exists in container", async () => {
+        const container = await getTestContainer("db1", undefined, { partitionKey: "/id" });
+        const { resource: resource1 } = await container.items.upsert({ key1: 0, key2: 1 });
+        assert.ok(resource1.id);
 
-  describe("Test diagnostics for item CRUD", async function () {
-    const container = await getTestContainer("db1", undefined, {
-      throughput: 20000,
-      partitionKey: "/id",
-    });
-    // Test diagnostic for item create
-    const itemId = "2";
-    it("Test diagnostics for item.create", async function () {
-      const startTimestamp = getCurrentTimestampInMs();
-      await testForDiagnostics(
-        async () => {
-          return container.items.create({ id: itemId });
-        },
-        {
-          requestStartTimeUTCInMsLowerLimit: startTimestamp,
-          requestDurationInMsUpperLimit: getCurrentTimestampInMs(),
-          retryCount: 0,
-          // metadataCallCount: 5,
-          locationEndpointsContacted: 1,
-        },
-      );
+        const { resource: resource2 } = await container.items.upsert({
+          id: resource1.id,
+          key1: 0,
+          key2: 2,
+        });
+        assert.strictEqual(resource1.id, resource2.id);
+        if (container) {
+          await container.database.delete();
+        }
+      });
     });
 
-    // Test diagnostic for item read
-    it("Test diagnostics for item.read", async function () {
-      const readTimestamp = getCurrentTimestampInMs();
-      await testForDiagnostics(
-        async () => {
-          return container.item(itemId, itemId).read();
-        },
-        {
-          requestStartTimeUTCInMsLowerLimit: readTimestamp,
-          requestDurationInMsUpperLimit: getCurrentTimestampInMs(),
-          retryCount: 0,
-          // metadataCallCount: 2, // 2 calls for database account
-          locationEndpointsContacted: 1,
-        },
-      );
-    });
+    describe("Test diagnostics for item CRUD", async () => {
+      let container: Container;
+      let itemId: string;
+      beforeAll(async () => {
+        container = await getTestContainer("db1", undefined, {
+          throughput: 20000,
+          partitionKey: "/id",
+        });
+        // Test diagnostic for item create
+        itemId = "2";
+      });
+      afterAll(async () => {
+        if (container) {
+          await container.database.delete();
+        }
+      });
+      it("Test diagnostics for item.create", async () => {
+        const startTimestamp = getCurrentTimestampInMs();
+        await testForDiagnostics(
+          async () => {
+            return container.items.create({ id: itemId });
+          },
+          {
+            requestStartTimeUTCInMsLowerLimit: startTimestamp,
+            requestDurationInMsUpperLimit: getCurrentTimestampInMs(),
+            retryCount: 0,
+            // metadataCallCount: 5,
+            locationEndpointsContacted: 1,
+          },
+        );
+      });
 
-    // Test diagnostic for item update
-    it("Test diagnostics for item.upsert", async function () {
-      const upsertTimestamp = getCurrentTimestampInMs();
-      await testForDiagnostics(
-        async () => {
-          return container.items.upsert({
-            id: itemId,
-            value: "3",
-          });
-        },
-        {
-          requestStartTimeUTCInMsLowerLimit: upsertTimestamp,
-          requestDurationInMsUpperLimit: getCurrentTimestampInMs(),
-          retryCount: 0,
-          // metadataCallCount: 2, // 2 call for database account.
-          locationEndpointsContacted: 1,
-        },
-      );
-    });
+      // Test diagnostic for item read
+      it("Test diagnostics for item.read", async () => {
+        const readTimestamp = getCurrentTimestampInMs();
+        await testForDiagnostics(
+          async () => {
+            return container.item(itemId, itemId).read();
+          },
+          {
+            requestStartTimeUTCInMsLowerLimit: readTimestamp,
+            requestDurationInMsUpperLimit: getCurrentTimestampInMs(),
+            retryCount: 0,
+            // metadataCallCount: 2, // 2 calls for database account
+            locationEndpointsContacted: 1,
+          },
+        );
+      });
 
-    // Test diagnostic for item replace
-    it("Test diagnostics for item.replace", async function () {
-      const replaceTimestamp = getCurrentTimestampInMs();
-      await testForDiagnostics(
-        async () => {
-          return container.item(itemId, itemId).replace({
-            id: itemId,
-            value: "4",
-          });
-        },
-        {
-          requestStartTimeUTCInMsLowerLimit: replaceTimestamp,
-          requestDurationInMsUpperLimit: getCurrentTimestampInMs(),
-          retryCount: 0,
-          // metadataCallCount: 2, // 2 call for database account.
-          locationEndpointsContacted: 1,
-        },
-      );
-    });
+      // Test diagnostic for item update
+      it("Test diagnostics for item.upsert", async () => {
+        const upsertTimestamp = getCurrentTimestampInMs();
+        await testForDiagnostics(
+          async () => {
+            return container.items.upsert({
+              id: itemId,
+              value: "3",
+            });
+          },
+          {
+            requestStartTimeUTCInMsLowerLimit: upsertTimestamp,
+            requestDurationInMsUpperLimit: getCurrentTimestampInMs(),
+            retryCount: 0,
+            // metadataCallCount: 2, // 2 call for database account.
+            locationEndpointsContacted: 1,
+          },
+        );
+      });
 
-    // Test diagnostic for item query fetchAll
-    it("Test diagnostics for items.query fetchAll", async function () {
-      const fetchAllTimestamp = getCurrentTimestampInMs();
-      await testForDiagnostics(
-        async () => {
-          return container.items.query("select * from c ").fetchAll();
-        },
-        {
-          requestStartTimeUTCInMsLowerLimit: fetchAllTimestamp,
-          requestDurationInMsUpperLimit: getCurrentTimestampInMs(),
-          retryCount: 0,
-          // metadataCallCount: 11,
-          locationEndpointsContacted: 1,
-        },
-        true,
-      );
-    });
+      // Test diagnostic for item replace
+      it("Test diagnostics for item.replace", async () => {
+        const replaceTimestamp = getCurrentTimestampInMs();
+        await testForDiagnostics(
+          async () => {
+            return container.item(itemId, itemId).replace({
+              id: itemId,
+              value: "4",
+            });
+          },
+          {
+            requestStartTimeUTCInMsLowerLimit: replaceTimestamp,
+            requestDurationInMsUpperLimit: getCurrentTimestampInMs(),
+            retryCount: 0,
+            // metadataCallCount: 2, // 2 call for database account.
+            locationEndpointsContacted: 1,
+          },
+        );
+      });
 
-    // Test diagnostic for item query fetchAll
-    it("Test diagnostics for item.query fetchNext", async function () {
-      const fetchNextTimestamp = getCurrentTimestampInMs();
-      await testForDiagnostics(
-        async () => {
-          return container.items.query("select * from c ").fetchNext();
-        },
-        {
-          requestStartTimeUTCInMsLowerLimit: fetchNextTimestamp,
-          requestDurationInMsUpperLimit: getCurrentTimestampInMs(),
-          retryCount: 0,
-          // metadataCallCount: 5,
-          locationEndpointsContacted: 1,
-        },
-        true,
-      );
+      // Test diagnostic for item query fetchAll
+      it("Test diagnostics for items.query fetchAll", async () => {
+        const fetchAllTimestamp = getCurrentTimestampInMs();
+        await testForDiagnostics(
+          async () => {
+            return container.items.query("select * from c ").fetchAll();
+          },
+          {
+            requestStartTimeUTCInMsLowerLimit: fetchAllTimestamp,
+            requestDurationInMsUpperLimit: getCurrentTimestampInMs(),
+            retryCount: 0,
+            // metadataCallCount: 11,
+            locationEndpointsContacted: 1,
+          },
+          true,
+        );
+      });
+
+      // Test diagnostic for item query fetchAll
+      it("Test diagnostics for item.query fetchNext", async () => {
+        const fetchNextTimestamp = getCurrentTimestampInMs();
+        await testForDiagnostics(
+          async () => {
+            return container.items.query("select * from c ").fetchNext();
+          },
+          {
+            requestStartTimeUTCInMsLowerLimit: fetchNextTimestamp,
+            requestDurationInMsUpperLimit: getCurrentTimestampInMs(),
+            retryCount: 0,
+            // metadataCallCount: 5,
+            locationEndpointsContacted: 1,
+          },
+          true,
+        );
+      });
     });
-  });
-});
+  },
+);
 
 // TODO: Non-deterministic test. We can't guarantee we see any response with a 429 status code since the retries happen within the response
-describe("item read retries", async function () {
-  it("retries on 429", async function () {
+describe("item read retries", async () => {
+  it("retries on 429", async () => {
     const client = new CosmosClient({ key: masterKey, endpoint });
     const { resource: db } = await client.databases.create({
       id: `small db ${Math.random() * 1000}`,
@@ -734,12 +711,13 @@ describe("item read retries", async function () {
   });
 });
 
-describe("patch operations", function () {
-  describe("various mixed operations", function () {
+describe("patch operations", () => {
+  describe("various mixed operations", () => {
     let container: Container;
     let addItemId: string;
     let conditionItemId: string;
-    before(async function () {
+
+    beforeAll(async () => {
       addItemId = addEntropy("addItemId");
       conditionItemId = addEntropy("conditionItemId");
       const client = new CosmosClient({ key: masterKey, endpoint });
@@ -774,7 +752,7 @@ describe("patch operations", function () {
         num: 0,
       });
     });
-    it("handles add, remove, replace, set, incr", async function () {
+    it("handles add, remove, replace, set, incr", async () => {
       const operations: PatchOperation[] = [
         {
           op: "add",
@@ -808,7 +786,7 @@ describe("patch operations", function () {
       assert.strictEqual(addItem.last, "b");
       assert.strictEqual(addItem.removable, undefined);
     });
-    it("conditionally patches", async function () {
+    it("conditionally patches", async () => {
       const operations: PatchOperation[] = [
         {
           op: "add",
@@ -823,13 +801,14 @@ describe("patch operations", function () {
       assert.strictEqual(conditionItem.newImproved, "it works");
     });
   });
-  describe("various mixed operations - hierarchical partitions", function () {
+  describe("various mixed operations - hierarchical partitions", () => {
     let container: Container;
     let addItemId: string;
     let addItemWithOnePartitionKeyId: string;
     let addItemWithNoPartitionKeyId: string;
     let conditionItemId: string;
-    before(async function () {
+
+    beforeAll(async () => {
       addItemId = addEntropy("addItemId");
       addItemWithOnePartitionKeyId = addEntropy("addItemWithOnePartitionKeyId");
       addItemWithNoPartitionKeyId = addEntropy("addItemWithNoPartitionKeyId");
@@ -897,7 +876,8 @@ describe("patch operations", function () {
         num: 0,
       });
     });
-    it("handles add, remove, replace, set, incr - hierarchical partitions", async function () {
+
+    it("handles add, remove, replace, set, incr - hierarchical partitions", async () => {
       const operations: PatchOperation[] = [
         {
           op: "add",
@@ -951,7 +931,8 @@ describe("patch operations", function () {
       assert.strictEqual(addItemWithNoPartitionKey.last, "b");
       assert.strictEqual(addItemWithNoPartitionKey.removable, undefined);
     });
-    it("conditionally patches", async function () {
+
+    it("conditionally patches", async () => {
       const operations: PatchOperation[] = [
         {
           op: "add",
@@ -968,14 +949,17 @@ describe("patch operations", function () {
   });
 });
 
-describe("Item CRUD with priority", function (this: Suite) {
-  this.timeout(process.env.MOCHA_TIMEOUT || 10000);
-  beforeEach(async function () {
-    await removeAllDatabases();
+describe("Item CRUD with priority", { timeout: 10000 }, () => {
+  let database: Database;
+  beforeEach(async () => {
+    if (database) {
+      await database.delete();
+    }
   });
+
   const documentCRUDTest = async function (isUpsertTest: boolean): Promise<void> {
     // create database
-    const database = await getTestDatabase("sample 中文 database");
+    database = await getTestDatabase("sample 中文 database");
     // create container
     const { resource: containerdef } = await database.containers.create(
       { id: "sample container" },
@@ -1066,11 +1050,11 @@ describe("Item CRUD with priority", function (this: Suite) {
     assert.equal(response.resource, undefined);
   };
 
-  it("Should do document CRUD operations successfully", async function () {
+  it("Should do document CRUD operations successfully", async () => {
     await documentCRUDTest(false);
   });
 
-  it("Should do document CRUD operations successfully with upsert", async function () {
+  it("Should do document CRUD operations successfully with upsert", async () => {
     await documentCRUDTest(true);
   });
 });

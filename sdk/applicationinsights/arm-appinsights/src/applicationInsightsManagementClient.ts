@@ -10,6 +10,7 @@ import * as coreClient from "@azure/core-client";
 import * as coreRestPipeline from "@azure/core-rest-pipeline";
 import * as coreAuth from "@azure/core-auth";
 import {
+  ComponentsImpl,
   AnnotationsImpl,
   APIKeysImpl,
   ExportConfigurationsImpl,
@@ -23,14 +24,15 @@ import {
   WebTestLocationsImpl,
   WebTestsImpl,
   AnalyticsItemsImpl,
+  OperationsImpl,
   WorkbookTemplatesImpl,
-  MyWorkbooksImpl,
   WorkbooksImpl,
-  ComponentsImpl,
+  LiveTokenImpl,
   ComponentLinkedStorageAccountsOperationsImpl,
-  LiveTokenImpl
+  DeletedWorkbooksImpl,
 } from "./operations/index.js";
 import {
+  Components,
   Annotations,
   APIKeys,
   ExportConfigurations,
@@ -44,18 +46,18 @@ import {
   WebTestLocations,
   WebTests,
   AnalyticsItems,
+  Operations,
   WorkbookTemplates,
-  MyWorkbooks,
   Workbooks,
-  Components,
+  LiveToken,
   ComponentLinkedStorageAccountsOperations,
-  LiveToken
+  DeletedWorkbooks,
 } from "./operationsInterfaces/index.js";
 import { ApplicationInsightsManagementClientOptionalParams } from "./models/index.js";
 
 export class ApplicationInsightsManagementClient extends coreClient.ServiceClient {
   $host: string;
-  subscriptionId: string;
+  subscriptionId?: string;
 
   /**
    * Initializes a new instance of the ApplicationInsightsManagementClient class.
@@ -66,13 +68,29 @@ export class ApplicationInsightsManagementClient extends coreClient.ServiceClien
   constructor(
     credentials: coreAuth.TokenCredential,
     subscriptionId: string,
-    options?: ApplicationInsightsManagementClientOptionalParams
+    options?: ApplicationInsightsManagementClientOptionalParams,
+  );
+  constructor(
+    credentials: coreAuth.TokenCredential,
+    options?: ApplicationInsightsManagementClientOptionalParams,
+  );
+  constructor(
+    credentials: coreAuth.TokenCredential,
+    subscriptionIdOrOptions?:
+      | ApplicationInsightsManagementClientOptionalParams
+      | string,
+    options?: ApplicationInsightsManagementClientOptionalParams,
   ) {
     if (credentials === undefined) {
       throw new Error("'credentials' cannot be null");
     }
-    if (subscriptionId === undefined) {
-      throw new Error("'subscriptionId' cannot be null");
+
+    let subscriptionId: string | undefined;
+
+    if (typeof subscriptionIdOrOptions === "string") {
+      subscriptionId = subscriptionIdOrOptions;
+    } else if (typeof subscriptionIdOrOptions === "object") {
+      options = subscriptionIdOrOptions;
     }
 
     // Initializing default values for options
@@ -81,7 +99,7 @@ export class ApplicationInsightsManagementClient extends coreClient.ServiceClien
     }
     const defaults: ApplicationInsightsManagementClientOptionalParams = {
       requestContentType: "application/json; charset=utf-8",
-      credential: credentials
+      credential: credentials,
     };
 
     const packageDetails = `azsdk-js-arm-appinsights/5.0.0-beta.8`;
@@ -94,20 +112,21 @@ export class ApplicationInsightsManagementClient extends coreClient.ServiceClien
       ...defaults,
       ...options,
       userAgentOptions: {
-        userAgentPrefix
+        userAgentPrefix,
       },
       endpoint:
-        options.endpoint ?? options.baseUri ?? "https://management.azure.com"
+        options.endpoint ?? options.baseUri ?? "https://management.azure.com",
     };
     super(optionsWithDefaults);
 
     let bearerTokenAuthenticationPolicyFound: boolean = false;
     if (options?.pipeline && options.pipeline.getOrderedPolicies().length > 0) {
-      const pipelinePolicies: coreRestPipeline.PipelinePolicy[] = options.pipeline.getOrderedPolicies();
+      const pipelinePolicies: coreRestPipeline.PipelinePolicy[] =
+        options.pipeline.getOrderedPolicies();
       bearerTokenAuthenticationPolicyFound = pipelinePolicies.some(
         (pipelinePolicy) =>
           pipelinePolicy.name ===
-          coreRestPipeline.bearerTokenAuthenticationPolicyName
+          coreRestPipeline.bearerTokenAuthenticationPolicyName,
       );
     }
     if (
@@ -117,7 +136,7 @@ export class ApplicationInsightsManagementClient extends coreClient.ServiceClien
       !bearerTokenAuthenticationPolicyFound
     ) {
       this.pipeline.removePolicy({
-        name: coreRestPipeline.bearerTokenAuthenticationPolicyName
+        name: coreRestPipeline.bearerTokenAuthenticationPolicyName,
       });
       this.pipeline.addPolicy(
         coreRestPipeline.bearerTokenAuthenticationPolicy({
@@ -127,9 +146,9 @@ export class ApplicationInsightsManagementClient extends coreClient.ServiceClien
             `${optionsWithDefaults.endpoint}/.default`,
           challengeCallbacks: {
             authorizeRequestOnChallenge:
-              coreClient.authorizeRequestOnClaimChallenge
-          }
-        })
+              coreClient.authorizeRequestOnClaimChallenge,
+          },
+        }),
       );
     }
     // Parameter assignments
@@ -137,35 +156,34 @@ export class ApplicationInsightsManagementClient extends coreClient.ServiceClien
 
     // Assigning values to Constant parameters
     this.$host = options.$host || "https://management.azure.com";
+    this.components = new ComponentsImpl(this);
     this.annotations = new AnnotationsImpl(this);
     this.aPIKeys = new APIKeysImpl(this);
     this.exportConfigurations = new ExportConfigurationsImpl(this);
-    this.componentCurrentBillingFeatures = new ComponentCurrentBillingFeaturesImpl(
-      this
-    );
+    this.componentCurrentBillingFeatures =
+      new ComponentCurrentBillingFeaturesImpl(this);
     this.componentQuotaStatus = new ComponentQuotaStatusImpl(this);
     this.componentFeatureCapabilities = new ComponentFeatureCapabilitiesImpl(
-      this
+      this,
     );
     this.componentAvailableFeatures = new ComponentAvailableFeaturesImpl(this);
-    this.proactiveDetectionConfigurations = new ProactiveDetectionConfigurationsImpl(
-      this
-    );
+    this.proactiveDetectionConfigurations =
+      new ProactiveDetectionConfigurationsImpl(this);
     this.workItemConfigurations = new WorkItemConfigurationsImpl(this);
     this.favorites = new FavoritesImpl(this);
     this.webTestLocations = new WebTestLocationsImpl(this);
     this.webTests = new WebTestsImpl(this);
     this.analyticsItems = new AnalyticsItemsImpl(this);
+    this.operations = new OperationsImpl(this);
     this.workbookTemplates = new WorkbookTemplatesImpl(this);
-    this.myWorkbooks = new MyWorkbooksImpl(this);
     this.workbooks = new WorkbooksImpl(this);
-    this.components = new ComponentsImpl(this);
-    this.componentLinkedStorageAccountsOperations = new ComponentLinkedStorageAccountsOperationsImpl(
-      this
-    );
     this.liveToken = new LiveTokenImpl(this);
+    this.componentLinkedStorageAccountsOperations =
+      new ComponentLinkedStorageAccountsOperationsImpl(this);
+    this.deletedWorkbooks = new DeletedWorkbooksImpl(this);
   }
 
+  components: Components;
   annotations: Annotations;
   aPIKeys: APIKeys;
   exportConfigurations: ExportConfigurations;
@@ -179,10 +197,10 @@ export class ApplicationInsightsManagementClient extends coreClient.ServiceClien
   webTestLocations: WebTestLocations;
   webTests: WebTests;
   analyticsItems: AnalyticsItems;
+  operations: Operations;
   workbookTemplates: WorkbookTemplates;
-  myWorkbooks: MyWorkbooks;
   workbooks: Workbooks;
-  components: Components;
-  componentLinkedStorageAccountsOperations: ComponentLinkedStorageAccountsOperations;
   liveToken: LiveToken;
+  componentLinkedStorageAccountsOperations: ComponentLinkedStorageAccountsOperations;
+  deletedWorkbooks: DeletedWorkbooks;
 }

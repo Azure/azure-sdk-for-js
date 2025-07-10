@@ -3,49 +3,55 @@
 
 import type { HttpClient, Pipeline } from "@azure/core-rest-pipeline";
 import { bearerTokenAuthenticationPolicy, createEmptyPipeline } from "@azure/core-rest-pipeline";
-import type { PartitionKeyRange } from "./client/Container/PartitionKeyRange";
-import type { Resource } from "./client/Resource";
-import { Constants, HTTPMethod, OperationType, ResourceType } from "./common/constants";
-import { getIdFromLink, getPathFromLink, parseLink } from "./common/helper";
-import { StatusCodes, SubStatusCodes } from "./common/statusCodes";
-import type { Agent, CosmosClientOptions } from "./CosmosClientOptions";
-import type { ConnectionPolicy, PartitionKey } from "./documents";
-import { ConsistencyLevel, DatabaseAccount, convertToInternalPartitionKey } from "./documents";
-import type { GlobalEndpointManager } from "./globalEndpointManager";
-import type { PluginConfig } from "./plugins/Plugin";
-import { PluginOn, executePlugins } from "./plugins/Plugin";
-import type { FetchFunctionCallback, SqlQuerySpec } from "./queryExecutionContext";
-import type { CosmosHeaders } from "./queryExecutionContext/CosmosHeaders";
-import { QueryIterator } from "./queryIterator";
-import type { ErrorResponse } from "./request";
-import type { FeedOptions, RequestOptions, Response } from "./request";
-import type { PartitionedQueryExecutionInfo } from "./request/ErrorResponse";
-import { getHeaders } from "./request/request";
-import type { RequestContext } from "./request/RequestContext";
-import { RequestHandler } from "./request/RequestHandler";
-import { SessionContainer } from "./session/sessionContainer";
-import type { SessionContext } from "./session/SessionContext";
-import type { BulkOptions } from "./utils/batch";
-import { sanitizeEndpoint } from "./utils/checkURL";
-import { supportedQueryFeaturesBuilder } from "./utils/supportedQueryFeaturesBuilder";
+import type { PartitionKeyRange } from "./client/Container/PartitionKeyRange.js";
+import type { Resource } from "./client/Resource.js";
+import { Constants, HTTPMethod, OperationType, ResourceType } from "./common/constants.js";
+import { getIdFromLink, getPathFromLink, parseLink } from "./common/helper.js";
+import { StatusCodes, SubStatusCodes } from "./common/statusCodes.js";
+import type { Agent, CosmosClientOptions } from "./CosmosClientOptions.js";
+import type { ConnectionPolicy, PartitionKey } from "./documents/index.js";
+import {
+  ConsistencyLevel,
+  DatabaseAccount,
+  convertToInternalPartitionKey,
+} from "./documents/index.js";
+import type { GlobalEndpointManager } from "./globalEndpointManager.js";
+import type { PluginConfig } from "./plugins/Plugin.js";
+import { PluginOn, executePlugins } from "./plugins/Plugin.js";
+import type { FetchFunctionCallback, SqlQuerySpec } from "./queryExecutionContext/index.js";
+import type { CosmosHeaders } from "./queryExecutionContext/CosmosHeaders.js";
+import { QueryIterator } from "./queryIterator.js";
+import type { ErrorResponse } from "./request/index.js";
+import type { FeedOptions, RequestOptions, Response } from "./request/index.js";
+import type { PartitionedQueryExecutionInfo } from "./request/ErrorResponse.js";
+import { getHeaders } from "./request/request.js";
+import type { RequestContext } from "./request/RequestContext.js";
+import { RequestHandler } from "./request/RequestHandler.js";
+import { SessionContainer } from "./session/sessionContainer.js";
+import type { SessionContext } from "./session/SessionContext.js";
+import type { BulkOptions } from "./utils/batch.js";
+import { sanitizeEndpoint } from "./utils/checkURL.js";
+import { supportedQueryFeaturesBuilder } from "./utils/supportedQueryFeaturesBuilder.js";
 import type { AzureLogger } from "@azure/logger";
 import { createClientLogger } from "@azure/logger";
-import type { ClientConfigDiagnostic, CosmosDiagnostics } from "./CosmosDiagnostics";
-import type { DiagnosticNodeInternal } from "./diagnostics/DiagnosticNodeInternal";
-import type { DiagnosticWriter } from "./diagnostics/DiagnosticWriter";
-import { LogDiagnosticWriter, NoOpDiagnosticWriter } from "./diagnostics/DiagnosticWriter";
-import type { DiagnosticFormatter } from "./diagnostics/DiagnosticFormatter";
-import { DefaultDiagnosticFormatter } from "./diagnostics/DiagnosticFormatter";
-import { CosmosDbDiagnosticLevel } from "./diagnostics/CosmosDbDiagnosticLevel";
+import type { ClientConfigDiagnostic, CosmosDiagnostics } from "./CosmosDiagnostics.js";
+import type { DiagnosticNodeInternal } from "./diagnostics/DiagnosticNodeInternal.js";
+import type { DiagnosticWriter } from "./diagnostics/DiagnosticWriter.js";
+import { LogDiagnosticWriter, NoOpDiagnosticWriter } from "./diagnostics/DiagnosticWriter.js";
+import type { DiagnosticFormatter } from "./diagnostics/DiagnosticFormatter.js";
+import { DefaultDiagnosticFormatter } from "./diagnostics/DiagnosticFormatter.js";
+import { CosmosDbDiagnosticLevel } from "./diagnostics/CosmosDbDiagnosticLevel.js";
 import { randomUUID } from "@azure/core-util";
-import { getUserAgent } from "./common/platform";
+import { getUserAgent } from "./common/platform.js";
+import type { GlobalPartitionEndpointManager } from "./globalPartitionEndpointManager.js";
+import type { RetryOptions } from "./retry/retryOptions.js";
+import { PartitionKeyRangeCache } from "./routing/partitionKeyRangeCache.js";
 
 const logger: AzureLogger = createClientLogger("ClientContext");
 
 const QueryJsonContentType = "application/query+json";
 const HttpHeaders = Constants.HttpHeaders;
 /**
- * @hidden
  * @hidden
  */
 export class ClientContext {
@@ -55,12 +61,21 @@ export class ClientContext {
   private diagnosticWriter: DiagnosticWriter;
   private diagnosticFormatter: DiagnosticFormatter;
   public partitionKeyDefinitionCache: { [containerUrl: string]: any }; // TODO: PartitionKeyDefinitionCache
+  /** @internal */
+  public partitionKeyRangeCache: PartitionKeyRangeCache;
+  /** boolean flag to support operations with client-side encryption */
+  public enableEncryption: boolean = false;
+
   public constructor(
     private cosmosClientOptions: CosmosClientOptions,
     private globalEndpointManager: GlobalEndpointManager,
     private clientConfig: ClientConfigDiagnostic,
     public diagnosticLevel: CosmosDbDiagnosticLevel,
+    private globalPartitionEndpointManager?: GlobalPartitionEndpointManager,
   ) {
+    if (cosmosClientOptions.clientEncryptionOptions) {
+      this.enableEncryption = true;
+    }
     this.connectionPolicy = cosmosClientOptions.connectionPolicy;
     this.sessionContainer = new SessionContainer();
     this.partitionKeyDefinitionCache = {};
@@ -85,7 +100,9 @@ export class ClientContext {
       );
     }
     this.initializeDiagnosticSettings(diagnosticLevel);
+    this.partitionKeyRangeCache = new PartitionKeyRangeCache(this);
   }
+
   /** @hidden */
   public async read<T>({
     path,
@@ -94,6 +111,7 @@ export class ClientContext {
     options = {},
     partitionKey,
     diagnosticNode,
+    partitionKeyRangeId,
   }: {
     path: string;
     resourceType: ResourceType;
@@ -101,6 +119,7 @@ export class ClientContext {
     options?: RequestOptions;
     partitionKey?: PartitionKey;
     diagnosticNode: DiagnosticNodeInternal;
+    partitionKeyRangeId?: string;
   }): Promise<Response<T & Resource>> {
     try {
       const request: RequestContext = {
@@ -119,6 +138,13 @@ export class ClientContext {
       });
 
       request.headers = await this.buildHeaders(request);
+      request.partitionKeyRangeId = partitionKeyRangeId;
+      if (resourceType === ResourceType.clientencryptionkey) {
+        request.headers[HttpHeaders.AllowCachedReadsHeader] = true;
+        if (options.databaseRid) {
+          request.headers[HttpHeaders.DatabaseRidHeader] = options.databaseRid;
+        }
+      }
       this.applySessionToken(request);
 
       // read will use ReadEndpoint since it uses GET operation
@@ -264,9 +290,7 @@ export class ClientContext {
     request.headers[HttpHeaders.IsQueryPlan] = "True";
     request.headers[HttpHeaders.QueryVersion] = "1.4";
     request.headers[HttpHeaders.ContentType] = QueryJsonContentType;
-    request.headers[HttpHeaders.SupportedQueryFeatures] = supportedQueryFeaturesBuilder(
-      options.disableNonStreamingOrderByQuery,
-    );
+    request.headers[HttpHeaders.SupportedQueryFeatures] = supportedQueryFeaturesBuilder(options);
 
     if (typeof query === "string") {
       request.body = { query }; // Converts query text to query object.
@@ -308,6 +332,7 @@ export class ClientContext {
     partitionKey,
     method = HTTPMethod.delete,
     diagnosticNode,
+    partitionKeyRangeId,
   }: {
     path: string;
     resourceType: ResourceType;
@@ -316,6 +341,7 @@ export class ClientContext {
     partitionKey?: PartitionKey;
     method?: HTTPMethod;
     diagnosticNode: DiagnosticNodeInternal;
+    partitionKeyRangeId?: string;
   }): Promise<Response<T & Resource>> {
     try {
       const request: RequestContext = {
@@ -333,6 +359,7 @@ export class ClientContext {
         resourceType,
       });
       request.headers = await this.buildHeaders(request);
+      request.partitionKeyRangeId = partitionKeyRangeId;
       this.applySessionToken(request);
       // deleteResource will use WriteEndpoint since it uses DELETE operation
       request.endpoint = await this.globalEndpointManager.resolveServiceEndpoint(
@@ -366,6 +393,7 @@ export class ClientContext {
     options = {},
     partitionKey,
     diagnosticNode,
+    partitionKeyRangeId,
   }: {
     body: any;
     path: string;
@@ -374,6 +402,7 @@ export class ClientContext {
     options?: RequestOptions;
     partitionKey?: PartitionKey;
     diagnosticNode: DiagnosticNodeInternal;
+    partitionKeyRangeId?: string;
   }): Promise<Response<T & Resource>> {
     try {
       const request: RequestContext = {
@@ -392,6 +421,7 @@ export class ClientContext {
         resourceType,
       });
       request.headers = await this.buildHeaders(request);
+      request.partitionKeyRangeId = partitionKeyRangeId;
       this.applySessionToken(request);
 
       // patch will use WriteEndpoint
@@ -422,6 +452,7 @@ export class ClientContext {
     diagnosticNode,
     options = {},
     partitionKey,
+    partitionKeyRangeId,
   }: {
     body: T;
     path: string;
@@ -430,6 +461,7 @@ export class ClientContext {
     diagnosticNode: DiagnosticNodeInternal;
     options?: RequestOptions;
     partitionKey?: PartitionKey;
+    partitionKeyRangeId?: string;
   }): Promise<Response<T & U & Resource>> {
     try {
       const request: RequestContext = {
@@ -448,6 +480,7 @@ export class ClientContext {
         resourceType,
       });
       request.headers = await this.buildHeaders(request);
+      request.partitionKeyRangeId = partitionKeyRangeId;
       // create will use WriteEndpoint since it uses POST operation
       this.applySessionToken(request);
 
@@ -525,6 +558,7 @@ export class ClientContext {
     options = {},
     partitionKey,
     diagnosticNode,
+    partitionKeyRangeId,
   }: {
     body: any;
     path: string;
@@ -533,6 +567,7 @@ export class ClientContext {
     options?: RequestOptions;
     partitionKey?: PartitionKey;
     diagnosticNode: DiagnosticNodeInternal;
+    partitionKeyRangeId?: string;
   }): Promise<Response<T & Resource>> {
     try {
       const request: RequestContext = {
@@ -551,6 +586,7 @@ export class ClientContext {
         resourceType,
       });
       request.headers = await this.buildHeaders(request);
+      request.partitionKeyRangeId = partitionKeyRangeId;
       this.applySessionToken(request);
 
       // replace will use WriteEndpoint since it uses PUT operation
@@ -581,6 +617,7 @@ export class ClientContext {
     options = {},
     partitionKey,
     diagnosticNode,
+    partitionKeyRangeId,
   }: {
     body: T;
     path: string;
@@ -589,6 +626,7 @@ export class ClientContext {
     options?: RequestOptions;
     partitionKey?: PartitionKey;
     diagnosticNode: DiagnosticNodeInternal;
+    partitionKeyRangeId?: string;
   }): Promise<Response<T & U & Resource>> {
     try {
       const request: RequestContext = {
@@ -607,6 +645,7 @@ export class ClientContext {
         resourceType,
       });
       request.headers = await this.buildHeaders(request);
+      request.partitionKeyRangeId = partitionKeyRangeId;
       request.headers[HttpHeaders.IsUpsert] = true;
       this.applySessionToken(request);
 
@@ -636,12 +675,14 @@ export class ClientContext {
     options = {},
     partitionKey,
     diagnosticNode,
+    partitionKeyRangeId,
   }: {
     sprocLink: string;
     params?: any[];
     options?: RequestOptions;
     partitionKey?: PartitionKey;
     diagnosticNode: DiagnosticNodeInternal;
+    partitionKeyRangeId?: string;
   }): Promise<Response<T>> {
     // Accept a single parameter or an array of parameters.
     // Didn't add type annotation for this because we should legacy this behavior
@@ -667,6 +708,7 @@ export class ClientContext {
       resourceType: ResourceType.sproc,
     });
     request.headers = await this.buildHeaders(request);
+    request.partitionKeyRangeId = partitionKeyRangeId;
     // executeStoredProcedure will use WriteEndpoint since it uses POST operation
     request.endpoint = await this.globalEndpointManager.resolveServiceEndpoint(
       diagnosticNode,
@@ -747,6 +789,7 @@ export class ClientContext {
     resourceId,
     options = {},
     diagnosticNode,
+    partitionKeyRangeId,
   }: {
     body: T;
     path: string;
@@ -754,6 +797,7 @@ export class ClientContext {
     resourceId: string;
     options?: RequestOptions;
     diagnosticNode: DiagnosticNodeInternal;
+    partitionKeyRangeId?: string;
   }): Promise<Response<any>> {
     try {
       const request: RequestContext = {
@@ -772,6 +816,7 @@ export class ClientContext {
         resourceType: ResourceType.item,
       });
       request.headers = await this.buildHeaders(request);
+      request.partitionKeyRangeId = partitionKeyRangeId;
       request.headers[HttpHeaders.IsBatchRequest] = true;
       request.headers[HttpHeaders.IsBatchAtomic] = true;
 
@@ -830,6 +875,7 @@ export class ClientContext {
         resourceType: ResourceType.item,
       });
       request.headers = await this.buildHeaders(request);
+      request.partitionKeyRangeId = partitionKeyRangeId;
       request.headers[HttpHeaders.IsBatchRequest] = true;
       request.headers[HttpHeaders.PartitionKeyRangeID] = partitionKeyRangeId;
       request.headers[HttpHeaders.IsBatchAtomic] = false;
@@ -965,6 +1011,7 @@ export class ClientContext {
     pipeline?: Pipeline;
     plugins: PluginConfig[];
     httpClient?: HttpClient;
+    globalPartitionEndpointManager?: GlobalPartitionEndpointManager;
   } {
     return {
       globalEndpointManager: this.globalEndpointManager,
@@ -974,6 +1021,7 @@ export class ClientContext {
       plugins: this.cosmosClientOptions.plugins,
       pipeline: this.pipeline,
       httpClient: this.cosmosClientOptions.httpClient,
+      globalPartitionEndpointManager: this.globalPartitionEndpointManager,
     };
   }
 
@@ -985,9 +1033,26 @@ export class ClientContext {
    * @internal
    */
   public refreshUserAgent(hostFramework: string): void {
-    const updatedUserAgent = getUserAgent(this.cosmosClientOptions.userAgentSuffix, hostFramework);
+    const updatedUserAgent = getUserAgent(this.cosmosClientOptions, hostFramework);
     this.cosmosClientOptions.defaultHeaders[Constants.HttpHeaders.UserAgent] = updatedUserAgent;
     this.cosmosClientOptions.defaultHeaders[Constants.HttpHeaders.CustomUserAgent] =
       updatedUserAgent;
+  }
+
+  /**
+   * @internal
+   */
+  public getRetryOptions(): RetryOptions {
+    return this.connectionPolicy.retryOptions;
+  }
+
+  /**
+   * @internal
+   */
+  public isPartitionLevelFailOverEnabled(): boolean {
+    return (
+      this.connectionPolicy.enablePartitionLevelFailover ||
+      this.connectionPolicy.enablePartitionLevelCircuitBreaker
+    );
   }
 }

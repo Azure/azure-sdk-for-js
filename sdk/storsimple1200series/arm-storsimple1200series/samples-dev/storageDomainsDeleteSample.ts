@@ -14,7 +14,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * @summary Deletes the storage domain.
  * x-ms-original-file: specification/storsimple1200series/resource-manager/Microsoft.StorSimple/stable/2016-10-01/examples/StorageDomainsDelete.json
  */
-async function storageDomainsDelete() {
+async function storageDomainsDelete(): Promise<void> {
   const subscriptionId = "9eb689cd-7243-43b4-b6f6-5c65cb296641";
   const storageDomainName = "sd-fs-HSDK-4XY4FI2IVG";
   const resourceGroupName = "ResourceGroupForSDKTest";

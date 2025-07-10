@@ -92,9 +92,8 @@ az cognitiveservices account keys list --resource-group <your-resource-group-nam
 
 Once you have an API key and endpoint, you can use the `AzureKeyCredential` class to authenticate the client as follows:
 
-```ts snippet:ReadmeSampleCreateClient_Node
-import { AzureKeyCredential } from "@azure/core-auth";
-import { TextAnalysisClient } from "@azure/ai-language-text";
+```ts snippet:ReadmeSampleCreateClient_Key
+import { AzureKeyCredential, TextAnalysisClient } from "@azure/ai-language-text";
 
 const endpoint = "https://<resource name>.cognitiveservices.azure.com";
 const credential = new AzureKeyCredential("<api key>");
@@ -265,7 +264,7 @@ If you'd like to contribute to this library, please read the [contributing guide
 
 - [Microsoft Azure SDK for JavaScript](https://github.com/Azure/azure-sdk-for-js)
 
-![Impressions](https://azure-sdk-impressions.azurewebsites.net/api/impressions/azure-sdk-for-js%2Fsdk%2Fcognitivelanguage%2Fai-language-text%2FREADME.png)
+
 
 [cli_docs]: https://learn.microsoft.com/azure/cognitive-services/cognitive-services-apis-create-account-cli?tabs=windows#prerequisites
 [azure_cli]: https://learn.microsoft.com/cli/azure

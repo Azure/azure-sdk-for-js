@@ -8,9 +8,7 @@
 import type { ServerAdvancedThreatProtection } from "@azure/arm-sql";
 import { SqlManagementClient } from "@azure/arm-sql";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Creates or updates an Advanced Threat Protection state.
@@ -18,7 +16,7 @@ dotenv.config();
  * @summary Creates or updates an Advanced Threat Protection state.
  * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2021-11-01-preview/examples/ServerAdvancedThreatProtectionSettingsCreateMax.json
  */
-async function updateAServerAdvancedThreatProtectionSettingsWithAllParameters() {
+async function updateAServerAdvancedThreatProtectionSettingsWithAllParameters(): Promise<void> {
   const subscriptionId =
     process.env["SQL_SUBSCRIPTION_ID"] || "00000000-1111-2222-3333-444444444444";
   const resourceGroupName = process.env["SQL_RESOURCE_GROUP"] || "threatprotection-4799";
@@ -42,7 +40,7 @@ async function updateAServerAdvancedThreatProtectionSettingsWithAllParameters() 
  * @summary Creates or updates an Advanced Threat Protection state.
  * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2021-11-01-preview/examples/ServerAdvancedThreatProtectionSettingsCreateMin.json
  */
-async function updateAServerAdvancedThreatProtectionSettingsWithMinimalParameters() {
+async function updateAServerAdvancedThreatProtectionSettingsWithMinimalParameters(): Promise<void> {
   const subscriptionId =
     process.env["SQL_SUBSCRIPTION_ID"] || "00000000-1111-2222-3333-444444444444";
   const resourceGroupName = process.env["SQL_RESOURCE_GROUP"] || "threatprotection-4799";
@@ -60,7 +58,7 @@ async function updateAServerAdvancedThreatProtectionSettingsWithMinimalParameter
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   await updateAServerAdvancedThreatProtectionSettingsWithAllParameters();
   await updateAServerAdvancedThreatProtectionSettingsWithMinimalParameters();
 }

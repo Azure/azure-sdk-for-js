@@ -13,17 +13,15 @@ import {
   RecoveryServicesBackupClient,
 } from "@azure/arm-recoveryservicesbackup";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Secures delete ResourceGuardProxy operations.
  *
  * @summary Secures delete ResourceGuardProxy operations.
- * x-ms-original-file: specification/recoveryservicesbackup/resource-manager/Microsoft.RecoveryServices/stable/2024-04-01/examples/ResourceGuardProxyCRUD/UnlockDeleteResourceGuardProxy.json
+ * x-ms-original-file: specification/recoveryservicesbackup/resource-manager/Microsoft.RecoveryServices/stable/2025-02-01/examples/ResourceGuardProxyCRUD/UnlockDeleteResourceGuardProxy.json
  */
-async function unlockDeleteResourceGuardProxy() {
+async function unlockDeleteResourceGuardProxy(): Promise<void> {
   const subscriptionId =
     process.env["RECOVERYSERVICESBACKUP_SUBSCRIPTION_ID"] ||
     "0b352192-dcac-4cc7-992e-a96190ccc68c";
@@ -50,8 +48,8 @@ async function unlockDeleteResourceGuardProxy() {
   console.log(result);
 }
 
-async function main() {
-  unlockDeleteResourceGuardProxy();
+async function main(): Promise<void> {
+  await unlockDeleteResourceGuardProxy();
 }
 
 main().catch(console.error);

@@ -5,9 +5,8 @@
  * @summary Demonstrates usage of CosmosDiagnostic Object.
  */
 
-require("dotenv").config();
-
-const { handleError, logSampleHeader, finish } = require("./Shared/handleError");
+require("dotenv/config");
+const { handleError, logSampleHeader, finish } = require("./Shared/handleError.js");
 const { CosmosClient, BulkOperationType, PatchOperationType } = require("@azure/cosmos");
 
 const key = process.env.COSMOS_KEY || "<cosmos key>";
@@ -29,9 +28,9 @@ async function run() {
   await finish();
 }
 
-async function accessingDiagnosticForDatabaseOperations(databaseId) {
+async function accessingDiagnosticForDatabaseOperations(localDatabaseId) {
   const { database, diagnostics: databaseCreateDiagnostic } =
-    await client.databases.createIfNotExists({ id: databaseId });
+    await client.databases.createIfNotExists({ id: localDatabaseId });
   console.log("    ## Database with id " + database.id + " created.");
   displayCosmosDiagnosticsObject(databaseCreateDiagnostic, "database create");
   return {
@@ -53,7 +52,7 @@ async function accessingDiagnosticForContainerOperations(database) {
 }
 
 async function accessingDiagnosticForItemOperations(itemId, container) {
-  const { item, diagnostics } = await container.items.create({
+  const { diagnostics } = await container.items.create({
     id: itemId,
     key1: "A",
     key2: "B",
@@ -64,7 +63,7 @@ async function accessingDiagnosticForItemOperations(itemId, container) {
 
 async function accessingDiagnosticForQueryOperations(container) {
   const queryIterator = container.items.query("select * from c");
-  const { resources, diagnostics } = await queryIterator.fetchAll();
+  const { diagnostics } = await queryIterator.fetchAll();
   displayCosmosDiagnosticsObject(diagnostics, "query, fetch all");
 }
 
@@ -129,8 +128,8 @@ function displayCosmosDiagnosticsObject(diagnostics, target) {
 
   const gatewayStatistics = diagnostics.clientSideRequestStatistics.gatewayStatistics;
   console.log(`    ## gatewayStatistics during during operation - ${gatewayStatistics.length}`);
-  metadataLookups.forEach((gatewayStatistics, index) => {
-    console.log(`    #### gatewayStatistics ${index} : ${JSON.stringify(gatewayStatistics)}`);
+  metadataLookups.forEach((statistics, index) => {
+    console.log(`    #### gatewayStatistics ${index} : ${JSON.stringify(statistics)}`);
   });
   console.log("######################################################################");
 }

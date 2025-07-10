@@ -20,7 +20,7 @@ import {
   InstancePoolUpdate,
   InstancePoolsUpdateOptionalParams,
   InstancePoolsUpdateResponse,
-} from "../models";
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a InstancePools. */

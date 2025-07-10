@@ -6,11 +6,11 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { ReferenceDataSets } from "../operationsInterfaces";
+import { ReferenceDataSets } from "../operationsInterfaces/index.js";
 import * as coreClient from "@azure/core-client";
-import * as Mappers from "../models/mappers";
-import * as Parameters from "../models/parameters";
-import { TimeSeriesInsightsClient } from "../timeSeriesInsightsClient";
+import * as Mappers from "../models/mappers.js";
+import * as Parameters from "../models/parameters.js";
+import { TimeSeriesInsightsClient } from "../timeSeriesInsightsClient.js";
 import {
   ReferenceDataSetCreateOrUpdateParameters,
   ReferenceDataSetsCreateOrUpdateOptionalParams,
@@ -23,7 +23,7 @@ import {
   ReferenceDataSetsDeleteOptionalParams,
   ReferenceDataSetsListByEnvironmentOptionalParams,
   ReferenceDataSetsListByEnvironmentResponse
-} from "../models";
+} from "../models/index.js";
 
 /** Class containing ReferenceDataSets operations. */
 export class ReferenceDataSetsImpl implements ReferenceDataSets {

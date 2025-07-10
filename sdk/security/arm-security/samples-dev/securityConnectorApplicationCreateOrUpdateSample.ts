@@ -8,9 +8,7 @@
 import type { Application } from "@azure/arm-security";
 import { SecurityCenter } from "@azure/arm-security";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Creates or update a security Application on the given security connector.
@@ -18,7 +16,7 @@ dotenv.config();
  * @summary Creates or update a security Application on the given security connector.
  * x-ms-original-file: specification/security/resource-manager/Microsoft.Security/preview/2022-07-01-preview/examples/Applications/PutSecurityConnectorApplication_example.json
  */
-async function createApplication() {
+async function createApplication(): Promise<void> {
   const subscriptionId =
     process.env["SECURITY_SUBSCRIPTION_ID"] || "20ff7fc3-e762-44dd-bd96-b71116dcdc23";
   const resourceGroupName = process.env["SECURITY_RESOURCE_GROUP"] || "gcpResourceGroup";
@@ -45,7 +43,7 @@ async function createApplication() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   await createApplication();
 }
 

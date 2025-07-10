@@ -14,7 +14,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * @summary Deletes a Template Spec by name. When operation completes, status code 200 returned without content.
  * x-ms-original-file: specification/resources/resource-manager/Microsoft.Resources/stable/2021-05-01/examples/TemplateSpecsDelete.json
  */
-async function templateSpecsDelete() {
+async function templateSpecsDelete(): Promise<void> {
   const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const resourceGroupName = "templateSpecRG";
   const templateSpecName = "simpleTemplateSpec";

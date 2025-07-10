@@ -6,11 +6,11 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { MarketplaceAgreements } from "../operationsInterfaces";
+import { MarketplaceAgreements } from "../operationsInterfaces/index.js";
 import * as coreClient from "@azure/core-client";
-import * as Mappers from "../models/mappers";
-import * as Parameters from "../models/parameters";
-import { MarketplaceOrderingAgreements } from "../marketplaceOrderingAgreements";
+import * as Mappers from "../models/mappers.js";
+import * as Parameters from "../models/parameters.js";
+import { MarketplaceOrderingAgreements } from "../marketplaceOrderingAgreements.js";
 import {
   OfferType,
   MarketplaceAgreementsGetOptionalParams,
@@ -26,7 +26,7 @@ import {
   MarketplaceAgreementsGetAgreementResponse,
   MarketplaceAgreementsListOptionalParams,
   MarketplaceAgreementsListResponse
-} from "../models";
+} from "../models/index.js";
 
 /** Class containing MarketplaceAgreements operations. */
 export class MarketplaceAgreementsImpl implements MarketplaceAgreements {

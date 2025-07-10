@@ -15,7 +15,7 @@ import {
   ApplicationInsightsComponentAnalyticsItem,
   AnalyticsItemsPutOptionalParams,
   AnalyticsItemsPutResponse,
-  AnalyticsItemsDeleteOptionalParams
+  AnalyticsItemsDeleteOptionalParams,
 } from "../models/index.js";
 
 /** Interface representing a AnalyticsItems. */
@@ -32,7 +32,7 @@ export interface AnalyticsItems {
     resourceGroupName: string,
     resourceName: string,
     scopePath: ItemScopePath,
-    options?: AnalyticsItemsListOptionalParams
+    options?: AnalyticsItemsListOptionalParams,
   ): Promise<AnalyticsItemsListResponse>;
   /**
    * Gets a specific Analytics Items defined within an Application Insights component.
@@ -46,7 +46,7 @@ export interface AnalyticsItems {
     resourceGroupName: string,
     resourceName: string,
     scopePath: ItemScopePath,
-    options?: AnalyticsItemsGetOptionalParams
+    options?: AnalyticsItemsGetOptionalParams,
   ): Promise<AnalyticsItemsGetResponse>;
   /**
    * Adds or Updates a specific Analytics Item within an Application Insights component.
@@ -63,7 +63,7 @@ export interface AnalyticsItems {
     resourceName: string,
     scopePath: ItemScopePath,
     itemProperties: ApplicationInsightsComponentAnalyticsItem,
-    options?: AnalyticsItemsPutOptionalParams
+    options?: AnalyticsItemsPutOptionalParams,
   ): Promise<AnalyticsItemsPutResponse>;
   /**
    * Deletes a specific Analytics Items defined within an Application Insights component.
@@ -77,6 +77,6 @@ export interface AnalyticsItems {
     resourceGroupName: string,
     resourceName: string,
     scopePath: ItemScopePath,
-    options?: AnalyticsItemsDeleteOptionalParams
+    options?: AnalyticsItemsDeleteOptionalParams,
   ): Promise<void>;
 }

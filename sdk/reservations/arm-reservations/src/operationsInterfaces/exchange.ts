@@ -11,7 +11,7 @@ import {
   ExchangeRequest,
   ExchangePostOptionalParams,
   ExchangePostResponse
-} from "../models";
+} from "../models/index.js";
 
 /** Interface representing a Exchange. */
 export interface Exchange {

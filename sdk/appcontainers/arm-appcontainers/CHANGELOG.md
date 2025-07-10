@@ -1,15 +1,110 @@
 # Release History
-
-## 2.2.0-beta.2 (Unreleased)
-
+    
+## 2.2.0 (2025-04-16)
+    
 ### Features Added
 
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
-
+  - Added operation group ContainerAppsSessionPools
+  - Added operation group JavaComponents
+  - Added Interface CertificateKeyVaultProperties
+  - Added Interface ContainerAppsSessionPoolsCreateOrUpdateOptionalParams
+  - Added Interface ContainerAppsSessionPoolsDeleteHeaders
+  - Added Interface ContainerAppsSessionPoolsDeleteOptionalParams
+  - Added Interface ContainerAppsSessionPoolsGetOptionalParams
+  - Added Interface ContainerAppsSessionPoolsListByResourceGroupNextOptionalParams
+  - Added Interface ContainerAppsSessionPoolsListByResourceGroupOptionalParams
+  - Added Interface ContainerAppsSessionPoolsListBySubscriptionNextOptionalParams
+  - Added Interface ContainerAppsSessionPoolsListBySubscriptionOptionalParams
+  - Added Interface ContainerAppsSessionPoolsUpdateHeaders
+  - Added Interface ContainerAppsSessionPoolsUpdateOptionalParams
+  - Added Interface CustomContainerTemplate
+  - Added Interface DynamicPoolConfiguration
+  - Added Interface IdentitySettings
+  - Added Interface JavaComponent
+  - Added Interface JavaComponentConfigurationProperty
+  - Added Interface JavaComponentIngress
+  - Added Interface JavaComponentProperties
+  - Added Interface JavaComponentPropertiesScale
+  - Added Interface JavaComponentsCollection
+  - Added Interface JavaComponentsCreateOrUpdateOptionalParams
+  - Added Interface JavaComponentsDeleteHeaders
+  - Added Interface JavaComponentsDeleteOptionalParams
+  - Added Interface JavaComponentServiceBind
+  - Added Interface JavaComponentsGetOptionalParams
+  - Added Interface JavaComponentsListNextOptionalParams
+  - Added Interface JavaComponentsListOptionalParams
+  - Added Interface JavaComponentsUpdateHeaders
+  - Added Interface JavaComponentsUpdateOptionalParams
+  - Added Interface LifecycleConfiguration
+  - Added Interface ManagedIdentitySetting
+  - Added Interface NfsAzureFileProperties
+  - Added Interface Runtime
+  - Added Interface RuntimeJava
+  - Added Interface ScaleConfiguration
+  - Added Interface SessionContainer
+  - Added Interface SessionContainerResources
+  - Added Interface SessionIngress
+  - Added Interface SessionNetworkConfiguration
+  - Added Interface SessionPool
+  - Added Interface SessionPoolCollection
+  - Added Interface SessionPoolSecret
+  - Added Interface SessionPoolUpdatableProperties
+  - Added Interface SessionRegistryCredentials
+  - Added Interface SpringBootAdminComponent
+  - Added Interface SpringCloudConfigComponent
+  - Added Interface SpringCloudEurekaComponent
+  - Added Type Alias ContainerAppRunningStatus
+  - Added Type Alias ContainerAppsSessionPoolsCreateOrUpdateResponse
+  - Added Type Alias ContainerAppsSessionPoolsDeleteResponse
+  - Added Type Alias ContainerAppsSessionPoolsGetResponse
+  - Added Type Alias ContainerAppsSessionPoolsListByResourceGroupNextResponse
+  - Added Type Alias ContainerAppsSessionPoolsListByResourceGroupResponse
+  - Added Type Alias ContainerAppsSessionPoolsListBySubscriptionNextResponse
+  - Added Type Alias ContainerAppsSessionPoolsListBySubscriptionResponse
+  - Added Type Alias ContainerAppsSessionPoolsUpdateResponse
+  - Added Type Alias ContainerType
+  - Added Type Alias IdentitySettingsLifeCycle
+  - Added Type Alias JavaComponentPropertiesUnion
+  - Added Type Alias JavaComponentProvisioningState
+  - Added Type Alias JavaComponentsCreateOrUpdateResponse
+  - Added Type Alias JavaComponentsDeleteResponse
+  - Added Type Alias JavaComponentsGetResponse
+  - Added Type Alias JavaComponentsListNextResponse
+  - Added Type Alias JavaComponentsListResponse
+  - Added Type Alias JavaComponentsUpdateResponse
+  - Added Type Alias JavaComponentType
+  - Added Type Alias LifecycleType
+  - Added Type Alias PoolManagementType
+  - Added Type Alias SessionNetworkStatus
+  - Added Type Alias SessionPoolProvisioningState
+  - Interface CertificateProperties has a new optional parameter certificateKeyVaultProperties
+  - Interface Configuration has a new optional parameter identitySettings
+  - Interface Configuration has a new optional parameter runtime
+  - Interface ContainerApp has a new optional parameter runningStatus
+  - Interface CustomDomainConfiguration has a new optional parameter certificateKeyVaultProperties
+  - Interface CustomScaleRule has a new optional parameter identity
+  - Interface HttpScaleRule has a new optional parameter identity
+  - Interface JobConfiguration has a new optional parameter identitySettings
+  - Interface JobScaleRule has a new optional parameter identity
+  - Interface ManagedEnvironment has a new optional parameter identity
+  - Interface ManagedEnvironmentStorageProperties has a new optional parameter nfsAzureFile
+  - Interface QueueScaleRule has a new optional parameter accountName
+  - Interface QueueScaleRule has a new optional parameter identity
+  - Interface Scale has a new optional parameter cooldownPeriod
+  - Interface Scale has a new optional parameter pollingInterval
+  - Interface TcpScaleRule has a new optional parameter identity
+  - Added Enum KnownContainerAppRunningStatus
+  - Added Enum KnownContainerType
+  - Added Enum KnownIdentitySettingsLifeCycle
+  - Added Enum KnownJavaComponentProvisioningState
+  - Added Enum KnownJavaComponentType
+  - Added Enum KnownLifecycleType
+  - Added Enum KnownPoolManagementType
+  - Added Enum KnownSessionNetworkStatus
+  - Added Enum KnownSessionPoolProvisioningState
+  - Enum KnownStorageType has a new value NfsAzureFile
+    
+    
 ## 2.2.0-beta.1 (2024-10-18)
 Compared with version 2.1.0
     

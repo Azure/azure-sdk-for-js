@@ -16,7 +16,7 @@ import {
   TagsObject,
   AzureTrafficCollectorsUpdateTagsOptionalParams,
   AzureTrafficCollectorsUpdateTagsResponse
-} from "../models";
+} from "../models/index.js";
 
 /** Interface representing a AzureTrafficCollectors. */
 export interface AzureTrafficCollectors {

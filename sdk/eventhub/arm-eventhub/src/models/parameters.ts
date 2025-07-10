@@ -14,6 +14,7 @@ import {
 import {
   Cluster as ClusterMapper,
   EHNamespace as EHNamespaceMapper,
+  FailOver as FailOverMapper,
   NetworkRuleSet as NetworkRuleSetMapper,
   AuthorizationRule as AuthorizationRuleMapper,
   RegenerateAccessKeyParameters as RegenerateAccessKeyParametersMapper,
@@ -65,7 +66,7 @@ export const subscriptionId: OperationURLParameter = {
 export const apiVersion: OperationQueryParameter = {
   parameterPath: "apiVersion",
   mapper: {
-    defaultValue: "2024-01-01",
+    defaultValue: "2024-05-01-preview",
     isConstant: true,
     serializedName: "api-version",
     type: {
@@ -156,10 +157,15 @@ export const namespaceName: OperationURLParameter = {
 
 export const parameters2: OperationParameter = {
   parameterPath: "parameters",
-  mapper: NetworkRuleSetMapper,
+  mapper: FailOverMapper,
 };
 
 export const parameters3: OperationParameter = {
+  parameterPath: "parameters",
+  mapper: NetworkRuleSetMapper,
+};
+
+export const parameters4: OperationParameter = {
   parameterPath: "parameters",
   mapper: AuthorizationRuleMapper,
 };
@@ -178,17 +184,17 @@ export const authorizationRuleName: OperationURLParameter = {
   },
 };
 
-export const parameters4: OperationParameter = {
+export const parameters5: OperationParameter = {
   parameterPath: "parameters",
   mapper: RegenerateAccessKeyParametersMapper,
 };
 
-export const parameters5: OperationParameter = {
+export const parameters6: OperationParameter = {
   parameterPath: "parameters",
   mapper: CheckNameAvailabilityParameterMapper,
 };
 
-export const parameters6: OperationParameter = {
+export const parameters7: OperationParameter = {
   parameterPath: "parameters",
   mapper: PrivateEndpointConnectionMapper,
 };
@@ -215,7 +221,7 @@ export const resourceAssociationName: OperationURLParameter = {
   },
 };
 
-export const parameters7: OperationParameter = {
+export const parameters8: OperationParameter = {
   parameterPath: "parameters",
   mapper: ClusterQuotaConfigurationPropertiesMapper,
 };
@@ -235,7 +241,7 @@ export const alias: OperationURLParameter = {
   },
 };
 
-export const parameters8: OperationParameter = {
+export const parameters9: OperationParameter = {
   parameterPath: "parameters",
   mapper: ArmDisasterRecoveryMapper,
 };
@@ -283,12 +289,12 @@ export const top: OperationQueryParameter = {
   },
 };
 
-export const parameters9: OperationParameter = {
+export const parameters10: OperationParameter = {
   parameterPath: "parameters",
   mapper: EventhubMapper,
 };
 
-export const parameters10: OperationParameter = {
+export const parameters11: OperationParameter = {
   parameterPath: "parameters",
   mapper: ConsumerGroupMapper,
 };
@@ -308,7 +314,7 @@ export const consumerGroupName: OperationURLParameter = {
   },
 };
 
-export const parameters11: OperationParameter = {
+export const parameters12: OperationParameter = {
   parameterPath: "parameters",
   mapper: SchemaGroupMapper,
 };
@@ -328,7 +334,7 @@ export const schemaGroupName: OperationURLParameter = {
   },
 };
 
-export const parameters12: OperationParameter = {
+export const parameters13: OperationParameter = {
   parameterPath: "parameters",
   mapper: ApplicationGroupMapper,
 };

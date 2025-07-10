@@ -100,7 +100,7 @@ export interface Resource {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly name?: string;
-  /** Kind of resource. */
+  /** Kind of resource. If the resource is an app, you can refer to https://github.com/Azure/app-service-linux-docs/blob/master/Things_You_Should_Know/kind_property.md#app-service-resource-kind-reference for details supported values for kind. */
   kind?: string;
   /** Resource Location. */
   location: string;
@@ -880,6 +880,20 @@ export interface SiteDnsConfig {
   readonly dnsLegacySortOrder?: boolean;
 }
 
+/** Outbound traffic options over virtual network. */
+export interface OutboundVnetRouting {
+  /** Enables all other routing options defined in OutboundVnetRouting if this setting is set to true. */
+  allTraffic?: boolean;
+  /** This causes all outbound traffic to have Virtual Network Security Groups and User Defined Routes applied. Previously called VnetRouteAllEnabled. */
+  applicationTraffic?: boolean;
+  /** Enables accessing content over virtual network. Previously called VnetContentShareEnabled */
+  contentShareTraffic?: boolean;
+  /** Enables pulling image over Virtual Network. Previously called VnetImagePullEnabled. */
+  imagePullTraffic?: boolean;
+  /** Enables Backup and Restore operations over virtual network. Previously called VnetBackupRestoreEnabled */
+  backupRestoreTraffic?: boolean;
+}
+
 /** Configuration of an App Service app. */
 export interface SiteConfig {
   /** Number of workers. */
@@ -920,11 +934,11 @@ export interface SiteConfig {
   detailedErrorLoggingEnabled?: boolean;
   /** Publishing user name. */
   publishingUsername?: string;
-  /** Application settings. */
+  /** Application settings. This property is not returned in response to normal create and read requests since it may contain sensitive information. */
   appSettings?: NameValuePair[];
   /** Application metadata. This property cannot be retrieved, since it may contain secrets. */
   metadata?: NameValuePair[];
-  /** Connection strings. */
+  /** Connection strings. This property is not returned in response to normal create and read requests since it may contain sensitive information. */
   connectionStrings?: ConnStringInfo[];
   /**
    * Site MachineKey.
@@ -1003,6 +1017,8 @@ export interface SiteConfig {
   scmIpSecurityRestrictionsUseMain?: boolean;
   /** Http20Enabled: configures a web site to allow clients to connect over http2.0 */
   http20Enabled?: boolean;
+  /** Http20ProxyFlag: Configures a website to allow http2.0 to pass be proxied all the way to the app. 0 = disabled, 1 = pass through all http2 traffic, 2 = pass through gRPC only. */
+  http20ProxyFlag?: number;
   /** MinTlsVersion: configures the minimum version of TLS required for SSL requests */
   minTlsVersion?: SupportedTlsVersions;
   /** The minimum strength TLS cipher suite allowed for an application */
@@ -1126,10 +1142,7 @@ export interface RampUpRule {
   minReroutePercentage?: number;
   /** Specifies upper boundary below which ReroutePercentage will stay. */
   maxReroutePercentage?: number;
-  /**
-   * Custom decision algorithm can be provided in TiPCallback site extension which URL can be specified. See TiPCallback site extension for the scaffold and contracts.
-   * https://www.siteextensions.net/packages/TiPCallback/
-   */
+  /** Custom decision algorithm can be provided in TiPCallback site extension which URL can be specified. */
   changeDecisionCallbackUrl?: string;
   /** Name of the routing rule. The recommended name would be to point to the slot which will receive the traffic in the experiment. */
   name?: string;
@@ -1951,254 +1964,6 @@ export interface VnetInfo {
 export interface CertificateCollection {
   /** Collection of resources. */
   value: Certificate[];
-  /**
-   * Link to next page of resources.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly nextLink?: string;
-}
-
-/** Container App collection ARM resource. */
-export interface ContainerAppCollection {
-  /** Collection of resources. */
-  value: ContainerApp[];
-  /**
-   * Link to next page of resources.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly nextLink?: string;
-}
-
-/** Non versioned Container App configuration properties that define the mutable settings of a Container app */
-export interface Configuration {
-  /** Collection of secrets used by a Container app */
-  secrets?: Secret[];
-  /**
-   * ActiveRevisionsMode controls how active revisions are handled for the Container app:
-   * <list><item>Multiple: multiple revisions can be active. If no value if provided, this is the default</item><item>Single: Only one revision can be active at a time. Revision weights can not be used in this mode</item></list>
-   */
-  activeRevisionsMode?: ActiveRevisionsMode;
-  /** Ingress configurations. */
-  ingress?: Ingress;
-  /** Collection of private container registry credentials for containers used by the Container app */
-  registries?: RegistryCredentials[];
-}
-
-/** Container App Secret. */
-export interface Secret {
-  /** Secret Name. */
-  name?: string;
-  /** Secret Value. */
-  value?: string;
-}
-
-/** Container App Ingress configuration. */
-export interface Ingress {
-  /**
-   * Hostname.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly fqdn?: string;
-  /** Bool indicating if app exposes an external http endpoint */
-  external?: boolean;
-  /** Target Port in containers for traffic from ingress */
-  targetPort?: number;
-  /** Ingress transport protocol */
-  transport?: IngressTransportMethod;
-  traffic?: TrafficWeight[];
-  /** Bool indicating if HTTP connections to is allowed. If set to false HTTP connections are automatically redirected to HTTPS connections */
-  allowInsecure?: boolean;
-}
-
-/** Traffic weight assigned to a revision */
-export interface TrafficWeight {
-  /** Name of a revision */
-  revisionName?: string;
-  /** Traffic weight assigned to a revision */
-  weight?: number;
-  /** Indicates that the traffic weight belongs to a latest stable revision */
-  latestRevision?: boolean;
-}
-
-/** Container App Private Registry */
-export interface RegistryCredentials {
-  /** Container Registry Server */
-  server?: string;
-  /** Container Registry Username */
-  username?: string;
-  /** The name of the Secret that contains the registry login password */
-  passwordSecretRef?: string;
-}
-
-/**
- * Container App versioned application definition.
- * Defines the desired state of an immutable revision.
- * Any changes to this section Will result in a new revision being created
- */
-export interface Template {
-  /** User friendly suffix that is appended to the revision name */
-  revisionSuffix?: string;
-  /** List of container definitions for the Container App. */
-  containers?: Container[];
-  /** Scaling properties for the Container App. */
-  scale?: Scale;
-  /** Dapr configuration for the Container App. */
-  dapr?: Dapr;
-}
-
-/** Container App container definition. */
-export interface Container {
-  /** Container image tag. */
-  image?: string;
-  /** Custom container name. */
-  name?: string;
-  /** Container start command. */
-  command?: string[];
-  /** Container start command arguments. */
-  args?: string[];
-  /** Container environment variables. */
-  env?: EnvironmentVar[];
-  /** Container resource requirements. */
-  resources?: ContainerResources;
-}
-
-/** Container App container environment variable. */
-export interface EnvironmentVar {
-  /** Environment variable name. */
-  name?: string;
-  /** Non-secret environment variable value. */
-  value?: string;
-  /** Name of the Container App secret from which to pull the environment variable value. */
-  secretRef?: string;
-}
-
-/** Container App container resource requirements. */
-export interface ContainerResources {
-  /** Required CPU in cores, e.g. 0.5 */
-  cpu?: number;
-  /** Required memory, e.g. "250Mb" */
-  memory?: string;
-}
-
-/** Container App scaling configurations. */
-export interface Scale {
-  /** Optional. Minimum number of container replicas. */
-  minReplicas?: number;
-  /** Optional. Maximum number of container replicas. Defaults to 10 if not set. */
-  maxReplicas?: number;
-  /** Scaling rules. */
-  rules?: ScaleRule[];
-}
-
-/** Container App container scaling rule. */
-export interface ScaleRule {
-  /** Scale Rule Name */
-  name?: string;
-  /** Azure Queue based scaling. */
-  azureQueue?: QueueScaleRule;
-  /** Custom scale rule. */
-  custom?: CustomScaleRule;
-  /** HTTP requests based scaling. */
-  http?: HttpScaleRule;
-}
-
-/** Container App container Azure Queue based scaling rule. */
-export interface QueueScaleRule {
-  /** Queue name. */
-  queueName?: string;
-  /** Queue length. */
-  queueLength?: number;
-  /** Authentication secrets for the queue scale rule. */
-  auth?: ScaleRuleAuth[];
-}
-
-/** Auth Secrets for Container App Scale Rule */
-export interface ScaleRuleAuth {
-  /** Name of the Container App secret from which to pull the auth params. */
-  secretRef?: string;
-  /** Trigger Parameter that uses the secret */
-  triggerParameter?: string;
-}
-
-/** Container App container Custom scaling rule. */
-export interface CustomScaleRule {
-  /**
-   * Type of the custom scale rule
-   * eg: azure-servicebus, redis etc.
-   */
-  type?: string;
-  /** Metadata properties to describe custom scale rule. */
-  metadata?: { [propertyName: string]: string };
-  /** Authentication secrets for the custom scale rule. */
-  auth?: ScaleRuleAuth[];
-}
-
-/** Container App container Custom scaling rule. */
-export interface HttpScaleRule {
-  /** Metadata properties to describe http scale rule. */
-  metadata?: { [propertyName: string]: string };
-  /** Authentication secrets for the custom scale rule. */
-  auth?: ScaleRuleAuth[];
-}
-
-/** Container App Dapr configuration. */
-export interface Dapr {
-  /** Boolean indicating if the Dapr side car is enabled */
-  enabled?: boolean;
-  /** Dapr application identifier */
-  appId?: string;
-  /** Port on which the Dapr side car */
-  appPort?: number;
-  /** Collection of Dapr components */
-  components?: DaprComponent[];
-}
-
-/** Dapr component configuration */
-export interface DaprComponent {
-  /** Component name */
-  name?: string;
-  /** Component type */
-  type?: string;
-  /** Component version */
-  version?: string;
-  /** Component metadata */
-  metadata?: DaprMetadata[];
-}
-
-/** Container App Dapr component metadata. */
-export interface DaprMetadata {
-  /** Metadata property name. */
-  name?: string;
-  /** Metadata property value. */
-  value?: string;
-  /** Name of the Container App secret from which to pull the metadata property value. */
-  secretRef?: string;
-}
-
-/** Container App Secrets Collection ARM resource. */
-export interface SecretsCollection {
-  /** Collection of resources. */
-  value: ContainerAppSecret[];
-}
-
-/** Container App Secret. */
-export interface ContainerAppSecret {
-  /**
-   * Secret Name.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly name?: string;
-  /**
-   * Secret Value.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly value?: string;
-}
-
-/** Container App Revisions collection ARM resource. */
-export interface RevisionCollection {
-  /** Collection of resources. */
-  value: Revision[];
   /**
    * Link to next page of resources.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -3048,6 +2813,31 @@ export interface IdentifierCollection {
   readonly nextLink?: string;
 }
 
+export interface DnlResourceNameAvailabilityRequest {
+  /** Resource group name */
+  resourceGroupName?: string;
+  /**
+   * Indicates the endpoint name reuse scope.The default value is TenantReuse.
+   * Supported values are TenantReuse, SubscriptionReuse, ResourceGroupReuse, NoReuse
+   */
+  autoGeneratedDomainNameLabelScope?: string;
+  /** Resource name to verify. */
+  name: string;
+  /** Resource type used for verification. */
+  type: CheckNameResourceTypes;
+}
+
+/** Information regarding availability of a resource name for DNL apps with regionalized default hostnames. */
+export interface DnlResourceNameAvailability {
+  hostName?: string;
+  /** <code>true</code> indicates name is valid and available. <code>false</code> indicates the name is invalid, unavailable, or both. */
+  nameAvailable?: boolean;
+  /** <code>Invalid</code> indicates the name provided does not match Azure App Service naming requirements. <code>AlreadyExists</code> indicates that the name is already in use and is therefore unavailable. */
+  reason?: InAvailabilityReasonType;
+  /** If reason == invalid, provide the user with the reason why the given name is invalid, and provide the resource naming requirements so that the user can select a valid name. If reason == AlreadyExists, explain that resource name is already in use, and direct them to select a different name. */
+  message?: string;
+}
+
 /** Collection of premier add-on offers. */
 export interface PremierAddOnOfferCollection {
   /** Collection of resources. */
@@ -3557,7 +3347,7 @@ export interface AzureActiveDirectory {
 export interface AzureActiveDirectoryRegistration {
   /**
    * The OpenID Connect Issuer URI that represents the entity which issues access tokens for this application.
-   * When using Azure Active Directory, this value is the URI of the directory tenant, e.g. https://login.microsoftonline.com/v2.0/{tenant-guid}/.
+   * When using Azure Active Directory, this value is the URI of the directory tenant, e.g. `https://login.microsoftonline.com/v2.0/{tenant-guid}/`.
    * This URI is a case-sensitive identifier for the token issuer.
    * More information on OpenID Connect Discovery: http://openid.net/specs/openid-connect-discovery-1_0.html
    */
@@ -4374,7 +4164,7 @@ export interface VolumeMount {
 export interface EnvironmentVariable {
   /** Environment variable name */
   name: string;
-  /** Environment variable value */
+  /** The value of this environment variable must be the name of an AppSetting. The actual value of the environment variable in container will be retrieved from the specified AppSetting at runtime. If the AppSetting is not found, the value will be set to an empty string in the container at runtime. */
   value: string;
 }
 
@@ -5085,6 +4875,157 @@ export interface WorkflowVersionListResult {
   nextLink?: string;
 }
 
+/** Describes valid TLS cipher suites. */
+export interface CipherSuites {
+  /** List of TLS Cipher Suites that are supported by App Service. */
+  suites?: string[];
+}
+
+/** Container App container definition. */
+export interface Container {
+  /** Container image tag. */
+  image?: string;
+  /** Custom container name. */
+  name?: string;
+  /** Container start command. */
+  command?: string[];
+  /** Container start command arguments. */
+  args?: string[];
+  /** Container environment variables. */
+  env?: EnvironmentVar[];
+  /** Container resource requirements. */
+  resources?: ContainerResources;
+}
+
+/** Container App container environment variable. */
+export interface EnvironmentVar {
+  /** Environment variable name. */
+  name?: string;
+  /** Non-secret environment variable value. */
+  value?: string;
+  /** Name of the Container App secret from which to pull the environment variable value. */
+  secretRef?: string;
+}
+
+/** Container App container resource requirements. */
+export interface ContainerResources {
+  /** Required CPU in cores, e.g. 0.5 */
+  cpu?: number;
+  /** Required memory, e.g. "250Mb" */
+  memory?: string;
+}
+
+/** Container App container Custom scaling rule. */
+export interface CustomScaleRule {
+  /**
+   * Type of the custom scale rule
+   * eg: azure-servicebus, redis etc.
+   */
+  type?: string;
+  /** Metadata properties to describe custom scale rule. */
+  metadata?: { [propertyName: string]: string };
+  /** Authentication secrets for the custom scale rule. */
+  auth?: ScaleRuleAuth[];
+}
+
+/** Auth Secrets for Container App Scale Rule */
+export interface ScaleRuleAuth {
+  /** Name of the Container App secret from which to pull the auth params. */
+  secretRef?: string;
+  /** Trigger Parameter that uses the secret */
+  triggerParameter?: string;
+}
+
+/** Container App Dapr configuration. */
+export interface Dapr {
+  /** Boolean indicating if the Dapr side car is enabled */
+  enabled?: boolean;
+  /** Dapr application identifier */
+  appId?: string;
+  /** Port on which the Dapr side car */
+  appPort?: number;
+  /** Collection of Dapr components */
+  components?: DaprComponent[];
+}
+
+/** Dapr component configuration */
+export interface DaprComponent {
+  /** Component name */
+  name?: string;
+  /** Component type */
+  type?: string;
+  /** Component version */
+  version?: string;
+  /** Component metadata */
+  metadata?: DaprMetadata[];
+}
+
+/** Container App Dapr component metadata. */
+export interface DaprMetadata {
+  /** Metadata property name. */
+  name?: string;
+  /** Metadata property value. */
+  value?: string;
+  /** Name of the Container App secret from which to pull the metadata property value. */
+  secretRef?: string;
+}
+
+/** Container App container Custom scaling rule. */
+export interface HttpScaleRule {
+  /** Metadata properties to describe http scale rule. */
+  metadata?: { [propertyName: string]: string };
+  /** Authentication secrets for the custom scale rule. */
+  auth?: ScaleRuleAuth[];
+}
+
+/** Container App container Azure Queue based scaling rule. */
+export interface QueueScaleRule {
+  /** Queue name. */
+  queueName?: string;
+  /** Queue length. */
+  queueLength?: number;
+  /** Authentication secrets for the queue scale rule. */
+  auth?: ScaleRuleAuth[];
+}
+
+/** Container App scaling configurations. */
+export interface Scale {
+  /** Optional. Minimum number of container replicas. */
+  minReplicas?: number;
+  /** Optional. Maximum number of container replicas. Defaults to 10 if not set. */
+  maxReplicas?: number;
+  /** Scaling rules. */
+  rules?: ScaleRule[];
+}
+
+/** Container App container scaling rule. */
+export interface ScaleRule {
+  /** Scale Rule Name */
+  name?: string;
+  /** Azure Queue based scaling. */
+  azureQueue?: QueueScaleRule;
+  /** Custom scale rule. */
+  custom?: CustomScaleRule;
+  /** HTTP requests based scaling. */
+  http?: HttpScaleRule;
+}
+
+/**
+ * Container App versioned application definition.
+ * Defines the desired state of an immutable revision.
+ * Any changes to this section Will result in a new revision being created
+ */
+export interface Template {
+  /** User friendly suffix that is appended to the revision name */
+  revisionSuffix?: string;
+  /** List of container definitions for the Container App. */
+  containers?: Container[];
+  /** Scaling properties for the Container App. */
+  scale?: Scale;
+  /** Dapr configuration for the Container App. */
+  dapr?: Dapr;
+}
+
 /** Github access token for Appservice CLI github integration. */
 export interface AppserviceGithubToken {
   /** Github access token for Appservice CLI github integration */
@@ -5105,6 +5046,18 @@ export interface AppserviceGithubTokenRequest {
   code: string;
   /** State string used for verification. */
   state: string;
+}
+
+/** A custom error page for a specific status returned by a web app. */
+export interface ErrorPage {
+  /** The status code for which the error page will be used */
+  statusCode?: number;
+  /** The content of the error page. There is a 10kb limit imposed on custom error page content. */
+  content?: string;
+  /** The content type of the error page. For example, 'text/html' */
+  contentType?: string;
+  /** If true, the error page will be shown for all requests with a matching status code, regardless of whether they failed on the App Service FrontEnd load balancer or on the app itself. */
+  alwaysUse?: boolean;
 }
 
 /** The workflow filter. */
@@ -5434,15 +5387,9 @@ export interface Site extends Resource {
   readonly lastModifiedTimeUtc?: Date;
   /** Property to configure various DNS related settings for a site. */
   dnsConfiguration?: SiteDnsConfig;
-  /** Virtual Network Route All enabled. This causes all outbound traffic to have Virtual Network Security Groups and User Defined Routes applied. */
-  vnetRouteAllEnabled?: boolean;
-  /** To enable pulling image over Virtual Network */
-  vnetImagePullEnabled?: boolean;
-  /** To enable accessing content over virtual network */
-  vnetContentShareEnabled?: boolean;
-  /** To enable Backup and Restore operations over virtual network */
-  vnetBackupRestoreEnabled?: boolean;
-  /** Configuration of the app. */
+  /** Property to configure various outbound traffic routing options over virtual network for a site */
+  outboundVnetRouting?: OutboundVnetRouting;
+  /** Configuration of an App Service app. This property is not returned in response to normal create and read requests since it may contain sensitive information. */
   siteConfig?: SiteConfig;
   /** Configuration specific of the Azure Function app. */
   functionAppConfig?: FunctionAppConfig;
@@ -5468,6 +5415,10 @@ export interface Site extends Resource {
   hostingEnvironmentProfile?: HostingEnvironmentProfile;
   /** <code>true</code> to enable client affinity; <code>false</code> to stop sending session affinity cookies, which route client requests in the same session to the same instance. Default is <code>true</code>. */
   clientAffinityEnabled?: boolean;
+  /** <code>true</code> to enable client affinity partitioning using CHIPS cookies, this will add the <code>partitioned</code> property to the affinity cookies; <code>false</code> to stop sending partitioned affinity cookies. Default is <code>false</code>. */
+  clientAffinityPartitioningEnabled?: boolean;
+  /** <code>true</code> to override client affinity cookie domain with X-Forwarded-Host request header. <code>false</code> to use default domain. Default is <code>false</code>. */
+  clientAffinityProxyEnabled?: boolean;
   /** <code>true</code> to enable client certificate authentication (TLS mutual authentication); otherwise, <code>false</code>. Default is <code>false</code>. */
   clientCertEnabled?: boolean;
   /**
@@ -5479,6 +5430,12 @@ export interface Site extends Resource {
   clientCertMode?: ClientCertMode;
   /** client certificate authentication comma-separated exclusion paths */
   clientCertExclusionPaths?: string;
+  /** Specifies the IP mode of the app. */
+  ipMode?: IPMode;
+  /** Whether to use end to end encryption between the FrontEnd and the Worker */
+  endToEndEncryptionEnabled?: boolean;
+  /** Whether to enable ssh access. */
+  sshEnabled?: boolean;
   /**
    * <code>true</code> to disable the public hostnames of the app; otherwise, <code>false</code>.
    *  If <code>true</code>, the app is only accessible via API management process.
@@ -5551,6 +5508,8 @@ export interface Site extends Resource {
   storageAccountRequired?: boolean;
   /** Identity to use for Key Vault Reference authentication. */
   keyVaultReferenceIdentity?: string;
+  /** Specifies the scope of uniqueness for the default hostname during resource creation */
+  autoGeneratedDomainNameLabelScope?: AutoGeneratedDomainNameLabelScope;
   /**
    * Azure Resource Manager ID of the Virtual network and subnet to be joined by Regional VNET Integration.
    * This must be of the form /subscriptions/{subscriptionName}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworks/{vnetName}/subnets/{subnetName}
@@ -5558,6 +5517,11 @@ export interface Site extends Resource {
   virtualNetworkSubnetId?: string;
   /** Azure Resource Manager ID of the customer's selected Managed Environment on which to host this app. This must be of the form /subscriptions/{subscriptionId}/resourceGroups/{resourceGroup}/providers/Microsoft.App/managedEnvironments/{managedEnvironmentName} */
   managedEnvironmentId?: string;
+  /**
+   * Current SKU of application based on associated App Service Plan. Some valid SKU values are Free, Shared, Basic, Dynamic, FlexConsumption, Standard, Premium, PremiumV2, PremiumV3, Isolated, IsolatedV2
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly sku?: string;
 }
 
 /** App Service plan. */
@@ -5642,6 +5606,11 @@ export interface AppServicePlan extends Resource {
    * If <code>false</code>, this App Service Plan will not perform availability zone balancing.
    */
   zoneRedundant?: boolean;
+  /**
+   * If <code>true</code>, this App Service Plan will attempt to scale asynchronously if there are insufficient workers to scale synchronously.
+   * If <code>false</code>, this App Service Plan will only attempt sync scaling.
+   */
+  asyncScalingEnabled?: boolean;
 }
 
 /** SSL certificate for an app. */
@@ -5712,98 +5681,21 @@ export interface Certificate extends Resource {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly hostingEnvironmentProfile?: HostingEnvironmentProfile;
-  /** Key Vault Csm resource Id. */
+  /** Azure Key Vault Csm resource Id. */
   keyVaultId?: string;
-  /** Key Vault secret name. */
+  /** Azure Key Vault secret name. */
   keyVaultSecretName?: string;
   /**
    * Status of the Key Vault secret.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly keyVaultSecretStatus?: KeyVaultSecretStatus;
-  /** Resource ID of the associated App Service plan, formatted as: "/subscriptions/{subscriptionID}/resourceGroups/{groupName}/providers/Microsoft.Web/serverfarms/{appServicePlanName}". */
+  /** Resource ID of the associated App Service plan. */
   serverFarmId?: string;
   /** CNAME of the certificate to be issued via free certificate */
   canonicalName?: string;
   /** Method of domain validation for free cert */
   domainValidationMethod?: string;
-}
-
-/** Container App. */
-export interface ContainerApp extends Resource {
-  /**
-   * Provisioning state of the Container App.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly provisioningState?: ContainerAppProvisioningState;
-  /** Resource ID of the Container App's KubeEnvironment. */
-  kubeEnvironmentId?: string;
-  /**
-   * Name of the latest revision of the Container App.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly latestRevisionName?: string;
-  /**
-   * Fully Qualified Domain Name of the latest revision of the Container App.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly latestRevisionFqdn?: string;
-  /** Non versioned Container App configuration properties. */
-  configuration?: Configuration;
-  /** Container App versioned application definition. */
-  template?: Template;
-}
-
-/** Container App Revision. */
-export interface Revision extends Resource {
-  /**
-   * Timestamp describing when the revision was created
-   * by controller
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly createdTime?: Date;
-  /**
-   * Fully qualified domain name of the revision
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly fqdn?: string;
-  /**
-   * Container App Revision Template with all possible settings and the
-   * defaults if user did not provide them. The defaults are populated
-   * as they were at the creation time
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly template?: Template;
-  /**
-   * Boolean describing if the Revision is Active
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly active?: boolean;
-  /**
-   * Number of pods currently running for this revision
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly replicas?: number;
-  /**
-   * Traffic weight assigned to this revision
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly trafficWeight?: number;
-  /**
-   * Optional Field - Platform Error Message
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly provisioningError?: string;
-  /**
-   * Current health State of the revision
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly healthState?: RevisionHealthState;
-  /**
-   * Current provisioning State of the revision
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly provisioningState?: RevisionProvisioningState;
 }
 
 /** A Kubernetes cluster specialized for web workloads by Azure App Service */
@@ -7599,6 +7491,8 @@ export interface SitePatchResource extends ProxyOnlyResource {
   hostingEnvironmentProfile?: HostingEnvironmentProfile;
   /** <code>true</code> to enable client affinity; <code>false</code> to stop sending session affinity cookies, which route client requests in the same session to the same instance. Default is <code>true</code>. */
   clientAffinityEnabled?: boolean;
+  /** <code>true</code> to override client affinity cookie domain with X-Forwarded-Host request header. <code>false</code> to use default domain. Default is <code>false</code>. */
+  clientAffinityProxyEnabled?: boolean;
   /** <code>true</code> to enable client certificate authentication (TLS mutual authentication); otherwise, <code>false</code>. Default is <code>false</code>. */
   clientCertEnabled?: boolean;
   /**
@@ -7895,11 +7789,11 @@ export interface SiteConfigResource extends ProxyOnlyResource {
   detailedErrorLoggingEnabled?: boolean;
   /** Publishing user name. */
   publishingUsername?: string;
-  /** Application settings. */
+  /** Application settings. This property is not returned in response to normal create and read requests since it may contain sensitive information. */
   appSettings?: NameValuePair[];
   /** Application metadata. This property cannot be retrieved, since it may contain secrets. */
   metadata?: NameValuePair[];
-  /** Connection strings. */
+  /** Connection strings. This property is not returned in response to normal create and read requests since it may contain sensitive information. */
   connectionStrings?: ConnStringInfo[];
   /**
    * Site MachineKey.
@@ -7978,6 +7872,8 @@ export interface SiteConfigResource extends ProxyOnlyResource {
   scmIpSecurityRestrictionsUseMain?: boolean;
   /** Http20Enabled: configures a web site to allow clients to connect over http2.0 */
   http20Enabled?: boolean;
+  /** Http20ProxyFlag: Configures a website to allow http2.0 to pass be proxied all the way to the app. 0 = disabled, 1 = pass through all http2 traffic, 2 = pass through gRPC only. */
+  http20ProxyFlag?: number;
   /** MinTlsVersion: configures the minimum version of TLS required for SSL requests */
   minTlsVersion?: SupportedTlsVersions;
   /** The minimum strength TLS cipher suite allowed for an application */
@@ -8078,7 +7974,7 @@ export interface SiteAuthSettings extends ProxyOnlyResource {
   clientSecretCertificateThumbprint?: string;
   /**
    * The OpenID Connect Issuer URI that represents the entity which issues access tokens for this application.
-   * When using Azure Active Directory, this value is the URI of the directory tenant, e.g. https://sts.windows.net/{tenant-guid}/.
+   * When using Azure Active Directory, this value is the URI of the directory tenant, e.g. `https://sts.windows.net/{tenant-guid}/`.
    * This URI is a case-sensitive identifier for the token issuer.
    * More information on OpenID Connect Discovery: http://openid.net/specs/openid-connect-discovery-1_0.html
    */
@@ -8501,6 +8397,8 @@ export interface WebSiteInstanceStatus extends ProxyOnlyResource {
   healthCheckUrl?: string;
   /** Dictionary of <ContainerInfo> */
   containers?: { [propertyName: string]: ContainerInfo };
+  /** The physical zone that the instance is in */
+  physicalZone?: string;
 }
 
 /** Process Thread Information. */
@@ -8836,6 +8734,8 @@ export interface SiteContainer extends ProxyOnlyResource {
   readonly lastModifiedTime?: Date;
   /** List of volume mounts */
   volumeMounts?: VolumeMount[];
+  /** <code>true</code> if all AppSettings and ConnectionStrings have to be passed to the container as environment variables; <code>false</code> otherwise. */
+  inheritAppSettingsAndConnectionStrings?: boolean;
   /** List of environment variables */
   environmentVariables?: EnvironmentVariable[];
 }
@@ -9917,117 +9817,6 @@ export enum KnownRouteType {
  */
 export type RouteType = string;
 
-/** Known values of {@link ContainerAppProvisioningState} that the service accepts. */
-export enum KnownContainerAppProvisioningState {
-  /** InProgress */
-  InProgress = "InProgress",
-  /** Succeeded */
-  Succeeded = "Succeeded",
-  /** Failed */
-  Failed = "Failed",
-  /** Canceled */
-  Canceled = "Canceled",
-}
-
-/**
- * Defines values for ContainerAppProvisioningState. \
- * {@link KnownContainerAppProvisioningState} can be used interchangeably with ContainerAppProvisioningState,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **InProgress** \
- * **Succeeded** \
- * **Failed** \
- * **Canceled**
- */
-export type ContainerAppProvisioningState = string;
-
-/** Known values of {@link ActiveRevisionsMode} that the service accepts. */
-export enum KnownActiveRevisionsMode {
-  /** Multiple */
-  Multiple = "multiple",
-  /** Single */
-  Single = "single",
-}
-
-/**
- * Defines values for ActiveRevisionsMode. \
- * {@link KnownActiveRevisionsMode} can be used interchangeably with ActiveRevisionsMode,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **multiple** \
- * **single**
- */
-export type ActiveRevisionsMode = string;
-
-/** Known values of {@link IngressTransportMethod} that the service accepts. */
-export enum KnownIngressTransportMethod {
-  /** Auto */
-  Auto = "auto",
-  /** Http */
-  Http = "http",
-  /** Http2 */
-  Http2 = "http2",
-}
-
-/**
- * Defines values for IngressTransportMethod. \
- * {@link KnownIngressTransportMethod} can be used interchangeably with IngressTransportMethod,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **auto** \
- * **http** \
- * **http2**
- */
-export type IngressTransportMethod = string;
-
-/** Known values of {@link RevisionHealthState} that the service accepts. */
-export enum KnownRevisionHealthState {
-  /** Healthy */
-  Healthy = "Healthy",
-  /** Unhealthy */
-  Unhealthy = "Unhealthy",
-  /** None */
-  None = "None",
-}
-
-/**
- * Defines values for RevisionHealthState. \
- * {@link KnownRevisionHealthState} can be used interchangeably with RevisionHealthState,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **Healthy** \
- * **Unhealthy** \
- * **None**
- */
-export type RevisionHealthState = string;
-
-/** Known values of {@link RevisionProvisioningState} that the service accepts. */
-export enum KnownRevisionProvisioningState {
-  /** Provisioning */
-  Provisioning = "Provisioning",
-  /** Provisioned */
-  Provisioned = "Provisioned",
-  /** Failed */
-  Failed = "Failed",
-  /** Deprovisioning */
-  Deprovisioning = "Deprovisioning",
-  /** Deprovisioned */
-  Deprovisioned = "Deprovisioned",
-}
-
-/**
- * Defines values for RevisionProvisioningState. \
- * {@link KnownRevisionProvisioningState} can be used interchangeably with RevisionProvisioningState,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **Provisioning** \
- * **Provisioned** \
- * **Failed** \
- * **Deprovisioning** \
- * **Deprovisioned**
- */
-export type RevisionProvisioningState = string;
-
 /** Known values of {@link ProviderOsTypeSelected} that the service accepts. */
 export enum KnownProviderOsTypeSelected {
   /** Windows */
@@ -11010,7 +10799,8 @@ export type SiteLoadBalancing =
   | "LeastResponseTime"
   | "WeightedTotalTraffic"
   | "RequestHash"
-  | "PerSiteRoundRobin";
+  | "PerSiteRoundRobin"
+  | "LeastRequestsWithTieBreaker";
 /** Defines values for AutoHealActionType. */
 export type AutoHealActionType = "Recycle" | "LogEvent" | "CustomAction";
 /** Defines values for AzureStorageType. */
@@ -11026,6 +10816,8 @@ export type ClientCertMode =
   | "Required"
   | "Optional"
   | "OptionalInteractiveUser";
+/** Defines values for IPMode. */
+export type IPMode = "IPv4" | "IPv6" | "IPv4AndIPv6";
 /** Defines values for RedundancyMode. */
 export type RedundancyMode =
   | "None"
@@ -11033,6 +10825,12 @@ export type RedundancyMode =
   | "Failover"
   | "ActiveActive"
   | "GeoRedundant";
+/** Defines values for AutoGeneratedDomainNameLabelScope. */
+export type AutoGeneratedDomainNameLabelScope =
+  | "TenantReuse"
+  | "SubscriptionReuse"
+  | "ResourceGroupReuse"
+  | "NoReuse";
 /** Defines values for ManagedServiceIdentityType. */
 export type ManagedServiceIdentityType =
   | "SystemAssigned"
@@ -11436,6 +11234,22 @@ export type CertificateRegistrationProviderListOperationsNextResponse =
   CsmOperationCollection;
 
 /** Optional parameters. */
+export interface DomainRegistrationProviderListOperationsOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listOperations operation. */
+export type DomainRegistrationProviderListOperationsResponse =
+  CsmOperationCollection;
+
+/** Optional parameters. */
+export interface DomainRegistrationProviderListOperationsNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listOperationsNext operation. */
+export type DomainRegistrationProviderListOperationsNextResponse =
+  CsmOperationCollection;
+
+/** Optional parameters. */
 export interface DomainsCheckAvailabilityOptionalParams
   extends coreClient.OperationOptions {}
 
@@ -11613,22 +11427,6 @@ export interface TopLevelDomainsListAgreementsNextOptionalParams
 /** Contains response data for the listAgreementsNext operation. */
 export type TopLevelDomainsListAgreementsNextResponse =
   TldLegalAgreementCollection;
-
-/** Optional parameters. */
-export interface DomainRegistrationProviderListOperationsOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the listOperations operation. */
-export type DomainRegistrationProviderListOperationsResponse =
-  CsmOperationCollection;
-
-/** Optional parameters. */
-export interface DomainRegistrationProviderListOperationsNextOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the listOperationsNext operation. */
-export type DomainRegistrationProviderListOperationsNextResponse =
-  CsmOperationCollection;
 
 /** Optional parameters. */
 export interface AppServiceEnvironmentsListOptionalParams
@@ -12520,105 +12318,6 @@ export interface CertificatesListByResourceGroupNextOptionalParams
 export type CertificatesListByResourceGroupNextResponse = CertificateCollection;
 
 /** Optional parameters. */
-export interface ContainerAppsListBySubscriptionOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the listBySubscription operation. */
-export type ContainerAppsListBySubscriptionResponse = ContainerAppCollection;
-
-/** Optional parameters. */
-export interface ContainerAppsListByResourceGroupOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the listByResourceGroup operation. */
-export type ContainerAppsListByResourceGroupResponse = ContainerAppCollection;
-
-/** Optional parameters. */
-export interface ContainerAppsGetOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the get operation. */
-export type ContainerAppsGetResponse = ContainerApp;
-
-/** Optional parameters. */
-export interface ContainerAppsCreateOrUpdateOptionalParams
-  extends coreClient.OperationOptions {
-  /** Delay to wait until next poll, in milliseconds. */
-  updateIntervalInMs?: number;
-  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
-  resumeFrom?: string;
-}
-
-/** Contains response data for the createOrUpdate operation. */
-export type ContainerAppsCreateOrUpdateResponse = ContainerApp;
-
-/** Optional parameters. */
-export interface ContainerAppsDeleteOptionalParams
-  extends coreClient.OperationOptions {
-  /** Delay to wait until next poll, in milliseconds. */
-  updateIntervalInMs?: number;
-  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
-  resumeFrom?: string;
-}
-
-/** Optional parameters. */
-export interface ContainerAppsListSecretsOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the listSecrets operation. */
-export type ContainerAppsListSecretsResponse = SecretsCollection;
-
-/** Optional parameters. */
-export interface ContainerAppsListBySubscriptionNextOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the listBySubscriptionNext operation. */
-export type ContainerAppsListBySubscriptionNextResponse =
-  ContainerAppCollection;
-
-/** Optional parameters. */
-export interface ContainerAppsListByResourceGroupNextOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the listByResourceGroupNext operation. */
-export type ContainerAppsListByResourceGroupNextResponse =
-  ContainerAppCollection;
-
-/** Optional parameters. */
-export interface ContainerAppsRevisionsListRevisionsOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the listRevisions operation. */
-export type ContainerAppsRevisionsListRevisionsResponse = RevisionCollection;
-
-/** Optional parameters. */
-export interface ContainerAppsRevisionsGetRevisionOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the getRevision operation. */
-export type ContainerAppsRevisionsGetRevisionResponse = Revision;
-
-/** Optional parameters. */
-export interface ContainerAppsRevisionsActivateRevisionOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Optional parameters. */
-export interface ContainerAppsRevisionsDeactivateRevisionOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Optional parameters. */
-export interface ContainerAppsRevisionsRestartRevisionOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Optional parameters. */
-export interface ContainerAppsRevisionsListRevisionsNextOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the listRevisionsNext operation. */
-export type ContainerAppsRevisionsListRevisionsNextResponse =
-  RevisionCollection;
-
-/** Optional parameters. */
 export interface DeletedWebAppsListOptionalParams
   extends coreClient.OperationOptions {}
 
@@ -13490,6 +13189,21 @@ export type ListSiteIdentifiersAssignedToHostNameResponse =
   IdentifierCollection;
 
 /** Optional parameters. */
+export interface RegionalCheckNameAvailabilityOptionalParams
+  extends coreClient.OperationOptions {
+  /** Resource group name */
+  resourceGroupName?: string;
+  /**
+   * Indicates the endpoint name reuse scope.The default value is TenantReuse.
+   * Supported values are TenantReuse, SubscriptionReuse, ResourceGroupReuse, NoReuse
+   */
+  autoGeneratedDomainNameLabelScope?: string;
+}
+
+/** Contains response data for the regionalCheckNameAvailability operation. */
+export type RegionalCheckNameAvailabilityResponse = DnlResourceNameAvailability;
+
+/** Optional parameters. */
 export interface ListPremierAddOnOffersOptionalParams
   extends coreClient.OperationOptions {}
 
@@ -13585,6 +13299,84 @@ export interface GetUsagesInLocationListNextOptionalParams
 
 /** Contains response data for the listNext operation. */
 export type GetUsagesInLocationListNextResponse = CsmUsageQuotaCollection;
+
+/** Optional parameters. */
+export interface SiteCertificatesListOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the list operation. */
+export type SiteCertificatesListResponse = CertificateCollection;
+
+/** Optional parameters. */
+export interface SiteCertificatesGetOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the get operation. */
+export type SiteCertificatesGetResponse = Certificate;
+
+/** Optional parameters. */
+export interface SiteCertificatesCreateOrUpdateOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the createOrUpdate operation. */
+export type SiteCertificatesCreateOrUpdateResponse = Certificate;
+
+/** Optional parameters. */
+export interface SiteCertificatesDeleteOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Optional parameters. */
+export interface SiteCertificatesUpdateOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the update operation. */
+export type SiteCertificatesUpdateResponse = Certificate;
+
+/** Optional parameters. */
+export interface SiteCertificatesListSlotOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listSlot operation. */
+export type SiteCertificatesListSlotResponse = CertificateCollection;
+
+/** Optional parameters. */
+export interface SiteCertificatesGetSlotOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the getSlot operation. */
+export type SiteCertificatesGetSlotResponse = Certificate;
+
+/** Optional parameters. */
+export interface SiteCertificatesCreateOrUpdateSlotOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the createOrUpdateSlot operation. */
+export type SiteCertificatesCreateOrUpdateSlotResponse = Certificate;
+
+/** Optional parameters. */
+export interface SiteCertificatesDeleteSlotOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Optional parameters. */
+export interface SiteCertificatesUpdateSlotOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the updateSlot operation. */
+export type SiteCertificatesUpdateSlotResponse = Certificate;
+
+/** Optional parameters. */
+export interface SiteCertificatesListNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listNext operation. */
+export type SiteCertificatesListNextResponse = CertificateCollection;
+
+/** Optional parameters. */
+export interface SiteCertificatesListSlotNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listSlotNext operation. */
+export type SiteCertificatesListSlotNextResponse = CertificateCollection;
 
 /** Optional parameters. */
 export interface StaticSitesPreviewWorkflowOptionalParams
@@ -15235,6 +15027,13 @@ export interface WebAppsListSyncFunctionTriggersOptionalParams
 
 /** Contains response data for the listSyncFunctionTriggers operation. */
 export type WebAppsListSyncFunctionTriggersResponse = FunctionSecrets;
+
+/** Optional parameters. */
+export interface WebAppsUpdateMachineKeyOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the updateMachineKey operation. */
+export type WebAppsUpdateMachineKeyResponse = Record<string, unknown>;
 
 /** Optional parameters. */
 export interface WebAppsMigrateStorageOptionalParams

@@ -7,9 +7,7 @@
  */
 import { StreamAnalyticsManagementClient } from "@azure/arm-streamanalytics";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Gets information about the specified Private Endpoint.
@@ -17,7 +15,7 @@ dotenv.config();
  * @summary Gets information about the specified Private Endpoint.
  * x-ms-original-file: specification/streamanalytics/resource-manager/Microsoft.StreamAnalytics/preview/2020-03-01-preview/examples/PrivateEndpoint_Get.json
  */
-async function getAPrivateEndpoint() {
+async function getAPrivateEndpoint(): Promise<void> {
   const subscriptionId =
     process.env["STREAMANALYTICS_SUBSCRIPTION_ID"] || "34adfa4f-cedf-4dc0-ba29-b6d1a69ab345";
   const resourceGroupName = process.env["STREAMANALYTICS_RESOURCE_GROUP"] || "sjrg";
@@ -33,7 +31,7 @@ async function getAPrivateEndpoint() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   await getAPrivateEndpoint();
 }
 

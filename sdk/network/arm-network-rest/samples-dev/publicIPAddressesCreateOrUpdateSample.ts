@@ -11,7 +11,7 @@ import "dotenv/config";
  * @summary Creates or updates a static or dynamic public IP address.
  * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-05-01/examples/PublicIpAddressCreateDns.json
  */
-async function createPublicIPAddressDns() {
+async function createPublicIPAddressDns(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = createNetworkManagementClient(credential);
   const subscriptionId = "";
@@ -44,7 +44,7 @@ createPublicIPAddressDns().catch(console.error);
  * @summary Creates or updates a static or dynamic public IP address.
  * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-05-01/examples/PublicIpAddressCreateCustomizedValues.json
  */
-async function createPublicIPAddressAllocationMethod() {
+async function createPublicIPAddressAllocationMethod(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = createNetworkManagementClient(credential);
   const subscriptionId = "";
@@ -82,7 +82,7 @@ createPublicIPAddressAllocationMethod().catch(console.error);
  * @summary Creates or updates a static or dynamic public IP address.
  * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-05-01/examples/PublicIpAddressCreateDefaults.json
  */
-async function createPublicIPAddressDefaults() {
+async function createPublicIPAddressDefaults(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = createNetworkManagementClient(credential);
   const subscriptionId = "";

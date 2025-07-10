@@ -179,7 +179,7 @@ describe("CryptographyClient (all decrypts happen remotely)", () => {
       assert.ok(verifyResult.result);
     });
 
-    it("sign and verify data with RS256 (local verification)", async function () {
+    it("sign and verify data with RS256 (local verification)", async () => {
       const signatureValue = Buffer.from("32 byte signature in ascii chars");
       const signature = await cryptoClient.signData("RS256", signatureValue);
       const verifyResult = await cryptoClient.verifyData("RS256", signatureValue, signature.result);

@@ -7,9 +7,7 @@
  */
 import { StorageImportExport } from "@azure/arm-storageimportexport";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Returns all active and completed jobs in a subscription.
@@ -17,7 +15,7 @@ dotenv.config();
  * @summary Returns all active and completed jobs in a subscription.
  * x-ms-original-file: specification/storageimportexport/resource-manager/Microsoft.ImportExport/preview/2021-01-01/examples/ListJobsInSubscription.json
  */
-async function listJobsInASubscription() {
+async function listJobsInASubscription(): Promise<void> {
   const subscriptionId =
     process.env["STORAGEIMPORTEXPORT_SUBSCRIPTION_ID"] || "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx";
   const credential = new DefaultAzureCredential();
@@ -29,7 +27,7 @@ async function listJobsInASubscription() {
   console.log(resArray);
 }
 
-async function main() {
+async function main(): Promise<void> {
   await listJobsInASubscription();
 }
 

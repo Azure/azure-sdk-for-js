@@ -7,9 +7,7 @@
  */
 import { AzureMigrateV2 } from "@azure/arm-migrate";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Get an assessed machine with its size & cost estimate that was evaluated in the specified assessment.
@@ -17,7 +15,7 @@ dotenv.config();
  * @summary Get an assessed machine with its size & cost estimate that was evaluated in the specified assessment.
  * x-ms-original-file: specification/migrate/resource-manager/Microsoft.Migrate/stable/2019-10-01/examples/AssessedMachines_Get.json
  */
-async function assessedMachinesGet() {
+async function assessedMachinesGet(): Promise<void> {
   const subscriptionId =
     process.env["MIGRATE_SUBSCRIPTION_ID"] || "6393a73f-8d55-47ef-b6dd-179b3e0c7910";
   const resourceGroupName = process.env["MIGRATE_RESOURCE_GROUP"] || "abgoyal-westEurope";
@@ -37,7 +35,7 @@ async function assessedMachinesGet() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   await assessedMachinesGet();
 }
 

@@ -8,9 +8,7 @@
 import type { Dashboard } from "@azure/arm-portal";
 import { Portal } from "@azure/arm-portal";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Creates or updates a Dashboard.
@@ -18,7 +16,7 @@ dotenv.config();
  * @summary Creates or updates a Dashboard.
  * x-ms-original-file: specification/portal/resource-manager/Microsoft.Portal/preview/2020-09-01-preview/examples/createOrUpdateDashboard.json
  */
-async function createOrUpdateADashboard() {
+async function createOrUpdateADashboard(): Promise<void> {
   const subscriptionId =
     process.env["PORTAL_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";
   const resourceGroupName = process.env["PORTAL_RESOURCE_GROUP"] || "testRG";
@@ -48,7 +46,7 @@ async function createOrUpdateADashboard() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   await createOrUpdateADashboard();
 }
 

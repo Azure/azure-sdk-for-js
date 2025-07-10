@@ -60,7 +60,7 @@ import {
   ImportDevicesRequest,
   IotHubResourceImportDevicesOptionalParams,
   IotHubResourceImportDevicesResponse
-} from "../models";
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a IotHubResource. */

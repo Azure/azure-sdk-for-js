@@ -7,9 +7,7 @@
  */
 import { PaloAltoNetworksCloudngfw } from "@azure/arm-paloaltonetworksngfw";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to List FirewallStatusResource resources by Firewalls
@@ -17,7 +15,7 @@ dotenv.config();
  * @summary List FirewallStatusResource resources by Firewalls
  * x-ms-original-file: specification/paloaltonetworks/resource-manager/PaloAltoNetworks.Cloudngfw/stable/2023-09-01/examples/FirewallStatus_ListByFirewalls_MaximumSet_Gen.json
  */
-async function firewallStatusListByFirewallsMaximumSetGen() {
+async function firewallStatusListByFirewallsMaximumSetGen(): Promise<void> {
   const subscriptionId =
     process.env["PALOALTONETWORKSNGFW_SUBSCRIPTION_ID"] || "2bf4a339-294d-4c25-b0b2-ef649e9f5c27";
   const resourceGroupName = process.env["PALOALTONETWORKSNGFW_RESOURCE_GROUP"] || "rgopenapi";
@@ -37,7 +35,7 @@ async function firewallStatusListByFirewallsMaximumSetGen() {
  * @summary List FirewallStatusResource resources by Firewalls
  * x-ms-original-file: specification/paloaltonetworks/resource-manager/PaloAltoNetworks.Cloudngfw/stable/2023-09-01/examples/FirewallStatus_ListByFirewalls_MinimumSet_Gen.json
  */
-async function firewallStatusListByFirewallsMinimumSetGen() {
+async function firewallStatusListByFirewallsMinimumSetGen(): Promise<void> {
   const subscriptionId =
     process.env["PALOALTONETWORKSNGFW_SUBSCRIPTION_ID"] || "2bf4a339-294d-4c25-b0b2-ef649e9f5c27";
   const resourceGroupName = process.env["PALOALTONETWORKSNGFW_RESOURCE_GROUP"] || "rgopenapi";
@@ -51,7 +49,7 @@ async function firewallStatusListByFirewallsMinimumSetGen() {
   console.log(resArray);
 }
 
-async function main() {
+async function main(): Promise<void> {
   await firewallStatusListByFirewallsMaximumSetGen();
   await firewallStatusListByFirewallsMinimumSetGen();
 }

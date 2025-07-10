@@ -12,9 +12,7 @@ import type {
 } from "@azure/arm-kusto";
 import { KustoManagementClient } from "@azure/arm-kusto";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Creates or updates a data connection.
@@ -22,7 +20,7 @@ dotenv.config();
  * @summary Creates or updates a data connection.
  * x-ms-original-file: specification/azure-kusto/resource-manager/Microsoft.Kusto/stable/2023-08-15/examples/KustoDataConnectionsCosmosDbCreateOrUpdate.json
  */
-async function kustoDataConnectionsCosmosDbCreateOrUpdate() {
+async function kustoDataConnectionsCosmosDbCreateOrUpdate(): Promise<void> {
   const subscriptionId =
     process.env["KUSTO_SUBSCRIPTION_ID"] || "12345678-1234-1234-1234-123456789098";
   const resourceGroupName = process.env["KUSTO_RESOURCE_GROUP"] || "kustorptest";
@@ -60,7 +58,7 @@ async function kustoDataConnectionsCosmosDbCreateOrUpdate() {
  * @summary Creates or updates a data connection.
  * x-ms-original-file: specification/azure-kusto/resource-manager/Microsoft.Kusto/stable/2023-08-15/examples/KustoDataConnectionsCreateOrUpdate.json
  */
-async function kustoDataConnectionsCreateOrUpdate() {
+async function kustoDataConnectionsCreateOrUpdate(): Promise<void> {
   const subscriptionId =
     process.env["KUSTO_SUBSCRIPTION_ID"] || "12345678-1234-1234-1234-123456789098";
   const resourceGroupName = process.env["KUSTO_RESOURCE_GROUP"] || "kustorptest";
@@ -94,7 +92,7 @@ async function kustoDataConnectionsCreateOrUpdate() {
  * @summary Creates or updates a data connection.
  * x-ms-original-file: specification/azure-kusto/resource-manager/Microsoft.Kusto/stable/2023-08-15/examples/KustoDataConnectionsEventGridCreateOrUpdate.json
  */
-async function kustoDataConnectionsEventGridCreateOrUpdate() {
+async function kustoDataConnectionsEventGridCreateOrUpdate(): Promise<void> {
   const subscriptionId =
     process.env["KUSTO_SUBSCRIPTION_ID"] || "12345678-1234-1234-1234-123456789098";
   const resourceGroupName = process.env["KUSTO_RESOURCE_GROUP"] || "kustorptest";
@@ -132,7 +130,7 @@ async function kustoDataConnectionsEventGridCreateOrUpdate() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   await kustoDataConnectionsCosmosDbCreateOrUpdate();
   await kustoDataConnectionsCreateOrUpdate();
   await kustoDataConnectionsEventGridCreateOrUpdate();

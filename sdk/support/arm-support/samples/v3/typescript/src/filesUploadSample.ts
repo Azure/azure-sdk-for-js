@@ -10,9 +10,7 @@
 // Licensed under the MIT License.
 import { UploadFile, MicrosoftSupport } from "@azure/arm-support";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to This API allows you to upload content to a file
@@ -20,7 +18,7 @@ dotenv.config();
  * @summary This API allows you to upload content to a file
  * x-ms-original-file: specification/support/resource-manager/Microsoft.Support/stable/2024-04-01/examples/UploadFileForSubscription.json
  */
-async function uploadFileForSubscription() {
+async function uploadFileForSubscription(): Promise<void> {
   const subscriptionId =
     process.env["SUPPORT_SUBSCRIPTION_ID"] ||
     "132d901f-189d-4381-9214-fe68e27e05a1";
@@ -41,7 +39,7 @@ async function uploadFileForSubscription() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   uploadFileForSubscription();
 }
 

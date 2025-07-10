@@ -6,24 +6,20 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
 import {
   BlobContainersListOptionalParams,
   StorageManagementClient,
 } from "@azure/arm-storage";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Lists all containers and does not support a prefix like data plane. Also SRP today does not return continuation token.
  *
  * @summary Lists all containers and does not support a prefix like data plane. Also SRP today does not return continuation token.
- * x-ms-original-file: specification/storage/resource-manager/Microsoft.Storage/stable/2023-05-01/examples/BlobContainersList.json
+ * x-ms-original-file: specification/storage/resource-manager/Microsoft.Storage/stable/2024-01-01/examples/BlobContainersList.json
  */
-async function listContainers() {
+async function listContainers(): Promise<void> {
   const subscriptionId =
     process.env["STORAGE_SUBSCRIPTION_ID"] || "{subscription-id}";
   const resourceGroupName = process.env["STORAGE_RESOURCE_GROUP"] || "res9290";
@@ -31,7 +27,7 @@ async function listContainers() {
   const credential = new DefaultAzureCredential();
   const client = new StorageManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.blobContainers.list(
+  for await (const item of client.blobContainers.list(
     resourceGroupName,
     accountName,
   )) {
@@ -44,9 +40,9 @@ async function listContainers() {
  * This sample demonstrates how to Lists all containers and does not support a prefix like data plane. Also SRP today does not return continuation token.
  *
  * @summary Lists all containers and does not support a prefix like data plane. Also SRP today does not return continuation token.
- * x-ms-original-file: specification/storage/resource-manager/Microsoft.Storage/stable/2023-05-01/examples/DeletedBlobContainersList.json
+ * x-ms-original-file: specification/storage/resource-manager/Microsoft.Storage/stable/2024-01-01/examples/DeletedBlobContainersList.json
  */
-async function listDeletedContainers() {
+async function listDeletedContainers(): Promise<void> {
   const subscriptionId =
     process.env["STORAGE_SUBSCRIPTION_ID"] || "{subscription-id}";
   const resourceGroupName = process.env["STORAGE_RESOURCE_GROUP"] || "res9290";
@@ -56,7 +52,7 @@ async function listDeletedContainers() {
   const credential = new DefaultAzureCredential();
   const client = new StorageManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.blobContainers.list(
+  for await (const item of client.blobContainers.list(
     resourceGroupName,
     accountName,
     options,
@@ -66,9 +62,9 @@ async function listDeletedContainers() {
   console.log(resArray);
 }
 
-async function main() {
-  listContainers();
-  listDeletedContainers();
+async function main(): Promise<void> {
+  await listContainers();
+  await listDeletedContainers();
 }
 
 main().catch(console.error);

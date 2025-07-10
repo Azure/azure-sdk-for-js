@@ -15,7 +15,7 @@ import "dotenv/config";
  * @summary Returns list of operations.
  * x-ms-original-file: specification/developerhub/resource-manager/Microsoft.DevHub/preview/2022-10-11-preview/examples/Operation_List.json
  */
-async function listAvailableOperationsForTheContainerServiceResourceProvider() {
+async function listAvailableOperationsForTheContainerServiceResourceProvider(): Promise<void> {
   const subscriptionId =
     process.env["DEVHUB_SUBSCRIPTION_ID"] ||
     "00000000-0000-0000-0000-000000000000";
@@ -25,7 +25,7 @@ async function listAvailableOperationsForTheContainerServiceResourceProvider() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   listAvailableOperationsForTheContainerServiceResourceProvider();
 }
 

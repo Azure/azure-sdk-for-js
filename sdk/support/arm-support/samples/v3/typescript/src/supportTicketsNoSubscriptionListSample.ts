@@ -13,9 +13,7 @@ import {
   MicrosoftSupport,
 } from "@azure/arm-support";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Lists all the support tickets. <br/><br/>You can also filter the support tickets by <i>Status</i>, <i>CreatedDate</i>, , <i>ServiceId</i>, and <i>ProblemClassificationId</i> using the $filter parameter. Output will be a paged result with <i>nextLink</i>, using which you can retrieve the next set of support tickets. <br/><br/>Support ticket data is available for 18 months after ticket creation. If a ticket was created more than 18 months ago, a request for data might cause an error.
@@ -23,7 +21,7 @@ dotenv.config();
  * @summary Lists all the support tickets. <br/><br/>You can also filter the support tickets by <i>Status</i>, <i>CreatedDate</i>, , <i>ServiceId</i>, and <i>ProblemClassificationId</i> using the $filter parameter. Output will be a paged result with <i>nextLink</i>, using which you can retrieve the next set of support tickets. <br/><br/>Support ticket data is available for 18 months after ticket creation. If a ticket was created more than 18 months ago, a request for data might cause an error.
  * x-ms-original-file: specification/support/resource-manager/Microsoft.Support/stable/2024-04-01/examples/ListSupportTickets.json
  */
-async function listSupportTickets() {
+async function listSupportTickets(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = new MicrosoftSupport(credential);
   const resArray = new Array();
@@ -39,7 +37,7 @@ async function listSupportTickets() {
  * @summary Lists all the support tickets. <br/><br/>You can also filter the support tickets by <i>Status</i>, <i>CreatedDate</i>, , <i>ServiceId</i>, and <i>ProblemClassificationId</i> using the $filter parameter. Output will be a paged result with <i>nextLink</i>, using which you can retrieve the next set of support tickets. <br/><br/>Support ticket data is available for 18 months after ticket creation. If a ticket was created more than 18 months ago, a request for data might cause an error.
  * x-ms-original-file: specification/support/resource-manager/Microsoft.Support/stable/2024-04-01/examples/ListSupportTicketsCreatedOnOrAfterAndInOpenState.json
  */
-async function listSupportTicketsCreatedOnOrAfterACertainDateAndInOpenState() {
+async function listSupportTicketsCreatedOnOrAfterACertainDateAndInOpenState(): Promise<void> {
   const filter = "createdDate ge 2020-03-10T22:08:51Z and status eq 'Open'";
   const options: SupportTicketsNoSubscriptionListOptionalParams = { filter };
   const credential = new DefaultAzureCredential();
@@ -57,7 +55,7 @@ async function listSupportTicketsCreatedOnOrAfterACertainDateAndInOpenState() {
  * @summary Lists all the support tickets. <br/><br/>You can also filter the support tickets by <i>Status</i>, <i>CreatedDate</i>, , <i>ServiceId</i>, and <i>ProblemClassificationId</i> using the $filter parameter. Output will be a paged result with <i>nextLink</i>, using which you can retrieve the next set of support tickets. <br/><br/>Support ticket data is available for 18 months after ticket creation. If a ticket was created more than 18 months ago, a request for data might cause an error.
  * x-ms-original-file: specification/support/resource-manager/Microsoft.Support/stable/2024-04-01/examples/ListSupportTicketsCreatedOnOrAfterAndInUpdatingState.json
  */
-async function listSupportTicketsCreatedOnOrAfterACertainDateAndInUpdatingState() {
+async function listSupportTicketsCreatedOnOrAfterACertainDateAndInUpdatingState(): Promise<void> {
   const filter = "createdDate ge 2020-03-10T22:08:51Z and status eq 'Updating'";
   const options: SupportTicketsNoSubscriptionListOptionalParams = { filter };
   const credential = new DefaultAzureCredential();
@@ -75,7 +73,7 @@ async function listSupportTicketsCreatedOnOrAfterACertainDateAndInUpdatingState(
  * @summary Lists all the support tickets. <br/><br/>You can also filter the support tickets by <i>Status</i>, <i>CreatedDate</i>, , <i>ServiceId</i>, and <i>ProblemClassificationId</i> using the $filter parameter. Output will be a paged result with <i>nextLink</i>, using which you can retrieve the next set of support tickets. <br/><br/>Support ticket data is available for 18 months after ticket creation. If a ticket was created more than 18 months ago, a request for data might cause an error.
  * x-ms-original-file: specification/support/resource-manager/Microsoft.Support/stable/2024-04-01/examples/ListSupportTicketsInOpenState.json
  */
-async function listSupportTicketsInOpenState() {
+async function listSupportTicketsInOpenState(): Promise<void> {
   const filter = "status eq 'Open'";
   const options: SupportTicketsNoSubscriptionListOptionalParams = { filter };
   const credential = new DefaultAzureCredential();
@@ -93,7 +91,7 @@ async function listSupportTicketsInOpenState() {
  * @summary Lists all the support tickets. <br/><br/>You can also filter the support tickets by <i>Status</i>, <i>CreatedDate</i>, , <i>ServiceId</i>, and <i>ProblemClassificationId</i> using the $filter parameter. Output will be a paged result with <i>nextLink</i>, using which you can retrieve the next set of support tickets. <br/><br/>Support ticket data is available for 18 months after ticket creation. If a ticket was created more than 18 months ago, a request for data might cause an error.
  * x-ms-original-file: specification/support/resource-manager/Microsoft.Support/stable/2024-04-01/examples/ListSupportTicketsInUpdatingState.json
  */
-async function listSupportTicketsInUpdatingState() {
+async function listSupportTicketsInUpdatingState(): Promise<void> {
   const filter = "status eq 'Updating'";
   const options: SupportTicketsNoSubscriptionListOptionalParams = { filter };
   const credential = new DefaultAzureCredential();
@@ -111,7 +109,7 @@ async function listSupportTicketsInUpdatingState() {
  * @summary Lists all the support tickets. <br/><br/>You can also filter the support tickets by <i>Status</i>, <i>CreatedDate</i>, , <i>ServiceId</i>, and <i>ProblemClassificationId</i> using the $filter parameter. Output will be a paged result with <i>nextLink</i>, using which you can retrieve the next set of support tickets. <br/><br/>Support ticket data is available for 18 months after ticket creation. If a ticket was created more than 18 months ago, a request for data might cause an error.
  * x-ms-original-file: specification/support/resource-manager/Microsoft.Support/stable/2024-04-01/examples/ListSupportTicketsProblemClassificationIdEquals.json
  */
-async function listSupportTicketsWithACertainProblemClassificationId() {
+async function listSupportTicketsWithACertainProblemClassificationId(): Promise<void> {
   const filter =
     "ProblemClassificationId eq 'compute_vm_problemClassification_guid'";
   const options: SupportTicketsNoSubscriptionListOptionalParams = { filter };
@@ -130,7 +128,7 @@ async function listSupportTicketsWithACertainProblemClassificationId() {
  * @summary Lists all the support tickets. <br/><br/>You can also filter the support tickets by <i>Status</i>, <i>CreatedDate</i>, , <i>ServiceId</i>, and <i>ProblemClassificationId</i> using the $filter parameter. Output will be a paged result with <i>nextLink</i>, using which you can retrieve the next set of support tickets. <br/><br/>Support ticket data is available for 18 months after ticket creation. If a ticket was created more than 18 months ago, a request for data might cause an error.
  * x-ms-original-file: specification/support/resource-manager/Microsoft.Support/stable/2024-04-01/examples/ListSupportTicketsServiceIdEquals.json
  */
-async function listSupportTicketsWithACertainServiceId() {
+async function listSupportTicketsWithACertainServiceId(): Promise<void> {
   const filter = "ServiceId eq 'vm_windows_service_guid'";
   const options: SupportTicketsNoSubscriptionListOptionalParams = { filter };
   const credential = new DefaultAzureCredential();
@@ -142,7 +140,7 @@ async function listSupportTicketsWithACertainServiceId() {
   console.log(resArray);
 }
 
-async function main() {
+async function main(): Promise<void> {
   listSupportTickets();
   listSupportTicketsCreatedOnOrAfterACertainDateAndInOpenState();
   listSupportTicketsCreatedOnOrAfterACertainDateAndInUpdatingState();

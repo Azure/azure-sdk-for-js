@@ -22,7 +22,7 @@ import {
   CertificateBodyDescription as CertificateBodyDescriptionMapper,
   CertificateVerificationDescription as CertificateVerificationDescriptionMapper,
   FailoverInput as FailoverInputMapper
-} from "../models/mappers";
+} from "../models/mappers.js";
 
 export const accept: OperationParameter = {
   parameterPath: "accept",

@@ -6,17 +6,17 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { SqlPoolOperationResults } from "../operationsInterfaces";
+import { SqlPoolOperationResults } from "../operationsInterfaces/index.js";
 import * as coreClient from "@azure/core-client";
-import * as Mappers from "../models/mappers";
-import * as Parameters from "../models/parameters";
-import { SynapseManagementClient } from "../synapseManagementClient";
+import * as Mappers from "../models/mappers.js";
+import * as Parameters from "../models/parameters.js";
+import { SynapseManagementClient } from "../synapseManagementClient.js";
 import { PollerLike, PollOperationState, LroEngine } from "@azure/core-lro";
-import { LroImpl } from "../lroImpl";
+import { LroImpl } from "../lroImpl.js";
 import {
   SqlPoolOperationResultsGetLocationHeaderResultOptionalParams,
   SqlPoolOperationResultsGetLocationHeaderResultResponse
-} from "../models";
+} from "../models/index.js";
 
 /** Class containing SqlPoolOperationResults operations. */
 export class SqlPoolOperationResultsImpl implements SqlPoolOperationResults {

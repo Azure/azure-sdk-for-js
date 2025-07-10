@@ -8,9 +8,7 @@
 import type { AvailabilityStatusesGetByResourceOptionalParams } from "@azure/arm-resourcehealth";
 import { MicrosoftResourceHealth } from "@azure/arm-resourcehealth";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Gets current availability status for a single resource
@@ -18,7 +16,7 @@ dotenv.config();
  * @summary Gets current availability status for a single resource
  * x-ms-original-file: specification/resourcehealth/resource-manager/Microsoft.ResourceHealth/preview/2023-10-01-preview/examples/AvailabilityStatus_GetByResource.json
  */
-async function getCurrentHealthByResource() {
+async function getCurrentHealthByResource(): Promise<void> {
   const resourceUri = "resourceUri";
   const expand = "recommendedactions";
   const options: AvailabilityStatusesGetByResourceOptionalParams = { expand };
@@ -28,7 +26,7 @@ async function getCurrentHealthByResource() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   await getCurrentHealthByResource();
 }
 

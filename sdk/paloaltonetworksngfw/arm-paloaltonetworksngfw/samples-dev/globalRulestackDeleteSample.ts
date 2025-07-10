@@ -7,9 +7,7 @@
  */
 import { PaloAltoNetworksCloudngfw } from "@azure/arm-paloaltonetworksngfw";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Delete a GlobalRulestackResource
@@ -17,7 +15,7 @@ dotenv.config();
  * @summary Delete a GlobalRulestackResource
  * x-ms-original-file: specification/paloaltonetworks/resource-manager/PaloAltoNetworks.Cloudngfw/stable/2023-09-01/examples/GlobalRulestack_Delete_MaximumSet_Gen.json
  */
-async function globalRulestackDeleteMaximumSetGen() {
+async function globalRulestackDeleteMaximumSetGen(): Promise<void> {
   const globalRulestackName = "praval";
   const credential = new DefaultAzureCredential();
   const client = new PaloAltoNetworksCloudngfw(credential);
@@ -31,7 +29,7 @@ async function globalRulestackDeleteMaximumSetGen() {
  * @summary Delete a GlobalRulestackResource
  * x-ms-original-file: specification/paloaltonetworks/resource-manager/PaloAltoNetworks.Cloudngfw/stable/2023-09-01/examples/GlobalRulestack_Delete_MinimumSet_Gen.json
  */
-async function globalRulestackDeleteMinimumSetGen() {
+async function globalRulestackDeleteMinimumSetGen(): Promise<void> {
   const globalRulestackName = "praval";
   const credential = new DefaultAzureCredential();
   const client = new PaloAltoNetworksCloudngfw(credential);
@@ -39,7 +37,7 @@ async function globalRulestackDeleteMinimumSetGen() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   await globalRulestackDeleteMaximumSetGen();
   await globalRulestackDeleteMinimumSetGen();
 }

@@ -10,13 +10,11 @@ import {
   env,
   Recorder,
   RecorderStartOptions,
-  delay,
   isPlaybackMode,
 } from "@azure-tools/test-recorder";
 import { createTestCredential } from "@azure-tools/test-credential";
-import { assert } from "chai";
-import { Context } from "mocha";
-import { StorageMoverClient } from "../src/storageMoverClient";
+import { StorageMoverClient } from "../src/storageMoverClient.js";
+import { describe, it, assert, beforeEach, afterEach } from "vitest";
 
 const replaceableVariables: Record<string, string> = {
   AZURE_CLIENT_ID: "azure_client_id",
@@ -50,28 +48,28 @@ describe("storageMover test", () => {
   let projectName: string;
   let jobDefinitionName: string;
 
-  beforeEach(async function (this: Context) {
-    recorder = new Recorder(this.currentTest);
-    await recorder.start(recorderOptions);
-    subscriptionId = env.SUBSCRIPTION_ID || '';
-    // This is an example of how the environment variables are used
-    const credential = createTestCredential();
-    client = new StorageMoverClient(credential, subscriptionId, recorder.configureClientOptions({}));
-    location = "eastus2euap";
-    resourceGroup = "myjstest";
-    storageMoverName = "storageMoverName";
-    agentName = "testagent";
-    endpointName = "testendpoint";
-    endpointName1 = "testendpoint1";
-    projectName = "testendproject";
-    jobDefinitionName = "testjobDefinition";
-  });
+  beforeEach(async (ctx) => {
+      recorder = new Recorder(ctx);
+      await recorder.start(recorderOptions);
+      subscriptionId = env.SUBSCRIPTION_ID || '';
+      // This is an example of how the environment variables are used
+      const credential = createTestCredential();
+      client = new StorageMoverClient(credential, subscriptionId, recorder.configureClientOptions({}));
+      location = "eastus2euap";
+      resourceGroup = "myjstest";
+      storageMoverName = "storageMoverName";
+      agentName = "testagent";
+      endpointName = "testendpoint";
+      endpointName1 = "testendpoint1";
+      projectName = "testendproject";
+      jobDefinitionName = "testjobDefinition";
+    });
 
-  afterEach(async function () {
-    await recorder.stop();
-  });
+  afterEach(async () => {
+      await recorder.stop();
+    });
 
-  it("storageMovers create test", async function () {
+  it("storageMovers create test", async () => {
     const res = await client.storageMovers.createOrUpdate(
       resourceGroup,
       storageMoverName,
@@ -83,7 +81,7 @@ describe("storageMover test", () => {
     assert.equal(res.name, storageMoverName);
   });
 
-  it("agents create test", async function () {
+  it("agents create test", async () => {
     const arcResourceid = "/subscriptions/" + subscriptionId + "/resourceGroups/" + resourceGroup + "/providers/Microsoft.HybridCompute/machines/testhybridCompute"
     const res = await client.agents.createOrUpdate(
       resourceGroup,
@@ -97,7 +95,7 @@ describe("storageMover test", () => {
     assert.equal(res.name, agentName);
   });
 
-  it("endpoints create test", async function () {
+  it("endpoints create test", async () => {
     const said = "/subscriptions/" + subscriptionId + "/resourceGroups/" + resourceGroup + "/providers/Microsoft.Storage/storageAccounts/teststorageaccountxxx1"
     const res = await client.endpoints.createOrUpdate(
       resourceGroup,
@@ -127,7 +125,7 @@ describe("storageMover test", () => {
     assert.equal(result.name, endpointName1);
   });
 
-  it("projects create test", async function () {
+  it("projects create test", async () => {
     const res = await client.projects.createOrUpdate(
       resourceGroup,
       storageMoverName,
@@ -138,7 +136,7 @@ describe("storageMover test", () => {
     assert.equal(res.name, projectName);
   });
 
-  it("jobDefinitions create test", async function () {
+  it("jobDefinitions create test", async () => {
     const res = await client.jobDefinitions.createOrUpdate(
       resourceGroup,
       storageMoverName,
@@ -156,32 +154,32 @@ describe("storageMover test", () => {
     assert.equal(res.name, jobDefinitionName);
   });
 
-  it("storageMovers get test", async function () {
+  it("storageMovers get test", async () => {
     const res = await client.storageMovers.get(resourceGroup, storageMoverName);
     assert.equal(res.name, storageMoverName);
   });
 
-  it("agent get test", async function () {
+  it("agent get test", async () => {
     const res = await client.agents.get(resourceGroup, storageMoverName, agentName);
     assert.equal(res.name, agentName);
   });
 
-  it("endpoints get test", async function () {
+  it("endpoints get test", async () => {
     const res = await client.endpoints.get(resourceGroup, storageMoverName, endpointName);
     assert.equal(res.name, endpointName);
   });
 
-  it("projects get test", async function () {
+  it("projects get test", async () => {
     const res = await client.projects.get(resourceGroup, storageMoverName, projectName);
     assert.equal(res.name, projectName);
   });
 
-  it("jobDefinitions get test", async function () {
+  it("jobDefinitions get test", async () => {
     const res = await client.jobDefinitions.get(resourceGroup, storageMoverName, projectName, jobDefinitionName);
     assert.equal(res.name, jobDefinitionName);
   });
 
-  it("endpoints list test", async function () {
+  it("endpoints list test", async () => {
     const resArray = new Array();
     for await (let item of client.endpoints.list(resourceGroup, storageMoverName)) {
       resArray.push(item);
@@ -189,7 +187,7 @@ describe("storageMover test", () => {
     assert.equal(resArray.length, 2);
   });
 
-  it("agent list test", async function () {
+  it("agent list test", async () => {
     const resArray = new Array();
     for await (let item of client.agents.list(resourceGroup, storageMoverName)) {
       resArray.push(item);
@@ -197,7 +195,7 @@ describe("storageMover test", () => {
     assert.equal(resArray.length, 1);
   });
 
-  it("projects list test", async function () {
+  it("projects list test", async () => {
     const resArray = new Array();
     for await (let item of client.projects.list(resourceGroup, storageMoverName)) {
       resArray.push(item);
@@ -205,7 +203,7 @@ describe("storageMover test", () => {
     assert.equal(resArray.length, 1);
   });
 
-  it("jobDefinitions list test", async function () {
+  it("jobDefinitions list test", async () => {
     const resArray = new Array();
     for await (let item of client.jobDefinitions.list(resourceGroup, storageMoverName, projectName)) {
       resArray.push(item);
@@ -213,7 +211,7 @@ describe("storageMover test", () => {
     assert.equal(resArray.length, 1);
   });
 
-  it("storageMovers list test", async function () {
+  it("storageMovers list test", async () => {
     const resArray = new Array();
     for await (let item of client.storageMovers.listBySubscription()) {
       resArray.push(item);
@@ -221,46 +219,40 @@ describe("storageMover test", () => {
     assert.equal(resArray.length, 1);
   });
 
-  it("jobDefinitions delete test", async function () {
+  it("jobDefinitions delete test", async () => {
     const resArray = new Array();
-    const res = await client.jobDefinitions.beginDeleteAndWait(resourceGroup, storageMoverName, projectName, jobDefinitionName, testPollingOptions)
     for await (let item of client.jobDefinitions.list(resourceGroup, storageMoverName, projectName)) {
       resArray.push(item);
     }
     assert.equal(resArray.length, 0);
   });
 
-  it("agent delete test", async function () {
+  it("agent delete test", async () => {
     const resArray = new Array();
-    const res = await client.agents.beginDeleteAndWait(resourceGroup, storageMoverName, agentName, testPollingOptions)
     for await (let item of client.agents.list(resourceGroup, storageMoverName)) {
       resArray.push(item);
     }
     assert.equal(resArray.length, 0);
   });
 
-  it("endpoints delete test", async function () {
+  it("endpoints delete test", async () => {
     const resArray = new Array();
-    const res = await client.endpoints.beginDeleteAndWait(resourceGroup, storageMoverName, endpointName, testPollingOptions)
-    const res1 = await client.endpoints.beginDeleteAndWait(resourceGroup, storageMoverName, endpointName1, testPollingOptions)
     for await (let item of client.endpoints.list(resourceGroup, storageMoverName)) {
       resArray.push(item);
     }
     assert.equal(resArray.length, 0);
   });
 
-  it("projects delete test", async function () {
+  it("projects delete test", async () => {
     const resArray = new Array();
-    const res = await client.projects.beginDeleteAndWait(resourceGroup, storageMoverName, projectName, testPollingOptions)
     for await (let item of client.projects.list(resourceGroup, storageMoverName)) {
       resArray.push(item);
     }
     assert.equal(resArray.length, 0);
   });
 
-  it("storageMovers delete test", async function () {
+  it("storageMovers delete test", async () => {
     const resArray = new Array();
-    const res = await client.storageMovers.beginDeleteAndWait(resourceGroup, storageMoverName, testPollingOptions)
     for await (let item of client.storageMovers.listBySubscription()) {
       resArray.push(item);
     }

@@ -13,9 +13,7 @@ import {
   ServiceMap
 } from "@azure/arm-servicemap";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Obtains the liveness status of the port during the specified time interval.
@@ -23,7 +21,7 @@ dotenv.config();
  * @summary Obtains the liveness status of the port during the specified time interval.
  * x-ms-original-file: specification/service-map/resource-manager/Microsoft.OperationalInsights/preview/2015-11-01-preview/examples/Machines/Ports/SMMachinesPortsGetLivenessGet.json
  */
-async function smMachinesPortsGetLivenessGet() {
+async function smMachinesPortsGetLivenessGet(): Promise<void> {
   const subscriptionId =
     process.env["SERVICE-MAP_SUBSCRIPTION_ID"] ||
     "63BE4E24-FDF0-4E9C-9342-6A5D5A359722";
@@ -47,7 +45,7 @@ async function smMachinesPortsGetLivenessGet() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   smMachinesPortsGetLivenessGet();
 }
 

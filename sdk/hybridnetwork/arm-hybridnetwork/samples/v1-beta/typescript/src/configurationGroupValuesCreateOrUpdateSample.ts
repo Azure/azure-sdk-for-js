@@ -13,9 +13,7 @@ import {
   HybridNetworkManagementClient
 } from "@azure/arm-hybridnetwork";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Creates or updates a hybrid configuration group value.
@@ -23,7 +21,7 @@ dotenv.config();
  * @summary Creates or updates a hybrid configuration group value.
  * x-ms-original-file: specification/hybridnetwork/resource-manager/Microsoft.HybridNetwork/stable/2023-09-01/examples/ConfigurationGroupValueCreate.json
  */
-async function createOrUpdateConfigurationGroupValue() {
+async function createOrUpdateConfigurationGroupValue(): Promise<void> {
   const subscriptionId =
     process.env["HYBRIDNETWORK_SUBSCRIPTION_ID"] || "subid";
   const resourceGroupName =
@@ -58,7 +56,7 @@ async function createOrUpdateConfigurationGroupValue() {
  * @summary Creates or updates a hybrid configuration group value.
  * x-ms-original-file: specification/hybridnetwork/resource-manager/Microsoft.HybridNetwork/stable/2023-09-01/examples/ConfigurationGroupValueCreateSecret.json
  */
-async function createOrUpdateConfigurationGroupValueWithSecrets() {
+async function createOrUpdateConfigurationGroupValueWithSecrets(): Promise<void> {
   const subscriptionId =
     process.env["HYBRIDNETWORK_SUBSCRIPTION_ID"] || "subid";
   const resourceGroupName =
@@ -93,7 +91,7 @@ async function createOrUpdateConfigurationGroupValueWithSecrets() {
  * @summary Creates or updates a hybrid configuration group value.
  * x-ms-original-file: specification/hybridnetwork/resource-manager/Microsoft.HybridNetwork/stable/2023-09-01/examples/ConfigurationGroupValueFirstPartyCreate.json
  */
-async function createOrUpdateFirstPartyConfigurationGroupValue() {
+async function createOrUpdateFirstPartyConfigurationGroupValue(): Promise<void> {
   const subscriptionId =
     process.env["HYBRIDNETWORK_SUBSCRIPTION_ID"] || "subid";
   const resourceGroupName =
@@ -122,7 +120,7 @@ async function createOrUpdateFirstPartyConfigurationGroupValue() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   createOrUpdateConfigurationGroupValue();
   createOrUpdateConfigurationGroupValueWithSecrets();
   createOrUpdateFirstPartyConfigurationGroupValue();

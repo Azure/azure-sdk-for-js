@@ -7,9 +7,7 @@
  */
 import { ScVmm } from "@azure/arm-scvmm";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Returns the list of GuestAgent of the given vm.
@@ -17,7 +15,7 @@ dotenv.config();
  * @summary Returns the list of GuestAgent of the given vm.
  * x-ms-original-file: specification/scvmm/resource-manager/Microsoft.ScVmm/stable/2023-10-07/examples/GuestAgents_ListByVirtualMachineInstance_MaximumSet_Gen.json
  */
-async function guestAgentsListByVirtualMachineInstanceMaximumSet() {
+async function guestAgentsListByVirtualMachineInstanceMaximumSet(): Promise<void> {
   const resourceUri = "gtgclehcbsyave";
   const credential = new DefaultAzureCredential();
   const client = new ScVmm(credential);
@@ -34,7 +32,7 @@ async function guestAgentsListByVirtualMachineInstanceMaximumSet() {
  * @summary Returns the list of GuestAgent of the given vm.
  * x-ms-original-file: specification/scvmm/resource-manager/Microsoft.ScVmm/stable/2023-10-07/examples/GuestAgents_ListByVirtualMachineInstance_MinimumSet_Gen.json
  */
-async function guestAgentsListByVirtualMachineInstanceMinimumSet() {
+async function guestAgentsListByVirtualMachineInstanceMinimumSet(): Promise<void> {
   const resourceUri = "gtgclehcbsyave";
   const credential = new DefaultAzureCredential();
   const client = new ScVmm(credential);
@@ -45,7 +43,7 @@ async function guestAgentsListByVirtualMachineInstanceMinimumSet() {
   console.log(resArray);
 }
 
-async function main() {
+async function main(): Promise<void> {
   await guestAgentsListByVirtualMachineInstanceMaximumSet();
   await guestAgentsListByVirtualMachineInstanceMinimumSet();
 }

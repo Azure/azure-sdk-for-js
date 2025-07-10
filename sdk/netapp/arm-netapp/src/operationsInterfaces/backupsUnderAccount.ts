@@ -11,7 +11,7 @@ import {
   BackupsMigrationRequest,
   BackupsUnderAccountMigrateBackupsOptionalParams,
   BackupsUnderAccountMigrateBackupsResponse,
-} from "../models";
+} from "../models/index.js";
 
 /** Interface representing a BackupsUnderAccount. */
 export interface BackupsUnderAccount {

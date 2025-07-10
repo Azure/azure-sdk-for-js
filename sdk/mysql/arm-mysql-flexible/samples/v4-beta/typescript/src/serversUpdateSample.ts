@@ -13,9 +13,7 @@ import {
   MySQLManagementFlexibleServerClient,
 } from "@azure/arm-mysql-flexible";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Updates an existing server. The request body can contain one to many of the properties present in the normal server definition.
@@ -23,7 +21,7 @@ dotenv.config();
  * @summary Updates an existing server. The request body can contain one to many of the properties present in the normal server definition.
  * x-ms-original-file: specification/mysql/resource-manager/Microsoft.DBforMySQL/FlexibleServers/stable/2023-12-30/examples/ServerUpdate.json
  */
-async function updateAServer() {
+async function updateAServer(): Promise<void> {
   const subscriptionId =
     process.env["MYSQL_SUBSCRIPTION_ID"] ||
     "ffffffff-ffff-ffff-ffff-ffffffffffff";
@@ -57,7 +55,7 @@ async function updateAServer() {
  * @summary Updates an existing server. The request body can contain one to many of the properties present in the normal server definition.
  * x-ms-original-file: specification/mysql/resource-manager/Microsoft.DBforMySQL/FlexibleServers/stable/2023-12-30/examples/ServerUpdateWithCustomerMaintenanceWindow.json
  */
-async function updateServerCustomerMaintenanceWindow() {
+async function updateServerCustomerMaintenanceWindow(): Promise<void> {
   const subscriptionId =
     process.env["MYSQL_SUBSCRIPTION_ID"] ||
     "ffffffff-ffff-ffff-ffff-ffffffffffff";
@@ -90,7 +88,7 @@ async function updateServerCustomerMaintenanceWindow() {
  * @summary Updates an existing server. The request body can contain one to many of the properties present in the normal server definition.
  * x-ms-original-file: specification/mysql/resource-manager/Microsoft.DBforMySQL/FlexibleServers/stable/2023-12-30/examples/ServerUpdateWithBYOK.json
  */
-async function updateServerWithByok() {
+async function updateServerWithByok(): Promise<void> {
   const subscriptionId =
     process.env["MYSQL_SUBSCRIPTION_ID"] ||
     "ffffffff-ffff-ffff-ffff-ffffffffffff";
@@ -129,7 +127,7 @@ async function updateServerWithByok() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   updateAServer();
   updateServerCustomerMaintenanceWindow();
   updateServerWithByok();

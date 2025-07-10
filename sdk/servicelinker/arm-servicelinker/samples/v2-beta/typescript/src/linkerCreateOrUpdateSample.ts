@@ -13,9 +13,7 @@ import {
   ServiceLinkerManagementClient,
 } from "@azure/arm-servicelinker";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Create or update Linker resource.
@@ -23,7 +21,7 @@ dotenv.config();
  * @summary Create or update Linker resource.
  * x-ms-original-file: specification/servicelinker/resource-manager/Microsoft.ServiceLinker/preview/2024-07-01-preview/examples/PutLinker.json
  */
-async function putLinker() {
+async function putLinker(): Promise<void> {
   const resourceUri =
     "subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/test-rg/providers/Microsoft.Web/sites/test-app";
   const linkerName = "linkName";
@@ -49,7 +47,7 @@ async function putLinker() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   putLinker();
 }
 

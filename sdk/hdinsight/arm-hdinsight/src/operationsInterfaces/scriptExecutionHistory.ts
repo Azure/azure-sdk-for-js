@@ -11,7 +11,7 @@ import {
   RuntimeScriptActionDetail,
   ScriptExecutionHistoryListByClusterOptionalParams,
   ScriptExecutionHistoryPromoteOptionalParams,
-} from "../models";
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a ScriptExecutionHistory. */

@@ -7,14 +7,14 @@
  */
 
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
-import { setContinuationToken } from "../pagingHelper";
-import { AzureDevOpsProjectOperations } from "../operationsInterfaces";
+import { setContinuationToken } from "../pagingHelper.js";
+import { AzureDevOpsProjectOperations } from "../operationsInterfaces/index.js";
 import * as coreClient from "@azure/core-client";
-import * as Mappers from "../models/mappers";
-import * as Parameters from "../models/parameters";
-import { MicrosoftSecurityDevOps } from "../microsoftSecurityDevOps";
+import * as Mappers from "../models/mappers.js";
+import * as Parameters from "../models/parameters.js";
+import { MicrosoftSecurityDevOps } from "../microsoftSecurityDevOps.js";
 import { PollerLike, PollOperationState, LroEngine } from "@azure/core-lro";
-import { LroImpl } from "../lroImpl";
+import { LroImpl } from "../lroImpl.js";
 import {
   AzureDevOpsProject,
   AzureDevOpsProjectListNextOptionalParams,
@@ -27,7 +27,7 @@ import {
   AzureDevOpsProjectUpdateOptionalParams,
   AzureDevOpsProjectUpdateResponse,
   AzureDevOpsProjectListNextResponse
-} from "../models";
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Class containing AzureDevOpsProjectOperations operations. */

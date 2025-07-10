@@ -1,10 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { TokenCredential } from "../auth/tokenCredential.js";
-import { isTokenCredential } from "../auth/tokenCredential.js";
-import type { KeyCredential } from "../auth/keyCredential.js";
-import { isKeyCredential } from "../auth/keyCredential.js";
 import type { HttpClient, HttpMethods } from "../interfaces.js";
 import type { Pipeline } from "../pipeline.js";
 import { createDefaultPipeline } from "./clientHelpers.js";
@@ -19,40 +15,16 @@ import type {
 } from "./common.js";
 import { sendRequest } from "./sendRequest.js";
 import { buildRequestUrl } from "./urlHelpers.js";
-import type { PipelineOptions } from "../createPipelineFromOptions.js";
+import { isNodeLike } from "../util/checkEnvironment.js";
 
-/**
- * Creates a client with a default pipeline
- * @param endpoint - Base endpoint for the client
- * @param options - Client options
- */
-export function getClient(endpoint: string, options?: ClientOptions): Client;
 /**
  * Creates a client with a default pipeline
  * @param endpoint - Base endpoint for the client
  * @param credentials - Credentials to authenticate the requests
  * @param options - Client options
  */
-export function getClient(
-  endpoint: string,
-  credentials?: TokenCredential | KeyCredential,
-  options?: ClientOptions,
-): Client;
-export function getClient(
-  endpoint: string,
-  credentialsOrPipelineOptions?: (TokenCredential | KeyCredential) | ClientOptions,
-  clientOptions: ClientOptions = {},
-): Client {
-  let credentials: TokenCredential | KeyCredential | undefined;
-  if (credentialsOrPipelineOptions) {
-    if (isCredential(credentialsOrPipelineOptions)) {
-      credentials = credentialsOrPipelineOptions;
-    } else {
-      clientOptions = credentialsOrPipelineOptions ?? {};
-    }
-  }
-
-  const pipeline = createDefaultPipeline(endpoint, credentials, clientOptions);
+export function getClient(endpoint: string, clientOptions: ClientOptions = {}): Client {
+  const pipeline = clientOptions.pipeline ?? createDefaultPipeline(clientOptions);
   if (clientOptions.additionalPolicies?.length) {
     for (const { policy, position } of clientOptions.additionalPolicies) {
       // Sign happens after Retry and is commonly needed to occur
@@ -181,28 +153,34 @@ function buildOperation(
       ).then(onFulfilled, onrejected);
     },
     async asBrowserStream() {
-      return sendRequest(
-        method,
-        url,
-        pipeline,
-        { ...options, allowInsecureConnection, responseAsStream: true },
-        httpClient,
-      ) as Promise<HttpBrowserStreamResponse>;
+      if (isNodeLike) {
+        throw new Error(
+          "`asBrowserStream` is supported only in the browser environment. Use `asNodeStream` instead to obtain the response body stream. If you require a Web stream of the response in Node, consider using `Readable.toWeb` on the result of `asNodeStream`.",
+        );
+      } else {
+        return sendRequest(
+          method,
+          url,
+          pipeline,
+          { ...options, allowInsecureConnection, responseAsStream: true },
+          httpClient,
+        ) as Promise<HttpBrowserStreamResponse>;
+      }
     },
     async asNodeStream() {
-      return sendRequest(
-        method,
-        url,
-        pipeline,
-        { ...options, allowInsecureConnection, responseAsStream: true },
-        httpClient,
-      ) as Promise<HttpNodeStreamResponse>;
+      if (isNodeLike) {
+        return sendRequest(
+          method,
+          url,
+          pipeline,
+          { ...options, allowInsecureConnection, responseAsStream: true },
+          httpClient,
+        ) as Promise<HttpNodeStreamResponse>;
+      } else {
+        throw new Error(
+          "`isNodeStream` is not supported in the browser environment. Use `asBrowserStream` to obtain the response body stream.",
+        );
+      }
     },
   };
-}
-
-function isCredential(
-  param: (TokenCredential | KeyCredential) | PipelineOptions,
-): param is TokenCredential | KeyCredential {
-  return isKeyCredential(param) || isTokenCredential(param);
 }

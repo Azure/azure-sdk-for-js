@@ -6,16 +6,16 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-export * from "./services";
-export * from "./privateEndpointConnections";
-export * from "./privateLinkResources";
-export * from "./workspaces";
-export * from "./dicomServices";
-export * from "./iotConnectors";
-export * from "./fhirDestinations";
-export * from "./iotConnectorFhirDestination";
-export * from "./fhirServices";
-export * from "./workspacePrivateEndpointConnections";
-export * from "./workspacePrivateLinkResources";
-export * from "./operations";
-export * from "./operationResults";
+export * from "./services.js";
+export * from "./privateEndpointConnections.js";
+export * from "./privateLinkResources.js";
+export * from "./workspaces.js";
+export * from "./dicomServices.js";
+export * from "./iotConnectors.js";
+export * from "./fhirDestinations.js";
+export * from "./iotConnectorFhirDestination.js";
+export * from "./fhirServices.js";
+export * from "./workspacePrivateEndpointConnections.js";
+export * from "./workspacePrivateLinkResources.js";
+export * from "./operations.js";
+export * from "./operationResults.js";

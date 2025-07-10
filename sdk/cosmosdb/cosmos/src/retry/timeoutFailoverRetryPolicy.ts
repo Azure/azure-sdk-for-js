@@ -1,16 +1,17 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import type { RetryPolicy } from "./RetryPolicy";
-import { StatusCodes } from "../common/statusCodes";
-import type { GlobalEndpointManager } from "../globalEndpointManager";
-import { HTTPMethod, isReadRequest } from "../common";
-import type { OperationType, ResourceType } from "../common/constants";
-import { Constants } from "../common/constants";
-import type { RetryContext } from "./RetryContext";
-import type { CosmosHeaders } from "../queryExecutionContext/CosmosHeaders";
-import { TimeoutErrorCode } from "../request/TimeoutError";
-import type { ErrorResponse } from "../request";
-import type { DiagnosticNodeInternal } from "../diagnostics/DiagnosticNodeInternal";
+import type { RetryPolicy } from "./RetryPolicy.js";
+import { StatusCodes } from "../common/statusCodes.js";
+import type { GlobalEndpointManager } from "../globalEndpointManager.js";
+import { HTTPMethod, isReadRequest } from "../common/index.js";
+import type { OperationType, ResourceType } from "../common/constants.js";
+import { Constants } from "../common/constants.js";
+import type { RetryContext } from "./RetryContext.js";
+import type { CosmosHeaders } from "../queryExecutionContext/CosmosHeaders.js";
+import { TimeoutErrorCode } from "../request/TimeoutError.js";
+import type { ErrorResponse, RequestContext } from "../request/index.js";
+import type { DiagnosticNodeInternal } from "../diagnostics/DiagnosticNodeInternal.js";
+import { GlobalPartitionEndpointManager } from "../globalPartitionEndpointManager.js";
 
 /**
  * This class TimeoutFailoverRetryPolicy handles retries for read operations
@@ -34,6 +35,8 @@ export class TimeoutFailoverRetryPolicy implements RetryPolicy {
     private resourceType: ResourceType,
     private operationType: OperationType,
     private enableEndPointDiscovery: boolean,
+    private enablePartitionLevelFailover: boolean,
+    private globalPartitionEndpointManager?: GlobalPartitionEndpointManager,
   ) {}
 
   /**
@@ -55,6 +58,7 @@ export class TimeoutFailoverRetryPolicy implements RetryPolicy {
     diagnosticNode: DiagnosticNodeInternal,
     retryContext?: RetryContext,
     locationEndpoint?: string,
+    requestContext?: RequestContext,
   ): Promise<boolean> {
     if (!err) {
       return false;
@@ -62,6 +66,16 @@ export class TimeoutFailoverRetryPolicy implements RetryPolicy {
     if (!retryContext || !locationEndpoint) {
       return false;
     }
+
+    // Mark the partition as unavailable.
+    // Let the Retry logic decide if the request should be retried
+    if (requestContext && this.globalPartitionEndpointManager) {
+      await this.globalPartitionEndpointManager.tryPartitionLevelFailover(
+        requestContext,
+        diagnosticNode,
+      );
+    }
+
     // Check if the error is a timeout error (TimeoutErrorCode) and if it is not a valid HTTP network timeout request
     if (err.code === TimeoutErrorCode && !this.isValidRequestForTimeoutError()) {
       return false;
@@ -84,8 +98,9 @@ export class TimeoutFailoverRetryPolicy implements RetryPolicy {
     );
     const readRequest = isReadRequest(this.operationType);
 
-    if (!canUseMultipleWriteLocations && !readRequest) {
-      // Write requests on single master cannot be retried, no other regions available
+    if (!canUseMultipleWriteLocations && !readRequest && !this.enablePartitionLevelFailover) {
+      // Write requests on single master cannot be retried if partition level failover is disabled.
+      // This means there are no other regions available to serve the writes.
       return false;
     }
     this.failoverRetryCount++;

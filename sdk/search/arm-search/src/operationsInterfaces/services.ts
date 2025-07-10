@@ -6,9 +6,9 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { SimplePollerLike, OperationState } from "@azure/core-lro";
-import {
+import type { PagedAsyncIterableIterator } from "@azure/core-paging";
+import type { SimplePollerLike, OperationState } from "@azure/core-lro";
+import type {
   SearchService,
   ServicesListByResourceGroupOptionalParams,
   ServicesListBySubscriptionOptionalParams,
@@ -22,7 +22,9 @@ import {
   ServicesDeleteOptionalParams,
   ServicesCheckNameAvailabilityOptionalParams,
   ServicesCheckNameAvailabilityResponse,
-} from "../models";
+  ServicesUpgradeOptionalParams,
+  ServicesUpgradeResponse,
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a Services. */
@@ -64,10 +66,7 @@ export interface Services {
     service: SearchService,
     options?: ServicesCreateOrUpdateOptionalParams,
   ): Promise<
-    SimplePollerLike<
-      OperationState<ServicesCreateOrUpdateResponse>,
-      ServicesCreateOrUpdateResponse
-    >
+    SimplePollerLike<OperationState<ServicesCreateOrUpdateResponse>, ServicesCreateOrUpdateResponse>
   >;
   /**
    * Creates or updates a search service in the given resource group. If the search service already
@@ -141,4 +140,30 @@ export interface Services {
     name: string,
     options?: ServicesCheckNameAvailabilityOptionalParams,
   ): Promise<ServicesCheckNameAvailabilityResponse>;
+  /**
+   * Upgrades the Azure AI Search service to the latest version available.
+   * @param resourceGroupName The name of the resource group within the current subscription. You can
+   *                          obtain this value from the Azure Resource Manager API or the portal.
+   * @param searchServiceName The name of the Azure AI Search service associated with the specified
+   *                          resource group.
+   * @param options The options parameters.
+   */
+  beginUpgrade(
+    resourceGroupName: string,
+    searchServiceName: string,
+    options?: ServicesUpgradeOptionalParams,
+  ): Promise<SimplePollerLike<OperationState<ServicesUpgradeResponse>, ServicesUpgradeResponse>>;
+  /**
+   * Upgrades the Azure AI Search service to the latest version available.
+   * @param resourceGroupName The name of the resource group within the current subscription. You can
+   *                          obtain this value from the Azure Resource Manager API or the portal.
+   * @param searchServiceName The name of the Azure AI Search service associated with the specified
+   *                          resource group.
+   * @param options The options parameters.
+   */
+  beginUpgradeAndWait(
+    resourceGroupName: string,
+    searchServiceName: string,
+    options?: ServicesUpgradeOptionalParams,
+  ): Promise<ServicesUpgradeResponse>;
 }

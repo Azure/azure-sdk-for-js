@@ -14,7 +14,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * @summary Gets tenant backfill status
  * x-ms-original-file: specification/managementgroups/resource-manager/Microsoft.Management/stable/2021-04-01/examples/TenantBackfillStatusRequest.json
  */
-async function tenantBackfillStatus() {
+async function tenantBackfillStatus(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = new ManagementGroupsAPI(credential);
   const result = await client.tenantBackfillStatus();

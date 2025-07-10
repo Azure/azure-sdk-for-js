@@ -20,7 +20,7 @@ import {
 } from "@azure/arm-peering";
 import { DefaultAzureCredential } from "@azure/identity";
 
-async function createOrUpdateConnectionMonitorTest() {
+async function createOrUpdateConnectionMonitorTest(): Promise<void> {
   const subscriptionId = "subId";
   const resourceGroupName = "rgName";
   const peeringServiceName = "peeringServiceName";

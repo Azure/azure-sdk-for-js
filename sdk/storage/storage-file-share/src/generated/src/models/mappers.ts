@@ -2976,6 +2976,34 @@ export const DirectoryCreateHeaders: coreClient.CompositeMapper = {
           name: "String"
         }
       },
+      fileMode: {
+        serializedName: "x-ms-mode",
+        xmlName: "x-ms-mode",
+        type: {
+          name: "String"
+        }
+      },
+      owner: {
+        serializedName: "x-ms-owner",
+        xmlName: "x-ms-owner",
+        type: {
+          name: "String"
+        }
+      },
+      group: {
+        serializedName: "x-ms-group",
+        xmlName: "x-ms-group",
+        type: {
+          name: "String"
+        }
+      },
+      nfsFileType: {
+        serializedName: "x-ms-file-file-type",
+        xmlName: "x-ms-file-file-type",
+        type: {
+          name: "String"
+        }
+      },
       errorCode: {
         serializedName: "x-ms-error-code",
         xmlName: "x-ms-error-code",
@@ -3106,6 +3134,34 @@ export const DirectoryGetPropertiesHeaders: coreClient.CompositeMapper = {
       fileParentId: {
         serializedName: "x-ms-file-parent-id",
         xmlName: "x-ms-file-parent-id",
+        type: {
+          name: "String"
+        }
+      },
+      fileMode: {
+        serializedName: "x-ms-mode",
+        xmlName: "x-ms-mode",
+        type: {
+          name: "String"
+        }
+      },
+      owner: {
+        serializedName: "x-ms-owner",
+        xmlName: "x-ms-owner",
+        type: {
+          name: "String"
+        }
+      },
+      group: {
+        serializedName: "x-ms-group",
+        xmlName: "x-ms-group",
+        type: {
+          name: "String"
+        }
+      },
+      nfsFileType: {
+        serializedName: "x-ms-file-file-type",
+        xmlName: "x-ms-file-file-type",
         type: {
           name: "String"
         }
@@ -3286,6 +3342,27 @@ export const DirectorySetPropertiesHeaders: coreClient.CompositeMapper = {
       fileParentId: {
         serializedName: "x-ms-file-parent-id",
         xmlName: "x-ms-file-parent-id",
+        type: {
+          name: "String"
+        }
+      },
+      fileMode: {
+        serializedName: "x-ms-mode",
+        xmlName: "x-ms-mode",
+        type: {
+          name: "String"
+        }
+      },
+      owner: {
+        serializedName: "x-ms-owner",
+        xmlName: "x-ms-owner",
+        type: {
+          name: "String"
+        }
+      },
+      group: {
+        serializedName: "x-ms-group",
+        xmlName: "x-ms-group",
         type: {
           name: "String"
         }
@@ -3802,6 +3879,34 @@ export const FileCreateHeaders: coreClient.CompositeMapper = {
           name: "String"
         }
       },
+      fileMode: {
+        serializedName: "x-ms-mode",
+        xmlName: "x-ms-mode",
+        type: {
+          name: "String"
+        }
+      },
+      owner: {
+        serializedName: "x-ms-owner",
+        xmlName: "x-ms-owner",
+        type: {
+          name: "String"
+        }
+      },
+      group: {
+        serializedName: "x-ms-group",
+        xmlName: "x-ms-group",
+        type: {
+          name: "String"
+        }
+      },
+      nfsFileType: {
+        serializedName: "x-ms-file-file-type",
+        xmlName: "x-ms-file-file-type",
+        type: {
+          name: "String"
+        }
+      },
       errorCode: {
         serializedName: "x-ms-error-code",
         xmlName: "x-ms-error-code",
@@ -4079,6 +4184,34 @@ export const FileDownloadHeaders: coreClient.CompositeMapper = {
           allowedValues: ["locked", "unlocked"]
         }
       },
+      fileMode: {
+        serializedName: "x-ms-mode",
+        xmlName: "x-ms-mode",
+        type: {
+          name: "String"
+        }
+      },
+      owner: {
+        serializedName: "x-ms-owner",
+        xmlName: "x-ms-owner",
+        type: {
+          name: "String"
+        }
+      },
+      group: {
+        serializedName: "x-ms-group",
+        xmlName: "x-ms-group",
+        type: {
+          name: "String"
+        }
+      },
+      linkCount: {
+        serializedName: "x-ms-link-count",
+        xmlName: "x-ms-link-count",
+        type: {
+          name: "Number"
+        }
+      },
       errorCode: {
         serializedName: "x-ms-error-code",
         xmlName: "x-ms-error-code",
@@ -4342,6 +4475,41 @@ export const FileGetPropertiesHeaders: coreClient.CompositeMapper = {
           allowedValues: ["locked", "unlocked"]
         }
       },
+      fileMode: {
+        serializedName: "x-ms-mode",
+        xmlName: "x-ms-mode",
+        type: {
+          name: "String"
+        }
+      },
+      owner: {
+        serializedName: "x-ms-owner",
+        xmlName: "x-ms-owner",
+        type: {
+          name: "String"
+        }
+      },
+      group: {
+        serializedName: "x-ms-group",
+        xmlName: "x-ms-group",
+        type: {
+          name: "String"
+        }
+      },
+      linkCount: {
+        serializedName: "x-ms-link-count",
+        xmlName: "x-ms-link-count",
+        type: {
+          name: "Number"
+        }
+      },
+      nfsFileType: {
+        serializedName: "x-ms-file-file-type",
+        xmlName: "x-ms-file-file-type",
+        type: {
+          name: "String"
+        }
+      },
       errorCode: {
         serializedName: "x-ms-error-code",
         xmlName: "x-ms-error-code",
@@ -4395,6 +4563,13 @@ export const FileDeleteHeaders: coreClient.CompositeMapper = {
         xmlName: "date",
         type: {
           name: "DateTimeRfc1123"
+        }
+      },
+      linkCount: {
+        serializedName: "x-ms-link-count",
+        xmlName: "x-ms-link-count",
+        type: {
+          name: "Number"
         }
       },
       errorCode: {
@@ -4520,6 +4695,34 @@ export const FileSetHttpHeadersHeaders: coreClient.CompositeMapper = {
         xmlName: "x-ms-file-parent-id",
         type: {
           name: "String"
+        }
+      },
+      fileMode: {
+        serializedName: "x-ms-mode",
+        xmlName: "x-ms-mode",
+        type: {
+          name: "String"
+        }
+      },
+      owner: {
+        serializedName: "x-ms-owner",
+        xmlName: "x-ms-owner",
+        type: {
+          name: "String"
+        }
+      },
+      group: {
+        serializedName: "x-ms-group",
+        xmlName: "x-ms-group",
+        type: {
+          name: "String"
+        }
+      },
+      linkCount: {
+        serializedName: "x-ms-link-count",
+        xmlName: "x-ms-link-count",
+        type: {
+          name: "Number"
         }
       },
       errorCode: {
@@ -5555,6 +5758,353 @@ export const FileRenameExceptionHeaders: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "FileRenameExceptionHeaders",
+    modelProperties: {
+      errorCode: {
+        serializedName: "x-ms-error-code",
+        xmlName: "x-ms-error-code",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const FileCreateSymbolicLinkHeaders: coreClient.CompositeMapper = {
+  serializedName: "File_createSymbolicLinkHeaders",
+  type: {
+    name: "Composite",
+    className: "FileCreateSymbolicLinkHeaders",
+    modelProperties: {
+      etag: {
+        serializedName: "etag",
+        xmlName: "etag",
+        type: {
+          name: "String"
+        }
+      },
+      lastModified: {
+        serializedName: "last-modified",
+        xmlName: "last-modified",
+        type: {
+          name: "DateTimeRfc1123"
+        }
+      },
+      requestId: {
+        serializedName: "x-ms-request-id",
+        xmlName: "x-ms-request-id",
+        type: {
+          name: "String"
+        }
+      },
+      version: {
+        serializedName: "x-ms-version",
+        xmlName: "x-ms-version",
+        type: {
+          name: "String"
+        }
+      },
+      date: {
+        serializedName: "date",
+        xmlName: "date",
+        type: {
+          name: "DateTimeRfc1123"
+        }
+      },
+      fileCreationTime: {
+        serializedName: "x-ms-file-creation-time",
+        xmlName: "x-ms-file-creation-time",
+        type: {
+          name: "DateTimeRfc1123"
+        }
+      },
+      fileLastWriteTime: {
+        serializedName: "x-ms-file-last-write-time",
+        xmlName: "x-ms-file-last-write-time",
+        type: {
+          name: "DateTimeRfc1123"
+        }
+      },
+      fileChangeTime: {
+        serializedName: "x-ms-file-change-time",
+        xmlName: "x-ms-file-change-time",
+        type: {
+          name: "DateTimeRfc1123"
+        }
+      },
+      fileId: {
+        serializedName: "x-ms-file-id",
+        xmlName: "x-ms-file-id",
+        type: {
+          name: "String"
+        }
+      },
+      fileParentId: {
+        serializedName: "x-ms-file-parent-id",
+        xmlName: "x-ms-file-parent-id",
+        type: {
+          name: "String"
+        }
+      },
+      clientRequestId: {
+        serializedName: "x-ms-client-request-id",
+        xmlName: "x-ms-client-request-id",
+        type: {
+          name: "String"
+        }
+      },
+      fileMode: {
+        serializedName: "x-ms-mode",
+        xmlName: "x-ms-mode",
+        type: {
+          name: "String"
+        }
+      },
+      owner: {
+        serializedName: "x-ms-owner",
+        xmlName: "x-ms-owner",
+        type: {
+          name: "String"
+        }
+      },
+      group: {
+        serializedName: "x-ms-group",
+        xmlName: "x-ms-group",
+        type: {
+          name: "String"
+        }
+      },
+      nfsFileType: {
+        serializedName: "x-ms-file-file-type",
+        xmlName: "x-ms-file-file-type",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const FileCreateSymbolicLinkExceptionHeaders: coreClient.CompositeMapper = {
+  serializedName: "File_createSymbolicLinkExceptionHeaders",
+  type: {
+    name: "Composite",
+    className: "FileCreateSymbolicLinkExceptionHeaders",
+    modelProperties: {
+      errorCode: {
+        serializedName: "x-ms-error-code",
+        xmlName: "x-ms-error-code",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const FileGetSymbolicLinkHeaders: coreClient.CompositeMapper = {
+  serializedName: "File_getSymbolicLinkHeaders",
+  type: {
+    name: "Composite",
+    className: "FileGetSymbolicLinkHeaders",
+    modelProperties: {
+      etag: {
+        serializedName: "etag",
+        xmlName: "etag",
+        type: {
+          name: "String"
+        }
+      },
+      lastModified: {
+        serializedName: "last-modified",
+        xmlName: "last-modified",
+        type: {
+          name: "DateTimeRfc1123"
+        }
+      },
+      requestId: {
+        serializedName: "x-ms-request-id",
+        xmlName: "x-ms-request-id",
+        type: {
+          name: "String"
+        }
+      },
+      version: {
+        serializedName: "x-ms-version",
+        xmlName: "x-ms-version",
+        type: {
+          name: "String"
+        }
+      },
+      date: {
+        serializedName: "date",
+        xmlName: "date",
+        type: {
+          name: "DateTimeRfc1123"
+        }
+      },
+      linkText: {
+        serializedName: "x-ms-link-text",
+        xmlName: "x-ms-link-text",
+        type: {
+          name: "String"
+        }
+      },
+      clientRequestId: {
+        serializedName: "x-ms-client-request-id",
+        xmlName: "x-ms-client-request-id",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const FileGetSymbolicLinkExceptionHeaders: coreClient.CompositeMapper = {
+  serializedName: "File_getSymbolicLinkExceptionHeaders",
+  type: {
+    name: "Composite",
+    className: "FileGetSymbolicLinkExceptionHeaders",
+    modelProperties: {
+      errorCode: {
+        serializedName: "x-ms-error-code",
+        xmlName: "x-ms-error-code",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const FileCreateHardLinkHeaders: coreClient.CompositeMapper = {
+  serializedName: "File_createHardLinkHeaders",
+  type: {
+    name: "Composite",
+    className: "FileCreateHardLinkHeaders",
+    modelProperties: {
+      etag: {
+        serializedName: "etag",
+        xmlName: "etag",
+        type: {
+          name: "String"
+        }
+      },
+      lastModified: {
+        serializedName: "last-modified",
+        xmlName: "last-modified",
+        type: {
+          name: "DateTimeRfc1123"
+        }
+      },
+      requestId: {
+        serializedName: "x-ms-request-id",
+        xmlName: "x-ms-request-id",
+        type: {
+          name: "String"
+        }
+      },
+      version: {
+        serializedName: "x-ms-version",
+        xmlName: "x-ms-version",
+        type: {
+          name: "String"
+        }
+      },
+      date: {
+        serializedName: "date",
+        xmlName: "date",
+        type: {
+          name: "DateTimeRfc1123"
+        }
+      },
+      fileCreationTime: {
+        serializedName: "x-ms-file-creation-time",
+        xmlName: "x-ms-file-creation-time",
+        type: {
+          name: "DateTimeRfc1123"
+        }
+      },
+      fileLastWriteTime: {
+        serializedName: "x-ms-file-last-write-time",
+        xmlName: "x-ms-file-last-write-time",
+        type: {
+          name: "DateTimeRfc1123"
+        }
+      },
+      fileChangeTime: {
+        serializedName: "x-ms-file-change-time",
+        xmlName: "x-ms-file-change-time",
+        type: {
+          name: "DateTimeRfc1123"
+        }
+      },
+      fileId: {
+        serializedName: "x-ms-file-id",
+        xmlName: "x-ms-file-id",
+        type: {
+          name: "String"
+        }
+      },
+      fileParentId: {
+        serializedName: "x-ms-file-parent-id",
+        xmlName: "x-ms-file-parent-id",
+        type: {
+          name: "String"
+        }
+      },
+      clientRequestId: {
+        serializedName: "x-ms-client-request-id",
+        xmlName: "x-ms-client-request-id",
+        type: {
+          name: "String"
+        }
+      },
+      linkCount: {
+        serializedName: "x-ms-link-count",
+        xmlName: "x-ms-link-count",
+        type: {
+          name: "Number"
+        }
+      },
+      fileMode: {
+        serializedName: "x-ms-mode",
+        xmlName: "x-ms-mode",
+        type: {
+          name: "String"
+        }
+      },
+      owner: {
+        serializedName: "x-ms-owner",
+        xmlName: "x-ms-owner",
+        type: {
+          name: "String"
+        }
+      },
+      group: {
+        serializedName: "x-ms-group",
+        xmlName: "x-ms-group",
+        type: {
+          name: "String"
+        }
+      },
+      nfsFileType: {
+        serializedName: "x-ms-file-file-type",
+        xmlName: "x-ms-file-file-type",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const FileCreateHardLinkExceptionHeaders: coreClient.CompositeMapper = {
+  serializedName: "File_createHardLinkExceptionHeaders",
+  type: {
+    name: "Composite",
+    className: "FileCreateHardLinkExceptionHeaders",
     modelProperties: {
       errorCode: {
         serializedName: "x-ms-error-code",

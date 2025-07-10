@@ -14,7 +14,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * @summary Gets the configured settings for a serial port
  * x-ms-original-file: specification/serialconsole/resource-manager/Microsoft.SerialConsole/stable/2018-05-01/examples/GetSerialPort.json
  */
-async function getTheSerialPortForAParentResource() {
+async function getTheSerialPortForAParentResource(): Promise<void> {
   const subscriptionId = "00000000-00000-0000-0000-000000000000";
   const resourceGroupName = "myResourceGroup";
   const resourceProviderNamespace = "Microsoft.Compute";

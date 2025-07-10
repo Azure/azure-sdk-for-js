@@ -13,9 +13,7 @@ import {
   StreamAnalyticsManagementClient,
 } from "@azure/arm-streamanalytics";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Creates an input or replaces an already existing input under an existing streaming job.
@@ -23,7 +21,7 @@ dotenv.config();
  * @summary Creates an input or replaces an already existing input under an existing streaming job.
  * x-ms-original-file: specification/streamanalytics/resource-manager/Microsoft.StreamAnalytics/preview/2021-10-01-preview/examples/Input_Create_GatewayMessageBus.json
  */
-async function createAGatewayMessageBusInput() {
+async function createAGatewayMessageBusInput(): Promise<void> {
   const subscriptionId =
     process.env["STREAMANALYTICS_SUBSCRIPTION_ID"] ||
     "56b5e0a9-b645-407d-99b0-c64f86013e3d";
@@ -57,7 +55,7 @@ async function createAGatewayMessageBusInput() {
  * @summary Creates an input or replaces an already existing input under an existing streaming job.
  * x-ms-original-file: specification/streamanalytics/resource-manager/Microsoft.StreamAnalytics/preview/2021-10-01-preview/examples/Input_Create_Reference_Blob_CSV.json
  */
-async function createAReferenceBlobInputWithCsvSerialization() {
+async function createAReferenceBlobInputWithCsvSerialization(): Promise<void> {
   const subscriptionId =
     process.env["STREAMANALYTICS_SUBSCRIPTION_ID"] ||
     "56b5e0a9-b645-407d-99b0-c64f86013e3d";
@@ -106,7 +104,7 @@ async function createAReferenceBlobInputWithCsvSerialization() {
  * @summary Creates an input or replaces an already existing input under an existing streaming job.
  * x-ms-original-file: specification/streamanalytics/resource-manager/Microsoft.StreamAnalytics/preview/2021-10-01-preview/examples/Input_Create_Reference_File.json
  */
-async function createAReferenceFileInput() {
+async function createAReferenceFileInput(): Promise<void> {
   const subscriptionId =
     process.env["STREAMANALYTICS_SUBSCRIPTION_ID"] ||
     "56b5e0a9-b645-407d-99b0-c64f86013e3d";
@@ -140,7 +138,7 @@ async function createAReferenceFileInput() {
  * @summary Creates an input or replaces an already existing input under an existing streaming job.
  * x-ms-original-file: specification/streamanalytics/resource-manager/Microsoft.StreamAnalytics/preview/2021-10-01-preview/examples/Input_Create_Stream_EventHub_JSON.json
  */
-async function createAStreamEventHubInputWithJsonSerialization() {
+async function createAStreamEventHubInputWithJsonSerialization(): Promise<void> {
   const subscriptionId =
     process.env["STREAMANALYTICS_SUBSCRIPTION_ID"] ||
     "56b5e0a9-b645-407d-99b0-c64f86013e3d";
@@ -183,7 +181,7 @@ async function createAStreamEventHubInputWithJsonSerialization() {
  * @summary Creates an input or replaces an already existing input under an existing streaming job.
  * x-ms-original-file: specification/streamanalytics/resource-manager/Microsoft.StreamAnalytics/preview/2021-10-01-preview/examples/Input_Create_Stream_IoTHub_Avro.json
  */
-async function createAStreamIoTHubInputWithAvroSerialization() {
+async function createAStreamIoTHubInputWithAvroSerialization(): Promise<void> {
   const subscriptionId =
     process.env["STREAMANALYTICS_SUBSCRIPTION_ID"] ||
     "56b5e0a9-b645-407d-99b0-c64f86013e3d";
@@ -225,7 +223,7 @@ async function createAStreamIoTHubInputWithAvroSerialization() {
  * @summary Creates an input or replaces an already existing input under an existing streaming job.
  * x-ms-original-file: specification/streamanalytics/resource-manager/Microsoft.StreamAnalytics/preview/2021-10-01-preview/examples/Input_Create_Stream_Blob_CSV.json
  */
-async function createAStreamBlobInputWithCsvSerialization() {
+async function createAStreamBlobInputWithCsvSerialization(): Promise<void> {
   const subscriptionId =
     process.env["STREAMANALYTICS_SUBSCRIPTION_ID"] ||
     "56b5e0a9-b645-407d-99b0-c64f86013e3d";
@@ -270,7 +268,7 @@ async function createAStreamBlobInputWithCsvSerialization() {
  * @summary Creates an input or replaces an already existing input under an existing streaming job.
  * x-ms-original-file: specification/streamanalytics/resource-manager/Microsoft.StreamAnalytics/preview/2021-10-01-preview/examples/Input_Create_EventGrid.json
  */
-async function createAnEventGridInput() {
+async function createAnEventGridInput(): Promise<void> {
   const subscriptionId =
     process.env["STREAMANALYTICS_SUBSCRIPTION_ID"] ||
     "56b5e0a9-b645-407d-99b0-c64f86013e3d";
@@ -319,7 +317,7 @@ async function createAnEventGridInput() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   createAGatewayMessageBusInput();
   createAReferenceBlobInputWithCsvSerialization();
   createAReferenceFileInput();

@@ -7,7 +7,7 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { Relation, EntitiesRelationsListOptionalParams } from "../models";
+import { Relation, EntitiesRelationsListOptionalParams } from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a EntitiesRelations. */

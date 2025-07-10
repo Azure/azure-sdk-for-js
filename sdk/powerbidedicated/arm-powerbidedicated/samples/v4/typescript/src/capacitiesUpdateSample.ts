@@ -13,9 +13,7 @@ import {
   PowerBIDedicated
 } from "@azure/arm-powerbidedicated";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Updates the current state of the specified Dedicated capacity.
@@ -23,7 +21,7 @@ dotenv.config();
  * @summary Updates the current state of the specified Dedicated capacity.
  * x-ms-original-file: specification/powerbidedicated/resource-manager/Microsoft.PowerBIdedicated/stable/2021-01-01/examples/updateCapacity.json
  */
-async function updateCapacityParameters() {
+async function updateCapacityParameters(): Promise<void> {
   const subscriptionId =
     process.env["POWERBIDEDICATED_SUBSCRIPTION_ID"] ||
     "613192d7-503f-477a-9cfe-4efc3ee2bd60";
@@ -53,7 +51,7 @@ async function updateCapacityParameters() {
  * @summary Updates the current state of the specified Dedicated capacity.
  * x-ms-original-file: specification/powerbidedicated/resource-manager/Microsoft.PowerBIdedicated/stable/2021-01-01/examples/updateToGen2.json
  */
-async function updateCapacityToGeneration2() {
+async function updateCapacityToGeneration2(): Promise<void> {
   const subscriptionId =
     process.env["POWERBIDEDICATED_SUBSCRIPTION_ID"] ||
     "613192d7-503f-477a-9cfe-4efc3ee2bd60";
@@ -75,7 +73,7 @@ async function updateCapacityToGeneration2() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   updateCapacityParameters();
   updateCapacityToGeneration2();
 }

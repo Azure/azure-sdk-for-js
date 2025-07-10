@@ -9,7 +9,7 @@
 import {
   EntityRelationsGetRelationOptionalParams,
   EntityRelationsGetRelationResponse
-} from "../models";
+} from "../models/index.js";
 
 /** Interface representing a EntityRelations. */
 export interface EntityRelations {

@@ -7,9 +7,7 @@
  */
 import { SecurityCenter } from "@azure/arm-security";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Onboard an Azure API Management API to Microsoft Defender for APIs. The system will start monitoring the operations within the Azure Management API for intrusive behaviors and provide alerts for attacks that have been detected.
@@ -17,7 +15,7 @@ dotenv.config();
  * @summary Onboard an Azure API Management API to Microsoft Defender for APIs. The system will start monitoring the operations within the Azure Management API for intrusive behaviors and provide alerts for attacks that have been detected.
  * x-ms-original-file: specification/security/resource-manager/Microsoft.Security/stable/2023-11-15/examples/ApiCollections/APICollections_OnboardAzureApiManagementApi_example.json
  */
-async function onboardAnAzureApiManagementApiToMicrosoftDefenderForApIs() {
+async function onboardAnAzureApiManagementApiToMicrosoftDefenderForApIs(): Promise<void> {
   const subscriptionId =
     process.env["SECURITY_SUBSCRIPTION_ID"] || "3fa85f64-5717-4562-b3fc-2c963f66afa6";
   const resourceGroupName = process.env["SECURITY_RESOURCE_GROUP"] || "rg1";
@@ -33,7 +31,7 @@ async function onboardAnAzureApiManagementApiToMicrosoftDefenderForApIs() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   await onboardAnAzureApiManagementApiToMicrosoftDefenderForApIs();
 }
 

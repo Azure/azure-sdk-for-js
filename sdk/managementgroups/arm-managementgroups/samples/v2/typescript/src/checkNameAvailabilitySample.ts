@@ -20,7 +20,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * @summary Checks if the specified management group name is valid and unique
  * x-ms-original-file: specification/managementgroups/resource-manager/Microsoft.Management/stable/2021-04-01/examples/CheckManagementGroupNameAvailability.json
  */
-async function checkManagementGroupNameAvailability() {
+async function checkManagementGroupNameAvailability(): Promise<void> {
   const checkNameAvailabilityRequest: CheckNameAvailabilityRequest = {
     name: "nameTocheck",
     type: "Microsoft.Management/managementGroups"

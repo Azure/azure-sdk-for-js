@@ -14,7 +14,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * @summary Return list of Azure Traffic Collectors in a Resource Group
  * x-ms-original-file: specification/networkfunction/resource-manager/Microsoft.NetworkFunction/stable/2022-11-01/examples/AzureTrafficCollectorsByResourceGroupList.json
  */
-async function listOfTrafficCollectorsByResourceGroup() {
+async function listOfTrafficCollectorsByResourceGroup(): Promise<void> {
   const subscriptionId = "subid";
   const resourceGroupName = "rg1";
   const credential = new DefaultAzureCredential();

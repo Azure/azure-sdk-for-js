@@ -8,9 +8,7 @@
 import type { Datastore, DatastoresCreateOrUpdateOptionalParams } from "@azure/arm-machinelearning";
 import { AzureMachineLearningServicesManagementClient } from "@azure/arm-machinelearning";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Create or update datastore.
@@ -18,7 +16,7 @@ dotenv.config();
  * @summary Create or update datastore.
  * x-ms-original-file: specification/machinelearningservices/resource-manager/Microsoft.MachineLearningServices/stable/2024-04-01/examples/Datastore/AzureDataLakeGen1WServicePrincipal/createOrUpdate.json
  */
-async function createOrUpdateDatastoreAzureDataLakeGen1WOrServicePrincipal() {
+async function createOrUpdateDatastoreAzureDataLakeGen1WOrServicePrincipal(): Promise<void> {
   const subscriptionId =
     process.env["MACHINELEARNING_SUBSCRIPTION_ID"] || "00000000-1111-2222-3333-444444444444";
   const resourceGroupName = process.env["MACHINELEARNING_RESOURCE_GROUP"] || "test-rg";
@@ -61,7 +59,7 @@ async function createOrUpdateDatastoreAzureDataLakeGen1WOrServicePrincipal() {
  * @summary Create or update datastore.
  * x-ms-original-file: specification/machinelearningservices/resource-manager/Microsoft.MachineLearningServices/stable/2024-04-01/examples/Datastore/AzureDataLakeGen2WServicePrincipal/createOrUpdate.json
  */
-async function createOrUpdateDatastoreAzureDataLakeGen2WOrServicePrincipal() {
+async function createOrUpdateDatastoreAzureDataLakeGen2WOrServicePrincipal(): Promise<void> {
   const subscriptionId =
     process.env["MACHINELEARNING_SUBSCRIPTION_ID"] || "00000000-1111-2222-3333-444444444444";
   const resourceGroupName = process.env["MACHINELEARNING_RESOURCE_GROUP"] || "test-rg";
@@ -107,7 +105,7 @@ async function createOrUpdateDatastoreAzureDataLakeGen2WOrServicePrincipal() {
  * @summary Create or update datastore.
  * x-ms-original-file: specification/machinelearningservices/resource-manager/Microsoft.MachineLearningServices/stable/2024-04-01/examples/Datastore/AzureFileWAccountKey/createOrUpdate.json
  */
-async function createOrUpdateDatastoreAzureFileStoreWOrAccountKey() {
+async function createOrUpdateDatastoreAzureFileStoreWOrAccountKey(): Promise<void> {
   const subscriptionId =
     process.env["MACHINELEARNING_SUBSCRIPTION_ID"] || "00000000-1111-2222-3333-444444444444";
   const resourceGroupName = process.env["MACHINELEARNING_RESOURCE_GROUP"] || "test-rg";
@@ -149,7 +147,7 @@ async function createOrUpdateDatastoreAzureFileStoreWOrAccountKey() {
  * @summary Create or update datastore.
  * x-ms-original-file: specification/machinelearningservices/resource-manager/Microsoft.MachineLearningServices/stable/2024-04-01/examples/Datastore/AzureBlobWAccountKey/createOrUpdate.json
  */
-async function createOrUpdateDatastoreAzureBlobWOrAccountKey() {
+async function createOrUpdateDatastoreAzureBlobWOrAccountKey(): Promise<void> {
   const subscriptionId =
     process.env["MACHINELEARNING_SUBSCRIPTION_ID"] || "00000000-1111-2222-3333-444444444444";
   const resourceGroupName = process.env["MACHINELEARNING_RESOURCE_GROUP"] || "test-rg";
@@ -185,7 +183,7 @@ async function createOrUpdateDatastoreAzureBlobWOrAccountKey() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   await createOrUpdateDatastoreAzureDataLakeGen1WOrServicePrincipal();
   await createOrUpdateDatastoreAzureDataLakeGen2WOrServicePrincipal();
   await createOrUpdateDatastoreAzureFileStoreWOrAccountKey();

@@ -23,7 +23,7 @@ import {
   KubernetesClusterRestartNodeParameters,
   KubernetesClustersRestartNodeOptionalParams,
   KubernetesClustersRestartNodeResponse,
-} from "../models";
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a KubernetesClusters. */

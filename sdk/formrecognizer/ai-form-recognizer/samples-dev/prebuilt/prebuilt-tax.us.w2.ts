@@ -269,7 +269,7 @@ export interface TaxUsW2LocalTaxInfosElement {
 /**
  * The raw model schema.
  */
-function modelInfo() {
+function modelInfo(): any {
   return {
     modelId: "prebuilt-tax.us.w2",
     description: "Extract key information from IRS US W2 tax forms (year 2018-current).",

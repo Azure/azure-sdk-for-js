@@ -9,6 +9,6 @@
  * @packageDocumentation
  */
 
-import MPTReporter from "./mptReporter";
+import MPTReporter from "./mptReporter.js";
 
 export default MPTReporter;

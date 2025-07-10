@@ -13,9 +13,7 @@ import {
   HealthcareApisManagementClient,
 } from "@azure/arm-healthcareapis";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Check if a service instance name is available.
@@ -23,7 +21,7 @@ dotenv.config();
  * @summary Check if a service instance name is available.
  * x-ms-original-file: specification/healthcareapis/resource-manager/Microsoft.HealthcareApis/stable/2024-03-31/examples/CheckNameAvailabilityPost.json
  */
-async function checkNameAvailability() {
+async function checkNameAvailability(): Promise<void> {
   const subscriptionId =
     process.env["HEALTHCAREAPIS_SUBSCRIPTION_ID"] || "subid";
   const checkNameAvailabilityInputs: CheckNameAvailabilityParameters = {
@@ -38,7 +36,7 @@ async function checkNameAvailability() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   checkNameAvailability();
 }
 

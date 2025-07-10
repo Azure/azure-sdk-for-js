@@ -1,29 +1,38 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { AuthMethod } from "./utils/recordedClient.js";
 import { createClient, startRecorder } from "./utils/recordedClient.js";
-import { matrix } from "@azure-tools/test-utils-vitest";
 import type { ConversationAnalysisClient } from "../../src/index.js";
-import type { Recorder } from "@azure-tools/test-recorder";
-import { assertEnvironmentVariable } from "@azure-tools/test-recorder";
+import { type Recorder } from "@azure-tools/test-recorder";
 import { describe, it, assert, beforeEach, afterEach } from "vitest";
+import {
+  getCluDeploymentName,
+  getCluProjectName,
+  getOrchestrationDeploymentName,
+  getOrchestrationProjectName,
+} from "../utils/injectables.js";
 
-matrix([["APIKey"]] as const, async (authMethod: AuthMethod) => {
-  describe(`[${authMethod}] ConversationAnalysisClient`, () => {
+describe.shuffle.each(["APIKey", "AAD"] as const)(
+  `[%s] ConversationAnalysisClient`,
+  (authMethod) => {
     let recorder: Recorder;
     let client: ConversationAnalysisClient;
 
     beforeEach(async (ctx) => {
       recorder = await startRecorder(ctx);
-      client = createClient({
+      const c = createClient({
         authMethod,
         recorder,
       });
+      if (!c) {
+        ctx.skip();
+      } else {
+        client = c;
+      }
     });
 
     afterEach(async () => {
-      await recorder.stop();
+      await recorder?.stop();
     });
 
     describe("#sync", () => {
@@ -40,8 +49,8 @@ matrix([["APIKey"]] as const, async (authMethod: AuthMethod) => {
             },
           },
           parameters: {
-            projectName: assertEnvironmentVariable("LANGUAGE_CLU_PROJECT_NAME"),
-            deploymentName: assertEnvironmentVariable("LANGUAGE_CLU_DEPLOYMENT_NAME"),
+            projectName: getCluProjectName(),
+            deploymentName: getCluDeploymentName(),
             verbose: true,
             isLoggingEnabled: false,
           },
@@ -78,8 +87,8 @@ matrix([["APIKey"]] as const, async (authMethod: AuthMethod) => {
             },
           },
           parameters: {
-            projectName: assertEnvironmentVariable("LANGUAGE_ORCHESTRATION_PROJECT_NAME"),
-            deploymentName: assertEnvironmentVariable("LANGUAGE_ORCHESTRATION_DEPLOYMENT_NAME"),
+            projectName: getOrchestrationProjectName(),
+            deploymentName: getOrchestrationDeploymentName(),
             verbose: true,
             isLoggingEnabled: false,
           },
@@ -128,8 +137,8 @@ matrix([["APIKey"]] as const, async (authMethod: AuthMethod) => {
             },
           },
           parameters: {
-            projectName: assertEnvironmentVariable("LANGUAGE_ORCHESTRATION_PROJECT_NAME"),
-            deploymentName: assertEnvironmentVariable("LANGUAGE_ORCHESTRATION_DEPLOYMENT_NAME"),
+            projectName: getOrchestrationProjectName(),
+            deploymentName: getOrchestrationDeploymentName(),
             verbose: true,
             isLoggingEnabled: false,
           },
@@ -176,8 +185,8 @@ matrix([["APIKey"]] as const, async (authMethod: AuthMethod) => {
             },
           },
           parameters: {
-            projectName: assertEnvironmentVariable("LANGUAGE_ORCHESTRATION_PROJECT_NAME"),
-            deploymentName: assertEnvironmentVariable("LANGUAGE_ORCHESTRATION_DEPLOYMENT_NAME"),
+            projectName: getOrchestrationProjectName(),
+            deploymentName: getOrchestrationDeploymentName(),
             verbose: true,
             isLoggingEnabled: false,
           },
@@ -284,67 +293,76 @@ matrix([["APIKey"]] as const, async (authMethod: AuthMethod) => {
         });
       });
 
-      it("Test Conversation Summarization App", async () => {
-        const poller = await client.beginConversationAnalysis({
-          displayName: "Analyze conversations from xxx",
-          analysisInput: {
-            conversations: [
+      it("Test Conversation Summarization App", async (ctx) => {
+        try {
+          const poller = await client.beginConversationAnalysis({
+            displayName: "Analyze conversations from xxx",
+            analysisInput: {
+              conversations: [
+                {
+                  conversationItems: [
+                    {
+                      text: "Hello, how can I help you?",
+                      modality: "text",
+                      id: "1",
+                      participantId: "Agent",
+                    },
+                    {
+                      text: "How to upgrade Office? I am getting error messages the whole day.",
+                      modality: "text",
+                      id: "2",
+                      participantId: "Customer",
+                    },
+                    {
+                      text: "Press the upgrade button please. Then sign in and follow the instructions.",
+                      modality: "text",
+                      id: "3",
+                      participantId: "Agent",
+                    },
+                  ],
+                  modality: "text",
+                  id: "conversation1",
+                  language: "en",
+                },
+              ],
+            },
+            tasks: [
               {
-                conversationItems: [
-                  {
-                    text: "Hello, how can I help you?",
-                    modality: "text",
-                    id: "1",
-                    participantId: "Agent",
-                  },
-                  {
-                    text: "How to upgrade Office? I am getting error messages the whole day.",
-                    modality: "text",
-                    id: "2",
-                    participantId: "Customer",
-                  },
-                  {
-                    text: "Press the upgrade button please. Then sign in and follow the instructions.",
-                    modality: "text",
-                    id: "3",
-                    participantId: "Agent",
-                  },
-                ],
-                modality: "text",
-                id: "conversation1",
-                language: "en",
+                taskName: "analyze 1",
+                kind: "ConversationalSummarizationTask",
+                parameters: {
+                  summaryAspects: ["Issue, Resolution"],
+                },
               },
             ],
-          },
-          tasks: [
-            {
-              taskName: "analyze 1",
-              kind: "ConversationalSummarizationTask",
-              parameters: {
-                summaryAspects: ["Issue, Resolution"],
-              },
-            },
-          ],
-        });
-        const message = await poller.pollUntilDone();
-        // Assert main object
-        assert.equal(message.status, "succeeded");
+          });
+          const message = await poller.pollUntilDone();
+          // Assert main object
+          assert.equal(message.status, "succeeded");
 
-        // Assert task result
-        if (
-          message.tasks.items === undefined ||
-          message.tasks.items[0].kind !== "conversationalSummarizationResults"
-        ) {
-          assert.fail("Expected a Conversational Summarization result");
+          // Assert task result
+          if (
+            message.tasks.items === undefined ||
+            message.tasks.items[0].kind !== "conversationalSummarizationResults"
+          ) {
+            assert.fail("Expected a Conversational Summarization result");
+          }
+
+          const task_result = message.tasks.items[0];
+          assert.equal(task_result.status, "succeeded");
+
+          // Assert Conversation Result
+          const conversation_result = task_result.results.conversations[0];
+          assert.exists(conversation_result.summaries);
+        } catch (error) {
+          if ((error as any)?.details?.error?.innererror?.code === "UnsupportedFeature") {
+            recorder?.stop();
+            ctx.skip();
+          } else {
+            throw error;
+          }
         }
-
-        const task_result = message.tasks.items[0];
-        assert.equal(task_result.status, "succeeded");
-
-        // Assert Conversation Result
-        const conversation_result = task_result.results.conversations[0];
-        assert.exists(conversation_result.summaries);
       });
     });
-  });
-});
+  },
+);

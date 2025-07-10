@@ -9,7 +9,7 @@
 import {
   RecoverableServersGetOptionalParams,
   RecoverableServersGetResponse
-} from "../models";
+} from "../models/index.js";
 
 /** Interface representing a RecoverableServers. */
 export interface RecoverableServers {

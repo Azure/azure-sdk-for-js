@@ -15,7 +15,7 @@ import {
   Identity as IdentityMapper,
   IdentityUpdate as IdentityUpdateMapper,
   FederatedIdentityCredential as FederatedIdentityCredentialMapper
-} from "../models/mappers";
+} from "../models/mappers.js";
 
 export const accept: OperationParameter = {
   parameterPath: "accept",

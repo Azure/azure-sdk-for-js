@@ -13,9 +13,7 @@ import {
   TimeSeriesInsightsClient
 } from "@azure/arm-timeseriesinsights";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Create or update an access policy in the specified environment.
@@ -23,7 +21,7 @@ dotenv.config();
  * @summary Create or update an access policy in the specified environment.
  * x-ms-original-file: specification/timeseriesinsights/resource-manager/Microsoft.TimeSeriesInsights/preview/2021-03-31-preview/examples/AccessPoliciesCreate.json
  */
-async function accessPoliciesCreate() {
+async function accessPoliciesCreate(): Promise<void> {
   const subscriptionId =
     process.env["TIMESERIESINSIGHTS_SUBSCRIPTION_ID"] || "subid";
   const resourceGroupName =
@@ -46,7 +44,7 @@ async function accessPoliciesCreate() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   accessPoliciesCreate();
 }
 

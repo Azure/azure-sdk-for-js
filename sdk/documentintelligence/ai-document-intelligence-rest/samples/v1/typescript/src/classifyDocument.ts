@@ -7,18 +7,18 @@
  * @summary use a custom classifier to classify a document
  */
 
+import type { AnalyzeOperationOutput } from "@azure-rest/ai-document-intelligence";
 import DocumentIntelligence, {
-  AnalyzeOperationOutput,
   getLongRunningPoller,
   isUnexpected,
 } from "@azure-rest/ai-document-intelligence";
-
+import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
 
 async function main(): Promise<void> {
   const client = DocumentIntelligence(
     process.env["DOCUMENT_INTELLIGENCE_ENDPOINT"] || "<cognitive services endpoint>",
-    { key: process.env["DOCUMENT_INTELLIGENCE_API_KEY"] || "<api key>" },
+    new DefaultAzureCredential(),
   );
   const documentUrl =
     "https://raw.githubusercontent.com/Azure/azure-sdk-for-js/main/sdk/formrecognizer/ai-form-recognizer/assets/invoice/Invoice_1.pdf";

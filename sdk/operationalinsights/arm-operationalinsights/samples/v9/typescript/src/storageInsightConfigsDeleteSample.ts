@@ -10,9 +10,7 @@
 // Licensed under the MIT License.
 import { OperationalInsightsManagementClient } from "@azure/arm-operationalinsights";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Deletes a storageInsightsConfigs resource
@@ -20,7 +18,7 @@ dotenv.config();
  * @summary Deletes a storageInsightsConfigs resource
  * x-ms-original-file: specification/operationalinsights/resource-manager/Microsoft.OperationalInsights/stable/2020-08-01/examples/StorageInsightsDelete.json
  */
-async function storageInsightsDelete() {
+async function storageInsightsDelete(): Promise<void> {
   const subscriptionId =
     process.env["OPERATIONALINSIGHTS_SUBSCRIPTION_ID"] ||
     "00000000-0000-0000-0000-00000000000";
@@ -41,7 +39,7 @@ async function storageInsightsDelete() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   storageInsightsDelete();
 }
 

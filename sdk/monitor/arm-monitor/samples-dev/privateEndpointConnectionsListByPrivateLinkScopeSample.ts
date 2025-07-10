@@ -7,9 +7,7 @@
  */
 import { MonitorClient } from "@azure/arm-monitor";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Gets all private endpoint connections on a private link scope.
@@ -17,7 +15,7 @@ dotenv.config();
  * @summary Gets all private endpoint connections on a private link scope.
  * x-ms-original-file: specification/monitor/resource-manager/Microsoft.Insights/preview/2021-07-01-preview/examples/PrivateEndpointConnectionList.json
  */
-async function getsListOfPrivateEndpointConnectionsOnAPrivateLinkScope() {
+async function getsListOfPrivateEndpointConnectionsOnAPrivateLinkScope(): Promise<void> {
   const subscriptionId =
     process.env["MONITOR_SUBSCRIPTION_ID"] || "00000000-1111-2222-3333-444444444444";
   const resourceGroupName = process.env["MONITOR_RESOURCE_GROUP"] || "MyResourceGroup";
@@ -31,7 +29,7 @@ async function getsListOfPrivateEndpointConnectionsOnAPrivateLinkScope() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   await getsListOfPrivateEndpointConnectionsOnAPrivateLinkScope();
 }
 

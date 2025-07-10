@@ -25,7 +25,7 @@ import {
   ExpressRouteCrossConnectionsListRoutesTableSummaryResponse,
   ExpressRouteCrossConnectionsListRoutesTableOptionalParams,
   ExpressRouteCrossConnectionsListRoutesTableResponse,
-} from "../models";
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a ExpressRouteCrossConnections. */

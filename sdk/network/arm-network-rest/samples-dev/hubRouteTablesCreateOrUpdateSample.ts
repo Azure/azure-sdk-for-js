@@ -11,7 +11,7 @@ import "dotenv/config";
  * @summary Creates a RouteTable resource if it doesn't exist else updates the existing RouteTable.
  * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-05-01/examples/HubRouteTablePut.json
  */
-async function routeTablePut() {
+async function routeTablePut(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = createNetworkManagementClient(credential);
   const subscriptionId = "";

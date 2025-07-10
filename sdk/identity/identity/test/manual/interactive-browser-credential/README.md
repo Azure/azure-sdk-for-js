@@ -38,5 +38,3 @@ Grant access to this Microsoft Entra application to your Service Bus by:
 With the Microsoft Entra application and the Service Bus namespace configured, make sure `npm start` is running, then go to `http://localhost:8080`, then enter the Tenant ID, the Client ID of the Microsoft Entra application and the Service Bus Endpoint, then go through the available options to configure the scenario in which you want the authentication to run, then click on the `Send Message` button. Information from the message sent will appear at the bottom.
 
 If something unexpected happens, make sure to open the console tab in the browser. The application will be logging as many things as they seemed relevant for debugging.
-
-![Impressions](https://azure-sdk-impressions.azurewebsites.net/api/impressions/azure-sdk-for-js%2Fsdk%2Fidentity%2Fidentity%2Ftest%2Fmanual%2FREADME.png)

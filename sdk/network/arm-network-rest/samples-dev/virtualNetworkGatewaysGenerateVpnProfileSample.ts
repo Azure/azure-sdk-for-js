@@ -11,7 +11,7 @@ import "dotenv/config";
  * @summary Generates VPN profile for P2S client of the virtual network gateway in the specified resource group. Used for IKEV2 and radius based authentication.
  * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-05-01/examples/VirtualNetworkGatewayGenerateVpnProfile.json
  */
-async function generateVirtualNetworkGatewayVpnProfile() {
+async function generateVirtualNetworkGatewayVpnProfile(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = createNetworkManagementClient(credential);
   const subscriptionId = "";

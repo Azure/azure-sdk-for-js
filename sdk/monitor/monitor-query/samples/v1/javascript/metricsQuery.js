@@ -7,8 +7,7 @@
 
 const { DefaultAzureCredential } = require("@azure/identity");
 const { Durations, MetricsQueryClient } = require("@azure/monitor-query");
-require("dotenv").config();
-
+require("dotenv/config");
 const metricsResourceId = process.env.METRICS_RESOURCE_ID;
 
 async function main() {
@@ -20,7 +19,7 @@ async function main() {
   }
 
   const iterator = metricsQueryClient.listMetricDefinitions(metricsResourceId);
-  let metricNames = [];
+  const metricNames = [];
   for await (const result of iterator) {
     console.log(` metricDefinitions - ${result.id}, ${result.name}`);
     if (result.name) {

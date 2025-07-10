@@ -10,17 +10,15 @@
 // Licensed under the MIT License.
 import { RecoveryServicesBackupClient } from "@azure/arm-recoveryservicesbackup";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to List the ResourceGuardProxies under vault
  *
  * @summary List the ResourceGuardProxies under vault
- * x-ms-original-file: specification/recoveryservicesbackup/resource-manager/Microsoft.RecoveryServices/stable/2024-04-01/examples/ResourceGuardProxyCRUD/ListResourceGuardProxy.json
+ * x-ms-original-file: specification/recoveryservicesbackup/resource-manager/Microsoft.RecoveryServices/stable/2025-02-01/examples/ResourceGuardProxyCRUD/ListResourceGuardProxy.json
  */
-async function getVaultGuardProxies() {
+async function getVaultGuardProxies(): Promise<void> {
   const subscriptionId =
     process.env["RECOVERYSERVICESBACKUP_SUBSCRIPTION_ID"] ||
     "0b352192-dcac-4cc7-992e-a96190ccc68c";
@@ -31,7 +29,7 @@ async function getVaultGuardProxies() {
   const credential = new DefaultAzureCredential();
   const client = new RecoveryServicesBackupClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.resourceGuardProxies.list(
+  for await (const item of client.resourceGuardProxies.list(
     vaultName,
     resourceGroupName,
   )) {
@@ -40,8 +38,8 @@ async function getVaultGuardProxies() {
   console.log(resArray);
 }
 
-async function main() {
-  getVaultGuardProxies();
+async function main(): Promise<void> {
+  await getVaultGuardProxies();
 }
 
 main().catch(console.error);

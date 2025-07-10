@@ -10,9 +10,7 @@
 // Licensed under the MIT License.
 import { AzureNetworkFabricManagementServiceAPI } from "@azure/arm-managednetworkfabric";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Displays InternalNetworks list by resource group GET method.
@@ -20,7 +18,7 @@ dotenv.config();
  * @summary Displays InternalNetworks list by resource group GET method.
  * x-ms-original-file: specification/managednetworkfabric/resource-manager/Microsoft.ManagedNetworkFabric/stable/2023-06-15/examples/InternalNetworks_ListByL3IsolationDomain_MaximumSet_Gen.json
  */
-async function internalNetworksListByL3IsolationDomainMaximumSetGen() {
+async function internalNetworksListByL3IsolationDomainMaximumSetGen(): Promise<void> {
   const subscriptionId =
     process.env["MANAGEDNETWORKFABRIC_SUBSCRIPTION_ID"] ||
     "1234ABCD-0A1B-1234-5678-123456ABCDEF";
@@ -42,7 +40,7 @@ async function internalNetworksListByL3IsolationDomainMaximumSetGen() {
   console.log(resArray);
 }
 
-async function main() {
+async function main(): Promise<void> {
   internalNetworksListByL3IsolationDomainMaximumSetGen();
 }
 

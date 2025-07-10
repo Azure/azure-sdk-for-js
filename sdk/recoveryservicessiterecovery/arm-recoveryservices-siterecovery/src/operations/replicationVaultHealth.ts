@@ -6,23 +6,23 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { ReplicationVaultHealth } from "../operationsInterfaces";
+import { ReplicationVaultHealth } from "../operationsInterfaces/index.js";
 import * as coreClient from "@azure/core-client";
-import * as Mappers from "../models/mappers";
-import * as Parameters from "../models/parameters";
-import { SiteRecoveryManagementClient } from "../siteRecoveryManagementClient";
+import * as Mappers from "../models/mappers.js";
+import * as Parameters from "../models/parameters.js";
+import { SiteRecoveryManagementClient } from "../siteRecoveryManagementClient.js";
 import {
   SimplePollerLike,
   OperationState,
   createHttpPoller,
 } from "@azure/core-lro";
-import { createLroSpec } from "../lroImpl";
+import { createLroSpec } from "../lroImpl.js";
 import {
   ReplicationVaultHealthGetOptionalParams,
   ReplicationVaultHealthGetResponse,
   ReplicationVaultHealthRefreshOptionalParams,
   ReplicationVaultHealthRefreshResponse,
-} from "../models";
+} from "../models/index.js";
 
 /** Class containing ReplicationVaultHealth operations. */
 export class ReplicationVaultHealthImpl implements ReplicationVaultHealth {
@@ -38,32 +38,32 @@ export class ReplicationVaultHealthImpl implements ReplicationVaultHealth {
 
   /**
    * Gets the health details of the vault.
-   * @param resourceName The name of the recovery services vault.
    * @param resourceGroupName The name of the resource group where the recovery services vault is
    *                          present.
+   * @param resourceName The name of the recovery services vault.
    * @param options The options parameters.
    */
   get(
-    resourceName: string,
     resourceGroupName: string,
+    resourceName: string,
     options?: ReplicationVaultHealthGetOptionalParams,
   ): Promise<ReplicationVaultHealthGetResponse> {
     return this.client.sendOperationRequest(
-      { resourceName, resourceGroupName, options },
+      { resourceGroupName, resourceName, options },
       getOperationSpec,
     );
   }
 
   /**
    * Refreshes health summary of the vault.
-   * @param resourceName The name of the recovery services vault.
    * @param resourceGroupName The name of the resource group where the recovery services vault is
    *                          present.
+   * @param resourceName The name of the recovery services vault.
    * @param options The options parameters.
    */
   async beginRefresh(
-    resourceName: string,
     resourceGroupName: string,
+    resourceName: string,
     options?: ReplicationVaultHealthRefreshOptionalParams,
   ): Promise<
     SimplePollerLike<
@@ -111,7 +111,7 @@ export class ReplicationVaultHealthImpl implements ReplicationVaultHealth {
 
     const lro = createLroSpec({
       sendOperationFn,
-      args: { resourceName, resourceGroupName, options },
+      args: { resourceGroupName, resourceName, options },
       spec: refreshOperationSpec,
     });
     const poller = await createHttpPoller<
@@ -127,19 +127,19 @@ export class ReplicationVaultHealthImpl implements ReplicationVaultHealth {
 
   /**
    * Refreshes health summary of the vault.
-   * @param resourceName The name of the recovery services vault.
    * @param resourceGroupName The name of the resource group where the recovery services vault is
    *                          present.
+   * @param resourceName The name of the recovery services vault.
    * @param options The options parameters.
    */
   async beginRefreshAndWait(
-    resourceName: string,
     resourceGroupName: string,
+    resourceName: string,
     options?: ReplicationVaultHealthRefreshOptionalParams,
   ): Promise<ReplicationVaultHealthRefreshResponse> {
     const poller = await this.beginRefresh(
-      resourceName,
       resourceGroupName,
+      resourceName,
       options,
     );
     return poller.pollUntilDone();

@@ -6,11 +6,11 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { DefaultAccounts } from "../operationsInterfaces";
+import { DefaultAccounts } from "../operationsInterfaces/index.js";
 import * as coreClient from "@azure/core-client";
-import * as Mappers from "../models/mappers";
-import * as Parameters from "../models/parameters";
-import { PurviewManagementClient } from "../purviewManagementClient";
+import * as Mappers from "../models/mappers.js";
+import * as Parameters from "../models/parameters.js";
+import { PurviewManagementClient } from "../purviewManagementClient.js";
 import {
   ScopeType,
   DefaultAccountsGetOptionalParams,
@@ -19,7 +19,7 @@ import {
   DefaultAccountsSetModelOptionalParams,
   DefaultAccountsSetModelResponse,
   DefaultAccountsRemoveOptionalParams
-} from "../models";
+} from "../models/index.js";
 
 /** Class containing DefaultAccounts operations. */
 export class DefaultAccountsImpl implements DefaultAccounts {

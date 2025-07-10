@@ -21,7 +21,7 @@ import "dotenv/config";
  * @summary Summarizes policy states for the resources under the management group.
  * x-ms-original-file: specification/policyinsights/resource-manager/Microsoft.PolicyInsights/stable/2024-10-01/examples/PolicyStates_SummarizeManagementGroupScope.json
  */
-async function summarizeAtManagementGroupScope() {
+async function summarizeAtManagementGroupScope(): Promise<void> {
   const policyStatesSummaryResource = "latest";
   const managementGroupName = "myManagementGroup";
   const top = 0;
@@ -45,7 +45,7 @@ async function summarizeAtManagementGroupScope() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   summarizeAtManagementGroupScope();
 }
 

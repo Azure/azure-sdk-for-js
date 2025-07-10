@@ -7,9 +7,7 @@
  */
 import { ScVmm } from "@azure/arm-scvmm";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to List of VirtualNetworks in a resource group.
@@ -17,7 +15,7 @@ dotenv.config();
  * @summary List of VirtualNetworks in a resource group.
  * x-ms-original-file: specification/scvmm/resource-manager/Microsoft.ScVmm/stable/2023-10-07/examples/VirtualNetworks_ListByResourceGroup_MaximumSet_Gen.json
  */
-async function virtualNetworksListByResourceGroupMaximumSet() {
+async function virtualNetworksListByResourceGroupMaximumSet(): Promise<void> {
   const subscriptionId =
     process.env["SCVMM_SUBSCRIPTION_ID"] || "79332E5A-630B-480F-A266-A941C015AB19";
   const resourceGroupName = process.env["SCVMM_RESOURCE_GROUP"] || "rgscvmm";
@@ -36,7 +34,7 @@ async function virtualNetworksListByResourceGroupMaximumSet() {
  * @summary List of VirtualNetworks in a resource group.
  * x-ms-original-file: specification/scvmm/resource-manager/Microsoft.ScVmm/stable/2023-10-07/examples/VirtualNetworks_ListByResourceGroup_MinimumSet_Gen.json
  */
-async function virtualNetworksListByResourceGroupMinimumSet() {
+async function virtualNetworksListByResourceGroupMinimumSet(): Promise<void> {
   const subscriptionId =
     process.env["SCVMM_SUBSCRIPTION_ID"] || "79332E5A-630B-480F-A266-A941C015AB19";
   const resourceGroupName = process.env["SCVMM_RESOURCE_GROUP"] || "rgscvmm";
@@ -49,7 +47,7 @@ async function virtualNetworksListByResourceGroupMinimumSet() {
   console.log(resArray);
 }
 
-async function main() {
+async function main(): Promise<void> {
   await virtualNetworksListByResourceGroupMaximumSet();
   await virtualNetworksListByResourceGroupMinimumSet();
 }

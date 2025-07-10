@@ -10,9 +10,7 @@
 // Licensed under the MIT License.
 import { AzureMachineLearningServicesManagementClient } from "@azure/arm-machinelearning";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Gets the current usage information as well as limits for AML resources for given subscription and location.
@@ -20,7 +18,7 @@ dotenv.config();
  * @summary Gets the current usage information as well as limits for AML resources for given subscription and location.
  * x-ms-original-file: specification/machinelearningservices/resource-manager/Microsoft.MachineLearningServices/stable/2024-04-01/examples/Usage/list.json
  */
-async function listUsages() {
+async function listUsages(): Promise<void> {
   const subscriptionId =
     process.env["MACHINELEARNING_SUBSCRIPTION_ID"] ||
     "00000000-0000-0000-0000-000000000000";
@@ -37,7 +35,7 @@ async function listUsages() {
   console.log(resArray);
 }
 
-async function main() {
+async function main(): Promise<void> {
   listUsages();
 }
 

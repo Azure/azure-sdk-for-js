@@ -28,3 +28,6 @@ extends:
     Artifacts:
       - name: azure-ai-text-analytics
         safeName: azureaitextanalytics
+        triggeringPaths:
+        - /sdk/test-utils/
+        - /sdk/identity/

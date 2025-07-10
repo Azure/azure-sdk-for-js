@@ -7,12 +7,12 @@
  */
 
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
-import { setContinuationToken } from "../pagingHelper";
-import { Workspaces } from "../operationsInterfaces";
+import { setContinuationToken } from "../pagingHelper.js";
+import { Workspaces } from "../operationsInterfaces/index.js";
 import * as coreClient from "@azure/core-client";
-import * as Mappers from "../models/mappers";
-import * as Parameters from "../models/parameters";
-import { MachineLearningWorkspacesManagementClient } from "../machineLearningWorkspacesManagementClient";
+import * as Mappers from "../models/mappers.js";
+import * as Parameters from "../models/parameters.js";
+import { MachineLearningWorkspacesManagementClient } from "../machineLearningWorkspacesManagementClient.js";
 import {
   Workspace,
   WorkspacesListByResourceGroupNextOptionalParams,
@@ -34,7 +34,7 @@ import {
   WorkspacesListWorkspaceKeysResponse,
   WorkspacesListByResourceGroupNextResponse,
   WorkspacesListNextResponse
-} from "../models";
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Class containing Workspaces operations. */

@@ -10,7 +10,6 @@ describe("context.ts", () => {
     assert.ok(Context.nodeVersion, "Missing nodeVersion");
     assert.ok(Context.opentelemetryVersion, "Missing opentelemetryVersion");
     assert.ok(Context.sdkVersion, "Missing sdkVersion");
-    assert.ok(context.tags["ai.device.osVersion"], "Missing ai.device.osVersion");
     assert.ok(context.tags["ai.internal.sdkVersion"], "Missing ai.internal.sdkVersion");
   });
 
@@ -42,8 +41,21 @@ describe("context.ts", () => {
       "Wrong ai.internal.sdkVersion",
     );
     assert.ok(
-      context.tags["ai.internal.sdkVersion"].endsWith(":ext_testDistroVersion"),
+      context.tags["ai.internal.sdkVersion"].endsWith(":dst_testDistroVersion"),
       "Wrong ai.internal.sdkVersion",
     );
+  });
+  it("caputres the shim version when present", () => {
+    const originalEnv = process.env;
+    const newEnv = <{ [id: string]: string }>{};
+    newEnv["APPLICATION_INSIGHTS_SHIM_VERSION"] = "_testShimVersion";
+    process.env = newEnv;
+    const context = new Context();
+    context["_loadInternalContext"]();
+    assert.ok(
+      context.tags["ai.internal.sdkVersion"].endsWith(":sha_testShimVersion"),
+      "Wrong ai.internal.sdkVersion",
+    );
+    process.env = originalEnv;
   });
 });

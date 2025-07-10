@@ -10,9 +10,7 @@
 // Licensed under the MIT License.
 import { AzureReservationAPI } from "@azure/arm-reservations";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Gets a list of current quotas (service limits) and usage for all resources. The response from the list quota operation can be leveraged to request quota updates.
@@ -20,7 +18,7 @@ dotenv.config();
  * @summary Gets a list of current quotas (service limits) and usage for all resources. The response from the list quota operation can be leveraged to request quota updates.
  * x-ms-original-file: specification/reservations/resource-manager/Microsoft.Capacity/stable/2020-10-25/examples/getComputeUsages.json
  */
-async function quotasListUsagesForCompute() {
+async function quotasListUsagesForCompute(): Promise<void> {
   const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const providerId = "Microsoft.Compute";
   const location = "eastus";
@@ -43,7 +41,7 @@ async function quotasListUsagesForCompute() {
  * @summary Gets a list of current quotas (service limits) and usage for all resources. The response from the list quota operation can be leveraged to request quota updates.
  * x-ms-original-file: specification/reservations/resource-manager/Microsoft.Capacity/stable/2020-10-25/examples/getMachineLearningServicesUsages.json
  */
-async function quotasListUsagesMachineLearningServices() {
+async function quotasListUsagesMachineLearningServices(): Promise<void> {
   const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const providerId = "Microsoft.MachineLearningServices";
   const location = "eastus";
@@ -60,7 +58,7 @@ async function quotasListUsagesMachineLearningServices() {
   console.log(resArray);
 }
 
-async function main() {
+async function main(): Promise<void> {
   quotasListUsagesForCompute();
   quotasListUsagesMachineLearningServices();
 }

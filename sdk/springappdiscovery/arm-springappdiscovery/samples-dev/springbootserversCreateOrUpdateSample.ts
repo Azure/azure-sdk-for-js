@@ -8,9 +8,7 @@
 import type { SpringbootserversModel } from "@azure/arm-springappdiscovery";
 import { SpringAppDiscoveryManagementClient } from "@azure/arm-springappdiscovery";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Create springbootservers resource.
@@ -18,7 +16,7 @@ dotenv.config();
  * @summary Create springbootservers resource.
  * x-ms-original-file: specification/offazurespringboot/resource-manager/Microsoft.OffAzureSpringBoot/preview/2023-01-01-preview/examples/springbootservers_CreateOrUpdate_MaximumSet_Gen.json
  */
-async function springbootserversCreateOrUpdateMaximumSetGen() {
+async function springbootserversCreateOrUpdateMaximumSetGen(): Promise<void> {
   const subscriptionId = process.env["SPRINGAPPDISCOVERY_SUBSCRIPTION_ID"] || "etmdxomjncqvygm";
   const resourceGroupName =
     process.env["SPRINGAPPDISCOVERY_RESOURCE_GROUP"] || "rgspringbootservers";
@@ -52,7 +50,7 @@ async function springbootserversCreateOrUpdateMaximumSetGen() {
  * @summary Create springbootservers resource.
  * x-ms-original-file: specification/offazurespringboot/resource-manager/Microsoft.OffAzureSpringBoot/preview/2023-01-01-preview/examples/springbootservers_CreateOrUpdate_MinimumSet_Gen.json
  */
-async function springbootserversCreateOrUpdateMinimumSetGen() {
+async function springbootserversCreateOrUpdateMinimumSetGen(): Promise<void> {
   const subscriptionId = process.env["SPRINGAPPDISCOVERY_SUBSCRIPTION_ID"] || "etmdxomjncqvygm";
   const resourceGroupName =
     process.env["SPRINGAPPDISCOVERY_RESOURCE_GROUP"] || "rgspringbootservers";
@@ -70,7 +68,7 @@ async function springbootserversCreateOrUpdateMinimumSetGen() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   await springbootserversCreateOrUpdateMaximumSetGen();
   await springbootserversCreateOrUpdateMinimumSetGen();
 }

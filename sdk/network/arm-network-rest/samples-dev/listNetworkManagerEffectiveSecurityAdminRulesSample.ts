@@ -11,7 +11,7 @@ import "dotenv/config";
  * @summary List all effective security admin rules applied on a virtual network.
  * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-05-01/examples/NetworkManagerEffectiveSecurityAdminRulesList.json
  */
-async function listEffectiveSecurityAdminRules() {
+async function listEffectiveSecurityAdminRules(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = createNetworkManagementClient(credential);
   const subscriptionId = "";

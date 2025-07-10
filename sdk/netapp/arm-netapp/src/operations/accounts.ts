@@ -7,18 +7,18 @@
  */
 
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
-import { setContinuationToken } from "../pagingHelper";
-import { Accounts } from "../operationsInterfaces";
+import { setContinuationToken } from "../pagingHelper.js";
+import { Accounts } from "../operationsInterfaces/index.js";
 import * as coreClient from "@azure/core-client";
-import * as Mappers from "../models/mappers";
-import * as Parameters from "../models/parameters";
-import { NetAppManagementClient } from "../netAppManagementClient";
+import * as Mappers from "../models/mappers.js";
+import * as Parameters from "../models/parameters.js";
+import { NetAppManagementClient } from "../netAppManagementClient.js";
 import {
   SimplePollerLike,
   OperationState,
   createHttpPoller,
 } from "@azure/core-lro";
-import { createLroSpec } from "../lroImpl";
+import { createLroSpec } from "../lroImpl.js";
 import {
   NetAppAccount,
   AccountsListBySubscriptionNextOptionalParams,
@@ -44,7 +44,7 @@ import {
   AccountsChangeKeyVaultResponse,
   AccountsListBySubscriptionNextResponse,
   AccountsListNextResponse,
-} from "../models";
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Class containing Accounts operations. */
@@ -739,7 +739,7 @@ export class AccountsImpl implements Accounts {
     >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "location",
+      resourceLocationConfig: "azure-async-operation",
     });
     await poller.poll();
     return poller;
@@ -1095,16 +1095,16 @@ const getChangeKeyVaultInformationOperationSpec: coreClient.OperationSpec = {
   httpMethod: "POST",
   responses: {
     200: {
-      headersMapper: Mappers.AccountsGetChangeKeyVaultInformationHeaders,
+      bodyMapper: Mappers.GetKeyVaultStatusResponse,
     },
     201: {
-      headersMapper: Mappers.AccountsGetChangeKeyVaultInformationHeaders,
+      bodyMapper: Mappers.GetKeyVaultStatusResponse,
     },
     202: {
-      headersMapper: Mappers.AccountsGetChangeKeyVaultInformationHeaders,
+      bodyMapper: Mappers.GetKeyVaultStatusResponse,
     },
     204: {
-      headersMapper: Mappers.AccountsGetChangeKeyVaultInformationHeaders,
+      bodyMapper: Mappers.GetKeyVaultStatusResponse,
     },
     default: {
       bodyMapper: Mappers.ErrorResponse,
@@ -1165,8 +1165,8 @@ const listBySubscriptionNextOperationSpec: coreClient.OperationSpec = {
   },
   urlParameters: [
     Parameters.$host,
-    Parameters.subscriptionId,
     Parameters.nextLink,
+    Parameters.subscriptionId,
   ],
   headerParameters: [Parameters.accept],
   serializer,
@@ -1184,8 +1184,8 @@ const listNextOperationSpec: coreClient.OperationSpec = {
   },
   urlParameters: [
     Parameters.$host,
-    Parameters.subscriptionId,
     Parameters.nextLink,
+    Parameters.subscriptionId,
     Parameters.resourceGroupName,
   ],
   headerParameters: [Parameters.accept],

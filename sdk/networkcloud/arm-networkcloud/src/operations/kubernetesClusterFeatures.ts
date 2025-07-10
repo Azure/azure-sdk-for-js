@@ -7,18 +7,18 @@
  */
 
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
-import { setContinuationToken } from "../pagingHelper";
-import { KubernetesClusterFeatures } from "../operationsInterfaces";
+import { setContinuationToken } from "../pagingHelper.js";
+import { KubernetesClusterFeatures } from "../operationsInterfaces/index.js";
 import * as coreClient from "@azure/core-client";
-import * as Mappers from "../models/mappers";
-import * as Parameters from "../models/parameters";
-import { NetworkCloud } from "../networkCloud";
+import * as Mappers from "../models/mappers.js";
+import * as Parameters from "../models/parameters.js";
+import { NetworkCloud } from "../networkCloud.js";
 import {
   SimplePollerLike,
   OperationState,
   createHttpPoller,
 } from "@azure/core-lro";
-import { createLroSpec } from "../lroImpl";
+import { createLroSpec } from "../lroImpl.js";
 import {
   KubernetesClusterFeature,
   KubernetesClusterFeaturesListByKubernetesClusterNextOptionalParams,
@@ -33,7 +33,7 @@ import {
   KubernetesClusterFeaturesUpdateOptionalParams,
   KubernetesClusterFeaturesUpdateResponse,
   KubernetesClusterFeaturesListByKubernetesClusterNextResponse,
-} from "../models";
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Class containing KubernetesClusterFeatures operations. */
@@ -563,7 +563,12 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
     Parameters.kubernetesClusterName,
     Parameters.featureName,
   ],
-  headerParameters: [Parameters.accept, Parameters.contentType],
+  headerParameters: [
+    Parameters.accept,
+    Parameters.contentType,
+    Parameters.ifMatch,
+    Parameters.ifNoneMatch,
+  ],
   mediaType: "json",
   serializer,
 };
@@ -595,7 +600,11 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     Parameters.kubernetesClusterName,
     Parameters.featureName,
   ],
-  headerParameters: [Parameters.accept],
+  headerParameters: [
+    Parameters.accept,
+    Parameters.ifMatch,
+    Parameters.ifNoneMatch,
+  ],
   serializer,
 };
 const updateOperationSpec: coreClient.OperationSpec = {
@@ -627,7 +636,12 @@ const updateOperationSpec: coreClient.OperationSpec = {
     Parameters.kubernetesClusterName,
     Parameters.featureName,
   ],
-  headerParameters: [Parameters.accept, Parameters.contentType],
+  headerParameters: [
+    Parameters.accept,
+    Parameters.contentType,
+    Parameters.ifMatch,
+    Parameters.ifNoneMatch,
+  ],
   mediaType: "json",
   serializer,
 };

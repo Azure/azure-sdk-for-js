@@ -16,7 +16,7 @@ import {
   TemplateSpecUpdateModel as TemplateSpecUpdateModelMapper,
   TemplateSpecVersion as TemplateSpecVersionMapper,
   TemplateSpecVersionUpdateModel as TemplateSpecVersionUpdateModelMapper
-} from "../models/mappers";
+} from "../models/mappers.js";
 
 export const contentType: OperationParameter = {
   parameterPath: ["options", "contentType"],

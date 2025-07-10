@@ -11,7 +11,7 @@ import "dotenv/config";
  * @summary Gets the specified ExpressRouteConnection.
  * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-05-01/examples/ExpressRouteConnectionGet.json
  */
-async function expressRouteConnectionGet() {
+async function expressRouteConnectionGet(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = createNetworkManagementClient(credential);
   const subscriptionId = "";

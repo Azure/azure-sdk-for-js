@@ -1,16 +1,22 @@
 # Release History
 
-## 4.3.5 (Unreleased)
+## 4.4.0 (2025-07-10)
 
-### Features Added
+### Other Changes
 
-### Breaking Changes
+- Update `engines` to `"node": ">=20.0.0"`. Please refer to our [support policy](https://github.com/Azure/azure-sdk-for-js/blob/main/SUPPORT.md) for more information on our supported Node.js versions.
+
+## 4.3.6 (2025-03-06)
+
+### Bugs Fixed
+
+- Designates `EAI_AGAIN` and `EADDRNOTAVAIL` errors as timeout errors to be retryable.
+
+## 4.3.5 (2025-02-06)
 
 ### Bugs Fixed
 
 - Throws `AggregateError` when collecting multiple errors across retries.
-
-### Other Changes
 
 ## 4.3.4 (2025-01-10)
 

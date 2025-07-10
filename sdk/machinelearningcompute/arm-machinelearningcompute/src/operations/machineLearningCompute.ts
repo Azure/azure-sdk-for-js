@@ -6,15 +6,15 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { MachineLearningCompute } from "../operationsInterfaces";
+import { MachineLearningCompute } from "../operationsInterfaces/index.js";
 import * as coreClient from "@azure/core-client";
-import * as Mappers from "../models/mappers";
-import * as Parameters from "../models/parameters";
-import { MachineLearningComputeManagementClient } from "../machineLearningComputeManagementClient";
+import * as Mappers from "../models/mappers.js";
+import * as Parameters from "../models/parameters.js";
+import { MachineLearningComputeManagementClient } from "../machineLearningComputeManagementClient.js";
 import {
   MachineLearningComputeListAvailableOperationsOptionalParams,
   MachineLearningComputeListAvailableOperationsResponse
-} from "../models";
+} from "../models/index.js";
 
 /** Class containing MachineLearningCompute operations. */
 export class MachineLearningComputeImpl implements MachineLearningCompute {

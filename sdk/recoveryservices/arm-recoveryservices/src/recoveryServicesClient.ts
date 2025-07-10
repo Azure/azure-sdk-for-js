@@ -24,7 +24,7 @@ import {
   OperationsImpl,
   VaultExtendedInfoImpl,
   UsagesImpl,
-} from "./operations";
+} from "./operations/index.js";
 import {
   VaultCertificates,
   RegisteredIdentities,
@@ -35,16 +35,16 @@ import {
   Operations,
   VaultExtendedInfo,
   Usages,
-} from "./operationsInterfaces";
-import * as Parameters from "./models/parameters";
-import * as Mappers from "./models/mappers";
+} from "./operationsInterfaces/index.js";
+import * as Parameters from "./models/parameters.js";
+import * as Mappers from "./models/mappers.js";
 import {
   RecoveryServicesClientOptionalParams,
   GetOperationStatusOptionalParams,
   GetOperationStatusResponse,
   GetOperationResultOptionalParams,
   GetOperationResultResponse,
-} from "./models";
+} from "./models/index.js";
 
 export class RecoveryServicesClient extends coreClient.ServiceClient {
   $host: string;
@@ -78,7 +78,7 @@ export class RecoveryServicesClient extends coreClient.ServiceClient {
       credential: credentials,
     };
 
-    const packageDetails = `azsdk-js-arm-recoveryservices/6.0.1`;
+    const packageDetails = `azsdk-js-arm-recoveryservices/6.1.0`;
     const userAgentPrefix =
       options.userAgentOptions && options.userAgentOptions.userAgentPrefix
         ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`
@@ -132,7 +132,7 @@ export class RecoveryServicesClient extends coreClient.ServiceClient {
 
     // Assigning values to Constant parameters
     this.$host = options.$host || "https://management.azure.com";
-    this.apiVersion = options.apiVersion || "2024-04-01";
+    this.apiVersion = options.apiVersion || "2025-02-01";
     this.vaultCertificates = new VaultCertificatesImpl(this);
     this.registeredIdentities = new RegisteredIdentitiesImpl(this);
     this.replicationUsages = new ReplicationUsagesImpl(this);

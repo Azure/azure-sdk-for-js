@@ -11,7 +11,7 @@ import "dotenv/config";
  * @summary Creates or updates a load balancer inbound NAT rule.
  * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-05-01/examples/InboundNatRuleCreate.json
  */
-async function inboundNatRuleCreate() {
+async function inboundNatRuleCreate(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = createNetworkManagementClient(credential);
   const subscriptionId = "";

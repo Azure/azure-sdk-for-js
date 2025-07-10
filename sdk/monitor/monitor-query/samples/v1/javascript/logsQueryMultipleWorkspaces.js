@@ -7,8 +7,7 @@
 
 const { DefaultAzureCredential } = require("@azure/identity");
 const { Durations, LogsQueryClient, LogsQueryResultStatus } = require("@azure/monitor-query");
-require("dotenv").config();
-
+require("dotenv/config");
 const monitorWorkspaceId = process.env.MONITOR_WORKSPACE_ID;
 const additionalWorkspaces1 = process.env.ADDITIONAL_WORKSPACES_1 || "workspace1";
 const additionalWorkspaces2 = process.env.ADDITIONAL_WORKSPACES_2 || "workspace2";

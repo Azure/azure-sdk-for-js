@@ -8,9 +8,7 @@
 import type { PreRulesResource } from "@azure/arm-paloaltonetworksngfw";
 import { PaloAltoNetworksCloudngfw } from "@azure/arm-paloaltonetworksngfw";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Create a PreRulesResource
@@ -18,7 +16,7 @@ dotenv.config();
  * @summary Create a PreRulesResource
  * x-ms-original-file: specification/paloaltonetworks/resource-manager/PaloAltoNetworks.Cloudngfw/stable/2023-09-01/examples/PreRules_CreateOrUpdate_MaximumSet_Gen.json
  */
-async function preRulesCreateOrUpdateMaximumSetGen() {
+async function preRulesCreateOrUpdateMaximumSetGen(): Promise<void> {
   const globalRulestackName = "lrs1";
   const priority = "1";
   const resource: PreRulesResource = {
@@ -69,7 +67,7 @@ async function preRulesCreateOrUpdateMaximumSetGen() {
  * @summary Create a PreRulesResource
  * x-ms-original-file: specification/paloaltonetworks/resource-manager/PaloAltoNetworks.Cloudngfw/stable/2023-09-01/examples/PreRules_CreateOrUpdate_MinimumSet_Gen.json
  */
-async function preRulesCreateOrUpdateMinimumSetGen() {
+async function preRulesCreateOrUpdateMinimumSetGen(): Promise<void> {
   const globalRulestackName = "lrs1";
   const priority = "1";
   const resource: PreRulesResource = { ruleName: "preRule1" };
@@ -83,7 +81,7 @@ async function preRulesCreateOrUpdateMinimumSetGen() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   await preRulesCreateOrUpdateMaximumSetGen();
   await preRulesCreateOrUpdateMinimumSetGen();
 }

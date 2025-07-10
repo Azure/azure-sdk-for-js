@@ -8,9 +8,7 @@
 import type { PrivateEndpointConnection } from "@azure/arm-machinelearning";
 import { AzureMachineLearningServicesManagementClient } from "@azure/arm-machinelearning";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Update the state of specified private endpoint connection associated with the workspace.
@@ -18,7 +16,7 @@ dotenv.config();
  * @summary Update the state of specified private endpoint connection associated with the workspace.
  * x-ms-original-file: specification/machinelearningservices/resource-manager/Microsoft.MachineLearningServices/stable/2024-04-01/examples/PrivateEndpointConnection/createOrUpdate.json
  */
-async function workspacePutPrivateEndpointConnection() {
+async function workspacePutPrivateEndpointConnection(): Promise<void> {
   const subscriptionId =
     process.env["MACHINELEARNING_SUBSCRIPTION_ID"] || "00000000-1111-2222-3333-444444444444";
   const resourceGroupName = process.env["MACHINELEARNING_RESOURCE_GROUP"] || "rg-1234";
@@ -41,7 +39,7 @@ async function workspacePutPrivateEndpointConnection() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   await workspacePutPrivateEndpointConnection();
 }
 

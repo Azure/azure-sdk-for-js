@@ -6,15 +6,15 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { MhsmPrivateLinkResources } from "../operationsInterfaces";
+import { MhsmPrivateLinkResources } from "../operationsInterfaces/index.js";
 import * as coreClient from "@azure/core-client";
-import * as Mappers from "../models/mappers";
-import * as Parameters from "../models/parameters";
-import { KeyVaultManagementClient } from "../keyVaultManagementClient";
+import * as Mappers from "../models/mappers.js";
+import * as Parameters from "../models/parameters.js";
+import { KeyVaultManagementClient } from "../keyVaultManagementClient.js";
 import {
   MhsmPrivateLinkResourcesListByMhsmResourceOptionalParams,
-  MhsmPrivateLinkResourcesListByMhsmResourceResponse
-} from "../models";
+  MhsmPrivateLinkResourcesListByMhsmResourceResponse,
+} from "../models/index.js";
 
 /** Class containing MhsmPrivateLinkResources operations. */
 export class MhsmPrivateLinkResourcesImpl implements MhsmPrivateLinkResources {
@@ -37,11 +37,11 @@ export class MhsmPrivateLinkResourcesImpl implements MhsmPrivateLinkResources {
   listByMhsmResource(
     resourceGroupName: string,
     name: string,
-    options?: MhsmPrivateLinkResourcesListByMhsmResourceOptionalParams
+    options?: MhsmPrivateLinkResourcesListByMhsmResourceOptionalParams,
   ): Promise<MhsmPrivateLinkResourcesListByMhsmResourceResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, name, options },
-      listByMhsmResourceOperationSpec
+      listByMhsmResourceOperationSpec,
     );
   }
 }
@@ -49,24 +49,23 @@ export class MhsmPrivateLinkResourcesImpl implements MhsmPrivateLinkResources {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listByMhsmResourceOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.KeyVault/managedHSMs/{name}/privateLinkResources",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.KeyVault/managedHSMs/{name}/privateLinkResources",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.MhsmPrivateLinkResourceListResult
+      bodyMapper: Mappers.MhsmPrivateLinkResourceListResult,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.name1
+    Parameters.name1,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

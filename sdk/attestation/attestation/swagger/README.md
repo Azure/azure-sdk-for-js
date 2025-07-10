@@ -31,15 +31,14 @@ title: AzureAttestationRestClient
 v3: true
 no-namespace-folders: true
 use-extension:
-  "@autorest/typescript": "latest"
-
+  "@autorest/typescript": "6.0.34"
 tracing-info:
   namespace: "Azure.Security.Attestation"
   packagePrefix: "Azure.Security.Attestation"
-
 typescript:
   generate-metadata: false
   azure-arm: false
+module-kind: esm
 ```
 
 ## Customizations for Track 2 Generator

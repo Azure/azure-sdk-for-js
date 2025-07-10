@@ -12,7 +12,7 @@ export interface PurviewDataMapClientOptions extends ClientOptions {}
 
 /**
  * Initialize a new instance of `PurviewDataMapClient`
- * @param endpointParam - A sequence of textual characters.
+ * @param endpointParam - Represent a URL string as described by https://url.spec.whatwg.org/
  * @param credentials - uniquely identify client credential
  * @param options - the parameter for all optional parameters
  */
@@ -22,7 +22,7 @@ export default function createClient(
   options: PurviewDataMapClientOptions = {},
 ): PurviewDataMapClient {
   const endpointUrl = options.endpoint ?? options.baseUrl ?? `${endpointParam}/datamap/api`;
-  const userAgentInfo = `azsdk-js-purview-datamap-rest/1.0.0-beta.1`;
+  const userAgentInfo = `azsdk-js-purview-datamap-rest/1.0.0-beta.3`;
   const userAgentPrefix =
     options.userAgentOptions && options.userAgentOptions.userAgentPrefix
       ? `${options.userAgentOptions.userAgentPrefix} ${userAgentInfo}`

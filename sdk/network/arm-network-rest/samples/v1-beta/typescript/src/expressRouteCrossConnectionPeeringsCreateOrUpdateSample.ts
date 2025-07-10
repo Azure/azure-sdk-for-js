@@ -13,7 +13,7 @@ import "dotenv/config";
  * @summary Creates or updates a peering in the specified ExpressRouteCrossConnection.
  * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-05-01/examples/ExpressRouteCrossConnectionBgpPeeringCreate.json
  */
-async function expressRouteCrossConnectionBgpPeeringCreate() {
+async function expressRouteCrossConnectionBgpPeeringCreate(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = createNetworkManagementClient(credential);
   const subscriptionId = "";

@@ -2,22 +2,22 @@
 // Licensed under the MIT License.
 import type { AzureLogger } from "@azure/logger";
 import { createClientLogger } from "@azure/logger";
-import { parsePath } from "./common";
+import { parsePath } from "./common/index.js";
 import type {
   PartitionKey,
   PartitionKeyDefinition,
   PartitionKeyInternal,
   PrimitivePartitionKeyValue,
-} from "./documents";
+} from "./documents/index.js";
 import {
   convertToInternalPartitionKey,
   NonePartitionKeyLiteral,
   NullPartitionKeyLiteral,
-} from "./documents";
-import { DEFAULT_PARTITION_KEY_PATH } from "./common/partitionKeys";
-import type { Container } from "./client";
-import { readPartitionKeyDefinition } from "./client/ClientUtils";
-import type { DiagnosticNodeInternal } from "./diagnostics/DiagnosticNodeInternal";
+} from "./documents/index.js";
+import { DEFAULT_PARTITION_KEY_PATH } from "./common/partitionKeys.js";
+import type { Container } from "./client/index.js";
+import { readPartitionKeyDefinition } from "./client/ClientUtils.js";
+import type { DiagnosticNodeInternal } from "./diagnostics/DiagnosticNodeInternal.js";
 
 const logger: AzureLogger = createClientLogger("extractPartitionKey");
 
@@ -35,34 +35,46 @@ export function extractPartitionKeys(
   partitionKeyDefinition?: PartitionKeyDefinition,
 ): PartitionKeyInternal | undefined {
   if (
-    partitionKeyDefinition &&
-    partitionKeyDefinition.paths &&
-    partitionKeyDefinition.paths.length > 0
+    !partitionKeyDefinition ||
+    !partitionKeyDefinition.paths ||
+    partitionKeyDefinition.paths.length <= 0
   ) {
-    if (partitionKeyDefinition.systemKey === true) {
-      return [];
-    }
-
-    if (
-      partitionKeyDefinition.paths.length === 1 &&
-      partitionKeyDefinition.paths[0] === DEFAULT_PARTITION_KEY_PATH
-    ) {
-      return [extractPartitionKey(DEFAULT_PARTITION_KEY_PATH, document)];
-    }
-
-    const partitionKeys: PrimitivePartitionKeyValue[] = [];
-    partitionKeyDefinition.paths.forEach((path: string) => {
-      const obj = extractPartitionKey(path, document);
-      if (obj === undefined) {
-        logger.warning("Unsupported PartitionKey found.");
-        return undefined;
-      }
-      partitionKeys.push(obj);
-    });
-    return partitionKeys;
+    logger.error("Unexpected Partition Key Definition Found.");
+    return undefined;
   }
-  logger.error("Unexpected Partition Key Definition Found.");
-  return undefined;
+
+  if (
+    partitionKeyDefinition.paths.length === 1 &&
+    partitionKeyDefinition.paths[0] === DEFAULT_PARTITION_KEY_PATH
+  ) {
+    const defaultKey = extractPartitionKey(DEFAULT_PARTITION_KEY_PATH, document);
+    if (defaultKey === undefined) {
+      if (partitionKeyDefinition.systemKey === true) {
+        return [];
+      }
+      logger.warning("Unsupported PartitionKey found.");
+      return undefined;
+    } else if (defaultKey === NullPartitionKeyLiteral || defaultKey === NonePartitionKeyLiteral) {
+      if (partitionKeyDefinition.systemKey === true) {
+        return [];
+      }
+    }
+    return [defaultKey];
+  }
+
+  if (partitionKeyDefinition.systemKey === true) {
+    return [];
+  }
+  const partitionKeys: PrimitivePartitionKeyValue[] = [];
+  partitionKeyDefinition.paths.forEach((path: string) => {
+    const obj = extractPartitionKey(path, document);
+    if (obj === undefined) {
+      logger.warning("Unsupported PartitionKey found.");
+      return undefined;
+    }
+    partitionKeys.push(obj);
+  });
+  return partitionKeys;
 }
 
 function extractPartitionKey(path: string, obj: unknown): any {

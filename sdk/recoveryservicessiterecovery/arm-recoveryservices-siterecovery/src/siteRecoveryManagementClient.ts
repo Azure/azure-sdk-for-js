@@ -31,6 +31,9 @@ import {
   ReplicationProtectedItemsImpl,
   RecoveryPointsImpl,
   TargetComputeSizesImpl,
+  ReplicationProtectionClustersImpl,
+  ClusterRecoveryPointsImpl,
+  ClusterRecoveryPointOperationsImpl,
   ReplicationProtectionContainerMappingsImpl,
   ReplicationRecoveryServicesProvidersImpl,
   ReplicationStorageClassificationsImpl,
@@ -43,7 +46,7 @@ import {
   SupportedOperatingSystemsOperationsImpl,
   ReplicationVaultHealthImpl,
   ReplicationVaultSettingImpl,
-} from "./operations";
+} from "./operations/index.js";
 import {
   Operations,
   ReplicationAlertSettings,
@@ -61,6 +64,9 @@ import {
   ReplicationProtectedItems,
   RecoveryPoints,
   TargetComputeSizes,
+  ReplicationProtectionClusters,
+  ClusterRecoveryPoints,
+  ClusterRecoveryPointOperations,
   ReplicationProtectionContainerMappings,
   ReplicationRecoveryServicesProviders,
   ReplicationStorageClassifications,
@@ -73,8 +79,8 @@ import {
   SupportedOperatingSystemsOperations,
   ReplicationVaultHealth,
   ReplicationVaultSetting,
-} from "./operationsInterfaces";
-import { SiteRecoveryManagementClientOptionalParams } from "./models";
+} from "./operationsInterfaces/index.js";
+import { SiteRecoveryManagementClientOptionalParams } from "./models/index.js";
 
 export class SiteRecoveryManagementClient extends coreClient.ServiceClient {
   $host: string;
@@ -108,7 +114,7 @@ export class SiteRecoveryManagementClient extends coreClient.ServiceClient {
       credential: credentials,
     };
 
-    const packageDetails = `azsdk-js-arm-recoveryservices-siterecovery/5.2.1`;
+    const packageDetails = `azsdk-js-arm-recoveryservices-siterecovery/5.3.0`;
     const userAgentPrefix =
       options.userAgentOptions && options.userAgentOptions.userAgentPrefix
         ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`
@@ -162,7 +168,7 @@ export class SiteRecoveryManagementClient extends coreClient.ServiceClient {
 
     // Assigning values to Constant parameters
     this.$host = options.$host || "https://management.azure.com";
-    this.apiVersion = options.apiVersion || "2023-08-01";
+    this.apiVersion = options.apiVersion || "2025-01-01";
     this.operations = new OperationsImpl(this);
     this.replicationAlertSettings = new ReplicationAlertSettingsImpl(this);
     this.replicationAppliances = new ReplicationAppliancesImpl(this);
@@ -183,6 +189,12 @@ export class SiteRecoveryManagementClient extends coreClient.ServiceClient {
     this.replicationProtectedItems = new ReplicationProtectedItemsImpl(this);
     this.recoveryPoints = new RecoveryPointsImpl(this);
     this.targetComputeSizes = new TargetComputeSizesImpl(this);
+    this.replicationProtectionClusters = new ReplicationProtectionClustersImpl(
+      this,
+    );
+    this.clusterRecoveryPoints = new ClusterRecoveryPointsImpl(this);
+    this.clusterRecoveryPointOperations =
+      new ClusterRecoveryPointOperationsImpl(this);
     this.replicationProtectionContainerMappings =
       new ReplicationProtectionContainerMappingsImpl(this);
     this.replicationRecoveryServicesProviders =
@@ -249,6 +261,9 @@ export class SiteRecoveryManagementClient extends coreClient.ServiceClient {
   replicationProtectedItems: ReplicationProtectedItems;
   recoveryPoints: RecoveryPoints;
   targetComputeSizes: TargetComputeSizes;
+  replicationProtectionClusters: ReplicationProtectionClusters;
+  clusterRecoveryPoints: ClusterRecoveryPoints;
+  clusterRecoveryPointOperations: ClusterRecoveryPointOperations;
   replicationProtectionContainerMappings: ReplicationProtectionContainerMappings;
   replicationRecoveryServicesProviders: ReplicationRecoveryServicesProviders;
   replicationStorageClassifications: ReplicationStorageClassifications;

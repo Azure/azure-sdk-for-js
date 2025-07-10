@@ -8,9 +8,7 @@
 import type { ConnectorSetting } from "@azure/arm-security";
 import { SecurityCenter } from "@azure/arm-security";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Create a cloud account connector or update an existing one. Connect to your cloud account. For AWS, use either account credentials or role-based authentication. For GCP, use account organization credentials.
@@ -18,7 +16,7 @@ dotenv.config();
  * @summary Create a cloud account connector or update an existing one. Connect to your cloud account. For AWS, use either account credentials or role-based authentication. For GCP, use account organization credentials.
  * x-ms-original-file: specification/security/resource-manager/Microsoft.Security/preview/2020-01-01-preview/examples/Connectors/CreateUpdateAwsAssumeRoleConnectorSubscription_example.json
  */
-async function awsAssumeRoleCreateACloudAccountConnectorForASubscription() {
+async function awsAssumeRoleCreateACloudAccountConnectorForASubscription(): Promise<void> {
   const subscriptionId =
     process.env["SECURITY_SUBSCRIPTION_ID"] || "20ff7fc3-e762-44dd-bd96-b71116dcdc23";
   const connectorName = "aws_dev2";
@@ -51,7 +49,7 @@ async function awsAssumeRoleCreateACloudAccountConnectorForASubscription() {
  * @summary Create a cloud account connector or update an existing one. Connect to your cloud account. For AWS, use either account credentials or role-based authentication. For GCP, use account organization credentials.
  * x-ms-original-file: specification/security/resource-manager/Microsoft.Security/preview/2020-01-01-preview/examples/Connectors/CreateUpdateAwsCredConnectorSubscription_example.json
  */
-async function awsCredCreateACloudAccountConnectorForASubscription() {
+async function awsCredCreateACloudAccountConnectorForASubscription(): Promise<void> {
   const subscriptionId =
     process.env["SECURITY_SUBSCRIPTION_ID"] || "20ff7fc3-e762-44dd-bd96-b71116dcdc23";
   const connectorName = "aws_dev1";
@@ -84,7 +82,7 @@ async function awsCredCreateACloudAccountConnectorForASubscription() {
  * @summary Create a cloud account connector or update an existing one. Connect to your cloud account. For AWS, use either account credentials or role-based authentication. For GCP, use account organization credentials.
  * x-ms-original-file: specification/security/resource-manager/Microsoft.Security/preview/2020-01-01-preview/examples/Connectors/CreateUpdateGcpCredentialsConnectorSubscription_example.json
  */
-async function gcpCredentialsCreateACloudAccountConnectorForASubscription() {
+async function gcpCredentialsCreateACloudAccountConnectorForASubscription(): Promise<void> {
   const subscriptionId =
     process.env["SECURITY_SUBSCRIPTION_ID"] || "20ff7fc3-e762-44dd-bd96-b71116dcdc23";
   const connectorName = "gcp_dev";
@@ -112,7 +110,7 @@ async function gcpCredentialsCreateACloudAccountConnectorForASubscription() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   await awsAssumeRoleCreateACloudAccountConnectorForASubscription();
   await awsCredCreateACloudAccountConnectorForASubscription();
   await gcpCredentialsCreateACloudAccountConnectorForASubscription();

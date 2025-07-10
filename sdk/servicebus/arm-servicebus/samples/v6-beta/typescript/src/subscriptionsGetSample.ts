@@ -10,9 +10,7 @@
 // Licensed under the MIT License.
 import { ServiceBusManagementClient } from "@azure/arm-servicebus";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Returns a subscription description for the specified topic.
@@ -20,7 +18,7 @@ dotenv.config();
  * @summary Returns a subscription description for the specified topic.
  * x-ms-original-file: specification/servicebus/resource-manager/Microsoft.ServiceBus/preview/2022-10-01-preview/examples/Subscriptions/SBSubscriptionGet.json
  */
-async function subscriptionGet() {
+async function subscriptionGet(): Promise<void> {
   const subscriptionId =
     process.env["SERVICEBUS_SUBSCRIPTION_ID"] || "Subscriptionid";
   const resourceGroupName =
@@ -39,7 +37,7 @@ async function subscriptionGet() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   subscriptionGet();
 }
 

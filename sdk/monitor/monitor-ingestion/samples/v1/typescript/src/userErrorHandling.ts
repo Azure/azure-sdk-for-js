@@ -15,7 +15,7 @@ import {
 
 require("dotenv").config();
 
-async function main() {
+async function main(): Promise<void> {
   const logsIngestionEndpoint = process.env.LOGS_INGESTION_ENDPOINT || "logs_ingestion_endpoint";
   const ruleId = process.env.DATA_COLLECTION_RULE_ID || "data_collection_rule_id";
   const streamName = process.env.STREAM_NAME || "data_stream_name";
@@ -32,7 +32,7 @@ async function main() {
   }
 
   let failedLogs: Record<string, unknown>[] = [];
-  async function errorCallback(uploadLogsError: LogsUploadFailure) {
+  async function errorCallback(uploadLogsError: LogsUploadFailure): Promise<void> {
     if (
       (uploadLogsError.cause as Error).message ===
       "Data collection rule with immutable Id 'immutable-id-123' not found."

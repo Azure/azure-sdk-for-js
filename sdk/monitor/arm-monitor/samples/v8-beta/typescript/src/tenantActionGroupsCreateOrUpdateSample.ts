@@ -10,9 +10,7 @@
 // Licensed under the MIT License.
 import { TenantActionGroupResource, MonitorClient } from "@azure/arm-monitor";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Create a new tenant action group or update an existing one.
@@ -20,7 +18,7 @@ dotenv.config();
  * @summary Create a new tenant action group or update an existing one.
  * x-ms-original-file: specification/monitor/resource-manager/Microsoft.Insights/preview/2023-05-01-preview/examples/createOrUpdateTenantActionGroup.json
  */
-async function createOrUpdateATenantActionGroup() {
+async function createOrUpdateATenantActionGroup(): Promise<void> {
   const managementGroupId = "72f988bf-86f1-41af-91ab-2d7cd011db47";
   const tenantActionGroupName = "testTenantActionGroup";
   const xMsClientTenantId = "72f988bf-86f1-41af-91ab-2d7cd011db47";
@@ -88,7 +86,7 @@ async function createOrUpdateATenantActionGroup() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   createOrUpdateATenantActionGroup();
 }
 

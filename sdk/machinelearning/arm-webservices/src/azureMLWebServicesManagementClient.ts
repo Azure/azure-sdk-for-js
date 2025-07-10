@@ -14,9 +14,9 @@ import {
   SendRequest
 } from "@azure/core-rest-pipeline";
 import * as coreAuth from "@azure/core-auth";
-import { OperationsImpl, WebServicesImpl } from "./operations";
-import { Operations, WebServices } from "./operationsInterfaces";
-import { AzureMLWebServicesManagementClientOptionalParams } from "./models";
+import { OperationsImpl, WebServicesImpl } from "./operations/index.js";
+import { Operations, WebServices } from "./operationsInterfaces/index.js";
+import { AzureMLWebServicesManagementClientOptionalParams } from "./models/index.js";
 
 export class AzureMLWebServicesManagementClient extends coreClient.ServiceClient {
   $host: string;

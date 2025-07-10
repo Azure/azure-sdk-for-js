@@ -19,7 +19,7 @@ import {
   RegenerateAccessKeyParameters as RegenerateAccessKeyParametersMapper,
   HybridConnection as HybridConnectionMapper,
   WcfRelay as WcfRelayMapper
-} from "../models/mappers";
+} from "../models/mappers.js";
 
 export const accept: OperationParameter = {
   parameterPath: "accept",

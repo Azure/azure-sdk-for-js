@@ -5,10 +5,10 @@ import { createTableClient, createTableServiceClient } from "./utils/recordedCli
 import type { CreateClientMode } from "./utils/recordedClient.js";
 import type { TableClient } from "../../src/TableClient.js";
 import type { TableServiceClient } from "../../src/TableServiceClient.js";
-import { isLiveMode } from "@azure-tools/test-recorder";
 import { isNodeLike } from "@azure/core-util";
 import { odata } from "../../src/odata.js";
 import { describe, it, assert, beforeEach, afterAll } from "vitest";
+import { isLiveMode } from "../utils/injectables.js";
 
 const platform = isNodeLike ? "node" : "browser";
 const authMethods: CreateClientMode[] = isNodeLike
@@ -16,7 +16,7 @@ const authMethods: CreateClientMode[] = isNodeLike
   : ["SASConnectionString", "SASToken", "TokenCredential"];
 
 authMethods.forEach((authMethod) => {
-  describe(`AuthMethods Test ${authMethod} ${platform}`, { skip: !isLiveMode() }, () => {
+  describe.runIf(isLiveMode())(`AuthMethods Test ${authMethod} ${platform}`, () => {
     let serviceClient: TableServiceClient;
     let tableClient: TableClient;
     const tableClientTableName = `Auth${authMethod}${platform}`;
@@ -45,9 +45,14 @@ authMethods.forEach((authMethod) => {
       });
     });
 
-    describe("TableClient", () => {
+    describe("TableClient", (ctx) => {
       beforeEach(async () => {
-        tableClient = await createTableClient(tableClientTableName, authMethod);
+        const c = await createTableClient(tableClientTableName, authMethod);
+        if (!c) {
+          ctx.skip("Shared Key Access is not supported");
+          return;
+        }
+        tableClient = c;
       });
 
       it("create, update and get entity", async () => {

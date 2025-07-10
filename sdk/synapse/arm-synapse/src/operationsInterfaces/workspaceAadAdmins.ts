@@ -14,7 +14,7 @@ import {
   WorkspaceAadAdminsCreateOrUpdateOptionalParams,
   WorkspaceAadAdminsCreateOrUpdateResponse,
   WorkspaceAadAdminsDeleteOptionalParams
-} from "../models";
+} from "../models/index.js";
 
 /** Interface representing a WorkspaceAadAdmins. */
 export interface WorkspaceAadAdmins {

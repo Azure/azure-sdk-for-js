@@ -12,7 +12,7 @@ import * as fr from "@azure/ai-form-recognizer";
  * Extract key information from US health insurance cards.
  */
 export const PrebuiltHealthInsuranceCardUsModel = fr.createModelFromSchema(
-  modelInfo()
+  modelInfo(),
 ) as fr.DocumentModel<PrebuiltHealthInsuranceCardUsResult>;
 
 export interface PrebuiltHealthInsuranceCardUsResult extends fr.AnalyzeResultCommon {
@@ -274,7 +274,7 @@ export interface HealthInsuranceCardUsMedicareMedicaidInfo {
 /**
  * The raw model schema.
  */
-function modelInfo() {
+function modelInfo(): any {
   return {
     modelId: "prebuilt-healthInsuranceCard.us",
     description: "Extract key information from US health insurance cards.",

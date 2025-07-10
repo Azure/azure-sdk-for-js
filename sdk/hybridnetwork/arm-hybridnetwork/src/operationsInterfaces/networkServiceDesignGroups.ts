@@ -20,7 +20,7 @@ import {
   TagsObject,
   NetworkServiceDesignGroupsUpdateOptionalParams,
   NetworkServiceDesignGroupsUpdateResponse
-} from "../models";
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a NetworkServiceDesignGroups. */

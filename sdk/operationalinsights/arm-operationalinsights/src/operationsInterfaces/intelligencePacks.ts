@@ -11,7 +11,7 @@ import {
   IntelligencePacksEnableOptionalParams,
   IntelligencePacksListOptionalParams,
   IntelligencePacksListResponse
-} from "../models";
+} from "../models/index.js";
 
 /** Interface representing a IntelligencePacks. */
 export interface IntelligencePacks {

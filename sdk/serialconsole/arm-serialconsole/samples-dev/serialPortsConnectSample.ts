@@ -14,7 +14,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * @summary Connect to serial port of the target resource
  * x-ms-original-file: specification/serialconsole/resource-manager/Microsoft.SerialConsole/stable/2018-05-01/examples/SerialPortConnectVMSS.json
  */
-async function connectToAScaleSetInstanceSerialPort() {
+async function connectToAScaleSetInstanceSerialPort(): Promise<void> {
   const subscriptionId = "00000000-00000-0000-0000-000000000000";
   const resourceGroupName = "myResourceGroup";
   const resourceProviderNamespace = "Microsoft.Compute";
@@ -41,7 +41,7 @@ connectToAScaleSetInstanceSerialPort().catch(console.error);
  * @summary Connect to serial port of the target resource
  * x-ms-original-file: specification/serialconsole/resource-manager/Microsoft.SerialConsole/stable/2018-05-01/examples/SerialPortConnectVM.json
  */
-async function connectToAVirtualMachineSerialPort() {
+async function connectToAVirtualMachineSerialPort(): Promise<void> {
   const subscriptionId = "00000000-00000-0000-0000-000000000000";
   const resourceGroupName = "myResourceGroup";
   const resourceProviderNamespace = "Microsoft.Compute";

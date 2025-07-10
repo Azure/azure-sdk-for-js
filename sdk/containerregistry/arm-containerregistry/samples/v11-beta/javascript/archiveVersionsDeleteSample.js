@@ -10,13 +10,13 @@
 // Licensed under the MIT License.
 const { ContainerRegistryManagementClient } = require("@azure/arm-containerregistry");
 const { DefaultAzureCredential } = require("@azure/identity");
-require("dotenv").config();
+require("dotenv/config");
 
 /**
  * This sample demonstrates how to Deletes a archive version from a container registry.
  *
  * @summary Deletes a archive version from a container registry.
- * x-ms-original-file: specification/containerregistry/resource-manager/Microsoft.ContainerRegistry/preview/2023-11-01-preview/examples/ArchiveVersionDelete.json
+ * x-ms-original-file: specification/containerregistry/resource-manager/Microsoft.ContainerRegistry/preview/2025-03-01-preview/examples/ArchiveVersionDelete.json
  */
 async function archiveVersionDelete() {
   const subscriptionId =
@@ -33,13 +33,13 @@ async function archiveVersionDelete() {
     registryName,
     packageType,
     archiveName,
-    archiveVersionName
+    archiveVersionName,
   );
   console.log(result);
 }
 
 async function main() {
-  archiveVersionDelete();
+  await archiveVersionDelete();
 }
 
 main().catch(console.error);

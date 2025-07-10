@@ -7,9 +7,7 @@
  */
 import { AzureMachineLearningServicesManagementClient } from "@azure/arm-machinelearning";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to List keys of a notebook.
@@ -17,7 +15,7 @@ dotenv.config();
  * @summary List keys of a notebook.
  * x-ms-original-file: specification/machinelearningservices/resource-manager/Microsoft.MachineLearningServices/stable/2024-04-01/examples/Notebook/listKeys.json
  */
-async function listWorkspaceKeys() {
+async function listWorkspaceKeys(): Promise<void> {
   const subscriptionId =
     process.env["MACHINELEARNING_SUBSCRIPTION_ID"] || "aaaaaaaa-bbbb-cccc-dddd-eeeeeeeeeeee";
   const resourceGroupName = process.env["MACHINELEARNING_RESOURCE_GROUP"] || "testrg123";
@@ -28,7 +26,7 @@ async function listWorkspaceKeys() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   await listWorkspaceKeys();
 }
 

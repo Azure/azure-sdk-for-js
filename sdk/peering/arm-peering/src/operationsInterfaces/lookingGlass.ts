@@ -11,7 +11,7 @@ import {
   LookingGlassSourceType,
   LookingGlassInvokeOptionalParams,
   LookingGlassInvokeResponse
-} from "../models";
+} from "../models/index.js";
 
 /** Interface representing a LookingGlass. */
 export interface LookingGlass {

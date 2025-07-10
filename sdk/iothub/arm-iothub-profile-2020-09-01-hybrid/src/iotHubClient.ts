@@ -20,15 +20,15 @@ import {
   ResourceProviderCommonImpl,
   CertificatesImpl,
   IotHubImpl
-} from "./operations";
+} from "./operations/index.js";
 import {
   Operations,
   IotHubResource,
   ResourceProviderCommon,
   Certificates,
   IotHub
-} from "./operationsInterfaces";
-import { IotHubClientOptionalParams } from "./models";
+} from "./operationsInterfaces/index.js";
+import { IotHubClientOptionalParams } from "./models/index.js";
 
 export class IotHubClient extends coreClient.ServiceClient {
   $host: string;

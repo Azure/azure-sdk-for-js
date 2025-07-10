@@ -15,7 +15,7 @@ import {
   GuestConfigurationHcrpAssignmentsGetOptionalParams,
   GuestConfigurationHcrpAssignmentsGetResponse,
   GuestConfigurationHcrpAssignmentsDeleteOptionalParams,
-} from "../models";
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a GuestConfigurationHcrpAssignments. */

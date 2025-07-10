@@ -6,15 +6,15 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { SupportedOperatingSystemsOperations } from "../operationsInterfaces";
+import { SupportedOperatingSystemsOperations } from "../operationsInterfaces/index.js";
 import * as coreClient from "@azure/core-client";
-import * as Mappers from "../models/mappers";
-import * as Parameters from "../models/parameters";
-import { SiteRecoveryManagementClient } from "../siteRecoveryManagementClient";
+import * as Mappers from "../models/mappers.js";
+import * as Parameters from "../models/parameters.js";
+import { SiteRecoveryManagementClient } from "../siteRecoveryManagementClient.js";
 import {
   SupportedOperatingSystemsGetOptionalParams,
   SupportedOperatingSystemsGetResponse,
-} from "../models";
+} from "../models/index.js";
 
 /** Class containing SupportedOperatingSystemsOperations operations. */
 export class SupportedOperatingSystemsOperationsImpl
@@ -32,18 +32,18 @@ export class SupportedOperatingSystemsOperationsImpl
 
   /**
    * Gets the data of supported operating systems by SRS.
-   * @param resourceName The name of the recovery services vault.
    * @param resourceGroupName The name of the resource group where the recovery services vault is
    *                          present.
+   * @param resourceName The name of the recovery services vault.
    * @param options The options parameters.
    */
   get(
-    resourceName: string,
     resourceGroupName: string,
+    resourceName: string,
     options?: SupportedOperatingSystemsGetOptionalParams,
   ): Promise<SupportedOperatingSystemsGetResponse> {
     return this.client.sendOperationRequest(
-      { resourceName, resourceGroupName, options },
+      { resourceGroupName, resourceName, options },
       getOperationSpec,
     );
   }

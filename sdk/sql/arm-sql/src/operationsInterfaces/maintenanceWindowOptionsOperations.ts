@@ -9,7 +9,7 @@
 import {
   MaintenanceWindowOptionsGetOptionalParams,
   MaintenanceWindowOptionsGetResponse,
-} from "../models";
+} from "../models/index.js";
 
 /** Interface representing a MaintenanceWindowOptionsOperations. */
 export interface MaintenanceWindowOptionsOperations {

@@ -6,24 +6,20 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
 import {
   PatchVault,
   RecoveryServicesClient,
 } from "@azure/arm-recoveryservices";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Updates the vault.
  *
  * @summary Updates the vault.
- * x-ms-original-file: specification/recoveryservices/resource-manager/Microsoft.RecoveryServices/stable/2024-04-01/examples/PATCHVault.json
+ * x-ms-original-file: specification/recoveryservices/resource-manager/Microsoft.RecoveryServices/stable/2025-02-01/examples/PATCHVault.json
  */
-async function updateResource() {
+async function updateResource(): Promise<void> {
   const subscriptionId =
     process.env["RECOVERYSERVICES_SUBSCRIPTION_ID"] ||
     "77777777-b0c6-47a2-b37c-d8e65a629c18";
@@ -45,9 +41,9 @@ async function updateResource() {
  * This sample demonstrates how to Updates the vault.
  *
  * @summary Updates the vault.
- * x-ms-original-file: specification/recoveryservices/resource-manager/Microsoft.RecoveryServices/stable/2024-04-01/examples/PATCHVault_WithCMK.json
+ * x-ms-original-file: specification/recoveryservices/resource-manager/Microsoft.RecoveryServices/stable/2025-02-01/examples/PATCHVault_WithCMK.json
  */
-async function updateResourceWithCustomerManagedKeys() {
+async function updateResourceWithCustomerManagedKeys(): Promise<void> {
   const subscriptionId =
     process.env["RECOVERYSERVICES_SUBSCRIPTION_ID"] ||
     "77777777-b0c6-47a2-b37c-d8e65a629c18";
@@ -91,9 +87,9 @@ async function updateResourceWithCustomerManagedKeys() {
  * This sample demonstrates how to Updates the vault.
  *
  * @summary Updates the vault.
- * x-ms-original-file: specification/recoveryservices/resource-manager/Microsoft.RecoveryServices/stable/2024-04-01/examples/PatchVault_WithCMK2.json
+ * x-ms-original-file: specification/recoveryservices/resource-manager/Microsoft.RecoveryServices/stable/2025-02-01/examples/PatchVault_WithCMK2.json
  */
-async function updateResourceWithCustomerManagedKeys2() {
+async function updateResourceWithCustomerManagedKeys2(): Promise<void> {
   const subscriptionId =
     process.env["RECOVERYSERVICES_SUBSCRIPTION_ID"] ||
     "77777777-b0c6-47a2-b37c-d8e65a629c18";
@@ -121,9 +117,9 @@ async function updateResourceWithCustomerManagedKeys2() {
  * This sample demonstrates how to Updates the vault.
  *
  * @summary Updates the vault.
- * x-ms-original-file: specification/recoveryservices/resource-manager/Microsoft.RecoveryServices/stable/2024-04-01/examples/PATCHVault_WithCMK3.json
+ * x-ms-original-file: specification/recoveryservices/resource-manager/Microsoft.RecoveryServices/stable/2025-02-01/examples/PATCHVault_WithCMK3.json
  */
-async function updateResourceWithCustomerManagedKeys3() {
+async function updateResourceWithCustomerManagedKeys3(): Promise<void> {
   const subscriptionId =
     process.env["RECOVERYSERVICES_SUBSCRIPTION_ID"] ||
     "77777777-b0c6-47a2-b37c-d8e65a629c18";
@@ -162,9 +158,9 @@ async function updateResourceWithCustomerManagedKeys3() {
  * This sample demonstrates how to Updates the vault.
  *
  * @summary Updates the vault.
- * x-ms-original-file: specification/recoveryservices/resource-manager/Microsoft.RecoveryServices/stable/2024-04-01/examples/PATCHVault_WithUserAssignedIdentity.json
+ * x-ms-original-file: specification/recoveryservices/resource-manager/Microsoft.RecoveryServices/stable/2025-02-01/examples/PATCHVault_WithUserAssignedIdentity.json
  */
-async function updateResourceWithUserAssignedIdentity() {
+async function updateResourceWithUserAssignedIdentity(): Promise<void> {
   const subscriptionId =
     process.env["RECOVERYSERVICES_SUBSCRIPTION_ID"] ||
     "77777777-b0c6-47a2-b37c-d8e65a629c18";
@@ -195,9 +191,9 @@ async function updateResourceWithUserAssignedIdentity() {
  * This sample demonstrates how to Updates the vault.
  *
  * @summary Updates the vault.
- * x-ms-original-file: specification/recoveryservices/resource-manager/Microsoft.RecoveryServices/stable/2024-04-01/examples/PATCHVault_WithMonitoringSettings.json
+ * x-ms-original-file: specification/recoveryservices/resource-manager/Microsoft.RecoveryServices/stable/2025-02-01/examples/PATCHVault_WithMonitoringSettings.json
  */
-async function updateVaultWithMonitoringSetting() {
+async function updateVaultWithMonitoringSetting(): Promise<void> {
   const subscriptionId =
     process.env["RECOVERYSERVICES_SUBSCRIPTION_ID"] ||
     "77777777-b0c6-47a2-b37c-d8e65a629c18";
@@ -234,9 +230,9 @@ async function updateVaultWithMonitoringSetting() {
  * This sample demonstrates how to Updates the vault.
  *
  * @summary Updates the vault.
- * x-ms-original-file: specification/recoveryservices/resource-manager/Microsoft.RecoveryServices/stable/2024-04-01/examples/PATCHVault_WithRedundancySettings.json
+ * x-ms-original-file: specification/recoveryservices/resource-manager/Microsoft.RecoveryServices/stable/2025-02-01/examples/PATCHVault_WithRedundancySettings.json
  */
-async function updateVaultWithRedundancySetting() {
+async function updateVaultWithRedundancySetting(): Promise<void> {
   const subscriptionId =
     process.env["RECOVERYSERVICES_SUBSCRIPTION_ID"] ||
     "77777777-b0c6-47a2-b37c-d8e65a629c18";
@@ -261,14 +257,60 @@ async function updateVaultWithRedundancySetting() {
   console.log(result);
 }
 
-async function main() {
-  updateResource();
-  updateResourceWithCustomerManagedKeys();
-  updateResourceWithCustomerManagedKeys2();
-  updateResourceWithCustomerManagedKeys3();
-  updateResourceWithUserAssignedIdentity();
-  updateVaultWithMonitoringSetting();
-  updateVaultWithRedundancySetting();
+/**
+ * This sample demonstrates how to Updates the vault.
+ *
+ * @summary Updates the vault.
+ * x-ms-original-file: specification/recoveryservices/resource-manager/Microsoft.RecoveryServices/stable/2025-02-01/examples/PATCHVault_WithSourceScanConfiguration.json
+ */
+async function updateVaultWithSourceScanConfiguration(): Promise<void> {
+  const subscriptionId =
+    process.env["RECOVERYSERVICES_SUBSCRIPTION_ID"] ||
+    "77777777-b0c6-47a2-b37c-d8e65a629c18";
+  const resourceGroupName =
+    process.env["RECOVERYSERVICES_RESOURCE_GROUP"] || "HelloWorld";
+  const vaultName = "swaggerExample";
+  const vault: PatchVault = {
+    identity: {
+      type: "UserAssigned",
+      userAssignedIdentities: {
+        "/subscriptions/85bf5e8c30844f42Add2746ebb7e97b2/resourcegroups/defaultrg/providers/MicrosoftManagedIdentity/userAssignedIdentities/examplemsi":
+          {},
+      },
+    },
+    properties: {
+      securitySettings: {
+        sourceScanConfiguration: {
+          sourceScanIdentity: {
+            operationIdentityType: "UserAssigned",
+            userAssignedIdentity:
+              "/subscriptions/85bf5e8c-3084-4f42-add2-746ebb7e97b2/resourcegroups/defaultrg/providers/Microsoft.ManagedIdentity/userAssignedIdentities/examplemsi",
+          },
+          state: "Enabled",
+        },
+      },
+    },
+    tags: { patchKey: "PatchKeyUpdated" },
+  };
+  const credential = new DefaultAzureCredential();
+  const client = new RecoveryServicesClient(credential, subscriptionId);
+  const result = await client.vaults.beginUpdateAndWait(
+    resourceGroupName,
+    vaultName,
+    vault,
+  );
+  console.log(result);
+}
+
+async function main(): Promise<void> {
+  await updateResource();
+  await updateResourceWithCustomerManagedKeys();
+  await updateResourceWithCustomerManagedKeys2();
+  await updateResourceWithCustomerManagedKeys3();
+  await updateResourceWithUserAssignedIdentity();
+  await updateVaultWithMonitoringSetting();
+  await updateVaultWithRedundancySetting();
+  await updateVaultWithSourceScanConfiguration();
 }
 
 main().catch(console.error);

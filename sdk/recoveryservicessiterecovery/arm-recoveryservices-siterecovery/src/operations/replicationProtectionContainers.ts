@@ -7,18 +7,18 @@
  */
 
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
-import { setContinuationToken } from "../pagingHelper";
-import { ReplicationProtectionContainers } from "../operationsInterfaces";
+import { setContinuationToken } from "../pagingHelper.js";
+import { ReplicationProtectionContainers } from "../operationsInterfaces/index.js";
 import * as coreClient from "@azure/core-client";
-import * as Mappers from "../models/mappers";
-import * as Parameters from "../models/parameters";
-import { SiteRecoveryManagementClient } from "../siteRecoveryManagementClient";
+import * as Mappers from "../models/mappers.js";
+import * as Parameters from "../models/parameters.js";
+import { SiteRecoveryManagementClient } from "../siteRecoveryManagementClient.js";
 import {
   SimplePollerLike,
   OperationState,
   createHttpPoller,
 } from "@azure/core-lro";
-import { createLroSpec } from "../lroImpl";
+import { createLroSpec } from "../lroImpl.js";
 import {
   ProtectionContainer,
   ReplicationProtectionContainersListByReplicationFabricsNextOptionalParams,
@@ -36,12 +36,15 @@ import {
   ReplicationProtectionContainersDiscoverProtectableItemOptionalParams,
   ReplicationProtectionContainersDiscoverProtectableItemResponse,
   ReplicationProtectionContainersDeleteOptionalParams,
+  SwitchClusterProtectionInput,
+  ReplicationProtectionContainersSwitchClusterProtectionOptionalParams,
+  ReplicationProtectionContainersSwitchClusterProtectionResponse,
   SwitchProtectionInput,
   ReplicationProtectionContainersSwitchProtectionOptionalParams,
   ReplicationProtectionContainersSwitchProtectionResponse,
   ReplicationProtectionContainersListByReplicationFabricsNextResponse,
   ReplicationProtectionContainersListNextResponse,
-} from "../models";
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Class containing ReplicationProtectionContainers operations. */
@@ -60,21 +63,21 @@ export class ReplicationProtectionContainersImpl
 
   /**
    * Lists the protection containers in the specified fabric.
-   * @param resourceName The name of the recovery services vault.
    * @param resourceGroupName The name of the resource group where the recovery services vault is
    *                          present.
+   * @param resourceName The name of the recovery services vault.
    * @param fabricName Fabric name.
    * @param options The options parameters.
    */
   public listByReplicationFabrics(
-    resourceName: string,
     resourceGroupName: string,
+    resourceName: string,
     fabricName: string,
     options?: ReplicationProtectionContainersListByReplicationFabricsOptionalParams,
   ): PagedAsyncIterableIterator<ProtectionContainer> {
     const iter = this.listByReplicationFabricsPagingAll(
-      resourceName,
       resourceGroupName,
+      resourceName,
       fabricName,
       options,
     );
@@ -90,8 +93,8 @@ export class ReplicationProtectionContainersImpl
           throw new Error("maxPageSize is not supported by this operation.");
         }
         return this.listByReplicationFabricsPagingPage(
-          resourceName,
           resourceGroupName,
+          resourceName,
           fabricName,
           options,
           settings,
@@ -101,8 +104,8 @@ export class ReplicationProtectionContainersImpl
   }
 
   private async *listByReplicationFabricsPagingPage(
-    resourceName: string,
     resourceGroupName: string,
+    resourceName: string,
     fabricName: string,
     options?: ReplicationProtectionContainersListByReplicationFabricsOptionalParams,
     settings?: PageSettings,
@@ -111,8 +114,8 @@ export class ReplicationProtectionContainersImpl
     let continuationToken = settings?.continuationToken;
     if (!continuationToken) {
       result = await this._listByReplicationFabrics(
-        resourceName,
         resourceGroupName,
+        resourceName,
         fabricName,
         options,
       );
@@ -123,8 +126,8 @@ export class ReplicationProtectionContainersImpl
     }
     while (continuationToken) {
       result = await this._listByReplicationFabricsNext(
-        resourceName,
         resourceGroupName,
+        resourceName,
         fabricName,
         continuationToken,
         options,
@@ -137,14 +140,14 @@ export class ReplicationProtectionContainersImpl
   }
 
   private async *listByReplicationFabricsPagingAll(
-    resourceName: string,
     resourceGroupName: string,
+    resourceName: string,
     fabricName: string,
     options?: ReplicationProtectionContainersListByReplicationFabricsOptionalParams,
   ): AsyncIterableIterator<ProtectionContainer> {
     for await (const page of this.listByReplicationFabricsPagingPage(
-      resourceName,
       resourceGroupName,
+      resourceName,
       fabricName,
       options,
     )) {
@@ -154,17 +157,17 @@ export class ReplicationProtectionContainersImpl
 
   /**
    * Lists the protection containers in a vault.
-   * @param resourceName The name of the recovery services vault.
    * @param resourceGroupName The name of the resource group where the recovery services vault is
    *                          present.
+   * @param resourceName The name of the recovery services vault.
    * @param options The options parameters.
    */
   public list(
-    resourceName: string,
     resourceGroupName: string,
+    resourceName: string,
     options?: ReplicationProtectionContainersListOptionalParams,
   ): PagedAsyncIterableIterator<ProtectionContainer> {
-    const iter = this.listPagingAll(resourceName, resourceGroupName, options);
+    const iter = this.listPagingAll(resourceGroupName, resourceName, options);
     return {
       next() {
         return iter.next();
@@ -177,8 +180,8 @@ export class ReplicationProtectionContainersImpl
           throw new Error("maxPageSize is not supported by this operation.");
         }
         return this.listPagingPage(
-          resourceName,
           resourceGroupName,
+          resourceName,
           options,
           settings,
         );
@@ -187,15 +190,15 @@ export class ReplicationProtectionContainersImpl
   }
 
   private async *listPagingPage(
-    resourceName: string,
     resourceGroupName: string,
+    resourceName: string,
     options?: ReplicationProtectionContainersListOptionalParams,
     settings?: PageSettings,
   ): AsyncIterableIterator<ProtectionContainer[]> {
     let result: ReplicationProtectionContainersListResponse;
     let continuationToken = settings?.continuationToken;
     if (!continuationToken) {
-      result = await this._list(resourceName, resourceGroupName, options);
+      result = await this._list(resourceGroupName, resourceName, options);
       let page = result.value || [];
       continuationToken = result.nextLink;
       setContinuationToken(page, continuationToken);
@@ -203,8 +206,8 @@ export class ReplicationProtectionContainersImpl
     }
     while (continuationToken) {
       result = await this._listNext(
-        resourceName,
         resourceGroupName,
+        resourceName,
         continuationToken,
         options,
       );
@@ -216,13 +219,13 @@ export class ReplicationProtectionContainersImpl
   }
 
   private async *listPagingAll(
-    resourceName: string,
     resourceGroupName: string,
+    resourceName: string,
     options?: ReplicationProtectionContainersListOptionalParams,
   ): AsyncIterableIterator<ProtectionContainer> {
     for await (const page of this.listPagingPage(
-      resourceName,
       resourceGroupName,
+      resourceName,
       options,
     )) {
       yield* page;
@@ -231,44 +234,44 @@ export class ReplicationProtectionContainersImpl
 
   /**
    * Lists the protection containers in the specified fabric.
-   * @param resourceName The name of the recovery services vault.
    * @param resourceGroupName The name of the resource group where the recovery services vault is
    *                          present.
+   * @param resourceName The name of the recovery services vault.
    * @param fabricName Fabric name.
    * @param options The options parameters.
    */
   private _listByReplicationFabrics(
-    resourceName: string,
     resourceGroupName: string,
+    resourceName: string,
     fabricName: string,
     options?: ReplicationProtectionContainersListByReplicationFabricsOptionalParams,
   ): Promise<ReplicationProtectionContainersListByReplicationFabricsResponse> {
     return this.client.sendOperationRequest(
-      { resourceName, resourceGroupName, fabricName, options },
+      { resourceGroupName, resourceName, fabricName, options },
       listByReplicationFabricsOperationSpec,
     );
   }
 
   /**
    * Gets the details of a protection container.
-   * @param resourceName The name of the recovery services vault.
    * @param resourceGroupName The name of the resource group where the recovery services vault is
    *                          present.
+   * @param resourceName The name of the recovery services vault.
    * @param fabricName Fabric name.
    * @param protectionContainerName Protection container name.
    * @param options The options parameters.
    */
   get(
-    resourceName: string,
     resourceGroupName: string,
+    resourceName: string,
     fabricName: string,
     protectionContainerName: string,
     options?: ReplicationProtectionContainersGetOptionalParams,
   ): Promise<ReplicationProtectionContainersGetResponse> {
     return this.client.sendOperationRequest(
       {
-        resourceName,
         resourceGroupName,
+        resourceName,
         fabricName,
         protectionContainerName,
         options,
@@ -279,17 +282,17 @@ export class ReplicationProtectionContainersImpl
 
   /**
    * Operation to create a protection container.
-   * @param resourceName The name of the recovery services vault.
    * @param resourceGroupName The name of the resource group where the recovery services vault is
    *                          present.
+   * @param resourceName The name of the recovery services vault.
    * @param fabricName Unique fabric ARM name.
    * @param protectionContainerName Unique protection container ARM name.
    * @param creationInput Creation input.
    * @param options The options parameters.
    */
   async beginCreate(
-    resourceName: string,
     resourceGroupName: string,
+    resourceName: string,
     fabricName: string,
     protectionContainerName: string,
     creationInput: CreateProtectionContainerInput,
@@ -341,8 +344,8 @@ export class ReplicationProtectionContainersImpl
     const lro = createLroSpec({
       sendOperationFn,
       args: {
-        resourceName,
         resourceGroupName,
+        resourceName,
         fabricName,
         protectionContainerName,
         creationInput,
@@ -363,25 +366,25 @@ export class ReplicationProtectionContainersImpl
 
   /**
    * Operation to create a protection container.
-   * @param resourceName The name of the recovery services vault.
    * @param resourceGroupName The name of the resource group where the recovery services vault is
    *                          present.
+   * @param resourceName The name of the recovery services vault.
    * @param fabricName Unique fabric ARM name.
    * @param protectionContainerName Unique protection container ARM name.
    * @param creationInput Creation input.
    * @param options The options parameters.
    */
   async beginCreateAndWait(
-    resourceName: string,
     resourceGroupName: string,
+    resourceName: string,
     fabricName: string,
     protectionContainerName: string,
     creationInput: CreateProtectionContainerInput,
     options?: ReplicationProtectionContainersCreateOptionalParams,
   ): Promise<ReplicationProtectionContainersCreateResponse> {
     const poller = await this.beginCreate(
-      resourceName,
       resourceGroupName,
+      resourceName,
       fabricName,
       protectionContainerName,
       creationInput,
@@ -392,17 +395,17 @@ export class ReplicationProtectionContainersImpl
 
   /**
    * The operation to a add a protectable item to a protection container(Add physical server).
-   * @param resourceName The name of the recovery services vault.
    * @param resourceGroupName The name of the resource group where the recovery services vault is
    *                          present.
+   * @param resourceName The name of the recovery services vault.
    * @param fabricName The name of the fabric.
    * @param protectionContainerName The name of the protection container.
    * @param discoverProtectableItemRequest The request object to add a protectable item.
    * @param options The options parameters.
    */
   async beginDiscoverProtectableItem(
-    resourceName: string,
     resourceGroupName: string,
+    resourceName: string,
     fabricName: string,
     protectionContainerName: string,
     discoverProtectableItemRequest: DiscoverProtectableItemRequest,
@@ -454,8 +457,8 @@ export class ReplicationProtectionContainersImpl
     const lro = createLroSpec({
       sendOperationFn,
       args: {
-        resourceName,
         resourceGroupName,
+        resourceName,
         fabricName,
         protectionContainerName,
         discoverProtectableItemRequest,
@@ -476,25 +479,25 @@ export class ReplicationProtectionContainersImpl
 
   /**
    * The operation to a add a protectable item to a protection container(Add physical server).
-   * @param resourceName The name of the recovery services vault.
    * @param resourceGroupName The name of the resource group where the recovery services vault is
    *                          present.
+   * @param resourceName The name of the recovery services vault.
    * @param fabricName The name of the fabric.
    * @param protectionContainerName The name of the protection container.
    * @param discoverProtectableItemRequest The request object to add a protectable item.
    * @param options The options parameters.
    */
   async beginDiscoverProtectableItemAndWait(
-    resourceName: string,
     resourceGroupName: string,
+    resourceName: string,
     fabricName: string,
     protectionContainerName: string,
     discoverProtectableItemRequest: DiscoverProtectableItemRequest,
     options?: ReplicationProtectionContainersDiscoverProtectableItemOptionalParams,
   ): Promise<ReplicationProtectionContainersDiscoverProtectableItemResponse> {
     const poller = await this.beginDiscoverProtectableItem(
-      resourceName,
       resourceGroupName,
+      resourceName,
       fabricName,
       protectionContainerName,
       discoverProtectableItemRequest,
@@ -505,16 +508,16 @@ export class ReplicationProtectionContainersImpl
 
   /**
    * Operation to remove a protection container.
-   * @param resourceName The name of the recovery services vault.
    * @param resourceGroupName The name of the resource group where the recovery services vault is
    *                          present.
+   * @param resourceName The name of the recovery services vault.
    * @param fabricName Unique fabric ARM name.
    * @param protectionContainerName Unique protection container ARM name.
    * @param options The options parameters.
    */
   async beginDelete(
-    resourceName: string,
     resourceGroupName: string,
+    resourceName: string,
     fabricName: string,
     protectionContainerName: string,
     options?: ReplicationProtectionContainersDeleteOptionalParams,
@@ -560,8 +563,8 @@ export class ReplicationProtectionContainersImpl
     const lro = createLroSpec({
       sendOperationFn,
       args: {
-        resourceName,
         resourceGroupName,
+        resourceName,
         fabricName,
         protectionContainerName,
         options,
@@ -578,23 +581,23 @@ export class ReplicationProtectionContainersImpl
 
   /**
    * Operation to remove a protection container.
-   * @param resourceName The name of the recovery services vault.
    * @param resourceGroupName The name of the resource group where the recovery services vault is
    *                          present.
+   * @param resourceName The name of the recovery services vault.
    * @param fabricName Unique fabric ARM name.
    * @param protectionContainerName Unique protection container ARM name.
    * @param options The options parameters.
    */
   async beginDeleteAndWait(
-    resourceName: string,
     resourceGroupName: string,
+    resourceName: string,
     fabricName: string,
     protectionContainerName: string,
     options?: ReplicationProtectionContainersDeleteOptionalParams,
   ): Promise<void> {
     const poller = await this.beginDelete(
-      resourceName,
       resourceGroupName,
+      resourceName,
       fabricName,
       protectionContainerName,
       options,
@@ -603,18 +606,132 @@ export class ReplicationProtectionContainersImpl
   }
 
   /**
-   * Operation to switch protection from one container to another or one replication provider to another.
-   * @param resourceName The name of the recovery services vault.
+   * Operation to switch protection from one container to another.
    * @param resourceGroupName The name of the resource group where the recovery services vault is
    *                          present.
+   * @param resourceName The name of the recovery services vault.
+   * @param fabricName Fabric name.
+   * @param protectionContainerName Protection container name.
+   * @param switchInput Switch protection input.
+   * @param options The options parameters.
+   */
+  async beginSwitchClusterProtection(
+    resourceGroupName: string,
+    resourceName: string,
+    fabricName: string,
+    protectionContainerName: string,
+    switchInput: SwitchClusterProtectionInput,
+    options?: ReplicationProtectionContainersSwitchClusterProtectionOptionalParams,
+  ): Promise<
+    SimplePollerLike<
+      OperationState<ReplicationProtectionContainersSwitchClusterProtectionResponse>,
+      ReplicationProtectionContainersSwitchClusterProtectionResponse
+    >
+  > {
+    const directSendOperation = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec,
+    ): Promise<ReplicationProtectionContainersSwitchClusterProtectionResponse> => {
+      return this.client.sendOperationRequest(args, spec);
+    };
+    const sendOperationFn = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec,
+    ) => {
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
+      const providedCallback = args.options?.onResponse;
+      const callback: coreClient.RawResponseCallback = (
+        rawResponse: coreClient.FullOperationResponse,
+        flatResponse: unknown,
+      ) => {
+        currentRawResponse = rawResponse;
+        providedCallback?.(rawResponse, flatResponse);
+      };
+      const updatedArgs = {
+        ...args,
+        options: {
+          ...args.options,
+          onResponse: callback,
+        },
+      };
+      const flatResponse = await directSendOperation(updatedArgs, spec);
+      return {
+        flatResponse,
+        rawResponse: {
+          statusCode: currentRawResponse!.status,
+          body: currentRawResponse!.parsedBody,
+          headers: currentRawResponse!.headers.toJSON(),
+        },
+      };
+    };
+
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: {
+        resourceGroupName,
+        resourceName,
+        fabricName,
+        protectionContainerName,
+        switchInput,
+        options,
+      },
+      spec: switchClusterProtectionOperationSpec,
+    });
+    const poller = await createHttpPoller<
+      ReplicationProtectionContainersSwitchClusterProtectionResponse,
+      OperationState<ReplicationProtectionContainersSwitchClusterProtectionResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs,
+      resourceLocationConfig: "location",
+    });
+    await poller.poll();
+    return poller;
+  }
+
+  /**
+   * Operation to switch protection from one container to another.
+   * @param resourceGroupName The name of the resource group where the recovery services vault is
+   *                          present.
+   * @param resourceName The name of the recovery services vault.
+   * @param fabricName Fabric name.
+   * @param protectionContainerName Protection container name.
+   * @param switchInput Switch protection input.
+   * @param options The options parameters.
+   */
+  async beginSwitchClusterProtectionAndWait(
+    resourceGroupName: string,
+    resourceName: string,
+    fabricName: string,
+    protectionContainerName: string,
+    switchInput: SwitchClusterProtectionInput,
+    options?: ReplicationProtectionContainersSwitchClusterProtectionOptionalParams,
+  ): Promise<ReplicationProtectionContainersSwitchClusterProtectionResponse> {
+    const poller = await this.beginSwitchClusterProtection(
+      resourceGroupName,
+      resourceName,
+      fabricName,
+      protectionContainerName,
+      switchInput,
+      options,
+    );
+    return poller.pollUntilDone();
+  }
+
+  /**
+   * Operation to switch protection from one container to another or one replication provider to another.
+   * @param resourceGroupName The name of the resource group where the recovery services vault is
+   *                          present.
+   * @param resourceName The name of the recovery services vault.
    * @param fabricName Unique fabric name.
    * @param protectionContainerName Protection container name.
    * @param switchInput Switch protection input.
    * @param options The options parameters.
    */
   async beginSwitchProtection(
-    resourceName: string,
     resourceGroupName: string,
+    resourceName: string,
     fabricName: string,
     protectionContainerName: string,
     switchInput: SwitchProtectionInput,
@@ -666,8 +783,8 @@ export class ReplicationProtectionContainersImpl
     const lro = createLroSpec({
       sendOperationFn,
       args: {
-        resourceName,
         resourceGroupName,
+        resourceName,
         fabricName,
         protectionContainerName,
         switchInput,
@@ -688,25 +805,25 @@ export class ReplicationProtectionContainersImpl
 
   /**
    * Operation to switch protection from one container to another or one replication provider to another.
-   * @param resourceName The name of the recovery services vault.
    * @param resourceGroupName The name of the resource group where the recovery services vault is
    *                          present.
+   * @param resourceName The name of the recovery services vault.
    * @param fabricName Unique fabric name.
    * @param protectionContainerName Protection container name.
    * @param switchInput Switch protection input.
    * @param options The options parameters.
    */
   async beginSwitchProtectionAndWait(
-    resourceName: string,
     resourceGroupName: string,
+    resourceName: string,
     fabricName: string,
     protectionContainerName: string,
     switchInput: SwitchProtectionInput,
     options?: ReplicationProtectionContainersSwitchProtectionOptionalParams,
   ): Promise<ReplicationProtectionContainersSwitchProtectionResponse> {
     const poller = await this.beginSwitchProtection(
-      resourceName,
       resourceGroupName,
+      resourceName,
       fabricName,
       protectionContainerName,
       switchInput,
@@ -717,61 +834,61 @@ export class ReplicationProtectionContainersImpl
 
   /**
    * Lists the protection containers in a vault.
-   * @param resourceName The name of the recovery services vault.
    * @param resourceGroupName The name of the resource group where the recovery services vault is
    *                          present.
+   * @param resourceName The name of the recovery services vault.
    * @param options The options parameters.
    */
   private _list(
-    resourceName: string,
     resourceGroupName: string,
+    resourceName: string,
     options?: ReplicationProtectionContainersListOptionalParams,
   ): Promise<ReplicationProtectionContainersListResponse> {
     return this.client.sendOperationRequest(
-      { resourceName, resourceGroupName, options },
+      { resourceGroupName, resourceName, options },
       listOperationSpec,
     );
   }
 
   /**
    * ListByReplicationFabricsNext
-   * @param resourceName The name of the recovery services vault.
    * @param resourceGroupName The name of the resource group where the recovery services vault is
    *                          present.
+   * @param resourceName The name of the recovery services vault.
    * @param fabricName Fabric name.
    * @param nextLink The nextLink from the previous successful call to the ListByReplicationFabrics
    *                 method.
    * @param options The options parameters.
    */
   private _listByReplicationFabricsNext(
-    resourceName: string,
     resourceGroupName: string,
+    resourceName: string,
     fabricName: string,
     nextLink: string,
     options?: ReplicationProtectionContainersListByReplicationFabricsNextOptionalParams,
   ): Promise<ReplicationProtectionContainersListByReplicationFabricsNextResponse> {
     return this.client.sendOperationRequest(
-      { resourceName, resourceGroupName, fabricName, nextLink, options },
+      { resourceGroupName, resourceName, fabricName, nextLink, options },
       listByReplicationFabricsNextOperationSpec,
     );
   }
 
   /**
    * ListNext
-   * @param resourceName The name of the recovery services vault.
    * @param resourceGroupName The name of the resource group where the recovery services vault is
    *                          present.
+   * @param resourceName The name of the recovery services vault.
    * @param nextLink The nextLink from the previous successful call to the List method.
    * @param options The options parameters.
    */
   private _listNext(
-    resourceName: string,
     resourceGroupName: string,
+    resourceName: string,
     nextLink: string,
     options?: ReplicationProtectionContainersListNextOptionalParams,
   ): Promise<ReplicationProtectionContainersListNextResponse> {
     return this.client.sendOperationRequest(
-      { resourceName, resourceGroupName, nextLink, options },
+      { resourceGroupName, resourceName, nextLink, options },
       listNextOperationSpec,
     );
   }
@@ -895,6 +1012,40 @@ const deleteOperationSpec: coreClient.OperationSpec = {
   ],
   serializer,
 };
+const switchClusterProtectionOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationFabrics/{fabricName}/replicationProtectionContainers/{protectionContainerName}/switchClusterProtection",
+  httpMethod: "POST",
+  responses: {
+    200: {
+      bodyMapper: Mappers.ProtectionContainer,
+    },
+    201: {
+      bodyMapper: Mappers.ProtectionContainer,
+    },
+    202: {
+      bodyMapper: Mappers.ProtectionContainer,
+    },
+    204: {
+      bodyMapper: Mappers.ProtectionContainer,
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  requestBody: Parameters.switchInput,
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.resourceGroupName,
+    Parameters.subscriptionId,
+    Parameters.resourceName1,
+    Parameters.fabricName1,
+    Parameters.protectionContainerName1,
+  ],
+  headerParameters: [Parameters.accept, Parameters.contentType],
+  mediaType: "json",
+  serializer,
+};
 const switchProtectionOperationSpec: coreClient.OperationSpec = {
   path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationFabrics/{fabricName}/replicationProtectionContainers/{protectionContainerName}/switchprotection",
   httpMethod: "POST",
@@ -912,7 +1063,7 @@ const switchProtectionOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ProtectionContainer,
     },
   },
-  requestBody: Parameters.switchInput,
+  requestBody: Parameters.switchInput1,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,

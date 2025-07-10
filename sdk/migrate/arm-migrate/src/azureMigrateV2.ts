@@ -27,7 +27,7 @@ import {
   PrivateEndpointConnectionOperationsImpl,
   PrivateLinkResourceOperationsImpl,
   OperationsImpl
-} from "./operations";
+} from "./operations/index.js";
 import {
   Projects,
   Machines,
@@ -41,8 +41,8 @@ import {
   PrivateEndpointConnectionOperations,
   PrivateLinkResourceOperations,
   Operations
-} from "./operationsInterfaces";
-import { AzureMigrateV2OptionalParams } from "./models";
+} from "./operationsInterfaces/index.js";
+import { AzureMigrateV2OptionalParams } from "./models/index.js";
 
 export class AzureMigrateV2 extends coreClient.ServiceClient {
   $host: string;

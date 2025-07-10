@@ -11,7 +11,7 @@ import "dotenv/config";
  * @summary Lists all the VpnServerConfigurations in a subscription.
  * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-05-01/examples/VpnServerConfigurationList.json
  */
-async function vpnServerConfigurationList() {
+async function vpnServerConfigurationList(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = createNetworkManagementClient(credential);
   const subscriptionId = "";

@@ -61,9 +61,16 @@ Trial Matcher provides the user of the services two main modes of operation: pat
 
 - [Match Trials - Find potential eligible trials for a patient](#match-trials)
 
-```typescript
-const apiKey = process.env["HEALTH_INSIGHTS_API_KEY"] || "";
-const endpoint = process.env["HEALTH_INSIGHTS_ENDPOINT"] || "";
+```ts snippet:ReadmeSampleMatchTrials
+import { AzureKeyCredential } from "@azure/core-auth";
+import ClinicalMatchingRestClient, {
+  isUnexpected,
+  getLongRunningPoller,
+} from "@azure-rest/health-insights-clinicalmatching";
+import { readFileSync } from "node:fs";
+
+const endpoint = "https://<your-endpoint>";
+const apiKey = "<your-api-key>";
 const credential = new AzureKeyCredential(apiKey);
 const client = ClinicalMatchingRestClient(endpoint, credential);
 
@@ -106,7 +113,10 @@ const patientInfo = {
   birthDate: new Date("1965-11-26T00:00:00.000Z"), // Note: Months are zero-based (11 represents December)
   clinicalInfo: clinicalInfoList,
 };
-const docContent = { sourceType: "INLINE", value: getPatientDocContent() };
+const docContent = {
+  sourceType: "INLINE",
+  value: readFileSync("./example-data/match_trial_fhir_data.txt").toString(),
+};
 const patientDataList = {
   type: "fhirBundle",
   id: "Consultation-14-Demo",
@@ -120,7 +130,11 @@ const patient1 = {
   data: [patientDataList],
 };
 
-const geographicLocation = { countryOrRegion: "United States", city: "Gilbert", state: "Arizona" };
+const geographicLocation = {
+  countryOrRegion: "United States",
+  city: "Gilbert",
+  state: "Arizona",
+};
 const registryFilters = {
   conditions: ["Non-small cell lung cancer"],
   phases: ["PHASE1"],
@@ -149,18 +163,17 @@ const trialMatcherParameter = {
 // Initiate clinical matching job and retrieve results
 const initialResponse = await client.path("/trialmatcher/jobs").post(trialMatcherParameter);
 if (isUnexpected(initialResponse)) {
-  throw initialResponse;
+  throw initialResponse.body.error;
 }
 const poller = await getLongRunningPoller(client, initialResponse);
 const trialMatcherResult = await poller.pollUntilDone();
 if (isUnexpected(trialMatcherResult)) {
-  throw trialMatcherResult;
+  throw trialMatcherResult.body.error;
 }
 const resultBody = trialMatcherResult.body;
 
-// Print the inference results for a patient's cancer attributes
-if (resultBody.status === "succeeded") {
-  const results = resultBody.results;
+const results = resultBody.results;
+if (results) {
   const patients = results.patients;
   for (const patientResult of patients) {
     console.log(`Inferences of Patient ${patientResult.id}`);
@@ -168,13 +181,6 @@ if (resultBody.status === "succeeded") {
       console.log(`Trial Id ${tmInferences.id}`);
       console.log(`Type: ${String(tmInferences.type)}  Value: ${tmInferences.value}`);
       console.log(`Description ${tmInferences.description}`);
-    }
-  }
-} else {
-  const errors = trialMatcherResult.errors;
-  if (errors) {
-    for (const error of errors) {
-      console.log('${error.code} ":" ${error.message}');
     }
   }
 }
@@ -186,8 +192,8 @@ if (resultBody.status === "succeeded") {
 
 Enabling logging may help uncover useful information about failures. In order to see a log of HTTP requests and responses, set the `AZURE_LOG_LEVEL` environment variable to `info`. Alternatively, logging can be enabled at runtime by calling `setLogLevel` in the `@azure/logger`:
 
-```javascript
-const { setLogLevel } = require("@azure/logger");
+```ts snippet:SetLogLevel
+import { setLogLevel } from "@azure/logger";
 
 setLogLevel("info");
 ```

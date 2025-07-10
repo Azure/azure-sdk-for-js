@@ -13,7 +13,7 @@ import "dotenv/config";
  * @summary Deletes a VirtualHubBgpConnection.
  * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-05-01/examples/VirtualHubBgpConnectionDelete.json
  */
-async function virtualHubRouteTableV2Delete() {
+async function virtualHubRouteTableV2Delete(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = createNetworkManagementClient(credential);
   const subscriptionId = "";

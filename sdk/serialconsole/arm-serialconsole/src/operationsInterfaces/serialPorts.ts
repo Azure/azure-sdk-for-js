@@ -19,7 +19,7 @@ import {
   SerialPortsListBySubscriptionsResponse,
   SerialPortsConnectOptionalParams,
   SerialPortsConnectResponse
-} from "../models";
+} from "../models/index.js";
 
 /** Interface representing a SerialPorts. */
 export interface SerialPorts {

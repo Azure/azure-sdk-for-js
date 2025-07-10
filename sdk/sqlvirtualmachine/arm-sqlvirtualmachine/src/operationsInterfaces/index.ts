@@ -6,8 +6,8 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-export * from "./availabilityGroupListeners";
-export * from "./operations";
-export * from "./sqlVirtualMachineGroups";
-export * from "./sqlVirtualMachines";
-export * from "./sqlVirtualMachineTroubleshoot";
+export * from "./availabilityGroupListeners.js";
+export * from "./operations.js";
+export * from "./sqlVirtualMachineGroups.js";
+export * from "./sqlVirtualMachines.js";
+export * from "./sqlVirtualMachineTroubleshoot.js";

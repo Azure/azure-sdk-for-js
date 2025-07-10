@@ -16,7 +16,7 @@ import { DefaultAzureCredential } from "@azure/identity";
 
  * x-ms-original-file: specification/managementgroups/resource-manager/Microsoft.Management/stable/2021-04-01/examples/GetAllSubscriptionsFromManagementGroup.json
  */
-async function getAllSubscriptionsFromManagementGroup() {
+async function getAllSubscriptionsFromManagementGroup(): Promise<void> {
   const groupId = "Group";
   const credential = new DefaultAzureCredential();
   const client = new ManagementGroupsAPI(credential);

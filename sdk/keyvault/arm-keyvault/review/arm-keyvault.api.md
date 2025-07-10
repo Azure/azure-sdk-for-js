@@ -14,7 +14,7 @@ import { SimplePollerLike } from '@azure/core-lro';
 export interface AccessPolicyEntry {
     applicationId?: string;
     objectId: string;
-    permissions: Permissions_2;
+    permissions: Permissions;
     tenantId: string;
 }
 
@@ -455,7 +455,9 @@ export enum KnownKeyPermissions {
 // @public
 export enum KnownManagedHsmSkuFamily {
     // (undocumented)
-    B = "B"
+    B = "B",
+    // (undocumented)
+    C = "C"
 }
 
 // @public
@@ -841,7 +843,7 @@ export interface ManagedHsmSku {
 export type ManagedHsmSkuFamily = string;
 
 // @public
-export type ManagedHsmSkuName = "Standard_B1" | "Custom_B32" | "Custom_B6";
+export type ManagedHsmSkuName = "Standard_B1" | "Custom_B32" | "Custom_B6" | "Custom_C42" | "Custom_C10";
 
 // @public
 export interface ManagedHsmsListByResourceGroupNextOptionalParams extends coreClient.OperationOptions {
@@ -1172,13 +1174,12 @@ export interface OperationsListOptionalParams extends coreClient.OperationOption
 export type OperationsListResponse = OperationListResult;
 
 // @public
-interface Permissions_2 {
+export interface Permissions {
     certificates?: CertificatePermissions[];
     keys?: KeyPermissions[];
     secrets?: SecretPermissions[];
     storage?: StoragePermissions[];
 }
-export { Permissions_2 as Permissions }
 
 // @public
 export interface PrivateEndpoint {

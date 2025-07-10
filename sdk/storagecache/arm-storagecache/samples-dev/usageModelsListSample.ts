@@ -7,9 +7,7 @@
  */
 import { StorageCacheManagementClient } from "@azure/arm-storagecache";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Get the list of cache usage models available to this subscription.
@@ -17,7 +15,7 @@ dotenv.config();
  * @summary Get the list of cache usage models available to this subscription.
  * x-ms-original-file: specification/storagecache/resource-manager/Microsoft.StorageCache/stable/2024-03-01/examples/UsageModels_List.json
  */
-async function usageModelsList() {
+async function usageModelsList(): Promise<void> {
   const subscriptionId =
     process.env["STORAGECACHE_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";
   const credential = new DefaultAzureCredential();
@@ -29,7 +27,7 @@ async function usageModelsList() {
   console.log(resArray);
 }
 
-async function main() {
+async function main(): Promise<void> {
   await usageModelsList();
 }
 

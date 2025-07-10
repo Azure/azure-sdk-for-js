@@ -2,9 +2,9 @@
 
 These sample programs show how to use the TypeScript client libraries for Azure SDK Core in some common scenarios.
 
-| **File Name**                         | **Description**            |
-| ------------------------------------- | -------------------------- |
-| [createSseStream.ts][createssestream] | parses server-sent events. |
+| **File Name**                         | **Description**                                                        |
+| ------------------------------------- | ---------------------------------------------------------------------- |
+| [createSseStream.ts][createssestream] | Demonstrates streaming events from Wikimedia’s recent change endpoint. |
 
 ## Prerequisites
 

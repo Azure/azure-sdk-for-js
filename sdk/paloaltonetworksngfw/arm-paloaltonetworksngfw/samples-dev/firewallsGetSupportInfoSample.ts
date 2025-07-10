@@ -8,9 +8,7 @@
 import type { FirewallsGetSupportInfoOptionalParams } from "@azure/arm-paloaltonetworksngfw";
 import { PaloAltoNetworksCloudngfw } from "@azure/arm-paloaltonetworksngfw";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to support info for firewall.
@@ -18,7 +16,7 @@ dotenv.config();
  * @summary support info for firewall.
  * x-ms-original-file: specification/paloaltonetworks/resource-manager/PaloAltoNetworks.Cloudngfw/stable/2023-09-01/examples/Firewalls_getSupportInfo_MaximumSet_Gen.json
  */
-async function firewallsGetSupportInfoMaximumSetGen() {
+async function firewallsGetSupportInfoMaximumSetGen(): Promise<void> {
   const subscriptionId =
     process.env["PALOALTONETWORKSNGFW_SUBSCRIPTION_ID"] || "2bf4a339-294d-4c25-b0b2-ef649e9f5c27";
   const resourceGroupName = process.env["PALOALTONETWORKSNGFW_RESOURCE_GROUP"] || "rgopenapi";
@@ -37,7 +35,7 @@ async function firewallsGetSupportInfoMaximumSetGen() {
  * @summary support info for firewall.
  * x-ms-original-file: specification/paloaltonetworks/resource-manager/PaloAltoNetworks.Cloudngfw/stable/2023-09-01/examples/Firewalls_getSupportInfo_MinimumSet_Gen.json
  */
-async function firewallsGetSupportInfoMinimumSetGen() {
+async function firewallsGetSupportInfoMinimumSetGen(): Promise<void> {
   const subscriptionId =
     process.env["PALOALTONETWORKSNGFW_SUBSCRIPTION_ID"] || "2bf4a339-294d-4c25-b0b2-ef649e9f5c27";
   const resourceGroupName = process.env["PALOALTONETWORKSNGFW_RESOURCE_GROUP"] || "rgopenapi";
@@ -48,7 +46,7 @@ async function firewallsGetSupportInfoMinimumSetGen() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   await firewallsGetSupportInfoMaximumSetGen();
   await firewallsGetSupportInfoMinimumSetGen();
 }

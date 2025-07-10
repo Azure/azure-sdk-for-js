@@ -7,19 +7,19 @@
  */
 
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
-import { setContinuationToken } from "../pagingHelper";
-import { Operations } from "../operationsInterfaces";
+import { setContinuationToken } from "../pagingHelper.js";
+import { Operations } from "../operationsInterfaces/index.js";
 import * as coreClient from "@azure/core-client";
-import * as Mappers from "../models/mappers";
-import * as Parameters from "../models/parameters";
-import { NginxManagementClient } from "../nginxManagementClient";
+import * as Mappers from "../models/mappers.js";
+import * as Parameters from "../models/parameters.js";
+import { NginxManagementClient } from "../nginxManagementClient.js";
 import {
   OperationResult,
   OperationsListNextOptionalParams,
   OperationsListOptionalParams,
   OperationsListResponse,
   OperationsListNextResponse,
-} from "../models";
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Class containing Operations operations. */
@@ -35,7 +35,7 @@ export class OperationsImpl implements Operations {
   }
 
   /**
-   * List all operations provided by Nginx.NginxPlus for the 2024-01-01-preview api version.
+   * List all operations provided by Nginx.NginxPlus for the 2024-11-01-preview api version.
    * @param options The options parameters.
    */
   public list(
@@ -89,7 +89,7 @@ export class OperationsImpl implements Operations {
   }
 
   /**
-   * List all operations provided by Nginx.NginxPlus for the 2024-01-01-preview api version.
+   * List all operations provided by Nginx.NginxPlus for the 2024-11-01-preview api version.
    * @param options The options parameters.
    */
   private _list(
@@ -124,7 +124,7 @@ const listOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.OperationListResult,
     },
     default: {
-      bodyMapper: Mappers.ResourceProviderDefaultErrorResponse,
+      bodyMapper: Mappers.ErrorResponse,
     },
   },
   queryParameters: [Parameters.apiVersion],
@@ -140,7 +140,7 @@ const listNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.OperationListResult,
     },
     default: {
-      bodyMapper: Mappers.ResourceProviderDefaultErrorResponse,
+      bodyMapper: Mappers.ErrorResponse,
     },
   },
   urlParameters: [Parameters.$host, Parameters.nextLink],

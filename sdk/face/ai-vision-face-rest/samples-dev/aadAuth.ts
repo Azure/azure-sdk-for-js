@@ -1,8 +1,9 @@
-import { readFileSync } from "fs";
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
+
+import { readFileSync } from "node:fs";
 import { DefaultAzureCredential } from "@azure/identity";
-
 import createFaceClient, { isUnexpected } from "@azure-rest/ai-vision-face";
-
 import "dotenv/config";
 
 /**
@@ -11,7 +12,7 @@ import "dotenv/config";
  * @summary Microsoft Entra ID authentication.
  */
 
-const main = async () => {
+async function main(): Promise<void> {
   const endpoint = process.env["FACE_ENDPOINT"] ?? "<endpoint>";
   const credential = new DefaultAzureCredential();
   const client = createFaceClient(endpoint, credential);
@@ -31,6 +32,6 @@ const main = async () => {
   }
   console.log(`Detect: ${fileName}`);
   console.log(JSON.stringify(detectResponse.body, null, 2));
-};
+}
 
 main().catch(console.error);

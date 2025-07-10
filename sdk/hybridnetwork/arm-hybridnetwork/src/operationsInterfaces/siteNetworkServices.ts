@@ -21,7 +21,7 @@ import {
   TagsObject,
   SiteNetworkServicesUpdateTagsOptionalParams,
   SiteNetworkServicesUpdateTagsResponse
-} from "../models";
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a SiteNetworkServices. */

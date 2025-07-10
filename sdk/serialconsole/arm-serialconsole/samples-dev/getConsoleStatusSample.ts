@@ -14,7 +14,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * @summary Gets whether or not Serial Console is disabled for a given subscription
  * x-ms-original-file: specification/serialconsole/resource-manager/Microsoft.SerialConsole/stable/2018-05-01/examples/SerialConsoleStatus.json
  */
-async function getTheSerialConsoleDisabledStatusForASubscription() {
+async function getTheSerialConsoleDisabledStatusForASubscription(): Promise<void> {
   const subscriptionId = "00000000-00000-0000-0000-000000000000";
   const defaultParam = "default";
   const credential = new DefaultAzureCredential();

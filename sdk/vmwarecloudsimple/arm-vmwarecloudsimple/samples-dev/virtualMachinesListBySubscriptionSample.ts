@@ -7,9 +7,7 @@
  */
 import { VMwareCloudSimple } from "@azure/arm-vmwarecloudsimple";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Returns list virtual machine within subscription
@@ -17,7 +15,7 @@ dotenv.config();
  * @summary Returns list virtual machine within subscription
  * x-ms-original-file: specification/vmwarecloudsimple/resource-manager/Microsoft.VMwareCloudSimple/stable/2019-04-01/examples/ListVirtualMachines.json
  */
-async function listVirtualMachines() {
+async function listVirtualMachines(): Promise<void> {
   const subscriptionId = process.env["VMWARECLOUDSIMPLE_SUBSCRIPTION_ID"] || "{subscription-id}";
   const credential = new DefaultAzureCredential();
   const client = new VMwareCloudSimple(credential, subscriptionId);
@@ -28,7 +26,7 @@ async function listVirtualMachines() {
   console.log(resArray);
 }
 
-async function main() {
+async function main(): Promise<void> {
   await listVirtualMachines();
 }
 

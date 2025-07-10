@@ -21,7 +21,7 @@ import {
   VMwareCollector as VMwareCollectorMapper,
   ImportCollector as ImportCollectorMapper,
   PrivateEndpointConnection as PrivateEndpointConnectionMapper
-} from "../models/mappers";
+} from "../models/mappers.js";
 
 export const accept: OperationParameter = {
   parameterPath: "accept",

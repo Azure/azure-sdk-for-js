@@ -18,7 +18,7 @@ import {
   SAPInstanceTagsUpdate as SAPInstanceTagsUpdateMapper,
   ServerInstance as ServerInstanceMapper,
   UpdateServerInstanceRequest as UpdateServerInstanceRequestMapper,
-} from "../models/mappers";
+} from "../models/mappers.js";
 
 export const accept: OperationParameter = {
   parameterPath: "accept",

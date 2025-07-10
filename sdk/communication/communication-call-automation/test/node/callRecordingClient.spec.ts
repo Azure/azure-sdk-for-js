@@ -250,7 +250,7 @@ describe("CallRecording Live Tests", () => {
         answerCallOption,
       );
     }
-    const callConnectedEvent = await waitForEvent("CallConnected", callConnectionId, 8000);
+    const callConnectedEvent = await waitForEvent("CallConnected", callConnectionId, 10000);
 
     assert.isDefined(callConnectedEvent);
     callConnection = result.callConnection;

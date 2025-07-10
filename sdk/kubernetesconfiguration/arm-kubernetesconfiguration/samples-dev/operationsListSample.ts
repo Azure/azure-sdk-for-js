@@ -7,9 +7,7 @@
  */
 import { SourceControlConfigurationClient } from "@azure/arm-kubernetesconfiguration";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to List all the available operations the KubernetesConfiguration resource provider supports.
@@ -17,7 +15,7 @@ dotenv.config();
  * @summary List all the available operations the KubernetesConfiguration resource provider supports.
  * x-ms-original-file: specification/kubernetesconfiguration/resource-manager/Microsoft.KubernetesConfiguration/stable/2023-05-01/examples/OperationsList.json
  */
-async function batchAccountDelete() {
+async function batchAccountDelete(): Promise<void> {
   const subscriptionId =
     process.env["KUBERNETESCONFIGURATION_SUBSCRIPTION_ID"] ||
     "00000000-0000-0000-0000-000000000000";
@@ -30,7 +28,7 @@ async function batchAccountDelete() {
   console.log(resArray);
 }
 
-async function main() {
+async function main(): Promise<void> {
   await batchAccountDelete();
 }
 

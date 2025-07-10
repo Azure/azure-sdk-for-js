@@ -15,7 +15,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * @summary Sets the default account for the scope.
  * x-ms-original-file: specification/purview/resource-manager/Microsoft.Purview/stable/2021-07-01/examples/DefaultAccounts_Set.json
  */
-async function defaultAccountsSet() {
+async function defaultAccountsSet(): Promise<void> {
   const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const defaultAccountPayload: DefaultAccountPayload = {
     accountName: "myDefaultAccount",

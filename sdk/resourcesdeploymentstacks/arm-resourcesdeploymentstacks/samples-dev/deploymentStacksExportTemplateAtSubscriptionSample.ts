@@ -7,9 +7,7 @@
  */
 import { DeploymentStacksClient } from "@azure/arm-resourcesdeploymentstacks";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Exports the template used to create the Deployment stack at Subscription scope.
@@ -17,7 +15,7 @@ dotenv.config();
  * @summary Exports the template used to create the Deployment stack at Subscription scope.
  * x-ms-original-file: specification/resources/resource-manager/Microsoft.Resources/stable/2024-03-01/examples/DeploymentStackSubscriptionExportTemplate.json
  */
-async function deploymentStacksSubscriptionExportTemplate() {
+async function deploymentStacksSubscriptionExportTemplate(): Promise<void> {
   const subscriptionId =
     process.env["RESOURCESDEPLOYMENTSTACKS_SUBSCRIPTION_ID"] ||
     "00000000-0000-0000-0000-000000000000";
@@ -28,7 +26,7 @@ async function deploymentStacksSubscriptionExportTemplate() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   await deploymentStacksSubscriptionExportTemplate();
 }
 

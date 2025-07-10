@@ -8,9 +8,9 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to create or update a mongo cluster. Update overwrites all properties for the resource. To only modify some of the properties, use PATCH.
  *
  * @summary create or update a mongo cluster. Update overwrites all properties for the resource. To only modify some of the properties, use PATCH.
- * x-ms-original-file: 2024-07-01/MongoClusters_Create.json
+ * x-ms-original-file: 2025-04-01-preview/MongoClusters_Create.json
  */
-async function createsANewMongoClusterResource() {
+async function createsANewMongoClusterResource(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "ffffffff-ffff-ffff-ffff-ffffffffffff";
   const client = new MongoClusterManagementClient(credential, subscriptionId);
@@ -18,11 +18,12 @@ async function createsANewMongoClusterResource() {
     location: "westus2",
     properties: {
       administrator: { userName: "mongoAdmin", password: "password" },
+      authConfig: { allowedModes: ["NativeAuth"] },
       serverVersion: "5.0",
       storage: { sizeGb: 128 },
       compute: { tier: "M30" },
       sharding: { shardCount: 1 },
-      highAvailability: { targetMode: "SameZone" },
+      highAvailability: { targetMode: "ZoneRedundantPreferred" },
     },
   });
   console.log(result);
@@ -32,9 +33,9 @@ async function createsANewMongoClusterResource() {
  * This sample demonstrates how to create or update a mongo cluster. Update overwrites all properties for the resource. To only modify some of the properties, use PATCH.
  *
  * @summary create or update a mongo cluster. Update overwrites all properties for the resource. To only modify some of the properties, use PATCH.
- * x-ms-original-file: 2024-07-01/MongoClusters_CreateGeoReplica.json
+ * x-ms-original-file: 2025-04-01-preview/MongoClusters_CreateGeoReplica.json
  */
-async function createsAReplicaMongoClusterResourceFromASourceResource() {
+async function createsAReplicaMongoClusterResourceFromASourceResource(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "ffffffff-ffff-ffff-ffff-ffffffffffff";
   const client = new MongoClusterManagementClient(credential, subscriptionId);
@@ -60,9 +61,9 @@ async function createsAReplicaMongoClusterResourceFromASourceResource() {
  * This sample demonstrates how to create or update a mongo cluster. Update overwrites all properties for the resource. To only modify some of the properties, use PATCH.
  *
  * @summary create or update a mongo cluster. Update overwrites all properties for the resource. To only modify some of the properties, use PATCH.
- * x-ms-original-file: 2024-07-01/MongoClusters_CreatePITR.json
+ * x-ms-original-file: 2025-04-01-preview/MongoClusters_CreatePITR.json
  */
-async function createsAMongoClusterResourceFromAPointInTimeRestore() {
+async function createsAMongoClusterResourceFromAPointInTimeRestore(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "ffffffff-ffff-ffff-ffff-ffffffffffff";
   const client = new MongoClusterManagementClient(credential, subscriptionId);
@@ -80,10 +81,41 @@ async function createsAMongoClusterResourceFromAPointInTimeRestore() {
   console.log(result);
 }
 
-async function main() {
+/**
+ * This sample demonstrates how to create or update a mongo cluster. Update overwrites all properties for the resource. To only modify some of the properties, use PATCH.
+ *
+ * @summary create or update a mongo cluster. Update overwrites all properties for the resource. To only modify some of the properties, use PATCH.
+ * x-ms-original-file: 2025-04-01-preview/MongoClusters_Create_SSDv2.json
+ */
+async function createsANewMongoClusterResourceWithPremiumSSDv2Storage(): Promise<void> {
+  const credential = new DefaultAzureCredential();
+  const subscriptionId = "ffffffff-ffff-ffff-ffff-ffffffffffff";
+  const client = new MongoClusterManagementClient(credential, subscriptionId);
+  const result = await client.mongoClusters.createOrUpdate("TestResourceGroup", "myMongoCluster", {
+    location: "westus2",
+    properties: {
+      administrator: { userName: "mongoAdmin", password: "password" },
+      authConfig: { allowedModes: ["NativeAuth"] },
+      serverVersion: "5.0",
+      storage: {
+        sizeGb: 32,
+        type: "PremiumSSDv2",
+        iops: 3000,
+        throughput: 125,
+      },
+      compute: { tier: "M30" },
+      sharding: { shardCount: 1 },
+      highAvailability: { targetMode: "ZoneRedundantPreferred" },
+    },
+  });
+  console.log(result);
+}
+
+async function main(): Promise<void> {
   await createsANewMongoClusterResource();
   await createsAReplicaMongoClusterResourceFromASourceResource();
   await createsAMongoClusterResourceFromAPointInTimeRestore();
+  await createsANewMongoClusterResourceWithPremiumSSDv2Storage();
 }
 
 main().catch(console.error);

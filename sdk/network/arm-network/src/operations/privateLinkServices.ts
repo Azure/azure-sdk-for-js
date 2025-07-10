@@ -7,18 +7,18 @@
  */
 
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
-import { setContinuationToken } from "../pagingHelper";
-import { PrivateLinkServices } from "../operationsInterfaces";
+import { setContinuationToken } from "../pagingHelper.js";
+import { PrivateLinkServices } from "../operationsInterfaces/index.js";
 import * as coreClient from "@azure/core-client";
-import * as Mappers from "../models/mappers";
-import * as Parameters from "../models/parameters";
-import { NetworkManagementClient } from "../networkManagementClient";
+import * as Mappers from "../models/mappers.js";
+import * as Parameters from "../models/parameters.js";
+import { NetworkManagementClient } from "../networkManagementClient.js";
 import {
   SimplePollerLike,
   OperationState,
   createHttpPoller,
 } from "@azure/core-lro";
-import { createLroSpec } from "../lroImpl";
+import { createLroSpec } from "../lroImpl.js";
 import {
   PrivateLinkService,
   PrivateLinkServicesListNextOptionalParams,
@@ -58,7 +58,7 @@ import {
   PrivateLinkServicesListPrivateEndpointConnectionsNextResponse,
   PrivateLinkServicesListAutoApprovedPrivateLinkServicesNextResponse,
   PrivateLinkServicesListAutoApprovedPrivateLinkServicesByResourceGroupNextResponse,
-} from "../models";
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Class containing PrivateLinkServices operations. */
@@ -1179,7 +1179,7 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorModel,
     },
   },
-  requestBody: Parameters.parameters65,
+  requestBody: Parameters.parameters73,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
@@ -1260,7 +1260,7 @@ const updatePrivateEndpointConnectionOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorModel,
     },
   },
-  requestBody: Parameters.parameters66,
+  requestBody: Parameters.parameters74,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
@@ -1338,7 +1338,7 @@ const checkPrivateLinkServiceVisibilityOperationSpec: coreClient.OperationSpec =
         bodyMapper: Mappers.CloudError,
       },
     },
-    requestBody: Parameters.parameters67,
+    requestBody: Parameters.parameters75,
     queryParameters: [Parameters.apiVersion],
     urlParameters: [
       Parameters.$host,
@@ -1370,7 +1370,7 @@ const checkPrivateLinkServiceVisibilityByResourceGroupOperationSpec: coreClient.
         bodyMapper: Mappers.CloudError,
       },
     },
-    requestBody: Parameters.parameters67,
+    requestBody: Parameters.parameters75,
     queryParameters: [Parameters.apiVersion],
     urlParameters: [
       Parameters.$host,

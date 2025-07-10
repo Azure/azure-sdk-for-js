@@ -27,7 +27,7 @@ import {
   PageBlobUpdateSequenceNumberResponse,
   PageBlobCopyIncrementalOptionalParams,
   PageBlobCopyIncrementalResponse,
-} from "../models";
+} from "../models/index.js";
 
 /** Interface representing a PageBlob. */
 export interface PageBlob {

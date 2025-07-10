@@ -13,9 +13,7 @@ import {
   OperationalInsightsManagementClient
 } from "@azure/arm-operationalinsights";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Purges data in an Log Analytics workspace by a set of user-defined filters.
@@ -29,7 +27,7 @@ In order to manage system resources, purge requests are throttled at 50 requests
 Log Analytics only supports purge operations required for compliance with GDPR. The Log Analytics product team reserves the right to reject requests for purge operations that are not for the purpose of GDPR compliance. In the event of a dispute, please create a support ticket
  * x-ms-original-file: specification/operationalinsights/resource-manager/Microsoft.OperationalInsights/stable/2020-08-01/examples/WorkspacesPurge.json
  */
-async function workspacePurge() {
+async function workspacePurge(): Promise<void> {
   const subscriptionId =
     process.env["OPERATIONALINSIGHTS_SUBSCRIPTION_ID"] ||
     "00000000-0000-0000-0000-00000000000";
@@ -67,7 +65,7 @@ In order to manage system resources, purge requests are throttled at 50 requests
 Log Analytics only supports purge operations required for compliance with GDPR. The Log Analytics product team reserves the right to reject requests for purge operations that are not for the purpose of GDPR compliance. In the event of a dispute, please create a support ticket
  * x-ms-original-file: specification/operationalinsights/resource-manager/Microsoft.OperationalInsights/stable/2020-08-01/examples/WorkspacesPurgeResourceId.json
  */
-async function workspacePurgeResourceId() {
+async function workspacePurgeResourceId(): Promise<void> {
   const subscriptionId =
     process.env["OPERATIONALINSIGHTS_SUBSCRIPTION_ID"] ||
     "00000000-0000-0000-0000-00000000000";
@@ -98,7 +96,7 @@ async function workspacePurgeResourceId() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   workspacePurge();
   workspacePurgeResourceId();
 }

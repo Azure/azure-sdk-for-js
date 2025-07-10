@@ -16,7 +16,7 @@ import "dotenv/config";
  * @summary Queries policy tracked resources under the resource.
  * x-ms-original-file: specification/policyinsights/resource-manager/Microsoft.PolicyInsights/preview/2018-07-01-preview/examples/PolicyTrackedResources_QueryResourceScope.json
  */
-async function queryAtResourceScope() {
+async function queryAtResourceScope(): Promise<void> {
   const resourceId =
     "subscriptions/fff8dfdb-fff3-fff0-fff4-fffdcbe6b2ef/resourceGroups/myResourceGroup/providers/Microsoft.Example/exampleResourceType/myResource";
   const policyTrackedResourcesResource = "default";
@@ -38,7 +38,7 @@ async function queryAtResourceScope() {
  * @summary Queries policy tracked resources under the resource.
  * x-ms-original-file: specification/policyinsights/resource-manager/Microsoft.PolicyInsights/preview/2018-07-01-preview/examples/PolicyTrackedResources_QueryResourceScopeWithFilterAndTop.json
  */
-async function queryAtResourceScopeUsingQueryParameters() {
+async function queryAtResourceScopeUsingQueryParameters(): Promise<void> {
   const resourceId =
     "subscriptions/fff8dfdb-fff3-fff0-fff4-fffdcbe6b2ef/resourceGroups/myResourceGroup/providers/Microsoft.Example/exampleResourceType/myResource";
   const policyTrackedResourcesResource = "default";
@@ -59,7 +59,7 @@ async function queryAtResourceScopeUsingQueryParameters() {
   console.log(resArray);
 }
 
-async function main() {
+async function main(): Promise<void> {
   await queryAtResourceScope();
   await queryAtResourceScopeUsingQueryParameters();
 }

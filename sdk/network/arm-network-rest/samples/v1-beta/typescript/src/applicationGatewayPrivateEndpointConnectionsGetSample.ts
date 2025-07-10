@@ -12,7 +12,7 @@ import "dotenv/config";
  * @summary Gets the specified private endpoint connection on application gateway.
  * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-05-01/examples/ApplicationGatewayPrivateEndpointConnectionGet.json
  */
-async function getApplicationGatewayPrivateEndpointConnection() {
+async function getApplicationGatewayPrivateEndpointConnection(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = createNetworkManagementClient(credential);
   const subscriptionId = "";

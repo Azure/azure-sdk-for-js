@@ -14,7 +14,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * @summary Gets the web services in the specified subscription.
  * x-ms-original-file: specification/machinelearning/resource-manager/Microsoft.MachineLearning/stable/2017-01-01/examples/getWebServicesBySubscriptionId.json
  */
-async function getWebServicesBySubscriptionId() {
+async function getWebServicesBySubscriptionId(): Promise<void> {
   const subscriptionId = "subscription-id";
   const credential = new DefaultAzureCredential();
   const client = new AzureMLWebServicesManagementClient(credential, subscriptionId);

@@ -45,6 +45,9 @@ parameters:
 - name: UseFederatedAuth
   type: boolean
   default: false
+- name: PersistOidcToken
+  type: boolean
+  default: false
 
 jobs:
   - job:
@@ -99,6 +102,7 @@ jobs:
               SubscriptionConfiguration: $(SubscriptionConfiguration)
               ArmTemplateParameters: $(ArmTemplateParameters)
               UseFederatedAuth: ${{ parameters.UseFederatedAuth }}
+              PersistOidcToken: ${{ parameters.PersistOidcToken }}
               ServiceConnection: ${{ parameters.CloudConfig.ServiceConnection }}
               SubscriptionConfigurationFilePaths: ${{ parameters.CloudConfig.SubscriptionConfigurationFilePaths }}
               EnvVars:
@@ -114,13 +118,6 @@ jobs:
       - script: |
           node common/scripts/install-run-rush.js build -t "${{parameters.PackageName}}" --verbose -p max
         displayName: "Build libraries"
-
-      # Option "-p max" ensures parallelism is set to the number of cores on all platforms, which improves build times.
-      # The default on Windows is "cores - 1" (microsoft/rushstack#436).
-      - script: |
-          node common/scripts/install-run-rush.js build:test -t "${{parameters.PackageName}}" --verbose -p max
-        displayName: "Build test assets"
-        condition: and(succeededOrFailed(),eq(variables['DependencyVersion'],''))
 
       - script: |
           npm install
@@ -211,12 +208,13 @@ jobs:
               $env:AZURESUBSCRIPTION_CLIENT_ID = $account.Id
               $env:AZURESUBSCRIPTION_TENANT_ID = $account.Tenants
 
-              node ../../../common/scripts/install-run-rushx.js integration-test:$(TestType)
+              node ../../../common/scripts/install-run-rushx.js test:$(TestType)
               exit $LASTEXITCODE
-          displayName: "Integration test libraries"
+          displayName: "Test libraries"
           condition: and(succeededOrFailed(),ne(variables['TestType'],'sample'),eq(variables['DependencyVersion'],''))
           env:
             TEST_MODE: "live"
+            ARM_OIDC_TOKEN: $(ARM_OIDC_TOKEN)
             SERVICE_VERSION: $(ServiceVersion)
             SYSTEM_ACCESSTOKEN: $(System.AccessToken)
             ${{ insert }}: ${{ parameters.EnvVars }}
@@ -232,9 +230,9 @@ jobs:
               $env:AZURESUBSCRIPTION_CLIENT_ID = $account.Id
               $env:AZURESUBSCRIPTION_TENANT_ID = $account.Tenants
 
-              node $(Build.SourcesDirectory)/common/scripts/install-run-rushx.js integration-test:$(TestType)
+              node $(Build.SourcesDirectory)/common/scripts/install-run-rushx.js test:$(TestType)
               exit $LASTEXITCODE
-          displayName: "Integration test libraries"
+          displayName: "Integration test libraries - min/max testing"
           condition: and(succeeded(),ne(variables['TestType'],'sample'),ne(variables['DependencyVersion'],''))
           env:
             TEST_MODE: "live"
@@ -269,7 +267,7 @@ jobs:
 
       - ${{ else }}:
         - script: |
-            node ../../../common/scripts/install-run-rushx.js integration-test:$(TestType)
+            node ../../../common/scripts/install-run-rushx.js test:$(TestType)
           displayName: "Integration test libraries"
           workingDirectory: $(PackagePath)
           condition: and(succeededOrFailed(),ne(variables['TestType'],'sample'),eq(variables['DependencyVersion'],''))
@@ -279,8 +277,8 @@ jobs:
             ${{ insert }}: ${{ parameters.EnvVars }}
 
         - script: |
-            node $(Build.SourcesDirectory)/common/scripts/install-run-rushx.js integration-test:$(TestType)
-          displayName: "Integration test libraries"
+            node $(Build.SourcesDirectory)/common/scripts/install-run-rushx.js test:$(TestType)
+          displayName: "Test libraries - min/max testing"
           workingDirectory: $(PackageTestPath)
           condition: and(succeeded(),ne(variables['TestType'],'sample'),ne(variables['DependencyVersion'],''))
           env:

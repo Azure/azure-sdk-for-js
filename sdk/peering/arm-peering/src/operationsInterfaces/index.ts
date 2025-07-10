@@ -6,19 +6,19 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-export * from "./cdnPeeringPrefixes";
-export * from "./legacyPeerings";
-export * from "./lookingGlass";
-export * from "./operations";
-export * from "./peerAsns";
-export * from "./peeringLocations";
-export * from "./registeredAsns";
-export * from "./registeredPrefixes";
-export * from "./peerings";
-export * from "./receivedRoutes";
-export * from "./connectionMonitorTests";
-export * from "./peeringServiceCountries";
-export * from "./peeringServiceLocations";
-export * from "./prefixes";
-export * from "./peeringServiceProviders";
-export * from "./peeringServices";
+export * from "./cdnPeeringPrefixes.js";
+export * from "./legacyPeerings.js";
+export * from "./lookingGlass.js";
+export * from "./operations.js";
+export * from "./peerAsns.js";
+export * from "./peeringLocations.js";
+export * from "./registeredAsns.js";
+export * from "./registeredPrefixes.js";
+export * from "./peerings.js";
+export * from "./receivedRoutes.js";
+export * from "./connectionMonitorTests.js";
+export * from "./peeringServiceCountries.js";
+export * from "./peeringServiceLocations.js";
+export * from "./prefixes.js";
+export * from "./peeringServiceProviders.js";
+export * from "./peeringServices.js";

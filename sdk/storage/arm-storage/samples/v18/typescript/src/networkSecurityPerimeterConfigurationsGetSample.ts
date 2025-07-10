@@ -6,21 +6,17 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
 import { StorageManagementClient } from "@azure/arm-storage";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Gets effective NetworkSecurityPerimeterConfiguration for association
  *
  * @summary Gets effective NetworkSecurityPerimeterConfiguration for association
- * x-ms-original-file: specification/storage/resource-manager/Microsoft.Storage/stable/2023-05-01/examples/NetworkSecurityPerimeterConfigurationGet.json
+ * x-ms-original-file: specification/storage/resource-manager/Microsoft.Storage/stable/2024-01-01/examples/NetworkSecurityPerimeterConfigurationGet.json
  */
-async function networkSecurityPerimeterConfigurationGet() {
+async function networkSecurityPerimeterConfigurationGet(): Promise<void> {
   const subscriptionId =
     process.env["STORAGE_SUBSCRIPTION_ID"] ||
     "00000000-1111-2222-3333-444444444444";
@@ -38,8 +34,8 @@ async function networkSecurityPerimeterConfigurationGet() {
   console.log(result);
 }
 
-async function main() {
-  networkSecurityPerimeterConfigurationGet();
+async function main(): Promise<void> {
+  await networkSecurityPerimeterConfigurationGet();
 }
 
 main().catch(console.error);

@@ -85,7 +85,7 @@ export interface AccountsGetChangeKeyVaultInformationOptionalParams extends core
 }
 
 // @public
-export type AccountsGetChangeKeyVaultInformationResponse = AccountsGetChangeKeyVaultInformationHeaders;
+export type AccountsGetChangeKeyVaultInformationResponse = GetKeyVaultStatusResponse;
 
 // @public
 export interface AccountsGetOptionalParams extends coreClient.OperationOptions {
@@ -199,12 +199,14 @@ export interface Backup extends ProxyResource {
     readonly backupId?: string;
     readonly backupPolicyResourceId?: string;
     readonly backupType?: BackupType;
+    readonly completionDate?: Date;
     readonly creationDate?: Date;
     readonly failureReason?: string;
     readonly isLargeVolume?: boolean;
     label?: string;
     readonly provisioningState?: string;
     readonly size?: number;
+    readonly snapshotCreationDate?: Date;
     snapshotName?: string;
     useExistingSnapshot?: boolean;
     volumeResourceId: string;
@@ -591,6 +593,143 @@ export interface BreakReplicationRequest {
 }
 
 // @public
+export interface Bucket extends ProxyResource {
+    fileSystemUser?: FileSystemUser;
+    path?: string;
+    readonly provisioningState?: NetappProvisioningState;
+    server?: BucketServerProperties;
+    readonly status?: CredentialsStatus;
+}
+
+// @public
+export interface BucketCredentialsExpiry {
+    keyPairExpiryDays?: number;
+}
+
+// @public
+export interface BucketGenerateCredentials {
+    readonly accessKey?: string;
+    readonly keyPairExpiry?: Date;
+    readonly secretKey?: string;
+}
+
+// @public
+export interface BucketList {
+    nextLink?: string;
+    value?: Bucket[];
+}
+
+// @public
+export interface BucketPatch extends ProxyResource {
+    fileSystemUser?: FileSystemUser;
+    path?: string;
+    readonly provisioningState?: NetappProvisioningState;
+    server?: BucketServerPatchProperties;
+}
+
+// @public
+export interface Buckets {
+    beginCreateOrUpdate(resourceGroupName: string, accountName: string, poolName: string, volumeName: string, bucketName: string, body: Bucket, options?: BucketsCreateOrUpdateOptionalParams): Promise<SimplePollerLike<OperationState<BucketsCreateOrUpdateResponse>, BucketsCreateOrUpdateResponse>>;
+    beginCreateOrUpdateAndWait(resourceGroupName: string, accountName: string, poolName: string, volumeName: string, bucketName: string, body: Bucket, options?: BucketsCreateOrUpdateOptionalParams): Promise<BucketsCreateOrUpdateResponse>;
+    beginDelete(resourceGroupName: string, accountName: string, poolName: string, volumeName: string, bucketName: string, options?: BucketsDeleteOptionalParams): Promise<SimplePollerLike<OperationState<BucketsDeleteResponse>, BucketsDeleteResponse>>;
+    beginDeleteAndWait(resourceGroupName: string, accountName: string, poolName: string, volumeName: string, bucketName: string, options?: BucketsDeleteOptionalParams): Promise<BucketsDeleteResponse>;
+    beginUpdate(resourceGroupName: string, accountName: string, poolName: string, volumeName: string, bucketName: string, options?: BucketsUpdateOptionalParams): Promise<SimplePollerLike<OperationState<BucketsUpdateResponse>, BucketsUpdateResponse>>;
+    beginUpdateAndWait(resourceGroupName: string, accountName: string, poolName: string, volumeName: string, bucketName: string, options?: BucketsUpdateOptionalParams): Promise<BucketsUpdateResponse>;
+    generateCredentials(resourceGroupName: string, accountName: string, poolName: string, volumeName: string, bucketName: string, body: BucketCredentialsExpiry, options?: BucketsGenerateCredentialsOptionalParams): Promise<BucketsGenerateCredentialsResponse>;
+    get(resourceGroupName: string, accountName: string, poolName: string, volumeName: string, bucketName: string, options?: BucketsGetOptionalParams): Promise<BucketsGetResponse>;
+    list(resourceGroupName: string, accountName: string, poolName: string, volumeName: string, options?: BucketsListOptionalParams): PagedAsyncIterableIterator<Bucket>;
+}
+
+// @public
+export interface BucketsCreateOrUpdateHeaders {
+    azureAsyncOperation?: string;
+    location?: string;
+}
+
+// @public
+export interface BucketsCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type BucketsCreateOrUpdateResponse = Bucket;
+
+// @public
+export interface BucketsDeleteHeaders {
+    azureAsyncOperation?: string;
+    location?: string;
+}
+
+// @public
+export interface BucketsDeleteOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type BucketsDeleteResponse = BucketsDeleteHeaders;
+
+// @public
+export interface BucketServerPatchProperties {
+    certificateObject?: string;
+    fqdn?: string;
+}
+
+// @public
+export interface BucketServerProperties {
+    readonly certificateCommonName?: string;
+    readonly certificateExpiryDate?: Date;
+    certificateObject?: string;
+    fqdn?: string;
+    readonly ipAddress?: string;
+}
+
+// @public
+export interface BucketsGenerateCredentialsOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type BucketsGenerateCredentialsResponse = BucketGenerateCredentials;
+
+// @public
+export interface BucketsGetOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type BucketsGetResponse = Bucket;
+
+// @public
+export interface BucketsListNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type BucketsListNextResponse = BucketList;
+
+// @public
+export interface BucketsListOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type BucketsListResponse = BucketList;
+
+// @public
+export interface BucketsUpdateHeaders {
+    azureAsyncOperation?: string;
+    location?: string;
+}
+
+// @public
+export interface BucketsUpdateOptionalParams extends coreClient.OperationOptions {
+    body?: BucketPatch;
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type BucketsUpdateResponse = Bucket;
+
+// @public
 export interface CapacityPool extends TrackedResource {
     coolAccess?: boolean;
     customThroughputMibps?: number;
@@ -651,6 +790,11 @@ export type CheckQuotaNameResourceTypes = string;
 export type ChownMode = string;
 
 // @public
+export interface CifsUser {
+    username?: string;
+}
+
+// @public
 export interface CloudError {
     error?: CloudErrorBody;
 }
@@ -670,7 +814,13 @@ export interface ClusterPeerCommandResponse {
 export type CoolAccessRetrievalPolicy = string;
 
 // @public
+export type CoolAccessTieringPolicy = string;
+
+// @public
 export type CreatedByType = string;
+
+// @public
+export type CredentialsStatus = string;
 
 // @public
 export interface DailySchedule {
@@ -759,6 +909,9 @@ export interface ExportPolicyRule {
 }
 
 // @public
+export type ExternalReplicationSetupStatus = string;
+
+// @public
 export type FileAccessLogs = string;
 
 // @public
@@ -766,6 +919,12 @@ export interface FilePathAvailabilityRequest {
     availabilityZone?: string;
     name: string;
     subnetId: string;
+}
+
+// @public
+export interface FileSystemUser {
+    cifsUser?: CifsUser;
+    nfsUser?: NfsUser;
 }
 
 // @public
@@ -779,6 +938,14 @@ export interface GetGroupIdListForLdapUserRequest {
 // @public
 export interface GetGroupIdListForLdapUserResponse {
     groupIdsForLdapUser?: string[];
+}
+
+// @public
+export interface GetKeyVaultStatusResponse {
+    keyName?: string;
+    keyVaultPrivateEndpoints?: KeyVaultPrivateEndpoint[];
+    keyVaultResourceId?: string;
+    keyVaultUri?: string;
 }
 
 // @public
@@ -875,11 +1042,24 @@ export enum KnownCoolAccessRetrievalPolicy {
 }
 
 // @public
+export enum KnownCoolAccessTieringPolicy {
+    Auto = "Auto",
+    SnapshotOnly = "SnapshotOnly"
+}
+
+// @public
 export enum KnownCreatedByType {
     Application = "Application",
     Key = "Key",
     ManagedIdentity = "ManagedIdentity",
     User = "User"
+}
+
+// @public
+export enum KnownCredentialsStatus {
+    Active = "Active",
+    CredentialsExpired = "CredentialsExpired",
+    NoCredentialsSet = "NoCredentialsSet"
 }
 
 // @public
@@ -904,6 +1084,15 @@ export enum KnownEncryptionType {
 export enum KnownEndpointType {
     Dst = "dst",
     Src = "src"
+}
+
+// @public
+export enum KnownExternalReplicationSetupStatus {
+    ClusterPeerPending = "ClusterPeerPending",
+    ClusterPeerRequired = "ClusterPeerRequired",
+    NoActionRequired = "NoActionRequired",
+    ReplicationCreateRequired = "ReplicationCreateRequired",
+    VServerPeerRequired = "VServerPeerRequired"
 }
 
 // @public
@@ -934,6 +1123,12 @@ export enum KnownKeyVaultStatus {
 }
 
 // @public
+export enum KnownLdapServerType {
+    ActiveDirectory = "ActiveDirectory",
+    OpenLdap = "OpenLDAP"
+}
+
+// @public
 export enum KnownManagedServiceIdentityType {
     None = "None",
     SystemAssigned = "SystemAssigned",
@@ -951,6 +1146,23 @@ export enum KnownMirrorState {
     Broken = "Broken",
     Mirrored = "Mirrored",
     Uninitialized = "Uninitialized"
+}
+
+// @public
+export enum KnownMultiAdStatus {
+    Disabled = "Disabled",
+    Enabled = "Enabled"
+}
+
+// @public
+export enum KnownNetappProvisioningState {
+    Accepted = "Accepted",
+    Canceled = "Canceled",
+    Deleting = "Deleting",
+    Failed = "Failed",
+    Provisioning = "Provisioning",
+    Succeeded = "Succeeded",
+    Updating = "Updating"
 }
 
 // @public
@@ -1125,11 +1337,23 @@ export enum KnownVolumeStorageToNetworkProximity {
 }
 
 // @public
+export interface LdapConfiguration {
+    certificateCNHost?: string;
+    domain?: string;
+    ldapOverTLS?: boolean;
+    ldapServers?: string[];
+    serverCACertificate?: string;
+}
+
+// @public
 export interface LdapSearchScopeOpt {
     groupDN?: string;
     groupMembershipFilter?: string;
     userDN?: string;
 }
+
+// @public
+export type LdapServerType = string;
 
 // @public
 export interface ListQuotaReportResponse {
@@ -1220,13 +1444,17 @@ export interface MountTargetProperties {
 }
 
 // @public
+export type MultiAdStatus = string;
+
+// @public
 export interface NetAppAccount extends TrackedResource {
     activeDirectories?: ActiveDirectory[];
     readonly disableShowmount?: boolean;
     encryption?: AccountEncryption;
     readonly etag?: string;
     identity?: ManagedServiceIdentity;
-    readonly isMultiAdEnabled?: boolean;
+    ldapConfiguration?: LdapConfiguration;
+    readonly multiAdStatus?: MultiAdStatus;
     nfsV4IDDomain?: string;
     readonly provisioningState?: string;
 }
@@ -1244,8 +1472,9 @@ export interface NetAppAccountPatch {
     encryption?: AccountEncryption;
     readonly id?: string;
     identity?: ManagedServiceIdentity;
-    readonly isMultiAdEnabled?: boolean;
+    ldapConfiguration?: LdapConfiguration;
     location?: string;
+    readonly multiAdStatus?: MultiAdStatus;
     readonly name?: string;
     nfsV4IDDomain?: string;
     readonly provisioningState?: string;
@@ -1277,11 +1506,17 @@ export class NetAppManagementClient extends coreClient.ServiceClient {
     // (undocumented)
     backupVaults: BackupVaults;
     // (undocumented)
+    buckets: Buckets;
+    // (undocumented)
     netAppResource: NetAppResource;
     // (undocumented)
     netAppResourceQuotaLimits: NetAppResourceQuotaLimits;
     // (undocumented)
+    netAppResourceQuotaLimitsAccount: NetAppResourceQuotaLimitsAccount;
+    // (undocumented)
     netAppResourceRegionInfos: NetAppResourceRegionInfos;
+    // (undocumented)
+    netAppResourceUsages: NetAppResourceUsages;
     // (undocumented)
     operations: Operations;
     // (undocumented)
@@ -1308,6 +1543,9 @@ export interface NetAppManagementClientOptionalParams extends coreClient.Service
     apiVersion?: string;
     endpoint?: string;
 }
+
+// @public
+export type NetappProvisioningState = string;
 
 // @public
 export interface NetAppResource {
@@ -1359,22 +1597,49 @@ export type NetAppResourceQueryRegionInfoResponse = RegionInfo;
 // @public
 export interface NetAppResourceQuotaLimits {
     get(location: string, quotaLimitName: string, options?: NetAppResourceQuotaLimitsGetOptionalParams): Promise<NetAppResourceQuotaLimitsGetResponse>;
-    list(location: string, options?: NetAppResourceQuotaLimitsListOptionalParams): PagedAsyncIterableIterator<SubscriptionQuotaItem>;
+    list(location: string, options?: NetAppResourceQuotaLimitsListOptionalParams): PagedAsyncIterableIterator<QuotaItem>;
 }
+
+// @public
+export interface NetAppResourceQuotaLimitsAccount {
+    get(resourceGroupName: string, accountName: string, quotaLimitName: string, options?: NetAppResourceQuotaLimitsAccountGetOptionalParams): Promise<NetAppResourceQuotaLimitsAccountGetResponse>;
+    list(resourceGroupName: string, accountName: string, options?: NetAppResourceQuotaLimitsAccountListOptionalParams): PagedAsyncIterableIterator<QuotaItem>;
+}
+
+// @public
+export interface NetAppResourceQuotaLimitsAccountGetOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type NetAppResourceQuotaLimitsAccountGetResponse = QuotaItem;
+
+// @public
+export interface NetAppResourceQuotaLimitsAccountListNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type NetAppResourceQuotaLimitsAccountListNextResponse = QuotaItemList;
+
+// @public
+export interface NetAppResourceQuotaLimitsAccountListOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type NetAppResourceQuotaLimitsAccountListResponse = QuotaItemList;
 
 // @public
 export interface NetAppResourceQuotaLimitsGetOptionalParams extends coreClient.OperationOptions {
 }
 
 // @public
-export type NetAppResourceQuotaLimitsGetResponse = SubscriptionQuotaItem;
+export type NetAppResourceQuotaLimitsGetResponse = QuotaItem;
 
 // @public
 export interface NetAppResourceQuotaLimitsListOptionalParams extends coreClient.OperationOptions {
 }
 
 // @public
-export type NetAppResourceQuotaLimitsListResponse = SubscriptionQuotaItemList;
+export type NetAppResourceQuotaLimitsListResponse = QuotaItemList;
 
 // @public
 export interface NetAppResourceRegionInfos {
@@ -1419,6 +1684,33 @@ export interface NetAppResourceUpdateNetworkSiblingSetOptionalParams extends cor
 export type NetAppResourceUpdateNetworkSiblingSetResponse = NetworkSiblingSet;
 
 // @public
+export interface NetAppResourceUsages {
+    get(location: string, usageType: string, options?: NetAppResourceUsagesGetOptionalParams): Promise<NetAppResourceUsagesGetResponse>;
+    list(location: string, options?: NetAppResourceUsagesListOptionalParams): PagedAsyncIterableIterator<UsageResult>;
+}
+
+// @public
+export interface NetAppResourceUsagesGetOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type NetAppResourceUsagesGetResponse = UsageResult;
+
+// @public
+export interface NetAppResourceUsagesListNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type NetAppResourceUsagesListNextResponse = UsagesListResult;
+
+// @public
+export interface NetAppResourceUsagesListOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type NetAppResourceUsagesListResponse = UsagesListResult;
+
+// @public
 export type NetworkFeatures = string;
 
 // @public
@@ -1433,6 +1725,12 @@ export interface NetworkSiblingSet {
 
 // @public
 export type NetworkSiblingSetProvisioningState = string;
+
+// @public
+export interface NfsUser {
+    groupId?: number;
+    userId?: number;
+}
 
 // @public
 export interface NicInfo {
@@ -1458,6 +1756,7 @@ export interface OperationDisplay {
 
 // @public
 export interface OperationListResult {
+    readonly nextLink?: string;
     value?: Operation[];
 }
 
@@ -1465,6 +1764,13 @@ export interface OperationListResult {
 export interface Operations {
     list(options?: OperationsListOptionalParams): PagedAsyncIterableIterator<Operation>;
 }
+
+// @public
+export interface OperationsListNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type OperationsListNextResponse = OperationListResult;
 
 // @public
 export interface OperationsListOptionalParams extends coreClient.OperationOptions {
@@ -1570,6 +1876,19 @@ export interface QuotaAvailabilityRequest {
 }
 
 // @public
+export interface QuotaItem extends ProxyResource {
+    readonly current?: number;
+    readonly default?: number;
+    readonly usage?: number;
+}
+
+// @public
+export interface QuotaItemList {
+    nextLink?: string;
+    value?: QuotaItem[];
+}
+
+// @public
 export interface QuotaReport {
     isDerivedQuota?: boolean;
     percentageUsed?: number;
@@ -1638,7 +1957,9 @@ export interface Replication {
 // @public
 export interface ReplicationObject {
     readonly destinationReplications?: DestinationReplication[];
-    endpointType?: EndpointType;
+    readonly endpointType?: EndpointType;
+    readonly externalReplicationSetupInfo?: string;
+    readonly externalReplicationSetupStatus?: ExternalReplicationSetupStatus;
     remotePath?: RemotePath;
     remoteVolumeRegion?: string;
     remoteVolumeResourceId?: string;
@@ -1899,17 +2220,6 @@ export interface SnapshotsUpdateOptionalParams extends coreClient.OperationOptio
 export type SnapshotsUpdateResponse = Snapshot;
 
 // @public
-export interface SubscriptionQuotaItem extends ProxyResource {
-    readonly current?: number;
-    readonly default?: number;
-}
-
-// @public
-export interface SubscriptionQuotaItemList {
-    value?: SubscriptionQuotaItem[];
-}
-
-// @public
 export interface SubvolumeInfo extends ProxyResource {
     parentPath?: string;
     path?: string;
@@ -2049,6 +2359,27 @@ export interface UpdateNetworkSiblingSetRequest {
 }
 
 // @public
+export interface UsageName {
+    localizedValue?: string;
+    value?: string;
+}
+
+// @public
+export interface UsageResult {
+    readonly currentValue?: number;
+    readonly id?: string;
+    readonly limit?: number;
+    readonly name?: UsageName;
+    readonly unit?: string;
+}
+
+// @public
+export interface UsagesListResult {
+    nextLink?: string;
+    value?: UsageResult[];
+}
+
+// @public
 export interface UserAssignedIdentity {
     readonly clientId?: string;
     readonly principalId?: string;
@@ -2065,6 +2396,7 @@ export interface Volume extends TrackedResource {
     readonly cloneProgress?: number;
     coolAccess?: boolean;
     coolAccessRetrievalPolicy?: CoolAccessRetrievalPolicy;
+    coolAccessTieringPolicy?: CoolAccessTieringPolicy;
     coolnessPeriod?: number;
     creationToken: string;
     dataProtection?: VolumePropertiesDataProtection;
@@ -2083,11 +2415,12 @@ export interface Volume extends TrackedResource {
     readonly inheritedSizeInBytes?: number;
     isDefaultQuotaEnabled?: boolean;
     isLargeVolume?: boolean;
-    isRestoring?: boolean;
+    readonly isRestoring?: boolean;
     kerberosEnabled?: boolean;
     keyVaultPrivateEndpointResourceId?: string;
     language?: VolumeLanguage;
     ldapEnabled?: boolean;
+    ldapServerType?: LdapServerType;
     readonly maximumNumberOfFiles?: number;
     readonly mountTargets?: MountTargetProperties[];
     networkFeatures?: NetworkFeatures;
@@ -2218,6 +2551,7 @@ export interface VolumeGroupVolumeProperties {
     readonly cloneProgress?: number;
     coolAccess?: boolean;
     coolAccessRetrievalPolicy?: CoolAccessRetrievalPolicy;
+    coolAccessTieringPolicy?: CoolAccessTieringPolicy;
     coolnessPeriod?: number;
     creationToken: string;
     dataProtection?: VolumePropertiesDataProtection;
@@ -2236,11 +2570,12 @@ export interface VolumeGroupVolumeProperties {
     readonly inheritedSizeInBytes?: number;
     isDefaultQuotaEnabled?: boolean;
     isLargeVolume?: boolean;
-    isRestoring?: boolean;
+    readonly isRestoring?: boolean;
     kerberosEnabled?: boolean;
     keyVaultPrivateEndpointResourceId?: string;
     language?: VolumeLanguage;
     ldapEnabled?: boolean;
+    ldapServerType?: LdapServerType;
     readonly maximumNumberOfFiles?: number;
     readonly mountTargets?: MountTargetProperties[];
     name?: string;
@@ -2289,6 +2624,7 @@ export interface VolumeList {
 export interface VolumePatch {
     coolAccess?: boolean;
     coolAccessRetrievalPolicy?: CoolAccessRetrievalPolicy;
+    coolAccessTieringPolicy?: CoolAccessTieringPolicy;
     coolnessPeriod?: number;
     dataProtection?: VolumePatchPropertiesDataProtection;
     defaultGroupQuotaInKiBs?: number;

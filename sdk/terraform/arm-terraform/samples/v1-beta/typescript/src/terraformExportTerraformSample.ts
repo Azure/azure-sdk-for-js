@@ -10,7 +10,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * @summary exports the Terraform configuration of the specified resource(s).
  * x-ms-original-file: 2023-07-01-preview/ExportTerraform.json
  */
-async function exportTerraform() {
+async function exportTerraform(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const client = new AzureTerraformClient(credential, subscriptionId);
@@ -21,7 +21,7 @@ async function exportTerraform() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   exportTerraform();
 }
 

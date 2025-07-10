@@ -14,7 +14,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * @summary Get Alias Subscription.
  * x-ms-original-file: specification/subscription/resource-manager/Microsoft.Subscription/stable/2021-10-01/examples/getAlias.json
  */
-async function getAlias() {
+async function getAlias(): Promise<void> {
   const aliasName = "aliasForNewSub";
   const credential = new DefaultAzureCredential();
   const client = new SubscriptionClient(credential);

@@ -10,20 +10,20 @@ import { createProducer } from "../utils/clients.js";
 import { StandardAbortMessage } from "@azure/core-amqp";
 import { isMock } from "../utils/vars.js";
 
-describe.skipIf(isMock())("EventHubProducerClient internal idempotent publishing", function () {
+describe.skipIf(isMock())("EventHubProducerClient internal idempotent publishing", () => {
   let producerClient: EventHubProducerClient;
 
-  afterEach(async function () {
+  afterEach(async () => {
     await producerClient?.close();
   });
 
-  describe("getPartitionPublishingProperties", function () {
-    describe("Idempotent Retries disabled", function () {
-      beforeEach(async function () {
+  describe("getPartitionPublishingProperties", () => {
+    describe("Idempotent Retries disabled", () => {
+      beforeEach(async () => {
         producerClient = createProducer().producer;
       });
 
-      it("retrieves partition publishing properties", async function () {
+      it("retrieves partition publishing properties", async () => {
         const partitionIds = await producerClient.getPartitionIds();
 
         for (const partitionId of partitionIds) {
@@ -43,11 +43,11 @@ describe.skipIf(isMock())("EventHubProducerClient internal idempotent publishing
         }
       });
     });
-    describe("Idempotent Retries enabled", function () {
-      beforeEach(async function () {
+    describe("Idempotent Retries enabled", () => {
+      beforeEach(async () => {
         producerClient = createProducer({ enableIdempotentRetries: true }).producer;
       });
-      it("retrieves partition publishing properties", async function () {
+      it("retrieves partition publishing properties", async () => {
         const partitionIds = await producerClient.getPartitionIds();
 
         for (const partitionId of partitionIds) {
@@ -69,18 +69,18 @@ describe.skipIf(isMock())("EventHubProducerClient internal idempotent publishing
     });
   });
 
-  describe("idempotent producer", function () {
-    beforeEach(async function () {
+  describe("idempotent producer", () => {
+    beforeEach(async () => {
       producerClient = createProducer({ enableIdempotentRetries: true }).producer;
     });
-    describe("does not allow partitionKey to be set", function () {
-      it("createBatch", async function () {
+    describe("does not allow partitionKey to be set", () => {
+      it("createBatch", async () => {
         await expect(producerClient.createBatch({ partitionKey: "foo" })).to.be.rejectedWith(
           /The "partitionId" must be supplied and "partitionKey" must not be provided when the EventHubProducerClient has "enableIdempotentRetries" set to true./,
         );
       });
 
-      it("sendBatch", async function () {
+      it("sendBatch", async () => {
         await expect(
           producerClient.sendBatch([{ body: "test" }], { partitionKey: "foo" }),
         ).to.be.rejectedWith(
@@ -89,8 +89,8 @@ describe.skipIf(isMock())("EventHubProducerClient internal idempotent publishing
       });
     });
 
-    describe("only allows sending directly to partitions", function () {
-      it("supports partitionId set by createBatch", async function () {
+    describe("only allows sending directly to partitions", () => {
+      it("supports partitionId set by createBatch", async () => {
         const batch = await producerClient.createBatch({ partitionId: "0" });
         batch.tryAdd({ body: "test" });
 
@@ -98,25 +98,25 @@ describe.skipIf(isMock())("EventHubProducerClient internal idempotent publishing
         await producerClient.sendBatch(batch);
       });
 
-      it("supports partitionId set by sendBatch", async function () {
+      it("supports partitionId set by sendBatch", async () => {
         await producerClient.sendBatch([{ body: "test" }], { partitionId: "0" });
       });
 
-      it("throws an error if partitionId not set by createBatch", async function () {
+      it("throws an error if partitionId not set by createBatch", async () => {
         await expect(producerClient.createBatch()).to.be.rejectedWith(
           /The "partitionId" must be supplied and "partitionKey" must not be provided when the EventHubProducerClient has "enableIdempotentRetries" set to true./,
         );
       });
 
-      it("throws an error if partitionId not set by sendBatch when passing EventData[]", async function () {
+      it("throws an error if partitionId not set by sendBatch when passing EventData[]", async () => {
         await expect(producerClient.sendBatch([{ body: "test" }])).to.be.rejectedWith(
           /The "partitionId" must be supplied and "partitionKey" must not be provided when the EventHubProducerClient has "enableIdempotentRetries" set to true./,
         );
       });
     });
 
-    describe("concurrent sends", function () {
-      it("are limited to one per partition", async function () {
+    describe("concurrent sends", () => {
+      it("are limited to one per partition", async () => {
         const batch1 = await producerClient.createBatch({ partitionId: "0" });
         batch1.tryAdd({
           body: "one",
@@ -132,7 +132,7 @@ describe.skipIf(isMock())("EventHubProducerClient internal idempotent publishing
         );
       });
 
-      it("has no impact on serial sends", async function () {
+      it("has no impact on serial sends", async () => {
         const batch1 = await producerClient.createBatch({ partitionId: "0" });
         batch1.tryAdd({ body: "one" });
 
@@ -140,7 +140,7 @@ describe.skipIf(isMock())("EventHubProducerClient internal idempotent publishing
         await producerClient.sendBatch([{ body: "two" }], { partitionId: "0" });
       });
 
-      it("are isolated per partition", async function () {
+      it("are isolated per partition", async () => {
         await Promise.all([
           producerClient.sendBatch([{ body: "one" }], { partitionId: "0" }),
           producerClient.sendBatch([{ body: "two" }], { partitionId: "1" }),
@@ -148,8 +148,8 @@ describe.skipIf(isMock())("EventHubProducerClient internal idempotent publishing
       });
     });
 
-    describe("with user-provided partitionOptions", function () {
-      it("can use state from previous producerClient", async function () {
+    describe("with user-provided partitionOptions", () => {
+      it("can use state from previous producerClient", async () => {
         const producerClient1 = createProducer({ enableIdempotentRetries: true }).producer;
 
         // Send an item so we have some state to carry over to the next producerClient
@@ -189,7 +189,7 @@ describe.skipIf(isMock())("EventHubProducerClient internal idempotent publishing
         await Promise.all([producerClient1.close(), producerClient2.close()]);
       });
 
-      it("can use partial state", async function () {
+      it("can use partial state", async () => {
         producerClient["_partitionOptions"] = {
           "0": {
             ownerLevel: 1,
@@ -211,7 +211,7 @@ describe.skipIf(isMock())("EventHubProducerClient internal idempotent publishing
         );
       });
 
-      it("can use ownerLevel to kick off other producers", async function () {
+      it("can use ownerLevel to kick off other producers", async () => {
         const producerClient1 = createProducer({ enableIdempotentRetries: true }).producer;
 
         // Send an item so we have some state to carry over to the next producerClient
@@ -241,7 +241,7 @@ describe.skipIf(isMock())("EventHubProducerClient internal idempotent publishing
         await Promise.all([producerClient1.close(), producerClient2.close()]);
       });
 
-      it("fails with invalid state", async function () {
+      it("fails with invalid state", async () => {
         producerClient["_partitionOptions"] = {
           "0": {
             ownerLevel: -1,
@@ -259,7 +259,7 @@ describe.skipIf(isMock())("EventHubProducerClient internal idempotent publishing
           });
       });
 
-      it("fails with invalid sequence number", async function () {
+      it("fails with invalid sequence number", async () => {
         const producerClient1 = createProducer({ enableIdempotentRetries: true }).producer;
 
         // Send an item so we have some state to carry over to the next producerClient
@@ -294,7 +294,7 @@ describe.skipIf(isMock())("EventHubProducerClient internal idempotent publishing
       });
     });
 
-    it("recovers from disconnects", async function () {
+    it("recovers from disconnects", async () => {
       producerClient = createProducer({
         enableIdempotentRetries: true,
         options: {
@@ -339,8 +339,8 @@ describe.skipIf(isMock())("EventHubProducerClient internal idempotent publishing
       );
     });
 
-    describe("sendBatch", function () {
-      it("commits published sequence number on sent EventDataBatch", async function () {
+    describe("sendBatch", () => {
+      it("commits published sequence number on sent EventDataBatch", async () => {
         const batch = await producerClient.createBatch({ partitionId: "0" });
         batch.tryAdd({ body: 1 });
         batch.tryAdd({ body: 2 });
@@ -359,7 +359,7 @@ describe.skipIf(isMock())("EventHubProducerClient internal idempotent publishing
         );
       });
 
-      it("does not commit published sequence number on failed EventDataBatch send", async function () {
+      it("does not commit published sequence number on failed EventDataBatch send", async () => {
         const batch = await producerClient.createBatch({
           partitionId: "0",
         });
@@ -389,7 +389,7 @@ describe.skipIf(isMock())("EventHubProducerClient internal idempotent publishing
         );
       });
 
-      it("commits published sequence number on sent EventData", async function () {
+      it("commits published sequence number on sent EventData", async () => {
         const events: EventData[] = [{ body: 1 }, { body: 2 }];
         for (const event of events) {
           should.not.exist(
@@ -416,7 +416,7 @@ describe.skipIf(isMock())("EventHubProducerClient internal idempotent publishing
         }
       });
 
-      it("does not commit published sequence number on failed EventData send", async function () {
+      it("does not commit published sequence number on failed EventData send", async () => {
         const events: EventData[] = [
           {
             body: 1,
@@ -452,7 +452,7 @@ describe.skipIf(isMock())("EventHubProducerClient internal idempotent publishing
         }
       });
 
-      it("does not allow sending already published EventData", async function () {
+      it("does not allow sending already published EventData", async () => {
         const events: EventData[] = [{ body: 1 }, { body: 2 }];
         // Send the events. Afterwards they should be considered 'published.'
         await producerClient.sendBatch(events, { partitionId: "0" });
@@ -462,7 +462,7 @@ describe.skipIf(isMock())("EventHubProducerClient internal idempotent publishing
         );
       });
 
-      it("does not allow sending already published EventDataBatch", async function () {
+      it("does not allow sending already published EventDataBatch", async () => {
         const batch = await producerClient.createBatch({ partitionId: "0" });
         batch.tryAdd({ body: 1 });
         batch.tryAdd({ body: 2 });

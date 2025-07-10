@@ -16,7 +16,7 @@ import { ContainerRegistryManagementClient } from "../containerRegistryManagemen
 import {
   SimplePollerLike,
   OperationState,
-  createHttpPoller
+  createHttpPoller,
 } from "@azure/core-lro";
 import { createLroSpec } from "../lroImpl.js";
 import {
@@ -33,7 +33,7 @@ import {
   ConnectedRegistriesUpdateOptionalParams,
   ConnectedRegistriesUpdateResponse,
   ConnectedRegistriesDeactivateOptionalParams,
-  ConnectedRegistriesListNextResponse
+  ConnectedRegistriesListNextResponse,
 } from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
@@ -58,7 +58,7 @@ export class ConnectedRegistriesImpl implements ConnectedRegistries {
   public list(
     resourceGroupName: string,
     registryName: string,
-    options?: ConnectedRegistriesListOptionalParams
+    options?: ConnectedRegistriesListOptionalParams,
   ): PagedAsyncIterableIterator<ConnectedRegistry> {
     const iter = this.listPagingAll(resourceGroupName, registryName, options);
     return {
@@ -76,9 +76,9 @@ export class ConnectedRegistriesImpl implements ConnectedRegistries {
           resourceGroupName,
           registryName,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
@@ -86,7 +86,7 @@ export class ConnectedRegistriesImpl implements ConnectedRegistries {
     resourceGroupName: string,
     registryName: string,
     options?: ConnectedRegistriesListOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<ConnectedRegistry[]> {
     let result: ConnectedRegistriesListResponse;
     let continuationToken = settings?.continuationToken;
@@ -102,7 +102,7 @@ export class ConnectedRegistriesImpl implements ConnectedRegistries {
         resourceGroupName,
         registryName,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -114,12 +114,12 @@ export class ConnectedRegistriesImpl implements ConnectedRegistries {
   private async *listPagingAll(
     resourceGroupName: string,
     registryName: string,
-    options?: ConnectedRegistriesListOptionalParams
+    options?: ConnectedRegistriesListOptionalParams,
   ): AsyncIterableIterator<ConnectedRegistry> {
     for await (const page of this.listPagingPage(
       resourceGroupName,
       registryName,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -134,11 +134,11 @@ export class ConnectedRegistriesImpl implements ConnectedRegistries {
   private _list(
     resourceGroupName: string,
     registryName: string,
-    options?: ConnectedRegistriesListOptionalParams
+    options?: ConnectedRegistriesListOptionalParams,
   ): Promise<ConnectedRegistriesListResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, registryName, options },
-      listOperationSpec
+      listOperationSpec,
     );
   }
 
@@ -153,11 +153,11 @@ export class ConnectedRegistriesImpl implements ConnectedRegistries {
     resourceGroupName: string,
     registryName: string,
     connectedRegistryName: string,
-    options?: ConnectedRegistriesGetOptionalParams
+    options?: ConnectedRegistriesGetOptionalParams,
   ): Promise<ConnectedRegistriesGetResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, registryName, connectedRegistryName, options },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 
@@ -174,7 +174,7 @@ export class ConnectedRegistriesImpl implements ConnectedRegistries {
     registryName: string,
     connectedRegistryName: string,
     connectedRegistryCreateParameters: ConnectedRegistry,
-    options?: ConnectedRegistriesCreateOptionalParams
+    options?: ConnectedRegistriesCreateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<ConnectedRegistriesCreateResponse>,
@@ -183,21 +183,20 @@ export class ConnectedRegistriesImpl implements ConnectedRegistries {
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<ConnectedRegistriesCreateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -206,8 +205,8 @@ export class ConnectedRegistriesImpl implements ConnectedRegistries {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -215,8 +214,8 @@ export class ConnectedRegistriesImpl implements ConnectedRegistries {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
@@ -227,9 +226,9 @@ export class ConnectedRegistriesImpl implements ConnectedRegistries {
         registryName,
         connectedRegistryName,
         connectedRegistryCreateParameters,
-        options
+        options,
       },
-      spec: createOperationSpec
+      spec: createOperationSpec,
     });
     const poller = await createHttpPoller<
       ConnectedRegistriesCreateResponse,
@@ -237,7 +236,7 @@ export class ConnectedRegistriesImpl implements ConnectedRegistries {
     >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "azure-async-operation"
+      resourceLocationConfig: "azure-async-operation",
     });
     await poller.poll();
     return poller;
@@ -256,14 +255,14 @@ export class ConnectedRegistriesImpl implements ConnectedRegistries {
     registryName: string,
     connectedRegistryName: string,
     connectedRegistryCreateParameters: ConnectedRegistry,
-    options?: ConnectedRegistriesCreateOptionalParams
+    options?: ConnectedRegistriesCreateOptionalParams,
   ): Promise<ConnectedRegistriesCreateResponse> {
     const poller = await this.beginCreate(
       resourceGroupName,
       registryName,
       connectedRegistryName,
       connectedRegistryCreateParameters,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -279,25 +278,24 @@ export class ConnectedRegistriesImpl implements ConnectedRegistries {
     resourceGroupName: string,
     registryName: string,
     connectedRegistryName: string,
-    options?: ConnectedRegistriesDeleteOptionalParams
+    options?: ConnectedRegistriesDeleteOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<void> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -306,8 +304,8 @@ export class ConnectedRegistriesImpl implements ConnectedRegistries {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -315,20 +313,20 @@ export class ConnectedRegistriesImpl implements ConnectedRegistries {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
     const lro = createLroSpec({
       sendOperationFn,
       args: { resourceGroupName, registryName, connectedRegistryName, options },
-      spec: deleteOperationSpec
+      spec: deleteOperationSpec,
     });
     const poller = await createHttpPoller<void, OperationState<void>>(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "location"
+      resourceLocationConfig: "location",
     });
     await poller.poll();
     return poller;
@@ -345,13 +343,13 @@ export class ConnectedRegistriesImpl implements ConnectedRegistries {
     resourceGroupName: string,
     registryName: string,
     connectedRegistryName: string,
-    options?: ConnectedRegistriesDeleteOptionalParams
+    options?: ConnectedRegistriesDeleteOptionalParams,
   ): Promise<void> {
     const poller = await this.beginDelete(
       resourceGroupName,
       registryName,
       connectedRegistryName,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -369,7 +367,7 @@ export class ConnectedRegistriesImpl implements ConnectedRegistries {
     registryName: string,
     connectedRegistryName: string,
     connectedRegistryUpdateParameters: ConnectedRegistryUpdateParameters,
-    options?: ConnectedRegistriesUpdateOptionalParams
+    options?: ConnectedRegistriesUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<ConnectedRegistriesUpdateResponse>,
@@ -378,21 +376,20 @@ export class ConnectedRegistriesImpl implements ConnectedRegistries {
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<ConnectedRegistriesUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -401,8 +398,8 @@ export class ConnectedRegistriesImpl implements ConnectedRegistries {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -410,8 +407,8 @@ export class ConnectedRegistriesImpl implements ConnectedRegistries {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
@@ -422,9 +419,9 @@ export class ConnectedRegistriesImpl implements ConnectedRegistries {
         registryName,
         connectedRegistryName,
         connectedRegistryUpdateParameters,
-        options
+        options,
       },
-      spec: updateOperationSpec
+      spec: updateOperationSpec,
     });
     const poller = await createHttpPoller<
       ConnectedRegistriesUpdateResponse,
@@ -432,7 +429,7 @@ export class ConnectedRegistriesImpl implements ConnectedRegistries {
     >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "azure-async-operation"
+      resourceLocationConfig: "azure-async-operation",
     });
     await poller.poll();
     return poller;
@@ -451,14 +448,14 @@ export class ConnectedRegistriesImpl implements ConnectedRegistries {
     registryName: string,
     connectedRegistryName: string,
     connectedRegistryUpdateParameters: ConnectedRegistryUpdateParameters,
-    options?: ConnectedRegistriesUpdateOptionalParams
+    options?: ConnectedRegistriesUpdateOptionalParams,
   ): Promise<ConnectedRegistriesUpdateResponse> {
     const poller = await this.beginUpdate(
       resourceGroupName,
       registryName,
       connectedRegistryName,
       connectedRegistryUpdateParameters,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -474,25 +471,24 @@ export class ConnectedRegistriesImpl implements ConnectedRegistries {
     resourceGroupName: string,
     registryName: string,
     connectedRegistryName: string,
-    options?: ConnectedRegistriesDeactivateOptionalParams
+    options?: ConnectedRegistriesDeactivateOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<void> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -501,8 +497,8 @@ export class ConnectedRegistriesImpl implements ConnectedRegistries {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -510,20 +506,20 @@ export class ConnectedRegistriesImpl implements ConnectedRegistries {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
     const lro = createLroSpec({
       sendOperationFn,
       args: { resourceGroupName, registryName, connectedRegistryName, options },
-      spec: deactivateOperationSpec
+      spec: deactivateOperationSpec,
     });
     const poller = await createHttpPoller<void, OperationState<void>>(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "location"
+      resourceLocationConfig: "location",
     });
     await poller.poll();
     return poller;
@@ -540,13 +536,13 @@ export class ConnectedRegistriesImpl implements ConnectedRegistries {
     resourceGroupName: string,
     registryName: string,
     connectedRegistryName: string,
-    options?: ConnectedRegistriesDeactivateOptionalParams
+    options?: ConnectedRegistriesDeactivateOptionalParams,
   ): Promise<void> {
     const poller = await this.beginDeactivate(
       resourceGroupName,
       registryName,
       connectedRegistryName,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -562,11 +558,11 @@ export class ConnectedRegistriesImpl implements ConnectedRegistries {
     resourceGroupName: string,
     registryName: string,
     nextLink: string,
-    options?: ConnectedRegistriesListNextOptionalParams
+    options?: ConnectedRegistriesListNextOptionalParams,
   ): Promise<ConnectedRegistriesListNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, registryName, nextLink, options },
-      listNextOperationSpec
+      listNextOperationSpec,
     );
   }
 }
@@ -574,38 +570,36 @@ export class ConnectedRegistriesImpl implements ConnectedRegistries {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerRegistry/registries/{registryName}/connectedRegistries",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerRegistry/registries/{registryName}/connectedRegistries",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ConnectedRegistryListResult
+      bodyMapper: Mappers.ConnectedRegistryListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion, Parameters.filter],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.registryName
+    Parameters.registryName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerRegistry/registries/{registryName}/connectedRegistries/{connectedRegistryName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerRegistry/registries/{registryName}/connectedRegistries/{connectedRegistryName}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ConnectedRegistry
+      bodyMapper: Mappers.ConnectedRegistry,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -613,31 +607,30 @@ const getOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.registryName,
-    Parameters.connectedRegistryName
+    Parameters.connectedRegistryName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const createOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerRegistry/registries/{registryName}/connectedRegistries/{connectedRegistryName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerRegistry/registries/{registryName}/connectedRegistries/{connectedRegistryName}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.ConnectedRegistry
+      bodyMapper: Mappers.ConnectedRegistry,
     },
     201: {
-      bodyMapper: Mappers.ConnectedRegistry
+      bodyMapper: Mappers.ConnectedRegistry,
     },
     202: {
-      bodyMapper: Mappers.ConnectedRegistry
+      bodyMapper: Mappers.ConnectedRegistry,
     },
     204: {
-      bodyMapper: Mappers.ConnectedRegistry
+      bodyMapper: Mappers.ConnectedRegistry,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   requestBody: Parameters.connectedRegistryCreateParameters,
   queryParameters: [Parameters.apiVersion],
@@ -646,15 +639,14 @@ const createOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.registryName,
-    Parameters.connectedRegistryName
+    Parameters.connectedRegistryName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const deleteOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerRegistry/registries/{registryName}/connectedRegistries/{connectedRegistryName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerRegistry/registries/{registryName}/connectedRegistries/{connectedRegistryName}",
   httpMethod: "DELETE",
   responses: {
     200: {},
@@ -662,8 +654,8 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     202: {},
     204: {},
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -671,31 +663,30 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.registryName,
-    Parameters.connectedRegistryName
+    Parameters.connectedRegistryName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const updateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerRegistry/registries/{registryName}/connectedRegistries/{connectedRegistryName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerRegistry/registries/{registryName}/connectedRegistries/{connectedRegistryName}",
   httpMethod: "PATCH",
   responses: {
     200: {
-      bodyMapper: Mappers.ConnectedRegistry
+      bodyMapper: Mappers.ConnectedRegistry,
     },
     201: {
-      bodyMapper: Mappers.ConnectedRegistry
+      bodyMapper: Mappers.ConnectedRegistry,
     },
     202: {
-      bodyMapper: Mappers.ConnectedRegistry
+      bodyMapper: Mappers.ConnectedRegistry,
     },
     204: {
-      bodyMapper: Mappers.ConnectedRegistry
+      bodyMapper: Mappers.ConnectedRegistry,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   requestBody: Parameters.connectedRegistryUpdateParameters,
   queryParameters: [Parameters.apiVersion],
@@ -704,15 +695,14 @@ const updateOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.registryName,
-    Parameters.connectedRegistryName
+    Parameters.connectedRegistryName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const deactivateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerRegistry/registries/{registryName}/connectedRegistries/{connectedRegistryName}/deactivate",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerRegistry/registries/{registryName}/connectedRegistries/{connectedRegistryName}/deactivate",
   httpMethod: "POST",
   responses: {
     200: {},
@@ -720,8 +710,8 @@ const deactivateOperationSpec: coreClient.OperationSpec = {
     202: {},
     204: {},
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -729,29 +719,29 @@ const deactivateOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.registryName,
-    Parameters.connectedRegistryName
+    Parameters.connectedRegistryName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ConnectedRegistryListResult
+      bodyMapper: Mappers.ConnectedRegistryListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.registryName,
-    Parameters.nextLink
+    Parameters.nextLink,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

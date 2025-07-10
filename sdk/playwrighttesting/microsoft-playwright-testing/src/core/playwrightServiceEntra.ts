@@ -1,9 +1,9 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { EntraIdAccessTokenConstants } from "../common/constants";
-import { coreLogger } from "../common/logger";
-import { EntraIdAccessToken } from "../common/entraIdAccessToken";
+import { EntraIdAccessTokenConstants } from "../common/constants.js";
+import { coreLogger } from "../common/logger.js";
+import { EntraIdAccessToken } from "../common/entraIdAccessToken.js";
 import type { TokenCredential } from "@azure/identity";
 
 class PlaywrightServiceEntra {
@@ -36,7 +36,7 @@ class PlaywrightServiceEntra {
     coreLogger.info("Entra id access token teardown start");
     if (this._entraIdAccessTokenRotationInterval) {
       clearInterval(this._entraIdAccessTokenRotationInterval);
-      coreLogger.info("Entra id access token roation interval cleared");
+      coreLogger.info("Entra id access token rotation interval cleared");
     }
   };
 

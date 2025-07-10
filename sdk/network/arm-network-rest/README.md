@@ -46,9 +46,10 @@ AZURE_CLIENT_ID, AZURE_TENANT_ID, AZURE_CLIENT_SECRET
 
 Use the returned token credential to authenticate the client:
 
-```typescript
-import NetworkManagementClient from "@azure-rest/arm-network";
+```ts snippet:ReadmeSampleCreateClient_Node
 import { DefaultAzureCredential } from "@azure/identity";
+import NetworkManagementClient from "@azure-rest/arm-network";
+
 const credential = new DefaultAzureCredential();
 const client = NetworkManagementClient(credential);
 ```
@@ -59,38 +60,36 @@ The following section shows you how to initialize and authenticate your client, 
 
 ### List virtual networks within a resource group
 
-```typescript
-import createNetworkManagementClient, {
+```ts snippet:ReadmeSampleListVirtualNetworks
+import { DefaultAzureCredential } from "@azure/identity";
+import NetworkManagementClient, {
   VirtualNetworksListParameters,
   paginate,
 } from "@azure-rest/arm-network";
-import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-dotenv.config();
-async function listVirtualNetworksInResourceGroup() {
-  const credential = new DefaultAzureCredential();
-  const client = createNetworkManagementClient(credential);
-  const subscriptionId = "";
-  const resourceGroupName = "rg1";
-  const options: VirtualNetworksListParameters = {
-    queryParameters: { "api-version": "2022-05-01" },
-  };
-  const initialResponse = await client
-    .path(
-      "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworks",
-      subscriptionId,
-      resourceGroupName,
-    )
-    .get(options);
-  const pageData = paginate(client, initialResponse);
-  const result = [];
-  for await (const item of pageData) {
-    result.push(item);
-  }
-  console.log(result);
-}
 
-listVirtualNetworksInResourceGroup().catch(console.error);
+const credential = new DefaultAzureCredential();
+const client = NetworkManagementClient(credential);
+
+const subscriptionId = "";
+const resourceGroupName = "rg1";
+const options: VirtualNetworksListParameters = {
+  queryParameters: { "api-version": "2022-05-01" },
+};
+
+const initialResponse = await client
+  .path(
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworks",
+    subscriptionId,
+    resourceGroupName,
+  )
+  .get(options);
+
+const pageData = paginate(client, initialResponse);
+for await (const page of pageData.byPage()) {
+  for await (const item of page) {
+    console.log(`Virtual Network: ${item}`);
+  }
+}
 ```
 
 ## Troubleshooting
@@ -99,7 +98,7 @@ listVirtualNetworksInResourceGroup().catch(console.error);
 
 Enabling logging may help uncover useful information about failures. In order to see a log of HTTP requests and responses, set the `AZURE_LOG_LEVEL` environment variable to `info`. Alternatively, logging can be enabled at runtime by calling `setLogLevel` in the `@azure/logger`:
 
-```javascript
+```ts snippet:SetLogLevel
 import { setLogLevel } from "@azure/logger";
 
 setLogLevel("info");

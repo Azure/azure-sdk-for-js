@@ -8,7 +8,7 @@ Key links:
 
 - [Source code](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/deviceregistry/arm-deviceregistry)
 - [Package (NPM)](https://www.npmjs.com/package/@azure/arm-deviceregistry)
-- [API reference documentation](https://learn.microsoft.com/javascript/api/@azure/arm-deviceregistry?view=azure-node-preview)
+- [API reference documentation](https://learn.microsoft.com/javascript/api/@azure/arm-deviceregistry)
 - [Samples](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/deviceregistry/arm-deviceregistry/samples)
 
 ## Getting started

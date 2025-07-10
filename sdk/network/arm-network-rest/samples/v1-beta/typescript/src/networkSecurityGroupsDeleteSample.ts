@@ -13,7 +13,7 @@ import "dotenv/config";
  * @summary Deletes the specified network security group.
  * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-05-01/examples/NetworkSecurityGroupDelete.json
  */
-async function deleteNetworkSecurityGroup() {
+async function deleteNetworkSecurityGroup(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = createNetworkManagementClient(credential);
   const subscriptionId = "";

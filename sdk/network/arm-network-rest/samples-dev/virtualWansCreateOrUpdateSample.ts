@@ -11,7 +11,7 @@ import "dotenv/config";
  * @summary Creates a VirtualWAN resource if it doesn't exist else updates the existing VirtualWAN.
  * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-05-01/examples/VirtualWANPut.json
  */
-async function virtualWanCreate() {
+async function virtualWanCreate(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = createNetworkManagementClient(credential);
   const subscriptionId = "";

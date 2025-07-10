@@ -7,9 +7,7 @@
  */
 import { ServiceLinkerManagementClient } from "@azure/arm-servicelinker";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Returns list of Linkers which connects to the resource. which supports to config both application and target service during the resource provision.
@@ -17,7 +15,7 @@ dotenv.config();
  * @summary Returns list of Linkers which connects to the resource. which supports to config both application and target service during the resource provision.
  * x-ms-original-file: specification/servicelinker/resource-manager/Microsoft.ServiceLinker/preview/2024-07-01-preview/examples/LinkerList.json
  */
-async function linkerList() {
+async function linkerList(): Promise<void> {
   const resourceUri =
     "subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/test-rg/providers/Microsoft.Web/sites/test-app";
   const credential = new DefaultAzureCredential();
@@ -29,7 +27,7 @@ async function linkerList() {
   console.log(resArray);
 }
 
-async function main() {
+async function main(): Promise<void> {
   await linkerList();
 }
 

@@ -10,9 +10,7 @@
 // Licensed under the MIT License.
 import { SourceControlConfigurationClient } from "@azure/arm-kubernetesconfiguration";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to List all Source Control Configurations.
@@ -20,7 +18,7 @@ dotenv.config();
  * @summary List all Source Control Configurations.
  * x-ms-original-file: specification/kubernetesconfiguration/resource-manager/Microsoft.KubernetesConfiguration/stable/2023-05-01/examples/ListSourceControlConfiguration.json
  */
-async function listSourceControlConfiguration() {
+async function listSourceControlConfiguration(): Promise<void> {
   const subscriptionId =
     process.env["KUBERNETESCONFIGURATION_SUBSCRIPTION_ID"] || "subId1";
   const resourceGroupName =
@@ -45,7 +43,7 @@ async function listSourceControlConfiguration() {
   console.log(resArray);
 }
 
-async function main() {
+async function main(): Promise<void> {
   listSourceControlConfiguration();
 }
 

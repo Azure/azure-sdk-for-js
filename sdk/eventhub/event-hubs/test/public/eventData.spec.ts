@@ -15,16 +15,16 @@ import { should } from "../utils/chai.js";
 import { describe, it, beforeEach, afterEach } from "vitest";
 import { createConsumer, createProducer } from "../utils/clients.js";
 
-describe("EventData", function () {
+describe("EventData", () => {
   let producerClient: EventHubProducerClient;
   let consumerClient: EventHubConsumerClient;
 
-  beforeEach(async function () {
+  beforeEach(async () => {
     producerClient = createProducer().producer;
     consumerClient = createConsumer().consumer;
   });
 
-  afterEach(async function () {
+  afterEach(async () => {
     await producerClient.close();
     await consumerClient.close();
   });
@@ -70,14 +70,14 @@ describe("EventData", function () {
     });
   }
 
-  describe("round-tripping AMQP encoding/decoding", function () {
-    beforeEach(async function () {
+  describe("round-tripping AMQP encoding/decoding", () => {
+    beforeEach(async () => {
       for (let i = 1; i < 100; i++) {
         const filer = { body: "b", messageId: randomUUID() };
         await producerClient.sendBatch([filer]);
       }
     });
-    it(`props`, async function () {
+    it(`props`, async () => {
       const startingPositions = await getStartingPositionsForTests(consumerClient);
       const testEvent = getSampleEventData();
       await producerClient.sendBatch([testEvent]);
@@ -101,7 +101,7 @@ describe("EventData", function () {
       );
     });
 
-    it(`null body`, async function () {
+    it(`null body`, async () => {
       const startingPositions = await getStartingPositionsForTests(consumerClient);
       const testEvent: EventData = { body: null };
       await producerClient.sendBatch([testEvent]);

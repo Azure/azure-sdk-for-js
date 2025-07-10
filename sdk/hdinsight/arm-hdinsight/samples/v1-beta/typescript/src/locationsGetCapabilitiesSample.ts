@@ -10,9 +10,7 @@
 // Licensed under the MIT License.
 import { HDInsightManagementClient } from "@azure/arm-hdinsight";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Gets the capabilities for the specified location.
@@ -20,7 +18,7 @@ dotenv.config();
  * @summary Gets the capabilities for the specified location.
  * x-ms-original-file: specification/hdinsight/resource-manager/Microsoft.HDInsight/preview/2024-08-01-preview/examples/GetHDInsightCapabilities.json
  */
-async function getTheSubscriptionCapabilitiesForSpecificLocation() {
+async function getTheSubscriptionCapabilitiesForSpecificLocation(): Promise<void> {
   const subscriptionId = process.env["HDINSIGHT_SUBSCRIPTION_ID"] || "subid";
   const location = "West US";
   const credential = new DefaultAzureCredential();
@@ -29,7 +27,7 @@ async function getTheSubscriptionCapabilitiesForSpecificLocation() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   getTheSubscriptionCapabilitiesForSpecificLocation();
 }
 

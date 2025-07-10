@@ -8,9 +8,7 @@
 import type { Input } from "@azure/arm-streamanalytics";
 import { StreamAnalyticsManagementClient } from "@azure/arm-streamanalytics";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Updates an existing input under an existing streaming job. This can be used to partially update (ie. update one or two properties) an input without affecting the rest the job or input definition.
@@ -18,7 +16,7 @@ dotenv.config();
  * @summary Updates an existing input under an existing streaming job. This can be used to partially update (ie. update one or two properties) an input without affecting the rest the job or input definition.
  * x-ms-original-file: specification/streamanalytics/resource-manager/Microsoft.StreamAnalytics/preview/2021-10-01-preview/examples/Input_Update_Reference_Blob.json
  */
-async function updateAReferenceBlobInput() {
+async function updateAReferenceBlobInput(): Promise<void> {
   const subscriptionId =
     process.env["STREAMANALYTICS_SUBSCRIPTION_ID"] || "56b5e0a9-b645-407d-99b0-c64f86013e3d";
   const resourceGroupName = process.env["STREAMANALYTICS_RESOURCE_GROUP"] || "sjrg8440";
@@ -46,7 +44,7 @@ async function updateAReferenceBlobInput() {
  * @summary Updates an existing input under an existing streaming job. This can be used to partially update (ie. update one or two properties) an input without affecting the rest the job or input definition.
  * x-ms-original-file: specification/streamanalytics/resource-manager/Microsoft.StreamAnalytics/preview/2021-10-01-preview/examples/Input_Update_Stream_EventHub.json
  */
-async function updateAStreamEventHubInput() {
+async function updateAStreamEventHubInput(): Promise<void> {
   const subscriptionId =
     process.env["STREAMANALYTICS_SUBSCRIPTION_ID"] || "56b5e0a9-b645-407d-99b0-c64f86013e3d";
   const resourceGroupName = process.env["STREAMANALYTICS_RESOURCE_GROUP"] || "sjrg3139";
@@ -74,7 +72,7 @@ async function updateAStreamEventHubInput() {
  * @summary Updates an existing input under an existing streaming job. This can be used to partially update (ie. update one or two properties) an input without affecting the rest the job or input definition.
  * x-ms-original-file: specification/streamanalytics/resource-manager/Microsoft.StreamAnalytics/preview/2021-10-01-preview/examples/Input_Update_Stream_IoTHub.json
  */
-async function updateAStreamIoTHubInput() {
+async function updateAStreamIoTHubInput(): Promise<void> {
   const subscriptionId =
     process.env["STREAMANALYTICS_SUBSCRIPTION_ID"] || "56b5e0a9-b645-407d-99b0-c64f86013e3d";
   const resourceGroupName = process.env["STREAMANALYTICS_RESOURCE_GROUP"] || "sjrg3467";
@@ -102,7 +100,7 @@ async function updateAStreamIoTHubInput() {
  * @summary Updates an existing input under an existing streaming job. This can be used to partially update (ie. update one or two properties) an input without affecting the rest the job or input definition.
  * x-ms-original-file: specification/streamanalytics/resource-manager/Microsoft.StreamAnalytics/preview/2021-10-01-preview/examples/Input_Update_Stream_Blob.json
  */
-async function updateAStreamBlobInput() {
+async function updateAStreamBlobInput(): Promise<void> {
   const subscriptionId =
     process.env["STREAMANALYTICS_SUBSCRIPTION_ID"] || "56b5e0a9-b645-407d-99b0-c64f86013e3d";
   const resourceGroupName = process.env["STREAMANALYTICS_RESOURCE_GROUP"] || "sjrg8161";
@@ -121,7 +119,7 @@ async function updateAStreamBlobInput() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   await updateAReferenceBlobInput();
   await updateAStreamEventHubInput();
   await updateAStreamIoTHubInput();

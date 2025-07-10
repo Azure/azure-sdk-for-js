@@ -7,18 +7,18 @@
  */
 
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
-import { NetAppResourceQuotaLimits } from "../operationsInterfaces";
+import { NetAppResourceQuotaLimits } from "../operationsInterfaces/index.js";
 import * as coreClient from "@azure/core-client";
-import * as Mappers from "../models/mappers";
-import * as Parameters from "../models/parameters";
-import { NetAppManagementClient } from "../netAppManagementClient";
+import * as Mappers from "../models/mappers.js";
+import * as Parameters from "../models/parameters.js";
+import { NetAppManagementClient } from "../netAppManagementClient.js";
 import {
-  SubscriptionQuotaItem,
+  QuotaItem,
   NetAppResourceQuotaLimitsListOptionalParams,
   NetAppResourceQuotaLimitsListResponse,
   NetAppResourceQuotaLimitsGetOptionalParams,
   NetAppResourceQuotaLimitsGetResponse,
-} from "../models";
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Class containing NetAppResourceQuotaLimits operations. */
@@ -43,7 +43,7 @@ export class NetAppResourceQuotaLimitsImpl
   public list(
     location: string,
     options?: NetAppResourceQuotaLimitsListOptionalParams,
-  ): PagedAsyncIterableIterator<SubscriptionQuotaItem> {
+  ): PagedAsyncIterableIterator<QuotaItem> {
     const iter = this.listPagingAll(location, options);
     return {
       next() {
@@ -65,7 +65,7 @@ export class NetAppResourceQuotaLimitsImpl
     location: string,
     options?: NetAppResourceQuotaLimitsListOptionalParams,
     _settings?: PageSettings,
-  ): AsyncIterableIterator<SubscriptionQuotaItem[]> {
+  ): AsyncIterableIterator<QuotaItem[]> {
     let result: NetAppResourceQuotaLimitsListResponse;
     result = await this._list(location, options);
     yield result.value || [];
@@ -74,7 +74,7 @@ export class NetAppResourceQuotaLimitsImpl
   private async *listPagingAll(
     location: string,
     options?: NetAppResourceQuotaLimitsListOptionalParams,
-  ): AsyncIterableIterator<SubscriptionQuotaItem> {
+  ): AsyncIterableIterator<QuotaItem> {
     for await (const page of this.listPagingPage(location, options)) {
       yield* page;
     }
@@ -120,7 +120,7 @@ const listOperationSpec: coreClient.OperationSpec = {
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.SubscriptionQuotaItemList,
+      bodyMapper: Mappers.QuotaItemList,
     },
     default: {
       bodyMapper: Mappers.ErrorResponse,
@@ -140,7 +140,7 @@ const getOperationSpec: coreClient.OperationSpec = {
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.SubscriptionQuotaItem,
+      bodyMapper: Mappers.QuotaItem,
     },
     default: {
       bodyMapper: Mappers.ErrorResponse,

@@ -15,19 +15,19 @@ import {
 } from "@azure/core-rest-pipeline";
 import * as coreAuth from "@azure/core-auth";
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
-import { setContinuationToken } from "./pagingHelper";
+import { setContinuationToken } from "./pagingHelper.js";
 import {
   ApplicationsImpl,
   ApplicationDefinitionsImpl,
   JitRequestsImpl
-} from "./operations";
+} from "./operations/index.js";
 import {
   Applications,
   ApplicationDefinitions,
   JitRequests
-} from "./operationsInterfaces";
-import * as Parameters from "./models/parameters";
-import * as Mappers from "./models/mappers";
+} from "./operationsInterfaces/index.js";
+import * as Parameters from "./models/parameters.js";
+import * as Mappers from "./models/mappers.js";
 import {
   ApplicationClientOptionalParams,
   Operation,
@@ -35,7 +35,7 @@ import {
   ListOperationsOptionalParams,
   ListOperationsResponse,
   ListOperationsNextResponse
-} from "./models";
+} from "./models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 export class ApplicationClient extends coreClient.ServiceClient {

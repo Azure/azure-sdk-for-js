@@ -13,7 +13,7 @@ import "dotenv/config";
  * @summary Lists all Virtual Router Peerings in a Virtual Router resource.
  * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-05-01/examples/VirtualRouterPeeringList.json
  */
-async function listAllVirtualRouterPeeringsForAGivenVirtualRouter() {
+async function listAllVirtualRouterPeeringsForAGivenVirtualRouter(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = createNetworkManagementClient(credential);
   const subscriptionId = "";

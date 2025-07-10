@@ -6,7 +6,7 @@ import { SecretClient } from "../../src/index.js";
 import { describe, it, assert } from "vitest";
 
 describe("Secrets client's user agent (only in Node, because of fs)", () => {
-  it("SDK_VERSION and user-agent should match", async function () {
+  it("SDK_VERSION and user-agent should match", async () => {
     let userAgent: string | undefined;
     const client = new SecretClient(
       "https://myvault.vault.azure.net",

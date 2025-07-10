@@ -11,9 +11,7 @@ import type {
 } from "@azure/arm-mysql-flexible";
 import { MySQLManagementFlexibleServerClient } from "@azure/arm-mysql-flexible";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Update maintenances.
@@ -21,7 +19,7 @@ dotenv.config();
  * @summary Update maintenances.
  * x-ms-original-file: specification/mysql/resource-manager/Microsoft.DBforMySQL/Maintenance/preview/2023-10-01-preview/examples/MaintenanceUpdate.json
  */
-async function updateMaintenanceOnAServer() {
+async function updateMaintenanceOnAServer(): Promise<void> {
   const subscriptionId =
     process.env["MYSQL_SUBSCRIPTION_ID"] || "ffffffff-ffff-ffff-ffff-ffffffffffff";
   const resourceGroupName = process.env["MYSQL_RESOURCE_GROUP"] || "TestGroup";
@@ -42,7 +40,7 @@ async function updateMaintenanceOnAServer() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   await updateMaintenanceOnAServer();
 }
 

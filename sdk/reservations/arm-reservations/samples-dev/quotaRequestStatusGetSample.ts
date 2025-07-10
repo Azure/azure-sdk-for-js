@@ -7,9 +7,7 @@
  */
 import { AzureReservationAPI } from "@azure/arm-reservations";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to For the specified Azure region (location), get the details and status of the quota request by the quota request ID for the resources of the resource provider. The PUT request for the quota (service limit) returns a response with the requestId parameter.
@@ -17,7 +15,7 @@ dotenv.config();
  * @summary For the specified Azure region (location), get the details and status of the quota request by the quota request ID for the resources of the resource provider. The PUT request for the quota (service limit) returns a response with the requestId parameter.
  * x-ms-original-file: specification/reservations/resource-manager/Microsoft.Capacity/stable/2020-10-25/examples/getQuotaRequestStatusFailed.json
  */
-async function quotaRequestFailed() {
+async function quotaRequestFailed(): Promise<void> {
   const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const providerId = "Microsoft.Compute";
   const location = "eastus";
@@ -34,7 +32,7 @@ async function quotaRequestFailed() {
  * @summary For the specified Azure region (location), get the details and status of the quota request by the quota request ID for the resources of the resource provider. The PUT request for the quota (service limit) returns a response with the requestId parameter.
  * x-ms-original-file: specification/reservations/resource-manager/Microsoft.Capacity/stable/2020-10-25/examples/getQuotaRequestStatusInProgress.json
  */
-async function quotaRequestInProgress() {
+async function quotaRequestInProgress(): Promise<void> {
   const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const providerId = "Microsoft.Compute";
   const location = "eastus";
@@ -51,7 +49,7 @@ async function quotaRequestInProgress() {
  * @summary For the specified Azure region (location), get the details and status of the quota request by the quota request ID for the resources of the resource provider. The PUT request for the quota (service limit) returns a response with the requestId parameter.
  * x-ms-original-file: specification/reservations/resource-manager/Microsoft.Capacity/stable/2020-10-25/examples/getQuotaRequestStatusById.json
  */
-async function quotaRequestStatus() {
+async function quotaRequestStatus(): Promise<void> {
   const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const providerId = "Microsoft.Compute";
   const location = "eastus";
@@ -62,7 +60,7 @@ async function quotaRequestStatus() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   await quotaRequestFailed();
   await quotaRequestInProgress();
   await quotaRequestStatus();

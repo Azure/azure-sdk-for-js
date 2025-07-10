@@ -13,9 +13,7 @@ import {
   AzureNetworkFabricManagementServiceAPI
 } from "@azure/arm-managednetworkfabric";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Update BGP state for internalNetwork. Allowed only on edge devices.
@@ -23,7 +21,7 @@ dotenv.config();
  * @summary Update BGP state for internalNetwork. Allowed only on edge devices.
  * x-ms-original-file: specification/managednetworkfabric/resource-manager/Microsoft.ManagedNetworkFabric/stable/2023-06-15/examples/InternalNetworks_UpdateBgpAdministrativeState_MaximumSet_Gen.json
  */
-async function internalNetworksUpdateBgpAdministrativeStateMaximumSetGen() {
+async function internalNetworksUpdateBgpAdministrativeStateMaximumSetGen(): Promise<void> {
   const subscriptionId =
     process.env["MANAGEDNETWORKFABRIC_SUBSCRIPTION_ID"] ||
     "1234ABCD-0A1B-1234-5678-123456ABCDEF";
@@ -49,7 +47,7 @@ async function internalNetworksUpdateBgpAdministrativeStateMaximumSetGen() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   internalNetworksUpdateBgpAdministrativeStateMaximumSetGen();
 }
 

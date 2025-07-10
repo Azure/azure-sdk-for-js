@@ -54,7 +54,21 @@ export function createTestCredential(
 ): TokenCredential {
   if (isPlaybackMode()) {
     return new NoOpCredential();
-  } else if (isBrowser) {
+  } else {
+    return createLiveCredential(tokenCredentialOptions);
+  }
+}
+
+/**
+ * ## Credential to be used in live tests.
+ *  - returns the ChainedTokenCredential in Node (expects that you used [`User Auth` or `Auth via development tools`](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/identity/identity#authenticate-users) credentials)
+ *  - Returns browser relay credential in browser. Requires the dev-tool browser relay server to be running (dev-tool run start-browser-relay, or is automatically started when using the dev-tool browser test command)
+ *  - AAD traffic won't be recorded if this credential is used.
+ */
+export function createLiveCredential(
+  tokenCredentialOptions: CreateTestCredentialOptions = {},
+): TokenCredential {
+  if (isBrowser) {
     return createBrowserRelayCredential(tokenCredentialOptions);
   } else {
     const { browserRelayServerUrl: _, ...dacOptions } = tokenCredentialOptions;

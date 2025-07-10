@@ -11,3 +11,9 @@ chai.use(chaiExclude);
 chai.use(chaiAzure);
 const should = shouldFn();
 export { should, expect, assert };
+
+declare global {
+  interface Object {
+    should: Chai.Assertion;
+  }
+}

@@ -8,9 +8,7 @@
 import type { ArmDisasterRecovery } from "@azure/arm-servicebus";
 import { ServiceBusManagementClient } from "@azure/arm-servicebus";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Creates or updates a new Alias(Disaster Recovery configuration)
@@ -18,7 +16,7 @@ dotenv.config();
  * @summary Creates or updates a new Alias(Disaster Recovery configuration)
  * x-ms-original-file: specification/servicebus/resource-manager/Microsoft.ServiceBus/preview/2022-10-01-preview/examples/disasterRecoveryConfigs/SBAliasCreate.json
  */
-async function sbAliasCreate() {
+async function sbAliasCreate(): Promise<void> {
   const subscriptionId =
     process.env["SERVICEBUS_SUBSCRIPTION_ID"] || "5f750a97-50d9-4e36-8081-c9ee4c0210d4";
   const resourceGroupName = process.env["SERVICEBUS_RESOURCE_GROUP"] || "ardsouzatestRG";
@@ -39,7 +37,7 @@ async function sbAliasCreate() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   await sbAliasCreate();
 }
 

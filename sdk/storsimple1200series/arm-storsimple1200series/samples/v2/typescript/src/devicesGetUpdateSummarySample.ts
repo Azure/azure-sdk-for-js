@@ -17,7 +17,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * @summary Returns the update summary of the specified device name.
  * x-ms-original-file: specification/storsimple1200series/resource-manager/Microsoft.StorSimple/stable/2016-10-01/examples/DevicesGetUpdateSummary.json
  */
-async function devicesGetUpdateSummary() {
+async function devicesGetUpdateSummary(): Promise<void> {
   const subscriptionId = "9eb689cd-7243-43b4-b6f6-5c65cb296641";
   const deviceName = "HBVT-02X525X2W0";
   const resourceGroupName = "ResourceGroupForSDKTest";

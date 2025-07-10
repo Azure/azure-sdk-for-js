@@ -6,10 +6,10 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-export * from "./operations";
-export * from "./operationsStatus";
-export * from "./redisEnterprise";
-export * from "./databases";
-export * from "./accessPolicyAssignmentOperations";
-export * from "./privateEndpointConnections";
-export * from "./privateLinkResources";
+export * from "./operations.js";
+export * from "./operationsStatus.js";
+export * from "./redisEnterprise.js";
+export * from "./databases.js";
+export * from "./accessPolicyAssignmentOperations.js";
+export * from "./privateEndpointConnections.js";
+export * from "./privateLinkResources.js";

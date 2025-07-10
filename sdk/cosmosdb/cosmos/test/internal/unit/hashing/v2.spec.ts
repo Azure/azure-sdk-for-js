@@ -1,11 +1,11 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import assert from "assert";
-import { hashV2PartitionKey } from "../../../../src/utils/hashing/v2";
+import { hashV2PartitionKey } from "../../../../src/utils/hashing/v2.js";
+import { describe, it, assert } from "vitest";
 
-describe("effectivePartitionKey", function () {
-  describe("computes v2 key", function () {
+describe("effectivePartitionKey", () => {
+  describe("computes v2 key", () => {
     const toMatch = [
       {
         key: ["redmond"],
@@ -57,9 +57,13 @@ describe("effectivePartitionKey", function () {
         key: [123456789],
         output: "1F56D2538088EBA82CCF988F36E16760",
       },
+      {
+        key: ["redmond", 50, 5.5, true, false, null, "", 12313.1221],
+        output: "1A5E512F591E980E07A6D8AD5BD5AB2F",
+      },
     ];
     toMatch.forEach(({ key, output }) => {
-      it("matches expected hash output", function () {
+      it("matches expected hash output", () => {
         const hashed = hashV2PartitionKey(key);
         assert.equal(hashed, output);
       });

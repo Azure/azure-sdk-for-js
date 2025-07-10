@@ -1,5 +1,21 @@
 # Release History
 
+## 1.0.0-beta.10 (Unreleased)
+
+### Features Added
+
+### Breaking Changes
+
+### Bugs Fixed
+
+### Other Changes
+
+## 1.0.0-beta.9 (2025-06-10)
+
+### Other Changes
+
+- Updates OpenTelemetry packages to v2.
+
 ## 1.0.0-beta.8 (2025-02-11)
 
 ### Bugs Fixed

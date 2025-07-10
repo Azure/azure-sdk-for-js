@@ -7,9 +7,7 @@
  */
 import { ScVmm } from "@azure/arm-scvmm";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Implements GuestAgent GET method.
@@ -17,7 +15,7 @@ dotenv.config();
  * @summary Implements GuestAgent GET method.
  * x-ms-original-file: specification/scvmm/resource-manager/Microsoft.ScVmm/stable/2023-10-07/examples/GuestAgents_Get_MaximumSet_Gen.json
  */
-async function guestAgentsGetMaximumSet() {
+async function guestAgentsGetMaximumSet(): Promise<void> {
   const resourceUri = "gtgclehcbsyave";
   const credential = new DefaultAzureCredential();
   const client = new ScVmm(credential);
@@ -31,7 +29,7 @@ async function guestAgentsGetMaximumSet() {
  * @summary Implements GuestAgent GET method.
  * x-ms-original-file: specification/scvmm/resource-manager/Microsoft.ScVmm/stable/2023-10-07/examples/GuestAgents_Get_MinimumSet_Gen.json
  */
-async function guestAgentsGetMinimumSet() {
+async function guestAgentsGetMinimumSet(): Promise<void> {
   const resourceUri = "gtgclehcbsyave";
   const credential = new DefaultAzureCredential();
   const client = new ScVmm(credential);
@@ -39,7 +37,7 @@ async function guestAgentsGetMinimumSet() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   await guestAgentsGetMaximumSet();
   await guestAgentsGetMinimumSet();
 }

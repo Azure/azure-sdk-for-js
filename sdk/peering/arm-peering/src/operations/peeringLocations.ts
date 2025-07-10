@@ -7,12 +7,12 @@
  */
 
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
-import { setContinuationToken } from "../pagingHelper";
-import { PeeringLocations } from "../operationsInterfaces";
+import { setContinuationToken } from "../pagingHelper.js";
+import { PeeringLocations } from "../operationsInterfaces/index.js";
 import * as coreClient from "@azure/core-client";
-import * as Mappers from "../models/mappers";
-import * as Parameters from "../models/parameters";
-import { PeeringManagementClient } from "../peeringManagementClient";
+import * as Mappers from "../models/mappers.js";
+import * as Parameters from "../models/parameters.js";
+import { PeeringManagementClient } from "../peeringManagementClient.js";
 import {
   PeeringLocation,
   PeeringLocationsKind,
@@ -20,7 +20,7 @@ import {
   PeeringLocationsListOptionalParams,
   PeeringLocationsListResponse,
   PeeringLocationsListNextResponse
-} from "../models";
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Class containing PeeringLocations operations. */

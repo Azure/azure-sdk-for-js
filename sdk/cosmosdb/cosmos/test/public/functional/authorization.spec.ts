@@ -1,26 +1,25 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import assert from "assert";
-import type { Suite } from "mocha";
-import { CosmosClient, PermissionMode } from "../../../src";
-import type { PermissionDefinition } from "../../../src/";
-import { endpoint } from "../common/_testConfig";
-import { masterKey } from "../common/_fakeTestSecrets";
+
+import { CosmosClient, PermissionMode } from "../../../src/index.js";
+import type { PermissionDefinition } from "../../../src/index.js";
+import { endpoint } from "../common/_testConfig.js";
+import { masterKey } from "../common/_fakeTestSecrets.js";
 import {
   createOrUpsertPermission,
   getTestContainer,
   getTestDatabase,
   removeAllDatabases,
-} from "../common/TestHelpers";
+} from "../common/TestHelpers.js";
+import { describe, it, assert, beforeEach } from "vitest";
 
-describe("NodeJS CRUD Tests", function (this: Suite) {
-  this.timeout(process.env.MOCHA_TIMEOUT || 10000);
-  beforeEach(async function () {
+describe("NodeJS CRUD Tests", { timeout: 10000 }, () => {
+  beforeEach(async () => {
     await removeAllDatabases();
   });
 
-  describe("Validate Authorization", function () {
-    it("should handle all the key options", async function () {
+  describe("Validate Authorization", () => {
+    it("should handle all the key options", async () => {
       const clientOptionsKey = new CosmosClient({
         endpoint,
         key: masterKey,
@@ -264,19 +263,19 @@ describe("NodeJS CRUD Tests", function (this: Suite) {
       }
     };
 
-    it("Should do authorization successfully name based", async function () {
+    it("Should do authorization successfully name based", async () => {
       await authorizationCRUDTest(false);
     });
 
-    it("Should do authorization successfully name based with upsert", async function () {
+    it("Should do authorization successfully name based with upsert", async () => {
       await authorizationCRUDTest(true);
     });
 
-    it("Should do authorization over multiple partitions successfully name based", async function () {
+    it("Should do authorization over multiple partitions successfully name based", async () => {
       await authorizationCRUDOverMultiplePartitionsTest();
     });
 
-    it("should allow deletion of a doc with container token", async function () {
+    it("should allow deletion of a doc with container token", async () => {
       const container = await getTestContainer("Validate Authorization container");
 
       const { resource: item } = await container.items.create({

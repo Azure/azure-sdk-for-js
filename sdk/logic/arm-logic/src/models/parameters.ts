@@ -31,7 +31,7 @@ import {
   IntegrationAccountSession as IntegrationAccountSessionMapper,
   IntegrationServiceEnvironment as IntegrationServiceEnvironmentMapper,
   IntegrationServiceEnvironmentManagedApi as IntegrationServiceEnvironmentManagedApiMapper
-} from "../models/mappers";
+} from "../models/mappers.js";
 
 export const accept: OperationParameter = {
   parameterPath: "accept",

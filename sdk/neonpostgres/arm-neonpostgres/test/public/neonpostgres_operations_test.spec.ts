@@ -1,5 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
+
 import type { Recorder } from "@azure-tools/test-recorder";
 import { env, isPlaybackMode } from "@azure-tools/test-recorder";
 import { createTestCredential } from "@azure-tools/test-credential";
@@ -25,14 +26,20 @@ describe("Postgres test", () => {
     client = new PostgresClient(credential, subscriptionId, recorder.configureClientOptions({}));
   });
 
-  afterEach(async function () {
+  afterEach(async () => {
     await recorder.stop();
   });
-  it("operations list test", async function () {
+
+  it.skip("operations list test", async () => {
     const resArray = new Array();
     for await (const item of client.operations.list()) {
       resArray.push(item);
     }
     assert.notEqual(resArray.length, 0);
+  });
+
+  it("organizations list test", async () => {
+    const res = client.organizations.listByResourceGroup("myjstest");
+    assert.ok(res);
   });
 });

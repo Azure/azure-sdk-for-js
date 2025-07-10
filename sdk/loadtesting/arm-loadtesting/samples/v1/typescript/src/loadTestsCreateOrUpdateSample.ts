@@ -10,9 +10,7 @@
 // Licensed under the MIT License.
 import { LoadTestResource, LoadTestClient } from "@azure/arm-loadtesting";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Create or update LoadTest resource.
@@ -20,7 +18,7 @@ dotenv.config();
  * @summary Create or update LoadTest resource.
  * x-ms-original-file: specification/loadtestservice/resource-manager/Microsoft.LoadTestService/stable/2022-12-01/examples/LoadTests_CreateOrUpdate.json
  */
-async function loadTestsCreateOrUpdate() {
+async function loadTestsCreateOrUpdate(): Promise<void> {
   const subscriptionId =
     process.env["LOADTESTSERVICE_SUBSCRIPTION_ID"] ||
     "00000000-0000-0000-0000-000000000000";
@@ -56,7 +54,7 @@ async function loadTestsCreateOrUpdate() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   loadTestsCreateOrUpdate();
 }
 

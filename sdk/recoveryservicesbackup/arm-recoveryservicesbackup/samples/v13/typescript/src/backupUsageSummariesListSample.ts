@@ -13,17 +13,15 @@ import {
   RecoveryServicesBackupClient,
 } from "@azure/arm-recoveryservicesbackup";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Fetches the backup management usage summaries of the vault.
  *
  * @summary Fetches the backup management usage summaries of the vault.
- * x-ms-original-file: specification/recoveryservicesbackup/resource-manager/Microsoft.RecoveryServices/stable/2024-04-01/examples/Common/BackupProtectionContainers_UsageSummary_Get.json
+ * x-ms-original-file: specification/recoveryservicesbackup/resource-manager/Microsoft.RecoveryServices/stable/2025-02-01/examples/Common/BackupProtectionContainers_UsageSummary_Get.json
  */
-async function getProtectedContainersUsagesSummary() {
+async function getProtectedContainersUsagesSummary(): Promise<void> {
   const subscriptionId =
     process.env["RECOVERYSERVICESBACKUP_SUBSCRIPTION_ID"] ||
     "00000000-0000-0000-0000-000000000000";
@@ -35,7 +33,7 @@ async function getProtectedContainersUsagesSummary() {
   const credential = new DefaultAzureCredential();
   const client = new RecoveryServicesBackupClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.backupUsageSummaries.list(
+  for await (const item of client.backupUsageSummaries.list(
     vaultName,
     resourceGroupName,
     options,
@@ -49,9 +47,9 @@ async function getProtectedContainersUsagesSummary() {
  * This sample demonstrates how to Fetches the backup management usage summaries of the vault.
  *
  * @summary Fetches the backup management usage summaries of the vault.
- * x-ms-original-file: specification/recoveryservicesbackup/resource-manager/Microsoft.RecoveryServices/stable/2024-04-01/examples/Common/BackupProtectedItem_UsageSummary_Get.json
+ * x-ms-original-file: specification/recoveryservicesbackup/resource-manager/Microsoft.RecoveryServices/stable/2025-02-01/examples/Common/BackupProtectedItem_UsageSummary_Get.json
  */
-async function getProtectedItemsUsagesSummary() {
+async function getProtectedItemsUsagesSummary(): Promise<void> {
   const subscriptionId =
     process.env["RECOVERYSERVICESBACKUP_SUBSCRIPTION_ID"] ||
     "00000000-0000-0000-0000-000000000000";
@@ -63,7 +61,7 @@ async function getProtectedItemsUsagesSummary() {
   const credential = new DefaultAzureCredential();
   const client = new RecoveryServicesBackupClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.backupUsageSummaries.list(
+  for await (const item of client.backupUsageSummaries.list(
     vaultName,
     resourceGroupName,
     options,
@@ -73,9 +71,9 @@ async function getProtectedItemsUsagesSummary() {
   console.log(resArray);
 }
 
-async function main() {
-  getProtectedContainersUsagesSummary();
-  getProtectedItemsUsagesSummary();
+async function main(): Promise<void> {
+  await getProtectedContainersUsagesSummary();
+  await getProtectedItemsUsagesSummary();
 }
 
 main().catch(console.error);

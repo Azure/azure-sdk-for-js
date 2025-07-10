@@ -128,26 +128,32 @@ export class SearchClient<TModel extends object> implements IndexDocumentsClient
    * Creates an instance of SearchClient.
    *
    * Example usage:
-   * ```ts
-   * const { SearchClient, AzureKeyCredential } = require("@azure/search-documents");
+   * ```ts snippet:ReadmeSampleSearchClient
+   * import { SearchClient, AzureKeyCredential } from "@azure/search-documents";
    *
-   * const client = new SearchClient(
+   * const searchClient = new SearchClient(
    *   "<endpoint>",
    *   "<indexName>",
-   *   new AzureKeyCredential("<Admin Key>")
+   *   new AzureKeyCredential("<apiKey>"),
    * );
    * ```
    *
    * Optionally, the type of the model can be used to enable strong typing and type hints:
-   * ```ts
+   * ```ts snippet:ReadmeSampleSearchClientWithModel
+   * import { SearchClient, AzureKeyCredential } from "@azure/search-documents";
+   *
    * type TModel = {
    *   keyName: string;
    *   field1?: string | null;
-   *   field2?: { anotherField?: string | null } | null;
+   *   field2?: {
+   *     anotherField?: string | null;
+   *   } | null;
    * };
    *
-   * const client = new SearchClient<TModel>(
-   *   ...
+   * const searchClient = new SearchClient<TModel>(
+   *   "<endpoint>",
+   *   "<indexName>",
+   *   new AzureKeyCredential("<apiKey>"),
    * );
    * ```
    *
@@ -252,31 +258,27 @@ export class SearchClient<TModel extends object> implements IndexDocumentsClient
    * @param suggesterName - The name of the suggester as specified in the suggesters collection that's part of the index definition.
    * @param options - Options to the autocomplete operation.
    * @example
-   * ```ts
-   * import {
-   *   AzureKeyCredential,
-   *   SearchClient,
-   *   SearchFieldArray,
-   * } from "@azure/search-documents";
+   * ```ts snippet:ReadmeSampleAutocomplete
+   * import { SearchClient, AzureKeyCredential, SearchFieldArray } from "@azure/search-documents";
    *
    * type TModel = {
    *   key: string;
-   *   azure?: { sdk: string | null } | null;
+   *   azure?: {
+   *     sdk: string | null;
+   *   } | null;
    * };
    *
    * const client = new SearchClient<TModel>(
    *   "endpoint.azure",
    *   "indexName",
-   *   new AzureKeyCredential("key")
+   *   new AzureKeyCredential("key"),
    * );
    *
    * const searchFields: SearchFieldArray<TModel> = ["azure/sdk"];
    *
-   * const autocompleteResult = await client.autocomplete(
-   *   "searchText",
-   *   "suggesterName",
-   *   { searchFields }
-   * );
+   * const autocompleteResult = await client.autocomplete("searchText", "suggesterName", {
+   *   searchFields,
+   * });
    * ```
    */
   public async autocomplete(
@@ -480,22 +482,20 @@ export class SearchClient<TModel extends object> implements IndexDocumentsClient
    * @param searchText - Text to search
    * @param options - Options for the search operation.
    * @example
-   * ```ts
-   * import {
-   *   AzureKeyCredential,
-   *   SearchClient,
-   *   SearchFieldArray,
-   * } from "@azure/search-documents";
+   * ```ts snippet:ReadmeSampleSearchTModel
+   * import { SearchClient, AzureKeyCredential, SearchFieldArray } from "@azure/search-documents";
    *
    * type TModel = {
    *   key: string;
-   *   azure?: { sdk: string | null } | null;
+   *   azure?: {
+   *     sdk: string | null;
+   *   } | null;
    * };
    *
    * const client = new SearchClient<TModel>(
    *   "endpoint.azure",
    *   "indexName",
-   *   new AzureKeyCredential("key")
+   *   new AzureKeyCredential("key"),
    * );
    *
    * const select = ["azure/sdk"] as const;
@@ -538,22 +538,20 @@ export class SearchClient<TModel extends object> implements IndexDocumentsClient
    * @param suggesterName - The name of the suggester as specified in the suggesters collection that's part of the index definition.
    * @param options - Options for the suggest operation
    * @example
-   * ```ts
-   * import {
-   *   AzureKeyCredential,
-   *   SearchClient,
-   *   SearchFieldArray,
-   * } from "@azure/search-documents";
+   * ```ts snippet:ReadmeSampleSuggest
+   * import { SearchClient, AzureKeyCredential, SearchFieldArray } from "@azure/search-documents";
    *
    * type TModel = {
    *   key: string;
-   *   azure?: { sdk: string | null } | null;
+   *   azure?: {
+   *     sdk: string | null;
+   *   } | null;
    * };
    *
    * const client = new SearchClient<TModel>(
    *   "endpoint.azure",
    *   "indexName",
-   *   new AzureKeyCredential("key")
+   *   new AzureKeyCredential("key"),
    * );
    *
    * const select = ["azure/sdk"] as const;
@@ -643,7 +641,7 @@ export class SearchClient<TModel extends object> implements IndexDocumentsClient
    * This operation may partially succeed and not all document operations will
    * be reflected in the index. If you would like to treat this as an exception,
    * set the `throwOnAnyFailure` option to true.
-   * For more details about how merging works, see: https://learn.microsoft.com/en-us/rest/api/searchservice/AddUpdate-or-Delete-Documents
+   * For more details about how merging works, see: https://learn.microsoft.com/rest/api/searchservice/AddUpdate-or-Delete-Documents
    * @param batch - An array of actions to perform on the index.
    * @param options - Additional options.
    */
@@ -711,7 +709,7 @@ export class SearchClient<TModel extends object> implements IndexDocumentsClient
 
   /**
    * Update a set of documents in the index.
-   * For more details about how merging works, see https://learn.microsoft.com/en-us/rest/api/searchservice/AddUpdate-or-Delete-Documents
+   * For more details about how merging works, see https://learn.microsoft.com/rest/api/searchservice/AddUpdate-or-Delete-Documents
    * @param documents - The updated documents.
    * @param options - Additional options.
    */
@@ -739,7 +737,7 @@ export class SearchClient<TModel extends object> implements IndexDocumentsClient
 
   /**
    * Update a set of documents in the index or upload them if they don't exist.
-   * For more details about how merging works, see https://learn.microsoft.com/en-us/rest/api/searchservice/AddUpdate-or-Delete-Documents
+   * For more details about how merging works, see https://learn.microsoft.com/rest/api/searchservice/AddUpdate-or-Delete-Documents
    * @param documents - The updated documents.
    * @param options - Additional options.
    */

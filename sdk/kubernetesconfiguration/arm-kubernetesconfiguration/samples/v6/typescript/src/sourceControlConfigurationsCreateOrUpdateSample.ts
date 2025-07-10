@@ -13,9 +13,7 @@ import {
   SourceControlConfigurationClient
 } from "@azure/arm-kubernetesconfiguration";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Create a new Kubernetes Source Control Configuration.
@@ -23,7 +21,7 @@ dotenv.config();
  * @summary Create a new Kubernetes Source Control Configuration.
  * x-ms-original-file: specification/kubernetesconfiguration/resource-manager/Microsoft.KubernetesConfiguration/stable/2023-05-01/examples/CreateSourceControlConfiguration.json
  */
-async function createSourceControlConfiguration() {
+async function createSourceControlConfiguration(): Promise<void> {
   const subscriptionId =
     process.env["KUBERNETESCONFIGURATION_SUBSCRIPTION_ID"] || "subId1";
   const resourceGroupName =
@@ -67,7 +65,7 @@ async function createSourceControlConfiguration() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   createSourceControlConfiguration();
 }
 

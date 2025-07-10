@@ -20,14 +20,12 @@ import {
   AppServiceCertificateOrdersImpl,
   CertificateOrdersDiagnosticsImpl,
   CertificateRegistrationProviderImpl,
+  DomainRegistrationProviderImpl,
   DomainsImpl,
   TopLevelDomainsImpl,
-  DomainRegistrationProviderImpl,
   AppServiceEnvironmentsImpl,
   AppServicePlansImpl,
   CertificatesImpl,
-  ContainerAppsImpl,
-  ContainerAppsRevisionsImpl,
   DeletedWebAppsImpl,
   DiagnosticsImpl,
   GlobalImpl,
@@ -36,6 +34,7 @@ import {
   RecommendationsImpl,
   ResourceHealthMetadataOperationsImpl,
   GetUsagesInLocationImpl,
+  SiteCertificatesImpl,
   StaticSitesImpl,
   WebAppsImpl,
   WorkflowsImpl,
@@ -52,14 +51,12 @@ import {
   AppServiceCertificateOrders,
   CertificateOrdersDiagnostics,
   CertificateRegistrationProvider,
+  DomainRegistrationProvider,
   Domains,
   TopLevelDomains,
-  DomainRegistrationProvider,
   AppServiceEnvironments,
   AppServicePlans,
   Certificates,
-  ContainerApps,
-  ContainerAppsRevisions,
   DeletedWebApps,
   Diagnostics,
   Global,
@@ -68,6 +65,7 @@ import {
   Recommendations,
   ResourceHealthMetadataOperations,
   GetUsagesInLocation,
+  SiteCertificates,
   StaticSites,
   WebApps,
   Workflows,
@@ -127,6 +125,8 @@ import {
   CheckNameAvailabilityResponse,
   GetSubscriptionDeploymentLocationsOptionalParams,
   GetSubscriptionDeploymentLocationsResponse,
+  RegionalCheckNameAvailabilityOptionalParams,
+  RegionalCheckNameAvailabilityResponse,
   ListSkusOptionalParams,
   ListSkusResponse,
   VnetParameters,
@@ -195,7 +195,7 @@ export class WebSiteManagementClient extends coreClient.ServiceClient {
       credential: credentials,
     };
 
-    const packageDetails = `azsdk-js-arm-appservice/15.0.1`;
+    const packageDetails = `azsdk-js-arm-appservice/17.0.0`;
     const userAgentPrefix =
       options.userAgentOptions && options.userAgentOptions.userAgentPrefix
         ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`
@@ -249,7 +249,7 @@ export class WebSiteManagementClient extends coreClient.ServiceClient {
 
     // Assigning values to Constant parameters
     this.$host = options.$host || "https://management.azure.com";
-    this.apiVersion = options.apiVersion || "2023-12-01";
+    this.apiVersion = options.apiVersion || "2024-11-01";
     this.appServiceCertificateOrders = new AppServiceCertificateOrdersImpl(
       this,
     );
@@ -258,14 +258,12 @@ export class WebSiteManagementClient extends coreClient.ServiceClient {
     );
     this.certificateRegistrationProvider =
       new CertificateRegistrationProviderImpl(this);
+    this.domainRegistrationProvider = new DomainRegistrationProviderImpl(this);
     this.domains = new DomainsImpl(this);
     this.topLevelDomains = new TopLevelDomainsImpl(this);
-    this.domainRegistrationProvider = new DomainRegistrationProviderImpl(this);
     this.appServiceEnvironments = new AppServiceEnvironmentsImpl(this);
     this.appServicePlans = new AppServicePlansImpl(this);
     this.certificates = new CertificatesImpl(this);
-    this.containerApps = new ContainerAppsImpl(this);
-    this.containerAppsRevisions = new ContainerAppsRevisionsImpl(this);
     this.deletedWebApps = new DeletedWebAppsImpl(this);
     this.diagnostics = new DiagnosticsImpl(this);
     this.global = new GlobalImpl(this);
@@ -275,6 +273,7 @@ export class WebSiteManagementClient extends coreClient.ServiceClient {
     this.resourceHealthMetadataOperations =
       new ResourceHealthMetadataOperationsImpl(this);
     this.getUsagesInLocation = new GetUsagesInLocationImpl(this);
+    this.siteCertificates = new SiteCertificatesImpl(this);
     this.staticSites = new StaticSitesImpl(this);
     this.webApps = new WebAppsImpl(this);
     this.workflows = new WorkflowsImpl(this);
@@ -891,6 +890,25 @@ export class WebSiteManagementClient extends coreClient.ServiceClient {
   }
 
   /**
+   * Check if a resource name is available for DNL sites.
+   * @param location
+   * @param name Resource name to verify.
+   * @param typeParam Resource type used for verification.
+   * @param options The options parameters.
+   */
+  regionalCheckNameAvailability(
+    location: string,
+    name: string,
+    typeParam: CheckNameResourceTypes,
+    options?: RegionalCheckNameAvailabilityOptionalParams,
+  ): Promise<RegionalCheckNameAvailabilityResponse> {
+    return this.sendOperationRequest(
+      { location, name, typeParam, options },
+      regionalCheckNameAvailabilityOperationSpec,
+    );
+  }
+
+  /**
    * Description for List all premier add-on offers.
    * @param options The options parameters.
    */
@@ -1090,14 +1108,12 @@ export class WebSiteManagementClient extends coreClient.ServiceClient {
   appServiceCertificateOrders: AppServiceCertificateOrders;
   certificateOrdersDiagnostics: CertificateOrdersDiagnostics;
   certificateRegistrationProvider: CertificateRegistrationProvider;
+  domainRegistrationProvider: DomainRegistrationProvider;
   domains: Domains;
   topLevelDomains: TopLevelDomains;
-  domainRegistrationProvider: DomainRegistrationProvider;
   appServiceEnvironments: AppServiceEnvironments;
   appServicePlans: AppServicePlans;
   certificates: Certificates;
-  containerApps: ContainerApps;
-  containerAppsRevisions: ContainerAppsRevisions;
   deletedWebApps: DeletedWebApps;
   diagnostics: Diagnostics;
   global: Global;
@@ -1106,6 +1122,7 @@ export class WebSiteManagementClient extends coreClient.ServiceClient {
   recommendations: Recommendations;
   resourceHealthMetadataOperations: ResourceHealthMetadataOperations;
   getUsagesInLocation: GetUsagesInLocation;
+  siteCertificates: SiteCertificates;
   staticSites: StaticSites;
   webApps: WebApps;
   workflows: Workflows;
@@ -1341,6 +1358,39 @@ const listSiteIdentifiersAssignedToHostNameOperationSpec: coreClient.OperationSp
     mediaType: "json",
     serializer,
   };
+const regionalCheckNameAvailabilityOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/providers/Microsoft.Web/locations/{location}/checknameavailability",
+  httpMethod: "POST",
+  responses: {
+    200: {
+      bodyMapper: Mappers.DnlResourceNameAvailability,
+    },
+    default: {
+      bodyMapper: Mappers.DefaultErrorResponse,
+    },
+  },
+  requestBody: {
+    parameterPath: {
+      resourceGroupName: ["options", "resourceGroupName"],
+      autoGeneratedDomainNameLabelScope: [
+        "options",
+        "autoGeneratedDomainNameLabelScope",
+      ],
+      name: ["name"],
+      typeParam: ["typeParam"],
+    },
+    mapper: { ...Mappers.DnlResourceNameAvailabilityRequest, required: true },
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.location,
+  ],
+  headerParameters: [Parameters.accept, Parameters.contentType],
+  mediaType: "json",
+  serializer,
+};
 const listPremierAddOnOffersOperationSpec: coreClient.OperationSpec = {
   path: "/subscriptions/{subscriptionId}/providers/Microsoft.Web/premieraddonoffers",
   httpMethod: "GET",

@@ -13,9 +13,7 @@ import {
   AzureMachineLearningServicesManagementClient,
 } from "@azure/arm-machinelearning";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Lists Jobs in the workspace.
@@ -23,7 +21,7 @@ dotenv.config();
  * @summary Lists Jobs in the workspace.
  * x-ms-original-file: specification/machinelearningservices/resource-manager/Microsoft.MachineLearningServices/stable/2024-04-01/examples/Job/AutoMLJob/list.json
  */
-async function listAutoMlJob() {
+async function listAutoMlJob(): Promise<void> {
   const subscriptionId =
     process.env["MACHINELEARNING_SUBSCRIPTION_ID"] ||
     "00000000-1111-2222-3333-444444444444";
@@ -48,7 +46,7 @@ async function listAutoMlJob() {
  * @summary Lists Jobs in the workspace.
  * x-ms-original-file: specification/machinelearningservices/resource-manager/Microsoft.MachineLearningServices/stable/2024-04-01/examples/Job/CommandJob/list.json
  */
-async function listCommandJob() {
+async function listCommandJob(): Promise<void> {
   const subscriptionId =
     process.env["MACHINELEARNING_SUBSCRIPTION_ID"] ||
     "00000000-1111-2222-3333-444444444444";
@@ -80,7 +78,7 @@ async function listCommandJob() {
  * @summary Lists Jobs in the workspace.
  * x-ms-original-file: specification/machinelearningservices/resource-manager/Microsoft.MachineLearningServices/stable/2024-04-01/examples/Job/PipelineJob/list.json
  */
-async function listPipelineJob() {
+async function listPipelineJob(): Promise<void> {
   const subscriptionId =
     process.env["MACHINELEARNING_SUBSCRIPTION_ID"] ||
     "00000000-1111-2222-3333-444444444444";
@@ -112,7 +110,7 @@ async function listPipelineJob() {
  * @summary Lists Jobs in the workspace.
  * x-ms-original-file: specification/machinelearningservices/resource-manager/Microsoft.MachineLearningServices/stable/2024-04-01/examples/Job/SweepJob/list.json
  */
-async function listSweepJob() {
+async function listSweepJob(): Promise<void> {
   const subscriptionId =
     process.env["MACHINELEARNING_SUBSCRIPTION_ID"] ||
     "00000000-1111-2222-3333-444444444444";
@@ -138,7 +136,7 @@ async function listSweepJob() {
   console.log(resArray);
 }
 
-async function main() {
+async function main(): Promise<void> {
   listAutoMlJob();
   listCommandJob();
   listPipelineJob();

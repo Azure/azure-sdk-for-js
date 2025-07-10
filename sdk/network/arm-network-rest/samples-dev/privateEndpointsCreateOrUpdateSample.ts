@@ -11,7 +11,7 @@ import "dotenv/config";
  * @summary Creates or updates an private endpoint in the specified resource group.
  * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-05-01/examples/PrivateEndpointCreate.json
  */
-async function createPrivateEndpoint() {
+async function createPrivateEndpoint(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = createNetworkManagementClient(credential);
   const subscriptionId = "";
@@ -69,7 +69,7 @@ createPrivateEndpoint().catch(console.error);
  * @summary Creates or updates an private endpoint in the specified resource group.
  * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-05-01/examples/PrivateEndpointCreateWithASG.json
  */
-async function createPrivateEndpointWithApplicationSecurityGroups() {
+async function createPrivateEndpointWithApplicationSecurityGroups(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = createNetworkManagementClient(credential);
   const subscriptionId = "";
@@ -121,7 +121,7 @@ createPrivateEndpointWithApplicationSecurityGroups().catch(console.error);
  * @summary Creates or updates an private endpoint in the specified resource group.
  * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-05-01/examples/PrivateEndpointCreateForManualApproval.json
  */
-async function createPrivateEndpointWithManualApprovalConnection() {
+async function createPrivateEndpointWithManualApprovalConnection(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = createNetworkManagementClient(credential);
   const subscriptionId = "";

@@ -12,7 +12,7 @@ import "dotenv/config";
  * @summary Lists all available response headers.
  * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-05-01/examples/ApplicationGatewayAvailableResponseHeadersGet.json
  */
-async function getAvailableResponseHeaders() {
+async function getAvailableResponseHeaders(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = createNetworkManagementClient(credential);
   const subscriptionId = "";

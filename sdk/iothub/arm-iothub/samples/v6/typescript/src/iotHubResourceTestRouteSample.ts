@@ -10,9 +10,7 @@
 // Licensed under the MIT License.
 import { TestRouteInput, IotHubClient } from "@azure/arm-iothub";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Test the new route for this Iot Hub
@@ -20,7 +18,7 @@ dotenv.config();
  * @summary Test the new route for this Iot Hub
  * x-ms-original-file: specification/iothub/resource-manager/Microsoft.Devices/stable/2023-06-30/examples/iothub_testnewroute.json
  */
-async function iotHubResourceTestRoute() {
+async function iotHubResourceTestRoute(): Promise<void> {
   const subscriptionId =
     process.env["IOTHUB_SUBSCRIPTION_ID"] ||
     "91d12660-3dec-467a-be2a-213b5544ddc0";
@@ -50,7 +48,7 @@ async function iotHubResourceTestRoute() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   iotHubResourceTestRoute();
 }
 

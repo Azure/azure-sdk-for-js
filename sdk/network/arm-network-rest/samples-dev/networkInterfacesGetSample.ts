@@ -11,7 +11,7 @@ import "dotenv/config";
  * @summary Gets information about the specified network interface.
  * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-05-01/examples/NetworkInterfaceGet.json
  */
-async function getNetworkInterface() {
+async function getNetworkInterface(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = createNetworkManagementClient(credential);
   const subscriptionId = "";

@@ -7,9 +7,7 @@
  */
 import { ServiceFabricManagementClient } from "@azure/arm-servicefabric";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Get a Service Fabric application type version resource created or in the process of being created in the Service Fabric application type name resource.
@@ -17,7 +15,7 @@ dotenv.config();
  * @summary Get a Service Fabric application type version resource created or in the process of being created in the Service Fabric application type name resource.
  * x-ms-original-file: specification/servicefabric/resource-manager/Microsoft.ServiceFabric/stable/2021-06-01/examples/ApplicationTypeVersionGetOperation_example.json
  */
-async function getAnApplicationTypeVersion() {
+async function getAnApplicationTypeVersion(): Promise<void> {
   const subscriptionId =
     process.env["SERVICEFABRIC_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";
   const resourceGroupName = process.env["SERVICEFABRIC_RESOURCE_GROUP"] || "resRg";
@@ -35,7 +33,7 @@ async function getAnApplicationTypeVersion() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   await getAnApplicationTypeVersion();
 }
 
