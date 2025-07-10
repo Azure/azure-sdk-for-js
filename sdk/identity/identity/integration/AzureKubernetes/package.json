@@ -11,7 +11,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "@azure/identity": "latest",
+    "@azure/identity": "dev",
     "@azure/storage-blob": "^12.17.0",
     "express": "^4.18.0",
     "dotenv": "^16.0.0"
