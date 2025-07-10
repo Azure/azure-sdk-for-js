@@ -14,7 +14,7 @@ Use it to:
 [Product documentation](https://aka.ms/azsdk/azure-ai-projects/product-doc)
 | [Samples](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/ai/ai-projects/samples)
 | [Package (npm)](https://www.npmjs.com/package/@azure/ai-projects)
-| [API reference documentation](https://learn.microsoft.com/javascript/api/overview/azure/ai-projects-readme?view=azure-node-preview)
+| [API reference documentation](https://learn.microsoft.com/javascript/api/overview/azure/ai-projects-readme?view=azure-node-v1)
 | [SDK source code](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/ai/ai-projects)
 
 ## Table of contents
@@ -74,7 +74,7 @@ const endpoint = process.env["AZURE_AI_PROJECT_ENDPOINT_STRING"] || "<project en
 const client = new AIProjectClient(endpoint, new DefaultAzureCredential());
 ```
 
-The client uses API version `2025-05-15-preview`, refer to the [API documentation][ai_foundry_data_plane_rest_apis] to learn more about the supported features.
+The client uses API version `v1`, refer to the [API documentation][ai_foundry_data_plane_rest_apis] to learn more about the supported features.
 
 ## Examples
 
@@ -393,6 +393,6 @@ additional questions or comments.
 [azure_sub]: https://azure.microsoft.com/free/
 [evaluators]: https://learn.microsoft.com/azure/ai-studio/how-to/develop/evaluate-sdk
 [evaluator_library]: https://learn.microsoft.com/azure/ai-studio/how-to/evaluate-generative-ai-app#view-and-manage-the-evaluators-in-the-evaluator-library
-[ai_foundry_data_plane_rest_apis]: https://learn.microsoft.com/rest/api/aifoundry/aiprojects/operation-groups?view=rest-aifoundry-aiprojects-2025-05-15-preview
+[ai_foundry_data_plane_rest_apis]: https://learn.microsoft.com/rest/api/aifoundry/aiprojects/operation-groups?view=rest-aifoundry-aiprojects-v1
 [ai_project_client_endpoint]: https://learn.microsoft.com/azure/ai-foundry/how-to/develop/sdk-overview?tabs=sync&pivots=programming-language-javascript
 [samples]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/ai/ai-projects/samples

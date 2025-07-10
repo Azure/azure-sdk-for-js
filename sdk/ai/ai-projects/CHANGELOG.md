@@ -2,6 +2,8 @@
 
 ## 1.0.0 (2025-07-09)
 
+Initial stable release of the AI projects client library.
+
 ### Breaking changes
 
 - remove `project.redTeams`
