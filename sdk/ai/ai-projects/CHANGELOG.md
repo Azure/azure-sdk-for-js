@@ -1,6 +1,6 @@
 # Release History
 
-## 1.0.0 (2025-07-09)
+## 1.0.0 (2025-07-10)
 
 Initial stable release of the AI projects client library.
 
