@@ -4,11 +4,14 @@
 
 ```ts
 
-import * as coreAuth from '@azure/core-auth';
-import * as coreClient from '@azure/core-client';
+import { AbortSignalLike } from '@azure/abort-controller';
+import { ClientOptions } from '@azure-rest/core-client';
+import { OperationOptions } from '@azure-rest/core-client';
 import { OperationState } from '@azure/core-lro';
-import { PagedAsyncIterableIterator } from '@azure/core-paging';
-import { SimplePollerLike } from '@azure/core-lro';
+import { PathUncheckedResponse } from '@azure-rest/core-client';
+import { Pipeline } from '@azure/core-rest-pipeline';
+import { PollerLike } from '@azure/core-lro';
+import { TokenCredential } from '@azure/core-auth';
 
 // @public
 export interface AADAuthenticationSettings {
@@ -19,6 +22,12 @@ export interface AADAuthenticationSettings {
 export interface AdditionalFeaturesServerConfigurations {
     isRServicesEnabled?: boolean;
 }
+
+// @public
+export type AdditionalOsPatch = string;
+
+// @public
+export type AdditionalVmPatch = string;
 
 // @public
 export interface AgConfiguration {
@@ -67,6 +76,7 @@ export interface AutoBackupSettings {
 
 // @public
 export interface AutoPatchingSettings {
+    additionalVmPatch?: AdditionalVmPatch;
     dayOfWeek?: DayOfWeek;
     enable?: boolean;
     maintenanceWindowDuration?: number;
@@ -75,6 +85,11 @@ export interface AutoPatchingSettings {
 
 // @public
 export interface AvailabilityGroupListener extends ProxyResource {
+    properties?: AvailabilityGroupListenerProperties;
+}
+
+// @public
+export interface AvailabilityGroupListenerProperties {
     availabilityGroupConfiguration?: AgConfiguration;
     availabilityGroupName?: string;
     createDefaultAvailabilityGroupIfNotExist?: boolean;
@@ -82,67 +97,34 @@ export interface AvailabilityGroupListener extends ProxyResource {
     multiSubnetIpConfigurations?: MultiSubnetIpConfiguration[];
     port?: number;
     readonly provisioningState?: string;
-    readonly systemData?: SystemData;
 }
 
 // @public
-export interface AvailabilityGroupListenerListResult {
-    readonly nextLink?: string;
-    readonly value?: AvailabilityGroupListener[];
-}
-
-// @public
-export interface AvailabilityGroupListeners {
-    beginCreateOrUpdate(resourceGroupName: string, sqlVirtualMachineGroupName: string, availabilityGroupListenerName: string, parameters: AvailabilityGroupListener, options?: AvailabilityGroupListenersCreateOrUpdateOptionalParams): Promise<SimplePollerLike<OperationState<AvailabilityGroupListenersCreateOrUpdateResponse>, AvailabilityGroupListenersCreateOrUpdateResponse>>;
-    beginCreateOrUpdateAndWait(resourceGroupName: string, sqlVirtualMachineGroupName: string, availabilityGroupListenerName: string, parameters: AvailabilityGroupListener, options?: AvailabilityGroupListenersCreateOrUpdateOptionalParams): Promise<AvailabilityGroupListenersCreateOrUpdateResponse>;
-    beginDelete(resourceGroupName: string, sqlVirtualMachineGroupName: string, availabilityGroupListenerName: string, options?: AvailabilityGroupListenersDeleteOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
-    beginDeleteAndWait(resourceGroupName: string, sqlVirtualMachineGroupName: string, availabilityGroupListenerName: string, options?: AvailabilityGroupListenersDeleteOptionalParams): Promise<void>;
-    get(resourceGroupName: string, sqlVirtualMachineGroupName: string, availabilityGroupListenerName: string, options?: AvailabilityGroupListenersGetOptionalParams): Promise<AvailabilityGroupListenersGetResponse>;
-    listByGroup(resourceGroupName: string, sqlVirtualMachineGroupName: string, options?: AvailabilityGroupListenersListByGroupOptionalParams): PagedAsyncIterableIterator<AvailabilityGroupListener>;
-}
-
-// @public
-export interface AvailabilityGroupListenersCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface AvailabilityGroupListenersCreateOrUpdateOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
 
 // @public
-export type AvailabilityGroupListenersCreateOrUpdateResponse = AvailabilityGroupListener;
-
-// @public
-export interface AvailabilityGroupListenersDeleteHeaders {
-    // (undocumented)
-    location?: string;
-}
-
-// @public
-export interface AvailabilityGroupListenersDeleteOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface AvailabilityGroupListenersDeleteOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
 
 // @public
-export interface AvailabilityGroupListenersGetOptionalParams extends coreClient.OperationOptions {
+export interface AvailabilityGroupListenersGetOptionalParams extends OperationOptions {
     expand?: string;
 }
 
 // @public
-export type AvailabilityGroupListenersGetResponse = AvailabilityGroupListener;
-
-// @public
-export interface AvailabilityGroupListenersListByGroupNextOptionalParams extends coreClient.OperationOptions {
+export interface AvailabilityGroupListenersListByGroupOptionalParams extends OperationOptions {
 }
 
 // @public
-export type AvailabilityGroupListenersListByGroupNextResponse = AvailabilityGroupListenerListResult;
-
-// @public
-export interface AvailabilityGroupListenersListByGroupOptionalParams extends coreClient.OperationOptions {
+export interface AvailabilityGroupListenersOperations {
+    createOrUpdate: (resourceGroupName: string, sqlVirtualMachineGroupName: string, availabilityGroupListenerName: string, parameters: AvailabilityGroupListener, options?: AvailabilityGroupListenersCreateOrUpdateOptionalParams) => PollerLike<OperationState<AvailabilityGroupListener>, AvailabilityGroupListener>;
+    delete: (resourceGroupName: string, sqlVirtualMachineGroupName: string, availabilityGroupListenerName: string, options?: AvailabilityGroupListenersDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
+    get: (resourceGroupName: string, sqlVirtualMachineGroupName: string, availabilityGroupListenerName: string, options?: AvailabilityGroupListenersGetOptionalParams) => Promise<AvailabilityGroupListener>;
+    listByGroup: (resourceGroupName: string, sqlVirtualMachineGroupName: string, options?: AvailabilityGroupListenersListByGroupOptionalParams) => PagedAsyncIterableIterator<AvailabilityGroupListener>;
 }
-
-// @public
-export type AvailabilityGroupListenersListByGroupResponse = AvailabilityGroupListenerListResult;
 
 // @public
 export type BackupScheduleType = string;
@@ -163,17 +145,27 @@ export type Commit = string;
 export type ConnectivityType = string;
 
 // @public
+export type ContinuablePage<TElement, TPage = TElement[]> = TPage & {
+    continuationToken?: string;
+};
+
+// @public
 export type CreatedByType = string;
 
 // @public
 export type DayOfWeek = "Everyday" | "Monday" | "Tuesday" | "Wednesday" | "Thursday" | "Friday" | "Saturday" | "Sunday";
 
 // @public
+export interface DiskConfigAssessmentRequest {
+    runDiskConfigRules?: boolean;
+}
+
+// @public
 export type DiskConfigurationType = string;
 
 // @public
 export interface ErrorAdditionalInfo {
-    readonly info?: Record<string, unknown>;
+    readonly info?: any;
     readonly type?: string;
 }
 
@@ -198,9 +190,6 @@ export type Failover = string;
 export type FullBackupFrequencyType = string;
 
 // @public
-export function getContinuationToken(page: unknown): string | undefined;
-
-// @public
 export type IdentityType = string;
 
 // @public
@@ -213,48 +202,84 @@ export interface KeyVaultCredentialSettings {
 }
 
 // @public
+export enum KnownAdditionalOsPatch {
+    // (undocumented)
+    Wsus = "WSUS",
+    // (undocumented)
+    WU = "WU",
+    // (undocumented)
+    Wumu = "WUMU"
+}
+
+// @public
+export enum KnownAdditionalVmPatch {
+    // (undocumented)
+    MicrosoftUpdate = "MicrosoftUpdate",
+    // (undocumented)
+    NotSet = "NotSet"
+}
+
+// @public
 export enum KnownAutoBackupDaysOfWeek {
+    // (undocumented)
     Friday = "Friday",
+    // (undocumented)
     Monday = "Monday",
+    // (undocumented)
     Saturday = "Saturday",
+    // (undocumented)
     Sunday = "Sunday",
+    // (undocumented)
     Thursday = "Thursday",
+    // (undocumented)
     Tuesday = "Tuesday",
+    // (undocumented)
     Wednesday = "Wednesday"
 }
 
 // @public
 export enum KnownBackupScheduleType {
+    // (undocumented)
     Automated = "Automated",
+    // (undocumented)
     Manual = "Manual"
 }
 
 // @public
 export enum KnownClusterConfiguration {
+    // (undocumented)
     Domainful = "Domainful"
 }
 
 // @public
 export enum KnownClusterManagerType {
+    // (undocumented)
     Wsfc = "WSFC"
 }
 
 // @public
 export enum KnownClusterSubnetType {
+    // (undocumented)
     MultiSubnet = "MultiSubnet",
+    // (undocumented)
     SingleSubnet = "SingleSubnet"
 }
 
 // @public
 export enum KnownCommit {
-    AsynchronousCommit = "ASYNCHRONOUS_COMMIT",
-    SynchronousCommit = "SYNCHRONOUS_COMMIT"
+    // (undocumented)
+    AsynchronousCommit = "Asynchronous_Commit",
+    // (undocumented)
+    SynchronousCommit = "Synchronous_Commit"
 }
 
 // @public
 export enum KnownConnectivityType {
+    // (undocumented)
     Local = "LOCAL",
+    // (undocumented)
     Private = "PRIVATE",
+    // (undocumented)
     Public = "PUBLIC"
 }
 
@@ -268,105 +293,163 @@ export enum KnownCreatedByType {
 
 // @public
 export enum KnownDiskConfigurationType {
+    // (undocumented)
     ADD = "ADD",
+    // (undocumented)
     Extend = "EXTEND",
+    // (undocumented)
     NEW = "NEW"
 }
 
 // @public
 export enum KnownFailover {
-    Automatic = "AUTOMATIC",
-    Manual = "MANUAL"
+    // (undocumented)
+    Automatic = "Automatic",
+    // (undocumented)
+    Manual = "Manual"
 }
 
 // @public
 export enum KnownFullBackupFrequencyType {
+    // (undocumented)
     Daily = "Daily",
+    // (undocumented)
     Weekly = "Weekly"
 }
 
 // @public
 export enum KnownIdentityType {
+    // (undocumented)
     None = "None",
-    SystemAssigned = "SystemAssigned"
+    // (undocumented)
+    SystemAssigned = "SystemAssigned",
+    // (undocumented)
+    SystemAssignedUserAssigned = "SystemAssigned,UserAssigned",
+    // (undocumented)
+    UserAssigned = "UserAssigned"
 }
 
 // @public
 export enum KnownLeastPrivilegeMode {
+    // (undocumented)
     Enabled = "Enabled",
+    // (undocumented)
     NotSet = "NotSet"
 }
 
 // @public
 export enum KnownOperationOrigin {
+    // (undocumented)
     System = "system",
+    // (undocumented)
     User = "user"
 }
 
 // @public
 export enum KnownReadableSecondary {
-    ALL = "ALL",
-    NO = "NO",
-    ReadOnly = "READ_ONLY"
+    // (undocumented)
+    All = "All",
+    // (undocumented)
+    No = "No",
+    // (undocumented)
+    ReadOnly = "Read_Only"
 }
 
 // @public
 export enum KnownRole {
-    Primary = "PRIMARY",
-    Secondary = "SECONDARY"
+    // (undocumented)
+    Primary = "Primary",
+    // (undocumented)
+    Secondary = "Secondary"
 }
 
 // @public
 export enum KnownScaleType {
+    // (undocumented)
     HA = "HA"
 }
 
 // @public
 export enum KnownSqlImageSku {
+    // (undocumented)
     Developer = "Developer",
+    // (undocumented)
     Enterprise = "Enterprise",
+    // (undocumented)
     Express = "Express",
+    // (undocumented)
     Standard = "Standard",
+    // (undocumented)
     Web = "Web"
 }
 
 // @public
 export enum KnownSqlManagementMode {
+    // (undocumented)
     Full = "Full",
+    // (undocumented)
     LightWeight = "LightWeight",
+    // (undocumented)
     NoAgent = "NoAgent"
 }
 
 // @public
 export enum KnownSqlServerLicenseType {
+    // (undocumented)
     Ahub = "AHUB",
+    // (undocumented)
     DR = "DR",
+    // (undocumented)
     Payg = "PAYG"
 }
 
 // @public
 export enum KnownSqlVmGroupImageSku {
+    // (undocumented)
     Developer = "Developer",
+    // (undocumented)
     Enterprise = "Enterprise"
 }
 
 // @public
 export enum KnownSqlWorkloadType {
+    // (undocumented)
     DW = "DW",
+    // (undocumented)
     General = "GENERAL",
+    // (undocumented)
     Oltp = "OLTP"
 }
 
 // @public
 export enum KnownStorageWorkloadType {
+    // (undocumented)
     DW = "DW",
+    // (undocumented)
     General = "GENERAL",
+    // (undocumented)
     Oltp = "OLTP"
 }
 
 // @public
 export enum KnownTroubleshootingScenario {
+    // (undocumented)
     UnhealthyReplica = "UnhealthyReplica"
+}
+
+// @public
+export enum KnownVersions {
+    V20231001 = "2023-10-01"
+}
+
+// @public
+export enum KnownVmIdentityType {
+    // (undocumented)
+    None = "None",
+    // (undocumented)
+    SystemAssigned = "SystemAssigned",
+    // (undocumented)
+    UserAssigned = "UserAssigned"
 }
 
 // @public
@@ -392,9 +475,7 @@ export interface Operation {
     readonly display?: OperationDisplay;
     readonly name?: string;
     readonly origin?: OperationOrigin;
-    readonly properties?: {
-        [propertyName: string]: Record<string, unknown>;
-    };
+    readonly properties?: Record<string, Record<string, any>>;
 }
 
 // @public
@@ -406,32 +487,31 @@ export interface OperationDisplay {
 }
 
 // @public
-export interface OperationListResult {
-    readonly nextLink?: string;
-    readonly value?: Operation[];
-}
-
-// @public
 export type OperationOrigin = string;
 
 // @public
-export interface Operations {
-    list(options?: OperationsListOptionalParams): PagedAsyncIterableIterator<Operation>;
+export interface OperationsListOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface OperationsListNextOptionalParams extends coreClient.OperationOptions {
+export interface OperationsOperations {
+    list: (options?: OperationsListOptionalParams) => PagedAsyncIterableIterator<Operation>;
 }
 
 // @public
-export type OperationsListNextResponse = OperationListResult;
+export type OsType = "Windows" | "Linux";
 
 // @public
-export interface OperationsListOptionalParams extends coreClient.OperationOptions {
+export interface PagedAsyncIterableIterator<TElement, TPage = TElement[], TPageSettings extends PageSettings = PageSettings> {
+    [Symbol.asyncIterator](): PagedAsyncIterableIterator<TElement, TPage, TPageSettings>;
+    byPage: (settings?: TPageSettings) => AsyncIterableIterator<ContinuablePage<TElement, TPage>>;
+    next(): Promise<IteratorResult<TElement>>;
 }
 
 // @public
-export type OperationsListResponse = OperationListResult;
+export interface PageSettings {
+    continuationToken?: string;
+}
 
 // @public
 export interface PrivateIPAddress {
@@ -450,6 +530,7 @@ export type ReadableSecondary = string;
 export interface Resource {
     readonly id?: string;
     readonly name?: string;
+    readonly systemData?: SystemData;
     readonly type?: string;
 }
 
@@ -458,6 +539,16 @@ export interface ResourceIdentity {
     readonly principalId?: string;
     readonly tenantId?: string;
     type?: IdentityType;
+}
+
+// @public
+export function restorePoller<TResponse extends PathUncheckedResponse, TResult>(client: SqlVirtualMachineClient, serializedState: string, sourceOperation: (...args: any[]) => PollerLike<OperationState<TResult>, TResult>, options?: RestorePollerOptions<TResult>): PollerLike<OperationState<TResult>, TResult>;
+
+// @public (undocumented)
+export interface RestorePollerOptions<TResult, TResponse extends PathUncheckedResponse = PathUncheckedResponse> extends OperationOptions {
+    abortSignal?: AbortSignalLike;
+    processResponseBody?: (result: TResponse) => Promise<TResult>;
+    updateIntervalInMs?: number;
 }
 
 // @public
@@ -517,6 +608,7 @@ export type SqlServerLicenseType = string;
 export interface SQLStorageSettings {
     defaultFilePath?: string;
     luns?: number[];
+    useStoragePool?: boolean;
 }
 
 // @public
@@ -537,17 +629,99 @@ export interface SQLTempDbSettings {
     luns?: number[];
     persistFolder?: boolean;
     persistFolderPath?: string;
+    useStoragePool?: boolean;
 }
 
 // @public
 export interface SqlVirtualMachine extends TrackedResource {
+    identity?: ResourceIdentity;
+    properties?: SqlVirtualMachineProperties;
+}
+
+// @public (undocumented)
+export class SqlVirtualMachineClient {
+    constructor(credential: TokenCredential, subscriptionId: string, options?: SqlVirtualMachineClientOptionalParams);
+    readonly availabilityGroupListeners: AvailabilityGroupListenersOperations;
+    readonly operations: OperationsOperations;
+    readonly pipeline: Pipeline;
+    readonly sqlVirtualMachineGroups: SqlVirtualMachineGroupsOperations;
+    readonly sqlVirtualMachines: SqlVirtualMachinesOperations;
+    readonly sqlVirtualMachineTroubleshoot: SqlVirtualMachineTroubleshootOperations;
+}
+
+// @public
+export interface SqlVirtualMachineClientOptionalParams extends ClientOptions {
+    apiVersion?: string;
+}
+
+// @public
+export interface SqlVirtualMachineGroup extends TrackedResource {
+    properties?: SqlVirtualMachineGroupProperties;
+}
+
+// @public
+export interface SqlVirtualMachineGroupProperties {
+    readonly clusterConfiguration?: ClusterConfiguration;
+    readonly clusterManagerType?: ClusterManagerType;
+    readonly provisioningState?: string;
+    readonly scaleType?: ScaleType;
+    sqlImageOffer?: string;
+    sqlImageSku?: SqlVmGroupImageSku;
+    wsfcDomainProfile?: WsfcDomainProfile;
+}
+
+// @public
+export interface SqlVirtualMachineGroupsCreateOrUpdateOptionalParams extends OperationOptions {
+    updateIntervalInMs?: number;
+}
+
+// @public
+export interface SqlVirtualMachineGroupsDeleteOptionalParams extends OperationOptions {
+    updateIntervalInMs?: number;
+}
+
+// @public
+export interface SqlVirtualMachineGroupsGetOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface SqlVirtualMachineGroupsListByResourceGroupOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface SqlVirtualMachineGroupsListOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface SqlVirtualMachineGroupsOperations {
+    createOrUpdate: (resourceGroupName: string, sqlVirtualMachineGroupName: string, parameters: SqlVirtualMachineGroup, options?: SqlVirtualMachineGroupsCreateOrUpdateOptionalParams) => PollerLike<OperationState<SqlVirtualMachineGroup>, SqlVirtualMachineGroup>;
+    delete: (resourceGroupName: string, sqlVirtualMachineGroupName: string, options?: SqlVirtualMachineGroupsDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
+    get: (resourceGroupName: string, sqlVirtualMachineGroupName: string, options?: SqlVirtualMachineGroupsGetOptionalParams) => Promise<SqlVirtualMachineGroup>;
+    list: (options?: SqlVirtualMachineGroupsListOptionalParams) => PagedAsyncIterableIterator<SqlVirtualMachineGroup>;
+    listByResourceGroup: (resourceGroupName: string, options?: SqlVirtualMachineGroupsListByResourceGroupOptionalParams) => PagedAsyncIterableIterator<SqlVirtualMachineGroup>;
+    update: (resourceGroupName: string, sqlVirtualMachineGroupName: string, parameters: SqlVirtualMachineGroupUpdate, options?: SqlVirtualMachineGroupsUpdateOptionalParams) => PollerLike<OperationState<SqlVirtualMachineGroup>, SqlVirtualMachineGroup>;
+}
+
+// @public
+export interface SqlVirtualMachineGroupsUpdateOptionalParams extends OperationOptions {
+    updateIntervalInMs?: number;
+}
+
+// @public
+export interface SqlVirtualMachineGroupUpdate {
+    tags?: Record<string, string>;
+}
+
+// @public
+export interface SqlVirtualMachineProperties {
+    readonly additionalVmPatch?: AdditionalOsPatch;
     assessmentSettings?: AssessmentSettings;
     autoBackupSettings?: AutoBackupSettings;
     autoPatchingSettings?: AutoPatchingSettings;
     enableAutomaticUpgrade?: boolean;
-    identity?: ResourceIdentity;
     keyVaultCredentialSettings?: KeyVaultCredentialSettings;
     leastPrivilegeMode?: LeastPrivilegeMode;
+    readonly osType?: OsType;
     readonly provisioningState?: string;
     serverConfigurationsManagementSettings?: ServerConfigurationsManagementSettings;
     sqlImageOffer?: string;
@@ -556,298 +730,87 @@ export interface SqlVirtualMachine extends TrackedResource {
     sqlServerLicenseType?: SqlServerLicenseType;
     sqlVirtualMachineGroupResourceId?: string;
     storageConfigurationSettings?: StorageConfigurationSettings;
-    readonly systemData?: SystemData;
     readonly troubleshootingStatus?: TroubleshootingStatus;
+    virtualMachineIdentitySettings?: VirtualMachineIdentity;
     virtualMachineResourceId?: string;
     wsfcDomainCredentials?: WsfcDomainCredentials;
     wsfcStaticIp?: string;
 }
 
 // @public
-export interface SqlVirtualMachineGroup extends TrackedResource {
-    readonly clusterConfiguration?: ClusterConfiguration;
-    readonly clusterManagerType?: ClusterManagerType;
-    readonly provisioningState?: string;
-    readonly scaleType?: ScaleType;
-    sqlImageOffer?: string;
-    sqlImageSku?: SqlVmGroupImageSku;
-    readonly systemData?: SystemData;
-    wsfcDomainProfile?: WsfcDomainProfile;
-}
-
-// @public
-export interface SqlVirtualMachineGroupListResult {
-    readonly nextLink?: string;
-    readonly value?: SqlVirtualMachineGroup[];
-}
-
-// @public
-export interface SqlVirtualMachineGroups {
-    beginCreateOrUpdate(resourceGroupName: string, sqlVirtualMachineGroupName: string, parameters: SqlVirtualMachineGroup, options?: SqlVirtualMachineGroupsCreateOrUpdateOptionalParams): Promise<SimplePollerLike<OperationState<SqlVirtualMachineGroupsCreateOrUpdateResponse>, SqlVirtualMachineGroupsCreateOrUpdateResponse>>;
-    beginCreateOrUpdateAndWait(resourceGroupName: string, sqlVirtualMachineGroupName: string, parameters: SqlVirtualMachineGroup, options?: SqlVirtualMachineGroupsCreateOrUpdateOptionalParams): Promise<SqlVirtualMachineGroupsCreateOrUpdateResponse>;
-    beginDelete(resourceGroupName: string, sqlVirtualMachineGroupName: string, options?: SqlVirtualMachineGroupsDeleteOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
-    beginDeleteAndWait(resourceGroupName: string, sqlVirtualMachineGroupName: string, options?: SqlVirtualMachineGroupsDeleteOptionalParams): Promise<void>;
-    beginUpdate(resourceGroupName: string, sqlVirtualMachineGroupName: string, parameters: SqlVirtualMachineGroupUpdate, options?: SqlVirtualMachineGroupsUpdateOptionalParams): Promise<SimplePollerLike<OperationState<SqlVirtualMachineGroupsUpdateResponse>, SqlVirtualMachineGroupsUpdateResponse>>;
-    beginUpdateAndWait(resourceGroupName: string, sqlVirtualMachineGroupName: string, parameters: SqlVirtualMachineGroupUpdate, options?: SqlVirtualMachineGroupsUpdateOptionalParams): Promise<SqlVirtualMachineGroupsUpdateResponse>;
-    get(resourceGroupName: string, sqlVirtualMachineGroupName: string, options?: SqlVirtualMachineGroupsGetOptionalParams): Promise<SqlVirtualMachineGroupsGetResponse>;
-    list(options?: SqlVirtualMachineGroupsListOptionalParams): PagedAsyncIterableIterator<SqlVirtualMachineGroup>;
-    listByResourceGroup(resourceGroupName: string, options?: SqlVirtualMachineGroupsListByResourceGroupOptionalParams): PagedAsyncIterableIterator<SqlVirtualMachineGroup>;
-}
-
-// @public
-export interface SqlVirtualMachineGroupsCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface SqlVirtualMachinesCreateOrUpdateOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
 
 // @public
-export type SqlVirtualMachineGroupsCreateOrUpdateResponse = SqlVirtualMachineGroup;
-
-// @public
-export interface SqlVirtualMachineGroupsDeleteHeaders {
-    // (undocumented)
-    location?: string;
-}
-
-// @public
-export interface SqlVirtualMachineGroupsDeleteOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface SqlVirtualMachinesDeleteOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
 
 // @public
-export interface SqlVirtualMachineGroupsGetOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type SqlVirtualMachineGroupsGetResponse = SqlVirtualMachineGroup;
-
-// @public
-export interface SqlVirtualMachineGroupsListByResourceGroupNextOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type SqlVirtualMachineGroupsListByResourceGroupNextResponse = SqlVirtualMachineGroupListResult;
-
-// @public
-export interface SqlVirtualMachineGroupsListByResourceGroupOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type SqlVirtualMachineGroupsListByResourceGroupResponse = SqlVirtualMachineGroupListResult;
-
-// @public
-export interface SqlVirtualMachineGroupsListNextOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type SqlVirtualMachineGroupsListNextResponse = SqlVirtualMachineGroupListResult;
-
-// @public
-export interface SqlVirtualMachineGroupsListOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type SqlVirtualMachineGroupsListResponse = SqlVirtualMachineGroupListResult;
-
-// @public
-export interface SqlVirtualMachineGroupsUpdateOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface SqlVirtualMachinesFetchDCAssessmentOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
 
 // @public
-export type SqlVirtualMachineGroupsUpdateResponse = SqlVirtualMachineGroup;
-
-// @public
-export interface SqlVirtualMachineGroupUpdate {
-    tags?: {
-        [propertyName: string]: string;
-    };
-}
-
-// @public
-export interface SqlVirtualMachineListResult {
-    readonly nextLink?: string;
-    readonly value?: SqlVirtualMachine[];
-}
-
-// @public (undocumented)
-export class SqlVirtualMachineManagementClient extends coreClient.ServiceClient {
-    // (undocumented)
-    $host: string;
-    constructor(credentials: coreAuth.TokenCredential, subscriptionId: string, options?: SqlVirtualMachineManagementClientOptionalParams);
-    // (undocumented)
-    apiVersion: string;
-    // (undocumented)
-    availabilityGroupListeners: AvailabilityGroupListeners;
-    // (undocumented)
-    operations: Operations;
-    // (undocumented)
-    sqlVirtualMachineGroups: SqlVirtualMachineGroups;
-    // (undocumented)
-    sqlVirtualMachines: SqlVirtualMachines;
-    // (undocumented)
-    sqlVirtualMachineTroubleshoot: SqlVirtualMachineTroubleshoot;
-    // (undocumented)
-    subscriptionId: string;
-}
-
-// @public
-export interface SqlVirtualMachineManagementClientOptionalParams extends coreClient.ServiceClientOptions {
-    $host?: string;
-    apiVersion?: string;
-    endpoint?: string;
-}
-
-// @public
-export interface SqlVirtualMachines {
-    beginCreateOrUpdate(resourceGroupName: string, sqlVirtualMachineName: string, parameters: SqlVirtualMachine, options?: SqlVirtualMachinesCreateOrUpdateOptionalParams): Promise<SimplePollerLike<OperationState<SqlVirtualMachinesCreateOrUpdateResponse>, SqlVirtualMachinesCreateOrUpdateResponse>>;
-    beginCreateOrUpdateAndWait(resourceGroupName: string, sqlVirtualMachineName: string, parameters: SqlVirtualMachine, options?: SqlVirtualMachinesCreateOrUpdateOptionalParams): Promise<SqlVirtualMachinesCreateOrUpdateResponse>;
-    beginDelete(resourceGroupName: string, sqlVirtualMachineName: string, options?: SqlVirtualMachinesDeleteOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
-    beginDeleteAndWait(resourceGroupName: string, sqlVirtualMachineName: string, options?: SqlVirtualMachinesDeleteOptionalParams): Promise<void>;
-    beginRedeploy(resourceGroupName: string, sqlVirtualMachineName: string, options?: SqlVirtualMachinesRedeployOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
-    beginRedeployAndWait(resourceGroupName: string, sqlVirtualMachineName: string, options?: SqlVirtualMachinesRedeployOptionalParams): Promise<void>;
-    beginStartAssessment(resourceGroupName: string, sqlVirtualMachineName: string, options?: SqlVirtualMachinesStartAssessmentOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
-    beginStartAssessmentAndWait(resourceGroupName: string, sqlVirtualMachineName: string, options?: SqlVirtualMachinesStartAssessmentOptionalParams): Promise<void>;
-    beginUpdate(resourceGroupName: string, sqlVirtualMachineName: string, parameters: SqlVirtualMachineUpdate, options?: SqlVirtualMachinesUpdateOptionalParams): Promise<SimplePollerLike<OperationState<SqlVirtualMachinesUpdateResponse>, SqlVirtualMachinesUpdateResponse>>;
-    beginUpdateAndWait(resourceGroupName: string, sqlVirtualMachineName: string, parameters: SqlVirtualMachineUpdate, options?: SqlVirtualMachinesUpdateOptionalParams): Promise<SqlVirtualMachinesUpdateResponse>;
-    get(resourceGroupName: string, sqlVirtualMachineName: string, options?: SqlVirtualMachinesGetOptionalParams): Promise<SqlVirtualMachinesGetResponse>;
-    list(options?: SqlVirtualMachinesListOptionalParams): PagedAsyncIterableIterator<SqlVirtualMachine>;
-    listByResourceGroup(resourceGroupName: string, options?: SqlVirtualMachinesListByResourceGroupOptionalParams): PagedAsyncIterableIterator<SqlVirtualMachine>;
-    listBySqlVmGroup(resourceGroupName: string, sqlVirtualMachineGroupName: string, options?: SqlVirtualMachinesListBySqlVmGroupOptionalParams): PagedAsyncIterableIterator<SqlVirtualMachine>;
-}
-
-// @public
-export interface SqlVirtualMachinesCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
-    updateIntervalInMs?: number;
-}
-
-// @public
-export type SqlVirtualMachinesCreateOrUpdateResponse = SqlVirtualMachine;
-
-// @public
-export interface SqlVirtualMachinesDeleteHeaders {
-    // (undocumented)
-    location?: string;
-}
-
-// @public
-export interface SqlVirtualMachinesDeleteOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
-    updateIntervalInMs?: number;
-}
-
-// @public
-export interface SqlVirtualMachinesGetOptionalParams extends coreClient.OperationOptions {
+export interface SqlVirtualMachinesGetOptionalParams extends OperationOptions {
     expand?: string;
 }
 
 // @public
-export type SqlVirtualMachinesGetResponse = SqlVirtualMachine;
-
-// @public
-export interface SqlVirtualMachinesListByResourceGroupNextOptionalParams extends coreClient.OperationOptions {
+export interface SqlVirtualMachinesListByResourceGroupOptionalParams extends OperationOptions {
 }
 
 // @public
-export type SqlVirtualMachinesListByResourceGroupNextResponse = SqlVirtualMachineListResult;
-
-// @public
-export interface SqlVirtualMachinesListByResourceGroupOptionalParams extends coreClient.OperationOptions {
+export interface SqlVirtualMachinesListBySqlVmGroupOptionalParams extends OperationOptions {
 }
 
 // @public
-export type SqlVirtualMachinesListByResourceGroupResponse = SqlVirtualMachineListResult;
-
-// @public
-export interface SqlVirtualMachinesListBySqlVmGroupNextOptionalParams extends coreClient.OperationOptions {
+export interface SqlVirtualMachinesListOptionalParams extends OperationOptions {
 }
 
 // @public
-export type SqlVirtualMachinesListBySqlVmGroupNextResponse = SqlVirtualMachineListResult;
-
-// @public
-export interface SqlVirtualMachinesListBySqlVmGroupOptionalParams extends coreClient.OperationOptions {
+export interface SqlVirtualMachinesOperations {
+    createOrUpdate: (resourceGroupName: string, sqlVirtualMachineName: string, parameters: SqlVirtualMachine, options?: SqlVirtualMachinesCreateOrUpdateOptionalParams) => PollerLike<OperationState<SqlVirtualMachine>, SqlVirtualMachine>;
+    delete: (resourceGroupName: string, sqlVirtualMachineName: string, options?: SqlVirtualMachinesDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
+    fetchDCAssessment: (resourceGroupName: string, sqlVirtualMachineName: string, parameters: DiskConfigAssessmentRequest, options?: SqlVirtualMachinesFetchDCAssessmentOptionalParams) => PollerLike<OperationState<void>, void>;
+    get: (resourceGroupName: string, sqlVirtualMachineName: string, options?: SqlVirtualMachinesGetOptionalParams) => Promise<SqlVirtualMachine>;
+    list: (options?: SqlVirtualMachinesListOptionalParams) => PagedAsyncIterableIterator<SqlVirtualMachine>;
+    listByResourceGroup: (resourceGroupName: string, options?: SqlVirtualMachinesListByResourceGroupOptionalParams) => PagedAsyncIterableIterator<SqlVirtualMachine>;
+    listBySqlVmGroup: (resourceGroupName: string, sqlVirtualMachineGroupName: string, options?: SqlVirtualMachinesListBySqlVmGroupOptionalParams) => PagedAsyncIterableIterator<SqlVirtualMachine>;
+    redeploy: (resourceGroupName: string, sqlVirtualMachineName: string, options?: SqlVirtualMachinesRedeployOptionalParams) => PollerLike<OperationState<void>, void>;
+    startAssessment: (resourceGroupName: string, sqlVirtualMachineName: string, options?: SqlVirtualMachinesStartAssessmentOptionalParams) => PollerLike<OperationState<void>, void>;
+    update: (resourceGroupName: string, sqlVirtualMachineName: string, parameters: SqlVirtualMachineUpdate, options?: SqlVirtualMachinesUpdateOptionalParams) => PollerLike<OperationState<SqlVirtualMachine>, SqlVirtualMachine>;
 }
 
 // @public
-export type SqlVirtualMachinesListBySqlVmGroupResponse = SqlVirtualMachineListResult;
-
-// @public
-export interface SqlVirtualMachinesListNextOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type SqlVirtualMachinesListNextResponse = SqlVirtualMachineListResult;
-
-// @public
-export interface SqlVirtualMachinesListOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type SqlVirtualMachinesListResponse = SqlVirtualMachineListResult;
-
-// @public
-export interface SqlVirtualMachinesRedeployHeaders {
-    // (undocumented)
-    location?: string;
-}
-
-// @public
-export interface SqlVirtualMachinesRedeployOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface SqlVirtualMachinesRedeployOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
 
 // @public
-export interface SqlVirtualMachinesStartAssessmentHeaders {
-    // (undocumented)
-    location?: string;
-}
-
-// @public
-export interface SqlVirtualMachinesStartAssessmentOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface SqlVirtualMachinesStartAssessmentOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
 
 // @public
-export interface SqlVirtualMachinesUpdateOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface SqlVirtualMachinesUpdateOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
 
 // @public
-export type SqlVirtualMachinesUpdateResponse = SqlVirtualMachine;
-
-// @public
-export interface SqlVirtualMachineTroubleshoot {
-    beginTroubleshoot(resourceGroupName: string, sqlVirtualMachineName: string, parameters: SqlVmTroubleshooting, options?: SqlVirtualMachineTroubleshootTroubleshootOptionalParams): Promise<SimplePollerLike<OperationState<SqlVirtualMachineTroubleshootTroubleshootResponse>, SqlVirtualMachineTroubleshootTroubleshootResponse>>;
-    beginTroubleshootAndWait(resourceGroupName: string, sqlVirtualMachineName: string, parameters: SqlVmTroubleshooting, options?: SqlVirtualMachineTroubleshootTroubleshootOptionalParams): Promise<SqlVirtualMachineTroubleshootTroubleshootResponse>;
+export interface SqlVirtualMachineTroubleshootOperations {
+    troubleshoot: (resourceGroupName: string, sqlVirtualMachineName: string, parameters: SqlVmTroubleshooting, options?: SqlVirtualMachineTroubleshootTroubleshootOptionalParams) => PollerLike<OperationState<SqlVmTroubleshooting>, SqlVmTroubleshooting>;
 }
 
 // @public
-export interface SqlVirtualMachineTroubleshootTroubleshootHeaders {
-    // (undocumented)
-    location?: string;
-}
-
-// @public
-export interface SqlVirtualMachineTroubleshootTroubleshootOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface SqlVirtualMachineTroubleshootTroubleshootOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
-
-// @public
-export type SqlVirtualMachineTroubleshootTroubleshootResponse = SqlVmTroubleshooting;
 
 // @public
 export interface SqlVirtualMachineUpdate {
-    tags?: {
-        [propertyName: string]: string;
-    };
+    tags?: Record<string, string>;
 }
 
 // @public
@@ -873,6 +836,7 @@ export interface SqlWorkloadTypeUpdateSettings {
 // @public
 export interface StorageConfigurationSettings {
     diskConfigurationType?: DiskConfigurationType;
+    enableStorageConfigBlade?: boolean;
     sqlDataSettings?: SQLStorageSettings;
     sqlLogSettings?: SQLStorageSettings;
     sqlSystemDbOnDataDisk?: boolean;
@@ -896,9 +860,7 @@ export interface SystemData {
 // @public
 export interface TrackedResource extends Resource {
     location: string;
-    tags?: {
-        [propertyName: string]: string;
-    };
+    tags?: Record<string, string>;
 }
 
 // @public
@@ -925,6 +887,15 @@ export interface UnhealthyReplicaInfo {
 }
 
 // @public
+export interface VirtualMachineIdentity {
+    resourceId?: string;
+    type?: VmIdentityType;
+}
+
+// @public
+export type VmIdentityType = string;
+
+// @public
 export interface WsfcDomainCredentials {
     clusterBootstrapAccountPassword?: string;
     clusterOperatorAccountPassword?: string;
@@ -938,6 +909,7 @@ export interface WsfcDomainProfile {
     clusterSubnetType?: ClusterSubnetType;
     domainFqdn?: string;
     fileShareWitnessPath?: string;
+    isSqlServiceAccountGmsa?: boolean;
     ouPath?: string;
     sqlServiceAccount?: string;
     storageAccountPrimaryKey?: string;
