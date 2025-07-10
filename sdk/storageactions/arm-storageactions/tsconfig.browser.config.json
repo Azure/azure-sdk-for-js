@@ -1,6 +1,0 @@
-{
-  "extends": [
-    "./tsconfig.test.json",
-    "../../../tsconfig.browser.base.json"
-  ]
-}
