@@ -9,19 +9,12 @@
  * For more information see the Deep Research Tool document: https://aka.ms/agents-deep-research
  *
  * @summary demonstrates how to use agent operations with the Deep Research tool.
- *
  */
 
-import type {
-  MessageTextContent,
-  ThreadMessage,
-  DeepResearchToolDefinition,
-  MessageTextUrlCitationAnnotation,
-} from "@azure/ai-agents";
-import { AgentsClient, isOutputOfType } from "@azure/ai-agents";
-import { DefaultAzureCredential } from "@azure/identity";
+const { AgentsClient, isOutputOfType } = require("@azure/ai-agents");
+const { DefaultAzureCredential } = require("@azure/identity");
 
-import "dotenv/config";
+require("dotenv/config");
 
 const projectEndpoint = process.env["PROJECT_ENDPOINT"] || "<project endpoint>";
 const modelDeploymentName = process.env["MODEL_DEPLOYMENT_NAME"] || "gpt-4o";
@@ -36,13 +29,9 @@ const bingConnectionId = process.env["AZURE_BING_CONNECTION_ID"] || "<connection
  * @param lastMessageId - The ID of the last message processed
  * @returns The ID of the newest message, or undefined if no new message
  */
-async function fetchAndPrintNewAgentResponse(
-  threadId: string,
-  client: AgentsClient,
-  lastMessageId?: string,
-): Promise<string | undefined> {
+async function fetchAndPrintNewAgentResponse(threadId, client, lastMessageId) {
   const messages = client.messages.list(threadId);
-  let latestMessage: ThreadMessage | undefined;
+  let latestMessage;
   for await (const msg of messages) {
     if (msg.role === "assistant") {
       latestMessage = msg;
@@ -58,7 +47,7 @@ async function fetchAndPrintNewAgentResponse(
 
   // Print text content
   for (const content of latestMessage.content) {
-    if (isOutputOfType<MessageTextContent>(content, "text")) {
+    if (isOutputOfType(content, "text")) {
       console.log(content.text.value);
     }
   }
@@ -79,13 +68,13 @@ async function fetchAndPrintNewAgentResponse(
  * @param message - The thread message
  * @returns Array of URL citations
  */
-function getUrlCitationsFromMessage(message: ThreadMessage): Array<{ title: string; url: string }> {
-  const citations: Array<{ title: string; url: string }> = [];
+function getUrlCitationsFromMessage(message) {
+  const citations = [];
 
   for (const content of message.content) {
-    if (isOutputOfType<MessageTextContent>(content, "text")) {
+    if (isOutputOfType(content, "text")) {
       for (const annotation of content.text.annotations) {
-        if (isOutputOfType<MessageTextUrlCitationAnnotation>(annotation, "url_citation")) {
+        if (isOutputOfType(annotation, "url_citation")) {
           citations.push({
             title: annotation.urlCitation.title || annotation.urlCitation.url,
             url: annotation.urlCitation.url,
@@ -103,7 +92,7 @@ function getUrlCitationsFromMessage(message: ThreadMessage): Array<{ title: stri
  * @param message - The thread message containing the research results
  * @param filepath - The file path to write the summary to
  */
-function createResearchSummary(message: ThreadMessage): void {
+function createResearchSummary(message) {
   if (!message) {
     console.log("No message content provided, cannot create research summary.");
     return;
@@ -112,9 +101,9 @@ function createResearchSummary(message: ThreadMessage): void {
   let content = "";
 
   // Write text summary
-  const textSummaries: string[] = [];
+  const textSummaries = [];
   for (const contentItem of message.content) {
-    if (isOutputOfType<MessageTextContent>(contentItem, "text")) {
+    if (isOutputOfType(contentItem, "text")) {
       textSummaries.push(contentItem.text.value.trim());
     }
   }
@@ -124,7 +113,7 @@ function createResearchSummary(message: ThreadMessage): void {
   const urlCitations = getUrlCitationsFromMessage(message);
   if (urlCitations.length > 0) {
     content += "\n\n## References\n";
-    const seenUrls = new Set<string>();
+    const seenUrls = new Set();
     for (const citation of urlCitations) {
       if (!seenUrls.has(citation.url)) {
         content += `- [${citation.title}](${citation.url})\n`;
@@ -138,12 +127,12 @@ function createResearchSummary(message: ThreadMessage): void {
   // console.log(`Research summary written to '${filepath}'.`);
 }
 
-export async function main(): Promise<void> {
+async function main() {
   // Create an Azure AI Client
   const client = new AgentsClient(projectEndpoint, new DefaultAzureCredential());
 
   // Create Deep Research tool definition
-  const deepResearchTool: DeepResearchToolDefinition = {
+  const deepResearchTool = {
     type: "deep_research",
     deepResearch: {
       deepResearchModel: deepResearchModelDeploymentName,
@@ -179,7 +168,7 @@ export async function main(): Promise<void> {
 
   // Create and poll the run
   const run = await client.runs.create(thread.id, agent.id);
-  let lastMessageId: string | undefined;
+  let lastMessageId;
 
   // Poll the run status
   let currentRun = run;
@@ -199,7 +188,7 @@ export async function main(): Promise<void> {
 
   // Fetch the final message from the agent and create a research summary
   const messages = client.messages.list(thread.id, { order: "desc", limit: 10 });
-  let finalMessage: ThreadMessage | undefined;
+  let finalMessage;
 
   for await (const msg of messages) {
     if (msg.role === "assistant") {
@@ -220,3 +209,5 @@ export async function main(): Promise<void> {
 main().catch((err) => {
   console.error("The sample encountered an error:", err);
 });
+
+module.exports = { main };
