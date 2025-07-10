@@ -1,5 +1,12 @@
 # Release History
 
+## 1.0.0-beta.7 (2025-07-11)
+
+### Features Added
+
+- Add Deep Research tool
+- Add Deep Research sample
+
 ## 1.0.0 (2025-06-29)
 
 - First stable release of Azure AI Agents client library
