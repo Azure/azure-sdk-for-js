@@ -115,9 +115,9 @@ function generatePluginConfiguration(options: MsalClientOptions): PluginConfigur
   const config: PluginConfiguration = {
     cache: {},
     broker: {
+      ...options.brokerOptions,
       isEnabled: options.brokerOptions?.enabled ?? false,
       enableMsaPassthrough: options.brokerOptions?.legacyEnableMsaPassthrough ?? false,
-      parentWindowHandle: options.brokerOptions?.parentWindowHandle,
     },
   };
 
