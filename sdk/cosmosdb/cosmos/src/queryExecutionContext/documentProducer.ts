@@ -16,7 +16,7 @@ import type { Response } from "../request/index.js";
 import { DefaultQueryExecutionContext } from "./defaultQueryExecutionContext.js";
 import type { FetchFunctionCallback } from "./defaultQueryExecutionContext.js";
 import { FetchResult, FetchResultType } from "./FetchResult.js";
-import { getInitialHeader, mergeHeaders } from "./headerUtils.js";
+import { getInitialHeader } from "./headerUtils.js";
 import type { CosmosHeaders } from "./headerUtils.js";
 import type { SqlQuerySpec } from "./index.js";
 
