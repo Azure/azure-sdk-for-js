@@ -278,19 +278,20 @@ export class DocumentProducer {
       return { result: undefined, headers: getInitialHeader() };
     }
     const resources: any[] = [];
-    const resHeaders: CosmosHeaders = getInitialHeader();
     try {
       while (this.fetchResults.length > 0) {
-        const { result, headers } = this.current();
+        const { result } = this.current();
         this._updateStates(undefined, result === undefined);
-        mergeHeaders(resHeaders, headers);
         if (result === undefined) {
-          return { result: resources.length > 0 ? resources : undefined, headers: resHeaders };
+          return {
+            result: resources.length > 0 ? resources : undefined,
+            headers: getInitialHeader(),
+          };
         } else {
           resources.push(result);
         }
       }
-      return { result: resources, headers: resHeaders };
+      return { result: resources, headers: getInitialHeader() };
     } catch (err: any) {
       this._updateStates(err, err.item === undefined);
       throw err;
