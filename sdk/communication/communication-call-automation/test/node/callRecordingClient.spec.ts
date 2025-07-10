@@ -390,5 +390,5 @@ describe("CallRecording Live Tests", () => {
       assert.equal(recStatus.recordingState, "active");
       await callerCallAutomationClient.getCallRecording().stop(recordingStateResult.recordingId);
     },
-  );  
+  );
 });
