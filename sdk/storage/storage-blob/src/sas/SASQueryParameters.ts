@@ -63,6 +63,13 @@ export interface SASQueryParametersOptions {
    * @see https://learn.microsoft.com/rest/api/storageservices/establishing-a-stored-access-policy
    */
   identifier?: string;
+    
+  /**
+   * Optional. Beginning in version 2025-07-05, this value specifies the Entra ID of the user would is authorized to
+   * use the resulting SAS URL.  The resulting SAS URL must be used in conjunction with an Entra ID token that has been
+   * issued to the user specified in this value.
+   */  
+  delegatedUserObjectId?: string
   /**
    * Optional. Encryption scope to use when sending requests authorized with this SAS URI.
    */
@@ -166,6 +173,13 @@ export class SASQueryParameters {
    * @see https://learn.microsoft.com/rest/api/storageservices/establishing-a-stored-access-policy
    */
   public readonly identifier?: string;
+
+  /**
+   * Optional. Beginning in version 2025-07-05, this value specifies the Entra ID of the user would is authorized to
+   * use the resulting SAS URL.  The resulting SAS URL must be used in conjunction with an Entra ID token that has been
+   * issued to the user specified in this value.
+   */
+  public readonly delegatedUserObjectId?: string;
 
   /**
    * Optional. Encryption scope to use when sending requests authorized with this SAS URI.
@@ -301,6 +315,7 @@ export class SASQueryParameters {
    * @param preauthorizedAgentObjectId - Representing the authorized AAD Object ID (only for User Delegation SAS)
    * @param correlationId - Representing the correlation ID (only for User Delegation SAS)
    * @param encryptionScope -
+   * @param delegatedUserObjectId -
    */
   constructor(
     version: string,
@@ -323,6 +338,7 @@ export class SASQueryParameters {
     preauthorizedAgentObjectId?: string,
     correlationId?: string,
     encryptionScope?: string,
+    delegatedUserObjectId?: string
   );
 
   /**
@@ -355,6 +371,7 @@ export class SASQueryParameters {
     preauthorizedAgentObjectId?: string,
     correlationId?: string,
     encryptionScope?: string,
+    delegatedUserObjectId?: string
   ) {
     this.version = version;
     this.signature = signature;
@@ -369,6 +386,7 @@ export class SASQueryParameters {
       this.expiresOn = permissionsOrOptions.expiresOn;
       this.ipRangeInner = permissionsOrOptions.ipRange;
       this.identifier = permissionsOrOptions.identifier;
+      this.delegatedUserObjectId = permissionsOrOptions.delegatedUserObjectId;
       this.encryptionScope = permissionsOrOptions.encryptionScope;
       this.resource = permissionsOrOptions.resource;
       this.cacheControl = permissionsOrOptions.cacheControl;
@@ -396,6 +414,7 @@ export class SASQueryParameters {
       this.protocol = protocol;
       this.startsOn = startsOn;
       this.ipRangeInner = ipRange;
+      this.delegatedUserObjectId = delegatedUserObjectId;
       this.encryptionScope = encryptionScope;
       this.identifier = identifier;
       this.resource = resource;
@@ -450,6 +469,7 @@ export class SASQueryParameters {
       "rsct",
       "saoid",
       "scid",
+      "sduoid", // Signed key user delegation object ID
     ];
     const queries: string[] = [];
 
@@ -549,6 +569,9 @@ export class SASQueryParameters {
           break;
         case "scid":
           this.tryAppendQueryParameter(queries, param, this.correlationId);
+          break;
+        case "sduoid":
+          this.tryAppendQueryParameter(queries, param, this.delegatedUserObjectId);
           break;
       }
     }
