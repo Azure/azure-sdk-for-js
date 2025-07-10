@@ -434,6 +434,7 @@ describe("parallelQueryExecutionContextBase", () => {
     });
   });
 
+  // Test for RU consumption when initial response from document processors is empty
   describe("parallelQueryExecutionContextBase RU Consumption", () => {
     it("should correctly compute RU when initial response from document processors is empty", async () => {
       const tempOptions: FeedOptions = { maxItemCount: 10, maxDegreeOfParallelism: 2 };
