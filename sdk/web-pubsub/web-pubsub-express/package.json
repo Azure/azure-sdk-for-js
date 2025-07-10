@@ -58,7 +58,7 @@
     "eslint": "^9.9.0",
     "express": "^4.21.2",
     "playwright": "^1.50.1",
-    "typescript": "~5.8.2",
+    "typescript": "~5.9.2",
     "vitest": "^3.0.9"
   },
   "//sampleConfiguration": {

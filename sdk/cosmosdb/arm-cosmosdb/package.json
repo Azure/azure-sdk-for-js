@@ -30,7 +30,7 @@
   "types": "./dist/commonjs/index.d.ts",
   "type": "module",
   "devDependencies": {
-    "typescript": "~5.8.2",
+    "typescript": "~5.9.2",
     "dotenv": "^16.0.0",
     "@azure/dev-tool": "^1.0.0",
     "@azure/identity": "^4.9.0",

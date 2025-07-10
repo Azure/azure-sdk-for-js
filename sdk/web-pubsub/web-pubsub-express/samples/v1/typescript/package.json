@@ -32,7 +32,7 @@
   "devDependencies": {
     "@types/express": "^4.16.0",
     "express": "^4.16.3",
-    "typescript": "~5.8.2",
+    "typescript": "~5.9.2",
     "rimraf": "latest"
   }
 }

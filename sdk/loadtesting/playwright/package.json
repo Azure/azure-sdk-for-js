@@ -82,7 +82,7 @@
     "@vitest/coverage-istanbul": "^3.0.9",
     "eslint": "^9.9.0",
     "playwright": "^1.51.1",
-    "typescript": "~5.8.2",
+    "typescript": "~5.9.2",
     "vitest": "^3.0.9",
     "@azure/identity": "^4.10.0"
   },

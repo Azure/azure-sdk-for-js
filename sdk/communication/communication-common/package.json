@@ -73,7 +73,7 @@
     "mockdate": "^3.0.5",
     "nock": "14.0.1",
     "playwright": "^1.48.0",
-    "typescript": "~5.8.2",
+    "typescript": "~5.9.2",
     "vitest": "^3.0.9"
   },
   "type": "module",
