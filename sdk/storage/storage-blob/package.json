@@ -27,7 +27,12 @@
     "pack": "pnpm pack 2>&1",
     "test": "npm run test:node && npm run test:browser",
     "test:browser": "npm run clean && dev-tool run build-package && dev-tool run build-test && dev-tool run test:vitest --browser",
+<<<<<<< HEAD
     "test:node": "dev-tool run build-test --no-browser-test && dev-tool run test:vitest",
+=======
+    "test:node": "dev-tool run test:vitest -- test/node/sas.spec.ts",
+    "test:node:esm": "dev-tool run test:vitest --esm",
+>>>>>>> 3792f0f7e6 (Security Principal Bound Identity SAS)
     "update-snippets": "dev-tool run update-snippets"
   },
   "files": [
