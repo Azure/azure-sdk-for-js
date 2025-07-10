@@ -28,7 +28,6 @@ Use it to:
 - [Examples](#examples)
   - [Performing Agent operations](#performing-agent-operations)
   - [Get an authenticated AzureOpenAI client](#get-an-authenticated-azureopenai-client)
-  - [Get an authenticated ChatCompletionsClient](#get-an-authenticated-chatcompletionsclient)
   - [Deployments operations](#deployments-operations)
   - [Connections operations](#connections-operations)
   - [Dataset operations](#dataset-operations)
@@ -116,35 +115,6 @@ const response = await client.chat.completions.create({
   messages: [{ role: "user", content: "How many feet are in a mile?" }],
 });
 console.log("response = ", JSON.stringify(response, null, 2));
-```
-
-See the "inference" folder in the [package samples][samples] for additional samples.
-
-### Get an authenticated ChatCompletionsClient
-
-Your Azure AI Foundry project may have one or more AI models deployed that support chat completions. These could be OpenAI models, Microsoft models, or models from other providers. Use the code below to get an authenticated Client and execute a chat completions call.
-
-Here we assume `deploymentName` (str) is defined. It's the deployment name of an AI model in your Foundry Project. As shown in the "Models + endpoints" tab, under the "Name" column.
-
-```ts snippet:chatCompletions
-import ModelClient from "@azure-rest/ai-inference";
-import { DefaultAzureCredential } from "@azure/identity";
-
-const parsedUrl = new URL(endpoint);
-const inferenceEndpoint = `https://${parsedUrl.hostname}/models`;
-const modelClient = ModelClient(inferenceEndpoint, new DefaultAzureCredential(), {
-  credentials: {
-    scopes: ["https://cognitiveservices.azure.com/.default"],
-  },
-});
-const client = modelClient.path("/chat/completions");
-const response = await client.post({
-  body: {
-    model: deploymentName,
-    messages: [{ role: "user", content: "How many feet are in a mile?" }],
-  },
-});
-console.log(response.body.choices[0].message.content);
 ```
 
 See the "inference" folder in the [package samples][samples] for additional samples.

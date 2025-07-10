@@ -8,13 +8,9 @@
  */
 import * as path from "path";
 import { readFile } from "node:fs/promises";
-import { fileURLToPath } from "url";
 import ModelClient, { isUnexpected } from "@azure-rest/ai-inference";
 import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
-
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
 
 const endpoint = process.env["AZURE_AI_PROJECT_ENDPOINT_STRING"] || "<project endpoint string>";
 const deploymentName =
