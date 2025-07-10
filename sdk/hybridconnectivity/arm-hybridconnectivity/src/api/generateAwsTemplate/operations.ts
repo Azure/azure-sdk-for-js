@@ -17,33 +17,35 @@ import {
   operationOptionsToRequestParameters,
 } from "@azure-rest/core-client";
 
-export function _postSend(
+export function _generateAwsTemplatePostSend(
   context: Client,
   generateAwsTemplateRequest: GenerateAwsTemplateRequest,
   options: GenerateAwsTemplatePostOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "/subscriptions/{subscriptionId}/providers/Microsoft.HybridConnectivity/generateAwsTemplate{?api-version}",
+    "/subscriptions/{subscriptionId}/providers/Microsoft.HybridConnectivity/generateAwsTemplate{?api%2Dversion}",
     {
       subscriptionId: context.subscriptionId,
-      "api-version": context.apiVersion,
+      "api%2Dversion": context.apiVersion,
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).post({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
-    body: generateAwsTemplateRequestSerializer(generateAwsTemplateRequest),
-  });
+  return context
+    .path(path)
+    .post({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      headers: {
+        accept: "application/json",
+        ...options.requestOptions?.headers,
+      },
+      body: generateAwsTemplateRequestSerializer(generateAwsTemplateRequest),
+    });
 }
 
-export async function _postDeserialize(
+export async function _generateAwsTemplatePostDeserialize(
   result: PathUncheckedResponse,
 ): Promise<Record<string, any>> {
   const expectedStatuses = ["200"];
@@ -57,11 +59,15 @@ export async function _postDeserialize(
 }
 
 /** Retrieve AWS Cloud Formation template */
-export async function post(
+export async function generateAwsTemplatePost(
   context: Client,
   generateAwsTemplateRequest: GenerateAwsTemplateRequest,
   options: GenerateAwsTemplatePostOptionalParams = { requestOptions: {} },
 ): Promise<Record<string, any>> {
-  const result = await _postSend(context, generateAwsTemplateRequest, options);
-  return _postDeserialize(result);
+  const result = await _generateAwsTemplatePostSend(
+    context,
+    generateAwsTemplateRequest,
+    options,
+  );
+  return _generateAwsTemplatePostDeserialize(result);
 }

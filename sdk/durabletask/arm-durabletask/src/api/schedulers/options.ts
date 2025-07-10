@@ -4,10 +4,12 @@
 import { OperationOptions } from "@azure-rest/core-client";
 
 /** Optional parameters. */
-export interface SchedulersListBySubscriptionOptionalParams extends OperationOptions {}
+export interface SchedulersListBySubscriptionOptionalParams
+  extends OperationOptions {}
 
 /** Optional parameters. */
-export interface SchedulersListByResourceGroupOptionalParams extends OperationOptions {}
+export interface SchedulersListByResourceGroupOptionalParams
+  extends OperationOptions {}
 
 /** Optional parameters. */
 export interface SchedulersDeleteOptionalParams extends OperationOptions {
@@ -22,7 +24,8 @@ export interface SchedulersUpdateOptionalParams extends OperationOptions {
 }
 
 /** Optional parameters. */
-export interface SchedulersCreateOrUpdateOptionalParams extends OperationOptions {
+export interface SchedulersCreateOrUpdateOptionalParams
+  extends OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
 }

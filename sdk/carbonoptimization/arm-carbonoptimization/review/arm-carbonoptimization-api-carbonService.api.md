@@ -16,10 +16,10 @@ export interface CarbonServiceQueryCarbonEmissionReportsOptionalParams extends O
 }
 
 // @public
-export function queryCarbonEmissionDataAvailableDateRange(context: CarbonOptimizationManagementContext, options?: CarbonServiceQueryCarbonEmissionDataAvailableDateRangeOptionalParams): Promise<CarbonEmissionDataAvailableDateRange>;
+export function queryCarbonEmissionDataAvailableDateRange(context: CarbonContext, options?: CarbonServiceQueryCarbonEmissionDataAvailableDateRangeOptionalParams): Promise<CarbonEmissionDataAvailableDateRange>;
 
 // @public
-export function queryCarbonEmissionReports(context: CarbonOptimizationManagementContext, queryParameters: QueryFilterUnion, options?: CarbonServiceQueryCarbonEmissionReportsOptionalParams): Promise<CarbonEmissionDataListResult>;
+export function queryCarbonEmissionReports(context: CarbonContext, queryParameters: QueryFilterUnion, options?: CarbonServiceQueryCarbonEmissionReportsOptionalParams): Promise<CarbonEmissionDataListResult>;
 
 // (No @packageDocumentation comment for this package)
 

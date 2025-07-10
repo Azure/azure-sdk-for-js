@@ -10,7 +10,10 @@ import {
   CopilotSettingsOperations,
   _getCopilotSettingsOperations,
 } from "./classic/copilotSettings/index.js";
-import { OperationsOperations, _getOperationsOperations } from "./classic/operations/index.js";
+import {
+  OperationsOperations,
+  _getOperationsOperations,
+} from "./classic/operations/index.js";
 import { Pipeline } from "@azure/core-rest-pipeline";
 import { TokenCredential } from "@azure/core-auth";
 
@@ -22,7 +25,10 @@ export class PortalServicesClient {
   public readonly pipeline: Pipeline;
 
   /** Azure Portal Services API Reference */
-  constructor(credential: TokenCredential, options: PortalServicesClientOptionalParams = {}) {
+  constructor(
+    credential: TokenCredential,
+    options: PortalServicesClientOptionalParams = {},
+  ) {
     const prefixFromOptions = options?.userAgentOptions?.userAgentPrefix;
     const userAgentPrefix = prefixFromOptions
       ? `${prefixFromOptions} azsdk-js-client`

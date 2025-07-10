@@ -22,11 +22,11 @@ import {
   CloudExadataInfrastructuresListBySubscriptionOptionalParams,
 } from "./options.js";
 import { getLongRunningPoller } from "../../static-helpers/pollingHelpers.js";
-import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
 import {
   PagedAsyncIterableIterator,
   buildPagedAsyncIterator,
 } from "../../static-helpers/pagingHelpers.js";
+import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
 import {
   StreamableMethod,
   PathUncheckedResponse,
@@ -55,13 +55,15 @@ export function _addStorageCapacitySend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).post({
-    ...operationOptionsToRequestParameters(options),
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
-  });
+  return context
+    .path(path)
+    .post({
+      ...operationOptionsToRequestParameters(options),
+      headers: {
+        accept: "application/json",
+        ...options.requestOptions?.headers,
+      },
+    });
 }
 
 export async function _addStorageCapacityDeserialize(
@@ -85,14 +87,30 @@ export function addStorageCapacity(
   options: CloudExadataInfrastructuresAddStorageCapacityOptionalParams = {
     requestOptions: {},
   },
-): PollerLike<OperationState<CloudExadataInfrastructure>, CloudExadataInfrastructure> {
-  return getLongRunningPoller(context, _addStorageCapacityDeserialize, ["202", "200"], {
-    updateIntervalInMs: options?.updateIntervalInMs,
-    abortSignal: options?.abortSignal,
-    getInitialResponse: () =>
-      _addStorageCapacitySend(context, resourceGroupName, cloudexadatainfrastructurename, options),
-    resourceLocationConfig: "location",
-  }) as PollerLike<OperationState<CloudExadataInfrastructure>, CloudExadataInfrastructure>;
+): PollerLike<
+  OperationState<CloudExadataInfrastructure>,
+  CloudExadataInfrastructure
+> {
+  return getLongRunningPoller(
+    context,
+    _addStorageCapacityDeserialize,
+    ["202", "200"],
+    {
+      updateIntervalInMs: options?.updateIntervalInMs,
+      abortSignal: options?.abortSignal,
+      getInitialResponse: () =>
+        _addStorageCapacitySend(
+          context,
+          resourceGroupName,
+          cloudexadatainfrastructurename,
+          options,
+        ),
+      resourceLocationConfig: "location",
+    },
+  ) as PollerLike<
+    OperationState<CloudExadataInfrastructure>,
+    CloudExadataInfrastructure
+  >;
 }
 
 export function _listByResourceGroupSend(
@@ -113,13 +131,15 @@ export function _listByResourceGroupSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).get({
-    ...operationOptionsToRequestParameters(options),
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
-  });
+  return context
+    .path(path)
+    .get({
+      ...operationOptionsToRequestParameters(options),
+      headers: {
+        accept: "application/json",
+        ...options.requestOptions?.headers,
+      },
+    });
 }
 
 export async function _listByResourceGroupDeserialize(
@@ -172,16 +192,20 @@ export function _$deleteSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).delete({
-    ...operationOptionsToRequestParameters(options),
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
-  });
+  return context
+    .path(path)
+    .delete({
+      ...operationOptionsToRequestParameters(options),
+      headers: {
+        accept: "application/json",
+        ...options.requestOptions?.headers,
+      },
+    });
 }
 
-export async function _$deleteDeserialize(result: PathUncheckedResponse): Promise<void> {
+export async function _$deleteDeserialize(
+  result: PathUncheckedResponse,
+): Promise<void> {
   const expectedStatuses = ["202", "204", "200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
@@ -206,13 +230,23 @@ export function $delete(
     requestOptions: {},
   },
 ): PollerLike<OperationState<void>, void> {
-  return getLongRunningPoller(context, _$deleteDeserialize, ["202", "204", "200"], {
-    updateIntervalInMs: options?.updateIntervalInMs,
-    abortSignal: options?.abortSignal,
-    getInitialResponse: () =>
-      _$deleteSend(context, resourceGroupName, cloudexadatainfrastructurename, options),
-    resourceLocationConfig: "location",
-  }) as PollerLike<OperationState<void>, void>;
+  return getLongRunningPoller(
+    context,
+    _$deleteDeserialize,
+    ["202", "204", "200"],
+    {
+      updateIntervalInMs: options?.updateIntervalInMs,
+      abortSignal: options?.abortSignal,
+      getInitialResponse: () =>
+        _$deleteSend(
+          context,
+          resourceGroupName,
+          cloudexadatainfrastructurename,
+          options,
+        ),
+      resourceLocationConfig: "location",
+    },
+  ) as PollerLike<OperationState<void>, void>;
 }
 
 export function _updateSend(
@@ -236,15 +270,17 @@ export function _updateSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).patch({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
-    body: cloudExadataInfrastructureUpdateSerializer(properties),
-  });
+  return context
+    .path(path)
+    .patch({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      headers: {
+        accept: "application/json",
+        ...options.requestOptions?.headers,
+      },
+      body: cloudExadataInfrastructureUpdateSerializer(properties),
+    });
 }
 
 export async function _updateDeserialize(
@@ -269,14 +305,26 @@ export function update(
   options: CloudExadataInfrastructuresUpdateOptionalParams = {
     requestOptions: {},
   },
-): PollerLike<OperationState<CloudExadataInfrastructure>, CloudExadataInfrastructure> {
+): PollerLike<
+  OperationState<CloudExadataInfrastructure>,
+  CloudExadataInfrastructure
+> {
   return getLongRunningPoller(context, _updateDeserialize, ["200", "202"], {
     updateIntervalInMs: options?.updateIntervalInMs,
     abortSignal: options?.abortSignal,
     getInitialResponse: () =>
-      _updateSend(context, resourceGroupName, cloudexadatainfrastructurename, properties, options),
+      _updateSend(
+        context,
+        resourceGroupName,
+        cloudexadatainfrastructurename,
+        properties,
+        options,
+      ),
     resourceLocationConfig: "location",
-  }) as PollerLike<OperationState<CloudExadataInfrastructure>, CloudExadataInfrastructure>;
+  }) as PollerLike<
+    OperationState<CloudExadataInfrastructure>,
+    CloudExadataInfrastructure
+  >;
 }
 
 export function _getSend(
@@ -299,13 +347,15 @@ export function _getSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).get({
-    ...operationOptionsToRequestParameters(options),
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
-  });
+  return context
+    .path(path)
+    .get({
+      ...operationOptionsToRequestParameters(options),
+      headers: {
+        accept: "application/json",
+        ...options.requestOptions?.headers,
+      },
+    });
 }
 
 export async function _getDeserialize(
@@ -360,21 +410,23 @@ export function _createOrUpdateSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).put({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
-    body: cloudExadataInfrastructureSerializer(resource),
-  });
+  return context
+    .path(path)
+    .put({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      headers: {
+        accept: "application/json",
+        ...options.requestOptions?.headers,
+      },
+      body: cloudExadataInfrastructureSerializer(resource),
+    });
 }
 
 export async function _createOrUpdateDeserialize(
   result: PathUncheckedResponse,
 ): Promise<CloudExadataInfrastructure> {
-  const expectedStatuses = ["200", "201"];
+  const expectedStatuses = ["200", "201", "202"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = errorResponseDeserializer(result.body);
@@ -393,20 +445,31 @@ export function createOrUpdate(
   options: CloudExadataInfrastructuresCreateOrUpdateOptionalParams = {
     requestOptions: {},
   },
-): PollerLike<OperationState<CloudExadataInfrastructure>, CloudExadataInfrastructure> {
-  return getLongRunningPoller(context, _createOrUpdateDeserialize, ["200", "201"], {
-    updateIntervalInMs: options?.updateIntervalInMs,
-    abortSignal: options?.abortSignal,
-    getInitialResponse: () =>
-      _createOrUpdateSend(
-        context,
-        resourceGroupName,
-        cloudexadatainfrastructurename,
-        resource,
-        options,
-      ),
-    resourceLocationConfig: "azure-async-operation",
-  }) as PollerLike<OperationState<CloudExadataInfrastructure>, CloudExadataInfrastructure>;
+): PollerLike<
+  OperationState<CloudExadataInfrastructure>,
+  CloudExadataInfrastructure
+> {
+  return getLongRunningPoller(
+    context,
+    _createOrUpdateDeserialize,
+    ["200", "201", "202"],
+    {
+      updateIntervalInMs: options?.updateIntervalInMs,
+      abortSignal: options?.abortSignal,
+      getInitialResponse: () =>
+        _createOrUpdateSend(
+          context,
+          resourceGroupName,
+          cloudexadatainfrastructurename,
+          resource,
+          options,
+        ),
+      resourceLocationConfig: "azure-async-operation",
+    },
+  ) as PollerLike<
+    OperationState<CloudExadataInfrastructure>,
+    CloudExadataInfrastructure
+  >;
 }
 
 export function _listBySubscriptionSend(
@@ -425,13 +488,15 @@ export function _listBySubscriptionSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).get({
-    ...operationOptionsToRequestParameters(options),
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
-  });
+  return context
+    .path(path)
+    .get({
+      ...operationOptionsToRequestParameters(options),
+      headers: {
+        accept: "application/json",
+        ...options.requestOptions?.headers,
+      },
+    });
 }
 
 export async function _listBySubscriptionDeserialize(

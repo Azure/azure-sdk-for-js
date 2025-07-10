@@ -15,7 +15,9 @@ async function organizationsListByResourceGroupMaximumSetGenGeneratedByMaximumSe
   const subscriptionId = "171E7A75-341B-4472-BC4C-7603C5AB9F32";
   const client = new HyperExecuteClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (const item of client.organizations.listByResourceGroup("rgopenapi")) {
+  for await (const item of client.organizations.listByResourceGroup(
+    "rgopenapi",
+  )) {
     resArray.push(item);
   }
 
@@ -33,7 +35,9 @@ async function organizationsListByResourceGroupMaximumSetGenGeneratedByMaximumSe
   const subscriptionId = "171E7A75-341B-4472-BC4C-7603C5AB9F32";
   const client = new HyperExecuteClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (const item of client.organizations.listByResourceGroup("rgopenapi")) {
+  for await (const item of client.organizations.listByResourceGroup(
+    "rgopenapi",
+  )) {
     resArray.push(item);
   }
 

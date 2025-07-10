@@ -67,7 +67,8 @@ import { PortalServicesClient } from "@azure/arm-portalservicescopilot";
 const credential = new InteractiveBrowserCredential({
   tenantId: "<YOUR_TENANT_ID>",
   clientId: "<YOUR_CLIENT_ID>",
-});
+ });
+
 const client = new PortalServicesClient(credential);
 ```
 

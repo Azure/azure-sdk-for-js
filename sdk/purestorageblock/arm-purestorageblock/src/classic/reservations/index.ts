@@ -112,9 +112,11 @@ function _getReservations(context: BlockContext) {
       resourceGroupName: string,
       reservationName: string,
       options?: ReservationsGetResourceLimitsOptionalParams,
-    ) => getResourceLimits(context, resourceGroupName, reservationName, options),
-    listBySubscription: (options?: ReservationsListBySubscriptionOptionalParams) =>
-      listBySubscription(context, options),
+    ) =>
+      getResourceLimits(context, resourceGroupName, reservationName, options),
+    listBySubscription: (
+      options?: ReservationsListBySubscriptionOptionalParams,
+    ) => listBySubscription(context, options),
     listByResourceGroup: (
       resourceGroupName: string,
       options?: ReservationsListByResourceGroupOptionalParams,
@@ -129,7 +131,8 @@ function _getReservations(context: BlockContext) {
       reservationName: string,
       properties: ReservationUpdate,
       options?: ReservationsUpdateOptionalParams,
-    ) => update(context, resourceGroupName, reservationName, properties, options),
+    ) =>
+      update(context, resourceGroupName, reservationName, properties, options),
     create: (
       resourceGroupName: string,
       reservationName: string,
@@ -144,7 +147,9 @@ function _getReservations(context: BlockContext) {
   };
 }
 
-export function _getReservationsOperations(context: BlockContext): ReservationsOperations {
+export function _getReservationsOperations(
+  context: BlockContext,
+): ReservationsOperations {
   return {
     ..._getReservations(context),
   };
