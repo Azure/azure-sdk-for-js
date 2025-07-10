@@ -6,14 +6,14 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import type { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
+import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
 import { setContinuationToken } from "../pagingHelper.js";
-import type { TrustedAccessRoles } from "../operationsInterfaces/index.js";
+import { TrustedAccessRoles } from "../operationsInterfaces/index.js";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers.js";
 import * as Parameters from "../models/parameters.js";
-import type { ContainerServiceClient } from "../containerServiceClient.js";
-import type {
+import { ContainerServiceClient } from "../containerServiceClient.js";
+import {
   TrustedAccessRole,
   TrustedAccessRolesListNextOptionalParams,
   TrustedAccessRolesListOptionalParams,
@@ -69,7 +69,7 @@ export class TrustedAccessRolesImpl implements TrustedAccessRoles {
     let continuationToken = settings?.continuationToken;
     if (!continuationToken) {
       result = await this._list(location, options);
-      const page = result.value || [];
+      let page = result.value || [];
       continuationToken = result.nextLink;
       setContinuationToken(page, continuationToken);
       yield page;
@@ -77,7 +77,7 @@ export class TrustedAccessRolesImpl implements TrustedAccessRoles {
     while (continuationToken) {
       result = await this._listNext(location, continuationToken, options);
       continuationToken = result.nextLink;
-      const page = result.value || [];
+      let page = result.value || [];
       setContinuationToken(page, continuationToken);
       yield page;
     }
