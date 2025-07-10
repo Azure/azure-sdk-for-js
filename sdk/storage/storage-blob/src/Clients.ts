@@ -825,6 +825,13 @@ export interface CommonGenerateSasUrlOptions {
   identifier?: string;
 
   /**
+   * Optional. Beginning in version 2025-07-05, this value specifies the Entra ID of the user would is authorized to
+   * use the resulting SAS URL.  The resulting SAS URL must be used in conjunction with an Entra ID token that has been
+   * issued to the user specified in this value.
+   */
+  delegatedUserObjectId?: string;
+
+  /**
    * Optional. Encryption scope to use when sending requests authorized with this SAS URI.
    */
   encryptionScope?: string;
