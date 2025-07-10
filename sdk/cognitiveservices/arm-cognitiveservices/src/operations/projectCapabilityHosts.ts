@@ -11,7 +11,11 @@ import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers.js";
 import * as Parameters from "../models/parameters.js";
 import { CognitiveServicesManagementClient } from "../cognitiveServicesManagementClient.js";
-import { SimplePollerLike, OperationState, createHttpPoller } from "@azure/core-lro";
+import {
+  SimplePollerLike,
+  OperationState,
+  createHttpPoller,
+} from "@azure/core-lro";
 import { createLroSpec } from "../lroImpl.js";
 import {
   ProjectCapabilityHostsDeleteOptionalParams,
@@ -66,7 +70,8 @@ export class ProjectCapabilityHostsImpl implements ProjectCapabilityHosts {
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
@@ -177,7 +182,7 @@ export class ProjectCapabilityHostsImpl implements ProjectCapabilityHosts {
    * @param projectName The name of Cognitive Services account's project.
    * @param capabilityHostName The name of the capability host associated with the Cognitive Services
    *                           Resource
-   * @param body CapabilityHost definition.
+   * @param capabilityHost CapabilityHost definition.
    * @param options The options parameters.
    */
   async beginCreateOrUpdate(
@@ -185,7 +190,7 @@ export class ProjectCapabilityHostsImpl implements ProjectCapabilityHosts {
     accountName: string,
     projectName: string,
     capabilityHostName: string,
-    body: CapabilityHost,
+    capabilityHost: CapabilityHost,
     options?: ProjectCapabilityHostsCreateOrUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
@@ -203,7 +208,8 @@ export class ProjectCapabilityHostsImpl implements ProjectCapabilityHosts {
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
@@ -237,7 +243,7 @@ export class ProjectCapabilityHostsImpl implements ProjectCapabilityHosts {
         accountName,
         projectName,
         capabilityHostName,
-        body,
+        capabilityHost,
         options,
       },
       spec: createOrUpdateOperationSpec,
@@ -261,7 +267,7 @@ export class ProjectCapabilityHostsImpl implements ProjectCapabilityHosts {
    * @param projectName The name of Cognitive Services account's project.
    * @param capabilityHostName The name of the capability host associated with the Cognitive Services
    *                           Resource
-   * @param body CapabilityHost definition.
+   * @param capabilityHost CapabilityHost definition.
    * @param options The options parameters.
    */
   async beginCreateOrUpdateAndWait(
@@ -269,7 +275,7 @@ export class ProjectCapabilityHostsImpl implements ProjectCapabilityHosts {
     accountName: string,
     projectName: string,
     capabilityHostName: string,
-    body: CapabilityHost,
+    capabilityHost: CapabilityHost,
     options?: ProjectCapabilityHostsCreateOrUpdateOptionalParams,
   ): Promise<ProjectCapabilityHostsCreateOrUpdateResponse> {
     const poller = await this.beginCreateOrUpdate(
@@ -277,7 +283,7 @@ export class ProjectCapabilityHostsImpl implements ProjectCapabilityHosts {
       accountName,
       projectName,
       capabilityHostName,
-      body,
+      capabilityHost,
       options,
     );
     return poller.pollUntilDone();
@@ -361,7 +367,7 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse,
     },
   },
-  requestBody: Parameters.body2,
+  requestBody: Parameters.capabilityHost,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,

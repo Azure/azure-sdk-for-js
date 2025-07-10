@@ -16,5 +16,7 @@ export interface Operations {
    * Lists all the available Cognitive Services account operations.
    * @param options The options parameters.
    */
-  list(options?: OperationsListOptionalParams): PagedAsyncIterableIterator<Operation>;
+  list(
+    options?: OperationsListOptionalParams,
+  ): PagedAsyncIterableIterator<Operation>;
 }
