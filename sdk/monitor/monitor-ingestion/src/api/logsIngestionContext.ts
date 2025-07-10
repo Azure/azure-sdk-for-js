@@ -29,7 +29,7 @@ export function createLogsIngestion(
   const endpointUrl =
     options.endpoint ?? options.baseUrl ?? String(endpointParam);
   const prefixFromOptions = options?.userAgentOptions?.userAgentPrefix;
-  const userAgentInfo = `azsdk-js-monitor-ingestion/1.2.0`;
+  const userAgentInfo = `azsdk-js-monitor-ingestion/1.1.1`;
   const userAgentPrefix = prefixFromOptions
     ? `${prefixFromOptions} azsdk-js-api ${userAgentInfo}`
     : `azsdk-js-api ${userAgentInfo}`;

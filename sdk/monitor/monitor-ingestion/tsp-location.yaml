@@ -1,3 +1,3 @@
-directory: specification/monitor/Ingestion
-commit: e7c4c6f32b2a7a645eab6f6b53cb964a9ca14917 # the commit id you'd like to refer for generation
+directory: specification/monitor/Azure.Monitor.Ingestion
+commit: 0ed29d3bfb0f24c3e0b5417105d1bafd91c3e28c # the commit id you'd like to refer for generation
 repo: Azure/azure-rest-api-specs
