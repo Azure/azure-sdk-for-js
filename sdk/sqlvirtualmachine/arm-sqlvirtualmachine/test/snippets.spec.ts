@@ -1,4 +1,3 @@
-
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
@@ -10,7 +9,10 @@ import { describe, it } from "vitest";
 describe("snippets", () => {
   it("ReadmeSampleCreateClient_Node", async () => {
     const subscriptionId = "00000000-0000-0000-0000-000000000000";
-    const client = new SqlVirtualMachineManagementClient(new DefaultAzureCredential(), subscriptionId);
+    const client = new SqlVirtualMachineManagementClient(
+      new DefaultAzureCredential(),
+      subscriptionId,
+    );
   });
 
   it("ReadmeSampleCreateClient_Browser", async () => {
