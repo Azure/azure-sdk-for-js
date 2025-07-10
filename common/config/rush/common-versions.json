@@ -16,7 +16,7 @@
      * instead of the latest version.
      */
     // "some-library": "1.2.3"
-    "pg-protocol": "1.8.0"
+    "@types/node": "20.19.1"
   },
   /**
    * When set to true, for all projects in the repo, all dependencies will be automatically added as preferredVersions,
