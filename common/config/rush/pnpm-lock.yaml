@@ -4102,11 +4102,11 @@ packages:
     version: 0.0.0
 
   '@rush-temp/schema-registry-avro@file:projects/schema-registry-avro.tgz':
-    resolution: {integrity: sha512-169NGaFqNtIddmX9qNSbU+rQ70cJwUNvbXYzms40dDmDcvTyEjix/Rm2OpPUDOEVaB7/yTC+KT+D5ESRTnHJmw==, tarball: file:projects/schema-registry-avro.tgz}
+    resolution: {integrity: sha512-0AtMa9U4a1CsCUAYI3BENwKvfIKWTAiKKfpfr/Ny7tSz0ozmWM+MJtDVWvZ8VP2wc70a6SAmihuiPwMhrxaFZQ==, tarball: file:projects/schema-registry-avro.tgz}
     version: 0.0.0
 
   '@rush-temp/schema-registry-json@file:projects/schema-registry-json.tgz':
-    resolution: {integrity: sha512-KJlScDyl2bvvmw33CxPlQZPPiNxWgnaIjyA4NFxlUooqkY4Z0oiBj2Jmyn1QdCOEb2xgVld/pv+dNsgUrRSylQ==, tarball: file:projects/schema-registry-json.tgz}
+    resolution: {integrity: sha512-2ln67BdEkrc28u7OufA0q91yTUnpP7t/lJKBJ0Y6sj+kk68+VCJ87wWRnxrpR0QsfqVM0O6B8mAuDck7OEQXSQ==, tarball: file:projects/schema-registry-json.tgz}
     version: 0.0.0
 
   '@rush-temp/schema-registry@file:projects/schema-registry.tgz':
@@ -22719,7 +22719,7 @@ snapshots:
       buffer: 6.0.3
       dotenv: 16.5.0
       eslint: 9.29.0
-      lru-cache: 10.4.3
+      lru-cache: 11.1.0
       playwright: 1.53.1
       process: 0.11.10
       stream: 0.0.3
@@ -22762,7 +22762,7 @@ snapshots:
       buffer: 6.0.3
       dotenv: 16.5.0
       eslint: 9.29.0
-      lru-cache: 10.4.3
+      lru-cache: 11.1.0
       playwright: 1.53.1
       tslib: 2.8.1
       typescript: 5.8.3
