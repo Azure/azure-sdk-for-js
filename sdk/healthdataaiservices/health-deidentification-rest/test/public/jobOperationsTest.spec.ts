@@ -15,7 +15,11 @@ import type {
   DeidentificationDocumentDetailsOutput,
 } from "../../src/outputModels.js";
 import type { Recorder } from "@azure-tools/test-recorder";
-import { assertEnvironmentVariable, isPlaybackMode, isRecordMode } from "@azure-tools/test-recorder";
+import {
+  assertEnvironmentVariable,
+  isPlaybackMode,
+  isRecordMode,
+} from "@azure-tools/test-recorder";
 import type { ErrorResponse } from "@azure-rest/core-client";
 import { getLongRunningPoller } from "../../src/pollingHelper.js";
 import { paginate } from "../../src/paginateHelper.js";
@@ -27,7 +31,6 @@ const testPollingOptions = {
 
 const TEST_TIMEOUT_MS: number = 200000;
 const NUMBER_OF_DOCUMENTS = 3;
-
 
 const generateJobName = (testName?: string): string => {
   let jobName = "js-sdk-job-" + Date.now();
@@ -43,7 +46,9 @@ describe("Batch", () => {
   let recorder: Recorder;
   let client: DeidentificationClient;
   const environment = getTestEnvironment();
-  const storageAccountLocation = assertEnvironmentVariable("HEALTHDATAAISERVICES_STORAGE_ACCOUNT_LOCATION");
+  const storageAccountLocation = assertEnvironmentVariable(
+    "HEALTHDATAAISERVICES_STORAGE_ACCOUNT_LOCATION",
+  );
 
   beforeEach(async (context) => {
     recorder = await createRecorder(context);
@@ -61,6 +66,8 @@ describe("Batch", () => {
     async function () {
       const jobName = generateJobName(`001-${environment}`);
       const inputPrefix = "example_patient_1";
+
+      console.log(storageAccountLocation);
 
       const job: DeidentificationJob = {
         operation: "Surrogate",

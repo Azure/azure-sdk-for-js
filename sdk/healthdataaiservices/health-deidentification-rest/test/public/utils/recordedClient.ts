@@ -25,27 +25,27 @@ export async function createRecorder(testContext: VitestTestContext): Promise<Re
   await recorder.start({
     envSetupForPlayback,
     sanitizerOptions: {
-        bodyKeySanitizers: [
-          {
-            value: env["HEALTHDATAAISERVICES_STORAGE_ACCOUNT_LOCATION"],
-            jsonPath: "$..sourceLocation.location",
-            regex: "^(?!.*FAKE_STORAGE_ACCOUNT).*",
-          },
-          {
-            value: env["HEALTHDATAAISERVICES_STORAGE_ACCOUNT_LOCATION"],
-            jsonPath: "$..targetLocation.location",
-            regex: "^(?!.*FAKE_STORAGE_ACCOUNT).*",
-          },
-        ],
-        generalSanitizers: [
-          {
-            regex: true,
-            value: env["CONTINUATION_TOKEN"] ?? "",
-            target: "continuationToken=[A-Za-z0-9%._~-]+",
-          },
-        ],
-      },
-      removeCentralSanitizers: ["AZSDK4001", "AZSDK2030", "AZSDK3430", "AZSDK3493"],
+      bodyKeySanitizers: [
+        {
+          value: env["HEALTHDATAAISERVICES_STORAGE_ACCOUNT_LOCATION"],
+          jsonPath: "$..sourceLocation.location",
+          regex: "^(?!.*FAKE_STORAGE_ACCOUNT).*",
+        },
+        {
+          value: env["HEALTHDATAAISERVICES_STORAGE_ACCOUNT_LOCATION"],
+          jsonPath: "$..targetLocation.location",
+          regex: "^(?!.*FAKE_STORAGE_ACCOUNT).*",
+        },
+      ],
+      generalSanitizers: [
+        {
+          regex: true,
+          value: env["CONTINUATION_TOKEN"] ?? "",
+          target: "continuationToken=[A-Za-z0-9%._~-]+",
+        },
+      ],
+    },
+    removeCentralSanitizers: ["AZSDK4001", "AZSDK2030", "AZSDK3430", "AZSDK3493"],
   });
   return recorder;
 }
