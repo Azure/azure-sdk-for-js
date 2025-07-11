@@ -19,6 +19,7 @@ $resourceGroup = $DeploymentOutputs['HEALTHDATAAISERVICES_RESOURCE_GROUP']
 $endpoint = $DeploymentOutputs['HEALTHDATAAISERVICES_DEID_SERVICE_ENDPOINT']
 $storageAccountName = $DeploymentOutputs['HEALTHDATAAISERVICES_STORAGE_ACCOUNT_NAME']
 $containerName = $DeploymentOutputs['HEALTHDATAAISERVICES_STORAGE_CONTAINER_NAME']
+$storageAccountLocation = $DeploymentOutputs['HEALTHDATAAISERVICES_STORAGE_ACCOUNT_LOCATION']
 $testMode = "live"
 
 # Set the local folder path to upload
@@ -66,10 +67,11 @@ Write-Host "Folder '$localFolderPath' uploaded to container '$containerName' suc
 $endpoint = $endpoint -replace '^https://', ''
 # Create the content for the .env file
 $content = @"
-DEID_SERVICE_ENDPOINT=$endpoint
+HEALTHDATAAISERVICES_DEID_SERVICE_ENDPOINT=$endpoint
+HEALTHDATAAISERVICES_STORAGE_ACCOUNT_NAME=$storageAccountName
+HEALTHDATAAISERVICES_STORAGE_CONTAINER_NAME=$containerName
+HEALTHDATAAISERVICES_STORAGE_ACCOUNT_LOCATION=$storageAccountLocation
 TEST_MODE=$testMode
-STORAGE_ACCOUNT_NAME=$storageAccountName
-STORAGE_CONTAINER_NAME=$containerName
 "@
 
 # Specify the path for the .env file
@@ -77,3 +79,5 @@ $envFilePath = ".\.env"
 
 # Write the content to the .env file, overwrite if it exists
 $content | Out-File -FilePath $envFilePath -Force
+
+Write-Host "Environment variables written to '$envFilePath'."
