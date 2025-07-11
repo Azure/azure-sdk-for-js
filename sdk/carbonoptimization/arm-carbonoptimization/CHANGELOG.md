@@ -1,7 +1,7 @@
 # Release History
     
-## 1.0.0-beta.1 (2025-05-02)
+## 1.0.0 (2025-07-11)
 
 ### Features Added
 
-Initial release of the Azure Carbon package
+This is the first stable version with the package of @azure/arm-carbonoptimization

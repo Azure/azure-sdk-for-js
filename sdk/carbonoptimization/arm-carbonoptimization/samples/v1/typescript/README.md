@@ -1,4 +1,4 @@
-# @azure/arm-carbonoptimization client library samples for TypeScript (Beta)
+# @azure/arm-carbonoptimization client library samples for TypeScript
 
 These sample programs show how to use the TypeScript client libraries for @azure/arm-carbonoptimization in some common scenarios.
 
@@ -58,9 +58,9 @@ npx dev-tool run vendored cross-env  node dist/carbonServiceQueryCarbonEmissionD
 
 Take a look at our [API Documentation][apiref] for more information about the APIs that are available in the clients.
 
-[carbonservicequerycarbonemissiondataavailabledaterangesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/carbonoptimization/arm-carbonoptimization/samples/v1-beta/typescript/src/carbonServiceQueryCarbonEmissionDataAvailableDateRangeSample.ts
-[carbonservicequerycarbonemissionreportssample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/carbonoptimization/arm-carbonoptimization/samples/v1-beta/typescript/src/carbonServiceQueryCarbonEmissionReportsSample.ts
-[operationslistsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/carbonoptimization/arm-carbonoptimization/samples/v1-beta/typescript/src/operationsListSample.ts
+[carbonservicequerycarbonemissiondataavailabledaterangesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/carbonoptimization/arm-carbonoptimization/samples/v1/typescript/src/carbonServiceQueryCarbonEmissionDataAvailableDateRangeSample.ts
+[carbonservicequerycarbonemissionreportssample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/carbonoptimization/arm-carbonoptimization/samples/v1/typescript/src/carbonServiceQueryCarbonEmissionReportsSample.ts
+[operationslistsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/carbonoptimization/arm-carbonoptimization/samples/v1/typescript/src/operationsListSample.ts
 [apiref]: https://learn.microsoft.com/javascript/api/@azure/arm-carbonoptimization?view=azure-node-preview
 [freesub]: https://azure.microsoft.com/free/
 [package]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/carbonoptimization/arm-carbonoptimization/README.md
