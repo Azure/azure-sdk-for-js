@@ -325,7 +325,7 @@ export interface BatchErrorMessageOutput {
 
 // @public
 export interface BatchErrorOutput {
-    code: string;
+    code?: string;
     message?: BatchErrorMessageOutput;
     values?: Array<BatchErrorDetailOutput>;
 }
@@ -474,13 +474,13 @@ export interface BatchJobManagerTaskOutput {
 
 // @public
 export interface BatchJobNetworkConfiguration {
-    skipWithdrawFromVNet: boolean;
+    skipWithdrawFromVNet?: boolean;
     subnetId: string;
 }
 
 // @public
 export interface BatchJobNetworkConfigurationOutput {
-    skipWithdrawFromVNet: boolean;
+    skipWithdrawFromVNet?: boolean;
     subnetId: string;
 }
 
@@ -1767,12 +1767,12 @@ export interface BatchUserAssignedIdentityOutput {
 }
 
 // @public
-export interface BatchVMDiskSecurityProfile {
+export interface BatchVmDiskSecurityProfile {
     securityEncryptionType?: SecurityEncryptionTypes;
 }
 
 // @public
-export interface BatchVMDiskSecurityProfileOutput {
+export interface BatchVmDiskSecurityProfileOutput {
     securityEncryptionType?: SecurityEncryptionTypesOutput;
 }
 
@@ -1995,7 +1995,7 @@ export interface CreateCertificateQueryParamProperties {
 }
 
 // @public
-function createClient(endpoint: string, credentials: TokenCredential | AzureNamedKeyCredential, { apiVersion, ...options }?: BatchClientOptions): BatchClient;
+function createClient(endpointParam: string, credentials: TokenCredential | AzureNamedKeyCredential, { apiVersion, ...options }?: BatchClientOptions): BatchClient;
 export default createClient;
 
 // @public (undocumented)
@@ -5975,13 +5975,13 @@ export type LoginModeOutput = string;
 
 // @public
 export interface ManagedDisk {
-    securityProfile?: BatchVMDiskSecurityProfile;
+    securityProfile?: BatchVmDiskSecurityProfile;
     storageAccountType?: StorageAccountType;
 }
 
 // @public
 export interface ManagedDiskOutput {
-    securityProfile?: BatchVMDiskSecurityProfileOutput;
+    securityProfile?: BatchVmDiskSecurityProfileOutput;
     storageAccountType?: StorageAccountTypeOutput;
 }
 
@@ -7036,16 +7036,16 @@ export type SecurityEncryptionTypesOutput = string;
 
 // @public
 export interface SecurityProfile {
-    encryptionAtHost: boolean;
-    securityType: SecurityTypes;
-    uefiSettings: BatchUefiSettings;
+    encryptionAtHost?: boolean;
+    securityType?: SecurityTypes;
+    uefiSettings?: BatchUefiSettings;
 }
 
 // @public
 export interface SecurityProfileOutput {
-    encryptionAtHost: boolean;
-    securityType: SecurityTypesOutput;
-    uefiSettings: BatchUefiSettingsOutput;
+    encryptionAtHost?: boolean;
+    securityType?: SecurityTypesOutput;
+    uefiSettings?: BatchUefiSettingsOutput;
 }
 
 // @public

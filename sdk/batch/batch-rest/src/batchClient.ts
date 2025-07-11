@@ -17,17 +17,17 @@ export interface BatchClientOptions extends ClientOptions {
 
 /**
  * Initialize a new instance of `BatchClient`
- * @param endpoint - Batch account endpoint (for example: https://batchaccount.eastus2.batch.azure.com).
+ * @param endpointParam - Batch account endpoint (for example: https://batchaccount.eastus2.batch.azure.com).
  * @param credentials - uniquely identify client credential
  * @param options - the parameter for all optional parameters
  */
 export default function createClient(
-  endpoint: string,
+  endpointParam: string,
   credentials: TokenCredential | AzureNamedKeyCredential,
   { apiVersion = "2024-07-01.20.0", ...options }: BatchClientOptions = {},
 ): BatchClient {
-  const endpointUrl = options.endpoint ?? options.baseUrl ?? `${endpoint}`;
-  const userAgentInfo = `azsdk-js-batch-rest/1.0.0`;
+  const endpointUrl = options.endpoint ?? `${endpointParam}`;
+  const userAgentInfo = `azsdk-js-batch-rest/1.0.0-beta.3`;
   const userAgentPrefix =
     options.userAgentOptions && options.userAgentOptions.userAgentPrefix
       ? `${options.userAgentOptions.userAgentPrefix} ${userAgentInfo}`

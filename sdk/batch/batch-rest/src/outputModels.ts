@@ -22,7 +22,7 @@ export interface BatchApplicationOutput {
 /** An error response received from the Azure Batch service. */
 export interface BatchErrorOutput {
   /** An identifier for the error. Codes are invariant and are intended to be consumed programmatically. */
-  code: string;
+  code?: string;
   /** A message describing the error, intended to be suitable for display in a user interface. */
   message?: BatchErrorMessageOutput;
   /** A collection of key-value pairs containing additional details about the error. */
@@ -283,11 +283,11 @@ export interface ManagedDiskOutput {
    */
   storageAccountType?: StorageAccountTypeOutput;
   /** Specifies the security profile settings for the managed disk. */
-  securityProfile?: BatchVMDiskSecurityProfileOutput;
+  securityProfile?: BatchVmDiskSecurityProfileOutput;
 }
 
 /** Specifies the security profile settings for the managed disk. **Note**: It can only be set for Confidential VMs and required when using Confidential VMs. */
-export interface BatchVMDiskSecurityProfileOutput {
+export interface BatchVmDiskSecurityProfileOutput {
   /**
    * Specifies the EncryptionType of the managed disk. It is set to VMGuestStateOnly for encryption of just the VMGuestState blob, and NonPersistedTPM for not persisting firmware state in the VMGuestState blob. **Note**: It can be set for only Confidential VMs and is required when using Confidential VMs.
    *
@@ -299,15 +299,15 @@ export interface BatchVMDiskSecurityProfileOutput {
 /** Specifies the security profile settings for the virtual machine or virtual machine scale set. */
 export interface SecurityProfileOutput {
   /** This property can be used by user in the request to enable or disable the Host Encryption for the virtual machine or virtual machine scale set. This will enable the encryption for all the disks including Resource/Temp disk at host itself. For more information on encryption at host requirements, please refer to https://learn.microsoft.com/azure/virtual-machines/disk-encryption#supported-vm-sizes. */
-  encryptionAtHost: boolean;
+  encryptionAtHost?: boolean;
   /**
    * Specifies the SecurityType of the virtual machine. It has to be set to any specified value to enable UefiSettings.
    *
    * Possible values: "trustedLaunch", "confidentialVM"
    */
-  securityType: SecurityTypesOutput;
+  securityType?: SecurityTypesOutput;
   /** Specifies the security settings like secure boot and vTPM used while creating the virtual machine. Specifies the security settings like secure boot and vTPM used while creating the virtual machine. */
-  uefiSettings: BatchUefiSettingsOutput;
+  uefiSettings?: BatchUefiSettingsOutput;
 }
 
 /** Specifies the security settings like secure boot and vTPM used while creating the virtual machine. */
@@ -1417,7 +1417,7 @@ export interface BatchJobNetworkConfigurationOutput {
   /** The ARM resource identifier of the virtual network subnet which Compute Nodes running Tasks from the Job will join for the duration of the Task. The virtual network must be in the same region and subscription as the Azure Batch Account. The specified subnet should have enough free IP addresses to accommodate the number of Compute Nodes which will run Tasks from the Job. This can be up to the number of Compute Nodes in the Pool. The 'MicrosoftAzureBatch' service principal must have the 'Classic Virtual Machine Contributor' Role-Based Access Control (RBAC) role for the specified VNet so that Azure Batch service can schedule Tasks on the Nodes. This can be verified by checking if the specified VNet has any associated Network Security Groups (NSG). If communication to the Nodes in the specified subnet is denied by an NSG, then the Batch service will set the state of the Compute Nodes to unusable. This is of the form /subscriptions/{subscription}/resourceGroups/{group}/providers/{provider}/virtualNetworks/{network}/subnets/{subnet}. If the specified VNet has any associated Network Security Groups (NSG), then a few reserved system ports must be enabled for inbound communication from the Azure Batch service. For Pools created with a Virtual Machine configuration, enable ports 29876 and 29877, as well as port 22 for Linux and port 3389 for Windows. Port 443 is also required to be open for outbound connections for communications to Azure Storage. For more details see: https://learn.microsoft.com/azure/batch/batch-api-basics#virtual-network-vnet-and-firewall-configuration. */
   subnetId: string;
   /** Whether to withdraw Compute Nodes from the virtual network to DNC when the job is terminated or deleted.  If true, nodes will remain joined to the virtual network to DNC. If false, nodes will automatically withdraw when the job ends. Defaults to false. */
-  skipWithdrawFromVNet: boolean;
+  skipWithdrawFromVNet?: boolean;
 }
 
 /** Contains information about the execution of a Job in the Azure Batch service. */
