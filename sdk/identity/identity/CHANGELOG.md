@@ -1,5 +1,32 @@
 # Release History
 
+## 4.10.3 (Unreleased)
+
+### Features Added
+
+### Breaking Changes
+
+### Bugs Fixed
+
+### Other Changes
+
+## 4.10.2 (2025-07-02)
+
+### Bugs Fixed
+
+- Fixed an issue in `AzurePowerShellCredential` where `-AsPlainText` is not supported in the `ConvertFrom-SecureString` cmdlet in older versions. [#34902](https://github.com/Azure/azure-sdk-for-js/pull/34902)
+
+### Other Changes
+
+- Added support to specify `subscription` ID or name on `AzureCliCredential` error message. [#34801](https://github.com/Azure/azure-sdk-for-js/pull/34801)
+
+## 4.10.1 (2025-06-12)
+
+### Bugs Fixed
+
+- Fixed the bug in interactive authentication request to account for the correct user login prompt based on the login hint provided, in case there are multiple accounts present in the browser flow. [#34321](https://github.com/Azure/azure-sdk-for-js/pull/34321)
+- Fixed the typing for `WorkloadIdentityCredential.getToken` to better represent the runtime behavior. [#34786](https://github.com/Azure/azure-sdk-for-js/pull/34786)
+
 ## 4.10.0 (2025-05-14)
 
 ### Features Added
@@ -78,8 +105,6 @@
 ### Other Changes
 
 - Allow certain response headers to be logged in `AzurePipelinesCredential` for diagnostics and include them in the error message [#31209](https://github.com/Azure/azure-sdk-for-js/pull/31209)
-
-<!-- dev-tool snippets ignore -->
 
 ## 4.5.0-beta.3 (2024-09-18)
 

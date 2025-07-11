@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import {
+import type {
   ToolDefinitionUnion,
   AgentsResponseFormatOption,
   ThreadMessageOptions,
@@ -10,7 +10,8 @@ import {
   ListSortOrder,
   RunAdditionalFieldList,
 } from "../../models/models.js";
-import { OperationOptions } from "@azure-rest/core-client";
+import type { OperationOptions } from "@azure-rest/core-client";
+import type { PollingOptionsParams } from "../options.js";
 
 /** Optional parameters. */
 export interface RunsCancelRunOptionalParams extends OperationOptions {}
@@ -43,7 +44,7 @@ export interface RunsListRunsOptionalParams extends OperationOptions {
 }
 
 /** Optional parameters. */
-export interface RunsCreateRunOptionalParams extends OperationOptions {
+export interface RunsCreateRunOptionalParams extends OperationOptions, PollingOptionsParams {
   /**
    * A list of additional fields to include in the response.
    * Currently the only supported value is `step_details.tool_calls[*].file_search.results[*].content`

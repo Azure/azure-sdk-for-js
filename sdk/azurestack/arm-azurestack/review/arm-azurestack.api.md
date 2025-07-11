@@ -280,7 +280,7 @@ export interface LinkedSubscription extends TrackedResource {
 // @public
 export interface LinkedSubscriptionParameter {
     linkedSubscriptionId: string;
-    location: Location_2;
+    location: Location;
     registrationResourceId: string;
 }
 
@@ -354,8 +354,7 @@ export interface LinkedSubscriptionsUpdateOptionalParams extends coreClient.Oper
 export type LinkedSubscriptionsUpdateResponse = LinkedSubscription;
 
 // @public
-type Location_2 = string;
-export { Location_2 as Location }
+export type Location = string;
 
 // @public
 export interface MarketplaceProductLogUpdate {
@@ -541,7 +540,7 @@ export interface RegistrationList {
 
 // @public
 export interface RegistrationParameter {
-    location: Location_2;
+    location: Location;
     registrationToken: string;
 }
 
@@ -644,7 +643,7 @@ export interface TrackedResource {
     etag?: string;
     readonly id?: string;
     readonly kind?: string;
-    location: Location_2;
+    location: Location;
     readonly name?: string;
     readonly systemData?: SystemData;
     tags?: {

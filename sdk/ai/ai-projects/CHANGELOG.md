@@ -1,5 +1,28 @@
 # Release History
 
+## 1.0.0-beta.10 (2025-07-02)
+
+### Breaking changes
+
+- remove `project.enableTelemetry` method.
+
+## 1.0.0-beta.9 (2025-06-03)
+
+### Breaking changes
+
+- The `project.datasets.uploadFile` method is updated to take an options bag of type `DatasetUploadOptions`.
+- The `project.datasets.uploadFolder` method is updated to take an options bag of type `DatasetUploadOptions`.
+
+## 1.0.0-beta.8 (2025-05-21)
+
+### Bugs Fixed
+
+- Upgrading ai-agents package to fix bugs with bing grounding serialization and url encoding
+
+### Other Changes
+
+- Updated to OpenTelemetry v2 packages.
+
 ## 1.0.0-beta.7 (2025-05-16)
 
 ### Breaking changes

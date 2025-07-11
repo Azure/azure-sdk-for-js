@@ -15,7 +15,6 @@ import type {
   RunStepAzureAISearchToolCall,
 } from "@azure/ai-agents";
 import { AgentsClient, isOutputOfType, ToolUtility } from "@azure/ai-agents";
-import { delay } from "@azure/core-util";
 import { DefaultAzureCredential } from "@azure/identity";
 
 import "dotenv/config";
@@ -58,15 +57,16 @@ export async function main(): Promise<void> {
   );
   console.log(`Created message, message ID : ${message.id}`);
 
-  // Create and process agent run in thread with tools
-  let run = await client.runs.create(thread.id, agent.id);
-  while (run.status === "queued" || run.status === "in_progress") {
-    await delay(1000);
-    run = await client.runs.get(thread.id, run.id);
-  }
-  if (run.status === "failed") {
-    console.log(`Run failed:`, JSON.stringify(run, null, 2));
-  }
+  // Create and poll a run
+  console.log("Creating run...");
+  const run = await client.runs.createAndPoll(thread.id, agent.id, {
+    pollingOptions: {
+      intervalInMs: 2000,
+    },
+    onResponse: (response): void => {
+      console.log(`Received response with status: ${response.parsedBody.status}`);
+    },
+  });
   console.log(`Run finished with status: ${run.status}`);
 
   // Fetch run steps to get the details of agent run
@@ -97,15 +97,13 @@ export async function main(): Promise<void> {
 
   // Fetch and log all messages
   const messagesIterator = client.messages.list(thread.id);
-  console.log(`Messages:`);
 
   // Get the first message
   for await (const m of messagesIterator) {
     if (m.content.length > 0) {
       const agentMessage: MessageContent = m.content[0];
       if (isOutputOfType<MessageTextContent>(agentMessage, "text")) {
-        const textContent = agentMessage as MessageTextContent;
-        console.log(`Text Message Content - ${textContent.text.value}`);
+        console.log(`Text Message Content - ${agentMessage.text.value}`);
       }
     }
     break; // Just process the first message

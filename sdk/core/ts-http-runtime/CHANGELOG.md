@@ -1,14 +1,20 @@
 # Release History
 
-## 0.2.3 (Unreleased)
+## 0.3.0 (2025-07-10)
+
+### Other Changes
+
+- Update `engines` to `"node": ">=20.0.0"`. Please refer to our [support policy](https://github.com/Azure/azure-sdk-for-js/blob/main/SUPPORT.md) for more information on our supported Node.js versions.
+
+## 0.2.3 (2025-06-10)
 
 ### Features Added
 
-### Breaking Changes
+- Added `authSchemes` to `PipelineRequestOptions`. [#34587](https://github.com/Azure/azure-sdk-for-js/pull/34587)
 
 ### Bugs Fixed
 
-### Other Changes
+- Fix an issue where `AZURE_LOG_LEVEL` environment variable is not properly respected. [#34444](https://github.com/Azure/azure-sdk-for-js/pull/34444)
 
 ## 0.2.2 (2025-05-01)
 
@@ -23,6 +29,7 @@
 ## 0.2.1 (2025-04-08)
 
 ### Bugs Fixed
+
 - Fix an issue where insecure connection setting was not properly propagated through the client options.
 
 ## 0.2.0 (2025-03-25)

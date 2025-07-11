@@ -12,6 +12,9 @@ import type {
   CallConnectionStateModel,
   MediaStreamingSubscription,
   TranscriptionSubscription,
+  MediaStreamingAudioChannelType,
+  MediaStreamingContentType,
+  AudioFormat,
 } from "../generated/src/index.js";
 
 export {
@@ -20,56 +23,18 @@ export {
   KnownCallRejectReason,
   KnownMediaStreamingAudioChannelType,
   KnownMediaStreamingContentType,
-  KnownMediaStreamingTransportType,
-  KnownAudioFormat,
-  KnownTranscriptionTransportType,
-  KnownCallConnectionStateModel,
-  KnownMediaStreamingSubscriptionState,
-  KnownTranscriptionSubscriptionState,
-  KnownTranscriptionResultState,
-  KnownRecognitionType,
-  KnownRecordingState,
-  KnownRecordingKind,
-  KnownTone,
-  KnownMediaStreamingStatus,
-  KnownMediaStreamingStatusDetails,
-  KnownTranscriptionStatus,
-  KnownTranscriptionStatusDetails,
-  KnownCommunicationIdentifierModelKind,
-  KnownCommunicationCloudEnvironmentModel,
-  MediaStreamingAudioChannelType,
-  MediaStreamingOptions,
-  MediaStreamingContentType,
-  MediaStreamingTransportType,
-  TranscriptionOptions,
-  TranscriptionTransportType,
+  KnownStreamingTransportType,
   RecognitionType,
   ChoiceResult,
   DtmfResult,
   SpeechResult,
   RecordingState,
-  RecordingKind,
   Tone,
-  MediaStreamingUpdate,
-  MediaStreamingStatus,
-  MediaStreamingStatusDetails,
+  MediaStreamingAudioChannelType,
+  MediaStreamingContentType,
   AudioFormat,
-  TranscriptionResultState,
   TranscriptionUpdate,
-  TranscriptionStatus,
-  TranscriptionStatusDetails,
-  CustomCallingContextInternal,
-  CommunicationIdentifierModel,
-  CommunicationUserIdentifierModel,
-  CommunicationIdentifierModelKind,
-  MicrosoftTeamsAppIdentifierModel,
-  MicrosoftTeamsUserIdentifierModel,
-  PhoneNumberIdentifierModel,
-  CommunicationCloudEnvironmentModel,
-  MediaStreamingSubscription,
-  TranscriptionSubscription,
-  MediaStreamingSubscriptionState,
-  TranscriptionSubscriptionState,
+  MediaStreamingUpdate,
 } from "../generated/src/models/index.js";
 
 /** Properties of a call connection */
@@ -93,8 +58,6 @@ export interface CallConnectionProperties {
   callConnectionState?: CallConnectionStateModel;
   /** The callback URL. */
   callbackUrl?: string;
-  /** SubscriptionId for media streaming */
-  mediaSubscriptionId?: string;
   /** The correlation ID. */
   correlationId?: string;
   /** Identity of the answering entity. Only populated when identity is provided in the request. */
@@ -211,8 +174,6 @@ export interface RecognitionChoice {
 export enum RecognizeInputType {
   /** Dtmf */
   Dtmf = "dtmf",
-  /** Choices */
-  Choices = "choices",
 }
 
 /** Call invitee details. */
@@ -242,6 +203,9 @@ export type RecordingChannel = "mixed" | "unmixed";
 /** The format type of a call recording. */
 export type RecordingFormat = "mp3" | "mp4" | "wav";
 
+/** The format type of a call recording. */
+export type RecordingKind = "azureCommunicationServices" | "teams" | "teamsCompliance";
+
 /** The storage type of a call recording. */
 export type RecordingStorageKind = "azureCommunicationServices" | "azureBlobStorage";
 
@@ -264,7 +228,7 @@ export interface RecordingStorage {
   recordingDestinationContainerUrl?: string;
 }
 
-export interface CustomCallingContextHeader {
+interface CustomCallingContextHeader {
   key: string;
   value: string;
 }
@@ -282,11 +246,7 @@ export interface SipUserToUserHeader extends CustomCallingContextHeader {
 /** SIP Custom header. */
 export interface SipCustomHeader extends CustomCallingContextHeader {
   kind: "sipx";
-  sipHeaderPrefix?: SipHeaderPrefix;
 }
-
-/** The type of the Sip header prefix. */
-export type SipHeaderPrefix = "X-" | "X-MS-Custom-";
 
 /** Custom Calling Context */
 export type CustomCallingContext = (VoipHeader | SipUserToUserHeader | SipCustomHeader)[];
@@ -295,4 +255,39 @@ export type CustomCallingContext = (VoipHeader | SipUserToUserHeader | SipCustom
 export interface CallIntelligenceOptions {
   /** The identifier of the Cognitive Service resource assigned to this call. */
   cognitiveServicesEndpoint?: string;
+}
+
+/** Options for media streaming. */
+export interface MediaStreamingOptions {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  transportType: "websocket";
+  /** The audio channel type to stream, e.g., unmixed audio, mixed audio. */
+  audioChannelType: MediaStreamingAudioChannelType;
+  /** The transport URL for media streaming. */
+  transportUrl?: string;
+  contentType?: MediaStreamingContentType;
+  /** A value indicating whether the media streaming should start immediately after the call is answered. */
+  startMediaStreaming?: boolean;
+  /** A value indicating whether bidirectional streaming is enabled. */
+  enableBidirectional?: boolean;
+  /** The audio format used for encoding, including sample rate and channel type. The default is Pcm16KMono. */
+  audioFormat?: AudioFormat;
+  /** A value that indicates whether to stream the DTMF tones. */
+  enableDtmfTones?: boolean;
+}
+
+/** Options for media streaming. */
+export interface TranscriptionOptions {
+  /** Specifies the Locale used for transcription, e.g., en-CA or en-AU. */
+  locale: string;
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  transportType: "websocket";
+  /** The URL used for live transcription transport. */
+  transportUrl?: string;
+  /** The ID of the deployed custom model in GUID format. The GUID is generated by Azure Speech Studio, e.g., a259c255-1cdw-4ed7-a693-dd58563b6f6a. */
+  speechModelEndpointId?: string;
+  /** Indicates whether the transcription should start immediately after the call is answered. */
+  startTranscription?: boolean;
+  /** Enables intermediate results for the transcribed speech. */
+  enableIntermediateResults?: boolean;
 }

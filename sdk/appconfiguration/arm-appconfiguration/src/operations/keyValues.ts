@@ -20,6 +20,7 @@ import { createLroSpec } from "../lroImpl.js";
 import {
   KeyValuesGetOptionalParams,
   KeyValuesGetResponse,
+  KeyValue,
   KeyValuesCreateOrUpdateOptionalParams,
   KeyValuesCreateOrUpdateResponse,
   KeyValuesDeleteOptionalParams,
@@ -66,16 +67,24 @@ export class KeyValuesImpl implements KeyValues {
    * @param configStoreName The name of the configuration store.
    * @param keyValueName Identifier of key and label combination. Key and label are joined by $
    *                     character. Label is optional.
+   * @param keyValueParameters The parameters for creating a key-value.
    * @param options The options parameters.
    */
   createOrUpdate(
     resourceGroupName: string,
     configStoreName: string,
     keyValueName: string,
+    keyValueParameters: KeyValue,
     options?: KeyValuesCreateOrUpdateOptionalParams,
   ): Promise<KeyValuesCreateOrUpdateResponse> {
     return this.client.sendOperationRequest(
-      { resourceGroupName, configStoreName, keyValueName, options },
+      {
+        resourceGroupName,
+        configStoreName,
+        keyValueName,
+        keyValueParameters,
+        options,
+      },
       createOrUpdateOperationSpec,
     );
   }

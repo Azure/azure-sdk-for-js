@@ -12,7 +12,7 @@ import { DefaultAzureCredential } from "@azure/identity";
 import { Readable } from "stream";
 import "dotenv/config";
 
-const projectEndpoint = process.env["PROJECT_ENDPOINT"] || "<project connection string>";
+const projectEndpoint = process.env["PROJECT_ENDPOINT"] || "<project endpoint>";
 
 export async function main(): Promise<void> {
   // Create an Azure AI Client
@@ -44,11 +44,9 @@ export async function main(): Promise<void> {
 
   // List vector store files
   const vectorStoreFiles = client.vectorStoreFiles.list(vectorStore.id);
-  const vectorStoreFileIds = [];
   for await (const f of vectorStoreFiles) {
-    vectorStoreFileIds.push(f.id);
+    console.log(`Vector Store File ID: ${f.id}`);
   }
-  console.log(`List of vector store files: ${vectorStoreFileIds.join(", ")}`);
 
   // Delete vector store file
   await client.vectorStoreFiles.delete(vectorStore.id, vectorStoreFile.id);

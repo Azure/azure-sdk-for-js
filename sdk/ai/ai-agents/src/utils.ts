@@ -19,11 +19,8 @@ import type {
   OpenApiFunctionDefinition,
   AISearchIndexResource,
   BingGroundingToolDefinition,
-  MicrosoftFabricToolDefinition,
-  BingCustomSearchToolDefinition,
-  BingCustomSearchConfiguration,
-  SharepointToolDefinition,
   BingGroundingSearchConfiguration,
+  ConnectedAgentToolDefinition,
 } from "./index.js";
 
 /**
@@ -89,31 +86,6 @@ export class ToolUtility {
   }
 
   /**
-   * Creates a sharepoint grounding search tool
-   *
-   * @param connectionId - The ID of the sharepoint search connection.
-   *
-   * @returns An object containing the definition and resources for the sharepoint grounding search tool
-   *
-   */
-  static createSharepointGroundingTool(connectionId: string): {
-    definition: SharepointToolDefinition;
-  } {
-    return {
-      definition: {
-        type: "sharepoint_grounding",
-        sharepointGrounding: {
-          connectionList: [
-            {
-              connectionId: connectionId,
-            },
-          ],
-        },
-      },
-    };
-  }
-
-  /**
    * Creates a bing grounding search tool
    *
    * @param connectionId - The ID of the bing search connection.
@@ -124,40 +96,18 @@ export class ToolUtility {
   static createBingGroundingTool(searchConfigurations: BingGroundingSearchConfiguration[]): {
     definition: BingGroundingToolDefinition;
   } {
+    // Ensure searchConfigurations is an array even if it's undefined
+    const configs = searchConfigurations || [];
     return {
       definition: {
         type: "bing_grounding",
         bingGrounding: {
-          searchConfigurations: searchConfigurations.map((searchConfiguration) => ({
+          searchConfigurations: configs.map((searchConfiguration) => ({
             connectionId: searchConfiguration.connectionId,
             market: searchConfiguration?.market,
             setLang: searchConfiguration?.setLang,
             count: searchConfiguration?.count,
             freshness: searchConfiguration?.freshness,
-          })),
-        },
-      },
-    };
-  }
-
-  /**
-   * Creates a bing custom search tool
-   *
-   * @param searchConfigurations - The ID of bing search connection and instanceName.
-   *
-   * @returns An object containing the definition and resources for the bing custom search tool
-   */
-
-  static createBingCustomSearchTool(searchConfigurations: BingCustomSearchConfiguration[]): {
-    definition: BingCustomSearchToolDefinition;
-  } {
-    return {
-      definition: {
-        type: "bing_custom_search",
-        bingCustomSearch: {
-          searchConfigurations: searchConfigurations.map((searchConfiguration) => ({
-            connectionId: searchConfiguration.connectionId,
-            instanceName: searchConfiguration.instanceName,
           })),
         },
       },
@@ -238,17 +188,22 @@ export class ToolUtility {
   }
 
   /**
-   * Creates a Microsoft Fabric tool
+   * Creates a connected agent tool
    *
-   * @param connectionIds - A list of the IDs of the Fabric connections to use.
-   * @returns An object containing the definition for the Microsoft Fabric tool
+   * @returns An object containing the definition for the connected agent tool.
    */
-  static createFabricTool(connectionId: string): { definition: MicrosoftFabricToolDefinition } {
+  static createConnectedAgentTool(
+    id: string,
+    name: string,
+    description: string,
+  ): { definition: ConnectedAgentToolDefinition } {
     return {
       definition: {
-        type: "fabric_dataagent",
-        fabricDataagent: {
-          connectionList: [{ connectionId: connectionId }],
+        type: "connected_agent",
+        connectedAgent: {
+          id: id,
+          name: name,
+          description: description,
         },
       },
     };
@@ -410,26 +365,19 @@ export class ToolSet {
   }
 
   /**
-   * Adds a Microsoft Fabric tool to the tool set.
+   * Adds a connected agent tool to the tool set.
    *
-   * @param connectionId - The ID of the Fabric connection to use.
-   * @returns An object containing the definition for the Microsoft Fabric tool
+   * @param id - The ID of the connected agent.
+   * @param name - The name of the connected agent.
+   * @param description - The description of the connected agent.
+   * @returns An object containing the definition for the connected agent tool
    */
-  addFabricTool(connectionId: string): { definition: MicrosoftFabricToolDefinition } {
-    const tool = ToolUtility.createFabricTool(connectionId);
-    this.toolDefinitions.push(tool.definition);
-    return tool;
-  }
-
-  /**
-   * Adds sharepoint grounding search tool to the tool set.
-   *
-   * @param connectionId - The ID of the sharepoint search connection.
-   *
-   * @returns An object containing the definition and resources for the sharepoint grounding search tool
-   */
-  addSharepointGroundingTool(connectionId: string): { definition: SharepointToolDefinition } {
-    const tool = ToolUtility.createSharepointGroundingTool(connectionId);
+  addConnectedAgentTool(
+    id: string,
+    name: string,
+    description: string,
+  ): { definition: ConnectedAgentToolDefinition } {
+    const tool = ToolUtility.createConnectedAgentTool(id, name, description);
     this.toolDefinitions.push(tool.definition);
     return tool;
   }

@@ -2,7 +2,7 @@
   "extends": "../../../tsconfig.samples.base.json",
   "compilerOptions": {
     "paths": {
-      "@azure-rest/ai-projects": ["./dist/esm"]
+      "@azure/ai-projects": ["./dist/esm"]
     }
   }
 }

@@ -4,7 +4,7 @@
 /**
  * Demonstrates how to get chat completions using audio data.
  * NOTE: Audio data completions currently work only with GPT audio models.
- * For more information, see https://learn.microsoft.com/en-us/azure/ai-foundry/model-inference/concepts/models
+ * For more information, see https://learn.microsoft.com/azure/ai-foundry/model-inference/concepts/models
  *
  * @summary Get chat completions using Audio data.
  */
@@ -32,23 +32,21 @@ export async function main(): Promise<void> {
   const data = await getAudioData(audioFilePath);
 
   const systemMessage = { role: "system", content: "You are a helpful assistant." };
-  const audioMessage = { 
+  const audioMessage = {
     role: "user",
     content: [
-      { type: "text", text: "Transcribe this audio."},
-      { type: "input_audio",
+      { type: "text", text: "Transcribe this audio." },
+      {
+        type: "input_audio",
         input_audio: {
           data,
           format,
         },
       },
-    ] 
+    ],
   };
 
-  const messages = [
-    systemMessage,
-    audioMessage
-  ];
+  const messages = [systemMessage, audioMessage];
 
   const response = await client.path("/chat/completions").post({
     body: {
@@ -64,7 +62,6 @@ export async function main(): Promise<void> {
   for (const choice of response.body.choices) {
     console.log(choice.message.content);
   }
-
 }
 
 /*
@@ -106,7 +103,6 @@ async function getAudioData(audioFile: string): Promise<string> {
     process.exit(1);
   }
 }
-
 
 main().catch((err) => {
   console.error("The sample encountered an error:", err);
