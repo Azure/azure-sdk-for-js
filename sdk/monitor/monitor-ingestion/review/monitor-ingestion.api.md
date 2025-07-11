@@ -4,21 +4,10 @@
 
 ```ts
 
-import type { CommonClientOptions } from '@azure/core-client';
-import type { OperationOptions } from '@azure/core-client';
+import type { ClientOptions } from '@azure-rest/core-client';
+import type { OperationOptions } from '@azure-rest/core-client';
+import type { Pipeline } from '@azure/core-rest-pipeline';
 import type { TokenCredential } from '@azure/core-auth';
-
-// @public
-export class AggregateLogsUploadError extends Error {
-    constructor(errors: LogsUploadFailure[], errorMessage?: string);
-    errors: LogsUploadFailure[];
-}
-
-// @public
-export const AggregateLogsUploadErrorName = "AggregateLogsUploadError";
-
-// @public
-export function isAggregateLogsUploadError(e: unknown): e is AggregateLogsUploadError;
 
 // @public
 export enum KnownMonitorAudience {
@@ -28,27 +17,32 @@ export enum KnownMonitorAudience {
 }
 
 // @public
+export enum KnownVersions {
+    V20230101 = "2023-01-01"
+}
+
+// @public (undocumented)
 export class LogsIngestionClient {
-    constructor(endpoint: string, tokenCredential: TokenCredential, options?: LogsIngestionClientOptions);
-    upload(ruleId: string, streamName: string, logs: Record<string, unknown>[], options?: LogsUploadOptions): Promise<void>;
+    constructor(endpointParam: string, credential: TokenCredential, options?: LogsIngestionClientOptionalParams);
+    readonly pipeline: Pipeline;
+    upload(ruleId: string, streamName: string, body: Record<string, any>[], options?: LogsUploadOptions): Promise<void>;
 }
 
 // @public
-export interface LogsIngestionClientOptions extends CommonClientOptions {
+export interface LogsIngestionClientOptionalParams extends ClientOptions {
     apiVersion?: string;
     audience?: string;
 }
 
 // @public
-export interface LogsUploadFailure {
-    cause: Error;
-    failedLogs: Record<string, unknown>[];
-}
-
-// @public
 export interface LogsUploadOptions extends OperationOptions {
+    clientRequestId?: string;
+    contentEncoding?: string;
     maxConcurrency?: number;
+    // Warning: (ae-forgotten-export) The symbol "LogsUploadFailure" needs to be exported by the entry point index.d.ts
     onError?: (uploadLogsError: LogsUploadFailure) => void;
 }
+
+// (No @packageDocumentation comment for this package)
 
 ```

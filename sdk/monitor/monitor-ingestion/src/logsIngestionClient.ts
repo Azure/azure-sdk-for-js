@@ -1,93 +1,69 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
+import type {
+  LogsIngestionContext,
+  LogsIngestionClientOptionalParams} from "./api/index.js";
+import {
+  createLogsIngestion
+} from "./api/index.js";
+import type { LogsUploadOptions } from "./api/options.js";
+import { upload } from "./api/operations.js";
+import type { Pipeline } from "@azure/core-rest-pipeline";
 import type { TokenCredential } from "@azure/core-auth";
-import type { CommonClientOptions } from "@azure/core-client";
-import { GeneratedMonitorIngestionClient } from "./generated/index.js";
-import type { LogsUploadFailure, LogsUploadOptions } from "./models.js";
-import { AggregateLogsUploadError } from "./models.js";
+import type { LogsUploadFailure } from "./models/models.js";
+import { AggregateLogsUploadError } from "./models/models.js";
+import { isError } from "@azure/core-util";
 import { GZippingPolicy } from "./gZippingPolicy.js";
 import { concurrentRun } from "./utils/concurrentPoolHelper.js";
-import { splitDataToChunks } from "./utils/splitDataToChunksHelper.js";
-import { isError } from "@azure/core-util";
-import { KnownMonitorAudience } from "./constants.js";
-/**
- * Options for Monitor Logs Ingestion Client
- */
-export interface LogsIngestionClientOptions extends CommonClientOptions {
-  /** Api Version */
-  apiVersion?: string;
+import { splitDataToChunks } from "./utils/splitDataIntoChunksHelper.js";
+export { LogsIngestionClientOptionalParams } from "./api/logsIngestionContext.js";
 
-  /**
-   * The Audience to use for authentication with Microsoft Entra ID. The
-   * audience is not considered when using a shared key.
-   * {@link KnownMonitorAudience} can be used interchangeably with audience
-   */
-  audience?: string;
-}
 const DEFAULT_MAX_CONCURRENCY = 5;
 
-/**
- * Client for Monitor Logs Ingestion
- */
 export class LogsIngestionClient {
-  /**
-   * Overrides client endpoint.
-   */
-  private endpoint: string;
-  private _dataClient: GeneratedMonitorIngestionClient;
-  /**
-   * Construct a MonitorIngestionClient that can be used to query logs using the Log Analytics Query language.
-   *
-   * @param tokenCredential - A token credential.
-   * @param options - Options for the MonitorIngestionClient.
-   */
-  constructor(
-    endpoint: string,
-    tokenCredential: TokenCredential,
-    options?: LogsIngestionClientOptions,
-  ) {
-    const scope: string = options?.audience
-      ? `${options.audience}/.default`
-      : `${KnownMonitorAudience.AzurePublicCloud}/.default`;
+  private _client: LogsIngestionContext;
+  /** The pipeline used by this client to make requests */
+  public readonly pipeline: Pipeline;
 
-    this.endpoint = endpoint;
-    this._dataClient = new GeneratedMonitorIngestionClient(tokenCredential, this.endpoint, {
+  /** Azure Monitor data collection client. */
+  constructor(
+    endpointParam: string,
+    credential: TokenCredential,
+    options: LogsIngestionClientOptionalParams = {},
+  ) {
+    const prefixFromOptions = options?.userAgentOptions?.userAgentPrefix;
+    const userAgentPrefix = prefixFromOptions
+      ? `${prefixFromOptions} azsdk-js-client`
+      : `azsdk-js-client`;
+    this._client = createLogsIngestion(endpointParam, credential, {
       ...options,
-      credentialScopes: scope,
+      userAgentOptions: { userAgentPrefix },
     });
-    // adding gzipping policy because this is a single method client which needs gzipping
-    this._dataClient.pipeline.addPolicy(GZippingPolicy);
+    this.pipeline = this._client.pipeline;
+    this.pipeline.addPolicy(GZippingPolicy);
   }
 
-  /**
-   * Uploads logs to Monitor Resource
-   * @param ruleId - The immutable Id of the Data Collection Rule resource.
-   * @param streamName - The streamDeclaration name as defined in the Data Collection Rule.
-   * @param logs - An array of objects matching the schema defined by the provided stream.
-   * @param options - The options parameters.
-   * See error response code and error response message for more detail.
-   */
+  /** Ingestion API used to directly ingest data using Data Collection Rules. */
   async upload(
     ruleId: string,
     streamName: string,
-    logs: Record<string, unknown>[],
-
-    options?: LogsUploadOptions,
+    body: Record<string, any>[],
+    options: LogsUploadOptions = { requestOptions: {} },
   ): Promise<void> {
     // TODO: Do we need to worry about memory issues when loading data for 100GB ?? JS max allocation is 1 or 2GB
 
     // This splits logs into 1MB chunks
-    const chunkArray = splitDataToChunks(logs);
+    const chunkArray = splitDataToChunks(body);
     const concurrency = Math.max(options?.maxConcurrency ?? DEFAULT_MAX_CONCURRENCY, 1);
 
     const uploadResultErrors: Array<LogsUploadFailure> = [];
     await concurrentRun(
       concurrency,
       chunkArray,
-      async (eachChunk): Promise<void> => {
+      async (eachChunk: Record<string, any>[]): Promise<void> => {
         try {
-          await this._dataClient.upload(ruleId, streamName, eachChunk, {
+          await upload(this._client, ruleId, streamName, eachChunk, {
             contentEncoding: "gzip",
             abortSignal: options?.abortSignal,
           });
@@ -109,5 +85,6 @@ export class LogsIngestionClient {
     if (uploadResultErrors.length > 0) {
       throw new AggregateLogsUploadError(uploadResultErrors);
     }
+    return Promise.resolve();
   }
 }
