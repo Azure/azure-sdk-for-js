@@ -180,11 +180,11 @@
       "words": ["Jsons"]
     },
     {
-      "filename": "sdk/apimanagement/api-management-custom-widgets-scaffolder/review/api-management-custom-widgets-scaffolder.api.md",
+      "filename": "sdk/apimanagement/api-management-custom-widgets-scaffolder/review/api-management-custom-widgets-scaffolder*.api.md",
       "words": ["APIM", "scaffolder"]
     },
     {
-      "filename": "sdk/apimanagement/api-management-custom-widgets-tools/review/api-management-custom-widgets-tools.api.md",
+      "filename": "sdk/apimanagement/api-management-custom-widgets-tools/review/api-management-custom-widgets-tools*.api.md",
       "words": ["APIM", "MSAPIM"]
     },
     {
@@ -246,7 +246,7 @@
       ]
     },
     {
-      "filename": "sdk/cosmosdb/cosmos/review/cosmos.api.md",
+      "filename": "sdk/cosmosdb/cosmos/review/cosmos*.api.md",
       "words": ["Funtion"]
     },
     {
@@ -254,15 +254,15 @@
       "words": ["dtdl"]
     },
     {
-      "filename": "sdk/digitaltwins/digital-twins-core/review/digital-twins-core.api.md",
+      "filename": "sdk/digitaltwins/digital-twins-core/review/digital-twins-core*.api.md",
       "words": ["dependecies"]
     },
     {
-      "filename": "sdk/documentintelligence/ai-document-intelligence-rest/review/ai-document-intelligence.api.md",
+      "filename": "sdk/documentintelligence/ai-document-intelligence-rest/review/ai-document-intelligence*.api.md",
       "words": ["presentationml", "spreadsheetml", "wordprocessingml"]
     },
     {
-      "filename": "sdk/easm/defender-easm-rest/review/defender-easm.api.md",
+      "filename": "sdk/easm/defender-easm-rest/review/defender-easm*.api.md",
       "words": [
         "Alexa",
         "Asns",
@@ -337,27 +337,27 @@
       "words": ["ECHSM", "OKPHSM", "RSAHSM", "RSNULL", "Rsnull"]
     },
     {
-      "filename": "sdk/loadtestservice/load-testing-rest/review/load-testing.api.md",
+      "filename": "sdk/loadtestservice/load-testing-rest/review/load-testing*.api.md",
       "words": ["vusers"]
     },
     {
-      "filename": "sdk/maps/maps-common/review/maps-common.api.md",
+      "filename": "sdk/maps/maps-common/review/maps-common*.api.md",
       "words": ["bbox"]
     },
     {
-      "filename": "sdk/maps/maps-render-rest/review/maps-render.api.md",
+      "filename": "sdk/maps/maps-render-rest/review/maps-render*.api.md",
       "words": ["bbox"]
     },
     {
-      "filename": "sdk/maps/maps-route-rest/review/maps-route.api.md",
+      "filename": "sdk/maps/maps-route-rest/review/maps-route*.api.md",
       "words": ["Hundredkm", "UTURN", "bbox"]
     },
     {
-      "filename": "sdk/maps/maps-search-rest/review/maps-search.api.md",
+      "filename": "sdk/maps/maps-search-rest/review/maps-search*.api.md",
       "words": ["Neighbourhood", "Xstr", "bbox"]
     },
     {
-      "filename": "sdk/monitor/monitor-query/review/monitor-query.api.md",
+      "filename": "sdk/monitor/monitor-query/review/monitor-query*.api.md",
       "words": ["fourty", "Milli", "rollupby"]
     },
     {
@@ -419,7 +419,7 @@
       ]
     },
     {
-      "filename": "sdk/search/search-documents/review/search-documents.api.md",
+      "filename": "sdk/search/search-documents/review/search-documents*.api.md",
       "words": ["Createor"]
     },
     {
@@ -427,11 +427,11 @@
       "words": ["RAGRS"]
     },
     {
-      "filename": "sdk/storage/storage-blob/review/storage-blob.api.md",
+      "filename": "sdk/storage/storage-blob/review/storage-blob*.api.md",
       "words": ["Uncommited"]
     },
     {
-      "filename": "sdk/storage/storage-file-share/review/storage-file-share.api.md",
+      "filename": "sdk/storage/storage-file-share/review/storage-file-share*.api.md",
       "words": ["Sddl"]
     },
     {
@@ -439,11 +439,11 @@
       "words": ["Abgr", "Argb", "Bgra", "Grpc", "Onvif", "abgr", "argb", "bgra", "onvif"]
     },
     {
-      "filename": "sdk/web-pubsub/web-pubsub-client-protobuf/review/web-pubsub-client-protobuf.api.md",
+      "filename": "sdk/web-pubsub/web-pubsub-client-protobuf/review/web-pubsub-client-protobuf*.api.md",
       "words": ["protobuf"]
     },
     {
-      "filename": "sdk/web-pubsub/web-pubsub-client/review/web-pubsub-client.api.md",
+      "filename": "sdk/web-pubsub/web-pubsub-client/review/web-pubsub-client*.api.md",
       "words": ["protobuf"]
     }
   ]
