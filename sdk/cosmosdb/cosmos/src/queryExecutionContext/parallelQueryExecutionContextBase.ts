@@ -44,7 +44,6 @@ export abstract class ParallelQueryExecutionContextBase implements ExecutionCont
   // TODO: update type of buffer from any --> generic can be used here
   private buffer: any[];
   private sem: any;
-  private headerSemaphore: any;
   private diagnosticNodeWrapper: {
     consumed: boolean;
     diagnosticNode: DiagnosticNodeInternal;
@@ -104,7 +103,6 @@ export abstract class ParallelQueryExecutionContextBase implements ExecutionCont
     );
     // Creating the documentProducers
     this.sem = semaphore(1);
-    this.headerSemaphore = semaphore(1);
     const createDocumentProducersAndFillUpPriorityQueueFunc = async (): Promise<void> => {
       // ensure the lock is released after finishing up
       try {
@@ -417,14 +415,7 @@ export abstract class ParallelQueryExecutionContextBase implements ExecutionCont
           ): Promise<void> => {
             try {
               const headers = await documentProducer.bufferMore(diagnosticNode);
-              // acquire the header semaphore to ensure that only one document producer updates the headers at a time
-              this.headerSemaphore.take(async () => {
-                try {
-                  this._mergeWithActiveResponseHeaders(headers);
-                } finally {
-                  this.headerSemaphore.leave();
-                }
-              });
+              this._mergeWithActiveResponseHeaders(headers);
               // if buffer of document producer is filled, add it to the buffered document producers queue
               const nextItem = documentProducer.peakNextItem();
               if (nextItem !== undefined) {
