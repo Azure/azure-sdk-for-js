@@ -15,7 +15,8 @@ import type {
   MetricDataPoint,
 } from "../generated/index.js";
 import { createTagsFromResource } from "./common.js";
-import { BreezePerformanceCounterNames, OTelPerformanceCounterNames, Tags } from "../types.js";
+import type { Tags } from "../types.js";
+import { BreezePerformanceCounterNames, OTelPerformanceCounterNames } from "../types.js";
 import {
   ENV_OTEL_METRICS_EXPORTER,
   ENV_OTLP_METRICS_ENDPOINT,
