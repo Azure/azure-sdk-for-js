@@ -3,7 +3,6 @@
 
 import type { Recorder, VitestTestContext } from "@azure-tools/test-recorder";
 import type { AgentsClient, ThreadRun } from "../../../src/index.js";
-import { MessageStreamEvent, RunStreamEvent } from "../../../src/index.js";
 import { createRecorder, createProjectsClient } from "../utils/createClient.js";
 import { assert, beforeEach, afterEach, it, describe } from "vitest";
 
@@ -47,13 +46,13 @@ describe("Agents - streaming", () => {
     for await (const eventMessage of streamEventMessages) {
       hasEventMessages = true;
       switch (eventMessage.event) {
-        case RunStreamEvent.ThreadRunCreated:
+        case "thread.run.created":
           console.log(`Thread Run Created - ${(eventMessage.data as ThreadRun).assistantId}`);
           break;
-        case MessageStreamEvent.ThreadMessageDelta:
+        case "thread.message.delta":
           console.log(`Thread Message Delta, thread ID: ${thread.id}`);
           break;
-        case RunStreamEvent.ThreadRunCompleted:
+        case "thread.run.completed":
           console.log(`Thread Run Completed, thread ID: ${thread.id}`);
           break;
       }
@@ -87,13 +86,13 @@ describe("Agents - streaming", () => {
     for await (const eventMessage of streamEventMessages) {
       hasEventMessages = true;
       switch (eventMessage.event) {
-        case RunStreamEvent.ThreadRunCreated:
+        case "thread.run.created":
           console.log("Thread Run Created");
           break;
-        case MessageStreamEvent.ThreadMessageDelta:
+        case "thread.message.delta":
           console.log("Thread Message Delta");
           break;
-        case RunStreamEvent.ThreadRunCompleted:
+        case "thread.run.completed":
           console.log("Thread Run Completed");
           break;
       }
