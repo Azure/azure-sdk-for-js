@@ -1,14 +1,14 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import assert from "assert";
-import { Constants } from "../../../../src";
-import type { Batch, Operation } from "../../../../src/utils/batch";
+import { Constants } from "../../../../src/index.js";
+import type { Batch, Operation } from "../../../../src/utils/batch.js";
 import {
   BulkOperationType,
   calculateObjectSizeInBytes,
   splitBatchBasedOnBodySize,
-} from "../../../../src/utils/batch";
+} from "../../../../src/utils/batch.js";
+import { describe, it, assert } from "vitest";
 
 const operationSkeleton: Operation = {
   operationType: BulkOperationType.Create,
@@ -41,7 +41,7 @@ export function generateOperationOfSize(
   };
 }
 
-describe("Test batch split based on size", function () {
+describe("Test batch split based on size", () => {
   type BatchSplitTestCase = {
     inputOperationDescription: {
       operationSize: number;
@@ -78,7 +78,7 @@ describe("Test batch split based on size", function () {
     );
   }
 
-  it("For An empty batch, empty batch should be returned", function () {
+  it("For An empty batch, empty batch should be returned", () => {
     runBatchSplitTestCase({
       inputOperationDescription: [],
       resultingBatchDescription: {
@@ -88,7 +88,7 @@ describe("Test batch split based on size", function () {
     });
   });
 
-  it("If all operations are cumulatively less than DefaultMaxBulkRequestBodySizeInBytes, Batch should not split", function () {
+  it("If all operations are cumulatively less than DefaultMaxBulkRequestBodySizeInBytes, Batch should not split", () => {
     runBatchSplitTestCase({
       inputOperationDescription: [...Array(20).keys()].map((index) => ({
         operationSize: Constants.DefaultMaxBulkRequestBodySizeInBytes / 100,
@@ -100,7 +100,7 @@ describe("Test batch split based on size", function () {
       },
     });
   });
-  it("20 operations with each 1/2 size of DefaultMaxBulkRequestBodySizeInBytes, should split in 10 batches.", function () {
+  it("20 operations with each 1/2 size of DefaultMaxBulkRequestBodySizeInBytes, should split in 10 batches.", () => {
     runBatchSplitTestCase({
       inputOperationDescription: [...Array(20).keys()].map((index) => ({
         operationSize: Constants.DefaultMaxBulkRequestBodySizeInBytes / 2,
@@ -112,7 +112,7 @@ describe("Test batch split based on size", function () {
       },
     });
   });
-  it("20 operations with each 1/3 size of DefaultMaxBulkRequestBodySizeInBytes, should split in 6 batches.", function () {
+  it("20 operations with each 1/3 size of DefaultMaxBulkRequestBodySizeInBytes, should split in 6 batches.", () => {
     runBatchSplitTestCase({
       inputOperationDescription: [...Array(20).keys()].map((index) => ({
         operationSize: Constants.DefaultMaxBulkRequestBodySizeInBytes / 3,
@@ -124,7 +124,7 @@ describe("Test batch split based on size", function () {
       },
     });
   });
-  it("If an single operation is bigger than DefaultMaxBulkRequestBodySizeInBytes, it should be part of a Batch containing only that operation.", function () {
+  it("If an single operation is bigger than DefaultMaxBulkRequestBodySizeInBytes, it should be part of a Batch containing only that operation.", () => {
     runBatchSplitTestCase({
       inputOperationDescription: [...Array(2).keys()].map((index) => ({
         operationSize: Constants.DefaultMaxBulkRequestBodySizeInBytes + 1,

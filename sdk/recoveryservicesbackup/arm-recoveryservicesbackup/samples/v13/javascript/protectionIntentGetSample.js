@@ -10,7 +10,7 @@
 // Licensed under the MIT License.
 const { RecoveryServicesBackupClient } = require("@azure/arm-recoveryservicesbackup");
 const { DefaultAzureCredential } = require("@azure/identity");
-require("dotenv").config();
+require("dotenv/config");
 
 /**
  * This sample demonstrates how to Provides the details of the protection intent up item. This is an asynchronous operation. To know the status of the operation,
@@ -18,7 +18,7 @@ call the GetItemOperationResult API.
  *
  * @summary Provides the details of the protection intent up item. This is an asynchronous operation. To know the status of the operation,
 call the GetItemOperationResult API.
- * x-ms-original-file: specification/recoveryservicesbackup/resource-manager/Microsoft.RecoveryServices/stable/2024-04-01/examples/AzureWorkload/BackupProtectionIntent_Get.json
+ * x-ms-original-file: specification/recoveryservicesbackup/resource-manager/Microsoft.RecoveryServices/stable/2025-02-01/examples/AzureWorkload/BackupProtectionIntent_Get.json
  */
 async function getProtectionIntentForAnItem() {
   const subscriptionId =
@@ -39,7 +39,7 @@ async function getProtectionIntentForAnItem() {
 }
 
 async function main() {
-  getProtectionIntentForAnItem();
+  await getProtectionIntentForAnItem();
 }
 
 main().catch(console.error);

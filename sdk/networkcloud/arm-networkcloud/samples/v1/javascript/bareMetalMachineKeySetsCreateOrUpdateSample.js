@@ -14,7 +14,7 @@ require("dotenv/config");
  * This sample demonstrates how to Create a new bare metal machine key set or update the existing one for the provided cluster.
  *
  * @summary Create a new bare metal machine key set or update the existing one for the provided cluster.
- * x-ms-original-file: specification/networkcloud/resource-manager/Microsoft.NetworkCloud/stable/2024-07-01/examples/BareMetalMachineKeySets_Create.json
+ * x-ms-original-file: specification/networkcloud/resource-manager/Microsoft.NetworkCloud/stable/2025-02-01/examples/BareMetalMachineKeySets_Create.json
  */
 async function createOrUpdateBareMetalMachineKeySetOfCluster() {
   const subscriptionId =

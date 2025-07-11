@@ -14,7 +14,7 @@ require("dotenv/config");
  * This sample demonstrates how to Get properties of the provided cloud services network.
  *
  * @summary Get properties of the provided cloud services network.
- * x-ms-original-file: specification/networkcloud/resource-manager/Microsoft.NetworkCloud/stable/2024-07-01/examples/CloudServicesNetworks_Get.json
+ * x-ms-original-file: specification/networkcloud/resource-manager/Microsoft.NetworkCloud/stable/2025-02-01/examples/CloudServicesNetworks_Get.json
  */
 async function getCloudServicesNetwork() {
   const subscriptionId =

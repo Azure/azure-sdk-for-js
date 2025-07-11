@@ -72,12 +72,6 @@ export const isNodeLike =
   Boolean(globalThis.process.versions?.node);
 
 /**
- * A constant that indicates whether the environment the code is running is a Node.js compatible environment.
- * @deprecated Use `isNodeLike` instead.
- */
-export const isNode = isNodeLike;
-
-/**
  * A constant that indicates whether the environment the code is running is Node.JS.
  */
 export const isNodeRuntime = isNodeLike && !isBun && !isDeno;

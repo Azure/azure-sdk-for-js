@@ -7,3 +7,9 @@ import chaiAsPromised from "chai-as-promised";
 chai.use(chaiAsPromised);
 const should = shouldFn();
 export { should, expect, assert };
+
+declare global {
+  interface Object {
+    should: Chai.Assertion;
+  }
+}

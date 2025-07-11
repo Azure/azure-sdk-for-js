@@ -16,7 +16,7 @@ import "dotenv/config";
  * This sample demonstrates how to Lists the backup copies for the backed up item.
  *
  * @summary Lists the backup copies for the backed up item.
- * x-ms-original-file: specification/recoveryservicesbackup/resource-manager/Microsoft.RecoveryServices/stable/2024-04-01/examples/AzureIaasVm/RecoveryPoints_List.json
+ * x-ms-original-file: specification/recoveryservicesbackup/resource-manager/Microsoft.RecoveryServices/stable/2025-02-01/examples/AzureIaasVm/RecoveryPoints_List.json
  */
 async function getProtectedAzureVMRecoveryPoints(): Promise<void> {
   const subscriptionId =
@@ -32,7 +32,7 @@ async function getProtectedAzureVMRecoveryPoints(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = new RecoveryServicesBackupClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.recoveryPoints.list(
+  for await (const item of client.recoveryPoints.list(
     vaultName,
     resourceGroupName,
     fabricName,
@@ -45,7 +45,7 @@ async function getProtectedAzureVMRecoveryPoints(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  getProtectedAzureVMRecoveryPoints();
+  await getProtectedAzureVMRecoveryPoints();
 }
 
 main().catch(console.error);

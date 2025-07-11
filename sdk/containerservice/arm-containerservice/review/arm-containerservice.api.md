@@ -46,6 +46,7 @@ export interface AgentPool extends SubResource {
     enableNodePublicIP?: boolean;
     enableUltraSSD?: boolean;
     readonly eTag?: string;
+    gatewayProfile?: AgentPoolGatewayProfile;
     gpuInstanceProfile?: GPUInstanceProfile;
     gpuProfile?: GPUProfile;
     hostGroupID?: string;
@@ -69,6 +70,7 @@ export interface AgentPool extends SubResource {
     osDiskType?: OSDiskType;
     osSKU?: Ossku;
     osType?: OSType;
+    podIPAllocationMode?: PodIPAllocationMode;
     podSubnetID?: string;
     powerState?: PowerState;
     readonly provisioningState?: string;
@@ -78,11 +80,14 @@ export interface AgentPool extends SubResource {
     scaleSetPriority?: ScaleSetPriority;
     securityProfile?: AgentPoolSecurityProfile;
     spotMaxPrice?: number;
+    status?: AgentPoolStatus;
     tags?: {
         [propertyName: string]: string;
     };
     typePropertiesType?: AgentPoolType;
     upgradeSettings?: AgentPoolUpgradeSettings;
+    virtualMachineNodesStatus?: VirtualMachineNodes[];
+    virtualMachinesProfile?: VirtualMachinesProfile;
     vmSize?: string;
     vnetSubnetID?: string;
     windowsProfile?: AgentPoolWindowsProfile;
@@ -107,6 +112,11 @@ export interface AgentPoolAvailableVersionsPropertiesAgentPoolVersionsItem {
 // @public
 export interface AgentPoolDeleteMachinesParameter {
     machineNames: string[];
+}
+
+// @public
+export interface AgentPoolGatewayProfile {
+    publicIPPrefixSize?: number;
 }
 
 // @public
@@ -241,6 +251,11 @@ export interface AgentPoolsListOptionalParams extends coreClient.OperationOption
 export type AgentPoolsListResponse = AgentPoolListResult;
 
 // @public
+export interface AgentPoolStatus {
+    readonly provisioningError?: CloudErrorBody;
+}
+
+// @public
 export interface AgentPoolsUpgradeNodeImageVersionHeaders {
     azureAsyncOperation?: string;
 }
@@ -275,7 +290,9 @@ export interface AgentPoolUpgradeProfilePropertiesUpgradesItem {
 export interface AgentPoolUpgradeSettings {
     drainTimeoutInMinutes?: number;
     maxSurge?: string;
+    maxUnavailable?: string;
     nodeSoakDurationInMinutes?: number;
+    undrainableNodeBehavior?: UndrainableNodeBehavior;
 }
 
 // @public
@@ -391,6 +408,7 @@ export interface ContainerServiceNetworkProfile {
     podCidrs?: string[];
     serviceCidr?: string;
     serviceCidrs?: string[];
+    staticEgressGatewayProfile?: ManagedClusterStaticEgressGatewayProfile;
 }
 
 // @public
@@ -559,6 +577,7 @@ export type KeyVaultNetworkAccessTypes = string;
 
 // @public
 export enum KnownAgentPoolMode {
+    Gateway = "Gateway",
     System = "System",
     User = "User"
 }
@@ -566,6 +585,7 @@ export enum KnownAgentPoolMode {
 // @public
 export enum KnownAgentPoolType {
     AvailabilitySet = "AvailabilitySet",
+    VirtualMachines = "VirtualMachines",
     VirtualMachineScaleSets = "VirtualMachineScaleSets"
 }
 
@@ -734,6 +754,14 @@ export enum KnownNetworkPolicy {
 }
 
 // @public
+export enum KnownNginxIngressControllerType {
+    AnnotationControlled = "AnnotationControlled",
+    External = "External",
+    Internal = "Internal",
+    None = "None"
+}
+
+// @public
 export enum KnownNodeOSUpgradeChannel {
     NodeImage = "NodeImage",
     None = "None",
@@ -752,6 +780,7 @@ export enum KnownOssku {
     AzureLinux = "AzureLinux",
     CBLMariner = "CBLMariner",
     Ubuntu = "Ubuntu",
+    Ubuntu2204 = "Ubuntu2204",
     Windows2019 = "Windows2019",
     Windows2022 = "Windows2022"
 }
@@ -769,6 +798,12 @@ export enum KnownOutboundType {
     None = "none",
     UserAssignedNATGateway = "userAssignedNATGateway",
     UserDefinedRouting = "userDefinedRouting"
+}
+
+// @public
+export enum KnownPodIPAllocationMode {
+    DynamicIndividual = "DynamicIndividual",
+    StaticBlock = "StaticBlock"
 }
 
 // @public
@@ -843,6 +878,12 @@ export enum KnownType {
     Last = "Last",
     Second = "Second",
     Third = "Third"
+}
+
+// @public
+export enum KnownUndrainableNodeBehavior {
+    Cordon = "Cordon",
+    Schedule = "Schedule"
 }
 
 // @public
@@ -936,6 +977,7 @@ export type LoadBalancerSku = string;
 // @public
 export interface Machine extends SubResource {
     readonly properties?: MachineProperties;
+    readonly zones?: string[];
 }
 
 // @public
@@ -1069,7 +1111,6 @@ export interface ManagedCluster extends TrackedResource {
     disableLocalAccounts?: boolean;
     diskEncryptionSetID?: string;
     dnsPrefix?: string;
-    enablePodSecurityPolicy?: boolean;
     enableRbac?: boolean;
     readonly eTag?: string;
     extendedLocation?: ExtendedLocation;
@@ -1100,6 +1141,7 @@ export interface ManagedCluster extends TrackedResource {
     serviceMeshProfile?: ServiceMeshProfile;
     servicePrincipalProfile?: ManagedClusterServicePrincipalProfile;
     sku?: ManagedClusterSKU;
+    status?: ManagedClusterStatus;
     storageProfile?: ManagedClusterStorageProfile;
     supportPlan?: KubernetesSupportPlan;
     upgradeSettings?: ClusterUpgradeSettings;
@@ -1154,6 +1196,7 @@ export interface ManagedClusterAgentPoolProfileProperties {
     enableNodePublicIP?: boolean;
     enableUltraSSD?: boolean;
     readonly eTag?: string;
+    gatewayProfile?: AgentPoolGatewayProfile;
     gpuInstanceProfile?: GPUInstanceProfile;
     gpuProfile?: GPUProfile;
     hostGroupID?: string;
@@ -1177,6 +1220,7 @@ export interface ManagedClusterAgentPoolProfileProperties {
     osDiskType?: OSDiskType;
     osSKU?: Ossku;
     osType?: OSType;
+    podIPAllocationMode?: PodIPAllocationMode;
     podSubnetID?: string;
     powerState?: PowerState;
     readonly provisioningState?: string;
@@ -1186,11 +1230,14 @@ export interface ManagedClusterAgentPoolProfileProperties {
     scaleSetPriority?: ScaleSetPriority;
     securityProfile?: AgentPoolSecurityProfile;
     spotMaxPrice?: number;
+    status?: AgentPoolStatus;
     tags?: {
         [propertyName: string]: string;
     };
     type?: AgentPoolType;
     upgradeSettings?: AgentPoolUpgradeSettings;
+    virtualMachineNodesStatus?: VirtualMachineNodes[];
+    virtualMachinesProfile?: VirtualMachinesProfile;
     vmSize?: string;
     vnetSubnetID?: string;
     windowsProfile?: AgentPoolWindowsProfile;
@@ -1203,7 +1250,9 @@ export interface ManagedClusterAPIServerAccessProfile {
     disableRunCommand?: boolean;
     enablePrivateCluster?: boolean;
     enablePrivateClusterPublicFqdn?: boolean;
+    enableVnetIntegration?: boolean;
     privateDNSZone?: string;
+    subnetId?: string;
 }
 
 // @public
@@ -1266,11 +1315,17 @@ export interface ManagedClusterIngressProfile {
     webAppRouting?: ManagedClusterIngressProfileWebAppRouting;
 }
 
+// @public (undocumented)
+export interface ManagedClusterIngressProfileNginx {
+    defaultIngressControllerType?: NginxIngressControllerType;
+}
+
 // @public
 export interface ManagedClusterIngressProfileWebAppRouting {
     dnsZoneResourceIds?: string[];
     enabled?: boolean;
     readonly identity?: UserAssignedIdentity;
+    nginx?: ManagedClusterIngressProfileNginx;
 }
 
 // @public
@@ -1795,6 +1850,16 @@ export interface ManagedClustersStopOptionalParams extends coreClient.OperationO
 export type ManagedClustersStopResponse = ManagedClustersStopHeaders;
 
 // @public
+export interface ManagedClusterStaticEgressGatewayProfile {
+    enabled?: boolean;
+}
+
+// @public
+export interface ManagedClusterStatus {
+    readonly provisioningError?: CloudErrorBody;
+}
+
+// @public
 export interface ManagedClusterStorageProfile {
     blobCSIDriver?: ManagedClusterStorageProfileBlobCSIDriver;
     diskCSIDriver?: ManagedClusterStorageProfileDiskCSIDriver;
@@ -1873,6 +1938,12 @@ export interface ManagedServiceIdentityUserAssignedIdentitiesValue {
 }
 
 // @public
+export interface ManualScaleProfile {
+    count?: number;
+    size?: string;
+}
+
+// @public
 export interface MeshRevision {
     compatibleWith?: CompatibleVersions[];
     revision?: string;
@@ -1927,6 +1998,9 @@ export type NetworkPluginMode = string;
 export type NetworkPolicy = string;
 
 // @public
+export type NginxIngressControllerType = string;
+
+// @public
 export type NodeOSUpgradeChannel = string;
 
 // @public
@@ -1979,6 +2053,9 @@ export interface OutboundEnvironmentEndpointCollection {
 
 // @public
 export type OutboundType = string;
+
+// @public
+export type PodIPAllocationMode = string;
 
 // @public
 export interface PortRange {
@@ -2152,6 +2229,11 @@ export interface RunCommandResult {
 
 // @public
 export type ScaleDownMode = string;
+
+// @public
+export interface ScaleProfile {
+    manual?: ManualScaleProfile[];
+}
 
 // @public
 export type ScaleSetEvictionPolicy = string;
@@ -2451,6 +2533,9 @@ export type TrustedAccessRolesListResponse = TrustedAccessRoleListResult;
 export type Type = string;
 
 // @public
+export type UndrainableNodeBehavior = string;
+
+// @public
 export type UpgradeChannel = string;
 
 // @public
@@ -2464,6 +2549,17 @@ export interface UserAssignedIdentity {
     clientId?: string;
     objectId?: string;
     resourceId?: string;
+}
+
+// @public
+export interface VirtualMachineNodes {
+    count?: number;
+    size?: string;
+}
+
+// @public
+export interface VirtualMachinesProfile {
+    scale?: ScaleProfile;
 }
 
 // @public

@@ -6,10 +6,7 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
-import type { VirtualMachine} from "@azure/arm-networkcloud";
-import { NetworkCloud } from "@azure/arm-networkcloud";
+import { VirtualMachine, NetworkCloud } from "@azure/arm-networkcloud";
 import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
 
@@ -17,7 +14,7 @@ import "dotenv/config";
  * This sample demonstrates how to Create a new virtual machine or update the properties of the existing virtual machine.
  *
  * @summary Create a new virtual machine or update the properties of the existing virtual machine.
- * x-ms-original-file: specification/networkcloud/resource-manager/Microsoft.NetworkCloud/stable/2024-07-01/examples/VirtualMachines_Create.json
+ * x-ms-original-file: specification/networkcloud/resource-manager/Microsoft.NetworkCloud/stable/2025-02-01/examples/VirtualMachines_Create.json
  */
 async function createOrUpdateVirtualMachine(): Promise<void> {
   const subscriptionId =

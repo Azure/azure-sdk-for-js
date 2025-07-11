@@ -394,28 +394,29 @@ export const DelegatedResource: coreClient.CompositeMapper = {
   },
 };
 
-export const ManagedServiceIdentityUserAssignedIdentitiesValue: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "ManagedServiceIdentityUserAssignedIdentitiesValue",
-    modelProperties: {
-      principalId: {
-        serializedName: "principalId",
-        readOnly: true,
-        type: {
-          name: "String",
+export const ManagedServiceIdentityUserAssignedIdentitiesValue: coreClient.CompositeMapper =
+  {
+    type: {
+      name: "Composite",
+      className: "ManagedServiceIdentityUserAssignedIdentitiesValue",
+      modelProperties: {
+        principalId: {
+          serializedName: "principalId",
+          readOnly: true,
+          type: {
+            name: "String",
+          },
         },
-      },
-      clientId: {
-        serializedName: "clientId",
-        readOnly: true,
-        type: {
-          name: "String",
+        clientId: {
+          serializedName: "clientId",
+          readOnly: true,
+          type: {
+            name: "String",
+          },
         },
       },
     },
-  },
-};
+  };
 
 export const PowerState: coreClient.CompositeMapper = {
   type: {
@@ -432,335 +433,375 @@ export const PowerState: coreClient.CompositeMapper = {
   },
 };
 
-export const ManagedClusterAgentPoolProfileProperties: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "ManagedClusterAgentPoolProfileProperties",
-    modelProperties: {
-      eTag: {
-        serializedName: "eTag",
-        readOnly: true,
-        type: {
-          name: "String",
+export const ManagedClusterAgentPoolProfileProperties: coreClient.CompositeMapper =
+  {
+    type: {
+      name: "Composite",
+      className: "ManagedClusterAgentPoolProfileProperties",
+      modelProperties: {
+        eTag: {
+          serializedName: "eTag",
+          readOnly: true,
+          type: {
+            name: "String",
+          },
         },
-      },
-      count: {
-        serializedName: "count",
-        type: {
-          name: "Number",
+        count: {
+          serializedName: "count",
+          type: {
+            name: "Number",
+          },
         },
-      },
-      vmSize: {
-        serializedName: "vmSize",
-        type: {
-          name: "String",
+        vmSize: {
+          serializedName: "vmSize",
+          type: {
+            name: "String",
+          },
         },
-      },
-      osDiskSizeGB: {
-        constraints: {
-          InclusiveMaximum: 2048,
-          InclusiveMinimum: 0,
+        osDiskSizeGB: {
+          constraints: {
+            InclusiveMaximum: 2048,
+            InclusiveMinimum: 0,
+          },
+          serializedName: "osDiskSizeGB",
+          type: {
+            name: "Number",
+          },
         },
-        serializedName: "osDiskSizeGB",
-        type: {
-          name: "Number",
+        osDiskType: {
+          serializedName: "osDiskType",
+          type: {
+            name: "String",
+          },
         },
-      },
-      osDiskType: {
-        serializedName: "osDiskType",
-        type: {
-          name: "String",
+        kubeletDiskType: {
+          serializedName: "kubeletDiskType",
+          type: {
+            name: "String",
+          },
         },
-      },
-      kubeletDiskType: {
-        serializedName: "kubeletDiskType",
-        type: {
-          name: "String",
+        workloadRuntime: {
+          serializedName: "workloadRuntime",
+          type: {
+            name: "String",
+          },
         },
-      },
-      workloadRuntime: {
-        serializedName: "workloadRuntime",
-        type: {
-          name: "String",
+        messageOfTheDay: {
+          serializedName: "messageOfTheDay",
+          type: {
+            name: "String",
+          },
         },
-      },
-      messageOfTheDay: {
-        serializedName: "messageOfTheDay",
-        type: {
-          name: "String",
+        vnetSubnetID: {
+          serializedName: "vnetSubnetID",
+          type: {
+            name: "String",
+          },
         },
-      },
-      vnetSubnetID: {
-        serializedName: "vnetSubnetID",
-        type: {
-          name: "String",
+        podSubnetID: {
+          serializedName: "podSubnetID",
+          type: {
+            name: "String",
+          },
         },
-      },
-      podSubnetID: {
-        serializedName: "podSubnetID",
-        type: {
-          name: "String",
+        podIPAllocationMode: {
+          serializedName: "podIPAllocationMode",
+          type: {
+            name: "String",
+          },
         },
-      },
-      maxPods: {
-        serializedName: "maxPods",
-        type: {
-          name: "Number",
+        maxPods: {
+          serializedName: "maxPods",
+          type: {
+            name: "Number",
+          },
         },
-      },
-      osType: {
-        defaultValue: "Linux",
-        serializedName: "osType",
-        type: {
-          name: "String",
+        osType: {
+          defaultValue: "Linux",
+          serializedName: "osType",
+          type: {
+            name: "String",
+          },
         },
-      },
-      osSKU: {
-        serializedName: "osSKU",
-        type: {
-          name: "String",
+        osSKU: {
+          serializedName: "osSKU",
+          type: {
+            name: "String",
+          },
         },
-      },
-      maxCount: {
-        serializedName: "maxCount",
-        type: {
-          name: "Number",
+        maxCount: {
+          serializedName: "maxCount",
+          type: {
+            name: "Number",
+          },
         },
-      },
-      minCount: {
-        serializedName: "minCount",
-        type: {
-          name: "Number",
+        minCount: {
+          serializedName: "minCount",
+          type: {
+            name: "Number",
+          },
         },
-      },
-      enableAutoScaling: {
-        serializedName: "enableAutoScaling",
-        type: {
-          name: "Boolean",
+        enableAutoScaling: {
+          serializedName: "enableAutoScaling",
+          type: {
+            name: "Boolean",
+          },
         },
-      },
-      scaleDownMode: {
-        serializedName: "scaleDownMode",
-        type: {
-          name: "String",
+        scaleDownMode: {
+          serializedName: "scaleDownMode",
+          type: {
+            name: "String",
+          },
         },
-      },
-      type: {
-        serializedName: "type",
         type: {
-          name: "String",
+          serializedName: "type",
+          type: {
+            name: "String",
+          },
         },
-      },
-      mode: {
-        serializedName: "mode",
-        type: {
-          name: "String",
+        mode: {
+          serializedName: "mode",
+          type: {
+            name: "String",
+          },
         },
-      },
-      orchestratorVersion: {
-        serializedName: "orchestratorVersion",
-        type: {
-          name: "String",
+        orchestratorVersion: {
+          serializedName: "orchestratorVersion",
+          type: {
+            name: "String",
+          },
         },
-      },
-      currentOrchestratorVersion: {
-        serializedName: "currentOrchestratorVersion",
-        readOnly: true,
-        type: {
-          name: "String",
+        currentOrchestratorVersion: {
+          serializedName: "currentOrchestratorVersion",
+          readOnly: true,
+          type: {
+            name: "String",
+          },
         },
-      },
-      nodeImageVersion: {
-        serializedName: "nodeImageVersion",
-        readOnly: true,
-        type: {
-          name: "String",
+        nodeImageVersion: {
+          serializedName: "nodeImageVersion",
+          readOnly: true,
+          type: {
+            name: "String",
+          },
         },
-      },
-      upgradeSettings: {
-        serializedName: "upgradeSettings",
-        type: {
-          name: "Composite",
-          className: "AgentPoolUpgradeSettings",
+        upgradeSettings: {
+          serializedName: "upgradeSettings",
+          type: {
+            name: "Composite",
+            className: "AgentPoolUpgradeSettings",
+          },
         },
-      },
-      provisioningState: {
-        serializedName: "provisioningState",
-        readOnly: true,
-        type: {
-          name: "String",
+        provisioningState: {
+          serializedName: "provisioningState",
+          readOnly: true,
+          type: {
+            name: "String",
+          },
         },
-      },
-      powerState: {
-        serializedName: "powerState",
-        type: {
-          name: "Composite",
-          className: "PowerState",
+        powerState: {
+          serializedName: "powerState",
+          type: {
+            name: "Composite",
+            className: "PowerState",
+          },
         },
-      },
-      availabilityZones: {
-        serializedName: "availabilityZones",
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "String",
+        availabilityZones: {
+          serializedName: "availabilityZones",
+          type: {
+            name: "Sequence",
+            element: {
+              type: {
+                name: "String",
+              },
             },
           },
         },
-      },
-      enableNodePublicIP: {
-        serializedName: "enableNodePublicIP",
-        type: {
-          name: "Boolean",
+        enableNodePublicIP: {
+          serializedName: "enableNodePublicIP",
+          type: {
+            name: "Boolean",
+          },
         },
-      },
-      nodePublicIPPrefixID: {
-        serializedName: "nodePublicIPPrefixID",
-        type: {
-          name: "String",
+        nodePublicIPPrefixID: {
+          serializedName: "nodePublicIPPrefixID",
+          type: {
+            name: "String",
+          },
         },
-      },
-      scaleSetPriority: {
-        defaultValue: "Regular",
-        serializedName: "scaleSetPriority",
-        type: {
-          name: "String",
+        scaleSetPriority: {
+          defaultValue: "Regular",
+          serializedName: "scaleSetPriority",
+          type: {
+            name: "String",
+          },
         },
-      },
-      scaleSetEvictionPolicy: {
-        defaultValue: "Delete",
-        serializedName: "scaleSetEvictionPolicy",
-        type: {
-          name: "String",
+        scaleSetEvictionPolicy: {
+          defaultValue: "Delete",
+          serializedName: "scaleSetEvictionPolicy",
+          type: {
+            name: "String",
+          },
         },
-      },
-      spotMaxPrice: {
-        defaultValue: -1,
-        serializedName: "spotMaxPrice",
-        type: {
-          name: "Number",
+        spotMaxPrice: {
+          defaultValue: -1,
+          serializedName: "spotMaxPrice",
+          type: {
+            name: "Number",
+          },
         },
-      },
-      tags: {
-        serializedName: "tags",
-        type: {
-          name: "Dictionary",
-          value: { type: { name: "String" } },
+        tags: {
+          serializedName: "tags",
+          type: {
+            name: "Dictionary",
+            value: { type: { name: "String" } },
+          },
         },
-      },
-      nodeLabels: {
-        serializedName: "nodeLabels",
-        type: {
-          name: "Dictionary",
-          value: { type: { name: "String" } },
+        nodeLabels: {
+          serializedName: "nodeLabels",
+          type: {
+            name: "Dictionary",
+            value: { type: { name: "String" } },
+          },
         },
-      },
-      nodeTaints: {
-        serializedName: "nodeTaints",
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "String",
+        nodeTaints: {
+          serializedName: "nodeTaints",
+          type: {
+            name: "Sequence",
+            element: {
+              type: {
+                name: "String",
+              },
             },
           },
         },
-      },
-      proximityPlacementGroupID: {
-        serializedName: "proximityPlacementGroupID",
-        type: {
-          name: "String",
+        proximityPlacementGroupID: {
+          serializedName: "proximityPlacementGroupID",
+          type: {
+            name: "String",
+          },
         },
-      },
-      kubeletConfig: {
-        serializedName: "kubeletConfig",
-        type: {
-          name: "Composite",
-          className: "KubeletConfig",
+        kubeletConfig: {
+          serializedName: "kubeletConfig",
+          type: {
+            name: "Composite",
+            className: "KubeletConfig",
+          },
         },
-      },
-      linuxOSConfig: {
-        serializedName: "linuxOSConfig",
-        type: {
-          name: "Composite",
-          className: "LinuxOSConfig",
+        linuxOSConfig: {
+          serializedName: "linuxOSConfig",
+          type: {
+            name: "Composite",
+            className: "LinuxOSConfig",
+          },
         },
-      },
-      enableEncryptionAtHost: {
-        serializedName: "enableEncryptionAtHost",
-        type: {
-          name: "Boolean",
+        enableEncryptionAtHost: {
+          serializedName: "enableEncryptionAtHost",
+          type: {
+            name: "Boolean",
+          },
         },
-      },
-      enableUltraSSD: {
-        serializedName: "enableUltraSSD",
-        type: {
-          name: "Boolean",
+        enableUltraSSD: {
+          serializedName: "enableUltraSSD",
+          type: {
+            name: "Boolean",
+          },
         },
-      },
-      enableFips: {
-        serializedName: "enableFIPS",
-        type: {
-          name: "Boolean",
+        enableFips: {
+          serializedName: "enableFIPS",
+          type: {
+            name: "Boolean",
+          },
         },
-      },
-      gpuInstanceProfile: {
-        serializedName: "gpuInstanceProfile",
-        type: {
-          name: "String",
+        gpuInstanceProfile: {
+          serializedName: "gpuInstanceProfile",
+          type: {
+            name: "String",
+          },
         },
-      },
-      creationData: {
-        serializedName: "creationData",
-        type: {
-          name: "Composite",
-          className: "CreationData",
+        creationData: {
+          serializedName: "creationData",
+          type: {
+            name: "Composite",
+            className: "CreationData",
+          },
         },
-      },
-      capacityReservationGroupID: {
-        serializedName: "capacityReservationGroupID",
-        type: {
-          name: "String",
+        capacityReservationGroupID: {
+          serializedName: "capacityReservationGroupID",
+          type: {
+            name: "String",
+          },
         },
-      },
-      hostGroupID: {
-        serializedName: "hostGroupID",
-        type: {
-          name: "String",
+        hostGroupID: {
+          serializedName: "hostGroupID",
+          type: {
+            name: "String",
+          },
         },
-      },
-      networkProfile: {
-        serializedName: "networkProfile",
-        type: {
-          name: "Composite",
-          className: "AgentPoolNetworkProfile",
+        networkProfile: {
+          serializedName: "networkProfile",
+          type: {
+            name: "Composite",
+            className: "AgentPoolNetworkProfile",
+          },
         },
-      },
-      windowsProfile: {
-        serializedName: "windowsProfile",
-        type: {
-          name: "Composite",
-          className: "AgentPoolWindowsProfile",
+        windowsProfile: {
+          serializedName: "windowsProfile",
+          type: {
+            name: "Composite",
+            className: "AgentPoolWindowsProfile",
+          },
         },
-      },
-      securityProfile: {
-        serializedName: "securityProfile",
-        type: {
-          name: "Composite",
-          className: "AgentPoolSecurityProfile",
+        securityProfile: {
+          serializedName: "securityProfile",
+          type: {
+            name: "Composite",
+            className: "AgentPoolSecurityProfile",
+          },
         },
-      },
-      gpuProfile: {
-        serializedName: "gpuProfile",
-        type: {
-          name: "Composite",
-          className: "GPUProfile",
+        gpuProfile: {
+          serializedName: "gpuProfile",
+          type: {
+            name: "Composite",
+            className: "GPUProfile",
+          },
+        },
+        gatewayProfile: {
+          serializedName: "gatewayProfile",
+          type: {
+            name: "Composite",
+            className: "AgentPoolGatewayProfile",
+          },
+        },
+        virtualMachinesProfile: {
+          serializedName: "virtualMachinesProfile",
+          type: {
+            name: "Composite",
+            className: "VirtualMachinesProfile",
+          },
+        },
+        virtualMachineNodesStatus: {
+          serializedName: "virtualMachineNodesStatus",
+          type: {
+            name: "Sequence",
+            element: {
+              type: {
+                name: "Composite",
+                className: "VirtualMachineNodes",
+              },
+            },
+          },
+        },
+        status: {
+          serializedName: "status",
+          type: {
+            name: "Composite",
+            className: "AgentPoolStatus",
+          },
         },
       },
     },
-  },
-};
+  };
 
 export const AgentPoolUpgradeSettings: coreClient.CompositeMapper = {
   type: {
@@ -769,6 +810,12 @@ export const AgentPoolUpgradeSettings: coreClient.CompositeMapper = {
     modelProperties: {
       maxSurge: {
         serializedName: "maxSurge",
+        type: {
+          name: "String",
+        },
+      },
+      maxUnavailable: {
+        serializedName: "maxUnavailable",
         type: {
           name: "String",
         },
@@ -791,6 +838,12 @@ export const AgentPoolUpgradeSettings: coreClient.CompositeMapper = {
         serializedName: "nodeSoakDurationInMinutes",
         type: {
           name: "Number",
+        },
+      },
+      undrainableNodeBehavior: {
+        serializedName: "undrainableNodeBehavior",
+        type: {
+          name: "String",
         },
       },
     },
@@ -1269,6 +1322,121 @@ export const GPUProfile: coreClient.CompositeMapper = {
   },
 };
 
+export const AgentPoolGatewayProfile: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "AgentPoolGatewayProfile",
+    modelProperties: {
+      publicIPPrefixSize: {
+        defaultValue: 31,
+        constraints: {
+          InclusiveMaximum: 31,
+          InclusiveMinimum: 28,
+        },
+        serializedName: "publicIPPrefixSize",
+        type: {
+          name: "Number",
+        },
+      },
+    },
+  },
+};
+
+export const VirtualMachinesProfile: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "VirtualMachinesProfile",
+    modelProperties: {
+      scale: {
+        serializedName: "scale",
+        type: {
+          name: "Composite",
+          className: "ScaleProfile",
+        },
+      },
+    },
+  },
+};
+
+export const ScaleProfile: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ScaleProfile",
+    modelProperties: {
+      manual: {
+        serializedName: "manual",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "ManualScaleProfile",
+            },
+          },
+        },
+      },
+    },
+  },
+};
+
+export const ManualScaleProfile: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ManualScaleProfile",
+    modelProperties: {
+      size: {
+        serializedName: "size",
+        type: {
+          name: "String",
+        },
+      },
+      count: {
+        serializedName: "count",
+        type: {
+          name: "Number",
+        },
+      },
+    },
+  },
+};
+
+export const VirtualMachineNodes: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "VirtualMachineNodes",
+    modelProperties: {
+      size: {
+        serializedName: "size",
+        type: {
+          name: "String",
+        },
+      },
+      count: {
+        serializedName: "count",
+        type: {
+          name: "Number",
+        },
+      },
+    },
+  },
+};
+
+export const AgentPoolStatus: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "AgentPoolStatus",
+    modelProperties: {
+      provisioningError: {
+        serializedName: "provisioningError",
+        type: {
+          name: "Composite",
+          className: "CloudErrorBody",
+        },
+      },
+    },
+  },
+};
+
 export const ContainerServiceLinuxProfile: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
@@ -1401,27 +1569,28 @@ export const WindowsGmsaProfile: coreClient.CompositeMapper = {
   },
 };
 
-export const ManagedClusterServicePrincipalProfile: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "ManagedClusterServicePrincipalProfile",
-    modelProperties: {
-      clientId: {
-        serializedName: "clientId",
-        required: true,
-        type: {
-          name: "String",
+export const ManagedClusterServicePrincipalProfile: coreClient.CompositeMapper =
+  {
+    type: {
+      name: "Composite",
+      className: "ManagedClusterServicePrincipalProfile",
+      modelProperties: {
+        clientId: {
+          serializedName: "clientId",
+          required: true,
+          type: {
+            name: "String",
+          },
         },
-      },
-      secret: {
-        serializedName: "secret",
-        type: {
-          name: "String",
+        secret: {
+          serializedName: "secret",
+          type: {
+            name: "String",
+          },
         },
       },
     },
-  },
-};
+  };
 
 export const ManagedClusterAddonProfile: coreClient.CompositeMapper = {
   type: {
@@ -1575,76 +1744,79 @@ export const ManagedClusterPodIdentity: coreClient.CompositeMapper = {
   },
 };
 
-export const ManagedClusterPodIdentityProvisioningInfo: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "ManagedClusterPodIdentityProvisioningInfo",
-    modelProperties: {
-      error: {
-        serializedName: "error",
-        type: {
-          name: "Composite",
-          className: "ManagedClusterPodIdentityProvisioningError",
+export const ManagedClusterPodIdentityProvisioningInfo: coreClient.CompositeMapper =
+  {
+    type: {
+      name: "Composite",
+      className: "ManagedClusterPodIdentityProvisioningInfo",
+      modelProperties: {
+        error: {
+          serializedName: "error",
+          type: {
+            name: "Composite",
+            className: "ManagedClusterPodIdentityProvisioningError",
+          },
         },
       },
     },
-  },
-};
+  };
 
-export const ManagedClusterPodIdentityProvisioningError: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "ManagedClusterPodIdentityProvisioningError",
-    modelProperties: {
-      error: {
-        serializedName: "error",
-        type: {
-          name: "Composite",
-          className: "ManagedClusterPodIdentityProvisioningErrorBody",
+export const ManagedClusterPodIdentityProvisioningError: coreClient.CompositeMapper =
+  {
+    type: {
+      name: "Composite",
+      className: "ManagedClusterPodIdentityProvisioningError",
+      modelProperties: {
+        error: {
+          serializedName: "error",
+          type: {
+            name: "Composite",
+            className: "ManagedClusterPodIdentityProvisioningErrorBody",
+          },
         },
       },
     },
-  },
-};
+  };
 
-export const ManagedClusterPodIdentityProvisioningErrorBody: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "ManagedClusterPodIdentityProvisioningErrorBody",
-    modelProperties: {
-      code: {
-        serializedName: "code",
-        type: {
-          name: "String",
+export const ManagedClusterPodIdentityProvisioningErrorBody: coreClient.CompositeMapper =
+  {
+    type: {
+      name: "Composite",
+      className: "ManagedClusterPodIdentityProvisioningErrorBody",
+      modelProperties: {
+        code: {
+          serializedName: "code",
+          type: {
+            name: "String",
+          },
         },
-      },
-      message: {
-        serializedName: "message",
-        type: {
-          name: "String",
+        message: {
+          serializedName: "message",
+          type: {
+            name: "String",
+          },
         },
-      },
-      target: {
-        serializedName: "target",
-        type: {
-          name: "String",
+        target: {
+          serializedName: "target",
+          type: {
+            name: "String",
+          },
         },
-      },
-      details: {
-        serializedName: "details",
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "Composite",
-              className: "ManagedClusterPodIdentityProvisioningErrorBody",
+        details: {
+          serializedName: "details",
+          type: {
+            name: "Sequence",
+            element: {
+              type: {
+                name: "Composite",
+                className: "ManagedClusterPodIdentityProvisioningErrorBody",
+              },
             },
           },
         },
       },
     },
-  },
-};
+  };
 
 export const ManagedClusterPodIdentityException: coreClient.CompositeMapper = {
   type: {
@@ -1699,20 +1871,21 @@ export const ManagedClusterOidcIssuerProfile: coreClient.CompositeMapper = {
   },
 };
 
-export const ManagedClusterNodeResourceGroupProfile: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "ManagedClusterNodeResourceGroupProfile",
-    modelProperties: {
-      restrictionLevel: {
-        serializedName: "restrictionLevel",
-        type: {
-          name: "String",
+export const ManagedClusterNodeResourceGroupProfile: coreClient.CompositeMapper =
+  {
+    type: {
+      name: "Composite",
+      className: "ManagedClusterNodeResourceGroupProfile",
+      modelProperties: {
+        restrictionLevel: {
+          serializedName: "restrictionLevel",
+          type: {
+            name: "String",
+          },
         },
       },
     },
-  },
-};
+  };
 
 export const ContainerServiceNetworkProfile: coreClient.CompositeMapper = {
   type: {
@@ -1759,7 +1932,9 @@ export const ContainerServiceNetworkProfile: coreClient.CompositeMapper = {
       podCidr: {
         defaultValue: "10.244.0.0/16",
         constraints: {
-          Pattern: new RegExp("^([0-9]{1,3}\\.){3}[0-9]{1,3}(\\/([0-9]|[1-2][0-9]|3[0-2]))?$"),
+          Pattern: new RegExp(
+            "^([0-9]{1,3}\\.){3}[0-9]{1,3}(\\/([0-9]|[1-2][0-9]|3[0-2]))?$",
+          ),
         },
         serializedName: "podCidr",
         type: {
@@ -1769,7 +1944,9 @@ export const ContainerServiceNetworkProfile: coreClient.CompositeMapper = {
       serviceCidr: {
         defaultValue: "10.0.0.0/16",
         constraints: {
-          Pattern: new RegExp("^([0-9]{1,3}\\.){3}[0-9]{1,3}(\\/([0-9]|[1-2][0-9]|3[0-2]))?$"),
+          Pattern: new RegExp(
+            "^([0-9]{1,3}\\.){3}[0-9]{1,3}(\\/([0-9]|[1-2][0-9]|3[0-2]))?$",
+          ),
         },
         serializedName: "serviceCidr",
         type: {
@@ -1813,6 +1990,13 @@ export const ContainerServiceNetworkProfile: coreClient.CompositeMapper = {
         type: {
           name: "Composite",
           className: "ManagedClusterNATGatewayProfile",
+        },
+      },
+      staticEgressGatewayProfile: {
+        serializedName: "staticEgressGatewayProfile",
+        type: {
+          name: "Composite",
+          className: "ManagedClusterStaticEgressGatewayProfile",
         },
       },
       podCidrs: {
@@ -1989,57 +2173,59 @@ export const ManagedClusterLoadBalancerProfile: coreClient.CompositeMapper = {
   },
 };
 
-export const ManagedClusterLoadBalancerProfileManagedOutboundIPs: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "ManagedClusterLoadBalancerProfileManagedOutboundIPs",
-    modelProperties: {
-      count: {
-        defaultValue: 1,
-        constraints: {
-          InclusiveMaximum: 100,
-          InclusiveMinimum: 1,
+export const ManagedClusterLoadBalancerProfileManagedOutboundIPs: coreClient.CompositeMapper =
+  {
+    type: {
+      name: "Composite",
+      className: "ManagedClusterLoadBalancerProfileManagedOutboundIPs",
+      modelProperties: {
+        count: {
+          defaultValue: 1,
+          constraints: {
+            InclusiveMaximum: 100,
+            InclusiveMinimum: 1,
+          },
+          serializedName: "count",
+          type: {
+            name: "Number",
+          },
         },
-        serializedName: "count",
-        type: {
-          name: "Number",
-        },
-      },
-      countIPv6: {
-        defaultValue: 0,
-        constraints: {
-          InclusiveMaximum: 100,
-          InclusiveMinimum: 0,
-        },
-        serializedName: "countIPv6",
-        type: {
-          name: "Number",
+        countIPv6: {
+          defaultValue: 0,
+          constraints: {
+            InclusiveMaximum: 100,
+            InclusiveMinimum: 0,
+          },
+          serializedName: "countIPv6",
+          type: {
+            name: "Number",
+          },
         },
       },
     },
-  },
-};
+  };
 
-export const ManagedClusterLoadBalancerProfileOutboundIPPrefixes: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "ManagedClusterLoadBalancerProfileOutboundIPPrefixes",
-    modelProperties: {
-      publicIPPrefixes: {
-        serializedName: "publicIPPrefixes",
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "Composite",
-              className: "ResourceReference",
+export const ManagedClusterLoadBalancerProfileOutboundIPPrefixes: coreClient.CompositeMapper =
+  {
+    type: {
+      name: "Composite",
+      className: "ManagedClusterLoadBalancerProfileOutboundIPPrefixes",
+      modelProperties: {
+        publicIPPrefixes: {
+          serializedName: "publicIPPrefixes",
+          type: {
+            name: "Sequence",
+            element: {
+              type: {
+                name: "Composite",
+                className: "ResourceReference",
+              },
             },
           },
         },
       },
     },
-  },
-};
+  };
 
 export const ResourceReference: coreClient.CompositeMapper = {
   type: {
@@ -2056,26 +2242,27 @@ export const ResourceReference: coreClient.CompositeMapper = {
   },
 };
 
-export const ManagedClusterLoadBalancerProfileOutboundIPs: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "ManagedClusterLoadBalancerProfileOutboundIPs",
-    modelProperties: {
-      publicIPs: {
-        serializedName: "publicIPs",
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "Composite",
-              className: "ResourceReference",
+export const ManagedClusterLoadBalancerProfileOutboundIPs: coreClient.CompositeMapper =
+  {
+    type: {
+      name: "Composite",
+      className: "ManagedClusterLoadBalancerProfileOutboundIPs",
+      modelProperties: {
+        publicIPs: {
+          serializedName: "publicIPs",
+          type: {
+            name: "Sequence",
+            element: {
+              type: {
+                name: "Composite",
+                className: "ResourceReference",
+              },
             },
           },
         },
       },
     },
-  },
-};
+  };
 
 export const ManagedClusterNATGatewayProfile: coreClient.CompositeMapper = {
   type: {
@@ -2117,25 +2304,42 @@ export const ManagedClusterNATGatewayProfile: coreClient.CompositeMapper = {
   },
 };
 
-export const ManagedClusterManagedOutboundIPProfile: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "ManagedClusterManagedOutboundIPProfile",
-    modelProperties: {
-      count: {
-        defaultValue: 1,
-        constraints: {
-          InclusiveMaximum: 16,
-          InclusiveMinimum: 1,
-        },
-        serializedName: "count",
-        type: {
-          name: "Number",
+export const ManagedClusterManagedOutboundIPProfile: coreClient.CompositeMapper =
+  {
+    type: {
+      name: "Composite",
+      className: "ManagedClusterManagedOutboundIPProfile",
+      modelProperties: {
+        count: {
+          defaultValue: 1,
+          constraints: {
+            InclusiveMaximum: 16,
+            InclusiveMinimum: 1,
+          },
+          serializedName: "count",
+          type: {
+            name: "Number",
+          },
         },
       },
     },
-  },
-};
+  };
+
+export const ManagedClusterStaticEgressGatewayProfile: coreClient.CompositeMapper =
+  {
+    type: {
+      name: "Composite",
+      className: "ManagedClusterStaticEgressGatewayProfile",
+      modelProperties: {
+        enabled: {
+          serializedName: "enabled",
+          type: {
+            name: "Boolean",
+          },
+        },
+      },
+    },
+  };
 
 export const ManagedClusterAADProfile: coreClient.CompositeMapper = {
   type: {
@@ -2251,178 +2455,192 @@ export const UpgradeOverrideSettings: coreClient.CompositeMapper = {
   },
 };
 
-export const ManagedClusterPropertiesAutoScalerProfile: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "ManagedClusterPropertiesAutoScalerProfile",
-    modelProperties: {
-      balanceSimilarNodeGroups: {
-        serializedName: "balance-similar-node-groups",
-        type: {
-          name: "String",
+export const ManagedClusterPropertiesAutoScalerProfile: coreClient.CompositeMapper =
+  {
+    type: {
+      name: "Composite",
+      className: "ManagedClusterPropertiesAutoScalerProfile",
+      modelProperties: {
+        balanceSimilarNodeGroups: {
+          serializedName: "balance-similar-node-groups",
+          type: {
+            name: "String",
+          },
         },
-      },
-      daemonsetEvictionForEmptyNodes: {
-        serializedName: "daemonset-eviction-for-empty-nodes",
-        type: {
-          name: "Boolean",
+        daemonsetEvictionForEmptyNodes: {
+          serializedName: "daemonset-eviction-for-empty-nodes",
+          type: {
+            name: "Boolean",
+          },
         },
-      },
-      daemonsetEvictionForOccupiedNodes: {
-        serializedName: "daemonset-eviction-for-occupied-nodes",
-        type: {
-          name: "Boolean",
+        daemonsetEvictionForOccupiedNodes: {
+          serializedName: "daemonset-eviction-for-occupied-nodes",
+          type: {
+            name: "Boolean",
+          },
         },
-      },
-      ignoreDaemonsetsUtilization: {
-        serializedName: "ignore-daemonsets-utilization",
-        type: {
-          name: "Boolean",
+        ignoreDaemonsetsUtilization: {
+          serializedName: "ignore-daemonsets-utilization",
+          type: {
+            name: "Boolean",
+          },
         },
-      },
-      expander: {
-        serializedName: "expander",
-        type: {
-          name: "String",
+        expander: {
+          serializedName: "expander",
+          type: {
+            name: "String",
+          },
         },
-      },
-      maxEmptyBulkDelete: {
-        serializedName: "max-empty-bulk-delete",
-        type: {
-          name: "String",
+        maxEmptyBulkDelete: {
+          serializedName: "max-empty-bulk-delete",
+          type: {
+            name: "String",
+          },
         },
-      },
-      maxGracefulTerminationSec: {
-        serializedName: "max-graceful-termination-sec",
-        type: {
-          name: "String",
+        maxGracefulTerminationSec: {
+          serializedName: "max-graceful-termination-sec",
+          type: {
+            name: "String",
+          },
         },
-      },
-      maxNodeProvisionTime: {
-        serializedName: "max-node-provision-time",
-        type: {
-          name: "String",
+        maxNodeProvisionTime: {
+          serializedName: "max-node-provision-time",
+          type: {
+            name: "String",
+          },
         },
-      },
-      maxTotalUnreadyPercentage: {
-        serializedName: "max-total-unready-percentage",
-        type: {
-          name: "String",
+        maxTotalUnreadyPercentage: {
+          serializedName: "max-total-unready-percentage",
+          type: {
+            name: "String",
+          },
         },
-      },
-      newPodScaleUpDelay: {
-        serializedName: "new-pod-scale-up-delay",
-        type: {
-          name: "String",
+        newPodScaleUpDelay: {
+          serializedName: "new-pod-scale-up-delay",
+          type: {
+            name: "String",
+          },
         },
-      },
-      okTotalUnreadyCount: {
-        serializedName: "ok-total-unready-count",
-        type: {
-          name: "String",
+        okTotalUnreadyCount: {
+          serializedName: "ok-total-unready-count",
+          type: {
+            name: "String",
+          },
         },
-      },
-      scanInterval: {
-        serializedName: "scan-interval",
-        type: {
-          name: "String",
+        scanInterval: {
+          serializedName: "scan-interval",
+          type: {
+            name: "String",
+          },
         },
-      },
-      scaleDownDelayAfterAdd: {
-        serializedName: "scale-down-delay-after-add",
-        type: {
-          name: "String",
+        scaleDownDelayAfterAdd: {
+          serializedName: "scale-down-delay-after-add",
+          type: {
+            name: "String",
+          },
         },
-      },
-      scaleDownDelayAfterDelete: {
-        serializedName: "scale-down-delay-after-delete",
-        type: {
-          name: "String",
+        scaleDownDelayAfterDelete: {
+          serializedName: "scale-down-delay-after-delete",
+          type: {
+            name: "String",
+          },
         },
-      },
-      scaleDownDelayAfterFailure: {
-        serializedName: "scale-down-delay-after-failure",
-        type: {
-          name: "String",
+        scaleDownDelayAfterFailure: {
+          serializedName: "scale-down-delay-after-failure",
+          type: {
+            name: "String",
+          },
         },
-      },
-      scaleDownUnneededTime: {
-        serializedName: "scale-down-unneeded-time",
-        type: {
-          name: "String",
+        scaleDownUnneededTime: {
+          serializedName: "scale-down-unneeded-time",
+          type: {
+            name: "String",
+          },
         },
-      },
-      scaleDownUnreadyTime: {
-        serializedName: "scale-down-unready-time",
-        type: {
-          name: "String",
+        scaleDownUnreadyTime: {
+          serializedName: "scale-down-unready-time",
+          type: {
+            name: "String",
+          },
         },
-      },
-      scaleDownUtilizationThreshold: {
-        serializedName: "scale-down-utilization-threshold",
-        type: {
-          name: "String",
+        scaleDownUtilizationThreshold: {
+          serializedName: "scale-down-utilization-threshold",
+          type: {
+            name: "String",
+          },
         },
-      },
-      skipNodesWithLocalStorage: {
-        serializedName: "skip-nodes-with-local-storage",
-        type: {
-          name: "String",
+        skipNodesWithLocalStorage: {
+          serializedName: "skip-nodes-with-local-storage",
+          type: {
+            name: "String",
+          },
         },
-      },
-      skipNodesWithSystemPods: {
-        serializedName: "skip-nodes-with-system-pods",
-        type: {
-          name: "String",
-        },
-      },
-    },
-  },
-};
-
-export const ManagedClusterAPIServerAccessProfile: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "ManagedClusterAPIServerAccessProfile",
-    modelProperties: {
-      authorizedIPRanges: {
-        serializedName: "authorizedIPRanges",
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "String",
-            },
+        skipNodesWithSystemPods: {
+          serializedName: "skip-nodes-with-system-pods",
+          type: {
+            name: "String",
           },
         },
       },
-      enablePrivateCluster: {
-        serializedName: "enablePrivateCluster",
-        type: {
-          name: "Boolean",
+    },
+  };
+
+export const ManagedClusterAPIServerAccessProfile: coreClient.CompositeMapper =
+  {
+    type: {
+      name: "Composite",
+      className: "ManagedClusterAPIServerAccessProfile",
+      modelProperties: {
+        authorizedIPRanges: {
+          serializedName: "authorizedIPRanges",
+          type: {
+            name: "Sequence",
+            element: {
+              type: {
+                name: "String",
+              },
+            },
+          },
         },
-      },
-      privateDNSZone: {
-        serializedName: "privateDNSZone",
-        type: {
-          name: "String",
+        enablePrivateCluster: {
+          serializedName: "enablePrivateCluster",
+          type: {
+            name: "Boolean",
+          },
         },
-      },
-      enablePrivateClusterPublicFqdn: {
-        serializedName: "enablePrivateClusterPublicFQDN",
-        type: {
-          name: "Boolean",
+        privateDNSZone: {
+          serializedName: "privateDNSZone",
+          type: {
+            name: "String",
+          },
         },
-      },
-      disableRunCommand: {
-        serializedName: "disableRunCommand",
-        type: {
-          name: "Boolean",
+        enablePrivateClusterPublicFqdn: {
+          serializedName: "enablePrivateClusterPublicFQDN",
+          type: {
+            name: "Boolean",
+          },
+        },
+        disableRunCommand: {
+          serializedName: "disableRunCommand",
+          type: {
+            name: "Boolean",
+          },
+        },
+        enableVnetIntegration: {
+          serializedName: "enableVnetIntegration",
+          type: {
+            name: "Boolean",
+          },
+        },
+        subnetId: {
+          serializedName: "subnetId",
+          type: {
+            name: "String",
+          },
         },
       },
     },
-  },
-};
+  };
 
 export const PrivateLinkResource: coreClient.CompositeMapper = {
   type: {
@@ -2564,42 +2782,45 @@ export const ManagedClusterSecurityProfile: coreClient.CompositeMapper = {
   },
 };
 
-export const ManagedClusterSecurityProfileDefender: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "ManagedClusterSecurityProfileDefender",
-    modelProperties: {
-      logAnalyticsWorkspaceResourceId: {
-        serializedName: "logAnalyticsWorkspaceResourceId",
-        type: {
-          name: "String",
+export const ManagedClusterSecurityProfileDefender: coreClient.CompositeMapper =
+  {
+    type: {
+      name: "Composite",
+      className: "ManagedClusterSecurityProfileDefender",
+      modelProperties: {
+        logAnalyticsWorkspaceResourceId: {
+          serializedName: "logAnalyticsWorkspaceResourceId",
+          type: {
+            name: "String",
+          },
         },
-      },
-      securityMonitoring: {
-        serializedName: "securityMonitoring",
-        type: {
-          name: "Composite",
-          className: "ManagedClusterSecurityProfileDefenderSecurityMonitoring",
+        securityMonitoring: {
+          serializedName: "securityMonitoring",
+          type: {
+            name: "Composite",
+            className:
+              "ManagedClusterSecurityProfileDefenderSecurityMonitoring",
+          },
         },
       },
     },
-  },
-};
+  };
 
-export const ManagedClusterSecurityProfileDefenderSecurityMonitoring: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "ManagedClusterSecurityProfileDefenderSecurityMonitoring",
-    modelProperties: {
-      enabled: {
-        serializedName: "enabled",
-        type: {
-          name: "Boolean",
+export const ManagedClusterSecurityProfileDefenderSecurityMonitoring: coreClient.CompositeMapper =
+  {
+    type: {
+      name: "Composite",
+      className: "ManagedClusterSecurityProfileDefenderSecurityMonitoring",
+      modelProperties: {
+        enabled: {
+          serializedName: "enabled",
+          type: {
+            name: "Boolean",
+          },
         },
       },
     },
-  },
-};
+  };
 
 export const AzureKeyVaultKms: coreClient.CompositeMapper = {
   type: {
@@ -2635,41 +2856,43 @@ export const AzureKeyVaultKms: coreClient.CompositeMapper = {
   },
 };
 
-export const ManagedClusterSecurityProfileWorkloadIdentity: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "ManagedClusterSecurityProfileWorkloadIdentity",
-    modelProperties: {
-      enabled: {
-        serializedName: "enabled",
-        type: {
-          name: "Boolean",
+export const ManagedClusterSecurityProfileWorkloadIdentity: coreClient.CompositeMapper =
+  {
+    type: {
+      name: "Composite",
+      className: "ManagedClusterSecurityProfileWorkloadIdentity",
+      modelProperties: {
+        enabled: {
+          serializedName: "enabled",
+          type: {
+            name: "Boolean",
+          },
         },
       },
     },
-  },
-};
+  };
 
-export const ManagedClusterSecurityProfileImageCleaner: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "ManagedClusterSecurityProfileImageCleaner",
-    modelProperties: {
-      enabled: {
-        serializedName: "enabled",
-        type: {
-          name: "Boolean",
+export const ManagedClusterSecurityProfileImageCleaner: coreClient.CompositeMapper =
+  {
+    type: {
+      name: "Composite",
+      className: "ManagedClusterSecurityProfileImageCleaner",
+      modelProperties: {
+        enabled: {
+          serializedName: "enabled",
+          type: {
+            name: "Boolean",
+          },
         },
-      },
-      intervalHours: {
-        serializedName: "intervalHours",
-        type: {
-          name: "Number",
+        intervalHours: {
+          serializedName: "intervalHours",
+          type: {
+            name: "Number",
+          },
         },
       },
     },
-  },
-};
+  };
 
 export const ManagedClusterStorageProfile: coreClient.CompositeMapper = {
   type: {
@@ -2708,65 +2931,69 @@ export const ManagedClusterStorageProfile: coreClient.CompositeMapper = {
   },
 };
 
-export const ManagedClusterStorageProfileDiskCSIDriver: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "ManagedClusterStorageProfileDiskCSIDriver",
-    modelProperties: {
-      enabled: {
-        serializedName: "enabled",
-        type: {
-          name: "Boolean",
+export const ManagedClusterStorageProfileDiskCSIDriver: coreClient.CompositeMapper =
+  {
+    type: {
+      name: "Composite",
+      className: "ManagedClusterStorageProfileDiskCSIDriver",
+      modelProperties: {
+        enabled: {
+          serializedName: "enabled",
+          type: {
+            name: "Boolean",
+          },
         },
       },
     },
-  },
-};
+  };
 
-export const ManagedClusterStorageProfileFileCSIDriver: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "ManagedClusterStorageProfileFileCSIDriver",
-    modelProperties: {
-      enabled: {
-        serializedName: "enabled",
-        type: {
-          name: "Boolean",
+export const ManagedClusterStorageProfileFileCSIDriver: coreClient.CompositeMapper =
+  {
+    type: {
+      name: "Composite",
+      className: "ManagedClusterStorageProfileFileCSIDriver",
+      modelProperties: {
+        enabled: {
+          serializedName: "enabled",
+          type: {
+            name: "Boolean",
+          },
         },
       },
     },
-  },
-};
+  };
 
-export const ManagedClusterStorageProfileSnapshotController: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "ManagedClusterStorageProfileSnapshotController",
-    modelProperties: {
-      enabled: {
-        serializedName: "enabled",
-        type: {
-          name: "Boolean",
+export const ManagedClusterStorageProfileSnapshotController: coreClient.CompositeMapper =
+  {
+    type: {
+      name: "Composite",
+      className: "ManagedClusterStorageProfileSnapshotController",
+      modelProperties: {
+        enabled: {
+          serializedName: "enabled",
+          type: {
+            name: "Boolean",
+          },
         },
       },
     },
-  },
-};
+  };
 
-export const ManagedClusterStorageProfileBlobCSIDriver: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "ManagedClusterStorageProfileBlobCSIDriver",
-    modelProperties: {
-      enabled: {
-        serializedName: "enabled",
-        type: {
-          name: "Boolean",
+export const ManagedClusterStorageProfileBlobCSIDriver: coreClient.CompositeMapper =
+  {
+    type: {
+      name: "Composite",
+      className: "ManagedClusterStorageProfileBlobCSIDriver",
+      modelProperties: {
+        enabled: {
+          serializedName: "enabled",
+          type: {
+            name: "Boolean",
+          },
         },
       },
     },
-  },
-};
+  };
 
 export const ManagedClusterIngressProfile: coreClient.CompositeMapper = {
   type: {
@@ -2784,80 +3011,106 @@ export const ManagedClusterIngressProfile: coreClient.CompositeMapper = {
   },
 };
 
-export const ManagedClusterIngressProfileWebAppRouting: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "ManagedClusterIngressProfileWebAppRouting",
-    modelProperties: {
-      enabled: {
-        serializedName: "enabled",
-        type: {
-          name: "Boolean",
+export const ManagedClusterIngressProfileWebAppRouting: coreClient.CompositeMapper =
+  {
+    type: {
+      name: "Composite",
+      className: "ManagedClusterIngressProfileWebAppRouting",
+      modelProperties: {
+        enabled: {
+          serializedName: "enabled",
+          type: {
+            name: "Boolean",
+          },
         },
-      },
-      dnsZoneResourceIds: {
-        constraints: {
-          MaxItems: 5,
-        },
-        serializedName: "dnsZoneResourceIds",
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "String",
+        dnsZoneResourceIds: {
+          constraints: {
+            MaxItems: 5,
+          },
+          serializedName: "dnsZoneResourceIds",
+          type: {
+            name: "Sequence",
+            element: {
+              type: {
+                name: "String",
+              },
             },
           },
         },
+        nginx: {
+          serializedName: "nginx",
+          type: {
+            name: "Composite",
+            className: "ManagedClusterIngressProfileNginx",
+          },
+        },
+        identity: {
+          serializedName: "identity",
+          type: {
+            name: "Composite",
+            className: "UserAssignedIdentity",
+          },
+        },
       },
-      identity: {
-        serializedName: "identity",
+    },
+  };
+
+export const ManagedClusterIngressProfileNginx: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ManagedClusterIngressProfileNginx",
+    modelProperties: {
+      defaultIngressControllerType: {
+        serializedName: "defaultIngressControllerType",
         type: {
-          name: "Composite",
-          className: "UserAssignedIdentity",
+          name: "String",
         },
       },
     },
   },
 };
 
-export const ManagedClusterWorkloadAutoScalerProfile: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "ManagedClusterWorkloadAutoScalerProfile",
-    modelProperties: {
-      keda: {
-        serializedName: "keda",
-        type: {
-          name: "Composite",
-          className: "ManagedClusterWorkloadAutoScalerProfileKeda",
+export const ManagedClusterWorkloadAutoScalerProfile: coreClient.CompositeMapper =
+  {
+    type: {
+      name: "Composite",
+      className: "ManagedClusterWorkloadAutoScalerProfile",
+      modelProperties: {
+        keda: {
+          serializedName: "keda",
+          type: {
+            name: "Composite",
+            className: "ManagedClusterWorkloadAutoScalerProfileKeda",
+          },
         },
-      },
-      verticalPodAutoscaler: {
-        serializedName: "verticalPodAutoscaler",
-        type: {
-          name: "Composite",
-          className: "ManagedClusterWorkloadAutoScalerProfileVerticalPodAutoscaler",
+        verticalPodAutoscaler: {
+          serializedName: "verticalPodAutoscaler",
+          type: {
+            name: "Composite",
+            className:
+              "ManagedClusterWorkloadAutoScalerProfileVerticalPodAutoscaler",
+          },
         },
       },
     },
-  },
-};
+  };
 
-export const ManagedClusterWorkloadAutoScalerProfileKeda: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "ManagedClusterWorkloadAutoScalerProfileKeda",
-    modelProperties: {
-      enabled: {
-        serializedName: "enabled",
-        required: true,
-        type: {
-          name: "Boolean",
+export const ManagedClusterWorkloadAutoScalerProfileKeda: coreClient.CompositeMapper =
+  {
+    type: {
+      name: "Composite",
+      className: "ManagedClusterWorkloadAutoScalerProfileKeda",
+      modelProperties: {
+        enabled: {
+          serializedName: "enabled",
+          required: true,
+          type: {
+            name: "Boolean",
+          },
         },
       },
     },
-  },
-};
+  };
 
 export const ManagedClusterWorkloadAutoScalerProfileVerticalPodAutoscaler: coreClient.CompositeMapper =
   {
@@ -2893,49 +3146,51 @@ export const ManagedClusterAzureMonitorProfile: coreClient.CompositeMapper = {
   },
 };
 
-export const ManagedClusterAzureMonitorProfileMetrics: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "ManagedClusterAzureMonitorProfileMetrics",
-    modelProperties: {
-      enabled: {
-        serializedName: "enabled",
-        required: true,
-        type: {
-          name: "Boolean",
+export const ManagedClusterAzureMonitorProfileMetrics: coreClient.CompositeMapper =
+  {
+    type: {
+      name: "Composite",
+      className: "ManagedClusterAzureMonitorProfileMetrics",
+      modelProperties: {
+        enabled: {
+          serializedName: "enabled",
+          required: true,
+          type: {
+            name: "Boolean",
+          },
         },
-      },
-      kubeStateMetrics: {
-        serializedName: "kubeStateMetrics",
-        type: {
-          name: "Composite",
-          className: "ManagedClusterAzureMonitorProfileKubeStateMetrics",
+        kubeStateMetrics: {
+          serializedName: "kubeStateMetrics",
+          type: {
+            name: "Composite",
+            className: "ManagedClusterAzureMonitorProfileKubeStateMetrics",
+          },
         },
       },
     },
-  },
-};
+  };
 
-export const ManagedClusterAzureMonitorProfileKubeStateMetrics: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "ManagedClusterAzureMonitorProfileKubeStateMetrics",
-    modelProperties: {
-      metricLabelsAllowlist: {
-        serializedName: "metricLabelsAllowlist",
-        type: {
-          name: "String",
+export const ManagedClusterAzureMonitorProfileKubeStateMetrics: coreClient.CompositeMapper =
+  {
+    type: {
+      name: "Composite",
+      className: "ManagedClusterAzureMonitorProfileKubeStateMetrics",
+      modelProperties: {
+        metricLabelsAllowlist: {
+          serializedName: "metricLabelsAllowlist",
+          type: {
+            name: "String",
+          },
         },
-      },
-      metricAnnotationsAllowList: {
-        serializedName: "metricAnnotationsAllowList",
-        type: {
-          name: "String",
+        metricAnnotationsAllowList: {
+          serializedName: "metricAnnotationsAllowList",
+          type: {
+            name: "String",
+          },
         },
       },
     },
-  },
-};
+  };
 
 export const ServiceMeshProfile: coreClient.CompositeMapper = {
   type: {
@@ -3178,6 +3433,22 @@ export const ManagedClusterBootstrapProfile: coreClient.CompositeMapper = {
   },
 };
 
+export const ManagedClusterStatus: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ManagedClusterStatus",
+    modelProperties: {
+      provisioningError: {
+        serializedName: "provisioningError",
+        type: {
+          name: "Composite",
+          className: "CloudErrorBody",
+        },
+      },
+    },
+  },
+};
+
 export const Resource: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
@@ -3352,26 +3623,27 @@ export const ManagedClusterPoolUpgradeProfile: coreClient.CompositeMapper = {
   },
 };
 
-export const ManagedClusterPoolUpgradeProfileUpgradesItem: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "ManagedClusterPoolUpgradeProfileUpgradesItem",
-    modelProperties: {
-      kubernetesVersion: {
-        serializedName: "kubernetesVersion",
-        type: {
-          name: "String",
+export const ManagedClusterPoolUpgradeProfileUpgradesItem: coreClient.CompositeMapper =
+  {
+    type: {
+      name: "Composite",
+      className: "ManagedClusterPoolUpgradeProfileUpgradesItem",
+      modelProperties: {
+        kubernetesVersion: {
+          serializedName: "kubernetesVersion",
+          type: {
+            name: "String",
+          },
         },
-      },
-      isPreview: {
-        serializedName: "isPreview",
-        type: {
-          name: "Boolean",
+        isPreview: {
+          serializedName: "isPreview",
+          type: {
+            name: "Boolean",
+          },
         },
       },
     },
-  },
-};
+  };
 
 export const CredentialResults: coreClient.CompositeMapper = {
   type: {
@@ -3871,26 +4143,27 @@ export const AgentPoolUpgradeProfile: coreClient.CompositeMapper = {
   },
 };
 
-export const AgentPoolUpgradeProfilePropertiesUpgradesItem: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "AgentPoolUpgradeProfilePropertiesUpgradesItem",
-    modelProperties: {
-      kubernetesVersion: {
-        serializedName: "kubernetesVersion",
-        type: {
-          name: "String",
+export const AgentPoolUpgradeProfilePropertiesUpgradesItem: coreClient.CompositeMapper =
+  {
+    type: {
+      name: "Composite",
+      className: "AgentPoolUpgradeProfilePropertiesUpgradesItem",
+      modelProperties: {
+        kubernetesVersion: {
+          serializedName: "kubernetesVersion",
+          type: {
+            name: "String",
+          },
         },
-      },
-      isPreview: {
-        serializedName: "isPreview",
-        type: {
-          name: "Boolean",
+        isPreview: {
+          serializedName: "isPreview",
+          type: {
+            name: "Boolean",
+          },
         },
       },
     },
-  },
-};
+  };
 
 export const AgentPoolDeleteMachinesParameter: coreClient.CompositeMapper = {
   type: {
@@ -4042,7 +4315,8 @@ export const AgentPoolAvailableVersions: coreClient.CompositeMapper = {
           element: {
             type: {
               name: "Composite",
-              className: "AgentPoolAvailableVersionsPropertiesAgentPoolVersionsItem",
+              className:
+                "AgentPoolAvailableVersionsPropertiesAgentPoolVersionsItem",
             },
           },
         },
@@ -4294,34 +4568,35 @@ export const RunCommandResult: coreClient.CompositeMapper = {
   },
 };
 
-export const OutboundEnvironmentEndpointCollection: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "OutboundEnvironmentEndpointCollection",
-    modelProperties: {
-      value: {
-        serializedName: "value",
-        required: true,
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "Composite",
-              className: "OutboundEnvironmentEndpoint",
+export const OutboundEnvironmentEndpointCollection: coreClient.CompositeMapper =
+  {
+    type: {
+      name: "Composite",
+      className: "OutboundEnvironmentEndpointCollection",
+      modelProperties: {
+        value: {
+          serializedName: "value",
+          required: true,
+          type: {
+            name: "Sequence",
+            element: {
+              type: {
+                name: "Composite",
+                className: "OutboundEnvironmentEndpoint",
+              },
             },
           },
         },
-      },
-      nextLink: {
-        serializedName: "nextLink",
-        readOnly: true,
-        type: {
-          name: "String",
+        nextLink: {
+          serializedName: "nextLink",
+          readOnly: true,
+          type: {
+            name: "String",
+          },
         },
       },
     },
-  },
-};
+  };
 
 export const OutboundEnvironmentEndpoint: coreClient.CompositeMapper = {
   type: {
@@ -5056,6 +5331,12 @@ export const AgentPool: coreClient.CompositeMapper = {
           name: "String",
         },
       },
+      podIPAllocationMode: {
+        serializedName: "properties.podIPAllocationMode",
+        type: {
+          name: "String",
+        },
+      },
       maxPods: {
         serializedName: "properties.maxPods",
         type: {
@@ -5312,6 +5593,39 @@ export const AgentPool: coreClient.CompositeMapper = {
           className: "GPUProfile",
         },
       },
+      gatewayProfile: {
+        serializedName: "properties.gatewayProfile",
+        type: {
+          name: "Composite",
+          className: "AgentPoolGatewayProfile",
+        },
+      },
+      virtualMachinesProfile: {
+        serializedName: "properties.virtualMachinesProfile",
+        type: {
+          name: "Composite",
+          className: "VirtualMachinesProfile",
+        },
+      },
+      virtualMachineNodesStatus: {
+        serializedName: "properties.virtualMachineNodesStatus",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "VirtualMachineNodes",
+            },
+          },
+        },
+      },
+      status: {
+        serializedName: "properties.status",
+        type: {
+          name: "Composite",
+          className: "AgentPoolStatus",
+        },
+      },
     },
   },
 };
@@ -5322,6 +5636,18 @@ export const Machine: coreClient.CompositeMapper = {
     className: "Machine",
     modelProperties: {
       ...SubResource.type.modelProperties,
+      zones: {
+        serializedName: "zones",
+        readOnly: true,
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "String",
+            },
+          },
+        },
+      },
       properties: {
         serializedName: "properties",
         type: {
@@ -5528,12 +5854,6 @@ export const ManagedCluster: coreClient.CompositeMapper = {
           name: "String",
         },
       },
-      enablePodSecurityPolicy: {
-        serializedName: "properties.enablePodSecurityPolicy",
-        type: {
-          name: "Boolean",
-        },
-      },
       networkProfile: {
         serializedName: "properties.networkProfile",
         type: {
@@ -5685,6 +6005,13 @@ export const ManagedCluster: coreClient.CompositeMapper = {
           className: "ManagedClusterBootstrapProfile",
         },
       },
+      status: {
+        serializedName: "properties.status",
+        type: {
+          name: "Composite",
+          className: "ManagedClusterStatus",
+        },
+      },
     },
   },
 };
@@ -5821,86 +6148,91 @@ export const ManagedClustersDeleteHeaders: coreClient.CompositeMapper = {
   },
 };
 
-export const ManagedClustersResetServicePrincipalProfileHeaders: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "ManagedClustersResetServicePrincipalProfileHeaders",
-    modelProperties: {
-      location: {
-        serializedName: "location",
-        type: {
-          name: "String",
+export const ManagedClustersResetServicePrincipalProfileHeaders: coreClient.CompositeMapper =
+  {
+    type: {
+      name: "Composite",
+      className: "ManagedClustersResetServicePrincipalProfileHeaders",
+      modelProperties: {
+        location: {
+          serializedName: "location",
+          type: {
+            name: "String",
+          },
         },
       },
     },
-  },
-};
+  };
 
-export const ManagedClustersResetAADProfileHeaders: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "ManagedClustersResetAADProfileHeaders",
-    modelProperties: {
-      location: {
-        serializedName: "location",
-        type: {
-          name: "String",
+export const ManagedClustersResetAADProfileHeaders: coreClient.CompositeMapper =
+  {
+    type: {
+      name: "Composite",
+      className: "ManagedClustersResetAADProfileHeaders",
+      modelProperties: {
+        location: {
+          serializedName: "location",
+          type: {
+            name: "String",
+          },
         },
       },
     },
-  },
-};
+  };
 
-export const ManagedClustersRotateClusterCertificatesHeaders: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "ManagedClustersRotateClusterCertificatesHeaders",
-    modelProperties: {
-      location: {
-        serializedName: "location",
-        type: {
-          name: "String",
+export const ManagedClustersRotateClusterCertificatesHeaders: coreClient.CompositeMapper =
+  {
+    type: {
+      name: "Composite",
+      className: "ManagedClustersRotateClusterCertificatesHeaders",
+      modelProperties: {
+        location: {
+          serializedName: "location",
+          type: {
+            name: "String",
+          },
         },
       },
     },
-  },
-};
+  };
 
-export const ManagedClustersAbortLatestOperationHeaders: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "ManagedClustersAbortLatestOperationHeaders",
-    modelProperties: {
-      location: {
-        serializedName: "location",
-        type: {
-          name: "String",
+export const ManagedClustersAbortLatestOperationHeaders: coreClient.CompositeMapper =
+  {
+    type: {
+      name: "Composite",
+      className: "ManagedClustersAbortLatestOperationHeaders",
+      modelProperties: {
+        location: {
+          serializedName: "location",
+          type: {
+            name: "String",
+          },
         },
-      },
-      azureAsyncOperation: {
-        serializedName: "azure-asyncoperation",
-        type: {
-          name: "String",
+        azureAsyncOperation: {
+          serializedName: "azure-asyncoperation",
+          type: {
+            name: "String",
+          },
         },
       },
     },
-  },
-};
+  };
 
-export const ManagedClustersRotateServiceAccountSigningKeysHeaders: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "ManagedClustersRotateServiceAccountSigningKeysHeaders",
-    modelProperties: {
-      location: {
-        serializedName: "location",
-        type: {
-          name: "String",
+export const ManagedClustersRotateServiceAccountSigningKeysHeaders: coreClient.CompositeMapper =
+  {
+    type: {
+      name: "Composite",
+      className: "ManagedClustersRotateServiceAccountSigningKeysHeaders",
+      modelProperties: {
+        location: {
+          serializedName: "location",
+          type: {
+            name: "String",
+          },
         },
       },
     },
-  },
-};
+  };
 
 export const ManagedClustersStopHeaders: coreClient.CompositeMapper = {
   type: {
@@ -5947,41 +6279,43 @@ export const ManagedClustersRunCommandHeaders: coreClient.CompositeMapper = {
   },
 };
 
-export const ManagedClustersGetCommandResultHeaders: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "ManagedClustersGetCommandResultHeaders",
-    modelProperties: {
-      location: {
-        serializedName: "location",
-        type: {
-          name: "String",
+export const ManagedClustersGetCommandResultHeaders: coreClient.CompositeMapper =
+  {
+    type: {
+      name: "Composite",
+      className: "ManagedClustersGetCommandResultHeaders",
+      modelProperties: {
+        location: {
+          serializedName: "location",
+          type: {
+            name: "String",
+          },
         },
       },
     },
-  },
-};
+  };
 
-export const AgentPoolsAbortLatestOperationHeaders: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "AgentPoolsAbortLatestOperationHeaders",
-    modelProperties: {
-      location: {
-        serializedName: "location",
-        type: {
-          name: "String",
+export const AgentPoolsAbortLatestOperationHeaders: coreClient.CompositeMapper =
+  {
+    type: {
+      name: "Composite",
+      className: "AgentPoolsAbortLatestOperationHeaders",
+      modelProperties: {
+        location: {
+          serializedName: "location",
+          type: {
+            name: "String",
+          },
         },
-      },
-      azureAsyncOperation: {
-        serializedName: "azure-asyncoperation",
-        type: {
-          name: "String",
+        azureAsyncOperation: {
+          serializedName: "azure-asyncoperation",
+          type: {
+            name: "String",
+          },
         },
       },
     },
-  },
-};
+  };
 
 export const AgentPoolsDeleteHeaders: coreClient.CompositeMapper = {
   type: {
@@ -6013,32 +6347,34 @@ export const AgentPoolsDeleteMachinesHeaders: coreClient.CompositeMapper = {
   },
 };
 
-export const AgentPoolsUpgradeNodeImageVersionHeaders: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "AgentPoolsUpgradeNodeImageVersionHeaders",
-    modelProperties: {
-      azureAsyncOperation: {
-        serializedName: "azure-asyncoperation",
-        type: {
-          name: "String",
+export const AgentPoolsUpgradeNodeImageVersionHeaders: coreClient.CompositeMapper =
+  {
+    type: {
+      name: "Composite",
+      className: "AgentPoolsUpgradeNodeImageVersionHeaders",
+      modelProperties: {
+        azureAsyncOperation: {
+          serializedName: "azure-asyncoperation",
+          type: {
+            name: "String",
+          },
         },
       },
     },
-  },
-};
+  };
 
-export const TrustedAccessRoleBindingsDeleteHeaders: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "TrustedAccessRoleBindingsDeleteHeaders",
-    modelProperties: {
-      location: {
-        serializedName: "location",
-        type: {
-          name: "String",
+export const TrustedAccessRoleBindingsDeleteHeaders: coreClient.CompositeMapper =
+  {
+    type: {
+      name: "Composite",
+      className: "TrustedAccessRoleBindingsDeleteHeaders",
+      modelProperties: {
+        location: {
+          serializedName: "location",
+          type: {
+            name: "String",
+          },
         },
       },
     },
-  },
-};
+  };

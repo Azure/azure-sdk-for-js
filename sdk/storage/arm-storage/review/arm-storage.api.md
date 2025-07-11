@@ -42,7 +42,7 @@ export interface AccountLimits {
 export interface AccountSasParameters {
     iPAddressOrRange?: string;
     keyToSign?: string;
-    permissions: Permissions_2;
+    permissions: Permissions;
     protocols?: HttpProtocol;
     resourceTypes: SignedResourceTypes;
     services: Services;
@@ -674,7 +674,7 @@ export type EncryptionScopeState = string;
 // @public
 export interface EncryptionService {
     enabled?: boolean;
-    keyType?: KeyType_2;
+    keyType?: KeyType;
     readonly lastEnabledTime?: Date;
 }
 
@@ -1119,8 +1119,7 @@ export interface KeyPolicy {
 export type KeySource = string;
 
 // @public
-type KeyType_2 = string;
-export { KeyType_2 as KeyType }
+export type KeyType = string;
 
 // @public
 export interface KeyVaultProperties {
@@ -2202,8 +2201,7 @@ export interface OperationsListOptionalParams extends coreClient.OperationOption
 export type OperationsListResponse = OperationListResult;
 
 // @public
-type Permissions_2 = string;
-export { Permissions_2 as Permissions }
+export type Permissions = string;
 
 // @public (undocumented)
 export interface PermissionScope {
@@ -2330,7 +2328,7 @@ export interface ProvisioningIssueProperties {
 }
 
 // @public
-export type ProvisioningState = "Creating" | "ResolvingDNS" | "Succeeded" | "ValidateSubscriptionQuotaBegin" | "ValidateSubscriptionQuotaEnd" | "Deleting" | "Canceled" | "Failed";
+export type ProvisioningState = "Creating" | "ResolvingDNS" | "Succeeded" | "ValidateSubscriptionQuotaBegin" | "ValidateSubscriptionQuotaEnd" | "Accepted" | "Deleting" | "Canceled" | "Failed";
 
 // @public
 export interface ProxyResource extends Resource {
@@ -2521,7 +2519,7 @@ export interface ServiceSasParameters {
     keyToSign?: string;
     partitionKeyEnd?: string;
     partitionKeyStart?: string;
-    permissions?: Permissions_2;
+    permissions?: Permissions;
     protocols?: HttpProtocol;
     resource?: SignedResource;
     rowKeyEnd?: string;

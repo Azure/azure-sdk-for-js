@@ -6,8 +6,6 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
 const { NetworkCloud } = require("@azure/arm-networkcloud");
 const { DefaultAzureCredential } = require("@azure/identity");
 require("dotenv/config");
@@ -16,7 +14,7 @@ require("dotenv/config");
  * This sample demonstrates how to Patch properties of the provided rack, or update the tags associated with the rack. Properties and tag updates can be done independently.
  *
  * @summary Patch properties of the provided rack, or update the tags associated with the rack. Properties and tag updates can be done independently.
- * x-ms-original-file: specification/networkcloud/resource-manager/Microsoft.NetworkCloud/stable/2024-07-01/examples/Racks_Patch.json
+ * x-ms-original-file: specification/networkcloud/resource-manager/Microsoft.NetworkCloud/stable/2025-02-01/examples/Racks_Patch.json
  */
 async function patchRack() {
   const subscriptionId =

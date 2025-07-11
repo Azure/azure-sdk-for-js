@@ -6,8 +6,6 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
 const { NetworkCloud } = require("@azure/arm-networkcloud");
 const { DefaultAzureCredential } = require("@azure/identity");
 require("dotenv/config");
@@ -16,7 +14,7 @@ require("dotenv/config");
  * This sample demonstrates how to Create a new trunked network or update the properties of the existing trunked network.
  *
  * @summary Create a new trunked network or update the properties of the existing trunked network.
- * x-ms-original-file: specification/networkcloud/resource-manager/Microsoft.NetworkCloud/stable/2024-07-01/examples/TrunkedNetworks_Create.json
+ * x-ms-original-file: specification/networkcloud/resource-manager/Microsoft.NetworkCloud/stable/2025-02-01/examples/TrunkedNetworks_Create.json
  */
 async function createOrUpdateTrunkedNetwork() {
   const subscriptionId =

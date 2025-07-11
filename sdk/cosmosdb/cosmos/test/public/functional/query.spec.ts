@@ -1,19 +1,27 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import assert from "assert";
-import type { Suite } from "mocha";
-import type { ContainerDefinition, FeedOptions } from "../../../src";
-import { CosmosClient } from "../../../src";
-import type { Container } from "../../../src/";
-import { endpoint } from "../common/_testConfig";
-import { masterKey } from "../common/_fakeTestSecrets";
+
+import type {
+  ContainerDefinition,
+  CreateOperationInput,
+  FeedOptions,
+  PluginConfig,
+} from "../../../src/index.js";
+import { CosmosClient } from "../../../src/index.js";
+import type { Container } from "../../../src/index.js";
+import { endpoint } from "../common/_testConfig.js";
+import { masterKey } from "../common/_fakeTestSecrets.js";
 import {
   getTestContainer,
   getTestDatabase,
   removeAllDatabases,
   testForDiagnostics,
-} from "../common/TestHelpers";
-import { PartitionKeyDefinitionVersion, PartitionKeyKind } from "../../../src/documents";
+} from "../common/TestHelpers.js";
+import { PartitionKeyDefinitionVersion, PartitionKeyKind } from "../../../src/documents/index.js";
+import { describe, it, assert, beforeAll, afterAll } from "vitest";
+import type { Database } from "../../../src/client/Database/Database.js";
+import { PluginOn, ResourceType } from "../../../src/index.js";
+import type { Response } from "../../../src/index.js";
 
 const client = new CosmosClient({
   endpoint,
@@ -21,20 +29,13 @@ const client = new CosmosClient({
   connectionPolicy: { enableBackgroundEndpointRefreshing: false },
 });
 
-// TODO: This is required for Node 6 and above, so just putting it in here.
-// Might want to decide on only supporting async iterators once Node supports them officially.
-if (!Symbol || !Symbol.asyncIterator) {
-  (Symbol as any).asyncIterator = Symbol.for("Symbol.asyncIterator");
-}
-
-describe("Queries", function (this: Suite) {
-  this.timeout(process.env.MOCHA_TIMEOUT || 10000);
-  before(async function () {
+describe("Queries", { timeout: 10000 }, () => {
+  beforeAll(async () => {
     await removeAllDatabases();
   });
 
-  describe("Query CRUD", function () {
-    it("nativeApi Should do queries CRUD operations successfully name based", async function () {
+  describe("Query CRUD", () => {
+    it("nativeApi Should do queries CRUD operations successfully name based", async () => {
       // create a database
       const database = await getTestDatabase("query test database");
       // query databases
@@ -60,11 +61,10 @@ describe("Queries", function (this: Suite) {
     });
   });
 
-  describe("QueryIterator", function (this: Suite) {
-    this.timeout(process.env.MOCHA_TIMEOUT || 30000);
+  describe("QueryIterator", { timeout: 30000 }, () => {
     let resources: { container: Container; doc1: any; doc2: any; doc3: any };
 
-    before(async function () {
+    beforeAll(async () => {
       const container = await getTestContainer("Validate QueryIterator Functionality", client);
       const { resource: doc1 } = await container.items.create({ id: "doc1", prop1: "value1" });
       const { resource: doc2 } = await container.items.create({ id: "doc2", prop1: "value2" });
@@ -72,7 +72,7 @@ describe("Queries", function (this: Suite) {
       resources = { container, doc1, doc2, doc3 };
     });
 
-    it("fetchAll", async function () {
+    it("fetchAll", async () => {
       const queryIterator = resources.container.items.readAll({ maxItemCount: 2 });
 
       const { resources: docs } = await testForDiagnostics(
@@ -95,7 +95,7 @@ describe("Queries", function (this: Suite) {
       assert.equal(docs[2].id, resources.doc3.id);
     });
 
-    it("asyncIterator", async function () {
+    it("asyncIterator", async () => {
       const queryIterator = resources.container.items.readAll({ maxItemCount: 2 });
       let counter = 0;
       for await (const { resources: docs } of queryIterator.getAsyncIterator()) {
@@ -110,7 +110,7 @@ describe("Queries", function (this: Suite) {
       assert(counter === 2, "iterator should have run 3 times");
     });
 
-    it("executeNext", async function () {
+    it("executeNext", async () => {
       let queryIterator = resources.container.items.readAll({
         maxItemCount: 2,
       });
@@ -163,7 +163,7 @@ describe("Queries", function (this: Suite) {
         "second batch element should be doc3",
       );
     });
-    it("fails with invalid continuation token", async function () {
+    it("fails with invalid continuation token", async () => {
       let queryIterator = resources.container.items.readAll({
         maxItemCount: 2,
       });
@@ -182,10 +182,8 @@ describe("Queries", function (this: Suite) {
       }
     });
 
-    describe("SUM query iterator", function (this: Suite) {
-      this.timeout(process.env.MOCHA_TIMEOUT || 30000);
-
-      it("returns undefined sum with null value in aggregator", async function () {
+    describe("SUM query iterator", { timeout: 30000 }, () => {
+      it("returns undefined sum with null value in aggregator", async () => {
         const container = await getTestContainer(
           "Validate QueryIterator Functionality",
           undefined,
@@ -205,7 +203,8 @@ describe("Queries", function (this: Suite) {
         const { resources: sum } = await queryIterator.fetchAll();
         assert.equal(sum.length, 0);
       });
-      it("returns undefined sum with false value in aggregator", async function () {
+
+      it("returns undefined sum with false value in aggregator", async () => {
         const container = await getTestContainer(
           "Validate QueryIterator Functionality",
           undefined,
@@ -225,7 +224,8 @@ describe("Queries", function (this: Suite) {
         const { resources: sum } = await queryIterator.fetchAll();
         assert.equal(sum.length, 0);
       });
-      it("returns undefined sum with empty array value in aggregator", async function () {
+
+      it("returns undefined sum with empty array value in aggregator", async () => {
         const container = await getTestContainer(
           "Validate QueryIterator Functionality",
           undefined,
@@ -245,7 +245,8 @@ describe("Queries", function (this: Suite) {
         const { resources: sum } = await queryIterator.fetchAll();
         assert.equal(sum.length, 0);
       });
-      it("returns a valid sum with undefined value in aggregator", async function () {
+
+      it("returns a valid sum with undefined value in aggregator", async () => {
         const container = await getTestContainer(
           "Validate QueryIterator Functionality",
           undefined,
@@ -268,10 +269,8 @@ describe("Queries", function (this: Suite) {
       });
     });
 
-    describe("MakeList query iterator", function (this: Suite) {
-      this.timeout(process.env.MOCHA_TIMEOUT || 30000);
-
-      it("returns all documents for query iterator with makeList", async function () {
+    describe("MakeList query iterator", { timeout: 30000 }, () => {
+      it("returns all documents for query iterator with makeList", async () => {
         const queryIterator = resources.container.items.query(
           "SELECT VALUE MAKELIST (c.prop1) FROM c",
         );
@@ -280,7 +279,7 @@ describe("Queries", function (this: Suite) {
         assert.deepEqual(ages[0], ["value1", "value2", "value3"]);
       });
 
-      it("returns all documents for query iterator with makeList with multipartitioned container", async function () {
+      it("returns all documents for query iterator with makeList with multipartitioned container", async () => {
         const container = await getTestContainer("multipartitioned makelist", client, {
           throughput: 12100,
         });
@@ -294,7 +293,7 @@ describe("Queries", function (this: Suite) {
         assert.deepEqual(ages[0], ["value1", "value2", "value3", "value1"]);
       });
 
-      it("field of type array", async function () {
+      it("field of type array", async () => {
         const container = await getTestContainer("array field", client, {
           throughput: 12100,
         });
@@ -309,7 +308,7 @@ describe("Queries", function (this: Suite) {
         assert.deepEqual(ages[0], [["value1", "value2"], []]);
       });
 
-      it("field of type string", async function () {
+      it("field of type string", async () => {
         const container = await getTestContainer("array field", client, {
           throughput: 12100,
         });
@@ -325,10 +324,8 @@ describe("Queries", function (this: Suite) {
       });
     });
 
-    describe("MakeSet query iterator", function (this: Suite) {
-      this.timeout(process.env.MOCHA_TIMEOUT || 30000);
-
-      it("returns all documents for query iterator with makeSet", async function () {
+    describe("MakeSet query iterator", { timeout: 30000 }, () => {
+      it("returns all documents for query iterator with makeSet", async () => {
         await resources.container.items.create({ id: "doc4", prop1: "value1" });
         const queryIterator = resources.container.items.query(
           "SELECT VALUE MAKESET (c.prop1) FROM c",
@@ -338,7 +335,7 @@ describe("Queries", function (this: Suite) {
         assert.deepEqual(ages[0], ["value1", "value2", "value3"]);
       });
 
-      it("returns all documents for query iterator with makeSet with multipartitioned container", async function () {
+      it("returns all documents for query iterator with makeSet with multipartitioned container", async () => {
         const container = await getTestContainer("multipartitioned makeset", client, {
           throughput: 12100,
         });
@@ -354,11 +351,10 @@ describe("Queries", function (this: Suite) {
     });
   });
 
-  describe("QueryIterator: Hierarchical partitions", function (this: Suite) {
-    this.timeout(process.env.MOCHA_TIMEOUT || 30000);
+  describe("QueryIterator: Hierarchical partitions", { timeout: 30000 }, () => {
     let resources: { container: Container; doc1: any; doc2: any; doc3: any; doc4: any };
 
-    before(async function () {
+    beforeAll(async () => {
       const containerDef: ContainerDefinition = {
         partitionKey: {
           paths: ["/prop1", "/prop2"],
@@ -379,7 +375,7 @@ describe("Queries", function (this: Suite) {
       resources = { container, doc1, doc2, doc3, doc4 };
     });
 
-    it("fetchAll", async function () {
+    it("fetchAll", async () => {
       const queryIterator = resources.container.items.readAll({ maxItemCount: 2 });
       const { resources: docs } = await queryIterator.fetchAll();
       assert.equal(docs.length, 4, "queryIterator should return all documents using continuation");
@@ -389,7 +385,7 @@ describe("Queries", function (this: Suite) {
       assert.equal(docs[3].id, resources.doc4.id);
     });
 
-    it("asyncIterator", async function () {
+    it("asyncIterator", async () => {
       const queryIterator = resources.container.items.readAll({ maxItemCount: 2 });
       let counter = 0;
       for await (const { resources: docs } of queryIterator.getAsyncIterator()) {
@@ -405,7 +401,7 @@ describe("Queries", function (this: Suite) {
       assert.strictEqual(counter, 3, "iterator should have run 4 times");
     });
 
-    it("asyncIterator - with partitionKey parameter", async function () {
+    it("asyncIterator - with partitionKey parameter", async () => {
       const queryIterator = resources.container.items.readAll({
         maxItemCount: 2,
         partitionKey: ["a", 1],
@@ -423,7 +419,7 @@ describe("Queries", function (this: Suite) {
       assert.strictEqual(counter, 2, "iterator should have run 3 times");
     });
 
-    it("executeNext", async function () {
+    it("executeNext", async () => {
       let queryIterator = resources.container.items.readAll({
         maxItemCount: 2,
         partitionKey: ["a", 1],
@@ -465,7 +461,7 @@ describe("Queries", function (this: Suite) {
         "second batch element should be doc3",
       );
     });
-    it("fails with invalid continuation token", async function () {
+    it("fails with invalid continuation token", async () => {
       let queryIterator = resources.container.items.readAll({
         maxItemCount: 2,
         partitionKey: ["a", 1],
@@ -485,10 +481,8 @@ describe("Queries", function (this: Suite) {
       }
     });
 
-    describe("SUM query iterator", function (this: Suite) {
-      this.timeout(process.env.MOCHA_TIMEOUT || 30000);
-
-      it("return sum for given partition key", async function () {
+    describe("SUM query iterator", { timeout: 30000 }, () => {
+      it("return sum for given partition key", async () => {
         const container = await getTestContainer(
           "Validate QueryIterator Functionality",
           undefined,
@@ -573,16 +567,17 @@ describe("Queries", function (this: Suite) {
     });
   });
 
-  describe("Query With DISTCINCT, ORDER BY and LIMIT", function (this: Suite) {
+  describe("Query With DISTINCT, ORDER BY and LIMIT", () => {
     let container: Container;
-    before(async function () {
+
+    beforeAll(async () => {
       const containerDefinition = {
         id: "conti1",
         partitionKey: { paths: ["/name"], kind: PartitionKeyKind.Hash },
         throughput: 13000,
       };
       container = await getTestContainer(
-        "Query With DISTCINCT, ORDER BY and LIMIT",
+        "Query With DISTINCT, ORDER BY and LIMIT",
         client,
         containerDefinition,
       );
@@ -624,7 +619,7 @@ describe("Queries", function (this: Suite) {
       { age: 10 },
     ];
 
-    it("query with offset 0 and limit 10 should fetch correct number of results", async function () {
+    it("query with offset 0 and limit 10 should fetch correct number of results", async () => {
       const query = "SELECT DISTINCT c.age FROM c ORDER BY c.age ASC OFFSET 0 LIMIT 10";
       const options: FeedOptions = {
         forceQueryPlan: true,
@@ -635,7 +630,7 @@ describe("Queries", function (this: Suite) {
       assert.deepEqual(results, expectedResult);
     });
 
-    it("query with offset 5 and limit 10 should fetch correct number of results", async function () {
+    it("query with offset 5 and limit 10 should fetch correct number of results", async () => {
       const query = "SELECT DISTINCT c.age FROM c ORDER BY c.age ASC OFFSET 5 LIMIT 10";
       const options: FeedOptions = {
         forceQueryPlan: true,
@@ -646,7 +641,7 @@ describe("Queries", function (this: Suite) {
       assert.deepEqual(results, expectedResult.slice(5));
     });
 
-    it("query with TOP 10 should fetch correct number of results", async function () {
+    it("query with TOP 10 should fetch correct number of results", async () => {
       const query = "SELECT DISTINCT TOP 10  c.age FROM c ORDER BY c.age ASC";
       const options: FeedOptions = {
         forceQueryPlan: true,
@@ -656,5 +651,401 @@ describe("Queries", function (this: Suite) {
       const { resources: results } = await queryIterator.fetchAll();
       assert.deepEqual(results, expectedResult);
     });
+  });
+});
+
+describe("Full Text Search queries", () => {
+  let database: Database;
+  const dbName = `fts-query-db`;
+
+  beforeAll(async () => {
+    await removeAllDatabases();
+    const client1 = new CosmosClient({ endpoint, key: masterKey });
+    const { database: db } = await client1.databases.createIfNotExists({ id: dbName });
+    database = db;
+  });
+
+  afterAll(async () => {
+    if (database) await database.delete();
+  });
+
+  it("should execute a full text query targeting an individual partition via query plan using WHERE clause", async () => {
+    const containerName = "full text search partition where test";
+    let container;
+    try {
+      const result = await database.containers.createIfNotExists({
+        id: containerName,
+        partitionKey: { paths: ["/pk"] },
+        indexingPolicy: {
+          includedPaths: [{ path: "/*" }],
+          fullTextIndexes: [{ path: "/text" }],
+        },
+        fullTextPolicy: {
+          defaultLanguage: "en-US",
+          fullTextPaths: [{ path: "/text", language: "en-US" }],
+        },
+        throughput: 25000,
+      });
+      container = result.container;
+      // Create items in different partitions
+      const responseA1 = await container.items.create({ id: "1", pk: "A", text: "I like to swim" });
+      const responseZ = await container.items.create({ id: "2", pk: "Z", text: "I like to swim" });
+      const responseA2 = await container.items.create({ id: "3", pk: "A", text: "I like to run" });
+      const pkRangeIdA1 = responseA1.headers["x-ms-documentdb-partitionkeyrangeid"];
+      const pkRangeIdZ = responseZ.headers["x-ms-documentdb-partitionkeyrangeid"];
+      const pkRangeIdA2 = responseA2.headers["x-ms-documentdb-partitionkeyrangeid"];
+      assert.notEqual(pkRangeIdA1, pkRangeIdZ);
+      assert.equal(pkRangeIdA1, pkRangeIdA2);
+
+      // FullTextContains
+      let query = "SELECT * FROM c WHERE c.pk = 'A' AND FullTextContains(c.text, 'swim')";
+      let { resources } = await container.items.query(query).fetchAll();
+      assert.equal(resources.length, 1);
+      assert.equal(resources[0].pk, "A");
+      assert.equal(resources[0].text, "I like to swim");
+
+      // FullTextContainsAll
+      query = "SELECT * FROM c WHERE c.pk = 'A' AND FullTextContainsAll(c.text, 'swim', 'run')";
+      resources = (await container.items.query(query).fetchAll()).resources;
+      assert.equal(resources.length, 0);
+
+      // FullTextContainsAny
+      query = "SELECT * FROM c WHERE c.pk = 'A' AND FullTextContainsAny(c.text, 'swim', 'run')";
+      resources = (await container.items.query(query).fetchAll()).resources;
+      assert.equal(resources.length, 2);
+    } finally {
+      if (container) await container.delete();
+    }
+  });
+
+  it("should execute a cross-partition full text query", async () => {
+    const containerName = "full text search cross partition test";
+    let container;
+    try {
+      const result = await database.containers.createIfNotExists({
+        id: containerName,
+        partitionKey: { paths: ["/pk"] },
+        indexingPolicy: {
+          includedPaths: [{ path: "/*" }],
+          fullTextIndexes: [{ path: "/text" }],
+        },
+        fullTextPolicy: {
+          defaultLanguage: "en-US",
+          fullTextPaths: [{ path: "/text", language: "en-US" }],
+        },
+        throughput: 25000,
+      });
+      container = result.container;
+
+      // Create items in different partitions
+      const responseA = await container.items.create({ id: "1", pk: "A", text: "I like to swim" });
+      const responseZ = await container.items.create({
+        id: "2",
+        pk: "Z",
+        text: "I like to swim and run",
+      });
+      const responseM = await container.items.create({ id: "3", pk: "M", text: "I like to run" });
+      const pkRangeIdA = responseA.headers["x-ms-documentdb-partitionkeyrangeid"];
+      const pkRangeIdZ = responseZ.headers["x-ms-documentdb-partitionkeyrangeid"];
+      const pkRangeIdM = responseM.headers["x-ms-documentdb-partitionkeyrangeid"];
+      assert.notEqual(pkRangeIdA, pkRangeIdZ);
+      assert.notEqual(pkRangeIdA, pkRangeIdM);
+      assert.notEqual(pkRangeIdZ, pkRangeIdM);
+
+      // FullTextContains
+      let query = "SELECT * FROM c WHERE FullTextContains(c.text, 'swim')";
+      let { resources } = await container.items.query(query, { forceQueryPlan: true }).fetchAll();
+      let pks = resources.map((r: any) => r.pk);
+      assert.equal(resources.length, 2);
+      assert(pks.includes("A"));
+      assert(pks.includes("Z"));
+
+      // FullTextContainsAll
+      query = "SELECT * FROM c WHERE FullTextContainsAll(c.text, 'swim', 'run')";
+      resources = (await container.items.query(query, { forceQueryPlan: true }).fetchAll())
+        .resources;
+      pks = resources.map((r: any) => r.pk);
+      assert.equal(resources.length, 1);
+      assert(pks.includes("Z"));
+
+      // FullTextContainsAny
+      query = "SELECT * FROM c WHERE FullTextContainsAny(c.text, 'swim', 'run')";
+      resources = (await container.items.query(query, { forceQueryPlan: true }).fetchAll())
+        .resources;
+      pks = resources.map((r: any) => r.pk);
+      assert.equal(resources.length, 3);
+      assert(pks.includes("A"));
+      assert(pks.includes("Z"));
+      assert(pks.includes("M"));
+    } finally {
+      if (container) await container.delete();
+    }
+  });
+
+  it("should execute a full text single partition query using hierarchical partition keys", async () => {
+    const containerName = "full text search hierarchical partition test";
+    let container;
+    try {
+      const result = await database.containers.createIfNotExists({
+        id: containerName,
+        partitionKey: {
+          paths: ["/country", "/city"],
+          version: 2,
+          kind: PartitionKeyKind.MultiHash,
+        },
+        indexingPolicy: {
+          includedPaths: [{ path: "/*" }],
+          fullTextIndexes: [{ path: "/text" }],
+        },
+        fullTextPolicy: {
+          defaultLanguage: "en-US",
+          fullTextPaths: [{ path: "/text", language: "en-US" }],
+        },
+        throughput: 1000,
+      });
+      container = result.container;
+      await container.items.create({ id: "1", country: "US", city: "NY", text: "I like to swim" });
+      await container.items.create({ id: "2", country: "US", city: "SF", text: "I like to swim" });
+      await container.items.create({
+        id: "3",
+        country: "CA",
+        city: "Toronto",
+        text: "I like to run",
+      });
+
+      // FullTextContains with hierarchical partition keys
+      let query =
+        "SELECT * FROM c WHERE c.country = 'US' AND c.city = 'NY' AND FullTextContains(c.text, 'swim')";
+      let { resources } = await container.items.query(query).fetchAll();
+      assert.equal(resources.length, 1);
+      assert.equal(resources[0].country, "US");
+      assert.equal(resources[0].city, "NY");
+      assert.equal(resources[0].text, "I like to swim");
+
+      // FullTextContainsAll with hierarchical partition keys
+      query =
+        "SELECT * FROM c WHERE c.country = 'US' AND c.city = 'NY' AND FullTextContainsAll(c.text, 'swim', 'run')";
+      resources = (await container.items.query(query).fetchAll()).resources;
+      assert.equal(resources.length, 0);
+      // FullTextContainsAny with hierarchical partition keys
+      query =
+        "SELECT * FROM c WHERE c.country = 'US' AND c.city = 'NY' AND FullTextContainsAny(c.text, 'swim', 'run')";
+      resources = (await container.items.query(query).fetchAll()).resources;
+      assert.equal(resources.length, 1);
+      assert.equal(resources[0].country, "US");
+      assert.equal(resources[0].city, "NY");
+      assert.equal(resources[0].text, "I like to swim");
+    } finally {
+      if (container) await container.delete();
+    }
+  });
+
+  it("should execute a full text cross-partition query using hierarchical partition keys", async () => {
+    const containerName = "fts cross partition hierarchical partition test";
+    let container;
+    try {
+      const result = await database.containers.createIfNotExists({
+        id: containerName,
+        partitionKey: {
+          paths: ["/country", "/city"],
+          version: 2,
+          kind: PartitionKeyKind.MultiHash,
+        },
+        indexingPolicy: {
+          includedPaths: [{ path: "/*" }],
+          fullTextIndexes: [{ path: "/text" }],
+        },
+        fullTextPolicy: {
+          defaultLanguage: "en-US",
+          fullTextPaths: [{ path: "/text", language: "en-US" }],
+        },
+        throughput: 30000,
+      });
+      container = result.container;
+      // Create items in different partitions using diverse partition key values
+      const response1 = await container.items.create({
+        id: "1",
+        country: "US",
+        city: "NewYork",
+        text: "I like to swim and play",
+      });
+      const response2 = await container.items.create({
+        id: "2",
+        country: "India",
+        city: "Delhi",
+        text: "I like to swim and run",
+      });
+      const response3 = await container.items.create({
+        id: "3",
+        country: "Australia",
+        city: "Sidney",
+        text: "I like to run",
+      });
+
+      const pkRangeId1 = response1.headers["x-ms-documentdb-partitionkeyrangeid"];
+      const pkRangeId2 = response2.headers["x-ms-documentdb-partitionkeyrangeid"];
+      const pkRangeId3 = response3.headers["x-ms-documentdb-partitionkeyrangeid"];
+      assert.notEqual(pkRangeId1, pkRangeId2);
+      assert.notEqual(pkRangeId1, pkRangeId3);
+      assert.notEqual(pkRangeId2, pkRangeId3);
+
+      // FullTextContains with hierarchical partition keys
+      let query = "SELECT * FROM c WHERE FullTextContains(c.text, 'play')";
+      let { resources } = await container.items.query(query).fetchAll();
+      assert.equal(resources.length, 1);
+      assert.equal(resources[0].country, "US");
+      assert.equal(resources[0].city, "NewYork");
+      assert.equal(resources[0].text, "I like to swim and play");
+
+      // FullTextContainsAll with hierarchical partition keys
+      query = "SELECT * FROM c WHERE FullTextContainsAll(c.text, 'swim', 'run')";
+      resources = (await container.items.query(query).fetchAll()).resources;
+      assert.equal(resources.length, 1);
+      assert.equal(resources[0].country, "India");
+      assert.equal(resources[0].city, "Delhi");
+      assert.equal(resources[0].text, "I like to swim and run");
+
+      // FullTextContainsAny with hierarchical partition keys
+      query = "SELECT * FROM c WHERE FullTextContainsAny(c.text, 'swim', 'run')";
+      resources = (await container.items.query(query).fetchAll()).resources;
+      assert.equal(resources.length, 3);
+      const pks = resources.map((r: any) => `${r.country}-${r.city}`);
+      assert(pks.includes("US-NewYork"));
+      assert(pks.includes("India-Delhi"));
+      assert(pks.includes("Australia-Sidney"));
+    } finally {
+      if (container) await container.delete();
+    }
+  });
+
+  it("should use the countIf aggregate with full text search", async () => {
+    const containerName = "full text search countIf test";
+    let container;
+    try {
+      const result = await database.containers.createIfNotExists({
+        id: containerName,
+        partitionKey: { paths: ["/pk"] },
+        indexingPolicy: {
+          includedPaths: [{ path: "/*" }],
+          fullTextIndexes: [{ path: "/text" }],
+        },
+        fullTextPolicy: {
+          defaultLanguage: "en-US",
+          fullTextPaths: [{ path: "/text", language: "en-US" }],
+        },
+        throughput: 25000,
+      });
+      container = result.container;
+      // Create items in different partitions
+      const responseA = await container.items.create({ id: "1", pk: "A", text: "I like to swim" });
+      const responseZ = await container.items.create({ id: "2", pk: "Z", text: "I like to run" });
+      const responseM = await container.items.create({
+        id: "3",
+        pk: "M",
+        text: "I like to swim and run",
+      });
+      const pkRangeIdA = responseA.headers["x-ms-documentdb-partitionkeyrangeid"];
+      const pkRangeIdZ = responseZ.headers["x-ms-documentdb-partitionkeyrangeid"];
+      const pkRangeIdM = responseM.headers["x-ms-documentdb-partitionkeyrangeid"];
+      assert.notEqual(pkRangeIdA, pkRangeIdZ);
+      assert.notEqual(pkRangeIdA, pkRangeIdM);
+      assert.notEqual(pkRangeIdZ, pkRangeIdM);
+
+      // Use countIf with FullTextContains
+      let query = "SELECT VALUE countIf(FullTextContains(c.text, 'swim')) FROM c";
+      let { resources } = await container.items.query(query).fetchAll();
+      assert.equal(resources[0], 2);
+
+      // Use countIf with FullTextContainsAll
+      query = "SELECT VALUE countIf(FullTextContainsAll(c.text, 'swim', 'run')) FROM c";
+      resources = (await container.items.query(query).fetchAll()).resources;
+      assert.equal(resources[0], 1);
+
+      // Use countIf with FullTextContainsAny
+      query = "SELECT VALUE countIf(FullTextContainsAny(c.text, 'swim', 'run')) FROM c";
+      resources = (await container.items.query(query).fetchAll()).resources;
+      assert.equal(resources[0], 3);
+    } finally {
+      if (container) await container.delete();
+    }
+  });
+
+  it("should handle partition split during long-running full text queries", async () => {
+    let numpkRangeRequests = 0;
+    const plugins: PluginConfig[] = [
+      {
+        on: PluginOn.request,
+        plugin: async (context, _diagNode, next) => {
+          if (context.resourceType === ResourceType.pkranges) {
+            let response: Response<any>;
+            if (numpkRangeRequests === 0) {
+              response = {
+                headers: {},
+                result: {
+                  PartitionKeyRanges: [
+                    {
+                      _rid: "RRsbAKHytdECAAAAAAAAUA==",
+                      id: "1",
+                      _etag: '"00000000-0000-0000-683c-819a242201db"',
+                      minInclusive: "",
+                      maxExclusive: "FF",
+                    },
+                  ],
+                },
+              };
+              response.code = 200;
+              numpkRangeRequests++;
+              return response;
+            }
+            numpkRangeRequests++;
+          }
+          const res = await next(context);
+          return res;
+        },
+      },
+    ];
+    const client1 = new CosmosClient({
+      endpoint: endpoint,
+      key: masterKey,
+      plugins: plugins,
+    });
+
+    // Create a test database and container
+    // eslint-disable-next-line @typescript-eslint/no-shadow
+    const { database } = await client1.databases.createIfNotExists({ id: "partitionSplitTestDb" });
+    const { container } = await database.containers.createIfNotExists({
+      id: "partitionSplitTestContainer",
+      partitionKey: { paths: ["/pk"] },
+      indexingPolicy: {
+        includedPaths: [{ path: "/*" }],
+        fullTextIndexes: [{ path: "/text" }],
+      },
+      fullTextPolicy: {
+        defaultLanguage: "en-US",
+        fullTextPaths: [{ path: "/text", language: "en-US" }],
+      },
+      throughput: 1000,
+    });
+    // Replace the for loop with the executeBulkOperations API call:
+    const operations: CreateOperationInput[] = [...Array(50).keys()].map((i) => ({
+      operationType: "Create",
+      partitionKey: `A${i}`,
+      resourceBody: { id: `${i}`, pk: `A${i}`, text: "I like to swim" },
+    }));
+    await container.items.executeBulkOperations(operations);
+    // Start a long-running full text query
+    const query = "SELECT * FROM c WHERE FullTextContains(c.text, 'swim')";
+    const iterator = container.items.query(query, { maxItemCount: 10 });
+
+    let total = 0;
+    while (iterator.hasMoreResults()) {
+      const { resources } = await iterator.fetchNext();
+      total += resources.length;
+    }
+
+    // Assert all items were returned
+    assert.equal(total, 50);
+
+    await database.delete();
   });
 });

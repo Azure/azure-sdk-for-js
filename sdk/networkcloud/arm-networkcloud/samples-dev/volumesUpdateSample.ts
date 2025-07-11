@@ -6,12 +6,9 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
-import type {
-  VolumePatchParameters,
-  VolumesUpdateOptionalParams} from "@azure/arm-networkcloud";
 import {
+  VolumePatchParameters,
+  VolumesUpdateOptionalParams,
   NetworkCloud,
 } from "@azure/arm-networkcloud";
 import { DefaultAzureCredential } from "@azure/identity";
@@ -21,7 +18,7 @@ import "dotenv/config";
  * This sample demonstrates how to Update tags associated with the provided volume.
  *
  * @summary Update tags associated with the provided volume.
- * x-ms-original-file: specification/networkcloud/resource-manager/Microsoft.NetworkCloud/stable/2024-07-01/examples/Volumes_Patch.json
+ * x-ms-original-file: specification/networkcloud/resource-manager/Microsoft.NetworkCloud/stable/2025-02-01/examples/Volumes_Patch.json
  */
 async function patchVolume(): Promise<void> {
   const subscriptionId =

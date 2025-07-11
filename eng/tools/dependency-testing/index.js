@@ -56,34 +56,35 @@ function outputTestPath(projectFolderPath, sourceDir, testFolder) {
 }
 /**
  * This function uses the package's timeout in it's package.json for
- * the integration-test:node command for the min-max tests.
+ * the test:node command for the min-max tests.
  * This function basically does a string search for "timeout" / "test-timeout" / "hook-timeout" in the package's package.json
  * and replaces the command for timeout in new package.json in the test or test/public folder.
  * @param testPackageJson - the package.json that will be created in the test folder
  * @param packageJsonContents - the package's package.json contents
  */
 async function usePackageTestTimeout(testPackageJson, packageJsonContents) {
-  if (packageJsonContents.scripts["integration-test:node"]) {
+  if (packageJsonContents.scripts["test:node"]) {
     // Replace any test-timeout
     let timeoutPattern = /--(test-)?timeout\s+(\d+)/;
-    let replaceWithTimeout =
-      packageJsonContents.scripts["integration-test:node"].match(timeoutPattern);
+    let replaceWithTimeout = packageJsonContents.scripts["test:node"].match(timeoutPattern);
     if (replaceWithTimeout !== null) {
       const timeoutArgument = `${replaceWithTimeout[1] || ""}timeout`;
       const packageTimeout = replaceWithTimeout[2];
-      testPackageJson.scripts["integration-test:node"] = testPackageJson.scripts[
-        "integration-test:node"
-      ].replace(timeoutPattern, `--${timeoutArgument} ${packageTimeout}`);
+      testPackageJson.scripts["test:node"] = testPackageJson.scripts["test:node"].replace(
+        timeoutPattern,
+        `--${timeoutArgument} ${packageTimeout}`,
+      );
     }
 
     // Replace any hook-timeout
     timeoutPattern = /--hook-timeout\s+(\d+)/; // this is only a vitest concept, so there's just one pattern
-    replaceWithTimeout = packageJsonContents.scripts["integration-test:node"].match(timeoutPattern);
+    replaceWithTimeout = packageJsonContents.scripts["test:node"].match(timeoutPattern);
     if (replaceWithTimeout !== null) {
       const packageTimeout = replaceWithTimeout[1];
-      testPackageJson.scripts["integration-test:node"] = testPackageJson.scripts[
-        "integration-test:node"
-      ].replace(timeoutPattern, `--hook-timeout ${packageTimeout}`);
+      testPackageJson.scripts["test:node"] = testPackageJson.scripts["test:node"].replace(
+        timeoutPattern,
+        `--hook-timeout ${packageTimeout}`,
+      );
     }
   }
 }
@@ -117,10 +118,10 @@ async function insertPackageJson(
       packageJsonContents.name.replace("@azure-rest/", "azure-rest-") + "-test";
   }
   testPackageJson.type = packageJsonContents.type;
-  if (packageJsonContents.scripts["integration-test:node"].includes("vitest")) {
-    testPackageJson.scripts["integration-test:node"] =
+  if (packageJsonContents.scripts["test:node"].includes("vitest")) {
+    testPackageJson.scripts["test:node"] =
       "dev-tool run test:vitest -- -c vitest.dependency-test.config.ts --test-timeout 180000 --hook-timeout 180000";
-    testPackageJson.scripts["integration-test:browser"] =
+    testPackageJson.scripts["test:browser"] =
       "dev-tool run build-test && dev-tool run test:vitest --browser  -- -c vitest.dependency-test.browser.config.ts";
     testPackageJson.scripts["build"] = "echo skipped.";
   }
@@ -419,7 +420,7 @@ async function main(argv) {
     testFolder,
   );
   await insertTsConfigJson(targetPackagePath, testFolder);
-  if (packageJsonContents.scripts["integration-test:node"].includes("vitest")) {
+  if (packageJsonContents.scripts["test:node"].includes("vitest")) {
     copyVitestConfig(targetPackagePath, testFolder);
   }
   if (dryRun) {
@@ -427,13 +428,6 @@ async function main(argv) {
     return;
   }
   await replaceSourceReferences(targetPackagePath, targetPackage.packageName, testFolder);
-  await copyRepoFile(
-    repoRoot,
-    "common/tools",
-    "mocha-multi-reporter.js",
-    targetPackagePath,
-    testFolder,
-  );
   await updateRushConfig(repoRoot, targetPackage, testFolder);
   outputTestPath(targetPackage.projectFolder, sourceDir, testFolder);
 }

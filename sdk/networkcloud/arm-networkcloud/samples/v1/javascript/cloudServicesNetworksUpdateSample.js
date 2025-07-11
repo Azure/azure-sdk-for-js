@@ -14,7 +14,7 @@ require("dotenv/config");
  * This sample demonstrates how to Update properties of the provided cloud services network, or update the tags associated with it. Properties and tag updates can be done independently.
  *
  * @summary Update properties of the provided cloud services network, or update the tags associated with it. Properties and tag updates can be done independently.
- * x-ms-original-file: specification/networkcloud/resource-manager/Microsoft.NetworkCloud/stable/2024-07-01/examples/CloudServicesNetworks_Patch.json
+ * x-ms-original-file: specification/networkcloud/resource-manager/Microsoft.NetworkCloud/stable/2025-02-01/examples/CloudServicesNetworks_Patch.json
  */
 async function patchCloudServicesNetwork() {
   const subscriptionId =

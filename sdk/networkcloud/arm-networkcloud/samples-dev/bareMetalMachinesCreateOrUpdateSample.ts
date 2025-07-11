@@ -6,8 +6,7 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import type { BareMetalMachine} from "@azure/arm-networkcloud";
-import { NetworkCloud } from "@azure/arm-networkcloud";
+import { BareMetalMachine, NetworkCloud } from "@azure/arm-networkcloud";
 import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
 
@@ -17,7 +16,7 @@ All customer initiated requests will be rejected as the life cycle of this resou
  *
  * @summary Create a new bare metal machine or update the properties of the existing one.
 All customer initiated requests will be rejected as the life cycle of this resource is managed by the system.
- * x-ms-original-file: specification/networkcloud/resource-manager/Microsoft.NetworkCloud/stable/2024-07-01/examples/BareMetalMachines_Create.json
+ * x-ms-original-file: specification/networkcloud/resource-manager/Microsoft.NetworkCloud/stable/2025-02-01/examples/BareMetalMachines_Create.json
  */
 async function createOrUpdateBareMetalMachine(): Promise<void> {
   const subscriptionId =

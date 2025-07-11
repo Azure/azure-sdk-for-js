@@ -6,10 +6,7 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
-import type { KubernetesCluster} from "@azure/arm-networkcloud";
-import { NetworkCloud } from "@azure/arm-networkcloud";
+import { KubernetesCluster, NetworkCloud } from "@azure/arm-networkcloud";
 import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
 
@@ -17,7 +14,7 @@ import "dotenv/config";
  * This sample demonstrates how to Create a new Kubernetes cluster or update the properties of the existing one.
  *
  * @summary Create a new Kubernetes cluster or update the properties of the existing one.
- * x-ms-original-file: specification/networkcloud/resource-manager/Microsoft.NetworkCloud/stable/2024-07-01/examples/KubernetesClusters_Create.json
+ * x-ms-original-file: specification/networkcloud/resource-manager/Microsoft.NetworkCloud/stable/2025-02-01/examples/KubernetesClusters_Create.json
  */
 async function createOrUpdateKubernetesCluster(): Promise<void> {
   const subscriptionId =
@@ -190,7 +187,7 @@ async function createOrUpdateKubernetesCluster(): Promise<void> {
  * This sample demonstrates how to Create a new Kubernetes cluster or update the properties of the existing one.
  *
  * @summary Create a new Kubernetes cluster or update the properties of the existing one.
- * x-ms-original-file: specification/networkcloud/resource-manager/Microsoft.NetworkCloud/stable/2024-07-01/examples/KubernetesClusters_L2LoadBalancer_Create.json
+ * x-ms-original-file: specification/networkcloud/resource-manager/Microsoft.NetworkCloud/stable/2025-02-01/examples/KubernetesClusters_L2LoadBalancer_Create.json
  */
 async function createOrUpdateKubernetesClusterWithALayer2LoadBalancer(): Promise<void> {
   const subscriptionId =

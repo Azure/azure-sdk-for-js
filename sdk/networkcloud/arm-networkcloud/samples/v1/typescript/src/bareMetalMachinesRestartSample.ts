@@ -14,7 +14,7 @@ import "dotenv/config";
  * This sample demonstrates how to Restart the provided bare metal machine.
  *
  * @summary Restart the provided bare metal machine.
- * x-ms-original-file: specification/networkcloud/resource-manager/Microsoft.NetworkCloud/stable/2024-07-01/examples/BareMetalMachines_Restart.json
+ * x-ms-original-file: specification/networkcloud/resource-manager/Microsoft.NetworkCloud/stable/2025-02-01/examples/BareMetalMachines_Restart.json
  */
 async function restartBareMetalMachine(): Promise<void> {
   const subscriptionId =

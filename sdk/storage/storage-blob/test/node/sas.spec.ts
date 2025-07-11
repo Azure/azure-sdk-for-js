@@ -922,7 +922,7 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
      * When you establish a stored access policy on a container, it may take up to 30 seconds to take effect.
      * During this interval, a shared access signature that is associated with the stored access policy will
      * fail with status code 403 (Forbidden), until the access policy becomes active.
-     * More details: https://learn.microsoft.com/en-us/rest/api/storageservices/set-container-acl
+     * More details: https://learn.microsoft.com/rest/api/storageservices/set-container-acl
      * Note: delay in recorder module only take effect in live and recording mode.
      */
     await delay(30 * 1000);
@@ -977,7 +977,7 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
      * When you establish a stored access policy on a container, it may take up to 30 seconds to take effect.
      * During this interval, a shared access signature that is associated with the stored access policy will
      * fail with status code 403 (Forbidden), until the access policy becomes active.
-     * More details: https://learn.microsoft.com/en-us/rest/api/storageservices/set-container-acl
+     * More details: https://learn.microsoft.com/rest/api/storageservices/set-container-acl
      * Note: delay in recorder module only take effect in live and recording mode.
      */
     await delay(30 * 1000);
@@ -1676,6 +1676,68 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
         protocol: SASProtocol.HttpsAndHttp,
         versionId: uploadRes.versionId,
         version: "2019-12-12",
+      },
+      userDelegationKey,
+      accountName,
+    );
+
+    const sasURL = `${blobClient.withVersion(uploadRes.versionId!).url}&${blobSAS}`;
+    const blobClientWithSAS = new BlobClient(sasURL, newPipeline(new AnonymousCredential()));
+    configureBlobStorageClient(recorder, blobClientWithSAS);
+    await blobClientWithSAS.delete();
+    assert.ok(!(await blobClientWithSAS.exists()));
+
+    await containerClient.delete();
+  });
+
+  it("GenerateUserDelegationSAS should work for 2020-12-06", async (ctx) => {
+    // Try to get blobServiceClient object with DefaultCredential
+    // when AZURE_CLIENT_ID, AZURE_TENANT_ID, AZURE_CLIENT_SECRET environment variables are set
+    let blobServiceClientWithToken: BlobServiceClient;
+    try {
+      blobServiceClientWithToken = getTokenBSUWithDefaultCredential(recorder);
+    } catch {
+      // Requires bearer token for this case which cannot be generated in the runtime
+      // Make sure this case passed in sanity test
+      ctx.skip();
+    }
+
+    // create versions
+    const containerName = recorder.variable("container", getUniqueName("container"));
+    const containerClient = blobServiceClient.getContainerClient(containerName);
+    await containerClient.create();
+    const content = "Hello World";
+    const blobName = recorder.variable("blob", getUniqueName("blob"));
+    const blobClient = containerClient.getBlobClient(blobName);
+    const blockBlobClient = blobClient.getBlockBlobClient();
+    const uploadRes = await blockBlobClient.upload(content, content.length);
+    await blockBlobClient.upload("", 0);
+
+    // generate SAS
+    const now = new Date(recorder.variable("now", new Date().toISOString()));
+    now.setMinutes(now.getMinutes() - 5); // Skip clock skew with server
+    const tmr = new Date(recorder.variable("tmr", new Date().toISOString()));
+    tmr.setDate(tmr.getDate() + 1);
+
+    const sharedKeyCredential = blobServiceClient.credential as StorageSharedKeyCredential;
+
+    const accountName = sharedKeyCredential.accountName;
+    const userDelegationKey = await blobServiceClientWithToken!.getUserDelegationKey(now, tmr);
+
+    const blobSAS = generateBlobSASQueryParameters(
+      {
+        blobName: blobClient.name,
+        containerName: blobClient.containerName,
+        startsOn: now,
+        expiresOn: tmr,
+        // ipRange: {
+        //   start: "0000:0000:0000:0000:0000:000:000:0000",
+        //   end: "ffff:ffff:ffff:ffff:ffff:fff:fff:ffff",
+        // },
+        permissions: BlobSASPermissions.parse("racwdx"),
+        protocol: SASProtocol.HttpsAndHttp,
+        versionId: uploadRes.versionId,
+        version: "2020-12-06",
       },
       userDelegationKey,
       accountName,

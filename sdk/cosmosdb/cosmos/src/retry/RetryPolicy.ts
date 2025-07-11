@@ -1,8 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import type { DiagnosticNodeInternal } from "../diagnostics/DiagnosticNodeInternal";
-import type { ErrorResponse } from "../request";
-import type { RetryContext } from "./RetryContext";
+import type { DiagnosticNodeInternal } from "../diagnostics/DiagnosticNodeInternal.js";
+import type { ErrorResponse, RequestContext } from "../request/index.js";
+import type { RetryContext } from "./RetryContext.js";
 
 /**
  * @hidden
@@ -14,5 +14,6 @@ export interface RetryPolicy {
     diagnosticNode: DiagnosticNodeInternal,
     retryContext?: RetryContext,
     locationEndpoint?: string,
+    requestContext?: RequestContext,
   ) => Promise<boolean | [boolean, string]>;
 }

@@ -16,7 +16,7 @@ require("dotenv/config");
  * This sample demonstrates how to Updates a task with the specified parameters.
  *
  * @summary Updates a task with the specified parameters.
- * x-ms-original-file: specification/containerregistry/resource-manager/Microsoft.ContainerRegistry/preview/2019-06-01-preview/examples/TasksUpdate.json
+ * x-ms-original-file: specification/containerregistry/resource-manager/Microsoft.ContainerRegistry/preview/2025-03-01-preview/examples/TasksUpdate.json
  */
 async function tasksUpdate() {
   const subscriptionId =
@@ -60,7 +60,7 @@ async function tasksUpdate() {
   };
   const credential = new DefaultAzureCredential();
   const client = new ContainerRegistryManagementClient(credential, subscriptionId);
-  const result = await client.tasks.beginUpdateAndWait(
+  const result = await client.tasks.update(
     resourceGroupName,
     registryName,
     taskName,
@@ -73,7 +73,7 @@ async function tasksUpdate() {
  * This sample demonstrates how to Updates a task with the specified parameters.
  *
  * @summary Updates a task with the specified parameters.
- * x-ms-original-file: specification/containerregistry/resource-manager/Microsoft.ContainerRegistry/preview/2019-06-01-preview/examples/TasksUpdate_QuickTask.json
+ * x-ms-original-file: specification/containerregistry/resource-manager/Microsoft.ContainerRegistry/preview/2025-03-01-preview/examples/TasksUpdate_QuickTask.json
  */
 async function tasksUpdateQuickTask() {
   const subscriptionId =
@@ -88,7 +88,7 @@ async function tasksUpdateQuickTask() {
   };
   const credential = new DefaultAzureCredential();
   const client = new ContainerRegistryManagementClient(credential, subscriptionId);
-  const result = await client.tasks.beginUpdateAndWait(
+  const result = await client.tasks.update(
     resourceGroupName,
     registryName,
     taskName,
@@ -101,7 +101,7 @@ async function tasksUpdateQuickTask() {
  * This sample demonstrates how to Updates a task with the specified parameters.
  *
  * @summary Updates a task with the specified parameters.
- * x-ms-original-file: specification/containerregistry/resource-manager/Microsoft.ContainerRegistry/preview/2019-06-01-preview/examples/ManagedIdentity/TasksUpdate_WithKeyVaultCustomCredentials.json
+ * x-ms-original-file: specification/containerregistry/resource-manager/Microsoft.ContainerRegistry/preview/2025-03-01-preview/examples/ManagedIdentity/TasksUpdate_WithKeyVaultCustomCredentials.json
  */
 async function tasksUpdateWithKeyVaultCustomCredentials() {
   const subscriptionId =
@@ -148,7 +148,7 @@ async function tasksUpdateWithKeyVaultCustomCredentials() {
   };
   const credential = new DefaultAzureCredential();
   const client = new ContainerRegistryManagementClient(credential, subscriptionId);
-  const result = await client.tasks.beginUpdateAndWait(
+  const result = await client.tasks.update(
     resourceGroupName,
     registryName,
     taskName,
@@ -161,7 +161,53 @@ async function tasksUpdateWithKeyVaultCustomCredentials() {
  * This sample demonstrates how to Updates a task with the specified parameters.
  *
  * @summary Updates a task with the specified parameters.
- * x-ms-original-file: specification/containerregistry/resource-manager/Microsoft.ContainerRegistry/preview/2019-06-01-preview/examples/ManagedIdentity/TasksUpdate_WithMSICustomCredentials.json
+ * x-ms-original-file: specification/containerregistry/resource-manager/Microsoft.ContainerRegistry/preview/2025-03-01-preview/examples/ManagedIdentity/TasksUpdate_WithLoginIdentity.json
+ */
+async function tasksUpdateWithLoginIdentity() {
+  const subscriptionId =
+    process.env["CONTAINERREGISTRY_SUBSCRIPTION_ID"] || "4385cf00-2d3a-425a-832f-f4285b1c9dce";
+  const resourceGroupName = process.env["CONTAINERREGISTRY_RESOURCE_GROUP"] || "myResourceGroup";
+  const registryName = "myRegistry";
+  const taskName = "myTask";
+  const taskUpdateParameters = {
+    agentConfiguration: { cpu: 3 },
+    credentials: { sourceRegistry: { identity: "[system]" } },
+    logTemplate: undefined,
+    status: "Enabled",
+    step: {
+      type: "Docker",
+      dockerFilePath: "src/DockerFile",
+      imageNames: ["azurerest:testtag1"],
+    },
+    tags: { testkey: "value" },
+    trigger: {
+      sourceTriggers: [
+        {
+          name: "mySourceTrigger",
+          sourceRepository: {
+            sourceControlAuthProperties: { token: "xxxxx", tokenType: "PAT" },
+          },
+          sourceTriggerEvents: ["commit"],
+        },
+      ],
+    },
+  };
+  const credential = new DefaultAzureCredential();
+  const client = new ContainerRegistryManagementClient(credential, subscriptionId);
+  const result = await client.tasks.update(
+    resourceGroupName,
+    registryName,
+    taskName,
+    taskUpdateParameters,
+  );
+  console.log(result);
+}
+
+/**
+ * This sample demonstrates how to Updates a task with the specified parameters.
+ *
+ * @summary Updates a task with the specified parameters.
+ * x-ms-original-file: specification/containerregistry/resource-manager/Microsoft.ContainerRegistry/preview/2025-03-01-preview/examples/ManagedIdentity/TasksUpdate_WithMSICustomCredentials.json
  */
 async function tasksUpdateWithMsiCustomCredentials() {
   const subscriptionId =
@@ -196,7 +242,7 @@ async function tasksUpdateWithMsiCustomCredentials() {
   };
   const credential = new DefaultAzureCredential();
   const client = new ContainerRegistryManagementClient(credential, subscriptionId);
-  const result = await client.tasks.beginUpdateAndWait(
+  const result = await client.tasks.update(
     resourceGroupName,
     registryName,
     taskName,
@@ -209,7 +255,7 @@ async function tasksUpdateWithMsiCustomCredentials() {
  * This sample demonstrates how to Updates a task with the specified parameters.
  *
  * @summary Updates a task with the specified parameters.
- * x-ms-original-file: specification/containerregistry/resource-manager/Microsoft.ContainerRegistry/preview/2019-06-01-preview/examples/TasksUpdate_WithOpaqueCustomCredentials.json
+ * x-ms-original-file: specification/containerregistry/resource-manager/Microsoft.ContainerRegistry/preview/2025-03-01-preview/examples/TasksUpdate_WithOpaqueCustomCredentials.json
  */
 async function tasksUpdateWithOpaqueCustomCredentials() {
   const subscriptionId =
@@ -249,7 +295,7 @@ async function tasksUpdateWithOpaqueCustomCredentials() {
   };
   const credential = new DefaultAzureCredential();
   const client = new ContainerRegistryManagementClient(credential, subscriptionId);
-  const result = await client.tasks.beginUpdateAndWait(
+  const result = await client.tasks.update(
     resourceGroupName,
     registryName,
     taskName,
@@ -262,6 +308,7 @@ async function main() {
   await tasksUpdate();
   await tasksUpdateQuickTask();
   await tasksUpdateWithKeyVaultCustomCredentials();
+  await tasksUpdateWithLoginIdentity();
   await tasksUpdateWithMsiCustomCredentials();
   await tasksUpdateWithOpaqueCustomCredentials();
 }

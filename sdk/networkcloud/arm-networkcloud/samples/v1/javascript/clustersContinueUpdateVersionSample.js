@@ -14,7 +14,7 @@ require("dotenv/config");
  * This sample demonstrates how to Trigger the continuation of an update for a cluster with a matching update strategy that has paused after completing a segment of the update.
  *
  * @summary Trigger the continuation of an update for a cluster with a matching update strategy that has paused after completing a segment of the update.
- * x-ms-original-file: specification/networkcloud/resource-manager/Microsoft.NetworkCloud/stable/2024-07-01/examples/Clusters_ContinueUpdateVersion.json
+ * x-ms-original-file: specification/networkcloud/resource-manager/Microsoft.NetworkCloud/stable/2025-02-01/examples/Clusters_ContinueUpdateVersion.json
  */
 async function continueUpdateClusterVersion() {
   const subscriptionId =

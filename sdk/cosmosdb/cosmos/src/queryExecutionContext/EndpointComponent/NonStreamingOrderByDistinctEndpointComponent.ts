@@ -1,14 +1,14 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import type { QueryInfo, Response } from "../../request";
-import type { ExecutionContext } from "../ExecutionContext";
-import { getInitialHeader } from "../headerUtils";
-import type { DiagnosticNodeInternal } from "../../diagnostics/DiagnosticNodeInternal";
-import { hashObject } from "../../utils/hashObject";
-import type { NonStreamingOrderByResult } from "../nonStreamingOrderByResult";
-import { FixedSizePriorityQueue } from "../../utils/fixedSizePriorityQueue";
-import { NonStreamingOrderByMap } from "../../utils/nonStreamingOrderByMap";
-import { OrderByComparator } from "../orderByComparator";
+import type { QueryInfo, Response } from "../../request/index.js";
+import type { ExecutionContext } from "../ExecutionContext.js";
+import { getInitialHeader } from "../headerUtils.js";
+import type { DiagnosticNodeInternal } from "../../diagnostics/DiagnosticNodeInternal.js";
+import { hashObject } from "../../utils/hashObject.js";
+import type { NonStreamingOrderByResult } from "../nonStreamingOrderByResult.js";
+import { FixedSizePriorityQueue } from "../../utils/fixedSizePriorityQueue.js";
+import { NonStreamingOrderByMap } from "../../utils/nonStreamingOrderByMap.js";
+import { OrderByComparator } from "../orderByComparator.js";
 
 /**
  * @hidden

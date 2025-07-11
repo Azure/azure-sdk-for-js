@@ -6,8 +6,6 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
 import { NetworkCloud } from "@azure/arm-networkcloud";
 import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
@@ -16,7 +14,7 @@ import "dotenv/config";
  * This sample demonstrates how to Get a list of racks in the provided resource group.
  *
  * @summary Get a list of racks in the provided resource group.
- * x-ms-original-file: specification/networkcloud/resource-manager/Microsoft.NetworkCloud/stable/2024-07-01/examples/Racks_ListByResourceGroup.json
+ * x-ms-original-file: specification/networkcloud/resource-manager/Microsoft.NetworkCloud/stable/2025-02-01/examples/Racks_ListByResourceGroup.json
  */
 async function listRacksForResourceGroup(): Promise<void> {
   const subscriptionId =
@@ -27,7 +25,9 @@ async function listRacksForResourceGroup(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = new NetworkCloud(credential, subscriptionId);
   const resArray = new Array();
-  for await (const item of client.racks.listByResourceGroup(resourceGroupName)) {
+  for await (const item of client.racks.listByResourceGroup(
+    resourceGroupName,
+  )) {
     resArray.push(item);
   }
   console.log(resArray);

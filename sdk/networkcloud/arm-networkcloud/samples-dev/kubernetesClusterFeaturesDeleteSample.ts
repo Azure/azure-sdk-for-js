@@ -6,8 +6,6 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
 import { NetworkCloud } from "@azure/arm-networkcloud";
 import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
@@ -16,7 +14,7 @@ import "dotenv/config";
  * This sample demonstrates how to Delete the provided Kubernetes cluster feature.
  *
  * @summary Delete the provided Kubernetes cluster feature.
- * x-ms-original-file: specification/networkcloud/resource-manager/Microsoft.NetworkCloud/stable/2024-07-01/examples/KubernetesClusterFeatures_Delete.json
+ * x-ms-original-file: specification/networkcloud/resource-manager/Microsoft.NetworkCloud/stable/2025-02-01/examples/KubernetesClusterFeatures_Delete.json
  */
 async function deleteKubernetesClusterFeature(): Promise<void> {
   const subscriptionId =

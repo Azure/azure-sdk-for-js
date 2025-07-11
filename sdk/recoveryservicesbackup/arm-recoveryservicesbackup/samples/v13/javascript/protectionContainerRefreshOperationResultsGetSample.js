@@ -10,13 +10,13 @@
 // Licensed under the MIT License.
 const { RecoveryServicesBackupClient } = require("@azure/arm-recoveryservicesbackup");
 const { DefaultAzureCredential } = require("@azure/identity");
-require("dotenv").config();
+require("dotenv/config");
 
 /**
  * This sample demonstrates how to Provides the result of the refresh operation triggered by the BeginRefresh operation.
  *
  * @summary Provides the result of the refresh operation triggered by the BeginRefresh operation.
- * x-ms-original-file: specification/recoveryservicesbackup/resource-manager/Microsoft.RecoveryServices/stable/2024-04-01/examples/Common/RefreshContainers_OperationResults.json
+ * x-ms-original-file: specification/recoveryservicesbackup/resource-manager/Microsoft.RecoveryServices/stable/2025-02-01/examples/Common/RefreshContainers_OperationResults.json
  */
 async function azureVMDiscoveryOperationResult() {
   const subscriptionId =
@@ -37,7 +37,7 @@ async function azureVMDiscoveryOperationResult() {
 }
 
 async function main() {
-  azureVMDiscoveryOperationResult();
+  await azureVMDiscoveryOperationResult();
 }
 
 main().catch(console.error);

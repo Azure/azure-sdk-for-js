@@ -14,7 +14,7 @@ import "dotenv/config";
  * This sample demonstrates how to Get the properties of the provided cluster manager.
  *
  * @summary Get the properties of the provided cluster manager.
- * x-ms-original-file: specification/networkcloud/resource-manager/Microsoft.NetworkCloud/stable/2024-07-01/examples/ClusterManagers_Get.json
+ * x-ms-original-file: specification/networkcloud/resource-manager/Microsoft.NetworkCloud/stable/2025-02-01/examples/ClusterManagers_Get.json
  */
 async function getClusterManager(): Promise<void> {
   const subscriptionId =

@@ -205,6 +205,8 @@ export interface ManagedClusterAgentPoolProfileProperties {
   vnetSubnetID?: string;
   /** If omitted, pod IPs are statically assigned on the node subnet (see vnetSubnetID for more details). This is of the form: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworks/{virtualNetworkName}/subnets/{subnetName} */
   podSubnetID?: string;
+  /** The IP allocation mode for pods in the agent pool. Must be used with podSubnetId. The default is 'DynamicIndividual'. */
+  podIPAllocationMode?: PodIPAllocationMode;
   /** The maximum number of pods that can run on a node. */
   maxPods?: number;
   /** The operating system type. The default is Linux. */
@@ -290,16 +292,28 @@ export interface ManagedClusterAgentPoolProfileProperties {
   securityProfile?: AgentPoolSecurityProfile;
   /** GPU settings for the Agent Pool. */
   gpuProfile?: GPUProfile;
+  /** Profile specific to a managed agent pool in Gateway mode. This field cannot be set if agent pool mode is not Gateway. */
+  gatewayProfile?: AgentPoolGatewayProfile;
+  /** Specifications on VirtualMachines agent pool. */
+  virtualMachinesProfile?: VirtualMachinesProfile;
+  /** The status of nodes in a VirtualMachines agent pool. */
+  virtualMachineNodesStatus?: VirtualMachineNodes[];
+  /** Contains read-only information about the Agent Pool. */
+  status?: AgentPoolStatus;
 }
 
 /** Settings for upgrading an agentpool */
 export interface AgentPoolUpgradeSettings {
-  /** This can either be set to an integer (e.g. '5') or a percentage (e.g. '50%'). If a percentage is specified, it is the percentage of the total agent pool size at the time of the upgrade. For percentages, fractional nodes are rounded up. If not specified, the default is 10%. For more information, including best practices, see: https://docs.microsoft.com/azure/aks/upgrade-cluster#customize-node-surge-upgrade */
+  /** This can either be set to an integer (e.g. '5') or a percentage (e.g. '50%'). If a percentage is specified, it is the percentage of the total agent pool size at the time of the upgrade. For percentages, fractional nodes are rounded up. If not specified, the default is 10%. For more information, including best practices, see: https://learn.microsoft.com/en-us/azure/aks/upgrade-cluster */
   maxSurge?: string;
+  /** This can either be set to an integer (e.g. '1') or a percentage (e.g. '5%'). If a percentage is specified, it is the percentage of the total agent pool size at the time of the upgrade. For percentages, fractional nodes are rounded up. If not specified, the default is 0. For more information, including best practices, see: https://learn.microsoft.com/en-us/azure/aks/upgrade-cluster */
+  maxUnavailable?: string;
   /** The amount of time (in minutes) to wait on eviction of pods and graceful termination per node. This eviction wait time honors waiting on pod disruption budgets. If this time is exceeded, the upgrade fails. If not specified, the default is 30 minutes. */
   drainTimeoutInMinutes?: number;
   /** The amount of time (in minutes) to wait after draining a node and before reimaging it and moving on to next node. If not specified, the default is 0 minutes. */
   nodeSoakDurationInMinutes?: number;
+  /** Defines the behavior for undrainable nodes during upgrade. The most common cause of undrainable nodes is Pod Disruption Budgets (PDBs), but other issues, such as pod termination grace period is exceeding the remaining per-node drain timeout or pod is still being in a running state, can also cause undrainable nodes. */
+  undrainableNodeBehavior?: UndrainableNodeBehavior;
 }
 
 /** See [AKS custom node configuration](https://docs.microsoft.com/azure/aks/custom-node-configuration) for more details. */
@@ -452,6 +466,49 @@ export interface AgentPoolSecurityProfile {
 export interface GPUProfile {
   /** Whether to install GPU drivers. When it's not specified, default is Install. */
   driver?: GPUDriver;
+}
+
+/** Profile of the managed cluster gateway agent pool. */
+export interface AgentPoolGatewayProfile {
+  /** The Gateway agent pool associates one public IPPrefix for each static egress gateway to provide public egress. The size of Public IPPrefix should be selected by the user. Each node in the agent pool is assigned with one IP from the IPPrefix. The IPPrefix size thus serves as a cap on the size of the Gateway agent pool. Due to Azure public IPPrefix size limitation, the valid value range is [28, 31] (/31 = 2 nodes/IPs, /30 = 4 nodes/IPs, /29 = 8 nodes/IPs, /28 = 16 nodes/IPs). The default value is 31. */
+  publicIPPrefixSize?: number;
+}
+
+/** Specifications on VirtualMachines agent pool. */
+export interface VirtualMachinesProfile {
+  /** Specifications on how to scale a VirtualMachines agent pool. */
+  scale?: ScaleProfile;
+}
+
+/** Specifications on how to scale a VirtualMachines agent pool. */
+export interface ScaleProfile {
+  /** Specifications on how to scale the VirtualMachines agent pool to a fixed size. */
+  manual?: ManualScaleProfile[];
+}
+
+/** Specifications on number of machines. */
+export interface ManualScaleProfile {
+  /** VM size that AKS will use when creating and scaling e.g. 'Standard_E4s_v3', 'Standard_E16s_v3' or 'Standard_D16s_v5'. */
+  size?: string;
+  /** Number of nodes. */
+  count?: number;
+}
+
+/** Current status on a group of nodes of the same vm size. */
+export interface VirtualMachineNodes {
+  /** The VM size of the agents used to host this group of nodes. */
+  size?: string;
+  /** Number of nodes. */
+  count?: number;
+}
+
+/** Contains read-only information about the Agent Pool. */
+export interface AgentPoolStatus {
+  /**
+   * Preserves the detailed info of failure. If there was no error, this field is omitted.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly provisioningError?: CloudErrorBody;
 }
 
 /** Profile for Linux VMs in the container service cluster. */
@@ -638,6 +695,8 @@ export interface ContainerServiceNetworkProfile {
   loadBalancerProfile?: ManagedClusterLoadBalancerProfile;
   /** Profile of the cluster NAT gateway. */
   natGatewayProfile?: ManagedClusterNATGatewayProfile;
+  /** The profile for Static Egress Gateway addon. For more details about Static Egress Gateway, see https://aka.ms/aks/static-egress-gateway. */
+  staticEgressGatewayProfile?: ManagedClusterStaticEgressGatewayProfile;
   /** One IPv4 CIDR is expected for single-stack networking. Two CIDRs, one for each IP family (IPv4/IPv6), is expected for dual-stack networking. */
   podCidrs?: string[];
   /** One IPv4 CIDR is expected for single-stack networking. Two CIDRs, one for each IP family (IPv4/IPv6), is expected for dual-stack networking. They must not overlap with any Subnet IP ranges. */
@@ -736,6 +795,12 @@ export interface ManagedClusterManagedOutboundIPProfile {
   count?: number;
 }
 
+/** The Static Egress Gateway addon configuration for the cluster. */
+export interface ManagedClusterStaticEgressGatewayProfile {
+  /** Indicates if Static Egress Gateway addon is enabled or not. */
+  enabled?: boolean;
+}
+
 /** For more details see [managed AAD on AKS](https://docs.microsoft.com/azure/aks/managed-aad). */
 export interface ManagedClusterAADProfile {
   /** Whether to enable managed AAD. */
@@ -832,6 +897,10 @@ export interface ManagedClusterAPIServerAccessProfile {
   enablePrivateClusterPublicFqdn?: boolean;
   /** Whether to disable run command for the cluster or not. */
   disableRunCommand?: boolean;
+  /** Whether to enable apiserver vnet integration for the cluster or not. See aka.ms/AksVnetIntegration for more details. */
+  enableVnetIntegration?: boolean;
+  /** It is required when creating a new cluster with BYO Vnet, or when updating an existing cluster to enable apiserver vnet integration. */
+  subnetId?: string;
 }
 
 /** A private link resource */
@@ -967,11 +1036,18 @@ export interface ManagedClusterIngressProfileWebAppRouting {
   enabled?: boolean;
   /** Resource IDs of the DNS zones to be associated with the Application Routing add-on. Used only when Application Routing add-on is enabled. Public and private DNS zones can be in different resource groups, but all public DNS zones must be in the same resource group and all private DNS zones must be in the same resource group. */
   dnsZoneResourceIds?: string[];
+  /** Configuration for the default NginxIngressController. See more at https://learn.microsoft.com/en-us/azure/aks/app-routing-nginx-configuration#the-default-nginx-ingress-controller. */
+  nginx?: ManagedClusterIngressProfileNginx;
   /**
    * Managed identity of the Application Routing add-on. This is the identity that should be granted permissions, for example, to manage the associated Azure DNS resource and get certificates from Azure Key Vault. See [this overview of the add-on](https://learn.microsoft.com/en-us/azure/aks/web-app-routing?tabs=with-osm) for more instructions.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly identity?: UserAssignedIdentity;
+}
+
+export interface ManagedClusterIngressProfileNginx {
+  /** Ingress type for the default NginxIngressController custom resource */
+  defaultIngressControllerType?: NginxIngressControllerType;
 }
 
 /** Workload Auto-scaler profile for the managed cluster. */
@@ -1094,6 +1170,15 @@ export interface ManagedClusterBootstrapProfile {
   artifactSource?: ArtifactSource;
   /** The resource Id of Azure Container Registry. The registry must have private network access, premium SKU and zone redundancy. */
   containerRegistryId?: string;
+}
+
+/** Contains read-only information about the Managed Cluster. */
+export interface ManagedClusterStatus {
+  /**
+   * Preserves the detailed info of failure. If there was no error, this field is omitted.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly provisioningError?: CloudErrorBody;
 }
 
 /** Common fields that are returned in the response for all Azure Resource Manager resources */
@@ -1771,13 +1856,15 @@ export interface MachineIpAddress {
 }
 
 /** Profile for the container service agent pool. */
-export interface ManagedClusterAgentPoolProfile extends ManagedClusterAgentPoolProfileProperties {
+export interface ManagedClusterAgentPoolProfile
+  extends ManagedClusterAgentPoolProfileProperties {
   /** Windows agent pool names must be 6 characters or less. */
   name: string;
 }
 
 /** Information of user assigned identity used by this add-on. */
-export interface ManagedClusterAddonProfileIdentity extends UserAssignedIdentity {}
+export interface ManagedClusterAddonProfileIdentity
+  extends UserAssignedIdentity {}
 
 /** The resource model definition for an Azure Resource Manager tracked top level resource which has 'tags' and a 'location' */
 export interface TrackedResource extends Resource {
@@ -1843,6 +1930,8 @@ export interface AgentPool extends SubResource {
   vnetSubnetID?: string;
   /** If omitted, pod IPs are statically assigned on the node subnet (see vnetSubnetID for more details). This is of the form: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworks/{virtualNetworkName}/subnets/{subnetName} */
   podSubnetID?: string;
+  /** The IP allocation mode for pods in the agent pool. Must be used with podSubnetId. The default is 'DynamicIndividual'. */
+  podIPAllocationMode?: PodIPAllocationMode;
   /** The maximum number of pods that can run on a node. */
   maxPods?: number;
   /** The operating system type. The default is Linux. */
@@ -1928,10 +2017,23 @@ export interface AgentPool extends SubResource {
   securityProfile?: AgentPoolSecurityProfile;
   /** GPU settings for the Agent Pool. */
   gpuProfile?: GPUProfile;
+  /** Profile specific to a managed agent pool in Gateway mode. This field cannot be set if agent pool mode is not Gateway. */
+  gatewayProfile?: AgentPoolGatewayProfile;
+  /** Specifications on VirtualMachines agent pool. */
+  virtualMachinesProfile?: VirtualMachinesProfile;
+  /** The status of nodes in a VirtualMachines agent pool. */
+  virtualMachineNodesStatus?: VirtualMachineNodes[];
+  /** Contains read-only information about the Agent Pool. */
+  status?: AgentPoolStatus;
 }
 
 /** A machine. Contains details about the underlying virtual machine. A machine may be visible here but not in kubectl get nodes; if so it may be because the machine has not been registered with the Kubernetes API Server yet. */
 export interface Machine extends SubResource {
+  /**
+   * The Availability zone in which machine is located.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly zones?: string[];
   /**
    * The properties of the machine
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -2018,8 +2120,6 @@ export interface ManagedCluster extends TrackedResource {
   enableRbac?: boolean;
   /** The support plan for the Managed Cluster. If unspecified, the default is 'KubernetesOfficial'. */
   supportPlan?: KubernetesSupportPlan;
-  /** (DEPRECATED) Whether to enable Kubernetes pod security policy (preview). PodSecurityPolicy was deprecated in Kubernetes v1.21, and removed from Kubernetes in v1.25. Learn more at https://aka.ms/k8s/psp and https://aka.ms/aks/psp. */
-  enablePodSecurityPolicy?: boolean;
   /** The network configuration profile. */
   networkProfile?: ContainerServiceNetworkProfile;
   /** The Azure Active Directory configuration. */
@@ -2065,6 +2165,8 @@ export interface ManagedCluster extends TrackedResource {
   metricsProfile?: ManagedClusterMetricsProfile;
   /** Profile of the cluster bootstrap configuration. */
   bootstrapProfile?: ManagedClusterBootstrapProfile;
+  /** Contains read-only information about the Managed Cluster. */
+  status?: ManagedClusterStatus;
 }
 
 /** Managed cluster Access Profile. */
@@ -2357,6 +2459,24 @@ export enum KnownWorkloadRuntime {
  */
 export type WorkloadRuntime = string;
 
+/** Known values of {@link PodIPAllocationMode} that the service accepts. */
+export enum KnownPodIPAllocationMode {
+  /** Each node gets allocated with a non-contiguous list of IP addresses assignable to pods. This is better for maximizing a small to medium subnet of size \/16 or smaller. The Azure CNI cluster with dynamic IP allocation defaults to this mode if the customer does not explicitly specify a podIPAllocationMode */
+  DynamicIndividual = "DynamicIndividual",
+  /** Each node is statically allocated CIDR block(s) of size \/28 = 16 IPs per block to satisfy the maxPods per node. Number of CIDR blocks >= (maxPods \/ 16). The block, rather than a single IP, counts against the Azure Vnet Private IP limit of 65K. Therefore block mode is suitable for running larger workloads with more than the current limit of 65K pods in a cluster. This mode is better suited to scale with larger subnets of \/15 or bigger */
+  StaticBlock = "StaticBlock",
+}
+
+/**
+ * Defines values for PodIPAllocationMode. \
+ * {@link KnownPodIPAllocationMode} can be used interchangeably with PodIPAllocationMode,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **DynamicIndividual**: Each node gets allocated with a non-contiguous list of IP addresses assignable to pods. This is better for maximizing a small to medium subnet of size \/16 or smaller. The Azure CNI cluster with dynamic IP allocation defaults to this mode if the customer does not explicitly specify a podIPAllocationMode \
+ * **StaticBlock**: Each node is statically allocated CIDR block(s) of size \/28 = 16 IPs per block to satisfy the maxPods per node. Number of CIDR blocks >= (maxPods \/ 16). The block, rather than a single IP, counts against the Azure Vnet Private IP limit of 65K. Therefore block mode is suitable for running larger workloads with more than the current limit of 65K pods in a cluster. This mode is better suited to scale with larger subnets of \/15 or bigger
+ */
+export type PodIPAllocationMode = string;
+
 /** Known values of {@link OSType} that the service accepts. */
 export enum KnownOSType {
   /** Use Linux. */
@@ -2387,6 +2507,8 @@ export enum KnownOssku {
   Windows2019 = "Windows2019",
   /** Use Windows2022 as the OS for node images. Unsupported for system node pools. Windows2022 only supports Windows2022 containers; it cannot run Windows2019 containers and vice versa. */
   Windows2022 = "Windows2022",
+  /** Use Ubuntu2204 as the OS for node images, however, Ubuntu 22.04 may not be supported for all nodepools. For limitations and supported kubernetes versions, see see https:\//aka.ms\/aks\/supported-ubuntu-versions */
+  Ubuntu2204 = "Ubuntu2204",
 }
 
 /**
@@ -2398,7 +2520,8 @@ export enum KnownOssku {
  * **AzureLinux**: Use AzureLinux as the OS for node images. Azure Linux is a container-optimized Linux distro built by Microsoft, visit https:\/\/aka.ms\/azurelinux for more information. \
  * **CBLMariner**: Deprecated OSSKU. Microsoft recommends that new deployments choose 'AzureLinux' instead. \
  * **Windows2019**: Use Windows2019 as the OS for node images. Unsupported for system node pools. Windows2019 only supports Windows2019 containers; it cannot run Windows2022 containers and vice versa. \
- * **Windows2022**: Use Windows2022 as the OS for node images. Unsupported for system node pools. Windows2022 only supports Windows2022 containers; it cannot run Windows2019 containers and vice versa.
+ * **Windows2022**: Use Windows2022 as the OS for node images. Unsupported for system node pools. Windows2022 only supports Windows2022 containers; it cannot run Windows2019 containers and vice versa. \
+ * **Ubuntu2204**: Use Ubuntu2204 as the OS for node images, however, Ubuntu 22.04 may not be supported for all nodepools. For limitations and supported kubernetes versions, see see https:\/\/aka.ms\/aks\/supported-ubuntu-versions
  */
 export type Ossku = string;
 
@@ -2426,6 +2549,8 @@ export enum KnownAgentPoolType {
   VirtualMachineScaleSets = "VirtualMachineScaleSets",
   /** Use of this is strongly discouraged. */
   AvailabilitySet = "AvailabilitySet",
+  /** Create an Agent Pool backed by a Single Instance VM orchestration mode. */
+  VirtualMachines = "VirtualMachines",
 }
 
 /**
@@ -2434,7 +2559,8 @@ export enum KnownAgentPoolType {
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
  * **VirtualMachineScaleSets**: Create an Agent Pool backed by a Virtual Machine Scale Set. \
- * **AvailabilitySet**: Use of this is strongly discouraged.
+ * **AvailabilitySet**: Use of this is strongly discouraged. \
+ * **VirtualMachines**: Create an Agent Pool backed by a Single Instance VM orchestration mode.
  */
 export type AgentPoolType = string;
 
@@ -2444,6 +2570,8 @@ export enum KnownAgentPoolMode {
   System = "System",
   /** User agent pools are primarily for hosting your application pods. */
   User = "User",
+  /** Gateway agent pools are dedicated to providing static egress IPs to pods. For more details, see https:\//aka.ms\/aks\/static-egress-gateway. */
+  Gateway = "Gateway",
 }
 
 /**
@@ -2452,9 +2580,28 @@ export enum KnownAgentPoolMode {
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
  * **System**: System agent pools are primarily for hosting critical system pods such as CoreDNS and metrics-server. System agent pools osType must be Linux. System agent pools VM SKU must have at least 2vCPUs and 4GB of memory. \
- * **User**: User agent pools are primarily for hosting your application pods.
+ * **User**: User agent pools are primarily for hosting your application pods. \
+ * **Gateway**: Gateway agent pools are dedicated to providing static egress IPs to pods. For more details, see https:\/\/aka.ms\/aks\/static-egress-gateway.
  */
 export type AgentPoolMode = string;
+
+/** Known values of {@link UndrainableNodeBehavior} that the service accepts. */
+export enum KnownUndrainableNodeBehavior {
+  /** AKS will cordon the blocked nodes and replace them with surge nodes during upgrade. The blocked nodes will be cordoned and replaced by surge nodes. The blocked nodes will have label 'kubernetes.azure.com\/upgrade-status:Quarantined'. A surge node will be retained for each blocked node. A best-effort attempt will be made to delete all other surge nodes. If there are enough surge nodes to replace blocked nodes, then the upgrade operation and the managed cluster will be in failed state. Otherwise, the upgrade operation and the managed cluster will be in canceled state. */
+  Cordon = "Cordon",
+  /** AKS will mark the blocked nodes schedulable, but the blocked nodes are not upgraded. A best-effort attempt will be made to delete all surge nodes. The upgrade operation and the managed cluster will be in failed state if there are any blocked nodes. */
+  Schedule = "Schedule",
+}
+
+/**
+ * Defines values for UndrainableNodeBehavior. \
+ * {@link KnownUndrainableNodeBehavior} can be used interchangeably with UndrainableNodeBehavior,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Cordon**: AKS will cordon the blocked nodes and replace them with surge nodes during upgrade. The blocked nodes will be cordoned and replaced by surge nodes. The blocked nodes will have label 'kubernetes.azure.com\/upgrade-status:Quarantined'. A surge node will be retained for each blocked node. A best-effort attempt will be made to delete all other surge nodes. If there are enough surge nodes to replace blocked nodes, then the upgrade operation and the managed cluster will be in failed state. Otherwise, the upgrade operation and the managed cluster will be in canceled state. \
+ * **Schedule**: AKS will mark the blocked nodes schedulable, but the blocked nodes are not upgraded. A best-effort attempt will be made to delete all surge nodes. The upgrade operation and the managed cluster will be in failed state if there are any blocked nodes.
+ */
+export type UndrainableNodeBehavior = string;
 
 /** Known values of {@link ScaleSetPriority} that the service accepts. */
 export enum KnownScaleSetPriority {
@@ -2891,6 +3038,30 @@ export enum KnownKeyVaultNetworkAccessTypes {
  */
 export type KeyVaultNetworkAccessTypes = string;
 
+/** Known values of {@link NginxIngressControllerType} that the service accepts. */
+export enum KnownNginxIngressControllerType {
+  /** The default NginxIngressController will be created. Users can edit the default NginxIngressController Custom Resource to configure load balancer annotations. */
+  AnnotationControlled = "AnnotationControlled",
+  /** The default NginxIngressController will be created and the operator will provision an external loadbalancer with it. Any annotation to make the default loadbalancer internal will be overwritten. */
+  External = "External",
+  /** The default NginxIngressController will be created and the operator will provision an internal loadbalancer with it. Any annotation to make the default loadbalancer external will be overwritten. */
+  Internal = "Internal",
+  /** The default Ingress Controller will not be created. It will not be deleted by the system if it exists. Users should delete the default NginxIngressController Custom Resource manually if desired. */
+  None = "None",
+}
+
+/**
+ * Defines values for NginxIngressControllerType. \
+ * {@link KnownNginxIngressControllerType} can be used interchangeably with NginxIngressControllerType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **AnnotationControlled**: The default NginxIngressController will be created. Users can edit the default NginxIngressController Custom Resource to configure load balancer annotations. \
+ * **External**: The default NginxIngressController will be created and the operator will provision an external loadbalancer with it. Any annotation to make the default loadbalancer internal will be overwritten. \
+ * **Internal**: The default NginxIngressController will be created and the operator will provision an internal loadbalancer with it. Any annotation to make the default loadbalancer external will be overwritten. \
+ * **None**: The default Ingress Controller will not be created. It will not be deleted by the system if it exists. Users should delete the default NginxIngressController Custom Resource manually if desired.
+ */
+export type NginxIngressControllerType = string;
+
 /** Known values of {@link PublicNetworkAccess} that the service accepts. */
 export enum KnownPublicNetworkAccess {
   /** Enabled */
@@ -3161,7 +3332,8 @@ export type TrustedAccessRoleBindingProvisioningState = string;
 export type ResourceIdentityType = "SystemAssigned" | "UserAssigned" | "None";
 
 /** Optional parameters. */
-export interface OperationsListOptionalParams extends coreClient.OperationOptions {}
+export interface OperationsListOptionalParams
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the list operation. */
 export type OperationsListResponse = OperationListResult;
@@ -3171,10 +3343,12 @@ export interface ManagedClustersListKubernetesVersionsOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listKubernetesVersions operation. */
-export type ManagedClustersListKubernetesVersionsResponse = KubernetesVersionListResult;
+export type ManagedClustersListKubernetesVersionsResponse =
+  KubernetesVersionListResult;
 
 /** Optional parameters. */
-export interface ManagedClustersListOptionalParams extends coreClient.OperationOptions {}
+export interface ManagedClustersListOptionalParams
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the list operation. */
 export type ManagedClustersListResponse = ManagedClusterListResult;
@@ -3184,21 +3358,24 @@ export interface ManagedClustersListByResourceGroupOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByResourceGroup operation. */
-export type ManagedClustersListByResourceGroupResponse = ManagedClusterListResult;
+export type ManagedClustersListByResourceGroupResponse =
+  ManagedClusterListResult;
 
 /** Optional parameters. */
 export interface ManagedClustersGetUpgradeProfileOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the getUpgradeProfile operation. */
-export type ManagedClustersGetUpgradeProfileResponse = ManagedClusterUpgradeProfile;
+export type ManagedClustersGetUpgradeProfileResponse =
+  ManagedClusterUpgradeProfile;
 
 /** Optional parameters. */
 export interface ManagedClustersGetAccessProfileOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the getAccessProfile operation. */
-export type ManagedClustersGetAccessProfileResponse = ManagedClusterAccessProfile;
+export type ManagedClustersGetAccessProfileResponse =
+  ManagedClusterAccessProfile;
 
 /** Optional parameters. */
 export interface ManagedClustersListClusterAdminCredentialsOptionalParams
@@ -3208,7 +3385,8 @@ export interface ManagedClustersListClusterAdminCredentialsOptionalParams
 }
 
 /** Contains response data for the listClusterAdminCredentials operation. */
-export type ManagedClustersListClusterAdminCredentialsResponse = CredentialResults;
+export type ManagedClustersListClusterAdminCredentialsResponse =
+  CredentialResults;
 
 /** Optional parameters. */
 export interface ManagedClustersListClusterUserCredentialsOptionalParams
@@ -3220,7 +3398,8 @@ export interface ManagedClustersListClusterUserCredentialsOptionalParams
 }
 
 /** Contains response data for the listClusterUserCredentials operation. */
-export type ManagedClustersListClusterUserCredentialsResponse = CredentialResults;
+export type ManagedClustersListClusterUserCredentialsResponse =
+  CredentialResults;
 
 /** Optional parameters. */
 export interface ManagedClustersListClusterMonitoringUserCredentialsOptionalParams
@@ -3230,16 +3409,19 @@ export interface ManagedClustersListClusterMonitoringUserCredentialsOptionalPara
 }
 
 /** Contains response data for the listClusterMonitoringUserCredentials operation. */
-export type ManagedClustersListClusterMonitoringUserCredentialsResponse = CredentialResults;
+export type ManagedClustersListClusterMonitoringUserCredentialsResponse =
+  CredentialResults;
 
 /** Optional parameters. */
-export interface ManagedClustersGetOptionalParams extends coreClient.OperationOptions {}
+export interface ManagedClustersGetOptionalParams
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the get operation. */
 export type ManagedClustersGetResponse = ManagedCluster;
 
 /** Optional parameters. */
-export interface ManagedClustersCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
+export interface ManagedClustersCreateOrUpdateOptionalParams
+  extends coreClient.OperationOptions {
   /** The request should only proceed if an entity matches this string. */
   ifMatch?: string;
   /** The request should only proceed if no entity matches this string. */
@@ -3254,7 +3436,8 @@ export interface ManagedClustersCreateOrUpdateOptionalParams extends coreClient.
 export type ManagedClustersCreateOrUpdateResponse = ManagedCluster;
 
 /** Optional parameters. */
-export interface ManagedClustersUpdateTagsOptionalParams extends coreClient.OperationOptions {
+export interface ManagedClustersUpdateTagsOptionalParams
+  extends coreClient.OperationOptions {
   /** The request should only proceed if an entity matches this string. */
   ifMatch?: string;
   /** Delay to wait until next poll, in milliseconds. */
@@ -3267,7 +3450,8 @@ export interface ManagedClustersUpdateTagsOptionalParams extends coreClient.Oper
 export type ManagedClustersUpdateTagsResponse = ManagedCluster;
 
 /** Optional parameters. */
-export interface ManagedClustersDeleteOptionalParams extends coreClient.OperationOptions {
+export interface ManagedClustersDeleteOptionalParams
+  extends coreClient.OperationOptions {
   /** The request should only proceed if an entity matches this string. */
   ifMatch?: string;
   /** Delay to wait until next poll, in milliseconds. */
@@ -3289,7 +3473,8 @@ export interface ManagedClustersResetServicePrincipalProfileOptionalParams
 }
 
 /** Optional parameters. */
-export interface ManagedClustersResetAADProfileOptionalParams extends coreClient.OperationOptions {
+export interface ManagedClustersResetAADProfileOptionalParams
+  extends coreClient.OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
   /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
@@ -3336,7 +3521,8 @@ export type ManagedClustersRotateServiceAccountSigningKeysResponse =
   ManagedClustersRotateServiceAccountSigningKeysHeaders;
 
 /** Optional parameters. */
-export interface ManagedClustersStopOptionalParams extends coreClient.OperationOptions {
+export interface ManagedClustersStopOptionalParams
+  extends coreClient.OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
   /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
@@ -3347,7 +3533,8 @@ export interface ManagedClustersStopOptionalParams extends coreClient.OperationO
 export type ManagedClustersStopResponse = ManagedClustersStopHeaders;
 
 /** Optional parameters. */
-export interface ManagedClustersStartOptionalParams extends coreClient.OperationOptions {
+export interface ManagedClustersStartOptionalParams
+  extends coreClient.OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
   /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
@@ -3358,7 +3545,8 @@ export interface ManagedClustersStartOptionalParams extends coreClient.Operation
 export type ManagedClustersStartResponse = ManagedClustersStartHeaders;
 
 /** Optional parameters. */
-export interface ManagedClustersRunCommandOptionalParams extends coreClient.OperationOptions {
+export interface ManagedClustersRunCommandOptionalParams
+  extends coreClient.OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
   /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
@@ -3388,7 +3576,8 @@ export interface ManagedClustersListMeshRevisionProfilesOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listMeshRevisionProfiles operation. */
-export type ManagedClustersListMeshRevisionProfilesResponse = MeshRevisionProfileList;
+export type ManagedClustersListMeshRevisionProfilesResponse =
+  MeshRevisionProfileList;
 
 /** Optional parameters. */
 export interface ManagedClustersGetMeshRevisionProfileOptionalParams
@@ -3402,7 +3591,8 @@ export interface ManagedClustersListMeshUpgradeProfilesOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listMeshUpgradeProfiles operation. */
-export type ManagedClustersListMeshUpgradeProfilesResponse = MeshUpgradeProfileList;
+export type ManagedClustersListMeshUpgradeProfilesResponse =
+  MeshUpgradeProfileList;
 
 /** Optional parameters. */
 export interface ManagedClustersGetMeshUpgradeProfileOptionalParams
@@ -3412,7 +3602,8 @@ export interface ManagedClustersGetMeshUpgradeProfileOptionalParams
 export type ManagedClustersGetMeshUpgradeProfileResponse = MeshUpgradeProfile;
 
 /** Optional parameters. */
-export interface ManagedClustersListNextOptionalParams extends coreClient.OperationOptions {}
+export interface ManagedClustersListNextOptionalParams
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
 export type ManagedClustersListNextResponse = ManagedClusterListResult;
@@ -3422,7 +3613,8 @@ export interface ManagedClustersListByResourceGroupNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByResourceGroupNext operation. */
-export type ManagedClustersListByResourceGroupNextResponse = ManagedClusterListResult;
+export type ManagedClustersListByResourceGroupNextResponse =
+  ManagedClusterListResult;
 
 /** Optional parameters. */
 export interface ManagedClustersListOutboundNetworkDependenciesEndpointsNextOptionalParams
@@ -3437,14 +3629,16 @@ export interface ManagedClustersListMeshRevisionProfilesNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listMeshRevisionProfilesNext operation. */
-export type ManagedClustersListMeshRevisionProfilesNextResponse = MeshRevisionProfileList;
+export type ManagedClustersListMeshRevisionProfilesNextResponse =
+  MeshRevisionProfileList;
 
 /** Optional parameters. */
 export interface ManagedClustersListMeshUpgradeProfilesNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listMeshUpgradeProfilesNext operation. */
-export type ManagedClustersListMeshUpgradeProfilesNextResponse = MeshUpgradeProfileList;
+export type ManagedClustersListMeshUpgradeProfilesNextResponse =
+  MeshUpgradeProfileList;
 
 /** Optional parameters. */
 export interface MaintenanceConfigurationsListByManagedClusterOptionalParams
@@ -3455,7 +3649,8 @@ export type MaintenanceConfigurationsListByManagedClusterResponse =
   MaintenanceConfigurationListResult;
 
 /** Optional parameters. */
-export interface MaintenanceConfigurationsGetOptionalParams extends coreClient.OperationOptions {}
+export interface MaintenanceConfigurationsGetOptionalParams
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the get operation. */
 export type MaintenanceConfigurationsGetResponse = MaintenanceConfiguration;
@@ -3465,7 +3660,8 @@ export interface MaintenanceConfigurationsCreateOrUpdateOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the createOrUpdate operation. */
-export type MaintenanceConfigurationsCreateOrUpdateResponse = MaintenanceConfiguration;
+export type MaintenanceConfigurationsCreateOrUpdateResponse =
+  MaintenanceConfiguration;
 
 /** Optional parameters. */
 export interface MaintenanceConfigurationsDeleteOptionalParams
@@ -3480,7 +3676,8 @@ export type MaintenanceConfigurationsListByManagedClusterNextResponse =
   MaintenanceConfigurationListResult;
 
 /** Optional parameters. */
-export interface AgentPoolsAbortLatestOperationOptionalParams extends coreClient.OperationOptions {
+export interface AgentPoolsAbortLatestOperationOptionalParams
+  extends coreClient.OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
   /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
@@ -3488,22 +3685,26 @@ export interface AgentPoolsAbortLatestOperationOptionalParams extends coreClient
 }
 
 /** Contains response data for the abortLatestOperation operation. */
-export type AgentPoolsAbortLatestOperationResponse = AgentPoolsAbortLatestOperationHeaders;
+export type AgentPoolsAbortLatestOperationResponse =
+  AgentPoolsAbortLatestOperationHeaders;
 
 /** Optional parameters. */
-export interface AgentPoolsListOptionalParams extends coreClient.OperationOptions {}
+export interface AgentPoolsListOptionalParams
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the list operation. */
 export type AgentPoolsListResponse = AgentPoolListResult;
 
 /** Optional parameters. */
-export interface AgentPoolsGetOptionalParams extends coreClient.OperationOptions {}
+export interface AgentPoolsGetOptionalParams
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the get operation. */
 export type AgentPoolsGetResponse = AgentPool;
 
 /** Optional parameters. */
-export interface AgentPoolsCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
+export interface AgentPoolsCreateOrUpdateOptionalParams
+  extends coreClient.OperationOptions {
   /** The request should only proceed if an entity matches this string. */
   ifMatch?: string;
   /** The request should only proceed if no entity matches this string. */
@@ -3518,7 +3719,8 @@ export interface AgentPoolsCreateOrUpdateOptionalParams extends coreClient.Opera
 export type AgentPoolsCreateOrUpdateResponse = AgentPool;
 
 /** Optional parameters. */
-export interface AgentPoolsDeleteOptionalParams extends coreClient.OperationOptions {
+export interface AgentPoolsDeleteOptionalParams
+  extends coreClient.OperationOptions {
   /** The request should only proceed if an entity matches this string. */
   ifMatch?: string;
   /** ignore-pod-disruption-budget=true to delete those pods on a node without considering Pod Disruption Budget */
@@ -3533,13 +3735,15 @@ export interface AgentPoolsDeleteOptionalParams extends coreClient.OperationOpti
 export type AgentPoolsDeleteResponse = AgentPoolsDeleteHeaders;
 
 /** Optional parameters. */
-export interface AgentPoolsGetUpgradeProfileOptionalParams extends coreClient.OperationOptions {}
+export interface AgentPoolsGetUpgradeProfileOptionalParams
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the getUpgradeProfile operation. */
 export type AgentPoolsGetUpgradeProfileResponse = AgentPoolUpgradeProfile;
 
 /** Optional parameters. */
-export interface AgentPoolsDeleteMachinesOptionalParams extends coreClient.OperationOptions {
+export interface AgentPoolsDeleteMachinesOptionalParams
+  extends coreClient.OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
   /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
@@ -3554,7 +3758,8 @@ export interface AgentPoolsGetAvailableAgentPoolVersionsOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the getAvailableAgentPoolVersions operation. */
-export type AgentPoolsGetAvailableAgentPoolVersionsResponse = AgentPoolAvailableVersions;
+export type AgentPoolsGetAvailableAgentPoolVersionsResponse =
+  AgentPoolAvailableVersions;
 
 /** Optional parameters. */
 export interface AgentPoolsUpgradeNodeImageVersionOptionalParams
@@ -3566,19 +3771,23 @@ export interface AgentPoolsUpgradeNodeImageVersionOptionalParams
 }
 
 /** Optional parameters. */
-export interface AgentPoolsListNextOptionalParams extends coreClient.OperationOptions {}
+export interface AgentPoolsListNextOptionalParams
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
 export type AgentPoolsListNextResponse = AgentPoolListResult;
 
 /** Optional parameters. */
-export interface PrivateEndpointConnectionsListOptionalParams extends coreClient.OperationOptions {}
+export interface PrivateEndpointConnectionsListOptionalParams
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the list operation. */
-export type PrivateEndpointConnectionsListResponse = PrivateEndpointConnectionListResult;
+export type PrivateEndpointConnectionsListResponse =
+  PrivateEndpointConnectionListResult;
 
 /** Optional parameters. */
-export interface PrivateEndpointConnectionsGetOptionalParams extends coreClient.OperationOptions {}
+export interface PrivateEndpointConnectionsGetOptionalParams
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the get operation. */
 export type PrivateEndpointConnectionsGetResponse = PrivateEndpointConnection;
@@ -3588,7 +3797,8 @@ export interface PrivateEndpointConnectionsUpdateOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the update operation. */
-export type PrivateEndpointConnectionsUpdateResponse = PrivateEndpointConnection;
+export type PrivateEndpointConnectionsUpdateResponse =
+  PrivateEndpointConnection;
 
 /** Optional parameters. */
 export interface PrivateEndpointConnectionsDeleteOptionalParams
@@ -3600,7 +3810,8 @@ export interface PrivateEndpointConnectionsDeleteOptionalParams
 }
 
 /** Optional parameters. */
-export interface PrivateLinkResourcesListOptionalParams extends coreClient.OperationOptions {}
+export interface PrivateLinkResourcesListOptionalParams
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the list operation. */
 export type PrivateLinkResourcesListResponse = PrivateLinkResourcesListResult;
@@ -3613,40 +3824,47 @@ export interface ResolvePrivateLinkServiceIdPostOptionalParams
 export type ResolvePrivateLinkServiceIdPostResponse = PrivateLinkResource;
 
 /** Optional parameters. */
-export interface SnapshotsListOptionalParams extends coreClient.OperationOptions {}
+export interface SnapshotsListOptionalParams
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the list operation. */
 export type SnapshotsListResponse = SnapshotListResult;
 
 /** Optional parameters. */
-export interface SnapshotsListByResourceGroupOptionalParams extends coreClient.OperationOptions {}
+export interface SnapshotsListByResourceGroupOptionalParams
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByResourceGroup operation. */
 export type SnapshotsListByResourceGroupResponse = SnapshotListResult;
 
 /** Optional parameters. */
-export interface SnapshotsGetOptionalParams extends coreClient.OperationOptions {}
+export interface SnapshotsGetOptionalParams
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the get operation. */
 export type SnapshotsGetResponse = Snapshot;
 
 /** Optional parameters. */
-export interface SnapshotsCreateOrUpdateOptionalParams extends coreClient.OperationOptions {}
+export interface SnapshotsCreateOrUpdateOptionalParams
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the createOrUpdate operation. */
 export type SnapshotsCreateOrUpdateResponse = Snapshot;
 
 /** Optional parameters. */
-export interface SnapshotsUpdateTagsOptionalParams extends coreClient.OperationOptions {}
+export interface SnapshotsUpdateTagsOptionalParams
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the updateTags operation. */
 export type SnapshotsUpdateTagsResponse = Snapshot;
 
 /** Optional parameters. */
-export interface SnapshotsDeleteOptionalParams extends coreClient.OperationOptions {}
+export interface SnapshotsDeleteOptionalParams
+  extends coreClient.OperationOptions {}
 
 /** Optional parameters. */
-export interface SnapshotsListNextOptionalParams extends coreClient.OperationOptions {}
+export interface SnapshotsListNextOptionalParams
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
 export type SnapshotsListNextResponse = SnapshotListResult;
@@ -3659,13 +3877,16 @@ export interface SnapshotsListByResourceGroupNextOptionalParams
 export type SnapshotsListByResourceGroupNextResponse = SnapshotListResult;
 
 /** Optional parameters. */
-export interface TrustedAccessRoleBindingsListOptionalParams extends coreClient.OperationOptions {}
+export interface TrustedAccessRoleBindingsListOptionalParams
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the list operation. */
-export type TrustedAccessRoleBindingsListResponse = TrustedAccessRoleBindingListResult;
+export type TrustedAccessRoleBindingsListResponse =
+  TrustedAccessRoleBindingListResult;
 
 /** Optional parameters. */
-export interface TrustedAccessRoleBindingsGetOptionalParams extends coreClient.OperationOptions {}
+export interface TrustedAccessRoleBindingsGetOptionalParams
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the get operation. */
 export type TrustedAccessRoleBindingsGetResponse = TrustedAccessRoleBinding;
@@ -3680,10 +3901,12 @@ export interface TrustedAccessRoleBindingsCreateOrUpdateOptionalParams
 }
 
 /** Contains response data for the createOrUpdate operation. */
-export type TrustedAccessRoleBindingsCreateOrUpdateResponse = TrustedAccessRoleBinding;
+export type TrustedAccessRoleBindingsCreateOrUpdateResponse =
+  TrustedAccessRoleBinding;
 
 /** Optional parameters. */
-export interface TrustedAccessRoleBindingsDeleteOptionalParams extends coreClient.OperationOptions {
+export interface TrustedAccessRoleBindingsDeleteOptionalParams
+  extends coreClient.OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
   /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
@@ -3691,47 +3914,55 @@ export interface TrustedAccessRoleBindingsDeleteOptionalParams extends coreClien
 }
 
 /** Contains response data for the delete operation. */
-export type TrustedAccessRoleBindingsDeleteResponse = TrustedAccessRoleBindingsDeleteHeaders;
+export type TrustedAccessRoleBindingsDeleteResponse =
+  TrustedAccessRoleBindingsDeleteHeaders;
 
 /** Optional parameters. */
 export interface TrustedAccessRoleBindingsListNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
-export type TrustedAccessRoleBindingsListNextResponse = TrustedAccessRoleBindingListResult;
+export type TrustedAccessRoleBindingsListNextResponse =
+  TrustedAccessRoleBindingListResult;
 
 /** Optional parameters. */
-export interface TrustedAccessRolesListOptionalParams extends coreClient.OperationOptions {}
+export interface TrustedAccessRolesListOptionalParams
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the list operation. */
 export type TrustedAccessRolesListResponse = TrustedAccessRoleListResult;
 
 /** Optional parameters. */
-export interface TrustedAccessRolesListNextOptionalParams extends coreClient.OperationOptions {}
+export interface TrustedAccessRolesListNextOptionalParams
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
 export type TrustedAccessRolesListNextResponse = TrustedAccessRoleListResult;
 
 /** Optional parameters. */
-export interface MachinesListOptionalParams extends coreClient.OperationOptions {}
+export interface MachinesListOptionalParams
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the list operation. */
 export type MachinesListResponse = MachineListResult;
 
 /** Optional parameters. */
-export interface MachinesGetOptionalParams extends coreClient.OperationOptions {}
+export interface MachinesGetOptionalParams
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the get operation. */
 export type MachinesGetResponse = Machine;
 
 /** Optional parameters. */
-export interface MachinesListNextOptionalParams extends coreClient.OperationOptions {}
+export interface MachinesListNextOptionalParams
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
 export type MachinesListNextResponse = MachineListResult;
 
 /** Optional parameters. */
-export interface ContainerServiceClientOptionalParams extends coreClient.ServiceClientOptions {
+export interface ContainerServiceClientOptionalParams
+  extends coreClient.ServiceClientOptions {
   /** server parameter */
   $host?: string;
   /** Api Version */

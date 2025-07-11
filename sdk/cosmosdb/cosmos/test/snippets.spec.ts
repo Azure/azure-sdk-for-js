@@ -31,8 +31,10 @@ import {
   TriggerType,
   UserDefinedFunctionDefinition,
   StoredProcedureDefinition,
+  ItemDefinition,
 } from "@azure/cosmos";
 import { ClientSecretCredential } from "@azure/identity";
+import { describe, it } from "vitest";
 
 describe("snippets", () => {
   it("ReadmeSampleCreateClient", () => {
@@ -504,11 +506,11 @@ describe("snippets", () => {
       maxItemCount: 10, // maximum number of items to return per page
       enableCrossPartitionQuery: true,
     };
-    const querIterator = container.items.query(querySpec, queryOptions);
-    while (querIterator.hasMoreResults()) {
+    const queryIterator = container.items.query(querySpec, queryOptions);
+    while (queryIterator.hasMoreResults()) {
       // @ts-ignore
-      const { resources: result } = await querIterator.fetchNext();
-      //Do something with result
+      const { resources: result } = await queryIterator.fetchNext();
+      // process results
     }
   });
 
@@ -949,7 +951,7 @@ describe("snippets", () => {
     }
     // @ts-preserve-whitespace
     // @ts-ignore
-    const { resource: item } = await container.item("id").read<TodoItem>();
+    const { resource: item } = await container.item("id", "<pkValue>").read<TodoItem>();
   });
 
   it("ItemReplace", async () => {
@@ -968,11 +970,27 @@ describe("snippets", () => {
     }
     // @ts-preserve-whitespace
     // @ts-ignore
-    const { resource: item } = await container.item("id").read<TodoItem>();
+    const { resource: item } = await container.item("id", "<pkValue>").read<TodoItem>();
     // @ts-preserve-whitespace
     item.done = true;
     // @ts-ignore
     const { resource: replacedItem } = await container.item("id").replace<TodoItem>(item);
+  });
+
+  it("ItemReplaceItemDefinition", async () => {
+    const endpoint = "https://your-account.documents.azure.com";
+    const key = "<database account masterkey>";
+    const client = new CosmosClient({ endpoint, key });
+    const { database } = await client.databases.createIfNotExists({ id: "Test Database" });
+    const { container } = await database.containers.createIfNotExists({ id: "Test Container" });
+    // @ts-preserve-whitespace
+    const item: ItemDefinition = {
+      id: "id",
+      title: "new_title",
+    };
+    // @ts-preserve-whitespace
+    // @ts-ignore
+    const { resource: replacedItem } = await container.item("id").replace(item);
   });
 
   it("ItemDelete", async () => {
@@ -991,7 +1009,7 @@ describe("snippets", () => {
     }
     // @ts-preserve-whitespace
     // @ts-ignore
-    const { resource: item } = await container.item("id").read<TodoItem>();
+    const { resource: item } = await container.item("id", "<pkValue>").read<TodoItem>();
     // @ts-preserve-whitespace
     // @ts-ignore
     await container.item("id").delete<TodoItem>();
@@ -1013,7 +1031,7 @@ describe("snippets", () => {
     const { container } = await database.containers.createIfNotExists({ id: "Test Container" });
     // @ts-preserve-whitespace
     // @ts-ignore
-    const { resource: item } = await container.item("id").read<TodoItem>();
+    const { resource: item } = await container.item("id", "<pkValue>").read<TodoItem>();
     // @ts-preserve-whitespace
     // @ts-ignore
     const { resource: patchedItem } = await container.item("id").patch<TodoItem>([
@@ -1083,6 +1101,30 @@ describe("snippets", () => {
     ];
     // @ts-preserve-whitespace
     await container.items.bulk(operations);
+  });
+
+  it("ItemsExecuteBulkOperations", async () => {
+    const endpoint = "https://your-account.documents.azure.com";
+    const key = "<database account masterkey>";
+    const client = new CosmosClient({ endpoint, key });
+    // @ts-preserve-whitespace
+    const { database } = await client.databases.createIfNotExists({ id: "Test Database" });
+    // @ts-preserve-whitespace
+    const { container } = await database.containers.createIfNotExists({ id: "Test Container" });
+    // @ts-preserve-whitespace
+    const operations: OperationInput[] = [
+      {
+        operationType: "Create",
+        resourceBody: { id: "doc1", name: "sample", key: "A" },
+      },
+      {
+        operationType: "Upsert",
+        partitionKey: "A",
+        resourceBody: { id: "doc2", name: "other", key: "A" },
+      },
+    ];
+    // @ts-preserve-whitespace
+    await container.items.executeBulkOperations(operations);
   });
 
   it("ItemsBatch", async () => {
@@ -1681,5 +1723,36 @@ describe("snippets", () => {
       value: 4,
       numberType: CosmosEncryptedNumberType.Float, // represents 4.0
     };
+  });
+
+  it("DatabaseGetUrl", async () => {
+    const endpoint = "https://your-account.documents.azure.com";
+    const key = "<database account masterkey>";
+    const client = new CosmosClient({ endpoint, key });
+    // @ts-preserve-whitespace
+    // @ts-ignore
+    const { database } = await client.databases.createIfNotExists({ id: "Test Database" });
+    // @ts-preserve-whitespace
+    // @ts-ignore
+    const url = database.url;
+  });
+
+  it("QueryIteratorReset", async () => {
+    const endpoint = "https://your-account.documents.azure.com";
+    const key = "<database account masterkey>";
+    const client = new CosmosClient({ endpoint, key });
+    const { database } = await client.databases.createIfNotExists({ id: "Test Database" });
+    const { container } = await database.containers.createIfNotExists({ id: "Test Container" });
+    // @ts-preserve-whitespace
+    const querySpec = {
+      query: "SELECT c.status, COUNT(c.id) AS count FROM c GROUP BY c.status",
+    };
+    const queryIterator = container.items.query(querySpec);
+    while (queryIterator.hasMoreResults()) {
+      // @ts-ignore
+      const { resources: result } = await queryIterator.fetchNext();
+      // process results
+    }
+    queryIterator.reset();
   });
 });

@@ -1,14 +1,17 @@
 # Release History
 
-## 1.2.0-beta.4 (Unreleased)
+## 1.2.0-beta.4 (2025-06-16)
 
 ### Features Added
 
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
+- Introduced Messaging Connect support:
+    - Added a new MessagingConnect field to the SmsSendOptions model.
+    - The MessagingConnect structure includes:
+        - apiKey: used for authenticating Messaging Connect requests.
+        - partner: identifies the Messaging Connect partner.
+    - Supports:
+        - Incoming and outgoing flows for long codes.
+        - Outgoing flow for Dynamic Alpha Sender IDs (DASID).
 
 ## 1.2.0-beta.3 (2024-12-19)
 

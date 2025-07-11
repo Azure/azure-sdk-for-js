@@ -14,7 +14,7 @@ require("dotenv/config");
  * This sample demonstrates how to Deploy the cluster using the rack configuration provided during creation.
  *
  * @summary Deploy the cluster using the rack configuration provided during creation.
- * x-ms-original-file: specification/networkcloud/resource-manager/Microsoft.NetworkCloud/stable/2024-07-01/examples/Clusters_Deploy.json
+ * x-ms-original-file: specification/networkcloud/resource-manager/Microsoft.NetworkCloud/stable/2025-02-01/examples/Clusters_Deploy.json
  */
 async function deployCluster() {
   const subscriptionId =
@@ -33,7 +33,7 @@ async function deployCluster() {
  * This sample demonstrates how to Deploy the cluster using the rack configuration provided during creation.
  *
  * @summary Deploy the cluster using the rack configuration provided during creation.
- * x-ms-original-file: specification/networkcloud/resource-manager/Microsoft.NetworkCloud/stable/2024-07-01/examples/Clusters_Deploy_SkipValidation.json
+ * x-ms-original-file: specification/networkcloud/resource-manager/Microsoft.NetworkCloud/stable/2025-02-01/examples/Clusters_Deploy_SkipValidation.json
  */
 async function deployClusterSkippingValidation() {
   const subscriptionId =

@@ -16,7 +16,7 @@ import "dotenv/config";
  * This sample demonstrates how to Delete a Volume Snapshot.
  *
  * @summary Delete a Volume Snapshot.
- * x-ms-original-file: specification/elasticsan/resource-manager/Microsoft.ElasticSan/preview/2024-06-01-preview/examples/VolumeSnapshots_Delete_MaximumSet_Gen.json
+ * x-ms-original-file: specification/elasticsan/resource-manager/Microsoft.ElasticSan/preview/2024-07-01-preview/examples/VolumeSnapshots_Delete_MaximumSet_Gen.json
  */
 async function volumeSnapshotsDeleteMaximumSetGen(): Promise<void> {
   const subscriptionId =
@@ -41,7 +41,7 @@ async function volumeSnapshotsDeleteMaximumSetGen(): Promise<void> {
  * This sample demonstrates how to Delete a Volume Snapshot.
  *
  * @summary Delete a Volume Snapshot.
- * x-ms-original-file: specification/elasticsan/resource-manager/Microsoft.ElasticSan/preview/2024-06-01-preview/examples/VolumeSnapshots_Delete_MinimumSet_Gen.json
+ * x-ms-original-file: specification/elasticsan/resource-manager/Microsoft.ElasticSan/preview/2024-07-01-preview/examples/VolumeSnapshots_Delete_MinimumSet_Gen.json
  */
 async function volumeSnapshotsDeleteMinimumSetGen(): Promise<void> {
   const subscriptionId =
@@ -63,8 +63,8 @@ async function volumeSnapshotsDeleteMinimumSetGen(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  volumeSnapshotsDeleteMaximumSetGen();
-  volumeSnapshotsDeleteMinimumSetGen();
+  await volumeSnapshotsDeleteMaximumSetGen();
+  await volumeSnapshotsDeleteMinimumSetGen();
 }
 
 main().catch(console.error);

@@ -5,19 +5,11 @@
  * @summary Uses a CertificateClient in various ways to read a certificate as well as update a certificate's tags.
  */
 
-// Load the .env file if it exists
-import * as dotenv from "dotenv";
-
-import {
-  CertificateClient,
-  CertificatePolicy,
-  DefaultCertificatePolicy,
-  UpdateCertificateOptions,
-} from "@azure/keyvault-certificates";
-
+import type { CertificatePolicy, UpdateCertificateOptions } from "@azure/keyvault-certificates";
+import { CertificateClient, DefaultCertificatePolicy } from "@azure/keyvault-certificates";
 import { DefaultAzureCredential } from "@azure/identity";
-
-dotenv.config();
+// Load the .env file if it exists
+import "dotenv/config";
 
 export async function main(): Promise<void> {
   // This sample uses DefaultAzureCredential, which supports a number of authentication mechanisms.
@@ -36,7 +28,7 @@ export async function main(): Promise<void> {
   // Creating a self-signed certificate
   const createPoller = await client.beginCreateCertificate(
     certificateName,
-    DefaultCertificatePolicy
+    DefaultCertificatePolicy,
   );
 
   // Get the pending certificate before the creation operation is complete
@@ -52,7 +44,7 @@ export async function main(): Promise<void> {
   // Note: It will not retrieve the certificate's policy.
   const certificateFromVersion = await client.getCertificateVersion(
     certificateName,
-    certificateWithPolicy.properties.version!
+    certificateWithPolicy.properties.version!,
   );
   console.log("Certificate from a specific version:", certificateFromVersion);
 
@@ -68,7 +60,7 @@ export async function main(): Promise<void> {
   const updatedCertificate = await client.updateCertificateProperties(
     certificateName,
     version,
-    properties
+    properties,
   );
   console.log("Updated certificate:", updatedCertificate);
 

@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { EncryptionKeyWrapMetadata } from "../EncryptionKeyWrapMetadata";
+import type { EncryptionKeyWrapMetadata } from "../EncryptionKeyWrapMetadata.js";
 
 /**
  * Details of a client encryption key for use with the Azure Cosmos DB service.

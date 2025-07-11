@@ -14,7 +14,7 @@ require("dotenv/config");
  * This sample demonstrates how to Get properties of the provided bare metal machine.
  *
  * @summary Get properties of the provided bare metal machine.
- * x-ms-original-file: specification/networkcloud/resource-manager/Microsoft.NetworkCloud/stable/2024-07-01/examples/BareMetalMachines_Get.json
+ * x-ms-original-file: specification/networkcloud/resource-manager/Microsoft.NetworkCloud/stable/2025-02-01/examples/BareMetalMachines_Get.json
  */
 async function getBareMetalMachine() {
   const subscriptionId =

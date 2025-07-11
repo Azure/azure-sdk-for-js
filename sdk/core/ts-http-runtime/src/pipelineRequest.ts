@@ -13,6 +13,7 @@ import type {
 } from "./interfaces.js";
 import { createHttpHeaders } from "./httpHeaders.js";
 import { randomUUID } from "./util/uuidUtils.js";
+import { AuthScheme } from "./auth/schemes.js";
 
 /**
  * Settings to initialize a request.
@@ -108,6 +109,28 @@ export interface PipelineRequestOptions {
 
   /** Set to true if the request is sent over HTTP instead of HTTPS */
   allowInsecureConnection?: boolean;
+
+  /**
+   * List of authentication schemes used for this specific request.
+   * These schemes define how the request will be authenticated.
+   *
+   * If values are provided, these schemes override the client level authentication schemes.
+   * If an empty array is provided, it explicitly specifies no authentication for the request.
+   * If not provided at the request level, the client level authentication schemes will be used.
+   */
+  authSchemes?: AuthScheme[];
+
+  /**
+   * Additional options to set on the request. This provides a way to override
+   * existing ones or provide request properties that are not declared.
+   *
+   * For possible valid properties, see
+   *   - NodeJS https.request options:  https://nodejs.org/api/http.html#httprequestoptions-callback
+   *   - Browser RequestInit: https://developer.mozilla.org/en-US/docs/Web/API/RequestInit
+   *
+   * WARNING: Options specified here will override any properties of same names when request is sent by {@link HttpClient}.
+   */
+  requestOverrides?: Record<string, unknown>;
 }
 
 class PipelineRequestImpl implements PipelineRequest {
@@ -129,6 +152,8 @@ class PipelineRequestImpl implements PipelineRequest {
   public allowInsecureConnection?: boolean;
   public onUploadProgress?: (progress: TransferProgressEvent) => void;
   public onDownloadProgress?: (progress: TransferProgressEvent) => void;
+  public requestOverrides?: Record<string, unknown>;
+  public authSchemes?: AuthScheme[];
 
   constructor(options: PipelineRequestOptions) {
     this.url = options.url;
@@ -148,6 +173,8 @@ class PipelineRequestImpl implements PipelineRequest {
     this.requestId = options.requestId || randomUUID();
     this.allowInsecureConnection = options.allowInsecureConnection ?? false;
     this.enableBrowserStreams = options.enableBrowserStreams ?? false;
+    this.requestOverrides = options.requestOverrides;
+    this.authSchemes = options.authSchemes;
   }
 }
 

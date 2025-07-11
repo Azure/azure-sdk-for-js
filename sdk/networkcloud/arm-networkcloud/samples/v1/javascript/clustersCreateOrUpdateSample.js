@@ -14,7 +14,7 @@ require("dotenv/config");
  * This sample demonstrates how to Create a new cluster or update the properties of the cluster if it exists.
  *
  * @summary Create a new cluster or update the properties of the cluster if it exists.
- * x-ms-original-file: specification/networkcloud/resource-manager/Microsoft.NetworkCloud/stable/2024-07-01/examples/Clusters_Create.json
+ * x-ms-original-file: specification/networkcloud/resource-manager/Microsoft.NetworkCloud/stable/2025-02-01/examples/Clusters_Create.json
  */
 async function createOrUpdateCluster() {
   const subscriptionId =
@@ -25,7 +25,10 @@ async function createOrUpdateCluster() {
     aggregatorOrSingleRackDefinition: {
       bareMetalMachineConfigurationData: [
         {
-          bmcCredentials: { password: "{password}", username: "username" },
+          bmcCredentials: {
+            password: "https://keyvaultname.vault.azure.net/secrets/secretName",
+            username: "username",
+          },
           bmcMacAddress: "AA:BB:CC:DD:EE:FF",
           bootMacAddress: "00:BB:CC:DD:EE:FF",
           machineDetails: "extraDetails",
@@ -34,7 +37,10 @@ async function createOrUpdateCluster() {
           serialNumber: "BM1219XXX",
         },
         {
-          bmcCredentials: { password: "{password}", username: "username" },
+          bmcCredentials: {
+            password: "https://keyvaultname.vault.azure.net/secrets/secretName",
+            username: "username",
+          },
           bmcMacAddress: "AA:BB:CC:DD:EE:00",
           bootMacAddress: "00:BB:CC:DD:EE:00",
           machineDetails: "extraDetails",
@@ -51,15 +57,25 @@ async function createOrUpdateCluster() {
         "/subscriptions/123e4567-e89b-12d3-a456-426655440000/providers/Microsoft.NetworkCloud/rackSkus/rackSkuName",
       storageApplianceConfigurationData: [
         {
-          adminCredentials: { password: "{password}", username: "username" },
+          adminCredentials: {
+            password: "https://keyvaultname.vault.azure.net/secrets/secretName",
+            username: "username",
+          },
           rackSlot: 1,
           serialNumber: "BM1219XXX",
           storageApplianceName: "vmName",
         },
       ],
     },
-    analyticsWorkspaceId:
-      "/subscriptions/123e4567-e89b-12d3-a456-426655440000/resourceGroups/resourceGroupName/providers/microsoft.operationalInsights/workspaces/logAnalyticsWorkspaceName",
+    analyticsOutputSettings: {
+      analyticsWorkspaceId:
+        "/subscriptions/123e4567-e89b-12d3-a456-426655440000/resourceGroups/resourceGroupName/providers/microsoft.operationalInsights/workspaces/logAnalyticsWorkspaceName",
+      associatedIdentity: {
+        identityType: "UserAssignedIdentity",
+        userAssignedIdentityResourceId:
+          "/subscriptions/123e4567-e89b-12d3-a456-426655440000/resourceGroups/resourceGroupName/providers/Microsoft.ManagedIdentity/userAssignedIdentities/userIdentity1",
+      },
+    },
     clusterLocation: "Foo Street, 3rd Floor, row 9",
     clusterServicePrincipal: {
       applicationId: "12345678-1234-1234-1234-123456789012",
@@ -86,7 +102,10 @@ async function createOrUpdateCluster() {
       {
         bareMetalMachineConfigurationData: [
           {
-            bmcCredentials: { password: "{password}", username: "username" },
+            bmcCredentials: {
+              password: "https://keyvaultname.vault.azure.net/secrets/secretName",
+              username: "username",
+            },
             bmcMacAddress: "AA:BB:CC:DD:EE:FF",
             bootMacAddress: "00:BB:CC:DD:EE:FF",
             machineDetails: "extraDetails",
@@ -95,7 +114,10 @@ async function createOrUpdateCluster() {
             serialNumber: "BM1219XXX",
           },
           {
-            bmcCredentials: { password: "{password}", username: "username" },
+            bmcCredentials: {
+              password: "https://keyvaultname.vault.azure.net/secrets/secretName",
+              username: "username",
+            },
             bmcMacAddress: "AA:BB:CC:DD:EE:00",
             bootMacAddress: "00:BB:CC:DD:EE:00",
             machineDetails: "extraDetails",
@@ -112,7 +134,10 @@ async function createOrUpdateCluster() {
           "/subscriptions/123e4567-e89b-12d3-a456-426655440000/providers/Microsoft.NetworkCloud/rackSkus/rackSkuName",
         storageApplianceConfigurationData: [
           {
-            adminCredentials: { password: "{password}", username: "username" },
+            adminCredentials: {
+              password: "https://keyvaultname.vault.azure.net/secrets/secretName",
+              username: "username",
+            },
             rackSlot: 1,
             serialNumber: "BM1219XXX",
             storageApplianceName: "vmName",
@@ -139,10 +164,13 @@ async function createOrUpdateCluster() {
     networkFabricId:
       "/subscriptions/123e4567-e89b-12d3-a456-426655440000/resourceGroups/resourceGroupName/providers/Microsoft.ManagedNetworkFabric/networkFabrics/fabricName",
     runtimeProtectionConfiguration: { enforcementLevel: "OnDemand" },
-    secretArchive: {
-      keyVaultId:
-        "/subscriptions/123e4567-e89b-12d3-a456-426655440000/resourceGroups/resourceGroupName/providers/Microsoft.KeyVault/vaults/keyVaultName",
-      useKeyVault: "True",
+    secretArchiveSettings: {
+      associatedIdentity: {
+        identityType: "UserAssignedIdentity",
+        userAssignedIdentityResourceId:
+          "/subscriptions/123e4567-e89b-12d3-a456-426655440000/resourceGroups/resourceGroupName/providers/Microsoft.ManagedIdentity/userAssignedIdentities/userIdentity1",
+      },
+      vaultUri: "https://keyvaultname.vault.azure.net/",
     },
     tags: { key1: "myvalue1", key2: "myvalue2" },
     updateStrategy: {
@@ -152,6 +180,7 @@ async function createOrUpdateCluster() {
       thresholdValue: 4,
       waitTimeMinutes: 10,
     },
+    vulnerabilityScanningSettings: { containerScan: "Enabled" },
   };
   const credential = new DefaultAzureCredential();
   const client = new NetworkCloud(credential, subscriptionId);

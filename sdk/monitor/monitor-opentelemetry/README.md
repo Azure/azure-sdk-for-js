@@ -44,10 +44,10 @@ useAzureMonitor(options);
 ## Configuration
 
 ```ts snippet:ReadmeSampleConfiguration
-import { Resource } from "@opentelemetry/resources";
+import { resourceFromAttributes } from "@opentelemetry/resources";
 import { AzureMonitorOpenTelemetryOptions, useAzureMonitor } from "@azure/monitor-opentelemetry";
 
-const resource = new Resource({ testAttribute: "testValue" });
+const resource = resourceFromAttributes({ testAttribute: "testValue" });
 const options: AzureMonitorOpenTelemetryOptions = {
   azureMonitorExporterOptions: {
     // Offline storage
@@ -81,8 +81,6 @@ const options: AzureMonitorOpenTelemetryOptions = {
   resource: resource,
   logRecordProcessors: [],
   spanProcessors: [],
-  enableTraceBasedSamplingForLogs: false,
-  enablePerformanceCounters: true,
 };
 useAzureMonitor(options);
 ```
@@ -253,7 +251,6 @@ Further information on usage of the browser SDK loader can be found [here](https
 You might set the Cloud Role Name and the Cloud Role Instance via [OpenTelemetry Resource](https://github.com/open-telemetry/opentelemetry-specification/blob/main/specification/resource/sdk.md#resource-sdk) attributes.
 
 ```ts snippet:ReadmeSampleSetRoleNameAndInstance
-import { Resource } from "@opentelemetry/resources";
 import {
   ATTR_SERVICE_NAME,
   SEMRESATTRS_SERVICE_NAMESPACE,
@@ -391,10 +388,7 @@ You might use the following ways to filter out telemetry before it leaves your a
     ```ts snippet:ReadmeSampleExcludeUrl
     import { HttpInstrumentationConfig } from "@opentelemetry/instrumentation-http";
     import { IncomingMessage, RequestOptions } from "node:http";
-    import {
-      AzureMonitorOpenTelemetryOptions,
-      useAzureMonitor,
-    } from "@azure/monitor-opentelemetry";
+    import { AzureMonitorOpenTelemetryOptions, useAzureMonitor } from "@azure/monitor-opentelemetry";
 
     const httpInstrumentationConfig: HttpInstrumentationConfig = {
       enabled: true,
@@ -427,25 +421,25 @@ You might use the following ways to filter out telemetry before it leaves your a
     Use the add [custom property example](#add-a-custom-property-to-a-trace), but replace the following lines of code:
 
       ```ts snippet:ReadmeSampleCustomProcessor
-        import { SpanProcessor, ReadableSpan } from "@opentelemetry/sdk-trace-base";
-        import { Span, Context, SpanKind, TraceFlags } from "@opentelemetry/api";
+      import { SpanProcessor, ReadableSpan } from "@opentelemetry/sdk-trace-base";
+      import { Span, Context, SpanKind, TraceFlags } from "@opentelemetry/api";
 
-        class SpanEnrichingProcessor implements SpanProcessor {
-          async forceFlush(): Promise<void> {
-            // Force flush code here
-          }
-          onStart(_span: Span, _parentContext: Context): void {
-            // Normal code here
-          }
-          async shutdown(): Promise<void> {
-            // Shutdown code here
-          }
-          onEnd(span: ReadableSpan): void {
-            if (span.kind === SpanKind.INTERNAL) {
-              span.spanContext().traceFlags = TraceFlags.NONE;
-            }
+      class SpanEnrichingProcessor implements SpanProcessor {
+        async forceFlush(): Promise<void> {
+          // Force flush code here
+        }
+        onStart(_span: Span, _parentContext: Context): void {
+          // Normal code here
+        }
+        async shutdown(): Promise<void> {
+          // Shutdown code here
+        }
+        onEnd(span: ReadableSpan): void {
+          if (span.kind === SpanKind.INTERNAL) {
+            span.spanContext().traceFlags = TraceFlags.NONE;
           }
         }
+      }
       ```
 
 ## Custom telemetry

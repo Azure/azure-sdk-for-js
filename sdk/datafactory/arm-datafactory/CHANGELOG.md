@@ -1,5 +1,85 @@
 # Release History
     
+## 19.0.0 (2025-04-11)
+    
+### Features Added
+
+  - Added Interface AzurePostgreSqlSinkUpsertSettings
+  - Added Interface TeradataImportCommand
+  - Added Interface TeradataSink
+  - Added Type Alias AzurePostgreSqlWriteMethodEnum
+  - Added Type Alias GreenplumAuthenticationType
+  - Added Type Alias OracleAuthenticationType
+  - Added Type Alias ValueType
+  - Interface AzurePostgreSqlLinkedService has a new optional parameter azureCloudType
+  - Interface AzurePostgreSqlLinkedService has a new optional parameter credential
+  - Interface AzurePostgreSqlLinkedService has a new optional parameter servicePrincipalCredentialType
+  - Interface AzurePostgreSqlLinkedService has a new optional parameter servicePrincipalEmbeddedCert
+  - Interface AzurePostgreSqlLinkedService has a new optional parameter servicePrincipalEmbeddedCertPassword
+  - Interface AzurePostgreSqlLinkedService has a new optional parameter servicePrincipalId
+  - Interface AzurePostgreSqlLinkedService has a new optional parameter servicePrincipalKey
+  - Interface AzurePostgreSqlLinkedService has a new optional parameter tenant
+  - Interface AzurePostgreSqlSink has a new optional parameter upsertSettings
+  - Interface AzurePostgreSqlSink has a new optional parameter writeMethod
+  - Interface CommonDataServiceForAppsSink has a new optional parameter bypassBusinessLogicExecution
+  - Interface CommonDataServiceForAppsSink has a new optional parameter bypassPowerAutomateFlows
+  - Interface DynamicsCrmSink has a new optional parameter bypassBusinessLogicExecution
+  - Interface DynamicsCrmSink has a new optional parameter bypassPowerAutomateFlows
+  - Interface DynamicsSink has a new optional parameter bypassBusinessLogicExecution
+  - Interface DynamicsSink has a new optional parameter bypassPowerAutomateFlows
+  - Interface GreenplumLinkedService has a new optional parameter authenticationType
+  - Interface GreenplumLinkedService has a new optional parameter commandTimeout
+  - Interface GreenplumLinkedService has a new optional parameter connectionTimeout
+  - Interface GreenplumLinkedService has a new optional parameter database
+  - Interface GreenplumLinkedService has a new optional parameter host
+  - Interface GreenplumLinkedService has a new optional parameter port
+  - Interface GreenplumLinkedService has a new optional parameter sslMode
+  - Interface GreenplumLinkedService has a new optional parameter username
+  - Interface Office365LinkedService has a new optional parameter servicePrincipalCredentialType
+  - Interface Office365LinkedService has a new optional parameter servicePrincipalEmbeddedCert
+  - Interface Office365LinkedService has a new optional parameter servicePrincipalEmbeddedCertPassword
+  - Interface OracleLinkedService has a new optional parameter authenticationType
+  - Interface OracleLinkedService has a new optional parameter cryptoChecksumClient
+  - Interface OracleLinkedService has a new optional parameter cryptoChecksumTypesClient
+  - Interface OracleLinkedService has a new optional parameter enableBulkLoad
+  - Interface OracleLinkedService has a new optional parameter encryptionClient
+  - Interface OracleLinkedService has a new optional parameter encryptionTypesClient
+  - Interface OracleLinkedService has a new optional parameter fetchSize
+  - Interface OracleLinkedService has a new optional parameter fetchTswtzAsTimestamp
+  - Interface OracleLinkedService has a new optional parameter initializationString
+  - Interface OracleLinkedService has a new optional parameter initialLobFetchSize
+  - Interface OracleLinkedService has a new optional parameter server
+  - Interface OracleLinkedService has a new optional parameter statementCacheSize
+  - Interface OracleLinkedService has a new optional parameter supportV1DataTypes
+  - Interface OracleLinkedService has a new optional parameter username
+  - Interface PrestoLinkedService has a new optional parameter enableServerCertificateValidation
+  - Interface ScriptActivity has a new optional parameter returnMultistatementResult
+  - Interface ServiceNowV2ObjectDataset has a new optional parameter valueType
+  - Interface SnowflakeV2LinkedService has a new optional parameter role
+  - Interface SnowflakeV2LinkedService has a new optional parameter schema
+  - Interface TeradataLinkedService has a new optional parameter characterSet
+  - Interface TeradataLinkedService has a new optional parameter httpsPortNumber
+  - Interface TeradataLinkedService has a new optional parameter maxRespSize
+  - Interface TeradataLinkedService has a new optional parameter portNumber
+  - Interface TeradataLinkedService has a new optional parameter sslMode
+  - Interface TeradataLinkedService has a new optional parameter useDataEncryption
+  - Interface TypeConversionSettings has a new optional parameter dateFormat
+  - Interface TypeConversionSettings has a new optional parameter timeFormat
+  - Type of parameter type of interface CopySink is changed from "DelimitedTextSink" | "JsonSink" | "OrcSink" | "RestSink" | "AzurePostgreSqlSink" | "AzureMySqlSink" | "AzureDatabricksDeltaLakeSink" | "WarehouseSink" | "SapCloudForCustomerSink" | "AzureQueueSink" | "AzureTableSink" | "AvroSink" | "ParquetSink" | "BinarySink" | "IcebergSink" | "BlobSink" | "FileSystemSink" | "DocumentDbCollectionSink" | "CosmosDbSqlApiSink" | "SqlSink" | "SqlServerSink" | "AzureSqlSink" | "SqlMISink" | "SqlDWSink" | "SnowflakeSink" | "SnowflakeV2Sink" | "OracleSink" | "AzureDataLakeStoreSink" | "AzureBlobFSSink" | "AzureSearchIndexSink" | "OdbcSink" | "InformixSink" | "MicrosoftAccessSink" | "DynamicsSink" | "DynamicsCrmSink" | "CommonDataServiceForAppsSink" | "AzureDataExplorerSink" | "SalesforceSink" | "SalesforceServiceCloudSink" | "MongoDbAtlasSink" | "MongoDbV2Sink" | "CosmosDbMongoDbApiSink" | "LakeHouseTableSink" | "SalesforceV2Sink" | "SalesforceServiceCloudV2Sink" to "DelimitedTextSink" | "JsonSink" | "OrcSink" | "RestSink" | "TeradataSink" | "AzurePostgreSqlSink" | "AzureMySqlSink" | "AzureDatabricksDeltaLakeSink" | "WarehouseSink" | "SapCloudForCustomerSink" | "AzureQueueSink" | "AzureTableSink" | "AvroSink" | "ParquetSink" | "BinarySink" | "IcebergSink" | "BlobSink" | "FileSystemSink" | "DocumentDbCollectionSink" | "CosmosDbSqlApiSink" | "SqlSink" | "SqlServerSink" | "AzureSqlSink" | "SqlMISink" | "SqlDWSink" | "SnowflakeSink" | "SnowflakeV2Sink" | "OracleSink" | "AzureDataLakeStoreSink" | "AzureBlobFSSink" | "AzureSearchIndexSink" | "OdbcSink" | "InformixSink" | "MicrosoftAccessSink" | "DynamicsSink" | "DynamicsCrmSink" | "CommonDataServiceForAppsSink" | "AzureDataExplorerSink" | "SalesforceSink" | "SalesforceServiceCloudSink" | "MongoDbAtlasSink" | "MongoDbV2Sink" | "CosmosDbMongoDbApiSink" | "LakeHouseTableSink" | "SalesforceV2Sink" | "SalesforceServiceCloudV2Sink"
+  - Type of parameter type of interface ImportSettings is changed from "AzureDatabricksDeltaLakeImportCommand" | "SnowflakeImportCopyCommand" to "TeradataImportCommand" | "AzureDatabricksDeltaLakeImportCommand" | "SnowflakeImportCopyCommand"
+  - Added Enum KnownAzurePostgreSqlWriteMethodEnum
+  - Added Enum KnownGreenplumAuthenticationType
+  - Added Enum KnownOracleAuthenticationType
+  - Added Enum KnownValueType
+
+### Breaking Changes
+
+  - Type of parameter type of interface Dataset is changed one of the values from "LakeHouseTable" to "LakehouseTable"
+  - Type of parameter type of interface LakeHouseLinkedService is changed from "LakeHouse" to "Lakehouse"
+  - Type of parameter type of interface LakeHouseTableDataset is changed from "LakeHouseTable" to "LakehouseTable"
+  - Type of parameter type of interface LinkedService is changed one of the values from "LakeHouse" to "Lakehouse"
+    
+    
 ## 18.0.0 (2024-12-10)
     
 ### Features Added

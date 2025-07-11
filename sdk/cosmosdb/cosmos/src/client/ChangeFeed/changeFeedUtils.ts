@@ -1,22 +1,22 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import type { ChangeFeedIteratorOptions } from "./ChangeFeedIteratorOptions";
-import { ErrorResponse } from "../../request";
-import type { PartitionKeyRange } from "../Container";
-import type { InternalChangeFeedIteratorOptions } from "./InternalChangeFeedOptions";
-import { isPrimitivePartitionKeyValue } from "../../utils/typeChecks";
-import type { ChangeFeedStartFrom } from "./ChangeFeedStartFrom";
-import { ChangeFeedStartFromBeginning } from "./ChangeFeedStartFromBeginning";
-import { Constants } from "../../common";
-import { ChangeFeedStartFromTime } from "./ChangeFeedStartFromTime";
-import { QueryRange } from "../../routing";
-import { FeedRangeInternal } from "./FeedRange";
-import { hashV2PartitionKey } from "../../utils/hashing/v2";
-import { PartitionKeyInternal } from "../../documents/PartitionKeyInternal";
-import { DiagnosticNodeInternal } from "../../diagnostics/DiagnosticNodeInternal";
-import { EncryptionProcessor } from "../../encryption";
-import { ChangeFeedMode } from "./ChangeFeedMode";
-import { ChangeFeedIteratorResponse } from "./ChangeFeedIteratorResponse";
+import type { ChangeFeedIteratorOptions } from "./ChangeFeedIteratorOptions.js";
+import { ErrorResponse } from "../../request/index.js";
+import type { PartitionKeyRange } from "../Container/index.js";
+import type { InternalChangeFeedIteratorOptions } from "./InternalChangeFeedOptions.js";
+import { isPrimitivePartitionKeyValue } from "../../utils/typeChecks.js";
+import type { ChangeFeedStartFrom } from "./ChangeFeedStartFrom.js";
+import { ChangeFeedStartFromBeginning } from "./ChangeFeedStartFromBeginning.js";
+import { Constants } from "../../common/index.js";
+import { ChangeFeedStartFromTime } from "./ChangeFeedStartFromTime.js";
+import { QueryRange } from "../../routing/index.js";
+import { FeedRangeInternal } from "./FeedRange.js";
+import { hashV2PartitionKey } from "../../utils/hashing/v2.js";
+import { PartitionKeyInternal } from "../../documents/PartitionKeyInternal.js";
+import { DiagnosticNodeInternal } from "../../diagnostics/DiagnosticNodeInternal.js";
+import { EncryptionProcessor } from "../../encryption/index.js";
+import { ChangeFeedMode } from "./ChangeFeedMode.js";
+import { ChangeFeedIteratorResponse } from "./ChangeFeedIteratorResponse.js";
 
 /**
  * @hidden

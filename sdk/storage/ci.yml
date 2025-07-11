@@ -36,6 +36,8 @@ extends:
   parameters:
     ServiceDirectory: storage
     Artifacts:
+      - name: azure-storage-common
+        safeName: azurestoragecommon
       - name: azure-storage-blob
         safeName: azurestorageblob
         triggeringPaths:

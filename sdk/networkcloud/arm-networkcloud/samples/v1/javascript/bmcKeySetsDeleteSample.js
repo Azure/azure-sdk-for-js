@@ -14,7 +14,7 @@ require("dotenv/config");
  * This sample demonstrates how to Delete the baseboard management controller key set of the provided cluster.
  *
  * @summary Delete the baseboard management controller key set of the provided cluster.
- * x-ms-original-file: specification/networkcloud/resource-manager/Microsoft.NetworkCloud/stable/2024-07-01/examples/BmcKeySets_Delete.json
+ * x-ms-original-file: specification/networkcloud/resource-manager/Microsoft.NetworkCloud/stable/2025-02-01/examples/BmcKeySets_Delete.json
  */
 async function deleteBaseboardManagementControllerKeySetOfCluster() {
   const subscriptionId =
