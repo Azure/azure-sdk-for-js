@@ -15,7 +15,6 @@ export {
   StorageRetryPolicyType,
   StorageRetryPolicy,
   StorageRetryPolicyFactory,
-  StorageSharedKeyCredentialPolicy,
   StorageBrowserPolicyFactory,
 } from "@azure/storage-common";
 
@@ -46,7 +45,6 @@ export {
   StoragePipelineOptions,
   ServiceClientOptions,
 } from "./Pipeline.js";
-export * from "./StorageRetryPolicyFactory.js";
 export * from "./ShareServiceClient.js";
 export { CommonOptions } from "./StorageClient.js";
 export * from "./generatedModels.js";

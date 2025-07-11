@@ -79,7 +79,6 @@ export {
   StorageOAuthScopes,
   ServiceClientOptions,
 } from "./Pipeline.js";
-export * from "./StorageRetryPolicyFactory.js";
 export * from "./ShareServiceClient.js";
 export * from "./SASQueryParameters.js";
 export { CommonOptions } from "./StorageClient.js";

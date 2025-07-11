@@ -2215,8 +2215,7 @@ export interface StoragePipelineOptions {
     httpClient?: RequestPolicy;
     keepAliveOptions?: KeepAliveOptions;
     proxyOptions?: ProxySettings;
-    // Warning: (ae-forgotten-export) The symbol "StorageRetryOptions_2" needs to be exported by the entry point index.d.ts
-    retryOptions?: StorageRetryOptions_2;
+    retryOptions?: StorageRetryOptions;
     userAgentOptions?: UserAgentPolicyOptions;
 }
 
