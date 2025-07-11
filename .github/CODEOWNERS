@@ -139,7 +139,7 @@
 /sdk/durabletask/ @berndverst @kaibocai @torosent @philliphoff @cgillum
 
 # ServiceLabel: %Durable Task Scheduler
-# ServiceOwners: @berndverst @kaibocai @torosent @RyanLettieri @philliphoff @cgillum
+# ServiceOwners: @berndverst @kaibocai @torosent @philliphoff @cgillum
 
 # PRLabel: %Event Grid
 /sdk/eventgrid/ @shankarsama @rajeshka
