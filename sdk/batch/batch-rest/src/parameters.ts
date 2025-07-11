@@ -266,9 +266,7 @@ export interface ListPoolsHeaderParam {
   headers?: RawHttpHeadersInput & ListPoolsHeaders;
 }
 
-export type ListPoolsParameters = ListPoolsQueryParam &
-  ListPoolsHeaderParam &
-  RequestParameters;
+export type ListPoolsParameters = ListPoolsQueryParam & ListPoolsHeaderParam & RequestParameters;
 
 export interface DeletePoolHeaders {
   /**
@@ -323,9 +321,7 @@ export interface DeletePoolHeaderParam {
   headers?: RawHttpHeadersInput & DeletePoolHeaders;
 }
 
-export type DeletePoolParameters = DeletePoolQueryParam &
-  DeletePoolHeaderParam &
-  RequestParameters;
+export type DeletePoolParameters = DeletePoolQueryParam & DeletePoolHeaderParam & RequestParameters;
 
 export interface PoolExistsHeaders {
   /**
@@ -380,9 +376,7 @@ export interface PoolExistsHeaderParam {
   headers?: RawHttpHeadersInput & PoolExistsHeaders;
 }
 
-export type PoolExistsParameters = PoolExistsQueryParam &
-  PoolExistsHeaderParam &
-  RequestParameters;
+export type PoolExistsParameters = PoolExistsQueryParam & PoolExistsHeaderParam & RequestParameters;
 
 export interface GetPoolHeaders {
   /**
@@ -461,9 +455,7 @@ export interface GetPoolHeaderParam {
   headers?: RawHttpHeadersInput & GetPoolHeaders;
 }
 
-export type GetPoolParameters = GetPoolQueryParam &
-  GetPoolHeaderParam &
-  RequestParameters;
+export type GetPoolParameters = GetPoolQueryParam & GetPoolHeaderParam & RequestParameters;
 
 export interface UpdatePoolHeaders {
   /**
@@ -1062,9 +1054,7 @@ export interface DeleteJobHeaderParam {
   headers?: RawHttpHeadersInput & DeleteJobHeaders;
 }
 
-export type DeleteJobParameters = DeleteJobQueryParam &
-  DeleteJobHeaderParam &
-  RequestParameters;
+export type DeleteJobParameters = DeleteJobQueryParam & DeleteJobHeaderParam & RequestParameters;
 
 export interface GetJobHeaders {
   /**
@@ -1143,9 +1133,7 @@ export interface GetJobHeaderParam {
   headers?: RawHttpHeadersInput & GetJobHeaders;
 }
 
-export type GetJobParameters = GetJobQueryParam &
-  GetJobHeaderParam &
-  RequestParameters;
+export type GetJobParameters = GetJobQueryParam & GetJobHeaderParam & RequestParameters;
 
 export interface UpdateJobHeaders {
   /**
@@ -1407,9 +1395,7 @@ export interface EnableJobHeaderParam {
   headers?: RawHttpHeadersInput & EnableJobHeaders;
 }
 
-export type EnableJobParameters = EnableJobQueryParam &
-  EnableJobHeaderParam &
-  RequestParameters;
+export type EnableJobParameters = EnableJobQueryParam & EnableJobHeaderParam & RequestParameters;
 
 export interface TerminateJobHeaders {
   /**
@@ -1590,9 +1576,7 @@ export interface ListJobsHeaderParam {
   headers?: RawHttpHeadersInput & ListJobsHeaders;
 }
 
-export type ListJobsParameters = ListJobsQueryParam &
-  ListJobsHeaderParam &
-  RequestParameters;
+export type ListJobsParameters = ListJobsQueryParam & ListJobsHeaderParam & RequestParameters;
 
 export interface ListJobsFromScheduleHeaders {
   /**
@@ -1879,10 +1863,9 @@ export interface CancelCertificateDeletionHeaderParam {
   headers?: RawHttpHeadersInput & CancelCertificateDeletionHeaders;
 }
 
-export type CancelCertificateDeletionParameters =
-  CancelCertificateDeletionQueryParam &
-    CancelCertificateDeletionHeaderParam &
-    RequestParameters;
+export type CancelCertificateDeletionParameters = CancelCertificateDeletionQueryParam &
+  CancelCertificateDeletionHeaderParam &
+  RequestParameters;
 
 export interface DeleteCertificateHeaders {
   /**
@@ -2690,9 +2673,7 @@ export interface ListTasksHeaderParam {
   headers?: RawHttpHeadersInput & ListTasksHeaders;
 }
 
-export type ListTasksParameters = ListTasksQueryParam &
-  ListTasksHeaderParam &
-  RequestParameters;
+export type ListTasksParameters = ListTasksQueryParam & ListTasksHeaderParam & RequestParameters;
 
 export interface CreateTaskCollectionHeaders {
   /**
@@ -2792,9 +2773,7 @@ export interface DeleteTaskHeaderParam {
   headers?: RawHttpHeadersInput & DeleteTaskHeaders;
 }
 
-export type DeleteTaskParameters = DeleteTaskQueryParam &
-  DeleteTaskHeaderParam &
-  RequestParameters;
+export type DeleteTaskParameters = DeleteTaskQueryParam & DeleteTaskHeaderParam & RequestParameters;
 
 export interface GetTaskHeaders {
   /**
@@ -2873,9 +2852,7 @@ export interface GetTaskHeaderParam {
   headers?: RawHttpHeadersInput & GetTaskHeaders;
 }
 
-export type GetTaskParameters = GetTaskQueryParam &
-  GetTaskHeaderParam &
-  RequestParameters;
+export type GetTaskParameters = GetTaskQueryParam & GetTaskHeaderParam & RequestParameters;
 
 export interface ReplaceTaskHeaders {
   /**
@@ -3452,9 +3429,7 @@ export interface GetNodeHeaderParam {
   headers?: RawHttpHeadersInput & GetNodeHeaders;
 }
 
-export type GetNodeParameters = GetNodeQueryParam &
-  GetNodeHeaderParam &
-  RequestParameters;
+export type GetNodeParameters = GetNodeQueryParam & GetNodeHeaderParam & RequestParameters;
 
 export interface RebootNodeHeaders {
   /**
@@ -3530,9 +3505,7 @@ export interface StartNodeHeaderParam {
   headers?: RawHttpHeadersInput & StartNodeHeaders;
 }
 
-export type StartNodeParameters = StartNodeQueryParam &
-  StartNodeHeaderParam &
-  RequestParameters;
+export type StartNodeParameters = StartNodeQueryParam & StartNodeHeaderParam & RequestParameters;
 
 export interface DeallocateNodeHeaders {
   /**
@@ -3731,10 +3704,9 @@ export interface GetNodeRemoteLoginSettingsHeaderParam {
   headers?: RawHttpHeadersInput & GetNodeRemoteLoginSettingsHeaders;
 }
 
-export type GetNodeRemoteLoginSettingsParameters =
-  GetNodeRemoteLoginSettingsQueryParam &
-    GetNodeRemoteLoginSettingsHeaderParam &
-    RequestParameters;
+export type GetNodeRemoteLoginSettingsParameters = GetNodeRemoteLoginSettingsQueryParam &
+  GetNodeRemoteLoginSettingsHeaderParam &
+  RequestParameters;
 
 export interface UploadNodeLogsHeaders {
   /**
@@ -3832,9 +3804,7 @@ export interface ListNodesHeaderParam {
   headers?: RawHttpHeadersInput & ListNodesHeaders;
 }
 
-export type ListNodesParameters = ListNodesQueryParam &
-  ListNodesHeaderParam &
-  RequestParameters;
+export type ListNodesParameters = ListNodesQueryParam & ListNodesHeaderParam & RequestParameters;
 
 export interface GetNodeExtensionHeaders {
   /**
