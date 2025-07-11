@@ -22,7 +22,7 @@ $containerName = $DeploymentOutputs['HEALTHDATAAISERVICES_STORAGE_CONTAINER_NAME
 $testMode = "live"
 
 # Set the local folder path to upload
-$localFolderPath = "$PSScriptRoot\test\public\data\example_patient_1"
+$localFolderPath = Join-Path $PSScriptRoot 'test\public\data\example_patient_1'
 
 # Check if the connection string is present
 if ([string]::IsNullOrWhiteSpace($storageAccountName)) {
