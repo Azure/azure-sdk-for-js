@@ -417,10 +417,13 @@ export abstract class ParallelQueryExecutionContextBase implements ExecutionCont
           ): Promise<void> => {
             try {
               const headers = await documentProducer.bufferMore(diagnosticNode);
-              await this.headerSemaphore.take(() => {
+              // acquire the header semaphore to ensure that only one document producer updates the headers at a time
+              this.headerSemaphore.take();
+              try {
                 this._mergeWithActiveResponseHeaders(headers); // Merge the returned headers
+              } finally {
                 this.headerSemaphore.leave();
-              });
+              }
               // if buffer of document producer is filled, add it to the buffered document producers queue
               const nextItem = documentProducer.peakNextItem();
               if (nextItem !== undefined) {

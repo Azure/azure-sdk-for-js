@@ -177,7 +177,6 @@ export class DocumentProducer {
       this._updateStates(undefined, resources === undefined);
       if (resources !== undefined) {
         // add fetched header to the 1st element in the buffer
-        // TODO: can be removed once we have a way to pass headers in the fetch function
         let addHeaderToFetchResult = true;
         resources.forEach((element: any) => {
           this.fetchResults.push(
