@@ -10,10 +10,6 @@ import type { DeidentificationContent } from "../../src/models.js";
 import type { DeidentificationResultOutput } from "../../src/outputModels.js";
 import type { Recorder } from "@azure-tools/test-recorder";
 
-const fakeServiceEndpoint = "https://example.api.deid.azure.com";
-const replaceableVariables: Record<string, string> = {
-  DEID_SERVICE_ENDPOINT: fakeServiceEndpoint,
-};
 const inputText = "Hello, my name is John Smith.";
 
 describe("Realtime", () => {
@@ -22,16 +18,8 @@ describe("Realtime", () => {
 
   beforeEach(async (context) => {
     recorder = await createRecorder(context);
-    await recorder.start({
-      envSetupForPlayback: replaceableVariables,
-      removeCentralSanitizers: ["AZSDK4001", "AZSDK2030", "AZSDK3430", "AZSDK3493"],
-    });
     const credential = createTestCredential();
-    if (process.env.DEID_SERVICE_ENDPOINT) {
-      client = await createRecordedDeidentificationClient(recorder, credential);
-    } else {
-      throw new Error("DEID_SERVICE_ENDPOINT is not set");
-    }
+    client = await createRecordedDeidentificationClient(recorder, credential);
   });
 
   afterEach(async () => {
