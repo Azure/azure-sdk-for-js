@@ -136,7 +136,7 @@
 /sdk/digitaltwins/ @sjiherzig @johngallardo @olivakar
 
 # PRLabel: %Durable Task Scheduler
-/sdk/durabletask/ @berndverst @kaibocai @torosent @RyanLettieri @philliphoff @cgillum
+/sdk/durabletask/ @berndverst @kaibocai @torosent @philliphoff @cgillum
 
 # ServiceLabel: %Durable Task Scheduler
 # ServiceOwners: @berndverst @kaibocai @torosent @RyanLettieri @philliphoff @cgillum
