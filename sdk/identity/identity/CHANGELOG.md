@@ -10,6 +10,8 @@
 
 ### Other Changes
 
+- Added HTTP 410 status code handling to `ManagedIdentityCredential` retry policy with minimum 70-second total retry duration to meet Azure IMDS service requirements. [#34981](https://github.com/Azure/azure-sdk-for-js/pull/34981)
+
 ## 4.10.2 (2025-07-02)
 
 ### Bugs Fixed
