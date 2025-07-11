@@ -32,7 +32,7 @@ describe("projectsClient - vector stores files", () => {
     // Upload file
     const fileContent = await generateFileStream();
     const file = await projectsClient.files.upload(fileContent, "assistants", {
-      fileName: "filename.txt",
+      filename: "filename.txt",
     });
     console.log(`Uploaded file, file ID: ${file.id}`);
 
@@ -61,7 +61,7 @@ describe("projectsClient - vector stores files", () => {
     // Upload file
     const fileContent = await generateFileStream();
     const file = await projectsClient.files.upload(fileContent, "assistants", {
-      fileName: "filename.txt",
+      filename: "filename.txt",
     });
     console.log(`Uploaded file, file ID: ${file.id}`);
 
@@ -97,7 +97,7 @@ describe("projectsClient - vector stores files", () => {
     // Upload file
     const fileContent = await generateFileStream();
     const file = await projectsClient.files.upload(fileContent, "assistants", {
-      fileName: "filename.txt",
+      filename: "filename.txt",
     });
     console.log(`Uploaded file, file ID: ${file.id}`);
 
@@ -124,7 +124,7 @@ describe("projectsClient - vector stores files", () => {
     // Upload file
     const fileContent = await generateFileStream();
     const file = await projectsClient.files.upload(fileContent, "assistants", {
-      fileName: "filename.txt",
+      filename: "filename.txt",
     });
     console.log(`Uploaded file, file ID: ${file.id}`);
 
@@ -155,7 +155,7 @@ describe("projectsClient - vector stores files", () => {
     // Upload file
     const fileContent = await generateFileStream();
     const file = await projectsClient.files.upload(fileContent, "assistants", {
-      fileName: "filename.txt",
+      filename: "filename.txt",
     });
     console.log(`Uploaded file, file ID: ${file.id}`);
 
@@ -191,7 +191,7 @@ describe("projectsClient - vector stores files", () => {
     // Upload file
     const fileContent = await generateFileStream();
     const file = await projectsClient.files.upload(fileContent, "assistants", {
-      fileName: "filename.txt",
+      filename: "filename.txt",
     });
     console.log(`Uploaded file, file ID: ${file.id}`);
 

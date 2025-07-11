@@ -3465,10 +3465,13 @@ export interface _UploadFileRequest {
 }
 
 export function _uploadFileRequestSerializer(item: _UploadFileRequest): any {
+  const filePart = createFilePartDescriptor("file", item["file"], "application/octet-stream");
+  if (!filePart.filename) {
+    filePart.filename = item["filename"];
+  }
   return [
-    createFilePartDescriptor("file", item["file"], "application/octet-stream"),
+    filePart,
     { name: "purpose", body: item["purpose"] },
-    ...(item["filename"] === undefined ? [] : [{ name: "filename", body: item["filename"] }]),
   ];
 }
 

@@ -32,11 +32,11 @@ describe("projectsClient - vector stores file batches", () => {
     // Upload files
     const fileContent1 = await generateFileStream();
     const file1 = await projectsClient.files.upload(fileContent1, "assistants", {
-      fileName: "filename.txt",
+      filename: "filename.txt",
     });
     const fileContent2 = await generateFileStream();
     const file2 = await projectsClient.files.upload(fileContent2, "assistants", {
-      fileName: "filename.txt",
+      filename: "filename.txt",
     });
 
     // Create vector store file batch
@@ -70,11 +70,11 @@ describe("projectsClient - vector stores file batches", () => {
     // Upload files
     const fileContent1 = await generateFileStream();
     const file1 = await projectsClient.files.upload(fileContent1, "assistants", {
-      fileName: "filename.txt",
+      filename: "filename.txt",
     });
     const fileContent2 = await generateFileStream();
     const file2 = await projectsClient.files.upload(fileContent2, "assistants", {
-      fileName: "filename.txt",
+      filename: "filename.txt",
     });
 
     // Create vector store file batch
@@ -116,11 +116,11 @@ describe("projectsClient - vector stores file batches", () => {
     // Upload files
     const fileContent1 = await generateFileStream();
     const file1 = await projectsClient.files.upload(fileContent1, "assistants", {
-      fileName: "filename.txt",
+      filename: "filename.txt",
     });
     const fileContent2 = await generateFileStream();
     const file2 = await projectsClient.files.upload(fileContent2, "assistants", {
-      fileName: "filename.txt",
+      filename: "filename.txt",
     });
 
     // Create vector store file batch
@@ -168,11 +168,11 @@ describe("projectsClient - vector stores file batches", () => {
     // Upload files
     const fileContent1 = await generateFileStream();
     const file1 = await projectsClient.files.upload(fileContent1, "assistants", {
-      fileName: "filename.txt",
+      filename: "filename.txt",
     });
     const fileContent2 = await generateFileStream();
     const file2 = await projectsClient.files.upload(fileContent2, "assistants", {
-      fileName: "filename.txt",
+      filename: "filename.txt",
     });
 
     // Create vector store file batch
@@ -210,11 +210,11 @@ describe("projectsClient - vector stores file batches", () => {
     // Upload files
     const fileContent1 = await generateFileStream();
     const file1 = await projectsClient.files.upload(fileContent1, "assistants", {
-      fileName: "filename.txt",
+      filename: "filename.txt",
     });
     const fileContent2 = await generateFileStream();
     const file2 = await projectsClient.files.upload(fileContent2, "assistants", {
-      fileName: "filename.txt",
+      filename: "filename.txt",
     });
 
     // Create vector store file batch
@@ -253,11 +253,11 @@ describe("projectsClient - vector stores file batches", () => {
     // Upload files
     const fileContent1 = await generateFileStream();
     const file1 = await projectsClient.files.upload(fileContent1, "assistants", {
-      fileName: "filename.txt",
+      filename: "filename.txt",
     });
     const fileContent2 = await generateFileStream();
     const file2 = await projectsClient.files.upload(fileContent2, "assistants", {
-      fileName: "filename.txt",
+      filename: "filename.txt",
     });
 
     // Create vector store file batch

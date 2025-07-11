@@ -65,12 +65,12 @@ function _getFiles(context: AgentsContext) {
       file: ReadableStream<Uint8Array> | NodeJS.ReadableStream,
       purpose: FilePurpose,
       options: FilesUploadFileOptionalParams,
-    ) => uploadFile(context, { file: file, purpose: purpose, filename: options.fileName }, options),
+    ) => uploadFile(context, { file: file, purpose: purpose, filename: options.filename }, options),
     uploadAndPoll: (
       file: ReadableStream<Uint8Array> | NodeJS.ReadableStream,
       purpose: FilePurpose,
       options: FilesUploadFileOptionalParams,
-    ) => uploadFileAndPoll(context, { file, purpose, filename: options.fileName }, options),
+    ) => uploadFileAndPoll(context, { file, purpose, filename: options.filename }, options),
     list: (options?: FilesListFilesOptionalParams) => listFiles(context, options),
   };
 }
