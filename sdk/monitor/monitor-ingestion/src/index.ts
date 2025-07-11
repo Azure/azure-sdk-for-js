@@ -2,8 +2,8 @@
 // Licensed under the MIT License.
 
 export { LogsIngestionClient } from "./logsIngestionClient.js";
-export { KnownVersions } from "./models/index.js";
+export { KnownVersions, KnownMonitorAudience } from "./models/index.js";
 export {
   LogsIngestionClientOptionalParams,
-  UploadOptionalParams,
+  LogsUploadOptions,
 } from "./api/index.js";

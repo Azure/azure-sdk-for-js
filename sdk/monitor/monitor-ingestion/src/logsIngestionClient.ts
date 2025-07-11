@@ -1,17 +1,25 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import {
-  createLogsIngestion,
+import type {
   LogsIngestionContext,
-  LogsIngestionClientOptionalParams,
+  LogsIngestionClientOptionalParams} from "./api/index.js";
+import {
+  createLogsIngestion
 } from "./api/index.js";
-import { UploadOptionalParams } from "./api/options.js";
+import type { LogsUploadOptions } from "./api/options.js";
 import { upload } from "./api/operations.js";
-import { Pipeline } from "@azure/core-rest-pipeline";
-import { TokenCredential } from "@azure/core-auth";
-
+import type { Pipeline } from "@azure/core-rest-pipeline";
+import type { TokenCredential } from "@azure/core-auth";
+import type { LogsUploadFailure } from "./models/models.js";
+import { AggregateLogsUploadError } from "./models/models.js";
+import { isError } from "@azure/core-util";
+import { GZippingPolicy } from "./gZippingPolicy.js";
+import { concurrentRun } from "./utils/concurrentPoolHelper.js";
+import { splitDataToChunks } from "./utils/splitDataIntoChunksHelper.js";
 export { LogsIngestionClientOptionalParams } from "./api/logsIngestionContext.js";
+
+const DEFAULT_MAX_CONCURRENCY = 5;
 
 export class LogsIngestionClient {
   private _client: LogsIngestionContext;
@@ -33,15 +41,50 @@ export class LogsIngestionClient {
       userAgentOptions: { userAgentPrefix },
     });
     this.pipeline = this._client.pipeline;
+    this.pipeline.addPolicy(GZippingPolicy);
   }
 
   /** Ingestion API used to directly ingest data using Data Collection Rules. */
-  upload(
+  async upload(
     ruleId: string,
     streamName: string,
     body: Record<string, any>[],
-    options: UploadOptionalParams = { requestOptions: {} },
+    options: LogsUploadOptions = { requestOptions: {} },
   ): Promise<void> {
-    return upload(this._client, ruleId, streamName, body, options);
+    // TODO: Do we need to worry about memory issues when loading data for 100GB ?? JS max allocation is 1 or 2GB
+
+    // This splits logs into 1MB chunks
+    const chunkArray = splitDataToChunks(body);
+    const concurrency = Math.max(options?.maxConcurrency ?? DEFAULT_MAX_CONCURRENCY, 1);
+
+    const uploadResultErrors: Array<LogsUploadFailure> = [];
+    await concurrentRun(
+      concurrency,
+      chunkArray,
+      async (eachChunk: Record<string, any>[]): Promise<void> => {
+        try {
+          await upload(this._client, ruleId, streamName, eachChunk, {
+            contentEncoding: "gzip",
+            abortSignal: options?.abortSignal,
+          });
+        } catch (e: unknown) {
+          if (options?.onError) {
+            options.onError({
+              failedLogs: eachChunk,
+              cause: isError(e) ? e : new Error(e as string),
+            });
+          }
+          uploadResultErrors.push({
+            cause: isError(e) ? e : new Error(e as string),
+            failedLogs: eachChunk,
+          });
+        }
+      },
+      options?.abortSignal,
+    );
+    if (uploadResultErrors.length > 0) {
+      throw new AggregateLogsUploadError(uploadResultErrors);
+    }
+    return Promise.resolve();
   }
 }
