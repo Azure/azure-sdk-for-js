@@ -1,8 +1,6 @@
-<!-- dev-tool snippets ignore -->
-
 # Release History
 
-## 4.10.0-beta.2 (Unreleased)
+## 4.10.1 (Unreleased)
 
 ### Features Added
 
@@ -11,6 +9,17 @@
 ### Bugs Fixed
 
 ### Other Changes
+
+## 4.10.0 (2025-06-10)
+
+### Features Added
+
+- Added support for service API version `7.6` which is now the default. [#34657](https://github.com/Azure/azure-sdk-for-js/pull/34657)
+- Added support for `preserveCertificateOrder` allowing the user to specify whether the certificate chain preserves its original order when creating or importing a certificate. [#32947](https://github.com/Azure/azure-sdk-for-js/pull/32947)
+
+### Other Changes
+
+- Generate code from TypeSpec. This is an internal change that should not affect customers. [#32123](https://github.com/Azure/azure-sdk-for-js/pull/32123)
 
 ## 4.10.0-beta.1 (2025-03-11)
 

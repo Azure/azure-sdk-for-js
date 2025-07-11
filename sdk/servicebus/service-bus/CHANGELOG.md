@@ -1,22 +1,39 @@
-<!-- dev-tool snippets ignore -->
-
 # Release History
 
-## 7.10.0 (Unreleased)
+## 7.10.0-beta.2 (2025-07-09)
 
 ### Features Added
 
-- Adds `deleteMessages` which deletes messages from the queue.
-- Add the experimental diagnostic feature `omitMessageBody` via `PeekMessagesOptions` under `./experimental` subpath export.
+- Add the experimental diagnostic feature `omitMessageBody` via `PeekMessagesOptions` under `./experimental` subpath export. To access the new option, import "@azure/service-bus/experimental" sub-path. For example,
 
-### Breaking Changes
+```ts
+import { DefaultAzureCredential } from "@azure/identity";
+import { ServiceBusClient } from "@azure/service-bus";
+import "@azure/service-bus/experimental";
+import "dotenv/config";
 
-### Bugs Fixed
+async function test() {
+  const fqdn = process.env.SERVICEBUS_FQDN || "example.servicebus.windows.net";
+  const queue = process.env.SERVICEBUS_QUEUE || "queue1";
+  const credential = new DefaultAzureCredential();
+  const client = new ServiceBusClient(fqdn, credential);
+  const receiver = client.createReceiver(queue);
+  await receiver.peekMessages(100, {
+    omitMessageBody: true,
+  });
+}
+```
 
 ### Other Changes
 
 - Upgrade dependency `@azure/abort-controller` version to `^2.1.2`.
 - Remove port number from fully qualified namespace.
+
+## 7.10.0-beta.1 (2024-05-07)
+
+### Features Added
+
+- Add support to delete messages from an entity in batches using receiver method `deleteMessages()`. The target messages can be constrained to a fixed count, limited to only those earlier than a given date, or unconstrained such that all messages are deleted.
 
 ## 7.9.5 (2024-06-11)
 

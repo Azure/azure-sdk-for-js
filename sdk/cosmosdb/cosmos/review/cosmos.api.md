@@ -42,6 +42,13 @@ export type BulkOperationResponse = OperationResponse[] & {
     diagnostics: CosmosDiagnostics;
 };
 
+// @public
+export interface BulkOperationResult {
+    error?: ErrorResponse;
+    operationInput: OperationInput;
+    response?: ExtendedOperationResponse;
+}
+
 // @public (undocumented)
 export const BulkOperationType: {
     readonly Create: "Create";
@@ -524,6 +531,7 @@ export const Constants: {
         Location: string;
         Referer: string;
         A_IM: string;
+        PreferReturnMinimal: string;
         Query: string;
         IsQuery: string;
         IsQueryPlan: string;
@@ -620,6 +628,8 @@ export const Constants: {
     SDKVersion: string;
     CosmosDbDiagnosticLevelEnvVarName: string;
     DefaultMaxBulkRequestBodySizeInBytes: number;
+    MaxBulkOperationsCount: number;
+    BulkMaxDegreeOfConcurrency: number;
     Encryption: {
         DiagnosticsDecryptOperation: string;
         DiagnosticsDuration: string;
@@ -906,8 +916,8 @@ export class DatabaseAccount {
     // @deprecated
     get MediaLink(): string;
     readonly mediaLink: string;
-    readonly readableLocations: Location_2[];
-    readonly writableLocations: Location_2[];
+    readonly readableLocations: Location[];
+    readonly writableLocations: Location[];
 }
 
 // @public (undocumented)
@@ -1126,25 +1136,17 @@ export interface ErrorBody {
     message: string;
 }
 
-// @public (undocumented)
+// @public
 export class ErrorResponse extends Error {
-    // (undocumented)
     [key: string]: any;
-    // (undocumented)
     activityId?: string;
-    // (undocumented)
     body?: ErrorBody;
-    // (undocumented)
     code?: number | string;
-    // (undocumented)
     diagnostics?: CosmosDiagnostics;
-    // (undocumented)
     headers?: CosmosHeaders;
-    // (undocumented)
+    requestCharge?: number;
     retryAfterInMilliseconds?: number;
-    // (undocumented)
     retryAfterInMs?: number;
-    // (undocumented)
     substatus?: number;
 }
 
@@ -1154,6 +1156,14 @@ export type ExistingKeyOperation = {
     value: any;
     path: string;
 };
+
+// @public
+export interface ExtendedOperationResponse extends OperationResponse {
+    activityId?: string;
+    diagnostics: CosmosDiagnostics;
+    headers?: CosmosHeaders;
+    sessionToken?: string;
+}
 
 // @public
 export interface FailedRequestAttemptDiagnostic {
@@ -1191,6 +1201,7 @@ export interface FeedOptions extends SharedOptions {
     continuation?: string;
     continuationToken?: string;
     continuationTokenLimitInKB?: number;
+    disableHybridSearchQueryPlanOptimization?: boolean;
     disableNonStreamingOrderByQuery?: boolean;
     enableQueryControl?: boolean;
     enableScanInQuery?: boolean;
@@ -1321,6 +1332,7 @@ export enum HTTPMethod {
 // @public
 export interface HybridSearchQueryInfo {
     componentQueryInfos: QueryInfo[];
+    componentWeights?: number[];
     globalStatisticsQuery: string;
     requiresGlobalStatistics: boolean;
     skip: number;
@@ -1405,6 +1417,7 @@ export class ItemResponse<T extends ItemDefinition> extends ResourceResponse<T &
 export class Items {
     constructor(container: Container, clientContext: ClientContext);
     batch(operations: OperationInput[], partitionKey?: PartitionKey, options?: RequestOptions): Promise<Response_2<OperationResponse[]>>;
+    // @deprecated
     bulk(operations: OperationInput[], bulkOptions?: BulkOptions, options?: RequestOptions): Promise<BulkOperationResponse>;
     // @deprecated
     changeFeed(partitionKey: PartitionKey, changeFeedOptions?: ChangeFeedOptions): ChangeFeedIterator<any>;
@@ -1417,6 +1430,7 @@ export class Items {
     // (undocumented)
     readonly container: Container;
     create<T extends ItemDefinition = any>(body: T, options?: RequestOptions): Promise<ItemResponse<T>>;
+    executeBulkOperations(operations: OperationInput[], options?: RequestOptions): Promise<BulkOperationResult[]>;
     getChangeFeedIterator<T>(changeFeedIteratorOptions?: ChangeFeedIteratorOptions): ChangeFeedPullModelIterator<T>;
     getEncryptionQueryIterator(queryBuilder: EncryptionQueryBuilder, options?: FeedOptions): Promise<QueryIterator<ItemDefinition>>;
     query(query: string | SqlQuerySpec, options?: FeedOptions): QueryIterator<any>;
@@ -1454,7 +1468,7 @@ export enum KeyEncryptionAlgorithm {
 }
 
 // @public
-interface Location_2 {
+export interface Location {
     // (undocumented)
     databaseAccountEndpoint: string;
     // (undocumented)
@@ -1464,7 +1478,6 @@ interface Location_2 {
     // (undocumented)
     unavailable?: boolean;
 }
-export { Location_2 as Location }
 
 // @public
 export interface MetadataLookUpDiagnostic {
@@ -1784,7 +1797,7 @@ export class PermissionResponse extends ResourceResponse<PermissionDefinition & 
 }
 
 // @public
-class Permissions_2 {
+export class Permissions {
     constructor(user: User, clientContext: ClientContext);
     create(body: PermissionDefinition, options?: RequestOptions): Promise<PermissionResponse>;
     query(query: SqlQuerySpec, options?: FeedOptions): QueryIterator<any>;
@@ -1794,16 +1807,14 @@ class Permissions_2 {
     // (undocumented)
     readonly user: User;
 }
-export { Permissions_2 as Permissions }
 
 // @public
-type Plugin_2<T> = (context: RequestContext, diagnosticNode: DiagnosticNodeInternal, next: Next<T>) => Promise<Response_2<T>>;
-export { Plugin_2 as Plugin }
+export type Plugin<T> = (context: RequestContext, diagnosticNode: DiagnosticNodeInternal, next: Next<T>) => Promise<Response_2<T>>;
 
 // @public
 export interface PluginConfig {
     on: keyof typeof PluginOn;
-    plugin: Plugin_2<any>;
+    plugin: Plugin<any>;
 }
 
 // @public
@@ -2063,7 +2074,7 @@ export interface RequestContext {
 }
 
 // @public (undocumented)
-interface RequestInfo_2 {
+export interface RequestInfo {
     // (undocumented)
     headers: CosmosHeaders;
     // (undocumented)
@@ -2075,7 +2086,6 @@ interface RequestInfo_2 {
     // (undocumented)
     verb: HTTPMethod;
 }
-export { RequestInfo_2 as RequestInfo }
 
 // @public
 export interface RequestOptions extends SharedOptions {
@@ -2083,6 +2093,7 @@ export interface RequestOptions extends SharedOptions {
         type: string;
         condition: string;
     };
+    contentResponseOnWriteEnabled?: boolean;
     disableAutomaticIdGeneration?: boolean;
     enableScriptLogging?: boolean;
     indexingDirective?: string;
@@ -2413,6 +2424,8 @@ export interface StatusCodesType {
     // (undocumented)
     ENOTFOUND: "ENOTFOUND";
     // (undocumented)
+    FailedDependency: 424;
+    // (undocumented)
     Forbidden: 403;
     // (undocumented)
     Gone: 410;
@@ -2420,6 +2433,8 @@ export interface StatusCodesType {
     InternalServerError: 500;
     // (undocumented)
     MethodNotAllowed: 405;
+    // (undocumented)
+    MultiStatus: 207;
     // (undocumented)
     NoContent: 204;
     // (undocumented)
@@ -2558,7 +2573,7 @@ export class TimeSpan {
 }
 
 // @public (undocumented)
-export type TokenProvider = (requestInfo: RequestInfo_2) => Promise<string>;
+export type TokenProvider = (requestInfo: RequestInfo) => Promise<string>;
 
 // @public
 export class Trigger {
@@ -2653,7 +2668,7 @@ export class User {
     // (undocumented)
     readonly id: string;
     permission(id: string): Permission;
-    readonly permissions: Permissions_2;
+    readonly permissions: Permissions;
     read(options?: RequestOptions): Promise<UserResponse>;
     replace(body: UserDefinition, options?: RequestOptions): Promise<UserResponse>;
     get url(): string;

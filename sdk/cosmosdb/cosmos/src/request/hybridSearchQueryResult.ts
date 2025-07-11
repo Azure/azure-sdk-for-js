@@ -29,20 +29,27 @@ export class HybridSearchQueryResult {
     }
 
     const outerPayload = document[FieldNames.Payload];
+    let componentScores: number[];
+    let data: Record<string, unknown>;
+
     if (!outerPayload || typeof outerPayload !== "object") {
       throw new Error(`${FieldNames.Payload} must exist.`);
     }
 
     const innerPayload = outerPayload[FieldNames.Payload];
-    if (!innerPayload || typeof innerPayload !== "object") {
-      throw new Error(`${FieldNames.Payload} must exist nested within the outer payload field.`);
-    }
 
-    const componentScores = outerPayload[FieldNames.ComponentScores];
+    if (innerPayload && typeof innerPayload === "object") {
+      // older format without query plan optimization
+      componentScores = outerPayload[FieldNames.ComponentScores];
+      data = innerPayload;
+    } else {
+      // newer format with the optimization
+      componentScores = document[FieldNames.ComponentScores];
+      data = outerPayload;
+    }
     if (!Array.isArray(componentScores)) {
       throw new Error(`${FieldNames.ComponentScores} must exist.`);
     }
-
-    return new HybridSearchQueryResult(rid, componentScores, innerPayload);
+    return new HybridSearchQueryResult(rid, componentScores, data);
   }
 }

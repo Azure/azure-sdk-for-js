@@ -8,7 +8,7 @@ Getting Started: Generate JS SDK with TypeSpec
 
 ## Prerequisites
 
-- [Node.js 18.x LTS](https://nodejs.org/en/download) or later
+- [LTS versions of Node.js](https://github.com/nodejs/release#release-schedule)
 - [Git](https://git-scm.com/downloads)
 - Local Clone of Rest API Spec Repo Fork
   - If you don't already have a fork, [Fork](https://docs.github.com/en/pull-requests/collaborating-with-pull-requests/working-with-forks/fork-a-repo#forking-a-repository) the [Rest API Spec Repo](https://github.com/Azure/azure-rest-api-specs).
@@ -34,12 +34,12 @@ It is recommended to configure TypeSpec package on [REST API specifications](htt
 ### How to configure tspconfig.yaml
 You can reference these two config files to configure the Modular or RLC package:
 - [Modular tspconfig.yaml](https://github.com/Azure/azure-rest-api-specs/blob/main/specification/contosowidgetmanager/Contoso.Management/tspconfig.yaml)
-- [RLC tspconfig.yaml](https://github.com/Azure/azure-rest-api-specs/blob/main/specification/ai/Face/tspconfig.yaml)
+- [RLC tspconfig.yaml](https://github.com/Azure/azure-rest-api-specs/blob/main/specification/contosowidgetmanager/Contoso.WidgetManager/tspconfig.yaml)
 
-Please make sure `service-dir`, `package-dir`, `package-details`, `is-modular-library`, `flavor`(for typespec-ts) is correctly configured. `experimental-extensible-enums` is the optional config.
-If you want to enable sample generation with typespec-ts, you should add 
+Please make sure `service-dir`, `package-dir`, `package-details`, `flavor`(for typespec-ts) is correctly configured. `experimental-extensible-enums` is the optional config.
+For control-plane SDKs, the `is-modular-library` option is true by default, while for data-plane SDKs it is false. If you want to generate Modular libraries for data-plane SDKs and you need to get architects approval for that, then you should add
 ```
-generate-sample:true
+is-modular-library:true
 ```
 in your tspconfig.yaml
 

@@ -103,7 +103,7 @@ export interface Budget extends ProxyResource {
     filter?: BudgetFilter;
     readonly forecastSpend?: ForecastSpend;
     notifications?: {
-        [propertyName: string]: Notification_2;
+        [propertyName: string]: Notification;
     };
     timeGrain?: TimeGrainType;
     timePeriod?: BudgetTimePeriod;
@@ -998,7 +998,7 @@ export interface ModernUsageDetail extends UsageDetail {
 }
 
 // @public
-interface Notification_2 {
+export interface Notification {
     contactEmails: string[];
     contactGroups?: string[];
     contactRoles?: string[];
@@ -1008,7 +1008,6 @@ interface Notification_2 {
     threshold: number;
     thresholdType?: ThresholdType;
 }
-export { Notification_2 as Notification }
 
 // @public
 export interface Operation {

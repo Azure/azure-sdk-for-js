@@ -140,10 +140,28 @@ export function createLoggerContext(options: CreateLoggerContextOptions): Logger
     debug.log(...args);
   };
 
+  function contextSetLogLevel(level?: TypeSpecRuntimeLogLevel): void {
+    if (level && !isTypeSpecRuntimeLogLevel(level)) {
+      throw new Error(
+        `Unknown log level '${level}'. Acceptable values: ${TYPESPEC_RUNTIME_LOG_LEVELS.join(",")}`,
+      );
+    }
+    logLevel = level;
+
+    const enabledNamespaces = [];
+    for (const logger of registeredLoggers) {
+      if (shouldEnable(logger)) {
+        enabledNamespaces.push(logger.namespace);
+      }
+    }
+
+    debug.enable(enabledNamespaces.join(","));
+  }
+
   if (logLevelFromEnv) {
     // avoid calling setLogLevel because we don't want a mis-set environment variable to crash
     if (isTypeSpecRuntimeLogLevel(logLevelFromEnv)) {
-      setLogLevel(logLevelFromEnv);
+      contextSetLogLevel(logLevelFromEnv);
     } else {
       console.error(
         `${options.logLevelEnvVarName} set to unknown log level '${logLevelFromEnv}'; logging is not enabled. Acceptable values: ${TYPESPEC_RUNTIME_LOG_LEVELS.join(
@@ -177,37 +195,25 @@ export function createLoggerContext(options: CreateLoggerContextOptions): Logger
     return logger;
   }
 
+  function contextGetLogLevel(): TypeSpecRuntimeLogLevel | undefined {
+    return logLevel;
+  }
+
+  function contextCreateClientLogger(namespace: string): TypeSpecRuntimeLogger {
+    const clientRootLogger: TypeSpecRuntimeClientLogger = clientLogger.extend(namespace);
+    patchLogMethod(clientLogger, clientRootLogger);
+    return {
+      error: createLogger(clientRootLogger, "error"),
+      warning: createLogger(clientRootLogger, "warning"),
+      info: createLogger(clientRootLogger, "info"),
+      verbose: createLogger(clientRootLogger, "verbose"),
+    };
+  }
+
   return {
-    setLogLevel(level?: TypeSpecRuntimeLogLevel): void {
-      if (level && !isTypeSpecRuntimeLogLevel(level)) {
-        throw new Error(
-          `Unknown log level '${level}'. Acceptable values: ${TYPESPEC_RUNTIME_LOG_LEVELS.join(",")}`,
-        );
-      }
-      logLevel = level;
-
-      const enabledNamespaces = [];
-      for (const logger of registeredLoggers) {
-        if (shouldEnable(logger)) {
-          enabledNamespaces.push(logger.namespace);
-        }
-      }
-
-      debug.enable(enabledNamespaces.join(","));
-    },
-    getLogLevel(): TypeSpecRuntimeLogLevel | undefined {
-      return logLevel;
-    },
-    createClientLogger(namespace: string): TypeSpecRuntimeLogger {
-      const clientRootLogger: TypeSpecRuntimeClientLogger = clientLogger.extend(namespace);
-      patchLogMethod(clientLogger, clientRootLogger);
-      return {
-        error: createLogger(clientRootLogger, "error"),
-        warning: createLogger(clientRootLogger, "warning"),
-        info: createLogger(clientRootLogger, "info"),
-        verbose: createLogger(clientRootLogger, "verbose"),
-      };
-    },
+    setLogLevel: contextSetLogLevel,
+    getLogLevel: contextGetLogLevel,
+    createClientLogger: contextCreateClientLogger,
     logger: clientLogger,
   };
 }

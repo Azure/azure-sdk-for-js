@@ -7,6 +7,7 @@ import {
   DiagnosticNodeType,
 } from "../../../src/index.js";
 import type { ClientContext, FeedOptions, QueryInfo } from "../../../src/index.js";
+import type { ComponentWeight } from "../../../src/queryExecutionContext/hybridQueryExecutionContext.js";
 import {
   HybridQueryExecutionContext,
   HybridQueryExecutionContextBaseStates,
@@ -36,16 +37,16 @@ const hybridSearchQueryInfo: HybridSearchQueryInfo = {
       limit: 10,
       orderBy: ["Descending"],
       orderByExpressions: [
-        '_FullTextScore(c.title, ["John"], {documentdb-formattablehybridsearchquery-totaldocumentcount}, {documentdb-formattablehybridsearchquery-totalwordcount-0}, {documentdb-formattablehybridsearchquery-hitcountsarray-0})',
+        '_FullTextScore(c.title, "John", {documentdb-formattablehybridsearchquery-totaldocumentcount}, {documentdb-formattablehybridsearchquery-totalwordcount-0}, {documentdb-formattablehybridsearchquery-hitcountsarray-0})',
       ],
       groupByExpressions: [],
       aggregates: [],
       groupByAliasToAggregateType: {},
       rewrittenQuery:
-        'SELECT c._rid, [{"item": _FullTextScore(c.title, ["John"], {documentdb-formattablehybridsearchquery-totaldocumentcount}, {documentdb-formattablehybridsearchquery-totalwordcount-0}, {documentdb-formattablehybridsearchquery-hitcountsarray-0})}] AS orderByItems, {"payload": {"Index": c.index, "Title": c.title, "Text": c.text}, "componentScores": [_FullTextScore(c.title, ["John"], {documentdb-formattablehybridsearchquery-totaldocumentcount}, {documentdb-formattablehybridsearchquery-totalwordcount-0}, {documentdb-formattablehybridsearchquery-hitcountsarray-0})]} AS payload\n' +
+        'SELECT c._rid, [{"item": _FullTextScore(c.title, "John", {documentdb-formattablehybridsearchquery-totaldocumentcount}, {documentdb-formattablehybridsearchquery-totalwordcount-0}, {documentdb-formattablehybridsearchquery-hitcountsarray-0})}] AS orderByItems, {"payload": {"Index": c.index, "Title": c.title, "Text": c.text}, "componentScores": [_FullTextScore(c.title, ["John"], {documentdb-formattablehybridsearchquery-totaldocumentcount}, {documentdb-formattablehybridsearchquery-totalwordcount-0}, {documentdb-formattablehybridsearchquery-hitcountsarray-0})]} AS payload\n' +
         "FROM c\n" +
         'WHERE ((FullTextContains(c.title, "John") OR FullTextContains(c.text, "John")) AND ({documentdb-formattableorderbyquery-filter}))\n' +
-        'ORDER BY _FullTextScore(c.title, ["John"], {documentdb-formattablehybridsearchquery-totaldocumentcount}, {documentdb-formattablehybridsearchquery-totalwordcount-0}, {documentdb-formattablehybridsearchquery-hitcountsarray-0}) DESC',
+        'ORDER BY _FullTextScore(c.title, "John", {documentdb-formattablehybridsearchquery-totaldocumentcount}, {documentdb-formattablehybridsearchquery-totalwordcount-0}, {documentdb-formattablehybridsearchquery-hitcountsarray-0}) DESC',
       hasSelectValue: false,
       hasNonStreamingOrderBy: true,
     },
@@ -73,6 +74,7 @@ describe("hybridQueryExecutionContext", () => {
   const context = new HybridQueryExecutionContext(
     clientContext,
     collectionLink,
+    "",
     options,
     partitionedQueryExecutionInfo,
     correlatedActivityId,
@@ -131,54 +133,54 @@ describe("hybridQueryExecutionContext", () => {
       // Array of query test cases
       const queryTestCases = [
         {
-          queryToTest: `SELECT TOP 120 c._rid, [{"item": _FullTextScore(c.title, ["swim", "run"],
+          queryToTest: `SELECT TOP 120 c._rid, [{"item": _FullTextScore(c.title, "swim", "run",
         {documentdb-formattablehybridsearchquery-totaldocumentcount},
         {documentdb-formattablehybridsearchquery-totalwordcount-0},
         {documentdb-formattablehybridsearchquery-hitcountsarray-0})}] AS orderByItems,
-        {"payload": c, "componentScores": [_FullTextScore(c.title, ["swim", "run"],
+        {"payload": c, "componentScores": [_FullTextScore(c.title, "swim", "run",
         {documentdb-formattablehybridsearchquery-totaldocumentcount},
         {documentdb-formattablehybridsearchquery-totalwordcount-0},
         {documentdb-formattablehybridsearchquery-hitcountsarray-0})]}
         AS payload  FROM c
         WHERE ({documentdb-formattableorderbyquery-filter})
-        ORDER BY _FullTextScore(c.title, ["swim", "run"],
+        ORDER BY _FullTextScore(c.title, "swim", "run",
         {documentdb-formattablehybridsearchquery-totaldocumentcount},
         {documentdb-formattablehybridsearchquery-totalwordcount-0},
         {documentdb-formattablehybridsearchquery-hitcountsarray-0}) DESC`,
 
-          expectedQuery: `SELECT TOP 120 c._rid, [{"item": _FullTextScore(c.title, ["swim", "run"], 2, 100, [1,2,3])}] AS orderByItems,
-        {"payload": c, "componentScores": [_FullTextScore(c.title, ["swim", "run"], 2, 100, [1,2,3])]}
+          expectedQuery: `SELECT TOP 120 c._rid, [{"item": _FullTextScore(c.title, "swim", "run", 2, 100, [1,2,3])}] AS orderByItems,
+        {"payload": c, "componentScores": [_FullTextScore(c.title, "swim", "run", 2, 100, [1,2,3])]}
         AS payload  FROM c WHERE ({documentdb-formattableorderbyquery-filter})
-        ORDER BY _FullTextScore(c.title, ["swim", "run"], 2, 100, [1,2,3]) DESC`,
+        ORDER BY _FullTextScore(c.title, "swim", "run", 2, 100, [1,2,3]) DESC`,
         },
         {
-          queryToTest: `SELECT TOP 200 c._rid, [{item: _FullTextScore(c.text, ["swim", "run"],
+          queryToTest: `SELECT TOP 200 c._rid, [{item: _FullTextScore(c.text, "swim", "run",
         {documentdb-formattablehybridsearchquery-totaldocumentcount},
         {documentdb-formattablehybridsearchquery-totalwordcount-0},
         {documentdb-formattablehybridsearchquery-hitcountsarray-0})}] AS orderByItems,
         {payload: {text: c.text,abstract: c.abstract
-        },componentScores: [_FullTextScore(c.text, ["swim", "run"], {documentdb-formattablehybridsearchquery-totaldocumentcount},
+        },componentScores: [_FullTextScore(c.text, "swim", "run", {documentdb-formattablehybridsearchquery-totaldocumentcount},
         {documentdb-formattablehybridsearchquery-totalwordcount-0},
         {documentdb-formattablehybridsearchquery-hitcountsarray-0}),
-        _FullTextScore(c.abstract, ["energy"], {documentdb-formattablehybridsearchquery-totaldocumentcount},
+        _FullTextScore(c.abstract, "energy", {documentdb-formattablehybridsearchquery-totaldocumentcount},
         {documentdb-formattablehybridsearchquery-totalwordcount-1},
         {documentdb-formattablehybridsearchquery-hitcountsarray-1})]} AS payload
-        FROM c WHERE {documentdb-formattableorderbyquery-filter} ORDER BY _FullTextScore(c.text, ["swim", "run"],
+        FROM c WHERE {documentdb-formattableorderbyquery-filter} ORDER BY _FullTextScore(c.text, "swim", "run",
         {documentdb-formattablehybridsearchquery-totaldocumentcount},
         {documentdb-formattablehybridsearchquery-totalwordcount-0},
         {documentdb-formattablehybridsearchquery-hitcountsarray-0}) DESC`,
 
-          expectedQuery: `SELECT TOP 200 c._rid, [{item: _FullTextScore(c.text, ["swim", "run"], 2, 100, [1,2,3])}] AS
-        orderByItems, {payload: {text: c.text,abstract: c.abstract },componentScores: [_FullTextScore(c.text, ["swim", "run"],
-        2, 100, [1,2,3]), _FullTextScore(c.abstract, ["energy"], 2, 200, [4,5,6])]} AS payload FROM c WHERE
-        {documentdb-formattableorderbyquery-filter} ORDER BY _FullTextScore(c.text, ["swim", "run"], 2, 100, [1,2,3]) DESC`,
+          expectedQuery: `SELECT TOP 200 c._rid, [{item: _FullTextScore(c.text, "swim", "run", 2, 100, [1,2,3])}] AS
+        orderByItems, {payload: {text: c.text,abstract: c.abstract },componentScores: [_FullTextScore(c.text, "swim", "run",
+        2, 100, [1,2,3]), _FullTextScore(c.abstract, "energy", 2, 200, [4,5,6])]} AS payload FROM c WHERE
+        {documentdb-formattableorderbyquery-filter} ORDER BY _FullTextScore(c.text, "swim", "run", 2, 100, [1,2,3]) DESC`,
         },
         {
-          queryToTest: `_FullTextScore(c.title, ["swim", "run"], {documentdb-formattablehybridsearchquery-totaldocumentcount},
+          queryToTest: `_FullTextScore(c.title, "swim", "run", {documentdb-formattablehybridsearchquery-totaldocumentcount},
         {documentdb-formattablehybridsearchquery-totalwordcount-0},
         {documentdb-formattablehybridsearchquery-hitcountsarray-0})`,
 
-          expectedQuery: `_FullTextScore(c.title, ["swim", "run"], 2, 100, [1,2,3])`,
+          expectedQuery: `_FullTextScore(c.title, "swim", "run", 2, 100, [1,2,3])`,
         },
       ];
 
@@ -210,7 +212,12 @@ describe("hybridQueryExecutionContext", () => {
       ];
       const expectedSortedRids = ["3", "2", "1"];
 
-      const result = context["sortHybridSearchResultByRRFScore"](input);
+      const comparator = (x: number, y: number): number => -1 * (x - y);
+      const componentWeights = [
+        { weight: 1, comparator },
+        { weight: 1, comparator },
+      ];
+      const result = context["sortHybridSearchResultByRRFScore"](input, componentWeights);
       const resultRids = result.map((res) => res.rid);
       // Assert that the result rids are equal to the expected sorted rids
       assert.deepStrictEqual(resultRids, expectedSortedRids);
@@ -222,9 +229,11 @@ describe("hybridQueryExecutionContext", () => {
         { rid: "2", componentScores: [20], data: {}, score: 0, ranks: [] },
         { rid: "3", componentScores: [25], data: {}, score: 0, ranks: [] },
       ];
+      const comparator = (x: number, y: number): number => -1 * (x - y);
+      const componentWeights = [{ weight: 1, comparator }];
       const expectedSortedRids = ["1", "3", "2"];
 
-      const result = context["sortHybridSearchResultByRRFScore"](input);
+      const result = context["sortHybridSearchResultByRRFScore"](input, componentWeights);
       const resultRids = result.map((res) => res.rid);
       // Assert that the result rids are equal to the expected sorted rids
       assert.deepStrictEqual(resultRids, expectedSortedRids);
@@ -236,7 +245,13 @@ describe("hybridQueryExecutionContext", () => {
       ];
       const expectedSortedRids = ["1"];
 
-      const result = context["sortHybridSearchResultByRRFScore"](input);
+      const comparator = (x: number, y: number): number => -1 * (x - y);
+      const componentWeights = [
+        { weight: 1, comparator },
+        { weight: 1, comparator },
+        { weight: 1, comparator },
+      ];
+      const result = context["sortHybridSearchResultByRRFScore"](input, componentWeights);
       const resultRids = result.map((res) => res.rid);
       // Assert that the result rids are equal to the expected sorted rids
       assert.deepStrictEqual(resultRids, expectedSortedRids);
@@ -244,7 +259,8 @@ describe("hybridQueryExecutionContext", () => {
 
     it("sortHybridSearchResultByRRFScore method should handle empty HybridSearchQueryResult array", async () => {
       const input: HybridSearchQueryResult[] = [];
-      const result = context["sortHybridSearchResultByRRFScore"](input);
+      const componentWeights: ComponentWeight[] = [];
+      const result = context["sortHybridSearchResultByRRFScore"](input, componentWeights);
       assert.deepStrictEqual(input, result);
     });
   });
