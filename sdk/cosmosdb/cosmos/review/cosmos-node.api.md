@@ -27,7 +27,7 @@ export interface Agent {
 }
 
 // @public (undocumented)
-export type AggregateType = "Average" | "Count" | "Max" | "Min" | "Sum" | "MakeSet" | "MakeList";
+export type AggregateType = "Average" | "Count" | "Max" | "Min" | "Sum" | "MakeSet" | "MakeList" | "CountIf";
 
 // @public
 export class AzureKeyVaultEncryptionKeyResolver implements EncryptionKeyResolver {
@@ -183,15 +183,17 @@ export type ClientConfigDiagnostic = {
 
 // @public (undocumented)
 export class ClientContext {
-    constructor(cosmosClientOptions: CosmosClientOptions, globalEndpointManager: GlobalEndpointManager, clientConfig: ClientConfigDiagnostic, diagnosticLevel: CosmosDbDiagnosticLevel);
+    // Warning: (ae-forgotten-export) The symbol "GlobalPartitionEndpointManager" needs to be exported by the entry point index.d.ts
+    constructor(cosmosClientOptions: CosmosClientOptions, globalEndpointManager: GlobalEndpointManager, clientConfig: ClientConfigDiagnostic, diagnosticLevel: CosmosDbDiagnosticLevel, globalPartitionEndpointManager?: GlobalPartitionEndpointManager);
     // (undocumented)
-    batch<T>({ body, path, partitionKey, resourceId, options, diagnosticNode, }: {
+    batch<T>({ body, path, partitionKey, resourceId, options, diagnosticNode, partitionKeyRangeId, }: {
         body: T;
         path: string;
         partitionKey: PartitionKey;
         resourceId: string;
         options?: RequestOptions;
         diagnosticNode: DiagnosticNodeInternal;
+        partitionKeyRangeId?: string;
     }): Promise<Response_2<any>>;
     // (undocumented)
     bulk<T>({ body, path, partitionKeyRangeId, resourceId, bulkOptions, options, diagnosticNode, }: {
@@ -206,7 +208,7 @@ export class ClientContext {
     // (undocumented)
     clearSessionToken(path: string): void;
     // (undocumented)
-    create<T, U = T>({ body, path, resourceType, resourceId, diagnosticNode, options, partitionKey, }: {
+    create<T, U = T>({ body, path, resourceType, resourceId, diagnosticNode, options, partitionKey, partitionKeyRangeId, }: {
         body: T;
         path: string;
         resourceType: ResourceType;
@@ -214,9 +216,10 @@ export class ClientContext {
         diagnosticNode: DiagnosticNodeInternal;
         options?: RequestOptions;
         partitionKey?: PartitionKey;
+        partitionKeyRangeId?: string;
     }): Promise<Response_2<T & U & Resource>>;
     // (undocumented)
-    delete<T>({ path, resourceType, resourceId, options, partitionKey, method, diagnosticNode, }: {
+    delete<T>({ path, resourceType, resourceId, options, partitionKey, method, diagnosticNode, partitionKeyRangeId, }: {
         path: string;
         resourceType: ResourceType;
         resourceId: string;
@@ -224,17 +227,19 @@ export class ClientContext {
         partitionKey?: PartitionKey;
         method?: HTTPMethod;
         diagnosticNode: DiagnosticNodeInternal;
+        partitionKeyRangeId?: string;
     }): Promise<Response_2<T & Resource>>;
     // (undocumented)
     diagnosticLevel: CosmosDbDiagnosticLevel;
     enableEncryption: boolean;
     // (undocumented)
-    execute<T>({ sprocLink, params, options, partitionKey, diagnosticNode, }: {
+    execute<T>({ sprocLink, params, options, partitionKey, diagnosticNode, partitionKeyRangeId, }: {
         sprocLink: string;
         params?: any[];
         options?: RequestOptions;
         partitionKey?: PartitionKey;
         diagnosticNode: DiagnosticNodeInternal;
+        partitionKeyRangeId?: string;
     }): Promise<Response_2<T>>;
     // (undocumented)
     getClientConfig(): ClientConfigDiagnostic;
@@ -256,7 +261,7 @@ export class ClientContext {
         [containerUrl: string]: any;
     };
     // (undocumented)
-    patch<T>({ body, path, resourceType, resourceId, options, partitionKey, diagnosticNode, }: {
+    patch<T>({ body, path, resourceType, resourceId, options, partitionKey, diagnosticNode, partitionKeyRangeId, }: {
         body: any;
         path: string;
         resourceType: ResourceType;
@@ -264,6 +269,7 @@ export class ClientContext {
         options?: RequestOptions;
         partitionKey?: PartitionKey;
         diagnosticNode: DiagnosticNodeInternal;
+        partitionKeyRangeId?: string;
     }): Promise<Response_2<T & Resource>>;
     // (undocumented)
     queryFeed<T>({ path, resourceType, resourceId, resultFn, query, options, diagnosticNode, partitionKeyRangeId, partitionKey, startEpk, endEpk, correlatedActivityId, }: {
@@ -285,18 +291,19 @@ export class ClientContext {
     // (undocumented)
     queryPartitionKeyRanges(collectionLink: string, query?: string | SqlQuerySpec, options?: FeedOptions): QueryIterator<PartitionKeyRange>;
     // (undocumented)
-    read<T>({ path, resourceType, resourceId, options, partitionKey, diagnosticNode, }: {
+    read<T>({ path, resourceType, resourceId, options, partitionKey, diagnosticNode, partitionKeyRangeId, }: {
         path: string;
         resourceType: ResourceType;
         resourceId: string;
         options?: RequestOptions;
         partitionKey?: PartitionKey;
         diagnosticNode: DiagnosticNodeInternal;
+        partitionKeyRangeId?: string;
     }): Promise<Response_2<T & Resource>>;
     // (undocumented)
     recordDiagnostics(diagnostic: CosmosDiagnostics): void;
     // (undocumented)
-    replace<T>({ body, path, resourceType, resourceId, options, partitionKey, diagnosticNode, }: {
+    replace<T>({ body, path, resourceType, resourceId, options, partitionKey, diagnosticNode, partitionKeyRangeId, }: {
         body: any;
         path: string;
         resourceType: ResourceType;
@@ -304,9 +311,10 @@ export class ClientContext {
         options?: RequestOptions;
         partitionKey?: PartitionKey;
         diagnosticNode: DiagnosticNodeInternal;
+        partitionKeyRangeId?: string;
     }): Promise<Response_2<T & Resource>>;
     // (undocumented)
-    upsert<T, U = T>({ body, path, resourceType, resourceId, options, partitionKey, diagnosticNode, }: {
+    upsert<T, U = T>({ body, path, resourceType, resourceId, options, partitionKey, diagnosticNode, partitionKeyRangeId, }: {
         body: T;
         path: string;
         resourceType: ResourceType;
@@ -314,6 +322,7 @@ export class ClientContext {
         options?: RequestOptions;
         partitionKey?: PartitionKey;
         diagnosticNode: DiagnosticNodeInternal;
+        partitionKeyRangeId?: string;
     }): Promise<Response_2<T & U & Resource>>;
 }
 
@@ -464,6 +473,8 @@ export interface ConnectionPolicy {
     connectionMode?: ConnectionMode;
     enableBackgroundEndpointRefreshing?: boolean;
     enableEndpointDiscovery?: boolean;
+    enablePartitionLevelCircuitBreaker?: boolean;
+    enablePartitionLevelFailover?: boolean;
     endpointRefreshRateInMs?: number;
     preferredLocations?: string[];
     requestTimeout?: number;
@@ -617,6 +628,11 @@ export const Constants: {
     WritableLocations: string;
     ReadableLocations: string;
     LocationUnavailableExpirationTimeInMs: number;
+    StalePartitionUnavailabilityRefreshIntervalInMs: number;
+    AllowedPartitionUnavailabilityDurationInMs: number;
+    ReadRequestFailureCountThreshold: number;
+    WriteRequestFailureCountThreshold: number;
+    ConsecutiveFailureCountResetIntervalInMS: number;
     ENABLE_MULTIPLE_WRITABLE_LOCATIONS: string;
     DefaultUnavailableLocationExpirationTimeMS: number;
     ThrottleRetryCount: string;
@@ -678,6 +694,7 @@ export const Constants: {
     ChangeFeedIfNoneMatchStartFromNowHeader: string;
     DefaultEncryptionCacheTimeToLiveInSeconds: number;
     EncryptionCacheRefreshIntervalInMs: number;
+    RequestTimeoutForReadsInMs: number;
 };
 
 // @public
@@ -1019,6 +1036,7 @@ export type DiagnosticDataValue = {
         responseBody: any;
         url: string;
     }>;
+    partitionKeyRangeFailoverInfo: string;
 };
 
 // @public
@@ -1292,6 +1310,7 @@ export class GlobalEndpointManager {
     getReadEndpoint(diagnosticNode: DiagnosticNodeInternal): Promise<string>;
     // (undocumented)
     getReadEndpoints(): Promise<ReadonlyArray<string>>;
+    getReadLocations(): Promise<ReadonlyArray<Location>>;
     getWriteEndpoint(diagnosticNode: DiagnosticNodeInternal): Promise<string>;
     // (undocumented)
     getWriteEndpoints(): Promise<ReadonlyArray<string>>;
@@ -2043,6 +2062,7 @@ export interface RequestContext {
     endpoint?: string;
     // (undocumented)
     globalEndpointManager: GlobalEndpointManager;
+    globalPartitionEndpointManager?: GlobalPartitionEndpointManager;
     // (undocumented)
     headers?: CosmosHeaders_2;
     // (undocumented)

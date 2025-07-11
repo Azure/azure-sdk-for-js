@@ -322,10 +322,14 @@ function validateLocationEndpointsContactedForDiagnostics(
       diagnostics.clientSideRequestStatistics.locationEndpointsContacted,
       "In CosmosDiagnostics, locationEndpointsContacted should have existed.",
     ).to.exist;
-    expect(
-      diagnostics.clientSideRequestStatistics.locationEndpointsContacted.length,
-      "In CosmosDiagnostics, Number of locationEndpointsContacted should match the spec.",
-    ).to.be.equal(spec.locationEndpointsContacted);
+    // This check is only reliable for emulator (always contacts only 1 endpoint).
+    // For staging/prod accounts with multiple regions, the number of endpoints contacted will vary.
+    if (endpoint.includes("https://localhost")) {
+      expect(
+        diagnostics.clientSideRequestStatistics.locationEndpointsContacted.length,
+        "In CosmosDiagnostics, Number of locationEndpointsContacted should match the spec.",
+      ).to.be.equal(spec.locationEndpointsContacted);
+    }
   }
 }
 
