@@ -6,17 +6,15 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
 const { ManagedServiceIdentityClient } = require("@azure/arm-msi");
 const { DefaultAzureCredential } = require("@azure/identity");
-require("dotenv").config();
+require("dotenv/config");
 
 /**
  * This sample demonstrates how to Gets the identity.
  *
  * @summary Gets the identity.
- * x-ms-original-file: specification/msi/resource-manager/Microsoft.ManagedIdentity/stable/2023-01-31/examples/IdentityGet.json
+ * x-ms-original-file: specification/msi/resource-manager/Microsoft.ManagedIdentity/stable/2024-11-30/examples/IdentityGet.json
  */
 async function identityGet() {
   const subscriptionId = process.env["MSI_SUBSCRIPTION_ID"] || "subid";
@@ -29,7 +27,7 @@ async function identityGet() {
 }
 
 async function main() {
-  identityGet();
+  await identityGet();
 }
 
 main().catch(console.error);
