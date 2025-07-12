@@ -44,6 +44,7 @@ import {
   communicationUserIdentifierConverter,
   communicationUserIdentifierModelConverter,
   phoneNumberIdentifierConverter,
+  microsoftTeamsAppIdentifierModelConverter,
   PhoneNumberIdentifierModelConverter,
 } from "./utli/converters.js";
 import { randomUUID } from "@azure/core-util";
@@ -227,6 +228,7 @@ export class CallAutomationClient {
         targetParticipant.sourceCallIdNumber,
       ),
       sourceDisplayName: targetParticipant.sourceDisplayName,
+      teamsAppSource: microsoftTeamsAppIdentifierModelConverter(options.teamsAppSource),
     };
 
     return this.createCallInternal(request, options);
@@ -254,6 +256,7 @@ export class CallAutomationClient {
       transcriptionOptions: options.transcriptionOptions,
       sourceCallerIdNumber: PhoneNumberIdentifierModelConverter(options.sourceCallIdNumber),
       sourceDisplayName: options.sourceDisplayName,
+      teamsAppSource: microsoftTeamsAppIdentifierModelConverter(options.teamsAppSource),
     };
 
     return this.createCallInternal(request, options);

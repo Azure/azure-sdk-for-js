@@ -13,6 +13,7 @@ import type { MicrosoftTeamsAppIdentifier } from '@azure/communication-common';
 import type { MicrosoftTeamsUserIdentifier } from '@azure/communication-common';
 import type { OperationOptions } from '@azure/core-client';
 import type { PhoneNumberIdentifier } from '@azure/communication-common';
+import type { TeamsExtensionUserIdentifier } from '@azure/communication-common';
 import type { TokenCredential } from '@azure/core-auth';
 
 // @public
@@ -138,7 +139,7 @@ export interface CallAutomationClientOptions extends CommonClientOptions {
 }
 
 // @public
-export type CallAutomationEvent = AddParticipantSucceeded | AddParticipantFailed | RemoveParticipantSucceeded | RemoveParticipantFailed | CallConnected | CallDisconnected | CallTransferAccepted | CallTransferFailed | ParticipantsUpdated | RecordingStateChanged | PlayCompleted | PlayFailed | PlayCanceled | RecognizeCompleted | RecognizeCanceled | RecognizeFailed | ContinuousDtmfRecognitionToneReceived | ContinuousDtmfRecognitionToneFailed | ContinuousDtmfRecognitionStopped | SendDtmfTonesCompleted | SendDtmfTonesFailed | CancelAddParticipantSucceeded | CancelAddParticipantFailed | TranscriptionStarted | TranscriptionStopped | TranscriptionUpdated | TranscriptionFailed | CreateCallFailed | AnswerFailed | HoldFailed | ConnectFailed | MediaStreamingStarted | MediaStreamingStopped | MediaStreamingFailed | PlayStarted;
+export type CallAutomationEvent = AddParticipantSucceeded | AddParticipantFailed | RemoveParticipantSucceeded | RemoveParticipantFailed | CallConnected | CallDisconnected | CallTransferAccepted | CallTransferFailed | ParticipantsUpdated | RecordingStateChanged | PlayCompleted | PlayFailed | PlayCanceled | RecognizeCompleted | RecognizeCanceled | RecognizeFailed | ContinuousDtmfRecognitionToneReceived | ContinuousDtmfRecognitionToneFailed | ContinuousDtmfRecognitionStopped | SendDtmfTonesCompleted | SendDtmfTonesFailed | CancelAddParticipantSucceeded | CancelAddParticipantFailed | TranscriptionStarted | TranscriptionStopped | TranscriptionUpdated | TranscriptionFailed | CreateCallFailed | AnswerFailed | HoldFailed | ConnectFailed | MediaStreamingStarted | MediaStreamingStopped | MediaStreamingFailed | PlayStarted | StartRecordingFailed;
 
 // @public
 export interface CallConnected
@@ -217,7 +218,7 @@ export interface CallInvite {
     readonly sourceCallIdNumber?: PhoneNumberIdentifier;
     // (undocumented)
     sourceDisplayName?: string;
-    readonly targetParticipant: PhoneNumberIdentifier | CommunicationUserIdentifier | MicrosoftTeamsUserIdentifier | MicrosoftTeamsAppIdentifier;
+    readonly targetParticipant: PhoneNumberIdentifier | CommunicationUserIdentifier | MicrosoftTeamsUserIdentifier | MicrosoftTeamsAppIdentifier | TeamsExtensionUserIdentifier;
 }
 
 // @public
@@ -538,6 +539,7 @@ export interface CreateCallOptions extends OperationOptions {
     operationContext?: string;
     sourceCallIdNumber?: PhoneNumberIdentifier;
     sourceDisplayName?: string;
+    teamsAppSource?: MicrosoftTeamsAppIdentifier;
     transcriptionOptions?: TranscriptionOptions;
 }
 
@@ -1329,6 +1331,16 @@ export interface RestSendDtmfTonesFailed {
 }
 
 // @public (undocumented)
+export interface RestStartRecordingFailed {
+    callConnectionId?: string;
+    correlationId?: string;
+    operationContext?: string;
+    readonly recordingId?: string;
+    resultInformation?: RestResultInformation;
+    serverCallId?: string;
+}
+
+// @public (undocumented)
 export interface RestTranscriptionFailed {
     callConnectionId?: string;
     correlationId?: string;
@@ -1428,7 +1440,12 @@ export interface SendDtmfTonesResult {
 export interface SipCustomHeader extends CustomCallingContextHeader {
     // (undocumented)
     kind: "sipx";
+    // (undocumented)
+    sipHeaderPrefix?: SipHeaderPrefix;
 }
+
+// @public
+export type SipHeaderPrefix = "X-" | "X-MS-Custom-";
 
 // @public
 export interface SipUserToUserHeader extends CustomCallingContextHeader {
@@ -1458,10 +1475,26 @@ export interface StartMediaStreamingOptions extends OperationOptions {
     operationContext?: string;
 }
 
+// @public (undocumented)
+export interface StartRecordingFailed
+/**
+* @deprecated RestStartRecordingFailed is deprecated.
+* Use StartRecordingFailed instead.
+*/
+extends Omit<RestStartRecordingFailed, "callConnectionId" | "serverCallId" | "correlationId" | "resultInformation" | "recordingId"> {
+    callConnectionId: string;
+    correlationId: string;
+    kind: "StartRecordingFailed";
+    recordingId?: string;
+    resultInformation?: ResultInformation;
+    serverCallId: string;
+}
+
 // @public
 export interface StartRecordingOptions extends OperationOptions {
     audioChannelParticipantOrdering?: CommunicationIdentifier[];
-    callLocator: CallLocator;
+    callConnectionId?: string;
+    callLocator?: CallLocator;
     channelAffinity?: ChannelAffinity[];
     pauseOnStart?: boolean;
     recordingChannel?: RecordingChannel;

@@ -41,6 +41,7 @@ import {
   MediaStreamingStarted as RestMediaStreamingStarted,
   MediaStreamingStopped as RestMediaStreamingStopped,
   MediaStreamingFailed as RestMediaStreamingFailed,
+  StartRecordingFailed as RestStartRecordingFailed,
 } from "../generated/src/models/index.js";
 
 import type { CallParticipant } from "./models.js";
@@ -81,8 +82,8 @@ export type CallAutomationEvent =
   | MediaStreamingStarted
   | MediaStreamingStopped
   | MediaStreamingFailed
-  | PlayStarted;
-
+  | PlayStarted
+  | StartRecordingFailed;
 export {
   RestAddParticipantSucceeded,
   RestAddParticipantFailed,
@@ -120,6 +121,7 @@ export {
   RestMediaStreamingFailed,
   RestCreateCallFailed,
   RestAnswerFailed,
+  RestStartRecordingFailed,
 };
 export interface ResultInformation
   /**
@@ -372,6 +374,29 @@ export interface RecordingStateChanged
   resultInformation?: ResultInformation;
   /** kind of this event. */
   kind: "RecordingStateChanged";
+}
+
+export interface StartRecordingFailed
+  /**
+   * @deprecated RestStartRecordingFailed is deprecated.
+   * Use StartRecordingFailed instead.
+   */
+  extends Omit<
+    RestStartRecordingFailed,
+    "callConnectionId" | "serverCallId" | "correlationId" | "resultInformation" | "recordingId"
+  > {
+  /** Call connection ID. */
+  callConnectionId: string;
+  /** Server call ID. */
+  serverCallId: string;
+  /** Correlation ID for event to call correlation. Also called ChainId for skype chain ID. */
+  correlationId: string;
+  /** Contains the resulting SIP code, sub-code and message. */
+  resultInformation?: ResultInformation;
+  /** The call recording id */
+  recordingId?: string;
+  /** kind of this event. */
+  kind: "StartRecordingFailed";
 }
 
 /** Event when Media play was successfully started. */

@@ -185,7 +185,11 @@ export class CallConnection {
         if (header.kind === "sipuui") {
           sipHeaders[`User-To-User`] = header.value;
         } else if (header.kind === "sipx") {
-          sipHeaders[`X-MS-Custom-${header.key}`] = header.value;
+          if (header.sipHeaderPrefix === "X-") {
+            sipHeaders[`X-${header.key}`] = header.value;
+          } else {
+            sipHeaders[`X-MS-Custom-${header.key}`] = header.value;
+          }
         } else if (header.kind === "voip") {
           voipHeaders[`${header.key}`] = header.value;
         }
@@ -210,7 +214,7 @@ export class CallConnection {
       ),
       sourceDisplayName: targetParticipant.sourceDisplayName,
       invitationTimeoutInSeconds: options.invitationTimeoutInSeconds,
-      operationContext: options.operationContext ? options.operationContext : randomUUID(),
+      operationContext: options.operationContext,
       operationCallbackUri: options.operationCallbackUrl,
       customCallingContext: this.createCustomCallingContextInternal(
         targetParticipant.customCallingContext!,
