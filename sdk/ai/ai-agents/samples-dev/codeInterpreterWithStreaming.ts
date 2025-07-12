@@ -9,12 +9,7 @@
  *
  */
 
-import {
-  MessageTextContent,
-  AgentsClient,
-  isOutputOfType,
-  ToolUtility,
-} from "@azure/ai-agents";
+import { MessageTextContent, AgentsClient, isOutputOfType, ToolUtility } from "@azure/ai-agents";
 import { DefaultAzureCredential } from "@azure/identity";
 
 import * as fs from "node:fs";

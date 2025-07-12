@@ -1,11 +1,13 @@
 # Release History
 
-## 1.0.0-beta.7 (2025-07-11)
+## 1.1.0-beta.1 (2025-07-11)
 
 ### Features Added
 
 - Add Deep Research tool
 - Add Deep Research sample
+- Update `ThreadStreamEvent`, `RunStreamEvent`, `RunStepStreamEvent`, `MessageStreamEvent`， `ErrorEvent`, `DoneEvent` from `Enum` to `Union`
+- Add back agent tool `SharepointGroundingTool`, `BingCustomSearchTool`, `FabricTool`
 
 ## 1.0.0 (2025-06-29)
 

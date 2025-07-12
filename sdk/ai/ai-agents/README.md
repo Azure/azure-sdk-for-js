@@ -227,7 +227,7 @@ console.log(`Created agent, agent ID : ${agent.id}`);
 #### Create Agent with Deep Research
 
 To enable your Agent to do a detailed research of a topic, use the `DeepResearchTool` along with a connection to a Bing Grounding resource.
-This scenarios requires you to specify two model deployments. One is the generic chat model that does arbitration, and is
+This scenario requires you to specify two model deployments. One is the generic chat model that does arbitration, and is
 specified as usual when you call the `createAgent` method. The other is the Deep Research model, which is specified
 when you define the `DeepResearchTool`.
 

@@ -3469,10 +3469,7 @@ export function _uploadFileRequestSerializer(item: _UploadFileRequest): any {
   if (!filePart.filename) {
     filePart.filename = item["filename"];
   }
-  return [
-    filePart,
-    { name: "purpose", body: item["purpose"] },
-  ];
+  return [filePart, { name: "purpose", body: item["purpose"] }];
 }
 
 /** A status response from a file deletion operation. */

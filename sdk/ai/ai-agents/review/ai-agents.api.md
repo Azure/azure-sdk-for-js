@@ -1488,12 +1488,18 @@ export class ToolSet {
     addConnectionTool(toolType: connectionToolType, connectionIds: string[]): {
         definition: ToolDefinition;
     };
+    addFabricTool(connectionId: string): {
+        definition: MicrosoftFabricToolDefinition;
+    };
     addFileSearchTool(vectorStoreIds?: string[], vectorStores?: Array<VectorStoreConfigurations>, definitionDetails?: FileSearchToolDefinitionDetails): {
         definition: FileSearchToolDefinition;
         resources: ToolResources;
     };
     addOpenApiTool(openApiFunctionDefinition: OpenApiFunctionDefinition): {
         definition: OpenApiToolDefinition;
+    };
+    addSharepointGroundingTool(connectionId: string): {
+        definition: SharepointToolDefinition;
     };
     toolDefinitions: ToolDefinition[];
     toolResources: ToolResources;
@@ -1504,6 +1510,9 @@ export class ToolUtility {
     static createAzureAISearchTool(indexConnectionId: string, indexName: string, options?: AISearchIndexResource): {
         definition: AzureAISearchToolDefinition;
         resources: ToolResources;
+    };
+    static createBingCustomSearchTool(searchConfigurations: BingCustomSearchConfiguration[]): {
+        definition: BingCustomSearchToolDefinition;
     };
     static createBingGroundingTool(searchConfigurations: BingGroundingSearchConfiguration[]): {
         definition: BingGroundingToolDefinition;
@@ -1518,6 +1527,9 @@ export class ToolUtility {
     static createConnectionTool(toolType: connectionToolType, connectionIds: string[]): {
         definition: ToolDefinitionUnion;
     };
+    static createFabricTool(connectionId: string): {
+        definition: MicrosoftFabricToolDefinition;
+    };
     static createFileSearchTool(vectorStoreIds?: string[], vectorStores?: Array<VectorStoreConfigurations>, definitionDetails?: FileSearchToolDefinitionDetails): {
         definition: FileSearchToolDefinition;
         resources: ToolResources;
@@ -1527,6 +1539,9 @@ export class ToolUtility {
     };
     static createOpenApiTool(openApiFunctionDefinition: OpenApiFunctionDefinition): {
         definition: OpenApiToolDefinition;
+    };
+    static createSharepointGroundingTool(connectionId: string): {
+        definition: SharepointToolDefinition;
     };
 }
 
