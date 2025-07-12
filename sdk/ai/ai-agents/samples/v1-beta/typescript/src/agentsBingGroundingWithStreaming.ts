@@ -9,15 +9,7 @@
  */
 
 import type { MessageContent, MessageTextContent } from "@azure/ai-agents";
-import {
-  AgentsClient,
-  DoneEvent,
-  ErrorEvent,
-  MessageStreamEvent,
-  RunStreamEvent,
-  ToolUtility,
-  isOutputOfType,
-} from "@azure/ai-agents";
+import { AgentsClient, ToolUtility, isOutputOfType } from "@azure/ai-agents";
 import { DefaultAzureCredential } from "@azure/identity";
 
 import "dotenv/config";
@@ -58,28 +50,31 @@ export async function main(): Promise<void> {
 
   for await (const eventMessage of streamEventMessages) {
     switch (eventMessage.event) {
-      case RunStreamEvent.ThreadRunCreated:
+      case "thread.run.created":
         console.log(`ThreadRun status: ${eventMessage.data.status}`);
         break;
-      case MessageStreamEvent.ThreadMessageDelta:
+      case "thread.message.delta":
         {
           const messageDelta = eventMessage.data;
-          messageDelta.delta.content.forEach((contentPart) => {
-            if (contentPart.type === "text") {
-              const textContent = contentPart;
-              const textValue = textContent.text?.value || "No text";
-              console.log(`Text delta received:: ${textValue}`);
-            }
-          });
+          if (messageDelta.delta && messageDelta.delta.content) {
+            messageDelta.delta.content.forEach((contentPart) => {
+              if (contentPart.type === "text") {
+                const textContent = contentPart;
+                const textValue = textContent.text?.value || "No text";
+                console.log(`Text delta received:: ${textValue}`);
+              }
+            });
+          }
         }
         break;
-      case RunStreamEvent.ThreadRunCompleted:
+
+      case "thread.run.completed":
         console.log("Thread Run Completed");
         break;
-      case ErrorEvent.Error:
+      case "error":
         console.log(`An error occurred. Data ${eventMessage.data}`);
         break;
-      case DoneEvent.Done:
+      case "done":
         console.log("Stream completed.");
         break;
     }

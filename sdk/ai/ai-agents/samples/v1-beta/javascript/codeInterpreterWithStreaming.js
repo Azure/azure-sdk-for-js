@@ -7,14 +7,7 @@
  * @summary demonstrates how to use agent operations with code interpreter.
  */
 
-const {
-  RunStreamEvent,
-  MessageStreamEvent,
-  DoneEvent,
-  ErrorEvent,
-  AgentsClient,
-  ToolUtility,
-} = require("@azure/ai-agents");
+const { AgentsClient, ToolUtility } = require("@azure/ai-agents");
 const { DefaultAzureCredential } = require("@azure/identity");
 
 const fs = require("node:fs");
@@ -66,10 +59,10 @@ async function main() {
 
   for await (const eventMessage of streamEventMessages) {
     switch (eventMessage.event) {
-      case RunStreamEvent.ThreadRunCreated:
+      case "thread.run.created":
         console.log(`ThreadRun status: ${eventMessage.data.status}`);
         break;
-      case MessageStreamEvent.ThreadMessageDelta:
+      case "thread.message.delta":
         {
           const messageDelta = eventMessage.data;
           if (messageDelta.delta && messageDelta.delta.content) {
@@ -84,13 +77,13 @@ async function main() {
         }
         break;
 
-      case RunStreamEvent.ThreadRunCompleted:
+      case "thread.run.completed":
         console.log("Thread Run Completed");
         break;
-      case ErrorEvent.Error:
+      case "error":
         console.log(`An error occurred. Data ${eventMessage.data}`);
         break;
-      case DoneEvent.Done:
+      case "done":
         console.log("Stream completed.");
         break;
     }

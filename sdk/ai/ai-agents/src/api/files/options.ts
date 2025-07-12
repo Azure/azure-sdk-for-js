@@ -1,9 +1,9 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { FilePurpose } from "../../models/models.js";
-import { OperationOptions } from "@azure-rest/core-client";
-import { PollingOptionsParams } from "../options.js";
+import type { FilePurpose } from "../../models/models.js";
+import type { OperationOptions } from "@azure-rest/core-client";
+import type { PollingOptionsParams } from "../options.js";
 
 /** Optional parameters. */
 export interface FilesGetFileContentOptionalParams extends OperationOptions {}
@@ -17,7 +17,7 @@ export interface FilesDeleteFileOptionalParams extends OperationOptions {}
 /** Optional parameters. */
 export interface FilesUploadFileOptionalParams extends OperationOptions, PollingOptionsParams {
   /** The name of the file to be uploaded. */
-  fileName?: string;
+  filename?: string;
 }
 
 /** Optional parameters. */

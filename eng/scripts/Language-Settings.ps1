@@ -207,8 +207,9 @@ function HasPackageSourceCodeChanges($package, $workingDirectory) {
 
   $packageAfterName = npm pack $name@dev --pack --pack-destination $workingDirectory 2> $workingDirectory/error.txt
   if ($LastExitCode -ne 0) {
-    Write-Verbose (Get-Content -Path $workingDirectory/error.txt)
-    Write-Verbose "Failed to retrieve package $name@dev.. assuming there is source code changes."
+    Get-Content -Path $workingDirectory/error.txt | Out-Host
+    Write-Host "Failed to retrieve package $name@dev.. assuming there is source code changes."
+    $global:LASTEXITCODE = 0 # Reset exit code to 0 so that the script can continue
     return $true
   }  
   $packageAfter = Get-PackageJsonContentFromPackage -package (Join-Path $workingDirectory $packageAfterName) -workingDirectory $workingDirectory

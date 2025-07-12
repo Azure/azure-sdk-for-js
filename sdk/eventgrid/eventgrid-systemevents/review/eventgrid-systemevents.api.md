@@ -2653,7 +2653,7 @@ export interface SystemEventNameToEventData {
     "Microsoft.Maps.GeofenceEntered": MapsGeofenceEnteredEventData;
     "Microsoft.Maps.GeofenceExited": MapsGeofenceExitedEventData;
     "Microsoft.Maps.GeofenceResult": MapsGeofenceResultEventData;
-    "Microsoft.PolicyInsights.PolicyStateChanged ": PolicyInsightsPolicyStateChangedEventData;
+    "Microsoft.PolicyInsights.PolicyStateChanged": PolicyInsightsPolicyStateChangedEventData;
     "Microsoft.PolicyInsights.PolicyStateCreated": PolicyInsightsPolicyStateCreatedEventData;
     "Microsoft.PolicyInsights.PolicyStateDeleted": PolicyInsightsPolicyStateDeletedEventData;
     "Microsoft.ResourceNotifications.HealthResources.AvailabilityStatusChanged": ResourceNotificationsHealthResourcesAvailabilityStatusChangedEventData;

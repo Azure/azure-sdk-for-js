@@ -23,6 +23,7 @@ export function createAggregator(
     case "Average":
       return new AverageAggregator();
     case "Count":
+    case "CountIf":
       return new CountAggregator();
     case "Max":
       return new MaxAggregator();
