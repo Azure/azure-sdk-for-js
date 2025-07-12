@@ -1,5 +1,11 @@
 # Release History
 
+## 1.0.0-beta.3 (2025-07-15)
+
+### Features Added
+
+- Updated model names to improve consistency and clarity across the SDK.
+
 ## 1.0.0-beta.2 (2024-11-07)
 
 ### Features Added

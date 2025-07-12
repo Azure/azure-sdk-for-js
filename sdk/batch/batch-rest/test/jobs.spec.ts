@@ -6,7 +6,7 @@ import { isPlaybackMode } from "@azure-tools/test-recorder";
 import { createBatchClient, createRecorder } from "./utils/recordedClient.js";
 import type {
   BatchClient,
-  BatchJobCreateContent,
+  BatchJobCreateOptions,
   CreateJobParameters,
   CreatePoolParameters,
   UpdateJobParameters,
@@ -122,7 +122,7 @@ describe("Job Operations Test", () => {
   });
 
   it("should update a job successfully", async () => {
-    const options: BatchJobCreateContent = {
+    const options: BatchJobCreateOptions = {
       id: recorder.variable("JOB_NAME", JOB_NAME),
       priority: 500,
       constraints: { maxTaskRetryCount: 3 },

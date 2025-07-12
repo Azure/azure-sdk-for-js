@@ -9,7 +9,7 @@ import type {
   CreatePoolParameters,
   CreateNodeUserParameters,
   ReplaceNodeUserParameters,
-  UploadBatchServiceLogsContent,
+  UploadBatchServiceLogsOptions,
   UploadNodeLogsParameters,
 } from "../src/index.js";
 import { isUnexpected, type ListNodes200Response, type BatchNodeOutput } from "../src/index.js";
@@ -241,7 +241,7 @@ describe("Compute node operations", async () => {
 
   it("should upload pool node logs at paas pool", async () => {
     const container = "https://teststorage.blob.core.windows.net/fakecontainer";
-    const config: UploadBatchServiceLogsContent = {
+    const config: UploadBatchServiceLogsOptions = {
       containerUrl: container,
       startTime: new Date("2018-02-25T00:00:00.000Z"),
     };
