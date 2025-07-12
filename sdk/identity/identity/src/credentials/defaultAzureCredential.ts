@@ -43,7 +43,7 @@ export class UnavailableDefaultCredential implements TokenCredential {
 
   getToken(): Promise<null> {
     logger.getToken.info(
-      `Skipping ${this.credentialName}, reason: ${this.credentialUnavailableErrorMessage}`,
+      `Skipping ${this.credentialName}, reason: ${this.credentialUnavailableErrorMessage}`
     );
     return Promise.resolve(null);
   }
@@ -104,8 +104,10 @@ export class DefaultAzureCredential extends ChainedTokenCredential {
       createDefaultManagedIdentityCredential,
     ];
     let credentialFunctions = [];
+    const validCredentialNames =
+      "EnvironmentCredential, WorkloadIdentityCredential, ManagedIdentityCredential, AzureCliCredential, AzurePowerShellCredential, AzureDeveloperCliCredential";
     // If AZURE_TOKEN_CREDENTIALS is set, use it to determine which credentials to use.
-    // The value of AZURE_TOKEN_CREDENTIALS should be either "dev" or "prod" or any one of these credentials -"EnvironmentCredential" or "ManagedIdentityCredential or "WorkloadIdentityCredential" or "AzureCliCredential" or "AzureDeveloperCliCredential" or "AzurePowershellCredential".
+    // The value of AZURE_TOKEN_CREDENTIALS should be either "dev" or "prod" or any one of these credentials - {validCredentialNames}.
     if (azureTokenCredentials) {
       switch (azureTokenCredentials) {
         case "dev":
@@ -143,7 +145,7 @@ export class DefaultAzureCredential extends ChainedTokenCredential {
         default: {
           // If AZURE_TOKEN_CREDENTIALS is set to an unsupported value, throw an error.
           // We will throw an error here to prevent the creation of the DefaultAzureCredential.
-          const errorMessage = `Invalid value for AZURE_TOKEN_CREDENTIALS = ${process.env.AZURE_TOKEN_CREDENTIALS}. Valid values are 'prod' or 'dev' or any of these credentials - "EnvironmentCredential" or "ManagedIdentityCredential or "WorkloadIdentityCredential" or "AzureCliCredential" or "AzureDeveloperCliCredential" or "AzurePowershellCredential".`;
+          const errorMessage = `Invalid value for AZURE_TOKEN_CREDENTIALS = ${process.env.AZURE_TOKEN_CREDENTIALS}. Valid values are 'prod' or 'dev' or any of these credentials - ${validCredentialNames}.`;
           logger.warning(errorMessage);
           throw new Error(errorMessage);
         }
@@ -163,7 +165,7 @@ export class DefaultAzureCredential extends ChainedTokenCredential {
         return createCredentialFn(options);
       } catch (err: any) {
         logger.warning(
-          `Skipped ${createCredentialFn.name} because of an error creating the credential: ${err}`,
+          `Skipped ${createCredentialFn.name} because of an error creating the credential: ${err}`
         );
         return new UnavailableDefaultCredential(createCredentialFn.name, err.message);
       }
