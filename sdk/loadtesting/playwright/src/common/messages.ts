@@ -44,4 +44,8 @@ export const ServiceErrorMessageConstants = {
     message:
       "Azure credentials not found when using Entra ID authentication. Please refer to https://aka.ms/mpt/authentication for more information.",
   },
+  FAILED_TO_CREATE_TEST_RUN: {
+    key: "FailedToCreateTestRun",
+    message: "Failed to create the test run in the Playwright service.",
+  },
 };
