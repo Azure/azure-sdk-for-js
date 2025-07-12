@@ -24,7 +24,7 @@ export const commandInfo = makeCommandInfo("packages", "list packages defined in
   // use --task option to provide code file to be executed for each package. For example,
   // the following code adds missing "tsx" dev dependency whereever it is used.
   /*
-import * as path from "node:path";
+import path from "node:path";
 import { writeFile } from "node:fs/promises";
 import { resolveProject } from "../../../../util/resolveProject";
 import { RushJsonProject } from "../packages";

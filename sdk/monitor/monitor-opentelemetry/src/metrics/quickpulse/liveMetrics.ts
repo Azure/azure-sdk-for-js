@@ -1,6 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import * as os from "node:os";
+import os from "node:os";
 import type {
   MeterProviderOptions,
   PeriodicExportingMetricReaderOptions,

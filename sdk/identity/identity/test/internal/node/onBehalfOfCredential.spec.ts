@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import * as path from "node:path";
+import path from "node:path";
 import { IdentityTestContext, prepareMSALResponses } from "../../httpRequests.js";
 import type { IdentityTestContextInterface } from "../../httpRequestsCommon.js";
 import { createResponse } from "../../httpRequestsCommon.js";

@@ -2,8 +2,8 @@
 // Licensed under the MIT License.
 /* eslint-disable tsdoc/syntax */
 
-import * as fs from "fs";
-import * as nodePath from "path";
+import fs from "fs";
+import nodePath from "path";
 import { DatasetUploadInternalOptions, AIProjectContext as Client } from "../index.js";
 import {
   _PagedDatasetVersion,

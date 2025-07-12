@@ -1,8 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import * as https from "node:https";
-import * as http from "node:http";
+import https from "node:https";
+import http from "node:http";
 import type { AccessToken, GetTokenOptions, TokenCredential } from "../src/index.js";
 import type { AzureLogLevel } from "@azure/logger";
 import { AzureLogger, getLogLevel, setLogLevel } from "@azure/logger";
@@ -24,15 +24,19 @@ import { vi } from "vitest";
 vi.mock("node:https", async () => {
   const actual = await vi.importActual("node:https");
   return {
-    ...actual,
-    request: vi.fn(),
+    default: {
+      ...(actual as any).default,
+      request: vi.fn(),
+    },
   };
 });
 vi.mock("node:http", async () => {
   const actual = await vi.importActual("node:http");
   return {
-    ...actual,
-    request: vi.fn(),
+    default: {
+      ...(actual as any).default,
+      request: vi.fn(),
+    },
   };
 });
 

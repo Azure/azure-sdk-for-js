@@ -1,8 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 import { randomBytes } from "node:crypto";
-import * as fs from "node:fs";
-import * as path from "node:path";
+import fs from "node:fs";
+import path from "node:path";
 import { delay, extractConnectionStringParts } from "../../src/utils/utils.common.js";
 import type { ReadableOptions } from "node:stream";
 import { Readable, PassThrough } from "node:stream";

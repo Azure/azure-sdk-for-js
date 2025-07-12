@@ -2,8 +2,8 @@
 // Licensed under the MIT License.
 
 import { Buffer } from "node:buffer";
-import * as fs from "node:fs";
-import * as path from "node:path";
+import fs from "node:fs";
+import path from "node:path";
 import { Duplex } from "node:stream";
 import * as zlib from "zlib";
 import { isLiveMode, Recorder } from "@azure-tools/test-recorder";

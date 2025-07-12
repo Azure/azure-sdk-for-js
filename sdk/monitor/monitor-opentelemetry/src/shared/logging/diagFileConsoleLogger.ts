@@ -1,9 +1,9 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import * as fs from "node:fs";
-import * as os from "node:os";
-import * as path from "node:path";
+import fs from "node:fs";
+import os from "node:os";
+import path from "node:path";
 import type { DiagLogger } from "@opentelemetry/api";
 import {
   accessAsync,

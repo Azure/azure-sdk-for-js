@@ -2,8 +2,8 @@
 // Licensed under the MIT License.
 
 import { randomBytes } from "node:crypto";
-import * as fs from "node:fs";
-import * as path from "node:path";
+import fs from "node:fs";
+import path from "node:path";
 import type { Recorder } from "@azure-tools/test-recorder";
 import { env } from "@azure-tools/test-recorder";
 import { createTestCredential } from "@azure-tools/test-credential";

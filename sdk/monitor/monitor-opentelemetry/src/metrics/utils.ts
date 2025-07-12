@@ -43,8 +43,8 @@ import {
   getUserAgent,
 } from "./quickpulse/utils.js";
 import { Logger } from "../shared/logging/logger.js";
-import * as os from "node:os";
-import * as process from "node:process";
+import os from "node:os";
+import process from "node:process";
 
 export function getRequestDimensions(span: ReadableSpan): Attributes {
   const dimensions: MetricRequestDimensions = getBaseDimensions(span.resource);

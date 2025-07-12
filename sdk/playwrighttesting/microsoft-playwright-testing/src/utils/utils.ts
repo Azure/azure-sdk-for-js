@@ -14,7 +14,7 @@ import { coreLogger } from "../common/logger.js";
 import type { TokenCredential } from "@azure/identity";
 import ReporterUtils from "./reporterUtils.js";
 import { CIInfoProvider } from "./cIInfoProvider.js";
-import * as process from "node:process";
+import process from "node:process";
 import { parseJwt } from "./parseJwt.js";
 import { getPlaywrightVersion } from "./getPlaywrightVersion.js";
 import { createEntraIdAccessToken } from "../common/entraIdAccessToken.js";

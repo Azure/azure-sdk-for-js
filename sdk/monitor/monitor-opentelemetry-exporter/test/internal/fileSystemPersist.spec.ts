@@ -3,9 +3,9 @@
 
 import { describe, it, assert, expect, beforeEach, vi, afterEach } from "vitest";
 
-import * as fs from "node:fs";
-import * as os from "node:os";
-import * as path from "node:path";
+import fs from "node:fs";
+import os from "node:os";
+import path from "node:path";
 import { FileSystemPersist } from "../../src/platform/nodejs/persist/fileSystemPersist.js";
 import type { TelemetryItem as Envelope } from "../../src/generated/index.js";
 import { promisify } from "node:util";
