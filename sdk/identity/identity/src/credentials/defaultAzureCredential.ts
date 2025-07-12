@@ -43,7 +43,7 @@ export class UnavailableDefaultCredential implements TokenCredential {
 
   getToken(): Promise<null> {
     logger.getToken.info(
-      `Skipping ${this.credentialName}, reason: ${this.credentialUnavailableErrorMessage}`
+      `Skipping ${this.credentialName}, reason: ${this.credentialUnavailableErrorMessage}`,
     );
     return Promise.resolve(null);
   }
@@ -175,7 +175,7 @@ export class DefaultAzureCredential extends ChainedTokenCredential {
         return createCredentialFn(options);
       } catch (err: any) {
         logger.warning(
-          `Skipped ${createCredentialFn.name} because of an error creating the credential: ${err}`
+          `Skipped ${createCredentialFn.name} because of an error creating the credential: ${err}`,
         );
         return new UnavailableDefaultCredential(createCredentialFn.name, err.message);
       }
