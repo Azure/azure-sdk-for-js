@@ -23,8 +23,8 @@ export async function main(): Promise<void> {
   const fileContent = "Hello, World!";
 
   const readable = Readable.from(Buffer.from(fileContent));
-  // Add fileName to options for proper multipart/form-data formatting
-  const file = await client.files.upload(readable, "assistants", { fileName: "file.txt" });
+  // Add filename to options for proper multipart/form-data formatting
+  const file = await client.files.upload(readable, "assistants", { filename: "file.txt" });
   console.log(`Uploaded file, file ID : ${file.id}`);
 
   // List uploaded files
