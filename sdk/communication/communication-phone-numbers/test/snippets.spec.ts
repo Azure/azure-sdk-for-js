@@ -388,9 +388,9 @@ describe("snippets", () => {
     const client = new SipRoutingClient("<endpoint-from-resource>", credential);
     // @ts-preserve-whitespace
     const routes = [
-        { name: "route1", numberPattern: "^.123.*" },
-        { name: "route2", numberPattern: "^.987.*" },
-        { name: "route3", numberPattern: "^.*" },
+      { name: "route1", numberPattern: "^.123.*" },
+      { name: "route2", numberPattern: "^.987.*" },
+      { name: "route3", numberPattern: "^.*" },
     ];
     const matchedRoutes = await client.getRoutesForNumber("+123456789", routes);
   });
