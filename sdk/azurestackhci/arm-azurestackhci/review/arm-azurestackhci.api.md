@@ -490,7 +490,7 @@ export interface DeploymentData {
     secrets?: EceDeploymentSecrets[];
     secretsLocation?: string;
     securitySettings?: DeploymentSecuritySettings;
-    storage?: Storage_2;
+    storage?: Storage;
 }
 
 // @public
@@ -2096,10 +2096,9 @@ export interface Step {
 }
 
 // @public
-interface Storage_2 {
+export interface Storage {
     configurationMode?: string;
 }
-export { Storage_2 as Storage }
 
 // @public
 export interface SwitchDetail {

@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 import { VectorDbClient } from "./vectorDbClient.js";
-import { _$deleteDeserialize, _createOrUpdateDeserialize } from "./api/organizations/index.js";
+import { _$deleteDeserialize, _createOrUpdateDeserialize } from "./api/organizations/operations.js";
 import { getLongRunningPoller } from "./static-helpers/pollingHelpers.js";
 import { OperationOptions, PathUncheckedResponse } from "@azure-rest/core-client";
 import { AbortSignalLike } from "@azure/abort-controller";

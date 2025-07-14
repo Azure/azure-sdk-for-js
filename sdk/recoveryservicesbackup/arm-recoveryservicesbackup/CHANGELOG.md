@@ -1,15 +1,38 @@
 # Release History
-
-## 13.1.1 (Unreleased)
-
+    
+## 13.2.0 (2025-04-21)
+    
 ### Features Added
 
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
-
+  - Added Interface AzureVmWorkloadSAPAseDatabaseProtectableItem
+  - Added Interface AzureWorkloadSAPAsePointInTimeRecoveryPoint
+  - Added Interface AzureWorkloadSAPAsePointInTimeRestoreRequest
+  - Added Interface AzureWorkloadSAPAseRecoveryPoint
+  - Added Interface AzureWorkloadSAPAseRestoreRequest
+  - Added Type Alias AzureWorkloadSAPAseRestoreRequestUnion
+  - Interface AzureFileShareRecoveryPoint has a new optional parameter recoveryPointTierDetails
+  - Interface AzureIaaSVMProtectedItem has a new optional parameter policyType
+  - Interface AzureStorageContainer has a new optional parameter operationType
+  - Interface BackupEngineBaseResourceList has a new optional parameter nextLink
+  - Interface JobResourceList has a new optional parameter nextLink
+  - Interface ProtectableContainerResourceList has a new optional parameter nextLink
+  - Interface ProtectedItemResourceList has a new optional parameter nextLink
+  - Interface ProtectionContainerResourceList has a new optional parameter nextLink
+  - Interface ProtectionIntentResourceList has a new optional parameter nextLink
+  - Interface ProtectionPolicyResourceList has a new optional parameter nextLink
+  - Interface RecoveryPointResourceList has a new optional parameter nextLink
+  - Interface ResourceGuardProxyBaseResourceList has a new optional parameter nextLink
+  - Interface WorkloadItemResourceList has a new optional parameter nextLink
+  - Interface WorkloadProtectableItemResourceList has a new optional parameter nextLink
+  - Type of parameter protectableItemType of interface AzureVmWorkloadProtectableItem add a new union variant "SAPAseDatabase"
+  - Type of parameter objectType of interface AzureWorkloadPointInTimeRecoveryPoint add a new union variant "AzureWorkloadSAPAsePointInTimeRecoveryPoint"
+  - Type of parameter objectType of interface AzureWorkloadRecoveryPoint add new union variants "AzureWorkloadSAPAsePointInTimeRecoveryPoint" | "AzureWorkloadSAPAseRecoveryPoint"
+  - Type of parameter objectType of interface AzureWorkloadRestoreRequest add new union variants "AzureWorkloadSAPAseRestoreRequest" | "AzureWorkloadSAPAsePointInTimeRestoreRequest"
+  - Type of parameter objectType of interface RecoveryPoint add new union variants "AzureWorkloadSAPAsePointInTimeRecoveryPoint" | "AzureWorkloadSAPAseRecoveryPoint"
+  - Type of parameter objectType of interface RestoreRequest add new union variants "AzureWorkloadSAPAseRestoreRequest" | "AzureWorkloadSAPAsePointInTimeRestoreRequest"
+  - Type of parameter protectableItemType of interface WorkloadProtectableItem add a new union variant "SAPAseDatabase"
+    
+    
 ## 13.1.0 (2024-05-08)
     
 ### Features Added

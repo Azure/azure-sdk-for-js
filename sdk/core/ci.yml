@@ -40,31 +40,61 @@ extends:
     Artifacts:
       - name: azure-abort-controller
         safeName: azureabortcontroller
+        triggeringPaths:
+        - /common/config/
       - name: azure-core-amqp
         safeName: azurecoreamqp
+        triggeringPaths:
+        - /common/config/
       - name: azure-core-auth
         safeName: azurecoreauth
+        triggeringPaths:
+        - /common/config/
       - name: azure-core-client
         safeName: azurecoreclient
+        triggeringPaths:
+        - /common/config/
       - name: azure-rest-core-client
         safeName: azurerestcoreclient
+        triggeringPaths:
+        - /common/config/
       - name: azure-core-rest-pipeline
         safeName: azurecorerestpipeline
+        triggeringPaths:
+        - /common/config/
       - name: azure-core-lro
         safeName: azurecorelro
+        triggeringPaths:
+        - /common/config/
       - name: azure-core-paging
         safeName: azurecorepaging
+        triggeringPaths:
+        - /common/config/
       - name: azure-core-tracing
         safeName: azurecoretracing
+        triggeringPaths:
+        - /common/config/
       - name: azure-core-xml
         safeName: azurecorexml
+        triggeringPaths:
+        - /common/config/
       - name: azure-core-util
         safeName: azurecoreutil
+        triggeringPaths:
+        - /common/config/
       - name: azure-logger
         safeName: azurelogger
+        triggeringPaths:
+        - /common/config/
       - name: azure-core-http-compat
         safeName: azurecorehttpcompat
+        triggeringPaths:
+        - /common/config/
       - name: azure-core-sse
         safeName: azurecoresse
+        triggeringPaths:
+        - /common/config/
       - name: typespec-ts-http-runtime
         safeName: typespectshttpruntime
+        triggeringPaths:
+        - /common/config/

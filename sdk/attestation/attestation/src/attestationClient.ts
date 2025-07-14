@@ -383,7 +383,7 @@ export class AttestationClient {
 
   /** Attest a TPM based enclave.
 
-   * See the  {@link https://learn.microsoft.com/en-us/azure/attestation/virtualization-based-security-protocol | TPM Attestation Protocol Reference} for more information.
+   * See the  {@link https://learn.microsoft.com/azure/attestation/virtualization-based-security-protocol | TPM Attestation Protocol Reference} for more information.
    * 
    * @param request - Incoming request to send to the TPM attestation service, Utf8 encoded.
    * @param options - Pipeline options for TPM attestation request.

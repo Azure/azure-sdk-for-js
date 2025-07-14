@@ -48,12 +48,12 @@ node composeModel.js
 Alternatively, run a single sample with the correct environment variables set (setting up the `.env` file is not required if you do this), for example (cross-platform):
 
 ```bash
-npx dev-tool run vendored cross-env DOCUMENT_INTELLIGENCE_ENDPOINT="<document intelligence endpoint>" DOCUMENT_INTELLIGENCE_API_KEY="<document intelligence api key>" PURCHASE_ORDER_SUPPLIES_SAS_URL="<purchase order supplies sas url>" PURCHASE_ORDER_EQUIPMENT_SAS_URL="<purchase order equipment sas url>" PURCHASE_ORDER_FURNITURE_SAS_URL="<purchase order furniture sas url>" PURCHASE_ORDER_CLEANING_SUPPLIES_SAS_URL="<purchase order cleaning supplies sas url>" node composeModel.js
+npx dev-tool run vendored cross-env DOCUMENT_INTELLIGENCE_ENDPOINT="<document intelligence endpoint>" PURCHASE_ORDER_SUPPLIES_SAS_URL="<purchase order supplies sas url>" PURCHASE_ORDER_EQUIPMENT_SAS_URL="<purchase order equipment sas url>" PURCHASE_ORDER_FURNITURE_SAS_URL="<purchase order furniture sas url>" PURCHASE_ORDER_CLEANING_SUPPLIES_SAS_URL="<purchase order cleaning supplies sas url>" node composeModel.js
 ```
 
 ## Next Steps
 
-Take a look at our samples for more information about the APIs that are available in the clients.
+Take a look at our [API Documentation][apiref] for more information about the APIs that are available in the clients.
 
 [composemodel]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/documentintelligence/ai-document-intelligence-rest/samples/v1/javascript/composeModel.js
 [analyzedocumentbymodelid]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/documentintelligence/ai-document-intelligence-rest/samples/v1/javascript/analyzeDocumentByModelId.js
@@ -67,5 +67,6 @@ Take a look at our samples for more information about the APIs that are availabl
 [getmodel]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/documentintelligence/ai-document-intelligence-rest/samples/v1/javascript/getModel.js
 [listmodels]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/documentintelligence/ai-document-intelligence-rest/samples/v1/javascript/listModels.js
 [readdocument]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/documentintelligence/ai-document-intelligence-rest/samples/v1/javascript/readDocument.js
+[apiref]: https://learn.microsoft.com/javascript/api/@azure-rest/ai-document-intelligence
 [freesub]: https://azure.microsoft.com/free/
 [package]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/documentintelligence/ai-document-intelligence-rest/README.md

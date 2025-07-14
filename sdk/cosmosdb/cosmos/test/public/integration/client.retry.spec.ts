@@ -1,17 +1,18 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import assert from "assert";
-import type { RequestContext } from "../../../src";
-import { CosmosClient } from "../../../src";
-import { masterKey } from "../common/_fakeTestSecrets";
-import { PluginOn } from "../../../src";
-import { TimeoutErrorCode } from "../../../src/request/TimeoutError";
-import { getEmptyCosmosDiagnostics } from "../../../src/utils/diagnostics";
+
+import type { RequestContext } from "../../../src/index.js";
+import { CosmosClient } from "../../../src/index.js";
+import { masterKey } from "../common/_fakeTestSecrets.js";
+import { PluginOn } from "../../../src/index.js";
+import { TimeoutErrorCode } from "../../../src/request/TimeoutError.js";
+import { getEmptyCosmosDiagnostics } from "../../../src/utils/diagnostics.js";
+import { describe, it, assert } from "vitest";
 
 const endpoint = "https://failovertest.documents.azure.com/";
 
-describe("RetryPolicy", function () {
-  describe("Timeout Failover retry policy", function () {
+describe("RetryPolicy", () => {
+  describe("Timeout Failover retry policy", () => {
     const databaseAccountResponse = {
       headers: {
         "content-location": "https://failovertest.documents.azure.com/",
@@ -111,7 +112,7 @@ describe("RetryPolicy", function () {
       code: 200,
       diagnostics: getEmptyCosmosDiagnostics(),
     };
-    it("when 1st region endpoint becomes unseriviceable", async function () {
+    it("when 1st region endpoint becomes unseriviceable", async () => {
       const lastEndpointCalled: string[] = [];
       const responses = [
         databaseAccountResponse,
@@ -138,7 +139,7 @@ describe("RetryPolicy", function () {
       client.dispose();
     });
 
-    it("when both region endpoint becomes unseriviceable", async function () {
+    it("when both region endpoint becomes unserviceable", async () => {
       const lastEndpointCalled: string[] = [];
       const responses = [
         databaseAccountResponse,
@@ -160,7 +161,7 @@ describe("RetryPolicy", function () {
       client.dispose();
     });
 
-    it("when both regions Timeout with retrial window", async function () {
+    it("when both regions Timeout with retrial window", async () => {
       const responses = [
         databaseAccountResponse,
         collectionResponse,
@@ -228,7 +229,7 @@ describe("RetryPolicy", function () {
       client.dispose();
     });
 
-    it("timeout error thrown when retry count exceeds 120", async function () {
+    it("timeout error thrown when retry count exceeds 120", async () => {
       const lastEndpointCalled: string[] = [];
       const responses = [
         databaseAccountResponse,
@@ -264,7 +265,14 @@ describe("RetryPolicy", function () {
     });
   });
 });
-function getPlugins(responses: any[], lastEndpointCalled: string[]) {
+
+function getPlugins(
+  responses: any[],
+  lastEndpointCalled: string[],
+): {
+  on: PluginOn;
+  plugin: (context: RequestContext) => Promise<any>;
+}[] {
   let index = 0;
   let requestIndex = 0;
   const plugins = [

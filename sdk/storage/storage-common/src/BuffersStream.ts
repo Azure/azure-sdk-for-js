@@ -1,7 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { Readable, ReadableOptions } from "stream";
+import type { ReadableOptions } from "node:stream";
+import { Readable } from "node:stream";
 
 /**
  * Options to configure the BuffersStream.
@@ -37,7 +38,7 @@ export class BuffersStream extends Readable {
   constructor(
     private buffers: Buffer[],
     private byteLength: number,
-    options?: BuffersStreamOptions
+    options?: BuffersStreamOptions,
   ) {
     super(options);
     this.byteOffsetInCurrentBuffer = 0;
@@ -59,7 +60,7 @@ export class BuffersStream extends Readable {
    *
    * @param size - Optional. The size of data to be read
    */
-  public _read(size?: number) {
+  public _read(size?: number): void {
     if (this.pushedBytesLength >= this.byteLength) {
       this.push(null);
     }

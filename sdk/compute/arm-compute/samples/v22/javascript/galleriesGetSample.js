@@ -97,11 +97,11 @@ async function getAGallery() {
 }
 
 async function main() {
-  getACommunityGallery();
-  getAGalleryWithExpandSharingProfileGroups();
-  getAGalleryWithSelectPermissions();
-  getAGalleryWithSystemAssignedAndUserAssignedManagedIdentities();
-  getAGallery();
+  await getACommunityGallery();
+  await getAGalleryWithExpandSharingProfileGroups();
+  await getAGalleryWithSelectPermissions();
+  await getAGalleryWithSystemAssignedAndUserAssignedManagedIdentities();
+  await getAGallery();
 }
 
 main().catch(console.error);

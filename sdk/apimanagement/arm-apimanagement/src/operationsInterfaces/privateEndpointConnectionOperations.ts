@@ -6,133 +6,133 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { OperationState, SimplePollerLike } from "@azure/core-lro";
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
-    PrivateEndpointConnection,
-    PrivateEndpointConnectionCreateOrUpdateOptionalParams,
-    PrivateEndpointConnectionCreateOrUpdateResponse,
-    PrivateEndpointConnectionDeleteOptionalParams,
-    PrivateEndpointConnectionGetByNameOptionalParams,
-    PrivateEndpointConnectionGetByNameResponse,
-    PrivateEndpointConnectionGetPrivateLinkResourceOptionalParams,
-    PrivateEndpointConnectionGetPrivateLinkResourceResponse,
-    PrivateEndpointConnectionListByServiceOptionalParams,
-    PrivateEndpointConnectionListPrivateLinkResourcesOptionalParams,
-    PrivateEndpointConnectionListPrivateLinkResourcesResponse,
-    PrivateEndpointConnectionRequest
+  PrivateEndpointConnection,
+  PrivateEndpointConnectionListByServiceOptionalParams,
+  PrivateEndpointConnectionGetByNameOptionalParams,
+  PrivateEndpointConnectionGetByNameResponse,
+  PrivateEndpointConnectionRequest,
+  PrivateEndpointConnectionCreateOrUpdateOptionalParams,
+  PrivateEndpointConnectionCreateOrUpdateResponse,
+  PrivateEndpointConnectionDeleteOptionalParams,
+  PrivateEndpointConnectionListPrivateLinkResourcesOptionalParams,
+  PrivateEndpointConnectionListPrivateLinkResourcesResponse,
+  PrivateEndpointConnectionGetPrivateLinkResourceOptionalParams,
+  PrivateEndpointConnectionGetPrivateLinkResourceResponse,
 } from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a PrivateEndpointConnectionOperations. */
 export interface PrivateEndpointConnectionOperations {
-    /**
-     * Lists all private endpoint connections of the API Management service instance.
-     * @param resourceGroupName The name of the resource group. The name is case insensitive.
-     * @param serviceName The name of the API Management service.
-     * @param options The options parameters.
-     */
-    listByService(
-        resourceGroupName: string,
-        serviceName: string,
-        options?: PrivateEndpointConnectionListByServiceOptionalParams
-    ): PagedAsyncIterableIterator<PrivateEndpointConnection>;
-    /**
-     * Gets the details of the Private Endpoint Connection specified by its identifier.
-     * @param resourceGroupName The name of the resource group. The name is case insensitive.
-     * @param serviceName The name of the API Management service.
-     * @param privateEndpointConnectionName Name of the private endpoint connection.
-     * @param options The options parameters.
-     */
-    getByName(
-        resourceGroupName: string,
-        serviceName: string,
-        privateEndpointConnectionName: string,
-        options?: PrivateEndpointConnectionGetByNameOptionalParams
-    ): Promise<PrivateEndpointConnectionGetByNameResponse>;
-    /**
-     * Creates a new Private Endpoint Connection or updates an existing one.
-     * @param resourceGroupName The name of the resource group. The name is case insensitive.
-     * @param serviceName The name of the API Management service.
-     * @param privateEndpointConnectionName Name of the private endpoint connection.
-     * @param privateEndpointConnectionRequest A request to approve or reject a private endpoint connection
-     * @param options The options parameters.
-     */
-    beginCreateOrUpdate(
-        resourceGroupName: string,
-        serviceName: string,
-        privateEndpointConnectionName: string,
-        privateEndpointConnectionRequest: PrivateEndpointConnectionRequest,
-        options?: PrivateEndpointConnectionCreateOrUpdateOptionalParams
-    ): Promise<
-        SimplePollerLike<
-            OperationState<PrivateEndpointConnectionCreateOrUpdateResponse>,
-            PrivateEndpointConnectionCreateOrUpdateResponse
-        >
-    >;
-    /**
-     * Creates a new Private Endpoint Connection or updates an existing one.
-     * @param resourceGroupName The name of the resource group. The name is case insensitive.
-     * @param serviceName The name of the API Management service.
-     * @param privateEndpointConnectionName Name of the private endpoint connection.
-     * @param privateEndpointConnectionRequest A request to approve or reject a private endpoint connection
-     * @param options The options parameters.
-     */
-    beginCreateOrUpdateAndWait(
-        resourceGroupName: string,
-        serviceName: string,
-        privateEndpointConnectionName: string,
-        privateEndpointConnectionRequest: PrivateEndpointConnectionRequest,
-        options?: PrivateEndpointConnectionCreateOrUpdateOptionalParams
-    ): Promise<PrivateEndpointConnectionCreateOrUpdateResponse>;
-    /**
-     * Deletes the specified Private Endpoint Connection.
-     * @param resourceGroupName The name of the resource group. The name is case insensitive.
-     * @param serviceName The name of the API Management service.
-     * @param privateEndpointConnectionName Name of the private endpoint connection.
-     * @param options The options parameters.
-     */
-    beginDelete(
-        resourceGroupName: string,
-        serviceName: string,
-        privateEndpointConnectionName: string,
-        options?: PrivateEndpointConnectionDeleteOptionalParams
-    ): Promise<SimplePollerLike<OperationState<void>, void>>;
-    /**
-     * Deletes the specified Private Endpoint Connection.
-     * @param resourceGroupName The name of the resource group. The name is case insensitive.
-     * @param serviceName The name of the API Management service.
-     * @param privateEndpointConnectionName Name of the private endpoint connection.
-     * @param options The options parameters.
-     */
-    beginDeleteAndWait(
-        resourceGroupName: string,
-        serviceName: string,
-        privateEndpointConnectionName: string,
-        options?: PrivateEndpointConnectionDeleteOptionalParams
-    ): Promise<void>;
-    /**
-     * Gets the private link resources
-     * @param resourceGroupName The name of the resource group. The name is case insensitive.
-     * @param serviceName The name of the API Management service.
-     * @param options The options parameters.
-     */
-    listPrivateLinkResources(
-        resourceGroupName: string,
-        serviceName: string,
-        options?: PrivateEndpointConnectionListPrivateLinkResourcesOptionalParams
-    ): Promise<PrivateEndpointConnectionListPrivateLinkResourcesResponse>;
-    /**
-     * Gets the private link resources
-     * @param resourceGroupName The name of the resource group. The name is case insensitive.
-     * @param serviceName The name of the API Management service.
-     * @param privateLinkSubResourceName Name of the private link resource.
-     * @param options The options parameters.
-     */
-    getPrivateLinkResource(
-        resourceGroupName: string,
-        serviceName: string,
-        privateLinkSubResourceName: string,
-        options?: PrivateEndpointConnectionGetPrivateLinkResourceOptionalParams
-    ): Promise<PrivateEndpointConnectionGetPrivateLinkResourceResponse>;
+  /**
+   * Lists all private endpoint connections of the API Management service instance.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param serviceName The name of the API Management service.
+   * @param options The options parameters.
+   */
+  listByService(
+    resourceGroupName: string,
+    serviceName: string,
+    options?: PrivateEndpointConnectionListByServiceOptionalParams,
+  ): PagedAsyncIterableIterator<PrivateEndpointConnection>;
+  /**
+   * Gets the details of the Private Endpoint Connection specified by its identifier.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param serviceName The name of the API Management service.
+   * @param privateEndpointConnectionName Name of the private endpoint connection.
+   * @param options The options parameters.
+   */
+  getByName(
+    resourceGroupName: string,
+    serviceName: string,
+    privateEndpointConnectionName: string,
+    options?: PrivateEndpointConnectionGetByNameOptionalParams,
+  ): Promise<PrivateEndpointConnectionGetByNameResponse>;
+  /**
+   * Creates a new Private Endpoint Connection or updates an existing one.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param serviceName The name of the API Management service.
+   * @param privateEndpointConnectionName Name of the private endpoint connection.
+   * @param privateEndpointConnectionRequest A request to approve or reject a private endpoint connection
+   * @param options The options parameters.
+   */
+  beginCreateOrUpdate(
+    resourceGroupName: string,
+    serviceName: string,
+    privateEndpointConnectionName: string,
+    privateEndpointConnectionRequest: PrivateEndpointConnectionRequest,
+    options?: PrivateEndpointConnectionCreateOrUpdateOptionalParams,
+  ): Promise<
+    SimplePollerLike<
+      OperationState<PrivateEndpointConnectionCreateOrUpdateResponse>,
+      PrivateEndpointConnectionCreateOrUpdateResponse
+    >
+  >;
+  /**
+   * Creates a new Private Endpoint Connection or updates an existing one.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param serviceName The name of the API Management service.
+   * @param privateEndpointConnectionName Name of the private endpoint connection.
+   * @param privateEndpointConnectionRequest A request to approve or reject a private endpoint connection
+   * @param options The options parameters.
+   */
+  beginCreateOrUpdateAndWait(
+    resourceGroupName: string,
+    serviceName: string,
+    privateEndpointConnectionName: string,
+    privateEndpointConnectionRequest: PrivateEndpointConnectionRequest,
+    options?: PrivateEndpointConnectionCreateOrUpdateOptionalParams,
+  ): Promise<PrivateEndpointConnectionCreateOrUpdateResponse>;
+  /**
+   * Deletes the specified Private Endpoint Connection.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param serviceName The name of the API Management service.
+   * @param privateEndpointConnectionName Name of the private endpoint connection.
+   * @param options The options parameters.
+   */
+  beginDelete(
+    resourceGroupName: string,
+    serviceName: string,
+    privateEndpointConnectionName: string,
+    options?: PrivateEndpointConnectionDeleteOptionalParams,
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
+  /**
+   * Deletes the specified Private Endpoint Connection.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param serviceName The name of the API Management service.
+   * @param privateEndpointConnectionName Name of the private endpoint connection.
+   * @param options The options parameters.
+   */
+  beginDeleteAndWait(
+    resourceGroupName: string,
+    serviceName: string,
+    privateEndpointConnectionName: string,
+    options?: PrivateEndpointConnectionDeleteOptionalParams,
+  ): Promise<void>;
+  /**
+   * Gets the private link resources
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param serviceName The name of the API Management service.
+   * @param options The options parameters.
+   */
+  listPrivateLinkResources(
+    resourceGroupName: string,
+    serviceName: string,
+    options?: PrivateEndpointConnectionListPrivateLinkResourcesOptionalParams,
+  ): Promise<PrivateEndpointConnectionListPrivateLinkResourcesResponse>;
+  /**
+   * Gets the private link resources
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param serviceName The name of the API Management service.
+   * @param privateLinkSubResourceName Name of the private link resource.
+   * @param options The options parameters.
+   */
+  getPrivateLinkResource(
+    resourceGroupName: string,
+    serviceName: string,
+    privateLinkSubResourceName: string,
+    options?: PrivateEndpointConnectionGetPrivateLinkResourceOptionalParams,
+  ): Promise<PrivateEndpointConnectionGetPrivateLinkResourceResponse>;
 }

@@ -3,6 +3,7 @@
 
 import { defineConfig } from "vitest/config";
 import { relativeRecordingsPath } from "@azure-tools/test-recorder";
+import { AzureSDKReporter } from "./vitest.shared.config.js";
 
 process.env.RECORDINGS_RELATIVE_PATH = relativeRecordingsPath();
 
@@ -15,7 +16,7 @@ export default defineConfig({
   },
   test: {
     testTimeout: 18000,
-    reporters: ["verbose", "junit"],
+    reporters: [new AzureSDKReporter(), "junit"],
     outputFile: {
       junit: "test-results.browser.xml",
     },

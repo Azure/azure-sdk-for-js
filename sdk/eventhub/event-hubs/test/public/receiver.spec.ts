@@ -11,6 +11,7 @@ import type {
 import { earliestEventPosition, latestEventPosition } from "../../src/index.js";
 import debugModule from "debug";
 import { should } from "../utils/chai.js";
+import "../utils/chai.js";
 import { describe, it, afterEach, beforeEach } from "vitest";
 import { createConsumer, createProducer } from "../utils/clients.js";
 

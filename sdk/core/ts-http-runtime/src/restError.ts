@@ -82,20 +82,21 @@ export class RestError extends Error {
     Object.defineProperty(this, "request", { value: options.request, enumerable: false });
     Object.defineProperty(this, "response", { value: options.response, enumerable: false });
 
-    Object.setPrototypeOf(this, RestError.prototype);
-  }
+    // Logging method for util.inspect in Node
+    Object.defineProperty(this, custom, {
+      value: () => {
+        // Extract non-enumerable properties and add them back. This is OK since in this output the request and
+        // response get sanitized.
+        return `RestError: ${this.message} \n ${errorSanitizer.sanitize({
+          ...this,
+          request: this.request,
+          response: this.response,
+        })}`;
+      },
+      enumerable: false,
+    });
 
-  /**
-   * Logging method for util.inspect in Node
-   */
-  [custom](): string {
-    // Extract non-enumerable properties and add them back. This is OK since in this output the request and
-    // response get sanitized.
-    return `RestError: ${this.message} \n ${errorSanitizer.sanitize({
-      ...this,
-      request: this.request,
-      response: this.response,
-    })}`;
+    Object.setPrototypeOf(this, RestError.prototype);
   }
 }
 

@@ -2,7 +2,10 @@
 // Licensed under the MIT License.
 
 import { isNodeLike } from "@azure/core-util";
-import { isNodeReadableStream } from "./typeGuards.js";
+
+function isNodeReadableStream(x: unknown): x is NodeJS.ReadableStream {
+  return Boolean(x && typeof (x as NodeJS.ReadableStream)["pipe"] === "function");
+}
 
 /**
  * Options passed into createFile specifying metadata about the file.
@@ -72,28 +75,31 @@ const rawContent: unique symbol = Symbol("rawContent");
 /**
  * Type signature of a blob-like object with a raw content property.
  */
-interface RawContent {
+export interface RawContent extends Blob {
   [rawContent](): Uint8Array | NodeJS.ReadableStream | ReadableStream<Uint8Array>;
 }
 
-function hasRawContent(x: unknown): x is RawContent {
+/**
+ * Type guard to check if a given object is a blob-like object with a raw content property.
+ */
+export function hasRawContent(x: unknown): x is RawContent {
   return typeof (x as RawContent)[rawContent] === "function";
 }
 
 /**
  * Extract the raw content from a given blob-like object. If the input was created using createFile
  * or createFileFromStream, the exact content passed into createFile/createFileFromStream will be used.
- * For true instances of Blob and File, returns the blob's content as a Web ReadableStream<Uint8Array>.
+ * For true instances of Blob and File, returns the actual blob.
  *
  * @internal
  */
 export function getRawContent(
   blob: Blob,
-): NodeJS.ReadableStream | ReadableStream<Uint8Array> | Uint8Array {
+): Blob | NodeJS.ReadableStream | ReadableStream<Uint8Array> | Uint8Array {
   if (hasRawContent(blob)) {
     return blob[rawContent]();
   } else {
-    return blob.stream();
+    return blob;
   }
 }
 

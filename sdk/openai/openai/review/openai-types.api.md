@@ -12,7 +12,6 @@ import type { ChatCompletionMessage } from 'openai/resources/index';
 import type { Completion } from 'openai/resources/index';
 import type { CompletionCreateParamsNonStreaming } from 'openai/resources/index';
 import type { CompletionCreateParamsStreaming } from 'openai/resources/index';
-import type { ErrorModel } from '@azure-rest/core-client';
 
 // @public
 export type AzureChatExtensionConfiguration = AzureChatExtensionConfigurationParent | AzureSearchChatExtensionConfiguration | AzureCosmosDBChatExtensionConfiguration | ElasticsearchChatExtensionConfiguration | PineconeChatExtensionConfiguration | MongoDBChatExtensionConfiguration;
@@ -253,6 +252,15 @@ export interface ElasticsearchIndexFieldMappingOptions {
 }
 
 // @public
+export interface ErrorModel {
+    code: string;
+    details: Array<ErrorModel>;
+    innererror?: InnerError;
+    message: string;
+    target?: string;
+}
+
+// @public
 export interface ImageGenerationContentFilterResults {
     hate?: ContentFilterResultOutput;
     self_harm?: ContentFilterResultOutput;
@@ -269,6 +277,12 @@ export interface ImageGenerationPromptFilterResults {
     self_harm?: ContentFilterResultOutput;
     sexual?: ContentFilterResultOutput;
     violence?: ContentFilterResultOutput;
+}
+
+// @public
+export interface InnerError {
+    code: string;
+    innererror?: InnerError;
 }
 
 // @public

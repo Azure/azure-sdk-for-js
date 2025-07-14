@@ -55,7 +55,7 @@ describe("ContainerRegistry test", () => {
     );
     location = "eastus";
     resourceGroup = "myjstest";
-    registryName = "myregistryxxxyy";
+    registryName = "myregistryxxxyya";
     // importPipelineName = "myimportpipelinexxx";
     // exportPipelineName = 'myexportpipelinexxx';
     taskName = "mytaskxxx";
@@ -85,7 +85,7 @@ describe("ContainerRegistry test", () => {
   });
 
   it("tasks create test", async () => {
-    const res = await client.tasks.beginCreateAndWait(
+    const res = await client.tasks.create(
       resourceGroup,
       registryName,
       taskName,
@@ -119,7 +119,6 @@ describe("ContainerRegistry test", () => {
           },
         },
       },
-      testPollingOptions,
     );
     assert.equal(res.name, taskName);
   });
@@ -138,7 +137,7 @@ describe("ContainerRegistry test", () => {
   });
 
   it("tasks update test", async () => {
-    const res = await client.tasks.beginUpdateAndWait(
+    const res = await client.tasks.update(
       resourceGroup,
       registryName,
       taskName,
@@ -171,17 +170,15 @@ describe("ContainerRegistry test", () => {
           },
         },
       },
-      testPollingOptions,
     );
     assert.equal(res.type, "Microsoft.ContainerRegistry/registries/tasks");
   });
 
   it("tasks delete test", async () => {
-    await client.tasks.beginDeleteAndWait(
+    await client.tasks.delete(
       resourceGroup,
       registryName,
       taskName,
-      testPollingOptions,
     );
     const resArray = new Array();
     for await (const item of client.tasks.list(resourceGroup, registryName)) {

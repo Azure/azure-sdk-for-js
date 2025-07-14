@@ -15,7 +15,7 @@ import {
   PipelineRunsGetResponse,
   PipelineRunsCreateOptionalParams,
   PipelineRunsCreateResponse,
-  PipelineRunsDeleteOptionalParams
+  PipelineRunsDeleteOptionalParams,
 } from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
@@ -30,7 +30,7 @@ export interface PipelineRuns {
   list(
     resourceGroupName: string,
     registryName: string,
-    options?: PipelineRunsListOptionalParams
+    options?: PipelineRunsListOptionalParams,
   ): PagedAsyncIterableIterator<PipelineRun>;
   /**
    * Gets the detailed information for a given pipeline run.
@@ -43,7 +43,7 @@ export interface PipelineRuns {
     resourceGroupName: string,
     registryName: string,
     pipelineRunName: string,
-    options?: PipelineRunsGetOptionalParams
+    options?: PipelineRunsGetOptionalParams,
   ): Promise<PipelineRunsGetResponse>;
   /**
    * Creates a pipeline run for a container registry with the specified parameters
@@ -58,7 +58,7 @@ export interface PipelineRuns {
     registryName: string,
     pipelineRunName: string,
     pipelineRunCreateParameters: PipelineRun,
-    options?: PipelineRunsCreateOptionalParams
+    options?: PipelineRunsCreateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<PipelineRunsCreateResponse>,
@@ -78,7 +78,7 @@ export interface PipelineRuns {
     registryName: string,
     pipelineRunName: string,
     pipelineRunCreateParameters: PipelineRun,
-    options?: PipelineRunsCreateOptionalParams
+    options?: PipelineRunsCreateOptionalParams,
   ): Promise<PipelineRunsCreateResponse>;
   /**
    * Deletes a pipeline run from a container registry.
@@ -91,7 +91,7 @@ export interface PipelineRuns {
     resourceGroupName: string,
     registryName: string,
     pipelineRunName: string,
-    options?: PipelineRunsDeleteOptionalParams
+    options?: PipelineRunsDeleteOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Deletes a pipeline run from a container registry.
@@ -104,6 +104,6 @@ export interface PipelineRuns {
     resourceGroupName: string,
     registryName: string,
     pipelineRunName: string,
-    options?: PipelineRunsDeleteOptionalParams
+    options?: PipelineRunsDeleteOptionalParams,
   ): Promise<void>;
 }

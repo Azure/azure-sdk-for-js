@@ -6,14 +6,14 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
+import type { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
 import { setContinuationToken } from "../pagingHelper.js";
-import { LocationBasedCapabilities } from "../operationsInterfaces/index.js";
+import type { LocationBasedCapabilities } from "../operationsInterfaces/index.js";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers.js";
 import * as Parameters from "../models/parameters.js";
-import { PostgreSQLManagementFlexibleServerClient } from "../postgreSQLManagementFlexibleServerClient.js";
-import {
+import type { PostgreSQLManagementFlexibleServerClient } from "../postgreSQLManagementFlexibleServerClient.js";
+import type {
   FlexibleServerCapability,
   LocationBasedCapabilitiesExecuteNextOptionalParams,
   LocationBasedCapabilitiesExecuteOptionalParams,
@@ -23,9 +23,7 @@ import {
 
 /// <reference lib="esnext.asynciterable" />
 /** Class containing LocationBasedCapabilities operations. */
-export class LocationBasedCapabilitiesImpl
-  implements LocationBasedCapabilities
-{
+export class LocationBasedCapabilitiesImpl implements LocationBasedCapabilities {
   private readonly client: PostgreSQLManagementFlexibleServerClient;
 
   /**
@@ -71,19 +69,15 @@ export class LocationBasedCapabilitiesImpl
     let continuationToken = settings?.continuationToken;
     if (!continuationToken) {
       result = await this._execute(locationName, options);
-      let page = result.value || [];
+      const page = result.value || [];
       continuationToken = result.nextLink;
       setContinuationToken(page, continuationToken);
       yield page;
     }
     while (continuationToken) {
-      result = await this._executeNext(
-        locationName,
-        continuationToken,
-        options,
-      );
+      result = await this._executeNext(locationName, continuationToken, options);
       continuationToken = result.nextLink;
-      let page = result.value || [];
+      const page = result.value || [];
       setContinuationToken(page, continuationToken);
       yield page;
     }
@@ -107,10 +101,7 @@ export class LocationBasedCapabilitiesImpl
     locationName: string,
     options?: LocationBasedCapabilitiesExecuteOptionalParams,
   ): Promise<LocationBasedCapabilitiesExecuteResponse> {
-    return this.client.sendOperationRequest(
-      { locationName, options },
-      executeOperationSpec,
-    );
+    return this.client.sendOperationRequest({ locationName, options }, executeOperationSpec);
   }
 
   /**
@@ -145,11 +136,7 @@ const executeOperationSpec: coreClient.OperationSpec = {
     },
   },
   queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.locationName,
-  ],
+  urlParameters: [Parameters.$host, Parameters.subscriptionId, Parameters.locationName],
   headerParameters: [Parameters.accept],
   serializer,
 };

@@ -8,20 +8,20 @@
  * @summary analyze a document using a model by ID
  */
 
-const { AzureKeyCredential, DocumentAnalysisClient } = require("@azure/ai-form-recognizer");
-
-require("dotenv").config();
+const { DocumentAnalysisClient } = require("@azure/ai-form-recognizer");
+const { DefaultAzureCredential } = require("@azure/identity");
+require("dotenv/config");
 
 async function main() {
   const endpoint = process.env.FORM_RECOGNIZER_ENDPOINT || "<endpoint>";
-  const credential = new AzureKeyCredential(process.env.FORM_RECOGNIZER_API_KEY || "<api key>");
+  const credential = new DefaultAzureCredential();
   const client = new DocumentAnalysisClient(endpoint, credential);
 
   const modelId = process.env.FORM_RECOGNIZER_CUSTOM_MODEL_ID || "<custom model ID>";
 
   const poller = await client.beginAnalyzeDocumentFromUrl(
     modelId,
-    "https://raw.githubusercontent.com/Azure/azure-sdk-for-js/main/sdk/formrecognizer/ai-form-recognizer/assets/receipt/contoso-receipt.png"
+    "https://raw.githubusercontent.com/Azure/azure-sdk-for-js/main/sdk/formrecognizer/ai-form-recognizer/assets/receipt/contoso-receipt.png",
   );
 
   const { documents } = await poller.pollUntilDone();
@@ -33,7 +33,7 @@ async function main() {
   console.log(
     "Extracted document:",
     document.docType,
-    `(confidence: ${document.confidence || "<undefined>"})`
+    `(confidence: ${document.confidence || "<undefined>"})`,
   );
   console.log("Fields:", document.fields);
 }

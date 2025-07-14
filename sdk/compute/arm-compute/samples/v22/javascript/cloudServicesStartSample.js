@@ -29,7 +29,7 @@ async function startCloudService() {
 }
 
 async function main() {
-  startCloudService();
+  await startCloudService();
 }
 
 main().catch(console.error);

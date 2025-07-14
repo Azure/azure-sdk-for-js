@@ -2,12 +2,7 @@
 // Licensed under the MIT License.
 
 import type { RecorderStartOptions, TestInfo } from "@azure-tools/test-recorder";
-import {
-  Recorder,
-  assertEnvironmentVariable,
-  env,
-  isPlaybackMode,
-} from "@azure-tools/test-recorder";
+import { Recorder } from "@azure-tools/test-recorder";
 import type { PollerOptions } from "../../src/index.js";
 import { AzureKeyCredential } from "../../src/index.js";
 import type { KeyCredential, TokenCredential } from "@azure/core-auth";
@@ -15,6 +10,9 @@ import { createClientLogger } from "@azure/logger";
 import { createTestCredential } from "@azure-tools/test-credential";
 import type { CommonClientOptions } from "@azure/core-client";
 import type { PollOperationState } from "@azure/core-lro";
+import * as MOCKS from "./constants.js";
+import { getEndpoint, getKey, isLiveMode } from "./injectables.js";
+import { EnvVarKeys } from "./constants.js";
 
 export const logger = createClientLogger("ai-form-recognizer:test");
 
@@ -24,82 +22,40 @@ export interface RecordedClient<T> {
 }
 
 const envSetupForPlayback: { [k: string]: string } = {
-  AZURE_CLIENT_ID: "azure_client_id",
-  AZURE_CLIENT_SECRET: "azure_client_secret",
-  AZURE_TENANT_ID: "12345678-1234-1234-1234-123456789012",
-  FORM_RECOGNIZER_API_KEY: "api_key",
-  FORM_RECOGNIZER_ENDPOINT: "https://endpoint/",
-  FORM_RECOGNIZER_TRAINING_CONTAINER_SAS_URL: "https://storageaccount/trainingdata-v3?sastoken",
-  FORM_RECOGNIZER_TESTING_CONTAINER_SAS_URL: "https://storageaccount/testingdata?sastoken",
-  FORM_RECOGNIZER_SELECTION_MARK_STORAGE_CONTAINER_SAS_URL:
-    "https://storageaccount/selectionmark-v3?sastoken",
-  FORM_RECOGNIZER_TARGET_RESOURCE_REGION: "westus2",
-  // fake resource id
-  FORM_RECOGNIZER_TARGET_RESOURCE_ID:
-    "/subscriptions/e1367d46-77d4-4f57-8cfe-348edbdc84a3/resourceGroups/jstests/providers/Microsoft.CognitiveServices/accounts/jstests-fr",
+  [EnvVarKeys.ENDPOINT]: MOCKS.ENDPOINT,
 };
 
-export const testEnv = new Proxy(envSetupForPlayback, {
-  get: (target, key: string) => {
-    return env[key] || target[key];
-  },
-});
-
 export const testPollingOptions: PollerOptions<PollOperationState<unknown>> = {
-  updateIntervalInMs: isPlaybackMode() ? 0 : undefined,
+  updateIntervalInMs: isLiveMode() ? undefined : 0,
   onProgress: (state) => logger.verbose("Poll state progressed:", state),
 };
 
 export const recorderOptions: RecorderStartOptions = {
   envSetupForPlayback,
+  removeCentralSanitizers: ["AZSDK3402", "AZSDK4001", "AZSDK2030"],
   sanitizerOptions: {
-    generalSanitizers: [
-      // endpoints
+    bodyKeySanitizers: [
       {
-        target: env["FORM_RECOGNIZER_TRAINING_CONTAINER_SAS_URL"]?.split("/")[2] || "",
-        value: envSetupForPlayback["FORM_RECOGNIZER_TRAINING_CONTAINER_SAS_URL"].split("/")[2],
+        jsonPath: "$.result.details.[*].sourceUrl",
       },
       {
-        target: env["FORM_RECOGNIZER_TESTING_CONTAINER_SAS_URL"]?.split("/")[2] || "",
-        value: envSetupForPlayback["FORM_RECOGNIZER_TESTING_CONTAINER_SAS_URL"].split("/")[2],
+        jsonPath: "$.urlSource",
       },
       {
-        target:
-          env["FORM_RECOGNIZER_SELECTION_MARK_STORAGE_CONTAINER_SAS_URL"]?.split("/")[2] || "",
-        value:
-          envSetupForPlayback["FORM_RECOGNIZER_SELECTION_MARK_STORAGE_CONTAINER_SAS_URL"].split(
-            "/",
-          )[2],
-      },
-      // sas tokens
-      {
-        target: env["FORM_RECOGNIZER_TRAINING_CONTAINER_SAS_URL"]?.split("?")[1] || "",
-        value: envSetupForPlayback["FORM_RECOGNIZER_TRAINING_CONTAINER_SAS_URL"].split("?")[1],
+        jsonPath: "$.azureBlobSource.containerUrl",
       },
       {
-        target: env["FORM_RECOGNIZER_TESTING_CONTAINER_SAS_URL"]?.split("?")[1] || "",
-        value: envSetupForPlayback["FORM_RECOGNIZER_TESTING_CONTAINER_SAS_URL"].split("?")[1],
-      },
-      {
-        target:
-          env["FORM_RECOGNIZER_SELECTION_MARK_STORAGE_CONTAINER_SAS_URL"]?.split("?")[1] || "",
-        value:
-          envSetupForPlayback["FORM_RECOGNIZER_SELECTION_MARK_STORAGE_CONTAINER_SAS_URL"].split(
-            "?",
-          )[1],
+        jsonPath: "$.resultContainerUrl",
       },
     ],
   },
-  removeCentralSanitizers: ["AZSDK3402", "AZSDK4001", "AZSDK2030"],
 };
 
-/**
- * Returns an appropriate credential depending on the value of `useAad`.
- */
-export function makeCredential(useAad: boolean): TokenCredential | AzureKeyCredential {
-  return useAad
-    ? createTestCredential()
-    : new AzureKeyCredential(assertEnvironmentVariable("FORM_RECOGNIZER_API_KEY"));
+export const authMethods = ["AAD", "APIKey"] as const;
+export type AuthMethod = (typeof authMethods)[number];
+
+export function makeCredential(authMethod: AuthMethod): TokenCredential | AzureKeyCredential {
+  return authMethod === "AAD" ? createTestCredential() : new AzureKeyCredential(getKey());
 }
 
 export async function createRecorder(currentTest?: TestInfo): Promise<Recorder> {
@@ -122,10 +78,8 @@ export async function createRecordedClient<T>(
   const recorder = await createRecorder(currentTest);
   return {
     client: new ctor(
-      testEnv.FORM_RECOGNIZER_ENDPOINT,
-      useApiKey
-        ? new AzureKeyCredential(assertEnvironmentVariable("FORM_RECOGNIZER_API_KEY"))
-        : createTestCredential(),
+      getEndpoint(),
+      useApiKey ? new AzureKeyCredential(getKey()) : createTestCredential(),
       recorder.configureClientOptions({}),
     ),
     recorder,

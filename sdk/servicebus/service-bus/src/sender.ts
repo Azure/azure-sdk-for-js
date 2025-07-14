@@ -52,7 +52,7 @@ export interface ServiceBusSender {
    *
    *  `await sender.sendMessages(message);`
    *
-   * __This is because the batched messages are not capable of sending the larger messages yet. You'll hit the `force detached` error in this case otherwise. Read [service-bus-premium-messaging#large-messages-support](https://learn.microsoft.com/en-us/azure/service-bus-messaging/service-bus-premium-messaging#large-messages-support). More info at [#23014](https://github.com/Azure/azure-sdk-for-js/pull/23014).__
+   * __This is because the batched messages are not capable of sending the larger messages yet. You'll hit the `force detached` error in this case otherwise. Read [service-bus-premium-messaging#large-messages-support](https://learn.microsoft.com/azure/service-bus-messaging/service-bus-premium-messaging#large-messages-support). More info at [#23014](https://github.com/Azure/azure-sdk-for-js/pull/23014).__
    *
    * @param messages - A single message or an array of messages or a batch of messages created via the createBatch()
    * method to send.

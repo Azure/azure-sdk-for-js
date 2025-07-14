@@ -28,10 +28,22 @@ extends:
     Artifacts:
       - name: azure-identity
         safeName: azureidentity
+        triggeringPaths:
+        - /sdk/test-utils/
+        - /.config/
+        - /.devcontainer/
+        - /.github/
+        - /.scripts/
+        - /common/
+        - /eng/
       - name: azure-identity-cache-persistence
         safeName: azureidentitycachepersistence
+        triggeringPaths:
+        - /sdk/identity/
       - name: azure-identity-broker
         safeName: azureidentitybroker
       - name: azure-identity-vscode
         safeName: azureidentityvscode
         skipPublishDocMs: true
+        triggeringPaths:
+        - /sdk/identity/

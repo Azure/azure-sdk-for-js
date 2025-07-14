@@ -3,7 +3,7 @@
 
 /*
   This sample demonstrates how the send() function can be used to send events to Event Hubs.
-  See https://learn.microsoft.com/en-us/azure/event-hubs/event-hubs-about to learn about Event Hubs.
+  See https://learn.microsoft.com/azure/event-hubs/event-hubs-about to learn about Event Hubs.
 */
 
 const { EventHubProducerClient } = require("@azure/event-hubs");

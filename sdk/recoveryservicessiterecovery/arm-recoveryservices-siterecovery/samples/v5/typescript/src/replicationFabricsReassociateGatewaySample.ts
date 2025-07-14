@@ -19,15 +19,15 @@ import "dotenv/config";
  * This sample demonstrates how to The operation to move replications from a process server to another process server.
  *
  * @summary The operation to move replications from a process server to another process server.
- * x-ms-original-file: specification/recoveryservicessiterecovery/resource-manager/Microsoft.RecoveryServices/stable/2023-08-01/examples/ReplicationFabrics_ReassociateGateway.json
+ * x-ms-original-file: specification/recoveryservicessiterecovery/resource-manager/Microsoft.RecoveryServices/stable/2025-01-01/examples/ReplicationFabrics_ReassociateGateway.json
  */
 async function performFailoverOfTheProcessServer(): Promise<void> {
   const subscriptionId =
     process.env["RECOVERYSERVICESSITERECOVERY_SUBSCRIPTION_ID"] ||
     "7c943c1b-5122-4097-90c8-861411bdd574";
-  const resourceName = "MadhaviVault";
   const resourceGroupName =
     process.env["RECOVERYSERVICESSITERECOVERY_RESOURCE_GROUP"] || "MadhaviVRG";
+  const resourceName = "MadhaviVault";
   const fabricName = "GRACE-V2A-1";
   const failoverProcessServerRequest: FailoverProcessServerRequest = {
     properties: {
@@ -41,8 +41,8 @@ async function performFailoverOfTheProcessServer(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = new SiteRecoveryManagementClient(credential, subscriptionId);
   const result = await client.replicationFabrics.beginReassociateGatewayAndWait(
-    resourceName,
     resourceGroupName,
+    resourceName,
     fabricName,
     failoverProcessServerRequest,
   );
@@ -50,7 +50,7 @@ async function performFailoverOfTheProcessServer(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  performFailoverOfTheProcessServer();
+  await performFailoverOfTheProcessServer();
 }
 
 main().catch(console.error);

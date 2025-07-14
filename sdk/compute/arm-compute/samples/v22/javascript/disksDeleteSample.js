@@ -29,7 +29,7 @@ async function deleteAManagedDisk() {
 }
 
 async function main() {
-  deleteAManagedDisk();
+  await deleteAManagedDisk();
 }
 
 main().catch(console.error);

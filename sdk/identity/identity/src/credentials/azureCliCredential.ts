@@ -16,6 +16,8 @@ import child_process from "child_process";
 import { tracingClient } from "../util/tracing.js";
 import { checkSubscription } from "../util/subscriptionUtils.js";
 
+const logger = credentialLogger("AzureCliCredential");
+
 /**
  * Mockable reference to the CLI credential cliCredentialFunctions
  * @internal
@@ -26,10 +28,15 @@ export const cliCredentialInternals = {
    */
   getSafeWorkingDir(): string {
     if (process.platform === "win32") {
-      if (!process.env["SYSTEMROOT"]) {
-        throw new Error("Azure CLI credential expects a 'SYSTEMROOT' environment variable");
+      let systemRoot = process.env.SystemRoot || process.env["SYSTEMROOT"];
+      if (!systemRoot) {
+        logger.getToken.warning(
+          "The SystemRoot environment variable is not set. This may cause issues when using the Azure CLI credential.",
+        );
+
+        systemRoot = "C:\\Windows";
       }
-      return process.env["SYSTEMROOT"];
+      return systemRoot;
     } else {
       return "/bin";
     }
@@ -80,8 +87,6 @@ export const cliCredentialInternals = {
     });
   },
 };
-
-const logger = credentialLogger("AzureCliCredential");
 
 /**
  * This credential will use the currently logged-in user login information

@@ -34,7 +34,7 @@ async function deleteCloudServiceRoleInstance() {
 }
 
 async function main() {
-  deleteCloudServiceRoleInstance();
+  await deleteCloudServiceRoleInstance();
 }
 
 main().catch(console.error);

@@ -6,13 +6,13 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
-import { Replicas } from "../operationsInterfaces/index.js";
+import type { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
+import type { Replicas } from "../operationsInterfaces/index.js";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers.js";
 import * as Parameters from "../models/parameters.js";
-import { PostgreSQLManagementFlexibleServerClient } from "../postgreSQLManagementFlexibleServerClient.js";
-import {
+import type { PostgreSQLManagementFlexibleServerClient } from "../postgreSQLManagementFlexibleServerClient.js";
+import type {
   Server,
   ReplicasListByServerOptionalParams,
   ReplicasListByServerResponse,
@@ -42,11 +42,7 @@ export class ReplicasImpl implements Replicas {
     serverName: string,
     options?: ReplicasListByServerOptionalParams,
   ): PagedAsyncIterableIterator<Server> {
-    const iter = this.listByServerPagingAll(
-      resourceGroupName,
-      serverName,
-      options,
-    );
+    const iter = this.listByServerPagingAll(resourceGroupName, serverName, options);
     return {
       next() {
         return iter.next();
@@ -58,12 +54,7 @@ export class ReplicasImpl implements Replicas {
         if (settings?.maxPageSize) {
           throw new Error("maxPageSize is not supported by this operation.");
         }
-        return this.listByServerPagingPage(
-          resourceGroupName,
-          serverName,
-          options,
-          settings,
-        );
+        return this.listByServerPagingPage(resourceGroupName, serverName, options, settings);
       },
     };
   }
@@ -84,11 +75,7 @@ export class ReplicasImpl implements Replicas {
     serverName: string,
     options?: ReplicasListByServerOptionalParams,
   ): AsyncIterableIterator<Server> {
-    for await (const page of this.listByServerPagingPage(
-      resourceGroupName,
-      serverName,
-      options,
-    )) {
+    for await (const page of this.listByServerPagingPage(resourceGroupName, serverName, options)) {
       yield* page;
     }
   }

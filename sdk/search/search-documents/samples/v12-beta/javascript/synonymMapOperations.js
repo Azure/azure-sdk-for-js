@@ -7,8 +7,7 @@
 
 const { DefaultAzureCredential } = require("@azure/identity");
 const { SearchIndexClient } = require("@azure/search-documents");
-
-require("dotenv").config();
+require("dotenv/config");
 
 const endpoint = process.env.ENDPOINT || "";
 const TEST_SYNONYM_MAP_NAME = "example-synonymmap-sample-1";

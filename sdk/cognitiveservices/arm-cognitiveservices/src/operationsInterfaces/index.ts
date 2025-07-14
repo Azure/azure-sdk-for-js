@@ -26,3 +26,8 @@ export * from "./raiBlocklistItems.js";
 export * from "./raiContentFilters.js";
 export * from "./networkSecurityPerimeterConfigurations.js";
 export * from "./defenderForAISettings.js";
+export * from "./projects.js";
+export * from "./accountConnection.js";
+export * from "./projectConnection.js";
+export * from "./accountCapabilityHosts.js";
+export * from "./projectCapabilityHosts.js";

@@ -13,7 +13,7 @@ const MIN_LONGITUDE = -180;
 const MAX_LONGITUDE = 180;
 /**
  * Calculates the XY tile coordinates that a coordinate falls into for a specific zoom level.
- * Reference: https://learn.microsoft.com/en-us/azure/azure-maps/zoom-levels-and-tile-grid?tabs=typescript#tile-math-source-code
+ * Reference: https://learn.microsoft.com/azure/azure-maps/zoom-levels-and-tile-grid?tabs=typescript#tile-math-source-code
  *
  * @example
  * ```ts snippet:ReadmeSampleRequestMapTiles

@@ -10,13 +10,13 @@
 // Licensed under the MIT License.
 const { StorageManagementClient } = require("@azure/arm-storage");
 const { DefaultAzureCredential } = require("@azure/identity");
-require("dotenv").config();
+require("dotenv/config");
 
 /**
  * This sample demonstrates how to Refreshes any information about the association.
  *
  * @summary Refreshes any information about the association.
- * x-ms-original-file: specification/storage/resource-manager/Microsoft.Storage/stable/2023-05-01/examples/NetworkSecurityPerimeterConfigurationReconcile.json
+ * x-ms-original-file: specification/storage/resource-manager/Microsoft.Storage/stable/2024-01-01/examples/NetworkSecurityPerimeterConfigurationReconcile.json
  */
 async function networkSecurityPerimeterConfigurationReconcile() {
   const subscriptionId =
@@ -36,7 +36,7 @@ async function networkSecurityPerimeterConfigurationReconcile() {
 }
 
 async function main() {
-  networkSecurityPerimeterConfigurationReconcile();
+  await networkSecurityPerimeterConfigurationReconcile();
 }
 
 main().catch(console.error);

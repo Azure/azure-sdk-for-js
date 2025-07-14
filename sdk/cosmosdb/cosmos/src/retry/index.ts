@@ -1,8 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-export * from "./retryOptions";
-export * from "./endpointDiscoveryRetryPolicy";
-export * from "./resourceThrottleRetryPolicy";
-export * from "./sessionRetryPolicy";
-export * from "./retryUtility";
-export * from "./timeoutFailoverRetryPolicy";
+export * from "./retryOptions.js";
+export * from "./endpointDiscoveryRetryPolicy.js";
+export * from "./resourceThrottleRetryPolicy.js";
+export * from "./sessionRetryPolicy.js";
+export * from "./retryUtility.js";
+export * from "./timeoutFailoverRetryPolicy.js";

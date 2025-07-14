@@ -1,18 +1,17 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { assert } from "chai";
-import { getQSU, getSASConnectionStringFromEnvironment } from "./utils";
-import { QueueClient } from "../src/QueueClient";
+import { getQSU, getSASConnectionStringFromEnvironment } from "./utils/index.js";
+import { QueueClient } from "../src/QueueClient.js";
 import { Recorder } from "@azure-tools/test-recorder";
-import { extractConnectionStringParts } from "../src/utils/utils.common";
+import { extractConnectionStringParts } from "../src/utils/utils.common.js";
 import {
   configureStorageClient,
   getUniqueName,
   recorderEnvSetup,
   uriSanitizers,
-} from "./utils/testutils.common";
-import type { Context } from "mocha";
+} from "./utils/testutils.common.js";
+import { describe, it, assert, beforeEach, afterEach } from "vitest";
 
 describe("QueueClient message methods", () => {
   let queueName: string;
@@ -21,8 +20,8 @@ describe("QueueClient message methods", () => {
 
   let recorder: Recorder;
 
-  beforeEach(async function (this: Context) {
-    recorder = new Recorder(this.currentTest);
+  beforeEach(async (ctx) => {
+    recorder = new Recorder(ctx);
     await recorder.start(recorderEnvSetup);
     await recorder.addSanitizers({ uriSanitizers }, ["record", "playback"]);
     const queueServiceClient = getQSU(recorder);
@@ -31,7 +30,7 @@ describe("QueueClient message methods", () => {
     await queueClient.create();
   });
 
-  afterEach(async function () {
+  afterEach(async () => {
     await queueClient.delete();
     await recorder.stop();
   });

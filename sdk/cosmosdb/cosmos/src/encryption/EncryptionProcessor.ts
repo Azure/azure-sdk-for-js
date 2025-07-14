@@ -1,16 +1,16 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { EncryptionSettings } from "./EncryptionSettings";
-import type { EncryptionSettingForProperty } from "./EncryptionSettingForProperty";
-import type { AeadAes256CbcHmacSha256Algorithm } from "./AeadAes256CbcHmacSha256Algorithm";
-import type { ContainerDefinition, Database, ItemDefinition } from "../client";
-import type { PartitionKeyInternal } from "../documents";
-import type { TypeMarker } from "./enums/TypeMarker";
-import type { ClientContext } from "../ClientContext";
-import type { ClientEncryptionKeyRequest } from "./ClientEncryptionKey";
-import { ClientEncryptionKeyProperties } from "./ClientEncryptionKey";
-import type { DiagnosticNodeInternal } from "../diagnostics/DiagnosticNodeInternal";
+import type { EncryptionSettings } from "./EncryptionSettings.js";
+import type { EncryptionSettingForProperty } from "./EncryptionSettingForProperty.js";
+import type { AeadAes256CbcHmacSha256Algorithm } from "./AeadAes256CbcHmacSha256Algorithm/index.js";
+import type { ContainerDefinition, Database, ItemDefinition } from "../client/index.js";
+import type { PartitionKeyInternal } from "../documents/index.js";
+import type { TypeMarker } from "./enums/TypeMarker.js";
+import type { ClientContext } from "../ClientContext.js";
+import type { ClientEncryptionKeyRequest } from "./ClientEncryptionKey/index.js";
+import type { ClientEncryptionKeyProperties } from "./ClientEncryptionKey/index.js";
+import type { DiagnosticNodeInternal } from "../diagnostics/DiagnosticNodeInternal.js";
 import {
   Constants,
   ResourceType,
@@ -18,12 +18,12 @@ import {
   createDeserializer,
   createSerializer,
   extractPath,
-} from "../common";
-import type { RequestOptions } from "../request";
-import { ErrorResponse } from "../request";
-import { withDiagnostics } from "../utils/diagnostics";
-import type { EncryptionManager } from "./EncryptionManager";
-import type { JSONValue } from "../queryExecutionContext";
+} from "../common/index.js";
+import type { RequestOptions } from "../request/index.js";
+import { ErrorResponse } from "../request/index.js";
+import { withDiagnostics } from "../utils/diagnostics.js";
+import type { EncryptionManager } from "./EncryptionManager.js";
+import type { JSONValue } from "../queryExecutionContext/index.js";
 
 export class EncryptionProcessor {
   constructor(
@@ -36,17 +36,13 @@ export class EncryptionProcessor {
 
   async encrypt<T extends ItemDefinition>(
     body: T,
-    diagnosticNode?: DiagnosticNodeInternal,
-  ): Promise<T> {
+  ): Promise<{ body: T; propertiesEncryptedCount: number }> {
     if (!body) {
       throw new ErrorResponse("Input body is null or undefined.");
     }
-    if (diagnosticNode !== undefined) {
-      diagnosticNode.beginEncryptionDiagnostics(Constants.Encryption.DiagnosticsEncryptOperation);
-    }
     let propertiesEncryptedCount = 0;
     const encryptionSettings = await this.getEncryptionSetting();
-    if (!encryptionSettings) return body;
+    if (!encryptionSettings) return { body, propertiesEncryptedCount };
     for (const pathToEncrypt of encryptionSettings.pathsToEncrypt) {
       const propertyName = pathToEncrypt.slice(1);
       if (!Object.prototype.hasOwnProperty.call(body, propertyName)) {
@@ -64,13 +60,7 @@ export class EncryptionProcessor {
       );
       propertiesEncryptedCount++;
     }
-    if (diagnosticNode !== undefined) {
-      diagnosticNode.endEncryptionDiagnostics(
-        Constants.Encryption.DiagnosticsEncryptOperation,
-        propertiesEncryptedCount,
-      );
-    }
-    return body;
+    return { body, propertiesEncryptedCount };
   }
 
   async isPathEncrypted(path: string): Promise<boolean> {
@@ -96,9 +86,10 @@ export class EncryptionProcessor {
 
   async getEncryptedPartitionKeyValue(
     partitionKeyList: PartitionKeyInternal,
-  ): Promise<PartitionKeyInternal> {
+  ): Promise<{ partitionKeyList: PartitionKeyInternal; encryptedCount: number }> {
     const encryptionSettings = await this.getEncryptionSetting();
-    if (!encryptionSettings) return partitionKeyList;
+    let encryptedCount = 0;
+    if (!encryptionSettings) return { partitionKeyList, encryptedCount };
     const partitionKeyPaths = encryptionSettings.partitionKeyPaths;
     for (let i = 0; i < partitionKeyPaths.length; i++) {
       const partitionKeyPath = extractPath(partitionKeyPaths[i]);
@@ -110,9 +101,10 @@ export class EncryptionProcessor {
           settingForProperty,
           partitionKeyPath === "/id",
         );
+        encryptedCount++;
       }
     }
-    return partitionKeyList;
+    return { partitionKeyList, encryptedCount };
   }
 
   async getEncryptedUrl(id: string): Promise<string> {
@@ -222,17 +214,13 @@ export class EncryptionProcessor {
 
   async decrypt<T extends ItemDefinition>(
     body: T,
-    diagnosticNode?: DiagnosticNodeInternal,
-  ): Promise<T> {
-    if (body == null) {
-      return body;
-    }
-    if (diagnosticNode !== undefined) {
-      diagnosticNode.beginEncryptionDiagnostics(Constants.Encryption.DiagnosticsDecryptOperation);
-    }
+  ): Promise<{ body: T; propertiesDecryptedCount: number }> {
     let propertiesDecryptedCount = 0;
+    if (body == null) {
+      return { body, propertiesDecryptedCount };
+    }
     const encryptionSettings = await this.getEncryptionSetting();
-    if (!encryptionSettings) return body;
+    if (!encryptionSettings) return { body, propertiesDecryptedCount };
     for (const pathToEncrypt of encryptionSettings.pathsToEncrypt) {
       const propertyName = pathToEncrypt.slice(1);
       if (!Object.prototype.hasOwnProperty.call(body, propertyName)) {
@@ -250,13 +238,7 @@ export class EncryptionProcessor {
       );
       propertiesDecryptedCount++;
     }
-    if (diagnosticNode !== undefined) {
-      diagnosticNode.endEncryptionDiagnostics(
-        Constants.Encryption.DiagnosticsDecryptOperation,
-        propertiesDecryptedCount,
-      );
-    }
-    return body;
+    return { body, propertiesDecryptedCount };
   }
 
   private async decryptToken(
@@ -428,7 +410,9 @@ export class EncryptionProcessor {
       const clientEncryptionKeyProperties: ClientEncryptionKeyProperties = {
         id: response.result.id,
         encryptionAlgorithm: response.result.encryptionAlgorithm,
-        wrappedDataEncryptionKey: Buffer.from(response.result.wrappedDataEncryptionKey, "base64"),
+        wrappedDataEncryptionKey: new Uint8Array(
+          Buffer.from(response.result.wrappedDataEncryptionKey, "base64"),
+        ),
         encryptionKeyWrapMetadata: response.result.keyWrapMetadata,
         etag: response.result._etag,
       };

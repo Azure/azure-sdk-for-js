@@ -51,13 +51,25 @@ For more information about how to create an Azure AD Application check out [this
 Using Node.js and Node-like environments, you can use the `DefaultAzureCredential` class to authenticate the client.
 
 ```ts snippet:ReadmeSampleCreateClient_Node
+import { ManagementLockClient } from "@azure/arm-locks";
+import { DefaultAzureCredential } from "@azure/identity";
 
+const subscriptionId = "00000000-0000-0000-0000-000000000000";
+const client = new ManagementLockClient(new DefaultAzureCredential(), subscriptionId);
 ```
 
 For browser environments, use the `InteractiveBrowserCredential` from the `@azure/identity` package to authenticate.
 
 ```ts snippet:ReadmeSampleCreateClient_Browser
+import { InteractiveBrowserCredential } from "@azure/identity";
+import { ManagementLockClient } from "@azure/arm-locks";
 
+const subscriptionId = "00000000-0000-0000-0000-000000000000";
+const credential = new InteractiveBrowserCredential({
+  tenantId: "<YOUR_TENANT_ID>",
+  clientId: "<YOUR_CLIENT_ID>",
+});
+const client = new ManagementLockClient(credential, subscriptionId);
 ```
 
 ### JavaScript Bundle

@@ -32,7 +32,7 @@ import type {
   ErrorModel,
 } from "./generated/models/index.js";
 import { parseKeyVaultCertificateIdentifier } from "./identifier.js";
-import { PagedAsyncIterableIterator } from "@azure/core-paging";
+import type { PagedAsyncIterableIterator } from "@azure/core-paging";
 
 export function toCoreAttributes(properties: CertificateProperties): CertificateAttributes {
   return {
@@ -217,6 +217,7 @@ export function getCertificateFromCertificateBundle(
       certificateBundle.x509Thumbprint &&
       uint8ArrayToString(certificateBundle.x509Thumbprint, "hex"),
     recoverableDays: attributes.recoverableDays,
+    preserveCertificateOrder: certificateBundle.preserveCertOrder,
   };
 
   return {
@@ -253,6 +254,7 @@ export function getCertificateWithPolicyFromCertificateBundle(
       certificateBundle.x509Thumbprint &&
       uint8ArrayToString(certificateBundle.x509Thumbprint, "hex"),
     recoverableDays: attributes.recoverableDays,
+    preserveCertificateOrder: certificateBundle.preserveCertOrder,
   };
 
   return {
@@ -303,7 +305,6 @@ export function getDeletedCertificateFromItem(item: DeletedCertificateItem): Del
     tags: item.tags,
     x509Thumbprint: item.x509Thumbprint,
     x509ThumbprintString: item.x509Thumbprint && uint8ArrayToString(item.x509Thumbprint, "hex"),
-
     recoverableDays: item.attributes?.recoverableDays,
     recoveryLevel: item.attributes?.recoveryLevel,
   };
@@ -385,6 +386,7 @@ export function getPropertiesFromCertificateBundle(
       certificateBundle.x509Thumbprint &&
       uint8ArrayToString(certificateBundle.x509Thumbprint, "hex"),
     recoverableDays: attributes.recoverableDays,
+    preserveCertificateOrder: certificateBundle.preserveCertOrder,
   };
 
   return abstractProperties;

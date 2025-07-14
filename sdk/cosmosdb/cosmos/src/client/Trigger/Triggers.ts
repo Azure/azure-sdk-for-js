@@ -1,17 +1,22 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import type { ClientContext } from "../../ClientContext";
-import type { DiagnosticNodeInternal } from "../../diagnostics/DiagnosticNodeInternal";
-import { getIdFromLink, getPathFromLink, isResourceValid, ResourceType } from "../../common";
-import type { SqlQuerySpec } from "../../queryExecutionContext";
-import { QueryIterator } from "../../queryIterator";
-import type { FeedOptions, RequestOptions } from "../../request";
-import type { Container } from "../Container";
-import type { Resource } from "../Resource";
-import { Trigger } from "./Trigger";
-import type { TriggerDefinition } from "./TriggerDefinition";
-import { TriggerResponse } from "./TriggerResponse";
-import { getEmptyCosmosDiagnostics, withDiagnostics } from "../../utils/diagnostics";
+import type { ClientContext } from "../../ClientContext.js";
+import type { DiagnosticNodeInternal } from "../../diagnostics/DiagnosticNodeInternal.js";
+import {
+  getIdFromLink,
+  getPathFromLink,
+  isResourceValid,
+  ResourceType,
+} from "../../common/index.js";
+import type { SqlQuerySpec } from "../../queryExecutionContext/index.js";
+import { QueryIterator } from "../../queryIterator.js";
+import type { FeedOptions, RequestOptions } from "../../request/index.js";
+import type { Container } from "../Container/index.js";
+import type { Resource } from "../Resource.js";
+import { Trigger } from "./Trigger.js";
+import type { TriggerDefinition } from "./TriggerDefinition.js";
+import { TriggerResponse } from "./TriggerResponse.js";
+import { getEmptyCosmosDiagnostics, withDiagnostics } from "../../utils/diagnostics.js";
 
 /**
  * Operations to create, upsert, query, and read all triggers.
@@ -36,6 +41,27 @@ export class Triggers {
   /**
    * Query all Triggers.
    * @param query - Query configuration for the operation. See {@link SqlQuerySpec} for more info on how to configure a query.
+   * * @example
+   * ```ts snippet:TriggersQuery
+   * import { CosmosClient } from "@azure/cosmos";
+   *
+   * const endpoint = "https://your-account.documents.azure.com";
+   * const key = "<database account masterkey>";
+   * const client = new CosmosClient({ endpoint, key });
+   * const { database } = await client.databases.createIfNotExists({ id: "Test Database" });
+   * const { container } = await database.containers.createIfNotExists({ id: "Test Container" });
+   *
+   * const querySpec = {
+   *   query: "SELECT * FROM root r WHERE r.id=@id",
+   *   parameters: [
+   *     {
+   *       name: "@id",
+   *       value: "<trigger-id>",
+   *     },
+   *   ],
+   * };
+   * const { resources: results } = await container.scripts.triggers.query(querySpec).fetchAll();
+   * ```
    */
   public query<T>(query: SqlQuerySpec, options?: FeedOptions): QueryIterator<T>;
   public query<T>(query: SqlQuerySpec, options?: FeedOptions): QueryIterator<T> {
@@ -58,8 +84,18 @@ export class Triggers {
   /**
    * Read all Triggers.
    * @example Read all trigger to array.
-   * ```typescript
-   * const {body: triggerList} = await container.triggers.readAll().fetchAll();
+   * ```ts snippet:TriggersReadAllTriggers
+   * import { CosmosClient } from "@azure/cosmos";
+   *
+   * const endpoint = "https://your-account.documents.azure.com";
+   * const key = "<database account masterkey>";
+   * const client = new CosmosClient({ endpoint, key });
+   *
+   * const { database } = await client.databases.createIfNotExists({ id: "Test Database" });
+   *
+   * const { container } = await database.containers.createIfNotExists({ id: "Test Container" });
+   *
+   * const { resources: triggerList } = await container.scripts.triggers.readAll().fetchAll();
    * ```
    */
   public readAll(options?: FeedOptions): QueryIterator<TriggerDefinition & Resource> {
@@ -72,6 +108,25 @@ export class Triggers {
    * on creates, updates and deletes.
    *
    * For additional details, refer to the server-side JavaScript API documentation.
+   * @example
+   * ```ts snippet:TriggersCreate
+   * import { CosmosClient, TriggerDefinition, TriggerType, TriggerOperation } from "@azure/cosmos";
+   *
+   * const endpoint = "https://your-account.documents.azure.com";
+   * const key = "<database account masterkey>";
+   * const client = new CosmosClient({ endpoint, key });
+   * const { database } = await client.databases.createIfNotExists({ id: "Test Database" });
+   * const { container } = await database.containers.createIfNotExists({ id: "Test Container" });
+   *
+   * const triggerDefinition: TriggerDefinition = {
+   *   id: "sample trigger",
+   *   body: "serverScript() { var x = 10; }",
+   *   triggerType: TriggerType.Pre,
+   *   triggerOperation: TriggerOperation.All,
+   * };
+   *
+   * const { resource: trigger } = await container.scripts.triggers.create(triggerDefinition);
+   * ```
    */
   public async create(body: TriggerDefinition, options?: RequestOptions): Promise<TriggerResponse> {
     return withDiagnostics(async (diagnosticNode: DiagnosticNodeInternal) => {

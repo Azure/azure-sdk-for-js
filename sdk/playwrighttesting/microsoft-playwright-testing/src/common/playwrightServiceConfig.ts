@@ -1,9 +1,9 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { DefaultConnectOptionsConstants, InternalEnvironmentVariables } from "./constants";
-import type { PlaywrightServiceAdditionalOptions, OsType } from "./types";
-import { getAndSetRunId } from "../utils/utils";
+import { DefaultConnectOptionsConstants, InternalEnvironmentVariables } from "./constants.js";
+import type { PlaywrightServiceAdditionalOptions, OsType } from "./types.js";
+import { getAndSetRunId } from "../utils/utils.js";
 
 class PlaywrightServiceConfig {
   public serviceOs: OsType;

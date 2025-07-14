@@ -25,7 +25,9 @@ export interface AccessPolicyAssignmentOperations {
   /**
    * Gets all access policy assignments..
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param clusterName The name of the Redis Enterprise cluster.
+   * @param clusterName The name of the Redis Enterprise cluster. Name must be 1-60 characters long.
+   *                    Allowed characters(A-Z, a-z, 0-9) and hyphen(-). There can be no leading nor trailing nor
+   *                    consecutive hyphens
    * @param databaseName The name of the Redis Enterprise database.
    * @param options The options parameters.
    */
@@ -38,7 +40,9 @@ export interface AccessPolicyAssignmentOperations {
   /**
    * Creates/Updates a particular access policy assignment for a database
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param clusterName The name of the Redis Enterprise cluster.
+   * @param clusterName The name of the Redis Enterprise cluster. Name must be 1-60 characters long.
+   *                    Allowed characters(A-Z, a-z, 0-9) and hyphen(-). There can be no leading nor trailing nor
+   *                    consecutive hyphens
    * @param databaseName The name of the Redis Enterprise database.
    * @param accessPolicyAssignmentName The name of the Redis Enterprise database access policy
    *                                   assignment.
@@ -61,7 +65,9 @@ export interface AccessPolicyAssignmentOperations {
   /**
    * Creates/Updates a particular access policy assignment for a database
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param clusterName The name of the Redis Enterprise cluster.
+   * @param clusterName The name of the Redis Enterprise cluster. Name must be 1-60 characters long.
+   *                    Allowed characters(A-Z, a-z, 0-9) and hyphen(-). There can be no leading nor trailing nor
+   *                    consecutive hyphens
    * @param databaseName The name of the Redis Enterprise database.
    * @param accessPolicyAssignmentName The name of the Redis Enterprise database access policy
    *                                   assignment.
@@ -79,7 +85,9 @@ export interface AccessPolicyAssignmentOperations {
   /**
    * Gets information about access policy assignment for database.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param clusterName The name of the Redis Enterprise cluster.
+   * @param clusterName The name of the Redis Enterprise cluster. Name must be 1-60 characters long.
+   *                    Allowed characters(A-Z, a-z, 0-9) and hyphen(-). There can be no leading nor trailing nor
+   *                    consecutive hyphens
    * @param databaseName The name of the Redis Enterprise database.
    * @param accessPolicyAssignmentName The name of the Redis Enterprise database access policy
    *                                   assignment.
@@ -95,7 +103,9 @@ export interface AccessPolicyAssignmentOperations {
   /**
    * Deletes a single access policy assignment.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param clusterName The name of the Redis Enterprise cluster.
+   * @param clusterName The name of the Redis Enterprise cluster. Name must be 1-60 characters long.
+   *                    Allowed characters(A-Z, a-z, 0-9) and hyphen(-). There can be no leading nor trailing nor
+   *                    consecutive hyphens
    * @param databaseName The name of the Redis Enterprise database.
    * @param accessPolicyAssignmentName The name of the Redis Enterprise database access policy
    *                                   assignment.
@@ -116,7 +126,9 @@ export interface AccessPolicyAssignmentOperations {
   /**
    * Deletes a single access policy assignment.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param clusterName The name of the Redis Enterprise cluster.
+   * @param clusterName The name of the Redis Enterprise cluster. Name must be 1-60 characters long.
+   *                    Allowed characters(A-Z, a-z, 0-9) and hyphen(-). There can be no leading nor trailing nor
+   *                    consecutive hyphens
    * @param databaseName The name of the Redis Enterprise database.
    * @param accessPolicyAssignmentName The name of the Redis Enterprise database access policy
    *                                   assignment.

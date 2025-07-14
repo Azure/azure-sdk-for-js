@@ -15,8 +15,7 @@ const { delay, ServiceBusClient } = require("@azure/service-bus");
 const { DefaultAzureCredential } = require("@azure/identity");
 
 // Load the .env file if it exists
-require("dotenv").config();
-
+require("dotenv/config");
 // Define connection string and related Service Bus entity names here
 const fqdn = process.env.SERVICEBUS_FQDN || "<your-servicebus-namespace>.servicebus.windows.net";
 const queueName = process.env.QUEUE_NAME || "<queue name>";
@@ -96,7 +95,7 @@ async function receiveMessages(sbClient) {
 
   queueReceiver = sbClient.createReceiver(queueName);
 
-  queueReceiver.subscribe({
+  await queueReceiver.subscribe({
     processMessage,
     processError,
   });

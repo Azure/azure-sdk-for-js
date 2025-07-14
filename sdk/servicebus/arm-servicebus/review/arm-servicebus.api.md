@@ -232,8 +232,7 @@ export interface Identity {
 }
 
 // @public
-type KeyType_2 = "PrimaryKey" | "SecondaryKey";
-export { KeyType_2 as KeyType }
+export type KeyType = "PrimaryKey" | "SecondaryKey";
 
 // @public
 export interface KeyVaultProperties {
@@ -831,7 +830,7 @@ export type QueuesRegenerateKeysResponse = AccessKeys;
 // @public
 export interface RegenerateAccessKeyParameters {
     key?: string;
-    keyType: KeyType_2;
+    keyType: KeyType;
 }
 
 // @public

@@ -10,13 +10,13 @@
 // Licensed under the MIT License.
 const { KeyVaultManagementClient } = require("@azure/arm-keyvault");
 const { DefaultAzureCredential } = require("@azure/identity");
-require("dotenv").config();
+require("dotenv/config");
 
 /**
  * This sample demonstrates how to Lists the keys in the specified managed HSM.
  *
  * @summary Lists the keys in the specified managed HSM.
- * x-ms-original-file: specification/keyvault/resource-manager/Microsoft.KeyVault/stable/2023-07-01/examples/managedHsmListKeys.json
+ * x-ms-original-file: specification/keyvault/resource-manager/Microsoft.KeyVault/stable/2024-11-01/examples/managedHsmListKeys.json
  */
 async function listKeysInTheManagedHsm() {
   const subscriptionId =
@@ -26,14 +26,14 @@ async function listKeysInTheManagedHsm() {
   const credential = new DefaultAzureCredential();
   const client = new KeyVaultManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.managedHsmKeys.list(resourceGroupName, name)) {
+  for await (const item of client.managedHsmKeys.list(resourceGroupName, name)) {
     resArray.push(item);
   }
   console.log(resArray);
 }
 
 async function main() {
-  listKeysInTheManagedHsm();
+  await listKeysInTheManagedHsm();
 }
 
 main().catch(console.error);

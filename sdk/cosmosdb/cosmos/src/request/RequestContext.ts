@@ -1,14 +1,14 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import type { ClientContext } from "../ClientContext";
-import type { HTTPMethod, OperationType, ResourceType } from "../common";
-import type { Agent } from "../CosmosClientOptions";
-import type { ConnectionPolicy, PartitionKey } from "../documents";
-import type { GlobalEndpointManager } from "../globalEndpointManager";
-import type { PluginConfig } from "../plugins/Plugin";
-import type { CosmosHeaders } from "../queryExecutionContext/CosmosHeaders";
-import type { FeedOptions } from "./FeedOptions";
-import type { RequestOptions } from "./RequestOptions";
+import type { ClientContext } from "../ClientContext.js";
+import type { HTTPMethod, OperationType, ResourceType } from "../common/index.js";
+import type { Agent } from "../CosmosClientOptions.js";
+import type { ConnectionPolicy, PartitionKey } from "../documents/index.js";
+import type { GlobalEndpointManager } from "../globalEndpointManager.js";
+import type { PluginConfig } from "../plugins/Plugin.js";
+import type { CosmosHeaders } from "../queryExecutionContext/CosmosHeaders.js";
+import type { FeedOptions } from "./FeedOptions.js";
+import type { RequestOptions } from "./RequestOptions.js";
 import type { HttpClient, Pipeline } from "@azure/core-rest-pipeline";
 
 /**

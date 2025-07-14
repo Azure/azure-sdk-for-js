@@ -1,10 +1,10 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import type { ClientContext } from "../ClientContext";
-import { Constants } from "../common/constants";
-import type { DiagnosticNodeInternal } from "../diagnostics/DiagnosticNodeInternal";
-import { PartitionKeyRangeCache } from "./partitionKeyRangeCache";
-import { QueryRange } from "./QueryRange";
+import type { ClientContext } from "../ClientContext.js";
+import { Constants } from "../common/constants.js";
+import type { DiagnosticNodeInternal } from "../diagnostics/DiagnosticNodeInternal.js";
+import { PartitionKeyRangeCache } from "./partitionKeyRangeCache.js";
+import { QueryRange } from "./QueryRange.js";
 
 /** @hidden */
 export const PARITIONKEYRANGE = Constants.PartitionKeyRange;

@@ -6,7 +6,7 @@ import type {
   NullPartitionKeyType,
   PartitionKey,
   PrimitivePartitionKeyValue,
-} from "./PartitionKey";
+} from "./PartitionKey.js";
 
 /**
  * @hidden

@@ -23,14 +23,14 @@ async function listAllDiskAccessResourcesInASubscription() {
   const credential = new DefaultAzureCredential();
   const client = new ComputeManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.diskAccesses.list()) {
+  for await (const item of client.diskAccesses.list()) {
     resArray.push(item);
   }
   console.log(resArray);
 }
 
 async function main() {
-  listAllDiskAccessResourcesInASubscription();
+  await listAllDiskAccessResourcesInASubscription();
 }
 
 main().catch(console.error);

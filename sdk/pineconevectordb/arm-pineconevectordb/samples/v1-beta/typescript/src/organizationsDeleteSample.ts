@@ -18,7 +18,7 @@ async function organizationsDeleteMaximumSet(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  organizationsDeleteMaximumSet();
+  await organizationsDeleteMaximumSet();
 }
 
 main().catch(console.error);

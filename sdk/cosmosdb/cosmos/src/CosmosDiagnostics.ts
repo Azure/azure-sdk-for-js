@@ -1,10 +1,10 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { OperationType, ResourceType } from "./common";
-import type { CosmosDbDiagnosticLevel } from "./diagnostics/CosmosDbDiagnosticLevel";
-import type { DiagnosticNodeInternal } from "./diagnostics/DiagnosticNodeInternal";
-import type { ConsistencyLevel } from "./documents";
+import type { OperationType, ResourceType } from "./common/index.js";
+import type { CosmosDbDiagnosticLevel } from "./diagnostics/CosmosDbDiagnosticLevel.js";
+import type { DiagnosticNodeInternal } from "./diagnostics/DiagnosticNodeInternal.js";
+import type { ConsistencyLevel } from "./documents/index.js";
 
 /**
  *  * This is a Cosmos Diagnostic type that holds collected diagnostic information during a client operations. ie. Item.read(), Container.create().
@@ -170,9 +170,9 @@ export interface FailedRequestAttemptDiagnostic {
  */
 export interface EncryptionDiagnostics {
   /** shows start time, duration and properties count for encryption*/
-  encryptContent: { [key: string]: any };
+  encryptContent: Record<string, any>;
   /** shows start time, duration and properties count for decryption*/
-  decryptContent: { [key: string]: any };
+  decryptContent: Record<string, any>;
   /** represents total processing duration for encryption/decryption*/
   processingDurationInMs: number;
 }

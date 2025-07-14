@@ -7,6 +7,7 @@
 import { AzureKeyCredential } from '@azure/core-auth';
 import type { CommonClientOptions } from '@azure/core-client';
 import type { OperationOptions } from '@azure/core-client';
+import type { PagedAsyncIterableIterator } from '@azure/core-paging';
 import type { RequestBodyType } from '@azure/core-rest-pipeline';
 import type { TokenCredential } from '@azure/core-auth';
 
@@ -47,6 +48,13 @@ export interface GroupCloseAllConnectionsOptions extends OperationOptions {
 
 // @public
 export interface GroupHasUserOptions extends OperationOptions {
+}
+
+// @public
+export interface GroupListConnectionsOptions extends OperationOptions {
+    continuationToken?: string;
+    maxPageSize?: number;
+    top?: number;
 }
 
 // @public
@@ -170,11 +178,18 @@ export interface WebPubSubGroup {
     readonly endpoint: string;
     readonly groupName: string;
     readonly hubName: string;
+    listConnections(options?: GroupListConnectionsOptions): Promise<PagedAsyncIterableIterator<WebPubSubGroupMember>>;
     removeConnection(connectionId: string, options?: GroupRemoveConnectionOptions): Promise<void>;
     removeUser(username: string, options?: GroupRemoveUserOptions): Promise<void>;
     sendToAll(message: string, options: GroupSendTextToAllOptions): Promise<void>;
     sendToAll(message: JSONTypes, options?: GroupSendToAllOptions): Promise<void>;
     sendToAll(message: RequestBodyType, options?: GroupSendToAllOptions): Promise<void>;
+}
+
+// @public
+export interface WebPubSubGroupMember {
+    connectionId: string;
+    userId?: string;
 }
 
 // @public

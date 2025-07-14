@@ -5,9 +5,8 @@
  * @summary Shows various ways to manage indexing items or changing container index policies.
  */
 
-require("dotenv").config();
-
-const { logSampleHeader, handleError, finish, logStep } = require("./Shared/handleError");
+require("dotenv/config");
+const { logSampleHeader, handleError, finish, logStep } = require("./Shared/handleError.js");
 const { CosmosClient, IndexKind, DataType, IndexingMode } = require("@azure/cosmos");
 
 const key = process.env.COSMOS_KEY || "<cosmos key>";
@@ -91,8 +90,8 @@ async function run() {
     { id: "item2", foo: "bar" },
     { indexingDirective: "include" },
   );
-  if (itemDef) {
-    console.log(`Item with id  ${itemDef.id} 'created`);
+  if (itemDef2) {
+    console.log(`Item with id  ${itemDef2.id} 'created`);
   }
 
   console.log("Querying all items for a given item should find a result as it was indexed");

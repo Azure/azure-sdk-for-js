@@ -37,7 +37,7 @@ interface AzurePluginContext {
  *
  * Example:
  *
- * ```ts snippet:device_code_credential_example
+ * ```ts snippet:ReadmeSampleDeviceCodeCredential
  * import { DeviceCodeCredential } from "@azure/identity";
  *
  * const credential = new DeviceCodeCredential({

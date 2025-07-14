@@ -1,0 +1,33 @@
+{
+  "name": "@azure-samples/arm-kubernetesconfiguration-extensions-js-beta",
+  "private": true,
+  "version": "1.0.0",
+  "description": " client library samples for JavaScript (Beta)",
+  "engines": {
+    "node": ">=20.0.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Azure/azure-sdk-for-js.git",
+    "directory": "sdk/kubernetesconfiguration/arm-kubernetesconfiguration-extensions"
+  },
+  "keywords": [
+    "node",
+    "azure",
+    "typescript",
+    "browser",
+    "isomorphic",
+    "cloud"
+  ],
+  "author": "Microsoft Corporation",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/Azure/azure-sdk-for-js/issues"
+  },
+  "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/kubernetesconfiguration/arm-kubernetesconfiguration-extensions",
+  "dependencies": {
+    "@azure/arm-kubernetesconfiguration-extensions": "next",
+    "dotenv": "latest",
+    "@azure/identity": "^4.10.0"
+  }
+}

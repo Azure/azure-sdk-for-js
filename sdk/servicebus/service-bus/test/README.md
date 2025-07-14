@@ -11,10 +11,7 @@ The Azure resource that is used by the tests in this project is:
 - A standard [Azure Service Bus namespace](https://learn.microsoft.com/azure/service-bus-messaging/service-bus-messaging-overview#namespaces) with listen, manage and send authorization rules.
 - An Azure Active Directory application for the tests to use. See the [AAD based authentication](#aad-based-authentication) for steps to register the application.
 
-To run the live tests, you will also need to set the below environment variables:
-
-- `SERVICEBUS_FQDN`: The fully qualified domain name which represents the Azure Service Bus namespace.
-- `SERVICEBUS_CONNECTION_STRING`: The connection string of your Azure Service Bus namespace.
+To run the live tests, you will also need to set the environment variables located in the `test/sample.env` file.
 
 The live tests in this project will create queues, topics and subscriptions in the provided Service Bus namespace.
 

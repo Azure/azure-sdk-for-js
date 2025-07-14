@@ -1,7 +1,5 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-
-import { assert } from "chai";
 import {
   bodyToString,
   configureBlobStorageClient,
@@ -11,12 +9,12 @@ import {
   getUniqueName,
   recorderEnvSetup,
   uriSanitizers,
-} from "./utils";
-import type { ContainerClient, BlobClient, BlobServiceClient } from "../src";
-import { PageBlobClient, PremiumPageBlobTier } from "../src";
+} from "./utils/index.js";
+import type { ContainerClient, BlobClient, BlobServiceClient } from "../src/index.js";
+import { PageBlobClient, PremiumPageBlobTier } from "../src/index.js";
 import { Recorder } from "@azure-tools/test-recorder";
-import type { Context } from "mocha";
-import { getYieldedValue } from "@azure-tools/test-utils";
+import { getYieldedValue } from "@azure-tools/test-utils-vitest";
+import { describe, it, assert, beforeEach, afterEach } from "vitest";
 
 describe("PageBlobClient", () => {
   let blobServiceClient: BlobServiceClient;
@@ -28,8 +26,8 @@ describe("PageBlobClient", () => {
 
   let recorder: Recorder;
 
-  beforeEach(async function (this: Context) {
-    recorder = new Recorder(this.currentTest);
+  beforeEach(async (ctx) => {
+    recorder = new Recorder(ctx);
     await recorder.start(recorderEnvSetup);
     await recorder.addSanitizers({ uriSanitizers }, ["record", "playback"]);
     blobServiceClient = getBSU(recorder);
@@ -41,19 +39,19 @@ describe("PageBlobClient", () => {
     pageBlobClient = blobClient.getPageBlobClient();
   });
 
-  afterEach(async function () {
+  afterEach(async () => {
     await containerClient.delete();
     await recorder.stop();
   });
 
-  it("create with default parameters", async function () {
+  it("create with default parameters", async () => {
     await pageBlobClient.create(512);
 
     const result = await blobClient.download(0);
     assert.deepStrictEqual(await bodyToString(result, 512), "\u0000".repeat(512));
   });
 
-  it("create with all parameters set", async function () {
+  it("create with all parameters set", async () => {
     const options = {
       blobHTTPHeaders: {
         blobCacheControl: "blobCacheControl",
@@ -82,7 +80,7 @@ describe("PageBlobClient", () => {
     assert.equal(properties.metadata!.key2, options.metadata.key2);
   });
 
-  it("create with premium page blob tier", async function () {
+  it("create with premium page blob tier", async () => {
     const options = { tier: PremiumPageBlobTier.P20 };
 
     try {
@@ -98,7 +96,7 @@ describe("PageBlobClient", () => {
     }
   });
 
-  it("createIfNotExists", async function () {
+  it("createIfNotExists", async () => {
     const res = await pageBlobClient.createIfNotExists(512);
     assert.ok(res.succeeded);
     assert.ok(res.etag);
@@ -108,7 +106,7 @@ describe("PageBlobClient", () => {
     assert.equal(res2.errorCode, "BlobAlreadyExists");
   });
 
-  it("uploadPages", async function () {
+  it("uploadPages", async () => {
     await pageBlobClient.create(1024);
 
     const result = await blobClient.download(0);
@@ -124,7 +122,7 @@ describe("PageBlobClient", () => {
     assert.equal(await bodyToString(page2, 512), "b".repeat(512));
   });
 
-  it("uploadPages with progress report", async function () {
+  it("uploadPages with progress report", async () => {
     await pageBlobClient.create(1024);
 
     const result = await blobClient.download(0);
@@ -148,7 +146,7 @@ describe("PageBlobClient", () => {
     assert.equal(await bodyToString(page2, 512), "b".repeat(512));
   });
 
-  it("clearPages", async function () {
+  it("clearPages", async () => {
     await pageBlobClient.create(1024);
     let result = await blobClient.download(0);
     assert.deepStrictEqual(await bodyToString(result, 1024), "\u0000".repeat(1024));
@@ -162,7 +160,7 @@ describe("PageBlobClient", () => {
     assert.deepStrictEqual(await bodyToString(result, 512), "\u0000".repeat(512));
   });
 
-  it("getPageRanges", async function () {
+  it("getPageRanges", async () => {
     await pageBlobClient.create(1024);
 
     const result = await blobClient.download(0);
@@ -178,7 +176,7 @@ describe("PageBlobClient", () => {
     assert.equal((page2.pageRange![0].count || 0) + page2.pageRange![0].offset, 1023);
   });
 
-  it("getPageRangesDiff", async function () {
+  it("getPageRangesDiff", async () => {
     await pageBlobClient.create(1024);
 
     const result = await blobClient.download(0);
@@ -199,13 +197,13 @@ describe("PageBlobClient", () => {
     assert.equal(rangesDiff.clearRange![0].count, 511);
   });
 
-  it("getPageRangesDiffForManagedDisks", async function (this: Context): Promise<void> {
+  it("getPageRangesDiffForManagedDisks", async function (ctx): Promise<void> {
     let mdBlobServiceClient: BlobServiceClient;
     try {
       mdBlobServiceClient = getGenericBSU(recorder, "MD_", "");
     } catch (err: any) {
       // managed disk account is not properly configured
-      return this.skip();
+      return ctx.skip();
     }
     const mdContainerName = recorder.variable("md-container", getUniqueName("md-container"));
     const mdContainerClient = mdBlobServiceClient.getContainerClient(mdContainerName);
@@ -242,7 +240,7 @@ describe("PageBlobClient", () => {
     await mdContainerClient.delete();
   });
 
-  it("listPageRanges", async function () {
+  it("listPageRanges", async () => {
     await pageBlobClient.create(4096);
 
     for (let i = 0; i < 4; ++i) {
@@ -257,7 +255,7 @@ describe("PageBlobClient", () => {
     }
   });
 
-  it("Verify PagedAsyncIterableIterator for listPageRanges", async function () {
+  it("Verify PagedAsyncIterableIterator for listPageRanges", async () => {
     await pageBlobClient.create(4096);
 
     for (let i = 0; i < 4; ++i) {
@@ -340,7 +338,7 @@ describe("PageBlobClient", () => {
     }
   });
 
-  it("listPageRangesDiff", async function () {
+  it("listPageRangesDiff", async () => {
     await pageBlobClient.create(4096);
 
     await pageBlobClient.uploadPages("b".repeat(4096), 0, 4096);
@@ -365,7 +363,7 @@ describe("PageBlobClient", () => {
     }
   });
 
-  it("Verify PagedAsyncIterableIterator for listPageRangesDiff", async function () {
+  it("Verify PagedAsyncIterableIterator for listPageRangesDiff", async () => {
     await pageBlobClient.create(4096);
 
     await pageBlobClient.uploadPages("b".repeat(4096), 0, 4096);
@@ -475,7 +473,7 @@ describe("PageBlobClient", () => {
     assert.equal(response.clearRange![0].end, 1024 + 1023);
   });
 
-  it("updateSequenceNumber", async function () {
+  it("updateSequenceNumber", async () => {
     await pageBlobClient.create(1024);
     let propertiesResponse = await pageBlobClient.getProperties();
 
@@ -492,7 +490,7 @@ describe("PageBlobClient", () => {
     assert.equal(propertiesResponse.blobSequenceNumber!, 100);
   });
 
-  it("uploadPages with invalid CRC64 should fail", async function () {
+  it("uploadPages with invalid CRC64 should fail", async () => {
     await pageBlobClient.create(1024);
 
     let exceptionCaught = false;
@@ -514,7 +512,7 @@ describe("PageBlobClient", () => {
     assert.ok(exceptionCaught);
   });
 
-  it("can be created with a sas connection string", async function () {
+  it("can be created with a sas connection string", async () => {
     const newClient = new PageBlobClient(
       getSASConnectionStringFromEnvironment(recorder),
       containerName,
@@ -527,7 +525,7 @@ describe("PageBlobClient", () => {
     assert.deepStrictEqual(await bodyToString(result, 512), "\u0000".repeat(512));
   });
 
-  it("throws error if constructor containerName parameter is empty", async function () {
+  it("throws error if constructor containerName parameter is empty", async () => {
     try {
       new PageBlobClient(getSASConnectionStringFromEnvironment(recorder), "", "blobName");
       assert.fail("Expecting an thrown error but didn't get one.");
@@ -540,7 +538,7 @@ describe("PageBlobClient", () => {
     }
   });
 
-  it("throws error if constructor blobName parameter is empty", async function () {
+  it("throws error if constructor blobName parameter is empty", async () => {
     try {
       new PageBlobClient(getSASConnectionStringFromEnvironment(recorder), "containerName", "");
       assert.fail("Expecting an thrown error but didn't get one.");

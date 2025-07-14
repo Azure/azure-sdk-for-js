@@ -9,7 +9,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
 const { KeyClient } = require("@azure/keyvault-keys");
 
 // Load the .env file if it exists
-require("dotenv").config();
+require("dotenv/config");
 
 /**
  * The `DefaultAzureCredential` is appropriate for most scenarios where the application is intended to ultimately be run in the Azure Cloud.

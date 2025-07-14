@@ -1,11 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { assert } from "chai";
-import type { Context } from "mocha";
-
 import { Recorder } from "@azure-tools/test-recorder";
-
 import {
   getAccountName,
   configureStorageClient,
@@ -16,10 +12,15 @@ import {
   uriSanitizers,
   SimpleTokenCredential,
   getTokenBSUWithDefaultCredential,
-} from "../utils";
-import type { ShareServiceClient, SignedIdentifier, StorageSharedKeyCredential } from "../../src";
-import { getFileServiceAccountAudience, newPipeline, ShareClient } from "../../src";
+} from "../utils/index.js";
+import type {
+  ShareServiceClient,
+  SignedIdentifier,
+  StorageSharedKeyCredential,
+} from "../../src/index.js";
+import { getFileServiceAccountAudience, newPipeline, ShareClient } from "../../src/index.js";
 import { createTestCredential } from "@azure-tools/test-credential";
+import { describe, it, assert, beforeEach, afterEach } from "vitest";
 
 describe("ShareClient Node.js only", () => {
   let shareName: string;
@@ -27,8 +28,8 @@ describe("ShareClient Node.js only", () => {
 
   let recorder: Recorder;
 
-  beforeEach(async function (this: Context) {
-    recorder = new Recorder(this.currentTest);
+  beforeEach(async (ctx) => {
+    recorder = new Recorder(ctx);
     await recorder.start(recorderEnvSetup);
     await recorder.addSanitizers({ uriSanitizers }, ["record", "playback"]);
     const serviceClient = getBSU(recorder);
@@ -37,7 +38,7 @@ describe("ShareClient Node.js only", () => {
     await shareClient.create();
   });
 
-  afterEach(async function () {
+  afterEach(async () => {
     await shareClient.delete();
     await recorder.stop();
   });
@@ -155,9 +156,8 @@ describe("ShareClient Node.js only", () => {
     );
   });
 
-  it("getAccessPolicy", (done) => {
+  it("getAccessPolicy", () => {
     // create() with default parameters has been tested in setAccessPolicy
-    done();
   });
 
   it("setAccessPolicy and getAccessPolicy with empty SignedIdentifier", async () => {
@@ -257,8 +257,8 @@ describe("ShareClient Node.js only - OAuth", () => {
 
   let recorder: Recorder;
 
-  beforeEach(async function (this: Context) {
-    recorder = new Recorder(this.currentTest);
+  beforeEach(async (ctx) => {
+    recorder = new Recorder(ctx);
     await recorder.start(recorderEnvSetup);
     await recorder.addSanitizers({ uriSanitizers }, ["record", "playback"]);
     serviceClient = getTokenBSUWithDefaultCredential(recorder, "", "", {
@@ -269,7 +269,7 @@ describe("ShareClient Node.js only - OAuth", () => {
     await shareClient.create();
   });
 
-  afterEach(async function () {
+  afterEach(async () => {
     await shareClient.delete();
     await recorder.stop();
   });
@@ -304,9 +304,8 @@ describe("ShareClient Node.js only - OAuth", () => {
     assert.ok(result.date);
   });
 
-  it("create with default parameters", (done) => {
+  it("create with default parameters", () => {
     // create() with default parameters has been tested in beforeEach
-    done();
   });
 
   it("createIfNotExists", async () => {
@@ -323,10 +322,7 @@ describe("ShareClient Node.js only - OAuth", () => {
     await shareClient2.delete();
   });
 
-  it("delete", (done) => {
-    // delete() with default parameters has been tested in afterEach
-    done();
-  });
+  it("delete", () => {});
 
   it("deleteIfExists", async () => {
     const shareClient2 = serviceClient.getShareClient(

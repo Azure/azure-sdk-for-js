@@ -10,6 +10,7 @@ export default mergeConfig(
     test: {
       hookTimeout: 5000000,
       testTimeout: 5000000,
+      environment: "node",
     },
   }),
 );

@@ -2,6 +2,7 @@
 // Licensed under the MIT License.
 
 import { SpawnOptions, spawn } from "node:child_process";
+import { createPrinter } from "./printer";
 
 export interface RunOptions extends SpawnOptions {
   captureOutput?: boolean;
@@ -20,6 +21,8 @@ export interface RunResult {
 export interface RunResultWithOutput extends RunResult {
   output: string;
 }
+
+const log = createPrinter("run");
 
 /**
  * Run the given command as a child process.
@@ -67,6 +70,9 @@ export async function run(
     proc.stderr?.setEncoding("utf8");
     proc.on("exit", (exitCode, signal) => {
       if (exitCode === null) {
+        if (output) {
+          log.warn(output);
+        }
         reject(new Error(`subprocess exited with signal ${signal}`));
       } else {
         resolve(exitCode);
@@ -86,8 +92,14 @@ export async function run(
   });
 
   if (!options.captureExitCode && exitCode !== 0) {
+    if (output) {
+      log.warn(output);
+    }
     throw new Error(`Process exited with exit code ${exitCode}`);
   }
 
+  if (exitCode !== 0 && output) {
+    log.warn(output);
+  }
   return { output, exitCode };
 }

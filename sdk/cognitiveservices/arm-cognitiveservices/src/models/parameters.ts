@@ -27,6 +27,10 @@ import {
   RaiBlocklist as RaiBlocklistMapper,
   RaiBlocklistItem as RaiBlocklistItemMapper,
   DefenderForAISetting as DefenderForAISettingMapper,
+  Project as ProjectMapper,
+  ConnectionUpdateContent as ConnectionUpdateContentMapper,
+  ConnectionPropertiesV2BasicResource as ConnectionPropertiesV2BasicResourceMapper,
+  CapabilityHost as CapabilityHostMapper,
 } from "../models/mappers.js";
 
 export const contentType: OperationParameter = {
@@ -104,7 +108,7 @@ export const accountName: OperationURLParameter = {
 export const apiVersion: OperationQueryParameter = {
   parameterPath: "apiVersion",
   mapper: {
-    defaultValue: "2024-10-01",
+    defaultValue: "2025-04-01-preview",
     isConstant: true,
     serializedName: "api-version",
     type: {
@@ -497,4 +501,99 @@ export const defenderForAISettingName: OperationURLParameter = {
 export const defenderForAISettings: OperationParameter = {
   parameterPath: "defenderForAISettings",
   mapper: DefenderForAISettingMapper,
+};
+
+export const project: OperationParameter = {
+  parameterPath: "project",
+  mapper: ProjectMapper,
+};
+
+export const projectName: OperationURLParameter = {
+  parameterPath: "projectName",
+  mapper: {
+    constraints: {
+      Pattern: new RegExp("^[a-zA-Z0-9][a-zA-Z0-9_.-]*$"),
+      MaxLength: 64,
+      MinLength: 2,
+    },
+    serializedName: "projectName",
+    required: true,
+    type: {
+      name: "String",
+    },
+  },
+};
+
+export const connectionName: OperationURLParameter = {
+  parameterPath: "connectionName",
+  mapper: {
+    constraints: {
+      Pattern: new RegExp("^[a-zA-Z0-9][a-zA-Z0-9_-]{2,32}$"),
+    },
+    serializedName: "connectionName",
+    required: true,
+    type: {
+      name: "String",
+    },
+  },
+};
+
+export const body: OperationParameter = {
+  parameterPath: ["options", "body"],
+  mapper: ConnectionUpdateContentMapper,
+};
+
+export const body1: OperationParameter = {
+  parameterPath: ["options", "body"],
+  mapper: ConnectionPropertiesV2BasicResourceMapper,
+};
+
+export const target: OperationQueryParameter = {
+  parameterPath: ["options", "target"],
+  mapper: {
+    serializedName: "target",
+    type: {
+      name: "String",
+    },
+  },
+};
+
+export const category: OperationQueryParameter = {
+  parameterPath: ["options", "category"],
+  mapper: {
+    serializedName: "category",
+    type: {
+      name: "String",
+    },
+  },
+};
+
+export const includeAll: OperationQueryParameter = {
+  parameterPath: ["options", "includeAll"],
+  mapper: {
+    defaultValue: false,
+    serializedName: "includeAll",
+    type: {
+      name: "Boolean",
+    },
+  },
+};
+
+export const capabilityHostName: OperationURLParameter = {
+  parameterPath: "capabilityHostName",
+  mapper: {
+    constraints: {
+      Pattern: new RegExp("^[a-zA-Z0-9][a-zA-Z0-9\\-_]{0,254}$"),
+    },
+    serializedName: "capabilityHostName",
+    required: true,
+    type: {
+      name: "String",
+    },
+  },
+};
+
+export const body2: OperationParameter = {
+  parameterPath: "body",
+  mapper: CapabilityHostMapper,
 };

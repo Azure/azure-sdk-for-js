@@ -9,14 +9,14 @@
  * @summary controls paging for the results of `beginAnalyzeActions`
  */
 
-const { TextAnalysisClient, AzureKeyCredential } = require("@azure/ai-language-text");
+const { TextAnalysisClient } = require("@azure/ai-language-text");
+const { DefaultAzureCredential } = require("@azure/identity");
 
 // Load the .env file if it exists
-require("dotenv").config();
+require("dotenv/config");
 
 // You will need to set these environment variables or edit the following values
-const endpoint = process.env["ENDPOINT"] || "<cognitive language service endpoint>";
-const apiKey = process.env["LANGUAGE_API_KEY"] || "<api key>";
+const endpoint = process.env["LANGUAGE_ENDPOINT"] || "<cognitive language service endpoint>";
 
 const documents = [
   "Microsoft was founded by Bill Gates and Paul Allen.",
@@ -29,7 +29,7 @@ const documents = [
 async function main() {
   console.log("== Paging Sample ==");
 
-  const client = new TextAnalysisClient(endpoint, new AzureKeyCredential(apiKey));
+  const client = new TextAnalysisClient(endpoint, new DefaultAzureCredential());
 
   let nextContinuationToken = undefined;
   let continuationToken = undefined;
@@ -52,19 +52,19 @@ async function main() {
           nextContinuationToken = nextLink;
         }
       },
-    }
+    },
   );
 
   poller.onProgress(() => {
     console.log(
-      `Number of actions still in progress: ${poller.getOperationState().actionInProgressCount}`
+      `Number of actions still in progress: ${poller.getOperationState().actionInProgressCount}`,
     );
   });
 
   console.log(`The analyze actions operation created on ${poller.getOperationState().createdOn}`);
 
   console.log(
-    `The analyze actions operation results will expire on ${poller.getOperationState().expiresOn}`
+    `The analyze actions operation results will expire on ${poller.getOperationState().expiresOn}`,
   );
 
   const actionResults = await poller.pollUntilDone();

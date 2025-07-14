@@ -7,28 +7,28 @@
  */
 
 import {
-    AuthorizationLoginLinksPostOptionalParams,
-    AuthorizationLoginLinksPostResponse,
-    AuthorizationLoginRequestContract
+  AuthorizationLoginRequestContract,
+  AuthorizationLoginLinksPostOptionalParams,
+  AuthorizationLoginLinksPostResponse,
 } from "../models/index.js";
 
 /** Interface representing a AuthorizationLoginLinks. */
 export interface AuthorizationLoginLinks {
-    /**
-     * Gets authorization login links.
-     * @param resourceGroupName The name of the resource group. The name is case insensitive.
-     * @param serviceName The name of the API Management service.
-     * @param authorizationProviderId Identifier of the authorization provider.
-     * @param authorizationId Identifier of the authorization.
-     * @param parameters Create parameters.
-     * @param options The options parameters.
-     */
-    post(
-        resourceGroupName: string,
-        serviceName: string,
-        authorizationProviderId: string,
-        authorizationId: string,
-        parameters: AuthorizationLoginRequestContract,
-        options?: AuthorizationLoginLinksPostOptionalParams
-    ): Promise<AuthorizationLoginLinksPostResponse>;
+  /**
+   * Gets authorization login links.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param serviceName The name of the API Management service.
+   * @param authorizationProviderId Identifier of the authorization provider.
+   * @param authorizationId Identifier of the authorization.
+   * @param parameters Create parameters.
+   * @param options The options parameters.
+   */
+  post(
+    resourceGroupName: string,
+    serviceName: string,
+    authorizationProviderId: string,
+    authorizationId: string,
+    parameters: AuthorizationLoginRequestContract,
+    options?: AuthorizationLoginLinksPostOptionalParams,
+  ): Promise<AuthorizationLoginLinksPostResponse>;
 }

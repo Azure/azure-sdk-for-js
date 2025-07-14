@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { ClientEncryptionKeyProperties } from "../ClientEncryptionKey";
+import type { ClientEncryptionKeyProperties } from "../ClientEncryptionKey/index.js";
 
 /**
  * The cache used to store the properties of the client encryption key

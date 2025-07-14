@@ -6,20 +6,17 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
+import type { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
 import { setContinuationToken } from "../pagingHelper.js";
-import { VirtualEndpoints } from "../operationsInterfaces/index.js";
+import type { VirtualEndpoints } from "../operationsInterfaces/index.js";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers.js";
 import * as Parameters from "../models/parameters.js";
-import { PostgreSQLManagementFlexibleServerClient } from "../postgreSQLManagementFlexibleServerClient.js";
-import {
-  SimplePollerLike,
-  OperationState,
-  createHttpPoller,
-} from "@azure/core-lro";
+import type { PostgreSQLManagementFlexibleServerClient } from "../postgreSQLManagementFlexibleServerClient.js";
+import type { SimplePollerLike, OperationState } from "@azure/core-lro";
+import { createHttpPoller } from "@azure/core-lro";
 import { createLroSpec } from "../lroImpl.js";
-import {
+import type {
   VirtualEndpointResource,
   VirtualEndpointsListByServerNextOptionalParams,
   VirtualEndpointsListByServerOptionalParams,
@@ -60,11 +57,7 @@ export class VirtualEndpointsImpl implements VirtualEndpoints {
     serverName: string,
     options?: VirtualEndpointsListByServerOptionalParams,
   ): PagedAsyncIterableIterator<VirtualEndpointResource> {
-    const iter = this.listByServerPagingAll(
-      resourceGroupName,
-      serverName,
-      options,
-    );
+    const iter = this.listByServerPagingAll(resourceGroupName, serverName, options);
     return {
       next() {
         return iter.next();
@@ -76,12 +69,7 @@ export class VirtualEndpointsImpl implements VirtualEndpoints {
         if (settings?.maxPageSize) {
           throw new Error("maxPageSize is not supported by this operation.");
         }
-        return this.listByServerPagingPage(
-          resourceGroupName,
-          serverName,
-          options,
-          settings,
-        );
+        return this.listByServerPagingPage(resourceGroupName, serverName, options, settings);
       },
     };
   }
@@ -96,7 +84,7 @@ export class VirtualEndpointsImpl implements VirtualEndpoints {
     let continuationToken = settings?.continuationToken;
     if (!continuationToken) {
       result = await this._listByServer(resourceGroupName, serverName, options);
-      let page = result.value || [];
+      const page = result.value || [];
       continuationToken = result.nextLink;
       setContinuationToken(page, continuationToken);
       yield page;
@@ -109,7 +97,7 @@ export class VirtualEndpointsImpl implements VirtualEndpoints {
         options,
       );
       continuationToken = result.nextLink;
-      let page = result.value || [];
+      const page = result.value || [];
       setContinuationToken(page, continuationToken);
       yield page;
     }
@@ -120,11 +108,7 @@ export class VirtualEndpointsImpl implements VirtualEndpoints {
     serverName: string,
     options?: VirtualEndpointsListByServerOptionalParams,
   ): AsyncIterableIterator<VirtualEndpointResource> {
-    for await (const page of this.listByServerPagingPage(
-      resourceGroupName,
-      serverName,
-      options,
-    )) {
+    for await (const page of this.listByServerPagingPage(resourceGroupName, serverName, options)) {
       yield* page;
     }
   }
@@ -144,10 +128,7 @@ export class VirtualEndpointsImpl implements VirtualEndpoints {
     parameters: VirtualEndpointResource,
     options?: VirtualEndpointsCreateOptionalParams,
   ): Promise<
-    SimplePollerLike<
-      OperationState<VirtualEndpointsCreateResponse>,
-      VirtualEndpointsCreateResponse
-    >
+    SimplePollerLike<OperationState<VirtualEndpointsCreateResponse>, VirtualEndpointsCreateResponse>
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
@@ -159,8 +140,7 @@ export class VirtualEndpointsImpl implements VirtualEndpoints {
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
@@ -251,10 +231,7 @@ export class VirtualEndpointsImpl implements VirtualEndpoints {
     parameters: VirtualEndpointResourceForPatch,
     options?: VirtualEndpointsUpdateOptionalParams,
   ): Promise<
-    SimplePollerLike<
-      OperationState<VirtualEndpointsUpdateResponse>,
-      VirtualEndpointsUpdateResponse
-    >
+    SimplePollerLike<OperationState<VirtualEndpointsUpdateResponse>, VirtualEndpointsUpdateResponse>
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
@@ -266,8 +243,7 @@ export class VirtualEndpointsImpl implements VirtualEndpoints {
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
@@ -356,10 +332,7 @@ export class VirtualEndpointsImpl implements VirtualEndpoints {
     virtualEndpointName: string,
     options?: VirtualEndpointsDeleteOptionalParams,
   ): Promise<
-    SimplePollerLike<
-      OperationState<VirtualEndpointsDeleteResponse>,
-      VirtualEndpointsDeleteResponse
-    >
+    SimplePollerLike<OperationState<VirtualEndpointsDeleteResponse>, VirtualEndpointsDeleteResponse>
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
@@ -371,8 +344,7 @@ export class VirtualEndpointsImpl implements VirtualEndpoints {
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,

@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { Serializer } from "./Serializer";
+import type { Serializer } from "./Serializer.js";
 
 export class NumberSerializer implements Serializer {
   deserialize(bytes: Buffer): number {

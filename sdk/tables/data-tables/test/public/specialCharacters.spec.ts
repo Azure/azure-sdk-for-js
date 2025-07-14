@@ -3,12 +3,12 @@
 
 import type { TableClient, TableEntityResult, TransactionAction } from "../../src/index.js";
 import { odata } from "../../src/index.js";
+import { isLiveMode } from "../utils/injectables.js";
 import { createTableClient } from "./utils/recordedClient.js";
-import { isLiveMode } from "@azure-tools/test-recorder";
 import { isNodeLike } from "@azure/core-util";
 import { describe, it, assert, beforeEach, afterAll } from "vitest";
 
-describe("SpecialCharacters", { skip: !isLiveMode() }, () => {
+describe.runIf(isLiveMode())("SpecialCharacters", () => {
   let client: TableClient;
   const suffix = isNodeLike ? "Node" : "Browser";
   const tableName = `SpecialCharacterTest${suffix}`;
@@ -49,6 +49,12 @@ describe("SpecialCharacters", { skip: !isLiveMode() }, () => {
 
         it("should create entity with single quote in the partitionKey and rowKey", async () => {
           await client.createTable();
+          // Delete the entity if it already exists.
+          try {
+            await client.deleteEntity(partitionKey, rowKey);
+          } catch (error) {
+            // Ignore error if the entity doesn't exist.
+          }
           const entity = await client.createEntity({ partitionKey, rowKey, value });
           assert.isDefined(entity);
         });

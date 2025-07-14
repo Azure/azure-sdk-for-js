@@ -6,586 +6,577 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import * as coreClient from "@azure/core-client";
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
-import { ApiManagementClient } from "../apiManagementClient.js";
-import {
-    SubscriptionContract,
-    SubscriptionCreateOrUpdateOptionalParams,
-    SubscriptionCreateOrUpdateResponse,
-    SubscriptionCreateParameters,
-    SubscriptionDeleteOptionalParams,
-    SubscriptionGetEntityTagOptionalParams,
-    SubscriptionGetEntityTagResponse,
-    SubscriptionGetOptionalParams,
-    SubscriptionGetResponse,
-    SubscriptionListNextOptionalParams,
-    SubscriptionListNextResponse,
-    SubscriptionListOptionalParams,
-    SubscriptionListResponse,
-    SubscriptionListSecretsOptionalParams,
-    SubscriptionListSecretsResponse,
-    SubscriptionRegeneratePrimaryKeyOptionalParams,
-    SubscriptionRegenerateSecondaryKeyOptionalParams,
-    SubscriptionUpdateOptionalParams,
-    SubscriptionUpdateParameters,
-    SubscriptionUpdateResponse
-} from "../models/index.js";
+import { setContinuationToken } from "../pagingHelper.js";
+import { Subscription } from "../operationsInterfaces/index.js";
+import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers.js";
 import * as Parameters from "../models/parameters.js";
-import { Subscription } from "../operationsInterfaces/index.js";
-import { setContinuationToken } from "../pagingHelper.js";
+import { ApiManagementClient } from "../apiManagementClient.js";
+import {
+  SubscriptionContract,
+  SubscriptionListNextOptionalParams,
+  SubscriptionListOptionalParams,
+  SubscriptionListResponse,
+  SubscriptionGetEntityTagOptionalParams,
+  SubscriptionGetEntityTagResponse,
+  SubscriptionGetOptionalParams,
+  SubscriptionGetResponse,
+  SubscriptionCreateParameters,
+  SubscriptionCreateOrUpdateOptionalParams,
+  SubscriptionCreateOrUpdateResponse,
+  SubscriptionUpdateParameters,
+  SubscriptionUpdateOptionalParams,
+  SubscriptionUpdateResponse,
+  SubscriptionDeleteOptionalParams,
+  SubscriptionRegeneratePrimaryKeyOptionalParams,
+  SubscriptionRegenerateSecondaryKeyOptionalParams,
+  SubscriptionListSecretsOptionalParams,
+  SubscriptionListSecretsResponse,
+  SubscriptionListNextResponse,
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Class containing Subscription operations. */
 export class SubscriptionImpl implements Subscription {
-    private readonly client: ApiManagementClient;
+  private readonly client: ApiManagementClient;
 
-    /**
-     * Initialize a new instance of the class Subscription class.
-     * @param client Reference to the service client
-     */
-    constructor(client: ApiManagementClient) {
-        this.client = client;
-    }
+  /**
+   * Initialize a new instance of the class Subscription class.
+   * @param client Reference to the service client
+   */
+  constructor(client: ApiManagementClient) {
+    this.client = client;
+  }
 
-    /**
-     * Lists all subscriptions of the API Management service instance.
-     * @param resourceGroupName The name of the resource group. The name is case insensitive.
-     * @param serviceName The name of the API Management service.
-     * @param options The options parameters.
-     */
-    public list(
-        resourceGroupName: string,
-        serviceName: string,
-        options?: SubscriptionListOptionalParams
-    ): PagedAsyncIterableIterator<SubscriptionContract> {
-        const iter = this.listPagingAll(resourceGroupName, serviceName, options);
-        return {
-            next() {
-                return iter.next();
-            },
-            [Symbol.asyncIterator]() {
-                return this;
-            },
-            byPage: (settings?: PageSettings) => {
-                if (settings?.maxPageSize) {
-                    throw new Error("maxPageSize is not supported by this operation.");
-                }
-                return this.listPagingPage(
-                    resourceGroupName,
-                    serviceName,
-                    options,
-                    settings
-                );
-            }
-        };
-    }
-
-    private async *listPagingPage(
-        resourceGroupName: string,
-        serviceName: string,
-        options?: SubscriptionListOptionalParams,
-        settings?: PageSettings
-    ): AsyncIterableIterator<SubscriptionContract[]> {
-        let result: SubscriptionListResponse;
-        let continuationToken = settings?.continuationToken;
-        if (!continuationToken) {
-            result = await this._list(resourceGroupName, serviceName, options);
-            let page = result.value || [];
-            continuationToken = result.nextLink;
-            setContinuationToken(page, continuationToken);
-            yield page;
+  /**
+   * Lists all subscriptions of the API Management service instance.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param serviceName The name of the API Management service.
+   * @param options The options parameters.
+   */
+  public list(
+    resourceGroupName: string,
+    serviceName: string,
+    options?: SubscriptionListOptionalParams,
+  ): PagedAsyncIterableIterator<SubscriptionContract> {
+    const iter = this.listPagingAll(resourceGroupName, serviceName, options);
+    return {
+      next() {
+        return iter.next();
+      },
+      [Symbol.asyncIterator]() {
+        return this;
+      },
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
         }
-        while (continuationToken) {
-            result = await this._listNext(
-                resourceGroupName,
-                serviceName,
-                continuationToken,
-                options
-            );
-            continuationToken = result.nextLink;
-            let page = result.value || [];
-            setContinuationToken(page, continuationToken);
-            yield page;
-        }
-    }
-
-    private async *listPagingAll(
-        resourceGroupName: string,
-        serviceName: string,
-        options?: SubscriptionListOptionalParams
-    ): AsyncIterableIterator<SubscriptionContract> {
-        for await (const page of this.listPagingPage(
-            resourceGroupName,
-            serviceName,
-            options
-        )) {
-            yield* page;
-        }
-    }
-
-    /**
-     * Lists all subscriptions of the API Management service instance.
-     * @param resourceGroupName The name of the resource group. The name is case insensitive.
-     * @param serviceName The name of the API Management service.
-     * @param options The options parameters.
-     */
-    private _list(
-        resourceGroupName: string,
-        serviceName: string,
-        options?: SubscriptionListOptionalParams
-    ): Promise<SubscriptionListResponse> {
-        return this.client.sendOperationRequest(
-            { resourceGroupName, serviceName, options },
-            listOperationSpec
+        return this.listPagingPage(
+          resourceGroupName,
+          serviceName,
+          options,
+          settings,
         );
-    }
+      },
+    };
+  }
 
-    /**
-     * Gets the entity state (Etag) version of the apimanagement subscription specified by its identifier.
-     * @param resourceGroupName The name of the resource group. The name is case insensitive.
-     * @param serviceName The name of the API Management service.
-     * @param sid Subscription entity Identifier. The entity represents the association between a user and
-     *            a product in API Management.
-     * @param options The options parameters.
-     */
-    getEntityTag(
-        resourceGroupName: string,
-        serviceName: string,
-        sid: string,
-        options?: SubscriptionGetEntityTagOptionalParams
-    ): Promise<SubscriptionGetEntityTagResponse> {
-        return this.client.sendOperationRequest(
-            { resourceGroupName, serviceName, sid, options },
-            getEntityTagOperationSpec
-        );
+  private async *listPagingPage(
+    resourceGroupName: string,
+    serviceName: string,
+    options?: SubscriptionListOptionalParams,
+    settings?: PageSettings,
+  ): AsyncIterableIterator<SubscriptionContract[]> {
+    let result: SubscriptionListResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._list(resourceGroupName, serviceName, options);
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
     }
+    while (continuationToken) {
+      result = await this._listNext(
+        resourceGroupName,
+        serviceName,
+        continuationToken,
+        options,
+      );
+      continuationToken = result.nextLink;
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
+  }
 
-    /**
-     * Gets the specified Subscription entity.
-     * @param resourceGroupName The name of the resource group. The name is case insensitive.
-     * @param serviceName The name of the API Management service.
-     * @param sid Subscription entity Identifier. The entity represents the association between a user and
-     *            a product in API Management.
-     * @param options The options parameters.
-     */
-    get(
-        resourceGroupName: string,
-        serviceName: string,
-        sid: string,
-        options?: SubscriptionGetOptionalParams
-    ): Promise<SubscriptionGetResponse> {
-        return this.client.sendOperationRequest(
-            { resourceGroupName, serviceName, sid, options },
-            getOperationSpec
-        );
+  private async *listPagingAll(
+    resourceGroupName: string,
+    serviceName: string,
+    options?: SubscriptionListOptionalParams,
+  ): AsyncIterableIterator<SubscriptionContract> {
+    for await (const page of this.listPagingPage(
+      resourceGroupName,
+      serviceName,
+      options,
+    )) {
+      yield* page;
     }
+  }
 
-    /**
-     * Creates or updates the subscription of specified user to the specified product.
-     * @param resourceGroupName The name of the resource group. The name is case insensitive.
-     * @param serviceName The name of the API Management service.
-     * @param sid Subscription entity Identifier. The entity represents the association between a user and
-     *            a product in API Management.
-     * @param parameters Create parameters.
-     * @param options The options parameters.
-     */
-    createOrUpdate(
-        resourceGroupName: string,
-        serviceName: string,
-        sid: string,
-        parameters: SubscriptionCreateParameters,
-        options?: SubscriptionCreateOrUpdateOptionalParams
-    ): Promise<SubscriptionCreateOrUpdateResponse> {
-        return this.client.sendOperationRequest(
-            { resourceGroupName, serviceName, sid, parameters, options },
-            createOrUpdateOperationSpec
-        );
-    }
+  /**
+   * Lists all subscriptions of the API Management service instance.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param serviceName The name of the API Management service.
+   * @param options The options parameters.
+   */
+  private _list(
+    resourceGroupName: string,
+    serviceName: string,
+    options?: SubscriptionListOptionalParams,
+  ): Promise<SubscriptionListResponse> {
+    return this.client.sendOperationRequest(
+      { resourceGroupName, serviceName, options },
+      listOperationSpec,
+    );
+  }
 
-    /**
-     * Updates the details of a subscription specified by its identifier.
-     * @param resourceGroupName The name of the resource group. The name is case insensitive.
-     * @param serviceName The name of the API Management service.
-     * @param sid Subscription entity Identifier. The entity represents the association between a user and
-     *            a product in API Management.
-     * @param ifMatch ETag of the Entity. ETag should match the current entity state from the header
-     *                response of the GET request or it should be * for unconditional update.
-     * @param parameters Update parameters.
-     * @param options The options parameters.
-     */
-    update(
-        resourceGroupName: string,
-        serviceName: string,
-        sid: string,
-        ifMatch: string,
-        parameters: SubscriptionUpdateParameters,
-        options?: SubscriptionUpdateOptionalParams
-    ): Promise<SubscriptionUpdateResponse> {
-        return this.client.sendOperationRequest(
-            { resourceGroupName, serviceName, sid, ifMatch, parameters, options },
-            updateOperationSpec
-        );
-    }
+  /**
+   * Gets the entity state (Etag) version of the apimanagement subscription specified by its identifier.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param serviceName The name of the API Management service.
+   * @param sid Subscription entity Identifier. The entity represents the association between a user and
+   *            a product in API Management.
+   * @param options The options parameters.
+   */
+  getEntityTag(
+    resourceGroupName: string,
+    serviceName: string,
+    sid: string,
+    options?: SubscriptionGetEntityTagOptionalParams,
+  ): Promise<SubscriptionGetEntityTagResponse> {
+    return this.client.sendOperationRequest(
+      { resourceGroupName, serviceName, sid, options },
+      getEntityTagOperationSpec,
+    );
+  }
 
-    /**
-     * Deletes the specified subscription.
-     * @param resourceGroupName The name of the resource group. The name is case insensitive.
-     * @param serviceName The name of the API Management service.
-     * @param sid Subscription entity Identifier. The entity represents the association between a user and
-     *            a product in API Management.
-     * @param ifMatch ETag of the Entity. ETag should match the current entity state from the header
-     *                response of the GET request or it should be * for unconditional update.
-     * @param options The options parameters.
-     */
-    delete(
-        resourceGroupName: string,
-        serviceName: string,
-        sid: string,
-        ifMatch: string,
-        options?: SubscriptionDeleteOptionalParams
-    ): Promise<void> {
-        return this.client.sendOperationRequest(
-            { resourceGroupName, serviceName, sid, ifMatch, options },
-            deleteOperationSpec
-        );
-    }
+  /**
+   * Gets the specified Subscription entity.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param serviceName The name of the API Management service.
+   * @param sid Subscription entity Identifier. The entity represents the association between a user and
+   *            a product in API Management.
+   * @param options The options parameters.
+   */
+  get(
+    resourceGroupName: string,
+    serviceName: string,
+    sid: string,
+    options?: SubscriptionGetOptionalParams,
+  ): Promise<SubscriptionGetResponse> {
+    return this.client.sendOperationRequest(
+      { resourceGroupName, serviceName, sid, options },
+      getOperationSpec,
+    );
+  }
 
-    /**
-     * Regenerates primary key of existing subscription of the API Management service instance.
-     * @param resourceGroupName The name of the resource group. The name is case insensitive.
-     * @param serviceName The name of the API Management service.
-     * @param sid Subscription entity Identifier. The entity represents the association between a user and
-     *            a product in API Management.
-     * @param options The options parameters.
-     */
-    regeneratePrimaryKey(
-        resourceGroupName: string,
-        serviceName: string,
-        sid: string,
-        options?: SubscriptionRegeneratePrimaryKeyOptionalParams
-    ): Promise<void> {
-        return this.client.sendOperationRequest(
-            { resourceGroupName, serviceName, sid, options },
-            regeneratePrimaryKeyOperationSpec
-        );
-    }
+  /**
+   * Creates or updates the subscription of specified user to the specified product.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param serviceName The name of the API Management service.
+   * @param sid Subscription entity Identifier. The entity represents the association between a user and
+   *            a product in API Management.
+   * @param parameters Create parameters.
+   * @param options The options parameters.
+   */
+  createOrUpdate(
+    resourceGroupName: string,
+    serviceName: string,
+    sid: string,
+    parameters: SubscriptionCreateParameters,
+    options?: SubscriptionCreateOrUpdateOptionalParams,
+  ): Promise<SubscriptionCreateOrUpdateResponse> {
+    return this.client.sendOperationRequest(
+      { resourceGroupName, serviceName, sid, parameters, options },
+      createOrUpdateOperationSpec,
+    );
+  }
 
-    /**
-     * Regenerates secondary key of existing subscription of the API Management service instance.
-     * @param resourceGroupName The name of the resource group. The name is case insensitive.
-     * @param serviceName The name of the API Management service.
-     * @param sid Subscription entity Identifier. The entity represents the association between a user and
-     *            a product in API Management.
-     * @param options The options parameters.
-     */
-    regenerateSecondaryKey(
-        resourceGroupName: string,
-        serviceName: string,
-        sid: string,
-        options?: SubscriptionRegenerateSecondaryKeyOptionalParams
-    ): Promise<void> {
-        return this.client.sendOperationRequest(
-            { resourceGroupName, serviceName, sid, options },
-            regenerateSecondaryKeyOperationSpec
-        );
-    }
+  /**
+   * Updates the details of a subscription specified by its identifier.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param serviceName The name of the API Management service.
+   * @param sid Subscription entity Identifier. The entity represents the association between a user and
+   *            a product in API Management.
+   * @param ifMatch ETag of the Entity. ETag should match the current entity state from the header
+   *                response of the GET request or it should be * for unconditional update.
+   * @param parameters Update parameters.
+   * @param options The options parameters.
+   */
+  update(
+    resourceGroupName: string,
+    serviceName: string,
+    sid: string,
+    ifMatch: string,
+    parameters: SubscriptionUpdateParameters,
+    options?: SubscriptionUpdateOptionalParams,
+  ): Promise<SubscriptionUpdateResponse> {
+    return this.client.sendOperationRequest(
+      { resourceGroupName, serviceName, sid, ifMatch, parameters, options },
+      updateOperationSpec,
+    );
+  }
 
-    /**
-     * Gets the specified Subscription keys.
-     * @param resourceGroupName The name of the resource group. The name is case insensitive.
-     * @param serviceName The name of the API Management service.
-     * @param sid Subscription entity Identifier. The entity represents the association between a user and
-     *            a product in API Management.
-     * @param options The options parameters.
-     */
-    listSecrets(
-        resourceGroupName: string,
-        serviceName: string,
-        sid: string,
-        options?: SubscriptionListSecretsOptionalParams
-    ): Promise<SubscriptionListSecretsResponse> {
-        return this.client.sendOperationRequest(
-            { resourceGroupName, serviceName, sid, options },
-            listSecretsOperationSpec
-        );
-    }
+  /**
+   * Deletes the specified subscription.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param serviceName The name of the API Management service.
+   * @param sid Subscription entity Identifier. The entity represents the association between a user and
+   *            a product in API Management.
+   * @param ifMatch ETag of the Entity. ETag should match the current entity state from the header
+   *                response of the GET request or it should be * for unconditional update.
+   * @param options The options parameters.
+   */
+  delete(
+    resourceGroupName: string,
+    serviceName: string,
+    sid: string,
+    ifMatch: string,
+    options?: SubscriptionDeleteOptionalParams,
+  ): Promise<void> {
+    return this.client.sendOperationRequest(
+      { resourceGroupName, serviceName, sid, ifMatch, options },
+      deleteOperationSpec,
+    );
+  }
 
-    /**
-     * ListNext
-     * @param resourceGroupName The name of the resource group. The name is case insensitive.
-     * @param serviceName The name of the API Management service.
-     * @param nextLink The nextLink from the previous successful call to the List method.
-     * @param options The options parameters.
-     */
-    private _listNext(
-        resourceGroupName: string,
-        serviceName: string,
-        nextLink: string,
-        options?: SubscriptionListNextOptionalParams
-    ): Promise<SubscriptionListNextResponse> {
-        return this.client.sendOperationRequest(
-            { resourceGroupName, serviceName, nextLink, options },
-            listNextOperationSpec
-        );
-    }
+  /**
+   * Regenerates primary key of existing subscription of the API Management service instance.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param serviceName The name of the API Management service.
+   * @param sid Subscription entity Identifier. The entity represents the association between a user and
+   *            a product in API Management.
+   * @param options The options parameters.
+   */
+  regeneratePrimaryKey(
+    resourceGroupName: string,
+    serviceName: string,
+    sid: string,
+    options?: SubscriptionRegeneratePrimaryKeyOptionalParams,
+  ): Promise<void> {
+    return this.client.sendOperationRequest(
+      { resourceGroupName, serviceName, sid, options },
+      regeneratePrimaryKeyOperationSpec,
+    );
+  }
+
+  /**
+   * Regenerates secondary key of existing subscription of the API Management service instance.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param serviceName The name of the API Management service.
+   * @param sid Subscription entity Identifier. The entity represents the association between a user and
+   *            a product in API Management.
+   * @param options The options parameters.
+   */
+  regenerateSecondaryKey(
+    resourceGroupName: string,
+    serviceName: string,
+    sid: string,
+    options?: SubscriptionRegenerateSecondaryKeyOptionalParams,
+  ): Promise<void> {
+    return this.client.sendOperationRequest(
+      { resourceGroupName, serviceName, sid, options },
+      regenerateSecondaryKeyOperationSpec,
+    );
+  }
+
+  /**
+   * Gets the specified Subscription keys.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param serviceName The name of the API Management service.
+   * @param sid Subscription entity Identifier. The entity represents the association between a user and
+   *            a product in API Management.
+   * @param options The options parameters.
+   */
+  listSecrets(
+    resourceGroupName: string,
+    serviceName: string,
+    sid: string,
+    options?: SubscriptionListSecretsOptionalParams,
+  ): Promise<SubscriptionListSecretsResponse> {
+    return this.client.sendOperationRequest(
+      { resourceGroupName, serviceName, sid, options },
+      listSecretsOperationSpec,
+    );
+  }
+
+  /**
+   * ListNext
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param serviceName The name of the API Management service.
+   * @param nextLink The nextLink from the previous successful call to the List method.
+   * @param options The options parameters.
+   */
+  private _listNext(
+    resourceGroupName: string,
+    serviceName: string,
+    nextLink: string,
+    options?: SubscriptionListNextOptionalParams,
+  ): Promise<SubscriptionListNextResponse> {
+    return this.client.sendOperationRequest(
+      { resourceGroupName, serviceName, nextLink, options },
+      listNextOperationSpec,
+    );
+  }
 }
 // Operation Specifications
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listOperationSpec: coreClient.OperationSpec = {
-    path:
-        "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/subscriptions",
-    httpMethod: "GET",
-    responses: {
-        200: {
-            bodyMapper: Mappers.SubscriptionCollection
-        },
-        default: {
-            bodyMapper: Mappers.ErrorResponse
-        }
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/subscriptions",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.SubscriptionCollection,
     },
-    queryParameters: [
-        Parameters.filter,
-        Parameters.top,
-        Parameters.skip,
-        Parameters.apiVersion
-    ],
-    urlParameters: [
-        Parameters.$host,
-        Parameters.resourceGroupName,
-        Parameters.serviceName,
-        Parameters.subscriptionId
-    ],
-    headerParameters: [Parameters.accept],
-    serializer
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  queryParameters: [
+    Parameters.apiVersion,
+    Parameters.filter,
+    Parameters.top,
+    Parameters.skip,
+  ],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.resourceGroupName,
+    Parameters.subscriptionId,
+    Parameters.serviceName,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
 };
 const getEntityTagOperationSpec: coreClient.OperationSpec = {
-    path:
-        "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/subscriptions/{sid}",
-    httpMethod: "HEAD",
-    responses: {
-        200: {
-            headersMapper: Mappers.SubscriptionGetEntityTagHeaders
-        },
-        default: {
-            bodyMapper: Mappers.ErrorResponse
-        }
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/subscriptions/{sid}",
+  httpMethod: "HEAD",
+  responses: {
+    200: {
+      headersMapper: Mappers.SubscriptionGetEntityTagHeaders,
     },
-    queryParameters: [Parameters.apiVersion],
-    urlParameters: [
-        Parameters.$host,
-        Parameters.resourceGroupName,
-        Parameters.serviceName,
-        Parameters.subscriptionId,
-        Parameters.sid
-    ],
-    headerParameters: [Parameters.accept],
-    serializer
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.resourceGroupName,
+    Parameters.subscriptionId,
+    Parameters.serviceName,
+    Parameters.sid,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
 };
 const getOperationSpec: coreClient.OperationSpec = {
-    path:
-        "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/subscriptions/{sid}",
-    httpMethod: "GET",
-    responses: {
-        200: {
-            bodyMapper: Mappers.SubscriptionContract,
-            headersMapper: Mappers.SubscriptionGetHeaders
-        },
-        default: {
-            bodyMapper: Mappers.ErrorResponse
-        }
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/subscriptions/{sid}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.SubscriptionContract,
+      headersMapper: Mappers.SubscriptionGetHeaders,
     },
-    queryParameters: [Parameters.apiVersion],
-    urlParameters: [
-        Parameters.$host,
-        Parameters.resourceGroupName,
-        Parameters.serviceName,
-        Parameters.subscriptionId,
-        Parameters.sid
-    ],
-    headerParameters: [Parameters.accept],
-    serializer
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.resourceGroupName,
+    Parameters.subscriptionId,
+    Parameters.serviceName,
+    Parameters.sid,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
 };
 const createOrUpdateOperationSpec: coreClient.OperationSpec = {
-    path:
-        "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/subscriptions/{sid}",
-    httpMethod: "PUT",
-    responses: {
-        200: {
-            bodyMapper: Mappers.SubscriptionContract,
-            headersMapper: Mappers.SubscriptionCreateOrUpdateHeaders
-        },
-        201: {
-            bodyMapper: Mappers.SubscriptionContract,
-            headersMapper: Mappers.SubscriptionCreateOrUpdateHeaders
-        },
-        default: {
-            bodyMapper: Mappers.ErrorResponse
-        }
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/subscriptions/{sid}",
+  httpMethod: "PUT",
+  responses: {
+    200: {
+      bodyMapper: Mappers.SubscriptionContract,
+      headersMapper: Mappers.SubscriptionCreateOrUpdateHeaders,
     },
-    requestBody: Parameters.parameters67,
-    queryParameters: [
-        Parameters.apiVersion,
-        Parameters.notify,
-        Parameters.appType
-    ],
-    urlParameters: [
-        Parameters.$host,
-        Parameters.resourceGroupName,
-        Parameters.serviceName,
-        Parameters.subscriptionId,
-        Parameters.sid
-    ],
-    headerParameters: [
-        Parameters.accept,
-        Parameters.contentType,
-        Parameters.ifMatch
-    ],
-    mediaType: "json",
-    serializer
+    201: {
+      bodyMapper: Mappers.SubscriptionContract,
+      headersMapper: Mappers.SubscriptionCreateOrUpdateHeaders,
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  requestBody: Parameters.parameters79,
+  queryParameters: [
+    Parameters.apiVersion,
+    Parameters.notify,
+    Parameters.appType,
+  ],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.resourceGroupName,
+    Parameters.subscriptionId,
+    Parameters.serviceName,
+    Parameters.sid,
+  ],
+  headerParameters: [
+    Parameters.contentType,
+    Parameters.accept,
+    Parameters.ifMatch,
+  ],
+  mediaType: "json",
+  serializer,
 };
 const updateOperationSpec: coreClient.OperationSpec = {
-    path:
-        "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/subscriptions/{sid}",
-    httpMethod: "PATCH",
-    responses: {
-        200: {
-            bodyMapper: Mappers.SubscriptionContract,
-            headersMapper: Mappers.SubscriptionUpdateHeaders
-        },
-        default: {
-            bodyMapper: Mappers.ErrorResponse
-        }
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/subscriptions/{sid}",
+  httpMethod: "PATCH",
+  responses: {
+    200: {
+      bodyMapper: Mappers.SubscriptionContract,
+      headersMapper: Mappers.SubscriptionUpdateHeaders,
     },
-    requestBody: Parameters.parameters68,
-    queryParameters: [
-        Parameters.apiVersion,
-        Parameters.notify,
-        Parameters.appType
-    ],
-    urlParameters: [
-        Parameters.$host,
-        Parameters.resourceGroupName,
-        Parameters.serviceName,
-        Parameters.subscriptionId,
-        Parameters.sid
-    ],
-    headerParameters: [
-        Parameters.accept,
-        Parameters.contentType,
-        Parameters.ifMatch1
-    ],
-    mediaType: "json",
-    serializer
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  requestBody: Parameters.parameters80,
+  queryParameters: [
+    Parameters.apiVersion,
+    Parameters.notify,
+    Parameters.appType,
+  ],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.resourceGroupName,
+    Parameters.subscriptionId,
+    Parameters.serviceName,
+    Parameters.sid,
+  ],
+  headerParameters: [
+    Parameters.contentType,
+    Parameters.accept,
+    Parameters.ifMatch1,
+  ],
+  mediaType: "json",
+  serializer,
 };
 const deleteOperationSpec: coreClient.OperationSpec = {
-    path:
-        "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/subscriptions/{sid}",
-    httpMethod: "DELETE",
-    responses: {
-        200: {},
-        204: {},
-        default: {
-            bodyMapper: Mappers.ErrorResponse
-        }
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/subscriptions/{sid}",
+  httpMethod: "DELETE",
+  responses: {
+    200: {},
+    204: {},
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
     },
-    queryParameters: [Parameters.apiVersion],
-    urlParameters: [
-        Parameters.$host,
-        Parameters.resourceGroupName,
-        Parameters.serviceName,
-        Parameters.subscriptionId,
-        Parameters.sid
-    ],
-    headerParameters: [Parameters.accept, Parameters.ifMatch1],
-    serializer
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.resourceGroupName,
+    Parameters.subscriptionId,
+    Parameters.serviceName,
+    Parameters.sid,
+  ],
+  headerParameters: [Parameters.accept, Parameters.ifMatch1],
+  serializer,
 };
 const regeneratePrimaryKeyOperationSpec: coreClient.OperationSpec = {
-    path:
-        "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/subscriptions/{sid}/regeneratePrimaryKey",
-    httpMethod: "POST",
-    responses: {
-        204: {},
-        default: {
-            bodyMapper: Mappers.ErrorResponse
-        }
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/subscriptions/{sid}/regeneratePrimaryKey",
+  httpMethod: "POST",
+  responses: {
+    204: {},
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
     },
-    queryParameters: [Parameters.apiVersion],
-    urlParameters: [
-        Parameters.$host,
-        Parameters.resourceGroupName,
-        Parameters.serviceName,
-        Parameters.subscriptionId,
-        Parameters.sid
-    ],
-    headerParameters: [Parameters.accept],
-    serializer
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.resourceGroupName,
+    Parameters.subscriptionId,
+    Parameters.serviceName,
+    Parameters.sid,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
 };
 const regenerateSecondaryKeyOperationSpec: coreClient.OperationSpec = {
-    path:
-        "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/subscriptions/{sid}/regenerateSecondaryKey",
-    httpMethod: "POST",
-    responses: {
-        204: {},
-        default: {
-            bodyMapper: Mappers.ErrorResponse
-        }
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/subscriptions/{sid}/regenerateSecondaryKey",
+  httpMethod: "POST",
+  responses: {
+    204: {},
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
     },
-    queryParameters: [Parameters.apiVersion],
-    urlParameters: [
-        Parameters.$host,
-        Parameters.resourceGroupName,
-        Parameters.serviceName,
-        Parameters.subscriptionId,
-        Parameters.sid
-    ],
-    headerParameters: [Parameters.accept],
-    serializer
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.resourceGroupName,
+    Parameters.subscriptionId,
+    Parameters.serviceName,
+    Parameters.sid,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
 };
 const listSecretsOperationSpec: coreClient.OperationSpec = {
-    path:
-        "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/subscriptions/{sid}/listSecrets",
-    httpMethod: "POST",
-    responses: {
-        200: {
-            bodyMapper: Mappers.SubscriptionKeysContract,
-            headersMapper: Mappers.SubscriptionListSecretsHeaders
-        },
-        default: {
-            bodyMapper: Mappers.ErrorResponse
-        }
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/subscriptions/{sid}/listSecrets",
+  httpMethod: "POST",
+  responses: {
+    200: {
+      bodyMapper: Mappers.SubscriptionKeysContract,
+      headersMapper: Mappers.SubscriptionListSecretsHeaders,
     },
-    queryParameters: [Parameters.apiVersion],
-    urlParameters: [
-        Parameters.$host,
-        Parameters.resourceGroupName,
-        Parameters.serviceName,
-        Parameters.subscriptionId,
-        Parameters.sid
-    ],
-    headerParameters: [Parameters.accept],
-    serializer
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.resourceGroupName,
+    Parameters.subscriptionId,
+    Parameters.serviceName,
+    Parameters.sid,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
 };
 const listNextOperationSpec: coreClient.OperationSpec = {
-    path: "{nextLink}",
-    httpMethod: "GET",
-    responses: {
-        200: {
-            bodyMapper: Mappers.SubscriptionCollection
-        },
-        default: {
-            bodyMapper: Mappers.ErrorResponse
-        }
+  path: "{nextLink}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.SubscriptionCollection,
     },
-    urlParameters: [
-        Parameters.$host,
-        Parameters.resourceGroupName,
-        Parameters.serviceName,
-        Parameters.subscriptionId,
-        Parameters.nextLink
-    ],
-    headerParameters: [Parameters.accept],
-    serializer
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  urlParameters: [
+    Parameters.$host,
+    Parameters.resourceGroupName,
+    Parameters.subscriptionId,
+    Parameters.nextLink,
+    Parameters.serviceName,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
 };

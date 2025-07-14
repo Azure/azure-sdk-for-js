@@ -10,6 +10,7 @@
 import ModelClient, { isUnexpected } from "@azure-rest/ai-inference";
 import { AzureKeyCredential } from "@azure/core-auth";
 import { DefaultAzureCredential } from "@azure/identity";
+import { createRestError } from "@azure-rest/core-client";
 
 // Load the .env file if it exists
 import "dotenv/config";
@@ -20,61 +21,61 @@ const modelName = process.env["MODEL_NAME"];
 
 // Defines a JSON schema for a cooking recipe. You would like the AI model to respond in this format.
 const json_schema = {
-  "type": "object",
-  "properties": {
-    "title": {"type": "string", "description": "The name of the recipe"},
-    "servings": {"type": "integer", "description": "How many servings are in this recipe"},
-    "ingredients": {
-      "type": "array",
-      "items": {
-        "type": "object",
-        "properties": {
-          "name": {
-            "type": "string",
-            "description": "The name of the ingredient",
+  type: "object",
+  properties: {
+    title: { type: "string", description: "The name of the recipe" },
+    servings: { type: "integer", description: "How many servings are in this recipe" },
+    ingredients: {
+      type: "array",
+      items: {
+        type: "object",
+        properties: {
+          name: {
+            type: "string",
+            description: "The name of the ingredient",
           },
-          "quantity": {
-            "type": "string",
-            "description": "The quantity of the ingredient",
-          },
-        },
-        "required": ["name", "quantity"],
-        "additionalProperties": false,
-      },
-    },
-    "steps": {
-      "type": "array",
-      "items": {
-        "type": "object",
-        "properties": {
-          "step": {
-            "type": "integer",
-            "description": "Enumerates the step",
-          },
-          "directions": {
-            "type": "string",
-            "description": "Description of the recipe step",
+          quantity: {
+            type: "string",
+            description: "The quantity of the ingredient",
           },
         },
-        "required": ["step", "directions"],
-        "additionalProperties": false,
+        required: ["name", "quantity"],
+        additionalProperties: false,
       },
     },
-    "prep_time": {
-      "type": "integer",
-      "description": "Preperation time in minutes",
+    steps: {
+      type: "array",
+      items: {
+        type: "object",
+        properties: {
+          step: {
+            type: "integer",
+            description: "Enumerates the step",
+          },
+          directions: {
+            type: "string",
+            description: "Description of the recipe step",
+          },
+        },
+        required: ["step", "directions"],
+        additionalProperties: false,
+      },
     },
-    "cooking_time": {
-      "type": "integer",
-      "description": "Cooking time in minutes",
+    prep_time: {
+      type: "integer",
+      description: "Preperation time in minutes",
     },
-    "notes": {
-      "type": "string",
-      "description": "Any additional notes related to this recipe",
+    cooking_time: {
+      type: "integer",
+      description: "Cooking time in minutes",
+    },
+    notes: {
+      type: "string",
+      description: "Any additional notes related to this recipe",
     },
   },
-  "required": ["title", "servings", "ingredients", "steps", "prep_time", "cooking_time", "notes"],
-  "additionalProperties": false,
+  required: ["title", "servings", "ingredients", "steps", "prep_time", "cooking_time", "notes"],
+  additionalProperties: false,
 };
 
 const response_format = {
@@ -82,10 +83,11 @@ const response_format = {
   json_schema: {
     name: "Recipe_JSON_Schema",
     schema: json_schema,
-    description: "Descripes a recipe in details, listing the ingredients, the steps and the time needed to prepare it",
-    strict: true
-  }
-}
+    description:
+      "Descripes a recipe in details, listing the ingredients, the steps and the time needed to prepare it",
+    strict: true,
+  },
+};
 
 export async function main(): Promise<void> {
   console.log("== Chat Completions Structured Output Sample ==");
@@ -95,7 +97,10 @@ export async function main(): Promise<void> {
     body: {
       messages: [
         { role: "system", content: "You are a helpful assistant." }, // System role not supported for some models
-        { role: "user", content: "Please give me directions and ingredients to bake a chocolate cake." },
+        {
+          role: "user",
+          content: "Please give me directions and ingredients to bake a chocolate cake.",
+        },
       ],
       model: modelName,
       response_format,
@@ -103,7 +108,7 @@ export async function main(): Promise<void> {
   });
 
   if (isUnexpected(response)) {
-    throw response.body.error;
+    throw createRestError(response);
   }
 
   for (const choice of response.body.choices) {
@@ -114,7 +119,7 @@ export async function main(): Promise<void> {
 /*
  * This function creates a model client.
  */
-function createModelClient() {
+function createModelClient(): ModelClient {
   // auth scope for AOAI resources is currently https://cognitiveservices.azure.com/.default
   // auth scope for MaaS and MaaP is currently https://ml.azure.com
   // (Do not use for Serverless API or Managed Computer Endpoints)

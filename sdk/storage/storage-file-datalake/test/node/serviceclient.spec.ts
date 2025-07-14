@@ -2,28 +2,26 @@
 // Licensed under the MIT License.
 
 import { Recorder } from "@azure-tools/test-recorder";
-import { assert } from "chai";
-import type { Context } from "mocha";
-
-import { DataLakeServiceClient, getDataLakeServiceAccountAudience } from "../../src";
+import { DataLakeServiceClient, getDataLakeServiceAccountAudience } from "../../src/index.js";
 import {
   recorderEnvSetup,
   getConnectionStringFromEnvironment,
   getDataLakeServiceClient,
   configureStorageClient,
   SimpleTokenCredential,
-} from "../utils";
+} from "../utils/index.js";
 import { createTestCredential } from "@azure-tools/test-credential";
+import { describe, it, assert, beforeEach, afterEach } from "vitest";
 
 describe("DataLakeServiceClient", () => {
   let recorder: Recorder;
 
-  beforeEach(async function (this: Context) {
-    recorder = new Recorder(this.currentTest);
+  beforeEach(async (ctx) => {
+    recorder = new Recorder(ctx);
     await recorder.start(recorderEnvSetup);
   });
 
-  afterEach(async function () {
+  afterEach(async () => {
     await recorder.stop();
   });
 

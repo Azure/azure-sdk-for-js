@@ -101,10 +101,7 @@ export class CommitmentTiersImpl implements CommitmentTiers {
     location: string,
     options?: CommitmentTiersListOptionalParams,
   ): Promise<CommitmentTiersListResponse> {
-    return this.client.sendOperationRequest(
-      { location, options },
-      listOperationSpec,
-    );
+    return this.client.sendOperationRequest({ location, options }, listOperationSpec);
   }
 
   /**
@@ -118,10 +115,7 @@ export class CommitmentTiersImpl implements CommitmentTiers {
     nextLink: string,
     options?: CommitmentTiersListNextOptionalParams,
   ): Promise<CommitmentTiersListNextResponse> {
-    return this.client.sendOperationRequest(
-      { location, nextLink, options },
-      listNextOperationSpec,
-    );
+    return this.client.sendOperationRequest({ location, nextLink, options }, listNextOperationSpec);
   }
 }
 // Operation Specifications
@@ -139,11 +133,7 @@ const listOperationSpec: coreClient.OperationSpec = {
     },
   },
   queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.location,
-  ],
+  urlParameters: [Parameters.$host, Parameters.subscriptionId, Parameters.location],
   headerParameters: [Parameters.accept],
   serializer,
 };

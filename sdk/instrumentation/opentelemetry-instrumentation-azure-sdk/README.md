@@ -45,6 +45,7 @@ import { registerInstrumentations } from "@opentelemetry/instrumentation";
 import { createAzureSdkInstrumentation } from "@azure/opentelemetry-instrumentation-azure-sdk";
 import { KeyClient } from "@azure/keyvault-keys";
 import { DefaultAzureCredential } from "@azure/identity";
+import { trace, context } from "@opentelemetry/api";
 
 // Set-up and configure a Node Tracer Provider using OpenTelemetry SDK.
 const provider = new NodeTracerProvider();
@@ -67,9 +68,9 @@ await keyClient.getKey("MyKeyName");
 // If your scenario requires manual span propagation, all Azure client libraries
 // support explicitly passing a parent context via an `options` parameter.
 // Get a tracer from a registered provider, create a span, and get the current context.
-const tracer = opentelemetry.trace.getTracer("my-tracer");
+const tracer = trace.getTracer("my-tracer");
 const span = tracer.startSpan("main");
-const ctx = opentelemetry.trace.setSpan(opentelemetry.context.active(), span);
+const ctx = trace.setSpan(context.active(), span);
 
 await keyClient.getKey("MyKeyName", {
   tracingOptions: {

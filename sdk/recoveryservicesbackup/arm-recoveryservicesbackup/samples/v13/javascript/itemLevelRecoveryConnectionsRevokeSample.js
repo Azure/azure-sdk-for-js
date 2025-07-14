@@ -10,7 +10,7 @@
 // Licensed under the MIT License.
 const { RecoveryServicesBackupClient } = require("@azure/arm-recoveryservicesbackup");
 const { DefaultAzureCredential } = require("@azure/identity");
-require("dotenv").config();
+require("dotenv/config");
 
 /**
  * This sample demonstrates how to Revokes an iSCSI connection which can be used to download a script. Executing this script opens a file explorer
@@ -18,7 +18,7 @@ displaying all recoverable files and folders. This is an asynchronous operation.
  *
  * @summary Revokes an iSCSI connection which can be used to download a script. Executing this script opens a file explorer
 displaying all recoverable files and folders. This is an asynchronous operation.
- * x-ms-original-file: specification/recoveryservicesbackup/resource-manager/Microsoft.RecoveryServices/stable/2024-04-01/examples/AzureIaasVm/Revoke_Ilr.json
+ * x-ms-original-file: specification/recoveryservicesbackup/resource-manager/Microsoft.RecoveryServices/stable/2025-02-01/examples/AzureIaasVm/Revoke_Ilr.json
  */
 async function revokeInstantItemLevelRecoveryForAzureVM() {
   const subscriptionId =
@@ -44,7 +44,7 @@ async function revokeInstantItemLevelRecoveryForAzureVM() {
 }
 
 async function main() {
-  revokeInstantItemLevelRecoveryForAzureVM();
+  await revokeInstantItemLevelRecoveryForAzureVM();
 }
 
 main().catch(console.error);

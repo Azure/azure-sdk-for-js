@@ -24,14 +24,14 @@ async function listGalleriesInAResourceGroup() {
   const credential = new DefaultAzureCredential();
   const client = new ComputeManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.galleries.listByResourceGroup(resourceGroupName)) {
+  for await (const item of client.galleries.listByResourceGroup(resourceGroupName)) {
     resArray.push(item);
   }
   console.log(resArray);
 }
 
 async function main() {
-  listGalleriesInAResourceGroup();
+  await listGalleriesInAResourceGroup();
 }
 
 main().catch(console.error);

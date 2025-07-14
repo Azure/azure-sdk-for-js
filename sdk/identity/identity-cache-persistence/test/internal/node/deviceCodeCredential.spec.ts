@@ -29,7 +29,7 @@ describe("DeviceCodeCredential (internal)", () => {
     doGetTokenSpy = vi.spyOn(PublicClientApplication.prototype, "acquireTokenByDeviceCode");
   });
 
-  afterEach(async function () {
+  afterEach(async () => {
     await cleanup();
   });
 

@@ -1,15 +1,12 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-/* eslint-disable no-unused-expressions */
-import assert from "assert";
-import type { Suite } from "mocha";
 
-import { CosmosClient } from "../../../src";
-import { masterKey } from "../common/_fakeTestSecrets";
-import type { PluginConfig, CosmosClientOptions } from "../../../src";
-import { PluginOn } from "../../../src";
-import { expect } from "chai";
-import { getEmptyCosmosDiagnostics } from "../../../src/utils/diagnostics";
+import { CosmosClient } from "../../../src/index.js";
+import { masterKey } from "../common/_fakeTestSecrets.js";
+import type { PluginConfig, CosmosClientOptions } from "../../../src/index.js";
+import { PluginOn } from "../../../src/index.js";
+import { getEmptyCosmosDiagnostics } from "../../../src/utils/diagnostics.js";
+import { describe, it, assert } from "vitest";
 
 const endpoint = "https://failovertest.documents.azure.com/";
 
@@ -114,10 +111,8 @@ const collectionResponse = {
   diagnostics: getEmptyCosmosDiagnostics(),
 };
 
-describe("Multi-region tests", function (this: Suite) {
-  this.timeout(process.env.MOCHA_TIMEOUT || "30000");
-
-  it("Preferred locations should be honored for readEndpoint", async function () {
+describe("Multi-region tests", { timeout: 30000 }, () => {
+  it("Preferred locations should be honored for readEndpoint", async () => {
     let requestIndex = 0;
     let lastEndpointCalled = "";
     const responses = [
@@ -134,7 +129,7 @@ describe("Multi-region tests", function (this: Suite) {
       {
         on: PluginOn.request,
         plugin: async (context, diagNode) => {
-          expect(diagNode, "DiagnosticsNode should not be undefined or null").to.exist;
+          assert.isDefined(diagNode, "DiagnosticsNode should not be undefined or null");
           const response = responses[requestIndex];
           if (context.endpoint) {
             lastEndpointCalled = context.endpoint;
@@ -161,7 +156,7 @@ describe("Multi-region tests", function (this: Suite) {
     client.dispose();
   });
 
-  it("Preferred locations should be honored for writeEndpoint", async function () {
+  it("Preferred locations should be honored for writeEndpoint", async () => {
     let requestIndex = 0;
     let lastEndpointCalled = "";
     const responses = [
@@ -178,7 +173,7 @@ describe("Multi-region tests", function (this: Suite) {
       {
         on: PluginOn.request,
         plugin: async (context, diagNode) => {
-          expect(diagNode, "DiagnosticsNode should not be undefined or null").to.exist;
+          assert.isDefined(diagNode, "DiagnosticsNode should not be undefined or null");
           const response = responses[requestIndex];
           if (context.endpoint) {
             lastEndpointCalled = context.endpoint;

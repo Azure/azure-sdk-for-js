@@ -1,8 +1,17 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
+/**
+ * THIS IS AN AUTO-GENERATED FILE - DO NOT EDIT!
+ *
+ * Any changes you make here may be lost.
+ *
+ * If you need to make changes, please do so in the original source file, \{project-root\}/sources/custom
+ */
+
+import type { PipelineRequest, PipelineResponse } from "@azure/core-rest-pipeline";
 import type { TracingSpan } from "@azure/core-tracing";
-import type { GetChatCompletionsBodyParam } from "./parameters.js";
+import { isError } from "@azure/core-util";
 import type {
   ChatRequestAssistantMessage,
   ChatRequestMessage,
@@ -14,12 +23,31 @@ import type {
   ChatCompletionsOutput,
   ChatCompletionsToolCallOutput,
 } from "./outputModels.js";
-import { isError } from "@azure/core-util";
-import type { PipelineRequest, PipelineResponse } from "@azure/core-rest-pipeline";
-
-const INFERENCE_GEN_AI_SYSTEM_NAME = "az.ai.inference";
-const isContentRecordingEnabled = (): boolean =>
-  envVarToBoolean("AZURE_TRACING_GEN_AI_CONTENT_RECORDING_ENABLED");
+import type { GetChatCompletionsBodyParam } from "./parameters.js";
+/*
+* Add event to span.  Sample:
+    {
+    name: 'gen_ai.user.message',
+    attributes: {
+      'gen_ai.system': 'INFERENCE_GEN_AI_SYSTEM_NAME',
+      'gen_ai.event.content': `{"role":"user","content":"What's the weather like in Boston?"}`  
+    },
+    time: [ 1725666879, 622695900 ],
+    droppedAttributesCount: 0
+  },
+*/
+/*
+* Add event to span.  Sample:
+{
+  name: 'gen_ai.choice',
+  attributes: {
+    'gen_ai.system': 'INFERENCE_GEN_AI_SYSTEM_NAME',
+    'gen_ai.event.content': '{"finish_reason":"tool_calls","index":0,"message":{"content":""}}'
+  },
+  time: [ 1725666881, 780608000 ],
+  droppedAttributesCount: 0
+}  
+*/
 
 enum TracingAttributesEnum {
   Operation_Name = "gen_ai.operation.name",
@@ -41,6 +69,11 @@ enum TracingAttributesEnum {
   Server_Address = "server.address",
 }
 
+const INFERENCE_GEN_AI_SYSTEM_NAME = "az.ai.inference";
+
+const isContentRecordingEnabled = (): boolean =>
+  envVarToBoolean("AZURE_TRACING_GEN_AI_CONTENT_RECORDING_ENABLED");
+
 export function getRequestBody(request: PipelineRequest): GetChatCompletionsBodyParam {
   return { body: JSON.parse(request.body as string) };
 }
@@ -57,17 +90,15 @@ export function onStartTracing(span: TracingSpan, request: PipelineRequest, url:
 
   const urlObj = new URL(url);
   const port = Number(urlObj.port) || (urlObj.protocol === "https:" ? undefined : 80);
-
   if (port) {
     span.setAttribute(TracingAttributesEnum.Server_Port, port);
   }
+
   span.setAttribute(TracingAttributesEnum.Server_Address, urlObj.hostname);
   span.setAttribute(TracingAttributesEnum.Operation_Name, "chat");
   span.setAttribute(TracingAttributesEnum.System, "az.ai.inference");
-
   const { body } = getRequestBody(request);
   if (!body) return;
-
   span.setAttribute(TracingAttributesEnum.Request_Model, body.model);
   span.setAttribute(TracingAttributesEnum.Request_Frequency_Penalty, body.frequency_penalty);
   span.setAttribute(TracingAttributesEnum.Request_Max_Tokens, body.max_tokens);
@@ -75,7 +106,6 @@ export function onStartTracing(span: TracingSpan, request: PipelineRequest, url:
   span.setAttribute(TracingAttributesEnum.Request_Stop_Sequences, body.stop);
   span.setAttribute(TracingAttributesEnum.Request_Temperature, body.temperature);
   span.setAttribute(TracingAttributesEnum.Request_Top_P, body.top_p);
-
   if (body.messages) {
     addRequestChatMessageEvent(span, body.messages);
   }
@@ -118,18 +148,6 @@ export function tryProcessError(span: TracingSpan, error: unknown): void {
   });
 }
 
-/*
-* Add event to span.  Sample:
-    {
-    name: 'gen_ai.user.message',
-    attributes: {
-      'gen_ai.system': 'INFERENCE_GEN_AI_SYSTEM_NAME',
-      'gen_ai.event.content': `{"role":"user","content":"What's the weather like in Boston?"}`  
-    },
-    time: [ 1725666879, 622695900 ],
-    droppedAttributesCount: 0
-  },
-*/
 function addRequestChatMessageEvent(span: TracingSpan, messages: Array<ChatRequestMessage>): void {
   messages.forEach((message: any) => {
     if (message.role) {
@@ -179,18 +197,6 @@ function addRequestChatMessageEvent(span: TracingSpan, messages: Array<ChatReque
   });
 }
 
-/*
-* Add event to span.  Sample:
-{
-  name: 'gen_ai.choice',
-  attributes: {
-    'gen_ai.system': 'INFERENCE_GEN_AI_SYSTEM_NAME',
-    'gen_ai.event.content': '{"finish_reason":"tool_calls","index":0,"message":{"content":""}}'
-  },
-  time: [ 1725666881, 780608000 ],
-  droppedAttributesCount: 0
-}  
-*/
 function addResponseChatMessageEvent(span: TracingSpan, body: ChatCompletionsOutput): void {
   if (!span.addEvent) {
     return;

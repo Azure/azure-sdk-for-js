@@ -55,12 +55,13 @@ AZURE_CLIENT_ID, AZURE_TENANT_ID, AZURE_CLIENT_SECRET
 
 Use the returned token credential to authenticate the client:
 
-```typescript
+```ts snippet:ReadmeSampleCreateClient_Node
 import PurviewScanning from "@azure-rest/purview-scanning";
 import { DefaultAzureCredential } from "@azure/identity";
+
 const client = PurviewScanning(
   "https://<my-account-name>.purview.azure.com",
-  new DefaultAzureCredential()
+  new DefaultAzureCredential(),
 );
 ```
 
@@ -78,33 +79,24 @@ The following section shows you how to initialize and authenticate your client, 
 
 ### List All Data Sources
 
-```typescript
-import PurviewScanning, { paginate, DataSourceOutput, PagedAsyncIterableIterator, PageSettings, isUnexpected } from "@azure-rest/purview-scanning";
+```ts snippet:ReadmeSampleListAllDataSources
+import PurviewScanning, { isUnexpected, paginate } from "@azure-rest/purview-scanning";
 import { DefaultAzureCredential } from "@azure/identity";
 
-async function main(): Promise<void> {
-  console.log("== List dataSources ==");
-  const client = PurviewScanning(
-    "https://<my-account-name>.purview.azure.com",
-    new DefaultAzureCredential()
-  );
+const client = PurviewScanning(
+  "https://<my-account-name>.purview.azure.com",
+  new DefaultAzureCredential(),
+);
 
-  const dataSources = await client.path("/datasources").get();
-  if (isUnexpected(dataSources)) {
-    throw dataSources.body.error;
-  }
-  const iter = paginate(client, dataSources);
-
-  const items: DataSourceOutput[] = [];
-
-  for await (const item of <PagedAsyncIterableIterator<DataSourceOutput, (DataSourceOutput)[], PageSettings>>iter) {
-    items.push(item);
-  }
-
-  console.log(items?.map((ds) => ds.name).join("\n"));
+const dataSources = await client.path("/datasources").get();
+if (isUnexpected(dataSources)) {
+  throw dataSources.body.error;
 }
 
-main().catch(console.error);
+const pagedDataSources = paginate(client, dataSources);
+for await (const dataSource of pagedDataSources) {
+  console.log(`Data Source Name: ${dataSource.name}`);
+}
 ```
 
 ## Troubleshooting
@@ -113,7 +105,7 @@ main().catch(console.error);
 
 Enabling logging may help uncover useful information about failures. In order to see a log of HTTP requests and responses, set the `AZURE_LOG_LEVEL` environment variable to `info`. Alternatively, logging can be enabled at runtime by calling `setLogLevel` in the `@azure/logger`:
 
-```ts
+```ts snippet:SetLogLevel
 import { setLogLevel } from "@azure/logger";
 
 setLogLevel("info");
@@ -130,8 +122,6 @@ If you'd like to contribute to this library, please read the [contributing guide
 ## Related projects
 
 - [Microsoft Azure SDK for JavaScript](https://github.com/Azure/azure-sdk-for-js)
-
-
 
 <!-- LINKS -->
 

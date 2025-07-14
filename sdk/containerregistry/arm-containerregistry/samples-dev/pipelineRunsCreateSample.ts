@@ -6,8 +6,12 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import type { PipelineRun } from "@azure/arm-containerregistry";
-import { ContainerRegistryManagementClient } from "@azure/arm-containerregistry";
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
+import {
+  PipelineRun,
+  ContainerRegistryManagementClient,
+} from "@azure/arm-containerregistry";
 import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
 
@@ -15,12 +19,14 @@ import "dotenv/config";
  * This sample demonstrates how to Creates a pipeline run for a container registry with the specified parameters
  *
  * @summary Creates a pipeline run for a container registry with the specified parameters
- * x-ms-original-file: specification/containerregistry/resource-manager/Microsoft.ContainerRegistry/preview/2023-11-01-preview/examples/PipelineRunCreate_Export.json
+ * x-ms-original-file: specification/containerregistry/resource-manager/Microsoft.ContainerRegistry/preview/2025-03-01-preview/examples/PipelineRunCreate_Export.json
  */
 async function pipelineRunCreateExport(): Promise<void> {
   const subscriptionId =
-    process.env["CONTAINERREGISTRY_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";
-  const resourceGroupName = process.env["CONTAINERREGISTRY_RESOURCE_GROUP"] || "myResourceGroup";
+    process.env["CONTAINERREGISTRY_SUBSCRIPTION_ID"] ||
+    "00000000-0000-0000-0000-000000000000";
+  const resourceGroupName =
+    process.env["CONTAINERREGISTRY_RESOURCE_GROUP"] || "myResourceGroup";
   const registryName = "myRegistry";
   const pipelineRunName = "myPipelineRun";
   const pipelineRunCreateParameters: PipelineRun = {
@@ -35,7 +41,10 @@ async function pipelineRunCreateExport(): Promise<void> {
     },
   };
   const credential = new DefaultAzureCredential();
-  const client = new ContainerRegistryManagementClient(credential, subscriptionId);
+  const client = new ContainerRegistryManagementClient(
+    credential,
+    subscriptionId,
+  );
   const result = await client.pipelineRuns.beginCreateAndWait(
     resourceGroupName,
     registryName,
@@ -49,12 +58,14 @@ async function pipelineRunCreateExport(): Promise<void> {
  * This sample demonstrates how to Creates a pipeline run for a container registry with the specified parameters
  *
  * @summary Creates a pipeline run for a container registry with the specified parameters
- * x-ms-original-file: specification/containerregistry/resource-manager/Microsoft.ContainerRegistry/preview/2023-11-01-preview/examples/PipelineRunCreate_Import.json
+ * x-ms-original-file: specification/containerregistry/resource-manager/Microsoft.ContainerRegistry/preview/2025-03-01-preview/examples/PipelineRunCreate_Import.json
  */
 async function pipelineRunCreateImport(): Promise<void> {
   const subscriptionId =
-    process.env["CONTAINERREGISTRY_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";
-  const resourceGroupName = process.env["CONTAINERREGISTRY_RESOURCE_GROUP"] || "myResourceGroup";
+    process.env["CONTAINERREGISTRY_SUBSCRIPTION_ID"] ||
+    "00000000-0000-0000-0000-000000000000";
+  const resourceGroupName =
+    process.env["CONTAINERREGISTRY_RESOURCE_GROUP"] || "myResourceGroup";
   const registryName = "myRegistry";
   const pipelineRunName = "myPipelineRun";
   const pipelineRunCreateParameters: PipelineRun = {
@@ -67,7 +78,10 @@ async function pipelineRunCreateImport(): Promise<void> {
     },
   };
   const credential = new DefaultAzureCredential();
-  const client = new ContainerRegistryManagementClient(credential, subscriptionId);
+  const client = new ContainerRegistryManagementClient(
+    credential,
+    subscriptionId,
+  );
   const result = await client.pipelineRuns.beginCreateAndWait(
     resourceGroupName,
     registryName,

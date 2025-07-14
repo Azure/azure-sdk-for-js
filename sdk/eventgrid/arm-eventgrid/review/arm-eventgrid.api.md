@@ -23,16 +23,6 @@ export type AdvancedFilterOperatorType = string;
 export type AdvancedFilterUnion = AdvancedFilter | NumberInAdvancedFilter | NumberNotInAdvancedFilter | NumberLessThanAdvancedFilter | NumberGreaterThanAdvancedFilter | NumberLessThanOrEqualsAdvancedFilter | NumberGreaterThanOrEqualsAdvancedFilter | BoolEqualsAdvancedFilter | StringInAdvancedFilter | StringNotInAdvancedFilter | StringBeginsWithAdvancedFilter | StringEndsWithAdvancedFilter | StringContainsAdvancedFilter | NumberInRangeAdvancedFilter | NumberNotInRangeAdvancedFilter | StringNotBeginsWithAdvancedFilter | StringNotEndsWithAdvancedFilter | StringNotContainsAdvancedFilter | IsNullOrUndefinedAdvancedFilter | IsNotNullAdvancedFilter;
 
 // @public
-export type AlternativeAuthenticationNameSource = string;
-
-// @public
-export interface AzureADPartnerClientAuthentication extends PartnerClientAuthentication {
-    azureActiveDirectoryApplicationIdOrUri?: string;
-    azureActiveDirectoryTenantId?: string;
-    clientAuthenticationType: "AzureAD";
-}
-
-// @public
 export interface AzureFunctionEventSubscriptionDestination extends EventSubscriptionDestination {
     deliveryAttributeMappings?: DeliveryAttributeMappingUnion[];
     endpointType: "AzureFunction";
@@ -131,7 +121,6 @@ export interface Channel extends Resource {
     channelType?: ChannelType;
     expirationTimeIfNotActivatedUtc?: Date;
     messageForActivation?: string;
-    partnerDestinationInfo?: PartnerDestinationInfoUnion;
     partnerTopicInfo?: PartnerTopicInfo;
     provisioningState?: ChannelProvisioningState;
     readinessState?: ReadinessState;
@@ -217,7 +206,6 @@ export type ChannelType = string;
 // @public
 export interface ChannelUpdateParameters {
     expirationTimeIfNotActivatedUtc?: Date;
-    partnerDestinationInfo?: PartnerUpdateDestinationInfoUnion;
     partnerTopicInfo?: PartnerUpdateTopicInfo;
 }
 
@@ -232,12 +220,6 @@ export interface Client extends Resource {
     readonly provisioningState?: ClientProvisioningState;
     state?: ClientState;
     readonly systemData?: SystemData;
-}
-
-// @public
-export interface ClientAuthenticationSettings {
-    alternativeAuthenticationNameSources?: AlternativeAuthenticationNameSource[];
-    customJwtAuthentication?: CustomJwtAuthenticationSettings;
 }
 
 // @public
@@ -425,21 +407,6 @@ export interface CustomDomainOwnershipValidationResult {
 export type CustomDomainValidationState = string;
 
 // @public
-export interface CustomJwtAuthenticationManagedIdentity {
-    type: CustomJwtAuthenticationManagedIdentityType;
-    userAssignedIdentity?: string;
-}
-
-// @public
-export type CustomJwtAuthenticationManagedIdentityType = string;
-
-// @public
-export interface CustomJwtAuthenticationSettings {
-    issuerCertificates?: IssuerCertificateInfo[];
-    tokenIssuer?: string;
-}
-
-// @public
 export type DataResidencyBoundary = string;
 
 // @public
@@ -512,7 +479,6 @@ export interface Domain extends TrackedResource {
     readonly privateEndpointConnections?: PrivateEndpointConnection[];
     readonly provisioningState?: DomainProvisioningState;
     publicNetworkAccess?: PublicNetworkAccess;
-    sku?: ResourceSku;
     readonly systemData?: SystemData;
 }
 
@@ -873,7 +839,6 @@ export interface DomainUpdateParameters {
     inboundIpRules?: InboundIpRule[];
     minimumTlsVersionAllowed?: TlsVersion;
     publicNetworkAccess?: PublicNetworkAccess;
-    sku?: ResourceSku;
     tags?: {
         [propertyName: string]: string;
     };
@@ -955,13 +920,9 @@ export class EventGridManagementClient extends coreClient.ServiceClient {
     // (undocumented)
     namespaceTopics: NamespaceTopics;
     // (undocumented)
-    networkSecurityPerimeterConfigurations: NetworkSecurityPerimeterConfigurations;
-    // (undocumented)
     operations: Operations;
     // (undocumented)
     partnerConfigurations: PartnerConfigurations;
-    // (undocumented)
-    partnerDestinations: PartnerDestinations;
     // (undocumented)
     partnerNamespaces: PartnerNamespaces;
     // (undocumented)
@@ -1029,11 +990,11 @@ export interface EventSubscription extends Resource {
 
 // @public
 export interface EventSubscriptionDestination {
-    endpointType: "WebHook" | "EventHub" | "StorageQueue" | "HybridConnection" | "ServiceBusQueue" | "ServiceBusTopic" | "AzureFunction" | "PartnerDestination" | "MonitorAlert" | "NamespaceTopic";
+    endpointType: "WebHook" | "EventHub" | "StorageQueue" | "HybridConnection" | "ServiceBusQueue" | "ServiceBusTopic" | "AzureFunction" | "MonitorAlert" | "NamespaceTopic";
 }
 
 // @public (undocumented)
-export type EventSubscriptionDestinationUnion = EventSubscriptionDestination | WebHookEventSubscriptionDestination | EventHubEventSubscriptionDestination | StorageQueueEventSubscriptionDestination | HybridConnectionEventSubscriptionDestination | ServiceBusQueueEventSubscriptionDestination | ServiceBusTopicEventSubscriptionDestination | AzureFunctionEventSubscriptionDestination | PartnerEventSubscriptionDestination | MonitorAlertEventSubscriptionDestination | NamespaceTopicEventSubscriptionDestination;
+export type EventSubscriptionDestinationUnion = EventSubscriptionDestination | WebHookEventSubscriptionDestination | EventHubEventSubscriptionDestination | StorageQueueEventSubscriptionDestination | HybridConnectionEventSubscriptionDestination | ServiceBusQueueEventSubscriptionDestination | ServiceBusTopicEventSubscriptionDestination | AzureFunctionEventSubscriptionDestination | MonitorAlertEventSubscriptionDestination | NamespaceTopicEventSubscriptionDestination;
 
 // @public
 export interface EventSubscriptionFilter {
@@ -1337,12 +1298,6 @@ export interface EventTypesListResult {
 }
 
 // @public
-export interface ExtendedLocation {
-    name?: string;
-    type?: string;
-}
-
-// @public
 export interface ExtensionTopic extends Resource {
     description?: string;
     readonly systemData?: SystemData;
@@ -1454,12 +1409,6 @@ export interface IsNullOrUndefinedFilter extends Filter {
 }
 
 // @public
-export interface IssuerCertificateInfo {
-    certificateUrl: string;
-    identity?: CustomJwtAuthenticationManagedIdentity;
-}
-
-// @public
 export interface JsonField {
     sourceField?: string;
 }
@@ -1505,15 +1454,6 @@ export enum KnownAdvancedFilterOperatorType {
 }
 
 // @public
-export enum KnownAlternativeAuthenticationNameSource {
-    ClientCertificateDns = "ClientCertificateDns",
-    ClientCertificateEmail = "ClientCertificateEmail",
-    ClientCertificateIp = "ClientCertificateIp",
-    ClientCertificateSubject = "ClientCertificateSubject",
-    ClientCertificateUri = "ClientCertificateUri"
-}
-
-// @public
 export enum KnownCaCertificateProvisioningState {
     Canceled = "Canceled",
     Creating = "Creating",
@@ -1530,7 +1470,6 @@ export enum KnownChannelProvisioningState {
     Creating = "Creating",
     Deleting = "Deleting",
     Failed = "Failed",
-    IdleDueToMirroredPartnerDestinationDeletion = "IdleDueToMirroredPartnerDestinationDeletion",
     IdleDueToMirroredPartnerTopicDeletion = "IdleDueToMirroredPartnerTopicDeletion",
     Succeeded = "Succeeded",
     Updating = "Updating"
@@ -1538,7 +1477,6 @@ export enum KnownChannelProvisioningState {
 
 // @public
 export enum KnownChannelType {
-    PartnerDestination = "PartnerDestination",
     PartnerTopic = "PartnerTopic"
 }
 
@@ -1602,12 +1540,6 @@ export enum KnownCustomDomainValidationState {
 }
 
 // @public
-export enum KnownCustomJwtAuthenticationManagedIdentityType {
-    SystemAssigned = "SystemAssigned",
-    UserAssigned = "UserAssigned"
-}
-
-// @public
 export enum KnownDataResidencyBoundary {
     WithinGeopair = "WithinGeopair",
     WithinRegion = "WithinRegion"
@@ -1662,7 +1594,6 @@ export enum KnownEndpointType {
     HybridConnection = "HybridConnection",
     MonitorAlert = "MonitorAlert",
     NamespaceTopic = "NamespaceTopic",
-    PartnerDestination = "PartnerDestination",
     ServiceBusQueue = "ServiceBusQueue",
     ServiceBusTopic = "ServiceBusTopic",
     StorageQueue = "StorageQueue",
@@ -1789,56 +1720,6 @@ export enum KnownNamespaceTopicProvisioningState {
 }
 
 // @public
-export enum KnownNetworkSecurityPerimeterAssociationAccessMode {
-    Audit = "Audit",
-    Enforced = "Enforced",
-    Learning = "Learning"
-}
-
-// @public
-export enum KnownNetworkSecurityPerimeterConfigProvisioningState {
-    Accepted = "Accepted",
-    Canceled = "Canceled",
-    Creating = "Creating",
-    Deleted = "Deleted",
-    Deleting = "Deleting",
-    Failed = "Failed",
-    Succeeded = "Succeeded",
-    Updating = "Updating"
-}
-
-// @public
-export enum KnownNetworkSecurityPerimeterConfigurationIssueSeverity {
-    Error = "Error",
-    Warning = "Warning"
-}
-
-// @public
-export enum KnownNetworkSecurityPerimeterConfigurationIssueType {
-    ConfigurationPropagationFailure = "ConfigurationPropagationFailure",
-    MissingIdentityConfiguration = "MissingIdentityConfiguration",
-    MissingPerimeterConfiguration = "MissingPerimeterConfiguration",
-    Other = "Other"
-}
-
-// @public
-export enum KnownNetworkSecurityPerimeterProfileAccessRuleDirection {
-    Inbound = "Inbound",
-    Outbound = "Outbound"
-}
-
-// @public
-export enum KnownNetworkSecurityPerimeterResourceType {
-    Domains = "domains",
-    Topics = "topics"
-}
-
-// @public
-export enum KnownPartnerClientAuthenticationType {
-    AzureAD = "AzureAD"
-}
-
-// @public
 export enum KnownPartnerConfigurationProvisioningState {
     Canceled = "Canceled",
     Creating = "Creating",
@@ -1846,28 +1727,6 @@ export enum KnownPartnerConfigurationProvisioningState {
     Failed = "Failed",
     Succeeded = "Succeeded",
     Updating = "Updating"
-}
-
-// @public
-export enum KnownPartnerDestinationActivationState {
-    Activated = "Activated",
-    NeverActivated = "NeverActivated"
-}
-
-// @public
-export enum KnownPartnerDestinationProvisioningState {
-    Canceled = "Canceled",
-    Creating = "Creating",
-    Deleting = "Deleting",
-    Failed = "Failed",
-    IdleDueToMirroredChannelResourceDeletion = "IdleDueToMirroredChannelResourceDeletion",
-    Succeeded = "Succeeded",
-    Updating = "Updating"
-}
-
-// @public
-export enum KnownPartnerEndpointType {
-    WebHook = "WebHook"
 }
 
 // @public
@@ -1950,8 +1809,7 @@ export enum KnownPrivateEndpointConnectionsParentType {
 // @public
 export enum KnownPublicNetworkAccess {
     Disabled = "Disabled",
-    Enabled = "Enabled",
-    SecuredByPerimeter = "SecuredByPerimeter"
+    Enabled = "Enabled"
 }
 
 // @public
@@ -1963,12 +1821,6 @@ export enum KnownPublisherType {
 export enum KnownReadinessState {
     Activated = "Activated",
     NeverActivated = "NeverActivated"
-}
-
-// @public
-export enum KnownResourceKind {
-    Azure = "Azure",
-    AzureArc = "AzureArc"
 }
 
 // @public
@@ -1992,12 +1844,6 @@ export enum KnownRoutingIdentityType {
     None = "None",
     SystemAssigned = "SystemAssigned",
     UserAssigned = "UserAssigned"
-}
-
-// @public
-export enum KnownSku {
-    Basic = "Basic",
-    Premium = "Premium"
 }
 
 // @public
@@ -2495,121 +2341,6 @@ export interface NamespaceUpdateParameters {
 }
 
 // @public
-export type NetworkSecurityPerimeterAssociationAccessMode = string;
-
-// @public
-export type NetworkSecurityPerimeterConfigProvisioningState = string;
-
-// @public
-export interface NetworkSecurityPerimeterConfiguration extends Resource {
-    networkSecurityPerimeter?: NetworkSecurityPerimeterInfo;
-    profile?: NetworkSecurityPerimeterConfigurationProfile;
-    provisioningIssues?: NetworkSecurityPerimeterConfigurationIssues[];
-    provisioningState?: NetworkSecurityPerimeterConfigProvisioningState;
-    resourceAssociation?: ResourceAssociation;
-}
-
-// @public
-export interface NetworkSecurityPerimeterConfigurationIssues {
-    description?: string;
-    issueType?: NetworkSecurityPerimeterConfigurationIssueType;
-    name?: string;
-    severity?: NetworkSecurityPerimeterConfigurationIssueSeverity;
-    suggestedAccessRules?: string[];
-    suggestedResourceIds?: string[];
-}
-
-// @public
-export type NetworkSecurityPerimeterConfigurationIssueSeverity = string;
-
-// @public
-export type NetworkSecurityPerimeterConfigurationIssueType = string;
-
-// @public
-export interface NetworkSecurityPerimeterConfigurationList {
-    nextLink?: string;
-    value?: NetworkSecurityPerimeterConfiguration[];
-}
-
-// @public
-export interface NetworkSecurityPerimeterConfigurationProfile {
-    accessRules?: NetworkSecurityPerimeterProfileAccessRule[];
-    accessRulesVersion?: string;
-    diagnosticSettingsVersion?: string;
-    enabledLogCategories?: string[];
-    name?: string;
-}
-
-// @public
-export interface NetworkSecurityPerimeterConfigurations {
-    beginReconcile(resourceGroupName: string, resourceType: NetworkSecurityPerimeterResourceType, resourceName: string, perimeterGuid: string, associationName: string, options?: NetworkSecurityPerimeterConfigurationsReconcileOptionalParams): Promise<SimplePollerLike<OperationState<NetworkSecurityPerimeterConfigurationsReconcileResponse>, NetworkSecurityPerimeterConfigurationsReconcileResponse>>;
-    beginReconcileAndWait(resourceGroupName: string, resourceType: NetworkSecurityPerimeterResourceType, resourceName: string, perimeterGuid: string, associationName: string, options?: NetworkSecurityPerimeterConfigurationsReconcileOptionalParams): Promise<NetworkSecurityPerimeterConfigurationsReconcileResponse>;
-    get(resourceGroupName: string, resourceType: NetworkSecurityPerimeterResourceType, resourceName: string, perimeterGuid: string, associationName: string, options?: NetworkSecurityPerimeterConfigurationsGetOptionalParams): Promise<NetworkSecurityPerimeterConfigurationsGetResponse>;
-    list(resourceGroupName: string, resourceType: NetworkSecurityPerimeterResourceType, resourceName: string, options?: NetworkSecurityPerimeterConfigurationsListOptionalParams): PagedAsyncIterableIterator<NetworkSecurityPerimeterConfiguration>;
-}
-
-// @public
-export interface NetworkSecurityPerimeterConfigurationsGetOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type NetworkSecurityPerimeterConfigurationsGetResponse = NetworkSecurityPerimeterConfiguration;
-
-// @public
-export interface NetworkSecurityPerimeterConfigurationsListOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type NetworkSecurityPerimeterConfigurationsListResponse = NetworkSecurityPerimeterConfigurationList;
-
-// @public
-export interface NetworkSecurityPerimeterConfigurationsReconcileHeaders {
-    // (undocumented)
-    location?: string;
-}
-
-// @public
-export interface NetworkSecurityPerimeterConfigurationsReconcileOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
-    updateIntervalInMs?: number;
-}
-
-// @public
-export type NetworkSecurityPerimeterConfigurationsReconcileResponse = NetworkSecurityPerimeterConfiguration;
-
-// @public
-export interface NetworkSecurityPerimeterInfo {
-    id?: string;
-    location?: string;
-    perimeterGuid?: string;
-}
-
-// @public
-export interface NetworkSecurityPerimeterProfileAccessRule {
-    addressPrefixes?: string[];
-    direction?: NetworkSecurityPerimeterProfileAccessRuleDirection;
-    emailAddresses?: string[];
-    fullyQualifiedArmId?: string;
-    fullyQualifiedDomainNames?: string[];
-    name?: string;
-    networkSecurityPerimeters?: NetworkSecurityPerimeterInfo[];
-    phoneNumbers?: string[];
-    subscriptions?: NetworkSecurityPerimeterSubscription[];
-    type?: string;
-}
-
-// @public
-export type NetworkSecurityPerimeterProfileAccessRuleDirection = string;
-
-// @public
-export type NetworkSecurityPerimeterResourceType = string;
-
-// @public
-export interface NetworkSecurityPerimeterSubscription {
-    id?: string;
-}
-
-// @public
 export interface NumberGreaterThanAdvancedFilter extends AdvancedFilter {
     operatorType: "NumberGreaterThan";
     value?: number;
@@ -2753,17 +2484,6 @@ export interface PartnerAuthorization {
 }
 
 // @public
-export interface PartnerClientAuthentication {
-    clientAuthenticationType: "AzureAD";
-}
-
-// @public
-export type PartnerClientAuthenticationType = string;
-
-// @public (undocumented)
-export type PartnerClientAuthenticationUnion = PartnerClientAuthentication | AzureADPartnerClientAuthentication;
-
-// @public
 export interface PartnerConfiguration extends Resource {
     location?: string;
     partnerAuthorization?: PartnerAuthorization;
@@ -2881,159 +2601,10 @@ export interface PartnerConfigurationUpdateParameters {
 }
 
 // @public
-export interface PartnerDestination extends TrackedResource {
-    activationState?: PartnerDestinationActivationState;
-    endpointBaseUrl?: string;
-    endpointServiceContext?: string;
-    expirationTimeIfNotActivatedUtc?: Date;
-    messageForActivation?: string;
-    partnerRegistrationImmutableId?: string;
-    readonly provisioningState?: PartnerDestinationProvisioningState;
-    readonly systemData?: SystemData;
-}
-
-// @public
-export type PartnerDestinationActivationState = string;
-
-// @public
-export interface PartnerDestinationInfo {
-    azureSubscriptionId?: string;
-    endpointServiceContext?: string;
-    endpointType: "WebHook";
-    name?: string;
-    resourceGroupName?: string;
-    resourceMoveChangeHistory?: ResourceMoveChangeHistory[];
-}
-
-// @public (undocumented)
-export type PartnerDestinationInfoUnion = PartnerDestinationInfo | WebhookPartnerDestinationInfo;
-
-// @public
-export type PartnerDestinationProvisioningState = string;
-
-// @public
-export interface PartnerDestinations {
-    activate(resourceGroupName: string, partnerDestinationName: string, options?: PartnerDestinationsActivateOptionalParams): Promise<PartnerDestinationsActivateResponse>;
-    beginCreateOrUpdate(resourceGroupName: string, partnerDestinationName: string, partnerDestination: PartnerDestination, options?: PartnerDestinationsCreateOrUpdateOptionalParams): Promise<SimplePollerLike<OperationState<PartnerDestinationsCreateOrUpdateResponse>, PartnerDestinationsCreateOrUpdateResponse>>;
-    beginCreateOrUpdateAndWait(resourceGroupName: string, partnerDestinationName: string, partnerDestination: PartnerDestination, options?: PartnerDestinationsCreateOrUpdateOptionalParams): Promise<PartnerDestinationsCreateOrUpdateResponse>;
-    beginDelete(resourceGroupName: string, partnerDestinationName: string, options?: PartnerDestinationsDeleteOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
-    beginDeleteAndWait(resourceGroupName: string, partnerDestinationName: string, options?: PartnerDestinationsDeleteOptionalParams): Promise<void>;
-    beginUpdate(resourceGroupName: string, partnerDestinationName: string, partnerDestinationUpdateParameters: PartnerDestinationUpdateParameters, options?: PartnerDestinationsUpdateOptionalParams): Promise<SimplePollerLike<OperationState<PartnerDestinationsUpdateResponse>, PartnerDestinationsUpdateResponse>>;
-    beginUpdateAndWait(resourceGroupName: string, partnerDestinationName: string, partnerDestinationUpdateParameters: PartnerDestinationUpdateParameters, options?: PartnerDestinationsUpdateOptionalParams): Promise<PartnerDestinationsUpdateResponse>;
-    get(resourceGroupName: string, partnerDestinationName: string, options?: PartnerDestinationsGetOptionalParams): Promise<PartnerDestinationsGetResponse>;
-    listByResourceGroup(resourceGroupName: string, options?: PartnerDestinationsListByResourceGroupOptionalParams): PagedAsyncIterableIterator<PartnerDestination>;
-    listBySubscription(options?: PartnerDestinationsListBySubscriptionOptionalParams): PagedAsyncIterableIterator<PartnerDestination>;
-}
-
-// @public
-export interface PartnerDestinationsActivateOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type PartnerDestinationsActivateResponse = PartnerDestination;
-
-// @public
-export interface PartnerDestinationsCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
-    updateIntervalInMs?: number;
-}
-
-// @public
-export type PartnerDestinationsCreateOrUpdateResponse = PartnerDestination;
-
-// @public
-export interface PartnerDestinationsDeleteHeaders {
-    // (undocumented)
-    location?: string;
-}
-
-// @public
-export interface PartnerDestinationsDeleteOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
-    updateIntervalInMs?: number;
-}
-
-// @public
-export interface PartnerDestinationsGetOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type PartnerDestinationsGetResponse = PartnerDestination;
-
-// @public
-export interface PartnerDestinationsListByResourceGroupNextOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type PartnerDestinationsListByResourceGroupNextResponse = PartnerDestinationsListResult;
-
-// @public
-export interface PartnerDestinationsListByResourceGroupOptionalParams extends coreClient.OperationOptions {
-    filter?: string;
-    top?: number;
-}
-
-// @public
-export type PartnerDestinationsListByResourceGroupResponse = PartnerDestinationsListResult;
-
-// @public
-export interface PartnerDestinationsListBySubscriptionNextOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type PartnerDestinationsListBySubscriptionNextResponse = PartnerDestinationsListResult;
-
-// @public
-export interface PartnerDestinationsListBySubscriptionOptionalParams extends coreClient.OperationOptions {
-    filter?: string;
-    top?: number;
-}
-
-// @public
-export type PartnerDestinationsListBySubscriptionResponse = PartnerDestinationsListResult;
-
-// @public
-export interface PartnerDestinationsListResult {
-    nextLink?: string;
-    value?: PartnerDestination[];
-}
-
-// @public
-export interface PartnerDestinationsUpdateHeaders {
-    // (undocumented)
-    location?: string;
-}
-
-// @public
-export interface PartnerDestinationsUpdateOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
-    updateIntervalInMs?: number;
-}
-
-// @public
-export type PartnerDestinationsUpdateResponse = PartnerDestination;
-
-// @public
-export interface PartnerDestinationUpdateParameters {
-    tags?: {
-        [propertyName: string]: string;
-    };
-}
-
-// @public
 export interface PartnerDetails {
     description?: string;
     longDescription?: string;
     setupUri?: string;
-}
-
-// @public
-export type PartnerEndpointType = string;
-
-// @public (undocumented)
-export interface PartnerEventSubscriptionDestination extends EventSubscriptionDestination {
-    endpointType: "PartnerDestination";
-    resourceId?: string;
 }
 
 // @public
@@ -3197,12 +2768,6 @@ export interface PartnerRegistrations {
     get(resourceGroupName: string, partnerRegistrationName: string, options?: PartnerRegistrationsGetOptionalParams): Promise<PartnerRegistrationsGetResponse>;
     listByResourceGroup(resourceGroupName: string, options?: PartnerRegistrationsListByResourceGroupOptionalParams): PagedAsyncIterableIterator<PartnerRegistration>;
     listBySubscription(options?: PartnerRegistrationsListBySubscriptionOptionalParams): PagedAsyncIterableIterator<PartnerRegistration>;
-}
-
-// @public
-export interface PartnerRegistrationsCreateOrUpdateHeaders {
-    // (undocumented)
-    location?: string;
 }
 
 // @public
@@ -3504,14 +3069,6 @@ export interface PartnerTopicUpdateParameters {
 }
 
 // @public
-export interface PartnerUpdateDestinationInfo {
-    endpointType: "WebHook";
-}
-
-// @public (undocumented)
-export type PartnerUpdateDestinationInfoUnion = PartnerUpdateDestinationInfo | WebhookUpdatePartnerDestinationInfo;
-
-// @public
 export interface PartnerUpdateTopicInfo {
     eventTypeInfo?: EventTypeInfo;
 }
@@ -3758,31 +3315,10 @@ export interface Resource {
 }
 
 // @public
-export interface ResourceAssociation {
-    accessMode?: NetworkSecurityPerimeterAssociationAccessMode;
-    name?: string;
-}
-
-// @public
-export type ResourceKind = string;
-
-// @public
-export interface ResourceMoveChangeHistory {
-    azureSubscriptionId?: string;
-    changedTimeUtc?: Date;
-    resourceGroupName?: string;
-}
-
-// @public
 export type ResourceProvisioningState = string;
 
 // @public
 export type ResourceRegionType = string;
-
-// @public
-export interface ResourceSku {
-    name?: Sku;
-}
 
 // @public
 export interface RetryPolicy {
@@ -3821,9 +3357,6 @@ export interface ServiceBusTopicEventSubscriptionDestination extends EventSubscr
     endpointType: "ServiceBusTopic";
     resourceId?: string;
 }
-
-// @public
-export type Sku = string;
 
 // @public
 export type SkuName = string;
@@ -4202,18 +3735,15 @@ export interface Topic extends TrackedResource {
     disableLocalAuth?: boolean;
     readonly endpoint?: string;
     eventTypeInfo?: EventTypeInfo;
-    extendedLocation?: ExtendedLocation;
     identity?: IdentityInfo;
     inboundIpRules?: InboundIpRule[];
     inputSchema?: InputSchema;
     inputSchemaMapping?: InputSchemaMappingUnion;
-    kind?: ResourceKind;
     readonly metricResourceId?: string;
     minimumTlsVersionAllowed?: TlsVersion;
     readonly privateEndpointConnections?: PrivateEndpointConnection[];
     readonly provisioningState?: TopicProvisioningState;
     publicNetworkAccess?: PublicNetworkAccess;
-    sku?: ResourceSku;
     readonly systemData?: SystemData;
 }
 
@@ -4441,7 +3971,6 @@ export interface TopicSpaces {
 
 // @public
 export interface TopicSpacesConfiguration {
-    clientAuthentication?: ClientAuthenticationSettings;
     customDomains?: CustomDomainConfiguration[];
     readonly hostname?: string;
     maximumClientSessionsPerAuthenticationName?: number;
@@ -4596,7 +4125,6 @@ export interface TopicUpdateParameters {
     inboundIpRules?: InboundIpRule[];
     minimumTlsVersionAllowed?: TlsVersion;
     publicNetworkAccess?: PublicNetworkAccess;
-    sku?: ResourceSku;
     tags?: {
         [propertyName: string]: string;
     };
@@ -4617,7 +4145,6 @@ export interface UpdateTopicsConfigurationInfo {
 
 // @public
 export interface UpdateTopicSpacesConfigurationInfo {
-    clientAuthentication?: ClientAuthenticationSettings;
     customDomains?: CustomDomainConfiguration[];
     maximumClientSessionsPerAuthenticationName?: number;
     maximumSessionExpiryInHours?: number;
@@ -4636,7 +4163,6 @@ export interface UserIdentityProperties {
 // @public
 export interface VerifiedPartner extends Resource {
     organizationName?: string;
-    partnerDestinationDetails?: PartnerDetails;
     partnerDisplayName?: string;
     partnerRegistrationImmutableId?: string;
     partnerTopicDetails?: PartnerDetails;
@@ -4693,22 +4219,6 @@ export interface WebHookEventSubscriptionDestination extends EventSubscriptionDe
     maxEventsPerBatch?: number;
     minimumTlsVersionAllowed?: TlsVersion;
     preferredBatchSizeInKilobytes?: number;
-}
-
-// @public
-export interface WebhookPartnerDestinationInfo extends PartnerDestinationInfo {
-    clientAuthentication?: PartnerClientAuthenticationUnion;
-    endpointBaseUrl?: string;
-    endpointType: "WebHook";
-    endpointUrl?: string;
-}
-
-// @public
-export interface WebhookUpdatePartnerDestinationInfo extends PartnerUpdateDestinationInfo {
-    clientAuthentication?: PartnerClientAuthenticationUnion;
-    endpointBaseUrl?: string;
-    endpointType: "WebHook";
-    endpointUrl?: string;
 }
 
 // (No @packageDocumentation comment for this package)

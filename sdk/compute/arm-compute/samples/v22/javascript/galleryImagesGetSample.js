@@ -30,7 +30,7 @@ async function getAGalleryImage() {
 }
 
 async function main() {
-  getAGalleryImage();
+  await getAGalleryImage();
 }
 
 main().catch(console.error);

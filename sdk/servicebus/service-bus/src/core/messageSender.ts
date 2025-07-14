@@ -357,7 +357,7 @@ export class MessageSender extends LinkEntity<AwaitableSender> {
    * - `maxSizeInBytes`: The upper limit for the size of batch.
    *
    * Example usage:
-   * ```js
+   * ```ts snippet:ignore
    * {
    *     retryOptions: { maxRetries: 5; timeoutInMs: 10 }
    * }

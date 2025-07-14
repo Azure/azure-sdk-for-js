@@ -1,18 +1,17 @@
-import { expect } from "@azure-tools/test-utils";
-import { CIInfoProvider, CI_PROVIDERS } from "../../src/utils/cIInfoProvider";
-import sinon from "sinon";
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
+
+import { CIInfoProvider, CI_PROVIDERS } from "../../src/utils/cIInfoProvider.js";
+import { describe, it, expect, afterEach, beforeEach } from "vitest";
 
 describe("CIInfoProvider", () => {
-  let sandbox: sinon.SinonSandbox;
-  let environmentVariables = process.env;
+  const environmentVariables = process.env;
 
   beforeEach(() => {
-    sandbox = sinon.createSandbox();
     process.env = {};
   });
 
   afterEach(() => {
-    sandbox.restore();
     process.env = { ...environmentVariables };
   });
 
@@ -47,14 +46,14 @@ describe("CIInfoProvider", () => {
     const ciInfo = CIInfoProvider.getCIInfo();
 
     expect(ciInfo.provider).to.equal(CI_PROVIDERS.GITHUB);
-    expect(ciInfo.repo).to.be.null;
-    expect(ciInfo.branch).to.be.null;
-    expect(ciInfo.author).to.be.null;
-    expect(ciInfo.commitId).to.be.null;
-    expect(ciInfo.revisionUrl).to.be.null;
-    expect(ciInfo.runId).to.be.null;
-    expect(ciInfo.runAttempt).to.be.null;
-    expect(ciInfo.jobName).to.be.null;
+    expect(ciInfo.repo).toBeNull();
+    expect(ciInfo.branch).toBeNull();
+    expect(ciInfo.author).toBeNull();
+    expect(ciInfo.commitId).toBeNull();
+    expect(ciInfo.revisionUrl).toBeNull();
+    expect(ciInfo.runId).toBeNull();
+    expect(ciInfo.runAttempt).toBeNull();
+    expect(ciInfo.jobName).toBeNull();
   });
 
   it("should return Azure DevOps CIInfo when Azure DevOps environment variables are set", () => {
@@ -127,13 +126,13 @@ describe("CIInfoProvider", () => {
     const ciInfo = CIInfoProvider.getCIInfo();
 
     expect(ciInfo.provider).to.equal(CI_PROVIDERS.ADO);
-    expect(ciInfo.repo).to.be.null;
-    expect(ciInfo.branch).to.be.null;
-    expect(ciInfo.author).to.be.null;
-    expect(ciInfo.commitId).to.be.null;
-    expect(ciInfo.revisionUrl).to.be.null;
-    expect(ciInfo.runId).to.be.null;
-    expect(ciInfo.jobName).to.be.null;
+    expect(ciInfo.repo).toBeNull();
+    expect(ciInfo.branch).toBeNull();
+    expect(ciInfo.author).toBeNull();
+    expect(ciInfo.commitId).toBeNull();
+    expect(ciInfo.revisionUrl).toBeNull();
+    expect(ciInfo.runId).toBeNull();
+    expect(ciInfo.jobName).toBeNull();
   });
 
   it("should return default CIInfo when no supported CI environment is detected", () => {
@@ -163,13 +162,13 @@ describe("CIInfoProvider", () => {
     const ciInfo = CIInfoProvider.getCIInfo();
 
     expect(ciInfo.provider).to.equal(CI_PROVIDERS.DEFAULT);
-    expect(ciInfo.repo).to.be.null;
-    expect(ciInfo.branch).to.be.null;
-    expect(ciInfo.author).to.be.null;
-    expect(ciInfo.commitId).to.be.null;
-    expect(ciInfo.revisionUrl).to.be.null;
-    expect(ciInfo.runId).to.be.null;
-    expect(ciInfo.runAttempt).to.be.null;
-    expect(ciInfo.jobName).to.be.null;
+    expect(ciInfo.repo).toBeNull();
+    expect(ciInfo.branch).toBeNull();
+    expect(ciInfo.author).toBeNull();
+    expect(ciInfo.commitId).toBeNull();
+    expect(ciInfo.revisionUrl).toBeNull();
+    expect(ciInfo.runId).toBeNull();
+    expect(ciInfo.runAttempt).toBeNull();
+    expect(ciInfo.jobName).toBeNull();
   });
 });

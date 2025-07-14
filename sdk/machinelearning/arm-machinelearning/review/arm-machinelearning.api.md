@@ -1614,7 +1614,7 @@ export interface CustomService {
     environmentVariables?: {
         [propertyName: string]: EnvironmentVariable;
     };
-    image?: Image_2;
+    image?: Image;
     name?: string;
     volumes?: VolumeDefinition[];
 }
@@ -3094,12 +3094,11 @@ export interface IdleShutdownSetting {
 }
 
 // @public
-interface Image_2 {
+export interface Image {
     [property: string]: any;
     reference?: string;
     type?: ImageType;
 }
-export { Image_2 as Image }
 
 // @public
 export interface ImageClassification extends ImageClassificationBase, AutoMLVertical {
@@ -3496,8 +3495,7 @@ export type JobTier = string;
 export type JobType = string;
 
 // @public
-type KeyType_2 = string;
-export { KeyType_2 as KeyType }
+export type KeyType = string;
 
 // @public
 export enum KnownActionType {
@@ -6521,7 +6519,7 @@ export type ReferenceType = string;
 
 // @public (undocumented)
 export interface RegenerateEndpointKeysRequest {
-    keyType: KeyType_2;
+    keyType: KeyType;
     keyValue?: string;
 }
 

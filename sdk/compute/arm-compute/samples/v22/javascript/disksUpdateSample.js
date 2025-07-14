@@ -194,16 +194,16 @@ async function updateManagedDiskToRemoveDiskAccessResourceAssociation() {
 }
 
 async function main() {
-  createOrUpdateABurstingEnabledManagedDisk();
-  updateAManagedDiskToAddAcceleratedNetworking();
-  updateAManagedDiskToAddArchitecture();
-  updateAManagedDiskToAddPurchasePlan();
-  updateAManagedDiskToAddSupportsHibernation();
-  updateAManagedDiskToChangeTier();
-  updateAManagedDiskToDisableBursting();
-  updateAManagedDiskToDisableOptimizedForFrequentAttach();
-  updateAManagedDiskWithDiskControllerTypes();
-  updateManagedDiskToRemoveDiskAccessResourceAssociation();
+  await createOrUpdateABurstingEnabledManagedDisk();
+  await updateAManagedDiskToAddAcceleratedNetworking();
+  await updateAManagedDiskToAddArchitecture();
+  await updateAManagedDiskToAddPurchasePlan();
+  await updateAManagedDiskToAddSupportsHibernation();
+  await updateAManagedDiskToChangeTier();
+  await updateAManagedDiskToDisableBursting();
+  await updateAManagedDiskToDisableOptimizedForFrequentAttach();
+  await updateAManagedDiskWithDiskControllerTypes();
+  await updateManagedDiskToRemoveDiskAccessResourceAssociation();
 }
 
 main().catch(console.error);

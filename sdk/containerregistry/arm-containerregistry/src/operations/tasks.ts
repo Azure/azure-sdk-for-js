@@ -14,12 +14,6 @@ import * as Mappers from "../models/mappers.js";
 import * as Parameters from "../models/parameters.js";
 import { ContainerRegistryManagementClient } from "../containerRegistryManagementClient.js";
 import {
-  SimplePollerLike,
-  OperationState,
-  createHttpPoller
-} from "@azure/core-lro";
-import { createLroSpec } from "../lroImpl.js";
-import {
   Task,
   TasksListNextOptionalParams,
   TasksListOptionalParams,
@@ -34,7 +28,7 @@ import {
   TasksUpdateResponse,
   TasksGetDetailsOptionalParams,
   TasksGetDetailsResponse,
-  TasksListNextResponse
+  TasksListNextResponse,
 } from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
@@ -59,7 +53,7 @@ export class TasksImpl implements Tasks {
   public list(
     resourceGroupName: string,
     registryName: string,
-    options?: TasksListOptionalParams
+    options?: TasksListOptionalParams,
   ): PagedAsyncIterableIterator<Task> {
     const iter = this.listPagingAll(resourceGroupName, registryName, options);
     return {
@@ -77,9 +71,9 @@ export class TasksImpl implements Tasks {
           resourceGroupName,
           registryName,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
@@ -87,7 +81,7 @@ export class TasksImpl implements Tasks {
     resourceGroupName: string,
     registryName: string,
     options?: TasksListOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<Task[]> {
     let result: TasksListResponse;
     let continuationToken = settings?.continuationToken;
@@ -103,7 +97,7 @@ export class TasksImpl implements Tasks {
         resourceGroupName,
         registryName,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -115,12 +109,12 @@ export class TasksImpl implements Tasks {
   private async *listPagingAll(
     resourceGroupName: string,
     registryName: string,
-    options?: TasksListOptionalParams
+    options?: TasksListOptionalParams,
   ): AsyncIterableIterator<Task> {
     for await (const page of this.listPagingPage(
       resourceGroupName,
       registryName,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -135,11 +129,11 @@ export class TasksImpl implements Tasks {
   private _list(
     resourceGroupName: string,
     registryName: string,
-    options?: TasksListOptionalParams
+    options?: TasksListOptionalParams,
   ): Promise<TasksListResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, registryName, options },
-      listOperationSpec
+      listOperationSpec,
     );
   }
 
@@ -154,11 +148,11 @@ export class TasksImpl implements Tasks {
     resourceGroupName: string,
     registryName: string,
     taskName: string,
-    options?: TasksGetOptionalParams
+    options?: TasksGetOptionalParams,
   ): Promise<TasksGetResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, registryName, taskName, options },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 
@@ -170,99 +164,23 @@ export class TasksImpl implements Tasks {
    * @param taskCreateParameters The parameters for creating a task.
    * @param options The options parameters.
    */
-  async beginCreate(
+  create(
     resourceGroupName: string,
     registryName: string,
     taskName: string,
     taskCreateParameters: Task,
-    options?: TasksCreateOptionalParams
-  ): Promise<
-    SimplePollerLike<OperationState<TasksCreateResponse>, TasksCreateResponse>
-  > {
-    const directSendOperation = async (
-      args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
-    ): Promise<TasksCreateResponse> => {
-      return this.client.sendOperationRequest(args, spec);
-    };
-    const sendOperationFn = async (
-      args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
-    ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
-      const providedCallback = args.options?.onResponse;
-      const callback: coreClient.RawResponseCallback = (
-        rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
-      ) => {
-        currentRawResponse = rawResponse;
-        providedCallback?.(rawResponse, flatResponse);
-      };
-      const updatedArgs = {
-        ...args,
-        options: {
-          ...args.options,
-          onResponse: callback
-        }
-      };
-      const flatResponse = await directSendOperation(updatedArgs, spec);
-      return {
-        flatResponse,
-        rawResponse: {
-          statusCode: currentRawResponse!.status,
-          body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
-      };
-    };
-
-    const lro = createLroSpec({
-      sendOperationFn,
-      args: {
+    options?: TasksCreateOptionalParams,
+  ): Promise<TasksCreateResponse> {
+    return this.client.sendOperationRequest(
+      {
         resourceGroupName,
         registryName,
         taskName,
         taskCreateParameters,
-        options
+        options,
       },
-      spec: createOperationSpec
-    });
-    const poller = await createHttpPoller<
-      TasksCreateResponse,
-      OperationState<TasksCreateResponse>
-    >(lro, {
-      restoreFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs
-    });
-    await poller.poll();
-    return poller;
-  }
-
-  /**
-   * Creates a task for a container registry with the specified parameters.
-   * @param resourceGroupName The name of the resource group to which the container registry belongs.
-   * @param registryName The name of the container registry.
-   * @param taskName The name of the container registry task.
-   * @param taskCreateParameters The parameters for creating a task.
-   * @param options The options parameters.
-   */
-  async beginCreateAndWait(
-    resourceGroupName: string,
-    registryName: string,
-    taskName: string,
-    taskCreateParameters: Task,
-    options?: TasksCreateOptionalParams
-  ): Promise<TasksCreateResponse> {
-    const poller = await this.beginCreate(
-      resourceGroupName,
-      registryName,
-      taskName,
-      taskCreateParameters,
-      options
+      createOperationSpec,
     );
-    return poller.pollUntilDone();
   }
 
   /**
@@ -272,84 +190,16 @@ export class TasksImpl implements Tasks {
    * @param taskName The name of the container registry task.
    * @param options The options parameters.
    */
-  async beginDelete(
+  delete(
     resourceGroupName: string,
     registryName: string,
     taskName: string,
-    options?: TasksDeleteOptionalParams
-  ): Promise<SimplePollerLike<OperationState<void>, void>> {
-    const directSendOperation = async (
-      args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
-    ): Promise<void> => {
-      return this.client.sendOperationRequest(args, spec);
-    };
-    const sendOperationFn = async (
-      args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
-    ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
-      const providedCallback = args.options?.onResponse;
-      const callback: coreClient.RawResponseCallback = (
-        rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
-      ) => {
-        currentRawResponse = rawResponse;
-        providedCallback?.(rawResponse, flatResponse);
-      };
-      const updatedArgs = {
-        ...args,
-        options: {
-          ...args.options,
-          onResponse: callback
-        }
-      };
-      const flatResponse = await directSendOperation(updatedArgs, spec);
-      return {
-        flatResponse,
-        rawResponse: {
-          statusCode: currentRawResponse!.status,
-          body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
-      };
-    };
-
-    const lro = createLroSpec({
-      sendOperationFn,
-      args: { resourceGroupName, registryName, taskName, options },
-      spec: deleteOperationSpec
-    });
-    const poller = await createHttpPoller<void, OperationState<void>>(lro, {
-      restoreFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs
-    });
-    await poller.poll();
-    return poller;
-  }
-
-  /**
-   * Deletes a specified task.
-   * @param resourceGroupName The name of the resource group to which the container registry belongs.
-   * @param registryName The name of the container registry.
-   * @param taskName The name of the container registry task.
-   * @param options The options parameters.
-   */
-  async beginDeleteAndWait(
-    resourceGroupName: string,
-    registryName: string,
-    taskName: string,
-    options?: TasksDeleteOptionalParams
+    options?: TasksDeleteOptionalParams,
   ): Promise<void> {
-    const poller = await this.beginDelete(
-      resourceGroupName,
-      registryName,
-      taskName,
-      options
+    return this.client.sendOperationRequest(
+      { resourceGroupName, registryName, taskName, options },
+      deleteOperationSpec,
     );
-    return poller.pollUntilDone();
   }
 
   /**
@@ -360,99 +210,23 @@ export class TasksImpl implements Tasks {
    * @param taskUpdateParameters The parameters for updating a task.
    * @param options The options parameters.
    */
-  async beginUpdate(
+  update(
     resourceGroupName: string,
     registryName: string,
     taskName: string,
     taskUpdateParameters: TaskUpdateParameters,
-    options?: TasksUpdateOptionalParams
-  ): Promise<
-    SimplePollerLike<OperationState<TasksUpdateResponse>, TasksUpdateResponse>
-  > {
-    const directSendOperation = async (
-      args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
-    ): Promise<TasksUpdateResponse> => {
-      return this.client.sendOperationRequest(args, spec);
-    };
-    const sendOperationFn = async (
-      args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
-    ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
-      const providedCallback = args.options?.onResponse;
-      const callback: coreClient.RawResponseCallback = (
-        rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
-      ) => {
-        currentRawResponse = rawResponse;
-        providedCallback?.(rawResponse, flatResponse);
-      };
-      const updatedArgs = {
-        ...args,
-        options: {
-          ...args.options,
-          onResponse: callback
-        }
-      };
-      const flatResponse = await directSendOperation(updatedArgs, spec);
-      return {
-        flatResponse,
-        rawResponse: {
-          statusCode: currentRawResponse!.status,
-          body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
-      };
-    };
-
-    const lro = createLroSpec({
-      sendOperationFn,
-      args: {
+    options?: TasksUpdateOptionalParams,
+  ): Promise<TasksUpdateResponse> {
+    return this.client.sendOperationRequest(
+      {
         resourceGroupName,
         registryName,
         taskName,
         taskUpdateParameters,
-        options
+        options,
       },
-      spec: updateOperationSpec
-    });
-    const poller = await createHttpPoller<
-      TasksUpdateResponse,
-      OperationState<TasksUpdateResponse>
-    >(lro, {
-      restoreFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs
-    });
-    await poller.poll();
-    return poller;
-  }
-
-  /**
-   * Updates a task with the specified parameters.
-   * @param resourceGroupName The name of the resource group to which the container registry belongs.
-   * @param registryName The name of the container registry.
-   * @param taskName The name of the container registry task.
-   * @param taskUpdateParameters The parameters for updating a task.
-   * @param options The options parameters.
-   */
-  async beginUpdateAndWait(
-    resourceGroupName: string,
-    registryName: string,
-    taskName: string,
-    taskUpdateParameters: TaskUpdateParameters,
-    options?: TasksUpdateOptionalParams
-  ): Promise<TasksUpdateResponse> {
-    const poller = await this.beginUpdate(
-      resourceGroupName,
-      registryName,
-      taskName,
-      taskUpdateParameters,
-      options
+      updateOperationSpec,
     );
-    return poller.pollUntilDone();
   }
 
   /**
@@ -466,11 +240,11 @@ export class TasksImpl implements Tasks {
     resourceGroupName: string,
     registryName: string,
     taskName: string,
-    options?: TasksGetDetailsOptionalParams
+    options?: TasksGetDetailsOptionalParams,
   ): Promise<TasksGetDetailsResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, registryName, taskName, options },
-      getDetailsOperationSpec
+      getDetailsOperationSpec,
     );
   }
 
@@ -485,11 +259,11 @@ export class TasksImpl implements Tasks {
     resourceGroupName: string,
     registryName: string,
     nextLink: string,
-    options?: TasksListNextOptionalParams
+    options?: TasksListNextOptionalParams,
   ): Promise<TasksListNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, registryName, nextLink, options },
-      listNextOperationSpec
+      listNextOperationSpec,
     );
   }
 }
@@ -497,183 +271,160 @@ export class TasksImpl implements Tasks {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerRegistry/registries/{registryName}/tasks",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerRegistry/registries/{registryName}/tasks",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.TaskListResult
+      bodyMapper: Mappers.TaskListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponseForContainerRegistry
-    }
-  },
-  queryParameters: [Parameters.apiVersion1],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.registryName,
-    Parameters.resourceGroupName1
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
-};
-const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerRegistry/registries/{registryName}/tasks/{taskName}",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.Task
+      bodyMapper: Mappers.ErrorResponse,
     },
-    default: {
-      bodyMapper: Mappers.ErrorResponseForContainerRegistry
-    }
   },
-  queryParameters: [Parameters.apiVersion1],
+  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.registryName,
     Parameters.resourceGroupName1,
-    Parameters.taskName
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
+};
+const getOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerRegistry/registries/{registryName}/tasks/{taskName}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.Task,
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.registryName,
+    Parameters.resourceGroupName1,
+    Parameters.taskName,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
 };
 const createOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerRegistry/registries/{registryName}/tasks/{taskName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerRegistry/registries/{registryName}/tasks/{taskName}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.Task
+      bodyMapper: Mappers.Task,
     },
     201: {
-      bodyMapper: Mappers.Task
-    },
-    202: {
-      bodyMapper: Mappers.Task
-    },
-    204: {
-      bodyMapper: Mappers.Task
+      bodyMapper: Mappers.Task,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponseForContainerRegistry
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   requestBody: Parameters.taskCreateParameters,
-  queryParameters: [Parameters.apiVersion1],
+  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.registryName,
     Parameters.resourceGroupName1,
-    Parameters.taskName
+    Parameters.taskName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const deleteOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerRegistry/registries/{registryName}/tasks/{taskName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerRegistry/registries/{registryName}/tasks/{taskName}",
   httpMethod: "DELETE",
   responses: {
     200: {},
-    201: {},
-    202: {},
     204: {},
     default: {
-      bodyMapper: Mappers.ErrorResponseForContainerRegistry
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
-  queryParameters: [Parameters.apiVersion1],
+  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.registryName,
     Parameters.resourceGroupName1,
-    Parameters.taskName
+    Parameters.taskName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const updateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerRegistry/registries/{registryName}/tasks/{taskName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerRegistry/registries/{registryName}/tasks/{taskName}",
   httpMethod: "PATCH",
   responses: {
     200: {
-      bodyMapper: Mappers.Task
-    },
-    201: {
-      bodyMapper: Mappers.Task
-    },
-    202: {
-      bodyMapper: Mappers.Task
-    },
-    204: {
-      bodyMapper: Mappers.Task
+      bodyMapper: Mappers.Task,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponseForContainerRegistry
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   requestBody: Parameters.taskUpdateParameters,
-  queryParameters: [Parameters.apiVersion1],
+  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.registryName,
     Parameters.resourceGroupName1,
-    Parameters.taskName
+    Parameters.taskName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const getDetailsOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerRegistry/registries/{registryName}/tasks/{taskName}/listDetails",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerRegistry/registries/{registryName}/tasks/{taskName}/listDetails",
   httpMethod: "POST",
   responses: {
     200: {
-      bodyMapper: Mappers.Task
+      bodyMapper: Mappers.Task,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponseForContainerRegistry
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
-  queryParameters: [Parameters.apiVersion1],
+  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.registryName,
     Parameters.resourceGroupName1,
-    Parameters.taskName
+    Parameters.taskName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.TaskListResult
+      bodyMapper: Mappers.TaskListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponseForContainerRegistry
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.registryName,
     Parameters.nextLink,
-    Parameters.resourceGroupName1
+    Parameters.resourceGroupName1,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

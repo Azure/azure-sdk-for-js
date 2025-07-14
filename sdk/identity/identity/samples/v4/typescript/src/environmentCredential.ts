@@ -9,7 +9,7 @@ import { EnvironmentCredential } from "@azure/identity";
 import { KeyClient } from "@azure/keyvault-keys";
 
 // Load the .env file if it exists
-require("dotenv").config();
+import "dotenv/config";
 
 export async function main(): Promise<void> {
   // EnvironmentCredential expects the following three environment variables:

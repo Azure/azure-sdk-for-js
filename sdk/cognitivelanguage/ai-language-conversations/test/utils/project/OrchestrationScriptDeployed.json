@@ -1,0 +1,52 @@
+{
+  "projectFileVersion": "2024-11-15-preview",
+  "stringIndexType": "Utf16CodeUnit",
+  "metadata": {
+    "projectKind": "Orchestration",
+    "settings": {
+      "confidenceThreshold": 0.7,
+      "normalizeCasing": false,
+      "augmentDiacritics": false
+    },
+    "projectName": "OrchestrationScriptDeployed",
+    "multilingual": false,
+    "description": "",
+    "language": "en-us"
+  },
+  "assets": {
+    "projectKind": "Orchestration",
+    "intents": [
+      {
+        "category": "None"
+      },
+      {
+        "category": "ChitChat-QnA",
+        "orchestration": {
+          "targetProjectKind": "QuestionAnswering",
+          "questionAnsweringOrchestration": {
+            "projectName": "QnaScriptDeployed"
+          }
+        }
+      },
+      {
+        "category": "EmailIntent",
+        "orchestration": {
+          "targetProjectKind": "Conversation",
+          "conversationOrchestration": {
+            "projectName": "CLUScriptDeployed",
+            "deploymentName": "production"
+          }
+        }
+      }
+    ],
+    "entities": [],
+    "utterances": [
+      {
+        "text": "Random",
+        "language": "en-us",
+        "intent": "None",
+        "entities": []
+      }
+    ]
+  }
+}

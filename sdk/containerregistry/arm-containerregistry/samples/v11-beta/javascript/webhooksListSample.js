@@ -10,13 +10,13 @@
 // Licensed under the MIT License.
 const { ContainerRegistryManagementClient } = require("@azure/arm-containerregistry");
 const { DefaultAzureCredential } = require("@azure/identity");
-require("dotenv").config();
+require("dotenv/config");
 
 /**
  * This sample demonstrates how to Lists all the webhooks for the specified container registry.
  *
  * @summary Lists all the webhooks for the specified container registry.
- * x-ms-original-file: specification/containerregistry/resource-manager/Microsoft.ContainerRegistry/preview/2023-11-01-preview/examples/WebhookList.json
+ * x-ms-original-file: specification/containerregistry/resource-manager/Microsoft.ContainerRegistry/preview/2025-03-01-preview/examples/WebhookList.json
  */
 async function webhookList() {
   const subscriptionId =
@@ -26,14 +26,14 @@ async function webhookList() {
   const credential = new DefaultAzureCredential();
   const client = new ContainerRegistryManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.webhooks.list(resourceGroupName, registryName)) {
+  for await (const item of client.webhooks.list(resourceGroupName, registryName)) {
     resArray.push(item);
   }
   console.log(resArray);
 }
 
 async function main() {
-  webhookList();
+  await webhookList();
 }
 
 main().catch(console.error);

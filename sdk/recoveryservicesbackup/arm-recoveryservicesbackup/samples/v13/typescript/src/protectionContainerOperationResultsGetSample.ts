@@ -16,7 +16,7 @@ import "dotenv/config";
  * This sample demonstrates how to Fetches the result of any operation on the container.
  *
  * @summary Fetches the result of any operation on the container.
- * x-ms-original-file: specification/recoveryservicesbackup/resource-manager/Microsoft.RecoveryServices/stable/2024-04-01/examples/AzureStorage/ProtectionContainers_Inquire_Result.json
+ * x-ms-original-file: specification/recoveryservicesbackup/resource-manager/Microsoft.RecoveryServices/stable/2025-02-01/examples/AzureStorage/ProtectionContainers_Inquire_Result.json
  */
 async function getAzureStorageProtectionContainerOperationResult(): Promise<void> {
   const subscriptionId =
@@ -41,7 +41,7 @@ async function getAzureStorageProtectionContainerOperationResult(): Promise<void
 }
 
 async function main(): Promise<void> {
-  getAzureStorageProtectionContainerOperationResult();
+  await getAzureStorageProtectionContainerOperationResult();
 }
 
 main().catch(console.error);

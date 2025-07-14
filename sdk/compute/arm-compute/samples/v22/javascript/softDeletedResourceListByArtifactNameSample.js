@@ -27,7 +27,7 @@ async function listSoftDeletedResourcesOfAnArtifactInTheGallery() {
   const credential = new DefaultAzureCredential();
   const client = new ComputeManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.softDeletedResource.listByArtifactName(
+  for await (const item of client.softDeletedResource.listByArtifactName(
     resourceGroupName,
     galleryName,
     artifactType,
@@ -39,7 +39,7 @@ async function listSoftDeletedResourcesOfAnArtifactInTheGallery() {
 }
 
 async function main() {
-  listSoftDeletedResourcesOfAnArtifactInTheGallery();
+  await listSoftDeletedResourcesOfAnArtifactInTheGallery();
 }
 
 main().catch(console.error);

@@ -5,9 +5,8 @@
  * @summary Shows various operations on containers with Hierarchical Partitioning.
  */
 
-require("dotenv").config();
-
-const { handleError, logSampleHeader, finish } = require("./Shared/handleError");
+require("dotenv/config");
+const { handleError, logSampleHeader, finish } = require("./Shared/handleError.js");
 const {
   CosmosClient,
   BulkOperationType,
@@ -18,7 +17,6 @@ const {
 const key = process.env.COSMOS_KEY || "<cosmos key>";
 const endpoint = process.env.COSMOS_ENDPOINT || "<cosmos endpoint>";
 const databaseId = process.env.COSMOS_DATABASE || "<cosmos database>";
-const containerId = process.env.COSMOS_CONTAINER || "<cosmos container>";
 logSampleHeader("Demonstrating Usage of Hierarchical Partitioning.");
 
 // Establish a new instance of the CosmosClient to be used throughout this demo
@@ -134,7 +132,7 @@ async function run() {
   const bulkOperations = [
     {
       operationType: BulkOperationType.Create,
-      //Providing partition key is not necessary while create, it can be automatically derived from resourceBody.
+      // Providing partition key is not necessary while create, it can be automatically derived from resourceBody.
       resourceBody: { id: "item3", name: "sample", address: { zip: 345 } },
     },
     {

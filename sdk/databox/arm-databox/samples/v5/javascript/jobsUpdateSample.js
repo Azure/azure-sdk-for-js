@@ -10,13 +10,13 @@
 // Licensed under the MIT License.
 const { DataBoxManagementClient } = require("@azure/arm-databox");
 const { DefaultAzureCredential } = require("@azure/identity");
-require("dotenv").config();
+require("dotenv/config");
 
 /**
  * This sample demonstrates how to Updates the properties of an existing job.
  *
  * @summary Updates the properties of an existing job.
- * x-ms-original-file: specification/databox/resource-manager/Microsoft.DataBox/stable/2022-12-01/examples/JobsPatch.json
+ * x-ms-original-file: specification/databox/resource-manager/Microsoft.DataBox/stable/2025-02-01/examples/JobsPatch.json
  */
 async function jobsPatch() {
   const subscriptionId = process.env["DATABOX_SUBSCRIPTION_ID"] || "YourSubscriptionId";
@@ -47,7 +47,7 @@ async function jobsPatch() {
   const result = await client.jobs.beginUpdateAndWait(
     resourceGroupName,
     jobName,
-    jobResourceUpdateParameter
+    jobResourceUpdateParameter,
   );
   console.log(result);
 }
@@ -56,7 +56,7 @@ async function jobsPatch() {
  * This sample demonstrates how to Updates the properties of an existing job.
  *
  * @summary Updates the properties of an existing job.
- * x-ms-original-file: specification/databox/resource-manager/Microsoft.DataBox/stable/2022-12-01/examples/JobsPatchCmk.json
+ * x-ms-original-file: specification/databox/resource-manager/Microsoft.DataBox/stable/2025-02-01/examples/JobsPatchCmk.json
  */
 async function jobsPatchCmk() {
   const subscriptionId = process.env["DATABOX_SUBSCRIPTION_ID"] || "YourSubscriptionId";
@@ -77,7 +77,7 @@ async function jobsPatchCmk() {
   const result = await client.jobs.beginUpdateAndWait(
     resourceGroupName,
     jobName,
-    jobResourceUpdateParameter
+    jobResourceUpdateParameter,
   );
   console.log(result);
 }
@@ -86,7 +86,7 @@ async function jobsPatchCmk() {
  * This sample demonstrates how to Updates the properties of an existing job.
  *
  * @summary Updates the properties of an existing job.
- * x-ms-original-file: specification/databox/resource-manager/Microsoft.DataBox/stable/2022-12-01/examples/JobsPatchSystemAssignedToUserAssigned.json
+ * x-ms-original-file: specification/databox/resource-manager/Microsoft.DataBox/stable/2025-02-01/examples/JobsPatchSystemAssignedToUserAssigned.json
  */
 async function jobsPatchSystemAssignedToUserAssigned() {
   const subscriptionId = process.env["DATABOX_SUBSCRIPTION_ID"] || "YourSubscriptionId";
@@ -121,15 +121,15 @@ async function jobsPatchSystemAssignedToUserAssigned() {
   const result = await client.jobs.beginUpdateAndWait(
     resourceGroupName,
     jobName,
-    jobResourceUpdateParameter
+    jobResourceUpdateParameter,
   );
   console.log(result);
 }
 
 async function main() {
-  jobsPatch();
-  jobsPatchCmk();
-  jobsPatchSystemAssignedToUserAssigned();
+  await jobsPatch();
+  await jobsPatchCmk();
+  await jobsPatchSystemAssignedToUserAssigned();
 }
 
 main().catch(console.error);

@@ -15,7 +15,7 @@ async function getResponseBuffer(response: PipelineResponse): Promise<Buffer> {
   }
   const buffer: Buffer[] = [];
   for await (const chunk of stream) {
-    buffer.push(Buffer.from(chunk));
+    buffer.push(typeof chunk === "string" ? Buffer.from(chunk) : chunk);
   }
   return Buffer.concat(buffer);
 }

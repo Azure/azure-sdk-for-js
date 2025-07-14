@@ -11,7 +11,11 @@ export interface RadiologyInsightsJobOutput {
   readonly result?: RadiologyInsightsInferenceResultOutput;
   /** The unique ID of the job. */
   readonly id: string;
-  /** The status of the job. */
+  /**
+   * The status of the job.
+   *
+   * Possible values: "notStarted", "running", "succeeded", "failed", "canceled"
+   */
   readonly status: JobStatusOutput;
   /** The date and time when the processing job was created. */
   readonly createdAt?: string;
@@ -45,7 +49,11 @@ export interface PatientRecordOutput {
 
 /** Patient structured information, including demographics and known structured clinical information. */
 export interface PatientDetailsOutput {
-  /** The patient's sex. */
+  /**
+   * The patient's sex.
+   *
+   * Possible values: "female", "male", "unspecified"
+   */
   sex?: PatientSexOutput;
   /** The patient's date of birth. */
   birthDate?: string;
@@ -117,7 +125,7 @@ export interface ElementOutput {
 
 /**
  * Base for all elements
- * Based on [FHIR Element](https://www.hl7.org/fhir/datatypes.html#Element)
+ * Based on [FHIR Element](https://www.hl7.org/fhir/R4/element.html)
  */
 export interface ExtensionOutput extends ElementOutput {
   /** Source of the definition for the extension code - a logical name or a URL. */
@@ -359,11 +367,19 @@ export interface ContactDetailOutput extends ElementOutput {
  * See https://www.hl7.org/fhir/R4/datatypes.html#ContactPoint
  */
 export interface ContactPointOutput {
-  /** phone | fax | email | pager | url | sms | other */
+  /**
+   * phone | fax | email | pager | url | sms | other
+   *
+   * Possible values: "phone", "fax", "email", "pager", "url", "sms", "other"
+   */
   system?: ContactPointSystemOutput;
   /** The actual contact point details */
   value?: string;
-  /** home | work | temp | old | mobile - purpose of this contact point */
+  /**
+   * home | work | temp | old | mobile - purpose of this contact point
+   *
+   * Possible values: "home", "work", "temp", "old", "mobile"
+   */
   use?: ContactPointUseOutput;
   /** Specify preferred order of use (1 = highest) */
   rank?: number;
@@ -371,13 +387,8 @@ export interface ContactPointOutput {
   period?: PeriodOutput;
 }
 
-/**
- * A resource with narrative, extensions, and contained resources
- * Based on [FHIR DomainResource](https://www.hl7.org/fhir/domainresource.html)
- */
+/** A resource with narrative, extensions, and contained resources Based on [FHIR DomainResource](https://www.hl7.org/fhir/domainresource.html) */
 export interface DomainResourceOutputParent extends ResourceOutput {
-  /** Text summary of the resource, for human interpretation */
-  text?: NarrativeOutput;
   /** Contained, inline Resources */
   contained?: Array<ResourceOutput>;
   /** Additional Content defined by implementations */
@@ -386,6 +397,8 @@ export interface DomainResourceOutputParent extends ResourceOutput {
   modifierExtension?: Array<ExtensionOutput>;
   /** resourceType */
   resourceType: string;
+  /** Text summary of the resource, for human interpretation */
+  text?: NarrativeOutput;
 }
 
 /**
@@ -397,7 +410,11 @@ export interface ObservationOutput extends DomainResourceOutputParent {
   resourceType: "Observation";
   /** Business Identifier for observation */
   identifier?: Array<IdentifierOutput>;
-  /** registered | preliminary | final | amended + */
+  /**
+   * registered | preliminary | final | amended +
+   *
+   * Possible values: "registered", "preliminary", "final", "amended", "corrected", "cancelled", "entered-in-error", "unknown"
+   */
   status: ObservationStatusCodeTypeOutput;
   /** Classification of  type of observation */
   category?: Array<CodeableConceptOutput>;
@@ -534,7 +551,11 @@ export interface ResearchStudyOutput extends DomainResourceOutputParent {
   protocol?: Array<ReferenceOutput>;
   /** Part of larger study */
   partOf?: Array<ReferenceOutput>;
-  /** active | administratively-completed | approved | closed-to-accrual | closed-to-accrual-and-intervention | completed | disapproved | in-review | temporarily-closed-to-accrual | temporarily-closed-to-accrual-and-intervention | withdrawn */
+  /**
+   * active | administratively-completed | approved | closed-to-accrual | closed-to-accrual-and-intervention | completed | disapproved | in-review | temporarily-closed-to-accrual | temporarily-closed-to-accrual-and-intervention | withdrawn
+   *
+   * Possible values: "active", "administratively-completed", "approved", "closed-to-accrual", "closed-to-accrual-and-intervention", "completed", "disapproved", "in-review", "temporarily-closed-to-accrual", "temporarily-closed-to-accrual-and-intervention", "withdrawn"
+   */
   status: ResearchStudyStatusCodeTypeOutput;
   /** treatment | prevention | diagnostic | supportive-care | screening | health-services-research | basic-science | device-feasibility */
   primaryPurposeType?: CodeableConceptOutput;
@@ -583,7 +604,11 @@ export interface PatientEncounterOutput {
    * In case of admission, use timePeriod.start to indicate the admission time and timePeriod.end to indicate the discharge time.
    */
   period?: TimePeriodOutput;
-  /** The class of the encounter. */
+  /**
+   * The class of the encounter.
+   *
+   * Possible values: "inpatient", "ambulatory", "observation", "emergency", "virtual", "healthHome"
+   */
   class?: EncounterClassOutput;
 }
 
@@ -597,9 +622,17 @@ export interface TimePeriodOutput {
 
 /** A clinical document related to a patient. Document here is in the wide sense - not just a text document (note). */
 export interface PatientDocumentOutput {
-  /** The type of the patient document, such as 'note' (text document) or 'fhirBundle' (FHIR JSON document). */
+  /**
+   * The type of the patient document, such as 'note' (text document) or 'fhirBundle' (FHIR JSON document).
+   *
+   * Possible values: "note", "fhirBundle", "dicom", "genomicSequencing"
+   */
   type: DocumentTypeOutput;
-  /** The type of the clinical document. */
+  /**
+   * The type of the clinical document.
+   *
+   * Possible values: "consultation", "dischargeSummary", "historyAndPhysical", "radiologyReport", "procedure", "progress", "laboratory", "pathologyReport"
+   */
   clinicalType?: ClinicalDocumentTypeOutput;
   /** A given identifier for the document. Has to be unique across all documents for a single patient. */
   id: string;
@@ -609,7 +642,11 @@ export interface PatientDocumentOutput {
   createdAt?: string;
   /** Document author(s) */
   authors?: Array<DocumentAuthorOutput>;
-  /** specialty type the document */
+  /**
+   * specialty type the document
+   *
+   * Possible values: "pathology", "radiology"
+   */
   specialtyType?: SpecialtyTypeOutput;
   /** Administrative metadata for the document. */
   administrativeMetadata?: DocumentAdministrativeMetadataOutput;
@@ -649,6 +686,8 @@ export interface DocumentContentOutput {
    * The type of the content's source.
    * In case the source type is 'inline', the content is given as a string (for instance, text).
    * In case the source type is 'reference', the content is given as a URI.
+   *
+   * Possible values: "inline", "reference"
    */
   sourceType: DocumentContentSourceTypeOutput;
   /** The content of the document, given either inline (as a string) or as a reference (URI). */
@@ -675,6 +714,10 @@ export interface RadiologyInsightsInferenceOptionsOutput {
   followupRecommendationOptions?: FollowupRecommendationOptionsOutput;
   /** Finding options. */
   findingOptions?: FindingOptionsOutput;
+  /** Guidance options. */
+  guidanceOptions?: GuidanceOptionsOutput;
+  /** QualityMeasureOptions. */
+  qualityMeasureOptions?: QualityMeasureOptionsOutput;
 }
 
 /** Follow-up recommendation options. */
@@ -691,6 +734,18 @@ export interface FollowupRecommendationOptionsOutput {
 export interface FindingOptionsOutput {
   /** If this is true, provide the sentence that contains the first token of the finding's clinical indicator (i.e. the medical problem), if there is one. This sentence is provided as an extension with url 'ci_sentence', next to the token evidence. Default is false. */
   provideFocusedSentenceEvidence?: boolean;
+}
+
+/** Guidance options. */
+export interface GuidanceOptionsOutput {
+  /** If this is true, also show guidances from a clinical history section i.e. if the first token of the associated finding's clinical indicator is in this section. Default is false. */
+  showGuidanceInHistory: boolean;
+}
+
+/** Quality Measure Options. */
+export interface QualityMeasureOptionsOutput {
+  /** Id(s) of the MIPS measures that need to be evaluated in the document */
+  measureTypes: QualityMeasureTypeOutput[];
 }
 
 /** The inference results for the Radiology Insights request. If field 'status' has value 'succeeded', then field 'result' will contain an instance of RadiologyInsightsInferenceResult. */
@@ -721,11 +776,16 @@ export interface RadiologyInsightsPatientResultOutput {
  *   - FollowupRecommendation
  *   - RadiologyProcedure
  *   - FollowupCommunication
+ *   - ScoringAndAssessment
+ *   - Guidance
+ *   - QualityMeasure
  */
+
+/** An inference made by the Radiology Insights model regarding a patient: AgeMismatch, SexMismatch, LateralityDiscrepancy, CompleteOrderDiscrepancy, LimitedOrderDiscrepancy, Finding, CriticalResult, FollowupRecommendation, RadiologyProcedure, FollowupCommunicatio */
 export interface RadiologyInsightsInferenceOutputParent {
   /** Additional Content defined by implementations */
   extension?: Array<ExtensionOutput>;
-  /** The kind of inference */
+  /** The kind of inference*/
   kind: string;
 }
 
@@ -750,7 +810,11 @@ export interface LateralityDiscrepancyInferenceOutput
   kind: "lateralityDiscrepancy";
   /** Laterality indication : SNOMED CT code for laterality qualifier value. */
   lateralityIndication?: CodeableConceptOutput;
-  /** Mismatch type : orderLateralityMismatch, textLateralityContradiction, textLateralityMissing. */
+  /**
+   * Mismatch type : orderLateralityMismatch, textLateralityContradiction, textLateralityMissing.
+   *
+   * Possible values: "orderLateralityMismatch", "textLateralityContradiction", "textLateralityMissing"
+   */
   discrepancyType: LateralityDiscrepancyTypeOutput;
 }
 
@@ -867,7 +931,11 @@ export interface RecommendationFindingOutput {
   finding?: ObservationOutput;
   /** Critical result linked to a recommendation. */
   criticalFinding?: CriticalResultOutput;
-  /** Recommendation finding status. */
+  /**
+   * Recommendation finding status.
+   *
+   * Possible values: "present", "differential", "ruleOut", "conditional"
+   */
   recommendationFindingStatus: RecommendationFindingStatusTypeOutput;
   /** Additional Content defined by implementations */
   extension?: Array<ExtensionOutput>;
@@ -877,7 +945,7 @@ export interface RecommendationFindingOutput {
 export interface ProcedureRecommendationOutputParent {
   /** Additional Content defined by implementations */
   extension?: Array<ExtensionOutput>;
-  /** The kind of procedure recommendation eg. generic or imaging*/
+  /** The kind of procedure recommendation eg. generic or imaging */
   kind: string;
 }
 
@@ -914,16 +982,90 @@ export interface FollowupCommunicationInferenceOutput
   wasAcknowledged: boolean;
 }
 
+/** Identifies and highlights Risk, Scoring, Assessment and Classifications and correspondent values dictated in a report, e.g. 'BIRADS 5' */
+export interface ScoringAndAssessmentInferenceOutput
+  extends RadiologyInsightsInferenceOutputParent {
+  /** Inference type. */
+  kind: "scoringAndAssessment";
+  /**
+   * Category, e.g. BIRADS
+   *
+   * Possible values: "BIRADS", "C-RADS COLONIC FINDINGS", "CAD-RADS", "LI-RADS", "LUNG-RADS", "NI-RADS", "O-RADS", "PI-RADS", "TI-RADS", "C-RADS EXTRACOLONIC FINDINGS", "LIFETIME BREAST CANCER RISK", "ASCVD RISK", "MODIFIED GAIL MODEL RISK", "TYRER CUSICK MODEL RISK", "AGATSTON SCORE", "10 YEAR CHD RISK", "Z-SCORE", "T-SCORE", "CALCIUM VOLUME SCORE", "US LI-RADS VISUALIZATION SCORE", "US LI-RADS", "CEUS LI-RADS", "TREATMENT RESPONSE LI-RADS", "O-RADS MRI", "CALCIUM MASS SCORE", "RISK OF MALIGNANCY INDEX", "HNPCC MUTATION RISK", "ALBERTA STROKE PROGRAM EARLY CT SCORE", "KELLGREN-LAWRENCE GRADING SCALE", "TONNIS CLASSIFICATION", "CALCIUM SCORE (UNSPECIFIED)", "10 YEAR CHD RISK (OBSERVED AGE)", "10 YEAR CHD RISK (ARTERIAL AGE)", "FRAX SCORE"
+   */
+  category: ScoringAndAssessmentCategoryTypeOutput;
+  /** The expansion of the category (which is an abbreviation.) */
+  categoryDescription: string;
+  /** The value. If the value is a range, use field valueRange. */
+  singleValue?: string;
+  /** The range. */
+  rangeValue?: AssessmentValueRangeOutput;
+}
+
+/** A range of values. */
+export interface AssessmentValueRangeOutput {
+  /** The minimum value. */
+  minimum: string;
+  /** The maximum value. */
+  maximum: string;
+}
+
+/** A guidance inference collects structured information about a specific finding in the report and can possibly propose appropriate follow-up recommendations, based upon established, evidence-based best practices i.e. ACR guidelines. */
+export interface GuidanceInferenceOutput extends RadiologyInsightsInferenceOutputParent {
+  /** Inference type. */
+  kind: "guidance";
+  /** The finding associated with the guidance. */
+  finding: FindingInferenceOutput;
+  /** The guidance identifier, as a concept */
+  identifier: CodeableConceptOutput;
+  /** presentGuidanceInformation lists each item of the structured information (e.g. laterality) and corresponding details (left, right, bilateral) that is present in the document. */
+  presentGuidanceInformation?: Array<PresentGuidanceInformationOutput>;
+  /**
+   * See doc of GuidanceRankingType.
+   *
+   * Possible values: "high", "low"
+   */
+  ranking: GuidanceRankingTypeOutput;
+  /** The proposed follow-up recommendations, if any. If this is filled, missingGuidanceInformation cannot be filled (and vice versa). */
+  recommendationProposals?: Array<FollowupRecommendationInferenceOutput>;
+  /** Contains all missing items that are needed to determine follow-up. */
+  missingGuidanceInformation?: string[];
+}
+
+/** An item of the structured information (e.g. laterality or size) and one or more corresponding details (e.g. left or size-value) */
+export interface PresentGuidanceInformationOutput {
+  /** The item of the structured information */
+  presentGuidanceItem: string;
+  /** A list of size values, if the item is about size. */
+  sizes?: Array<ObservationOutput>;
+  /** The maximum diameter value, if the item is about the maximum diameter. */
+  maximumDiameterAsInText?: QuantityOutput;
+  /** The list of item values that are mentioned in the report. */
+  presentGuidanceValues?: string[];
+  /** Additional Content defined by implementations */
+  extension?: Array<ExtensionOutput>;
+}
+
+/** A QualityMeasure inference captures the  MIPS ('measure based incentive payment system') quality measure criteria in the document that are used to measure the data completeness. */
+export interface QualityMeasureInferenceOutput extends RadiologyInsightsInferenceOutputParent {
+  /** Inference type. */
+  kind: "qualityMeasure";
+  /** The denominator, which identifies the QualityMeasure kind. */
+  qualityMeasureDenominator: string;
+  /**
+   * The ComplianceType indicates whether the document is compliant for the specified QualityMeasure or not, or if exceptions apply.
+   *
+   * Possible values: "notEligible", "performanceNotMet", "performanceMet", "denominatorException"
+   */
+  complianceType: QualityMeasureComplianceTypeOutput;
+  /** List of quality criteria identified in the document, if any. */
+  qualityCriteria?: string[];
+}
+
 /** A response containing error details. */
 export interface HealthInsightsErrorResponseOutput {
   /** The error object. */
   error: ErrorModel;
-  /** An opaque, globally-unique, server-generated string identifier for the request. */
-  requestId: { response: RequestIdResponseHeaderOutput };
 }
-
-/** Provides the 'x-ms-request-id' header to enable request correlation in responses. */
-export interface RequestIdResponseHeaderOutput {}
 
 /**
  * A resource with narrative, extensions, and contained resources
@@ -946,6 +1088,9 @@ export type DomainResourceOutput =
  *   - FollowupRecommendation
  *   - RadiologyProcedure
  *   - FollowupCommunication
+ *   - ScoringAndAssessment
+ *   - Guidance
+ *   - QualityMeasure
  */
 export type RadiologyInsightsInferenceOutput =
   | RadiologyInsightsInferenceOutputParent
@@ -958,127 +1103,50 @@ export type RadiologyInsightsInferenceOutput =
   | CriticalResultInferenceOutput
   | RadiologyProcedureInferenceOutput
   | FollowupRecommendationInferenceOutput
-  | FollowupCommunicationInferenceOutput;
+  | FollowupCommunicationInferenceOutput
+  | ScoringAndAssessmentInferenceOutput
+  | GuidanceInferenceOutput
+  | QualityMeasureInferenceOutput;
 /** The procedure recommendation can be a generic procedure or an imaging procedure. */
 export type ProcedureRecommendationOutput =
   | ProcedureRecommendationOutputParent
   | GenericProcedureRecommendationOutput
   | ImagingProcedureRecommendationOutput;
 /** Alias for PatientSexOutput */
-export type PatientSexOutput = string | "female" | "male" | "unspecified";
+export type PatientSexOutput = string;
 /** Alias for ContactPointSystemOutput */
-export type ContactPointSystemOutput =
-  | string
-  | "phone"
-  | "fax"
-  | "email"
-  | "pager"
-  | "url"
-  | "sms"
-  | "other";
+export type ContactPointSystemOutput = string;
 /** Alias for ContactPointUseOutput */
-export type ContactPointUseOutput = string | "home" | "work" | "temp" | "old" | "mobile";
+export type ContactPointUseOutput = string;
 /** Alias for ObservationStatusCodeTypeOutput */
-export type ObservationStatusCodeTypeOutput =
-  | string
-  | "registered"
-  | "preliminary"
-  | "final"
-  | "amended"
-  | "corrected"
-  | "cancelled"
-  | "entered-in-error"
-  | "unknown";
+export type ObservationStatusCodeTypeOutput = string;
 /** Alias for ResearchStudyStatusCodeTypeOutput */
-export type ResearchStudyStatusCodeTypeOutput =
-  | string
-  | "active"
-  | "administratively-completed"
-  | "approved"
-  | "closed-to-accrual"
-  | "closed-to-accrual-and-intervention"
-  | "completed"
-  | "disapproved"
-  | "in-review"
-  | "temporarily-closed-to-accrual"
-  | "temporarily-closed-to-accrual-and-intervention"
-  | "withdrawn";
+export type ResearchStudyStatusCodeTypeOutput = string;
 /** Alias for EncounterClassOutput */
-export type EncounterClassOutput =
-  | string
-  | "inpatient"
-  | "ambulatory"
-  | "observation"
-  | "emergency"
-  | "virtual"
-  | "healthHome";
+export type EncounterClassOutput = string;
 /** Alias for DocumentTypeOutput */
-export type DocumentTypeOutput = string | "note" | "fhirBundle" | "dicom" | "genomicSequencing";
-
+export type DocumentTypeOutput = string;
 /** Alias for ClinicalDocumentTypeOutput */
-export enum ClinicalDocumentTypeOutputEnum {
-  /** Consultation documents */
-  Consultation = "consultation",
-  /** Discharge summary documents */
-  DischargeSummary = "dischargeSummary",
-  /** H&P documents */
-  HistoryAndPhysical = "historyAndPhysical",
-  /** Radiology documents */
-  RadiologyReport = "radiologyReport",
-  /** Procedure notes */
-  Procedure = "procedure",
-  /** Progress notes */
-  Progress = "progress",
-  /** Laboratory documents */
-  Laboratory = "laboratory",
-  // Add more predefined types as needed
-  // Add more predefined types as needed
-}
-/** Output types of documents */
-export type ClinicalDocumentTypeOutput = ClinicalDocumentTypeOutputEnum;
+export type ClinicalDocumentTypeOutput = string;
 /** Alias for SpecialtyTypeOutput */
-export type SpecialtyTypeOutput = string | "pathology" | "radiology";
+export type SpecialtyTypeOutput = string;
 /** Alias for DocumentContentSourceTypeOutput */
-export type DocumentContentSourceTypeOutput = string | "inline" | "reference";
+export type DocumentContentSourceTypeOutput = string;
 /** Alias for RadiologyInsightsInferenceTypeOutput */
-export type RadiologyInsightsInferenceTypeOutput =
-  | string
-  | "ageMismatch"
-  | "lateralityDiscrepancy"
-  | "sexMismatch"
-  | "completeOrderDiscrepancy"
-  | "limitedOrderDiscrepancy"
-  | "finding"
-  | "criticalResult"
-  | "followupRecommendation"
-  | "followupCommunication"
-  | "radiologyProcedure";
+export type RadiologyInsightsInferenceTypeOutput = string;
+/** Alias for QualityMeasureTypeOutput */
+export type QualityMeasureTypeOutput = string;
 /** Alias for LateralityDiscrepancyTypeOutput */
-export type LateralityDiscrepancyTypeOutput =
-  | string
-  | "orderLateralityMismatch"
-  | "textLateralityContradiction"
-  | "textLateralityMissing";
+export type LateralityDiscrepancyTypeOutput = string;
 /** Alias for RecommendationFindingStatusTypeOutput */
-export type RecommendationFindingStatusTypeOutput =
-  | string
-  | "present"
-  | "differential"
-  | "ruleOut"
-  | "conditional";
+export type RecommendationFindingStatusTypeOutput = string;
 /** Alias for MedicalProfessionalTypeOutput */
-export type MedicalProfessionalTypeOutput =
-  | string
-  | "unknown"
-  | "doctor"
-  | "nurse"
-  | "midwife"
-  | "physicianAssistant";
+export type MedicalProfessionalTypeOutput = string;
+/** Alias for ScoringAndAssessmentCategoryTypeOutput */
+export type ScoringAndAssessmentCategoryTypeOutput = string;
+/** Alias for GuidanceRankingTypeOutput */
+export type GuidanceRankingTypeOutput = string;
+/** Alias for QualityMeasureComplianceTypeOutput */
+export type QualityMeasureComplianceTypeOutput = string;
 /** Alias for JobStatusOutput */
-export type JobStatusOutput =
-  | string
-  | "notStarted"
-  | "running"
-  | "succeeded"
-  | "failed"
-  | "canceled";
+export type JobStatusOutput = string;

@@ -144,7 +144,7 @@ export interface EntityHierarchyItem {
     displayName?: string;
     readonly id?: string;
     readonly name?: string;
-    permissions?: Permissions_2;
+    permissions?: Permissions;
     readonly type?: string;
 }
 
@@ -152,7 +152,7 @@ export interface EntityHierarchyItem {
 export interface EntityInfo {
     displayName?: string;
     readonly id?: string;
-    inheritedPermissions?: Permissions_2;
+    inheritedPermissions?: Permissions;
     readonly name?: string;
     numberOfChildGroups?: number;
     numberOfChildren?: number;
@@ -160,7 +160,7 @@ export interface EntityInfo {
     parent?: EntityParentGroupInfo;
     parentDisplayNameChain?: string[];
     parentNameChain?: string[];
-    permissions?: Permissions_2;
+    permissions?: Permissions;
     tenantId?: string;
     readonly type?: string;
 }
@@ -602,8 +602,7 @@ export interface PatchManagementGroupRequest {
 }
 
 // @public
-type Permissions_2 = string;
-export { Permissions_2 as Permissions }
+export type Permissions = string;
 
 // @public
 export type Reason = "Invalid" | "AlreadyExists";

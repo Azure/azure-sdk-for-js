@@ -16,13 +16,13 @@
 
 const DocumentIntelligence = require("@azure-rest/ai-document-intelligence").default,
   { getLongRunningPoller, isUnexpected } = require("@azure-rest/ai-document-intelligence");
-
-require("dotenv").config();
+const { DefaultAzureCredential } = require("@azure/identity");
+require("dotenv/config");
 
 async function main() {
   const client = DocumentIntelligence(
     process.env["DOCUMENT_INTELLIGENCE_ENDPOINT"] || "<cognitive services endpoint>",
-    { key: process.env["DOCUMENT_INTELLIGENCE_API_KEY"] || "<api key>" },
+    new DefaultAzureCredential(),
   );
 
   const initialResponse = await client
@@ -40,7 +40,7 @@ async function main() {
   }
   const poller = getLongRunningPoller(client, initialResponse);
 
-  poller.onProgress((state) => console.log("Operation:", state.result, state.status));
+  await poller.onProgress((state) => console.log("Operation:", state.result, state.status));
   const analyzeResult = (await poller.pollUntilDone()).body.analyzeResult;
 
   const documents = analyzeResult?.documents;

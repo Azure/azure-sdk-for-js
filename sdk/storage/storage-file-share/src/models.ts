@@ -1,11 +1,12 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import { FileSystemAttributes } from "./FileSystemAttributes";
-import { truncatedISO8061Date } from "./utils/utils.common";
-import { logger } from "./log";
-import type { FilePermissionFormat, NfsFileType, ShareTokenIntent } from "./generatedModels";
-import type { StoragePipelineOptions } from "./Pipeline";
-import { FileDownloadHeaders } from "./generatedModels";
+
+import { FileSystemAttributes } from "./FileSystemAttributes.js";
+import { truncatedISO8061Date } from "./utils/utils.common.js";
+import { logger } from "./log.js";
+import type { FilePermissionFormat, NfsFileType, ShareTokenIntent } from "./generatedModels.js";
+import type { StoragePipelineOptions } from "./Pipeline.js";
+import type { FileDownloadHeaders } from "./generatedModels.js";
 
 export interface Metadata {
   [propertyName: string]: string;
@@ -72,14 +73,16 @@ export interface NfsFileMode {
    premium NFS file accounts.
   */
 export interface FilePosixProperties {
-  /** Optional, NFS only. The owner of the file or directory. */
+  /** NFS only. The owner of the file or directory. */
   owner?: string;
-  /** Optional, NFS only. The owning group of the file or directory. */
+  /** NFS only. The owning group of the file or directory. */
   group?: string;
-  /** Optional, NFS only. The file mode of the file or directory */
+  /** NFS only. The file mode of the file or directory */
   fileMode?: NfsFileMode;
-  /** Optional, NFS only. Type of the file or directory. */
+  /** NFS only. Type of the file or directory. */
   fileType?: NfsFileType;
+  /** NFS only. The link count of the file or directory. */
+  linkCount?: number;
 }
 
 /** Defines headers for File_setHttpHeaders operation. */
@@ -110,14 +113,8 @@ export interface FileSetHttpHeadersHeaders {
   fileId?: string;
   /** The parent fileId of the directory. */
   fileParentId?: string;
-  /** NFS only. The mode of the file or directory. */
-  fileMode?: NfsFileMode;
-  /** NFS only. The owner of the file or directory. */
-  owner?: string;
-  /** NFS only. The owning group of the file or directory. */
-  group?: string;
-  /** NFS only. The link count of the file or directory. */
-  linkCount?: number;
+  /** Properties of NFS files. */
+  posixProperties?: FilePosixProperties;
   /** Error Code */
   errorCode?: string;
 }

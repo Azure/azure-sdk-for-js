@@ -6,217 +6,216 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import * as coreClient from "@azure/core-client";
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
-import { ApiManagementClient } from "../apiManagementClient.js";
-import {
-    GroupContract,
-    UserGroupListNextOptionalParams,
-    UserGroupListNextResponse,
-    UserGroupListOptionalParams,
-    UserGroupListResponse
-} from "../models/index.js";
+import { setContinuationToken } from "../pagingHelper.js";
+import { UserGroup } from "../operationsInterfaces/index.js";
+import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers.js";
 import * as Parameters from "../models/parameters.js";
-import { UserGroup } from "../operationsInterfaces/index.js";
-import { setContinuationToken } from "../pagingHelper.js";
+import { ApiManagementClient } from "../apiManagementClient.js";
+import {
+  GroupContract,
+  UserGroupListNextOptionalParams,
+  UserGroupListOptionalParams,
+  UserGroupListResponse,
+  UserGroupListNextResponse,
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Class containing UserGroup operations. */
 export class UserGroupImpl implements UserGroup {
-    private readonly client: ApiManagementClient;
+  private readonly client: ApiManagementClient;
 
-    /**
-     * Initialize a new instance of the class UserGroup class.
-     * @param client Reference to the service client
-     */
-    constructor(client: ApiManagementClient) {
-        this.client = client;
-    }
+  /**
+   * Initialize a new instance of the class UserGroup class.
+   * @param client Reference to the service client
+   */
+  constructor(client: ApiManagementClient) {
+    this.client = client;
+  }
 
-    /**
-     * Lists all user groups.
-     * @param resourceGroupName The name of the resource group. The name is case insensitive.
-     * @param serviceName The name of the API Management service.
-     * @param userId User identifier. Must be unique in the current API Management service instance.
-     * @param options The options parameters.
-     */
-    public list(
-        resourceGroupName: string,
-        serviceName: string,
-        userId: string,
-        options?: UserGroupListOptionalParams
-    ): PagedAsyncIterableIterator<GroupContract> {
-        const iter = this.listPagingAll(
-            resourceGroupName,
-            serviceName,
-            userId,
-            options
-        );
-        return {
-            next() {
-                return iter.next();
-            },
-            [Symbol.asyncIterator]() {
-                return this;
-            },
-            byPage: (settings?: PageSettings) => {
-                if (settings?.maxPageSize) {
-                    throw new Error("maxPageSize is not supported by this operation.");
-                }
-                return this.listPagingPage(
-                    resourceGroupName,
-                    serviceName,
-                    userId,
-                    options,
-                    settings
-                );
-            }
-        };
-    }
-
-    private async *listPagingPage(
-        resourceGroupName: string,
-        serviceName: string,
-        userId: string,
-        options?: UserGroupListOptionalParams,
-        settings?: PageSettings
-    ): AsyncIterableIterator<GroupContract[]> {
-        let result: UserGroupListResponse;
-        let continuationToken = settings?.continuationToken;
-        if (!continuationToken) {
-            result = await this._list(
-                resourceGroupName,
-                serviceName,
-                userId,
-                options
-            );
-            let page = result.value || [];
-            continuationToken = result.nextLink;
-            setContinuationToken(page, continuationToken);
-            yield page;
+  /**
+   * Lists all user groups.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param serviceName The name of the API Management service.
+   * @param userId User identifier. Must be unique in the current API Management service instance.
+   * @param options The options parameters.
+   */
+  public list(
+    resourceGroupName: string,
+    serviceName: string,
+    userId: string,
+    options?: UserGroupListOptionalParams,
+  ): PagedAsyncIterableIterator<GroupContract> {
+    const iter = this.listPagingAll(
+      resourceGroupName,
+      serviceName,
+      userId,
+      options,
+    );
+    return {
+      next() {
+        return iter.next();
+      },
+      [Symbol.asyncIterator]() {
+        return this;
+      },
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
         }
-        while (continuationToken) {
-            result = await this._listNext(
-                resourceGroupName,
-                serviceName,
-                userId,
-                continuationToken,
-                options
-            );
-            continuationToken = result.nextLink;
-            let page = result.value || [];
-            setContinuationToken(page, continuationToken);
-            yield page;
-        }
-    }
-
-    private async *listPagingAll(
-        resourceGroupName: string,
-        serviceName: string,
-        userId: string,
-        options?: UserGroupListOptionalParams
-    ): AsyncIterableIterator<GroupContract> {
-        for await (const page of this.listPagingPage(
-            resourceGroupName,
-            serviceName,
-            userId,
-            options
-        )) {
-            yield* page;
-        }
-    }
-
-    /**
-     * Lists all user groups.
-     * @param resourceGroupName The name of the resource group. The name is case insensitive.
-     * @param serviceName The name of the API Management service.
-     * @param userId User identifier. Must be unique in the current API Management service instance.
-     * @param options The options parameters.
-     */
-    private _list(
-        resourceGroupName: string,
-        serviceName: string,
-        userId: string,
-        options?: UserGroupListOptionalParams
-    ): Promise<UserGroupListResponse> {
-        return this.client.sendOperationRequest(
-            { resourceGroupName, serviceName, userId, options },
-            listOperationSpec
+        return this.listPagingPage(
+          resourceGroupName,
+          serviceName,
+          userId,
+          options,
+          settings,
         );
-    }
+      },
+    };
+  }
 
-    /**
-     * ListNext
-     * @param resourceGroupName The name of the resource group. The name is case insensitive.
-     * @param serviceName The name of the API Management service.
-     * @param userId User identifier. Must be unique in the current API Management service instance.
-     * @param nextLink The nextLink from the previous successful call to the List method.
-     * @param options The options parameters.
-     */
-    private _listNext(
-        resourceGroupName: string,
-        serviceName: string,
-        userId: string,
-        nextLink: string,
-        options?: UserGroupListNextOptionalParams
-    ): Promise<UserGroupListNextResponse> {
-        return this.client.sendOperationRequest(
-            { resourceGroupName, serviceName, userId, nextLink, options },
-            listNextOperationSpec
-        );
+  private async *listPagingPage(
+    resourceGroupName: string,
+    serviceName: string,
+    userId: string,
+    options?: UserGroupListOptionalParams,
+    settings?: PageSettings,
+  ): AsyncIterableIterator<GroupContract[]> {
+    let result: UserGroupListResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._list(
+        resourceGroupName,
+        serviceName,
+        userId,
+        options,
+      );
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
     }
+    while (continuationToken) {
+      result = await this._listNext(
+        resourceGroupName,
+        serviceName,
+        userId,
+        continuationToken,
+        options,
+      );
+      continuationToken = result.nextLink;
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
+  }
+
+  private async *listPagingAll(
+    resourceGroupName: string,
+    serviceName: string,
+    userId: string,
+    options?: UserGroupListOptionalParams,
+  ): AsyncIterableIterator<GroupContract> {
+    for await (const page of this.listPagingPage(
+      resourceGroupName,
+      serviceName,
+      userId,
+      options,
+    )) {
+      yield* page;
+    }
+  }
+
+  /**
+   * Lists all user groups.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param serviceName The name of the API Management service.
+   * @param userId User identifier. Must be unique in the current API Management service instance.
+   * @param options The options parameters.
+   */
+  private _list(
+    resourceGroupName: string,
+    serviceName: string,
+    userId: string,
+    options?: UserGroupListOptionalParams,
+  ): Promise<UserGroupListResponse> {
+    return this.client.sendOperationRequest(
+      { resourceGroupName, serviceName, userId, options },
+      listOperationSpec,
+    );
+  }
+
+  /**
+   * ListNext
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param serviceName The name of the API Management service.
+   * @param userId User identifier. Must be unique in the current API Management service instance.
+   * @param nextLink The nextLink from the previous successful call to the List method.
+   * @param options The options parameters.
+   */
+  private _listNext(
+    resourceGroupName: string,
+    serviceName: string,
+    userId: string,
+    nextLink: string,
+    options?: UserGroupListNextOptionalParams,
+  ): Promise<UserGroupListNextResponse> {
+    return this.client.sendOperationRequest(
+      { resourceGroupName, serviceName, userId, nextLink, options },
+      listNextOperationSpec,
+    );
+  }
 }
 // Operation Specifications
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listOperationSpec: coreClient.OperationSpec = {
-    path:
-        "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/users/{userId}/groups",
-    httpMethod: "GET",
-    responses: {
-        200: {
-            bodyMapper: Mappers.GroupCollection
-        },
-        default: {
-            bodyMapper: Mappers.ErrorResponse
-        }
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/users/{userId}/groups",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.GroupCollection,
     },
-    queryParameters: [
-        Parameters.filter,
-        Parameters.top,
-        Parameters.skip,
-        Parameters.apiVersion
-    ],
-    urlParameters: [
-        Parameters.$host,
-        Parameters.resourceGroupName,
-        Parameters.serviceName,
-        Parameters.subscriptionId,
-        Parameters.userId
-    ],
-    headerParameters: [Parameters.accept],
-    serializer
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  queryParameters: [
+    Parameters.apiVersion,
+    Parameters.filter,
+    Parameters.top,
+    Parameters.skip,
+  ],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.resourceGroupName,
+    Parameters.subscriptionId,
+    Parameters.serviceName,
+    Parameters.userId,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
 };
 const listNextOperationSpec: coreClient.OperationSpec = {
-    path: "{nextLink}",
-    httpMethod: "GET",
-    responses: {
-        200: {
-            bodyMapper: Mappers.GroupCollection
-        },
-        default: {
-            bodyMapper: Mappers.ErrorResponse
-        }
+  path: "{nextLink}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.GroupCollection,
     },
-    urlParameters: [
-        Parameters.$host,
-        Parameters.resourceGroupName,
-        Parameters.serviceName,
-        Parameters.subscriptionId,
-        Parameters.nextLink,
-        Parameters.userId
-    ],
-    headerParameters: [Parameters.accept],
-    serializer
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  urlParameters: [
+    Parameters.$host,
+    Parameters.resourceGroupName,
+    Parameters.subscriptionId,
+    Parameters.nextLink,
+    Parameters.serviceName,
+    Parameters.userId,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
 };

@@ -25,7 +25,7 @@ import {
   WebhooksPingOptionalParams,
   WebhooksPingResponse,
   WebhooksGetCallbackConfigOptionalParams,
-  WebhooksGetCallbackConfigResponse
+  WebhooksGetCallbackConfigResponse,
 } from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
@@ -40,7 +40,7 @@ export interface Webhooks {
   list(
     resourceGroupName: string,
     registryName: string,
-    options?: WebhooksListOptionalParams
+    options?: WebhooksListOptionalParams,
   ): PagedAsyncIterableIterator<Webhook>;
   /**
    * Lists recent events for the specified webhook.
@@ -53,7 +53,7 @@ export interface Webhooks {
     resourceGroupName: string,
     registryName: string,
     webhookName: string,
-    options?: WebhooksListEventsOptionalParams
+    options?: WebhooksListEventsOptionalParams,
   ): PagedAsyncIterableIterator<Event>;
   /**
    * Gets the properties of the specified webhook.
@@ -66,7 +66,7 @@ export interface Webhooks {
     resourceGroupName: string,
     registryName: string,
     webhookName: string,
-    options?: WebhooksGetOptionalParams
+    options?: WebhooksGetOptionalParams,
   ): Promise<WebhooksGetResponse>;
   /**
    * Creates a webhook for a container registry with the specified parameters.
@@ -81,7 +81,7 @@ export interface Webhooks {
     registryName: string,
     webhookName: string,
     webhookCreateParameters: WebhookCreateParameters,
-    options?: WebhooksCreateOptionalParams
+    options?: WebhooksCreateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<WebhooksCreateResponse>,
@@ -101,7 +101,7 @@ export interface Webhooks {
     registryName: string,
     webhookName: string,
     webhookCreateParameters: WebhookCreateParameters,
-    options?: WebhooksCreateOptionalParams
+    options?: WebhooksCreateOptionalParams,
   ): Promise<WebhooksCreateResponse>;
   /**
    * Deletes a webhook from a container registry.
@@ -114,7 +114,7 @@ export interface Webhooks {
     resourceGroupName: string,
     registryName: string,
     webhookName: string,
-    options?: WebhooksDeleteOptionalParams
+    options?: WebhooksDeleteOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Deletes a webhook from a container registry.
@@ -127,7 +127,7 @@ export interface Webhooks {
     resourceGroupName: string,
     registryName: string,
     webhookName: string,
-    options?: WebhooksDeleteOptionalParams
+    options?: WebhooksDeleteOptionalParams,
   ): Promise<void>;
   /**
    * Updates a webhook with the specified parameters.
@@ -142,7 +142,7 @@ export interface Webhooks {
     registryName: string,
     webhookName: string,
     webhookUpdateParameters: WebhookUpdateParameters,
-    options?: WebhooksUpdateOptionalParams
+    options?: WebhooksUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<WebhooksUpdateResponse>,
@@ -162,7 +162,7 @@ export interface Webhooks {
     registryName: string,
     webhookName: string,
     webhookUpdateParameters: WebhookUpdateParameters,
-    options?: WebhooksUpdateOptionalParams
+    options?: WebhooksUpdateOptionalParams,
   ): Promise<WebhooksUpdateResponse>;
   /**
    * Triggers a ping event to be sent to the webhook.
@@ -175,7 +175,7 @@ export interface Webhooks {
     resourceGroupName: string,
     registryName: string,
     webhookName: string,
-    options?: WebhooksPingOptionalParams
+    options?: WebhooksPingOptionalParams,
   ): Promise<WebhooksPingResponse>;
   /**
    * Gets the configuration of service URI and custom headers for the webhook.
@@ -188,6 +188,6 @@ export interface Webhooks {
     resourceGroupName: string,
     registryName: string,
     webhookName: string,
-    options?: WebhooksGetCallbackConfigOptionalParams
+    options?: WebhooksGetCallbackConfigOptionalParams,
   ): Promise<WebhooksGetCallbackConfigResponse>;
 }

@@ -5,11 +5,13 @@
  * @summary Demonstrates sending messages directly to a user or connection.
  */
 
+const { DefaultAzureCredential } = require("@azure/identity");
 const { WebPubSubServiceClient } = require("@azure/web-pubsub");
+require("dotenv/config");
 
-require("dotenv").config();
+const endpoint = process.env.WPS_ENDPOINT || "";
 
-const chatHub = new WebPubSubServiceClient(process.env.WPS_CONNECTION_STRING, "chat");
+const chatHub = new WebPubSubServiceClient(endpoint, new DefaultAzureCredential(), "chat");
 
 async function main() {
   // send a text message directly to a user

@@ -12,13 +12,10 @@ const {
   generateAccountSas,
   generateTableSas,
   TableClient,
-  TableServiceClient
+  TableServiceClient,
 } = require("@azure/data-tables");
 const { AzureNamedKeyCredential, AzureSASCredential } = require("@azure/core-auth");
-
-// Load the .env file if it exists
-const dotenv = require("dotenv");
-dotenv.config();
+require("dotenv/config");
 
 const tablesUrl = process.env["TABLES_URL"] || "";
 const accountKey = process.env["ACCOUNT_KEY"] || "";
@@ -42,15 +39,14 @@ async function generateTableSasSample() {
     // Grants permission to query entities
     query: true,
     // Grants permission to delete tables and entities
-    delete: true
+    delete: true,
   };
 
-  const anHourFromNow = Date.now() + 60 * 60 * 1000;
-
   // Generate an account SAS with the NamedKeyCredential and the permissions set previously
+  // by default, expiration is set an hour after the SAS is created. Expiration can be
+  // set explicitly by passing expiresOn with the desired expiration Date
   const accountSas = generateAccountSas(cred, {
     permissions,
-    expiresOn: new Date(anHourFromNow)
   });
 
   const tableService = new TableServiceClient(tablesUrl, new AzureSASCredential(accountSas));
@@ -75,13 +71,14 @@ async function generateTableSasSample() {
     // Allows deleting entities
     delete: true,
     // Allows updating entities
-    update: true
+    update: true,
   };
 
   // Create the table SAS token
+  const anHourFromNow = Date.now() + 60 * 60 * 1000;
   const tableSas = generateTableSas(tableName, cred, {
     expiresOn: new Date(anHourFromNow),
-    permissions: tablePermissions
+    permissions: tablePermissions,
   });
 
   // Create a new client for the table we just created. Alternatively the Table Account SAS token could be used here as well
@@ -89,7 +86,11 @@ async function generateTableSasSample() {
   const table = new TableClient(tablesUrl, tableName, new AzureSASCredential(tableSas));
 
   // Create an entity in the table
-  await table.createEntity({ partitionKey: "test", rowKey: "1", foo: "bar" });
+  await table.createEntity({
+    partitionKey: "test",
+    rowKey: "1",
+    foo: "bar",
+  });
 
   // List all the entities in the table
   const entities = table.listEntities();
@@ -111,3 +112,5 @@ async function main() {
 main().catch((err) => {
   console.error("The sample encountered an error:", err);
 });
+
+module.exports = { main };

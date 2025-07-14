@@ -47,12 +47,7 @@ export class ModelCapacitiesImpl implements ModelCapacities {
     modelVersion: string,
     options?: ModelCapacitiesListOptionalParams,
   ): PagedAsyncIterableIterator<ModelCapacityListResultValueItem> {
-    const iter = this.listPagingAll(
-      modelFormat,
-      modelName,
-      modelVersion,
-      options,
-    );
+    const iter = this.listPagingAll(modelFormat, modelName, modelVersion, options);
     return {
       next() {
         return iter.next();
@@ -64,13 +59,7 @@ export class ModelCapacitiesImpl implements ModelCapacities {
         if (settings?.maxPageSize) {
           throw new Error("maxPageSize is not supported by this operation.");
         }
-        return this.listPagingPage(
-          modelFormat,
-          modelName,
-          modelVersion,
-          options,
-          settings,
-        );
+        return this.listPagingPage(modelFormat, modelName, modelVersion, options, settings);
       },
     };
   }
@@ -106,12 +95,7 @@ export class ModelCapacitiesImpl implements ModelCapacities {
     modelVersion: string,
     options?: ModelCapacitiesListOptionalParams,
   ): AsyncIterableIterator<ModelCapacityListResultValueItem> {
-    for await (const page of this.listPagingPage(
-      modelFormat,
-      modelName,
-      modelVersion,
-      options,
-    )) {
+    for await (const page of this.listPagingPage(modelFormat, modelName, modelVersion, options)) {
       yield* page;
     }
   }
@@ -144,10 +128,7 @@ export class ModelCapacitiesImpl implements ModelCapacities {
     nextLink: string,
     options?: ModelCapacitiesListNextOptionalParams,
   ): Promise<ModelCapacitiesListNextResponse> {
-    return this.client.sendOperationRequest(
-      { nextLink, options },
-      listNextOperationSpec,
-    );
+    return this.client.sendOperationRequest({ nextLink, options }, listNextOperationSpec);
   }
 }
 // Operation Specifications
@@ -185,11 +166,7 @@ const listNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse,
     },
   },
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.nextLink,
-  ],
+  urlParameters: [Parameters.$host, Parameters.subscriptionId, Parameters.nextLink],
   headerParameters: [Parameters.accept],
   serializer,
 };

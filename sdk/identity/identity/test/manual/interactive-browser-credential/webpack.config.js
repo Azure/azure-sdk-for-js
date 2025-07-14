@@ -32,6 +32,7 @@ module.exports = {
       path: require.resolve("path-browserify"),
       os: require.resolve("os-browserify/browser"),
       "process/browser": require.resolve("process/browser"),
+      util: require.resolve("util"),
     },
   },
   mode: "development",

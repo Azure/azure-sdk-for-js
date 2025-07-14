@@ -16,7 +16,7 @@ import "dotenv/config";
  * This sample demonstrates how to Returns backup management server registered to Recovery Services Vault.
  *
  * @summary Returns backup management server registered to Recovery Services Vault.
- * x-ms-original-file: specification/recoveryservicesbackup/resource-manager/Microsoft.RecoveryServices/stable/2024-04-01/examples/Dpm/BackupEngines_Get.json
+ * x-ms-original-file: specification/recoveryservicesbackup/resource-manager/Microsoft.RecoveryServices/stable/2025-02-01/examples/Dpm/BackupEngines_Get.json
  */
 async function getDpmOrAzureBackupServerOrLajollaBackupEngineDetails(): Promise<void> {
   const subscriptionId =
@@ -37,7 +37,7 @@ async function getDpmOrAzureBackupServerOrLajollaBackupEngineDetails(): Promise<
 }
 
 async function main(): Promise<void> {
-  getDpmOrAzureBackupServerOrLajollaBackupEngineDetails();
+  await getDpmOrAzureBackupServerOrLajollaBackupEngineDetails();
 }
 
 main().catch(console.error);

@@ -2,7 +2,9 @@
   "extends": "../../../tsconfig.samples.base.json",
   "compilerOptions": {
     "paths": {
-      "@azure/arm-keyvault": ["./dist/esm"]
+      "@azure/arm-keyvault": [
+        "./dist/esm"
+      ]
     }
   }
 }

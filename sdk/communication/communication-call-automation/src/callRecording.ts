@@ -62,6 +62,9 @@ export class CallRecording {
     startCallRecordingRequest.recordingStateCallbackUri = options.recordingStateCallbackEndpointUrl;
     startCallRecordingRequest.pauseOnStart = options.pauseOnStart;
     startCallRecordingRequest.recordingStorage = options.recordingStorage;
+    startCallRecordingRequest.callConnectionId = options.callConnectionId
+      ? options.callConnectionId
+      : undefined;
 
     if (options.channelAffinity) {
       startCallRecordingRequest.channelAffinity = [];

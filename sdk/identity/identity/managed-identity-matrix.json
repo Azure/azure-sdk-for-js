@@ -10,9 +10,9 @@
           "Pool": "env:LINUXNEXTPOOL"
         }
       },
+      "NodeTestVersion": "env:NODE_VERSION_LTS_MAINTENANCE",
       "ArmTemplateParameters": "@{deployMIResources = $true}",
-      "TestType": "managed-identity",
-      "NodeTestVersion": "18.x",
+      "TestType": "node:managed-identity",
       "TestResultsFiles": "**/test-results.xml"
     }
   ]

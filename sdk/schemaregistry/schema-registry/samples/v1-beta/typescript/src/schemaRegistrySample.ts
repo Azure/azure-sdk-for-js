@@ -13,9 +13,7 @@ import {
 } from "@azure/schema-registry";
 
 // Load the .env file if it exists
-import * as dotenv from "dotenv";
-dotenv.config();
-
+import "dotenv/config";
 // Set these environment variables or edit the following values
 const fullyQualifiedNamespace =
   process.env["SCHEMAREGISTRY_AVRO_FULLY_QUALIFIED_NAMESPACE"] || "<fullyQualifiedNamespace>";
@@ -48,7 +46,7 @@ const schemaDescription: SchemaDescription = {
   definition: JSON.stringify(schemaObject),
 };
 
-export async function main() {
+export async function main(): Promise<void> {
   // Create a new client
   const client = new SchemaRegistryClient(fullyQualifiedNamespace, new DefaultAzureCredential());
 

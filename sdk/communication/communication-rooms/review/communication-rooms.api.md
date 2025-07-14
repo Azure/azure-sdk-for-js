@@ -45,7 +45,7 @@ export type ListParticipantsOptions = OperationOptions;
 export type ListRoomOptions = OperationOptions;
 
 // @public
-export type ParticipantRole = "Presenter" | "Attendee" | "Consumer";
+export type ParticipantRole = "Presenter" | "Attendee" | "Consumer" | "Collaborator";
 
 // @public
 export type RemoveParticipantsOptions = OperationOptions;

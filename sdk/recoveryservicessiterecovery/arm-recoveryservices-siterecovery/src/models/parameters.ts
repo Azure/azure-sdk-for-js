@@ -20,6 +20,7 @@ import {
   UpdateNetworkMappingInput as UpdateNetworkMappingInputMapper,
   CreateProtectionContainerInput as CreateProtectionContainerInputMapper,
   DiscoverProtectableItemRequest as DiscoverProtectableItemRequestMapper,
+  SwitchClusterProtectionInput as SwitchClusterProtectionInputMapper,
   SwitchProtectionInput as SwitchProtectionInputMapper,
   EnableMigrationInput as EnableMigrationInputMapper,
   UpdateMigrationItemInput as UpdateMigrationItemInputMapper,
@@ -44,6 +45,11 @@ import {
   UnplannedFailoverInput as UnplannedFailoverInputMapper,
   UpdateApplianceForReplicationProtectedItemInput as UpdateApplianceForReplicationProtectedItemInputMapper,
   UpdateMobilityServiceRequest as UpdateMobilityServiceRequestMapper,
+  ReplicationProtectionCluster as ReplicationProtectionClusterMapper,
+  ApplyClusterRecoveryPointInput as ApplyClusterRecoveryPointInputMapper,
+  ClusterTestFailoverInput as ClusterTestFailoverInputMapper,
+  ClusterTestFailoverCleanupInput as ClusterTestFailoverCleanupInputMapper,
+  ClusterUnplannedFailoverInput as ClusterUnplannedFailoverInputMapper,
   CreateProtectionContainerMappingInput as CreateProtectionContainerMappingInputMapper,
   UpdateProtectionContainerMappingInput as UpdateProtectionContainerMappingInputMapper,
   RemoveProtectionContainerMappingInput as RemoveProtectionContainerMappingInputMapper,
@@ -92,7 +98,7 @@ export const $host: OperationURLParameter = {
 export const apiVersion: OperationQueryParameter = {
   parameterPath: "apiVersion",
   mapper: {
-    defaultValue: "2023-08-01",
+    defaultValue: "2025-01-01",
     isConstant: true,
     serializedName: "api-version",
     type: {
@@ -326,6 +332,25 @@ export const discoverProtectableItemRequest: OperationParameter = {
 
 export const switchInput: OperationParameter = {
   parameterPath: "switchInput",
+  mapper: SwitchClusterProtectionInputMapper,
+};
+
+export const protectionContainerName1: OperationURLParameter = {
+  parameterPath: "protectionContainerName",
+  mapper: {
+    constraints: {
+      Pattern: new RegExp("^[A-Za-z0-9][A-Za-z0-9-]*[A-Za-z0-9]$"),
+    },
+    serializedName: "protectionContainerName",
+    required: true,
+    type: {
+      name: "String",
+    },
+  },
+};
+
+export const switchInput1: OperationParameter = {
+  parameterPath: "switchInput",
   mapper: SwitchProtectionInputMapper,
 };
 
@@ -541,6 +566,73 @@ export const updateMobilityServiceRequest: OperationParameter = {
 export const recoveryPointName: OperationURLParameter = {
   parameterPath: "recoveryPointName",
   mapper: {
+    serializedName: "recoveryPointName",
+    required: true,
+    type: {
+      name: "String",
+    },
+  },
+};
+
+export const replicationProtectionClusterName: OperationURLParameter = {
+  parameterPath: "replicationProtectionClusterName",
+  mapper: {
+    constraints: {
+      Pattern: new RegExp("^[A-Za-z0-9][A-Za-z0-9-]*[A-Za-z0-9]$"),
+    },
+    serializedName: "replicationProtectionClusterName",
+    required: true,
+    type: {
+      name: "String",
+    },
+  },
+};
+
+export const replicationProtectionCluster: OperationParameter = {
+  parameterPath: "replicationProtectionCluster",
+  mapper: ReplicationProtectionClusterMapper,
+};
+
+export const applyClusterRecoveryPointInput: OperationParameter = {
+  parameterPath: "applyClusterRecoveryPointInput",
+  mapper: ApplyClusterRecoveryPointInputMapper,
+};
+
+export const jobId: OperationURLParameter = {
+  parameterPath: "jobId",
+  mapper: {
+    constraints: {
+      Pattern: new RegExp("^[A-Za-z0-9][A-Za-z0-9-]*[A-Za-z0-9]$"),
+    },
+    serializedName: "jobId",
+    required: true,
+    type: {
+      name: "String",
+    },
+  },
+};
+
+export const failoverInput2: OperationParameter = {
+  parameterPath: "failoverInput",
+  mapper: ClusterTestFailoverInputMapper,
+};
+
+export const cleanupInput1: OperationParameter = {
+  parameterPath: "cleanupInput",
+  mapper: ClusterTestFailoverCleanupInputMapper,
+};
+
+export const failoverInput3: OperationParameter = {
+  parameterPath: "failoverInput",
+  mapper: ClusterUnplannedFailoverInputMapper,
+};
+
+export const recoveryPointName1: OperationURLParameter = {
+  parameterPath: "recoveryPointName",
+  mapper: {
+    constraints: {
+      Pattern: new RegExp("^[A-Za-z0-9][A-Za-z0-9-]*[A-Za-z0-9]$"),
+    },
     serializedName: "recoveryPointName",
     required: true,
     type: {

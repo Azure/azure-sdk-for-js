@@ -1,10 +1,10 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import { StoredProcedures, StoredProcedure } from "../StoredProcedure";
-import { Trigger, Triggers } from "../Trigger";
-import { UserDefinedFunction, UserDefinedFunctions } from "../UserDefinedFunction";
-import type { ClientContext } from "../../ClientContext";
-import type { Container } from "../Container/Container";
+import { StoredProcedures, StoredProcedure } from "../StoredProcedure/index.js";
+import { Trigger, Triggers } from "../Trigger/index.js";
+import { UserDefinedFunction, UserDefinedFunctions } from "../UserDefinedFunction/index.js";
+import type { ClientContext } from "../../ClientContext.js";
+import type { Container } from "../Container/Container.js";
 
 export class Scripts {
   /**

@@ -35,7 +35,7 @@ if (!isProduction) {
   useIdentityPlugin(vsCodePlugin);
 }
 
-export async function main() {
+export async function main(): Promise<void> {
   const credential = new DefaultAzureCredential();
 
   // This is the scope we will use to get a token from the Microsoft Entra token endpoint.

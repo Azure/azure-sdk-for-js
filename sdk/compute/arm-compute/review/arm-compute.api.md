@@ -154,6 +154,13 @@ export interface AutomaticRepairsPolicy {
 }
 
 // @public
+export interface AutomaticZoneRebalancingPolicy {
+    enabled?: boolean;
+    rebalanceBehavior?: RebalanceBehavior;
+    rebalanceStrategy?: RebalanceStrategy;
+}
+
+// @public
 export interface AvailabilitySet extends Resource {
     platformFaultDomainCount?: number;
     platformUpdateDomainCount?: number;
@@ -162,6 +169,7 @@ export interface AvailabilitySet extends Resource {
     sku?: Sku;
     readonly statuses?: InstanceViewStatus[];
     virtualMachines?: SubResource[];
+    readonly virtualMachineScaleSetMigrationInfo?: VirtualMachineScaleSetMigrationInfo;
 }
 
 // @public
@@ -172,13 +180,29 @@ export interface AvailabilitySetListResult {
 
 // @public
 export interface AvailabilitySets {
+    beginConvertToVirtualMachineScaleSet(resourceGroupName: string, availabilitySetName: string, options?: AvailabilitySetsConvertToVirtualMachineScaleSetOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
+    beginConvertToVirtualMachineScaleSetAndWait(resourceGroupName: string, availabilitySetName: string, options?: AvailabilitySetsConvertToVirtualMachineScaleSetOptionalParams): Promise<void>;
+    cancelMigrationToVirtualMachineScaleSet(resourceGroupName: string, availabilitySetName: string, options?: AvailabilitySetsCancelMigrationToVirtualMachineScaleSetOptionalParams): Promise<void>;
     createOrUpdate(resourceGroupName: string, availabilitySetName: string, parameters: AvailabilitySet, options?: AvailabilitySetsCreateOrUpdateOptionalParams): Promise<AvailabilitySetsCreateOrUpdateResponse>;
     delete(resourceGroupName: string, availabilitySetName: string, options?: AvailabilitySetsDeleteOptionalParams): Promise<void>;
     get(resourceGroupName: string, availabilitySetName: string, options?: AvailabilitySetsGetOptionalParams): Promise<AvailabilitySetsGetResponse>;
     list(resourceGroupName: string, options?: AvailabilitySetsListOptionalParams): PagedAsyncIterableIterator<AvailabilitySet>;
     listAvailableSizes(resourceGroupName: string, availabilitySetName: string, options?: AvailabilitySetsListAvailableSizesOptionalParams): PagedAsyncIterableIterator<VirtualMachineSize>;
     listBySubscription(options?: AvailabilitySetsListBySubscriptionOptionalParams): PagedAsyncIterableIterator<AvailabilitySet>;
+    startMigrationToVirtualMachineScaleSet(resourceGroupName: string, availabilitySetName: string, parameters: MigrateToVirtualMachineScaleSetInput, options?: AvailabilitySetsStartMigrationToVirtualMachineScaleSetOptionalParams): Promise<void>;
     update(resourceGroupName: string, availabilitySetName: string, parameters: AvailabilitySetUpdate, options?: AvailabilitySetsUpdateOptionalParams): Promise<AvailabilitySetsUpdateResponse>;
+    validateMigrationToVirtualMachineScaleSet(resourceGroupName: string, availabilitySetName: string, parameters: MigrateToVirtualMachineScaleSetInput, options?: AvailabilitySetsValidateMigrationToVirtualMachineScaleSetOptionalParams): Promise<void>;
+}
+
+// @public
+export interface AvailabilitySetsCancelMigrationToVirtualMachineScaleSetOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export interface AvailabilitySetsConvertToVirtualMachineScaleSetOptionalParams extends coreClient.OperationOptions {
+    parameters?: ConvertToVirtualMachineScaleSetInput;
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
 }
 
 // @public
@@ -239,11 +263,19 @@ export interface AvailabilitySetsListOptionalParams extends coreClient.Operation
 export type AvailabilitySetsListResponse = AvailabilitySetListResult;
 
 // @public
+export interface AvailabilitySetsStartMigrationToVirtualMachineScaleSetOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
 export interface AvailabilitySetsUpdateOptionalParams extends coreClient.OperationOptions {
 }
 
 // @public
 export type AvailabilitySetsUpdateResponse = AvailabilitySet;
+
+// @public
+export interface AvailabilitySetsValidateMigrationToVirtualMachineScaleSetOptionalParams extends coreClient.OperationOptions {
+}
 
 // @public
 export interface AvailabilitySetUpdate extends UpdateResource {
@@ -254,6 +286,7 @@ export interface AvailabilitySetUpdate extends UpdateResource {
     sku?: Sku;
     readonly statuses?: InstanceViewStatus[];
     virtualMachines?: SubResource[];
+    readonly virtualMachineScaleSetMigrationInfo?: VirtualMachineScaleSetMigrationInfo;
 }
 
 // @public
@@ -1265,6 +1298,11 @@ export type ConfidentialVMEncryptionType = string;
 export type ConsistencyModeTypes = string;
 
 // @public
+export interface ConvertToVirtualMachineScaleSetInput {
+    virtualMachineScaleSetName?: string;
+}
+
+// @public
 export interface CopyCompletionError {
     errorCode: CopyCompletionErrorReason;
     errorMessage: string;
@@ -1592,6 +1630,12 @@ export interface DedicatedHostUpdate extends UpdateResource {
     sku?: Sku;
     readonly timeCreated?: Date;
     readonly virtualMachines?: SubResourceReadOnly[];
+}
+
+// @public
+export interface DefaultVirtualMachineScaleSetInfo {
+    readonly constrainedMaximumCapacity?: boolean;
+    readonly defaultVirtualMachineScaleSet?: SubResource;
 }
 
 // @public
@@ -2286,6 +2330,9 @@ export interface ExecutedValidation {
 
 // @public
 export type ExecutionState = string;
+
+// @public
+export type Expand = string;
 
 // @public
 export type ExpandTypeForListVMs = string;
@@ -3215,6 +3262,12 @@ export interface HardwareProfile {
 export type HostCaching = "None" | "ReadOnly" | "ReadWrite";
 
 // @public
+export interface HostEndpointSettings {
+    inVMAccessControlProfileReferenceId?: string;
+    mode?: Modes;
+}
+
+// @public
 export type HyperVGeneration = string;
 
 // @public
@@ -3224,14 +3277,13 @@ export type HyperVGenerationType = string;
 export type HyperVGenerationTypes = string;
 
 // @public
-interface Image_2 extends Resource {
+export interface Image extends Resource {
     extendedLocation?: ExtendedLocation;
     hyperVGeneration?: HyperVGenerationTypes;
     readonly provisioningState?: string;
     sourceVirtualMachine?: SubResource;
     storageProfile?: ImageStorageProfile;
 }
-export { Image_2 as Image }
 
 // @public
 export interface ImageDataDisk extends ImageDisk {
@@ -3267,7 +3319,7 @@ export interface ImageDiskReference {
 // @public
 export interface ImageListResult {
     nextLink?: string;
-    value: Image_2[];
+    value: Image[];
 }
 
 // @public
@@ -3296,15 +3348,15 @@ export interface ImageReference extends SubResource {
 
 // @public
 export interface Images {
-    beginCreateOrUpdate(resourceGroupName: string, imageName: string, parameters: Image_2, options?: ImagesCreateOrUpdateOptionalParams): Promise<SimplePollerLike<OperationState<ImagesCreateOrUpdateResponse>, ImagesCreateOrUpdateResponse>>;
-    beginCreateOrUpdateAndWait(resourceGroupName: string, imageName: string, parameters: Image_2, options?: ImagesCreateOrUpdateOptionalParams): Promise<ImagesCreateOrUpdateResponse>;
+    beginCreateOrUpdate(resourceGroupName: string, imageName: string, parameters: Image, options?: ImagesCreateOrUpdateOptionalParams): Promise<SimplePollerLike<OperationState<ImagesCreateOrUpdateResponse>, ImagesCreateOrUpdateResponse>>;
+    beginCreateOrUpdateAndWait(resourceGroupName: string, imageName: string, parameters: Image, options?: ImagesCreateOrUpdateOptionalParams): Promise<ImagesCreateOrUpdateResponse>;
     beginDelete(resourceGroupName: string, imageName: string, options?: ImagesDeleteOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
     beginDeleteAndWait(resourceGroupName: string, imageName: string, options?: ImagesDeleteOptionalParams): Promise<void>;
     beginUpdate(resourceGroupName: string, imageName: string, parameters: ImageUpdate, options?: ImagesUpdateOptionalParams): Promise<SimplePollerLike<OperationState<ImagesUpdateResponse>, ImagesUpdateResponse>>;
     beginUpdateAndWait(resourceGroupName: string, imageName: string, parameters: ImageUpdate, options?: ImagesUpdateOptionalParams): Promise<ImagesUpdateResponse>;
     get(resourceGroupName: string, imageName: string, options?: ImagesGetOptionalParams): Promise<ImagesGetResponse>;
-    list(options?: ImagesListOptionalParams): PagedAsyncIterableIterator<Image_2>;
-    listByResourceGroup(resourceGroupName: string, options?: ImagesListByResourceGroupOptionalParams): PagedAsyncIterableIterator<Image_2>;
+    list(options?: ImagesListOptionalParams): PagedAsyncIterableIterator<Image>;
+    listByResourceGroup(resourceGroupName: string, options?: ImagesListByResourceGroupOptionalParams): PagedAsyncIterableIterator<Image>;
 }
 
 // @public
@@ -3314,7 +3366,7 @@ export interface ImagesCreateOrUpdateOptionalParams extends coreClient.Operation
 }
 
 // @public
-export type ImagesCreateOrUpdateResponse = Image_2;
+export type ImagesCreateOrUpdateResponse = Image;
 
 // @public
 export interface ImagesDeleteOptionalParams extends coreClient.OperationOptions {
@@ -3328,7 +3380,7 @@ export interface ImagesGetOptionalParams extends coreClient.OperationOptions {
 }
 
 // @public
-export type ImagesGetResponse = Image_2;
+export type ImagesGetResponse = Image;
 
 // @public
 export interface ImagesListByResourceGroupNextOptionalParams extends coreClient.OperationOptions {
@@ -3375,7 +3427,7 @@ export interface ImagesUpdateOptionalParams extends coreClient.OperationOptions 
 }
 
 // @public
-export type ImagesUpdateResponse = Image_2;
+export type ImagesUpdateResponse = Image;
 
 // @public
 export interface ImageUpdate extends UpdateResource {
@@ -3417,7 +3469,7 @@ export interface InstanceViewStatusesSummary {
 }
 
 // @public
-export type InstanceViewTypes = "instanceView" | "userData";
+export type InstanceViewTypes = "instanceView" | "userData" | "resiliencyView";
 
 // @public
 export type IntervalInMins = "ThreeMins" | "FiveMins" | "ThirtyMins" | "SixtyMins";
@@ -3483,7 +3535,8 @@ export enum KnownAggregatedReplicationState {
 // @public
 export enum KnownAllocationStrategy {
     CapacityOptimized = "CapacityOptimized",
-    LowestPrice = "LowestPrice"
+    LowestPrice = "LowestPrice",
+    Prioritized = "Prioritized"
 }
 
 // @public
@@ -3707,6 +3760,11 @@ export enum KnownExecutionState {
 }
 
 // @public
+export enum KnownExpand {
+    Properties = "Properties"
+}
+
+// @public
 export enum KnownExpandTypeForListVMs {
     InstanceView = "instanceView"
 }
@@ -3841,6 +3899,13 @@ export enum KnownMode {
 }
 
 // @public
+export enum KnownModes {
+    Audit = "Audit",
+    Disabled = "Disabled",
+    Enforce = "Enforce"
+}
+
+// @public
 export enum KnownNetworkAccessPolicy {
     AllowAll = "AllowAll",
     AllowPrivate = "AllowPrivate",
@@ -3849,7 +3914,8 @@ export enum KnownNetworkAccessPolicy {
 
 // @public
 export enum KnownNetworkApiVersion {
-    TwoThousandTwenty1101 = "2020-11-01"
+    TwoThousandTwenty1101 = "2020-11-01",
+    TwoThousandTwentyTwo1101 = "2022-11-01"
 }
 
 // @public
@@ -3984,6 +4050,16 @@ export enum KnownPublicNetworkAccess {
 }
 
 // @public
+export enum KnownRebalanceBehavior {
+    CreateBeforeDelete = "CreateBeforeDelete"
+}
+
+// @public
+export enum KnownRebalanceStrategy {
+    Recreate = "Recreate"
+}
+
+// @public
 export enum KnownRepairAction {
     Reimage = "Reimage",
     Replace = "Replace",
@@ -4008,6 +4084,14 @@ export enum KnownReplicationState {
 export enum KnownReplicationStatusTypes {
     ReplicationStatus = "ReplicationStatus",
     UefiSettings = "UefiSettings"
+}
+
+// @public
+export enum KnownResilientVMDeletionStatus {
+    Disabled = "Disabled",
+    Enabled = "Enabled",
+    Failed = "Failed",
+    InProgress = "InProgress"
 }
 
 // @public
@@ -4411,6 +4495,11 @@ export enum KnownZonalPlatformFaultDomainAlignMode {
 }
 
 // @public
+export enum KnownZonePlacementPolicyType {
+    Any = "Any"
+}
+
+// @public
 export interface LastPatchInstallationSummary {
     readonly error?: ApiError;
     readonly excludedPatchCount?: number;
@@ -4576,7 +4665,22 @@ export interface ManagedDiskParameters extends SubResource {
 }
 
 // @public
+export interface MigrateToVirtualMachineScaleSetInput {
+    virtualMachineScaleSetFlexible: SubResource;
+}
+
+// @public
+export interface MigrateVMToVirtualMachineScaleSetInput {
+    targetFaultDomain?: number;
+    targetVMSize?: string;
+    targetZone?: string;
+}
+
+// @public
 export type Mode = string;
+
+// @public
+export type Modes = string;
 
 // @public
 export type NetworkAccessPolicy = string;
@@ -4807,6 +4911,13 @@ export interface PirSharedGalleryResource extends PirResource {
 }
 
 // @public
+export interface Placement {
+    excludeZones?: string[];
+    includeZones?: string[];
+    zonePlacementPolicy?: ZonePlacementPolicyType;
+}
+
+// @public
 export interface Plan {
     name?: string;
     product?: string;
@@ -4991,8 +5102,10 @@ export interface ProximityPlacementGroupUpdate extends UpdateResource {
 // @public
 export interface ProxyAgentSettings {
     enabled?: boolean;
+    imds?: HostEndpointSettings;
     keyIncarnationId?: number;
     mode?: Mode;
+    wireServer?: HostEndpointSettings;
 }
 
 // @public
@@ -5033,6 +5146,12 @@ export interface PurchasePlan {
     product: string;
     publisher: string;
 }
+
+// @public
+export type RebalanceBehavior = string;
+
+// @public
+export type RebalanceStrategy = string;
 
 // @public
 export interface RecommendedMachineConfiguration {
@@ -5086,6 +5205,7 @@ export interface RequestRateByIntervalInput extends LogAnalyticsInputBase {
 
 // @public
 export interface ResiliencyPolicy {
+    automaticZoneRebalancingPolicy?: AutomaticZoneRebalancingPolicy;
     resilientVMCreationPolicy?: ResilientVMCreationPolicy;
     resilientVMDeletionPolicy?: ResilientVMDeletionPolicy;
 }
@@ -5099,6 +5219,9 @@ export interface ResilientVMCreationPolicy {
 export interface ResilientVMDeletionPolicy {
     enabled?: boolean;
 }
+
+// @public
+export type ResilientVMDeletionStatus = string;
 
 // @public
 export interface Resource {
@@ -5614,6 +5737,7 @@ export interface RunCommandResult {
 // @public
 export interface ScaleInPolicy {
     forceDeletion?: boolean;
+    prioritizeUnhealthyVMs?: boolean;
     rules?: VirtualMachineScaleSetScaleInRules[];
 }
 
@@ -5896,6 +6020,7 @@ export interface SkuProfile {
 // @public
 export interface SkuProfileVMSize {
     name?: string;
+    rank?: number;
 }
 
 // @public
@@ -6221,6 +6346,7 @@ export type StorageAccountTypes = string;
 
 // @public
 export interface StorageProfile {
+    alignRegionalDisksToVMZone?: boolean;
     dataDisks?: DataDisk[];
     diskControllerType?: DiskControllerTypes;
     imageReference?: ImageReference;
@@ -6488,6 +6614,7 @@ export interface VirtualMachine extends Resource {
     readonly managedBy?: string;
     networkProfile?: NetworkProfile;
     osProfile?: OSProfile;
+    placement?: Placement;
     plan?: Plan;
     platformFaultDomain?: number;
     priority?: VirtualMachinePriorityTypes;
@@ -6742,6 +6869,8 @@ export interface VirtualMachineImages {
     listOffers(location: string, publisherName: string, options?: VirtualMachineImagesListOffersOptionalParams): Promise<VirtualMachineImagesListOffersResponse>;
     listPublishers(location: string, options?: VirtualMachineImagesListPublishersOptionalParams): Promise<VirtualMachineImagesListPublishersResponse>;
     listSkus(location: string, publisherName: string, offer: string, options?: VirtualMachineImagesListSkusOptionalParams): Promise<VirtualMachineImagesListSkusResponse>;
+    // (undocumented)
+    listWithProperties(location: string, publisherName: string, offer: string, skus: string, expand: Expand, options?: VirtualMachineImagesListWithPropertiesOptionalParams): PagedAsyncIterableIterator<VirtualMachineImage>;
 }
 
 // @public
@@ -6837,6 +6966,30 @@ export interface VirtualMachineImagesListSkusOptionalParams extends coreClient.O
 
 // @public
 export type VirtualMachineImagesListSkusResponse = VirtualMachineImageResource[];
+
+// @public
+export interface VirtualMachineImagesListWithPropertiesNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type VirtualMachineImagesListWithPropertiesNextResponse = VirtualMachineImagesWithPropertiesListResult;
+
+// @public
+export interface VirtualMachineImagesListWithPropertiesOptionalParams extends coreClient.OperationOptions {
+    // (undocumented)
+    orderby?: string;
+    // (undocumented)
+    top?: number;
+}
+
+// @public
+export type VirtualMachineImagesListWithPropertiesResponse = VirtualMachineImagesWithPropertiesListResult;
+
+// @public
+export interface VirtualMachineImagesWithPropertiesListResult {
+    nextLink?: string;
+    value?: VirtualMachineImage[];
+}
 
 // @public
 export interface VirtualMachineInstallPatchesParameters {
@@ -7128,6 +7281,8 @@ export interface VirtualMachines {
     beginDeleteAndWait(resourceGroupName: string, vmName: string, options?: VirtualMachinesDeleteOptionalParams): Promise<void>;
     beginInstallPatches(resourceGroupName: string, vmName: string, installPatchesInput: VirtualMachineInstallPatchesParameters, options?: VirtualMachinesInstallPatchesOptionalParams): Promise<SimplePollerLike<OperationState<VirtualMachinesInstallPatchesResponse>, VirtualMachinesInstallPatchesResponse>>;
     beginInstallPatchesAndWait(resourceGroupName: string, vmName: string, installPatchesInput: VirtualMachineInstallPatchesParameters, options?: VirtualMachinesInstallPatchesOptionalParams): Promise<VirtualMachinesInstallPatchesResponse>;
+    beginMigrateToVMScaleSet(resourceGroupName: string, vmName: string, options?: VirtualMachinesMigrateToVMScaleSetOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
+    beginMigrateToVMScaleSetAndWait(resourceGroupName: string, vmName: string, options?: VirtualMachinesMigrateToVMScaleSetOptionalParams): Promise<void>;
     beginPerformMaintenance(resourceGroupName: string, vmName: string, options?: VirtualMachinesPerformMaintenanceOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
     beginPerformMaintenanceAndWait(resourceGroupName: string, vmName: string, options?: VirtualMachinesPerformMaintenanceOptionalParams): Promise<void>;
     beginPowerOff(resourceGroupName: string, vmName: string, options?: VirtualMachinesPowerOffOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
@@ -7410,6 +7565,12 @@ export interface VirtualMachineScaleSetManagedDiskParameters {
     diskEncryptionSet?: DiskEncryptionSetParameters;
     securityProfile?: VMDiskSecurityProfile;
     storageAccountType?: StorageAccountTypes;
+}
+
+// @public
+export interface VirtualMachineScaleSetMigrationInfo {
+    readonly defaultVirtualMachineScaleSetInfo?: DefaultVirtualMachineScaleSetInfo;
+    readonly migrateToVirtualMachineScaleSet?: SubResource;
 }
 
 // @public
@@ -7965,6 +8126,7 @@ export interface VirtualMachineScaleSetVM extends Resource {
     plan?: Plan;
     protectionPolicy?: VirtualMachineScaleSetVMProtectionPolicy;
     readonly provisioningState?: string;
+    resilientVMDeletionStatus?: ResilientVMDeletionStatus;
     readonly resources?: VirtualMachineExtension[];
     securityProfile?: SecurityProfile;
     readonly sku?: Sku;
@@ -8546,6 +8708,13 @@ export interface VirtualMachinesListOptionalParams extends coreClient.OperationO
 export type VirtualMachinesListResponse = VirtualMachineListResult;
 
 // @public
+export interface VirtualMachinesMigrateToVMScaleSetOptionalParams extends coreClient.OperationOptions {
+    parameters?: MigrateVMToVirtualMachineScaleSetInput;
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
 export interface VirtualMachineSoftwarePatchProperties {
     readonly activityId?: string;
     readonly assessmentState?: PatchAssessmentState;
@@ -8774,6 +8943,9 @@ export interface WinRMListener {
 
 // @public
 export type ZonalPlatformFaultDomainAlignMode = string;
+
+// @public
+export type ZonePlacementPolicyType = string;
 
 // (No @packageDocumentation comment for this package)
 

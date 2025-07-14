@@ -501,8 +501,7 @@ export interface ErrorResponse {
 export function getContinuationToken(page: unknown): string | undefined;
 
 // @public
-type KeyType_2 = "Primary" | "Secondary";
-export { KeyType_2 as KeyType }
+export type KeyType = "Primary" | "Secondary";
 
 // @public
 export enum KnownActionType {
@@ -704,7 +703,7 @@ export interface ProxyResource extends Resource {
 
 // @public
 export interface RegenerateKeyParameters {
-    keyType?: KeyType_2;
+    keyType?: KeyType;
 }
 
 // @public

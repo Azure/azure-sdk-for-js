@@ -18,7 +18,7 @@ describe("WebPubSubClient", function () {
     it("take client access url as func", () => {
       assert.doesNotThrow(() => {
         new WebPubSubClient({
-          getClientAccessUrl: async (_) => "wss://service.com",
+          getClientAccessUrl: async () => "wss://service.com",
         } as WebPubSubClientCredential);
       });
     });
@@ -26,7 +26,7 @@ describe("WebPubSubClient", function () {
     it("take options", () => {
       assert.doesNotThrow(() => {
         new WebPubSubClient(
-          { getClientAccessUrl: async (_) => "wss://service.com" } as WebPubSubClientCredential,
+          { getClientAccessUrl: async () => "wss://service.com" } as WebPubSubClientCredential,
           { protocol: WebPubSubJsonProtocol(), autoReconnect: false } as WebPubSubClientOptions,
         );
       });
@@ -35,7 +35,7 @@ describe("WebPubSubClient", function () {
     it("protocol is missing", () => {
       assert.doesNotThrow(() => {
         const client = new WebPubSubClient(
-          { getClientAccessUrl: async (_) => "wss://service.com" } as WebPubSubClientCredential,
+          { getClientAccessUrl: async () => "wss://service.com" } as WebPubSubClientCredential,
           { autoReconnect: false } as WebPubSubClientOptions,
         );
         const protocol = client["_protocol"];
@@ -48,7 +48,7 @@ describe("WebPubSubClient", function () {
     it("reconnectionOptions is missing", () => {
       assert.doesNotThrow(() => {
         const client = new WebPubSubClient(
-          { getClientAccessUrl: async (_) => "wss://service.com" } as WebPubSubClientCredential,
+          { getClientAccessUrl: async () => "wss://service.com" } as WebPubSubClientCredential,
           {} as WebPubSubClientOptions,
         );
         const options = client["_options"];
@@ -57,9 +57,13 @@ describe("WebPubSubClient", function () {
     });
 
     it("client start with a non-string client url", async () => {
-      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-      // @ts-ignore
-      const client = new WebPubSubClient({ getClientAccessUrl: async (_) => new { obj: "val" }() });
+      const client = new WebPubSubClient({
+        getClientAccessUrl: async () => {
+          return {
+            obj: "val",
+          } as any;
+        },
+      });
       await expect(() => client.start()).rejects.toThrowError(Error);
     });
   });

@@ -16,7 +16,7 @@ import { ContainerRegistryManagementClient } from "../containerRegistryManagemen
 import {
   SimplePollerLike,
   OperationState,
-  createHttpPoller
+  createHttpPoller,
 } from "@azure/core-lro";
 import { createLroSpec } from "../lroImpl.js";
 import {
@@ -29,12 +29,13 @@ import {
   AgentPoolsCreateOptionalParams,
   AgentPoolsCreateResponse,
   AgentPoolsDeleteOptionalParams,
+  AgentPoolsDeleteResponse,
   AgentPoolUpdateParameters,
   AgentPoolsUpdateOptionalParams,
   AgentPoolsUpdateResponse,
   AgentPoolsGetQueueStatusOptionalParams,
   AgentPoolsGetQueueStatusResponse,
-  AgentPoolsListNextResponse
+  AgentPoolsListNextResponse,
 } from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
@@ -59,7 +60,7 @@ export class AgentPoolsImpl implements AgentPools {
   public list(
     resourceGroupName: string,
     registryName: string,
-    options?: AgentPoolsListOptionalParams
+    options?: AgentPoolsListOptionalParams,
   ): PagedAsyncIterableIterator<AgentPool> {
     const iter = this.listPagingAll(resourceGroupName, registryName, options);
     return {
@@ -77,9 +78,9 @@ export class AgentPoolsImpl implements AgentPools {
           resourceGroupName,
           registryName,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
@@ -87,7 +88,7 @@ export class AgentPoolsImpl implements AgentPools {
     resourceGroupName: string,
     registryName: string,
     options?: AgentPoolsListOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<AgentPool[]> {
     let result: AgentPoolsListResponse;
     let continuationToken = settings?.continuationToken;
@@ -103,7 +104,7 @@ export class AgentPoolsImpl implements AgentPools {
         resourceGroupName,
         registryName,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -115,12 +116,12 @@ export class AgentPoolsImpl implements AgentPools {
   private async *listPagingAll(
     resourceGroupName: string,
     registryName: string,
-    options?: AgentPoolsListOptionalParams
+    options?: AgentPoolsListOptionalParams,
   ): AsyncIterableIterator<AgentPool> {
     for await (const page of this.listPagingPage(
       resourceGroupName,
       registryName,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -137,11 +138,11 @@ export class AgentPoolsImpl implements AgentPools {
     resourceGroupName: string,
     registryName: string,
     agentPoolName: string,
-    options?: AgentPoolsGetOptionalParams
+    options?: AgentPoolsGetOptionalParams,
   ): Promise<AgentPoolsGetResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, registryName, agentPoolName, options },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 
@@ -158,7 +159,7 @@ export class AgentPoolsImpl implements AgentPools {
     registryName: string,
     agentPoolName: string,
     agentPool: AgentPool,
-    options?: AgentPoolsCreateOptionalParams
+    options?: AgentPoolsCreateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<AgentPoolsCreateResponse>,
@@ -167,21 +168,20 @@ export class AgentPoolsImpl implements AgentPools {
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<AgentPoolsCreateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -190,8 +190,8 @@ export class AgentPoolsImpl implements AgentPools {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -199,8 +199,8 @@ export class AgentPoolsImpl implements AgentPools {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
@@ -211,16 +211,17 @@ export class AgentPoolsImpl implements AgentPools {
         registryName,
         agentPoolName,
         agentPool,
-        options
+        options,
       },
-      spec: createOperationSpec
+      spec: createOperationSpec,
     });
     const poller = await createHttpPoller<
       AgentPoolsCreateResponse,
       OperationState<AgentPoolsCreateResponse>
     >(lro, {
       restoreFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs
+      intervalInMs: options?.updateIntervalInMs,
+      resourceLocationConfig: "azure-async-operation",
     });
     await poller.poll();
     return poller;
@@ -239,14 +240,14 @@ export class AgentPoolsImpl implements AgentPools {
     registryName: string,
     agentPoolName: string,
     agentPool: AgentPool,
-    options?: AgentPoolsCreateOptionalParams
+    options?: AgentPoolsCreateOptionalParams,
   ): Promise<AgentPoolsCreateResponse> {
     const poller = await this.beginCreate(
       resourceGroupName,
       registryName,
       agentPoolName,
       agentPool,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -262,25 +263,29 @@ export class AgentPoolsImpl implements AgentPools {
     resourceGroupName: string,
     registryName: string,
     agentPoolName: string,
-    options?: AgentPoolsDeleteOptionalParams
-  ): Promise<SimplePollerLike<OperationState<void>, void>> {
+    options?: AgentPoolsDeleteOptionalParams,
+  ): Promise<
+    SimplePollerLike<
+      OperationState<AgentPoolsDeleteResponse>,
+      AgentPoolsDeleteResponse
+    >
+  > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
-    ): Promise<void> => {
+      spec: coreClient.OperationSpec,
+    ): Promise<AgentPoolsDeleteResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -289,8 +294,8 @@ export class AgentPoolsImpl implements AgentPools {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -298,19 +303,23 @@ export class AgentPoolsImpl implements AgentPools {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
     const lro = createLroSpec({
       sendOperationFn,
       args: { resourceGroupName, registryName, agentPoolName, options },
-      spec: deleteOperationSpec
+      spec: deleteOperationSpec,
     });
-    const poller = await createHttpPoller<void, OperationState<void>>(lro, {
+    const poller = await createHttpPoller<
+      AgentPoolsDeleteResponse,
+      OperationState<AgentPoolsDeleteResponse>
+    >(lro, {
       restoreFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs
+      intervalInMs: options?.updateIntervalInMs,
+      resourceLocationConfig: "location",
     });
     await poller.poll();
     return poller;
@@ -327,13 +336,13 @@ export class AgentPoolsImpl implements AgentPools {
     resourceGroupName: string,
     registryName: string,
     agentPoolName: string,
-    options?: AgentPoolsDeleteOptionalParams
-  ): Promise<void> {
+    options?: AgentPoolsDeleteOptionalParams,
+  ): Promise<AgentPoolsDeleteResponse> {
     const poller = await this.beginDelete(
       resourceGroupName,
       registryName,
       agentPoolName,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -351,7 +360,7 @@ export class AgentPoolsImpl implements AgentPools {
     registryName: string,
     agentPoolName: string,
     updateParameters: AgentPoolUpdateParameters,
-    options?: AgentPoolsUpdateOptionalParams
+    options?: AgentPoolsUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<AgentPoolsUpdateResponse>,
@@ -360,21 +369,20 @@ export class AgentPoolsImpl implements AgentPools {
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<AgentPoolsUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -383,8 +391,8 @@ export class AgentPoolsImpl implements AgentPools {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -392,8 +400,8 @@ export class AgentPoolsImpl implements AgentPools {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
@@ -404,16 +412,17 @@ export class AgentPoolsImpl implements AgentPools {
         registryName,
         agentPoolName,
         updateParameters,
-        options
+        options,
       },
-      spec: updateOperationSpec
+      spec: updateOperationSpec,
     });
     const poller = await createHttpPoller<
       AgentPoolsUpdateResponse,
       OperationState<AgentPoolsUpdateResponse>
     >(lro, {
       restoreFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs
+      intervalInMs: options?.updateIntervalInMs,
+      resourceLocationConfig: "azure-async-operation",
     });
     await poller.poll();
     return poller;
@@ -432,14 +441,14 @@ export class AgentPoolsImpl implements AgentPools {
     registryName: string,
     agentPoolName: string,
     updateParameters: AgentPoolUpdateParameters,
-    options?: AgentPoolsUpdateOptionalParams
+    options?: AgentPoolsUpdateOptionalParams,
   ): Promise<AgentPoolsUpdateResponse> {
     const poller = await this.beginUpdate(
       resourceGroupName,
       registryName,
       agentPoolName,
       updateParameters,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -453,11 +462,11 @@ export class AgentPoolsImpl implements AgentPools {
   private _list(
     resourceGroupName: string,
     registryName: string,
-    options?: AgentPoolsListOptionalParams
+    options?: AgentPoolsListOptionalParams,
   ): Promise<AgentPoolsListResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, registryName, options },
-      listOperationSpec
+      listOperationSpec,
     );
   }
 
@@ -472,11 +481,11 @@ export class AgentPoolsImpl implements AgentPools {
     resourceGroupName: string,
     registryName: string,
     agentPoolName: string,
-    options?: AgentPoolsGetQueueStatusOptionalParams
+    options?: AgentPoolsGetQueueStatusOptionalParams,
   ): Promise<AgentPoolsGetQueueStatusResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, registryName, agentPoolName, options },
-      getQueueStatusOperationSpec
+      getQueueStatusOperationSpec,
     );
   }
 
@@ -491,11 +500,11 @@ export class AgentPoolsImpl implements AgentPools {
     resourceGroupName: string,
     registryName: string,
     nextLink: string,
-    options?: AgentPoolsListNextOptionalParams
+    options?: AgentPoolsListNextOptionalParams,
   ): Promise<AgentPoolsListNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, registryName, nextLink, options },
-      listNextOperationSpec
+      listNextOperationSpec,
     );
   }
 }
@@ -503,183 +512,185 @@ export class AgentPoolsImpl implements AgentPools {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerRegistry/registries/{registryName}/agentPools/{agentPoolName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerRegistry/registries/{registryName}/agentPools/{agentPoolName}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.AgentPool
+      bodyMapper: Mappers.AgentPool,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponseForContainerRegistry
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
-  queryParameters: [Parameters.apiVersion1],
+  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.registryName,
     Parameters.resourceGroupName1,
-    Parameters.agentPoolName
+    Parameters.agentPoolName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const createOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerRegistry/registries/{registryName}/agentPools/{agentPoolName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerRegistry/registries/{registryName}/agentPools/{agentPoolName}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.AgentPool
+      bodyMapper: Mappers.AgentPool,
     },
     201: {
-      bodyMapper: Mappers.AgentPool
+      bodyMapper: Mappers.AgentPool,
     },
     202: {
-      bodyMapper: Mappers.AgentPool
+      bodyMapper: Mappers.AgentPool,
     },
     204: {
-      bodyMapper: Mappers.AgentPool
+      bodyMapper: Mappers.AgentPool,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponseForContainerRegistry
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   requestBody: Parameters.agentPool,
-  queryParameters: [Parameters.apiVersion1],
+  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.registryName,
     Parameters.resourceGroupName1,
-    Parameters.agentPoolName
+    Parameters.agentPoolName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const deleteOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerRegistry/registries/{registryName}/agentPools/{agentPoolName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerRegistry/registries/{registryName}/agentPools/{agentPoolName}",
   httpMethod: "DELETE",
   responses: {
-    200: {},
-    201: {},
-    202: {},
-    204: {},
+    200: {
+      headersMapper: Mappers.AgentPoolsDeleteHeaders,
+    },
+    201: {
+      headersMapper: Mappers.AgentPoolsDeleteHeaders,
+    },
+    202: {
+      headersMapper: Mappers.AgentPoolsDeleteHeaders,
+    },
+    204: {
+      headersMapper: Mappers.AgentPoolsDeleteHeaders,
+    },
     default: {
-      bodyMapper: Mappers.ErrorResponseForContainerRegistry
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
-  queryParameters: [Parameters.apiVersion1],
+  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.registryName,
     Parameters.resourceGroupName1,
-    Parameters.agentPoolName
+    Parameters.agentPoolName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const updateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerRegistry/registries/{registryName}/agentPools/{agentPoolName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerRegistry/registries/{registryName}/agentPools/{agentPoolName}",
   httpMethod: "PATCH",
   responses: {
     200: {
-      bodyMapper: Mappers.AgentPool
+      bodyMapper: Mappers.AgentPool,
     },
     201: {
-      bodyMapper: Mappers.AgentPool
+      bodyMapper: Mappers.AgentPool,
     },
     202: {
-      bodyMapper: Mappers.AgentPool
+      bodyMapper: Mappers.AgentPool,
     },
     204: {
-      bodyMapper: Mappers.AgentPool
+      bodyMapper: Mappers.AgentPool,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponseForContainerRegistry
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   requestBody: Parameters.updateParameters,
-  queryParameters: [Parameters.apiVersion1],
+  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.registryName,
     Parameters.resourceGroupName1,
-    Parameters.agentPoolName
+    Parameters.agentPoolName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const listOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerRegistry/registries/{registryName}/agentPools",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerRegistry/registries/{registryName}/agentPools",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.AgentPoolListResult
+      bodyMapper: Mappers.AgentPoolListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponseForContainerRegistry
-    }
-  },
-  queryParameters: [Parameters.apiVersion1],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.registryName,
-    Parameters.resourceGroupName1
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
-};
-const getQueueStatusOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerRegistry/registries/{registryName}/agentPools/{agentPoolName}/listQueueStatus",
-  httpMethod: "POST",
-  responses: {
-    200: {
-      bodyMapper: Mappers.AgentPoolQueueStatus
+      bodyMapper: Mappers.ErrorResponse,
     },
-    default: {
-      bodyMapper: Mappers.ErrorResponseForContainerRegistry
-    }
   },
-  queryParameters: [Parameters.apiVersion1],
+  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.registryName,
     Parameters.resourceGroupName1,
-    Parameters.agentPoolName
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
+};
+const getQueueStatusOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerRegistry/registries/{registryName}/agentPools/{agentPoolName}/listQueueStatus",
+  httpMethod: "POST",
+  responses: {
+    200: {
+      bodyMapper: Mappers.AgentPoolQueueStatus,
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.registryName,
+    Parameters.resourceGroupName1,
+    Parameters.agentPoolName,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
 };
 const listNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.AgentPoolListResult
+      bodyMapper: Mappers.AgentPoolListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponseForContainerRegistry
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.registryName,
     Parameters.nextLink,
-    Parameters.resourceGroupName1
+    Parameters.resourceGroupName1,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

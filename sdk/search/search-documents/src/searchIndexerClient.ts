@@ -101,13 +101,10 @@ export class SearchIndexerClient {
    * Creates an instance of SearchIndexerClient.
    *
    * Example usage:
-   * ```ts
-   * const { SearchIndexerClient, AzureKeyCredential } = require("@azure/search-documents");
+   * ```ts snippet:ReadmeSampleSearchIndexerClient
+   * import { SearchIndexerClient, AzureKeyCredential } from "@azure/search-documents";
    *
-   * const client = new SearchIndexerClient(
-   *   "<endpoint>",
-   *   new AzureKeyCredential("<Admin Key>");
-   * );
+   * const indexerClient = new SearchIndexerClient("<endpoint>", new AzureKeyCredential("<apiKey>"));
    * ```
    * @param endpoint - The endpoint of the search service
    * @param credential - Used to authenticate requests to the service.

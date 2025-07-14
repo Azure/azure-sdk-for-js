@@ -8,16 +8,18 @@
 
 import * as coreClient from "@azure/core-client";
 import * as coreRestPipeline from "@azure/core-rest-pipeline";
-import {
+import type {
   PipelineRequest,
   PipelineResponse,
   SendRequest,
 } from "@azure/core-rest-pipeline";
-import * as coreAuth from "@azure/core-auth";
+import type * as coreAuth from "@azure/core-auth";
 import {
   OperationsImpl,
   ManagedClustersImpl,
+  ContainerServiceImpl,
   MaintenanceConfigurationsImpl,
+  ManagedNamespacesImpl,
   AgentPoolsImpl,
   MachinesImpl,
   PrivateEndpointConnectionsImpl,
@@ -30,10 +32,12 @@ import {
   TrustedAccessRoleBindingsImpl,
   LoadBalancersImpl,
 } from "./operations/index.js";
-import {
+import type {
   Operations,
   ManagedClusters,
+  ContainerService,
   MaintenanceConfigurations,
+  ManagedNamespaces,
   AgentPools,
   Machines,
   PrivateEndpointConnections,
@@ -46,7 +50,7 @@ import {
   TrustedAccessRoleBindings,
   LoadBalancers,
 } from "./operationsInterfaces/index.js";
-import { ContainerServiceClientOptionalParams } from "./models/index.js";
+import type { ContainerServiceClientOptionalParams } from "./models/index.js";
 
 export class ContainerServiceClient extends coreClient.ServiceClient {
   $host: string;
@@ -80,7 +84,7 @@ export class ContainerServiceClient extends coreClient.ServiceClient {
       credential: credentials,
     };
 
-    const packageDetails = `azsdk-js-arm-containerservice/21.4.0-beta.1`;
+    const packageDetails = `azsdk-js-arm-containerservice/23.0.0-beta.1`;
     const userAgentPrefix =
       options.userAgentOptions && options.userAgentOptions.userAgentPrefix
         ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`
@@ -134,10 +138,12 @@ export class ContainerServiceClient extends coreClient.ServiceClient {
 
     // Assigning values to Constant parameters
     this.$host = options.$host || "https://management.azure.com";
-    this.apiVersion = options.apiVersion || "2024-09-02-preview";
+    this.apiVersion = options.apiVersion || "2025-03-02-preview";
     this.operations = new OperationsImpl(this);
     this.managedClusters = new ManagedClustersImpl(this);
+    this.containerService = new ContainerServiceImpl(this);
     this.maintenanceConfigurations = new MaintenanceConfigurationsImpl(this);
+    this.managedNamespaces = new ManagedNamespacesImpl(this);
     this.agentPools = new AgentPoolsImpl(this);
     this.machines = new MachinesImpl(this);
     this.privateEndpointConnections = new PrivateEndpointConnectionsImpl(this);
@@ -185,7 +191,9 @@ export class ContainerServiceClient extends coreClient.ServiceClient {
 
   operations: Operations;
   managedClusters: ManagedClusters;
+  containerService: ContainerService;
   maintenanceConfigurations: MaintenanceConfigurations;
+  managedNamespaces: ManagedNamespaces;
   agentPools: AgentPools;
   machines: Machines;
   privateEndpointConnections: PrivateEndpointConnections;

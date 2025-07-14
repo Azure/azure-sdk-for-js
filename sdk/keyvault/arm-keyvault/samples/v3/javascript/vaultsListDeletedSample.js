@@ -10,13 +10,13 @@
 // Licensed under the MIT License.
 const { KeyVaultManagementClient } = require("@azure/arm-keyvault");
 const { DefaultAzureCredential } = require("@azure/identity");
-require("dotenv").config();
+require("dotenv/config");
 
 /**
  * This sample demonstrates how to Gets information about the deleted vaults in a subscription.
  *
  * @summary Gets information about the deleted vaults in a subscription.
- * x-ms-original-file: specification/keyvault/resource-manager/Microsoft.KeyVault/stable/2023-07-01/examples/listDeletedVaults.json
+ * x-ms-original-file: specification/keyvault/resource-manager/Microsoft.KeyVault/stable/2024-11-01/examples/listDeletedVaults.json
  */
 async function listDeletedVaultsInTheSpecifiedSubscription() {
   const subscriptionId =
@@ -24,14 +24,14 @@ async function listDeletedVaultsInTheSpecifiedSubscription() {
   const credential = new DefaultAzureCredential();
   const client = new KeyVaultManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.vaults.listDeleted()) {
+  for await (const item of client.vaults.listDeleted()) {
     resArray.push(item);
   }
   console.log(resArray);
 }
 
 async function main() {
-  listDeletedVaultsInTheSpecifiedSubscription();
+  await listDeletedVaultsInTheSpecifiedSubscription();
 }
 
 main().catch(console.error);

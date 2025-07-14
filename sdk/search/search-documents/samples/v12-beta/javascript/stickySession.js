@@ -8,9 +8,8 @@
 
 const { DefaultAzureCredential } = require("@azure/identity");
 const { odata, SearchIndexClient } = require("@azure/search-documents");
-const { createIndex, delay, WAIT_TIME } = require("./setup");
-
-require("dotenv").config();
+const { createIndex, delay, WAIT_TIME } = require("./setup.js");
+require("dotenv/config");
 
 /**
  * If you're querying a replicated index, Azure AI Search may target any replica with your queries.
@@ -21,7 +20,7 @@ require("dotenv").config();
  * so.
  *
  * Please see the
- * {@link https://learn.microsoft.com/en-us/azure/search/index-similarity-and-scoring#scoring-statistics-and-sticky-sessions | documentation}
+ * {@link https://learn.microsoft.com/azure/search/index-similarity-and-scoring#scoring-statistics-and-sticky-sessions | documentation}
  * for more information.
  */
 const endpoint = process.env.ENDPOINT || "";

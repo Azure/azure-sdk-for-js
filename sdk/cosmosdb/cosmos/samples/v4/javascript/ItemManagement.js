@@ -5,12 +5,11 @@
  * @summary Demonstrates item creation, read, delete and reading all items belonging to a container.
  */
 
-require("dotenv").config();
-
-const { logSampleHeader, handleError, finish, logStep } = require("./Shared/handleError");
+require("dotenv/config");
+const { logSampleHeader, handleError, finish, logStep } = require("./Shared/handleError.js");
 const { CosmosClient, PriorityLevel } = require("@azure/cosmos");
-
-const { Families } = require("./Data/Families.json");
+const FamiliesJSON = require("./Data/Families.json").default;
+const Families = FamiliesJSON.Families;
 
 const key = process.env.COSMOS_KEY || "<cosmos key>";
 const endpoint = process.env.COSMOS_ENDPOINT || "<cosmos endpoint>";
@@ -174,7 +173,7 @@ async function run() {
     }
   }
   logStep("Patching an item with single patch operation");
-  const patchSource = itemDefList.find((t) => t.id == "AndersenFamily");
+  const patchSource = itemDefList.find((t) => t.id === "AndersenFamily");
   console.log(JSON.stringify(patchSource));
   const replaceOperation = [
     {
@@ -189,8 +188,9 @@ async function run() {
       throw new Error("ID for old offer is undefined");
     }
     const { resource: patchSource1 } = await container.item(patchId).patch(replaceOperation);
-    if (patchSource1)
+    if (patchSource1) {
       console.log(`Patched ${patchSource.lastName} to new ${patchSource1.lastName}.`);
+    }
     logStep("Patching an item with multiple patch operations");
     const multipleOperations = [
       {

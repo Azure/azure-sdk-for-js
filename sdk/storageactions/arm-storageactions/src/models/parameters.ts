@@ -150,7 +150,7 @@ export const maxpagesize: OperationQueryParameter = {
   mapper: {
     serializedName: "$maxpagesize",
     type: {
-      name: "String",
+      name: "Number",
     },
   },
 };

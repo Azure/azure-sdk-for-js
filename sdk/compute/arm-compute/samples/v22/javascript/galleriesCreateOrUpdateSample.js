@@ -151,11 +151,11 @@ async function createOrUpdateASimpleGallery() {
 }
 
 async function main() {
-  createACommunityGallery();
-  createOrUpdateASimpleGalleryWithSharingProfile();
-  createOrUpdateASimpleGalleryWithSoftDeletionEnabled();
-  createOrUpdateASimpleGalleryWithSystemAssignedAndUserAssignedManagedIdentities();
-  createOrUpdateASimpleGallery();
+  await createACommunityGallery();
+  await createOrUpdateASimpleGalleryWithSharingProfile();
+  await createOrUpdateASimpleGalleryWithSoftDeletionEnabled();
+  await createOrUpdateASimpleGalleryWithSystemAssignedAndUserAssignedManagedIdentities();
+  await createOrUpdateASimpleGallery();
 }
 
 main().catch(console.error);

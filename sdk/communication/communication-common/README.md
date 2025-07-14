@@ -8,11 +8,16 @@ This package contains common code for Azure Communication Service libraries.
 
 - An [Azure subscription][azure_sub].
 - An existing Communication Services resource. If you need to create the resource, you can use the [Azure Portal][azure_portal], the [Azure PowerShell][azure_powershell], or the [Azure CLI][azure_cli].
+- Having the  @azure/identity package installed.
 
 ### Installing
 
 ```bash
 npm install @azure/communication-common
+```
+
+```bash
+npm install @azure/identity
 ```
 
 ### Browser support
@@ -33,6 +38,7 @@ Depending on your scenario, you may want to initialize the `AzureCommunicationTo
 
 - a static token (suitable for short-lived clients used to e.g. send one-off Chat messages) or
 - a callback function that ensures a continuous authentication state during communications (ideal e.g. for long Calling sessions).
+- a token credential capable of obtaining an Entra user token. You can provide any implementation of [TokenCredential interface](https://learn.microsoft.com/es-mx/javascript/api/@azure/core-auth/tokencredential?view=azure-node-latest). It is suitable for scenarios where Entra user access tokens are needed to authenticate with Communication Services.
 
 The tokens supplied to the `AzureCommunicationTokenCredential` either through the constructor or via the token refresher callback can be obtained using the Azure Communication Identity library.
 
@@ -103,6 +109,63 @@ const tokenCredential = new AzureCommunicationTokenCredential({
   token:
     "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjM2MDB9.adM-ddBZZlQ1WlN3pdPBOF5G4Wh9iZpxNP_fSvpF4cWs",
 });
+```
+
+### Create a credential with a token credential capable of obtaining an Entra user token
+
+For scenarios where an Entra user can be used with Communication Services, you need to initialize any implementation of [TokenCredential interface](https://learn.microsoft.com/es-mx/javascript/api/@azure/core-auth/tokencredential?view=azure-node-latest) and provide it to the ``EntraCommunicationTokenCredentialOptions``.
+Along with this, you must provide the URI of the Azure Communication Services resource and the scopes required for the Entra user token. These scopes determine the permissions granted to the token.
+
+This approach needs to be used for authorizing an Entra user with a Teams license to use Teams Phone Extensibility features through your Azure Communication Services resource.
+This requires providing the `https://auth.msft.communication.azure.com/TeamsExtension.ManageCalls` scope.
+
+```ts snippet:ReadmeSampleCredentialEntraUserTeamsPhoneExtensibility 
+import { InteractiveBrowserCredential } from "@azure/identity";
+import {
+  EntraCommunicationTokenCredentialOptions,
+  AzureCommunicationTokenCredential,
+} from "@azure/communication-common";
+
+const options = {
+  tenantId: "<your-tenant-id>",
+  clientId: "<your-client-id>",
+  redirectUri: "<your-redirect-uri>",
+};
+const entraTokenCredential = new InteractiveBrowserCredential(options);
+
+const entraTokenCredentialOptions: EntraCommunicationTokenCredentialOptions = {
+  resourceEndpoint: "https://<your-resource>.communication.azure.com",
+  tokenCredential: entraTokenCredential,
+  scopes: ["https://auth.msft.communication.azure.com/TeamsExtension.ManageCalls"],
+};
+
+const credential = new AzureCommunicationTokenCredential(entraTokenCredentialOptions);
+```
+
+Other scenarios for Entra users to utilize Azure Communication Services are currently in the **preview stage only and should not be used in production**.
+The scopes for these scenarios follow the format `https://communication.azure.com/clients/<ACS Scope>`. If specific scopes are not provided, the default scopes will be set to `https://communication.azure.com/clients/.default`.
+
+```ts snippet:ReadmeSampleCredentialEntraUser 
+import { InteractiveBrowserCredential } from "@azure/identity";
+import {
+  EntraCommunicationTokenCredentialOptions,
+  AzureCommunicationTokenCredential,
+} from "@azure/communication-common";
+
+const options = {
+  tenantId: "<your-tenant-id>",
+  clientId: "<your-client-id>",
+  redirectUri: "<your-redirect-uri>",
+};
+const entraTokenCredential = new InteractiveBrowserCredential(options);
+
+const entraTokenCredentialOptions: EntraCommunicationTokenCredentialOptions = {
+  resourceEndpoint: "https://<your-resource>.communication.azure.com",
+  tokenCredential: entraTokenCredential,
+  scopes: ["https://communication.azure.com/clients/VoIP"],
+};
+
+const credential = new AzureCommunicationTokenCredential(entraTokenCredentialOptions);
 ```
 
 ## Troubleshooting

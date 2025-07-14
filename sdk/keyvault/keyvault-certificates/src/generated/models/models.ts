@@ -140,8 +140,29 @@ export enum KnownDeletionRecoveryLevel {
  */
 export type DeletionRecoveryLevel = string;
 
-/** The key vault server error. */
-export interface ErrorModel {
+/** The key vault error exception. */
+export interface KeyVaultError {
+  /** The key vault server error. */
+  readonly error?: ErrorModel;
+}
+
+export function keyVaultErrorDeserializer(item: any): KeyVaultError {
+  return {
+    error: !item["error"]
+      ? item["error"]
+      : _keyVaultErrorErrorDeserializer(item["error"]),
+  };
+}
+
+/** Alias for ErrorModel */
+export type ErrorModel = {
+  code?: string;
+  message?: string;
+  innerError?: ErrorModel;
+} | null;
+
+/** model interface _KeyVaultErrorError */
+export interface _KeyVaultErrorError {
   /** The error code. */
   readonly code?: string;
   /** The error message. */
@@ -150,13 +171,15 @@ export interface ErrorModel {
   readonly innerError?: ErrorModel;
 }
 
-export function errorDeserializer(item: any): ErrorModel {
+export function _keyVaultErrorErrorDeserializer(
+  item: any,
+): _KeyVaultErrorError {
   return {
     code: item["code"],
     message: item["message"],
     innerError: !item["innererror"]
       ? item["innererror"]
-      : errorDeserializer(item["innererror"]),
+      : _keyVaultErrorErrorDeserializer(item["innererror"]),
   };
 }
 
@@ -180,6 +203,8 @@ export interface DeletedCertificateBundle {
   attributes?: CertificateAttributes;
   /** Application specific metadata in the form of key-value pairs */
   tags?: Record<string, string>;
+  /** Specifies whether the certificate chain preserves its original order. The default value is false, which sets the leaf certificate at index 0. */
+  preserveCertOrder?: boolean;
   /** The url of the recovery object, used to identify and recover the deleted certificate. */
   recoveryId?: string;
   /** The time when the certificate is scheduled to be purged, in UTC */
@@ -213,6 +238,7 @@ export function deletedCertificateBundleDeserializer(
       ? item["attributes"]
       : certificateAttributesDeserializer(item["attributes"]),
     tags: item["tags"],
+    preserveCertOrder: item["preserveCertOrder"],
     recoveryId: item["recoveryId"],
     scheduledPurgeDate: !item["scheduledPurgeDate"]
       ? item["scheduledPurgeDate"]
@@ -327,15 +353,15 @@ export enum KnownJsonWebKeyType {
   /** Elliptic Curve. */
   EC = "EC",
   /** Elliptic Curve with a private key which is not exportable from the HSM. */
-  EC_HSM = "EC-HSM",
+  ECHSM = "EC-HSM",
   /** RSA (https://tools.ietf.org/html/rfc3447). */
   RSA = "RSA",
   /** RSA with a private key which is not exportable from the HSM. */
-  RSA_HSM = "RSA-HSM",
+  RSAHSM = "RSA-HSM",
   /** Octet sequence (used to represent symmetric keys). */
-  oct = "oct",
+  Oct = "oct",
   /** Octet sequence with a private key which is not exportable from the HSM. */
-  oct_HSM = "oct-HSM",
+  OctHSM = "oct-HSM",
 }
 
 /**
@@ -355,13 +381,13 @@ export type JsonWebKeyType = string;
 /** Elliptic curve name. For valid values, see JsonWebKeyCurveName. */
 export enum KnownJsonWebKeyCurveName {
   /** The NIST P-256 elliptic curve, AKA SECG curve SECP256R1. */
-  P_256 = "P-256",
+  P256 = "P-256",
   /** The NIST P-384 elliptic curve, AKA SECG curve SECP384R1. */
-  P_384 = "P-384",
+  P384 = "P-384",
   /** The NIST P-521 elliptic curve, AKA SECG curve SECP521R1. */
-  P_521 = "P-521",
+  P521 = "P-521",
   /** The SECG SECP256K1 elliptic curve. */
-  P_256K = "P-256K",
+  P256K = "P-256K",
 }
 
 /**
@@ -507,23 +533,23 @@ export function subjectAlternativeNamesDeserializer(
 /** Supported usages of a certificate key. */
 export enum KnownKeyUsageType {
   /** Indicates that the certificate key can be used as a digital signature. */
-  digitalSignature = "digitalSignature",
+  DigitalSignature = "digitalSignature",
   /** Indicates that the certificate key can be used for authentication. */
-  nonRepudiation = "nonRepudiation",
+  NonRepudiation = "nonRepudiation",
   /** Indicates that the certificate key can be used for key encryption. */
-  keyEncipherment = "keyEncipherment",
+  KeyEncipherment = "keyEncipherment",
   /** Indicates that the certificate key can be used for data encryption. */
-  dataEncipherment = "dataEncipherment",
+  DataEncipherment = "dataEncipherment",
   /** Indicates that the certificate key can be used to determine key agreement, such as a key created using the Diffie-Hellman key agreement algorithm. */
-  keyAgreement = "keyAgreement",
+  KeyAgreement = "keyAgreement",
   /** Indicates that the certificate key can be used to sign certificates. */
-  keyCertSign = "keyCertSign",
+  KeyCertSign = "keyCertSign",
   /** Indicates that the certificate key can be used to sign a certificate revocation list. */
-  cRLSign = "cRLSign",
+  CRLSign = "cRLSign",
   /** Indicates that the certificate key can be used for encryption only. */
-  encipherOnly = "encipherOnly",
+  EncipherOnly = "encipherOnly",
   /** Indicates that the certificate key can be used for decryption only. */
-  decipherOnly = "decipherOnly",
+  DecipherOnly = "decipherOnly",
 }
 
 /**
@@ -980,6 +1006,8 @@ export interface CertificateCreateParameters {
   certificateAttributes?: CertificateAttributes;
   /** Application specific metadata in the form of key-value pairs. */
   tags?: Record<string, string>;
+  /** Specifies whether the certificate chain preserves its original order. The default value is false, which sets the leaf certificate at index 0. */
+  preserveCertOrder?: boolean;
 }
 
 export function certificateCreateParametersSerializer(
@@ -993,6 +1021,7 @@ export function certificateCreateParametersSerializer(
       ? item["certificateAttributes"]
       : certificateAttributesSerializer(item["certificateAttributes"]),
     tags: item["tags"],
+    preserveCertOrder: item["preserveCertOrder"],
   };
 }
 
@@ -1014,6 +1043,8 @@ export interface CertificateOperation {
   error?: ErrorModel;
   /** Location which contains the result of the certificate operation. */
   target?: string;
+  /** Specifies whether the certificate chain preserves its original order. The default value is false, which sets the leaf certificate at index 0. */
+  preserveCertOrder?: boolean;
   /** Identifier for the certificate operation. */
   requestId?: string;
 }
@@ -1034,8 +1065,11 @@ export function certificateOperationDeserializer(
     cancellationRequested: item["cancellation_requested"],
     status: item["status"],
     statusDetails: item["status_details"],
-    error: !item["error"] ? item["error"] : errorDeserializer(item["error"]),
+    error: !item["error"]
+      ? item["error"]
+      : _keyVaultErrorErrorDeserializer(item["error"]),
     target: item["target"],
+    preserveCertOrder: item["preserveCertOrder"],
     requestId: item["request_id"],
   };
 }
@@ -1052,6 +1086,8 @@ export interface CertificateImportParameters {
   certificateAttributes?: CertificateAttributes;
   /** Application specific metadata in the form of key-value pairs. */
   tags?: Record<string, string>;
+  /** Specifies whether the certificate chain preserves its original order. The default value is false, which sets the leaf certificate at index 0. */
+  preserveCertOrder?: boolean;
 }
 
 export function certificateImportParametersSerializer(
@@ -1067,6 +1103,7 @@ export function certificateImportParametersSerializer(
       ? item["certificateAttributes"]
       : certificateAttributesSerializer(item["certificateAttributes"]),
     tags: item["tags"],
+    preserveCertOrder: item["preserveCertOrder"],
   };
 }
 
@@ -1090,6 +1127,8 @@ export interface CertificateBundle {
   attributes?: CertificateAttributes;
   /** Application specific metadata in the form of key-value pairs */
   tags?: Record<string, string>;
+  /** Specifies whether the certificate chain preserves its original order. The default value is false, which sets the leaf certificate at index 0. */
+  preserveCertOrder?: boolean;
 }
 
 export function certificateBundleDeserializer(item: any): CertificateBundle {
@@ -1115,6 +1154,7 @@ export function certificateBundleDeserializer(item: any): CertificateBundle {
       ? item["attributes"]
       : certificateAttributesDeserializer(item["attributes"]),
     tags: item["tags"],
+    preserveCertOrder: item["preserveCertOrder"],
   };
 }
 
@@ -1282,7 +1322,9 @@ export function deletedCertificateItemDeserializer(
 /** The available API versions. */
 export enum KnownVersions {
   /** The 7.5 API version. */
-  "v7.5" = "7.5",
-  /** The 7.6-preview.1 API version. */
-  "v7.6_preview.1" = "7.6-preview.1",
+  V75 = "7.5",
+  /** The 7.6-preview.2 API version. */
+  V76Preview2 = "7.6-preview.2",
+  /** The 7.6 API version. */
+  V76 = "7.6",
 }

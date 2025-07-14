@@ -10,13 +10,13 @@
 // Licensed under the MIT License.
 const { RecoveryServicesBackupClient } = require("@azure/arm-recoveryservicesbackup");
 const { DefaultAzureCredential } = require("@azure/identity");
-require("dotenv").config();
+require("dotenv/config");
 
 /**
  * This sample demonstrates how to Fetches the result of a triggered validate operation.
  *
  * @summary Fetches the result of a triggered validate operation.
- * x-ms-original-file: specification/recoveryservicesbackup/resource-manager/Microsoft.RecoveryServices/stable/2024-04-01/examples/AzureIaasVm/ValidateOperationResults.json
+ * x-ms-original-file: specification/recoveryservicesbackup/resource-manager/Microsoft.RecoveryServices/stable/2025-02-01/examples/AzureIaasVm/ValidateOperationResults.json
  */
 async function getOperationResultsOfValidateOperation() {
   const subscriptionId =
@@ -35,7 +35,7 @@ async function getOperationResultsOfValidateOperation() {
 }
 
 async function main() {
-  getOperationResultsOfValidateOperation();
+  await getOperationResultsOfValidateOperation();
 }
 
 main().catch(console.error);

@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import { Constants } from "./constants";
-import { trimSlashFromLeftAndRight, validateResourceId, validateItemResourceId } from "./helper";
+import { Constants } from "./constants.js";
+import { trimSlashFromLeftAndRight, validateResourceId, validateItemResourceId } from "./helper.js";
 
 /**
  * Would be used when creating or deleting a DocumentCollection

@@ -7,7 +7,6 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   Task,
   TasksListOptionalParams,
@@ -20,7 +19,7 @@ import {
   TasksUpdateOptionalParams,
   TasksUpdateResponse,
   TasksGetDetailsOptionalParams,
-  TasksGetDetailsResponse
+  TasksGetDetailsResponse,
 } from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
@@ -35,7 +34,7 @@ export interface Tasks {
   list(
     resourceGroupName: string,
     registryName: string,
-    options?: TasksListOptionalParams
+    options?: TasksListOptionalParams,
   ): PagedAsyncIterableIterator<Task>;
   /**
    * Get the properties of a specified task.
@@ -48,7 +47,7 @@ export interface Tasks {
     resourceGroupName: string,
     registryName: string,
     taskName: string,
-    options?: TasksGetOptionalParams
+    options?: TasksGetOptionalParams,
   ): Promise<TasksGetResponse>;
   /**
    * Creates a task for a container registry with the specified parameters.
@@ -58,29 +57,12 @@ export interface Tasks {
    * @param taskCreateParameters The parameters for creating a task.
    * @param options The options parameters.
    */
-  beginCreate(
+  create(
     resourceGroupName: string,
     registryName: string,
     taskName: string,
     taskCreateParameters: Task,
-    options?: TasksCreateOptionalParams
-  ): Promise<
-    SimplePollerLike<OperationState<TasksCreateResponse>, TasksCreateResponse>
-  >;
-  /**
-   * Creates a task for a container registry with the specified parameters.
-   * @param resourceGroupName The name of the resource group to which the container registry belongs.
-   * @param registryName The name of the container registry.
-   * @param taskName The name of the container registry task.
-   * @param taskCreateParameters The parameters for creating a task.
-   * @param options The options parameters.
-   */
-  beginCreateAndWait(
-    resourceGroupName: string,
-    registryName: string,
-    taskName: string,
-    taskCreateParameters: Task,
-    options?: TasksCreateOptionalParams
+    options?: TasksCreateOptionalParams,
   ): Promise<TasksCreateResponse>;
   /**
    * Deletes a specified task.
@@ -89,24 +71,11 @@ export interface Tasks {
    * @param taskName The name of the container registry task.
    * @param options The options parameters.
    */
-  beginDelete(
+  delete(
     resourceGroupName: string,
     registryName: string,
     taskName: string,
-    options?: TasksDeleteOptionalParams
-  ): Promise<SimplePollerLike<OperationState<void>, void>>;
-  /**
-   * Deletes a specified task.
-   * @param resourceGroupName The name of the resource group to which the container registry belongs.
-   * @param registryName The name of the container registry.
-   * @param taskName The name of the container registry task.
-   * @param options The options parameters.
-   */
-  beginDeleteAndWait(
-    resourceGroupName: string,
-    registryName: string,
-    taskName: string,
-    options?: TasksDeleteOptionalParams
+    options?: TasksDeleteOptionalParams,
   ): Promise<void>;
   /**
    * Updates a task with the specified parameters.
@@ -116,29 +85,12 @@ export interface Tasks {
    * @param taskUpdateParameters The parameters for updating a task.
    * @param options The options parameters.
    */
-  beginUpdate(
+  update(
     resourceGroupName: string,
     registryName: string,
     taskName: string,
     taskUpdateParameters: TaskUpdateParameters,
-    options?: TasksUpdateOptionalParams
-  ): Promise<
-    SimplePollerLike<OperationState<TasksUpdateResponse>, TasksUpdateResponse>
-  >;
-  /**
-   * Updates a task with the specified parameters.
-   * @param resourceGroupName The name of the resource group to which the container registry belongs.
-   * @param registryName The name of the container registry.
-   * @param taskName The name of the container registry task.
-   * @param taskUpdateParameters The parameters for updating a task.
-   * @param options The options parameters.
-   */
-  beginUpdateAndWait(
-    resourceGroupName: string,
-    registryName: string,
-    taskName: string,
-    taskUpdateParameters: TaskUpdateParameters,
-    options?: TasksUpdateOptionalParams
+    options?: TasksUpdateOptionalParams,
   ): Promise<TasksUpdateResponse>;
   /**
    * Returns a task with extended information that includes all secrets.
@@ -151,6 +103,6 @@ export interface Tasks {
     resourceGroupName: string,
     registryName: string,
     taskName: string,
-    options?: TasksGetDetailsOptionalParams
+    options?: TasksGetDetailsOptionalParams,
   ): Promise<TasksGetDetailsResponse>;
 }

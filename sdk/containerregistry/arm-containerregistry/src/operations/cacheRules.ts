@@ -16,7 +16,7 @@ import { ContainerRegistryManagementClient } from "../containerRegistryManagemen
 import {
   SimplePollerLike,
   OperationState,
-  createHttpPoller
+  createHttpPoller,
 } from "@azure/core-lro";
 import { createLroSpec } from "../lroImpl.js";
 import {
@@ -33,7 +33,7 @@ import {
   CacheRuleUpdateParameters,
   CacheRulesUpdateOptionalParams,
   CacheRulesUpdateResponse,
-  CacheRulesListNextResponse
+  CacheRulesListNextResponse,
 } from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
@@ -58,7 +58,7 @@ export class CacheRulesImpl implements CacheRules {
   public list(
     resourceGroupName: string,
     registryName: string,
-    options?: CacheRulesListOptionalParams
+    options?: CacheRulesListOptionalParams,
   ): PagedAsyncIterableIterator<CacheRule> {
     const iter = this.listPagingAll(resourceGroupName, registryName, options);
     return {
@@ -76,9 +76,9 @@ export class CacheRulesImpl implements CacheRules {
           resourceGroupName,
           registryName,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
@@ -86,7 +86,7 @@ export class CacheRulesImpl implements CacheRules {
     resourceGroupName: string,
     registryName: string,
     options?: CacheRulesListOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<CacheRule[]> {
     let result: CacheRulesListResponse;
     let continuationToken = settings?.continuationToken;
@@ -102,7 +102,7 @@ export class CacheRulesImpl implements CacheRules {
         resourceGroupName,
         registryName,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -114,12 +114,12 @@ export class CacheRulesImpl implements CacheRules {
   private async *listPagingAll(
     resourceGroupName: string,
     registryName: string,
-    options?: CacheRulesListOptionalParams
+    options?: CacheRulesListOptionalParams,
   ): AsyncIterableIterator<CacheRule> {
     for await (const page of this.listPagingPage(
       resourceGroupName,
       registryName,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -134,11 +134,11 @@ export class CacheRulesImpl implements CacheRules {
   private _list(
     resourceGroupName: string,
     registryName: string,
-    options?: CacheRulesListOptionalParams
+    options?: CacheRulesListOptionalParams,
   ): Promise<CacheRulesListResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, registryName, options },
-      listOperationSpec
+      listOperationSpec,
     );
   }
 
@@ -153,11 +153,11 @@ export class CacheRulesImpl implements CacheRules {
     resourceGroupName: string,
     registryName: string,
     cacheRuleName: string,
-    options?: CacheRulesGetOptionalParams
+    options?: CacheRulesGetOptionalParams,
   ): Promise<CacheRulesGetResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, registryName, cacheRuleName, options },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 
@@ -174,7 +174,7 @@ export class CacheRulesImpl implements CacheRules {
     registryName: string,
     cacheRuleName: string,
     cacheRuleCreateParameters: CacheRule,
-    options?: CacheRulesCreateOptionalParams
+    options?: CacheRulesCreateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<CacheRulesCreateResponse>,
@@ -183,21 +183,20 @@ export class CacheRulesImpl implements CacheRules {
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<CacheRulesCreateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -206,8 +205,8 @@ export class CacheRulesImpl implements CacheRules {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -215,8 +214,8 @@ export class CacheRulesImpl implements CacheRules {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
@@ -227,9 +226,9 @@ export class CacheRulesImpl implements CacheRules {
         registryName,
         cacheRuleName,
         cacheRuleCreateParameters,
-        options
+        options,
       },
-      spec: createOperationSpec
+      spec: createOperationSpec,
     });
     const poller = await createHttpPoller<
       CacheRulesCreateResponse,
@@ -237,7 +236,7 @@ export class CacheRulesImpl implements CacheRules {
     >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "azure-async-operation"
+      resourceLocationConfig: "azure-async-operation",
     });
     await poller.poll();
     return poller;
@@ -256,14 +255,14 @@ export class CacheRulesImpl implements CacheRules {
     registryName: string,
     cacheRuleName: string,
     cacheRuleCreateParameters: CacheRule,
-    options?: CacheRulesCreateOptionalParams
+    options?: CacheRulesCreateOptionalParams,
   ): Promise<CacheRulesCreateResponse> {
     const poller = await this.beginCreate(
       resourceGroupName,
       registryName,
       cacheRuleName,
       cacheRuleCreateParameters,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -279,7 +278,7 @@ export class CacheRulesImpl implements CacheRules {
     resourceGroupName: string,
     registryName: string,
     cacheRuleName: string,
-    options?: CacheRulesDeleteOptionalParams
+    options?: CacheRulesDeleteOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<CacheRulesDeleteResponse>,
@@ -288,21 +287,20 @@ export class CacheRulesImpl implements CacheRules {
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<CacheRulesDeleteResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -311,8 +309,8 @@ export class CacheRulesImpl implements CacheRules {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -320,15 +318,15 @@ export class CacheRulesImpl implements CacheRules {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
     const lro = createLroSpec({
       sendOperationFn,
       args: { resourceGroupName, registryName, cacheRuleName, options },
-      spec: deleteOperationSpec
+      spec: deleteOperationSpec,
     });
     const poller = await createHttpPoller<
       CacheRulesDeleteResponse,
@@ -336,7 +334,7 @@ export class CacheRulesImpl implements CacheRules {
     >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "location"
+      resourceLocationConfig: "location",
     });
     await poller.poll();
     return poller;
@@ -353,13 +351,13 @@ export class CacheRulesImpl implements CacheRules {
     resourceGroupName: string,
     registryName: string,
     cacheRuleName: string,
-    options?: CacheRulesDeleteOptionalParams
+    options?: CacheRulesDeleteOptionalParams,
   ): Promise<CacheRulesDeleteResponse> {
     const poller = await this.beginDelete(
       resourceGroupName,
       registryName,
       cacheRuleName,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -377,7 +375,7 @@ export class CacheRulesImpl implements CacheRules {
     registryName: string,
     cacheRuleName: string,
     cacheRuleUpdateParameters: CacheRuleUpdateParameters,
-    options?: CacheRulesUpdateOptionalParams
+    options?: CacheRulesUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<CacheRulesUpdateResponse>,
@@ -386,21 +384,20 @@ export class CacheRulesImpl implements CacheRules {
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<CacheRulesUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -409,8 +406,8 @@ export class CacheRulesImpl implements CacheRules {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -418,8 +415,8 @@ export class CacheRulesImpl implements CacheRules {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
@@ -430,9 +427,9 @@ export class CacheRulesImpl implements CacheRules {
         registryName,
         cacheRuleName,
         cacheRuleUpdateParameters,
-        options
+        options,
       },
-      spec: updateOperationSpec
+      spec: updateOperationSpec,
     });
     const poller = await createHttpPoller<
       CacheRulesUpdateResponse,
@@ -440,7 +437,7 @@ export class CacheRulesImpl implements CacheRules {
     >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "azure-async-operation"
+      resourceLocationConfig: "azure-async-operation",
     });
     await poller.poll();
     return poller;
@@ -459,14 +456,14 @@ export class CacheRulesImpl implements CacheRules {
     registryName: string,
     cacheRuleName: string,
     cacheRuleUpdateParameters: CacheRuleUpdateParameters,
-    options?: CacheRulesUpdateOptionalParams
+    options?: CacheRulesUpdateOptionalParams,
   ): Promise<CacheRulesUpdateResponse> {
     const poller = await this.beginUpdate(
       resourceGroupName,
       registryName,
       cacheRuleName,
       cacheRuleUpdateParameters,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -482,11 +479,11 @@ export class CacheRulesImpl implements CacheRules {
     resourceGroupName: string,
     registryName: string,
     nextLink: string,
-    options?: CacheRulesListNextOptionalParams
+    options?: CacheRulesListNextOptionalParams,
   ): Promise<CacheRulesListNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, registryName, nextLink, options },
-      listNextOperationSpec
+      listNextOperationSpec,
     );
   }
 }
@@ -494,38 +491,15 @@ export class CacheRulesImpl implements CacheRules {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerRegistry/registries/{registryName}/cacheRules",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerRegistry/registries/{registryName}/cacheRules",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.CacheRulesListResult
+      bodyMapper: Mappers.CacheRulesListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
-  },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.registryName
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
-};
-const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerRegistry/registries/{registryName}/cacheRules/{cacheRuleName}",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.CacheRule
+      bodyMapper: Mappers.ErrorResponse,
     },
-    default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -533,31 +507,51 @@ const getOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.registryName,
-    Parameters.cacheRuleName
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
+};
+const getOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerRegistry/registries/{registryName}/cacheRules/{cacheRuleName}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.CacheRule,
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.registryName,
+    Parameters.cacheRuleName,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
 };
 const createOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerRegistry/registries/{registryName}/cacheRules/{cacheRuleName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerRegistry/registries/{registryName}/cacheRules/{cacheRuleName}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.CacheRule
+      bodyMapper: Mappers.CacheRule,
     },
     201: {
-      bodyMapper: Mappers.CacheRule
+      bodyMapper: Mappers.CacheRule,
     },
     202: {
-      bodyMapper: Mappers.CacheRule
+      bodyMapper: Mappers.CacheRule,
     },
     204: {
-      bodyMapper: Mappers.CacheRule
+      bodyMapper: Mappers.CacheRule,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   requestBody: Parameters.cacheRuleCreateParameters,
   queryParameters: [Parameters.apiVersion],
@@ -566,32 +560,31 @@ const createOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.registryName,
-    Parameters.cacheRuleName
+    Parameters.cacheRuleName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const deleteOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerRegistry/registries/{registryName}/cacheRules/{cacheRuleName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerRegistry/registries/{registryName}/cacheRules/{cacheRuleName}",
   httpMethod: "DELETE",
   responses: {
     200: {
-      headersMapper: Mappers.CacheRulesDeleteHeaders
+      headersMapper: Mappers.CacheRulesDeleteHeaders,
     },
     201: {
-      headersMapper: Mappers.CacheRulesDeleteHeaders
+      headersMapper: Mappers.CacheRulesDeleteHeaders,
     },
     202: {
-      headersMapper: Mappers.CacheRulesDeleteHeaders
+      headersMapper: Mappers.CacheRulesDeleteHeaders,
     },
     204: {
-      headersMapper: Mappers.CacheRulesDeleteHeaders
+      headersMapper: Mappers.CacheRulesDeleteHeaders,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -599,31 +592,30 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.registryName,
-    Parameters.cacheRuleName
+    Parameters.cacheRuleName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const updateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerRegistry/registries/{registryName}/cacheRules/{cacheRuleName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerRegistry/registries/{registryName}/cacheRules/{cacheRuleName}",
   httpMethod: "PATCH",
   responses: {
     200: {
-      bodyMapper: Mappers.CacheRule
+      bodyMapper: Mappers.CacheRule,
     },
     201: {
-      bodyMapper: Mappers.CacheRule
+      bodyMapper: Mappers.CacheRule,
     },
     202: {
-      bodyMapper: Mappers.CacheRule
+      bodyMapper: Mappers.CacheRule,
     },
     204: {
-      bodyMapper: Mappers.CacheRule
+      bodyMapper: Mappers.CacheRule,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   requestBody: Parameters.cacheRuleUpdateParameters,
   queryParameters: [Parameters.apiVersion],
@@ -632,30 +624,30 @@ const updateOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.registryName,
-    Parameters.cacheRuleName
+    Parameters.cacheRuleName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const listNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.CacheRulesListResult
+      bodyMapper: Mappers.CacheRulesListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.registryName,
-    Parameters.nextLink
+    Parameters.nextLink,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

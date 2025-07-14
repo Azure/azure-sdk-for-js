@@ -7,11 +7,9 @@
 
 const { DefaultAzureCredential } = require("@azure/identity");
 const { GeographyPoint, SearchClient, SearchIndexClient } = require("@azure/search-documents");
-const { createIndex, delay, WAIT_TIME } = require("./setup");
-
-const dotenv = require("dotenv");
-const { fancyStayEnVector, fancyStayFrVector, luxuryQueryVector } = require("./vectors");
-dotenv.config();
+const { createIndex, delay, WAIT_TIME } = require("./setup.js");
+require("dotenv/config");
+const { fancyStayEnVector, fancyStayFrVector, luxuryQueryVector } = require("./vectors.js");
 
 /**
  * This sample is to demonstrate the use of SearchClient's vector search feature.

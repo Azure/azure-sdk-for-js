@@ -2,15 +2,10 @@
 // Licensed under the MIT License.
 
 import { inject } from "vitest";
-import { EnvironmentVariableNames } from "./envVars.js";
-import type { ResourcesInfo } from "./types.js";
+import type { AzureSearchResources, ResourcesInfo } from "./types.js";
 
-export function getAzureSearchEndpoint(): string {
-  return inject(EnvironmentVariableNames.AZURE_SEARCH_ENDPOINT);
-}
-
-export function getAzureSearchIndex(): string {
-  return inject(EnvironmentVariableNames.AZURE_SEARCH_INDEX);
+export function getSearchInfo(): AzureSearchResources {
+  return inject("azureSearchResources");
 }
 
 export function getResourcesInfo(): ResourcesInfo {

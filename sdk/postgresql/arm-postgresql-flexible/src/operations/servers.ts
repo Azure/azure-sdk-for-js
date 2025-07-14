@@ -6,20 +6,17 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
+import type { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
 import { setContinuationToken } from "../pagingHelper.js";
-import { Servers } from "../operationsInterfaces/index.js";
+import type { Servers } from "../operationsInterfaces/index.js";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers.js";
 import * as Parameters from "../models/parameters.js";
-import { PostgreSQLManagementFlexibleServerClient } from "../postgreSQLManagementFlexibleServerClient.js";
-import {
-  SimplePollerLike,
-  OperationState,
-  createHttpPoller,
-} from "@azure/core-lro";
+import type { PostgreSQLManagementFlexibleServerClient } from "../postgreSQLManagementFlexibleServerClient.js";
+import type { SimplePollerLike, OperationState } from "@azure/core-lro";
+import { createHttpPoller } from "@azure/core-lro";
 import { createLroSpec } from "../lroImpl.js";
-import {
+import type {
   Server,
   ServersListByResourceGroupNextOptionalParams,
   ServersListByResourceGroupOptionalParams,
@@ -76,11 +73,7 @@ export class ServersImpl implements Servers {
         if (settings?.maxPageSize) {
           throw new Error("maxPageSize is not supported by this operation.");
         }
-        return this.listByResourceGroupPagingPage(
-          resourceGroupName,
-          options,
-          settings,
-        );
+        return this.listByResourceGroupPagingPage(resourceGroupName, options, settings);
       },
     };
   }
@@ -94,19 +87,15 @@ export class ServersImpl implements Servers {
     let continuationToken = settings?.continuationToken;
     if (!continuationToken) {
       result = await this._listByResourceGroup(resourceGroupName, options);
-      let page = result.value || [];
+      const page = result.value || [];
       continuationToken = result.nextLink;
       setContinuationToken(page, continuationToken);
       yield page;
     }
     while (continuationToken) {
-      result = await this._listByResourceGroupNext(
-        resourceGroupName,
-        continuationToken,
-        options,
-      );
+      result = await this._listByResourceGroupNext(resourceGroupName, continuationToken, options);
       continuationToken = result.nextLink;
-      let page = result.value || [];
+      const page = result.value || [];
       setContinuationToken(page, continuationToken);
       yield page;
     }
@@ -116,10 +105,7 @@ export class ServersImpl implements Servers {
     resourceGroupName: string,
     options?: ServersListByResourceGroupOptionalParams,
   ): AsyncIterableIterator<Server> {
-    for await (const page of this.listByResourceGroupPagingPage(
-      resourceGroupName,
-      options,
-    )) {
+    for await (const page of this.listByResourceGroupPagingPage(resourceGroupName, options)) {
       yield* page;
     }
   }
@@ -128,9 +114,7 @@ export class ServersImpl implements Servers {
    * List all the servers in a given subscription.
    * @param options The options parameters.
    */
-  public list(
-    options?: ServersListOptionalParams,
-  ): PagedAsyncIterableIterator<Server> {
+  public list(options?: ServersListOptionalParams): PagedAsyncIterableIterator<Server> {
     const iter = this.listPagingAll(options);
     return {
       next() {
@@ -156,7 +140,7 @@ export class ServersImpl implements Servers {
     let continuationToken = settings?.continuationToken;
     if (!continuationToken) {
       result = await this._list(options);
-      let page = result.value || [];
+      const page = result.value || [];
       continuationToken = result.nextLink;
       setContinuationToken(page, continuationToken);
       yield page;
@@ -164,15 +148,13 @@ export class ServersImpl implements Servers {
     while (continuationToken) {
       result = await this._listNext(continuationToken, options);
       continuationToken = result.nextLink;
-      let page = result.value || [];
+      const page = result.value || [];
       setContinuationToken(page, continuationToken);
       yield page;
     }
   }
 
-  private async *listPagingAll(
-    options?: ServersListOptionalParams,
-  ): AsyncIterableIterator<Server> {
+  private async *listPagingAll(options?: ServersListOptionalParams): AsyncIterableIterator<Server> {
     for await (const page of this.listPagingPage(options)) {
       yield* page;
     }
@@ -190,12 +172,7 @@ export class ServersImpl implements Servers {
     serverName: string,
     parameters: Server,
     options?: ServersCreateOptionalParams,
-  ): Promise<
-    SimplePollerLike<
-      OperationState<ServersCreateResponse>,
-      ServersCreateResponse
-    >
-  > {
+  ): Promise<SimplePollerLike<OperationState<ServersCreateResponse>, ServersCreateResponse>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
@@ -206,8 +183,7 @@ export class ServersImpl implements Servers {
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
@@ -264,12 +240,7 @@ export class ServersImpl implements Servers {
     parameters: Server,
     options?: ServersCreateOptionalParams,
   ): Promise<ServersCreateResponse> {
-    const poller = await this.beginCreate(
-      resourceGroupName,
-      serverName,
-      parameters,
-      options,
-    );
+    const poller = await this.beginCreate(resourceGroupName, serverName, parameters, options);
     return poller.pollUntilDone();
   }
 
@@ -286,12 +257,7 @@ export class ServersImpl implements Servers {
     serverName: string,
     parameters: ServerForUpdate,
     options?: ServersUpdateOptionalParams,
-  ): Promise<
-    SimplePollerLike<
-      OperationState<ServersUpdateResponse>,
-      ServersUpdateResponse
-    >
-  > {
+  ): Promise<SimplePollerLike<OperationState<ServersUpdateResponse>, ServersUpdateResponse>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
@@ -302,8 +268,7 @@ export class ServersImpl implements Servers {
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
@@ -361,12 +326,7 @@ export class ServersImpl implements Servers {
     parameters: ServerForUpdate,
     options?: ServersUpdateOptionalParams,
   ): Promise<ServersUpdateResponse> {
-    const poller = await this.beginUpdate(
-      resourceGroupName,
-      serverName,
-      parameters,
-      options,
-    );
+    const poller = await this.beginUpdate(resourceGroupName, serverName, parameters, options);
     return poller.pollUntilDone();
   }
 
@@ -391,8 +351,7 @@ export class ServersImpl implements Servers {
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
@@ -444,11 +403,7 @@ export class ServersImpl implements Servers {
     serverName: string,
     options?: ServersDeleteOptionalParams,
   ): Promise<void> {
-    const poller = await this.beginDelete(
-      resourceGroupName,
-      serverName,
-      options,
-    );
+    const poller = await this.beginDelete(resourceGroupName, serverName, options);
     return poller.pollUntilDone();
   }
 
@@ -488,9 +443,7 @@ export class ServersImpl implements Servers {
    * List all the servers in a given subscription.
    * @param options The options parameters.
    */
-  private _list(
-    options?: ServersListOptionalParams,
-  ): Promise<ServersListResponse> {
+  private _list(options?: ServersListOptionalParams): Promise<ServersListResponse> {
     return this.client.sendOperationRequest({ options }, listOperationSpec);
   }
 
@@ -515,8 +468,7 @@ export class ServersImpl implements Servers {
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
@@ -568,11 +520,7 @@ export class ServersImpl implements Servers {
     serverName: string,
     options?: ServersRestartOptionalParams,
   ): Promise<void> {
-    const poller = await this.beginRestart(
-      resourceGroupName,
-      serverName,
-      options,
-    );
+    const poller = await this.beginRestart(resourceGroupName, serverName, options);
     return poller.pollUntilDone();
   }
 
@@ -597,8 +545,7 @@ export class ServersImpl implements Servers {
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
@@ -650,11 +597,7 @@ export class ServersImpl implements Servers {
     serverName: string,
     options?: ServersStartOptionalParams,
   ): Promise<void> {
-    const poller = await this.beginStart(
-      resourceGroupName,
-      serverName,
-      options,
-    );
+    const poller = await this.beginStart(resourceGroupName, serverName, options);
     return poller.pollUntilDone();
   }
 
@@ -679,8 +622,7 @@ export class ServersImpl implements Servers {
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
@@ -762,10 +704,7 @@ export class ServersImpl implements Servers {
     nextLink: string,
     options?: ServersListNextOptionalParams,
   ): Promise<ServersListNextResponse> {
-    return this.client.sendOperationRequest(
-      { nextLink, options },
-      listNextOperationSpec,
-    );
+    return this.client.sendOperationRequest({ nextLink, options }, listNextOperationSpec);
   }
 }
 // Operation Specifications
@@ -890,11 +829,7 @@ const listByResourceGroupOperationSpec: coreClient.OperationSpec = {
     },
   },
   queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-  ],
+  urlParameters: [Parameters.$host, Parameters.subscriptionId, Parameters.resourceGroupName],
   headerParameters: [Parameters.accept],
   serializer,
 };
@@ -1013,11 +948,7 @@ const listNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse,
     },
   },
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.nextLink,
-  ],
+  urlParameters: [Parameters.$host, Parameters.subscriptionId, Parameters.nextLink],
   headerParameters: [Parameters.accept],
   serializer,
 };

@@ -18,7 +18,7 @@ import {
   ReplicationsDeleteOptionalParams,
   ReplicationUpdateParameters,
   ReplicationsUpdateOptionalParams,
-  ReplicationsUpdateResponse
+  ReplicationsUpdateResponse,
 } from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
@@ -33,7 +33,7 @@ export interface Replications {
   list(
     resourceGroupName: string,
     registryName: string,
-    options?: ReplicationsListOptionalParams
+    options?: ReplicationsListOptionalParams,
   ): PagedAsyncIterableIterator<Replication>;
   /**
    * Gets the properties of the specified replication.
@@ -46,7 +46,7 @@ export interface Replications {
     resourceGroupName: string,
     registryName: string,
     replicationName: string,
-    options?: ReplicationsGetOptionalParams
+    options?: ReplicationsGetOptionalParams,
   ): Promise<ReplicationsGetResponse>;
   /**
    * Creates a replication for a container registry with the specified parameters.
@@ -61,7 +61,7 @@ export interface Replications {
     registryName: string,
     replicationName: string,
     replication: Replication,
-    options?: ReplicationsCreateOptionalParams
+    options?: ReplicationsCreateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<ReplicationsCreateResponse>,
@@ -81,7 +81,7 @@ export interface Replications {
     registryName: string,
     replicationName: string,
     replication: Replication,
-    options?: ReplicationsCreateOptionalParams
+    options?: ReplicationsCreateOptionalParams,
   ): Promise<ReplicationsCreateResponse>;
   /**
    * Deletes a replication from a container registry.
@@ -94,7 +94,7 @@ export interface Replications {
     resourceGroupName: string,
     registryName: string,
     replicationName: string,
-    options?: ReplicationsDeleteOptionalParams
+    options?: ReplicationsDeleteOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Deletes a replication from a container registry.
@@ -107,7 +107,7 @@ export interface Replications {
     resourceGroupName: string,
     registryName: string,
     replicationName: string,
-    options?: ReplicationsDeleteOptionalParams
+    options?: ReplicationsDeleteOptionalParams,
   ): Promise<void>;
   /**
    * Updates a replication for a container registry with the specified parameters.
@@ -122,7 +122,7 @@ export interface Replications {
     registryName: string,
     replicationName: string,
     replicationUpdateParameters: ReplicationUpdateParameters,
-    options?: ReplicationsUpdateOptionalParams
+    options?: ReplicationsUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<ReplicationsUpdateResponse>,
@@ -142,6 +142,6 @@ export interface Replications {
     registryName: string,
     replicationName: string,
     replicationUpdateParameters: ReplicationUpdateParameters,
-    options?: ReplicationsUpdateOptionalParams
+    options?: ReplicationsUpdateOptionalParams,
   ): Promise<ReplicationsUpdateResponse>;
 }

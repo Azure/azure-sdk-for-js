@@ -5,19 +5,19 @@
  * @summary Demonstrates using a ChangeFeed in AllVersionsAndDeletes mode for entire container, a partition key, and an epk range
  */
 
-import * as dotenv from "dotenv";
-dotenv.config();
-
-import { finish, handleError, logSampleHeader, logStep } from "../Shared/handleError";
+import "dotenv/config";
+import { finish, handleError, logSampleHeader, logStep } from "../Shared/handleError.js";
+import type {
+  Container,
+  ChangeFeedIteratorOptions,
+  ChangeFeedPullModelIterator,
+} from "@azure/cosmos";
 import {
   CosmosClient,
   PartitionKeyDefinitionVersion,
-  Container,
   StatusCodes,
-  ChangeFeedIteratorOptions,
   ChangeFeedStartFrom,
   ChangeFeedMode,
-  ChangeFeedPullModelIterator,
 } from "@azure/cosmos";
 
 const key = process.env.COSMOS_KEY || "<cosmos key>";
@@ -87,7 +87,7 @@ async function run(): Promise<void> {
   }
 }
 
-async function ingestData(container: Container, initialize: number, end: number) {
+async function ingestData(container: Container, initialize: number, end: number): Promise<void> {
   for (let i = initialize; i <= end; i++) {
     await container.items.create({ id: `item${i}`, name: `sample1`, key: i });
     await container.items.create({ id: `item${i}`, name: `sample2`, key: i });
@@ -97,7 +97,11 @@ async function ingestData(container: Container, initialize: number, end: number)
   console.log(`ingested items with id - item${initialize} and id - item${end}`);
 }
 
-async function insertAndModifyData(container: Container, initialize: number, end: number) {
+async function insertAndModifyData(
+  container: Container,
+  initialize: number,
+  end: number,
+): Promise<void> {
   await ingestData(container, initialize, end);
   await container.items.upsert({ id: `item${initialize}`, name: `sample1`, key: initialize + 1 });
   console.log(`upserted item with id - item${initialize} and partition key - sample1`);
@@ -111,7 +115,7 @@ async function iterateChangeFeedFromNow(
   initialize: number,
   end: number,
 ): Promise<string> {
-  let iterator = container.items.getChangeFeedIterator(options);
+  const iterator = container.items.getChangeFeedIterator(options);
   console.log("running the iterator to start fetching changes from now.");
   await iterator.readNext();
   // ingest, upsert, and delete some data to introduce changes to container

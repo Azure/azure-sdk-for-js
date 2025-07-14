@@ -9,8 +9,7 @@ const { RoomsClient } = require("@azure/communication-rooms");
 const { CommunicationIdentityClient } = require("@azure/communication-identity");
 
 // Load the .env file if it exists
-require("dotenv").config();
-
+require("dotenv/config");
 async function main() {
   console.log("Room Participant Operations JavaScript Sample");
   console.log("_________________________________\n");
@@ -117,7 +116,7 @@ async function main() {
  * @param participants - The Participants being printed to console.
  */
 async function printParticipants(participants) {
-  var count = 0;
+  let count = 0;
   for await (const participant of participants) {
     if (participant) {
       count++;

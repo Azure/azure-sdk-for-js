@@ -6,11 +6,11 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { Blob } from "../operationsInterfaces";
+import { Blob } from "../operationsInterfaces/index.js";
 import * as coreClient from "@azure/core-client";
-import * as Mappers from "../models/mappers";
-import * as Parameters from "../models/parameters";
-import { StorageClient } from "../storageClient";
+import * as Mappers from "../models/mappers.js";
+import * as Parameters from "../models/parameters.js";
+import { StorageClient } from "../storageClient.js";
 import {
   BlobDownloadOptionalParams,
   BlobDownloadResponse,
@@ -62,7 +62,7 @@ import {
   BlobGetTagsResponse,
   BlobSetTagsOptionalParams,
   BlobSetTagsResponse,
-} from "../models";
+} from "../models/index.js";
 
 /** Class containing Blob operations. */
 export class BlobImpl implements Blob {
@@ -998,6 +998,7 @@ const copyFromURLOperationSpec: coreClient.OperationSpec = {
     Parameters.sourceContentMD5,
     Parameters.copySourceAuthorization,
     Parameters.copySourceTags,
+    Parameters.fileRequestIntent,
   ],
   isXML: true,
   serializer: xmlSerializer,

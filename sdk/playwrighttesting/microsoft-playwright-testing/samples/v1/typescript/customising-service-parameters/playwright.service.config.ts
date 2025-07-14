@@ -8,7 +8,7 @@ import {
   ReporterConfiguration,
 } from "@azure/microsoft-playwright-testing";
 import { defineConfig } from "@playwright/test";
-import config from "./playwright.config";
+import config from "./playwright.config.js";
 import { AzureCliCredential } from "@azure/identity";
 
 const azureCredential = new AzureCliCredential();

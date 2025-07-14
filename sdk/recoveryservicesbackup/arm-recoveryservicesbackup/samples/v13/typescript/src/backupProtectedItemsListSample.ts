@@ -19,7 +19,7 @@ import "dotenv/config";
  * This sample demonstrates how to Provides a pageable list of all items that are backed up within a vault.
  *
  * @summary Provides a pageable list of all items that are backed up within a vault.
- * x-ms-original-file: specification/recoveryservicesbackup/resource-manager/Microsoft.RecoveryServices/stable/2024-04-01/examples/AzureIaasVm/BackupProtectedItems_List.json
+ * x-ms-original-file: specification/recoveryservicesbackup/resource-manager/Microsoft.RecoveryServices/stable/2025-02-01/examples/AzureIaasVm/BackupProtectedItems_List.json
  */
 async function listProtectedItemsWithBackupManagementTypeFilterAsAzureIaasVM(): Promise<void> {
   const subscriptionId =
@@ -33,7 +33,7 @@ async function listProtectedItemsWithBackupManagementTypeFilterAsAzureIaasVM(): 
   const credential = new DefaultAzureCredential();
   const client = new RecoveryServicesBackupClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.backupProtectedItems.list(
+  for await (const item of client.backupProtectedItems.list(
     vaultName,
     resourceGroupName,
     options,
@@ -44,7 +44,7 @@ async function listProtectedItemsWithBackupManagementTypeFilterAsAzureIaasVM(): 
 }
 
 async function main(): Promise<void> {
-  listProtectedItemsWithBackupManagementTypeFilterAsAzureIaasVM();
+  await listProtectedItemsWithBackupManagementTypeFilterAsAzureIaasVM();
 }
 
 main().catch(console.error);

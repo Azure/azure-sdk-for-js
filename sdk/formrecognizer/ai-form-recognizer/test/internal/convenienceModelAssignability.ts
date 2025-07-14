@@ -24,7 +24,6 @@ import type {
   DocumentTable,
   DocumentTableCell,
   DocumentWord,
-  DocumentAnnotation,
   DocumentBarcode,
   DocumentFormula,
 } from "../../src/models/documentElements.js";
@@ -44,7 +43,6 @@ declare const documentTableCell: DocumentTableCell;
 declare const documentKeyValueElement: DocumentKeyValueElement;
 declare const document: Document;
 declare const documentPage: DocumentPage;
-declare const documentAnnotation: DocumentAnnotation;
 declare const documentBarcode: DocumentBarcode;
 declare const documentFormula: DocumentFormula;
 

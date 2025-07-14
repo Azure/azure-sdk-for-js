@@ -59,7 +59,7 @@ async function organizationsCreateOrUpdateMaximumSet(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  organizationsCreateOrUpdateMaximumSet();
+  await organizationsCreateOrUpdateMaximumSet();
 }
 
 main().catch(console.error);

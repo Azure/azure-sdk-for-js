@@ -9,6 +9,7 @@
 
 import ModelClient, { isUnexpected } from "@azure-rest/ai-inference";
 import { DefaultAzureCredential } from "@azure/identity";
+import { createRestError } from "@azure-rest/core-client";
 import fs from "node:fs";
 
 // Load the .env file if it exists
@@ -52,7 +53,7 @@ export async function main(): Promise<void> {
   });
 
   if (isUnexpected(response)) {
-    throw response.body.error;
+    throw createRestError(response);
   }
 
   console.log(response.body.choices[0].message.content);

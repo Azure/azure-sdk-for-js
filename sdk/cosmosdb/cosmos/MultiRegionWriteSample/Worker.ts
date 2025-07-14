@@ -1,12 +1,14 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
+
 import { v4 as guid } from "uuid";
-// eslint-disable-next-line @typescript-eslint/ban-ts-comment
-// @ts-ignore
-import { Container } from "../../dist";
+import type { Container } from "../dist/esm/index.js";
 
 export class Worker {
-  constructor(private readonly regionName: string, private readonly container: Container) {}
+  constructor(
+    private readonly regionName: string,
+    private readonly container: Container,
+  ) {}
 
   public async RunLoop(itemsToInsert: number): Promise<void> {
     let iterationCount = 0;
@@ -22,7 +24,7 @@ export class Worker {
     const p50Index = Math.floor(latency.length / 2);
 
     console.log(
-      `Inserted ${latency.length} documents at ${this.regionName} with p50 ${latency[p50Index]}`
+      `Inserted ${latency.length} documents at ${this.regionName} with p50 ${latency[p50Index]}`,
     );
   }
 
@@ -31,7 +33,7 @@ export class Worker {
       const { resources: items } = await this.container.items.readAll().fetchAll();
       if (items.length < expectedNumberOfItems) {
         console.log(
-          `Total item read ${items.length} from ${this.regionName} is less than ${expectedNumberOfItems}, retrying reads`
+          `Total item read ${items.length} from ${this.regionName} is less than ${expectedNumberOfItems}, retrying reads`,
         );
 
         await this.sleep(1000);

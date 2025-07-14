@@ -1,5 +1,24 @@
 # Release History
 
+## 12.28.0-beta.2 (2025-05-20)
+
+### Features Added
+
+- Includes all features released in 12.26.0-beta.2.
+
+## 12.28.0-beta.1 (2025-05-20)
+
+### Features Added
+
+- Added support for service version 2025-07-05.
+- Added support for the `sourceShareTokenIntent` parameter to `AppendBlobClient.appendBlockFromURL()`, `BlockBlobClient.stageBlockFromURL()`, `BlockBlobClient.syncUploadFromURL()`, `BlobClient.syncCopyFromURL()`, `PageBlobClient.uploadPagesFromURL()`.
+
+## 12.27.0 (2025-03-18)
+
+### Features Added
+
+- Added support for service version 2025-05-05.
+
 ## 12.26.0 (2024-11-13)
 
 ### Features Added

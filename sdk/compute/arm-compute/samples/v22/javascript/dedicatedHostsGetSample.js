@@ -16,7 +16,7 @@ require("dotenv/config");
  * This sample demonstrates how to Retrieves information about a dedicated host.
  *
  * @summary Retrieves information about a dedicated host.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-07-01/examples/dedicatedHostExamples/DedicatedHost_Get.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-11-01/examples/dedicatedHostExamples/DedicatedHost_Get.json
  */
 async function getADedicatedHost() {
   const subscriptionId = process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscriptionId}";
@@ -37,7 +37,7 @@ async function getADedicatedHost() {
 }
 
 async function main() {
-  getADedicatedHost();
+  await getADedicatedHost();
 }
 
 main().catch(console.error);

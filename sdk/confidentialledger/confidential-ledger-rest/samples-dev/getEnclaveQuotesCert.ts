@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import * as dotenv from "dotenv";
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to list enclave quotes using client Certificate Authentication
@@ -13,9 +13,6 @@ import ConfidentialLedger, {
   getLedgerIdentity,
   isUnexpected,
 } from "@azure-rest/confidential-ledger";
-
-dotenv.config();
-
 const cert = process.env["USER_CERT"] || "";
 const key = process.env["USER_CERT_KEY"] || "";
 const endpoint = process.env["ENDPOINT"] || "";

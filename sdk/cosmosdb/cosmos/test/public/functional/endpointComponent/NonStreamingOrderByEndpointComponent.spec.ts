@@ -1,8 +1,9 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import assert from "assert";
-import type { ExecutionContext } from "../../../../src/queryExecutionContext";
-import { NonStreamingOrderByEndpointComponent } from "../../../../src/queryExecutionContext/EndpointComponent/NonStreamingOrderByEndpointComponent";
+
+import type { ExecutionContext } from "../../../../src/queryExecutionContext/index.js";
+import { NonStreamingOrderByEndpointComponent } from "../../../../src/queryExecutionContext/EndpointComponent/NonStreamingOrderByEndpointComponent.js";
+import { describe, it, assert } from "vitest";
 
 describe("NonStreamingOrderByEndpointComponent", () => {
   it("should initialize correctly with sort orders and priority queue buffer size", () => {

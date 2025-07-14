@@ -9,15 +9,14 @@
  * @summary detects healthcare entities in a piece of text
  */
 
-import { TextAnalyticsClient, AzureKeyCredential } from "@azure/ai-text-analytics";
+import { TextAnalyticsClient } from "@azure/ai-text-analytics";
+import { DefaultAzureCredential } from "@azure/identity";
 
 // Load the .env file if it exists
-import * as dotenv from "dotenv";
-dotenv.config();
+import "dotenv/config";
 
 // You will need to set these environment variables or edit the following values
-const endpoint = process.env["ENDPOINT"] || "<cognitive services endpoint>";
-const apiKey = process.env["TEXT_ANALYTICS_API_KEY"] || "<api key>";
+const endpoint = process.env["LANGUAGE_ENDPOINT"] || "<endpoint>";
 
 const documents = [
   "The patient is a 54-year-old gentleman with a history of progressive angina over the past several months.",
@@ -25,10 +24,10 @@ const documents = [
   "Patient does not suffer from high blood pressure.",
 ];
 
-export async function main() {
+export async function main(): Promise<void> {
   console.log("== Recognize Healthcare Entities Sample ==");
 
-  const client = new TextAnalyticsClient(endpoint, new AzureKeyCredential(apiKey));
+  const client = new TextAnalyticsClient(endpoint, new DefaultAzureCredential());
 
   const poller = await client.beginAnalyzeHealthcareEntities(documents, "en", {
     includeStatistics: true,
@@ -36,18 +35,18 @@ export async function main() {
 
   poller.onProgress(() => {
     console.log(
-      `Last time the operation was updated was on: ${poller.getOperationState().lastModifiedOn}`
+      `Last time the operation was updated was on: ${poller.getOperationState().lastModifiedOn}`,
     );
   });
   console.log(
     `The analyze healthcare entities operation was created on ${
       poller.getOperationState().createdOn
-    }`
+    }`,
   );
   console.log(
     `The analyze healthcare entities operation results will expire on ${
       poller.getOperationState().expiresOn
-    }`
+    }`,
   );
 
   const results = await poller.pollUntilDone();
@@ -69,7 +68,7 @@ export async function main() {
         console.log(`\tRecognized relations between entities:`);
         for (const relation of result.entityRelations) {
           console.log(
-            `\t\t- Relation of type ${relation.relationType} found between the following entities:`
+            `\t\t- Relation of type ${relation.relationType} found between the following entities:`,
           );
           for (const role of relation.roles) {
             console.log(`\t\t\t- "${role.entity.text}" with the role ${role.name}`);

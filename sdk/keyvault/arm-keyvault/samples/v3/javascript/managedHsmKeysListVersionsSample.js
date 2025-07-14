@@ -10,13 +10,13 @@
 // Licensed under the MIT License.
 const { KeyVaultManagementClient } = require("@azure/arm-keyvault");
 const { DefaultAzureCredential } = require("@azure/identity");
-require("dotenv").config();
+require("dotenv/config");
 
 /**
  * This sample demonstrates how to Lists the versions of the specified key in the specified managed HSM.
  *
  * @summary Lists the versions of the specified key in the specified managed HSM.
- * x-ms-original-file: specification/keyvault/resource-manager/Microsoft.KeyVault/stable/2023-07-01/examples/managedHsmListKeyVersions.json
+ * x-ms-original-file: specification/keyvault/resource-manager/Microsoft.KeyVault/stable/2024-11-01/examples/managedHsmListKeyVersions.json
  */
 async function listKeyVersionsInTheManagedHsm() {
   const subscriptionId =
@@ -27,14 +27,14 @@ async function listKeyVersionsInTheManagedHsm() {
   const credential = new DefaultAzureCredential();
   const client = new KeyVaultManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.managedHsmKeys.listVersions(resourceGroupName, name, keyName)) {
+  for await (const item of client.managedHsmKeys.listVersions(resourceGroupName, name, keyName)) {
     resArray.push(item);
   }
   console.log(resArray);
 }
 
 async function main() {
-  listKeyVersionsInTheManagedHsm();
+  await listKeyVersionsInTheManagedHsm();
 }
 
 main().catch(console.error);

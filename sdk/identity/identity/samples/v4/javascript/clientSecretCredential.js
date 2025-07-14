@@ -9,7 +9,7 @@ const { ClientSecretCredential } = require("@azure/identity");
 const { KeyClient } = require("@azure/keyvault-keys");
 
 // Load the .env file if it exists
-require("dotenv").config();
+require("dotenv/config");
 
 async function main() {
   const credential = new ClientSecretCredential(

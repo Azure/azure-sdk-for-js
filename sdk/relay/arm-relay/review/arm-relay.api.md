@@ -162,8 +162,7 @@ export interface HybridConnectionsRegenerateKeysOptionalParams extends coreClien
 export type HybridConnectionsRegenerateKeysResponse = AccessKeys;
 
 // @public
-type KeyType_2 = "PrimaryKey" | "SecondaryKey";
-export { KeyType_2 as KeyType }
+export type KeyType = "PrimaryKey" | "SecondaryKey";
 
 // @public
 export interface Namespaces {
@@ -338,7 +337,7 @@ export type ProvisioningStateEnum = "Created" | "Succeeded" | "Deleted" | "Faile
 // @public
 export interface RegenerateAccessKeyParameters {
     key?: string;
-    keyType: KeyType_2;
+    keyType: KeyType;
 }
 
 // @public (undocumented)

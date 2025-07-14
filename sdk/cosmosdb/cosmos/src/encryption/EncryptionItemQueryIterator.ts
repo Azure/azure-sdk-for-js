@@ -1,14 +1,17 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { Container } from "../client";
-import type { ClientContext } from "../ClientContext";
-import { ResourceType } from "../common/constants";
-import { DiagnosticNodeInternal, DiagnosticNodeType } from "../diagnostics/DiagnosticNodeInternal";
-import type { SqlQuerySpec, FetchFunctionCallback } from "../queryExecutionContext";
-import { QueryIterator } from "../queryIterator";
-import type { FeedOptions, FeedResponse } from "../request";
-import { withDiagnostics } from "../utils/diagnostics";
+import type { Container } from "../client/index.js";
+import type { ClientContext } from "../ClientContext.js";
+import { Constants, ResourceType } from "../common/constants.js";
+import {
+  DiagnosticNodeInternal,
+  DiagnosticNodeType,
+} from "../diagnostics/DiagnosticNodeInternal.js";
+import type { SqlQuerySpec, FetchFunctionCallback } from "../queryExecutionContext/index.js";
+import { QueryIterator } from "../queryIterator.js";
+import type { FeedOptions, FeedResponse } from "../request/index.js";
+import { withDiagnostics } from "../utils/diagnostics.js";
 
 /**
  * @internal
@@ -49,9 +52,18 @@ export class EncryptionItemQueryIterator<Item> extends QueryIterator<Item> {
       await this.container.throwIfRequestNeedsARetryPostPolicyRefresh(error);
     }
     if (response?.resources?.length > 0) {
+      let count = 0;
+      diagnosticNode.beginEncryptionDiagnostics(Constants.Encryption.DiagnosticsDecryptOperation);
       for (let resource of response.resources) {
-        resource = await this.container.encryptionProcessor.decrypt(resource);
+        const { body, propertiesDecryptedCount } =
+          await this.container.encryptionProcessor.decrypt(resource);
+        resource = body;
+        count += propertiesDecryptedCount;
       }
+      diagnosticNode.endEncryptionDiagnostics(
+        Constants.Encryption.DiagnosticsDecryptOperation,
+        count,
+      );
     }
     yield response;
   }
@@ -68,9 +80,18 @@ export class EncryptionItemQueryIterator<Item> extends QueryIterator<Item> {
         await this.container.throwIfRequestNeedsARetryPostPolicyRefresh(error);
       }
       if (response?.resources?.length > 0) {
+        let count = 0;
+        diagnosticNode.beginEncryptionDiagnostics(Constants.Encryption.DiagnosticsDecryptOperation);
         for (let resource of response.resources) {
-          resource = await this.container.encryptionProcessor.decrypt(resource, diagnosticNode);
+          const { body, propertiesDecryptedCount } =
+            await this.container.encryptionProcessor.decrypt(resource);
+          resource = body;
+          count += propertiesDecryptedCount;
         }
+        diagnosticNode.endEncryptionDiagnostics(
+          Constants.Encryption.DiagnosticsDecryptOperation,
+          count,
+        );
       }
       return response;
     }, this.encryptionClientContext);
@@ -88,9 +109,18 @@ export class EncryptionItemQueryIterator<Item> extends QueryIterator<Item> {
         await this.container.throwIfRequestNeedsARetryPostPolicyRefresh(error);
       }
       if (response?.resources?.length > 0) {
+        let count = 0;
+        diagnosticNode.beginEncryptionDiagnostics(Constants.Encryption.DiagnosticsDecryptOperation);
         for (let resource of response.resources) {
-          resource = await this.container.encryptionProcessor.decrypt(resource, diagnosticNode);
+          const { body, propertiesDecryptedCount } =
+            await this.container.encryptionProcessor.decrypt(resource);
+          resource = body;
+          count += propertiesDecryptedCount;
         }
+        diagnosticNode.endEncryptionDiagnostics(
+          Constants.Encryption.DiagnosticsDecryptOperation,
+          count,
+        );
       }
       return response;
     }, this.encryptionClientContext);
@@ -100,9 +130,7 @@ export class EncryptionItemQueryIterator<Item> extends QueryIterator<Item> {
    */
   public override async init(diagnosticNode: DiagnosticNodeInternal): Promise<void> {
     // Ensure encryption is initialized and set rid in options
-    if (!this.container.isEncryptionInitialized) {
-      await this.container.initializeEncryption();
-    }
+    await this.container.checkAndInitializeEncryption();
     this.encryptionOptions.containerRid = this.container._rid;
     await QueryIterator.prototype.init.call(this, diagnosticNode);
   }

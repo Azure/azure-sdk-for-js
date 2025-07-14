@@ -14,9 +14,10 @@ export default mergeConfig(
     },
     plugins: [browserMap(), inject({ Buffer: ["buffer", "Buffer"] })],
     test: {
+      fileParallelism: false,
       include: ["dist-test/browser/test/**/*.spec.js"],
-      hookTimeout: 5000000,
-      testTimeout: 5000000,
+      testTimeout: 1200000,
+      hookTimeout: 1200000,
     },
   }),
 );

@@ -60,7 +60,7 @@ export const defaultMaxTimeAfterFirstMessageForBatchingMs = 1000;
  * The maximum number of messages to delete in a single batch.  This cap is established and enforced by the service.
  * @internal
  */
-export const MaxDeleteMessageCount = 4000;
+export const MaxDeleteMessageCount = 500;
 
 /**
  * A receiver that does not handle sessions.

@@ -739,8 +739,7 @@ export interface Identity {
 }
 
 // @public
-type KeyType_2 = string;
-export { KeyType_2 as KeyType }
+export type KeyType = string;
 
 // @public
 export interface KeyVaultProperties {
@@ -1410,7 +1409,7 @@ export type PublicNetworkAccessFlag = string;
 // @public
 export interface RegenerateAccessKeyParameters {
     key?: string;
-    keyType: KeyType_2;
+    keyType: KeyType;
 }
 
 // @public

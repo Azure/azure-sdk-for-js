@@ -10,7 +10,7 @@ The `languageCode` parameter is optional. If it is not specified, the default En
 
 ```ts snippet:Sample_EntityRecognition
 import { TextAnalysisClient } from "@azure/ai-language-text";
-import { AzureKeyCredential } from "@azure/core-auth";
+import { DefaultAzureCredential } from "@azure/identity";
 
 const documents = [
   "Microsoft was founded by Bill Gates and Paul Allen.",
@@ -18,7 +18,7 @@ const documents = [
   "I visited the Space Needle 2 times.",
 ];
 
-const client = new TextAnalysisClient("<endpoint>", new AzureKeyCredential("<API key>"));
+const client = new TextAnalysisClient("<endpoint>", new DefaultAzureCredential());
 
 const results = await client.analyze("EntityRecognition", documents);
 
@@ -39,14 +39,14 @@ Analyze sentiment of text to determine if it is positive, negative, neutral, or 
 
 ```ts snippet:Sample_SentimentAnalysis
 import { TextAnalysisClient } from "@azure/ai-language-text";
-import { AzureKeyCredential } from "@azure/core-auth";
+import { DefaultAzureCredential } from "@azure/identity";
 
 const documents = [
   "I had the best day of my life.",
   "This was a waste of my time. The speaker put me to sleep.",
 ];
 
-const client = new TextAnalysisClient("<endpoint>", new AzureKeyCredential("<API key>"));
+const client = new TextAnalysisClient("<endpoint>", new DefaultAzureCredential());
 
 const results = await client.analyze("SentimentAnalysis", documents);
 
@@ -76,10 +76,14 @@ To get more granular information about the opinions related to aspects of a prod
 There is a separate action for recognizing Personally Identifiable Information (PII) in text such as Social Security Numbers, bank account information, credit card numbers, etc. Its usage is very similar to the standard entity recognition above:
 
 ```ts snippet:Sample_PIIEntityRecognition
-import { TextAnalysisClient } from "@azure/ai-language-text";
-import { AzureKeyCredential } from "@azure/core-auth";
+import {
+  TextAnalysisClient,
+  KnownPiiEntityDomain,
+  KnownPiiEntityCategory,
+} from "@azure/ai-language-text";
+import { DefaultAzureCredential } from "@azure/identity";
 
-const client = new TextAnalysisClient("<endpoint>", new AzureKeyCredential("<API key>"));
+const client = new TextAnalysisClient("<endpoint>", new DefaultAzureCredential());
 
 const documents = ["My phone number is 555-5555"];
 
@@ -106,14 +110,14 @@ A "Linked" entity is one that exists in a knowledge base (such as Wikipedia). Th
 
 ```ts snippet:Sample_EntityLinking
 import { TextAnalysisClient } from "@azure/ai-language-text";
-import { AzureKeyCredential } from "@azure/core-auth";
+import { DefaultAzureCredential } from "@azure/identity";
 
 const documents = [
   "Microsoft moved its headquarters to Bellevue, Washington in January 1979.",
   "Steve Ballmer stepped down as CEO of Microsoft and was succeeded by Satya Nadella.",
 ];
 
-const client = new TextAnalysisClient("<endpoint>", new AzureKeyCredential("<API key>"));
+const client = new TextAnalysisClient("<endpoint>", new DefaultAzureCredential());
 
 const results = await client.analyze("EntityLinking", documents);
 
@@ -144,7 +148,7 @@ Key Phrase extraction identifies the main talking points in a document. For exam
 
 ```ts snippet:Sample_KeyPhraseExtraction
 import { TextAnalysisClient } from "@azure/ai-language-text";
-import { AzureKeyCredential } from "@azure/core-auth";
+import { DefaultAzureCredential } from "@azure/identity";
 
 const documents = [
   "Redmond is a city in King County, Washington, United States, located 15 miles east of Seattle.",
@@ -152,7 +156,7 @@ const documents = [
   "I will travel to South America in the summer.",
 ];
 
-const client = new TextAnalysisClient("<endpoint>", new AzureKeyCredential("<API key>"));
+const client = new TextAnalysisClient("<endpoint>", new DefaultAzureCredential());
 
 const results = await client.analyze("KeyPhraseExtraction", documents);
 
@@ -177,7 +181,7 @@ The `countryHint` parameter is optional, but can assist the service in providing
 
 ```ts snippet:Sample_LanguageDetection
 import { TextAnalysisClient } from "@azure/ai-language-text";
-import { AzureKeyCredential } from "@azure/core-auth";
+import { DefaultAzureCredential } from "@azure/identity";
 
 const documents = [
   "This document is written in English.",
@@ -187,7 +191,7 @@ const documents = [
   "Detta är ett dokument skrivet på engelska.",
 ];
 
-const client = new TextAnalysisClient("<endpoint>", new AzureKeyCredential("<API key>"));
+const client = new TextAnalysisClient("<endpoint>", new DefaultAzureCredential());
 
 const result = await client.analyze("LanguageDetection", documents, "us", {
   modelVersion: "2022-04-10-preview",
@@ -207,8 +211,8 @@ for (const doc of result) {
 Healthcare analysis identifies healthcare entities. For example, given input text "Prescribed 100mg ibuprofen, taken twice daily", the service returns "100mg" categorized as Dosage, "ibuprofen" as MedicationName, and "twice daily" as Frequency.
 
 ```ts snippet:Sample_HealthcareAnalysis
-import { TextAnalysisClient } from "@azure/ai-language-text";
-import { AzureKeyCredential } from "@azure/core-auth";
+import { TextAnalysisClient, AnalyzeBatchAction } from "@azure/ai-language-text";
+import { DefaultAzureCredential } from "@azure/identity";
 
 const documents = [
   "The patient is a 54-year-old gentleman with a history of progressive angina over the past several months.",
@@ -216,7 +220,7 @@ const documents = [
   "Patient does not suffer from high blood pressure.",
 ];
 
-const client = new TextAnalysisClient("<endpoint>", new AzureKeyCredential("<API key>"));
+const client = new TextAnalysisClient("<endpoint>", new DefaultAzureCredential());
 
 const actions: AnalyzeBatchAction[] = [
   {
@@ -279,8 +283,8 @@ for await (const actionResult of results) {
 Extractive summarization identifies sentences that summarize the article they belong to.
 
 ```ts snippet:Sample_ExtractiveSummarization
-import { TextAnalysisClient } from "@azure/ai-language-text";
-import { AzureKeyCredential } from "@azure/core-auth";
+import { TextAnalysisClient, AnalyzeBatchAction } from "@azure/ai-language-text";
+import { DefaultAzureCredential } from "@azure/identity";
 
 const documents = [
   `
@@ -296,7 +300,7 @@ const documents = [
            “Being able to improve healthcare, being able to improve education, economic development is going to improve the quality of life in the communities.”`,
 ];
 
-const client = new TextAnalysisClient("<endpoint>", new AzureKeyCredential("<API key>"));
+const client = new TextAnalysisClient("<endpoint>", new DefaultAzureCredential());
 
 const actions: AnalyzeBatchAction[] = [
   {
@@ -341,8 +345,8 @@ for await (const actionResult of results) {
 Abstractive summarization generates a summary for the input articles. Abstractive summarization is different from extractive summarization in that extractive summarization is the strategy of concatenating extracted sentences from the input document into a summary, while abstractive summarization involves paraphrasing the document using novel sentences.
 
 ```ts snippet:Sample_AbstractiveSummarization
-import { TextAnalysisClient } from "@azure/ai-language-text";
-import { AzureKeyCredential } from "@azure/core-auth";
+import { TextAnalysisClient, AnalyzeBatchAction } from "@azure/ai-language-text";
+import { DefaultAzureCredential } from "@azure/identity";
 
 const documents = [
   `
@@ -358,7 +362,7 @@ const documents = [
            “Being able to improve healthcare, being able to improve education, economic development is going to improve the quality of life in the communities.”`,
 ];
 
-const client = new TextAnalysisClient("<endpoint>", new AzureKeyCredential("<API key>"));
+const client = new TextAnalysisClient("<endpoint>", new DefaultAzureCredential());
 
 const actions: AnalyzeBatchAction[] = [
   {
@@ -405,21 +409,21 @@ for await (const actionResult of results) {
 Recognize and categorize entities in text as entities using custom entity detection models built using [Azure Language Studio][lang_studio].
 
 ```ts snippet:Sample_CustomEntityRecognition
-import { TextAnalysisClient } from "@azure/ai-language-text";
-import { AzureKeyCredential } from "@azure/core-auth";
+import { TextAnalysisClient, AnalyzeBatchAction } from "@azure/ai-language-text";
+import { DefaultAzureCredential } from "@azure/identity";
 
 const documents = [
   "We love this trail and make the trip every year. The views are breathtaking and well worth the hike! Yesterday was foggy though, so we missed the spectacular views. We tried again today and it was amazing. Everyone in my family liked the trail although it was too challenging for the less athletic among us.",
   "Last week we stayed at Hotel Foo to celebrate our anniversary. The staff knew about our anniversary so they helped me organize a little surprise for my partner. The room was clean and with the decoration I requested. It was perfect!",
 ];
 
-const client = new TextAnalysisClient("<endpoint>", new AzureKeyCredential("<API key>"));
+const client = new TextAnalysisClient("<endpoint>", new DefaultAzureCredential());
 
 const actions: AnalyzeBatchAction[] = [
   {
     kind: "CustomEntityRecognition",
-    deploymentName,
-    projectName,
+    deploymentName: "<deployment name>",
+    projectName: "<project name>",
   },
 ];
 const poller = await client.beginAnalyzeBatch(actions, documents, "en");
@@ -452,20 +456,20 @@ for await (const actionResult of results) {
 Classify documents using custom single-label models built using [Azure Language Studio][lang_studio].
 
 ```ts snippet:Sample_CustomSingleLabelClassification
-import { TextAnalysisClient } from "@azure/ai-language-text";
-import { AzureKeyCredential } from "@azure/core-auth";
+import { TextAnalysisClient, AnalyzeBatchAction } from "@azure/ai-language-text";
+import { DefaultAzureCredential } from "@azure/identity";
 
 const documents = [
   "The plot begins with a large group of characters where everyone thinks that the two main ones should be together but foolish things keep them apart. Misunderstandings, miscommunication, and confusion cause a series of humorous situations.",
 ];
 
-const client = new TextAnalysisClient("<endpoint>", new AzureKeyCredential("<API key>"));
+const client = new TextAnalysisClient("<endpoint>", new DefaultAzureCredential());
 
 const actions: AnalyzeBatchAction[] = [
   {
     kind: "CustomSingleLabelClassification",
-    deploymentName,
-    projectName,
+    deploymentName: "<deployment name>",
+    projectName: "<project name>",
   },
 ];
 const poller = await client.beginAnalyzeBatch(actions, documents, "en");
@@ -497,20 +501,20 @@ for await (const actionResult of results) {
 Classify documents using custom multi-label models built using [Azure Language Studio][lang_studio].
 
 ```ts snippet:Sample_CustomMultiLabelClassification
-import { TextAnalysisClient } from "@azure/ai-language-text";
-import { AzureKeyCredential } from "@azure/core-auth";
+import { TextAnalysisClient, AnalyzeBatchAction } from "@azure/ai-language-text";
+import { DefaultAzureCredential } from "@azure/identity";
 
 const documents = [
   "The plot begins with a large group of characters where everyone thinks that the two main ones should be together but foolish things keep them apart. Misunderstandings, miscommunication, and confusion cause a series of humorous situations.",
 ];
 
-const client = new TextAnalysisClient("<endpoint>", new AzureKeyCredential("<API key>"));
+const client = new TextAnalysisClient("<endpoint>", new DefaultAzureCredential());
 
 const actions: AnalyzeBatchAction[] = [
   {
     kind: "CustomMultiLabelClassification",
-    deploymentName,
-    projectName,
+    deploymentName: "<deployment name>",
+    projectName: "<project name>",
   },
 ];
 const poller = await client.beginAnalyzeBatch(actions, documents, "en");
@@ -545,8 +549,8 @@ for await (const actionResult of results) {
 Applies multiple actions on each input document in one service request.
 
 ```ts snippet:Sample_ActionBatching
-import { TextAnalysisClient } from "@azure/ai-language-text";
-import { AzureKeyCredential } from "@azure/core-auth";
+import { TextAnalysisClient, AnalyzeBatchAction } from "@azure/ai-language-text";
+import { DefaultAzureCredential } from "@azure/identity";
 
 const documents = [
   "Microsoft was founded by Bill Gates and Paul Allen.",
@@ -556,7 +560,7 @@ const documents = [
   "We went to Contoso Steakhouse located at midtown NYC last week for a dinner party, and we adore the spot! They provide marvelous food and they have a great menu. The chief cook happens to be the owner (I think his name is John Doe) and he is super nice, coming out of the kitchen and greeted us all. We enjoyed very much dining in the place! The Sirloin steak I ordered was tender and juicy, and the place was impeccably clean. You can even pre-order from their online menu at www.contososteakhouse.com, call 312-555-0176 or send email to order@contososteakhouse.com! The only complaint I have is the food didn't come fast enough. Overall I highly recommend it!",
 ];
 
-const client = new TextAnalysisClient("<endpoint>", new AzureKeyCredential("<API key>"));
+const client = new TextAnalysisClient("<endpoint>", new DefaultAzureCredential());
 
 const actions: AnalyzeBatchAction[] = [
   {

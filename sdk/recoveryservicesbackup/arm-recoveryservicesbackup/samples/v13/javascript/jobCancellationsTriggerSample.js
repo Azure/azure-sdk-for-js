@@ -10,7 +10,7 @@
 // Licensed under the MIT License.
 const { RecoveryServicesBackupClient } = require("@azure/arm-recoveryservicesbackup");
 const { DefaultAzureCredential } = require("@azure/identity");
-require("dotenv").config();
+require("dotenv/config");
 
 /**
  * This sample demonstrates how to Cancels a job. This is an asynchronous operation. To know the status of the cancellation, call
@@ -18,7 +18,7 @@ GetCancelOperationResult API.
  *
  * @summary Cancels a job. This is an asynchronous operation. To know the status of the cancellation, call
 GetCancelOperationResult API.
- * x-ms-original-file: specification/recoveryservicesbackup/resource-manager/Microsoft.RecoveryServices/stable/2024-04-01/examples/Common/TriggerCancelJob.json
+ * x-ms-original-file: specification/recoveryservicesbackup/resource-manager/Microsoft.RecoveryServices/stable/2025-02-01/examples/Common/TriggerCancelJob.json
  */
 async function cancelJob() {
   const subscriptionId =
@@ -33,7 +33,7 @@ async function cancelJob() {
 }
 
 async function main() {
-  cancelJob();
+  await cancelJob();
 }
 
 main().catch(console.error);

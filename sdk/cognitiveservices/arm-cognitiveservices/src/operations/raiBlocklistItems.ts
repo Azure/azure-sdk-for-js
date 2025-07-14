@@ -13,11 +13,7 @@ import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers.js";
 import * as Parameters from "../models/parameters.js";
 import { CognitiveServicesManagementClient } from "../cognitiveServicesManagementClient.js";
-import {
-  SimplePollerLike,
-  OperationState,
-  createHttpPoller,
-} from "@azure/core-lro";
+import { SimplePollerLike, OperationState, createHttpPoller } from "@azure/core-lro";
 import { createLroSpec } from "../lroImpl.js";
 import {
   RaiBlocklistItem,
@@ -63,12 +59,7 @@ export class RaiBlocklistItemsImpl implements RaiBlocklistItems {
     raiBlocklistName: string,
     options?: RaiBlocklistItemsListOptionalParams,
   ): PagedAsyncIterableIterator<RaiBlocklistItem> {
-    const iter = this.listPagingAll(
-      resourceGroupName,
-      accountName,
-      raiBlocklistName,
-      options,
-    );
+    const iter = this.listPagingAll(resourceGroupName, accountName, raiBlocklistName, options);
     return {
       next() {
         return iter.next();
@@ -101,12 +92,7 @@ export class RaiBlocklistItemsImpl implements RaiBlocklistItems {
     let result: RaiBlocklistItemsListResponse;
     let continuationToken = settings?.continuationToken;
     if (!continuationToken) {
-      result = await this._list(
-        resourceGroupName,
-        accountName,
-        raiBlocklistName,
-        options,
-      );
+      result = await this._list(resourceGroupName, accountName, raiBlocklistName, options);
       let page = result.value || [];
       continuationToken = result.nextLink;
       setContinuationToken(page, continuationToken);
@@ -249,8 +235,7 @@ export class RaiBlocklistItemsImpl implements RaiBlocklistItems {
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,

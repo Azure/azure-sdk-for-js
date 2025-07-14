@@ -1,15 +1,14 @@
 ﻿// Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-/* eslint-disable no-unused-expressions */
-import type { Container } from "../../../src";
-import { bulkInsertItems, getTestContainer, removeAllDatabases } from "../common/TestHelpers";
-import type { CosmosClientOptions, PluginConfig } from "../../../src";
-import { Constants, CosmosClient, PluginOn } from "../../../src";
-import { endpoint } from "../common/_testConfig";
-import { masterKey } from "../common/_fakeTestSecrets";
-import { SubStatusCodes } from "../../../src/common";
-import assert from "assert";
-import { expect } from "chai";
+
+import type { Container } from "../../../src/index.js";
+import { bulkInsertItems, getTestContainer, removeAllDatabases } from "../common/TestHelpers.js";
+import type { CosmosClientOptions, PluginConfig } from "../../../src/index.js";
+import { Constants, CosmosClient, PluginOn } from "../../../src/index.js";
+import { endpoint } from "../common/_testConfig.js";
+import { masterKey } from "../common/_fakeTestSecrets.js";
+import { SubStatusCodes } from "../../../src/common/index.js";
+import { describe, it, assert, beforeAll } from "vitest";
 
 const splitError = new Error("Fake Partition Split") as any;
 splitError.code = 410;
@@ -30,7 +29,7 @@ const documentDefinitions = generateDocuments(20);
 describe("Partition Splits", () => {
   let container: Container;
 
-  before(async function () {
+  beforeAll(async () => {
     await removeAllDatabases();
     container = await getTestContainer(
       "Partition Splits",
@@ -54,7 +53,7 @@ describe("Partition Splits", () => {
       {
         on: PluginOn.request,
         plugin: async (context, diagNode, next) => {
-          expect(diagNode, "DiagnosticsNode should not be undefined or null").to.exist;
+          assert.isDefined(diagNode, "DiagnosticsNode should not be undefined or null");
           // This plugin throws a single 410 on the *second* time we see the same partition key range ID
           const partitionKeyRangeId = context?.headers[Constants.HttpHeaders.PartitionKeyRangeID];
           if (partitionKeyRanges.has(partitionKeyRangeId) && hasSplit === false) {
@@ -99,7 +98,7 @@ describe("Partition Splits", () => {
       {
         on: PluginOn.request,
         plugin: async (context, diagNode, next) => {
-          expect(diagNode, "DiagnosticsNode should not be undefined or null").to.exist;
+          assert.isDefined(diagNode, "DiagnosticsNode should not be undefined or null");
           // This plugin throws a single 410 for partition key range ID 0 on every single request
           const partitionKeyRangeId = context?.headers[Constants.HttpHeaders.PartitionKeyRangeID];
           if (partitionKeyRangeId === "0") {

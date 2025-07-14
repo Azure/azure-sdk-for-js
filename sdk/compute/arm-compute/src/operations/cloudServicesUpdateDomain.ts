@@ -292,7 +292,7 @@ const walkUpdateDomainOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError,
     },
   },
-  requestBody: Parameters.parameters36,
+  requestBody: Parameters.parameters39,
   queryParameters: [Parameters.apiVersion4],
   urlParameters: [
     Parameters.$host,

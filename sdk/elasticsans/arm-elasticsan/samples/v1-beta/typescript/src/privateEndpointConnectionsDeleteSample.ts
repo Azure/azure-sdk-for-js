@@ -16,7 +16,7 @@ import "dotenv/config";
  * This sample demonstrates how to Deletes the specified private endpoint connection associated with the Elastic San
  *
  * @summary Deletes the specified private endpoint connection associated with the Elastic San
- * x-ms-original-file: specification/elasticsan/resource-manager/Microsoft.ElasticSan/preview/2024-06-01-preview/examples/PrivateEndpointConnections_Delete_MaximumSet_Gen.json
+ * x-ms-original-file: specification/elasticsan/resource-manager/Microsoft.ElasticSan/preview/2024-07-01-preview/examples/PrivateEndpointConnections_Delete_MaximumSet_Gen.json
  */
 async function privateEndpointConnectionsDeleteMaximumSetGen(): Promise<void> {
   const subscriptionId =
@@ -39,7 +39,7 @@ async function privateEndpointConnectionsDeleteMaximumSetGen(): Promise<void> {
  * This sample demonstrates how to Deletes the specified private endpoint connection associated with the Elastic San
  *
  * @summary Deletes the specified private endpoint connection associated with the Elastic San
- * x-ms-original-file: specification/elasticsan/resource-manager/Microsoft.ElasticSan/preview/2024-06-01-preview/examples/PrivateEndpointConnections_Delete_MinimumSet_Gen.json
+ * x-ms-original-file: specification/elasticsan/resource-manager/Microsoft.ElasticSan/preview/2024-07-01-preview/examples/PrivateEndpointConnections_Delete_MinimumSet_Gen.json
  */
 async function privateEndpointConnectionsDeleteMinimumSetGen(): Promise<void> {
   const subscriptionId =
@@ -59,8 +59,8 @@ async function privateEndpointConnectionsDeleteMinimumSetGen(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  privateEndpointConnectionsDeleteMaximumSetGen();
-  privateEndpointConnectionsDeleteMinimumSetGen();
+  await privateEndpointConnectionsDeleteMaximumSetGen();
+  await privateEndpointConnectionsDeleteMinimumSetGen();
 }
 
 main().catch(console.error);

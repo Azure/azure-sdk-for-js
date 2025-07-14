@@ -10,13 +10,13 @@
 // Licensed under the MIT License.
 const { KeyVaultManagementClient } = require("@azure/arm-keyvault");
 const { DefaultAzureCredential } = require("@azure/identity");
-require("dotenv").config();
+require("dotenv/config");
 
 /**
  * This sample demonstrates how to Gets the specified deleted managed HSM.
  *
  * @summary Gets the specified deleted managed HSM.
- * x-ms-original-file: specification/keyvault/resource-manager/Microsoft.KeyVault/stable/2023-07-01/examples/DeletedManagedHsm_Get.json
+ * x-ms-original-file: specification/keyvault/resource-manager/Microsoft.KeyVault/stable/2024-11-01/examples/DeletedManagedHsm_Get.json
  */
 async function retrieveADeletedManagedHsm() {
   const subscriptionId =
@@ -30,7 +30,7 @@ async function retrieveADeletedManagedHsm() {
 }
 
 async function main() {
-  retrieveADeletedManagedHsm();
+  await retrieveADeletedManagedHsm();
 }
 
 main().catch(console.error);

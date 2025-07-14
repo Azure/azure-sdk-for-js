@@ -5,15 +5,17 @@
  * @summary Demonstrates adding and removing users from groups
  */
 
+import { DefaultAzureCredential } from "@azure/identity";
 import { WebPubSubServiceClient } from "@azure/web-pubsub";
 
-import * as dotenv from "dotenv";
-dotenv.config();
+import "dotenv/config";
 
-const chatHub = new WebPubSubServiceClient(process.env.WPS_CONNECTION_STRING!, "chat");
+const endpoint = process.env.WPS_ENDPOINT || "";
+
+const chatHub = new WebPubSubServiceClient(endpoint, new DefaultAzureCredential(), "chat");
 const adminGroup = chatHub.group("admin");
 
-async function main() {
+async function main(): Promise<void> {
   // adding and removing users
   await adminGroup.addUser("bterlson");
   await adminGroup.removeUser("xirzec");

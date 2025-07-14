@@ -11,7 +11,7 @@
   "devDependencies": {
     "@azure/storage-blob": "^12.26.0",
     "ts-loader": "^9.5.1",
-    "typescript": "^5.7.2"
+    "typescript": "~5.8.2"
   },
   "dependencies": {}
 }

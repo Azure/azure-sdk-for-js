@@ -10,6 +10,7 @@
 import ModelClient from "@azure-rest/ai-inference";
 import { AzureKeyCredential } from "@azure/core-auth";
 import { createSseStream } from "@azure/core-sse";
+import { createRestError } from "@azure-rest/core-client";
 import { DefaultAzureCredential } from "@azure/identity";
 
 // Load the .env file if it exists
@@ -155,7 +156,7 @@ export async function main(): Promise<void> {
     }
 
     if (response.status !== "200") {
-      throw new Error(`Failed to get chat completions: ${await streamToString(stream)}`);
+      throw createRestError(response);
     }
 
     const sses = createSseStream(stream as IncomingMessage);

@@ -19,7 +19,7 @@ import "dotenv/config";
  * This sample demonstrates how to Lists the soft deleted containers registered to Recovery Services Vault.
  *
  * @summary Lists the soft deleted containers registered to Recovery Services Vault.
- * x-ms-original-file: specification/recoveryservicesbackup/resource-manager/Microsoft.RecoveryServices/stable/2024-04-01/examples/AzureStorage/SoftDeletedContainers_List.json
+ * x-ms-original-file: specification/recoveryservicesbackup/resource-manager/Microsoft.RecoveryServices/stable/2025-02-01/examples/AzureStorage/SoftDeletedContainers_List.json
  */
 async function listBackupProtectionContainers(): Promise<void> {
   const subscriptionId =
@@ -33,7 +33,7 @@ async function listBackupProtectionContainers(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = new RecoveryServicesBackupClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.deletedProtectionContainers.list(
+  for await (const item of client.deletedProtectionContainers.list(
     resourceGroupName,
     vaultName,
     options,
@@ -44,7 +44,7 @@ async function listBackupProtectionContainers(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  listBackupProtectionContainers();
+  await listBackupProtectionContainers();
 }
 
 main().catch(console.error);

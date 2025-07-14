@@ -18,7 +18,7 @@ GetCancelOperationResult API.
  *
  * @summary Cancels a job. This is an asynchronous operation. To know the status of the cancellation, call
 GetCancelOperationResult API.
- * x-ms-original-file: specification/recoveryservicesbackup/resource-manager/Microsoft.RecoveryServices/stable/2024-04-01/examples/Common/TriggerCancelJob.json
+ * x-ms-original-file: specification/recoveryservicesbackup/resource-manager/Microsoft.RecoveryServices/stable/2025-02-01/examples/Common/TriggerCancelJob.json
  */
 async function cancelJob(): Promise<void> {
   const subscriptionId =
@@ -39,7 +39,7 @@ async function cancelJob(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  cancelJob();
+  await cancelJob();
 }
 
 main().catch(console.error);

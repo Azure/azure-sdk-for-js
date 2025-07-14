@@ -1,16 +1,16 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { ShardFactory } from "./ShardFactory";
+import type { ShardFactory } from "./ShardFactory.js";
 import type { ContainerClient, CommonOptions } from "@azure/storage-blob";
-import { CHANGE_FEED_CONTAINER_NAME } from "./utils/constants";
-import type { Shard } from "./Shard";
-import { Segment } from "./Segment";
-import type { SegmentCursor } from "./models/ChangeFeedCursor";
-import { bodyToString } from "./utils/utils.node";
-import { parseDateFromSegmentPath } from "./utils/utils.common";
+import { CHANGE_FEED_CONTAINER_NAME } from "./utils/constants.js";
+import type { Shard } from "./Shard.js";
+import { Segment } from "./Segment.js";
+import type { SegmentCursor } from "./models/ChangeFeedCursor.js";
+import { bodyToString } from "./utils/utils.node.js";
+import { parseDateFromSegmentPath } from "./utils/utils.common.js";
 import type { AbortSignalLike } from "@azure/abort-controller";
-import { tracingClient } from "./utils/tracing";
+import { tracingClient } from "./utils/tracing.js";
 
 export interface SegmentManifest {
   version?: number;

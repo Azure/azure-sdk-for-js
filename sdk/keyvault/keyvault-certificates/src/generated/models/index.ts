@@ -6,6 +6,7 @@ export {
   CertificateAttributes,
   KnownDeletionRecoveryLevel,
   DeletionRecoveryLevel,
+  KeyVaultError,
   ErrorModel,
   DeletedCertificateBundle,
   CertificatePolicy,

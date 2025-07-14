@@ -103,10 +103,7 @@ export class RaiContentFiltersImpl implements RaiContentFilters {
     location: string,
     options?: RaiContentFiltersListOptionalParams,
   ): Promise<RaiContentFiltersListResponse> {
-    return this.client.sendOperationRequest(
-      { location, options },
-      listOperationSpec,
-    );
+    return this.client.sendOperationRequest({ location, options }, listOperationSpec);
   }
 
   /**
@@ -120,10 +117,7 @@ export class RaiContentFiltersImpl implements RaiContentFilters {
     filterName: string,
     options?: RaiContentFiltersGetOptionalParams,
   ): Promise<RaiContentFiltersGetResponse> {
-    return this.client.sendOperationRequest(
-      { location, filterName, options },
-      getOperationSpec,
-    );
+    return this.client.sendOperationRequest({ location, filterName, options }, getOperationSpec);
   }
 
   /**
@@ -137,10 +131,7 @@ export class RaiContentFiltersImpl implements RaiContentFilters {
     nextLink: string,
     options?: RaiContentFiltersListNextOptionalParams,
   ): Promise<RaiContentFiltersListNextResponse> {
-    return this.client.sendOperationRequest(
-      { location, nextLink, options },
-      listNextOperationSpec,
-    );
+    return this.client.sendOperationRequest({ location, nextLink, options }, listNextOperationSpec);
   }
 }
 // Operation Specifications
@@ -158,11 +149,7 @@ const listOperationSpec: coreClient.OperationSpec = {
     },
   },
   queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.location,
-  ],
+  urlParameters: [Parameters.$host, Parameters.subscriptionId, Parameters.location],
   headerParameters: [Parameters.accept],
   serializer,
 };

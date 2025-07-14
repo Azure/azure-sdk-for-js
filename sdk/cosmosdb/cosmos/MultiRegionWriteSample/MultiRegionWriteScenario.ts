@@ -2,10 +2,10 @@
 // Licensed under the MIT License.
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-ignore
-import { ConsistencyLevel, CosmosClient } from "../../dist";
-import config from "./config";
-import { ConflictWorker } from "./ConflictWorker";
-import { Worker } from "./Worker";
+import { ConsistencyLevel, CosmosClient } from "../dist/esm/index.js";
+import config from "./config.js";
+import { ConflictWorker } from "./ConflictWorker.js";
+import { Worker } from "./Worker.js";
 export class MultiRegionWriteScenario {
   private basicWorkers: Worker[] = [];
   private conflictWorker: ConflictWorker;
@@ -15,23 +15,23 @@ export class MultiRegionWriteScenario {
       config.basicCollectionName,
       config.manualCollectionName,
       config.lwwCollectionName,
-      config.udpCollectionName
+      config.udpCollectionName,
     );
     for (const region of config.regions) {
       const client = new CosmosClient({
         endpoint: config.endpoint,
         key: config.key,
         connectionPolicy: {
-          preferredLocations: [region]
+          preferredLocations: [region],
         },
-        consistencyLevel: ConsistencyLevel.Eventual
+        consistencyLevel: ConsistencyLevel.Eventual,
       });
       this.conflictWorker.addClient(region, client);
       this.basicWorkers.push(
         new Worker(
           region,
-          client.database(config.databaseName).container(config.basicCollectionName)
-        )
+          client.database(config.databaseName).container(config.basicCollectionName),
+        ),
       );
     }
   }
@@ -53,7 +53,7 @@ export class MultiRegionWriteScenario {
     console.log("2) Reading from every region...");
 
     await Promise.all(
-      this.basicWorkers.map((worker) => worker.ReadAll(100 * this.basicWorkers.length))
+      this.basicWorkers.map((worker) => worker.ReadAll(100 * this.basicWorkers.length)),
     );
 
     console.log("3) Deleting all the documents");

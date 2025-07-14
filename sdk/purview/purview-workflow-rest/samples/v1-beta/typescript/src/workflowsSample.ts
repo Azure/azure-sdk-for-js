@@ -7,10 +7,8 @@ import createPurviewWorkflowClient, {
   paginate,
 } from "@azure-rest/purview-workflow";
 import { UsernamePasswordCredential } from "@azure/identity";
-import { randomUUID } from "crypto";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import { randomUUID } from "node:crypto";
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Create or replace a workflow.
@@ -21,7 +19,7 @@ dotenv.config();
 async function workflowCreateOrUpdate(
   client: PurviewWorkflowClient,
   workflow: CreateOrReplaceWorkflowParameters
-) {
+): Promise<void> {
   const workflowId = randomUUID();
   const result = await client.path("/workflows/{workflowId}", workflowId).put(workflow);
   if (isUnexpected(result)) {
@@ -36,7 +34,7 @@ async function workflowCreateOrUpdate(
  * @summary List all workflows.
  * x-ms-original-file: specification/purview/data-plane/Azure.Analytics.Purview.Workflow/preview/2022-05-01-preview/examples/ListWorkflows.json
  */
-async function workflowsList(client: PurviewWorkflowClient) {
+async function workflowsList(client: PurviewWorkflowClient): Promise<void> {
   const initialResponse = await client.path("/workflows").get();
   if (isUnexpected(initialResponse)) {
     throw initialResponse.body.error;
@@ -55,7 +53,7 @@ async function workflowsList(client: PurviewWorkflowClient) {
  * @summary Get a specific workflow.
  * x-ms-original-file: specification/purview/data-plane/Azure.Analytics.Purview.Workflow/preview/2022-05-01-preview/examples/GetWorkflow.json
  */
-async function workflowGet(client: PurviewWorkflowClient, workflowId: string) {
+async function workflowGet(client: PurviewWorkflowClient, workflowId: string): Promise<void> {
   const result = await client.path("/workflows/{workflowId}", workflowId).get();
   if (isUnexpected(result)) {
     throw result.body.error;
@@ -69,7 +67,7 @@ async function workflowGet(client: PurviewWorkflowClient, workflowId: string) {
  * @summary Delete a workflow.
  * x-ms-original-file: specification/purview/data-plane/Azure.Analytics.Purview.Workflow/preview/2022-05-01-preview/examples/DeleteWorkflow.json
  */
-async function workflowDelete(client: PurviewWorkflowClient, workflowId: string) {
+async function workflowDelete(client: PurviewWorkflowClient, workflowId: string): Promise<void> {
   const result = await client.path("/workflows/{workflowId}", workflowId).delete();
   if (isUnexpected(result)) {
     throw result.body.error;
@@ -77,7 +75,7 @@ async function workflowDelete(client: PurviewWorkflowClient, workflowId: string)
   console.log(`The deleted workflow id is ${workflowId}`);
 }
 
-async function main() {
+async function main(): Promise<void> {
   // ================================================== Create client ==================================================
 
   const endpoint = process.env["ENDPOINT"] || "";

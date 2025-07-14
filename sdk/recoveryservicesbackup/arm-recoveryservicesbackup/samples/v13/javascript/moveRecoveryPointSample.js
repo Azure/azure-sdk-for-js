@@ -10,13 +10,13 @@
 // Licensed under the MIT License.
 const { RecoveryServicesBackupClient } = require("@azure/arm-recoveryservicesbackup");
 const { DefaultAzureCredential } = require("@azure/identity");
-require("dotenv").config();
+require("dotenv/config");
 
 /**
  * This sample demonstrates how to Move recovery point from one datastore to another store.
  *
  * @summary Move recovery point from one datastore to another store.
- * x-ms-original-file: specification/recoveryservicesbackup/resource-manager/Microsoft.RecoveryServices/stable/2024-04-01/examples/TriggerRecoveryPointMove_Post.json
+ * x-ms-original-file: specification/recoveryservicesbackup/resource-manager/Microsoft.RecoveryServices/stable/2025-02-01/examples/TriggerRecoveryPointMove_Post.json
  */
 async function triggerRpMoveOperation() {
   const subscriptionId =
@@ -47,7 +47,7 @@ async function triggerRpMoveOperation() {
 }
 
 async function main() {
-  triggerRpMoveOperation();
+  await triggerRpMoveOperation();
 }
 
 main().catch(console.error);

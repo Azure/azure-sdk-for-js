@@ -30,41 +30,41 @@ import {
 export interface ReplicationJobs {
   /**
    * Gets the list of Azure Site Recovery Jobs for the vault.
-   * @param resourceName The name of the recovery services vault.
    * @param resourceGroupName The name of the resource group where the recovery services vault is
    *                          present.
+   * @param resourceName The name of the recovery services vault.
    * @param options The options parameters.
    */
   list(
-    resourceName: string,
     resourceGroupName: string,
+    resourceName: string,
     options?: ReplicationJobsListOptionalParams,
   ): PagedAsyncIterableIterator<Job>;
   /**
    * Get the details of an Azure Site Recovery job.
-   * @param resourceName The name of the recovery services vault.
    * @param resourceGroupName The name of the resource group where the recovery services vault is
    *                          present.
+   * @param resourceName The name of the recovery services vault.
    * @param jobName Job identifier.
    * @param options The options parameters.
    */
   get(
-    resourceName: string,
     resourceGroupName: string,
+    resourceName: string,
     jobName: string,
     options?: ReplicationJobsGetOptionalParams,
   ): Promise<ReplicationJobsGetResponse>;
   /**
    * The operation to cancel an Azure Site Recovery job.
-   * @param resourceName The name of the recovery services vault.
    * @param resourceGroupName The name of the resource group where the recovery services vault is
    *                          present.
+   * @param resourceName The name of the recovery services vault.
    * @param jobName Job identifier.
    * @param options The options parameters.
    */
   beginCancel(
-    resourceName: string,
     resourceGroupName: string,
+    resourceName: string,
     jobName: string,
     options?: ReplicationJobsCancelOptionalParams,
   ): Promise<
@@ -75,29 +75,29 @@ export interface ReplicationJobs {
   >;
   /**
    * The operation to cancel an Azure Site Recovery job.
-   * @param resourceName The name of the recovery services vault.
    * @param resourceGroupName The name of the resource group where the recovery services vault is
    *                          present.
+   * @param resourceName The name of the recovery services vault.
    * @param jobName Job identifier.
    * @param options The options parameters.
    */
   beginCancelAndWait(
-    resourceName: string,
     resourceGroupName: string,
+    resourceName: string,
     jobName: string,
     options?: ReplicationJobsCancelOptionalParams,
   ): Promise<ReplicationJobsCancelResponse>;
   /**
    * The operation to restart an Azure Site Recovery job.
-   * @param resourceName The name of the recovery services vault.
    * @param resourceGroupName The name of the resource group where the recovery services vault is
    *                          present.
+   * @param resourceName The name of the recovery services vault.
    * @param jobName Job identifier.
    * @param options The options parameters.
    */
   beginRestart(
-    resourceName: string,
     resourceGroupName: string,
+    resourceName: string,
     jobName: string,
     options?: ReplicationJobsRestartOptionalParams,
   ): Promise<
@@ -108,30 +108,30 @@ export interface ReplicationJobs {
   >;
   /**
    * The operation to restart an Azure Site Recovery job.
-   * @param resourceName The name of the recovery services vault.
    * @param resourceGroupName The name of the resource group where the recovery services vault is
    *                          present.
+   * @param resourceName The name of the recovery services vault.
    * @param jobName Job identifier.
    * @param options The options parameters.
    */
   beginRestartAndWait(
-    resourceName: string,
     resourceGroupName: string,
+    resourceName: string,
     jobName: string,
     options?: ReplicationJobsRestartOptionalParams,
   ): Promise<ReplicationJobsRestartResponse>;
   /**
    * The operation to resume an Azure Site Recovery job.
-   * @param resourceName The name of the recovery services vault.
    * @param resourceGroupName The name of the resource group where the recovery services vault is
    *                          present.
+   * @param resourceName The name of the recovery services vault.
    * @param jobName Job identifier.
    * @param resumeJobParams Resume rob comments.
    * @param options The options parameters.
    */
   beginResume(
-    resourceName: string,
     resourceGroupName: string,
+    resourceName: string,
     jobName: string,
     resumeJobParams: ResumeJobParams,
     options?: ReplicationJobsResumeOptionalParams,
@@ -143,31 +143,31 @@ export interface ReplicationJobs {
   >;
   /**
    * The operation to resume an Azure Site Recovery job.
-   * @param resourceName The name of the recovery services vault.
    * @param resourceGroupName The name of the resource group where the recovery services vault is
    *                          present.
+   * @param resourceName The name of the recovery services vault.
    * @param jobName Job identifier.
    * @param resumeJobParams Resume rob comments.
    * @param options The options parameters.
    */
   beginResumeAndWait(
-    resourceName: string,
     resourceGroupName: string,
+    resourceName: string,
     jobName: string,
     resumeJobParams: ResumeJobParams,
     options?: ReplicationJobsResumeOptionalParams,
   ): Promise<ReplicationJobsResumeResponse>;
   /**
    * The operation to export the details of the Azure Site Recovery jobs of the vault.
-   * @param resourceName The name of the recovery services vault.
    * @param resourceGroupName The name of the resource group where the recovery services vault is
    *                          present.
+   * @param resourceName The name of the recovery services vault.
    * @param jobQueryParameter job query filter.
    * @param options The options parameters.
    */
   beginExport(
-    resourceName: string,
     resourceGroupName: string,
+    resourceName: string,
     jobQueryParameter: JobQueryParameter,
     options?: ReplicationJobsExportOptionalParams,
   ): Promise<
@@ -178,15 +178,15 @@ export interface ReplicationJobs {
   >;
   /**
    * The operation to export the details of the Azure Site Recovery jobs of the vault.
-   * @param resourceName The name of the recovery services vault.
    * @param resourceGroupName The name of the resource group where the recovery services vault is
    *                          present.
+   * @param resourceName The name of the recovery services vault.
    * @param jobQueryParameter job query filter.
    * @param options The options parameters.
    */
   beginExportAndWait(
-    resourceName: string,
     resourceGroupName: string,
+    resourceName: string,
     jobQueryParameter: JobQueryParameter,
     options?: ReplicationJobsExportOptionalParams,
   ): Promise<ReplicationJobsExportResponse>;

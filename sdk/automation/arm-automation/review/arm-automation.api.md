@@ -660,13 +660,12 @@ export type CountType = string;
 export type CreatedByType = string;
 
 // @public
-interface Credential_2 extends ProxyResource {
+export interface Credential extends ProxyResource {
     readonly creationTime?: Date;
     description?: string;
     readonly lastModifiedTime?: Date;
     readonly userName?: string;
 }
-export { Credential_2 as Credential }
 
 // @public
 export interface CredentialCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
@@ -681,7 +680,7 @@ export interface CredentialCreateOrUpdateParameters {
 }
 
 // @public
-export type CredentialCreateOrUpdateResponse = Credential_2;
+export type CredentialCreateOrUpdateResponse = Credential;
 
 // @public
 export interface CredentialDeleteOptionalParams extends coreClient.OperationOptions {
@@ -692,7 +691,7 @@ export interface CredentialGetOptionalParams extends coreClient.OperationOptions
 }
 
 // @public
-export type CredentialGetResponse = Credential_2;
+export type CredentialGetResponse = Credential;
 
 // @public
 export interface CredentialListByAutomationAccountNextOptionalParams extends coreClient.OperationOptions {
@@ -711,7 +710,7 @@ export type CredentialListByAutomationAccountResponse = CredentialListResult;
 // @public
 export interface CredentialListResult {
     nextLink?: string;
-    value?: Credential_2[];
+    value?: Credential[];
 }
 
 // @public
@@ -719,7 +718,7 @@ export interface CredentialOperations {
     createOrUpdate(resourceGroupName: string, automationAccountName: string, credentialName: string, parameters: CredentialCreateOrUpdateParameters, options?: CredentialCreateOrUpdateOptionalParams): Promise<CredentialCreateOrUpdateResponse>;
     delete(resourceGroupName: string, automationAccountName: string, credentialName: string, options?: CredentialDeleteOptionalParams): Promise<void>;
     get(resourceGroupName: string, automationAccountName: string, credentialName: string, options?: CredentialGetOptionalParams): Promise<CredentialGetResponse>;
-    listByAutomationAccount(resourceGroupName: string, automationAccountName: string, options?: CredentialListByAutomationAccountOptionalParams): PagedAsyncIterableIterator<Credential_2>;
+    listByAutomationAccount(resourceGroupName: string, automationAccountName: string, options?: CredentialListByAutomationAccountOptionalParams): PagedAsyncIterableIterator<Credential>;
     update(resourceGroupName: string, automationAccountName: string, credentialName: string, parameters: CredentialUpdateParameters, options?: CredentialUpdateOptionalParams): Promise<CredentialUpdateResponse>;
 }
 
@@ -736,7 +735,7 @@ export interface CredentialUpdateParameters {
 }
 
 // @public
-export type CredentialUpdateResponse = Credential_2;
+export type CredentialUpdateResponse = Credential;
 
 // @public
 export interface DeletedAutomationAccount {
@@ -1325,7 +1324,7 @@ export interface HybridRunbookWorker extends Resource {
     readonly systemData?: SystemData;
     vmResourceId?: string;
     workerName?: string;
-    workerType?: WorkerType_2;
+    workerType?: WorkerType;
 }
 
 // @public
@@ -3750,8 +3749,7 @@ export interface WindowsProperties {
 export type WindowsUpdateClasses = string;
 
 // @public
-type WorkerType_2 = string;
-export { WorkerType_2 as WorkerType }
+export type WorkerType = string;
 
 // (No @packageDocumentation comment for this package)
 

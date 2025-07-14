@@ -13,7 +13,7 @@ import { OperationResult, OperationsListOptionalParams } from "../models/index.j
 /** Interface representing a Operations. */
 export interface Operations {
   /**
-   * List all operations provided by Nginx.NginxPlus for the 2024-01-01-preview api version.
+   * List all operations provided by Nginx.NginxPlus for the 2024-11-01-preview api version.
    * @param options The options parameters.
    */
   list(

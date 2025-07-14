@@ -5,9 +5,8 @@
  * @summary Demonstrates using a ChangeFeed in AllVersionsAndDeletes mode for entire container, a partition key, and an epk range
  */
 
-require("dotenv").config();
-
-const { finish, handleError, logSampleHeader, logStep } = require("../Shared/handleError");
+require("dotenv/config");
+const { finish, handleError, logSampleHeader, logStep } = require("../Shared/handleError.js");
 const {
   CosmosClient,
   PartitionKeyDefinitionVersion,
@@ -102,7 +101,7 @@ async function insertAndModifyData(container, initialize, end) {
 }
 
 async function iterateChangeFeedFromNow(container, options, initialize, end) {
-  let iterator = container.items.getChangeFeedIterator(options);
+  const iterator = container.items.getChangeFeedIterator(options);
   console.log("running the iterator to start fetching changes from now.");
   await iterator.readNext();
   // ingest, upsert, and delete some data to introduce changes to container

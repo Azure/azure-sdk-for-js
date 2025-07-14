@@ -1,14 +1,15 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { getClient, ClientOptions } from "@azure-rest/core-client";
+import type { ClientOptions } from "@azure-rest/core-client";
+import { getClient } from "@azure-rest/core-client";
 import { logger } from "./logger.js";
-import {
+import type {
   TokenCredential,
   KeyCredential,
   isKeyCredential,
 } from "@azure/core-auth";
-import { ModelClient } from "./clientDefinitions.js";
+import type { ModelClient } from "./clientDefinitions.js";
 
 /** The optional parameters for the client */
 export interface ModelClientOptions extends ClientOptions {

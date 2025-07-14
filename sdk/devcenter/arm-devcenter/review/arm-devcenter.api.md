@@ -1076,7 +1076,7 @@ export type HibernateSupport = string;
 export type IdentityType = string;
 
 // @public
-interface Image_2 extends ProxyResource {
+export interface Image extends ProxyResource {
     readonly description?: string;
     readonly hibernateSupport?: HibernateSupport;
     readonly offer?: string;
@@ -1085,12 +1085,11 @@ interface Image_2 extends ProxyResource {
     readonly recommendedMachineConfiguration?: RecommendedMachineConfiguration;
     readonly sku?: string;
 }
-export { Image_2 as Image }
 
 // @public
 export interface ImageListResult {
     readonly nextLink?: string;
-    readonly value?: Image_2[];
+    readonly value?: Image[];
 }
 
 // @public
@@ -1102,8 +1101,8 @@ export interface ImageReference {
 // @public
 export interface Images {
     get(resourceGroupName: string, devCenterName: string, galleryName: string, imageName: string, options?: ImagesGetOptionalParams): Promise<ImagesGetResponse>;
-    listByDevCenter(resourceGroupName: string, devCenterName: string, options?: ImagesListByDevCenterOptionalParams): PagedAsyncIterableIterator<Image_2>;
-    listByGallery(resourceGroupName: string, devCenterName: string, galleryName: string, options?: ImagesListByGalleryOptionalParams): PagedAsyncIterableIterator<Image_2>;
+    listByDevCenter(resourceGroupName: string, devCenterName: string, options?: ImagesListByDevCenterOptionalParams): PagedAsyncIterableIterator<Image>;
+    listByGallery(resourceGroupName: string, devCenterName: string, galleryName: string, options?: ImagesListByGalleryOptionalParams): PagedAsyncIterableIterator<Image>;
 }
 
 // @public
@@ -1111,7 +1110,7 @@ export interface ImagesGetOptionalParams extends coreClient.OperationOptions {
 }
 
 // @public
-export type ImagesGetResponse = Image_2;
+export type ImagesGetResponse = Image;
 
 // @public
 export interface ImagesListByDevCenterNextOptionalParams extends coreClient.OperationOptions {

@@ -32,7 +32,7 @@ async function updateASimpleGallery() {
 }
 
 async function main() {
-  updateASimpleGallery();
+  await updateASimpleGallery();
 }
 
 main().catch(console.error);

@@ -4,19 +4,14 @@
 /**
  * @summary Authenticates using persistent token caching with Interactive Browser Credential
  */
-import {
-  InteractiveBrowserCredential,
-  useIdentityPlugin,
-  AuthenticationRecord,
-} from "@azure/identity";
+import type { AuthenticationRecord } from "@azure/identity";
+import { InteractiveBrowserCredential, useIdentityPlugin } from "@azure/identity";
 import { cachePersistencePlugin } from "@azure/identity-cache-persistence";
-import path from "path";
-import fs from "fs";
-import dotenv from "dotenv";
+import path from "node:path";
+import fs from "node:fs";
+import "dotenv/config";
 
 useIdentityPlugin(cachePersistencePlugin);
-
-dotenv.config();
 // The app registration client ID in the Microsoft Entra tenant
 const clientId = "APP-REGISTRATION-CLIENT-ID";
 // The tenant ID in Microsoft Entra ID
@@ -26,7 +21,7 @@ const loginHint = `EMAIL-ADDRESS`;
 // The file path to save the authentication record
 const authenticationRecordFilePath = path.resolve(__dirname, "authenticationRecord.json");
 
-async function main() {
+async function main(): Promise<void> {
   try {
     const fileContents = await fs.promises.readFile(authenticationRecordFilePath, "utf8");
     const authenticationRecord = JSON.parse(fileContents);

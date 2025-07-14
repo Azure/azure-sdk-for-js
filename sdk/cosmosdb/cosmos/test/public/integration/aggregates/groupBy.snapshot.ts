@@ -3,7 +3,7 @@
 
 const snapshot: Record<string, unknown> = {};
 
-snapshot["Cross partition GROUP BY by number 1"] = [
+snapshot["Cross partition GROUP BY > by number 1"] = [
   {
     age: 11,
   },
@@ -30,7 +30,7 @@ snapshot["Cross partition GROUP BY by number 1"] = [
   },
 ];
 
-snapshot["Cross partition GROUP BY by string 1"] = [
+snapshot["Cross partition GROUP BY > by string 1"] = [
   {
     name: "Abby",
   },
@@ -93,7 +93,7 @@ snapshot["Cross partition GROUP BY by string 1"] = [
   },
 ];
 
-snapshot["Cross partition GROUP BY by id 1"] = [
+snapshot["Cross partition GROUP BY > by id 1"] = [
   {
     id: "01",
   },
@@ -288,7 +288,7 @@ snapshot["Cross partition GROUP BY by id 1"] = [
   },
 ];
 
-snapshot["Cross partition GROUP BY with multiple fields 1"] = [
+snapshot["Cross partition GROUP BY > with multiple fields 1"] = [
   {
     age: 11,
     name: "Alex",
@@ -487,7 +487,7 @@ snapshot["Cross partition GROUP BY with multiple fields 1"] = [
   },
 ];
 
-snapshot["Cross partition GROUP BY with COUNT 1"] = [
+snapshot["Cross partition GROUP BY > with COUNT 1"] = [
   {
     age: 11,
     count: 8,
@@ -522,7 +522,7 @@ snapshot["Cross partition GROUP BY with COUNT 1"] = [
   },
 ];
 
-snapshot["Cross partition GROUP BY with MIN 1"] = [
+snapshot["Cross partition GROUP BY > with MIN 1"] = [
   {
     name: "Abby",
     min_age: 12,
@@ -605,7 +605,7 @@ snapshot["Cross partition GROUP BY with MIN 1"] = [
   },
 ];
 
-snapshot["Cross partition GROUP BY with MAX 1"] = [
+snapshot["Cross partition GROUP BY > with MAX 1"] = [
   {
     name: "Abby",
     min_age: 17,
@@ -688,7 +688,7 @@ snapshot["Cross partition GROUP BY with MAX 1"] = [
   },
 ];
 
-snapshot["Cross partition GROUP BY with SUM 1"] = [
+snapshot["Cross partition GROUP BY > with SUM 1"] = [
   {
     name: "Abby",
     min_age: 59,
@@ -771,7 +771,7 @@ snapshot["Cross partition GROUP BY with SUM 1"] = [
   },
 ];
 
-snapshot["Cross partition GROUP BY with AVG 1"] = [
+snapshot["Cross partition GROUP BY > with AVG 1"] = [
   {
     name: "Abby",
     min_age: 14.75,
@@ -854,7 +854,7 @@ snapshot["Cross partition GROUP BY with AVG 1"] = [
   },
 ];
 
-snapshot["Cross partition GROUP BY with MakeList 1"] = [
+snapshot["Cross partition GROUP BY > with MakeList 1"] = [
   { name: "Abby", ages: [12, 13, 17, 17] },
   { name: "Adam", ages: [13, 13, 16] },
   { name: "Alex", ages: [11, 13, 14, 15] },
@@ -877,7 +877,7 @@ snapshot["Cross partition GROUP BY with MakeList 1"] = [
   { name: "Zara", ages: [11, 12, 12, 17] },
 ];
 
-snapshot["Cross partition GROUP BY with MakeSet 1"] = [
+snapshot["Cross partition GROUP BY > with MakeSet 1"] = [
   { name: "Abby", ages: [12, 13, 17] },
   { name: "Adam", ages: [13, 16] },
   { name: "Alex", ages: [11, 13, 14, 15] },
@@ -900,7 +900,7 @@ snapshot["Cross partition GROUP BY with MakeSet 1"] = [
   { name: "Zara", ages: [11, 12, 17] },
 ];
 
-snapshot["Cross partition GROUP BY with multiple aggregates 1"] = [
+snapshot["Cross partition GROUP BY > with multiple aggregates 1"] = [
   {
     name: "Abby",
     count: 4,
@@ -1043,15 +1043,15 @@ snapshot["Cross partition GROUP BY with multiple aggregates 1"] = [
   },
 ];
 
-snapshot["Cross partition GROUP BY with VALUE with string 1"] = ["A", "B", "C", "D"];
+snapshot["Cross partition GROUP BY > with VALUE with string 1"] = ["A", "B", "C", "D"];
 
-snapshot["Cross partition GROUP BY with VALUE with number 1"] = [11, 12, 13, 14, 15, 16, 17, 18];
+snapshot["Cross partition GROUP BY > with VALUE with number 1"] = [11, 12, 13, 14, 15, 16, 17, 18];
 
-snapshot["Cross partition GROUP BY with VALUE and aggregate 1"] = [
+snapshot["Cross partition GROUP BY > with VALUE and aggregate 1"] = [
   14.277777777777779, 14.444444444444445, 14.533333333333333, 14.846153846153847,
 ];
 
-snapshot["Cross partition GROUP BY with aggregates and fields that do not exist 1"] = [
+snapshot["Cross partition GROUP BY > with aggregates and fields that do not exist 1"] = [
   {
     age: 11,
     undefined_count: 0,
@@ -1118,7 +1118,7 @@ snapshot["Cross partition GROUP BY with aggregates and fields that do not exist 
   },
 ];
 
-snapshot["Cross partition GROUP BY with missing aggregate field 1"] = [
+snapshot["Cross partition GROUP BY > with missing aggregate field 1"] = [
   {
     avg_asdf: undefined,
   },
@@ -1145,7 +1145,7 @@ snapshot["Cross partition GROUP BY with missing aggregate field 1"] = [
   },
 ];
 
-snapshot["Cross partition GROUP BY with missing GROUP BY projection 1"] = [
+snapshot["Cross partition GROUP BY > with missing GROUP BY projection 1"] = [
   {
     age: 11,
   },

@@ -19,7 +19,7 @@ import {
   ArchivesDeleteResponse,
   ArchiveUpdateParameters,
   ArchivesUpdateOptionalParams,
-  ArchivesUpdateResponse
+  ArchivesUpdateResponse,
 } from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
@@ -36,7 +36,7 @@ export interface Archives {
     resourceGroupName: string,
     registryName: string,
     packageType: string,
-    options?: ArchivesListOptionalParams
+    options?: ArchivesListOptionalParams,
   ): PagedAsyncIterableIterator<Archive>;
   /**
    * Gets the properties of the archive.
@@ -51,7 +51,7 @@ export interface Archives {
     registryName: string,
     packageType: string,
     archiveName: string,
-    options?: ArchivesGetOptionalParams
+    options?: ArchivesGetOptionalParams,
   ): Promise<ArchivesGetResponse>;
   /**
    * Creates a archive for a container registry with the specified parameters.
@@ -68,7 +68,7 @@ export interface Archives {
     packageType: string,
     archiveName: string,
     archiveCreateParameters: Archive,
-    options?: ArchivesCreateOptionalParams
+    options?: ArchivesCreateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<ArchivesCreateResponse>,
@@ -90,7 +90,7 @@ export interface Archives {
     packageType: string,
     archiveName: string,
     archiveCreateParameters: Archive,
-    options?: ArchivesCreateOptionalParams
+    options?: ArchivesCreateOptionalParams,
   ): Promise<ArchivesCreateResponse>;
   /**
    * Deletes a archive from a container registry.
@@ -105,7 +105,7 @@ export interface Archives {
     registryName: string,
     packageType: string,
     archiveName: string,
-    options?: ArchivesDeleteOptionalParams
+    options?: ArchivesDeleteOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<ArchivesDeleteResponse>,
@@ -125,7 +125,7 @@ export interface Archives {
     registryName: string,
     packageType: string,
     archiveName: string,
-    options?: ArchivesDeleteOptionalParams
+    options?: ArchivesDeleteOptionalParams,
   ): Promise<ArchivesDeleteResponse>;
   /**
    * Updates a archive for a container registry with the specified parameters.
@@ -142,6 +142,6 @@ export interface Archives {
     packageType: string,
     archiveName: string,
     archiveUpdateParameters: ArchiveUpdateParameters,
-    options?: ArchivesUpdateOptionalParams
+    options?: ArchivesUpdateOptionalParams,
   ): Promise<ArchivesUpdateResponse>;
 }

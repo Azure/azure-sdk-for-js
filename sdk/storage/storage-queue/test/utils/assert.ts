@@ -1,9 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-
-import { assert } from "chai";
-import type { StorageClient } from "../../src/StorageClient";
+import type { StorageClient } from "../../src/StorageClient.js";
 import { isTokenCredential } from "@azure/core-auth";
+import { assert } from "vitest";
 
 export function assertClientUsesTokenCredential(client: StorageClient): void {
   const credential = client["credential"];

@@ -88,7 +88,7 @@ export class AzureQuotaExtensionAPI extends coreClient.ServiceClient {
       credential: credentials,
     };
 
-    const packageDetails = `azsdk-js-arm-quota/1.1.0-beta.3`;
+    const packageDetails = `azsdk-js-arm-quota/1.1.1`;
     const userAgentPrefix =
       options.userAgentOptions && options.userAgentOptions.userAgentPrefix
         ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`
@@ -142,7 +142,7 @@ export class AzureQuotaExtensionAPI extends coreClient.ServiceClient {
 
     // Assigning values to Constant parameters
     this.$host = options.$host || "https://management.azure.com";
-    this.apiVersion = options.apiVersion || "2024-12-18-preview";
+    this.apiVersion = options.apiVersion || "2025-03-01";
     this.groupQuotas = new GroupQuotasImpl(this);
     this.groupQuotaSubscriptions = new GroupQuotaSubscriptionsImpl(this);
     this.groupQuotaSubscriptionRequests =

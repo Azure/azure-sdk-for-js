@@ -32,7 +32,7 @@ import { conversationAnalysisAzureKeyCredentialPolicy } from "./azureKeyCredenti
  *
  * #### API Key
  *
- * ```ts snippet:ReadmeSampleCreateClient_Node
+ * ```ts snippet:ReadmeSampleCreateClient_Key
  * import { AzureKeyCredential } from "@azure/core-auth";
  * import { ConversationAnalysisClient } from "@azure/ai-language-conversations";
  *

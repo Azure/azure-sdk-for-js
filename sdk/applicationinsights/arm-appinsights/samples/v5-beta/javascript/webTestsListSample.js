@@ -6,19 +6,18 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
 const { ApplicationInsightsManagementClient } = require("@azure/arm-appinsights");
 const { DefaultAzureCredential } = require("@azure/identity");
+require("dotenv/config");
 
 /**
- * This sample demonstrates how to Get all Application Insights web test alerts definitions within a subscription.
+ * This sample demonstrates how to Get all Application Insights web test definitions for the specified subscription.
  *
- * @summary Get all Application Insights web test alerts definitions within a subscription.
- * x-ms-original-file: specification/applicationinsights/resource-manager/Microsoft.Insights/stable/2015-05-01/examples/WebTestList.json
+ * @summary Get all Application Insights web test definitions for the specified subscription.
+ * x-ms-original-file: specification/applicationinsights/resource-manager/Microsoft.Insights/stable/2022-06-15/examples/WebTestList.json
  */
 async function webTestList() {
-  const subscriptionId = "subid";
+  const subscriptionId = process.env["APPLICATIONINSIGHTS_SUBSCRIPTION_ID"] || "subid";
   const credential = new DefaultAzureCredential();
   const client = new ApplicationInsightsManagementClient(credential, subscriptionId);
   const resArray = new Array();
@@ -28,4 +27,8 @@ async function webTestList() {
   console.log(resArray);
 }
 
-webTestList().catch(console.error);
+async function main() {
+  await webTestList();
+}
+
+main().catch(console.error);

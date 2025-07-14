@@ -38,9 +38,7 @@ export class ResourceSkusImpl implements ResourceSkus {
    * Gets the list of Microsoft.CognitiveServices SKUs available for your Subscription.
    * @param options The options parameters.
    */
-  public list(
-    options?: ResourceSkusListOptionalParams,
-  ): PagedAsyncIterableIterator<ResourceSku> {
+  public list(options?: ResourceSkusListOptionalParams): PagedAsyncIterableIterator<ResourceSku> {
     const iter = this.listPagingAll(options);
     return {
       next() {
@@ -92,9 +90,7 @@ export class ResourceSkusImpl implements ResourceSkus {
    * Gets the list of Microsoft.CognitiveServices SKUs available for your Subscription.
    * @param options The options parameters.
    */
-  private _list(
-    options?: ResourceSkusListOptionalParams,
-  ): Promise<ResourceSkusListResponse> {
+  private _list(options?: ResourceSkusListOptionalParams): Promise<ResourceSkusListResponse> {
     return this.client.sendOperationRequest({ options }, listOperationSpec);
   }
 
@@ -107,10 +103,7 @@ export class ResourceSkusImpl implements ResourceSkus {
     nextLink: string,
     options?: ResourceSkusListNextOptionalParams,
   ): Promise<ResourceSkusListNextResponse> {
-    return this.client.sendOperationRequest(
-      { nextLink, options },
-      listNextOperationSpec,
-    );
+    return this.client.sendOperationRequest({ nextLink, options }, listNextOperationSpec);
   }
 }
 // Operation Specifications
@@ -143,11 +136,7 @@ const listNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse,
     },
   },
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.nextLink,
-  ],
+  urlParameters: [Parameters.$host, Parameters.subscriptionId, Parameters.nextLink],
   headerParameters: [Parameters.accept],
   serializer,
 };

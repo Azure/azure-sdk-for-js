@@ -5,12 +5,12 @@
 ```ts
 
 import { AzureKeyCredential } from '@azure/core-auth';
-import type { ClientOptions } from '@azure-rest/core-client';
-import type { ErrorModel } from '@azure-rest/core-client';
+import { ClientOptions } from '@azure-rest/core-client';
+import { ErrorModel } from '@azure-rest/core-client';
 import { OperationOptions } from '@azure-rest/core-client';
 import type { TokenCredential } from '@azure/core-auth';
 
-// @public (undocumented)
+// @public
 export interface AcknowledgeEventsOptionalParams extends OperationOptions {
 }
 
@@ -20,8 +20,8 @@ export interface AcknowledgeEventsOptions extends AcknowledgeEventsOptionalParam
 
 // @public
 export interface AcknowledgeResult {
-    failedLockTokens: FailedLockToken[];
-    succeededLockTokens: string[];
+    readonly failedLockTokens: FailedLockToken[];
+    readonly succeededLockTokens: string[];
 }
 
 export { AzureKeyCredential }
@@ -46,7 +46,7 @@ export interface CloudEvent<T> {
     type: string;
 }
 
-// @public (undocumented)
+// @public
 export interface EventGridClientOptions extends ClientOptions {
     apiVersion?: string;
 }
@@ -104,7 +104,7 @@ export interface ReceiveDetails<T> {
     event: CloudEvent<T>;
 }
 
-// @public (undocumented)
+// @public
 export interface ReceiveEventsOptionalParams extends OperationOptions {
     maxEvents?: number;
     maxWaitTime?: number;
@@ -119,7 +119,7 @@ export interface ReceiveResult<T> {
     details: ReceiveDetails<T>[];
 }
 
-// @public (undocumented)
+// @public
 export interface RejectEventsOptionalParams extends OperationOptions {
 }
 
@@ -129,8 +129,8 @@ export interface RejectEventsOptions extends RejectEventsOptionalParams {
 
 // @public
 export interface RejectResult {
-    failedLockTokens: FailedLockToken[];
-    succeededLockTokens: string[];
+    readonly failedLockTokens: FailedLockToken[];
+    readonly succeededLockTokens: string[];
 }
 
 // @public
@@ -143,11 +143,11 @@ export interface ReleaseEventsOptions extends OperationOptions {
 
 // @public
 export interface ReleaseResult {
-    failedLockTokens: FailedLockToken[];
-    succeededLockTokens: string[];
+    readonly failedLockTokens: FailedLockToken[];
+    readonly succeededLockTokens: string[];
 }
 
-// @public (undocumented)
+// @public
 export interface RenewEventLocksOptionalParams extends OperationOptions {
 }
 
@@ -157,18 +157,16 @@ export interface RenewEventLocksOptions extends RenewEventLocksOptionalParams {
 
 // @public
 export interface RenewLocksResult {
-    failedLockTokens: FailedLockToken[];
-    succeededLockTokens: string[];
+    readonly failedLockTokens: FailedLockToken[];
+    readonly succeededLockTokens: string[];
 }
 
-// @public (undocumented)
+// @public
 export interface SendEventOptionalParams extends OperationOptions {
-    contentType?: string;
 }
 
-// @public (undocumented)
+// @public
 export interface SendEventsOptionalParams extends OperationOptions {
-    contentType?: string;
 }
 
 // @public

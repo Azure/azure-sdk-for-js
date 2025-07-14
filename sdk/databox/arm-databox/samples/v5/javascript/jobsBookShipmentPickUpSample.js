@@ -10,13 +10,13 @@
 // Licensed under the MIT License.
 const { DataBoxManagementClient } = require("@azure/arm-databox");
 const { DefaultAzureCredential } = require("@azure/identity");
-require("dotenv").config();
+require("dotenv/config");
 
 /**
  * This sample demonstrates how to Book shipment pick up.
  *
  * @summary Book shipment pick up.
- * x-ms-original-file: specification/databox/resource-manager/Microsoft.DataBox/stable/2022-12-01/examples/BookShipmentPickupPost.json
+ * x-ms-original-file: specification/databox/resource-manager/Microsoft.DataBox/stable/2025-02-01/examples/BookShipmentPickupPost.json
  */
 async function bookShipmentPickupPost() {
   const subscriptionId = process.env["DATABOX_SUBSCRIPTION_ID"] || "YourSubscriptionId";
@@ -32,13 +32,13 @@ async function bookShipmentPickupPost() {
   const result = await client.jobs.bookShipmentPickUp(
     resourceGroupName,
     jobName,
-    shipmentPickUpRequest
+    shipmentPickUpRequest,
   );
   console.log(result);
 }
 
 async function main() {
-  bookShipmentPickupPost();
+  await bookShipmentPickupPost();
 }
 
 main().catch(console.error);

@@ -10,11 +10,11 @@
 const ModelClient = require("@azure-rest/ai-inference").default;
 const { AzureKeyCredential } = require("@azure/core-auth");
 const { createSseStream } = require("@azure/core-sse");
+const { createRestError } = require("@azure-rest/core-client");
 const { DefaultAzureCredential } = require("@azure/identity");
 
 // Load the .env file if it exists
-require("dotenv").config();
-
+require("dotenv/config");
 // You will need to set these environment variables or edit the following values
 const endpoint = process.env["ENDPOINT"] || "<endpoint>";
 const key = process.env["KEY"];
@@ -40,7 +40,7 @@ const getCurrentWeather = {
 };
 
 const getWeatherFunc = (location, unit) => {
-  if (unit != "celsius") {
+  if (unit !== "celsius") {
     unit = "fahrenheit";
   }
   return `The temperature in ${location} is 72 degrees ${unit}`;
@@ -134,7 +134,7 @@ async function main() {
     }
 
     if (response.status !== "200") {
-      throw new Error(`Failed to get chat completions: ${await streamToString(stream)}`);
+      throw createRestError(response);
     }
 
     const sses = createSseStream(stream);
@@ -157,11 +157,11 @@ async function main() {
           }
           updateToolCalls(toolCallArray, functionArray);
         }
-        if (choice.finish_reason == "tool_calls") {
+        if (choice.finish_reason === "tool_calls") {
           const messageArray = handleToolCalls(functionArray);
           messages.push(...messageArray);
         } else {
-          if (choice.delta?.content && choice.delta.content != "") {
+          if (choice.delta?.content && choice.delta.content !== "") {
             toolCallAnswer += choice.delta?.content;
             awaitingToolCallAnswer = false;
           }

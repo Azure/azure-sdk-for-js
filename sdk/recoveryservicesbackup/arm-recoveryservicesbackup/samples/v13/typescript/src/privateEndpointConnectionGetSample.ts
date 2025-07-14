@@ -16,7 +16,7 @@ import "dotenv/config";
  * This sample demonstrates how to Get Private Endpoint Connection. This call is made by Backup Admin.
  *
  * @summary Get Private Endpoint Connection. This call is made by Backup Admin.
- * x-ms-original-file: specification/recoveryservicesbackup/resource-manager/Microsoft.RecoveryServices/stable/2024-04-01/examples/PrivateEndpointConnection/GetPrivateEndpointConnection.json
+ * x-ms-original-file: specification/recoveryservicesbackup/resource-manager/Microsoft.RecoveryServices/stable/2025-02-01/examples/PrivateEndpointConnection/GetPrivateEndpointConnection.json
  */
 async function getPrivateEndpointConnection(): Promise<void> {
   const subscriptionId =
@@ -38,7 +38,7 @@ async function getPrivateEndpointConnection(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  getPrivateEndpointConnection();
+  await getPrivateEndpointConnection();
 }
 
 main().catch(console.error);

@@ -1,11 +1,11 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { StandbyPoolContext } from "../../api/standbyPoolManagementContext.js";
+import { StandbyPoolManagementContext } from "../../api/standbyPoolManagementContext.js";
 import { Operation } from "../../models/models.js";
-import { operationsList } from "../../api/operations/index.js";
+import { OperationsListOptionalParams } from "../../api/operations/options.js";
+import { list } from "../../api/operations/operations.js";
 import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
-import { OperationsListOptionalParams } from "../../models/options.js";
 
 /** Interface representing a Operations operations. */
 export interface OperationsOperations {
@@ -13,14 +13,16 @@ export interface OperationsOperations {
   list: (options?: OperationsListOptionalParams) => PagedAsyncIterableIterator<Operation>;
 }
 
-export function getOperations(context: StandbyPoolContext) {
+function _getOperations(context: StandbyPoolManagementContext) {
   return {
-    list: (options?: OperationsListOptionalParams) => operationsList(context, options),
+    list: (options?: OperationsListOptionalParams) => list(context, options),
   };
 }
 
-export function getOperationsOperations(context: StandbyPoolContext): OperationsOperations {
+export function _getOperationsOperations(
+  context: StandbyPoolManagementContext,
+): OperationsOperations {
   return {
-    ...getOperations(context),
+    ..._getOperations(context),
   };
 }

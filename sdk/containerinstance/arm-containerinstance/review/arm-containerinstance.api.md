@@ -458,7 +458,7 @@ export class ContainerInstanceManagementClient extends coreClient.ServiceClient 
     // (undocumented)
     containers: Containers;
     // (undocumented)
-    location: Location_2;
+    location: Location;
     // (undocumented)
     operations: Operations;
     // (undocumented)
@@ -731,12 +731,11 @@ export enum KnownScheme {
 }
 
 // @public
-interface Location_2 {
+export interface Location {
     listCachedImages(location: string, options?: LocationListCachedImagesOptionalParams): PagedAsyncIterableIterator<CachedImages>;
     listCapabilities(location: string, options?: LocationListCapabilitiesOptionalParams): PagedAsyncIterableIterator<Capabilities>;
     listUsage(location: string, options?: LocationListUsageOptionalParams): PagedAsyncIterableIterator<Usage>;
 }
-export { Location_2 as Location }
 
 // @public
 export interface LocationListCachedImagesNextOptionalParams extends coreClient.OperationOptions {

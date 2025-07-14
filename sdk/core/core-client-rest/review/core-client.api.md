@@ -17,7 +17,7 @@ import type { PipelineResponse } from '@azure/core-rest-pipeline';
 import type { RawHttpHeaders } from '@azure/core-rest-pipeline';
 import type { RawHttpHeadersInput } from '@azure/core-rest-pipeline';
 import type { RequestBodyType } from '@azure/core-rest-pipeline';
-import { RestError } from '@azure/core-rest-pipeline';
+import type { RestError } from '@azure/core-rest-pipeline';
 import type { TokenCredential } from '@azure/core-auth';
 import type { TransferProgressEvent } from '@azure/core-rest-pipeline';
 
@@ -98,7 +98,7 @@ export type HttpBrowserStreamResponse = HttpResponse & {
 
 // @public
 export type HttpNodeStreamResponse = HttpResponse & {
-    body?: NodeJS.ReadableStream;
+    body?: NodeJSReadableStream;
 };
 
 // @public
@@ -113,6 +113,11 @@ export type HttpResponse = {
 export interface InnerError {
     code: string;
     innererror?: InnerError;
+}
+
+// @public
+export interface NodeJSReadableStream extends NodeJS.ReadableStream {
+    destroy(error?: Error): void;
 }
 
 // @public

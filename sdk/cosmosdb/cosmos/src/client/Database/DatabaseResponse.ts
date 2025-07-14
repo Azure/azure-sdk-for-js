@@ -1,11 +1,11 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import type { CosmosDiagnostics } from "../../CosmosDiagnostics";
-import type { CosmosHeaders } from "../../queryExecutionContext";
-import { ResourceResponse } from "../../request/ResourceResponse";
-import type { Resource } from "../Resource";
-import type { Database } from "./Database";
-import type { DatabaseDefinition } from "./DatabaseDefinition";
+import type { CosmosDiagnostics } from "../../CosmosDiagnostics.js";
+import type { CosmosHeaders } from "../../queryExecutionContext/index.js";
+import { ResourceResponse } from "../../request/ResourceResponse.js";
+import type { Resource } from "../Resource.js";
+import type { Database } from "./Database.js";
+import type { DatabaseDefinition } from "./DatabaseDefinition.js";
 
 /** Response object for Database operations */
 export class DatabaseResponse extends ResourceResponse<DatabaseDefinition & Resource> {

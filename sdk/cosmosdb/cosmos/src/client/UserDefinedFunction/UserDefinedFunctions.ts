@@ -1,17 +1,22 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import type { ClientContext } from "../../ClientContext";
-import type { DiagnosticNodeInternal } from "../../diagnostics/DiagnosticNodeInternal";
-import { getIdFromLink, getPathFromLink, isResourceValid, ResourceType } from "../../common";
-import type { SqlQuerySpec } from "../../queryExecutionContext";
-import { QueryIterator } from "../../queryIterator";
-import type { FeedOptions, RequestOptions } from "../../request";
-import type { Container } from "../Container";
-import type { Resource } from "../Resource";
-import { UserDefinedFunction } from "./UserDefinedFunction";
-import type { UserDefinedFunctionDefinition } from "./UserDefinedFunctionDefinition";
-import { UserDefinedFunctionResponse } from "./UserDefinedFunctionResponse";
-import { getEmptyCosmosDiagnostics, withDiagnostics } from "../../utils/diagnostics";
+import type { ClientContext } from "../../ClientContext.js";
+import type { DiagnosticNodeInternal } from "../../diagnostics/DiagnosticNodeInternal.js";
+import {
+  getIdFromLink,
+  getPathFromLink,
+  isResourceValid,
+  ResourceType,
+} from "../../common/index.js";
+import type { SqlQuerySpec } from "../../queryExecutionContext/index.js";
+import { QueryIterator } from "../../queryIterator.js";
+import type { FeedOptions, RequestOptions } from "../../request/index.js";
+import type { Container } from "../Container/index.js";
+import type { Resource } from "../Resource.js";
+import { UserDefinedFunction } from "./UserDefinedFunction.js";
+import type { UserDefinedFunctionDefinition } from "./UserDefinedFunctionDefinition.js";
+import { UserDefinedFunctionResponse } from "./UserDefinedFunctionResponse.js";
+import { getEmptyCosmosDiagnostics, withDiagnostics } from "../../utils/diagnostics.js";
 
 /**
  * Used to create, upsert, query, or read all User Defined Functions.
@@ -36,6 +41,29 @@ export class UserDefinedFunctions {
   /**
    * Query all User Defined Functions.
    * @param query - Query configuration for the operation. See {@link SqlQuerySpec} for more info on how to configure a query.
+   * @example
+   * ```ts snippet:UserDefinedFunctionsQuery
+   * import { CosmosClient } from "@azure/cosmos";
+   *
+   * const endpoint = "https://your-account.documents.azure.com";
+   * const key = "<database account masterkey>";
+   * const client = new CosmosClient({ endpoint, key });
+   * const { database } = await client.databases.createIfNotExists({ id: "Test Database" });
+   * const { container } = await database.containers.createIfNotExists({ id: "Test Container" });
+   *
+   * const querySpec = {
+   *   query: "SELECT * FROM root r WHERE r.id=@id",
+   *   parameters: [
+   *     {
+   *       name: "@id",
+   *       value: "<udf-id>",
+   *     },
+   *   ],
+   * };
+   * const { resources: results } = await container.scripts.userDefinedFunctions
+   *   .query(querySpec)
+   *   .fetchAll();
+   * ```
    */
   public query<T>(query: SqlQuerySpec, options?: FeedOptions): QueryIterator<T>;
   public query<T>(query: SqlQuerySpec, options?: FeedOptions): QueryIterator<T> {
@@ -58,8 +86,18 @@ export class UserDefinedFunctions {
   /**
    * Read all User Defined Functions.
    * @example Read all User Defined Functions to array.
-   * ```typescript
-   * const {body: udfList} = await container.userDefinedFunctions.readAll().fetchAll();
+   * ```ts snippet:UserDefinedFunctionsReadAll
+   * import { CosmosClient } from "@azure/cosmos";
+   *
+   * const endpoint = "https://your-account.documents.azure.com";
+   * const key = "<database account masterkey>";
+   * const client = new CosmosClient({ endpoint, key });
+   *
+   * const { database } = await client.databases.createIfNotExists({ id: "Test Database" });
+   *
+   * const { container } = await database.containers.createIfNotExists({ id: "Test Container" });
+   *
+   * const { resources: udfList } = await container.scripts.userDefinedFunctions.readAll().fetchAll();
    * ```
    */
   public readAll(options?: FeedOptions): QueryIterator<UserDefinedFunctionDefinition & Resource> {
@@ -72,7 +110,23 @@ export class UserDefinedFunctions {
    * Azure Cosmos DB supports JavaScript UDFs which can be used inside queries, stored procedures and triggers.
    *
    * For additional details, refer to the server-side JavaScript API documentation.
+   * @example
+   * ```ts snippet:UserDefinedFunctionsCreate
+   * import { CosmosClient, UserDefinedFunctionDefinition } from "@azure/cosmos";
    *
+   * const endpoint = "https://your-account.documents.azure.com";
+   * const key = "<database account masterkey>";
+   * const client = new CosmosClient({ endpoint, key });
+   * const { database } = await client.databases.createIfNotExists({ id: "Test Database" });
+   * const { container } = await database.containers.createIfNotExists({ id: "Test Container" });
+   *
+   * const udfDefinition: UserDefinedFunctionDefinition = {
+   *   id: "sample udf",
+   *   body: "function () { const x = 10; }",
+   * };
+   *
+   * const { resource: udf } = await container.scripts.userDefinedFunctions.create(udfDefinition);
+   * ```
    */
   public async create(
     body: UserDefinedFunctionDefinition,

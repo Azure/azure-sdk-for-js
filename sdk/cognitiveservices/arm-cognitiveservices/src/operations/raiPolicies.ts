@@ -13,11 +13,7 @@ import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers.js";
 import * as Parameters from "../models/parameters.js";
 import { CognitiveServicesManagementClient } from "../cognitiveServicesManagementClient.js";
-import {
-  SimplePollerLike,
-  OperationState,
-  createHttpPoller,
-} from "@azure/core-lro";
+import { SimplePollerLike, OperationState, createHttpPoller } from "@azure/core-lro";
 import { createLroSpec } from "../lroImpl.js";
 import {
   RaiPolicy,
@@ -69,12 +65,7 @@ export class RaiPoliciesImpl implements RaiPolicies {
         if (settings?.maxPageSize) {
           throw new Error("maxPageSize is not supported by this operation.");
         }
-        return this.listPagingPage(
-          resourceGroupName,
-          accountName,
-          options,
-          settings,
-        );
+        return this.listPagingPage(resourceGroupName, accountName, options, settings);
       },
     };
   }
@@ -95,12 +86,7 @@ export class RaiPoliciesImpl implements RaiPolicies {
       yield page;
     }
     while (continuationToken) {
-      result = await this._listNext(
-        resourceGroupName,
-        accountName,
-        continuationToken,
-        options,
-      );
+      result = await this._listNext(resourceGroupName, accountName, continuationToken, options);
       continuationToken = result.nextLink;
       let page = result.value || [];
       setContinuationToken(page, continuationToken);
@@ -113,11 +99,7 @@ export class RaiPoliciesImpl implements RaiPolicies {
     accountName: string,
     options?: RaiPoliciesListOptionalParams,
   ): AsyncIterableIterator<RaiPolicy> {
-    for await (const page of this.listPagingPage(
-      resourceGroupName,
-      accountName,
-      options,
-    )) {
+    for await (const page of this.listPagingPage(resourceGroupName, accountName, options)) {
       yield* page;
     }
   }
@@ -192,10 +174,7 @@ export class RaiPoliciesImpl implements RaiPolicies {
     raiPolicyName: string,
     options?: RaiPoliciesDeleteOptionalParams,
   ): Promise<
-    SimplePollerLike<
-      OperationState<RaiPoliciesDeleteResponse>,
-      RaiPoliciesDeleteResponse
-    >
+    SimplePollerLike<OperationState<RaiPoliciesDeleteResponse>, RaiPoliciesDeleteResponse>
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
@@ -207,8 +186,7 @@ export class RaiPoliciesImpl implements RaiPolicies {
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
@@ -265,12 +243,7 @@ export class RaiPoliciesImpl implements RaiPolicies {
     raiPolicyName: string,
     options?: RaiPoliciesDeleteOptionalParams,
   ): Promise<RaiPoliciesDeleteResponse> {
-    const poller = await this.beginDelete(
-      resourceGroupName,
-      accountName,
-      raiPolicyName,
-      options,
-    );
+    const poller = await this.beginDelete(resourceGroupName, accountName, raiPolicyName, options);
     return poller.pollUntilDone();
   }
 

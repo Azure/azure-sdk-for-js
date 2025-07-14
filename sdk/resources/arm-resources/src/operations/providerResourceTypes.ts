@@ -13,7 +13,7 @@ import * as Parameters from "../models/parameters.js";
 import { ResourceManagementClient } from "../resourceManagementClient.js";
 import {
   ProviderResourceTypesListOptionalParams,
-  ProviderResourceTypesListResponse
+  ProviderResourceTypesListResponse,
 } from "../models/index.js";
 
 /** Class containing ProviderResourceTypes operations. */
@@ -35,11 +35,11 @@ export class ProviderResourceTypesImpl implements ProviderResourceTypes {
    */
   list(
     resourceProviderNamespace: string,
-    options?: ProviderResourceTypesListOptionalParams
+    options?: ProviderResourceTypesListOptionalParams,
   ): Promise<ProviderResourceTypesListResponse> {
     return this.client.sendOperationRequest(
       { resourceProviderNamespace, options },
-      listOperationSpec
+      listOperationSpec,
     );
   }
 }
@@ -47,23 +47,22 @@ export class ProviderResourceTypesImpl implements ProviderResourceTypes {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/providers/{resourceProviderNamespace}/resourceTypes",
+  path: "/subscriptions/{subscriptionId}/providers/{resourceProviderNamespace}/resourceTypes",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ProviderResourceTypeListResult
+      bodyMapper: Mappers.ProviderResourceTypeListResult,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   queryParameters: [Parameters.apiVersion, Parameters.expand],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
-    Parameters.resourceProviderNamespace
+    Parameters.resourceProviderNamespace,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

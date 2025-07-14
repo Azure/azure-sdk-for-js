@@ -148,6 +148,45 @@ describe("snippets", () => {
     await client.deleteRoleDefinition("/", roleDefinition.name);
   });
 
+  it("ReadmeSampleBeginPreBackup_SAS", async () => {
+    const vaultUrl = `https://<MY KEY VAULT HERE>.vault.azure.net`;
+    const credentials = new DefaultAzureCredential();
+    const client = new KeyVaultBackupClient(vaultUrl, credentials);
+    // @ts-preserve-whitespace
+    const blobStorageUri = "<blob-storage-uri>"; // <Blob storage URL>/<folder name>
+    const sasToken = "<sas-token>";
+    const poller = await client.beginPreBackup(blobStorageUri, sasToken);
+    // @ts-preserve-whitespace
+    // Serializing the poller
+    const serialized = poller.toString();
+    // @ts-preserve-whitespace
+    // A new poller can be created with:
+    await client.beginPreBackup(blobStorageUri, sasToken, { resumeFrom: serialized });
+    // @ts-preserve-whitespace
+    // Waiting until it's done
+    const result = await poller.pollUntilDone();
+    console.log(result);
+  });
+
+  it("ReadmeSampleBeginPreBackup_NonSAS", async () => {
+    const vaultUrl = `https://<MY KEY VAULT HERE>.vault.azure.net`;
+    const credentials = new DefaultAzureCredential();
+    const client = new KeyVaultBackupClient(vaultUrl, credentials);
+    // @ts-preserve-whitespace
+    const blobStorageUri = "<blob-storage-uri>"; // <Blob storage URL>/<folder name>
+    const poller = await client.beginPreBackup(blobStorageUri);
+    // @ts-preserve-whitespace
+    // Serializing the poller
+    const serialized = poller.toString();
+    // @ts-preserve-whitespace
+    // A new poller can be created with:
+    await client.beginPreBackup(blobStorageUri, { resumeFrom: serialized });
+    // @ts-preserve-whitespace
+    // Waiting until it's done
+    const result = await poller.pollUntilDone();
+    console.log(result);
+  });
+
   it("ReadmeSampleBeginBackup_SAS", async () => {
     const vaultUrl = `https://<MY KEY VAULT HERE>.vault.azure.net`;
     const credentials = new DefaultAzureCredential();
@@ -222,8 +261,44 @@ describe("snippets", () => {
     await client.beginRestore(blobStorageUri, { resumeFrom: serialized });
     // @ts-preserve-whitespace
     // Waiting until it's done
-    const backupUri = await poller.pollUntilDone();
-    console.log(backupUri);
+    await poller.pollUntilDone();
+  });
+
+  it("ReadmeSampleBeginPreRestore_SAS", async () => {
+    const vaultUrl = `https://<MY KEY VAULT HERE>.vault.azure.net`;
+    const credentials = new DefaultAzureCredential();
+    const client = new KeyVaultBackupClient(vaultUrl, credentials);
+    // @ts-preserve-whitespace
+    const blobStorageUri = "<blob-storage-uri>"; // <Blob storage URL>/<folder name>
+    const sasToken = "<sas-token>";
+    const poller = await client.beginPreRestore(blobStorageUri, sasToken);
+    // @ts-preserve-whitespace
+    // The poller can be serialized with:
+    const serialized = poller.toString();
+    // @ts-preserve-whitespace
+    // A new poller can be created with:
+    await client.beginPreRestore(blobStorageUri, sasToken, { resumeFrom: serialized });
+    // @ts-preserve-whitespace
+    // Waiting until it's done
+    await poller.pollUntilDone();
+  });
+
+  it("ReadmeSampleBeginPreRestore_NonSAS", async () => {
+    const vaultUrl = `https://<MY KEY VAULT HERE>.vault.azure.net`;
+    const credentials = new DefaultAzureCredential();
+    const client = new KeyVaultBackupClient(vaultUrl, credentials);
+    // @ts-preserve-whitespace
+    const blobStorageUri = "<blob-storage-uri>"; // <Blob storage URL>/<folder name>
+    const poller = await client.beginPreRestore(blobStorageUri);
+    // @ts-preserve-whitespace
+    // The poller can be serialized with:
+    const serialized = poller.toString();
+    // @ts-preserve-whitespace
+    // A new poller can be created with:
+    await client.beginPreRestore(blobStorageUri, { resumeFrom: serialized });
+    // @ts-preserve-whitespace
+    // Waiting until it's done
+    await poller.pollUntilDone();
   });
 
   it("ReadmeSampleBeginSelectiveKeyRestore_SAS", async () => {

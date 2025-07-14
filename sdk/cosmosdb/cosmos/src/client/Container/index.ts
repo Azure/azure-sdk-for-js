@@ -1,9 +1,9 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-export { Container } from "./Container";
-export { Containers } from "./Containers";
-export { ContainerDefinition } from "./ContainerDefinition";
-export { ContainerResponse } from "./ContainerResponse";
-export { PartitionKeyRange } from "./PartitionKeyRange";
-export { UniqueKeyPolicy, UniqueKey } from "./UniqueKeyPolicy";
-export { ContainerRequest } from "./ContainerRequest";
+export { Container } from "./Container.js";
+export { Containers } from "./Containers.js";
+export { ContainerDefinition } from "./ContainerDefinition.js";
+export { ContainerResponse } from "./ContainerResponse.js";
+export { PartitionKeyRange } from "./PartitionKeyRange.js";
+export { UniqueKeyPolicy, UniqueKey } from "./UniqueKeyPolicy.js";
+export { ContainerRequest } from "./ContainerRequest.js";

@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import * as dotenv from "dotenv";
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to list enclave quotes using client AAD Authentication
@@ -15,9 +15,6 @@ import ConfidentialLedger, {
 } from "@azure-rest/confidential-ledger";
 
 import { DefaultAzureCredential } from "@azure/identity";
-
-dotenv.config();
-
 const endpoint = process.env["ENDPOINT"] || "";
 const ledgerId = process.env["LEDGER_ID"] || "";
 

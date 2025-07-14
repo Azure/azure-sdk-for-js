@@ -727,7 +727,7 @@ export interface ClusterProperties {
     infrastructureServiceManager?: boolean;
     managementEndpoint: string;
     nodeTypes: Array<NodeTypeDescription>;
-    notifications?: Array<Notification_2>;
+    notifications?: Array<Notification>;
     reliabilityLevel?: "None" | "Bronze" | "Silver" | "Gold" | "Platinum";
     reverseProxyCertificate?: CertificateDescription;
     reverseProxyCertificateCommonNames?: ServerCertificateCommonNames;
@@ -791,7 +791,7 @@ export interface ClusterPropertiesUpdateParameters {
     fabricSettings?: Array<SettingsSectionDescription>;
     infrastructureServiceManager?: boolean;
     nodeTypes?: Array<NodeTypeDescription>;
-    notifications?: Array<Notification_2>;
+    notifications?: Array<Notification>;
     reliabilityLevel?: "None" | "Bronze" | "Silver" | "Gold" | "Platinum";
     reverseProxyCertificate?: CertificateDescription;
     sfZonalUpgradeMode?: "Parallel" | "Hierarchical";
@@ -1382,13 +1382,12 @@ export interface NodeTypeDescriptionOutput {
 }
 
 // @public
-interface Notification_2 {
+export interface Notification {
     isEnabled: boolean;
     notificationCategory: "WaveProgress";
     notificationLevel: "Critical" | "All";
     notificationTargets: Array<NotificationTarget>;
 }
-export { Notification_2 as Notification }
 
 // @public
 export interface NotificationOutput {

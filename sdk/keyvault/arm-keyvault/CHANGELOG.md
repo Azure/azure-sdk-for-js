@@ -1,15 +1,12 @@
 # Release History
-
-## 3.1.1 (Unreleased)
-
+    
+## 3.2.0 (2025-03-12)
+    
 ### Features Added
 
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
-
+  - Enum KnownManagedHsmSkuFamily has a new value C
+    
+    
 ## 3.1.0 (2023-10-18)
     
 ### Features Added

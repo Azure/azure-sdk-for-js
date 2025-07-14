@@ -2401,8 +2401,7 @@ function createClient(endpoint: string, credentials: TokenCredential, { apiVersi
 export default createClient;
 
 // @public
-type Credential_2 = AccountKeyAuthAzureKeyVaultCredential | BasicAuthAzureKeyVaultCredential | RoleARNCredential | ServicePrincipalAzureKeyVaultCredential | SqlAuthAzureKeyVaultCredential | ConsumerKeyAuthAzureKeyVaultCredential | DelegatedAuthAzureKeyVaultCredential | ManagedIdentityAzureKeyVaultCredential;
-export { Credential_2 as Credential }
+export type Credential = AccountKeyAuthAzureKeyVaultCredential | BasicAuthAzureKeyVaultCredential | RoleARNCredential | ServicePrincipalAzureKeyVaultCredential | SqlAuthAzureKeyVaultCredential | ConsumerKeyAuthAzureKeyVaultCredential | DelegatedAuthAzureKeyVaultCredential | ManagedIdentityAzureKeyVaultCredential;
 
 // @public
 export interface CredentialCreateOrReplace200Response extends HttpResponse {
@@ -2422,7 +2421,7 @@ export interface CredentialCreateOrReplace201Response extends HttpResponse {
 
 // @public (undocumented)
 export interface CredentialCreateOrReplaceBodyParam {
-    body: Credential_2;
+    body: Credential;
 }
 
 // @public (undocumented)
@@ -4372,11 +4371,10 @@ export interface MitiScanPropertiesOutput extends ScanPropertiesOutput {
 }
 
 // @public
-interface Notification_2 {
+export interface Notification {
     code?: number;
     message?: string;
 }
-export { Notification_2 as Notification }
 
 // @public
 export interface NotificationOutput {
@@ -5131,7 +5129,7 @@ export type Scan = AzureSubscriptionCredentialScan | AzureSubscriptionMsiScan | 
 
 // @public
 export interface ScanDiagnostics {
-    notifications?: Array<Notification_2>;
+    notifications?: Array<Notification>;
 }
 
 // @public

@@ -1,36 +1,59 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-
-import { assert } from "chai";
-import * as sinon from "sinon";
-import { ShardFactory } from "../src/ShardFactory";
-import { ContainerClient } from "@azure/storage-blob";
-import { ChunkFactory } from "../src/ChunkFactory";
-import type { ShardCursor } from "../src/models/ChangeFeedCursor";
-import { Chunk } from "../src/Chunk";
-import type { BlobChangeFeedEvent } from "../src";
+import { ShardFactory } from "../src/ShardFactory.js";
+import type { ShardCursor } from "../src/models/ChangeFeedCursor.js";
+import type { BlobChangeFeedEvent } from "../src/index.js";
+import { describe, it, assert, beforeEach, afterEach, vi } from "vitest";
+import type { ContainerClient } from "@azure/storage-blob";
+import type { Chunk } from "../src/Chunk.js";
+import type { ChunkFactory } from "../src/ChunkFactory.js";
 
 describe("Shard", async () => {
-  let chunkFactoryStub: any;
-  let containerClientSub: any;
-  let chunkStub: any;
+  let chunkFactoryStub: ChunkFactory;
+  let containerClientStub: ContainerClient;
+  let chunkStub: Chunk;
 
-  async function* fakeListBlobsFlat(option: { prefix: string }) {
+  async function* fakeListBlobsFlat(option: { prefix: string }): AsyncGenerator<
+    {
+      name: string;
+    },
+    void,
+    unknown
+  > {
     for (let i = 0; i < 5; i++) {
       yield { name: `${option.prefix}0000${i}.avro` };
     }
   }
 
   beforeEach(() => {
-    chunkStub = sinon.createStubInstance(Chunk);
-    containerClientSub = sinon.createStubInstance(ContainerClient);
-    containerClientSub.listBlobsFlat.callsFake(fakeListBlobsFlat);
-    chunkFactoryStub = sinon.createStubInstance(ChunkFactory);
-    chunkFactoryStub.create.returns(chunkStub);
+    containerClientStub = {
+      exists: vi.fn().mockResolvedValue(true),
+      getBlobClient: vi.fn(),
+      listBlobsByHierarchy: vi.fn(),
+      listBlobsFlat: vi.fn(),
+    } as any as ContainerClient;
+
+    chunkStub = {
+      hasNext: vi.fn(),
+      getChange: vi.fn(),
+      chunkPath: "",
+      blockOffset: 0,
+      eventIndex: 0,
+    } as any as Chunk;
+
+    chunkFactoryStub = {
+      create: vi.fn(),
+    } as any as ChunkFactory;
+
+    vi.mocked(containerClientStub.listBlobsFlat).mockImplementation((options) => {
+      return fakeListBlobsFlat(options as any) as any;
+    });
+
+    vi.mocked(chunkFactoryStub.create).mockResolvedValue(chunkStub);
   });
 
   afterEach(() => {
-    sinon.restore();
+    vi.restoreAllMocks();
   });
 
   it("build shard with none-zero chunkIndex", async () => {
@@ -43,55 +66,61 @@ describe("Shard", async () => {
     };
 
     // build shard correctly
-    const shardPathWithoutContainer = shardPath.substr("$blobchangefeed/".length);
-    const shardFactory = new ShardFactory(chunkFactoryStub as any);
+    const shardPathWithoutContainer = shardPath.substring("$blobchangefeed/".length);
+    const shardFactory = new ShardFactory(chunkFactoryStub);
     const shard = await shardFactory.create(
-      containerClientSub as any,
+      containerClientStub,
       shardPathWithoutContainer,
       shardCursor,
     );
-    assert.ok(
-      chunkFactoryStub.create.calledWith(
-        containerClientSub,
-        `${shardPathWithoutContainer}0000${chunkIndex}.avro`,
-      ),
-    );
+    // check shard path
+    const firstArgs = vi.mocked(chunkFactoryStub.create).mock.calls[0];
+    assert.equal(firstArgs[1], `${shardPathWithoutContainer}0000${chunkIndex}.avro`);
 
     // shift to next chunk when currentChunk is done
-    chunkStub.hasNext.returns(false);
-    const nextChunkStub = sinon.createStubInstance(Chunk);
-    nextChunkStub.hasNext.returns(true);
+    vi.mocked(chunkStub.hasNext).mockReturnValue(false);
+
+    const nextChunkStub = {
+      hasNext: vi.fn(),
+      getChange: vi.fn(),
+      chunkPath: "",
+      blockOffset: 0,
+      eventIndex: 0,
+    } as any as Chunk;
+    vi.mocked(nextChunkStub.hasNext).mockReturnValue(true);
     const event = { id: "a" };
-    nextChunkStub.getChange.resolves(event as any);
-    (nextChunkStub as any).chunkPath = `log/00/2019/02/22/1810/0000${chunkIndex + 1}.avro`;
-    chunkFactoryStub.create.returns(nextChunkStub);
+    vi.mocked(nextChunkStub.getChange).mockReturnValue(event as any);
+    vi.spyOn(nextChunkStub, "chunkPath", "get").mockReturnValue(
+      `log/00/2019/02/22/1810/0000${chunkIndex + 1}.avro`,
+    );
+    vi.mocked(chunkFactoryStub.create).mockResolvedValue(nextChunkStub);
 
     const change = await shard.getChange();
-    assert.ok(
-      chunkFactoryStub.create.calledWith(
-        containerClientSub,
-        `${shardPathWithoutContainer}0000${chunkIndex + 1}.avro`,
-      ),
-    );
+    const secondArgs = vi.mocked(chunkFactoryStub.create).mock.calls[1];
+    assert.equal(secondArgs[1], `${shardPathWithoutContainer}0000${chunkIndex + 1}.avro`);
     assert.deepStrictEqual(change, event as BlobChangeFeedEvent);
     const cursor2 = shard.getCursor();
     assert.deepStrictEqual(cursor2?.CurrentChunkPath, nextChunkStub.chunkPath);
 
     // chunks used up
-    nextChunkStub.hasNext.returns(false);
-    nextChunkStub.getChange.resolves(undefined);
-    const lastChunkStub = sinon.createStubInstance(Chunk);
-    lastChunkStub.hasNext.returns(false);
-    (lastChunkStub as any).chunkPath = `log/00/2019/02/22/1810/0000${chunkIndex + 2}.avro`;
-    chunkFactoryStub.create.returns(lastChunkStub);
+    vi.mocked(nextChunkStub.hasNext).mockReturnValue(false);
+    vi.mocked(nextChunkStub.getChange).mockResolvedValue(undefined as any);
+    const lastChunkStub = {
+      hasNext: vi.fn(),
+      getChange: vi.fn(),
+      chunkPath: "",
+      blockOffset: 0,
+      eventIndex: 0,
+    } as any as Chunk;
+    vi.mocked(lastChunkStub.hasNext).mockReturnValue(false);
+    vi.spyOn(lastChunkStub, "chunkPath", "get").mockReturnValue(
+      `log/00/2019/02/22/1810/0000${chunkIndex + 2}.avro`,
+    );
+    vi.mocked(chunkFactoryStub.create).mockResolvedValue(lastChunkStub);
 
     const change2 = await shard.getChange();
-    assert.ok(
-      chunkFactoryStub.create.calledWith(
-        containerClientSub,
-        `${shardPathWithoutContainer}0000${chunkIndex + 2}.avro`,
-      ),
-    );
+    const thirdArgs = vi.mocked(chunkFactoryStub.create).mock.calls[2];
+    assert.equal(thirdArgs[1], `${shardPathWithoutContainer}0000${chunkIndex + 2}.avro`);
     assert.equal(change2, undefined);
     const cursor3 = shard.getCursor();
     assert.deepStrictEqual(cursor3?.CurrentChunkPath, lastChunkStub.chunkPath);

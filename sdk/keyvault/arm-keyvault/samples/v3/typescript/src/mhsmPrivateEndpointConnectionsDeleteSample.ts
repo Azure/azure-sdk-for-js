@@ -16,7 +16,7 @@ import "dotenv/config";
  * This sample demonstrates how to Deletes the specified private endpoint connection associated with the managed hsm pool.
  *
  * @summary Deletes the specified private endpoint connection associated with the managed hsm pool.
- * x-ms-original-file: specification/keyvault/resource-manager/Microsoft.KeyVault/stable/2023-07-01/examples/ManagedHsm_deletePrivateEndpointConnection.json
+ * x-ms-original-file: specification/keyvault/resource-manager/Microsoft.KeyVault/stable/2024-11-01/examples/ManagedHsm_deletePrivateEndpointConnection.json
  */
 async function managedHsmDeletePrivateEndpointConnection(): Promise<void> {
   const subscriptionId =
@@ -31,13 +31,13 @@ async function managedHsmDeletePrivateEndpointConnection(): Promise<void> {
   const result = await client.mhsmPrivateEndpointConnections.beginDeleteAndWait(
     resourceGroupName,
     name,
-    privateEndpointConnectionName
+    privateEndpointConnectionName,
   );
   console.log(result);
 }
 
 async function main(): Promise<void> {
-  managedHsmDeletePrivateEndpointConnection();
+  await managedHsmDeletePrivateEndpointConnection();
 }
 
 main().catch(console.error);

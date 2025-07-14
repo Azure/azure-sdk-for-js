@@ -53,8 +53,11 @@ export default function createClient(
   const baseUrl = options.baseUrl ?? `${url}`;
 
   const client = GeneratedAzureCommunicationMessageServiceClient(baseUrl, credential, options);
-  const authPolicy = createCommunicationAuthPolicy(credential);
-  client.pipeline.addPolicy(authPolicy);
+
+  if (!isTokenCredential(credential)) {
+    const authPolicy = createCommunicationAuthPolicy(credential);
+    client.pipeline.addPolicy(authPolicy);
+  }
 
   return client;
 }

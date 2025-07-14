@@ -41,7 +41,7 @@ async function approveAPrivateEndpointConnectionUnderADiskAccessResource() {
 }
 
 async function main() {
-  approveAPrivateEndpointConnectionUnderADiskAccessResource();
+  await approveAPrivateEndpointConnectionUnderADiskAccessResource();
 }
 
 main().catch(console.error);

@@ -547,7 +547,7 @@ export interface IdDocumentFields {
 /**
  * The raw model schema.
  */
-function modelInfo() {
+function modelInfo(): any {
   return {
     modelId: "prebuilt-idDocument",
     description: "Extract key information from passports and ID cards.",

@@ -478,8 +478,7 @@ export interface Identity {
 }
 
 // @public
-type KeyType_2 = "PrimaryKey" | "SecondaryKey";
-export { KeyType_2 as KeyType }
+export type KeyType = "PrimaryKey" | "SecondaryKey";
 
 // @public
 export interface KeyVaultProperties {
@@ -809,7 +808,7 @@ export interface PrivateLinkResourcesListResult {
 // @public
 export interface RegenerateAccessKeyParameters {
     key?: string;
-    keyType: KeyType_2;
+    keyType: KeyType;
 }
 
 // @public

@@ -36,42 +36,42 @@ import {
 export interface ReplicationFabrics {
   /**
    * Gets a list of the Azure Site Recovery fabrics in the vault.
-   * @param resourceName The name of the recovery services vault.
    * @param resourceGroupName The name of the resource group where the recovery services vault is
    *                          present.
+   * @param resourceName The name of the recovery services vault.
    * @param options The options parameters.
    */
   list(
-    resourceName: string,
     resourceGroupName: string,
+    resourceName: string,
     options?: ReplicationFabricsListOptionalParams,
   ): PagedAsyncIterableIterator<Fabric>;
   /**
    * Gets the details of an Azure Site Recovery fabric.
-   * @param resourceName The name of the recovery services vault.
    * @param resourceGroupName The name of the resource group where the recovery services vault is
    *                          present.
+   * @param resourceName The name of the recovery services vault.
    * @param fabricName Fabric name.
    * @param options The options parameters.
    */
   get(
-    resourceName: string,
     resourceGroupName: string,
+    resourceName: string,
     fabricName: string,
     options?: ReplicationFabricsGetOptionalParams,
   ): Promise<ReplicationFabricsGetResponse>;
   /**
    * The operation to create an Azure Site Recovery fabric (for e.g. Hyper-V site).
-   * @param resourceName The name of the recovery services vault.
    * @param resourceGroupName The name of the resource group where the recovery services vault is
    *                          present.
+   * @param resourceName The name of the recovery services vault.
    * @param fabricName Name of the ASR fabric.
    * @param input Fabric creation input.
    * @param options The options parameters.
    */
   beginCreate(
-    resourceName: string,
     resourceGroupName: string,
+    resourceName: string,
     fabricName: string,
     input: FabricCreationInput,
     options?: ReplicationFabricsCreateOptionalParams,
@@ -83,59 +83,59 @@ export interface ReplicationFabrics {
   >;
   /**
    * The operation to create an Azure Site Recovery fabric (for e.g. Hyper-V site).
-   * @param resourceName The name of the recovery services vault.
    * @param resourceGroupName The name of the resource group where the recovery services vault is
    *                          present.
+   * @param resourceName The name of the recovery services vault.
    * @param fabricName Name of the ASR fabric.
    * @param input Fabric creation input.
    * @param options The options parameters.
    */
   beginCreateAndWait(
-    resourceName: string,
     resourceGroupName: string,
+    resourceName: string,
     fabricName: string,
     input: FabricCreationInput,
     options?: ReplicationFabricsCreateOptionalParams,
   ): Promise<ReplicationFabricsCreateResponse>;
   /**
    * The operation to purge(force delete) an Azure Site Recovery fabric.
-   * @param resourceName The name of the recovery services vault.
    * @param resourceGroupName The name of the resource group where the recovery services vault is
    *                          present.
+   * @param resourceName The name of the recovery services vault.
    * @param fabricName ASR fabric to purge.
    * @param options The options parameters.
    */
   beginPurge(
-    resourceName: string,
     resourceGroupName: string,
+    resourceName: string,
     fabricName: string,
     options?: ReplicationFabricsPurgeOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * The operation to purge(force delete) an Azure Site Recovery fabric.
-   * @param resourceName The name of the recovery services vault.
    * @param resourceGroupName The name of the resource group where the recovery services vault is
    *                          present.
+   * @param resourceName The name of the recovery services vault.
    * @param fabricName ASR fabric to purge.
    * @param options The options parameters.
    */
   beginPurgeAndWait(
-    resourceName: string,
     resourceGroupName: string,
+    resourceName: string,
     fabricName: string,
     options?: ReplicationFabricsPurgeOptionalParams,
   ): Promise<void>;
   /**
    * The operation to perform a consistency check on the fabric.
-   * @param resourceName The name of the recovery services vault.
    * @param resourceGroupName The name of the resource group where the recovery services vault is
    *                          present.
+   * @param resourceName The name of the recovery services vault.
    * @param fabricName Fabric name.
    * @param options The options parameters.
    */
   beginCheckConsistency(
-    resourceName: string,
     resourceGroupName: string,
+    resourceName: string,
     fabricName: string,
     options?: ReplicationFabricsCheckConsistencyOptionalParams,
   ): Promise<
@@ -146,58 +146,58 @@ export interface ReplicationFabrics {
   >;
   /**
    * The operation to perform a consistency check on the fabric.
-   * @param resourceName The name of the recovery services vault.
    * @param resourceGroupName The name of the resource group where the recovery services vault is
    *                          present.
+   * @param resourceName The name of the recovery services vault.
    * @param fabricName Fabric name.
    * @param options The options parameters.
    */
   beginCheckConsistencyAndWait(
-    resourceName: string,
     resourceGroupName: string,
+    resourceName: string,
     fabricName: string,
     options?: ReplicationFabricsCheckConsistencyOptionalParams,
   ): Promise<ReplicationFabricsCheckConsistencyResponse>;
   /**
    * The operation to migrate an Azure Site Recovery fabric to AAD.
-   * @param resourceName The name of the recovery services vault.
    * @param resourceGroupName The name of the resource group where the recovery services vault is
    *                          present.
+   * @param resourceName The name of the recovery services vault.
    * @param fabricName ASR fabric to migrate.
    * @param options The options parameters.
    */
   beginMigrateToAad(
-    resourceName: string,
     resourceGroupName: string,
+    resourceName: string,
     fabricName: string,
     options?: ReplicationFabricsMigrateToAadOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * The operation to migrate an Azure Site Recovery fabric to AAD.
-   * @param resourceName The name of the recovery services vault.
    * @param resourceGroupName The name of the resource group where the recovery services vault is
    *                          present.
+   * @param resourceName The name of the recovery services vault.
    * @param fabricName ASR fabric to migrate.
    * @param options The options parameters.
    */
   beginMigrateToAadAndWait(
-    resourceName: string,
     resourceGroupName: string,
+    resourceName: string,
     fabricName: string,
     options?: ReplicationFabricsMigrateToAadOptionalParams,
   ): Promise<void>;
   /**
    * The operation to move replications from a process server to another process server.
-   * @param resourceName The name of the recovery services vault.
    * @param resourceGroupName The name of the resource group where the recovery services vault is
    *                          present.
+   * @param resourceName The name of the recovery services vault.
    * @param fabricName The name of the fabric containing the process server.
    * @param failoverProcessServerRequest The input to the failover process server operation.
    * @param options The options parameters.
    */
   beginReassociateGateway(
-    resourceName: string,
     resourceGroupName: string,
+    resourceName: string,
     fabricName: string,
     failoverProcessServerRequest: FailoverProcessServerRequest,
     options?: ReplicationFabricsReassociateGatewayOptionalParams,
@@ -209,60 +209,60 @@ export interface ReplicationFabrics {
   >;
   /**
    * The operation to move replications from a process server to another process server.
-   * @param resourceName The name of the recovery services vault.
    * @param resourceGroupName The name of the resource group where the recovery services vault is
    *                          present.
+   * @param resourceName The name of the recovery services vault.
    * @param fabricName The name of the fabric containing the process server.
    * @param failoverProcessServerRequest The input to the failover process server operation.
    * @param options The options parameters.
    */
   beginReassociateGatewayAndWait(
-    resourceName: string,
     resourceGroupName: string,
+    resourceName: string,
     fabricName: string,
     failoverProcessServerRequest: FailoverProcessServerRequest,
     options?: ReplicationFabricsReassociateGatewayOptionalParams,
   ): Promise<ReplicationFabricsReassociateGatewayResponse>;
   /**
    * The operation to delete or remove an Azure Site Recovery fabric.
-   * @param resourceName The name of the recovery services vault.
    * @param resourceGroupName The name of the resource group where the recovery services vault is
    *                          present.
+   * @param resourceName The name of the recovery services vault.
    * @param fabricName ASR fabric to delete.
    * @param options The options parameters.
    */
   beginDelete(
-    resourceName: string,
     resourceGroupName: string,
+    resourceName: string,
     fabricName: string,
     options?: ReplicationFabricsDeleteOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * The operation to delete or remove an Azure Site Recovery fabric.
-   * @param resourceName The name of the recovery services vault.
    * @param resourceGroupName The name of the resource group where the recovery services vault is
    *                          present.
+   * @param resourceName The name of the recovery services vault.
    * @param fabricName ASR fabric to delete.
    * @param options The options parameters.
    */
   beginDeleteAndWait(
-    resourceName: string,
     resourceGroupName: string,
+    resourceName: string,
     fabricName: string,
     options?: ReplicationFabricsDeleteOptionalParams,
   ): Promise<void>;
   /**
    * Renews the connection certificate for the ASR replication fabric.
-   * @param resourceName The name of the recovery services vault.
    * @param resourceGroupName The name of the resource group where the recovery services vault is
    *                          present.
+   * @param resourceName The name of the recovery services vault.
    * @param fabricName fabric name to renew certs for.
    * @param renewCertificate Renew certificate input.
    * @param options The options parameters.
    */
   beginRenewCertificate(
-    resourceName: string,
     resourceGroupName: string,
+    resourceName: string,
     fabricName: string,
     renewCertificate: RenewCertificateInput,
     options?: ReplicationFabricsRenewCertificateOptionalParams,
@@ -274,16 +274,16 @@ export interface ReplicationFabrics {
   >;
   /**
    * Renews the connection certificate for the ASR replication fabric.
-   * @param resourceName The name of the recovery services vault.
    * @param resourceGroupName The name of the resource group where the recovery services vault is
    *                          present.
+   * @param resourceName The name of the recovery services vault.
    * @param fabricName fabric name to renew certs for.
    * @param renewCertificate Renew certificate input.
    * @param options The options parameters.
    */
   beginRenewCertificateAndWait(
-    resourceName: string,
     resourceGroupName: string,
+    resourceName: string,
     fabricName: string,
     renewCertificate: RenewCertificateInput,
     options?: ReplicationFabricsRenewCertificateOptionalParams,

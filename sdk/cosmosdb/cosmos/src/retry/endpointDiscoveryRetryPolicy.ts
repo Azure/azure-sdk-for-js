@@ -1,12 +1,12 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import type { DiagnosticNodeInternal } from "../diagnostics/DiagnosticNodeInternal";
-import type { OperationType } from "../common";
-import { isReadRequest } from "../common/helper";
-import type { GlobalEndpointManager } from "../globalEndpointManager";
-import type { ErrorResponse } from "../request";
-import type { RetryContext } from "./RetryContext";
-import type { RetryPolicy } from "./RetryPolicy";
+import type { DiagnosticNodeInternal } from "../diagnostics/DiagnosticNodeInternal.js";
+import type { OperationType } from "../common/index.js";
+import { isReadRequest } from "../common/helper.js";
+import type { GlobalEndpointManager } from "../globalEndpointManager.js";
+import type { ErrorResponse } from "../request/index.js";
+import type { RetryContext } from "./RetryContext.js";
+import type { RetryPolicy } from "./RetryPolicy.js";
 
 /**
  * This class implements the retry policy for endpoint discovery.

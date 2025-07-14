@@ -48,6 +48,7 @@ export class AppConfigurationClient {
 // @public
 export interface AppConfigurationClientOptions extends CommonClientOptions {
     apiVersion?: string;
+    audience?: string;
 }
 
 // @public
@@ -196,6 +197,13 @@ export function isFeatureFlag(setting: ConfigurationSetting): setting is Configu
 
 // @public
 export function isSecretReference(setting: ConfigurationSetting): setting is ConfigurationSetting & Required<Pick<ConfigurationSetting, "value">>;
+
+// @public
+export enum KnownAppConfigAudience {
+    AzureChina = "https://appconfig.azure.cn",
+    AzureGovernment = "https://appconfig.azure.us",
+    AzurePublicCloud = "https://appconfig.azure.com"
+}
 
 // @public
 export enum KnownConfigurationSnapshotStatus {

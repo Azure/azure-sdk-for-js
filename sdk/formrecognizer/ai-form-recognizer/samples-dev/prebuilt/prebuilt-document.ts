@@ -50,7 +50,7 @@ export interface PrebuiltDocumentResult extends fr.AnalyzeResultCommon {
 /**
  * The raw model schema.
  */
-function modelInfo() {
+function modelInfo(): any {
   return {
     modelId: "prebuilt-document",
     description: "Extract text, layout, entities, and general key-value pairs from documents.",

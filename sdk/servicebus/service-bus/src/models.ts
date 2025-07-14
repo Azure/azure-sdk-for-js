@@ -195,7 +195,7 @@ export interface ServiceBusSenderOptions {
  * - `maxSizeInBytes`: The upper limit for the size of batch.
  *
  * Example usage:
- * ```js
+ * ```ts snippet:ignore
  * {
  *     maxSizeInBytes: 1024 * 1024 // 1 MB
  * }

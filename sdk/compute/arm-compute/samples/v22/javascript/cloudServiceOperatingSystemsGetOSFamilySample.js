@@ -29,7 +29,7 @@ async function getCloudServiceOSFamily() {
 }
 
 async function main() {
-  getCloudServiceOSFamily();
+  await getCloudServiceOSFamily();
 }
 
 main().catch(console.error);

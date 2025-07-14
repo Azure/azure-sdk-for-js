@@ -733,8 +733,7 @@ export enum KnownUserFriendlyRenewState {
 }
 
 // @public
-type Location_2 = string;
-export { Location_2 as Location }
+export type Location = string;
 
 // @public
 export interface MergeRequest {

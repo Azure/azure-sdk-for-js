@@ -8,7 +8,7 @@ import { FileSystemPersist } from "./persist/index.js";
 import type { ExportResult } from "@opentelemetry/core";
 import { ExportResultCode } from "@opentelemetry/core";
 import { NetworkStatsbeatMetrics } from "../../export/statsbeat/networkStatsbeatMetrics.js";
-import { getInstance } from "../../export/statsbeat/longIntervalStatsbeatMetrics.js";
+import { LongIntervalStatsbeatMetrics } from "../../export/statsbeat/longIntervalStatsbeatMetrics.js";
 import type { RestError } from "@azure/core-rest-pipeline";
 import { MAX_STATSBEAT_FAILURES, isStatsbeatShutdownStatus } from "../../export/statsbeat/types.js";
 import type { BreezeResponse } from "../../utils/breezeUtils.js";
@@ -45,13 +45,12 @@ export abstract class BaseSender {
     this.disableOfflineStorage = options.exporterOptions.disableOfflineStorage || false;
     this.persister = new FileSystemPersist(options.instrumentationKey, options.exporterOptions);
     if (options.trackStatsbeat) {
-      // Initialize statsbeatMetrics
-      this.networkStatsbeatMetrics = new NetworkStatsbeatMetrics({
+      this.networkStatsbeatMetrics = NetworkStatsbeatMetrics.getInstance({
         instrumentationKey: options.instrumentationKey,
         endpointUrl: options.endpointUrl,
         disableOfflineStorage: this.disableOfflineStorage,
       });
-      this.longIntervalStatsbeatMetrics = getInstance({
+      this.longIntervalStatsbeatMetrics = LongIntervalStatsbeatMetrics.getInstance({
         instrumentationKey: options.instrumentationKey,
         endpointUrl: options.endpointUrl,
         disableOfflineStorage: this.disableOfflineStorage,
@@ -91,18 +90,30 @@ export abstract class BaseSender {
           }, this.batchSendRetryIntervalMs);
           this.retryTimer.unref();
         }
-        // If we are not exportings statsbeat and statsbeat is not disabled -- count success
-        this.networkStatsbeatMetrics?.countSuccess(duration);
+        // If we are not exporting statsbeat and statsbeat is not disabled -- count success
+        if (!this.isStatsbeatSender) {
+          this.networkStatsbeatMetrics?.countSuccess(duration);
+        }
         return { code: ExportResultCode.SUCCESS };
       } else if (statusCode && isRetriable(statusCode)) {
         // Failed -- persist failed data
         if (statusCode === 429 || statusCode === 439) {
-          this.networkStatsbeatMetrics?.countThrottle(statusCode);
+          if (!this.isStatsbeatSender) {
+            this.networkStatsbeatMetrics?.countThrottle(statusCode);
+          }
+          return {
+            code: ExportResultCode.SUCCESS,
+          };
         }
         if (result) {
           diag.info(result);
           const breezeResponse = JSON.parse(result) as BreezeResponse;
           const filteredEnvelopes: Envelope[] = [];
+          // If we have a partial success, count the succeeded envelopes
+          if (breezeResponse.itemsAccepted > 0 && statusCode === 206 && !this.isStatsbeatSender) {
+            this.networkStatsbeatMetrics?.countSuccess(duration);
+          }
+          // Figure out if we need to either retry or count failures
           if (breezeResponse.errors) {
             breezeResponse.errors.forEach((error) => {
               if (error.statusCode && isRetriable(error.statusCode)) {
@@ -111,23 +122,29 @@ export abstract class BaseSender {
             });
           }
           if (filteredEnvelopes.length > 0) {
-            this.networkStatsbeatMetrics?.countRetry(statusCode);
+            if (!this.isStatsbeatSender) {
+              this.networkStatsbeatMetrics?.countRetry(statusCode);
+            }
             // calls resultCallback(ExportResult) based on result of persister.push
             return await this.persist(filteredEnvelopes);
           }
           // Failed -- not retriable
-          this.networkStatsbeatMetrics?.countFailure(duration, statusCode);
+          if (!this.isStatsbeatSender) {
+            this.networkStatsbeatMetrics?.countFailure(duration, statusCode);
+          }
           return {
             code: ExportResultCode.FAILED,
           };
         } else {
           // calls resultCallback(ExportResult) based on result of persister.push
-          this.networkStatsbeatMetrics?.countRetry(statusCode);
+          if (!this.isStatsbeatSender) {
+            this.networkStatsbeatMetrics?.countRetry(statusCode);
+          }
           return await this.persist(envelopes);
         }
       } else {
         // Failed -- not retriable
-        if (this.networkStatsbeatMetrics) {
+        if (this.networkStatsbeatMetrics && !this.isStatsbeatSender) {
           if (statusCode) {
             this.networkStatsbeatMetrics.countFailure(duration, statusCode);
           }
@@ -161,7 +178,9 @@ export abstract class BaseSender {
           }
         } else {
           const redirectError = new Error("Circular redirect");
-          this.networkStatsbeatMetrics?.countException(redirectError);
+          if (!this.isStatsbeatSender) {
+            this.networkStatsbeatMetrics?.countException(redirectError);
+          }
           return { code: ExportResultCode.FAILED, error: redirectError };
         }
       } else if (
@@ -188,7 +207,7 @@ export abstract class BaseSender {
         return { code: ExportResultCode.SUCCESS };
       }
       if (this.isRetriableRestError(restError)) {
-        if (restError.statusCode) {
+        if (restError.statusCode && !this.isStatsbeatSender) {
           this.networkStatsbeatMetrics?.countRetry(restError.statusCode);
         }
         if (!this.isStatsbeatSender) {
@@ -199,7 +218,9 @@ export abstract class BaseSender {
         }
         return this.persist(envelopes);
       }
-      this.networkStatsbeatMetrics?.countException(restError);
+      if (!this.isStatsbeatSender) {
+        this.networkStatsbeatMetrics?.countException(restError);
+      }
       if (!this.isStatsbeatSender) {
         diag.error(
           "Envelopes could not be exported and are not retriable. Error message:",
@@ -223,7 +244,9 @@ export abstract class BaseSender {
             error: new Error("Failed to persist envelope in disk."),
           };
     } catch (ex: any) {
-      this.networkStatsbeatMetrics?.countWriteFailure();
+      if (!this.isStatsbeatSender) {
+        this.networkStatsbeatMetrics?.countWriteFailure();
+      }
       return { code: ExportResultCode.FAILED, error: ex };
     }
   }
@@ -242,9 +265,10 @@ export abstract class BaseSender {
    * Shutdown statsbeat metrics
    */
   private shutdownStatsbeat(): void {
-    this.networkStatsbeatMetrics?.shutdown();
+    if (this.networkStatsbeatMetrics) {
+      this.networkStatsbeatMetrics.shutdown();
+    }
     this.longIntervalStatsbeatMetrics?.shutdown();
-    this.networkStatsbeatMetrics = undefined;
     this.statsbeatFailureCount = 0;
   }
 
@@ -255,7 +279,9 @@ export abstract class BaseSender {
         await this.send(envelopes);
       }
     } catch (err: any) {
-      this.networkStatsbeatMetrics?.countReadFailure();
+      if (!this.isStatsbeatSender) {
+        this.networkStatsbeatMetrics?.countReadFailure();
+      }
       diag.warn(`Failed to fetch persisted file`, err);
     }
   }

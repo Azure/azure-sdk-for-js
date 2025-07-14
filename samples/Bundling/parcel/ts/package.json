@@ -16,5 +16,8 @@
     "@azure/storage-blob": "^12.26.0",
     "buffer": "^6.0.3",
     "process": "^0.11.10"
+  },
+  "@parcel/resolver-default": {
+    "packageExports": true
   }
 }

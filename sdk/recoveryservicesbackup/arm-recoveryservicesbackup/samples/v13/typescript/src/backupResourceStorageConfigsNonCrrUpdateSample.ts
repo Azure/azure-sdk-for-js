@@ -19,7 +19,7 @@ import "dotenv/config";
  * This sample demonstrates how to Updates vault storage model type.
  *
  * @summary Updates vault storage model type.
- * x-ms-original-file: specification/recoveryservicesbackup/resource-manager/Microsoft.RecoveryServices/stable/2024-04-01/examples/Common/BackupStorageConfig_Put.json
+ * x-ms-original-file: specification/recoveryservicesbackup/resource-manager/Microsoft.RecoveryServices/stable/2025-02-01/examples/Common/BackupStorageConfig_Put.json
  */
 async function updateVaultStorageConfiguration(): Promise<void> {
   const subscriptionId =
@@ -46,7 +46,7 @@ async function updateVaultStorageConfiguration(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  updateVaultStorageConfiguration();
+  await updateVaultStorageConfiguration();
 }
 
 main().catch(console.error);

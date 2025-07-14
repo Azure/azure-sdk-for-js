@@ -34,7 +34,7 @@ async function getASharedGalleryImage() {
 }
 
 async function main() {
-  getASharedGalleryImage();
+  await getASharedGalleryImage();
 }
 
 main().catch(console.error);

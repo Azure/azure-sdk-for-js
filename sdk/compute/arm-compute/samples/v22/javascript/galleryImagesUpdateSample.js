@@ -85,8 +85,8 @@ async function updateASimpleGalleryImage() {
 }
 
 async function main() {
-  updateAGalleryImageFeature();
-  updateASimpleGalleryImage();
+  await updateAGalleryImageFeature();
+  await updateASimpleGalleryImage();
 }
 
 main().catch(console.error);

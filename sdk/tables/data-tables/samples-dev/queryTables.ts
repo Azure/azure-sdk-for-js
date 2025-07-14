@@ -8,15 +8,14 @@
  */
 
 import { odata, TableServiceClient } from "@azure/data-tables";
+import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
 
-const accountConnectionString = process.env["ACCOUNT_CONNECTION_STRING"] || "";
-
+const endpoint = process.env.TABLES_URL || "";
 async function queryTables(): Promise<void> {
   console.log("== Query tables Sample ==");
 
-  // See authenticationMethods sample for other options of creating a new client
-  const serviceClient = TableServiceClient.fromConnectionString(accountConnectionString);
+  const serviceClient = new TableServiceClient(endpoint, new DefaultAzureCredential());
 
   // Create a new table
   const tableName = `queryTables`;

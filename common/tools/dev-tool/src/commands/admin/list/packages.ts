@@ -21,7 +21,7 @@ export const commandInfo = makeCommandInfo("packages", "list packages defined in
     shortName: "s",
   },
 
-  // use --task option to provide code file to be excuted for each package. For example,
+  // use --task option to provide code file to be executed for each package. For example,
   // the following code adds missing "tsx" dev dependency whereever it is used.
   /*
 import * as path from "node:path";
@@ -39,13 +39,10 @@ export default async function IdentifyPackage(
   const fullProjectPath = path.join(root, projectFolder);
   const { packageJson } = await resolveProject(fullProjectPath);
 
-  const unitTestNodeScript = packageJson.scripts["unit-test:node"];
-  const integrationTestNodeScript = packageJson.scripts["integration-test:node"];
+  const testNodeScript = packageJson.scripts["test:node"];
 
-  if (unitTestNodeScript.includes("dev-tool run test:node-js-input") ||
-    integrationTestNodeScript.includes("dev-tool run test:node-js-input") ||
-    unitTestNodeScript.includes("dev-tool run test:node-tsx-ts") ||
-    integrationTestNodeScript.includes("dev-tool run test:node-tsx-ts")) {
+  if (testNodeScript.includes("dev-tool run test:node-js-input") ||
+    testNodeScript.includes("dev-tool run test:node-tsx-ts")) {
     if (!packageJson.devDependencies["tsx"]) {
       console.log(`    updating ${packageName} ${fullProjectPath} testing scripts`);
       packageJson.devDependencies["tsx"] = "^4.7.1";

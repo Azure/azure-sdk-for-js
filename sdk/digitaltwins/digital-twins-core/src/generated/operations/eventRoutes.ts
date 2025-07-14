@@ -22,7 +22,7 @@ import {
   EventRoutesGetByIdResponse,
   EventRoutesAddOptionalParams,
   EventRoutesDeleteOptionalParams,
-  EventRoutesListNextResponse
+  EventRoutesListNextResponse,
 } from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
@@ -45,7 +45,7 @@ export class EventRoutesImpl implements EventRoutes {
    * @param options The options parameters.
    */
   public list(
-    options?: EventRoutesListOptionalParams
+    options?: EventRoutesListOptionalParams,
   ): PagedAsyncIterableIterator<EventRoute> {
     const iter = this.listPagingAll(options);
     return {
@@ -60,13 +60,13 @@ export class EventRoutesImpl implements EventRoutes {
           throw new Error("maxPageSize is not supported by this operation.");
         }
         return this.listPagingPage(options, settings);
-      }
+      },
     };
   }
 
   private async *listPagingPage(
     options?: EventRoutesListOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<EventRoute[]> {
     let result: EventRoutesListResponse;
     let continuationToken = settings?.continuationToken;
@@ -87,7 +87,7 @@ export class EventRoutesImpl implements EventRoutes {
   }
 
   private async *listPagingAll(
-    options?: EventRoutesListOptionalParams
+    options?: EventRoutesListOptionalParams,
   ): AsyncIterableIterator<EventRoute> {
     for await (const page of this.listPagingPage(options)) {
       yield* page;
@@ -101,7 +101,7 @@ export class EventRoutesImpl implements EventRoutes {
    * @param options The options parameters.
    */
   private _list(
-    options?: EventRoutesListOptionalParams
+    options?: EventRoutesListOptionalParams,
   ): Promise<EventRoutesListResponse> {
     return this.client.sendOperationRequest({ options }, listOperationSpec);
   }
@@ -117,11 +117,11 @@ export class EventRoutesImpl implements EventRoutes {
    */
   getById(
     id: string,
-    options?: EventRoutesGetByIdOptionalParams
+    options?: EventRoutesGetByIdOptionalParams,
   ): Promise<EventRoutesGetByIdResponse> {
     return this.client.sendOperationRequest(
       { id, options },
-      getByIdOperationSpec
+      getByIdOperationSpec,
     );
   }
 
@@ -135,10 +135,18 @@ export class EventRoutesImpl implements EventRoutes {
    *   * EventRouteIdInvalid - The event route id is invalid.
    *   * LimitExceeded - The maximum number of event routes allowed has been reached.
    * @param id The id for an event route. The id is unique within event routes and case sensitive.
+   * @param eventRoute The event route data
    * @param options The options parameters.
    */
-  add(id: string, options?: EventRoutesAddOptionalParams): Promise<void> {
-    return this.client.sendOperationRequest({ id, options }, addOperationSpec);
+  add(
+    id: string,
+    eventRoute: EventRoute,
+    options?: EventRoutesAddOptionalParams,
+  ): Promise<void> {
+    return this.client.sendOperationRequest(
+      { id, eventRoute, options },
+      addOperationSpec,
+    );
   }
 
   /**
@@ -153,7 +161,7 @@ export class EventRoutesImpl implements EventRoutes {
   delete(id: string, options?: EventRoutesDeleteOptionalParams): Promise<void> {
     return this.client.sendOperationRequest(
       { id, options },
-      deleteOperationSpec
+      deleteOperationSpec,
     );
   }
 
@@ -164,11 +172,11 @@ export class EventRoutesImpl implements EventRoutes {
    */
   private _listNext(
     nextLink: string,
-    options?: EventRoutesListNextOptionalParams
+    options?: EventRoutesListNextOptionalParams,
   ): Promise<EventRoutesListNextResponse> {
     return this.client.sendOperationRequest(
       { nextLink, options },
-      listNextOperationSpec
+      listNextOperationSpec,
     );
   }
 }
@@ -180,32 +188,34 @@ const listOperationSpec: coreClient.OperationSpec = {
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.EventRouteCollection
+      bodyMapper: Mappers.EventRouteCollection,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+      headersMapper: Mappers.EventRoutesListExceptionHeaders,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.$host],
   headerParameters: [Parameters.accept, Parameters.resultsPerPage],
-  serializer
+  serializer,
 };
 const getByIdOperationSpec: coreClient.OperationSpec = {
   path: "/eventroutes/{id}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.EventRoute
+      bodyMapper: Mappers.EventRoute,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+      headersMapper: Mappers.EventRoutesGetByIdExceptionHeaders,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.$host, Parameters.id],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const addOperationSpec: coreClient.OperationSpec = {
   path: "/eventroutes/{id}",
@@ -213,15 +223,16 @@ const addOperationSpec: coreClient.OperationSpec = {
   responses: {
     204: {},
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+      headersMapper: Mappers.EventRoutesAddExceptionHeaders,
+    },
   },
   requestBody: Parameters.eventRoute,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.$host, Parameters.id],
   headerParameters: [Parameters.contentType, Parameters.accept],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const deleteOperationSpec: coreClient.OperationSpec = {
   path: "/eventroutes/{id}",
@@ -229,26 +240,28 @@ const deleteOperationSpec: coreClient.OperationSpec = {
   responses: {
     204: {},
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+      headersMapper: Mappers.EventRoutesDeleteExceptionHeaders,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.$host, Parameters.id],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.EventRouteCollection
+      bodyMapper: Mappers.EventRouteCollection,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+      headersMapper: Mappers.EventRoutesListNextExceptionHeaders,
+    },
   },
   urlParameters: [Parameters.$host, Parameters.nextLink],
   headerParameters: [Parameters.accept, Parameters.resultsPerPage],
-  serializer
+  serializer,
 };

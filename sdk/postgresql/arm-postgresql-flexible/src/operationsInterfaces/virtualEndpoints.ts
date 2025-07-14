@@ -6,9 +6,9 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { SimplePollerLike, OperationState } from "@azure/core-lro";
-import {
+import type { PagedAsyncIterableIterator } from "@azure/core-paging";
+import type { SimplePollerLike, OperationState } from "@azure/core-lro";
+import type {
   VirtualEndpointResource,
   VirtualEndpointsListByServerOptionalParams,
   VirtualEndpointsCreateOptionalParams,
@@ -51,10 +51,7 @@ export interface VirtualEndpoints {
     parameters: VirtualEndpointResource,
     options?: VirtualEndpointsCreateOptionalParams,
   ): Promise<
-    SimplePollerLike<
-      OperationState<VirtualEndpointsCreateResponse>,
-      VirtualEndpointsCreateResponse
-    >
+    SimplePollerLike<OperationState<VirtualEndpointsCreateResponse>, VirtualEndpointsCreateResponse>
   >;
   /**
    * Creates a new virtual endpoint for PostgreSQL flexible server.
@@ -87,10 +84,7 @@ export interface VirtualEndpoints {
     parameters: VirtualEndpointResourceForPatch,
     options?: VirtualEndpointsUpdateOptionalParams,
   ): Promise<
-    SimplePollerLike<
-      OperationState<VirtualEndpointsUpdateResponse>,
-      VirtualEndpointsUpdateResponse
-    >
+    SimplePollerLike<OperationState<VirtualEndpointsUpdateResponse>, VirtualEndpointsUpdateResponse>
   >;
   /**
    * Updates an existing virtual endpoint. The request body can contain one to many of the properties
@@ -121,10 +115,7 @@ export interface VirtualEndpoints {
     virtualEndpointName: string,
     options?: VirtualEndpointsDeleteOptionalParams,
   ): Promise<
-    SimplePollerLike<
-      OperationState<VirtualEndpointsDeleteResponse>,
-      VirtualEndpointsDeleteResponse
-    >
+    SimplePollerLike<OperationState<VirtualEndpointsDeleteResponse>, VirtualEndpointsDeleteResponse>
   >;
   /**
    * Deletes a virtual endpoint.

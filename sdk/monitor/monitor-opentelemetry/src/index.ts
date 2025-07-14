@@ -5,24 +5,24 @@ import { metrics, trace } from "@opentelemetry/api";
 import { logs } from "@opentelemetry/api-logs";
 import type { NodeSDKConfiguration } from "@opentelemetry/sdk-node";
 import { NodeSDK } from "@opentelemetry/sdk-node";
-import { InternalConfig } from "./shared/config";
-import { MetricHandler } from "./metrics";
-import { TraceHandler } from "./traces/handler";
-import { LogHandler } from "./logs";
-import type { StatsbeatFeatures, StatsbeatInstrumentations } from "./types";
+import { InternalConfig } from "./shared/config.js";
+import { MetricHandler } from "./metrics/index.js";
+import { TraceHandler } from "./traces/handler.js";
+import { LogHandler } from "./logs/index.js";
+import type { StatsbeatFeatures, StatsbeatInstrumentations } from "./types.js";
 import {
   AZURE_MONITOR_OPENTELEMETRY_VERSION,
   AzureMonitorOpenTelemetryOptions,
   InstrumentationOptions,
   BrowserSdkLoaderOptions,
-} from "./types";
-import { BrowserSdkLoader } from "./browserSdkLoader/browserSdkLoader";
-import { setSdkPrefix } from "./metrics/quickpulse/utils";
+} from "./types.js";
+import { BrowserSdkLoader } from "./browserSdkLoader/browserSdkLoader.js";
+import { setSdkPrefix } from "./metrics/quickpulse/utils.js";
 import type { SpanProcessor } from "@opentelemetry/sdk-trace-base";
 import type { LogRecordProcessor } from "@opentelemetry/sdk-logs";
-import { getInstance } from "./utils/statsbeat";
-import { patchOpenTelemetryInstrumentationEnable } from "./utils/opentelemetryInstrumentationPatcher";
-import { parseResourceDetectorsFromEnvVar } from "./utils/common";
+import { getInstance } from "./utils/statsbeat.js";
+import { patchOpenTelemetryInstrumentationEnable } from "./utils/opentelemetryInstrumentationPatcher.js";
+import { parseResourceDetectorsFromEnvVar } from "./utils/common.js";
 
 export { AzureMonitorOpenTelemetryOptions, InstrumentationOptions, BrowserSdkLoaderOptions };
 

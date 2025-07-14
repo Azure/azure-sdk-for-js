@@ -6,8 +6,11 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import type { ConfidentialLedger } from "@azure/arm-confidentialledger";
-import { ConfidentialLedgerClient } from "@azure/arm-confidentialledger";
+import type {
+  ConfidentialLedger} from "@azure/arm-confidentialledger";
+import {
+  ConfidentialLedgerClient,
+} from "@azure/arm-confidentialledger";
 import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
 
@@ -15,13 +18,15 @@ import "dotenv/config";
  * This sample demonstrates how to Creates a  Confidential Ledger with the specified ledger parameters.
  *
  * @summary Creates a  Confidential Ledger with the specified ledger parameters.
- * x-ms-original-file: specification/confidentialledger/resource-manager/Microsoft.ConfidentialLedger/preview/2023-06-28-preview/examples/ConfidentialLedger_Create.json
+ * x-ms-original-file: specification/confidentialledger/resource-manager/Microsoft.ConfidentialLedger/preview/2024-09-19-preview/examples/ConfidentialLedger_Create.json
  */
 async function confidentialLedgerCreate(): Promise<void> {
   const subscriptionId =
-    process.env["CONFIDENTIALLEDGER_SUBSCRIPTION_ID"] || "0000000-0000-0000-0000-000000000001";
+    process.env["CONFIDENTIALLEDGER_SUBSCRIPTION_ID"] ||
+    "0000000-0000-0000-0000-000000000001";
   const resourceGroupName =
-    process.env["CONFIDENTIALLEDGER_RESOURCE_GROUP"] || "DummyResourceGroupName";
+    process.env["CONFIDENTIALLEDGER_RESOURCE_GROUP"] ||
+    "DummyResourceGroupName";
   const ledgerName = "DummyLedgerName";
   const confidentialLedger: ConfidentialLedger = {
     location: "EastUS",
@@ -39,8 +44,14 @@ async function confidentialLedgerCreate(): Promise<void> {
           ledgerRoleName: "Reader",
         },
       ],
+      hostLevel: "Info",
       ledgerSku: "Standard",
       ledgerType: "Public",
+      maxBodySizeInMb: 1,
+      nodeCount: 3,
+      subjectName: "CN=CCF Node",
+      workerThreads: 0,
+      writeLBAddressPrefix: "write",
     },
     tags: { additionalProps1: "additional properties" },
   };

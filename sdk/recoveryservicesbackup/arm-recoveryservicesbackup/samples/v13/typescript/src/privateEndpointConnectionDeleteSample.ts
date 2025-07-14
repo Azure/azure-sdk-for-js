@@ -16,7 +16,7 @@ import "dotenv/config";
  * This sample demonstrates how to Delete Private Endpoint requests. This call is made by Backup Admin.
  *
  * @summary Delete Private Endpoint requests. This call is made by Backup Admin.
- * x-ms-original-file: specification/recoveryservicesbackup/resource-manager/Microsoft.RecoveryServices/stable/2024-04-01/examples/PrivateEndpointConnection/DeletePrivateEndpointConnection.json
+ * x-ms-original-file: specification/recoveryservicesbackup/resource-manager/Microsoft.RecoveryServices/stable/2025-02-01/examples/PrivateEndpointConnection/DeletePrivateEndpointConnection.json
  */
 async function deletePrivateEndpointConnection(): Promise<void> {
   const subscriptionId =
@@ -39,7 +39,7 @@ async function deletePrivateEndpointConnection(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  deletePrivateEndpointConnection();
+  await deletePrivateEndpointConnection();
 }
 
 main().catch(console.error);

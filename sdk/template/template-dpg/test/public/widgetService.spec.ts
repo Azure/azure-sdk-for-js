@@ -71,10 +71,8 @@ describe("WidgetServiceClient", () => {
   describe("Widgets CRUD", () => {
     it("should create a widget", async () => {
       const widget = await client.createWidget(10, "red");
-      // eslint-disable-next-line no-unused-expressions
-      expect(widget).to.exist;
-      // eslint-disable-next-line no-unused-expressions
-      expect(widget.id).to.exist;
+      expect(widget).toBeDefined();
+      expect(widget.id).toBeDefined();
       expect(widget.color).to.equal("red");
       expect(widget.weight).to.equal(10);
     });
@@ -88,8 +86,7 @@ describe("WidgetServiceClient", () => {
     it("should update a widget", async () => {
       const widget = await client.createWidget(10, "red");
       const updatedWidget = await client.updateWidget(widget.id, { weight: 20 });
-      // eslint-disable-next-line no-unused-expressions
-      expect(updatedWidget).to.exist;
+      expect(updatedWidget).toBeDefined();
       expect(updatedWidget.id).to.equal(widget.id);
       expect(updatedWidget.color).to.equal("red");
       expect(updatedWidget.weight).to.equal(20);

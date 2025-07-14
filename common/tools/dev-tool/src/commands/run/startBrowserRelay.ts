@@ -2,7 +2,6 @@
 // Licensed under the MIT License
 
 import { leafCommand, makeCommandInfo } from "../../framework/command";
-
 import { startRelayServer } from "../../util/browserRelayServer";
 
 export const commandInfo = makeCommandInfo(

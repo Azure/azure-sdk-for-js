@@ -9,7 +9,7 @@
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import {
   ApplicationInsightsComponentWebTestLocation,
-  WebTestLocationsListOptionalParams
+  WebTestLocationsListOptionalParams,
 } from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
@@ -24,6 +24,6 @@ export interface WebTestLocations {
   list(
     resourceGroupName: string,
     resourceName: string,
-    options?: WebTestLocationsListOptionalParams
+    options?: WebTestLocationsListOptionalParams,
   ): PagedAsyncIterableIterator<ApplicationInsightsComponentWebTestLocation>;
 }

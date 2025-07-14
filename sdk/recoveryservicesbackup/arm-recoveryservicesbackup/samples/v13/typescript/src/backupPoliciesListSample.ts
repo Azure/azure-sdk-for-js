@@ -21,7 +21,7 @@ scoped results.
  *
  * @summary Lists of backup policies associated with Recovery Services Vault. API provides pagination parameters to fetch
 scoped results.
- * x-ms-original-file: specification/recoveryservicesbackup/resource-manager/Microsoft.RecoveryServices/stable/2024-04-01/examples/AzureIaasVm/BackupPolicies_List.json
+ * x-ms-original-file: specification/recoveryservicesbackup/resource-manager/Microsoft.RecoveryServices/stable/2025-02-01/examples/AzureIaasVm/BackupPolicies_List.json
  */
 async function listProtectionPoliciesWithBackupManagementTypeFilterAsAzureIaasVM(): Promise<void> {
   const subscriptionId =
@@ -35,7 +35,7 @@ async function listProtectionPoliciesWithBackupManagementTypeFilterAsAzureIaasVM
   const credential = new DefaultAzureCredential();
   const client = new RecoveryServicesBackupClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.backupPolicies.list(
+  for await (const item of client.backupPolicies.list(
     vaultName,
     resourceGroupName,
     options,
@@ -51,7 +51,7 @@ scoped results.
  *
  * @summary Lists of backup policies associated with Recovery Services Vault. API provides pagination parameters to fetch
 scoped results.
- * x-ms-original-file: specification/recoveryservicesbackup/resource-manager/Microsoft.RecoveryServices/stable/2024-04-01/examples/AzureIaasVm/V2Policy/v2-List-Policies.json
+ * x-ms-original-file: specification/recoveryservicesbackup/resource-manager/Microsoft.RecoveryServices/stable/2025-02-01/examples/AzureIaasVm/V2Policy/v2-List-Policies.json
  */
 async function listProtectionPoliciesWithBackupManagementTypeFilterAsAzureIaasVMWithBothV1AndV2Policies(): Promise<void> {
   const subscriptionId =
@@ -65,7 +65,7 @@ async function listProtectionPoliciesWithBackupManagementTypeFilterAsAzureIaasVM
   const credential = new DefaultAzureCredential();
   const client = new RecoveryServicesBackupClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.backupPolicies.list(
+  for await (const item of client.backupPolicies.list(
     vaultName,
     resourceGroupName,
     options,
@@ -81,7 +81,7 @@ scoped results.
  *
  * @summary Lists of backup policies associated with Recovery Services Vault. API provides pagination parameters to fetch
 scoped results.
- * x-ms-original-file: specification/recoveryservicesbackup/resource-manager/Microsoft.RecoveryServices/stable/2024-04-01/examples/AzureWorkload/BackupPolicies_List.json
+ * x-ms-original-file: specification/recoveryservicesbackup/resource-manager/Microsoft.RecoveryServices/stable/2025-02-01/examples/AzureWorkload/BackupPolicies_List.json
  */
 async function listProtectionPoliciesWithBackupManagementTypeFilterAsAzureWorkload(): Promise<void> {
   const subscriptionId =
@@ -95,7 +95,7 @@ async function listProtectionPoliciesWithBackupManagementTypeFilterAsAzureWorklo
   const credential = new DefaultAzureCredential();
   const client = new RecoveryServicesBackupClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.backupPolicies.list(
+  for await (const item of client.backupPolicies.list(
     vaultName,
     resourceGroupName,
     options,
@@ -106,9 +106,9 @@ async function listProtectionPoliciesWithBackupManagementTypeFilterAsAzureWorklo
 }
 
 async function main(): Promise<void> {
-  listProtectionPoliciesWithBackupManagementTypeFilterAsAzureIaasVM();
-  listProtectionPoliciesWithBackupManagementTypeFilterAsAzureIaasVMWithBothV1AndV2Policies();
-  listProtectionPoliciesWithBackupManagementTypeFilterAsAzureWorkload();
+  await listProtectionPoliciesWithBackupManagementTypeFilterAsAzureIaasVM();
+  await listProtectionPoliciesWithBackupManagementTypeFilterAsAzureIaasVMWithBothV1AndV2Policies();
+  await listProtectionPoliciesWithBackupManagementTypeFilterAsAzureWorkload();
 }
 
 main().catch(console.error);

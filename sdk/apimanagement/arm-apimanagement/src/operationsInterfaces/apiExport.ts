@@ -7,32 +7,32 @@
  */
 
 import {
-    ApiExportGetOptionalParams,
-    ApiExportGetResponse,
-    ExportApi,
-    ExportFormat
+  ExportFormat,
+  ExportApi,
+  ApiExportGetOptionalParams,
+  ApiExportGetResponse,
 } from "../models/index.js";
 
 /** Interface representing a ApiExport. */
 export interface ApiExport {
-    /**
-     * Gets the details of the API specified by its identifier in the format specified to the Storage Blob
-     * with SAS Key valid for 5 minutes.
-     * @param resourceGroupName The name of the resource group. The name is case insensitive.
-     * @param serviceName The name of the API Management service.
-     * @param apiId API revision identifier. Must be unique in the current API Management service instance.
-     *              Non-current revision has ;rev=n as a suffix where n is the revision number.
-     * @param format Format in which to export the Api Details to the Storage Blob with Sas Key valid for 5
-     *               minutes.
-     * @param exportParam Query parameter required to export the API details.
-     * @param options The options parameters.
-     */
-    get(
-        resourceGroupName: string,
-        serviceName: string,
-        apiId: string,
-        format: ExportFormat,
-        exportParam: ExportApi,
-        options?: ApiExportGetOptionalParams
-    ): Promise<ApiExportGetResponse>;
+  /**
+   * Gets the details of the API specified by its identifier in the format specified to the Storage Blob
+   * with SAS Key valid for 5 minutes.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param serviceName The name of the API Management service.
+   * @param apiId API revision identifier. Must be unique in the current API Management service instance.
+   *              Non-current revision has ;rev=n as a suffix where n is the revision number.
+   * @param format Format in which to export the Api Details to the Storage Blob with Sas Key valid for 5
+   *               minutes. New formats can be added in the future.
+   * @param exportParam Query parameter required to export the API details.
+   * @param options The options parameters.
+   */
+  get(
+    resourceGroupName: string,
+    serviceName: string,
+    apiId: string,
+    format: ExportFormat,
+    exportParam: ExportApi,
+    options?: ApiExportGetOptionalParams,
+  ): Promise<ApiExportGetResponse>;
 }

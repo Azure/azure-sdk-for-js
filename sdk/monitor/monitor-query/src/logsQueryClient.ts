@@ -126,7 +126,9 @@ export class LogsQueryClient {
           {
             ...updatedOptions,
             requestOptions: {
+              ...updatedOptions.requestOptions,
               customHeaders: {
+                ...updatedOptions.requestOptions?.customHeaders,
                 ...formatPreferHeader(options),
               },
             },
@@ -228,7 +230,9 @@ export class LogsQueryClient {
           {
             ...updatedOptions,
             requestOptions: {
+              ...updatedOptions.requestOptions,
               customHeaders: {
+                ...updatedOptions.requestOptions?.customHeaders,
                 ...formatPreferHeader(options),
               },
             },

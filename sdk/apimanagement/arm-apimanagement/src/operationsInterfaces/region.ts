@@ -12,15 +12,15 @@ import { RegionContract, RegionListByServiceOptionalParams } from "../models/ind
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a Region. */
 export interface Region {
-    /**
-     * Lists all azure regions in which the service exists.
-     * @param resourceGroupName The name of the resource group. The name is case insensitive.
-     * @param serviceName The name of the API Management service.
-     * @param options The options parameters.
-     */
-    listByService(
-        resourceGroupName: string,
-        serviceName: string,
-        options?: RegionListByServiceOptionalParams
-    ): PagedAsyncIterableIterator<RegionContract>;
+  /**
+   * Lists all azure regions in which the service exists.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param serviceName The name of the API Management service.
+   * @param options The options parameters.
+   */
+  listByService(
+    resourceGroupName: string,
+    serviceName: string,
+    options?: RegionListByServiceOptionalParams,
+  ): PagedAsyncIterableIterator<RegionContract>;
 }

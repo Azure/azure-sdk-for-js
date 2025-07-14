@@ -1047,7 +1047,7 @@ export interface NetworkSettings extends ARMBaseModel {
 }
 
 // @public
-interface Node_2 extends ARMBaseModel {
+export interface Node extends ARMBaseModel {
     readonly nodeChassisSerialNumber?: string;
     readonly nodeDisplayName?: string;
     readonly nodeFriendlySoftwareVersion?: string;
@@ -1056,17 +1056,15 @@ interface Node_2 extends ARMBaseModel {
     readonly nodeSerialNumber?: string;
     readonly nodeStatus?: NodeStatus;
 }
-export { Node_2 as Node }
 
 // @public
-interface NodeList_2 {
-    readonly value?: Node_2[];
+export interface NodeList {
+    readonly value?: Node[];
 }
-export { NodeList_2 as NodeList }
 
 // @public
 export interface Nodes {
-    listByDataBoxEdgeDevice(deviceName: string, resourceGroupName: string, options?: NodesListByDataBoxEdgeDeviceOptionalParams): PagedAsyncIterableIterator<Node_2>;
+    listByDataBoxEdgeDevice(deviceName: string, resourceGroupName: string, options?: NodesListByDataBoxEdgeDeviceOptionalParams): PagedAsyncIterableIterator<Node>;
 }
 
 // @public
@@ -1074,7 +1072,7 @@ export interface NodesListByDataBoxEdgeDeviceOptionalParams extends coreClient.O
 }
 
 // @public
-export type NodesListByDataBoxEdgeDeviceResponse = NodeList_2;
+export type NodesListByDataBoxEdgeDeviceResponse = NodeList;
 
 // @public
 export type NodeStatus = string;

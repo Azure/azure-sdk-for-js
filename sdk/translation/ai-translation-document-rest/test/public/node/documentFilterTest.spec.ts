@@ -2,52 +2,53 @@
 // Licensed under the MIT License.
 
 import type { Recorder } from "@azure-tools/test-recorder";
-import { isPlaybackMode } from "@azure-tools/test-recorder";
-import { assert } from "chai";
-import type { DocumentTranslationClient, StartTranslation202Response } from "../../../src";
-import { isUnexpected, getLongRunningPoller } from "../../../src";
-import { createDocumentTranslationClient, startRecorder } from "../utils/recordedClient";
-import { createSourceContainer, createTargetContainer } from "./containerHelper";
-import type { Context } from "mocha";
+import type { DocumentTranslationClient, StartTranslation202Response } from "../../../src/index.js";
+import { isUnexpected, getLongRunningPoller } from "../../../src/index.js";
+import { createDocumentTranslationClient, startRecorder } from "../utils/recordedClient.js";
 import {
   createBatchRequest,
-  createDummyTestDocuments,
   createSourceInput,
   createTargetInput,
   getTranslationOperationID,
-} from "../utils/testHelper";
+} from "../utils/testHelper.js";
+import { describe, it, assert, beforeEach, afterEach } from "vitest";
+import { getContainers, isLiveMode } from "../../utils/injectables.js";
 
 export const testPollingOptions = {
-  intervalInMs: isPlaybackMode() ? 0 : undefined,
+  intervalInMs: isLiveMode() ? undefined : 0,
 };
 
 describe("DocumentFilter tests", () => {
   let recorder: Recorder;
   let client: DocumentTranslationClient;
+  const containers = getContainers();
 
-  beforeEach(async function (this: Context) {
-    recorder = await startRecorder(this);
+  beforeEach(async (ctx) => {
+    recorder = await startRecorder(ctx);
     client = await createDocumentTranslationClient({ recorder });
   });
 
-  afterEach(async function () {
+  afterEach(async () => {
     await recorder.stop();
   });
 
   it("Document Statuses Filter By Status", async () => {
-    const result = createSingleTranslationJob(5);
-    const operationLocationUrl = (await result).headers["operation-location"];
+    const result = await createSingleTranslationJob(
+      containers["source-container7"].url,
+      containers["target-container17"].url,
+    );
+    const operationLocationUrl = result.headers["operation-location"];
     const operationId = getTranslationOperationID(operationLocationUrl);
 
     // Add Status filter
     const succeededStatusList = ["Succeeded"];
-    const queryParams = {
+    const queryParameters = {
       statuses: succeededStatusList,
     };
 
     // get DocumentsStatus
     const response = await client.path("/document/batches/{id}/documents", operationId).get({
-      queryParameters: queryParams,
+      queryParameters,
     });
     if (isUnexpected(response)) {
       throw "get documents status job error:" + response.body;
@@ -59,8 +60,11 @@ describe("DocumentFilter tests", () => {
   });
 
   it("Document Statuses Filter By ID", async () => {
-    const result = createSingleTranslationJob(2);
-    const operationLocationUrl = (await result).headers["operation-location"];
+    const result = await createSingleTranslationJob(
+      containers["source-container9"].url,
+      containers["target-container27"].url,
+    );
+    const operationLocationUrl = result.headers["operation-location"];
     const operationId = getTranslationOperationID(operationLocationUrl);
 
     // get Documents Status with operationID
@@ -75,7 +79,7 @@ describe("DocumentFilter tests", () => {
     }
 
     // Add id filter
-    const queryParams = {
+    const queryParameters = {
       ids: testIds,
     };
 
@@ -83,7 +87,7 @@ describe("DocumentFilter tests", () => {
     const documentStatusResponse = await client
       .path("/document/batches/{id}/documents", operationId)
       .get({
-        queryParameters: queryParams,
+        queryParameters,
       });
     if (isUnexpected(documentStatusResponse)) {
       throw "get documents status job error:" + documentStatusResponse.body;
@@ -96,20 +100,23 @@ describe("DocumentFilter tests", () => {
   });
 
   it("Document Statuses Filter By Created After", async () => {
-    const result = createSingleTranslationJob(5);
-    const operationLocationUrl = (await result).headers["operation-location"];
+    const result = await createSingleTranslationJob(
+      containers["source-container7"].url,
+      containers["target-container28"].url,
+    );
+    const operationLocationUrl = result.headers["operation-location"];
     const operationId = getTranslationOperationID(operationLocationUrl);
 
     // Add orderBy filter
     const orderByList = ["createdDateTimeUtc asc"];
-    const queryParams = {
+    const queryParameters = {
       orderby: orderByList,
     };
 
     // get Documents Status w.r.t orderby
     const testCreatedOnDateTimes = [];
     const response = await client.path("/document/batches/{id}/documents", operationId).get({
-      queryParameters: queryParams,
+      queryParameters,
     });
     if (isUnexpected(response)) {
       throw "get documents status job error:" + response.body;
@@ -141,8 +148,11 @@ describe("DocumentFilter tests", () => {
   });
 
   it("Document Statuses Filter By Created Before", async () => {
-    const result = createSingleTranslationJob(5);
-    const operationLocationUrl = (await result).headers["operation-location"];
+    const result = await createSingleTranslationJob(
+      containers["source-container7"].url,
+      containers["target-container29"].url,
+    );
+    const operationLocationUrl = result.headers["operation-location"];
     const operationId = getTranslationOperationID(operationLocationUrl);
 
     // Add orderBy filter
@@ -207,8 +217,11 @@ describe("DocumentFilter tests", () => {
   });
 
   it("Document Statuses Filter By Created On", async () => {
-    const result = createSingleTranslationJob(3);
-    const operationLocationUrl = (await result).headers["operation-location"];
+    const result = await createSingleTranslationJob(
+      containers["source-container8"].url,
+      containers["target-container30"].url,
+    );
+    const operationLocationUrl = result.headers["operation-location"];
     const operationId = getTranslationOperationID(operationLocationUrl);
 
     // Add OrderBy filter
@@ -233,13 +246,12 @@ describe("DocumentFilter tests", () => {
     }
   });
 
-  async function createSingleTranslationJob(count: number) {
-    const testDocs = createDummyTestDocuments(count);
-    const sourceUrl = await createSourceContainer(recorder, testDocs);
-    const sourceInput = createSourceInput(sourceUrl);
-
-    const targetUrl = await createTargetContainer(recorder);
-    const targetInput = createTargetInput(targetUrl, "fr");
+  async function createSingleTranslationJob(
+    sourceContainerUrl: string,
+    targetContainerUrl: string,
+  ): Promise<StartTranslation202Response> {
+    const sourceInput = createSourceInput(sourceContainerUrl);
+    const targetInput = createTargetInput(targetContainerUrl, "fr");
     const batchRequest = createBatchRequest(sourceInput, [targetInput]);
 
     // Start translation
@@ -252,8 +264,8 @@ describe("DocumentFilter tests", () => {
     }
 
     // Wait until the operation completes
-    const poller = getLongRunningPoller(client, response, testPollingOptions);
-    const result = await (await poller).pollUntilDone();
+    const poller = await getLongRunningPoller(client, response, testPollingOptions);
+    const result = await poller.pollUntilDone();
     assert.equal(result.status, "200");
 
     return response as StartTranslation202Response;

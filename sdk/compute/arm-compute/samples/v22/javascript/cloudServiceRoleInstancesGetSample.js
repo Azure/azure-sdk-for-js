@@ -34,7 +34,7 @@ async function getCloudServiceRoleInstance() {
 }
 
 async function main() {
-  getCloudServiceRoleInstance();
+  await getCloudServiceRoleInstance();
 }
 
 main().catch(console.error);

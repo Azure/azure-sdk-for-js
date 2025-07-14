@@ -8,18 +8,18 @@
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import {
-    ApiManagementOperationsListOptionalParams,
-    Operation
+  Operation,
+  ApiManagementOperationsListOptionalParams,
 } from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a ApiManagementOperations. */
 export interface ApiManagementOperations {
-    /**
-     * Lists all of the available REST API operations of the Microsoft.ApiManagement provider.
-     * @param options The options parameters.
-     */
-    list(
-        options?: ApiManagementOperationsListOptionalParams
-    ): PagedAsyncIterableIterator<Operation>;
+  /**
+   * Lists all of the available REST API operations of the Microsoft.ApiManagement provider.
+   * @param options The options parameters.
+   */
+  list(
+    options?: ApiManagementOperationsListOptionalParams,
+  ): PagedAsyncIterableIterator<Operation>;
 }

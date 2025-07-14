@@ -9,13 +9,10 @@
 
 import AccessControl, { isUnexpected, paginate } from "@azure-rest/synapse-access-control";
 import { DefaultAzureCredential } from "@azure/identity";
-import dotenv from "dotenv";
-
-dotenv.config();
-
+import "dotenv/config";
 const endpoint = process.env["ENDPOINT"] || "";
 
-async function main() {
+async function main(): Promise<void> {
   const client = AccessControl(endpoint, new DefaultAzureCredential());
   const initialResponse = await client.path("/roleAssignments").get();
 

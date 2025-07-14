@@ -12,51 +12,51 @@ import type { CreateTopicOptions } from "../../src/index.js";
 import type { WithResponse } from "../../src/index.js";
 import { ServiceBusAdministrationClient } from "../../src/index.js";
 import type { EntityStatus, EntityAvailabilityStatus } from "../../src/index.js";
-import { EnvVarNames, getEnvVars, getEnvVarValue } from "./utils/envVarUtils.js";
 import { recreateQueue, recreateSubscription, recreateTopic } from "./utils/managementUtils.js";
 import { EntityNames, TestClientType } from "./utils/testUtils.js";
 import { TestConstants } from "./fakeTestSecrets.js";
 import { AzureNamedKeyCredential } from "@azure/core-auth";
 import type { ServiceBusClientForTests } from "./utils/testutils2.js";
-import { createServiceBusClientForTests, getFullyQualifiedNamespace } from "./utils/testutils2.js";
+import { createServiceBusClientForTests } from "./utils/testutils2.js";
 import { createTestCredential } from "@azure-tools/test-credential";
 import { afterAll, afterEach, assert, beforeAll, beforeEach, describe, it } from "vitest";
 import { should } from "./utils/chai.js";
+import {
+  getConnectionString,
+  getFullyQualifiedNamespace,
+  getFullyQualifiedNamespacePremium,
+} from "../utils/injectables.js";
 
-const env = getEnvVars();
+const connectionString = getConnectionString();
 
-const endpointWithProtocol = parseServiceBusConnectionString(
-  env[EnvVarNames.SERVICEBUS_CONNECTION_STRING],
-).endpoint;
+describe.runIf(connectionString).each(["2021-05", "2017-04"])("Version [%s]", (serviceVersion) => {
+  const endpointWithProtocol = parseServiceBusConnectionString(connectionString!).endpoint;
 
-enum EntityType {
-  QUEUE = "Queue",
-  TOPIC = "Topic",
-  SUBSCRIPTION = "Subscription",
-  RULE = "Rule",
-}
+  enum EntityType {
+    QUEUE = "Queue",
+    TOPIC = "Topic",
+    SUBSCRIPTION = "Subscription",
+    RULE = "Rule",
+  }
 
-const managementQueue1 = EntityNames.MANAGEMENT_QUEUE_1;
-const managementTopic1 = EntityNames.MANAGEMENT_TOPIC_1;
-const managementSubscription1 = EntityNames.MANAGEMENT_SUBSCRIPTION_1;
-const managementRule1 = EntityNames.MANAGEMENT_RULE_1;
+  const managementQueue1 = EntityNames.MANAGEMENT_QUEUE_1;
+  const managementTopic1 = EntityNames.MANAGEMENT_TOPIC_1;
+  const managementSubscription1 = EntityNames.MANAGEMENT_SUBSCRIPTION_1;
+  const managementRule1 = EntityNames.MANAGEMENT_RULE_1;
 
-const managementQueue2 = EntityNames.MANAGEMENT_QUEUE_2;
-const managementTopic2 = EntityNames.MANAGEMENT_TOPIC_2;
-const managementSubscription2 = EntityNames.MANAGEMENT_SUBSCRIPTION_2;
-const managementRule2 = EntityNames.MANAGEMENT_RULE_2;
+  const managementQueue2 = EntityNames.MANAGEMENT_QUEUE_2;
+  const managementTopic2 = EntityNames.MANAGEMENT_TOPIC_2;
+  const managementSubscription2 = EntityNames.MANAGEMENT_SUBSCRIPTION_2;
+  const managementRule2 = EntityNames.MANAGEMENT_RULE_2;
 
-const newManagementEntity1 = EntityNames.MANAGEMENT_NEW_ENTITY_1;
-const newManagementEntity2 = EntityNames.MANAGEMENT_NEW_ENTITY_2;
-type AccessRights = ("Manage" | "Send" | "Listen")[];
-const randomDate = new Date();
+  const newManagementEntity1 = EntityNames.MANAGEMENT_NEW_ENTITY_1;
+  const newManagementEntity2 = EntityNames.MANAGEMENT_NEW_ENTITY_2;
+  type AccessRights = ("Manage" | "Send" | "Listen")[];
+  const randomDate = new Date();
 
-const serviceApiVersions = ["2021-05", "2017-04"];
-let serviceBusAtomManagementClient: ServiceBusAdministrationClient;
+  let serviceBusAtomManagementClient: ServiceBusAdministrationClient;
 
-// TEST_MODE must be set to "live" to run both the versions
-serviceApiVersions.forEach((serviceVersion) => {
-  describe(`ATOM APIs - version ${serviceVersion}`, () => {
+  describe(`ATOM APIs`, () => {
     beforeAll(() => {
       serviceBusAtomManagementClient = new ServiceBusAdministrationClient(
         getFullyQualifiedNamespace(),
@@ -128,9 +128,7 @@ serviceApiVersions.forEach((serviceVersion) => {
       }
 
       it("AzureNamedKeyCredential from `@azure/core-auth`", async () => {
-        const connectionStringProperties = parseServiceBusConnectionString(
-          env[EnvVarNames.SERVICEBUS_CONNECTION_STRING],
-        );
+        const connectionStringProperties = parseServiceBusConnectionString(connectionString!);
         const host = connectionStringProperties.fullyQualifiedNamespace;
         const serviceBusAdministrationClient = new ServiceBusAdministrationClient(
           host,
@@ -2965,7 +2963,7 @@ serviceApiVersions.forEach((serviceVersion) => {
       }
     }
 
-    const premiumNamespace = getEnvVarValue("SERVICEBUS_FQDN_PREMIUM");
+    const premiumNamespace = getFullyQualifiedNamespacePremium();
     describe.runIf(premiumNamespace)("Premium Namespaces", () => {
       let atomClient: ServiceBusAdministrationClient;
       let entityNameWithmaxSize: { entityName: string; maxSize: number };

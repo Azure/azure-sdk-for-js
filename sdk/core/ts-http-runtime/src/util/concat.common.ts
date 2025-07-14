@@ -1,8 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { getRawContent } from "./file.js";
-import { isNodeReadableStream, isWebReadableStream } from "./typeGuards.js";
+import { isWebReadableStream } from "./typeGuards.js";
 
 /**
  * Drain the content of the given ReadableStream into a Blob.
@@ -21,21 +20,11 @@ async function toBlobPart(
 
   if (isWebReadableStream(source)) {
     return drain(source);
-  }
-
-  // If it's not a true Blob, and it's not a Uint8Array, we can assume the source
-  // is a fake File created by createFileFromStream and we can get the original stream
-  // using getRawContent.
-  const rawContent = getRawContent(source);
-
-  // Shouldn't happen but guard for it anyway
-  if (isNodeReadableStream(rawContent)) {
+  } else {
     throw new Error(
-      "Encountered unexpected type. In the browser, `concat` supports Web ReadableStream, Blob, Uint8Array, and files created using `createFile` only.",
+      "Unsupported source type. Only Blob, Uint8Array, and ReadableStream are supported in browser.",
     );
   }
-
-  return toBlobPart(rawContent);
 }
 
 /**

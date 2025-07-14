@@ -10,13 +10,13 @@
 // Licensed under the MIT License.
 const { ElasticSanManagement } = require("@azure/arm-elasticsan");
 const { DefaultAzureCredential } = require("@azure/identity");
-require("dotenv").config();
+require("dotenv/config");
 
 /**
  * This sample demonstrates how to List all Private Endpoint Connections associated with the Elastic San.
  *
  * @summary List all Private Endpoint Connections associated with the Elastic San.
- * x-ms-original-file: specification/elasticsan/resource-manager/Microsoft.ElasticSan/preview/2024-06-01-preview/examples/PrivateEndpointConnections_List_MaximumSet_Gen.json
+ * x-ms-original-file: specification/elasticsan/resource-manager/Microsoft.ElasticSan/preview/2024-07-01-preview/examples/PrivateEndpointConnections_List_MaximumSet_Gen.json
  */
 async function privateEndpointConnectionsListMaximumSetGen() {
   const subscriptionId = process.env["ELASTICSANS_SUBSCRIPTION_ID"] || "subscriptionid";
@@ -25,7 +25,7 @@ async function privateEndpointConnectionsListMaximumSetGen() {
   const credential = new DefaultAzureCredential();
   const client = new ElasticSanManagement(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.privateEndpointConnections.list(
+  for await (const item of client.privateEndpointConnections.list(
     resourceGroupName,
     elasticSanName,
   )) {
@@ -38,7 +38,7 @@ async function privateEndpointConnectionsListMaximumSetGen() {
  * This sample demonstrates how to List all Private Endpoint Connections associated with the Elastic San.
  *
  * @summary List all Private Endpoint Connections associated with the Elastic San.
- * x-ms-original-file: specification/elasticsan/resource-manager/Microsoft.ElasticSan/preview/2024-06-01-preview/examples/PrivateEndpointConnections_List_MinimumSet_Gen.json
+ * x-ms-original-file: specification/elasticsan/resource-manager/Microsoft.ElasticSan/preview/2024-07-01-preview/examples/PrivateEndpointConnections_List_MinimumSet_Gen.json
  */
 async function privateEndpointConnectionsListMinimumSetGen() {
   const subscriptionId = process.env["ELASTICSANS_SUBSCRIPTION_ID"] || "subscriptionid";
@@ -47,7 +47,7 @@ async function privateEndpointConnectionsListMinimumSetGen() {
   const credential = new DefaultAzureCredential();
   const client = new ElasticSanManagement(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.privateEndpointConnections.list(
+  for await (const item of client.privateEndpointConnections.list(
     resourceGroupName,
     elasticSanName,
   )) {
@@ -57,8 +57,8 @@ async function privateEndpointConnectionsListMinimumSetGen() {
 }
 
 async function main() {
-  privateEndpointConnectionsListMaximumSetGen();
-  privateEndpointConnectionsListMinimumSetGen();
+  await privateEndpointConnectionsListMaximumSetGen();
+  await privateEndpointConnectionsListMinimumSetGen();
 }
 
 main().catch(console.error);

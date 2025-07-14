@@ -84,7 +84,10 @@ async function makeRequest(request: PipelineRequest): Promise<PipelineResponse> 
      * of request options.
      * It will not work as you expect.
      */
-    const response = await fetch(request.url, requestInit);
+    const response = await fetch(request.url, {
+      ...requestInit,
+      ...request.requestOverrides,
+    });
     // If we're uploading a blob, we need to fire the progress event manually
     if (isBlob(request.body) && request.onUploadProgress) {
       request.onUploadProgress({ loadedBytes: request.body.size });
@@ -155,7 +158,7 @@ function setupAbortSignal(request: PipelineRequest): {
   let abortListener: ((event: any) => void) | undefined;
   if (request.abortSignal) {
     if (request.abortSignal.aborted) {
-      throw new AbortError("The operation was aborted. Request has already been canceled");
+      throw new AbortError("The operation was aborted. Request has already been canceled.");
     }
 
     abortListener = (event: Event) => {

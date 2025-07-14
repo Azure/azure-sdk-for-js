@@ -6,8 +6,6 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
 import { NetAppManagementClient } from "@azure/arm-netapp";
 import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
@@ -16,19 +14,19 @@ import "dotenv/config";
  * This sample demonstrates how to List all backups Under a Backup Vault
  *
  * @summary List all backups Under a Backup Vault
- * x-ms-original-file: specification/netapp/resource-manager/Microsoft.NetApp/preview/2024-07-01-preview/examples/BackupsUnderBackupVault_List.json
+ * x-ms-original-file: specification/netapp/resource-manager/Microsoft.NetApp/preview/2025-01-01-preview/examples/BackupsUnderBackupVault_List.json
  */
 async function backupsList(): Promise<void> {
   const subscriptionId =
     process.env["NETAPP_SUBSCRIPTION_ID"] ||
-    "D633CC2E-722B-4AE1-B636-BBD9E4C60ED9";
+    "00000000-0000-0000-0000-000000000000";
   const resourceGroupName = process.env["NETAPP_RESOURCE_GROUP"] || "myRG";
   const accountName = "account1";
   const backupVaultName = "backupVault1";
   const credential = new DefaultAzureCredential();
   const client = new NetAppManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.backups.listByVault(
+  for await (const item of client.backups.listByVault(
     resourceGroupName,
     accountName,
     backupVaultName,
@@ -39,7 +37,7 @@ async function backupsList(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  backupsList();
+  await backupsList();
 }
 
 main().catch(console.error);

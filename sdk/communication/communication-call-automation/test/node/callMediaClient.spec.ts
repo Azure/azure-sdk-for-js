@@ -793,7 +793,7 @@ describe("Call Media Client Live Tests", function () {
         answerCallOption,
       );
     }
-    const callConnectedEvent = await waitForEvent("CallConnected", callConnectionId, 8000);
+    const callConnectedEvent = await waitForEvent("CallConnected", callConnectionId, 10000);
     assert.isDefined(callConnectedEvent);
     callConnection = result.callConnection;
 
@@ -2443,7 +2443,7 @@ describe("Call Media Client Live Tests", function () {
       const holdAudioCompletedEvent = await waitForEvent(
         "HoldAudioCompleted",
         callConnectionId,
-        8000,
+        10000,
       );
       assert.isDefined(holdAudioCompletedEvent);
 

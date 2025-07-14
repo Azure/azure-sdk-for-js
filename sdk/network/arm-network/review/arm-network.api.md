@@ -21,6 +21,9 @@ export interface AadAuthenticationParameters {
 export type Access = string;
 
 // @public
+export type AccessRuleDirection = string;
+
+// @public
 export interface Action {
     parameters?: Parameter[];
     type?: RouteMapActionType;
@@ -263,6 +266,17 @@ export type AdminRulesListResponse = AdminRuleListResult;
 
 // @public
 export type AdminState = string;
+
+// @public
+export interface AdvertisedPublicPrefixProperties {
+    prefix?: string;
+    signature?: string;
+    validationId?: string;
+    readonly validationState?: AdvertisedPublicPrefixPropertiesValidationState;
+}
+
+// @public
+export type AdvertisedPublicPrefixPropertiesValidationState = string;
 
 // @public
 export interface ApplicationGateway extends Resource {
@@ -1341,6 +1355,9 @@ export interface ApplicationSecurityGroupsUpdateTagsOptionalParams extends coreC
 export type ApplicationSecurityGroupsUpdateTagsResponse = ApplicationSecurityGroup;
 
 // @public
+export type AssociationAccessMode = string;
+
+// @public
 export type AssociationType = string;
 
 // @public
@@ -2273,6 +2290,13 @@ export interface ChildResource {
 // @public
 export type CircuitConnectionStatus = string;
 
+// @public (undocumented)
+export interface CircuitMetadataMap {
+    link?: string;
+    location?: string;
+    name?: string;
+}
+
 // @public
 export interface CloudError {
     error?: CloudErrorBody;
@@ -2392,6 +2416,12 @@ export type ConfigurationPolicyGroupsListByVpnServerConfigurationResponse = List
 
 // @public
 export type ConfigurationType = string;
+
+// @public
+export type ConnectedGroupAddressOverlap = string;
+
+// @public
+export type ConnectedGroupPrivateEndpointsScale = string;
 
 // @public
 export interface ConnectionMonitor {
@@ -2548,10 +2578,6 @@ export interface ConnectionMonitors {
     beginCreateOrUpdateAndWait(resourceGroupName: string, networkWatcherName: string, connectionMonitorName: string, parameters: ConnectionMonitor, options?: ConnectionMonitorsCreateOrUpdateOptionalParams): Promise<ConnectionMonitorsCreateOrUpdateResponse>;
     beginDelete(resourceGroupName: string, networkWatcherName: string, connectionMonitorName: string, options?: ConnectionMonitorsDeleteOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
     beginDeleteAndWait(resourceGroupName: string, networkWatcherName: string, connectionMonitorName: string, options?: ConnectionMonitorsDeleteOptionalParams): Promise<void>;
-    beginQuery(resourceGroupName: string, networkWatcherName: string, connectionMonitorName: string, options?: ConnectionMonitorsQueryOptionalParams): Promise<SimplePollerLike<OperationState<ConnectionMonitorsQueryResponse>, ConnectionMonitorsQueryResponse>>;
-    beginQueryAndWait(resourceGroupName: string, networkWatcherName: string, connectionMonitorName: string, options?: ConnectionMonitorsQueryOptionalParams): Promise<ConnectionMonitorsQueryResponse>;
-    beginStart(resourceGroupName: string, networkWatcherName: string, connectionMonitorName: string, options?: ConnectionMonitorsStartOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
-    beginStartAndWait(resourceGroupName: string, networkWatcherName: string, connectionMonitorName: string, options?: ConnectionMonitorsStartOptionalParams): Promise<void>;
     beginStop(resourceGroupName: string, networkWatcherName: string, connectionMonitorName: string, options?: ConnectionMonitorsStopOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
     beginStopAndWait(resourceGroupName: string, networkWatcherName: string, connectionMonitorName: string, options?: ConnectionMonitorsStopOptionalParams): Promise<void>;
     get(resourceGroupName: string, networkWatcherName: string, connectionMonitorName: string, options?: ConnectionMonitorsGetOptionalParams): Promise<ConnectionMonitorsGetResponse>;
@@ -2597,21 +2623,6 @@ export interface ConnectionMonitorSource {
 
 // @public
 export type ConnectionMonitorSourceStatus = string;
-
-// @public
-export interface ConnectionMonitorsQueryOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
-    updateIntervalInMs?: number;
-}
-
-// @public
-export type ConnectionMonitorsQueryResponse = ConnectionMonitorQueryResult;
-
-// @public
-export interface ConnectionMonitorsStartOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
-    updateIntervalInMs?: number;
-}
 
 // @public
 export interface ConnectionMonitorsStopOptionalParams extends coreClient.OperationOptions {
@@ -2717,6 +2728,7 @@ export type ConnectionStatus = string;
 // @public
 export interface ConnectivityConfiguration extends ChildResource {
     appliesToGroups?: ConnectivityGroupItem[];
+    connectivityCapabilities?: ConnectivityConfigurationPropertiesConnectivityCapabilities;
     connectivityTopology?: ConnectivityTopology;
     deleteExistingPeering?: DeleteExistingPeering;
     description?: string;
@@ -2731,6 +2743,13 @@ export interface ConnectivityConfiguration extends ChildResource {
 export interface ConnectivityConfigurationListResult {
     nextLink?: string;
     value?: ConnectivityConfiguration[];
+}
+
+// @public
+export interface ConnectivityConfigurationPropertiesConnectivityCapabilities {
+    connectedGroupAddressOverlap: ConnectedGroupAddressOverlap;
+    connectedGroupPrivateEndpointsScale: ConnectedGroupPrivateEndpointsScale;
+    peeringEnforcement: PeeringEnforcement;
 }
 
 // @public
@@ -3412,6 +3431,7 @@ export type EffectiveBaseSecurityAdminRuleUnion = EffectiveBaseSecurityAdminRule
 export interface EffectiveConnectivityConfiguration {
     appliesToGroups?: ConnectivityGroupItem[];
     configurationGroups?: ConfigurationGroup[];
+    connectivityCapabilities?: ConnectivityConfigurationPropertiesConnectivityCapabilities;
     connectivityTopology?: ConnectivityTopology;
     deleteExistingPeering?: DeleteExistingPeering;
     description?: string;
@@ -3553,6 +3573,21 @@ export interface EndpointServicesListResult {
 
 // @public
 export type EndpointType = string;
+
+// @public
+export interface ErrorAdditionalInfo {
+    readonly info?: Record<string, unknown>;
+    readonly type?: string;
+}
+
+// @public
+export interface ErrorDetail {
+    readonly additionalInfo?: ErrorAdditionalInfo[];
+    readonly code?: string;
+    readonly details?: ErrorDetail[];
+    readonly message?: string;
+    readonly target?: string;
+}
 
 // @public
 export interface ErrorDetails {
@@ -3828,6 +3863,7 @@ export interface ExpressRouteCircuitPeeringConfig {
     advertisedCommunities?: string[];
     advertisedPublicPrefixes?: string[];
     readonly advertisedPublicPrefixesState?: ExpressRouteCircuitPeeringAdvertisedPublicPrefixState;
+    advertisedPublicPrefixInfo?: AdvertisedPublicPrefixProperties[];
     customerASN?: number;
     legacyMode?: number;
     routingRegistryName?: string;
@@ -5548,6 +5584,27 @@ export type GatewayLoadBalancerTunnelInterfaceType = string;
 export type GatewayLoadBalancerTunnelProtocol = string;
 
 // @public
+export interface GatewayResiliencyInformation {
+    components?: ResiliencyRecommendationComponents[];
+    lastComputedTime?: Date;
+    maxScoreFromRecommendations?: string;
+    minScoreFromRecommendations?: string;
+    nextEligibleComputeTime?: Date;
+    overallScore?: string;
+    scoreChange?: string;
+}
+
+// @public
+export interface GatewayResiliencyRecommendation {
+    callToActionLink?: string;
+    callToActionText?: string;
+    recommendationId?: string;
+    recommendationText?: string;
+    recommendationTitle?: string;
+    severity?: string;
+}
+
+// @public
 export interface GatewayRoute {
     readonly asPath?: string;
     readonly localAddress?: string;
@@ -5561,6 +5618,26 @@ export interface GatewayRoute {
 // @public
 export interface GatewayRouteListResult {
     value?: GatewayRoute[];
+}
+
+// @public (undocumented)
+export interface GatewayRouteSet {
+    details?: {
+        [propertyName: string]: RouteSourceDetails[];
+    };
+    locations?: string[];
+    name?: string;
+}
+
+// @public
+export interface GatewayRouteSetsInformation {
+    circuitsMetadataMap?: {
+        [propertyName: string]: CircuitMetadataMap;
+    };
+    lastComputedTime?: Date;
+    nextEligibleComputeTime?: Date;
+    routeSets?: GatewayRouteSet[];
+    routeSetVersion?: string;
 }
 
 // @public
@@ -6141,6 +6218,7 @@ export type IpAllocationType = string;
 
 // @public
 export interface IpamPool extends CommonTrackedResource {
+    readonly etag?: string;
     properties: IpamPoolProperties;
 }
 
@@ -6190,6 +6268,7 @@ export interface IpamPoolsCreateHeaders {
 
 // @public
 export interface IpamPoolsCreateOptionalParams extends coreClient.OperationOptions {
+    ifMatch?: string;
     resumeFrom?: string;
     updateIntervalInMs?: number;
 }
@@ -6205,6 +6284,7 @@ export interface IpamPoolsDeleteHeaders {
 
 // @public
 export interface IpamPoolsDeleteOptionalParams extends coreClient.OperationOptions {
+    ifMatch?: string;
     resumeFrom?: string;
     updateIntervalInMs?: number;
 }
@@ -6262,6 +6342,7 @@ export type IpamPoolsListResponse = IpamPoolList;
 // @public
 export interface IpamPoolsUpdateOptionalParams extends coreClient.OperationOptions {
     body?: IpamPoolUpdate;
+    ifMatch?: string;
 }
 
 // @public
@@ -6479,6 +6560,12 @@ export enum KnownAccess {
 }
 
 // @public
+export enum KnownAccessRuleDirection {
+    Inbound = "Inbound",
+    Outbound = "Outbound"
+}
+
+// @public
 export enum KnownActionType {
     Allow = "Allow",
     AnomalyScoring = "AnomalyScoring",
@@ -6510,6 +6597,20 @@ export enum KnownAdminRuleKind {
 export enum KnownAdminState {
     Disabled = "Disabled",
     Enabled = "Enabled"
+}
+
+// @public
+export enum KnownAdvertisedPublicPrefixPropertiesValidationState {
+    AsnValidationFailed = "AsnValidationFailed",
+    CertificateMissingInRoutingRegistry = "CertificateMissingInRoutingRegistry",
+    Configured = "Configured",
+    Configuring = "Configuring",
+    InvalidSignatureEncoding = "InvalidSignatureEncoding",
+    ManualValidationNeeded = "ManualValidationNeeded",
+    NotConfigured = "NotConfigured",
+    SignatureVerificationFailed = "SignatureVerificationFailed",
+    ValidationFailed = "ValidationFailed",
+    ValidationNeeded = "ValidationNeeded"
 }
 
 // @public
@@ -6561,7 +6662,9 @@ export enum KnownApplicationGatewayFirewallRateLimitDuration {
 // @public
 export enum KnownApplicationGatewayFirewallUserSessionVariable {
     ClientAddr = "ClientAddr",
+    ClientAddrXFFHeader = "ClientAddrXFFHeader",
     GeoLocation = "GeoLocation",
+    GeoLocationXFFHeader = "GeoLocationXFFHeader",
     None = "None"
 }
 
@@ -6725,6 +6828,13 @@ export enum KnownApplicationGatewayWafRuleStateTypes {
 }
 
 // @public
+export enum KnownAssociationAccessMode {
+    Audit = "Audit",
+    Enforced = "Enforced",
+    Learning = "Learning"
+}
+
+// @public
 export enum KnownAssociationType {
     Associated = "Associated",
     Contains = "Contains"
@@ -6853,6 +6963,18 @@ export enum KnownConfigurationType {
     Routing = "Routing",
     SecurityAdmin = "SecurityAdmin",
     SecurityUser = "SecurityUser"
+}
+
+// @public
+export enum KnownConnectedGroupAddressOverlap {
+    Allowed = "Allowed",
+    Disallowed = "Disallowed"
+}
+
+// @public
+export enum KnownConnectedGroupPrivateEndpointsScale {
+    HighScale = "HighScale",
+    Standard = "Standard"
 }
 
 // @public
@@ -7493,7 +7615,8 @@ export enum KnownManagedRuleEnabledState {
 
 // @public
 export enum KnownNatGatewaySkuName {
-    Standard = "Standard"
+    Standard = "Standard",
+    StandardV2 = "StandardV2"
 }
 
 // @public
@@ -7581,6 +7704,35 @@ export enum KnownNicTypeInResponse {
 }
 
 // @public
+export enum KnownNspLinkProvisioningState {
+    Accepted = "Accepted",
+    Creating = "Creating",
+    Deleting = "Deleting",
+    Failed = "Failed",
+    Succeeded = "Succeeded",
+    Updating = "Updating",
+    WaitForRemoteCompletion = "WaitForRemoteCompletion"
+}
+
+// @public
+export enum KnownNspLinkStatus {
+    Approved = "Approved",
+    Disconnected = "Disconnected",
+    Pending = "Pending",
+    Rejected = "Rejected"
+}
+
+// @public
+export enum KnownNspProvisioningState {
+    Accepted = "Accepted",
+    Creating = "Creating",
+    Deleting = "Deleting",
+    Failed = "Failed",
+    Succeeded = "Succeeded",
+    Updating = "Updating"
+}
+
+// @public
 export enum KnownOfficeTrafficCategory {
     All = "All",
     None = "None",
@@ -7645,6 +7797,12 @@ export enum KnownPcStatus {
     Running = "Running",
     Stopped = "Stopped",
     Unknown = "Unknown"
+}
+
+// @public
+export enum KnownPeeringEnforcement {
+    Enforced = "Enforced",
+    Unenforced = "Unenforced"
 }
 
 // @public
@@ -7741,7 +7899,8 @@ export enum KnownPublicIPAddressMigrationPhase {
 // @public
 export enum KnownPublicIPAddressSkuName {
     Basic = "Basic",
-    Standard = "Standard"
+    Standard = "Standard",
+    StandardV2 = "StandardV2"
 }
 
 // @public
@@ -7752,7 +7911,8 @@ export enum KnownPublicIPAddressSkuTier {
 
 // @public
 export enum KnownPublicIPPrefixSkuName {
-    Standard = "Standard"
+    Standard = "Standard",
+    StandardV2 = "StandardV2"
 }
 
 // @public
@@ -8018,6 +8178,32 @@ export enum KnownVirtualNetworkGatewayConnectionType {
     IPsec = "IPsec",
     Vnet2Vnet = "Vnet2Vnet",
     VPNClient = "VPNClient"
+}
+
+// @public
+export enum KnownVirtualNetworkGatewayMigrationPhase {
+    Abort = "Abort",
+    AbortSucceeded = "AbortSucceeded",
+    Commit = "Commit",
+    CommitSucceeded = "CommitSucceeded",
+    Execute = "Execute",
+    ExecuteSucceeded = "ExecuteSucceeded",
+    None = "None",
+    Prepare = "Prepare",
+    PrepareSucceeded = "PrepareSucceeded"
+}
+
+// @public
+export enum KnownVirtualNetworkGatewayMigrationState {
+    Failed = "Failed",
+    InProgress = "InProgress",
+    None = "None",
+    Succeeded = "Succeeded"
+}
+
+// @public
+export enum KnownVirtualNetworkGatewayMigrationType {
+    UpgradeDeploymentToStandardIP = "UpgradeDeploymentToStandardIP"
 }
 
 // @public
@@ -8539,7 +8725,7 @@ export interface LoadBalancerHealthPerRule {
 // @public
 export interface LoadBalancerHealthPerRulePerBackendAddress {
     ipAddress?: string;
-    networkInterfaceIPConfigurationId?: NetworkInterfaceIPConfiguration;
+    networkInterfaceIPConfigurationId?: string;
     reason?: string;
     state?: string;
 }
@@ -8814,6 +9000,7 @@ export interface LoadBalancingRule extends SubResource {
     backendAddressPools?: SubResource[];
     backendPort?: number;
     disableOutboundSnat?: boolean;
+    enableConnectionTracking?: boolean;
     enableFloatingIP?: boolean;
     enableTcpReset?: boolean;
     readonly etag?: string;
@@ -8935,9 +9122,16 @@ export interface ManagedRulesDefinition {
 
 // @public
 export interface ManagedRuleSet {
+    readonly computedDisabledRules?: ManagedRuleSetRuleGroup[];
     ruleGroupOverrides?: ManagedRuleGroupOverride[];
     ruleSetType: string;
     ruleSetVersion: string;
+}
+
+// @public
+export interface ManagedRuleSetRuleGroup {
+    ruleGroupName: string;
+    rules?: string[];
 }
 
 // @public
@@ -9047,9 +9241,12 @@ export interface NatGateway extends Resource {
     idleTimeoutInMinutes?: number;
     readonly provisioningState?: ProvisioningState;
     publicIpAddresses?: SubResource[];
+    publicIpAddressesV6?: SubResource[];
     publicIpPrefixes?: SubResource[];
+    publicIpPrefixesV6?: SubResource[];
     readonly resourceGuid?: string;
     sku?: NatGatewaySku;
+    sourceVirtualNetwork?: SubResource;
     readonly subnets?: SubResource[];
     zones?: string[];
 }
@@ -9899,6 +10096,24 @@ export class NetworkManagementClient extends coreClient.ServiceClient {
     // (undocumented)
     networkSecurityGroups: NetworkSecurityGroups;
     // (undocumented)
+    networkSecurityPerimeterAccessRules: NetworkSecurityPerimeterAccessRules;
+    // (undocumented)
+    networkSecurityPerimeterAssociableResourceTypes: NetworkSecurityPerimeterAssociableResourceTypes;
+    // (undocumented)
+    networkSecurityPerimeterAssociations: NetworkSecurityPerimeterAssociations;
+    // (undocumented)
+    networkSecurityPerimeterLinkReferences: NetworkSecurityPerimeterLinkReferences;
+    // (undocumented)
+    networkSecurityPerimeterLinks: NetworkSecurityPerimeterLinks;
+    // (undocumented)
+    networkSecurityPerimeterLoggingConfigurations: NetworkSecurityPerimeterLoggingConfigurations;
+    // (undocumented)
+    networkSecurityPerimeterOperationStatuses: NetworkSecurityPerimeterOperationStatuses;
+    // (undocumented)
+    networkSecurityPerimeterProfiles: NetworkSecurityPerimeterProfiles;
+    // (undocumented)
+    networkSecurityPerimeters: NetworkSecurityPerimeters;
+    // (undocumented)
     networkVirtualApplianceConnections: NetworkVirtualApplianceConnections;
     // (undocumented)
     networkVirtualAppliances: NetworkVirtualAppliances;
@@ -10514,6 +10729,415 @@ export interface NetworkSecurityGroupsUpdateTagsOptionalParams extends coreClien
 export type NetworkSecurityGroupsUpdateTagsResponse = NetworkSecurityGroup;
 
 // @public
+export interface NetworkSecurityPerimeter extends TrackedResource {
+    readonly perimeterGuid?: string;
+    readonly provisioningState?: NspProvisioningState;
+}
+
+// @public
+export interface NetworkSecurityPerimeterAccessRules {
+    createOrUpdate(resourceGroupName: string, networkSecurityPerimeterName: string, profileName: string, accessRuleName: string, parameters: NspAccessRule, options?: NetworkSecurityPerimeterAccessRulesCreateOrUpdateOptionalParams): Promise<NetworkSecurityPerimeterAccessRulesCreateOrUpdateResponse>;
+    delete(resourceGroupName: string, networkSecurityPerimeterName: string, profileName: string, accessRuleName: string, options?: NetworkSecurityPerimeterAccessRulesDeleteOptionalParams): Promise<void>;
+    get(resourceGroupName: string, networkSecurityPerimeterName: string, profileName: string, accessRuleName: string, options?: NetworkSecurityPerimeterAccessRulesGetOptionalParams): Promise<NetworkSecurityPerimeterAccessRulesGetResponse>;
+    list(resourceGroupName: string, networkSecurityPerimeterName: string, profileName: string, options?: NetworkSecurityPerimeterAccessRulesListOptionalParams): PagedAsyncIterableIterator<NspAccessRule>;
+    reconcile(resourceGroupName: string, networkSecurityPerimeterName: string, profileName: string, accessRuleName: string, parameters: Record<string, unknown>, options?: NetworkSecurityPerimeterAccessRulesReconcileOptionalParams): Promise<NetworkSecurityPerimeterAccessRulesReconcileResponse>;
+}
+
+// @public
+export interface NetworkSecurityPerimeterAccessRulesCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type NetworkSecurityPerimeterAccessRulesCreateOrUpdateResponse = NspAccessRule;
+
+// @public
+export interface NetworkSecurityPerimeterAccessRulesDeleteOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export interface NetworkSecurityPerimeterAccessRulesGetOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type NetworkSecurityPerimeterAccessRulesGetResponse = NspAccessRule;
+
+// @public
+export interface NetworkSecurityPerimeterAccessRulesListNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type NetworkSecurityPerimeterAccessRulesListNextResponse = NspAccessRuleListResult;
+
+// @public
+export interface NetworkSecurityPerimeterAccessRulesListOptionalParams extends coreClient.OperationOptions {
+    skipToken?: string;
+    top?: number;
+}
+
+// @public
+export type NetworkSecurityPerimeterAccessRulesListResponse = NspAccessRuleListResult;
+
+// @public
+export interface NetworkSecurityPerimeterAccessRulesReconcileOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type NetworkSecurityPerimeterAccessRulesReconcileResponse = Record<string, unknown>;
+
+// @public
+export interface NetworkSecurityPerimeterAssociableResourceTypes {
+    list(location: string, options?: NetworkSecurityPerimeterAssociableResourceTypesListOptionalParams): PagedAsyncIterableIterator<PerimeterAssociableResource>;
+}
+
+// @public
+export interface NetworkSecurityPerimeterAssociableResourceTypesListNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type NetworkSecurityPerimeterAssociableResourceTypesListNextResponse = PerimeterAssociableResourcesListResult;
+
+// @public
+export interface NetworkSecurityPerimeterAssociableResourceTypesListOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type NetworkSecurityPerimeterAssociableResourceTypesListResponse = PerimeterAssociableResourcesListResult;
+
+// @public
+export interface NetworkSecurityPerimeterAssociations {
+    beginCreateOrUpdate(resourceGroupName: string, networkSecurityPerimeterName: string, associationName: string, parameters: NspAssociation, options?: NetworkSecurityPerimeterAssociationsCreateOrUpdateOptionalParams): Promise<SimplePollerLike<OperationState<NetworkSecurityPerimeterAssociationsCreateOrUpdateResponse>, NetworkSecurityPerimeterAssociationsCreateOrUpdateResponse>>;
+    beginCreateOrUpdateAndWait(resourceGroupName: string, networkSecurityPerimeterName: string, associationName: string, parameters: NspAssociation, options?: NetworkSecurityPerimeterAssociationsCreateOrUpdateOptionalParams): Promise<NetworkSecurityPerimeterAssociationsCreateOrUpdateResponse>;
+    beginDelete(resourceGroupName: string, networkSecurityPerimeterName: string, associationName: string, options?: NetworkSecurityPerimeterAssociationsDeleteOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
+    beginDeleteAndWait(resourceGroupName: string, networkSecurityPerimeterName: string, associationName: string, options?: NetworkSecurityPerimeterAssociationsDeleteOptionalParams): Promise<void>;
+    get(resourceGroupName: string, networkSecurityPerimeterName: string, associationName: string, options?: NetworkSecurityPerimeterAssociationsGetOptionalParams): Promise<NetworkSecurityPerimeterAssociationsGetResponse>;
+    list(resourceGroupName: string, networkSecurityPerimeterName: string, options?: NetworkSecurityPerimeterAssociationsListOptionalParams): PagedAsyncIterableIterator<NspAssociation>;
+    reconcile(resourceGroupName: string, networkSecurityPerimeterName: string, associationName: string, parameters: Record<string, unknown>, options?: NetworkSecurityPerimeterAssociationsReconcileOptionalParams): Promise<NetworkSecurityPerimeterAssociationsReconcileResponse>;
+}
+
+// @public
+export interface NetworkSecurityPerimeterAssociationsCreateOrUpdateHeaders {
+    azureAsyncOperation?: string;
+}
+
+// @public
+export interface NetworkSecurityPerimeterAssociationsCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type NetworkSecurityPerimeterAssociationsCreateOrUpdateResponse = NspAssociation;
+
+// @public
+export interface NetworkSecurityPerimeterAssociationsDeleteHeaders {
+    azureAsyncOperation?: string;
+}
+
+// @public
+export interface NetworkSecurityPerimeterAssociationsDeleteOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export interface NetworkSecurityPerimeterAssociationsGetOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type NetworkSecurityPerimeterAssociationsGetResponse = NspAssociation;
+
+// @public
+export interface NetworkSecurityPerimeterAssociationsListNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type NetworkSecurityPerimeterAssociationsListNextResponse = NspAssociationsListResult;
+
+// @public
+export interface NetworkSecurityPerimeterAssociationsListOptionalParams extends coreClient.OperationOptions {
+    skipToken?: string;
+    top?: number;
+}
+
+// @public
+export type NetworkSecurityPerimeterAssociationsListResponse = NspAssociationsListResult;
+
+// @public
+export interface NetworkSecurityPerimeterAssociationsReconcileOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type NetworkSecurityPerimeterAssociationsReconcileResponse = Record<string, unknown>;
+
+// @public
+export interface NetworkSecurityPerimeterLinkReferences {
+    beginDelete(resourceGroupName: string, networkSecurityPerimeterName: string, linkReferenceName: string, options?: NetworkSecurityPerimeterLinkReferencesDeleteOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
+    beginDeleteAndWait(resourceGroupName: string, networkSecurityPerimeterName: string, linkReferenceName: string, options?: NetworkSecurityPerimeterLinkReferencesDeleteOptionalParams): Promise<void>;
+    get(resourceGroupName: string, networkSecurityPerimeterName: string, linkReferenceName: string, options?: NetworkSecurityPerimeterLinkReferencesGetOptionalParams): Promise<NetworkSecurityPerimeterLinkReferencesGetResponse>;
+    list(resourceGroupName: string, networkSecurityPerimeterName: string, options?: NetworkSecurityPerimeterLinkReferencesListOptionalParams): PagedAsyncIterableIterator<NspLinkReference>;
+}
+
+// @public
+export interface NetworkSecurityPerimeterLinkReferencesDeleteHeaders {
+    location?: string;
+}
+
+// @public
+export interface NetworkSecurityPerimeterLinkReferencesDeleteOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export interface NetworkSecurityPerimeterLinkReferencesGetOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type NetworkSecurityPerimeterLinkReferencesGetResponse = NspLinkReference;
+
+// @public
+export interface NetworkSecurityPerimeterLinkReferencesListNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type NetworkSecurityPerimeterLinkReferencesListNextResponse = NspLinkReferenceListResult;
+
+// @public
+export interface NetworkSecurityPerimeterLinkReferencesListOptionalParams extends coreClient.OperationOptions {
+    skipToken?: string;
+    top?: number;
+}
+
+// @public
+export type NetworkSecurityPerimeterLinkReferencesListResponse = NspLinkReferenceListResult;
+
+// @public
+export interface NetworkSecurityPerimeterLinks {
+    beginDelete(resourceGroupName: string, networkSecurityPerimeterName: string, linkName: string, options?: NetworkSecurityPerimeterLinksDeleteOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
+    beginDeleteAndWait(resourceGroupName: string, networkSecurityPerimeterName: string, linkName: string, options?: NetworkSecurityPerimeterLinksDeleteOptionalParams): Promise<void>;
+    createOrUpdate(resourceGroupName: string, networkSecurityPerimeterName: string, linkName: string, parameters: NspLink, options?: NetworkSecurityPerimeterLinksCreateOrUpdateOptionalParams): Promise<NetworkSecurityPerimeterLinksCreateOrUpdateResponse>;
+    get(resourceGroupName: string, networkSecurityPerimeterName: string, linkName: string, options?: NetworkSecurityPerimeterLinksGetOptionalParams): Promise<NetworkSecurityPerimeterLinksGetResponse>;
+    list(resourceGroupName: string, networkSecurityPerimeterName: string, options?: NetworkSecurityPerimeterLinksListOptionalParams): PagedAsyncIterableIterator<NspLink>;
+}
+
+// @public
+export interface NetworkSecurityPerimeterLinksCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type NetworkSecurityPerimeterLinksCreateOrUpdateResponse = NspLink;
+
+// @public
+export interface NetworkSecurityPerimeterLinksDeleteHeaders {
+    location?: string;
+}
+
+// @public
+export interface NetworkSecurityPerimeterLinksDeleteOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export interface NetworkSecurityPerimeterLinksGetOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type NetworkSecurityPerimeterLinksGetResponse = NspLink;
+
+// @public
+export interface NetworkSecurityPerimeterLinksListNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type NetworkSecurityPerimeterLinksListNextResponse = NspLinkListResult;
+
+// @public
+export interface NetworkSecurityPerimeterLinksListOptionalParams extends coreClient.OperationOptions {
+    skipToken?: string;
+    top?: number;
+}
+
+// @public
+export type NetworkSecurityPerimeterLinksListResponse = NspLinkListResult;
+
+// @public
+export interface NetworkSecurityPerimeterListResult {
+    nextLink?: string;
+    value?: NetworkSecurityPerimeter[];
+}
+
+// @public
+export interface NetworkSecurityPerimeterLoggingConfigurations {
+    createOrUpdate(resourceGroupName: string, networkSecurityPerimeterName: string, loggingConfigurationName: string, parameters: NspLoggingConfiguration, options?: NetworkSecurityPerimeterLoggingConfigurationsCreateOrUpdateOptionalParams): Promise<NetworkSecurityPerimeterLoggingConfigurationsCreateOrUpdateResponse>;
+    delete(resourceGroupName: string, networkSecurityPerimeterName: string, loggingConfigurationName: string, options?: NetworkSecurityPerimeterLoggingConfigurationsDeleteOptionalParams): Promise<void>;
+    get(resourceGroupName: string, networkSecurityPerimeterName: string, loggingConfigurationName: string, options?: NetworkSecurityPerimeterLoggingConfigurationsGetOptionalParams): Promise<NetworkSecurityPerimeterLoggingConfigurationsGetResponse>;
+    list(resourceGroupName: string, networkSecurityPerimeterName: string, options?: NetworkSecurityPerimeterLoggingConfigurationsListOptionalParams): PagedAsyncIterableIterator<NspLoggingConfiguration>;
+}
+
+// @public
+export interface NetworkSecurityPerimeterLoggingConfigurationsCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type NetworkSecurityPerimeterLoggingConfigurationsCreateOrUpdateResponse = NspLoggingConfiguration;
+
+// @public
+export interface NetworkSecurityPerimeterLoggingConfigurationsDeleteOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export interface NetworkSecurityPerimeterLoggingConfigurationsGetOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type NetworkSecurityPerimeterLoggingConfigurationsGetResponse = NspLoggingConfiguration;
+
+// @public
+export interface NetworkSecurityPerimeterLoggingConfigurationsListNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type NetworkSecurityPerimeterLoggingConfigurationsListNextResponse = NspLoggingConfigurationListResult;
+
+// @public
+export interface NetworkSecurityPerimeterLoggingConfigurationsListOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type NetworkSecurityPerimeterLoggingConfigurationsListResponse = NspLoggingConfigurationListResult;
+
+// @public
+export interface NetworkSecurityPerimeterOperationStatuses {
+    get(location: string, operationId: string, options?: NetworkSecurityPerimeterOperationStatusesGetOptionalParams): Promise<NetworkSecurityPerimeterOperationStatusesGetResponse>;
+}
+
+// @public
+export interface NetworkSecurityPerimeterOperationStatusesGetOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type NetworkSecurityPerimeterOperationStatusesGetResponse = OperationStatusResult;
+
+// @public
+export interface NetworkSecurityPerimeterProfiles {
+    createOrUpdate(resourceGroupName: string, networkSecurityPerimeterName: string, profileName: string, parameters: NspProfile, options?: NetworkSecurityPerimeterProfilesCreateOrUpdateOptionalParams): Promise<NetworkSecurityPerimeterProfilesCreateOrUpdateResponse>;
+    delete(resourceGroupName: string, networkSecurityPerimeterName: string, profileName: string, options?: NetworkSecurityPerimeterProfilesDeleteOptionalParams): Promise<void>;
+    get(resourceGroupName: string, networkSecurityPerimeterName: string, profileName: string, options?: NetworkSecurityPerimeterProfilesGetOptionalParams): Promise<NetworkSecurityPerimeterProfilesGetResponse>;
+    list(resourceGroupName: string, networkSecurityPerimeterName: string, options?: NetworkSecurityPerimeterProfilesListOptionalParams): PagedAsyncIterableIterator<NspProfile>;
+}
+
+// @public
+export interface NetworkSecurityPerimeterProfilesCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type NetworkSecurityPerimeterProfilesCreateOrUpdateResponse = NspProfile;
+
+// @public
+export interface NetworkSecurityPerimeterProfilesDeleteOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export interface NetworkSecurityPerimeterProfilesGetOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type NetworkSecurityPerimeterProfilesGetResponse = NspProfile;
+
+// @public
+export interface NetworkSecurityPerimeterProfilesListNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type NetworkSecurityPerimeterProfilesListNextResponse = NspProfileListResult;
+
+// @public
+export interface NetworkSecurityPerimeterProfilesListOptionalParams extends coreClient.OperationOptions {
+    skipToken?: string;
+    top?: number;
+}
+
+// @public
+export type NetworkSecurityPerimeterProfilesListResponse = NspProfileListResult;
+
+// @public
+export interface NetworkSecurityPerimeters {
+    beginDelete(resourceGroupName: string, networkSecurityPerimeterName: string, options?: NetworkSecurityPerimetersDeleteOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
+    beginDeleteAndWait(resourceGroupName: string, networkSecurityPerimeterName: string, options?: NetworkSecurityPerimetersDeleteOptionalParams): Promise<void>;
+    createOrUpdate(resourceGroupName: string, networkSecurityPerimeterName: string, parameters: NetworkSecurityPerimeter, options?: NetworkSecurityPerimetersCreateOrUpdateOptionalParams): Promise<NetworkSecurityPerimetersCreateOrUpdateResponse>;
+    get(resourceGroupName: string, networkSecurityPerimeterName: string, options?: NetworkSecurityPerimetersGetOptionalParams): Promise<NetworkSecurityPerimetersGetResponse>;
+    list(resourceGroupName: string, options?: NetworkSecurityPerimetersListOptionalParams): PagedAsyncIterableIterator<NetworkSecurityPerimeter>;
+    listBySubscription(options?: NetworkSecurityPerimetersListBySubscriptionOptionalParams): PagedAsyncIterableIterator<NetworkSecurityPerimeter>;
+    patch(resourceGroupName: string, networkSecurityPerimeterName: string, parameters: UpdateTagsRequest, options?: NetworkSecurityPerimetersPatchOptionalParams): Promise<NetworkSecurityPerimetersPatchResponse>;
+}
+
+// @public
+export interface NetworkSecurityPerimetersCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type NetworkSecurityPerimetersCreateOrUpdateResponse = NetworkSecurityPerimeter;
+
+// @public
+export interface NetworkSecurityPerimetersDeleteHeaders {
+    azureAsyncOperation?: string;
+}
+
+// @public
+export interface NetworkSecurityPerimetersDeleteOptionalParams extends coreClient.OperationOptions {
+    forceDeletion?: boolean;
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export interface NetworkSecurityPerimetersGetOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type NetworkSecurityPerimetersGetResponse = NetworkSecurityPerimeter;
+
+// @public
+export interface NetworkSecurityPerimetersListBySubscriptionNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type NetworkSecurityPerimetersListBySubscriptionNextResponse = NetworkSecurityPerimeterListResult;
+
+// @public
+export interface NetworkSecurityPerimetersListBySubscriptionOptionalParams extends coreClient.OperationOptions {
+    skipToken?: string;
+    top?: number;
+}
+
+// @public
+export type NetworkSecurityPerimetersListBySubscriptionResponse = NetworkSecurityPerimeterListResult;
+
+// @public
+export interface NetworkSecurityPerimetersListNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type NetworkSecurityPerimetersListNextResponse = NetworkSecurityPerimeterListResult;
+
+// @public
+export interface NetworkSecurityPerimetersListOptionalParams extends coreClient.OperationOptions {
+    skipToken?: string;
+    top?: number;
+}
+
+// @public
+export type NetworkSecurityPerimetersListResponse = NetworkSecurityPerimeterListResult;
+
+// @public
+export interface NetworkSecurityPerimetersPatchOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type NetworkSecurityPerimetersPatchResponse = NetworkSecurityPerimeter;
+
+// @public
 export interface NetworkSecurityRulesEvaluationResult {
     destinationMatched?: boolean;
     destinationPortMatched?: boolean;
@@ -10546,6 +11170,13 @@ export interface NetworkVirtualAppliance extends Resource {
     readonly virtualApplianceNics?: VirtualApplianceNicProperties[];
     readonly virtualApplianceSites?: SubResource[];
     virtualHub?: SubResource;
+}
+
+// @public
+export interface NetworkVirtualApplianceBootDiagnosticParameters {
+    consoleScreenshotStorageSasUrl?: string;
+    instanceId?: number;
+    serialConsoleStorageSasUrl?: string;
 }
 
 // @public
@@ -10617,6 +11248,11 @@ export interface NetworkVirtualApplianceConnectionsListOptionalParams extends co
 // @public
 export type NetworkVirtualApplianceConnectionsListResponse = NetworkVirtualApplianceConnectionList;
 
+// @public (undocumented)
+export interface NetworkVirtualApplianceInstanceId {
+    instanceId?: number;
+}
+
 // @public
 export interface NetworkVirtualApplianceInstanceIds {
     instanceIds?: string[];
@@ -10640,6 +11276,10 @@ export interface NetworkVirtualAppliances {
     beginCreateOrUpdateAndWait(resourceGroupName: string, networkVirtualApplianceName: string, parameters: NetworkVirtualAppliance, options?: NetworkVirtualAppliancesCreateOrUpdateOptionalParams): Promise<NetworkVirtualAppliancesCreateOrUpdateResponse>;
     beginDelete(resourceGroupName: string, networkVirtualApplianceName: string, options?: NetworkVirtualAppliancesDeleteOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
     beginDeleteAndWait(resourceGroupName: string, networkVirtualApplianceName: string, options?: NetworkVirtualAppliancesDeleteOptionalParams): Promise<void>;
+    beginGetBootDiagnosticLogs(resourceGroupName: string, networkVirtualApplianceName: string, request: NetworkVirtualApplianceBootDiagnosticParameters, options?: NetworkVirtualAppliancesGetBootDiagnosticLogsOptionalParams): Promise<SimplePollerLike<OperationState<NetworkVirtualAppliancesGetBootDiagnosticLogsResponse>, NetworkVirtualAppliancesGetBootDiagnosticLogsResponse>>;
+    beginGetBootDiagnosticLogsAndWait(resourceGroupName: string, networkVirtualApplianceName: string, request: NetworkVirtualApplianceBootDiagnosticParameters, options?: NetworkVirtualAppliancesGetBootDiagnosticLogsOptionalParams): Promise<NetworkVirtualAppliancesGetBootDiagnosticLogsResponse>;
+    beginReimage(resourceGroupName: string, networkVirtualApplianceName: string, options?: NetworkVirtualAppliancesReimageOptionalParams): Promise<SimplePollerLike<OperationState<NetworkVirtualAppliancesReimageResponse>, NetworkVirtualAppliancesReimageResponse>>;
+    beginReimageAndWait(resourceGroupName: string, networkVirtualApplianceName: string, options?: NetworkVirtualAppliancesReimageOptionalParams): Promise<NetworkVirtualAppliancesReimageResponse>;
     beginRestart(resourceGroupName: string, networkVirtualApplianceName: string, options?: NetworkVirtualAppliancesRestartOptionalParams): Promise<SimplePollerLike<OperationState<NetworkVirtualAppliancesRestartResponse>, NetworkVirtualAppliancesRestartResponse>>;
     beginRestartAndWait(resourceGroupName: string, networkVirtualApplianceName: string, options?: NetworkVirtualAppliancesRestartOptionalParams): Promise<NetworkVirtualAppliancesRestartResponse>;
     get(resourceGroupName: string, networkVirtualApplianceName: string, options?: NetworkVirtualAppliancesGetOptionalParams): Promise<NetworkVirtualAppliancesGetResponse>;
@@ -10672,6 +11312,20 @@ export interface NetworkVirtualAppliancesDeleteOptionalParams extends coreClient
     resumeFrom?: string;
     updateIntervalInMs?: number;
 }
+
+// @public
+export interface NetworkVirtualAppliancesGetBootDiagnosticLogsHeaders {
+    location?: string;
+}
+
+// @public
+export interface NetworkVirtualAppliancesGetBootDiagnosticLogsOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type NetworkVirtualAppliancesGetBootDiagnosticLogsResponse = NetworkVirtualApplianceInstanceId;
 
 // @public
 export interface NetworkVirtualAppliancesGetOptionalParams extends coreClient.OperationOptions {
@@ -10734,6 +11388,21 @@ export interface NetworkVirtualAppliancesListOptionalParams extends coreClient.O
 
 // @public
 export type NetworkVirtualAppliancesListResponse = NetworkVirtualApplianceListResult;
+
+// @public
+export interface NetworkVirtualAppliancesReimageHeaders {
+    location?: string;
+}
+
+// @public
+export interface NetworkVirtualAppliancesReimageOptionalParams extends coreClient.OperationOptions {
+    networkVirtualApplianceInstanceIds?: NetworkVirtualApplianceInstanceIds;
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type NetworkVirtualAppliancesReimageResponse = NetworkVirtualApplianceInstanceIds;
 
 // @public
 export interface NetworkVirtualAppliancesRestartHeaders {
@@ -10977,6 +11646,113 @@ export type NicTypeInRequest = string;
 export type NicTypeInResponse = string;
 
 // @public
+export interface NspAccessRule extends SecurityPerimeterProxyResource {
+    addressPrefixes?: string[];
+    direction?: AccessRuleDirection;
+    emailAddresses?: string[];
+    fullyQualifiedDomainNames?: string[];
+    readonly networkSecurityPerimeters?: PerimeterBasedAccessRule[];
+    phoneNumbers?: string[];
+    readonly provisioningState?: NspProvisioningState;
+    serviceTags?: string[];
+    subscriptions?: SubscriptionId[];
+}
+
+// @public
+export interface NspAccessRuleListResult {
+    nextLink?: string;
+    value?: NspAccessRule[];
+}
+
+// @public
+export interface NspAssociation extends SecurityPerimeterProxyResource {
+    accessMode?: AssociationAccessMode;
+    readonly hasProvisioningIssues?: string;
+    privateLinkResource?: SubResource;
+    profile?: SubResource;
+    readonly provisioningState?: NspProvisioningState;
+}
+
+// @public
+export interface NspAssociationsListResult {
+    nextLink?: string;
+    value?: NspAssociation[];
+}
+
+// @public
+export interface NspLink extends SecurityPerimeterProxyResource {
+    autoApprovedRemotePerimeterResourceId?: string;
+    description?: string;
+    localInboundProfiles?: string[];
+    readonly localOutboundProfiles?: string[];
+    readonly provisioningState?: NspLinkProvisioningState;
+    remoteInboundProfiles?: string[];
+    readonly remoteOutboundProfiles?: string[];
+    readonly remotePerimeterGuid?: string;
+    readonly remotePerimeterLocation?: string;
+    readonly status?: NspLinkStatus;
+}
+
+// @public
+export interface NspLinkListResult {
+    nextLink?: string;
+    value?: NspLink[];
+}
+
+// @public
+export type NspLinkProvisioningState = string;
+
+// @public
+export interface NspLinkReference extends SecurityPerimeterProxyResource {
+    readonly description?: string;
+    localInboundProfiles?: string[];
+    readonly localOutboundProfiles?: string[];
+    readonly provisioningState?: NspLinkProvisioningState;
+    readonly remoteInboundProfiles?: string[];
+    readonly remoteOutboundProfiles?: string[];
+    readonly remotePerimeterGuid?: string;
+    readonly remotePerimeterLocation?: string;
+    readonly remotePerimeterResourceId?: string;
+    status?: NspLinkStatus;
+}
+
+// @public
+export interface NspLinkReferenceListResult {
+    nextLink?: string;
+    value?: NspLinkReference[];
+}
+
+// @public
+export type NspLinkStatus = string;
+
+// @public
+export interface NspLoggingConfiguration extends SecurityPerimeterProxyResource {
+    enabledLogCategories?: string[];
+    version?: string;
+}
+
+// @public
+export interface NspLoggingConfigurationListResult {
+    nextLink?: string;
+    value?: NspLoggingConfiguration[];
+}
+
+// @public
+export interface NspProfile extends SecurityPerimeterProxyResource {
+    readonly accessRulesVersion?: string;
+    readonly diagnosticSettingsVersion?: string;
+}
+
+// @public
+export interface NspProfileListResult {
+    nextLink?: string;
+    value?: NspProfile[];
+}
+
+// @public
+export type NspProvisioningState = string;
+
+// @public
 export interface O365BreakOutCategoryPolicies {
     allow?: boolean;
     default?: boolean;
@@ -11044,6 +11820,19 @@ export interface OperationsListOptionalParams extends coreClient.OperationOption
 export type OperationsListResponse = OperationListResult;
 
 // @public
+export interface OperationStatusResult {
+    endTime?: Date;
+    error?: ErrorDetail;
+    id?: string;
+    name?: string;
+    operations?: OperationStatusResult[];
+    percentComplete?: number;
+    readonly resourceId?: string;
+    startTime?: Date;
+    status: string;
+}
+
+// @public
 export interface OrderBy {
     field?: string;
     order?: FirewallPolicyIdpsQuerySortOrder;
@@ -11085,7 +11874,7 @@ export type OwaspCrsExclusionEntrySelectorMatchOperator = string;
 
 // @public
 export interface P2SConnectionConfiguration extends SubResource {
-    readonly configurationPolicyGroupAssociations?: SubResource[];
+    configurationPolicyGroupAssociations?: SubResource[];
     enableInternetSecurity?: boolean;
     readonly etag?: string;
     name?: string;
@@ -11512,6 +12301,9 @@ export interface PeerExpressRouteCircuitConnectionsListOptionalParams extends co
 export type PeerExpressRouteCircuitConnectionsListResponse = PeerExpressRouteCircuitConnectionListResult;
 
 // @public
+export type PeeringEnforcement = string;
+
+// @public
 export interface PeerRoute {
     readonly asPath?: string;
     readonly localAddress?: string;
@@ -11520,6 +12312,29 @@ export interface PeerRoute {
     readonly origin?: string;
     readonly sourcePeer?: string;
     readonly weight?: number;
+}
+
+// @public
+export interface PerimeterAssociableResource {
+    readonly displayName?: string;
+    readonly id?: string;
+    name?: string;
+    readonly publicDnsZones?: string[];
+    readonly resourceType?: string;
+    readonly type?: string;
+}
+
+// @public
+export interface PerimeterAssociableResourcesListResult {
+    nextLink?: string;
+    value?: PerimeterAssociableResource[];
+}
+
+// @public (undocumented)
+export interface PerimeterBasedAccessRule {
+    readonly id?: string;
+    readonly location?: string;
+    readonly perimeterGuid?: string;
 }
 
 // @public
@@ -12040,6 +12855,14 @@ export type ProtocolType = string;
 
 // @public
 export type ProvisioningState = string;
+
+// @public
+export interface ProxyResource {
+    readonly etag?: string;
+    readonly id?: string;
+    readonly name?: string;
+    readonly type?: string;
+}
 
 // @public
 export interface PublicIPAddress extends Resource {
@@ -12610,6 +13433,14 @@ export interface ReferencedPublicIpAddress {
 export type ResiliencyModel = string;
 
 // @public
+export interface ResiliencyRecommendationComponents {
+    currentScore?: string;
+    maxScore?: string;
+    name?: string;
+    recommendations?: GatewayResiliencyRecommendation[];
+}
+
+// @public
 export interface Resource {
     id?: string;
     location?: string;
@@ -12968,6 +13799,13 @@ export interface RoutesListOptionalParams extends coreClient.OperationOptions {
 
 // @public
 export type RoutesListResponse = RouteListResult;
+
+// @public (undocumented)
+export interface RouteSourceDetails {
+    circuit?: string;
+    pri?: string;
+    sec?: string;
+}
 
 // @public
 export interface RouteTable extends Resource {
@@ -13528,6 +14366,28 @@ export interface SecurityPartnerProvidersUpdateTagsOptionalParams extends coreCl
 
 // @public
 export type SecurityPartnerProvidersUpdateTagsResponse = SecurityPartnerProvider;
+
+// @public
+export interface SecurityPerimeterProxyResource extends SecurityPerimeterResource {
+}
+
+// @public
+export interface SecurityPerimeterResource {
+    readonly id?: string;
+    readonly name?: string;
+    readonly systemData?: SecurityPerimeterSystemData;
+    readonly type?: string;
+}
+
+// @public
+export interface SecurityPerimeterSystemData {
+    createdAt?: Date;
+    createdBy?: string;
+    createdByType?: CreatedByType;
+    lastModifiedAt?: Date;
+    lastModifiedBy?: string;
+    lastModifiedByType?: CreatedByType;
+}
 
 // @public
 export type SecurityProviderName = string;
@@ -14422,6 +15282,11 @@ export interface SubResource {
     id?: string;
 }
 
+// @public (undocumented)
+export interface SubscriptionId {
+    id?: string;
+}
+
 // @public
 export interface SubscriptionNetworkManagerConnections {
     createOrUpdate(networkManagerConnectionName: string, parameters: NetworkManagerConnection, options?: SubscriptionNetworkManagerConnectionsCreateOrUpdateOptionalParams): Promise<SubscriptionNetworkManagerConnectionsCreateOrUpdateResponse>;
@@ -14544,6 +15409,14 @@ export interface TopologyResource {
 }
 
 // @public
+export interface TrackedResource extends SecurityPerimeterResource {
+    location: string;
+    tags?: {
+        [propertyName: string]: string;
+    };
+}
+
+// @public
 export interface TrafficAnalyticsConfigurationProperties {
     enabled?: boolean;
     trafficAnalyticsInterval?: number;
@@ -14616,6 +15489,14 @@ export interface UnprepareNetworkPoliciesRequest {
 }
 
 // @public
+export interface UpdateTagsRequest {
+    readonly id?: string;
+    tags?: {
+        [propertyName: string]: string;
+    };
+}
+
+// @public
 export interface Usage {
     currentValue: number;
     readonly id?: string;
@@ -14684,6 +15565,7 @@ export interface VerificationIPFlowResult {
 
 // @public
 export interface VerifierWorkspace extends CommonTrackedResource {
+    readonly etag?: string;
     properties?: VerifierWorkspaceProperties;
 }
 
@@ -14712,6 +15594,7 @@ export interface VerifierWorkspaces {
 
 // @public
 export interface VerifierWorkspacesCreateOptionalParams extends coreClient.OperationOptions {
+    ifMatch?: string;
 }
 
 // @public
@@ -14724,6 +15607,7 @@ export interface VerifierWorkspacesDeleteHeaders {
 
 // @public
 export interface VerifierWorkspacesDeleteOptionalParams extends coreClient.OperationOptions {
+    ifMatch?: string;
     resumeFrom?: string;
     updateIntervalInMs?: number;
 }
@@ -14760,6 +15644,7 @@ export type VerifierWorkspacesListResponse = VerifierWorkspaceListResult;
 // @public
 export interface VerifierWorkspacesUpdateOptionalParams extends coreClient.OperationOptions {
     body?: VerifierWorkspaceUpdate;
+    ifMatch?: string;
 }
 
 // @public
@@ -15286,6 +16171,7 @@ export interface VirtualNetwork extends Resource {
     addressSpace?: AddressSpace;
     bgpCommunities?: VirtualNetworkBgpCommunities;
     ddosProtectionPlan?: SubResource;
+    readonly defaultPublicNatGateway?: SubResource;
     dhcpOptions?: DhcpOptions;
     enableDdosProtection?: boolean;
     enableVmProtection?: boolean;
@@ -15341,6 +16227,7 @@ export interface VirtualNetworkGateway extends Resource {
     enableBgp?: boolean;
     enableBgpRouteTranslationForNat?: boolean;
     enableDnsForwarding?: boolean;
+    enableHighBandwidthVpnGateway?: boolean;
     enablePrivateIpAddress?: boolean;
     readonly etag?: string;
     extendedLocation?: ExtendedLocation;
@@ -15354,6 +16241,7 @@ export interface VirtualNetworkGateway extends Resource {
     resiliencyModel?: ResiliencyModel;
     readonly resourceGuid?: string;
     sku?: VirtualNetworkGatewaySku;
+    virtualNetworkGatewayMigrationStatus?: VirtualNetworkGatewayMigrationStatus;
     virtualNetworkGatewayPolicyGroups?: VirtualNetworkGatewayPolicyGroup[];
     vNetExtendedLocationResourceId?: string;
     vpnClientConfiguration?: VpnClientConfiguration;
@@ -15398,6 +16286,7 @@ export interface VirtualNetworkGatewayConnection extends Resource {
     sharedKey?: string;
     trafficSelectorPolicies?: TrafficSelectorPolicy[];
     readonly tunnelConnectionStatus?: TunnelConnectionHealth[];
+    tunnelProperties?: VirtualNetworkGatewayConnectionTunnelProperties[];
     useLocalAzureIpAddress?: boolean;
     usePolicyBasedTrafficSelectors?: boolean;
     virtualNetworkGateway1: VirtualNetworkGateway;
@@ -15582,6 +16471,12 @@ export interface VirtualNetworkGatewayConnectionsUpdateTagsOptionalParams extend
 // @public
 export type VirtualNetworkGatewayConnectionsUpdateTagsResponse = VirtualNetworkGatewayConnection;
 
+// @public (undocumented)
+export interface VirtualNetworkGatewayConnectionTunnelProperties {
+    bgpPeeringAddress?: string;
+    tunnelIpAddress?: string;
+}
+
 // @public
 export type VirtualNetworkGatewayConnectionType = string;
 
@@ -15607,6 +16502,28 @@ export interface VirtualNetworkGatewayListResult {
     readonly nextLink?: string;
     value?: VirtualNetworkGateway[];
 }
+
+// @public
+export interface VirtualNetworkGatewayMigrationParameters {
+    migrationType: VirtualNetworkGatewayMigrationType;
+    resourceUrl?: string;
+}
+
+// @public
+export type VirtualNetworkGatewayMigrationPhase = string;
+
+// @public
+export type VirtualNetworkGatewayMigrationState = string;
+
+// @public
+export interface VirtualNetworkGatewayMigrationStatus {
+    errorMessage?: string;
+    phase?: VirtualNetworkGatewayMigrationPhase;
+    state?: VirtualNetworkGatewayMigrationState;
+}
+
+// @public
+export type VirtualNetworkGatewayMigrationType = string;
 
 // @public
 export interface VirtualNetworkGatewayNatRule extends SubResource {
@@ -15707,12 +16624,24 @@ export interface VirtualNetworkGateways {
     beginGetFailoverSingleTestDetailsAndWait(resourceGroupName: string, virtualNetworkGatewayName: string, peeringLocation: string, failoverTestId: string, options?: VirtualNetworkGatewaysGetFailoverSingleTestDetailsOptionalParams): Promise<VirtualNetworkGatewaysGetFailoverSingleTestDetailsResponse>;
     beginGetLearnedRoutes(resourceGroupName: string, virtualNetworkGatewayName: string, options?: VirtualNetworkGatewaysGetLearnedRoutesOptionalParams): Promise<SimplePollerLike<OperationState<VirtualNetworkGatewaysGetLearnedRoutesResponse>, VirtualNetworkGatewaysGetLearnedRoutesResponse>>;
     beginGetLearnedRoutesAndWait(resourceGroupName: string, virtualNetworkGatewayName: string, options?: VirtualNetworkGatewaysGetLearnedRoutesOptionalParams): Promise<VirtualNetworkGatewaysGetLearnedRoutesResponse>;
+    beginGetResiliencyInformation(resourceGroupName: string, virtualNetworkGatewayName: string, options?: VirtualNetworkGatewaysGetResiliencyInformationOptionalParams): Promise<SimplePollerLike<OperationState<VirtualNetworkGatewaysGetResiliencyInformationResponse>, VirtualNetworkGatewaysGetResiliencyInformationResponse>>;
+    beginGetResiliencyInformationAndWait(resourceGroupName: string, virtualNetworkGatewayName: string, options?: VirtualNetworkGatewaysGetResiliencyInformationOptionalParams): Promise<VirtualNetworkGatewaysGetResiliencyInformationResponse>;
+    beginGetRoutesInformation(resourceGroupName: string, virtualNetworkGatewayName: string, options?: VirtualNetworkGatewaysGetRoutesInformationOptionalParams): Promise<SimplePollerLike<OperationState<VirtualNetworkGatewaysGetRoutesInformationResponse>, VirtualNetworkGatewaysGetRoutesInformationResponse>>;
+    beginGetRoutesInformationAndWait(resourceGroupName: string, virtualNetworkGatewayName: string, options?: VirtualNetworkGatewaysGetRoutesInformationOptionalParams): Promise<VirtualNetworkGatewaysGetRoutesInformationResponse>;
     beginGetVpnclientConnectionHealth(resourceGroupName: string, virtualNetworkGatewayName: string, options?: VirtualNetworkGatewaysGetVpnclientConnectionHealthOptionalParams): Promise<SimplePollerLike<OperationState<VirtualNetworkGatewaysGetVpnclientConnectionHealthResponse>, VirtualNetworkGatewaysGetVpnclientConnectionHealthResponse>>;
     beginGetVpnclientConnectionHealthAndWait(resourceGroupName: string, virtualNetworkGatewayName: string, options?: VirtualNetworkGatewaysGetVpnclientConnectionHealthOptionalParams): Promise<VirtualNetworkGatewaysGetVpnclientConnectionHealthResponse>;
     beginGetVpnclientIpsecParameters(resourceGroupName: string, virtualNetworkGatewayName: string, options?: VirtualNetworkGatewaysGetVpnclientIpsecParametersOptionalParams): Promise<SimplePollerLike<OperationState<VirtualNetworkGatewaysGetVpnclientIpsecParametersResponse>, VirtualNetworkGatewaysGetVpnclientIpsecParametersResponse>>;
     beginGetVpnclientIpsecParametersAndWait(resourceGroupName: string, virtualNetworkGatewayName: string, options?: VirtualNetworkGatewaysGetVpnclientIpsecParametersOptionalParams): Promise<VirtualNetworkGatewaysGetVpnclientIpsecParametersResponse>;
     beginGetVpnProfilePackageUrl(resourceGroupName: string, virtualNetworkGatewayName: string, options?: VirtualNetworkGatewaysGetVpnProfilePackageUrlOptionalParams): Promise<SimplePollerLike<OperationState<VirtualNetworkGatewaysGetVpnProfilePackageUrlResponse>, VirtualNetworkGatewaysGetVpnProfilePackageUrlResponse>>;
     beginGetVpnProfilePackageUrlAndWait(resourceGroupName: string, virtualNetworkGatewayName: string, options?: VirtualNetworkGatewaysGetVpnProfilePackageUrlOptionalParams): Promise<VirtualNetworkGatewaysGetVpnProfilePackageUrlResponse>;
+    beginInvokeAbortMigration(resourceGroupName: string, virtualNetworkGatewayName: string, options?: VirtualNetworkGatewaysInvokeAbortMigrationOptionalParams): Promise<SimplePollerLike<OperationState<VirtualNetworkGatewaysInvokeAbortMigrationResponse>, VirtualNetworkGatewaysInvokeAbortMigrationResponse>>;
+    beginInvokeAbortMigrationAndWait(resourceGroupName: string, virtualNetworkGatewayName: string, options?: VirtualNetworkGatewaysInvokeAbortMigrationOptionalParams): Promise<VirtualNetworkGatewaysInvokeAbortMigrationResponse>;
+    beginInvokeCommitMigration(resourceGroupName: string, virtualNetworkGatewayName: string, options?: VirtualNetworkGatewaysInvokeCommitMigrationOptionalParams): Promise<SimplePollerLike<OperationState<VirtualNetworkGatewaysInvokeCommitMigrationResponse>, VirtualNetworkGatewaysInvokeCommitMigrationResponse>>;
+    beginInvokeCommitMigrationAndWait(resourceGroupName: string, virtualNetworkGatewayName: string, options?: VirtualNetworkGatewaysInvokeCommitMigrationOptionalParams): Promise<VirtualNetworkGatewaysInvokeCommitMigrationResponse>;
+    beginInvokeExecuteMigration(resourceGroupName: string, virtualNetworkGatewayName: string, options?: VirtualNetworkGatewaysInvokeExecuteMigrationOptionalParams): Promise<SimplePollerLike<OperationState<VirtualNetworkGatewaysInvokeExecuteMigrationResponse>, VirtualNetworkGatewaysInvokeExecuteMigrationResponse>>;
+    beginInvokeExecuteMigrationAndWait(resourceGroupName: string, virtualNetworkGatewayName: string, options?: VirtualNetworkGatewaysInvokeExecuteMigrationOptionalParams): Promise<VirtualNetworkGatewaysInvokeExecuteMigrationResponse>;
+    beginInvokePrepareMigration(resourceGroupName: string, virtualNetworkGatewayName: string, migrationParams: VirtualNetworkGatewayMigrationParameters, options?: VirtualNetworkGatewaysInvokePrepareMigrationOptionalParams): Promise<SimplePollerLike<OperationState<VirtualNetworkGatewaysInvokePrepareMigrationResponse>, VirtualNetworkGatewaysInvokePrepareMigrationResponse>>;
+    beginInvokePrepareMigrationAndWait(resourceGroupName: string, virtualNetworkGatewayName: string, migrationParams: VirtualNetworkGatewayMigrationParameters, options?: VirtualNetworkGatewaysInvokePrepareMigrationOptionalParams): Promise<VirtualNetworkGatewaysInvokePrepareMigrationResponse>;
     beginReset(resourceGroupName: string, virtualNetworkGatewayName: string, options?: VirtualNetworkGatewaysResetOptionalParams): Promise<SimplePollerLike<OperationState<VirtualNetworkGatewaysResetResponse>, VirtualNetworkGatewaysResetResponse>>;
     beginResetAndWait(resourceGroupName: string, virtualNetworkGatewayName: string, options?: VirtualNetworkGatewaysResetOptionalParams): Promise<VirtualNetworkGatewaysResetResponse>;
     beginResetVpnClientSharedKey(resourceGroupName: string, virtualNetworkGatewayName: string, options?: VirtualNetworkGatewaysResetVpnClientSharedKeyOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
@@ -15842,7 +16771,39 @@ export interface VirtualNetworkGatewaysGetOptionalParams extends coreClient.Oper
 }
 
 // @public
+export interface VirtualNetworkGatewaysGetResiliencyInformationHeaders {
+    // (undocumented)
+    location?: string;
+}
+
+// @public
+export interface VirtualNetworkGatewaysGetResiliencyInformationOptionalParams extends coreClient.OperationOptions {
+    attemptRefresh?: boolean;
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type VirtualNetworkGatewaysGetResiliencyInformationResponse = GatewayResiliencyInformation;
+
+// @public
 export type VirtualNetworkGatewaysGetResponse = VirtualNetworkGateway;
+
+// @public
+export interface VirtualNetworkGatewaysGetRoutesInformationHeaders {
+    // (undocumented)
+    location?: string;
+}
+
+// @public
+export interface VirtualNetworkGatewaysGetRoutesInformationOptionalParams extends coreClient.OperationOptions {
+    attemptRefresh?: boolean;
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type VirtualNetworkGatewaysGetRoutesInformationResponse = GatewayRouteSetsInformation;
 
 // @public
 export interface VirtualNetworkGatewaysGetVpnclientConnectionHealthOptionalParams extends coreClient.OperationOptions {
@@ -15872,6 +16833,66 @@ export interface VirtualNetworkGatewaysGetVpnProfilePackageUrlOptionalParams ext
 export type VirtualNetworkGatewaysGetVpnProfilePackageUrlResponse = {
     body: string;
 };
+
+// @public
+export interface VirtualNetworkGatewaysInvokeAbortMigrationHeaders {
+    // (undocumented)
+    location?: string;
+}
+
+// @public
+export interface VirtualNetworkGatewaysInvokeAbortMigrationOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type VirtualNetworkGatewaysInvokeAbortMigrationResponse = VirtualNetworkGatewaysInvokeAbortMigrationHeaders;
+
+// @public
+export interface VirtualNetworkGatewaysInvokeCommitMigrationHeaders {
+    // (undocumented)
+    location?: string;
+}
+
+// @public
+export interface VirtualNetworkGatewaysInvokeCommitMigrationOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type VirtualNetworkGatewaysInvokeCommitMigrationResponse = VirtualNetworkGatewaysInvokeCommitMigrationHeaders;
+
+// @public
+export interface VirtualNetworkGatewaysInvokeExecuteMigrationHeaders {
+    // (undocumented)
+    location?: string;
+}
+
+// @public
+export interface VirtualNetworkGatewaysInvokeExecuteMigrationOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type VirtualNetworkGatewaysInvokeExecuteMigrationResponse = VirtualNetworkGatewaysInvokeExecuteMigrationHeaders;
+
+// @public
+export interface VirtualNetworkGatewaysInvokePrepareMigrationHeaders {
+    // (undocumented)
+    location?: string;
+}
+
+// @public
+export interface VirtualNetworkGatewaysInvokePrepareMigrationOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type VirtualNetworkGatewaysInvokePrepareMigrationResponse = VirtualNetworkGatewaysInvokePrepareMigrationHeaders;
 
 // @public
 export interface VirtualNetworkGatewaySku {

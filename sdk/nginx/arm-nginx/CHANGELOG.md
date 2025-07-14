@@ -1,15 +1,76 @@
 # Release History
-
-## 4.0.0-beta.2 (Unreleased)
-
+    
+## 4.0.0-beta.2 (2025-02-20)
+Compared with version 3.0.0
+    
 ### Features Added
+
+  - Added operation group ApiKeys
+  - Added operation Configurations.analysis
+  - Added Interface AnalysisCreate
+  - Added Interface AnalysisCreateConfig
+  - Added Interface AnalysisDiagnostic
+  - Added Interface AnalysisResult
+  - Added Interface AnalysisResultData
+  - Added Interface ApiKeysCreateOrUpdateOptionalParams
+  - Added Interface ApiKeysDeleteOptionalParams
+  - Added Interface ApiKeysGetOptionalParams
+  - Added Interface ApiKeysListNextOptionalParams
+  - Added Interface ApiKeysListOptionalParams
+  - Added Interface AutoUpgradeProfile
+  - Added Interface ConfigurationsAnalysisOptionalParams
+  - Added Interface DiagnosticItem
+  - Added Interface ErrorAdditionalInfo
+  - Added Interface ErrorDetail
+  - Added Interface ErrorResponse
+  - Added Interface NginxCertificateErrorResponseBody
+  - Added Interface NginxConfigurationProtectedFileRequest
+  - Added Interface NginxConfigurationProtectedFileResponse
+  - Added Interface NginxConfigurationRequest
+  - Added Interface NginxConfigurationRequestProperties
+  - Added Interface NginxConfigurationResponse
+  - Added Interface NginxConfigurationResponseProperties
+  - Added Interface NginxDeploymentApiKeyListResponse
+  - Added Interface NginxDeploymentApiKeyRequest
+  - Added Interface NginxDeploymentApiKeyRequestProperties
+  - Added Interface NginxDeploymentApiKeyResponse
+  - Added Interface NginxDeploymentApiKeyResponseProperties
+  - Added Interface NginxDeploymentPropertiesNginxAppProtect
+  - Added Interface NginxDeploymentUpdatePropertiesNginxAppProtect
+  - Added Interface ScaleProfile
+  - Added Interface ScaleProfileCapacity
+  - Added Interface WebApplicationFirewallComponentVersions
+  - Added Interface WebApplicationFirewallPackage
+  - Added Interface WebApplicationFirewallSettings
+  - Added Interface WebApplicationFirewallStatus
+  - Added Type Alias ActivationState
+  - Added Type Alias ApiKeysCreateOrUpdateResponse
+  - Added Type Alias ApiKeysGetResponse
+  - Added Type Alias ApiKeysListNextResponse
+  - Added Type Alias ApiKeysListResponse
+  - Added Type Alias ConfigurationsAnalysisResponse
+  - Added Type Alias Level
+  - Interface NginxCertificateProperties has a new optional parameter certificateError
+  - Interface NginxCertificateProperties has a new optional parameter keyVaultSecretCreated
+  - Interface NginxCertificateProperties has a new optional parameter keyVaultSecretVersion
+  - Interface NginxCertificateProperties has a new optional parameter sha1Thumbprint
+  - Interface NginxDeploymentProperties has a new optional parameter autoUpgradeProfile
+  - Interface NginxDeploymentProperties has a new optional parameter dataplaneApiEndpoint
+  - Interface NginxDeploymentProperties has a new optional parameter nginxAppProtect
+  - Interface NginxDeploymentScalingProperties has a new optional parameter profiles
+  - Interface NginxDeploymentUpdateProperties has a new optional parameter autoUpgradeProfile
+  - Interface NginxDeploymentUpdateProperties has a new optional parameter networkProfile
+  - Interface NginxDeploymentUpdateProperties has a new optional parameter nginxAppProtect
+  - Added Enum KnownActivationState
+  - Added Enum KnownLevel
 
 ### Breaking Changes
 
-### Bugs Fixed
-
-### Other Changes
-
+  - Interface NginxDeploymentProperties no longer has parameter managedResourceGroup
+  - Type of parameter body of interface ConfigurationsCreateOrUpdateOptionalParams is changed from NginxConfiguration to NginxConfigurationRequest
+  - Type of parameter value of interface NginxConfigurationListResponse is changed from NginxConfiguration[] to NginxConfigurationResponse[]
+    
+    
 ## 4.0.0-beta.1 (2024-03-18)
     
 ### Features Added

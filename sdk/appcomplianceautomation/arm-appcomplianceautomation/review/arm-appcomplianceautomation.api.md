@@ -27,7 +27,7 @@ export class AppComplianceAutomationToolForMicrosoft365 extends coreClient.Servi
     // (undocumented)
     providerActions: ProviderActions;
     // (undocumented)
-    report: Report_2;
+    report: Report;
     // (undocumented)
     scopingConfiguration: ScopingConfiguration;
     // (undocumented)
@@ -719,7 +719,7 @@ export interface RecommendationSolution {
 }
 
 // @public
-interface Report_2 {
+export interface Report {
     beginCreateOrUpdate(reportName: string, properties: ReportResource, options?: ReportCreateOrUpdateOptionalParams): Promise<SimplePollerLike<OperationState<ReportCreateOrUpdateResponse>, ReportCreateOrUpdateResponse>>;
     beginCreateOrUpdateAndWait(reportName: string, properties: ReportResource, options?: ReportCreateOrUpdateOptionalParams): Promise<ReportCreateOrUpdateResponse>;
     beginDelete(reportName: string, options?: ReportDeleteOptionalParams): Promise<SimplePollerLike<OperationState<ReportDeleteResponse>, ReportDeleteResponse>>;
@@ -737,7 +737,6 @@ interface Report_2 {
     list(options?: ReportListOptionalParams): PagedAsyncIterableIterator<ReportResource>;
     nestedResourceCheckNameAvailability(reportName: string, body: CheckNameAvailabilityRequest, options?: ReportNestedResourceCheckNameAvailabilityOptionalParams): Promise<ReportNestedResourceCheckNameAvailabilityResponse>;
 }
-export { Report_2 as Report }
 
 // @public
 export interface ReportComplianceStatus {

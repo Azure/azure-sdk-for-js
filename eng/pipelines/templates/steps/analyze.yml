@@ -4,12 +4,6 @@ parameters:
   TestPipeline: false
 
 steps:
-  - template: /eng/common/pipelines/templates/steps/set-test-pipeline-version.yml
-    parameters:
-      PackageName: "@azure/template"
-      ServiceDirectory: "template"
-      TestPipeline: ${{ parameters.TestPipeline }}
-
   - template: /eng/common/pipelines/templates/steps/save-package-properties.yml
     parameters:
       ServiceDirectory: ${{parameters.ServiceDirectory}}
@@ -28,6 +22,11 @@ steps:
       arguments: -ChangedServices "$(ChangedServices)"
       pwsh: true
     displayName: Spell check public API
+
+  - task: UsePythonVersion@0
+    displayName: 'Use Python 3.11'
+    inputs:
+      versionSpec: '3.11'
 
   - template: /eng/common/pipelines/templates/steps/verify-readmes.yml
     parameters:
@@ -65,13 +64,21 @@ steps:
     displayName: "Install dependencies"
 
   - pwsh: |
-      node common/scripts/install-run-rush.js build -t @azure/eslint-plugin-azure-sdk
-      node eng/tools/rush-runner/index.js lint "$(ChangedServices)" -p max
+      node common/scripts/install-run-rush.js build -t @azure/eslint-plugin-azure-sdk -t @azure/monitor-opentelemetry-exporter
+      node eng/tools/rush-runner/index.js lint "$(ChangedServices)" -p max --verbose
     displayName: "Build ESLint Plugin and Lint Libraries"
 
   - pwsh: |
       node eng/tools/rush-runner/index.js check-format $(ChangedServices) -packages "$(ArtifactPackageNames)" --verbose
     displayName: "Check Format in Libraries"
+
+  - pwsh: |
+      node eng/tools/rush-runner/index.js update-snippets $(ChangedServices) -packages "$(ArtifactPackageNames)" --verbose
+    displayName: "Update snippets"
+
+  - pwsh: |
+      eng/tools/check-snippet-changes.ps1
+    displayName: "Check snippet changes"
 
   - template: /eng/common/pipelines/templates/steps/verify-changelogs.yml
     parameters:

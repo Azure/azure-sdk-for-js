@@ -6,17 +6,15 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
 const { NginxManagementClient } = require("@azure/arm-nginx");
 const { DefaultAzureCredential } = require("@azure/identity");
-require("dotenv").config();
+require("dotenv/config");
 
 /**
  * This sample demonstrates how to Create or update the NGINX certificates for given NGINX deployment
  *
  * @summary Create or update the NGINX certificates for given NGINX deployment
- * x-ms-original-file: specification/nginx/resource-manager/NGINX.NGINXPLUS/preview/2024-01-01-preview/examples/Certificates_CreateOrUpdate.json
+ * x-ms-original-file: specification/nginx/resource-manager/NGINX.NGINXPLUS/preview/2024-11-01-preview/examples/Certificates_CreateOrUpdate.json
  */
 async function certificatesCreateOrUpdate() {
   const subscriptionId =
@@ -24,27 +22,18 @@ async function certificatesCreateOrUpdate() {
   const resourceGroupName = process.env["NGINX_RESOURCE_GROUP"] || "myResourceGroup";
   const deploymentName = "myDeployment";
   const certificateName = "default";
-  const body = {
-    properties: {
-      certificateVirtualPath: "/src/cert/somePath.cert",
-      keyVaultSecretId: "https://someKV.vault.azure.com/someSecretID",
-      keyVirtualPath: "/src/cert/somekey.key",
-    },
-  };
-  const options = { body };
   const credential = new DefaultAzureCredential();
   const client = new NginxManagementClient(credential, subscriptionId);
   const result = await client.certificates.beginCreateOrUpdateAndWait(
     resourceGroupName,
     deploymentName,
     certificateName,
-    options,
   );
   console.log(result);
 }
 
 async function main() {
-  certificatesCreateOrUpdate();
+  await certificatesCreateOrUpdate();
 }
 
 main().catch(console.error);

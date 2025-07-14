@@ -22,7 +22,7 @@ import {
   ExportConfigurationsGetOptionalParams,
   ExportConfigurationsGetResponse,
   ExportConfigurationsUpdateOptionalParams,
-  ExportConfigurationsUpdateResponse
+  ExportConfigurationsUpdateResponse,
 } from "../models/index.js";
 
 /** Class containing ExportConfigurations operations. */
@@ -46,11 +46,11 @@ export class ExportConfigurationsImpl implements ExportConfigurations {
   list(
     resourceGroupName: string,
     resourceName: string,
-    options?: ExportConfigurationsListOptionalParams
+    options?: ExportConfigurationsListOptionalParams,
   ): Promise<ExportConfigurationsListResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, resourceName, options },
-      listOperationSpec
+      listOperationSpec,
     );
   }
 
@@ -66,11 +66,11 @@ export class ExportConfigurationsImpl implements ExportConfigurations {
     resourceGroupName: string,
     resourceName: string,
     exportProperties: ApplicationInsightsComponentExportRequest,
-    options?: ExportConfigurationsCreateOptionalParams
+    options?: ExportConfigurationsCreateOptionalParams,
   ): Promise<ExportConfigurationsCreateResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, resourceName, exportProperties, options },
-      createOperationSpec
+      createOperationSpec,
     );
   }
 
@@ -86,11 +86,11 @@ export class ExportConfigurationsImpl implements ExportConfigurations {
     resourceGroupName: string,
     resourceName: string,
     exportId: string,
-    options?: ExportConfigurationsDeleteOptionalParams
+    options?: ExportConfigurationsDeleteOptionalParams,
   ): Promise<ExportConfigurationsDeleteResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, resourceName, exportId, options },
-      deleteOperationSpec
+      deleteOperationSpec,
     );
   }
 
@@ -106,11 +106,11 @@ export class ExportConfigurationsImpl implements ExportConfigurations {
     resourceGroupName: string,
     resourceName: string,
     exportId: string,
-    options?: ExportConfigurationsGetOptionalParams
+    options?: ExportConfigurationsGetOptionalParams,
   ): Promise<ExportConfigurationsGetResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, resourceName, exportId, options },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 
@@ -129,11 +129,11 @@ export class ExportConfigurationsImpl implements ExportConfigurations {
     resourceName: string,
     exportId: string,
     exportProperties: ApplicationInsightsComponentExportRequest,
-    options?: ExportConfigurationsUpdateOptionalParams
+    options?: ExportConfigurationsUpdateOptionalParams,
   ): Promise<ExportConfigurationsUpdateResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, resourceName, exportId, exportProperties, options },
-      updateOperationSpec
+      updateOperationSpec,
     );
   }
 }
@@ -141,8 +141,7 @@ export class ExportConfigurationsImpl implements ExportConfigurations {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Insights/components/{resourceName}/exportconfiguration",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Insights/components/{resourceName}/exportconfiguration",
   httpMethod: "GET",
   responses: {
     200: {
@@ -152,26 +151,25 @@ const listOperationSpec: coreClient.OperationSpec = {
           element: {
             type: {
               name: "Composite",
-              className: "ApplicationInsightsComponentExportConfiguration"
-            }
-          }
-        }
-      }
-    }
+              className: "ApplicationInsightsComponentExportConfiguration",
+            },
+          },
+        },
+      },
+    },
   },
-  queryParameters: [Parameters.apiVersion],
+  queryParameters: [Parameters.apiVersion1],
   urlParameters: [
     Parameters.$host,
-    Parameters.resourceGroupName,
     Parameters.subscriptionId,
-    Parameters.resourceName
+    Parameters.resourceGroupName,
+    Parameters.resourceName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const createOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Insights/components/{resourceName}/exportconfiguration",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Insights/components/{resourceName}/exportconfiguration",
   httpMethod: "POST",
   responses: {
     200: {
@@ -181,84 +179,81 @@ const createOperationSpec: coreClient.OperationSpec = {
           element: {
             type: {
               name: "Composite",
-              className: "ApplicationInsightsComponentExportConfiguration"
-            }
-          }
-        }
-      }
-    }
+              className: "ApplicationInsightsComponentExportConfiguration",
+            },
+          },
+        },
+      },
+    },
   },
   requestBody: Parameters.exportProperties,
-  queryParameters: [Parameters.apiVersion],
+  queryParameters: [Parameters.apiVersion1],
   urlParameters: [
     Parameters.$host,
-    Parameters.resourceGroupName,
     Parameters.subscriptionId,
-    Parameters.resourceName
+    Parameters.resourceGroupName,
+    Parameters.resourceName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const deleteOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Insights/components/{resourceName}/exportconfiguration/{exportId}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Insights/components/{resourceName}/exportconfiguration/{exportId}",
   httpMethod: "DELETE",
   responses: {
     200: {
-      bodyMapper: Mappers.ApplicationInsightsComponentExportConfiguration
-    }
+      bodyMapper: Mappers.ApplicationInsightsComponentExportConfiguration,
+    },
   },
-  queryParameters: [Parameters.apiVersion],
+  queryParameters: [Parameters.apiVersion1],
   urlParameters: [
     Parameters.$host,
-    Parameters.resourceGroupName,
     Parameters.subscriptionId,
+    Parameters.resourceGroupName,
     Parameters.resourceName,
-    Parameters.exportId
+    Parameters.exportId,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Insights/components/{resourceName}/exportconfiguration/{exportId}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Insights/components/{resourceName}/exportconfiguration/{exportId}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ApplicationInsightsComponentExportConfiguration
-    }
+      bodyMapper: Mappers.ApplicationInsightsComponentExportConfiguration,
+    },
   },
-  queryParameters: [Parameters.apiVersion],
+  queryParameters: [Parameters.apiVersion1],
   urlParameters: [
     Parameters.$host,
-    Parameters.resourceGroupName,
     Parameters.subscriptionId,
+    Parameters.resourceGroupName,
     Parameters.resourceName,
-    Parameters.exportId
+    Parameters.exportId,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const updateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Insights/components/{resourceName}/exportconfiguration/{exportId}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Insights/components/{resourceName}/exportconfiguration/{exportId}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.ApplicationInsightsComponentExportConfiguration
-    }
+      bodyMapper: Mappers.ApplicationInsightsComponentExportConfiguration,
+    },
   },
   requestBody: Parameters.exportProperties,
-  queryParameters: [Parameters.apiVersion],
+  queryParameters: [Parameters.apiVersion1],
   urlParameters: [
     Parameters.$host,
-    Parameters.resourceGroupName,
     Parameters.subscriptionId,
+    Parameters.resourceGroupName,
     Parameters.resourceName,
-    Parameters.exportId
+    Parameters.exportId,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };

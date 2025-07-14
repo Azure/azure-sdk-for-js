@@ -40,7 +40,6 @@ export function getLogLevel(): AzureLogLevel | undefined;
 // @public
 export function setLogLevel(level?: AzureLogLevel): void;
 
-
 // (No @packageDocumentation comment for this package)
 
 ```

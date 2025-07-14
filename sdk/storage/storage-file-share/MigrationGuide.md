@@ -1,3 +1,5 @@
+<!-- dev-tool snippets ignore -->
+
 # Guide for migrating to `@azure/storage-file-share` v12 from `azure-storage`
 
 This guide is intended to assist in the migration to version 12 of `@azure/storage-file-share` from the legacy `azure-storage` package. It will focus on side-by-side comparisons for similar operations between the two packages.
@@ -73,7 +75,7 @@ Previously in `azure-storage`, you can invoke method `createFileServiceWithSas` 
 const azure = require("azure-storage");
 const fileService = azure.createFileServiceWithSas(
   "https://<account-name>.file.core.windows.net",
-  "<sas-token>"
+  "<sas-token>",
 );
 ```
 
@@ -82,7 +84,7 @@ Now, in `@azure/storage-file-share`, you can pass URL with SAS token to the cons
 ```javascript
 const { ShareServiceClient } = require("@azure/storage-file-share");
 const shareService = new ShareServiceClient(
-  "https://<account-name>.file.core.windows.net<sas-token>"
+  "https://<account-name>.file.core.windows.net<sas-token>",
 );
 ```
 
@@ -95,7 +97,7 @@ const azure = require("azure-storage");
 const fileService = azure.createFileService("<connection-string>");
 
 const shareName = "<share-name>";
-fileService.createShare(shareName, function() {
+fileService.createShare(shareName, function () {
   console.log(`Share created`);
 });
 ```
@@ -109,7 +111,7 @@ const fileEndpoint = "https://<account-name>.file.core.windows.net";
 
 const shareService = new ShareServiceClient(
   fileEndpoint,
-  new StorageSharedKeyCredential("<accountName>", "<accountKey>")
+  new StorageSharedKeyCredential("<accountName>", "<accountKey>"),
 );
 
 // Creates the Share with `<share-name>`
@@ -125,7 +127,7 @@ const shareUrl = "https://<account-name>.file.core.windows.net/<share-name>";
 
 const shareClient = new ShareClient(
   shareUrl,
-  new StorageSharedKeyCredential("<accountName>", "<accountKey>")
+  new StorageSharedKeyCredential("<accountName>", "<accountKey>"),
 );
 
 // Creates the share with `<share-name>`
@@ -143,7 +145,7 @@ const shareName = "<share-name>";
 const directoryName = "<directory-name>";
 const fileService = azure.createFileService("<connection-string>");
 
-fileService.createDirectory(shareName, directoryName, function() {
+fileService.createDirectory(shareName, directoryName, function () {
   console.log("Directory created");
 });
 ```
@@ -157,7 +159,7 @@ const shareUrl = "https://<account-name>.file.core.windows.net/<share-name>";
 
 const shareClient = new ShareClient(
   shareUrl,
-  new StorageSharedKeyCredential("<accountName>", "<accountKey>")
+  new StorageSharedKeyCredential("<accountName>", "<accountKey>"),
 );
 
 await shareClient.createDirectory(directoryName);
@@ -172,7 +174,7 @@ const directoryUrl = "https://<account-name>.file.core.windows.net/<share-name>/
 
 const directoryClient = new ShareDirectoryClient(
   directoryUrl,
-  new StorageSharedKeyCredential("<accountName>", "<accountKey>")
+  new StorageSharedKeyCredential("<accountName>", "<accountKey>"),
 );
 
 await directoryClient.create();
@@ -192,7 +194,7 @@ const localFilePath = "<local-file-path>";
 
 const fileService = azure.createFileService("<connection-string>");
 
-fileService.createFileFromLocalFile(shareName, directoryName, fileName, localFilePath, function() {
+fileService.createFileFromLocalFile(shareName, directoryName, fileName, localFilePath, function () {
   console.log("File uploaded");
 });
 ```
@@ -207,7 +209,7 @@ const localFilePath = "<local-file-path>";
 
 const fileClient = new ShareFileClient(
   fileUrl,
-  new StorageSharedKeyCredential("<accountName>", "<accountKey>")
+  new StorageSharedKeyCredential("<accountName>", "<accountKey>"),
 );
 
 await fileClient.uploadFile(localFilePath);
@@ -227,7 +229,7 @@ const fileName = "<file-name>";
 
 const fileService = azure.createFileService("<connection-string>");
 
-fileService.getFileProperties(shareName, directoryName, fileName, function(error, result) {
+fileService.getFileProperties(shareName, directoryName, fileName, function (error, result) {
   if (!error) {
     // result contains the blob properties
     console.log(result);
@@ -244,7 +246,7 @@ const fileUrl =
 
 const fileClient = new ShareFileClient(
   fileUrl,
-  new StorageSharedKeyCredential("<accountName>", "<accountKey>")
+  new StorageSharedKeyCredential("<accountName>", "<accountKey>"),
 );
 
 const fileProperties = await fileClient.getProperties();
@@ -269,7 +271,7 @@ function listFilesAndDirectories(continuationToken, callback) {
     shareName,
     directoryName,
     continuationToken,
-    function(error, result) {
+    function (error, result) {
       files.push.apply(files, result.entries.files);
       directories.push.apply(directories, result.entries.directories);
       const continuationToken = result.continuationToken;
@@ -279,11 +281,11 @@ function listFilesAndDirectories(continuationToken, callback) {
         console.log("completed listing all files and directories");
         callback();
       }
-    }
+    },
   );
 }
 
-listFilesAndDirectories(null, function() {
+listFilesAndDirectories(null, function () {
   console.log(files);
   console.log(directories);
 });
@@ -297,7 +299,7 @@ const directoryUrl = "https://<account-name>.file.core.windows.net/<share-name>/
 
 const directoryClient = new ShareDirectoryClient(
   containerUrl,
-  new StorageSharedKeyCredential("<accountName>", "<accountKey>")
+  new StorageSharedKeyCredential("<accountName>", "<accountKey>"),
 );
 
 const iterator = directoryClient.listFilesAndDirectories();
@@ -326,16 +328,16 @@ const directoryName = "<directory-name>";
 const fileName = "<file-name>";
 const localFilePath = "<local-file-path>";
 
-fileService.createShare(shareName, function() {
-  fileService.createDirectory(shareName, directoryName, function() {
+fileService.createShare(shareName, function () {
+  fileService.createDirectory(shareName, directoryName, function () {
     fileService.createFileFromLocalFile(
       shareName,
       directoryName,
       fileName,
       localFilePath,
-      function() {
+      function () {
         console.log("File uploaded");
-      }
+      },
     );
   });
 });
@@ -352,7 +354,7 @@ const shareUrl = "https://<account-name>.file.core.windows.net/<share-name>";
 
 const shareClient = new ShareClient(
   shareUrl,
-  new StorageSharedKeyCredential("<accountName>", "<accountKey>")
+  new StorageSharedKeyCredential("<accountName>", "<accountKey>"),
 );
 
 await shareClient.create();

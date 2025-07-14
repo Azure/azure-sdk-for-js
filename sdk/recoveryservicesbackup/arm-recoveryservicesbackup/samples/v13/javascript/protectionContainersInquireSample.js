@@ -10,13 +10,13 @@
 // Licensed under the MIT License.
 const { RecoveryServicesBackupClient } = require("@azure/arm-recoveryservicesbackup");
 const { DefaultAzureCredential } = require("@azure/identity");
-require("dotenv").config();
+require("dotenv/config");
 
 /**
  * This sample demonstrates how to This is an async operation and the results should be tracked using location header or Azure-async-url.
  *
  * @summary This is an async operation and the results should be tracked using location header or Azure-async-url.
- * x-ms-original-file: specification/recoveryservicesbackup/resource-manager/Microsoft.RecoveryServices/stable/2024-04-01/examples/AzureStorage/ProtectionContainers_Inquire.json
+ * x-ms-original-file: specification/recoveryservicesbackup/resource-manager/Microsoft.RecoveryServices/stable/2025-02-01/examples/AzureStorage/ProtectionContainers_Inquire.json
  */
 async function inquireAzureStorageProtectionContainers() {
   const subscriptionId =
@@ -37,7 +37,7 @@ async function inquireAzureStorageProtectionContainers() {
 }
 
 async function main() {
-  inquireAzureStorageProtectionContainers();
+  await inquireAzureStorageProtectionContainers();
 }
 
 main().catch(console.error);

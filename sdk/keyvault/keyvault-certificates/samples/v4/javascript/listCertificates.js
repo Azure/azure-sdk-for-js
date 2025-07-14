@@ -5,13 +5,10 @@
  * @summary List certificates, lists a certificate's versions, and lists deleted certificates in various ways.
  */
 
-// Load the .env file if it exists
-const dotenv = require("dotenv");
-
 const { CertificateClient } = require("@azure/keyvault-certificates");
 const { DefaultAzureCredential } = require("@azure/identity");
-
-dotenv.config();
+// Load the .env file if it exists
+require("dotenv/config");
 
 async function main() {
   // This sample uses DefaultAzureCredential, which supports a number of authentication mechanisms.

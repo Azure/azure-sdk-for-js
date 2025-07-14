@@ -46,7 +46,7 @@ node basicusage.js
 Alternatively, run a single sample with the correct environment variables set (setting up the `.env` file is not required if you do this), for example (cross-platform):
 
 ```bash
-npx dev-tool run vendored cross-env WPS_CONNECTION_STRING="<wps connection string>" node basicusage.js
+npx dev-tool run vendored cross-env WPS_ENDPOINT="<wps endpoint>" node basicusage.js
 ```
 
 ## Next Steps
@@ -54,5 +54,6 @@ npx dev-tool run vendored cross-env WPS_CONNECTION_STRING="<wps connection strin
 Take a look at our [API Documentation][apiref] for more information about the APIs that are available in the clients.
 
 [basicusage]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/web-pubsub/web-pubsub-client-protobuf/samples/v1-beta/javascript/basicusage.js
+[apiref]: https://learn.microsoft.com/javascript/api/@azure/web-pubsub-client-protobuf?view=azure-node-preview
 [freesub]: https://azure.microsoft.com/free/
 [package]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/web-pubsub/web-pubsub-client-protobuf/README.md

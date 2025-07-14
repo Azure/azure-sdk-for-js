@@ -10,7 +10,7 @@
 // Licensed under the MIT License.
 const { StorageActionsManagementClient } = require("@azure/arm-storageactions");
 const { DefaultAzureCredential } = require("@azure/identity");
-require("dotenv").config();
+require("dotenv/config");
 
 /**
  * This sample demonstrates how to Delete the storage task resource.
@@ -30,7 +30,7 @@ async function deleteStorageTask() {
 }
 
 async function main() {
-  deleteStorageTask();
+  await deleteStorageTask();
 }
 
 main().catch(console.error);

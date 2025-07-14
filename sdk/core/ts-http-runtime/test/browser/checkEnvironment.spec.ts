@@ -5,7 +5,6 @@ import {
   isBrowser,
   isBun,
   isDeno,
-  isNode,
   isNodeLike,
   isNodeRuntime,
   isReactNative,
@@ -29,12 +28,6 @@ describe("checkEnvironment (browser)", function () {
   describe("isDeno (browser)", function () {
     it("should return false", async function () {
       assert.isFalse(isDeno);
-    });
-  });
-
-  describe("isNode(browser)", function () {
-    it("should return true", async function () {
-      assert.isFalse(isNode);
     });
   });
 

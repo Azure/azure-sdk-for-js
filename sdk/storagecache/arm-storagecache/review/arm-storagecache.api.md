@@ -358,7 +358,7 @@ export interface BlobNfsTarget {
 }
 
 // @public
-interface Cache_2 {
+export interface Cache {
     cacheSizeGB?: number;
     directoryServicesSettings?: CacheDirectorySettings;
     encryptionSettings?: CacheEncryptionSettings;
@@ -384,7 +384,6 @@ interface Cache_2 {
     readonly upgradeStatus?: CacheUpgradeStatus;
     zones?: string[];
 }
-export { Cache_2 as Cache }
 
 // @public
 export interface CacheActiveDirectorySettings {
@@ -446,8 +445,8 @@ export interface CacheNetworkSettings {
 
 // @public
 export interface Caches {
-    beginCreateOrUpdate(resourceGroupName: string, cacheName: string, cache: Cache_2, options?: CachesCreateOrUpdateOptionalParams): Promise<SimplePollerLike<OperationState<CachesCreateOrUpdateResponse>, CachesCreateOrUpdateResponse>>;
-    beginCreateOrUpdateAndWait(resourceGroupName: string, cacheName: string, cache: Cache_2, options?: CachesCreateOrUpdateOptionalParams): Promise<CachesCreateOrUpdateResponse>;
+    beginCreateOrUpdate(resourceGroupName: string, cacheName: string, cache: Cache, options?: CachesCreateOrUpdateOptionalParams): Promise<SimplePollerLike<OperationState<CachesCreateOrUpdateResponse>, CachesCreateOrUpdateResponse>>;
+    beginCreateOrUpdateAndWait(resourceGroupName: string, cacheName: string, cache: Cache, options?: CachesCreateOrUpdateOptionalParams): Promise<CachesCreateOrUpdateResponse>;
     beginDebugInfo(resourceGroupName: string, cacheName: string, options?: CachesDebugInfoOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
     beginDebugInfoAndWait(resourceGroupName: string, cacheName: string, options?: CachesDebugInfoOptionalParams): Promise<void>;
     beginDelete(resourceGroupName: string, cacheName: string, options?: CachesDeleteOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
@@ -473,8 +472,8 @@ export interface Caches {
     beginUpgradeFirmware(resourceGroupName: string, cacheName: string, options?: CachesUpgradeFirmwareOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
     beginUpgradeFirmwareAndWait(resourceGroupName: string, cacheName: string, options?: CachesUpgradeFirmwareOptionalParams): Promise<void>;
     get(resourceGroupName: string, cacheName: string, options?: CachesGetOptionalParams): Promise<CachesGetResponse>;
-    list(options?: CachesListOptionalParams): PagedAsyncIterableIterator<Cache_2>;
-    listByResourceGroup(resourceGroupName: string, options?: CachesListByResourceGroupOptionalParams): PagedAsyncIterableIterator<Cache_2>;
+    list(options?: CachesListOptionalParams): PagedAsyncIterableIterator<Cache>;
+    listByResourceGroup(resourceGroupName: string, options?: CachesListByResourceGroupOptionalParams): PagedAsyncIterableIterator<Cache>;
 }
 
 // @public
@@ -484,7 +483,7 @@ export interface CachesCreateOrUpdateOptionalParams extends coreClient.Operation
 }
 
 // @public
-export type CachesCreateOrUpdateResponse = Cache_2;
+export type CachesCreateOrUpdateResponse = Cache;
 
 // @public
 export interface CachesDebugInfoHeaders {
@@ -532,7 +531,7 @@ export interface CachesGetOptionalParams extends coreClient.OperationOptions {
 }
 
 // @public
-export type CachesGetResponse = Cache_2;
+export type CachesGetResponse = Cache;
 
 // @public
 export interface CacheSku {
@@ -570,7 +569,7 @@ export type CachesListResponse = CachesListResult;
 // @public
 export interface CachesListResult {
     nextLink?: string;
-    value?: Cache_2[];
+    value?: Cache[];
 }
 
 // @public
@@ -685,13 +684,13 @@ export interface CachesUpdateHeaders {
 
 // @public
 export interface CachesUpdateOptionalParams extends coreClient.OperationOptions {
-    cache?: Cache_2;
+    cache?: Cache;
     resumeFrom?: string;
     updateIntervalInMs?: number;
 }
 
 // @public
-export type CachesUpdateResponse = Cache_2;
+export type CachesUpdateResponse = Cache;
 
 // @public
 export interface CachesUpgradeFirmwareHeaders {

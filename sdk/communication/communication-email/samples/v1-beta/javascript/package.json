@@ -4,7 +4,7 @@
   "version": "1.0.0",
   "description": "Azure Communication Services - Email client library samples for JavaScript (Beta)",
   "engines": {
-    "node": ">=18.0.0"
+    "node": ">=20.0.0"
   },
   "repository": {
     "type": "git",
@@ -25,6 +25,7 @@
   "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/communication/communication-email",
   "dependencies": {
     "@azure/communication-email": "next",
-    "dotenv": "latest"
+    "dotenv": "latest",
+    "@azure/identity": "^4.8.0"
   }
 }

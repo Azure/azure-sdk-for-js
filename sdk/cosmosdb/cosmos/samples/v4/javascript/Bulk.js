@@ -5,12 +5,10 @@
  * @summary Shows a simple bulk call with each BulkOperation type.
  */
 
-require("dotenv").config();
-
-const { handleError, finish, logStep } = require("./Shared/handleError");
+require("dotenv/config");
+const { handleError, finish, logStep } = require("./Shared/handleError.js");
 const { BulkOperationType, CosmosClient, PatchOperationType } = require("@azure/cosmos");
-// eslint-disable-next-line @typescript-eslint/ban-ts-comment
-// @ts-ignore
+
 const key = process.env.COSMOS_KEY || "<cosmos key>";
 const endpoint = process.env.COSMOS_ENDPOINT || "<cosmos endpoint>";
 function addEntropy(name) {

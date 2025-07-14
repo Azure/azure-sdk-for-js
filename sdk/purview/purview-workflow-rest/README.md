@@ -26,21 +26,13 @@ Since the Workflow service uses an Azure Active Directory (AAD) bearer token for
 Set the values of the client ID, tenant ID, username and password as environment variables:
 AZURE_CLIENT_ID, AZURE_TENANT_ID, USERNAME, PASSWORD
 
-```typescript
+```ts snippet:ReadmeSampleCreateClient_Node
 import PurviewWorkflow from "@azure-rest/purview-workflow";
-import { UsernamePasswordCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
+import { DefaultAzureCredential } from "@azure/identity";
 
-dotenv.config();
-
-const endpoint = process.env["ENDPOINT"];
-const tenantId = process.env["AZURE_TENANT_ID"];
-const clientId = process.env["AZURE_CLIENT_ID"];
-const username = process.env["USERNAME"];
-const password = process.env["PASSWORD"];
 const client = PurviewWorkflow(
-  endpoint,
-  new UsernamePasswordCredential(tenantId, clientId, username, password),
+  "https://<my-account-name>.purview.azure.com",
+  new DefaultAzureCredential(),
 );
 ```
 
@@ -53,85 +45,70 @@ The following section provides several code snippets covering some of the most c
 
 ### Submit user requests
 
-```typescript
-import createPurviewWorkflowClient, {
+```ts snippet:ReadmeSampleUserRequestsSubmit
+import PurviewWorkflow, {
   SubmitUserRequestsParameters,
+  isUnexpected,
 } from "@azure-rest/purview-workflow";
-import { UsernamePasswordCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
+import { DefaultAzureCredential } from "@azure/identity";
 
-dotenv.config();
+const client = PurviewWorkflow(
+  "https://<my-account-name>.purview.azure.com",
+  new DefaultAzureCredential(),
+);
 
-async function userRequestsSubmit() {
-  const endpoint = process.env["ENDPOINT"];
-  const tenantId = process.env["AZURE_TENANT_ID"];
-  const clientId = process.env["AZURE_CLIENT_ID"];
-  const username = process.env["USERNAME"];
-  const password = process.env["PASSWORD"];
-
-  const credential = new UsernamePasswordCredential(tenantId, clientId, username, password);
-  const client = createPurviewWorkflowClient(endpoint, credential);
-  const options: SubmitUserRequestsParameters = {
-    body: {
-      comment: "Thanks!",
-      operations: [
-        {
-          type: "CreateTerm",
-          payload: {
-            glossaryTerm: {
-              name: "term",
-              anchor: { glossaryGuid: "20031e20-b4df-4a66-a61d-1b0716f3fa48" },
-              nickName: "term",
-              status: "Approved",
-            },
+const options: SubmitUserRequestsParameters = {
+  body: {
+    comment: "Thanks!",
+    operations: [
+      {
+        type: "CreateTerm",
+        payload: {
+          glossaryTerm: {
+            name: "term",
+            anchor: { glossaryGuid: "20031e20-b4df-4a66-a61d-1b0716f3fa48" },
+            nickName: "term",
+            status: "Approved",
           },
         },
-      ],
-    },
-  };
-  const result = await client.path("/userrequests").post(options);
-  if (isUnexpected(result)) {
-    throw result.body.error;
-  }
-  console.log(result);
+      },
+    ],
+  },
+};
+const result = await client.path("/userrequests").post(options);
+
+if (isUnexpected(result)) {
+  throw result.body.error;
 }
 
-userRequestsSubmit().catch(console.error);
+console.log(`Requestor: ${result.body.requestor}`);
 ```
 
 ### Approve workflow task
 
-```typescript
-// This taskId represents an existing workflow task. The id can be obtained by calling GET /workflowtasks API.
-import createPurviewWorkflowClient, {
-  SubmitUserRequestsParameters,
+```ts snippet:ReadmeSampleWorkflowTaskApprove
+import PurviewWorkflow, {
+  ApproveApprovalTaskParameters,
+  isUnexpected,
 } from "@azure-rest/purview-workflow";
-import { UsernamePasswordCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
+import { DefaultAzureCredential } from "@azure/identity";
 
-dotenv.config();
-async function approvalTaskApprove() {
-  const endpoint = process.env["ENDPOINT"];
-  const tenantId = process.env["AZURE_TENANT_ID"];
-  const clientId = process.env["AZURE_CLIENT_ID"];
-  const username = process.env["USERNAME"];
-  const password = process.env["PASSWORD"];
-  const credential = new UsernamePasswordCredential(tenantId, clientId, username, password);
-  const client = createPurviewWorkflowClient(endpoint, credential);
-  const taskId = "98d98e2c-23fa-4157-a3f8-ff8ce5cc095c";
-  const options: ApproveApprovalTaskParameters = {
-    body: { comment: "Thanks for raising this!" },
-  };
-  const result = await client
-    .path("/workflowtasks/{taskId}/approve-approval", taskId)
-    .post(options);
-  if (isUnexpected(result)) {
-    throw result.body.error;
-  }
-  console.log(result);
+const client = PurviewWorkflow(
+  "https://<my-account-name>.purview.azure.com",
+  new DefaultAzureCredential(),
+);
+
+const taskId = "98d98e2c-23fa-4157-a3f8-ff8ce5cc095c";
+const options: ApproveApprovalTaskParameters = {
+  body: { comment: "Thanks for raising this!" },
+};
+const result = await client.path("/workflowtasks/{taskId}/approve-approval", taskId).post(options);
+
+if (isUnexpected(result)) {
+  throw result.body.error;
 }
 
-approvalTaskApprove().catch(console.error);
+console.log(`Task approved with Task ID: ${taskId}`);
 ```
 
 ## Troubleshooting
@@ -140,8 +117,8 @@ approvalTaskApprove().catch(console.error);
 
 Enabling logging may help uncover useful information about failures. In order to see a log of HTTP requests and responses, set the `AZURE_LOG_LEVEL` environment variable to `info`. Alternatively, logging can be enabled at runtime by calling `setLogLevel` in the `@azure/logger`:
 
-```javascript
-const { setLogLevel } = require("@azure/logger");
+```ts snippet:SetLogLevel
+import { setLogLevel } from "@azure/logger";
 
 setLogLevel("info");
 ```

@@ -20,7 +20,7 @@ import {
   AnnotationsCreateResponse,
   AnnotationsDeleteOptionalParams,
   AnnotationsGetOptionalParams,
-  AnnotationsGetResponse
+  AnnotationsGetResponse,
 } from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
@@ -50,14 +50,14 @@ export class AnnotationsImpl implements Annotations {
     resourceName: string,
     start: string,
     end: string,
-    options?: AnnotationsListOptionalParams
+    options?: AnnotationsListOptionalParams,
   ): PagedAsyncIterableIterator<Annotation> {
     const iter = this.listPagingAll(
       resourceGroupName,
       resourceName,
       start,
       end,
-      options
+      options,
     );
     return {
       next() {
@@ -76,9 +76,9 @@ export class AnnotationsImpl implements Annotations {
           start,
           end,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
@@ -88,7 +88,7 @@ export class AnnotationsImpl implements Annotations {
     start: string,
     end: string,
     options?: AnnotationsListOptionalParams,
-    _settings?: PageSettings
+    _settings?: PageSettings,
   ): AsyncIterableIterator<Annotation[]> {
     let result: AnnotationsListResponse;
     result = await this._list(
@@ -96,7 +96,7 @@ export class AnnotationsImpl implements Annotations {
       resourceName,
       start,
       end,
-      options
+      options,
     );
     yield result.value || [];
   }
@@ -106,14 +106,14 @@ export class AnnotationsImpl implements Annotations {
     resourceName: string,
     start: string,
     end: string,
-    options?: AnnotationsListOptionalParams
+    options?: AnnotationsListOptionalParams,
   ): AsyncIterableIterator<Annotation> {
     for await (const page of this.listPagingPage(
       resourceGroupName,
       resourceName,
       start,
       end,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -133,11 +133,11 @@ export class AnnotationsImpl implements Annotations {
     resourceName: string,
     start: string,
     end: string,
-    options?: AnnotationsListOptionalParams
+    options?: AnnotationsListOptionalParams,
   ): Promise<AnnotationsListResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, resourceName, start, end, options },
-      listOperationSpec
+      listOperationSpec,
     );
   }
 
@@ -153,11 +153,11 @@ export class AnnotationsImpl implements Annotations {
     resourceGroupName: string,
     resourceName: string,
     annotationProperties: Annotation,
-    options?: AnnotationsCreateOptionalParams
+    options?: AnnotationsCreateOptionalParams,
   ): Promise<AnnotationsCreateResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, resourceName, annotationProperties, options },
-      createOperationSpec
+      createOperationSpec,
     );
   }
 
@@ -173,11 +173,11 @@ export class AnnotationsImpl implements Annotations {
     resourceGroupName: string,
     resourceName: string,
     annotationId: string,
-    options?: AnnotationsDeleteOptionalParams
+    options?: AnnotationsDeleteOptionalParams,
   ): Promise<void> {
     return this.client.sendOperationRequest(
       { resourceGroupName, resourceName, annotationId, options },
-      deleteOperationSpec
+      deleteOperationSpec,
     );
   }
 
@@ -193,11 +193,11 @@ export class AnnotationsImpl implements Annotations {
     resourceGroupName: string,
     resourceName: string,
     annotationId: string,
-    options?: AnnotationsGetOptionalParams
+    options?: AnnotationsGetOptionalParams,
   ): Promise<AnnotationsGetResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, resourceName, annotationId, options },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 }
@@ -205,96 +205,92 @@ export class AnnotationsImpl implements Annotations {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Insights/components/{resourceName}/Annotations",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Insights/components/{resourceName}/Annotations",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.AnnotationsListResult
+      bodyMapper: Mappers.AnnotationsListResult,
     },
     default: {
-      bodyMapper: Mappers.AnnotationError
-    }
+      bodyMapper: Mappers.AnnotationError,
+    },
   },
-  queryParameters: [Parameters.apiVersion, Parameters.start, Parameters.end],
+  queryParameters: [Parameters.apiVersion1, Parameters.start, Parameters.end],
   urlParameters: [
     Parameters.$host,
-    Parameters.resourceGroupName,
     Parameters.subscriptionId,
-    Parameters.resourceName
+    Parameters.resourceGroupName,
+    Parameters.resourceName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const createOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Insights/components/{resourceName}/Annotations",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Insights/components/{resourceName}/Annotations",
   httpMethod: "PUT",
   responses: {
     200: {
       bodyMapper: {
         type: {
           name: "Sequence",
-          element: { type: { name: "Composite", className: "Annotation" } }
-        }
-      }
+          element: { type: { name: "Composite", className: "Annotation" } },
+        },
+      },
     },
     default: {
-      bodyMapper: Mappers.AnnotationError
-    }
+      bodyMapper: Mappers.AnnotationError,
+    },
   },
   requestBody: Parameters.annotationProperties,
-  queryParameters: [Parameters.apiVersion],
+  queryParameters: [Parameters.apiVersion1],
   urlParameters: [
     Parameters.$host,
-    Parameters.resourceGroupName,
     Parameters.subscriptionId,
-    Parameters.resourceName
+    Parameters.resourceGroupName,
+    Parameters.resourceName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const deleteOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Insights/components/{resourceName}/Annotations/{annotationId}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Insights/components/{resourceName}/Annotations/{annotationId}",
   httpMethod: "DELETE",
   responses: { 200: {} },
-  queryParameters: [Parameters.apiVersion],
+  queryParameters: [Parameters.apiVersion1],
   urlParameters: [
     Parameters.$host,
-    Parameters.resourceGroupName,
     Parameters.subscriptionId,
+    Parameters.resourceGroupName,
     Parameters.resourceName,
-    Parameters.annotationId
+    Parameters.annotationId,
   ],
-  serializer
+  serializer,
 };
 const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Insights/components/{resourceName}/Annotations/{annotationId}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Insights/components/{resourceName}/Annotations/{annotationId}",
   httpMethod: "GET",
   responses: {
     200: {
       bodyMapper: {
         type: {
           name: "Sequence",
-          element: { type: { name: "Composite", className: "Annotation" } }
-        }
-      }
+          element: { type: { name: "Composite", className: "Annotation" } },
+        },
+      },
     },
     default: {
-      bodyMapper: Mappers.AnnotationError
-    }
+      bodyMapper: Mappers.AnnotationError,
+    },
   },
-  queryParameters: [Parameters.apiVersion],
+  queryParameters: [Parameters.apiVersion1],
   urlParameters: [
     Parameters.$host,
-    Parameters.resourceGroupName,
     Parameters.subscriptionId,
+    Parameters.resourceGroupName,
     Parameters.resourceName,
-    Parameters.annotationId
+    Parameters.annotationId,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

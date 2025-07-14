@@ -16,6 +16,7 @@ Add this library as a dev dependency in your project.
 
 ### Usage
 
+<!-- dev-tool snippets ignore -->
 ```ts
 import { createTestCredential } from "@azure-tools/test-credential";
 

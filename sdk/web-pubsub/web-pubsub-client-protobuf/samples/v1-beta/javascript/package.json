@@ -4,7 +4,7 @@
   "version": "1.0.0",
   "description": "Azure Web PubSub Client client library samples for JavaScript (Beta)",
   "engines": {
-    "node": ">=18.0.0"
+    "node": ">=20.0.0"
   },
   "repository": {
     "type": "git",
@@ -25,6 +25,7 @@
     "@azure/web-pubsub-client-protobuf": "next",
     "dotenv": "latest",
     "@azure/web-pubsub-client": "1.0.0-beta.2",
-    "@azure/web-pubsub": "^1.1.0"
+    "@azure/web-pubsub": "^1.1.0",
+    "@azure/identity": "^4.8.0"
   }
 }

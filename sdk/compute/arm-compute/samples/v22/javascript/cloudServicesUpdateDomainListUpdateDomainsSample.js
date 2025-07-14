@@ -25,7 +25,7 @@ async function listUpdateDomainsInCloudService() {
   const credential = new DefaultAzureCredential();
   const client = new ComputeManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.cloudServicesUpdateDomain.listUpdateDomains(
+  for await (const item of client.cloudServicesUpdateDomain.listUpdateDomains(
     resourceGroupName,
     cloudServiceName,
   )) {
@@ -35,7 +35,7 @@ async function listUpdateDomainsInCloudService() {
 }
 
 async function main() {
-  listUpdateDomainsInCloudService();
+  await listUpdateDomainsInCloudService();
 }
 
 main().catch(console.error);

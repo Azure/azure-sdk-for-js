@@ -6,14 +6,14 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
+import type { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
 import { setContinuationToken } from "../pagingHelper.js";
-import { LtrBackupOperations } from "../operationsInterfaces/index.js";
+import type { LtrBackupOperations } from "../operationsInterfaces/index.js";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers.js";
 import * as Parameters from "../models/parameters.js";
-import { PostgreSQLManagementFlexibleServerClient } from "../postgreSQLManagementFlexibleServerClient.js";
-import {
+import type { PostgreSQLManagementFlexibleServerClient } from "../postgreSQLManagementFlexibleServerClient.js";
+import type {
   LtrServerBackupOperation,
   LtrBackupOperationsListByServerNextOptionalParams,
   LtrBackupOperationsListByServerOptionalParams,
@@ -47,11 +47,7 @@ export class LtrBackupOperationsImpl implements LtrBackupOperations {
     serverName: string,
     options?: LtrBackupOperationsListByServerOptionalParams,
   ): PagedAsyncIterableIterator<LtrServerBackupOperation> {
-    const iter = this.listByServerPagingAll(
-      resourceGroupName,
-      serverName,
-      options,
-    );
+    const iter = this.listByServerPagingAll(resourceGroupName, serverName, options);
     return {
       next() {
         return iter.next();
@@ -63,12 +59,7 @@ export class LtrBackupOperationsImpl implements LtrBackupOperations {
         if (settings?.maxPageSize) {
           throw new Error("maxPageSize is not supported by this operation.");
         }
-        return this.listByServerPagingPage(
-          resourceGroupName,
-          serverName,
-          options,
-          settings,
-        );
+        return this.listByServerPagingPage(resourceGroupName, serverName, options, settings);
       },
     };
   }
@@ -83,7 +74,7 @@ export class LtrBackupOperationsImpl implements LtrBackupOperations {
     let continuationToken = settings?.continuationToken;
     if (!continuationToken) {
       result = await this._listByServer(resourceGroupName, serverName, options);
-      let page = result.value || [];
+      const page = result.value || [];
       continuationToken = result.nextLink;
       setContinuationToken(page, continuationToken);
       yield page;
@@ -96,7 +87,7 @@ export class LtrBackupOperationsImpl implements LtrBackupOperations {
         options,
       );
       continuationToken = result.nextLink;
-      let page = result.value || [];
+      const page = result.value || [];
       setContinuationToken(page, continuationToken);
       yield page;
     }
@@ -107,11 +98,7 @@ export class LtrBackupOperationsImpl implements LtrBackupOperations {
     serverName: string,
     options?: LtrBackupOperationsListByServerOptionalParams,
   ): AsyncIterableIterator<LtrServerBackupOperation> {
-    for await (const page of this.listByServerPagingPage(
-      resourceGroupName,
-      serverName,
-      options,
-    )) {
+    for await (const page of this.listByServerPagingPage(resourceGroupName, serverName, options)) {
       yield* page;
     }
   }

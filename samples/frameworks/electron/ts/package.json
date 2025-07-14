@@ -15,17 +15,17 @@
   ],
   "license": "MIT",
   "devDependencies": {
-    "@types/qs": "^6.9.5",
+    "@types/qs": "^6.9.18",
     "babel": "^6.23.0",
-    "electron": "^10.2.0",
-    "typescript": "^4.1.2",
-    "webpack": "^5.6.0"
+    "electron": "^35.0.0",
+    "typescript": "^5.8.2",
+    "webpack": "^5.98.0"
   },
   "dependencies": {
-    "@azure/identity": "^4.2.1",
-    "@azure/logger": "^1.0.0",
-    "@azure/service-bus": "^7.0.0",
-    "@azure/storage-blob": "^12.3.0",
-    "qs": "^6.9.4"
+    "@azure/identity": "^4.7.0",
+    "@azure/logger": "^1.1.4",
+    "@azure/service-bus": "^7.9.5",
+    "@azure/storage-blob": "^12.26.0",
+    "qs": "^6.14.0"
   }
 }

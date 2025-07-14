@@ -5,11 +5,10 @@
  * @summary Demonstrates database create, read, delete and reading all databases.
  */
 
-require("dotenv").config();
-
-const { handleError, logStep, logSampleHeader, finish } = require("./Shared/handleError");
+require("dotenv/config");
+const { handleError, logStep, logSampleHeader, finish } = require("./Shared/handleError.js");
 const { CosmosClient } = require("@azure/cosmos");
-const assert = require("assert");
+const assert = require("node:assert");
 
 const key = process.env.COSMOS_KEY || "<cosmos key>";
 const endpoint = process.env.COSMOS_ENDPOINT || "<cosmos endpoint>";

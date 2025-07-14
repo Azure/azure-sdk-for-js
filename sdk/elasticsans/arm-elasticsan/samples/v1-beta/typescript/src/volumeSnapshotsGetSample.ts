@@ -16,7 +16,7 @@ import "dotenv/config";
  * This sample demonstrates how to Get a Volume Snapshot.
  *
  * @summary Get a Volume Snapshot.
- * x-ms-original-file: specification/elasticsan/resource-manager/Microsoft.ElasticSan/preview/2024-06-01-preview/examples/VolumeSnapshots_Get_MaximumSet_Gen.json
+ * x-ms-original-file: specification/elasticsan/resource-manager/Microsoft.ElasticSan/preview/2024-07-01-preview/examples/VolumeSnapshots_Get_MaximumSet_Gen.json
  */
 async function volumeSnapshotsGetMaximumSetGen(): Promise<void> {
   const subscriptionId =
@@ -41,7 +41,7 @@ async function volumeSnapshotsGetMaximumSetGen(): Promise<void> {
  * This sample demonstrates how to Get a Volume Snapshot.
  *
  * @summary Get a Volume Snapshot.
- * x-ms-original-file: specification/elasticsan/resource-manager/Microsoft.ElasticSan/preview/2024-06-01-preview/examples/VolumeSnapshots_Get_MinimumSet_Gen.json
+ * x-ms-original-file: specification/elasticsan/resource-manager/Microsoft.ElasticSan/preview/2024-07-01-preview/examples/VolumeSnapshots_Get_MinimumSet_Gen.json
  */
 async function volumeSnapshotsGetMinimumSetGen(): Promise<void> {
   const subscriptionId =
@@ -63,8 +63,8 @@ async function volumeSnapshotsGetMinimumSetGen(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  volumeSnapshotsGetMaximumSetGen();
-  volumeSnapshotsGetMinimumSetGen();
+  await volumeSnapshotsGetMaximumSetGen();
+  await volumeSnapshotsGetMinimumSetGen();
 }
 
 main().catch(console.error);

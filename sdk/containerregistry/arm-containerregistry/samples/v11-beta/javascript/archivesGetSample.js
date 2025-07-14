@@ -10,13 +10,13 @@
 // Licensed under the MIT License.
 const { ContainerRegistryManagementClient } = require("@azure/arm-containerregistry");
 const { DefaultAzureCredential } = require("@azure/identity");
-require("dotenv").config();
+require("dotenv/config");
 
 /**
  * This sample demonstrates how to Gets the properties of the archive.
  *
  * @summary Gets the properties of the archive.
- * x-ms-original-file: specification/containerregistry/resource-manager/Microsoft.ContainerRegistry/preview/2023-11-01-preview/examples/ArchiveGet.json
+ * x-ms-original-file: specification/containerregistry/resource-manager/Microsoft.ContainerRegistry/preview/2025-03-01-preview/examples/ArchiveGet.json
  */
 async function archiveGet() {
   const subscriptionId =
@@ -31,13 +31,13 @@ async function archiveGet() {
     resourceGroupName,
     registryName,
     packageType,
-    archiveName
+    archiveName,
   );
   console.log(result);
 }
 
 async function main() {
-  archiveGet();
+  await archiveGet();
 }
 
 main().catch(console.error);

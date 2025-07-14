@@ -4,6 +4,9 @@
 import { OperationOptions } from "@azure-rest/core-client";
 
 /** Optional parameters. */
+export interface GetKeyAttestationOptionalParams extends OperationOptions {}
+
+/** Optional parameters. */
 export interface GetRandomBytesOptionalParams extends OperationOptions {}
 
 /** Optional parameters. */

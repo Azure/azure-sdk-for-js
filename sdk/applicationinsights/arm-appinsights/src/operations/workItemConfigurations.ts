@@ -25,7 +25,7 @@ import {
   WorkItemConfigurationsGetItemOptionalParams,
   WorkItemConfigurationsGetItemResponse,
   WorkItemConfigurationsUpdateItemOptionalParams,
-  WorkItemConfigurationsUpdateItemResponse
+  WorkItemConfigurationsUpdateItemResponse,
 } from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
@@ -50,7 +50,7 @@ export class WorkItemConfigurationsImpl implements WorkItemConfigurations {
   public list(
     resourceGroupName: string,
     resourceName: string,
-    options?: WorkItemConfigurationsListOptionalParams
+    options?: WorkItemConfigurationsListOptionalParams,
   ): PagedAsyncIterableIterator<WorkItemConfiguration> {
     const iter = this.listPagingAll(resourceGroupName, resourceName, options);
     return {
@@ -68,9 +68,9 @@ export class WorkItemConfigurationsImpl implements WorkItemConfigurations {
           resourceGroupName,
           resourceName,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
@@ -78,7 +78,7 @@ export class WorkItemConfigurationsImpl implements WorkItemConfigurations {
     resourceGroupName: string,
     resourceName: string,
     options?: WorkItemConfigurationsListOptionalParams,
-    _settings?: PageSettings
+    _settings?: PageSettings,
   ): AsyncIterableIterator<WorkItemConfiguration[]> {
     let result: WorkItemConfigurationsListResponse;
     result = await this._list(resourceGroupName, resourceName, options);
@@ -88,12 +88,12 @@ export class WorkItemConfigurationsImpl implements WorkItemConfigurations {
   private async *listPagingAll(
     resourceGroupName: string,
     resourceName: string,
-    options?: WorkItemConfigurationsListOptionalParams
+    options?: WorkItemConfigurationsListOptionalParams,
   ): AsyncIterableIterator<WorkItemConfiguration> {
     for await (const page of this.listPagingPage(
       resourceGroupName,
       resourceName,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -108,11 +108,11 @@ export class WorkItemConfigurationsImpl implements WorkItemConfigurations {
   private _list(
     resourceGroupName: string,
     resourceName: string,
-    options?: WorkItemConfigurationsListOptionalParams
+    options?: WorkItemConfigurationsListOptionalParams,
   ): Promise<WorkItemConfigurationsListResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, resourceName, options },
-      listOperationSpec
+      listOperationSpec,
     );
   }
 
@@ -128,16 +128,16 @@ export class WorkItemConfigurationsImpl implements WorkItemConfigurations {
     resourceGroupName: string,
     resourceName: string,
     workItemConfigurationProperties: WorkItemCreateConfiguration,
-    options?: WorkItemConfigurationsCreateOptionalParams
+    options?: WorkItemConfigurationsCreateOptionalParams,
   ): Promise<WorkItemConfigurationsCreateResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
         resourceName,
         workItemConfigurationProperties,
-        options
+        options,
       },
-      createOperationSpec
+      createOperationSpec,
     );
   }
 
@@ -150,11 +150,11 @@ export class WorkItemConfigurationsImpl implements WorkItemConfigurations {
   getDefault(
     resourceGroupName: string,
     resourceName: string,
-    options?: WorkItemConfigurationsGetDefaultOptionalParams
+    options?: WorkItemConfigurationsGetDefaultOptionalParams,
   ): Promise<WorkItemConfigurationsGetDefaultResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, resourceName, options },
-      getDefaultOperationSpec
+      getDefaultOperationSpec,
     );
   }
 
@@ -170,11 +170,11 @@ export class WorkItemConfigurationsImpl implements WorkItemConfigurations {
     resourceGroupName: string,
     resourceName: string,
     workItemConfigId: string,
-    options?: WorkItemConfigurationsDeleteOptionalParams
+    options?: WorkItemConfigurationsDeleteOptionalParams,
   ): Promise<void> {
     return this.client.sendOperationRequest(
       { resourceGroupName, resourceName, workItemConfigId, options },
-      deleteOperationSpec
+      deleteOperationSpec,
     );
   }
 
@@ -190,11 +190,11 @@ export class WorkItemConfigurationsImpl implements WorkItemConfigurations {
     resourceGroupName: string,
     resourceName: string,
     workItemConfigId: string,
-    options?: WorkItemConfigurationsGetItemOptionalParams
+    options?: WorkItemConfigurationsGetItemOptionalParams,
   ): Promise<WorkItemConfigurationsGetItemResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, resourceName, workItemConfigId, options },
-      getItemOperationSpec
+      getItemOperationSpec,
     );
   }
 
@@ -213,7 +213,7 @@ export class WorkItemConfigurationsImpl implements WorkItemConfigurations {
     resourceName: string,
     workItemConfigId: string,
     workItemConfigurationProperties: WorkItemCreateConfiguration,
-    options?: WorkItemConfigurationsUpdateItemOptionalParams
+    options?: WorkItemConfigurationsUpdateItemOptionalParams,
   ): Promise<WorkItemConfigurationsUpdateItemResponse> {
     return this.client.sendOperationRequest(
       {
@@ -221,9 +221,9 @@ export class WorkItemConfigurationsImpl implements WorkItemConfigurations {
         resourceName,
         workItemConfigId,
         workItemConfigurationProperties,
-        options
+        options,
       },
-      updateItemOperationSpec
+      updateItemOperationSpec,
     );
   }
 }
@@ -231,121 +231,115 @@ export class WorkItemConfigurationsImpl implements WorkItemConfigurations {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Insights/components/{resourceName}/WorkItemConfigs",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Insights/components/{resourceName}/WorkItemConfigs",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.WorkItemConfigurationsListResult
+      bodyMapper: Mappers.WorkItemConfigurationsListResult,
     },
     default: {
-      bodyMapper: Mappers.WorkItemConfigurationError
-    }
+      bodyMapper: Mappers.WorkItemConfigurationError,
+    },
   },
-  queryParameters: [Parameters.apiVersion],
+  queryParameters: [Parameters.apiVersion1],
   urlParameters: [
     Parameters.$host,
-    Parameters.resourceGroupName,
     Parameters.subscriptionId,
-    Parameters.resourceName
+    Parameters.resourceGroupName,
+    Parameters.resourceName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const createOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Insights/components/{resourceName}/WorkItemConfigs",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Insights/components/{resourceName}/WorkItemConfigs",
   httpMethod: "POST",
   responses: {
     200: {
-      bodyMapper: Mappers.WorkItemConfiguration
-    }
+      bodyMapper: Mappers.WorkItemConfiguration,
+    },
   },
   requestBody: Parameters.workItemConfigurationProperties,
-  queryParameters: [Parameters.apiVersion],
+  queryParameters: [Parameters.apiVersion1],
   urlParameters: [
     Parameters.$host,
-    Parameters.resourceGroupName,
     Parameters.subscriptionId,
-    Parameters.resourceName
+    Parameters.resourceGroupName,
+    Parameters.resourceName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const getDefaultOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Insights/components/{resourceName}/DefaultWorkItemConfig",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Insights/components/{resourceName}/DefaultWorkItemConfig",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.WorkItemConfiguration
-    }
+      bodyMapper: Mappers.WorkItemConfiguration,
+    },
   },
-  queryParameters: [Parameters.apiVersion],
+  queryParameters: [Parameters.apiVersion1],
   urlParameters: [
     Parameters.$host,
-    Parameters.resourceGroupName,
     Parameters.subscriptionId,
-    Parameters.resourceName
+    Parameters.resourceGroupName,
+    Parameters.resourceName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const deleteOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Insights/components/{resourceName}/WorkItemConfigs/{workItemConfigId}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Insights/components/{resourceName}/WorkItemConfigs/{workItemConfigId}",
   httpMethod: "DELETE",
   responses: { 200: {} },
-  queryParameters: [Parameters.apiVersion],
+  queryParameters: [Parameters.apiVersion1],
   urlParameters: [
     Parameters.$host,
-    Parameters.resourceGroupName,
     Parameters.subscriptionId,
+    Parameters.resourceGroupName,
     Parameters.resourceName,
-    Parameters.workItemConfigId
+    Parameters.workItemConfigId,
   ],
-  serializer
+  serializer,
 };
 const getItemOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Insights/components/{resourceName}/WorkItemConfigs/{workItemConfigId}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Insights/components/{resourceName}/WorkItemConfigs/{workItemConfigId}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.WorkItemConfiguration
-    }
+      bodyMapper: Mappers.WorkItemConfiguration,
+    },
   },
-  queryParameters: [Parameters.apiVersion],
+  queryParameters: [Parameters.apiVersion1],
   urlParameters: [
     Parameters.$host,
-    Parameters.resourceGroupName,
     Parameters.subscriptionId,
+    Parameters.resourceGroupName,
     Parameters.resourceName,
-    Parameters.workItemConfigId
+    Parameters.workItemConfigId,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const updateItemOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Insights/components/{resourceName}/WorkItemConfigs/{workItemConfigId}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Insights/components/{resourceName}/WorkItemConfigs/{workItemConfigId}",
   httpMethod: "PATCH",
   responses: {
     200: {
-      bodyMapper: Mappers.WorkItemConfiguration
-    }
+      bodyMapper: Mappers.WorkItemConfiguration,
+    },
   },
   requestBody: Parameters.workItemConfigurationProperties,
-  queryParameters: [Parameters.apiVersion],
+  queryParameters: [Parameters.apiVersion1],
   urlParameters: [
     Parameters.$host,
-    Parameters.resourceGroupName,
     Parameters.subscriptionId,
+    Parameters.resourceGroupName,
     Parameters.resourceName,
-    Parameters.workItemConfigId
+    Parameters.workItemConfigId,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };

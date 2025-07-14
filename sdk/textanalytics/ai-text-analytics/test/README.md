@@ -8,12 +8,7 @@ The Azure resource that is used by the tests in this project is:
 
 - An [Azure Cognitive Services](https://azure.microsoft.com/services/cognitive-services/) account of the Text Analytics type.
 
-To run the live tests, you will also need to set the below environment variables:
-
-- `TEST_MODE`: Should have `live` assigned.
-- `TEXT_ANALYTICS_API_KEY`: The primary API key of the Text Analytics API in your Azure Cognitive Services account.
-- `TEXT_ANALYTICS_API_KEY_ALT` (optional): The secondary API key of the Text Analytics API in your Azure Cognitive Services account.
-- `ENDPOINT`: The endpoint of your Text Analytics API in your Azure Cognitive Services account.
+To run the live tests, you will also need to set the environment variables specified in the `test/sample.env` file:
 
 In addition to the environment variables above, an Azure Active Directory identity configuration is required. See the [README file for the @azure/identity package](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/identity/identity) for more details on how to configure an identity for local testing. The test configuration uses the `DefaultAzureCredential` to request an authentication token, so any authentication method that is exposed by `DefaultAzureCredential` will be sufficient to run the tests. The next section will explain how to grant access to your Cognitive Services account to the user or application you wish to use for testing.
 

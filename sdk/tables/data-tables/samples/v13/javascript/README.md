@@ -19,7 +19,6 @@ These sample programs show how to use the JavaScript client libraries for Azure 
 | [transactionWithHelper.js][transactionwithhelper]     | sends transactional request using TableTransaction helper                 |
 | [transactionOperations.js][transactionoperations]     | sends transactional batch requests                                        |
 | [usingContinuationToken.js][usingcontinuationtoken]   | queries entities in a table by page manually handling continuation tokens |
-| [authenticationMethods.js][authenticationmethods]     | authenticates using different authentication methods                      |
 | [createAndDeleteEntities.js][createanddeleteentities] | creates and deletes a entities in a table                                 |
 | [createAndDeleteTable.js][createanddeletetable]       | creates and deletes a table                                               |
 | [generateTableSAS.js][generatetablesas]               | generate a Table Account SAS token                                        |
@@ -60,7 +59,7 @@ node workingWithBigInt.js
 Alternatively, run a single sample with the correct environment variables set (setting up the `.env` file is not required if you do this), for example (cross-platform):
 
 ```bash
-npx dev-tool run vendored cross-env TABLES_URL="<tables url>" ACCOUNT_NAME="<account name>" ACCOUNT_KEY="<account key>" node workingWithBigInt.js
+npx dev-tool run vendored cross-env TABLES_URL="<tables url>" node workingWithBigInt.js
 ```
 
 ## Next Steps
@@ -72,7 +71,6 @@ Take a look at our [API Documentation][apiref] for more information about the AP
 [transactionwithhelper]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/tables/data-tables/samples/v13/javascript/transactionWithHelper.js
 [transactionoperations]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/tables/data-tables/samples/v13/javascript/transactionOperations.js
 [usingcontinuationtoken]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/tables/data-tables/samples/v13/javascript/usingContinuationToken.js
-[authenticationmethods]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/tables/data-tables/samples/v13/javascript/authenticationMethods.js
 [createanddeleteentities]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/tables/data-tables/samples/v13/javascript/createAndDeleteEntities.js
 [createanddeletetable]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/tables/data-tables/samples/v13/javascript/createAndDeleteTable.js
 [generatetablesas]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/tables/data-tables/samples/v13/javascript/generateTableSAS.js

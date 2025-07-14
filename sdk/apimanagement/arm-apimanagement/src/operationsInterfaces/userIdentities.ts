@@ -8,24 +8,24 @@
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import {
-    UserIdentitiesListOptionalParams,
-    UserIdentityContract
+  UserIdentityContract,
+  UserIdentitiesListOptionalParams,
 } from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a UserIdentities. */
 export interface UserIdentities {
-    /**
-     * List of all user identities.
-     * @param resourceGroupName The name of the resource group. The name is case insensitive.
-     * @param serviceName The name of the API Management service.
-     * @param userId User identifier. Must be unique in the current API Management service instance.
-     * @param options The options parameters.
-     */
-    list(
-        resourceGroupName: string,
-        serviceName: string,
-        userId: string,
-        options?: UserIdentitiesListOptionalParams
-    ): PagedAsyncIterableIterator<UserIdentityContract>;
+  /**
+   * List of all user identities.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param serviceName The name of the API Management service.
+   * @param userId User identifier. Must be unique in the current API Management service instance.
+   * @param options The options parameters.
+   */
+  list(
+    resourceGroupName: string,
+    serviceName: string,
+    userId: string,
+    options?: UserIdentitiesListOptionalParams,
+  ): PagedAsyncIterableIterator<UserIdentityContract>;
 }

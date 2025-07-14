@@ -3,11 +3,11 @@
 
 import { KeyVaultClient } from "./keyVaultClient.js";
 import {
-  _fullBackupDeserialize,
-  _preFullBackupDeserialize,
+  _selectiveKeyRestoreOperationDeserialize,
   _preFullRestoreOperationDeserialize,
   _fullRestoreOperationDeserialize,
-  _selectiveKeyRestoreOperationDeserialize,
+  _preFullBackupDeserialize,
+  _fullBackupDeserialize,
 } from "./api/operations.js";
 import { getLongRunningPoller } from "./static-helpers/pollingHelpers.js";
 import {
@@ -87,12 +87,8 @@ interface DeserializationHelper {
 }
 
 const deserializeMap: Record<string, DeserializationHelper> = {
-  "POST /backup": {
-    deserializer: _fullBackupDeserialize,
-    expectedStatuses: ["202", "200"],
-  },
-  "POST /prebackup": {
-    deserializer: _preFullBackupDeserialize,
+  "PUT /keys/{keyName}/restore": {
+    deserializer: _selectiveKeyRestoreOperationDeserialize,
     expectedStatuses: ["202", "200"],
   },
   "PUT /prerestore": {
@@ -103,8 +99,12 @@ const deserializeMap: Record<string, DeserializationHelper> = {
     deserializer: _fullRestoreOperationDeserialize,
     expectedStatuses: ["202", "200"],
   },
-  "PUT /keys/{keyName}/restore": {
-    deserializer: _selectiveKeyRestoreOperationDeserialize,
+  "POST /prebackup": {
+    deserializer: _preFullBackupDeserialize,
+    expectedStatuses: ["202", "200"],
+  },
+  "POST /backup": {
+    deserializer: _fullBackupDeserialize,
     expectedStatuses: ["202", "200"],
   },
 };

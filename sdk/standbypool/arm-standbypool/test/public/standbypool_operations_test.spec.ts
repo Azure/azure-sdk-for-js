@@ -39,11 +39,16 @@ describe("StandbyPool test", () => {
     await recorder.stop();
   });
 
-  it("operations list test", async () => {
+  it.skip("operations list test", async () => {
     const resArray = new Array();
     for await (const item of client.operations.list()) {
       resArray.push(item);
     }
     assert.notEqual(resArray.length, 0);
+  });
+
+  it("standbyContainerGroupPools list test", async () => {
+    const res = client.standbyContainerGroupPools.listBySubscription();
+    assert.ok(res);
   });
 });

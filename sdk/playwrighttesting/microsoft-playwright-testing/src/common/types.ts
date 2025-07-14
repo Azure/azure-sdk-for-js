@@ -3,7 +3,7 @@
 
 import type { Location, TestStep } from "@playwright/test/reporter";
 import type { ConnectOptions } from "@playwright/test";
-import type { ServiceAuth, ServiceOS } from "./constants";
+import type { ServiceAuth, ServiceOS } from "./constants.js";
 import type { TokenCredential } from "@azure/identity";
 
 // Public APIs

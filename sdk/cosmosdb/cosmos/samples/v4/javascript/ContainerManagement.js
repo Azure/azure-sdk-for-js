@@ -5,15 +5,15 @@
  * @summary Demonstrates container create, read, delete and reading all containers belonging to a database.
  */
 
-require("dotenv").config();
-
-const { finish, handleError, logStep, logSampleHeader } = require("./Shared/handleError");
+require("dotenv/config");
+const { finish, handleError, logStep, logSampleHeader } = require("./Shared/handleError.js");
 const {
   CosmosClient,
   VectorEmbeddingDataType,
   VectorEmbeddingDistanceFunction,
   VectorIndexType,
 } = require("@azure/cosmos");
+
 const key = process.env.COSMOS_KEY || "<cosmos key>";
 const endpoint = process.env.COSMOS_ENDPOINT || "<cosmos endpoint>";
 const databaseId = process.env.COSMOS_DATABASE || "<cosmos database>";

@@ -154,7 +154,7 @@ export type CreatedByType = string;
 export function getContinuationToken(page: unknown): string | undefined;
 
 // @public (undocumented)
-interface JsonWebKey_2 {
+export interface JsonWebKey {
     alg?: string;
     crv?: string;
     d?: string;
@@ -173,11 +173,10 @@ interface JsonWebKey_2 {
     x5C?: string[];
     y?: string;
 }
-export { JsonWebKey_2 as JsonWebKey }
 
 // @public (undocumented)
 export interface JsonWebKeySet {
-    keys?: JsonWebKey_2[];
+    keys?: JsonWebKey[];
 }
 
 // @public

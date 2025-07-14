@@ -4,7 +4,7 @@ parameters:
   default: 'Linux'
 - name: LanguageVersion
   type: string
-  default: '18'
+  default: $(NODE_VERSION_LTS_CURRENT)
 - name: ServiceDirectory
   type: string
   default: ''
@@ -16,7 +16,7 @@ parameters:
   default: '.*'
 - name: Arguments
   type: string
-  default: '.*' 
+  default: '.*'
 - name: Iterations
   type: number
   default: '5'

@@ -36,7 +36,7 @@ async function revokesAccessToADiskRestorePoint() {
 }
 
 async function main() {
-  revokesAccessToADiskRestorePoint();
+  await revokesAccessToADiskRestorePoint();
 }
 
 main().catch(console.error);

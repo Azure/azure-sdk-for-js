@@ -5,8 +5,7 @@
  * @summary Demonstrates query throughput scenarios.
  */
 
-require("dotenv").config();
-
+require("dotenv/config");
 const { CosmosClient } = require("@azure/cosmos");
 const key = process.env.COSMOS_KEY || "<cosmos key>";
 const endpoint = process.env.COSMOS_ENDPOINT || "<cosmos endpoint>";

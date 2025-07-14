@@ -63,44 +63,68 @@ Create an instance of the QuantumJobClient by passing in these parameters:
 - [Storage Container Name][blob-storage] - your blob storage
 - [Credential][credentials] - used to authenticate
 
-```Javascript Snippet
-    const credential = new DefaultAzureCredential();
+```ts snippet:ReadmeSampleCreateClient_TokenCredential
+import { DefaultAzureCredential } from "@azure/identity";
+import { QuantumJobClient } from "@azure/quantum-jobs";
 
-    // Create a QuantumJobClient
-    const subscriptionId = "your_subscription_id";
-    const resourceGroupName = "your_resource_group_name";
-    const workspaceName = "your_quantum_workspace_name";
-    const storageContainerName = "mycontainer";
-    const location = "westus"; //"your_location";
-    const endpoint = "https://" + location + ".quantum.azure.com";
+const credential = new DefaultAzureCredential();
 
-    const quantumJobClient = new QuantumJobClient(
-      credential,
-      subscriptionId,
-      resourceGroupName,
-      workspaceName,
-      {
-        endpoint: endpoint,
-        credentialScopes: "https://quantum.microsoft.com/.default"
-      }
-    );
+// Create a QuantumJobClient
+const subscriptionId = "your_subscription_id";
+const resourceGroupName = "your_resource_group_name";
+const workspaceName = "your_quantum_workspace_name";
+const location = "westus";
+const endpoint = `https://${location}.quantum.azure.com`;
+const quantumJobClient = new QuantumJobClient(
+  credential,
+  subscriptionId,
+  resourceGroupName,
+  workspaceName,
+  {
+    endpoint: endpoint,
+    credentialScopes: "https://quantum.microsoft.com/.default",
+  },
+);
 ```
 
 ### Get Container SAS URI
 
 Create a storage container to put your data.
 
-```Javascript Snippet
-    // Get container Uri with SAS key
-    const containerUri = (
-      await quantumJobClient.storage.sasUri({
-        containerName: storageContainerName
-      })
-    ).sasUri;
+```ts snippet:ReadmeSampleCreateContainer
+import { DefaultAzureCredential } from "@azure/identity";
+import { QuantumJobClient } from "@azure/quantum-jobs";
+import { ContainerClient } from "@azure/storage-blob";
 
-    // Create container if not exists
-    const containerClient = new ContainerClient(containerUri);
-    await containerClient.createIfNotExists();
+const credential = new DefaultAzureCredential();
+const subscriptionId = "your_subscription_id";
+const resourceGroupName = "your_resource_group_name";
+const workspaceName = "your_quantum_workspace_name";
+const storageContainerName = "containername";
+const location = "westus";
+const endpoint = `https://${location}.quantum.azure.com`;
+
+const quantumJobClient = new QuantumJobClient(
+  credential,
+  subscriptionId,
+  resourceGroupName,
+  workspaceName,
+  {
+    endpoint: endpoint,
+    credentialScopes: "https://quantum.microsoft.com/.default",
+  },
+);
+
+// Get container Uri with SAS key
+const containerUri = (
+  await quantumJobClient.storage.sasUri({
+    containerName: storageContainerName,
+  })
+).sasUri;
+
+// Create container if not exists
+const containerClient = new ContainerClient(containerUri);
+await containerClient.createIfNotExists();
 ```
 
 ### Compile your quantum program into QIR
@@ -123,82 +147,166 @@ We will use the QIR bitcode sample (`BellState.bc` in the samples folder), compi
 
 Using the SAS URI, upload the QIR bitcode input data to the blob client.
 
-```Javascript Snippet
-    // Get input data blob Uri with SAS key
-    const blobName = "myjobinput.bc";
-    const inputDataUri = (
-      await quantumJobClient.storage.sasUri({
-        containerName: storageContainerName,
-        blobName: blobName
-      })
-    ).sasUri;
+```ts snippet:ReadmeSampleUploadInputData
+import { DefaultAzureCredential } from "@azure/identity";
+import { QuantumJobClient } from "@azure/quantum-jobs";
+import { BlockBlobClient } from "@azure/storage-blob";
+import { readFileSync } from "node:fs";
 
-    // Upload input data to blob
-    const blobClient = new BlockBlobClient(inputDataUri);
-    const problemFilename = "BellState.bc";
-    const fileContent = fs.readFileSync(problemFilename, "utf8");
-    const blobOptions = {
-      blobHTTPHeaders: {
-        blobContentType: "qir.v1",
-      },
-    };
-    await blobClient.upload(fileContent, Buffer.byteLength(fileContent), blobOptions);
+const credential = new DefaultAzureCredential();
+const subscriptionId = "your_subscription_id";
+const resourceGroupName = "your_resource_group_name";
+const workspaceName = "your_quantum_workspace_name";
+const storageContainerName = "containername";
+const location = "westus";
+const endpoint = `https://${location}.quantum.azure.com`;
+
+const quantumJobClient = new QuantumJobClient(
+  credential,
+  subscriptionId,
+  resourceGroupName,
+  workspaceName,
+  {
+    endpoint: endpoint,
+    credentialScopes: "https://quantum.microsoft.com/.default",
+  },
+);
+
+// Get input data blob Uri with SAS key
+const blobName = "myjobinput.bc";
+const inputDataUri = (
+  await quantumJobClient.storage.sasUri({
+    containerName: storageContainerName,
+    blobName: blobName,
+  })
+).sasUri;
+
+// Upload input data to blob
+const blobClient = new BlockBlobClient(inputDataUri);
+const problemFilename = "BellState.bc";
+const fileContent = readFileSync(problemFilename, "utf8");
+const blobOptions = {
+  blobHTTPHeaders: {
+    blobContentType: "qir.v1",
+  },
+};
+await blobClient.upload(fileContent, Buffer.byteLength(fileContent), blobOptions);
 ```
 
 ### Create The Job
 
 Now that you've uploaded your problem definition to Azure Storage, you can use `jobs.create` to define an Azure Quantum job.
 
-```Javascript Snippet
-    const randomId = `${Math.floor(Math.random() * 10000 + 1)}`;
+```ts snippet:ReadmeSampleCreateJob
+import { DefaultAzureCredential } from "@azure/identity";
+import { QuantumJobClient } from "@azure/quantum-jobs";
 
-    // Submit job
-    const jobId = `job-${randomId}`;
-    const jobName = `jobName-${randomId}`;
-    const inputDataFormat = "qir.v1";
-    const outputDataFormat = "microsoft.quantum-results.v1";
-    const providerId = "quantinuum";
-    const target = "quantinuum.sim.h1-1e";
-    const inputParams = {
-      "entryPoint": "ENTRYPOINT__BellState",
-      "arguments": [],
-      "targetCapability": "AdaptiveExecution",
-    };
-    const createJobDetails = {
-      containerUri: containerUri,
-      inputDataFormat: inputDataFormat,
-      providerId: providerId,
-      target: target,
-      id: jobId,
-      inputDataUri: inputDataUri,
-      name: jobName,
-      outputDataFormat: outputDataFormat,
-      inputParams: inputParams
-    };
-    const createdJob = await quantumJobClient.jobs.create(jobId, createJobDetails);
+const credential = new DefaultAzureCredential();
+const subscriptionId = "your_subscription_id";
+const resourceGroupName = "your_resource_group_name";
+const workspaceName = "your_quantum_workspace_name";
+const location = "westus";
+const endpoint = `https://${location}.quantum.azure.com`;
+
+const quantumJobClient = new QuantumJobClient(
+  credential,
+  subscriptionId,
+  resourceGroupName,
+  workspaceName,
+  {
+    endpoint: endpoint,
+    credentialScopes: "https://quantum.microsoft.com/.default",
+  },
+);
+
+const randomId = `${Math.floor(Math.random() * 10000 + 1)}`;
+
+// Submit job
+const jobId = `job-${randomId}`;
+const jobName = `jobName-${randomId}`;
+const inputDataFormat = "qir.v1";
+const outputDataFormat = "microsoft.quantum-results.v1";
+const providerId = "quantinuum";
+const target = "quantinuum.sim.h1-1e";
+const inputParams = {
+  entryPoint: "ENTRYPOINT__BellState",
+  arguments: [],
+  targetCapability: "AdaptiveExecution",
+};
+const createJobDetails = {
+  containerUri: "https://<container-uri>",
+  inputDataFormat: inputDataFormat,
+  providerId: providerId,
+  target: target,
+  id: jobId,
+  inputDataUri: "https://<input-data-url>",
+  name: jobName,
+  outputDataFormat: outputDataFormat,
+  inputParams: inputParams,
+};
+const createdJob = await quantumJobClient.jobs.create(jobId, createJobDetails);
 ```
 
 ### Get Job
 
 `GetJob` retrieves a specific job by its id.
 
-```Javascript Snippet
-    // Get the job that we've just created based on its jobId
-    const myJob = await quantumJobClient.jobs.get(jobId);
+```ts snippet:ReadmeSampleGetJob
+import { DefaultAzureCredential } from "@azure/identity";
+import { QuantumJobClient } from "@azure/quantum-jobs";
+
+const credential = new DefaultAzureCredential();
+const subscriptionId = "your_subscription_id";
+const resourceGroupName = "your_resource_group_name";
+const workspaceName = "your_quantum_workspace_name";
+const location = "westus";
+const endpoint = `https://${location}.quantum.azure.com`;
+
+const quantumJobClient = new QuantumJobClient(
+  credential,
+  subscriptionId,
+  resourceGroupName,
+  workspaceName,
+  {
+    endpoint: endpoint,
+    credentialScopes: "https://quantum.microsoft.com/.default",
+  },
+);
+
+// Get the job that we've just created based on its jobId
+const myJob = await quantumJobClient.jobs.get("job-1234");
 ```
 
 ### Get Jobs
 
 To enumerate all the jobs in the workspace, use the `jobs.list` method.
 
-```Javascript Snippet
-    let jobListResult = await quantumJobClient.jobs.list();
-    let listOfJobs = await jobListResult.next();
-    while (!listOfJobs.done) {
-      let job = listOfJobs.value;
-      console.log(`  ${job.name}`);
-      listOfJobs = await jobListResult.next();
-    }
+```ts snippet:ReadmeSampleListJobs
+import { DefaultAzureCredential } from "@azure/identity";
+import { QuantumJobClient } from "@azure/quantum-jobs";
+
+const credential = new DefaultAzureCredential();
+const subscriptionId = "your_subscription_id";
+const resourceGroupName = "your_resource_group_name";
+const workspaceName = "your_quantum_workspace_name";
+const location = "westus";
+const endpoint = `https://${location}.quantum.azure.com`;
+
+const quantumJobClient = new QuantumJobClient(
+  credential,
+  subscriptionId,
+  resourceGroupName,
+  workspaceName,
+  {
+    endpoint: endpoint,
+    credentialScopes: "https://quantum.microsoft.com/.default",
+  },
+);
+
+const jobListResult = quantumJobClient.jobs.list();
+for await (const job of jobListResult) {
+  console.log(`Job Id: ${job.id} and Job Name: ${job.name}`);
+}
 ```
 
 ## Next steps
@@ -223,6 +331,18 @@ additional questions or comments.
 ## Troubleshooting
 
 All Quantum Jobs service operations will throw a RequestFailedException on failure with helpful ErrorCodes. Many of these errors are recoverable.
+
+### Logging
+
+Enabling logging may help uncover useful information about failures. In order to see a log of HTTP requests and responses, set the `AZURE_LOG_LEVEL` environment variable to `info`. Alternatively, logging can be enabled at runtime by calling `setLogLevel` in the `@azure/logger`:
+
+```ts snippet:SetLogLevel
+import { setLogLevel } from "@azure/logger";
+
+setLogLevel("info");
+```
+
+For more detailed instructions on how to enable logs, you can look at the [@azure/logger package docs](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/core/logger).
 
 <!-- LINKS -->
 

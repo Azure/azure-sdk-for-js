@@ -25,14 +25,14 @@ async function listRolesInACloudService() {
   const credential = new DefaultAzureCredential();
   const client = new ComputeManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.cloudServiceRoles.list(resourceGroupName, cloudServiceName)) {
+  for await (const item of client.cloudServiceRoles.list(resourceGroupName, cloudServiceName)) {
     resArray.push(item);
   }
   console.log(resArray);
 }
 
 async function main() {
-  listRolesInACloudService();
+  await listRolesInACloudService();
 }
 
 main().catch(console.error);

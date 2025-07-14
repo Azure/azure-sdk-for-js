@@ -37,12 +37,12 @@ describe("Can handle connected event", function () {
   let req: IncomingMessage;
   let res: ServerResponse;
 
-  beforeEach(function () {
+  beforeEach(async () => {
     req = new IncomingMessage(new Socket());
     res = new ServerResponse(req);
   });
 
-  it("Should not handle the request if request is not cloud events", async function () {
+  it("Should not handle the request if request is not cloud events", async () => {
     const endSpy = vi.spyOn(res, "end");
 
     const dispatcher = new CloudEventsDispatcher("hub1");
@@ -51,7 +51,7 @@ describe("Can handle connected event", function () {
     expect(endSpy).not.toBeCalled();
   });
 
-  it("Should not handle the request if hub does not match", async function () {
+  it("Should not handle the request if hub does not match", async () => {
     const endSpy = vi.spyOn(res, "end");
     buildRequest(req, "hub", "conn1");
 
@@ -61,7 +61,7 @@ describe("Can handle connected event", function () {
     expect(endSpy).not.toBeCalled();
   });
 
-  it("Should response with 200 when option is not specified", async function () {
+  it("Should response with 200 when option is not specified", async () => {
     const endSpy = vi.spyOn(res, "end");
     buildRequest(req, "hub", "conn1");
 
@@ -72,7 +72,7 @@ describe("Can handle connected event", function () {
     assert.equal(200, res.statusCode, "should be 200");
   });
 
-  it("Should response with 200 when handler is not specified", async function () {
+  it("Should response with 200 when handler is not specified", async () => {
     const endSpy = vi.spyOn(res, "end");
     buildRequest(req, "hub", "conn1");
 
@@ -83,7 +83,7 @@ describe("Can handle connected event", function () {
     assert.equal(200, res.statusCode, "should be 200");
   });
 
-  it("Should response 200 even the event handler throws", async function () {
+  it("Should response 200 even the event handler throws", async () => {
     const endSpy = vi.spyOn(res, "end");
     buildRequest(req, "hub", "conn1");
 

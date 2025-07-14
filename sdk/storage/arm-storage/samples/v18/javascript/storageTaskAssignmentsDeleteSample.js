@@ -10,13 +10,13 @@
 // Licensed under the MIT License.
 const { StorageManagementClient } = require("@azure/arm-storage");
 const { DefaultAzureCredential } = require("@azure/identity");
-require("dotenv").config();
+require("dotenv/config");
 
 /**
  * This sample demonstrates how to Delete the storage task assignment sub-resource
  *
  * @summary Delete the storage task assignment sub-resource
- * x-ms-original-file: specification/storage/resource-manager/Microsoft.Storage/stable/2023-05-01/examples/storageTaskAssignmentsCrud/DeleteStorageTaskAssignment.json
+ * x-ms-original-file: specification/storage/resource-manager/Microsoft.Storage/stable/2024-01-01/examples/storageTaskAssignmentsCrud/DeleteStorageTaskAssignment.json
  */
 async function deleteStorageTaskAssignment() {
   const subscriptionId =
@@ -35,7 +35,7 @@ async function deleteStorageTaskAssignment() {
 }
 
 async function main() {
-  deleteStorageTaskAssignment();
+  await deleteStorageTaskAssignment();
 }
 
 main().catch(console.error);

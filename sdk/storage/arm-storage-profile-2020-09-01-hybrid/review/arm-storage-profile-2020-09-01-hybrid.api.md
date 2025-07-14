@@ -17,7 +17,7 @@ export type AccessTier = "Hot" | "Cool";
 export interface AccountSasParameters {
     iPAddressOrRange?: string;
     keyToSign?: string;
-    permissions: Permissions_2;
+    permissions: Permissions;
     protocols?: HttpProtocol;
     resourceTypes: SignedResourceTypes;
     services: Services;
@@ -260,7 +260,7 @@ export type EncryptionScopeState = string;
 // @public
 export interface EncryptionService {
     enabled?: boolean;
-    keyType?: KeyType_2;
+    keyType?: KeyType;
     readonly lastEnabledTime?: Date;
 }
 
@@ -334,8 +334,7 @@ export type KeyPermission = "Read" | "Full";
 export type KeySource = string;
 
 // @public
-type KeyType_2 = string;
-export { KeyType_2 as KeyType }
+export type KeyType = string;
 
 // @public
 export interface KeyVaultProperties {
@@ -771,8 +770,7 @@ export interface OperationsListOptionalParams extends coreClient.OperationOption
 export type OperationsListResponse = OperationListResult;
 
 // @public
-type Permissions_2 = string;
-export { Permissions_2 as Permissions }
+export type Permissions = string;
 
 // @public
 export interface PrivateEndpoint {
@@ -913,7 +911,7 @@ export interface ServiceSasParameters {
     keyToSign?: string;
     partitionKeyEnd?: string;
     partitionKeyStart?: string;
-    permissions?: Permissions_2;
+    permissions?: Permissions;
     protocols?: HttpProtocol;
     resource?: SignedResource;
     rowKeyEnd?: string;

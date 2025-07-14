@@ -59,51 +59,45 @@ adapters for their message types.
 
 ### Serialize and deserialize an `@azure/event-hubs`'s `EventData`
 
-```javascript
-const { DefaultAzureCredential } = require("@azure/identity");
-const { createEventDataAdapter } = require("@azure/event-hubs");
-const { SchemaRegistryClient } = require("@azure/schema-registry");
-const { JsonSchemaSerializer } = require("@azure/schema-registry-json");
+```ts snippet:ReadmeSampleSerializeDeserialize
+import { SchemaRegistryClient } from "@azure/schema-registry";
+import { DefaultAzureCredential } from "@azure/identity";
+import { JsonSchemaSerializer } from "@azure/schema-registry-json";
+import { createEventDataAdapter } from "@azure/event-hubs";
 
-async function main() {
-  const client = new SchemaRegistryClient(
-    "<fully qualified namespace>",
-    new DefaultAzureCredential(),
-  );
-  const serializer = new JsonSchemaSerializer(client, {
-    groupName: "<group>",
-    messageAdapter: createEventDataAdapter(),
-  });
-
-  // Example Json schema
-  const schema = JSON.stringify({
-    $schema: "http://json-schema.org/draft-04/schema#",
-    $id: "person",
-    title: "Student",
-    description: "A student in the class",
-    type: "object",
-    properties: {
-      name: {
-        type: "string",
-        description: "The name of the student",
-      },
-    },
-    required: ["name"],
-  });
-
-  // Example value that matches the Json schema above
-  const value = { name: "Bob" };
-
-  // Serialize value to a message
-  const message = await serializer.serialize(value, schema);
-
-  // Deserialize a message to value
-  const deserializedValue = await serializer.deserialize(message);
-}
-
-main().catch((err) => {
-  console.error("The sample encountered an error:", err);
+const client = new SchemaRegistryClient(
+  "<fully qualified namespace>",
+  new DefaultAzureCredential(),
+);
+const serializer = new JsonSchemaSerializer(client, {
+  groupName: "<group>",
+  messageAdapter: createEventDataAdapter(),
 });
+
+// Example Json schema
+const schema = JSON.stringify({
+  $schema: "http://json-schema.org/draft-04/schema#",
+  $id: "person",
+  title: "Student",
+  description: "A student in the class",
+  type: "object",
+  properties: {
+    name: {
+      type: "string",
+      description: "The name of the student",
+    },
+  },
+  required: ["name"],
+});
+
+// Example value that matches the Json schema above
+const value = { name: "Bob" };
+
+// Serialize value to a message
+const message = await serializer.serialize(value, schema);
+
+// Deserialize a message to value
+const deserializedValue = await serializer.deserialize(message);
 ```
 
 The serializer doesn't check whether the deserialized value matches the schema
@@ -123,8 +117,8 @@ see a log of HTTP requests and responses, set the `AZURE_LOG_LEVEL` environment
 variable to `info`. Alternatively, logging can be enabled at runtime by calling
 `setLogLevel` in the `@azure/logger`:
 
-```javascript
-const { setLogLevel } = require("@azure/logger");
+```ts snippet:SetLogLevel
+import { setLogLevel } from "@azure/logger";
 
 setLogLevel("info");
 ```
@@ -161,8 +155,6 @@ learn more about how to build and test the code.
 ## Related projects
 
 - [Microsoft Azure SDK for Javascript](https://github.com/Azure/azure-sdk-for-js)
-
-
 
 [azure_cli]: https://learn.microsoft.com/cli/azure
 [azure_sub]: https://azure.microsoft.com/free/

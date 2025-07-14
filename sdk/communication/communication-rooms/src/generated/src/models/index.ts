@@ -70,7 +70,7 @@ export interface CommunicationError {
 
 /** A collection of rooms. */
 export interface RoomsCollection {
-  /** A collection of rooms */
+  /** A collection of rooms. */
   value: RoomModel[];
   /** If there are more rooms that can be retrieved, the next link will be populated. */
   nextLink?: string;
@@ -82,7 +82,7 @@ export interface UpdateRoomRequest {
   validFrom?: Date;
   /** (Optional) The timestamp from when the room can no longer be joined. The timestamp is in RFC3339 format: `yyyy-MM-ddTHH:mm:ssZ`. */
   validUntil?: Date;
-  /** Set this flag to true if, at the time of the call, dial out to a PSTN number is enabled in a particular room. By default, this flag is set to false. */
+  /** (Optional) Set this flag to true if, at the time of the call, dial out to a PSTN number is enabled in a particular room. By default, this flag is set to false. */
   pstnDialOutEnabled?: boolean;
 }
 
@@ -154,7 +154,7 @@ export interface ParticipantsListNextExceptionHeaders {
 }
 
 /** Defines values for Role. */
-export type Role = "Presenter" | "Attendee" | "Consumer";
+export type Role = "Presenter" | "Attendee" | "Consumer" | "Collaborator";
 
 /** Optional parameters. */
 export interface RoomsCreateOptionalParams extends coreClient.OperationOptions {
@@ -193,7 +193,7 @@ export interface RoomsUpdateOptionalParams extends coreClient.OperationOptions {
   validFrom?: Date;
   /** (Optional) The timestamp from when the room can no longer be joined. The timestamp is in RFC3339 format: `yyyy-MM-ddTHH:mm:ssZ`. */
   validUntil?: Date;
-  /** Set this flag to true if, at the time of the call, dial out to a PSTN number is enabled in a particular room. By default, this flag is set to false. */
+  /** (Optional) Set this flag to true if, at the time of the call, dial out to a PSTN number is enabled in a particular room. By default, this flag is set to false. */
   pstnDialOutEnabled?: boolean;
 }
 

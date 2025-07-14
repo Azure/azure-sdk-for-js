@@ -377,12 +377,13 @@ const client = FaceClient(endpoint, credential);
 
 console.log("Create a new liveness session.");
 const createLivenessSessionResponse = await client
-  .path("/detectLiveness-sessions")
+  .path("/detectLiveness/singleModal/sessions")
   .post({
     body: {
       livenessOperationMode: "Passive",
       deviceCorrelationId: randomUUID(),
-      enableSessionImage: true,
+      sendResultsToClient: false,
+      authTokenTimeToLiveInSeconds: 60,
     },
   });
 
@@ -395,7 +396,7 @@ const { sessionId } = createLivenessSessionResponse.body;
 
 console.log("Get liveness detection results.");
 const getLivenessSessionResponse = await client
-  .path("/detectLiveness-sessions/{sessionId}", sessionId)
+  .path("/detectLiveness/singleModal/sessions/{sessionId}", sessionId)
   .get();
 
 if (isUnexpected(getLivenessSessionResponse)) {
@@ -418,26 +419,22 @@ const client = FaceClient(endpoint, credential);
 
 console.log("Create a new liveness with verify session with verify image.");
 const createLivenessSessionResponse = await client
-  .path("/detectLivenessWithVerify-sessions")
+  .path("/detectLivenessWithVerify/singleModal/sessions")
   .post({
     contentType: "multipart/form-data",
     body: [
       {
-        name: "verifyImage",
+        name: "VerifyImage",
         body: readFileSync("path/to/verify/image"),
-        filename: "verifyImage.jpg",
       },
       {
-        name: "livenessOperationMode",
-        body: "Passive",
-      },
-      {
-        name: "deviceCorrelationId",
-        body: randomUUID(),
-      },
-      {
-        name: "enableSessionImage",
-        body: true,
+        name: "Parameters",
+        body: {
+          livenessOperationMode: "Passive",
+          sendResultsToClient: false,
+          authTokenTimeToLiveInSeconds: 60,
+          deviceCorrelationId: randomUUID(),
+        },
       },
     ],
   });
@@ -451,7 +448,7 @@ const { sessionId } = createLivenessSessionResponse.body;
 
 console.log("Get the liveness detection and verification result.");
 const getLivenessSessionResultResponse = await client
-  .path("/detectLivenessWithVerify-sessions/{sessionId}", sessionId)
+  .path("/detectLivenessWithVerify/singleModal/sessions/{sessionId}", sessionId)
   .get();
 
 if (isUnexpected(getLivenessSessionResultResponse)) {

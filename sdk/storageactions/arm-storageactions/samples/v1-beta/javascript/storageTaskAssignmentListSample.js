@@ -10,12 +10,12 @@
 // Licensed under the MIT License.
 const { StorageActionsManagementClient } = require("@azure/arm-storageactions");
 const { DefaultAzureCredential } = require("@azure/identity");
-require("dotenv").config();
+require("dotenv/config");
 
 /**
- * This sample demonstrates how to Lists all the storage tasks available under the given resource group.
+ * This sample demonstrates how to Lists Resource IDs of the Storage Task Assignments associated with this Storage Task.
  *
- * @summary Lists all the storage tasks available under the given resource group.
+ * @summary Lists Resource IDs of the Storage Task Assignments associated with this Storage Task.
  * x-ms-original-file: specification/storageactions/resource-manager/Microsoft.StorageActions/stable/2023-01-01/examples/storageTasksList/ListStorageTaskAssignmentIds.json
  */
 async function listStorageTaskAssignmentsByResourceGroup() {
@@ -26,7 +26,7 @@ async function listStorageTaskAssignmentsByResourceGroup() {
   const credential = new DefaultAzureCredential();
   const client = new StorageActionsManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.storageTaskAssignmentOperations.list(
+  for await (const item of client.storageTaskAssignmentOperations.list(
     resourceGroupName,
     storageTaskName,
   )) {
@@ -36,7 +36,7 @@ async function listStorageTaskAssignmentsByResourceGroup() {
 }
 
 async function main() {
-  listStorageTaskAssignmentsByResourceGroup();
+  await listStorageTaskAssignmentsByResourceGroup();
 }
 
 main().catch(console.error);

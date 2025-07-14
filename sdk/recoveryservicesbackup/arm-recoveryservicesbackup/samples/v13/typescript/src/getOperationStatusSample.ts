@@ -16,7 +16,7 @@ import "dotenv/config";
  * This sample demonstrates how to Fetches operation status for data move operation on vault
  *
  * @summary Fetches operation status for data move operation on vault
- * x-ms-original-file: specification/recoveryservicesbackup/resource-manager/Microsoft.RecoveryServices/stable/2024-04-01/examples/BackupDataMove/BackupDataMoveOperationStatus_Get.json
+ * x-ms-original-file: specification/recoveryservicesbackup/resource-manager/Microsoft.RecoveryServices/stable/2025-02-01/examples/BackupDataMove/BackupDataMoveOperationStatus_Get.json
  */
 async function getOperationStatus(): Promise<void> {
   const subscriptionId =
@@ -37,7 +37,7 @@ async function getOperationStatus(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  getOperationStatus();
+  await getOperationStatus();
 }
 
 main().catch(console.error);

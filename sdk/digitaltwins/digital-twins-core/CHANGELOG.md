@@ -1,10 +1,10 @@
-<!-- dev-tool snippets ignore -->"
-
 # Release History
 
-## 2.0.0 (Unreleased)
+## 2.0.0 (2025-05-27)
 
 ### Features Added
+
+- Updated service API version to use API version 2023-10-31 by default.
 
 ### Breaking Changes
 
@@ -18,10 +18,6 @@
     ```
   - Client methods that previously returned `RestResponse` now return `void`. In the event the operation fails, a `RestError` will still be thrown. To access the raw HTTP response, use the `onResponse` callback described above.
 - Digital Twin objects returned from operations no longer have their properties wrapped in a `body` property.
-
-### Bugs Fixed
-
-### Other Changes
 
 ## 1.1.0 (2022-07-19)
 

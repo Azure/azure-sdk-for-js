@@ -7,7 +7,7 @@
  * @packageDocumentation
  */
 
-import { ServiceAuth, ServiceOS, ServiceEnvironmentVariable } from "./common/constants";
+import { ServiceAuth, ServiceOS, ServiceEnvironmentVariable } from "./common/constants.js";
 import type {
   OsType,
   AuthenticationType,
@@ -15,8 +15,8 @@ import type {
   ReporterConfiguration,
   EndpointOptions,
   PlaywrightServiceAdditionalOptions,
-} from "./common/types";
-import { getServiceConfig, getConnectOptions } from "./core/playwrightService";
+} from "./common/types.js";
+import { getServiceConfig, getConnectOptions } from "./core/playwrightService.js";
 
 export {
   getServiceConfig,

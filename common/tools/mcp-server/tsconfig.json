@@ -1,0 +1,12 @@
+{
+  "extends": "../../../tsconfig",
+  "compilerOptions": {
+    "target": "ESNext",
+    "module": "NodeNext",
+    "moduleResolution": "NodeNext",
+    "outDir": "./dist",
+    "skipLibCheck": true,
+    "declarationDir": "./types"
+  },
+  "include": ["./src/**/*.ts", "./test/**/*.ts"]
+}

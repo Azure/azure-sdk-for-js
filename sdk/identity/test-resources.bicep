@@ -9,6 +9,12 @@ param location string = resourceGroup().location
 @description('The client OID to grant access to test resources.')
 param testApplicationOid string
 
+@description('The client ID to grant access to test resources.')
+param testApplicationId string
+
+@description('The tenant ID to grant access to test resources.')
+param tenantId string
+
 @minLength(5)
 @maxLength(50)
 @description('Provide a globally unique name of the Azure Container Registry')
@@ -35,6 +41,8 @@ module managedIdentityModule 'test-resources-managed-identity.bicep' = if(deploy
         baseName: baseName
         location: location
         testApplicationOid: testApplicationOid
+        testApplicationId: testApplicationId
+        tenantId: tenantId
         acrName: acrName
         latestAksVersion: latestAksVersion
         sshPubKey: sshPubKey
@@ -55,3 +63,5 @@ output IDENTITY_AKS_CLUSTER_NAME string = deployMIResources? managedIdentityModu
 output IDENTITY_AKS_POD_NAME string = deployMIResources? managedIdentityModule.outputs.IdentityAksPodName : ''
 output IDENTITY_ACR_NAME string = deployMIResources? managedIdentityModule.outputs.IdentityAcrName : ''
 output IDENTITY_ACR_LOGIN_SERVER string = deployMIResources? managedIdentityModule.outputs.IdentityAcrLoginServer : ''
+output IDENTITY_TENANT_ID string = deployMIResources? managedIdentityModule.outputs.IdentityTenantID : ''
+output IDENTITY_CLIENT_ID string = deployMIResources? managedIdentityModule.outputs.IdentityClientID : ''

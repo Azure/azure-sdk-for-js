@@ -19,16 +19,16 @@ import "dotenv/config";
  * This sample demonstrates how to The operation to create an ASR migration item (enable migration).
  *
  * @summary The operation to create an ASR migration item (enable migration).
- * x-ms-original-file: specification/recoveryservicessiterecovery/resource-manager/Microsoft.RecoveryServices/stable/2023-08-01/examples/ReplicationMigrationItems_Create.json
+ * x-ms-original-file: specification/recoveryservicessiterecovery/resource-manager/Microsoft.RecoveryServices/stable/2025-01-01/examples/ReplicationMigrationItems_Create.json
  */
 async function enablesMigration(): Promise<void> {
   const subscriptionId =
     process.env["RECOVERYSERVICESSITERECOVERY_SUBSCRIPTION_ID"] ||
     "cb53d0c3-bd59-4721-89bc-06916a9147ef";
-  const resourceName = "migrationvault";
   const resourceGroupName =
     process.env["RECOVERYSERVICESSITERECOVERY_RESOURCE_GROUP"] ||
     "resourcegroup1";
+  const resourceName = "migrationvault";
   const fabricName = "vmwarefabric1";
   const protectionContainerName = "vmwareContainer1";
   const migrationItemName = "virtualmachine1";
@@ -63,8 +63,8 @@ async function enablesMigration(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = new SiteRecoveryManagementClient(credential, subscriptionId);
   const result = await client.replicationMigrationItems.beginCreateAndWait(
-    resourceName,
     resourceGroupName,
+    resourceName,
     fabricName,
     protectionContainerName,
     migrationItemName,
@@ -74,7 +74,7 @@ async function enablesMigration(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  enablesMigration();
+  await enablesMigration();
 }
 
 main().catch(console.error);

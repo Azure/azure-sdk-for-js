@@ -94,7 +94,7 @@ function setMigrationResult(
   if (
     packageJson.scripts &&
     packageJson.scripts["update-snippets"] &&
-    packageJson.scripts["update-snippets"] === "dev-tool run update-snippets"
+    packageJson.scripts["update-snippets"].includes("dev-tool run update-snippets")
   ) {
     results.snippets[project.packageName] = project.projectFolder;
     results.totalSnippets++;

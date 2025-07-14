@@ -1,12 +1,10 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { Context } from "mocha";
-
 import { Recorder } from "@azure-tools/test-recorder";
-
-import type { ShareClient } from "../../src";
-import { getBSU, getUniqueName, recorderEnvSetup, uriSanitizers } from "../utils";
+import type { ShareClient } from "../../src/index.js";
+import { getBSU, getUniqueName, recorderEnvSetup, uriSanitizers } from "../utils/index.js";
+import { describe, it, beforeEach, afterEach } from "vitest";
 
 describe("StorageSharedKeyCredentialPolicy Node.js only", () => {
   let shareName: string;
@@ -14,8 +12,8 @@ describe("StorageSharedKeyCredentialPolicy Node.js only", () => {
 
   let recorder: Recorder;
 
-  beforeEach(async function (this: Context) {
-    recorder = new Recorder(this.currentTest);
+  beforeEach(async (ctx) => {
+    recorder = new Recorder(ctx);
     await recorder.start(recorderEnvSetup);
     await recorder.addSanitizers({ uriSanitizers }, ["record", "playback"]);
     const serviceClient = getBSU(recorder);
@@ -24,7 +22,7 @@ describe("StorageSharedKeyCredentialPolicy Node.js only", () => {
     await shareClient.create();
   });
 
-  afterEach(async function (this: Context) {
+  afterEach(async () => {
     await shareClient.delete();
     await recorder.stop();
   });

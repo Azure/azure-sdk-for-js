@@ -8,7 +8,7 @@ import { setLogLevel } from "@azure/logger";
 import { describe, it } from "vitest";
 
 describe("snippets", () => {
-  it("ReadmeSampleCreateClient_Node", async () => {
+  it("ReadmeSampleCreateClient_Key", async () => {
     const endpoint = "https://<resource name>.cognitiveservices.azure.com";
     const credential = new AzureKeyCredential("<api key>");
 

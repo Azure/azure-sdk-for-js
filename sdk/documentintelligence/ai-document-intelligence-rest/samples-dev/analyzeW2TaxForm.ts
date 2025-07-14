@@ -20,13 +20,13 @@ import DocumentIntelligence, {
 } from "@azure-rest/ai-document-intelligence";
 import fs from "node:fs";
 import path from "node:path";
-
+import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
 
 async function main(): Promise<void> {
   const client = DocumentIntelligence(
     process.env["DOCUMENT_INTELLIGENCE_ENDPOINT"] || "<cognitive services endpoint>",
-    { key: process.env["DOCUMENT_INTELLIGENCE_API_KEY"] || "<api key>" },
+    new DefaultAzureCredential(),
   );
 
   const filePath = fs.readFileSync(path.join(".", "assets", "w2", "w2-single.png"));

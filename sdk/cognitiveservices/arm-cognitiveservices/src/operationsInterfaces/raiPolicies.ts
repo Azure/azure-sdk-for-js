@@ -74,10 +74,7 @@ export interface RaiPolicies {
     raiPolicyName: string,
     options?: RaiPoliciesDeleteOptionalParams,
   ): Promise<
-    SimplePollerLike<
-      OperationState<RaiPoliciesDeleteResponse>,
-      RaiPoliciesDeleteResponse
-    >
+    SimplePollerLike<OperationState<RaiPoliciesDeleteResponse>, RaiPoliciesDeleteResponse>
   >;
   /**
    * Deletes the specified Content Filters associated with the Azure OpenAI account.

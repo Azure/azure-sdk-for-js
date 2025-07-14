@@ -21,7 +21,7 @@ import {
   FavoritesAddResponse,
   FavoritesUpdateOptionalParams,
   FavoritesUpdateResponse,
-  FavoritesDeleteOptionalParams
+  FavoritesDeleteOptionalParams,
 } from "../models/index.js";
 
 /** Class containing Favorites operations. */
@@ -45,11 +45,11 @@ export class FavoritesImpl implements Favorites {
   list(
     resourceGroupName: string,
     resourceName: string,
-    options?: FavoritesListOptionalParams
+    options?: FavoritesListOptionalParams,
   ): Promise<FavoritesListResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, resourceName, options },
-      listOperationSpec
+      listOperationSpec,
     );
   }
 
@@ -64,11 +64,11 @@ export class FavoritesImpl implements Favorites {
     resourceGroupName: string,
     resourceName: string,
     favoriteId: string,
-    options?: FavoritesGetOptionalParams
+    options?: FavoritesGetOptionalParams,
   ): Promise<FavoritesGetResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, resourceName, favoriteId, options },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 
@@ -86,7 +86,7 @@ export class FavoritesImpl implements Favorites {
     resourceName: string,
     favoriteId: string,
     favoriteProperties: ApplicationInsightsComponentFavorite,
-    options?: FavoritesAddOptionalParams
+    options?: FavoritesAddOptionalParams,
   ): Promise<FavoritesAddResponse> {
     return this.client.sendOperationRequest(
       {
@@ -94,9 +94,9 @@ export class FavoritesImpl implements Favorites {
         resourceName,
         favoriteId,
         favoriteProperties,
-        options
+        options,
       },
-      addOperationSpec
+      addOperationSpec,
     );
   }
 
@@ -113,7 +113,7 @@ export class FavoritesImpl implements Favorites {
     resourceName: string,
     favoriteId: string,
     favoriteProperties: ApplicationInsightsComponentFavorite,
-    options?: FavoritesUpdateOptionalParams
+    options?: FavoritesUpdateOptionalParams,
   ): Promise<FavoritesUpdateResponse> {
     return this.client.sendOperationRequest(
       {
@@ -121,9 +121,9 @@ export class FavoritesImpl implements Favorites {
         resourceName,
         favoriteId,
         favoriteProperties,
-        options
+        options,
       },
-      updateOperationSpec
+      updateOperationSpec,
     );
   }
 
@@ -138,11 +138,11 @@ export class FavoritesImpl implements Favorites {
     resourceGroupName: string,
     resourceName: string,
     favoriteId: string,
-    options?: FavoritesDeleteOptionalParams
+    options?: FavoritesDeleteOptionalParams,
   ): Promise<void> {
     return this.client.sendOperationRequest(
       { resourceGroupName, resourceName, favoriteId, options },
-      deleteOperationSpec
+      deleteOperationSpec,
     );
   }
 }
@@ -150,8 +150,7 @@ export class FavoritesImpl implements Favorites {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Insights/components/{resourceName}/favorites",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Insights/components/{resourceName}/favorites",
   httpMethod: "GET",
   responses: {
     200: {
@@ -161,105 +160,101 @@ const listOperationSpec: coreClient.OperationSpec = {
           element: {
             type: {
               name: "Composite",
-              className: "ApplicationInsightsComponentFavorite"
-            }
-          }
-        }
-      }
-    }
+              className: "ApplicationInsightsComponentFavorite",
+            },
+          },
+        },
+      },
+    },
   },
   queryParameters: [
-    Parameters.apiVersion,
+    Parameters.apiVersion1,
     Parameters.favoriteType,
     Parameters.sourceType,
     Parameters.canFetchContent,
-    Parameters.tags
+    Parameters.tags,
   ],
   urlParameters: [
     Parameters.$host,
-    Parameters.resourceGroupName,
     Parameters.subscriptionId,
-    Parameters.resourceName
+    Parameters.resourceGroupName,
+    Parameters.resourceName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Insights/components/{resourceName}/favorites/{favoriteId}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Insights/components/{resourceName}/favorites/{favoriteId}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ApplicationInsightsComponentFavorite
-    }
+      bodyMapper: Mappers.ApplicationInsightsComponentFavorite,
+    },
   },
-  queryParameters: [Parameters.apiVersion],
+  queryParameters: [Parameters.apiVersion1],
   urlParameters: [
     Parameters.$host,
-    Parameters.resourceGroupName,
     Parameters.subscriptionId,
+    Parameters.resourceGroupName,
     Parameters.resourceName,
-    Parameters.favoriteId
+    Parameters.favoriteId,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const addOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Insights/components/{resourceName}/favorites/{favoriteId}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Insights/components/{resourceName}/favorites/{favoriteId}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.ApplicationInsightsComponentFavorite
-    }
+      bodyMapper: Mappers.ApplicationInsightsComponentFavorite,
+    },
   },
   requestBody: Parameters.favoriteProperties,
-  queryParameters: [Parameters.apiVersion],
+  queryParameters: [Parameters.apiVersion1],
   urlParameters: [
     Parameters.$host,
-    Parameters.resourceGroupName,
     Parameters.subscriptionId,
+    Parameters.resourceGroupName,
     Parameters.resourceName,
-    Parameters.favoriteId
+    Parameters.favoriteId,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const updateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Insights/components/{resourceName}/favorites/{favoriteId}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Insights/components/{resourceName}/favorites/{favoriteId}",
   httpMethod: "PATCH",
   responses: {
     200: {
-      bodyMapper: Mappers.ApplicationInsightsComponentFavorite
-    }
+      bodyMapper: Mappers.ApplicationInsightsComponentFavorite,
+    },
   },
   requestBody: Parameters.favoriteProperties,
-  queryParameters: [Parameters.apiVersion],
+  queryParameters: [Parameters.apiVersion1],
   urlParameters: [
     Parameters.$host,
-    Parameters.resourceGroupName,
     Parameters.subscriptionId,
+    Parameters.resourceGroupName,
     Parameters.resourceName,
-    Parameters.favoriteId
+    Parameters.favoriteId,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const deleteOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Insights/components/{resourceName}/favorites/{favoriteId}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Insights/components/{resourceName}/favorites/{favoriteId}",
   httpMethod: "DELETE",
   responses: { 200: {} },
-  queryParameters: [Parameters.apiVersion],
+  queryParameters: [Parameters.apiVersion1],
   urlParameters: [
     Parameters.$host,
-    Parameters.resourceGroupName,
     Parameters.subscriptionId,
+    Parameters.resourceGroupName,
     Parameters.resourceName,
-    Parameters.favoriteId
+    Parameters.favoriteId,
   ],
-  serializer
+  serializer,
 };

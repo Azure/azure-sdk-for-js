@@ -43,5 +43,14 @@ extends:
     Artifacts:
       - name: azure-template
         safeName: azuretemplate
+        triggeringPaths:
+        - /sdk/test-utils/
+        - /sdk/identity/
+        - /.config/
+        - /.devcontainer/
+        - /.github/
+        - /.scripts/
+        - /common/
+        - /eng/
       - name: azure-template-dpg
         safeName: azuretemplatedpg

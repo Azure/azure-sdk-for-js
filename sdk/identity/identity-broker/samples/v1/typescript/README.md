@@ -3,8 +3,8 @@ page_type: sample
 languages:
   - typescript
 products:
-  - azure
-  - azure-active-directory
+  - entra
+  - entra-id
 urlFragment: identity-broker-typescript-beta
 ---
 
@@ -12,8 +12,8 @@ urlFragment: identity-broker-typescript-beta
 
 These sample programs show how to use the TypeScript client libraries for Azure Identity Brokered Auth Plugin in some common scenarios.
 
-| **File Name**     | **Description**       |
-| ----------------- | --------------------- |
+| **File Name**     | **Description**                                                                                                                                                                                                                                                                   |
+| ----------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | [index.ts][index] | Demonstrates [WAM broker authentication](https://learn.microsoft.com/entra/identity-platform/scenario-desktop-acquire-token-wam) scenario on electron app with the usage of identity broker plugin package along with the InteractiveBrowserCredential from the identity package. |
 
 ## Prerequisites

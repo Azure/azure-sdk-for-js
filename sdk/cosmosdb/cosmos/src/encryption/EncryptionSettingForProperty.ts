@@ -1,12 +1,12 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { ClientEncryptionIncludedPath } from "./ClientEncryptionIncludedPath";
-import type { ClientEncryptionKeyProperties } from "./ClientEncryptionKey";
-import type { EncryptionAlgorithm, EncryptionType } from "./enums";
-import { AeadAes256CbcHmacSha256Algorithm } from "./AeadAes256CbcHmacSha256Algorithm";
-import type { ProtectedDataEncryptionKey } from "./EncryptionKey";
-import type { EncryptionManager } from "./EncryptionManager";
+import type { ClientEncryptionIncludedPath } from "./ClientEncryptionIncludedPath.js";
+import type { ClientEncryptionKeyProperties } from "./ClientEncryptionKey/index.js";
+import type { EncryptionAlgorithm, EncryptionType } from "./enums/index.js";
+import { AeadAes256CbcHmacSha256Algorithm } from "./AeadAes256CbcHmacSha256Algorithm/index.js";
+import type { ProtectedDataEncryptionKey } from "./EncryptionKey/index.js";
+import type { EncryptionManager } from "./EncryptionManager.js";
 
 /**
  * Represents the encryption setting for a specific property in an item.

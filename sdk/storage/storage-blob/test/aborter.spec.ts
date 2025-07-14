@@ -1,12 +1,10 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { assert } from "chai";
-
-import type { ContainerClient } from "../src";
-import { getBSU, getUniqueName, recorderEnvSetup, uriSanitizers } from "./utils";
-import { Recorder } from "@azure-tools/test-recorder";
-import type { Context } from "mocha";
+import type { ContainerClient } from "../src/index.js";
+import { getBSU, getUniqueName, recorderEnvSetup, uriSanitizers } from "./utils/index.js";
+import { isPlaybackMode, Recorder } from "@azure-tools/test-recorder";
+import { describe, it, assert, beforeEach, afterEach } from "vitest";
 
 describe("Aborter", () => {
   let containerName: string;
@@ -14,8 +12,8 @@ describe("Aborter", () => {
 
   let recorder: Recorder;
 
-  beforeEach(async function (this: Context) {
-    recorder = new Recorder(this.currentTest);
+  beforeEach(async (ctx) => {
+    recorder = new Recorder(ctx);
     await recorder.start(recorderEnvSetup);
     await recorder.addSanitizers({ uriSanitizers }, ["playback", "record"]);
     const blobServiceClient = getBSU(recorder);
@@ -23,16 +21,26 @@ describe("Aborter", () => {
     containerClient = blobServiceClient.getContainerClient(containerName);
   });
 
-  afterEach(async function () {
+  afterEach(async () => {
     await recorder.stop();
   });
 
-  it("Should abort after aborter timeout", async function () {
+  it("Should abort after aborter timeout", async () => {
     try {
       await containerClient.create({ abortSignal: AbortSignal.timeout(1) });
       assert.fail();
     } catch (err: any) {
-      assert.equal(err.name, "AbortError");
+      if (!isPlaybackMode()) {
+        assert.equal(err.name, "AbortError");
+      } else {
+        // Race condition in playback mode:
+        // During playback, the test recorder attempts to replay recorded responses but won't find matching entries
+        // for aborted requests as the recording is empty.
+        // In this case, two possible exceptions can occur: either the AbortController's timeout
+        // triggers first (AbortError) or the recorder fails to find matching entries first (RecorderError).
+        // We need to handle both possible outcomes to prevent test flakiness.
+        assert.include(["RecorderError", "AbortError"], err.name);
+      }
     }
   });
 

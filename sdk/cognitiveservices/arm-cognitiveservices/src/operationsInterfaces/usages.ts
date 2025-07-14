@@ -17,8 +17,5 @@ export interface Usages {
    * @param location Resource location.
    * @param options The options parameters.
    */
-  list(
-    location: string,
-    options?: UsagesListOptionalParams,
-  ): PagedAsyncIterableIterator<Usage>;
+  list(location: string, options?: UsagesListOptionalParams): PagedAsyncIterableIterator<Usage>;
 }

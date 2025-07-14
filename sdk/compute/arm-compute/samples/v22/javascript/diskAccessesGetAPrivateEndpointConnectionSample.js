@@ -34,7 +34,7 @@ async function getInformationAboutAPrivateEndpointConnectionUnderADiskAccessReso
 }
 
 async function main() {
-  getInformationAboutAPrivateEndpointConnectionUnderADiskAccessResource();
+  await getInformationAboutAPrivateEndpointConnectionUnderADiskAccessResource();
 }
 
 main().catch(console.error);

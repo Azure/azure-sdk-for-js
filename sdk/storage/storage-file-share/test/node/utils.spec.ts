@@ -1,8 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-
-import { assert } from "chai";
-import { extractConnectionStringParts } from "../../src/utils/utils.common";
+import { extractConnectionStringParts } from "../../src/utils/utils.common.js";
+import { describe, it, assert } from "vitest";
 
 describe("Utility Helpers Node.js only", () => {
   const protocol = "https";
@@ -11,7 +10,7 @@ describe("Utility Helpers Node.js only", () => {
   const accountKey = "myAccountKey";
   const fileEndpoint = `${protocol}://${accountName}.file.${endpointSuffix}`;
 
-  function verifyConnectionString(connectionString: string) {
+  function verifyConnectionString(connectionString: string): void {
     const connectionStringParts = extractConnectionStringParts(connectionString);
     assert.equal(
       "AccountConnString",

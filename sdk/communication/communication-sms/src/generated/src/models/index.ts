@@ -38,6 +38,16 @@ export interface SmsSendOptions {
   tag?: string;
   /** Time to wait for a delivery report. After this time a delivery report with timeout error code is generated. */
   deliveryReportTimeoutInSeconds?: number;
+  /** Defines optional parameters for connecting with the Messaging Connect Partner to deliver SMS. */
+  messagingConnect?: MessagingConnectOptions;
+}
+
+/** Defines optional parameters for connecting with the Messaging Connect Partner to deliver SMS. */
+export interface MessagingConnectOptions {
+  /** Represents the API key associated with the customer's account in the Messaging Connect Partner portal. */
+  apiKey: string;
+  /** Specifies the partner associated with the API key. */
+  partner: string;
 }
 
 /** Response for a successful or multi status send Sms request. */

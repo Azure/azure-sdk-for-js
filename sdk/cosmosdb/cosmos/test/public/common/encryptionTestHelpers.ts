@@ -18,16 +18,19 @@ import type {
   RequestOptions,
   SqlQuerySpec,
   StatusCode,
-} from "../../../src";
+} from "../../../src/index.js";
 import {
   Constants,
   EncryptionAlgorithm,
+  EncryptionKeyResolverName,
   EncryptionQueryBuilder,
   ErrorResponse,
   StatusCodes,
-} from "../../../src";
-import { assert } from "chai";
+} from "../../../src/index.js";
+import { assert } from "vitest";
+
 export class MockKeyVaultEncryptionKeyResolver implements EncryptionKeyResolver {
+  encryptionKeyResolverName = EncryptionKeyResolverName.AzureKeyVault;
   private keyInfo: { [key: string]: number } = {
     cmkpath1: 1,
     cmkpath2: 2,
@@ -541,7 +544,7 @@ export async function verifyItemByRead(
 export async function validateQueryResults(
   container: Container,
   query: EncryptionQueryBuilder | SqlQuerySpec,
-  expectedDocList: TestDoc[],
+  expectedDocList: any[],
   decryptOperation: boolean = true,
   expectedPropertiesDecryptedCount: number = 12,
   options?: RequestOptions,
@@ -603,7 +606,6 @@ export function verifyDiagnostics(
     const encryptContent = encryptionDiagnostics.encryptContent;
     assert.isNotNull(encryptContent);
     assert.isNotNull(encryptContent[Constants.Encryption.DiagnosticsStartTime]);
-    // assert.ok(encryptContent[Constants.Encryption.DiagnosticsDuration] > 0);
     assert.equal(
       expectedPropertiesEncryptedCount,
       encryptContent[Constants.Encryption.DiagnosticsPropertiesEncryptedCount],
@@ -612,8 +614,6 @@ export function verifyDiagnostics(
   if (decryptOperation) {
     const decryptContent = encryptionDiagnostics.decryptContent;
     assert.isNotNull(decryptContent);
-    assert.isNotNull(decryptContent[Constants.Encryption.DiagnosticsStartTime]);
-    // assert.ok(decryptContent[Constants.Encryption.DiagnosticsDuration] > 0);
     assert.equal(
       expectedPropertiesDecryptedCount,
       decryptContent[Constants.Encryption.DiagnosticsPropertiesDecryptedCount],

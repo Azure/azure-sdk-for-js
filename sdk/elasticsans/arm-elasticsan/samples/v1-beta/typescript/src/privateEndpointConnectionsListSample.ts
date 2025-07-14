@@ -16,7 +16,7 @@ import "dotenv/config";
  * This sample demonstrates how to List all Private Endpoint Connections associated with the Elastic San.
  *
  * @summary List all Private Endpoint Connections associated with the Elastic San.
- * x-ms-original-file: specification/elasticsan/resource-manager/Microsoft.ElasticSan/preview/2024-06-01-preview/examples/PrivateEndpointConnections_List_MaximumSet_Gen.json
+ * x-ms-original-file: specification/elasticsan/resource-manager/Microsoft.ElasticSan/preview/2024-07-01-preview/examples/PrivateEndpointConnections_List_MaximumSet_Gen.json
  */
 async function privateEndpointConnectionsListMaximumSetGen(): Promise<void> {
   const subscriptionId =
@@ -27,7 +27,7 @@ async function privateEndpointConnectionsListMaximumSetGen(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = new ElasticSanManagement(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.privateEndpointConnections.list(
+  for await (const item of client.privateEndpointConnections.list(
     resourceGroupName,
     elasticSanName,
   )) {
@@ -40,7 +40,7 @@ async function privateEndpointConnectionsListMaximumSetGen(): Promise<void> {
  * This sample demonstrates how to List all Private Endpoint Connections associated with the Elastic San.
  *
  * @summary List all Private Endpoint Connections associated with the Elastic San.
- * x-ms-original-file: specification/elasticsan/resource-manager/Microsoft.ElasticSan/preview/2024-06-01-preview/examples/PrivateEndpointConnections_List_MinimumSet_Gen.json
+ * x-ms-original-file: specification/elasticsan/resource-manager/Microsoft.ElasticSan/preview/2024-07-01-preview/examples/PrivateEndpointConnections_List_MinimumSet_Gen.json
  */
 async function privateEndpointConnectionsListMinimumSetGen(): Promise<void> {
   const subscriptionId =
@@ -51,7 +51,7 @@ async function privateEndpointConnectionsListMinimumSetGen(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = new ElasticSanManagement(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.privateEndpointConnections.list(
+  for await (const item of client.privateEndpointConnections.list(
     resourceGroupName,
     elasticSanName,
   )) {
@@ -61,8 +61,8 @@ async function privateEndpointConnectionsListMinimumSetGen(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  privateEndpointConnectionsListMaximumSetGen();
-  privateEndpointConnectionsListMinimumSetGen();
+  await privateEndpointConnectionsListMaximumSetGen();
+  await privateEndpointConnectionsListMinimumSetGen();
 }
 
 main().catch(console.error);

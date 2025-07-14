@@ -97,14 +97,8 @@ export class UsagesImpl implements Usages {
    * @param location Resource location.
    * @param options The options parameters.
    */
-  private _list(
-    location: string,
-    options?: UsagesListOptionalParams,
-  ): Promise<UsagesListResponse> {
-    return this.client.sendOperationRequest(
-      { location, options },
-      listOperationSpec,
-    );
+  private _list(location: string, options?: UsagesListOptionalParams): Promise<UsagesListResponse> {
+    return this.client.sendOperationRequest({ location, options }, listOperationSpec);
   }
 
   /**
@@ -118,10 +112,7 @@ export class UsagesImpl implements Usages {
     nextLink: string,
     options?: UsagesListNextOptionalParams,
   ): Promise<UsagesListNextResponse> {
-    return this.client.sendOperationRequest(
-      { location, nextLink, options },
-      listNextOperationSpec,
-    );
+    return this.client.sendOperationRequest({ location, nextLink, options }, listNextOperationSpec);
   }
 }
 // Operation Specifications
@@ -139,11 +130,7 @@ const listOperationSpec: coreClient.OperationSpec = {
     },
   },
   queryParameters: [Parameters.apiVersion, Parameters.filter],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.location,
-  ],
+  urlParameters: [Parameters.$host, Parameters.subscriptionId, Parameters.location],
   headerParameters: [Parameters.accept],
   serializer,
 };

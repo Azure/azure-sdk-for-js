@@ -39,15 +39,15 @@ const options: AzureMonitorOpenTelemetryOptions = {
 useAzureMonitor(options);
 ```
 
-- Connection String could be set using the environment variable APPLICATIONINSIGHTS_CONNECTION_STRING
+- Connection String could be set using the environment variable `APPLICATIONINSIGHTS_CONNECTION_STRING`.
 
 ## Configuration
 
 ```ts snippet:ReadmeSampleConfiguration
-import { Resource } from "@opentelemetry/resources";
+import { resourceFromAttributes } from "@opentelemetry/resources";
 import { AzureMonitorOpenTelemetryOptions, useAzureMonitor } from "@azure/monitor-opentelemetry";
 
-const resource = new Resource({ testAttribute: "testValue" });
+const resource = resourceFromAttributes({ testAttribute: "testValue" });
 const options: AzureMonitorOpenTelemetryOptions = {
   azureMonitorExporterOptions: {
     // Offline storage
@@ -163,6 +163,11 @@ useAzureMonitor(options);
     <td>Enable log sampling based on trace.</td>
     <td><code>false</code></td>
   </tr>
+  <tr>
+    <td><code>enablePerformanceCounters</code></td>
+    <td>Enable performance counters.</td>
+    <td><code>true</code></td>
+  </tr>
 </table>
 
 Options could be set using configuration file `applicationinsights.json` located under root folder of @azure/monitor-opentelemetry package installation folder, Ex: `node_modules/@azure/monitor-opentelemetry`. These configuration values will be applied to all AzureMonitorOpenTelemetryClient instances.
@@ -246,7 +251,6 @@ Further information on usage of the browser SDK loader can be found [here](https
 You might set the Cloud Role Name and the Cloud Role Instance via [OpenTelemetry Resource](https://github.com/open-telemetry/opentelemetry-specification/blob/main/specification/resource/sdk.md#resource-sdk) attributes.
 
 ```ts snippet:ReadmeSampleSetRoleNameAndInstance
-import { Resource } from "@opentelemetry/resources";
 import {
   ATTR_SERVICE_NAME,
   SEMRESATTRS_SERVICE_NAMESPACE,
@@ -384,10 +388,7 @@ You might use the following ways to filter out telemetry before it leaves your a
     ```ts snippet:ReadmeSampleExcludeUrl
     import { HttpInstrumentationConfig } from "@opentelemetry/instrumentation-http";
     import { IncomingMessage, RequestOptions } from "node:http";
-    import {
-      AzureMonitorOpenTelemetryOptions,
-      useAzureMonitor,
-    } from "@azure/monitor-opentelemetry";
+    import { AzureMonitorOpenTelemetryOptions, useAzureMonitor } from "@azure/monitor-opentelemetry";
 
     const httpInstrumentationConfig: HttpInstrumentationConfig = {
       enabled: true,
@@ -419,27 +420,27 @@ You might use the following ways to filter out telemetry before it leaves your a
 1.  Use a custom processor. You can use a custom span processor to exclude certain spans from being exported. To mark spans to not be exported, set `TraceFlag` to `DEFAULT`.
     Use the add [custom property example](#add-a-custom-property-to-a-trace), but replace the following lines of code:
 
-        ```ts snippet:ReadmeSampleCustomProcessor
-        import { SpanProcessor, ReadableSpan } from "@opentelemetry/sdk-trace-base";
-        import { Span, Context, SpanKind, TraceFlags } from "@opentelemetry/api";
+      ```ts snippet:ReadmeSampleCustomProcessor
+      import { SpanProcessor, ReadableSpan } from "@opentelemetry/sdk-trace-base";
+      import { Span, Context, SpanKind, TraceFlags } from "@opentelemetry/api";
 
-        class SpanEnrichingProcessor implements SpanProcessor {
-          async forceFlush(): Promise<void> {
-            // Force flush code here
-          }
-          onStart(_span: Span, _parentContext: Context): void {
-            // Normal code here
-          }
-          async shutdown(): Promise<void> {
-            // Shutdown code here
-          }
-          onEnd(span: ReadableSpan): void {
-            if (span.kind === SpanKind.INTERNAL) {
-              span.spanContext().traceFlags = TraceFlags.NONE;
-            }
+      class SpanEnrichingProcessor implements SpanProcessor {
+        async forceFlush(): Promise<void> {
+          // Force flush code here
+        }
+        onStart(_span: Span, _parentContext: Context): void {
+          // Normal code here
+        }
+        async shutdown(): Promise<void> {
+          // Shutdown code here
+        }
+        onEnd(span: ReadableSpan): void {
+          if (span.kind === SpanKind.INTERNAL) {
+            span.spanContext().traceFlags = TraceFlags.NONE;
           }
         }
-        ```
+      }
+      ```
 
 ## Custom telemetry
 

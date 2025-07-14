@@ -8,11 +8,7 @@
 
 import * as coreClient from "@azure/core-client";
 import * as coreRestPipeline from "@azure/core-rest-pipeline";
-import {
-  PipelineRequest,
-  PipelineResponse,
-  SendRequest,
-} from "@azure/core-rest-pipeline";
+import { PipelineRequest, PipelineResponse, SendRequest } from "@azure/core-rest-pipeline";
 import * as coreAuth from "@azure/core-auth";
 import {
   AccountsImpl,
@@ -35,6 +31,11 @@ import {
   RaiContentFiltersImpl,
   NetworkSecurityPerimeterConfigurationsImpl,
   DefenderForAISettingsImpl,
+  ProjectsImpl,
+  AccountConnectionImpl,
+  ProjectConnectionImpl,
+  AccountCapabilityHostsImpl,
+  ProjectCapabilityHostsImpl,
 } from "./operations/index.js";
 import {
   Accounts,
@@ -57,6 +58,11 @@ import {
   RaiContentFilters,
   NetworkSecurityPerimeterConfigurations,
   DefenderForAISettings,
+  Projects,
+  AccountConnection,
+  ProjectConnection,
+  AccountCapabilityHosts,
+  ProjectCapabilityHosts,
 } from "./operationsInterfaces/index.js";
 import * as Parameters from "./models/parameters.js";
 import * as Mappers from "./models/mappers.js";
@@ -102,7 +108,7 @@ export class CognitiveServicesManagementClient extends coreClient.ServiceClient 
       credential: credentials,
     };
 
-    const packageDetails = `azsdk-js-arm-cognitiveservices/7.6.0`;
+    const packageDetails = `azsdk-js-arm-cognitiveservices/7.7.0-beta.1`;
     const userAgentPrefix =
       options.userAgentOptions && options.userAgentOptions.userAgentPrefix
         ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`
@@ -114,8 +120,7 @@ export class CognitiveServicesManagementClient extends coreClient.ServiceClient 
       userAgentOptions: {
         userAgentPrefix,
       },
-      endpoint:
-        options.endpoint ?? options.baseUri ?? "https://management.azure.com",
+      endpoint: options.endpoint ?? options.baseUri ?? "https://management.azure.com",
     };
     super(optionsWithDefaults);
 
@@ -125,8 +130,7 @@ export class CognitiveServicesManagementClient extends coreClient.ServiceClient 
         options.pipeline.getOrderedPolicies();
       bearerTokenAuthenticationPolicyFound = pipelinePolicies.some(
         (pipelinePolicy) =>
-          pipelinePolicy.name ===
-          coreRestPipeline.bearerTokenAuthenticationPolicyName,
+          pipelinePolicy.name === coreRestPipeline.bearerTokenAuthenticationPolicyName,
       );
     }
     if (
@@ -142,11 +146,9 @@ export class CognitiveServicesManagementClient extends coreClient.ServiceClient 
         coreRestPipeline.bearerTokenAuthenticationPolicy({
           credential: credentials,
           scopes:
-            optionsWithDefaults.credentialScopes ??
-            `${optionsWithDefaults.endpoint}/.default`,
+            optionsWithDefaults.credentialScopes ?? `${optionsWithDefaults.endpoint}/.default`,
           challengeCallbacks: {
-            authorizeRequestOnChallenge:
-              coreClient.authorizeRequestOnClaimChallenge,
+            authorizeRequestOnChallenge: coreClient.authorizeRequestOnClaimChallenge,
           },
         }),
       );
@@ -156,7 +158,7 @@ export class CognitiveServicesManagementClient extends coreClient.ServiceClient 
 
     // Assigning values to Constant parameters
     this.$host = options.$host || "https://management.azure.com";
-    this.apiVersion = options.apiVersion || "2024-10-01";
+    this.apiVersion = options.apiVersion || "2025-04-01-preview";
     this.accounts = new AccountsImpl(this);
     this.deletedAccounts = new DeletedAccountsImpl(this);
     this.resourceSkus = new ResourceSkusImpl(this);
@@ -164,9 +166,7 @@ export class CognitiveServicesManagementClient extends coreClient.ServiceClient 
     this.operations = new OperationsImpl(this);
     this.commitmentTiers = new CommitmentTiersImpl(this);
     this.models = new ModelsImpl(this);
-    this.locationBasedModelCapacities = new LocationBasedModelCapacitiesImpl(
-      this,
-    );
+    this.locationBasedModelCapacities = new LocationBasedModelCapacitiesImpl(this);
     this.modelCapacities = new ModelCapacitiesImpl(this);
     this.privateEndpointConnections = new PrivateEndpointConnectionsImpl(this);
     this.privateLinkResources = new PrivateLinkResourcesImpl(this);
@@ -177,9 +177,15 @@ export class CognitiveServicesManagementClient extends coreClient.ServiceClient 
     this.raiBlocklists = new RaiBlocklistsImpl(this);
     this.raiBlocklistItems = new RaiBlocklistItemsImpl(this);
     this.raiContentFilters = new RaiContentFiltersImpl(this);
-    this.networkSecurityPerimeterConfigurations =
-      new NetworkSecurityPerimeterConfigurationsImpl(this);
+    this.networkSecurityPerimeterConfigurations = new NetworkSecurityPerimeterConfigurationsImpl(
+      this,
+    );
     this.defenderForAISettings = new DefenderForAISettingsImpl(this);
+    this.projects = new ProjectsImpl(this);
+    this.accountConnection = new AccountConnectionImpl(this);
+    this.projectConnection = new ProjectConnectionImpl(this);
+    this.accountCapabilityHosts = new AccountCapabilityHostsImpl(this);
+    this.projectCapabilityHosts = new ProjectCapabilityHostsImpl(this);
     this.addCustomApiVersionPolicy(options.apiVersion);
   }
 
@@ -190,10 +196,7 @@ export class CognitiveServicesManagementClient extends coreClient.ServiceClient 
     }
     const apiVersionPolicy = {
       name: "CustomApiVersionPolicy",
-      async sendRequest(
-        request: PipelineRequest,
-        next: SendRequest,
-      ): Promise<PipelineResponse> {
+      async sendRequest(request: PipelineRequest, next: SendRequest): Promise<PipelineResponse> {
         const param = request.url.split("?");
         if (param.length > 1) {
           const newParams = param[1].split("&").map((item) => {
@@ -256,10 +259,7 @@ export class CognitiveServicesManagementClient extends coreClient.ServiceClient 
   calculateModelCapacity(
     options?: CalculateModelCapacityOptionalParams,
   ): Promise<CalculateModelCapacityResponse> {
-    return this.sendOperationRequest(
-      { options },
-      calculateModelCapacityOperationSpec,
-    );
+    return this.sendOperationRequest({ options }, calculateModelCapacityOperationSpec);
   }
 
   accounts: Accounts;
@@ -282,6 +282,11 @@ export class CognitiveServicesManagementClient extends coreClient.ServiceClient 
   raiContentFilters: RaiContentFilters;
   networkSecurityPerimeterConfigurations: NetworkSecurityPerimeterConfigurations;
   defenderForAISettings: DefenderForAISettings;
+  projects: Projects;
+  accountConnection: AccountConnection;
+  projectConnection: ProjectConnection;
+  accountCapabilityHosts: AccountCapabilityHosts;
+  projectCapabilityHosts: ProjectCapabilityHosts;
 }
 // Operation Specifications
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
@@ -302,11 +307,7 @@ const checkSkuAvailabilityOperationSpec: coreClient.OperationSpec = {
     mapper: { ...Mappers.CheckSkuAvailabilityParameter, required: true },
   },
   queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.location,
-  ],
+  urlParameters: [Parameters.$host, Parameters.subscriptionId, Parameters.location],
   headerParameters: [Parameters.contentType, Parameters.accept],
   mediaType: "json",
   serializer,

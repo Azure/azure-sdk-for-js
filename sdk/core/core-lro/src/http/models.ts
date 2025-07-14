@@ -104,6 +104,10 @@ export interface CreateHttpPollerOptions<TResult, TState> {
    */
   resourceLocationConfig?: ResourceLocationConfig;
   /**
+   * The base URL to use when making requests.
+   */
+  baseUrl?: string;
+  /**
    * A function to process the result of the LRO.
    */
   processResult?: (result: unknown, state: TState) => Promise<TResult>;
@@ -120,4 +124,8 @@ export interface CreateHttpPollerOptions<TResult, TState> {
    * Control whether to throw an exception if the operation failed or was canceled.
    */
   resolveOnUnsuccessful?: boolean;
+  /**
+   * A flag to skip the final GET request that would normally fetch the final resource
+   */
+  skipFinalGet?: boolean;
 }

@@ -43,7 +43,7 @@ async function updateAGalleryInVMAccessControlProfileVersion() {
 }
 
 async function main() {
-  updateAGalleryInVMAccessControlProfileVersion();
+  await updateAGalleryInVMAccessControlProfileVersion();
 }
 
 main().catch(console.error);

@@ -29,6 +29,13 @@ async function patchStorageTask(): Promise<void> {
     process.env["STORAGEACTIONS_RESOURCE_GROUP"] || "res4228";
   const storageTaskName = "mytask1";
   const parameters: StorageTaskUpdateParameters = {
+    identity: {
+      type: "UserAssigned",
+      userAssignedIdentities: {
+        "/subscriptions/1f31ba14Ce164281B9b43e78da6e1616/resourceGroups/res4228/providers/MicrosoftManagedIdentity/userAssignedIdentities/myUserAssignedIdentity":
+          {},
+      },
+    },
     properties: {
       description: "My Storage task",
       action: {
@@ -63,7 +70,7 @@ async function patchStorageTask(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  patchStorageTask();
+  await patchStorageTask();
 }
 
 main().catch(console.error);

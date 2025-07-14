@@ -11,9 +11,7 @@ import { JsonSchemaSerializer } from "@azure/schema-registry-json";
 import { EventHubProducerClient, createEventDataAdapter } from "@azure/event-hubs";
 
 // Load the .env file if it exists
-import * as dotenv from "dotenv";
-dotenv.config();
-
+import "dotenv/config";
 // The fully qualified namespace for schema registry
 const schemaRegistryFullyQualifiedNamespace =
   process.env["SCHEMAREGISTRY_JSON_FULLY_QUALIFIED_NAMESPACE"] || "<namespace>";
@@ -59,7 +57,7 @@ const schemaDescription: SchemaDescription = {
   definition: schema,
 };
 
-export async function main() {
+export async function main(): Promise<void> {
   // Create a credential
   const credential = new DefaultAzureCredential();
 

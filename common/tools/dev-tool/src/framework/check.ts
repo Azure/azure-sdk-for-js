@@ -1,3 +1,6 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License
+
 import path from "node:path";
 import { format } from "../util/prettier";
 import { ProjectInfo } from "../util/resolveProject";

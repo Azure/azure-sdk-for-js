@@ -3,7 +3,7 @@
 
 import type { AbortOptions } from "./aborterUtils.js";
 import { createAbortablePromise } from "./createAbortablePromise.js";
-import { getRandomIntegerInclusive } from "./random.js";
+import { getRandomIntegerInclusive } from "@typespec/ts-http-runtime/internal/util";
 
 const StandardAbortMessage = "The delay was aborted.";
 

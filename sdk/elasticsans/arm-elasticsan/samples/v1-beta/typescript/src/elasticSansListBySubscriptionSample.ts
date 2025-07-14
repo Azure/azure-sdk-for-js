@@ -16,7 +16,7 @@ import "dotenv/config";
  * This sample demonstrates how to Gets a list of ElasticSans in a subscription
  *
  * @summary Gets a list of ElasticSans in a subscription
- * x-ms-original-file: specification/elasticsan/resource-manager/Microsoft.ElasticSan/preview/2024-06-01-preview/examples/ElasticSans_ListBySubscription_MaximumSet_Gen.json
+ * x-ms-original-file: specification/elasticsan/resource-manager/Microsoft.ElasticSan/preview/2024-07-01-preview/examples/ElasticSans_ListBySubscription_MaximumSet_Gen.json
  */
 async function elasticSansListBySubscriptionMaximumSetGen(): Promise<void> {
   const subscriptionId =
@@ -24,7 +24,7 @@ async function elasticSansListBySubscriptionMaximumSetGen(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = new ElasticSanManagement(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.elasticSans.listBySubscription()) {
+  for await (const item of client.elasticSans.listBySubscription()) {
     resArray.push(item);
   }
   console.log(resArray);
@@ -34,7 +34,7 @@ async function elasticSansListBySubscriptionMaximumSetGen(): Promise<void> {
  * This sample demonstrates how to Gets a list of ElasticSans in a subscription
  *
  * @summary Gets a list of ElasticSans in a subscription
- * x-ms-original-file: specification/elasticsan/resource-manager/Microsoft.ElasticSan/preview/2024-06-01-preview/examples/ElasticSans_ListBySubscription_MinimumSet_Gen.json
+ * x-ms-original-file: specification/elasticsan/resource-manager/Microsoft.ElasticSan/preview/2024-07-01-preview/examples/ElasticSans_ListBySubscription_MinimumSet_Gen.json
  */
 async function elasticSansListBySubscriptionMinimumSetGen(): Promise<void> {
   const subscriptionId =
@@ -42,15 +42,15 @@ async function elasticSansListBySubscriptionMinimumSetGen(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = new ElasticSanManagement(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.elasticSans.listBySubscription()) {
+  for await (const item of client.elasticSans.listBySubscription()) {
     resArray.push(item);
   }
   console.log(resArray);
 }
 
 async function main(): Promise<void> {
-  elasticSansListBySubscriptionMaximumSetGen();
-  elasticSansListBySubscriptionMinimumSetGen();
+  await elasticSansListBySubscriptionMaximumSetGen();
+  await elasticSansListBySubscriptionMinimumSetGen();
 }
 
 main().catch(console.error);

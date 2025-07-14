@@ -12,19 +12,16 @@
  * @azsdk-weight 70
  */
 
-import {
-  delay,
+import type {
   ProcessErrorArgs,
-  ServiceBusClient,
   ServiceBusMessage,
   ServiceBusReceivedMessage,
 } from "@azure/service-bus";
+import { delay, ServiceBusClient } from "@azure/service-bus";
 import { DefaultAzureCredential } from "@azure/identity";
 
 // Load the .env file if it exists
-import * as dotenv from "dotenv";
-dotenv.config();
-
+import "dotenv/config";
 // Define connection string and related Service Bus entity names here
 const fqdn = process.env.SERVICEBUS_FQDN || "<your-servicebus-namespace>.servicebus.windows.net";
 const queueName = process.env.QUEUE_NAME || "<queue name>";
@@ -42,7 +39,7 @@ const listOfScientists = [
   { lastName: "Kopernikus", firstName: "Nikolaus" },
 ];
 
-export async function main() {
+export async function main(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const sbClient = new ServiceBusClient(fqdn, credential);
   try {
@@ -55,7 +52,7 @@ export async function main() {
 }
 
 // Scheduling messages to be sent after 10 seconds from now
-async function sendScheduledMessages(sbClient: ServiceBusClient) {
+async function sendScheduledMessages(sbClient: ServiceBusClient): Promise<void> {
   // createSender() handles sending to a queue or a topic
   const sender = sbClient.createSender(queueName);
 
@@ -76,24 +73,24 @@ async function sendScheduledMessages(sbClient: ServiceBusClient) {
   await sender.scheduleMessages(messages, scheduledEnqueueTimeUtc);
 }
 
-async function receiveMessages(sbClient: ServiceBusClient) {
+async function receiveMessages(sbClient: ServiceBusClient): Promise<void> {
   // If receiving from a subscription you can use the createReceiver(topicName, subscriptionName) overload
   // instead.
   let queueReceiver = sbClient.createReceiver(queueName);
 
   let numOfMessagesReceived = 0;
-  const processMessage = async (brokeredMessage: ServiceBusReceivedMessage) => {
+  const processMessage = async (brokeredMessage: ServiceBusReceivedMessage): Promise<void> => {
     numOfMessagesReceived++;
     console.log(`Received message: ${brokeredMessage.body} - ${brokeredMessage.subject}`);
     await queueReceiver.completeMessage(brokeredMessage);
   };
-  const processError = async (args: ProcessErrorArgs) => {
+  const processError = async (args: ProcessErrorArgs): Promise<void> => {
     console.log(`Error from error source ${args.errorSource} occurred: `, args.error);
   };
 
   console.log(`\nStarting receiver immediately at ${new Date(Date.now())}`);
 
-  await queueReceiver.subscribe({
+  queueReceiver.subscribe({
     processMessage,
     processError,
   });

@@ -6,266 +6,264 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import * as coreClient from "@azure/core-client";
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
-import { ApiManagementClient } from "../apiManagementClient.js";
-import {
-    SubscriptionContract,
-    UserSubscriptionGetOptionalParams,
-    UserSubscriptionGetResponse,
-    UserSubscriptionListNextOptionalParams,
-    UserSubscriptionListNextResponse,
-    UserSubscriptionListOptionalParams,
-    UserSubscriptionListResponse
-} from "../models/index.js";
+import { setContinuationToken } from "../pagingHelper.js";
+import { UserSubscription } from "../operationsInterfaces/index.js";
+import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers.js";
 import * as Parameters from "../models/parameters.js";
-import { UserSubscription } from "../operationsInterfaces/index.js";
-import { setContinuationToken } from "../pagingHelper.js";
+import { ApiManagementClient } from "../apiManagementClient.js";
+import {
+  SubscriptionContract,
+  UserSubscriptionListNextOptionalParams,
+  UserSubscriptionListOptionalParams,
+  UserSubscriptionListResponse,
+  UserSubscriptionGetOptionalParams,
+  UserSubscriptionGetResponse,
+  UserSubscriptionListNextResponse,
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Class containing UserSubscription operations. */
 export class UserSubscriptionImpl implements UserSubscription {
-    private readonly client: ApiManagementClient;
+  private readonly client: ApiManagementClient;
 
-    /**
-     * Initialize a new instance of the class UserSubscription class.
-     * @param client Reference to the service client
-     */
-    constructor(client: ApiManagementClient) {
-        this.client = client;
-    }
+  /**
+   * Initialize a new instance of the class UserSubscription class.
+   * @param client Reference to the service client
+   */
+  constructor(client: ApiManagementClient) {
+    this.client = client;
+  }
 
-    /**
-     * Lists the collection of subscriptions of the specified user.
-     * @param resourceGroupName The name of the resource group. The name is case insensitive.
-     * @param serviceName The name of the API Management service.
-     * @param userId User identifier. Must be unique in the current API Management service instance.
-     * @param options The options parameters.
-     */
-    public list(
-        resourceGroupName: string,
-        serviceName: string,
-        userId: string,
-        options?: UserSubscriptionListOptionalParams
-    ): PagedAsyncIterableIterator<SubscriptionContract> {
-        const iter = this.listPagingAll(
-            resourceGroupName,
-            serviceName,
-            userId,
-            options
-        );
-        return {
-            next() {
-                return iter.next();
-            },
-            [Symbol.asyncIterator]() {
-                return this;
-            },
-            byPage: (settings?: PageSettings) => {
-                if (settings?.maxPageSize) {
-                    throw new Error("maxPageSize is not supported by this operation.");
-                }
-                return this.listPagingPage(
-                    resourceGroupName,
-                    serviceName,
-                    userId,
-                    options,
-                    settings
-                );
-            }
-        };
-    }
-
-    private async *listPagingPage(
-        resourceGroupName: string,
-        serviceName: string,
-        userId: string,
-        options?: UserSubscriptionListOptionalParams,
-        settings?: PageSettings
-    ): AsyncIterableIterator<SubscriptionContract[]> {
-        let result: UserSubscriptionListResponse;
-        let continuationToken = settings?.continuationToken;
-        if (!continuationToken) {
-            result = await this._list(
-                resourceGroupName,
-                serviceName,
-                userId,
-                options
-            );
-            let page = result.value || [];
-            continuationToken = result.nextLink;
-            setContinuationToken(page, continuationToken);
-            yield page;
+  /**
+   * Lists the collection of subscriptions of the specified user.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param serviceName The name of the API Management service.
+   * @param userId User identifier. Must be unique in the current API Management service instance.
+   * @param options The options parameters.
+   */
+  public list(
+    resourceGroupName: string,
+    serviceName: string,
+    userId: string,
+    options?: UserSubscriptionListOptionalParams,
+  ): PagedAsyncIterableIterator<SubscriptionContract> {
+    const iter = this.listPagingAll(
+      resourceGroupName,
+      serviceName,
+      userId,
+      options,
+    );
+    return {
+      next() {
+        return iter.next();
+      },
+      [Symbol.asyncIterator]() {
+        return this;
+      },
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
         }
-        while (continuationToken) {
-            result = await this._listNext(
-                resourceGroupName,
-                serviceName,
-                userId,
-                continuationToken,
-                options
-            );
-            continuationToken = result.nextLink;
-            let page = result.value || [];
-            setContinuationToken(page, continuationToken);
-            yield page;
-        }
-    }
-
-    private async *listPagingAll(
-        resourceGroupName: string,
-        serviceName: string,
-        userId: string,
-        options?: UserSubscriptionListOptionalParams
-    ): AsyncIterableIterator<SubscriptionContract> {
-        for await (const page of this.listPagingPage(
-            resourceGroupName,
-            serviceName,
-            userId,
-            options
-        )) {
-            yield* page;
-        }
-    }
-
-    /**
-     * Lists the collection of subscriptions of the specified user.
-     * @param resourceGroupName The name of the resource group. The name is case insensitive.
-     * @param serviceName The name of the API Management service.
-     * @param userId User identifier. Must be unique in the current API Management service instance.
-     * @param options The options parameters.
-     */
-    private _list(
-        resourceGroupName: string,
-        serviceName: string,
-        userId: string,
-        options?: UserSubscriptionListOptionalParams
-    ): Promise<UserSubscriptionListResponse> {
-        return this.client.sendOperationRequest(
-            { resourceGroupName, serviceName, userId, options },
-            listOperationSpec
+        return this.listPagingPage(
+          resourceGroupName,
+          serviceName,
+          userId,
+          options,
+          settings,
         );
-    }
+      },
+    };
+  }
 
-    /**
-     * Gets the specified Subscription entity associated with a particular user.
-     * @param resourceGroupName The name of the resource group. The name is case insensitive.
-     * @param serviceName The name of the API Management service.
-     * @param userId User identifier. Must be unique in the current API Management service instance.
-     * @param sid Subscription entity Identifier. The entity represents the association between a user and
-     *            a product in API Management.
-     * @param options The options parameters.
-     */
-    get(
-        resourceGroupName: string,
-        serviceName: string,
-        userId: string,
-        sid: string,
-        options?: UserSubscriptionGetOptionalParams
-    ): Promise<UserSubscriptionGetResponse> {
-        return this.client.sendOperationRequest(
-            { resourceGroupName, serviceName, userId, sid, options },
-            getOperationSpec
-        );
+  private async *listPagingPage(
+    resourceGroupName: string,
+    serviceName: string,
+    userId: string,
+    options?: UserSubscriptionListOptionalParams,
+    settings?: PageSettings,
+  ): AsyncIterableIterator<SubscriptionContract[]> {
+    let result: UserSubscriptionListResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._list(
+        resourceGroupName,
+        serviceName,
+        userId,
+        options,
+      );
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
     }
+    while (continuationToken) {
+      result = await this._listNext(
+        resourceGroupName,
+        serviceName,
+        userId,
+        continuationToken,
+        options,
+      );
+      continuationToken = result.nextLink;
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
+  }
 
-    /**
-     * ListNext
-     * @param resourceGroupName The name of the resource group. The name is case insensitive.
-     * @param serviceName The name of the API Management service.
-     * @param userId User identifier. Must be unique in the current API Management service instance.
-     * @param nextLink The nextLink from the previous successful call to the List method.
-     * @param options The options parameters.
-     */
-    private _listNext(
-        resourceGroupName: string,
-        serviceName: string,
-        userId: string,
-        nextLink: string,
-        options?: UserSubscriptionListNextOptionalParams
-    ): Promise<UserSubscriptionListNextResponse> {
-        return this.client.sendOperationRequest(
-            { resourceGroupName, serviceName, userId, nextLink, options },
-            listNextOperationSpec
-        );
+  private async *listPagingAll(
+    resourceGroupName: string,
+    serviceName: string,
+    userId: string,
+    options?: UserSubscriptionListOptionalParams,
+  ): AsyncIterableIterator<SubscriptionContract> {
+    for await (const page of this.listPagingPage(
+      resourceGroupName,
+      serviceName,
+      userId,
+      options,
+    )) {
+      yield* page;
     }
+  }
+
+  /**
+   * Lists the collection of subscriptions of the specified user.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param serviceName The name of the API Management service.
+   * @param userId User identifier. Must be unique in the current API Management service instance.
+   * @param options The options parameters.
+   */
+  private _list(
+    resourceGroupName: string,
+    serviceName: string,
+    userId: string,
+    options?: UserSubscriptionListOptionalParams,
+  ): Promise<UserSubscriptionListResponse> {
+    return this.client.sendOperationRequest(
+      { resourceGroupName, serviceName, userId, options },
+      listOperationSpec,
+    );
+  }
+
+  /**
+   * Gets the specified Subscription entity associated with a particular user.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param serviceName The name of the API Management service.
+   * @param userId User identifier. Must be unique in the current API Management service instance.
+   * @param sid Subscription entity Identifier. The entity represents the association between a user and
+   *            a product in API Management.
+   * @param options The options parameters.
+   */
+  get(
+    resourceGroupName: string,
+    serviceName: string,
+    userId: string,
+    sid: string,
+    options?: UserSubscriptionGetOptionalParams,
+  ): Promise<UserSubscriptionGetResponse> {
+    return this.client.sendOperationRequest(
+      { resourceGroupName, serviceName, userId, sid, options },
+      getOperationSpec,
+    );
+  }
+
+  /**
+   * ListNext
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param serviceName The name of the API Management service.
+   * @param userId User identifier. Must be unique in the current API Management service instance.
+   * @param nextLink The nextLink from the previous successful call to the List method.
+   * @param options The options parameters.
+   */
+  private _listNext(
+    resourceGroupName: string,
+    serviceName: string,
+    userId: string,
+    nextLink: string,
+    options?: UserSubscriptionListNextOptionalParams,
+  ): Promise<UserSubscriptionListNextResponse> {
+    return this.client.sendOperationRequest(
+      { resourceGroupName, serviceName, userId, nextLink, options },
+      listNextOperationSpec,
+    );
+  }
 }
 // Operation Specifications
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listOperationSpec: coreClient.OperationSpec = {
-    path:
-        "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/users/{userId}/subscriptions",
-    httpMethod: "GET",
-    responses: {
-        200: {
-            bodyMapper: Mappers.SubscriptionCollection
-        },
-        default: {
-            bodyMapper: Mappers.ErrorResponse
-        }
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/users/{userId}/subscriptions",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.SubscriptionCollection,
     },
-    queryParameters: [
-        Parameters.filter,
-        Parameters.top,
-        Parameters.skip,
-        Parameters.apiVersion
-    ],
-    urlParameters: [
-        Parameters.$host,
-        Parameters.resourceGroupName,
-        Parameters.serviceName,
-        Parameters.subscriptionId,
-        Parameters.userId
-    ],
-    headerParameters: [Parameters.accept],
-    serializer
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  queryParameters: [
+    Parameters.apiVersion,
+    Parameters.filter,
+    Parameters.top,
+    Parameters.skip,
+  ],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.resourceGroupName,
+    Parameters.subscriptionId,
+    Parameters.serviceName,
+    Parameters.userId,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
 };
 const getOperationSpec: coreClient.OperationSpec = {
-    path:
-        "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/users/{userId}/subscriptions/{sid}",
-    httpMethod: "GET",
-    responses: {
-        200: {
-            bodyMapper: Mappers.SubscriptionContract,
-            headersMapper: Mappers.UserSubscriptionGetHeaders
-        },
-        default: {
-            bodyMapper: Mappers.ErrorResponse
-        }
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/users/{userId}/subscriptions/{sid}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.SubscriptionContract,
+      headersMapper: Mappers.UserSubscriptionGetHeaders,
     },
-    queryParameters: [Parameters.apiVersion],
-    urlParameters: [
-        Parameters.$host,
-        Parameters.resourceGroupName,
-        Parameters.serviceName,
-        Parameters.subscriptionId,
-        Parameters.userId,
-        Parameters.sid
-    ],
-    headerParameters: [Parameters.accept],
-    serializer
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.resourceGroupName,
+    Parameters.subscriptionId,
+    Parameters.serviceName,
+    Parameters.userId,
+    Parameters.sid,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
 };
 const listNextOperationSpec: coreClient.OperationSpec = {
-    path: "{nextLink}",
-    httpMethod: "GET",
-    responses: {
-        200: {
-            bodyMapper: Mappers.SubscriptionCollection
-        },
-        default: {
-            bodyMapper: Mappers.ErrorResponse
-        }
+  path: "{nextLink}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.SubscriptionCollection,
     },
-    urlParameters: [
-        Parameters.$host,
-        Parameters.resourceGroupName,
-        Parameters.serviceName,
-        Parameters.subscriptionId,
-        Parameters.nextLink,
-        Parameters.userId
-    ],
-    headerParameters: [Parameters.accept],
-    serializer
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  urlParameters: [
+    Parameters.$host,
+    Parameters.resourceGroupName,
+    Parameters.subscriptionId,
+    Parameters.nextLink,
+    Parameters.serviceName,
+    Parameters.userId,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
 };

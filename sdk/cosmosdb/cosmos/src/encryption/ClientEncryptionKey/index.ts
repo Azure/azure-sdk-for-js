@@ -1,7 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-export { ClientEncryptionKeyDefinition } from "./ClientEncryptionKeyDefinition";
-export { ClientEncryptionKeyProperties } from "./ClientEncryptionKeyProperties";
-export { ClientEncryptionKeyResponse } from "./ClientEncryptionKeyResponse";
-export { ClientEncryptionKeyRequest } from "./ClientEncryptionKeyRequest";
+export { ClientEncryptionKeyProperties } from "./ClientEncryptionKeyProperties.js";
+export { ClientEncryptionKeyResponse } from "./ClientEncryptionKeyResponse.js";
+export { ClientEncryptionKeyRequest } from "./ClientEncryptionKeyRequest.js";

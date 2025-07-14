@@ -10,13 +10,13 @@
 // Licensed under the MIT License.
 const { RecoveryServicesBackupClient } = require("@azure/arm-recoveryservicesbackup");
 const { DefaultAzureCredential } = require("@azure/identity");
-require("dotenv").config();
+require("dotenv/config");
 
 /**
  * This sample demonstrates how to Get Private Endpoint Connection. This call is made by Backup Admin.
  *
  * @summary Get Private Endpoint Connection. This call is made by Backup Admin.
- * x-ms-original-file: specification/recoveryservicesbackup/resource-manager/Microsoft.RecoveryServices/stable/2024-04-01/examples/PrivateEndpointConnection/GetPrivateEndpointConnection.json
+ * x-ms-original-file: specification/recoveryservicesbackup/resource-manager/Microsoft.RecoveryServices/stable/2025-02-01/examples/PrivateEndpointConnection/GetPrivateEndpointConnection.json
  */
 async function getPrivateEndpointConnection() {
   const subscriptionId =
@@ -35,7 +35,7 @@ async function getPrivateEndpointConnection() {
 }
 
 async function main() {
-  getPrivateEndpointConnection();
+  await getPrivateEndpointConnection();
 }
 
 main().catch(console.error);

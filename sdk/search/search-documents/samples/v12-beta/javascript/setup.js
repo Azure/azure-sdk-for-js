@@ -1,6 +1,13 @@
-const { KnownAnalyzerNames } = require("@azure/search-documents");
-const { env } = require("process");
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
 
+/**
+ * Defines the utility methods.
+ */
+
+require("dotenv/config");
+const { KnownAnalyzerNames } = require("@azure/search-documents");
+const { env } = require("node:process");
 const WAIT_TIME = 4000;
 
 const documentKeyRetriever = (document) => {
@@ -16,7 +23,6 @@ function delay(timeInMs) {
   return new Promise((resolve) => setTimeout(resolve, timeInMs));
 }
 
-// eslint-disable-next-line @azure/azure-sdk/ts-use-interface-parameters
 async function createIndex(client, name) {
   const hotelIndex = {
     name,

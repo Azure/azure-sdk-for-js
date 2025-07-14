@@ -6,6 +6,8 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
 import { ComputeManagementClient } from "@azure/arm-compute";
 import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
@@ -14,13 +16,15 @@ import "dotenv/config";
  * This sample demonstrates how to Reapplies the Virtual Machine Scale Set Virtual Machine Profile to the Virtual Machine Instances
  *
  * @summary Reapplies the Virtual Machine Scale Set Virtual Machine Profile to the Virtual Machine Instances
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-07-01/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSet_Reapply_MaximumSet_Gen.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-11-01/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSet_Reapply_MaximumSet_Gen.json
  */
 async function virtualMachineScaleSetsReapplyMaximumSetGen(): Promise<void> {
   const subscriptionId =
-    process.env["COMPUTE_SUBSCRIPTION_ID"] || "b4f1213b-cacc-4816-8bfb-f30f90643de8";
+    process.env["COMPUTE_SUBSCRIPTION_ID"] ||
+    "b4f1213b-cacc-4816-8bfb-f30f90643de8";
   const resourceGroupName =
-    process.env["COMPUTE_RESOURCE_GROUP"] || "VirtualMachineScaleSetReapplyTestRG";
+    process.env["COMPUTE_RESOURCE_GROUP"] ||
+    "VirtualMachineScaleSetReapplyTestRG";
   const vmScaleSetName = "VMSSReapply-Test-ScaleSet";
   const credential = new DefaultAzureCredential();
   const client = new ComputeManagementClient(credential, subscriptionId);
@@ -35,13 +39,15 @@ async function virtualMachineScaleSetsReapplyMaximumSetGen(): Promise<void> {
  * This sample demonstrates how to Reapplies the Virtual Machine Scale Set Virtual Machine Profile to the Virtual Machine Instances
  *
  * @summary Reapplies the Virtual Machine Scale Set Virtual Machine Profile to the Virtual Machine Instances
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-07-01/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSet_Reapply_MinimumSet_Gen.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-11-01/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSet_Reapply_MinimumSet_Gen.json
  */
 async function virtualMachineScaleSetsReapplyMinimumSetGen(): Promise<void> {
   const subscriptionId =
-    process.env["COMPUTE_SUBSCRIPTION_ID"] || "b4f1213b-cacc-4816-8bfb-f30f90643de8";
+    process.env["COMPUTE_SUBSCRIPTION_ID"] ||
+    "b4f1213b-cacc-4816-8bfb-f30f90643de8";
   const resourceGroupName =
-    process.env["COMPUTE_RESOURCE_GROUP"] || "VirtualMachineScaleSetReapplyTestRG";
+    process.env["COMPUTE_RESOURCE_GROUP"] ||
+    "VirtualMachineScaleSetReapplyTestRG";
   const vmScaleSetName = "VMSSReapply-Test-ScaleSet";
   const credential = new DefaultAzureCredential();
   const client = new ComputeManagementClient(credential, subscriptionId);

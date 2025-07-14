@@ -13,19 +13,16 @@
  * @azsdk-skip-javascript
  */
 
-import { AzureKeyCredential, DocumentAnalysisClient } from "@azure/ai-form-recognizer";
-
+import { DocumentAnalysisClient } from "@azure/ai-form-recognizer";
+import { DefaultAzureCredential } from "@azure/identity";
 import { PrebuiltTaxUsW2Model } from "./prebuilt/prebuilt-tax.us.w2.js";
-
 import fs from "node:fs";
 import path from "node:path";
+import "dotenv/config";
 
-import * as dotenv from "dotenv";
-dotenv.config();
-
-async function main() {
+async function main(): Promise<void> {
   const endpoint = process.env.FORM_RECOGNIZER_ENDPOINT || "<endpoint>";
-  const credential = new AzureKeyCredential(process.env.FORM_RECOGNIZER_API_KEY || "<api key>");
+  const credential = new DefaultAzureCredential();
 
   const file = fs.readFileSync(path.join(".", "assets", "w2", "w2-single.png"));
 

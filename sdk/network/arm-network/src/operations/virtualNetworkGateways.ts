@@ -54,6 +54,10 @@ import {
   VirtualNetworkGatewaysGetLearnedRoutesResponse,
   VirtualNetworkGatewaysGetAdvertisedRoutesOptionalParams,
   VirtualNetworkGatewaysGetAdvertisedRoutesResponse,
+  VirtualNetworkGatewaysGetResiliencyInformationOptionalParams,
+  VirtualNetworkGatewaysGetResiliencyInformationResponse,
+  VirtualNetworkGatewaysGetRoutesInformationOptionalParams,
+  VirtualNetworkGatewaysGetRoutesInformationResponse,
   VpnClientIPsecParameters,
   VirtualNetworkGatewaysSetVpnclientIpsecParametersOptionalParams,
   VirtualNetworkGatewaysSetVpnclientIpsecParametersResponse,
@@ -80,6 +84,15 @@ import {
   VirtualNetworkGatewaysGetVpnclientConnectionHealthResponse,
   P2SVpnConnectionRequest,
   VirtualNetworkGatewaysDisconnectVirtualNetworkGatewayVpnConnectionsOptionalParams,
+  VirtualNetworkGatewayMigrationParameters,
+  VirtualNetworkGatewaysInvokePrepareMigrationOptionalParams,
+  VirtualNetworkGatewaysInvokePrepareMigrationResponse,
+  VirtualNetworkGatewaysInvokeExecuteMigrationOptionalParams,
+  VirtualNetworkGatewaysInvokeExecuteMigrationResponse,
+  VirtualNetworkGatewaysInvokeCommitMigrationOptionalParams,
+  VirtualNetworkGatewaysInvokeCommitMigrationResponse,
+  VirtualNetworkGatewaysInvokeAbortMigrationOptionalParams,
+  VirtualNetworkGatewaysInvokeAbortMigrationResponse,
   VirtualNetworkGatewaysListNextResponse,
   VirtualNetworkGatewaysListConnectionsNextResponse,
 } from "../models/index.js";
@@ -1343,6 +1356,190 @@ export class VirtualNetworkGatewaysImpl implements VirtualNetworkGateways {
   }
 
   /**
+   * This operation retrieves the resiliency information for an Express Route Gateway, including the
+   * gateway's current resiliency score and recommendations to further improve the score
+   * @param resourceGroupName The name of the resource group.
+   * @param virtualNetworkGatewayName The name of the virtual network gateway.
+   * @param options The options parameters.
+   */
+  async beginGetResiliencyInformation(
+    resourceGroupName: string,
+    virtualNetworkGatewayName: string,
+    options?: VirtualNetworkGatewaysGetResiliencyInformationOptionalParams,
+  ): Promise<
+    SimplePollerLike<
+      OperationState<VirtualNetworkGatewaysGetResiliencyInformationResponse>,
+      VirtualNetworkGatewaysGetResiliencyInformationResponse
+    >
+  > {
+    const directSendOperation = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec,
+    ): Promise<VirtualNetworkGatewaysGetResiliencyInformationResponse> => {
+      return this.client.sendOperationRequest(args, spec);
+    };
+    const sendOperationFn = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec,
+    ) => {
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
+      const providedCallback = args.options?.onResponse;
+      const callback: coreClient.RawResponseCallback = (
+        rawResponse: coreClient.FullOperationResponse,
+        flatResponse: unknown,
+      ) => {
+        currentRawResponse = rawResponse;
+        providedCallback?.(rawResponse, flatResponse);
+      };
+      const updatedArgs = {
+        ...args,
+        options: {
+          ...args.options,
+          onResponse: callback,
+        },
+      };
+      const flatResponse = await directSendOperation(updatedArgs, spec);
+      return {
+        flatResponse,
+        rawResponse: {
+          statusCode: currentRawResponse!.status,
+          body: currentRawResponse!.parsedBody,
+          headers: currentRawResponse!.headers.toJSON(),
+        },
+      };
+    };
+
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceGroupName, virtualNetworkGatewayName, options },
+      spec: getResiliencyInformationOperationSpec,
+    });
+    const poller = await createHttpPoller<
+      VirtualNetworkGatewaysGetResiliencyInformationResponse,
+      OperationState<VirtualNetworkGatewaysGetResiliencyInformationResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs,
+      resourceLocationConfig: "location",
+    });
+    await poller.poll();
+    return poller;
+  }
+
+  /**
+   * This operation retrieves the resiliency information for an Express Route Gateway, including the
+   * gateway's current resiliency score and recommendations to further improve the score
+   * @param resourceGroupName The name of the resource group.
+   * @param virtualNetworkGatewayName The name of the virtual network gateway.
+   * @param options The options parameters.
+   */
+  async beginGetResiliencyInformationAndWait(
+    resourceGroupName: string,
+    virtualNetworkGatewayName: string,
+    options?: VirtualNetworkGatewaysGetResiliencyInformationOptionalParams,
+  ): Promise<VirtualNetworkGatewaysGetResiliencyInformationResponse> {
+    const poller = await this.beginGetResiliencyInformation(
+      resourceGroupName,
+      virtualNetworkGatewayName,
+      options,
+    );
+    return poller.pollUntilDone();
+  }
+
+  /**
+   * This operation retrieves the route set information for an Express Route Gateway based on their
+   * resiliency
+   * @param resourceGroupName The name of the resource group.
+   * @param virtualNetworkGatewayName The name of the virtual network gateway.
+   * @param options The options parameters.
+   */
+  async beginGetRoutesInformation(
+    resourceGroupName: string,
+    virtualNetworkGatewayName: string,
+    options?: VirtualNetworkGatewaysGetRoutesInformationOptionalParams,
+  ): Promise<
+    SimplePollerLike<
+      OperationState<VirtualNetworkGatewaysGetRoutesInformationResponse>,
+      VirtualNetworkGatewaysGetRoutesInformationResponse
+    >
+  > {
+    const directSendOperation = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec,
+    ): Promise<VirtualNetworkGatewaysGetRoutesInformationResponse> => {
+      return this.client.sendOperationRequest(args, spec);
+    };
+    const sendOperationFn = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec,
+    ) => {
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
+      const providedCallback = args.options?.onResponse;
+      const callback: coreClient.RawResponseCallback = (
+        rawResponse: coreClient.FullOperationResponse,
+        flatResponse: unknown,
+      ) => {
+        currentRawResponse = rawResponse;
+        providedCallback?.(rawResponse, flatResponse);
+      };
+      const updatedArgs = {
+        ...args,
+        options: {
+          ...args.options,
+          onResponse: callback,
+        },
+      };
+      const flatResponse = await directSendOperation(updatedArgs, spec);
+      return {
+        flatResponse,
+        rawResponse: {
+          statusCode: currentRawResponse!.status,
+          body: currentRawResponse!.parsedBody,
+          headers: currentRawResponse!.headers.toJSON(),
+        },
+      };
+    };
+
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceGroupName, virtualNetworkGatewayName, options },
+      spec: getRoutesInformationOperationSpec,
+    });
+    const poller = await createHttpPoller<
+      VirtualNetworkGatewaysGetRoutesInformationResponse,
+      OperationState<VirtualNetworkGatewaysGetRoutesInformationResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs,
+      resourceLocationConfig: "location",
+    });
+    await poller.poll();
+    return poller;
+  }
+
+  /**
+   * This operation retrieves the route set information for an Express Route Gateway based on their
+   * resiliency
+   * @param resourceGroupName The name of the resource group.
+   * @param virtualNetworkGatewayName The name of the virtual network gateway.
+   * @param options The options parameters.
+   */
+  async beginGetRoutesInformationAndWait(
+    resourceGroupName: string,
+    virtualNetworkGatewayName: string,
+    options?: VirtualNetworkGatewaysGetRoutesInformationOptionalParams,
+  ): Promise<VirtualNetworkGatewaysGetRoutesInformationResponse> {
+    const poller = await this.beginGetRoutesInformation(
+      resourceGroupName,
+      virtualNetworkGatewayName,
+      options,
+    );
+    return poller.pollUntilDone();
+  }
+
+  /**
    * The Set VpnclientIpsecParameters operation sets the vpnclient ipsec policy for P2S client of virtual
    * network gateway in the specified resource group through Network resource provider.
    * @param resourceGroupName The name of the resource group.
@@ -2356,6 +2553,378 @@ export class VirtualNetworkGatewaysImpl implements VirtualNetworkGateways {
   }
 
   /**
+   * Trigger prepare migration for the virtual network gateway.
+   * @param resourceGroupName The resource group name of the virtual network gateway.
+   * @param virtualNetworkGatewayName The name of the gateway.
+   * @param migrationParams Parameters supplied to the Begin Prepare migration on basic vpn gateway
+   *                        through Network resource provider.
+   * @param options The options parameters.
+   */
+  async beginInvokePrepareMigration(
+    resourceGroupName: string,
+    virtualNetworkGatewayName: string,
+    migrationParams: VirtualNetworkGatewayMigrationParameters,
+    options?: VirtualNetworkGatewaysInvokePrepareMigrationOptionalParams,
+  ): Promise<
+    SimplePollerLike<
+      OperationState<VirtualNetworkGatewaysInvokePrepareMigrationResponse>,
+      VirtualNetworkGatewaysInvokePrepareMigrationResponse
+    >
+  > {
+    const directSendOperation = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec,
+    ): Promise<VirtualNetworkGatewaysInvokePrepareMigrationResponse> => {
+      return this.client.sendOperationRequest(args, spec);
+    };
+    const sendOperationFn = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec,
+    ) => {
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
+      const providedCallback = args.options?.onResponse;
+      const callback: coreClient.RawResponseCallback = (
+        rawResponse: coreClient.FullOperationResponse,
+        flatResponse: unknown,
+      ) => {
+        currentRawResponse = rawResponse;
+        providedCallback?.(rawResponse, flatResponse);
+      };
+      const updatedArgs = {
+        ...args,
+        options: {
+          ...args.options,
+          onResponse: callback,
+        },
+      };
+      const flatResponse = await directSendOperation(updatedArgs, spec);
+      return {
+        flatResponse,
+        rawResponse: {
+          statusCode: currentRawResponse!.status,
+          body: currentRawResponse!.parsedBody,
+          headers: currentRawResponse!.headers.toJSON(),
+        },
+      };
+    };
+
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: {
+        resourceGroupName,
+        virtualNetworkGatewayName,
+        migrationParams,
+        options,
+      },
+      spec: invokePrepareMigrationOperationSpec,
+    });
+    const poller = await createHttpPoller<
+      VirtualNetworkGatewaysInvokePrepareMigrationResponse,
+      OperationState<VirtualNetworkGatewaysInvokePrepareMigrationResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs,
+      resourceLocationConfig: "location",
+    });
+    await poller.poll();
+    return poller;
+  }
+
+  /**
+   * Trigger prepare migration for the virtual network gateway.
+   * @param resourceGroupName The resource group name of the virtual network gateway.
+   * @param virtualNetworkGatewayName The name of the gateway.
+   * @param migrationParams Parameters supplied to the Begin Prepare migration on basic vpn gateway
+   *                        through Network resource provider.
+   * @param options The options parameters.
+   */
+  async beginInvokePrepareMigrationAndWait(
+    resourceGroupName: string,
+    virtualNetworkGatewayName: string,
+    migrationParams: VirtualNetworkGatewayMigrationParameters,
+    options?: VirtualNetworkGatewaysInvokePrepareMigrationOptionalParams,
+  ): Promise<VirtualNetworkGatewaysInvokePrepareMigrationResponse> {
+    const poller = await this.beginInvokePrepareMigration(
+      resourceGroupName,
+      virtualNetworkGatewayName,
+      migrationParams,
+      options,
+    );
+    return poller.pollUntilDone();
+  }
+
+  /**
+   * Trigger execute migration for the virtual network gateway.
+   * @param resourceGroupName The resource group name of the virtual network gateway.
+   * @param virtualNetworkGatewayName The name of the gateway.
+   * @param options The options parameters.
+   */
+  async beginInvokeExecuteMigration(
+    resourceGroupName: string,
+    virtualNetworkGatewayName: string,
+    options?: VirtualNetworkGatewaysInvokeExecuteMigrationOptionalParams,
+  ): Promise<
+    SimplePollerLike<
+      OperationState<VirtualNetworkGatewaysInvokeExecuteMigrationResponse>,
+      VirtualNetworkGatewaysInvokeExecuteMigrationResponse
+    >
+  > {
+    const directSendOperation = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec,
+    ): Promise<VirtualNetworkGatewaysInvokeExecuteMigrationResponse> => {
+      return this.client.sendOperationRequest(args, spec);
+    };
+    const sendOperationFn = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec,
+    ) => {
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
+      const providedCallback = args.options?.onResponse;
+      const callback: coreClient.RawResponseCallback = (
+        rawResponse: coreClient.FullOperationResponse,
+        flatResponse: unknown,
+      ) => {
+        currentRawResponse = rawResponse;
+        providedCallback?.(rawResponse, flatResponse);
+      };
+      const updatedArgs = {
+        ...args,
+        options: {
+          ...args.options,
+          onResponse: callback,
+        },
+      };
+      const flatResponse = await directSendOperation(updatedArgs, spec);
+      return {
+        flatResponse,
+        rawResponse: {
+          statusCode: currentRawResponse!.status,
+          body: currentRawResponse!.parsedBody,
+          headers: currentRawResponse!.headers.toJSON(),
+        },
+      };
+    };
+
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceGroupName, virtualNetworkGatewayName, options },
+      spec: invokeExecuteMigrationOperationSpec,
+    });
+    const poller = await createHttpPoller<
+      VirtualNetworkGatewaysInvokeExecuteMigrationResponse,
+      OperationState<VirtualNetworkGatewaysInvokeExecuteMigrationResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs,
+      resourceLocationConfig: "location",
+    });
+    await poller.poll();
+    return poller;
+  }
+
+  /**
+   * Trigger execute migration for the virtual network gateway.
+   * @param resourceGroupName The resource group name of the virtual network gateway.
+   * @param virtualNetworkGatewayName The name of the gateway.
+   * @param options The options parameters.
+   */
+  async beginInvokeExecuteMigrationAndWait(
+    resourceGroupName: string,
+    virtualNetworkGatewayName: string,
+    options?: VirtualNetworkGatewaysInvokeExecuteMigrationOptionalParams,
+  ): Promise<VirtualNetworkGatewaysInvokeExecuteMigrationResponse> {
+    const poller = await this.beginInvokeExecuteMigration(
+      resourceGroupName,
+      virtualNetworkGatewayName,
+      options,
+    );
+    return poller.pollUntilDone();
+  }
+
+  /**
+   * Trigger commit migration for the virtual network gateway.
+   * @param resourceGroupName The resource group name of the virtual network gateway.
+   * @param virtualNetworkGatewayName The name of the gateway.
+   * @param options The options parameters.
+   */
+  async beginInvokeCommitMigration(
+    resourceGroupName: string,
+    virtualNetworkGatewayName: string,
+    options?: VirtualNetworkGatewaysInvokeCommitMigrationOptionalParams,
+  ): Promise<
+    SimplePollerLike<
+      OperationState<VirtualNetworkGatewaysInvokeCommitMigrationResponse>,
+      VirtualNetworkGatewaysInvokeCommitMigrationResponse
+    >
+  > {
+    const directSendOperation = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec,
+    ): Promise<VirtualNetworkGatewaysInvokeCommitMigrationResponse> => {
+      return this.client.sendOperationRequest(args, spec);
+    };
+    const sendOperationFn = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec,
+    ) => {
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
+      const providedCallback = args.options?.onResponse;
+      const callback: coreClient.RawResponseCallback = (
+        rawResponse: coreClient.FullOperationResponse,
+        flatResponse: unknown,
+      ) => {
+        currentRawResponse = rawResponse;
+        providedCallback?.(rawResponse, flatResponse);
+      };
+      const updatedArgs = {
+        ...args,
+        options: {
+          ...args.options,
+          onResponse: callback,
+        },
+      };
+      const flatResponse = await directSendOperation(updatedArgs, spec);
+      return {
+        flatResponse,
+        rawResponse: {
+          statusCode: currentRawResponse!.status,
+          body: currentRawResponse!.parsedBody,
+          headers: currentRawResponse!.headers.toJSON(),
+        },
+      };
+    };
+
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceGroupName, virtualNetworkGatewayName, options },
+      spec: invokeCommitMigrationOperationSpec,
+    });
+    const poller = await createHttpPoller<
+      VirtualNetworkGatewaysInvokeCommitMigrationResponse,
+      OperationState<VirtualNetworkGatewaysInvokeCommitMigrationResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs,
+      resourceLocationConfig: "location",
+    });
+    await poller.poll();
+    return poller;
+  }
+
+  /**
+   * Trigger commit migration for the virtual network gateway.
+   * @param resourceGroupName The resource group name of the virtual network gateway.
+   * @param virtualNetworkGatewayName The name of the gateway.
+   * @param options The options parameters.
+   */
+  async beginInvokeCommitMigrationAndWait(
+    resourceGroupName: string,
+    virtualNetworkGatewayName: string,
+    options?: VirtualNetworkGatewaysInvokeCommitMigrationOptionalParams,
+  ): Promise<VirtualNetworkGatewaysInvokeCommitMigrationResponse> {
+    const poller = await this.beginInvokeCommitMigration(
+      resourceGroupName,
+      virtualNetworkGatewayName,
+      options,
+    );
+    return poller.pollUntilDone();
+  }
+
+  /**
+   * Trigger abort migration for the virtual network gateway.
+   * @param resourceGroupName The resource group name of the virtual network gateway.
+   * @param virtualNetworkGatewayName The name of the gateway.
+   * @param options The options parameters.
+   */
+  async beginInvokeAbortMigration(
+    resourceGroupName: string,
+    virtualNetworkGatewayName: string,
+    options?: VirtualNetworkGatewaysInvokeAbortMigrationOptionalParams,
+  ): Promise<
+    SimplePollerLike<
+      OperationState<VirtualNetworkGatewaysInvokeAbortMigrationResponse>,
+      VirtualNetworkGatewaysInvokeAbortMigrationResponse
+    >
+  > {
+    const directSendOperation = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec,
+    ): Promise<VirtualNetworkGatewaysInvokeAbortMigrationResponse> => {
+      return this.client.sendOperationRequest(args, spec);
+    };
+    const sendOperationFn = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec,
+    ) => {
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
+      const providedCallback = args.options?.onResponse;
+      const callback: coreClient.RawResponseCallback = (
+        rawResponse: coreClient.FullOperationResponse,
+        flatResponse: unknown,
+      ) => {
+        currentRawResponse = rawResponse;
+        providedCallback?.(rawResponse, flatResponse);
+      };
+      const updatedArgs = {
+        ...args,
+        options: {
+          ...args.options,
+          onResponse: callback,
+        },
+      };
+      const flatResponse = await directSendOperation(updatedArgs, spec);
+      return {
+        flatResponse,
+        rawResponse: {
+          statusCode: currentRawResponse!.status,
+          body: currentRawResponse!.parsedBody,
+          headers: currentRawResponse!.headers.toJSON(),
+        },
+      };
+    };
+
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceGroupName, virtualNetworkGatewayName, options },
+      spec: invokeAbortMigrationOperationSpec,
+    });
+    const poller = await createHttpPoller<
+      VirtualNetworkGatewaysInvokeAbortMigrationResponse,
+      OperationState<VirtualNetworkGatewaysInvokeAbortMigrationResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs,
+      resourceLocationConfig: "location",
+    });
+    await poller.poll();
+    return poller;
+  }
+
+  /**
+   * Trigger abort migration for the virtual network gateway.
+   * @param resourceGroupName The resource group name of the virtual network gateway.
+   * @param virtualNetworkGatewayName The name of the gateway.
+   * @param options The options parameters.
+   */
+  async beginInvokeAbortMigrationAndWait(
+    resourceGroupName: string,
+    virtualNetworkGatewayName: string,
+    options?: VirtualNetworkGatewaysInvokeAbortMigrationOptionalParams,
+  ): Promise<VirtualNetworkGatewaysInvokeAbortMigrationResponse> {
+    const poller = await this.beginInvokeAbortMigration(
+      resourceGroupName,
+      virtualNetworkGatewayName,
+      options,
+    );
+    return poller.pollUntilDone();
+  }
+
+  /**
    * ListNext
    * @param resourceGroupName The name of the resource group.
    * @param nextLink The nextLink from the previous successful call to the List method.
@@ -2414,7 +2983,7 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError,
     },
   },
-  requestBody: Parameters.parameters73,
+  requestBody: Parameters.parameters81,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
@@ -2614,7 +3183,7 @@ const generatevpnclientpackageOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError,
     },
   },
-  requestBody: Parameters.parameters74,
+  requestBody: Parameters.parameters82,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
@@ -2646,7 +3215,7 @@ const generateVpnProfileOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError,
     },
   },
-  requestBody: Parameters.parameters74,
+  requestBody: Parameters.parameters82,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
@@ -2799,6 +3368,66 @@ const getAdvertisedRoutesOperationSpec: coreClient.OperationSpec = {
   headerParameters: [Parameters.accept],
   serializer,
 };
+const getResiliencyInformationOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworkGateways/{virtualNetworkGatewayName}/getResiliencyInformation",
+  httpMethod: "POST",
+  responses: {
+    200: {
+      bodyMapper: Mappers.GatewayResiliencyInformation,
+    },
+    201: {
+      bodyMapper: Mappers.GatewayResiliencyInformation,
+    },
+    202: {
+      bodyMapper: Mappers.GatewayResiliencyInformation,
+    },
+    204: {
+      bodyMapper: Mappers.GatewayResiliencyInformation,
+    },
+    default: {
+      bodyMapper: Mappers.CloudError,
+    },
+  },
+  queryParameters: [Parameters.apiVersion, Parameters.attemptRefresh],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.resourceGroupName,
+    Parameters.subscriptionId,
+    Parameters.virtualNetworkGatewayName,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
+};
+const getRoutesInformationOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworkGateways/{virtualNetworkGatewayName}/getRoutesInformation",
+  httpMethod: "POST",
+  responses: {
+    200: {
+      bodyMapper: Mappers.GatewayRouteSetsInformation,
+    },
+    201: {
+      bodyMapper: Mappers.GatewayRouteSetsInformation,
+    },
+    202: {
+      bodyMapper: Mappers.GatewayRouteSetsInformation,
+    },
+    204: {
+      bodyMapper: Mappers.GatewayRouteSetsInformation,
+    },
+    default: {
+      bodyMapper: Mappers.CloudError,
+    },
+  },
+  queryParameters: [Parameters.apiVersion, Parameters.attemptRefresh],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.resourceGroupName,
+    Parameters.subscriptionId,
+    Parameters.virtualNetworkGatewayName,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
+};
 const setVpnclientIpsecParametersOperationSpec: coreClient.OperationSpec = {
   path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworkGateways/{virtualNetworkGatewayName}/setvpnclientipsecparameters",
   httpMethod: "POST",
@@ -2872,7 +3501,7 @@ const vpnDeviceConfigurationScriptOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError,
     },
   },
-  requestBody: Parameters.parameters75,
+  requestBody: Parameters.parameters83,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
@@ -2904,7 +3533,7 @@ const startPacketCaptureOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorModel,
     },
   },
-  requestBody: Parameters.parameters76,
+  requestBody: Parameters.parameters84,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
@@ -2936,7 +3565,7 @@ const stopPacketCaptureOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorModel,
     },
   },
-  requestBody: Parameters.parameters77,
+  requestBody: Parameters.parameters85,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
@@ -3203,7 +3832,7 @@ const disconnectVirtualNetworkGatewayVpnConnectionsOperationSpec: coreClient.Ope
         bodyMapper: Mappers.CloudError,
       },
     },
-    requestBody: Parameters.request1,
+    requestBody: Parameters.request2,
     queryParameters: [Parameters.apiVersion],
     urlParameters: [
       Parameters.$host,
@@ -3215,6 +3844,136 @@ const disconnectVirtualNetworkGatewayVpnConnectionsOperationSpec: coreClient.Ope
     mediaType: "json",
     serializer,
   };
+const invokePrepareMigrationOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworkGateways/{virtualNetworkGatewayName}/prepareMigration",
+  httpMethod: "POST",
+  responses: {
+    200: {
+      headersMapper:
+        Mappers.VirtualNetworkGatewaysInvokePrepareMigrationHeaders,
+    },
+    201: {
+      headersMapper:
+        Mappers.VirtualNetworkGatewaysInvokePrepareMigrationHeaders,
+    },
+    202: {
+      headersMapper:
+        Mappers.VirtualNetworkGatewaysInvokePrepareMigrationHeaders,
+    },
+    204: {
+      headersMapper:
+        Mappers.VirtualNetworkGatewaysInvokePrepareMigrationHeaders,
+    },
+    default: {
+      bodyMapper: Mappers.CloudError,
+    },
+  },
+  requestBody: Parameters.migrationParams,
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.resourceGroupName,
+    Parameters.subscriptionId,
+    Parameters.virtualNetworkGatewayName,
+  ],
+  headerParameters: [Parameters.accept, Parameters.contentType],
+  mediaType: "json",
+  serializer,
+};
+const invokeExecuteMigrationOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworkGateways/{virtualNetworkGatewayName}/executeMigration",
+  httpMethod: "POST",
+  responses: {
+    200: {
+      headersMapper:
+        Mappers.VirtualNetworkGatewaysInvokeExecuteMigrationHeaders,
+    },
+    201: {
+      headersMapper:
+        Mappers.VirtualNetworkGatewaysInvokeExecuteMigrationHeaders,
+    },
+    202: {
+      headersMapper:
+        Mappers.VirtualNetworkGatewaysInvokeExecuteMigrationHeaders,
+    },
+    204: {
+      headersMapper:
+        Mappers.VirtualNetworkGatewaysInvokeExecuteMigrationHeaders,
+    },
+    default: {
+      bodyMapper: Mappers.CloudError,
+    },
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.resourceGroupName,
+    Parameters.subscriptionId,
+    Parameters.virtualNetworkGatewayName,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
+};
+const invokeCommitMigrationOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworkGateways/{virtualNetworkGatewayName}/commitMigration",
+  httpMethod: "POST",
+  responses: {
+    200: {
+      headersMapper: Mappers.VirtualNetworkGatewaysInvokeCommitMigrationHeaders,
+    },
+    201: {
+      headersMapper: Mappers.VirtualNetworkGatewaysInvokeCommitMigrationHeaders,
+    },
+    202: {
+      headersMapper: Mappers.VirtualNetworkGatewaysInvokeCommitMigrationHeaders,
+    },
+    204: {
+      headersMapper: Mappers.VirtualNetworkGatewaysInvokeCommitMigrationHeaders,
+    },
+    default: {
+      bodyMapper: Mappers.CloudError,
+    },
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.resourceGroupName,
+    Parameters.subscriptionId,
+    Parameters.virtualNetworkGatewayName,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
+};
+const invokeAbortMigrationOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworkGateways/{virtualNetworkGatewayName}/abortMigration",
+  httpMethod: "POST",
+  responses: {
+    200: {
+      headersMapper: Mappers.VirtualNetworkGatewaysInvokeAbortMigrationHeaders,
+    },
+    201: {
+      headersMapper: Mappers.VirtualNetworkGatewaysInvokeAbortMigrationHeaders,
+    },
+    202: {
+      headersMapper: Mappers.VirtualNetworkGatewaysInvokeAbortMigrationHeaders,
+    },
+    204: {
+      headersMapper: Mappers.VirtualNetworkGatewaysInvokeAbortMigrationHeaders,
+    },
+    default: {
+      bodyMapper: Mappers.CloudError,
+    },
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.resourceGroupName,
+    Parameters.subscriptionId,
+    Parameters.virtualNetworkGatewayName,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
+};
 const listNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",

@@ -6,9 +6,9 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { SimplePollerLike, OperationState } from "@azure/core-lro";
-import {
+import type { PagedAsyncIterableIterator } from "@azure/core-paging";
+import type { SimplePollerLike, OperationState } from "@azure/core-lro";
+import type {
   Server,
   ServersListByResourceGroupOptionalParams,
   ServersListOptionalParams,
@@ -54,12 +54,7 @@ export interface Servers {
     serverName: string,
     parameters: Server,
     options?: ServersCreateOptionalParams,
-  ): Promise<
-    SimplePollerLike<
-      OperationState<ServersCreateResponse>,
-      ServersCreateResponse
-    >
-  >;
+  ): Promise<SimplePollerLike<OperationState<ServersCreateResponse>, ServersCreateResponse>>;
   /**
    * Creates a new server.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
@@ -86,12 +81,7 @@ export interface Servers {
     serverName: string,
     parameters: ServerForUpdate,
     options?: ServersUpdateOptionalParams,
-  ): Promise<
-    SimplePollerLike<
-      OperationState<ServersUpdateResponse>,
-      ServersUpdateResponse
-    >
-  >;
+  ): Promise<SimplePollerLike<OperationState<ServersUpdateResponse>, ServersUpdateResponse>>;
   /**
    * Updates an existing server. The request body can contain one to many of the properties present in
    * the normal server definition.

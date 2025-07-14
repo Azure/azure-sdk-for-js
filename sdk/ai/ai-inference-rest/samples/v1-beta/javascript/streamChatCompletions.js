@@ -10,12 +10,11 @@
 const ModelClient = require("@azure-rest/ai-inference").default;
 const { DefaultAzureCredential } = require("@azure/identity");
 const { createSseStream } = require("@azure/core-sse");
+const { createRestError } = require("@azure-rest/core-client");
 
 // Load the .env file if it exists
-const dotenv = require("dotenv");
+require("dotenv/config");
 const { AzureKeyCredential } = require("@azure/core-auth");
-dotenv.config();
-
 // You will need to set these environment variables or edit the following values
 const endpoint = process.env["ENDPOINT"] || "<endpoint>";
 const key = process.env["KEY"];
@@ -48,7 +47,7 @@ async function main() {
   }
 
   if (response.status !== "200") {
-    throw new Error(`Failed to get chat completions: ${streamToString(stream)}`);
+    throw createRestError(response);
   }
 
   const sses = createSseStream(stream);
@@ -62,11 +61,11 @@ async function main() {
     }
   }
 
-  async function streamToString(stream) {
+  async function streamToString(streamToConvert) {
     // lets have a ReadableStream as a stream variable
     const chunks = [];
 
-    for await (const chunk of stream) {
+    for await (const chunk of streamToConvert) {
       chunks.push(Buffer.from(chunk));
     }
 

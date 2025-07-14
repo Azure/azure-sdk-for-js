@@ -8,17 +8,16 @@
  */
 
 import type { TransactionAction } from "@azure/data-tables";
-import { TableClient, AzureSASCredential } from "@azure/data-tables";
+import { TableClient } from "@azure/data-tables";
+import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
 
 const tablesUrl = process.env["TABLES_URL"] || "";
-const sasToken = process.env["SAS_TOKEN"] || "";
 
 async function usingContinuationToken(): Promise<void> {
   const tableName = `manualListByPage`;
 
-  // See authenticationMethods sample for other options of creating a new client
-  const client = new TableClient(tablesUrl, tableName, new AzureSASCredential(sasToken));
+  const client = new TableClient(tablesUrl, tableName, new DefaultAzureCredential());
   // Create the table
   await client.createTable();
 

@@ -21,7 +21,7 @@ export interface CommunicationRoom {
 }
 
 /** The participant's role in the room */
-export type ParticipantRole = "Presenter" | "Attendee" | "Consumer";
+export type ParticipantRole = "Presenter" | "Attendee" | "Consumer" | "Collaborator";
 
 /** A participant of the room. */
 export interface RoomParticipant {

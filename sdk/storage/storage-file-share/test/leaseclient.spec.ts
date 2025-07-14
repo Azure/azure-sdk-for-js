@@ -1,12 +1,21 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-
-import { assert } from "chai";
-import { getBSU, recorderEnvSetup, bodyToString, uriSanitizers, getUniqueName } from "./utils";
+import {
+  getBSU,
+  recorderEnvSetup,
+  bodyToString,
+  uriSanitizers,
+  getUniqueName,
+} from "./utils/index.js";
 import { Recorder } from "@azure-tools/test-recorder";
-import type { ShareClient, ShareDirectoryClient, ShareFileClient, SignedIdentifier } from "../src";
-import type { Context } from "mocha";
-import { isNode } from "@azure/core-util";
+import type {
+  ShareClient,
+  ShareDirectoryClient,
+  ShareFileClient,
+  SignedIdentifier,
+} from "../src/index.js";
+import { isNodeLike } from "@azure/core-util";
+import { describe, it, assert, beforeEach, afterEach } from "vitest";
 
 // for file
 describe("LeaseClient", () => {
@@ -22,8 +31,8 @@ describe("LeaseClient", () => {
 
   let recorder: Recorder;
 
-  beforeEach(async function (this: Context) {
-    recorder = new Recorder(this.currentTest);
+  beforeEach(async (ctx) => {
+    recorder = new Recorder(ctx);
     await recorder.start(recorderEnvSetup);
     await recorder.addSanitizers(
       {
@@ -48,7 +57,7 @@ describe("LeaseClient", () => {
     await fileClient.create(content.length);
   });
 
-  afterEach(async function () {
+  afterEach(async () => {
     await shareClient.delete();
     await recorder.stop();
   });
@@ -419,8 +428,8 @@ describe("LeaseClient with ShareClient", () => {
 
   let recorder: Recorder;
 
-  beforeEach(async function (this: Context) {
-    recorder = new Recorder(this.currentTest);
+  beforeEach(async (ctx) => {
+    recorder = new Recorder(ctx);
     await recorder.start(recorderEnvSetup);
     await recorder.addSanitizers(
       {
@@ -437,7 +446,7 @@ describe("LeaseClient with ShareClient", () => {
     await shareClient.create();
   });
 
-  afterEach(async function () {
+  afterEach(async () => {
     await shareClient.delete();
     await recorder.stop();
   });
@@ -714,9 +723,9 @@ describe("LeaseClient with ShareClient", () => {
     await leaseClient.releaseLease();
   });
 
-  it("setAccessPolicy", async function () {
-    if (!isNode) {
-      this.skip();
+  it("setAccessPolicy", async (ctx) => {
+    if (!isNodeLike) {
+      ctx.skip();
     }
     await recorder.addSanitizers(
       {

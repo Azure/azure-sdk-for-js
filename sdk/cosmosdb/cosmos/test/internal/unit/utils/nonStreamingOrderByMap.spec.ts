@@ -1,7 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import assert from "assert";
-import { NonStreamingOrderByMap } from "../../../../src/utils/nonStreamingOrderByMap";
+
+import { NonStreamingOrderByMap } from "../../../../src/utils/nonStreamingOrderByMap.js";
+import { describe, it, assert } from "vitest";
 
 describe("NonStreamingOrderByMap", () => {
   it("should insert items", () => {

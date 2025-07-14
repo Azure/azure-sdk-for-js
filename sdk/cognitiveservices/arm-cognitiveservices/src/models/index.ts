@@ -8,6 +8,21 @@
 
 import * as coreClient from "@azure/core-client";
 
+export type ConnectionPropertiesV2Union =
+  | ConnectionPropertiesV2
+  | PATAuthTypeConnectionProperties
+  | ManagedIdentityAuthTypeConnectionProperties
+  | UsernamePasswordAuthTypeConnectionProperties
+  | NoneAuthTypeConnectionProperties
+  | SASAuthTypeConnectionProperties
+  | AccountKeyAuthTypeConnectionProperties
+  | ServicePrincipalAuthTypeConnectionProperties
+  | AccessKeyAuthTypeConnectionProperties
+  | ApiKeyAuthConnectionProperties
+  | CustomKeysConnectionProperties
+  | OAuth2AuthTypeConnectionProperties
+  | AADAuthTypeConnectionProperties;
+
 /** The resource model definition representing SKU */
 export interface Sku {
   /** The name of the SKU. Ex - P3. It is typically a letter+number code */
@@ -112,7 +127,7 @@ export interface AccountProperties {
   encryption?: Encryption;
   /** The storage accounts for this resource. */
   userOwnedStorage?: UserOwnedStorage[];
-  /** The user owned AML workspace properties. */
+  /** The user owned AML account properties. */
   amlWorkspace?: UserOwnedAmlWorkspace;
   /**
    * The private endpoint connection associated with the Cognitive Services account.
@@ -170,6 +185,14 @@ export interface AccountProperties {
   readonly abusePenalty?: AbusePenalty;
   /** Cognitive Services Rai Monitor Config. */
   raiMonitorConfig?: RaiMonitorConfig;
+  /** Specifies in AI Foundry where virtual network injection occurs to secure scenarios like Agents entirely within the user's private network, eliminating public internet exposure while maintaining control over network configurations and resources. */
+  networkInjections?: NetworkInjections;
+  /** Specifies whether this resource support project management as child resources, used as containers for access management, data isolation and cost in AI Foundry. */
+  allowProjectManagement?: boolean;
+  /** Specifies the project that is targeted when data plane endpoints are called without a project parameter. */
+  defaultProject?: string;
+  /** Specifies the projects that are associated with this resource. */
+  associatedProjects?: string[];
 }
 
 /** SkuCapability indicates the capability of a certain feature. */
@@ -244,11 +267,11 @@ export interface UserOwnedStorage {
   identityClientId?: string;
 }
 
-/** The user owned AML workspace for Cognitive Services account. */
+/** The user owned AML account for Cognitive Services account. */
 export interface UserOwnedAmlWorkspace {
-  /** Full resource id of a AML workspace resource. */
+  /** Full resource id of a AML account resource. */
   resourceId?: string;
-  /** Identity Client id of a AML workspace resource. */
+  /** Identity Client id of a AML account resource. */
   identityClientId?: string;
 }
 
@@ -401,6 +424,16 @@ export interface RaiMonitorConfig {
   adxStorageResourceId?: string;
   /** The identity client Id to access the storage. */
   identityClientId?: string;
+}
+
+/** Specifies in AI Foundry where virtual network injection occurs to secure scenarios like Agents entirely within the user's private network, eliminating public internet exposure while maintaining control over network configurations and resources. */
+export interface NetworkInjections {
+  /** Specifies what features in AI Foundry network injection applies to. Currently only supports 'agent' for agent scenarios. 'none' means no network injection. */
+  scenario?: ScenarioType;
+  /** Specify the subnet for which your Agent Client is injected into. */
+  subnetArmId?: string;
+  /** Boolean to enable Microsoft Managed Network for subnet delegation */
+  useMicrosoftManagedNetwork?: boolean;
 }
 
 /** Common error response for all Azure Resource Manager APIs to return error details for failed operations. (This also follows the OData error response format.). */
@@ -970,6 +1003,8 @@ export interface DeploymentProperties {
   capacitySettings?: DeploymentCapacitySettings;
   /** The name of parent deployment. */
   parentDeploymentName?: string;
+  /** Specifies the deployment name that should serve requests when the request would have otherwise been throttled due to reaching current deployment throughput limit. */
+  spilloverDeploymentName?: string;
 }
 
 /** Properties of Cognitive Services account deployment model. (Deprecated, please use Deployment.sku instead.) */
@@ -1108,7 +1143,7 @@ export interface RaiPolicyProperties {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly type?: RaiPolicyType;
-  /** Rai policy mode. The enum value mapping is as below: Default = 0, Deferred=1, Blocking=2, Asynchronous_filter =3. Please use 'Asynchronous_filter' after 2024-10-01. It is the same as 'Deferred' in previous version. */
+  /** Rai policy mode. The enum value mapping is as below: Default = 0, Deferred=1, Blocking=2, Asynchronous_filter =3. Please use 'Asynchronous_filter' after 2025-04-01-preview. It is the same as 'Deferred' in previous version. */
   mode?: RaiPolicyMode;
   /** Name of Rai policy. */
   basePolicyName?: string;
@@ -1319,6 +1354,169 @@ export interface DefenderForAISettingResult {
   value?: DefenderForAISetting[];
 }
 
+/** Properties of Cognitive Services Project'. */
+export interface ProjectProperties {
+  /**
+   * Gets the status of the cognitive services project at the time the operation was called.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly provisioningState?: ProvisioningState;
+  /** The display name of the Cognitive Services Project. */
+  displayName?: string;
+  /** The description of the Cognitive Services Project. */
+  description?: string;
+  /**
+   * The list of endpoint for this Cognitive Services Project.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly endpoints?: { [propertyName: string]: string };
+  /**
+   * Indicates whether the project is the default project for the account.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly isDefault?: boolean;
+}
+
+/** The list of cognitive services projects operation response. */
+export interface ProjectListResult {
+  /** The link used to get the next page of projects. */
+  nextLink?: string;
+  /**
+   * Gets the list of Cognitive Services projects and their properties.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly value?: Project[];
+}
+
+/** Connection property base schema. */
+export interface ConnectionPropertiesV2 {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  authType:
+    | "PAT"
+    | "ManagedIdentity"
+    | "UsernamePassword"
+    | "None"
+    | "SAS"
+    | "AccountKey"
+    | "ServicePrincipal"
+    | "AccessKey"
+    | "ApiKey"
+    | "CustomKeys"
+    | "OAuth2"
+    | "AAD";
+  /** Category of the connection */
+  category?: ConnectionCategory;
+  /** NOTE: This property will not be serialized. It can only be populated by the server. */
+  readonly createdByWorkspaceArmId?: string;
+  error?: string;
+  expiryTime?: Date;
+  /**
+   * Group based on connection category
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly group?: ConnectionGroup;
+  isSharedToAll?: boolean;
+  /** Store user metadata for this connection */
+  metadata?: { [propertyName: string]: string };
+  peRequirement?: ManagedPERequirement;
+  peStatus?: ManagedPEStatus;
+  sharedUserList?: string[];
+  target?: string;
+  useWorkspaceManagedIdentity?: boolean;
+}
+
+/** The properties that the Cognitive services connection will be updated with. */
+export interface ConnectionUpdateContent {
+  /** The properties that the Cognitive services connection will be updated with. */
+  properties?: ConnectionPropertiesV2Union;
+}
+
+export interface ConnectionPropertiesV2BasicResourceArmPaginatedResult {
+  nextLink?: string;
+  value?: ConnectionPropertiesV2BasicResource[];
+}
+
+export interface ResourceBase {
+  /** The asset description text. */
+  description?: string;
+  /** Tag dictionary. Tags can be added, removed, and updated. */
+  tags?: { [propertyName: string]: string | null };
+}
+
+export interface ConnectionPersonalAccessToken {
+  pat?: string;
+}
+
+export interface ConnectionManagedIdentity {
+  clientId?: string;
+  resourceId?: string;
+}
+
+export interface ConnectionUsernamePassword {
+  password?: string;
+  /** Optional, required by connections like SalesForce for extra security in addition to UsernamePassword */
+  securityToken?: string;
+  username?: string;
+}
+
+export interface ConnectionSharedAccessSignature {
+  sas?: string;
+}
+
+/** Account key object for connection credential. */
+export interface ConnectionAccountKey {
+  key?: string;
+}
+
+export interface ConnectionServicePrincipal {
+  clientId?: string;
+  clientSecret?: string;
+  tenantId?: string;
+}
+
+export interface ConnectionAccessKey {
+  accessKeyId?: string;
+  secretAccessKey?: string;
+}
+
+/** Api key object for connection credential. */
+export interface ConnectionApiKey {
+  key?: string;
+}
+
+/** Custom Keys credential object */
+export interface CustomKeys {
+  /** Dictionary of <string> */
+  keys?: { [propertyName: string]: string };
+}
+
+/**
+ * ClientId and ClientSecret are required. Other properties are optional
+ * depending on each OAuth2 provider's implementation.
+ */
+export interface ConnectionOAuth2 {
+  /** Required by Concur connection category */
+  authUrl?: string;
+  /** Client id in the format of UUID */
+  clientId?: string;
+  clientSecret?: string;
+  /** Required by GoogleAdWords connection category */
+  developerToken?: string;
+  password?: string;
+  /**
+   * Required by GoogleBigQuery, GoogleAdWords, Hubspot, QuickBooks, Square, Xero, Zoho
+   * where user needs to get RefreshToken offline
+   */
+  refreshToken?: string;
+  /** Required by QuickBooks and Xero connection categories */
+  tenantId?: string;
+  /**
+   * Concur, ServiceNow auth server AccessToken grant type is 'Password'
+   * which requires UsernamePassword
+   */
+  username?: string;
+}
+
 /** Properties to EncryptionScope */
 export interface EncryptionScopeProperties extends Encryption {
   /**
@@ -1346,6 +1544,12 @@ export interface ProxyResource extends Resource {}
 export interface PrivateLinkResource extends Resource {
   /** Resource properties. */
   properties?: PrivateLinkResourceProperties;
+}
+
+/** Connection base resource schema. */
+export interface ConnectionPropertiesV2BasicResource extends Resource {
+  /** Connection property base schema. */
+  properties: ConnectionPropertiesV2Union;
 }
 
 /** Cognitive Services account Model. */
@@ -1385,6 +1589,134 @@ export interface CustomBlocklistConfig extends RaiBlocklistConfig {
   source?: RaiPolicyContentSource;
 }
 
+export interface PATAuthTypeConnectionProperties extends ConnectionPropertiesV2 {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  authType: "PAT";
+  credentials?: ConnectionPersonalAccessToken;
+}
+
+export interface ManagedIdentityAuthTypeConnectionProperties extends ConnectionPropertiesV2 {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  authType: "ManagedIdentity";
+  credentials?: ConnectionManagedIdentity;
+}
+
+export interface UsernamePasswordAuthTypeConnectionProperties extends ConnectionPropertiesV2 {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  authType: "UsernamePassword";
+  credentials?: ConnectionUsernamePassword;
+}
+
+export interface NoneAuthTypeConnectionProperties extends ConnectionPropertiesV2 {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  authType: "None";
+}
+
+export interface SASAuthTypeConnectionProperties extends ConnectionPropertiesV2 {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  authType: "SAS";
+  credentials?: ConnectionSharedAccessSignature;
+}
+
+/** This connection type covers the account key connection for Azure storage */
+export interface AccountKeyAuthTypeConnectionProperties extends ConnectionPropertiesV2 {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  authType: "AccountKey";
+  /** Account key object for connection credential. */
+  credentials?: ConnectionAccountKey;
+}
+
+export interface ServicePrincipalAuthTypeConnectionProperties extends ConnectionPropertiesV2 {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  authType: "ServicePrincipal";
+  credentials?: ConnectionServicePrincipal;
+}
+
+export interface AccessKeyAuthTypeConnectionProperties extends ConnectionPropertiesV2 {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  authType: "AccessKey";
+  credentials?: ConnectionAccessKey;
+}
+
+/**
+ * This connection type covers the generic ApiKey auth connection categories, for examples:
+ * AzureOpenAI:
+ *     Category:= AzureOpenAI
+ *     AuthType:= ApiKey (as type discriminator)
+ *     Credentials:= {ApiKey} as .ApiKey
+ *     Target:= {ApiBase}
+ *
+ * CognitiveService:
+ *     Category:= CognitiveService
+ *     AuthType:= ApiKey (as type discriminator)
+ *     Credentials:= {SubscriptionKey} as ApiKey
+ *     Target:= ServiceRegion={serviceRegion}
+ *
+ * CognitiveSearch:
+ *     Category:= CognitiveSearch
+ *     AuthType:= ApiKey (as type discriminator)
+ *     Credentials:= {Key} as ApiKey
+ *     Target:= {Endpoint}
+ *
+ * Use Metadata property bag for ApiType, ApiVersion, Kind and other metadata fields
+ */
+export interface ApiKeyAuthConnectionProperties extends ConnectionPropertiesV2 {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  authType: "ApiKey";
+  /** Api key object for connection credential. */
+  credentials?: ConnectionApiKey;
+}
+
+/**
+ * Category:= CustomKeys
+ * AuthType:= CustomKeys (as type discriminator)
+ * Credentials:= {CustomKeys} as CustomKeys
+ * Target:= {any value}
+ * Use Metadata property bag for ApiVersion and other metadata fields
+ */
+export interface CustomKeysConnectionProperties extends ConnectionPropertiesV2 {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  authType: "CustomKeys";
+  /** Custom Keys credential object */
+  credentials?: CustomKeys;
+}
+
+export interface OAuth2AuthTypeConnectionProperties extends ConnectionPropertiesV2 {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  authType: "OAuth2";
+  /**
+   * ClientId and ClientSecret are required. Other properties are optional
+   * depending on each OAuth2 provider's implementation.
+   */
+  credentials?: ConnectionOAuth2;
+}
+
+/** This connection type covers the AAD auth for any applicable Azure service */
+export interface AADAuthTypeConnectionProperties extends ConnectionPropertiesV2 {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  authType: "AAD";
+}
+
+export interface CapabilityHostProperties extends ResourceBase {
+  /** List of AI services connections. */
+  aiServicesConnections?: string[];
+  /** Kind of this capability host. */
+  capabilityHostKind?: CapabilityHostKind;
+  /** Customer subnet info to help set up this capability host. */
+  customerSubnet?: string;
+  /**
+   * Provisioning state for the CapabilityHost.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly provisioningState?: CapabilityHostProvisioningState;
+  /** List of Storage connections. */
+  storageConnections?: string[];
+  /** List of Thread storage connections. */
+  threadStorageConnections?: string[];
+  /** List of VectorStore connections. */
+  vectorStoreConnections?: string[];
+}
+
 /** The Private Endpoint Connection resource. */
 export interface PrivateEndpointConnection extends AzureEntityResource {
   /** Resource properties. */
@@ -1417,6 +1749,23 @@ export interface Account extends AzureEntityResource {
   location?: string;
   /** Properties of Cognitive Services account. */
   properties?: AccountProperties;
+}
+
+/** Cognitive Services project is an Azure resource representing the provisioned account's project, it's type, location and SKU. */
+export interface Project extends AzureEntityResource {
+  /** Identity for the resource. */
+  identity?: Identity;
+  /**
+   * Metadata pertaining to creation and last modification of the resource.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly systemData?: SystemData;
+  /** Resource tags. */
+  tags?: { [propertyName: string]: string };
+  /** The geo-location where the resource lives */
+  location?: string;
+  /** Properties of Cognitive Services project. */
+  properties?: ProjectProperties;
 }
 
 export interface ModelCapacityListResultValueItem extends ProxyResource {
@@ -1590,6 +1939,12 @@ export interface DefenderForAISetting extends ProxyResource {
   state?: DefenderForAISettingState;
 }
 
+/** Azure Resource Manager resource envelope. */
+export interface CapabilityHost extends ProxyResource {
+  /** [Required] Additional attributes of the entity. */
+  properties: CapabilityHostProperties;
+}
+
 /** Defines headers for Deployments_update operation. */
 export interface DeploymentsUpdateHeaders {
   location?: string;
@@ -1633,6 +1988,42 @@ export interface RaiBlocklistItemsDeleteHeaders {
 /** Defines headers for NetworkSecurityPerimeterConfigurations_reconcile operation. */
 export interface NetworkSecurityPerimeterConfigurationsReconcileHeaders {
   location?: string;
+}
+
+/** Defines headers for AccountCapabilityHosts_delete operation. */
+export interface AccountCapabilityHostsDeleteHeaders {
+  /** Timeout for the client to use when polling the asynchronous operation. */
+  xMsAsyncOperationTimeout?: string;
+  /** URI to poll for asynchronous operation result. */
+  location?: string;
+  /** Duration the client should wait between requests, in seconds. */
+  retryAfter?: number;
+}
+
+/** Defines headers for AccountCapabilityHosts_createOrUpdate operation. */
+export interface AccountCapabilityHostsCreateOrUpdateHeaders {
+  /** Timeout for the client to use when polling the asynchronous operation. */
+  xMsAsyncOperationTimeout?: string;
+  /** URI to poll for asynchronous operation status. */
+  azureAsyncOperation?: string;
+}
+
+/** Defines headers for ProjectCapabilityHosts_delete operation. */
+export interface ProjectCapabilityHostsDeleteHeaders {
+  /** Timeout for the client to use when polling the asynchronous operation. */
+  xMsAsyncOperationTimeout?: string;
+  /** URI to poll for asynchronous operation result. */
+  location?: string;
+  /** Duration the client should wait between requests, in seconds. */
+  retryAfter?: number;
+}
+
+/** Defines headers for ProjectCapabilityHosts_createOrUpdate operation. */
+export interface ProjectCapabilityHostsCreateOrUpdateHeaders {
+  /** Timeout for the client to use when polling the asynchronous operation. */
+  xMsAsyncOperationTimeout?: string;
+  /** URI to poll for asynchronous operation status. */
+  azureAsyncOperation?: string;
 }
 
 /** Known values of {@link SkuTier} that the service accepts. */
@@ -1702,6 +2093,8 @@ export enum KnownProvisioningState {
   Succeeded = "Succeeded",
   /** ResolvingDNS */
   ResolvingDNS = "ResolvingDNS",
+  /** Canceled */
+  Canceled = "Canceled",
 }
 
 /**
@@ -1715,7 +2108,8 @@ export enum KnownProvisioningState {
  * **Moving** \
  * **Failed** \
  * **Succeeded** \
- * **ResolvingDNS**
+ * **ResolvingDNS** \
+ * **Canceled**
  */
 export type ProvisioningState = string;
 
@@ -1874,6 +2268,24 @@ export enum KnownAbusePenaltyAction {
  * **Block**
  */
 export type AbusePenaltyAction = string;
+
+/** Known values of {@link ScenarioType} that the service accepts. */
+export enum KnownScenarioType {
+  /** None */
+  None = "none",
+  /** Agent */
+  Agent = "agent",
+}
+
+/**
+ * Defines values for ScenarioType. \
+ * {@link KnownScenarioType} can be used interchangeably with ScenarioType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **none** \
+ * **agent**
+ */
+export type ScenarioType = string;
 
 /** Known values of {@link ResourceSkuRestrictionsReasonCode} that the service accepts. */
 export enum KnownResourceSkuRestrictionsReasonCode {
@@ -2312,6 +2724,501 @@ export enum KnownDefenderForAISettingState {
  * **Enabled**
  */
 export type DefenderForAISettingState = string;
+
+/** Known values of {@link ConnectionAuthType} that the service accepts. */
+export enum KnownConnectionAuthType {
+  /** PAT */
+  PAT = "PAT",
+  /** ManagedIdentity */
+  ManagedIdentity = "ManagedIdentity",
+  /** UsernamePassword */
+  UsernamePassword = "UsernamePassword",
+  /** None */
+  None = "None",
+  /** SAS */
+  SAS = "SAS",
+  /** AccountKey */
+  AccountKey = "AccountKey",
+  /** ServicePrincipal */
+  ServicePrincipal = "ServicePrincipal",
+  /** AccessKey */
+  AccessKey = "AccessKey",
+  /** ApiKey */
+  ApiKey = "ApiKey",
+  /** CustomKeys */
+  CustomKeys = "CustomKeys",
+  /** OAuth2 */
+  OAuth2 = "OAuth2",
+  /** AAD */
+  AAD = "AAD",
+}
+
+/**
+ * Defines values for ConnectionAuthType. \
+ * {@link KnownConnectionAuthType} can be used interchangeably with ConnectionAuthType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **PAT** \
+ * **ManagedIdentity** \
+ * **UsernamePassword** \
+ * **None** \
+ * **SAS** \
+ * **AccountKey** \
+ * **ServicePrincipal** \
+ * **AccessKey** \
+ * **ApiKey** \
+ * **CustomKeys** \
+ * **OAuth2** \
+ * **AAD**
+ */
+export type ConnectionAuthType = string;
+
+/** Known values of {@link ConnectionCategory} that the service accepts. */
+export enum KnownConnectionCategory {
+  /** PythonFeed */
+  PythonFeed = "PythonFeed",
+  /** ContainerRegistry */
+  ContainerRegistry = "ContainerRegistry",
+  /** Git */
+  Git = "Git",
+  /** S3 */
+  S3 = "S3",
+  /** Snowflake */
+  Snowflake = "Snowflake",
+  /** AzureSqlDb */
+  AzureSqlDb = "AzureSqlDb",
+  /** AzureSynapseAnalytics */
+  AzureSynapseAnalytics = "AzureSynapseAnalytics",
+  /** AzureMySqlDb */
+  AzureMySqlDb = "AzureMySqlDb",
+  /** AzurePostgresDb */
+  AzurePostgresDb = "AzurePostgresDb",
+  /** AdlsGen2 */
+  AdlsGen2 = "ADLSGen2",
+  /** Redis */
+  Redis = "Redis",
+  /** ApiKey */
+  ApiKey = "ApiKey",
+  /** AzureOpenAI */
+  AzureOpenAI = "AzureOpenAI",
+  /** AIServices */
+  AIServices = "AIServices",
+  /** CognitiveSearch */
+  CognitiveSearch = "CognitiveSearch",
+  /** CognitiveService */
+  CognitiveService = "CognitiveService",
+  /** CustomKeys */
+  CustomKeys = "CustomKeys",
+  /** AzureBlob */
+  AzureBlob = "AzureBlob",
+  /** AzureOneLake */
+  AzureOneLake = "AzureOneLake",
+  /** CosmosDb */
+  CosmosDb = "CosmosDb",
+  /** CosmosDbMongoDbApi */
+  CosmosDbMongoDbApi = "CosmosDbMongoDbApi",
+  /** AzureDataExplorer */
+  AzureDataExplorer = "AzureDataExplorer",
+  /** AzureMariaDb */
+  AzureMariaDb = "AzureMariaDb",
+  /** AzureDatabricksDeltaLake */
+  AzureDatabricksDeltaLake = "AzureDatabricksDeltaLake",
+  /** AzureSqlMi */
+  AzureSqlMi = "AzureSqlMi",
+  /** AzureTableStorage */
+  AzureTableStorage = "AzureTableStorage",
+  /** AmazonRdsForOracle */
+  AmazonRdsForOracle = "AmazonRdsForOracle",
+  /** AmazonRdsForSqlServer */
+  AmazonRdsForSqlServer = "AmazonRdsForSqlServer",
+  /** AmazonRedshift */
+  AmazonRedshift = "AmazonRedshift",
+  /** Db2 */
+  Db2 = "Db2",
+  /** Drill */
+  Drill = "Drill",
+  /** GoogleBigQuery */
+  GoogleBigQuery = "GoogleBigQuery",
+  /** Greenplum */
+  Greenplum = "Greenplum",
+  /** Hbase */
+  Hbase = "Hbase",
+  /** Hive */
+  Hive = "Hive",
+  /** Impala */
+  Impala = "Impala",
+  /** Informix */
+  Informix = "Informix",
+  /** MariaDb */
+  MariaDb = "MariaDb",
+  /** MicrosoftAccess */
+  MicrosoftAccess = "MicrosoftAccess",
+  /** MySql */
+  MySql = "MySql",
+  /** Netezza */
+  Netezza = "Netezza",
+  /** Oracle */
+  Oracle = "Oracle",
+  /** Phoenix */
+  Phoenix = "Phoenix",
+  /** PostgreSql */
+  PostgreSql = "PostgreSql",
+  /** Presto */
+  Presto = "Presto",
+  /** SapOpenHub */
+  SapOpenHub = "SapOpenHub",
+  /** SapBw */
+  SapBw = "SapBw",
+  /** SapHana */
+  SapHana = "SapHana",
+  /** SapTable */
+  SapTable = "SapTable",
+  /** Spark */
+  Spark = "Spark",
+  /** SqlServer */
+  SqlServer = "SqlServer",
+  /** Sybase */
+  Sybase = "Sybase",
+  /** Teradata */
+  Teradata = "Teradata",
+  /** Vertica */
+  Vertica = "Vertica",
+  /** Pinecone */
+  Pinecone = "Pinecone",
+  /** Cassandra */
+  Cassandra = "Cassandra",
+  /** Couchbase */
+  Couchbase = "Couchbase",
+  /** MongoDbV2 */
+  MongoDbV2 = "MongoDbV2",
+  /** MongoDbAtlas */
+  MongoDbAtlas = "MongoDbAtlas",
+  /** AmazonS3Compatible */
+  AmazonS3Compatible = "AmazonS3Compatible",
+  /** FileServer */
+  FileServer = "FileServer",
+  /** FtpServer */
+  FtpServer = "FtpServer",
+  /** GoogleCloudStorage */
+  GoogleCloudStorage = "GoogleCloudStorage",
+  /** Hdfs */
+  Hdfs = "Hdfs",
+  /** OracleCloudStorage */
+  OracleCloudStorage = "OracleCloudStorage",
+  /** Sftp */
+  Sftp = "Sftp",
+  /** GenericHttp */
+  GenericHttp = "GenericHttp",
+  /** ODataRest */
+  ODataRest = "ODataRest",
+  /** Odbc */
+  Odbc = "Odbc",
+  /** GenericRest */
+  GenericRest = "GenericRest",
+  /** AmazonMws */
+  AmazonMws = "AmazonMws",
+  /** Concur */
+  Concur = "Concur",
+  /** Dynamics */
+  Dynamics = "Dynamics",
+  /** DynamicsAx */
+  DynamicsAx = "DynamicsAx",
+  /** DynamicsCrm */
+  DynamicsCrm = "DynamicsCrm",
+  /** GoogleAdWords */
+  GoogleAdWords = "GoogleAdWords",
+  /** Hubspot */
+  Hubspot = "Hubspot",
+  /** Jira */
+  Jira = "Jira",
+  /** Magento */
+  Magento = "Magento",
+  /** Marketo */
+  Marketo = "Marketo",
+  /** Office365 */
+  Office365 = "Office365",
+  /** Eloqua */
+  Eloqua = "Eloqua",
+  /** Responsys */
+  Responsys = "Responsys",
+  /** OracleServiceCloud */
+  OracleServiceCloud = "OracleServiceCloud",
+  /** PayPal */
+  PayPal = "PayPal",
+  /** QuickBooks */
+  QuickBooks = "QuickBooks",
+  /** Salesforce */
+  Salesforce = "Salesforce",
+  /** SalesforceServiceCloud */
+  SalesforceServiceCloud = "SalesforceServiceCloud",
+  /** SalesforceMarketingCloud */
+  SalesforceMarketingCloud = "SalesforceMarketingCloud",
+  /** SapCloudForCustomer */
+  SapCloudForCustomer = "SapCloudForCustomer",
+  /** SapEcc */
+  SapEcc = "SapEcc",
+  /** ServiceNow */
+  ServiceNow = "ServiceNow",
+  /** SharePointOnlineList */
+  SharePointOnlineList = "SharePointOnlineList",
+  /** Shopify */
+  Shopify = "Shopify",
+  /** Square */
+  Square = "Square",
+  /** WebTable */
+  WebTable = "WebTable",
+  /** Xero */
+  Xero = "Xero",
+  /** Zoho */
+  Zoho = "Zoho",
+  /** GenericContainerRegistry */
+  GenericContainerRegistry = "GenericContainerRegistry",
+  /** Elasticsearch */
+  Elasticsearch = "Elasticsearch",
+  /** OpenAI */
+  OpenAI = "OpenAI",
+  /** Serp */
+  Serp = "Serp",
+  /** BingLLMSearch */
+  BingLLMSearch = "BingLLMSearch",
+  /** Serverless */
+  Serverless = "Serverless",
+  /** ManagedOnlineEndpoint */
+  ManagedOnlineEndpoint = "ManagedOnlineEndpoint",
+}
+
+/**
+ * Defines values for ConnectionCategory. \
+ * {@link KnownConnectionCategory} can be used interchangeably with ConnectionCategory,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **PythonFeed** \
+ * **ContainerRegistry** \
+ * **Git** \
+ * **S3** \
+ * **Snowflake** \
+ * **AzureSqlDb** \
+ * **AzureSynapseAnalytics** \
+ * **AzureMySqlDb** \
+ * **AzurePostgresDb** \
+ * **ADLSGen2** \
+ * **Redis** \
+ * **ApiKey** \
+ * **AzureOpenAI** \
+ * **AIServices** \
+ * **CognitiveSearch** \
+ * **CognitiveService** \
+ * **CustomKeys** \
+ * **AzureBlob** \
+ * **AzureOneLake** \
+ * **CosmosDb** \
+ * **CosmosDbMongoDbApi** \
+ * **AzureDataExplorer** \
+ * **AzureMariaDb** \
+ * **AzureDatabricksDeltaLake** \
+ * **AzureSqlMi** \
+ * **AzureTableStorage** \
+ * **AmazonRdsForOracle** \
+ * **AmazonRdsForSqlServer** \
+ * **AmazonRedshift** \
+ * **Db2** \
+ * **Drill** \
+ * **GoogleBigQuery** \
+ * **Greenplum** \
+ * **Hbase** \
+ * **Hive** \
+ * **Impala** \
+ * **Informix** \
+ * **MariaDb** \
+ * **MicrosoftAccess** \
+ * **MySql** \
+ * **Netezza** \
+ * **Oracle** \
+ * **Phoenix** \
+ * **PostgreSql** \
+ * **Presto** \
+ * **SapOpenHub** \
+ * **SapBw** \
+ * **SapHana** \
+ * **SapTable** \
+ * **Spark** \
+ * **SqlServer** \
+ * **Sybase** \
+ * **Teradata** \
+ * **Vertica** \
+ * **Pinecone** \
+ * **Cassandra** \
+ * **Couchbase** \
+ * **MongoDbV2** \
+ * **MongoDbAtlas** \
+ * **AmazonS3Compatible** \
+ * **FileServer** \
+ * **FtpServer** \
+ * **GoogleCloudStorage** \
+ * **Hdfs** \
+ * **OracleCloudStorage** \
+ * **Sftp** \
+ * **GenericHttp** \
+ * **ODataRest** \
+ * **Odbc** \
+ * **GenericRest** \
+ * **AmazonMws** \
+ * **Concur** \
+ * **Dynamics** \
+ * **DynamicsAx** \
+ * **DynamicsCrm** \
+ * **GoogleAdWords** \
+ * **Hubspot** \
+ * **Jira** \
+ * **Magento** \
+ * **Marketo** \
+ * **Office365** \
+ * **Eloqua** \
+ * **Responsys** \
+ * **OracleServiceCloud** \
+ * **PayPal** \
+ * **QuickBooks** \
+ * **Salesforce** \
+ * **SalesforceServiceCloud** \
+ * **SalesforceMarketingCloud** \
+ * **SapCloudForCustomer** \
+ * **SapEcc** \
+ * **ServiceNow** \
+ * **SharePointOnlineList** \
+ * **Shopify** \
+ * **Square** \
+ * **WebTable** \
+ * **Xero** \
+ * **Zoho** \
+ * **GenericContainerRegistry** \
+ * **Elasticsearch** \
+ * **OpenAI** \
+ * **Serp** \
+ * **BingLLMSearch** \
+ * **Serverless** \
+ * **ManagedOnlineEndpoint**
+ */
+export type ConnectionCategory = string;
+
+/** Known values of {@link ConnectionGroup} that the service accepts. */
+export enum KnownConnectionGroup {
+  /** Azure */
+  Azure = "Azure",
+  /** AzureAI */
+  AzureAI = "AzureAI",
+  /** Database */
+  Database = "Database",
+  /** NoSQL */
+  NoSQL = "NoSQL",
+  /** File */
+  File = "File",
+  /** GenericProtocol */
+  GenericProtocol = "GenericProtocol",
+  /** ServicesAndApps */
+  ServicesAndApps = "ServicesAndApps",
+}
+
+/**
+ * Defines values for ConnectionGroup. \
+ * {@link KnownConnectionGroup} can be used interchangeably with ConnectionGroup,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Azure** \
+ * **AzureAI** \
+ * **Database** \
+ * **NoSQL** \
+ * **File** \
+ * **GenericProtocol** \
+ * **ServicesAndApps**
+ */
+export type ConnectionGroup = string;
+
+/** Known values of {@link ManagedPERequirement} that the service accepts. */
+export enum KnownManagedPERequirement {
+  /** Required */
+  Required = "Required",
+  /** NotRequired */
+  NotRequired = "NotRequired",
+  /** NotApplicable */
+  NotApplicable = "NotApplicable",
+}
+
+/**
+ * Defines values for ManagedPERequirement. \
+ * {@link KnownManagedPERequirement} can be used interchangeably with ManagedPERequirement,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Required** \
+ * **NotRequired** \
+ * **NotApplicable**
+ */
+export type ManagedPERequirement = string;
+
+/** Known values of {@link ManagedPEStatus} that the service accepts. */
+export enum KnownManagedPEStatus {
+  /** Inactive */
+  Inactive = "Inactive",
+  /** Active */
+  Active = "Active",
+  /** NotApplicable */
+  NotApplicable = "NotApplicable",
+}
+
+/**
+ * Defines values for ManagedPEStatus. \
+ * {@link KnownManagedPEStatus} can be used interchangeably with ManagedPEStatus,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Inactive** \
+ * **Active** \
+ * **NotApplicable**
+ */
+export type ManagedPEStatus = string;
+
+/** Known values of {@link CapabilityHostKind} that the service accepts. */
+export enum KnownCapabilityHostKind {
+  /** Agents */
+  Agents = "Agents",
+}
+
+/**
+ * Defines values for CapabilityHostKind. \
+ * {@link KnownCapabilityHostKind} can be used interchangeably with CapabilityHostKind,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Agents**
+ */
+export type CapabilityHostKind = string;
+
+/** Known values of {@link CapabilityHostProvisioningState} that the service accepts. */
+export enum KnownCapabilityHostProvisioningState {
+  /** Succeeded */
+  Succeeded = "Succeeded",
+  /** Failed */
+  Failed = "Failed",
+  /** Canceled */
+  Canceled = "Canceled",
+  /** Creating */
+  Creating = "Creating",
+  /** Updating */
+  Updating = "Updating",
+  /** Deleting */
+  Deleting = "Deleting",
+}
+
+/**
+ * Defines values for CapabilityHostProvisioningState. \
+ * {@link KnownCapabilityHostProvisioningState} can be used interchangeably with CapabilityHostProvisioningState,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Succeeded** \
+ * **Failed** \
+ * **Canceled** \
+ * **Creating** \
+ * **Updating** \
+ * **Deleting**
+ */
+export type CapabilityHostProvisioningState = string;
 /** Defines values for ResourceIdentityType. */
 export type ResourceIdentityType =
   | "None"
@@ -2324,8 +3231,7 @@ export type KeyName = "Key1" | "Key2";
 export type ResourceSkuRestrictionsType = "Location" | "Zone";
 
 /** Optional parameters. */
-export interface AccountsCreateOptionalParams
-  extends coreClient.OperationOptions {
+export interface AccountsCreateOptionalParams extends coreClient.OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
   /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
@@ -2336,8 +3242,7 @@ export interface AccountsCreateOptionalParams
 export type AccountsCreateResponse = Account;
 
 /** Optional parameters. */
-export interface AccountsUpdateOptionalParams
-  extends coreClient.OperationOptions {
+export interface AccountsUpdateOptionalParams extends coreClient.OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
   /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
@@ -2348,8 +3253,7 @@ export interface AccountsUpdateOptionalParams
 export type AccountsUpdateResponse = Account;
 
 /** Optional parameters. */
-export interface AccountsDeleteOptionalParams
-  extends coreClient.OperationOptions {
+export interface AccountsDeleteOptionalParams extends coreClient.OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
   /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
@@ -2357,50 +3261,43 @@ export interface AccountsDeleteOptionalParams
 }
 
 /** Optional parameters. */
-export interface AccountsGetOptionalParams
-  extends coreClient.OperationOptions {}
+export interface AccountsGetOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the get operation. */
 export type AccountsGetResponse = Account;
 
 /** Optional parameters. */
-export interface AccountsListByResourceGroupOptionalParams
-  extends coreClient.OperationOptions {}
+export interface AccountsListByResourceGroupOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByResourceGroup operation. */
 export type AccountsListByResourceGroupResponse = AccountListResult;
 
 /** Optional parameters. */
-export interface AccountsListOptionalParams
-  extends coreClient.OperationOptions {}
+export interface AccountsListOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the list operation. */
 export type AccountsListResponse = AccountListResult;
 
 /** Optional parameters. */
-export interface AccountsListKeysOptionalParams
-  extends coreClient.OperationOptions {}
+export interface AccountsListKeysOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the listKeys operation. */
 export type AccountsListKeysResponse = ApiKeys;
 
 /** Optional parameters. */
-export interface AccountsRegenerateKeyOptionalParams
-  extends coreClient.OperationOptions {}
+export interface AccountsRegenerateKeyOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the regenerateKey operation. */
 export type AccountsRegenerateKeyResponse = ApiKeys;
 
 /** Optional parameters. */
-export interface AccountsListSkusOptionalParams
-  extends coreClient.OperationOptions {}
+export interface AccountsListSkusOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the listSkus operation. */
 export type AccountsListSkusResponse = AccountSkuListResult;
 
 /** Optional parameters. */
-export interface AccountsListUsagesOptionalParams
-  extends coreClient.OperationOptions {
+export interface AccountsListUsagesOptionalParams extends coreClient.OperationOptions {
   /** An OData filter expression that describes a subset of usages to return. The supported parameter is name.value (name of the metric, can have an or of multiple names). */
   filter?: string;
 }
@@ -2409,8 +3306,7 @@ export interface AccountsListUsagesOptionalParams
 export type AccountsListUsagesResponse = UsageListResult;
 
 /** Optional parameters. */
-export interface AccountsListModelsOptionalParams
-  extends coreClient.OperationOptions {}
+export interface AccountsListModelsOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the listModels operation. */
 export type AccountsListModelsResponse = AccountModelListResult;
@@ -2423,29 +3319,25 @@ export interface AccountsListByResourceGroupNextOptionalParams
 export type AccountsListByResourceGroupNextResponse = AccountListResult;
 
 /** Optional parameters. */
-export interface AccountsListNextOptionalParams
-  extends coreClient.OperationOptions {}
+export interface AccountsListNextOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
 export type AccountsListNextResponse = AccountListResult;
 
 /** Optional parameters. */
-export interface AccountsListModelsNextOptionalParams
-  extends coreClient.OperationOptions {}
+export interface AccountsListModelsNextOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the listModelsNext operation. */
 export type AccountsListModelsNextResponse = AccountModelListResult;
 
 /** Optional parameters. */
-export interface DeletedAccountsGetOptionalParams
-  extends coreClient.OperationOptions {}
+export interface DeletedAccountsGetOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the get operation. */
 export type DeletedAccountsGetResponse = Account;
 
 /** Optional parameters. */
-export interface DeletedAccountsPurgeOptionalParams
-  extends coreClient.OperationOptions {
+export interface DeletedAccountsPurgeOptionalParams extends coreClient.OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
   /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
@@ -2453,29 +3345,25 @@ export interface DeletedAccountsPurgeOptionalParams
 }
 
 /** Optional parameters. */
-export interface DeletedAccountsListOptionalParams
-  extends coreClient.OperationOptions {}
+export interface DeletedAccountsListOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the list operation. */
 export type DeletedAccountsListResponse = AccountListResult;
 
 /** Optional parameters. */
-export interface DeletedAccountsListNextOptionalParams
-  extends coreClient.OperationOptions {}
+export interface DeletedAccountsListNextOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
 export type DeletedAccountsListNextResponse = AccountListResult;
 
 /** Optional parameters. */
-export interface ResourceSkusListOptionalParams
-  extends coreClient.OperationOptions {}
+export interface ResourceSkusListOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the list operation. */
 export type ResourceSkusListResponse = ResourceSkuListResult;
 
 /** Optional parameters. */
-export interface ResourceSkusListNextOptionalParams
-  extends coreClient.OperationOptions {}
+export interface ResourceSkusListNextOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
 export type ResourceSkusListNextResponse = ResourceSkuListResult;
@@ -2490,36 +3378,31 @@ export interface UsagesListOptionalParams extends coreClient.OperationOptions {
 export type UsagesListResponse = UsageListResult;
 
 /** Optional parameters. */
-export interface UsagesListNextOptionalParams
-  extends coreClient.OperationOptions {}
+export interface UsagesListNextOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
 export type UsagesListNextResponse = UsageListResult;
 
 /** Optional parameters. */
-export interface OperationsListOptionalParams
-  extends coreClient.OperationOptions {}
+export interface OperationsListOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the list operation. */
 export type OperationsListResponse = OperationListResult;
 
 /** Optional parameters. */
-export interface OperationsListNextOptionalParams
-  extends coreClient.OperationOptions {}
+export interface OperationsListNextOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
 export type OperationsListNextResponse = OperationListResult;
 
 /** Optional parameters. */
-export interface CheckSkuAvailabilityOptionalParams
-  extends coreClient.OperationOptions {}
+export interface CheckSkuAvailabilityOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the checkSkuAvailability operation. */
 export type CheckSkuAvailabilityResponse = SkuAvailabilityListResult;
 
 /** Optional parameters. */
-export interface CheckDomainAvailabilityOptionalParams
-  extends coreClient.OperationOptions {
+export interface CheckDomainAvailabilityOptionalParams extends coreClient.OperationOptions {
   /** The Kind of the resource. */
   kind?: string;
 }
@@ -2528,8 +3411,7 @@ export interface CheckDomainAvailabilityOptionalParams
 export type CheckDomainAvailabilityResponse = DomainAvailability;
 
 /** Optional parameters. */
-export interface CalculateModelCapacityOptionalParams
-  extends coreClient.OperationOptions {
+export interface CalculateModelCapacityOptionalParams extends coreClient.OperationOptions {
   /** Properties of Cognitive Services account deployment model. */
   model?: DeploymentModel;
   /** The name of SKU. */
@@ -2542,15 +3424,13 @@ export interface CalculateModelCapacityOptionalParams
 export type CalculateModelCapacityResponse = CalculateModelCapacityResult;
 
 /** Optional parameters. */
-export interface CommitmentTiersListOptionalParams
-  extends coreClient.OperationOptions {}
+export interface CommitmentTiersListOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the list operation. */
 export type CommitmentTiersListResponse = CommitmentTierListResult;
 
 /** Optional parameters. */
-export interface CommitmentTiersListNextOptionalParams
-  extends coreClient.OperationOptions {}
+export interface CommitmentTiersListNextOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
 export type CommitmentTiersListNextResponse = CommitmentTierListResult;
@@ -2562,8 +3442,7 @@ export interface ModelsListOptionalParams extends coreClient.OperationOptions {}
 export type ModelsListResponse = ModelListResult;
 
 /** Optional parameters. */
-export interface ModelsListNextOptionalParams
-  extends coreClient.OperationOptions {}
+export interface ModelsListNextOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
 export type ModelsListNextResponse = ModelListResult;
@@ -2580,34 +3459,28 @@ export interface LocationBasedModelCapacitiesListNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
-export type LocationBasedModelCapacitiesListNextResponse =
-  ModelCapacityListResult;
+export type LocationBasedModelCapacitiesListNextResponse = ModelCapacityListResult;
 
 /** Optional parameters. */
-export interface ModelCapacitiesListOptionalParams
-  extends coreClient.OperationOptions {}
+export interface ModelCapacitiesListOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the list operation. */
 export type ModelCapacitiesListResponse = ModelCapacityListResult;
 
 /** Optional parameters. */
-export interface ModelCapacitiesListNextOptionalParams
-  extends coreClient.OperationOptions {}
+export interface ModelCapacitiesListNextOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
 export type ModelCapacitiesListNextResponse = ModelCapacityListResult;
 
 /** Optional parameters. */
-export interface PrivateEndpointConnectionsListOptionalParams
-  extends coreClient.OperationOptions {}
+export interface PrivateEndpointConnectionsListOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the list operation. */
-export type PrivateEndpointConnectionsListResponse =
-  PrivateEndpointConnectionListResult;
+export type PrivateEndpointConnectionsListResponse = PrivateEndpointConnectionListResult;
 
 /** Optional parameters. */
-export interface PrivateEndpointConnectionsGetOptionalParams
-  extends coreClient.OperationOptions {}
+export interface PrivateEndpointConnectionsGetOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the get operation. */
 export type PrivateEndpointConnectionsGetResponse = PrivateEndpointConnection;
@@ -2622,8 +3495,7 @@ export interface PrivateEndpointConnectionsCreateOrUpdateOptionalParams
 }
 
 /** Contains response data for the createOrUpdate operation. */
-export type PrivateEndpointConnectionsCreateOrUpdateResponse =
-  PrivateEndpointConnection;
+export type PrivateEndpointConnectionsCreateOrUpdateResponse = PrivateEndpointConnection;
 
 /** Optional parameters. */
 export interface PrivateEndpointConnectionsDeleteOptionalParams
@@ -2635,29 +3507,25 @@ export interface PrivateEndpointConnectionsDeleteOptionalParams
 }
 
 /** Optional parameters. */
-export interface PrivateLinkResourcesListOptionalParams
-  extends coreClient.OperationOptions {}
+export interface PrivateLinkResourcesListOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the list operation. */
 export type PrivateLinkResourcesListResponse = PrivateLinkResourceListResult;
 
 /** Optional parameters. */
-export interface DeploymentsListOptionalParams
-  extends coreClient.OperationOptions {}
+export interface DeploymentsListOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the list operation. */
 export type DeploymentsListResponse = DeploymentListResult;
 
 /** Optional parameters. */
-export interface DeploymentsGetOptionalParams
-  extends coreClient.OperationOptions {}
+export interface DeploymentsGetOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the get operation. */
 export type DeploymentsGetResponse = Deployment;
 
 /** Optional parameters. */
-export interface DeploymentsCreateOrUpdateOptionalParams
-  extends coreClient.OperationOptions {
+export interface DeploymentsCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
   /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
@@ -2668,8 +3536,7 @@ export interface DeploymentsCreateOrUpdateOptionalParams
 export type DeploymentsCreateOrUpdateResponse = Deployment;
 
 /** Optional parameters. */
-export interface DeploymentsUpdateOptionalParams
-  extends coreClient.OperationOptions {
+export interface DeploymentsUpdateOptionalParams extends coreClient.OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
   /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
@@ -2680,8 +3547,7 @@ export interface DeploymentsUpdateOptionalParams
 export type DeploymentsUpdateResponse = Deployment;
 
 /** Optional parameters. */
-export interface DeploymentsDeleteOptionalParams
-  extends coreClient.OperationOptions {
+export interface DeploymentsDeleteOptionalParams extends coreClient.OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
   /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
@@ -2689,50 +3555,43 @@ export interface DeploymentsDeleteOptionalParams
 }
 
 /** Optional parameters. */
-export interface DeploymentsListSkusOptionalParams
-  extends coreClient.OperationOptions {}
+export interface DeploymentsListSkusOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the listSkus operation. */
 export type DeploymentsListSkusResponse = DeploymentSkuListResult;
 
 /** Optional parameters. */
-export interface DeploymentsListNextOptionalParams
-  extends coreClient.OperationOptions {}
+export interface DeploymentsListNextOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
 export type DeploymentsListNextResponse = DeploymentListResult;
 
 /** Optional parameters. */
-export interface DeploymentsListSkusNextOptionalParams
-  extends coreClient.OperationOptions {}
+export interface DeploymentsListSkusNextOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the listSkusNext operation. */
 export type DeploymentsListSkusNextResponse = DeploymentSkuListResult;
 
 /** Optional parameters. */
-export interface CommitmentPlansListOptionalParams
-  extends coreClient.OperationOptions {}
+export interface CommitmentPlansListOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the list operation. */
 export type CommitmentPlansListResponse = CommitmentPlanListResult;
 
 /** Optional parameters. */
-export interface CommitmentPlansGetOptionalParams
-  extends coreClient.OperationOptions {}
+export interface CommitmentPlansGetOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the get operation. */
 export type CommitmentPlansGetResponse = CommitmentPlan;
 
 /** Optional parameters. */
-export interface CommitmentPlansCreateOrUpdateOptionalParams
-  extends coreClient.OperationOptions {}
+export interface CommitmentPlansCreateOrUpdateOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the createOrUpdate operation. */
 export type CommitmentPlansCreateOrUpdateResponse = CommitmentPlan;
 
 /** Optional parameters. */
-export interface CommitmentPlansDeleteOptionalParams
-  extends coreClient.OperationOptions {
+export interface CommitmentPlansDeleteOptionalParams extends coreClient.OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
   /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
@@ -2752,8 +3611,7 @@ export interface CommitmentPlansCreateOrUpdatePlanOptionalParams
 export type CommitmentPlansCreateOrUpdatePlanResponse = CommitmentPlan;
 
 /** Optional parameters. */
-export interface CommitmentPlansUpdatePlanOptionalParams
-  extends coreClient.OperationOptions {
+export interface CommitmentPlansUpdatePlanOptionalParams extends coreClient.OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
   /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
@@ -2764,8 +3622,7 @@ export interface CommitmentPlansUpdatePlanOptionalParams
 export type CommitmentPlansUpdatePlanResponse = CommitmentPlan;
 
 /** Optional parameters. */
-export interface CommitmentPlansDeletePlanOptionalParams
-  extends coreClient.OperationOptions {
+export interface CommitmentPlansDeletePlanOptionalParams extends coreClient.OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
   /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
@@ -2773,8 +3630,7 @@ export interface CommitmentPlansDeletePlanOptionalParams
 }
 
 /** Optional parameters. */
-export interface CommitmentPlansGetPlanOptionalParams
-  extends coreClient.OperationOptions {}
+export interface CommitmentPlansGetPlanOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the getPlan operation. */
 export type CommitmentPlansGetPlanResponse = CommitmentPlan;
@@ -2784,32 +3640,27 @@ export interface CommitmentPlansListPlansByResourceGroupOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listPlansByResourceGroup operation. */
-export type CommitmentPlansListPlansByResourceGroupResponse =
-  CommitmentPlanListResult;
+export type CommitmentPlansListPlansByResourceGroupResponse = CommitmentPlanListResult;
 
 /** Optional parameters. */
 export interface CommitmentPlansListPlansBySubscriptionOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listPlansBySubscription operation. */
-export type CommitmentPlansListPlansBySubscriptionResponse =
-  CommitmentPlanListResult;
+export type CommitmentPlansListPlansBySubscriptionResponse = CommitmentPlanListResult;
 
 /** Optional parameters. */
 export interface CommitmentPlansListAssociationsOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listAssociations operation. */
-export type CommitmentPlansListAssociationsResponse =
-  CommitmentPlanAccountAssociationListResult;
+export type CommitmentPlansListAssociationsResponse = CommitmentPlanAccountAssociationListResult;
 
 /** Optional parameters. */
-export interface CommitmentPlansGetAssociationOptionalParams
-  extends coreClient.OperationOptions {}
+export interface CommitmentPlansGetAssociationOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the getAssociation operation. */
-export type CommitmentPlansGetAssociationResponse =
-  CommitmentPlanAccountAssociation;
+export type CommitmentPlansGetAssociationResponse = CommitmentPlanAccountAssociation;
 
 /** Optional parameters. */
 export interface CommitmentPlansCreateOrUpdateAssociationOptionalParams
@@ -2821,8 +3672,7 @@ export interface CommitmentPlansCreateOrUpdateAssociationOptionalParams
 }
 
 /** Contains response data for the createOrUpdateAssociation operation. */
-export type CommitmentPlansCreateOrUpdateAssociationResponse =
-  CommitmentPlanAccountAssociation;
+export type CommitmentPlansCreateOrUpdateAssociationResponse = CommitmentPlanAccountAssociation;
 
 /** Optional parameters. */
 export interface CommitmentPlansDeleteAssociationOptionalParams
@@ -2834,8 +3684,7 @@ export interface CommitmentPlansDeleteAssociationOptionalParams
 }
 
 /** Optional parameters. */
-export interface CommitmentPlansListNextOptionalParams
-  extends coreClient.OperationOptions {}
+export interface CommitmentPlansListNextOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
 export type CommitmentPlansListNextResponse = CommitmentPlanListResult;
@@ -2845,16 +3694,14 @@ export interface CommitmentPlansListPlansByResourceGroupNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listPlansByResourceGroupNext operation. */
-export type CommitmentPlansListPlansByResourceGroupNextResponse =
-  CommitmentPlanListResult;
+export type CommitmentPlansListPlansByResourceGroupNextResponse = CommitmentPlanListResult;
 
 /** Optional parameters. */
 export interface CommitmentPlansListPlansBySubscriptionNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listPlansBySubscriptionNext operation. */
-export type CommitmentPlansListPlansBySubscriptionNextResponse =
-  CommitmentPlanListResult;
+export type CommitmentPlansListPlansBySubscriptionNextResponse = CommitmentPlanListResult;
 
 /** Optional parameters. */
 export interface CommitmentPlansListAssociationsNextOptionalParams
@@ -2865,29 +3712,25 @@ export type CommitmentPlansListAssociationsNextResponse =
   CommitmentPlanAccountAssociationListResult;
 
 /** Optional parameters. */
-export interface EncryptionScopesListOptionalParams
-  extends coreClient.OperationOptions {}
+export interface EncryptionScopesListOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the list operation. */
 export type EncryptionScopesListResponse = EncryptionScopeListResult;
 
 /** Optional parameters. */
-export interface EncryptionScopesGetOptionalParams
-  extends coreClient.OperationOptions {}
+export interface EncryptionScopesGetOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the get operation. */
 export type EncryptionScopesGetResponse = EncryptionScope;
 
 /** Optional parameters. */
-export interface EncryptionScopesCreateOrUpdateOptionalParams
-  extends coreClient.OperationOptions {}
+export interface EncryptionScopesCreateOrUpdateOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the createOrUpdate operation. */
 export type EncryptionScopesCreateOrUpdateResponse = EncryptionScope;
 
 /** Optional parameters. */
-export interface EncryptionScopesDeleteOptionalParams
-  extends coreClient.OperationOptions {
+export interface EncryptionScopesDeleteOptionalParams extends coreClient.OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
   /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
@@ -2898,36 +3741,31 @@ export interface EncryptionScopesDeleteOptionalParams
 export type EncryptionScopesDeleteResponse = EncryptionScopesDeleteHeaders;
 
 /** Optional parameters. */
-export interface EncryptionScopesListNextOptionalParams
-  extends coreClient.OperationOptions {}
+export interface EncryptionScopesListNextOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
 export type EncryptionScopesListNextResponse = EncryptionScopeListResult;
 
 /** Optional parameters. */
-export interface RaiPoliciesListOptionalParams
-  extends coreClient.OperationOptions {}
+export interface RaiPoliciesListOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the list operation. */
 export type RaiPoliciesListResponse = RaiPolicyListResult;
 
 /** Optional parameters. */
-export interface RaiPoliciesGetOptionalParams
-  extends coreClient.OperationOptions {}
+export interface RaiPoliciesGetOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the get operation. */
 export type RaiPoliciesGetResponse = RaiPolicy;
 
 /** Optional parameters. */
-export interface RaiPoliciesCreateOrUpdateOptionalParams
-  extends coreClient.OperationOptions {}
+export interface RaiPoliciesCreateOrUpdateOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the createOrUpdate operation. */
 export type RaiPoliciesCreateOrUpdateResponse = RaiPolicy;
 
 /** Optional parameters. */
-export interface RaiPoliciesDeleteOptionalParams
-  extends coreClient.OperationOptions {
+export interface RaiPoliciesDeleteOptionalParams extends coreClient.OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
   /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
@@ -2938,36 +3776,31 @@ export interface RaiPoliciesDeleteOptionalParams
 export type RaiPoliciesDeleteResponse = RaiPoliciesDeleteHeaders;
 
 /** Optional parameters. */
-export interface RaiPoliciesListNextOptionalParams
-  extends coreClient.OperationOptions {}
+export interface RaiPoliciesListNextOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
 export type RaiPoliciesListNextResponse = RaiPolicyListResult;
 
 /** Optional parameters. */
-export interface RaiBlocklistsListOptionalParams
-  extends coreClient.OperationOptions {}
+export interface RaiBlocklistsListOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the list operation. */
 export type RaiBlocklistsListResponse = RaiBlockListResult;
 
 /** Optional parameters. */
-export interface RaiBlocklistsGetOptionalParams
-  extends coreClient.OperationOptions {}
+export interface RaiBlocklistsGetOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the get operation. */
 export type RaiBlocklistsGetResponse = RaiBlocklist;
 
 /** Optional parameters. */
-export interface RaiBlocklistsCreateOrUpdateOptionalParams
-  extends coreClient.OperationOptions {}
+export interface RaiBlocklistsCreateOrUpdateOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the createOrUpdate operation. */
 export type RaiBlocklistsCreateOrUpdateResponse = RaiBlocklist;
 
 /** Optional parameters. */
-export interface RaiBlocklistsDeleteOptionalParams
-  extends coreClient.OperationOptions {
+export interface RaiBlocklistsDeleteOptionalParams extends coreClient.OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
   /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
@@ -2978,22 +3811,19 @@ export interface RaiBlocklistsDeleteOptionalParams
 export type RaiBlocklistsDeleteResponse = RaiBlocklistsDeleteHeaders;
 
 /** Optional parameters. */
-export interface RaiBlocklistsListNextOptionalParams
-  extends coreClient.OperationOptions {}
+export interface RaiBlocklistsListNextOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
 export type RaiBlocklistsListNextResponse = RaiBlockListResult;
 
 /** Optional parameters. */
-export interface RaiBlocklistItemsListOptionalParams
-  extends coreClient.OperationOptions {}
+export interface RaiBlocklistItemsListOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the list operation. */
 export type RaiBlocklistItemsListResponse = RaiBlockListItemsResult;
 
 /** Optional parameters. */
-export interface RaiBlocklistItemsGetOptionalParams
-  extends coreClient.OperationOptions {}
+export interface RaiBlocklistItemsGetOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the get operation. */
 export type RaiBlocklistItemsGetResponse = RaiBlocklistItem;
@@ -3006,8 +3836,7 @@ export interface RaiBlocklistItemsCreateOrUpdateOptionalParams
 export type RaiBlocklistItemsCreateOrUpdateResponse = RaiBlocklistItem;
 
 /** Optional parameters. */
-export interface RaiBlocklistItemsDeleteOptionalParams
-  extends coreClient.OperationOptions {
+export interface RaiBlocklistItemsDeleteOptionalParams extends coreClient.OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
   /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
@@ -3018,40 +3847,34 @@ export interface RaiBlocklistItemsDeleteOptionalParams
 export type RaiBlocklistItemsDeleteResponse = RaiBlocklistItemsDeleteHeaders;
 
 /** Optional parameters. */
-export interface RaiBlocklistItemsBatchAddOptionalParams
-  extends coreClient.OperationOptions {}
+export interface RaiBlocklistItemsBatchAddOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the batchAdd operation. */
 export type RaiBlocklistItemsBatchAddResponse = RaiBlocklist;
 
 /** Optional parameters. */
-export interface RaiBlocklistItemsBatchDeleteOptionalParams
-  extends coreClient.OperationOptions {}
+export interface RaiBlocklistItemsBatchDeleteOptionalParams extends coreClient.OperationOptions {}
 
 /** Optional parameters. */
-export interface RaiBlocklistItemsListNextOptionalParams
-  extends coreClient.OperationOptions {}
+export interface RaiBlocklistItemsListNextOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
 export type RaiBlocklistItemsListNextResponse = RaiBlockListItemsResult;
 
 /** Optional parameters. */
-export interface RaiContentFiltersListOptionalParams
-  extends coreClient.OperationOptions {}
+export interface RaiContentFiltersListOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the list operation. */
 export type RaiContentFiltersListResponse = RaiContentFilterListResult;
 
 /** Optional parameters. */
-export interface RaiContentFiltersGetOptionalParams
-  extends coreClient.OperationOptions {}
+export interface RaiContentFiltersGetOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the get operation. */
 export type RaiContentFiltersGetResponse = RaiContentFilter;
 
 /** Optional parameters. */
-export interface RaiContentFiltersListNextOptionalParams
-  extends coreClient.OperationOptions {}
+export interface RaiContentFiltersListNextOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
 export type RaiContentFiltersListNextResponse = RaiContentFilterListResult;
@@ -3094,15 +3917,13 @@ export type NetworkSecurityPerimeterConfigurationsListNextResponse =
   NetworkSecurityPerimeterConfigurationList;
 
 /** Optional parameters. */
-export interface DefenderForAISettingsListOptionalParams
-  extends coreClient.OperationOptions {}
+export interface DefenderForAISettingsListOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the list operation. */
 export type DefenderForAISettingsListResponse = DefenderForAISettingResult;
 
 /** Optional parameters. */
-export interface DefenderForAISettingsGetOptionalParams
-  extends coreClient.OperationOptions {}
+export interface DefenderForAISettingsGetOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the get operation. */
 export type DefenderForAISettingsGetResponse = DefenderForAISetting;
@@ -3115,18 +3936,216 @@ export interface DefenderForAISettingsCreateOrUpdateOptionalParams
 export type DefenderForAISettingsCreateOrUpdateResponse = DefenderForAISetting;
 
 /** Optional parameters. */
-export interface DefenderForAISettingsUpdateOptionalParams
-  extends coreClient.OperationOptions {}
+export interface DefenderForAISettingsUpdateOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the update operation. */
 export type DefenderForAISettingsUpdateResponse = DefenderForAISetting;
 
 /** Optional parameters. */
-export interface DefenderForAISettingsListNextOptionalParams
-  extends coreClient.OperationOptions {}
+export interface DefenderForAISettingsListNextOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
 export type DefenderForAISettingsListNextResponse = DefenderForAISettingResult;
+
+/** Optional parameters. */
+export interface ProjectsCreateOptionalParams extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the create operation. */
+export type ProjectsCreateResponse = Project;
+
+/** Optional parameters. */
+export interface ProjectsUpdateOptionalParams extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the update operation. */
+export type ProjectsUpdateResponse = Project;
+
+/** Optional parameters. */
+export interface ProjectsDeleteOptionalParams extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Optional parameters. */
+export interface ProjectsGetOptionalParams extends coreClient.OperationOptions {}
+
+/** Contains response data for the get operation. */
+export type ProjectsGetResponse = Project;
+
+/** Optional parameters. */
+export interface ProjectsListOptionalParams extends coreClient.OperationOptions {}
+
+/** Contains response data for the list operation. */
+export type ProjectsListResponse = ProjectListResult;
+
+/** Optional parameters. */
+export interface ProjectsListNextOptionalParams extends coreClient.OperationOptions {}
+
+/** Contains response data for the listNext operation. */
+export type ProjectsListNextResponse = ProjectListResult;
+
+/** Optional parameters. */
+export interface AccountConnectionDeleteOptionalParams extends coreClient.OperationOptions {}
+
+/** Optional parameters. */
+export interface AccountConnectionGetOptionalParams extends coreClient.OperationOptions {}
+
+/** Contains response data for the get operation. */
+export type AccountConnectionGetResponse = ConnectionPropertiesV2BasicResource;
+
+/** Optional parameters. */
+export interface AccountConnectionUpdateOptionalParams extends coreClient.OperationOptions {
+  /** Parameters for account connection update. */
+  body?: ConnectionUpdateContent;
+}
+
+/** Contains response data for the update operation. */
+export type AccountConnectionUpdateResponse = ConnectionPropertiesV2BasicResource;
+
+/** Optional parameters. */
+export interface AccountConnectionCreateOptionalParams extends coreClient.OperationOptions {
+  /** The object for creating or updating a new account connection */
+  body?: ConnectionPropertiesV2BasicResource;
+}
+
+/** Contains response data for the create operation. */
+export type AccountConnectionCreateResponse = ConnectionPropertiesV2BasicResource;
+
+/** Optional parameters. */
+export interface AccountConnectionListOptionalParams extends coreClient.OperationOptions {
+  /** Target of the connection. */
+  target?: string;
+  /** Category of the connection. */
+  category?: string;
+  /** query parameter that indicates if get connection call should return both connections and datastores */
+  includeAll?: boolean;
+}
+
+/** Contains response data for the list operation. */
+export type AccountConnectionListResponse = ConnectionPropertiesV2BasicResourceArmPaginatedResult;
+
+/** Optional parameters. */
+export interface AccountConnectionListNextOptionalParams extends coreClient.OperationOptions {}
+
+/** Contains response data for the listNext operation. */
+export type AccountConnectionListNextResponse =
+  ConnectionPropertiesV2BasicResourceArmPaginatedResult;
+
+/** Optional parameters. */
+export interface ProjectConnectionDeleteOptionalParams extends coreClient.OperationOptions {}
+
+/** Optional parameters. */
+export interface ProjectConnectionGetOptionalParams extends coreClient.OperationOptions {}
+
+/** Contains response data for the get operation. */
+export type ProjectConnectionGetResponse = ConnectionPropertiesV2BasicResource;
+
+/** Optional parameters. */
+export interface ProjectConnectionUpdateOptionalParams extends coreClient.OperationOptions {
+  /** Parameters for account connection update. */
+  body?: ConnectionUpdateContent;
+}
+
+/** Contains response data for the update operation. */
+export type ProjectConnectionUpdateResponse = ConnectionPropertiesV2BasicResource;
+
+/** Optional parameters. */
+export interface ProjectConnectionCreateOptionalParams extends coreClient.OperationOptions {
+  /** The object for creating or updating a new account connection */
+  body?: ConnectionPropertiesV2BasicResource;
+}
+
+/** Contains response data for the create operation. */
+export type ProjectConnectionCreateResponse = ConnectionPropertiesV2BasicResource;
+
+/** Optional parameters. */
+export interface ProjectConnectionListOptionalParams extends coreClient.OperationOptions {
+  /** Target of the connection. */
+  target?: string;
+  /** Category of the connection. */
+  category?: string;
+  /** query parameter that indicates if get connection call should return both connections and datastores */
+  includeAll?: boolean;
+}
+
+/** Contains response data for the list operation. */
+export type ProjectConnectionListResponse = ConnectionPropertiesV2BasicResourceArmPaginatedResult;
+
+/** Optional parameters. */
+export interface ProjectConnectionListNextOptionalParams extends coreClient.OperationOptions {}
+
+/** Contains response data for the listNext operation. */
+export type ProjectConnectionListNextResponse =
+  ConnectionPropertiesV2BasicResourceArmPaginatedResult;
+
+/** Optional parameters. */
+export interface AccountCapabilityHostsDeleteOptionalParams extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the delete operation. */
+export type AccountCapabilityHostsDeleteResponse = AccountCapabilityHostsDeleteHeaders;
+
+/** Optional parameters. */
+export interface AccountCapabilityHostsGetOptionalParams extends coreClient.OperationOptions {}
+
+/** Contains response data for the get operation. */
+export type AccountCapabilityHostsGetResponse = CapabilityHost;
+
+/** Optional parameters. */
+export interface AccountCapabilityHostsCreateOrUpdateOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the createOrUpdate operation. */
+export type AccountCapabilityHostsCreateOrUpdateResponse = CapabilityHost;
+
+/** Optional parameters. */
+export interface ProjectCapabilityHostsDeleteOptionalParams extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the delete operation. */
+export type ProjectCapabilityHostsDeleteResponse = ProjectCapabilityHostsDeleteHeaders;
+
+/** Optional parameters. */
+export interface ProjectCapabilityHostsGetOptionalParams extends coreClient.OperationOptions {}
+
+/** Contains response data for the get operation. */
+export type ProjectCapabilityHostsGetResponse = CapabilityHost;
+
+/** Optional parameters. */
+export interface ProjectCapabilityHostsCreateOrUpdateOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the createOrUpdate operation. */
+export type ProjectCapabilityHostsCreateOrUpdateResponse = CapabilityHost;
 
 /** Optional parameters. */
 export interface CognitiveServicesManagementClientOptionalParams

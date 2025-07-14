@@ -80,7 +80,7 @@ export interface Identity {
 }
 
 // @public
-interface Image_2 extends ProxyResource {
+export interface Image extends ProxyResource {
     readonly author?: string;
     availableRegions?: string[];
     readonly description?: string;
@@ -99,7 +99,6 @@ interface Image_2 extends ProxyResource {
     readonly termsStatus?: EnableState;
     readonly version?: string;
 }
-export { Image_2 as Image }
 
 // @public
 export interface ImageProperties extends ImageUpdateProperties {
@@ -132,9 +131,9 @@ export interface ImageReference {
 
 // @public
 export interface Images {
-    createOrUpdate(resourceGroupName: string, labPlanName: string, imageName: string, body: Image_2, options?: ImagesCreateOrUpdateOptionalParams): Promise<ImagesCreateOrUpdateResponse>;
+    createOrUpdate(resourceGroupName: string, labPlanName: string, imageName: string, body: Image, options?: ImagesCreateOrUpdateOptionalParams): Promise<ImagesCreateOrUpdateResponse>;
     get(resourceGroupName: string, labPlanName: string, imageName: string, options?: ImagesGetOptionalParams): Promise<ImagesGetResponse>;
-    listByLabPlan(resourceGroupName: string, labPlanName: string, options?: ImagesListByLabPlanOptionalParams): PagedAsyncIterableIterator<Image_2>;
+    listByLabPlan(resourceGroupName: string, labPlanName: string, options?: ImagesListByLabPlanOptionalParams): PagedAsyncIterableIterator<Image>;
     update(resourceGroupName: string, labPlanName: string, imageName: string, body: ImageUpdate, options?: ImagesUpdateOptionalParams): Promise<ImagesUpdateResponse>;
 }
 
@@ -143,14 +142,14 @@ export interface ImagesCreateOrUpdateOptionalParams extends coreClient.Operation
 }
 
 // @public
-export type ImagesCreateOrUpdateResponse = Image_2;
+export type ImagesCreateOrUpdateResponse = Image;
 
 // @public
 export interface ImagesGetOptionalParams extends coreClient.OperationOptions {
 }
 
 // @public
-export type ImagesGetResponse = Image_2;
+export type ImagesGetResponse = Image;
 
 // @public
 export interface ImagesListByLabPlanNextOptionalParams extends coreClient.OperationOptions {
@@ -172,7 +171,7 @@ export interface ImagesUpdateOptionalParams extends coreClient.OperationOptions 
 }
 
 // @public
-export type ImagesUpdateResponse = Image_2;
+export type ImagesUpdateResponse = Image;
 
 // @public
 export interface ImageUpdate {
@@ -684,7 +683,7 @@ export type OsType = "Windows" | "Linux";
 // @public
 export interface PagedImages {
     readonly nextLink?: string;
-    readonly value?: Image_2[];
+    readonly value?: Image[];
 }
 
 // @public

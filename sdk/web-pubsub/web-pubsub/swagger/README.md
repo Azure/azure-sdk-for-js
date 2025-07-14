@@ -12,9 +12,9 @@ generate-metadata: false
 license-header: MICROSOFT_MIT_NO_VERSION
 output-folder: ../
 source-code-folder-path: ./src/generated
-input-file: https://raw.githubusercontent.com/Azure/azure-rest-api-specs/main/specification/webpubsub/data-plane/WebPubSub/stable/2024-01-01/webpubsub.json
+input-file: https://raw.githubusercontent.com/Azure/azure-rest-api-specs/main/specification/webpubsub/data-plane/WebPubSub/stable/2024-12-01/webpubsub.json
 add-credentials: false
-package-version: 1.1.4
+package-version: 1.2.0
 v3: true
 hide-clients: true
 use-core-v2: true
@@ -78,4 +78,22 @@ directive:
           }
         }
       }
+```
+
+### Rename "maxpagesize" to camel case
+```yaml
+directive:
+  from: swagger-document
+  where: '$.paths["/api/hubs/{hub}/groups/{group}/connections"].get.parameters[2]'
+  transform: >
+    $["x-ms-client-name"] = "maxPageSize";
+```
+
+### Rename "GroupMember" to "WebPubSubGroupMember"
+```yaml
+directive:
+  from: swagger-document
+  where: "$.definitions.GroupMember"
+  transform: >
+    $["x-ms-client-name"] = "WebPubSubGroupMember";
 ```

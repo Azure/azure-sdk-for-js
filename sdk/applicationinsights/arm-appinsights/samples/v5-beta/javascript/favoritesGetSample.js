@@ -6,10 +6,9 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
 const { ApplicationInsightsManagementClient } = require("@azure/arm-appinsights");
 const { DefaultAzureCredential } = require("@azure/identity");
+require("dotenv/config");
 
 /**
  * This sample demonstrates how to Get a single favorite by its FavoriteId, defined within an Application Insights component.
@@ -18,8 +17,9 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * x-ms-original-file: specification/applicationinsights/resource-manager/Microsoft.Insights/stable/2015-05-01/examples/FavoriteGet.json
  */
 async function favoriteGet() {
-  const subscriptionId = "subid";
-  const resourceGroupName = "my-resource-group";
+  const subscriptionId = process.env["APPLICATIONINSIGHTS_SUBSCRIPTION_ID"] || "subid";
+  const resourceGroupName =
+    process.env["APPLICATIONINSIGHTS_RESOURCE_GROUP"] || "my-resource-group";
   const resourceName = "my-ai-component";
   const favoriteId = "deadb33f-5e0d-4064-8ebb-1a4ed0313eb2";
   const credential = new DefaultAzureCredential();
@@ -28,4 +28,8 @@ async function favoriteGet() {
   console.log(result);
 }
 
-favoriteGet().catch(console.error);
+async function main() {
+  await favoriteGet();
+}
+
+main().catch(console.error);

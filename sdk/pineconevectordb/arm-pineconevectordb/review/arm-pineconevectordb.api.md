@@ -25,6 +25,26 @@ export type ContinuablePage<TElement, TPage = TElement[]> = TPage & {
 export type CreatedByType = string;
 
 // @public
+export interface ErrorAdditionalInfo {
+    readonly info?: Record<string, any>;
+    readonly type?: string;
+}
+
+// @public
+export interface ErrorDetail {
+    readonly additionalInfo?: ErrorAdditionalInfo[];
+    readonly code?: string;
+    readonly details?: ErrorDetail[];
+    readonly message?: string;
+    readonly target?: string;
+}
+
+// @public
+export interface ErrorResponse {
+    error?: ErrorDetail;
+}
+
+// @public
 export enum KnownActionType {
     Internal = "Internal"
 }
@@ -82,7 +102,7 @@ export enum KnownSingleSignOnType {
 
 // @public
 export enum KnownVersions {
-    V2024_10_22_Preview = "2024-10-22-preview"
+    V20241022Preview = "2024-10-22-preview"
 }
 
 // @public
@@ -99,7 +119,7 @@ export type ManagedServiceIdentityType = string;
 // @public
 export interface MarketplaceDetails {
     offerDetails: OfferDetails;
-    subscriptionId: string;
+    subscriptionId?: string;
     readonly subscriptionStatus?: MarketplaceSubscriptionStatus;
 }
 
@@ -279,9 +299,9 @@ export interface UserAssignedIdentity {
 
 // @public
 export interface UserDetails {
-    emailAddress: string;
-    firstName: string;
-    lastName: string;
+    emailAddress?: string;
+    firstName?: string;
+    lastName?: string;
     phoneNumber?: string;
     upn?: string;
 }

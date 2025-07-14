@@ -6,7 +6,9 @@ import { createPipelineRequest } from "@azure/core-rest-pipeline";
 import { isLiveMode } from "@azure-tools/test-recorder";
 import { describe, it, assert } from "vitest";
 
-describe("AzureWebApps Integration test", function () {
+// TODO: Currently cannot deploy the Azure Web App, always return 504
+// https://github.com/Azure/webapps-deploy/issues/229
+describe.skip("AzureWebApps Integration test", function () {
   it.skipIf(!isLiveMode())(
     "test the Azure Web Apps endpoint where the MI credential is used.",
     async function () {

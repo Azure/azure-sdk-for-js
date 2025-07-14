@@ -16,7 +16,7 @@ import "dotenv/config";
  * This sample demonstrates how to Regenerate the local user SSH password.
  *
  * @summary Regenerate the local user SSH password.
- * x-ms-original-file: specification/storage/resource-manager/Microsoft.Storage/stable/2023-05-01/examples/LocalUserRegeneratePassword.json
+ * x-ms-original-file: specification/storage/resource-manager/Microsoft.Storage/stable/2024-01-01/examples/LocalUserRegeneratePassword.json
  */
 async function regenerateLocalUserPassword(): Promise<void> {
   const subscriptionId =
@@ -35,7 +35,7 @@ async function regenerateLocalUserPassword(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  regenerateLocalUserPassword();
+  await regenerateLocalUserPassword();
 }
 
 main().catch(console.error);

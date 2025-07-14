@@ -15,14 +15,14 @@ import {
 export interface SupportedOperatingSystemsOperations {
   /**
    * Gets the data of supported operating systems by SRS.
-   * @param resourceName The name of the recovery services vault.
    * @param resourceGroupName The name of the resource group where the recovery services vault is
    *                          present.
+   * @param resourceName The name of the recovery services vault.
    * @param options The options parameters.
    */
   get(
-    resourceName: string,
     resourceGroupName: string,
+    resourceName: string,
     options?: SupportedOperatingSystemsGetOptionalParams,
   ): Promise<SupportedOperatingSystemsGetResponse>;
 }

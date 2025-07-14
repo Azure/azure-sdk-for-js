@@ -1,13 +1,13 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import type { PartitionKey } from "../../documents";
-import type { FeedRange } from "./FeedRange";
-import { ChangeFeedStartFromNow } from "./ChangeFeedStartFromNow";
-import { ChangeFeedStartFromBeginning } from "./ChangeFeedStartFromBeginning";
-import { ChangeFeedStartFromTime } from "./ChangeFeedStartFromTime";
-import { ChangeFeedStartFromContinuation } from "./ChangeFeedStartFromContinuation";
-import { ErrorResponse } from "../../request/ErrorResponse";
-import { isNullOrEmpty } from "./changeFeedUtils";
+import type { PartitionKey } from "../../documents/index.js";
+import type { FeedRange } from "./FeedRange.js";
+import { ChangeFeedStartFromNow } from "./ChangeFeedStartFromNow.js";
+import { ChangeFeedStartFromBeginning } from "./ChangeFeedStartFromBeginning.js";
+import { ChangeFeedStartFromTime } from "./ChangeFeedStartFromTime.js";
+import { ChangeFeedStartFromContinuation } from "./ChangeFeedStartFromContinuation.js";
+import { ErrorResponse } from "../../request/ErrorResponse.js";
+import { isNullOrEmpty } from "./changeFeedUtils.js";
 
 /**
  * Base class for where to start a ChangeFeedIterator.
