@@ -5,6 +5,7 @@ import { Constants } from "../../../src/common/constants.js";
 import { getUserAgent } from "../../../src/common/platform.js";
 import { describe, it, assert } from "vitest";
 import packageJson from "../../../package.json" with { type: "json" };
+import { CosmosClientOptions } from "../../../src/index.js";
 
 const packageVersion = packageJson["version"];
 const constantVersion = Constants.SDKVersion;
@@ -20,7 +21,10 @@ describe("getUserAgent", () => {
 
   it("should allow a custom suffix", () => {
     const suffix = "myApp";
-    assert(getUserAgent(suffix).includes(suffix));
+    const options: CosmosClientOptions = {
+      userAgentSuffix: suffix,
+    };
+    assert(getUserAgent(options).includes(suffix));
   });
 });
 
