@@ -8,6 +8,7 @@ import nock from "nock";
 import { successfulBreezeResponse } from "../../utils/breezeTestUtils.js";
 import type { TelemetryItem as Envelope } from "../../../src/generated/index.js";
 import { describe, it, beforeAll, afterAll } from "vitest";
+import { delay } from "@azure/core-util";
 
 describe("Log Exporter Scenarios", () => {
   describe(LogBasicScenario.prototype.constructor.name, () => {
@@ -41,6 +42,8 @@ describe("Log Exporter Scenarios", () => {
         assertLogExpectation(ingest, scenario.expectation);
         assertCount(ingest, scenario.expectation);
       }, 100);
+
+      await delay(200); // wait enough time for timeout callback
     });
   });
 });

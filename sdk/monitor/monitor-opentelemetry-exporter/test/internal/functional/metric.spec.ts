@@ -8,6 +8,7 @@ import nock from "nock";
 import { successfulBreezeResponse } from "../../utils/breezeTestUtils.js";
 import type { TelemetryItem as Envelope } from "../../../src/generated/index.js";
 import { describe, it, beforeAll, afterAll } from "vitest";
+import { delay } from "@azure/core-util";
 
 describe("Metric Exporter Scenarios", () => {
   describe(MetricBasicScenario.prototype.constructor.name, () => {
@@ -39,6 +40,8 @@ describe("Metric Exporter Scenarios", () => {
         assertMetricExpectation(ingest, scenario.expectation);
         assertCount(ingest, scenario.expectation);
       }, 100);
+
+      await delay(200); // wait enough time for timeout callback
     });
   });
 });
