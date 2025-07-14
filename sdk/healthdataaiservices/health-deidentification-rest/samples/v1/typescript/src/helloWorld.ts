@@ -15,7 +15,7 @@ import "dotenv/config";
 export async function main(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const serviceEndpoint =
-    process.env["DEID_SERVICE_ENDPOINT"] || "https://example.api.cac001.deid.azure.com";
+    process.env["HEALTHDATAAISERVICES_DEID_SERVICE_ENDPOINT"] as string;
   const client = createClient(serviceEndpoint, credential);
 
   const content: DeidentificationContent = {
