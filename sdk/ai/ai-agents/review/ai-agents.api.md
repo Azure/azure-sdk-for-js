@@ -420,7 +420,7 @@ export type FileState = "uploaded" | "pending" | "running" | "processed" | "erro
 
 // @public
 export interface FilesUploadFileOptionalParams extends OperationOptions, PollingOptionsParams {
-    filename?: string;
+    fileName?: string;
 }
 
 // @public
