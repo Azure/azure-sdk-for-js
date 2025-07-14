@@ -708,6 +708,9 @@
 /sdk/pineconevectordb/arm-pineconevectordb/ @qiaozha @MaryGao
 
 # PRLabel: %Mgmt
+/sdk/playwright/arm-playwright/ @qiaozha @MaryGao
+
+# PRLabel: %Mgmt
 /sdk/locks/arm-locks/ @qiaozha @MaryGao
 
 # PRLabel: %Mgmt
