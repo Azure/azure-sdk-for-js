@@ -15,8 +15,7 @@ import "dotenv/config";
 
 export async function main(): Promise<void> {
   const credential = new DefaultAzureCredential();
-  const serviceEndpoint =
-    process.env["HEALTHDATAAISERVICES_DEID_SERVICE_ENDPOINT"] as string;
+  const serviceEndpoint = process.env["HEALTHDATAAISERVICES_DEID_SERVICE_ENDPOINT"] as string;
   const storageLocation = process.env["HEALTHDATAAISERVICES_STORAGE_ACCOUNT_LOCATION"] as string;
   const location = storageLocation || "defaultSasUri";
   const OUTPUT_FOLDER = "_output";
