@@ -94,7 +94,6 @@ examples/bin
 TestResults/*
 .vscode/*
 ./**/.vscode/*
-!.vscode/mcp.json
 
 # Node #
 **/node_modules/
