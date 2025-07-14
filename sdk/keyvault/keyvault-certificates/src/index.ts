@@ -1001,6 +1001,7 @@ export class CertificateClient {
           certificateName,
           {
             base64EncodedCertificate,
+            preserveCertOrder: updatedOptions.preserveCertificateOrder,
             ...updatedOptions,
           },
           updatedOptions,

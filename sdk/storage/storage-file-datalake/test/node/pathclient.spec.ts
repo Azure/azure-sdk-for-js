@@ -2,12 +2,8 @@
 // Licensed under the MIT License.
 
 import { Recorder } from "@azure-tools/test-recorder";
-import { assert } from "chai";
-import type { Context } from "mocha";
-import { join } from "path";
-
-import * as fs from "fs";
-
+import { join } from "node:path";
+import * as fs from "node:fs";
 import type {
   AccessControlChangeCounters,
   AccessControlChanges,
@@ -15,14 +11,14 @@ import type {
   DataLakeServiceClient,
   PathAccessControlItem,
   PathPermissions,
-} from "../../src";
+} from "../../src/index.js";
 import {
   DataLakeFileClient,
   DataLakePathClient,
   DataLakeSASPermissions,
   getDataLakeServiceAccountAudience,
-} from "../../src";
-import { toAcl, toRemoveAcl } from "../../src/transforms";
+} from "../../src/index.js";
+import { toAcl, toRemoveAcl } from "../../src/transforms.js";
 import {
   bodyToString,
   getDataLakeServiceClient,
@@ -33,9 +29,10 @@ import {
   uriSanitizers,
   SimpleTokenCredential,
   configureStorageClient,
-} from "../utils";
-import { Test_CPK_INFO } from "../utils/fakeTestSecrets";
+} from "../utils/index.js";
+import { Test_CPK_INFO } from "../utils/fakeTestSecrets.js";
 import { createTestCredential } from "@azure-tools/test-credential";
+import { describe, it, assert, beforeEach, afterEach } from "vitest";
 
 describe("DataLakePathClient Node.js only", () => {
   let fileSystemName: string;
@@ -47,8 +44,8 @@ describe("DataLakePathClient Node.js only", () => {
 
   let recorder: Recorder;
 
-  beforeEach(async function (this: Context) {
-    recorder = new Recorder(this.currentTest);
+  beforeEach(async (ctx) => {
+    recorder = new Recorder(ctx);
     await recorder.start(recorderEnvSetup);
     // make sure we add the sanitizers on playback for SAS strings
     await recorder.addSanitizers({ uriSanitizers }, ["record", "playback"]);
@@ -71,50 +68,54 @@ describe("DataLakePathClient Node.js only", () => {
     await fileClient.flush(content.length);
   });
 
-  afterEach(async function () {
+  afterEach(async () => {
     await fileSystemClient.deleteIfExists();
     await recorder.stop();
   });
 
-  it.skip("DataLakeDirectoryClient pagenated delete", async function (this: Context) {
-    // To run this test, the NamespaceTenant AAD info needs to be set to an AAD app that does not have any RBAC permissions,
-    const directoryName1 = recorder.variable("directory1", getUniqueName("directory1"));
-    const directoryClient = fileSystemClient.getDirectoryClient(directoryName1);
-    await directoryClient.create();
+  it.skip(
+    "DataLakeDirectoryClient paginated delete",
+    { timeout: 10 * 60 * 60 * 1000 },
+    async () => {
+      // To run this test, the NamespaceTenant AAD info needs to be set to an AAD app that does not have any RBAC permissions,
+      const directoryName1 = recorder.variable("directory1", getUniqueName("directory1"));
+      const directoryClient = fileSystemClient.getDirectoryClient(directoryName1);
+      await directoryClient.create();
 
-    for (let i = 0; i < 5020; i++) {
-      const fileClientInternal = directoryClient.getFileClient(
-        recorder.variable("file" + i, getUniqueName("file" + i)),
-      );
-      await fileClientInternal.create();
-    }
-
-    const rootDirectory = fileSystemClient.getDirectoryClient("/");
-
-    const originAcls = await rootDirectory.getAccessControl();
-    const acls: PathAccessControlItem[] = [];
-
-    originAcls.acl.forEach((entry) => {
-      if (entry.accessControlType === "other") {
-        entry.permissions = {
-          read: true,
-          write: true,
-          execute: true,
-        };
+      for (let i = 0; i < 5020; i++) {
+        const fileClientInternal = directoryClient.getFileClient(
+          recorder.variable("file" + i, getUniqueName("file" + i)),
+        );
+        await fileClientInternal.create();
       }
-      acls.push(entry);
-    });
 
-    await rootDirectory.setAccessControlRecursive(acls);
+      const rootDirectory = fileSystemClient.getDirectoryClient("/");
 
-    const oauthService = getDataLakeServiceClientWithDefaultCredential(recorder);
-    const oauthDirectory = oauthService
-      .getFileSystemClient(fileSystemName)
-      .getDirectoryClient(directoryName1);
-    await oauthDirectory.delete(true);
-  }).timeout(10 * 60 * 60 * 1000);
+      const originAcls = await rootDirectory.getAccessControl();
+      const acls: PathAccessControlItem[] = [];
 
-  it.skip("DataLakeFileClient delete without pagenated", async function (this: Context) {
+      originAcls.acl.forEach((entry) => {
+        if (entry.accessControlType === "other") {
+          entry.permissions = {
+            read: true,
+            write: true,
+            execute: true,
+          };
+        }
+        acls.push(entry);
+      });
+
+      await rootDirectory.setAccessControlRecursive(acls);
+
+      const oauthService = getDataLakeServiceClientWithDefaultCredential(recorder);
+      const oauthDirectory = oauthService
+        .getFileSystemClient(fileSystemName)
+        .getDirectoryClient(directoryName1);
+      await oauthDirectory.delete(true);
+    },
+  );
+
+  it.skip("DataLakeFileClient delete without paginated", async () => {
     // To run this test, the NamespaceTenant AAD info needs to be set to an AAD app that does not have any RBAC permissions,
     const fileName1 = recorder.variable("file1", getUniqueName("file1"));
     const fileClient1 = fileSystemClient.getFileClient(fileName1);
@@ -956,7 +957,7 @@ describe("DataLakePathClient Node.js only", () => {
     await bodyToString(response);
   });
 
-  it("query should work with Parquet input configuration", async function (this: Context) {
+  it("query should work with Parquet input configuration", async () => {
     const parquetFilePath = join("test", "resources", "parquet.parquet");
 
     const fileClient2 = fileSystemClient.getFileClient(fileName + "2");
@@ -1110,8 +1111,8 @@ describe("DataLakePathClient setAccessControlRecursive Node.js only", () => {
 
   let recorder: Recorder;
 
-  beforeEach(async function (this: Context) {
-    recorder = new Recorder(this.currentTest);
+  beforeEach(async (ctx) => {
+    recorder = new Recorder(ctx);
     await recorder.start(recorderEnvSetup);
     serviceClient = getDataLakeServiceClient(recorder);
     fileSystemName = recorder.variable("filesystem", getUniqueName("filesystem"));
@@ -1124,7 +1125,7 @@ describe("DataLakePathClient setAccessControlRecursive Node.js only", () => {
     await fileClient.flush(content.length);
   });
 
-  afterEach(async function () {
+  afterEach(async () => {
     await fileSystemClient.deleteIfExists();
     await recorder.stop();
   });
@@ -1338,7 +1339,7 @@ describe("DataLakePathClient setAccessControlRecursive Node.js only", () => {
       assert.equal(err.innerError.name, "AbortError");
       assert.equal(
         err.innerError.message,
-        "The operation was aborted.",
+        "The operation was aborted. Request has already been canceled.",
         "Unexpected error caught: " + err,
       );
     }

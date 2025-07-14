@@ -19,7 +19,7 @@ import "dotenv/config";
  * This sample demonstrates how to Lists all shares.
  *
  * @summary Lists all shares.
- * x-ms-original-file: specification/storage/resource-manager/Microsoft.Storage/stable/2023-05-01/examples/DeletedFileSharesList.json
+ * x-ms-original-file: specification/storage/resource-manager/Microsoft.Storage/stable/2024-01-01/examples/DeletedFileSharesList.json
  */
 async function listDeletedShares(): Promise<void> {
   const subscriptionId =
@@ -31,7 +31,7 @@ async function listDeletedShares(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = new StorageManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.fileShares.list(
+  for await (const item of client.fileShares.list(
     resourceGroupName,
     accountName,
     options,
@@ -45,7 +45,7 @@ async function listDeletedShares(): Promise<void> {
  * This sample demonstrates how to Lists all shares.
  *
  * @summary Lists all shares.
- * x-ms-original-file: specification/storage/resource-manager/Microsoft.Storage/stable/2023-05-01/examples/FileShareSnapshotsList.json
+ * x-ms-original-file: specification/storage/resource-manager/Microsoft.Storage/stable/2024-01-01/examples/FileShareSnapshotsList.json
  */
 async function listShareSnapshots(): Promise<void> {
   const subscriptionId =
@@ -57,7 +57,7 @@ async function listShareSnapshots(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = new StorageManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.fileShares.list(
+  for await (const item of client.fileShares.list(
     resourceGroupName,
     accountName,
     options,
@@ -71,7 +71,7 @@ async function listShareSnapshots(): Promise<void> {
  * This sample demonstrates how to Lists all shares.
  *
  * @summary Lists all shares.
- * x-ms-original-file: specification/storage/resource-manager/Microsoft.Storage/stable/2023-05-01/examples/FileSharesList.json
+ * x-ms-original-file: specification/storage/resource-manager/Microsoft.Storage/stable/2024-01-01/examples/FileSharesList.json
  */
 async function listShares(): Promise<void> {
   const subscriptionId =
@@ -81,7 +81,53 @@ async function listShares(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = new StorageManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.fileShares.list(
+  for await (const item of client.fileShares.list(
+    resourceGroupName,
+    accountName,
+  )) {
+    resArray.push(item);
+  }
+  console.log(resArray);
+}
+
+/**
+ * This sample demonstrates how to Lists all shares.
+ *
+ * @summary Lists all shares.
+ * x-ms-original-file: specification/storage/resource-manager/Microsoft.Storage/stable/2024-01-01/examples/FileSharesList_PaidBursting.json
+ */
+async function listSharesPaidBursting(): Promise<void> {
+  const subscriptionId =
+    process.env["STORAGE_SUBSCRIPTION_ID"] || "{subscription-id}";
+  const resourceGroupName = process.env["STORAGE_RESOURCE_GROUP"] || "res9290";
+  const accountName = "sto1590";
+  const credential = new DefaultAzureCredential();
+  const client = new StorageManagementClient(credential, subscriptionId);
+  const resArray = new Array();
+  for await (const item of client.fileShares.list(
+    resourceGroupName,
+    accountName,
+  )) {
+    resArray.push(item);
+  }
+  console.log(resArray);
+}
+
+/**
+ * This sample demonstrates how to Lists all shares.
+ *
+ * @summary Lists all shares.
+ * x-ms-original-file: specification/storage/resource-manager/Microsoft.Storage/stable/2024-01-01/examples/FileSharesList_ProvisionedV2.json
+ */
+async function listSharesProvisionedV2(): Promise<void> {
+  const subscriptionId =
+    process.env["STORAGE_SUBSCRIPTION_ID"] || "{subscription-id}";
+  const resourceGroupName = process.env["STORAGE_RESOURCE_GROUP"] || "res9290";
+  const accountName = "sto1590";
+  const credential = new DefaultAzureCredential();
+  const client = new StorageManagementClient(credential, subscriptionId);
+  const resArray = new Array();
+  for await (const item of client.fileShares.list(
     resourceGroupName,
     accountName,
   )) {
@@ -91,9 +137,11 @@ async function listShares(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  listDeletedShares();
-  listShareSnapshots();
-  listShares();
+  await listDeletedShares();
+  await listShareSnapshots();
+  await listShares();
+  await listSharesPaidBursting();
+  await listSharesProvisionedV2();
 }
 
 main().catch(console.error);

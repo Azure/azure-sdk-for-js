@@ -34,7 +34,7 @@ async function deleteAGalleryInVMAccessControlProfile() {
 }
 
 async function main() {
-  deleteAGalleryInVMAccessControlProfile();
+  await deleteAGalleryInVMAccessControlProfile();
 }
 
 main().catch(console.error);

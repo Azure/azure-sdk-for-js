@@ -8,6 +8,7 @@
 
 export * from "./operations.js";
 export * from "./netAppResource.js";
+export * from "./netAppResourceUsages.js";
 export * from "./netAppResourceQuotaLimits.js";
 export * from "./netAppResourceRegionInfos.js";
 export * from "./accounts.js";
@@ -20,7 +21,9 @@ export * from "./volumeQuotaRules.js";
 export * from "./volumeGroups.js";
 export * from "./subvolumes.js";
 export * from "./backups.js";
+export * from "./netAppResourceQuotaLimitsAccount.js";
 export * from "./backupVaults.js";
 export * from "./backupsUnderBackupVault.js";
 export * from "./backupsUnderVolume.js";
 export * from "./backupsUnderAccount.js";
+export * from "./buckets.js";

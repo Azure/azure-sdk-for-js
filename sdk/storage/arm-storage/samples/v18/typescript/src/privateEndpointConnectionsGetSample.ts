@@ -16,7 +16,7 @@ import "dotenv/config";
  * This sample demonstrates how to Gets the specified private endpoint connection associated with the storage account.
  *
  * @summary Gets the specified private endpoint connection associated with the storage account.
- * x-ms-original-file: specification/storage/resource-manager/Microsoft.Storage/stable/2023-05-01/examples/StorageAccountGetPrivateEndpointConnection.json
+ * x-ms-original-file: specification/storage/resource-manager/Microsoft.Storage/stable/2024-01-01/examples/StorageAccountGetPrivateEndpointConnection.json
  */
 async function storageAccountGetPrivateEndpointConnection(): Promise<void> {
   const subscriptionId =
@@ -35,7 +35,7 @@ async function storageAccountGetPrivateEndpointConnection(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  storageAccountGetPrivateEndpointConnection();
+  await storageAccountGetPrivateEndpointConnection();
 }
 
 main().catch(console.error);

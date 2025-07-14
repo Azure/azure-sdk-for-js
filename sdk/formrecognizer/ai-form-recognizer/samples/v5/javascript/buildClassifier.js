@@ -13,16 +13,14 @@
  * @summary build a classifier from a training data set
  */
 
-const {
-  AzureKeyCredential,
-  DocumentModelAdministrationClient,
-} = require("@azure/ai-form-recognizer");
+const { DocumentModelAdministrationClient } = require("@azure/ai-form-recognizer");
+const { DefaultAzureCredential } = require("@azure/identity");
 
-require("dotenv").config();
+require("dotenv/config");
 
 async function main() {
   const endpoint = process.env.FORM_RECOGNIZER_ENDPOINT || "<endpoint>";
-  const credential = new AzureKeyCredential(process.env.FORM_RECOGNIZER_API_KEY || "<api key>");
+  const credential = new DefaultAzureCredential();
 
   const random = Date.now().toString();
   const modelId =
@@ -58,7 +56,7 @@ async function main() {
       onProgress(state) {
         console.log(`Training status: ${state.status}`);
       },
-    }
+    },
   );
 
   let classifier;

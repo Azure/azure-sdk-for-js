@@ -3,46 +3,42 @@
 
 import { DeviceRegistryManagementContext } from "../../api/deviceRegistryManagementContext.js";
 import {
-  billingContainersGet,
   billingContainersListBySubscription,
+  billingContainersGet,
 } from "../../api/billingContainers/index.js";
 import { BillingContainer } from "../../models/models.js";
 import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 import {
-  BillingContainersGetOptionalParams,
   BillingContainersListBySubscriptionOptionalParams,
+  BillingContainersGetOptionalParams,
 } from "../../api/options.js";
 
 /** Interface representing a BillingContainers operations. */
 export interface BillingContainersOperations {
+  /** List BillingContainer resources by subscription ID */
+  listBySubscription: (
+    options?: BillingContainersListBySubscriptionOptionalParams,
+  ) => PagedAsyncIterableIterator<BillingContainer>;
   /** Get a BillingContainer */
   get: (
     billingContainerName: string,
     options?: BillingContainersGetOptionalParams,
   ) => Promise<BillingContainer>;
-  /** List BillingContainer resources by subscription ID */
-  listBySubscription: (
-    options?: BillingContainersListBySubscriptionOptionalParams,
-  ) => PagedAsyncIterableIterator<BillingContainer>;
 }
 
-export function getBillingContainers(
-  context: DeviceRegistryManagementContext,
-  subscriptionId: string,
-) {
+function _getBillingContainers(context: DeviceRegistryManagementContext) {
   return {
-    get: (billingContainerName: string, options?: BillingContainersGetOptionalParams) =>
-      billingContainersGet(context, subscriptionId, billingContainerName, options),
     listBySubscription: (options?: BillingContainersListBySubscriptionOptionalParams) =>
-      billingContainersListBySubscription(context, subscriptionId, options),
+      billingContainersListBySubscription(context, options),
+    get: (billingContainerName: string, options?: BillingContainersGetOptionalParams) =>
+      billingContainersGet(context, billingContainerName, options),
   };
 }
 
-export function getBillingContainersOperations(
+export function _getBillingContainersOperations(
   context: DeviceRegistryManagementContext,
-  subscriptionId: string,
 ): BillingContainersOperations {
   return {
-    ...getBillingContainers(context, subscriptionId),
+    ..._getBillingContainers(context),
   };
 }

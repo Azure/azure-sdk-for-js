@@ -22,21 +22,21 @@ import type {
 } from "./types.js";
 import { StatsbeatCounter, STATSBEAT_LANGUAGE, StatsbeatFeatureType } from "./types.js";
 import { AzureMonitorStatsbeatExporter } from "./statsbeatExporter.js";
-
-let instance: LongIntervalStatsbeatMetrics | null = null;
+import { getAttachType } from "../../utils/metricUtils.js";
 
 /**
  * Long Interval Statsbeat Metrics
  * @internal
  */
-class LongIntervalStatsbeatMetrics extends StatsbeatMetrics {
+export class LongIntervalStatsbeatMetrics extends StatsbeatMetrics {
+  private static instance: LongIntervalStatsbeatMetrics | null = null;
   private statsCollectionLongInterval: number = 86400000; // 1 day
   // Custom dimensions
   private cikey: string;
   private runtimeVersion: string;
   private language: string;
   private version: string;
-  private attach: string = "Manual";
+  private attach: string = getAttachType();
 
   private commonProperties: CommonStatsbeatProperties;
   private attachProperties: AttachStatsbeatProperties;
@@ -68,9 +68,7 @@ class LongIntervalStatsbeatMetrics extends StatsbeatMetrics {
 
     this.setFeatures();
 
-    this.longIntervalStatsbeatMeterProvider = new MeterProvider();
     this.longIntervalAzureExporter = new AzureMonitorStatsbeatExporter(exporterConfig);
-
     // Export Long Interval Statsbeats every day
     const longIntervalMetricReaderOptions: PeriodicExportingMetricReaderOptions = {
       exporter: this.longIntervalAzureExporter,
@@ -81,7 +79,9 @@ class LongIntervalStatsbeatMetrics extends StatsbeatMetrics {
     this.longIntervalMetricReader = new PeriodicExportingMetricReader(
       longIntervalMetricReaderOptions,
     );
-    this.longIntervalStatsbeatMeterProvider.addMetricReader(this.longIntervalMetricReader);
+    this.longIntervalStatsbeatMeterProvider = new MeterProvider({
+      readers: [this.longIntervalMetricReader],
+    });
     this.longIntervalStatsbeatMeter = this.longIntervalStatsbeatMeterProvider.getMeter(
       "Azure Monitor Long Interval Statsbeat",
     );
@@ -129,14 +129,25 @@ class LongIntervalStatsbeatMetrics extends StatsbeatMetrics {
 
       // Export Feature/Attach Statsbeat once upon app initialization after 15 second delay
       setTimeout(async () => {
-        this.longIntervalAzureExporter.export(
-          (await this.longIntervalMetricReader.collect()).resourceMetrics,
-          (result: ExportResult) => {
-            if (result.code !== ExportResultCode.SUCCESS) {
-              diag.error(`LongIntervalStatsbeat: metrics export failed (error ${result.error})`);
-            }
-          },
-        );
+        try {
+          const collectionResult = await this.longIntervalMetricReader.collect();
+          if (collectionResult) {
+            this.longIntervalAzureExporter.export(
+              collectionResult.resourceMetrics,
+              (result: ExportResult) => {
+                if (result.code !== ExportResultCode.SUCCESS) {
+                  diag.debug(
+                    `LongIntervalStatsbeat: metrics export failed (error ${result.error})`,
+                  );
+                }
+              },
+            );
+          } else {
+            diag.debug("LongIntervalStatsbeat: No metrics collected");
+          }
+        } catch (error) {
+          diag.debug(`LongIntervalStatsbeat: Error collecting metrics: ${error}`);
+        }
       }, 15000); // 15 seconds
     } catch (error) {
       diag.debug("Call to get the resource provider failed.");
@@ -146,7 +157,8 @@ class LongIntervalStatsbeatMetrics extends StatsbeatMetrics {
   private getEnvironmentStatus(observableResult: BatchObservableResult): void {
     this.setFeatures();
     let attributes;
-    if (this.instrumentation) {
+    // Only send instrumentation statsbeat if value is greater than zero
+    if (this.instrumentation > 0) {
       attributes = {
         ...this.commonProperties,
         feature: this.instrumentation,
@@ -155,7 +167,8 @@ class LongIntervalStatsbeatMetrics extends StatsbeatMetrics {
       observableResult.observe(this.featureStatsbeatGauge, 1, { ...attributes });
     }
 
-    if (this.feature) {
+    // Only send feature statsbeat if value is greater than zero
+    if (this.feature > 0) {
       attributes = {
         ...this.commonProperties,
         feature: this.feature,
@@ -172,7 +185,7 @@ class LongIntervalStatsbeatMetrics extends StatsbeatMetrics {
         this.feature = JSON.parse(statsbeatFeatures).feature;
         this.instrumentation = JSON.parse(statsbeatFeatures).instrumentation;
       } catch (error: any) {
-        diag.error(
+        diag.debug(
           `LongIntervalStatsbeat: Failed to parse features/instrumentations (error ${error})`,
         );
       }
@@ -187,15 +200,14 @@ class LongIntervalStatsbeatMetrics extends StatsbeatMetrics {
   public shutdown(): Promise<void> {
     return this.longIntervalStatsbeatMeterProvider.shutdown();
   }
-}
-
-/**
- * Singleton LongIntervalStatsbeatMetrics instance.
- * @internal
- */
-export function getInstance(options: StatsbeatOptions): LongIntervalStatsbeatMetrics {
-  if (!instance) {
-    instance = new LongIntervalStatsbeatMetrics(options);
+  /**
+   * Singleton LongIntervalStatsbeatMetrics instance.
+   * @internal
+   */
+  public static getInstance(options: StatsbeatOptions): LongIntervalStatsbeatMetrics {
+    if (!LongIntervalStatsbeatMetrics.instance) {
+      LongIntervalStatsbeatMetrics.instance = new LongIntervalStatsbeatMetrics(options);
+    }
+    return LongIntervalStatsbeatMetrics.instance;
   }
-  return instance;
 }

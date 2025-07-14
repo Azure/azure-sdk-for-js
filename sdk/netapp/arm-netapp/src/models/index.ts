@@ -12,6 +12,11 @@ import * as coreClient from "@azure/core-client";
 export interface OperationListResult {
   /** List of Storage operations supported by the Storage resource provider. */
   value?: Operation[];
+  /**
+   * URL to get the next set of operation list results (if there are any).
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly nextLink?: string;
 }
 
 /** Microsoft.NetApp REST API operation definition. */
@@ -187,10 +192,57 @@ export interface QuotaAvailabilityRequest {
   resourceGroup: string;
 }
 
-/** List of Subscription Quota Items */
-export interface SubscriptionQuotaItemList {
-  /** A list of SubscriptionQuotaItems */
-  value?: SubscriptionQuotaItem[];
+/** Usages result */
+export interface UsagesListResult {
+  /** A list of usages */
+  value?: UsageResult[];
+  /** URL to get the next set of results. */
+  nextLink?: string;
+}
+
+/** Usages entity model */
+export interface UsageResult {
+  /**
+   * The id of the usage.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly id?: string;
+  /**
+   * The name of the usage.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly name?: UsageName;
+  /**
+   * The current usage value for the subscription.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly currentValue?: number;
+  /**
+   * The limit of the usage.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly limit?: number;
+  /**
+   * The unit of the usage.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly unit?: string;
+}
+
+/** The name of the usage. */
+export interface UsageName {
+  /** The name of the usage. */
+  value?: string;
+  /** The localized name of the usage. */
+  localizedValue?: string;
+}
+
+/** List of Quota Items */
+export interface QuotaItemList {
+  /** A list of QuotaItems */
+  value?: QuotaItem[];
+  /** URL to get the next set of results. */
+  nextLink?: string;
 }
 
 /** Common fields that are returned in the response for all Azure Resource Manager resources */
@@ -423,6 +475,20 @@ export interface EncryptionIdentity {
   federatedClientId?: string;
 }
 
+/** LDAP configuration */
+export interface LdapConfiguration {
+  /** Name of the LDAP configuration domain */
+  domain?: string;
+  /** List of LDAP server IP addresses (IPv4 only) for the LDAP domain. */
+  ldapServers?: string[];
+  /** Specifies whether or not the LDAP traffic needs to be secured via TLS. */
+  ldapOverTLS?: boolean;
+  /** When LDAP over SSL/TLS is enabled, the LDAP client is required to have base64 encoded ldap servers CA certificate. */
+  serverCACertificate?: string;
+  /** The CN host name used while generating the certificate, LDAP Over TLS requires the CN host name to create DNS host entry. */
+  certificateCNHost?: string;
+}
+
 /** Managed service identity (system assigned and/or user assigned identities) */
 export interface ManagedServiceIdentity {
   /**
@@ -497,10 +563,12 @@ export interface NetAppAccountPatch {
   /** Domain for NFSv4 user ID mapping. This property will be set for all NetApp accounts in the subscription and region and only affect non ldap NFSv4 volumes. */
   nfsV4IDDomain?: string;
   /**
-   * This will have true value only if account is Multiple AD enabled.
+   * MultiAD Status for the account
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly isMultiAdEnabled?: boolean;
+  readonly multiAdStatus?: MultiAdStatus;
+  /** LDAP Configuration for the account. */
+  ldapConfiguration?: LdapConfiguration;
 }
 
 /** Encryption transition request */
@@ -509,6 +577,26 @@ export interface EncryptionTransitionRequest {
   virtualNetworkId: string;
   /** Identifier of the private endpoint to reach the Azure Key Vault */
   privateEndpointId: string;
+}
+
+/** Result of getKeyVaultStatus with information about how volumes under NetApp account are encrypted. */
+export interface GetKeyVaultStatusResponse {
+  /** The URI of the key vault/managed HSM that should be used for encryption. */
+  keyVaultUri?: string;
+  /** The name of the key that should be used for encryption. */
+  keyName?: string;
+  /** Azure resource ID of the key vault/managed HSM that should be used for encryption. */
+  keyVaultResourceId?: string;
+  /** Pairs of virtual network ID and private endpoint ID. Every virtual network that has volumes encrypted with customer-managed keys needs its own key vault private endpoint. */
+  keyVaultPrivateEndpoints?: KeyVaultPrivateEndpoint[];
+}
+
+/** Pairs of virtual network ID and private endpoint ID. Every virtual network that has volumes encrypted with customer-managed keys needs its own key vault private endpoint. */
+export interface KeyVaultPrivateEndpoint {
+  /** Identifier for the virtual network id */
+  virtualNetworkId?: string;
+  /** Identifier of the private endpoint to reach the Azure Key Vault */
+  privateEndpointId?: string;
 }
 
 /** Change key vault request */
@@ -521,14 +609,6 @@ export interface ChangeKeyVault {
   keyVaultResourceId?: string;
   /** Pairs of virtual network ID and private endpoint ID. Every virtual network that has volumes encrypted with customer-managed keys needs its own key vault private endpoint. */
   keyVaultPrivateEndpoints: KeyVaultPrivateEndpoint[];
-}
-
-/** Pairs of virtual network ID and private endpoint ID. Every virtual network that has volumes encrypted with customer-managed keys needs its own key vault private endpoint. */
-export interface KeyVaultPrivateEndpoint {
-  /** Identifier for the virtual network id */
-  virtualNetworkId?: string;
-  /** Identifier of the private endpoint to reach the Azure Key Vault */
-  privateEndpointId?: string;
 }
 
 /** List of capacity pool resources */
@@ -665,8 +745,11 @@ export interface ReplicationObject {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly replicationId?: string;
-  /** Indicates whether the local volume is the source or destination for the Volume Replication */
-  endpointType?: EndpointType;
+  /**
+   * Indicates whether the local volume is the source or destination for the Volume Replication
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly endpointType?: EndpointType;
   /** Schedule */
   replicationSchedule?: ReplicationSchedule;
   /** The resource ID of the remote volume. Required for cross region and cross zone replication */
@@ -680,6 +763,16 @@ export interface ReplicationObject {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly destinationReplications?: DestinationReplication[];
+  /**
+   * Property that only applies to external replications. Provides a machine-readable value for the status of the external replication setup.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly externalReplicationSetupStatus?: ExternalReplicationSetupStatus;
+  /**
+   * Contains human-readable instructions on what the next step is to finish the external replication setup.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly externalReplicationSetupInfo?: string;
 }
 
 /** The full path to a volume that is to be migrated into ANF. Required for Migration volumes */
@@ -752,7 +845,7 @@ export interface VolumePatch {
   tags?: { [propertyName: string]: string };
   /** The service level of the file system */
   serviceLevel?: ServiceLevel;
-  /** Maximum storage quota allowed for a file system in bytes. This is a soft quota used for alerting only. For regular volumes, valid values are in the range 50GiB to 100TiB. For large volumes, valid values are in the range 100TiB to 1PiB, and on an exceptional basis, from to 2400GiB to 2400TiB. Values expressed in bytes as multiples of 1 GiB. */
+  /** Maximum storage quota allowed for a file system in bytes. This is a soft quota used for alerting only. For regular volumes, valid values are in the range 50GiB to 100TiB. For large volumes, valid values are in the range 100TiB to 500TiB, and on an exceptional basis, from to 2400GiB to 2400TiB. Values expressed in bytes as multiples of 1 GiB. */
   usageThreshold?: number;
   /** Set of export policy rules */
   exportPolicy?: VolumePatchPropertiesExportPolicy;
@@ -781,6 +874,8 @@ export interface VolumePatch {
    *  Never - No client-driven data is pulled from cool tier to standard storage.
    */
   coolAccessRetrievalPolicy?: CoolAccessRetrievalPolicy;
+  /** coolAccessTieringPolicy determines which cold data blocks are moved to cool tier. The possible values for this field are: Auto - Moves cold user data blocks in both the Snapshot copies and the active file system to the cool tier tier. This policy is the default. SnapshotOnly - Moves user data blocks of the Volume Snapshot copies that are not associated with the active file system to the cool tier. */
+  coolAccessTieringPolicy?: CoolAccessTieringPolicy;
   /** If enabled (true) the volume will contain a read-only snapshot directory which provides access to each of the volume's snapshots. */
   snapshotDirectoryVisible?: boolean;
   /** Enables access-based enumeration share property for SMB Shares. Only applicable for SMB/DualProtocol volume */
@@ -1092,7 +1187,7 @@ export interface BackupPolicyPatch {
   /** Resource tags */
   tags?: { [propertyName: string]: string };
   /**
-   * Backup Policy Resource ID
+   * Backup Policy GUID ID
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly backupPolicyId?: string;
@@ -1252,7 +1347,7 @@ export interface VolumeGroupVolumeProperties {
   creationToken: string;
   /** The service level of the file system */
   serviceLevel?: ServiceLevel;
-  /** Maximum storage quota allowed for a file system in bytes. This is a soft quota used for alerting only. For regular volumes, valid values are in the range 50GiB to 100TiB. For large volumes, valid values are in the range 100TiB to 1PiB, and on an exceptional basis, from to 2400GiB to 2400TiB. Values expressed in bytes as multiples of 1 GiB. */
+  /** Maximum storage quota allowed for a file system in bytes. This is a soft quota used for alerting only. For regular volumes, valid values are in the range 50GiB to 100TiB. For large volumes, valid values are in the range 100TiB to 500TiB, and on an exceptional basis, from to 2400GiB to 2400TiB. Values expressed in bytes as multiples of 1 GiB. */
   usageThreshold: number;
   /** Set of export policy rules */
   exportPolicy?: VolumePropertiesExportPolicy;
@@ -1304,8 +1399,11 @@ export interface VolumeGroupVolumeProperties {
   dataProtection?: VolumePropertiesDataProtection;
   /** While auto splitting the short term clone volume, if the parent pool does not have enough space to accommodate the volume after split, it will be automatically resized, which will lead to increased billing. To accept capacity pool size auto grow and create a short term clone volume, set the property as accepted. */
   acceptGrowCapacityPoolForShortTermCloneSplit?: AcceptGrowCapacityPoolForShortTermCloneSplit;
-  /** Restoring */
-  isRestoring?: boolean;
+  /**
+   * Restoring
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly isRestoring?: boolean;
   /** If enabled (true) the volume will contain a read-only snapshot directory which provides access to each of the volume's snapshots (defaults to true). */
   snapshotDirectoryVisible?: boolean;
   /** Describe if a volume is KerberosEnabled. To be use with swagger version 2020-05-01 or later */
@@ -1333,6 +1431,8 @@ export interface VolumeGroupVolumeProperties {
   keyVaultPrivateEndpointResourceId?: string;
   /** Specifies whether LDAP is enabled or not for a given NFS volume. */
   ldapEnabled?: boolean;
+  /** Specifies the type of LDAP server for a given NFS volume. */
+  ldapServerType?: LdapServerType;
   /** Specifies whether Cool Access(tiering) is enabled for the volume. */
   coolAccess?: boolean;
   /** Specifies the number of days after which data that is not accessed by clients will be tiered. */
@@ -1344,6 +1444,8 @@ export interface VolumeGroupVolumeProperties {
    *  Never - No client-driven data is pulled from cool tier to standard storage.
    */
   coolAccessRetrievalPolicy?: CoolAccessRetrievalPolicy;
+  /** coolAccessTieringPolicy determines which cold data blocks are moved to cool tier. The possible values for this field are: Auto - Moves cold user data blocks in both the Snapshot copies and the active file system to the cool tier tier. This policy is the default. SnapshotOnly - Moves user data blocks of the Volume Snapshot copies that are not associated with the active file system to the cool tier. */
+  coolAccessTieringPolicy?: CoolAccessTieringPolicy;
   /** UNIX permissions for NFS volume accepted in octal 4 digit format. First digit selects the set user ID(4), set group ID (2) and sticky (1) attributes. Second digit selects permission for the owner of the file: read (4), write (2) and execute (1). Third selects permissions for other users in the same group. the fourth for other users not in the group. 0755 - gives read/write/execute permissions to owner and read/execute to group and other users.  Avoid passing null value for unixPermissions in volume update operation, As per the behavior, If Null value is passed then user-visible unixPermissions value will became null, and user will not be able to get unixPermissions value. On safer side, actual unixPermissions value on volume will remain as its last saved value only. */
   unixPermissions?: string;
   /**
@@ -1602,6 +1704,92 @@ export interface BackupsMigrationRequest {
   backupVaultId: string;
 }
 
+/** List of volume bucket resources */
+export interface BucketList {
+  /** List of volume buckets */
+  value?: Bucket[];
+  /** URL to get the next set of results. */
+  nextLink?: string;
+}
+
+/** File System user having access to volume data. For Unix, this is the user's uid and gid. For Windows, this is the user's username. Note that the Unix and Windows user details are mutually exclusive, meaning one or other must be supplied, but not both. */
+export interface FileSystemUser {
+  /** The effective NFS User ID and Group ID when accessing the volume data. */
+  nfsUser?: NfsUser;
+  /** The effective CIFS username when accessing the volume data. */
+  cifsUser?: CifsUser;
+}
+
+/** The effective NFS User ID and Group ID when accessing the volume data. */
+export interface NfsUser {
+  /** The NFS user's UID */
+  userId?: number;
+  /** The NFS user's GID */
+  groupId?: number;
+}
+
+/** The effective CIFS username when accessing the volume data. */
+export interface CifsUser {
+  /** The CIFS user's username */
+  username?: string;
+}
+
+/** Properties of the server managing the lifecycle of volume buckets */
+export interface BucketServerProperties {
+  /** The host part of the bucket URL, resolving to the bucket IP address and allowed by the server certificate. */
+  fqdn?: string;
+  /**
+   * Certificate Common Name taken from the certificate installed on the bucket server
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly certificateCommonName?: string;
+  /**
+   * The bucket server's certificate expiry date.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly certificateExpiryDate?: Date;
+  /**
+   * The bucket server's IPv4 address
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly ipAddress?: string;
+  /** A base64-encoded PEM file, which includes both the bucket server's certificate and private key. It is used to authenticate the user and allows access to volume data in a read-only manner. */
+  certificateObject?: string;
+}
+
+/** Properties of the server managing the lifecycle of volume buckets */
+export interface BucketServerPatchProperties {
+  /** The host part of the bucket URL, resolving to the bucket IP address and allowed by the server certificate. */
+  fqdn?: string;
+  /** A base64-encoded PEM file, which includes both the bucket server's certificate and private key. It is used to authenticate the user and allows access to volume data in a read-only manner. */
+  certificateObject?: string;
+}
+
+/** The bucket's Access and Secret key pair Expiry Time expressed as the number of days from now. */
+export interface BucketCredentialsExpiry {
+  /** The number of days from now until the newly generated Access and Secret key pair will expire. */
+  keyPairExpiryDays?: number;
+}
+
+/** Bucket Access Key, Secret Key, and Expiry date and time of the key pair */
+export interface BucketGenerateCredentials {
+  /**
+   * The Access Key that is required along with the Secret Key to access the bucket.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly accessKey?: string;
+  /**
+   * The Secret Key that is required along with the Access Key to access the bucket.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly secretKey?: string;
+  /**
+   * The bucket's Access and Secret key pair expiry date and time (in UTC).
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly keyPairExpiry?: Date;
+}
+
 /** Identity for the resource. */
 export interface ResourceIdentity {
   /**
@@ -1718,8 +1906,8 @@ export interface TrackedResource extends Resource {
   location: string;
 }
 
-/** Information regarding Subscription Quota Item. */
-export interface SubscriptionQuotaItem extends ProxyResource {
+/** Information regarding Quota Item. */
+export interface QuotaItem extends ProxyResource {
   /**
    * The current quota value.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -1730,6 +1918,11 @@ export interface SubscriptionQuotaItem extends ProxyResource {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly default?: number;
+  /**
+   * The usage quota value.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly usage?: number;
 }
 
 /** Information regarding regionInfo Item. */
@@ -1789,6 +1982,16 @@ export interface Backup extends ProxyResource {
    */
   readonly creationDate?: Date;
   /**
+   * The snapshot creation date of the backup
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly snapshotCreationDate?: Date;
+  /**
+   * The completion date of the backup
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly completionDate?: Date;
+  /**
    * Azure lifecycle management
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
@@ -1828,6 +2031,45 @@ export interface Backup extends ProxyResource {
   readonly isLargeVolume?: boolean;
 }
 
+/** Bucket resource */
+export interface Bucket extends ProxyResource {
+  /** The volume path mounted inside the bucket. The default is the root path '/' if no value is provided when the bucket is created. */
+  path?: string;
+  /** File System user having access to volume data. For Unix, this is the user's uid and gid. For Windows, this is the user's username. Note that the Unix and Windows user details are mutually exclusive, meaning one or other must be supplied, but not both. */
+  fileSystemUser?: FileSystemUser;
+  /**
+   * Provisioning state of the resource
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly provisioningState?: NetappProvisioningState;
+  /**
+   * The bucket credentials status. There states:
+   *
+   * "NoCredentialsSet": Access and Secret key pair have not been generated.
+   * "CredentialsExpired": Access and Secret key pair have expired.
+   * "Active": The certificate has been installed and credentials are unexpired.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly status?: CredentialsStatus;
+  /** Properties of the server managing the lifecycle of volume buckets */
+  server?: BucketServerProperties;
+}
+
+/** Bucket resource */
+export interface BucketPatch extends ProxyResource {
+  /** The volume path mounted inside the bucket. */
+  path?: string;
+  /** File System user having access to volume data. For Unix, this is the user's uid and gid. For Windows, this is the user's username. Note that the Unix and Windows user details are mutually exclusive, meaning one or other must be supplied, but not both. */
+  fileSystemUser?: FileSystemUser;
+  /**
+   * Provisioning state of the resource
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly provisioningState?: NetappProvisioningState;
+  /** Properties of the server managing the lifecycle of volume buckets */
+  server?: BucketServerPatchProperties;
+}
+
 /** NetApp account resource */
 export interface NetAppAccount extends TrackedResource {
   /**
@@ -1854,10 +2096,12 @@ export interface NetAppAccount extends TrackedResource {
   /** Domain for NFSv4 user ID mapping. This property will be set for all NetApp accounts in the subscription and region and only affect non ldap NFSv4 volumes. */
   nfsV4IDDomain?: string;
   /**
-   * This will have true value only if account is Multiple AD enabled.
+   * MultiAD Status for the account
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly isMultiAdEnabled?: boolean;
+  readonly multiAdStatus?: MultiAdStatus;
+  /** LDAP Configuration for the account. */
+  ldapConfiguration?: LdapConfiguration;
 }
 
 /** Capacity pool resource */
@@ -1919,7 +2163,7 @@ export interface Volume extends TrackedResource {
   creationToken: string;
   /** The service level of the file system */
   serviceLevel?: ServiceLevel;
-  /** Maximum storage quota allowed for a file system in bytes. This is a soft quota used for alerting only. For regular volumes, valid values are in the range 50GiB to 100TiB. For large volumes, valid values are in the range 100TiB to 1PiB, and on an exceptional basis, from to 2400GiB to 2400TiB. Values expressed in bytes as multiples of 1 GiB. */
+  /** Maximum storage quota allowed for a file system in bytes. This is a soft quota used for alerting only. For regular volumes, valid values are in the range 50GiB to 100TiB. For large volumes, valid values are in the range 100TiB to 500TiB, and on an exceptional basis, from to 2400GiB to 2400TiB. Values expressed in bytes as multiples of 1 GiB. */
   usageThreshold: number;
   /** Set of export policy rules */
   exportPolicy?: VolumePropertiesExportPolicy;
@@ -1971,8 +2215,11 @@ export interface Volume extends TrackedResource {
   dataProtection?: VolumePropertiesDataProtection;
   /** While auto splitting the short term clone volume, if the parent pool does not have enough space to accommodate the volume after split, it will be automatically resized, which will lead to increased billing. To accept capacity pool size auto grow and create a short term clone volume, set the property as accepted. */
   acceptGrowCapacityPoolForShortTermCloneSplit?: AcceptGrowCapacityPoolForShortTermCloneSplit;
-  /** Restoring */
-  isRestoring?: boolean;
+  /**
+   * Restoring
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly isRestoring?: boolean;
   /** If enabled (true) the volume will contain a read-only snapshot directory which provides access to each of the volume's snapshots (defaults to true). */
   snapshotDirectoryVisible?: boolean;
   /** Describe if a volume is KerberosEnabled. To be use with swagger version 2020-05-01 or later */
@@ -2000,6 +2247,8 @@ export interface Volume extends TrackedResource {
   keyVaultPrivateEndpointResourceId?: string;
   /** Specifies whether LDAP is enabled or not for a given NFS volume. */
   ldapEnabled?: boolean;
+  /** Specifies the type of LDAP server for a given NFS volume. */
+  ldapServerType?: LdapServerType;
   /** Specifies whether Cool Access(tiering) is enabled for the volume. */
   coolAccess?: boolean;
   /** Specifies the number of days after which data that is not accessed by clients will be tiered. */
@@ -2011,6 +2260,8 @@ export interface Volume extends TrackedResource {
    *  Never - No client-driven data is pulled from cool tier to standard storage.
    */
   coolAccessRetrievalPolicy?: CoolAccessRetrievalPolicy;
+  /** coolAccessTieringPolicy determines which cold data blocks are moved to cool tier. The possible values for this field are: Auto - Moves cold user data blocks in both the Snapshot copies and the active file system to the cool tier tier. This policy is the default. SnapshotOnly - Moves user data blocks of the Volume Snapshot copies that are not associated with the active file system to the cool tier. */
+  coolAccessTieringPolicy?: CoolAccessTieringPolicy;
   /** UNIX permissions for NFS volume accepted in octal 4 digit format. First digit selects the set user ID(4), set group ID (2) and sticky (1) attributes. Second digit selects permission for the owner of the file: read (4), write (2) and execute (1). Third selects permissions for other users in the same group. the fourth for other users not in the group. 0755 - gives read/write/execute permissions to owner and read/execute to group and other users.  Avoid passing null value for unixPermissions in volume update operation, As per the behavior, If Null value is passed then user-visible unixPermissions value will became null, and user will not be able to get unixPermissions value. On safer side, actual unixPermissions value on volume will remain as its last saved value only. */
   unixPermissions?: string;
   /**
@@ -2119,7 +2370,7 @@ export interface BackupPolicy extends TrackedResource {
    */
   readonly etag?: string;
   /**
-   * Backup Policy Resource ID
+   * Backup Policy GUID ID
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly backupPolicyId?: string;
@@ -2275,6 +2526,30 @@ export interface BackupsUnderVolumeMigrateBackupsHeaders {
 /** Defines headers for BackupsUnderAccount_migrateBackups operation. */
 export interface BackupsUnderAccountMigrateBackupsHeaders {
   location?: string;
+}
+
+/** Defines headers for Buckets_createOrUpdate operation. */
+export interface BucketsCreateOrUpdateHeaders {
+  /** URL that can be used to check the status of the asynchronous operation */
+  location?: string;
+  /** URL that can be used to check the status of the asynchronous operation */
+  azureAsyncOperation?: string;
+}
+
+/** Defines headers for Buckets_update operation. */
+export interface BucketsUpdateHeaders {
+  /** URI to poll the status of the operation */
+  location?: string;
+  /** URL that can be used to check the status of the asynchronous operation */
+  azureAsyncOperation?: string;
+}
+
+/** Defines headers for Buckets_delete operation. */
+export interface BucketsDeleteHeaders {
+  /** URI to poll the status of the operation */
+  location?: string;
+  /** URL that can be used to check the status of the asynchronous operation */
+  azureAsyncOperation?: string;
 }
 
 /** Known values of {@link MetricAggregationType} that the service accepts. */
@@ -2538,6 +2813,24 @@ export enum KnownKeyVaultStatus {
  */
 export type KeyVaultStatus = string;
 
+/** Known values of {@link MultiAdStatus} that the service accepts. */
+export enum KnownMultiAdStatus {
+  /** Account is MultiAD disabled, Means its a SharedAD or SingleAD account. */
+  Disabled = "Disabled",
+  /** Account is MultiAD enabled */
+  Enabled = "Enabled",
+}
+
+/**
+ * Defines values for MultiAdStatus. \
+ * {@link KnownMultiAdStatus} can be used interchangeably with MultiAdStatus,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Disabled**: Account is MultiAD disabled, Means its a SharedAD or SingleAD account. \
+ * **Enabled**: Account is MultiAD enabled
+ */
+export type MultiAdStatus = string;
+
 /** Known values of {@link ManagedServiceIdentityType} that the service accepts. */
 export enum KnownManagedServiceIdentityType {
   /** None */
@@ -2570,7 +2863,7 @@ export enum KnownServiceLevel {
   Premium = "Premium",
   /** Ultra service level */
   Ultra = "Ultra",
-  /** Zone redundant storage service level */
+  /** Zone redundant storage service level. This will be deprecated soon. */
   StandardZRS = "StandardZRS",
   /** Flexible service level */
   Flexible = "Flexible",
@@ -2584,7 +2877,7 @@ export enum KnownServiceLevel {
  * **Standard**: Standard service level \
  * **Premium**: Premium service level \
  * **Ultra**: Ultra service level \
- * **StandardZRS**: Zone redundant storage service level \
+ * **StandardZRS**: Zone redundant storage service level. This will be deprecated soon. \
  * **Flexible**: Flexible service level
  */
 export type ServiceLevel = string;
@@ -2724,6 +3017,33 @@ export enum KnownReplicationType {
  */
 export type ReplicationType = string;
 
+/** Known values of {@link ExternalReplicationSetupStatus} that the service accepts. */
+export enum KnownExternalReplicationSetupStatus {
+  /** Your cluster needs to be peered by using the 'peerExternalCluster' action */
+  ClusterPeerRequired = "ClusterPeerRequired",
+  /** The peering needs to be accepted on your cluster before the setup can proceed */
+  ClusterPeerPending = "ClusterPeerPending",
+  /** Need to call 'authorizeExternalReplication' and accept the returned 'vserver peer accept' command on your cluster to finish setting up the external replication */
+  VServerPeerRequired = "VServerPeerRequired",
+  /** Need to call 'authorizeExternalReplication' to finish setting up the external replication */
+  ReplicationCreateRequired = "ReplicationCreateRequired",
+  /** External Replication setup is complete, you can now monitor the 'mirrorState' in the replication status for the health of the replication */
+  NoActionRequired = "NoActionRequired",
+}
+
+/**
+ * Defines values for ExternalReplicationSetupStatus. \
+ * {@link KnownExternalReplicationSetupStatus} can be used interchangeably with ExternalReplicationSetupStatus,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **ClusterPeerRequired**: Your cluster needs to be peered by using the 'peerExternalCluster' action \
+ * **ClusterPeerPending**: The peering needs to be accepted on your cluster before the setup can proceed \
+ * **VServerPeerRequired**: Need to call 'authorizeExternalReplication' and accept the returned 'vserver peer accept' command on your cluster to finish setting up the external replication \
+ * **ReplicationCreateRequired**: Need to call 'authorizeExternalReplication' to finish setting up the external replication \
+ * **NoActionRequired**: External Replication setup is complete, you can now monitor the 'mirrorState' in the replication status for the health of the replication
+ */
+export type ExternalReplicationSetupStatus = string;
+
 /** Known values of {@link AcceptGrowCapacityPoolForShortTermCloneSplit} that the service accepts. */
 export enum KnownAcceptGrowCapacityPoolForShortTermCloneSplit {
   /** Auto grow capacity pool for short term clone split is accepted. */
@@ -2814,6 +3134,24 @@ export enum KnownEncryptionKeySource {
  */
 export type EncryptionKeySource = string;
 
+/** Known values of {@link LdapServerType} that the service accepts. */
+export enum KnownLdapServerType {
+  /** The volume should use Active Directory for LDAP connections. */
+  ActiveDirectory = "ActiveDirectory",
+  /** The volume should use OpenLDAP for LDAP connections. */
+  OpenLdap = "OpenLDAP",
+}
+
+/**
+ * Defines values for LdapServerType. \
+ * {@link KnownLdapServerType} can be used interchangeably with LdapServerType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **ActiveDirectory**: The volume should use Active Directory for LDAP connections. \
+ * **OpenLDAP**: The volume should use OpenLDAP for LDAP connections.
+ */
+export type LdapServerType = string;
+
 /** Known values of {@link CoolAccessRetrievalPolicy} that the service accepts. */
 export enum KnownCoolAccessRetrievalPolicy {
   /** Default */
@@ -2834,6 +3172,24 @@ export enum KnownCoolAccessRetrievalPolicy {
  * **Never**
  */
 export type CoolAccessRetrievalPolicy = string;
+
+/** Known values of {@link CoolAccessTieringPolicy} that the service accepts. */
+export enum KnownCoolAccessTieringPolicy {
+  /** Auto */
+  Auto = "Auto",
+  /** SnapshotOnly */
+  SnapshotOnly = "SnapshotOnly",
+}
+
+/**
+ * Defines values for CoolAccessTieringPolicy. \
+ * {@link KnownCoolAccessTieringPolicy} can be used interchangeably with CoolAccessTieringPolicy,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Auto** \
+ * **SnapshotOnly**
+ */
+export type CoolAccessTieringPolicy = string;
 
 /** Known values of {@link FileAccessLogs} that the service accepts. */
 export enum KnownFileAccessLogs {
@@ -3212,6 +3568,60 @@ export enum KnownBackupType {
  * **Scheduled**: Scheduled backup
  */
 export type BackupType = string;
+
+/** Known values of {@link NetappProvisioningState} that the service accepts. */
+export enum KnownNetappProvisioningState {
+  /** Resource has been created. */
+  Succeeded = "Succeeded",
+  /** Resource creation failed. */
+  Failed = "Failed",
+  /** Resource creation was canceled. */
+  Canceled = "Canceled",
+  /** Resource is getting provisioned */
+  Provisioning = "Provisioning",
+  /** Resource is updating */
+  Updating = "Updating",
+  /** Resource is getting deleted */
+  Deleting = "Deleting",
+  /** Resource has been accepted */
+  Accepted = "Accepted",
+}
+
+/**
+ * Defines values for NetappProvisioningState. \
+ * {@link KnownNetappProvisioningState} can be used interchangeably with NetappProvisioningState,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Succeeded**: Resource has been created. \
+ * **Failed**: Resource creation failed. \
+ * **Canceled**: Resource creation was canceled. \
+ * **Provisioning**: Resource is getting provisioned \
+ * **Updating**: Resource is updating \
+ * **Deleting**: Resource is getting deleted \
+ * **Accepted**: Resource has been accepted
+ */
+export type NetappProvisioningState = string;
+
+/** Known values of {@link CredentialsStatus} that the service accepts. */
+export enum KnownCredentialsStatus {
+  /** Access and Secret key pair have not been generated. */
+  NoCredentialsSet = "NoCredentialsSet",
+  /** Access and Secret key pair have expired. */
+  CredentialsExpired = "CredentialsExpired",
+  /** The certificate has been installed on the bucket server and the bucket credentials are unexpired. */
+  Active = "Active",
+}
+
+/**
+ * Defines values for CredentialsStatus. \
+ * {@link KnownCredentialsStatus} can be used interchangeably with CredentialsStatus,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **NoCredentialsSet**: Access and Secret key pair have not been generated. \
+ * **CredentialsExpired**: Access and Secret key pair have expired. \
+ * **Active**: The certificate has been installed on the bucket server and the bucket credentials are unexpired.
+ */
+export type CredentialsStatus = string;
 /** Defines values for ProvisioningState. */
 export type ProvisioningState =
   | "Accepted"
@@ -3228,6 +3638,13 @@ export interface OperationsListOptionalParams
 
 /** Contains response data for the list operation. */
 export type OperationsListResponse = OperationListResult;
+
+/** Optional parameters. */
+export interface OperationsListNextOptionalParams
+  extends coreClient.OperationOptions { }
+
+/** Contains response data for the listNext operation. */
+export type OperationsListNextResponse = OperationListResult;
 
 /** Optional parameters. */
 export interface NetAppResourceCheckNameAvailabilityOptionalParams
@@ -3283,18 +3700,39 @@ export interface NetAppResourceUpdateNetworkSiblingSetOptionalParams
 export type NetAppResourceUpdateNetworkSiblingSetResponse = NetworkSiblingSet;
 
 /** Optional parameters. */
+export interface NetAppResourceUsagesListOptionalParams
+  extends coreClient.OperationOptions { }
+
+/** Contains response data for the list operation. */
+export type NetAppResourceUsagesListResponse = UsagesListResult;
+
+/** Optional parameters. */
+export interface NetAppResourceUsagesGetOptionalParams
+  extends coreClient.OperationOptions { }
+
+/** Contains response data for the get operation. */
+export type NetAppResourceUsagesGetResponse = UsageResult;
+
+/** Optional parameters. */
+export interface NetAppResourceUsagesListNextOptionalParams
+  extends coreClient.OperationOptions { }
+
+/** Contains response data for the listNext operation. */
+export type NetAppResourceUsagesListNextResponse = UsagesListResult;
+
+/** Optional parameters. */
 export interface NetAppResourceQuotaLimitsListOptionalParams
   extends coreClient.OperationOptions { }
 
 /** Contains response data for the list operation. */
-export type NetAppResourceQuotaLimitsListResponse = SubscriptionQuotaItemList;
+export type NetAppResourceQuotaLimitsListResponse = QuotaItemList;
 
 /** Optional parameters. */
 export interface NetAppResourceQuotaLimitsGetOptionalParams
   extends coreClient.OperationOptions { }
 
 /** Contains response data for the get operation. */
-export type NetAppResourceQuotaLimitsGetResponse = SubscriptionQuotaItem;
+export type NetAppResourceQuotaLimitsGetResponse = QuotaItem;
 
 /** Optional parameters. */
 export interface NetAppResourceRegionInfosListOptionalParams
@@ -3405,7 +3843,7 @@ export interface AccountsGetChangeKeyVaultInformationOptionalParams
 
 /** Contains response data for the getChangeKeyVaultInformation operation. */
 export type AccountsGetChangeKeyVaultInformationResponse =
-  AccountsGetChangeKeyVaultInformationHeaders;
+  GetKeyVaultStatusResponse;
 
 /** Optional parameters. */
 export interface AccountsChangeKeyVaultOptionalParams
@@ -4157,6 +4595,27 @@ export interface BackupsListByVaultNextOptionalParams
 export type BackupsListByVaultNextResponse = BackupsList;
 
 /** Optional parameters. */
+export interface NetAppResourceQuotaLimitsAccountListOptionalParams
+  extends coreClient.OperationOptions { }
+
+/** Contains response data for the list operation. */
+export type NetAppResourceQuotaLimitsAccountListResponse = QuotaItemList;
+
+/** Optional parameters. */
+export interface NetAppResourceQuotaLimitsAccountGetOptionalParams
+  extends coreClient.OperationOptions { }
+
+/** Contains response data for the get operation. */
+export type NetAppResourceQuotaLimitsAccountGetResponse = QuotaItem;
+
+/** Optional parameters. */
+export interface NetAppResourceQuotaLimitsAccountListNextOptionalParams
+  extends coreClient.OperationOptions { }
+
+/** Contains response data for the listNext operation. */
+export type NetAppResourceQuotaLimitsAccountListNextResponse = QuotaItemList;
+
+/** Optional parameters. */
 export interface BackupVaultsListByNetAppAccountOptionalParams
   extends coreClient.OperationOptions { }
 
@@ -4251,6 +4710,71 @@ export interface BackupsUnderAccountMigrateBackupsOptionalParams
 /** Contains response data for the migrateBackups operation. */
 export type BackupsUnderAccountMigrateBackupsResponse =
   BackupsUnderAccountMigrateBackupsHeaders;
+
+/** Optional parameters. */
+export interface BucketsListOptionalParams
+  extends coreClient.OperationOptions { }
+
+/** Contains response data for the list operation. */
+export type BucketsListResponse = BucketList;
+
+/** Optional parameters. */
+export interface BucketsGetOptionalParams extends coreClient.OperationOptions { }
+
+/** Contains response data for the get operation. */
+export type BucketsGetResponse = Bucket;
+
+/** Optional parameters. */
+export interface BucketsCreateOrUpdateOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the createOrUpdate operation. */
+export type BucketsCreateOrUpdateResponse = Bucket;
+
+/** Optional parameters. */
+export interface BucketsUpdateOptionalParams
+  extends coreClient.OperationOptions {
+  /** The bucket details including user details, and the volume path that should be mounted inside the bucket. */
+  body?: BucketPatch;
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the update operation. */
+export type BucketsUpdateResponse = Bucket;
+
+/** Optional parameters. */
+export interface BucketsDeleteOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the delete operation. */
+export type BucketsDeleteResponse = BucketsDeleteHeaders;
+
+/** Optional parameters. */
+export interface BucketsGenerateCredentialsOptionalParams
+  extends coreClient.OperationOptions { }
+
+/** Contains response data for the generateCredentials operation. */
+export type BucketsGenerateCredentialsResponse = BucketGenerateCredentials;
+
+/** Optional parameters. */
+export interface BucketsListNextOptionalParams
+  extends coreClient.OperationOptions { }
+
+/** Contains response data for the listNext operation. */
+export type BucketsListNextResponse = BucketList;
 
 /** Optional parameters. */
 export interface NetAppManagementClientOptionalParams

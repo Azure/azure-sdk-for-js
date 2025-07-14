@@ -16,7 +16,7 @@ import "dotenv/config";
  * This sample demonstrates how to Lists the keys in the specified key vault.
  *
  * @summary Lists the keys in the specified key vault.
- * x-ms-original-file: specification/keyvault/resource-manager/Microsoft.KeyVault/stable/2023-07-01/examples/listKeys.json
+ * x-ms-original-file: specification/keyvault/resource-manager/Microsoft.KeyVault/stable/2024-11-01/examples/listKeys.json
  */
 async function listKeysInTheVault(): Promise<void> {
   const subscriptionId =
@@ -28,14 +28,14 @@ async function listKeysInTheVault(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = new KeyVaultManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.keys.list(resourceGroupName, vaultName)) {
+  for await (const item of client.keys.list(resourceGroupName, vaultName)) {
     resArray.push(item);
   }
   console.log(resArray);
 }
 
 async function main(): Promise<void> {
-  listKeysInTheVault();
+  await listKeysInTheVault();
 }
 
 main().catch(console.error);

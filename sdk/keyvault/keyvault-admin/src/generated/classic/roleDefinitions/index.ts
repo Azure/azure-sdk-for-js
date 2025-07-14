@@ -3,25 +3,43 @@
 
 import { KeyVaultContext } from "../../api/keyVaultContext.js";
 import {
-  RoleDefinitionsDeleteOptionalParams,
-  RoleDefinitionsCreateOrUpdateOptionalParams,
-  RoleDefinitionsGetOptionalParams,
-  RoleDefinitionsListOptionalParams,
-} from "../../api/options.js";
-import {
-  $delete,
-  createOrUpdate,
-  get,
-  list,
-} from "../../api/roleDefinitions/index.js";
-import {
   RoleDefinition,
   RoleDefinitionCreateParameters,
 } from "../../models/models.js";
+import {
+  RoleDefinitionsListOptionalParams,
+  RoleDefinitionsGetOptionalParams,
+  RoleDefinitionsCreateOrUpdateOptionalParams,
+  RoleDefinitionsDeleteOptionalParams,
+} from "../../api/roleDefinitions/options.js";
+import {
+  list,
+  get,
+  createOrUpdate,
+  $delete,
+} from "../../api/roleDefinitions/operations.js";
 import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 
 /** Interface representing a RoleDefinitions operations. */
 export interface RoleDefinitionsOperations {
+  /** Get all role definitions that are applicable at scope and above. */
+  list: (
+    scope: string,
+    options?: RoleDefinitionsListOptionalParams,
+  ) => PagedAsyncIterableIterator<RoleDefinition>;
+  /** Get the specified role definition. */
+  get: (
+    scope: string,
+    roleDefinitionName: string,
+    options?: RoleDefinitionsGetOptionalParams,
+  ) => Promise<RoleDefinition>;
+  /** Creates or updates a custom role definition. */
+  createOrUpdate: (
+    scope: string,
+    roleDefinitionName: string,
+    parameters: RoleDefinitionCreateParameters,
+    options?: RoleDefinitionsCreateOrUpdateOptionalParams,
+  ) => Promise<RoleDefinition>;
   /** Deletes a custom role definition. */
   /**
    *  @fixme delete is a reserved word that cannot be used as an operation name.
@@ -33,33 +51,17 @@ export interface RoleDefinitionsOperations {
     roleDefinitionName: string,
     options?: RoleDefinitionsDeleteOptionalParams,
   ) => Promise<RoleDefinition>;
-  /** Creates or updates a custom role definition. */
-  createOrUpdate: (
-    scope: string,
-    roleDefinitionName: string,
-    parameters: RoleDefinitionCreateParameters,
-    options?: RoleDefinitionsCreateOrUpdateOptionalParams,
-  ) => Promise<RoleDefinition>;
-  /** Get the specified role definition. */
-  get: (
-    scope: string,
-    roleDefinitionName: string,
-    options?: RoleDefinitionsGetOptionalParams,
-  ) => Promise<RoleDefinition>;
-  /** Get all role definitions that are applicable at scope and above. */
-  list: (
-    scope: string,
-    options?: RoleDefinitionsListOptionalParams,
-  ) => PagedAsyncIterableIterator<RoleDefinition>;
 }
 
-export function getRoleDefinitions(context: KeyVaultContext) {
+function _getRoleDefinitions(context: KeyVaultContext) {
   return {
-    delete: (
+    list: (scope: string, options?: RoleDefinitionsListOptionalParams) =>
+      list(context, scope, options),
+    get: (
       scope: string,
       roleDefinitionName: string,
-      options?: RoleDefinitionsDeleteOptionalParams,
-    ) => $delete(context, scope, roleDefinitionName, options),
+      options?: RoleDefinitionsGetOptionalParams,
+    ) => get(context, scope, roleDefinitionName, options),
     createOrUpdate: (
       scope: string,
       roleDefinitionName: string,
@@ -67,20 +69,18 @@ export function getRoleDefinitions(context: KeyVaultContext) {
       options?: RoleDefinitionsCreateOrUpdateOptionalParams,
     ) =>
       createOrUpdate(context, scope, roleDefinitionName, parameters, options),
-    get: (
+    delete: (
       scope: string,
       roleDefinitionName: string,
-      options?: RoleDefinitionsGetOptionalParams,
-    ) => get(context, scope, roleDefinitionName, options),
-    list: (scope: string, options?: RoleDefinitionsListOptionalParams) =>
-      list(context, scope, options),
+      options?: RoleDefinitionsDeleteOptionalParams,
+    ) => $delete(context, scope, roleDefinitionName, options),
   };
 }
 
-export function getRoleDefinitionsOperations(
+export function _getRoleDefinitionsOperations(
   context: KeyVaultContext,
 ): RoleDefinitionsOperations {
   return {
-    ...getRoleDefinitions(context),
+    ..._getRoleDefinitions(context),
   };
 }

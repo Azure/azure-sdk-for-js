@@ -9,15 +9,13 @@
  * @azsdk-weight 100
  */
 
-import * as dotenv from "dotenv";
+import "dotenv/config";
 import { WidgetServiceClient } from "@azure/template-dpg";
 
 // Load the .env file if it exists
-dotenv.config();
-
 const endpoint = process.env.WIDGET_SERVICE_ENDPOINT || "https://tsp-widgets.azurewebsites.net";
 
-async function main() {
+async function main(): Promise<void> {
   const client = new WidgetServiceClient(endpoint);
 
   // Create a new widget

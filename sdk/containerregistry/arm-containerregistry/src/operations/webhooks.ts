@@ -16,7 +16,7 @@ import { ContainerRegistryManagementClient } from "../containerRegistryManagemen
 import {
   SimplePollerLike,
   OperationState,
-  createHttpPoller
+  createHttpPoller,
 } from "@azure/core-lro";
 import { createLroSpec } from "../lroImpl.js";
 import {
@@ -42,7 +42,7 @@ import {
   WebhooksGetCallbackConfigOptionalParams,
   WebhooksGetCallbackConfigResponse,
   WebhooksListNextResponse,
-  WebhooksListEventsNextResponse
+  WebhooksListEventsNextResponse,
 } from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
@@ -67,7 +67,7 @@ export class WebhooksImpl implements Webhooks {
   public list(
     resourceGroupName: string,
     registryName: string,
-    options?: WebhooksListOptionalParams
+    options?: WebhooksListOptionalParams,
   ): PagedAsyncIterableIterator<Webhook> {
     const iter = this.listPagingAll(resourceGroupName, registryName, options);
     return {
@@ -85,9 +85,9 @@ export class WebhooksImpl implements Webhooks {
           resourceGroupName,
           registryName,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
@@ -95,7 +95,7 @@ export class WebhooksImpl implements Webhooks {
     resourceGroupName: string,
     registryName: string,
     options?: WebhooksListOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<Webhook[]> {
     let result: WebhooksListResponse;
     let continuationToken = settings?.continuationToken;
@@ -111,7 +111,7 @@ export class WebhooksImpl implements Webhooks {
         resourceGroupName,
         registryName,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -123,12 +123,12 @@ export class WebhooksImpl implements Webhooks {
   private async *listPagingAll(
     resourceGroupName: string,
     registryName: string,
-    options?: WebhooksListOptionalParams
+    options?: WebhooksListOptionalParams,
   ): AsyncIterableIterator<Webhook> {
     for await (const page of this.listPagingPage(
       resourceGroupName,
       registryName,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -145,13 +145,13 @@ export class WebhooksImpl implements Webhooks {
     resourceGroupName: string,
     registryName: string,
     webhookName: string,
-    options?: WebhooksListEventsOptionalParams
+    options?: WebhooksListEventsOptionalParams,
   ): PagedAsyncIterableIterator<Event> {
     const iter = this.listEventsPagingAll(
       resourceGroupName,
       registryName,
       webhookName,
-      options
+      options,
     );
     return {
       next() {
@@ -169,9 +169,9 @@ export class WebhooksImpl implements Webhooks {
           registryName,
           webhookName,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
@@ -180,7 +180,7 @@ export class WebhooksImpl implements Webhooks {
     registryName: string,
     webhookName: string,
     options?: WebhooksListEventsOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<Event[]> {
     let result: WebhooksListEventsResponse;
     let continuationToken = settings?.continuationToken;
@@ -189,7 +189,7 @@ export class WebhooksImpl implements Webhooks {
         resourceGroupName,
         registryName,
         webhookName,
-        options
+        options,
       );
       let page = result.value || [];
       continuationToken = result.nextLink;
@@ -202,7 +202,7 @@ export class WebhooksImpl implements Webhooks {
         registryName,
         webhookName,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -215,13 +215,13 @@ export class WebhooksImpl implements Webhooks {
     resourceGroupName: string,
     registryName: string,
     webhookName: string,
-    options?: WebhooksListEventsOptionalParams
+    options?: WebhooksListEventsOptionalParams,
   ): AsyncIterableIterator<Event> {
     for await (const page of this.listEventsPagingPage(
       resourceGroupName,
       registryName,
       webhookName,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -236,11 +236,11 @@ export class WebhooksImpl implements Webhooks {
   private _list(
     resourceGroupName: string,
     registryName: string,
-    options?: WebhooksListOptionalParams
+    options?: WebhooksListOptionalParams,
   ): Promise<WebhooksListResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, registryName, options },
-      listOperationSpec
+      listOperationSpec,
     );
   }
 
@@ -255,11 +255,11 @@ export class WebhooksImpl implements Webhooks {
     resourceGroupName: string,
     registryName: string,
     webhookName: string,
-    options?: WebhooksGetOptionalParams
+    options?: WebhooksGetOptionalParams,
   ): Promise<WebhooksGetResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, registryName, webhookName, options },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 
@@ -276,7 +276,7 @@ export class WebhooksImpl implements Webhooks {
     registryName: string,
     webhookName: string,
     webhookCreateParameters: WebhookCreateParameters,
-    options?: WebhooksCreateOptionalParams
+    options?: WebhooksCreateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<WebhooksCreateResponse>,
@@ -285,21 +285,20 @@ export class WebhooksImpl implements Webhooks {
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<WebhooksCreateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -308,8 +307,8 @@ export class WebhooksImpl implements Webhooks {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -317,8 +316,8 @@ export class WebhooksImpl implements Webhooks {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
@@ -329,9 +328,9 @@ export class WebhooksImpl implements Webhooks {
         registryName,
         webhookName,
         webhookCreateParameters,
-        options
+        options,
       },
-      spec: createOperationSpec
+      spec: createOperationSpec,
     });
     const poller = await createHttpPoller<
       WebhooksCreateResponse,
@@ -339,7 +338,7 @@ export class WebhooksImpl implements Webhooks {
     >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "azure-async-operation"
+      resourceLocationConfig: "azure-async-operation",
     });
     await poller.poll();
     return poller;
@@ -358,14 +357,14 @@ export class WebhooksImpl implements Webhooks {
     registryName: string,
     webhookName: string,
     webhookCreateParameters: WebhookCreateParameters,
-    options?: WebhooksCreateOptionalParams
+    options?: WebhooksCreateOptionalParams,
   ): Promise<WebhooksCreateResponse> {
     const poller = await this.beginCreate(
       resourceGroupName,
       registryName,
       webhookName,
       webhookCreateParameters,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -381,25 +380,24 @@ export class WebhooksImpl implements Webhooks {
     resourceGroupName: string,
     registryName: string,
     webhookName: string,
-    options?: WebhooksDeleteOptionalParams
+    options?: WebhooksDeleteOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<void> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -408,8 +406,8 @@ export class WebhooksImpl implements Webhooks {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -417,20 +415,20 @@ export class WebhooksImpl implements Webhooks {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
     const lro = createLroSpec({
       sendOperationFn,
       args: { resourceGroupName, registryName, webhookName, options },
-      spec: deleteOperationSpec
+      spec: deleteOperationSpec,
     });
     const poller = await createHttpPoller<void, OperationState<void>>(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "location"
+      resourceLocationConfig: "location",
     });
     await poller.poll();
     return poller;
@@ -447,13 +445,13 @@ export class WebhooksImpl implements Webhooks {
     resourceGroupName: string,
     registryName: string,
     webhookName: string,
-    options?: WebhooksDeleteOptionalParams
+    options?: WebhooksDeleteOptionalParams,
   ): Promise<void> {
     const poller = await this.beginDelete(
       resourceGroupName,
       registryName,
       webhookName,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -471,7 +469,7 @@ export class WebhooksImpl implements Webhooks {
     registryName: string,
     webhookName: string,
     webhookUpdateParameters: WebhookUpdateParameters,
-    options?: WebhooksUpdateOptionalParams
+    options?: WebhooksUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<WebhooksUpdateResponse>,
@@ -480,21 +478,20 @@ export class WebhooksImpl implements Webhooks {
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<WebhooksUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -503,8 +500,8 @@ export class WebhooksImpl implements Webhooks {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -512,8 +509,8 @@ export class WebhooksImpl implements Webhooks {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
@@ -524,9 +521,9 @@ export class WebhooksImpl implements Webhooks {
         registryName,
         webhookName,
         webhookUpdateParameters,
-        options
+        options,
       },
-      spec: updateOperationSpec
+      spec: updateOperationSpec,
     });
     const poller = await createHttpPoller<
       WebhooksUpdateResponse,
@@ -534,7 +531,7 @@ export class WebhooksImpl implements Webhooks {
     >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "azure-async-operation"
+      resourceLocationConfig: "azure-async-operation",
     });
     await poller.poll();
     return poller;
@@ -553,14 +550,14 @@ export class WebhooksImpl implements Webhooks {
     registryName: string,
     webhookName: string,
     webhookUpdateParameters: WebhookUpdateParameters,
-    options?: WebhooksUpdateOptionalParams
+    options?: WebhooksUpdateOptionalParams,
   ): Promise<WebhooksUpdateResponse> {
     const poller = await this.beginUpdate(
       resourceGroupName,
       registryName,
       webhookName,
       webhookUpdateParameters,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -576,11 +573,11 @@ export class WebhooksImpl implements Webhooks {
     resourceGroupName: string,
     registryName: string,
     webhookName: string,
-    options?: WebhooksPingOptionalParams
+    options?: WebhooksPingOptionalParams,
   ): Promise<WebhooksPingResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, registryName, webhookName, options },
-      pingOperationSpec
+      pingOperationSpec,
     );
   }
 
@@ -595,11 +592,11 @@ export class WebhooksImpl implements Webhooks {
     resourceGroupName: string,
     registryName: string,
     webhookName: string,
-    options?: WebhooksListEventsOptionalParams
+    options?: WebhooksListEventsOptionalParams,
   ): Promise<WebhooksListEventsResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, registryName, webhookName, options },
-      listEventsOperationSpec
+      listEventsOperationSpec,
     );
   }
 
@@ -614,11 +611,11 @@ export class WebhooksImpl implements Webhooks {
     resourceGroupName: string,
     registryName: string,
     webhookName: string,
-    options?: WebhooksGetCallbackConfigOptionalParams
+    options?: WebhooksGetCallbackConfigOptionalParams,
   ): Promise<WebhooksGetCallbackConfigResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, registryName, webhookName, options },
-      getCallbackConfigOperationSpec
+      getCallbackConfigOperationSpec,
     );
   }
 
@@ -633,11 +630,11 @@ export class WebhooksImpl implements Webhooks {
     resourceGroupName: string,
     registryName: string,
     nextLink: string,
-    options?: WebhooksListNextOptionalParams
+    options?: WebhooksListNextOptionalParams,
   ): Promise<WebhooksListNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, registryName, nextLink, options },
-      listNextOperationSpec
+      listNextOperationSpec,
     );
   }
 
@@ -654,11 +651,11 @@ export class WebhooksImpl implements Webhooks {
     registryName: string,
     webhookName: string,
     nextLink: string,
-    options?: WebhooksListEventsNextOptionalParams
+    options?: WebhooksListEventsNextOptionalParams,
   ): Promise<WebhooksListEventsNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, registryName, webhookName, nextLink, options },
-      listEventsNextOperationSpec
+      listEventsNextOperationSpec,
     );
   }
 }
@@ -666,32 +663,12 @@ export class WebhooksImpl implements Webhooks {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerRegistry/registries/{registryName}/webhooks",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerRegistry/registries/{registryName}/webhooks",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.WebhookListResult
-    }
-  },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.registryName
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
-};
-const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerRegistry/registries/{registryName}/webhooks/{webhookName}",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.Webhook
-    }
+      bodyMapper: Mappers.WebhookListResult,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -699,28 +676,45 @@ const getOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.registryName,
-    Parameters.webhookName
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
+};
+const getOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerRegistry/registries/{registryName}/webhooks/{webhookName}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.Webhook,
+    },
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.registryName,
+    Parameters.webhookName,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
 };
 const createOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerRegistry/registries/{registryName}/webhooks/{webhookName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerRegistry/registries/{registryName}/webhooks/{webhookName}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.Webhook
+      bodyMapper: Mappers.Webhook,
     },
     201: {
-      bodyMapper: Mappers.Webhook
+      bodyMapper: Mappers.Webhook,
     },
     202: {
-      bodyMapper: Mappers.Webhook
+      bodyMapper: Mappers.Webhook,
     },
     204: {
-      bodyMapper: Mappers.Webhook
-    }
+      bodyMapper: Mappers.Webhook,
+    },
   },
   requestBody: Parameters.webhookCreateParameters,
   queryParameters: [Parameters.apiVersion],
@@ -729,15 +723,14 @@ const createOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.registryName,
-    Parameters.webhookName
+    Parameters.webhookName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const deleteOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerRegistry/registries/{registryName}/webhooks/{webhookName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerRegistry/registries/{registryName}/webhooks/{webhookName}",
   httpMethod: "DELETE",
   responses: { 200: {}, 201: {}, 202: {}, 204: {} },
   queryParameters: [Parameters.apiVersion],
@@ -746,27 +739,26 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.registryName,
-    Parameters.webhookName
+    Parameters.webhookName,
   ],
-  serializer
+  serializer,
 };
 const updateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerRegistry/registries/{registryName}/webhooks/{webhookName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerRegistry/registries/{registryName}/webhooks/{webhookName}",
   httpMethod: "PATCH",
   responses: {
     200: {
-      bodyMapper: Mappers.Webhook
+      bodyMapper: Mappers.Webhook,
     },
     201: {
-      bodyMapper: Mappers.Webhook
+      bodyMapper: Mappers.Webhook,
     },
     202: {
-      bodyMapper: Mappers.Webhook
+      bodyMapper: Mappers.Webhook,
     },
     204: {
-      bodyMapper: Mappers.Webhook
-    }
+      bodyMapper: Mappers.Webhook,
+    },
   },
   requestBody: Parameters.webhookUpdateParameters,
   queryParameters: [Parameters.apiVersion],
@@ -775,20 +767,19 @@ const updateOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.registryName,
-    Parameters.webhookName
+    Parameters.webhookName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const pingOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerRegistry/registries/{registryName}/webhooks/{webhookName}/ping",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerRegistry/registries/{registryName}/webhooks/{webhookName}/ping",
   httpMethod: "POST",
   responses: {
     200: {
-      bodyMapper: Mappers.EventInfo
-    }
+      bodyMapper: Mappers.EventInfo,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -796,19 +787,18 @@ const pingOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.registryName,
-    Parameters.webhookName
+    Parameters.webhookName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listEventsOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerRegistry/registries/{registryName}/webhooks/{webhookName}/listEvents",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerRegistry/registries/{registryName}/webhooks/{webhookName}/listEvents",
   httpMethod: "POST",
   responses: {
     200: {
-      bodyMapper: Mappers.EventListResult
-    }
+      bodyMapper: Mappers.EventListResult,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -816,19 +806,18 @@ const listEventsOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.registryName,
-    Parameters.webhookName
+    Parameters.webhookName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const getCallbackConfigOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerRegistry/registries/{registryName}/webhooks/{webhookName}/getCallbackConfig",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerRegistry/registries/{registryName}/webhooks/{webhookName}/getCallbackConfig",
   httpMethod: "POST",
   responses: {
     200: {
-      bodyMapper: Mappers.CallbackConfig
-    }
+      bodyMapper: Mappers.CallbackConfig,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -836,36 +825,18 @@ const getCallbackConfigOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.registryName,
-    Parameters.webhookName
+    Parameters.webhookName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.WebhookListResult
-    }
-  },
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.registryName,
-    Parameters.nextLink
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
-};
-const listEventsNextOperationSpec: coreClient.OperationSpec = {
-  path: "{nextLink}",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.EventListResult
-    }
+      bodyMapper: Mappers.WebhookListResult,
+    },
   },
   urlParameters: [
     Parameters.$host,
@@ -873,8 +844,26 @@ const listEventsNextOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.registryName,
     Parameters.nextLink,
-    Parameters.webhookName
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
+};
+const listEventsNextOperationSpec: coreClient.OperationSpec = {
+  path: "{nextLink}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.EventListResult,
+    },
+  },
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.registryName,
+    Parameters.nextLink,
+    Parameters.webhookName,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
 };

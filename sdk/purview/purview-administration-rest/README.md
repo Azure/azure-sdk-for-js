@@ -53,18 +53,16 @@ AZURE_CLIENT_ID, AZURE_TENANT_ID, AZURE_CLIENT_SECRET
 
 Use the returned token credential to authenticate the client:
 
-```typescript
-import {
-  PurviewAccountClient,
-  PurviewMetadataPoliciesClient,
-} from "@azure-rest/purview-administration";
+```ts snippet:ReadmeSampleCreateClient_Node
+import { PurviewAccount, PurviewMetadataPolicies } from "@azure-rest/purview-administration";
 import { DefaultAzureCredential } from "@azure/identity";
-const accountClient = PurviewAccountClient(
+
+const accountClient = PurviewAccount.createClient(
   "https://<my-account-name>.purview.azure.com",
   new DefaultAzureCredential(),
 );
 
-const metadataClient = PurviewAccountClient(
+const metadataClient = PurviewMetadataPolicies.createClient(
   "https://<my-account-name>.purview.azure.com",
   new DefaultAzureCredential(),
 );
@@ -78,33 +76,63 @@ This client is one of our REST clients. We highly recommend you read how to use 
 
 ## Examples
 
-The following section shows you how to initialize and authenticate your client, then get all of your type-defs.
+The following section shows you how to initialize and authenticate your client and perform various operations.
 
-- [Get A List of Collections](#get-a-list-of-collections "Get A List of Collections")
+- Get A List of Collections
 
-```typescript
-import { PurviewAccountClient } from "@azure-rest/purview-administration";
+Gets a list of collections in the account.
+
+```ts snippet:ReadmeSampleGetCollections
+import { PurviewAccount } from "@azure-rest/purview-administration";
 import { DefaultAzureCredential } from "@azure/identity";
-import dotenv from "dotenv";
 
-dotenv.config();
+const accountClient = PurviewAccount.createClient(
+  "https://<my-account-name>.purview.azure.com",
+  new DefaultAzureCredential(),
+);
 
-const endpoint = process.env["ENDPOINT"] || "";
+const response = await accountClient.path("/collections").get();
 
-async function main() {
-  console.log("== List collections sample ==");
-  const client = PurviewAccountClient(endpoint, new DefaultAzureCredential());
-
-  const response = await client.path("/collections").get();
-
-  if (response.status !== "200") {
-    console.log(`GET "/collections" failed with ${response.status}`);
-  }
-
-  console.log(response.body);
+if (PurviewAccount.UnexpectedHelper.isUnexpected(response)) {
+  throw response.body.error;
 }
 
-main().catch(console.error);
+const paginated = PurviewAccount.PaginateHelper.paginate(accountClient, response);
+for await (const collection of paginated) {
+  console.log(
+    `Collection name: ${collection.name}\tCollection description: ${collection.description}`,
+  );
+}
+```
+
+- Get A List of Metadata Policies
+
+Gets a list of metadata policies in the account.
+
+```ts snippet:ReadmeSampleGetMetadataPolicies
+import { PurviewMetadataPolicies } from "@azure-rest/purview-administration";
+import { DefaultAzureCredential } from "@azure/identity";
+
+const metadataClient = PurviewMetadataPolicies.createClient(
+  "https://<my-account-name>.purview.azure.com",
+  new DefaultAzureCredential(),
+);
+
+const response = await metadataClient.path("/metadataPolicies").get();
+
+if (PurviewMetadataPolicies.UnexpectedHelper.isUnexpected(response)) {
+  throw response.body.error;
+}
+
+const policies = PurviewMetadataPolicies.PaginateHelper.paginate(metadataClient, response);
+
+for await (const policy of policies) {
+  if (Array.isArray(policy)) {
+    console.error("Unexpected array:", policy);
+  } else {
+    console.log(`Policy name: ${policy.name}`);
+  }
+}
 ```
 
 ## Troubleshooting
@@ -113,7 +141,7 @@ main().catch(console.error);
 
 Enabling logging may help uncover useful information about failures. In order to see a log of HTTP requests and responses, set the `AZURE_LOG_LEVEL` environment variable to `info`. Alternatively, logging can be enabled at runtime by calling `setLogLevel` in the `@azure/logger`:
 
-```ts
+```ts snippet:SetLogLevel
 import { setLogLevel } from "@azure/logger";
 
 setLogLevel("info");
@@ -131,11 +159,9 @@ If you'd like to contribute to this library, please read the [contributing guide
 
 - [Microsoft Azure SDK for JavaScript](https://github.com/Azure/azure-sdk-for-js)
 
-
-
 [account_product_documentation]: https://azure.microsoft.com/services/purview/
 [rest_client]: https://github.com/Azure/azure-sdk-for-js/blob/main/documentation/rest-clients.md
-[source_code]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/purview/purview-catalog-rest
+[source_code]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/purview/purview-administration-rest
 [account_npm]: https://www.npmjs.com/org/azure-rest
 [account_ref_docs]: https://azure.github.io/azure-sdk-for-js
 [azure_subscription]: https://azure.microsoft.com/free/

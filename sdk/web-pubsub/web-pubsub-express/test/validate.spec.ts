@@ -7,7 +7,7 @@ import { IncomingMessage, ServerResponse } from "node:http";
 import { Socket } from "node:net";
 
 describe("Abuse protection works", function () {
-  it("Only requests with valid header will be processed", function () {
+  it("Only requests with valid header will be processed", () => {
     const req = new IncomingMessage(new Socket());
     const res = new ServerResponse(req);
     const dispatcher = new CloudEventsDispatcher("hub");
@@ -16,7 +16,7 @@ describe("Abuse protection works", function () {
     assert.isFalse(result);
   });
 
-  it("When allow all endpoints return *", function () {
+  it("When allow all endpoints return *", () => {
     const req = new IncomingMessage(new Socket());
     req.headers["ce-awpsversion"] = "1.0";
     req.headers["webhook-request-origin"] = "a.com";
@@ -28,7 +28,7 @@ describe("Abuse protection works", function () {
     assert.equal("*", res.getHeader("webhook-allowed-origin"));
   });
 
-  it("Support valid url in allowed endpoints and return them", function () {
+  it("Support valid url in allowed endpoints and return them", () => {
     const req = new IncomingMessage(new Socket());
     req.headers["ce-awpsversion"] = "1.0";
     req.headers["webhook-request-origin"] = "a.com";
@@ -42,7 +42,7 @@ describe("Abuse protection works", function () {
     assert.sameMembers(["a.com", "b.com"], res.getHeader("webhook-allowed-origin") as string[]);
   });
 
-  it("Not allowed endpoints should return 200 and we reply on service to do the validation", function () {
+  it("Not allowed endpoints should return 200 and we reply on service to do the validation", () => {
     const req = new IncomingMessage(new Socket());
     req.headers["ce-awpsversion"] = "1.0";
     req.headers["webhook-request-origin"] = "a.com";

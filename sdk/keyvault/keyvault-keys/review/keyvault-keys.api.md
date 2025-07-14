@@ -93,7 +93,7 @@ export interface CreateRsaKeyOptions extends CreateKeyOptions {
 // @public
 export class CryptographyClient {
     constructor(key: string | KeyVaultKey, credential: TokenCredential, pipelineOptions?: CryptographyClientOptions);
-    constructor(key: JsonWebKey_2);
+    constructor(key: JsonWebKey);
     decrypt(decryptParameters: DecryptParameters, options?: DecryptOptions): Promise<DecryptResult>;
     // @deprecated
     decrypt(algorithm: EncryptionAlgorithm, ciphertext: Uint8Array, options?: DecryptOptions): Promise<DecryptResult>;
@@ -135,9 +135,9 @@ export interface DecryptResult {
 // @public
 export interface DeletedKey {
     id?: string;
-    key?: JsonWebKey_2;
+    key?: JsonWebKey;
     keyOperations?: KeyOperation[];
-    keyType?: KeyType_2;
+    keyType?: KeyType;
     name: string;
     properties: KeyProperties & {
         readonly recoveryId?: string;
@@ -179,6 +179,11 @@ export interface GetDeletedKeyOptions extends coreClient.OperationOptions {
 }
 
 // @public
+export interface GetKeyAttestationOptions extends coreClient.OperationOptions {
+    version?: string;
+}
+
+// @public
 export interface GetKeyOptions extends coreClient.OperationOptions {
     version?: string;
 }
@@ -205,7 +210,7 @@ export interface ImportKeyOptions extends coreClient.OperationOptions {
 }
 
 // @public
-interface JsonWebKey_2 {
+export interface JsonWebKey {
     crv?: KeyCurveName;
     d?: Uint8Array;
     dp?: Uint8Array;
@@ -214,7 +219,7 @@ interface JsonWebKey_2 {
     k?: Uint8Array;
     keyOps?: KeyOperation[];
     kid?: string;
-    kty?: KeyType_2;
+    kty?: KeyType;
     n?: Uint8Array;
     p?: Uint8Array;
     q?: Uint8Array;
@@ -223,7 +228,14 @@ interface JsonWebKey_2 {
     x?: Uint8Array;
     y?: Uint8Array;
 }
-export { JsonWebKey_2 as JsonWebKey }
+
+// @public
+export interface KeyAttestation {
+    certificatePemFile?: Uint8Array;
+    privateKeyAttestation?: Uint8Array;
+    publicKeyAttestation?: Uint8Array;
+    version?: string;
+}
 
 // @public
 export class KeyClient {
@@ -232,15 +244,16 @@ export class KeyClient {
     beginDeleteKey(name: string, options?: BeginDeleteKeyOptions): Promise<PollerLike<PollOperationState<DeletedKey>, DeletedKey>>;
     beginRecoverDeletedKey(name: string, options?: BeginRecoverDeletedKeyOptions): Promise<PollerLike<PollOperationState<DeletedKey>, DeletedKey>>;
     createEcKey(name: string, options?: CreateEcKeyOptions): Promise<KeyVaultKey>;
-    createKey(name: string, keyType: KeyType_2, options?: CreateKeyOptions): Promise<KeyVaultKey>;
+    createKey(name: string, keyType: KeyType, options?: CreateKeyOptions): Promise<KeyVaultKey>;
     createOctKey(name: string, options?: CreateOctKeyOptions): Promise<KeyVaultKey>;
     createRsaKey(name: string, options?: CreateRsaKeyOptions): Promise<KeyVaultKey>;
     getCryptographyClient(keyName: string, options?: GetCryptographyClientOptions): CryptographyClient;
     getDeletedKey(name: string, options?: GetDeletedKeyOptions): Promise<DeletedKey>;
     getKey(name: string, options?: GetKeyOptions): Promise<KeyVaultKey>;
+    getKeyAttestation(name: string, options?: GetKeyAttestationOptions): Promise<KeyVaultKey>;
     getKeyRotationPolicy(keyName: string, options?: GetKeyRotationPolicyOptions): Promise<KeyRotationPolicy>;
     getRandomBytes(count: number, options?: GetRandomBytesOptions): Promise<Uint8Array>;
-    importKey(name: string, key: JsonWebKey_2, options?: ImportKeyOptions): Promise<KeyVaultKey>;
+    importKey(name: string, key: JsonWebKey, options?: ImportKeyOptions): Promise<KeyVaultKey>;
     listDeletedKeys(options?: ListDeletedKeysOptions): PagedAsyncIterableIterator<DeletedKey>;
     listPropertiesOfKeys(options?: ListPropertiesOfKeysOptions): PagedAsyncIterableIterator<KeyProperties>;
     listPropertiesOfKeyVersions(name: string, options?: ListPropertiesOfKeyVersionsOptions): PagedAsyncIterableIterator<KeyProperties>;
@@ -277,6 +290,7 @@ export interface KeyPollerOptions extends coreClient.OperationOptions {
 
 // @public
 export interface KeyProperties {
+    attestation?: KeyAttestation;
     readonly createdOn?: Date;
     enabled?: boolean;
     expiresOn?: Date;
@@ -328,15 +342,14 @@ export interface KeyRotationPolicyProperties {
 }
 
 // @public
-type KeyType_2 = string;
-export { KeyType_2 as KeyType }
+export type KeyType = string;
 
 // @public
 export interface KeyVaultKey {
     id?: string;
-    key?: JsonWebKey_2;
+    key?: JsonWebKey;
     keyOperations?: KeyOperation[];
-    keyType?: KeyType_2;
+    keyType?: KeyType;
     name: string;
     properties: KeyProperties;
 }
@@ -350,7 +363,7 @@ export interface KeyVaultKeyIdentifier {
 }
 
 // @public
-export type KeyWrapAlgorithm = "A128KW" | "A192KW" | "A256KW" | "RSA-OAEP" | "RSA-OAEP-256" | "RSA1_5";
+export type KeyWrapAlgorithm = "A128KW" | "A192KW" | "A256KW" | "RSA-OAEP" | "RSA-OAEP-256" | "RSA1_5" | "CKM_AES_KEY_WRAP" | "CKM_AES_KEY_WRAP_PAD";
 
 // @public
 export enum KnownDeletionRecoveryLevel {
@@ -377,6 +390,8 @@ export enum KnownEncryptionAlgorithms {
     A256Cbcpad = "A256CBCPAD",
     A256GCM = "A256GCM",
     A256KW = "A256KW",
+    CkmAesKeyWrap = "CKM_AES_KEY_WRAP",
+    CkmAesKeyWrapPad = "CKM_AES_KEY_WRAP_PAD",
     RSA15 = "RSA1_5",
     RSAOaep = "RSA-OAEP",
     RSAOaep256 = "RSA-OAEP-256"
@@ -424,6 +439,9 @@ export enum KnownSignatureAlgorithms {
     ES256K = "ES256K",
     ES384 = "ES384",
     ES512 = "ES512",
+    HS256 = "HS256",
+    HS384 = "HS384",
+    HS512 = "HS512",
     PS256 = "PS256",
     PS384 = "PS384",
     PS512 = "PS512",

@@ -15,7 +15,7 @@ See our [support policy](https://github.com/Azure/azure-sdk-for-js/blob/main/SUP
 
 ### Installation
 
-This package is primarily used in generated code and not meant to be consumed directly by end users.
+This package is primarily used in generated code and not meant to be consumed directly by end users. Only top-level exports from this package should be used. Any exports under the `internal` subpath are for private use and stability is not guaranteed.
 
 ## Key concepts
 

@@ -30,11 +30,11 @@ import type {
   RejectCallOptions,
 } from "./models/options.js";
 import type { AnswerCallResult, ConnectCallResult, CreateCallResult } from "./models/responses.js";
-import type {
-  CallConnectionProperties,
-  CallInvite,
-  CallLocator,
-  CustomCallingContext,
+import {
+  type CallConnectionProperties,
+  type CallInvite,
+  type CallLocator,
+  type CustomCallingContext,
 } from "./models/models.js";
 import {
   communicationIdentifierConverter,
@@ -44,6 +44,7 @@ import {
   microsoftTeamsAppIdentifierModelConverter,
   phoneNumberIdentifierConverter,
   PhoneNumberIdentifierModelConverter,
+  teamsPhoneCallDetailsModelConverter,
 } from "./utli/converters.js";
 import { randomUUID } from "@azure/core-util";
 import { createCustomCallAutomationApiClient } from "./credential/callAutomationAuthPolicy.js";
@@ -463,18 +464,30 @@ export class CallAutomationClient {
   ): CustomCallingContextInternal {
     const sipHeaders: { [key: string]: string } = {};
     const voipHeaders: { [key: string]: string } = {};
+    let teamsPhoneCallDetails: any = undefined;
+
     if (customCallingContext) {
       for (const header of customCallingContext) {
         if (header.kind === "sipuui") {
           sipHeaders[`User-To-User`] = header.value;
         } else if (header.kind === "sipx") {
-          sipHeaders[`X-MS-Custom-${header.key}`] = header.value;
+          if (header.sipHeaderPrefix === "X-") {
+            sipHeaders[`X-${header.key}`] = header.value;
+          } else {
+            sipHeaders[`X-MS-Custom-${header.key}`] = header.value;
+          }
         } else if (header.kind === "voip") {
           voipHeaders[`${header.key}`] = header.value;
+        } else if (header.kind === "teamsPhoneCallDetails") {
+          teamsPhoneCallDetails = teamsPhoneCallDetailsModelConverter(header);
         }
       }
     }
-    return { sipHeaders: sipHeaders, voipHeaders: voipHeaders };
+    return {
+      sipHeaders: sipHeaders,
+      voipHeaders: voipHeaders,
+      teamsPhoneCallDetails: teamsPhoneCallDetails,
+    };
   }
 
   /**

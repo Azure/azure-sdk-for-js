@@ -16,7 +16,7 @@ import "dotenv/config";
  * This sample demonstrates how to Lists the keys in the specified managed HSM.
  *
  * @summary Lists the keys in the specified managed HSM.
- * x-ms-original-file: specification/keyvault/resource-manager/Microsoft.KeyVault/stable/2023-07-01/examples/managedHsmListKeys.json
+ * x-ms-original-file: specification/keyvault/resource-manager/Microsoft.KeyVault/stable/2024-11-01/examples/managedHsmListKeys.json
  */
 async function listKeysInTheManagedHsm(): Promise<void> {
   const subscriptionId =
@@ -28,14 +28,17 @@ async function listKeysInTheManagedHsm(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = new KeyVaultManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.managedHsmKeys.list(resourceGroupName, name)) {
+  for await (const item of client.managedHsmKeys.list(
+    resourceGroupName,
+    name,
+  )) {
     resArray.push(item);
   }
   console.log(resArray);
 }
 
 async function main(): Promise<void> {
-  listKeysInTheManagedHsm();
+  await listKeysInTheManagedHsm();
 }
 
 main().catch(console.error);

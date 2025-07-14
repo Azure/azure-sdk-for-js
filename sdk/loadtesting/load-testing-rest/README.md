@@ -17,14 +17,15 @@ Various documentation is available to help you get started
 ### Currently supported environments
 
 - [LTS versions of Node.js](https://github.com/nodejs/release#release-schedule)
+- Latest versions of Safari, Chrome, Edge and Firefox
 
 ### Prerequisites
 
-- You must have an [Azure subscription](https://azure.microsoft.com/free/) and [Azure Load Test Service Resource](https://learn.microsoft.com/azure/load-testing/) to use this package.
+- You must have an [Azure subscription](https://azure.microsoft.com/free/) and [Azure Load Test Service Resource](https://learn.microsoft.com/azure/load-testing/) to use this package. You can create the resource via the [Azure Portal](https://portal.azure.com), or the [Azure CLI](https://learn.microsoft.com/cli/azure).
 
 ### Install the `@azure-rest/load-testing` package
 
-Install the AzureLoadTesting client REST client library for JavaScript with `npm`:
+Install the Azure Load Testing client REST client library for JavaScript with `npm`:
 
 ```bash
 npm install @azure-rest/load-testing
@@ -75,11 +76,11 @@ During a load test, Azure Load Testing collects metrics about the test execution
 
 ### Test Engine
 
-A test engine is computing infrastructure that runs the Apache JMeter test script. You can scale out your load test by configuring the number of test engines. The test script runs in parallel across the specified number of test engines.
+A test engine is computing infrastructure that runs the Apache JMeter or Locust test script. You can scale out your load test by configuring the number of test engines. The test script runs in parallel across the specified number of test engines.
 
 ### Test Run
 
-A test run represents one execution of a load test. It collects the logs associated with running the Apache JMeter script, the load test YAML configuration, the list of app components to monitor, and the results of the test.
+A test run represents one execution of a load test. It collects the logs associated with running the Apache JMeter or Locust script, the load test YAML configuration, the list of app components to monitor, and the results of the test.
 
 ### Data-Plane Endpoint
 
@@ -89,7 +90,7 @@ Data-plane of Azure Load Testing resources is addressable using the following UR
 
 The first GUID `00000000-0000-0000-0000-000000000000` is the unique identifier used for accessing the Azure Load Testing resource. This is followed by `aaa` which is the Azure region of the resource.
 
-The data-plane endpoint is obtained from Control Plane APIs.
+The data-plane endpoint is obtained from Control Plane APIs. To obtain the data-plane endpoint for your resource, follow [this documentation][obtaining_data_plane_uri].
 
 **Example:** `1234abcd-12ab-12ab-12ab-123456abcdef.eus.cnt-prod.loadtesting.azure.com`
 
@@ -125,9 +126,9 @@ await client.path("/tests/{testId}", TEST_ID).patch({
 });
 ```
 
-### Uploading .jmx file to a Test
+### Uploading Test script file to a Test
 
-```ts snippet:ReadmeSampleUploadJmxFile
+```ts snippet:ReadmeSampleUploadTestScriptFile
 import AzureLoadTesting, { isUnexpected, getLongRunningPoller } from "@azure-rest/load-testing";
 import { DefaultAzureCredential } from "@azure/identity";
 import { createReadStream } from "node:fs";
@@ -232,7 +233,7 @@ if (isUnexpected(metricsResult)) {
   throw metricsResult.body.error;
 }
 
-for (const timeSeries of metricsResult.body.timeseries) {
+for (const timeSeries of metricsResult.body.value) {
   console.log(timeSeries);
 }
 ```
@@ -259,7 +260,7 @@ See [Azure Load Testing samples][sample_code].
 
 ## Contributing
 
-For details on contributing to this repository, see the [contributing guide](https://github.com/Azure/azure-sdk-for-js/blob/main/CONTRIBUTING.md).
+For details on contributing to this repository, see the [contributing guide](https://github.com/Azure/azure-sdk-for-js/blob/main/CONTRIBUTING.md) to learn more on how to build and test the code.
 
 1. Fork it
 2. Create your feature branch (`git checkout -b my-new-feature`)
@@ -267,10 +268,15 @@ For details on contributing to this repository, see the [contributing guide](htt
 4. Push to the branch (`git push origin my-new-feature`)
 5. Create new Pull Request
 
+## Related Projects
+
+- [Microsoft Azure SDK for JavaScript](https://github.com/Azure/azure-sdk-for-js)
+
 <!-- LINKS -->
 
 [source_code]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/loadtesting/load-testing-rest/src
 [sample_code]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/loadtesting/load-testing-rest/samples/v1-beta
 [api_reference_doc]: https://learn.microsoft.com/rest/api/loadtesting/
+[obtaining_data_plane_uri]: https://learn.microsoft.com/rest/api/loadtesting/data-plane-uri
 [product_documentation]: https://azure.microsoft.com/services/load-testing/
 [azure_subscription]: https://azure.microsoft.com/free/

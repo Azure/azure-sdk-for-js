@@ -89,7 +89,7 @@ class NodeHttpClient implements HttpClient {
     let abortListener: ((event: any) => void) | undefined;
     if (request.abortSignal) {
       if (request.abortSignal.aborted) {
-        throw new AbortError("The operation was aborted. Request has already been canceled");
+        throw new AbortError("The operation was aborted. Request has already been canceled.");
       }
 
       abortListener = (event: Event) => {
@@ -231,6 +231,7 @@ class NodeHttpClient implements HttpClient {
       port: url.port,
       method: request.method,
       headers: request.headers.toJSON({ preserveCase: true }),
+      ...request.requestOverrides,
     };
 
     return new Promise<http.IncomingMessage>((resolve, reject) => {
@@ -244,7 +245,7 @@ class NodeHttpClient implements HttpClient {
 
       abortController.signal.addEventListener("abort", () => {
         const abortError = new AbortError(
-          "The operation was aborted. Rejecting from abort signal callback while making request",
+          "The operation was aborted. Rejecting from abort signal callback while making request.",
         );
         req.destroy(abortError);
         reject(abortError);

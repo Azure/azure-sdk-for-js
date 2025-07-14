@@ -29,7 +29,7 @@ const logger = credentialLogger(credentialName);
  * certificate that is assigned to an App Registration. More information
  * on how to configure certificate authentication can be found here:
  *
- * https://learn.microsoft.com/en-us/azure/active-directory/develop/active-directory-certificate-credentials#register-your-certificate-with-azure-ad
+ * https://learn.microsoft.com/azure/active-directory/develop/active-directory-certificate-credentials#register-your-certificate-with-azure-ad
  *
  */
 export class ClientCertificateCredential implements TokenCredential {
@@ -178,6 +178,7 @@ export class ClientCertificateCredential implements TokenCredential {
 
     return {
       thumbprint: parts.thumbprint,
+      thumbprintSha256: parts.thumbprintSha256,
       privateKey,
       x5c: parts.x5c,
     };
@@ -223,8 +224,14 @@ export async function parseCertificate(
     .digest("hex")
     .toUpperCase();
 
+  const thumbprintSha256 = createHash("sha256")
+    .update(Buffer.from(publicKeys[0], "base64"))
+    .digest("hex")
+    .toUpperCase();
+
   return {
     certificateContents,
+    thumbprintSha256,
     thumbprint,
     x5c,
   };

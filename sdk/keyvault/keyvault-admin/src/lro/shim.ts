@@ -8,6 +8,7 @@ import type {
   PollerLike as CorePollerLike,
 } from "@azure/core-lro";
 import type { KeyVaultAdminPollOperationState } from "./models.js";
+import { FullBackupOperation, RestoreOperation } from "../generated/index.js";
 
 /**
  * A simple poller that can be used to poll a long running operation.
@@ -109,7 +110,7 @@ export async function wrapPoller<TState extends OperationState<TResult>, TResult
     },
     onProgress: httpPoller.onProgress,
     async poll(options) {
-      httpPoller.poll(options);
+      await httpPoller.poll(options);
     },
     pollUntilDone(pollOptions?: { abortSignal?: AbortSignalLike }) {
       function abortListener(): void {
@@ -134,4 +135,25 @@ export async function wrapPoller<TState extends OperationState<TResult>, TResult
     (httpPoller.operationState as any).config.resourceLocation = undefined;
   }
   return simplePoller;
+}
+
+/**
+ * A helper that standardizes the shape of the result of a long-running operation.
+ *
+ * smoothing over the differences between `null` and `undefined` sent over the wire in responses.
+ */
+export function updateState(state: OperationState<RestoreOperation | FullBackupOperation>): void {
+  if (state.result) {
+    state.result = {
+      ...state.result,
+      endTime: state.result.endTime ?? undefined,
+      startTime: state.result.startTime ?? undefined,
+      error: state.result.error ?? undefined,
+      statusDetails: state.result.statusDetails ?? undefined,
+    };
+
+    if ("folderUri" in state.result) {
+      state.result.folderUri ??= undefined;
+    }
+  }
 }

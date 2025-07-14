@@ -6,7 +6,7 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-export * from "./service";
-export * from "./queue";
-export * from "./messages";
-export * from "./messageId";
+export * from "./service.js";
+export * from "./queue.js";
+export * from "./messages.js";
+export * from "./messageId.js";

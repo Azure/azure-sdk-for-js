@@ -101,7 +101,7 @@ describe("Call Automation Main Client Live Tests", { skip: !isNodeLike }, () => 
       );
     }
 
-    const callConnectedEvent = await waitForEvent("CallConnected", callConnectionId, 8000);
+    const callConnectedEvent = await waitForEvent("CallConnected", callConnectionId, 10000);
 
     assert.isDefined(callConnectedEvent);
     callConnection = result.callConnection;

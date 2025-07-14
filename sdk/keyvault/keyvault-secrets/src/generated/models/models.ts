@@ -145,12 +145,21 @@ export interface KeyVaultError {
 
 export function keyVaultErrorDeserializer(item: any): KeyVaultError {
   return {
-    error: !item["error"] ? item["error"] : errorDeserializer(item["error"]),
+    error: !item["error"]
+      ? item["error"]
+      : _keyVaultErrorErrorDeserializer(item["error"]),
   };
 }
 
-/** The key vault server error. */
-export interface ErrorModel {
+/** Alias for ErrorModel */
+export type ErrorModel = {
+  code?: string;
+  message?: string;
+  innerError?: ErrorModel;
+} | null;
+
+/** model interface _KeyVaultErrorError */
+export interface _KeyVaultErrorError {
   /** The error code. */
   readonly code?: string;
   /** The error message. */
@@ -159,13 +168,15 @@ export interface ErrorModel {
   readonly innerError?: ErrorModel;
 }
 
-export function errorDeserializer(item: any): ErrorModel {
+export function _keyVaultErrorErrorDeserializer(
+  item: any,
+): _KeyVaultErrorError {
   return {
     code: item["code"],
     message: item["message"],
     innerError: !item["innererror"]
       ? item["innererror"]
-      : errorDeserializer(item["innererror"]),
+      : _keyVaultErrorErrorDeserializer(item["innererror"]),
   };
 }
 
@@ -384,7 +395,9 @@ export function secretRestoreParametersSerializer(
 /** The available API versions. */
 export enum KnownVersions {
   /** The 7.5 API version. */
-  "v7.5" = "7.5",
-  /** The 7.6-preview.1 API version. */
-  "v7.6_preview.1" = "7.6-preview.1",
+  V75 = "7.5",
+  /** The 7.6-preview.2 API version. */
+  V76Preview2 = "7.6-preview.2",
+  /** The 7.6 API version. */
+  V76 = "7.6",
 }

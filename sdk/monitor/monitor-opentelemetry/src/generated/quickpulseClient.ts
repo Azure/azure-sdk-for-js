@@ -12,15 +12,15 @@ import {
   PipelineResponse,
   SendRequest,
 } from "@azure/core-rest-pipeline";
-import * as Parameters from "./models/parameters";
-import * as Mappers from "./models/mappers";
+import * as Parameters from "./models/parameters.js";
+import * as Mappers from "./models/mappers.js";
 import {
   QuickpulseClientOptionalParams,
   IsSubscribedOptionalParams,
   IsSubscribedResponse,
   PublishOptionalParams,
   PublishResponse,
-} from "./models";
+} from "./models/index.js";
 
 export class QuickpulseClient extends coreClient.ServiceClient {
   apiVersion: string;

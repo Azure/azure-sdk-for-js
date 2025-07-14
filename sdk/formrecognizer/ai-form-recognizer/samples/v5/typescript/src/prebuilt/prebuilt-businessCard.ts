@@ -12,7 +12,7 @@ import * as fr from "@azure/ai-form-recognizer";
  * Extract key information from business cards.
  */
 export const PrebuiltBusinessCardModel = fr.createModelFromSchema(
-  modelInfo()
+  modelInfo(),
 ) as fr.DocumentModel<PrebuiltBusinessCardResult>;
 
 export interface PrebuiltBusinessCardResult extends fr.AnalyzeResultCommon {
@@ -130,7 +130,7 @@ export interface BusinessCardContactNamesElement {
 /**
  * The raw model schema.
  */
-function modelInfo() {
+function modelInfo(): any {
   return {
     modelId: "prebuilt-businessCard",
     description: "Extract key information from business cards.",

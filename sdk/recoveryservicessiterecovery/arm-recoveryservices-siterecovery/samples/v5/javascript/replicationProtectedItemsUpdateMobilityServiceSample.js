@@ -10,21 +10,21 @@
 // Licensed under the MIT License.
 const { SiteRecoveryManagementClient } = require("@azure/arm-recoveryservices-siterecovery");
 const { DefaultAzureCredential } = require("@azure/identity");
-require("dotenv").config();
+require("dotenv/config");
 
 /**
  * This sample demonstrates how to The operation to update(push update) the installed mobility service software on a replication protected item to the latest available version.
  *
  * @summary The operation to update(push update) the installed mobility service software on a replication protected item to the latest available version.
- * x-ms-original-file: specification/recoveryservicessiterecovery/resource-manager/Microsoft.RecoveryServices/stable/2023-08-01/examples/ReplicationProtectedItems_UpdateMobilityService.json
+ * x-ms-original-file: specification/recoveryservicessiterecovery/resource-manager/Microsoft.RecoveryServices/stable/2025-01-01/examples/ReplicationProtectedItems_UpdateMobilityService.json
  */
 async function updateTheMobilityServiceOnAProtectedItem() {
   const subscriptionId =
     process.env["RECOVERYSERVICESSITERECOVERY_SUBSCRIPTION_ID"] ||
     "b364ed8d-4279-4bf8-8fd1-56f8fa0ae05c";
-  const resourceName = "WCUSVault";
   const resourceGroupName =
     process.env["RECOVERYSERVICESSITERECOVERY_RESOURCE_GROUP"] || "wcusValidations";
+  const resourceName = "WCUSVault";
   const fabricName = "WIN-JKKJ31QI8U2";
   const protectionContainerName = "cloud_c6780228-83bd-4f3e-a70e-cb46b7da33a0";
   const replicatedProtectedItemName = "79dd20ab-2b40-11e7-9791-0050568f387e";
@@ -34,8 +34,8 @@ async function updateTheMobilityServiceOnAProtectedItem() {
   const credential = new DefaultAzureCredential();
   const client = new SiteRecoveryManagementClient(credential, subscriptionId);
   const result = await client.replicationProtectedItems.beginUpdateMobilityServiceAndWait(
-    resourceName,
     resourceGroupName,
+    resourceName,
     fabricName,
     protectionContainerName,
     replicatedProtectedItemName,
@@ -45,7 +45,7 @@ async function updateTheMobilityServiceOnAProtectedItem() {
 }
 
 async function main() {
-  updateTheMobilityServiceOnAProtectedItem();
+  await updateTheMobilityServiceOnAProtectedItem();
 }
 
 main().catch(console.error);

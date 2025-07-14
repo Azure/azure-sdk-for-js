@@ -9,7 +9,6 @@
 
 const { AzureOpenAI } = require("openai");
 const { DefaultAzureCredential, getBearerTokenProvider } = require("@azure/identity");
-require("@azure/openai/types");
 
 // Set AZURE_OPENAI_ENDPOINT to the endpoint of your
 // OpenAI resource. You can find this in the Azure portal.
@@ -26,7 +25,7 @@ async function main() {
   const scope = "https://cognitiveservices.azure.com/.default";
   const azureADTokenProvider = getBearerTokenProvider(new DefaultAzureCredential(), scope);
   const deployment = "gpt-4-1106-preview";
-  const apiVersion = "2024-11-01-preview";
+  const apiVersion = "2025-03-01-preview";
   const client = new AzureOpenAI({ azureADTokenProvider, deployment, apiVersion });
   const events = await client.chat.completions.create({
     stream: true,
@@ -55,7 +54,9 @@ async function main() {
 
   for await (const event of events) {
     for (const choice of event.choices) {
-      console.log(choice.delta?.content);
+      if (choice.delta?.content) {
+        process.stdout.write(choice.delta.content);
+      }
     }
   }
 }

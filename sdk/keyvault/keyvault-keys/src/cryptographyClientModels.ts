@@ -11,15 +11,19 @@ import {
   KnownJsonWebKeySignatureAlgorithm as KnownSignatureAlgorithms,
   KnownJsonWebKeyEncryptionAlgorithm as KnownEncryptionAlgorithms,
   JsonWebKeySignatureAlgorithm as SignatureAlgorithm,
+  KnownJsonWebKeyType as KnownKeyTypes,
+  KnownKeyEncryptionAlgorithm as KnownKeyExportEncryptionAlgorithm,
 } from "./generated/models/index.js";
 
 export {
-  KeyCurveName,
   EncryptionAlgorithm,
+  KeyCurveName,
   KnownEncryptionAlgorithms,
-  SignatureAlgorithm,
   KnownKeyCurveNames,
+  KnownKeyExportEncryptionAlgorithm,
+  KnownKeyTypes,
   KnownSignatureAlgorithms,
+  SignatureAlgorithm,
 };
 
 /**
@@ -31,7 +35,9 @@ export type KeyWrapAlgorithm =
   | "A256KW"
   | "RSA-OAEP"
   | "RSA-OAEP-256"
-  | "RSA1_5";
+  | "RSA1_5"
+  | "CKM_AES_KEY_WRAP"
+  | "CKM_AES_KEY_WRAP_PAD";
 
 /**
  * Result of the {@link encrypt} operation.

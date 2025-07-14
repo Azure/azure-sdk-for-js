@@ -21,12 +21,13 @@ import {
   ComponentLinkedStorageAccountsPatch,
   ComponentLinkedStorageAccountsUpdateOptionalParams,
   ComponentLinkedStorageAccountsUpdateResponse,
-  ComponentLinkedStorageAccountsDeleteOptionalParams
+  ComponentLinkedStorageAccountsDeleteOptionalParams,
 } from "../models/index.js";
 
 /** Class containing ComponentLinkedStorageAccountsOperations operations. */
 export class ComponentLinkedStorageAccountsOperationsImpl
-  implements ComponentLinkedStorageAccountsOperations {
+  implements ComponentLinkedStorageAccountsOperations
+{
   private readonly client: ApplicationInsightsManagementClient;
 
   /**
@@ -49,11 +50,11 @@ export class ComponentLinkedStorageAccountsOperationsImpl
     resourceGroupName: string,
     resourceName: string,
     storageType: StorageType,
-    options?: ComponentLinkedStorageAccountsGetOptionalParams
+    options?: ComponentLinkedStorageAccountsGetOptionalParams,
   ): Promise<ComponentLinkedStorageAccountsGetResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, resourceName, storageType, options },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 
@@ -72,7 +73,7 @@ export class ComponentLinkedStorageAccountsOperationsImpl
     resourceName: string,
     storageType: StorageType,
     linkedStorageAccountsProperties: ComponentLinkedStorageAccounts,
-    options?: ComponentLinkedStorageAccountsCreateAndUpdateOptionalParams
+    options?: ComponentLinkedStorageAccountsCreateAndUpdateOptionalParams,
   ): Promise<ComponentLinkedStorageAccountsCreateAndUpdateResponse> {
     return this.client.sendOperationRequest(
       {
@@ -80,9 +81,9 @@ export class ComponentLinkedStorageAccountsOperationsImpl
         resourceName,
         storageType,
         linkedStorageAccountsProperties,
-        options
+        options,
       },
-      createAndUpdateOperationSpec
+      createAndUpdateOperationSpec,
     );
   }
 
@@ -101,7 +102,7 @@ export class ComponentLinkedStorageAccountsOperationsImpl
     resourceName: string,
     storageType: StorageType,
     linkedStorageAccountsProperties: ComponentLinkedStorageAccountsPatch,
-    options?: ComponentLinkedStorageAccountsUpdateOptionalParams
+    options?: ComponentLinkedStorageAccountsUpdateOptionalParams,
   ): Promise<ComponentLinkedStorageAccountsUpdateResponse> {
     return this.client.sendOperationRequest(
       {
@@ -109,9 +110,9 @@ export class ComponentLinkedStorageAccountsOperationsImpl
         resourceName,
         storageType,
         linkedStorageAccountsProperties,
-        options
+        options,
       },
-      updateOperationSpec
+      updateOperationSpec,
     );
   }
 
@@ -127,11 +128,11 @@ export class ComponentLinkedStorageAccountsOperationsImpl
     resourceGroupName: string,
     resourceName: string,
     storageType: StorageType,
-    options?: ComponentLinkedStorageAccountsDeleteOptionalParams
+    options?: ComponentLinkedStorageAccountsDeleteOptionalParams,
   ): Promise<void> {
     return this.client.sendOperationRequest(
       { resourceGroupName, resourceName, storageType, options },
-      deleteOperationSpec
+      deleteOperationSpec,
     );
   }
 }
@@ -139,97 +140,93 @@ export class ComponentLinkedStorageAccountsOperationsImpl
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/microsoft.insights/components/{resourceName}/linkedStorageAccounts/{storageType}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/microsoft.insights/components/{resourceName}/linkedStorageAccounts/{storageType}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ComponentLinkedStorageAccounts
+      bodyMapper: Mappers.ComponentLinkedStorageAccounts,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponseLinkedStorage
-    }
+      bodyMapper: Mappers.ErrorResponseLinkedStorage,
+    },
   },
-  queryParameters: [Parameters.apiVersion5],
+  queryParameters: [Parameters.apiVersion7],
   urlParameters: [
     Parameters.$host,
-    Parameters.resourceGroupName,
     Parameters.subscriptionId,
+    Parameters.resourceGroupName,
     Parameters.resourceName,
-    Parameters.storageType
+    Parameters.storageType,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const createAndUpdateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/microsoft.insights/components/{resourceName}/linkedStorageAccounts/{storageType}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/microsoft.insights/components/{resourceName}/linkedStorageAccounts/{storageType}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.ComponentLinkedStorageAccounts
+      bodyMapper: Mappers.ComponentLinkedStorageAccounts,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponseLinkedStorage
-    }
+      bodyMapper: Mappers.ErrorResponseLinkedStorage,
+    },
   },
   requestBody: Parameters.linkedStorageAccountsProperties,
-  queryParameters: [Parameters.apiVersion5],
+  queryParameters: [Parameters.apiVersion7],
   urlParameters: [
     Parameters.$host,
-    Parameters.resourceGroupName,
     Parameters.subscriptionId,
+    Parameters.resourceGroupName,
     Parameters.resourceName,
-    Parameters.storageType
+    Parameters.storageType,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const updateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/microsoft.insights/components/{resourceName}/linkedStorageAccounts/{storageType}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/microsoft.insights/components/{resourceName}/linkedStorageAccounts/{storageType}",
   httpMethod: "PATCH",
   responses: {
     200: {
-      bodyMapper: Mappers.ComponentLinkedStorageAccounts
+      bodyMapper: Mappers.ComponentLinkedStorageAccounts,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponseLinkedStorage
-    }
+      bodyMapper: Mappers.ErrorResponseLinkedStorage,
+    },
   },
   requestBody: Parameters.linkedStorageAccountsProperties1,
-  queryParameters: [Parameters.apiVersion5],
+  queryParameters: [Parameters.apiVersion7],
   urlParameters: [
     Parameters.$host,
-    Parameters.resourceGroupName,
     Parameters.subscriptionId,
+    Parameters.resourceGroupName,
     Parameters.resourceName,
-    Parameters.storageType
+    Parameters.storageType,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const deleteOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/microsoft.insights/components/{resourceName}/linkedStorageAccounts/{storageType}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/microsoft.insights/components/{resourceName}/linkedStorageAccounts/{storageType}",
   httpMethod: "DELETE",
   responses: {
     200: {},
     204: {},
     default: {
-      bodyMapper: Mappers.ErrorResponseLinkedStorage
-    }
+      bodyMapper: Mappers.ErrorResponseLinkedStorage,
+    },
   },
-  queryParameters: [Parameters.apiVersion5],
+  queryParameters: [Parameters.apiVersion7],
   urlParameters: [
     Parameters.$host,
-    Parameters.resourceGroupName,
     Parameters.subscriptionId,
+    Parameters.resourceGroupName,
     Parameters.resourceName,
-    Parameters.storageType
+    Parameters.storageType,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

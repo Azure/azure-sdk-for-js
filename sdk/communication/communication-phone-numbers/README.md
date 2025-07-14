@@ -51,6 +51,14 @@ Phone numbers can have a combination of capabilities. They can be configured to 
 
 It is important to consider the assignment type of your phone number. Some capabilities are restricted to a particular assignment type.
 
+#### Browsing and reserving phone numbers
+
+The Browse and Reservations APIs provide an alternate way to acquire phone numbers via a shopping-cart-like experience. This is achieved by splitting the search operation, which finds and reserves numbers using a single LRO, into two separate synchronous steps, Browse and Reservation. 
+
+The browse operation retrieves a random sample of phone numbers that are available for purchase for a given country, with optional filtering criteria to narrow down results. The returned phone numbers are not reserved for any customer.
+
+Reservations represent a collection of phone numbers that are locked by a specific customer and are awaiting purchase. They have an expiration time of 15 minutes after the last modification or 2 hours from creation time. A reservation can include numbers from different countries, in contrast with the Search operation. Customers can create, retrieve, modify (by adding and removing numbers), delete, and purchase reservations. Purchasing a reservation is an LRO.
+
 ### SIP routing client
 
 Direct routing feature allows connecting customer-provided telephony infrastructure to Azure Communication Resources. In order to setup routing configuration properly, customer needs to supply the SIP trunk configuration and SIP routing rules for calls. SIP routing client provides the necessary interface for setting this configuration.
@@ -138,8 +146,10 @@ PhoneNumbersClient
 
 - [Search for available phone numbers](#search-for-available-phone-numbers)
 - [Purchase phone numbers from a search](#purchase-phone-numbers-from-a-search)
+- [Browse and reserve available phone numbers](#browse-and-reserve-available-phone-numbers)
 - [Release a purchased phone number](#release-a-purchased-phone-number)
 - [Update phone number capabilities](#update-phone-number-capabilities)
+- [Purchase reservation](#purchase-reservation)
 - [Get a purchased phone number](#get-a-purchased-phone-number)
 - [List purchased phone numbers](#list-purchased-phone-numbers)
 
@@ -227,6 +237,58 @@ await purchasePoller.pollUntilDone();
 console.log(`Successfully purchased ${phoneNumbers[0]}`);
 ```
 
+#### Browse and reserve available phone numbers
+
+Use the Browse and Reservations API to reserve a phone number
+
+```ts snippet:PhoneNumbersClientBrowseAndReserveAvailablePhoneNumbers
+import { DefaultAzureCredential } from "@azure/identity";
+import {
+  PhoneNumbersClient,
+  BrowseAvailableNumbersRequest,
+  AvailablePhoneNumber,
+} from "@azure/communication-phone-numbers";
+
+const credential = new DefaultAzureCredential();
+const client = new PhoneNumbersClient("<endpoint-from-resource>", credential);
+
+const browseAvailableNumberRequest: BrowseAvailableNumbersRequest = {
+  countryCode: "US",
+  phoneNumberType: "tollFree",
+};
+
+const browseAvailableNumbers = await client.browseAvailablePhoneNumbers(
+  browseAvailableNumberRequest,
+  {
+    capabilities: {
+      calling: "outbound",
+    },
+    assignmentType: "application",
+  },
+);
+const phoneNumbers = browseAvailableNumbers.phoneNumbers;
+const phoneNumbersList = [phoneNumbers[0], phoneNumbers[1]];
+const reservationResponse = await client.createOrUpdateReservation(
+  {
+    reservationId: "reservationId",
+  },
+  {
+    add: phoneNumbersList,
+  },
+);
+const numbersWithError: AvailablePhoneNumber[] = [];
+for (const number of Object.values(reservationResponse.phoneNumbers || {})) {
+  if (number != null && number.status === "error") {
+    numbersWithError.push(number);
+  }
+}
+if (numbersWithError.length > 0) {
+  console.log("Errors occurred during reservation");
+} else {
+  console.log("Reservation operation completed without errors.");
+}
+```
+
 #### Release a purchased phone number
 
 Use the `beginReleasePhoneNumber` method to release a previously purchased phone number. Released phone numbers will no longer be associated with the Communication Services resource, and will not be available for use with other operations (eg. SMS) of the resource. The phone number being released is required.
@@ -301,6 +363,26 @@ const phoneNumber = await client.getPurchasedPhoneNumber(phoneNumberToGet);
 console.log(`The id is the same as the phone number: ${phoneNumber.id}`);
 console.log(`Phone number type is ${phoneNumber.phoneNumberType}`);
 ```
+
+#### Purchase reservation
+
+Given an existing and active reservation, purchase the phone numbers in that reservation.
+
+```ts snippet:PhoneNumbersClientBeginReservationPurchase
+import { DefaultAzureCredential } from "@azure/identity";
+import { PhoneNumbersClient } from "@azure/communication-phone-numbers";
+
+const credential = new DefaultAzureCredential();
+const client = new PhoneNumbersClient("<endpoint-from-resource>", credential);
+
+const reservationId = "<reservation-id>";
+
+const purchasePoller = await client.beginReservationPurchase(reservationId);
+
+// Purchase is underway.
+const purchaseResult = await purchasePoller.pollUntilDone();
+console.log(`Successfully purchased phone numbers in reservation: ${reservationId}`);
+   ```
 
 #### List purchased phone numbers
 

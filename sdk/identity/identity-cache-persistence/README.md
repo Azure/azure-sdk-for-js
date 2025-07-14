@@ -31,7 +31,7 @@ If this is your first time using `@azure/identity` or Microsoft Entra ID, we rec
 
 As of `@azure/identity` version 2.0.0, the Identity client library for JavaScript includes a plugin API. This package (`@azure/identity-cache-persistence`) exports a plugin object that you must pass as an argument to the top-level `useIdentityPlugin` function from the `@azure/identity` package. Enable token cache persistence in your program as follows:
 
-```ts snippet:getting_started
+```ts snippet:ReadmeSampleUsePlugin
 import { useIdentityPlugin } from "@azure/identity";
 import { cachePersistencePlugin } from "@azure/identity-cache-persistence";
 
@@ -44,7 +44,7 @@ After calling `useIdentityPlugin`, the persistent token cache plugin is register
 
 Once the plugin is registered, you can enable token cache persistence by passing `tokenCachePersistenceOptions` with an `enabled` property set to `true` to a credential constructor. In the following example, we use the `DeviceCodeCredential`, since persistent caching of its tokens allows you to skip the interactive device-code authentication flow if a cached token is available.
 
-```ts snippet:device_code_credential_example
+```ts snippet:ReadmeSampleDeviceCodeCredential
 import { DeviceCodeCredential } from "@azure/identity";
 
 const credential = new DeviceCodeCredential({
@@ -66,7 +66,7 @@ console.log((await credential.getToken(scope)).token.substring(0, 10), "...");
 
 Enabling logging may help uncover useful information about failures. In order to see a log of HTTP requests and responses, set the `AZURE_LOG_LEVEL` environment variable to `info`. Alternatively, logging can be enabled at runtime by calling `setLogLevel` in the `@azure/logger`:
 
-```ts snippet:logging
+```ts snippet:SetLogLevel
 import { setLogLevel } from "@azure/logger";
 
 setLogLevel("info");

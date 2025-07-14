@@ -62,8 +62,8 @@ async function updateASnapshot() {
 }
 
 async function main() {
-  updateASnapshotWithAcceleratedNetworking();
-  updateASnapshot();
+  await updateASnapshotWithAcceleratedNetworking();
+  await updateASnapshot();
 }
 
 main().catch(console.error);
