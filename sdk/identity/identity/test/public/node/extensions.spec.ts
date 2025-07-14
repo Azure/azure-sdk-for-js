@@ -17,8 +17,8 @@ describe("Plugin API", function () {
 
   it("VisualStudioCodeCredential throws if plugin not initialized", async function () {
     const credential = new VisualStudioCodeCredential();
-    await expect(
-      credential.getToken("https://graph.microsoft.com/.default")
-    ).rejects.toThrow(/Visual Studio Code Authentication is not available/);
+    await expect(credential.getToken("https://graph.microsoft.com/.default")).rejects.toThrow(
+      /Visual Studio Code Authentication is not available/,
+    );
   });
 });

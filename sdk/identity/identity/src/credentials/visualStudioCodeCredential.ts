@@ -11,7 +11,7 @@ import { AzureAuthorityHosts } from "../constants.js";
 import { CredentialUnavailableError } from "../errors.js";
 import type { VisualStudioCodeCredentialOptions } from "./visualStudioCodeCredentialOptions.js";
 import { checkTenantId } from "../util/tenantIdUtils.js";
-import  { readFileSync } from "node:fs";
+import { readFileSync } from "node:fs";
 import os from "node:os";
 import path from "node:path";
 import { createMsalClient, MsalClient } from "../msal/nodeFlows/msalClient.js";
@@ -142,9 +142,9 @@ export class VisualStudioCodeCredential implements TokenCredential {
     if (!hasVSCodePlugin() || !vsCodeAuthRecordPath) {
       throw new CredentialUnavailableError(
         "Visual Studio Code Authentication is not available." +
-        " Ensure you have have Azure Resources Extension installed in VS Code," +
-        " signed into Azure via VS Code, installed the @azure/identity-vscode package," +
-        " and properly configured the extension.",
+          " Ensure you have have Azure Resources Extension installed in VS Code," +
+          " signed into Azure via VS Code, installed the @azure/identity-vscode package," +
+          " and properly configured the extension.",
       );
     }
 
@@ -197,9 +197,9 @@ export class VisualStudioCodeCredential implements TokenCredential {
     if (!this.msalClient) {
       throw new CredentialUnavailableError(
         "Visual Studio Code Authentication failed to initialize." +
-        " Ensure you have have Azure Resources Extension installed in VS Code," +
-        " signed into Azure via VS Code, installed the @azure/identity-vscode package," +
-        " and properly configured the extension.",
+          " Ensure you have have Azure Resources Extension installed in VS Code," +
+          " signed into Azure via VS Code, installed the @azure/identity-vscode package," +
+          " and properly configured the extension.",
       );
     }
 

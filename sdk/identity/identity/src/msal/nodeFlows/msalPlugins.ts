@@ -10,7 +10,10 @@ import {
 } from "../../constants.js";
 
 import type { MsalClientOptions } from "./msalClient.js";
-import type { NativeBrokerPluginControl, VisualStudioCodeCredentialControl } from "../../plugins/provider.js";
+import type {
+  NativeBrokerPluginControl,
+  VisualStudioCodeCredentialControl,
+} from "../../plugins/provider.js";
 import type { TokenCachePersistenceOptions } from "./tokenCachePersistenceOptions.js";
 
 /**
@@ -83,8 +86,8 @@ export const msalNodeFlowCacheControl = {
  */
 export let nativeBrokerInfo:
   | {
-    broker: msalNode.INativeBrokerPlugin;
-  }
+      broker: msalNode.INativeBrokerPlugin;
+    }
   | undefined = undefined;
 
 /**
@@ -99,8 +102,8 @@ export let vsCodeAuthRecordPath: string | undefined = undefined;
  */
 export let vsCodeBrokerInfo:
   | {
-    broker: msalNode.INativeBrokerPlugin;
-  }
+      broker: msalNode.INativeBrokerPlugin;
+    }
   | undefined = undefined;
 
 export function hasNativeBroker(): boolean {

@@ -395,7 +395,8 @@ export function createMsalClient(
 
     // Initialize a new app and cache it
     state.logger.getToken.info(
-      `Creating new ConfidentialClientApplication with CAE ${options.enableCae ? "enabled" : "disabled"
+      `Creating new ConfidentialClientApplication with CAE ${
+        options.enableCae ? "enabled" : "disabled"
       }.`,
     );
 

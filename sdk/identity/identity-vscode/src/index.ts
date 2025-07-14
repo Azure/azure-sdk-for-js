@@ -88,5 +88,4 @@ export const vsCodePlugin: IdentityPlugin = (context) => {
 
   const brokerPlugin = new NativeBrokerPlugin();
   vsCodeCredentialControl.setVSCodeBroker(brokerPlugin);
-
 };
