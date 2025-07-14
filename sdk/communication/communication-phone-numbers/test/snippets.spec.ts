@@ -383,6 +383,18 @@ describe("snippets", () => {
     await client.deleteTrunk("sbc.one.domain.com");
   });
 
+  it("SipRoutingClientGetRoutesForNumber", async () => {
+    const credential = new DefaultAzureCredential();
+    const client = new SipRoutingClient("<endpoint-from-resource>", credential);
+    // @ts-preserve-whitespace
+    const routes = [
+        { name: "route1", numberPattern: "^.123.*" },
+        { name: "route2", numberPattern: "^.987.*" },
+        { name: "route3", numberPattern: "^.*" },
+    ];
+    const matchedRoutes = await client.getRoutesForNumber("+123456789", routes);
+  });
+
   it("SetLogLevel", async () => {
     setLogLevel("info");
   });
