@@ -6,6 +6,7 @@ import type { ThreadRun, _AgentsPagedResultThreadRun, ToolOutput } from "../../m
 import {
   toolDefinitionUnionArraySerializer,
   agentsResponseFormatOptionSerializer,
+  agentV1ErrorDeserializer,
   threadMessageOptionsArraySerializer,
   truncationObjectSerializer,
   agentsToolChoiceOptionSerializer,
@@ -60,7 +61,9 @@ export function _cancelRunSend(
 export async function _cancelRunDeserialize(result: PathUncheckedResponse): Promise<ThreadRun> {
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
-    throw createRestError(result);
+    const error = createRestError(result);
+    error.details = agentV1ErrorDeserializer(result.body);
+    throw error;
   }
 
   return threadRunDeserializer(result.body);
@@ -104,7 +107,7 @@ export function _submitToolOutputsToRunSend(
     },
     body: {
       tool_outputs: toolOutputArraySerializer(toolOutputs),
-      stream: false,
+      stream: options?.stream ?? false,
     },
   });
 }
@@ -114,7 +117,9 @@ export async function _submitToolOutputsToRunDeserialize(
 ): Promise<ThreadRun> {
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
-    throw createRestError(result);
+    const error = createRestError(result);
+    error.details = agentV1ErrorDeserializer(result.body);
+    throw error;
   }
 
   return threadRunDeserializer(result.body);
@@ -180,7 +185,9 @@ export function _updateRunSend(
 export async function _updateRunDeserialize(result: PathUncheckedResponse): Promise<ThreadRun> {
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
-    throw createRestError(result);
+    const error = createRestError(result);
+    error.details = agentV1ErrorDeserializer(result.body);
+    throw error;
   }
 
   return threadRunDeserializer(result.body);
@@ -226,7 +233,9 @@ export function _getRunSend(
 export async function _getRunDeserialize(result: PathUncheckedResponse): Promise<ThreadRun> {
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
-    throw createRestError(result);
+    const error = createRestError(result);
+    error.details = agentV1ErrorDeserializer(result.body);
+    throw error;
   }
 
   return threadRunDeserializer(result.body);
@@ -276,7 +285,9 @@ export async function _listRunsDeserialize(
 ): Promise<_AgentsPagedResultThreadRun> {
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
-    throw createRestError(result);
+    const error = createRestError(result);
+    error.details = agentV1ErrorDeserializer(result.body);
+    throw error;
   }
 
   return _agentsPagedResultThreadRunDeserializer(result.body);
@@ -357,7 +368,9 @@ export function _createRunSend(
 export async function _createRunDeserialize(result: PathUncheckedResponse): Promise<ThreadRun> {
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
-    throw createRestError(result);
+    const error = createRestError(result);
+    error.details = agentV1ErrorDeserializer(result.body);
+    throw error;
   }
 
   return threadRunDeserializer(result.body);

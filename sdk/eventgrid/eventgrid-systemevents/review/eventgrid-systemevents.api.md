@@ -1531,6 +1531,15 @@ export enum KnownAcsCallEndedByKind {
 }
 
 // @public
+export enum KnownAcsCallParticipantKind {
+    Attendee = "Attendee",
+    Collaborator = "Collaborator",
+    Consumer = "Consumer",
+    Organizer = "Organizer",
+    Presenter = "Presenter"
+}
+
+// @public
 export enum KnownAcsEmailDeliveryReportStatus {
     Bounced = "Bounced",
     Delivered = "Delivered",
@@ -1877,6 +1886,13 @@ export enum KnownStorageBlobAccessTier {
 }
 
 // @public
+export enum KnownStorageLifecycleCompletionStatus {
+    Completed = "Completed",
+    CompletedWithError = "CompletedWithError",
+    Incomplete = "Incomplete"
+}
+
+// @public
 export enum KnownStorageTaskAssignmentCompletedStatus {
     Failed = "Failed",
     Succeeded = "Succeeded"
@@ -2059,7 +2075,7 @@ export interface ResourceActionCancelEventData {
     operationName?: string;
     resourceGroup?: string;
     resourceProvider?: string;
-    resourceUri?: string;
+    resourceUrl?: string;
     status?: string;
     subscriptionId?: string;
     tenantId?: string;
@@ -2074,7 +2090,7 @@ export interface ResourceActionFailureEventData {
     operationName?: string;
     resourceGroup?: string;
     resourceProvider?: string;
-    resourceUri?: string;
+    resourceUrl?: string;
     status?: string;
     subscriptionId?: string;
     tenantId?: string;
@@ -2089,7 +2105,7 @@ export interface ResourceActionSuccessEventData {
     operationName?: string;
     resourceGroup?: string;
     resourceProvider?: string;
-    resourceUri?: string;
+    resourceUrl?: string;
     status?: string;
     subscriptionId?: string;
     tenantId?: string;
@@ -2111,7 +2127,7 @@ export interface ResourceDeleteCancelEventData {
     operationName?: string;
     resourceGroup?: string;
     resourceProvider?: string;
-    resourceUri?: string;
+    resourceUrl?: string;
     status?: string;
     subscriptionId?: string;
     tenantId?: string;
@@ -2126,7 +2142,7 @@ export interface ResourceDeleteFailureEventData {
     operationName?: string;
     resourceGroup?: string;
     resourceProvider?: string;
-    resourceUri?: string;
+    resourceUrl?: string;
     status?: string;
     subscriptionId?: string;
     tenantId?: string;
@@ -2141,7 +2157,7 @@ export interface ResourceDeleteSuccessEventData {
     operationName?: string;
     resourceGroup?: string;
     resourceProvider?: string;
-    resourceUri?: string;
+    resourceUrl?: string;
     status?: string;
     subscriptionId?: string;
     tenantId?: string;
@@ -2153,6 +2169,10 @@ export interface ResourceHttpRequest {
     clientRequestId?: string;
     method?: string;
     url?: string;
+}
+
+// @public
+export interface ResourceNotificationsContainerServiceEventResourcesScheduledEventData extends ResourceNotificationsResourceUpdatedEventData {
 }
 
 // @public
@@ -2215,7 +2235,7 @@ export interface ResourceWriteCancelEventData {
     operationName?: string;
     resourceGroup?: string;
     resourceProvider?: string;
-    resourceUri?: string;
+    resourceUrl?: string;
     status?: string;
     subscriptionId?: string;
     tenantId?: string;
@@ -2230,7 +2250,7 @@ export interface ResourceWriteFailureEventData {
     operationName?: string;
     resourceGroup?: string;
     resourceProvider?: string;
-    resourceUri?: string;
+    resourceUrl?: string;
     status?: string;
     subscriptionId?: string;
     tenantId?: string;
@@ -2245,7 +2265,7 @@ export interface ResourceWriteSuccessEventData {
     operationName?: string;
     resourceGroup?: string;
     resourceProvider?: string;
-    resourceUri?: string;
+    resourceUrl?: string;
     status?: string;
     subscriptionId?: string;
     tenantId?: string;
@@ -2434,6 +2454,9 @@ export interface StorageDirectoryRenamedEventData {
 }
 
 // @public
+export type StorageLifecycleCompletionStatus = string;
+
+// @public
 export interface StorageLifecyclePolicyActionSummaryDetail {
     errorList?: string;
     successCount?: number;
@@ -2443,12 +2466,16 @@ export interface StorageLifecyclePolicyActionSummaryDetail {
 // @public
 export interface StorageLifecyclePolicyCompletedEventData {
     deleteSummary: StorageLifecyclePolicyActionSummaryDetail;
-    // Warning: (ae-forgotten-export) The symbol "StorageLifecyclePolicyRunSummary" needs to be exported by the entry point index.d.ts
     policyRunSummary: StorageLifecyclePolicyRunSummary;
     scheduleTime?: string;
     tierToArchiveSummary: StorageLifecyclePolicyActionSummaryDetail;
     tierToColdSummary: StorageLifecyclePolicyActionSummaryDetail;
     tierToCoolSummary: StorageLifecyclePolicyActionSummaryDetail;
+}
+
+// @public
+export interface StorageLifecyclePolicyRunSummary {
+    completionStatus: StorageLifecycleCompletionStatus;
 }
 
 // @public
@@ -2653,7 +2680,7 @@ export interface SystemEventNameToEventData {
     "Microsoft.Maps.GeofenceEntered": MapsGeofenceEnteredEventData;
     "Microsoft.Maps.GeofenceExited": MapsGeofenceExitedEventData;
     "Microsoft.Maps.GeofenceResult": MapsGeofenceResultEventData;
-    "Microsoft.PolicyInsights.PolicyStateChanged ": PolicyInsightsPolicyStateChangedEventData;
+    "Microsoft.PolicyInsights.PolicyStateChanged": PolicyInsightsPolicyStateChangedEventData;
     "Microsoft.PolicyInsights.PolicyStateCreated": PolicyInsightsPolicyStateCreatedEventData;
     "Microsoft.PolicyInsights.PolicyStateDeleted": PolicyInsightsPolicyStateDeletedEventData;
     "Microsoft.ResourceNotifications.HealthResources.AvailabilityStatusChanged": ResourceNotificationsHealthResourcesAvailabilityStatusChangedEventData;

@@ -6122,7 +6122,7 @@ export interface ResourceWriteSuccessEventData {
   /** The resource provider performing the operation. */
   resourceProvider?: string;
   /** The URI of the resource in the operation. */
-  resourceUri?: string;
+  resourceUrl?: string;
   /** The operation that was performed. */
   operationName?: string;
   /** The status of the operation. */
@@ -6145,7 +6145,7 @@ export function resourceWriteSuccessEventDataDeserializer(
     subscriptionId: item["subscriptionId"],
     resourceGroup: item["resourceGroup"],
     resourceProvider: item["resourceProvider"],
-    resourceUri: item["resourceUri"],
+    resourceUrl: item["resourceUri"],
     operationName: item["operationName"],
     status: item["status"],
     authorization: resourceAuthorizationDeserializer(item["authorization"]),
@@ -6209,7 +6209,7 @@ export interface ResourceWriteFailureEventData {
   /** The resource provider performing the operation. */
   resourceProvider?: string;
   /** The URI of the resource in the operation. */
-  resourceUri?: string;
+  resourceUrl?: string;
   /** The operation that was performed. */
   operationName?: string;
   /** The status of the operation. */
@@ -6232,7 +6232,7 @@ export function resourceWriteFailureEventDataDeserializer(
     subscriptionId: item["subscriptionId"],
     resourceGroup: item["resourceGroup"],
     resourceProvider: item["resourceProvider"],
-    resourceUri: item["resourceUri"],
+    resourceUrl: item["resourceUri"],
     operationName: item["operationName"],
     status: item["status"],
     authorization: resourceAuthorizationDeserializer(item["authorization"]),
@@ -6253,7 +6253,7 @@ export interface ResourceWriteCancelEventData {
   /** The resource provider performing the operation. */
   resourceProvider?: string;
   /** The URI of the resource in the operation. */
-  resourceUri?: string;
+  resourceUrl?: string;
   /** The operation that was performed. */
   operationName?: string;
   /** The status of the operation. */
@@ -6276,7 +6276,7 @@ export function resourceWriteCancelEventDataDeserializer(
     subscriptionId: item["subscriptionId"],
     resourceGroup: item["resourceGroup"],
     resourceProvider: item["resourceProvider"],
-    resourceUri: item["resourceUri"],
+    resourceUrl: item["resourceUri"],
     operationName: item["operationName"],
     status: item["status"],
     authorization: resourceAuthorizationDeserializer(item["authorization"]),
@@ -6297,7 +6297,7 @@ export interface ResourceDeleteSuccessEventData {
   /** The resource provider performing the operation. */
   resourceProvider?: string;
   /** The URI of the resource in the operation. */
-  resourceUri?: string;
+  resourceUrl?: string;
   /** The operation that was performed. */
   operationName?: string;
   /** The status of the operation. */
@@ -6320,7 +6320,7 @@ export function resourceDeleteSuccessEventDataDeserializer(
     subscriptionId: item["subscriptionId"],
     resourceGroup: item["resourceGroup"],
     resourceProvider: item["resourceProvider"],
-    resourceUri: item["resourceUri"],
+    resourceUrl: item["resourceUri"],
     operationName: item["operationName"],
     status: item["status"],
     authorization: resourceAuthorizationDeserializer(item["authorization"]),
@@ -6341,7 +6341,7 @@ export interface ResourceDeleteFailureEventData {
   /** The resource provider performing the operation. */
   resourceProvider?: string;
   /** The URI of the resource in the operation. */
-  resourceUri?: string;
+  resourceUrl?: string;
   /** The operation that was performed. */
   operationName?: string;
   /** The status of the operation. */
@@ -6364,7 +6364,7 @@ export function resourceDeleteFailureEventDataDeserializer(
     subscriptionId: item["subscriptionId"],
     resourceGroup: item["resourceGroup"],
     resourceProvider: item["resourceProvider"],
-    resourceUri: item["resourceUri"],
+    resourceUrl: item["resourceUri"],
     operationName: item["operationName"],
     status: item["status"],
     authorization: resourceAuthorizationDeserializer(item["authorization"]),
@@ -6385,7 +6385,7 @@ export interface ResourceDeleteCancelEventData {
   /** The resource provider performing the operation. */
   resourceProvider?: string;
   /** The URI of the resource in the operation. */
-  resourceUri?: string;
+  resourceUrl?: string;
   /** The operation that was performed. */
   operationName?: string;
   /** The status of the operation. */
@@ -6408,7 +6408,7 @@ export function resourceDeleteCancelEventDataDeserializer(
     subscriptionId: item["subscriptionId"],
     resourceGroup: item["resourceGroup"],
     resourceProvider: item["resourceProvider"],
-    resourceUri: item["resourceUri"],
+    resourceUrl: item["resourceUri"],
     operationName: item["operationName"],
     status: item["status"],
     authorization: resourceAuthorizationDeserializer(item["authorization"]),
@@ -6429,7 +6429,7 @@ export interface ResourceActionSuccessEventData {
   /** The resource provider performing the operation. */
   resourceProvider?: string;
   /** The URI of the resource in the operation. */
-  resourceUri?: string;
+  resourceUrl?: string;
   /** The operation that was performed. */
   operationName?: string;
   /** The status of the operation. */
@@ -6452,7 +6452,7 @@ export function resourceActionSuccessEventDataDeserializer(
     subscriptionId: item["subscriptionId"],
     resourceGroup: item["resourceGroup"],
     resourceProvider: item["resourceProvider"],
-    resourceUri: item["resourceUri"],
+    resourceUrl: item["resourceUri"],
     operationName: item["operationName"],
     status: item["status"],
     authorization: resourceAuthorizationDeserializer(item["authorization"]),
@@ -6473,7 +6473,7 @@ export interface ResourceActionFailureEventData {
   /** The resource provider performing the operation. */
   resourceProvider?: string;
   /** The URI of the resource in the operation. */
-  resourceUri?: string;
+  resourceUrl?: string;
   /** The operation that was performed. */
   operationName?: string;
   /** The status of the operation. */
@@ -6496,7 +6496,7 @@ export function resourceActionFailureEventDataDeserializer(
     subscriptionId: item["subscriptionId"],
     resourceGroup: item["resourceGroup"],
     resourceProvider: item["resourceProvider"],
-    resourceUri: item["resourceUri"],
+    resourceUrl: item["resourceUri"],
     operationName: item["operationName"],
     status: item["status"],
     authorization: resourceAuthorizationDeserializer(item["authorization"]),
@@ -6517,7 +6517,7 @@ export interface ResourceActionCancelEventData {
   /** The resource provider performing the operation. */
   resourceProvider?: string;
   /** The URI of the resource in the operation. */
-  resourceUri?: string;
+  resourceUrl?: string;
   /** The operation that was performed. */
   operationName?: string;
   /** The status of the operation. */
@@ -6540,7 +6540,7 @@ export function resourceActionCancelEventDataDeserializer(
     subscriptionId: item["subscriptionId"],
     resourceGroup: item["resourceGroup"],
     resourceProvider: item["resourceProvider"],
-    resourceUri: item["resourceUri"],
+    resourceUrl: item["resourceUri"],
     operationName: item["operationName"],
     status: item["status"],
     authorization: resourceAuthorizationDeserializer(item["authorization"]),
