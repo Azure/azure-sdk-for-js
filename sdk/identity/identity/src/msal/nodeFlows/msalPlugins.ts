@@ -10,7 +10,7 @@ import {
 } from "../../constants.js";
 
 import type { MsalClientOptions } from "./msalClient.js";
-import type { NativeBrokerPluginControl } from "../../plugins/provider.js";
+import type { NativeBrokerPluginControl, VisualStudioCodeCredentialControl } from "../../plugins/provider.js";
 import type { TokenCachePersistenceOptions } from "./tokenCachePersistenceOptions.js";
 
 /**
@@ -83,12 +83,32 @@ export const msalNodeFlowCacheControl = {
  */
 export let nativeBrokerInfo:
   | {
-      broker: msalNode.INativeBrokerPlugin;
-    }
+    broker: msalNode.INativeBrokerPlugin;
+  }
+  | undefined = undefined;
+
+/**
+ * The current VSCode auth record path, undefined by default.
+ * @internal
+ */
+export let vsCodeAuthRecordPath: string | undefined = undefined;
+
+/**
+ * The current VSCode broker, undefined by default.
+ * @internal
+ */
+export let vsCodeBrokerInfo:
+  | {
+    broker: msalNode.INativeBrokerPlugin;
+  }
   | undefined = undefined;
 
 export function hasNativeBroker(): boolean {
   return nativeBrokerInfo !== undefined;
+}
+
+export function hasVSCodePlugin(): boolean {
+  return vsCodeAuthRecordPath !== undefined && vsCodeBrokerInfo !== undefined;
 }
 
 /**
@@ -98,6 +118,21 @@ export function hasNativeBroker(): boolean {
 export const msalNodeFlowNativeBrokerControl: NativeBrokerPluginControl = {
   setNativeBroker(broker): void {
     nativeBrokerInfo = {
+      broker,
+    };
+  },
+};
+
+/**
+ * An object that allows setting the VSCode credential auth record path and broker.
+ * @internal
+ */
+export const msalNodeFlowVSCodeCredentialControl: VisualStudioCodeCredentialControl = {
+  setVSCodeAuthRecordPath(path: string): void {
+    vsCodeAuthRecordPath = path;
+  },
+  setVSCodeBroker(broker: msalNode.INativeBrokerPlugin): void {
+    vsCodeBrokerInfo = {
       broker,
     };
   },
@@ -151,13 +186,26 @@ function generatePluginConfiguration(options: MsalClientOptions): PluginConfigur
           "Broker for WAM was requested to be enabled, but no native broker was configured.",
           "You must install the identity-broker plugin package (`npm install --save @azure/identity-broker`)",
           "and enable it by importing `useIdentityPlugin` from `@azure/identity` and calling",
-          "`useIdentityPlugin(createNativeBrokerPlugin())` before using `enableBroker`.",
+          "`useIdentityPlugin(brokerPlugin)` before using `enableBroker`.",
         ].join(" "),
       );
     }
     config.broker.nativeBrokerPlugin = nativeBrokerInfo!.broker;
   }
 
+  if (options.isVSCodeCredential) {
+    if (vsCodeBrokerInfo === undefined) {
+      throw new Error(
+        [
+          "Broker for WAM was requested to be enabled, but no native broker was configured.",
+          "You must install the identity-vscode plugin package (`npm install --save @azure/identity-vscode`)",
+          "and enable it by importing `useIdentityPlugin` from `@azure/identity` and calling",
+          "`useIdentityPlugin(vsCodePlugin)` before using `enableBroker`.",
+        ].join(" "),
+      );
+    }
+    config.broker.nativeBrokerPlugin = vsCodeBrokerInfo!.broker;
+  }
   return config;
 }
 

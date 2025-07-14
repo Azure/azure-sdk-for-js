@@ -10,31 +10,20 @@ import {
 import { AzureAuthorityHosts } from "../constants.js";
 import { CredentialUnavailableError } from "../errors.js";
 import type { VisualStudioCodeCredentialOptions } from "./visualStudioCodeCredentialOptions.js";
-import type { VSCodeCredentialFinder } from "./visualStudioCodeCredentialPlugin.js";
 import { checkTenantId } from "../util/tenantIdUtils.js";
-import fs from "node:fs";
+import  { readFileSync } from "node:fs";
 import os from "node:os";
 import path from "node:path";
-import { hasNativeBroker } from "../msal/nodeFlows/msalPlugins.js";
 import { createMsalClient, MsalClient } from "../msal/nodeFlows/msalClient.js";
-import {
-  isVSCodeAuthRecordAvailable,
-  loadVSCodeAuthRecord,
-} from "../util/visualStudioCodeHelpers.js";
 import { ensureScopes } from "../util/scopeUtils.js";
+import { hasVSCodePlugin, vsCodeAuthRecordPath } from "../msal/nodeFlows/msalPlugins.js";
+import { deserializeAuthenticationRecord } from "../msal/utils.js";
+import { readFile } from "node:fs/promises";
+import { AuthenticationRecord } from "../msal/types.js";
 
 const CommonTenantId = "common";
 const VSCodeClientId = "aebc6443-996d-45c2-90f0-388ff96faa56";
 const logger = credentialLogger("VisualStudioCodeCredential");
-
-// @ts-expect-error TS6133: Path kept for compatibility reason
-let findCredentials: VSCodeCredentialFinder | undefined = undefined;
-
-export const vsCodeCredentialControl = {
-  setVsCodeCredentialFinder(finder: VSCodeCredentialFinder): void {
-    findCredentials = finder;
-  },
-};
 
 // Map of unsupported Tenant IDs and the errors we will be throwing.
 const unsupportedTenantIds: Record<string, string> = {
@@ -70,7 +59,7 @@ export function getPropertyFromVSCode(property: string): string | undefined {
 
   function loadProperty(...pathSegments: string[]): string | undefined {
     const fullPath = path.join(...pathSegments, vsCodeFolder, ...settingsPath);
-    const settings = JSON.parse(fs.readFileSync(fullPath, { encoding: "utf8" }));
+    const settings = JSON.parse(readFileSync(fullPath, { encoding: "utf8" }));
     return settings[property];
   }
 
@@ -109,7 +98,7 @@ export class VisualStudioCodeCredential implements TokenCredential {
    * Creates an instance of VisualStudioCodeCredential to use for automatically authenticating via VSCode.
    *
    * **Note**: `VisualStudioCodeCredential` is provided by a plugin package:
-   * `@azure/identity-broker`. If this package is not installed, then authentication using
+   * `@azure/identity-vscode`. If this package is not installed, then authentication using
    * `VisualStudioCodeCredential` will not be available.
    *
    * @param options - Options for configuring the client which makes the authentication request.
@@ -137,7 +126,7 @@ export class VisualStudioCodeCredential implements TokenCredential {
 
   /**
    * Runs preparations for any further getToken request:
-   *   - Loads the broker plugin if available.
+   *   - Validates that the plugin is available.
    *   - Loads the authentication record from VSCode if available.
    *   - Creates the MSAL client with the loaded plugin and authentication record.
    */
@@ -150,21 +139,23 @@ export class VisualStudioCodeCredential implements TokenCredential {
         logger,
       ) || this.tenantId;
 
-    if (!hasNativeBroker() || !isVSCodeAuthRecordAvailable()) {
+    if (!hasVSCodePlugin() || !vsCodeAuthRecordPath) {
       throw new CredentialUnavailableError(
         "Visual Studio Code Authentication is not available." +
-          " Ensure you have have Azure Resources Extension installed in VS Code," +
-          " signed into Azure via VS Code, installed the @azure/identity-broker package," +
-          " and properly configured the extension.",
+        " Ensure you have have Azure Resources Extension installed in VS Code," +
+        " signed into Azure via VS Code, installed the @azure/identity-vscode package," +
+        " and properly configured the extension.",
       );
     }
 
-    const authenticationRecord = await loadVSCodeAuthRecord();
+    // Load the authentication record directly from the path
+    const authenticationRecord = await this.loadAuthRecord(vsCodeAuthRecordPath);
 
     const authorityHost = mapVSCodeAuthorityHosts[this.cloudName];
     this.msalClient = createMsalClient(VSCodeClientId, tenantId, {
       ...this.options,
       authorityHost,
+      isVSCodeCredential: true,
       brokerOptions: {
         enabled: true,
         parentWindowHandle: new Uint8Array(0),
@@ -206,13 +197,28 @@ export class VisualStudioCodeCredential implements TokenCredential {
     if (!this.msalClient) {
       throw new CredentialUnavailableError(
         "Visual Studio Code Authentication failed to initialize." +
-          " Ensure you have have Azure Resources Extension installed in VS Code," +
-          " signed into Azure via VS Code, installed the @azure/identity-broker package," +
-          " and properly configured the extension.",
+        " Ensure you have have Azure Resources Extension installed in VS Code," +
+        " signed into Azure via VS Code, installed the @azure/identity-vscode package," +
+        " and properly configured the extension.",
       );
     }
 
     const scopeArray = ensureScopes(scopes);
     return this.msalClient.getTokenByInteractiveRequest(scopeArray, options || {});
+  }
+
+  /**
+   * Loads the authentication record from the specified path.
+   * @param authRecordPath - The path to the authentication record file.
+   * @returns The authentication record or undefined if loading fails.
+   */
+  private async loadAuthRecord(authRecordPath: string): Promise<AuthenticationRecord | undefined> {
+    try {
+      const authRecordContent = await readFile(authRecordPath, { encoding: "utf8" });
+      return deserializeAuthenticationRecord(authRecordContent);
+    } catch (error: any) {
+      logger.info(`Failed to read or parse VS Code authentication record: ${error.message}`);
+      return undefined;
+    }
   }
 }

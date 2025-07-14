@@ -1,8 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { DeviceCodeCredential } from "../../../src/index.js";
-import { describe, it, assert } from "vitest";
+import { DeviceCodeCredential, VisualStudioCodeCredential } from "../../../src/index.js";
+import { describe, it, assert, expect } from "vitest";
 
 describe("Plugin API", function () {
   it("Setting persistence options throws if not initialized", function () {
@@ -13,5 +13,12 @@ describe("Plugin API", function () {
         },
       });
     }, /no persistence provider.*@azure\/identity-cache-persistence/);
+  });
+
+  it("VisualStudioCodeCredential throws if plugin not initialized", async function () {
+    const credential = new VisualStudioCodeCredential();
+    await expect(
+      credential.getToken("https://graph.microsoft.com/.default")
+    ).rejects.toThrow(/Visual Studio Code Authentication is not available/);
   });
 });

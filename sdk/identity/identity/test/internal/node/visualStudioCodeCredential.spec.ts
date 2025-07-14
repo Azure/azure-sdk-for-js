@@ -6,75 +6,84 @@ import { describe, it, expect, vi, beforeEach, afterEach } from "vitest";
 
 describe("VisualStudioCodeCredential (internal)", function () {
   let credential: VisualStudioCodeCredential;
-  let helperModule: any;
+  let msalPluginsModule: any;
 
   beforeEach(async function () {
     credential = new VisualStudioCodeCredential();
     (credential as any).preparePromise = undefined;
 
-    helperModule = await import("../../../src/util/visualStudioCodeHelpers.js");
+    msalPluginsModule = await import("../../../src/msal/nodeFlows/msalPlugins.js");
   });
 
   afterEach(function () {
     vi.restoreAllMocks();
-    helperModule = undefined;
+    msalPluginsModule = undefined;
   });
 
-  describe("isVSCodeAuthRecordAvailable", function () {
-    it("should return undefined when auth record file does not exist", async function () {
-      const isVSCodeAuthRecordAvailableSpy = vi
-        .spyOn(helperModule, "isVSCodeAuthRecordAvailable")
-        .mockReturnValue(undefined);
+  describe("hasVSCodePlugin", function () {
+    it("should return false when plugin is not initialized", async function () {
+      const hasVSCodePluginSpy = vi
+        .spyOn(msalPluginsModule, "hasVSCodePlugin")
+        .mockReturnValue(false);
 
-      const result = helperModule.isVSCodeAuthRecordAvailable();
+      const result = msalPluginsModule.hasVSCodePlugin();
 
-      expect(result).toBeUndefined();
-      expect(isVSCodeAuthRecordAvailableSpy).toHaveBeenCalledOnce();
+      expect(result).toBe(false);
+      expect(hasVSCodePluginSpy).toHaveBeenCalledOnce();
     });
 
-    it("should return path when auth record file exists", async function () {
+    it("should return true when plugin is initialized with auth record path and broker", async function () {
+      const hasVSCodePluginSpy = vi
+        .spyOn(msalPluginsModule, "hasVSCodePlugin")
+        .mockReturnValue(true);
+
+      const result = msalPluginsModule.hasVSCodePlugin();
+
+      expect(result).toBe(true);
+      expect(hasVSCodePluginSpy).toHaveBeenCalledOnce();
+    });
+  });
+
+  describe("vsCodeAuthRecordPath", function () {
+    it("should be undefined when plugin is not initialized", function () {
+      Object.defineProperty(msalPluginsModule, "vsCodeAuthRecordPath", {
+        value: undefined,
+        writable: true,
+        configurable: true,
+      });
+
+      expect(msalPluginsModule.vsCodeAuthRecordPath).toBeUndefined();
+    });
+
+    it("should contain path when plugin is initialized", function () {
       const mockPath = "/testPath/authRecord.json";
-      const isVSCodeAuthRecordAvailableSpy = vi
-        .spyOn(helperModule, "isVSCodeAuthRecordAvailable")
-        .mockReturnValue(mockPath);
+      Object.defineProperty(msalPluginsModule, "vsCodeAuthRecordPath", {
+        value: mockPath,
+        writable: true,
+        configurable: true,
+      });
 
-      const result = helperModule.isVSCodeAuthRecordAvailable();
-
-      expect(result).toBe(mockPath);
-      expect(isVSCodeAuthRecordAvailableSpy).toHaveBeenCalledOnce();
+      expect(msalPluginsModule.vsCodeAuthRecordPath).toBe(mockPath);
     });
   });
 
-  describe("loadVSCodeAuthRecord", function () {
-    it("should return undefined when auth record file does not exist", async function () {
-      const loadVSCodeAuthRecordSpy = vi
-        .spyOn(helperModule, "loadVSCodeAuthRecord")
-        .mockReturnValue(undefined);
+  describe("VSCode plugin control", function () {
+    it("should set auth record path through plugin control", function () {
+      const mockPath = "/testPath/authRecord.json";
+      const control = msalPluginsModule.msalNodeFlowVSCodeCredentialControl;
 
-      const result = await helperModule.loadVSCodeAuthRecord();
+      control.setVSCodeAuthRecordPath(mockPath);
 
-      expect(result).toBeUndefined();
-      expect(loadVSCodeAuthRecordSpy).toHaveBeenCalledOnce();
+      expect(msalPluginsModule.vsCodeAuthRecordPath).toBe(mockPath);
     });
 
-    it("should return parsed auth record when file exists and is valid", async function () {
-      const mockAuthRecord = {
-        homeAccountId: "test",
-        environment: "test",
-        tenantId: "test",
-        username: "test",
-        authority: "https://login.microsoftonline.com",
-        clientId: "test-client-id",
-      };
+    it("should set broker through plugin control", function () {
+      const mockBroker = { broker: "mockBroker" };
+      const control = msalPluginsModule.msalNodeFlowVSCodeCredentialControl;
 
-      const loadVSCodeAuthRecordSpy = vi
-        .spyOn(helperModule, "loadVSCodeAuthRecord")
-        .mockResolvedValue(mockAuthRecord);
+      control.setVSCodeBroker(mockBroker);
 
-      const result = await helperModule.loadVSCodeAuthRecord();
-
-      expect(result).toEqual(mockAuthRecord);
-      expect(loadVSCodeAuthRecordSpy).toHaveBeenCalledOnce();
+      expect(msalPluginsModule.vsCodeBrokerInfo).toEqual({ broker: mockBroker });
     });
   });
 });
