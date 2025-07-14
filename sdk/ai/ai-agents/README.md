@@ -496,7 +496,7 @@ import { ToolUtility } from "@azure/ai-agents";
 const filePath = "./data/syntheticCompanyQuarterlyResults.csv";
 const localFileStream = fs.createReadStream(filePath);
 const file = await client.files.upload(localFileStream, "assistants", {
-  filename: "sample_file_for_upload.csv",
+  fileName: "sample_file_for_upload.csv",
 });
 console.log(`Uploaded file, ID: ${file.id}`);
 
