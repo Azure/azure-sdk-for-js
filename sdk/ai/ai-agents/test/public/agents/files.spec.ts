@@ -36,7 +36,7 @@ describe("Agents - files", () => {
       },
     });
     const file = await projectsClient.files.upload(fileContent, "assistants", {
-      filename: "filename.txt",
+      fileName: "filename.txt",
     });
     assert.isNotEmpty(file);
   });
@@ -49,7 +49,7 @@ describe("Agents - files", () => {
       },
     });
     const filePoller = projectsClient.files.uploadAndPoll(fileContent, "assistants", {
-      filename: "filename.txt",
+      fileName: "filename.txt",
     });
     const initialState = filePoller.poll();
     assert.isNotNull(initialState);
@@ -66,7 +66,7 @@ describe("Agents - files", () => {
       },
     });
     const filePoller = projectsClient.files.uploadAndPoll(fileContent, "assistants", {
-      filename: "filename.txt",
+      fileName: "filename.txt",
     });
     const initialState = filePoller.poll();
     assert.isNotNull(initialState);
@@ -83,7 +83,7 @@ describe("Agents - files", () => {
       },
     });
     const file = await projectsClient.files.upload(fileContent, "assistants", {
-      filename: "filename.txt",
+      fileName: "filename.txt",
     });
     const deleted = await projectsClient.files.delete(file.id);
     assert.isNotNull(deleted);
@@ -97,7 +97,7 @@ describe("Agents - files", () => {
       },
     });
     const file = await projectsClient.files.upload(fileContent, "assistants", {
-      filename: "filename.txt",
+      fileName: "filename.txt",
     });
     const _file = await projectsClient.files.get(file.id);
     assert.isNotEmpty(_file);
