@@ -25,7 +25,7 @@ Follow the [setup guide](https://github.com/Azure/azure-sdk-for-js/blob/main/CON
 
 The `service name` is a concise identifier for the Azure service and should be consistent across all SDK languages. It's typically the name of the directory in the `azure-rest-api-specs` repository containing your service's REST API definition.
 
-The `package name` is used when publishing to [npmjs](https://www.npmjs.com/). It usually follows the format `@azure/{service-name}-rest` or `@azure/{service-name}-{module}-rest` for services with multiple modules.
+The `package name` is used when publishing to [npmjs](https://www.npmjs.com/). It usually follows the format `@azure-rest/{service-name}-{module}` for services with multiple modules.
 
 # Structure your project
 
@@ -51,6 +51,7 @@ The `package name` is used when publishing to [npmjs](https://www.npmjs.com/). I
    options:
      "@azure-tools/typespec-ts":
        package-dir: "YOUR_SERVICE_FOLDER-rest"
+       is-modular-library: false
        package-details:
          name: YOUR_PACKAGE_NAME
          description: "SHORT_DESCRIPTION"
