@@ -180,32 +180,33 @@ function generatePluginConfiguration(options: MsalClientOptions): PluginConfigur
   }
 
   if (options.brokerOptions?.enabled) {
-    if (nativeBrokerInfo === undefined) {
-      throw new Error(
-        [
-          "Broker for WAM was requested to be enabled, but no native broker was configured.",
-          "You must install the identity-broker plugin package (`npm install --save @azure/identity-broker`)",
-          "and enable it by importing `useIdentityPlugin` from `@azure/identity` and calling",
-          "`useIdentityPlugin(brokerPlugin)` before using `enableBroker`.",
-        ].join(" "),
-      );
+    if (options.isVSCodeCredential) {
+      if (vsCodeBrokerInfo === undefined) {
+        throw new Error(
+          [
+            "Broker for WAM was requested to be enabled, but no native broker was configured.",
+            "You must install the identity-vscode plugin package (`npm install --save @azure/identity-vscode`)",
+            "and enable it by importing `useIdentityPlugin` from `@azure/identity` and calling",
+            "`useIdentityPlugin(vsCodePlugin)` before using `enableBroker`.",
+          ].join(" "),
+        );
+      }
+      config.broker.nativeBrokerPlugin = vsCodeBrokerInfo!.broker;
+    } else {
+      if (nativeBrokerInfo === undefined) {
+        throw new Error(
+          [
+            "Broker for WAM was requested to be enabled, but no native broker was configured.",
+            "You must install the identity-broker plugin package (`npm install --save @azure/identity-broker`)",
+            "and enable it by importing `useIdentityPlugin` from `@azure/identity` and calling",
+            "`useIdentityPlugin(brokerPlugin)` before using `enableBroker`.",
+          ].join(" "),
+        );
+      }
+      config.broker.nativeBrokerPlugin = nativeBrokerInfo!.broker;
     }
-    config.broker.nativeBrokerPlugin = nativeBrokerInfo!.broker;
   }
 
-  if (options.isVSCodeCredential) {
-    if (vsCodeBrokerInfo === undefined) {
-      throw new Error(
-        [
-          "Broker for WAM was requested to be enabled, but no native broker was configured.",
-          "You must install the identity-vscode plugin package (`npm install --save @azure/identity-vscode`)",
-          "and enable it by importing `useIdentityPlugin` from `@azure/identity` and calling",
-          "`useIdentityPlugin(vsCodePlugin)` before using `enableBroker`.",
-        ].join(" "),
-      );
-    }
-    config.broker.nativeBrokerPlugin = vsCodeBrokerInfo!.broker;
-  }
   return config;
 }
 

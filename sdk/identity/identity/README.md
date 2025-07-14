@@ -125,6 +125,7 @@ This allows for trying all of the developer credentials on your machine while ha
 Azure Identity for JavaScript provides a plugin API that allows us to provide certain functionality through separate _plugin packages_. The `@azure/identity` package exports a top-level function (`useIdentityPlugin`) that can be used to enable a plugin. We provide two plugin packages:
 
 - [`@azure/identity-broker`](https://www.npmjs.com/package/@azure/identity-broker), which provides brokered authentication support through a native broker, such as Web Account Manager.
+- [`@azure/identity-vscode`](https://www.npmjs.com/package/@azure/identity-vscode), which provides Visual Studio Code authentication support for signing in through Azure Resource extension.
 - [`@azure/identity-cache-persistence`](https://www.npmjs.com/package/@azure/identity-cache-persistence), which provides persistent token caching in Node.js using a native secure storage system provided by your operating system. This plugin allows cached `access_token` values to persist across sessions, meaning that an interactive login flow doesn't need to be repeated as long as a cached token is available.
 
 ## Examples
@@ -159,7 +160,7 @@ A relatively common scenario involves authenticating using a user-assigned manag
 
 1. **Azure Resources Extension**: Install the [Azure Resources extension](https://marketplace.visualstudio.com/items?itemName=ms-azuretools.vscode-azureresourcegroups) in Visual Studio Code
 2. **Signed in to Azure**: Use the `Azure: Sign In` command in VS Code 
-3. **Broker package configuration**: Install the `@azure/identity-broker` package in your project with `npm install @azure/identity-vscode` and configure `useIdentityPlugin` as shown below:
+3. **Broker package configuration**: Install the `@azure/identity-vscode` package in your project with `npm install @azure/identity-vscode` and configure `useIdentityPlugin` as shown below:
 
 ```ts
 import { useIdentityPlugin, DefaultAzureCredential } from "@azure/identity"
