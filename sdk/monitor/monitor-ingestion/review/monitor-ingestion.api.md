@@ -4,10 +4,17 @@
 
 ```ts
 
-import { ClientOptions } from '@azure-rest/core-client';
-import { OperationOptions } from '@azure-rest/core-client';
-import { Pipeline } from '@azure/core-rest-pipeline';
-import { TokenCredential } from '@azure/core-auth';
+import type { ClientOptions } from '@azure-rest/core-client';
+import type { OperationOptions } from '@azure-rest/core-client';
+import type { Pipeline } from '@azure/core-rest-pipeline';
+import type { TokenCredential } from '@azure/core-auth';
+
+// @public
+export enum KnownMonitorAudience {
+    AzureChina = "https://monitor.azure.cn",
+    AzureGovernment = "https://monitor.azure.us",
+    AzurePublicCloud = "https://monitor.azure.com"
+}
 
 // @public
 export enum KnownVersions {
@@ -18,18 +25,22 @@ export enum KnownVersions {
 export class LogsIngestionClient {
     constructor(endpointParam: string, credential: TokenCredential, options?: LogsIngestionClientOptionalParams);
     readonly pipeline: Pipeline;
-    upload(ruleId: string, streamName: string, body: Record<string, any>[], options?: UploadOptionalParams): Promise<void>;
+    upload(ruleId: string, streamName: string, body: Record<string, any>[], options?: LogsUploadOptions): Promise<void>;
 }
 
 // @public
 export interface LogsIngestionClientOptionalParams extends ClientOptions {
     apiVersion?: string;
+    audience?: string;
 }
 
 // @public
-export interface UploadOptionalParams extends OperationOptions {
+export interface LogsUploadOptions extends OperationOptions {
     clientRequestId?: string;
     contentEncoding?: string;
+    maxConcurrency?: number;
+    // Warning: (ae-forgotten-export) The symbol "LogsUploadFailure" needs to be exported by the entry point index.d.ts
+    onError?: (uploadLogsError: LogsUploadFailure) => void;
 }
 
 // (No @packageDocumentation comment for this package)
