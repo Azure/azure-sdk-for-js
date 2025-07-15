@@ -20,11 +20,10 @@ import {
   truncationObjectSerializer,
   agentsToolChoiceOptionSerializer,
   threadRunDeserializer,
-  MessageStreamEventValues,
-  RunStepStreamEventValues,
+  MessageStreamEvent,
+  RunStepStreamEvent,
   RunStreamEvent,
-  RunStreamEventValues,
-  ThreadStreamEventValues,
+  ThreadStreamEvent,
   ToolOutput,
 } from "../models/models.js";
 import type {
@@ -411,10 +410,10 @@ export async function createAgent(
   return _createAgentDeserialize(result);
 }
 const handlers = [
-  { events: ThreadStreamEventValues as string[] },
-  { events: RunStreamEventValues as string[] },
-  { events: RunStepStreamEventValues as string[] },
-  { events: MessageStreamEventValues as string[] },
+  { events: Object.values(ThreadStreamEvent) as string[] },
+  { events: Object.values(RunStreamEvent) as string[] },
+  { events: Object.values(RunStepStreamEvent) as string[] },
+  { events: Object.values(MessageStreamEvent) as string[] },
 ];
 
 function createAgentStream(stream: EventMessageStream): AgentEventMessageStream {
@@ -433,13 +432,13 @@ async function* toAsyncIterable(stream: EventMessageStream): AsyncIterable<Agent
 function deserializeEventData(event: EventMessage): AgentEventStreamData {
   try {
     const jsonData = JSON.parse(event.data);
-    if (RunStreamEventValues.includes(event.event as RunStreamEvent)) {
+    if (Object.values(RunStreamEvent).includes(event.event as RunStreamEvent)) {
       return threadRunDeserializer(jsonData);
     }
     switch (event.event) {
-      case "thread.message.delta":
+      case MessageStreamEvent.ThreadMessageDelta:
         return jsonData;
-      case "thread.run.step.delta":
+      case RunStepStreamEvent.ThreadRunStepDelta:
         return jsonData;
       default: {
         for (const { events } of handlers) {

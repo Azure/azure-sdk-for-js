@@ -317,10 +317,14 @@ export interface DeleteAgentOptionalParams extends OperationOptions {
 }
 
 // @public
-export type DoneEvent = "done";
+export enum DoneEvent {
+    Done = "done"
+}
 
 // @public
-export type ErrorEvent = "error";
+export enum ErrorEvent {
+    Error = "error"
+}
 
 // @public
 export interface FabricDataAgentToolParameters {
@@ -691,17 +695,13 @@ export interface MessagesOperations {
 export type MessageStatus = "in_progress" | "incomplete" | "completed";
 
 // @public
-export type MessageStreamEvent =
-/** Event emitted when a message is created */
-"thread.message.created"
-/** Event emitted when a message is in progress */
-| "thread.message.in_progress"
-/** Event emitted when a message delta is received */
-| "thread.message.delta"
-/** Event emitted when a message is completed */
-| "thread.message.completed"
-/** Event emitted when a message is incomplete */
-| "thread.message.incomplete";
+export enum MessageStreamEvent {
+    ThreadMessageCompleted = "thread.message.completed",
+    ThreadMessageCreated = "thread.message.created",
+    ThreadMessageDelta = "thread.message.delta",
+    ThreadMessageIncomplete = "thread.message.incomplete",
+    ThreadMessageInProgress = "thread.message.in_progress"
+}
 
 // @public
 export interface MessagesUpdateMessageOptionalParams extends OperationOptions {
@@ -1253,21 +1253,15 @@ export interface RunStepsOperations {
 export type RunStepStatus = "in_progress" | "cancelled" | "failed" | "completed" | "expired";
 
 // @public
-export type RunStepStreamEvent =
-/** Event emitted when a run step is created */
-"thread.run.step.created"
-/** Event emitted when a run step is in progress */
-| "thread.run.step.in_progress"
-/** Event emitted when a run step delta is received */
-| "thread.run.step.delta"
-/** Event emitted when a run step is completed */
-| "thread.run.step.completed"
-/** Event emitted when a run step has failed */
-| "thread.run.step.failed"
-/** Event emitted when a run step has been cancelled */
-| "thread.run.step.cancelled"
-/** Event emitted when a run step has expired */
-| "thread.run.step.expired";
+export enum RunStepStreamEvent {
+    ThreadRunStepCancelled = "thread.run.step.cancelled",
+    ThreadRunStepCompleted = "thread.run.step.completed",
+    ThreadRunStepCreated = "thread.run.step.created",
+    ThreadRunStepDelta = "thread.run.step.delta",
+    ThreadRunStepExpired = "thread.run.step.expired",
+    ThreadRunStepFailed = "thread.run.step.failed",
+    ThreadRunStepInProgress = "thread.run.step.in_progress"
+}
 
 // @public
 export interface RunStepToolCall {
@@ -1288,27 +1282,18 @@ export type RunStepToolCallUnion = RunStepCodeInterpreterToolCall | RunStepFileS
 export type RunStepType = "message_creation" | "tool_calls";
 
 // @public
-export type RunStreamEvent =
-/** Event emitted when a run is created */
-"thread.run.created"
-/** Event emitted when a run is queued */
-| "thread.run.queued"
-/** Event emitted when a run is in progress */
-| "thread.run.in_progress"
-/** Event emitted when a run requires action */
-| "thread.run.requires_action"
-/** Event emitted when a run is completed */
-| "thread.run.completed"
-/** Event emitted when a run is incomplete */
-| "thread.run.incomplete"
-/** Event emitted when a run has failed */
-| "thread.run.failed"
-/** Event emitted when a run is being cancelled */
-| "thread.run.cancelling"
-/** Event emitted when a run has been cancelled */
-| "thread.run.cancelled"
-/** Event emitted when a run has expired */
-| "thread.run.expired";
+export enum RunStreamEvent {
+    ThreadRunCancelled = "thread.run.cancelled",
+    ThreadRunCancelling = "thread.run.cancelling",
+    ThreadRunCompleted = "thread.run.completed",
+    ThreadRunCreated = "thread.run.created",
+    ThreadRunExpired = "thread.run.expired",
+    ThreadRunFailed = "thread.run.failed",
+    ThreadRunIncomplete = "thread.run.incomplete",
+    ThreadRunInProgress = "thread.run.in_progress",
+    ThreadRunQueued = "thread.run.queued",
+    ThreadRunRequiresAction = "thread.run.requires_action"
+}
 
 // @public
 export interface RunsUpdateRunOptionalParams extends OperationOptions {
@@ -1435,7 +1420,9 @@ export interface ThreadsOperations {
 }
 
 // @public
-export type ThreadStreamEvent = "thread.created";
+export enum ThreadStreamEvent {
+    Created = "thread.created"
+}
 
 // @public
 export interface ThreadsUpdateThreadOptionalParams extends OperationOptions {
@@ -1633,7 +1620,12 @@ export interface VectorStoreDataSource {
 }
 
 // @public
-export type VectorStoreDataSourceAssetType = "uri_asset" | "id_asset";
+export enum VectorStoreDataSourceAssetType {
+    // (undocumented)
+    IdAsset = "id_asset",
+    // (undocumented)
+    UriAsset = "uri_asset"
+}
 
 // @public
 export interface VectorStoreDeletionStatus {

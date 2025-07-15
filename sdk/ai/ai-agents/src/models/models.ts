@@ -1204,7 +1204,10 @@ export function vectorStoreDataSourceDeserializer(item: any): VectorStoreDataSou
  * Type of vector storage asset. Asset type may be a uri_asset, in this case it should contain asset URI ID,
  * in the case of id_asset it should contain the data ID.
  */
-export type VectorStoreDataSourceAssetType = "uri_asset" | "id_asset";
+export enum VectorStoreDataSourceAssetType {
+  UriAsset = "uri_asset",
+  IdAsset = "id_asset",
+}
 
 /** A set of resources that are used by the `file_search` tool. */
 export interface FileSearchToolResource {
@@ -4659,96 +4662,77 @@ export function agentStreamEventDeserializer(item: any): AgentStreamEvent {
 }
 
 /** Thread operation related streaming events */
-export type ThreadStreamEvent = "thread.created";
-export const ThreadStreamEventValues: ThreadStreamEvent[] = ["thread.created"];
-/** Run operation related streaming events */
-export type RunStreamEvent =
-  /** Event emitted when a run is created */
-  | "thread.run.created"
-  /** Event emitted when a run is queued */
-  | "thread.run.queued"
-  /** Event emitted when a run is in progress */
-  | "thread.run.in_progress"
-  /** Event emitted when a run requires action */
-  | "thread.run.requires_action"
-  /** Event emitted when a run is completed */
-  | "thread.run.completed"
-  /** Event emitted when a run is incomplete */
-  | "thread.run.incomplete"
-  /** Event emitted when a run has failed */
-  | "thread.run.failed"
-  /** Event emitted when a run is being cancelled */
-  | "thread.run.cancelling"
-  /** Event emitted when a run has been cancelled */
-  | "thread.run.cancelled"
-  /** Event emitted when a run has expired */
-  | "thread.run.expired";
+export enum ThreadStreamEvent {
+  /** Event emitted when a thread is created */
+  Created = "thread.created",
+}
 
-export const RunStreamEventValues: RunStreamEvent[] = [
-  "thread.run.created",
-  "thread.run.queued",
-  "thread.run.in_progress",
-  "thread.run.requires_action",
-  "thread.run.completed",
-  "thread.run.incomplete",
-  "thread.run.failed",
-  "thread.run.cancelling",
-  "thread.run.cancelled",
-  "thread.run.expired",
-];
+/** Run operation related streaming events */
+export enum RunStreamEvent {
+  /** Event emitted when a run is created */
+  ThreadRunCreated = "thread.run.created",
+  /** Event emitted when a run is queued */
+  ThreadRunQueued = "thread.run.queued",
+  /** Event emitted when a run is in progress */
+  ThreadRunInProgress = "thread.run.in_progress",
+  /** Event emitted when a run requires action */
+  ThreadRunRequiresAction = "thread.run.requires_action",
+  /** Event emitted when a run is completed */
+  ThreadRunCompleted = "thread.run.completed",
+  /** Event emitted when a run is incomplete */
+  ThreadRunIncomplete = "thread.run.incomplete",
+  /** Event emitted when a run has failed */
+  ThreadRunFailed = "thread.run.failed",
+  /** Event emitted when a run is being cancelled */
+  ThreadRunCancelling = "thread.run.cancelling",
+  /** Event emitted when a run has been cancelled */
+  ThreadRunCancelled = "thread.run.cancelled",
+  /** Event emitted when a run has expired */
+  ThreadRunExpired = "thread.run.expired",
+}
 
 /** Run step operation related streaming events */
-export type RunStepStreamEvent =
+export enum RunStepStreamEvent {
   /** Event emitted when a run step is created */
-  | "thread.run.step.created"
+  ThreadRunStepCreated = "thread.run.step.created",
   /** Event emitted when a run step is in progress */
-  | "thread.run.step.in_progress"
+  ThreadRunStepInProgress = "thread.run.step.in_progress",
   /** Event emitted when a run step delta is received */
-  | "thread.run.step.delta"
+  ThreadRunStepDelta = "thread.run.step.delta",
   /** Event emitted when a run step is completed */
-  | "thread.run.step.completed"
+  ThreadRunStepCompleted = "thread.run.step.completed",
   /** Event emitted when a run step has failed */
-  | "thread.run.step.failed"
+  ThreadRunStepFailed = "thread.run.step.failed",
   /** Event emitted when a run step has been cancelled */
-  | "thread.run.step.cancelled"
+  ThreadRunStepCancelled = "thread.run.step.cancelled",
   /** Event emitted when a run step has expired */
-  | "thread.run.step.expired";
-
-export const RunStepStreamEventValues: RunStepStreamEvent[] = [
-  "thread.run.step.created",
-  "thread.run.step.in_progress",
-  "thread.run.step.delta",
-  "thread.run.step.completed",
-  "thread.run.step.failed",
-  "thread.run.step.cancelled",
-  "thread.run.step.expired",
-];
+  ThreadRunStepExpired = "thread.run.step.expired",
+}
 
 /** Message operation related streaming events */
-export type MessageStreamEvent =
+export enum MessageStreamEvent {
   /** Event emitted when a message is created */
-  | "thread.message.created"
+  ThreadMessageCreated = "thread.message.created",
   /** Event emitted when a message is in progress */
-  | "thread.message.in_progress"
+  ThreadMessageInProgress = "thread.message.in_progress",
   /** Event emitted when a message delta is received */
-  | "thread.message.delta"
+  ThreadMessageDelta = "thread.message.delta",
   /** Event emitted when a message is completed */
-  | "thread.message.completed"
+  ThreadMessageCompleted = "thread.message.completed",
   /** Event emitted when a message is incomplete */
-  | "thread.message.incomplete";
-
-export const MessageStreamEventValues: MessageStreamEvent[] = [
-  "thread.message.created",
-  "thread.message.in_progress",
-  "thread.message.delta",
-  "thread.message.completed",
-  "thread.message.incomplete",
-];
+  ThreadMessageIncomplete = "thread.message.incomplete",
+}
 
 /** Terminal event indicating a server side error while streaming. */
-export type ErrorEvent = "error";
+export enum ErrorEvent {
+  /** Server error while streaming */
+  Error = "error",
+}
 /** Terminal event indicating the successful end of a stream. */
-export type DoneEvent = "done";
+export enum DoneEvent {
+  /** Event emitted when a stream has completed successfully */
+  Done = "done",
+}
 /** The available sorting options when requesting a list of response objects. */
 export type ListSortOrder = "asc" | "desc";
 /** A list of additional fields to include in the response. */

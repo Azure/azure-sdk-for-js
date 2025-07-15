@@ -11,6 +11,7 @@ import {
   DoneEvent,
   MessageDeltaChunk,
   MessageDeltaTextContent,
+  MessageStreamEvent,
   RunStreamEvent,
   ErrorEvent,
   isOutputOfType,
@@ -602,7 +603,7 @@ describe("snippets", function () {
         case RunStreamEvent.ThreadRunCreated:
           console.log(`ThreadRun status: ${eventMessage.data.status}`);
           break;
-        case "thread.message.delta":
+        case MessageStreamEvent.ThreadMessageDelta:
           {
             const messageDelta = eventMessage.data;
             messageDelta.delta.content.forEach((contentPart) => {
