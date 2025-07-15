@@ -4,13 +4,8 @@
 import type { LogsIngestionContext as Client } from "./index.js";
 import type { LogsUploadOptions } from "./options.js";
 import { expandUrlTemplate } from "../static-helpers/urlTemplate.js";
-import type {
-  StreamableMethod,
-  PathUncheckedResponse} from "@azure-rest/core-client";
-import {
-  createRestError,
-  operationOptionsToRequestParameters,
-} from "@azure-rest/core-client";
+import type { StreamableMethod, PathUncheckedResponse } from "@azure-rest/core-client";
+import { createRestError, operationOptionsToRequestParameters } from "@azure-rest/core-client";
 
 export function _uploadSend(
   context: Client,
@@ -49,9 +44,7 @@ export function _uploadSend(
   });
 }
 
-export async function _uploadDeserialize(
-  result: PathUncheckedResponse,
-): Promise<void> {
+export async function _uploadDeserialize(result: PathUncheckedResponse): Promise<void> {
   const expectedStatuses = ["204"];
   if (!expectedStatuses.includes(result.status)) {
     throw createRestError(result);

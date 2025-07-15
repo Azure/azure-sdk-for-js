@@ -3,7 +3,7 @@
 
 import { logger } from "../logger.js";
 import { KnownMonitorAudience, KnownVersions } from "../models/models.js";
-import type { Client, ClientOptions} from "@azure-rest/core-client";
+import type { Client, ClientOptions } from "@azure-rest/core-client";
 import { getClient } from "@azure-rest/core-client";
 import type { TokenCredential } from "@azure/core-auth";
 
@@ -34,8 +34,7 @@ export function createLogsIngestion(
   tokenCredential: TokenCredential,
   options: LogsIngestionClientOptions = {},
 ): LogsIngestionContext {
-  const endpointUrl =
-    options.endpoint ?? options.baseUrl ?? String(endpoint);
+  const endpointUrl = options.endpoint ?? options.baseUrl ?? String(endpoint);
   const prefixFromOptions = options?.userAgentOptions?.userAgentPrefix;
   const userAgentInfo = `azsdk-js-monitor-ingestion/1.2.0`;
   const userAgentPrefix = prefixFromOptions

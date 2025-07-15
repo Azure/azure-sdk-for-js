@@ -1,12 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type {
-  LogsIngestionContext,
-  LogsIngestionClientOptions} from "./api/index.js";
-import {
-  createLogsIngestion
-} from "./api/index.js";
+import type { LogsIngestionContext, LogsIngestionClientOptions } from "./api/index.js";
+import { createLogsIngestion } from "./api/index.js";
 import type { LogsUploadOptions } from "./api/options.js";
 import { upload } from "./api/operations.js";
 import type { Pipeline } from "@azure/core-rest-pipeline";
