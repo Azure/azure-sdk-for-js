@@ -3,7 +3,7 @@
   "version": "1.0.0-beta.1",
   "description": "Azure Online Experimentation Service",
   "engines": {
-    "node": ">=18.0.0"
+    "node": ">=20.0.0"
   },
   "sideEffects": false,
   "autoPublish": false,
@@ -65,7 +65,7 @@
   },
   "devDependencies": {
     "dotenv": "^16.0.0",
-    "@types/node": "^18.0.0",
+    "@types/node": "^20.0.0",
     "eslint": "^9.9.0",
     "typescript": "~5.8.2",
     "@azure/identity": "^4.2.1",
@@ -82,8 +82,8 @@
     "clean": "dev-tool run vendored rimraf --glob dist dist-browser dist-esm test-dist temp types *.tgz *.log",
     "extract-api": "dev-tool run vendored rimraf review && dev-tool run extract-api",
     "pack": "npm pack 2>&1",
-    "lint": "eslint package.json api-extractor.json src test",
-    "lint:fix": "eslint package.json api-extractor.json src test --fix --fix-type [problem,suggestion]",
+    "lint": "eslint package.json src test",
+    "lint:fix": "eslint package.json src test --fix --fix-type [problem,suggestion]",
     "unit-test": "npm run unit-test:node && npm run unit-test:browser",
     "unit-test:browser": "npm run build:test && dev-tool run test:vitest --browser",
     "unit-test:node": "dev-tool run test:vitest",

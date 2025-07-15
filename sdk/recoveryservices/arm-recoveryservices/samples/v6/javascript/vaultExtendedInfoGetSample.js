@@ -6,17 +6,15 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
 const { RecoveryServicesClient } = require("@azure/arm-recoveryservices");
 const { DefaultAzureCredential } = require("@azure/identity");
-require("dotenv").config();
+require("dotenv/config");
 
 /**
  * This sample demonstrates how to Get the vault extended info.
  *
  * @summary Get the vault extended info.
- * x-ms-original-file: specification/recoveryservices/resource-manager/Microsoft.RecoveryServices/stable/2024-04-01/examples/GETVaultExtendedInfo.json
+ * x-ms-original-file: specification/recoveryservices/resource-manager/Microsoft.RecoveryServices/stable/2025-02-01/examples/GETVaultExtendedInfo.json
  */
 async function getExtendedInfoOfResource() {
   const subscriptionId =
@@ -31,7 +29,7 @@ async function getExtendedInfoOfResource() {
 }
 
 async function main() {
-  getExtendedInfoOfResource();
+  await getExtendedInfoOfResource();
 }
 
 main().catch(console.error);
