@@ -8,7 +8,15 @@
  * @summary demonstrates how to use agent operations with the Grounding with Bing Search tool using streaming.
  */
 
-const { AgentsClient, ToolUtility, isOutputOfType } = require("@azure/ai-agents");
+const {
+  AgentsClient,
+  DoneEvent,
+  ErrorEvent,
+  MessageStreamEvent,
+  RunStreamEvent,
+  ToolUtility,
+  isOutputOfType,
+} = require("@azure/ai-agents");
 const { DefaultAzureCredential } = require("@azure/identity");
 
 require("dotenv/config");
@@ -49,10 +57,10 @@ async function main() {
 
   for await (const eventMessage of streamEventMessages) {
     switch (eventMessage.event) {
-      case "thread.run.created":
+      case RunStreamEvent.ThreadRunCreated:
         console.log(`ThreadRun status: ${eventMessage.data.status}`);
         break;
-      case "thread.message.delta":
+      case MessageStreamEvent.ThreadMessageDelta:
         {
           const messageDelta = eventMessage.data;
           if (messageDelta.delta && messageDelta.delta.content) {
@@ -67,13 +75,13 @@ async function main() {
         }
         break;
 
-      case "thread.run.completed":
+      case RunStreamEvent.ThreadRunCompleted:
         console.log("Thread Run Completed");
         break;
-      case "error":
+      case ErrorEvent.Error:
         console.log(`An error occurred. Data ${eventMessage.data}`);
         break;
-      case "done":
+      case DoneEvent.Done:
         console.log("Stream completed.");
         break;
     }

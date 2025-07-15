@@ -8,7 +8,11 @@
  */
 
 import {
+  RunStreamEvent,
+  MessageStreamEvent,
   MessageTextContent,
+  DoneEvent,
+  ErrorEvent,
   AgentsClient,
   isOutputOfType,
   ToolUtility,
@@ -64,10 +68,10 @@ export async function main(): Promise<void> {
 
   for await (const eventMessage of streamEventMessages) {
     switch (eventMessage.event) {
-      case "thread.run.created":
+      case RunStreamEvent.ThreadRunCreated:
         console.log(`ThreadRun status: ${eventMessage.data.status}`);
         break;
-      case "thread.message.delta":
+      case MessageStreamEvent.ThreadMessageDelta:
         {
           const messageDelta = eventMessage.data;
           if (messageDelta.delta && messageDelta.delta.content) {
@@ -82,13 +86,13 @@ export async function main(): Promise<void> {
         }
         break;
 
-      case "thread.run.completed":
+      case RunStreamEvent.ThreadRunCompleted:
         console.log("Thread Run Completed");
         break;
-      case "error":
+      case ErrorEvent.Error:
         console.log(`An error occurred. Data ${eventMessage.data}`);
         break;
-      case "done":
+      case DoneEvent.Done:
         console.log("Stream completed.");
         break;
     }
