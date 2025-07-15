@@ -3785,7 +3785,7 @@ packages:
     version: 0.0.0
 
   '@rush-temp/cosmos@file:projects/cosmos.tgz':
-    resolution: {integrity: sha512-1wRJKmjR9onSRqbOjuEBqOFJTrt8gjE/WpMh3kwCS+Y9oG8gHZeeqctBcVclAQuYljknReaiHm8YbP/7ULWcTw==, tarball: file:projects/cosmos.tgz}
+    resolution: {integrity: sha512-7f7BVpH7/+eee/vekhDOP/jrlnnOQpHzoZfrjgXGd8HH0amTl6oK8DpRj3XPHbHOVlJafO8RAPX5hIqDQauysQ==, tarball: file:projects/cosmos.tgz}
     version: 0.0.0
 
   '@rush-temp/create-microsoft-playwright-testing@file:projects/create-microsoft-playwright-testing.tgz':
@@ -20324,6 +20324,7 @@ snapshots:
       dotenv: 16.5.0
       eslint: 9.29.0
       fast-json-stable-stringify: 2.1.0
+      https-proxy-agent: 7.0.6
       nock: 13.5.6
       playwright: 1.53.1
       priorityqueuejs: 2.0.0
