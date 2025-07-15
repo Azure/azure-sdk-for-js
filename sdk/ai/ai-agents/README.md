@@ -702,6 +702,7 @@ const streamEventMessages = await client.runs.create(thread.id, agent.id).stream
 Event handling can be done as follows:
 
 ```ts snippet:eventHandling
+import { RunStreamEvent, MessageStreamEvent, ErrorEvent, DoneEvent } from "@azure/ai-agents";
 const streamEventMessages = await client.runs.create(thread.id, agent.id).stream();
 
 for await (const eventMessage of streamEventMessages) {
@@ -709,7 +710,7 @@ for await (const eventMessage of streamEventMessages) {
     case RunStreamEvent.ThreadRunCreated:
       console.log(`ThreadRun status: ${eventMessage.data.status}`);
       break;
-    case "thread.message.delta":
+    case MessageStreamEvent.ThreadMessageDelta:
       {
         const messageDelta = eventMessage.data;
         messageDelta.delta.content.forEach((contentPart) => {
