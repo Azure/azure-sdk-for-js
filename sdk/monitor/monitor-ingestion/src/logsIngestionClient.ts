@@ -1,15 +1,16 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import {
-  createLogsIngestion,
+import type {
   LogsIngestionContext,
-  LogsIngestionClientOptionalParams,
+  LogsIngestionClientOptionalParams} from "./api/index.js";
+import {
+  createLogsIngestion
 } from "./api/index.js";
-import { UploadOptionalParams } from "./api/options.js";
+import type { UploadOptionalParams } from "./api/options.js";
 import { upload } from "./api/operations.js";
-import { Pipeline } from "@azure/core-rest-pipeline";
-import { TokenCredential } from "@azure/core-auth";
+import type { Pipeline } from "@azure/core-rest-pipeline";
+import type { TokenCredential } from "@azure/core-auth";
 
 export { LogsIngestionClientOptionalParams } from "./api/logsIngestionContext.js";
 
