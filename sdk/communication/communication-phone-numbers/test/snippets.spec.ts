@@ -360,7 +360,9 @@ describe("snippets", () => {
     // @ts-preserve-whitespace
     const trunk = await client.getTrunk("sbc.one.domain.com");
     if (trunk) {
-      console.log(`Trunk ${trunk.fqdn}:${trunk.sipSignalingPort}`);
+      console.log(
+        `Trunk ${trunk.fqdn}:${trunk.sipSignalingPort}, ${trunk.enabled}, ${trunk.directTransfer}, ${trunk.ipAddressVersion}, ${trunk.privacyHeader}`,
+      );
     } else {
       console.log("Trunk not found");
     }
