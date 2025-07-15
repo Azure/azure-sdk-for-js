@@ -160,13 +160,12 @@ A relatively common scenario involves authenticating using a user-assigned manag
 
 1. **Azure Resources Extension**: Install the [Azure Resources extension](https://marketplace.visualstudio.com/items?itemName=ms-azuretools.vscode-azureresourcegroups) in Visual Studio Code
 2. **Signed in to Azure**: Use the `Azure: Sign In` command in VS Code 
-3. **Broker package configuration**: Install the `@azure/identity-vscode` package in your project with `npm install @azure/identity-vscode` and configure `useIdentityPlugin` as shown below:
+3. **Broker package configuration**: Install the `@azure/identity-vscode` package v2.0.0 or above in your project with `npm install @azure/identity-vscode` and configure `useIdentityPlugin` as shown below:
 
-```ts
-import { useIdentityPlugin, DefaultAzureCredential } from "@azure/identity"
-import { vsCodePlugin } from "@azure/identity-vscode"
-useIdentityPlugin(vsCodePlugin)
+```ts snippet:defaultazurecredential_vscode
+import { useIdentityPlugin, DefaultAzureCredential } from "@azure/identity";
 
+useIdentityPlugin(vsCodePlugin);
 const credential = new DefaultAzureCredential();
 ```
 

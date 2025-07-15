@@ -28,7 +28,7 @@ If this is your first time using `@azure/identity` or Microsoft Entra ID, we rec
 
 ### Azure Identity Plugins
 
-As of `@azure/identity` version 2.0.0, the Identity client library for JavaScript includes a plugin API. This package (`@azure/identity-vscode`) exports a plugin object that you must pass as an argument to the top-level `useIdentityPlugin` function from the `@azure/identity` package. Enable authentication through the "Azure Account" extension for Visual Studio Code as follows:
+As of `@azure/identity` version 4.11.0, the Identity client library for JavaScript includes a plugin API. This package (`@azure/identity-vscode`) exports a plugin object that you must pass as an argument to the top-level `useIdentityPlugin` function from the `@azure/identity` package. Enable authentication through the "Azure Resource" extension for Visual Studio Code as follows:
 
 ```ts snippet:ReadmeSampleUsePlugin
 import { useIdentityPlugin } from "@azure/identity";
