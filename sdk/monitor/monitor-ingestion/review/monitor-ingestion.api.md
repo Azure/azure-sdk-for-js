@@ -35,13 +35,13 @@ export enum KnownVersions {
 
 // @public (undocumented)
 export class LogsIngestionClient {
-    constructor(endpointParam: string, credential: TokenCredential, options?: LogsIngestionClientOptionalParams);
+    constructor(endpointParam: string, credential: TokenCredential, options?: LogsIngestionClientOptions);
     readonly pipeline: Pipeline;
     upload(ruleId: string, streamName: string, body: Record<string, any>[], options?: LogsUploadOptions): Promise<void>;
 }
 
 // @public
-export interface LogsIngestionClientOptionalParams extends ClientOptions {
+export interface LogsIngestionClientOptions extends ClientOptions {
     apiVersion?: string;
     audience?: string;
 }
