@@ -41,11 +41,12 @@ const OUTPUT_FOLDER = "_output";
 describe("Batch", () => {
   let recorder: Recorder;
   let client: DeidentificationClient;
+  let storageAccountLocation: string;
   const environment = getTestEnvironment();
-  const storageAccountLocation = env.HEALTHDATAAISERVICES_STORAGE_ACCOUNT_LOCATION as string;
 
   beforeEach(async (context) => {
     recorder = await createRecorder(context);
+    storageAccountLocation = env["HEALTHDATAAISERVICES_STORAGE_ACCOUNT_LOCATION"] as string;
     const credential = createTestCredential();
     client = await createRecordedDeidentificationClient(recorder, credential);
   });
