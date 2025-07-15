@@ -1,23 +1,29 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-
-import type { OperationOptions } from "@azure/core-client";
 import { isError } from "@azure/core-util";
+
+/** Service API versions */
+export enum KnownVersions {
+  /** The 2023-01-01 API version. */
+  V20230101 = "2023-01-01",
+}
+
 /**
- * Options for send logs operation
+ * Known values for Monitor Audience
  */
-export interface LogsUploadOptions extends OperationOptions {
+export enum KnownMonitorAudience {
   /**
-   * Concurrency of parallel requests. Must be greater than or equal to 1.
-   * The default value is 1.
+   * Audience for Azure China
    */
-  maxConcurrency?: number;
+  AzureChina = "https://monitor.azure.cn",
   /**
-   * Callback function for error handling when logs fail to upload
-   * @param uploadLogsError - This is the {@link LogsUploadFailure} object
-   * @returns void
+   * Audience for Azure Government
    */
-  onError?: (uploadLogsError: LogsUploadFailure) => void;
+  AzureGovernment = "https://monitor.azure.us",
+  /**
+   * Audience for Azure Public
+   */
+  AzurePublicCloud = "https://monitor.azure.com",
 }
 
 /**
