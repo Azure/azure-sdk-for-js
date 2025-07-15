@@ -39,11 +39,11 @@ export function _cancelRunSend(
   options: RunsCancelRunOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "/threads/{threadId}/runs/{runId}/cancel{?api%2Dversion}",
+    "/threads/{threadId}/runs/{runId}/cancel{?api-version}",
     {
       threadId: threadId,
       runId: runId,
-      "api%2Dversion": context.apiVersion,
+      "api-version": context.apiVersion,
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
