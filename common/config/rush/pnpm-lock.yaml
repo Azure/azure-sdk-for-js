@@ -1041,7 +1041,7 @@ importers:
         version: file:projects/identity.tgz(@types/debug@4.1.12)(tsx@4.20.3)(vite@6.3.5(@types/node@22.7.9)(tsx@4.20.3)(yaml@2.8.0))(yaml@2.8.0)
       '@rush-temp/identity-broker':
         specifier: file:./projects/identity-broker.tgz
-        version: file:projects/identity-broker.tgz(@types/debug@4.1.12)(tsx@4.20.3)(vite@6.3.5(@types/node@22.7.9)(tsx@4.20.3)(yaml@2.8.0))(yaml@2.8.0)
+        version: file:projects/identity-broker.tgz(@types/debug@4.1.12)(@vitest/browser@3.2.4)(tsx@4.20.3)(yaml@2.8.0)
       '@rush-temp/identity-cache-persistence':
         specifier: file:./projects/identity-cache-persistence.tgz
         version: file:projects/identity-cache-persistence.tgz(@types/debug@4.1.12)(tsx@4.20.3)(vite@6.3.5(@types/node@22.7.9)(tsx@4.20.3)(yaml@2.8.0))(yaml@2.8.0)
@@ -2757,7 +2757,7 @@ packages:
     version: 0.0.0
 
   '@rush-temp/arm-computeschedule@file:projects/arm-computeschedule.tgz':
-    resolution: {integrity: sha512-kRugwrG2pXtCJUUWxm+E8T40VZxztY9yi6JuJmZyn9Tho7GceY0+HPcZoASRAM5rcYksLPjjXUmvkZXDsQDNOw==, tarball: file:projects/arm-computeschedule.tgz}
+    resolution: {integrity: sha512-J2v6P+cftWtkYT5Dvn8DXmWStmnNqymSLGuhLz3PrcsUZRWeo+D8of8c4GF6qTLCjmM3chniHg3uCUhkMZilQw==, tarball: file:projects/arm-computeschedule.tgz}
     version: 0.0.0
 
   '@rush-temp/arm-confidentialledger@file:projects/arm-confidentialledger.tgz':
@@ -3865,7 +3865,7 @@ packages:
     version: 0.0.0
 
   '@rush-temp/identity-broker@file:projects/identity-broker.tgz':
-    resolution: {integrity: sha512-kPpVGHnZFIXtZAeOvYFS1fE/h+tq/kbUuWEtqzClBaKLN64jo2J0CNyVKm9dkorXYLriq+MdXzK7+oKq/8hQZg==, tarball: file:projects/identity-broker.tgz}
+    resolution: {integrity: sha512-kA7hra+a5uU7gB+AXZVYLQQLq0XGZE0lJLOw/Jd4S6Ahi2tBNb3AClwcS85vljuhjFJDEGndbXg05nliMY4L2w==, tarball: file:projects/identity-broker.tgz}
     version: 0.0.0
 
   '@rush-temp/identity-cache-persistence@file:projects/identity-cache-persistence.tgz':
@@ -11348,7 +11348,7 @@ snapshots:
       eslint: 9.29.0
       playwright: 1.53.1
       tslib: 2.8.1
-      typescript: 5.6.3
+      typescript: 5.8.3
       vitest: 3.2.4(@types/debug@4.1.12)(@types/node@20.19.1)(@vitest/browser@3.2.4)(tsx@4.20.3)(yaml@2.8.0)
     transitivePeerDependencies:
       - '@edge-runtime/vm'
@@ -21101,31 +21101,28 @@ snapshots:
       - webdriverio
       - yaml
 
-  '@rush-temp/identity-broker@file:projects/identity-broker.tgz(@types/debug@4.1.12)(tsx@4.20.3)(vite@6.3.5(@types/node@22.7.9)(tsx@4.20.3)(yaml@2.8.0))(yaml@2.8.0)':
+  '@rush-temp/identity-broker@file:projects/identity-broker.tgz(@types/debug@4.1.12)(@vitest/browser@3.2.4)(tsx@4.20.3)(yaml@2.8.0)':
     dependencies:
       '@azure/abort-controller': 1.1.0
       '@azure/msal-node': 3.6.1
       '@azure/msal-node-extensions': 1.5.15
       '@types/node': 20.19.1
-      '@vitest/browser': 3.2.4(playwright@1.53.1)(vite@6.3.5(@types/node@22.7.9)(tsx@4.20.3)(yaml@2.8.0))(vitest@3.2.4)
       '@vitest/coverage-istanbul': 3.2.4(vitest@3.2.4)
       eslint: 9.29.0
-      playwright: 1.53.1
       tslib: 2.8.1
       typescript: 5.8.3
       vitest: 3.2.4(@types/debug@4.1.12)(@types/node@20.19.1)(@vitest/browser@3.2.4)(tsx@4.20.3)(yaml@2.8.0)
     transitivePeerDependencies:
       - '@edge-runtime/vm'
       - '@types/debug'
+      - '@vitest/browser'
       - '@vitest/ui'
-      - bufferutil
       - happy-dom
       - jiti
       - jsdom
       - less
       - lightningcss
       - msw
-      - safaridriver
       - sass
       - sass-embedded
       - stylus
@@ -21133,9 +21130,6 @@ snapshots:
       - supports-color
       - terser
       - tsx
-      - utf-8-validate
-      - vite
-      - webdriverio
       - yaml
 
   '@rush-temp/identity-cache-persistence@file:projects/identity-cache-persistence.tgz(@types/debug@4.1.12)(tsx@4.20.3)(vite@6.3.5(@types/node@22.7.9)(tsx@4.20.3)(yaml@2.8.0))(yaml@2.8.0)':
