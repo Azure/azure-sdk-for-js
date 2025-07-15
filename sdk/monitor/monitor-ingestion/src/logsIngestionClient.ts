@@ -22,7 +22,12 @@ export class LogsIngestionClient {
   /** The pipeline used by this client to make requests */
   public readonly pipeline: Pipeline;
 
-  /** Azure Monitor data collection client. */
+  /**
+   * Construct a MonitorIngestionClient that can be used to query logs using the Log Analytics Query language.
+   *
+   * @param tokenCredential - A token credential.
+   * @param options - Options for the MonitorIngestionClient.
+   */
   constructor(
     endpoint: string,
     tokenCredential: TokenCredential,
@@ -40,7 +45,15 @@ export class LogsIngestionClient {
     this.pipeline.addPolicy(GZippingPolicy);
   }
 
-  /** Ingestion API used to directly ingest data using Data Collection Rules. */
+  
+  /**
+   * Uploads logs to Monitor Resource
+   * @param ruleId - The immutable Id of the Data Collection Rule resource.
+   * @param streamName - The streamDeclaration name as defined in the Data Collection Rule.
+   * @param logs - An array of objects matching the schema defined by the provided stream.
+   * @param options - The options parameters.
+   * See error response code and error response message for more detail.
+   */
   async upload(
     ruleId: string,
     streamName: string,
