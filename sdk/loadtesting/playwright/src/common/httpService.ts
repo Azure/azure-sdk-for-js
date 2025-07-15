@@ -25,6 +25,7 @@ export class HttpService {
       loggingOptions: {
         logger: coreLogger.info,
       },
+      retryOptions: {},
     });
 
     const httpClient = createDefaultHttpClient();
