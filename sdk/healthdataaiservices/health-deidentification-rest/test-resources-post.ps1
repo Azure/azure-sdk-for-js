@@ -58,7 +58,7 @@ Get-ChildItem -Path $localFolderPath -Recurse | ForEach-Object {
 
     $destinationBlob = "$folderName\$destinationBlob"
     Write-Host "Uploading file '$destinationBlob'"
-    Set-AzStorageBlobContent -File $_.FullName -Container $containerName -Blob $destinationBlob -Context $storageContext -Forcee
+    Set-AzStorageBlobContent -File $_.FullName -Container $containerName -Blob $destinationBlob -Context $storageContext -Force
 }
 
 Write-Host "Folder '$localFolderPath' uploaded to container '$containerName' successfully."
