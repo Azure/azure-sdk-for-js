@@ -15,7 +15,7 @@ export interface LogsIngestionContext extends Client {
 }
 
 /** Optional parameters for the client. */
-export interface LogsIngestionClientOptionalParams extends ClientOptions {
+export interface LogsIngestionClientOptions extends ClientOptions {
   /** The API version to use for this operation. */
   /** Known values of {@link KnownVersions} that the service accepts. */
   apiVersion?: string;
@@ -32,7 +32,7 @@ export interface LogsIngestionClientOptionalParams extends ClientOptions {
 export function createLogsIngestion(
   endpointParam: string,
   credential: TokenCredential,
-  options: LogsIngestionClientOptionalParams = {},
+  options: LogsIngestionClientOptions = {},
 ): LogsIngestionContext {
   const endpointUrl =
     options.endpoint ?? options.baseUrl ?? String(endpointParam);

@@ -11,6 +11,6 @@ export {
   LogsUploadFailure 
 } from "./models/index.js";
 export {
-  LogsIngestionClientOptionalParams,
+  LogsIngestionClientOptions,
   LogsUploadOptions,
 } from "./api/index.js";
