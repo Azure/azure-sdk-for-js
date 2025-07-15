@@ -185,6 +185,5 @@ function createFunctionSpies() {
   const cliSpy = vi.spyOn(createFunctionsDac, "createDefaultAzureCliCredential");
   const devCliSpy = vi.spyOn(createFunctionsDac, "createDefaultAzureDeveloperCliCredential");
   const psSpy = vi.spyOn(createFunctionsDac, "createDefaultAzurePowershellCredential");
-  // Return all spies for further assertions if needed
   return { envSpy, miSpy, wiSpy, cliSpy, devCliSpy, psSpy };
 }
