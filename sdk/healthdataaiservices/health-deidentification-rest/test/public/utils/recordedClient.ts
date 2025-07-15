@@ -11,7 +11,8 @@ const envSetupForPlayback: Record<string, string> = {
   HEALTHDATAAISERVICES_DEID_SERVICE_ENDPOINT: "https://example.api.deid.azure.com",
   HEALTHDATAAISERVICES_STORAGE_ACCOUNT_NAME: "fake_storage_account_sas_uri",
   HEALTHDATAAISERVICES_STORAGE_CONTAINER_NAME: "container-sdk-dev-fakeid",
-  HEALTHDATAAISERVICES_STORAGE_ACCOUNT_LOCATION: "https://fake_storage_account_sas_uri.blob.core.windows.net/container-sdk-dev-fakeid",
+  HEALTHDATAAISERVICES_STORAGE_ACCOUNT_LOCATION:
+    "https://fake_storage_account_sas_uri.blob.core.windows.net/container-sdk-dev-fakeid",
   CONTINUATION_TOKEN: "continuationToken=1234567890",
 };
 
