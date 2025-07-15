@@ -33,7 +33,7 @@ export enum KnownVersions {
     V20230101 = "2023-01-01"
 }
 
-// @public (undocumented)
+// @public
 export class LogsIngestionClient {
     constructor(endpoint: string, tokenCredential: TokenCredential, options?: LogsIngestionClientOptions);
     readonly pipeline: Pipeline;
