@@ -9,12 +9,6 @@
   - Adds support for specifying `clientRequestId` and `contentEncoding` in `LogsUploadOptions` to provide more control over upload requests.
   - Adds the `KnownVersions` enum for API versioning, starting with V20230101.
   - Adds the `pipeline` property on `LogsIngestionClient` for advanced customization.
-   
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
 
 ## 1.1.0 (2024-06-11)
 
