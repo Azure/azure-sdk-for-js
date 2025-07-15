@@ -35,9 +35,9 @@ export enum KnownVersions {
 
 // @public (undocumented)
 export class LogsIngestionClient {
-    constructor(endpointParam: string, credential: TokenCredential, options?: LogsIngestionClientOptions);
+    constructor(endpoint: string, tokenCredential: TokenCredential, options?: LogsIngestionClientOptions);
     readonly pipeline: Pipeline;
-    upload(ruleId: string, streamName: string, body: Record<string, any>[], options?: LogsUploadOptions): Promise<void>;
+    upload(ruleId: string, streamName: string, logs: Record<string, unknown>[], options?: LogsUploadOptions): Promise<void>;
 }
 
 // @public

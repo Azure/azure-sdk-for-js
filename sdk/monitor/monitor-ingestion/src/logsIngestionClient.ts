@@ -28,15 +28,15 @@ export class LogsIngestionClient {
 
   /** Azure Monitor data collection client. */
   constructor(
-    endpointParam: string,
-    credential: TokenCredential,
-    options: LogsIngestionClientOptions = {},
+    endpoint: string,
+    tokenCredential: TokenCredential,
+    options?: LogsIngestionClientOptions,
   ) {
     const prefixFromOptions = options?.userAgentOptions?.userAgentPrefix;
     const userAgentPrefix = prefixFromOptions
       ? `${prefixFromOptions} azsdk-js-client`
       : `azsdk-js-client`;
-    this._client = createLogsIngestion(endpointParam, credential, {
+    this._client = createLogsIngestion(endpoint, tokenCredential, {
       ...options,
       userAgentOptions: { userAgentPrefix },
     });
@@ -48,20 +48,20 @@ export class LogsIngestionClient {
   async upload(
     ruleId: string,
     streamName: string,
-    body: Record<string, any>[],
-    options: LogsUploadOptions = { requestOptions: {} },
+    logs: Record<string, unknown>[],
+    options?: LogsUploadOptions,
   ): Promise<void> {
     // TODO: Do we need to worry about memory issues when loading data for 100GB ?? JS max allocation is 1 or 2GB
 
     // This splits logs into 1MB chunks
-    const chunkArray = splitDataToChunks(body);
+    const chunkArray = splitDataToChunks(logs);
     const concurrency = Math.max(options?.maxConcurrency ?? DEFAULT_MAX_CONCURRENCY, 1);
 
     const uploadResultErrors: Array<LogsUploadFailure> = [];
     await concurrentRun(
       concurrency,
       chunkArray,
-      async (eachChunk: Record<string, any>[]): Promise<void> => {
+      async (eachChunk: Record<string, unknown>[]): Promise<void> => {
         try {
           await upload(this._client, ruleId, streamName, eachChunk, {
             contentEncoding: "gzip",

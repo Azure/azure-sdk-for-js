@@ -30,12 +30,12 @@ export interface LogsIngestionClientOptions extends ClientOptions {
 
 /** Azure Monitor data collection client. */
 export function createLogsIngestion(
-  endpointParam: string,
-  credential: TokenCredential,
+  endpoint: string,
+  tokenCredential: TokenCredential,
   options: LogsIngestionClientOptions = {},
 ): LogsIngestionContext {
   const endpointUrl =
-    options.endpoint ?? options.baseUrl ?? String(endpointParam);
+    options.endpoint ?? options.baseUrl ?? String(endpoint);
   const prefixFromOptions = options?.userAgentOptions?.userAgentPrefix;
   const userAgentInfo = `azsdk-js-monitor-ingestion/1.2.0`;
   const userAgentPrefix = prefixFromOptions
@@ -52,7 +52,7 @@ export function createLogsIngestion(
       scopes: scope ? [scope] : options.credentials?.scopes,
     },
   };
-  const clientContext = getClient(endpointUrl, credential, updatedOptions);
+  const clientContext = getClient(endpointUrl, tokenCredential, updatedOptions);
   clientContext.pipeline.removePolicy({ name: "ApiVersionPolicy" });
   const apiVersion = options.apiVersion ?? "2023-01-01";
   clientContext.pipeline.addPolicy({
