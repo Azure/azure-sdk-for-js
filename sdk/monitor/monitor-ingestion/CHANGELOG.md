@@ -1,9 +1,15 @@
 # Release History
 
-## 1.2.0 (Unreleased)
+## 1.2.0 (2025-07-18)
 
 ### Features Added
 
+- Generate code from TypeSpec. This is an internal change that should not affect customers.
+  - Migrates client interfaces to use types from `@azure-rest/core-client` and `@azure/core-rest-pipeline` instead of `@azure/core-client`.
+  - Adds support for specifying `clientRequestId` and `contentEncoding` in `LogsUploadOptions` to provide more control over upload requests.
+  - Adds the `KnownVersions` enum for API versioning, starting with V20230101.
+  - Adds the `pipeline` property on `LogsIngestionClient` for advanced customization.
+   
 ### Breaking Changes
 
 ### Bugs Fixed
