@@ -125,7 +125,7 @@ export function createDefaultWorkloadIdentityCredential(
 export function createDefaultAzureDeveloperCliCredential(
   options: DefaultAzureCredentialOptions = {},
 ): TokenCredential {
-  return new AzureDeveloperCliCredential({ ...options });
+  return new AzureDeveloperCliCredential(options);
 }
 
 /**
