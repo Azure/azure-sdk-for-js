@@ -48,7 +48,6 @@ export class LogsIngestionClient {
     this.pipeline.addPolicy(GZippingPolicy);
   }
 
-  
   /**
    * Uploads logs to Monitor Resource
    * @param ruleId - The immutable Id of the Data Collection Rule resource.
