@@ -17,6 +17,9 @@ export { LogsIngestionClientOptions } from "./api/logsIngestionContext.js";
 
 const DEFAULT_MAX_CONCURRENCY = 5;
 
+/**
+ * Client for Monitor Logs Ingestion
+ */
 export class LogsIngestionClient {
   private _client: LogsIngestionContext;
   /** The pipeline used by this client to make requests */
