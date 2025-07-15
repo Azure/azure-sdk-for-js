@@ -42,6 +42,14 @@ export type ContinuablePage<TElement, TPage = TElement[]> = TPage & {
 };
 
 // @public
+export interface CreateResourceOperationResponse {
+    description: string;
+    location: string;
+    results?: ResourceOperation[];
+    type: string;
+}
+
+// @public
 export type DeadlineType = string;
 
 // @public
@@ -53,9 +61,52 @@ export interface DeallocateResourceOperationResponse {
 }
 
 // @public
+export interface DeleteResourceOperationResponse {
+    description: string;
+    location: string;
+    results?: ResourceOperation[];
+    type: string;
+}
+
+// @public
+export interface ErrorAdditionalInfo {
+    readonly info?: any;
+    readonly type?: string;
+}
+
+// @public
+export interface ErrorDetail {
+    readonly additionalInfo?: ErrorAdditionalInfo[];
+    readonly code?: string;
+    readonly details?: ErrorDetail[];
+    readonly message?: string;
+    readonly target?: string;
+}
+
+// @public
+export interface ErrorResponse {
+    error?: ErrorDetail;
+}
+
+// @public
+export interface ExecuteCreateRequest {
+    correlationid?: string;
+    executionParameters: ExecutionParameters;
+    resourceConfigParameters: ResourceProvisionPayload;
+}
+
+// @public
 export interface ExecuteDeallocateRequest {
     correlationId: string;
     executionParameters: ExecutionParameters;
+    resources: Resources;
+}
+
+// @public
+export interface ExecuteDeleteRequest {
+    correlationid?: string;
+    executionParameters: ExecutionParameters;
+    forceDeletion?: boolean;
     resources: Resources;
 }
 
@@ -157,7 +208,8 @@ export enum KnownResourceOperationType {
 
 // @public
 export enum KnownVersions {
-    "V2024-10-01" = "2024-10-01"
+    "V2024-10-01" = "2024-10-01",
+    V20250501 = "2025-05-01"
 }
 
 // @public
@@ -262,6 +314,14 @@ export interface ResourceOperationError {
 export type ResourceOperationType = string;
 
 // @public
+export interface ResourceProvisionPayload {
+    baseProfile?: Record<string, any>;
+    resourceCount: number;
+    resourceOverrides?: Record<string, any>[];
+    resourcePrefix?: string;
+}
+
+// @public
 export interface Resources {
     ids: string[];
 }
@@ -284,7 +344,9 @@ export interface Schedule {
 // @public
 export interface ScheduledActionsOperations {
     virtualMachinesCancelOperations: (locationparameter: string, requestBody: CancelOperationsRequest, options?: ScheduledActionsVirtualMachinesCancelOperationsOptionalParams) => Promise<CancelOperationsResponse>;
+    virtualMachinesExecuteCreate: (locationparameter: string, requestBody: ExecuteCreateRequest, options?: ScheduledActionsVirtualMachinesExecuteCreateOptionalParams) => Promise<CreateResourceOperationResponse>;
     virtualMachinesExecuteDeallocate: (locationparameter: string, requestBody: ExecuteDeallocateRequest, options?: ScheduledActionsVirtualMachinesExecuteDeallocateOptionalParams) => Promise<DeallocateResourceOperationResponse>;
+    virtualMachinesExecuteDelete: (locationparameter: string, requestBody: ExecuteDeleteRequest, options?: ScheduledActionsVirtualMachinesExecuteDeleteOptionalParams) => Promise<DeleteResourceOperationResponse>;
     virtualMachinesExecuteHibernate: (locationparameter: string, requestBody: ExecuteHibernateRequest, options?: ScheduledActionsVirtualMachinesExecuteHibernateOptionalParams) => Promise<HibernateResourceOperationResponse>;
     virtualMachinesExecuteStart: (locationparameter: string, requestBody: ExecuteStartRequest, options?: ScheduledActionsVirtualMachinesExecuteStartOptionalParams) => Promise<StartResourceOperationResponse>;
     virtualMachinesGetOperationErrors: (locationparameter: string, requestBody: GetOperationErrorsRequest, options?: ScheduledActionsVirtualMachinesGetOperationErrorsOptionalParams) => Promise<GetOperationErrorsResponse>;
@@ -299,7 +361,15 @@ export interface ScheduledActionsVirtualMachinesCancelOperationsOptionalParams e
 }
 
 // @public
+export interface ScheduledActionsVirtualMachinesExecuteCreateOptionalParams extends OperationOptions {
+}
+
+// @public
 export interface ScheduledActionsVirtualMachinesExecuteDeallocateOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface ScheduledActionsVirtualMachinesExecuteDeleteOptionalParams extends OperationOptions {
 }
 
 // @public
