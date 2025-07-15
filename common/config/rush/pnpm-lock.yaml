@@ -625,6 +625,9 @@ importers:
       '@rush-temp/arm-planetarycomputer':
         specifier: file:./projects/arm-planetarycomputer.tgz
         version: file:projects/arm-planetarycomputer.tgz(@types/debug@4.1.12)(tsx@4.20.3)(vite@6.3.5(@types/node@22.7.9)(tsx@4.20.3)(yaml@2.8.0))(yaml@2.8.0)
+      '@rush-temp/arm-playwright':
+        specifier: file:./projects/arm-playwright.tgz
+        version: file:projects/arm-playwright.tgz(@types/debug@4.1.12)(tsx@4.20.3)(vite@6.3.5(@types/node@22.7.9)(tsx@4.20.3)(yaml@2.8.0))(yaml@2.8.0)
       '@rush-temp/arm-playwrighttesting':
         specifier: file:./projects/arm-playwrighttesting.tgz
         version: file:projects/arm-playwrighttesting.tgz(@types/debug@4.1.12)(tsx@4.20.3)(vite@6.3.5(@types/node@22.7.9)(tsx@4.20.3)(yaml@2.8.0))(yaml@2.8.0)
@@ -1038,7 +1041,7 @@ importers:
         version: file:projects/identity.tgz(@types/debug@4.1.12)(tsx@4.20.3)(vite@6.3.5(@types/node@22.7.9)(tsx@4.20.3)(yaml@2.8.0))(yaml@2.8.0)
       '@rush-temp/identity-broker':
         specifier: file:./projects/identity-broker.tgz
-        version: file:projects/identity-broker.tgz(@types/debug@4.1.12)(tsx@4.20.3)(vite@6.3.5(@types/node@22.7.9)(tsx@4.20.3)(yaml@2.8.0))(yaml@2.8.0)
+        version: file:projects/identity-broker.tgz(@types/debug@4.1.12)(@vitest/browser@3.2.4)(tsx@4.20.3)(yaml@2.8.0)
       '@rush-temp/identity-cache-persistence':
         specifier: file:./projects/identity-cache-persistence.tgz
         version: file:projects/identity-cache-persistence.tgz(@types/debug@4.1.12)(tsx@4.20.3)(vite@6.3.5(@types/node@22.7.9)(tsx@4.20.3)(yaml@2.8.0))(yaml@2.8.0)
@@ -2542,7 +2545,7 @@ packages:
     version: 0.0.0
 
   '@rush-temp/ai-projects@file:projects/ai-projects.tgz':
-    resolution: {integrity: sha512-LUgvWDa+Nj+PX+bEDNR+Sfg5Qh1YZCUp5JBEzCtBoBuwi+bpVb7uNz83jBnpKFayN67eCi4pk1bEWyltFDZlqw==, tarball: file:projects/ai-projects.tgz}
+    resolution: {integrity: sha512-FF2SMnf37YqznC8eqWwS8Ddeo4SXECZUeMP5hWZ9suxS6NiRYup3pDQNwSY3vzFcvsriJbmHdDPgnfLzmmRVnQ==, tarball: file:projects/ai-projects.tgz}
     version: 0.0.0
 
   '@rush-temp/ai-text-analytics@file:projects/ai-text-analytics.tgz':
@@ -2754,7 +2757,7 @@ packages:
     version: 0.0.0
 
   '@rush-temp/arm-computeschedule@file:projects/arm-computeschedule.tgz':
-    resolution: {integrity: sha512-kRugwrG2pXtCJUUWxm+E8T40VZxztY9yi6JuJmZyn9Tho7GceY0+HPcZoASRAM5rcYksLPjjXUmvkZXDsQDNOw==, tarball: file:projects/arm-computeschedule.tgz}
+    resolution: {integrity: sha512-J2v6P+cftWtkYT5Dvn8DXmWStmnNqymSLGuhLz3PrcsUZRWeo+D8of8c4GF6qTLCjmM3chniHg3uCUhkMZilQw==, tarball: file:projects/arm-computeschedule.tgz}
     version: 0.0.0
 
   '@rush-temp/arm-confidentialledger@file:projects/arm-confidentialledger.tgz':
@@ -3026,7 +3029,7 @@ packages:
     version: 0.0.0
 
   '@rush-temp/arm-healthdataaiservices@file:projects/arm-healthdataaiservices.tgz':
-    resolution: {integrity: sha512-ncFSxPr2dOSv8Zo3M9PFoj9btfnOZR6ZAecLBNlVIsOUvsLp2FJNSPZhCcabifZk6MUyt9hstX/NtdCu9xW0kg==, tarball: file:projects/arm-healthdataaiservices.tgz}
+    resolution: {integrity: sha512-7fXlTSNPtPfgXYTf56hq2kCqX0cCV32g3h3F5kQ5Fl5BXQtDXmPps9zaqMcM0pfu/juhlUKvhSyc9Z6OQ8NNhQ==, tarball: file:projects/arm-healthdataaiservices.tgz}
     version: 0.0.0
 
   '@rush-temp/arm-hybridcompute@file:projects/arm-hybridcompute.tgz':
@@ -3311,6 +3314,10 @@ packages:
 
   '@rush-temp/arm-planetarycomputer@file:projects/arm-planetarycomputer.tgz':
     resolution: {integrity: sha512-l8ck+BAx0BKdN814Mmcv2V68e7MHAHN1cPjbh4VI0jVi/IvnYvMkH0vvDeg849jYiYDkJByG+WXP2kwtZmVo0A==, tarball: file:projects/arm-planetarycomputer.tgz}
+    version: 0.0.0
+
+  '@rush-temp/arm-playwright@file:projects/arm-playwright.tgz':
+    resolution: {integrity: sha512-MjDvMxrF8v2jkT95h5BXgwh2jqiuXmcIxUkXM59XFWC+Csoic5rGjqmiQ0qEGhMQF+Ycjt3n6mA2+V7JCpzADw==, tarball: file:projects/arm-playwright.tgz}
     version: 0.0.0
 
   '@rush-temp/arm-playwrighttesting@file:projects/arm-playwrighttesting.tgz':
@@ -3690,7 +3697,7 @@ packages:
     version: 0.0.0
 
   '@rush-temp/communication-messages@file:projects/communication-messages.tgz':
-    resolution: {integrity: sha512-rMyHoxq2zFmo39zvDMMTMKubpWS2HStbC2TDj8wFQGj39hQgZYsUQnsSnYQOt0kkyYnNWAcYO1WVgm9A1NVBcA==, tarball: file:projects/communication-messages.tgz}
+    resolution: {integrity: sha512-YuPOBVyoiYI/L8Bfmq5RabUeZVFiveF9etfuxYxm2KvlBzrYEMQbMyaIuvfEJELZ5oHuZt6Vuo2IRsDnaXWA8g==, tarball: file:projects/communication-messages.tgz}
     version: 0.0.0
 
   '@rush-temp/communication-phone-numbers@file:projects/communication-phone-numbers.tgz':
@@ -3742,7 +3749,7 @@ packages:
     version: 0.0.0
 
   '@rush-temp/core-client@file:projects/core-client.tgz':
-    resolution: {integrity: sha512-UyeSJ+/ZkAnSAq54EmRX2Ip+blZZd4aI6/bJ5l2ALDjZqYbBwcYSSArS2XNrT+Be8xkgbx5CzbY6dffkuzeO0A==, tarball: file:projects/core-client.tgz}
+    resolution: {integrity: sha512-wwEaAKTTOaw492jYmpbqQ1mpsstM7ezYvwWR4rumam3qC8rGn+iUV+M071Pm8TxrpgdhxXNsYmXvIfbg/xVsIA==, tarball: file:projects/core-client.tgz}
     version: 0.0.0
 
   '@rush-temp/core-http-compat@file:projects/core-http-compat.tgz':
@@ -3758,7 +3765,7 @@ packages:
     version: 0.0.0
 
   '@rush-temp/core-rest-pipeline@file:projects/core-rest-pipeline.tgz':
-    resolution: {integrity: sha512-Bpla+KVOgVM1xtbGFsJVZWAI7kraIFB9uh79CPt4qC5cmvBImOl+MpKB2wm8biOL2J0T0uyOTKbs6MlDfE9g2w==, tarball: file:projects/core-rest-pipeline.tgz}
+    resolution: {integrity: sha512-s6Cj6bp3ThsPCtJyZnlnIdojKvlAzjZkWMDVaZ1Lr3wheYteoXIeoSwGhdpqizJ0pugvG1wQujd9AodkOK6pSw==, tarball: file:projects/core-rest-pipeline.tgz}
     version: 0.0.0
 
   '@rush-temp/core-sse@file:projects/core-sse.tgz':
@@ -3770,7 +3777,7 @@ packages:
     version: 0.0.0
 
   '@rush-temp/core-util@file:projects/core-util.tgz':
-    resolution: {integrity: sha512-QJok4GxeFpk+koNvwkWfW2sEMK+tXL8Rb93kmUbZ0jKDxXb25DODGz4CzPlsEzd3bFo/F3MSYVnQJ78YAUjsOg==, tarball: file:projects/core-util.tgz}
+    resolution: {integrity: sha512-K7ZZ7dPOrauX8eGFeXGeRwgIUsB9LY6CWyby2QDYgqccDUZ10o7ypfzlRctS3oKIf4FH/d7RkUXe7X+Dq6+aug==, tarball: file:projects/core-util.tgz}
     version: 0.0.0
 
   '@rush-temp/core-xml@file:projects/core-xml.tgz':
@@ -3858,7 +3865,7 @@ packages:
     version: 0.0.0
 
   '@rush-temp/identity-broker@file:projects/identity-broker.tgz':
-    resolution: {integrity: sha512-kPpVGHnZFIXtZAeOvYFS1fE/h+tq/kbUuWEtqzClBaKLN64jo2J0CNyVKm9dkorXYLriq+MdXzK7+oKq/8hQZg==, tarball: file:projects/identity-broker.tgz}
+    resolution: {integrity: sha512-kA7hra+a5uU7gB+AXZVYLQQLq0XGZE0lJLOw/Jd4S6Ahi2tBNb3AClwcS85vljuhjFJDEGndbXg05nliMY4L2w==, tarball: file:projects/identity-broker.tgz}
     version: 0.0.0
 
   '@rush-temp/identity-cache-persistence@file:projects/identity-cache-persistence.tgz':
@@ -3906,7 +3913,7 @@ packages:
     version: 0.0.0
 
   '@rush-temp/logger@file:projects/logger.tgz':
-    resolution: {integrity: sha512-NsZ2s2+ZP3lO2ZdvQY5HWjbToyv2C4kIrotHI0Kv6O16CuM2RcYgtM7PrYM9qkQzMhpvhap769U0gc6jRKk1fA==, tarball: file:projects/logger.tgz}
+    resolution: {integrity: sha512-gAsRqzdkeo6K0bAWGNQ5XqbsGgpFZPqDiZAqCcHcym1UcGsnUreCCRZKVM6LftNdPNdLI+Hb0RYOqptPZ2GjQw==, tarball: file:projects/logger.tgz}
     version: 0.0.0
 
   '@rush-temp/maps-common@file:projects/maps-common.tgz':
@@ -4743,9 +4750,6 @@ packages:
 
   buffer-equal-constant-time@1.0.1:
     resolution: {integrity: sha512-zRpUiDwd/xk6ADqPMATG8vc9VPrkck7T07OIx0gnjmJAnHnTVXNQG3vfvWNuiZIkwu9KrKdA1iJKfsfTVxE6NA==}
-
-  buffer-from@1.1.2:
-    resolution: {integrity: sha512-E+XQCRwSbaaiChtv6k6Dwgc+bx+Bs6vuKJHHl5kox/BaKbhiXzqQOwK4cO22yElGp2OCmjwVhT3HmxgyPGnJfQ==}
 
   buffer@5.7.1:
     resolution: {integrity: sha512-EHcyIPBQ4BSGlvjB16k5KgAJ27CIsHY/2JBmCRReo48y9rQ3MaUzWX3KVlBa4U7MyX02HdVj0K7C3WaB3ju7FQ==}
@@ -5863,9 +5867,6 @@ packages:
     resolution: {integrity: sha512-+KJGIyHgkGuIq3IEBNftfhW/LfWhXUIY6OmyVWjliu5KH1y0fw7VQ8YndE2O4qZdMSd9SqbnC8GOcZEy0Om7sA==}
     engines: {node: '>=18'}
 
-  karma-source-map-support@1.4.0:
-    resolution: {integrity: sha512-RsBECncGO17KAoJCYXjv+ckIz+Ii9NCi+9enk+rq6XC81ezYkb4/RHE6CTXdA7IOJqoF3wcaLfVG0CPmE5ca6A==}
-
   keytar@7.9.0:
     resolution: {integrity: sha512-VPD8mtVtm5JNtA2AErl6Chp06JBfy7diFQ7TQQhdpWOl6MrCRB+eRbvAZUsbGQS9kiMq0coJsy0W0vHpDCkWsQ==}
 
@@ -6284,6 +6285,18 @@ packages:
 
   openai@4.104.0:
     resolution: {integrity: sha512-p99EFNsA/yX6UhVO93f5kJsDRLAg+CTA2RBqdHK4RtK8u5IJw32Hyb2dTGKbnnFmnuoBv5r7Z2CURI9sGZpSuA==}
+    hasBin: true
+    peerDependencies:
+      ws: ^8.18.0
+      zod: ^3.23.8
+    peerDependenciesMeta:
+      ws:
+        optional: true
+      zod:
+        optional: true
+
+  openai@5.9.0:
+    resolution: {integrity: sha512-cmLC0pfqLLhBGxE4aZPyRPjydgYCncppV2ClQkKmW79hNjCvmzkfhz8rN5/YVDmjVQlFV+UsF1JIuNjNgeagyQ==}
     hasBin: true
     peerDependencies:
       ws: ^8.18.0
@@ -6814,9 +6827,6 @@ packages:
   source-map-js@1.2.1:
     resolution: {integrity: sha512-UXWMKhLOwVKb728IUtQPXxfYU+usdybtUrK/8uGE8CQMvrhOpwvzDBwj0QhSL7MQc7vIsISBG8VQ8+IDQxpfQA==}
     engines: {node: '>=0.10.0'}
-
-  source-map-support@0.5.21:
-    resolution: {integrity: sha512-uBHU3L3czsIyYXKX88fdrGovxdSCoTGDRZ6SYXtSRxLZUzHg5P/66Ht6uoUlHu9EZod+inXhKo3qQgwXUT/y1w==}
 
   source-map@0.6.1:
     resolution: {integrity: sha512-UjgapumWlbMhkBgzT7Ykc5YXUT46F0iKu8SGXq0bcwP5dz/h0Plj6enJqjz1Zbq2l5WaqYnrVbwWOWMyF3F47g==}
@@ -9492,7 +9502,7 @@ snapshots:
       '@vitest/coverage-istanbul': 3.2.4(vitest@3.2.4)
       dotenv: 16.5.0
       eslint: 9.29.0
-      openai: 4.104.0(ws@8.18.2)(zod@3.25.67)
+      openai: 5.9.0(ws@8.18.2)(zod@3.25.67)
       playwright: 1.53.1
       tslib: 2.8.1
       typescript: 5.8.3
@@ -9502,7 +9512,6 @@ snapshots:
       - '@types/debug'
       - '@vitest/ui'
       - bufferutil
-      - encoding
       - happy-dom
       - jiti
       - jsdom
@@ -11339,7 +11348,7 @@ snapshots:
       eslint: 9.29.0
       playwright: 1.53.1
       tslib: 2.8.1
-      typescript: 5.6.3
+      typescript: 5.8.3
       vitest: 3.2.4(@types/debug@4.1.12)(@types/node@20.19.1)(@vitest/browser@3.2.4)(tsx@4.20.3)(yaml@2.8.0)
     transitivePeerDependencies:
       - '@edge-runtime/vm'
@@ -13699,14 +13708,12 @@ snapshots:
 
   '@rush-temp/arm-healthdataaiservices@file:projects/arm-healthdataaiservices.tgz(@types/debug@4.1.12)(tsx@4.20.3)(vite@6.3.5(@types/node@22.7.9)(tsx@4.20.3)(yaml@2.8.0))(yaml@2.8.0)':
     dependencies:
-      '@microsoft/api-extractor': 7.52.8(@types/node@20.19.1)
       '@types/node': 20.19.1
       '@vitest/browser': 3.2.4(playwright@1.53.1)(vite@6.3.5(@types/node@22.7.9)(tsx@4.20.3)(yaml@2.8.0))(vitest@3.2.4)
       '@vitest/coverage-istanbul': 3.2.4(vitest@3.2.4)
       dotenv: 16.5.0
       eslint: 9.29.0
       playwright: 1.53.1
-      tshy: 3.0.2
       tslib: 2.8.1
       typescript: 5.8.3
       vitest: 3.2.4(@types/debug@4.1.12)(@types/node@20.19.1)(@vitest/browser@3.2.4)(tsx@4.20.3)(yaml@2.8.0)
@@ -16166,6 +16173,41 @@ snapshots:
       - yaml
 
   '@rush-temp/arm-planetarycomputer@file:projects/arm-planetarycomputer.tgz(@types/debug@4.1.12)(tsx@4.20.3)(vite@6.3.5(@types/node@22.7.9)(tsx@4.20.3)(yaml@2.8.0))(yaml@2.8.0)':
+    dependencies:
+      '@types/node': 20.19.1
+      '@vitest/browser': 3.2.4(playwright@1.53.1)(vite@6.3.5(@types/node@22.7.9)(tsx@4.20.3)(yaml@2.8.0))(vitest@3.2.4)
+      '@vitest/coverage-istanbul': 3.2.4(vitest@3.2.4)
+      dotenv: 16.5.0
+      eslint: 9.29.0
+      playwright: 1.53.1
+      tslib: 2.8.1
+      typescript: 5.8.3
+      vitest: 3.2.4(@types/debug@4.1.12)(@types/node@20.19.1)(@vitest/browser@3.2.4)(tsx@4.20.3)(yaml@2.8.0)
+    transitivePeerDependencies:
+      - '@edge-runtime/vm'
+      - '@types/debug'
+      - '@vitest/ui'
+      - bufferutil
+      - happy-dom
+      - jiti
+      - jsdom
+      - less
+      - lightningcss
+      - msw
+      - safaridriver
+      - sass
+      - sass-embedded
+      - stylus
+      - sugarss
+      - supports-color
+      - terser
+      - tsx
+      - utf-8-validate
+      - vite
+      - webdriverio
+      - yaml
+
+  '@rush-temp/arm-playwright@file:projects/arm-playwright.tgz(@types/debug@4.1.12)(tsx@4.20.3)(vite@6.3.5(@types/node@22.7.9)(tsx@4.20.3)(yaml@2.8.0))(yaml@2.8.0)':
     dependencies:
       '@types/node': 20.19.1
       '@vitest/browser': 3.2.4(playwright@1.53.1)(vite@6.3.5(@types/node@22.7.9)(tsx@4.20.3)(yaml@2.8.0))(vitest@3.2.4)
@@ -19499,7 +19541,6 @@ snapshots:
       dotenv: 16.5.0
       eslint: 9.29.0
       events: 3.3.0
-      karma-source-map-support: 1.4.0
       playwright: 1.53.1
       tslib: 2.8.1
       typescript: 5.8.3
@@ -21060,31 +21101,28 @@ snapshots:
       - webdriverio
       - yaml
 
-  '@rush-temp/identity-broker@file:projects/identity-broker.tgz(@types/debug@4.1.12)(tsx@4.20.3)(vite@6.3.5(@types/node@22.7.9)(tsx@4.20.3)(yaml@2.8.0))(yaml@2.8.0)':
+  '@rush-temp/identity-broker@file:projects/identity-broker.tgz(@types/debug@4.1.12)(@vitest/browser@3.2.4)(tsx@4.20.3)(yaml@2.8.0)':
     dependencies:
       '@azure/abort-controller': 1.1.0
       '@azure/msal-node': 3.6.1
       '@azure/msal-node-extensions': 1.5.15
       '@types/node': 20.19.1
-      '@vitest/browser': 3.2.4(playwright@1.53.1)(vite@6.3.5(@types/node@22.7.9)(tsx@4.20.3)(yaml@2.8.0))(vitest@3.2.4)
       '@vitest/coverage-istanbul': 3.2.4(vitest@3.2.4)
       eslint: 9.29.0
-      playwright: 1.53.1
       tslib: 2.8.1
       typescript: 5.8.3
       vitest: 3.2.4(@types/debug@4.1.12)(@types/node@20.19.1)(@vitest/browser@3.2.4)(tsx@4.20.3)(yaml@2.8.0)
     transitivePeerDependencies:
       - '@edge-runtime/vm'
       - '@types/debug'
+      - '@vitest/browser'
       - '@vitest/ui'
-      - bufferutil
       - happy-dom
       - jiti
       - jsdom
       - less
       - lightningcss
       - msw
-      - safaridriver
       - sass
       - sass-embedded
       - stylus
@@ -21092,9 +21130,6 @@ snapshots:
       - supports-color
       - terser
       - tsx
-      - utf-8-validate
-      - vite
-      - webdriverio
       - yaml
 
   '@rush-temp/identity-cache-persistence@file:projects/identity-cache-persistence.tgz(@types/debug@4.1.12)(tsx@4.20.3)(vite@6.3.5(@types/node@22.7.9)(tsx@4.20.3)(yaml@2.8.0))(yaml@2.8.0)':
@@ -24441,8 +24476,6 @@ snapshots:
 
   buffer-equal-constant-time@1.0.1: {}
 
-  buffer-from@1.1.2: {}
-
   buffer@5.7.1:
     dependencies:
       base64-js: 1.5.1
@@ -25663,10 +25696,6 @@ snapshots:
 
   jwt-decode@4.0.0: {}
 
-  karma-source-map-support@1.4.0:
-    dependencies:
-      source-map-support: 0.5.21
-
   keytar@7.9.0:
     dependencies:
       node-addon-api: 4.3.0
@@ -26051,6 +26080,11 @@ snapshots:
       zod: 3.25.67
     transitivePeerDependencies:
       - encoding
+
+  openai@5.9.0(ws@8.18.2)(zod@3.25.67):
+    optionalDependencies:
+      ws: 8.18.2
+      zod: 3.25.67
 
   optionator@0.8.3:
     dependencies:
@@ -26649,11 +26683,6 @@ snapshots:
   slash@4.0.0: {}
 
   source-map-js@1.2.1: {}
-
-  source-map-support@0.5.21:
-    dependencies:
-      buffer-from: 1.1.2
-      source-map: 0.6.1
 
   source-map@0.6.1: {}
 
