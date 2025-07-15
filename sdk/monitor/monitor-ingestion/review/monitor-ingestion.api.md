@@ -10,6 +10,18 @@ import type { Pipeline } from '@azure/core-rest-pipeline';
 import type { TokenCredential } from '@azure/core-auth';
 
 // @public
+export class AggregateLogsUploadError extends Error {
+    constructor(errors: LogsUploadFailure[], errorMessage?: string);
+    errors: LogsUploadFailure[];
+}
+
+// @public
+export const AggregateLogsUploadErrorName = "AggregateLogsUploadError";
+
+// @public
+export function isAggregateLogsUploadError(e: unknown): e is AggregateLogsUploadError;
+
+// @public
 export enum KnownMonitorAudience {
     AzureChina = "https://monitor.azure.cn",
     AzureGovernment = "https://monitor.azure.us",
@@ -35,11 +47,16 @@ export interface LogsIngestionClientOptionalParams extends ClientOptions {
 }
 
 // @public
+export interface LogsUploadFailure {
+    cause: Error;
+    failedLogs: Record<string, unknown>[];
+}
+
+// @public
 export interface LogsUploadOptions extends OperationOptions {
     clientRequestId?: string;
     contentEncoding?: string;
     maxConcurrency?: number;
-    // Warning: (ae-forgotten-export) The symbol "LogsUploadFailure" needs to be exported by the entry point index.d.ts
     onError?: (uploadLogsError: LogsUploadFailure) => void;
 }
 

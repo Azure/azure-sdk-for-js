@@ -1,4 +1,11 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-export { KnownVersions, KnownMonitorAudience } from "./models.js";
+export { 
+  KnownVersions, 
+  KnownMonitorAudience, 
+  AggregateLogsUploadErrorName,
+  isAggregateLogsUploadError, 
+  AggregateLogsUploadError, 
+  LogsUploadFailure 
+} from "./models.js";
