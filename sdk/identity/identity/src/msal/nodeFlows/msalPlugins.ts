@@ -187,7 +187,7 @@ function generatePluginConfiguration(options: MsalClientOptions): PluginConfigur
       if (vsCodeBrokerInfo === undefined) {
         throw new Error(
           [
-            "Broker for WAM was requested to be enabled, but no native broker was configured.",
+            "Visual Studio Code Credential was requested, but no plugin was configured or no authentication record was found.",
             "You must install the identity-vscode plugin package (`npm install --save @azure/identity-vscode`)",
             "and enable it by importing `useIdentityPlugin` from `@azure/identity` and calling",
             "`useIdentityPlugin(vsCodePlugin)` before using `enableBroker`.",

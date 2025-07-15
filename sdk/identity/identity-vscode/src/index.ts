@@ -52,7 +52,7 @@ function findAuthRecordPath(): string | undefined {
 /**
  * A plugin that provides the dependencies of `VisualStudioCodeCredential`
  * and enables it within `@azure/identity`. The plugin API is compatible with
- * `@azure/identity` versions 4.7.0 and later. Load this plugin using the
+ * `@azure/identity` versions 4.11.0 and later. Load this plugin using the
  * `useIdentityPlugin` function, imported from `@azure/identity`.
  *
  * To use this functionality, import `VisualStudioCodeCredential` or
