@@ -1,6 +1,6 @@
 {
   "name": "@azure-rest/core-client",
-  "version": "2.4.1",
+  "version": "2.5.1",
   "description": "Core library for interfacing with Azure Rest Clients",
   "sdk-type": "client",
   "type": "module",
@@ -73,7 +73,7 @@
     "@azure/core-auth": "^1.9.0",
     "@azure/core-rest-pipeline": "^1.5.0",
     "@azure/core-tracing": "^1.0.1",
-    "@typespec/ts-http-runtime": "^0.2.3",
+    "@typespec/ts-http-runtime": "^0.3.0",
     "tslib": "^2.6.2"
   },
   "devDependencies": {

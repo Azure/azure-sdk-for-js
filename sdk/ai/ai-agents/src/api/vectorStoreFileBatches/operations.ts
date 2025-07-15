@@ -1,33 +1,30 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { AgentsContext as Client } from "../index.js";
-import {
-  vectorStoreDataSourceArraySerializer,
-  vectorStoreChunkingStrategyRequestUnionSerializer,
+import type { AgentsContext as Client } from "../index.js";
+import type {
   _AgentsPagedResultVectorStoreFile,
-  _agentsPagedResultVectorStoreFileDeserializer,
   VectorStoreFileBatch,
-  vectorStoreFileBatchDeserializer,
 } from "../../models/models.js";
 import {
+  vectorStoreDataSourceArraySerializer,
+  agentV1ErrorDeserializer,
+  vectorStoreChunkingStrategyRequestUnionSerializer,
+  _agentsPagedResultVectorStoreFileDeserializer,
+  vectorStoreFileBatchDeserializer,
+} from "../../models/models.js";
+import type {
   VectorStoreFileBatchesListVectorStoreFileBatchFilesOptionalParams,
   VectorStoreFileBatchesCancelVectorStoreFileBatchOptionalParams,
   VectorStoreFileBatchesGetVectorStoreFileBatchOptionalParams,
   VectorStoreFileBatchesCreateVectorStoreFileBatchOptionalParams,
 } from "./options.js";
-import {
-  PagedAsyncIterableIterator,
-  buildPagedAsyncIterator,
-} from "../../static-helpers/pagingHelpers.js";
+import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { buildPagedAsyncIterator } from "../../static-helpers/pagingHelpers.js";
 import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
-import {
-  StreamableMethod,
-  PathUncheckedResponse,
-  createRestError,
-  operationOptionsToRequestParameters,
-} from "@azure-rest/core-client";
-import { OperationState, OperationStatus, PollerLike } from "@azure/core-lro";
+import type { StreamableMethod, PathUncheckedResponse } from "@azure-rest/core-client";
+import { createRestError, operationOptionsToRequestParameters } from "@azure-rest/core-client";
+import type { OperationState, OperationStatus, PollerLike } from "@azure/core-lro";
 import { createPoller } from "../poller.js";
 
 export function _listVectorStoreFileBatchFilesSend(
@@ -38,15 +35,29 @@ export function _listVectorStoreFileBatchFilesSend(
     requestOptions: {},
   },
 ): StreamableMethod {
-  return context
-    .path("/vector_stores/{vectorStoreId}/file_batches/{batchId}/files", vectorStoreId, batchId)
-    .get({
-      ...operationOptionsToRequestParameters(options),
-      headers: {
-        accept: "application/json",
-        ...options.requestOptions?.headers,
-      },
-    });
+  const path = expandUrlTemplate(
+    "/vector_stores/{vectorStoreId}/file_batches/{batchId}/files{?filter,api-version,limit,order,after,before}",
+    {
+      vectorStoreId: vectorStoreId,
+      batchId: batchId,
+      filter: options?.filter,
+      "api-version": context.apiVersion,
+      limit: options?.limit,
+      order: options?.order,
+      after: options?.after,
+      before: options?.before,
+    },
+    {
+      allowReserved: options?.requestOptions?.skipUrlEncoding,
+    },
+  );
+  return context.path(path).get({
+    ...operationOptionsToRequestParameters(options),
+    headers: {
+      accept: "application/json",
+      ...options.requestOptions?.headers,
+    },
+  });
 }
 
 export async function _listVectorStoreFileBatchFilesDeserialize(
@@ -54,7 +65,9 @@ export async function _listVectorStoreFileBatchFilesDeserialize(
 ): Promise<_AgentsPagedResultVectorStoreFile> {
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
-    throw createRestError(result);
+    const error = createRestError(result);
+    error.details = agentV1ErrorDeserializer(result.body);
+    throw error;
   }
 
   return _agentsPagedResultVectorStoreFileDeserializer(result.body);
@@ -111,7 +124,9 @@ export async function _cancelVectorStoreFileBatchDeserialize(
 ): Promise<VectorStoreFileBatch> {
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
-    throw createRestError(result);
+    const error = createRestError(result);
+    error.details = agentV1ErrorDeserializer(result.body);
+    throw error;
   }
 
   return vectorStoreFileBatchDeserializer(result.body);
@@ -163,7 +178,9 @@ export async function _getVectorStoreFileBatchDeserialize(
 ): Promise<VectorStoreFileBatch> {
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
-    throw createRestError(result);
+    const error = createRestError(result);
+    error.details = agentV1ErrorDeserializer(result.body);
+    throw error;
   }
 
   return vectorStoreFileBatchDeserializer(result.body);
@@ -224,7 +241,9 @@ export async function _createVectorStoreFileBatchDeserialize(
 ): Promise<VectorStoreFileBatch> {
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
-    throw createRestError(result);
+    const error = createRestError(result);
+    error.details = agentV1ErrorDeserializer(result.body);
+    throw error;
   }
 
   return vectorStoreFileBatchDeserializer(result.body);
@@ -241,6 +260,7 @@ export async function createVectorStoreFileBatchInternal(
   const result = await _createVectorStoreFileBatchSend(context, vectorStoreId, options);
   return _createVectorStoreFileBatchDeserialize(result);
 }
+
 /** Create a vector store file batch. */
 export function createVectorStoreFileBatch(
   context: Client,

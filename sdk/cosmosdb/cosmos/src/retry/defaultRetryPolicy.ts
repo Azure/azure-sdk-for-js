@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 import type { DiagnosticNodeInternal } from "../diagnostics/DiagnosticNodeInternal.js";
-import { OperationType } from "../common/index.js";
+import { OperationType, StatusCodes } from "../common/index.js";
 import type { ErrorResponse } from "../request/index.js";
 import { TimeoutErrorCode } from "../request/TimeoutError.js";
 import type { RetryPolicy } from "./RetryPolicy.js";
@@ -111,16 +111,12 @@ const CONNECTION_ERROR_CODES = [
  * @hidden
  */
 function needsRetry(operationType: OperationType, code: number | string): boolean {
-  if (
-    (operationType === OperationType.Read || operationType === OperationType.Query) &&
-    CONNECTION_ERROR_CODES.indexOf(code) !== -1
-  ) {
-    return true;
-  } else {
-    return false;
-  }
+  return (
+    code === StatusCodes.ENOTFOUND ||
+    ((operationType === OperationType.Read || operationType === OperationType.Query) &&
+      CONNECTION_ERROR_CODES.includes(code))
+  );
 }
-
 /**
  * This class implements the default connection retry policy for requests.
  * @hidden

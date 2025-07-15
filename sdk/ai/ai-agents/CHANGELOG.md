@@ -1,5 +1,21 @@
 # Release History
 
+## 1.1.0-beta.1 (2025-07-15)
+
+### Features Added
+
+- Add Deep Research tool
+- Add Deep Research sample
+- Add back agent tool `SharepointGroundingTool`, `BingCustomSearchTool`, `FabricTool`
+
+## 1.0.0 (2025-06-29)
+
+- First stable release of Azure AI Agents client library
+
+### Breaking changes
+
+- `AgentsClient` constructor parameter `credential` type  `KeyCredential | TokenCredential` is update to `TokenCredential`
+
 ## 1.0.0-beta.6 (2025-06-27)
 
 ### Bugs Fixed

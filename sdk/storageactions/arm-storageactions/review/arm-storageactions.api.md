@@ -4,14 +4,22 @@
 
 ```ts
 
-import * as coreAuth from '@azure/core-auth';
-import * as coreClient from '@azure/core-client';
+import { AbortSignalLike } from '@azure/abort-controller';
+import { ClientOptions } from '@azure-rest/core-client';
+import { OperationOptions } from '@azure-rest/core-client';
 import { OperationState } from '@azure/core-lro';
-import { PagedAsyncIterableIterator } from '@azure/core-paging';
-import { SimplePollerLike } from '@azure/core-lro';
+import { PathUncheckedResponse } from '@azure-rest/core-client';
+import { Pipeline } from '@azure/core-rest-pipeline';
+import { PollerLike } from '@azure/core-lro';
+import { TokenCredential } from '@azure/core-auth';
 
 // @public
 export type ActionType = string;
+
+// @public
+export type ContinuablePage<TElement, TPage = TElement[]> = TPage & {
+    continuationToken?: string;
+};
 
 // @public
 export type CreatedByType = string;
@@ -23,7 +31,7 @@ export interface ElseCondition {
 
 // @public
 export interface ErrorAdditionalInfo {
-    readonly info?: Record<string, unknown>;
+    readonly info?: any;
     readonly type?: string;
 }
 
@@ -40,9 +48,6 @@ export interface ErrorDetail {
 export interface ErrorResponse {
     error?: ErrorDetail;
 }
-
-// @public
-export function getContinuationToken(page: unknown): string | undefined;
 
 // @public
 export interface IfCondition {
@@ -73,18 +78,23 @@ export enum KnownManagedServiceIdentityType {
 
 // @public
 export enum KnownMatchedBlockName {
+    // (undocumented)
     Else = "Else",
+    // (undocumented)
     If = "If",
+    // (undocumented)
     None = "None"
 }
 
 // @public
 export enum KnownOnFailure {
+    // (undocumented)
     Break = "break"
 }
 
 // @public
 export enum KnownOnSuccess {
+    // (undocumented)
     Continue = "continue"
 }
 
@@ -97,37 +107,61 @@ export enum KnownOrigin {
 
 // @public
 export enum KnownProvisioningState {
+    // (undocumented)
     Accepted = "Accepted",
+    // (undocumented)
     Canceled = "Canceled",
+    // (undocumented)
     Creating = "Creating",
+    // (undocumented)
     Deleting = "Deleting",
+    // (undocumented)
     Failed = "Failed",
+    // (undocumented)
     Succeeded = "Succeeded",
+    // (undocumented)
     ValidateSubscriptionQuotaBegin = "ValidateSubscriptionQuotaBegin",
+    // (undocumented)
     ValidateSubscriptionQuotaEnd = "ValidateSubscriptionQuotaEnd"
 }
 
 // @public
 export enum KnownRunResult {
+    // (undocumented)
     Failed = "Failed",
+    // (undocumented)
     Succeeded = "Succeeded"
 }
 
 // @public
 export enum KnownRunStatusEnum {
+    // (undocumented)
     Finished = "Finished",
+    // (undocumented)
     InProgress = "InProgress"
 }
 
 // @public
 export enum KnownStorageTaskOperationName {
+    // (undocumented)
     DeleteBlob = "DeleteBlob",
+    // (undocumented)
     SetBlobExpiry = "SetBlobExpiry",
+    // (undocumented)
     SetBlobImmutabilityPolicy = "SetBlobImmutabilityPolicy",
+    // (undocumented)
     SetBlobLegalHold = "SetBlobLegalHold",
+    // (undocumented)
     SetBlobTags = "SetBlobTags",
+    // (undocumented)
     SetBlobTier = "SetBlobTier",
+    // (undocumented)
     UndeleteBlob = "UndeleteBlob"
+}
+
+// @public
+export enum KnownVersions {
+    V20230101 = "2023-01-01"
 }
 
 // @public
@@ -135,9 +169,7 @@ export interface ManagedServiceIdentity {
     readonly principalId?: string;
     readonly tenantId?: string;
     type: ManagedServiceIdentityType;
-    userAssignedIdentities?: {
-        [propertyName: string]: UserAssignedIdentity | null;
-    };
+    userAssignedIdentities?: Record<string, UserAssignedIdentity | null>;
 }
 
 // @public
@@ -170,32 +202,28 @@ export interface OperationDisplay {
 }
 
 // @public
-export interface OperationListResult {
-    readonly nextLink?: string;
-    readonly value?: Operation[];
+export interface OperationsListOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface Operations {
-    list(options?: OperationsListOptionalParams): PagedAsyncIterableIterator<Operation>;
+export interface OperationsOperations {
+    list: (options?: OperationsListOptionalParams) => PagedAsyncIterableIterator<Operation>;
 }
-
-// @public
-export interface OperationsListNextOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type OperationsListNextResponse = OperationListResult;
-
-// @public
-export interface OperationsListOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type OperationsListResponse = OperationListResult;
 
 // @public
 export type Origin = string;
+
+// @public
+export interface PagedAsyncIterableIterator<TElement, TPage = TElement[], TPageSettings extends PageSettings = PageSettings> {
+    [Symbol.asyncIterator](): PagedAsyncIterableIterator<TElement, TPage, TPageSettings>;
+    byPage: (settings?: TPageSettings) => AsyncIterableIterator<ContinuablePage<TElement, TPage>>;
+    next(): Promise<IteratorResult<TElement>>;
+}
+
+// @public
+export interface PageSettings {
+    continuationToken?: string;
+}
 
 // @public
 export type ProvisioningState = string;
@@ -213,35 +241,34 @@ export interface Resource {
 }
 
 // @public
+export function restorePoller<TResponse extends PathUncheckedResponse, TResult>(client: StorageActionsManagementClient, serializedState: string, sourceOperation: (...args: any[]) => PollerLike<OperationState<TResult>, TResult>, options?: RestorePollerOptions<TResult>): PollerLike<OperationState<TResult>, TResult>;
+
+// @public (undocumented)
+export interface RestorePollerOptions<TResult, TResponse extends PathUncheckedResponse = PathUncheckedResponse> extends OperationOptions {
+    abortSignal?: AbortSignalLike;
+    processResponseBody?: (result: TResponse) => Promise<TResult>;
+    updateIntervalInMs?: number;
+}
+
+// @public
 export type RunResult = string;
 
 // @public
 export type RunStatusEnum = string;
 
 // @public (undocumented)
-export class StorageActionsManagementClient extends coreClient.ServiceClient {
-    // (undocumented)
-    $host: string;
-    constructor(credentials: coreAuth.TokenCredential, subscriptionId: string, options?: StorageActionsManagementClientOptionalParams);
-    // (undocumented)
-    apiVersion: string;
-    // (undocumented)
-    operations: Operations;
-    // (undocumented)
-    storageTaskAssignmentOperations: StorageTaskAssignmentOperations;
-    // (undocumented)
-    storageTasks: StorageTasks;
-    // (undocumented)
-    storageTasksReport: StorageTasksReport;
-    // (undocumented)
-    subscriptionId: string;
+export class StorageActionsManagementClient {
+    constructor(credential: TokenCredential, subscriptionId: string, options?: StorageActionsManagementClientOptionalParams);
+    readonly operations: OperationsOperations;
+    readonly pipeline: Pipeline;
+    readonly storageTaskAssignment: StorageTaskAssignmentOperations;
+    readonly storageTasks: StorageTasksOperations;
+    readonly storageTasksReport: StorageTasksReportOperations;
 }
 
 // @public
-export interface StorageActionsManagementClientOptionalParams extends coreClient.ServiceClientOptions {
-    $host?: string;
+export interface StorageActionsManagementClientOptionalParams extends ClientOptions {
     apiVersion?: string;
-    endpoint?: string;
 }
 
 // @public
@@ -262,29 +289,13 @@ export interface StorageTaskAssignment {
 }
 
 // @public
-export interface StorageTaskAssignmentListNextOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type StorageTaskAssignmentListNextResponse = StorageTaskAssignmentsListResult;
-
-// @public
-export interface StorageTaskAssignmentListOptionalParams extends coreClient.OperationOptions {
+export interface StorageTaskAssignmentListOptionalParams extends OperationOptions {
     maxpagesize?: number;
 }
 
 // @public
-export type StorageTaskAssignmentListResponse = StorageTaskAssignmentsListResult;
-
-// @public
 export interface StorageTaskAssignmentOperations {
-    list(resourceGroupName: string, storageTaskName: string, options?: StorageTaskAssignmentListOptionalParams): PagedAsyncIterableIterator<StorageTaskAssignment>;
-}
-
-// @public
-export interface StorageTaskAssignmentsListResult {
-    readonly nextLink?: string;
-    readonly value?: StorageTaskAssignment[];
+    list: (resourceGroupName: string, storageTaskName: string, options?: StorageTaskAssignmentListOptionalParams) => PagedAsyncIterableIterator<StorageTaskAssignment>;
 }
 
 // @public
@@ -292,9 +303,7 @@ export interface StorageTaskOperation {
     name: StorageTaskOperationName;
     onFailure?: OnFailure;
     onSuccess?: OnSuccess;
-    parameters?: {
-        [propertyName: string]: string;
-    };
+    parameters?: Record<string, string>;
 }
 
 // @public
@@ -378,146 +387,73 @@ export interface StorageTaskReportProperties {
 }
 
 // @public
-export interface StorageTaskReportSummary {
-    readonly nextLink?: string;
-    readonly value?: StorageTaskReportInstance[];
-}
-
-// @public
-export interface StorageTasks {
-    beginCreate(resourceGroupName: string, storageTaskName: string, parameters: StorageTask, options?: StorageTasksCreateOptionalParams): Promise<SimplePollerLike<OperationState<StorageTasksCreateResponse>, StorageTasksCreateResponse>>;
-    beginCreateAndWait(resourceGroupName: string, storageTaskName: string, parameters: StorageTask, options?: StorageTasksCreateOptionalParams): Promise<StorageTasksCreateResponse>;
-    beginDelete(resourceGroupName: string, storageTaskName: string, options?: StorageTasksDeleteOptionalParams): Promise<SimplePollerLike<OperationState<StorageTasksDeleteResponse>, StorageTasksDeleteResponse>>;
-    beginDeleteAndWait(resourceGroupName: string, storageTaskName: string, options?: StorageTasksDeleteOptionalParams): Promise<StorageTasksDeleteResponse>;
-    beginUpdate(resourceGroupName: string, storageTaskName: string, parameters: StorageTaskUpdateParameters, options?: StorageTasksUpdateOptionalParams): Promise<SimplePollerLike<OperationState<StorageTasksUpdateResponse>, StorageTasksUpdateResponse>>;
-    beginUpdateAndWait(resourceGroupName: string, storageTaskName: string, parameters: StorageTaskUpdateParameters, options?: StorageTasksUpdateOptionalParams): Promise<StorageTasksUpdateResponse>;
-    get(resourceGroupName: string, storageTaskName: string, options?: StorageTasksGetOptionalParams): Promise<StorageTasksGetResponse>;
-    listByResourceGroup(resourceGroupName: string, options?: StorageTasksListByResourceGroupOptionalParams): PagedAsyncIterableIterator<StorageTask>;
-    listBySubscription(options?: StorageTasksListBySubscriptionOptionalParams): PagedAsyncIterableIterator<StorageTask>;
-    previewActions(location: string, parameters: StorageTaskPreviewAction, options?: StorageTasksPreviewActionsOptionalParams): Promise<StorageTasksPreviewActionsResponse>;
-}
-
-// @public
-export interface StorageTasksCreateHeaders {
-    // (undocumented)
-    location?: string;
-}
-
-// @public
-export interface StorageTasksCreateOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface StorageTasksCreateOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
 
 // @public
-export type StorageTasksCreateResponse = StorageTask;
-
-// @public
-export interface StorageTasksDeleteHeaders {
-    // (undocumented)
-    location?: string;
-}
-
-// @public
-export interface StorageTasksDeleteOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface StorageTasksDeleteOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
 
 // @public
-export type StorageTasksDeleteResponse = StorageTasksDeleteHeaders;
-
-// @public
-export interface StorageTasksGetOptionalParams extends coreClient.OperationOptions {
+export interface StorageTasksGetOptionalParams extends OperationOptions {
 }
 
 // @public
-export type StorageTasksGetResponse = StorageTask;
-
-// @public
-export interface StorageTasksListByResourceGroupNextOptionalParams extends coreClient.OperationOptions {
+export interface StorageTasksListByResourceGroupOptionalParams extends OperationOptions {
 }
 
 // @public
-export type StorageTasksListByResourceGroupNextResponse = StorageTasksListResult;
-
-// @public
-export interface StorageTasksListByResourceGroupOptionalParams extends coreClient.OperationOptions {
+export interface StorageTasksListBySubscriptionOptionalParams extends OperationOptions {
 }
 
 // @public
-export type StorageTasksListByResourceGroupResponse = StorageTasksListResult;
-
-// @public
-export interface StorageTasksListBySubscriptionNextOptionalParams extends coreClient.OperationOptions {
+export interface StorageTasksOperations {
+    create: (resourceGroupName: string, storageTaskName: string, parameters: StorageTask, options?: StorageTasksCreateOptionalParams) => PollerLike<OperationState<StorageTask>, StorageTask>;
+    delete: (resourceGroupName: string, storageTaskName: string, options?: StorageTasksDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
+    get: (resourceGroupName: string, storageTaskName: string, options?: StorageTasksGetOptionalParams) => Promise<StorageTask>;
+    listByResourceGroup: (resourceGroupName: string, options?: StorageTasksListByResourceGroupOptionalParams) => PagedAsyncIterableIterator<StorageTask>;
+    listBySubscription: (options?: StorageTasksListBySubscriptionOptionalParams) => PagedAsyncIterableIterator<StorageTask>;
+    previewActions: (location: string, parameters: StorageTaskPreviewAction, options?: StorageTasksPreviewActionsOptionalParams) => Promise<StorageTaskPreviewAction>;
+    update: (resourceGroupName: string, storageTaskName: string, parameters: StorageTaskUpdateParameters, options?: StorageTasksUpdateOptionalParams) => PollerLike<OperationState<StorageTask>, StorageTask>;
 }
 
 // @public
-export type StorageTasksListBySubscriptionNextResponse = StorageTasksListResult;
-
-// @public
-export interface StorageTasksListBySubscriptionOptionalParams extends coreClient.OperationOptions {
+export interface StorageTasksPreviewActionsOptionalParams extends OperationOptions {
 }
 
 // @public
-export type StorageTasksListBySubscriptionResponse = StorageTasksListResult;
-
-// @public
-export interface StorageTasksListResult {
-    readonly nextLink?: string;
-    readonly value?: StorageTask[];
-}
-
-// @public
-export interface StorageTasksPreviewActionsOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type StorageTasksPreviewActionsResponse = StorageTaskPreviewAction;
-
-// @public
-export interface StorageTasksReport {
-    list(resourceGroupName: string, storageTaskName: string, options?: StorageTasksReportListOptionalParams): PagedAsyncIterableIterator<StorageTaskReportInstance>;
-}
-
-// @public
-export interface StorageTasksReportListNextOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type StorageTasksReportListNextResponse = StorageTaskReportSummary;
-
-// @public
-export interface StorageTasksReportListOptionalParams extends coreClient.OperationOptions {
+export interface StorageTasksReportListOptionalParams extends OperationOptions {
     filter?: string;
     maxpagesize?: number;
 }
 
 // @public
-export type StorageTasksReportListResponse = StorageTaskReportSummary;
-
-// @public
-export interface StorageTasksUpdateHeaders {
-    // (undocumented)
-    location?: string;
+export interface StorageTasksReportOperations {
+    list: (resourceGroupName: string, storageTaskName: string, options?: StorageTasksReportListOptionalParams) => PagedAsyncIterableIterator<StorageTaskReportInstance>;
 }
 
 // @public
-export interface StorageTasksUpdateOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface StorageTasksUpdateOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
 
 // @public
-export type StorageTasksUpdateResponse = StorageTask;
-
-// @public
 export interface StorageTaskUpdateParameters {
     identity?: ManagedServiceIdentity;
-    properties?: StorageTaskProperties;
-    tags?: {
-        [propertyName: string]: string;
-    };
+    properties?: StorageTaskUpdateProperties;
+    tags?: Record<string, string>;
+}
+
+// @public
+export interface StorageTaskUpdateProperties {
+    action?: StorageTaskAction;
+    readonly creationTimeInUtc?: Date;
+    description?: string;
+    enabled?: boolean;
+    readonly provisioningState?: ProvisioningState;
+    readonly taskVersion?: number;
 }
 
 // @public
@@ -533,9 +469,7 @@ export interface SystemData {
 // @public
 export interface TrackedResource extends Resource {
     location: string;
-    tags?: {
-        [propertyName: string]: string;
-    };
+    tags?: Record<string, string>;
 }
 
 // @public

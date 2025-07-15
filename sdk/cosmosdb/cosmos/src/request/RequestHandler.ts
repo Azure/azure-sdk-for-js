@@ -3,8 +3,8 @@
 
 import type { PipelineResponse } from "@azure/core-rest-pipeline";
 import { createPipelineRequest, createHttpHeaders } from "@azure/core-rest-pipeline";
-import { prepareURL } from "../common/index.js";
-import { Constants } from "../common/constants.js";
+import { isReadRequest, prepareURL } from "../common/index.js";
+import { Constants, ResourceType } from "../common/constants.js";
 import { executePlugins, PluginOn } from "../plugins/Plugin.js";
 import * as RetryUtility from "../retry/retryUtility.js";
 import { defaultHttpAgent, defaultHttpsAgent } from "./defaultAgent.js";
@@ -57,9 +57,25 @@ async function httpRequest(
     }
   }
 
+  let requestTimeout = requestContext.connectionPolicy.requestTimeout;
+  // If the request is a read request and partition level failover or circuit breaker is enabled,
+  // set a shorter timeout to allow for quicker failover in case of partition unavailability.
+  // This is to ensure that read requests can quickly failover to another partition if the current one is unavailable.
+  if (
+    (requestContext.connectionPolicy.enablePartitionLevelFailover ||
+      requestContext.connectionPolicy.enablePartitionLevelCircuitBreaker) &&
+    requestContext.partitionKeyRangeId &&
+    requestContext.resourceType === ResourceType.item &&
+    isReadRequest(requestContext.operationType)
+  ) {
+    requestTimeout = Math.min(
+      requestContext.connectionPolicy.requestTimeout,
+      Constants.RequestTimeoutForReadsInMs,
+    );
+  }
   const timeout = setTimeout(() => {
     controller.abort();
-  }, requestContext.connectionPolicy.requestTimeout);
+  }, requestTimeout);
 
   let response: PipelineResponse;
 
@@ -99,7 +115,6 @@ async function httpRequest(
         clearTimeout(timeout);
         throw error;
       }
-      // If the user didn't cancel, it must be an abort we called due to timeout
       throw new TimeoutError(
         `Timeout Error! Request took more than ${requestContext.connectionPolicy.requestTimeout} ms`,
       );

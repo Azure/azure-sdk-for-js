@@ -1,6 +1,6 @@
 {
   "name": "@azure/core-rest-pipeline",
-  "version": "1.21.1",
+  "version": "1.22.1",
   "description": "Isomorphic client library for making HTTP requests in node.js and browser.",
   "sdk-type": "client",
   "type": "module",
@@ -91,7 +91,7 @@
     "@azure/core-tracing": "^1.0.1",
     "@azure/core-util": "^1.11.0",
     "@azure/logger": "^1.0.0",
-    "@typespec/ts-http-runtime": "^0.2.3",
+    "@typespec/ts-http-runtime": "^0.3.0",
     "tslib": "^2.6.2"
   },
   "devDependencies": {

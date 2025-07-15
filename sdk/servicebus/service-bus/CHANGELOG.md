@@ -1,15 +1,38 @@
 # Release History
 
-## 7.10.0 (Unreleased)
+## 7.10.0-beta.3 (Unreleased)
 
 ### Features Added
-
-- Adds `deleteMessages` which deletes messages from the queue.
-- Add the experimental diagnostic feature `omitMessageBody` via `PeekMessagesOptions` under `./experimental` subpath export.
 
 ### Breaking Changes
 
 ### Bugs Fixed
+
+### Other Changes
+
+## 7.10.0-beta.2 (2025-07-09)
+
+### Features Added
+
+- Add the experimental diagnostic feature `omitMessageBody` via `PeekMessagesOptions` under `./experimental` subpath export. To access the new option, import "@azure/service-bus/experimental" sub-path. For example,
+
+```ts
+import { DefaultAzureCredential } from "@azure/identity";
+import { ServiceBusClient } from "@azure/service-bus";
+import "@azure/service-bus/experimental";
+import "dotenv/config";
+
+async function test() {
+  const fqdn = process.env.SERVICEBUS_FQDN || "example.servicebus.windows.net";
+  const queue = process.env.SERVICEBUS_QUEUE || "queue1";
+  const credential = new DefaultAzureCredential();
+  const client = new ServiceBusClient(fqdn, credential);
+  const receiver = client.createReceiver(queue);
+  await receiver.peekMessages(100, {
+    omitMessageBody: true,
+  });
+}
+```
 
 ### Other Changes
 
@@ -25,6 +48,12 @@
 ### Other Changes
 
 - Wait up to max wait time for draining credit when receiving messages [PR #28604](https://github.com/Azure/azure-sdk-for-js/pull/28604)
+
+## 7.10.0-beta.1 (2024-05-07)
+
+### Features Added
+
+- Add support to delete messages from an entity in batches using receiver method `deleteMessages()`. The target messages can be constrained to a fixed count, limited to only those earlier than a given date, or unconstrained such that all messages are deleted.
 
 ## 7.9.4 (2024-02-06)
 

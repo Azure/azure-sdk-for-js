@@ -11,7 +11,6 @@
 const { AIProjectClient, EvaluatorIds } = require("@azure/ai-projects");
 const { DefaultAzureCredential } = require("@azure/identity");
 const path = require("path");
-const { fileURLToPath } = require("url");
 require("dotenv/config");
 
 const endpoint = process.env["AZURE_AI_PROJECT_ENDPOINT_STRING"] || "<project endpoint string>";
@@ -19,8 +18,6 @@ const evaluationDeploymentName =
   process.env["EVALUATION_DEPLOYMENT_NAME"] || "<evaluation deployment name>";
 const containerConnectionName =
   process.env["AZURE_STORAGE_CONNECTION_NAME"] || "<storage connection name>";
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
 
 async function main() {
   const project = new AIProjectClient(endpoint, new DefaultAzureCredential());

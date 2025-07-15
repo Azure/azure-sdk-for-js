@@ -10,7 +10,7 @@ import type {
   KeyUsageType,
   JsonWebKeyType as CertificateKeyType,
   JsonWebKeyCurveName as CertificateKeyCurveName,
-} from "./generated/models/index.js";
+} from "./generated/src/models/index.js";
 
 /**
  * The latest supported KeyVault service API version

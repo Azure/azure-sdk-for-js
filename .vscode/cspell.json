@@ -302,7 +302,7 @@
       ]
     },
     {
-      "filename": "sdk/healthdataaiservices/azure-health-deidentification/**",
+      "filename": "sdk/healthdataaiservices/health-deidentification-rest/**",
       "words": [
         "deid",
         "deidservices",

@@ -3,7 +3,7 @@
 
 import type * as coreClient from "@azure-rest/core-client";
 import type { ExtendedCommonClientOptions } from "@azure/core-http-compat";
-import { DeletionRecoveryLevel } from "./generated/index.js";
+import type { DeletionRecoveryLevel } from "./generated/src/index.js";
 
 /**
  * The latest supported KeyVault service API version

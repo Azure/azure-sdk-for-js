@@ -984,7 +984,7 @@ For more detailed instructions on how to enable logs, you can look at the [@azur
 [radiology_insights_docs]: https://learn.microsoft.com/azure/azure-health-insights/radiology-insights/
 [Source code]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/healthinsights/health-insights-radiologyinsights-rest
 [Package (NPM)]: https://www.npmjs.com/package/@azure-rest/health-insights-radiologyinsights
-[API reference documentation]: https://learn.microsoft.com/rest/api/cognitiveservices/healthinsights/operation-groups?view=rest-cognitiveservices-healthinsights-2024-04-01
+[API reference documentation]: https://learn.microsoft.com/rest/api/healthinsights/radiology-insights
 [Product Information]: https://learn.microsoft.com/azure/azure-health-insights/radiology-insights/overview
 [Samples]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/healthinsights/health-insights-radiologyinsights-rest/samples/v1
 [azure_identity]: https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/identity/identity

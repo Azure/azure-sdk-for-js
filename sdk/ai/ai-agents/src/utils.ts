@@ -18,13 +18,13 @@ import type {
   VectorStoreDataSource,
   OpenApiFunctionDefinition,
   AISearchIndexResource,
-  BingGroundingToolDefinition,
-  MicrosoftFabricToolDefinition,
-  BingCustomSearchToolDefinition,
   BingCustomSearchConfiguration,
-  SharepointToolDefinition,
+  BingCustomSearchToolDefinition,
+  BingGroundingToolDefinition,
   BingGroundingSearchConfiguration,
   ConnectedAgentToolDefinition,
+  MicrosoftFabricToolDefinition,
+  SharepointToolDefinition,
 } from "./index.js";
 
 /**

@@ -69,7 +69,7 @@ export class QueryIterator<T> {
     this.fetchAllLastResHeaders = getInitialHeader();
     this.reset();
     this.isInitialized = false;
-    this.partitionKeyRangeCache = new PartitionKeyRangeCache(this.clientContext);
+    this.partitionKeyRangeCache = this.clientContext.partitionKeyRangeCache;
   }
 
   /**
@@ -388,6 +388,7 @@ export class QueryIterator<T> {
     this.queryExecutionContext = new HybridQueryExecutionContext(
       this.clientContext,
       this.resourceLink,
+      this.query,
       this.options,
       queryPlan,
       this.correlatedActivityId,
