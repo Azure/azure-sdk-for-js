@@ -12,9 +12,8 @@ require("dotenv/config");
 
 async function main() {
   const credential = new DefaultAzureCredential();
-  const serviceEndpoint =
-    process.env["DEID_SERVICE_ENDPOINT"] || "https://example.api.deid.azure.com";
-  const storageLocation = `https://${process.env["STORAGE_ACCOUNT_NAME"]}.blob.core.windows.net/${process.env["STORAGE_CONTAINER_NAME"]}`;
+  const serviceEndpoint = process.env["HEALTHDATAAISERVICES_DEID_SERVICE_ENDPOINT"];
+  const storageLocation = process.env["HEALTHDATAAISERVICES_STORAGE_ACCOUNT_LOCATION"];
   const inputPrefix = "example_patient_1";
   const outputPrefix = process.env["OUTPUT_PREFIX"] || "_output";
   // @ts-preserve-whitespace
