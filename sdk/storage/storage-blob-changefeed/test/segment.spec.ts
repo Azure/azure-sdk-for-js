@@ -1,8 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import * as fs from "node:fs";
-import * as path from "node:path";
+import fs from "node:fs";
+import path from "node:path";
 import type { BlobChangeFeedEvent } from "../src/index.js";
 import { describe, it, assert, beforeEach, afterEach, vi } from "vitest";
 import type { ContainerClient, BlobClient } from "@azure/storage-blob";

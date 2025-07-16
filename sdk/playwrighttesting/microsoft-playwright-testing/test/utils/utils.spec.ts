@@ -24,7 +24,7 @@ import {
 } from "../../src/utils/utils.js";
 import * as packageManager from "../../src/utils/packageManager.js";
 import { describe, it, expect, vi, beforeEach, afterEach } from "vitest";
-import * as process from "node:process";
+import process from "node:process";
 import { getPlaywrightVersion } from "../../src/utils/getPlaywrightVersion.js";
 import { parseJwt } from "../../src/utils/parseJwt.js";
 import { EntraIdAccessToken } from "../../src/common/entraIdAccessToken.js";
@@ -41,8 +41,10 @@ vi.mock("../../src/common/entraIdAccessToken.js", async (importActual) => {
 vi.mock("node:process", async (importActual) => {
   const actual = await importActual<typeof import("node:process")>();
   return {
-    ...actual,
-    exit: vi.fn(),
+    default: {
+      ...(actual as any).default,
+      exit: vi.fn(),
+    },
   };
 });
 

@@ -21,7 +21,7 @@ import {
 } from "@azure/ai-agents";
 import { DefaultAzureCredential } from "@azure/identity";
 
-import * as fs from "node:fs";
+import fs from "node:fs";
 import "dotenv/config";
 
 const projectEndpoint = process.env["PROJECT_ENDPOINT"] || "<project endpoint>";
