@@ -27,7 +27,7 @@ const client = new CosmosClient({
 - [#35189](https://github.com/Azure/azure-sdk-for-js/pull/35189) Fixed the RU calculation bug where RU (Request Unit) charges were not aggregated when document producer returned empty responses.
 - [#34765](https://github.com/Azure/azure-sdk-for-js/pull/34765) Fixed partition key extraction bug enhancing the partition key extraction logic to correctly handle migrated containers using the systemKey flag.
 - [#32044](https://github.com/Azure/azure-sdk-for-js/pull/32044) Fixed an issue of Client retrying 120*120 times on an inaccessible endpoint.
-- [#34933](https://github.com/Azure/azure-sdk-for-js/pull/3433) Fixed an issue of SDK throwing an error on executing parameterized RRF queries.
+- [#34933](https://github.com/Azure/azure-sdk-for-js/pull/34933) Fixed an issue of SDK throwing an error on executing parameterized RRF queries.
 
 ## 4.4.1 (2025-05-15)
 
