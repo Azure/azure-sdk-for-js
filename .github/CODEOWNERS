@@ -708,6 +708,9 @@
 /sdk/pineconevectordb/arm-pineconevectordb/ @qiaozha @MaryGao
 
 # PRLabel: %Mgmt
+/sdk/playwright/arm-playwright/ @qiaozha @MaryGao
+
+# PRLabel: %Mgmt
 /sdk/locks/arm-locks/ @qiaozha @MaryGao
 
 # PRLabel: %Mgmt
@@ -904,6 +907,9 @@
 
 # PRLabel: %Mgmt
 /sdk/resources/arm-resourcesbicep/ @qiaozha @MaryGao
+
+# PRLabel: %Mgmt
+/sdk/resources/arm-resourcesdeployments/ @qiaozha @MaryGao
 
 # PRLabel: %Mgmt
 /sdk/resources/arm-resources-profile-2020-09-01-hybrid/ @qiaozha @MaryGao

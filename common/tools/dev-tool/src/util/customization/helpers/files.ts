@@ -2,7 +2,7 @@
 // Licensed under the MIT License
 
 import * as fs from "fs-extra";
-import * as path from "path";
+import path from "node:path";
 
 export async function getNewCustomFiles(originalDir: string, customDir: string): Promise<string[]> {
   const filesInCustom = await getFiles(customDir);

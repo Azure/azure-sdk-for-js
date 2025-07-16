@@ -4,8 +4,9 @@
 
 ```ts
 
-import type { CommonClientOptions } from '@azure/core-client';
-import type { OperationOptions } from '@azure/core-client';
+import type { ClientOptions } from '@azure-rest/core-client';
+import type { OperationOptions } from '@azure-rest/core-client';
+import type { Pipeline } from '@azure/core-rest-pipeline';
 import type { TokenCredential } from '@azure/core-auth';
 
 // @public
@@ -28,13 +29,19 @@ export enum KnownMonitorAudience {
 }
 
 // @public
+export enum KnownVersions {
+    V20230101 = "2023-01-01"
+}
+
+// @public
 export class LogsIngestionClient {
     constructor(endpoint: string, tokenCredential: TokenCredential, options?: LogsIngestionClientOptions);
+    readonly pipeline: Pipeline;
     upload(ruleId: string, streamName: string, logs: Record<string, unknown>[], options?: LogsUploadOptions): Promise<void>;
 }
 
 // @public
-export interface LogsIngestionClientOptions extends CommonClientOptions {
+export interface LogsIngestionClientOptions extends ClientOptions {
     apiVersion?: string;
     audience?: string;
 }
@@ -47,8 +54,12 @@ export interface LogsUploadFailure {
 
 // @public
 export interface LogsUploadOptions extends OperationOptions {
+    clientRequestId?: string;
+    contentEncoding?: string;
     maxConcurrency?: number;
     onError?: (uploadLogsError: LogsUploadFailure) => void;
 }
+
+// (No @packageDocumentation comment for this package)
 
 ```
