@@ -5,9 +5,12 @@ import {
   Constants,
   DefaultConnectOptionsConstants,
   InternalEnvironmentVariables,
+  ServiceAuth,
 } from "./constants.js";
 import type { PlaywrightServiceAdditionalOptions, OsType } from "./types.js";
-import { getAndSetRunId } from "../utils/utils.js";
+import { getAndSetRunId, getRunName } from "../utils/utils.js";
+import { CIInfoProvider } from "../utils/cIInfoProvider.js";
+import { state } from "./state.js";
 
 class PlaywrightServiceConfig {
   public serviceOs: OsType;
@@ -17,6 +20,8 @@ class PlaywrightServiceConfig {
   public exposeNetwork: string;
   public runName: string;
   public apiVersion: string;
+  private _serviceAuthType: string = ServiceAuth.ENTRA_ID;
+
   constructor() {
     this.serviceOs = (process.env[InternalEnvironmentVariables.MPT_SERVICE_OS] ||
       DefaultConnectOptionsConstants.DEFAULT_SERVICE_OS) as OsType;
@@ -27,6 +32,28 @@ class PlaywrightServiceConfig {
     this.exposeNetwork = DefaultConnectOptionsConstants.DEFAULT_EXPOSE_NETWORK;
     this.apiVersion =
       process.env[InternalEnvironmentVariables.MPT_API_VERSION] || Constants.LatestAPIVersion;
+  }
+
+  public static get instance(): PlaywrightServiceConfig {
+    if (!state.playwrightServiceConfig) {
+      state.playwrightServiceConfig = new PlaywrightServiceConfig();
+    }
+    return state.playwrightServiceConfig;
+  }
+
+  public get serviceAuthType(): string {
+    return this._serviceAuthType;
+  }
+
+  public set serviceAuthType(value: string) {
+    this._serviceAuthType = value;
+  }
+
+  public async initialize(): Promise<void> {
+    if (!this.runName) {
+      const ciConfigInfo = CIInfoProvider.getCIInfo();
+      this.runName = await getRunName(ciConfigInfo);
+    }
   }
 
   setOptions = (options?: PlaywrightServiceAdditionalOptions): void => {

@@ -268,8 +268,8 @@ describe("getServiceConfig", () => {
     const config = localGetServiceConfig(samplePlaywrightConfigInput, {
       serviceAuthType: ServiceAuth.ACCESS_TOKEN,
     });
-    expect(config.globalSetup).not.to.equal(globalSetupPath);
-    expect(config.globalTeardown).not.to.equal(globalTeardownPath);
+    expect(config.globalSetup).equal(globalSetupPath);
+    expect(config.globalTeardown).equal(globalTeardownPath);
   });
 
   it("should not call warnIfAccessTokenCloseToExpiry if ONE_TIME_OPERATION_FLAG is true", async () => {
@@ -332,8 +332,8 @@ describe("getServiceConfig", () => {
     const config = localGetServiceConfig(samplePlaywrightConfigInput, {
       serviceAuthType: ServiceAuth.ACCESS_TOKEN,
     });
-    expect(config.globalSetup).toBeUndefined();
-    expect(config.globalTeardown).toBeUndefined();
+    expect(config.globalSetup).equal(globalSetupPath);
+    expect(config.globalTeardown).equal(globalTeardownPath);
   });
 
   it("should return service config with service connect options", async () => {
