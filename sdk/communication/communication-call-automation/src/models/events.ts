@@ -41,7 +41,6 @@ import {
   MediaStreamingStarted as RestMediaStreamingStarted,
   MediaStreamingStopped as RestMediaStreamingStopped,
   MediaStreamingFailed as RestMediaStreamingFailed,
-  StartRecordingFailed as RestStartRecordingFailed,
 } from "../generated/src/models/index.js";
 
 import type { CallParticipant } from "./models.js";
@@ -121,7 +120,6 @@ export {
   RestMediaStreamingFailed,
   RestCreateCallFailed,
   RestAnswerFailed,
-  RestStartRecordingFailed,
 };
 export interface ResultInformation
   /**
@@ -376,15 +374,7 @@ export interface RecordingStateChanged
   kind: "RecordingStateChanged";
 }
 
-export interface StartRecordingFailed
-  /**
-   * @deprecated RestStartRecordingFailed is deprecated.
-   * Use StartRecordingFailed instead.
-   */
-  extends Omit<
-    RestStartRecordingFailed,
-    "callConnectionId" | "serverCallId" | "correlationId" | "resultInformation" | "recordingId"
-  > {
+export interface StartRecordingFailed {
   /** Call connection ID. */
   callConnectionId: string;
   /** Server call ID. */

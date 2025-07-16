@@ -1331,16 +1331,6 @@ export interface RestSendDtmfTonesFailed {
 }
 
 // @public (undocumented)
-export interface RestStartRecordingFailed {
-    callConnectionId?: string;
-    correlationId?: string;
-    operationContext?: string;
-    readonly recordingId?: string;
-    resultInformation?: RestResultInformation;
-    serverCallId?: string;
-}
-
-// @public (undocumented)
 export interface RestTranscriptionFailed {
     callConnectionId?: string;
     correlationId?: string;
@@ -1476,12 +1466,7 @@ export interface StartMediaStreamingOptions extends OperationOptions {
 }
 
 // @public (undocumented)
-export interface StartRecordingFailed
-/**
-* @deprecated RestStartRecordingFailed is deprecated.
-* Use StartRecordingFailed instead.
-*/
-extends Omit<RestStartRecordingFailed, "callConnectionId" | "serverCallId" | "correlationId" | "resultInformation" | "recordingId"> {
+export interface StartRecordingFailed {
     callConnectionId: string;
     correlationId: string;
     kind: "StartRecordingFailed";
