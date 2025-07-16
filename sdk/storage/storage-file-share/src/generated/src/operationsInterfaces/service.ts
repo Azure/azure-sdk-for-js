@@ -14,6 +14,9 @@ import {
   ServiceGetPropertiesResponse,
   ServiceListSharesSegmentOptionalParams,
   ServiceListSharesSegmentResponse,
+  KeyInfo,
+  ServiceGetUserDelegationKeyOptionalParams,
+  ServiceGetUserDelegationKeyResponse,
 } from "../models/index.js";
 
 /** Interface representing a Service. */
@@ -44,4 +47,14 @@ export interface Service {
   listSharesSegment(
     options?: ServiceListSharesSegmentOptionalParams,
   ): Promise<ServiceListSharesSegmentResponse>;
+  /**
+   * Retrieves a user delegation key for the Queue service. This is only a valid operation when using
+   * bearer token authentication.
+   * @param keyInfo Key information
+   * @param options The options parameters.
+   */
+  getUserDelegationKey(
+    keyInfo: KeyInfo,
+    options?: ServiceGetUserDelegationKeyOptionalParams,
+  ): Promise<ServiceGetUserDelegationKeyResponse>;
 }

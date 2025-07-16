@@ -4,3 +4,4 @@
 export * from "./BufferScheduler.js";
 export { getCachedDefaultHttpClient } from "./cache.js";
 export * from "./policies/StorageRequestFailureDetailsParserPolicy.js";
+export * from "./credentials/UserDelegationKeyCredential.js";
