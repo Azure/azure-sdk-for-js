@@ -1,8 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import * as assert from "node:assert";
-import * as path from "node:path";
+import assert from "node:assert";
+import path from "node:path";
 import { JsonConfig } from "../../../../src/shared/jsonConfig.js";
 import { afterAll, afterEach, beforeEach, describe, it, vi } from "vitest";
 

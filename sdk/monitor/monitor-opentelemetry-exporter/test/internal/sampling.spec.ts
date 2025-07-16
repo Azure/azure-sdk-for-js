@@ -8,6 +8,7 @@ import { AzureMonitorSampleRate } from "../../src/utils/constants/applicationins
 import { ApplicationInsightsSampler } from "../../src/index.js";
 import { getSamplingHashCode } from "../../src/sampling/samplingUtils.js";
 
+
 // Helper to create a fake parent span with attributes and context
 function createParentSpan({
   sampled,

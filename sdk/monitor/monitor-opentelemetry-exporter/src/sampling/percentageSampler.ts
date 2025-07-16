@@ -1,6 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 import type { Link, Attributes, SpanKind, Context } from "@opentelemetry/api";
+import { TraceFlags, trace } from "@opentelemetry/api";
 import type { Sampler, SamplingResult } from "@opentelemetry/sdk-trace-base";
 import { SamplingDecision } from "@opentelemetry/sdk-trace-base";
 import { shouldSample } from "./samplingUtils.js";
@@ -52,7 +53,6 @@ export class ApplicationInsightsSampler implements Sampler {
     // @ts-expect-error unused argument
     links: Link[],
   ): SamplingResult {
-
     return shouldSample(this._sampleRate, context, traceId, attributes)
       ? { decision: SamplingDecision.RECORD_AND_SAMPLED, attributes: attributes }
       : { decision: SamplingDecision.NOT_RECORD, attributes: attributes };

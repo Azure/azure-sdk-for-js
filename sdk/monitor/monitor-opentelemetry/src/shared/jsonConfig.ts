@@ -3,8 +3,8 @@
 
 /* eslint-disable no-underscore-dangle*/
 
-import * as fs from "node:fs";
-import * as path from "node:path";
+import fs from "node:fs";
+import path from "node:path";
 import type {
   BrowserSdkLoaderOptions,
   AzureMonitorOpenTelemetryOptions,
