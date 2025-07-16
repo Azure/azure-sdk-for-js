@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { RestError } from "@azure/core-rest-pipeline";
+import { RestError, isRestError } from "@azure/core-rest-pipeline";
 
 export { PollOperationState, PollerLike } from "@azure/core-lro";
 export * from "./BlobServiceClient.js";
@@ -91,7 +91,7 @@ export {
   MatchConditions,
   ModifiedAccessConditions,
 } from "./models.js";
-export { RestError };
+export { RestError, isRestError };
 export {
   PageBlobGetPageRangesDiffResponse,
   PageBlobGetPageRangesResponse,
