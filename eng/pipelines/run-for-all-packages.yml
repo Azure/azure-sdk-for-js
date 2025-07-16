@@ -6,15 +6,18 @@ stages:
     displayName: Manual Validation All Packages
 
     pool:
-      name: azsdk-pool-mms-ubuntu-2204-general
+      name: azsdk-pool
+      demands: ImageOverride -equals ubuntu-24.04
 
     jobs:
       - job: BuildAllPackages
-        timeoutInMinutes: 120
+        timeoutInMinutes: 180
+        variables:
+          - template: /eng/pipelines/templates/variables/globals.yml
         steps:
           - template: /eng/pipelines/templates/steps/use-node-version.yml
             parameters:
-              NodeVersion: 20.x
+              NodeVersion: $(NODE_VERSION_LTS_ACTIVE)
 
           - template: ./templates/steps/generate-doc.yml
             parameters:

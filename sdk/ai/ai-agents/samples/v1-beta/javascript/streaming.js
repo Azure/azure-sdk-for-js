@@ -50,13 +50,15 @@ async function main() {
       case MessageStreamEvent.ThreadMessageDelta:
         {
           const messageDelta = eventMessage.data;
-          messageDelta.delta.content.forEach((contentPart) => {
-            if (contentPart.type === "text") {
-              const textContent = contentPart;
-              const textValue = textContent.text?.value || "No text";
-              console.log(`Text delta received:: ${textValue}`);
-            }
-          });
+          if (messageDelta.delta && messageDelta.delta.content) {
+            messageDelta.delta.content.forEach((contentPart) => {
+              if (contentPart.type === "text") {
+                const textContent = contentPart;
+                const textValue = textContent.text?.value || "No text";
+                console.log(`Text delta received:: ${textValue}`);
+              }
+            });
+          }
         }
         break;
 

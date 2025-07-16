@@ -5,7 +5,6 @@
 ```ts
 
 import { ClientOptions } from '@azure-rest/core-client';
-import type { KeyCredential } from '@azure/core-auth';
 import { OperationOptions } from '@azure-rest/core-client';
 import { OperationState } from '@azure/core-lro';
 import type { Pipeline } from '@azure/core-rest-pipeline';
@@ -38,6 +37,14 @@ export interface AgentDeletionStatus {
 }
 
 // @public
+export interface AgentErrorDetail {
+    code?: string | null;
+    message?: string | null;
+    param?: string | null;
+    type?: string | null;
+}
+
+// @public
 export interface AgentEventMessage {
     data: AgentEventStreamData;
     event: AgentStreamEvent | string;
@@ -57,7 +64,7 @@ export type AgentRunResponse = PromiseLike<ThreadRun> & {
 
 // @public (undocumented)
 export class AgentsClient {
-    constructor(endpointParam: string, credential: KeyCredential | TokenCredential, options?: AgentsClientOptionalParams);
+    constructor(endpointParam: string, credential: TokenCredential, options?: AgentsClientOptionalParams);
     createAgent(model: string, options?: CreateAgentOptionalParams): Promise<Agent>;
     deleteAgent(assistantId: string, options?: DeleteAgentOptionalParams): Promise<AgentDeletionStatus>;
     readonly files: FilesOperations;
@@ -86,7 +93,7 @@ export interface AgentsNamedToolChoice {
 }
 
 // @public
-export type AgentsNamedToolChoiceType = "function" | "code_interpreter" | "file_search" | "bing_grounding" | "fabric_dataagent" | "sharepoint_grounding" | "azure_ai_search" | "bing_custom_search" | "connected_agent";
+export type AgentsNamedToolChoiceType = "function" | "code_interpreter" | "file_search" | "bing_grounding" | "azure_ai_search" | "bing_custom_search" | "connected_agent" | "deep_research";
 
 // @public
 export interface AgentsResponseFormat {
@@ -106,7 +113,7 @@ export type AgentsToolChoiceOption = string | AgentsToolChoiceOptionMode | Agent
 export type AgentsToolChoiceOptionMode = "none" | "auto";
 
 // @public
-export type AgentStreamEvent = string | (ThreadStreamEvent | RunStreamEvent | RunStepStreamEvent | MessageStreamEvent | ErrorEvent_2 | DoneEvent);
+export type AgentStreamEvent = string | ThreadStreamEvent | RunStreamEvent | RunStepStreamEvent | MessageStreamEvent | ErrorEvent | DoneEvent;
 
 // @public
 export interface AgentThread {
@@ -125,11 +132,16 @@ export interface AgentThreadCreationOptions {
 }
 
 // @public
+export interface AgentV1Error {
+    error: AgentErrorDetail;
+}
+
+// @public
 export interface AISearchIndexResource {
     filter?: string;
     indexAssetId?: string;
-    indexConnectionId: string;
-    indexName: string;
+    indexConnectionId?: string;
+    indexName?: string;
     queryType?: AzureAISearchQueryType;
     topK?: number;
 }
@@ -138,13 +150,13 @@ export interface AISearchIndexResource {
 export type AzureAISearchQueryType = "simple" | "semantic" | "vector" | "vector_simple_hybrid" | "vector_semantic_hybrid";
 
 // @public
-export interface AzureAISearchResource {
-    indexList?: AISearchIndexResource[];
+export interface AzureAISearchToolDefinition extends ToolDefinition {
+    type: "azure_ai_search";
 }
 
 // @public
-export interface AzureAISearchToolDefinition extends ToolDefinition {
-    type: "azure_ai_search";
+export interface AzureAISearchToolResource {
+    indexList?: AISearchIndexResource[];
 }
 
 // @public
@@ -183,14 +195,14 @@ export interface BingCustomSearchConfiguration {
 }
 
 // @public
-export interface BingCustomSearchConfigurationList {
-    searchConfigurations: BingCustomSearchConfiguration[];
+export interface BingCustomSearchToolDefinition extends ToolDefinition {
+    bingCustomSearch: BingCustomSearchToolParameters;
+    type: "bing_custom_search";
 }
 
 // @public
-export interface BingCustomSearchToolDefinition extends ToolDefinition {
-    bingCustomSearch: BingCustomSearchConfigurationList;
-    type: "bing_custom_search";
+export interface BingCustomSearchToolParameters {
+    searchConfigurations: BingCustomSearchConfiguration[];
 }
 
 // @public
@@ -203,13 +215,13 @@ export interface BingGroundingSearchConfiguration {
 }
 
 // @public
-export interface BingGroundingSearchConfigurationList {
+export interface BingGroundingSearchToolParameters {
     searchConfigurations: BingGroundingSearchConfiguration[];
 }
 
 // @public
 export interface BingGroundingToolDefinition extends ToolDefinition {
-    bingGrounding: BingGroundingSearchConfigurationList;
+    bingGrounding: BingGroundingSearchToolParameters;
     type: "bing_grounding";
 }
 
@@ -277,10 +289,27 @@ export interface CreateThreadAndRunOptionalParams extends OperationOptions {
     temperature?: number | null;
     thread?: AgentThreadCreationOptions;
     toolChoice?: AgentsToolChoiceOption | null;
-    toolResources?: UpdateToolResourcesOptions | null;
+    toolResources?: ToolResources | null;
     tools?: ToolDefinitionUnion[] | null;
     topP?: number | null;
     truncationStrategy?: TruncationObject | null;
+}
+
+// @public
+export interface DeepResearchBingGroundingConnection {
+    connectionId: string;
+}
+
+// @public
+export interface DeepResearchDetails {
+    deepResearchBingGroundingConnections: DeepResearchBingGroundingConnection[];
+    deepResearchModel: string;
+}
+
+// @public
+export interface DeepResearchToolDefinition extends ToolDefinition {
+    deepResearch: DeepResearchDetails;
+    type: "deep_research";
 }
 
 // @public
@@ -293,10 +322,14 @@ export enum DoneEvent {
 }
 
 // @public
-enum ErrorEvent_2 {
+export enum ErrorEvent {
     Error = "error"
 }
-export { ErrorEvent_2 as ErrorEvent }
+
+// @public
+export interface FabricDataAgentToolParameters {
+    connectionList?: ToolConnection[];
+}
 
 // @public
 export type FileContents = string | NodeJS.ReadableStream | ReadableStream<Uint8Array> | Uint8Array | Blob;
@@ -327,7 +360,7 @@ export interface FileListResponse {
 }
 
 // @public
-export type FilePurpose = "fine-tune" | "fine-tune-results" | "assistants" | "assistants_output" | "batch" | "batch_output" | "vision";
+export type FilePurpose = "assistants" | "assistants_output" | "vision";
 
 // @public
 export interface FilesDeleteFileOptionalParams extends OperationOptions {
@@ -434,9 +467,9 @@ export function isOutputOfType<T extends {
 
 // @public
 export enum KnownVersions {
-    _20250515Preview = "2025-05-15-preview",
     V1 = "v1",
-    V20250501 = "2025-05-01"
+    V20250501 = "2025-05-01",
+    V20250515Preview = "2025-05-15-preview"
 }
 
 // @public
@@ -739,7 +772,7 @@ export interface MessageTextUrlCitationDetails {
 
 // @public
 export interface MicrosoftFabricToolDefinition extends ToolDefinition {
-    fabricDataagent: ToolConnectionList;
+    fabricDataagent: FabricDataAgentToolParameters;
     type: "fabric_dataagent";
 }
 
@@ -775,6 +808,7 @@ export interface OpenApiFunctionDefinition {
     auth: OpenApiAuthDetailsUnion;
     defaultParams?: string[];
     description?: string;
+    readonly functions?: FunctionDefinition[];
     name: string;
     spec: any;
 }
@@ -963,12 +997,6 @@ export interface RunStepAzureAISearchToolCall extends RunStepToolCall {
 }
 
 // @public
-export interface RunStepBingCustomSearchToolCall extends RunStepToolCall {
-    bingCustomSearch: Record<string, string>;
-    type: "bing_custom_search";
-}
-
-// @public
 export interface RunStepBingGroundingToolCall extends RunStepToolCall {
     bingGrounding: Record<string, string>;
     type: "bing_grounding";
@@ -1016,6 +1044,18 @@ export interface RunStepCompletionUsage {
     completionTokens: number;
     promptTokens: number;
     totalTokens: number;
+}
+
+// @public
+export interface RunStepDeepResearchToolCall extends RunStepToolCall {
+    deepResearch: RunStepDeepResearchToolCallDetails;
+    type: "deep_research";
+}
+
+// @public
+export interface RunStepDeepResearchToolCallDetails {
+    input: string;
+    output?: string;
 }
 
 // @public
@@ -1184,12 +1224,6 @@ export interface RunStepMessageCreationReference {
 }
 
 // @public
-export interface RunStepMicrosoftFabricToolCall extends RunStepToolCall {
-    microsoftFabric: Record<string, string>;
-    type: "fabric_dataagent";
-}
-
-// @public
 export interface RunStepOpenAPIToolCall extends RunStepToolCall {
     openAPI: Record<string, string>;
     type: "openapi";
@@ -1198,12 +1232,6 @@ export interface RunStepOpenAPIToolCall extends RunStepToolCall {
 // @public
 export interface RunStepsGetRunStepOptionalParams extends OperationOptions {
     include?: RunAdditionalFieldList[];
-}
-
-// @public
-export interface RunStepSharepointToolCall extends RunStepToolCall {
-    sharePoint: Record<string, string>;
-    type: "sharepoint_grounding";
 }
 
 // @public
@@ -1248,7 +1276,7 @@ export interface RunStepToolCallDetails extends RunStepDetails {
 }
 
 // @public
-export type RunStepToolCallUnion = RunStepCodeInterpreterToolCall | RunStepFileSearchToolCall | RunStepBingGroundingToolCall | RunStepAzureAISearchToolCall | RunStepSharepointToolCall | RunStepMicrosoftFabricToolCall | RunStepBingCustomSearchToolCall | RunStepFunctionToolCall | RunStepOpenAPIToolCall | RunStepToolCall;
+export type RunStepToolCallUnion = RunStepCodeInterpreterToolCall | RunStepFileSearchToolCall | RunStepBingGroundingToolCall | RunStepAzureAISearchToolCall | RunStepFunctionToolCall | RunStepOpenAPIToolCall | RunStepDeepResearchToolCall | RunStepToolCall;
 
 // @public
 export type RunStepType = "message_creation" | "tool_calls";
@@ -1273,8 +1301,13 @@ export interface RunsUpdateRunOptionalParams extends OperationOptions {
 }
 
 // @public
+export interface SharepointGroundingToolParameters {
+    connectionList?: ToolConnection[];
+}
+
+// @public
 export interface SharepointToolDefinition extends ToolDefinition {
-    sharepointGrounding: ToolConnectionList;
+    sharepointGrounding: SharepointGroundingToolParameters;
     type: "sharepoint_grounding";
 }
 
@@ -1347,7 +1380,7 @@ export interface ThreadRun {
     temperature?: number | null;
     threadId: string;
     toolChoice: AgentsToolChoiceOption | null;
-    toolResources?: UpdateToolResourcesOptions | null;
+    toolResources?: ToolResources | null;
     tools: ToolDefinitionUnion[];
     topP?: number | null;
     truncationStrategy: TruncationObject | null;
@@ -1403,17 +1436,12 @@ export interface ToolConnection {
 }
 
 // @public
-export interface ToolConnectionList {
-    connectionList?: ToolConnection[];
-}
-
-// @public
 export interface ToolDefinition {
     type: string;
 }
 
 // @public
-export type ToolDefinitionUnion = CodeInterpreterToolDefinition | FileSearchToolDefinition | FunctionToolDefinition | BingGroundingToolDefinition | MicrosoftFabricToolDefinition | SharepointToolDefinition | AzureAISearchToolDefinition | OpenApiToolDefinition | BingCustomSearchToolDefinition | ConnectedAgentToolDefinition | AzureFunctionToolDefinition | ToolDefinition;
+export type ToolDefinitionUnion = CodeInterpreterToolDefinition | FileSearchToolDefinition | FunctionToolDefinition | BingGroundingToolDefinition | AzureAISearchToolDefinition | OpenApiToolDefinition | ConnectedAgentToolDefinition | DeepResearchToolDefinition | AzureFunctionToolDefinition | ToolDefinition;
 
 // @public
 export interface ToolOutput {
@@ -1423,7 +1451,7 @@ export interface ToolOutput {
 
 // @public
 export interface ToolResources {
-    azureAISearch?: AzureAISearchResource;
+    azureAISearch?: AzureAISearchToolResource;
     codeInterpreter?: CodeInterpreterToolResource;
     fileSearch?: FileSearchToolResource;
 }
@@ -1440,6 +1468,9 @@ export class ToolSet {
     addCodeInterpreterTool(fileIds?: string[], dataSources?: Array<VectorStoreDataSource>): {
         definition: CodeInterpreterToolDefinition;
         resources: ToolResources;
+    };
+    addConnectedAgentTool(id: string, name: string, description: string): {
+        definition: ConnectedAgentToolDefinition;
     };
     addConnectionTool(toolType: connectionToolType, connectionIds: string[]): {
         definition: ToolDefinition;
@@ -1476,6 +1507,9 @@ export class ToolUtility {
     static createCodeInterpreterTool(fileIds?: string[], dataSources?: Array<VectorStoreDataSource>): {
         definition: CodeInterpreterToolDefinition;
         resources: ToolResources;
+    };
+    static createConnectedAgentTool(id: string, name: string, description: string): {
+        definition: ConnectedAgentToolDefinition;
     };
     static createConnectionTool(toolType: connectionToolType, connectionIds: string[]): {
         definition: ToolDefinitionUnion;
@@ -1519,23 +1553,6 @@ export interface UpdateAgentOptionalParams extends OperationOptions {
     toolResources?: ToolResources;
     tools?: ToolDefinitionUnion[];
     topP?: number | null;
-}
-
-// @public
-export interface UpdateCodeInterpreterToolResourceOptions {
-    fileIds?: string[];
-}
-
-// @public
-export interface UpdateFileSearchToolResourceOptions {
-    vectorStoreIds?: string[];
-}
-
-// @public
-export interface UpdateToolResourcesOptions {
-    azureAISearch?: AzureAISearchResource;
-    codeInterpreter?: UpdateCodeInterpreterToolResourceOptions;
-    fileSearch?: UpdateFileSearchToolResourceOptions;
 }
 
 // @public

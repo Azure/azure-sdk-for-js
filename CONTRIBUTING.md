@@ -262,7 +262,7 @@ Our libraries follow the [TypeScript SDK design guidelines](https://azure.github
 - [add `eslint` to your `devDependencies`](https://github.com/Azure/azure-sdk-for-js/blob/8ec9801c17b175573a115fc8b2d6cbaeb17b0b09/sdk/template/template/package.json#L106)
 - [add `eslint-plugin-azure-sdk` to your `devDependencies`](https://github.com/Azure/azure-sdk-for-js/blob/8ec9801c17b175573a115fc8b2d6cbaeb17b0b09/sdk/template/template/package.json#L93)
 - add a linting npm script as follows:
-  - ["lint": "eslint package.json api-extractor.json src test"](https://github.com/Azure/azure-sdk-for-js/blob/8ec9801c17b175573a115fc8b2d6cbaeb17b0b09/sdk/template/template/package.json#L49)
+  - ["lint": "eslint package.json src test"](https://github.com/Azure/azure-sdk-for-js/blob/8ec9801c17b175573a115fc8b2d6cbaeb17b0b09/sdk/template/template/package.json#L49)
 
 You can run the plugin by executing `rushx lint` inside your package directory. You need to build the plugin at least once either directly via `rush build -t eslint-plugin-azure-sdk`, or indirectly as your package's dependency by `rush build -t .` under your package directory.
 

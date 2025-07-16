@@ -18,12 +18,13 @@ import type {
   VectorStoreDataSource,
   OpenApiFunctionDefinition,
   AISearchIndexResource,
-  BingGroundingToolDefinition,
-  MicrosoftFabricToolDefinition,
-  BingCustomSearchToolDefinition,
   BingCustomSearchConfiguration,
-  SharepointToolDefinition,
+  BingCustomSearchToolDefinition,
+  BingGroundingToolDefinition,
   BingGroundingSearchConfiguration,
+  ConnectedAgentToolDefinition,
+  MicrosoftFabricToolDefinition,
+  SharepointToolDefinition,
 } from "./index.js";
 
 /**
@@ -240,6 +241,28 @@ export class ToolUtility {
   }
 
   /**
+   * Creates a connected agent tool
+   *
+   * @returns An object containing the definition for the connected agent tool.
+   */
+  static createConnectedAgentTool(
+    id: string,
+    name: string,
+    description: string,
+  ): { definition: ConnectedAgentToolDefinition } {
+    return {
+      definition: {
+        type: "connected_agent",
+        connectedAgent: {
+          id: id,
+          name: name,
+          description: description,
+        },
+      },
+    };
+  }
+
+  /**
    * Creates a Microsoft Fabric tool
    *
    * @param connectionIds - A list of the IDs of the Fabric connections to use.
@@ -407,6 +430,24 @@ export class ToolSet {
     definition: BingGroundingToolDefinition;
   } {
     const tool = ToolUtility.createBingGroundingTool(searchConfigurations);
+    this.toolDefinitions.push(tool.definition);
+    return tool;
+  }
+
+  /**
+   * Adds a connected agent tool to the tool set.
+   *
+   * @param id - The ID of the connected agent.
+   * @param name - The name of the connected agent.
+   * @param description - The description of the connected agent.
+   * @returns An object containing the definition for the connected agent tool
+   */
+  addConnectedAgentTool(
+    id: string,
+    name: string,
+    description: string,
+  ): { definition: ConnectedAgentToolDefinition } {
+    const tool = ToolUtility.createConnectedAgentTool(id, name, description);
     this.toolDefinitions.push(tool.definition);
     return tool;
   }

@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import {
+import type {
   ToolDefinitionUnion,
   AgentsResponseFormatOption,
   ThreadMessageOptions,
@@ -10,8 +10,8 @@ import {
   ListSortOrder,
   RunAdditionalFieldList,
 } from "../../models/models.js";
-import { OperationOptions } from "@azure-rest/core-client";
-import { PollingOptionsParams } from "../options.js";
+import type { OperationOptions } from "@azure-rest/core-client";
+import type { PollingOptionsParams } from "../options.js";
 
 /** Optional parameters. */
 export interface RunsCancelRunOptionalParams extends OperationOptions {}

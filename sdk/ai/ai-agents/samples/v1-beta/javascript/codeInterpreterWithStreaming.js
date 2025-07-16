@@ -13,13 +13,11 @@ const {
   DoneEvent,
   ErrorEvent,
   AgentsClient,
-  isOutputOfType,
   ToolUtility,
 } = require("@azure/ai-agents");
 const { DefaultAzureCredential } = require("@azure/identity");
 
-const fs = require("fs");
-const path = require("node:path");
+const fs = require("node:fs");
 require("dotenv/config");
 
 const projectEndpoint = process.env["PROJECT_ENDPOINT"] || "<project endpoint>";
@@ -30,7 +28,7 @@ async function main() {
   const client = new AgentsClient(projectEndpoint, new DefaultAzureCredential());
 
   // Upload file and wait for it to be processed
-  const filePath = "./data/nifty500QuarterlyResults.csv";
+  const filePath = "./data/syntheticCompanyQuarterlyResults.csv";
   const localFileStream = fs.createReadStream(filePath);
   const localFile = await client.files.upload(localFileStream, "assistants", {
     fileName: "myLocalFile",
@@ -74,13 +72,15 @@ async function main() {
       case MessageStreamEvent.ThreadMessageDelta:
         {
           const messageDelta = eventMessage.data;
-          messageDelta.delta.content.forEach((contentPart) => {
-            if (contentPart.type === "text") {
-              const textContent = contentPart;
-              const textValue = textContent.text?.value || "No text";
-              console.log(`Text delta received:: ${textValue}`);
-            }
-          });
+          if (messageDelta.delta && messageDelta.delta.content) {
+            messageDelta.delta.content.forEach((contentPart) => {
+              if (contentPart.type === "text") {
+                const textContent = contentPart;
+                const textValue = textContent.text?.value || "No text";
+                console.log(`Text delta received:: ${textValue}`);
+              }
+            });
+          }
         }
         break;
 
@@ -102,53 +102,9 @@ async function main() {
 
   // Print the messages from the agent
   const messagesIterator = client.messages.list(thread.id);
-  const messagesArray = [];
   for await (const m of messagesIterator) {
-    messagesArray.push(m);
+    console.log(`Role: ${m.role}, Content: ${m.content}`);
   }
-  console.log("Messages:", messagesArray);
-
-  // Get most recent message from the assistant
-  const assistantMessage = messagesArray.find((msg) => msg.role === "assistant");
-  if (assistantMessage) {
-    const textContent = assistantMessage.content.find((content) => isOutputOfType(content, "text"));
-    if (textContent) {
-      // Save the newly created file
-      console.log(`Saving new files...`);
-      const imageFileOutput = messagesArray[0].content[0];
-      const imageFile = imageFileOutput.imageFile.fileId;
-      const imageFileName = path.resolve(
-        "./data/" + (await client.files.get(imageFile)).filename + "ImageFile.png",
-      );
-      console.log(`Image file name : ${imageFileName}`);
-
-      const fileContent = await (await client.files.getContent(imageFile).asNodeStream()).body;
-      if (fileContent) {
-        const chunks = [];
-        for await (const chunk of fileContent) {
-          chunks.push(Buffer.isBuffer(chunk) ? chunk : Buffer.from(chunk));
-        }
-        const buffer = Buffer.concat(chunks);
-        fs.writeFileSync(imageFileName, buffer);
-      } else {
-        console.log("No file content available");
-      }
-    }
-  }
-
-  // Iterate through messages and print details for each annotation
-  console.log(`Message Details:`);
-  messagesArray.forEach((m) => {
-    console.log(`File Paths:`);
-    console.log(`Type: ${m.content[0].type}`);
-    if (isOutputOfType(m.content[0], "text")) {
-      const textContent = m.content[0];
-      console.log(`Text: ${textContent.text.value}`);
-    }
-    console.log(`File ID: ${m.id}`);
-    // firstId and lastId are properties of the paginator, not the messages array
-    // Removing these references as they don't exist in this context
-  });
 
   // Delete the agent once done
   await client.deleteAgent(agent.id);
