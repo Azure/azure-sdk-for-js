@@ -20,6 +20,11 @@ const client = new CosmosClient({
 });
 ```
 
+### Bugs Fixed
+
+- [#35054](https://github.com/Azure/azure-sdk-for-js/pull/35054) Fixed an issue with COUNTIF aggregation which ensures that partial results from multiple partitions or batches are correctly summed, producing accurate results for COUNTIF queries.
+- [#35056](https://github.com/Azure/azure-sdk-for-js/pull/35056) Moved `@azure/logger` from the devDependencies to the runtime dependencies in the Cosmos DB client package, ensuring that client loggers can be created at runtime.
+
 ## 4.4.1 (2025-05-15)
 
 ### Bugs Fixed
