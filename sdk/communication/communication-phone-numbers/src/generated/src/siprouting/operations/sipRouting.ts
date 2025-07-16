@@ -10,23 +10,25 @@ import { SipRouting } from "../operationsInterfaces/index.js";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers.js";
 import * as Parameters from "../models/parameters.js";
-import { SipRoutingClientContext } from "../sipRoutingClientContext.js";
+import { SipRoutingClient } from "../sipRoutingClient.js";
 import {
   SipRoutingGetOptionalParams,
   SipRoutingGetResponse,
   SipRoutingUpdateOptionalParams,
-  SipRoutingUpdateResponse
+  SipRoutingUpdateResponse,
+  SipRoutingTestRoutesWithNumberOptionalParams,
+  SipRoutingTestRoutesWithNumberResponse,
 } from "../models/index.js";
 
 /** Class containing SipRouting operations. */
 export class SipRoutingImpl implements SipRouting {
-  private readonly client: SipRoutingClientContext;
+  private readonly client: SipRoutingClient;
 
   /**
    * Initialize a new instance of the class SipRouting class.
    * @param client Reference to the service client
    */
-  constructor(client: SipRoutingClientContext) {
+  constructor(client: SipRoutingClient) {
     this.client = client;
   }
 
@@ -43,9 +45,24 @@ export class SipRoutingImpl implements SipRouting {
    * @param options The options parameters.
    */
   update(
-    options?: SipRoutingUpdateOptionalParams
+    options?: SipRoutingUpdateOptionalParams,
   ): Promise<SipRoutingUpdateResponse> {
     return this.client.sendOperationRequest({ options }, updateOperationSpec);
+  }
+
+  /**
+   * Gets the list of routes matching the target phone number, ordered by priority.
+   * @param targetPhoneNumber Phone number to test routing patterns against
+   * @param options The options parameters.
+   */
+  testRoutesWithNumber(
+    targetPhoneNumber: string,
+    options?: SipRoutingTestRoutesWithNumberOptionalParams,
+  ): Promise<SipRoutingTestRoutesWithNumberResponse> {
+    return this.client.sendOperationRequest(
+      { targetPhoneNumber, options },
+      testRoutesWithNumberOperationSpec,
+    );
   }
 }
 // Operation Specifications
@@ -56,40 +73,66 @@ const getOperationSpec: coreClient.OperationSpec = {
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.SipConfiguration
+      bodyMapper: Mappers.SipConfiguration,
     },
     default: {
       bodyMapper: Mappers.CommunicationErrorResponse,
-      headersMapper: Mappers.SipRoutingGetExceptionHeaders
-    }
+      headersMapper: Mappers.SipRoutingGetExceptionHeaders,
+    },
   },
-  queryParameters: [Parameters.apiVersion],
+  queryParameters: [Parameters.apiVersion, Parameters.expand],
   urlParameters: [Parameters.endpoint],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const updateOperationSpec: coreClient.OperationSpec = {
   path: "/sip",
   httpMethod: "PATCH",
   responses: {
     200: {
-      bodyMapper: Mappers.SipConfiguration
+      bodyMapper: Mappers.SipConfiguration,
     },
     default: {
       bodyMapper: Mappers.CommunicationErrorResponse,
-      headersMapper: Mappers.SipRoutingUpdateExceptionHeaders
-    }
+      headersMapper: Mappers.SipRoutingUpdateExceptionHeaders,
+    },
   },
   requestBody: {
     parameterPath: {
+      domains: ["options", "domains"],
       trunks: ["options", "trunks"],
-      routes: ["options", "routes"]
+      routes: ["options", "routes"],
     },
-    mapper: Mappers.SipConfigurationUpdate
+    mapper: Mappers.SipConfigurationUpdate,
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.endpoint],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
+};
+const testRoutesWithNumberOperationSpec: coreClient.OperationSpec = {
+  path: "/sip:testRoutesWithNumber",
+  httpMethod: "POST",
+  responses: {
+    200: {
+      bodyMapper: Mappers.RoutesForNumber,
+    },
+    default: {
+      bodyMapper: Mappers.CommunicationErrorResponse,
+    },
+  },
+  requestBody: {
+    parameterPath: {
+      domains: ["options", "domains"],
+      trunks: ["options", "trunks"],
+      routes: ["options", "routes"],
+    },
+    mapper: Mappers.SipConfiguration,
+  },
+  queryParameters: [Parameters.apiVersion, Parameters.targetPhoneNumber],
+  urlParameters: [Parameters.endpoint],
+  headerParameters: [Parameters.accept, Parameters.contentType1],
+  mediaType: "json",
+  serializer,
 };

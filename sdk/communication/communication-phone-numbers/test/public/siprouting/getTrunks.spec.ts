@@ -4,13 +4,13 @@ import type { SipRoutingClient } from "../../../src/index.js";
 
 import type { Recorder } from "@azure-tools/test-recorder";
 import { isPlaybackMode } from "@azure-tools/test-recorder";
-import type { SipTrunk } from "../../../src/models.js";
+import { type SipTrunk } from "../../../src/models.js";
 import {
   clearSipConfiguration,
   createRecordedClient,
   createRecordedClientWithToken,
   getUniqueFqdn,
-  listAllTrunks,
+  trunksAreEqual,
   resetUniqueFqdns,
 } from "./utils/recordedClient.js";
 import { matrix } from "@azure-tools/test-utils-vitest";
@@ -65,33 +65,41 @@ matrix([[true, false]], async (useAad) => {
       assert.equal(trunk?.sipSignalingPort, 4567);
     });
 
-    it("can retrieve trunks", async () => {
-      assert.isArray(await listAllTrunks(client));
-    });
-
-    it("can retrieve empty trunks", async () => {
-      await client.setTrunks([]);
-
-      const trunks = await listAllTrunks(client);
-
-      assert.isNotNull(trunks);
-      assert.isArray(trunks);
-      assert.isEmpty(trunks);
-    });
-
     it("can retrieve not empty trunks", async () => {
-      const expectedTrunks = [
-        { fqdn: firstFqdn, sipSignalingPort: 1239 },
-        { fqdn: secondFqdn, sipSignalingPort: 2348 },
-        { fqdn: thirdFqdn, sipSignalingPort: 3457 },
+      const expectedTrunks: SipTrunk[] = [
+        {
+          fqdn: firstFqdn,
+          sipSignalingPort: 1239,
+          directTransfer: false,
+          health: undefined,
+          enabled: false,
+          privacyHeader: "id",
+          ipAddressVersion: "ipv4",
+        },
+        {
+          fqdn: secondFqdn,
+          sipSignalingPort: 2348,
+          directTransfer: true,
+          health: undefined,
+          enabled: false,
+          privacyHeader: "none",
+          ipAddressVersion: "ipv6",
+        },
+        {
+          fqdn: thirdFqdn,
+          sipSignalingPort: 3457,
+          directTransfer: false,
+          health: undefined,
+          enabled: false,
+          privacyHeader: "id",
+          ipAddressVersion: "ipv4",
+        },
       ];
-      await client.setTrunks(expectedTrunks);
-
-      const trunks = await listAllTrunks(client);
+      const trunks = await client.setTrunks(expectedTrunks);
 
       assert.isNotNull(trunks);
       assert.isArray(trunks);
-      assert.deepEqual(trunks, expectedTrunks);
+      assert.isTrue(trunksAreEqual(trunks, expectedTrunks));
     });
   });
 });

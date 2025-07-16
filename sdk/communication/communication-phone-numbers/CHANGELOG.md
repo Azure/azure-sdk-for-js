@@ -1,5 +1,15 @@
 # Release History
 
+## 1.5.0-beta.1 (2025-07-20)
+
+### Features Added
+- Public preview release of version `1.3.1-alpha.20250428.1`
+- Added support for the SIP API version `2024-11-15-preview`, giving users the ability to:
+  - Manage trunk-level settings to `SipTrunk` and `SipTrunkRoute` models.
+  - Retrieve Trunk health for `SipTrunk` models.
+  - Manage SIP Domains.
+  - Filter collection of `SipTrunkRoute` objects based on target phone number.
+
 ## 1.4.0 (2025-06-20)
 
 ### Features Added
@@ -16,6 +26,16 @@
 - Adds support for automated purchases of phone numbers from countries requiring a Do Not Resell agreement.
   - For more information, refer to: https://learn.microsoft.com/azure/communication-services/concepts/numbers/sub-eligibility-number-capability
 - API version `2025-04-01` is the default.
+
+## 1.3.1-alpha.20250428.1 (2025-04-28)
+
+### Features Added
+
+- Added support for the SIP API version `2024-11-15-preview`, giving users the ability to:
+  - Manage trunk-level settings to `SipTrunk` and `SipTrunkRoute` models.
+  - Retrieve Trunk health for `SipTrunk` models.
+  - Manage SIP Domains.
+  - Filter collection of `SipTrunkRoute` objects based on target phone number.
 
 ## 1.3.0 (2025-02-11)
 
