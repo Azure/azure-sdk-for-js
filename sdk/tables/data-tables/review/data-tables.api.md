@@ -395,6 +395,7 @@ export class TableServiceClient {
 export type TableServiceClientOptions = CommonClientOptions & {
     endpoint?: string;
     version?: string;
+    audience?: string;
 };
 
 // @public
