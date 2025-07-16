@@ -1,5 +1,15 @@
 # Release History
 
+## 1.5.0-beta.1 (2025-07-20)
+
+### Features Added
+- Public preview release of version `1.3.1-alpha.20250428.1`
+- Added support for the SIP API version `2024-11-15-preview`, giving users the ability to:
+  - Manage trunk-level settings to `SipTrunk` and `SipTrunkRoute` models.
+  - Retrieve Trunk health for `SipTrunk` models.
+  - Manage SIP Domains.
+  - Filter collection of `SipTrunkRoute` objects based on target phone number.
+
 ## 1.4.0 (2025-06-20)
 
 ### Features Added
