@@ -2545,7 +2545,7 @@ packages:
     version: 0.0.0
 
   '@rush-temp/ai-projects@file:projects/ai-projects.tgz':
-    resolution: {integrity: sha512-FF2SMnf37YqznC8eqWwS8Ddeo4SXECZUeMP5hWZ9suxS6NiRYup3pDQNwSY3vzFcvsriJbmHdDPgnfLzmmRVnQ==, tarball: file:projects/ai-projects.tgz}
+    resolution: {integrity: sha512-yLc3ufJZ0mBMsu5WwARubuHmAdx5QQyohZ6HkVNQev18V4hCE38279bl+JbS+cRcOBLtiy//tFGHf9Bdq6KbhQ==, tarball: file:projects/ai-projects.tgz}
     version: 0.0.0
 
   '@rush-temp/ai-text-analytics@file:projects/ai-text-analytics.tgz':
@@ -2961,7 +2961,7 @@ packages:
     version: 0.0.0
 
   '@rush-temp/arm-elasticsan@file:projects/arm-elasticsan.tgz':
-    resolution: {integrity: sha512-VhW8ITf46CcJ+6LwxxRRKow5JPdI1XkST3Acgtx0JszHxVXa9rVX8cPxRXObF0wk7M0FPVeOOUWk6uKIVZ42JQ==, tarball: file:projects/arm-elasticsan.tgz}
+    resolution: {integrity: sha512-HVJo/J3oSR1EA0OVYsn0lwVi9kr1fveVatic/V+y5QG015nZgP9wk9lfqMrMpfVsc3sTa51Ji4nBFjDxN64w/g==, tarball: file:projects/arm-elasticsan.tgz}
     version: 0.0.0
 
   '@rush-temp/arm-eventgrid@file:projects/arm-eventgrid.tgz':
@@ -3953,7 +3953,7 @@ packages:
     version: 0.0.0
 
   '@rush-temp/monitor-ingestion@file:projects/monitor-ingestion.tgz':
-    resolution: {integrity: sha512-dDJ9dIgfT35g60gD4kLePe83cBOBdfflqNclgSKYV6DE4T6Qv6V0MCxfdCobxuImkYKzYHj0g/6eS3p8LkJL8w==, tarball: file:projects/monitor-ingestion.tgz}
+    resolution: {integrity: sha512-rYTWw8I1YpWry1hRzVW4wur7N/g0FqNu5PPMoIBazf/p35yI8+8LAWi4SSh5DtlBHOEA8YSyPfG0mqw2g3thCQ==, tarball: file:projects/monitor-ingestion.tgz}
     version: 0.0.0
 
   '@rush-temp/monitor-opentelemetry-exporter@file:projects/monitor-opentelemetry-exporter.tgz':
@@ -13114,11 +13114,11 @@ snapshots:
 
   '@rush-temp/arm-elasticsan@file:projects/arm-elasticsan.tgz(@types/debug@4.1.12)(tsx@4.20.3)(vite@6.3.5(@types/node@22.7.9)(tsx@4.20.3)(yaml@2.8.0))(yaml@2.8.0)':
     dependencies:
-      '@azure/core-lro': 2.7.2
       '@types/node': 20.19.1
       '@vitest/browser': 3.2.4(playwright@1.53.1)(vite@6.3.5(@types/node@22.7.9)(tsx@4.20.3)(yaml@2.8.0))(vitest@3.2.4)
       '@vitest/coverage-istanbul': 3.2.4(vitest@3.2.4)
       dotenv: 16.5.0
+      eslint: 9.29.0
       playwright: 1.53.1
       tslib: 2.8.1
       typescript: 5.8.3
