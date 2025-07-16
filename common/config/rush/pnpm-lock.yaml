@@ -730,6 +730,9 @@ importers:
       '@rush-temp/arm-resourcesbicep':
         specifier: file:./projects/arm-resourcesbicep.tgz
         version: file:projects/arm-resourcesbicep.tgz(@types/debug@4.1.12)(tsx@4.20.3)(vite@6.3.5(@types/node@22.7.9)(tsx@4.20.3)(yaml@2.8.0))(yaml@2.8.0)
+      '@rush-temp/arm-resourcesdeployments':
+        specifier: file:./projects/arm-resourcesdeployments.tgz
+        version: file:projects/arm-resourcesdeployments.tgz(@types/debug@4.1.12)(tsx@4.20.3)(vite@6.3.5(@types/node@22.7.9)(tsx@4.20.3)(yaml@2.8.0))(yaml@2.8.0)
       '@rush-temp/arm-resourcesdeploymentstacks':
         specifier: file:./projects/arm-resourcesdeploymentstacks.tgz
         version: file:projects/arm-resourcesdeploymentstacks.tgz(@types/debug@4.1.12)(tsx@4.20.3)(vite@6.3.5(@types/node@22.7.9)(tsx@4.20.3)(yaml@2.8.0))(yaml@2.8.0)
@@ -3454,6 +3457,10 @@ packages:
 
   '@rush-temp/arm-resourcesbicep@file:projects/arm-resourcesbicep.tgz':
     resolution: {integrity: sha512-tDlb1PDyGWeM7YU8PodJbWNpYGMono1GDaCwqRpqt5ra8BswTXkCTznfese+VRg5ZimaGmbAjiITmd3gUElMRQ==, tarball: file:projects/arm-resourcesbicep.tgz}
+    version: 0.0.0
+
+  '@rush-temp/arm-resourcesdeployments@file:projects/arm-resourcesdeployments.tgz':
+    resolution: {integrity: sha512-b9iX9DLbiqQLHKUETybnobqDNffRgk43hUg6PFDRHzHtfNBjLURLkRpqle+pvl7eMlHDGf2ft3PuLvTsBB0JJQ==, tarball: file:projects/arm-resourcesdeployments.tgz}
     version: 0.0.0
 
   '@rush-temp/arm-resourcesdeploymentstacks@file:projects/arm-resourcesdeploymentstacks.tgz':
@@ -17396,6 +17403,41 @@ snapshots:
       '@vitest/coverage-istanbul': 3.2.4(vitest@3.2.4)
       dotenv: 16.5.0
       eslint: 9.29.0
+      playwright: 1.53.1
+      tslib: 2.8.1
+      typescript: 5.8.3
+      vitest: 3.2.4(@types/debug@4.1.12)(@types/node@20.19.1)(@vitest/browser@3.2.4)(tsx@4.20.3)(yaml@2.8.0)
+    transitivePeerDependencies:
+      - '@edge-runtime/vm'
+      - '@types/debug'
+      - '@vitest/ui'
+      - bufferutil
+      - happy-dom
+      - jiti
+      - jsdom
+      - less
+      - lightningcss
+      - msw
+      - safaridriver
+      - sass
+      - sass-embedded
+      - stylus
+      - sugarss
+      - supports-color
+      - terser
+      - tsx
+      - utf-8-validate
+      - vite
+      - webdriverio
+      - yaml
+
+  '@rush-temp/arm-resourcesdeployments@file:projects/arm-resourcesdeployments.tgz(@types/debug@4.1.12)(tsx@4.20.3)(vite@6.3.5(@types/node@22.7.9)(tsx@4.20.3)(yaml@2.8.0))(yaml@2.8.0)':
+    dependencies:
+      '@azure/core-lro': 2.7.2
+      '@types/node': 20.19.1
+      '@vitest/browser': 3.2.4(playwright@1.53.1)(vite@6.3.5(@types/node@22.7.9)(tsx@4.20.3)(yaml@2.8.0))(vitest@3.2.4)
+      '@vitest/coverage-istanbul': 3.2.4(vitest@3.2.4)
+      dotenv: 16.5.0
       playwright: 1.53.1
       tslib: 2.8.1
       typescript: 5.8.3
