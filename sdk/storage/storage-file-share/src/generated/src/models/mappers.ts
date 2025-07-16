@@ -614,6 +614,97 @@ export const SharePropertiesInternal: coreClient.CompositeMapper = {
   },
 };
 
+export const KeyInfo: coreClient.CompositeMapper = {
+  serializedName: "KeyInfo",
+  type: {
+    name: "Composite",
+    className: "KeyInfo",
+    modelProperties: {
+      start: {
+        serializedName: "Start",
+        xmlName: "Start",
+        type: {
+          name: "String",
+        },
+      },
+      expiry: {
+        serializedName: "Expiry",
+        required: true,
+        xmlName: "Expiry",
+        type: {
+          name: "String",
+        },
+      },
+    },
+  },
+};
+
+export const UserDelegationKey: coreClient.CompositeMapper = {
+  serializedName: "UserDelegationKey",
+  type: {
+    name: "Composite",
+    className: "UserDelegationKey",
+    modelProperties: {
+      signedOid: {
+        serializedName: "SignedOid",
+        required: true,
+        xmlName: "SignedOid",
+        type: {
+          name: "String",
+        },
+      },
+      signedTid: {
+        serializedName: "SignedTid",
+        required: true,
+        xmlName: "SignedTid",
+        type: {
+          name: "String",
+        },
+      },
+      signedStart: {
+        serializedName: "SignedStart",
+        required: true,
+        xmlName: "SignedStart",
+        type: {
+          name: "DateTime",
+        },
+      },
+      signedExpiry: {
+        serializedName: "SignedExpiry",
+        required: true,
+        xmlName: "SignedExpiry",
+        type: {
+          name: "DateTime",
+        },
+      },
+      signedService: {
+        serializedName: "SignedService",
+        required: true,
+        xmlName: "SignedService",
+        type: {
+          name: "String",
+        },
+      },
+      signedVersion: {
+        serializedName: "SignedVersion",
+        required: true,
+        xmlName: "SignedVersion",
+        type: {
+          name: "String",
+        },
+      },
+      value: {
+        serializedName: "Value",
+        required: true,
+        xmlName: "Value",
+        type: {
+          name: "String",
+        },
+      },
+    },
+  },
+};
+
 export const SharePermission: coreClient.CompositeMapper = {
   serializedName: "SharePermission",
   type: {
@@ -1395,6 +1486,62 @@ export const ServiceListSharesSegmentExceptionHeaders: coreClient.CompositeMappe
     type: {
       name: "Composite",
       className: "ServiceListSharesSegmentExceptionHeaders",
+      modelProperties: {
+        errorCode: {
+          serializedName: "x-ms-error-code",
+          xmlName: "x-ms-error-code",
+          type: {
+            name: "String",
+          },
+        },
+      },
+    },
+  };
+
+export const ServiceGetUserDelegationKeyHeaders: coreClient.CompositeMapper = {
+  serializedName: "Service_getUserDelegationKeyHeaders",
+  type: {
+    name: "Composite",
+    className: "ServiceGetUserDelegationKeyHeaders",
+    modelProperties: {
+      clientRequestId: {
+        serializedName: "x-ms-client-request-id",
+        xmlName: "x-ms-client-request-id",
+        type: {
+          name: "String",
+        },
+      },
+      requestId: {
+        serializedName: "x-ms-request-id",
+        xmlName: "x-ms-request-id",
+        type: {
+          name: "String",
+        },
+      },
+      version: {
+        serializedName: "x-ms-version",
+        xmlName: "x-ms-version",
+        type: {
+          name: "String",
+        },
+      },
+      date: {
+        serializedName: "date",
+        xmlName: "date",
+        type: {
+          name: "DateTimeRfc1123",
+        },
+      },
+    },
+  },
+};
+
+export const ServiceGetUserDelegationKeyExceptionHeaders: coreClient.CompositeMapper =
+  {
+    serializedName: "Service_getUserDelegationKeyExceptionHeaders",
+    type: {
+      name: "Composite",
+      className: "ServiceGetUserDelegationKeyExceptionHeaders",
       modelProperties: {
         errorCode: {
           serializedName: "x-ms-error-code",

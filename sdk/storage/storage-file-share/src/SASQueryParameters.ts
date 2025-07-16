@@ -1,6 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
+import { UserDelegationKey } from "@azure/storage-common";
 import type { SasIPRange } from "./SasIPRange.js";
 import { ipRangeToString } from "./SasIPRange.js";
 import { truncatedISO8061Date } from "./utils/utils.common.js";
@@ -111,6 +112,12 @@ export class SASQueryParameters {
    */
   public readonly contentType?: string;
 
+  public readonly userDelegationKey?: UserDelegationKey;
+
+  public readonly preauthorizedAgentObjectId?: string;
+
+  public readonly correlationId?: string;
+
   /**
    * Inner value of getter ipRange.
    */
@@ -168,6 +175,8 @@ export class SASQueryParameters {
     contentEncoding?: string,
     contentLanguage?: string,
     contentType?: string,
+    userDelegationKey?: UserDelegationKey,
+    preauthorizedAgentObjectId?: string,
   ) {
     this.version = version;
     this.services = services;
