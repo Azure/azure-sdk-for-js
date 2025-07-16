@@ -38,6 +38,7 @@ describe("SipRoutingClient - headers", () => {
 
   it("sets correct default user-agent", () => {
     const userAgentHeader = isNodeLike ? "user-agent" : "x-ms-useragent";
+    console.log(`Actual User-Agent: ${request.headers.get(userAgentHeader)}`);
     assert.match(
       request.headers.get(userAgentHeader) as string,
       new RegExp(`azsdk-js-communication-phone-numbers/${SDK_VERSION}`, "g"),
@@ -108,6 +109,7 @@ describe("SipRoutingClient - headers", () => {
     request = spy.mock.calls[0][0];
 
     const userAgentHeader = isNodeLike ? "user-agent" : "x-ms-useragent";
+    console.log(`Actual User-Agent: ${request.headers.get(userAgentHeader)}`);
     assert.match(
       request.headers.get(userAgentHeader) as string,
       new RegExp(
