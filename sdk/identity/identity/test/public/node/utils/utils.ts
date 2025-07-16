@@ -1,9 +1,9 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import * as fs from "node:fs";
-import * as net from "node:net";
-import * as tls from "node:tls";
+import fs from "node:fs";
+import net from "node:net";
+import tls from "node:tls";
 
 import jwt from "jsonwebtoken";
 import ms from "ms";

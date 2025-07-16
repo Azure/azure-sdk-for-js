@@ -10,7 +10,7 @@ import {
 import { ServiceErrorMessageConstants } from "../common/messages.js";
 import { coreLogger } from "../common/logger.js";
 import type { TokenCredential } from "@azure/core-auth";
-import * as process from "node:process";
+import process from "node:process";
 import path from "node:path";
 import { randomUUID } from "node:crypto";
 import { parseJwt } from "./parseJwt.js";
