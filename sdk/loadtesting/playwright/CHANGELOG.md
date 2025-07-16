@@ -6,12 +6,6 @@
 
 - Implemented a PATCH request to initiate a test run upon user start.
 
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
-
 ## 1.0.0-beta.1 (2025-06-30)
 
 ### Features Added
