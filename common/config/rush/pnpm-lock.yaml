@@ -2512,7 +2512,7 @@ packages:
     version: 0.0.0
 
   '@rush-temp/ai-anomaly-detector@file:projects/ai-anomaly-detector.tgz':
-    resolution: {integrity: sha512-aAmwQE0Xqna13jnOuhvbJ/L7bjekthtdz409cFKj/Vfo/T8hsiq5GL2dPirCv675ycBVmQ76vQ4N6pl2CILI5w==, tarball: file:projects/ai-anomaly-detector.tgz}
+    resolution: {integrity: sha512-Y1Aen/ZvUfxLGc+FpUbsV2zsWzmnV3dBphX5Y3zQsVmXUIrd7VBZPVVmRoWpYt8AcimJqbSJlgqxK/2x7xGYpQ==, tarball: file:projects/ai-anomaly-detector.tgz}
     version: 0.0.0
 
   '@rush-temp/ai-content-safety@file:projects/ai-content-safety.tgz':
@@ -2548,7 +2548,7 @@ packages:
     version: 0.0.0
 
   '@rush-temp/ai-projects@file:projects/ai-projects.tgz':
-    resolution: {integrity: sha512-FF2SMnf37YqznC8eqWwS8Ddeo4SXECZUeMP5hWZ9suxS6NiRYup3pDQNwSY3vzFcvsriJbmHdDPgnfLzmmRVnQ==, tarball: file:projects/ai-projects.tgz}
+    resolution: {integrity: sha512-yLc3ufJZ0mBMsu5WwARubuHmAdx5QQyohZ6HkVNQev18V4hCE38279bl+JbS+cRcOBLtiy//tFGHf9Bdq6KbhQ==, tarball: file:projects/ai-projects.tgz}
     version: 0.0.0
 
   '@rush-temp/ai-text-analytics@file:projects/ai-text-analytics.tgz':
@@ -3960,7 +3960,7 @@ packages:
     version: 0.0.0
 
   '@rush-temp/monitor-ingestion@file:projects/monitor-ingestion.tgz':
-    resolution: {integrity: sha512-dDJ9dIgfT35g60gD4kLePe83cBOBdfflqNclgSKYV6DE4T6Qv6V0MCxfdCobxuImkYKzYHj0g/6eS3p8LkJL8w==, tarball: file:projects/monitor-ingestion.tgz}
+    resolution: {integrity: sha512-rYTWw8I1YpWry1hRzVW4wur7N/g0FqNu5PPMoIBazf/p35yI8+8LAWi4SSh5DtlBHOEA8YSyPfG0mqw2g3thCQ==, tarball: file:projects/monitor-ingestion.tgz}
     version: 0.0.0
 
   '@rush-temp/monitor-opentelemetry-exporter@file:projects/monitor-opentelemetry-exporter.tgz':
@@ -4088,7 +4088,7 @@ packages:
     version: 0.0.0
 
   '@rush-temp/playwright@file:projects/playwright.tgz':
-    resolution: {integrity: sha512-JxNXnEk0HlSFXMG21Qzb3P3uOKv17o0JCwhVEsQJ/fKQGFLUN4OcuikdYkWfby8aj9fo1kBDArYgLz6mp/277g==, tarball: file:projects/playwright.tgz}
+    resolution: {integrity: sha512-TEqdyoGpm5lU/PAU7U66lWM57RtL8eKpGb6kmCKHRrkmsZcNE+YfzggFc2rRT1CKCn6z5aSFtkw0CTdlzJA1cw==, tarball: file:projects/playwright.tgz}
     version: 0.0.0
 
   '@rush-temp/purview-administration@file:projects/purview-administration.tgz':
@@ -4144,7 +4144,7 @@ packages:
     version: 0.0.0
 
   '@rush-temp/storage-common@file:projects/storage-common.tgz':
-    resolution: {integrity: sha512-gcZIug5dnkYKOjyXDL45U2JxC5rGDjW+QHM3hNskLLIhKQ9w6F5GETUBFIrFHHmgD2Re2SyAIc5LTQMvtvZIhw==, tarball: file:projects/storage-common.tgz}
+    resolution: {integrity: sha512-shnl9mCWAyAaDgEPvLlAg/mginc+CB12D0h9kr6dfYJv6M8sHLD1OvIAtEziWcMlNSEtlTUd4APv/I+4Gi55rg==, tarball: file:projects/storage-common.tgz}
     version: 0.0.0
 
   '@rush-temp/storage-file-datalake@file:projects/storage-file-datalake.tgz':
@@ -4160,7 +4160,7 @@ packages:
     version: 0.0.0
 
   '@rush-temp/storage-queue@file:projects/storage-queue.tgz':
-    resolution: {integrity: sha512-kpfSSK1ELQ1N7w6B/gwm5YQpaZcT91Gub+KDGB/mOHTVAvRf/Km3osRsl6UB3SoLIDZNcp3pvD44s9kOotoOXA==, tarball: file:projects/storage-queue.tgz}
+    resolution: {integrity: sha512-j0+zBrkcXK5nEDe/jvrkL830IUx0IerHJhwaqPsciSx7Evv3kbmmzb0yPnnfcZ0VeyeOJu7syjEe5FEZMijdbw==, tarball: file:projects/storage-queue.tgz}
     version: 0.0.0
 
   '@rush-temp/synapse-access-control-1@file:projects/synapse-access-control-1.tgz':
@@ -4990,8 +4990,8 @@ packages:
     resolution: {integrity: sha512-uV2QOWP2nWzsy2aMp8aRibhi9dlzF5Hgh5SHaB9OiTGEyDTiJJyx0uy51QXdyWbtAHNua4XJzUKca3OzKUd3vA==}
     engines: {node: '>= 8'}
 
-  csv-parse@5.6.0:
-    resolution: {integrity: sha512-l3nz3euub2QMg5ouu5U09Ew9Wf6/wQ8I++ch1loQ0ljmzhmfZYrH9fflS22i/PQEvsPvxCwxgz5q7UB8K1JO4Q==}
+  csv-parse@6.0.0:
+    resolution: {integrity: sha512-6aB9WrymEruVDwQOwa5AuYk4/Gb+HaJgLHGKOA9BXTqgsIFvbdHzQzZOuqNCOooTGciPDaHzTlGkU5P6kYVUYw==}
 
   date-fns@2.30.0:
     resolution: {integrity: sha512-fnULvOpxnC5/Vg3NCiWelDsLiUc9bRwAPs/+LfTLNvetFCtCTN+yQz15C/fs4AwX1R9K5GLtLfn8QW+dWisaAw==}
@@ -9161,7 +9161,7 @@ snapshots:
       '@vitest/browser': 3.2.4(playwright@1.53.1)(vite@6.3.5(@types/node@22.7.9)(tsx@4.20.3)(yaml@2.8.0))(vitest@3.2.4)
       '@vitest/coverage-istanbul': 3.2.4(vitest@3.2.4)
       autorest: 3.7.2
-      csv-parse: 5.6.0
+      csv-parse: 6.0.0
       dotenv: 16.5.0
       eslint: 9.29.0
       playwright: 1.53.1
@@ -24760,7 +24760,7 @@ snapshots:
       shebang-command: 2.0.0
       which: 2.0.2
 
-  csv-parse@5.6.0: {}
+  csv-parse@6.0.0: {}
 
   date-fns@2.30.0:
     dependencies:
