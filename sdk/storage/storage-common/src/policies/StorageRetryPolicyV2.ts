@@ -10,29 +10,15 @@ import type {
 } from "@azure/core-rest-pipeline";
 import { isRestError, RestError } from "@azure/core-rest-pipeline";
 import { getErrorMessage } from "@azure/core-util";
-import type { StorageRetryOptions } from "../StorageRetryPolicyFactory.js";
+import { StorageRetryPolicyType, type StorageRetryOptions } from "../StorageRetryPolicyFactory.js";
 import { URLConstants } from "../utils/constants.js";
-import { delay, setURLParameter } from "../utils/utils.common.js";
+import { delay, setURLHost, setURLParameter } from "../utils/utils.common.js";
 import { logger } from "../log.js";
 
 /**
  * Name of the {@link storageRetryPolicy}
  */
 export const storageRetryPolicyName = "storageRetryPolicy";
-
-/**
- * RetryPolicy types.
- */
-export enum StorageRetryPolicyType {
-  /**
-   * Exponential retry. Retry time delay grows exponentially.
-   */
-  EXPONENTIAL,
-  /**
-   * Linear retry. Retry time delay grows linearly.
-   */
-  FIXED,
-}
 
 // Default values of StorageRetryOptions
 const DEFAULT_RETRY_OPTIONS = {
@@ -66,6 +52,7 @@ export function storageRetryPolicy(options: StorageRetryOptions = {}): PipelineP
   const maxTries = options.maxTries ?? DEFAULT_RETRY_OPTIONS.maxTries;
   const retryDelayInMs = options.retryDelayInMs ?? DEFAULT_RETRY_OPTIONS.retryDelayInMs;
   const maxRetryDelayInMs = options.maxRetryDelayInMs ?? DEFAULT_RETRY_OPTIONS.maxRetryDelayInMs;
+  const secondaryHost = options.secondaryHost ?? DEFAULT_RETRY_OPTIONS.secondaryHost;
   const tryTimeoutInMs = options.tryTimeoutInMs ?? DEFAULT_RETRY_OPTIONS.tryTimeoutInMs;
 
   function shouldRetry({
@@ -104,6 +91,7 @@ export function storageRetryPolicy(options: StorageRetryOptions = {}): PipelineP
         return true;
       }
     }
+
     // If attempt was against the secondary & it returned a StatusNotFound (404), then
     // the resource was not found. This may be due to replication delay. So, in this
     // case, we'll never try the secondary again for this operation.
@@ -127,12 +115,11 @@ export function storageRetryPolicy(options: StorageRetryOptions = {}): PipelineP
     //   if (response?.status >= 400) {
     //     const copySourceError = response.headers.get(HeaderConstants.X_MS_CopySourceErrorCode);
     //     if (copySourceError !== undefined) {
-    //       switch (copySourceError)
-    //       {
-    //           case "InternalError":
-    //           case "OperationTimedOut":
-    //           case "ServerBusy":
-    //               return true;
+    //       switch (copySourceError) {
+    //         case "InternalError":
+    //         case "OperationTimedOut":
+    //         case "ServerBusy":
+    //           return true;
     //       }
     //     }
     //   }
@@ -174,14 +161,19 @@ export function storageRetryPolicy(options: StorageRetryOptions = {}): PipelineP
         );
       }
       const primaryUrl = request.url;
+      const secondaryUrl = secondaryHost ? setURLHost(request.url, secondaryHost) : undefined;
       let secondaryHas404 = false;
       let attempt = 1;
       let retryAgain = true;
       let response: PipelineResponse | undefined;
       let error: RestError | undefined;
       while (retryAgain) {
-        const isPrimaryRetry: boolean = true;
-        request.url = primaryUrl;
+        const isPrimaryRetry: boolean =
+          secondaryHas404 ||
+          !secondaryUrl ||
+          !["GET", "HEAD", "OPTIONS"].includes(request.method) ||
+          attempt % 2 === 1;
+        request.url = isPrimaryRetry ? primaryUrl : secondaryUrl!;
         response = undefined;
         error = undefined;
         try {

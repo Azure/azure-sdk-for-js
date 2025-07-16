@@ -6,7 +6,8 @@ import type {
   RequestPolicyOptionsLike as RequestPolicyOptions,
   RequestPolicyFactory,
 } from "@azure/core-http-compat";
-import { StorageRetryPolicy, StorageRetryPolicyType } from "./policies/StorageRetryPolicy.js";
+import { StorageRetryPolicy } from "./policies/StorageRetryPolicy.js";
+import { StorageRetryPolicyType } from "./policies/StorageRetryPolicyType.js";
 
 export { StorageRetryPolicyType, StorageRetryPolicy };
 
@@ -31,7 +32,7 @@ export interface StorageRetryOptions {
    * A value of zero or undefined means no default timeout on SDK client, Azure
    * Storage server's default timeout policy will be used.
    *
-   * @see https://learn.microsoft.com/rest/api/storageservices/setting-timeouts-for-blob-service-operations
+   * @see https://learn.microsoft.com/en-us/rest/api/storageservices/setting-timeouts-for-blob-service-operations
    */
   readonly tryTimeoutInMs?: number;
 
@@ -47,6 +48,16 @@ export interface StorageRetryOptions {
    * If you specify 0, then you must also specify 0 for retryDelayInMs.
    */
   readonly maxRetryDelayInMs?: number;
+
+  /**
+   * If a secondaryHost is specified, retries will be tried against this host. If secondaryHost is undefined
+   * (the default) then operations are not retried against another host.
+   *
+   * NOTE: Before setting this field, make sure you understand the issues around
+   * reading stale and potentially-inconsistent data at
+   * {@link https://learn.microsoft.com/en-us/azure/storage/common/storage-designing-ha-apps-with-ragrs}
+   */
+  readonly secondaryHost?: string;
 }
 
 /**
