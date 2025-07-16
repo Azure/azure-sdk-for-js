@@ -7,10 +7,10 @@ For the complete API surface, see the corresponding -node.api.md file.
 ===================================================================
 --- NodeJS
 +++ browser
-@@ -5,19 +5,14 @@
- ```ts
- 
- import type { HttpClient } from '@azure/core-rest-pipeline';
+@@ -35,12 +35,10 @@
+     abstract sendRequest(webResource: WebResourceLike): Promise<CompatResponse>;
+     shouldLog(logLevel: HttpPipelineLogLevel): boolean;
+ }
  
 -// @public
 +// @public (undocumented)
@@ -19,14 +19,49 @@ For the complete API surface, see the corresponding -node.api.md file.
 -    do(): Promise<void>;
  }
  
- // @public (undocumented)
- export function getCachedDefaultHttpClient(): HttpClient;
+ // @public
+ export abstract class Credential implements RequestPolicyFactory {
+@@ -62,11 +60,8 @@
+ // @public
+ export function NewRetryPolicyFactory(retryOptions?: StorageRetryOptions): RequestPolicyFactory;
  
--// @public
+ // @public
 -export type OutgoingHandler = (body: () => NodeJS.ReadableStream, length: number, offset?: number) => Promise<any>;
 -
- // (No @packageDocumentation comment for this package)
+-// @public
+ export class StorageBrowserPolicy extends BaseRequestPolicy {
+     constructor(nextPolicy: RequestPolicy, options: RequestPolicyOptionsLike);
+     sendRequest(request: WebResourceLike): Promise<CompatResponse>;
+ }
+@@ -123,26 +118,16 @@
+     EXPONENTIAL = 0,
+     FIXED = 1
+ }
  
- ```
+-// @public
+-export class StorageSharedKeyCredential extends Credential {
+-    constructor(accountName: string, accountKey: string);
+-    readonly accountName: string;
+-    computeHMACSHA256(stringToSign: string): string;
+-    create(nextPolicy: RequestPolicy, options: RequestPolicyOptionsLike): StorageSharedKeyCredentialPolicy;
++// @public (undocumented)
++export class StorageSharedKeyCredential {
+ }
+ 
+ // @public
+-export class StorageSharedKeyCredentialPolicy extends CredentialPolicy {
+-    constructor(nextPolicy: RequestPolicy, options: RequestPolicyOptionsLike, factory: StorageSharedKeyCredential);
+-    protected signRequest(request: WebResourceLike): WebResourceLike;
+-}
++export function storageSharedKeyCredentialPolicy(_options: StorageSharedKeyCredentialPolicyOptions): PipelinePolicy;
+ 
+ // @public
+-export function storageSharedKeyCredentialPolicy(options: StorageSharedKeyCredentialPolicyOptions): PipelinePolicy;
+-
+-// @public
+ export const storageSharedKeyCredentialPolicyName = "storageSharedKeyCredentialPolicy";
+ 
+ // @public
+ export interface StorageSharedKeyCredentialPolicyOptions {
 
 ```
