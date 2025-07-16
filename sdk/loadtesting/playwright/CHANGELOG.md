@@ -1,8 +1,10 @@
 # Release History
 
-## 1.0.0-beta.2 (Unreleased)
+## 1.0.0-beta.2 (2025-07-16)
 
 ### Features Added
+
+- Implemented a PATCH request to initiate a test run upon user start.
 
 ### Breaking Changes
 
