@@ -157,15 +157,10 @@ export class CosmosClient {
         this.getDatabaseAccountInternal(diagnosticNode, opts),
     );
 
-    if (
-      optionsOrConnectionString.connectionPolicy.enablePartitionLevelFailover ||
-      optionsOrConnectionString.connectionPolicy.enablePartitionLevelCircuitBreaker
-    ) {
-      this.globalPartitionEndpointManager = new GlobalPartitionEndpointManager(
-        optionsOrConnectionString,
-        globalEndpointManager,
-      );
-    }
+    this.globalPartitionEndpointManager = new GlobalPartitionEndpointManager(
+      optionsOrConnectionString,
+      globalEndpointManager,
+    );
 
     this.clientContext = new ClientContext(
       optionsOrConnectionString,
