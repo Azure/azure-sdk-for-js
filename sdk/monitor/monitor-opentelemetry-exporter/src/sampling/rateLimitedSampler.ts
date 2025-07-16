@@ -4,7 +4,6 @@ import type { Link, Attributes, SpanKind, Context } from "@opentelemetry/api";
 import type { Sampler, SamplingResult } from "@opentelemetry/sdk-trace-base";
 import { SamplingDecision } from "@opentelemetry/sdk-trace-base";
 import { roundDownToNearest, shouldSample } from "./samplingUtils.js";
-import { AzureMonitorSampleRate } from "../utils/constants/applicationinsights.js";
 
 type RateLimitedSamplerState = {
   effectiveWindowCount: number;
@@ -115,7 +114,6 @@ export class RateLimitedSampler implements Sampler {
    * @returns a {@link SamplingResult}.
    */
   public shouldSample(
-    // @ts-expect-error unused argument
     context: Context,
     traceId: string,
     // @ts-expect-error unused argument
@@ -126,16 +124,8 @@ export class RateLimitedSampler implements Sampler {
     // @ts-expect-error unused argument
     links: Link[],
   ): SamplingResult {
-    let sampleRate = 100;
-    // [TODO] Should respect sample rate from parent if available
-    sampleRate = this.getSampleRate();
-    // Only send the sample rate if it's not 100
-    if (sampleRate !== 100) {
-      // Add sample rate as span attribute
-      attributes = attributes || {};
-      attributes[AzureMonitorSampleRate] = sampleRate;
-    }
-    return shouldSample(sampleRate, traceId)
+    const sampleRate = this.getSampleRate();
+    return shouldSample(sampleRate, context, traceId, attributes)
       ? { decision: SamplingDecision.RECORD_AND_SAMPLED, attributes: attributes }
       : { decision: SamplingDecision.NOT_RECORD, attributes: attributes };
   }

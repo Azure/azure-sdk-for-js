@@ -3,7 +3,6 @@
 import type { Link, Attributes, SpanKind, Context } from "@opentelemetry/api";
 import type { Sampler, SamplingResult } from "@opentelemetry/sdk-trace-base";
 import { SamplingDecision } from "@opentelemetry/sdk-trace-base";
-import { AzureMonitorSampleRate } from "../utils/constants/applicationinsights.js";
 import { shouldSample } from "./samplingUtils.js";
 
 /**
@@ -13,7 +12,7 @@ import { shouldSample } from "./samplingUtils.js";
  * @param samplingRatio - 0 to 1 value.
  */
 export class ApplicationInsightsSampler implements Sampler {
-  private readonly _sampleRate: number;
+  private _sampleRate: number;
   private readonly samplingRatio: number;
 
   /**
@@ -43,7 +42,6 @@ export class ApplicationInsightsSampler implements Sampler {
    * @returns a {@link SamplingResult}.
    */
   public shouldSample(
-    // @ts-expect-error unused argument
     context: Context,
     traceId: string,
     // @ts-expect-error unused argument
@@ -54,14 +52,8 @@ export class ApplicationInsightsSampler implements Sampler {
     // @ts-expect-error unused argument
     links: Link[],
   ): SamplingResult {
-    // [TODO] Should respect sample rate from parent if available
-    // Only send the sample rate if it's not 100
-    if (this._sampleRate !== 100) {
-      // Add sample rate as span attribute
-      attributes = attributes || {};
-      attributes[AzureMonitorSampleRate] = this._sampleRate;
-    }
-    return shouldSample(this._sampleRate, traceId)
+
+    return shouldSample(this._sampleRate, context, traceId, attributes)
       ? { decision: SamplingDecision.RECORD_AND_SAMPLED, attributes: attributes }
       : { decision: SamplingDecision.NOT_RECORD, attributes: attributes };
   }

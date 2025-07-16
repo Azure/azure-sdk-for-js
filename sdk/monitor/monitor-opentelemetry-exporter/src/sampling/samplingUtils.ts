@@ -1,6 +1,10 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
+import type { Attributes, Context} from "@opentelemetry/api";
+import { trace, TraceFlags } from "@opentelemetry/api";
+import { AzureMonitorSampleRate } from "../utils/constants/applicationinsights.js";
+
 /**
  * Computes a deterministic hash code from a string input (typically a trace ID)
  * and returns a value between 0 and 100 for sampling decisions.
@@ -48,13 +52,49 @@ export function roundDownToNearest(samplingPercentage: number): number {
   return 100.0 / Math.ceil(itemCount);
 }
 
-export function shouldSample(samplingPercentage: number, traceId: string): boolean {
-  if (samplingPercentage === 100) {
-    return true;
-  } else if (samplingPercentage === 0) {
-    return false;
+export function shouldSample(samplePercentage: number, context: Context, traceId: string, attributes: Attributes): boolean {
+  let sampleRate = samplePercentage;
+  let isSampled = undefined;
+
+  if (sampleRate === 100) {
+    isSampled = true;
+  } else if (sampleRate === 0) {
+    isSampled = false;
   } else {
+    // Try to get the parent sampling result first
+    const parentSpan = trace.getSpan(context);
+    const parentSpanContext = parentSpan?.spanContext();
+    if (
+      parentSpanContext &&
+      trace.isSpanContextValid(parentSpanContext) &&
+      !parentSpanContext.isRemote
+    ) {
+      if ((parentSpanContext.traceFlags & TraceFlags.SAMPLED) === TraceFlags.SAMPLED) {
+        isSampled = true;
+      }
+      else if ((parentSpanContext.traceFlags & TraceFlags.NONE) === TraceFlags.NONE) {
+        isSampled = false;
+      }
+      // If the parent span is valid and not remote, we can use its sample rate
+      const parentSampleRate = Number((parentSpan as any).attributes?.[AzureMonitorSampleRate]);
+      if (!isNaN(parentSampleRate)) {
+        sampleRate = Number(parentSampleRate);
+      }
+    }
+  }
+
+  // Only add sample rate attribute if it's not 100
+  if (sampleRate !== 100) {
+    // Add sample rate as span attribute
+    attributes = attributes || {};
+    attributes[AzureMonitorSampleRate] = sampleRate;
+  }
+
+  if (isSampled === undefined) {
     const samplingHashCode = getSamplingHashCode(traceId);
-    return samplingHashCode < samplingPercentage;
+    return samplingHashCode < sampleRate;
+  }
+  else {
+    return isSampled;
   }
 }
