@@ -18,6 +18,7 @@ describe.concurrent.each(APIMatrix)("Vision [%s]", (apiVersion: APIVersion) => {
     describe("Describes an image from external URL", () => {
       testWithDeployments({
         clientsAndDeploymentsInfo,
+        apiVersion,
         run: async (client, deploymentName) => {
           const url =
             "https://www.nasa.gov/wp-content/uploads/2023/11/53296469002-a92ea42cb9-o.jpg";
@@ -54,6 +55,7 @@ describe.concurrent.each(APIMatrix)("Vision [%s]", (apiVersion: APIVersion) => {
         "data:image/gif;base64,R0lGODdhAQABAIEAAAAAAAAAAAAAAAAAACwAAAAAAQABAAAIBAABBAQAOw==";
       testWithDeployments({
         clientsAndDeploymentsInfo,
+        apiVersion,
         run: async (client, deploymentName) => {
           return client.chat.completions.create({
             model: deploymentName,
