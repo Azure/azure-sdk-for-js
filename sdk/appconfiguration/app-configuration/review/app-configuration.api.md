@@ -136,7 +136,25 @@ export const featureFlagPrefix = ".appconfig.featureflag/";
 
 // @public
 export interface FeatureFlagValue {
+    allocation?: {
+        default?: string;
+        user?: Array<{
+            variant: string;
+            users: string[];
+        }>;
+        group?: Array<{
+            variant: string;
+            groups: string[];
+        }>;
+        percentile?: Array<{
+            variant: string;
+            from: number;
+            to: number;
+        }>;
+        seed?: string;
+    };
     conditions: {
+        requirementType?: "Any" | "All";
         clientFilters: {
             name: string;
             parameters?: Record<string, unknown>;
@@ -146,6 +164,11 @@ export interface FeatureFlagValue {
     displayName?: string;
     enabled: boolean;
     id?: string;
+    telemetry?: {
+        enabled?: boolean;
+        metadata?: Record<string, string>;
+    };
+    variants?: Record<string, unknown>;
 }
 
 // @public
