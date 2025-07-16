@@ -24,8 +24,8 @@ const client = new CosmosClient({
 
 - [#35054](https://github.com/Azure/azure-sdk-for-js/pull/35054) Fixed an issue with COUNTIF aggregation which ensures that partial results from multiple partitions or batches are correctly summed, producing accurate results for COUNTIF queries.
 - [#35049](https://github.com/Azure/azure-sdk-for-js/pull/35049) Moved `@azure/logger` from the devDependencies to the runtime dependencies in the Cosmos DB client package, ensuring that client loggers can be created at runtime.
-- [#35189](https://github.com/Azure/azure-sdk-for-js/pull/35189) Fixed RU calculation bug: Corrected the issue where RU (Request Unit) charges were not aggregated when document producer returned empty responses.
-- [#34765](https://github.com/Azure/azure-sdk-for-js/pull/34765) Fixed partition key extraction bug: Enhanced the partition key extraction logic to correctly handle migrated containers using the systemKey flag.
+- [#35189](https://github.com/Azure/azure-sdk-for-js/pull/35189) Fixed the RU calculation bug where RU (Request Unit) charges were not aggregated when document producer returned empty responses.
+- [#34765](https://github.com/Azure/azure-sdk-for-js/pull/34765) Fixed partition key extraction bug enhancing the partition key extraction logic to correctly handle migrated containers using the systemKey flag.
 - [#32044](https://github.com/Azure/azure-sdk-for-js/pull/32044) Fixed an issue of Client retrying 120*120 times on an inaccessible endpoint.
 - [#34933](https://github.com/Azure/azure-sdk-for-js/pull/3433) Fixed an issue of SDK throwing an error on executing parameterized RRF queries.
 
