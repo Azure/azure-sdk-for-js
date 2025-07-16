@@ -13,7 +13,11 @@ import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers.js";
 import * as Parameters from "../models/parameters.js";
 import { CognitiveServicesManagementClient } from "../cognitiveServicesManagementClient.js";
-import { SimplePollerLike, OperationState, createHttpPoller } from "@azure/core-lro";
+import {
+  SimplePollerLike,
+  OperationState,
+  createHttpPoller,
+} from "@azure/core-lro";
 import { createLroSpec } from "../lroImpl.js";
 import {
   Deployment,
@@ -72,7 +76,12 @@ export class DeploymentsImpl implements Deployments {
         if (settings?.maxPageSize) {
           throw new Error("maxPageSize is not supported by this operation.");
         }
-        return this.listPagingPage(resourceGroupName, accountName, options, settings);
+        return this.listPagingPage(
+          resourceGroupName,
+          accountName,
+          options,
+          settings,
+        );
       },
     };
   }
@@ -93,7 +102,12 @@ export class DeploymentsImpl implements Deployments {
       yield page;
     }
     while (continuationToken) {
-      result = await this._listNext(resourceGroupName, accountName, continuationToken, options);
+      result = await this._listNext(
+        resourceGroupName,
+        accountName,
+        continuationToken,
+        options,
+      );
       continuationToken = result.nextLink;
       let page = result.value || [];
       setContinuationToken(page, continuationToken);
@@ -106,7 +120,11 @@ export class DeploymentsImpl implements Deployments {
     accountName: string,
     options?: DeploymentsListOptionalParams,
   ): AsyncIterableIterator<Deployment> {
-    for await (const page of this.listPagingPage(resourceGroupName, accountName, options)) {
+    for await (const page of this.listPagingPage(
+      resourceGroupName,
+      accountName,
+      options,
+    )) {
       yield* page;
     }
   }
@@ -124,7 +142,12 @@ export class DeploymentsImpl implements Deployments {
     deploymentName: string,
     options?: DeploymentsListSkusOptionalParams,
   ): PagedAsyncIterableIterator<SkuResource> {
-    const iter = this.listSkusPagingAll(resourceGroupName, accountName, deploymentName, options);
+    const iter = this.listSkusPagingAll(
+      resourceGroupName,
+      accountName,
+      deploymentName,
+      options,
+    );
     return {
       next() {
         return iter.next();
@@ -157,7 +180,12 @@ export class DeploymentsImpl implements Deployments {
     let result: DeploymentsListSkusResponse;
     let continuationToken = settings?.continuationToken;
     if (!continuationToken) {
-      result = await this._listSkus(resourceGroupName, accountName, deploymentName, options);
+      result = await this._listSkus(
+        resourceGroupName,
+        accountName,
+        deploymentName,
+        options,
+      );
       let page = result.value || [];
       continuationToken = result.nextLink;
       setContinuationToken(page, continuationToken);
@@ -260,7 +288,8 @@ export class DeploymentsImpl implements Deployments {
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
@@ -350,7 +379,10 @@ export class DeploymentsImpl implements Deployments {
     deployment: PatchResourceTagsAndSku,
     options?: DeploymentsUpdateOptionalParams,
   ): Promise<
-    SimplePollerLike<OperationState<DeploymentsUpdateResponse>, DeploymentsUpdateResponse>
+    SimplePollerLike<
+      OperationState<DeploymentsUpdateResponse>,
+      DeploymentsUpdateResponse
+    >
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
@@ -362,7 +394,8 @@ export class DeploymentsImpl implements Deployments {
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
@@ -460,7 +493,8 @@ export class DeploymentsImpl implements Deployments {
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
@@ -513,7 +547,12 @@ export class DeploymentsImpl implements Deployments {
     deploymentName: string,
     options?: DeploymentsDeleteOptionalParams,
   ): Promise<void> {
-    const poller = await this.beginDelete(resourceGroupName, accountName, deploymentName, options);
+    const poller = await this.beginDelete(
+      resourceGroupName,
+      accountName,
+      deploymentName,
+      options,
+    );
     return poller.pollUntilDone();
   }
 
