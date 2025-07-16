@@ -1629,6 +1629,9 @@
 # ServiceLabel: %Consumption - RIandShowBack %Service Attention
 #/<NotInRepo>/          @ccmshowbackdevs
 
+# PRLabel: %Mgmt
+sdk/edgeorder/arm-edgeorder/ @qiaozha @MaryGao
+
 ###########
 # Config
 ###########
