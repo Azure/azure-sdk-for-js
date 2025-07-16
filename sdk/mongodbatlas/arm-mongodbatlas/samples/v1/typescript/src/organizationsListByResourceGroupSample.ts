@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to list OrganizationResource resources by resource group
  *
  * @summary list OrganizationResource resources by resource group
- * x-ms-original-file: 2024-11-18-preview/Organizations_ListByResourceGroup_MaximumSet_Gen.json
+ * x-ms-original-file: 2025-06-01/Organizations_ListByResourceGroup_MaximumSet_Gen.json
  */
 async function organizationsListByResourceGroupMaximumSet(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -26,7 +26,7 @@ async function organizationsListByResourceGroupMaximumSet(): Promise<void> {
  * This sample demonstrates how to list OrganizationResource resources by resource group
  *
  * @summary list OrganizationResource resources by resource group
- * x-ms-original-file: 2024-11-18-preview/Organizations_ListByResourceGroup_MinimumSet_Gen.json
+ * x-ms-original-file: 2025-06-01/Organizations_ListByResourceGroup_MinimumSet_Gen.json
  */
 async function organizationsListByResourceGroupMaximumSetGeneratedByMinimumSetRule(): Promise<void> {
   const credential = new DefaultAzureCredential();
