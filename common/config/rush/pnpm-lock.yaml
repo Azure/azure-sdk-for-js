@@ -1406,9 +1406,9 @@ packages:
     resolution: {integrity: sha512-nlbkQzD2Jrkwwj01tGETQEj4HV28WXdqIt45DkHtamVeoFFNem/uJIri4dUymzAwgK7c1czGoVobuft8UH5Eig==}
     engines: {node: '>=8.0.0'}
 
-  '@azure/core-amqp@4.3.6':
-    resolution: {integrity: sha512-M8nP/DtrJI5SxlGCweijHSCHq70g1SXdJP1KVweoKRPiBVHbRcmCn9ExGbfUwHor/sKHqqVG7DAzPf0+bOtRSw==}
-    engines: {node: '>=18.0.0'}
+  '@azure/core-amqp@4.4.0':
+    resolution: {integrity: sha512-Rqryrb+UnJhQBAXtwrKOzsiF2Rmtia2+Cw7gqoqWTC67utl41oMylDiJ5/Us67QnXA/ZXlu+ITNfzYxBNdptgQ==}
+    engines: {node: '>=20.0.0'}
 
   '@azure/core-auth@1.9.0':
     resolution: {integrity: sha512-FPwHpZywuyasDSLMqJ6fhbOK3TqUdviZNF8OqRGA4W5Ewib2lEEZ+pBsYcBa88B2NGO/SEnYPGhyBqNlE8ilSw==}
@@ -2548,7 +2548,7 @@ packages:
     version: 0.0.0
 
   '@rush-temp/ai-projects@file:projects/ai-projects.tgz':
-    resolution: {integrity: sha512-FF2SMnf37YqznC8eqWwS8Ddeo4SXECZUeMP5hWZ9suxS6NiRYup3pDQNwSY3vzFcvsriJbmHdDPgnfLzmmRVnQ==, tarball: file:projects/ai-projects.tgz}
+    resolution: {integrity: sha512-yLc3ufJZ0mBMsu5WwARubuHmAdx5QQyohZ6HkVNQev18V4hCE38279bl+JbS+cRcOBLtiy//tFGHf9Bdq6KbhQ==, tarball: file:projects/ai-projects.tgz}
     version: 0.0.0
 
   '@rush-temp/ai-text-analytics@file:projects/ai-text-analytics.tgz':
@@ -3812,7 +3812,7 @@ packages:
     version: 0.0.0
 
   '@rush-temp/dev-tool@file:projects/dev-tool.tgz':
-    resolution: {integrity: sha512-2nsXBRduJ8ZQtnnRjbI3opINLA6rP/ewBstHaJvqfXWMZ+qoiw8pLO5B1KKtcziQgH1HOUUuLu2DMmpa3ZnE/g==, tarball: file:projects/dev-tool.tgz}
+    resolution: {integrity: sha512-k3KyI1/vC2jLxt0YkbIvS1lhez5N/EI1k9ux3S2A6Y8fQ5bJfgMT/zhyoFiDJVmjUlwV0Xfa/wArJJWq+79Xzg==, tarball: file:projects/dev-tool.tgz}
     version: 0.0.0
 
   '@rush-temp/developer-devcenter@file:projects/developer-devcenter.tgz':
@@ -3960,7 +3960,7 @@ packages:
     version: 0.0.0
 
   '@rush-temp/monitor-ingestion@file:projects/monitor-ingestion.tgz':
-    resolution: {integrity: sha512-dDJ9dIgfT35g60gD4kLePe83cBOBdfflqNclgSKYV6DE4T6Qv6V0MCxfdCobxuImkYKzYHj0g/6eS3p8LkJL8w==, tarball: file:projects/monitor-ingestion.tgz}
+    resolution: {integrity: sha512-rYTWw8I1YpWry1hRzVW4wur7N/g0FqNu5PPMoIBazf/p35yI8+8LAWi4SSh5DtlBHOEA8YSyPfG0mqw2g3thCQ==, tarball: file:projects/monitor-ingestion.tgz}
     version: 0.0.0
 
   '@rush-temp/monitor-opentelemetry-exporter@file:projects/monitor-opentelemetry-exporter.tgz':
@@ -4088,7 +4088,7 @@ packages:
     version: 0.0.0
 
   '@rush-temp/playwright@file:projects/playwright.tgz':
-    resolution: {integrity: sha512-JxNXnEk0HlSFXMG21Qzb3P3uOKv17o0JCwhVEsQJ/fKQGFLUN4OcuikdYkWfby8aj9fo1kBDArYgLz6mp/277g==, tarball: file:projects/playwright.tgz}
+    resolution: {integrity: sha512-TEqdyoGpm5lU/PAU7U66lWM57RtL8eKpGb6kmCKHRrkmsZcNE+YfzggFc2rRT1CKCn6z5aSFtkw0CTdlzJA1cw==, tarball: file:projects/playwright.tgz}
     version: 0.0.0
 
   '@rush-temp/purview-administration@file:projects/purview-administration.tgz':
@@ -4144,7 +4144,7 @@ packages:
     version: 0.0.0
 
   '@rush-temp/storage-common@file:projects/storage-common.tgz':
-    resolution: {integrity: sha512-gcZIug5dnkYKOjyXDL45U2JxC5rGDjW+QHM3hNskLLIhKQ9w6F5GETUBFIrFHHmgD2Re2SyAIc5LTQMvtvZIhw==, tarball: file:projects/storage-common.tgz}
+    resolution: {integrity: sha512-shnl9mCWAyAaDgEPvLlAg/mginc+CB12D0h9kr6dfYJv6M8sHLD1OvIAtEziWcMlNSEtlTUd4APv/I+4Gi55rg==, tarball: file:projects/storage-common.tgz}
     version: 0.0.0
 
   '@rush-temp/storage-file-datalake@file:projects/storage-file-datalake.tgz':
@@ -4160,7 +4160,7 @@ packages:
     version: 0.0.0
 
   '@rush-temp/storage-queue@file:projects/storage-queue.tgz':
-    resolution: {integrity: sha512-kpfSSK1ELQ1N7w6B/gwm5YQpaZcT91Gub+KDGB/mOHTVAvRf/Km3osRsl6UB3SoLIDZNcp3pvD44s9kOotoOXA==, tarball: file:projects/storage-queue.tgz}
+    resolution: {integrity: sha512-j0+zBrkcXK5nEDe/jvrkL830IUx0IerHJhwaqPsciSx7Evv3kbmmzb0yPnnfcZ0VeyeOJu7syjEe5FEZMijdbw==, tarball: file:projects/storage-queue.tgz}
     version: 0.0.0
 
   '@rush-temp/synapse-access-control-1@file:projects/synapse-access-control-1.tgz':
@@ -5082,6 +5082,10 @@ packages:
   detect-libc@2.0.4:
     resolution: {integrity: sha512-3UDv+G9CsCKO1WKMGw9fwq/SWJYbI0c5Y7LU1AXYoDdbhE2AHQ6N6Nb34sG8Fj7T5APy8qXDCKuuIHd1BR0tVA==}
     engines: {node: '>=8'}
+
+  diff@8.0.2:
+    resolution: {integrity: sha512-sSuxWU5j5SR9QQji/o2qMvqRNYRDOcBTgsJ/DeCf4iSN4gW+gNMXM7wFIP+fdXZxoNiAnHUTGjCr+TSWXdRDKg==}
+    engines: {node: '>=0.3.1'}
 
   dir-glob@3.0.1:
     resolution: {integrity: sha512-WkrWp9GR4KXfKGYzOLmTuGVi1UWFfws377n9cc55/tb6DuqyF6pcQ5AbiHEshaDpY9v6oaSr2XCDidGmMwdzIA==}
@@ -7691,7 +7695,7 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
-  '@azure/core-amqp@4.3.6':
+  '@azure/core-amqp@4.4.0':
     dependencies:
       '@azure/abort-controller': 2.1.2
       '@azure/core-auth': 1.9.0
@@ -7703,6 +7707,7 @@ snapshots:
       rhea: 3.0.4
       rhea-promise: 3.0.3
       tslib: 2.8.1
+      util: 0.12.5
     transitivePeerDependencies:
       - supports-color
 
@@ -7959,7 +7964,7 @@ snapshots:
   '@azure/service-bus@7.9.5':
     dependencies:
       '@azure/abort-controller': 1.1.0
-      '@azure/core-amqp': 4.3.6
+      '@azure/core-amqp': 4.4.0
       '@azure/core-auth': 1.9.0
       '@azure/core-client': 1.9.4
       '@azure/core-paging': 1.6.2
@@ -20545,6 +20550,7 @@ snapshots:
       chalk: 4.1.2
       concurrently: 8.2.2
       cross-env: 7.0.3
+      diff: 8.0.2
       dotenv: 16.5.0
       eslint: 9.29.0
       express: 5.1.0
@@ -24825,6 +24831,8 @@ snapshots:
   destroy@1.2.0: {}
 
   detect-libc@2.0.4: {}
+
+  diff@8.0.2: {}
 
   dir-glob@3.0.1:
     dependencies:
