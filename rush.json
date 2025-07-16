@@ -1,7 +1,7 @@
 /**
  * This is the main configuration file for Rush.
  * For full documentation, please see https://rushjs.io
- */ {
+ */{
   "$schema": "https://developer.microsoft.com/json-schemas/rush/v5/rush.schema.json",
   /**
    * (Required) This specifies the version of the Rush engine to be used in this repo.
@@ -2438,6 +2438,11 @@
     {
       "packageName": "@azure/arm-resourcesbicep",
       "projectFolder": "sdk/resources/arm-resourcesbicep",
+      "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-edgeorder",
+      "projectFolder": "sdk/edgeorder/arm-edgeorder",
       "versionPolicyName": "management"
     }
   ]

@@ -1,0 +1,33 @@
+{
+  "name": "@azure-samples/arm-edgeorder-js-beta",
+  "private": true,
+  "version": "1.0.0",
+  "description": "@azure/arm-edgeorder client library samples for JavaScript (Beta)",
+  "engines": {
+    "node": ">=20.0.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Azure/azure-sdk-for-js.git",
+    "directory": "sdk/edgeorder/arm-edgeorder"
+  },
+  "keywords": [
+    "node",
+    "azure",
+    "cloud",
+    "typescript",
+    "browser",
+    "isomorphic"
+  ],
+  "author": "Microsoft Corporation",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/Azure/azure-sdk-for-js/issues"
+  },
+  "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/edgeorder/arm-edgeorder",
+  "dependencies": {
+    "@azure/arm-edgeorder": "next",
+    "dotenv": "latest",
+    "@azure/identity": "^4.9.0"
+  }
+}
