@@ -44,7 +44,6 @@ import { PartitionKeyRangeCache, QueryRange } from "../../routing/index.js";
 import type {
   PartitionKey,
   PartitionKeyDefinition,
-  PartitionKeyInternal,
 } from "../../documents/index.js";
 import { convertToInternalPartitionKey } from "../../documents/index.js";
 import type {
