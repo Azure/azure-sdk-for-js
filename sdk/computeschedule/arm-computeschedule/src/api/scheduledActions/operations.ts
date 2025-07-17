@@ -45,6 +45,8 @@ import {
   ScheduledAction,
   scheduledActionSerializer,
   scheduledActionDeserializer,
+  ScheduledActionUpdate,
+  scheduledActionUpdateSerializer,
   _ScheduledActionListResult,
   _scheduledActionListResultDeserializer,
   _ResourceListResponse,
@@ -90,11 +92,11 @@ import {
   ScheduledActionsVirtualMachinesSubmitHibernateOptionalParams,
   ScheduledActionsVirtualMachinesSubmitDeallocateOptionalParams,
 } from "./options.js";
-import { getLongRunningPoller } from "../../static-helpers/pollingHelpers.js";
 import {
   PagedAsyncIterableIterator,
   buildPagedAsyncIterator,
 } from "../../static-helpers/pagingHelpers.js";
+import { getLongRunningPoller } from "../../static-helpers/pollingHelpers.js";
 import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
 import {
   StreamableMethod,
@@ -752,7 +754,7 @@ export function _updateSend(
   context: Client,
   resourceGroupName: string,
   scheduledActionName: string,
-  properties: ScheduledAction,
+  properties: ScheduledActionUpdate,
   options: ScheduledActionsUpdateOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
@@ -774,7 +776,7 @@ export function _updateSend(
       accept: "application/json",
       ...options.requestOptions?.headers,
     },
-    body: scheduledActionSerializer(properties),
+    body: scheduledActionUpdateSerializer(properties),
   });
 }
 
@@ -794,7 +796,7 @@ export async function update(
   context: Client,
   resourceGroupName: string,
   scheduledActionName: string,
-  properties: ScheduledAction,
+  properties: ScheduledActionUpdate,
   options: ScheduledActionsUpdateOptionalParams = { requestOptions: {} },
 ): Promise<ScheduledAction> {
   const result = await _updateSend(

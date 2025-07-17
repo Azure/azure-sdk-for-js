@@ -441,7 +441,7 @@ export interface Resource {
 
 // @public
 export interface ResourceAttachRequest {
-    resources: ScheduledActionResource[];
+    resources: ScheduledActionResourceCreate[];
 }
 
 // @public
@@ -487,7 +487,7 @@ export type ResourceOperationType = string;
 
 // @public
 export interface ResourcePatchRequest {
-    resources: ScheduledActionResource[];
+    resources: ScheduledActionResourceCreate[];
 }
 
 // @public
@@ -565,6 +565,12 @@ export interface ScheduledActionResource {
 }
 
 // @public
+export interface ScheduledActionResourceCreate {
+    notificationSettings?: NotificationProperties[];
+    resourceId: string;
+}
+
+// @public
 export interface ScheduledActionResources extends ExtensionResource {
     properties?: ScheduledActionProperties;
 }
@@ -578,6 +584,23 @@ export interface ScheduledActionsSchedule {
     requestedWeekDays: WeekDay[];
     scheduledTime: string;
     timeZone: string;
+}
+
+// @public
+export interface ScheduledActionUpdate {
+    properties?: ScheduledActionUpdateProperties;
+    tags?: Record<string, string>;
+}
+
+// @public
+export interface ScheduledActionUpdateProperties {
+    actionType?: ActionType_1;
+    disabled?: boolean;
+    endTime?: string;
+    notificationSettings?: NotificationProperties[];
+    resourceType?: ResourceType;
+    schedule?: ScheduledActionsSchedule;
+    startTime?: string;
 }
 
 // @public

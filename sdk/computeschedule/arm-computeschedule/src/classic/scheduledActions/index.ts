@@ -23,6 +23,7 @@ import {
   GetOperationErrorsRequest,
   GetOperationErrorsResponse,
   ScheduledAction,
+  ScheduledActionUpdate,
   ScheduledActionResource,
   ResourceAttachRequest,
   RecurringActionsResourceOperationResult,
@@ -166,7 +167,7 @@ export interface ScheduledActionsOperations {
   update: (
     resourceGroupName: string,
     scheduledActionName: string,
-    properties: ScheduledAction,
+    properties: ScheduledActionUpdate,
     options?: ScheduledActionsUpdateOptionalParams,
   ) => Promise<ScheduledAction>;
   /** Create a ScheduledAction */
@@ -310,7 +311,7 @@ function _getScheduledActions(context: ComputeScheduleContext) {
     update: (
       resourceGroupName: string,
       scheduledActionName: string,
-      properties: ScheduledAction,
+      properties: ScheduledActionUpdate,
       options?: ScheduledActionsUpdateOptionalParams,
     ) => update(context, resourceGroupName, scheduledActionName, properties, options),
     createOrUpdate: (

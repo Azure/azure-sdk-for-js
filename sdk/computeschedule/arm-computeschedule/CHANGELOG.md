@@ -1,6 +1,6 @@
 # Release History
     
-## 1.2.0-beta.1 (2025-07-16)
+## 1.2.0-beta.1 (2025-07-17)
 Compared with version 1.1.0
     
 ### Features Added
@@ -49,6 +49,7 @@ Compared with version 1.1.0
   - Added Interface ScheduledActionExtensionListByVmsOptionalParams
   - Added Interface ScheduledActionProperties
   - Added Interface ScheduledActionResource
+  - Added Interface ScheduledActionResourceCreate
   - Added Interface ScheduledActionResources
   - Added Interface ScheduledActionsAttachResourcesOptionalParams
   - Added Interface ScheduledActionsCancelNextOccurrenceOptionalParams
@@ -65,6 +66,8 @@ Compared with version 1.1.0
   - Added Interface ScheduledActionsSchedule
   - Added Interface ScheduledActionsTriggerManualOccurrenceOptionalParams
   - Added Interface ScheduledActionsUpdateOptionalParams
+  - Added Interface ScheduledActionUpdate
+  - Added Interface ScheduledActionUpdateProperties
   - Added Interface SystemData
   - Added Interface TrackedResource
   - Added Type Alias ActionType_1

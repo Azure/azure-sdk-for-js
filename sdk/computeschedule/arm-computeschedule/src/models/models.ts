@@ -1406,6 +1406,59 @@ export enum KnownResourceProvisioningState {
  */
 export type ResourceProvisioningState = string;
 
+/** The type used for update operations of the ScheduledAction. */
+export interface ScheduledActionUpdate {
+  /** Resource tags. */
+  tags?: Record<string, string>;
+  /** The resource-specific properties for this resource. */
+  properties?: ScheduledActionUpdateProperties;
+}
+
+export function scheduledActionUpdateSerializer(item: ScheduledActionUpdate): any {
+  return {
+    tags: item["tags"],
+    properties: !item["properties"]
+      ? item["properties"]
+      : scheduledActionUpdatePropertiesSerializer(item["properties"]),
+  };
+}
+
+/** The updatable properties of the ScheduledAction. */
+export interface ScheduledActionUpdateProperties {
+  /** The type of resource the scheduled action is targeting */
+  resourceType?: ResourceType;
+  /** The action the scheduled action should perform in the resources */
+  actionType?: ActionType_1;
+  /** The time which the scheduled action is supposed to start running */
+  startTime?: string;
+  /** The time when the scheduled action is supposed to stop scheduling */
+  endTime?: string;
+  /** The schedule the scheduled action is supposed to follow */
+  schedule?: ScheduledActionsSchedule;
+  /** The notification settings for the scheduled action */
+  notificationSettings?: NotificationProperties[];
+  /** Tell if the scheduled action is disabled or not */
+  disabled?: boolean;
+}
+
+export function scheduledActionUpdatePropertiesSerializer(
+  item: ScheduledActionUpdateProperties,
+): any {
+  return {
+    resourceType: item["resourceType"],
+    actionType: item["actionType"],
+    startTime: item["startTime"],
+    endTime: item["endTime"],
+    schedule: !item["schedule"]
+      ? item["schedule"]
+      : scheduledActionsScheduleSerializer(item["schedule"]),
+    notificationSettings: !item["notificationSettings"]
+      ? item["notificationSettings"]
+      : notificationPropertiesArraySerializer(item["notificationSettings"]),
+    disabled: item["disabled"],
+  };
+}
+
 /** The response of a ScheduledAction list operation. */
 export interface _ScheduledActionListResult {
   /** The ScheduledAction items on this page */
@@ -1448,14 +1501,6 @@ export function _resourceListResponseDeserializer(item: any): _ResourceListRespo
   };
 }
 
-export function scheduledActionResourceArraySerializer(
-  result: Array<ScheduledActionResource>,
-): any[] {
-  return result.map((item) => {
-    return scheduledActionResourceSerializer(item);
-  });
-}
-
 export function scheduledActionResourceArrayDeserializer(
   result: Array<ScheduledActionResource>,
 ): any[] {
@@ -1481,15 +1526,6 @@ export interface ScheduledActionResource {
   notificationSettings?: NotificationProperties[];
 }
 
-export function scheduledActionResourceSerializer(item: ScheduledActionResource): any {
-  return {
-    resourceId: item["resourceId"],
-    notificationSettings: !item["notificationSettings"]
-      ? item["notificationSettings"]
-      : notificationPropertiesArraySerializer(item["notificationSettings"]),
-  };
-}
-
 export function scheduledActionResourceDeserializer(item: any): ScheduledActionResource {
   return {
     name: item["name"],
@@ -1505,12 +1541,40 @@ export function scheduledActionResourceDeserializer(item: any): ScheduledActionR
 /** Request model to attach a list of scheduled action resources. */
 export interface ResourceAttachRequest {
   /** List of resources to be attached/patched */
-  resources: ScheduledActionResource[];
+  resources: ScheduledActionResourceCreate[];
 }
 
 export function resourceAttachRequestSerializer(item: ResourceAttachRequest): any {
   return {
-    resources: scheduledActionResourceArraySerializer(item["resources"]),
+    resources: scheduledActionResourceCreateArraySerializer(item["resources"]),
+  };
+}
+
+export function scheduledActionResourceCreateArraySerializer(
+  result: Array<ScheduledActionResourceCreate>,
+): any[] {
+  return result.map((item) => {
+    return scheduledActionResourceCreateSerializer(item);
+  });
+}
+
+/** Represents an scheduled action resource metadata. */
+export interface ScheduledActionResourceCreate {
+  /**
+   * The ARM Id of the resource.
+   * "subscriptions/{subId}/resourceGroups/{rgName}/providers/Microsoft.Compute/virtualMachines/{vmName}"
+   */
+  resourceId: string;
+  /** The desired notification settings for the specified resource. */
+  notificationSettings?: NotificationProperties[];
+}
+
+export function scheduledActionResourceCreateSerializer(item: ScheduledActionResourceCreate): any {
+  return {
+    resourceId: item["resourceId"],
+    notificationSettings: !item["notificationSettings"]
+      ? item["notificationSettings"]
+      : notificationPropertiesArraySerializer(item["notificationSettings"]),
   };
 }
 
@@ -1590,12 +1654,12 @@ export function resourceDetachRequestSerializer(item: ResourceDetachRequest): an
 /** Request model perform a resource operation in a list of resources */
 export interface ResourcePatchRequest {
   /** The list of resources we watch to patch */
-  resources: ScheduledActionResource[];
+  resources: ScheduledActionResourceCreate[];
 }
 
 export function resourcePatchRequestSerializer(item: ResourcePatchRequest): any {
   return {
-    resources: scheduledActionResourceArraySerializer(item["resources"]),
+    resources: scheduledActionResourceCreateArraySerializer(item["resources"]),
   };
 }
 

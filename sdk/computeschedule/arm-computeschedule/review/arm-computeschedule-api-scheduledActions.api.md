@@ -152,7 +152,7 @@ export interface ScheduledActionsVirtualMachinesSubmitStartOptionalParams extend
 export function triggerManualOccurrence(context: ComputeScheduleContext, resourceGroupName: string, scheduledActionName: string, options?: ScheduledActionsTriggerManualOccurrenceOptionalParams): Promise<Occurrence>;
 
 // @public
-export function update(context: ComputeScheduleContext, resourceGroupName: string, scheduledActionName: string, properties: ScheduledAction, options?: ScheduledActionsUpdateOptionalParams): Promise<ScheduledAction>;
+export function update(context: ComputeScheduleContext, resourceGroupName: string, scheduledActionName: string, properties: ScheduledActionUpdate, options?: ScheduledActionsUpdateOptionalParams): Promise<ScheduledAction>;
 
 // @public
 export function virtualMachinesCancelOperations(context: ComputeScheduleContext, locationparameter: string, requestBody: CancelOperationsRequest, options?: ScheduledActionsVirtualMachinesCancelOperationsOptionalParams): Promise<CancelOperationsResponse>;
