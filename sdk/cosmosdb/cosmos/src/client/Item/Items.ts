@@ -159,14 +159,14 @@ export class Items {
       if (options.partitionKey) {
         internalPartitionKey = convertToInternalPartitionKey(options.partitionKey);
       }
-      const isPartitionLevelFailOverEnabled = this.clientContext.isPartitionLevelFailOverEnabled();
-      const partitionKeyRangeId = await computePartitionKeyRangeId(
-        diagnosticNode,
-        internalPartitionKey,
-        this.partitionKeyRangeCache,
-        isPartitionLevelFailOverEnabled,
-        this.container,
-      );
+      // const isPartitionLevelFailOverEnabled = this.clientContext.isPartitionLevelFailOverEnabled();
+      // const partitionKeyRangeId = await computePartitionKeyRangeId(
+      //   diagnosticNode,
+      //   internalPartitionKey,
+      //   this.partitionKeyRangeCache,
+      //   isPartitionLevelFailOverEnabled,
+      //   this.container,
+      // );
 
       const response = await this.clientContext.queryFeed({
         path,
