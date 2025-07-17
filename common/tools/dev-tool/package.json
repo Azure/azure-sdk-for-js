@@ -46,7 +46,6 @@
     "@microsoft/api-extractor-model": "^7.30.5",
     "chalk": "^4.1.1",
     "concurrently": "^8.2.2",
-    "diff": "^8.0.2",
     "dotenv": "^16.0.0",
     "express": "^5.1.0",
     "fs-extra": "^11.2.0",
