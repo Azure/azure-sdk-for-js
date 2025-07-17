@@ -1,10 +1,10 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-export { MonitorQueryLogsClient } from "./monitorQueryLogsClient.js";
+export { LogsQueryClient } from "./logsQueryClient.js";
 export {
   QueryBody,
-  QueryResults,
+  LogsQueryResult,
   Table,
   Column,
   ColumnDataType,
@@ -13,14 +13,17 @@ export {
   ErrorResponse,
   BatchRequest,
   BatchQueryRequest,
-  BatchResponse,
+  LogsQueryBatchResult,
   BatchQueryResponse,
   BatchQueryResults,
   Versions,
+  QueryBatch,
+  QueryTimeInterval,
 } from "./models/index.js";
 export {
-  MonitorQueryLogsClientOptionalParams,
+  LogsQueryClientOptions,
   BatchOptionalParams,
   ExecuteWithResourceIdOptionalParams,
   ExecuteOptionalParams,
+  QueryLogsOptions,
 } from "./api/index.js";

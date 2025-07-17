@@ -2,6 +2,12 @@
 // Licensed under the MIT License.
 
 /**
+ * The timespan for the query. This is an ISO8601 time period value.
+ * This timespan is applied in addition to any that are specified in the query expression.
+ * */
+export type QueryTimeInterval = string;
+
+/**
  * The Analytics query. Learn more about the [Analytics query
  * syntax](https://azure.microsoft.com/documentation/articles/app-insights-analytics-reference/)
  */
@@ -31,7 +37,7 @@ export function queryBodySerializer(item: QueryBody): any {
 }
 
 /** Contains the tables, columns & rows resulting from a query. */
-export interface QueryResults {
+export interface LogsQueryResult {
   /** The results of the query in tabular format. */
   tables: Table[];
   /** Statistics represented in JSON format. */
@@ -42,14 +48,17 @@ export interface QueryResults {
   error?: ErrorInfo;
 }
 
-export function queryResultsDeserializer(item: any): QueryResults {
+export function queryResultsDeserializer(item: {
+  tables: any[];
+  statistics: any;
+  render: any;
+  error: any;
+}): LogsQueryResult {
   return {
     tables: tableArrayDeserializer(item["tables"]),
     statistics: item["statistics"],
     render: item["render"],
-    error: !item["error"]
-      ? item["error"]
-      : errorInfoDeserializer(item["error"]),
+    error: !item["error"] ? item["error"] : errorInfoDeserializer(item["error"]),
   };
 }
 
@@ -69,13 +78,13 @@ export interface Table {
   rows: any[][];
 }
 
-export function tableDeserializer(item: any): Table {
+export function tableDeserializer(item: { name: string; columns: any[]; rows: any[][] }): Table {
   return {
     name: item["name"],
     columns: columnArrayDeserializer(item["columns"]),
-    rows: item["rows"].map((p: any) => {
-      return p.map((p: any) => {
-        return p;
+    rows: item["rows"].map((row: any[]) => {
+      return row.map((cell: any) => {
+        return cell;
       });
     }),
   };
@@ -95,7 +104,7 @@ export interface Column {
   type: ColumnDataType;
 }
 
-export function columnDeserializer(item: any): Column {
+export function columnDeserializer(item: { name: string; type: any }): Column {
   return {
     name: item["name"],
     type: item["type"],
@@ -129,13 +138,17 @@ export interface ErrorInfo {
   additionalProperties?: Record<string, any>;
 }
 
-export function errorInfoDeserializer(item: any): ErrorInfo {
+export function errorInfoDeserializer(item: {
+  code: any;
+  message: any;
+  details: any;
+  innererror: any;
+  additionalProperties: any;
+}): ErrorInfo {
   return {
     code: item["code"],
     message: item["message"],
-    details: !item["details"]
-      ? item["details"]
-      : errorDetailArrayDeserializer(item["details"]),
+    details: !item["details"] ? item["details"] : errorDetailArrayDeserializer(item["details"]),
     innererror: !item["innererror"]
       ? item["innererror"]
       : errorInfoDeserializer(item["innererror"]),
@@ -143,9 +156,7 @@ export function errorInfoDeserializer(item: any): ErrorInfo {
   };
 }
 
-export function errorDetailArrayDeserializer(
-  result: Array<ErrorDetail>,
-): any[] {
+export function errorDetailArrayDeserializer(result: Array<ErrorDetail>): any[] {
   return result.map((item) => {
     return errorDetailDeserializer(item);
   });
@@ -167,7 +178,14 @@ export interface ErrorDetail {
   additionalProperties?: Record<string, any>;
 }
 
-export function errorDetailDeserializer(item: any): ErrorDetail {
+export function errorDetailDeserializer(item: {
+  code: any;
+  message: any;
+  target?: any;
+  value?: any;
+  resources?: any;
+  additionalProperties?: any;
+}): ErrorDetail {
   return {
     code: item["code"],
     message: item["message"],
@@ -188,10 +206,39 @@ export interface ErrorResponse {
   error: ErrorInfo;
 }
 
-export function errorResponseDeserializer(item: any): ErrorResponse {
+export function errorResponseDeserializer(item: { error: any }): ErrorResponse {
   return {
     error: errorInfoDeserializer(item["error"]),
   };
+}
+
+/** A single request in a batch. */
+export interface QueryBatch {
+  /** Unique ID corresponding to each request in the batch. */
+  id: string;
+  /**
+   * The Analytics query. Learn more about the [Analytics query
+   * syntax](https://azure.microsoft.com/documentation/articles/app-insights-analytics-reference/)
+   */
+  query: string;
+  /**
+   * The timespan over which to query data. This is an ISO8601 time period
+   * value.  This timespan is applied in addition to any that are specified in the
+   * query expression.
+   */
+  timespan: QueryTimeInterval;
+  /**
+   * Headers of the request. Can use prefer header to set server timeout and to
+   * query statistics and visualization information.
+   */
+  headers?: Record<string, string>;
+  /** A list of workspaces to query in addition to the primary workspace. */
+  workspaces?: string[];
+  /**
+   * Primary Workspace ID of the query. This is the Workspace ID from the Properties
+   * blade in the Azure portal.
+   */
+  workspace: string;
 }
 
 /** An array of requests. */
@@ -204,9 +251,7 @@ export function batchRequestSerializer(item: BatchRequest): any {
   return { requests: batchQueryRequestArraySerializer(item["requests"]) };
 }
 
-export function batchQueryRequestArraySerializer(
-  result: Array<BatchQueryRequest>,
-): any[] {
+export function batchQueryRequestArraySerializer(result: Array<BatchQueryRequest>): any[] {
   return result.map((item) => {
     return batchQueryRequestSerializer(item);
   });
@@ -249,12 +294,12 @@ export function batchQueryRequestSerializer(item: BatchQueryRequest): any {
 }
 
 /** Response to a batch query. */
-export interface BatchResponse {
+export interface LogsQueryBatchResult {
   /** An array of responses corresponding to each individual request in a batch. */
   responses?: BatchQueryResponse[];
 }
 
-export function batchResponseDeserializer(item: any): BatchResponse {
+export function batchResponseDeserializer(item: { responses: any }): LogsQueryBatchResult {
   return {
     responses: !item["responses"]
       ? item["responses"]
@@ -262,9 +307,7 @@ export function batchResponseDeserializer(item: any): BatchResponse {
   };
 }
 
-export function batchQueryResponseArrayDeserializer(
-  result: Array<BatchQueryResponse>,
-): any[] {
+export function batchQueryResponseArrayDeserializer(result: Array<BatchQueryResponse>): any[] {
   return result.map((item) => {
     return batchQueryResponseDeserializer(item);
   });
@@ -282,13 +325,16 @@ export interface BatchQueryResponse {
   headers?: Record<string, string>;
 }
 
-export function batchQueryResponseDeserializer(item: any): BatchQueryResponse {
+export function batchQueryResponseDeserializer(item: {
+  id?: any;
+  status?: any;
+  body?: any;
+  headers?: any;
+}): BatchQueryResponse {
   return {
     id: item["id"],
     status: item["status"],
-    body: !item["body"]
-      ? item["body"]
-      : batchQueryResultsDeserializer(item["body"]),
+    body: !item["body"] ? item["body"] : batchQueryResultsDeserializer(item["body"]),
     headers: item["headers"],
   };
 }
@@ -305,16 +351,17 @@ export interface BatchQueryResults {
   error?: ErrorInfo;
 }
 
-export function batchQueryResultsDeserializer(item: any): BatchQueryResults {
+export function batchQueryResultsDeserializer(item: {
+  tables: any;
+  statistics: any;
+  render: any;
+  error: any;
+}): BatchQueryResults {
   return {
-    tables: !item["tables"]
-      ? item["tables"]
-      : tableArrayDeserializer(item["tables"]),
+    tables: !item["tables"] ? item["tables"] : tableArrayDeserializer(item["tables"]),
     statistics: item["statistics"],
     render: item["render"],
-    error: !item["error"]
-      ? item["error"]
-      : errorInfoDeserializer(item["error"]),
+    error: !item["error"] ? item["error"] : errorInfoDeserializer(item["error"]),
   };
 }
 

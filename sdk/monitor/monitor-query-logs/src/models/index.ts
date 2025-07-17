@@ -3,7 +3,7 @@
 
 export {
   QueryBody,
-  QueryResults,
+  LogsQueryResult,
   Table,
   Column,
   ColumnDataType,
@@ -12,8 +12,10 @@ export {
   ErrorResponse,
   BatchRequest,
   BatchQueryRequest,
-  BatchResponse,
+  LogsQueryBatchResult,
   BatchQueryResponse,
   BatchQueryResults,
   Versions,
+  QueryBatch,
+  QueryTimeInterval,
 } from "./models.js";

@@ -5,7 +5,7 @@
 ```ts
 
 import type { ClientOptions } from '@azure-rest/core-client';
-import { OperationOptions } from '@azure-rest/core-client';
+import type { OperationOptions } from '@azure-rest/core-client';
 import type { Pipeline } from '@azure/core-rest-pipeline';
 import type { TokenCredential } from '@azure/core-auth';
 
@@ -45,11 +45,6 @@ export interface BatchRequest {
 }
 
 // @public
-export interface BatchResponse {
-    responses?: BatchQueryResponse[];
-}
-
-// @public
 export interface Column {
     name: string;
     type: ColumnDataType;
@@ -83,27 +78,48 @@ export interface ErrorResponse {
 }
 
 // @public
-export interface ExecuteOptionalParams extends OperationOptions {
-    prefer?: string;
+export interface ExecuteOptionalParams extends QueryLogsOptions {
 }
 
 // @public
-export interface ExecuteWithResourceIdOptionalParams extends OperationOptions {
-    prefer?: string;
+export interface ExecuteWithResourceIdOptionalParams extends QueryLogsOptions {
 }
 
-// @public (undocumented)
-export class MonitorQueryLogsClient {
-    constructor(credential: TokenCredential, options?: MonitorQueryLogsClientOptionalParams);
-    batch(body: BatchRequest, options?: BatchOptionalParams): Promise<BatchResponse>;
-    execute(workspaceId: string, body: QueryBody, options?: ExecuteOptionalParams): Promise<QueryResults>;
-    executeWithResourceId(resourceId: string, body: QueryBody, options?: ExecuteWithResourceIdOptionalParams): Promise<QueryResults>;
+// @public
+export interface LogsQueryBatchResult {
+    responses?: BatchQueryResponse[];
+}
+
+// @public
+export class LogsQueryClient {
+    constructor(tokenCredential: TokenCredential, options?: LogsQueryClientOptions);
     readonly pipeline: Pipeline;
+    queryBatch(queries: QueryBatch[], options?: BatchOptionalParams): Promise<LogsQueryBatchResult>;
+    queryResource(resourceId: string, query: string, timespan: QueryTimeInterval, options?: ExecuteWithResourceIdOptionalParams): Promise<LogsQueryResult>;
+    queryWorkspace(workspaceId: string, query: string, timespan: QueryTimeInterval, options?: ExecuteOptionalParams): Promise<LogsQueryResult>;
 }
 
 // @public
-export interface MonitorQueryLogsClientOptionalParams extends ClientOptions {
+export interface LogsQueryClientOptions extends ClientOptions {
     apiVersion?: string;
+}
+
+// @public
+export interface LogsQueryResult {
+    error?: ErrorInfo;
+    render?: Record<string, any>;
+    statistics?: Record<string, any>;
+    tables: Table[];
+}
+
+// @public
+export interface QueryBatch {
+    headers?: Record<string, string>;
+    id: string;
+    query: string;
+    timespan: QueryTimeInterval;
+    workspace: string;
+    workspaces?: string[];
 }
 
 // @public
@@ -114,12 +130,12 @@ export interface QueryBody {
 }
 
 // @public
-export interface QueryResults {
-    error?: ErrorInfo;
-    render?: Record<string, any>;
-    statistics?: Record<string, any>;
-    tables: Table[];
+export interface QueryLogsOptions extends OperationOptions {
+    prefer?: string;
 }
+
+// @public
+export type QueryTimeInterval = string;
 
 // @public
 export interface Table {

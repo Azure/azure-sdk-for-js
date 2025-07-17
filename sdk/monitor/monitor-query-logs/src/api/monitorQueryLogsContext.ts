@@ -13,19 +13,18 @@ export interface MonitorQueryLogsContext extends Client {
 }
 
 /** Optional parameters for the client. */
-export interface MonitorQueryLogsClientOptionalParams extends ClientOptions {
+export interface LogsQueryClientOptions extends ClientOptions {
   /** The service API version. */
   apiVersion?: string;
 }
 
 export function createMonitorQueryLogs(
   credential: TokenCredential,
-  options: MonitorQueryLogsClientOptionalParams = {},
+  options: LogsQueryClientOptions = {},
 ): MonitorQueryLogsContext {
   const endpointParam = options.endpoint ?? "https://api.loganalytics.io";
   const apiVersion = options.apiVersion ?? "v1";
-  const endpointUrl =
-    options.endpoint ?? options.baseUrl ?? `${endpointParam}/${apiVersion}`;
+  const endpointUrl = options.endpoint ?? options.baseUrl ?? `${endpointParam}/${apiVersion}`;
   const prefixFromOptions = options?.userAgentOptions?.userAgentPrefix;
   const userAgentInfo = `azsdk-js-monitor-query-logs/2.0.0`;
   const userAgentPrefix = prefixFromOptions
@@ -36,9 +35,7 @@ export function createMonitorQueryLogs(
     userAgentOptions: { userAgentPrefix },
     loggingOptions: { logger: options.loggingOptions?.logger ?? logger.info },
     credentials: {
-      scopes: options.credentials?.scopes ?? [
-        "https://api.loganalytics.io/.default",
-      ],
+      scopes: options.credentials?.scopes ?? ["https://api.loganalytics.io/.default"],
     },
   };
   const clientContext = getClient(endpointUrl, credential, updatedOptions);

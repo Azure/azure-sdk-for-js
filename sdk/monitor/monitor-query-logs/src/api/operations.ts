@@ -1,52 +1,48 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { MonitorQueryLogsContext as Client } from "./index.js";
-import {
+import type { MonitorQueryLogsContext as Client } from "./index.js";
+import type {
   QueryBody,
-  queryBodySerializer,
-  QueryResults,
-  queryResultsDeserializer,
-  errorResponseDeserializer,
+  LogsQueryResult,
   BatchRequest,
-  batchRequestSerializer,
-  BatchResponse,
-  batchResponseDeserializer,
+  LogsQueryBatchResult,
 } from "../models/models.js";
 import {
+  queryBodySerializer,
+  queryResultsDeserializer,
+  errorResponseDeserializer,
+  batchRequestSerializer,
+  batchResponseDeserializer,
+} from "../models/models.js";
+import type {
   BatchOptionalParams,
   ExecuteWithResourceIdOptionalParams,
   ExecuteOptionalParams,
 } from "./options.js";
 import { expandUrlTemplate } from "../static-helpers/urlTemplate.js";
-import {
-  StreamableMethod,
-  PathUncheckedResponse,
-  createRestError,
-  operationOptionsToRequestParameters,
-} from "@azure-rest/core-client";
+import type { StreamableMethod, PathUncheckedResponse } from "@azure-rest/core-client";
+import { createRestError, operationOptionsToRequestParameters } from "@azure-rest/core-client";
 
 export function _batchSend(
   context: Client,
   body: BatchRequest,
   options: BatchOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
-  return context
-    .path("/$batch")
-    .post({
-      ...operationOptionsToRequestParameters(options),
-      contentType: "application/json",
-      headers: {
-        accept: "application/json",
-        ...options.requestOptions?.headers,
-      },
-      body: batchRequestSerializer(body),
-    });
+  return context.path("/$batch").post({
+    ...operationOptionsToRequestParameters(options),
+    contentType: "application/json",
+    headers: {
+      accept: "application/json",
+      ...options.requestOptions?.headers,
+    },
+    body: batchRequestSerializer(body),
+  });
 }
 
 export async function _batchDeserialize(
   result: PathUncheckedResponse,
-): Promise<BatchResponse> {
+): Promise<LogsQueryBatchResult> {
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
@@ -66,7 +62,7 @@ export async function batch(
   context: Client,
   body: BatchRequest,
   options: BatchOptionalParams = { requestOptions: {} },
-): Promise<BatchResponse> {
+): Promise<LogsQueryBatchResult> {
   const result = await _batchSend(context, body, options);
   return _batchDeserialize(result);
 }
@@ -86,23 +82,21 @@ export function _executeWithResourceIdSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context
-    .path(path)
-    .post({
-      ...operationOptionsToRequestParameters(options),
-      contentType: "application/json",
-      headers: {
-        ...(options?.prefer !== undefined ? { Prefer: options?.prefer } : {}),
-        accept: "application/json",
-        ...options.requestOptions?.headers,
-      },
-      body: queryBodySerializer(body),
-    });
+  return context.path(path).post({
+    ...operationOptionsToRequestParameters(options),
+    contentType: "application/json",
+    headers: {
+      ...(options?.prefer !== undefined ? { Prefer: options?.prefer } : {}),
+      accept: "application/json",
+      ...options.requestOptions?.headers,
+    },
+    body: queryBodySerializer(body),
+  });
 }
 
 export async function _executeWithResourceIdDeserialize(
   result: PathUncheckedResponse,
-): Promise<QueryResults> {
+): Promise<LogsQueryResult> {
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
@@ -123,13 +117,8 @@ export async function executeWithResourceId(
   resourceId: string,
   body: QueryBody,
   options: ExecuteWithResourceIdOptionalParams = { requestOptions: {} },
-): Promise<QueryResults> {
-  const result = await _executeWithResourceIdSend(
-    context,
-    resourceId,
-    body,
-    options,
-  );
+): Promise<LogsQueryResult> {
+  const result = await _executeWithResourceIdSend(context, resourceId, body, options);
   return _executeWithResourceIdDeserialize(result);
 }
 
@@ -148,23 +137,19 @@ export function _executeSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context
-    .path(path)
-    .post({
-      ...operationOptionsToRequestParameters(options),
-      contentType: "application/json",
-      headers: {
-        ...(options?.prefer !== undefined ? { Prefer: options?.prefer } : {}),
-        accept: "application/json",
-        ...options.requestOptions?.headers,
-      },
-      body: queryBodySerializer(body),
-    });
+  return context.path(path).post({
+    ...operationOptionsToRequestParameters(options),
+    contentType: "application/json",
+    headers: {
+      ...(options?.prefer !== undefined ? { Prefer: options?.prefer } : {}),
+      accept: "application/json",
+      ...options.requestOptions?.headers,
+    },
+    body: queryBodySerializer(body),
+  });
 }
 
-export async function _executeDeserialize(
-  result: PathUncheckedResponse,
-): Promise<QueryResults> {
+export async function _executeDeserialize(result: PathUncheckedResponse): Promise<LogsQueryResult> {
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
@@ -185,7 +170,7 @@ export async function execute(
   workspaceId: string,
   body: QueryBody,
   options: ExecuteOptionalParams = { requestOptions: {} },
-): Promise<QueryResults> {
+): Promise<LogsQueryResult> {
   const result = await _executeSend(context, workspaceId, body, options);
   return _executeDeserialize(result);
 }
