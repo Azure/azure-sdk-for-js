@@ -22,6 +22,7 @@ import { WorkloadIdentityCredential } from "./workloadIdentityCredential.js";
 import type { WorkloadIdentityCredentialOptions } from "./workloadIdentityCredentialOptions.js";
 import { credentialLogger } from "../util/logging.js";
 import { VisualStudioCodeCredential } from "./visualStudioCodeCredential.js";
+import { BrokerCredential } from "./brokerCredential.js";
 
 const logger = credentialLogger("DefaultAzureCredential");
 
@@ -162,6 +163,21 @@ function createDefaultAzurePowershellCredential(
 }
 
 /**
+ * Creates a BrokerCredential instance with the provided options.
+ * This credential uses the Windows Authentication Manager (WAM) broker for authentication.
+ * It will only attempt to authenticate silently using the default broker account
+ *
+ * @param options - Options for configuring the credential.
+ *
+ * @internal
+ */
+export function createDefaultBrokerCredential(
+  options: DefaultAzureCredentialOptions = {},
+): TokenCredential {
+  return new BrokerCredential(options);
+}
+
+/**
  * Creates an {@link EnvironmentCredential} from the provided options.
  * @param options - Options to configure the credential.
  *
@@ -256,6 +272,7 @@ export class DefaultAzureCredential extends ChainedTokenCredential {
       createDefaultAzureCliCredential,
       createDefaultAzurePowershellCredential,
       createDefaultAzureDeveloperCliCredential,
+      createDefaultBrokerCredential,
     ];
     const prodCredentialFunctions = [
       createEnvironmentCredential,
