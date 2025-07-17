@@ -155,10 +155,10 @@ export class Items {
       innerOptions: FeedOptions,
       correlatedActivityId: string,
     ) => {
-      let internalPartitionKey: PartitionKeyInternal | undefined;
-      if (options.partitionKey) {
-        internalPartitionKey = convertToInternalPartitionKey(options.partitionKey);
-      }
+      // let internalPartitionKey: PartitionKeyInternal | undefined;
+      // if (options.partitionKey) {
+      //   internalPartitionKey = convertToInternalPartitionKey(options.partitionKey);
+      // }
       // const isPartitionLevelFailOverEnabled = this.clientContext.isPartitionLevelFailOverEnabled();
       // const partitionKeyRangeId = await computePartitionKeyRangeId(
       //   diagnosticNode,
