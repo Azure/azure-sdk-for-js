@@ -15,16 +15,32 @@ describe("IQ Query test", async () => {
     // create database container and add some data
     await client.databases.createIfNotExists({ id: "testdb" });
     await client.database("testdb").containers.createIfNotExists({ id: "testcontainer" });
-    await client.database("testdb").container("testcontainer").items.create({ id: "1", name: "Item 1" });
-    await client.database("testdb").container("testcontainer").items.create({ id: "2", name: "Item 2" });
+    await client
+      .database("testdb")
+      .container("testcontainer")
+      .items.create({ id: "1", name: "Item 1" });
+    await client
+      .database("testdb")
+      .container("testcontainer")
+      .items.create({ id: "2", name: "Item 2" });
     // Arrange
     const query = "SELECT * FROM c";
-    const expected = [{ id: "1", name: "Item 1" }, { id: "2", name: "Item 2" }];
+    const expected = [
+      { id: "1", name: "Item 1" },
+      { id: "2", name: "Item 2" },
+    ];
 
     // Act
-    const result = await client.database("testdb").container("testcontainer").items.query(query,{forceQueryPlan: true}).fetchAll();
+    const result = await client
+      .database("testdb")
+      .container("testcontainer")
+      .items.query(query, { forceQueryPlan: true })
+      .fetchAll();
 
     // just assert the id
-    assert.deepEqual(result.resources.map(item => item.id), expected.map(item => item.id));
+    assert.deepEqual(
+      result.resources.map((item) => item.id),
+      expected.map((item) => item.id),
+    );
   });
 });

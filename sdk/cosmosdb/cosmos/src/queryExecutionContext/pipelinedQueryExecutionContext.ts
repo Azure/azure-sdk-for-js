@@ -31,7 +31,10 @@ export class PipelinedQueryExecutionContext implements ExecutionContext {
   private static DEFAULT_PAGE_SIZE = 10;
   private static DEFAULT_MAX_VECTOR_SEARCH_BUFFER_SIZE = 50000;
   private nonStreamingOrderBy = false;
-  private partitionKeyRangeMap: Map<string, { indexes: number[]; continuationToken: string | null, partitionKeyRange?: PartitionKeyRange }> = new Map();
+  private partitionKeyRangeMap: Map<
+    string,
+    { indexes: number[]; continuationToken: string | null; partitionKeyRange?: PartitionKeyRange }
+  > = new Map();
   private continuationToken: string = "";
   constructor(
     private clientContext: ClientContext,
@@ -190,9 +193,26 @@ export class PipelinedQueryExecutionContext implements ExecutionContext {
         return { result: temp, headers: this.fetchMoreRespHeaders };
       } else {
         const response = await this.endpoint.fetchMore(diagnosticNode);
-        const bufferedResults = response.result.buffer;
+        let bufferedResults;
+
+        // Handle both old format (just array) and new format (with buffer property)
+        if (Array.isArray(response.result)) {
+          // Old format - result is directly the array
+          bufferedResults = response.result;
+        } else if (response.result && response.result.buffer) {
+          // New format - result has buffer property
+          bufferedResults = response.result.buffer;
+        } else {
+          // Handle undefined/null case
+          bufferedResults = response.result;
+        }
+
         mergeHeaders(this.fetchMoreRespHeaders, response.headers);
-        if (response === undefined || response.result === undefined || bufferedResults === undefined) {
+        if (
+          response === undefined ||
+          response.result === undefined ||
+          bufferedResults === undefined
+        ) {
           if (this.fetchBuffer.length > 0) {
             const temp = this.fetchBuffer;
             this.fetchBuffer = [];
@@ -201,7 +221,7 @@ export class PipelinedQueryExecutionContext implements ExecutionContext {
             return { result: undefined, headers: this.fetchMoreRespHeaders };
           }
         }
-        this.fetchBuffer.push(...response.result);
+        this.fetchBuffer.push(...bufferedResults);
         // TODO: This section can be removed
         // if (this.options.enableQueryControl) {
         //   if (this.fetchBuffer.length >= this.pageSize) {
@@ -229,37 +249,44 @@ export class PipelinedQueryExecutionContext implements ExecutionContext {
 
   // TODO: would be called when enableQUeryCOntrol is true
   private async _enableQueryControlFetchMoreImplementation(
-    diagnosticNode: DiagnosticNodeInternal
+    diagnosticNode: DiagnosticNodeInternal,
   ): Promise<Response<any>> {
-      if(this.partitionKeyRangeMap.size > 0) {
-        const endIndex = this.fetchBufferEndIndexForCurrentPage();
-        const temp = this.fetchBuffer.slice(0, endIndex);
-        this.fetchBuffer = this.fetchBuffer.slice(endIndex);
-        console.log("continuationToken", this.continuationToken);
-        return { result: temp, headers: this.fetchMoreRespHeaders };
-      }else {
-        this.continuationToken = "";
-        this.partitionKeyRangeMap.clear();
-        this.fetchBuffer = [];
+    if (this.partitionKeyRangeMap.size > 0) {
+      const endIndex = this.fetchBufferEndIndexForCurrentPage();
+      const temp = this.fetchBuffer.slice(0, endIndex);
+      this.fetchBuffer = this.fetchBuffer.slice(endIndex);
+      console.log("continuationToken", this.continuationToken);
+      return { result: temp, headers: this.fetchMoreRespHeaders };
+    } else {
+      this.continuationToken = "";
+      this.partitionKeyRangeMap.clear();
+      this.fetchBuffer = [];
 
-        const response = await this.endpoint.fetchMore(diagnosticNode);
-        const result = response.result;
-        const bufferedResults = result.buffer;
-        const partitionKeyRangeMap = result.partitionKeyRangeMap;
-        // add partitionKeyRangeMap to the class variable with
-        this.partitionKeyRangeMap = partitionKeyRangeMap;
-        this.fetchBuffer = bufferedResults;
-        mergeHeaders(this.fetchMoreRespHeaders, response.headers);
-        const endIndex = this.fetchBufferEndIndexForCurrentPage();
-        const temp = this.fetchBuffer.slice(0, endIndex);
-        this.fetchBuffer = this.fetchBuffer.slice(endIndex);
-        return { result: temp, headers: this.fetchMoreRespHeaders };
-      }
+      const response = await this.endpoint.fetchMore(diagnosticNode);
+
+      // New format - object with buffer and partitionKeyRangeMap
+      const bufferedResults = response.result.buffer;
+      const partitionKeyRangeMap = response.result.partitionKeyRangeMap;
+      // add partitionKeyRangeMap to the class variable with
+      this.partitionKeyRangeMap = partitionKeyRangeMap || new Map();
+      this.fetchBuffer = bufferedResults;
+
+      mergeHeaders(this.fetchMoreRespHeaders, response.headers);
+      const endIndex = this.fetchBufferEndIndexForCurrentPage();
+      const temp = this.fetchBuffer.slice(0, endIndex);
+      this.fetchBuffer = this.fetchBuffer.slice(endIndex);
+      return { result: temp, headers: this.fetchMoreRespHeaders };
+    }
   }
 
   private fetchBufferEndIndexForCurrentPage(): number {
     // TODO: update later
     let endIndex = 0;
+
+    // Ensure partitionKeyRangeMap is defined and iterable
+    if (!this.partitionKeyRangeMap || this.partitionKeyRangeMap.size === 0) {
+      return this.fetchBuffer.length;
+    }
 
     for (const [_, value] of this.partitionKeyRangeMap) {
       const { indexes } = value;

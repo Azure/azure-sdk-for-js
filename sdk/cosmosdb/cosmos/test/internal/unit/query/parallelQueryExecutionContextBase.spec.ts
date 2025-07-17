@@ -371,8 +371,8 @@ describe("parallelQueryExecutionContextBase", () => {
 
     it("should return an empty array if buffer is empty", async () => {
       const result = await (context as any).drainBufferedItems();
-      assert.deepEqual(result.result, []);
-      assert.exists(result.headers);
+      assert.deepEqual(result.result.buffer, []);
+      assert.exists(result.result.partitionKeyRangeMap);
     });
 
     it("should return buffered items and clear the buffer", async () => {
@@ -390,8 +390,8 @@ describe("parallelQueryExecutionContextBase", () => {
 
       const result = await (context as any).drainBufferedItems();
 
-      assert.deepEqual(result.result, [mockDocument1, mockDocument2]);
-      assert.exists(result.headers);
+      assert.deepEqual(result.result.buffer, [mockDocument1, mockDocument2]);
+      assert.exists(result.result.partitionKeyRangeMap);
       assert.equal(context["buffer"].length, 0);
     });
 

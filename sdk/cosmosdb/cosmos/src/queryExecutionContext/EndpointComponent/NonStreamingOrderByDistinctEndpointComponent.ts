@@ -110,7 +110,11 @@ export class NonStreamingOrderByDistinctEndpointComponent implements ExecutionCo
     if (this.executionContext.hasMoreResults()) {
       // Grab the next result
       const response = await this.executionContext.fetchMore(diagnosticNode);
-      if (response === undefined || response.result === undefined) {
+      if (
+        response === undefined ||
+        response.result === undefined ||
+        response.result.buffer === undefined
+      ) {
         this.isCompleted = true;
         if (this.aggregateMap.size() > 0) {
           await this.buildFinalResultArray();
@@ -122,7 +126,7 @@ export class NonStreamingOrderByDistinctEndpointComponent implements ExecutionCo
         return { result: undefined, headers: response.headers };
       }
       resHeaders = response.headers;
-      for (const item of response.result) {
+      for (const item of response.result.buffer) {
         if (item) {
           const key = await hashObject(item?.payload);
           this.aggregateMap.set(key, item);

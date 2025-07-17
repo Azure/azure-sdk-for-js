@@ -76,7 +76,11 @@ export class NonStreamingOrderByEndpointComponent implements ExecutionContext {
     if (this.executionContext.hasMoreResults()) {
       const response = await this.executionContext.fetchMore(diagnosticNode);
       resHeaders = response.headers;
-      if (response === undefined || response.result === undefined) {
+      if (
+        response === undefined ||
+        response.result === undefined ||
+        response.result.buffer === undefined
+      ) {
         this.isCompleted = true;
         if (!this.nonStreamingOrderByPQ.isEmpty()) {
           return this.buildFinalResultArray(resHeaders);
@@ -84,7 +88,7 @@ export class NonStreamingOrderByEndpointComponent implements ExecutionContext {
         return { result: undefined, headers: resHeaders };
       }
 
-      for (const item of response.result) {
+      for (const item of response.result.buffer) {
         if (item !== undefined) {
           this.nonStreamingOrderByPQ.enqueue(item);
         }

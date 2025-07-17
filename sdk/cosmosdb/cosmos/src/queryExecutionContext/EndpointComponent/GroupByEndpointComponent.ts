@@ -30,7 +30,7 @@ export class GroupByEndpointComponent implements ExecutionContext {
   public hasMoreResults(): boolean {
     return this.executionContext.hasMoreResults();
   }
-
+  // TODO: don't return continuations in case of group by
   public async fetchMore(diagnosticNode: DiagnosticNodeInternal): Promise<Response<any>> {
     if (this.completed) {
       return {
@@ -42,7 +42,11 @@ export class GroupByEndpointComponent implements ExecutionContext {
     const response = await this.executionContext.fetchMore(diagnosticNode);
     mergeHeaders(aggregateHeaders, response.headers);
 
-    if (response === undefined || response.result === undefined) {
+    if (
+      response === undefined ||
+      response.result === undefined ||
+      response.result.buffer === undefined
+    ) {
       // If there are any groupings, consolidate and return them
       if (this.groupings.size > 0) {
         return this.consolidateGroupResults(aggregateHeaders);
@@ -50,7 +54,7 @@ export class GroupByEndpointComponent implements ExecutionContext {
       return { result: undefined, headers: aggregateHeaders };
     }
 
-    for (const item of response.result as GroupByResult[]) {
+    for (const item of response.result.buffer as GroupByResult[]) {
       // If it exists, process it via aggregators
       if (item) {
         const group = item.groupByItems ? await hashObject(item.groupByItems) : emptyGroup;
