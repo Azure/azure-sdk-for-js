@@ -8,7 +8,7 @@ import type {
 } from "./defaultAzureCredentialOptions.js";
 
 import { ManagedIdentityCredential } from "./managedIdentityCredential/index.js";
-
+import { VisualStudioCodeCredential } from "./visualStudioCodeCredential.js";
 import { AzureCliCredential } from "./azureCliCredential.js";
 import { AzureDeveloperCliCredential } from "./azureDeveloperCliCredential.js";
 import { AzurePowerShellCredential } from "./azurePowerShellCredential.js";
@@ -21,7 +21,9 @@ import {
   createDefaultAzureCliCredential,
   createDefaultAzureDeveloperCliCredential,
   createDefaultAzurePowershellCredential,
+  createDefaultBrokerCredential,
   createDefaultManagedIdentityCredential,
+  createDefaultVisualStudioCodeCredential,
   createDefaultWorkloadIdentityCredential,
   createEnvironmentCredential,
 } from "./defaultAzureCredentialFunctions.js";
@@ -62,6 +64,7 @@ export class UnavailableDefaultCredential implements TokenCredential {
  * - {@link AzureCliCredential}
  * - {@link AzurePowerShellCredential}
  * - {@link AzureDeveloperCliCredential}
+ * - {@link VisualStudioCodeCredential}
  *
  * Consult the documentation of these credential types for more information
  * on how they attempt authentication.
@@ -105,9 +108,11 @@ export class DefaultAzureCredential extends ChainedTokenCredential {
       ? process.env.AZURE_TOKEN_CREDENTIALS.trim().toLowerCase()
       : undefined;
     const devCredentialFunctions = [
+      createDefaultVisualStudioCodeCredential,
       createDefaultAzureCliCredential,
       createDefaultAzurePowershellCredential,
       createDefaultAzureDeveloperCliCredential,
+      createDefaultBrokerCredential,
     ];
     const prodCredentialFunctions = [
       createEnvironmentCredential,

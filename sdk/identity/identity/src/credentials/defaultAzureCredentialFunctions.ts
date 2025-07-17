@@ -18,6 +18,35 @@ import { AzureDeveloperCliCredential } from "./azureDeveloperCliCredential.js";
 import { AzureCliCredential } from "./azureCliCredential.js";
 import { AzurePowerShellCredential } from "./azurePowerShellCredential.js";
 import type { WorkloadIdentityCredentialOptions } from "./workloadIdentityCredentialOptions.js";
+import { VisualStudioCodeCredential } from "./visualStudioCodeCredential.js";
+import { BrokerCredential } from "./brokerCredential.js";
+
+/**
+ * Creates a {@link BrokerCredential} instance with the provided options.
+ * This credential uses the Windows Authentication Manager (WAM) broker for authentication.
+ * It will only attempt to authenticate silently using the default broker account
+ *
+ * @param options - Options for configuring the credential.
+ *
+ * @internal
+ */
+export function createDefaultBrokerCredential(
+  options: DefaultAzureCredentialOptions = {},
+): TokenCredential {
+  return new BrokerCredential(options);
+}
+
+/**
+ * Creates a {@link VisualStudioCodeCredential} from the provided options.
+ * @param options - Options to configure the credential.
+ *
+ * @internal
+ */
+export function createDefaultVisualStudioCodeCredential(
+  options: DefaultAzureCredentialOptions = {},
+): TokenCredential {
+  return new VisualStudioCodeCredential(options);
+}
 
 /**
  * Creates a {@link ManagedIdentityCredential} from the provided options.

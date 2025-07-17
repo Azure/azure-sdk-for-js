@@ -36,14 +36,14 @@ const GlobalSkippableErrors: SkippableErrors = {
 export const maxRetriesOption = { maxRetries: 0 };
 
 export enum APIVersion {
-  v2025_03_01_preview = "2025-03-01-preview",
+  v2025_04_01_preview = "2025-04-01-preview",
   v2024_10_21 = "2024-10-21",
   Stable = v2024_10_21,
   OpenAI = "OpenAI",
   v2024_10_01_preview = "2024-10-01-preview",
 }
 
-export const APIMatrix = [APIVersion.v2025_03_01_preview, APIVersion.v2024_10_21];
+export const APIMatrix = [APIVersion.v2025_04_01_preview, APIVersion.v2024_10_21];
 
 function toString(error: any): string {
   return error.error ? JSON.stringify(error.error) : JSON.stringify(error);
@@ -54,6 +54,7 @@ export async function withDeployments<T>(
   run: (client: OpenAI, model: string) => Promise<T>,
   validate?: (result: T) => void,
   modelsListToSkip?: Partial<ModelInfo>[],
+  apiVersion: APIVersion = APIVersion.v2025_04_01_preview,
 ): Promise<void> {
   const errors = [];
   const succeeded = [];
@@ -64,7 +65,7 @@ export async function withDeployments<T>(
       logger.info(
         `[${++i}/${count}] testing with deployment: ${deployment.deploymentName} (${deployment.model.name}: ${deployment.model.version})`,
       );
-      if (modelsListToSkip && isModelInList(deployment.model, modelsListToSkip)) {
+      if (modelsListToSkip && isModelInList(deployment.model, apiVersion, modelsListToSkip)) {
         logger.info(
           `Skipping deployment ${deployment.deploymentName} (${deployment.model.name}: ${deployment.model.version})`,
         );
@@ -118,6 +119,7 @@ export async function withDeployments<T>(
 
 export type DeploymentTestingParameters<T> = {
   clientsAndDeploymentsInfo: ClientsAndDeploymentsInfo;
+  apiVersion: APIVersion;
   run: (client: OpenAI, model: string) => Promise<T>;
   validate?: (result: T) => void;
   modelsListToSkip?: Partial<ModelInfo>[];
@@ -140,6 +142,7 @@ type ModelFlatMap = {
  */
 export async function testWithDeployments<T>({
   clientsAndDeploymentsInfo,
+  apiVersion,
   run,
   validate,
   modelsListToSkip,
@@ -158,7 +161,7 @@ export async function testWithDeployments<T>({
   test.concurrent.for(modelFlatMap)(
     "$model.name ($model.version)",
     async ({ model, client, deploymentName }: ModelFlatMap, context: TestContext) => {
-      if (modelsListToSkip && isModelInList(model, modelsListToSkip)) {
+      if (modelsListToSkip && isModelInList(model, apiVersion, modelsListToSkip)) {
         context.skip(`Skipping ${model.name} : ${model.version}`);
       }
 
@@ -277,12 +280,14 @@ export async function sendRequest(request: PipelineRequest): Promise<PipelineRes
 
 function isModelInList(
   expectedModel: Partial<ModelInfo>,
+  apiVersion: APIVersion,
   modelsList: Partial<ModelInfo>[],
 ): boolean {
   for (const model of modelsList) {
     if (
       expectedModel.name === model.name &&
-      (!expectedModel.version || !model.version || expectedModel.version === model.version)
+      (!expectedModel.version || !model.version || expectedModel.version === model.version) &&
+      (!expectedModel.apiVersion || expectedModel.apiVersion === apiVersion)
     ) {
       return true;
     }
