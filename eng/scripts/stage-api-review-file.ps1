@@ -13,18 +13,36 @@ if (!((Test-Path $PackageInfoPath) -and (Test-Path $StagingDirectory))) {
 foreach ($pkg in (Get-ChildItem -Path $PackageInfoPath "*.json")) {
   $info = Get-Content -Path $pkg.FullName | ConvertFrom-Json
   if (Test-Path $info.DirectoryPath) {
-    # Look for the main package API file first, then fall back to any -node.api.json file
-    $mainApiFile = @(Get-ChildItem -Path $info.DirectoryPath "$($info.ArtifactName)-node.api.json" -Recurse)
-    if ($mainApiFile) {
-      $apiFile = $mainApiFile
+    # First try to find the main package API file (without extra suffixes like -api-, -models-, etc.)
+    $allNodeApiFiles = @(Get-ChildItem -Path $info.DirectoryPath "*-node.api.json" -Recurse)
+    
+    # Try to find the main file by looking for one that doesn't have extra suffixes
+    $mainApiFile = $allNodeApiFiles | Where-Object { 
+      $_.BaseName -match "^[^-]+-node$" -or 
+      $_.BaseName -eq "$($info.ArtifactName)-node" -or
+      ($_.BaseName -notmatch "-api-" -and $_.BaseName -notmatch "-models-")
+    }
+    
+    if ($mainApiFile -and $mainApiFile.Count -eq 1) {
+      $apiFile = @($mainApiFile)
+    }
+    elseif ($allNodeApiFiles.Count -eq 1) {
+      # If there's only one node API file, use it
+      $apiFile = $allNodeApiFiles
     }
     else {
-      $apiFile = @(Get-ChildItem -Path $info.DirectoryPath "*-node.api.json" -Recurse)
+      # Multiple files found, this will trigger the error below
+      $apiFile = $allNodeApiFiles
     }
+    
     if ($apiFile) {
       if ($apiFile.Count -ne 1) {
-        # Unlikely, but handling to avoid any issue in the future if more than one -node.api.json file is present here
-        Write-Error "Detected more than one -node.api.json extracted file in $($info.DirectoryPath)"
+        # List all found files for debugging
+        Write-Host "Found API files:"
+        foreach ($file in $apiFile) {
+          Write-Host "  $($file.FullName)"
+        }
+        Write-Error "Detected more than one -node.api.json extracted file in $($info.DirectoryPath). Expected main file: $($info.ArtifactName)-node.api.json"
         exit 1
       }
       
