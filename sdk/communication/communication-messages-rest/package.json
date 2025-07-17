@@ -76,7 +76,6 @@
     "autorest": "latest",
     "dotenv": "^16.0.0",
     "eslint": "^9.9.0",
-    "karma-source-map-support": "~1.4.0",
     "playwright": "^1.48.2",
     "typescript": "~5.8.2",
     "vitest": "^3.0.9"

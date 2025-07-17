@@ -30,5 +30,7 @@ export {
   SystemData,
   KnownCreatedByType,
   CreatedByType,
+  OrganizationResourceUpdate,
+  OrganizationResourceUpdateProperties,
   KnownVersions,
 } from "./models.js";

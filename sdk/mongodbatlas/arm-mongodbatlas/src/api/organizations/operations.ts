@@ -7,6 +7,8 @@ import {
   OrganizationResource,
   organizationResourceSerializer,
   organizationResourceDeserializer,
+  OrganizationResourceUpdate,
+  organizationResourceUpdateSerializer,
   _OrganizationResourceListResult,
   _organizationResourceListResultDeserializer,
 } from "../../models/models.js";
@@ -18,11 +20,11 @@ import {
   OrganizationsCreateOrUpdateOptionalParams,
   OrganizationsGetOptionalParams,
 } from "./options.js";
-import { getLongRunningPoller } from "../../static-helpers/pollingHelpers.js";
 import {
   PagedAsyncIterableIterator,
   buildPagedAsyncIterator,
 } from "../../static-helpers/pagingHelpers.js";
+import { getLongRunningPoller } from "../../static-helpers/pollingHelpers.js";
 import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
 import {
   StreamableMethod,
@@ -205,7 +207,7 @@ export function _updateSend(
   context: Client,
   resourceGroupName: string,
   organizationName: string,
-  properties: OrganizationResource,
+  properties: OrganizationResourceUpdate,
   options: OrganizationsUpdateOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
@@ -227,7 +229,7 @@ export function _updateSend(
       accept: "application/json",
       ...options.requestOptions?.headers,
     },
-    body: organizationResourceSerializer(properties),
+    body: organizationResourceUpdateSerializer(properties),
   });
 }
 
@@ -249,7 +251,7 @@ export function update(
   context: Client,
   resourceGroupName: string,
   organizationName: string,
-  properties: OrganizationResource,
+  properties: OrganizationResourceUpdate,
   options: OrganizationsUpdateOptionalParams = { requestOptions: {} },
 ): PollerLike<OperationState<OrganizationResource>, OrganizationResource> {
   return getLongRunningPoller(context, _updateDeserialize, ["200", "202"], {
