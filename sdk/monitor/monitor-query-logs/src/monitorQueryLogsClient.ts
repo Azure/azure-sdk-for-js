@@ -1,25 +1,26 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import {
-  createMonitorQueryLogs,
+import type {
   MonitorQueryLogsContext,
-  MonitorQueryLogsClientOptionalParams,
-} from "./api/index.js";
+  MonitorQueryLogsClientOptionalParams} from "./api/index.js";
 import {
+  createMonitorQueryLogs
+} from "./api/index.js";
+import type {
   QueryBody,
   QueryResults,
   BatchRequest,
   BatchResponse,
 } from "./models/models.js";
-import {
+import type {
   BatchOptionalParams,
   ExecuteWithResourceIdOptionalParams,
   ExecuteOptionalParams,
 } from "./api/options.js";
 import { batch, executeWithResourceId, execute } from "./api/operations.js";
-import { Pipeline } from "@azure/core-rest-pipeline";
-import { TokenCredential } from "@azure/core-auth";
+import type { Pipeline } from "@azure/core-rest-pipeline";
+import type { TokenCredential } from "@azure/core-auth";
 
 export { MonitorQueryLogsClientOptionalParams } from "./api/monitorQueryLogsContext.js";
 

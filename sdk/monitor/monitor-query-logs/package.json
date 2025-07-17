@@ -80,6 +80,7 @@
     "@azure/core-auth": "^1.9.0",
     "@azure/core-client": "^1.9.2",
     "@azure/core-paging": "^1.6.2",
+    "@azure-rest/core-client": "^2.5.0",
     "@azure/core-rest-pipeline": "^1.19.0",
     "@azure/core-tracing": "^1.2.0",
     "@azure/core-util": "^1.11.0",

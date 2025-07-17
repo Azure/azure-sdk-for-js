@@ -2,9 +2,10 @@
 // Licensed under the MIT License.
 
 import { logger } from "../logger.js";
-import { Versions } from "../models/models.js";
-import { Client, ClientOptions, getClient } from "@azure-rest/core-client";
-import { TokenCredential } from "@azure/core-auth";
+import type { Versions } from "../models/models.js";
+import type { Client, ClientOptions } from "@azure-rest/core-client";
+import { getClient } from "@azure-rest/core-client";
+import type { TokenCredential } from "@azure/core-auth";
 
 export interface MonitorQueryLogsContext extends Client {
   /** The service API version. */
@@ -21,7 +22,7 @@ export function createMonitorQueryLogs(
   credential: TokenCredential,
   options: MonitorQueryLogsClientOptionalParams = {},
 ): MonitorQueryLogsContext {
-  const endpointParam = options.endpointParam ?? "https://api.loganalytics.io";
+  const endpointParam = options.endpoint ?? "https://api.loganalytics.io";
   const apiVersion = options.apiVersion ?? "v1";
   const endpointUrl =
     options.endpoint ?? options.baseUrl ?? `${endpointParam}/${apiVersion}`;
