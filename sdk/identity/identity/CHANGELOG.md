@@ -4,6 +4,8 @@
 
 ### Features Added
 
+- `DefaultAzureCredential` now supports authentication with the currently signed-in Windows account when the `@azure/identity-broker` package is installed and configured with `useIdentityPlugin`. This auth mechanism is added at the end of the `DefaultAzureCredential` credential chain. [#35213](https://github.com/Azure/azure-sdk-for-js/pull/35213)
+
 ### Breaking Changes
 
 ### Bugs Fixed
