@@ -436,9 +436,15 @@ If the preceding command isn't working properly, follow the instructions to reso
 
 ## Troubleshoot Web Account Manager and Microsoft account login issues
 
+Broker authentication is used by `DefaultAzureCredential` to enable secure sign-in via the Windows Web Account Manager (WAM). This mechanism requires the `@azure/identity-broker` dependency and is currently only supported on Windows.
+
 | Error Message | Description                                           | Mitigation                                                                                                                                                                |
 | ------------- | ----------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | AADSTS50011   | The application is missing the expected redirect URI. | Ensure that one of redirect URIs registered for the Microsoft Entra application matches the following URI pattern: `ms-appx-web://Microsoft.AAD.BrokerPlugin/{client_id}` |
+| `CredentialUnavailableException: Failed to acquire token using broker authentication` | An unexpected error occurred while getting token with the broker authentication flow. | Check the inner exception for more details. Ensure your environment meets all requirements for broker authentication (Windows OS, correct dependencies, and configuration). |
+
+> [!NOTE] 
+> Brokered authentication is currently only supported on Windows. macOS and Linux are not yet supported.
 
 ### Unable to log in with Microsoft account (MSA) on Windows
 
