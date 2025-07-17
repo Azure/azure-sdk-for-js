@@ -241,6 +241,9 @@ importers:
       '@rush-temp/arm-containerservicefleet':
         specifier: file:./projects/arm-containerservicefleet.tgz
         version: file:projects/arm-containerservicefleet.tgz(@types/debug@4.1.12)(tsx@4.20.3)(vite@6.3.5(@types/node@22.7.9)(tsx@4.20.3)(yaml@2.8.0))(yaml@2.8.0)
+      '@rush-temp/arm-containerservicesafeguards':
+        specifier: file:./projects/arm-containerservicesafeguards.tgz
+        version: file:projects/arm-containerservicesafeguards.tgz(@types/debug@4.1.12)(tsx@4.20.3)(vite@6.3.5(@types/node@22.7.9)(tsx@4.20.3)(yaml@2.8.0))(yaml@2.8.0)
       '@rush-temp/arm-cosmosdb':
         specifier: file:./projects/arm-cosmosdb.tgz
         version: file:projects/arm-cosmosdb.tgz(@types/debug@4.1.12)(tsx@4.20.3)(vite@6.3.5(@types/node@22.7.9)(tsx@4.20.3)(yaml@2.8.0))(yaml@2.8.0)
@@ -2548,7 +2551,7 @@ packages:
     version: 0.0.0
 
   '@rush-temp/ai-projects@file:projects/ai-projects.tgz':
-    resolution: {integrity: sha512-FF2SMnf37YqznC8eqWwS8Ddeo4SXECZUeMP5hWZ9suxS6NiRYup3pDQNwSY3vzFcvsriJbmHdDPgnfLzmmRVnQ==, tarball: file:projects/ai-projects.tgz}
+    resolution: {integrity: sha512-yLc3ufJZ0mBMsu5WwARubuHmAdx5QQyohZ6HkVNQev18V4hCE38279bl+JbS+cRcOBLtiy//tFGHf9Bdq6KbhQ==, tarball: file:projects/ai-projects.tgz}
     version: 0.0.0
 
   '@rush-temp/ai-text-analytics@file:projects/ai-text-analytics.tgz':
@@ -2760,7 +2763,7 @@ packages:
     version: 0.0.0
 
   '@rush-temp/arm-computeschedule@file:projects/arm-computeschedule.tgz':
-    resolution: {integrity: sha512-J2v6P+cftWtkYT5Dvn8DXmWStmnNqymSLGuhLz3PrcsUZRWeo+D8of8c4GF6qTLCjmM3chniHg3uCUhkMZilQw==, tarball: file:projects/arm-computeschedule.tgz}
+    resolution: {integrity: sha512-VGf69WVBqrtlesD0J1QXYIudcRVgi+wGYsSO/VtdX9DFu3uos4sdIOPdEvFRvuEvus4QTPahxteLj9uwKFLvcA==, tarball: file:projects/arm-computeschedule.tgz}
     version: 0.0.0
 
   '@rush-temp/arm-confidentialledger@file:projects/arm-confidentialledger.tgz':
@@ -2805,6 +2808,10 @@ packages:
 
   '@rush-temp/arm-containerservicefleet@file:projects/arm-containerservicefleet.tgz':
     resolution: {integrity: sha512-IAOUczq8SdXOWv+v+N5Oilt6xMPwz4K5CTybKJVm4nKkEMRtIUt/h1umtqSS51BIF8Ztpv/A2HobF7iLL3fNLA==, tarball: file:projects/arm-containerservicefleet.tgz}
+    version: 0.0.0
+
+  '@rush-temp/arm-containerservicesafeguards@file:projects/arm-containerservicesafeguards.tgz':
+    resolution: {integrity: sha512-Rk3rphFYZt028iFTVsGw4MfG/KBdds2EoKH2jalyY/eYevE2799gbCbfq41dyAFTRae6i7cF2Ga1gLBoGqeyiQ==, tarball: file:projects/arm-containerservicesafeguards.tgz}
     version: 0.0.0
 
   '@rush-temp/arm-cosmosdb@file:projects/arm-cosmosdb.tgz':
@@ -3960,7 +3967,7 @@ packages:
     version: 0.0.0
 
   '@rush-temp/monitor-ingestion@file:projects/monitor-ingestion.tgz':
-    resolution: {integrity: sha512-dDJ9dIgfT35g60gD4kLePe83cBOBdfflqNclgSKYV6DE4T6Qv6V0MCxfdCobxuImkYKzYHj0g/6eS3p8LkJL8w==, tarball: file:projects/monitor-ingestion.tgz}
+    resolution: {integrity: sha512-rYTWw8I1YpWry1hRzVW4wur7N/g0FqNu5PPMoIBazf/p35yI8+8LAWi4SSh5DtlBHOEA8YSyPfG0mqw2g3thCQ==, tarball: file:projects/monitor-ingestion.tgz}
     version: 0.0.0
 
   '@rush-temp/monitor-opentelemetry-exporter@file:projects/monitor-opentelemetry-exporter.tgz':
@@ -4144,7 +4151,7 @@ packages:
     version: 0.0.0
 
   '@rush-temp/storage-common@file:projects/storage-common.tgz':
-    resolution: {integrity: sha512-gcZIug5dnkYKOjyXDL45U2JxC5rGDjW+QHM3hNskLLIhKQ9w6F5GETUBFIrFHHmgD2Re2SyAIc5LTQMvtvZIhw==, tarball: file:projects/storage-common.tgz}
+    resolution: {integrity: sha512-shnl9mCWAyAaDgEPvLlAg/mginc+CB12D0h9kr6dfYJv6M8sHLD1OvIAtEziWcMlNSEtlTUd4APv/I+4Gi55rg==, tarball: file:projects/storage-common.tgz}
     version: 0.0.0
 
   '@rush-temp/storage-file-datalake@file:projects/storage-file-datalake.tgz':
@@ -4160,7 +4167,7 @@ packages:
     version: 0.0.0
 
   '@rush-temp/storage-queue@file:projects/storage-queue.tgz':
-    resolution: {integrity: sha512-kpfSSK1ELQ1N7w6B/gwm5YQpaZcT91Gub+KDGB/mOHTVAvRf/Km3osRsl6UB3SoLIDZNcp3pvD44s9kOotoOXA==, tarball: file:projects/storage-queue.tgz}
+    resolution: {integrity: sha512-j0+zBrkcXK5nEDe/jvrkL830IUx0IerHJhwaqPsciSx7Evv3kbmmzb0yPnnfcZ0VeyeOJu7syjEe5FEZMijdbw==, tarball: file:projects/storage-queue.tgz}
     version: 0.0.0
 
   '@rush-temp/synapse-access-control-1@file:projects/synapse-access-control-1.tgz':
@@ -11733,6 +11740,41 @@ snapshots:
       - yaml
 
   '@rush-temp/arm-containerservicefleet@file:projects/arm-containerservicefleet.tgz(@types/debug@4.1.12)(tsx@4.20.3)(vite@6.3.5(@types/node@22.7.9)(tsx@4.20.3)(yaml@2.8.0))(yaml@2.8.0)':
+    dependencies:
+      '@types/node': 20.19.1
+      '@vitest/browser': 3.2.4(playwright@1.53.1)(vite@6.3.5(@types/node@22.7.9)(tsx@4.20.3)(yaml@2.8.0))(vitest@3.2.4)
+      '@vitest/coverage-istanbul': 3.2.4(vitest@3.2.4)
+      dotenv: 16.5.0
+      eslint: 9.29.0
+      playwright: 1.53.1
+      tslib: 2.8.1
+      typescript: 5.8.3
+      vitest: 3.2.4(@types/debug@4.1.12)(@types/node@20.19.1)(@vitest/browser@3.2.4)(tsx@4.20.3)(yaml@2.8.0)
+    transitivePeerDependencies:
+      - '@edge-runtime/vm'
+      - '@types/debug'
+      - '@vitest/ui'
+      - bufferutil
+      - happy-dom
+      - jiti
+      - jsdom
+      - less
+      - lightningcss
+      - msw
+      - safaridriver
+      - sass
+      - sass-embedded
+      - stylus
+      - sugarss
+      - supports-color
+      - terser
+      - tsx
+      - utf-8-validate
+      - vite
+      - webdriverio
+      - yaml
+
+  '@rush-temp/arm-containerservicesafeguards@file:projects/arm-containerservicesafeguards.tgz(@types/debug@4.1.12)(tsx@4.20.3)(vite@6.3.5(@types/node@22.7.9)(tsx@4.20.3)(yaml@2.8.0))(yaml@2.8.0)':
     dependencies:
       '@types/node': 20.19.1
       '@vitest/browser': 3.2.4(playwright@1.53.1)(vite@6.3.5(@types/node@22.7.9)(tsx@4.20.3)(yaml@2.8.0))(vitest@3.2.4)

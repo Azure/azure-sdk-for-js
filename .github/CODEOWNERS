@@ -1632,6 +1632,9 @@
 # ServiceLabel: %Consumption - RIandShowBack %Service Attention
 #/<NotInRepo>/          @ccmshowbackdevs
 
+# PRLabel: %Mgmt
+sdk/containerservice/arm-containerservicesafeguards/ @qiaozha @MaryGao
+
 ###########
 # Config
 ###########
