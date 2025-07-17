@@ -5,30 +5,24 @@ param (
   $StagingDirectory
 )
 
-if (!((Test-Path $PackageInfoPath) -and (Test-Path $StagingDirectory)))
-{
+if (!((Test-Path $PackageInfoPath) -and (Test-Path $StagingDirectory))) {
   Write-Error "Invalid parameter values. Pleaes verify values for these parameters."
   exit 1
 }
 
-foreach($pkg in (Get-ChildItem -Path $PackageInfoPath "*.json"))
-{
+foreach ($pkg in (Get-ChildItem -Path $PackageInfoPath "*.json")) {
   $info = Get-Content -Path $pkg.FullName | ConvertFrom-Json
-  if (Test-Path $info.DirectoryPath)
-  {
-    $apiFile = @(Get-ChildItem -Path $info.DirectoryPath "*.api.json" -Recurse)
-    if ($apiFile)
-    {
-      if ($apiFile.Count -ne 1)
-      {
-        # Unlikely, but handling to avoid any issue in the future if more than one api file is present here
-        Write-Error "Detected more than one api extracted file in $($info.DirectoryPath)"
+  if (Test-Path $info.DirectoryPath) {
+    $apiFile = @(Get-ChildItem -Path $info.DirectoryPath "*-node.api.json" -Recurse)
+    if ($apiFile) {
+      if ($apiFile.Count -ne 1) {
+        # Unlikely, but handling to avoid any issue in the future if more than one -node.api.json file is present here
+        Write-Error "Detected more than one -node.api.json extracted file in $($info.DirectoryPath)"
         exit 1
       }
       
       $pkgStagingDir = Join-Path $StagingDirectory $info.ArtifactName
-      if (!(Test-Path $pkgStagingDir))
-      {
+      if (!(Test-Path $pkgStagingDir)) {
         New-Item -Type Directory -Name $info.ArtifactName -Path $StagingDirectory > $null
       }
       $sourceFilePath = $apiFile[0].FullName
@@ -36,14 +30,12 @@ foreach($pkg in (Get-ChildItem -Path $PackageInfoPath "*.json"))
       Write-Host "Copying $($sourceFilePath) to $($targetFilePath)"
       Copy-Item $sourceFilePath $targetFilePath
     }
-    else
-    {
-      # Not an error is api-extractor is not cofigured/ required for a package
-      Write-Host "API extracted file is not present for package $($info.Name)"
+    else {
+      # Not an error if api-extractor is not configured/required for a package
+      Write-Host "-node.api.json extracted file is not present for package $($info.Name)"
     }
   }
-  else
-  {
+  else {
     Write-Host "Directory $($info.DirectoryPath) is not present in package root to search for api-extracted file"
   }
 }
