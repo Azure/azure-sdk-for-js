@@ -36,12 +36,12 @@ export function _listVectorStoreFileBatchFilesSend(
   },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "/vector_stores/{vectorStoreId}/file_batches/{batchId}/files{?filter,api%2Dversion,limit,order,after,before}",
+    "/vector_stores/{vectorStoreId}/file_batches/{batchId}/files{?filter,api-version,limit,order,after,before}",
     {
       vectorStoreId: vectorStoreId,
       batchId: batchId,
       filter: options?.filter,
-      "api%2Dversion": context.apiVersion,
+      "api-version": context.apiVersion,
       limit: options?.limit,
       order: options?.order,
       after: options?.after,
