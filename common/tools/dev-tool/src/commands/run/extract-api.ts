@@ -133,7 +133,7 @@ function createApiDiff(
   runtimeContent: string,
   runtime: string,
 ): string | undefined {
-  const diff = createTwoFilesPatch("NodeJS", runtime, nodeContent, runtimeContent);
+  const diff = createTwoFilesPatch("NodeJS", runtime, nodeContent, runtimeContent, undefined, undefined, {stripTrailingCr: true, ignoreWhitespace: true});
   const parsed = parsePatch(diff);
   const hasRealChanges = parsed.some((file) =>
     file.hunks.some((hunk) =>
