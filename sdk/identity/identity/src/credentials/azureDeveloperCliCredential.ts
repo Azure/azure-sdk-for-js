@@ -57,19 +57,20 @@ export const developerCliCredentialInternals = {
     }
     return new Promise((resolve, reject) => {
       try {
-        child_process.execFile(
-          "azd",
-          [
-            "auth",
-            "token",
-            "--output",
-            "json",
-            ...scopes.reduce<string[]>(
-              (previous, current) => previous.concat("--scope", current),
-              [],
-            ),
-            ...tenantSection,
-          ],
+        const args = [
+          "auth",
+          "token",
+          "--output",
+          "json",
+          ...scopes.reduce<string[]>(
+            (previous, current) => previous.concat("--scope", current),
+            [],
+          ),
+          ...tenantSection,
+        ];
+        const command = ["azd", ...args].join(" ");
+        child_process.exec(
+          command,
           {
             cwd: developerCliCredentialInternals.getSafeWorkingDir(),
             timeout,
