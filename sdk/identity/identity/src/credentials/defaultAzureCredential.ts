@@ -21,6 +21,7 @@ import type { TokenCredential } from "@azure/core-auth";
 import { WorkloadIdentityCredential } from "./workloadIdentityCredential.js";
 import type { WorkloadIdentityCredentialOptions } from "./workloadIdentityCredentialOptions.js";
 import { credentialLogger } from "../util/logging.js";
+import { VisualStudioCodeCredential } from "./visualStudioCodeCredential.js";
 import { BrokerCredential } from "./brokerCredential.js";
 
 const logger = credentialLogger("DefaultAzureCredential");
@@ -189,6 +190,18 @@ export function createEnvironmentCredential(
 }
 
 /**
+ * Creates a {@link VisualStudioCodeCredential} from the provided options.
+ * @param options - Options to configure the credential.
+ *
+ * @internal
+ */
+export function createDefaultVisualStudioCodeCredential(
+  options: DefaultAzureCredentialOptions = {},
+): TokenCredential {
+  return new VisualStudioCodeCredential(options);
+}
+
+/**
  * A no-op credential that logs the reason it was skipped if getToken is called.
  * @internal
  */
@@ -222,6 +235,7 @@ export class UnavailableDefaultCredential implements TokenCredential {
  * - {@link AzureCliCredential}
  * - {@link AzurePowerShellCredential}
  * - {@link AzureDeveloperCliCredential}
+ * - {@link VisualStudioCodeCredential}
  *
  * Consult the documentation of these credential types for more information
  * on how they attempt authentication.
@@ -254,6 +268,7 @@ export class DefaultAzureCredential extends ChainedTokenCredential {
       ? process.env.AZURE_TOKEN_CREDENTIALS.trim().toLowerCase()
       : undefined;
     const devCredentialFunctions = [
+      createDefaultVisualStudioCodeCredential,
       createDefaultAzureCliCredential,
       createDefaultAzurePowershellCredential,
       createDefaultAzureDeveloperCliCredential,

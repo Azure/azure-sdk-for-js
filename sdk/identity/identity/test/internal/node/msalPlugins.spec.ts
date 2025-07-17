@@ -26,7 +26,6 @@ describe("#generatePluginConfiguration", function () {
       broker: {
         isEnabled: false,
         enableMsaPassthrough: false,
-        parentWindowHandle: undefined,
       },
     };
     assert.deepEqual(result, expected);

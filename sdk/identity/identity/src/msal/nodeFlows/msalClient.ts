@@ -227,6 +227,11 @@ export interface MsalClientOptions {
   tokenCachePersistenceOptions?: TokenCachePersistenceOptions;
 
   /**
+   * Indicates if this is being used by VSCode credential.
+   */
+  isVSCodeCredential?: boolean;
+
+  /**
    * A custom authority host.
    */
   authorityHost?: IdentityClient["tokenCredentialOptions"]["authorityHost"];

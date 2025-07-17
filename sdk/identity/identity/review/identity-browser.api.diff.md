@@ -232,7 +232,8 @@ For the complete API surface, see the corresponding -node.api.md file.
  export interface UsernamePasswordCredentialOptions extends MultiTenantTokenCredentialOptions, CredentialPersistenceOptions, AuthorityValidationOptions {
  }
  
- // @public @deprecated
+-// @public
++// @public @deprecated
  export class VisualStudioCodeCredential implements TokenCredential {
 -    constructor(options?: VisualStudioCodeCredentialOptions);
 -    getToken(scopes: string | string[], options?: GetTokenOptions): Promise<AccessToken>;
@@ -241,7 +242,7 @@ For the complete API surface, see the corresponding -node.api.md file.
 +    getToken(): Promise<AccessToken | null>;
  }
  
- // @public @deprecated
+ // @public
  export interface VisualStudioCodeCredentialOptions extends MultiTenantTokenCredentialOptions {
 @@ -469,10 +473,10 @@
  }
