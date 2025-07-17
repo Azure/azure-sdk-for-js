@@ -178,7 +178,7 @@ export class Items {
         partitionKey: options.partitionKey,
         diagnosticNode,
         correlatedActivityId: correlatedActivityId,
-        partitionKeyRangeId,
+       // partitionKeyRangeId,
       });
       return response;
     };
