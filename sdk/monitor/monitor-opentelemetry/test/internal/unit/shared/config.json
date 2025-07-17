@@ -5,6 +5,7 @@
     "storageDirectory": "testPath"
   },
   "samplingRatio": 0.3,
+  "tracesPerSecond": 0.2,
   "instrumentationOptions": {
     "azureSdk": {
       "enabled": true
