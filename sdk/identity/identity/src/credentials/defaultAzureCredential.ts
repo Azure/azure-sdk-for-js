@@ -43,7 +43,7 @@ export class UnavailableDefaultCredential implements TokenCredential {
 
   getToken(): Promise<null> {
     logger.getToken.info(
-      `Skipping ${this.credentialName}, reason: ${this.credentialUnavailableErrorMessage}`,
+      `Skipping ${this.credentialName}, reason: ${this.credentialUnavailableErrorMessage}`
     );
     return Promise.resolve(null);
   }
@@ -122,39 +122,32 @@ export class DefaultAzureCredential extends ChainedTokenCredential {
     if (azureTokenCredentials) {
       switch (azureTokenCredentials) {
         case "dev":
-          // If AZURE_TOKEN_CREDENTIALS is set to "dev", use the developer tool-based credential chain.
           credentialFunctions = devCredentialFunctions;
           break;
         case "prod":
-          // If AZURE_TOKEN_CREDENTIALS is set to "prod", use the production credential chain.
           credentialFunctions = prodCredentialFunctions;
           break;
         case "environmentcredential":
           credentialFunctions = [createEnvironmentCredential];
           break;
         case "workloadidentitycredential":
-          // If AZURE_TOKEN_CREDENTIALS is set to "workloadidentitycredential", use the WorkloadIdentityCredential.
           credentialFunctions = [createDefaultWorkloadIdentityCredential];
           break;
         case "managedidentitycredential":
-          // If AZURE_TOKEN_CREDENTIALS is set to "managedidentitycredential", use the ManagedIdentityCredential.
           credentialFunctions = [createDefaultManagedIdentityCredential];
           break;
         case "azureclicredential":
-          // If AZURE_TOKEN_CREDENTIALS is set to "azureclicredential", use the AzureCliCredential.
           credentialFunctions = [createDefaultAzureCliCredential];
           break;
         case "azurepowershellcredential":
-          // If AZURE_TOKEN_CREDENTIALS is set to "azurepowershellcredential", use the AzurePowerShellCredential.
           credentialFunctions = [createDefaultAzurePowershellCredential];
           break;
         case "azuredeveloperclicredential":
-          // If AZURE_TOKEN_CREDENTIALS is set to "azuredeveloperclicredential", use the AzureDeveloperCliCredential.
           credentialFunctions = [createDefaultAzureDeveloperCliCredential];
           break;
         default: {
           // If AZURE_TOKEN_CREDENTIALS is set to an unsupported value, throw an error.
-          // We will throw an error here to prevent the creation of the DefaultAzureCredential.
+          // This will prevent the creation of the DefaultAzureCredential.
           const errorMessage = `Invalid value for AZURE_TOKEN_CREDENTIALS = ${process.env.AZURE_TOKEN_CREDENTIALS}. Valid values are 'prod' or 'dev' or any of these credentials - ${validCredentialNames}.`;
           logger.warning(errorMessage);
           throw new Error(errorMessage);
@@ -175,7 +168,7 @@ export class DefaultAzureCredential extends ChainedTokenCredential {
         return createCredentialFn(options);
       } catch (err: any) {
         logger.warning(
-          `Skipped ${createCredentialFn.name} because of an error creating the credential: ${err}`,
+          `Skipped ${createCredentialFn.name} because of an error creating the credential: ${err}`
         );
         return new UnavailableDefaultCredential(createCredentialFn.name, err.message);
       }
