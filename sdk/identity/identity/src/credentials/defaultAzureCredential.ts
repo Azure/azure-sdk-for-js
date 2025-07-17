@@ -25,7 +25,7 @@ import {
   createDefaultManagedIdentityCredential,
   createDefaultVisualStudioCodeCredential,
   createDefaultWorkloadIdentityCredential,
-  createEnvironmentCredential,
+  createDefaultEnvironmentCredential,
 } from "./defaultAzureCredentialFunctions.js";
 
 const logger = credentialLogger("DefaultAzureCredential");
@@ -61,10 +61,10 @@ export class UnavailableDefaultCredential implements TokenCredential {
  * - {@link EnvironmentCredential}
  * - {@link WorkloadIdentityCredential}
  * - {@link ManagedIdentityCredential}
+ * - {@link VisualStudioCodeCredential}
  * - {@link AzureCliCredential}
  * - {@link AzurePowerShellCredential}
  * - {@link AzureDeveloperCliCredential}
- * - {@link VisualStudioCodeCredential}
  *
  * Consult the documentation of these credential types for more information
  * on how they attempt authentication.
@@ -76,7 +76,7 @@ export class UnavailableDefaultCredential implements TokenCredential {
  * Valid values for AZURE_TOKEN_CREDENTIALS are the name of any single type in the above chain, for example
  * "EnvironmentCredential" or "AzureCliCredential", and these special values:
  *
- *   - "dev": try [AzureCliCredential], [AzurePowerShellCredential] and [AzureDeveloperCliCredential], in that order
+ *   - "dev": try [VisualStudioCodeCredential], [AzureCliCredential], [AzurePowerShellCredential] and [AzureDeveloperCliCredential], in that order
  *   - "prod": try [EnvironmentCredential], [WorkloadIdentityCredential], and [ManagedIdentityCredential], in that order
  *
  */
@@ -115,13 +115,13 @@ export class DefaultAzureCredential extends ChainedTokenCredential {
       createDefaultBrokerCredential,
     ];
     const prodCredentialFunctions = [
-      createEnvironmentCredential,
+      createDefaultEnvironmentCredential,
       createDefaultWorkloadIdentityCredential,
       createDefaultManagedIdentityCredential,
     ];
     let credentialFunctions = [];
     const validCredentialNames =
-      "EnvironmentCredential, WorkloadIdentityCredential, ManagedIdentityCredential, AzureCliCredential, AzurePowerShellCredential, AzureDeveloperCliCredential";
+      "EnvironmentCredential, WorkloadIdentityCredential, ManagedIdentityCredential, VisualStudioCodeCredential, AzureCliCredential, AzurePowerShellCredential, AzureDeveloperCliCredential";
     // If AZURE_TOKEN_CREDENTIALS is set, use it to determine which credentials to use.
     // The value of AZURE_TOKEN_CREDENTIALS should be either "dev" or "prod" or any one of these credentials - {validCredentialNames}.
     if (azureTokenCredentials) {
@@ -133,13 +133,16 @@ export class DefaultAzureCredential extends ChainedTokenCredential {
           credentialFunctions = prodCredentialFunctions;
           break;
         case "environmentcredential":
-          credentialFunctions = [createEnvironmentCredential];
+          credentialFunctions = [createDefaultEnvironmentCredential];
           break;
         case "workloadidentitycredential":
           credentialFunctions = [createDefaultWorkloadIdentityCredential];
           break;
         case "managedidentitycredential":
           credentialFunctions = [createDefaultManagedIdentityCredential];
+          break;
+        case "visualstudiocodecredential":
+          credentialFunctions = [createDefaultVisualStudioCodeCredential];
           break;
         case "azureclicredential":
           credentialFunctions = [createDefaultAzureCliCredential];

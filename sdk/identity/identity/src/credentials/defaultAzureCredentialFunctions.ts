@@ -187,7 +187,7 @@ export function createDefaultAzurePowershellCredential(
  *
  * @internal
  */
-export function createEnvironmentCredential(
+export function createDefaultEnvironmentCredential(
   options: DefaultAzureCredentialOptions = {},
 ): TokenCredential {
   return new EnvironmentCredential(options);
