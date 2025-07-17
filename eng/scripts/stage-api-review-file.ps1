@@ -16,36 +16,19 @@ foreach ($pkg in (Get-ChildItem -Path $PackageInfoPath "*.json")) {
     # First try to find the main package API file (without extra suffixes like -api-, -models-, etc.)
     $allNodeApiFiles = @(Get-ChildItem -Path $info.DirectoryPath "*-node.api.json" -Recurse)
     
-    # Try to find the main file by looking for one that doesn't have extra suffixes
-    $mainApiFile = $allNodeApiFiles | Where-Object { 
-      $_.BaseName -match "^[^-]+-node$" -or 
-      $_.BaseName -eq "$($info.ArtifactName)-node" -or
-      ($_.BaseName -notmatch "-api-" -and $_.BaseName -notmatch "-models-")
-    }
+    # Select the main API file by choosing the one with the shortest name
+    # The main package API file typically has the simplest name without subclient suffixes
+    $mainApiFile = $allNodeApiFiles | Sort-Object { $_.BaseName.Length } | Select-Object -First 1
     
-    if ($mainApiFile -and $mainApiFile.Count -eq 1) {
+    if ($mainApiFile) {
       $apiFile = @($mainApiFile)
     }
-    elseif ($allNodeApiFiles.Count -eq 1) {
-      # If there's only one node API file, use it
-      $apiFile = $allNodeApiFiles
-    }
     else {
-      # Multiple files found, this will trigger the error below
-      $apiFile = $allNodeApiFiles
+      $apiFile = @()
     }
     
     if ($apiFile) {
-      if ($apiFile.Count -ne 1) {
-        # List all found files for debugging
-        Write-Host "Found API files:"
-        foreach ($file in $apiFile) {
-          Write-Host "  $($file.FullName)"
-        }
-        Write-Error "Detected more than one -node.api.json extracted file in $($info.DirectoryPath). Expected main file: $($info.ArtifactName)-node.api.json"
-        exit 1
-      }
-      
+      # Always use the selected main API file (shortest name)
       $pkgStagingDir = Join-Path $StagingDirectory $info.ArtifactName
       if (!(Test-Path $pkgStagingDir)) {
         New-Item -Type Directory -Name $info.ArtifactName -Path $StagingDirectory > $null
