@@ -26,7 +26,7 @@ import { GeospatialType } from "../../../src/index.js";
 import { describe, it, assert, beforeEach, beforeAll } from "vitest";
 import { skipTestForSignOff } from "../common/_testConfig.js";
 
-describe("Containersd", { timeout: 10000 }, () => {
+describe("Containers", { timeout: 10000 }, () => {
   beforeEach(async () => {
     await removeAllDatabases();
   });
