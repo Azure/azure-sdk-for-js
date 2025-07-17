@@ -36,14 +36,14 @@ const GlobalSkippableErrors: SkippableErrors = {
 export const maxRetriesOption = { maxRetries: 0 };
 
 export enum APIVersion {
-  v2025_03_01_preview = "2025-03-01-preview",
+  v2025_04_01_preview = "2025-04-01-preview",
   v2024_10_21 = "2024-10-21",
   Stable = v2024_10_21,
   OpenAI = "OpenAI",
   v2024_10_01_preview = "2024-10-01-preview",
 }
 
-export const APIMatrix = [APIVersion.v2025_03_01_preview, APIVersion.v2024_10_21];
+export const APIMatrix = [APIVersion.v2025_04_01_preview, APIVersion.v2024_10_21];
 
 function toString(error: any): string {
   return error.error ? JSON.stringify(error.error) : JSON.stringify(error);
@@ -54,7 +54,7 @@ export async function withDeployments<T>(
   run: (client: OpenAI, model: string) => Promise<T>,
   validate?: (result: T) => void,
   modelsListToSkip?: Partial<ModelInfo>[],
-  apiVersion: APIVersion = APIVersion.v2025_03_01_preview,
+  apiVersion: APIVersion = APIVersion.v2025_04_01_preview,
 ): Promise<void> {
   const errors = [];
   const succeeded = [];
