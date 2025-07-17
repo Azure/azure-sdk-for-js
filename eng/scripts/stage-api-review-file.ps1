@@ -13,7 +13,14 @@ if (!((Test-Path $PackageInfoPath) -and (Test-Path $StagingDirectory))) {
 foreach ($pkg in (Get-ChildItem -Path $PackageInfoPath "*.json")) {
   $info = Get-Content -Path $pkg.FullName | ConvertFrom-Json
   if (Test-Path $info.DirectoryPath) {
-    $apiFile = @(Get-ChildItem -Path $info.DirectoryPath "*-node.api.json" -Recurse)
+    # Look for the main package API file first, then fall back to any -node.api.json file
+    $mainApiFile = @(Get-ChildItem -Path $info.DirectoryPath "$($info.ArtifactName)-node.api.json" -Recurse)
+    if ($mainApiFile) {
+      $apiFile = $mainApiFile
+    }
+    else {
+      $apiFile = @(Get-ChildItem -Path $info.DirectoryPath "*-node.api.json" -Recurse)
+    }
     if ($apiFile) {
       if ($apiFile.Count -ne 1) {
         # Unlikely, but handling to avoid any issue in the future if more than one -node.api.json file is present here
