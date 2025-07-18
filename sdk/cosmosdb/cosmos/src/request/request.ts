@@ -206,6 +206,8 @@ export async function getHeaders({
 
   if (partitionKey !== undefined && !headers[Constants.HttpHeaders.PartitionKey]) {
     headers[Constants.HttpHeaders.PartitionKey] = jsonStringifyAndEscapeNonASCII(partitionKey);
+  }else if (partitionKeyRangeId !== undefined) {
+    headers[Constants.HttpHeaders.PartitionKeyRangeID] = partitionKeyRangeId;
   }
 
   if (clientOptions.key || clientOptions.tokenProvider) {
@@ -222,9 +224,7 @@ export async function getHeaders({
     headers[Constants.HttpHeaders.Accept] = JsonContentType;
   }
 
-  if (partitionKeyRangeId !== undefined) {
-    headers[Constants.HttpHeaders.PartitionKeyRangeID] = partitionKeyRangeId;
-  }
+  
 
   if (options.enableScriptLogging) {
     headers[Constants.HttpHeaders.EnableScriptLogging] = options.enableScriptLogging;
