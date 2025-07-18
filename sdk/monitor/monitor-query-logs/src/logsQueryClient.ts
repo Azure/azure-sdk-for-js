@@ -5,7 +5,6 @@ import type { MonitorQueryLogsContext, LogsQueryClientOptions } from "./api/inde
 import { createMonitorQueryLogs } from "./api/index.js";
 import type {
   LogsQueryBatchResult,
-  LogsQueryResult,
   QueryBatch,
   QueryTimeInterval,
 } from "./models/models.js";
@@ -18,6 +17,7 @@ import type {
 import { batch, executeWithResourceId, execute } from "./api/operations.js";
 import type { Pipeline } from "@azure/core-rest-pipeline";
 import type { TokenCredential } from "@azure/core-auth";
+import type { LogsQueryResult } from "./models/index.js";
 
 export { LogsQueryClientOptions } from "./api/monitorQueryLogsContext.js";
 

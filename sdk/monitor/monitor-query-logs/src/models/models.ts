@@ -1,6 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
+import { LogsQueryResult } from "./index.js";
+
 /**
  * The timespan for the query. This is an ISO8601 time period value.
  * This timespan is applied in addition to any that are specified in the query expression.
@@ -49,18 +51,6 @@ export function queryBodySerializer(item: QueryBody): any {
         return p;
       }),
   };
-}
-
-/** Contains the tables, columns & rows resulting from a query. */
-export interface LogsQueryResult {
-  /** The results of the query in tabular format. */
-  tables: Table[];
-  /** Statistics represented in JSON format. */
-  statistics?: Record<string, any>;
-  /** Visualization data in JSON format. */
-  render?: Record<string, any>;
-  /** The code and message for an error. */
-  error?: ErrorInfo;
 }
 
 export function queryResultsDeserializer(item: {
