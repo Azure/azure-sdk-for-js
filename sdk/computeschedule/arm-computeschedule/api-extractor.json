@@ -1,1 +1,3 @@
-{ "extends": "../../../api-extractor-base.json" }
+{
+  "extends": "../../../api-extractor-base.json"
+}

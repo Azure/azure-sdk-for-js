@@ -1,8 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { ComputeScheduleClient } from "@azure/arm-computeschedule";
-import { DefaultAzureCredential } from "@azure/identity";
+const { ComputeScheduleClient } = require("@azure/arm-computeschedule");
+const { DefaultAzureCredential } = require("@azure/identity");
 
 /**
  * This sample demonstrates how to virtualMachinesCancelOperations: Cancel a previously submitted (start/deallocate/hibernate) request
@@ -10,7 +10,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * @summary virtualMachinesCancelOperations: Cancel a previously submitted (start/deallocate/hibernate) request
  * x-ms-original-file: 2025-05-01/ScheduledActions_VirtualMachinesCancelOperations_MaximumSet_Gen.json
  */
-async function scheduledActionsVirtualMachinesCancelOperationsMaximumSetGenGeneratedByMaximumSetRule(): Promise<void> {
+async function scheduledActionsVirtualMachinesCancelOperationsMaximumSetGenGeneratedByMaximumSetRule() {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "0505D8E4-D41A-48FB-9CA5-4AF8D93BE75F";
   const client = new ComputeScheduleClient(credential, subscriptionId);
@@ -27,7 +27,7 @@ async function scheduledActionsVirtualMachinesCancelOperationsMaximumSetGenGener
  * @summary virtualMachinesCancelOperations: Cancel a previously submitted (start/deallocate/hibernate) request
  * x-ms-original-file: 2025-05-01/ScheduledActions_VirtualMachinesCancelOperations_MinimumSet_Gen.json
  */
-async function scheduledActionsVirtualMachinesCancelOperationsMinimumSetGenGeneratedByMinimumSetRule(): Promise<void> {
+async function scheduledActionsVirtualMachinesCancelOperationsMinimumSetGenGeneratedByMinimumSetRule() {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "0505D8E4-D41A-48FB-9CA5-4AF8D93BE75F";
   const client = new ComputeScheduleClient(credential, subscriptionId);
@@ -38,7 +38,7 @@ async function scheduledActionsVirtualMachinesCancelOperationsMinimumSetGenGener
   console.log(result);
 }
 
-async function main(): Promise<void> {
+async function main() {
   await scheduledActionsVirtualMachinesCancelOperationsMaximumSetGenGeneratedByMaximumSetRule();
   await scheduledActionsVirtualMachinesCancelOperationsMinimumSetGenGeneratedByMinimumSetRule();
 }

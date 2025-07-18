@@ -1,8 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { ComputeScheduleClient } from "@azure/arm-computeschedule";
-import { DefaultAzureCredential } from "@azure/identity";
+const { ComputeScheduleClient } = require("@azure/arm-computeschedule");
+const { DefaultAzureCredential } = require("@azure/identity");
 
 /**
  * This sample demonstrates how to virtualMachinesExecuteCreate: Execute create operation for a batch of virtual machines, this operation is triggered as soon as Computeschedule receives it.
@@ -10,7 +10,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * @summary virtualMachinesExecuteCreate: Execute create operation for a batch of virtual machines, this operation is triggered as soon as Computeschedule receives it.
  * x-ms-original-file: 2025-05-01/ScheduledActions_VirtualMachinesExecuteCreate_MaximumSet_Gen.json
  */
-async function scheduledActionsVirtualMachinesExecuteCreateMaximumSetGenGeneratedByMaximumSetRule(): Promise<void> {
+async function scheduledActionsVirtualMachinesExecuteCreateMaximumSetGenGeneratedByMaximumSetRule() {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "0505D8E4-D41A-48FB-9CA5-4AF8D93BE75F";
   const client = new ComputeScheduleClient(credential, subscriptionId);
@@ -105,7 +105,7 @@ async function scheduledActionsVirtualMachinesExecuteCreateMaximumSetGenGenerate
  * @summary virtualMachinesExecuteCreate: Execute create operation for a batch of virtual machines, this operation is triggered as soon as Computeschedule receives it.
  * x-ms-original-file: 2025-05-01/ScheduledActions_VirtualMachinesExecuteCreate_MinimumSet_Gen.json
  */
-async function scheduledActionsVirtualMachinesExecuteCreateMinimumSetGenGeneratedByMinimumSetRule(): Promise<void> {
+async function scheduledActionsVirtualMachinesExecuteCreateMinimumSetGenGeneratedByMinimumSetRule() {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "0505D8E4-D41A-48FB-9CA5-4AF8D93BE75F";
   const client = new ComputeScheduleClient(credential, subscriptionId);
@@ -187,7 +187,7 @@ async function scheduledActionsVirtualMachinesExecuteCreateMinimumSetGenGenerate
   console.log(result);
 }
 
-async function main(): Promise<void> {
+async function main() {
   await scheduledActionsVirtualMachinesExecuteCreateMaximumSetGenGeneratedByMaximumSetRule();
   await scheduledActionsVirtualMachinesExecuteCreateMinimumSetGenGeneratedByMinimumSetRule();
 }

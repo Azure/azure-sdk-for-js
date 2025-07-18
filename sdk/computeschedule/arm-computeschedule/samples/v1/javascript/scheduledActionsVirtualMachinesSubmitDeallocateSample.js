@@ -1,8 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { ComputeScheduleClient } from "@azure/arm-computeschedule";
-import { DefaultAzureCredential } from "@azure/identity";
+const { ComputeScheduleClient } = require("@azure/arm-computeschedule");
+const { DefaultAzureCredential } = require("@azure/identity");
 
 /**
  * This sample demonstrates how to virtualMachinesSubmitDeallocate: Schedule deallocate operation for a batch of virtual machines at datetime in future.
@@ -10,7 +10,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * @summary virtualMachinesSubmitDeallocate: Schedule deallocate operation for a batch of virtual machines at datetime in future.
  * x-ms-original-file: 2025-05-01/ScheduledActions_VirtualMachinesSubmitDeallocate_MaximumSet_Gen.json
  */
-async function scheduledActionsVirtualMachinesSubmitDeallocateMaximumSetGenGeneratedByMaximumSetRule(): Promise<void> {
+async function scheduledActionsVirtualMachinesSubmitDeallocateMaximumSetGenGeneratedByMaximumSetRule() {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "0505D8E4-D41A-48FB-9CA5-4AF8D93BE75F";
   const client = new ComputeScheduleClient(credential, subscriptionId);
@@ -42,7 +42,7 @@ async function scheduledActionsVirtualMachinesSubmitDeallocateMaximumSetGenGener
  * @summary virtualMachinesSubmitDeallocate: Schedule deallocate operation for a batch of virtual machines at datetime in future.
  * x-ms-original-file: 2025-05-01/ScheduledActions_VirtualMachinesSubmitDeallocate_MinimumSet_Gen.json
  */
-async function scheduledActionsVirtualMachinesSubmitDeallocateMinimumSetGenGeneratedByMinimumSetRule(): Promise<void> {
+async function scheduledActionsVirtualMachinesSubmitDeallocateMinimumSetGenGeneratedByMinimumSetRule() {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "0505D8E4-D41A-48FB-9CA5-4AF8D93BE75F";
   const client = new ComputeScheduleClient(credential, subscriptionId);
@@ -62,7 +62,7 @@ async function scheduledActionsVirtualMachinesSubmitDeallocateMinimumSetGenGener
   console.log(result);
 }
 
-async function main(): Promise<void> {
+async function main() {
   await scheduledActionsVirtualMachinesSubmitDeallocateMaximumSetGenGeneratedByMaximumSetRule();
   await scheduledActionsVirtualMachinesSubmitDeallocateMinimumSetGenGeneratedByMinimumSetRule();
 }

@@ -1,8 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { ComputeScheduleClient } from "@azure/arm-computeschedule";
-import { DefaultAzureCredential } from "@azure/identity";
+const { ComputeScheduleClient } = require("@azure/arm-computeschedule");
+const { DefaultAzureCredential } = require("@azure/identity");
 
 /**
  * This sample demonstrates how to virtualMachinesSubmitStart: Schedule start operation for a batch of virtual machines at datetime in future.
@@ -10,7 +10,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * @summary virtualMachinesSubmitStart: Schedule start operation for a batch of virtual machines at datetime in future.
  * x-ms-original-file: 2025-05-01/ScheduledActions_VirtualMachinesSubmitStart_MaximumSet_Gen.json
  */
-async function scheduledActionsVirtualMachinesSubmitStartMaximumSetGenGeneratedByMaximumSetRule(): Promise<void> {
+async function scheduledActionsVirtualMachinesSubmitStartMaximumSetGenGeneratedByMaximumSetRule() {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "0505D8E4-D41A-48FB-9CA5-4AF8D93BE75F";
   const client = new ComputeScheduleClient(credential, subscriptionId);
@@ -42,7 +42,7 @@ async function scheduledActionsVirtualMachinesSubmitStartMaximumSetGenGeneratedB
  * @summary virtualMachinesSubmitStart: Schedule start operation for a batch of virtual machines at datetime in future.
  * x-ms-original-file: 2025-05-01/ScheduledActions_VirtualMachinesSubmitStart_MinimumSet_Gen.json
  */
-async function scheduledActionsVirtualMachinesSubmitStartMinimumSetGenGeneratedByMinimumSetRule(): Promise<void> {
+async function scheduledActionsVirtualMachinesSubmitStartMinimumSetGenGeneratedByMinimumSetRule() {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "0505D8E4-D41A-48FB-9CA5-4AF8D93BE75F";
   const client = new ComputeScheduleClient(credential, subscriptionId);
@@ -59,7 +59,7 @@ async function scheduledActionsVirtualMachinesSubmitStartMinimumSetGenGeneratedB
   console.log(result);
 }
 
-async function main(): Promise<void> {
+async function main() {
   await scheduledActionsVirtualMachinesSubmitStartMaximumSetGenGeneratedByMaximumSetRule();
   await scheduledActionsVirtualMachinesSubmitStartMinimumSetGenGeneratedByMinimumSetRule();
 }

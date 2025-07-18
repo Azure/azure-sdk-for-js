@@ -7,15 +7,6 @@ import {
   ComputeScheduleClientOptionalParams,
 } from "./api/index.js";
 import {
-  OccurrenceExtensionOperations,
-  _getOccurrenceExtensionOperations,
-} from "./classic/occurrenceExtension/index.js";
-import { OccurrencesOperations, _getOccurrencesOperations } from "./classic/occurrences/index.js";
-import {
-  ScheduledActionExtensionOperations,
-  _getScheduledActionExtensionOperations,
-} from "./classic/scheduledActionExtension/index.js";
-import {
   ScheduledActionsOperations,
   _getScheduledActionsOperations,
 } from "./classic/scheduledActions/index.js";
@@ -45,19 +36,10 @@ export class ComputeScheduleClient {
       userAgentOptions: { userAgentPrefix },
     });
     this.pipeline = this._client.pipeline;
-    this.occurrenceExtension = _getOccurrenceExtensionOperations(this._client);
-    this.occurrences = _getOccurrencesOperations(this._client);
-    this.scheduledActionExtension = _getScheduledActionExtensionOperations(this._client);
     this.scheduledActions = _getScheduledActionsOperations(this._client);
     this.operations = _getOperationsOperations(this._client);
   }
 
-  /** The operation groups for occurrenceExtension */
-  public readonly occurrenceExtension: OccurrenceExtensionOperations;
-  /** The operation groups for occurrences */
-  public readonly occurrences: OccurrencesOperations;
-  /** The operation groups for scheduledActionExtension */
-  public readonly scheduledActionExtension: ScheduledActionExtensionOperations;
   /** The operation groups for scheduledActions */
   public readonly scheduledActions: ScheduledActionsOperations;
   /** The operation groups for operations */
