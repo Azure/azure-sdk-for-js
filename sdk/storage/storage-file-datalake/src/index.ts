@@ -53,6 +53,8 @@ export {
   StorageBrowserPolicyFactory,
   StorageSharedKeyCredential,
   StorageSharedKeyCredentialPolicy,
+} from "@azure/storage-common";
+export {
   BlobServiceProperties as DataLakeServiceProperties,
   ServiceGetPropertiesResponse as DataLakeServiceGetPropertiesResponse,
 } from "@azure/storage-blob";

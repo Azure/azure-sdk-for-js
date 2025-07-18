@@ -6,7 +6,7 @@ import { ContainerClient } from "@azure/storage-blob";
 import type { Pipeline, StoragePipelineOptions } from "./Pipeline.js";
 import { isPipelineLike, newPipeline } from "./Pipeline.js";
 import { StorageSharedKeyCredential } from "./credentials/StorageSharedKeyCredential.js";
-import { AnonymousCredential } from "@azure/storage-blob";
+import { AnonymousCredential } from "@azure/storage-common";
 import { DataLakeLeaseClient } from "./DataLakeLeaseClient.js";
 import { FileSystemOperationsImpl as FileSystem } from "./generated/src/operations/index.js";
 import type {

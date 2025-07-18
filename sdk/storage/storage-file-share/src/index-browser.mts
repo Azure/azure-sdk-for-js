@@ -7,15 +7,16 @@ export * from "./Clients.js";
 
 export {
   AnonymousCredential,
-  Credential,
-  BaseRequestPolicy,
   AnonymousCredentialPolicy,
+  BaseRequestPolicy,
+  Credential,
   CredentialPolicy,
-  StorageRetryOptions,
-  StorageRetryPolicyType,
-  StorageRetryPolicy,
-  StorageRetryPolicyFactory,
+  StorageBrowserPolicy,
   StorageBrowserPolicyFactory,
+  StorageRetryOptions,
+  StorageRetryPolicy,
+  StorageRetryPolicyType,
+  StorageRetryPolicyFactory
 } from "@azure/storage-common";
 
 export { SasIPRange } from "./SasIPRange.js";

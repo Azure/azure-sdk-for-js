@@ -5,9 +5,9 @@ import type { TokenCredential } from "@azure/core-auth";
 import { StorageContextClient } from "./StorageContextClient.js";
 import type { StorageClient as StorageClientContext } from "./generated/src/index.js";
 import type { Pipeline, PipelineLike, StoragePipelineOptions } from "./Pipeline.js";
-import type { AnonymousCredential } from "@azure/storage-blob";
+import type { AnonymousCredential } from "@azure/storage-common";
 import { BlobServiceClient } from "@azure/storage-blob";
-import type { StorageSharedKeyCredential } from "@azure/storage-blob";
+import type { StorageSharedKeyCredential } from "@azure/storage-common";
 import { toBlobEndpointUrl, toDfsEndpointUrl } from "./transforms.js";
 import {
   escapeURLPath,

@@ -26,17 +26,18 @@ export * from "./ShareSASPermissions.js";
 
 export {
   AnonymousCredential,
-  Credential,
-  StorageSharedKeyCredential,
-  BaseRequestPolicy,
   AnonymousCredentialPolicy,
+  BaseRequestPolicy,
   CredentialPolicy,
+  Credential,
   StorageRetryOptions,
-  StorageRetryPolicyType,
   StorageRetryPolicy,
+  StorageRetryPolicyType,
   StorageRetryPolicyFactory,
-  StorageSharedKeyCredentialPolicy,
+  StorageBrowserPolicy,
   StorageBrowserPolicyFactory,
+  StorageSharedKeyCredential,
+  StorageSharedKeyCredentialPolicy
 } from "@azure/storage-common";
 
 export { SasIPRange } from "./SasIPRange.js";
