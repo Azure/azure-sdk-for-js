@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 import { ContainerServiceContext } from "../../api/containerServiceContext.js";
-import { DeploymentSafeguard, DeploymentSafeguardCreate } from "../../models/models.js";
+import { DeploymentSafeguard, DeploymentSafeguardCreateOrUpdate } from "../../models/models.js";
 import {
   DeploymentSafeguardsListOptionalParams,
   DeploymentSafeguardsDeleteOptionalParams,
@@ -33,9 +33,12 @@ export interface DeploymentSafeguardsOperations {
   /** Creates or updates a deploymentSafeguard */
   create: (
     resourceUri: string,
-    resource: DeploymentSafeguardCreate,
+    resource: DeploymentSafeguardCreateOrUpdate,
     options?: DeploymentSafeguardsCreateOptionalParams,
-  ) => PollerLike<OperationState<DeploymentSafeguardCreate>, DeploymentSafeguardCreate>;
+  ) => PollerLike<
+    OperationState<DeploymentSafeguardCreateOrUpdate>,
+    DeploymentSafeguardCreateOrUpdate
+  >;
   /** Fetch a deployment safeguard by name */
   get: (
     resourceUri: string,
@@ -51,7 +54,7 @@ function _getDeploymentSafeguards(context: ContainerServiceContext) {
       $delete(context, resourceUri, options),
     create: (
       resourceUri: string,
-      resource: DeploymentSafeguardCreate,
+      resource: DeploymentSafeguardCreateOrUpdate,
       options?: DeploymentSafeguardsCreateOptionalParams,
     ) => create(context, resourceUri, resource, options),
     get: (resourceUri: string, options?: DeploymentSafeguardsGetOptionalParams) =>

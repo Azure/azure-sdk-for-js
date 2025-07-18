@@ -24,7 +24,7 @@ export {
   SystemData,
   KnownCreatedByType,
   CreatedByType,
-  DeploymentSafeguardCreate,
-  DeploymentSafeguardsPropertiesCreate,
+  DeploymentSafeguardCreateOrUpdate,
+  DeploymentSafeguardsPropertiesCreateOrUpdate,
   KnownVersions,
 } from "./models.js";

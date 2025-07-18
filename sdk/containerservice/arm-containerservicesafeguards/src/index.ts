@@ -32,8 +32,8 @@ export {
   SystemData,
   KnownCreatedByType,
   CreatedByType,
-  DeploymentSafeguardCreate,
-  DeploymentSafeguardsPropertiesCreate,
+  DeploymentSafeguardCreateOrUpdate,
+  DeploymentSafeguardsPropertiesCreateOrUpdate,
   KnownVersions,
 } from "./models/index.js";
 export { ContainerServiceClientOptionalParams } from "./api/index.js";

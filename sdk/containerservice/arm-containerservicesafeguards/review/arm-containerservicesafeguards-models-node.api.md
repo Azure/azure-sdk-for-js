@@ -17,8 +17,8 @@ export interface DeploymentSafeguard extends ExtensionResource {
 }
 
 // @public
-export interface DeploymentSafeguardCreate extends ExtensionResource {
-    properties?: DeploymentSafeguardsPropertiesCreate;
+export interface DeploymentSafeguardCreateOrUpdate extends ExtensionResource {
+    properties?: DeploymentSafeguardsPropertiesCreateOrUpdate;
 }
 
 // @public
@@ -34,7 +34,7 @@ export interface DeploymentSafeguardsProperties {
 }
 
 // @public
-export interface DeploymentSafeguardsPropertiesCreate {
+export interface DeploymentSafeguardsPropertiesCreateOrUpdate {
     excludedNamespaces?: string[];
     level: DeploymentSafeguardsLevel;
     podSecurityStandardsLevel?: PodSecurityStandardsLevel;

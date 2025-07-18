@@ -6,9 +6,9 @@ import {
   errorResponseDeserializer,
   DeploymentSafeguard,
   deploymentSafeguardDeserializer,
-  DeploymentSafeguardCreate,
-  deploymentSafeguardCreateSerializer,
-  deploymentSafeguardCreateDeserializer,
+  DeploymentSafeguardCreateOrUpdate,
+  deploymentSafeguardCreateOrUpdateSerializer,
+  deploymentSafeguardCreateOrUpdateDeserializer,
   _DeploymentSafeguardListResult,
   _deploymentSafeguardListResultDeserializer,
 } from "../../models/models.js";
@@ -141,7 +141,7 @@ export function $delete(
 export function _createSend(
   context: Client,
   resourceUri: string,
-  resource: DeploymentSafeguardCreate,
+  resource: DeploymentSafeguardCreateOrUpdate,
   options: DeploymentSafeguardsCreateOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
@@ -161,13 +161,13 @@ export function _createSend(
       accept: "application/json",
       ...options.requestOptions?.headers,
     },
-    body: deploymentSafeguardCreateSerializer(resource),
+    body: deploymentSafeguardCreateOrUpdateSerializer(resource),
   });
 }
 
 export async function _createDeserialize(
   result: PathUncheckedResponse,
-): Promise<DeploymentSafeguardCreate> {
+): Promise<DeploymentSafeguardCreateOrUpdate> {
   const expectedStatuses = ["200", "201", "202"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
@@ -175,22 +175,28 @@ export async function _createDeserialize(
     throw error;
   }
 
-  return deploymentSafeguardCreateDeserializer(result.body);
+  return deploymentSafeguardCreateOrUpdateDeserializer(result.body);
 }
 
 /** Creates or updates a deploymentSafeguard */
 export function create(
   context: Client,
   resourceUri: string,
-  resource: DeploymentSafeguardCreate,
+  resource: DeploymentSafeguardCreateOrUpdate,
   options: DeploymentSafeguardsCreateOptionalParams = { requestOptions: {} },
-): PollerLike<OperationState<DeploymentSafeguardCreate>, DeploymentSafeguardCreate> {
+): PollerLike<
+  OperationState<DeploymentSafeguardCreateOrUpdate>,
+  DeploymentSafeguardCreateOrUpdate
+> {
   return getLongRunningPoller(context, _createDeserialize, ["200", "201", "202"], {
     updateIntervalInMs: options?.updateIntervalInMs,
     abortSignal: options?.abortSignal,
     getInitialResponse: () => _createSend(context, resourceUri, resource, options),
     resourceLocationConfig: "azure-async-operation",
-  }) as PollerLike<OperationState<DeploymentSafeguardCreate>, DeploymentSafeguardCreate>;
+  }) as PollerLike<
+    OperationState<DeploymentSafeguardCreateOrUpdate>,
+    DeploymentSafeguardCreateOrUpdate
+  >;
 }
 
 export function _getSend(

@@ -391,20 +391,24 @@ export enum KnownCreatedByType {
 export type CreatedByType = string;
 
 /** Deployment Safeguards */
-export interface DeploymentSafeguardCreate extends ExtensionResource {
+export interface DeploymentSafeguardCreateOrUpdate extends ExtensionResource {
   /** The resource-specific properties for this resource. */
-  properties?: DeploymentSafeguardsPropertiesCreate;
+  properties?: DeploymentSafeguardsPropertiesCreateOrUpdate;
 }
 
-export function deploymentSafeguardCreateSerializer(item: DeploymentSafeguardCreate): any {
+export function deploymentSafeguardCreateOrUpdateSerializer(
+  item: DeploymentSafeguardCreateOrUpdate,
+): any {
   return {
     properties: !item["properties"]
       ? item["properties"]
-      : deploymentSafeguardsPropertiesCreateSerializer(item["properties"]),
+      : deploymentSafeguardsPropertiesCreateOrUpdateSerializer(item["properties"]),
   };
 }
 
-export function deploymentSafeguardCreateDeserializer(item: any): DeploymentSafeguardCreate {
+export function deploymentSafeguardCreateOrUpdateDeserializer(
+  item: any,
+): DeploymentSafeguardCreateOrUpdate {
   return {
     id: item["id"],
     name: item["name"],
@@ -414,12 +418,12 @@ export function deploymentSafeguardCreateDeserializer(item: any): DeploymentSafe
       : systemDataDeserializer(item["systemData"]),
     properties: !item["properties"]
       ? item["properties"]
-      : deploymentSafeguardsPropertiesCreateDeserializer(item["properties"]),
+      : deploymentSafeguardsPropertiesCreateOrUpdateDeserializer(item["properties"]),
   };
 }
 
 /** DeploymentSafeguards Properties */
-export interface DeploymentSafeguardsPropertiesCreate {
+export interface DeploymentSafeguardsPropertiesCreateOrUpdate {
   /** The deployment safeguards level. Possible values are Warn and Enforce */
   level: DeploymentSafeguardsLevel;
   /** User defined list of namespaces to exclude from Deployment Safeguards. Deployments in these namespaces will not be checked against any safeguards */
@@ -428,8 +432,8 @@ export interface DeploymentSafeguardsPropertiesCreate {
   podSecurityStandardsLevel?: PodSecurityStandardsLevel;
 }
 
-export function deploymentSafeguardsPropertiesCreateSerializer(
-  item: DeploymentSafeguardsPropertiesCreate,
+export function deploymentSafeguardsPropertiesCreateOrUpdateSerializer(
+  item: DeploymentSafeguardsPropertiesCreateOrUpdate,
 ): any {
   return {
     level: item["level"],
@@ -442,9 +446,9 @@ export function deploymentSafeguardsPropertiesCreateSerializer(
   };
 }
 
-export function deploymentSafeguardsPropertiesCreateDeserializer(
+export function deploymentSafeguardsPropertiesCreateOrUpdateDeserializer(
   item: any,
-): DeploymentSafeguardsPropertiesCreate {
+): DeploymentSafeguardsPropertiesCreateOrUpdate {
   return {
     level: item["level"],
     excludedNamespaces: !item["excludedNamespaces"]

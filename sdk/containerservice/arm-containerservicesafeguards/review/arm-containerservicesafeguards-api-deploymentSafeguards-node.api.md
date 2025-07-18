@@ -13,7 +13,7 @@ import { PollerLike } from '@azure/core-lro';
 export function $delete(context: ContainerServiceContext, resourceUri: string, options?: DeploymentSafeguardsDeleteOptionalParams): PollerLike<OperationState<void>, void>;
 
 // @public
-export function create(context: ContainerServiceContext, resourceUri: string, resource: DeploymentSafeguardCreate, options?: DeploymentSafeguardsCreateOptionalParams): PollerLike<OperationState<DeploymentSafeguardCreate>, DeploymentSafeguardCreate>;
+export function create(context: ContainerServiceContext, resourceUri: string, resource: DeploymentSafeguardCreateOrUpdate, options?: DeploymentSafeguardsCreateOptionalParams): PollerLike<OperationState<DeploymentSafeguardCreateOrUpdate>, DeploymentSafeguardCreateOrUpdate>;
 
 // @public
 export interface DeploymentSafeguardsCreateOptionalParams extends OperationOptions {

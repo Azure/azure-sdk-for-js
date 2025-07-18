@@ -44,8 +44,8 @@ export interface DeploymentSafeguard extends ExtensionResource {
 }
 
 // @public
-export interface DeploymentSafeguardCreate extends ExtensionResource {
-    properties?: DeploymentSafeguardsPropertiesCreate;
+export interface DeploymentSafeguardCreateOrUpdate extends ExtensionResource {
+    properties?: DeploymentSafeguardsPropertiesCreateOrUpdate;
 }
 
 // @public
@@ -71,7 +71,7 @@ export interface DeploymentSafeguardsListOptionalParams extends OperationOptions
 
 // @public
 export interface DeploymentSafeguardsOperations {
-    create: (resourceUri: string, resource: DeploymentSafeguardCreate, options?: DeploymentSafeguardsCreateOptionalParams) => PollerLike<OperationState<DeploymentSafeguardCreate>, DeploymentSafeguardCreate>;
+    create: (resourceUri: string, resource: DeploymentSafeguardCreateOrUpdate, options?: DeploymentSafeguardsCreateOptionalParams) => PollerLike<OperationState<DeploymentSafeguardCreateOrUpdate>, DeploymentSafeguardCreateOrUpdate>;
     delete: (resourceUri: string, options?: DeploymentSafeguardsDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
     get: (resourceUri: string, options?: DeploymentSafeguardsGetOptionalParams) => Promise<DeploymentSafeguard>;
     list: (resourceUri: string, options?: DeploymentSafeguardsListOptionalParams) => PagedAsyncIterableIterator<DeploymentSafeguard>;
@@ -87,7 +87,7 @@ export interface DeploymentSafeguardsProperties {
 }
 
 // @public
-export interface DeploymentSafeguardsPropertiesCreate {
+export interface DeploymentSafeguardsPropertiesCreateOrUpdate {
     excludedNamespaces?: string[];
     level: DeploymentSafeguardsLevel;
     podSecurityStandardsLevel?: PodSecurityStandardsLevel;
