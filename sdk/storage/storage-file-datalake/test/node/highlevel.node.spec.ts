@@ -2,9 +2,9 @@
 // Licensed under the MIT License.
 
 import { isLiveMode, Recorder } from "@azure-tools/test-recorder";
-import * as fs from "node:fs";
-import * as path from "node:path";
-import * as buffer from "node:buffer";
+import fs from "node:fs";
+import path from "node:path";
+import buffer from "node:buffer";
 import type { DataLakeFileClient, DataLakeFileSystemClient } from "../../src/index.js";
 import {
   bodyToString,

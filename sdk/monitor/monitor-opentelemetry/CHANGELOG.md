@@ -1,5 +1,18 @@
 # Release History
 
+## 1.11.2 ()
+
+### Other Changes
+
+- Add customer statsbeat feature to feature statsbeat.
+- Add multi-ikey feature to feature statsbeat.
+
+## 1.11.1 (2025-06-09)
+
+### Other Changes
+
+- Update to using monitor-opentelemetry-exporter beta 32.
+
 ## 1.11.0 (2025-04-16)
 
 ### Features Added
@@ -9,6 +22,7 @@
 ### Bugs Fixed
 
 - Fixed process time normalized calculation returning NaN.
+- Fixed import issue with @azure/functions-core that was causing bundling errors in applications that don't use Azure Functions. [#34045](https://github.com/Azure/azure-sdk-for-js/issues/34045)
 
 ### Other Changes
 

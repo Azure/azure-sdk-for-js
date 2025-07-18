@@ -1,8 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { describe, it, assert, vi, afterEach } from "vitest";
-import { getCachedDefaultHttpsClient } from "../src/clientHelpers.js";
+import { describe, it, assert } from "vitest";
 import { getClient } from "../src/getClient.js";
 import { isNodeLike } from "@typespec/ts-http-runtime/internal/util";
 import type {
@@ -15,19 +14,20 @@ import type {
 import { createHttpHeaders, RestError } from "@azure/core-rest-pipeline";
 
 describe("getClient", () => {
-  afterEach(() => {
-    vi.restoreAllMocks();
-  });
+  const httpClient = {
+    sendRequest: (req: PipelineRequest) => {
+      return Promise.resolve({
+        headers: createHttpHeaders(),
+        status: 200,
+        request: req,
+      }) as Promise<PipelineResponse>;
+    },
+  };
 
   describe("#apiVersionPolicy", () => {
     it("should add apiVersion to requests if apiVersion is absent", async () => {
-      const defaultHttpClient = getCachedDefaultHttpsClient();
-      vi.spyOn(defaultHttpClient, "sendRequest").mockImplementation(async (req) => {
-        return { headers: createHttpHeaders(), status: 200, request: req } as PipelineResponse;
-      });
-
       const apiVersion = "2021-11-18";
-      const client = getClient("https://example.org", { apiVersion });
+      const client = getClient("https://example.org", { apiVersion, httpClient });
       const validationPolicy: PipelinePolicy = {
         name: "validationPolicy",
         sendRequest: (req, next) => {
@@ -41,14 +41,9 @@ describe("getClient", () => {
     });
 
     it("should use operation-level apiVersion even if we config the client one", async () => {
-      const defaultHttpClient = getCachedDefaultHttpsClient();
-      vi.spyOn(defaultHttpClient, "sendRequest").mockImplementation(async (req) => {
-        return { headers: createHttpHeaders(), status: 200, request: req } as PipelineResponse;
-      });
-
       const clientApiVersion = "2021-11-18",
         operationApiVersion = "2022-01-01";
-      const client = getClient("https://example.org", { apiVersion: clientApiVersion });
+      const client = getClient("https://example.org", { apiVersion: clientApiVersion, httpClient });
       const validationPolicy: PipelinePolicy = {
         name: "validationPolicy",
         sendRequest: (req, next) => {
@@ -69,14 +64,9 @@ describe("getClient", () => {
     });
 
     it("should use apiVersion in url directly even if we config the client one", async () => {
-      const defaultHttpClient = getCachedDefaultHttpsClient();
-      vi.spyOn(defaultHttpClient, "sendRequest").mockImplementation(async (req) => {
-        return { headers: createHttpHeaders(), status: 200, request: req } as PipelineResponse;
-      });
-
       const clientApiVersion = "2021-11-18",
         operationApiVersion = "2022-01-01";
-      const client = getClient("https://example.org", { apiVersion: clientApiVersion });
+      const client = getClient("https://example.org", { apiVersion: clientApiVersion, httpClient });
       const validationPolicy: PipelinePolicy = {
         name: "validationPolicy",
         sendRequest: (req, next) => {
@@ -93,17 +83,8 @@ describe("getClient", () => {
     });
 
     it("should not encode url when skip query parameter encoding and api version parameter exists", async () => {
-      const defaultHttpClient = getCachedDefaultHttpsClient();
-      vi.spyOn(defaultHttpClient, "sendRequest").mockImplementation(async (req) => {
-        return {
-          headers: createHttpHeaders(),
-          status: 200,
-          request: req,
-        } as PipelineResponse;
-      });
-
       const apiVersion = "2021-11-18";
-      const client = getClient("https://example.org", { apiVersion });
+      const client = getClient("https://example.org", { apiVersion, httpClient });
       const validationPolicy: PipelinePolicy = {
         name: "validationPolicy",
         sendRequest: (req, next) => {
@@ -122,17 +103,8 @@ describe("getClient", () => {
     });
 
     it("should encode url when not skip query parameter encoding and api version parameter exists", async () => {
-      const defaultHttpClient = getCachedDefaultHttpsClient();
-      vi.spyOn(defaultHttpClient, "sendRequest").mockImplementation(async (req) => {
-        return {
-          headers: createHttpHeaders(),
-          status: 200,
-          request: req,
-        } as PipelineResponse;
-      });
-
       const apiVersion = "2021-11-18";
-      const client = getClient("https://example.org", { apiVersion });
+      const client = getClient("https://example.org", { apiVersion, httpClient });
       const validationPolicy: PipelinePolicy = {
         name: "validationPolicy",
         sendRequest: (req, next) => {
@@ -151,17 +123,8 @@ describe("getClient", () => {
   });
 
   it("should append api version correctly", async () => {
-    const defaultHttpClient = getCachedDefaultHttpsClient();
-    vi.spyOn(defaultHttpClient, "sendRequest").mockImplementation(async (req) => {
-      return {
-        headers: createHttpHeaders(),
-        status: 200,
-        request: req,
-      } as PipelineResponse;
-    });
-
     const apiVersion = "2021-11-18";
-    const client = getClient("https://example.org", { apiVersion });
+    const client = getClient("https://example.org", { apiVersion, httpClient });
     const validationPolicy: PipelinePolicy = {
       name: "validationPolicy",
       sendRequest: (req, next) => {
@@ -293,16 +256,7 @@ describe("getClient", () => {
   });
 
   it("should support query parameter with explode set to true", async () => {
-    const defaultHttpClient = getCachedDefaultHttpsClient();
-    vi.spyOn(defaultHttpClient, "sendRequest").mockImplementation(async (req) => {
-      return {
-        headers: createHttpHeaders(),
-        status: 200,
-        request: req,
-      } as PipelineResponse;
-    });
-
-    const client = getClient("https://example.org");
+    const client = getClient("https://example.org", { httpClient });
     const validationPolicy: PipelinePolicy = {
       name: "validationPolicy",
       sendRequest: (req, next) => {
@@ -323,16 +277,7 @@ describe("getClient", () => {
   });
 
   it("should support path parameter with allowReserved set to true", async () => {
-    const defaultHttpClient = getCachedDefaultHttpsClient();
-    vi.spyOn(defaultHttpClient, "sendRequest").mockImplementation(async (req) => {
-      return {
-        headers: createHttpHeaders(),
-        status: 200,
-        request: req,
-      } as PipelineResponse;
-    });
-
-    const client = getClient("https://example.org");
+    const client = getClient("https://example.org", { httpClient });
     const validationPolicy: PipelinePolicy = {
       name: "validationPolicy",
       sendRequest: (req, next) => {

@@ -8,20 +8,18 @@
  */
 
 const { AgentsClient, isOutputOfType, ToolUtility } = require("@azure/ai-agents");
-const { delay } = require("@azure/core-util");
 const { DefaultAzureCredential } = require("@azure/identity");
-const fs = require("fs");
-const path = require("node:path");
+const fs = require("node:fs");
 require("dotenv/config");
 
-const projectEndpoint = process.env["PROJECT_ENDPOINT"] || "<project connection string>";
+const projectEndpoint = process.env["PROJECT_ENDPOINT"] || "<project endpoint>";
 const modelDeploymentName = process.env["MODEL_DEPLOYMENT_NAME"] || "gpt-4o";
 
 async function main() {
   // Create an Azure AI Client
   const client = new AgentsClient(projectEndpoint, new DefaultAzureCredential());
   // Upload file and wait for it to be processed
-  const filePath = "./data/nifty500QuarterlyResults.csv";
+  const filePath = "./data/syntheticCompanyQuarterlyResults.csv";
   const localFileStream = fs.createReadStream(filePath);
   const localFile = await client.files.upload(localFileStream, "assistants", {
     fileName: "localFile",
@@ -49,7 +47,7 @@ async function main() {
   const message = await client.messages.create(
     thread.id,
     "user",
-    "Could you please create a bar chart in the TRANSPORTATION sector for the operating profit from the uploaded CSV file and provide the file to me?",
+    "Could you please create a bar chart in the TRANSPORTATION  sector for the operating profit from the uploaded CSV file and provide the file to me?",
     {
       attachments: [
         {
@@ -62,16 +60,16 @@ async function main() {
 
   console.log(`Created message, message ID: ${message.id}`);
 
-  // Create and execute a run
-  let run = await client.runs.create(thread.id, agent.id);
-  while (run.status === "queued" || run.status === "in_progress") {
-    await delay(1000);
-    run = await client.runs.get(thread.id, run.id);
-  }
-  if (run.status === "failed") {
-    // Check if you got "Rate limit is exceeded.", then you want to get more quota
-    console.log(`Run failed: ${run.lastError}`);
-  }
+  // Create and poll a run
+  console.log("Creating run...");
+  const run = await client.runs.createAndPoll(thread.id, agent.id, {
+    pollingOptions: {
+      intervalInMs: 2000,
+    },
+    onResponse: (response) => {
+      console.log(`Received response with status: ${response.parsedBody.status}`);
+    },
+  });
   console.log(`Run finished with status: ${run.status}`);
 
   // Delete the original file from the agent to free up space (note: this does not delete your version of the file)
@@ -80,53 +78,15 @@ async function main() {
 
   // Print the messages from the agent
   const messagesIterator = client.messages.list(thread.id);
-  const allMessages = [];
   for await (const m of messagesIterator) {
-    allMessages.push(m);
-  }
-  console.log("Messages:", allMessages);
-
-  // Get most recent message from the assistant
-  const assistantMessage = allMessages.find((msg) => msg.role === "assistant");
-  if (assistantMessage) {
-    const textContent = assistantMessage.content.find((content) => isOutputOfType(content, "text"));
-    if (textContent) {
-      console.log(`Last message: ${textContent.text.value}`);
+    console.log(`Role: ${m.role}, Content: ${m.content}`);
+    if (m.role === "assistant") {
+      const textContent = m.content.find((content) => isOutputOfType(content, "text"));
+      if (textContent) {
+        console.log(`Last message: ${textContent.text.value}`);
+      }
     }
   }
-
-  // Save the newly created file
-  console.log(`Saving new files...`);
-  const imageFile = allMessages[0].content[0].imageFile;
-  console.log(`Image file ID : ${imageFile.fileId}`);
-  const imageFileName = path.resolve(
-    "./data/" + (await client.files.get(imageFile.fileId)).filename + "ImageFile.png",
-  );
-
-  const fileContent = await (await client.files.getContent(imageFile.fileId).asNodeStream()).body;
-  if (fileContent) {
-    const chunks = [];
-    for await (const chunk of fileContent) {
-      chunks.push(Buffer.isBuffer(chunk) ? chunk : Buffer.from(chunk));
-    }
-    const buffer = Buffer.concat(chunks);
-    fs.writeFileSync(imageFileName, buffer);
-  } else {
-    console.error("Failed to retrieve file content: fileContent is undefined");
-  }
-  console.log(`Saved image file to: ${imageFileName}`);
-
-  // Iterate through messages and print details for each annotation
-  console.log(`Message Details:`);
-  allMessages.forEach((m) => {
-    console.log(`File Paths:`);
-    console.log(`Type: ${m.content[0].type}`);
-    if (isOutputOfType(m.content[0], "text")) {
-      const textContent = m.content[0];
-      console.log(`Text: ${textContent.text.value}`);
-    }
-    console.log(`File ID: ${m.id}`);
-  });
 
   // Delete the agent once done
   await client.deleteAgent(agent.id);

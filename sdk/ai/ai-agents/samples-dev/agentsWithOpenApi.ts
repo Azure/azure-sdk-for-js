@@ -10,7 +10,6 @@
 
 import type { MessageTextContent } from "@azure/ai-agents";
 import { AgentsClient, isOutputOfType, ToolUtility } from "@azure/ai-agents";
-import { delay } from "@azure/core-util";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as fs from "fs";
 import "dotenv/config";
@@ -56,31 +55,28 @@ export async function main(): Promise<void> {
   const message = await client.messages.create(thread.id, "user", "What's the weather in Seattle?");
   console.log(`Created message, message ID: ${message.id}`);
 
-  // Create and execute a run
-  let run = await client.runs.create(thread.id, agent.id);
-  while (run.status === "queued" || run.status === "in_progress") {
-    await delay(1000);
-    run = await client.runs.get(thread.id, run.id);
-  }
-  if (run.status === "failed") {
-    // Check if you got "Rate limit is exceeded.", then you want to get more quota
-    console.log(`Run failed: ${run.lastError}`);
-  }
+  // Create and poll a run
+  console.log("Creating run...");
+  const run = await client.runs.createAndPoll(thread.id, agent.id, {
+    pollingOptions: {
+      intervalInMs: 2000,
+    },
+    onResponse: (response): void => {
+      console.log(`Received response with status: ${response.parsedBody.status}`);
+    },
+  });
   console.log(`Run finished with status: ${run.status}`);
-
   // Get most recent message from the assistant
   const messagesIterator = client.messages.list(thread.id);
-  const messages = [];
   for await (const m of messagesIterator) {
-    messages.push(m);
-  }
-  const assistantMessage = messages.find((msg) => msg.role === "assistant");
-  if (assistantMessage) {
-    const textContent = assistantMessage.content.find((content) =>
-      isOutputOfType<MessageTextContent>(content, "text"),
-    ) as MessageTextContent;
-    if (textContent) {
-      console.log(`Last message: ${textContent.text.value}`);
+    if (m.role === "assistant") {
+      const textContent = m.content?.find((content) =>
+        isOutputOfType<MessageTextContent>(content, "text"),
+      );
+      if (textContent) {
+        console.log(`Last message: ${textContent.text.value}`);
+      }
+      break;
     }
   }
   // Delete the agent once done

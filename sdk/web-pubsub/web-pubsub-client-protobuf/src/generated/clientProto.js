@@ -150,12 +150,14 @@ export const UpstreamMessage = $root.UpstreamMessage = (() => {
      * @throws {Error} If the payload is not a reader or valid buffer
      * @throws {$protobuf.util.ProtocolError} If required fields are missing
      */
-    UpstreamMessage.decode = function decode(reader, length) {
+    UpstreamMessage.decode = function decode(reader, length, error) {
         if (!(reader instanceof $Reader))
             reader = $Reader.create(reader);
         let end = length === undefined ? reader.len : reader.pos + length, message = new $root.UpstreamMessage();
         while (reader.pos < end) {
             let tag = reader.uint32();
+            if (tag === error)
+                break;
             switch (tag >>> 3) {
             case 1: {
                     message.sendToGroupMessage = $root.UpstreamMessage.SendToGroupMessage.decode(reader, reader.uint32());
@@ -433,13 +435,23 @@ export const UpstreamMessage = $root.UpstreamMessage = (() => {
         // OneOf field names bound to virtual getters and setters
         let $oneOfFields;
 
-        // Virtual OneOf for proto3 optional field
+        /**
+         * SendToGroupMessage _ackId.
+         * @member {"ackId"|undefined} _ackId
+         * @memberof UpstreamMessage.SendToGroupMessage
+         * @instance
+         */
         Object.defineProperty(SendToGroupMessage.prototype, "_ackId", {
             get: $util.oneOfGetter($oneOfFields = ["ackId"]),
             set: $util.oneOfSetter($oneOfFields)
         });
 
-        // Virtual OneOf for proto3 optional field
+        /**
+         * SendToGroupMessage _noEcho.
+         * @member {"noEcho"|undefined} _noEcho
+         * @memberof UpstreamMessage.SendToGroupMessage
+         * @instance
+         */
         Object.defineProperty(SendToGroupMessage.prototype, "_noEcho", {
             get: $util.oneOfGetter($oneOfFields = ["noEcho"]),
             set: $util.oneOfSetter($oneOfFields)
@@ -504,12 +516,14 @@ export const UpstreamMessage = $root.UpstreamMessage = (() => {
          * @throws {Error} If the payload is not a reader or valid buffer
          * @throws {$protobuf.util.ProtocolError} If required fields are missing
          */
-        SendToGroupMessage.decode = function decode(reader, length) {
+        SendToGroupMessage.decode = function decode(reader, length, error) {
             if (!(reader instanceof $Reader))
                 reader = $Reader.create(reader);
             let end = length === undefined ? reader.len : reader.pos + length, message = new $root.UpstreamMessage.SendToGroupMessage();
             while (reader.pos < end) {
                 let tag = reader.uint32();
+                if (tag === error)
+                    break;
                 switch (tag >>> 3) {
                 case 1: {
                         message.group = reader.string();
@@ -736,7 +750,12 @@ export const UpstreamMessage = $root.UpstreamMessage = (() => {
         // OneOf field names bound to virtual getters and setters
         let $oneOfFields;
 
-        // Virtual OneOf for proto3 optional field
+        /**
+         * EventMessage _ackId.
+         * @member {"ackId"|undefined} _ackId
+         * @memberof UpstreamMessage.EventMessage
+         * @instance
+         */
         Object.defineProperty(EventMessage.prototype, "_ackId", {
             get: $util.oneOfGetter($oneOfFields = ["ackId"]),
             set: $util.oneOfSetter($oneOfFields)
@@ -799,12 +818,14 @@ export const UpstreamMessage = $root.UpstreamMessage = (() => {
          * @throws {Error} If the payload is not a reader or valid buffer
          * @throws {$protobuf.util.ProtocolError} If required fields are missing
          */
-        EventMessage.decode = function decode(reader, length) {
+        EventMessage.decode = function decode(reader, length, error) {
             if (!(reader instanceof $Reader))
                 reader = $Reader.create(reader);
             let end = length === undefined ? reader.len : reader.pos + length, message = new $root.UpstreamMessage.EventMessage();
             while (reader.pos < end) {
                 let tag = reader.uint32();
+                if (tag === error)
+                    break;
                 switch (tag >>> 3) {
                 case 1: {
                         message.event = reader.string();
@@ -1006,7 +1027,12 @@ export const UpstreamMessage = $root.UpstreamMessage = (() => {
         // OneOf field names bound to virtual getters and setters
         let $oneOfFields;
 
-        // Virtual OneOf for proto3 optional field
+        /**
+         * JoinGroupMessage _ackId.
+         * @member {"ackId"|undefined} _ackId
+         * @memberof UpstreamMessage.JoinGroupMessage
+         * @instance
+         */
         Object.defineProperty(JoinGroupMessage.prototype, "_ackId", {
             get: $util.oneOfGetter($oneOfFields = ["ackId"]),
             set: $util.oneOfSetter($oneOfFields)
@@ -1067,12 +1093,14 @@ export const UpstreamMessage = $root.UpstreamMessage = (() => {
          * @throws {Error} If the payload is not a reader or valid buffer
          * @throws {$protobuf.util.ProtocolError} If required fields are missing
          */
-        JoinGroupMessage.decode = function decode(reader, length) {
+        JoinGroupMessage.decode = function decode(reader, length, error) {
             if (!(reader instanceof $Reader))
                 reader = $Reader.create(reader);
             let end = length === undefined ? reader.len : reader.pos + length, message = new $root.UpstreamMessage.JoinGroupMessage();
             while (reader.pos < end) {
                 let tag = reader.uint32();
+                if (tag === error)
+                    break;
                 switch (tag >>> 3) {
                 case 1: {
                         message.group = reader.string();
@@ -1256,7 +1284,12 @@ export const UpstreamMessage = $root.UpstreamMessage = (() => {
         // OneOf field names bound to virtual getters and setters
         let $oneOfFields;
 
-        // Virtual OneOf for proto3 optional field
+        /**
+         * LeaveGroupMessage _ackId.
+         * @member {"ackId"|undefined} _ackId
+         * @memberof UpstreamMessage.LeaveGroupMessage
+         * @instance
+         */
         Object.defineProperty(LeaveGroupMessage.prototype, "_ackId", {
             get: $util.oneOfGetter($oneOfFields = ["ackId"]),
             set: $util.oneOfSetter($oneOfFields)
@@ -1317,12 +1350,14 @@ export const UpstreamMessage = $root.UpstreamMessage = (() => {
          * @throws {Error} If the payload is not a reader or valid buffer
          * @throws {$protobuf.util.ProtocolError} If required fields are missing
          */
-        LeaveGroupMessage.decode = function decode(reader, length) {
+        LeaveGroupMessage.decode = function decode(reader, length, error) {
             if (!(reader instanceof $Reader))
                 reader = $Reader.create(reader);
             let end = length === undefined ? reader.len : reader.pos + length, message = new $root.UpstreamMessage.LeaveGroupMessage();
             while (reader.pos < end) {
                 let tag = reader.uint32();
+                if (tag === error)
+                    break;
                 switch (tag >>> 3) {
                 case 1: {
                         message.group = reader.string();
@@ -1547,12 +1582,14 @@ export const UpstreamMessage = $root.UpstreamMessage = (() => {
          * @throws {Error} If the payload is not a reader or valid buffer
          * @throws {$protobuf.util.ProtocolError} If required fields are missing
          */
-        SequenceAckMessage.decode = function decode(reader, length) {
+        SequenceAckMessage.decode = function decode(reader, length, error) {
             if (!(reader instanceof $Reader))
                 reader = $Reader.create(reader);
             let end = length === undefined ? reader.len : reader.pos + length, message = new $root.UpstreamMessage.SequenceAckMessage();
             while (reader.pos < end) {
                 let tag = reader.uint32();
+                if (tag === error)
+                    break;
                 switch (tag >>> 3) {
                 case 1: {
                         message.sequenceId = reader.uint64();
@@ -1803,12 +1840,14 @@ export const DownstreamMessage = $root.DownstreamMessage = (() => {
      * @throws {Error} If the payload is not a reader or valid buffer
      * @throws {$protobuf.util.ProtocolError} If required fields are missing
      */
-    DownstreamMessage.decode = function decode(reader, length) {
+    DownstreamMessage.decode = function decode(reader, length, error) {
         if (!(reader instanceof $Reader))
             reader = $Reader.create(reader);
         let end = length === undefined ? reader.len : reader.pos + length, message = new $root.DownstreamMessage();
         while (reader.pos < end) {
             let tag = reader.uint32();
+            if (tag === error)
+                break;
             switch (tag >>> 3) {
             case 1: {
                     message.ackMessage = $root.DownstreamMessage.AckMessage.decode(reader, reader.uint32());
@@ -2029,7 +2068,12 @@ export const DownstreamMessage = $root.DownstreamMessage = (() => {
         // OneOf field names bound to virtual getters and setters
         let $oneOfFields;
 
-        // Virtual OneOf for proto3 optional field
+        /**
+         * AckMessage _error.
+         * @member {"error"|undefined} _error
+         * @memberof DownstreamMessage.AckMessage
+         * @instance
+         */
         Object.defineProperty(AckMessage.prototype, "_error", {
             get: $util.oneOfGetter($oneOfFields = ["error"]),
             set: $util.oneOfSetter($oneOfFields)
@@ -2092,12 +2136,14 @@ export const DownstreamMessage = $root.DownstreamMessage = (() => {
          * @throws {Error} If the payload is not a reader or valid buffer
          * @throws {$protobuf.util.ProtocolError} If required fields are missing
          */
-        AckMessage.decode = function decode(reader, length) {
+        AckMessage.decode = function decode(reader, length, error) {
             if (!(reader instanceof $Reader))
                 reader = $Reader.create(reader);
             let end = length === undefined ? reader.len : reader.pos + length, message = new $root.DownstreamMessage.AckMessage();
             while (reader.pos < end) {
                 let tag = reader.uint32();
+                if (tag === error)
+                    break;
                 switch (tag >>> 3) {
                 case 1: {
                         message.ackId = reader.uint64();
@@ -2353,12 +2399,14 @@ export const DownstreamMessage = $root.DownstreamMessage = (() => {
              * @throws {Error} If the payload is not a reader or valid buffer
              * @throws {$protobuf.util.ProtocolError} If required fields are missing
              */
-            ErrorMessage.decode = function decode(reader, length) {
+            ErrorMessage.decode = function decode(reader, length, error) {
                 if (!(reader instanceof $Reader))
                     reader = $Reader.create(reader);
                 let end = length === undefined ? reader.len : reader.pos + length, message = new $root.DownstreamMessage.AckMessage.ErrorMessage();
                 while (reader.pos < end) {
                     let tag = reader.uint32();
+                    if (tag === error)
+                        break;
                     switch (tag >>> 3) {
                     case 1: {
                             message.name = reader.string();
@@ -2549,13 +2597,23 @@ export const DownstreamMessage = $root.DownstreamMessage = (() => {
         // OneOf field names bound to virtual getters and setters
         let $oneOfFields;
 
-        // Virtual OneOf for proto3 optional field
+        /**
+         * DataMessage _group.
+         * @member {"group"|undefined} _group
+         * @memberof DownstreamMessage.DataMessage
+         * @instance
+         */
         Object.defineProperty(DataMessage.prototype, "_group", {
             get: $util.oneOfGetter($oneOfFields = ["group"]),
             set: $util.oneOfSetter($oneOfFields)
         });
 
-        // Virtual OneOf for proto3 optional field
+        /**
+         * DataMessage _sequenceId.
+         * @member {"sequenceId"|undefined} _sequenceId
+         * @memberof DownstreamMessage.DataMessage
+         * @instance
+         */
         Object.defineProperty(DataMessage.prototype, "_sequenceId", {
             get: $util.oneOfGetter($oneOfFields = ["sequenceId"]),
             set: $util.oneOfSetter($oneOfFields)
@@ -2620,12 +2678,14 @@ export const DownstreamMessage = $root.DownstreamMessage = (() => {
          * @throws {Error} If the payload is not a reader or valid buffer
          * @throws {$protobuf.util.ProtocolError} If required fields are missing
          */
-        DataMessage.decode = function decode(reader, length) {
+        DataMessage.decode = function decode(reader, length, error) {
             if (!(reader instanceof $Reader))
                 reader = $Reader.create(reader);
             let end = length === undefined ? reader.len : reader.pos + length, message = new $root.DownstreamMessage.DataMessage();
             while (reader.pos < end) {
                 let tag = reader.uint32();
+                if (tag === error)
+                    break;
                 switch (tag >>> 3) {
                 case 1: {
                         message.from = reader.string();
@@ -2909,12 +2969,14 @@ export const DownstreamMessage = $root.DownstreamMessage = (() => {
          * @throws {Error} If the payload is not a reader or valid buffer
          * @throws {$protobuf.util.ProtocolError} If required fields are missing
          */
-        SystemMessage.decode = function decode(reader, length) {
+        SystemMessage.decode = function decode(reader, length, error) {
             if (!(reader instanceof $Reader))
                 reader = $Reader.create(reader);
             let end = length === undefined ? reader.len : reader.pos + length, message = new $root.DownstreamMessage.SystemMessage();
             while (reader.pos < end) {
                 let tag = reader.uint32();
+                if (tag === error)
+                    break;
                 switch (tag >>> 3) {
                 case 1: {
                         message.connectedMessage = $root.DownstreamMessage.SystemMessage.ConnectedMessage.decode(reader, reader.uint32());
@@ -3165,12 +3227,14 @@ export const DownstreamMessage = $root.DownstreamMessage = (() => {
              * @throws {Error} If the payload is not a reader or valid buffer
              * @throws {$protobuf.util.ProtocolError} If required fields are missing
              */
-            ConnectedMessage.decode = function decode(reader, length) {
+            ConnectedMessage.decode = function decode(reader, length, error) {
                 if (!(reader instanceof $Reader))
                     reader = $Reader.create(reader);
                 let end = length === undefined ? reader.len : reader.pos + length, message = new $root.DownstreamMessage.SystemMessage.ConnectedMessage();
                 while (reader.pos < end) {
                     let tag = reader.uint32();
+                    if (tag === error)
+                        break;
                     switch (tag >>> 3) {
                     case 1: {
                             message.connectionId = reader.string();
@@ -3393,12 +3457,14 @@ export const DownstreamMessage = $root.DownstreamMessage = (() => {
              * @throws {Error} If the payload is not a reader or valid buffer
              * @throws {$protobuf.util.ProtocolError} If required fields are missing
              */
-            DisconnectedMessage.decode = function decode(reader, length) {
+            DisconnectedMessage.decode = function decode(reader, length, error) {
                 if (!(reader instanceof $Reader))
                     reader = $Reader.create(reader);
                 let end = length === undefined ? reader.len : reader.pos + length, message = new $root.DownstreamMessage.SystemMessage.DisconnectedMessage();
                 while (reader.pos < end) {
                     let tag = reader.uint32();
+                    if (tag === error)
+                        break;
                     switch (tag >>> 3) {
                     case 2: {
                             message.reason = reader.string();
@@ -3649,12 +3715,14 @@ export const MessageData = $root.MessageData = (() => {
      * @throws {Error} If the payload is not a reader or valid buffer
      * @throws {$protobuf.util.ProtocolError} If required fields are missing
      */
-    MessageData.decode = function decode(reader, length) {
+    MessageData.decode = function decode(reader, length, error) {
         if (!(reader instanceof $Reader))
             reader = $Reader.create(reader);
         let end = length === undefined ? reader.len : reader.pos + length, message = new $root.MessageData();
         while (reader.pos < end) {
             let tag = reader.uint32();
+            if (tag === error)
+                break;
             switch (tag >>> 3) {
             case 1: {
                     message.textData = reader.string();
@@ -3948,12 +4016,14 @@ export const google = $root.google = (() => {
              * @throws {Error} If the payload is not a reader or valid buffer
              * @throws {$protobuf.util.ProtocolError} If required fields are missing
              */
-            Any.decode = function decode(reader, length) {
+            Any.decode = function decode(reader, length, error) {
                 if (!(reader instanceof $Reader))
                     reader = $Reader.create(reader);
                 let end = length === undefined ? reader.len : reader.pos + length, message = new $root.google.protobuf.Any();
                 while (reader.pos < end) {
                     let tag = reader.uint32();
+                    if (tag === error)
+                        break;
                     switch (tag >>> 3) {
                     case 1: {
                             message.type_url = reader.string();

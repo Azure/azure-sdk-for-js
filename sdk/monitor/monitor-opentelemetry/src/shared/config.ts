@@ -1,8 +1,13 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { ResourceDetectionConfig } from "@opentelemetry/resources";
-import { Resource, detectResourcesSync, envDetectorSync } from "@opentelemetry/resources";
+import type { ResourceDetectionConfig, Resource } from "@opentelemetry/resources";
+import {
+  defaultResource,
+  detectResources,
+  emptyResource,
+  envDetector,
+} from "@opentelemetry/resources";
 import type {
   BrowserSdkLoaderOptions,
   AzureMonitorOpenTelemetryOptions,
@@ -37,8 +42,10 @@ export class InternalConfig implements AzureMonitorOpenTelemetryOptions {
   enableTraceBasedSamplingForLogs?: boolean;
   /** Enable Performance Counter feature */
   enablePerformanceCounters?: boolean;
+  /** Metric export interval in milliseconds */
+  public metricExportIntervalMillis: number;
 
-  private _resource: Resource = Resource.empty();
+  private _resource: Resource = emptyResource();
 
   public set resource(resource: Resource) {
     this._resource = this._resource.merge(resource);
@@ -64,6 +71,7 @@ export class InternalConfig implements AzureMonitorOpenTelemetryOptions {
     this.enableStandardMetrics = true;
     this.enableTraceBasedSamplingForLogs = false;
     this.enablePerformanceCounters = true;
+    this.metricExportIntervalMillis = this.calculateMetricExportInterval();
     this.instrumentationOptions = {
       http: { enabled: true },
       azureSdk: { enabled: false },
@@ -152,28 +160,48 @@ export class InternalConfig implements AzureMonitorOpenTelemetryOptions {
   }
 
   private _setDefaultResource(): void {
-    let resource = Resource.default();
+    let resource = defaultResource();
     // Load resource attributes from env
     const detectResourceConfig: ResourceDetectionConfig = {
-      detectors: [envDetectorSync],
+      detectors: [envDetector],
     };
-    const envResource = detectResourcesSync(detectResourceConfig);
-    resource = resource.merge(envResource) as Resource;
+    const envResource = detectResources(detectResourceConfig);
+    resource = resource.merge(envResource);
 
     // Load resource attributes from Azure
-    const azureResource: Resource = detectResourcesSync({
+    const azureResource: Resource = detectResources({
       detectors: [azureAppServiceDetector, azureFunctionsDetector],
     });
-    this._resource = resource.merge(azureResource) as Resource;
+    this._resource = resource.merge(azureResource);
 
-    const vmResource = detectResourcesSync({
+    const vmResource = detectResources({
       detectors: [azureVmDetector],
     });
     if (vmResource.asyncAttributesPending) {
-      vmResource.waitForAsyncAttributes?.().then(() => {
-        this._resource = this._resource.merge(vmResource) as Resource;
+      void vmResource.waitForAsyncAttributes?.().then(() => {
+        this._resource = this._resource.merge(vmResource);
         return;
       });
     }
+  }
+
+  public calculateMetricExportInterval(options?: { collectionInterval: number }): number {
+    const defaultInterval = 60000; // 60 seconds
+
+    // Prioritize OTEL_METRIC_EXPORT_INTERVAL env var
+    if (process.env.OTEL_METRIC_EXPORT_INTERVAL) {
+      const envInterval = parseInt(process.env.OTEL_METRIC_EXPORT_INTERVAL.trim(), 10);
+      if (!isNaN(envInterval) && envInterval > 0) {
+        return envInterval;
+      }
+    }
+
+    // Then use options if provided
+    if (options?.collectionInterval) {
+      return options.collectionInterval;
+    }
+
+    // Default fallback
+    return defaultInterval;
   }
 }

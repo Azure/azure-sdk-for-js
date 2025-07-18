@@ -4,10 +4,14 @@ Use the AI Agents client library to:
 
 - **Develop Agents using the Azure AI Agent Service**, leveraging an extensive ecosystem of models, tools, and capabilities from OpenAI, Microsoft, and other LLM providers. The Azure AI Agent Service enables the building of Agents for a wide range of generative AI use cases.
 
+* **Note:** While this package can be used independently, we recommend using the [Azure AI Projects client library](https://www.npmjs.com/package/@azure/ai-projects) for an enhanced experience.
+  The Projects library provides simplified access to advanced functionality, such as creating and managing agents, enumerating AI models, working with datasets and
+  managing search indexes, evaluating generative AI performance, and enabling OpenTelemetry tracing.
+
 [Product documentation](https://aka.ms/azsdk/azure-ai-projects/product-doc)
 | [Samples](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/ai/ai-agents/samples/)
 | [Package (npm)](https://www.npmjs.com/package/@azure/ai-agents)
-| [API reference documentation](https://learn.microsoft.com/javascript/api/overview/azure/ai-projects-readme?view=azure-node-preview)
+| [API reference documentation](https://learn.microsoft.com/javascript/api/overview/azure/ai-agents-readme?view=azure-node-latest)
 
 ## Table of contents
 
@@ -23,9 +27,9 @@ Use the AI Agents client library to:
       - [File Search](#create-agent-with-file-search)
       - [Code interpreter](#create-agent-with-code-interpreter)
       - [Bing grounding](#create-agent-with-bing-grounding)
+      - [Deep research](#create-agent-with-deep-research)
       - [Azure AI Search](#create-agent-with-azure-ai-search)
       - [Function call](#create-agent-with-function-call)
-      - [Fabric Data](#create-an-agent-with-fabric)
     - [Create thread](#create-thread) with
       - [Tool resource](#create-thread-with-tool-resource)
     - [Create message](#create-message) with:
@@ -70,7 +74,7 @@ npm install @azure/ai-agents @azure/identity
 
 The `AgentsClient` is used to construct the client. Currently, we recommend that you use the AgentsClient through the [Azure AI Projects Client Library](https://www.npmjs.com/package/@azure/ai-projects) using `client.agents`.
 
-To construct a client:
+To get your project endpoint you can refer to the [documentation][azure_foundry_service_endpoint]. Below we will assume the environment variable `PROJECT_ENDPOINT` holds this value.
 
 ```ts snippet:setup
 import { AgentsClient } from "@azure/ai-agents";
@@ -106,7 +110,7 @@ You can use `ToolSet` to do this:
 import { ToolSet } from "@azure/ai-agents";
 
 // Upload file for code interpreter tool
-const filePath1 = "./data/nifty500QuarterlyResults.csv";
+const filePath1 = "./data/syntheticCompanyQuarterlyResults.csv";
 const fileStream1 = fs.createReadStream(filePath1);
 const codeInterpreterFile = await client.files.upload(fileStream1, "assistants", {
   fileName: "myLocalFile",
@@ -129,6 +133,43 @@ const vectorStore = await client.vectorStores
 const toolSet = new ToolSet();
 toolSet.addFileSearchTool([vectorStore.id]);
 toolSet.addCodeInterpreterTool([codeInterpreterFile.id]);
+
+// Create agent with tool set
+const agent = await client.createAgent("gpt-4o", {
+  name: "my-agent",
+  instructions: "You are a helpful agent",
+  tools: toolSet.toolDefinitions,
+  toolResources: toolSet.toolResources,
+});
+console.log(`Created agent, agent ID: ${agent.id}`);
+```
+
+#### Multiple Agents
+You can create multiple Agents with different tools and then connect them together.
+
+```ts snippet:MultiAgents
+import { ToolUtility } from "@azure/ai-agents";
+
+const connectedAgentName = "stock_price_bot";
+const modelDeploymentName = process.env["MODEL_DEPLOYMENT_NAME"] || "gpt-4o";
+const stockAgent = await client.createAgent(modelDeploymentName, {
+  name: "stock-price-agent",
+  instructions:
+    "Your job is to get the stock price of a company. If you don't know the realtime stock price, return the last known stock price.",
+});
+// Initialize Connected Agent tool with the agent id, name, and description
+const connectedAgentTool = ToolUtility.createConnectedAgentTool(
+  stockAgent.id,
+  connectedAgentName,
+  "Gets the stock price of a company",
+);
+// Create agent with the Connected Agent tool and process assistant run
+const agent = await client.createAgent(modelDeploymentName, {
+  name: "my-agent",
+  instructions: "You are a helpful assistant, and use the connected agent to get stock prices.",
+  tools: [connectedAgentTool.definition],
+});
+console.log(`Created agent, agent ID: ${agent.id}`);
 ```
 
 #### Create Agent with File Search
@@ -169,7 +210,7 @@ Here is an example to upload a file and use it for code interpreter by an Agent:
 ```ts snippet:codeInterpreter
 import { ToolUtility } from "@azure/ai-agents";
 
-const filePath = "./data/nifty500QuarterlyResults.csv";
+const filePath = "./data/syntheticCompanyQuarterlyResults.csv";
 const localFileStream = fs.createReadStream(filePath);
 const localFile = await client.files.upload(localFileStream, "assistants", {
   fileName: "localFile",
@@ -210,6 +251,42 @@ const agent = await client.createAgent("gpt-4o", {
   tools: [bingTool.definition],
 });
 console.log(`Created agent, agent ID : ${agent.id}`);
+```
+#### Create Agent with Deep Research
+
+To enable your Agent to do a detailed research of a topic, use the `DeepResearchTool` along with a connection to a Bing Grounding resource.
+This scenario requires you to specify two model deployments. One is the generic chat model that does arbitration, and is
+specified as usual when you call the `createAgent` method. The other is the Deep Research model, which is specified
+when you define the `DeepResearchTool`.
+
+Here is an example to integrate Deep ReSearch:
+
+```ts snippet:DeepResearch
+import { DeepResearchToolDefinition } from "@azure/ai-agents";
+
+const bingConnectionId = process.env["AZURE_BING_CONNECTION_ID"] || "<connection-name>";
+const deepResearchModelDeploymentName =
+  process.env["DEEP_RESEARCH_MODEL_DEPLOYMENT_NAME"] || "gpt-4o";
+const modelDeploymentName = process.env["MODEL_DEPLOYMENT_NAME"] || "gpt-4o";
+// Create Deep Research tool definition
+const deepResearchTool: DeepResearchToolDefinition = {
+  type: "deep_research",
+  deepResearch: {
+    deepResearchModel: deepResearchModelDeploymentName,
+    deepResearchBingGroundingConnections: [
+      {
+        connectionId: bingConnectionId,
+      },
+    ],
+  },
+};
+// Create agent with the Deep Research tool
+const agent = await client.createAgent(modelDeploymentName, {
+  name: "my-agent",
+  instructions: "You are a helpful Agent that assists in researching scientific topics.",
+  tools: [deepResearchTool],
+});
+console.log(`Created agent, ID: ${agent.id}`);
 ```
 
 #### Create Agent with Azure AI Search
@@ -330,11 +407,11 @@ class FunctionToolExecutor {
         return undefined;
       }
     }
-    const result = this.functionTools
-      .map((tool) =>
-        tool.definition.function.name === toolCall.function.name ? tool.func(...args) : undefined,
-      )
-      .find((r) => r !== undefined);
+    // Create a mapping of function names to their implementations
+    const functionMap = new Map(
+      this.functionTools.map((tool) => [tool.definition.function.name, tool.func]),
+    );
+    const result = functionMap.get(toolCall.function.name)?.(...args);
     return result
       ? {
           toolCallId: toolCall.id,
@@ -400,29 +477,6 @@ const agent = await client.createAgent("gpt-4o", {
 console.log(`Created agent, agent ID: ${agent.id}`);
 ```
 
-#### Create an Agent with Fabric
-
-To enable your Agent to answer queries using Fabric data, use `FabricTool` along with a connection to the Fabric resource.
-
-Here is an example:
-
-```ts snippet:createAgentWithFabric
-import { ToolUtility } from "@azure/ai-agents";
-
-const connectionId = process.env["FABRIC_CONNECTION_ID"] || "<connection-name>";
-
-// Initialize agent Microsoft Fabric tool with the connection id
-const fabricTool = ToolUtility.createFabricTool(connectionId);
-
-// Create agent with the Microsoft Fabric tool and process assistant run
-const agent = await client.createAgent("gpt-4o", {
-  name: "my-agent",
-  instructions: "You are a helpful agent",
-  tools: [fabricTool.definition],
-});
-console.log(`Created agent, agent ID : ${agent.id}`);
-```
-
 #### Create Thread
 
 For each session or conversation, a thread is required. Here is an example:
@@ -439,7 +493,7 @@ In some scenarios, you might need to assign specific resources to individual thr
 ```ts snippet:threadWithTool
 import { ToolUtility } from "@azure/ai-agents";
 
-const filePath = "./data/nifty500QuarterlyResults.csv";
+const filePath = "./data/syntheticCompanyQuarterlyResults.csv";
 const localFileStream = fs.createReadStream(filePath);
 const file = await client.files.upload(localFileStream, "assistants", {
   fileName: "sample_file_for_upload.csv",
@@ -607,17 +661,17 @@ console.log(`Created message, message ID: ${message.id}`);
 Here is an example of `runs.create` and poll until the run is completed:
 
 ```ts snippet:createRun
-import { delay } from "@azure/core-util";
-
-let run = await client.runs.create(thread.id, agent.id);
-console.log(`Created run, run ID: ${run.id}`);
-
-// Wait for run to complete
-while (["queued", "in_progress", "requires_action"].includes(run.status)) {
-  await delay(1000);
-  run = await client.runs.get(thread.id, run.id);
-  console.log(`Run status: ${run.status}`);
-}
+// Create and poll a run
+console.log("Creating run...");
+const run = await client.runs.createAndPoll(thread.id, agent.id, {
+  pollingOptions: {
+    intervalInMs: 2000,
+  },
+  onResponse: (response): void => {
+    console.log(`Received response with status: ${response.parsedBody.status}`);
+  },
+});
+console.log(`Run finished with status: ${run.status}`);
 ```
 
 To have the SDK poll on your behalf, use the `createThreadAndRun` method.
@@ -648,36 +702,27 @@ const streamEventMessages = await client.runs.create(thread.id, agent.id).stream
 Event handling can be done as follows:
 
 ```ts snippet:eventHandling
-import {
-  RunStreamEvent,
-  ThreadRun,
-  MessageStreamEvent,
-  MessageDeltaChunk,
-  MessageDeltaTextContent,
-  ErrorEvent,
-  DoneEvent,
-} from "@azure/ai-agents";
+import { RunStreamEvent, MessageStreamEvent, ErrorEvent, DoneEvent } from "@azure/ai-agents";
 
 const streamEventMessages = await client.runs.create(thread.id, agent.id).stream();
 
 for await (const eventMessage of streamEventMessages) {
   switch (eventMessage.event) {
     case RunStreamEvent.ThreadRunCreated:
-      console.log(`ThreadRun status: ${(eventMessage.data as ThreadRun).status}`);
+      console.log(`ThreadRun status: ${eventMessage.data.status}`);
       break;
     case MessageStreamEvent.ThreadMessageDelta:
       {
-        const messageDelta = eventMessage.data as MessageDeltaChunk;
+        const messageDelta = eventMessage.data;
         messageDelta.delta.content.forEach((contentPart) => {
           if (contentPart.type === "text") {
-            const textContent = contentPart as MessageDeltaTextContent;
+            const textContent = contentPart;
             const textValue = textContent.text?.value || "No text";
             console.log(`Text delta received:: ${textValue}`);
           }
         });
       }
       break;
-
     case RunStreamEvent.ThreadRunCompleted:
       console.log("Thread Run Completed");
       break;
@@ -831,6 +876,7 @@ additional questions or comments.
 
 <!-- LINKS -->
 
+[azure_foundry_service_endpoint]: https://learn.microsoft.com/azure/ai-foundry/model-inference/how-to/configure-project-connection?pivots=ai-foundry-portal
 [code_of_conduct]: https://opensource.microsoft.com/codeofconduct/
 [entra_id]: https://learn.microsoft.com/azure/ai-services/authentication?tabs=powershell#authenticate-with-microsoft-entra-id
 [azure_identity_npm]: https://www.npmjs.com/package/@azure/identity

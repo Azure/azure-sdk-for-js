@@ -7,6 +7,7 @@
 export interface ClientCertificatePEMCertificate {
   /**
    * The PEM-encoded public/private key certificate on the filesystem.
+   * Ensure that certificate is in PEM format and contains both the public and private keys.
    */
   certificate: string;
 

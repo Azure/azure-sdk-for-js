@@ -1,29 +1,17 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 import type { Agent } from "node:http";
+import https from "node:https";
+import http from "node:http";
 
 /**
- * @hidden
+ * @internal
  */
-export let defaultHttpsAgent: Agent;
+export const defaultHttpsAgent: Agent = new https.Agent({
+  keepAlive: true,
+  minVersion: "TLSv1.2",
+});
 
-const https = require("https"); // eslint-disable-line @typescript-eslint/no-require-imports
-const tls = require("tls"); // eslint-disable-line @typescript-eslint/no-require-imports
-
-// minVersion only available in Node 10+
-if (tls.DEFAULT_MIN_VERSION) {
-  defaultHttpsAgent = new https.Agent({
-    keepAlive: true,
-    minVersion: "TLSv1.2",
-  });
-} else {
-  // Remove when Node 8 support has been dropped
-  defaultHttpsAgent = new https.Agent({
-    keepAlive: true,
-    secureProtocol: "TLSv1_2_method",
-  });
-}
-const http = require("http"); // eslint-disable-line @typescript-eslint/no-require-imports
 /**
  * @internal
  */
