@@ -11,6 +11,7 @@
     "enabled": true,
     "reportFolder": "<projectFolder>/review"
   },
+  "newlineKind": "lf",
   "compiler": {
     "tsconfigFilePath": "<projectFolder>/tsconfig.src.json"
   },
