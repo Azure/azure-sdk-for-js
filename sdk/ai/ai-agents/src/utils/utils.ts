@@ -25,7 +25,8 @@ import type {
   ConnectedAgentToolDefinition,
   MicrosoftFabricToolDefinition,
   SharepointToolDefinition,
-} from "./index.js";
+} from "../index.js";
+import { MCPTool } from "./MCPTool.js";
 
 /**
  * Determines if the given output is of the specified type.
@@ -63,6 +64,7 @@ const toolMap = {
   azure_function: "azureFunction",
   bing_custom_search: "bingCustomSearch",
 };
+
 
 /**
  * Utility class for creating various tools.
@@ -320,7 +322,20 @@ export class ToolUtility {
       },
     };
   }
+  /**
+   * Creates an MCP tool with the provided configuration.
+   * @param options - Configuration options for the MCP tool
+   * @returns A new MCPTool instance
+   */
+  static createMCPTool(options: {
+    serverLabel: string;
+    serverUrl: string;
+    allowedTools?: string[];
+  }): MCPTool {
+    return new MCPTool(options.serverLabel, options.serverUrl, options.allowedTools);
+  }
 }
+
 /**
  * Represents a set of tools with their definitions and resources.
  */

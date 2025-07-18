@@ -4,6 +4,7 @@
 import type { AgentsContext as Client } from "../index.js";
 import type { ThreadRun, _AgentsPagedResultThreadRun, ToolOutput } from "../../models/models.js";
 import {
+  toolResourcesSerializer,
   toolDefinitionUnionArraySerializer,
   agentsResponseFormatOptionSerializer,
   agentV1ErrorDeserializer,
@@ -13,6 +14,7 @@ import {
   threadRunDeserializer,
   _agentsPagedResultThreadRunDeserializer,
   toolOutputArraySerializer,
+  toolApprovalArraySerializer,
 } from "../../models/models.js";
 import type {
   RunsCancelRunOptionalParams,
@@ -88,11 +90,11 @@ export function _submitToolOutputsToRunSend(
   options: RunsSubmitToolOutputsToRunOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "/threads/{threadId}/runs/{runId}/submit_tool_outputs{?api%2Dversion}",
+    "/threads/{threadId}/runs/{runId}/submit_tool_outputs{?api-version}",
     {
       threadId: threadId,
       runId: runId,
-      "api%2Dversion": context.apiVersion,
+      "api-version": context.apiVersion,
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -106,7 +108,10 @@ export function _submitToolOutputsToRunSend(
       ...options.requestOptions?.headers,
     },
     body: {
-      tool_outputs: toolOutputArraySerializer(toolOutputs),
+      tool_outputs: toolOutputs.length > 0 ? toolOutputArraySerializer(toolOutputs) : undefined,
+      tool_approvals: !options?.toolApprovals
+        ? options?.toolApprovals
+        : toolApprovalArraySerializer(options?.toolApprovals),
       stream: options?.stream ?? false,
     },
   });
@@ -141,6 +146,7 @@ export function submitToolOutputsToRun(
       toolOutputs,
       options,
     );
+    console.log(`Tool outputs submitted: ${JSON.stringify(result)}`);
     return _submitToolOutputsToRunDeserialize(result);
   }
 
@@ -161,11 +167,11 @@ export function _updateRunSend(
   options: RunsUpdateRunOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "/threads/{threadId}/runs/{runId}{?api%2Dversion}",
+    "/threads/{threadId}/runs/{runId}{?api-version}",
     {
       threadId: threadId,
       runId: runId,
-      "api%2Dversion": context.apiVersion,
+      "api-version": context.apiVersion,
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -211,11 +217,11 @@ export function _getRunSend(
   options: RunsGetRunOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "/threads/{threadId}/runs/{runId}{?api%2Dversion}",
+    "/threads/{threadId}/runs/{runId}{?api-version}",
     {
       threadId: threadId,
       runId: runId,
-      "api%2Dversion": context.apiVersion,
+      "api-version": context.apiVersion,
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -258,10 +264,10 @@ export function _listRunsSend(
   options: RunsListRunsOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "/threads/{threadId}/runs{?api%2Dversion,limit,order,after,before}",
+    "/threads/{threadId}/runs{?api-version,limit,order,after,before}",
     {
       threadId: threadId,
-      "api%2Dversion": context.apiVersion,
+      "api-version": context.apiVersion,
       limit: options?.limit,
       order: options?.order,
       after: options?.after,
@@ -315,10 +321,10 @@ export function _createRunSend(
   options: RunsCreateRunOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "/threads/{threadId}/runs{?api%2Dversion,include%5B%5D}",
+    "/threads/{threadId}/runs{?api-version,include%5B%5D}",
     {
       threadId: threadId,
-      "api%2Dversion": context.apiVersion,
+      "api-version": context.apiVersion,
       "include%5B%5D": !options?.include
         ? options?.include
         : options?.include.map((p: any) => {
@@ -345,6 +351,9 @@ export function _createRunSend(
         ? options?.additionalMessages
         : threadMessageOptionsArraySerializer(options?.additionalMessages),
       tools: !options?.tools ? options?.tools : toolDefinitionUnionArraySerializer(options?.tools),
+      tool_resources: !options?.toolResources
+        ? options?.toolResources
+        : toolResourcesSerializer(options?.toolResources),
       stream: options?.stream,
       temperature: options?.temperature,
       top_p: options?.topP,
