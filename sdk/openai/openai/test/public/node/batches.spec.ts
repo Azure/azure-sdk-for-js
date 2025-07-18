@@ -12,7 +12,7 @@ import type { ClientsAndDeploymentsInfo } from "../../utils/types.js";
 import { APIVersion, withDeployments } from "../../utils/utils.js";
 
 describe("Batches", () => {
-  matrix([[APIVersion.v2025_03_01_preview]] as const, async function (apiVersion: APIVersion) {
+  matrix([[APIVersion.v2025_04_01_preview]] as const, async function (apiVersion: APIVersion) {
     describe(`[${apiVersion}] Client`, () => {
       let clientAndDeployments: ClientsAndDeploymentsInfo;
 
