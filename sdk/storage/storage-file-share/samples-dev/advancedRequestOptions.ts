@@ -6,7 +6,7 @@
  * @azsdk-weight 0
  */
 
-import * as fs from "node:fs";
+import fs from "node:fs";
 import { AnonymousCredential, ShareServiceClient, newPipeline } from "@azure/storage-file-share";
 
 // Load the .env file if it exists

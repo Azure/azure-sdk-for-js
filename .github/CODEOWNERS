@@ -262,7 +262,7 @@
 # ServiceOwners: @trrwilson
 
 # PRLabel: %OpenAI
-/sdk/openai/ @mikhail @trrwilson @deyaaeldeen @minhanh-phan
+/sdk/openai/ @trrwilson @deyaaeldeen @minhanh-phan
 
 # PRLabel: %AI Model Inference
 /sdk/ai/ai-inference-rest @glharper @dargilco @jhakulin
@@ -490,6 +490,9 @@
 
 # PRLabel: %Mgmt
 /sdk/databox/arm-databox/ @qiaozha @MaryGao
+
+# PRLabel: %Mgmt
+/sdk/dell/arm-dell-storage/ @qiaozha @MaryGao
 
 # PRLabel: %Mgmt
 /sdk/dashboard/arm-dashboard/ @qiaozha @MaryGao
@@ -907,6 +910,9 @@
 
 # PRLabel: %Mgmt
 /sdk/resources/arm-resourcesbicep/ @qiaozha @MaryGao
+
+# PRLabel: %Mgmt
+/sdk/resources/arm-resourcesdeployments/ @qiaozha @MaryGao
 
 # PRLabel: %Mgmt
 /sdk/resources/arm-resources-profile-2020-09-01-hybrid/ @qiaozha @MaryGao

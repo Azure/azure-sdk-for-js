@@ -8,7 +8,7 @@ import { createClientsAndDeployments } from "../utils/createClients.js";
 import type { ClientsAndDeploymentsInfo, Metadata } from "../utils/types.js";
 import { APIVersion, isRateLimitRun, testWithDeployments } from "../utils/utils.js";
 
-describe.each([APIVersion.v2025_03_01_preview])("Assistants [%s]", (apiVersion: APIVersion) => {
+describe.each([APIVersion.v2025_04_01_preview])("Assistants [%s]", (apiVersion: APIVersion) => {
   function createCodeAssistant(deploymentName: string): AssistantCreateParams {
     return {
       tools: [{ type: "code_interpreter" as const }],
@@ -38,6 +38,7 @@ describe.each([APIVersion.v2025_03_01_preview])("Assistants [%s]", (apiVersion: 
     describe("creates, gets, lists, modifies, and deletes an assistant", async () => {
       await testWithDeployments({
         clientsAndDeploymentsInfo,
+        apiVersion,
         run: async (client, deployment) => {
           const codeAssistant = createCodeAssistant(deployment);
           const assistantResponse = await client.beta.assistants.create(codeAssistant);
@@ -76,6 +77,7 @@ describe.each([APIVersion.v2025_03_01_preview])("Assistants [%s]", (apiVersion: 
     describe("creates, gets, modifies, and deletes a thread", async () => {
       await testWithDeployments({
         clientsAndDeploymentsInfo,
+        apiVersion,
         run: async (client) => {
           const metadataValue = "bar";
           const thread = {
@@ -112,6 +114,7 @@ describe.each([APIVersion.v2025_03_01_preview])("Assistants [%s]", (apiVersion: 
     describe("creates, gets, modifies, and lists a message", async () => {
       await testWithDeployments({
         clientsAndDeploymentsInfo,
+        apiVersion,
         run: async (client) => {
           const thread = {
             messages: [],
@@ -185,6 +188,7 @@ describe.each([APIVersion.v2025_03_01_preview])("Assistants [%s]", (apiVersion: 
     describe.concurrent("creates, lists, gets, and cancels a run", async () => {
       await testWithDeployments({
         clientsAndDeploymentsInfo,
+        apiVersion,
         run: async (client, deployment) => {
           const [assistant, thread] = await Promise.all([
             client.beta.assistants.create({
@@ -263,6 +267,7 @@ describe.each([APIVersion.v2025_03_01_preview])("Assistants [%s]", (apiVersion: 
     describe("create and run code interpreter scenario", async () => {
       await testWithDeployments({
         clientsAndDeploymentsInfo,
+        apiVersion,
         run: async (client, deployment) => {
           const codeAssistant = createCodeAssistant(deployment);
           const assistant = await client.beta.assistants.create(codeAssistant);
@@ -328,6 +333,7 @@ describe.each([APIVersion.v2025_03_01_preview])("Assistants [%s]", (apiVersion: 
     describe.sequential("create and run function scenario for assistant", async () => {
       await testWithDeployments({
         clientsAndDeploymentsInfo,
+        apiVersion,
         run: async (client, deployment) => {
           const favoriteCityFunctionName = "getUserFavoriteCity";
           const favoriteCityFunctionDescription = "Gets the user's favorite city.";

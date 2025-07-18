@@ -1,8 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import * as buffer from "node:buffer";
-import * as fs from "node:fs";
-import * as path from "node:path";
+import buffer from "node:buffer";
+import fs from "node:fs";
+import path from "node:path";
 import { PassThrough, Readable } from "node:stream";
 import {
   createRandomLocalFile,
