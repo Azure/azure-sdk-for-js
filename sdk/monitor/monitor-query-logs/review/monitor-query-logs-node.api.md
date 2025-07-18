@@ -86,6 +86,21 @@ export interface ExecuteWithResourceIdOptionalParams extends QueryLogsOptions {
 }
 
 // @public
+export enum KnownMonitorLogsQueryAudience {
+    AzureChina = "https://api.loganalytics.azure.cn",
+    AzureGovernment = "https://api.loganalytics.us",
+    AzurePublicCloud = "https://api.loganalytics.io"
+}
+
+// @public
+export interface LogsColumn extends Column {
+}
+
+// @public
+export interface LogsErrorInfo extends ErrorInfo {
+}
+
+// @public
 export interface LogsQueryBatchResult {
     responses?: BatchQueryResponse[];
 }
@@ -95,8 +110,9 @@ export class LogsQueryClient {
     constructor(tokenCredential: TokenCredential, options?: LogsQueryClientOptions);
     readonly pipeline: Pipeline;
     queryBatch(queries: QueryBatch[], options?: BatchOptionalParams): Promise<LogsQueryBatchResult>;
-    queryResource(resourceId: string, query: string, timespan: QueryTimeInterval, options?: ExecuteWithResourceIdOptionalParams): Promise<LogsQueryResult>;
-    queryWorkspace(workspaceId: string, query: string, timespan: QueryTimeInterval, options?: ExecuteOptionalParams): Promise<LogsQueryResult>;
+    // Warning: (ae-forgotten-export) The symbol "LogsQueryResult_2" needs to be exported by the entry point index.d.ts
+    queryResource(resourceId: string, query: string, timespan: QueryTimeInterval, options?: ExecuteWithResourceIdOptionalParams): Promise<LogsQueryResult_2>;
+    queryWorkspace(workspaceId: string, query: string, timespan: QueryTimeInterval, options?: ExecuteOptionalParams): Promise<LogsQueryResult_2>;
 }
 
 // @public
@@ -105,11 +121,37 @@ export interface LogsQueryClientOptions extends ClientOptions {
 }
 
 // @public
-export interface LogsQueryResult {
-    error?: ErrorInfo;
-    render?: Record<string, any>;
-    statistics?: Record<string, any>;
-    tables: Table[];
+export interface LogsQueryPartialResult {
+    partialError: LogsErrorInfo;
+    partialTables: LogsTable[];
+    statistics?: Record<string, unknown>;
+    status: LogsQueryResultStatus.PartialFailure;
+    visualization?: Record<string, unknown>;
+}
+
+// @public
+export type LogsQueryResult = LogsQuerySuccessfulResult | LogsQueryPartialResult;
+
+// @public
+export enum LogsQueryResultStatus {
+    Failure = "Failure",
+    PartialFailure = "PartialFailure",
+    Success = "Success"
+}
+
+// @public
+export interface LogsQuerySuccessfulResult {
+    statistics?: Record<string, unknown>;
+    status: LogsQueryResultStatus.Success;
+    tables: LogsTable[];
+    visualization?: Record<string, unknown>;
+}
+
+// @public
+export interface LogsTable {
+    columnDescriptors: LogsColumn[];
+    name: string;
+    rows: (string | number | boolean | Record<string, unknown> | Date)[][];
 }
 
 // @public

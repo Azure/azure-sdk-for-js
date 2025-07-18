@@ -4,7 +4,6 @@
 export { LogsQueryClient } from "./logsQueryClient.js";
 export {
   QueryBody,
-  LogsQueryResult,
   Table,
   Column,
   ColumnDataType,
@@ -19,7 +18,18 @@ export {
   Versions,
   QueryBatch,
   QueryTimeInterval,
+  Durations,
 } from "./models/index.js";
+export {
+  LogsQueryResult,
+  LogsQueryResultStatus,
+  LogsTable,
+  LogsColumn,
+  LogsErrorInfo,
+  LogsQuerySuccessfulResult,
+  LogsQueryPartialResult,
+  KnownMonitorLogsQueryAudience,
+} from "./models/public.js";
 export {
   LogsQueryClientOptions,
   BatchOptionalParams,

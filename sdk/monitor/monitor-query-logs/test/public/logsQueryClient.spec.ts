@@ -7,7 +7,7 @@ import { Recorder } from "@azure-tools/test-recorder";
 import type { LogsQueryClient, QueryBatch } from "../../src/index.js";
 import { Durations, LogsQueryResultStatus } from "../../src/index.js";
 import { assertQueryTable, getMonitorWorkspaceId, loggerForTest } from "./shared/testShared.js";
-import type { ErrorInfo } from "../../src/generated/logquery/src/index.js";
+import type { ErrorInfo } from "../../src/index.js";
 import type { RestError } from "@azure/core-rest-pipeline";
 import { setLogLevel } from "@azure/logger";
 import { describe, it, assert, beforeEach, afterEach, beforeAll } from "vitest";

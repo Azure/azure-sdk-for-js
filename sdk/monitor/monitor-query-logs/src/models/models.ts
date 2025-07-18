@@ -5,7 +5,22 @@
  * The timespan for the query. This is an ISO8601 time period value.
  * This timespan is applied in addition to any that are specified in the query expression.
  * */
-export type QueryTimeInterval = string;
+export type QueryTimeInterval =
+  | {
+    startTime: Date;
+    endTime: Date;
+  }
+  | {
+    startTime: Date;
+    duration: string;
+  }
+  | {
+    duration: string;
+    endTime: Date;
+  }
+  | {
+    duration: string;
+  };
 
 /**
  * The Analytics query. Learn more about the [Analytics query
@@ -31,8 +46,8 @@ export function queryBodySerializer(item: QueryBody): any {
     workspaces: !item["workspaces"]
       ? item["workspaces"]
       : item["workspaces"].map((p: any) => {
-          return p;
-        }),
+        return p;
+      }),
   };
 }
 
@@ -194,8 +209,8 @@ export function errorDetailDeserializer(item: {
     resources: !item["resources"]
       ? item["resources"]
       : item["resources"].map((p: any) => {
-          return p;
-        }),
+        return p;
+      }),
     additionalProperties: item["additionalProperties"],
   };
 }

@@ -7,7 +7,7 @@ import { assertEnvironmentVariable, env } from "@azure-tools/test-recorder";
 import { assert } from "vitest";
 import { createClientLogger } from "@azure/logger";
 import type { LogsTable } from "../../../src/index.js";
-import { LogsQueryClient, MetricsQueryClient, MetricsClient } from "../../../src/index.js";
+import { LogsQueryClient } from "../../../src/index.js";
 import type { ExponentialRetryPolicyOptions } from "@azure/core-rest-pipeline";
 export const loggerForTest = createClientLogger("test");
 
@@ -33,29 +33,6 @@ export interface RecorderAndLogsClient {
   recorder: Recorder;
 }
 
-export interface RecorderAndMetricsClient {
-  client: MetricsQueryClient;
-  recorder: Recorder;
-}
-
-export interface RecorderAndMetricsBatchQueryClient {
-  client: MetricsClient;
-  // recorder: Recorder;
-}
-
-export async function createRecorderAndMetricsBatchQueryClient(): Promise<RecorderAndMetricsBatchQueryClient> {
-  // await recorder.start(recorderOptions);
-  const testCredential = createTestCredential();
-  const batchEndPoint =
-    env["AZURE_MONITOR_BATCH_ENDPOINT"] ?? "https://eastus.metrics.monitor.azure.com/";
-  const client = new MetricsClient(batchEndPoint, testCredential);
-
-  return {
-    client: client,
-    // recorder: recorder,
-  };
-}
-
 export function getMetricsBatchResourceIds(): string[] {
   const resourceId: string = assertEnvironmentVariable("LOGS_RESOURCE_ID");
   return [resourceId, `${resourceId}2`];
@@ -78,21 +55,6 @@ export const testEnv = new Proxy(envSetupForPlayback, {
     return env[key] || target[key];
   },
 });
-
-export async function createRecorderAndMetricsClient(
-  recorder: Recorder,
-): Promise<RecorderAndMetricsClient> {
-  await recorder.start(recorderOptions);
-  const client = new MetricsQueryClient(createTestCredential(), {
-    audience: "https://management.azure.com",
-    ...recorder.configureClientOptions({}),
-  });
-
-  return {
-    client: client,
-    recorder: recorder,
-  };
-}
 
 export async function createRecorderAndLogsClient(
   recorder: Recorder,

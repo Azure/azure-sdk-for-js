@@ -5,8 +5,6 @@ import {
   Durations,
   LogsQueryClient,
   LogsQueryResultStatus,
-  MetricsClient,
-  MetricsQueryClient,
 } from "../src/index.js";
 import { DefaultAzureCredential, InteractiveBrowserCredential } from "@azure/identity";
 import { setLogLevel } from "@azure/logger";
