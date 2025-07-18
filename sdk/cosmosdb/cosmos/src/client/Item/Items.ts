@@ -44,6 +44,7 @@ import { PartitionKeyRangeCache, QueryRange } from "../../routing/index.js";
 import type {
   PartitionKey,
   PartitionKeyDefinition,
+  PartitionKeyInternal,
 } from "../../documents/index.js";
 import { convertToInternalPartitionKey } from "../../documents/index.js";
 import type {
@@ -154,18 +155,18 @@ export class Items {
       innerOptions: FeedOptions,
       correlatedActivityId: string,
     ) => {
-      // let internalPartitionKey: PartitionKeyInternal | undefined;
-      // if (options.partitionKey) {
-      //   internalPartitionKey = convertToInternalPartitionKey(options.partitionKey);
-      // }
-      // const isPartitionLevelFailOverEnabled = this.clientContext.isPartitionLevelFailOverEnabled();
-      // const partitionKeyRangeId = await computePartitionKeyRangeId(
-      //   diagnosticNode,
-      //   internalPartitionKey,
-      //   this.partitionKeyRangeCache,
-      //   isPartitionLevelFailOverEnabled,
-      //   this.container,
-      // );
+      let internalPartitionKey: PartitionKeyInternal | undefined;
+      if (options.partitionKey) {
+        internalPartitionKey = convertToInternalPartitionKey(options.partitionKey);
+      }
+      const isPartitionLevelFailOverEnabled = this.clientContext.isPartitionLevelFailOverEnabled();
+      const partitionKeyRangeId = await computePartitionKeyRangeId(
+        diagnosticNode,
+        internalPartitionKey,
+        this.partitionKeyRangeCache,
+        isPartitionLevelFailOverEnabled,
+        this.container,
+      );
 
       const response = await this.clientContext.queryFeed({
         path,
