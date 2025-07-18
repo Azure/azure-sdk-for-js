@@ -135,6 +135,12 @@
 # ServiceLabel: %Digital Twins
 /sdk/digitaltwins/ @sjiherzig @johngallardo @olivakar
 
+# PRLabel: %Durable Task Scheduler
+/sdk/durabletask/ @berndverst @kaibocai @torosent @philliphoff @cgillum
+
+# ServiceLabel: %Durable Task Scheduler
+# ServiceOwners: @berndverst @kaibocai @torosent @philliphoff @cgillum
+
 # PRLabel: %Event Grid
 /sdk/eventgrid/ @shankarsama @rajeshka
 
@@ -256,7 +262,7 @@
 # ServiceOwners: @trrwilson
 
 # PRLabel: %OpenAI
-/sdk/openai/ @mikhail @trrwilson @deyaaeldeen @minhanh-phan
+/sdk/openai/ @trrwilson @deyaaeldeen @minhanh-phan
 
 # PRLabel: %AI Model Inference
 /sdk/ai/ai-inference-rest @glharper @dargilco @jhakulin
@@ -702,6 +708,9 @@
 /sdk/pineconevectordb/arm-pineconevectordb/ @qiaozha @MaryGao
 
 # PRLabel: %Mgmt
+/sdk/playwright/arm-playwright/ @qiaozha @MaryGao
+
+# PRLabel: %Mgmt
 /sdk/locks/arm-locks/ @qiaozha @MaryGao
 
 # PRLabel: %Mgmt
@@ -898,6 +907,9 @@
 
 # PRLabel: %Mgmt
 /sdk/resources/arm-resourcesbicep/ @qiaozha @MaryGao
+
+# PRLabel: %Mgmt
+/sdk/resources/arm-resourcesdeployments/ @qiaozha @MaryGao
 
 # PRLabel: %Mgmt
 /sdk/resources/arm-resources-profile-2020-09-01-hybrid/ @qiaozha @MaryGao

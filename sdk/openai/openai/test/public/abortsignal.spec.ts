@@ -13,6 +13,7 @@ describe.concurrent.each(APIMatrix)("AbortSignal [%s]", (apiVersion: APIVersion)
   describe.concurrent("chat.completions.stream.events.abort", () => {
     testWithDeployments({
       clientsAndDeploymentsInfo,
+      apiVersion,
       modelsListToSkip: [{ name: "gpt-4o-audio-preview" }, { name: "gpt-4o-mini-audio-preview" }],
       run: async (client, model) => {
         try {
