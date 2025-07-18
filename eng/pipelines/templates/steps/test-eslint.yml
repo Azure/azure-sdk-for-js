@@ -8,7 +8,8 @@ steps:
 
   - pwsh: |
       node common/scripts/install-run-rush.js build -t @azure/eslint-plugin-azure-sdk -t @azure/monitor-opentelemetry-exporter
-      node eng/tools/rush-runner/index.js lint "${{parameters.ServiceDirectory}}" -p max --verbose
+      $env:FORCE_COLOR = "1"
+      node eng/tools/rush-runner/index.js lint "${{parameters.ServiceDirectory}}" -p max --verbose --color
     displayName: "Build ESLint Plugin and Lint Libraries"
 
   - pwsh: |
