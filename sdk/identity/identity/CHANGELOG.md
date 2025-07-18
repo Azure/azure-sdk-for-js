@@ -1,12 +1,22 @@
 # Release History
 
-## 4.10.3 (Unreleased)
+## 4.11.0-beta.2 (Unreleased)
 
 ### Features Added
 
 ### Breaking Changes
 
 ### Bugs Fixed
+
+### Other Changes
+
+## 4.11.0-beta.1 (2025-07-17)
+
+### Features Added
+
+- `VisualStudioCodeCredential` has been restored and now supports **broker authentication** using the Azure account signed in via Visual Studio Code. The credential has been added to `DefaultAzureCredential` [#35150](https://github.com/Azure/azure-sdk-for-js/pull/35150)
+- `DefaultAzureCredential` now supports authentication with the currently signed-in Windows account when the `@azure/identity-broker` package is installed and configured with `useIdentityPlugin`. This auth mechanism is added at the end of the `DefaultAzureCredential` credential chain. [#35213](https://github.com/Azure/azure-sdk-for-js/pull/35213)
+- Added support for more `AZURE_TOKEN_CREDENTIALS` environment variable values to specify a single credential type to use in `DefaultAzureCredential`. In addition to `dev` and `prod`, possible values now include `VisualStudioCodeCredential`, `EnvironmentCredential`, `WorkloadIdentityCredential`, `ManagedIdentityCredential`, `AzureDeveloperCliCredential`, `AzurePowershellCredential` and `AzureCliCredential` - each for the corresponding credential type. [#34966](https://github.com/Azure/azure-sdk-for-js/pull/34966)
 
 ### Other Changes
 
@@ -37,7 +47,7 @@
 
 ### Other Changes
 
-- Added deprecation warnings for username password usage in `EnvironmentCredential` constructor to warn the users. `UsernamePassword` authentication doesn't support Multi-Factor Authentication (MFA), and MFA will enabled soon on all tenants.  For more details, see [Planning for mandatory MFA](https://aka.ms/mfaforazure). [#34054](https://github.com/Azure/azure-sdk-for-js/pull/34054)
+- Added deprecation warnings for username password usage in `EnvironmentCredential` constructor to warn the users. `UsernamePassword` authentication doesn't support Multi-Factor Authentication (MFA), and MFA will enabled soon on all tenants. For more details, see [Planning for mandatory MFA](https://aka.ms/mfaforazure). [#34054](https://github.com/Azure/azure-sdk-for-js/pull/34054)
 
 ## 4.9.1 (2025-04-17)
 

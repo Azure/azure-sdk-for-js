@@ -69,7 +69,8 @@
   "dependencies": {
     "@azure/core-auth": "^1.9.0",
     "@azure/logger": "^1.1.4",
-    "tslib": "^2.8.1"
+    "tslib": "^2.8.1",
+    "@azure/core-rest-pipeline": "^1.18.0"
   },
   "devDependencies": {
     "@azure-tools/test-utils-vitest": "^1.0.0",
