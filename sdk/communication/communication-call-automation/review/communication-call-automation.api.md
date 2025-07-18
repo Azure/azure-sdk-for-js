@@ -63,6 +63,7 @@ extends Omit<RestAddParticipantSucceeded, "callConnectionId" | "serverCallId" | 
 // @public
 export interface AnswerCallOptions extends OperationOptions {
     callIntelligenceOptions?: CallIntelligenceOptions;
+    enableLoopbackAudio?: boolean;
     mediaStreamingOptions?: MediaStreamingOptions;
     operationContext?: string;
     transcriptionOptions?: TranscriptionOptions;
@@ -139,7 +140,7 @@ export interface CallAutomationClientOptions extends CommonClientOptions {
 }
 
 // @public
-export type CallAutomationEvent = AddParticipantSucceeded | AddParticipantFailed | RemoveParticipantSucceeded | RemoveParticipantFailed | CallConnected | CallDisconnected | CallTransferAccepted | CallTransferFailed | ParticipantsUpdated | RecordingStateChanged | PlayCompleted | PlayFailed | PlayCanceled | RecognizeCompleted | RecognizeCanceled | RecognizeFailed | ContinuousDtmfRecognitionToneReceived | ContinuousDtmfRecognitionToneFailed | ContinuousDtmfRecognitionStopped | SendDtmfTonesCompleted | SendDtmfTonesFailed | CancelAddParticipantSucceeded | CancelAddParticipantFailed | TranscriptionStarted | TranscriptionStopped | TranscriptionUpdated | TranscriptionFailed | CreateCallFailed | AnswerFailed | HoldFailed | ConnectFailed | MediaStreamingStarted | MediaStreamingStopped | MediaStreamingFailed | PlayStarted | StartRecordingFailed;
+export type CallAutomationEvent = AddParticipantSucceeded | AddParticipantFailed | RemoveParticipantSucceeded | RemoveParticipantFailed | CallConnected | CallDisconnected | CallTransferAccepted | CallTransferFailed | ParticipantsUpdated | RecordingStateChanged | PlayCompleted | PlayFailed | PlayCanceled | RecognizeCompleted | RecognizeCanceled | RecognizeFailed | ContinuousDtmfRecognitionToneReceived | ContinuousDtmfRecognitionToneFailed | ContinuousDtmfRecognitionStopped | SendDtmfTonesCompleted | SendDtmfTonesFailed | CancelAddParticipantSucceeded | CancelAddParticipantFailed | TranscriptionStarted | TranscriptionStopped | TranscriptionUpdated | TranscriptionFailed | CreateCallFailed | AnswerFailed | HoldFailed | ConnectFailed | MediaStreamingStarted | MediaStreamingStopped | MediaStreamingFailed | PlayStarted | StartRecordingFailed | MoveParticipantSucceeded | MoveParticipantFailed;
 
 // @public
 export interface CallConnected
@@ -166,6 +167,7 @@ export class CallConnection {
     getParticipant(targetParticipant: CommunicationIdentifier, options?: GetParticipantOptions): Promise<CallParticipant>;
     hangUp(isForEveryone: boolean, options?: HangUpOptions): Promise<void>;
     listParticipants(options?: GetParticipantOptions): Promise<ListParticipantsResult>;
+    moveParticipants(targetParticipants: CommunicationIdentifier[], fromCall: string, options?: MoveParticipantsOptions): Promise<MoveParticipantsResult>;
     muteParticipant(participant: CommunicationIdentifier, options?: MuteParticipantOption): Promise<MuteParticipantResult>;
     removeParticipant(participant: CommunicationIdentifier, options?: RemoveParticipantsOption): Promise<RemoveParticipantResult>;
     transferCallToParticipant(targetParticipant: CommunicationIdentifier, options?: TransferCallToParticipantOptions): Promise<TransferCallResult>;
@@ -256,9 +258,11 @@ export class CallMedia {
 // @public
 export interface CallMediaRecognizeChoiceOptions extends CallMediaRecognizeOptions {
     choices: RecognitionChoice[];
+    enableSentimentAnalysis?: boolean;
     // (undocumented)
     readonly kind: "callMediaRecognizeChoiceOptions";
     speechLanguage?: string;
+    speechLanguages?: string[];
     speechRecognitionModelEndpointId?: string;
 }
 
@@ -286,21 +290,25 @@ export interface CallMediaRecognizeOptions extends OperationOptions {
 
 // @public
 export interface CallMediaRecognizeSpeechOptions extends CallMediaRecognizeOptions {
+    enableSentimentAnalysis?: boolean;
     endSilenceTimeoutInSeconds?: number;
     // (undocumented)
     readonly kind: "callMediaRecognizeSpeechOptions";
     speechLanguage?: string;
+    speechLanguages?: string[];
     speechRecognitionModelEndpointId?: string;
 }
 
 // @public
 export interface CallMediaRecognizeSpeechOrDtmfOptions extends CallMediaRecognizeOptions {
+    enableSentimentAnalysis?: boolean;
     endSilenceTimeoutInSeconds?: number;
     interToneTimeoutInSeconds?: number;
     // (undocumented)
     readonly kind: "callMediaRecognizeSpeechOrDtmfOptions";
     maxTonesToCollect?: number;
     speechLanguage?: string;
+    speechLanguages?: string[];
     speechRecognitionModelEndpointId?: string;
     stopDtmfTones?: DtmfTone[];
 }
@@ -319,6 +327,7 @@ export class CallRecording {
     downloadStreaming(sourceLocationUrl: string, options?: DownloadRecordingOptions): Promise<NodeJS.ReadableStream>;
     downloadToPath(sourceLocationUrl: string, destinationPath: string, options?: DownloadRecordingOptions): Promise<void>;
     downloadToStream(sourceLocationUrl: string, destinationStream: NodeJS.WritableStream, options?: DownloadRecordingOptions): Promise<void>;
+    getRecordingResult(recordingId: string, options?: GetRecordingResultOptions): Promise<RecordingResult>;
     getState(recordingId: string, options?: GetRecordingPropertiesOptions): Promise<RecordingStateResult>;
     pause(recordingId: string, options?: PauseRecordingOptions): Promise<void>;
     resume(recordingId: string, options?: ResumeRecordingOptions): Promise<void>;
@@ -427,12 +436,16 @@ export interface ChannelAffinity {
 export interface ChoiceResult {
     confidence?: number;
     label?: string;
+    languageIdentified?: string;
     recognizedPhrase?: string;
+    // Warning: (ae-forgotten-export) The symbol "SentimentAnalysisResult" needs to be exported by the entry point index.d.ts
+    sentimentAnalysisResult?: SentimentAnalysisResult;
 }
 
 // @public
 export interface ConnectCallOptions extends OperationOptions {
     callIntelligenceOptions?: CallIntelligenceOptions;
+    enableLoopbackAudio?: boolean;
     mediaStreamingOptions?: MediaStreamingOptions;
     operationContext?: string;
     transcriptionOptions?: TranscriptionOptions;
@@ -535,6 +548,7 @@ extends Omit<RestCreateCallFailed, "callConnectionId" | "serverCallId" | "correl
 // @public
 export interface CreateCallOptions extends OperationOptions {
     callIntelligenceOptions?: CallIntelligenceOptions;
+    enableLoopbackAudio?: boolean;
     mediaStreamingOptions?: MediaStreamingOptions;
     operationContext?: string;
     sourceCallIdNumber?: PhoneNumberIdentifier;
@@ -553,7 +567,7 @@ export function createOutboundAudioData(data: string): string;
 export function createOutboundStopAudioData(): string;
 
 // @public
-export type CustomCallingContext = (VoipHeader | SipUserToUserHeader | SipCustomHeader)[];
+export type CustomCallingContext = (VoipHeader | SipUserToUserHeader | SipCustomHeader | TeamsPhoneCallDetails)[];
 
 // @public
 export type DeleteRecordingOptions = OperationOptions;
@@ -614,6 +628,9 @@ export type GetParticipantOptions = OperationOptions;
 
 // @public
 export type GetRecordingPropertiesOptions = OperationOptions;
+
+// @public
+export type GetRecordingResultOptions = OperationOptions;
 
 // @public
 export type HangUpOptions = OperationOptions;
@@ -747,6 +764,43 @@ export interface MediaStreamingUpdate {
 }
 
 // @public
+export interface MoveParticipantFailed {
+    callConnectionId: string;
+    correlationId: string;
+    fromCall?: string;
+    kind: "MoveParticipantFailed";
+    operationContext?: string;
+    participant?: CommunicationIdentifier;
+    resultInformation?: ResultInformation;
+    serverCallId: string;
+}
+
+// @public
+export interface MoveParticipantsOptions extends OperationOptions {
+    operationCallbackUrl?: string;
+    operationContext?: string;
+}
+
+// @public
+export interface MoveParticipantsResult {
+    fromCall?: string;
+    operationContext?: string;
+    participants?: CallParticipant[];
+}
+
+// @public
+export interface MoveParticipantSucceeded {
+    callConnectionId: string;
+    correlationId: string;
+    fromCall?: string;
+    kind: "MoveParticipantSucceeded";
+    operationContext?: string;
+    participant?: CommunicationIdentifier;
+    resultInformation?: ResultInformation;
+    serverCallId: string;
+}
+
+// @public
 export interface MuteParticipantOption extends OperationOptions {
     operationContext?: string;
 }
@@ -783,6 +837,13 @@ extends Omit<RestParticipantsUpdated, "callConnectionId" | "serverCallId" | "cor
 
 // @public
 export type PauseRecordingOptions = OperationOptions;
+
+// @public
+export interface PiiRedactionOptions {
+    enable?: boolean;
+    // Warning: (ae-forgotten-export) The symbol "RedactionType" needs to be exported by the entry point index.d.ts
+    redactionType?: RedactionType;
+}
 
 // @public
 export interface PlayCanceled
@@ -928,6 +989,20 @@ export type RecordingFormat = "mp3" | "mp4" | "wav";
 
 // @public
 export type RecordingKind = "azureCommunicationServices" | "teams" | "teamsCompliance";
+
+// @public
+export interface RecordingResult {
+    // Warning: (ae-forgotten-export) The symbol "ErrorModel" needs to be exported by the entry point index.d.ts
+    readonly errors?: ErrorModel[];
+    readonly recordingDurationMs?: number;
+    readonly recordingExpirationTime?: Date;
+    recordingId: string;
+    readonly recordingStartTime?: Date;
+    // Warning: (ae-forgotten-export) The symbol "RecordingStorageInfo" needs to be exported by the entry point index.d.ts
+    readonly recordingStorageInfo?: RecordingStorageInfo;
+    // Warning: (ae-forgotten-export) The symbol "CallSessionEndReason" needs to be exported by the entry point index.d.ts
+    readonly sessionEndReason?: CallSessionEndReason;
+}
 
 // @public
 export type RecordingState = string;
@@ -1309,6 +1384,9 @@ export interface RestRemoveParticipantSucceeded {
 export interface RestResultInformation {
     code?: number;
     message?: string;
+    q850Cause?: SipDiagnosticInfo;
+    // Warning: (ae-forgotten-export) The symbol "SipDiagnosticInfo" needs to be exported by the entry point index.d.ts
+    sipCode?: SipDiagnosticInfo;
     subCode?: number;
 }
 
@@ -1446,6 +1524,8 @@ export interface SipUserToUserHeader extends CustomCallingContextHeader {
 // @public
 export interface SpeechResult {
     confidence?: number;
+    languageIdentified?: string;
+    sentimentAnalysisResult?: SentimentAnalysisResult;
     speech?: string;
 }
 
@@ -1491,10 +1571,14 @@ export interface StartRecordingOptions extends OperationOptions {
 
 // @public
 export interface StartTranscriptionOptions extends OperationOptions {
+    enableSentimentAnalysis?: boolean;
     locale?: string;
+    locales?: string[];
     operationCallbackUrl?: string;
     operationContext?: string;
+    piiRedactionOptions?: PiiRedactionOptions;
     speechRecognitionModelEndpointId?: string;
+    summarizationOptions?: SummarizationOptions;
 }
 
 // @public (undocumented)
@@ -1528,6 +1612,50 @@ export type StreamingDataKind = "AudioData" | "AudioMetadata" | "TranscriptionDa
 
 // @public (undocumented)
 export type StreamingDataResult = TranscriptionMetadata | TranscriptionData | AudioData | AudioMetadata | DtmfData;
+
+// @public
+export interface SummarizationOptions {
+    enableEndCallSummary?: boolean;
+    locale?: string;
+}
+
+// @public
+export interface TeamsPhoneCallDetails {
+    callContext?: string;
+    callSentiment?: string;
+    callTopic?: string;
+    intent?: string;
+    // (undocumented)
+    kind: "teamsPhoneCallDetails";
+    sessionId?: string;
+    suggestedActions?: string;
+    teamsPhoneCallerDetails?: TeamsPhoneCallerDetails;
+    teamsPhoneSourceDetails?: TeamsPhoneSourceDetails;
+    transcriptUrl?: string;
+}
+
+// @public
+export interface TeamsPhoneCallerDetails {
+    additionalCallerInformation?: {
+        [propertyName: string]: string;
+    };
+    caller: CommunicationIdentifier;
+    isAuthenticated?: boolean;
+    name: string;
+    phoneNumber: string;
+    recordId?: string;
+    screenPopUrl?: string;
+}
+
+// @public
+export interface TeamsPhoneSourceDetails {
+    intendedTargets?: {
+        [propertyName: string]: CommunicationIdentifier;
+    };
+    language: string;
+    source: CommunicationIdentifier;
+    status: string;
+}
 
 // @public
 export interface TextSource extends PlaySource {
@@ -1587,9 +1715,13 @@ export interface TranscriptionMetadata {
 // @public
 export interface TranscriptionOptions {
     enableIntermediateResults?: boolean;
+    enableSentimentAnalysis?: boolean;
     locale: string;
+    locales?: string[];
+    piiRedactionOptions?: PiiRedactionOptions;
     speechModelEndpointId?: string;
     startTranscription?: boolean;
+    summarizationOptions?: SummarizationOptions;
     transportType: "websocket";
     transportUrl?: string;
 }
@@ -1670,9 +1802,12 @@ export interface UnholdOptions extends OperationOptions {
 
 // @public
 export interface UpdateTranscriptionOptions extends OperationOptions {
+    enableSentimentAnalysis?: boolean;
     operationCallbackUrl?: string;
     operationContext?: string;
+    piiRedactionOptions?: PiiRedactionOptions;
     speechRecognitionModelEndpointId?: string;
+    summarizationOptions?: SummarizationOptions;
 }
 
 // @public
