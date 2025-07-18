@@ -146,7 +146,7 @@ export function submitToolOutputsToRun(
       toolOutputs,
       options,
     );
-    console.log(`Tool outputs submitted: ${JSON.stringify(result)}`);
+
     return _submitToolOutputsToRunDeserialize(result);
   }
 

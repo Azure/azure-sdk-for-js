@@ -10,6 +10,10 @@
 
 - Add back `MicrosoftFabricTool`, `SharepointTool` and `BingCustomSearchTool` relate utils
 
+### Breaking changes
+
+- `DeepResearchDetails` fields `deepResearchBingGroundingConnections` is now `bingGroundingConnections` and `deepResearchModel` is now `model`
+
 ## 1.1.0-beta.1 (2025-07-15)
 
 ### Features Added

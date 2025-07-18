@@ -147,10 +147,10 @@ export class MCPTool {
   }
 
 /**
- * McpTool approvals should currently be handled client-side.
+ * MCPTool approvals should currently be handled client-side.
  * @param _toolCall - The tool call to execute
  */
   execute(_toolCall: any): void {
-    // McpTool approvals are handled client-side
+    // MCPTool approvals are handled client-side
   }
 }
