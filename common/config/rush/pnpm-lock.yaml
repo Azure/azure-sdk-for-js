@@ -1465,6 +1465,10 @@ packages:
     resolution: {integrity: sha512-Uth4vz0j+fkXCkbvutChUj03PDCokjbC6Wk9JT8hHEUtpy/EurNKAseb3+gO6Zi9VYBvwt61pgbzn1ovk942Qg==}
     engines: {node: '>=20.0.0'}
 
+  '@azure/identity@4.11.0-beta.1':
+    resolution: {integrity: sha512-WOwnWpjTrRUacxcYgPf4ohXNduBx+Dat+yUn3IvDrprER0H/At7JqwC6YucIan/JDw50hvNZbhxTv1cEwSQN1Q==}
+    engines: {node: '>=20.0.0'}
+
   '@azure/identity@4.3.0':
     resolution: {integrity: sha512-LHZ58/RsIpIWa4hrrE2YuJ/vzG1Jv9f774RfTTAVDZDriubvJ0/S5u4pnw4akJDlS0TiJb6VMphmVUFsWmgodQ==}
     engines: {node: '>=18.0.0'}
@@ -3676,7 +3680,7 @@ packages:
     version: 0.0.0
 
   '@rush-temp/batch@file:projects/batch.tgz':
-    resolution: {integrity: sha512-6B0j78R+uCxz6YLQ/ayCrvNwQXhhIBUW+Yk2hiubhqyhoa6BfuDJISSKDLDUWWXVMVJZcSL5FZDwAyzCRcMPTw==, tarball: file:projects/batch.tgz}
+    resolution: {integrity: sha512-WQGMwS+yf7/x/9gthWP1mDSTLMjrkZrGUjt4NvL2nGkUwfZGBEJTQQjT+tvcOxOk/R2zXnpItTz9IzKy+F+wyg==, tarball: file:projects/batch.tgz}
     version: 0.0.0
 
   '@rush-temp/communication-alpha-ids@file:projects/communication-alpha-ids.tgz':
@@ -3884,7 +3888,7 @@ packages:
     version: 0.0.0
 
   '@rush-temp/identity-vscode@file:projects/identity-vscode.tgz':
-    resolution: {integrity: sha512-rQWM286wbZOh2xS4Ud5uUpbEiJkVGqEkVex5yytzh639QfXdGCbdKjBP5USsnzxK+TfEHCEv8Fd6axSWIvsNdg==, tarball: file:projects/identity-vscode.tgz}
+    resolution: {integrity: sha512-Sl7+Ta8+8D4Ppy7LQzRAlvUEBXrROpDxdPpbg4AtM1P7OVJ8+IAV5Kg3E31ebpcxjbdVBIQhlDLLhRWCsRb9vw==, tarball: file:projects/identity-vscode.tgz}
     version: 0.0.0
 
   '@rush-temp/identity@file:projects/identity.tgz':
@@ -7818,6 +7822,22 @@ snapshots:
       - supports-color
 
   '@azure/identity@4.10.2':
+    dependencies:
+      '@azure/abort-controller': 2.1.2
+      '@azure/core-auth': 1.9.0
+      '@azure/core-client': 1.9.4
+      '@azure/core-rest-pipeline': 1.21.0
+      '@azure/core-tracing': 1.2.0
+      '@azure/core-util': 1.12.0
+      '@azure/logger': 1.2.0
+      '@azure/msal-browser': 4.13.2
+      '@azure/msal-node': 3.6.1
+      open: 10.1.2
+      tslib: 2.8.1
+    transitivePeerDependencies:
+      - supports-color
+
+  '@azure/identity@4.11.0-beta.1':
     dependencies:
       '@azure/abort-controller': 2.1.2
       '@azure/core-auth': 1.9.0
@@ -21561,7 +21581,7 @@ snapshots:
 
   '@rush-temp/identity-vscode@file:projects/identity-vscode.tgz(@types/debug@4.1.12)(tsx@4.20.3)(vite@6.3.5(@types/node@22.7.9)(tsx@4.20.3)(yaml@2.8.0))(yaml@2.8.0)':
     dependencies:
-      '@azure/identity': 4.10.1
+      '@azure/identity': 4.11.0-beta.1
       '@azure/msal-node': 3.6.1
       '@azure/msal-node-extensions': 1.5.15
       '@types/node': 20.19.1
