@@ -9,7 +9,9 @@ export interface _OperationListResult {
   nextLink?: string;
 }
 
-export function _operationListResultDeserializer(item: any): _OperationListResult {
+export function _operationListResultDeserializer(
+  item: any,
+): _OperationListResult {
   return {
     value: operationArrayDeserializer(item["value"]),
     nextLink: item["nextLink"],
@@ -40,7 +42,9 @@ export function operationDeserializer(item: any): Operation {
   return {
     name: item["name"],
     isDataAction: item["isDataAction"],
-    display: !item["display"] ? item["display"] : operationDisplayDeserializer(item["display"]),
+    display: !item["display"]
+      ? item["display"]
+      : operationDisplayDeserializer(item["display"]),
     origin: item["origin"],
     actionType: item["actionType"],
   };
@@ -111,7 +115,9 @@ export interface ErrorResponse {
 
 export function errorResponseDeserializer(item: any): ErrorResponse {
   return {
-    error: !item["error"] ? item["error"] : errorDetailDeserializer(item["error"]),
+    error: !item["error"]
+      ? item["error"]
+      : errorDetailDeserializer(item["error"]),
   };
 }
 
@@ -134,20 +140,26 @@ export function errorDetailDeserializer(item: any): ErrorDetail {
     code: item["code"],
     message: item["message"],
     target: item["target"],
-    details: !item["details"] ? item["details"] : errorDetailArrayDeserializer(item["details"]),
+    details: !item["details"]
+      ? item["details"]
+      : errorDetailArrayDeserializer(item["details"]),
     additionalInfo: !item["additionalInfo"]
       ? item["additionalInfo"]
       : errorAdditionalInfoArrayDeserializer(item["additionalInfo"]),
   };
 }
 
-export function errorDetailArrayDeserializer(result: Array<ErrorDetail>): any[] {
+export function errorDetailArrayDeserializer(
+  result: Array<ErrorDetail>,
+): any[] {
   return result.map((item) => {
     return errorDetailDeserializer(item);
   });
 }
 
-export function errorAdditionalInfoArrayDeserializer(result: Array<ErrorAdditionalInfo>): any[] {
+export function errorAdditionalInfoArrayDeserializer(
+  result: Array<ErrorAdditionalInfo>,
+): any[] {
   return result.map((item) => {
     return errorAdditionalInfoDeserializer(item);
   });
@@ -158,21 +170,16 @@ export interface ErrorAdditionalInfo {
   /** The additional info type. */
   readonly type?: string;
   /** The additional info. */
-  readonly info?: Record<string, any>;
+  readonly info?: any;
 }
 
-export function errorAdditionalInfoDeserializer(item: any): ErrorAdditionalInfo {
+export function errorAdditionalInfoDeserializer(
+  item: any,
+): ErrorAdditionalInfo {
   return {
     type: item["type"],
-    info: !item["info"] ? item["info"] : _errorAdditionalInfoInfoDeserializer(item["info"]),
+    info: item["info"],
   };
-}
-
-/** model interface _ErrorAdditionalInfoInfo */
-export interface _ErrorAdditionalInfoInfo {}
-
-export function _errorAdditionalInfoInfoDeserializer(item: any): _ErrorAdditionalInfoInfo {
-  return item;
 }
 
 /** Concrete tracked resource types can be created by aliasing this type using a specific property type. */
@@ -241,9 +248,13 @@ export interface FileSystemResourceProperties {
   encryption: EncryptionProperties;
 }
 
-export function fileSystemResourcePropertiesSerializer(item: FileSystemResourceProperties): any {
+export function fileSystemResourcePropertiesSerializer(
+  item: FileSystemResourceProperties,
+): any {
   return {
-    capacity: !item["capacity"] ? item["capacity"] : capacitySerializer(item["capacity"]),
+    capacity: !item["capacity"]
+      ? item["capacity"]
+      : capacitySerializer(item["capacity"]),
     marketplace: marketplaceDetailsSerializer(item["marketplace"]),
     delegatedSubnetId: item["delegatedSubnetId"],
     delegatedSubnetCidr: item["delegatedSubnetCidr"],
@@ -256,9 +267,13 @@ export function fileSystemResourcePropertiesSerializer(item: FileSystemResourceP
   };
 }
 
-export function fileSystemResourcePropertiesDeserializer(item: any): FileSystemResourceProperties {
+export function fileSystemResourcePropertiesDeserializer(
+  item: any,
+): FileSystemResourceProperties {
   return {
-    capacity: !item["capacity"] ? item["capacity"] : capacityDeserializer(item["capacity"]),
+    capacity: !item["capacity"]
+      ? item["capacity"]
+      : capacityDeserializer(item["capacity"]),
     marketplace: marketplaceDetailsDeserializer(item["marketplace"]),
     provisioningState: item["provisioningState"],
     delegatedSubnetId: item["delegatedSubnetId"],
@@ -440,23 +455,31 @@ export interface EncryptionProperties {
   encryptionIdentityProperties?: EncryptionIdentityProperties;
 }
 
-export function encryptionPropertiesSerializer(item: EncryptionProperties): any {
+export function encryptionPropertiesSerializer(
+  item: EncryptionProperties,
+): any {
   return {
     encryptionType: item["encryptionType"],
     keyUrl: item["keyUrl"],
     encryptionIdentityProperties: !item["encryptionIdentityProperties"]
       ? item["encryptionIdentityProperties"]
-      : encryptionIdentityPropertiesSerializer(item["encryptionIdentityProperties"]),
+      : encryptionIdentityPropertiesSerializer(
+          item["encryptionIdentityProperties"],
+        ),
   };
 }
 
-export function encryptionPropertiesDeserializer(item: any): EncryptionProperties {
+export function encryptionPropertiesDeserializer(
+  item: any,
+): EncryptionProperties {
   return {
     encryptionType: item["encryptionType"],
     keyUrl: item["keyUrl"],
     encryptionIdentityProperties: !item["encryptionIdentityProperties"]
       ? item["encryptionIdentityProperties"]
-      : encryptionIdentityPropertiesDeserializer(item["encryptionIdentityProperties"]),
+      : encryptionIdentityPropertiesDeserializer(
+          item["encryptionIdentityProperties"],
+        ),
   };
 }
 
@@ -490,14 +513,18 @@ export interface EncryptionIdentityProperties {
   identityResourceId?: string;
 }
 
-export function encryptionIdentityPropertiesSerializer(item: EncryptionIdentityProperties): any {
+export function encryptionIdentityPropertiesSerializer(
+  item: EncryptionIdentityProperties,
+): any {
   return {
     identityType: item["identityType"],
     identityResourceId: item["identityResourceId"],
   };
 }
 
-export function encryptionIdentityPropertiesDeserializer(item: any): EncryptionIdentityProperties {
+export function encryptionIdentityPropertiesDeserializer(
+  item: any,
+): EncryptionIdentityProperties {
   return {
     identityType: item["identityType"],
     identityResourceId: item["identityResourceId"],
@@ -534,14 +561,18 @@ export interface ManagedServiceIdentity {
   userAssignedIdentities?: Record<string, UserAssignedIdentity | null>;
 }
 
-export function managedServiceIdentitySerializer(item: ManagedServiceIdentity): any {
+export function managedServiceIdentitySerializer(
+  item: ManagedServiceIdentity,
+): any {
   return {
     type: item["type"],
     userAssignedIdentities: item["userAssignedIdentities"],
   };
 }
 
-export function managedServiceIdentityDeserializer(item: any): ManagedServiceIdentity {
+export function managedServiceIdentityDeserializer(
+  item: any,
+): ManagedServiceIdentity {
   return {
     principalId: item["principalId"],
     tenantId: item["tenantId"],
@@ -576,20 +607,24 @@ export type ManagedServiceIdentityType = string;
 
 /** User assigned identity properties */
 export interface UserAssignedIdentity {
-  /** The client ID of the assigned identity. */
-  readonly clientId?: string;
   /** The principal ID of the assigned identity. */
   readonly principalId?: string;
+  /** The client ID of the assigned identity. */
+  readonly clientId?: string;
 }
 
-export function userAssignedIdentitySerializer(item: UserAssignedIdentity): any {
+export function userAssignedIdentitySerializer(
+  item: UserAssignedIdentity,
+): any {
   return item;
 }
 
-export function userAssignedIdentityDeserializer(item: any): UserAssignedIdentity {
+export function userAssignedIdentityDeserializer(
+  item: any,
+): UserAssignedIdentity {
   return {
-    clientId: item["clientId"],
     principalId: item["principalId"],
+    clientId: item["clientId"],
   };
 }
 
@@ -665,7 +700,9 @@ export function systemDataDeserializer(item: any): SystemData {
   return {
     createdBy: item["createdBy"],
     createdByType: item["createdByType"],
-    createdAt: !item["createdAt"] ? item["createdAt"] : new Date(item["createdAt"]),
+    createdAt: !item["createdAt"]
+      ? item["createdAt"]
+      : new Date(item["createdAt"]),
     lastModifiedBy: item["lastModifiedBy"],
     lastModifiedByType: item["lastModifiedByType"],
     lastModifiedAt: !item["lastModifiedAt"]
@@ -708,7 +745,9 @@ export interface FileSystemResourceUpdate {
   properties?: FileSystemResourceUpdateProperties;
 }
 
-export function fileSystemResourceUpdateSerializer(item: FileSystemResourceUpdate): any {
+export function fileSystemResourceUpdateSerializer(
+  item: FileSystemResourceUpdate,
+): any {
   return {
     identity: !item["identity"]
       ? item["identity"]
@@ -728,7 +767,9 @@ export interface ManagedServiceIdentityUpdate {
   userAssignedIdentities?: Record<string, UserAssignedIdentity | null>;
 }
 
-export function managedServiceIdentityUpdateSerializer(item: ManagedServiceIdentityUpdate): any {
+export function managedServiceIdentityUpdateSerializer(
+  item: ManagedServiceIdentityUpdate,
+): any {
   return {
     type: item["type"],
     userAssignedIdentities: item["userAssignedIdentities"],
@@ -750,7 +791,9 @@ export function fileSystemResourceUpdatePropertiesSerializer(
 ): any {
   return {
     delegatedSubnetId: item["delegatedSubnetId"],
-    capacity: !item["capacity"] ? item["capacity"] : capacitySerializer(item["capacity"]),
+    capacity: !item["capacity"]
+      ? item["capacity"]
+      : capacitySerializer(item["capacity"]),
     encryption: !item["encryption"]
       ? item["encryption"]
       : encryptionUpdatePropertiesSerializer(item["encryption"]),
@@ -767,13 +810,17 @@ export interface EncryptionUpdateProperties {
   encryptionIdentityProperties?: EncryptionIdentityUpdateProperties;
 }
 
-export function encryptionUpdatePropertiesSerializer(item: EncryptionUpdateProperties): any {
+export function encryptionUpdatePropertiesSerializer(
+  item: EncryptionUpdateProperties,
+): any {
   return {
     encryptionType: item["encryptionType"],
     keyUrl: item["keyUrl"],
     encryptionIdentityProperties: !item["encryptionIdentityProperties"]
       ? item["encryptionIdentityProperties"]
-      : encryptionIdentityUpdatePropertiesSerializer(item["encryptionIdentityProperties"]),
+      : encryptionIdentityUpdatePropertiesSerializer(
+          item["encryptionIdentityProperties"],
+        ),
   };
 }
 
@@ -811,13 +858,17 @@ export function _fileSystemResourceListResultDeserializer(
   };
 }
 
-export function fileSystemResourceArraySerializer(result: Array<FileSystemResource>): any[] {
+export function fileSystemResourceArraySerializer(
+  result: Array<FileSystemResource>,
+): any[] {
   return result.map((item) => {
     return fileSystemResourceSerializer(item);
   });
 }
 
-export function fileSystemResourceArrayDeserializer(result: Array<FileSystemResource>): any[] {
+export function fileSystemResourceArrayDeserializer(
+  result: Array<FileSystemResource>,
+): any[] {
   return result.map((item) => {
     return fileSystemResourceDeserializer(item);
   });

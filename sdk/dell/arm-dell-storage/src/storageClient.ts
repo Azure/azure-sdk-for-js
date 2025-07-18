@@ -1,9 +1,19 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { createStorage, StorageContext, StorageClientOptionalParams } from "./api/index.js";
-import { FileSystemsOperations, _getFileSystemsOperations } from "./classic/fileSystems/index.js";
-import { OperationsOperations, _getOperationsOperations } from "./classic/operations/index.js";
+import {
+  createStorage,
+  StorageContext,
+  StorageClientOptionalParams,
+} from "./api/index.js";
+import {
+  FileSystemsOperations,
+  _getFileSystemsOperations,
+} from "./classic/fileSystems/index.js";
+import {
+  OperationsOperations,
+  _getOperationsOperations,
+} from "./classic/operations/index.js";
 import { Pipeline } from "@azure/core-rest-pipeline";
 import { TokenCredential } from "@azure/core-auth";
 

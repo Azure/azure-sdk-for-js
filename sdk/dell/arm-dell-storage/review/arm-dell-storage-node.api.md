@@ -63,7 +63,7 @@ export interface EncryptionUpdateProperties {
 
 // @public
 export interface ErrorAdditionalInfo {
-    readonly info?: Record<string, any>;
+    readonly info?: any;
     readonly type?: string;
 }
 

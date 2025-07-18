@@ -2,7 +2,10 @@
 // Licensed under the MIT License.
 
 import { StorageContext } from "../../api/storageContext.js";
-import { FileSystemResource, FileSystemResourceUpdate } from "../../models/models.js";
+import {
+  FileSystemResource,
+  FileSystemResourceUpdate,
+} from "../../models/models.js";
 import {
   FileSystemsListBySubscriptionOptionalParams,
   FileSystemsListByResourceGroupOptionalParams,
@@ -68,8 +71,9 @@ export interface FileSystemsOperations {
 
 function _getFileSystems(context: StorageContext) {
   return {
-    listBySubscription: (options?: FileSystemsListBySubscriptionOptionalParams) =>
-      listBySubscription(context, options),
+    listBySubscription: (
+      options?: FileSystemsListBySubscriptionOptionalParams,
+    ) => listBySubscription(context, options),
     listByResourceGroup: (
       resourceGroupName: string,
       options?: FileSystemsListByResourceGroupOptionalParams,
@@ -84,13 +88,21 @@ function _getFileSystems(context: StorageContext) {
       filesystemName: string,
       properties: FileSystemResourceUpdate,
       options?: FileSystemsUpdateOptionalParams,
-    ) => update(context, resourceGroupName, filesystemName, properties, options),
+    ) =>
+      update(context, resourceGroupName, filesystemName, properties, options),
     createOrUpdate: (
       resourceGroupName: string,
       filesystemName: string,
       resource: FileSystemResource,
       options?: FileSystemsCreateOrUpdateOptionalParams,
-    ) => createOrUpdate(context, resourceGroupName, filesystemName, resource, options),
+    ) =>
+      createOrUpdate(
+        context,
+        resourceGroupName,
+        filesystemName,
+        resource,
+        options,
+      ),
     get: (
       resourceGroupName: string,
       filesystemName: string,
@@ -99,7 +111,9 @@ function _getFileSystems(context: StorageContext) {
   };
 }
 
-export function _getFileSystemsOperations(context: StorageContext): FileSystemsOperations {
+export function _getFileSystemsOperations(
+  context: StorageContext,
+): FileSystemsOperations {
   return {
     ..._getFileSystems(context),
   };
