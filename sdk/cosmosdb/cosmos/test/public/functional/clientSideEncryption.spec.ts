@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 import { randomUUID } from "@azure/core-util";
-import { EncryptionAlgorithm } from "../../../src/index.js";
+import { Constants, EncryptionAlgorithm } from "../../../src/index.js";
 import type {
   Database,
   Container,
@@ -31,7 +31,7 @@ import {
   PermissionMode,
 } from "../../../src/index.js";
 import { masterKey } from "../common/_fakeTestSecrets.js";
-import { endpoint } from "../common/_testConfig.js";
+import { endpoint, skipTestForSignOff } from "../common/_testConfig.js";
 import {
   compareMetadata,
   MockKeyVaultEncryptionKeyResolver,
@@ -442,6 +442,182 @@ describe("ClientSideEncryption", () => {
     clientWithBulk.dispose();
   });
 
+  it("encryption executeBulkOperations API", async () => {
+    const docToCreate = TestDoc.create();
+
+    const { resource: docToReplace } = await testCreateItem(encryptionContainer);
+    docToReplace.nonsensitive = randomUUID();
+    docToReplace.sensitive_StringFormat = randomUUID();
+
+    const { resource: docToUpsert } = await testCreateItem(encryptionContainer);
+    docToUpsert.nonsensitive = randomUUID();
+    docToUpsert.sensitive_StringFormat = randomUUID();
+
+    // doc not created before
+    const docToUpsert2 = TestDoc.create();
+
+    const { resource: docToDelete } = await testCreateItem(encryptionContainer);
+
+    const { resource: docToPatch } = await testCreateItem(encryptionContainer);
+    docToPatch.sensitive_IntFormat = 500;
+
+    const clientWithBulk = new CosmosClient({
+      endpoint: endpoint,
+      key: masterKey,
+      clientEncryptionOptions: {
+        keyEncryptionKeyResolver: new MockKeyVaultEncryptionKeyResolver(),
+      },
+    });
+
+    const databaseWithBulk = clientWithBulk.database(database.id);
+    const encryptionContainerWithBulk = databaseWithBulk.container(encryptionContainer.id);
+    const patchOperation = {
+      operations: [
+        {
+          op: PatchOperationType.replace,
+          path: "/sensitive_IntFormat",
+          value: docToPatch.sensitive_IntFormat,
+        },
+      ],
+    };
+    const operations = [
+      {
+        operationType: BulkOperationType.Create,
+        partitionKey: docToCreate.PK,
+        resourceBody: JSON.parse(JSON.stringify(docToCreate)),
+      },
+      {
+        operationType: BulkOperationType.Upsert,
+        partitionKey: docToUpsert2.PK,
+        resourceBody: JSON.parse(JSON.stringify(docToUpsert2)),
+      },
+      {
+        operationType: BulkOperationType.Replace,
+        partitionKey: docToReplace.PK,
+        id: docToReplace.id,
+        resourceBody: JSON.parse(JSON.stringify(docToReplace)),
+      },
+      {
+        operationType: BulkOperationType.Upsert,
+        partitionKey: docToUpsert.PK,
+        resourceBody: JSON.parse(JSON.stringify(docToUpsert)),
+      },
+      {
+        operationType: BulkOperationType.Delete,
+        id: docToDelete.id,
+        partitionKey: docToDelete.PK,
+      },
+      {
+        operationType: BulkOperationType.Patch,
+        partitionKey: docToPatch.PK,
+        id: docToPatch.id,
+        resourceBody: patchOperation,
+      },
+    ];
+
+    const result = await encryptionContainerWithBulk.items.executeBulkOperations(operations);
+    result.forEach((r) => {
+      assert.isNotNull(r.response.diagnostics);
+      assert.isNotNull(r.response.diagnostics.clientSideRequestStatistics.encryptionDiagnostics);
+      const encryptContent =
+        r.response.diagnostics.clientSideRequestStatistics.encryptionDiagnostics.encryptContent;
+      const decryptContent =
+        r.response.diagnostics.clientSideRequestStatistics.encryptionDiagnostics.decryptContent;
+      assert.isNotNull(encryptContent);
+      assert.isNotNull(encryptContent[Constants.Encryption.DiagnosticsStartTime]);
+      assert.isNotNull(encryptContent[Constants.Encryption.DiagnosticsPropertiesEncryptedCount]);
+      assert.isNotNull(encryptContent[Constants.Encryption.DiagnosticsDuration]);
+      assert.isNotNull(decryptContent);
+      assert.isNotNull(decryptContent[Constants.Encryption.DiagnosticsStartTime]);
+      assert.isNotNull(decryptContent[Constants.Encryption.DiagnosticsPropertiesDecryptedCount]);
+      assert.isNotNull(decryptContent[Constants.Encryption.DiagnosticsDuration]);
+    });
+    // Create
+    assert.equal(StatusCodes.Created, result[0].response.statusCode);
+    verifyExpectedDocResponse(docToCreate, result[0].response.resourceBody);
+    // 12 encrypted field + 1 partition key for create and upsert encryption
+    assert.equal(
+      result[0].response.diagnostics.clientSideRequestStatistics.encryptionDiagnostics
+        .encryptContent[Constants.Encryption.DiagnosticsPropertiesEncryptedCount],
+      13,
+    );
+    assert.equal(
+      result[0].response.diagnostics.clientSideRequestStatistics.encryptionDiagnostics
+        .decryptContent[Constants.Encryption.DiagnosticsPropertiesDecryptedCount],
+      12,
+    );
+
+    // Upsert new item
+    assert.equal(StatusCodes.Created, result[1].response.statusCode);
+    verifyExpectedDocResponse(docToUpsert2, result[1].response.resourceBody);
+    assert.equal(
+      result[1].response.diagnostics.clientSideRequestStatistics.encryptionDiagnostics
+        .encryptContent[Constants.Encryption.DiagnosticsPropertiesEncryptedCount],
+      13,
+    );
+    assert.equal(
+      result[1].response.diagnostics.clientSideRequestStatistics.encryptionDiagnostics
+        .decryptContent[Constants.Encryption.DiagnosticsPropertiesDecryptedCount],
+      12,
+    );
+
+    // Replace
+    assert.equal(StatusCodes.Ok, result[2].response.statusCode);
+    verifyExpectedDocResponse(new TestDoc(docToReplace), result[2].response.resourceBody);
+    // 12 encrypted field + 1 partition key + 1 id for replace encryption
+    assert.equal(
+      result[2].response.diagnostics.clientSideRequestStatistics.encryptionDiagnostics
+        .encryptContent[Constants.Encryption.DiagnosticsPropertiesEncryptedCount],
+      14,
+    );
+    assert.equal(
+      result[2].response.diagnostics.clientSideRequestStatistics.encryptionDiagnostics
+        .decryptContent[Constants.Encryption.DiagnosticsPropertiesDecryptedCount],
+      12,
+    );
+
+    // Upsert existing item
+    assert.equal(StatusCodes.Ok, result[3].response.statusCode);
+    verifyExpectedDocResponse(new TestDoc(docToUpsert), result[3].response.resourceBody);
+    assert.equal(
+      result[3].response.diagnostics.clientSideRequestStatistics.encryptionDiagnostics
+        .encryptContent[Constants.Encryption.DiagnosticsPropertiesEncryptedCount],
+      13,
+    );
+    assert.equal(
+      result[3].response.diagnostics.clientSideRequestStatistics.encryptionDiagnostics
+        .decryptContent[Constants.Encryption.DiagnosticsPropertiesDecryptedCount],
+      12,
+    );
+
+    // Delete
+    assert.equal(StatusCodes.NoContent, result[4].response.statusCode);
+    assert.isNotObject(result[4].response.resourceBody);
+    // 1 partition key + 1 id for delete encryption
+    assert.equal(
+      result[4].response.diagnostics.clientSideRequestStatistics.encryptionDiagnostics
+        .encryptContent[Constants.Encryption.DiagnosticsPropertiesEncryptedCount],
+      2,
+    );
+
+    // Patch
+    assert.equal(StatusCodes.Ok, result[5].response.statusCode);
+    verifyExpectedDocResponse(new TestDoc(docToPatch), result[5].response.resourceBody);
+    // 1 partition key + 1 id + 1 field to patch for patch encryption
+    assert.equal(
+      result[5].response.diagnostics.clientSideRequestStatistics.encryptionDiagnostics
+        .encryptContent[Constants.Encryption.DiagnosticsPropertiesEncryptedCount],
+      3,
+    );
+    assert.equal(
+      result[5].response.diagnostics.clientSideRequestStatistics.encryptionDiagnostics
+        .decryptContent[Constants.Encryption.DiagnosticsPropertiesDecryptedCount],
+      12,
+    );
+
+    clientWithBulk.dispose();
+  });
+
   it("encryption create client encryption key", async () => {
     let cekId = "anotherCek";
     let cmkpath5: EncryptionKeyWrapMetadata = {
@@ -801,7 +977,7 @@ describe("ClientSideEncryption", () => {
     ];
 
     const response = await encryptionContainer.items.batch(operations, partitionKey);
-    verifyDiagnostics(response.diagnostics, true, true, 42, 48);
+    verifyDiagnostics(response.diagnostics, true, true, 41, 48);
     assert.equal(StatusCodes.Ok, response.code);
 
     const doc1 = response.result[0];
@@ -1234,7 +1410,7 @@ describe("ClientSideEncryption", () => {
     verifyExpectedDocResponse(testDoc1, response.result[0]);
   });
 
-  it("encryption change feed with allVersionsAndDeletes", async () => {
+  it.skipIf(skipTestForSignOff)("encryption change feed with allVersionsAndDeletes", async () => {
     const newClient = new CosmosClient({
       endpoint: endpoint,
       key: masterKey,
@@ -1851,6 +2027,134 @@ describe("ClientSideEncryption", () => {
     otherClient.dispose();
   });
 
+  it("encryption validate policy refresh post container delete with executeBulkOperation", async () => {
+    // create a container with 1st client
+    let paths = [
+      "/sensitive_IntArray",
+      "/sensitive_NestedObjectFormatL1",
+      "/sensitive_DoubleFormat",
+    ].map((path) => ({
+      path: path,
+      clientEncryptionKeyId: "key1",
+      encryptionType: EncryptionType.DETERMINISTIC,
+      encryptionAlgorithm: EncryptionAlgorithm.AEAD_AES_256_CBC_HMAC_SHA256,
+    }));
+    let encryptionPolicy = {
+      includedPaths: paths,
+      policyFormatVersion: 2,
+    };
+    let containerProperties: ContainerDefinition = {
+      id: randomUUID(),
+      partitionKey: { paths: ["/sensitive_DoubleFormat"] },
+      clientEncryptionPolicy: encryptionPolicy,
+    };
+    const encryptionContainerToDelete = (await database.containers.create(containerProperties))
+      .container;
+    await encryptionContainerToDelete.initializeEncryption();
+    // create a document with 2nd client on same database and container
+    const otherClient = new CosmosClient({
+      endpoint: endpoint,
+      key: masterKey,
+      clientEncryptionOptions: {
+        keyEncryptionKeyResolver: new MockKeyVaultEncryptionKeyResolver(),
+      },
+    });
+    const otherDatabase = otherClient.database(database.id);
+    const otherEncryptionContainer = otherDatabase.container(encryptionContainerToDelete.id);
+    const testDoc = TestDoc.create();
+    const createResponse = await otherEncryptionContainer.items.create(testDoc);
+    assert.equal(StatusCodes.Created, createResponse.statusCode);
+    verifyExpectedDocResponse(testDoc, createResponse.resource);
+    // Client 1 Deletes the Container referenced in Client 2 and Recreate with different policy
+    await database.container(encryptionContainerToDelete.id).delete();
+    paths = [
+      {
+        path: "/sensitive_StringFormat",
+        clientEncryptionKeyId: "key1",
+        encryptionType: EncryptionType.DETERMINISTIC,
+        encryptionAlgorithm: EncryptionAlgorithm.AEAD_AES_256_CBC_HMAC_SHA256,
+      },
+      {
+        path: "/sensitive_BoolFormat",
+        clientEncryptionKeyId: "key2",
+        encryptionType: EncryptionType.DETERMINISTIC,
+        encryptionAlgorithm: EncryptionAlgorithm.AEAD_AES_256_CBC_HMAC_SHA256,
+      },
+      {
+        path: "/PK",
+        clientEncryptionKeyId: "key2",
+        encryptionType: EncryptionType.DETERMINISTIC,
+        encryptionAlgorithm: EncryptionAlgorithm.AEAD_AES_256_CBC_HMAC_SHA256,
+      },
+    ];
+    encryptionPolicy = {
+      includedPaths: paths,
+      policyFormatVersion: 2,
+    };
+    containerProperties = {
+      id: encryptionContainerToDelete.id,
+      partitionKey: { paths: ["/PK"] },
+      clientEncryptionPolicy: encryptionPolicy,
+    };
+    await database.containers.create(containerProperties);
+    try {
+      await testCreateItem(encryptionContainerToDelete);
+      assert.fail("create operation should fail");
+    } catch (err) {
+      // verifyDiagnostics(err.diagnostics, true, false, 3);
+      assert.ok(
+        err.message.includes(
+          "Operation has failed due to a possible mismatch in Client Encryption Policy configured on the container.",
+        ),
+      );
+    }
+    const docToReplace = (await testCreateItem(encryptionContainerToDelete)).resource;
+    docToReplace.sensitive_StringFormat = "docToBeReplaced";
+    const docToUpsert = (await testCreateItem(encryptionContainerToDelete)).resource;
+    docToUpsert.sensitive_StringFormat = "docToBeUpserted";
+    const docToCreate = TestDoc.create();
+    const operations = [
+      {
+        operationType: BulkOperationType.Upsert,
+        partitionKey: docToUpsert.PK,
+        resourceBody: JSON.parse(JSON.stringify(docToUpsert)),
+      },
+      {
+        operationType: BulkOperationType.Replace,
+        id: docToReplace.id,
+        partitionKey: docToReplace.PK,
+        resourceBody: JSON.parse(JSON.stringify(docToReplace)),
+      },
+      {
+        operationType: BulkOperationType.Create,
+        partitionKey: docToCreate.PK,
+        resourceBody: JSON.parse(JSON.stringify(docToCreate)),
+      },
+    ];
+    try {
+      await otherEncryptionContainer.items.executeBulkOperations(operations);
+      assert.fail("bulk operation should fail");
+    } catch (error) {
+      // verifyDiagnostics(error.diagnostics, true, false, 11, undefined);
+      assert.ok(
+        error.message.includes(
+          "Operation has failed due to a possible mismatch in Client Encryption Policy configured on the container.",
+        ),
+      );
+    }
+    // retry bulk operation with 2nd client
+    const res = await otherEncryptionContainer.items.executeBulkOperations(operations);
+    assert.equal(StatusCodes.Ok, res[0].response?.statusCode);
+    assert.equal(StatusCodes.Ok, res[1].response?.statusCode);
+    assert.equal(StatusCodes.Created, res[2].response?.statusCode);
+    await verifyItemByRead(encryptionContainerToDelete, docToReplace);
+    await testCreateItem(encryptionContainerToDelete);
+    await verifyItemByRead(encryptionContainerToDelete, docToUpsert);
+    // validate if the right policy was used, by reading them all back
+    await otherEncryptionContainer.items.readAll().fetchAll();
+    otherClient.dispose();
+  });
+
   it("encryption validate policy refresh post database delete", async () => {
     const mainCLient = new CosmosClient({
       endpoint: endpoint,
@@ -2210,6 +2514,219 @@ describe("ClientSideEncryption", () => {
     queryResponse = await iterator.fetchAll();
     assert.equal(queryResponse.resources.length, 1);
     verifyExpectedDocResponse(testDoc, queryResponse.resources[0]);
+    await container.delete();
+  });
+
+  it("encryption hierarchical partition key test with executeBulkOperations", async () => {
+    const key1Paths = ["/sensitive_LongFormat", "/sensitive_NestedObjectFormatL1"].map((path) => ({
+      path: path,
+      clientEncryptionKeyId: "key1",
+      encryptionType: EncryptionType.DETERMINISTIC,
+      encryptionAlgorithm: EncryptionAlgorithm.AEAD_AES_256_CBC_HMAC_SHA256,
+    }));
+    const containerDef = {
+      id: "hierarchical_partition_container",
+      partitionKey: {
+        paths: [
+          "/sensitive_StringFormat",
+          "/sensitive_NestedObjectFormatL1/sensitive_NestedObjectFormatL2/sensitive_StringFormatL2",
+        ],
+        version: 2,
+        kind: PartitionKeyKind.MultiHash,
+      },
+      clientEncryptionPolicy: {
+        includedPaths: key1Paths,
+        policyFormatVersion: 2,
+      },
+      throughput: 400,
+    };
+    const container = (await database.containers.create(containerDef)).container;
+    await container.initializeEncryption();
+
+    const docToCreate = TestDoc.create();
+
+    const { resource: docToReplace } = await testCreateItem(container);
+    docToReplace.nonsensitive = randomUUID();
+
+    const { resource: docToUpsert } = await testCreateItem(container);
+    docToUpsert.nonsensitive = randomUUID();
+
+    // doc not created before
+    const docToUpsert2 = TestDoc.create();
+
+    const { resource: docToDelete } = await testCreateItem(container);
+
+    const { resource: docToPatch } = await testCreateItem(container);
+    docToPatch.nonsensitive = randomUUID();
+
+    const patchOperation = {
+      operations: [
+        {
+          op: PatchOperationType.replace,
+          path: "/nonsensitive",
+          value: docToPatch.nonsensitive,
+        },
+      ],
+    };
+    const operations = [
+      {
+        operationType: BulkOperationType.Create,
+        partitionKey: [
+          docToCreate.sensitive_StringFormat,
+          docToCreate.sensitive_NestedObjectFormatL1.sensitive_NestedObjectFormatL2
+            .sensitive_StringFormatL2,
+        ],
+        resourceBody: JSON.parse(JSON.stringify(docToCreate)),
+      },
+      {
+        operationType: BulkOperationType.Upsert,
+        partitionKey: [
+          docToUpsert2.sensitive_StringFormat,
+          docToUpsert2.sensitive_NestedObjectFormatL1.sensitive_NestedObjectFormatL2
+            .sensitive_StringFormatL2,
+        ],
+        resourceBody: JSON.parse(JSON.stringify(docToUpsert2)),
+      },
+      {
+        operationType: BulkOperationType.Replace,
+        partitionKey: [
+          docToReplace.sensitive_StringFormat,
+          docToReplace.sensitive_NestedObjectFormatL1.sensitive_NestedObjectFormatL2
+            .sensitive_StringFormatL2,
+        ],
+        id: docToReplace.id,
+        resourceBody: JSON.parse(JSON.stringify(docToReplace)),
+      },
+      {
+        operationType: BulkOperationType.Upsert,
+        partitionKey: [
+          docToUpsert.sensitive_StringFormat,
+          docToUpsert.sensitive_NestedObjectFormatL1.sensitive_NestedObjectFormatL2
+            .sensitive_StringFormatL2,
+        ],
+        resourceBody: JSON.parse(JSON.stringify(docToUpsert)),
+      },
+      {
+        operationType: BulkOperationType.Delete,
+        id: docToDelete.id,
+        partitionKey: [
+          docToDelete.sensitive_StringFormat,
+          docToDelete.sensitive_NestedObjectFormatL1.sensitive_NestedObjectFormatL2
+            .sensitive_StringFormatL2,
+        ],
+      },
+      {
+        operationType: BulkOperationType.Patch,
+        partitionKey: [
+          docToPatch.sensitive_StringFormat,
+          docToPatch.sensitive_NestedObjectFormatL1.sensitive_NestedObjectFormatL2
+            .sensitive_StringFormatL2,
+        ],
+        id: docToPatch.id,
+        resourceBody: patchOperation,
+      },
+    ];
+
+    const result = await container.items.executeBulkOperations(operations);
+    result.forEach((r) => {
+      assert.isNotNull(r.response.diagnostics);
+      assert.isNotNull(r.response.diagnostics.clientSideRequestStatistics.encryptionDiagnostics);
+      const encryptContent =
+        r.response.diagnostics.clientSideRequestStatistics.encryptionDiagnostics.encryptContent;
+      const decryptContent =
+        r.response.diagnostics.clientSideRequestStatistics.encryptionDiagnostics.decryptContent;
+      assert.isNotNull(encryptContent);
+      assert.isNotNull(encryptContent[Constants.Encryption.DiagnosticsStartTime]);
+      assert.isNotNull(encryptContent[Constants.Encryption.DiagnosticsPropertiesEncryptedCount]);
+      assert.isNotNull(encryptContent[Constants.Encryption.DiagnosticsDuration]);
+      assert.isNotNull(decryptContent);
+      assert.isNotNull(decryptContent[Constants.Encryption.DiagnosticsStartTime]);
+      assert.isNotNull(decryptContent[Constants.Encryption.DiagnosticsPropertiesDecryptedCount]);
+      assert.isNotNull(decryptContent[Constants.Encryption.DiagnosticsDuration]);
+    });
+    // Create
+    assert.equal(StatusCodes.Created, result[0].response.statusCode);
+    verifyExpectedDocResponse(docToCreate, result[0].response.resourceBody);
+    // 2 encrypted field + 1 partition key for create and upsert encryption
+    assert.equal(
+      result[0].response.diagnostics.clientSideRequestStatistics.encryptionDiagnostics
+        .encryptContent[Constants.Encryption.DiagnosticsPropertiesEncryptedCount],
+      3,
+    );
+    assert.equal(
+      result[0].response.diagnostics.clientSideRequestStatistics.encryptionDiagnostics
+        .decryptContent[Constants.Encryption.DiagnosticsPropertiesDecryptedCount],
+      2,
+    );
+
+    // Upsert new item
+    assert.equal(StatusCodes.Created, result[1].response.statusCode);
+    verifyExpectedDocResponse(docToUpsert2, result[1].response.resourceBody);
+    assert.equal(
+      result[1].response.diagnostics.clientSideRequestStatistics.encryptionDiagnostics
+        .encryptContent[Constants.Encryption.DiagnosticsPropertiesEncryptedCount],
+      3,
+    );
+    assert.equal(
+      result[1].response.diagnostics.clientSideRequestStatistics.encryptionDiagnostics
+        .decryptContent[Constants.Encryption.DiagnosticsPropertiesDecryptedCount],
+      2,
+    );
+
+    // Replace
+    assert.equal(StatusCodes.Ok, result[2].response.statusCode);
+    verifyExpectedDocResponse(new TestDoc(docToReplace), result[2].response.resourceBody);
+    // 2 encrypted field + 1 partition key  for replace encryption
+    assert.equal(
+      result[2].response.diagnostics.clientSideRequestStatistics.encryptionDiagnostics
+        .encryptContent[Constants.Encryption.DiagnosticsPropertiesEncryptedCount],
+      3,
+    );
+    assert.equal(
+      result[2].response.diagnostics.clientSideRequestStatistics.encryptionDiagnostics
+        .decryptContent[Constants.Encryption.DiagnosticsPropertiesDecryptedCount],
+      2,
+    );
+
+    // Upsert existing item
+    assert.equal(StatusCodes.Ok, result[3].response.statusCode);
+    verifyExpectedDocResponse(new TestDoc(docToUpsert), result[3].response.resourceBody);
+    assert.equal(
+      result[3].response.diagnostics.clientSideRequestStatistics.encryptionDiagnostics
+        .encryptContent[Constants.Encryption.DiagnosticsPropertiesEncryptedCount],
+      3,
+    );
+    assert.equal(
+      result[3].response.diagnostics.clientSideRequestStatistics.encryptionDiagnostics
+        .decryptContent[Constants.Encryption.DiagnosticsPropertiesDecryptedCount],
+      2,
+    );
+
+    // Delete
+    assert.equal(StatusCodes.NoContent, result[4].response.statusCode);
+    assert.isNotObject(result[4].response.resourceBody);
+    // 1 partition key for delete encryption
+    assert.equal(
+      result[4].response.diagnostics.clientSideRequestStatistics.encryptionDiagnostics
+        .encryptContent[Constants.Encryption.DiagnosticsPropertiesEncryptedCount],
+      1,
+    );
+
+    // Patch
+    assert.equal(StatusCodes.Ok, result[5].response.statusCode);
+    verifyExpectedDocResponse(new TestDoc(docToPatch), result[5].response.resourceBody);
+    // 1 partition key
+    assert.equal(
+      result[5].response.diagnostics.clientSideRequestStatistics.encryptionDiagnostics
+        .encryptContent[Constants.Encryption.DiagnosticsPropertiesEncryptedCount],
+      1,
+    );
+    assert.equal(
+      result[5].response.diagnostics.clientSideRequestStatistics.encryptionDiagnostics
+        .decryptContent[Constants.Encryption.DiagnosticsPropertiesDecryptedCount],
+      2,
+    );
+    await container.delete();
   });
 
   it("encryption resource token auth restricted", async () => {
@@ -2356,7 +2873,7 @@ describe("ClientSideEncryption", () => {
     verifyDiagnostics(replaceResponse.diagnostics, true, true, 14, 12);
   });
 
-  it("encryption delete all items in a partition key", async () => {
+  it.skipIf(skipTestForSignOff)("encryption delete all items in a partition key", async () => {
     const testDoc1 = new TestDoc((await testCreateItem(encryptionContainer, "pk1")).resource);
     const testDoc2 = new TestDoc((await testCreateItem(encryptionContainer, "pk2")).resource);
     const testDoc3 = new TestDoc((await testCreateItem(encryptionContainer, "pk1")).resource);

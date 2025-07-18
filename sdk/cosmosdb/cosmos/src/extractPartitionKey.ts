@@ -35,34 +35,46 @@ export function extractPartitionKeys(
   partitionKeyDefinition?: PartitionKeyDefinition,
 ): PartitionKeyInternal | undefined {
   if (
-    partitionKeyDefinition &&
-    partitionKeyDefinition.paths &&
-    partitionKeyDefinition.paths.length > 0
+    !partitionKeyDefinition ||
+    !partitionKeyDefinition.paths ||
+    partitionKeyDefinition.paths.length <= 0
   ) {
-    if (partitionKeyDefinition.systemKey === true) {
-      return [];
-    }
-
-    if (
-      partitionKeyDefinition.paths.length === 1 &&
-      partitionKeyDefinition.paths[0] === DEFAULT_PARTITION_KEY_PATH
-    ) {
-      return [extractPartitionKey(DEFAULT_PARTITION_KEY_PATH, document)];
-    }
-
-    const partitionKeys: PrimitivePartitionKeyValue[] = [];
-    partitionKeyDefinition.paths.forEach((path: string) => {
-      const obj = extractPartitionKey(path, document);
-      if (obj === undefined) {
-        logger.warning("Unsupported PartitionKey found.");
-        return undefined;
-      }
-      partitionKeys.push(obj);
-    });
-    return partitionKeys;
+    logger.error("Unexpected Partition Key Definition Found.");
+    return undefined;
   }
-  logger.error("Unexpected Partition Key Definition Found.");
-  return undefined;
+
+  if (
+    partitionKeyDefinition.paths.length === 1 &&
+    partitionKeyDefinition.paths[0] === DEFAULT_PARTITION_KEY_PATH
+  ) {
+    const defaultKey = extractPartitionKey(DEFAULT_PARTITION_KEY_PATH, document);
+    if (defaultKey === undefined) {
+      if (partitionKeyDefinition.systemKey === true) {
+        return [];
+      }
+      logger.warning("Unsupported PartitionKey found.");
+      return undefined;
+    } else if (defaultKey === NullPartitionKeyLiteral || defaultKey === NonePartitionKeyLiteral) {
+      if (partitionKeyDefinition.systemKey === true) {
+        return [];
+      }
+    }
+    return [defaultKey];
+  }
+
+  if (partitionKeyDefinition.systemKey === true) {
+    return [];
+  }
+  const partitionKeys: PrimitivePartitionKeyValue[] = [];
+  partitionKeyDefinition.paths.forEach((path: string) => {
+    const obj = extractPartitionKey(path, document);
+    if (obj === undefined) {
+      logger.warning("Unsupported PartitionKey found.");
+      return undefined;
+    }
+    partitionKeys.push(obj);
+  });
+  return partitionKeys;
 }
 
 function extractPartitionKey(path: string, obj: unknown): any {

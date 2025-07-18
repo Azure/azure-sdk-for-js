@@ -7,7 +7,7 @@ import path from "node:path";
 import { createPrinter } from "./printer";
 import * as git from "./git";
 
-const { debug } = createPrinter("fileTree");
+const { debug, warn } = createPrinter("fileTree");
 
 /**
  * Provides a way to instantiate a file within a base path.
@@ -34,19 +34,30 @@ function isAsyncIterable<T>(it: Iterable<T> | AsyncIterable<T>): it is AsyncIter
  *
  * @param worker - the child factory to call after ensuring the dir is safe.
  */
-export function safeClean(worker: FileTreeFactory): FileTreeFactory {
+export function safeClean(
+  worker: FileTreeFactory,
+  options?: { actionIfDirty: "warn" | "throw" },
+): FileTreeFactory {
+  const { actionIfDirty } = options ?? {};
   return async (basePath) => {
     // If the path exists, then we will check it for a git diff before deleting it.
     if (await fs.pathExists(basePath)) {
       debug(basePath, "exists, checking it for safety.");
 
-      if (await git.hasDiff(basePath)) {
-        throw new Error(
-          `the directory ${basePath} exists and is dirty (according to \`git\`); commit or stash your changes first`,
-        );
+      const hasDiff = await git.hasDiff(basePath);
+      if (hasDiff) {
+        if (actionIfDirty === "warn") {
+          warn(
+            `the directory ${basePath} exists and is dirty (according to \`git\`); It will be overwritten`,
+          );
+        } else {
+          throw new Error(
+            `the directory ${basePath} exists and is dirty (according to \`git\`); commit or stash your changes first`,
+          );
+        }
       }
 
-      debug(basePath, "is clean, removing it");
+      debug(basePath, `is ${hasDiff ? "dirty" : "clean"}, removing it`);
 
       await fs.remove(basePath);
     }

@@ -22,14 +22,20 @@ export interface ConnectionPolicy {
   retryOptions?: RetryOptions;
   /**
    * The flag that enables writes on any locations (regions) for geo-replicated database accounts in the Azure Cosmos DB service.
-   * Default is `false`.
+   * Default is `true`.
    */
   useMultipleWriteLocations?: boolean;
   /** Rate in milliseconds at which the client will refresh the endpoints list in the background */
   endpointRefreshRateInMs?: number;
-  /** Flag to enable/disable background refreshing of endpoints. Defaults to false.
+  /** Flag to enable/disable background refreshing of endpoints. Defaults to true.
    * Endpoint discovery using `enableEndpointsDiscovery` will still work for failed requests. */
   enableBackgroundEndpointRefreshing?: boolean;
+  /** Flag to enable/disable the Per Partition Level Failover (PPAF). Defaults to false
+   * If enablePartitionLevelFailover is set to true, by default enablePartitionLevelCircuitBreaker
+   * will also be set to true. This is done to improve the read availability and latency.*/
+  enablePartitionLevelFailover?: boolean;
+  /** Flag to enable/disable the Per Partition Level Circuit Breaker (PPCB). Defaults to false */
+  enablePartitionLevelCircuitBreaker?: boolean;
 }
 
 /**
@@ -48,4 +54,6 @@ export const defaultConnectionPolicy: ConnectionPolicy = Object.freeze({
   useMultipleWriteLocations: true,
   endpointRefreshRateInMs: 300000,
   enableBackgroundEndpointRefreshing: true,
+  enablePartitionLevelFailover: false,
+  enablePartitionLevelCircuitBreaker: false,
 });

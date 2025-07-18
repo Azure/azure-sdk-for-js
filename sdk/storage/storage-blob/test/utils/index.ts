@@ -2,10 +2,10 @@
 // Licensed under the MIT License.
 
 import { randomBytes } from "node:crypto";
-import * as fs from "node:fs";
-import * as path from "node:path";
+import fs from "node:fs";
+import path from "node:path";
 import { config } from "dotenv";
-import { SimpleTokenCredential } from "./testutils.common.js";
+import { configureFileStorageClient, SimpleTokenCredential } from "./testutils.common.js";
 import { createTestCredential } from "@azure-tools/test-credential";
 import type { StoragePipelineOptions } from "../../src/index.js";
 import { StorageSharedKeyCredential } from "../../src/index.js";
@@ -23,9 +23,29 @@ import { extractConnectionStringParts } from "../../src/utils/utils.common.js";
 import type { AccessToken, TokenCredential } from "@azure/core-auth";
 import type { Recorder } from "@azure-tools/test-recorder";
 import { env } from "@azure-tools/test-recorder";
+import {
+  ShareServiceClient,
+  StorageSharedKeyCredential as FileStorageSharedKeyCredential,
+} from "@azure/storage-file-share";
 
 export * from "./testutils.common.js";
 config();
+
+export function getFileGenericCredential(): FileStorageSharedKeyCredential {
+  const accountNameEnvVar = `ACCOUNT_NAME`;
+  const accountKeyEnvVar = `ACCOUNT_KEY`;
+
+  const accountName = env[accountNameEnvVar];
+  const accountKey = env[accountKeyEnvVar];
+
+  if (!accountName || !accountKey || accountName === "" || accountKey === "") {
+    throw new Error(
+      `${accountNameEnvVar} and/or ${accountKeyEnvVar} environment variables not specified.`,
+    );
+  }
+
+  return new FileStorageSharedKeyCredential(accountName, accountKey);
+}
 
 export function getGenericCredential(accountType: string): StorageSharedKeyCredential {
   const accountNameEnvVar = `${accountType}ACCOUNT_NAME`;
@@ -114,6 +134,22 @@ export function getTokenBSU(recorder: Recorder): BlobServiceClient {
   const client = new BlobServiceClient(blobPrimaryURL, pipeline);
   configureBlobStorageClient(recorder, client);
   return client;
+}
+
+export function getFileShareService(recorder: Recorder): ShareServiceClient {
+  if (
+    env.STORAGE_CONNECTION_STRING &&
+    env.STORAGE_CONNECTION_STRING.startsWith("UseDevelopmentStorage=true")
+  ) {
+    return ShareServiceClient.fromConnectionString(getConnectionStringFromEnvironment());
+  } else {
+    const credential = getFileGenericCredential();
+
+    const filePrimaryURL = `https://${credential.accountName}.file.core.windows.net/`;
+    const client = new ShareServiceClient(filePrimaryURL, credential);
+    configureFileStorageClient(recorder, client);
+    return client;
+  }
 }
 
 export function getTokenBSUWithDefaultCredential(

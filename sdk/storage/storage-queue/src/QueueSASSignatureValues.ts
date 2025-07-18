@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 import { QueueSASPermissions } from "./QueueSASPermissions.js";
-import type { StorageSharedKeyCredential } from "@azure/storage-blob";
+import type { StorageSharedKeyCredential } from "@azure/storage-common";
 import type { SasIPRange } from "./SasIPRange.js";
 import { ipRangeToString } from "./SasIPRange.js";
 import type { SASProtocol } from "./SASQueryParameters.js";
@@ -57,7 +57,7 @@ export interface QueueSASSignatureValues {
   /**
    * Optional. The name of the access policy on the queue this SAS references if any.
    *
-   * @see https://learn.microsoft.com/en-us/rest/api/storageservices/establishing-a-stored-access-policy
+   * @see https://learn.microsoft.com/rest/api/storageservices/establishing-a-stored-access-policy
    */
   identifier?: string;
 }

@@ -13,11 +13,7 @@ import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers.js";
 import * as Parameters from "../models/parameters.js";
 import { CognitiveServicesManagementClient } from "../cognitiveServicesManagementClient.js";
-import {
-  SimplePollerLike,
-  OperationState,
-  createHttpPoller,
-} from "@azure/core-lro";
+import { SimplePollerLike, OperationState, createHttpPoller } from "@azure/core-lro";
 import { createLroSpec } from "../lroImpl.js";
 import {
   Account,
@@ -47,9 +43,7 @@ export class DeletedAccountsImpl implements DeletedAccounts {
    * Returns all the resources of a particular type belonging to a subscription.
    * @param options The options parameters.
    */
-  public list(
-    options?: DeletedAccountsListOptionalParams,
-  ): PagedAsyncIterableIterator<Account> {
+  public list(options?: DeletedAccountsListOptionalParams): PagedAsyncIterableIterator<Account> {
     const iter = this.listPagingAll(options);
     return {
       next() {
@@ -139,8 +133,7 @@ export class DeletedAccountsImpl implements DeletedAccounts {
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
@@ -193,12 +186,7 @@ export class DeletedAccountsImpl implements DeletedAccounts {
     accountName: string,
     options?: DeletedAccountsPurgeOptionalParams,
   ): Promise<void> {
-    const poller = await this.beginPurge(
-      location,
-      resourceGroupName,
-      accountName,
-      options,
-    );
+    const poller = await this.beginPurge(location, resourceGroupName, accountName, options);
     return poller.pollUntilDone();
   }
 
@@ -206,9 +194,7 @@ export class DeletedAccountsImpl implements DeletedAccounts {
    * Returns all the resources of a particular type belonging to a subscription.
    * @param options The options parameters.
    */
-  private _list(
-    options?: DeletedAccountsListOptionalParams,
-  ): Promise<DeletedAccountsListResponse> {
+  private _list(options?: DeletedAccountsListOptionalParams): Promise<DeletedAccountsListResponse> {
     return this.client.sendOperationRequest({ options }, listOperationSpec);
   }
 
@@ -221,10 +207,7 @@ export class DeletedAccountsImpl implements DeletedAccounts {
     nextLink: string,
     options?: DeletedAccountsListNextOptionalParams,
   ): Promise<DeletedAccountsListNextResponse> {
-    return this.client.sendOperationRequest(
-      { nextLink, options },
-      listNextOperationSpec,
-    );
+    return this.client.sendOperationRequest({ nextLink, options }, listNextOperationSpec);
   }
 }
 // Operation Specifications
@@ -302,11 +285,7 @@ const listNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse,
     },
   },
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.nextLink,
-  ],
+  urlParameters: [Parameters.$host, Parameters.subscriptionId, Parameters.nextLink],
   headerParameters: [Parameters.accept],
   serializer,
 };

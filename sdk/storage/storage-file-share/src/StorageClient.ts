@@ -7,8 +7,8 @@ import type { Pipeline } from "./Pipeline.js";
 import { getCoreClientOptions, getCredentialFromPipeline } from "./Pipeline.js";
 import { escapeURLPath, getAccountNameFromUrl } from "./utils/utils.common.js";
 import type { OperationTracingOptions } from "@azure/core-tracing";
-import type { AnonymousCredential } from "@azure/storage-blob";
-import type { StorageSharedKeyCredential } from "@azure/storage-blob";
+import type { AnonymousCredential } from "@azure/storage-common";
+import type { StorageSharedKeyCredential } from "@azure/storage-common";
 import type { TokenCredential } from "@azure/core-auth";
 
 /**

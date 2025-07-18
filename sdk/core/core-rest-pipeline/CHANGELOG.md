@@ -1,6 +1,6 @@
 # Release History
 
-## 1.20.1 (Unreleased)
+## 1.22.1 (Unreleased)
 
 ### Features Added
 
@@ -9,6 +9,18 @@
 ### Bugs Fixed
 
 ### Other Changes
+
+## 1.22.0 (2025-07-10)
+
+### Other Changes
+
+- Update `engines` to `"node": ">=20.0.0"`. Please refer to our [support policy](https://github.com/Azure/azure-sdk-for-js/blob/main/SUPPORT.md) for more information on our supported Node.js versions.
+
+## 1.21.0 (2025-06-05)
+
+### Other Changes
+
+- Export `RestError` and its constructor as an interface [PR #34591](https://github.com/Azure/azure-sdk-for-js/pull/34591)
 
 ## 1.20.0 (2025-05-01)
 
@@ -24,7 +36,7 @@
 
 ### Other Changes
 
-- clear the request timeout timer in `NodeHttpClient` after the response is returned [PR #32891](https://github.com/Azure/azure-sdk-for-js/pull/32891)
+- Clear the request timeout timer in `NodeHttpClient` after the response is returned [PR #32891](https://github.com/Azure/azure-sdk-for-js/pull/32891)
 
 ## 1.19.0 (2025-02-06)
 
