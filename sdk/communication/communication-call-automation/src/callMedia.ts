@@ -230,6 +230,8 @@ export class CallMedia {
           : 5,
         targetParticipant: serializeCommunicationIdentifier(targetParticipant),
         speechLanguage: recognizeOptions.speechLanguage,
+        speechLanguages: recognizeOptions.speechLanguages,
+        enableSentimentAnalysis: recognizeOptions.enableSentimentAnalysis,
         speechRecognitionModelEndpointId: recognizeOptions.speechRecognitionModelEndpointId,
         choices: recognizeOptions.choices,
       };
@@ -261,6 +263,8 @@ export class CallMedia {
         targetParticipant: serializeCommunicationIdentifier(targetParticipant),
         speechOptions: speechOptions,
         speechLanguage: recognizeOptions.speechLanguage,
+        speechLanguages: recognizeOptions.speechLanguages,
+        enableSentimentAnalysis: recognizeOptions.enableSentimentAnalysis,
         speechRecognitionModelEndpointId: recognizeOptions.speechRecognitionModelEndpointId,
       };
       return {
@@ -298,6 +302,8 @@ export class CallMedia {
         targetParticipant: serializeCommunicationIdentifier(targetParticipant),
         speechOptions: speechOptions,
         dtmfOptions: dtmfOptionsInternal,
+        speechLanguages: recognizeOptions.speechLanguages,
+        enableSentimentAnalysis: recognizeOptions.enableSentimentAnalysis,
         speechRecognitionModelEndpointId: recognizeOptions.speechRecognitionModelEndpointId,
       };
       return {
@@ -515,6 +521,10 @@ export class CallMedia {
       operationContext: options.operationContext,
       speechModelEndpointId: options.speechRecognitionModelEndpointId,
       operationCallbackUri: options.operationCallbackUrl,
+      piiRedactionOptions: options.piiRedactionOptions,
+      locales: options.locales,
+      enableSentimentAnalysis: options.enableSentimentAnalysis,
+      summarizationOptions: options.summarizationOptions,
     };
     return this.callMedia.startTranscription(this.callConnectionId, startTranscriptionRequest, {});
   }
@@ -537,13 +547,16 @@ export class CallMedia {
    */
   public async updateTranscription(
     locale: string,
-    options?: UpdateTranscriptionOptions,
+    options: UpdateTranscriptionOptions = {},
   ): Promise<void> {
     const updateTranscriptionRequest: UpdateTranscriptionRequest = {
       locale: locale,
-      speechModelEndpointId: options?.speechRecognitionModelEndpointId,
-      operationContext: options?.operationContext,
-      operationCallbackUri: options?.operationCallbackUrl,
+      speechModelEndpointId: options.speechRecognitionModelEndpointId,
+      operationContext: options.operationContext,
+      operationCallbackUri: options.operationCallbackUrl,
+      piiRedactionOptions: options.piiRedactionOptions,
+      enableSentimentAnalysis: options.enableSentimentAnalysis,
+      summarizationOptions: options.summarizationOptions,
     };
     return this.callMedia.updateTranscription(
       this.callConnectionId,

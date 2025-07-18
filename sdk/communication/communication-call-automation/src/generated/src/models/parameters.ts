@@ -22,6 +22,7 @@ import {
   RemoveParticipantRequest as RemoveParticipantRequestMapper,
   MuteParticipantsRequest as MuteParticipantsRequestMapper,
   CancelAddParticipantRequest as CancelAddParticipantRequestMapper,
+  MoveParticipantsRequest as MoveParticipantsRequestMapper,
   PlayRequest as PlayRequestMapper,
   StartTranscriptionRequest as StartTranscriptionRequestMapper,
   StopTranscriptionRequest as StopTranscriptionRequestMapper,
@@ -80,7 +81,7 @@ export const endpoint: OperationURLParameter = {
 export const apiVersion: OperationQueryParameter = {
   parameterPath: "apiVersion",
   mapper: {
-    defaultValue: "2025-06-15",
+    defaultValue: "2025-08-15-preview",
     isConstant: true,
     serializedName: "api-version",
     type: {
@@ -163,6 +164,11 @@ export const muteParticipantsRequest: OperationParameter = {
 export const cancelAddParticipantRequest: OperationParameter = {
   parameterPath: "cancelAddParticipantRequest",
   mapper: CancelAddParticipantRequestMapper,
+};
+
+export const moveParticipantRequest: OperationParameter = {
+  parameterPath: "moveParticipantRequest",
+  mapper: MoveParticipantsRequestMapper,
 };
 
 export const participantRawId: OperationURLParameter = {
